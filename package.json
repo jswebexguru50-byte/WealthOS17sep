@@ -6,6 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "cross-env NODE_ENV=development tsx server.ts",
+    "sync:schema": "tsx scripts/export_empty_schema_sql.ts",
+    "sync": "cmd /c sync_and_push.bat",
     "build": "vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
     "start": "node dist/server.cjs",
     "test": "tsx scripts/run_tests.ts",
