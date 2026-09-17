@@ -32,6 +32,7 @@ uploads/
 *.pdf
 
 # Logs & Temporary Files
+repomix-output.*
 *.log
 *.err
 server.err
