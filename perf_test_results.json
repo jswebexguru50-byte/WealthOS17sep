@@ -1,0 +1,82 @@
+{
+  "timestamp": "2026-09-10T15:56:19.641Z",
+  "metrics": [
+    {
+      "name": "API Health Check",
+      "duration": 15,
+      "timestamp": 1789055779080,
+      "category": "initial_render"
+    },
+    {
+      "name": "Portfolio List API",
+      "duration": 20,
+      "timestamp": 1789055779101,
+      "category": "initial_render"
+    },
+    {
+      "name": "Holdings API (2000 rows)",
+      "duration": 501,
+      "timestamp": 1789055779603,
+      "category": "data_table"
+    },
+    {
+      "name": "Strategy Engine API",
+      "duration": 8,
+      "timestamp": 1789055779611,
+      "category": "initial_render"
+    },
+    {
+      "name": "Regime Backtest Summary",
+      "duration": 5,
+      "timestamp": 1789055779617,
+      "category": "data_table"
+    },
+    {
+      "name": "Technical Analysis Engine",
+      "duration": 7,
+      "timestamp": 1789055779624,
+      "category": "initial_render"
+    },
+    {
+      "name": "CSV Export (2K rows)",
+      "duration": 8,
+      "timestamp": 1789055779633,
+      "category": "download"
+    },
+    {
+      "name": "Portfolio History (365 days)",
+      "duration": 5,
+      "timestamp": 1789055779638,
+      "category": "data_table"
+    }
+  ],
+  "summary": {
+    "totalTests": 8,
+    "byCategory": [
+      {
+        "category": "initial_render",
+        "count": 4,
+        "totalDuration": 50,
+        "averageDuration": 12.5,
+        "minDuration": 7,
+        "maxDuration": 20
+      },
+      {
+        "category": "data_table",
+        "count": 3,
+        "totalDuration": 511,
+        "averageDuration": 170.33333333333334,
+        "minDuration": 5,
+        "maxDuration": 501
+      },
+      {
+        "category": "download",
+        "count": 1,
+        "totalDuration": 8,
+        "averageDuration": 8,
+        "minDuration": 8,
+        "maxDuration": 8
+      }
+    ]
+  }
+}

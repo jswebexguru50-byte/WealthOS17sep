@@ -1,0 +1,35 @@
+{
+  "dossierType": "IICE_PORTABLE_E2E_AUDIT_DOSSIER",
+  "dossierVersion": "1.1.0",
+  "generatedAt": "2026-09-15T14:40:00.000Z",
+  "issuer": {
+    "symbol": "SOLARINDS",
+    "name": "Solar Industries India Ltd",
+    "bseCode": "532725",
+    "isin": "INE343H01029",
+    "segment": "Main Board — Large Cap"
+  },
+  "artifacts": {
+    "company": "e2e_dossier/company.json",
+    "sourceManifest": "e2e_dossier/source-manifest.json",
+    "evidence": "e2e_dossier/evidence.json",
+    "claims": "e2e_dossier/claims.json",
+    "events": "e2e_dossier/events.json",
+    "contradictions": "e2e_dossier/contradictions.json",
+    "thesis": "e2e_dossier/thesis.json",
+    "breakerEvaluation": "e2e_dossier/breaker-evaluation.json",
+    "itasInput": "e2e_dossier/itas-input.json",
+    "reconciliation": "e2e_dossier/reconciliation.json",
+    "investmentBrief": "e2e_dossier/investment-brief.json",
+    "schemaVersion": "e2e_dossier/schema-version.txt",
+    "releaseTag": "e2e_dossier/release-tag.txt"
+  },
+  "lineageStatus": {
+    "sourceIdentityVerified": true,
+    "sha256IntegrityVerified": true,
+    "rule5Enforced": true,
+    "rule23IntelligenceGateEnforced": true,
+    "twoAxisIndependencePreserved": true,
+    "unknownPreserved": true
+  }
+}

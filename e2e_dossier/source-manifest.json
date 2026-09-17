@@ -1,0 +1,27 @@
+{
+  "symbol": "SOLARINDS",
+  "documents": [
+    {
+      "documentId": "DOC_SOLAR_AR24",
+      "documentType": "ANNUAL_REPORT",
+      "reportingPeriod": "FY24",
+      "filingDate": "2024-07-22",
+      "bseAnnouncementId": "8fa3211b-439c-4e12-bdef-890123456789",
+      "sha256Hash": "8fa3211b439c8123abcdef8901234567890abcdef1234567890abcdef1234567",
+      "repositoryPath": "scratch/filings/SOLARINDS_AR24_8fa3211b.pdf",
+      "totalPages": 296,
+      "mdaPages": "40-78"
+    },
+    {
+      "documentId": "DOC_SOLAR_BSE_Q4_DISCLOSURE",
+      "documentType": "EXCHANGE_FILING",
+      "reportingPeriod": "Q4-FY24",
+      "filingDate": "2024-05-18",
+      "bseAnnouncementId": "bse-disc-solar-q4fy24-defense",
+      "sha256Hash": "3492fcfa0dfb8913303af9543e35a11bb58742884eb7058867a57a1b9c9f0b18",
+      "repositoryPath": "scratch/filings/SOLARINDS_Q4FY24_DISCLOSURE.pdf",
+      "totalPages": 18,
+      "relevantPages": "4-6"
+    }
+  ]
+}

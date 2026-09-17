@@ -1,0 +1,55 @@
+================================================================================
+VITEST TEST EXECUTION AUDIT LOG
+Command: npx vitest run tests/unit/test_itas_iice_e2e_integration.test.ts tests/unit/test_citation_semantics.test.ts tests/unit/test_claim_lifecycle.test.ts tests/unit/test_contradiction_engine.test.ts tests/unit/test_evidence_inventory_isolation.test.ts tests/unit/test_unknown_classification.test.ts tests/unit/rule5_runtime_enforcement.test.ts
+Repository: webapp_portable_release
+Date: 2026-09-15T15:06:42Z
+================================================================================
+
+ RUN  v5.0.0 C:/Users/gopal/OneDrive/Desktop/tesr/webapp_portable_release
+
+✅ WealthOS server is live at http://localhost:3000
+ ✓ tests/unit/test_itas_iice_e2e_integration.test.ts > Level 2 & Level 3: ITAS ↔ IICE E2E Integration & Quality Gate Invariants > A. Multi-Evidence Contradiction: requires both leftEvidenceId and rightEvidenceId from EvidenceInventory 55ms
+ ✓ tests/unit/test_itas_iice_e2e_integration.test.ts > Level 2 & Level 3: ITAS ↔ IICE E2E Integration & Quality Gate Invariants > B. Temporal Lifecycle: rejects premature MISSED resolution before expectedPeriodEnd 2ms
+ ✓ tests/unit/test_itas_iice_e2e_integration.test.ts > Level 2 & Level 3: ITAS ↔ IICE E2E Integration & Quality Gate Invariants > C. Thesis Breakers: machine-executable quantitative and qualitative evaluation 2ms
+ ✓ tests/unit/test_itas_iice_e2e_integration.test.ts > Level 2 & Level 3: ITAS ↔ IICE E2E Integration & Quality Gate Invariants > D. Evidence Boundary: rejects cross-issuer contamination and verifies DB writes are blocked (0 serving rows) 2ms
+ ✓ tests/unit/test_itas_iice_e2e_integration.test.ts > Level 2 & Level 3: ITAS ↔ IICE E2E Integration & Quality Gate Invariants > E. Tier 4 Restriction: prevents uncorroborated news from substantiating CRITICAL conclusions (0 serving rows written) 2ms
+ ✓ tests/unit/test_itas_iice_e2e_integration.test.ts > Level 2 & Level 3: ITAS ↔ IICE E2E Integration & Quality Gate Invariants > F. ITAS / IICE Two-Axis Independence: ITAS STRONG + IICE HIGH RISK does NOT mutate ITAS result 3ms
+ ✓ tests/unit/test_itas_iice_e2e_integration.test.ts > Level 2 & Level 3: ITAS ↔ IICE E2E Integration & Quality Gate Invariants > G. Unknown Preservation: ITAS STRONG + IICE Insufficient Evidence produces UNKNOWN risk, not LOW risk 2ms
+ ✓ tests/unit/test_itas_iice_e2e_integration.test.ts > Level 2 & Level 3: ITAS ↔ IICE E2E Integration & Quality Gate Invariants > H. End-to-End Real Evidence Scenario: Solar Industries 360° Reconciled Brief Assembly 3ms
+ ✓ tests/unit/test_itas_iice_e2e_integration.test.ts > Level 2 & Level 3: ITAS ↔ IICE E2E Integration & Quality Gate Invariants > I. Historical Immutability / Supersession: modifying candidate updates superseding record, never mutating original historical assertion 3ms
+ ✓ tests/unit/test_itas_iice_e2e_integration.test.ts > Level 2 & Level 3: ITAS ↔ IICE E2E Integration & Quality Gate Invariants > J. Issuer Identity Propagation: rejects cross-issuer evidence when linking contradiction 3ms
+ ✓ tests/unit/test_itas_iice_e2e_integration.test.ts > Level 2 & Level 3: ITAS ↔ IICE E2E Integration & Quality Gate Invariants > K. Legacy Recommendation Provenance Separation: legacy provenance output does NOT override the two-axis decision state 2ms
+ ✓ tests/unit/rule5_runtime_enforcement.test.ts > Constitution Rule 5: Dynamic Runtime Chokepoint & Enforcement Integration Test > proves valid evidence-grounded assertion successfully passes quality gate and updates serving tier 20ms
+ ✓ tests/unit/rule5_runtime_enforcement.test.ts > Constitution Rule 5: Dynamic Runtime Chokepoint & Enforcement Integration Test > strictly blocks invalid assertions at runtime, routes them to quarantine, and prevents serving table mutation 5ms
+ ✓ tests/unit/test_claim_lifecycle.test.ts > Phase 1B: Claim Ledger & Credibility Scorecard Lifecycle > correctly records an open claim with evidence lineage and temporal bounds 8ms
+ ✓ tests/unit/test_claim_lifecycle.test.ts > Phase 1B: Claim Ledger & Credibility Scorecard Lifecycle > correctly transitions claim to ACHIEVED and computes STRONG credibility 7ms
+ ✓ tests/unit/test_claim_lifecycle.test.ts > Phase 1B: Claim Ledger & Credibility Scorecard Lifecycle > correctly flags MISSED claims and drops credibility to WEAK/MIXED 3ms
+ ✓ tests/unit/test_claim_lifecycle.test.ts > Phase 1B: Claim Ledger & Credibility Scorecard Lifecycle > enforces temporal constraint: rejects marking claim MISSED before expectedPeriodEnd 4ms
+ ✓ tests/unit/test_claim_lifecycle.test.ts > Phase 1B: Claim Ledger & Credibility Scorecard Lifecycle > returns INSUFFICIENT_HISTORY when claims evaluated are less than threshold 2ms
+ ✓ tests/unit/test_contradiction_engine.test.ts > Phase 1B: Contradiction Engine Invariants > detects a CLAIM_VS_RESULT contradiction when management guidance is missed 11ms
+ ✓ tests/unit/test_contradiction_engine.test.ts > Phase 1B: Contradiction Engine Invariants > marks debt and governance contradictions with CRITICAL severity 2ms
+ ✓ tests/unit/test_contradiction_engine.test.ts > Phase 1B: Contradiction Engine Invariants > does NOT create a contradiction for ACHIEVED claims 1ms
+ ✓ tests/unit/test_contradiction_engine.test.ts > Phase 1B: Contradiction Engine Invariants > records and retrieves contradictions from the database with multi-evidence columns cleanly 4ms
+ ✓ tests/unit/test_contradiction_engine.test.ts > Phase 1B: Contradiction Engine Invariants > rejects saving contradiction if either leftEvidenceId or rightEvidenceId is missing 4ms
+ ✓ tests/unit/test_unknown_classification.test.ts > Phase 1B: FR-09 Unknown Classification Invariants > generates baseline checklist with all items initialized to NOT_YET_CHECKED 5ms
+ ✓ tests/unit/test_unknown_classification.test.ts > Phase 1B: FR-09 Unknown Classification Invariants > transitions state to CONFIRMED_ABSENT and excludes it from active blind spots 3ms
+ ✓ tests/unit/test_unknown_classification.test.ts > Phase 1B: FR-09 Unknown Classification Invariants > keeps SEARCHED_AND_NOT_FOUND distinct from UNRESOLVED 2ms
+ ✓ tests/unit/test_citation_semantics.test.ts > Step 2: Citation Semantics Hardening — Heading Found is Not Operational Evidence > proves headings and titles are identified as non-substantive boilerplate 15ms
+ ✓ tests/unit/test_citation_semantics.test.ts > Step 2: Citation Semantics Hardening — Heading Found is Not Operational Evidence > strictly rejects heading-only quotes as INSUFFICIENT_EVIDENCE for operational assertions 1ms
+ ✓ tests/unit/test_citation_semantics.test.ts > Step 2: Citation Semantics Hardening — Heading Found is Not Operational Evidence > strictly rejects section title "Outlook for 2024-25" as assertion evidence without substantive body text 1ms
+ ✓ tests/unit/test_citation_semantics.test.ts > Step 2: Citation Semantics Hardening — Heading Found is Not Operational Evidence > successfully validates genuine, substantive supporting operational spans 2ms
+ ✓ tests/unit/test_evidence_inventory_isolation.test.ts > Workstream A: Evidence Inventory Issuer Isolation & Anti-Fallback Test > prohibits universal hard-coded fallback BSE code (500325) in discovery runners 5ms
+ ✓ tests/unit/test_evidence_inventory_isolation.test.ts > Workstream A: Evidence Inventory Issuer Isolation & Anti-Fallback Test > guarantees mutually exclusive, issuer-specific exchange codes across pilot companies 3ms
+ ✓ tests/unit/test_evidence_inventory_isolation.test.ts > Workstream A: Evidence Inventory Issuer Isolation & Anti-Fallback Test > strictly marks unresolvable issuers as SEARCH_FAILED with IDENTIFIER_UNRESOLVED 1ms
+
+ Test Files  7 passed (7)
+      Tests  33 passed (33)
+   Start at  15:06:15
+   Duration  27.09s (transform 41%, import 31%, tests 17%, worker 10%)
+
+    Isolate  7 workers spawned · ~355ms startup each (spawn + environment, per file)
+             at least ~2.13s faster with isolate: false — reuses workers across files instead of one per file
+
+JSON report written to tests/reports/vitest-results.json
+
+📊 Test run complete. Reports saved to tests/reports/

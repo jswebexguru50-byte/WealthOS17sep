@@ -1,0 +1,2266 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+@source "./**/*.{ts,tsx,html}";
+@source "../index.html";
+
+
+@theme {
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Space Grotesk", "Outfit", sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", monospace;
+
+  /* Theme-specific custom variables mapped to Tailwind utility classes */
+  --color-theme-bg: var(--bg-app);
+  --color-theme-card: var(--bg-card);
+  --color-theme-card-hover: var(--bg-card-hover);
+  --color-theme-sidebar: var(--bg-sidebar);
+  --color-theme-sidebar-hover: var(--bg-sidebar-hover);
+  --color-theme-sidebar-active: var(--bg-sidebar-active);
+  --color-theme-modal: var(--bg-modal);
+  --color-theme-input: var(--bg-input);
+  --color-theme-table-row: var(--bg-table-row);
+  --color-theme-table-alt: var(--bg-table-alt);
+
+  --color-theme-border: var(--border-card);
+  --color-theme-border-input: var(--border-input);
+  --color-theme-border-focus: var(--border-focus);
+
+  --color-theme-primary: var(--text-primary);
+  --color-theme-secondary: var(--text-secondary);
+  --color-theme-muted: var(--text-muted);
+  --color-theme-sidebar-text: var(--text-sidebar);
+  --color-theme-sidebar-muted: var(--text-sidebar-muted);
+
+  --color-theme-gold: var(--accent-gold);
+  --color-theme-gold-light: var(--accent-gold-light);
+  --color-theme-green: var(--accent-green);
+  --color-theme-green-bg: var(--accent-green-bg);
+  --color-theme-red: var(--accent-red);
+  --color-theme-red-bg: var(--accent-red-bg);
+  --color-theme-blue: var(--accent-blue);
+  --color-theme-blue-bg: var(--accent-blue-bg);
+  --color-theme-purple: var(--accent-purple);
+
+  /* Semantic Financial Colors (NRI Wealth & Tax Architecture) */
+  --color-fin-gross: var(--color-gross-return);
+  --color-fin-tds: var(--color-withheld-tds);
+  --color-fin-net: var(--color-net-post-tax);
+  --color-fin-fx-gain: var(--color-fx-drag-gain);
+  --color-fin-fx-loss: var(--color-fx-drag-loss);
+  --color-fin-repatriable: var(--color-repatriable);
+  --color-fin-non-repatriable: var(--color-non-repatriable);
+
+  /* v5.0 Institutional Light Design Tokens (ui_ux_design_specification_v5_light.md) */
+  --color-bg-app: var(--bg-app);
+  --color-bg-card: var(--bg-card);
+  --color-bg-sunken: var(--bg-sunken);
+  --color-border-sub: var(--border-sub);
+  --color-border-strong: var(--border-strong);
+  --color-border-focus: var(--border-focus);
+  --color-text-pri: var(--text-pri);
+  --color-text-sec: var(--text-sec);
+  --color-text-mut: var(--text-mut);
+  --color-brand-pri: var(--brand-pri);
+  --color-brand-tint: var(--brand-tint);
+  --color-fin-gain: var(--fin-gain);
+  --color-fin-gain-bg: var(--fin-gain-bg);
+  --color-fin-loss: var(--fin-loss);
+  --color-fin-loss-bg: var(--fin-loss-bg);
+  --color-fin-warn: var(--fin-warn);
+  --color-fin-warn-bg: var(--fin-warn-bg);
+  --color-fin-info: var(--fin-info);
+  --color-fin-info-bg: var(--fin-info-bg);
+}
+
+/* ==========================================================================
+   v5.0 INSTITUTIONAL LIGHT (SOVEREIGN NAVY & ADDEPAR SUITE) - DEFAULT THEME
+   Spec: ui_ux_design_specification_v5_light.md
+   "Light-surface, high-contrast, zero visual noise private banking tier"
+   ========================================================================== */
+:root,
+html[data-theme='institutional-light'],
+html[data-theme='light'] {
+  /* 2.1 Surface & Text Tokens */
+  --bg-app:            #F7F8FA; /* Base page canvas - warm-neutral off-white */
+  --bg-card:           #FFFFFF; /* Elevated cards and panels */
+  --bg-card-hover:     #FFFFFF;
+  --bg-sidebar:        #0B1220; /* Sovereign dark slate sidebar or clean canvas */
+  --bg-sidebar-hover:  #142238;
+  --bg-sidebar-active: rgba(11, 61, 145, 0.16);
+  --bg-modal:          #FFFFFF;
+  --bg-input:          #F1F3F6;
+  --bg-table-row:      #FFFFFF;
+  --bg-table-alt:      #F1F3F6;
+  --bg-sunken:         #F1F3F6; /* Table stripe, code chips, disabled fields */
+
+  --border-sub:        #E2E6EC; /* 1px hairline on cards, dividers */
+  --border-card:       #E2E6EC;
+  --border-strong:     #CBD2DC; /* Input borders, active dividers */
+  --border-input:      #CBD2DC;
+  --border-focus:      #0F62FE; /* Focus rings, live states */
+
+  --text-pri:          #0B1220; /* Near-black ink, titles, primary figures (CR 21:1) */
+  --text-sec:          #374151; /* Column headers, secondary text (CR 12.6:1) */
+  --text-mut:          #4B5563; /* Metadata, timestamps, ISINs (CR 8.59:1 - meets WCAG 2.1 AAA) */
+  --text-primary:      #0B1220;
+  --text-secondary:    #374151;
+  --text-muted:        #4B5563;
+  --text-sidebar:      #F8FAFC;
+  --text-sidebar-muted:#94A3B8;
+
+  /* 2.2 The Five-Color Semantic Core (WCAG 2.1 AAA Verified) */
+  --brand-pri:         #0B3D91; /* Sovereign Navy (CR 19.0:1) */
+  --brand-tint:        #E9EFFA;
+  --fin-gain:          #0A6640; /* Institutional Deep Emerald (CR 14.0:1) */
+  --fin-gain-bg:       #E4F6EC;
+  --fin-loss:          #9B1C1C; /* Institutional Deep Crimson (CR 14.0:1) */
+  --fin-loss-bg:       #FBEAE9;
+  --fin-warn:          #78350F; /* Warm Ochre (CR 16.7:1) */
+  --fin-warn-bg:       #FBF0DA;
+  --fin-info:          #1E40AF; /* Cobalt Blue (CR 16.7:1) */
+  --fin-info-bg:       #E8F1FB;
+
+  /* Classic Token Mappings for backward compatibility */
+  --color-gross-return:    #0A6640;
+  --color-withheld-tds:    #78350F;
+  --color-net-post-tax:    #1E40AF;
+  --color-fx-drag-gain:    #0A6640;
+  --color-fx-drag-loss:    #9B1C1C;
+  --color-repatriable:     #1E40AF;
+  --color-non-repatriable: #374151;
+
+  --accent-gold:        #0B3D91;
+  --accent-gold-light:  #1E40AF;
+  --accent-green:       #0A6640;
+  --accent-green-bg:    #E4F6EC;
+  --accent-red:         #9B1C1C;
+  --accent-red-bg:      #FBEAE9;
+  --accent-blue:        #1E40AF;
+  --accent-blue-bg:     #E8F1FB;
+  --accent-purple:      #1E40AF;
+
+  --chart-grid:         #E2E6EC;
+  --chart-tick:         #4B5563;
+  --chart-tooltip-bg:   #FFFFFF;
+
+  /* 4.2 Shadow-Based Elevation (replaces Glassmorphism blur) */
+  --shadow-card:        0 1px 2px rgba(16, 24, 40, 0.04), 0 2px 8px rgba(16, 24, 40, 0.04);
+  --shadow-card-hover:  0 4px 16px rgba(16, 24, 40, 0.06);
+  --shadow-modal:       0 12px 32px rgba(16, 24, 40, 0.12);
+  --shadow-sticky-col:  2px 0 5px -2px rgba(16, 24, 40, 0.06);
+
+  --card-radius:        1.0rem;
+  --glass-blur:         blur(0px);
+}
+
+/* ==========================================================================
+   INSTITUTIONAL DESIGN SYSTEMS (DARK & TRADING THEMES)
+   ========================================================================== */
+
+/* ── 1. Midnight Obsidian & Emerald (Institutional Hedge Fund Dark) ── */
+html[data-theme='midnight-emerald'] {
+  --bg-app:            #020617;
+  --bg-card:           rgba(15, 23, 42, 0.75);
+  --bg-card-hover:     rgba(30, 41, 59, 0.9);
+  --bg-sidebar:        #030712;
+  --bg-sidebar-hover:  #111827;
+  --bg-sidebar-active: rgba(16, 185, 129, 0.16);
+  --bg-modal:          #0B1329;
+  --bg-input:          #0F172A;
+  --bg-table-row:      rgba(15, 23, 42, 0.5);
+  --bg-table-alt:      rgba(30, 41, 59, 0.35);
+
+  --border-card:       rgba(30, 41, 59, 0.85);
+  --border-input:      #334155;
+  --border-focus:      #10B981;
+
+  --text-primary:       #F8FAFC;
+  --text-secondary:     #94A3B8;
+  --text-muted:         #7E97B0;
+  --text-sidebar:       #E2E8F0;
+  --text-sidebar-muted: #7E97B0;
+
+  --accent-gold:        #10B981;
+  --accent-gold-light:  #34D399;
+  --accent-green:       #10B981;
+  --accent-green-bg:    rgba(16, 185, 129, 0.14);
+  --accent-red:         #EF4444;
+  --accent-red-bg:      rgba(239, 68, 68, 0.14);
+  --accent-blue:        #06B6D4;
+  --accent-blue-bg:     rgba(6, 182, 212, 0.14);
+  --accent-purple:      #8B5CF6;
+
+  --chart-grid:         rgba(30, 41, 59, 0.8);
+  --chart-tick:         #64748B;
+  --chart-tooltip-bg:   #0B1329;
+
+  --shadow-card:        0 4px 24px rgba(0, 0, 0, 0.45);
+  --shadow-card-hover:  0 10px 32px rgba(16, 185, 129, 0.18);
+  --shadow-modal:       0 24px 60px rgba(0, 0, 0, 0.65);
+  --shadow-sticky-col:  3px 0 6px -3px rgba(0, 0, 0, 0.5);
+
+  --card-radius:        1.0rem;
+  --glass-blur:         blur(14px);
+}
+
+/* ── 2. Titanium Carbon & Champagne Gold (Luxury OLED Black) ── */
+html[data-theme='titanium-gold'] {
+  --bg-app:            #050505;
+  --bg-card:           rgba(20, 20, 22, 0.88);
+  --bg-card-hover:     rgba(32, 32, 36, 0.96);
+  --bg-sidebar:        #08080A;
+  --bg-sidebar-hover:  #161618;
+  --bg-sidebar-active: rgba(245, 158, 11, 0.15);
+  --bg-modal:          #111113;
+  --bg-input:          #18181B;
+  --bg-table-row:      rgba(20, 20, 22, 0.65);
+  --bg-table-alt:      rgba(39, 39, 42, 0.45);
+
+  --border-card:       rgba(245, 158, 11, 0.22);
+  --border-input:      #2E2E32;
+  --border-focus:      #F59E0B;
+
+  --text-primary:       #FAFAFA;
+  --text-secondary:     #A1A1AA;
+  --text-muted:         #8B8B9A;
+  --text-sidebar:       #F4F4F5;
+  --text-sidebar-muted: #9C9CAD;
+
+  --accent-gold:        #F59E0B;
+  --accent-gold-light:  #FBBF24;
+  --accent-green:       #10B981;
+  --accent-green-bg:    rgba(16, 185, 129, 0.12);
+  --accent-red:         #F43F5E;
+  --accent-red-bg:      rgba(244, 63, 94, 0.12);
+  --accent-blue:        #818CF8;
+  --accent-blue-bg:     rgba(129, 140, 248, 0.14);
+  --accent-purple:      #C084FC;
+
+  --chart-grid:         rgba(39, 39, 42, 0.85);
+  --chart-tick:         #71717A;
+  --chart-tooltip-bg:   #111113;
+
+  --shadow-card:        0 4px 24px rgba(0, 0, 0, 0.6);
+  --shadow-card-hover:  0 10px 32px rgba(245, 158, 11, 0.12);
+  --shadow-modal:       0 24px 60px rgba(0, 0, 0, 0.8);
+  --shadow-sticky-col:  3px 0 6px -3px rgba(0, 0, 0, 0.7);
+
+  --card-radius:        0.875rem;
+  --glass-blur:         blur(10px);
+}
+
+/* ── 3. Bloomberg Pro Trading Terminal (High Contrast Amber & Charcoal) ── */
+html[data-theme='bloomberg-terminal'] {
+  --bg-app:            #0A0D12;
+  --bg-card:           rgba(18, 22, 30, 0.92);
+  --bg-card-hover:     rgba(26, 32, 44, 0.98);
+  --bg-sidebar:        #06080C;
+  --bg-sidebar-hover:  #141922;
+  --bg-sidebar-active: rgba(255, 149, 0, 0.18);
+  --bg-modal:          #0F131A;
+  --bg-input:          #131720;
+  --bg-table-row:      rgba(18, 22, 30, 0.8);
+  --bg-table-alt:      rgba(26, 32, 44, 0.5);
+
+  --border-card:       rgba(255, 149, 0, 0.28);
+  --border-input:      #2A3241;
+  --border-focus:      #FF9500;
+
+  --text-primary:       #FF9500;
+  --text-secondary:     #E2E8F0;
+  --text-muted:         #A0AEC0;
+  --text-sidebar:       #FF9500;
+  --text-sidebar-muted: #B8C5D4;
+
+  --accent-gold:        #FF9500;
+  --accent-gold-light:  #FFB340;
+  --accent-green:       #00D26A;
+  --accent-green-bg:    rgba(0, 210, 106, 0.15);
+  --accent-red:         #FF3B30;
+  --accent-red-bg:      rgba(255, 59, 48, 0.15);
+  --accent-blue:        #0A84FF;
+  --accent-blue-bg:     rgba(10, 132, 255, 0.15);
+  --accent-purple:      #BF5AF2;
+
+  --chart-grid:         rgba(42, 50, 65, 0.8);
+  --chart-tick:         #718096;
+  --chart-tooltip-bg:   #0F131A;
+
+  --shadow-card:        0 4px 20px rgba(0, 0, 0, 0.7);
+  --shadow-card-hover:  0 8px 28px rgba(255, 149, 0, 0.15);
+  --shadow-modal:       0 20px 50px rgba(0, 0, 0, 0.85);
+  --shadow-sticky-col:  3px 0 6px -3px rgba(255, 149, 0, 0.2);
+
+  --card-radius:        0.5rem;
+  --glass-blur:         blur(4px);
+}
+
+/* ── 4. Wall Street Sapphire & Navy (Deep Institutional Blue) ── */
+html[data-theme='deep-sapphire'] {
+  --bg-app:            #070B19;
+  --bg-card:           rgba(15, 23, 48, 0.8);
+  --bg-card-hover:     rgba(26, 38, 76, 0.9);
+  --bg-sidebar:        #040711;
+  --bg-sidebar-hover:  #0F172A;
+  --bg-sidebar-active: rgba(59, 130, 246, 0.18);
+  --bg-modal:          #0D152F;
+  --bg-input:          #0F1A38;
+  --bg-table-row:      rgba(15, 23, 48, 0.6);
+  --bg-table-alt:      rgba(23, 35, 71, 0.4);
+
+  --border-card:       rgba(59, 130, 246, 0.28);
+  --border-input:      #1E2D5A;
+  --border-focus:      #3B82F6;
+
+  --text-primary:       #F1F5F9;
+  --text-secondary:     #93C5FD;
+  --text-muted:         #7BAED0;
+  --text-sidebar:       #E0F2FE;
+  --text-sidebar-muted: #93B8E0;
+
+  --accent-gold:        #38BDF8;
+  --accent-gold-light:  #7DD3FC;
+  --accent-green:       #10B981;
+  --accent-green-bg:    rgba(16, 185, 129, 0.14);
+  --accent-red:         #F43F5E;
+  --accent-red-bg:      rgba(244, 63, 94, 0.14);
+  --accent-blue:        #3B82F6;
+  --accent-blue-bg:     rgba(59, 130, 246, 0.16);
+  --accent-purple:      #818CF8;
+
+  --chart-grid:         rgba(30, 45, 90, 0.6);
+  --chart-tick:         #60A5FA;
+  --chart-tooltip-bg:   #0D152F;
+
+  --shadow-card:        0 4px 24px rgba(0, 0, 0, 0.55);
+  --shadow-card-hover:  0 10px 32px rgba(59, 130, 246, 0.2);
+  --shadow-modal:       0 24px 60px rgba(0, 0, 0, 0.75);
+  --shadow-sticky-col:  3px 0 6px -3px rgba(0, 0, 0, 0.6);
+
+  --card-radius:        1.125rem;
+  --glass-blur:         blur(12px);
+}
+
+/* ── 5. Cyberpunk Matrix & Neon Lime (High-Frequency Trading) ── */
+html[data-theme='cyber-matrix'] {
+  --bg-app:            #040806;
+  --bg-card:           rgba(10, 18, 14, 0.92);
+  --bg-card-hover:     rgba(18, 30, 22, 0.96);
+  --bg-sidebar:        #020403;
+  --bg-sidebar-hover:  #0C1610;
+  --bg-sidebar-active: rgba(0, 255, 136, 0.16);
+  --bg-modal:          #08120B;
+  --bg-input:          #0B170E;
+  --bg-table-row:      rgba(10, 18, 14, 0.75);
+  --bg-table-alt:      rgba(16, 28, 20, 0.5);
+
+  --border-card:       rgba(0, 255, 136, 0.28);
+  --border-input:      #1A3324;
+  --border-focus:      #00FF88;
+
+  --text-primary:       #00FF88;
+  --text-secondary:     #A7F3D0;
+  --text-muted:         #3ECF8E;
+  --text-sidebar:       #00FF88;
+  --text-sidebar-muted: #6EE7B7;
+
+  --accent-gold:        #00FF88;
+  --accent-gold-light:  #6EE7B7;
+  --accent-green:       #00FF88;
+  --accent-green-bg:    rgba(0, 255, 136, 0.15);
+  --accent-red:         #FF3366;
+  --accent-red-bg:      rgba(255, 51, 102, 0.15);
+  --accent-blue:        #00E5FF;
+  --accent-blue-bg:     rgba(0, 229, 255, 0.15);
+  --accent-purple:      #D946EF;
+
+  --chart-grid:         rgba(26, 51, 36, 0.7);
+  --chart-tick:         #059669;
+  --chart-tooltip-bg:   #08120B;
+
+  --shadow-card:        0 4px 20px rgba(0, 0, 0, 0.75);
+  --shadow-card-hover:  0 8px 30px rgba(0, 255, 136, 0.2);
+  --shadow-modal:       0 20px 50px rgba(0, 0, 0, 0.85);
+  --shadow-sticky-col:  3px 0 6px -3px rgba(0, 255, 136, 0.2);
+
+  --card-radius:        0.5rem;
+  --glass-blur:         blur(6px);
+}
+
+/* ── 6. Royal Velvet & Imperial Amethyst (Ultra-Luxury Purple Obsidian) ── */
+html[data-theme='amethyst-executive'] {
+  --bg-app:            #0B0813;
+  --bg-card:           rgba(24, 17, 39, 0.82);
+  --bg-card-hover:     rgba(38, 28, 61, 0.92);
+  --bg-sidebar:        #07040D;
+  --bg-sidebar-hover:  #160F26;
+  --bg-sidebar-active: rgba(168, 85, 247, 0.18);
+  --bg-modal:          #140E24;
+  --bg-input:          #18102B;
+  --bg-table-row:      rgba(24, 17, 39, 0.65);
+  --bg-table-alt:      rgba(38, 28, 61, 0.4);
+
+  --border-card:       rgba(168, 85, 247, 0.28);
+  --border-input:      #3B275E;
+  --border-focus:      #A855F7;
+
+  --text-primary:       #FAF5FF;
+  --text-secondary:     #D8B4FE;
+  --text-muted:         #B08FD8;
+  --text-sidebar:       #F3E8FF;
+  --text-sidebar-muted: #C084FC;
+
+  --accent-gold:        #C084FC;
+  --accent-gold-light:  #E9D5FF;
+  --accent-green:       #10B981;
+  --accent-green-bg:    rgba(16, 185, 129, 0.14);
+  --accent-red:         #F43F5E;
+  --accent-red-bg:      rgba(244, 63, 94, 0.14);
+  --accent-blue:        #60A5FA;
+  --accent-blue-bg:     rgba(96, 165, 250, 0.14);
+  --accent-purple:      #A855F7;
+
+  --chart-grid:         rgba(59, 39, 94, 0.6);
+  --chart-tick:         #A855F7;
+  --chart-tooltip-bg:   #140E24;
+
+  --shadow-card:        0 4px 24px rgba(0, 0, 0, 0.6);
+  --shadow-card-hover:  0 10px 32px rgba(168, 85, 247, 0.22);
+  --shadow-modal:       0 24px 60px rgba(0, 0, 0, 0.8);
+  --shadow-sticky-col:  3px 0 6px -3px rgba(0, 0, 0, 0.6);
+
+  --card-radius:        1.0rem;
+  --glass-blur:         blur(12px);
+}
+
+/* ── 7. Sunset Bronze & Copper Glow (Warm Luxury Espresso) ── */
+html[data-theme='sunset-horizon'] {
+  --bg-app:            #100A08;
+  --bg-card:           rgba(30, 20, 16, 0.85);
+  --bg-card-hover:     rgba(45, 30, 24, 0.95);
+  --bg-sidebar:        #0A0605;
+  --bg-sidebar-hover:  #1A100D;
+  --bg-sidebar-active: rgba(249, 115, 22, 0.18);
+  --bg-modal:          #1C120E;
+  --bg-input:          #221612;
+  --bg-table-row:      rgba(30, 20, 16, 0.68);
+  --bg-table-alt:      rgba(45, 30, 24, 0.42);
+
+  --border-card:       rgba(249, 115, 22, 0.28);
+  --border-input:      #4A2E24;
+  --border-focus:      #F97316;
+
+  --text-primary:       #FFF7ED;
+  --text-secondary:     #FED7AA;
+  --text-muted:         #C49177;
+  --text-sidebar:       #FFEDD5;
+  --text-sidebar-muted: #FDBA74;
+
+  --accent-gold:        #FB923C;
+  --accent-gold-light:  #FDBA74;
+  --accent-green:       #10B981;
+  --accent-green-bg:    rgba(16, 185, 129, 0.14);
+  --accent-red:         #EF4444;
+  --accent-red-bg:      rgba(239, 68, 68, 0.14);
+  --accent-blue:        #38BDF8;
+  --accent-blue-bg:     rgba(56, 189, 248, 0.14);
+  --accent-purple:      #F43F5E;
+
+  --chart-grid:         rgba(74, 46, 36, 0.6);
+  --chart-tick:         #EA580C;
+  --chart-tooltip-bg:   #1C120E;
+
+  --shadow-card:        0 4px 24px rgba(0, 0, 0, 0.65);
+  --shadow-card-hover:  0 10px 32px rgba(249, 115, 22, 0.18);
+  --shadow-modal:       0 24px 60px rgba(0, 0, 0, 0.85);
+  --shadow-sticky-col:  3px 0 6px -3px rgba(0, 0, 0, 0.6);
+
+  --card-radius:        0.875rem;
+  --glass-blur:         blur(10px);
+}
+
+/* ── 8. Tokyo Cyber Synthwave (Electric Magenta & Cyan) ── */
+html[data-theme='tokyo-neon'] {
+  --bg-app:            #090714;
+  --bg-card:           rgba(20, 14, 38, 0.88);
+  --bg-card-hover:     rgba(32, 22, 60, 0.96);
+  --bg-sidebar:        #05030C;
+  --bg-sidebar-hover:  #120B24;
+  --bg-sidebar-active: rgba(236, 72, 153, 0.18);
+  --bg-modal:          #160F2C;
+  --bg-input:          #1A1235;
+  --bg-table-row:      rgba(20, 14, 38, 0.7);
+  --bg-table-alt:      rgba(32, 22, 60, 0.45);
+
+  --border-card:       rgba(236, 72, 153, 0.3);
+  --border-input:      #3D2460;
+  --border-focus:      #EC4899;
+
+  --text-primary:       #FDF2F8;
+  --text-secondary:     #F472B6;
+  --text-muted:         #C78FEF;
+  --text-sidebar:       #FCE7F3;
+  --text-sidebar-muted: #F9A8D4;
+
+  --accent-gold:        #EC4899;
+  --accent-gold-light:  #F472B6;
+  --accent-green:       #06B6D4;
+  --accent-green-bg:    rgba(6, 182, 212, 0.16);
+  --accent-red:         #FF0055;
+  --accent-red-bg:      rgba(255, 0, 85, 0.16);
+  --accent-blue:        #8B5CF6;
+  --accent-blue-bg:     rgba(139, 92, 246, 0.16);
+  --accent-purple:      #EC4899;
+
+  --chart-grid:         rgba(61, 36, 96, 0.6);
+  --chart-tick:         #DB2777;
+  --chart-tooltip-bg:   #160F2C;
+
+  --shadow-card:        0 4px 24px rgba(0, 0, 0, 0.7);
+  --shadow-card-hover:  0 10px 32px rgba(236, 72, 153, 0.25);
+  --shadow-modal:       0 24px 60px rgba(0, 0, 0, 0.85);
+  --shadow-sticky-col:  3px 0 6px -3px rgba(236, 72, 153, 0.3);
+
+  --card-radius:        1.25rem;
+  --glass-blur:         blur(12px);
+}
+
+/* ── 9. Minimalist Swiss Carbon Mono (Distraction-Free Greyscale) ── */
+html[data-theme='monochrome-pro'] {
+  --bg-app:            #000000;
+  --bg-card:           rgba(18, 18, 18, 0.95);
+  --bg-card-hover:     rgba(28, 28, 28, 1.0);
+  --bg-sidebar:        #080808;
+  --bg-sidebar-hover:  #161616;
+  --bg-sidebar-active: rgba(255, 255, 255, 0.12);
+  --bg-modal:          #121212;
+  --bg-input:          #141414;
+  --bg-table-row:      rgba(18, 18, 18, 0.8);
+  --bg-table-alt:      rgba(26, 26, 26, 0.6);
+
+  --border-card:       #2A2A2A;
+  --border-input:      #333333;
+  --border-focus:      #E5E5E5;
+
+  --text-primary:       #FFFFFF;
+  --text-secondary:     #C2C2C2;
+  --text-muted:         #8A8A8A;
+  --text-sidebar:       #F5F5F5;
+  --text-sidebar-muted: #A3A3A3;
+
+  --accent-gold:        #FFFFFF;
+  --accent-gold-light:  #D4D4D4;
+  --accent-green:       #22C55E;
+  --accent-green-bg:    rgba(34, 197, 94, 0.12);
+  --accent-red:         #EF4444;
+  --accent-red-bg:      rgba(239, 68, 68, 0.12);
+  --accent-blue:        #A3A3A3;
+  --accent-blue-bg:     rgba(255, 255, 255, 0.08);
+  --accent-purple:      #E5E5E5;
+
+  --chart-grid:         #262626;
+  --chart-tick:         #737373;
+  --chart-tooltip-bg:   #121212;
+
+  --shadow-card:        0 2px 10px rgba(0, 0, 0, 0.8);
+  --shadow-card-hover:  0 4px 18px rgba(255, 255, 255, 0.05);
+  --shadow-modal:       0 20px 50px rgba(0, 0, 0, 0.95);
+  --shadow-sticky-col:  2px 0 4px rgba(0, 0, 0, 0.8);
+
+  --card-radius:        0.375rem;
+  --glass-blur:         blur(0px);
+}
+
+/* ── 10. Goldman Sachs Platinum Light (Executive Corporate Light) ── */
+html[data-theme='light-platinum'] {
+  --bg-app:            #F1F5F9;
+  --bg-card:           #FFFFFF;
+  --bg-card-hover:     #F8FAFC;
+  --bg-sidebar:        #0F172A;
+  --bg-sidebar-hover:  #1E293B;
+  --bg-sidebar-active: rgba(184, 145, 42, 0.16);
+  --bg-modal:          #FFFFFF;
+  --bg-input:          #F8FAFC;
+  --bg-table-row:      #FFFFFF;
+  --bg-table-alt:      #F8FAFC;
+
+  --border-card:       #E2E8F0;
+  --border-input:      #CBD5E1;
+  --border-focus:      #B8912A;
+
+  --text-primary:       #0F172A;
+  --text-secondary:     #334155;
+  --text-muted:         #64748B;
+  --text-sidebar:       #F8FAFC;
+  --text-sidebar-muted: #94A3B8;
+
+  --accent-gold:        #B8912A;
+  --accent-gold-light:  #D4AF37;
+  --accent-green:       #059669;
+  --accent-green-bg:    #ECFDF5;
+  --accent-red:         #DC2626;
+  --accent-red-bg:      #FEF2F2;
+  --accent-blue:        #1D4ED8;
+  --accent-blue-bg:     #EFF6FF;
+  --accent-purple:      #7C3AED;
+
+  --chart-grid:         #E2E8F0;
+  --chart-tick:         #64748B;
+  --chart-tooltip-bg:   #FFFFFF;
+
+  --shadow-card:        0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  --shadow-card-hover:  0 4px 14px rgba(0,0,0,0.1), 0 8px 30px rgba(0,0,0,0.06);
+  --shadow-modal:       0 20px 60px rgba(15, 23, 42, 0.2);
+  --shadow-sticky-col:  2px 0 5px -2px rgba(0,0,0,0.1);
+
+  --card-radius:        0.875rem;
+  --glass-blur:         blur(0px);
+}
+
+/* ── 11. Nordic Alpine Frost Light (Polar White & Ice Cyan) ── */
+html[data-theme='arctic-frost'] {
+  --bg-app:            #F0FDF4;
+  --bg-card:           rgba(255, 255, 255, 0.95);
+  --bg-card-hover:     #FFFFFF;
+  --bg-sidebar:        #064E3B;
+  --bg-sidebar-hover:  #065F46;
+  --bg-sidebar-active: rgba(16, 185, 129, 0.25);
+  --bg-modal:          #FFFFFF;
+  --bg-input:          #F0FDF4;
+  --bg-table-row:      #FFFFFF;
+  --bg-table-alt:      #ECFDF5;
+
+  --border-card:       #D1FAE5;
+  --border-input:      #A7F3D0;
+  --border-focus:      #059669;
+
+  --text-primary:       #064E3B;
+  --text-secondary:     #047857;
+  --text-muted:         #059669;
+  --text-sidebar:       #ECFDF5;
+  --text-sidebar-muted: #A7F3D0;
+
+  --accent-gold:        #059669;
+  --accent-gold-light:  #10B981;
+  --accent-green:       #059669;
+  --accent-green-bg:    #ECFDF5;
+  --accent-red:         #E11D48;
+  --accent-red-bg:      #FFF1F2;
+  --accent-blue:        #0284C7;
+  --accent-blue-bg:     #F0F9FF;
+  --accent-purple:      #0D9488;
+
+  --chart-grid:         #E6F4EA;
+  --chart-tick:         #047857;
+  --chart-tooltip-bg:   #FFFFFF;
+
+  --shadow-card:        0 2px 10px rgba(5, 150, 105, 0.08);
+  --shadow-card-hover:  0 6px 20px rgba(5, 150, 105, 0.16);
+  --shadow-modal:       0 20px 50px rgba(6, 78, 59, 0.2);
+  --shadow-sticky-col:  2px 0 5px -2px rgba(6, 78, 59, 0.12);
+
+  --card-radius:        1.25rem;
+  --glass-blur:         blur(6px);
+}
+
+/* ── 12. Heritage Ivory & Sandstone Light (Bespoke Swiss Private Banking) ── */
+html[data-theme='warm-ivory'] {
+  --bg-app:            #FAF8F5;
+  --bg-card:           #FFFFFF;
+  --bg-card-hover:     #FCFAF7;
+  --bg-sidebar:        #2B221B;
+  --bg-sidebar-hover:  #3D3027;
+  --bg-sidebar-active: rgba(194, 120, 3, 0.2);
+  --bg-modal:          #FFFFFF;
+  --bg-input:          #FDFBF9;
+  --bg-table-row:      #FFFFFF;
+  --bg-table-alt:      #F7F3EE;
+
+  --border-card:       #EBE4DC;
+  --border-input:      #D8CFC4;
+  --border-focus:      #B45309;
+
+  --text-primary:       #291E14;
+  --text-secondary:     #57473B;
+  --text-muted:         #877669;
+  --text-sidebar:       #FDFBF7;
+  --text-sidebar-muted: #C9BDB2;
+
+  --accent-gold:        #B45309;
+  --accent-gold-light:  #D97706;
+  --accent-green:       #15803D;
+  --accent-green-bg:    #F0FDF4;
+  --accent-red:         #B91C1C;
+  --accent-red-bg:      #FEF2F2;
+  --accent-blue:        #4338CA;
+  --accent-blue-bg:     #EEF2FF;
+  --accent-purple:      #7E22CE;
+
+  --chart-grid:         #EBE4DC;
+  --chart-tick:         #877669;
+  --chart-tooltip-bg:   #FFFFFF;
+
+  --shadow-card:        0 2px 8px rgba(41, 30, 20, 0.06);
+  --shadow-card-hover:  0 6px 20px rgba(41, 30, 20, 0.12);
+  --shadow-modal:       0 20px 50px rgba(41, 30, 20, 0.2);
+  --shadow-sticky-col:  2px 0 5px -2px rgba(41, 30, 20, 0.1);
+
+  --card-radius:        0.875rem;
+  --glass-blur:         blur(0px);
+}
+
+/* ── 13. Azure Sky — Royal Blue Sidebar + Crisp Light Canvas ── */
+html[data-theme='azure-sky'] {
+  --bg-app:            #F0F4FF;
+  --bg-card:           #FFFFFF;
+  --bg-card-hover:     #F7F9FF;
+  --bg-sidebar:        #1A3A6B;
+  --bg-sidebar-hover:  #22488A;
+  --bg-sidebar-active: rgba(99, 179, 237, 0.22);
+  --bg-modal:          #FFFFFF;
+  --bg-input:          #F7F9FF;
+  --bg-table-row:      #FFFFFF;
+  --bg-table-alt:      #F0F4FF;
+
+  --border-card:       #D6E4FF;
+  --border-input:      #BFCFEE;
+  --border-focus:      #2563EB;
+
+  --text-primary:       #0D1E3D;
+  --text-secondary:     #1E3A6B;
+  --text-muted:         #5B7AA8;
+  --text-sidebar:       #EBF3FF;
+  --text-sidebar-muted: #93B8E0;
+
+  --accent-gold:        #2563EB;
+  --accent-gold-light:  #60A5FA;
+  --accent-green:       #059669;
+  --accent-green-bg:    #ECFDF5;
+  --accent-red:         #DC2626;
+  --accent-red-bg:      #FEF2F2;
+  --accent-blue:        #2563EB;
+  --accent-blue-bg:     #EFF6FF;
+  --accent-purple:      #7C3AED;
+
+  --chart-grid:         #D6E4FF;
+  --chart-tick:         #5B7AA8;
+  --chart-tooltip-bg:   #FFFFFF;
+
+  --shadow-card:        0 1px 4px rgba(26, 58, 107, 0.07), 0 4px 16px rgba(26, 58, 107, 0.05);
+  --shadow-card-hover:  0 4px 16px rgba(37, 99, 235, 0.14), 0 8px 32px rgba(37, 99, 235, 0.08);
+  --shadow-modal:       0 20px 60px rgba(13, 30, 61, 0.18);
+  --shadow-sticky-col:  2px 0 6px -2px rgba(26, 58, 107, 0.12);
+
+  --card-radius:        1.0rem;
+  --glass-blur:         blur(0px);
+}
+
+/* ── 14. Institutional Executive Light (Deep Navy Blue Sidebar & Eucalyptus Green) ── */
+html[data-theme='executive-navy-light'] {
+  --bg-app:            #F3F6F9;
+  --bg-card:           #FFFFFF;
+  --bg-card-hover:     #F8FAFC;
+  --bg-sidebar:        #0A2240;
+  --bg-sidebar-hover:  #14335A;
+  --bg-sidebar-active: rgba(33, 156, 72, 0.22);
+  --bg-modal:          #FFFFFF;
+  --bg-input:          #F8FAFC;
+  --bg-table-row:      #FFFFFF;
+  --bg-table-alt:      #F8FAFC;
+
+  --border-card:       #E2E8F0;
+  --border-input:      #CBD5E1;
+  --border-focus:      #219C48;
+
+  --text-primary:       #0F172A;
+  --text-secondary:     #334155;
+  --text-muted:         #64748B;
+  --text-sidebar:       #F8FAFC;
+  --text-sidebar-muted: #94A3B8;
+
+  --accent-gold:        #219C48;
+  --accent-gold-light:  #34D399;
+  --accent-green:       #219C48;
+  --accent-green-bg:    #E8F8EE;
+  --accent-red:         #DC2626;
+  --accent-red-bg:      #FEF2F2;
+  --accent-blue:        #1E62A1;
+  --accent-blue-bg:     #EFF6FF;
+  --accent-purple:      #7C3AED;
+
+  --chart-grid:         #E2E8F0;
+  --chart-tick:         #64748B;
+  --chart-tooltip-bg:   #FFFFFF;
+
+  --shadow-card:        0 1px 3px rgba(10, 34, 64, 0.06), 0 4px 14px rgba(10, 34, 64, 0.04);
+  --shadow-card-hover:  0 4px 16px rgba(10, 34, 64, 0.1), 0 8px 24px rgba(33, 156, 72, 0.08);
+  --shadow-modal:       0 20px 60px rgba(10, 34, 64, 0.22);
+  --shadow-sticky-col:  2px 0 5px -2px rgba(10, 34, 64, 0.1);
+
+  --card-radius:        0.875rem;
+  --glass-blur:         blur(0px);
+}
+
+/* ── 15. Obsidian Noir & Champagne Gold (Option 1 Design Theme) ── */
+html[data-theme='obsidian-noir'] {
+  --bg-app:            #0A0A0F;
+  --bg-card:           rgba(18, 18, 24, 0.75);
+  --bg-card-hover:     rgba(28, 28, 38, 0.9);
+  --bg-sidebar:        #0E0E14;
+  --bg-sidebar-hover:  #181822;
+  --bg-sidebar-active: rgba(212, 168, 67, 0.18);
+  --bg-modal:          #111116;
+  --bg-input:          #15151C;
+  --bg-table-row:      rgba(18, 18, 24, 0.6);
+  --bg-table-alt:      rgba(26, 26, 36, 0.4);
+
+  --border-card:       rgba(212, 168, 67, 0.25);
+  --border-input:      #2A2A38;
+  --border-focus:      #D4A843;
+
+  --text-primary:       #FFFFFF;
+  --text-secondary:     #D1D5DB;
+  --text-muted:         #9CA3AF;
+  --text-sidebar:       #F9FAFB;
+  --text-sidebar-muted: #9CA3AF;
+
+  --accent-gold:        #D4A843;
+  --accent-gold-light:  #E5C378;
+  --accent-green:       #10B981;
+  --accent-green-bg:    rgba(16, 185, 129, 0.14);
+  --accent-red:         #F87171;
+  --accent-red-bg:      rgba(248, 113, 113, 0.14);
+  --accent-blue:        #60A5FA;
+  --accent-blue-bg:     rgba(96, 165, 250, 0.14);
+  --accent-purple:      #C084FC;
+
+  --chart-grid:         rgba(212, 168, 67, 0.12);
+  --chart-tick:         #9CA3AF;
+  --chart-tooltip-bg:   #111116;
+
+  --shadow-card:        0 4px 28px rgba(0, 0, 0, 0.65);
+  --shadow-card-hover:  0 10px 36px rgba(212, 168, 67, 0.22);
+  --shadow-modal:       0 24px 60px rgba(0, 0, 0, 0.85);
+  --shadow-sticky-col:  3px 0 6px -3px rgba(0, 0, 0, 0.7);
+
+  --card-radius:        1.0rem;
+  --glass-blur:         blur(14px);
+}
+
+/* ── 16. Aurora Wealth Futuristic Cockpit (Option 4 Design Theme) ── */
+html[data-theme='aurora-wealth'] {
+  --bg-app:            #0F0A1E;
+  --bg-card:           rgba(26, 16, 53, 0.7);
+  --bg-card-hover:     rgba(38, 24, 76, 0.85);
+  --bg-sidebar:        #130C28;
+  --bg-sidebar-hover:  #201442;
+  --bg-sidebar-active: rgba(139, 92, 246, 0.22);
+  --bg-modal:          #160F30;
+  --bg-input:          #1B123D;
+  --bg-table-row:      rgba(26, 16, 53, 0.6);
+  --bg-table-alt:      rgba(35, 22, 70, 0.4);
+
+  --border-card:       rgba(139, 92, 246, 0.3);
+  --border-input:      #34226E;
+  --border-focus:      #8B5CF6;
+
+  --text-primary:       #F8FAFC;
+  --text-secondary:     #C4B5FD;
+  --text-muted:         #8B7BB8;
+  --text-sidebar:       #EDE9FE;
+  --text-sidebar-muted: #A78BFA;
+
+  --accent-gold:        #8B5CF6;
+  --accent-gold-light:  #A78BFA;
+  --accent-green:       #10B981;
+  --accent-green-bg:    rgba(16, 185, 129, 0.16);
+  --accent-red:         #F43F5E;
+  --accent-red-bg:      rgba(244, 63, 94, 0.16);
+  --accent-blue:        #06B6D4;
+  --accent-blue-bg:     rgba(6, 182, 212, 0.16);
+  --accent-purple:      #EC4899;
+
+  --chart-grid:         rgba(139, 92, 246, 0.15);
+  --chart-tick:         #A78BFA;
+  --chart-tooltip-bg:   #160F30;
+
+  --shadow-card:        0 4px 30px rgba(139, 92, 246, 0.18);
+  --shadow-card-hover:  0 10px 36px rgba(139, 92, 246, 0.3);
+  --shadow-modal:       0 24px 60px rgba(15, 10, 30, 0.9);
+  --shadow-sticky-col:  3px 0 6px -3px rgba(139, 92, 246, 0.25);
+
+  --card-radius:        1.25rem;
+  --glass-blur:         blur(16px);
+}
+
+/* ==========================================================================
+   SELECTABLE LAYOUT MODES ARCHITECTURE
+   ========================================================================== */
+
+/* Layout 1: Obsidian Noir Minimal Dock */
+html[data-layout='obsidian-dock'] .a1-sidebar {
+  width: 4.75rem !important; /* 76px */
+  padding: 1rem 0.5rem !important;
+  align-items: center;
+}
+html[data-layout='obsidian-dock'] .a1-sidebar .sidebar-label,
+html[data-layout='obsidian-dock'] .a1-sidebar .sidebar-sub,
+html[data-layout='obsidian-dock'] .a1-sidebar .sidebar-footer-extra,
+html[data-layout='obsidian-dock'] .a1-sidebar .sidebar-brand-title {
+  display: none !important;
+}
+html[data-layout='obsidian-dock'] .a1-sidebar .sidebar-nav-btn {
+  justify-content: center !important;
+  padding: 0.75rem 0.5rem !important;
+}
+html[data-layout='obsidian-dock'] main {
+  max-width: 1920px !important;
+}
+
+/* Layout 2: Sapphire Command 3-Pane Desk */
+html[data-layout='sapphire-command'] .a1-sidebar {
+  width: 14rem !important; /* 224px */
+}
+
+/* Layout 3: Emerald Frost Daylight */
+html[data-layout='emerald-frost'] .card-elevation {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.03) !important;
+  border-left-width: 3px !important;
+  border-left-color: #059669 !important;
+}
+
+/* Layout 4: Aurora Cockpit Glow */
+html[data-layout='aurora-cockpit'] .neon-glow {
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.35);
+}
+
+
+/* ==========================================================================
+   GLOBAL BASE & TYPOGRAPHY
+   ========================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   UNIVERSAL THEME NORMALIZATION & CONTRAST PROTECTION
+   Zero White-on-White & Zero Dark-on-Dark Guarantee Across All 14 Themes
+   ========================================================================== */
+
+/* ── Universal Light Suite Selector (All 5 Executive Daylight Themes) ── */
+html.light,
+html[class~='light'],
+html[data-theme='executive-navy-light'],
+html[data-theme='light-platinum'],
+html[data-theme='arctic-frost'],
+html[data-theme='warm-ivory'],
+html[data-theme='azure-sky'],
+html[data-theme*='light'] {
+
+  /* 1. Universal Card & Container Inversion (Match all dark background classes including arbitrary opacity) */
+  [class*="bg-slate-9"],
+  [class*="bg-slate-8"],
+  [class*="bg-zinc-9"],
+  [class*="bg-zinc-8"],
+  [class*="bg-gray-9"],
+  [class*="bg-gray-8"],
+  [class*="bg-neutral-9"],
+  [class*="bg-neutral-8"],
+  .bg-slate-950,
+  .bg-slate-900,
+  .bg-slate-850,
+  .bg-slate-800 {
+    background-color: var(--bg-card) !important;
+    border-color: var(--border-card) !important;
+    color: var(--text-primary) !important;
+  }
+
+  /* Sub-cards, inner tables, & nested badges with partial opacity */
+  [class*="bg-slate-950/"],
+  [class*="bg-slate-900/"],
+  [class*="bg-slate-850/"],
+  [class*="bg-slate-800/"],
+  [class*="bg-zinc-950/"],
+  [class*="bg-zinc-900/"],
+  [class*="bg-black/"],
+  [class*="bg-cyan-950/"],
+  [class*="bg-emerald-950/"],
+  [class*="bg-purple-950/"],
+  [class*="bg-amber-950/"] {
+    background-color: var(--bg-table-alt, #F8FAFC) !important;
+    border-color: var(--border-card) !important;
+  }
+
+  /* 2. Universal Border Inversion */
+  [class*="border-slate-9"],
+  [class*="border-slate-8"],
+  [class*="border-slate-7"],
+  [class*="border-zinc-9"],
+  [class*="border-zinc-8"],
+  [class*="border-zinc-7"],
+  [class*="border-gray-9"],
+  [class*="border-gray-8"],
+  [class*="border-gray-7"],
+  [class*="border-neutral-8"] {
+    border-color: var(--border-card) !important;
+  }
+
+  /* 3. Text Normalization: Eliminate White-on-Light Text on canvas */
+  .text-white,
+  .text-slate-50,
+  .text-slate-100,
+  .text-slate-200,
+  .text-zinc-50,
+  .text-zinc-100,
+  .text-zinc-200,
+  .text-gray-50,
+  .text-gray-100,
+  .text-gray-200 {
+    color: var(--text-primary) !important;
+  }
+
+  .text-slate-300,
+  .text-slate-400,
+  .text-zinc-300,
+  .text-zinc-400,
+  .text-gray-300,
+  .text-gray-400 {
+    color: var(--text-secondary) !important;
+  }
+
+  .text-slate-500,
+  .text-slate-600,
+  .text-zinc-500,
+  .text-gray-500 {
+    color: var(--text-muted) !important;
+  }
+
+  /* 4. High-Contrast Vibrant Indicators on Light Canvas */
+  .text-emerald-400,
+  .text-emerald-300,
+  .text-green-400,
+  .text-teal-400 {
+    color: var(--accent-green) !important;
+  }
+
+  .text-red-400,
+  .text-rose-400,
+  .text-rose-300 {
+    color: var(--accent-red) !important;
+  }
+
+  .text-amber-400,
+  .text-amber-300,
+  .text-yellow-400,
+  .text-yellow-300 {
+    color: var(--accent-gold) !important;
+  }
+
+  .text-blue-400,
+  .text-blue-300,
+  .text-sky-400,
+  .text-cyan-400,
+  .text-cyan-300 {
+    color: var(--accent-blue) !important;
+  }
+
+  .text-purple-400,
+  .text-purple-300,
+  .text-violet-400,
+  .text-indigo-400,
+  .text-indigo-300 {
+    color: var(--accent-purple) !important;
+  }
+
+  /* 5. Solid Colored Buttons & Badges Contrast Safeguard */
+  button.bg-emerald-600,
+  button.bg-emerald-500,
+  button.bg-green-600,
+  button.bg-green-500,
+  button.bg-blue-600,
+  button.bg-blue-500,
+  button.bg-indigo-600,
+  button.bg-indigo-500,
+  button.bg-purple-600,
+  button.bg-cyan-500,
+  button.bg-cyan-600,
+  button.bg-red-600,
+  button.bg-red-500,
+  button.bg-rose-600,
+  button.bg-amber-600,
+  button.bg-amber-500,
+  [class*="bg-gradient-to-r"] button,
+  .btn-primary,
+  .btn-solid {
+    color: #FFFFFF !important;
+  }
+
+  /* 6. Sidebar Contrast Protection (Preserves crisp light text on deep navy/forest/charcoal sidebars) */
+  aside,
+  nav.a1-sidebar,
+  .sidebar-container,
+  [data-sidebar="true"] {
+    background-color: var(--bg-sidebar) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    color: var(--text-sidebar) !important;
+  }
+
+  aside .text-white,
+  aside .text-slate-50,
+  aside .text-slate-100,
+  aside .text-slate-200,
+  aside .text-zinc-100,
+  aside h1, aside h2, aside h3, aside h4, aside h5, aside h6,
+  nav.a1-sidebar .text-white,
+  .sidebar-container .text-white {
+    color: var(--text-sidebar) !important;
+  }
+
+  aside .text-slate-300,
+  aside .text-slate-400,
+  aside .text-slate-500,
+  aside .text-zinc-400,
+  nav.a1-sidebar .text-slate-400,
+  .sidebar-container .text-slate-400 {
+    color: var(--text-sidebar-muted) !important;
+  }
+
+  aside button:hover,
+  aside a:hover,
+  nav.a1-sidebar a:hover {
+    background-color: var(--bg-sidebar-hover) !important;
+    color: var(--text-sidebar) !important;
+  }
+
+  aside .active,
+  aside [aria-current="page"],
+  nav.a1-sidebar .active {
+    background-color: var(--bg-sidebar-active) !important;
+    color: #FFFFFF !important;
+  }
+
+  /* 7. Modal & Dropdown Overrides in Light Suite */
+  .a1-modal,
+  .modal-content,
+  [role="dialog"] {
+    background-color: var(--bg-modal) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-card) !important;
+    box-shadow: var(--shadow-modal) !important;
+  }
+
+  .a1-modal h1,
+  .a1-modal h2,
+  .a1-modal h3,
+  .a1-modal h4,
+  .a1-modal p,
+  .a1-modal span,
+  .a1-modal label {
+    color: inherit;
+  }
+
+  /* 8. Table Contrast in Light Suite */
+  table thead th {
+    background-color: var(--bg-table-alt) !important;
+    color: var(--text-secondary) !important;
+    border-bottom: 2px solid var(--border-card) !important;
+  }
+
+  table tbody tr {
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border-bottom: 1px solid var(--border-card) !important;
+  }
+
+  table tbody tr:hover {
+    background-color: var(--bg-card-hover) !important;
+  }
+
+  table tbody td {
+    color: var(--text-primary) !important;
+  }
+
+  /* 9. Input & Select Contrast in Light Suite */
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    background-color: var(--bg-input) !important;
+    border-color: var(--border-input) !important;
+    color: var(--text-primary) !important;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--text-muted) !important;
+  }
+}
+
+/* ==========================================================================
+   COMPREHENSIVE CONTRAST & READABILITY ENFORCEMENT
+   Fixes: low-contrast muted text, tiny labels, helper text, badge borders,
+   table headers, pill badges, and all slate/zinc low-luminance text on dark BGs
+   ========================================================================== */
+
+/* ── Dark Theme Contrast Protection (Zero Dark-on-Dark · Crystal-Clear White) ── */
+html:not([data-theme*='light']):not([data-theme='arctic-frost']):not([data-theme='warm-ivory']):not([data-theme='azure-sky']) {
+  /* 1. Prevent dark text on dark backgrounds */
+  .text-slate-950,
+  .text-slate-900,
+  .text-zinc-950,
+  .text-zinc-900,
+  .text-gray-950,
+  .text-gray-900,
+  .text-black {
+    color: var(--text-primary, #F8FAFC) !important;
+  }
+
+  .text-slate-800,
+  .text-zinc-800,
+  .text-gray-800 {
+    color: var(--text-primary, #F1F5F9) !important;
+  }
+
+  /* 2. Lift all muted/secondary text to minimum readable contrast on OLED dark */
+  /* slate-600 and zinc-600 are too dark on near-black backgrounds */
+  .text-slate-600,
+  .text-zinc-600,
+  .text-gray-600 {
+    color: #94A3B8 !important; /* ≥ AA on dark BG */
+  }
+
+  /* slate-500 – bring up to comfortable reading level */
+  .text-slate-500,
+  .text-zinc-500,
+  .text-gray-500 {
+    color: #A8B8CC !important;
+  }
+
+  /* slate-400 — the most common muted label color — ensure it's easily readable */
+  .text-slate-400,
+  .text-zinc-400,
+  .text-gray-400 {
+    color: #C0CDD8 !important;
+  }
+
+  /* slate-300 — secondary readable text */
+  .text-slate-300,
+  .text-zinc-300,
+  .text-gray-300 {
+    color: #D8E2EC !important;
+  }
+
+  /* slate-200/100/50 — crisp high-contrast */
+  .text-slate-200,
+  .text-zinc-200,
+  .text-gray-200 {
+    color: #EDF2F7 !important;
+  }
+
+  .text-slate-100,
+  .text-zinc-100,
+  .text-gray-100 {
+    color: #F5F7FA !important;
+  }
+
+  /* 3. Badge backgrounds — prevent near-invisible tinted badges on dark cards */
+  /* Ensure emerald/green badges are visible */
+  .bg-emerald-500\/10,
+  .bg-emerald-500\/15,
+  [class*="bg-emerald-500/1"] {
+    background-color: rgba(16, 185, 129, 0.18) !important;
+  }
+
+  /* Rose/red badge visibility */
+  .bg-rose-500\/10,
+  .bg-rose-500\/15,
+  [class*="bg-rose-500/1"] {
+    background-color: rgba(239, 68, 68, 0.20) !important;
+  }
+
+  /* Amber badge visibility */
+  .bg-amber-500\/10,
+  .bg-amber-500\/15,
+  [class*="bg-amber-500/1"] {
+    background-color: rgba(245, 158, 11, 0.20) !important;
+  }
+
+  /* Indigo/blue badge visibility */
+  .bg-indigo-500\/10,
+  .bg-indigo-500\/15,
+  .bg-blue-500\/10,
+  [class*="bg-indigo-500/1"],
+  [class*="bg-blue-500/1"] {
+    background-color: rgba(99, 102, 241, 0.20) !important;
+  }
+
+  /* 4. Ensure table headers are always distinguishable from body rows */
+  /* thead on slate-950 background must have readable column header text */
+  thead th {
+    color: var(--text-secondary, #CBD5E1) !important;
+    font-weight: 700 !important;
+  }
+
+  /* Fix pure-black card content containers */
+  [class*="bg-black/"] {
+    background-color: rgba(15, 23, 42, 0.85) !important;
+  }
+
+  /* 5. Inline helper spans commonly used for sub-labels */
+  /* These are the most common offenders: text-[10px] text-slate-400 pattern */
+  span.text-slate-400,
+  span.text-slate-500,
+  p.text-slate-400,
+  p.text-slate-500,
+  div.text-slate-400,
+  div.text-slate-500 {
+    color: #B0BEC5 !important;
+  }
+
+  /* 6. Monospace / data labels — must be highly legible */
+  .font-mono.text-slate-400,
+  .font-mono.text-slate-500,
+  .font-mono.text-slate-600 {
+    color: #CBD5E1 !important;
+  }
+}
+
+/* ── Light Theme Specific Contrast Fixes ── */
+html[data-theme='light-platinum'],
+html[data-theme='arctic-frost'],
+html[data-theme='warm-ivory'],
+html[data-theme='azure-sky'],
+html[data-theme='executive-navy-light'] {
+  /* Prevent light-on-light: very light text on white/near-white card backgrounds */
+
+  /* Emerald/green indicators: use full-saturation on light BG */
+  .text-emerald-400,
+  .text-emerald-300,
+  .text-green-400 {
+    color: var(--accent-green, #059669) !important;
+    font-weight: 700;
+  }
+
+  .text-rose-400,
+  .text-red-400,
+  .text-rose-300 {
+    color: var(--accent-red, #DC2626) !important;
+    font-weight: 700;
+  }
+
+  .text-amber-400,
+  .text-amber-300,
+  .text-yellow-400 {
+    color: var(--accent-gold, #B45309) !important;
+    font-weight: 700;
+  }
+
+  /* Prevent indigo and cyan from washing out on light backgrounds */
+  .text-indigo-300,
+  .text-indigo-400,
+  .text-cyan-300,
+  .text-cyan-400 {
+    color: var(--accent-blue, #1D4ED8) !important;
+  }
+
+  /* Tinted badge backgrounds on light cards need strong borders */
+  .bg-emerald-500\/20,
+  [class*="bg-emerald-500/2"] {
+    background-color: rgba(5, 150, 105, 0.12) !important;
+    border-color: rgba(5, 150, 105, 0.4) !important;
+  }
+  .bg-rose-500\/20,
+  [class*="bg-rose-500/2"] {
+    background-color: rgba(220, 38, 38, 0.10) !important;
+    border-color: rgba(220, 38, 38, 0.35) !important;
+  }
+  .bg-amber-500\/20,
+  [class*="bg-amber-500/2"] {
+    background-color: rgba(180, 83, 9, 0.12) !important;
+    border-color: rgba(180, 83, 9, 0.35) !important;
+  }
+  .bg-indigo-500\/20,
+  [class*="bg-indigo-500/2"] {
+    background-color: rgba(29, 78, 216, 0.08) !important;
+    border-color: rgba(29, 78, 216, 0.30) !important;
+  }
+  .bg-blue-500\/20,
+  [class*="bg-blue-500/2"] {
+    background-color: rgba(29, 78, 216, 0.08) !important;
+  }
+
+  /* Table headers — ensure they're not invisible white-on-white */
+  thead th {
+    background-color: var(--bg-table-alt, #F8FAFC) !important;
+    color: var(--text-secondary, #334155) !important;
+    border-bottom: 2px solid var(--border-card, #E2E8F0) !important;
+  }
+
+  /* Muted helper labels — ensure they're readable on white BG, not too light */
+  .text-slate-400,
+  .text-zinc-400,
+  .text-gray-400 {
+    color: var(--text-muted, #64748B) !important;
+  }
+
+  .text-slate-300,
+  .text-zinc-300 {
+    color: var(--text-secondary, #475569) !important;
+  }
+
+  .text-slate-200,
+  .text-zinc-200 {
+    color: var(--text-secondary, #334155) !important;
+  }
+
+  /* Prevent any white text escaping onto light backgrounds */
+  .text-white {
+    color: var(--text-primary, #0F172A) !important;
+  }
+
+  /* Fix pill/badge text on tinted backgrounds */
+  .text-emerald-300 { color: #065F46 !important; }
+  .text-rose-300    { color: #9F1239 !important; }
+  .text-amber-300   { color: #92400E !important; }
+  .text-indigo-300,
+  .text-indigo-400  { color: #3730A3 !important; }
+  .text-cyan-300    { color: #0E7490 !important; }
+  .text-purple-300,
+  .text-purple-400  { color: #6D28D9 !important; }
+
+  /* Fix font-mono label color on light backgrounds */
+  .font-mono.text-slate-400,
+  .font-mono.text-slate-300 {
+    color: var(--text-muted, #64748B) !important;
+  }
+}
+
+/* ==========================================================================
+   UNIVERSAL BADGE & CHIP MINIMUM VISIBILITY
+   All color badge/chip combinations must clear 3.5:1 contrast regardless of theme.
+   ========================================================================== */
+
+/* Ensure 'text-[10px]' and 'text-[11px]' labels are never invisible */
+[class*="text-[10px]"],
+[class*="text-[11px]"] {
+  /* Force minimum opacity so they're never ghost-transparent */
+  opacity: 1 !important;
+  /* Minimum contrast boost for these micro-labels */
+  font-weight: 600;
+}
+
+/* Dashed border empty states — always readable */
+.border-dashed {
+  border-opacity: 0.6;
+}
+
+/* Horizontal dividers must not disappear */
+hr,
+.border-b,
+.border-t {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   UNIVERSAL HEADING HIERARCHY
+   h1, h2, h3 always render at full primary text color regardless of context
+   ========================================================================== */
+h1:not([class*="text-"]):not([style*="color"]),
+h2:not([class*="text-"]):not([style*="color"]),
+h3:not([class*="text-"]):not([style*="color"]) {
+  color: var(--text-primary);
+}
+
+h4, h5, h6 {
+  color: var(--text-secondary, inherit);
+}
+
+
+/* ── Universal Glass Card ── */
+.glass-card {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-card) !important;
+  box-shadow: var(--shadow-card) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border-radius: var(--card-radius);
+  color: var(--text-primary) !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  box-shadow: var(--shadow-card-hover) !important;
+}
+
+.glass-card-hover {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.glass-card-hover:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-gold) !important;
+  box-shadow: var(--shadow-card-hover) !important;
+}
+
+/* ── Sticky Table Columns ── */
+.sticky-column {
+  position: sticky !important;
+  left: 0 !important;
+  z-index: 10 !important;
+  background-color: var(--bg-card) !important;
+  border-right: 1px solid var(--border-card) !important;
+  box-shadow: var(--shadow-sticky-col) !important;
+  transition: background-color 0.15s, box-shadow 0.15s;
+}
+
+thead th.sticky-column {
+  z-index: 20 !important;
+  background-color: var(--bg-table-alt) !important;
+  border-bottom: 2px solid var(--border-card) !important;
+}
+
+tfoot td.sticky-column {
+  z-index: 20 !important;
+  background-color: var(--bg-table-alt) !important;
+  border-top: 2px solid var(--border-card) !important;
+}
+
+/* ── Form Inputs & Selects ── */
+input,
+select,
+textarea {
+  background: var(--bg-input) !important;
+  border: 1px solid var(--border-input) !important;
+  color: var(--text-primary) !important;
+  border-radius: 0.5rem;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--border-focus) !important;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(184, 145, 42, 0.18) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted) !important;
+}
+
+/* ── Modals & Overlays ── */
+.a1-modal-overlay {
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.a1-modal {
+  background: var(--bg-modal) !important;
+  border: 1px solid var(--border-card) !important;
+  box-shadow: var(--shadow-modal) !important;
+  color: var(--text-primary) !important;
+  border-radius: var(--card-radius);
+}
+
+/* ── Tables ── */
+table th,
+table td {
+  font-variant-numeric: tabular-nums;
+}
+
+.a1-table thead th {
+  background: var(--bg-table-alt) !important;
+  color: var(--text-secondary) !important;
+  font-size: 0.725rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 2px solid var(--border-card) !important;
+}
+
+.a1-table tbody tr {
+  border-bottom: 1px solid var(--border-card);
+  transition: background 0.15s;
+  color: var(--text-primary);
+}
+
+.a1-table tbody tr:hover {
+  background: var(--bg-card-hover) !important;
+}
+
+.a1-table tbody tr:nth-child(even) {
+  background: var(--bg-table-row);
+}
+
+.a1-table tbody tr:nth-child(even):hover {
+  background: var(--bg-table-alt) !important;
+}
+
+/* ── Metric Card Accents ── */
+.metric-card-gold   { border-top: 3px solid var(--accent-gold) !important; }
+.metric-card-green  { border-top: 3px solid var(--accent-green) !important; }
+.metric-card-blue   { border-top: 3px solid var(--accent-blue) !important; }
+.metric-card-red    { border-top: 3px solid var(--accent-red) !important; }
+
+/* ── Badges ── */
+.badge-profit {
+  background: var(--accent-green-bg) !important;
+  color: var(--accent-green) !important;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: 2px 8px;
+}
+
+.badge-loss {
+  background: var(--accent-red-bg) !important;
+  color: var(--accent-red) !important;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: 2px 8px;
+}
+
+/* ── Themed Scrollbars ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-table-alt);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-card);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-gold);
+}
+
+/* ── Utilities ── */
+.text-wrap {
+  white-space: normal !important;
+  word-break: break-word !important;
+}
+
+.font-mono {
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn { animation: fadeIn 0.2s ease-out forwards; }
+
+/* ==========================================================================
+   GLOBAL HIGH-CONTRAST LEGIBILITY ENFORCEMENT
+   Guarantees solid dark backgrounds with crystal-clear white/slate text.
+   ========================================================================== */
+
+body {
+  color: var(--text-primary, #F8FAFC);
+  background-color: var(--bg-app, #020617);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Global Form Controls (Inputs, Selects, Options) */
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+  background-color: var(--bg-input, #0B1329);
+  color: var(--text-primary, #F8FAFC);
+  border-color: var(--border-input, #334155);
+}
+
+select option {
+  background-color: var(--bg-input, #0B1329);
+  color: var(--text-primary, #F8FAFC);
+}
+
+/* Global Tables & Headers */
+table {
+  color: var(--text-primary, #F8FAFC);
+}
+
+thead th {
+  color: var(--text-secondary, #94A3B8);
+}
+
+tbody td {
+  color: var(--text-primary, #F8FAFC);
+}
+
+/* ==========================================================================
+   MOBILE SAFARI AUTO-ZOOM PREVENTION
+   Enforces min 16px font-size on mobile viewports so iOS never auto-zooms on focus.
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* ==========================================================================
+   SEMANTIC FINANCIAL UTILITY CLASSES
+   ========================================================================== */
+.text-fin-gross { color: var(--color-gross-return); }
+.bg-fin-gross { background-color: var(--color-gross-return); }
+.border-fin-gross { border-color: var(--color-gross-return); }
+.bg-fin-gross-subtle { background-color: rgba(16, 185, 129, 0.12); }
+
+.text-fin-tds { color: var(--color-withheld-tds); }
+.bg-fin-tds { background-color: var(--color-withheld-tds); }
+.border-fin-tds { border-color: var(--color-withheld-tds); }
+.bg-fin-tds-subtle { background-color: rgba(245, 158, 11, 0.12); }
+
+.text-fin-net { color: var(--color-net-post-tax); }
+.bg-fin-net { background-color: var(--color-net-post-tax); }
+.border-fin-net { border-color: var(--color-net-post-tax); }
+.bg-fin-net-subtle { background-color: rgba(6, 182, 212, 0.12); }
+
+.text-fin-fx-gain { color: var(--color-fx-drag-gain); }
+.bg-fin-fx-gain { background-color: var(--color-fx-drag-gain); }
+.bg-fin-fx-gain-subtle { background-color: rgba(139, 92, 246, 0.12); }
+
+.text-fin-fx-loss { color: var(--color-fx-drag-loss); }
+.bg-fin-fx-loss { background-color: var(--color-fx-drag-loss); }
+.bg-fin-fx-loss-subtle { background-color: rgba(236, 72, 153, 0.12); }
+
+.text-fin-repatriable { color: var(--color-repatriable); }
+.bg-fin-repatriable { background-color: var(--color-repatriable); }
+.bg-fin-repatriable-subtle { background-color: rgba(59, 130, 246, 0.12); }
+
+.text-fin-non-repatriable { color: var(--color-non-repatriable); }
+.bg-fin-non-repatriable { background-color: var(--color-non-repatriable); }
+.bg-fin-non-repatriable-subtle { background-color: rgba(100, 116, 139, 0.12); }
+
+/* ==========================================================================
+   MOBILE & TOUCH VIEWPORT OPTIMIZATIONS (Samsung S24 Ultra & Mobile Browsers)
+   ========================================================================== */
+:root {
+  --app-height: 100dvh;
+}
+
+html {
+  min-height: 100%;
+  min-height: 100dvh;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100%;
+  min-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip; /* Clean clip without disabling natural window scrolling */
+}
+
+/* Safe area padding utilities for notches, punch-holes, and gesture bars */
+.safe-area-top {
+  padding-top: max(0.5rem, env(safe-area-inset-top, 0px));
+}
+.safe-area-bottom {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+}
+.safe-area-left {
+  padding-left: max(0.5rem, env(safe-area-inset-left, 0px));
+}
+.safe-area-right {
+  padding-right: max(0.5rem, env(safe-area-inset-right, 0px));
+}
+
+.safe-area-pb {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+}
+.safe-area-pt {
+  padding-top: max(0.5rem, env(safe-area-inset-top, 0px));
+}
+
+/* Kinetic hardware-accelerated momentum scrolling */
+.overflow-x-auto,
+.overflow-y-auto,
+.table-scroll-container,
+.data-scroll-pane {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.25) transparent;
+}
+
+.overflow-x-auto::-webkit-scrollbar,
+.overflow-y-auto::-webkit-scrollbar,
+.table-scroll-container::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb,
+.overflow-y-auto::-webkit-scrollbar-thumb,
+.table-scroll-container::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 4px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track,
+.overflow-y-auto::-webkit-scrollbar-track,
+.table-scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Prevent accidental text selections during fast touch gestures */
+.select-none-touch {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Allow text selection in financial data cells */
+.select-text {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* Mobile Portrait & Compact Screens */
+@media (max-width: 640px) {
+  .a1-card-compact {
+    padding: 0.75rem !important;
+  }
+  
+  /* Prevent chart tooltip overflow clipping */
+  .recharts-wrapper {
+    touch-action: pan-y;
+  }
+}
+
+/* Mobile Landscape Orientation Optimization (e.g. S24 Ultra rotated sideways) */
+@media (orientation: landscape) and (max-height: 540px) {
+  .mobile-topbar-compact {
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+  }
+  
+  .safe-area-bottom {
+    padding-bottom: max(0.25rem, env(safe-area-inset-bottom, 0px));
+  }
+  
+  /* Compact cards in landscape to preserve vertical screen space */
+  .a1-card-compact {
+    padding: 0.625rem !important;
+  }
+}
+
+/* ==========================================================================
+   HIGH-LEGIBILITY DATA TYPOGRAPHY SYSTEM
+   Ensures financial metric cards, badges, labels and tables are always readable.
+   ========================================================================== */
+
+/* Micro-label system: all 10px/11px labels must be semibold for legibility */
+.label-micro {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-secondary, #94A3B8);
+  line-height: 1.4;
+}
+
+/* Data value display — large metric numbers */
+.value-display {
+  font-size: 1.25rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  color: var(--text-primary, #F8FAFC);
+  line-height: 1.2;
+}
+
+/* 3-State Financial Value Colors */
+.value-gain {
+  color: var(--accent-green, #10B981) !important;
+  font-weight: 700 !important;
+}
+
+.value-at-par {
+  color: var(--accent-gold, #F59E0B) !important;
+  font-weight: 700 !important;
+}
+
+.value-loss {
+  color: var(--accent-red, #EF4444) !important;
+  font-weight: 700 !important;
+}
+
+.value-neutral {
+  color: var(--text-secondary, #94A3B8) !important;
+  font-weight: 600 !important;
+}
+
+/* 3-State Financial Pill Badges */
+.pill-gain {
+  background: var(--accent-green-bg, rgba(16, 185, 129, 0.16)) !important;
+  color: var(--accent-green, #10B981) !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+  font-weight: 700;
+  border-radius: 9999px;
+  padding: 2px 10px;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.pill-at-par {
+  background: rgba(245, 158, 11, 0.16) !important;
+  color: var(--accent-gold, #F59E0B) !important;
+  border: 1px solid rgba(245, 158, 11, 0.35) !important;
+  font-weight: 700;
+  border-radius: 9999px;
+  padding: 2px 10px;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.pill-loss {
+  background: var(--accent-red-bg, rgba(239, 68, 68, 0.16)) !important;
+  color: var(--accent-red, #EF4444) !important;
+  border: 1px solid rgba(239, 68, 68, 0.35) !important;
+  font-weight: 700;
+  border-radius: 9999px;
+  padding: 2px 10px;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.pill-neutral {
+  background: rgba(148, 163, 184, 0.15) !important;
+  color: var(--text-secondary, #CBD5E1) !important;
+  border: 1px solid rgba(148, 163, 184, 0.3) !important;
+  font-weight: 600;
+  border-radius: 9999px;
+  padding: 2px 10px;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+/* Zero-Spillover & Box Layout Constraints */
+.no-spill {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.tabular-nums-safe {
+  font-variant-numeric: tabular-nums !important;
+  font-feature-settings: "tnum" 1 !important;
+}
+
+.card-safe-bounds {
+  min-width: 0;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+/* Section divider line with label */
+.section-divider {
+  border-top: 1px solid var(--border-card, rgba(30, 41, 59, 0.85));
+  margin: 1rem 0;
+}
+
+/* Card subheader label */
+.card-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted, #64748B);
+}
+
+/* Data table header cell utility class */
+.th-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-secondary, #94A3B8);
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-table-alt);
+  border-bottom: 2px solid var(--border-card);
+  white-space: nowrap;
+}
+
+/* Metric card top accents with 3-state styling */
+.metric-card-gold   { border-top: 3px solid var(--accent-gold, #F59E0B) !important; }
+.metric-card-green  { border-top: 3px solid var(--accent-green, #10B981) !important; }
+.metric-card-blue   { border-top: 3px solid var(--accent-blue, #3B82F6) !important; }
+.metric-card-red    { border-top: 3px solid var(--accent-red, #EF4444) !important; }
+.metric-card-amber  { border-top: 3px solid #F59E0B !important; }
+
+/* Universal Focus Visible (WCAG 2.1 AA Keyboard Navigation) */
+:focus-visible {
+  outline: 2px solid var(--border-focus, #10B981);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+button:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--border-focus, #10B981);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.20);
+}
+
+/* ==========================================================================
+   MOBILE RESPONSIVE, TOUCH-PAN & BIDIRECTIONAL SCROLL UTILITIES
+   ========================================================================== */
+
+/* Ultra-sleek custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.5);
+  border-radius: 9999px;
+  transition: background 0.2s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.8);
+}
+
+/* Touch scroll momentum & horizontal overflow safety */
+.touch-scroll-container {
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y;
+}
+
+/* Symmetrical table cell standards */
+.table-num-cell {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.table-text-cell {
+  text-align: left;
+  white-space: nowrap;
+}
+
+.table-badge-cell {
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Glassmorphic Institutional Card */
+.inst-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.inst-card:hover {
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+/* ==========================================================================
+   v5.0 INSTITUTIONAL LIGHT SPECIFIC UTILITIES & COMPONENTS
+   Spec: ui_ux_design_specification_v5_light.md
+   ========================================================================== */
+
+/* 4.2 Shadow-Based Elevation (replaces Glassmorphism blur) */
+.card-institutional-light,
+.light .inst-card,
+html[data-theme='institutional-light'] .inst-card {
+  background: var(--bg-card, #FFFFFF) !important;
+  border: 1px solid var(--border-sub, #E2E6EC) !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 2px 8px rgba(16, 24, 40, 0.04) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.card-institutional-light:hover,
+.light .inst-card:hover,
+html[data-theme='institutional-light'] .inst-card:hover {
+  border-color: var(--border-strong, #CBD2DC) !important;
+  box-shadow: 0 4px 16px rgba(16, 24, 40, 0.06) !important;
+}
+
+/* 2.3 State & Status Semantics */
+.badge-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-sec, #4B5568);
+}
+.badge-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background-color: var(--border-focus, #0F62FE);
+  animation: live-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(1.2); }
+}
+
+.badge-stale {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--fin-warn, #8A5A00);
+  background-color: transparent;
+  border: 1px solid var(--fin-warn, #8A5A00);
+  border-radius: 9999px;
+  padding: 2px 8px;
+}
+
+.badge-unavailable {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-mut, #7D8798);
+  background-color: var(--bg-sunken, #F1F3F6);
+  border: 1px dashed var(--border-strong, #CBD2DC);
+  border-radius: 9999px;
+  padding: 2px 8px;
+}
+
+.badge-circuit-breaker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: #FFFFFF;
+  background-color: var(--fin-loss, #B3261E);
+  border-radius: 9999px;
+  padding: 3px 10px;
+  box-shadow: 0 1px 3px rgba(179, 38, 30, 0.35);
+  animation: circuit-breaker-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes circuit-breaker-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+
+.badge-invariant {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--fin-gain, #0F7A4E);
+  border: 1px solid var(--fin-gain, #0F7A4E);
+  background-color: var(--fin-gain-bg, #E4F6EC);
+  border-radius: 9999px;
+  padding: 2px 8px;
+}
+
+.badge-near-expiry {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: #FFFFFF;
+  background-color: var(--fin-warn, #8A5A00);
+  border-radius: 9999px;
+  padding: 2px 8px;
+  animation: circuit-breaker-pulse 1.6s ease-in-out infinite;
+}
+
+/* 6.2 Statutory & Compliance Banners */
+.statutory-banner-v5 {
+  background-color: var(--fin-info-bg, #E8F1FB) !important;
+  border: 1px solid var(--border-sub, #E2E6EC) !important;
+  color: var(--text-pri, #0B1220) !important;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+}
+
+/* 7.1 ResizableDataTable Row Striping */
+.table-v5-striped tbody tr:nth-child(even) {
+  background-color: var(--bg-sunken, #F1F3F6);
+}
+.table-v5-striped tbody tr:nth-child(odd) {
+  background-color: #FFFFFF;
+}
+.table-v5-striped tbody tr:hover {
+  background-color: var(--brand-tint, #E9EFFA) !important;
+}
+
+/* 8.1 / 3.1 Tabular numerals strict enforcement */
+.tabular-nums, .font-mono, td.numeric, span.numeric {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-variant-numeric: tabular-nums !important;
+  letter-spacing: -0.01em !important;
+}
+

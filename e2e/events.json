@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_SOLAR_ORDER_01",
+    "issuerNseSymbol": "SOLARINDS",
+    "issuerBseCode": "500405",
+    "eventDate": "2024-11-20",
+    "category": "ORDER_BOOK",
+    "headline": "Solar Industries bags ₹887 Cr export order for pinaka rocket propellant",
+    "description": "Official BSE corporate disclosure of international military defense export contract",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "BSE_DISCLOSURE",
+    "evidenceId": "EV_SOLAR_ORDER_P1",
+    "materiality": "HIGH",
+    "createdAt": "2024-11-20T08:30:00.000Z"
+  }
+]

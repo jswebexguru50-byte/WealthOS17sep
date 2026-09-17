@@ -1,0 +1,27 @@
+{
+  "initialCreditUsd": 100,
+  "totalCostUsd": 0.124083,
+  "remainingBalanceUsd": 99.875917,
+  "history": [
+    {
+      "timestamp": "2026-09-09T14:39:56.072Z",
+      "model": "us.anthropic.claude-sonnet-4-6",
+      "inputTokens": 14,
+      "outputTokens": 14,
+      "costUsd": 0.000252,
+      "cumulativeCostUsd": 0.123738,
+      "remainingBalanceUsd": 99.876262,
+      "purposeTag": "connection_test"
+    },
+    {
+      "timestamp": "2026-09-09T14:40:17.713Z",
+      "model": "us.anthropic.claude-sonnet-4-6",
+      "inputTokens": 25,
+      "outputTokens": 18,
+      "costUsd": 0.000345,
+      "cumulativeCostUsd": 0.124083,
+      "remainingBalanceUsd": 99.875917,
+      "purposeTag": "connection_test"
+    }
+  ]
+}

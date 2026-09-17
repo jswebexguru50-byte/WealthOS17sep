@@ -1,0 +1,61 @@
+# Heavy Data & Database Files (Strictly Excluded)
+*.db
+*.db*
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+*.dump
+*.tar.gz
+portfolio.db*
+portfolio_backup*
+your_database*
+database.db*
+intraday_history*
+nri_wealth*
+
+# Data, Scratch & Artifact Directories
+data/
+scratch/
+.reviews/
+portfolio_mobile_s24/
+artifacts/
+backups/
+uploads/
+
+# Large Datasets, Spreadsheets & Archives
+*.zip
+*.csv
+*.xlsx
+*.XLS
+*.xls
+*.pdf
+
+# Logs & Temporary Files
+*.log
+*.err
+server.err
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.tempmediaStorage/
+.system_generated/
+0
+
+# Dependencies and Build Artifacts
+node_modules/
+dist/
+build/
+coverage/
+
+# Environment and Secrets
+.env
+.env.*
+*.local
+
+# OS & Editor Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+~$*

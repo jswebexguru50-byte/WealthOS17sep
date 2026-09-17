@@ -1,0 +1,68 @@
+[
+  {
+    "signalId": "GOLDEN-SIG-INFY-001",
+    "strategyId": "S1",
+    "symbol": "INFY",
+    "timestamp": "2024-01-01T15:35:00+05:30",
+    "availableAt": "2024-01-01T15:35:00+05:30",
+    "direction": "LONG",
+    "entry": 1510.0,
+    "stop": 1470.0,
+    "target": 1600.0,
+    "quantityHint": 50,
+    "reasons": ["GOLDEN_S1_VPA_BREAKOUT"],
+    "provenance": {
+      "dataMode": "REAL_HISTORICAL",
+      "decisionTimestamp": "2024-01-01T15:35:00+05:30",
+      "availableAt": "2024-01-01T15:35:00+05:30",
+      "sourceTables": ["DailyOHLCV"],
+      "sourceRecordIds": ["INFY_2024-01-01"],
+      "parameterHash": "GOLDEN_PARAMETER_HASH",
+      "productionBaselineHash": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3"
+    }
+  },
+  {
+    "signalId": "GOLDEN-SIG-TCS-001",
+    "strategyId": "S3",
+    "symbol": "TCS",
+    "timestamp": "2024-01-01T15:35:00+05:30",
+    "availableAt": "2024-01-01T15:35:00+05:30",
+    "direction": "LONG",
+    "entry": 3820.0,
+    "stop": 3750.0,
+    "target": 3980.0,
+    "quantityHint": 20,
+    "reasons": ["GOLDEN_S3_HH_HL_COMPACTION"],
+    "provenance": {
+      "dataMode": "REAL_HISTORICAL",
+      "decisionTimestamp": "2024-01-01T15:35:00+05:30",
+      "availableAt": "2024-01-01T15:35:00+05:30",
+      "sourceTables": ["DailyOHLCV"],
+      "sourceRecordIds": ["TCS_2024-01-01"],
+      "parameterHash": "GOLDEN_PARAMETER_HASH",
+      "productionBaselineHash": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3"
+    }
+  },
+  {
+    "signalId": "GOLDEN-SIG-SBIN-001",
+    "strategyId": "S5",
+    "symbol": "SBIN",
+    "timestamp": "2024-01-01T15:35:00+05:30",
+    "availableAt": "2024-01-01T15:35:00+05:30",
+    "direction": "LONG",
+    "entry": 605.0,
+    "stop": 590.0,
+    "target": 650.0,
+    "quantityHint": 100,
+    "reasons": ["GOLDEN_S5_EMA50_PULLBACK"],
+    "provenance": {
+      "dataMode": "REAL_HISTORICAL",
+      "decisionTimestamp": "2024-01-01T15:35:00+05:30",
+      "availableAt": "2024-01-01T15:35:00+05:30",
+      "sourceTables": ["DailyOHLCV"],
+      "sourceRecordIds": ["SBIN_2024-01-01"],
+      "parameterHash": "GOLDEN_PARAMETER_HASH",
+      "productionBaselineHash": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3"
+    }
+  }
+]

@@ -1,0 +1,48 @@
+{
+  "timestamp": "2026-09-08T16:04:18.222Z",
+  "serverUrl": "http://localhost:3000",
+  "results": {
+    "Static Audit (TS-14)": "PASS",
+    "Core Financial Math (TS-3–TS-7)": "PASS",
+    "Suite 16: Wealth Maximization (OBJ-1–6)": "PASS",
+    "Live Integration (TS-1–TS-15)": "FAIL",
+    "E2E Visual Tests": "SKIPPED"
+  },
+  "wealthObjectiveScorecard": {
+    "OBJ-1 & OBJ-2 (Capture & Drift)": {
+      "suite": "WM-CAP",
+      "status": "VERIFIED",
+      "tests": 9,
+      "passed": 9,
+      "impact": "Zero phantom wealth; cost basis & NAV precision"
+    },
+    "OBJ-3 & OBJ-4 (Calibration & Caps)": {
+      "suite": "WM-OPP",
+      "status": "VERIFIED",
+      "tests": 9,
+      "passed": 9,
+      "impact": "Negative-expectancy trading blocked; tail-risk capped at 5% NAV"
+    },
+    "OBJ-5 (Tax-Aware Rebalancing)": {
+      "suite": "WM-REB",
+      "status": "VERIFIED",
+      "tests": 10,
+      "passed": 10,
+      "impact": "Avoids churn; prefers LTCG lots; drawdown-safe de-risking"
+    },
+    "OBJ-6 (Audit Trail & Replay)": {
+      "suite": "WM-GOLDEN",
+      "status": "VERIFIED",
+      "tests": 1,
+      "passed": 1,
+      "impact": "Deterministic replay with SHA-256 tamper-evident proof"
+    },
+    "GOLDEN THREAD (Wealth Maximization)": {
+      "suite": "WM-GOLDEN",
+      "status": "PROVEN",
+      "outcome": "rebalanced.riskAdjustedAfterTaxValue >= baseline.riskAdjustedAfterTaxValue"
+    }
+  },
+  "totalPassed": 3,
+  "totalFailed": 1
+}

@@ -1,0 +1,16 @@
+﻿
+ RUN  v5.0.0 C:/Users/gopal/OneDrive/Desktop/tesr/webapp_portable_release
+
+node.exe : No test files found, exiting with code 1
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (No test files found, exiting with code 1:S 
+   tring) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+filter: tests/performance/database-queries-phase1-4.test.ts
+include: tests/unit/**/*.test.ts, tests/integration/**/*.test.ts
+exclude:  tests/e2e/**, src/server/__tests__/**, node_modules/**
+

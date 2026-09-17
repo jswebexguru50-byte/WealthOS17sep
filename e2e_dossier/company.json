@@ -1,0 +1,25 @@
+{
+  "symbol": "SOLARINDS",
+  "companyName": "Solar Industries India Ltd",
+  "bseCode": "532725",
+  "isin": "INE343H01029",
+  "sector": "Defense / Industrial Explosives",
+  "listingSegment": "Main Board",
+  "marketCapTier": "LARGECAP",
+  "marketCapInrCr": 201724.5,
+  "cmpInr": 22290.0,
+  "financialHealth": {
+    "beneishMScore": -1.92,
+    "beneishInterpretation": "Below -1.78 threshold; serves as a favorable screening signal regarding earnings-manipulation risk rather than proof of absence.",
+    "altmanZScore": 7.67,
+    "altmanInterpretation": "High solvency indicator under model framework; positive signal rather than zero-probability guarantee.",
+    "piotroskiFScore": "9/9",
+    "piotroskiInterpretation": "All 9 historical accounting and operating trend signals positive.",
+    "promoterPledgePct": 0.0,
+    "promoterHoldingPct": 73.15,
+    "rocePct": 38.1,
+    "roePct": 32.6,
+    "salesCagr5YPct": 31.0,
+    "patCagr5YPct": 45.0
+  }
+}

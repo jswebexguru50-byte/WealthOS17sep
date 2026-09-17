@@ -1,0 +1,21 @@
+{
+  "symbol": "SOLARINDS",
+  "thesisId": "THESIS_SOLARINDS_001",
+  "coreThesisStatement": "Defense ammunition scaling and multi-year export order backlog sustain compounding returns (>25% ROCE) with low balance sheet leverage.",
+  "pillars": [
+    {
+      "pillarId": "P1_EXPORT_RUNWAY",
+      "statement": "Defense export deliveries ramp-up driven by Pinaka and weaponized ammunition orders.",
+      "status": "CONFIRMED",
+      "supportingClaims": ["CLM_SOLAR_DEFENSE_01"],
+      "supportingEvents": ["EVT_SOLAR_ORDER_01"]
+    },
+    {
+      "pillarId": "P2_SOLVENCY_HEADROOM",
+      "statement": "Balance sheet leverage remains conservative (Net Debt / EBITDA < 1.0x).",
+      "status": "CONFIRMED",
+      "supportingClaims": [],
+      "supportingEvents": []
+    }
+  ]
+}

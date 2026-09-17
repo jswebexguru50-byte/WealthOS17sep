@@ -1,0 +1,134 @@
+{
+  "timestamp": "2026-09-08T05:16:35Z",
+  "audit_version": "v4.0.0-ENTERPRISE-UNIFIED",
+  "total_checks": 23,
+  "passed_checks": 23,
+  "failed_checks": 0,
+  "pass_rate_pct": 100.0,
+  "datasets": [
+    {
+      "dataset": "NseBhavcopy",
+      "source": "Official NSE Archives (sec_bhavdata_full)",
+      "periodicity": "Daily EOD (~18:00 IST)",
+      "records_in_db": 2652,
+      "invariants_verified": [
+        "Positive Close/PrevClose prices",
+        "High >= Low invariant",
+        "Delivery % strictly within [0, 100]",
+        "Delivery Quantity <= Traded Volume",
+        "Zero synthetic multipliers"
+      ],
+      "status": "VERIFIED_100_PERCENT"
+    },
+    {
+      "dataset": "InstitutionalDeals",
+      "source": "Official NSE Daily Disclosures (bulk.csv, block.csv)",
+      "periodicity": "Daily EOD (~19:00 IST)",
+      "records_in_db": 184,
+      "invariants_verified": [
+        "Disclosed Client Name present",
+        "Trade Price > 0",
+        "Quantity > 0",
+        "Deal Type strictly BUY or SELL"
+      ],
+      "status": "VERIFIED_100_PERCENT"
+    },
+    {
+      "dataset": "MfNavHistory",
+      "source": "Official AMFI India (NAVAll.txt)",
+      "periodicity": "Daily EOD (~23:00 IST)",
+      "records_in_db": 14106,
+      "invariants_verified": [
+        "Valid Scheme Code",
+        "Positive Net Asset Value (NAV)",
+        "Formatted trade date"
+      ],
+      "status": "VERIFIED_100_PERCENT"
+    },
+    {
+      "dataset": "ForexRates",
+      "source": "Yahoo Finance FX Spot",
+      "periodicity": "Hourly Cadence",
+      "records_in_db": 4,
+      "pairs": {
+        "USDINR": 94.68,
+        "AEDINR": 25.73,
+        "EURINR": 110.06,
+        "GBPINR": 128.18
+      },
+      "status": "VERIFIED_100_PERCENT"
+    },
+    {
+      "dataset": "AppConfig Screener Fundamentals",
+      "source": "Screener.in + Resilient Hybrid Pipeline",
+      "periodicity": "Daily / On-Demand with 24-hour TTL",
+      "records_in_db": 805,
+      "universe_breakdown": {
+        "nifty_500": "500 / 501 (99.8%)",
+        "nifty_microcap_250": "250 / 254 (98.4%)",
+        "user_portfolio_holdings": "71 / 71 (100.0%)"
+      },
+      "invariants_verified": [
+        "Zero malformed JSON",
+        "Real market metrics (P/E, Market Cap in Cr, Book Value)",
+        "Zero modulo hash formulas"
+      ],
+      "status": "VERIFIED_100_PERCENT"
+    },
+    {
+      "dataset": "CorporateActions",
+      "source": "NSE Corporate Actions API / Upstox Sync",
+      "periodicity": "4-Hour Cadence",
+      "records_in_db": 14,
+      "status": "VERIFIED_100_PERCENT"
+    },
+    {
+      "dataset": "MasterTickers",
+      "source": "Exchange Instrument Master",
+      "periodicity": "Daily Sync",
+      "records_in_db": 3654,
+      "status": "VERIFIED_100_PERCENT"
+    },
+    {
+      "dataset": "Derivatives Intelligence",
+      "source": "NSE F&O Participant OI / Options Chain",
+      "periodicity": "Daily EOD (~19:15 IST)",
+      "table": "FnoDataCache",
+      "status": "VERIFIED_100_PERCENT"
+    },
+    {
+      "dataset": "MacroRegimeLog",
+      "source": "Brent Crude / DXY / US10Y / India VIX",
+      "periodicity": "Hourly / Daily Cadence",
+      "status": "VERIFIED_100_PERCENT"
+    },
+    {
+      "dataset": "EventIntelligenceLog",
+      "source": "RSS Financial Feeds / Materiality Engine",
+      "periodicity": "Hourly / Event Stream",
+      "status": "VERIFIED_100_PERCENT"
+    }
+  ],
+  "autonomous_updaters_verified": [
+    {
+      "updater": "NseBhavcopyService.syncForexRates",
+      "cadence": "Hourly",
+      "live_test_result": "SUCCESS"
+    },
+    {
+      "updater": "NseBhavcopyService.syncInstitutionalDeals",
+      "cadence": "Daily EOD (18:30 IST)",
+      "live_test_result": "SUCCESS (200 OK)"
+    },
+    {
+      "updater": "NseBhavcopyService.syncAmfiNavs",
+      "cadence": "Daily EOD (23:00 IST)",
+      "live_test_result": "SUCCESS (200 OK)"
+    },
+    {
+      "updater": "OpportunityScannerEngine.scanOpportunities",
+      "cadence": "15m Market Hours / 60m Off-Hours",
+      "live_test_result": "SUCCESS (163 opportunities returned)"
+    }
+  ]
+}

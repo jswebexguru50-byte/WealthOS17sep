@@ -1,0 +1,58 @@
+[
+  {
+    "evidenceId": "EV_SOLAR_AR24_P42",
+    "issuerNseSymbol": "SOLARINDS",
+    "issuerBseCode": "500405",
+    "documentId": "DOC_SOLAR_AR2024",
+    "documentHash": "a68f237bc9910d8a55e1a2f641b7cd9348c6913eef4a09a56c52701a5e786b42",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": 40,
+    "quotedText": "We expect our defense export order book to exceed ₹1,000 Cr in FY25 supported by multi-country supply of Pinaka rockets and specialized warheads.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "discoveredAt": "2026-09-15T12:00:00.000Z"
+  },
+  {
+    "evidenceId": "EV_SOLAR_DISCLOSURE_Q4",
+    "issuerNseSymbol": "SOLARINDS",
+    "issuerBseCode": "500405",
+    "documentId": "DOC_SOLAR_BSE_Q4FY24",
+    "documentHash": "9f283c18b242e88a0b0739da4b69d4a37e54f738ac8537c35293da2764ba81f1",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 6,
+    "pagePrinted": 6,
+    "quotedText": "Defense segment revenue for Q4FY24 reached ₹348 Cr; cumulative defense order book stood at ₹1,250 Cr as of 31st March 2024 with full delivery pipeline on schedule.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "discoveredAt": "2026-09-15T12:05:00.000Z"
+  },
+  {
+    "evidenceId": "EV_SOLAR_ORDER_P1",
+    "issuerNseSymbol": "SOLARINDS",
+    "issuerBseCode": "500405",
+    "documentId": "DOC_SOLAR_ORDER_887CR",
+    "documentHash": "417de2b4e877fc04313f83d9d592f2324310557cc548234399e521b44b82bcda",
+    "documentType": "EXCHANGE_DISCLOSURE",
+    "pagePhysical": 1,
+    "pagePrinted": 1,
+    "quotedText": "Solar Industries India Ltd bags international export contract valued at ₹887 Crores for supply of Pinaka rockets and military warheads.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "discoveredAt": "2026-09-15T12:10:00.000Z"
+  },
+  {
+    "evidenceId": "EV_SOLAR_LEVERAGE_Q4",
+    "issuerNseSymbol": "SOLARINDS",
+    "issuerBseCode": "500405",
+    "documentId": "DOC_SOLAR_BSE_Q4FY24",
+    "documentHash": "9f283c18b242e88a0b0739da4b69d4a37e54f738ac8537c35293da2764ba81f1",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 14,
+    "pagePrinted": 14,
+    "quotedText": "Consolidated Net Debt stood at ₹428 Cr against FY24 EBITDA of ₹1,220 Cr, yielding Net Debt / EBITDA of 0.35x.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "discoveredAt": "2026-09-15T12:15:00.000Z"
+  }
+]

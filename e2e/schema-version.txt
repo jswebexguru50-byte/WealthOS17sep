@@ -1,0 +1,11 @@
+DATABASE SCHEMA VERSION: v1.1_hardened
+Migration Applied: scratch/apply_hardened_migration_v1_1.mjs
+Key Tables Active:
+  - EvidenceInventory (Article 23 verified evidence spans, document hashes, physical pages)
+  - ManagementClaims (Article 26 temporal lifecycle: expected_period_start/end, evaluation_date/basis/evidence_id)
+  - Contradictions (Article 21 multi-evidence: left_evidence_id, right_evidence_id, supporting_evidence_ids)
+  - IntelligenceEvents (Article 4 source_tier: 4-tier hierarchy, 18 categories)
+  - ImportantUnknowns (Article 25 unknown preservation: NOT_YET_CHECKED, SEARCHED_AND_NOT_FOUND, UNRESOLVED)
+  - ForensicAssertions (Rule 5 serving table)
+  - QuarantinedAssertions (Rule 5 quarantine table)
+DB Engine: SQLite 3.x (WAL mode enabled)

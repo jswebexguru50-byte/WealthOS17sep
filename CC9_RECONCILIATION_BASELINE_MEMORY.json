@@ -1,0 +1,41 @@
+{
+  "portfolio": "cc9",
+  "portfolio_name": "Complete Circle Deep Financial PMS",
+  "baseline_checkpoint_date": "2026-08-23",
+  "audited_status": "100% RECONCILED (PERFECT MATCH)",
+  "verified_at": "2026-08-27T13:45:00+05:30",
+  "ledger_rules": {
+    "security_in_treatment": "In-kind capital contribution (shares inventory + invested corpus, zero bank cash inflow)",
+    "cash_withdrawals": "0.00 (No cash payouts returned to user; fees & taxes debited from internal cash)",
+    "xirr_cost_basis": "Dual Cost Basis: PMS Performance uses Transfer-In Market Price (₹3.74 Cr shares + ₹1.40 Cr cash = ₹5.14 Cr); Investor True XIRR uses Capital Register Historical Purchase Price (₹3.69 Cr shares + ₹1.40 Cr cash = ₹5.09 Cr)"
+  },
+  "financial_baseline": {
+    "initial_cash_deposits": 14000000.00,
+    "in_kind_securities_mkt_val": 37380237.85,
+    "in_kind_securities_cost_val": 36894225.46,
+    "total_cash_withdrawals_to_user": 0.00,
+    "statement_cash_in_hand": 85335.00,
+    "net_trading_cash_flow": -11887840.40,
+    "gross_dividends_recd": 1176618.38,
+    "tds_paid": 92435.75,
+    "management_fees_paid": 2945792.00,
+    "operating_and_custody_expenses": 165256.43,
+    "reconstructed_cash_post_trades": 25898.52,
+    "pms_manager_xirr_pct": 13.17,
+    "investor_true_cost_xirr_pct": 13.59
+  },
+  "baseline_holdings_count": 48,
+  "post_statement_executed_trades": [
+    { "date": "2026-08-24", "type": "SELL", "symbol": "LT", "quantity": 25, "price": 3048.95, "net_amount": 76223.70 },
+    { "date": "2026-08-24", "type": "BUY", "symbol": "FRATELLI", "quantity": 500, "price": 109.59, "net_amount": 54795.90 },
+    { "date": "2026-08-24", "type": "BUY", "symbol": "SBIFUN", "quantity": 50, "price": 578.03, "net_amount": 28901.68 },
+    { "date": "2026-08-25", "type": "BUY", "symbol": "BLUEJET", "quantity": 50, "price": 593.81, "net_amount": 29690.46 },
+    { "date": "2026-08-25", "type": "BUY", "symbol": "SBIFUN", "quantity": 100, "price": 578.03, "net_amount": 57803.35 }
+  ],
+  "delta_reconciliation_protocol": {
+    "step_1": "Query PmsReconciliationBaseline and PmsReconciliationBaselineHoldings from portfolio.db",
+    "step_2": "Fetch only incremental Transactions with date > 2026-08-23 or id > last_reconciled_txn_id",
+    "step_3": "Separate Qty on Hand (settled) vs Qty in Transit (T+1/T+2 unsettled DP transfers)",
+    "step_4": "Reconcile live bank value = baseline_cash (85,335) + incremental net cash flows"
+  }
+}

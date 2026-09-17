@@ -1,0 +1,136 @@
+{
+  "symbol": "SOLARINDS",
+  "companyName": "Solar Industries India Limited",
+  "marketCapTier": "LARGECAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-15T11:11:09.526Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "STRONG",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence, credible execution, and zero active thesis breakers."
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "MEDIUM",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity supported by clean qualitative intelligence, credible execution, and zero active thesis breakers."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 7/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 96/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#SOLARINDS",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Defense order book will scale above ₹1,000 Cr in FY25.",
+      "detail": "Disclosed actual outcome: Disclosed Q4 defense order book reached ₹1,250 Cr",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "EV_SOLAR_AR24_P42 -> EV_SOLAR_DISCLOSURE_Q4",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "SOLARINDS",
+    "grade": "STRONG",
+    "totalClaims": 2,
+    "achievedCount": 2,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_SOLAR_DEFENSE_01",
+        "statement": "Defense order book will scale above ₹1,000 Cr in FY25.",
+        "period": "FY25",
+        "expected": "Defense order book >= ₹1,000 Cr",
+        "actual": "Disclosed Q4 defense order book reached ₹1,250 Cr",
+        "status": "ACHIEVED",
+        "evidenceLineage": "EV_SOLAR_AR24_P42 -> EV_SOLAR_DISCLOSURE_Q4"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_SOLARINDS"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_SOLARINDS"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-11-20",
+      "source": "BSE_DISCLOSURE",
+      "headline": "Solar Industries bags ₹887 Cr export order for pinaka rocket propellant",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_SOLAR_LEVERAGE",
+      "name": "Solvency Preservation",
+      "description": "Net Debt / EBITDA must not breach 2.5x",
+      "type": "QUANTITATIVE",
+      "evaluationMethod": "METRIC_THRESHOLD",
+      "conditionText": "Net Debt / EBITDA > 2.5",
+      "quantitativeCondition": {
+        "metric": "net_debt_to_ebitda",
+        "operator": ">",
+        "threshold": 2.5,
+        "evaluationPeriod": "annual",
+        "evidenceRequired": true
+      },
+      "status": "INACTIVE",
+      "severity": "CRITICAL",
+      "rationale": "Metric within safe boundaries: net_debt_to_ebitda (0.35) does not violate > 2.5.",
+      "evidenceIds": [
+        "EV_SOLAR_LEVERAGE_Q4"
+      ],
+      "currentObservedValue": 0.35
+    },
+    {
+      "breakerId": "TB_SOLAR_REGULATORY_CANCELLATION",
+      "name": "Explosives Licensing Sanction",
+      "description": "Major regulatory cancellation of PESO industrial/defense explosive manufacturing licenses",
+      "type": "QUALITATIVE",
+      "evaluationMethod": "EVENT_MATCH",
+      "conditionText": "Major regulatory cancellation of explosive licenses",
+      "qualitativeCondition": {
+        "eventCategory": "REGULATORY",
+        "materiality": "CRITICAL",
+        "requiresPrimaryEvidence": true
+      },
+      "status": "INACTIVE",
+      "severity": "CRITICAL",
+      "rationale": "No material adverse events observed matching category 'REGULATORY'.",
+      "evidenceIds": []
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "MEDIUM",
+    "directSourcesCount": 4,
+    "corroboratedCount": 2,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Defense ammunition scaling and export runway drive multi-year earnings compounding with pristine solvency and state-level industrial moat.\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

@@ -1,0 +1,19 @@
+{
+  "symbol": "SOLARINDS",
+  "twoAxisDecisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "STRONG",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "HIGH",
+    "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence, credible execution, and zero active thesis breakers."
+  },
+  "reconciliationInvariantsVerified": {
+    "itasOverwrittenByIice": false,
+    "iiceOverwrittenByItas": false,
+    "unknownsPreserved": true,
+    "autonomousTradeDirectiveSuppressed": true
+  }
+}
