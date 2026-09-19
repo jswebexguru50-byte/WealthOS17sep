@@ -54,10 +54,15 @@ export interface ImmutableSignal {
   readonly signalId: string;
   readonly strategyId: string;
   readonly securityId: string;
+  readonly pitSecurityId?: string;
   readonly decisionDate: string;
   readonly signal: boolean;
   readonly parameterValues: Readonly<Record<string, unknown>>;
   readonly conditionResults: readonly ConditionResult[];
+  readonly dataSnapshotHash?: string;
+  readonly codeSha?: string;
+  readonly datasetHash?: string;
+  readonly provenanceHash?: string;
 }
 
 export interface EnrichedImmutableSignal extends ImmutableSignal {
