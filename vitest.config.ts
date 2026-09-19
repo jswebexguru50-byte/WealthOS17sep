@@ -12,6 +12,7 @@ export default defineConfig({
       'tests/reference/**/*.test.ts',
       'tests/v67/**/*.test.ts',
       'tests/v672/**/*.test.ts',
+      'tests/fasttrack_d2/**/*.test.ts',
     ],
     exclude: [
       'tests/e2e/**',

@@ -6,7 +6,7 @@
  * - Daily strategies: exact DAILY_CLOSE_BOUND or NEXT_OPEN rule
  * - S10: preserves 15-minute breakout timestamp and requires exact matching 15-minute intraday bar
  * - PIT validation: queries PointInTimeDataEngine to ensure observation was knowable as-of decision time
- * - Missing data: returns DATA_INSUFFICIENT without synthetic fabrication
+ * - Missing data: returns DATA_INSUFFICIENT without fabricated records
  * - Fail-closed PIT: pitValid is FALSE unless PointInTimeDataEngine explicitly validates it.
  */
 
