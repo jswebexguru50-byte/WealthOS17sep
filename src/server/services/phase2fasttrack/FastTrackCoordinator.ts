@@ -53,7 +53,7 @@ export class FastTrackCoordinator {
 
   public async runTrackB(): Promise<void> {
     console.log(`[Coordinator] Starting Track B (Economics) - Requires Track A Outcomes`);
-    // Will invoke EconomicStatisticsAgent
+    throw new Error("B2_BLOCKED_B1_SAMPLE_GATE_NOT_PASSED");
   }
 
   public async runIntegratedReplay(): Promise<void> {

@@ -12,6 +12,9 @@ export class CanonicalLedgerReconciliation {
   }
 
   public async parseLedger(filePath: string): Promise<ImmutableSignal[]> {
+    if (filePath.endsWith('.json')) {
+        return JSON.parse(fs.readFileSync(filePath, 'utf8')) as ImmutableSignal[];
+    }
     const signals: ImmutableSignal[] = [];
     const rl = readline.createInterface({
         input: fs.createReadStream(filePath),

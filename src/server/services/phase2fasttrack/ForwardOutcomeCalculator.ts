@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { ImmutableSignal, OutcomeRecord } from './FastTrackTypes';
+import { EnrichedImmutableSignal, ImmutableSignal, OutcomeRecord } from './FastTrackTypes';
 import { EvidenceBus } from './EvidenceBus';
 import { DatabaseManager } from '../DatabaseManager';
 import { SwarmProgressBus } from './SwarmProgressBus';
@@ -7,7 +7,7 @@ import { SwarmProgressBus } from './SwarmProgressBus';
 export class ForwardOutcomeCalculator {
   constructor(private evidenceBus: EvidenceBus, private progress: SwarmProgressBus) {}
 
-  public async calculateOutcomes(signals: ImmutableSignal[]): Promise<void> {
+  public async calculateOutcomes(signals: EnrichedImmutableSignal[]): Promise<void> {
     const db = DatabaseManager.getInstance();
 
     this.progress.updateAgentStatus({
@@ -30,9 +30,10 @@ export class ForwardOutcomeCalculator {
       }
       // 1. S10 ORB Check
       if (signal.strategyId === 'S10') {
-          // S10 requires 5-min intraday for ORB (09:15-09:30). We do not have tick data bound right now.
-          this.publishDataInsufficient(signal, 'S10 requires EXACT_INTRADAY ORB (09:15-09:30). Daily OHLC is insufficient.');
-          continue;
+          if (!signal.s10Metadata) {
+              this.publishDataInsufficient(signal, 'S10 metadata missing (15m historical data could not be recovered)');
+              continue;
+          }
       }
 
       // 2. Fetch forward prices (60 days)

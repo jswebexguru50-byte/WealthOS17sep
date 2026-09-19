@@ -60,6 +60,44 @@ export interface ImmutableSignal {
   readonly conditionResults: readonly ConditionResult[];
 }
 
+export interface EnrichedImmutableSignal extends ImmutableSignal {
+    enrichedRecordId: string;
+    enrichedRecordHash: string;
+    canonicalSignalId: string;
+    canonicalSignalHash: string;
+    securityIdentityVersion: string;
+    sourceObservationTimestamp?: string;
+    signalTimestamp?: string;
+    decisionTimestamp?: string;
+    entryEligibleTimestamp?: string;
+    timezone?: string;
+    resolution?: string;
+    dataSource?: string;
+    sourceInstrumentId?: string;
+    sourceRecordHash?: string;
+    rawResponseHash?: string;
+    pitUniverseVersion?: string;
+    pitMembershipValidated?: boolean;
+    corporateActionState?: string;
+    corporateActionValidated?: boolean;
+    dataStatus: CP21DataStatus;
+    dataStatusReason?: string;
+    acquisitionAttemptId?: string;
+    acquiredAt?: string;
+    s10Metadata?: S10ProvenanceMetadata;
+}
+
+export interface IntradaySignalTimestamp {
+  sourceObservationTimestamp: string;
+  signalTimestamp: string;
+  decisionTimestamp: string;
+  entryEligibleTimestamp: string;
+  timezone: "Asia/Kolkata" | string;
+  resolution: "TICK" | "1M" | "5M" | "15M" | "30M" | "OTHER";
+  sourceId: string;
+  sourceRecordHash: string;
+}
+
 export interface OutcomeRecord {
   signalId: string;
   strategyId: string;
