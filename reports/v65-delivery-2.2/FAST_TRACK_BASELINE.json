@@ -1,16 +1,18 @@
 {
-  "schemaVersion": "D22_FAST_TRACK_BASELINE_V2",
+  "schemaVersion": "D22_FAST_TRACK_BASELINE_V3",
   "operationalMetadata": {
-    "createdAt": "2026-09-19T16:31:16.022Z"
+    "createdAt": "2026-09-19T16:42:59.131Z"
   },
   "baseline": {
     "repository": "WealthOS",
     "branch": "ai-review",
-    "head": "5fc5c876c3a29ed302e0eeb3e26d8cc559b6675e",
     "baselineCommit": "6d0e78f5b394e882212d67c76edfd21df7705981",
     "baselineTree": "096644bdc52cf86791040da3bc1d8fe7726d7034",
-    "constitutionHash": "4ccedb98ac269d1253b8ddfdcfe636d6a199c5b9a2f93b2fa3f7af990b73c55f",
-    "workingTreeClean": true
+    "baselineHeadAtCreation": "506b0262c800fac22d8bfe9251ffb5fc2d2d6225"
+  },
+  "constitution": {
+    "path": "reports/v65-delivery-2.2/D22_FAST_TRACK_CONSTITUTION.md",
+    "sha256": "1c7b888e417e0d0930ade123d7aa7771b5aa028bc1667131ac0b7a1224931ec3"
   },
   "frozenControls": {
     "src/server/services/PureTechnicalStrategiesEngine.ts": {
@@ -55,6 +57,11 @@
     "syntheticDataForbidden": true,
     "futureDataForbidden": true,
     "missingDataFailsClosed": true,
-    "forcePushForbidden": true
+    "forcePushForbidden": true,
+    "currentConstituentsForHistoricalAnalysisForbidden": true,
+    "currentSectorMappingForHistoricalAnalysisForbidden": true,
+    "fabricatedTimestampsForbidden": true,
+    "fabricatedMarketDataForbidden": true,
+    "unlockedLedgerMetricsForbidden": true
   }
 }
