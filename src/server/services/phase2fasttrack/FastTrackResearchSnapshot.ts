@@ -1,0 +1,50 @@
+import fs from 'fs';
+import path from 'path';
+
+export interface FastTrackResearchSnapshot {
+  runId: string;
+  gitSha: string;
+  signalLedgerHash: string;
+  pitUniverseHash: string;
+  dependencyGraphHash: string;
+  datasetHashes: Record<string, string>;
+  frozenControlHashes: Record<string, string>;
+  registryHash: string;
+  createdAt: string;
+}
+
+export class ResearchSnapshotManager {
+  private workspaceRoot: string;
+
+  constructor() {
+    this.workspaceRoot = process.cwd();
+  }
+
+  public createSnapshot(
+    runId: string, 
+    gitSha: string, 
+    signalLedgerHash: string, 
+    datasetHash: string,
+    frozenControlHashes: Record<string, string>
+  ): FastTrackResearchSnapshot {
+    const snapshot: FastTrackResearchSnapshot = {
+      runId,
+      gitSha,
+      signalLedgerHash,
+      pitUniverseHash: 'HASH_PLACEHOLDER_UNIVERSE',
+      dependencyGraphHash: 'HASH_PLACEHOLDER_DEPENDENCY',
+      datasetHashes: {
+        dailyOHLCVHash: datasetHash,
+        corporateActionHash: datasetHash
+      },
+      frozenControlHashes,
+      registryHash: 'HASH_PLACEHOLDER_REGISTRY',
+      createdAt: new Date().toISOString()
+    };
+
+    const outPath = path.join(this.workspaceRoot, 'reports', 'v674-fasttrack', '01.5_RESEARCH_SNAPSHOT.json');
+    fs.writeFileSync(outPath, JSON.stringify(snapshot, null, 2));
+
+    return snapshot;
+  }
+}

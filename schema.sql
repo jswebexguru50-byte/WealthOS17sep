@@ -1,6 +1,6 @@
 -- ================================================================
 -- WEALTHOS / ITAS v6.3 - PRODUCTION EMPTY DATABASE SCHEMA
--- Generated: 2026-09-17T11:47:17.271Z
+-- Generated: 2026-09-17T12:04:37.576Z
 -- Source: portfolio.db (DDL Only - 0 Data Rows)
 -- Total Schema Objects: 324
 -- ================================================================
