@@ -8,15 +8,27 @@ describe(
   'D2.2 Dataset Promotion Gate',
   () => {
     const passingChecks = {
-      sourceVerified: true,
-      shaVerified: true,
-      identityValid: true,
-      timestampsValid: true,
-      ohlcvValid: true,
-      calendarValid: true,
-      pitValid: true,
-      duplicatesValid: true,
-      provenanceComplete: true,
+      schemaValid: true,
+      numericValuesFinite: true,
+      noNullNumericValues: true,
+      noNaN: true,
+      noInfinity: true,
+      ohlcRelationshipValid: true,
+      timestampValid: true,
+      timestampTimezoneExplicit: true,
+      tradingCalendarValid: true,
+      duplicateIdentityAbsent: true,
+      securityIdentityResolved: true,
+      sourceRecorded: true,
+      datasetIdRecorded: true,
+      rawAcquisitionHashRecorded: true,
+      canonicalHashReproducible: true,
+      pitStatusExplicitlyClassified: true,
+      corporateActionBasisExplicit: true,
+      coverageCalculated: true,
+      missingRangesReported: true,
+      promotionGatePassed: true,
+      independentRehashPassed: true,
     };
 
     it(
@@ -42,7 +54,7 @@ describe(
             datasetId: 'TEST_DATASET',
             checks: {
               ...passingChecks,
-              ohlcvValid: false,
+              ohlcRelationshipValid: false,
             },
           });
 
@@ -53,7 +65,7 @@ describe(
         expect(
           result.failures,
         ).toContain(
-          'CHECK_FAILED:ohlcvValid',
+          'CHECK_FAILED:ohlcRelationshipValid',
         );
       },
     );
@@ -66,7 +78,7 @@ describe(
             datasetId: 'TEST_DATASET',
             checks: {
               ...passingChecks,
-              pitValid: false,
+              pitStatusExplicitlyClassified: false,
             },
             insufficientReasons: [
               'PUBLICATION_TIMESTAMP_MISSING',
@@ -89,7 +101,7 @@ describe(
             datasetId: 'TEST_DATASET',
             checks: {
               ...passingChecks,
-              provenanceComplete: false,
+              securityIdentityResolved: false,
             },
           });
 

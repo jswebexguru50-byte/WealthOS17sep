@@ -36,10 +36,10 @@ describe('IndependentVerifier', () => {
     };
 
     const checks = runIndependentVerification('TEST_DATASET', rows, manifest);
-    expect(checks.schemaValid).toBe(true);
-    expect(checks.noNaN).toBe(true);
-    expect(checks.ohlcRelationshipValid).toBe(true);
-    expect(checks.timestampValid).toBe(true);
+    expect(checks.find(c => c.id === 'schemaValid')?.status).toBe('PASS');
+    expect(checks.find(c => c.id === 'noNaN')?.status).toBe('PASS');
+    expect(checks.find(c => c.id === 'ohlcRelationshipValid')?.status).toBe('PASS');
+    expect(checks.find(c => c.id === 'timestampValid')?.status).toBe('PASS');
   });
 
   it('fails OHLC relationship if open > high', () => {
@@ -76,7 +76,7 @@ describe('IndependentVerifier', () => {
     };
 
     const checks = runIndependentVerification('TEST_DATASET', rows, manifest);
-    expect(checks.ohlcRelationshipValid).toBe(false);
+    expect(checks.find(c => c.id === 'ohlcRelationshipValid')?.status).toBe('FAIL');
   });
 
   it('fails if NaN values exist', () => {
@@ -113,7 +113,7 @@ describe('IndependentVerifier', () => {
     };
 
     const checks = runIndependentVerification('TEST_DATASET', rows, manifest);
-    expect(checks.noNaN).toBe(false);
-    expect(checks.numericValuesFinite).toBe(false);
+    expect(checks.find(c => c.id === 'noNaN')?.status).toBe('FAIL');
+    expect(checks.find(c => c.id === 'numericValuesFinite')?.status).toBe('FAIL');
   });
 });

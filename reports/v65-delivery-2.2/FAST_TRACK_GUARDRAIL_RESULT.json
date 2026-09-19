@@ -1,15 +1,25 @@
 {
+  "schemaVersion": "D22_FAST_TRACK_GUARDRAIL_RESULT_V3",
   "status": "PASS",
   "repository": {
     "branch": "ai-review",
-    "head": "5fc5c876c3a29ed302e0eeb3e26d8cc559b6675e",
-    "headValid": true
+    "head": "22008bf8145b7d6c0138c93d2add9118acb19c9c",
+    "cp21AncestorValid": true,
+    "controlPlaneTagValid": true
+  },
+  "baselineManifest": {
+    "present": true,
+    "anchorValid": true,
+    "matchesControlPlaneTag": true
+  },
+  "constitution": {
+    "valid": true
   },
   "frozenControls": {
     "allValid": true
   },
-  "baselineManifest": {
-    "valid": true
+  "additiveAncestry": {
+    "permitted": true
   },
   "failures": []
 }

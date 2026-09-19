@@ -27,26 +27,34 @@ export async function run(): Promise<SwarmAgentResult> {
   };
 
   try {
+    result.pitStatus = 'PIT_NOT_VERIFIABLE'; // Do not set to VERIFIED until explicitly verified
+
     assertSourceSupports('UPSTOX_V3', 'INTRADAY_OHLCV');
 
-    const instrument = resolveUpstoxInstrument('NIFTY 50');
+    const instrument = await resolveUpstoxInstrument('NIFTY 50');
     if (!instrument) {
-      throw new Error('DATA_INSUFFICIENT: Cannot resolve instrument identity for NIFTY 50');
+      throw new Error('INSTRUMENT_RESOLUTION_UNAVAILABLE: Cannot resolve instrument identity for NIFTY 50');
     }
 
     const client = new DataAcquisitionHttpClient('UPSTOX_V3');
-    const fromDate = '2026-08-01'; // 15-minute fetch window is smaller
-    const toDate = '2026-09-01'; 
     
-    // Use V3 explicitly
-    const url = `https://api.upstox.com/v3/historical-candle/${encodeURIComponent(instrument.instrumentKey)}/minutes/15/${toDate}/${fromDate}`;
+    // Configurable chunking constraints
+    const requestedStart = '2026-08-01T00:00:00Z';
+    const requestedEnd = '2026-09-01T00:00:00Z';
     
+    // For 15 minute candles over a month, Upstox might be fine with 1 request, but we chunk it.
+    // In this prototype, we'll just do 1 chunk for the whole month for simplicity, 
+    // but the architecture explicitly allows looping over chunks.
+    const url = `https://api.upstox.com/v3/historical-candle/${encodeURIComponent(instrument.instrumentKey)}/minutes/15/${requestedEnd.split('T')[0]}/${requestedStart.split('T')[0]}`;
+    
+    let rawBytes: Buffer;
     let data;
     const dataAcquisitionTimestamp = new Date().toISOString();
     
     try {
       const response = await client.get(url);
-      data = response.data?.candles || [];
+      rawBytes = response.rawBytes;
+      data = response.data?.data?.candles || []; // V3 returns { status: 'success', data: { candles: [...] } }
     } catch (e: any) {
       if (e.message === 'AUTHENTICATION_REQUIRED') {
         throw new Error('AUTHENTICATION_REQUIRED');
@@ -57,9 +65,7 @@ export async function run(): Promise<SwarmAgentResult> {
     const dataReceivedTimestamp = new Date().toISOString();
 
     const rows: any[] = data.map((c: any) => {
-      // For 15m, bar start time is provided in the candle
       const barStartTime = c[0];
-      // Compute bar end time assuming exactly 15 minutes logic, though real logic handles 15m delta exactly
       const barStartMs = new Date(barStartTime).getTime();
       const barEndTime = new Date(barStartMs + 15 * 60 * 1000).toISOString();
       
@@ -67,35 +73,35 @@ export async function run(): Promise<SwarmAgentResult> {
         instrumentKey: instrument.instrumentKey,
         barStartTime,
         barEndTime,
-        providerTimestamp: barStartTime, // As provided by Upstox
-        observationTimestamp: barEndTime, // We can only "observe" it when it closes
+        providerTimestamp: barStartTime, 
+        observationTimestamp: undefined, // Distinct from barEndTime
         dataAcquisitionTimestamp,
         dataReceivedTimestamp,
-        evaluationTimestamp: undefined, // Left to the replay engine
-        // DO NOT manufacture publicationTimestamp
+        evaluationTimestamp: undefined, 
         candleState: 'CLOSED',
-        
         open: c[1],
         high: c[2],
         low: c[3],
         close: c[4],
         volume: c[5],
-        openInterest: c[6] || 0,
       };
     });
 
     result.rowsAcquired = rows.length;
     result.rowsValidated = rows.length;
-    result.status = 'PROMOTED';
+    // Status stays ACQUIRING. The promotion gate evaluates and marks PROMOTED
     result.completedAt = new Date().toISOString();
     
-    result = writeDataset('intraday15m', datasetId, rows, result);
+    result = writeDataset('intraday15m', datasetId, rows, result, rawBytes);
     return result;
 
   } catch (err: any) {
     if (err.message === 'AUTHENTICATION_REQUIRED') {
       result.status = 'BLOCKED';
       result.reasonCode = 'AUTHENTICATION_REQUIRED';
+    } else if (err.message.includes('INSTRUMENT_RESOLUTION_UNAVAILABLE')) {
+      result.status = 'BLOCKED';
+      result.reasonCode = 'INSTRUMENT_RESOLUTION_UNAVAILABLE';
     } else {
       result.status = err.message.includes('DATA_INSUFFICIENT') ? 'DATA_INSUFFICIENT' : 'FAILED';
     }

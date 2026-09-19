@@ -78,6 +78,11 @@ async function runAgent(agentScript: string): Promise<SwarmAgentResult> {
   });
 }
 
+import fs from 'node:fs';
+import { runIndependentVerification } from './../server/services/dataenrichment/verifiers/IndependentVerifier';
+import { evaluateDatasetPromotion } from './../server/services/dataenrichment/verifiers/DatasetPromotionGate';
+import { DatasetPromotionInput } from './../server/services/dataenrichment/DataStagingContract';
+
 async function runSwarm() {
   console.log('====================================================');
   console.log('D2.2 FAST-TRACK DATA ACQUISITION SWARM (LANE B)');
@@ -87,6 +92,50 @@ async function runSwarm() {
   const promises = agents.map(runAgent);
   const results = await Promise.all(promises);
   
+  // Independent Verification & Promotion Gate
+  for (let i = 0; i < results.length; i++) {
+    const res = results[i];
+    if (res.status === 'ACQUIRING') {
+      try {
+        const manifestPath = path.join(repoRoot, 'data', 'enrichment', 'staging', res.datasetId.split('_')[1]?.toLowerCase() || res.agentId.split('_')[1] || 'unknown', `${res.datasetId}_MANIFEST.json`);
+        const dataPath = path.join(path.dirname(manifestPath), `${res.datasetId}.jsonl`);
+        const rawPath = path.join(path.dirname(manifestPath), `${res.datasetId}_RAW.bin`);
+
+        if (fs.existsSync(manifestPath) && fs.existsSync(dataPath)) {
+          const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+          const lines = fs.readFileSync(dataPath, 'utf8').split('\n').filter(l => l.trim().length > 0);
+          const rows = lines.map(l => JSON.parse(l));
+
+          const predicates = runIndependentVerification(res.datasetId, rows, manifest, rawPath);
+          
+          const input: DatasetPromotionInput = {
+            datasetId: res.datasetId,
+            manifest,
+            checks: predicates,
+          };
+          
+          const decision = evaluateDatasetPromotion(input);
+          
+          if (decision.decision === 'PROMOTED') {
+            res.status = 'PROMOTED' as any; // Cast as it's allowed at the swarm level for Control Tower
+          } else {
+            res.status = 'FAILED';
+            res.failureReasons = res.failureReasons || [];
+            res.failureReasons.push(...decision.failures);
+          }
+        } else {
+          res.status = 'FAILED';
+          res.failureReasons = res.failureReasons || [];
+          res.failureReasons.push('Missing manifest or dataset file for independent verification');
+        }
+      } catch (err: any) {
+        res.status = 'FAILED';
+        res.failureReasons = res.failureReasons || [];
+        res.failureReasons.push(`Independent Verification Crash: ${err.message}`);
+      }
+    }
+  }
+
   updateControlTower(results);
   
   console.log('Swarm execution completed.');

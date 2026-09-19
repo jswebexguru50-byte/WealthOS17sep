@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "D22_CONTROL_TOWER_STATUS_V2",
+  "swarmStatus": "BLOCKED",
+  "agents": {
+    "B1": "BLOCKED",
+    "B2": "BLOCKED",
+    "B3": "BLOCKED",
+    "B4": "DATA_INSUFFICIENT",
+    "B5": "DATA_INSUFFICIENT",
+    "B6": "BLOCKED",
+    "B7": "DATA_INSUFFICIENT",
+    "B8": "DATA_INSUFFICIENT"
+  },
+  "timestamp": "2026-09-19T17:18:05.053Z"
+}

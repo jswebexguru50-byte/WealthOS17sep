@@ -227,106 +227,34 @@ export function hashObservation(
  * Promotion gate
  * ------------------------------------------------------- */
 
-export interface DatasetPromotionChecks {
-  schemaValid: boolean;
-  numericValuesFinite: boolean;
-  noNullNumericValues: boolean;
-  noNaN: boolean;
-  noInfinity: boolean;
-  ohlcRelationshipValid: boolean;
-  timestampValid: boolean;
-  timestampTimezoneExplicit: boolean;
-  tradingCalendarValid: boolean;
-  duplicateIdentityAbsent: boolean;
-  securityIdentityResolved: boolean;
-  sourceRecorded: boolean;
-  datasetIdRecorded: boolean;
-  rawAcquisitionHashRecorded: boolean;
-  canonicalHashReproducible: boolean;
-  pitStatusExplicitlyClassified: boolean;
-  corporateActionBasisExplicit: boolean;
-  coverageCalculated: boolean;
-  missingRangesReported: boolean;
-  promotionGatePassed: boolean;
-  independentRehashPassed: boolean;
+export interface VerificationPredicate {
+  id: string;
+  status: 'PASS' | 'FAIL' | 'NOT_VERIFIABLE';
+  evidence: {
+    source: string;
+    locator?: string;
+    hash?: string;
+  };
+  reason?: string;
 }
 
-export type DatasetPromotionDecisionType =
-  | 'PROMOTE'
-  | 'REJECT'
-  | 'DATA_INSUFFICIENT';
+export interface DatasetPromotionDecisionType {
+  decision: 'PROMOTED' | 'REJECTED' | 'DATA_INSUFFICIENT';
+  failures: string[];
+}
 
 export interface DatasetPromotionDecision {
   datasetId: string;
-  decision: DatasetPromotionDecisionType;
-  checks: DatasetPromotionChecks;
+  decision: 'PROMOTED' | 'REJECTED' | 'DATA_INSUFFICIENT';
+  checks: VerificationPredicate[];
   failures: string[];
 }
 
 export interface DatasetPromotionInput {
   datasetId: string;
-  checks: DatasetPromotionChecks;
-
-  /*
-   * If required data is absent, distinguish it from an invalid
-   * dataset. Missing evidence must never become PROMOTE.
-   */
+  manifest: DatasetManifest;
+  checks: VerificationPredicate[];
   insufficientReasons?: string[];
 }
 
-/*
- * Deterministic promotion gate.
- *
- * The caller supplies evidence checks only.
- * The caller cannot supply PROMOTE/REJECT.
- */
-export function evaluateDatasetPromotion(
-  input: DatasetPromotionInput,
-): DatasetPromotionDecision {
-  const failures: string[] = [];
-
-  const insufficientReasons =
-    input.insufficientReasons ?? [];
-
-  for (
-    const [name, value]
-    of Object.entries(input.checks)
-  ) {
-    if (value !== true) {
-      failures.push(
-        `CHECK_FAILED:${name}`,
-      );
-    }
-  }
-
-  if (failures.length === 0) {
-    return {
-      datasetId: input.datasetId,
-      decision: 'PROMOTE',
-      checks: input.checks,
-      failures: [],
-    };
-  }
-
-  if (insufficientReasons.length > 0) {
-    return {
-      datasetId: input.datasetId,
-      decision: 'DATA_INSUFFICIENT',
-      checks: input.checks,
-      failures: [
-        ...failures,
-        ...insufficientReasons.map(
-          reason =>
-            `DATA_INSUFFICIENT:${reason}`,
-        ),
-      ],
-    };
-  }
-
-  return {
-    datasetId: input.datasetId,
-    decision: 'REJECT',
-    checks: input.checks,
-    failures,
-  };
-}
+// Promotion logic moved to DatasetPromotionGate.ts

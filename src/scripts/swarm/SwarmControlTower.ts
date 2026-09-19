@@ -7,8 +7,8 @@ const reportDir = path.join(repoRoot, 'reports', 'v65-delivery-2.2');
 const outputPath = path.join(reportDir, 'D22_CONTROL_TOWER_STATUS.json');
 
 export interface SwarmStatus {
-  swarmStatus: 'ACQUIRING' | 'PARTIAL_DATA_READY' | 'ALL_DATA_READY' | 'FAILED';
-  agents: Record<string, SwarmAgentResult['status']>;
+  swarmStatus: 'BLOCKED' | 'PARTIAL_DATA_READY' | 'ALL_DATA_READY' | 'FAILED';
+  agents: Record<string, string>; // The string can be AgentStatus or 'PROMOTED' after gate
 }
 
 export function updateControlTower(agentResults: SwarmAgentResult[]): void {

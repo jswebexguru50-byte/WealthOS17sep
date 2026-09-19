@@ -1,15 +1,17 @@
+export type AgentStatus = 'ACQUIRING' | 'BLOCKED' | 'DATA_INSUFFICIENT' | 'FAILED';
+
+export type AgentReasonCode = 
+  | 'AUTHENTICATION_REQUIRED'
+  | 'INSTRUMENT_RESOLUTION_UNAVAILABLE'
+  | 'PROVIDER_UNAVAILABLE'
+  | 'UNSUPPORTED_CAPABILITY';
+
 export interface SwarmAgentResult {
   agentId: string;
   runId: string;
   datasetId: string;
-  status:
-    | 'ACQUIRING'
-    | 'VALIDATED'
-    | 'PROMOTED'
-    | 'DATA_INSUFFICIENT'
-    | 'BLOCKED'
-    | 'FAILED';
-  reasonCode?: string;
+  status: AgentStatus;
+  reasonCode?: AgentReasonCode | string;
   source: string;
   provider: string;
 

@@ -19,7 +19,7 @@ export async function run(): Promise<SwarmAgentResult> {
     rowsAcquired: 0,
     rowsValidated: 0,
     rowsRejected: 0,
-    pitStatus: 'PIT_VERIFIED', 
+    pitStatus: 'UNKNOWN',
     calendarStatus: 'UNKNOWN',
     failureReasons: [],
     startedAt,
@@ -28,59 +28,78 @@ export async function run(): Promise<SwarmAgentResult> {
 
   try {
     assertSourceSupports('UPSTOX_V3', 'INDEX_OHLCV');
+    result.pitStatus = 'UNKNOWN'; // Start as UNKNOWN until verification
+
     assertSourceSupports('UPSTOX_V3', 'DAILY_OHLCV');
 
-    const instrument = resolveUpstoxInstrument('NIFTY 500');
+    const instrument = await resolveUpstoxInstrument('NIFTY 500');
     if (!instrument) {
-      throw new Error('DATA_INSUFFICIENT: Cannot resolve instrument identity for NIFTY 500');
+      throw new Error('INSTRUMENT_RESOLUTION_UNAVAILABLE: Cannot resolve instrument identity for NIFTY 500');
     }
 
     const client = new DataAcquisitionHttpClient('UPSTOX_V3');
+    const requestedStart = '2024-01-01';
+    const requestedEnd = '2026-09-01'; 
     
-    const fromDate = '2024-01-01';
-    const toDate = '2026-09-01'; 
+    // Use V3 endpoint
+    const url = `https://api.upstox.com/v3/historical-candle/${encodeURIComponent(instrument.instrumentKey)}/day/${requestedEnd}/${requestedStart}`;
     
-    const url = `https://api.upstox.com/v2/historical-candle/${encodeURIComponent(instrument.instrumentKey)}/day/${toDate}/${fromDate}`;
-    
+    let rawBytes: Buffer;
     let data;
+    const dataAcquisitionTimestamp = new Date().toISOString();
+    
     try {
       const response = await client.get(url);
-      data = response.data?.candles || [];
+      rawBytes = response.rawBytes;
+      data = response.data?.data?.candles || [];
     } catch (e: any) {
       if (e.message === 'AUTHENTICATION_REQUIRED') {
         throw new Error('AUTHENTICATION_REQUIRED');
       }
       throw e;
     }
+    
+    const dataReceivedTimestamp = new Date().toISOString();
 
-    const rows: any[] = data.map((c: any) => ({
-      barStartTime: c[0],
-      open: c[1],
-      high: c[2],
-      low: c[3],
-      close: c[4],
-      volume: c[5],
-      openInterest: c[6] || 0,
-    }));
+    const rows: any[] = data.map((c: any) => {
+      const barStartTime = c[0];
+      return {
+        instrumentKey: instrument.instrumentKey,
+        barStartTime,
+        providerTimestamp: barStartTime,
+        observationTimestamp: undefined,
+        dataAcquisitionTimestamp,
+        dataReceivedTimestamp,
+        evaluationTimestamp: undefined,
+        candleState: 'CLOSED',
+        open: c[1],
+        high: c[2],
+        low: c[3],
+        close: c[4],
+        volume: c[5],
+      };
+    });
 
     result.rowsAcquired = rows.length;
     result.rowsValidated = rows.length;
-    result.status = 'PROMOTED';
     result.completedAt = new Date().toISOString();
     
-    result = writeDataset('nifty500', datasetId, rows, result);
+    result = writeDataset('daily', datasetId, rows, result, rawBytes);
     return result;
 
   } catch (err: any) {
     if (err.message === 'AUTHENTICATION_REQUIRED') {
       result.status = 'BLOCKED';
       result.reasonCode = 'AUTHENTICATION_REQUIRED';
+    } else if (err.message.includes('INSTRUMENT_RESOLUTION_UNAVAILABLE')) {
+      result.status = 'BLOCKED';
+      result.reasonCode = 'INSTRUMENT_RESOLUTION_UNAVAILABLE';
     } else {
       result.status = err.message.includes('DATA_INSUFFICIENT') ? 'DATA_INSUFFICIENT' : 'FAILED';
     }
     result.failureReasons.push(err.message);
     result.completedAt = new Date().toISOString();
-    return writeDataset('nifty500', datasetId, [], result);
+    return writeDataset('daily', datasetId, [], result);
   }
 }
 

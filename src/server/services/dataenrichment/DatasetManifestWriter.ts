@@ -9,17 +9,26 @@ export function writeDataset(
   workstream: string,
   datasetId: string,
   rows: any[],
-  agentResult: Omit<SwarmAgentResult, 'rawSha256' | 'canonicalSha256'>
+  agentResult: Omit<SwarmAgentResult, 'rawSha256' | 'canonicalSha256'>,
+  rawBytes?: Buffer
 ): SwarmAgentResult {
   const wsPath = path.join(stagingBase, workstream);
   fs.mkdirSync(wsPath, { recursive: true });
   
   const dataPath = path.join(wsPath, `${datasetId}.jsonl`);
+  const rawPath = path.join(wsPath, `${datasetId}_RAW.bin`);
   const manifestPath = path.join(wsPath, `${datasetId}_MANIFEST.json`);
   
   let canonicalSha256 = '';
+  let rawSha256 = '';
   
+  if (rawBytes && rawBytes.length > 0) {
+    fs.writeFileSync(rawPath, rawBytes);
+    rawSha256 = crypto.createHash('sha256').update(rawBytes).digest('hex');
+  }
+
   if (rows.length > 0) {
+    // Canonical format serialization
     const lines = rows.map(r => JSON.stringify(r)).join('\n') + '\n';
     fs.writeFileSync(dataPath, lines, 'utf8');
     
@@ -28,7 +37,7 @@ export function writeDataset(
   
   const finalResult: SwarmAgentResult = {
     ...agentResult,
-    rawSha256: canonicalSha256,
+    rawSha256,
     canonicalSha256,
   };
   

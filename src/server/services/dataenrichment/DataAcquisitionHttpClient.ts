@@ -29,7 +29,7 @@ export class DataAcquisitionHttpClient {
     }
   }
 
-  async get(url: string, params: Record<string, string> = {}, headers: Record<string, string> = {}): Promise<any> {
+  async get(url: string, params: Record<string, string> = {}, headers: Record<string, string> = {}): Promise<{ rawBytes: Buffer, data: any }> {
     const fetchHeaders: Record<string, string> = { ...headers };
     
     if (this.accessToken) {
@@ -50,6 +50,15 @@ export class DataAcquisitionHttpClient {
       throw new Error(`HTTP_ERROR:${response.status}:${response.statusText}`);
     }
     
-    return response.json();
+    const rawArrayBuffer = await response.arrayBuffer();
+    const rawBytes = Buffer.from(rawArrayBuffer);
+    
+    // Parse JSON from the raw bytes (to avoid consuming stream twice)
+    const data = JSON.parse(rawBytes.toString('utf8'));
+
+    return {
+      rawBytes,
+      data
+    };
   }
 }

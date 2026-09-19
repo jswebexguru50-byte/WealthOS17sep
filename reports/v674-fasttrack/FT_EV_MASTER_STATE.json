@@ -1,0 +1,47 @@
+{
+  "runId": "test-gate",
+  "currentCheckpoint": "CP2.1.0",
+  "overallStatus": "RUNNING",
+  "trackBStatus": "BLOCKED",
+  "b1Status": "NOT_STARTED",
+  "b1GatePassed": false,
+  "b2Status": "HARD_BLOCKED",
+  "canonical": {
+    "expected": 6501,
+    "actual": 6501,
+    "hash": ""
+  },
+  "enrichment": {
+    "expected": 6501,
+    "actual": 0,
+    "oneToOne": true
+  },
+  "outcomes": {
+    "complete": 0,
+    "dataInsufficient": 0,
+    "pitInvalid": 0,
+    "caUnresolved": 0
+  },
+  "workers": {},
+  "checkpoints": {
+    "CP0": "PASS",
+    "CP1": "PASS",
+    "CP1.5": "PASS",
+    "CP2": "PASS",
+    "CP2.1.1": "PENDING",
+    "CP2.1.2": "PENDING",
+    "CP2.1.3": "PENDING",
+    "CP2.1.4": "PENDING",
+    "CP2.1.5": "PENDING",
+    "CP2.1.6": "PENDING",
+    "CP2.1.7": "PENDING",
+    "CP2.1.8": "PENDING",
+    "CP2.1.9": "PENDING",
+    "CP2.1.10": "PENDING",
+    "CP2.1.11": "PENDING",
+    "CP2.1.12": "PENDING"
+  },
+  "blockers": [],
+  "artifacts": {},
+  "lastProgressAt": "2026-09-19T17:06:46.031Z"
+}

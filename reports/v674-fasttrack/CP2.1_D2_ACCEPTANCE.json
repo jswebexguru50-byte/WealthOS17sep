@@ -1,10 +1,10 @@
 {
   "schemaVersion": "2.1",
-  "repositorySha": "6d8ea262b274d4d9a223c8cd54f8c811e5cfb9fa",
+  "repositorySha": "9a440488fade956f7f0d56fc3815641bfb0a7a50",
   "repositoryRef": "ai-review",
-  "parentSha": "3f30c358ef7d0e6e69b3ae136253c1a186562ddb",
+  "parentSha": "22008bf8145b7d6c0138c93d2add9118acb19c9c",
   "generatedFromCleanWorkingTree": true,
-  "deliveryDecision": "IMPLEMENTED_AND_VERIFIED",
+  "deliveryDecision": "FAILED",
   "canonicalEvidenceHash": "b37749f190f42e2c681a52f4011c27206d5ebeadbe0770fdd05b84c8c5b5d402",
   "implementationHash": "f7b6a924975b43b73d58bdb3551bbe45a0f89a1882d567f1493ac23a70978d21",
   "canonicalLedger": {
@@ -42,13 +42,16 @@
   },
   "tests": {
     "total": 18,
-    "passed": 18,
-    "failed": 0,
-    "failures": []
+    "passed": 16,
+    "failed": 2,
+    "failures": [
+      "D2-RI-14: Decision must be IMPLEMENTED_AND_VERIFIED\n+ actual - expected\n\n+ 'FAILED'\n- 'IMPLEMENTED_AND_VERIFIED'\n",
+      "D2-RI-16: Evidence artifact does not exist: reports/v674-fasttrack/CP2.1_DEPENDENCY_MAP.json"
+    ]
   },
-  "decision": "IMPLEMENTED_AND_VERIFIED",
+  "decision": "FAILED",
   "operationalMetadata": {
-    "executedAt": "2026-09-19T15:00:03.992Z",
+    "executedAt": "2026-09-19T17:06:49.065Z",
     "nodeVersion": "v24.18.0"
   }
 }
