@@ -1,0 +1,22 @@
+{
+  "timestamp": "2026-09-19T11:41:35Z",
+  "recoveredFiles": [
+    ".gitignore",
+    "src/server/services/phase2fasttrack/DecisionAuditLedger.ts",
+    "src/server/services/phase2fasttrack/CP21IndependentVerifier.ts",
+    "src/server/services/phase2fasttrack/TrackBGate.ts",
+    "src/server/services/phase2fasttrack/B1SampleBuilder.ts",
+    "src/server/services/phase2fasttrack/B1SampleGate.ts",
+    "src/server/services/phase2fasttrack/CP21Auditors.ts",
+    "src/server/services/phase2fasttrack/CP21Coordinator.ts",
+    "src/server/services/phase2fasttrack/FTEVExecutionIsolationAudit.ts",
+    "src/server/services/phase2fasttrack/FTEVGitForensicAudit.ts",
+    "src/server/services/phase2fasttrack/FTEVRepositoryDiffClassifier.ts",
+    "src/server/services/phase2fasttrack/MissingDataRecoveryEngine.ts",
+    "src/server/services/phase2fasttrack/SourceRequestHasher.ts",
+    "tests/fasttrack_d2/Delivery2RepositoryInvariant.test.ts",
+    "tests/fasttrack_d2/Delivery2Tests.test.ts"
+  ],
+  "modifiedFiles": [],
+  "frozenFilesCheck": "ALL_FROZEN_FILES_UNTOUCHED"
+}

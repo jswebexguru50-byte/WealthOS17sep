@@ -1,0 +1,54 @@
+{
+  "program": "Delivery 2.1 Remediation Program",
+  "version": "1.0.0",
+  "timestamp": "2026-09-19T11:41:15Z",
+  "baseline": {
+    "mainSha": "16cb972658d0e8480aa7b0174b3e715446172bb8",
+    "reviewBranch": "ai-review",
+    "reviewSha": "7e02552d914ec0939acc29055f6580b4e346f118"
+  },
+  "currentWave": "Wave 1: Repository Recovery",
+  "gates": {
+    "G0_RepositoryRecovery": "PASS",
+    "G1_CanonicalIdentity": "PENDING",
+    "G2_FrozenControls": "PENDING",
+    "G3_PIT": "PENDING",
+    "G4_Calendar": "PENDING",
+    "G5_Provenance": "PENDING",
+    "G6_CanonicalLedger": "PENDING",
+    "G7_OutcomeDeterminism": "PENDING",
+    "G8_B1Authorization": "PENDING",
+    "G9_B2Authorization": "PENDING",
+    "G10_CP21SelfAuthorization": "PENDING",
+    "G11_DependencyIsolation": "PENDING",
+    "G12_AdversarialVerification": "PENDING",
+    "G13_CleanRoomVerification": "PENDING",
+    "G14_DeterministicReplay": "PENDING",
+    "G15_MasterStateConsistency": "PENDING"
+  },
+  "authorizationState": {
+    "cp21": false,
+    "b1": false,
+    "b2": false,
+    "trackB": false,
+    "production": false,
+    "live": false
+  },
+  "frozenFilesIntegrity": {
+    "src/server/services/PureTechnicalStrategiesEngine.ts": "UNTOUCHED",
+    "src/server/services/StrategyParameterConfig.ts": "UNTOUCHED",
+    "src/server/services/SignalQualityOverlay.ts": "UNTOUCHED",
+    "src/server/services/CapitalProtectionEngine.ts": "UNTOUCHED",
+    "src/server/services/NewTechnicalStrategiesEngine.ts": "UNTOUCHED",
+    "src/server/services/UpstoxIntradayIngestor.ts": "UNTOUCHED",
+    "data/v6.3_REAL_trade_identity_ledger.jsonl": "UNTOUCHED"
+  },
+  "workstreams": {
+    "A_RepositoryRecovery": "COMPLETED",
+    "B_TestHardening": "IN_PROGRESS",
+    "C_Provenance": "IN_PROGRESS",
+    "D_CanonicalIdentity": "IN_PROGRESS",
+    "E_OutcomeDeterminism": "IN_PROGRESS",
+    "F_AuthorizationDependency": "IN_PROGRESS"
+  }
+}
