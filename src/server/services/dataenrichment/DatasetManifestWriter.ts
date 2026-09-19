@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { SwarmAgentResult } from '../../scripts/swarm/SwarmAgentResult';
+import { hashCanonicalDataset, serializeDataset } from './CanonicalObservationSerializer';
 
 const stagingBase = path.join(process.cwd(), 'data', 'enrichment', 'staging');
 
@@ -29,10 +30,10 @@ export function writeDataset(
 
   if (rows.length > 0) {
     // Canonical format serialization
-    const lines = rows.map(r => JSON.stringify(r)).join('\n') + '\n';
-    fs.writeFileSync(dataPath, lines, 'utf8');
+    const lines = serializeDataset(rows);
+    fs.writeFileSync(dataPath, lines + '\n', 'utf8');
     
-    canonicalSha256 = crypto.createHash('sha256').update(lines, 'utf8').digest('hex');
+    canonicalSha256 = hashCanonicalDataset(rows);
   }
   
   const finalResult: SwarmAgentResult = {

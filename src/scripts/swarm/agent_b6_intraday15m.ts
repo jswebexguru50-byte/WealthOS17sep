@@ -3,6 +3,7 @@ import { DataAcquisitionHttpClient } from '../../server/services/dataenrichment/
 import { assertSourceSupports } from '../../server/services/dataenrichment/DataSourceRegistry';
 import { resolveUpstoxInstrument } from '../../server/services/dataenrichment/DataAcquisitionContract';
 import { writeDataset } from '../../server/services/dataenrichment/DatasetManifestWriter';
+import { fetchChunkedUpstoxData, AcquisitionRequest } from '../../server/services/dataenrichment/UpstoxChunkingUtility';
 
 export async function run(): Promise<SwarmAgentResult> {
   const agentId = 'B6';
@@ -38,33 +39,28 @@ export async function run(): Promise<SwarmAgentResult> {
 
     const client = new DataAcquisitionHttpClient('UPSTOX_V3');
     
-    // Configurable chunking constraints
-    const requestedStart = '2026-08-01T00:00:00Z';
-    const requestedEnd = '2026-09-01T00:00:00Z';
+    const requestedStart = process.env.ACQUISITION_START;
+    const requestedEnd = process.env.ACQUISITION_END; 
     
-    // For 15 minute candles over a month, Upstox might be fine with 1 request, but we chunk it.
-    // In this prototype, we'll just do 1 chunk for the whole month for simplicity, 
-    // but the architecture explicitly allows looping over chunks.
-    const url = `https://api.upstox.com/v3/historical-candle/${encodeURIComponent(instrument.instrumentKey)}/minutes/15/${requestedEnd.split('T')[0]}/${requestedStart.split('T')[0]}`;
-    
-    let rawBytes: Buffer;
-    let data;
+    if (!requestedStart || !requestedEnd) {
+       throw new Error('DATA_INSUFFICIENT: ACQUISITION_START and ACQUISITION_END are required');
+    }
+
+    const request: AcquisitionRequest = {
+      datasetId,
+      instrumentKey: instrument.instrumentKey,
+      start: requestedStart,
+      end: requestedEnd,
+      timeframe: '15minute',
+      chunkPolicy: 'AUTO'
+    };
+
     const dataAcquisitionTimestamp = new Date().toISOString();
     
-    try {
-      const response = await client.get(url);
-      rawBytes = response.rawBytes;
-      data = response.data?.data?.candles || []; // V3 returns { status: 'success', data: { candles: [...] } }
-    } catch (e: any) {
-      if (e.message === 'AUTHENTICATION_REQUIRED') {
-        throw new Error('AUTHENTICATION_REQUIRED');
-      }
-      throw e;
-    }
-    
+    const chunkedResult = await fetchChunkedUpstoxData(request, client);
     const dataReceivedTimestamp = new Date().toISOString();
 
-    const rows: any[] = data.map((c: any) => {
+    const rows: any[] = chunkedResult.allRows.map((c: any) => {
       const barStartTime = c[0];
       const barStartMs = new Date(barStartTime).getTime();
       const barEndTime = new Date(barStartMs + 15 * 60 * 1000).toISOString();
@@ -92,7 +88,17 @@ export async function run(): Promise<SwarmAgentResult> {
     // Status stays ACQUIRING. The promotion gate evaluates and marks PROMOTED
     result.completedAt = new Date().toISOString();
     
-    result = writeDataset('intraday15m', datasetId, rows, result, rawBytes);
+    // Write manifest with coverage metadata
+    const manifestResult: any = {
+      ...result,
+      requestedStart,
+      requestedEnd,
+      actualStart: chunkedResult.actualStart,
+      actualEnd: chunkedResult.actualEnd,
+      missingRanges: chunkedResult.missingRanges
+    };
+    
+    result = writeDataset('intraday', datasetId, rows, manifestResult, Buffer.concat(chunkedResult.rawBytesChunks));
     return result;
 
   } catch (err: any) {

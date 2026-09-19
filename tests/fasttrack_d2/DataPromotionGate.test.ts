@@ -1,35 +1,38 @@
-import { describe, expect, it } from 'vitest';
-
-import {
-  evaluateDatasetPromotion,
-} from '../../src/server/services/dataenrichment/DataStagingContract';
+import { evaluateDatasetPromotion } from '../../src/server/services/dataenrichment/verifiers/DatasetPromotionGate';
+import { VerificationPredicate } from '../../src/server/services/dataenrichment/DataStagingContract';
 
 describe(
   'D2.2 Dataset Promotion Gate',
   () => {
-    const passingChecks = {
-      schemaValid: true,
-      numericValuesFinite: true,
-      noNullNumericValues: true,
-      noNaN: true,
-      noInfinity: true,
-      ohlcRelationshipValid: true,
-      timestampValid: true,
-      timestampTimezoneExplicit: true,
-      tradingCalendarValid: true,
-      duplicateIdentityAbsent: true,
-      securityIdentityResolved: true,
-      sourceRecorded: true,
-      datasetIdRecorded: true,
-      rawAcquisitionHashRecorded: true,
-      canonicalHashReproducible: true,
-      pitStatusExplicitlyClassified: true,
-      corporateActionBasisExplicit: true,
-      coverageCalculated: true,
-      missingRangesReported: true,
-      promotionGatePassed: true,
-      independentRehashPassed: true,
-    };
+    const predicateIds = [
+      'schemaValid',
+      'numericValuesFinite',
+      'noNullNumericValues',
+      'noNaN',
+      'noInfinity',
+      'ohlcRelationshipValid',
+      'timestampValid',
+      'timestampTimezoneExplicit',
+      'tradingCalendarValid',
+      'duplicateIdentityAbsent',
+      'securityIdentityResolved',
+      'sourceRecorded',
+      'datasetIdRecorded',
+      'rawAcquisitionHashRecorded',
+      'canonicalHashReproducible',
+      'pitStatusExplicitlyClassified',
+      'corporateActionBasisExplicit',
+      'coverageCalculated',
+      'missingRangesReported',
+      'promotionGatePassed',
+      'independentRehashPassed',
+    ];
+
+    const passingChecks: VerificationPredicate[] = predicateIds.map(id => ({
+      id,
+      status: 'PASS',
+      evidence: { source: 'test' }
+    }));
 
     it(
       'PROMOTEs only when every check passes',
@@ -42,7 +45,7 @@ describe(
 
         expect(
           result.decision,
-        ).toBe('PROMOTE');
+        ).toBe('PROMOTED');
       },
     );
 
@@ -52,20 +55,17 @@ describe(
         const result =
           evaluateDatasetPromotion({
             datasetId: 'TEST_DATASET',
-            checks: {
-              ...passingChecks,
-              ohlcRelationshipValid: false,
-            },
+            checks: passingChecks.map(c => c.id === 'ohlcRelationshipValid' ? { ...c, status: 'FAIL' } : c),
           });
 
         expect(
           result.decision,
-        ).toBe('REJECT');
+        ).toBe('REJECTED');
 
         expect(
           result.failures,
         ).toContain(
-          'CHECK_FAILED:ohlcRelationshipValid',
+          'PREDICATE_FAILED:ohlcRelationshipValid - No reason',
         );
       },
     );
@@ -76,10 +76,7 @@ describe(
         const result =
           evaluateDatasetPromotion({
             datasetId: 'TEST_DATASET',
-            checks: {
-              ...passingChecks,
-              pitStatusExplicitlyClassified: false,
-            },
+            checks: passingChecks.map(c => c.id === 'pitStatusExplicitlyClassified' ? { ...c, status: 'NOT_VERIFIABLE' } : c),
             insufficientReasons: [
               'PUBLICATION_TIMESTAMP_MISSING',
             ],
@@ -99,16 +96,13 @@ describe(
         const result =
           evaluateDatasetPromotion({
             datasetId: 'TEST_DATASET',
-            checks: {
-              ...passingChecks,
-              securityIdentityResolved: false,
-            },
+            checks: passingChecks.map(c => c.id === 'securityIdentityResolved' ? { ...c, status: 'FAIL' } : c),
           });
 
         expect(
           result.decision,
         ).not.toBe(
-          'PROMOTE',
+          'PROMOTED',
         );
       },
     );

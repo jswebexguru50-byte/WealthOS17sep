@@ -3,6 +3,7 @@ import { DataAcquisitionHttpClient } from '../../server/services/dataenrichment/
 import { assertSourceSupports } from '../../server/services/dataenrichment/DataSourceRegistry';
 import { resolveUpstoxInstrument } from '../../server/services/dataenrichment/DataAcquisitionContract';
 import { writeDataset } from '../../server/services/dataenrichment/DatasetManifestWriter';
+import { fetchChunkedUpstoxData, AcquisitionRequest } from '../../server/services/dataenrichment/UpstoxChunkingUtility';
 
 export async function run(): Promise<SwarmAgentResult> {
   const agentId = 'B1';
@@ -38,30 +39,28 @@ export async function run(): Promise<SwarmAgentResult> {
     }
 
     const client = new DataAcquisitionHttpClient('UPSTOX_V3');
-    const requestedStart = '2024-01-01';
-    const requestedEnd = '2026-09-01'; 
+    const requestedStart = process.env.ACQUISITION_START;
+    const requestedEnd = process.env.ACQUISITION_END; 
     
-    // Use V3 endpoint
-    const url = `https://api.upstox.com/v3/historical-candle/${encodeURIComponent(instrument.instrumentKey)}/day/${requestedEnd}/${requestedStart}`;
-    
-    let rawBytes: Buffer;
-    let data;
+    if (!requestedStart || !requestedEnd) {
+       throw new Error('DATA_INSUFFICIENT: ACQUISITION_START and ACQUISITION_END are required');
+    }
+
+    const request: AcquisitionRequest = {
+      datasetId,
+      instrumentKey: instrument.instrumentKey,
+      start: requestedStart,
+      end: requestedEnd,
+      timeframe: 'day',
+      chunkPolicy: 'AUTO'
+    };
+
     const dataAcquisitionTimestamp = new Date().toISOString();
     
-    try {
-      const response = await client.get(url);
-      rawBytes = response.rawBytes;
-      data = response.data?.data?.candles || [];
-    } catch (e: any) {
-      if (e.message === 'AUTHENTICATION_REQUIRED') {
-        throw new Error('AUTHENTICATION_REQUIRED');
-      }
-      throw e;
-    }
-    
+    const chunkedResult = await fetchChunkedUpstoxData(request, client);
     const dataReceivedTimestamp = new Date().toISOString();
 
-    const rows: any[] = data.map((c: any) => {
+    const rows: any[] = chunkedResult.allRows.map((c: any) => {
       const barStartTime = c[0];
       return {
         instrumentKey: instrument.instrumentKey,
@@ -84,7 +83,17 @@ export async function run(): Promise<SwarmAgentResult> {
     result.rowsValidated = rows.length;
     result.completedAt = new Date().toISOString();
     
-    result = writeDataset('daily', datasetId, rows, result, rawBytes);
+    // Write manifest with coverage metadata
+    const manifestResult: any = {
+      ...result,
+      requestedStart,
+      requestedEnd,
+      actualStart: chunkedResult.actualStart,
+      actualEnd: chunkedResult.actualEnd,
+      missingRanges: chunkedResult.missingRanges
+    };
+    
+    result = writeDataset('daily', datasetId, rows, manifestResult, Buffer.concat(chunkedResult.rawBytesChunks));
     return result;
 
   } catch (err: any) {

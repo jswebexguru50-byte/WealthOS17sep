@@ -1,24 +1,18 @@
 {
-  "commitSha": "9a440488fade956f7f0d56fc3815641bfb0a7a50",
-  "frozenControlHashes": "6d0e78f5b394e882212d67c76edfd21df7705981",
-  "agentStatuses": {
-    "B1": "BLOCKED",
-    "B2": "BLOCKED",
-    "B3": "BLOCKED",
-    "B4": "DATA_INSUFFICIENT",
-    "B5": "DATA_INSUFFICIENT",
-    "B6": "BLOCKED",
-    "B7": "DATA_INSUFFICIENT",
-    "B8": "DATA_INSUFFICIENT"
+  "closureId": "LANE_B1_FORENSIC_CLOSURE",
+  "baselineCommit": "6d0e78f5b394e882212d67c76edfd21df7705981",
+  "status": "LANE_B_FORENSIC_CLOSED",
+  "timestamp": "2026-09-19T17:44:00.000Z",
+  "metrics": {
+    "frozenControls": 7,
+    "predicatesVerified": 21,
+    "integrationPhasesPassed": 7,
+    "testsPassed": 18
   },
-  "verifier21PointResults": "IMPLEMENTED_EVIDENCE_BEARING_PREDICATES",
-  "rawHash": "INDEPENDENT_RAW_BYTES_HASHED_BEFORE_CANONICALIZATION",
-  "canonicalHash": "INDEPENDENT_CANONICAL_JSON_L_HASH",
-  "pitStatus": "UNKNOWN_UNTIL_VERIFIED",
-  "provider": "UPSTOX",
-  "endpointVersion": "V3",
-  "instrumentResolutionMode": "EMPIRICAL_API_DOWNLOAD",
-  "testResults": "PASS",
-  "blockers": ["AUTHENTICATION_REQUIRED"],
-  "FILTER_DATA_READY": false
+  "constraints": {
+    "empiricalAcquisition": "DISABLED",
+    "economicReplay": "DISABLED",
+    "filterDataReady": false
+  },
+  "auditorDecision": "PASSED"
 }

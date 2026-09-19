@@ -1,5 +1,5 @@
 {
-  "runId": "test-gate",
+  "runId": "test",
   "currentCheckpoint": "CP2.1.0",
   "overallStatus": "RUNNING",
   "trackBStatus": "BLOCKED",
@@ -43,5 +43,5 @@
   },
   "blockers": [],
   "artifacts": {},
-  "lastProgressAt": "2026-09-19T17:06:46.031Z"
+  "lastProgressAt": "2026-09-19T17:42:32.495Z"
 }

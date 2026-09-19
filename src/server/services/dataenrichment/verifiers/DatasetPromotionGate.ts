@@ -6,20 +6,24 @@ export function evaluateDatasetPromotion(
   const failures: string[] = [];
   const insufficientReasons = input.insufficientReasons ?? [];
 
-  // Mandate specific predicates exist and pass
-  const requiredPredicateIds = [
-    'schemaValid',
-    'numericValuesFinite',
-    'noNullNumericValues',
-    'noNaN',
-    'noInfinity',
-    'ohlcRelationshipValid',
-    'timestampValid',
-    'timestampTimezoneExplicit',
-    'duplicateIdentityAbsent',
-    'securityIdentityResolved',
-    'rawAcquisitionHashRecorded',
-    'canonicalHashReproducible'
+  // Mandate specific predicates exist
+  const allPredicateIds = [
+    'schemaValid', 'numericValuesFinite', 'noNullNumericValues', 'noNaN',
+    'noInfinity', 'ohlcRelationshipValid', 'timestampValid', 'timestampTimezoneExplicit',
+    'duplicateIdentityAbsent', 'securityIdentityResolved', 'rawAcquisitionHashRecorded',
+    'canonicalHashReproducible', 'tradingCalendarValid', 'sourceRecorded',
+    'datasetIdRecorded', 'pitStatusExplicitlyClassified', 'corporateActionBasisExplicit',
+    'coverageCalculated', 'missingRangesReported', 'promotionGatePassed',
+    'independentRehashPassed'
+  ];
+
+  // These MUST be PASS
+  const requiredToPass = [
+    'schemaValid', 'numericValuesFinite', 'noNullNumericValues', 'noNaN',
+    'noInfinity', 'ohlcRelationshipValid', 'timestampValid', 'timestampTimezoneExplicit',
+    'duplicateIdentityAbsent', 'securityIdentityResolved', 'rawAcquisitionHashRecorded',
+    'canonicalHashReproducible', 'sourceRecorded', 'datasetIdRecorded',
+    'independentRehashPassed'
   ];
 
   const predicateMap = new Map<string, VerificationPredicate>();
@@ -30,10 +34,14 @@ export function evaluateDatasetPromotion(
     }
   }
 
-  for (const req of requiredPredicateIds) {
+  for (const req of allPredicateIds) {
     if (!predicateMap.has(req)) {
       failures.push(`MISSING_PREDICATE:${req}`);
-    } else if (predicateMap.get(req)!.status !== 'PASS') {
+    }
+  }
+
+  for (const req of requiredToPass) {
+    if (predicateMap.has(req) && predicateMap.get(req)!.status !== 'PASS') {
       failures.push(`PREDICATE_NOT_PASS:${req}`);
     }
   }
