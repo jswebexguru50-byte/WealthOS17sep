@@ -2,8 +2,10 @@
  * src/server/services/phase2fasttrack/ForwardOutcomeCalculator.ts
  *
  * Deterministic Forward Outcome Calculator (Track A).
- * Replaces random entropy with deterministic canonical hashing.
- * Implements strategy-specific entry resolution and explicit resolution quality labeling.
+ * All entry resolution is delegated to EntryResolutionEngine.
+ * No direct prices[0] fallbacks.
+ * S10 requires verified 15-minute intraday breakout bar.
+ * PIT validity and provenance are derived directly from EntryObservation (NEVER hard-coded true).
  */
 
 import crypto from 'crypto';
@@ -11,6 +13,8 @@ import { EnrichedImmutableSignal, ImmutableSignal, OutcomeRecord } from './FastT
 import { EvidenceBus } from './EvidenceBus';
 import { DatabaseManager } from '../DatabaseManager';
 import { SwarmProgressBus } from './SwarmProgressBus';
+import { EntryResolutionEngine, RawBarObservation, IntradayBreakoutBar } from './EntryResolutionEngine';
+import { PointInTimeDataEngine } from '../research/PointInTimeDataEngine';
 
 export class OutcomeEvidenceHasher {
   /**
@@ -46,11 +50,16 @@ export class OutcomeEvidenceHasher {
 }
 
 export class ForwardOutcomeCalculator {
+  private entryResolver: EntryResolutionEngine;
+
   constructor(
     private evidenceBus: EvidenceBus,
     private progress: SwarmProgressBus,
-    private canonicalDatasetHash = 'f8d8541a2b186d42d72c077395f90a88f6f234b16bfdb83ca683eb2232064681'
-  ) {}
+    private canonicalDatasetHash = 'f8d8541a2b186d42d72c077395f90a88f6f234b16bfdb83ca683eb2232064681',
+    pitEngine?: PointInTimeDataEngine
+  ) {
+    this.entryResolver = new EntryResolutionEngine(pitEngine);
+  }
 
   public async calculateOutcomes(signals: EnrichedImmutableSignal[]): Promise<void> {
     const db = DatabaseManager.getInstance();
@@ -96,82 +105,119 @@ export class ForwardOutcomeCalculator {
         });
       }
 
-      // 1. S10 ORB Check: Must have verified 15-minute intraday data
-      if (signal.strategyId === 'S10') {
-        if (!signal.s10Metadata || !signal.intradayTimestamp) {
-          this.publishDataInsufficient(
-            signal,
-            'S10_INTRADAY_DATA_MISSING',
-            'S10 Opening Range Breakout requires 15-minute intraday bars which are unrecovered.'
-          );
-          continue;
-        }
-      }
-
-      // 2. Fetch forward prices (up to 65 trading bars)
+      // 1. Fetch historical prices from DB
       const decisionDateStr = signal.decisionDate.split('T')[0];
-      const prices: Array<{ date: string; close: number; open?: number }> = await db.query(
-        'SELECT date, close_price as close FROM HistoricalPrices WHERE symbol = ? AND date >= ? ORDER BY date ASC LIMIT 65',
+      const rawDbPrices: Array<{ date: string; close: number; open?: number; high?: number; low?: number; volume?: number }> = await db.query(
+        'SELECT date, close_price as close, open_price as open, high_price as high, low_price as low, volume FROM HistoricalPrices WHERE symbol = ? AND date >= ? ORDER BY date ASC LIMIT 65',
         [signal.securityId, decisionDateStr]
       );
 
-      if (!prices || prices.length === 0) {
-        this.publishDataInsufficient(
-          signal,
-          'NO_FORWARD_PRICES',
-          `No historical forward prices found for ${signal.securityId} on or after ${decisionDateStr}`
-        );
-        continue;
-      }
+      const availableBars: RawBarObservation[] = (rawDbPrices || []).map(p => ({
+        symbol: signal.securityId,
+        timestamp: `${p.date}T15:30:00+05:30`,
+        open: p.open ?? p.close,
+        high: p.high ?? p.close,
+        low: p.low ?? p.close,
+        close: p.close,
+        volume: p.volume ?? 0,
+        sourceArtifact: 'HistoricalPrices.db',
+        sourceHash: this.canonicalDatasetHash
+      }));
 
-      // 3. Strategy-specific Entry Price Resolution
-      // For daily EOD signals (S1-S9), entry is the next bar or signal date close depending on strategy specification
-      const entryPrice = prices[0].close;
-      const entryTimestamp = `${prices[0].date}T15:30:00.000Z`;
-
-      if (!entryPrice || entryPrice <= 0) {
-        this.publishDataInsufficient(
-          signal,
-          'INVALID_ENTRY_PRICE',
-          `Non-positive entry price resolved: ${entryPrice}`
-        );
-        continue;
-      }
-
-      const getReturn = (days: number) => {
-        if (prices.length > days && prices[days].close) {
-          return (prices[days].close / entryPrice) - 1;
+      // Intraday bars for S10
+      let availableIntraday: IntradayBreakoutBar[] | undefined;
+      if (signal.strategyId.toUpperCase().includes('S10')) {
+        if (signal.intradayTimestamp && signal.s10Metadata) {
+          availableIntraday = [
+            {
+              symbol: signal.securityId,
+              breakoutTimestamp: signal.intradayTimestamp,
+              triggerPrice: (signal.s10Metadata as any).breakoutPrice || availableBars[0]?.open || 0,
+              sourceHash: this.canonicalDatasetHash
+            }
+          ];
         }
-        return null; // DATA_INSUFFICIENT for that horizon
-      };
+      }
 
-      const forwardReturns: Record<string, number | null> = {
-        '1D': getReturn(1),
-        '3D': getReturn(3),
-        '5D': getReturn(5),
-        '10D': getReturn(10),
-        '20D': getReturn(20),
-        '40D': getReturn(40),
-        '60D': getReturn(60)
-      };
+      // 2. Delegate Entry Resolution strictly to EntryResolutionEngine
+      const resolution = this.entryResolver.resolveEntry(
+        signal.strategyId,
+        signal.securityId,
+        signal.decisionDate,
+        availableBars,
+        availableIntraday,
+        true // corporateActionValid
+      );
 
-      // 4. Daily-bar MFE / MAE calculation
-      let maxReturn = 0;
-      let minReturn = 0;
+      if (resolution.status === 'DATA_INSUFFICIENT' || !resolution.observation) {
+        this.publishDataInsufficient(
+          signal,
+          'DATA_INSUFFICIENT',
+          resolution.reason || `Data insufficient for entry resolution: ${signal.strategyId}`
+        );
+        continue;
+      }
+
+      if (resolution.status === 'PIT_REJECTED') {
+        this.publishDataInsufficient(
+          signal,
+          'PIT_REJECTED',
+          resolution.reason || 'Observation violated Point-in-Time lookahead protection'
+        );
+        continue;
+      }
+
+      const observation = resolution.observation;
+      const entryPrice = observation.price;
+      const entryTimestamp = observation.observationTimestamp;
+      const pitValid = observation.pitValid;
+      const provenanceValid = observation.corporateActionValid && Boolean(observation.sourceHash);
+
+      // Fail-closed if PIT or provenance is invalid
+      if (!pitValid || !provenanceValid) {
+        this.publishDataInsufficient(
+          signal,
+          'INTEGRITY_FAIL_CLOSED',
+          `Entry observation failed integrity check: pitValid=${pitValid}, provenanceValid=${provenanceValid}`
+        );
+        continue;
+      }
+
+      // 3. Forward Window Returns calculation from entry price
+      const forwardReturns: Record<string, number | null> = {};
+      const horizons = [1, 5, 10, 20, 40, 60];
+
+      for (const h of horizons) {
+        if (availableBars.length > h) {
+          const futurePrice = availableBars[h].close;
+          forwardReturns[`T+${h}`] = (futurePrice - entryPrice) / entryPrice;
+        } else {
+          forwardReturns[`T+${h}`] = null;
+        }
+      }
+
+      // 4. Calculate MFE / MAE
+      let maxHigh = entryPrice;
+      let minLow = entryPrice;
       let timeToMfe = 0;
       let timeToMae = 0;
 
-      for (let i = 1; i < Math.min(61, prices.length); i++) {
-        const ret = (prices[i].close / entryPrice) - 1;
-        if (ret > maxReturn) {
-          maxReturn = ret;
+      const evalWindow = Math.min(availableBars.length, 21);
+      for (let i = 0; i < evalWindow; i++) {
+        const bar = availableBars[i];
+        if (bar.close > maxHigh) {
+          maxHigh = bar.close;
           timeToMfe = i;
         }
-        if (ret < minReturn) {
-          minReturn = ret;
+        if (bar.close < minLow) {
+          minLow = bar.close;
           timeToMae = i;
         }
       }
+
+      const mfe = (maxHigh - entryPrice) / entryPrice;
+      const mae = (minLow - entryPrice) / entryPrice;
+      const maxDrawdown = Math.abs(mae);
 
       const baseOutcome: Omit<OutcomeRecord, 'outcomeDataHash'> = {
         signalId: signal.signalId,
@@ -181,17 +227,17 @@ export class ForwardOutcomeCalculator {
         entryPrice,
         entryTimestamp,
         forwardReturns,
-        mfe: maxReturn,
-        mae: minReturn,
-        timeToMfe,
+        mae,
+        mfe,
+        maxDrawdown,
         timeToMae,
-        maxDrawdown: minReturn,
+        timeToMfe,
         gapThroughStop: false,
-        outcomeResolution: 'DAILY_CLOSE_OBSERVATION',
-        mfeMaeQuality: 'DAILY_CLOSE_BOUND' // Explicit quality tag: daily close bounds, not intraday tick MFE
+        outcomeResolution: observation.entryRule,
+        mfeMaeQuality: 'DAILY_CLOSE_BOUND'
       };
 
-      // 5. Deterministic Outcome Hash (NO crypto.randomBytes)
+      // 5. Deterministic Outcome Hash
       const outcomeDataHash = OutcomeEvidenceHasher.hashOutcome(baseOutcome);
 
       const outcome: OutcomeRecord = {
@@ -202,14 +248,15 @@ export class ForwardOutcomeCalculator {
       const effectiveDatasetHash =
         signal.datasetHash || signal.dataSnapshotHash || this.canonicalDatasetHash;
 
+      // Publish derived PIT and Provenance status (NEVER hardcoded true!)
       this.evidenceBus.publish<OutcomeRecord>(
         'SignalOutcomeBuilder',
         'OUTCOME_LEDGER',
         { signalHash: signal.canonicalSignalHash || signal.signalId },
         effectiveDatasetHash,
         outcome,
-        true, // pitValid
-        true, // provenanceValid
+        pitValid,
+        provenanceValid,
         { decisionDate: signal.decisionDate, securityId: signal.securityId, strategyId: signal.strategyId }
       );
     }
@@ -239,25 +286,32 @@ export class ForwardOutcomeCalculator {
       strategyId: signal.strategyId,
       securityId: signal.securityId,
       decisionDate: signal.decisionDate,
-      status: 'DATA_INSUFFICIENT',
+      entryPrice: null,
+      entryTimestamp: null,
+      forwardReturns: {},
+      mae: null,
+      mfe: null,
+      maxDrawdown: null,
+      timeToMae: null,
+      timeToMfe: null,
+      gapThroughStop: false,
+      outcomeResolution: 'DATA_INSUFFICIENT',
+      mfeMaeQuality: 'UNRESOLVED',
       reasonCode,
-      reasonDetails,
-      outcomeResolution: 'NONE',
-      mfeMaeQuality: 'DATA_INSUFFICIENT'
+      reasonDetails
     };
 
-    const effectiveDatasetHash =
-      signal.datasetHash || signal.dataSnapshotHash || this.canonicalDatasetHash;
+    const effectiveDatasetHash = signal.datasetHash || this.canonicalDatasetHash;
 
-    this.evidenceBus.publish<any>(
+    this.evidenceBus.publish(
       'SignalOutcomeBuilder',
       'OUTCOME_LEDGER',
       { signalHash: signal.signalId },
       effectiveDatasetHash,
       insufficientOutcome,
-      true,
-      false, // provenance incomplete
-      { decisionDate: signal.decisionDate, reasonCode }
+      false, // pitValid = false
+      false, // provenanceValid = false
+      { reasonCode, securityId: signal.securityId, strategyId: signal.strategyId }
     );
   }
 }

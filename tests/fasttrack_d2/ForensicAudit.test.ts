@@ -38,13 +38,19 @@ async function runForensicAudit() {
   const suspiciousPatterns = [
     { pattern: 'crypto.randomBytes', description: 'Random byte generation' },
     { pattern: 'Math.random', description: 'Math.random entropy' },
+    { pattern: 'randomUUID', description: 'Random UUID generation in evidence' },
     { pattern: 'HASH_PLACEHOLDER', description: 'Hash placeholder string' },
     { pattern: 'simulated_', description: 'Simulated hash prefix' },
     { pattern: 'b1Authorized = true', description: 'Unauthorized B1 opening' },
     { pattern: 'b2Authorized = true', description: 'Unauthorized B2 opening' },
     { pattern: 'cp21Authorization: true', description: 'Unauthorized CP2.1 authorization' },
     { pattern: 'b1Authorization: true', description: 'Unauthorized B1 authorization' },
-    { pattern: 'b2Authorization: true', description: 'Unauthorized B2 authorization' }
+    { pattern: 'b2Authorization: true', description: 'Unauthorized B2 authorization' },
+    { pattern: 'trackBAuthorization: true', description: 'Unauthorized Track B authorization' },
+    { pattern: 'productionAuthorization: true', description: 'Unauthorized production authorization' },
+    { pattern: 'liveTradingAuthorization: true', description: 'Unauthorized live trading authorization' },
+    { pattern: 'signalLedgerHash: marketData', description: 'Signal ledger aliased to market data' },
+    { pattern: 'signalLedgerHash = datasetHash', description: 'Signal ledger aliased to dataset' }
   ];
 
   const findings: AuditFinding[] = [];

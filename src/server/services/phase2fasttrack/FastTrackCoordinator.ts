@@ -45,6 +45,7 @@ export class FastTrackCoordinator {
   public async createRunManifest(): Promise<FastTrackRunManifest> {
     const gitCommit = this.resolveGitCommit();
     const [
+      signalLedger,
       pitUniverse,
       marketData,
       corporateActions,
@@ -53,6 +54,7 @@ export class FastTrackCoordinator {
       dependencyGraph,
       registry
     ] = await Promise.all([
+      this.evidenceProvider.getSignalLedger(),
       this.evidenceProvider.getPitUniverse(),
       this.evidenceProvider.getMarketData(),
       this.evidenceProvider.getCorporateActions(),
@@ -71,7 +73,7 @@ export class FastTrackCoordinator {
       gitCommit,
       datasetHash: marketData.byteHash,
       pitUniverseHash: pitUniverse.byteHash,
-      signalLedgerHash: marketData.byteHash,
+      signalLedgerHash: signalLedger.byteHash,
       calendarHash,
       dependencyGraphHash: dependencyGraph.byteHash,
       frozenControlHashes: {

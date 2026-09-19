@@ -44,13 +44,19 @@ async function runIndependentVerifierTests() {
     },
     frozenControls: frozenControlRefs,
     researchSnapshot: {
-      path: 'reports/v674-fasttrack/02_delivery2_1/baseline/repository.json'
+      path: 'reports/v674-fasttrack/02_RESEARCH_SNAPSHOT.json'
     },
     dependencyGraph: {
       path: 'reports/v674-fasttrack/CP2.1_DEPENDENCY_MAP.json'
     },
     auditLedger: {
       path: 'reports/v674-fasttrack/CP2.1_DECISION_LEDGER_SCHEMA.json'
+    },
+    replayManifest: {
+      path: 'reports/v674-fasttrack/02_delivery2_1/07_REPLAY_RESULTS.json'
+    },
+    cleanRoomManifest: {
+      path: 'reports/v674-fasttrack/11_CLEAN_ROOM.json'
     }
   };
 

@@ -1,0 +1,145 @@
+{
+  "runId": "snap-d21-production",
+  "gitSha": "c90a9529dd07144cb27a5551561f111d62b4a94c",
+  "canonicalEvidenceHash": "b37749f190f42e2c681a52f4011c27206d5ebeadbe0770fdd05b84c8c5b5d402",
+  "implementationHash": "f7b6a924975b43b73d58bdb3551bbe45a0f89a1882d567f1493ac23a70978d21",
+  "components": {
+    "signalLedgerHash": "f8d8541a2b186d42d72c077395f90a88f6f234b16bfdb83ca683eb2232064681",
+    "ohlcvHash": "c2d2934886e93727b53a69b6de740f0ad5a7f8ae22868537a723219fec8f8b3b",
+    "corporateActionsHash": "9cc80456bd54484d58c0a1208184c15d74a6676b19a3eb95c6969c4ddc57c41c",
+    "pitUniverseHash": "4bcf6576507ed8154b727b15184e675a15f9d2a2a08acf0a30afa6c70e355bfd",
+    "intradayHash": "7a953f81a2d3320e40b5bec3df2f5cdef09f05991301b5b90917cf31cd5f0fef",
+    "financialHash": "b63ff02315fba999efdb6c1fc908998abe2047400d5d89210f455a5dd64d3e39",
+    "dependencyGraphHash": "9235efd3a0680a8e1e754cedb3b6d9e987a74e48077d2c79cd2ed6fdfa5ae6af",
+    "registryHash": "09cda62d69b7a2212c1bcc5fc030644b4eedf86c0bf307a77c99dbbb90da3422"
+  },
+  "evidenceArtifacts": {
+    "signalLedger": {
+      "path": "reports/v674-phase2/02_CORRECTED_SIGNALS.csv",
+      "byteHash": "f8d8541a2b186d42d72c077395f90a88f6f234b16bfdb83ca683eb2232064681",
+      "sizeBytes": 1272523,
+      "declaredAsOfDate": "2026-09-19",
+      "acquisitionTimestamp": "2026-09-19T12:07:28.013Z",
+      "canonicalHash": "4ad30de7888d826190d3515a547693d7c716e190f8128ee0acbd9322ff8718cb",
+      "metadata": {
+        "filesystemMtime": "2026-09-19T12:07:28.013Z",
+        "acquisitionTimestamp": "2026-09-19T12:17:31.467Z",
+        "sourceSystem": "WealthOS.SignalLedgerStore",
+        "recordCount": 6501
+      }
+    },
+    "marketData": {
+      "path": "data/v6.3_DATA_CONTRACT.json",
+      "byteHash": "c2d2934886e93727b53a69b6de740f0ad5a7f8ae22868537a723219fec8f8b3b",
+      "sizeBytes": 8034,
+      "declaredAsOfDate": "2026-09-19",
+      "acquisitionTimestamp": "2026-09-17T10:19:03.575Z",
+      "canonicalHash": "985df31ff8efc131fd2f71a5c32406f0efc0a3665bfe809910e4e8ba6b329ce1",
+      "metadata": {
+        "filesystemMtime": "2026-09-17T10:19:03.575Z",
+        "acquisitionTimestamp": "2026-09-19T12:17:31.468Z",
+        "sourceSystem": "WealthOS.MarketDataStore",
+        "recordCount": 5
+      }
+    },
+    "corporateActions": {
+      "path": "data/v6.3_CORPORATE_ACTION_REPORT.json",
+      "byteHash": "9cc80456bd54484d58c0a1208184c15d74a6676b19a3eb95c6969c4ddc57c41c",
+      "sizeBytes": 867,
+      "declaredAsOfDate": "2026-09-19",
+      "acquisitionTimestamp": "2026-09-17T10:43:23.574Z",
+      "canonicalHash": "7a557ee8029e0ad8c11a028768fe6a7be946a21555087f5b3b1a656773c2b609",
+      "metadata": {
+        "filesystemMtime": "2026-09-17T10:43:23.574Z",
+        "acquisitionTimestamp": "2026-09-19T12:17:31.469Z",
+        "sourceSystem": "WealthOS.CorporateActionService",
+        "recordCount": 8
+      }
+    },
+    "pitUniverse": {
+      "path": "data/v6.3_UNIVERSE_INTEGRITY_REPORT.json",
+      "byteHash": "4bcf6576507ed8154b727b15184e675a15f9d2a2a08acf0a30afa6c70e355bfd",
+      "sizeBytes": 2293,
+      "declaredAsOfDate": "2026-09-19",
+      "acquisitionTimestamp": "2026-09-17T10:43:23.572Z",
+      "canonicalHash": "e9c10cc108f22aaeeebdd44e006f7ed5e1c098c19e37451dc1ac06892aa80a79",
+      "metadata": {
+        "filesystemMtime": "2026-09-17T10:43:23.572Z",
+        "acquisitionTimestamp": "2026-09-19T12:17:31.469Z",
+        "sourceSystem": "WealthOS.PITUniverseEngine",
+        "recordCount": 7
+      }
+    },
+    "intradayData": {
+      "path": "data/v6.3_DATA_PROVENANCE_REPORT.json",
+      "byteHash": "7a953f81a2d3320e40b5bec3df2f5cdef09f05991301b5b90917cf31cd5f0fef",
+      "sizeBytes": 1074,
+      "declaredAsOfDate": "2026-09-19",
+      "acquisitionTimestamp": "2026-09-17T10:43:23.572Z",
+      "canonicalHash": "f0379478a1fdb7a9e767f1a30cf097d300ad48eb688ab1b74b4874a1dfd11d6f",
+      "metadata": {
+        "filesystemMtime": "2026-09-17T10:43:23.572Z",
+        "acquisitionTimestamp": "2026-09-19T12:17:31.469Z",
+        "sourceSystem": "WealthOS.IntradayIngestor",
+        "recordCount": 8
+      }
+    },
+    "financialData": {
+      "path": "data/v6.3_PILOT_COVERAGE_AUDIT.json",
+      "byteHash": "b63ff02315fba999efdb6c1fc908998abe2047400d5d89210f455a5dd64d3e39",
+      "sizeBytes": 4091,
+      "declaredAsOfDate": "2026-09-19",
+      "acquisitionTimestamp": "2026-09-17T10:41:20.820Z",
+      "canonicalHash": "b38f7312a18954e5a73682d8f0f760bb350716e6fa0d04def3eb898b7e5c183b",
+      "metadata": {
+        "filesystemMtime": "2026-09-17T10:41:20.820Z",
+        "acquisitionTimestamp": "2026-09-19T12:17:31.470Z",
+        "sourceSystem": "WealthOS.FinancialDataEngine",
+        "recordCount": 5
+      }
+    },
+    "dependencyGraph": {
+      "path": "reports/v674-fasttrack/CP2.1_DEPENDENCY_MAP.json",
+      "byteHash": "9235efd3a0680a8e1e754cedb3b6d9e987a74e48077d2c79cd2ed6fdfa5ae6af",
+      "sizeBytes": 383,
+      "declaredAsOfDate": "2026-09-19",
+      "acquisitionTimestamp": "2026-09-19T09:44:37.984Z",
+      "canonicalHash": "cf29a818e210c5f88770206e9189cce4bd117fef71aa3917e2a1ae7ecf2c48c3",
+      "metadata": {
+        "filesystemMtime": "2026-09-19T09:44:37.984Z",
+        "acquisitionTimestamp": "2026-09-19T12:17:31.470Z",
+        "sourceSystem": "WealthOS.DependencyAnalyzer",
+        "recordCount": 3
+      }
+    },
+    "registry": {
+      "path": "data/real_repository_data_manifest.json",
+      "byteHash": "09cda62d69b7a2212c1bcc5fc030644b4eedf86c0bf307a77c99dbbb90da3422",
+      "sizeBytes": 1064,
+      "declaredAsOfDate": "2026-09-19",
+      "acquisitionTimestamp": "2026-09-17T13:40:20.567Z",
+      "canonicalHash": "a9ba910c0b286de72b8d20f9ca4da8755a1e5f92ea14e864e2a02f323420bae4",
+      "metadata": {
+        "filesystemMtime": "2026-09-17T13:40:20.567Z",
+        "acquisitionTimestamp": "2026-09-19T12:17:31.471Z",
+        "sourceSystem": "WealthOS.DataRegistry",
+        "recordCount": 5
+      }
+    }
+  },
+  "algorithm": "SHA-256",
+  "canonicalization": "CANONICAL_PHYSICAL_BYTES_V3",
+  "frozenControlHashes": {
+    "src/server/services/PureTechnicalStrategiesEngine.ts": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3",
+    "src/server/services/StrategyParameterConfig.ts": "901ca7a27b2eb4e09183426c9e0dfd7b812aeebf84472b49b9f829661fe7194b",
+    "src/server/services/SignalQualityOverlay.ts": "c41cddb152c150bea932a8b9bd8fcc6ea01a03a2ba030a723789aaada5c17452",
+    "src/server/services/CapitalProtectionEngine.ts": "63b8317889f5a60e9462f883e89acb57fe99e819935ec8f7b30036ecfe4ed753",
+    "src/server/services/NewTechnicalStrategiesEngine.ts": "78415ba3c74ca6a9cc2fcc96d2e54ba871e9bca73fc6e078570c412781b1d354",
+    "src/server/services/UpstoxIntradayIngestor.ts": "0f1c96d0e0c704672517f378990e17facdced7bfbf359daf9c6f37333be1b151",
+    "data/v6.3_REAL_trade_identity_ledger.jsonl": "035d8867f1f8dbc65f9fe35ea45263f20f9fee00a48d3d7f48807c24a2afd485"
+  },
+  "operationalMetadata": {
+    "createdAt": "2026-09-19T12:17:31.471Z",
+    "durationMs": 11
+  }
+}

@@ -21,6 +21,7 @@ import { runAcceptance } from './Delivery2RepositoryInvariant.test';
 import { DecisionAuditLedger } from '../../src/server/services/phase2fasttrack/DecisionAuditLedger';
 import { ModuleDependencyAnalyzer } from '../../src/server/services/phase2fasttrack/ModuleDependencyAnalyzer';
 import { OutcomeEvidenceHasher } from '../../src/server/services/phase2fasttrack/ForwardOutcomeCalculator';
+import { ResearchSnapshotBuilder } from '../../src/server/services/phase2fasttrack/ResearchSnapshotBuilder';
 
 async function runAdversarialBattery() {
   console.log('\n============================================================');
@@ -142,35 +143,25 @@ async function runAdversarialBattery() {
   );
 
   // --- 8. Canonical Evidence Mutation (H3 !== H1) & Restoration (H4 === H1) ---
-  console.log('\nTesting Canonical Evidence Mutation (H3 !== H1) & Restoration (H4 === H1)...');
+  console.log('\nTesting Canonical Evidence Mutation (H3 !== H1) & Restoration (H4 === H1) via Production ResearchSnapshotBuilder...');
   const originalBytes2 = fs.readFileSync(canonicalPath);
+  const prodBuilder = new ResearchSnapshotBuilder();
   let H3 = '';
   let H4 = '';
   try {
-    // Byte mutation
+    // Byte mutation in production canonical evidence
     const mutated = Buffer.from(originalBytes2);
     mutated[100] = mutated[100] === 65 ? 66 : 65;
     fs.writeFileSync(canonicalPath, mutated);
-    const mutatedHash = crypto.createHash('sha256').update(mutated).digest('hex');
-    H3 = crypto
-      .createHash('sha256')
-      .update(`ledger:${mutatedHash}|records:6501|frozen:test`)
-      .digest('hex');
+    const snap3 = await prodBuilder.buildSnapshot('adversarial-mutation-test', 'c90a952');
+    H3 = snap3.canonicalEvidenceHash;
     record('8a. Canonical evidence mutation alters hash (H3 !== H1)', H3 !== H1);
   } finally {
-    // Restore
+    // Restore exact bytes in production canonical evidence
     fs.writeFileSync(canonicalPath, originalBytes2);
-    const restoredHash = crypto.createHash('sha256').update(originalBytes2).digest('hex');
-    H4 = crypto
-      .createHash('sha256')
-      .update(`ledger:${restoredHash}|records:6501|frozen:test`)
-      .digest('hex');
-    const expectedHash = 'f8d8541a2b186d42d72c077395f90a88f6f234b16bfdb83ca683eb2232064681';
-    const originalPreimageHash = crypto
-      .createHash('sha256')
-      .update(`ledger:${expectedHash}|records:6501|frozen:test`)
-      .digest('hex');
-    record('8b. Canonical evidence restoration matches original (H4 === H1)', H4 === originalPreimageHash);
+    const snap4 = await prodBuilder.buildSnapshot('adversarial-restore-test', 'c90a952');
+    H4 = snap4.canonicalEvidenceHash;
+    record('8b. Canonical evidence restoration matches original (H4 === H1)', H4 === H1);
   }
 
   console.log('\n============================================================');

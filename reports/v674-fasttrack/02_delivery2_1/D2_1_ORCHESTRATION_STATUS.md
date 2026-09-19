@@ -2,8 +2,9 @@
 
 ## Baseline
 - **main SHA**: `16cb972658d0e8480aa7b0174b3e715446172bb8` (LOCKED & 100% UNTOUCHED)
-- **review baseline**: `7871a0b`
-- **current branch**: `ai-review-d21-correction`
+- **review baseline**: `c90a9529dd07144cb27a5551561f111d62b4a94c`
+- **current branch**: `ai-review`
+- **pass**: Pass 2 (Forensic Critique Remediation)
 - **status**: COMPLETED & INDEPENDENTLY VERIFIED (100%)
 
 ---

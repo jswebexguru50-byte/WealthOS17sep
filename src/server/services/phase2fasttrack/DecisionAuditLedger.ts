@@ -50,7 +50,7 @@ export class DecisionAuditLedger {
     parentArtifactHash?: string
   ): DecisionAuditRecord {
     const previousRecordHash = this.records.length > 0 ? this.records[this.records.length - 1].recordHash : undefined;
-    const auditRecordId = crypto.randomUUID();
+    const auditRecordId = `REC-${runId}-${String(this.records.length + 1).padStart(6, '0')}`;
     const createdAt = new Date().toISOString();
 
     const payload = JSON.stringify({

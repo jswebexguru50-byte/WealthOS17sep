@@ -1,21 +1,22 @@
 /**
  * src/server/services/phase2fasttrack/ModuleDependencyAnalyzer.ts
  *
- * Constructs and audits the module dependency graph using the TypeScript Compiler AST API.
- * Categorizes nodes and edges into:
- *   - READ_ONLY
- *   - COMPUTATION
- *   - EXECUTION
- *   - AUTHORIZATION
- *   - CAPITAL_EFFECT
+ * Constructs and audits the module dependency graph across the entire `src/server/services` hierarchy
+ * using the TypeScript Compiler AST API.
+ *
+ * Scans:
+ *   - src/server/services (all production engines, execution services, trade services)
+ *   - src/server/services/phase2fasttrack (FastTrack evidence & verifier modules)
+ *   - src/server/services/research (PIT, Trading calendar)
  *
  * Resolves:
- *   - import statements
+ *   - static import statements
  *   - export ... from statements (re-exports)
- *   - dynamic imports: import(...)
- *   - relative modules and local aliases
+ *   - dynamic import(...) expressions
+ *   - relative module paths and tsconfig aliases
  *
- * Verifies that no executable/authorizing path exists from CP2.1/B1 to B2 execution or capital allocation.
+ * Proves that no execution path exists from CP21IndependentVerifier or B1SampleBuilder
+ * to B2 economics, capital allocation, or trade execution.
  */
 
 import fs from 'fs';
@@ -63,67 +64,101 @@ export class ModuleDependencyAnalyzer {
     this.buildGraph();
   }
 
-  private classifyModule(moduleName: string): EdgeClassification {
-    const lower = moduleName.toLowerCase();
-    if (lower.includes('trackbgate') || lower.includes('b2') || lower.includes('capitalprotection')) {
+  private classifyModule(filePath: string, content: string): EdgeClassification {
+    const fileName = path.basename(filePath);
+    const lowerName = fileName.toLowerCase();
+
+    // 1. Capital Effect & Trade Execution
+    if (
+      lowerName.includes('capitalprotection') ||
+      lowerName.includes('tradebook') ||
+      lowerName.includes('executionengine') ||
+      lowerName.includes('orderbook') ||
+      lowerName.includes('papertrading')
+    ) {
       return 'CAPITAL_EFFECT';
     }
-    if (lower.includes('gate') || lower.includes('authoriz') || lower.includes('coordinator')) {
+
+    // 2. Authorization Gates
+    if (
+      lowerName.includes('trackbgate') ||
+      lowerName.includes('b1samplegate') ||
+      lowerName.includes('cp21gate') ||
+      content.includes('GateToken')
+    ) {
       return 'AUTHORIZATION';
     }
-    if (lower.includes('executor') || lower.includes('ingestor') || lower.includes('trade')) {
+
+    // 3. Execution Engines
+    if (
+      lowerName.includes('executor') ||
+      lowerName.includes('ingestor') ||
+      lowerName.includes('scheduler') ||
+      content.includes('executeTrade')
+    ) {
       return 'EXECUTION';
     }
-    if (lower.includes('verifier') || lower.includes('calculator') || lower.includes('hasher') || lower.includes('analyzer')) {
+
+    // 4. Computation
+    if (
+      lowerName.includes('verifier') ||
+      lowerName.includes('calculator') ||
+      lowerName.includes('hasher') ||
+      lowerName.includes('analyzer') ||
+      lowerName.includes('engine')
+    ) {
       return 'COMPUTATION';
     }
+
     return 'READ_ONLY';
   }
 
   private resolveModulePath(fromFilePath: string, importSpecifier: string): string | null {
     if (!importSpecifier.startsWith('.')) {
-      // External package / node module
+      // Check for tsconfig paths / relative to src
+      if (importSpecifier.startsWith('@/')) {
+        const candidate = path.join(this.workspaceRoot, 'src', importSpecifier.slice(2));
+        return this.tryResolveFile(candidate);
+      }
       return null;
     }
 
     const dir = path.dirname(fromFilePath);
-    let resolved = path.resolve(dir, importSpecifier);
+    const resolved = path.resolve(dir, importSpecifier);
+    return this.tryResolveFile(resolved);
+  }
 
-    if (fs.existsSync(resolved + '.ts')) {
-      return resolved + '.ts';
-    }
-    if (fs.existsSync(path.join(resolved, 'index.ts'))) {
-      return path.join(resolved, 'index.ts');
-    }
-    if (fs.existsSync(resolved + '.js')) {
-      return resolved + '.js';
-    }
-    if (fs.existsSync(resolved)) {
-      return resolved;
-    }
+  private tryResolveFile(basePath: string): string | null {
+    if (fs.existsSync(basePath + '.ts')) return basePath + '.ts';
+    if (fs.existsSync(path.join(basePath, 'index.ts'))) return path.join(basePath, 'index.ts');
+    if (fs.existsSync(basePath + '.js')) return basePath + '.js';
+    if (fs.existsSync(basePath) && fs.statSync(basePath).isFile()) return basePath;
     return null;
+  }
+
+  private collectTsFilesRecursively(dir: string, outList: string[]) {
+    if (!fs.existsSync(dir)) return;
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        // Skip node_modules or build dirs
+        if (entry.name !== 'node_modules' && entry.name !== '.runtime' && entry.name !== 'dist') {
+          this.collectTsFilesRecursively(full, outList);
+        }
+      } else if (entry.isFile() && entry.name.endsWith('.ts') && !entry.name.endsWith('.d.ts')) {
+        outList.push(full);
+      }
+    }
   }
 
   private buildGraph() {
     this.graph.clear();
     this.edgeDetails = [];
 
-    const dirsToScan = [
-      path.join(this.workspaceRoot, 'src/server/services/phase2fasttrack'),
-      path.join(this.workspaceRoot, 'src/server/services/research')
-    ];
-
+    const rootServiceDir = path.join(this.workspaceRoot, 'src', 'server', 'services');
     const allTsFiles: string[] = [];
-    for (const d of dirsToScan) {
-      if (fs.existsSync(d)) {
-        const entries = fs.readdirSync(d);
-        for (const entry of entries) {
-          if (entry.endsWith('.ts') && !entry.endsWith('.d.ts')) {
-            allTsFiles.push(path.join(d, entry));
-          }
-        }
-      }
-    }
+    this.collectTsFilesRecursively(rootServiceDir, allTsFiles);
 
     for (const filePath of allTsFiles) {
       const normalizedSource = path.basename(filePath);
@@ -143,21 +178,21 @@ export class ModuleDependencyAnalyzer {
         let importSpecifier: string | null = null;
         let importType: 'STATIC_IMPORT' | 'EXPORT_FROM' | 'DYNAMIC_IMPORT' = 'STATIC_IMPORT';
 
-        // 1. import ... from '...'
+        // 1. static import
         if (ts.isImportDeclaration(node)) {
           if (ts.isStringLiteral(node.moduleSpecifier)) {
             importSpecifier = node.moduleSpecifier.text;
             importType = 'STATIC_IMPORT';
           }
         }
-        // 2. export ... from '...'
+        // 2. export ... from
         else if (ts.isExportDeclaration(node) && node.moduleSpecifier) {
           if (ts.isStringLiteral(node.moduleSpecifier)) {
             importSpecifier = node.moduleSpecifier.text;
             importType = 'EXPORT_FROM';
           }
         }
-        // 3. dynamic import(...)
+        // 3. dynamic import
         else if (
           ts.isCallExpression(node) &&
           node.expression.kind === ts.SyntaxKind.ImportKeyword &&
@@ -174,10 +209,11 @@ export class ModuleDependencyAnalyzer {
             const targetName = path.basename(resolved);
             this.graph.get(normalizedSource)?.add(targetName);
 
+            const targetContent = fs.existsSync(resolved) ? fs.readFileSync(resolved, 'utf8') : '';
             this.edgeDetails.push({
               fromModule: normalizedSource,
               toModule: targetName,
-              classification: this.classifyModule(targetName),
+              classification: this.classifyModule(resolved, targetContent),
               importType
             });
           }
@@ -190,9 +226,6 @@ export class ModuleDependencyAnalyzer {
     }
   }
 
-  /**
-   * Performs BFS reachability query between source and target modules.
-   */
   public findPath(sourceModule: string, targetModule: string): string[] | null {
     const src = path.basename(sourceModule);
     const tgt = path.basename(targetModule);
@@ -223,10 +256,13 @@ export class ModuleDependencyAnalyzer {
 
   public checkReachability(sourceModule: string, targetModule: string): ReachabilityQuery {
     const pathFound = this.findPath(sourceModule, targetModule);
+    const resolvedTarget = path.join(this.workspaceRoot, 'src', 'server', 'services', targetModule);
+    const targetContent = fs.existsSync(resolvedTarget) ? fs.readFileSync(resolvedTarget, 'utf8') : '';
+
     return {
       source: path.basename(sourceModule),
       target: path.basename(targetModule),
-      classification: this.classifyModule(targetModule),
+      classification: this.classifyModule(resolvedTarget, targetContent),
       reachable: pathFound !== null,
       path: pathFound || []
     };
@@ -235,7 +271,7 @@ export class ModuleDependencyAnalyzer {
   public analyze(): DependencyAuditResult {
     const unauthorizedExecutionPaths: string[] = [];
 
-    // Verify CP21IndependentVerifier cannot reach TrackBGate or B2 execution
+    // Verify CP21IndependentVerifier cannot reach TrackBGate or CapitalProtectionEngine
     const verifierToGate = this.checkReachability('CP21IndependentVerifier.ts', 'TrackBGate.ts');
     if (verifierToGate.reachable) {
       unauthorizedExecutionPaths.push(
@@ -243,11 +279,25 @@ export class ModuleDependencyAnalyzer {
       );
     }
 
-    // Verify B1SampleBuilder cannot reach TrackBGate
+    const verifierToCapital = this.checkReachability('CP21IndependentVerifier.ts', 'CapitalProtectionEngine.ts');
+    if (verifierToCapital.reachable) {
+      unauthorizedExecutionPaths.push(
+        `UNAUTHORIZED PATH: CP21IndependentVerifier -> CapitalProtectionEngine via [${verifierToCapital.path.join(' -> ')}]`
+      );
+    }
+
+    // Verify B1SampleBuilder cannot reach TrackBGate or CapitalProtectionEngine
     const b1ToGate = this.checkReachability('B1SampleBuilder.ts', 'TrackBGate.ts');
     if (b1ToGate.reachable) {
       unauthorizedExecutionPaths.push(
         `UNAUTHORIZED PATH: B1SampleBuilder -> TrackBGate via [${b1ToGate.path.join(' -> ')}]`
+      );
+    }
+
+    const b1ToCapital = this.checkReachability('B1SampleBuilder.ts', 'CapitalProtectionEngine.ts');
+    if (b1ToCapital.reachable) {
+      unauthorizedExecutionPaths.push(
+        `UNAUTHORIZED PATH: B1SampleBuilder -> CapitalProtectionEngine via [${b1ToCapital.path.join(' -> ')}]`
       );
     }
 
@@ -257,13 +307,15 @@ export class ModuleDependencyAnalyzer {
       totalEdges: this.edgeDetails.length,
       unauthorizedExecutionPaths,
       edges: this.edgeDetails,
-      isolatedComponents: ['CP21IndependentVerifier.ts', 'B1SampleBuilder.ts', 'TrackBGate.ts']
+      isolatedComponents: [
+        'CP21IndependentVerifier.ts',
+        'B1SampleBuilder.ts',
+        'TrackBGate.ts',
+        'CapitalProtectionEngine.ts'
+      ]
     };
   }
 
-  /**
-   * Injects a synthetic test edge to prove reachability analysis detects hostile mutations.
-   */
   public injectTestEdgeForVerification(fromModule: string, toModule: string) {
     if (!this.graph.has(fromModule)) {
       this.graph.set(fromModule, new Set());

@@ -3,8 +3,12 @@
  *
  * Deterministic Provenance and Research Snapshot Builder.
  * Consumes physical evidence artifacts and computes canonical SHA-256 byte hashes.
- * Invariant: mtime, file acquisition timestamps, and operational metadata
- * NEVER influence canonical evidence hashes.
+ *
+ * Strict separation:
+ * 1. canonicalEvidenceHash: Derived strictly from physical data source bytes
+ *    (signalLedger, marketData, corporateActions, pitUniverse, intraday, financials, dependencyGraph, registry).
+ *    Independent of gitSha, filesystem mtime, or timestamps.
+ * 2. implementationHash: Captures gitSha and frozen control code state.
  */
 
 import fs from 'fs';
@@ -13,9 +17,10 @@ import crypto from 'crypto';
 import { EvidenceArtifact, computeEvidenceArtifact } from './EvidenceArtifact';
 
 export interface ProvenanceEvidenceProvider {
-  getPitUniverse(runContext?: Record<string, unknown>): Promise<EvidenceArtifact>;
+  getSignalLedger(runContext?: Record<string, unknown>): Promise<EvidenceArtifact>;
   getMarketData(runContext?: Record<string, unknown>): Promise<EvidenceArtifact>;
   getCorporateActions(runContext?: Record<string, unknown>): Promise<EvidenceArtifact>;
+  getPitUniverse(runContext?: Record<string, unknown>): Promise<EvidenceArtifact>;
   getIntradayData(runContext?: Record<string, unknown>): Promise<EvidenceArtifact>;
   getFinancialData(runContext?: Record<string, unknown>): Promise<EvidenceArtifact>;
   getDependencyGraph(runContext?: Record<string, unknown>): Promise<EvidenceArtifact>;
@@ -29,16 +34,16 @@ export class DefaultPhysicalEvidenceProvider implements ProvenanceEvidenceProvid
     this.workspaceRoot = workspaceRoot;
   }
 
-  public async getPitUniverse(): Promise<EvidenceArtifact> {
-    const primary = 'data/v6.3_UNIVERSE_INTEGRITY_REPORT.json';
-    const fallback = 'reports/v674-phase2/01B_COMMON_UNIVERSE_INTERSECTION_AUDIT.json';
-    const chosen = fs.existsSync(path.join(this.workspaceRoot, primary)) ? primary : fallback;
-    return computeEvidenceArtifact(chosen, this.workspaceRoot, { sourceSystem: 'WealthOS.PITUniverseEngine' });
+  public async getSignalLedger(): Promise<EvidenceArtifact> {
+    const primary = 'reports/v674-phase2/02_CORRECTED_SIGNALS.csv';
+    return computeEvidenceArtifact(primary, this.workspaceRoot, { sourceSystem: 'WealthOS.SignalLedgerStore' });
   }
 
   public async getMarketData(): Promise<EvidenceArtifact> {
-    const primary = 'reports/v674-phase2/02_CORRECTED_SIGNALS.csv';
-    return computeEvidenceArtifact(primary, this.workspaceRoot, { sourceSystem: 'WealthOS.MarketDataStore' });
+    const primary = 'data/v6.3_DATA_CONTRACT.json';
+    const fallback = 'data/real_repository_data_manifest.json';
+    const chosen = fs.existsSync(path.join(this.workspaceRoot, primary)) ? primary : fallback;
+    return computeEvidenceArtifact(chosen, this.workspaceRoot, { sourceSystem: 'WealthOS.MarketDataStore' });
   }
 
   public async getCorporateActions(): Promise<EvidenceArtifact> {
@@ -46,14 +51,23 @@ export class DefaultPhysicalEvidenceProvider implements ProvenanceEvidenceProvid
     return computeEvidenceArtifact(primary, this.workspaceRoot, { sourceSystem: 'WealthOS.CorporateActionService' });
   }
 
+  public async getPitUniverse(): Promise<EvidenceArtifact> {
+    const primary = 'data/v6.3_UNIVERSE_INTEGRITY_REPORT.json';
+    const fallback = 'reports/v674-phase2/01B_COMMON_UNIVERSE_INTERSECTION_AUDIT.json';
+    const chosen = fs.existsSync(path.join(this.workspaceRoot, primary)) ? primary : fallback;
+    return computeEvidenceArtifact(chosen, this.workspaceRoot, { sourceSystem: 'WealthOS.PITUniverseEngine' });
+  }
+
   public async getIntradayData(): Promise<EvidenceArtifact> {
-    const primary = 'data/v6.3_DATA_CONTRACT.json';
+    const primary = 'data/v6.3_DATA_PROVENANCE_REPORT.json';
     return computeEvidenceArtifact(primary, this.workspaceRoot, { sourceSystem: 'WealthOS.IntradayIngestor' });
   }
 
   public async getFinancialData(): Promise<EvidenceArtifact> {
-    const primary = 'data/v6.3_DATA_PROVENANCE_REPORT.json';
-    return computeEvidenceArtifact(primary, this.workspaceRoot, { sourceSystem: 'WealthOS.FinancialDataEngine' });
+    const primary = 'data/v6.3_PILOT_COVERAGE_AUDIT.json';
+    const fallback = 'data/v6.3_ablation_results.json';
+    const chosen = fs.existsSync(path.join(this.workspaceRoot, primary)) ? primary : fallback;
+    return computeEvidenceArtifact(chosen, this.workspaceRoot, { sourceSystem: 'WealthOS.FinancialDataEngine' });
   }
 
   public async getDependencyGraph(): Promise<EvidenceArtifact> {
@@ -73,20 +87,22 @@ export interface ResearchSnapshot {
   runId: string;
   gitSha: string;
   canonicalEvidenceHash: string;
+  implementationHash: string;
   components: {
     signalLedgerHash: string;
-    pitUniverseHash: string;
     ohlcvHash: string;
     corporateActionsHash: string;
+    pitUniverseHash: string;
     intradayHash: string;
     financialHash: string;
     dependencyGraphHash: string;
     registryHash: string;
   };
   evidenceArtifacts: {
-    pitUniverse: EvidenceArtifact;
+    signalLedger: EvidenceArtifact;
     marketData: EvidenceArtifact;
     corporateActions: EvidenceArtifact;
+    pitUniverse: EvidenceArtifact;
     intradayData: EvidenceArtifact;
     financialData: EvidenceArtifact;
     dependencyGraph: EvidenceArtifact;
@@ -109,83 +125,96 @@ export class ResearchSnapshotBuilder {
   public async buildSnapshot(
     runId: string,
     gitSha: string,
-    signalLedgerHash: string,
-    frozenControlHashes: Record<string, string>,
-    repositoryScopeHash?: string
+    signalLedgerHashOverride?: string,
+    frozenControlHashes: Record<string, string> = {}
   ): Promise<ResearchSnapshot> {
     const startTime = Date.now();
     const [
-      pitUniverse,
+      signalLedger,
       marketData,
       corporateActions,
+      pitUniverse,
       intradayData,
       financialData,
       dependencyGraph,
       registry
     ] = await Promise.all([
-      this.provider.getPitUniverse(),
+      this.provider.getSignalLedger(),
       this.provider.getMarketData(),
       this.provider.getCorporateActions(),
+      this.provider.getPitUniverse(),
       this.provider.getIntradayData(),
       this.provider.getFinancialData(),
       this.provider.getDependencyGraph(),
       this.provider.getRegistry()
     ]);
 
-    // Independent cryptographic verification: OHLCV and Corporate actions must NOT alias
+    const signalLedgerHash = signalLedgerHashOverride || signalLedger.byteHash;
+
+    // Independent cryptographic verification: Signal ledger, market data, and corporate actions must NOT alias
+    if (signalLedgerHash === marketData.byteHash) {
+      throw new Error('FATAL: Signal ledger hash cannot alias market data hash.');
+    }
     if (marketData.byteHash === corporateActions.byteHash) {
-      throw new Error('FATAL: OHLCV market data hash cannot alias corporate action dataset hash.');
+      throw new Error('FATAL: Market data hash cannot alias corporate action dataset hash.');
     }
 
-    // Compute canonical snapshot evidence hash from immutable components only (NO mtime, NO timestamps)
+    // 1. canonicalEvidenceHash: Pure physical evidence observed (NO gitSha, NO mtime, NO timestamps)
+    const canonicalEvidencePreimage = [
+      `signalLedger:${signalLedger.canonicalHash}`,
+      `marketData:${marketData.canonicalHash}`,
+      `corporateActions:${corporateActions.canonicalHash}`,
+      `pitUniverse:${pitUniverse.canonicalHash}`,
+      `intradayData:${intradayData.canonicalHash}`,
+      `financialData:${financialData.canonicalHash}`,
+      `dependencyGraph:${dependencyGraph.canonicalHash}`,
+      `registry:${registry.canonicalHash}`
+    ].join('|');
+
+    const canonicalEvidenceHash = crypto
+      .createHash('sha256')
+      .update(canonicalEvidencePreimage)
+      .digest('hex');
+
+    // 2. implementationHash: Captures repository SHA and frozen controls
     const sortedFrozen = Object.keys(frozenControlHashes)
       .sort()
       .map(k => `${k}:${frozenControlHashes[k]}`)
       .join(';');
 
-    const canonicalPreimage = [
-      `gitSha:${gitSha}`,
-      `signalLedger:${signalLedgerHash}`,
-      `pitUniverse:${pitUniverse.canonicalHash}`,
-      `marketData:${marketData.canonicalHash}`,
-      `corporateActions:${corporateActions.canonicalHash}`,
-      `intradayData:${intradayData.canonicalHash}`,
-      `financialData:${financialData.canonicalHash}`,
-      `dependencyGraph:${dependencyGraph.canonicalHash}`,
-      `registry:${registry.canonicalHash}`,
-      `frozenControls:${sortedFrozen}`
-    ].join('|');
-
-    const canonicalEvidenceHash = crypto
+    const implementationPreimage = `gitSha:${gitSha}|frozenControls:${sortedFrozen}`;
+    const implementationHash = crypto
       .createHash('sha256')
-      .update(canonicalPreimage)
+      .update(implementationPreimage)
       .digest('hex');
 
     return {
       runId,
       gitSha,
       canonicalEvidenceHash,
+      implementationHash,
       components: {
         signalLedgerHash,
-        pitUniverseHash: pitUniverse.byteHash,
         ohlcvHash: marketData.byteHash,
         corporateActionsHash: corporateActions.byteHash,
+        pitUniverseHash: pitUniverse.byteHash,
         intradayHash: intradayData.byteHash,
         financialHash: financialData.byteHash,
         dependencyGraphHash: dependencyGraph.byteHash,
         registryHash: registry.byteHash
       },
       evidenceArtifacts: {
-        pitUniverse,
+        signalLedger,
         marketData,
         corporateActions,
+        pitUniverse,
         intradayData,
         financialData,
         dependencyGraph,
         registry
       },
       algorithm: 'SHA-256',
-      canonicalization: 'CANONICAL_PHYSICAL_BYTES_V2',
+      canonicalization: 'CANONICAL_PHYSICAL_BYTES_V3',
       frozenControlHashes,
       operationalMetadata: {
         createdAt: new Date().toISOString(),

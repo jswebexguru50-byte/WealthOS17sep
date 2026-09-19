@@ -34,7 +34,7 @@ export class EvidenceBus {
     });
     
     const evidenceHash = crypto.createHash('sha256').update(contentToHash).digest('hex');
-    const evidenceId = crypto.randomUUID();
+    const evidenceId = `EV-${this.runId}-${String(this.ledger.length + 1).padStart(6, '0')}`;
 
     const envelope: EvidenceEnvelope<T> = {
       evidenceId,

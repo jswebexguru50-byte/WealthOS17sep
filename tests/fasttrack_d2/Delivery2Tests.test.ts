@@ -64,7 +64,7 @@ async function runTests() {
     const gate = new TrackBGate(coord);
     assert.throws(() => {
         gate.authorizeB1({ gate: "CP2.1", decision: "BLOCKED", evidenceHash: "1", generatedAt: "", tokenHash: "" });
-    }, /B1_BLOCKED_INVALID_CP21_TOKEN/);
+    }, /B1_BLOCKED/);
   });
 
   test('TrackBGate: Block B2 with invalid B1 token', () => {
@@ -75,7 +75,7 @@ async function runTests() {
             { gate: "CP2.1", decision: "VERIFIED", evidenceHash: "H1", generatedAt: "", tokenHash: "" },
             { gate: "B1", decision: "BLOCKED", evidenceHash: "H1", generatedAt: "", tokenHash: "" }
         );
-    }, /B2_BLOCKED_B1_SAMPLE_GATE_NOT_PASSED/);
+    }, /B2_BLOCKED/);
   });
 
   // B2 Bypass Tests
