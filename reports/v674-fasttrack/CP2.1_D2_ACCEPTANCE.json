@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "2.1",
+  "repositorySha": "d1a3d06013113f32fb9d35400817545edd28b94d",
+  "canonicalLedger": {
+    "recordCount": 6501,
+    "sha256": "f8d8541a2b186d42d72c077395f90a88f6f234b16bfdb83ca683eb2232064681",
+    "verification": "PASSED_PHYSICAL_BYTE_HASH"
+  },
+  "frozenControls": {
+    "status": "PASSED_IMMUTABLE_BASELINE",
+    "filesVerified": 7
+  },
+  "pit": {
+    "provider": "src/server/services/research/PointInTimeDataEngine.ts",
+    "status": "VERIFIED_SINGLE_SOURCE"
+  },
+  "calendar": {
+    "provider": "src/server/services/research/TradingCalendarService.ts",
+    "status": "VERIFIED_NSE_LOGIC"
+  },
+  "dependencyGraph": {
+    "isolationStatus": "VERIFIED_NO_UNAUTHORIZED_PATHS",
+    "executionForbidden": true
+  },
+  "auditLedger": {
+    "status": "ANCHORED_MANIFEST_VERIFIED",
+    "adversarialTamperDetection": "PASS"
+  },
+  "authorization": {
+    "cp21": false,
+    "b1": false,
+    "b2": false,
+    "trackB": false,
+    "production": false,
+    "live": false
+  },
+  "tests": {
+    "total": 18,
+    "passed": 18,
+    "failed": 0,
+    "failures": []
+  },
+  "decision": "DELIVERY2_ACCEPTED"
+}
