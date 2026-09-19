@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "repository": {
+    "branch": "ai-review",
+    "head": "5fc5c876c3a29ed302e0eeb3e26d8cc559b6675e",
+    "headValid": true
+  },
+  "frozenControls": {
+    "allValid": true
+  },
+  "baselineManifest": {
+    "valid": true
+  },
+  "failures": []
+}

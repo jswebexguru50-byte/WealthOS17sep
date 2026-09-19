@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "D22_FAST_TRACK_BASELINE_V2",
+  "operationalMetadata": {
+    "createdAt": "2026-09-19T16:31:16.022Z"
+  },
+  "baseline": {
+    "repository": "WealthOS",
+    "branch": "ai-review",
+    "head": "5fc5c876c3a29ed302e0eeb3e26d8cc559b6675e",
+    "baselineCommit": "6d0e78f5b394e882212d67c76edfd21df7705981",
+    "baselineTree": "096644bdc52cf86791040da3bc1d8fe7726d7034",
+    "constitutionHash": "4ccedb98ac269d1253b8ddfdcfe636d6a199c5b9a2f93b2fa3f7af990b73c55f",
+    "workingTreeClean": true
+  },
+  "frozenControls": {
+    "src/server/services/PureTechnicalStrategiesEngine.ts": {
+      "exists": true,
+      "sha256": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3",
+      "bytes": 181409
+    },
+    "src/server/services/StrategyParameterConfig.ts": {
+      "exists": true,
+      "sha256": "901ca7a27b2eb4e09183426c9e0dfd7b812aeebf84472b49b9f829661fe7194b",
+      "bytes": 41794
+    },
+    "src/server/services/SignalQualityOverlay.ts": {
+      "exists": true,
+      "sha256": "c41cddb152c150bea932a8b9bd8fcc6ea01a03a2ba030a723789aaada5c17452",
+      "bytes": 27256
+    },
+    "src/server/services/CapitalProtectionEngine.ts": {
+      "exists": true,
+      "sha256": "63b8317889f5a60e9462f883e89acb57fe99e819935ec8f7b30036ecfe4ed753",
+      "bytes": 38468
+    },
+    "src/server/services/NewTechnicalStrategiesEngine.ts": {
+      "exists": true,
+      "sha256": "78415ba3c74ca6a9cc2fcc96d2e54ba871e9bca73fc6e078570c412781b1d354",
+      "bytes": 47098
+    },
+    "src/server/services/UpstoxIntradayIngestor.ts": {
+      "exists": true,
+      "sha256": "0f1c96d0e0c704672517f378990e17facdced7bfbf359daf9c6f37333be1b151",
+      "bytes": 8275
+    },
+    "data/v6.3_REAL_trade_identity_ledger.jsonl": {
+      "exists": true,
+      "sha256": "035d8867f1f8dbc65f9fe35ea45263f20f9fee00a48d3d7f48807c24a2afd485",
+      "bytes": 27899
+    }
+  },
+  "policy": {
+    "frozenControlsImmutable": true,
+    "strategiesImmutable": true,
+    "syntheticDataForbidden": true,
+    "futureDataForbidden": true,
+    "missingDataFailsClosed": true,
+    "forcePushForbidden": true
+  }
+}
