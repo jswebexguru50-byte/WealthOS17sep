@@ -1,3 +1,4 @@
+import { test } from 'vitest';
 /**
  * tests/fasttrack_d2/AuthorizationSafety.test.ts
  *
@@ -75,7 +76,6 @@ async function runAuthorizationSafetyTests() {
   console.log('============================================================\n');
 }
 
-runAuthorizationSafetyTests().catch(err => {
-  console.error('AUTHORIZATION SAFETY TEST FAILED:', err);
-  process.exit(1);
-});
+test('Legacy Script', async () => { await runAuthorizationSafetyTests(); });
+
+

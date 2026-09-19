@@ -1,3 +1,4 @@
+import { test } from 'vitest';
 import assert from 'assert';
 import { CP21DataStatus } from '../../src/server/services/phase2fasttrack/FastTrackTypes';
 import { SourceRequestHasher } from '../../src/server/services/phase2fasttrack/SourceRequestHasher';
@@ -103,4 +104,6 @@ async function runTests() {
   console.log(`\nTests passed: ${passed}, failed: ${failed}`);
 }
 
-runTests();
+test('Legacy Script', async () => { await runTests(); });
+
+

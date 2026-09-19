@@ -21,6 +21,12 @@ export interface SwarmAgentResult {
 
   coverageStart?: string;
   coverageEnd?: string;
+  missingRanges?: { start: string, end: string, reason: string }[];
+  coverage?: {
+    expectedIntervals: number;
+    observedIntervals: number;
+    ratio: number;
+  };
 
   rawSha256?: string;
   canonicalSha256?: string;

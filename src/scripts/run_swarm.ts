@@ -102,11 +102,7 @@ async function runSwarm() {
         const rawPath = path.join(path.dirname(manifestPath), `${res.datasetId}_RAW.bin`);
 
         if (fs.existsSync(manifestPath) && fs.existsSync(dataPath)) {
-          const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-          const lines = fs.readFileSync(dataPath, 'utf8').split('\n').filter(l => l.trim().length > 0);
-          const rows = lines.map(l => JSON.parse(l));
-
-          const predicates = runIndependentVerification(res.datasetId, rows, manifest, rawPath);
+          const predicates = runIndependentVerification(res.datasetId, manifestPath, dataPath, rawPath);
           
           const input: DatasetPromotionInput = {
             datasetId: res.datasetId,

@@ -5,8 +5,8 @@ import { hashCanonicalDataset } from '../CanonicalObservationSerializer';
 
 export function runIndependentVerification(
   datasetId: string,
-  rows: CanonicalMarketObservation[],
-  manifest: any,
+  manifestPath: string,
+  canonicalPath: string,
   rawAcquiredBytesPath?: string
 ): VerificationPredicate[] {
   const predicates: VerificationPredicate[] = [];
@@ -20,10 +20,26 @@ export function runIndependentVerification(
     });
   };
 
-  // We will run through the logic even if rows are empty, 
-  // setting flags appropriately.
-  if (!rows || rows.length === 0) {
-    // We let the loops run (0 iterations) and default flags will be caught by empty dataset logic if needed.
+  let rows: CanonicalMarketObservation[] = [];
+  let manifest: any = {};
+  
+  let manifestFound = false;
+  let canonicalFound = false;
+
+  if (fs.existsSync(manifestPath)) {
+    try {
+      manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+      manifestFound = true;
+    } catch(e) {}
+  }
+
+  if (fs.existsSync(canonicalPath)) {
+    try {
+      const rawCanonical = fs.readFileSync(canonicalPath, 'utf8');
+      const lines = rawCanonical.split('\n').filter(l => l.trim().length > 0);
+      rows = lines.map(l => JSON.parse(l));
+      canonicalFound = true;
+    } catch(e) {}
   }
 
   // 1-10: Row-level validations
@@ -113,16 +129,20 @@ export function runIndependentVerification(
   }
 
   // 12. canonicalHashReproducible
-  let expectedCanonicalHash = '';
-  try {
-    expectedCanonicalHash = hashCanonicalDataset(rows);
-  } catch (e) {
-    // Ignore, let the check fail
+  if (canonicalFound && manifestFound) {
+    let expectedCanonicalHash = '';
+    try {
+      expectedCanonicalHash = hashCanonicalDataset(rows);
+    } catch (e) {
+      // Ignore, let the check fail
+    }
+    addPredicate('canonicalHashReproducible', (expectedCanonicalHash && expectedCanonicalHash === manifest.canonicalSha256) ? 'PASS' : 'FAIL', 'Canonical Hash Match');
+  } else {
+    addPredicate('canonicalHashReproducible', 'FAIL', 'Missing canonical dataset file or manifest');
   }
-  addPredicate('canonicalHashReproducible', (expectedCanonicalHash && expectedCanonicalHash === manifest.canonicalSha256) ? 'PASS' : 'FAIL', 'Canonical Hash Match');
 
   // 13. tradingCalendarValid (not fully implemented in fasttrack, but must report explicit state)
-  addPredicate('tradingCalendarValid', manifest.calendarStatus === 'CALENDAR_VERIFIED' ? 'PASS' : 'NOT_VERIFIABLE', 'Calendar basis');
+  addPredicate('tradingCalendarValid', 'NOT_VERIFIABLE', 'Calendar basis requires empirical holiday API');
 
   // 14. sourceRecorded
   addPredicate('sourceRecorded', (manifest.source && manifest.provider) ? 'PASS' : 'FAIL', 'Source explicitly recorded');
@@ -135,8 +155,7 @@ export function runIndependentVerification(
   addPredicate('pitStatusExplicitlyClassified', pitStatus ? 'PASS' : 'FAIL', 'PIT Status classified');
 
   // 17. corporateActionBasisExplicit
-  // Just mark NOT_VERIFIABLE if unknown, but FAIL if not even specified
-  addPredicate('corporateActionBasisExplicit', 'NOT_VERIFIABLE', 'No corporate action data attached');
+  addPredicate('corporateActionBasisExplicit', 'NOT_VERIFIABLE', 'No empirical corporate action data attached');
 
   // 18. coverageCalculated
   if (manifest.requestedStart && manifest.requestedEnd && manifest.actualStart && manifest.actualEnd) {

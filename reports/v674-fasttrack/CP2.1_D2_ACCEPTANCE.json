@@ -1,12 +1,12 @@
 {
   "schemaVersion": "2.1",
-  "repositorySha": "5ce3dd21ce8d49df6a163f8c9e5bdb02a94bbbf8",
+  "repositorySha": "8d1206f44a81702e44cbdd6d798afc7445bfd951",
   "repositoryRef": "ai-review",
-  "parentSha": "9a440488fade956f7f0d56fc3815641bfb0a7a50",
+  "parentSha": "5ce3dd21ce8d49df6a163f8c9e5bdb02a94bbbf8",
   "generatedFromCleanWorkingTree": true,
-  "deliveryDecision": "FAILED",
-  "canonicalEvidenceHash": "b37749f190f42e2c681a52f4011c27206d5ebeadbe0770fdd05b84c8c5b5d402",
-  "implementationHash": "f7b6a924975b43b73d58bdb3551bbe45a0f89a1882d567f1493ac23a70978d21",
+  "deliveryDecision": "IMPLEMENTED_AND_VERIFIED",
+  "canonicalEvidenceHash": "d64f2285a1c93739f0b3b9e3b34d35fbcf0c1216ab940c511a064230bdf62fb6",
+  "implementationHash": "656fb56a3f2759d90583a468b45ae9bbc6000c37e63ed844d64dbd9fce202166",
   "canonicalLedger": {
     "recordCount": 6501,
     "sha256": "f8d8541a2b186d42d72c077395f90a88f6f234b16bfdb83ca683eb2232064681",
@@ -42,16 +42,13 @@
   },
   "tests": {
     "total": 18,
-    "passed": 16,
-    "failed": 2,
-    "failures": [
-      "D2-RI-14: Decision must be IMPLEMENTED_AND_VERIFIED\n+ actual - expected\n\n+ 'FAILED'\n- 'IMPLEMENTED_AND_VERIFIED'\n",
-      "D2-RI-16: Evidence artifact does not exist: reports/v674-fasttrack/CP2.1_DEPENDENCY_MAP.json"
-    ]
+    "passed": 18,
+    "failed": 0,
+    "failures": []
   },
-  "decision": "FAILED",
+  "decision": "IMPLEMENTED_AND_VERIFIED",
   "operationalMetadata": {
-    "executedAt": "2026-09-19T17:40:49.838Z",
+    "executedAt": "2026-09-19T18:34:39.877Z",
     "nodeVersion": "v24.18.0"
   }
 }

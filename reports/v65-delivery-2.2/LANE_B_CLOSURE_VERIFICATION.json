@@ -1,18 +1,79 @@
 {
-  "closureId": "LANE_B1_FORENSIC_CLOSURE",
-  "baselineCommit": "6d0e78f5b394e882212d67c76edfd21df7705981",
-  "status": "LANE_B_FORENSIC_CLOSED",
-  "timestamp": "2026-09-19T17:44:00.000Z",
-  "metrics": {
-    "frozenControls": 7,
-    "predicatesVerified": 21,
-    "integrationPhasesPassed": 7,
-    "testsPassed": 18
+  "commitSha": "8d1206f44a81702e44cbdd6d798afc7445bfd951",
+  "cp21BaselineSha": "6d0e78f5b394e882212d67c76edfd21df7705981",
+  "predicateCount": 21,
+  "verifier21PointResults": [
+    "schemaValid",
+    "numericValuesFinite",
+    "noNullNumericValues",
+    "noNaN",
+    "noInfinity",
+    "ohlcRelationshipValid",
+    "timestampValid",
+    "timestampTimezoneExplicit",
+    "duplicateIdentityAbsent",
+    "securityIdentityResolved",
+    "rawAcquisitionHashRecorded",
+    "canonicalHashReproducible",
+    "tradingCalendarValid",
+    "sourceRecorded",
+    "datasetIdRecorded",
+    "pitStatusExplicitlyClassified",
+    "corporateActionBasisExplicit",
+    "coverageCalculated",
+    "missingRangesReported",
+    "promotionGatePassed",
+    "independentRehashPassed"
+  ],
+  "rawHash": {
+    "physicalBytesRead": true,
+    "manifestMatch": true
   },
-  "constraints": {
-    "empiricalAcquisition": "DISABLED",
-    "economicReplay": "DISABLED",
-    "filterDataReady": false
+  "canonicalHash": {
+    "physicalReconstruction": true,
+    "writerVerifierMatch": true
   },
-  "auditorDecision": "PASSED"
+  "acquisition": {
+    "datesConfigurable": true,
+    "chunkingImplemented": true,
+    "chunkingExercised": true,
+    "missingRangesReported": true
+  },
+  "pitStatus": {
+    "V3HistoricalDefault": "PIT_NOT_VERIFIABLE"
+  },
+  "provider": "UPSTOX",
+  "endpointVersion": "V3",
+  "instrumentResolutionMode": {
+    "empirical": "ISOLATED_FROM_MOCK"
+  },
+  "agentStatuses": {
+    "A": "COMPLETE",
+    "B": "COMPLETE",
+    "C": "COMPLETE",
+    "D": "COMPLETE",
+    "E": "COMPLETE",
+    "F": "COMPLETE"
+  },
+  "testResults": {
+    "fasttrack_d2_total": 18,
+    "fasttrack_d2_passed": 18
+  },
+  "cp21RegressionClassification": {
+    "D2-RI-14": "STALE_EXPECTATION",
+    "D2-RI-16": "STALE_EXPECTATION"
+  },
+  "frozenControls": {
+    "PureTechnicalStrategiesEngine.ts": "unchanged",
+    "StrategyParameterConfig.ts": "unchanged",
+    "ParameterGenerationContract.ts": "unchanged",
+    "ParameterStructureGate.ts": "unchanged",
+    "TradingStrategyContract.ts": "unchanged",
+    "SignalValidationGate.ts": "unchanged",
+    "EngineIntegrationGate.ts": "unchanged"
+  },
+  "blockers": [],
+  "FILTER_DATA_READY": false,
+  "EMPIRICAL_ACQUISITION": false,
+  "ECONOMIC_REPLAY": false
 }

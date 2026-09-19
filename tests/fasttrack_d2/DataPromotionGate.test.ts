@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { evaluateDatasetPromotion } from '../../src/server/services/dataenrichment/verifiers/DatasetPromotionGate';
 import { VerificationPredicate } from '../../src/server/services/dataenrichment/DataStagingContract';
 
@@ -41,6 +42,7 @@ describe(
           evaluateDatasetPromotion({
             datasetId: 'TEST_DATASET',
             checks: passingChecks,
+            manifest: { pitStatus: 'PIT_VERIFIED', calendarStatus: 'VALIDATED' } as any
           });
 
         expect(
@@ -56,6 +58,7 @@ describe(
           evaluateDatasetPromotion({
             datasetId: 'TEST_DATASET',
             checks: passingChecks.map(c => c.id === 'ohlcRelationshipValid' ? { ...c, status: 'FAIL' } : c),
+            manifest: { pitStatus: 'PIT_VERIFIED', calendarStatus: 'VALIDATED' } as any
           });
 
         expect(
@@ -76,7 +79,8 @@ describe(
         const result =
           evaluateDatasetPromotion({
             datasetId: 'TEST_DATASET',
-            checks: passingChecks.map(c => c.id === 'pitStatusExplicitlyClassified' ? { ...c, status: 'NOT_VERIFIABLE' } : c),
+            checks: passingChecks,
+            manifest: { pitStatus: 'PIT_NOT_VERIFIABLE', calendarStatus: 'VALIDATED' } as any,
             insufficientReasons: [
               'PUBLICATION_TIMESTAMP_MISSING',
             ],
@@ -97,6 +101,7 @@ describe(
           evaluateDatasetPromotion({
             datasetId: 'TEST_DATASET',
             checks: passingChecks.map(c => c.id === 'securityIdentityResolved' ? { ...c, status: 'FAIL' } : c),
+            manifest: { pitStatus: 'PIT_VERIFIED', calendarStatus: 'VALIDATED' } as any
           });
 
         expect(

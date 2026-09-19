@@ -1,3 +1,4 @@
+import { test } from 'vitest';
 /**
  * tests/fasttrack_d2/DependencyGraph.test.ts
  *
@@ -93,8 +94,7 @@ async function runDependencyGraphTests() {
   console.log('============================================================\n');
 }
 
-runDependencyGraphTests().catch(err => {
-  console.error('DEPENDENCY GRAPH TEST FAILED:', err);
-  process.exit(1);
-});
+test('Legacy Script', async () => { await runDependencyGraphTests(); });
+
+
 

@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { describe, it, expect } from 'vitest';
 import { hashCanonicalDataset } from '../../src/server/services/dataenrichment/CanonicalObservationSerializer';
 import { writeDataset } from '../../src/server/services/dataenrichment/DatasetManifestWriter';
 

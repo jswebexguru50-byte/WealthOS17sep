@@ -20,7 +20,7 @@ export async function run(): Promise<SwarmAgentResult> {
     rowsAcquired: 0,
     rowsValidated: 0,
     rowsRejected: 0,
-    pitStatus: 'UNKNOWN',
+    pitStatus: 'PIT_NOT_VERIFIABLE',
     calendarStatus: 'UNKNOWN',
     failureReasons: [],
     startedAt,
@@ -28,7 +28,7 @@ export async function run(): Promise<SwarmAgentResult> {
   };
 
   try {
-    result.pitStatus = 'UNKNOWN'; // Start as UNKNOWN until verification
+    result.pitStatus = 'PIT_NOT_VERIFIABLE';
     
     assertSourceSupports('UPSTOX_V3', 'INDEX_OHLCV');
     assertSourceSupports('UPSTOX_V3', 'DAILY_OHLCV');
@@ -41,6 +41,7 @@ export async function run(): Promise<SwarmAgentResult> {
     let actualStart: string | undefined;
     let actualEnd: string | undefined;
     const missingRanges: any[] = [];
+    let coverage: any;
 
     const requestedStart = process.env.ACQUISITION_START;
     const requestedEnd = process.env.ACQUISITION_END; 
@@ -95,6 +96,7 @@ export async function run(): Promise<SwarmAgentResult> {
       actualStart = chunkedResult.actualStart || actualStart;
       actualEnd = chunkedResult.actualEnd || actualEnd;
       missingRanges.push(...chunkedResult.missingRanges);
+      coverage = chunkedResult.coverage;
     }
 
     result.rowsAcquired = rows.length;
@@ -107,7 +109,8 @@ export async function run(): Promise<SwarmAgentResult> {
       requestedEnd: process.env.ACQUISITION_END,
       actualStart,
       actualEnd,
-      missingRanges
+      missingRanges,
+      coverage
     };
     
     result = writeDataset('sectors', datasetId, rows, manifestResult, Buffer.concat(rawBytesChunks));

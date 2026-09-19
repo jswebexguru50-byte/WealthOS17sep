@@ -95,7 +95,8 @@ export async function run(): Promise<SwarmAgentResult> {
       requestedEnd,
       actualStart: chunkedResult.actualStart,
       actualEnd: chunkedResult.actualEnd,
-      missingRanges: chunkedResult.missingRanges
+      missingRanges: chunkedResult.missingRanges,
+      coverage: chunkedResult.coverage
     };
     
     result = writeDataset('intraday', datasetId, rows, manifestResult, Buffer.concat(chunkedResult.rawBytesChunks));

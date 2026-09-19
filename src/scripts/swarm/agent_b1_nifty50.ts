@@ -20,7 +20,7 @@ export async function run(): Promise<SwarmAgentResult> {
     rowsAcquired: 0,
     rowsValidated: 0,
     rowsRejected: 0,
-    pitStatus: 'UNKNOWN',
+    pitStatus: 'PIT_NOT_VERIFIABLE',
     calendarStatus: 'UNKNOWN',
     failureReasons: [],
     startedAt,
@@ -29,7 +29,7 @@ export async function run(): Promise<SwarmAgentResult> {
 
   try {
     assertSourceSupports('UPSTOX_V3', 'INDEX_OHLCV');
-    result.pitStatus = 'UNKNOWN'; // Start as UNKNOWN until verification
+    result.pitStatus = 'PIT_NOT_VERIFIABLE'; // Upstox V3 endpoint does not provide publication timestamps
 
     assertSourceSupports('UPSTOX_V3', 'DAILY_OHLCV');
 
@@ -90,7 +90,8 @@ export async function run(): Promise<SwarmAgentResult> {
       requestedEnd,
       actualStart: chunkedResult.actualStart,
       actualEnd: chunkedResult.actualEnd,
-      missingRanges: chunkedResult.missingRanges
+      missingRanges: chunkedResult.missingRanges,
+      coverage: chunkedResult.coverage
     };
     
     result = writeDataset('daily', datasetId, rows, manifestResult, Buffer.concat(chunkedResult.rawBytesChunks));

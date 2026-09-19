@@ -1,10 +1,12 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import os from 'node:os';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { runIndependentVerification } from '../../src/server/services/dataenrichment/verifiers/IndependentVerifier';
 import { evaluateDatasetPromotion } from '../../src/server/services/dataenrichment/verifiers/DatasetPromotionGate';
 import { resolveUpstoxInstrument } from '../../src/server/services/dataenrichment/DataAcquisitionContract';
-import { serializeDataset, hashCanonicalDataset } from '../../src/server/services/dataenrichment/CanonicalObservationSerializer';
+import { hashCanonicalDataset } from '../../src/server/services/dataenrichment/CanonicalObservationSerializer';
 
 describe('Adversarial Verification B - Forensics', () => {
   const repoRoot = process.cwd();
@@ -22,70 +24,75 @@ describe('Adversarial Verification B - Forensics', () => {
   });
 
   it('2. forged PIT_VERIFIED in manifest does not pass if gate strictly checks', () => {
-    // The gate enforces strict logic. Just having PIT_VERIFIED in manifest isn't enough if predicates fail.
-    // If we spoof the manifest.pitStatus, the predicate pitStatusExplicitlyClassified might pass,
-    // but the promotion gate requires all 21 passing, so forging one thing won't bypass the gate.
-    const forgedManifest = { pitStatus: 'PIT_VERIFIED' };
-    const predicates = runIndependentVerification('ID', [], forgedManifest, '');
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'adv-'));
+    const tmpDataPath = path.join(tmpDir, 'data.jsonl');
+    const tmpManifestPath = path.join(tmpDir, 'manifest.json');
+    
+    fs.writeFileSync(tmpDataPath, '', 'utf8'); // Empty rows
+    fs.writeFileSync(tmpManifestPath, JSON.stringify({ pitStatus: 'PIT_VERIFIED' }), 'utf8');
+
+    const predicates = runIndependentVerification('ID', tmpManifestPath, tmpDataPath, '');
     const pitCheck = predicates.find(p => p.id === 'pitStatusExplicitlyClassified');
-    // Since rows are empty, 1-10 fail.
     expect(pitCheck?.status).toBe('PASS'); // Only this predicate passes, others fail, gate rejects.
+    fs.rmSync(tmpDir, { recursive: true, force: true });
   });
 
   it('3. forged rawSha256 cannot pass independent rehash', () => {
-    const rawBytes = Buffer.from('actual_downloaded_data');
-    const tmpPath = path.join(repoRoot, 'tmp_raw.bin');
-    fs.writeFileSync(tmpPath, rawBytes);
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'adv-'));
+    const tmpRawPath = path.join(tmpDir, 'tmp_raw.bin');
+    const tmpDataPath = path.join(tmpDir, 'data.jsonl');
+    const tmpManifestPath = path.join(tmpDir, 'manifest.json');
     
+    const rawBytes = Buffer.from('actual_downloaded_data');
+    fs.writeFileSync(tmpRawPath, rawBytes);
+    const rows = [{ open: 1, high: 2, low: 1, close: 1.5, volume: 10, barStartTime: '2020T', instrumentKey: 'A' } as any];
+    fs.writeFileSync(tmpDataPath, rows.map(r => JSON.stringify(r)).join('\n') + '\n', 'utf8');
+
     const forgedManifest = {
       rawSha256: 'deadbeefdeadbeef',
-      canonicalSha256: 'canonicalhash'
+      canonicalSha256: hashCanonicalDataset(rows)
     };
-    
-    // valid rows to bypass empty row failure
-    const rows = [{ open: 1, high: 2, low: 1, close: 1.5, volume: 10, barStartTime: '2020T', instrumentKey: 'A' } as any];
-    const predicates = runIndependentVerification('ID', rows, forgedManifest, tmpPath);
+    fs.writeFileSync(tmpManifestPath, JSON.stringify(forgedManifest), 'utf8');
+
+    const predicates = runIndependentVerification('ID', tmpManifestPath, tmpDataPath, tmpRawPath);
     const rawCheck = predicates.find(p => p.id === 'rawAcquisitionHashRecorded');
     expect(rawCheck?.status).toBe('FAIL');
-    
-    fs.unlinkSync(tmpPath);
+    fs.rmSync(tmpDir, { recursive: true, force: true });
   });
-  
   it('4. physical raw-byte mutation causes FAIL', () => {
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'adv-'));
+    const tmpRawPath = path.join(tmpDir, 'tmp_raw.bin');
+    const tmpDataPath = path.join(tmpDir, 'data.jsonl');
+    const tmpManifestPath = path.join(tmpDir, 'manifest.json');
+    
     const rawBytes = Buffer.from('actual_downloaded_data');
-    const tmpPath = path.join(repoRoot, 'tmp_raw.bin');
-    fs.writeFileSync(tmpPath, rawBytes);
+    fs.writeFileSync(tmpRawPath, rawBytes);
     
     const validRawHash = crypto.createHash('sha256').update(rawBytes).digest('hex');
-    const manifest = { rawSha256: validRawHash };
-    const rows = [{ open: 1, high: 2, low: 1, close: 1.5, volume: 10, barStartTime: '2020T', instrumentKey: 'A' } as any];
-    
-    // Assert PASS initially
-    const pred1 = runIndependentVerification('ID', rows, manifest, tmpPath);
-    expect(pred1.find(p => p.id === 'rawAcquisitionHashRecorded')?.status).toBe('PASS');
-    
-    // Mutate file physically
-    fs.writeFileSync(tmpPath, Buffer.from('actual_downloaded_datb'));
-    
-    // Assert FAIL
-    const pred2 = runIndependentVerification('ID', rows, manifest, tmpPath);
-    expect(pred2.find(p => p.id === 'rawAcquisitionHashRecorded')?.status).toBe('FAIL');
-    
-    fs.unlinkSync(tmpPath);
-  });
-
-  it('5. physical staged canonical bytes mutation causes FAIL', () => {
     const rows = [{ open: 1, high: 2, low: 1, close: 1.5, volume: 10, barStartTime: '2020T', instrumentKey: 'A' } as any];
     const validCanonicalHash = hashCanonicalDataset(rows);
-    const manifest = { canonicalSha256: validCanonicalHash };
+    const manifest = { rawSha256: validRawHash, canonicalSha256: validCanonicalHash };
     
-    const pred1 = runIndependentVerification('ID', rows, manifest, '');
+    fs.writeFileSync(tmpDataPath, rows.map(r => JSON.stringify(r)).join('\n') + '\n', 'utf8');
+    fs.writeFileSync(tmpManifestPath, JSON.stringify(manifest), 'utf8');
+
+    // Assert PASS initially
+    const pred1 = runIndependentVerification('ID', tmpManifestPath, tmpDataPath, tmpRawPath);
+    expect(pred1.find(p => p.id === 'rawAcquisitionHashRecorded')?.status).toBe('PASS');
     expect(pred1.find(p => p.id === 'canonicalHashReproducible')?.status).toBe('PASS');
     
-    // Mutate rows
-    rows[0].open = 2;
-    const pred2 = runIndependentVerification('ID', rows, manifest, '');
-    expect(pred2.find(p => p.id === 'canonicalHashReproducible')?.status).toBe('FAIL');
+    // Mutate file physically (raw bytes)
+    fs.writeFileSync(tmpRawPath, Buffer.from('actual_downloaded_datb'));
+    const pred2 = runIndependentVerification('ID', tmpManifestPath, tmpDataPath, tmpRawPath);
+    expect(pred2.find(p => p.id === 'rawAcquisitionHashRecorded')?.status).toBe('FAIL');
+    
+    // Mutate file physically (canonical bytes, e.g. delete a row)
+    fs.writeFileSync(tmpRawPath, rawBytes); // restore raw
+    fs.writeFileSync(tmpDataPath, '', 'utf8'); // delete row
+    const pred3 = runIndependentVerification('ID', tmpManifestPath, tmpDataPath, tmpRawPath);
+    expect(pred3.find(p => p.id === 'canonicalHashReproducible')?.status).toBe('FAIL');
+
+    fs.rmSync(tmpDir, { recursive: true, force: true });
   });
 
   it('6. EMPIRICAL mode cannot use fixture silently', async () => {
@@ -96,35 +103,36 @@ describe('Adversarial Verification B - Forensics', () => {
       expect(e.message).toContain('INSTRUMENT_RESOLUTION_UNAVAILABLE');
     }
   });
-
-  it('10. missing publication => PIT_NOT_VERIFIABLE', () => {
-    const manifest = { pitStatus: undefined };
+  it('10-15. missing manifest metadata and raw hash', () => {
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'adv-'));
+    const tmpDataPath = path.join(tmpDir, 'data.jsonl');
+    const tmpManifestPath = path.join(tmpDir, 'manifest.json');
     const rows = [{ open: 1, high: 2, low: 1, close: 1.5, volume: 10, barStartTime: '2020T', instrumentKey: 'A' } as any];
-    const pred = runIndependentVerification('ID', rows, manifest, '');
+    fs.writeFileSync(tmpDataPath, rows.map(r => JSON.stringify(r)).join('\n') + '\n', 'utf8');
+
+    // 10
+    fs.writeFileSync(tmpManifestPath, JSON.stringify({ pitStatus: undefined }), 'utf8');
+    let pred = runIndependentVerification('ID', tmpManifestPath, tmpDataPath, '');
     expect(pred.find(p => p.id === 'pitStatusExplicitlyClassified')?.status).toBe('FAIL');
-  });
 
-  it('11. missing calendar evidence cannot PASS', () => {
-    const manifest = { calendarStatus: 'UNKNOWN' };
-    const rows = [{ open: 1, high: 2, low: 1, close: 1.5, volume: 10, barStartTime: '2020T', instrumentKey: 'A' } as any];
-    const pred = runIndependentVerification('ID', rows, manifest, '');
+    // 11
+    fs.writeFileSync(tmpManifestPath, JSON.stringify({ calendarStatus: 'UNKNOWN' }), 'utf8');
+    pred = runIndependentVerification('ID', tmpManifestPath, tmpDataPath, '');
     expect(pred.find(p => p.id === 'tradingCalendarValid')?.status).toBe('NOT_VERIFIABLE');
-  });
 
-  it('13,14. missing coverage and ranges cannot PASS', () => {
-    const manifest = { requestedStart: 'A', requestedEnd: 'B', actualStart: undefined, missingRanges: undefined };
-    const rows = [{ open: 1, high: 2, low: 1, close: 1.5, volume: 10, barStartTime: '2020T', instrumentKey: 'A' } as any];
-    const pred = runIndependentVerification('ID', rows, manifest, '');
+    // 13, 14
+    fs.writeFileSync(tmpManifestPath, JSON.stringify({ requestedStart: 'A', requestedEnd: 'B' }), 'utf8');
+    pred = runIndependentVerification('ID', tmpManifestPath, tmpDataPath, '');
     expect(pred.find(p => p.id === 'coverageCalculated')?.status).toBe('FAIL');
     expect(pred.find(p => p.id === 'missingRangesReported')?.status).toBe('FAIL');
-  });
 
-  it('15. manifest-only raw hash cannot PASS', () => {
-    const manifest = { rawSha256: 'deadbeef' };
-    const rows = [{ open: 1, high: 2, low: 1, close: 1.5, volume: 10, barStartTime: '2020T', instrumentKey: 'A' } as any];
-    const pred = runIndependentVerification('ID', rows, manifest, undefined); // No raw path passed
+    // 15
+    fs.writeFileSync(tmpManifestPath, JSON.stringify({ rawSha256: 'deadbeef' }), 'utf8');
+    pred = runIndependentVerification('ID', tmpManifestPath, tmpDataPath, undefined);
     expect(pred.find(p => p.id === 'rawAcquisitionHashRecorded')?.status).toBe('FAIL');
     expect(pred.find(p => p.id === 'independentRehashPassed')?.status).toBe('FAIL');
+
+    fs.rmSync(tmpDir, { recursive: true, force: true });
   });
 
 });

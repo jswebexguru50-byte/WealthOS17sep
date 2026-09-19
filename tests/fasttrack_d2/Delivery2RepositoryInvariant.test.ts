@@ -1,3 +1,4 @@
+import { test } from 'vitest';
 /**
  * tests/fasttrack_d2/Delivery2RepositoryInvariant.test.ts
  *
@@ -331,7 +332,7 @@ export async function runAcceptance(): Promise<{ passed: number; failed: number;
 
     const res = verifier.verify(validEvidence);
     assert.strictEqual(res.cp21Authorization, false, 'cp21Authorization must be strictly false');
-    assert.strictEqual(res.deliveryDecision, 'IMPLEMENTED_AND_VERIFIED', 'Decision must be IMPLEMENTED_AND_VERIFIED');
+    if (res.deliveryDecision !== 'IMPLEMENTED_AND_VERIFIED') console.error('FAILURES:', res.failures); assert.strictEqual(res.deliveryDecision, 'IMPLEMENTED_AND_VERIFIED', 'Decision must be IMPLEMENTED_AND_VERIFIED');
   });
 
   // --- D2-RI-15: Economic feedback isolation ---
@@ -495,11 +496,8 @@ export async function runAcceptance(): Promise<{ passed: number; failed: number;
 }
 
 // When executed directly via tsx
-if (process.argv[1] && process.argv[1].includes('Delivery2RepositoryInvariant.test.ts')) {
-  runAcceptance().then(res => {
-    if (res.failed > 0) process.exit(1);
-  }).catch(e => {
-    console.error('FATAL:', e);
-    process.exit(1);
-  });
-}
+test('Legacy Script', async () => { const res = await runAcceptance(); if (res.failed > 0) throw new Error('Legacy test failed'); });;
+
+
+
+

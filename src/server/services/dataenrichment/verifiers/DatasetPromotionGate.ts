@@ -23,6 +23,8 @@ export function evaluateDatasetPromotion(
     'noInfinity', 'ohlcRelationshipValid', 'timestampValid', 'timestampTimezoneExplicit',
     'duplicateIdentityAbsent', 'securityIdentityResolved', 'rawAcquisitionHashRecorded',
     'canonicalHashReproducible', 'sourceRecorded', 'datasetIdRecorded',
+    'coverageCalculated', 'missingRangesReported', 'pitStatusExplicitlyClassified',
+    'corporateActionBasisExplicit', 'tradingCalendarValid',
     'independentRehashPassed'
   ];
 
@@ -42,8 +44,17 @@ export function evaluateDatasetPromotion(
 
   for (const req of requiredToPass) {
     if (predicateMap.has(req) && predicateMap.get(req)!.status !== 'PASS') {
-      failures.push(`PREDICATE_NOT_PASS:${req}`);
+      failures.push(`PREDICATE_NOT_PASS:${req} (${predicateMap.get(req)!.status})`);
     }
+  }
+
+  // The promotion gate must reject NOT_VERIFIABLE manifest conditions explicitly
+  if (input.manifest.pitStatus !== 'PIT_VERIFIED') {
+    failures.push(`PROMOTION_REJECTED: PIT is ${input.manifest.pitStatus}, required: PIT_VERIFIED`);
+  }
+  
+  if (input.manifest.calendarStatus !== 'VALIDATED') {
+    failures.push(`PROMOTION_REJECTED: Calendar is ${input.manifest.calendarStatus}, required: VALIDATED`);
   }
 
   if (failures.length === 0 && insufficientReasons.length === 0) {
