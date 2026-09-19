@@ -36,7 +36,8 @@
     "v63:typecheck": "tsc --noEmit",
     "chatgpt:export-schema": "node scripts/export_schema_and_sample.mjs",
     "chatgpt-review": "node scripts/chatgpt-review.js",
-    "chatgpt-review:focused": "node scripts/chatgpt-review.js --focused"
+    "chatgpt-review:focused": "node scripts/chatgpt-review.js --focused",
+    "verify:v672-r2": "tsx scripts/v672/run_v672_r2_master_verification.ts"
   },
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.1128.0",
