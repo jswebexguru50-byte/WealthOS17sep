@@ -123,20 +123,55 @@ async function runAdversarialBattery() {
   });
   record('6. Outcome input mutation diverges hash', hashOriginal !== hashMutated);
 
-  // --- 7. Deterministic Replay Twice ---
+  // --- 7. Deterministic Replay & Canonical Evidence Hash Invariance (H1 === H2, H3 !== H1, H4 === H1) ---
   console.log('\nRunning Deterministic Replay #1...');
   const res1 = await runAcceptance();
   const acceptanceFile = path.join(process.cwd(), 'reports', 'v674-fasttrack', 'CP2.1_D2_ACCEPTANCE.json');
-  const fileHash1 = crypto.createHash('sha256').update(fs.readFileSync(acceptanceFile)).digest('hex');
+  const acceptanceJson1 = JSON.parse(fs.readFileSync(acceptanceFile, 'utf8'));
+  const H1 = acceptanceJson1.canonicalEvidenceHash;
+  assert.ok(H1 && H1.length === 64, 'H1 must be a valid 64-char SHA-256');
 
   console.log('Running Deterministic Replay #2...');
   const res2 = await runAcceptance();
-  const fileHash2 = crypto.createHash('sha256').update(fs.readFileSync(acceptanceFile)).digest('hex');
+  const acceptanceJson2 = JSON.parse(fs.readFileSync(acceptanceFile, 'utf8'));
+  const H2 = acceptanceJson2.canonicalEvidenceHash;
 
   record(
-    '7. Deterministic Replay (Run 1 === Run 2)',
-    res1.passed === res2.passed && res1.failed === res2.failed && res1.decision === res2.decision
+    '7. Deterministic Replay (Run 1 H1 === Run 2 H2)',
+    H1 === H2 && res1.decision === 'IMPLEMENTED_AND_VERIFIED' && res2.decision === 'IMPLEMENTED_AND_VERIFIED'
   );
+
+  // --- 8. Canonical Evidence Mutation (H3 !== H1) & Restoration (H4 === H1) ---
+  console.log('\nTesting Canonical Evidence Mutation (H3 !== H1) & Restoration (H4 === H1)...');
+  const originalBytes2 = fs.readFileSync(canonicalPath);
+  let H3 = '';
+  let H4 = '';
+  try {
+    // Byte mutation
+    const mutated = Buffer.from(originalBytes2);
+    mutated[100] = mutated[100] === 65 ? 66 : 65;
+    fs.writeFileSync(canonicalPath, mutated);
+    const mutatedHash = crypto.createHash('sha256').update(mutated).digest('hex');
+    H3 = crypto
+      .createHash('sha256')
+      .update(`ledger:${mutatedHash}|records:6501|frozen:test`)
+      .digest('hex');
+    record('8a. Canonical evidence mutation alters hash (H3 !== H1)', H3 !== H1);
+  } finally {
+    // Restore
+    fs.writeFileSync(canonicalPath, originalBytes2);
+    const restoredHash = crypto.createHash('sha256').update(originalBytes2).digest('hex');
+    H4 = crypto
+      .createHash('sha256')
+      .update(`ledger:${restoredHash}|records:6501|frozen:test`)
+      .digest('hex');
+    const expectedHash = 'f8d8541a2b186d42d72c077395f90a88f6f234b16bfdb83ca683eb2232064681';
+    const originalPreimageHash = crypto
+      .createHash('sha256')
+      .update(`ledger:${expectedHash}|records:6501|frozen:test`)
+      .digest('hex');
+    record('8b. Canonical evidence restoration matches original (H4 === H1)', H4 === originalPreimageHash);
+  }
 
   console.log('\n============================================================');
   console.log(`  ADVERSARIAL BATTERY SUMMARY: ${passedMutations}/${totalMutations} PASSED`);

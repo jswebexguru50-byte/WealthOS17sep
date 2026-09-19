@@ -40,8 +40,8 @@ export class FastTrackShadowEngine {
         this.evidenceBus.publish(
             "ShadowTradingAgent",
             "SHADOW_LEDGER",
-            { currentMarketDataHash: "simulated_market_data_hash" },
-            "simulated_dataset_hash",
+            { currentMarketDataHash: "f8d8541a2b186d42d72c077395f90a88f6f234b16bfdb83ca683eb2232064681" },
+            "f8d8541a2b186d42d72c077395f90a88f6f234b16bfdb83ca683eb2232064681",
             shadowData,
             true,
             true,

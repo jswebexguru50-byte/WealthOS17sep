@@ -338,6 +338,22 @@ export class PointInTimeDataEngine {
     }
   }
 
+  validateObservation(symbol: string, observationTimestamp: string, asOf: string): { valid: boolean; reason?: string } {
+    if (observationTimestamp > asOf) {
+      return { valid: false, reason: `Observation timestamp ${observationTimestamp} is after asOf ${asOf}` };
+    }
+    const record = this.data.prices.find(
+      p => p.symbol === symbol && p.timestamp === observationTimestamp
+    );
+    if (!record) {
+      return { valid: false, reason: `No price record found for ${symbol} at ${observationTimestamp}` };
+    }
+    if (!isDataKnowable(record.availableAt, asOf)) {
+      return { valid: false, reason: `Observation availableAt ${record.availableAt} is after asOf ${asOf}` };
+    }
+    return { valid: true };
+  }
+
   snapshotHash(asOf: string) {
     return sha256Canonical({
       asOf,
@@ -349,3 +365,4 @@ export class PointInTimeDataEngine {
     });
   }
 }
+

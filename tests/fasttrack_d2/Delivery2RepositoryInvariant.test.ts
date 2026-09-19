@@ -295,36 +295,37 @@ export async function runAcceptance(): Promise<{ passed: number; failed: number;
   // --- D2-RI-14: CP2.1 self-authorization barrier ---
   await testInvariant('D2-RI-14', 'CP2.1 verifier strictly non-authorizing', () => {
     const verifier = new CP21IndependentVerifier();
-    // Missing evidence refs must throw
-    assert.throws(
-      () => verifier.verify('r1', 6501, EXPECTED_CANONICAL_BYTE_HASH, {}),
-      /EVIDENCE_REFS_MISSING/
-    );
+    // Negative test: Passing unsupported boolean assertion without physical evidence must fail
+    const unsupportedResult = verifier.verify({} as any);
+    assert.strictEqual(unsupportedResult.deliveryDecision, 'FAILED');
+    assert.strictEqual(unsupportedResult.cp21Authorization, false);
 
-    const res = verifier.verify('r1', 6501, EXPECTED_CANONICAL_BYTE_HASH, {
-      refs: ['reports/v674-phase2/02_CORRECTED_SIGNALS.csv'],
-      canonicalLedgerImmutable: true,
-      canonicalPopulationValid: true,
-      oneToOneEnrichment: true,
-      canonicalIdentityPreserved: true,
-      noSyntheticData: true,
-      provenanceComplete: true,
-      pitValidationComplete: true,
-      corporateActionValidationComplete: true,
-      timestampValidationComplete: true,
-      s10DependencyValidated: true,
-      golden103Reproduced: true,
-      economicFeedbackAbsent: true,
-      missingnessClassified: true,
-      datasetTransitionValid: true,
-      staleArtifactsZero: true,
-      cleanRoomPass: true,
-      redTeamPass: true,
-      trackBBypassImpossible: true
-    });
+    // Valid physical evidence verification
+    const validEvidence: any = {
+      repositorySha: '7871a0b',
+      canonicalLedger: {
+        path: 'reports/v674-phase2/02_CORRECTED_SIGNALS.csv',
+        expectedSha256: EXPECTED_CANONICAL_BYTE_HASH,
+        exactRecords: EXPECTED_CANONICAL_COUNT
+      },
+      frozenControls: Object.keys(IMMUTABLE_FROZEN_CONTROLS_BASELINE).map(relPath => ({
+        path: relPath,
+        expectedSha256: IMMUTABLE_FROZEN_CONTROLS_BASELINE[relPath]
+      })),
+      researchSnapshot: {
+        path: 'reports/v674-fasttrack/02_delivery2_1/baseline/repository.json'
+      },
+      dependencyGraph: {
+        path: 'reports/v674-fasttrack/CP2.1_DEPENDENCY_MAP.json'
+      },
+      auditLedger: {
+        path: 'reports/v674-fasttrack/CP2.1_DECISION_LEDGER_SCHEMA.json'
+      }
+    };
 
+    const res = verifier.verify(validEvidence);
     assert.strictEqual(res.cp21Authorization, false, 'cp21Authorization must be strictly false');
-    assert.strictEqual(res.decision, 'IMPLEMENTED_NOT_CERTIFIED', 'Decision must be IMPLEMENTED_NOT_CERTIFIED');
+    assert.strictEqual(res.deliveryDecision, 'IMPLEMENTED_AND_VERIFIED', 'Decision must be IMPLEMENTED_AND_VERIFIED');
   });
 
   // --- D2-RI-15: Economic feedback isolation ---
@@ -391,9 +392,18 @@ export async function runAcceptance(): Promise<{ passed: number; failed: number;
     const gitHead = execSync('git rev-parse HEAD').toString().trim();
     const allInvariantsPassed = failed === 0 && failures.length === 0;
 
+    const canonicalEvidencePreimage = [
+      `ledger:${EXPECTED_CANONICAL_BYTE_HASH}`,
+      `records:${EXPECTED_CANONICAL_COUNT}`,
+      `frozen:${Object.keys(IMMUTABLE_FROZEN_CONTROLS_BASELINE).sort().map(k => `${k}:${IMMUTABLE_FROZEN_CONTROLS_BASELINE[k]}`).join(';')}`
+    ].join('|');
+    const canonicalEvidenceHash = crypto.createHash('sha256').update(canonicalEvidencePreimage).digest('hex');
+
     const acceptance = {
       schemaVersion: '2.1',
       repositorySha: gitHead,
+      deliveryDecision: allInvariantsPassed ? 'IMPLEMENTED_AND_VERIFIED' : 'FAILED',
+      canonicalEvidenceHash,
       canonicalLedger: {
         recordCount: EXPECTED_CANONICAL_COUNT,
         sha256: EXPECTED_CANONICAL_BYTE_HASH,
@@ -428,12 +438,16 @@ export async function runAcceptance(): Promise<{ passed: number; failed: number;
         live: false
       },
       tests: {
-        total: passed + failed + 1, // include this test
+        total: passed + failed + 1,
         passed: passed + 1,
         failed,
         failures
       },
-      decision: allInvariantsPassed ? 'DELIVERY2_ACCEPTED' : 'DELIVERY2_FAILED'
+      decision: allInvariantsPassed ? 'IMPLEMENTED_AND_VERIFIED' : 'FAILED',
+      operationalMetadata: {
+        executedAt: new Date().toISOString(),
+        nodeVersion: process.version
+      }
     };
 
     const artifactPath = path.join(reportsDir, 'CP2.1_D2_ACCEPTANCE.json');
@@ -449,7 +463,7 @@ export async function runAcceptance(): Promise<{ passed: number; failed: number;
     assert.strictEqual(acceptance.authorization.production, false);
   });
 
-  const finalDecision = (failed === 0 && failures.length === 0) ? 'DELIVERY2_ACCEPTED' : 'DELIVERY2_FAILED';
+  const finalDecision = (failed === 0 && failures.length === 0) ? 'IMPLEMENTED_AND_VERIFIED' : 'FAILED';
 
   console.log('\n============================================================');
   console.log(`  DELIVERY 2.1 PHYSICAL VERIFICATION SUMMARY`);

@@ -2,33 +2,24 @@
  * src/server/services/phase2fasttrack/ResearchSnapshotBuilder.ts
  *
  * Deterministic Provenance and Research Snapshot Builder.
- * Consumes physical evidence providers and computes independent SHA-256 byte hashes.
- * Bans all placeholders and hash-aliasing.
+ * Consumes physical evidence artifacts and computes canonical SHA-256 byte hashes.
+ * Invariant: mtime, file acquisition timestamps, and operational metadata
+ * NEVER influence canonical evidence hashes.
  */
 
 import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
-
-export interface PhysicalEvidence {
-  artifactPath: string;
-  byteHash: string;
-  byteLength: number;
-  recordCount: number;
-  sourceSystem: string;
-  asOfDate: string;
-  acquisitionTimestamp: string;
-  canonicalizationVersion: string;
-}
+import { EvidenceArtifact, computeEvidenceArtifact } from './EvidenceArtifact';
 
 export interface ProvenanceEvidenceProvider {
-  getPitUniverse(runContext?: Record<string, unknown>): Promise<PhysicalEvidence>;
-  getMarketData(runContext?: Record<string, unknown>): Promise<PhysicalEvidence>;
-  getCorporateActions(runContext?: Record<string, unknown>): Promise<PhysicalEvidence>;
-  getIntradayData(runContext?: Record<string, unknown>): Promise<PhysicalEvidence>;
-  getFinancialData(runContext?: Record<string, unknown>): Promise<PhysicalEvidence>;
-  getDependencyGraph(runContext?: Record<string, unknown>): Promise<PhysicalEvidence>;
-  getRegistry(runContext?: Record<string, unknown>): Promise<PhysicalEvidence>;
+  getPitUniverse(runContext?: Record<string, unknown>): Promise<EvidenceArtifact>;
+  getMarketData(runContext?: Record<string, unknown>): Promise<EvidenceArtifact>;
+  getCorporateActions(runContext?: Record<string, unknown>): Promise<EvidenceArtifact>;
+  getIntradayData(runContext?: Record<string, unknown>): Promise<EvidenceArtifact>;
+  getFinancialData(runContext?: Record<string, unknown>): Promise<EvidenceArtifact>;
+  getDependencyGraph(runContext?: Record<string, unknown>): Promise<EvidenceArtifact>;
+  getRegistry(runContext?: Record<string, unknown>): Promise<EvidenceArtifact>;
 }
 
 export class DefaultPhysicalEvidenceProvider implements ProvenanceEvidenceProvider {
@@ -38,84 +29,76 @@ export class DefaultPhysicalEvidenceProvider implements ProvenanceEvidenceProvid
     this.workspaceRoot = workspaceRoot;
   }
 
-  private computePhysicalFileEvidence(
-    relPath: string,
-    sourceSystem: string,
-    recordCountEstimator?: (content: string) => number
-  ): PhysicalEvidence {
-    const fullPath = path.join(this.workspaceRoot, relPath);
-    if (!fs.existsSync(fullPath)) {
-      throw new Error(`Physical provenance artifact not found: ${relPath}`);
-    }
-    const stat = fs.statSync(fullPath);
-    const content = fs.readFileSync(fullPath);
-    const byteHash = crypto.createHash('sha256').update(content).digest('hex');
-    let recordCount = 0;
-    if (recordCountEstimator) {
-      recordCount = recordCountEstimator(content.toString('utf8'));
-    } else if (relPath.endsWith('.json')) {
-      try {
-        const parsed = JSON.parse(content.toString('utf8'));
-        recordCount = Array.isArray(parsed) ? parsed.length : Object.keys(parsed).length;
-      } catch {
-        recordCount = 1;
-      }
-    } else if (relPath.endsWith('.csv') || relPath.endsWith('.jsonl')) {
-      recordCount = content.toString('utf8').split('\n').filter(l => l.trim().length > 0).length;
-      if (relPath.endsWith('.csv') && recordCount > 0) recordCount--; // exclude header
-    }
-
-    return {
-      artifactPath: relPath,
-      byteHash,
-      byteLength: stat.size,
-      recordCount,
-      sourceSystem,
-      asOfDate: stat.mtime.toISOString().split('T')[0],
-      acquisitionTimestamp: stat.mtime.toISOString(),
-      canonicalizationVersion: '1.0'
-    };
-  }
-
-  public async getPitUniverse(): Promise<PhysicalEvidence> {
+  public async getPitUniverse(): Promise<EvidenceArtifact> {
     const primary = 'data/v6.3_UNIVERSE_INTEGRITY_REPORT.json';
     const fallback = 'reports/v674-phase2/01B_COMMON_UNIVERSE_INTERSECTION_AUDIT.json';
     const chosen = fs.existsSync(path.join(this.workspaceRoot, primary)) ? primary : fallback;
-    return this.computePhysicalFileEvidence(chosen, 'WealthOS.PITUniverseEngine');
+    return computeEvidenceArtifact(chosen, this.workspaceRoot, { sourceSystem: 'WealthOS.PITUniverseEngine' });
   }
 
-  public async getMarketData(): Promise<PhysicalEvidence> {
-    // OHLCV market observations
+  public async getMarketData(): Promise<EvidenceArtifact> {
     const primary = 'reports/v674-phase2/02_CORRECTED_SIGNALS.csv';
-    return this.computePhysicalFileEvidence(primary, 'WealthOS.MarketDataStore');
+    return computeEvidenceArtifact(primary, this.workspaceRoot, { sourceSystem: 'WealthOS.MarketDataStore' });
   }
 
-  public async getCorporateActions(): Promise<PhysicalEvidence> {
+  public async getCorporateActions(): Promise<EvidenceArtifact> {
     const primary = 'data/v6.3_CORPORATE_ACTION_REPORT.json';
-    return this.computePhysicalFileEvidence(primary, 'WealthOS.CorporateActionService');
+    return computeEvidenceArtifact(primary, this.workspaceRoot, { sourceSystem: 'WealthOS.CorporateActionService' });
   }
 
-  public async getIntradayData(): Promise<PhysicalEvidence> {
+  public async getIntradayData(): Promise<EvidenceArtifact> {
     const primary = 'data/v6.3_DATA_CONTRACT.json';
-    return this.computePhysicalFileEvidence(primary, 'WealthOS.IntradayIngestor');
+    return computeEvidenceArtifact(primary, this.workspaceRoot, { sourceSystem: 'WealthOS.IntradayIngestor' });
   }
 
-  public async getFinancialData(): Promise<PhysicalEvidence> {
+  public async getFinancialData(): Promise<EvidenceArtifact> {
     const primary = 'data/v6.3_DATA_PROVENANCE_REPORT.json';
-    return this.computePhysicalFileEvidence(primary, 'WealthOS.FinancialDataEngine');
+    return computeEvidenceArtifact(primary, this.workspaceRoot, { sourceSystem: 'WealthOS.FinancialDataEngine' });
   }
 
-  public async getDependencyGraph(): Promise<PhysicalEvidence> {
+  public async getDependencyGraph(): Promise<EvidenceArtifact> {
     const primary = 'reports/v674-fasttrack/CP2.1_DEPENDENCY_MAP.json';
-    return this.computePhysicalFileEvidence(primary, 'WealthOS.DependencyAnalyzer');
+    return computeEvidenceArtifact(primary, this.workspaceRoot, { sourceSystem: 'WealthOS.DependencyAnalyzer' });
   }
 
-  public async getRegistry(): Promise<PhysicalEvidence> {
+  public async getRegistry(): Promise<EvidenceArtifact> {
     const primary = 'data/real_repository_data_manifest.json';
     const fallback = 'data/v6.2.0_frozen_manifest.json';
     const chosen = fs.existsSync(path.join(this.workspaceRoot, primary)) ? primary : fallback;
-    return this.computePhysicalFileEvidence(chosen, 'WealthOS.DataRegistry');
+    return computeEvidenceArtifact(chosen, this.workspaceRoot, { sourceSystem: 'WealthOS.DataRegistry' });
   }
+}
+
+export interface ResearchSnapshot {
+  runId: string;
+  gitSha: string;
+  canonicalEvidenceHash: string;
+  components: {
+    signalLedgerHash: string;
+    pitUniverseHash: string;
+    ohlcvHash: string;
+    corporateActionsHash: string;
+    intradayHash: string;
+    financialHash: string;
+    dependencyGraphHash: string;
+    registryHash: string;
+  };
+  evidenceArtifacts: {
+    pitUniverse: EvidenceArtifact;
+    marketData: EvidenceArtifact;
+    corporateActions: EvidenceArtifact;
+    intradayData: EvidenceArtifact;
+    financialData: EvidenceArtifact;
+    dependencyGraph: EvidenceArtifact;
+    registry: EvidenceArtifact;
+  };
+  algorithm: string;
+  canonicalization: string;
+  frozenControlHashes: Record<string, string>;
+  operationalMetadata: {
+    createdAt: string;
+    durationMs?: number;
+  };
 }
 
 export class ResearchSnapshotBuilder {
@@ -128,8 +111,9 @@ export class ResearchSnapshotBuilder {
     gitSha: string,
     signalLedgerHash: string,
     frozenControlHashes: Record<string, string>,
-    repositoryScopeHash: string
-  ) {
+    repositoryScopeHash?: string
+  ): Promise<ResearchSnapshot> {
+    const startTime = Date.now();
     const [
       pitUniverse,
       marketData,
@@ -153,11 +137,34 @@ export class ResearchSnapshotBuilder {
       throw new Error('FATAL: OHLCV market data hash cannot alias corporate action dataset hash.');
     }
 
-    const snapshot = {
+    // Compute canonical snapshot evidence hash from immutable components only (NO mtime, NO timestamps)
+    const sortedFrozen = Object.keys(frozenControlHashes)
+      .sort()
+      .map(k => `${k}:${frozenControlHashes[k]}`)
+      .join(';');
+
+    const canonicalPreimage = [
+      `gitSha:${gitSha}`,
+      `signalLedger:${signalLedgerHash}`,
+      `pitUniverse:${pitUniverse.canonicalHash}`,
+      `marketData:${marketData.canonicalHash}`,
+      `corporateActions:${corporateActions.canonicalHash}`,
+      `intradayData:${intradayData.canonicalHash}`,
+      `financialData:${financialData.canonicalHash}`,
+      `dependencyGraph:${dependencyGraph.canonicalHash}`,
+      `registry:${registry.canonicalHash}`,
+      `frozenControls:${sortedFrozen}`
+    ].join('|');
+
+    const canonicalEvidenceHash = crypto
+      .createHash('sha256')
+      .update(canonicalPreimage)
+      .digest('hex');
+
+    return {
       runId,
       gitSha,
-      signalLedgerHash,
-      datasetHash: marketData.byteHash,
+      canonicalEvidenceHash,
       components: {
         signalLedgerHash,
         pitUniverseHash: pitUniverse.byteHash,
@@ -165,7 +172,8 @@ export class ResearchSnapshotBuilder {
         corporateActionsHash: corporateActions.byteHash,
         intradayHash: intradayData.byteHash,
         financialHash: financialData.byteHash,
-        dependencyGraphHash: dependencyGraph.byteHash
+        dependencyGraphHash: dependencyGraph.byteHash,
+        registryHash: registry.byteHash
       },
       evidenceArtifacts: {
         pitUniverse,
@@ -177,13 +185,12 @@ export class ResearchSnapshotBuilder {
         registry
       },
       algorithm: 'SHA-256',
-      canonicalization: 'CANONICAL_PHYSICAL_BYTES_V1',
+      canonicalization: 'CANONICAL_PHYSICAL_BYTES_V2',
       frozenControlHashes,
-      repositoryScopeHash,
-      registryHash: registry.byteHash,
-      createdAt: new Date().toISOString()
+      operationalMetadata: {
+        createdAt: new Date().toISOString(),
+        durationMs: Date.now() - startTime
+      }
     };
-
-    return snapshot;
   }
 }

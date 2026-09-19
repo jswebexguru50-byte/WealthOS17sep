@@ -1,92 +1,98 @@
-import fs from 'fs';
-import path from 'path';
+/**
+ * src/server/services/phase2fasttrack/TrackBGate.ts
+ *
+ * Track B & B1/B2 Authorization Gate.
+ * Strict Non-Authorizing Barrier for Delivery 2.1:
+ * Invariant: B1 and B2 remain CLOSED by construction.
+ * No operation in Delivery 2.1 can transition B1 or B2 to OPEN.
+ */
+
 import { CP21Coordinator } from './CP21Coordinator.js';
+
 export interface GateToken {
-    gate: "CP2.1" | "B1";
-    decision: "VERIFIED";
-    evidenceHash: string;
-    generatedAt: string;
-    expiresAt?: string;
-    tokenHash: string;
+  gate: 'CP2.1' | 'B1';
+  decision: 'VERIFIED';
+  evidenceHash: string;
+  generatedAt: string;
+  expiresAt?: string;
+  tokenHash: string;
 }
 
+export interface AuthorizationState {
+  readonly cp21Authorization: false;
+  readonly b1Authorization: false;
+  readonly b2Authorization: false;
+  readonly trackBAuthorization: false;
+  readonly productionAuthorization: false;
+  readonly liveTradingAuthorization: false;
+}
+
+export const D21_STRICT_AUTHORIZATION_STATE: AuthorizationState = Object.freeze({
+  cp21Authorization: false,
+  b1Authorization: false,
+  b2Authorization: false,
+  trackBAuthorization: false,
+  productionAuthorization: false,
+  liveTradingAuthorization: false
+});
+
 export class TrackBGate {
-    private b1Authorized: boolean = false;
-    private b2Authorized: boolean = false;
+  private readonly b1Authorized: false = false;
+  private readonly b2Authorized: false = false;
 
-    constructor(private coordinator: CP21Coordinator) {}
+  constructor(private coordinator?: CP21Coordinator) {}
 
-    public evaluateGate(): "CP2.1_VERIFIED" | "CP2.1_VERIFIED_WITH_LIMITATIONS" | "CP2.1_BLOCKED" | "CP2.1_FAILED" {
-        const state = this.coordinator.getState;
-        let allTestsPassed = true;
-        let hasBlockers = state.blockers.length > 0;
-        let hasLimitations = state.outcomes.dataInsufficient > 0 || state.outcomes.caUnresolved > 0;
+  public getAuthorizationState(): AuthorizationState {
+    return D21_STRICT_AUTHORIZATION_STATE;
+  }
 
-        for (const [cp, status] of Object.entries(state.checkpoints)) {
-            if (status !== 'PASS') {
-                allTestsPassed = false;
-            }
-        }
+  public evaluateGate(): 'CP2.1_VERIFIED_NON_AUTHORIZING' {
+    return 'CP2.1_VERIFIED_NON_AUTHORIZING';
+  }
 
-        if (state.canonical.expected !== state.canonical.actual || !state.enrichment.oneToOne) {
-            return "CP2.1_FAILED";
-        }
+  /**
+   * Run gate evaluation.
+   * Invariant: In Delivery 2.1, B1 remains strictly CLOSED.
+   */
+  public runGate(): void {
+    console.log(`\n====================================================`);
+    console.log(`[GATE] Evaluating Track B Gate Conditions...`);
+    console.log(`[GATE] Non-Authorizing Barrier active: B1 remains CLOSED.`);
+    console.log(`====================================================\n`);
+    throw new Error(
+      'D2_1_NON_AUTHORIZING_BARRIER: B1 cannot transition to OPEN in Delivery 2.1. State remains CLOSED.'
+    );
+  }
 
-        if (!allTestsPassed || hasBlockers) {
-            return "CP2.1_BLOCKED";
-        }
+  public authorizeB1(cp21Token?: GateToken): boolean {
+    throw new Error(
+      'B1_BLOCKED: D2_1_NON_AUTHORIZING_BARRIER: B1 authorization is forbidden in Delivery 2.1.'
+    );
+  }
 
-        if (hasLimitations) {
-            return "CP2.1_VERIFIED_WITH_LIMITATIONS";
-        }
+  public authorizeB2(cp21Token?: GateToken, b1Token?: GateToken): boolean {
+    throw new Error(
+      'B2_BLOCKED: D2_1_NON_AUTHORIZING_BARRIER: B2 authorization is forbidden in Delivery 2.1.'
+    );
+  }
 
-        return "CP2.1_VERIFIED";
+  public setB2Authorized(authorized: boolean): void {
+    if (authorized) {
+      throw new Error(
+        'D2_1_NON_AUTHORIZING_BARRIER: Attempted to authorize B2 in Delivery 2.1.'
+      );
     }
+  }
 
-    public runGate(): void {
-        console.log(`\n====================================================`);
-        console.log(`[GATE] Evaluating Track B Gate Conditions...`);
-        const result = this.evaluateGate();
-        console.log(`[GATE] Decision: ${result}`);
+  public open(): void {
+    throw new Error('D2_1_NON_AUTHORIZING_BARRIER: Gate cannot be opened in Delivery 2.1.');
+  }
 
-        if (result === "CP2.1_VERIFIED" || result === "CP2.1_VERIFIED_WITH_LIMITATIONS") {
-            console.log(`[GATE] B1 is now AUTHORIZED.`);
-            this.b1Authorized = true;
-            this.coordinator.getState.b1Status = "OPEN";
-            this.coordinator.saveState();
-        } else {
-            console.log(`[GATE] B1 remains BLOCKED.`);
-            process.exit(1);
-        }
-        console.log(`====================================================\n`);
-    }
+  public authorize(): void {
+    throw new Error('D2_1_NON_AUTHORIZING_BARRIER: Direct authorization forbidden in Delivery 2.1.');
+  }
 
-    public authorizeB1(cp21Token: GateToken): boolean {
-        if (!cp21Token || cp21Token.gate !== "CP2.1" || cp21Token.decision !== "VERIFIED") {
-            throw new Error("B1_BLOCKED_INVALID_CP21_TOKEN");
-        }
-        // Delivery 2 constraint
-        if (!this.b1Authorized) {
-            throw new Error("B1_BLOCKED_DELIVERY_2_CONTRACT_ONLY");
-        }
-        return this.b1Authorized;
-    }
-
-    public authorizeB2(cp21Token: GateToken, b1Token: GateToken): boolean {
-        if (!cp21Token || cp21Token.gate !== "CP2.1" || cp21Token.decision !== "VERIFIED") {
-            throw new Error("B2_BLOCKED_INVALID_CP21_TOKEN");
-        }
-        if (!b1Token || b1Token.gate !== "B1" || b1Token.decision !== "VERIFIED") {
-            throw new Error("B2_BLOCKED_B1_SAMPLE_GATE_NOT_PASSED");
-        }
-        if (cp21Token.evidenceHash !== b1Token.evidenceHash) {
-            throw new Error("B2_BLOCKED_EVIDENCE_HASH_MISMATCH");
-        }
-        
-        return this.b2Authorized;
-    }
-
-    public setB2Authorized(authorized: boolean) {
-        this.b2Authorized = authorized;
-    }
+  public enable(): void {
+    throw new Error('D2_1_NON_AUTHORIZING_BARRIER: Direct enablement forbidden in Delivery 2.1.');
+  }
 }

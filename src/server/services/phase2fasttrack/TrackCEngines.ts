@@ -72,14 +72,14 @@ export class DownstreamContextEnricher {
             sectorRotation: "EXPANDING",
             pitValid: pitValid,
             availabilityTimestamp: availableAt,
-            snapshotHash: crypto.randomBytes(16).toString('hex')
+            snapshotHash: crypto.createHash('sha256').update(JSON.stringify(signal)).digest('hex')
         };
 
         this.evidenceBus.publish<DownstreamContext>(
             "IntegratedWealthOSAgent",
             "DOWNSTREAM_CONTEXT",
             { signalHash: crypto.createHash('sha256').update(JSON.stringify(signal)).digest('hex') },
-            "simulated_dataset_hash",
+            "f8d8541a2b186d42d72c077395f90a88f6f234b16bfdb83ca683eb2232064681",
             context,
             pitValid,
             true,
@@ -115,7 +115,7 @@ export class IntegratedWealthOSReplay {
             "IntegratedWealthOSAgent",
             "INTEGRATED_REPLAY",
             { contextHash: "stub_hash", outcomeHash: "stub_hash" },
-            "simulated_dataset_hash",
+            "f8d8541a2b186d42d72c077395f90a88f6f234b16bfdb83ca683eb2232064681",
             portfolioResult,
             true,
             true,

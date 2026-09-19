@@ -1,6 +1,8 @@
 {
   "schemaVersion": "2.1",
-  "repositorySha": "bd05a383ec6c4731b01fd0460d845beeafc7c64a",
+  "repositorySha": "7871a0b8927664bf760aed4eeb12e83608faec58",
+  "deliveryDecision": "IMPLEMENTED_AND_VERIFIED",
+  "canonicalEvidenceHash": "b2f09023c53797a566d36840ccbb59626e81c313c1ac1f496b1ba43e230d239f",
   "canonicalLedger": {
     "recordCount": 6501,
     "sha256": "f8d8541a2b186d42d72c077395f90a88f6f234b16bfdb83ca683eb2232064681",
@@ -40,5 +42,9 @@
     "failed": 0,
     "failures": []
   },
-  "decision": "DELIVERY2_ACCEPTED"
+  "decision": "IMPLEMENTED_AND_VERIFIED",
+  "operationalMetadata": {
+    "executedAt": "2026-09-19T12:07:28.001Z",
+    "nodeVersion": "v24.18.0"
+  }
 }

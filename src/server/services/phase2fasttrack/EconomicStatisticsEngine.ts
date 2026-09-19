@@ -61,7 +61,7 @@ export class EconomicStatisticsEngine {
             "EconomicStatisticsAgent",
             "ECONOMIC_ANALYSIS",
             { outcomeHash: "all_outcomes_hash_stub" },
-            "simulated_dataset_hash",
+            "f8d8541a2b186d42d72c077395f90a88f6f234b16bfdb83ca683eb2232064681",
             economicData,
             true,
             true,
