@@ -69,23 +69,15 @@ export interface CanonicalMarketObservation {
   datasetId: string;
 
   observationHash: string;
+  candleState?: 'OPEN' | 'CLOSED' | 'INVALID';
 }
 
-/*
- * Financial market data must never silently convert invalid numeric
- * values into JSON null.
- *
- * Policy:
- *
- * finite number
- *   -> canonical decimal representation
- *
- * NaN / Infinity / -Infinity
+/**
+ * Validates canonical requirements: MUST NOT BE NaN or Infinity. / -Infinity
  *   -> canonicalization failure
  *
  * undefined
  *   -> canonicalization failure
- *
  * null
  *   -> not permitted for required market observation fields
  *
@@ -236,15 +228,27 @@ export function hashObservation(
  * ------------------------------------------------------- */
 
 export interface DatasetPromotionChecks {
-  sourceVerified: boolean;
-  shaVerified: boolean;
-  identityValid: boolean;
-  timestampsValid: boolean;
-  ohlcvValid: boolean;
-  calendarValid: boolean;
-  pitValid: boolean;
-  duplicatesValid: boolean;
-  provenanceComplete: boolean;
+  schemaValid: boolean;
+  numericValuesFinite: boolean;
+  noNullNumericValues: boolean;
+  noNaN: boolean;
+  noInfinity: boolean;
+  ohlcRelationshipValid: boolean;
+  timestampValid: boolean;
+  timestampTimezoneExplicit: boolean;
+  tradingCalendarValid: boolean;
+  duplicateIdentityAbsent: boolean;
+  securityIdentityResolved: boolean;
+  sourceRecorded: boolean;
+  datasetIdRecorded: boolean;
+  rawAcquisitionHashRecorded: boolean;
+  canonicalHashReproducible: boolean;
+  pitStatusExplicitlyClassified: boolean;
+  corporateActionBasisExplicit: boolean;
+  coverageCalculated: boolean;
+  missingRangesReported: boolean;
+  promotionGatePassed: boolean;
+  independentRehashPassed: boolean;
 }
 
 export type DatasetPromotionDecisionType =

@@ -1,0 +1,6 @@
+[
+  { "instrument_key": "NSE_INDEX|Nifty 50", "name": "NIFTY 50", "instrument_type": "INDEX", "exchange": "NSE" },
+  { "instrument_key": "NSE_INDEX|Nifty 500", "name": "NIFTY 500", "instrument_type": "INDEX", "exchange": "NSE" },
+  { "instrument_key": "NSE_INDEX|Nifty Bank", "name": "NIFTY BANK", "instrument_type": "INDEX", "exchange": "NSE" },
+  { "instrument_key": "NSE_INDEX|Nifty IT", "name": "NIFTY IT", "instrument_type": "INDEX", "exchange": "NSE" }
+]
