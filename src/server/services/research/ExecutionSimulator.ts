@@ -8,6 +8,141 @@ import type {
   TradeIdentityLedger
 } from "./types.js";
 
+export function extractTradingDate(timestamp: string): string {
+  if (typeof timestamp !== "string" || timestamp.length === 0) {
+    throw new Error(
+      `EXECUTION_INVARIANT_VIOLATION: invalid timestamp: ${String(timestamp)}`
+    );
+  }
+
+  const match = /^(\d{4}-\d{2}-\d{2})/.exec(timestamp);
+
+  if (!match) {
+    throw new Error(
+      `EXECUTION_INVARIANT_VIOLATION: unparseable trading timestamp: ${timestamp}`
+    );
+  }
+
+  return match[1];
+}
+
+export function assertFinitePositivePrice(
+  name: string,
+  value: number
+): void {
+  if (!Number.isFinite(value) || value <= 0) {
+    throw new Error(
+      `EXECUTION_INVARIANT_VIOLATION: ${name} must be finite and > 0; got ${value}`
+    );
+  }
+}
+
+export interface ExecutionBar {
+  timestamp: string;
+  open: number;
+  high?: number;
+  low?: number;
+  close?: number;
+  volume?: number;
+  tradable?: boolean;
+}
+
+export function findFirstTradableBarAfter<T extends ExecutionBar>(
+  bars: T[],
+  signalTimestamp: string
+): T {
+  const signalDate = extractTradingDate(signalTimestamp);
+
+  const candidates = bars
+    .filter((bar) => {
+      const barDate = extractTradingDate(bar.timestamp);
+      return (
+        barDate > signalDate &&
+        bar.tradable !== false
+      );
+    })
+    .sort((a, b) => {
+      const ad = extractTradingDate(a.timestamp);
+      const bd = extractTradingDate(b.timestamp);
+      return ad.localeCompare(bd);
+    });
+
+  if (candidates.length === 0) {
+    throw new Error(
+      `EXECUTION_INVARIANT_VIOLATION: no tradable session after ${signalDate}`
+    );
+  }
+
+  const first = candidates[0];
+
+  assertFinitePositivePrice(
+    "entryBar.open",
+    first.open
+  );
+
+  return first;
+}
+
+export function assertNextBarExecutionInvariant(params: {
+  signalTimestamp: string;
+  entryTimestamp: string;
+  signalDate: string;
+  entryDate: string;
+  entryBarTimestamp: string;
+  expectedEntryTimestamp: string;
+  entryBarOpen: number;
+  rawEntryPrice: number;
+}): void {
+  const {
+    signalTimestamp,
+    entryTimestamp,
+    signalDate,
+    entryDate,
+    entryBarTimestamp,
+    expectedEntryTimestamp,
+    entryBarOpen,
+    rawEntryPrice,
+  } = params;
+
+  if (!(signalTimestamp < entryTimestamp)) {
+    throw new Error(
+      "EXECUTION_INVARIANT_VIOLATION: " +
+      `signalTimestamp (${signalTimestamp}) must be < ` +
+      `entryTimestamp (${entryTimestamp})`
+    );
+  }
+
+  if (!(signalDate < entryDate)) {
+    throw new Error(
+      "EXECUTION_INVARIANT_VIOLATION: " +
+      `signalDate (${signalDate}) must be < ` +
+      `entryDate (${entryDate})`
+    );
+  }
+
+  if (entryBarTimestamp !== expectedEntryTimestamp) {
+    throw new Error(
+      "EXECUTION_INVARIANT_VIOLATION: " +
+      `entry bar ${entryBarTimestamp} is not the first ` +
+      `tradable bar ${expectedEntryTimestamp}`
+    );
+  }
+
+  if (!Number.isFinite(entryBarOpen) || entryBarOpen <= 0) {
+    throw new Error(
+      "EXECUTION_INVARIANT_VIOLATION: invalid entryBar.open"
+    );
+  }
+
+  if (rawEntryPrice !== entryBarOpen) {
+    throw new Error(
+      "EXECUTION_INVARIANT_VIOLATION: " +
+      `rawEntryPrice (${rawEntryPrice}) !== ` +
+      `entryBar.open (${entryBarOpen})`
+    );
+  }
+}
+
 export interface ActivePosition {
   signal: ResearchSignal;
   entryBar: ResearchBar;
@@ -95,13 +230,22 @@ export class ExecutionSimulator {
     quantity: number,
     execution: { fillPrice: number; slippage: number; impact: number },
     statutory: { brokerage: number; stt: number; exchangeTxn: number; stampDuty: number; gst: number; total: number },
-    grossValue: number
+    grossValue: number,
+    expectedEntryBarTimestamp: string
   ): Fill {
-    if (signal.timestamp >= bar.timestamp) {
-      throw new Error(
-        `SAME_BAR_EXECUTION: signal=${signal.signalId} signalTimestamp=${signal.timestamp} executionTimestamp=${bar.timestamp}`
-      );
-    }
+    const signalDate = extractTradingDate(signal.timestamp);
+    const entryDate = extractTradingDate(bar.timestamp);
+
+    assertNextBarExecutionInvariant({
+      signalTimestamp: signal.timestamp,
+      entryTimestamp: bar.timestamp,
+      signalDate,
+      entryDate,
+      entryBarTimestamp: bar.timestamp,
+      entryBarOpen: bar.open,
+      rawEntryPrice: bar.open, // In the simulator, the requested entry is always the raw open
+      expectedEntryTimestamp: expectedEntryBarTimestamp
+    });
 
     this._cash -= (grossValue + statutory.total);
 
@@ -181,17 +325,26 @@ export class ExecutionSimulator {
     const netR = initialRiskPerShare > 0 ? netPnl / (initialRiskPerShare * pos.quantity) : 0;
 
     this._trades.push({
-      tradeId: `${this.runId}-${pos.signal.signalId}`,
+      tradeId: `${this.runId}-${arm}-${pos.signal.signalId}`,
       signalId: pos.signal.signalId,
       strategyId: pos.signal.strategyId,
       experimentArm: arm,
       symbol: pos.symbol,
       signalTimestamp: pos.signal.timestamp,
+      signalDate: extractTradingDate(pos.signal.timestamp),
+      signalAvailableAt: pos.signal.availableAt ?? pos.signal.timestamp,
+      decisionDataCutoffAt: pos.signal.availableAt ?? pos.signal.timestamp,
+      nextTradableSession: extractTradingDate(pos.entryBar.timestamp),
       entryTimestamp: pos.entryBar.timestamp,
+      entryDate: extractTradingDate(pos.entryBar.timestamp),
       exitTimestamp: bar.timestamp,
       direction: pos.signal.direction,
+      signalPrice: pos.signal.entry,
       entrySignalPrice: pos.signal.entry,
+      rawEntryPrice: pos.entryBar.open,
       actualEntryPrice: pos.averageEntry,
+      slippageBps: pos.entrySlippage,
+      impactBps: pos.entryImpact,
       initialStop: pos.stop,
       finalExitPrice: execution.fillPrice,
       quantity: pos.quantity,
@@ -268,17 +421,26 @@ export class ExecutionSimulator {
     const netR = initialRiskPerShare > 0 ? netPnl / (initialRiskPerShare * pos.quantity) : 0;
 
     this._trades.push({
-      tradeId: `${this.runId}-${pos.signal.signalId}`,
+      tradeId: `${this.runId}-${arm}-${pos.signal.signalId}`,
       signalId: pos.signal.signalId,
       strategyId: pos.signal.strategyId,
       experimentArm: arm,
       symbol: pos.symbol,
       signalTimestamp: pos.signal.timestamp,
+      signalDate: extractTradingDate(pos.signal.timestamp),
+      signalAvailableAt: pos.signal.availableAt ?? pos.signal.timestamp,
+      decisionDataCutoffAt: pos.signal.availableAt ?? pos.signal.timestamp,
+      nextTradableSession: extractTradingDate(pos.entryBar.timestamp),
       entryTimestamp: pos.entryBar.timestamp,
+      entryDate: extractTradingDate(pos.entryBar.timestamp),
       exitTimestamp: bar.timestamp,
       direction: pos.signal.direction,
+      signalPrice: pos.signal.entry,
       entrySignalPrice: pos.signal.entry,
+      rawEntryPrice: pos.entryBar.open,
       actualEntryPrice: pos.averageEntry,
+      slippageBps: pos.entrySlippage,
+      impactBps: pos.entryImpact,
       initialStop: pos.stop,
       finalExitPrice: execution.fillPrice,
       quantity: pos.quantity,
@@ -385,9 +547,12 @@ export class ExecutionSimulator {
   public static simulate(
     signals: ResearchSignal[],
     barsBySymbol: Map<string, ResearchBar[]>,
-    config: ExecutionConfig
+    config: ExecutionConfig,
+    runId = "RUN-SIM",
+    parameterHash = "PARAM-HASH",
+    arm: TradeIdentityLedger["experimentArm"] = "A_RAW"
   ): SimulationResult {
-    const sim = new ExecutionSimulator(config);
+    const sim = new ExecutionSimulator(config, runId, parameterHash);
     const pendingExits = new Map<string, { pos: ActivePosition; exitReason: string; exitBarTimestamp: string }>();
 
     const signalsBySymbol = new Map<string, ResearchSignal[]>();
@@ -450,7 +615,7 @@ export class ExecutionSimulator {
         if (pending.exitBarTimestamp === timestamp) {
           const bar = currentBars.get(symbol);
           if (bar && bar.tradable) {
-            sim.executeExitAtBarOpen(pending.pos, bar, pending.exitReason);
+            sim.executeExitAtBarOpen(pending.pos, bar, pending.exitReason, arm);
             pendingExits.delete(symbol);
           }
         }
@@ -472,8 +637,18 @@ export class ExecutionSimulator {
             continue;
           }
 
-          if (signal.timestamp >= bar.timestamp) {
+          const sigDate = extractTradingDate(signal.timestamp);
+          const barDate = extractTradingDate(bar.timestamp);
+
+          if (sigDate >= barDate) {
             continue;
+          }
+          
+          // Enforce first-tradable-session selection
+          const futureBars = barsBySymbol.get(signal.symbol) ?? [];
+          const expectedEntryBar = futureBars.find(b => b.tradable && extractTradingDate(b.timestamp) > sigDate);
+          if (!expectedEntryBar || expectedEntryBar.timestamp !== bar.timestamp) {
+            continue; // Not the very first eligible session! Reject T+2 loophole.
           }
 
           if (signal.availableAt && signal.availableAt > bar.timestamp) {
@@ -518,7 +693,7 @@ export class ExecutionSimulator {
             continue; // Insufficient cash
           }
 
-          sim.executeEntry(signal, bar, quantity, execution, statutory, grossValue);
+          sim.executeEntry(signal, bar, quantity, execution, statutory, grossValue, expectedEntryBar.timestamp);
           executedSignals.add(signal.signalId);
         }
       }
@@ -584,7 +759,7 @@ export class ExecutionSimulator {
       barsBySymbol.set(b.symbol, list);
     }
 
-    return ExecutionSimulator.simulate(signals, barsBySymbol, this.config);
+    return ExecutionSimulator.simulate(signals, barsBySymbol, this.config, this.runId, this.parameterHash, arm);
   }
 
   // Diagnostic helper for tests

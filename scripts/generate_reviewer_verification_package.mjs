@@ -28,9 +28,9 @@ const challengerSignals = rawSignals.map(s => ({
 })).filter((_, idx) => idx % 3 === 0);
 
 // Execution simulations
-const simA = new ExecutionSimulator(adapter['config'], runId, 'RAW');
-const simB = new ExecutionSimulator(adapter['config'], runId, 'OVERLAY');
-const simC = new ExecutionSimulator(adapter['config'], runId, 'CHALLENGER');
+const simA = new ExecutionSimulator(adapter['config'], `${runId}-ARM-A`, 'RAW');
+const simB = new ExecutionSimulator(adapter['config'], `${runId}-ARM-B`, 'OVERLAY');
+const simC = new ExecutionSimulator(adapter['config'], `${runId}-ARM-C`, 'CHALLENGER');
 
 const resA = simA.run(rawSignals, bars, 'A_RAW');
 const resB = simB.run(overlayFilteredSignals, bars, 'B_V62_OVERLAY');
@@ -38,11 +38,13 @@ const resC = simC.run(challengerSignals, bars, 'C_CHALLENGERS');
 
 const allTrades = [...resA.trades, ...resB.trades, ...resC.trades];
 
-// 2. Write data/v6.3_trade_identity_ledger.jsonl (750 trades)
+// 2. Write data/v6.3_trade_identity_ledger.jsonl & v6.3_REAL_trade_identity_ledger.jsonl
 const ledgerPath = path.join(dataDir, 'v6.3_trade_identity_ledger.jsonl');
+const realLedgerPath = path.join(dataDir, 'v6.3_REAL_trade_identity_ledger.jsonl');
 const ledgerLines = allTrades.map(t => JSON.stringify(t)).join('\n');
 fs.writeFileSync(ledgerPath, ledgerLines, 'utf8');
-console.log(`✓ Generated ${ledgerPath} (${allTrades.length} trades, ${fs.statSync(ledgerPath).size} bytes)`);
+fs.writeFileSync(realLedgerPath, ledgerLines, 'utf8');
+console.log(`✓ Generated ${ledgerPath} & ${realLedgerPath} (${allTrades.length} trades, ${fs.statSync(ledgerPath).size} bytes)`);
 
 // 3. Write data/v6.3_research_run_manifest.json
 const runManifest = {

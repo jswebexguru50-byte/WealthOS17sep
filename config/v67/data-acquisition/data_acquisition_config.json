@@ -1,0 +1,52 @@
+{
+  "version": "1.0.0",
+  "daemon": {
+    "workerCount": 8,
+    "pollIntervalMs": 250,
+    "telemetryIntervalMs": 2000,
+    "stateSaveIntervalMs": 10000,
+    "snapshotIntervalMs": 60000,
+    "logToConsole": true
+  },
+  "universe": {
+    "targetSize": 3600,
+    "exchange": "NSE",
+    "includeDelisted": true
+  },
+  "governance": {
+    "productionPromotionAuthorization": false,
+    "liveTrading": false,
+    "frozenStrategies": ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9", "S10", "S11", "S12", "S13", "S14", "S15", "S16", "S17", "S18", "S19", "S20"],
+    "minimumCoverageForResearchReadyPct": 90.0
+  },
+  "sources": [
+    {
+      "sourceId": "SRC_UPSTOX_V2",
+      "name": "Upstox Historical & Realtime API v2",
+      "requestsPerMinute": 500,
+      "concurrency": 4,
+      "enabled": true
+    },
+    {
+      "sourceId": "SRC_NSE_BHAVCOPY",
+      "name": "NSE Official Bhavcopy & Master Archive",
+      "requestsPerMinute": 120,
+      "concurrency": 2,
+      "enabled": true
+    },
+    {
+      "sourceId": "SRC_FERE_FUNDAMENTALS",
+      "name": "FERE Certified Fundamental Financials & Shareholding",
+      "requestsPerMinute": 240,
+      "concurrency": 4,
+      "enabled": true
+    },
+    {
+      "sourceId": "SRC_CORPORATE_ANNOUNCEMENTS",
+      "name": "Exchange Disclosures & Corporate Actions Feed",
+      "requestsPerMinute": 300,
+      "concurrency": 3,
+      "enabled": true
+    }
+  ]
+}

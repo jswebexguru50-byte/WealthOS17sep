@@ -160,7 +160,7 @@ async function runRealHistoricalPipeline() {
   console.log('   STRICT DATA INTEGRITY & POINT-IN-TIME RESEARCH SPECIFICATION');
   console.log('================================================================\n');
 
-  const runId = `RUN-V63-REAL-${Date.now()}`;
+  const runId = `v6.3_REAL_T1_EXECUTION_REMEDIATED_${Date.now()}`;
   const dataDir = path.resolve(process.cwd(), 'data');
   const explicitDb = process.env.RESEARCH_DB_PATH || process.argv[2];
   let dbPath = explicitDb ? path.resolve(process.cwd(), explicitDb) : path.resolve(process.cwd(), 'portfolio.db');
@@ -710,6 +710,38 @@ async function runRealHistoricalPipeline() {
   fs.writeFileSync(path.join(dataDir, 'v6.3_REAL_regime_results.json'), JSON.stringify(regimeResults, null, 2), 'utf8');
   fs.writeFileSync(path.join(dataDir, 'v6.3_REAL_final_lockbox.json'), lockboxJson, 'utf8');
   fs.writeFileSync(path.join(dataDir, 'v6.3_REAL_final_lockbox.sha256'), lockboxSha, 'utf8');
+
+  // Write trade ledgers (.jsonl)
+  const ledgerLines = allRealTrades.map(t => JSON.stringify(t)).join('\n');
+  fs.writeFileSync(path.join(dataDir, 'v6.3_REAL_trade_identity_ledger.jsonl'), ledgerLines, 'utf8');
+  fs.writeFileSync(path.join(dataDir, 'v6.3_trade_identity_ledger.jsonl'), ledgerLines, 'utf8');
+
+  // Write Reconciliation Report with LEGACY_INVALID_EXECUTION_MODEL labeling
+  const reconciliationData = {
+    runId,
+    timestamp: new Date().toISOString(),
+    legacyExecutionModel: {
+      label: 'LEGACY_INVALID_EXECUTION_MODEL',
+      tradeCount: 750,
+      profitFactor: 1.209,
+      expectancyR: 0.1011,
+      maxDrawdownPct: 18.4,
+      note: 'Previous result contaminated by same-session T+0 execution and signal-close entry price bug.'
+    },
+    remediatedExecutionModel: {
+      label: 'REMEDIATED_T1_NEXT_BAR_OPEN',
+      tradeCount: allRealTrades.length,
+      armB: {
+        tradeCount: resB.trades.length,
+        profitFactor: Number(overallMetricsB.profitFactor.toFixed(3)),
+        expectancyR: Number(overallMetricsB.expectancyR.toFixed(4)),
+        maxDrawdownPct: overallMetricsB.maxDrawdownPct,
+        winRate: Number(overallMetricsB.winRate.toFixed(3)),
+        netPnl: Math.round(overallMetricsB.netPnl)
+      }
+    }
+  };
+  fs.writeFileSync(path.join(dataDir, 'v6.3_REAL_VALIDATION_RECONCILIATION.json'), JSON.stringify(reconciliationData, null, 2), 'utf8');
 
   console.log('\n================================================================');
   console.log('   REVISED EMPIRICAL RESEARCH PIPELINE COMPLETED SUCCESSFULLY   ');
