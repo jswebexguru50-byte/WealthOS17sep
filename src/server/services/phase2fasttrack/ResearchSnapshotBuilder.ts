@@ -149,7 +149,16 @@ export class ResearchSnapshotBuilder {
       this.provider.getRegistry()
     ]);
 
-    const signalLedgerHash = signalLedgerHashOverride || signalLedger.byteHash;
+    if (
+      signalLedgerHashOverride !== undefined &&
+      signalLedgerHashOverride !== signalLedger.byteHash
+    ) {
+      throw new Error(
+        'FATAL: signalLedgerHashOverride does not match physical signal ledger SHA-256'
+      );
+    }
+
+    const signalLedgerHash = signalLedger.byteHash;
 
     // Independent cryptographic verification: Signal ledger, market data, and corporate actions must NOT alias
     if (signalLedgerHash === marketData.byteHash) {

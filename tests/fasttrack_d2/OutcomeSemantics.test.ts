@@ -186,8 +186,16 @@ async function runOutcomeSemanticsTests() {
   assert(resLookahead.status === 'PIT_REJECTED' || resLookahead.status === 'DATA_INSUFFICIENT');
   console.log('[PASS] Test 6: Future unverified observation was safely rejected / flagged');
 
+  // --- Test 7: Provenance Source Hash Mutation -> Evidence Hash Changes ---
+  const barsProv1: RawBarObservation[] = [{ ...dailyBars[0], sourceHash: 'hash_v1' }];
+  const barsProv2: RawBarObservation[] = [{ ...dailyBars[0], sourceHash: 'hash_v2_mutated' }];
+  const resProv1 = resolver.resolveEntry('S1_MOMENTUM', 'RELIANCE', '2026-03-02T15:30:00+05:30', barsProv1);
+  const resProv2 = resolver.resolveEntry('S1_MOMENTUM', 'RELIANCE', '2026-03-02T15:30:00+05:30', barsProv2);
+  assert.notStrictEqual(resProv1.evidenceHash, resProv2.evidenceHash, 'FAIL: Source hash mutation must alter evidence hash');
+  console.log('[PASS] Test 7: Provenance source hash mutation correctly altered evidence hash');
+
   console.log('\n============================================================');
-  console.log('  AGENT B: ALL 6 OUTCOME / PIT TESTS PASSED');
+  console.log('  AGENT B: ALL 7 OUTCOME / PIT TESTS PASSED');
   console.log('============================================================\n');
 }
 
@@ -195,3 +203,4 @@ runOutcomeSemanticsTests().catch(err => {
   console.error('OUTCOME TEST FAILED:', err);
   process.exit(1);
 });
+

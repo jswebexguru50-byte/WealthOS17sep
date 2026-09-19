@@ -4,9 +4,10 @@
  * Explicit Entry Resolution Engine.
  * Implements strategy-specific entry observation resolution:
  * - Daily strategies: exact DAILY_CLOSE_BOUND or NEXT_OPEN rule
- * - S10: preserves 15-minute breakout timestamp and requires matching 15-minute intraday bar
+ * - S10: preserves 15-minute breakout timestamp and requires exact matching 15-minute intraday bar
  * - PIT validation: queries PointInTimeDataEngine to ensure observation was knowable as-of decision time
  * - Missing data: returns DATA_INSUFFICIENT without synthetic fabrication
+ * - Fail-closed PIT: pitValid is FALSE unless PointInTimeDataEngine explicitly validates it.
  */
 
 import { PointInTimeDataEngine, PITLookaheadError, PITDataUnavailableError } from '../research/PointInTimeDataEngine';
@@ -44,7 +45,9 @@ export class EntryResolutionEngine {
     decisionTimestamp: string,
     availableDailyBars: RawBarObservation[],
     availableIntradayBars?: IntradayBreakoutBar[],
-    corporateActionValid = true
+    corporateActionValid = true,
+    exactIntradayTimestamp?: string,
+    requirePitVerification = false
   ): OutcomeResolution {
     // 1. S10 Intraday Breakout Strategy Rule
     if (strategyId.toUpperCase().includes('S10')) {
@@ -55,34 +58,39 @@ export class EntryResolutionEngine {
         };
       }
 
-      // Locate actual eligible 15-minute breakout bar matching security and on/after decision date
+      // Exact matching observation for S10 breakout timestamp
+      const targetTimestamp = exactIntradayTimestamp || decisionTimestamp;
       const eligibleIntraday = availableIntradayBars.find(
-        bar => bar.symbol === securityId && bar.breakoutTimestamp >= decisionTimestamp
+        bar => bar.symbol === securityId && bar.breakoutTimestamp === targetTimestamp
       );
 
       if (!eligibleIntraday) {
         return {
           status: 'DATA_INSUFFICIENT',
-          reason: `No matching 15-minute intraday breakout observation found for ${securityId} on/after ${decisionTimestamp}`
+          reason: `No matching 15-minute intraday breakout observation found for ${securityId} at exact timestamp ${targetTimestamp}`
         };
       }
 
-      // Validate PIT knowability if PIT engine is provided
-      let pitValid = true;
-      if (this.pitEngine) {
-        const pitResult = this.pitEngine.validateObservation(
-          securityId,
-          eligibleIntraday.breakoutTimestamp,
-          decisionTimestamp
-        );
-        if (!pitResult.valid) {
-          return {
-            status: 'PIT_REJECTED',
-            reason: `PIT validation failed for S10 observation: ${pitResult.reason}`
-          };
-        }
-        pitValid = pitResult.valid;
+      // Validate PIT knowability — FAIL CLOSED if PIT engine absent or check fails
+      if (!this.pitEngine) {
+        return {
+          status: 'DATA_INSUFFICIENT',
+          reason: 'PIT engine not provided; fail-closed protection active'
+        };
       }
+
+      const pitResult = this.pitEngine.validateObservation(
+        securityId,
+        eligibleIntraday.breakoutTimestamp,
+        decisionTimestamp
+      );
+      if (!pitResult.valid) {
+        return {
+          status: 'PIT_REJECTED',
+          reason: `PIT validation failed for S10 observation: ${pitResult.reason}`
+        };
+      }
+      const pitValid = pitResult.valid;
 
       const observation: EntryObservation = {
         strategyId,
@@ -150,22 +158,26 @@ export class EntryResolutionEngine {
       }
     }
 
-    // PIT Check: ensure bar was knowable as of its availability
-    let pitValid = true;
-    if (this.pitEngine) {
-      const pitResult = this.pitEngine.validateObservation(
-        securityId,
-        chosenBar.timestamp,
-        chosenBar.timestamp
-      );
-      if (!pitResult.valid) {
-        return {
-          status: 'PIT_REJECTED',
-          reason: `PIT validation failed for daily observation: ${pitResult.reason}`
-        };
-      }
-      pitValid = pitResult.valid;
+    // PIT Check: ensure bar was knowable as of its availability — FAIL CLOSED if PIT engine absent
+    if (!this.pitEngine) {
+      return {
+        status: 'DATA_INSUFFICIENT',
+        reason: 'PIT engine not provided; fail-closed protection active'
+      };
     }
+
+    const pitResult = this.pitEngine.validateObservation(
+      securityId,
+      chosenBar.timestamp,
+      chosenBar.timestamp
+    );
+    if (!pitResult.valid) {
+      return {
+        status: 'PIT_REJECTED',
+        reason: `PIT validation failed for daily observation: ${pitResult.reason}`
+      };
+    }
+    const pitValid = pitResult.valid;
 
     const price = entryRule === 'NEXT_OPEN' ? chosenBar.open : chosenBar.close;
     const observation: EntryObservation = {

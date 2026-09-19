@@ -146,7 +146,8 @@ export class ForwardOutcomeCalculator {
         signal.decisionDate,
         availableBars,
         availableIntraday,
-        true // corporateActionValid
+        true, // corporateActionValid
+        signal.intradayTimestamp
       );
 
       if (resolution.status === 'DATA_INSUFFICIENT' || !resolution.observation) {

@@ -46,9 +46,9 @@ async function runDependencyGraphTests() {
   const hostileQuery = analyzer.checkReachability('CP21IndependentVerifier.ts', 'TrackBGate.ts');
   assert.strictEqual(hostileQuery.reachable, true, 'FAIL: Injected dependency path must be detected!');
   assert.deepStrictEqual(hostileQuery.path, [
-    'CP21IndependentVerifier.ts',
+    'src/server/services/phase2fasttrack/CP21IndependentVerifier.ts',
     'HostileMiddleModule.ts',
-    'TrackBGate.ts'
+    'src/server/services/phase2fasttrack/TrackBGate.ts'
   ]);
   console.log(`[PASS] Test 4a: Injected hostile path successfully detected: [${hostileQuery.path.join(' -> ')}]`);
 
@@ -64,8 +64,32 @@ async function runDependencyGraphTests() {
   assert.strictEqual(freshAudit.unauthorizedExecutionPaths.length, 0);
   console.log('[PASS] Test 5: Clean repository tree passes dependency isolation audit 100%');
 
+  // Test 6: Uninspected module throws ANALYZER_VERIFIER_FAILURE (distinguishing uninspected from no path)
+  assert.throws(
+    () => freshAnalyzer.checkReachability('CP21IndependentVerifier.ts', 'NonExistentModuleUninspected.ts'),
+    /ANALYZER_VERIFIER_FAILURE/,
+    'FAIL: Querying uninspected module must throw ANALYZER_VERIFIER_FAILURE'
+  );
+  console.log('[PASS] Test 6: Uninspected module correctly threw ANALYZER_VERIFIER_FAILURE');
+
+  // Test 7: Deliberate same-basename collision: src/server/services/a/Foo.ts vs src/server/services/b/Foo.ts
+  console.log('\nTesting same-basename collision (src/server/services/a/Foo.ts vs src/server/services/b/Foo.ts)...');
+  freshAnalyzer.injectTestEdgeForVerification('src/server/services/a/Foo.ts', 'src/server/services/a/Bar.ts');
+  freshAnalyzer.injectTestEdgeForVerification('src/server/services/b/Foo.ts', 'src/server/services/b/Baz.ts');
+
+  const canonA = freshAnalyzer.toCanonicalPath('src/server/services/a/Foo.ts');
+  const canonB = freshAnalyzer.toCanonicalPath('src/server/services/b/Foo.ts');
+  assert.notStrictEqual(canonA, canonB, 'FAIL: a/Foo.ts and b/Foo.ts must have distinct canonical paths');
+  assert.strictEqual(canonA, 'src/server/services/a/Foo.ts');
+  assert.strictEqual(canonB, 'src/server/services/b/Foo.ts');
+
+  // Ambiguous basename lookup for Foo.ts must return null
+  const ambiguousRes = freshAnalyzer.resolveCanonicalModule('Foo.ts');
+  assert.strictEqual(ambiguousRes, null, 'FAIL: Ambiguous Foo.ts query must resolve to null, requiring exact canonical path');
+  console.log('[PASS] Test 7: Same-basename collision test passed (a/Foo.ts and b/Foo.ts remain distinct nodes)');
+
   console.log('\n============================================================');
-  console.log('  AGENT D: ALL 5 DEPENDENCY GRAPH TESTS PASSED');
+  console.log('  AGENT D: ALL 7 DEPENDENCY GRAPH TESTS PASSED');
   console.log('============================================================\n');
 }
 
@@ -73,3 +97,4 @@ runDependencyGraphTests().catch(err => {
   console.error('DEPENDENCY GRAPH TEST FAILED:', err);
   process.exit(1);
 });
+

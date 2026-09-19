@@ -77,8 +77,8 @@ async function runProvenanceTests() {
     'StrategyParameterConfig.ts': 'mock_sha_2'
   };
 
-  const snap1 = await builder.buildSnapshot('run_1', '7871a0b', 'signal_ledger_mock', frozenBaseline);
-  const snap2 = await builder.buildSnapshot('run_2', '7871a0b', 'signal_ledger_mock', frozenBaseline);
+  const snap1 = await builder.buildSnapshot('run_1', '7871a0b', undefined, frozenBaseline);
+  const snap2 = await builder.buildSnapshot('run_2', '7871a0b', undefined, frozenBaseline);
 
   assert.strictEqual(
     snap1.canonicalEvidenceHash,

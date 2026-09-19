@@ -14,6 +14,7 @@
  *   - export ... from statements (re-exports)
  *   - dynamic import(...) expressions
  *   - relative module paths and tsconfig aliases
+ *   - ENFORCES canonical repository-relative module paths (e.g., src/server/services/phase2fasttrack/CP21IndependentVerifier.ts)
  *
  * Proves that no execution path exists from CP21IndependentVerifier or B1SampleBuilder
  * to B2 economics, capital allocation, or trade execution.
@@ -58,10 +59,23 @@ export class ModuleDependencyAnalyzer {
   private workspaceRoot: string;
   private graph: Map<string, Set<string>> = new Map();
   private edgeDetails: DependencyEdge[] = [];
+  private basenameToCanonicalMap: Map<string, string[]> = new Map();
 
   constructor(workspaceRoot = process.cwd()) {
     this.workspaceRoot = workspaceRoot;
     this.buildGraph();
+  }
+
+  public toCanonicalPath(absOrRelPath: string): string {
+    let normalized = absOrRelPath.replace(/\\/g, '/');
+    const rootNormalized = this.workspaceRoot.replace(/\\/g, '/');
+    if (path.isAbsolute(absOrRelPath) || normalized.startsWith(rootNormalized)) {
+      normalized = path.relative(rootNormalized, normalized).replace(/\\/g, '/');
+    }
+    while (normalized.startsWith('./')) {
+      normalized = normalized.slice(2);
+    }
+    return normalized;
   }
 
   private classifyModule(filePath: string, content: string): EdgeClassification {
@@ -115,7 +129,6 @@ export class ModuleDependencyAnalyzer {
 
   private resolveModulePath(fromFilePath: string, importSpecifier: string): string | null {
     if (!importSpecifier.startsWith('.')) {
-      // Check for tsconfig paths / relative to src
       if (importSpecifier.startsWith('@/')) {
         const candidate = path.join(this.workspaceRoot, 'src', importSpecifier.slice(2));
         return this.tryResolveFile(candidate);
@@ -142,7 +155,6 @@ export class ModuleDependencyAnalyzer {
     for (const entry of entries) {
       const full = path.join(dir, entry.name);
       if (entry.isDirectory()) {
-        // Skip node_modules or build dirs
         if (entry.name !== 'node_modules' && entry.name !== '.runtime' && entry.name !== 'dist') {
           this.collectTsFilesRecursively(full, outList);
         }
@@ -155,16 +167,24 @@ export class ModuleDependencyAnalyzer {
   private buildGraph() {
     this.graph.clear();
     this.edgeDetails = [];
+    this.basenameToCanonicalMap.clear();
 
     const rootServiceDir = path.join(this.workspaceRoot, 'src', 'server', 'services');
     const allTsFiles: string[] = [];
     this.collectTsFilesRecursively(rootServiceDir, allTsFiles);
 
     for (const filePath of allTsFiles) {
-      const normalizedSource = path.basename(filePath);
-      if (!this.graph.has(normalizedSource)) {
-        this.graph.set(normalizedSource, new Set());
+      const canonicalSource = this.toCanonicalPath(filePath);
+      const baseName = path.basename(filePath);
+
+      if (!this.graph.has(canonicalSource)) {
+        this.graph.set(canonicalSource, new Set());
       }
+
+      if (!this.basenameToCanonicalMap.has(baseName)) {
+        this.basenameToCanonicalMap.set(baseName, []);
+      }
+      this.basenameToCanonicalMap.get(baseName)!.push(canonicalSource);
 
       const fileContent = fs.readFileSync(filePath, 'utf8');
       const sourceFile = ts.createSourceFile(
@@ -178,22 +198,17 @@ export class ModuleDependencyAnalyzer {
         let importSpecifier: string | null = null;
         let importType: 'STATIC_IMPORT' | 'EXPORT_FROM' | 'DYNAMIC_IMPORT' = 'STATIC_IMPORT';
 
-        // 1. static import
         if (ts.isImportDeclaration(node)) {
           if (ts.isStringLiteral(node.moduleSpecifier)) {
             importSpecifier = node.moduleSpecifier.text;
             importType = 'STATIC_IMPORT';
           }
-        }
-        // 2. export ... from
-        else if (ts.isExportDeclaration(node) && node.moduleSpecifier) {
+        } else if (ts.isExportDeclaration(node) && node.moduleSpecifier) {
           if (ts.isStringLiteral(node.moduleSpecifier)) {
             importSpecifier = node.moduleSpecifier.text;
             importType = 'EXPORT_FROM';
           }
-        }
-        // 3. dynamic import
-        else if (
+        } else if (
           ts.isCallExpression(node) &&
           node.expression.kind === ts.SyntaxKind.ImportKeyword &&
           node.arguments.length > 0 &&
@@ -206,13 +221,13 @@ export class ModuleDependencyAnalyzer {
         if (importSpecifier) {
           const resolved = this.resolveModulePath(filePath, importSpecifier);
           if (resolved) {
-            const targetName = path.basename(resolved);
-            this.graph.get(normalizedSource)?.add(targetName);
+            const canonicalTarget = this.toCanonicalPath(resolved);
+            this.graph.get(canonicalSource)?.add(canonicalTarget);
 
             const targetContent = fs.existsSync(resolved) ? fs.readFileSync(resolved, 'utf8') : '';
             this.edgeDetails.push({
-              fromModule: normalizedSource,
-              toModule: targetName,
+              fromModule: canonicalSource,
+              toModule: canonicalTarget,
               classification: this.classifyModule(resolved, targetContent),
               importType
             });
@@ -226,10 +241,26 @@ export class ModuleDependencyAnalyzer {
     }
   }
 
-  public findPath(sourceModule: string, targetModule: string): string[] | null {
-    const src = path.basename(sourceModule);
-    const tgt = path.basename(targetModule);
+  public resolveCanonicalModule(moduleNameOrPath: string): string | null {
+    const canonical = this.toCanonicalPath(moduleNameOrPath);
+    if (this.graph.has(canonical)) {
+      return canonical;
+    }
 
+    const base = path.basename(canonical);
+    const matches = this.basenameToCanonicalMap.get(base);
+    if (matches && matches.length === 1) {
+      return matches[0];
+    }
+
+    return null;
+  }
+
+  public findPath(sourceModule: string, targetModule: string): string[] | null {
+    const src = this.resolveCanonicalModule(sourceModule);
+    const tgt = this.resolveCanonicalModule(targetModule);
+
+    if (!src || !tgt) return null;
     if (src === tgt) return [src];
 
     const queue: { current: string; path: string[] }[] = [{ current: src, path: [src] }];
@@ -255,13 +286,23 @@ export class ModuleDependencyAnalyzer {
   }
 
   public checkReachability(sourceModule: string, targetModule: string): ReachabilityQuery {
-    const pathFound = this.findPath(sourceModule, targetModule);
-    const resolvedTarget = path.join(this.workspaceRoot, 'src', 'server', 'services', targetModule);
+    const src = this.resolveCanonicalModule(sourceModule);
+    const tgt = this.resolveCanonicalModule(targetModule);
+
+    if (!src) {
+      throw new Error(`ANALYZER_VERIFIER_FAILURE: Source module '${sourceModule}' was not inspected by ModuleDependencyAnalyzer.`);
+    }
+    if (!tgt) {
+      throw new Error(`ANALYZER_VERIFIER_FAILURE: Target module '${targetModule}' was not inspected by ModuleDependencyAnalyzer.`);
+    }
+
+    const pathFound = this.findPath(src, tgt);
+    const resolvedTarget = path.isAbsolute(tgt) ? tgt : path.join(this.workspaceRoot, tgt);
     const targetContent = fs.existsSync(resolvedTarget) ? fs.readFileSync(resolvedTarget, 'utf8') : '';
 
     return {
-      source: path.basename(sourceModule),
-      target: path.basename(targetModule),
+      source: src,
+      target: tgt,
       classification: this.classifyModule(resolvedTarget, targetContent),
       reachable: pathFound !== null,
       path: pathFound || []
@@ -271,33 +312,43 @@ export class ModuleDependencyAnalyzer {
   public analyze(): DependencyAuditResult {
     const unauthorizedExecutionPaths: string[] = [];
 
-    // Verify CP21IndependentVerifier cannot reach TrackBGate or CapitalProtectionEngine
-    const verifierToGate = this.checkReachability('CP21IndependentVerifier.ts', 'TrackBGate.ts');
+    const verifierToGate = this.checkReachability(
+      'src/server/services/phase2fasttrack/CP21IndependentVerifier.ts',
+      'src/server/services/phase2fasttrack/TrackBGate.ts'
+    );
     if (verifierToGate.reachable) {
       unauthorizedExecutionPaths.push(
-        `UNAUTHORIZED PATH: CP21IndependentVerifier -> TrackBGate via [${verifierToGate.path.join(' -> ')}]`
+        `UNAUTHORIZED PATH: ${verifierToGate.source} -> ${verifierToGate.target} via [${verifierToGate.path.join(' -> ')}]`
       );
     }
 
-    const verifierToCapital = this.checkReachability('CP21IndependentVerifier.ts', 'CapitalProtectionEngine.ts');
+    const verifierToCapital = this.checkReachability(
+      'src/server/services/phase2fasttrack/CP21IndependentVerifier.ts',
+      'src/server/services/CapitalProtectionEngine.ts'
+    );
     if (verifierToCapital.reachable) {
       unauthorizedExecutionPaths.push(
-        `UNAUTHORIZED PATH: CP21IndependentVerifier -> CapitalProtectionEngine via [${verifierToCapital.path.join(' -> ')}]`
+        `UNAUTHORIZED PATH: ${verifierToCapital.source} -> ${verifierToCapital.target} via [${verifierToCapital.path.join(' -> ')}]`
       );
     }
 
-    // Verify B1SampleBuilder cannot reach TrackBGate or CapitalProtectionEngine
-    const b1ToGate = this.checkReachability('B1SampleBuilder.ts', 'TrackBGate.ts');
+    const b1ToGate = this.checkReachability(
+      'src/server/services/phase2fasttrack/B1SampleBuilder.ts',
+      'src/server/services/phase2fasttrack/TrackBGate.ts'
+    );
     if (b1ToGate.reachable) {
       unauthorizedExecutionPaths.push(
-        `UNAUTHORIZED PATH: B1SampleBuilder -> TrackBGate via [${b1ToGate.path.join(' -> ')}]`
+        `UNAUTHORIZED PATH: ${b1ToGate.source} -> ${b1ToGate.target} via [${b1ToGate.path.join(' -> ')}]`
       );
     }
 
-    const b1ToCapital = this.checkReachability('B1SampleBuilder.ts', 'CapitalProtectionEngine.ts');
+    const b1ToCapital = this.checkReachability(
+      'src/server/services/phase2fasttrack/B1SampleBuilder.ts',
+      'src/server/services/CapitalProtectionEngine.ts'
+    );
     if (b1ToCapital.reachable) {
       unauthorizedExecutionPaths.push(
-        `UNAUTHORIZED PATH: B1SampleBuilder -> CapitalProtectionEngine via [${b1ToCapital.path.join(' -> ')}]`
+        `UNAUTHORIZED PATH: ${b1ToCapital.source} -> ${b1ToCapital.target} via [${b1ToCapital.path.join(' -> ')}]`
       );
     }
 
@@ -308,18 +359,25 @@ export class ModuleDependencyAnalyzer {
       unauthorizedExecutionPaths,
       edges: this.edgeDetails,
       isolatedComponents: [
-        'CP21IndependentVerifier.ts',
-        'B1SampleBuilder.ts',
-        'TrackBGate.ts',
-        'CapitalProtectionEngine.ts'
+        'src/server/services/phase2fasttrack/CP21IndependentVerifier.ts',
+        'src/server/services/phase2fasttrack/B1SampleBuilder.ts',
+        'src/server/services/phase2fasttrack/TrackBGate.ts',
+        'src/server/services/CapitalProtectionEngine.ts'
       ]
     };
   }
 
   public injectTestEdgeForVerification(fromModule: string, toModule: string) {
-    if (!this.graph.has(fromModule)) {
-      this.graph.set(fromModule, new Set());
+    const src = this.resolveCanonicalModule(fromModule) || this.toCanonicalPath(fromModule);
+    const tgt = this.resolveCanonicalModule(toModule) || this.toCanonicalPath(toModule);
+
+    if (!this.graph.has(src)) {
+      this.graph.set(src, new Set());
     }
-    this.graph.get(fromModule)!.add(toModule);
+    this.graph.get(src)!.add(tgt);
+
+    if (!this.graph.has(tgt)) {
+      this.graph.set(tgt, new Set());
+    }
   }
 }

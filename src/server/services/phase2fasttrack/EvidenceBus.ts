@@ -14,7 +14,7 @@ export class EvidenceBus {
     payload: T,
     pitValid: boolean,
     provenanceValid: boolean,
-    metadata: { decisionDate?: string; securityId?: string; strategyId?: string } = {}
+    metadata: { decisionDate?: string; securityId?: string; strategyId?: string; [key: string]: unknown } = {}
   ): EvidenceEnvelope<T> {
     
     // Check authority matrix

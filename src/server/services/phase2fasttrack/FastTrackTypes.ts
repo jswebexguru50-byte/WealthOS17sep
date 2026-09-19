@@ -65,6 +65,15 @@ export interface ImmutableSignal {
   readonly provenanceHash?: string;
 }
 
+export type CP21DataStatus = 'COMPLETE' | 'PARTIAL' | 'DATA_INSUFFICIENT' | 'PIT_REJECTED' | 'INVALID';
+
+export interface S10ProvenanceMetadata {
+  breakoutPrice?: number;
+  intradayBarTimestamp?: string;
+  sourceHash?: string;
+  [key: string]: unknown;
+}
+
 export interface EnrichedImmutableSignal extends ImmutableSignal {
     enrichedRecordId: string;
     enrichedRecordHash: string;
@@ -74,6 +83,7 @@ export interface EnrichedImmutableSignal extends ImmutableSignal {
     sourceObservationTimestamp?: string;
     signalTimestamp?: string;
     decisionTimestamp?: string;
+    intradayTimestamp?: string;
     entryEligibleTimestamp?: string;
     timezone?: string;
     resolution?: string;
