@@ -1,0 +1,86 @@
+{
+  "delivery": "Delivery 2.2 — v6.5 Genuine Economic Replay",
+  "phase": "PHASE_0_BASELINE_AND_DISCOVERY",
+  "capturedAt": "2026-09-19T12:41:00.000Z",
+  "git": {
+    "branch": "ai-review",
+    "headSha": "3f30c358ef7d0e6e69b3ae136253c1a186562ddb",
+    "parentSha": "d9bb8c08b6793a8ec50996a9fd91a36f4517ae81",
+    "mainBaselineSha": "16cb972658d0e8480aa7b0174b3e715446172bb8",
+    "workingTreeStatus": {
+      "modifiedTrackedFiles": 0,
+      "stagedFiles": 0,
+      "untrackedFilesSummary": "Reports, review portal, and task artifacts only; no dirty tracked source code"
+    }
+  },
+  "runnerInventory": {
+    "v65RunnerLocation": "v65_runner_source.ts",
+    "reproducerLocation": "src/server/services/research/V65BaselineReproducer.ts",
+    "reproduceScript": "scripts/v67/reproduce_v65_baseline.ts"
+  },
+  "artifactInventory": {
+    "dataV65Dir": "data/v6.5",
+    "docsV65Dir": "docs/v6.5",
+    "totalV65DataFiles": 27,
+    "totalV65DocsFiles": 7,
+    "keyArtifacts": [
+      "data/v6.5/v65_economic_replay_ledger.jsonl",
+      "data/v6.5/v65_statistical_validation_results.json",
+      "data/v6.5/v65_strategy_performance_matrix.json",
+      "data/v6.5/v65_cost_sensitivity_results.json",
+      "data/v6.5/v65_walk_forward_oos_results.json",
+      "data/v6.5/v65_regime_robustness_results.json",
+      "data/v6.5/v65_capacity_analysis.json",
+      "docs/v6.5/V65_ECONOMIC_REPLAY_REPORT.md",
+      "docs/v6.5/V65_STRATEGY_DISPOSITION_SUMMARY.md"
+    ]
+  },
+  "testInventory": {
+    "totalTestFiles": 222,
+    "v65UnitTestFilesCount": 41,
+    "v65TestDir": "tests/unit/v65"
+  },
+  "frozenControls": {
+    "status": "BYTE_IDENTICAL_TO_MAIN",
+    "mainCommit": "16cb972658d0e8480aa7b0174b3e715446172bb8",
+    "files": {
+      "src/server/services/PureTechnicalStrategiesEngine.ts": {
+        "sha256": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3",
+        "match": true
+      },
+      "src/server/services/StrategyParameterConfig.ts": {
+        "sha256": "901ca7a27b2eb4e09183426c9e0dfd7b812aeebf84472b49b9f829661fe7194b",
+        "match": true
+      },
+      "src/server/services/SignalQualityOverlay.ts": {
+        "sha256": "c41cddb152c150bea932a8b9bd8fcc6ea01a03a2ba030a723789aaada5c17452",
+        "match": true
+      },
+      "src/server/services/CapitalProtectionEngine.ts": {
+        "sha256": "63b8317889f5a60e9462f883e89acb57fe99e819935ec8f7b30036ecfe4ed753",
+        "match": true
+      },
+      "src/server/services/NewTechnicalStrategiesEngine.ts": {
+        "sha256": "78415ba3c74ca6a9cc2fcc96d2e54ba871e9bca73fc6e078570c412781b1d354",
+        "match": true
+      },
+      "src/server/services/UpstoxIntradayIngestor.ts": {
+        "sha256": "0f1c96d0e0c704672517f378990e17facdced7bfbf359daf9c6f37333be1b151",
+        "match": true
+      },
+      "data/v6.3_REAL_trade_identity_ledger.jsonl": {
+        "sha256": "035d8867f1f8dbc65f9fe35ea45263f20f9fee00a48d3d7f48807c24a2afd485",
+        "match": true
+      }
+    }
+  },
+  "authorizationSafety": {
+    "cp21Authorization": false,
+    "b1Authorization": false,
+    "b2Authorization": false,
+    "trackBAuthorization": false,
+    "productionAuthorization": false,
+    "liveTradingAuthorization": false,
+    "allStrictlyFalse": true
+  }
+}
