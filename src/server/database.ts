@@ -67,6 +67,9 @@ function getDatabaseTxCountSync(filePath: string): number {
 }
 
 export function restorePersistentBackupIfNeeded() {
+  if (process.env.VITEST || process.env.NODE_ENV === 'test' || process.env.DB_PATH?.includes('test')) {
+    return; // Bypass auto-restore for unit/integration tests to allow clean test databases
+  }
   try {
     const dbExists = fs.existsSync(DB_FILE);
     let currentDbValid = dbExists && fs.statSync(DB_FILE).size >= 8192;
@@ -501,8 +504,166 @@ export async function runMigrations(db: Database): Promise<void> {
       await dbRun(db, 'INSERT OR IGNORE INTO db_migrations (version, name) VALUES (?, ?)', [migration.version, migration.name]);
       console.log(`[Migration] Applied v${migration.version}: ${migration.name}`);
     }
+
+    // Run explicit manual migrations for tables that need complex retrofitting
+    await migrateDatasetPromotionManifests(db);
+    
   } catch (e: any) {
     console.error('[Migration] Migration runner error:', e.message);
+  }
+}
+
+async function migrateDatasetPromotionManifests(db: Database): Promise<void> {
+  // Check if the constraint already exists
+  const tableInfo = await dbGet<{ sql: string }>(db, "SELECT sql FROM sqlite_master WHERE type='table' AND name='DatasetPromotionManifests'");
+  if (!tableInfo || tableInfo.sql.includes('CONSTRAINT valid_promoted_evidence CHECK')) {
+    // Already migrated or doesn't exist yet
+    return;
+  }
+
+  console.log('[Migration] Migrating DatasetPromotionManifests to enforce valid_promoted_evidence constraint...');
+
+  await dbRun(db, 'PRAGMA foreign_keys=off;');
+  await dbRun(db, 'BEGIN TRANSACTION;');
+
+  try {
+    // 1. Create Quarantine table if it doesn't exist
+    await dbRun(db, `
+      CREATE TABLE IF NOT EXISTS DatasetPromotionManifests_Quarantine (
+        dataset_id TEXT PRIMARY KEY,
+        raw_sha256 TEXT,
+        canonical_sha256 TEXT,
+        source TEXT,
+        provider TEXT,
+        endpoint_version TEXT,
+        requested_start TEXT,
+        requested_end TEXT,
+        actual_start TEXT,
+        actual_end TEXT,
+        coverage_pct REAL,
+        missing_ranges_json TEXT,
+        pit_status TEXT,
+        calendar_status TEXT,
+        corporate_action_basis TEXT,
+        verification_predicates_json TEXT,
+        promotion_decision TEXT,
+        promotion_reason TEXT,
+        persisted_at TEXT,
+        quarantine_reason TEXT,
+        quarantine_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    // 2. Identify invalid rows and move them to quarantine
+    const rows = await dbAll<any>(db, "SELECT * FROM DatasetPromotionManifests");
+    let quarantinedCount = 0;
+    
+    for (const row of rows) {
+      let isInvalid = false;
+      let reason = '';
+
+      if (row.promotion_decision === 'PROMOTED') {
+        if (!row.raw_sha256 || row.raw_sha256.trim().length !== 64) {
+          isInvalid = true; reason += 'Missing/invalid raw_sha256. ';
+        }
+        if (!row.canonical_sha256 || row.canonical_sha256.trim().length !== 64) {
+          isInvalid = true; reason += 'Missing/invalid canonical_sha256. ';
+        }
+        try {
+          const preds = JSON.parse(row.verification_predicates_json);
+          if (!Array.isArray(preds)) {
+            isInvalid = true; reason += 'verification_predicates_json is not an array. ';
+          }
+        } catch (e) {
+          isInvalid = true; reason += 'verification_predicates_json is invalid JSON. ';
+        }
+      }
+
+      if (isInvalid) {
+        await dbRun(db, `
+          INSERT OR REPLACE INTO DatasetPromotionManifests_Quarantine (
+            dataset_id, raw_sha256, canonical_sha256, source, provider, endpoint_version,
+            requested_start, requested_end, actual_start, actual_end, coverage_pct,
+            missing_ranges_json, pit_status, calendar_status, corporate_action_basis,
+            verification_predicates_json, promotion_decision, promotion_reason, persisted_at,
+            quarantine_reason
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `, [
+          row.dataset_id, row.raw_sha256, row.canonical_sha256, row.source, row.provider, row.endpoint_version,
+          row.requested_start, row.requested_end, row.actual_start, row.actual_end, row.coverage_pct,
+          row.missing_ranges_json, row.pit_status, row.calendar_status, row.corporate_action_basis,
+          row.verification_predicates_json, row.promotion_decision, row.promotion_reason, row.persisted_at,
+          reason.trim()
+        ]);
+        
+        await dbRun(db, "DELETE FROM DatasetPromotionManifests WHERE dataset_id = ?", [row.dataset_id]);
+        quarantinedCount++;
+      }
+    }
+
+    // 3. Rename old table
+    await dbRun(db, 'ALTER TABLE DatasetPromotionManifests RENAME TO _DatasetPromotionManifests_old');
+
+    // 4. Create new table with constraint
+    await dbRun(db, `
+      CREATE TABLE DatasetPromotionManifests (
+        dataset_id TEXT PRIMARY KEY,
+        raw_sha256 TEXT NOT NULL,
+        canonical_sha256 TEXT NOT NULL,
+        source TEXT NOT NULL,
+        provider TEXT NOT NULL,
+        endpoint_version TEXT NOT NULL,
+        requested_start TEXT NOT NULL,
+        requested_end TEXT NOT NULL,
+        actual_start TEXT NOT NULL,
+        actual_end TEXT NOT NULL,
+        coverage_pct REAL NOT NULL,
+        missing_ranges_json TEXT NOT NULL,
+        pit_status TEXT NOT NULL,
+        calendar_status TEXT NOT NULL,
+        corporate_action_basis TEXT NOT NULL,
+        verification_predicates_json TEXT NOT NULL,
+        promotion_decision TEXT NOT NULL,
+        promotion_reason TEXT NOT NULL,
+        persisted_at TEXT NOT NULL,
+        CONSTRAINT valid_promoted_evidence CHECK (
+          promotion_decision <> 'PROMOTED' 
+          OR (
+            length(trim(raw_sha256)) = 64 
+            AND length(trim(canonical_sha256)) = 64
+            AND json_valid(verification_predicates_json) = 1
+            AND json_type(verification_predicates_json) = 'array'
+          )
+        )
+      )
+    `);
+
+    // 5. Insert remaining valid rows
+    await dbRun(db, `
+      INSERT INTO DatasetPromotionManifests (
+        dataset_id, raw_sha256, canonical_sha256, source, provider, endpoint_version,
+        requested_start, requested_end, actual_start, actual_end, coverage_pct,
+        missing_ranges_json, pit_status, calendar_status, corporate_action_basis,
+        verification_predicates_json, promotion_decision, promotion_reason, persisted_at
+      ) SELECT 
+        dataset_id, raw_sha256, canonical_sha256, source, provider, endpoint_version,
+        requested_start, requested_end, actual_start, actual_end, coverage_pct,
+        missing_ranges_json, pit_status, calendar_status, corporate_action_basis,
+        verification_predicates_json, promotion_decision, promotion_reason, persisted_at
+      FROM _DatasetPromotionManifests_old
+    `);
+
+    // 6. Drop old table
+    await dbRun(db, 'DROP TABLE _DatasetPromotionManifests_old');
+
+    await dbRun(db, 'COMMIT;');
+    console.log(`[Migration] DatasetPromotionManifests migration complete. Quarantined ${quarantinedCount} rows.`);
+  } catch (e) {
+    await dbRun(db, 'ROLLBACK;');
+    console.error('[Migration] Failed to migrate DatasetPromotionManifests, rolled back.', e);
+    throw e;
+  } finally {
+    await dbRun(db, 'PRAGMA foreign_keys=on;');
   }
 }
 // ─────────────────────────────────────────────────────────────────────────────
@@ -2499,6 +2660,38 @@ function runSchemaInitialization(db: Database): Promise<void> {
 
         // ── Intraday Candles (15m/30m/1h from Upstox for S10 ORB + real-time) ──
         db.run(`
+          CREATE TABLE IF NOT EXISTS DatasetPromotionManifests (
+            dataset_id TEXT PRIMARY KEY,
+            raw_sha256 TEXT NOT NULL,
+            canonical_sha256 TEXT NOT NULL,
+            source TEXT NOT NULL,
+            provider TEXT NOT NULL,
+            endpoint_version TEXT NOT NULL,
+            requested_start TEXT NOT NULL,
+            requested_end TEXT NOT NULL,
+            actual_start TEXT NOT NULL,
+            actual_end TEXT NOT NULL,
+            coverage_pct REAL NOT NULL,
+            missing_ranges_json TEXT NOT NULL,
+            pit_status TEXT NOT NULL,
+            calendar_status TEXT NOT NULL,
+            corporate_action_basis TEXT NOT NULL,
+            verification_predicates_json TEXT NOT NULL,
+            promotion_decision TEXT NOT NULL,
+            promotion_reason TEXT NOT NULL,
+            persisted_at TEXT NOT NULL,
+            CONSTRAINT valid_promoted_evidence CHECK (
+              promotion_decision <> 'PROMOTED' 
+              OR (
+                length(trim(raw_sha256)) = 64 
+                AND length(trim(canonical_sha256)) = 64
+                AND json_valid(verification_predicates_json) = 1
+                AND json_type(verification_predicates_json) = 'array'
+              )
+            )
+          )
+        `);
+        db.run(`
           CREATE TABLE IF NOT EXISTS IntradayCandles (
             symbol TEXT NOT NULL,
             candle_time TEXT NOT NULL,
@@ -3367,7 +3560,10 @@ export async function recordValuationSnapshot(
   xirr: number | null = null,
   dateStr?: string
 ): Promise<void> {
-  const dStr = dateStr || new Date().toISOString().split('T')[0];
+  if (!dateStr) {
+    throw new Error('Observation timestamp is missing. Cannot persist valuation snapshot without explicit source observation time.');
+  }
+  const dStr = dateStr;
   try {
     await dbRun(
       db,
