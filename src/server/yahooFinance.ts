@@ -1,4 +1,4 @@
-﻿process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 import sqlite3 from 'sqlite3';
 import { dbAll, dbRun, dbGet, getDB, runInDbLock } from './database.js';
 import { formatDate, parseDate, runFIFO } from './fifoEngine.js';
@@ -994,12 +994,12 @@ async function fetchUpstoxLTPBatch(
   }
 }
 
-export async function syncMarketPrices(portfolioFilter?: string) {
+export async function syncMarketPrices(portfolioFilter?: string, sourceObservationTimestamp?: string) {
   const db = getDB();
-  return autoFetchMarketData(db, portfolioFilter);
+  return autoFetchMarketData(db, portfolioFilter, sourceObservationTimestamp);
 }
 
-export async function autoFetchMarketData(db: sqlite3.Database, portfolioFilter?: string): Promise<{
+export async function autoFetchMarketData(db: sqlite3.Database, portfolioFilter?: string, sourceObservationTimestamp?: string): Promise<{
   pricesUpdated: number;
   caAdded: number;
   failedSymbols: string[];
@@ -1509,51 +1509,53 @@ export async function autoFetchMarketData(db: sqlite3.Database, portfolioFilter?
   } catch (cashLockErr) {
     console.warn('[Market Sync] CASH re-lock warning:', cashLockErr);
   }
-
   // === Valuation Snapshot after Market Sync ===
   try {
-    const snapUsdRow = await dbGet(db, "SELECT rate_to_inr FROM CurrencyRates WHERE currency = 'USD'").catch(() => null);
-    const snapUsdRate = snapUsdRow?.rate_to_inr || 0;
+    if (!sourceObservationTimestamp) {
+      console.warn('[Valuation Snapshot] OBSERVATION_TIME_UNVERIFIABLE: Missing explicit source observation timestamp. Skipping snapshot persistence.');
+    } else {
+      const snapUsdRow = await dbGet(db, "SELECT rate_to_inr FROM CurrencyRates WHERE currency = 'USD'").catch(() => null);
+      const snapUsdRate = snapUsdRow?.rate_to_inr || 0;
 
-    const portfolioVals = await dbAll(db, `
-      SELECT portfolio,
-        SUM(current_value) as total_value,
-        SUM(CASE WHEN holding_type = 'EQUITY' THEN current_value ELSE 0 END) as equity_value,
-        SUM(CASE WHEN holding_type = 'CASH' THEN current_value ELSE 0 END) as cash_value,
-        SUM(CASE WHEN holding_type = 'MUTUAL_FUND' THEN current_value ELSE 0 END) as mf_value,
-        SUM(CASE WHEN holding_type = 'AIF' THEN current_value ELSE 0 END) as aif_value,
-        SUM(CASE WHEN holding_type = 'UNLISTED' THEN current_value ELSE 0 END) as unlisted_value
-      FROM Holdings
-      GROUP BY portfolio
-    `);
+      const portfolioVals = await dbAll(db, `
+        SELECT portfolio,
+          SUM(current_value) as total_value,
+          SUM(CASE WHEN holding_type = 'EQUITY' THEN current_value ELSE 0 END) as equity_value,
+          SUM(CASE WHEN holding_type = 'CASH' THEN current_value ELSE 0 END) as cash_value,
+          SUM(CASE WHEN holding_type = 'MUTUAL_FUND' THEN current_value ELSE 0 END) as mf_value,
+          SUM(CASE WHEN holding_type = 'AIF' THEN current_value ELSE 0 END) as aif_value,
+          SUM(CASE WHEN holding_type = 'UNLISTED' THEN current_value ELSE 0 END) as unlisted_value
+        FROM Holdings
+        GROUP BY portfolio
+      `);
 
-    for (const pv of portfolioVals) {
-      const lastSnap = await dbGet(db,
-        `SELECT total_value_inr FROM ValuationSnapshots WHERE portfolio = ? ORDER BY id DESC LIMIT 1`,
-        [pv.portfolio]
-      ).catch(() => null);
+      for (const pv of portfolioVals) {
+        const lastSnap = await dbGet(db,
+          `SELECT total_value_inr FROM ValuationSnapshots WHERE portfolio = ? ORDER BY id DESC LIMIT 1`,
+          [pv.portfolio]
+        ).catch(() => null);
 
-      let driftPct = 0;
-      let driftAlert: string | null = null;
+        let driftPct = 0;
+        let driftAlert: string | null = null;
 
-      if (lastSnap && lastSnap.total_value_inr > 0) {
-        driftPct = ((pv.total_value - lastSnap.total_value_inr) / lastSnap.total_value_inr) * 100;
-        if (Math.abs(driftPct) > 5) {
-          driftAlert = `WARN: ${pv.portfolio} drifted ${driftPct > 0 ? '+' : ''}${driftPct.toFixed(2)}% after market sync`;
-          console.warn(`[Valuation Drift] ${driftAlert}`);
+        if (lastSnap && lastSnap.total_value_inr > 0) {
+          driftPct = ((pv.total_value - lastSnap.total_value_inr) / lastSnap.total_value_inr) * 100;
+          if (Math.abs(driftPct) > 5) {
+            driftAlert = `WARN: ${pv.portfolio} drifted ${driftPct > 0 ? '+' : ''}${driftPct.toFixed(2)}% after market sync`;
+            console.warn(`[Valuation Drift] ${driftAlert}`);
+          }
         }
-      }
 
-      await dbRun(db, `
-        INSERT INTO ValuationSnapshots (portfolio, total_value_inr, equity_value, cash_value, mf_value, aif_value, unlisted_value, fx_rate_usd, trigger_source, drift_pct, drift_alert)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'MARKET_SYNC', ?, ?)
-      `, [pv.portfolio, pv.total_value, pv.equity_value, pv.cash_value, pv.mf_value, pv.aif_value, pv.unlisted_value, snapUsdRate, driftPct, driftAlert]);
+        await dbRun(db, `
+          INSERT INTO ValuationSnapshots (timestamp, portfolio, total_value_inr, equity_value, cash_value, mf_value, aif_value, unlisted_value, fx_rate_usd, trigger_source, drift_pct, drift_alert)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'MARKET_SYNC', ?, ?)
+        `, [sourceObservationTimestamp, pv.portfolio, pv.total_value, pv.equity_value, pv.cash_value, pv.mf_value, pv.aif_value, pv.unlisted_value, snapUsdRate, driftPct, driftAlert]);
+      }
+      console.log(`[Valuation Snapshot] Recorded ${portfolioVals.length} portfolio snapshots after market sync with explicit source observation timestamp: ${sourceObservationTimestamp}`);
     }
-    console.log(`[Valuation Snapshot] Recorded ${portfolioVals.length} portfolio snapshots after market sync`);
   } catch (snapErr) {
     console.warn('[Valuation Snapshot] Failed to record market sync snapshot:', snapErr);
   }
-
   const elapsed = ((Date.now() - syncStart) / 1000).toFixed(1);
   console.log(`[${new Date().toISOString()}] Market price sync completed successfully in ${elapsed}s. Updated ${pricesUpdated} holdings.`);
   return {

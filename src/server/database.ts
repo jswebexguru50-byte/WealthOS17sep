@@ -669,9 +669,9 @@ async function migrateDatasetPromotionManifests(db: Database): Promise<void> {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export function initializeDatabase(db: Database, skipIntegrityCheck = false): Promise<void> {
-  const proceed = () => runMigrations(db)
-    .catch(e => console.error('[Migration] Non-fatal migration error:', e))
-    .finally(() => runSchemaInitialization(db));
+  const proceed = () => runSchemaInitialization(db)
+    .then(() => runMigrations(db))
+    .catch(e => console.error('[Migration] Non-fatal migration error:', e));
 
   if (skipIntegrityCheck) {
     return proceed();
@@ -869,8 +869,9 @@ function runSchemaInitialization(db: Database): Promise<void> {
             scan_date TEXT NOT NULL,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
-      `);
-      db.run('CREATE INDEX IF NOT EXISTS idx_strat_cache_lookup ON strategy_scan_cache(scan_id, strategy_id);');
+      `, () => {
+        db.run('CREATE INDEX IF NOT EXISTS idx_strat_cache_lookup ON strategy_scan_cache(scan_id, strategy_id);');
+      });
 
       db.run(`
         CREATE TABLE IF NOT EXISTS strategy_scan_metadata (
@@ -919,10 +920,11 @@ function runSchemaInitialization(db: Database): Promise<void> {
           raw_data_json TEXT,
           audited_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
-      `);
-      db.run('CREATE INDEX IF NOT EXISTS idx_dq_audit_symbol ON DataQualityAuditLedger(symbol);');
-      db.run('CREATE INDEX IF NOT EXISTS idx_dq_audit_status ON DataQualityAuditLedger(integrity_status);');
-      db.run('CREATE INDEX IF NOT EXISTS idx_dq_audit_quarter ON DataQualityAuditLedger(as_of_quarter);');
+      `, () => {
+        db.run('CREATE INDEX IF NOT EXISTS idx_dq_audit_symbol ON DataQualityAuditLedger(symbol);');
+        db.run('CREATE INDEX IF NOT EXISTS idx_dq_audit_status ON DataQualityAuditLedger(integrity_status);');
+        db.run('CREATE INDEX IF NOT EXISTS idx_dq_audit_quarter ON DataQualityAuditLedger(as_of_quarter);');
+      });
 
       // Create DataSyncDriftLedger table for Dual-Source Consensus & Cross-Validation
       db.run(`
@@ -942,10 +944,11 @@ function runSchemaInitialization(db: Database): Promise<void> {
           resolution_note TEXT,
           reconciled_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
-      `);
-      db.run('CREATE INDEX IF NOT EXISTS idx_ds_drift_symbol ON DataSyncDriftLedger(symbol);');
-      db.run('CREATE INDEX IF NOT EXISTS idx_ds_drift_status ON DataSyncDriftLedger(sync_status);');
-      db.run('CREATE INDEX IF NOT EXISTS idx_ds_drift_metric ON DataSyncDriftLedger(metric_name);');
+      `, () => {
+        db.run('CREATE INDEX IF NOT EXISTS idx_ds_drift_symbol ON DataSyncDriftLedger(symbol);');
+        db.run('CREATE INDEX IF NOT EXISTS idx_ds_drift_status ON DataSyncDriftLedger(sync_status);');
+        db.run('CREATE INDEX IF NOT EXISTS idx_ds_drift_metric ON DataSyncDriftLedger(metric_name);');
+      });
 
       // Create Portfolios table
       db.run(`
@@ -1204,12 +1207,12 @@ function runSchemaInitialization(db: Database): Promise<void> {
           applied_date TEXT,
           applied_batch_id TEXT,
           batch_id TEXT,
-          created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-          updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+          created_at TEXT DEFAULT CURRENT_TIMESTAMP
         )
-      `);
-      db.run(`CREATE INDEX IF NOT EXISTS idx_ca_sym_date ON CorporateActions(symbol, record_date);`);
-      db.run(`CREATE INDEX IF NOT EXISTS idx_ca_isin_date ON CorporateActions(isin, record_date);`);
+      `, () => {
+          db.run(`CREATE INDEX IF NOT EXISTS idx_ca_sym_date ON CorporateActions(symbol, record_date);`);
+          db.run(`CREATE INDEX IF NOT EXISTS idx_ca_isin_date ON CorporateActions(isin, record_date);`);
+        });
 
       // Create HistoricalPrices
       db.run(`
@@ -1222,8 +1225,9 @@ function runSchemaInitialization(db: Database): Promise<void> {
           updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
           PRIMARY KEY (symbol, date)
         )
-      `);
-      db.run(`CREATE INDEX IF NOT EXISTS idx_hist_prices_sym_date ON HistoricalPrices(symbol, date);`);
+      `, () => {
+        db.run(`CREATE INDEX IF NOT EXISTS idx_hist_prices_sym_date ON HistoricalPrices(symbol, date);`);
+      });
 
       // Create RealizedGains
       db.run(`
@@ -1290,9 +1294,10 @@ function runSchemaInitialization(db: Database): Promise<void> {
           batch_id            TEXT NOT NULL,
           ingestion_ts        TEXT NOT NULL DEFAULT (datetime('now','utc'))
         )
-      `);
-      db.run(`CREATE INDEX IF NOT EXISTS idx_fill_reg_hash ON fill_registry(fill_hash);`);
-      db.run(`CREATE INDEX IF NOT EXISTS idx_fill_reg_order ON fill_registry(order_id, trade_date, isin);`);
+      `, () => {
+        db.run(`CREATE INDEX IF NOT EXISTS idx_fill_reg_hash ON fill_registry(fill_hash);`);
+        db.run(`CREATE INDEX IF NOT EXISTS idx_fill_reg_order ON fill_registry(order_id, trade_date, isin);`);
+      });
 
       // Create StrippingDisallowances (Section 94(7) & 94(8) ITCA Statutory Audit Ledger)
       db.run(`
@@ -1313,8 +1318,9 @@ function runSchemaInitialization(db: Database): Promise<void> {
           audit_notes TEXT,
           created_at TEXT DEFAULT CURRENT_TIMESTAMP
         )
-      `);
-      db.run(`CREATE INDEX IF NOT EXISTS idx_sd_pan_fy ON StrippingDisallowances(pan, trigger_sell_date);`);
+      `, () => {
+        db.run(`CREATE INDEX IF NOT EXISTS idx_sd_pan_fy ON StrippingDisallowances(pan, trigger_sell_date);`);
+      });
 
       // Create BenchmarkCashFlowCache for permanent fast rendering of cashflow SIP calculations
       db.run(`
@@ -1330,8 +1336,9 @@ function runSchemaInitialization(db: Database): Promise<void> {
           updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
           PRIMARY KEY (portfolio, benchmark_symbol, date)
         )
-      `);
-      db.run(`CREATE INDEX IF NOT EXISTS idx_bench_cache ON BenchmarkCashFlowCache(portfolio, benchmark_symbol, date);`);
+      `, () => {
+          db.run(`CREATE INDEX IF NOT EXISTS idx_bench_cache ON BenchmarkCashFlowCache(portfolio, benchmark_symbol, date);`);
+        });
 
       // Create PortfolioHistory
       db.run(`
@@ -1469,11 +1476,13 @@ function runSchemaInitialization(db: Database): Promise<void> {
       `);
 
       // Create Composite High-Speed Performance Indexes
-      db.run(`CREATE INDEX IF NOT EXISTS idx_txns_port_isin_date ON Transactions(portfolio, isin, date);`);
-      db.run(`CREATE INDEX IF NOT EXISTS idx_txns_symbol ON Transactions(symbol);`);
-      db.run(`CREATE INDEX IF NOT EXISTS idx_holdings_port_isin ON Holdings(portfolio, isin);`);
-      db.run(`CREATE INDEX IF NOT EXISTS idx_master_isin_symbol ON MasterTickers(isin, symbol);`);
-      db.run(`CREATE INDEX IF NOT EXISTS idx_history_date_port ON PortfolioHistory(date, portfolio);`);
+      db.run("SELECT 1", () => {
+        db.run(`CREATE INDEX IF NOT EXISTS idx_txns_port_isin_date ON Transactions(portfolio, isin, date);`);
+        db.run(`CREATE INDEX IF NOT EXISTS idx_txns_symbol ON Transactions(symbol);`);
+        db.run(`CREATE INDEX IF NOT EXISTS idx_holdings_port_isin ON Holdings(portfolio, isin);`);
+        db.run(`CREATE INDEX IF NOT EXISTS idx_master_isin_symbol ON MasterTickers(isin, symbol);`);
+        db.run(`CREATE INDEX IF NOT EXISTS idx_history_date_port ON PortfolioHistory(date, portfolio);`);
+      });
 
       // Bank Accounts & Fixed Deposits Table (India, UAE, US)
       db.run(`
@@ -1772,7 +1781,7 @@ function runSchemaInitialization(db: Database): Promise<void> {
         db.run(`
           CREATE TABLE IF NOT EXISTS ValuationSnapshots (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            timestamp TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            timestamp TEXT NOT NULL,
             portfolio TEXT NOT NULL,
             total_value_inr REAL NOT NULL DEFAULT 0,
             equity_value REAL NOT NULL DEFAULT 0,
@@ -2596,10 +2605,11 @@ function runSchemaInitialization(db: Database): Promise<void> {
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (symbol, trade_date)
           )
-        `);
-        db.run(`CREATE INDEX IF NOT EXISTS idx_daily_ohlcv_symbol ON DailyOHLCV(symbol)`);
-        db.run(`CREATE INDEX IF NOT EXISTS idx_daily_ohlcv_date ON DailyOHLCV(trade_date)`);
-        db.run(`CREATE INDEX IF NOT EXISTS idx_daily_ohlcv_source ON DailyOHLCV(data_source)`);
+        `, () => {
+          db.run(`CREATE INDEX IF NOT EXISTS idx_daily_ohlcv_symbol ON DailyOHLCV(symbol)`);
+          db.run(`CREATE INDEX IF NOT EXISTS idx_daily_ohlcv_date ON DailyOHLCV(trade_date)`);
+          db.run(`CREATE INDEX IF NOT EXISTS idx_daily_ohlcv_source ON DailyOHLCV(data_source)`);
+        });
 
         // ── Index OHLCV (Nifty 50, Nifty 500, Nifty Midcap, etc.) ──
         db.run(`
@@ -2616,8 +2626,9 @@ function runSchemaInitialization(db: Database): Promise<void> {
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (index_symbol, trade_date)
           )
-        `);
-        db.run(`CREATE INDEX IF NOT EXISTS idx_index_ohlcv_symbol ON IndexOHLCV(index_symbol)`);
+        `, () => {
+          db.run(`CREATE INDEX IF NOT EXISTS idx_index_ohlcv_symbol ON IndexOHLCV(index_symbol)`);
+        });
 
         // ── Index Constituents (which stocks belong to which index) ──
         db.run(`
@@ -2655,8 +2666,9 @@ function runSchemaInitialization(db: Database): Promise<void> {
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (symbol, as_of_date)
           )
-        `);
-        db.run(`CREATE INDEX IF NOT EXISTS idx_fundamental_symbol ON FundamentalData(symbol)`);
+        `, () => {
+          db.run(`CREATE INDEX IF NOT EXISTS idx_fundamental_symbol ON FundamentalData(symbol)`);
+        });
 
         // ── Intraday Candles (15m/30m/1h from Upstox for S10 ORB + real-time) ──
         db.run(`
@@ -2705,8 +2717,9 @@ function runSchemaInitialization(db: Database): Promise<void> {
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (symbol, candle_time, interval)
           )
-        `);
-        db.run(`CREATE INDEX IF NOT EXISTS idx_intraday_symbol_date ON IntradayCandles(symbol, candle_time)`);
+        `, () => {
+          db.run(`CREATE INDEX IF NOT EXISTS idx_intraday_symbol_date ON IntradayCandles(symbol, candle_time)`);
+        });
 
         // ── F&O Options Chain Snapshots (daily, NSE F&O Bhavcopy) ──
         db.run(`
@@ -2726,8 +2739,9 @@ function runSchemaInitialization(db: Database): Promise<void> {
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             UNIQUE(symbol, expiry, strike, option_type, as_of_date)
           )
-        `);
-        db.run(`CREATE INDEX IF NOT EXISTS idx_options_symbol_date ON options_chain_snapshot(symbol, as_of_date)`);
+        `, () => {
+          db.run(`CREATE INDEX IF NOT EXISTS idx_options_symbol_date ON options_chain_snapshot(symbol, as_of_date)`);
+        });
 
         // ── Custom Strategies (user-defined parameter combinations) ──
         db.run(`
@@ -2766,8 +2780,9 @@ function runSchemaInitialization(db: Database): Promise<void> {
             results_json TEXT,
             FOREIGN KEY (strategy_id) REFERENCES CustomStrategies(id)
           )
-        `);
-        db.run(`CREATE INDEX IF NOT EXISTS idx_backtest_strategy ON CustomStrategyBacktests(strategy_id)`);
+        `, () => {
+          db.run(`CREATE INDEX IF NOT EXISTS idx_backtest_strategy ON CustomStrategyBacktests(strategy_id)`);
+        });
 
         // ── Strategy Comparison Sets (saved comparison presets) ──
         db.run(`
@@ -2972,7 +2987,7 @@ function runSchemaInitialization(db: Database): Promise<void> {
 
         // Migration: Ensure FamilyMembers has 'is_senior_citizen' and initialize family PAN accounts
         db.all("PRAGMA table_info(FamilyMembers)", (fmErr, fmCols) => {
-          if (fmCols) {
+          if (fmCols && fmCols.length > 0) {
             const hasSenior = fmCols.some((r: any) => r.name === 'is_senior_citizen');
 
             const runFamilyMemberUpdates = () => {
@@ -3088,7 +3103,7 @@ function runSchemaInitialization(db: Database): Promise<void> {
                      return;
                   }
                   const hasFolio = rows && rows.some((r: any) => r.name === 'folio');
-                  if (!hasFolio) {
+                  if (rows && rows.length > 0 && !hasFolio) {
                     db.serialize(() => {
                       db.run(`CREATE TABLE Holdings_new (
                         portfolio TEXT NOT NULL,
@@ -3132,7 +3147,7 @@ function runSchemaInitialization(db: Database): Promise<void> {
                     return;
                   }
                   const hasFolio = camsRows ? camsRows.some((r: any) => r.name === 'folio') : false;
-                  if (!hasFolio) {
+                  if (camsRows && camsRows.length > 0 && !hasFolio) {
                     db.serialize(() => {
                       db.run("CREATE TABLE CamsSummaryHoldings_new (portfolio TEXT NOT NULL, isin TEXT NOT NULL, folio TEXT DEFAULT 'NA', symbol TEXT NOT NULL, quantity REAL NOT NULL, nav REAL NOT NULL, value REAL NOT NULL, cost REAL, created_at TEXT DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (portfolio, isin, folio))");
                       db.run("INSERT INTO CamsSummaryHoldings_new (portfolio, isin, symbol, quantity, nav, value, cost, created_at) SELECT portfolio, isin, symbol, quantity, nav, value, cost, created_at FROM CamsSummaryHoldings");
@@ -3179,11 +3194,6 @@ function runSchemaInitialization(db: Database): Promise<void> {
                     WHERE symbol = 'EKI' OR isin = 'INE0CPR01018'
                   `, (err) => {
                     if (err) console.warn("EKI exchange update failed:", err);
-                    // Run MasterTickerService initialization
-                    MasterTickerService.getInstance().autoInitializeMasterTickers().catch((e) => {
-                      console.warn("MasterTickerService init warning:", e);
-                    });
-
                     // Backfill/sync is_cash_flow for all transactions based on PMS vs Non-PMS rules.
                     // IMPORTANT GUARDS:
                     //  1. Corporate action rows (is_ca=1) are NEVER cash flow events — always 0.
@@ -3218,10 +3228,12 @@ function runSchemaInitialization(db: Database): Promise<void> {
                               db.run("UPDATE Transactions SET is_cash_flow = ? WHERE id = ?", [expectedFlag, tx.id]);
                             }
                           }
-                          db.run("COMMIT", () => cleanupAndResolve());
+                          db.run("COMMIT", () => {
+                            db.run("SELECT 1", () => cleanupAndResolve());
+                          });
                         });
                       } else {
-                        cleanupAndResolve();
+                        db.run("SELECT 1", () => cleanupAndResolve());
                       }
                     });
                   });
@@ -3338,12 +3350,11 @@ export function auditDBChange(
 // Promisified DB helpers
 function getActiveDB(dbParam?: any): Database {
   if (isSwapInProgress) throw new Error("Database update in progress. Please try again in a moment.");
-  // If the global active dbInstance is open, prioritize it
-  if (dbInstance && dbInstance.isOpen) {
-    return dbInstance as Database;
-  }
   if (dbParam && typeof dbParam.run === 'function') {
     return dbParam;
+  }
+  if (dbInstance && dbInstance.isOpen) {
+    return dbInstance as Database;
   }
   return getDB();
 }
@@ -3549,35 +3560,4 @@ export async function dbGet<T = any>(dbOrSql: any, sqlOrParams?: any, maybeParam
       }
     }
   });
-}
-
-export async function recordValuationSnapshot(
-  db: Database,
-  portfolio: string,
-  invested: number,
-  marketValue: number,
-  unrealizedPnl: number,
-  xirr: number | null = null,
-  dateStr?: string
-): Promise<void> {
-  if (!dateStr) {
-    throw new Error('Observation timestamp is missing. Cannot persist valuation snapshot without explicit source observation time.');
-  }
-  const dStr = dateStr;
-  try {
-    await dbRun(
-      db,
-      `INSERT INTO PortfolioHistory (date, portfolio, cumulative_invested, market_value, unrealized_pnl, xirr, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
-       ON CONFLICT(date, portfolio) DO UPDATE SET
-         cumulative_invested = excluded.cumulative_invested,
-         market_value = excluded.market_value,
-         unrealized_pnl = excluded.unrealized_pnl,
-         xirr = COALESCE(excluded.xirr, PortfolioHistory.xirr),
-         updated_at = CURRENT_TIMESTAMP`,
-      [dStr, portfolio, invested, marketValue, unrealizedPnl, xirr]
-    );
-  } catch (err) {
-    console.warn(`[ValuationSnapshot] Failed to record snapshot for ${portfolio}:`, err);
-  }
 }
