@@ -1,0 +1,20 @@
+{
+  "phase": "11",
+  "status": "PASS",
+  "requestedRows": 538,
+  "rawRows": 538,
+  "validatedRows": 538,
+  "rejectedRows": 0,
+  "quarantinedRows": 0,
+  "duplicateRows": 0,
+  "unauthorizedRows": 0,
+  "unexpectedRows": 0,
+  "calendarViolations": 0,
+  "identityViolations": 0,
+  "ohlcViolations": 0,
+  "existingProductionConflicts": 0,
+  "provenanceFailures": 0,
+  "hashFailures": 0,
+  "stageableRows": 538,
+  "result": "PASS"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "COMPLETED",
+  "provider": "YAHOO_FINANCE_PROGRAMMATIC",
+  "auditMode": "REAL",
+  "total_exports_processed": 50,
+  "statistics": {
+    "EXT_EXACT_MATCH": 49,
+    "EXT_PRICE_DISCREPANCY": 1,
+    "EXT_EXTERNAL_MISSING": 0
+  },
+  "discrepancies": [
+    {
+      "symbol": "SABEVENTS",
+      "date": "2024-08-19",
+      "classification": "EXT_PRICE_DISCREPANCY",
+      "internal_close": 198,
+      "external_close": 150.5
+    }
+  ]
+}

@@ -1,0 +1,952 @@
+[
+  {
+    "symbol": "GFSTEELS",
+    "trade_date": "2020-10-13",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "GFSTEELS",
+    "trade_date": "2020-11-06",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "GFSTEELS",
+    "trade_date": "2021-06-18",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "SABEVENTS",
+    "trade_date": "2020-10-22",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "SABEVENTS",
+    "trade_date": "2024-02-16",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "SABEVENTS",
+    "trade_date": "2024-09-20",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "SABEVENTS",
+    "trade_date": "2025-10-23",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "ALPSINDUS",
+    "trade_date": "2020-11-06",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "ALPSINDUS",
+    "trade_date": "2023-02-15",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "ALPSINDUS",
+    "trade_date": "2023-04-17",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "ALPSINDUS",
+    "trade_date": "2023-06-14",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NAGAFERT",
+    "trade_date": "2025-05-02",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "EASTSILK",
+    "trade_date": "2020-12-24",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "EASTSILK",
+    "trade_date": "2020-12-28",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "EASTSILK",
+    "trade_date": "2021-01-04",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "ANKITMETAL",
+    "trade_date": "2020-04-29",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "RADAAN",
+    "trade_date": "2020-04-17",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "RADAAN",
+    "trade_date": "2021-02-23",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "RADAAN",
+    "trade_date": "2021-03-08",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "PREMIER",
+    "trade_date": "2020-04-16",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "SEYAIND",
+    "trade_date": "2023-07-26",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "SEYAIND",
+    "trade_date": "2024-02-27",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "3PLAND",
+    "trade_date": "2020-07-27",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "ABMINTLLTD",
+    "trade_date": "2023-08-02",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "ADROITINFO",
+    "trade_date": "2023-11-23",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "BILVYAPAR",
+    "trade_date": "2023-10-26",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "BILVYAPAR",
+    "trade_date": "2023-12-22",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "BILVYAPAR",
+    "trade_date": "2024-02-12",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "CREATIVEYE",
+    "trade_date": "2019-01-02",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "CREATIVEYE",
+    "trade_date": "2021-06-22",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "CREATIVEYE",
+    "trade_date": "2021-09-23",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "CREATIVEYE",
+    "trade_date": "2021-12-22",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "CREATIVEYE",
+    "trade_date": "2022-04-25",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "CREATIVEYE",
+    "trade_date": "2022-05-26",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "CREATIVEYE",
+    "trade_date": "2023-02-09",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "CREATIVEYE",
+    "trade_date": "2023-02-22",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "CREATIVEYE",
+    "trade_date": "2023-07-13",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "DCMFINSERV",
+    "trade_date": "2019-05-15",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "DCMFINSERV",
+    "trade_date": "2021-09-01",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "DCMFINSERV",
+    "trade_date": "2021-10-05",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "EQUIPPP",
+    "trade_date": "2019-07-29",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "EQUIPPP",
+    "trade_date": "2019-09-23",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "EQUIPPP",
+    "trade_date": "2019-10-07",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "EQUIPPP",
+    "trade_date": "2020-05-26",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "EUROTEXIND",
+    "trade_date": "2021-06-09",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "EUROTEXIND",
+    "trade_date": "2023-09-12",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "GATECHDVR",
+    "trade_date": "2023-11-20",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "GANGAFORGE",
+    "trade_date": "2023-11-15",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "GLFL",
+    "trade_date": "2021-04-15",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "GLFL",
+    "trade_date": "2023-03-01",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "GLFL",
+    "trade_date": "2023-06-23",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "GLFL",
+    "trade_date": "2023-07-19",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "GLFL",
+    "trade_date": "2023-08-31",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "GLFL",
+    "trade_date": "2023-10-03",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "GLFL",
+    "trade_date": "2023-11-15",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "GLFL",
+    "trade_date": "2023-12-06",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "GPTINFRA",
+    "trade_date": "2023-11-15",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "GTECJAINX",
+    "trade_date": "2024-04-22",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "GTECJAINX",
+    "trade_date": "2024-04-26",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "GTECJAINX",
+    "trade_date": "2024-06-26",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "HBSL",
+    "trade_date": "2019-08-09",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "HBSL",
+    "trade_date": "2019-09-04",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "HBSL",
+    "trade_date": "2019-10-17",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "HBSL",
+    "trade_date": "2020-03-24",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "HBSL",
+    "trade_date": "2020-08-14",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "HBSL",
+    "trade_date": "2020-10-12",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "HBSL",
+    "trade_date": "2020-11-06",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "ICDSLTD",
+    "trade_date": "2024-02-14",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "ICDSLTD",
+    "trade_date": "2024-06-20",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "IL&FSTRANS",
+    "trade_date": "2023-11-15",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "KAUSHALYA",
+    "trade_date": "2019-01-02",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "KAUSHALYA",
+    "trade_date": "2019-01-21",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "KAUSHALYA",
+    "trade_date": "2019-07-10",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "KAUSHALYA",
+    "trade_date": "2019-07-24",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "KAUSHALYA",
+    "trade_date": "2020-04-16",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "KAUSHALYA",
+    "trade_date": "2020-04-27",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "KAUSHALYA",
+    "trade_date": "2020-06-18",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "KAUSHALYA",
+    "trade_date": "2024-08-07",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "KCPSUGIND",
+    "trade_date": "2023-11-15",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "LANDSMILL",
+    "trade_date": "2020-07-30",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "LANDSMILL",
+    "trade_date": "2020-10-05",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "LOTUSEYE",
+    "trade_date": "2023-09-20",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "MAGNUM",
+    "trade_date": "2023-07-25",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "MALUPAPER",
+    "trade_date": "2024-05-27",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "MASKINVEST",
+    "trade_date": "2024-01-10",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "MHLXMIRU",
+    "trade_date": "2023-08-16",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "MOHITIND",
+    "trade_date": "2019-10-29",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "MOHITIND",
+    "trade_date": "2019-11-19",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "MOHITIND",
+    "trade_date": "2019-12-16",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "MOHITIND",
+    "trade_date": "2020-02-05",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "MOHITIND",
+    "trade_date": "2020-04-20",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "MOHITIND",
+    "trade_date": "2020-12-18",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NAGREEKCAP",
+    "trade_date": "2021-03-15",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NAGREEKCAP",
+    "trade_date": "2021-05-31",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NAGREEKCAP",
+    "trade_date": "2021-10-26",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NAGREEKCAP",
+    "trade_date": "2021-12-14",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NAGREEKCAP",
+    "trade_date": "2023-09-21",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NDRAUTO",
+    "trade_date": "2023-11-15",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NORBTEAEXP",
+    "trade_date": "2021-06-25",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NORBTEAEXP",
+    "trade_date": "2021-10-04",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NORBTEAEXP",
+    "trade_date": "2021-10-13",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NORBTEAEXP",
+    "trade_date": "2021-10-19",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NORBTEAEXP",
+    "trade_date": "2022-02-04",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NORBTEAEXP",
+    "trade_date": "2022-06-20",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NORBTEAEXP",
+    "trade_date": "2022-07-27",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NORBTEAEXP",
+    "trade_date": "2022-08-30",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NORBTEAEXP",
+    "trade_date": "2022-10-19",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NORBTEAEXP",
+    "trade_date": "2022-11-01",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NORBTEAEXP",
+    "trade_date": "2023-01-06",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NORBTEAEXP",
+    "trade_date": "2023-02-21",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NORBTEAEXP",
+    "trade_date": "2023-05-15",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NORBTEAEXP",
+    "trade_date": "2023-05-24",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NORBTEAEXP",
+    "trade_date": "2023-06-06",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NORBTEAEXP",
+    "trade_date": "2023-07-06",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "NORBTEAEXP",
+    "trade_date": "2023-10-12",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "OILCOUNTUB",
+    "trade_date": "2023-11-15",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "ONIDA",
+    "trade_date": "2023-11-15",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "OMINFRAL",
+    "trade_date": "2023-09-29",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "PANACHE",
+    "trade_date": "2024-08-06",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "PRAKASHSTL",
+    "trade_date": "2019-05-24",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "PRAKASHSTL",
+    "trade_date": "2019-09-12",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "PRAKASHSTL",
+    "trade_date": "2019-12-09",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "PRAKASHSTL",
+    "trade_date": "2020-01-01",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "PRAKASHSTL",
+    "trade_date": "2023-11-15",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "PRECOT",
+    "trade_date": "2024-04-02",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "PRUDMOULI",
+    "trade_date": "2024-04-04",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "PVP",
+    "trade_date": "2023-11-15",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "REGENCERAM",
+    "trade_date": "2023-12-22",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "REGENCERAM",
+    "trade_date": "2024-04-12",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "REGENCERAM",
+    "trade_date": "2024-06-04",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "S&SPOWER",
+    "trade_date": "2020-11-25",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "S&SPOWER",
+    "trade_date": "2021-01-07",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "S&SPOWER",
+    "trade_date": "2024-02-28",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "SHYAMTEL",
+    "trade_date": "2023-05-22",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "SHYAMTEL",
+    "trade_date": "2023-09-04",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "SHYAMTEL",
+    "trade_date": "2023-09-05",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "SHYAMTEL",
+    "trade_date": "2023-09-07",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "SHYAMTEL",
+    "trade_date": "2024-01-24",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "SHYAMTEL",
+    "trade_date": "2024-05-13",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "SHYAMTEL",
+    "trade_date": "2024-06-07",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "SOMICONVEY",
+    "trade_date": "2024-03-21",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "SOMICONVEY",
+    "trade_date": "2024-04-04",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "SPCENET",
+    "trade_date": "2020-04-15",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "SOMATEX",
+    "trade_date": "2020-04-27",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "SOMATEX",
+    "trade_date": "2020-06-04",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "SOMATEX",
+    "trade_date": "2023-10-12",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "SVPGLOB",
+    "trade_date": "2024-01-03",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TARAPUR",
+    "trade_date": "2019-03-25",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TARAPUR",
+    "trade_date": "2019-06-14",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TARAPUR",
+    "trade_date": "2022-04-26",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TARAPUR",
+    "trade_date": "2022-07-12",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TARAPUR",
+    "trade_date": "2022-08-12",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TARAPUR",
+    "trade_date": "2022-08-22",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TARAPUR",
+    "trade_date": "2022-09-27",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TARAPUR",
+    "trade_date": "2022-10-18",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TARAPUR",
+    "trade_date": "2022-11-24",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TECILCHEM",
+    "trade_date": "2023-09-28",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TECILCHEM",
+    "trade_date": "2024-02-19",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TECILCHEM",
+    "trade_date": "2024-05-06",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TCIFINANCE",
+    "trade_date": "2020-11-03",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TCIFINANCE",
+    "trade_date": "2020-12-22",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TCIFINANCE",
+    "trade_date": "2021-05-05",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TCIFINANCE",
+    "trade_date": "2021-06-25",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TCIFINANCE",
+    "trade_date": "2021-07-16",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TCIFINANCE",
+    "trade_date": "2022-04-22",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TCIFINANCE",
+    "trade_date": "2022-05-31",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TFL",
+    "trade_date": "2020-10-15",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "THOMASCOTT",
+    "trade_date": "2023-07-25",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "THOMASCOTT",
+    "trade_date": "2023-08-04",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TIL",
+    "trade_date": "2023-08-07",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TIL",
+    "trade_date": "2023-08-30",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TPHQ",
+    "trade_date": "2020-04-23",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TVVISION",
+    "trade_date": "2019-11-15",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TVVISION",
+    "trade_date": "2019-12-18",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TVVISION",
+    "trade_date": "2020-03-04",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TVVISION",
+    "trade_date": "2020-04-01",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TVVISION",
+    "trade_date": "2023-04-17",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "TVVISION",
+    "trade_date": "2023-11-17",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "VARDMNPOLY",
+    "trade_date": "2023-10-17",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "WEL",
+    "trade_date": "2023-11-03",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "WEWIN",
+    "trade_date": "2024-06-25",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "WSI",
+    "trade_date": "2020-01-15",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "WSI",
+    "trade_date": "2020-02-26",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "WSI",
+    "trade_date": "2020-03-20",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "ZEELEARN",
+    "trade_date": "2023-11-15",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "ZENITHSTL",
+    "trade_date": "2020-03-13",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "DESTINY",
+    "trade_date": "2025-07-17",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "PATTECH",
+    "trade_date": "2025-08-13",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "PATTECH",
+    "trade_date": "2025-10-15",
+    "reason": "HIGH_LOW_VIOLATION"
+  },
+  {
+    "symbol": "VELS",
+    "trade_date": "2025-04-07",
+    "reason": "HIGH_LOW_VIOLATION"
+  }
+]

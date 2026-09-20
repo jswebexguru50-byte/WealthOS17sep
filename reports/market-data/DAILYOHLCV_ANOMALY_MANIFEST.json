@@ -1,0 +1,42 @@
+[
+  {
+    "symbol": "ASIANENE",
+    "date": "2025-10-09",
+    "field": "volume",
+    "existing_value": 494213,
+    "authoritative_value": 494313,
+    "resolution": "QUEUE_FOR_ACQUISITION"
+  },
+  {
+    "symbol": "INDIANB",
+    "date": "2022-04-21",
+    "field": "volume",
+    "existing_value": 830302,
+    "authoritative_value": 830402,
+    "resolution": "QUEUE_FOR_ACQUISITION"
+  },
+  {
+    "symbol": "SURYODAY",
+    "date": "2023-04-11",
+    "field": "volume",
+    "existing_value": 196805,
+    "authoritative_value": 196905,
+    "resolution": "QUEUE_FOR_ACQUISITION"
+  },
+  {
+    "symbol": "KHAITANLTD",
+    "date": "2023-03-29",
+    "field": "volume",
+    "existing_value": 197,
+    "authoritative_value": 297,
+    "resolution": "QUEUE_FOR_ACQUISITION"
+  },
+  {
+    "symbol": "TORNTPHARM",
+    "date": "2024-05-16",
+    "field": "volume",
+    "existing_value": 136934,
+    "authoritative_value": 137034,
+    "resolution": "QUEUE_FOR_ACQUISITION"
+  }
+]

@@ -1,0 +1,8 @@
+{
+  "auditMode": "REAL",
+  "stratified_sample_size": 4130313,
+  "verified_accurate": 0,
+  "anomalies_detected": 0,
+  "status": "PROVENANCE_UNVERIFIED",
+  "reason": "No independent authoritative source currently attached to establish original data provenance for existing rows."
+}

@@ -1,0 +1,1908 @@
+{
+  "auditMode": "REAL",
+  "deltaQueueDeterministic": true,
+  "total_missing_rows_detected": 538,
+  "symbols_affected": 45,
+  "queue_sample": [
+    {
+      "symbol": "20MICRONS",
+      "exchange": "NSE",
+      "from": "2024-08-19",
+      "to": "2024-08-19",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "20MICRONS",
+      "exchange": "NSE",
+      "from": "2024-08-20",
+      "to": "2024-08-20",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "20MICRONS",
+      "exchange": "NSE",
+      "from": "2025-02-01",
+      "to": "2025-02-01",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "21STCENMGM",
+      "exchange": "NSE",
+      "from": "2025-02-01",
+      "to": "2025-02-01",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "360ONE",
+      "exchange": "NSE",
+      "from": "2025-02-01",
+      "to": "2025-02-01",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "3IINFOLTD",
+      "exchange": "NSE",
+      "from": "2025-02-01",
+      "to": "2025-02-01",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "3MINDIA",
+      "exchange": "NSE",
+      "from": "2024-08-19",
+      "to": "2024-08-19",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "3MINDIA",
+      "exchange": "NSE",
+      "from": "2024-08-20",
+      "to": "2024-08-20",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "3MINDIA",
+      "exchange": "NSE",
+      "from": "2025-02-01",
+      "to": "2025-02-01",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "3PLAND",
+      "exchange": "NSE",
+      "from": "2025-02-01",
+      "to": "2025-02-01",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-08-19",
+      "to": "2024-08-19",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-08-20",
+      "to": "2024-08-20",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-08-21",
+      "to": "2024-08-21",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-08-22",
+      "to": "2024-08-22",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-08-23",
+      "to": "2024-08-23",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-08-26",
+      "to": "2024-08-26",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-08-27",
+      "to": "2024-08-27",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-08-28",
+      "to": "2024-08-28",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-08-29",
+      "to": "2024-08-29",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-08-30",
+      "to": "2024-08-30",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-09-02",
+      "to": "2024-09-02",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-09-03",
+      "to": "2024-09-03",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-09-04",
+      "to": "2024-09-04",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-09-05",
+      "to": "2024-09-05",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-09-06",
+      "to": "2024-09-06",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-09-09",
+      "to": "2024-09-09",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-09-10",
+      "to": "2024-09-10",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-09-11",
+      "to": "2024-09-11",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-09-12",
+      "to": "2024-09-12",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-09-13",
+      "to": "2024-09-13",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-09-16",
+      "to": "2024-09-16",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-09-17",
+      "to": "2024-09-17",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-09-18",
+      "to": "2024-09-18",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-09-19",
+      "to": "2024-09-19",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-09-20",
+      "to": "2024-09-20",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-09-23",
+      "to": "2024-09-23",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-09-24",
+      "to": "2024-09-24",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-09-25",
+      "to": "2024-09-25",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-09-26",
+      "to": "2024-09-26",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-09-27",
+      "to": "2024-09-27",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-09-30",
+      "to": "2024-09-30",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-10-01",
+      "to": "2024-10-01",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-10-03",
+      "to": "2024-10-03",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-10-04",
+      "to": "2024-10-04",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-10-07",
+      "to": "2024-10-07",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-10-08",
+      "to": "2024-10-08",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-10-09",
+      "to": "2024-10-09",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-10-10",
+      "to": "2024-10-10",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-10-11",
+      "to": "2024-10-11",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-10-14",
+      "to": "2024-10-14",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-10-15",
+      "to": "2024-10-15",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-10-16",
+      "to": "2024-10-16",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-10-17",
+      "to": "2024-10-17",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-10-18",
+      "to": "2024-10-18",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-10-21",
+      "to": "2024-10-21",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-10-22",
+      "to": "2024-10-22",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-10-23",
+      "to": "2024-10-23",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-10-24",
+      "to": "2024-10-24",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-10-25",
+      "to": "2024-10-25",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-10-28",
+      "to": "2024-10-28",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-10-29",
+      "to": "2024-10-29",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-10-30",
+      "to": "2024-10-30",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-10-31",
+      "to": "2024-10-31",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-11-01",
+      "to": "2024-11-01",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-11-04",
+      "to": "2024-11-04",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-11-05",
+      "to": "2024-11-05",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-11-06",
+      "to": "2024-11-06",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-11-07",
+      "to": "2024-11-07",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-11-08",
+      "to": "2024-11-08",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-11-11",
+      "to": "2024-11-11",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-11-12",
+      "to": "2024-11-12",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-11-13",
+      "to": "2024-11-13",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-11-14",
+      "to": "2024-11-14",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-11-18",
+      "to": "2024-11-18",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-11-19",
+      "to": "2024-11-19",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-11-21",
+      "to": "2024-11-21",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-11-22",
+      "to": "2024-11-22",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-11-25",
+      "to": "2024-11-25",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-11-26",
+      "to": "2024-11-26",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-11-27",
+      "to": "2024-11-27",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-11-28",
+      "to": "2024-11-28",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-11-29",
+      "to": "2024-11-29",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-12-02",
+      "to": "2024-12-02",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-12-03",
+      "to": "2024-12-03",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-12-04",
+      "to": "2024-12-04",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-12-05",
+      "to": "2024-12-05",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-12-06",
+      "to": "2024-12-06",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-12-09",
+      "to": "2024-12-09",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-12-10",
+      "to": "2024-12-10",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-12-11",
+      "to": "2024-12-11",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-12-12",
+      "to": "2024-12-12",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-12-13",
+      "to": "2024-12-13",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-12-16",
+      "to": "2024-12-16",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-12-17",
+      "to": "2024-12-17",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-12-18",
+      "to": "2024-12-18",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-12-19",
+      "to": "2024-12-19",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-12-20",
+      "to": "2024-12-20",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-12-23",
+      "to": "2024-12-23",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-12-24",
+      "to": "2024-12-24",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    },
+    {
+      "symbol": "5PAISA",
+      "exchange": "NSE",
+      "from": "2024-12-26",
+      "to": "2024-12-26",
+      "missingSessions": 1,
+      "reason": "MISSING",
+      "requiredFields": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
+      "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
+      "priority": "HIGH",
+      "estimatedRows": 1
+    }
+  ]
+}

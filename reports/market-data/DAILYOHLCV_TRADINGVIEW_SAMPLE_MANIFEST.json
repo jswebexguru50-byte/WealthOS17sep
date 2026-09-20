@@ -1,0 +1,311 @@
+{
+  "objective": "ONE-TIME HUMAN TRADINGVIEW EXPORT REQUEST",
+  "rules": [
+    "NO AUTOMATED SCRAPING",
+    "MANUAL CSV EXPORT ONLY",
+    "Export the complete daily historical chart data for the listed symbols."
+  ],
+  "total_requested_exports": 50,
+  "symbols_to_export": [
+    {
+      "symbol": "GFSTEELS",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "SABEVENTS",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "ALPSINDUS",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "NAGAFERT",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "EASTSILK",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "ANKITMETAL",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "RADAAN",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "PREMIER",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "SEYAIND",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "3PLAND",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "ABMINTLLTD",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "ADROITINFO",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "BILVYAPAR",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "CREATIVEYE",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "DCMFINSERV",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "EQUIPPP",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "EUROTEXIND",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "GATECHDVR",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "GANGAFORGE",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "GLFL",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "GPTINFRA",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "GTECJAINX",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "HBSL",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "ICDSLTD",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "IL&FSTRANS",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "KAUSHALYA",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "KCPSUGIND",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "LANDSMILL",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "LOTUSEYE",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "MAGNUM",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "MALUPAPER",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "MASKINVEST",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "MHLXMIRU",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "MOHITIND",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "NAGREEKCAP",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "NDRAUTO",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "NORBTEAEXP",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "OILCOUNTUB",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "ONIDA",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "OMINFRAL",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "PANACHE",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "PRAKASHSTL",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "PRECOT",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "PRUDMOULI",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "PVP",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "REGENCERAM",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "S&SPOWER",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "SHYAMTEL",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "SOMICONVEY",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    },
+    {
+      "symbol": "SPCENET",
+      "exchange": "NSE",
+      "timeframe": "1D",
+      "status": "PENDING_MANUAL_EXPORT"
+    }
+  ]
+}

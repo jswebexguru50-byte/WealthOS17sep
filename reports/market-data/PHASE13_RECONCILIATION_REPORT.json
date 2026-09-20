@@ -1,0 +1,11 @@
+{
+  "phase": "13",
+  "status": "PASS",
+  "reconciliation": {
+    "approvedDeltaQueueRows": 538,
+    "acquiredManifestRows": 538,
+    "validatedReportRows": 538,
+    "stagedDatabaseRows": 538
+  },
+  "message": "approved == acquired == validated == staged"
+}

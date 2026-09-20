@@ -1,0 +1,7 @@
+{
+  "expected_trading_days_range": "2018-01-01 to 2026-09-15",
+  "empirical_trading_days_found": 2160,
+  "status": "EMPIRICAL_BASELINE_ESTABLISHED",
+  "delta_required": true,
+  "resolution": "Using empirical calendar as baseline. Requires authoritative NSE historical holiday master to certify."
+}

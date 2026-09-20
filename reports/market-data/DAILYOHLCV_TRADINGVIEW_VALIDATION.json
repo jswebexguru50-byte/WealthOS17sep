@@ -1,0 +1,7 @@
+{
+  "status": "PENDING_HUMAN_EVIDENCE",
+  "message": "Awaiting manual CSV exports in evidence/market-data-certification/tradingview/raw_exports",
+  "total_exports_expected": 50,
+  "total_exports_received": 0,
+  "discrepancies": []
+}

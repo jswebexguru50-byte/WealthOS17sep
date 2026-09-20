@@ -1,0 +1,25 @@
+{
+  "total_files_scanned": 1061,
+  "required_indices": [
+    "NIFTY_50",
+    "NIFTY_500",
+    "NIFTY_MICROCAP_250",
+    "NIFTY_SMALLCAP_250",
+    "NIFTY_MIDCAP_150"
+  ],
+  "required_benchmarks": [
+    "SP500_TRI"
+  ],
+  "sources": [
+    {
+      "type": "INDEX_CONSTITUENTS",
+      "identifier": "NIFTY_500",
+      "requirement": "HISTORICAL_MEMBERSHIP"
+    },
+    {
+      "type": "INDEX_CONSTITUENTS",
+      "identifier": "NIFTY_MICROCAP_250",
+      "requirement": "HISTORICAL_MEMBERSHIP"
+    }
+  ]
+}

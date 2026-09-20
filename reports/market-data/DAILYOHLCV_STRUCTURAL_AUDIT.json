@@ -1,0 +1,11 @@
+{
+  "auditMode": "REAL",
+  "total_scanned": 4130313,
+  "structurally_valid": 4130123,
+  "structurally_invalid": 190,
+  "violations": {
+    "negative_values": 0,
+    "high_low_violation": 190,
+    "missing_essential_fields": 0
+  }
+}
