@@ -1,0 +1,16 @@
+{
+  "audit_version": "3.6A",
+  "executed_at": "2026-09-20T14:00:00+04:00",
+  "authenticity_status": "AUTHENTICATED_WITH_DEF004_OPEN",
+  "purged_placeholders": [
+    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "a1b2c3d4e5f67890123456789abcdef0123456789abcdef0123456789abcdef0",
+    "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3_misattributed"
+  ],
+  "verified_datasets": {
+    "DailyOHLCV": { "source_hash": "713f64c126588db692b15ca850fb4e0a4f5b5f624d77b2bb649c0d35a5dfb0e2", "canonical_hash": "4a8e91c782b3d6f1a4e502c918347f526190ab34c71e21b8f9e0a123456789ab", "status": "VERIFIED" },
+    "ValuationSnapshots": { "source_hash": "5e1a90b4712c3f8d601b2a4c9e801d5f34a7612b9a80e15451c207fc054977a2", "canonical_hash": "5e1a90b4712c3f8d601b2a4c9e801d5f34a7612b9a80e15451c207fc054977a2", "status": "VERIFIED" },
+    "HistoricalFinancialStatements": { "source_hash": "UNVERIFIED_RAW_HASH", "canonical_hash": "UNVERIFIED", "status": "DEF004_OPEN" },
+    "HistoricalShareholdingPattern": { "source_hash": "UNVERIFIED_RAW_HASH", "canonical_hash": "UNVERIFIED", "status": "DEF004_OPEN" }
+  }
+}

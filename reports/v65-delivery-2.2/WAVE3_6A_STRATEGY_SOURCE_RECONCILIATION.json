@@ -1,0 +1,36 @@
+{
+  "reconciliation_version": "3.6A",
+  "audit_timestamp": "2026-09-20T14:00:00+04:00",
+  "strategies_evaluated": 20,
+  "canonical_family": {
+    "S1": { "name": "VPA Alignment & Base Compaction Breakout", "engine": "PureTechnicalStrategiesEngine", "method": "evaluateStrategy1", "status": "EXECUTABLE", "dependencies": ["DailyOHLCV"] },
+    "S2": { "name": "Institutional Inflow + FVG & CE Pullback", "engine": "PureTechnicalStrategiesEngine", "method": "evaluateStrategy2", "status": "EXECUTABLE", "dependencies": ["DailyOHLCV"] },
+    "S3": { "name": "HH/HL Sequential Compaction", "engine": "PureTechnicalStrategiesEngine", "method": "evaluateStrategy3", "status": "EXECUTABLE", "dependencies": ["DailyOHLCV"] },
+    "S4": { "name": "Trend Following Moving Average Crossover", "engine": "PureTechnicalStrategiesEngine", "method": "evaluateStrategy4", "status": "EXECUTABLE", "dependencies": ["DailyOHLCV"] },
+    "S5": { "name": "Momentum Pullback EMA21", "engine": "PureTechnicalStrategiesEngine", "method": "evaluateStrategy5", "status": "EXECUTABLE", "dependencies": ["DailyOHLCV"] },
+    "S6": { "name": "Volatility Expansion Breakout", "engine": "PureTechnicalStrategiesEngine", "method": "evaluateStrategy6", "status": "EXECUTABLE", "dependencies": ["DailyOHLCV"] },
+    "S7": { "name": "Mean Reversion RSI Oversold", "engine": "PureTechnicalStrategiesEngine", "method": "evaluateStrategy7", "status": "EXECUTABLE", "dependencies": ["DailyOHLCV"] },
+    "S8": { "name": "High-Tight Flag Breakout", "engine": "PureTechnicalStrategiesEngine", "method": "evaluateStrategy8", "status": "EXECUTABLE", "dependencies": ["DailyOHLCV"] },
+    "S9": { "name": "50-Day High Momentum Consolidation", "engine": "PureTechnicalStrategiesEngine", "method": "evaluateStrategy9", "status": "EXECUTABLE", "dependencies": ["DailyOHLCV"] },
+    "S10": { "name": "Intraday Opening Range Breakout (ORB)", "engine": "PureTechnicalStrategiesEngine", "method": "evaluateStrategy10", "status": "DATA_INSUFFICIENT", "dependencies": ["Intraday_15m"] },
+    "S11": { "name": "Wyckoff Spring Reclaim", "engine": "PureTechnicalStrategiesEngine", "method": "evaluateStrategy11", "status": "EXECUTABLE", "dependencies": ["DailyOHLCV"] },
+    "S12": { "name": "Catalyst/Earnings Acceleration", "engine": "None", "method": "N/A", "status": "DATA_INSUFFICIENT", "dependencies": ["Earnings_Data"] },
+    "S13": { "name": "Earnings Growth Impulse", "engine": "None", "method": "N/A", "status": "DATA_INSUFFICIENT", "dependencies": ["Quarterly_Financials"] },
+    "S14": { "name": "Futures Open Interest Expansion", "engine": "None", "method": "N/A", "status": "DATA_INSUFFICIENT", "dependencies": ["FNO_Derivatives"] },
+    "S15": { "name": "Options Put-Call Skew Reversion", "engine": "None", "method": "N/A", "status": "DATA_INSUFFICIENT", "dependencies": ["FNO_Options"] },
+    "S16": { "name": "Fundamental QGLP Quality Filter", "engine": "None", "method": "N/A", "status": "DATA_INSUFFICIENT", "dependencies": ["Financial_Statements"] },
+    "S17": { "name": "Promoter SAST Accumulation", "engine": "None", "method": "N/A", "status": "DATA_INSUFFICIENT", "dependencies": ["SAST_Disclosures"] },
+    "S18": { "name": "Block Deal Accumulation Spike", "engine": "None", "method": "N/A", "status": "DATA_INSUFFICIENT", "dependencies": ["Block_Deals"] },
+    "S19": { "name": "Daily Delivery Volume Surge", "engine": "None", "method": "N/A", "status": "DATA_INSUFFICIENT", "dependencies": ["Delivery_Reports"] },
+    "S20": { "name": "Structural NEoWave Wave 3 Impulse", "engine": "None", "method": "N/A", "status": "DATA_INSUFFICIENT", "dependencies": ["Wave_Analysis"] }
+  },
+  "modular_family": {
+    "S8B": { "name": "Classical Bull Flag", "engine": "NewTechnicalStrategiesEngine", "method": "evaluateS8B_ClassicalBullFlag", "status": "FEATURE_FLAGGED" },
+    "S21": { "name": "Cup & Handle Pivot", "engine": "NewTechnicalStrategiesEngine", "method": "evaluateS21_CupAndHandle", "status": "FEATURE_FLAGGED" },
+    "S22": { "name": "John Carter Volatility Squeeze", "engine": "NewTechnicalStrategiesEngine", "method": "evaluateS22_VolatilitySqueeze", "status": "FEATURE_FLAGGED" },
+    "S23": { "name": "Classical Double Bottom", "engine": "NewTechnicalStrategiesEngine", "method": "evaluateS23_DoubleBottom", "status": "FEATURE_FLAGGED" },
+    "S24": { "name": "Double Top Distribution Exit", "engine": "NewTechnicalStrategiesEngine", "method": "evaluateS24_DoubleTopExit", "status": "FEATURE_FLAGGED" },
+    "S25": { "name": "Inverse Head & Shoulders", "engine": "NewTechnicalStrategiesEngine", "method": "evaluateS25_InverseHeadAndShoulders", "status": "FEATURE_FLAGGED" },
+    "S26": { "name": "Head & Shoulders Top Exit", "engine": "NewTechnicalStrategiesEngine", "method": "evaluateS26_HeadAndShouldersExit", "status": "FEATURE_FLAGGED" }
+  }
+}
