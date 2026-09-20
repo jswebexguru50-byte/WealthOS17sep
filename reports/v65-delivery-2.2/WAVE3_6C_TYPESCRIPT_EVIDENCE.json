@@ -1,0 +1,16 @@
+{
+  "audit_version": "3.6C",
+  "executed_at": "2026-09-20T14:15:00+04:00",
+  "command": "npx tsc --noEmit",
+  "exitCode": 1,
+  "canonicalRepositoryStatus": "FAIL",
+  "targetedProductionBuildStatus": "PASS_ZERO_ERRORS",
+  "errorCount": 27,
+  "warningCount": 0,
+  "errorClassification": {
+    "targetedProductionServices": 0,
+    "experimentalResearchModules": 12,
+    "deprecatedServices": 8,
+    "offlineResearchSnapshotHelpers": 7
+  }
+}

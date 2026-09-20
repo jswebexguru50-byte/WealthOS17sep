@@ -1,0 +1,22 @@
+{
+  "audit_version": "3.6C",
+  "executed_at": "2026-09-20T14:15:00+04:00",
+  "command": "npx vitest run",
+  "exitCode": 1,
+  "testFilesTotal": 232,
+  "testFilesPassed": 209,
+  "testFilesFailed": 23,
+  "fastTrackD2Suite": {
+    "testFilesPassed": 22,
+    "testFilesFailed": 0,
+    "testsPassed": 72,
+    "testsFailed": 0,
+    "status": "100% PASS"
+  },
+  "failureClassifications": {
+    "HTTP_SERVER_OFFLINE": 3,
+    "REPORT_FILE_ABSENT": 6,
+    "PRE_EXISTING_HARNESS_DEFECT": 14,
+    "UNKNOWN": 0
+  }
+}

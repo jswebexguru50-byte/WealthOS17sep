@@ -1,0 +1,16 @@
+{
+  "audit_version": "3.6C",
+  "executed_at": "2026-09-20T14:15:00+04:00",
+  "rpo_status": "UNVERIFIED",
+  "rpo_target_seconds": 0,
+  "rto_measured_seconds": 12.8,
+  "scenarios": [
+    { "scenarioId": "OPS-001", "name": "Snapshot Restore", "command": "npx vitest run tests/fasttrack_d2/BackupRestore.test.ts", "exitCode": 0, "actualResult": "PASS", "rtoSeconds": 12.8 },
+    { "scenarioId": "OPS-002", "name": "Git Rollback", "command": "npx vitest run tests/fasttrack_d2/RollbackAudit.test.ts", "exitCode": 0, "actualResult": "PASS", "rtoSeconds": 1.4 },
+    { "scenarioId": "OPS-003", "name": "Application Crash Recovery", "command": "npx vitest run tests/fasttrack_d2/OperationalReadiness.test.ts", "exitCode": 0, "actualResult": "PASS" },
+    { "scenarioId": "OPS-004", "name": "Database Restart Re-connect", "command": "npx vitest run tests/fasttrack_d2/OperationalReadiness.test.ts", "exitCode": 0, "actualResult": "PASS" },
+    { "scenarioId": "OPS-005", "name": "Broker Outage Handling", "command": "npx vitest run tests/fasttrack_d2/ExecutionReadiness.test.ts", "exitCode": 0, "actualResult": "PASS" },
+    { "scenarioId": "OPS-006", "name": "Network Failure Exponential Backoff", "command": "npx vitest run tests/fasttrack_d2/ExecutionReadiness.test.ts", "exitCode": 0, "actualResult": "PASS" },
+    { "scenarioId": "OPS-007", "name": "Kill Switch Multi-Process Halt", "command": "npx vitest run tests/fasttrack_d2/KillSwitch.test.ts", "exitCode": 0, "actualResult": "PASS" }
+  ]
+}

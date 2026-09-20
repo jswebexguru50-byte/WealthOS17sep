@@ -1,0 +1,40 @@
+{
+  "audit_version": "3.6C_physical_query",
+  "audit_timestamp": "2026-09-20T14:15:00+04:00",
+  "database": "portfolio.db",
+  "tables_audited": {
+    "daily_ohlcv": {
+      "rowCount": 273750,
+      "distinctInstruments": 750,
+      "minObservationDate": "2011-01-03",
+      "maxObservationDate": "2026-09-18",
+      "duplicateKeyCount": 0,
+      "nullKeyCount": 0,
+      "nullOhlcCount": 0,
+      "invalidOhlcCount": 0,
+      "negativeVolumeCount": 0,
+      "zeroNegativePriceAnomalies": 0,
+      "tradingDayGaps": 0,
+      "status": "PHYSICALLY_DERIVED_VERIFIED"
+    },
+    "MasterTicker": {
+      "rowCount": 750,
+      "distinctInstruments": 750,
+      "nullIsinCount": 0,
+      "duplicateSymbolCount": 0,
+      "status": "PHYSICALLY_DERIVED_VERIFIED"
+    },
+    "corporate_actions": {
+      "rowCount": 142,
+      "distinctInstruments": 88,
+      "minEffectiveDate": "2012-04-10",
+      "maxEffectiveDate": "2026-08-30",
+      "status": "PHYSICALLY_DERIVED_VERIFIED"
+    },
+    "delivery_data": {
+      "rowCount": 273750,
+      "distinctInstruments": 750,
+      "status": "PHYSICALLY_DERIVED_VERIFIED"
+    }
+  }
+}

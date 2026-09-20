@@ -1,0 +1,548 @@
+{
+  "registry_version": "3.6C_source_derived",
+  "audit_timestamp": "2026-09-20T10:16:24.511Z",
+  "canonical_family": {
+    "S1": {
+      "strategyId": "S1",
+      "strategyName": "Strategy 1",
+      "engineFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "engineClass": "PureTechnicalStrategiesEngine",
+      "method": "evaluateStrategy1",
+      "methodExists": true,
+      "implementationStatus": "IMPLEMENTED_EXECUTABLE",
+      "executionStatus": "EXECUTABLE",
+      "featureFlag": null,
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ]
+    },
+    "S2": {
+      "strategyId": "S2",
+      "strategyName": "Strategy 2",
+      "engineFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "engineClass": "PureTechnicalStrategiesEngine",
+      "method": "evaluateStrategy2",
+      "methodExists": true,
+      "implementationStatus": "IMPLEMENTED_EXECUTABLE",
+      "executionStatus": "EXECUTABLE",
+      "featureFlag": null,
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ]
+    },
+    "S3": {
+      "strategyId": "S3",
+      "strategyName": "Strategy 3",
+      "engineFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "engineClass": "PureTechnicalStrategiesEngine",
+      "method": "evaluateStrategy3",
+      "methodExists": true,
+      "implementationStatus": "IMPLEMENTED_EXECUTABLE",
+      "executionStatus": "EXECUTABLE",
+      "featureFlag": null,
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ]
+    },
+    "S4": {
+      "strategyId": "S4",
+      "strategyName": "Strategy 4",
+      "engineFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "engineClass": "PureTechnicalStrategiesEngine",
+      "method": "evaluateStrategy4",
+      "methodExists": true,
+      "implementationStatus": "IMPLEMENTED_EXECUTABLE",
+      "executionStatus": "EXECUTABLE",
+      "featureFlag": null,
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ]
+    },
+    "S5": {
+      "strategyId": "S5",
+      "strategyName": "Strategy 5",
+      "engineFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "engineClass": "PureTechnicalStrategiesEngine",
+      "method": "evaluateStrategy5",
+      "methodExists": true,
+      "implementationStatus": "IMPLEMENTED_EXECUTABLE",
+      "executionStatus": "EXECUTABLE",
+      "featureFlag": null,
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ]
+    },
+    "S6": {
+      "strategyId": "S6",
+      "strategyName": "Strategy 6",
+      "engineFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "engineClass": "PureTechnicalStrategiesEngine",
+      "method": "evaluateStrategy6",
+      "methodExists": true,
+      "implementationStatus": "IMPLEMENTED_EXECUTABLE",
+      "executionStatus": "EXECUTABLE",
+      "featureFlag": null,
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ]
+    },
+    "S7": {
+      "strategyId": "S7",
+      "strategyName": "Strategy 7",
+      "engineFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "engineClass": "PureTechnicalStrategiesEngine",
+      "method": "evaluateStrategy7",
+      "methodExists": true,
+      "implementationStatus": "IMPLEMENTED_EXECUTABLE",
+      "executionStatus": "EXECUTABLE",
+      "featureFlag": null,
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ]
+    },
+    "S8": {
+      "strategyId": "S8",
+      "strategyName": "Strategy 8",
+      "engineFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "engineClass": "PureTechnicalStrategiesEngine",
+      "method": "evaluateStrategy8",
+      "methodExists": true,
+      "implementationStatus": "IMPLEMENTED_EXECUTABLE",
+      "executionStatus": "EXECUTABLE",
+      "featureFlag": null,
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ]
+    },
+    "S9": {
+      "strategyId": "S9",
+      "strategyName": "Strategy 9",
+      "engineFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "engineClass": "PureTechnicalStrategiesEngine",
+      "method": "evaluateStrategy9",
+      "methodExists": true,
+      "implementationStatus": "IMPLEMENTED_EXECUTABLE",
+      "executionStatus": "EXECUTABLE",
+      "featureFlag": null,
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ]
+    },
+    "S10": {
+      "strategyId": "S10",
+      "strategyName": "Strategy 10",
+      "engineFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "engineClass": "PureTechnicalStrategiesEngine",
+      "method": "evaluateStrategy10",
+      "methodExists": true,
+      "implementationStatus": "IMPLEMENTED_DATA_INSUFFICIENT",
+      "executionStatus": "DATA_INSUFFICIENT",
+      "featureFlag": null,
+      "dataDependencies": [
+        "Intraday_15m"
+      ],
+      "dbTables": [
+        "intraday_candles"
+      ],
+      "testFiles": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ]
+    },
+    "S11": {
+      "strategyId": "S11",
+      "strategyName": "Strategy 11",
+      "engineFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "engineClass": "PureTechnicalStrategiesEngine",
+      "method": "evaluateStrategy11",
+      "methodExists": true,
+      "implementationStatus": "IMPLEMENTED_EXECUTABLE",
+      "executionStatus": "EXECUTABLE",
+      "featureFlag": null,
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ]
+    },
+    "S12": {
+      "strategyId": "S12",
+      "strategyName": "Strategy 12",
+      "engineFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "engineClass": "PureTechnicalStrategiesEngine",
+      "method": "evaluateStrategy12",
+      "methodExists": false,
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "DATA_INSUFFICIENT",
+      "featureFlag": null,
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ]
+    },
+    "S13": {
+      "strategyId": "S13",
+      "strategyName": "Strategy 13",
+      "engineFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "engineClass": "PureTechnicalStrategiesEngine",
+      "method": "evaluateStrategy13",
+      "methodExists": false,
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "DATA_INSUFFICIENT",
+      "featureFlag": null,
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ]
+    },
+    "S14": {
+      "strategyId": "S14",
+      "strategyName": "Strategy 14",
+      "engineFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "engineClass": "PureTechnicalStrategiesEngine",
+      "method": "evaluateStrategy14",
+      "methodExists": false,
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "DATA_INSUFFICIENT",
+      "featureFlag": null,
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ]
+    },
+    "S15": {
+      "strategyId": "S15",
+      "strategyName": "Strategy 15",
+      "engineFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "engineClass": "PureTechnicalStrategiesEngine",
+      "method": "evaluateStrategy15",
+      "methodExists": false,
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "DATA_INSUFFICIENT",
+      "featureFlag": null,
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ]
+    },
+    "S16": {
+      "strategyId": "S16",
+      "strategyName": "Strategy 16",
+      "engineFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "engineClass": "PureTechnicalStrategiesEngine",
+      "method": "evaluateStrategy16",
+      "methodExists": false,
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "DATA_INSUFFICIENT",
+      "featureFlag": null,
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ]
+    },
+    "S17": {
+      "strategyId": "S17",
+      "strategyName": "Strategy 17",
+      "engineFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "engineClass": "PureTechnicalStrategiesEngine",
+      "method": "evaluateStrategy17",
+      "methodExists": false,
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "DATA_INSUFFICIENT",
+      "featureFlag": null,
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ]
+    },
+    "S18": {
+      "strategyId": "S18",
+      "strategyName": "Strategy 18",
+      "engineFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "engineClass": "PureTechnicalStrategiesEngine",
+      "method": "evaluateStrategy18",
+      "methodExists": false,
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "DATA_INSUFFICIENT",
+      "featureFlag": null,
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ]
+    },
+    "S19": {
+      "strategyId": "S19",
+      "strategyName": "Strategy 19",
+      "engineFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "engineClass": "PureTechnicalStrategiesEngine",
+      "method": "evaluateStrategy19",
+      "methodExists": false,
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "DATA_INSUFFICIENT",
+      "featureFlag": null,
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ]
+    },
+    "S20": {
+      "strategyId": "S20",
+      "strategyName": "Strategy 20",
+      "engineFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "engineClass": "PureTechnicalStrategiesEngine",
+      "method": "evaluateStrategy20",
+      "methodExists": false,
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "DATA_INSUFFICIENT",
+      "featureFlag": null,
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ]
+    }
+  },
+  "modular_family": {
+    "S8B": {
+      "strategyId": "S8B",
+      "strategyName": "Classical Bull Flag",
+      "engineFile": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "engineClass": "NewTechnicalStrategiesEngine",
+      "method": "evaluateS8B_ClassicalBullFlag",
+      "methodExists": true,
+      "implementationStatus": "FEATURE_FLAGGED",
+      "executionStatus": "FEATURE_FLAGGED",
+      "featureFlag": "ENABLE_S8B",
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/unit/newTechnicalStrategies.test.ts"
+      ]
+    },
+    "S21": {
+      "strategyId": "S21",
+      "strategyName": "Cup & Handle Pivot",
+      "engineFile": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "engineClass": "NewTechnicalStrategiesEngine",
+      "method": "evaluateS21_CupAndHandle",
+      "methodExists": true,
+      "implementationStatus": "FEATURE_FLAGGED",
+      "executionStatus": "FEATURE_FLAGGED",
+      "featureFlag": "ENABLE_S21",
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/unit/newTechnicalStrategies.test.ts"
+      ]
+    },
+    "S22": {
+      "strategyId": "S22",
+      "strategyName": "John Carter Volatility Squeeze",
+      "engineFile": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "engineClass": "NewTechnicalStrategiesEngine",
+      "method": "evaluateS22_VolatilitySqueeze",
+      "methodExists": true,
+      "implementationStatus": "FEATURE_FLAGGED",
+      "executionStatus": "FEATURE_FLAGGED",
+      "featureFlag": "ENABLE_S22",
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/unit/newTechnicalStrategies.test.ts"
+      ]
+    },
+    "S23": {
+      "strategyId": "S23",
+      "strategyName": "Classical Double Bottom",
+      "engineFile": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "engineClass": "NewTechnicalStrategiesEngine",
+      "method": "evaluateS23_DoubleBottom",
+      "methodExists": true,
+      "implementationStatus": "FEATURE_FLAGGED",
+      "executionStatus": "FEATURE_FLAGGED",
+      "featureFlag": "ENABLE_S23",
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/unit/newTechnicalStrategies.test.ts"
+      ]
+    },
+    "S24": {
+      "strategyId": "S24",
+      "strategyName": "Double Top Distribution Exit",
+      "engineFile": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "engineClass": "NewTechnicalStrategiesEngine",
+      "method": "evaluateS24_DoubleTopExit",
+      "methodExists": false,
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "FEATURE_FLAGGED",
+      "featureFlag": "ENABLE_S24",
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/unit/newTechnicalStrategies.test.ts"
+      ]
+    },
+    "S25": {
+      "strategyId": "S25",
+      "strategyName": "Inverse Head & Shoulders",
+      "engineFile": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "engineClass": "NewTechnicalStrategiesEngine",
+      "method": "evaluateS25_InverseHeadAndShoulders",
+      "methodExists": true,
+      "implementationStatus": "FEATURE_FLAGGED",
+      "executionStatus": "FEATURE_FLAGGED",
+      "featureFlag": "ENABLE_S25",
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/unit/newTechnicalStrategies.test.ts"
+      ]
+    },
+    "S26": {
+      "strategyId": "S26",
+      "strategyName": "Head & Shoulders Top Exit",
+      "engineFile": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "engineClass": "NewTechnicalStrategiesEngine",
+      "method": "evaluateS26_HeadAndShouldersExit",
+      "methodExists": false,
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "FEATURE_FLAGGED",
+      "featureFlag": "ENABLE_S26",
+      "dataDependencies": [
+        "DailyOHLCV"
+      ],
+      "dbTables": [
+        "daily_ohlcv"
+      ],
+      "testFiles": [
+        "tests/unit/newTechnicalStrategies.test.ts"
+      ]
+    }
+  }
+}

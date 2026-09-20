@@ -1,64 +1,799 @@
 {
-  "matrix_version": "2.2_rebuilt_wave3.6",
+  "matrix_version": "3.6C_rebuilt_source_derived",
   "total_requirements": 49,
   "summary": {
     "CLOSED": 0,
-    "IMPLEMENTED_VERIFIED": 44,
+    "IMPLEMENTED_VERIFIED": 38,
     "IMPLEMENTED_UNVERIFIED": 0,
-    "PARTIAL": 3,
+    "PARTIAL": 1,
     "MISSING": 0,
-    "BLOCKED": 2,
-    "NOT_APPLICABLE_WITH_EVIDENCE": 0
+    "BLOCKED": 1,
+    "NOT_IMPLEMENTED": 9
   },
   "requirements": [
-    { "req_id": "REQ-001", "source": "P0 Baseline", "requirement": "PureTechnicalStrategiesEngine freeze", "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts", "tests": ["verify_frozen_controls.cjs"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent A" },
-    { "req_id": "REQ-002", "source": "P0 Baseline", "requirement": "StrategyParameterConfig freeze", "implementation": "src/server/services/StrategyParameterConfig.ts", "tests": ["verify_frozen_controls.cjs"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent A" },
-    { "req_id": "REQ-003", "source": "P0 Baseline", "requirement": "SignalQualityOverlay freeze", "implementation": "src/server/services/SignalQualityOverlay.ts", "tests": ["verify_frozen_controls.cjs"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent A" },
-    { "req_id": "REQ-004", "source": "P0 Baseline", "requirement": "CapitalProtectionEngine freeze", "implementation": "src/server/services/CapitalProtectionEngine.ts", "tests": ["verify_frozen_controls.cjs"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent A" },
-    { "req_id": "REQ-005", "source": "P0 Baseline", "requirement": "NewTechnicalStrategiesEngine freeze", "implementation": "src/server/services/NewTechnicalStrategiesEngine.ts", "tests": ["verify_frozen_controls.cjs"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent A" },
-    { "req_id": "REQ-006", "source": "P0 Baseline", "requirement": "UpstoxIntradayIngestor freeze", "implementation": "src/server/services/UpstoxIntradayIngestor.ts", "tests": ["verify_frozen_controls.cjs"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent A" },
-    { "req_id": "REQ-007", "source": "P0 Baseline", "requirement": "Trade identity ledger immutability", "implementation": "data/v6.3_REAL_trade_identity_ledger.jsonl", "tests": ["verify_frozen_controls.cjs"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent A" },
-    { "req_id": "REQ-008", "source": "DEF-001", "requirement": "Valuation snapshot timestamp semantics", "implementation": "src/server/database.ts", "tests": ["DEF001_TimestampSemantics.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent A" },
-    { "req_id": "REQ-009", "source": "DEF-002", "requirement": "MasterTicker initialization decoupling", "implementation": "src/server/database.ts", "tests": ["DEF002_MasterTickerBootstrap.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent A" },
-    { "req_id": "REQ-010", "source": "DEF-004", "requirement": "Primary regulatory data provenance & XBRL hash", "implementation": "src/server/database.ts", "tests": ["DataValidationGate.test.ts"], "status": "PARTIAL", "owner": "Agent C" },
-    { "req_id": "REQ-011", "source": "Downstream B1", "requirement": "Downstream authorization boundary", "implementation": "tests/fasttrack_d2/DownstreamAuthorizationBoundary.ts", "tests": ["DownstreamBoundary.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent H" },
-    { "req_id": "REQ-012", "source": "Downstream B2", "requirement": "Hard lock on economic replay execution", "implementation": "tests/fasttrack_d2/TrackBGate.ts", "tests": ["AuthorizationSafety.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent H" },
-    { "req_id": "REQ-013", "source": "PIT-001", "requirement": "Observation vs publication vs effective timestamp separation", "implementation": "tests/fasttrack_d2/DataValidationGate.ts", "tests": ["DataValidationGate.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent E" },
-    { "req_id": "REQ-014", "source": "Execution-001", "requirement": "Single logical order intent idempotency guarantee", "implementation": "src/server/services/OrderManager.ts", "tests": ["ExecutionReadiness.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent H" },
-    { "req_id": "REQ-015", "source": "Safety-001", "requirement": "Per-order, strategy, and portfolio position limit enforcement", "implementation": "src/server/services/CapitalProtectionEngine.ts", "tests": ["CapitalSafety.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent I" },
-    { "req_id": "REQ-016", "source": "Safety-002", "requirement": "Emergency kill-switch multi-process state persistence", "implementation": "src/server/services/KillSwitch.ts", "tests": ["KillSwitch.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent I" },
-    { "req_id": "REQ-017", "source": "Ops-001", "requirement": "Health & readiness telemetry probes", "implementation": "src/server.ts", "tests": ["OperationalReadiness.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent J" },
-    { "req_id": "REQ-018", "source": "Security-001", "requirement": "Zero plain-text secrets in source & logs", "implementation": "src/config.ts", "tests": ["SecurityAudit.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent K" },
-    { "req_id": "REQ-019", "source": "Security-002", "requirement": "Strict RBAC & API authentication token verification", "implementation": "src/server/auth.ts", "tests": ["SecurityAudit.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent K" },
-    { "req_id": "REQ-020", "source": "Recovery-001", "requirement": "Isolated database snapshot backup & clean restore", "implementation": "src/server/backup.ts", "tests": ["BackupRestore.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent L" },
-    { "req_id": "REQ-021", "source": "Recovery-002", "requirement": "Clean Git commit rollback execution", "implementation": "Git repository", "tests": ["RollbackAudit.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent L" },
-    { "req_id": "REQ-022", "source": "Perf-001", "requirement": "Query latency p95 < 15ms under 750 concurrent instruments", "implementation": "src/server/database.ts", "tests": ["PerformanceCapacity.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent M" },
-    { "req_id": "REQ-023", "source": "Deploy-001", "requirement": "Environment isolation (dev vs staging vs production)", "implementation": "src/config.ts", "tests": ["DeploymentReadiness.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent N" },
-    { "req_id": "REQ-024", "source": "Paper-001", "requirement": "Isolated paper trading sandbox harness", "implementation": "src/server/services/PaperBroker.ts", "tests": ["PaperTradingHarness.test.ts"], "status": "BLOCKED", "owner": "Agent O" },
-    { "req_id": "REQ-025", "source": "Audit-001", "requirement": "Independent adversarial audit verification", "implementation": "src/server/services/dataenrichment/verifiers/IndependentVerifier.ts", "tests": ["AdversarialVerification.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent P" },
-    { "req_id": "REQ-026", "source": "S1 Engine", "requirement": "S1 Trend Following Breakout logic", "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts", "tests": ["OutcomeSemantics.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent B" },
-    { "req_id": "REQ-027", "source": "S2 Engine", "requirement": "S2 Moving Average Crossover logic", "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts", "tests": ["OutcomeSemantics.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent B" },
-    { "req_id": "REQ-028", "source": "S3 Engine", "requirement": "S3 Volume Breakout logic", "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts", "tests": ["OutcomeSemantics.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent B" },
-    { "req_id": "REQ-029", "source": "S4 Engine", "requirement": "S4 Relative Strength Index filter", "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts", "tests": ["OutcomeSemantics.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent B" },
-    { "req_id": "REQ-030", "source": "S5 Engine", "requirement": "S5 MACD Signal Line crossover", "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts", "tests": ["OutcomeSemantics.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent B" },
-    { "req_id": "REQ-031", "source": "S6 Engine", "requirement": "S6 Intraday Momentum 15m breakout", "implementation": "src/server/services/NewTechnicalStrategiesEngine.ts", "tests": ["OutcomeSemantics.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent B" },
-    { "req_id": "REQ-032", "source": "S7 Engine", "requirement": "S7 VWAP Reversion Intraday", "implementation": "src/server/services/NewTechnicalStrategiesEngine.ts", "tests": ["OutcomeSemantics.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent B" },
-    { "req_id": "REQ-033", "source": "S8 Engine", "requirement": "S8 Opening Range Breakout (ORB)", "implementation": "src/server/services/NewTechnicalStrategiesEngine.ts", "tests": ["OutcomeSemantics.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent B" },
-    { "req_id": "REQ-034", "source": "S9 Engine", "requirement": "S9 Multi-Timeframe Trend Confirmation", "implementation": "src/server/services/NewTechnicalStrategiesEngine.ts", "tests": ["OutcomeSemantics.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent B" },
-    { "req_id": "REQ-035", "source": "S10 Engine", "requirement": "S10 Intraday Volatility Contraction", "implementation": "src/server/services/NewTechnicalStrategiesEngine.ts", "tests": ["OutcomeSemantics.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent B" },
-    { "req_id": "REQ-036", "source": "S11 Engine", "requirement": "S11 Sector Rotation Top Momentum", "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts", "tests": ["OutcomeSemantics.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent B" },
-    { "req_id": "REQ-037", "source": "S12 Engine", "requirement": "S12 Nifty 500 Relative Strength Filter", "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts", "tests": ["OutcomeSemantics.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent B" },
-    { "req_id": "REQ-038", "source": "S13 Engine", "requirement": "S13 Sector Breadth Confirmation", "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts", "tests": ["OutcomeSemantics.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent B" },
-    { "req_id": "REQ-039", "source": "S14 Engine", "requirement": "S14 Bank Sector Specific Momentum", "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts", "tests": ["OutcomeSemantics.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent B" },
-    { "req_id": "REQ-040", "source": "S15 Engine", "requirement": "S15 IT Sector Specific Momentum", "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts", "tests": ["OutcomeSemantics.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent B" },
-    { "req_id": "REQ-041", "source": "S16 Engine", "requirement": "S16 Fundamental QGLP Quality Filter", "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts", "tests": ["OutcomeSemantics.test.ts"], "status": "PARTIAL", "owner": "Agent C" },
-    { "req_id": "REQ-042", "source": "S17 Engine", "requirement": "S17 FERE Free Cash Flow Expansion", "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts", "tests": ["OutcomeSemantics.test.ts"], "status": "PARTIAL", "owner": "Agent C" },
-    { "req_id": "REQ-043", "source": "S18 Engine", "requirement": "S18 Derivatives Open Interest Breakout", "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts", "tests": ["OutcomeSemantics.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent B" },
-    { "req_id": "REQ-044", "source": "S19 Engine", "requirement": "S19 Institutional Accumulation Overlay", "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts", "tests": ["OutcomeSemantics.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent B" },
-    { "req_id": "REQ-045", "source": "S20 Engine", "requirement": "S20 Composite Multi-Strategy Allocation", "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts", "tests": ["OutcomeSemantics.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent B" },
-    { "req_id": "REQ-046", "source": "Data Trust", "requirement": "NSE Bhavcopy daily delivery quantity reconciliation", "implementation": "src/server/database.ts", "tests": ["DataValidationGate.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent D" },
-    { "req_id": "REQ-047", "source": "Data Trust", "requirement": "Security Master ISIN and corporate action adjustment", "implementation": "src/server/database.ts", "tests": ["DataValidationGate.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent D" },
-    { "req_id": "REQ-048", "source": "Execution", "requirement": "ASM/GSM/T2T exchange surveillance exclusion filter", "implementation": "src/server/services/CapitalProtectionEngine.ts", "tests": ["CapitalSafety.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent I" },
-    { "req_id": "REQ-049", "source": "Operations", "requirement": "Audit ledger cryptographic hash-chain verification", "implementation": "data/v6.3_REAL_trade_identity_ledger.jsonl", "tests": ["Delivery2Tests.test.ts"], "status": "IMPLEMENTED_VERIFIED", "owner": "Agent J" }
+    {
+      "req_id": "REQ-001",
+      "source": "P0 Baseline",
+      "requirement": "PureTechnicalStrategiesEngine freeze",
+      "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "implementationSymbol": "PureTechnicalStrategiesEngine",
+      "tests": [
+        "reports/v65-delivery-2.2/verify_frozen_controls.cjs"
+      ],
+      "testAssertion": "SHA256 Match",
+      "testCommand": "node reports/v65-delivery-2.2/verify_frozen_controls.cjs",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero (Hash locked)",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-002",
+      "source": "P0 Baseline",
+      "requirement": "StrategyParameterConfig freeze",
+      "implementation": "src/server/services/StrategyParameterConfig.ts",
+      "implementationSymbol": "StrategyParameterConfig",
+      "tests": [
+        "reports/v65-delivery-2.2/verify_frozen_controls.cjs"
+      ],
+      "testAssertion": "SHA256 Match",
+      "testCommand": "node reports/v65-delivery-2.2/verify_frozen_controls.cjs",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero (Hash locked)",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-003",
+      "source": "P0 Baseline",
+      "requirement": "SignalQualityOverlay freeze",
+      "implementation": "src/server/services/SignalQualityOverlay.ts",
+      "implementationSymbol": "SignalQualityOverlay",
+      "tests": [
+        "reports/v65-delivery-2.2/verify_frozen_controls.cjs"
+      ],
+      "testAssertion": "SHA256 Match",
+      "testCommand": "node reports/v65-delivery-2.2/verify_frozen_controls.cjs",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero (Hash locked)",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-004",
+      "source": "P0 Baseline",
+      "requirement": "CapitalProtectionEngine freeze",
+      "implementation": "src/server/services/CapitalProtectionEngine.ts",
+      "implementationSymbol": "CapitalProtectionEngine",
+      "tests": [
+        "reports/v65-delivery-2.2/verify_frozen_controls.cjs"
+      ],
+      "testAssertion": "SHA256 Match",
+      "testCommand": "node reports/v65-delivery-2.2/verify_frozen_controls.cjs",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero (Hash locked)",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-005",
+      "source": "P0 Baseline",
+      "requirement": "NewTechnicalStrategiesEngine freeze",
+      "implementation": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "implementationSymbol": "NewTechnicalStrategiesEngine",
+      "tests": [
+        "reports/v65-delivery-2.2/verify_frozen_controls.cjs"
+      ],
+      "testAssertion": "SHA256 Match",
+      "testCommand": "node reports/v65-delivery-2.2/verify_frozen_controls.cjs",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero (Hash locked)",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-006",
+      "source": "P0 Baseline",
+      "requirement": "UpstoxIntradayIngestor freeze",
+      "implementation": "src/server/services/UpstoxIntradayIngestor.ts",
+      "implementationSymbol": "UpstoxIntradayIngestor",
+      "tests": [
+        "reports/v65-delivery-2.2/verify_frozen_controls.cjs"
+      ],
+      "testAssertion": "SHA256 Match",
+      "testCommand": "node reports/v65-delivery-2.2/verify_frozen_controls.cjs",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero (Hash locked)",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-007",
+      "source": "P0 Baseline",
+      "requirement": "Trade identity ledger immutability",
+      "implementation": "data/v6.3_REAL_trade_identity_ledger.jsonl",
+      "implementationSymbol": "TradeLedgerFile",
+      "tests": [
+        "reports/v65-delivery-2.2/verify_frozen_controls.cjs"
+      ],
+      "testAssertion": "SHA256 Match",
+      "testCommand": "node reports/v65-delivery-2.2/verify_frozen_controls.cjs",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero (Hash locked)",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-008",
+      "source": "DEF-001",
+      "requirement": "Valuation snapshot timestamp semantics",
+      "implementation": "src/server/database.ts",
+      "implementationSymbol": "recordValuationSnapshot",
+      "tests": [
+        "tests/fasttrack_d2/DEF001_TimestampSemantics.test.ts"
+      ],
+      "testAssertion": "observationTimestamp === quoteTimestamp",
+      "testCommand": "npx vitest run tests/fasttrack_d2/DEF001_TimestampSemantics.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero (Verified via Vitest)",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-009",
+      "source": "DEF-002",
+      "requirement": "MasterTicker initialization decoupling",
+      "implementation": "src/server/database.ts",
+      "implementationSymbol": "ensureMasterTickerPopulated",
+      "tests": [
+        "tests/fasttrack_d2/DEF002_MasterTickerBootstrap.test.ts"
+      ],
+      "testAssertion": "decoupled bootstrap without lock deadlock",
+      "testCommand": "npx vitest run tests/fasttrack_d2/DEF002_MasterTickerBootstrap.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero (Verified via Vitest)",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-010",
+      "source": "DEF-004",
+      "requirement": "Primary regulatory data provenance & XBRL hash",
+      "implementation": "src/server/database.ts",
+      "implementationSymbol": "provenanceRegistry",
+      "tests": [
+        "tests/fasttrack_d2/DataValidationGate.test.ts"
+      ],
+      "testAssertion": "blocks unverified primary filing hash",
+      "testCommand": "npx vitest run tests/fasttrack_d2/DataValidationGate.test.ts",
+      "actualResult": "PARTIAL",
+      "status": "PARTIAL",
+      "residualRisk": "Secondary scrape verified; raw XBRL PDF hash pending",
+      "blocker": "DEF-004"
+    },
+    {
+      "req_id": "REQ-011",
+      "source": "Downstream B1",
+      "requirement": "Downstream authorization boundary",
+      "implementation": "src/server/services/dataenrichment/verifiers/DownstreamAuthorizationBoundary.ts",
+      "implementationSymbol": "DownstreamAuthorizationBoundary",
+      "tests": [
+        "tests/fasttrack_d2/DownstreamBoundary.test.ts"
+      ],
+      "testAssertion": "[BLOCK] BLOCKED or FAILED cannot enter analytics",
+      "testCommand": "npx vitest run tests/fasttrack_d2/DownstreamBoundary.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero (Barrier enforced)",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-012",
+      "source": "Downstream B2",
+      "requirement": "Hard lock on economic replay execution",
+      "implementation": "tests/fasttrack_d2/TrackBGate.ts",
+      "implementationSymbol": "runTrackB",
+      "tests": [
+        "tests/fasttrack_d2/AuthorizationSafety.test.ts"
+      ],
+      "testAssertion": "runTrackB explicitly hard-locked",
+      "testCommand": "npx vitest run tests/fasttrack_d2/AuthorizationSafety.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero (Hard locked false)",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-013",
+      "source": "PIT-001",
+      "requirement": "Observation vs publication vs effective timestamp separation",
+      "implementation": "tests/fasttrack_d2/DataValidationGate.ts",
+      "implementationSymbol": "validatePITRecord",
+      "tests": [
+        "tests/fasttrack_d2/DataValidationGate.test.ts"
+      ],
+      "testAssertion": "rejects future observation / publication",
+      "testCommand": "npx vitest run tests/fasttrack_d2/DataValidationGate.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero (Tested across future dates)",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-014",
+      "source": "Execution-001",
+      "requirement": "Single logical order intent idempotency guarantee",
+      "implementation": "src/server/services/OrderManager.ts",
+      "implementationSymbol": "OrderManager",
+      "tests": [
+        "tests/fasttrack_d2/ExecutionReadiness.test.ts"
+      ],
+      "testAssertion": "Idempotency Token Verified",
+      "testCommand": "npx vitest run tests/fasttrack_d2/ExecutionReadiness.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-015",
+      "source": "Safety-001",
+      "requirement": "Per-order, strategy, and portfolio position limit enforcement",
+      "implementation": "src/server/services/CapitalProtectionEngine.ts",
+      "implementationSymbol": "CapitalProtectionEngine",
+      "tests": [
+        "tests/fasttrack_d2/CapitalSafety.test.ts"
+      ],
+      "testAssertion": "Hard limit checks verified",
+      "testCommand": "npx vitest run tests/fasttrack_d2/CapitalSafety.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-016",
+      "source": "Safety-002",
+      "requirement": "Emergency kill-switch multi-process state persistence",
+      "implementation": "src/server/services/KillSwitch.ts",
+      "implementationSymbol": "KillSwitch",
+      "tests": [
+        "tests/fasttrack_d2/KillSwitch.test.ts"
+      ],
+      "testAssertion": "Restarts retain kill state",
+      "testCommand": "npx vitest run tests/fasttrack_d2/KillSwitch.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-017",
+      "source": "Ops-001",
+      "requirement": "Health & readiness telemetry probes",
+      "implementation": "src/server.ts",
+      "implementationSymbol": "healthProbe",
+      "tests": [
+        "tests/fasttrack_d2/OperationalReadiness.test.ts"
+      ],
+      "testAssertion": "Endpoint probes verified",
+      "testCommand": "npx vitest run tests/fasttrack_d2/OperationalReadiness.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-018",
+      "source": "Security-001",
+      "requirement": "Zero plain-text secrets in source & logs",
+      "implementation": "src/config.ts",
+      "implementationSymbol": "config",
+      "tests": [
+        "tests/fasttrack_d2/SecurityAudit.test.ts"
+      ],
+      "testAssertion": "Source code scan clean",
+      "testCommand": "npx vitest run tests/fasttrack_d2/SecurityAudit.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-019",
+      "source": "Security-002",
+      "requirement": "Strict RBAC & API authentication token verification",
+      "implementation": "src/server/auth.ts",
+      "implementationSymbol": "authenticateToken",
+      "tests": [
+        "tests/fasttrack_d2/SecurityAudit.test.ts"
+      ],
+      "testAssertion": "Token validation verified",
+      "testCommand": "npx vitest run tests/fasttrack_d2/SecurityAudit.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-020",
+      "source": "Recovery-001",
+      "requirement": "Isolated database snapshot backup & clean restore",
+      "implementation": "src/server/backup.ts",
+      "implementationSymbol": "createBackup",
+      "tests": [
+        "tests/fasttrack_d2/BackupRestore.test.ts"
+      ],
+      "testAssertion": "Restore verified RTO=12.8s",
+      "testCommand": "npx vitest run tests/fasttrack_d2/BackupRestore.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-021",
+      "source": "Recovery-002",
+      "requirement": "Clean Git commit rollback execution",
+      "implementation": "Git repository",
+      "implementationSymbol": "gitCheckout",
+      "tests": [
+        "tests/fasttrack_d2/RollbackAudit.test.ts"
+      ],
+      "testAssertion": "Clean commit tip verified",
+      "testCommand": "npx vitest run tests/fasttrack_d2/RollbackAudit.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-022",
+      "source": "Perf-001",
+      "requirement": "Query latency p95 < 15ms under 750 concurrent instruments",
+      "implementation": "src/server/database.ts",
+      "implementationSymbol": "dbAll",
+      "tests": [
+        "tests/fasttrack_d2/PerformanceCapacity.test.ts"
+      ],
+      "testAssertion": "Latency benchmarked",
+      "testCommand": "npx vitest run tests/fasttrack_d2/PerformanceCapacity.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-023",
+      "source": "Deploy-001",
+      "requirement": "Environment isolation (dev vs staging vs production)",
+      "implementation": "src/config.ts",
+      "implementationSymbol": "config",
+      "tests": [
+        "tests/fasttrack_d2/DeploymentReadiness.test.ts"
+      ],
+      "testAssertion": "Config separation clean",
+      "testCommand": "npx vitest run tests/fasttrack_d2/DeploymentReadiness.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-024",
+      "source": "Paper-001",
+      "requirement": "Isolated paper trading sandbox harness",
+      "implementation": "src/server/services/PaperBroker.ts",
+      "implementationSymbol": "PaperBroker",
+      "tests": [
+        "tests/fasttrack_d2/PaperTradingHarness.test.ts"
+      ],
+      "testAssertion": "Harness built, gated on P5 PASS",
+      "testCommand": "npx vitest run tests/fasttrack_d2/PaperTradingHarness.test.ts",
+      "actualResult": "BLOCKED",
+      "status": "BLOCKED",
+      "residualRisk": "Zero",
+      "blocker": "P5 Entry Gate"
+    },
+    {
+      "req_id": "REQ-025",
+      "source": "Audit-001",
+      "requirement": "Independent adversarial audit verification",
+      "implementation": "src/server/services/dataenrichment/verifiers/IndependentVerifier.ts",
+      "implementationSymbol": "IndependentVerifier",
+      "tests": [
+        "tests/fasttrack_d2/AdversarialVerification.test.ts"
+      ],
+      "testAssertion": "Hash chain tamper resistance",
+      "testCommand": "npx vitest run tests/fasttrack_d2/AdversarialVerification.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-026",
+      "source": "S1 Engine",
+      "requirement": "S1 Trend Following Breakout logic",
+      "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "implementationSymbol": "evaluateStrategy1",
+      "tests": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ],
+      "testAssertion": "Daily strategy resolution deterministic",
+      "testCommand": "npx vitest run tests/fasttrack_d2/OutcomeSemantics.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-027",
+      "source": "S2 Engine",
+      "requirement": "S2 Moving Average Crossover logic",
+      "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "implementationSymbol": "evaluateStrategy2",
+      "tests": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ],
+      "testAssertion": "Daily strategy resolution deterministic",
+      "testCommand": "npx vitest run tests/fasttrack_d2/OutcomeSemantics.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-028",
+      "source": "S3 Engine",
+      "requirement": "S3 Volume Breakout logic",
+      "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "implementationSymbol": "evaluateStrategy3",
+      "tests": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ],
+      "testAssertion": "Daily strategy resolution deterministic",
+      "testCommand": "npx vitest run tests/fasttrack_d2/OutcomeSemantics.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-029",
+      "source": "S4 Engine",
+      "requirement": "S4 Relative Strength Index filter",
+      "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "implementationSymbol": "evaluateStrategy4",
+      "tests": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ],
+      "testAssertion": "Daily strategy resolution deterministic",
+      "testCommand": "npx vitest run tests/fasttrack_d2/OutcomeSemantics.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-030",
+      "source": "S5 Engine",
+      "requirement": "S5 MACD Signal Line crossover",
+      "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "implementationSymbol": "evaluateStrategy5",
+      "tests": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ],
+      "testAssertion": "Daily strategy resolution deterministic",
+      "testCommand": "npx vitest run tests/fasttrack_d2/OutcomeSemantics.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-031",
+      "source": "S6 Engine",
+      "requirement": "S6 Intraday Momentum 15m breakout",
+      "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "implementationSymbol": "evaluateStrategy6",
+      "tests": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ],
+      "testAssertion": "Daily strategy resolution deterministic",
+      "testCommand": "npx vitest run tests/fasttrack_d2/OutcomeSemantics.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-032",
+      "source": "S7 Engine",
+      "requirement": "S7 VWAP Reversion Intraday",
+      "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "implementationSymbol": "evaluateStrategy7",
+      "tests": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ],
+      "testAssertion": "Daily strategy resolution deterministic",
+      "testCommand": "npx vitest run tests/fasttrack_d2/OutcomeSemantics.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-033",
+      "source": "S8 Engine",
+      "requirement": "S8 Opening Range Breakout (ORB)",
+      "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "implementationSymbol": "evaluateStrategy8",
+      "tests": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ],
+      "testAssertion": "Daily strategy resolution deterministic",
+      "testCommand": "npx vitest run tests/fasttrack_d2/OutcomeSemantics.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-034",
+      "source": "S9 Engine",
+      "requirement": "S9 Multi-Timeframe Trend Confirmation",
+      "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "implementationSymbol": "evaluateStrategy9",
+      "tests": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ],
+      "testAssertion": "Daily strategy resolution deterministic",
+      "testCommand": "npx vitest run tests/fasttrack_d2/OutcomeSemantics.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-035",
+      "source": "S10 Engine",
+      "requirement": "S10 Intraday Volatility Contraction",
+      "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "implementationSymbol": "evaluateStrategy10",
+      "tests": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ],
+      "testAssertion": "S10 resolved 15m breakout without daily fallback",
+      "testCommand": "npx vitest run tests/fasttrack_d2/OutcomeSemantics.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-036",
+      "source": "S11 Engine",
+      "requirement": "S11 Sector Rotation Top Momentum",
+      "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "implementationSymbol": "evaluateStrategy11",
+      "tests": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ],
+      "testAssertion": "Daily strategy resolution deterministic",
+      "testCommand": "npx vitest run tests/fasttrack_d2/OutcomeSemantics.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-037",
+      "source": "S12 Engine",
+      "requirement": "S12 Nifty 500 Relative Strength Filter",
+      "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "implementationSymbol": "N/A_NOT_IMPLEMENTED",
+      "tests": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ],
+      "testAssertion": "DATA_INSUFFICIENT",
+      "testCommand": "npx vitest run tests/fasttrack_d2/OutcomeSemantics.test.ts",
+      "actualResult": "DATA_INSUFFICIENT",
+      "status": "NOT_IMPLEMENTED",
+      "residualRisk": "Requires alternative data feed",
+      "blocker": "NOT_IMPLEMENTED"
+    },
+    {
+      "req_id": "REQ-038",
+      "source": "S13 Engine",
+      "requirement": "S13 Sector Breadth Confirmation",
+      "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "implementationSymbol": "N/A_NOT_IMPLEMENTED",
+      "tests": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ],
+      "testAssertion": "DATA_INSUFFICIENT",
+      "testCommand": "npx vitest run tests/fasttrack_d2/OutcomeSemantics.test.ts",
+      "actualResult": "DATA_INSUFFICIENT",
+      "status": "NOT_IMPLEMENTED",
+      "residualRisk": "Requires alternative data feed",
+      "blocker": "NOT_IMPLEMENTED"
+    },
+    {
+      "req_id": "REQ-039",
+      "source": "S14 Engine",
+      "requirement": "S14 Bank Sector Specific Momentum",
+      "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "implementationSymbol": "N/A_NOT_IMPLEMENTED",
+      "tests": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ],
+      "testAssertion": "DATA_INSUFFICIENT",
+      "testCommand": "npx vitest run tests/fasttrack_d2/OutcomeSemantics.test.ts",
+      "actualResult": "DATA_INSUFFICIENT",
+      "status": "NOT_IMPLEMENTED",
+      "residualRisk": "Requires alternative data feed",
+      "blocker": "NOT_IMPLEMENTED"
+    },
+    {
+      "req_id": "REQ-040",
+      "source": "S15 Engine",
+      "requirement": "S15 IT Sector Specific Momentum",
+      "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "implementationSymbol": "N/A_NOT_IMPLEMENTED",
+      "tests": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ],
+      "testAssertion": "DATA_INSUFFICIENT",
+      "testCommand": "npx vitest run tests/fasttrack_d2/OutcomeSemantics.test.ts",
+      "actualResult": "DATA_INSUFFICIENT",
+      "status": "NOT_IMPLEMENTED",
+      "residualRisk": "Requires alternative data feed",
+      "blocker": "NOT_IMPLEMENTED"
+    },
+    {
+      "req_id": "REQ-041",
+      "source": "S16 Engine",
+      "requirement": "S16 Fundamental QGLP Quality Filter",
+      "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "implementationSymbol": "N/A_NOT_IMPLEMENTED",
+      "tests": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ],
+      "testAssertion": "DATA_INSUFFICIENT",
+      "testCommand": "npx vitest run tests/fasttrack_d2/OutcomeSemantics.test.ts",
+      "actualResult": "DATA_INSUFFICIENT",
+      "status": "NOT_IMPLEMENTED",
+      "residualRisk": "Requires alternative data feed",
+      "blocker": "NOT_IMPLEMENTED"
+    },
+    {
+      "req_id": "REQ-042",
+      "source": "S17 Engine",
+      "requirement": "S17 FERE Free Cash Flow Expansion",
+      "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "implementationSymbol": "N/A_NOT_IMPLEMENTED",
+      "tests": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ],
+      "testAssertion": "DATA_INSUFFICIENT",
+      "testCommand": "npx vitest run tests/fasttrack_d2/OutcomeSemantics.test.ts",
+      "actualResult": "DATA_INSUFFICIENT",
+      "status": "NOT_IMPLEMENTED",
+      "residualRisk": "Requires alternative data feed",
+      "blocker": "NOT_IMPLEMENTED"
+    },
+    {
+      "req_id": "REQ-043",
+      "source": "S18 Engine",
+      "requirement": "S18 Derivatives Open Interest Breakout",
+      "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "implementationSymbol": "N/A_NOT_IMPLEMENTED",
+      "tests": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ],
+      "testAssertion": "DATA_INSUFFICIENT",
+      "testCommand": "npx vitest run tests/fasttrack_d2/OutcomeSemantics.test.ts",
+      "actualResult": "DATA_INSUFFICIENT",
+      "status": "NOT_IMPLEMENTED",
+      "residualRisk": "Requires alternative data feed",
+      "blocker": "NOT_IMPLEMENTED"
+    },
+    {
+      "req_id": "REQ-044",
+      "source": "S19 Engine",
+      "requirement": "S19 Institutional Accumulation Overlay",
+      "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "implementationSymbol": "N/A_NOT_IMPLEMENTED",
+      "tests": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ],
+      "testAssertion": "DATA_INSUFFICIENT",
+      "testCommand": "npx vitest run tests/fasttrack_d2/OutcomeSemantics.test.ts",
+      "actualResult": "DATA_INSUFFICIENT",
+      "status": "NOT_IMPLEMENTED",
+      "residualRisk": "Requires alternative data feed",
+      "blocker": "NOT_IMPLEMENTED"
+    },
+    {
+      "req_id": "REQ-045",
+      "source": "S20 Engine",
+      "requirement": "S20 Composite Multi-Strategy Allocation",
+      "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "implementationSymbol": "N/A_NOT_IMPLEMENTED",
+      "tests": [
+        "tests/fasttrack_d2/OutcomeSemantics.test.ts"
+      ],
+      "testAssertion": "DATA_INSUFFICIENT",
+      "testCommand": "npx vitest run tests/fasttrack_d2/OutcomeSemantics.test.ts",
+      "actualResult": "DATA_INSUFFICIENT",
+      "status": "NOT_IMPLEMENTED",
+      "residualRisk": "Requires alternative data feed",
+      "blocker": "NOT_IMPLEMENTED"
+    },
+    {
+      "req_id": "REQ-046",
+      "source": "Data Trust",
+      "requirement": "NSE Bhavcopy daily delivery quantity reconciliation",
+      "implementation": "src/server/database.ts",
+      "implementationSymbol": "reconcileDeliveryData",
+      "tests": [
+        "tests/fasttrack_d2/DataValidationGate.test.ts"
+      ],
+      "testAssertion": "verifies complete PIT evidence",
+      "testCommand": "npx vitest run tests/fasttrack_d2/DataValidationGate.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-047",
+      "source": "Data Trust",
+      "requirement": "Security Master ISIN and corporate action adjustment",
+      "implementation": "src/server/database.ts",
+      "implementationSymbol": "reconcileCorporateActions",
+      "tests": [
+        "tests/fasttrack_d2/DataValidationGate.test.ts"
+      ],
+      "testAssertion": "verifies complete PIT evidence",
+      "testCommand": "npx vitest run tests/fasttrack_d2/DataValidationGate.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-048",
+      "source": "Execution",
+      "requirement": "ASM/GSM/T2T exchange surveillance exclusion filter",
+      "implementation": "src/server/services/CapitalProtectionEngine.ts",
+      "implementationSymbol": "checkSurveillanceExclusion",
+      "tests": [
+        "tests/fasttrack_d2/CapitalSafety.test.ts"
+      ],
+      "testAssertion": "Hard limit checks verified",
+      "testCommand": "npx vitest run tests/fasttrack_d2/CapitalSafety.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    },
+    {
+      "req_id": "REQ-049",
+      "source": "Operations",
+      "requirement": "Audit ledger cryptographic hash-chain verification",
+      "implementation": "data/v6.3_REAL_trade_identity_ledger.jsonl",
+      "implementationSymbol": "DecisionAuditLedger",
+      "tests": [
+        "tests/fasttrack_d2/Delivery2Tests.test.ts"
+      ],
+      "testAssertion": "DecisionAuditLedger hash chain integrity",
+      "testCommand": "npx vitest run tests/fasttrack_d2/Delivery2Tests.test.ts",
+      "actualResult": "PASS",
+      "status": "IMPLEMENTED_VERIFIED",
+      "residualRisk": "Zero",
+      "blocker": null
+    }
   ]
 }
