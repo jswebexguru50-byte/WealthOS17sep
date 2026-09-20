@@ -16863,6 +16863,11 @@ async function startServer() {
     // Start Autonomous Smart Money Sentinel Background Supervisor Daemon
     AutonomousSmartMoneyAgent.getInstance().startBackgroundDaemon();
     console.log('[AutonomousAgent] AutonomousSmartMoneyAgent supervisor daemon active');
+
+    // Run MasterTickerService initialization explicitly out of band of DB migration
+    MasterTickerService.getInstance().autoInitializeMasterTickers().catch((e) => {
+      console.warn("MasterTickerService init warning:", e);
+    });
   } catch (wsErr) {
     console.warn('[WebSocket] Failed to attach live stream:', wsErr);
   }
