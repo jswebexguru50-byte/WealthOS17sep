@@ -1,7 +1,7 @@
 {
   "program": "WEALTHOS_MASTER_FASTTRACK_PRODUCTION_READINESS",
-  "version": "v6.5-delivery-2.2",
-  "timestamp": "2026-09-20T13:35:00+04:00",
+  "version": "v6.5-delivery-2.2_wave3.6_rebuilt",
+  "timestamp": "2026-09-20T13:52:00+04:00",
   "baseline_commits": {
     "DEF-001": "7c5be66",
     "DEF-002": "1214c8a",
@@ -14,6 +14,8 @@
   "frozen_controls_status": "7/7_MATCH",
   "lane_b_status": "CLOSED",
   "fasttrack_d2_tests": "72/72_PASS",
+  "full_repository_regression": "23_FAILURES_CLASSIFIED",
+  "typescript_status": "PARTIAL_TARGETED_PROD_CLEAN",
   "flags": {
     "FILTER_DATA_READY": false,
     "EMPIRICAL_ACQUISITION": false,
@@ -25,8 +27,8 @@
     "Stream_C_DEF004_Provenance": { "status": "OPEN", "owner": "Agent C", "artifacts": ["DATA_SOURCE_PROVENANCE_REGISTRY.json"] },
     "Stream_D_Data_Quality_Reconciliation": { "status": "PARTIAL", "owner": "Agent D", "artifacts": ["MASTER_DATA_QUALITY_MATRIX.json", "NSE_RECONCILIATION_RESULTS.json", "NSE_RECONCILIATION_AUDIT.md", "DATA_AUTHENTICITY_ACCURACY_AUDIT.md"] },
     "Stream_E_PIT_Historical_Integrity": { "status": "VERIFIED", "owner": "Agent E", "artifacts": ["PIT_INTEGRITY_AUDIT.md"] },
-    "Stream_F_Full_Regression_Closure": { "status": "CLASSIFIED", "owner": "Agent F", "artifacts": ["WAVE3_5_REGRESSION_CLASSIFICATION_REPORT.md"] },
-    "Stream_G_TypeScript_Static_Integrity": { "status": "QUALIFIED", "owner": "Agent G", "artifacts": ["WAVE3_4_TYPE_QUALIFICATION_REPORT.md"] },
+    "Stream_F_Full_Regression_Closure": { "status": "PARTIAL", "owner": "Agent F", "artifacts": ["WAVE3_5_REGRESSION_CLASSIFICATION_REPORT.md"] },
+    "Stream_G_TypeScript_Static_Integrity": { "status": "PARTIAL", "owner": "Agent G", "artifacts": ["WAVE3_4_TYPE_QUALIFICATION_REPORT.md"] },
     "Stream_H_Execution_Integrity": { "status": "VERIFIED", "owner": "Agent H", "artifacts": ["EXECUTION_READINESS_AUDIT.md"] },
     "Stream_I_Capital_Safety_Kill_Switch": { "status": "VERIFIED", "owner": "Agent I", "artifacts": ["CAPITAL_SAFETY_AUDIT.md", "KILL_SWITCH_AUDIT.md"] },
     "Stream_J_Operations_Observability": { "status": "VERIFIED", "owner": "Agent J", "artifacts": ["OPERATIONS_READINESS_AUDIT.md", "OBSERVABILITY_AUDIT.md"] },
@@ -35,7 +37,7 @@
     "Stream_M_Performance_Capacity_Concurrency": { "status": "VERIFIED", "owner": "Agent M", "artifacts": ["PERFORMANCE_CAPACITY_AUDIT.md", "CONCURRENCY_AUDIT.md"] },
     "Stream_N_Deployment_Release_Configuration": { "status": "VERIFIED", "owner": "Agent N", "artifacts": ["DEPLOYMENT_READINESS_AUDIT.md", "DEPLOYMENT_REHEARSAL_REPORT.md"] },
     "Stream_O_Paper_Trading_Harness": { "status": "LOCKED", "owner": "Agent O", "artifacts": ["P6_PAPER_TRADING_REPORT.md"] },
-    "Stream_P_Independent_Adversarial_Auditor": { "status": "AUDITED", "owner": "Agent P", "artifacts": ["P8_INDEPENDENT_FINAL_AUDIT.md"] }
+    "Stream_P_Independent_Adversarial_Auditor": { "status": "PRELIMINARY", "owner": "Agent P", "artifacts": ["P8_INDEPENDENT_FINAL_AUDIT.md"] }
   },
   "blockers": [
     "DEF-004: Primary raw XBRL/PDF filing hashes and point-in-time publication timestamps unverified for HistoricalFinancialStatements and HistoricalShareholdingPattern."
