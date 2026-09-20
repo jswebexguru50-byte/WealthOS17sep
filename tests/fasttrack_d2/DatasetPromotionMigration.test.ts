@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import fs from 'fs';
 import path from 'path';
-import { getDB, closeDB, initializeDatabase } from '../../src/server/database';
+import { getDB, closeDB, initializeDatabase, runMigrations } from '../../src/server/database';
 import { dbRun, dbGet, dbAll } from '../../src/server/database';
 import { DatasetPromotionPersistence } from '../../src/server/services/DatasetPromotionPersistence';
 
@@ -15,6 +15,7 @@ describe('Delivery 2.x P5-D: SQLite Migration Verification', () => {
     
     const db = getDB();
     // 1. Create a simulated "legacy" database without the P4 invariant
+    await dbRun(db, `DROP TABLE IF EXISTS DatasetPromotionManifests`);
     await dbRun(db, `
       CREATE TABLE DatasetPromotionManifests (
         dataset_id TEXT PRIMARY KEY,
@@ -76,10 +77,8 @@ describe('Delivery 2.x P5-D: SQLite Migration Verification', () => {
   });
 
   it('detects existing invalid rows and quarantines them', async () => {
-    // TODO: Call the yet-to-be-written migration script here
-    // await migrateDatasetPromotionManifests();
-    
     const db = getDB();
+    await runMigrations(db);
     
     // Valid rows should survive
     const validRow = await dbGet(db, "SELECT * FROM DatasetPromotionManifests WHERE dataset_id = 'DS-VALID-LEGACY'");
