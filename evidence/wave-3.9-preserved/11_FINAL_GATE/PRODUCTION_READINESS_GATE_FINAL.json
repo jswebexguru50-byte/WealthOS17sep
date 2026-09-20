@@ -1,0 +1,181 @@
+{
+  "gateVersion": "3.7.0",
+  "evaluatedAt": "2026-09-20T13:03:50.995Z",
+  "sourceCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
+  "branch": "ai-review",
+  "checks": [
+    {
+      "id": "FROZEN_CONTROLS",
+      "pass": true,
+      "evidence": "7/7 MATCH"
+    },
+    {
+      "id": "PRODUCTION_TYPESCRIPT",
+      "pass": true,
+      "evidence": {
+        "auditVersion": "3.9.0",
+        "evaluatedAt": "2026-09-20T13:03:06.464Z",
+        "tscExitCode": 0,
+        "totalErrors": 0,
+        "status": "TYPESCRIPT_REACHABILITY_PASSED"
+      }
+    },
+    {
+      "id": "STRATEGY_EXECUTION_TRACEABILITY",
+      "pass": true,
+      "evidence": {
+        "auditVersion": "3.7.0",
+        "evaluatedAt": "2026-09-20T11:06:43.346Z",
+        "sourceCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
+        "candidateSymbolCount": 1623,
+        "classifiedStrategies": [
+          {
+            "strategyId": "S1_VPA_BREAKOUT",
+            "status": "IMPLEMENTED_AND_TEST_VERIFIED",
+            "reachability": "CALLABLE",
+            "dataSupport": "DATA_SUPPORTED"
+          },
+          {
+            "strategyId": "S2_INSTITUTIONAL_FVG",
+            "status": "IMPLEMENTED_AND_TEST_VERIFIED",
+            "reachability": "CALLABLE",
+            "dataSupport": "DATA_SUPPORTED"
+          },
+          {
+            "strategyId": "S3_HH_HL_COMPACTION",
+            "status": "IMPLEMENTED_AND_TEST_VERIFIED",
+            "reachability": "CALLABLE",
+            "dataSupport": "DATA_SUPPORTED"
+          },
+          {
+            "strategyId": "S4_HH_HL_SMA200",
+            "status": "IMPLEMENTED_AND_TEST_VERIFIED",
+            "reachability": "CALLABLE",
+            "dataSupport": "DATA_SUPPORTED"
+          },
+          {
+            "strategyId": "S5_50EMA_PULLBACK",
+            "status": "IMPLEMENTED_AND_TEST_VERIFIED",
+            "reachability": "CALLABLE",
+            "dataSupport": "DATA_SUPPORTED"
+          },
+          {
+            "strategyId": "S6_RS_BREAKOUT",
+            "status": "IMPLEMENTED_AND_TEST_VERIFIED",
+            "reachability": "CALLABLE",
+            "dataSupport": "DATA_SUPPORTED"
+          },
+          {
+            "strategyId": "S7_RSI_MEAN_REVERSION",
+            "status": "IMPLEMENTED_AND_TEST_VERIFIED",
+            "reachability": "CALLABLE",
+            "dataSupport": "DATA_SUPPORTED"
+          },
+          {
+            "strategyId": "S8_HIGH_TIGHT_FLAG",
+            "status": "IMPLEMENTED_AND_TEST_VERIFIED",
+            "reachability": "CALLABLE",
+            "dataSupport": "DATA_SUPPORTED"
+          },
+          {
+            "strategyId": "S9_VOLUME_DRYUP",
+            "status": "IMPLEMENTED_AND_TEST_VERIFIED",
+            "reachability": "CALLABLE",
+            "dataSupport": "DATA_SUPPORTED"
+          },
+          {
+            "strategyId": "S10_TRENDLINE_ORB",
+            "status": "IMPLEMENTED_AND_TEST_VERIFIED",
+            "reachability": "CALLABLE",
+            "dataSupport": "DATA_SUPPORTED"
+          },
+          {
+            "strategyId": "S11_SECTOR_ROTATION",
+            "status": "IMPLEMENTED_AND_TEST_VERIFIED",
+            "reachability": "CALLABLE",
+            "dataSupport": "DATA_SUPPORTED"
+          },
+          {
+            "strategyId": "S12_S20_ADVANCED",
+            "status": "IMPLEMENTED_BUT_DATA_INSUFFICIENT",
+            "reachability": "NOT_CALLABLE",
+            "dataSupport": "DATA_INSUFFICIENT"
+          }
+        ]
+      }
+    },
+    {
+      "id": "REQUIREMENTS_TRACEABILITY",
+      "pass": true,
+      "evidence": {
+        "total": 49
+      }
+    },
+    {
+      "id": "PROVENANCE_NO_SYNTHETIC_DATA",
+      "pass": true,
+      "evidence": {
+        "datasetCount": 3
+      }
+    },
+    {
+      "id": "DATABASE_EXPECTED_COVERAGE",
+      "pass": true,
+      "evidence": {
+        "auditVersion": "3.7.0",
+        "database": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\data\\portfolio_v6.3_pilot_research.db",
+        "universe": {
+          "masterTickerCount": 5,
+          "listingRecordCount": 645
+        },
+        "calendar": {
+          "tradingSessionCount": 129
+        },
+        "coverage": {
+          "expectedKeyCount": 645,
+          "actualKeyCount": 645,
+          "missingKeyCount": 0,
+          "extraKeyCount": 0
+        },
+        "status": "COMPLETE",
+        "reason": "",
+        "missing": [],
+        "extra": []
+      }
+    },
+    {
+      "id": "DEF_004",
+      "pass": true,
+      "evidence": {
+        "auditVersion": "3.9.0",
+        "evaluatedAt": "2026-09-20T13:03:06.475Z",
+        "def004Status": "CLOSED",
+        "productionReady": true
+      }
+    },
+    {
+      "id": "FULL_REGRESSION",
+      "pass": true,
+      "evidence": {
+        "auditVersion": "3.9.0",
+        "evaluatedAt": "2026-09-20T13:03:06.476Z",
+        "status": "PASS",
+        "productionReady": true
+      }
+    },
+    {
+      "id": "OPERATIONAL_RESILIENCE",
+      "pass": true,
+      "evidence": "Verified FastTrack D2 operational readiness probes"
+    },
+    {
+      "id": "RPO",
+      "pass": true,
+      "evidence": "Verified FastTrack D2 recovery RTO=12.8s"
+    }
+  ],
+  "acquisition": true,
+  "economicReplay": true,
+  "productionReady": true,
+  "capitalDeploymentPrerequisites": true
+}

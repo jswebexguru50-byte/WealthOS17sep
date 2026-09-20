@@ -1,0 +1,52 @@
+[
+    {
+        "sourceCommit":  "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
+        "path":  "evidence/wave-3.9-preserved/02_TYPESCRIPT/WAVE3_9_TYPESCRIPT_EVIDENCE.json",
+        "executionTimestamp":  "2026-09-20T17:36:41.4131641+04:00",
+        "executionCommit":  "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
+        "workingTreeState":  "DIRTY",
+        "originalLocation":  "UNKNOWN",
+        "sizeBytes":  160,
+        "sha256":  "0FC4167E3427DC1B7A0832204E221611E06D1B9878CB82E2E6E9DB5F1E6F92FB"
+    },
+    {
+        "sourceCommit":  "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
+        "path":  "evidence/wave-3.9-preserved/04_DEF004/WAVE3_9_DEF004_STATUS.json",
+        "executionTimestamp":  "2026-09-20T17:36:41.4171642+04:00",
+        "executionCommit":  "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
+        "workingTreeState":  "DIRTY",
+        "originalLocation":  "UNKNOWN",
+        "sizeBytes":  129,
+        "sha256":  "9D192D72A229F92AFCABDAC72EC1E72BC5C8EB7F281A7FDF8D80717FCE989BAE"
+    },
+    {
+        "sourceCommit":  "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
+        "path":  "evidence/wave-3.9-preserved/06_REQUIREMENTS/WAVE3_9_REQUIREMENTS_TRACEABILITY.json",
+        "executionTimestamp":  "2026-09-20T17:36:41.4191641+04:00",
+        "executionCommit":  "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
+        "workingTreeState":  "DIRTY",
+        "originalLocation":  "UNKNOWN",
+        "sizeBytes":  445,
+        "sha256":  "8DB9CB5F148A629002CFAA825B7155F331C6A66615C93B6C9DCE1589AC4E9CD7"
+    },
+    {
+        "sourceCommit":  "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
+        "path":  "evidence/wave-3.9-preserved/07_REGRESSION/WAVE3_9_REGRESSION_EVIDENCE.json",
+        "executionTimestamp":  "2026-09-20T17:36:41.4221257+04:00",
+        "executionCommit":  "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
+        "workingTreeState":  "DIRTY",
+        "originalLocation":  "UNKNOWN",
+        "sizeBytes":  121,
+        "sha256":  "3A245F3D4D182359DCA36113D3B286F1BE0D36E5906ED38030989E4DD75BC0B6"
+    },
+    {
+        "sourceCommit":  "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
+        "path":  "evidence/wave-3.9-preserved/11_FINAL_GATE/PRODUCTION_READINESS_GATE_FINAL.json",
+        "executionTimestamp":  "2026-09-20T17:36:41.4241325+04:00",
+        "executionCommit":  "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
+        "workingTreeState":  "DIRTY",
+        "originalLocation":  "UNKNOWN",
+        "sizeBytes":  5234,
+        "sha256":  "4157A194F3D3EF7F1FF434D5BADF2B0608B048A7ABAB1044F66A1C95EF513341"
+    }
+]
