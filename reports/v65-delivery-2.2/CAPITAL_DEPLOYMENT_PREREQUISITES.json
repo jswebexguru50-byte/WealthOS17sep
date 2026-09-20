@@ -1,0 +1,21 @@
+{
+  "review_version": "2.2",
+  "evaluated_at": "2026-09-20T13:35:00+04:00",
+  "prerequisite_status": "CAPITAL_DEPLOYMENT_PREREQUISITES_NOT_MET",
+  "human_decision_boundary": "P10_REQUIRED",
+  "autonomous_capital_authorization": false,
+  "prerequisites_matrix": {
+    "frozen_controls_7_of_7": true,
+    "strategy_parameters_unchanged": true,
+    "technical_data_reconciled": true,
+    "def004_provenance_verified": false,
+    "pit_semantics_verified": true,
+    "execution_idempotency_verified": true,
+    "capital_protection_verified": true,
+    "kill_switch_verified": true,
+    "backup_restore_verified": true,
+    "security_audit_passed": true,
+    "independent_audit_passed": false
+  },
+  "blocker_reason": "DEF-004: Primary raw XBRL/PDF filing hashes and point-in-time publication timestamps unverified for HistoricalFinancialStatements and HistoricalShareholdingPattern."
+}

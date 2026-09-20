@@ -1,0 +1,65 @@
+{
+  "coverage_audit": {
+    "S1_S19_Core_Technical": {
+      "dependencies": [
+        "OHLCV_1m",
+        "OHLCV_15m",
+        "OHLCV_Daily",
+        "Market_Breadth_Indicators"
+      ],
+      "status": "UNVERIFIABLE",
+      "notes": "Pending explicit source validation of OHLCV structures."
+    },
+    "NEoWave_Engine": {
+      "dependencies": [
+        "OHLCV_Continuous_Futures",
+        "Tick_Level_Extreme_Points"
+      ],
+      "status": "MISSING",
+      "notes": "No tick-level or continuous futures feed natively confirmed in ingestion pipeline."
+    },
+    "Sector_Rotation_Double_Momentum": {
+      "dependencies": [
+        "Sectoral_Indices_Daily",
+        "Benchmark_NIFTY500_Daily"
+      ],
+      "status": "UNVERIFIABLE",
+      "notes": "Index composition and historical daily streams not independently traced."
+    },
+    "Fundamentals_Forensics": {
+      "dependencies": [
+        "Quarterly_Financials",
+        "Shareholding_Patterns",
+        "Corporate_Actions_Adjustment_Factors"
+      ],
+      "status": "UNVERIFIABLE",
+      "notes": "FundamentalData table exists, but ingestion pipeline coverage is unverified."
+    },
+    "Options_FnO": {
+      "dependencies": [
+        "Option_Chain_Snapshots",
+        "Implied_Volatility_Surfaces",
+        "Futures_Premium_Discount"
+      ],
+      "status": "MISSING",
+      "notes": "F&O pricing datasets not present in schema."
+    },
+    "Downstream_Filters": {
+      "dependencies": [
+        "Liquidity_Profiles",
+        "Circuit_Limit_Daily_Bands"
+      ],
+      "status": "UNVERIFIABLE",
+      "notes": "Circuit limits listed in schema, but daily ingestion is unverified."
+    },
+    "Execution_Risk": {
+      "dependencies": [
+        "Real_Time_Tick_Feed",
+        "Order_Book_Depth_L2"
+      ],
+      "status": "UNVERIFIABLE",
+      "notes": "Real-time tick engine presence assumed but not cryptographically matched to exchange."
+    }
+  },
+  "overall_status": "PENDING_PHYSICAL_VERIFICATION"
+}

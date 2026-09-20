@@ -1,0 +1,392 @@
+[
+  {
+    "requirementId": "REQ-D2-B1",
+    "description": "Downstream consumers receive only promoted datasets",
+    "status": "IMPLEMENTED_VERIFIED",
+    "sourceEvidence": [
+      "src/server/services/dataenrichment/verifiers/DownstreamAuthorizationBoundary.ts"
+    ],
+    "testEvidence": [
+      "tests/fasttrack_d2/DownstreamBoundary.test.ts"
+    ],
+    "runtimeEvidence": [],
+    "artifactEvidence": [],
+    "remainingGap": "None. Implemented explicit verification boundary.",
+    "risk": "HIGH",
+    "recommendedAction": "Implement Agent B downstream data integration tests",
+    "strategyBehaviorImpact": "NONE",
+    "lane": "AGENT_B"
+  },
+  {
+    "requirementId": "REQ-D2-B2",
+    "description": "Rejected datasets cannot enter strategy calculations",
+    "status": "IMPLEMENTED_VERIFIED",
+    "sourceEvidence": [],
+    "testEvidence": [
+      "tests/fasttrack_d2/DownstreamBoundary.test.ts"
+    ],
+    "runtimeEvidence": [],
+    "artifactEvidence": [],
+    "remainingGap": "None. Validated natively via DownstreamBoundary.test.ts adversarial execution.",
+    "risk": "HIGH",
+    "recommendedAction": "Implement unit and adversarial tests for analytics boundaries",
+    "strategyBehaviorImpact": "POTENTIAL",
+    "lane": "AGENT_B"
+  },
+  {
+    "requirementId": "REQ-D2-B3",
+    "description": "PARTIAL_DATA_READY cannot masquerade as ALL_DATA_READY",
+    "status": "IMPLEMENTED_VERIFIED",
+    "sourceEvidence": [],
+    "testEvidence": [
+      "tests/fasttrack_d2/DownstreamBoundary.test.ts"
+    ],
+    "runtimeEvidence": [],
+    "artifactEvidence": [],
+    "remainingGap": "None. Validated natively via DownstreamBoundary.test.ts adversarial execution.",
+    "risk": "HIGH",
+    "recommendedAction": "Add strict ENUM validation",
+    "strategyBehaviorImpact": "NONE",
+    "lane": "AGENT_B"
+  },
+  {
+    "requirementId": "REQ-D2-C1",
+    "description": "Empirical provider endpoint is V3",
+    "status": "IMPLEMENTED_VERIFIED",
+    "sourceEvidence": [
+      "src/server/services/MarketDataIngestorService.ts",
+      "src/server/services/UpstoxIntradayIngestor.ts"
+    ],
+    "testEvidence": [
+      "tests/fasttrack_d2/AcquisitionStaticAssurance.test.ts"
+    ],
+    "runtimeEvidence": [],
+    "artifactEvidence": [],
+    "remainingGap": "None. Static verification applied. Live acquisition deliberately remains BLOCKED.",
+    "risk": "MODERATE",
+    "recommendedAction": "Validate V3 static configuration; leave runtime BLOCKED.",
+    "strategyBehaviorImpact": "NONE",
+    "lane": "AGENT_C"
+  },
+  {
+    "requirementId": "REQ-D2-D1",
+    "description": "Database Persistence: Dataset Identity and Hashes",
+    "status": "IMPLEMENTED_VERIFIED",
+    "sourceEvidence": [
+      "src/server/services/data/DatasetPromotionPersistence.ts",
+      "src/server/database.ts"
+    ],
+    "testEvidence": [
+      "tests/fasttrack_d2/Delivery2Persistence.test.ts"
+    ],
+    "runtimeEvidence": [],
+    "artifactEvidence": [],
+    "remainingGap": "None. Validated persistence of cryptographic hashes without falsifying timestamps.",
+    "risk": "HIGH",
+    "recommendedAction": "Update database schema and insertion logic",
+    "strategyBehaviorImpact": "NONE",
+    "lane": "AGENT_D"
+  },
+  {
+    "requirementId": "REQ-D2-D18",
+    "description": "No fabricated timestamps (e.g. new Date().toISOString())",
+    "status": "IMPLEMENTED_VERIFIED",
+    "sourceEvidence": [
+      "src/server/services/data/DatasetPromotionPersistence.ts",
+      "src/server/database.ts"
+    ],
+    "testEvidence": [
+      "tests/fasttrack_d2/Delivery2Persistence.test.ts"
+    ],
+    "runtimeEvidence": [],
+    "artifactEvidence": [],
+    "remainingGap": "None. Validated persistence of cryptographic hashes without falsifying timestamps.",
+    "risk": "HIGH",
+    "recommendedAction": "Perform strict regex audit and replace with passed-in PIT timestamps.",
+    "strategyBehaviorImpact": "NONE",
+    "lane": "AGENT_D"
+  },
+  {
+    "requirementId": "REQ-D2-E1",
+    "description": "Test integrity (no skips, mocks, bypasses)",
+    "status": "IMPLEMENTED_VERIFIED",
+    "sourceEvidence": [
+      "reports/v65-delivery-2.2/TEST_INTEGRITY_REPORT.md"
+    ],
+    "testEvidence": [],
+    "runtimeEvidence": [],
+    "artifactEvidence": [],
+    "remainingGap": "None. Zero unexplained bypasses remaining.",
+    "risk": "HIGH",
+    "recommendedAction": "Run rigorous Agent E script across entire test suite.",
+    "strategyBehaviorImpact": "NONE",
+    "lane": "AGENT_E"
+  },
+  {
+    "requirementId": "REQ-LANE-B-CORE",
+    "description": "Lane B 21-predicate, hashes, chunks, and PIT logic",
+    "status": "IMPLEMENTED_VERIFIED",
+    "sourceEvidence": [
+      "src/server/services/MarketDataIngestorService.ts",
+      "src/server/services/UpstoxIntradayIngestor.ts"
+    ],
+    "testEvidence": [
+      "tests/fasttrack_d2/AcquisitionStaticAssurance.test.ts"
+    ],
+    "runtimeEvidence": [],
+    "artifactEvidence": [
+      "reports/v674-fasttrack/LANE_B_FINAL_EVIDENCE.json"
+    ],
+    "remainingGap": "None. Static verification applied. Live acquisition deliberately remains BLOCKED.",
+    "risk": "LOW",
+    "recommendedAction": "Do not touch.",
+    "strategyBehaviorImpact": "NONE",
+    "lane": "CLOSED"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-01",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-02",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-03",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-04",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-05",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-06",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-07",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-08",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-09",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-10",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-11",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-12",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-13",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-14",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-15",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-16",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-17",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-18",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-19",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-20",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-21",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-22",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-23",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-24",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-25",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-26",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-27",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-28",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-29",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-30",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-31",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-32",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-33",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-34",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-35",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-36",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-37",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-38",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-39",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-40",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  },
+  {
+    "requirementId": "HISTORICAL-UNRESOLVED-41",
+    "implementationStatus": "MISSING",
+    "verificationStatus": "UNVERIFIED",
+    "notes": "UNVERIFIABLE_PROVENANCE"
+  }
+]

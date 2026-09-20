@@ -1,0 +1,11 @@
+Historical reported requirement count: 49
+Current physical matrix record count: 8
+Current unique requirement count: 8
+Duplicate IDs: None
+New IDs: None
+Missing IDs (Count): 41
+Actual status counts:
+  IMPLEMENTED_VERIFIED: 8
+
+Reconciliation explanation:
+The historical master gap audit reported 49 requirements. However, the physical MASTER_GAP_MATRIX.json file currently contains only 8 records (a subset focusing on the key critical gaps for Wave 2.1). Previous automated reports incorrectly combined historical hardcoded counts for 41 omitted records with dynamic counts from the 8 present records, resulting in mathematically inconsistent totals (56/57 vs 49). The actual file contains exactly 8 records, 0 duplicates, and accurately reflects only the highly targeted subset of the audit.

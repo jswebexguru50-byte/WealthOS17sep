@@ -1,0 +1,20 @@
+[
+  {"Scope": "DEF-001 remediation", "Status": "AUTHORIZED"},
+  {"Scope": "DEF-002 remediation", "Status": "AUTHORIZED"},
+  {"Scope": "DEF-003 investigation", "Status": "READ_ONLY"},
+  {"Scope": "DEF-004 investigation", "Status": "READ_ONLY"},
+  {"Scope": "Data coverage audit", "Status": "READ_ONLY"},
+  {"Scope": "NSE reconciliation", "Status": "READ_ONLY"},
+  {"Scope": "PIT audit", "Status": "READ_ONLY"},
+  {"Scope": "Persistence verification", "Status": "READ_ONLY"},
+  {"Scope": "Execution audit", "Status": "READ_ONLY"},
+  {"Scope": "Capital safety audit", "Status": "READ_ONLY"},
+  {"Scope": "Operations audit", "Status": "READ_ONLY"},
+  {"Scope": "Security audit", "Status": "READ_ONLY"},
+  {"Scope": "Backup/restore audit", "Status": "READ_ONLY"},
+  {"Scope": "Historical data repair", "Status": "UNAUTHORIZED"},
+  {"Scope": "Empirical acquisition", "Status": "UNAUTHORIZED"},
+  {"Scope": "Economic replay", "Status": "UNAUTHORIZED"},
+  {"Scope": "Live trading", "Status": "UNAUTHORIZED"},
+  {"Scope": "Capital deployment", "Status": "HUMAN ONLY"}
+]

@@ -1,0 +1,50 @@
+{
+  "timestamp": "2026-09-20T10:38:00+04:00",
+  "wave": "3.2",
+  "baseline_commit": "a1c80fcfb4a2548e9c9bba3ed2359ecb4f0aff5d",
+  "frozen_controls": {
+    "status": "7/7 MATCH",
+    "hash_6_reconciliation": {
+      "status": "RECONCILIATED",
+      "canonical_hash": "0F1C96D0E0C704672517F378990E17FACDCED7BFBF359DAF9C6F37333BE1B151",
+      "physical_hash": "0F1C96D0E0C704672517F378990E17FACDCED7BFBF359DAF9C6F37333BE1B151",
+      "classification": "RESOLVED — REPORTING/TRANSCRIPTION ERROR"
+    }
+  },
+  "targeted_defects": {
+    "DEF-001": "VERIFIED",
+    "DEF-002": "VERIFIED"
+  },
+  "targeted_tests": {
+    "total": 6,
+    "passed": 6,
+    "failed": 0,
+    "status": "PASS"
+  },
+  "regression_classifications": [
+    {
+      "file": "tests/fasttrack_d2/DatasetPromotionMigration.test.ts",
+      "assertion": "expected { ... } to be undefined (line 91)",
+      "classification": "PRE_EXISTING_HARNESS_DEFECT",
+      "production_impact": false
+    },
+    {
+      "file": "tests/fasttrack_d2/RecordValuationSnapshotTimestamp.test.ts",
+      "assertion": "Hook timed out in 10000ms (line 14)",
+      "classification": "ENVIRONMENTAL_FAILURE",
+      "production_impact": false
+    }
+  ],
+  "data_trust": {
+    "status": "PARTIAL",
+    "DEF-004": "OPEN — CRITICAL DATA TRUST GAP"
+  },
+  "lane_b": "CLOSED",
+  "acquisition_flags": {
+    "FILTER_DATA_READY": false,
+    "EMPIRICAL_ACQUISITION": false,
+    "ECONOMIC_REPLAY": false
+  },
+  "production_readiness": "PENDING",
+  "capital_deployment_prerequisites": "PENDING"
+}

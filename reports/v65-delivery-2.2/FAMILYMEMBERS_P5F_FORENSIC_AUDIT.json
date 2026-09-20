@@ -1,0 +1,23 @@
+{
+  "auditTitle": "FAMILYMEMBERS & P5-F FORENSIC AUDIT",
+  "auditDate": "2026-09-20T08:29:00+04:00",
+  "findings": [
+    {
+      "component": "FamilyMembers",
+      "file": "src/server/database.ts",
+      "line": 2972,
+      "defectType": "CODE_DEFECT",
+      "description": "Empty array truthy evaluation in PRAGMA table_info(FamilyMembers) leading to unhandled no such table errors when table is absent",
+      "requiredGuard": "if (fmCols && fmCols.length > 0)"
+    },
+    {
+      "component": "P5-F Index Robustness",
+      "file": "src/server/database.ts",
+      "lines": [2600, 2620, 2659, 2709, 2730, 2770],
+      "defectType": "ASYNC_RACE_DEFECT",
+      "description": "Un-callbacked CREATE INDEX IF NOT EXISTS execution against asynchronous CREATE TABLE statements causing no such table errors in un-checkpointed or in-memory databases",
+      "remediation": "Nest CREATE INDEX execution inside CREATE TABLE completion callbacks"
+    }
+  ],
+  "auditStatus": "COMPLETE"
+}

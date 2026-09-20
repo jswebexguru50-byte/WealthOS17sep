@@ -1,0 +1,37 @@
+{
+  "timestamp": "2026-09-20T10:27:35Z",
+  "head": "a1c80fcfb4a2548e9c9bba3ed2359ecb4f0aff5d",
+  "defects": {
+    "DEF-001": "IMPLEMENTED_AND_VERIFIED",
+    "DEF-002": "IMPLEMENTED_AND_VERIFIED",
+    "DEF-003": "READ_ONLY_AUDITED",
+    "DEF-004": "READ_ONLY_AUDITED"
+  },
+  "frozen_controls": {
+    "status": "7/7 MATCH",
+    "files": {
+      "PureTechnicalStrategiesEngine.ts": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3",
+      "StrategyParameterConfig.ts": "901CA7A27B2EB4E09183426C9E0DFD7B812AEEBF84472B49B9F829661FE7194B",
+      "SignalQualityOverlay.ts": "C41CDDB152C150BEA932A8B9BD8FCC6EA01A03A2BA030A723789AAADA5C17452",
+      "CapitalProtectionEngine.ts": "63B8317889F5A60E9462F883E89ACB57FE99E819935EC8F7B30036ECFE4ED753",
+      "NewTechnicalStrategiesEngine.ts": "78415BA3C74CA6A9CC2FCC96D2E54BA871E9BCA73FC6E078570C412781B1D354",
+      "UpstoxIntradayIngestor.ts": "0F1C96D0E0C704672517F378990E17FACDCED7BFBF359DAF9C6F37333BE1B151",
+      "v6.3_REAL_trade_identity_ledger.jsonl": "035D8867F1F8DBC65F9FE35EA45263F20F9FEE00A48D3D7F48807C24A2AFD485"
+    }
+  },
+  "controls": {
+    "FILTER_DATA_READY": false,
+    "EMPIRICAL_ACQUISITION": false,
+    "ECONOMIC_REPLAY": false
+  },
+  "targeted_tests": {
+    "DEF001_TimestampSemantics.test.ts": "4/4 PASS",
+    "DEF002_MasterTickerBootstrap.test.ts": "2/2 PASS"
+  },
+  "audits": {
+    "FamilyMembers_P5F": "FAMILYMEMBERS_P5F_FORENSIC_AUDIT.md",
+    "Data_Trust": "DATA_TRUST_PROVENANCE_AUDIT.md"
+  },
+  "production_readiness": "PENDING",
+  "capital_deployment": "PENDING"
+}

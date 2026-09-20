@@ -1,0 +1,12 @@
+{
+  "head": "a1c80fcfb4a2548e9c9bba3ed2359ecb4f0aff5d",
+  "branch": "master",
+  "workingTree": "dirty",
+  "frozenHashes": "7/7 MATCH",
+  "laneBStatus": "CLOSED",
+  "filterDataReady": false,
+  "empiricalAcquisition": false,
+  "economicReplay": false,
+  "testBaseline": "PENDING",
+  "databaseIdentity": "portfolio.db"
+}

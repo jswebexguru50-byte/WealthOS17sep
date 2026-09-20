@@ -1,0 +1,30 @@
+{
+  "map_version": "2.2",
+  "generated_at": "2026-09-20T13:35:00+04:00",
+  "data_categories": {
+    "technical": [
+      { "dataset": "OHLCV_Daily", "source": "NSE", "pit_mandatory": true, "table": "daily_ohlcv" },
+      { "dataset": "Intraday_15m", "source": "Upstox", "pit_mandatory": true, "table": "intraday_candles" },
+      { "dataset": "Delivery_Reports", "source": "NSE", "pit_mandatory": true, "table": "delivery_data" },
+      { "dataset": "Corporate_Actions", "source": "NSE", "pit_mandatory": true, "table": "corporate_actions" },
+      { "dataset": "Security_Master", "source": "NSE", "pit_mandatory": true, "table": "MasterTicker" }
+    ],
+    "index": [
+      { "dataset": "Nifty50_OHLC", "source": "NSE_Indices", "pit_mandatory": true },
+      { "dataset": "Nifty500_OHLC", "source": "NSE_Indices", "pit_mandatory": true },
+      { "dataset": "Sector_Indices", "source": "NSE_Indices", "pit_mandatory": true },
+      { "dataset": "Historical_Constituents", "source": "NSE_Index_Gov", "pit_mandatory": true }
+    ],
+    "derivatives": [
+      { "dataset": "Open_Interest", "source": "NSE_F&O", "pit_mandatory": true },
+      { "dataset": "Put_Call_Ratio", "source": "NSE_F&O", "pit_mandatory": true },
+      { "dataset": "MWPL_Ban_List", "source": "NSE_F&O", "pit_mandatory": true }
+    ],
+    "fundamental": [
+      { "dataset": "Financial_Statements", "source": "BSE_NSE_Filings", "pit_mandatory": true },
+      { "dataset": "Shareholding_Patterns", "source": "BSE_NSE_Filings", "pit_mandatory": true },
+      { "dataset": "Insider_Trading_SAST", "source": "SEBI_Disclosures", "pit_mandatory": true }
+    ]
+  },
+  "strategy_engines": ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9", "S10", "S11", "S12", "S13", "S14", "S15", "S16", "S17", "S18", "S19", "S20"]
+}

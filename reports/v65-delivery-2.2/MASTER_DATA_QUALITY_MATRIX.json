@@ -1,0 +1,36 @@
+{
+  "matrix_version": "2.2",
+  "audit_timestamp": "2026-09-20T13:35:00+04:00",
+  "overall_data_trust": "PARTIAL",
+  "def004_status": "OPEN",
+  "datasets": {
+    "DailyOHLCV": {
+      "authority": "NSE_AUTHORITATIVE_VERIFIED",
+      "accuracy": "ACCURATE_RECONCILED",
+      "completeness": "COMPLETE",
+      "freshness": "CURRENT",
+      "overall": "TRUSTED"
+    },
+    "ValuationSnapshots": {
+      "authority": "NSE_AUTHORIZED_VENDOR_VERIFIED",
+      "accuracy": "ACCURATE_WITH_DOCUMENTED_TOLERANCE",
+      "completeness": "COMPLETE",
+      "freshness": "CURRENT",
+      "overall": "TRUSTED"
+    },
+    "HistoricalFinancialStatements": {
+      "authority": "PROVENANCE_UNVERIFIED",
+      "accuracy": "UNVERIFIABLE",
+      "completeness": "PARTIAL",
+      "freshness": "UNKNOWN",
+      "overall": "NOT_TRUSTED"
+    },
+    "HistoricalShareholdingPattern": {
+      "authority": "PROVENANCE_UNVERIFIED",
+      "accuracy": "UNVERIFIABLE",
+      "completeness": "PARTIAL",
+      "freshness": "UNKNOWN",
+      "overall": "NOT_TRUSTED"
+    }
+  }
+}

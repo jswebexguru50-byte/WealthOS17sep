@@ -1,0 +1,462 @@
+{
+  "requirements": [
+    {
+      "requirementId": "REQ-D2-B1",
+      "requirement": "Downstream consumers receive only promoted datasets",
+      "source": "reports/v65-delivery-2.2/MASTER_GAP_MATRIX.json",
+      "scope": "Wave 2.1",
+      "wave": "2.1",
+      "status": "IMPLEMENTED_VERIFIED",
+      "implementationEvidence": [
+        "src/server/services/dataenrichment/verifiers/DownstreamAuthorizationBoundary.ts"
+      ],
+      "testEvidence": [
+        "tests/fasttrack_d2/DownstreamBoundary.test.ts"
+      ],
+      "physicalEvidence": [],
+      "independentVerification": [
+        "reports/v65-delivery-2.2/FINAL_INDEPENDENT_AUDIT_WAVE2_1.md"
+      ],
+      "remainingGap": "None",
+      "nextAction": "None"
+    },
+    {
+      "requirementId": "REQ-D2-B2",
+      "requirement": "Rejected datasets cannot enter strategy calculations",
+      "source": "reports/v65-delivery-2.2/MASTER_GAP_MATRIX.json",
+      "scope": "Wave 2.1",
+      "wave": "2.1",
+      "status": "IMPLEMENTED_VERIFIED",
+      "implementationEvidence": [
+        "src/server/services/dataenrichment/verifiers/DownstreamAuthorizationBoundary.ts"
+      ],
+      "testEvidence": [
+        "tests/fasttrack_d2/DownstreamBoundary.test.ts"
+      ],
+      "physicalEvidence": [],
+      "independentVerification": [
+        "reports/v65-delivery-2.2/FINAL_INDEPENDENT_AUDIT_WAVE2_1.md"
+      ],
+      "remainingGap": "None",
+      "nextAction": "None"
+    },
+    {
+      "requirementId": "REQ-D2-B3",
+      "requirement": "PARTIAL_DATA_READY cannot masquerade as ALL_DATA_READY",
+      "source": "reports/v65-delivery-2.2/MASTER_GAP_MATRIX.json",
+      "scope": "Wave 2.1",
+      "wave": "2.1",
+      "status": "IMPLEMENTED_VERIFIED",
+      "implementationEvidence": [
+        "src/server/services/dataenrichment/verifiers/DownstreamAuthorizationBoundary.ts"
+      ],
+      "testEvidence": [
+        "tests/fasttrack_d2/DownstreamBoundary.test.ts"
+      ],
+      "physicalEvidence": [],
+      "independentVerification": [
+        "reports/v65-delivery-2.2/FINAL_INDEPENDENT_AUDIT_WAVE2_1.md"
+      ],
+      "remainingGap": "None",
+      "nextAction": "None"
+    },
+    {
+      "requirementId": "REQ-D2-C1",
+      "requirement": "Empirical provider endpoint is V3",
+      "source": "reports/v65-delivery-2.2/MASTER_GAP_MATRIX.json",
+      "scope": "Wave 2.1",
+      "wave": "2.1",
+      "status": "IMPLEMENTED_VERIFIED",
+      "implementationEvidence": [
+        "src/server/services/MarketDataIngestorService.ts",
+        "src/server/services/UpstoxIntradayIngestor.ts"
+      ],
+      "testEvidence": [
+        "tests/fasttrack_d2/AcquisitionStaticAssurance.test.ts"
+      ],
+      "physicalEvidence": [],
+      "independentVerification": [
+        "reports/v65-delivery-2.2/FINAL_INDEPENDENT_AUDIT_WAVE2_1.md"
+      ],
+      "remainingGap": "None",
+      "nextAction": "None"
+    },
+    {
+      "requirementId": "REQ-D2-D1",
+      "requirement": "Database Persistence: Dataset Identity and Hashes",
+      "source": "reports/v65-delivery-2.2/MASTER_GAP_MATRIX.json",
+      "scope": "Wave 2.1",
+      "wave": "2.1",
+      "status": "IMPLEMENTED_VERIFIED",
+      "implementationEvidence": [
+        "src/server/services/data/DatasetPromotionPersistence.ts",
+        "src/server/database.ts"
+      ],
+      "testEvidence": [
+        "tests/fasttrack_d2/Delivery2Persistence.test.ts"
+      ],
+      "physicalEvidence": [],
+      "independentVerification": [
+        "reports/v65-delivery-2.2/FINAL_INDEPENDENT_AUDIT_WAVE2_1.md"
+      ],
+      "remainingGap": "None",
+      "nextAction": "None"
+    },
+    {
+      "requirementId": "REQ-D2-D18",
+      "requirement": "No fabricated timestamps (e.g. new Date().toISOString())",
+      "source": "reports/v65-delivery-2.2/MASTER_GAP_MATRIX.json",
+      "scope": "Wave 2.1",
+      "wave": "2.1",
+      "status": "IMPLEMENTED_VERIFIED",
+      "implementationEvidence": [
+        "src/server/services/data/DatasetPromotionPersistence.ts",
+        "src/server/database.ts"
+      ],
+      "testEvidence": [
+        "tests/fasttrack_d2/Delivery2Persistence.test.ts"
+      ],
+      "physicalEvidence": [],
+      "independentVerification": [
+        "reports/v65-delivery-2.2/FINAL_INDEPENDENT_AUDIT_WAVE2_1.md"
+      ],
+      "remainingGap": "None",
+      "nextAction": "None"
+    },
+    {
+      "requirementId": "REQ-D2-E1",
+      "requirement": "Test integrity (no skips, mocks, bypasses)",
+      "source": "reports/v65-delivery-2.2/MASTER_GAP_MATRIX.json",
+      "scope": "Wave 2.1",
+      "wave": "2.1",
+      "status": "IMPLEMENTED_VERIFIED",
+      "implementationEvidence": [
+        "reports/v65-delivery-2.2/TEST_INTEGRITY_REPORT.md"
+      ],
+      "testEvidence": [],
+      "physicalEvidence": [],
+      "independentVerification": [
+        "reports/v65-delivery-2.2/FINAL_INDEPENDENT_AUDIT_WAVE2_1.md"
+      ],
+      "remainingGap": "None",
+      "nextAction": "None"
+    },
+    {
+      "requirementId": "REQ-LANE-B-CORE",
+      "requirement": "Lane B 21-predicate, hashes, chunks, and PIT logic",
+      "source": "reports/v65-delivery-2.2/MASTER_GAP_MATRIX.json",
+      "scope": "Wave 2.1",
+      "wave": "2.1",
+      "status": "IMPLEMENTED_VERIFIED",
+      "implementationEvidence": [
+        "src/server/services/MarketDataIngestorService.ts",
+        "src/server/services/UpstoxIntradayIngestor.ts"
+      ],
+      "testEvidence": [
+        "tests/fasttrack_d2/AcquisitionStaticAssurance.test.ts"
+      ],
+      "physicalEvidence": [
+        "reports/v674-fasttrack/LANE_B_FINAL_EVIDENCE.json"
+      ],
+      "independentVerification": [
+        "reports/v65-delivery-2.2/FINAL_INDEPENDENT_AUDIT_WAVE2_1.md"
+      ],
+      "remainingGap": "None",
+      "nextAction": "None"
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-01",
+      "title": "Unknown Historical Requirement 1",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-02",
+      "title": "Unknown Historical Requirement 2",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-03",
+      "title": "Unknown Historical Requirement 3",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-04",
+      "title": "Unknown Historical Requirement 4",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-05",
+      "title": "Unknown Historical Requirement 5",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-06",
+      "title": "Unknown Historical Requirement 6",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-07",
+      "title": "Unknown Historical Requirement 7",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-08",
+      "title": "Unknown Historical Requirement 8",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-09",
+      "title": "Unknown Historical Requirement 9",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-10",
+      "title": "Unknown Historical Requirement 10",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-11",
+      "title": "Unknown Historical Requirement 11",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-12",
+      "title": "Unknown Historical Requirement 12",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-13",
+      "title": "Unknown Historical Requirement 13",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-14",
+      "title": "Unknown Historical Requirement 14",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-15",
+      "title": "Unknown Historical Requirement 15",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-16",
+      "title": "Unknown Historical Requirement 16",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-17",
+      "title": "Unknown Historical Requirement 17",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-18",
+      "title": "Unknown Historical Requirement 18",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-19",
+      "title": "Unknown Historical Requirement 19",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-20",
+      "title": "Unknown Historical Requirement 20",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-21",
+      "title": "Unknown Historical Requirement 21",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-22",
+      "title": "Unknown Historical Requirement 22",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-23",
+      "title": "Unknown Historical Requirement 23",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-24",
+      "title": "Unknown Historical Requirement 24",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-25",
+      "title": "Unknown Historical Requirement 25",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-26",
+      "title": "Unknown Historical Requirement 26",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-27",
+      "title": "Unknown Historical Requirement 27",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-28",
+      "title": "Unknown Historical Requirement 28",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-29",
+      "title": "Unknown Historical Requirement 29",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-30",
+      "title": "Unknown Historical Requirement 30",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-31",
+      "title": "Unknown Historical Requirement 31",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-32",
+      "title": "Unknown Historical Requirement 32",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-33",
+      "title": "Unknown Historical Requirement 33",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-34",
+      "title": "Unknown Historical Requirement 34",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-35",
+      "title": "Unknown Historical Requirement 35",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-36",
+      "title": "Unknown Historical Requirement 36",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-37",
+      "title": "Unknown Historical Requirement 37",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-38",
+      "title": "Unknown Historical Requirement 38",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-39",
+      "title": "Unknown Historical Requirement 39",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-40",
+      "title": "Unknown Historical Requirement 40",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    },
+    {
+      "requirementId": "HISTORICAL-UNRESOLVED-41",
+      "title": "Unknown Historical Requirement 41",
+      "status": "UNVERIFIABLE_PROVENANCE",
+      "verificationMethod": "NONE",
+      "notes": "Provenance lost. No explicit traces found in current repository documentation or code."
+    }
+  ],
+  "historical49Reconciliation": {
+    "historicalClaimedCount": 49,
+    "physicallyIdentifiedCurrentRequirementCount": 8,
+    "historicalItemsIndividuallyReconciled": false,
+    "unresolvedHistoricalItems": 41,
+    "provenanceStatus": "UNVERIFIABLE_PROVENANCE"
+  }
+}

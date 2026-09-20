@@ -1,0 +1,28 @@
+{
+  "reconciliation_version": "2.2",
+  "executed_at": "2026-09-20T13:35:00+04:00",
+  "sampled_instruments": 750,
+  "sampled_dates_count": 365,
+  "exact_matches": {
+    "symbol": 750,
+    "isin": 750,
+    "trade_date": 365,
+    "volume": 273750,
+    "corporate_actions": 142
+  },
+  "tolerance_matches": {
+    "open_price": { "tolerance": "0.0001%", "passed": 273750, "failed": 0 },
+    "high_price": { "tolerance": "0.0001%", "passed": 273750, "failed": 0 },
+    "low_price": { "tolerance": "0.0001%", "passed": 273750, "failed": 0 },
+    "close_price": { "tolerance": "0.0001%", "passed": 273750, "failed": 0 }
+  },
+  "discrepancies": [
+    {
+      "class": "SOURCE_MISMATCH",
+      "dataset": "HistoricalFinancialStatements",
+      "status": "OPEN",
+      "details": "Vendor scraped PAT differs from BSE XBRL filing by rounding tolerance in 4 historical quarters."
+    }
+  ],
+  "status": "RECONCILED_WITH_EXCEPTIONS"
+}

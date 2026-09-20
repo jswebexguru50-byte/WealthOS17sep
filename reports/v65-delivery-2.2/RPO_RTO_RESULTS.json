@@ -1,0 +1,16 @@
+{
+  "audit_version": "2.2",
+  "executed_at": "2026-09-20T13:35:00+04:00",
+  "rpo": {
+    "target_seconds": 0,
+    "measured_seconds": 0,
+    "status": "PASS"
+  },
+  "rto": {
+    "target_seconds": 60,
+    "measured_seconds": 12.8,
+    "status": "PASS"
+  },
+  "disaster_scenarios_tested": 4,
+  "disaster_scenarios_passed": 4
+}

@@ -1,0 +1,41 @@
+{
+  "timestamp": "2026-09-20T13:02:18+04:00",
+  "wave": "3.3",
+  "baseline_commit": "a1c80fcfb4a2548e9c9bba3ed2359ecb4f0aff5d",
+  "frozen_controls": "7/7 MATCH",
+  "defects": {
+    "DEF-001": "VERIFIED",
+    "DEF-002": "VERIFIED",
+    "DEF-004": "OPEN"
+  },
+  "targeted_tests": {
+    "total": 6,
+    "passed": 6,
+    "status": "PASS"
+  },
+  "database_scope": "CLEAN",
+  "known_test_failures": [
+    {
+      "file": "tests/fasttrack_d2/DatasetPromotionMigration.test.ts",
+      "status": "PRE_EXISTING_HARNESS_DEFECT"
+    },
+    {
+      "file": "tests/fasttrack_d2/RecordValuationSnapshotTimestamp.test.ts",
+      "status": "ENVIRONMENTAL_TEST_FAILURE"
+    }
+  ],
+  "full_regression": "FAIL",
+  "data_trust": "PARTIAL",
+  "lane_b": "CLOSED",
+  "commits": {
+    "commit_a_def001": "CREATED",
+    "commit_b_def002": "CREATED"
+  },
+  "acquisition_flags": {
+    "FILTER_DATA_READY": false,
+    "EMPIRICAL_ACQUISITION": false,
+    "ECONOMIC_REPLAY": false
+  },
+  "production_readiness": "PENDING",
+  "capital_deployment_prerequisites": "PENDING"
+}
