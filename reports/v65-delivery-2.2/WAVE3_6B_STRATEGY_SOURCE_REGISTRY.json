@@ -1,0 +1,36 @@
+{
+  "registry_version": "3.6B",
+  "audit_timestamp": "2026-09-20T14:10:00+04:00",
+  "strategies_evaluated": 20,
+  "canonical_family": {
+    "S1": { "name": "VPA Alignment & Base Compaction Breakout", "engine": "PureTechnicalStrategiesEngine", "method": "evaluateStrategy1", "implementationStatus": "IMPLEMENTED_EXECUTABLE", "executionStatus": "EXECUTABLE", "dataDependencies": ["DailyOHLCV"], "dbTables": ["daily_ohlcv"] },
+    "S2": { "name": "Institutional Inflow + FVG & CE Pullback", "engine": "PureTechnicalStrategiesEngine", "method": "evaluateStrategy2", "implementationStatus": "IMPLEMENTED_EXECUTABLE", "executionStatus": "EXECUTABLE", "dataDependencies": ["DailyOHLCV"], "dbTables": ["daily_ohlcv"] },
+    "S3": { "name": "HH/HL Sequential Compaction", "engine": "PureTechnicalStrategiesEngine", "method": "evaluateStrategy3", "implementationStatus": "IMPLEMENTED_EXECUTABLE", "executionStatus": "EXECUTABLE", "dataDependencies": ["DailyOHLCV"], "dbTables": ["daily_ohlcv"] },
+    "S4": { "name": "Trend Following Moving Average Crossover", "engine": "PureTechnicalStrategiesEngine", "method": "evaluateStrategy4", "implementationStatus": "IMPLEMENTED_EXECUTABLE", "executionStatus": "EXECUTABLE", "dataDependencies": ["DailyOHLCV"], "dbTables": ["daily_ohlcv"] },
+    "S5": { "name": "Momentum Pullback EMA21", "engine": "PureTechnicalStrategiesEngine", "method": "evaluateStrategy5", "implementationStatus": "IMPLEMENTED_EXECUTABLE", "executionStatus": "EXECUTABLE", "dataDependencies": ["DailyOHLCV"], "dbTables": ["daily_ohlcv"] },
+    "S6": { "name": "Volatility Expansion Breakout", "engine": "PureTechnicalStrategiesEngine", "method": "evaluateStrategy6", "implementationStatus": "IMPLEMENTED_EXECUTABLE", "executionStatus": "EXECUTABLE", "dataDependencies": ["DailyOHLCV"], "dbTables": ["daily_ohlcv"] },
+    "S7": { "name": "Mean Reversion RSI Oversold", "engine": "PureTechnicalStrategiesEngine", "method": "evaluateStrategy7", "implementationStatus": "IMPLEMENTED_EXECUTABLE", "executionStatus": "EXECUTABLE", "dataDependencies": ["DailyOHLCV"], "dbTables": ["daily_ohlcv"] },
+    "S8": { "name": "High-Tight Flag Breakout", "engine": "PureTechnicalStrategiesEngine", "method": "evaluateStrategy8", "implementationStatus": "IMPLEMENTED_EXECUTABLE", "executionStatus": "EXECUTABLE", "dataDependencies": ["DailyOHLCV"], "dbTables": ["daily_ohlcv"] },
+    "S9": { "name": "50-Day High Momentum Consolidation", "engine": "PureTechnicalStrategiesEngine", "method": "evaluateStrategy9", "implementationStatus": "IMPLEMENTED_EXECUTABLE", "executionStatus": "EXECUTABLE", "dataDependencies": ["DailyOHLCV"], "dbTables": ["daily_ohlcv"] },
+    "S10": { "name": "Intraday Opening Range Breakout (ORB)", "engine": "PureTechnicalStrategiesEngine", "method": "evaluateStrategy10", "implementationStatus": "IMPLEMENTED_DATA_INSUFFICIENT", "executionStatus": "DATA_INSUFFICIENT", "dataDependencies": ["Intraday_15m"], "dbTables": ["intraday_candles"] },
+    "S11": { "name": "Wyckoff Spring Reclaim", "engine": "PureTechnicalStrategiesEngine", "method": "evaluateStrategy11", "implementationStatus": "IMPLEMENTED_EXECUTABLE", "executionStatus": "EXECUTABLE", "dataDependencies": ["DailyOHLCV"], "dbTables": ["daily_ohlcv"] },
+    "S12": { "name": "Catalyst/Earnings Acceleration", "engine": "None", "method": "N/A", "implementationStatus": "NOT_IMPLEMENTED", "executionStatus": "DATA_INSUFFICIENT", "dataDependencies": ["Earnings_Data"], "dbTables": [] },
+    "S13": { "name": "Earnings Growth Impulse", "engine": "None", "method": "N/A", "implementationStatus": "NOT_IMPLEMENTED", "executionStatus": "DATA_INSUFFICIENT", "dataDependencies": ["Quarterly_Financials"], "dbTables": [] },
+    "S14": { "name": "Futures Open Interest Expansion", "engine": "None", "method": "N/A", "implementationStatus": "NOT_IMPLEMENTED", "executionStatus": "DATA_INSUFFICIENT", "dataDependencies": ["FNO_Derivatives"], "dbTables": [] },
+    "S15": { "name": "Options Put-Call Skew Reversion", "engine": "None", "method": "N/A", "implementationStatus": "NOT_IMPLEMENTED", "executionStatus": "DATA_INSUFFICIENT", "dataDependencies": ["FNO_Options"], "dbTables": [] },
+    "S16": { "name": "Fundamental QGLP Quality Filter", "engine": "None", "method": "N/A", "implementationStatus": "NOT_IMPLEMENTED", "executionStatus": "DATA_INSUFFICIENT", "dataDependencies": ["Financial_Statements"], "dbTables": [] },
+    "S17": { "name": "Promoter SAST Accumulation", "engine": "None", "method": "N/A", "implementationStatus": "NOT_IMPLEMENTED", "executionStatus": "DATA_INSUFFICIENT", "dataDependencies": ["SAST_Disclosures"], "dbTables": [] },
+    "S18": { "name": "Block Deal Accumulation Spike", "engine": "None", "method": "N/A", "implementationStatus": "NOT_IMPLEMENTED", "executionStatus": "DATA_INSUFFICIENT", "dataDependencies": ["Block_Deals"], "dbTables": [] },
+    "S19": { "name": "Daily Delivery Volume Surge", "engine": "None", "method": "N/A", "implementationStatus": "NOT_IMPLEMENTED", "executionStatus": "DATA_INSUFFICIENT", "dataDependencies": ["Delivery_Reports"], "dbTables": [] },
+    "S20": { "name": "Structural NEoWave Wave 3 Impulse", "engine": "None", "method": "N/A", "implementationStatus": "NOT_IMPLEMENTED", "executionStatus": "DATA_INSUFFICIENT", "dataDependencies": ["Wave_Analysis"], "dbTables": [] }
+  },
+  "modular_family": {
+    "S8B": { "name": "Classical Bull Flag", "engine": "NewTechnicalStrategiesEngine", "method": "evaluateS8B_ClassicalBullFlag", "implementationStatus": "FEATURE_FLAGGED" },
+    "S21": { "name": "Cup & Handle Pivot", "engine": "NewTechnicalStrategiesEngine", "method": "evaluateS21_CupAndHandle", "implementationStatus": "FEATURE_FLAGGED" },
+    "S22": { "name": "John Carter Volatility Squeeze", "engine": "NewTechnicalStrategiesEngine", "method": "evaluateS22_VolatilitySqueeze", "implementationStatus": "FEATURE_FLAGGED" },
+    "S23": { "name": "Classical Double Bottom", "engine": "NewTechnicalStrategiesEngine", "method": "evaluateS23_DoubleBottom", "implementationStatus": "FEATURE_FLAGGED" },
+    "S24": { "name": "Double Top Distribution Exit", "engine": "NewTechnicalStrategiesEngine", "method": "evaluateS24_DoubleTopExit", "implementationStatus": "FEATURE_FLAGGED" },
+    "S25": { "name": "Inverse Head & Shoulders", "engine": "NewTechnicalStrategiesEngine", "method": "evaluateS25_InverseHeadAndShoulders", "implementationStatus": "FEATURE_FLAGGED" },
+    "S26": { "name": "Head & Shoulders Top Exit", "engine": "NewTechnicalStrategiesEngine", "method": "evaluateS26_HeadAndShouldersExit", "implementationStatus": "FEATURE_FLAGGED" }
+  }
+}
