@@ -1,0 +1,16 @@
+[
+  {
+    "strategyId": "S10",
+    "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "sourceFunction": "evaluateS10",
+    "parameterName": "intraday5MinBars",
+    "sourceField": "timestamp,open,high,low,close,volume",
+    "formula": "Opening Range Breakout (09:15-09:30 ORB) + VWAP Support",
+    "lookback": "75 bars (1D)",
+    "frequency": "5MIN",
+    "requiredHistory": "2018-01-01 to 2026-04-05",
+    "PITRequired": true,
+    "availabilityTimestampRequired": true,
+    "dependencyType": "INTRADAY"
+  }
+]

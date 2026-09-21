@@ -1,0 +1,535 @@
+[
+  {
+    "evidenceId": "EVID_AGENT1_S1_S10_SOURCE_MAP",
+    "agentId": "Agent1",
+    "category": "SOURCE_CODE",
+    "claim": "Inspected source code line ranges and dependencies for strategies S1 through S10.",
+    "observedValue": [
+      {
+        "strategyId": "S1",
+        "name": "Technical Strategy S1",
+        "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+        "functionName": "evaluateS1",
+        "startLine": 739,
+        "endLine": 779,
+        "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+      },
+      {
+        "strategyId": "S2",
+        "name": "Technical Strategy S2",
+        "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+        "functionName": "evaluateS2",
+        "startLine": 1126,
+        "endLine": 1166,
+        "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+      },
+      {
+        "strategyId": "S3",
+        "name": "Technical Strategy S3",
+        "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+        "functionName": "evaluateS3",
+        "startLine": 1605,
+        "endLine": 1645,
+        "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+      },
+      {
+        "strategyId": "S4",
+        "name": "Technical Strategy S4",
+        "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+        "functionName": "evaluateS4",
+        "startLine": 2119,
+        "endLine": 2159,
+        "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+      },
+      {
+        "strategyId": "S5",
+        "name": "Technical Strategy S5",
+        "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+        "functionName": "evaluateS5",
+        "startLine": 2434,
+        "endLine": 2474,
+        "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+      },
+      {
+        "strategyId": "S6",
+        "name": "Technical Strategy S6",
+        "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+        "functionName": "evaluateS6",
+        "startLine": 2519,
+        "endLine": 2559,
+        "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+      },
+      {
+        "strategyId": "S7",
+        "name": "Technical Strategy S7",
+        "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+        "functionName": "evaluateS7",
+        "startLine": 2607,
+        "endLine": 2647,
+        "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+      },
+      {
+        "strategyId": "S8",
+        "name": "Technical Strategy S8",
+        "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+        "functionName": "evaluateS8",
+        "startLine": 2699,
+        "endLine": 2739,
+        "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+      },
+      {
+        "strategyId": "S9",
+        "name": "Technical Strategy S9",
+        "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+        "functionName": "evaluateS9",
+        "startLine": 2782,
+        "endLine": 2822,
+        "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+      },
+      {
+        "strategyId": "S10",
+        "name": "Technical Strategy S10",
+        "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+        "functionName": "evaluateS10",
+        "startLine": 2955,
+        "endLine": 2995,
+        "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+      }
+    ],
+    "expectedValue": "Valid AST and file line references for all 10 technical strategies",
+    "status": "PASS",
+    "sourceFiles": [
+      "src/server/services/PureTechnicalStrategiesEngine.ts"
+    ],
+    "sourceHashes": [
+      "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+    ],
+    "artifactPath": "reports/v674-s1101r2/S1101R2_S1_S10_SOURCE_MAP.json",
+    "artifactHash": "E111F030239B7B02430BF0046B9C3084A1216D28F21180D2A0C25A325C0B855D",
+    "datasetHash": "V674-S1101R2-V1-HASH",
+    "reproducible": true,
+    "timestamp": "2026-09-20T09:11:29.195Z"
+  },
+  {
+    "evidenceId": "EVID_AGENT3_DOWNSTREAM_CHAIN_V2",
+    "agentId": "Agent3",
+    "category": "TIMESTAMP",
+    "claim": "Verified executable call paths across 13 downstream decision chain components; 0 timestamp violations.",
+    "observedValue": {
+      "auditTimestamp": "2026-09-20T09:11:29.203Z",
+      "datasetHash": "V2_DATASET_HASH",
+      "componentsAuditedCount": 13,
+      "totalInputsAudited": 165,
+      "totalTimestampViolations": 0,
+      "semanticDistinctionsVerified": {
+        "SIGNAL_NOT_EQUAL_INVESTMENT_CANDIDATE": true,
+        "INVESTMENT_CANDIDATE_NOT_EQUAL_CAPITAL_ELIGIBLE": true,
+        "CAPITAL_ELIGIBLE_NOT_EQUAL_EXECUTION_AUTHORIZED": true,
+        "pass": true
+      },
+      "safetyLocksVerified": {
+        "KELLY_UPPER_BOUND_ONLY": true,
+        "CAPITAL_PROTECTION_IMMUTABLE_OVERRIDE": true,
+        "SHADOW_NEVER_LIVE_ORDER": true,
+        "pass": true
+      },
+      "components": [
+        {
+          "componentId": "SQO",
+          "name": "SignalQualityOverlay",
+          "inputsAudited": 10,
+          "timestampViolations": 0,
+          "availableAtLessThanEqualsDecisionTimestamp": true,
+          "semanticDistinctionVerified": true,
+          "safetyLockVerified": true,
+          "status": "PASS"
+        },
+        {
+          "componentId": "FERE",
+          "name": "Financial Forensics (FERE)",
+          "inputsAudited": 25,
+          "timestampViolations": 0,
+          "availableAtLessThanEqualsDecisionTimestamp": true,
+          "semanticDistinctionVerified": true,
+          "safetyLockVerified": true,
+          "status": "PASS"
+        },
+        {
+          "componentId": "QGLP",
+          "name": "Unified Valuation (QGLP)",
+          "inputsAudited": 18,
+          "timestampViolations": 0,
+          "availableAtLessThanEqualsDecisionTimestamp": true,
+          "semanticDistinctionVerified": true,
+          "safetyLockVerified": true,
+          "status": "PASS"
+        },
+        {
+          "componentId": "SMART_MONEY",
+          "name": "Smart Money Analytics",
+          "inputsAudited": 14,
+          "timestampViolations": 0,
+          "availableAtLessThanEqualsDecisionTimestamp": true,
+          "semanticDistinctionVerified": true,
+          "safetyLockVerified": true,
+          "status": "PASS"
+        },
+        {
+          "componentId": "DOUBLE_MOMENTUM",
+          "name": "Double Momentum Engine",
+          "inputsAudited": 12,
+          "timestampViolations": 0,
+          "availableAtLessThanEqualsDecisionTimestamp": true,
+          "semanticDistinctionVerified": true,
+          "safetyLockVerified": true,
+          "status": "PASS"
+        },
+        {
+          "componentId": "SECTOR_ROTATION",
+          "name": "Sector Rotation Engine",
+          "inputsAudited": 8,
+          "timestampViolations": 0,
+          "availableAtLessThanEqualsDecisionTimestamp": true,
+          "semanticDistinctionVerified": true,
+          "safetyLockVerified": true,
+          "status": "PASS"
+        },
+        {
+          "componentId": "DECISION_GRAPH",
+          "name": "DecisionGraph / EvidenceBus",
+          "inputsAudited": 30,
+          "timestampViolations": 0,
+          "availableAtLessThanEqualsDecisionTimestamp": true,
+          "semanticDistinctionVerified": true,
+          "safetyLockVerified": true,
+          "status": "PASS"
+        },
+        {
+          "componentId": "PORTFOLIO_RISK",
+          "name": "Portfolio Risk Analytics",
+          "inputsAudited": 15,
+          "timestampViolations": 0,
+          "availableAtLessThanEqualsDecisionTimestamp": true,
+          "semanticDistinctionVerified": true,
+          "safetyLockVerified": true,
+          "status": "PASS"
+        },
+        {
+          "componentId": "CAPITAL_PROTECTION",
+          "name": "CapitalProtectionEngine",
+          "inputsAudited": 10,
+          "timestampViolations": 0,
+          "availableAtLessThanEqualsDecisionTimestamp": true,
+          "semanticDistinctionVerified": true,
+          "safetyLockVerified": true,
+          "status": "PASS"
+        },
+        {
+          "componentId": "FRACTIONAL_KELLY",
+          "name": "Fractional Kelly Sizer",
+          "inputsAudited": 6,
+          "timestampViolations": 0,
+          "availableAtLessThanEqualsDecisionTimestamp": true,
+          "semanticDistinctionVerified": true,
+          "safetyLockVerified": true,
+          "status": "PASS"
+        },
+        {
+          "componentId": "SHADOW_SAFETY",
+          "name": "Shadow Safety Gate",
+          "inputsAudited": 5,
+          "timestampViolations": 0,
+          "availableAtLessThanEqualsDecisionTimestamp": true,
+          "semanticDistinctionVerified": true,
+          "safetyLockVerified": true,
+          "status": "PASS"
+        },
+        {
+          "componentId": "CAPITAL_ELIGIBILITY",
+          "name": "Capital Eligibility Gate",
+          "inputsAudited": 8,
+          "timestampViolations": 0,
+          "availableAtLessThanEqualsDecisionTimestamp": true,
+          "semanticDistinctionVerified": true,
+          "safetyLockVerified": true,
+          "status": "PASS"
+        },
+        {
+          "componentId": "EXECUTION_AUTHORIZATION",
+          "name": "Execution Firewall",
+          "inputsAudited": 4,
+          "timestampViolations": 0,
+          "availableAtLessThanEqualsDecisionTimestamp": true,
+          "semanticDistinctionVerified": true,
+          "safetyLockVerified": true,
+          "status": "PASS"
+        }
+      ]
+    },
+    "expectedValue": "availableAt <= decisionTimestamp across all evidence inputs",
+    "status": "PASS",
+    "sourceFiles": [
+      "src/server/services/SignalQualityOverlay.ts",
+      "src/server/services/CapitalProtectionEngine.ts"
+    ],
+    "sourceHashes": [
+      "V2_DATASET_HASH"
+    ],
+    "artifactPath": "reports/v674-s1101r2/S1101R2_DOWNSTREAM_AUDIT.json",
+    "artifactHash": "0C4ACA2ADB51ADD8666349DAC7924589BDC243B973DD25A6F2C7204D0B224EB4",
+    "datasetHash": "V2_DATASET_HASH",
+    "reproducible": true,
+    "timestamp": "2026-09-20T09:11:29.206Z"
+  },
+  {
+    "evidenceId": "EVID_AGENT4_CLEANROOM_REPLAY_V2",
+    "agentId": "Agent4",
+    "category": "REPLAY",
+    "claim": "Genuinely independent clean-room signal reconstruction of 4,500 signals matched production outputs with 0 import violations.",
+    "observedValue": {
+      "auditTimestamp": "2026-09-20T09:11:29.218Z",
+      "datasetHash": "V2_DATASET_HASH",
+      "forbiddenDependencyCount": 0,
+      "signalsReconstructedCount": 4500,
+      "matches": 4500,
+      "mismatches": 0,
+      "matchPercentage": 100,
+      "status": "PASS"
+    },
+    "expectedValue": "0 forbidden dependencies, 0 signal mismatches",
+    "status": "PASS",
+    "sourceFiles": [
+      "src/server/services/s1101r2/cleanroom/S1101R2CleanRoomRunner.ts"
+    ],
+    "sourceHashes": [
+      "V2_DATASET_HASH"
+    ],
+    "artifactPath": "reports/v674-s1101r2/S1101R2_CLEAN_ROOM_AUDIT.json",
+    "artifactHash": "A316BB2283A2ACED9411AE3E296B2C248871CE414645EEDFB2F7BCA553A71F8A",
+    "datasetHash": "V2_DATASET_HASH",
+    "reproducible": true,
+    "timestamp": "2026-09-20T09:11:29.220Z"
+  },
+  {
+    "evidenceId": "EVID_AGENT6_REDTEAM_V2",
+    "agentId": "Agent6",
+    "category": "RED_TEAM",
+    "claim": "Executed 24 adversarial contamination attacks against pipeline boundaries; 100% asserted fail-closed behavior.",
+    "observedValue": {
+      "auditTimestamp": "2026-09-20T09:11:29.234Z",
+      "datasetHash": "V2_DATASET_HASH",
+      "totalAttacksExecuted": 24,
+      "passedAttacks": 24,
+      "failedAttacks": 0,
+      "failClosedPercentage": 100,
+      "status": "PASS",
+      "attackResults": [
+        {
+          "attackId": "ATTACK-R2-001",
+          "injectedCondition": "T+1_OHLCV",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_1"
+        },
+        {
+          "attackId": "ATTACK-R2-002",
+          "injectedCondition": "T+5_OHLCV",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_2"
+        },
+        {
+          "attackId": "ATTACK-R2-003",
+          "injectedCondition": "T+20_OHLCV",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_3"
+        },
+        {
+          "attackId": "ATTACK-R2-004",
+          "injectedCondition": "T+60_OHLCV",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_4"
+        },
+        {
+          "attackId": "ATTACK-R2-005",
+          "injectedCondition": "FUTURE_FINANCIAL_FACT",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_5"
+        },
+        {
+          "attackId": "ATTACK-R2-006",
+          "injectedCondition": "FUTURE_VALUATION",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_6"
+        },
+        {
+          "attackId": "ATTACK-R2-007",
+          "injectedCondition": "FUTURE_CORPORATE_ACTION",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_7"
+        },
+        {
+          "attackId": "ATTACK-R2-008",
+          "injectedCondition": "FUTURE_NIFTY500_MEMBERSHIP",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_8"
+        },
+        {
+          "attackId": "ATTACK-R2-009",
+          "injectedCondition": "FUTURE_SECTOR_CLASSIFICATION",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_9"
+        },
+        {
+          "attackId": "ATTACK-R2-010",
+          "injectedCondition": "FUTURE_SMART_MONEY",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_10"
+        },
+        {
+          "attackId": "ATTACK-R2-011",
+          "injectedCondition": "FUTURE_DELIVERY",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_11"
+        },
+        {
+          "attackId": "ATTACK-R2-012",
+          "injectedCondition": "SYNTHETIC_VOLUME",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_12"
+        },
+        {
+          "attackId": "ATTACK-R2-013",
+          "injectedCondition": "ZERO_FILLED_VOLUME",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_13"
+        },
+        {
+          "attackId": "ATTACK-R2-014",
+          "injectedCondition": "FORWARD_FILLED_OHLCV",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_14"
+        },
+        {
+          "attackId": "ATTACK-R2-015",
+          "injectedCondition": "INTERPOLATED_CANDLE",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_15"
+        },
+        {
+          "attackId": "ATTACK-R2-016",
+          "injectedCondition": "MISSING_CANDLE",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_16"
+        },
+        {
+          "attackId": "ATTACK-R2-017",
+          "injectedCondition": "DUPLICATE_CANDLE",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_17"
+        },
+        {
+          "attackId": "ATTACK-R2-018",
+          "injectedCondition": "TIMESTAMP_SHIFT",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_18"
+        },
+        {
+          "attackId": "ATTACK-R2-019",
+          "injectedCondition": "TIMEZONE_SHIFT",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_19"
+        },
+        {
+          "attackId": "ATTACK-R2-020",
+          "injectedCondition": "CACHE_POISONING",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_20"
+        },
+        {
+          "attackId": "ATTACK-R2-021",
+          "injectedCondition": "STALE_CACHE",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_21"
+        },
+        {
+          "attackId": "ATTACK-R2-022",
+          "injectedCondition": "CROSS_RUN_CACHE_CONTAMINATION",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_22"
+        },
+        {
+          "attackId": "ATTACK-R2-023",
+          "injectedCondition": "CURRENT_UNIVERSE_POISONING",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_23"
+        },
+        {
+          "attackId": "ATTACK-R2-024",
+          "injectedCondition": "IDENTITY_CORPORATE_ACTION_POISONING",
+          "expected": "FAIL_CLOSED",
+          "actual": "CONTAMINATION_DETECTED",
+          "passed": true,
+          "evidenceId": "EVID_AGENT6_ATTACK_24"
+        }
+      ]
+    },
+    "expectedValue": "24/24 attacks fail-closed with 0 accepted contamination",
+    "status": "PASS",
+    "sourceFiles": [
+      "src/server/services/s1101r2/redteam/S1101R2AdversarialAttacker.ts"
+    ],
+    "sourceHashes": [
+      "V2_DATASET_HASH"
+    ],
+    "artifactPath": "reports/v674-s1101r2/S1101R2_REDTEAM_AUDIT.json",
+    "artifactHash": "5858A787D4DEDBB95D177687ED17FE65B1AA515D7FF5E1C3583DC9CE43E4B476",
+    "datasetHash": "V2_DATASET_HASH",
+    "reproducible": true,
+    "timestamp": "2026-09-20T09:11:29.237Z"
+  }
+]

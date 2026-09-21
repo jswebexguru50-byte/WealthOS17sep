@@ -1,0 +1,995 @@
+{
+  "timestamp": "2026-09-21T04:53:24.465Z",
+  "total_duplicate_symbols": 37,
+  "accounted": 37,
+  "UNACCOUNTED": 0,
+  "classification_summary": {
+    "VALID_DISTINCT_INSTRUMENTS": 37,
+    "IDENTITY_REVIEW": 0,
+    "PROPOSED_CORRECTION": 0,
+    "UNRESOLVED": 0
+  },
+  "proposed_corrections_count": 0,
+  "masterticker_modified": false,
+  "production_db_writes": 0,
+  "important_caveats": [
+    "No MasterTicker records have been modified.",
+    "Proposed corrections are candidates only — require explicit human authorization.",
+    "VALID_DISTINCT_INSTRUMENTS: different ISINs or venues confirm these are legitimately separate instruments.",
+    "IDENTITY_REVIEW: same identity dimensions found — requires human investigation.",
+    "Provider_key selection from historical coverage is a heuristic suggestion only."
+  ],
+  "findings": [
+    {
+      "symbol": "APOLLO",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"APOLLO\" but have 2 distinct ISINs (INE713T01028, INE713T01010). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "APOLLO",
+          "isin": "INE713T01028",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "APOLLO",
+          "isin": "INE713T01010",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "AZAD",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"AZAD\" but have 2 distinct ISINs (INE02IJ01035, INE028801017). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "AZAD",
+          "isin": "INE02IJ01035",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "AZAD",
+          "isin": "INE028801017",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "BAJAJHFL",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"BAJAJHFL\" but have 2 distinct ISINs (INE377Y01014, INE377Y01017). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "BAJAJHFL",
+          "isin": "INE377Y01014",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "BAJAJHFL",
+          "isin": "INE377Y01017",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "BAJFINANCE",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"BAJFINANCE\" but have 2 distinct ISINs (INE296A01032, INE296A01024). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "BAJFINANCE",
+          "isin": "INE296A01032",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "BAJFINANCE",
+          "isin": "INE296A01024",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "BLUEJET",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"BLUEJET\" but have 2 distinct ISINs (INE0KBH01020, INE0BCP01023). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "BLUEJET",
+          "isin": "INE0KBH01020",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "BLUEJET",
+          "isin": "INE0BCP01023",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "CAMS",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"CAMS\" but have 2 distinct ISINs (INE596I01020, INE596I01012). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "CAMS",
+          "isin": "INE596I01020",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "CAMS",
+          "isin": "INE596I01012",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "CANBK",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"CANBK\" but have 2 distinct ISINs (INE476A01022, INE476A01014). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "CANBK",
+          "isin": "INE476A01022",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "CANBK",
+          "isin": "INE476A01014",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "CESC",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"CESC\" but have 2 distinct ISINs (INE486A01021, INE043A01012). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "CESC",
+          "isin": "INE486A01021",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "CESC",
+          "isin": "INE043A01012",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "COFORGE",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"COFORGE\" but have 2 distinct ISINs (INE591G01025, INE591G01017). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "COFORGE",
+          "isin": "INE591G01025",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "COFORGE",
+          "isin": "INE591G01017",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "DRREDDY",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"DRREDDY\" but have 2 distinct ISINs (INE089A01031, INE089A01023). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "DRREDDY",
+          "isin": "INE089A01031",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "DRREDDY",
+          "isin": "INE089A01023",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "EFFWA",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"EFFWA\" but have 2 distinct ISINs (INE0U9101019, IN_EFFWA). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "EFFWA",
+          "isin": "INE0U9101019",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "EFFWA",
+          "isin": "IN_EFFWA",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "FAIRCHEMOR",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"FAIRCHEMOR\" but have 2 distinct ISINs (INE0DNW01011, INE020401013). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "FAIRCHEMOR",
+          "isin": "INE0DNW01011",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "FAIRCHEMOR",
+          "isin": "INE020401013",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "GARGI",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"GARGI\" but have 2 distinct ISINs (INE0MG701018, INE0NT601018). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "GARGI",
+          "isin": "INE0MG701018",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "GARGI",
+          "isin": "INE0NT601018",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "HAL",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"HAL\" but have 2 distinct ISINs (INE066F01020, INE066F01012). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "HAL",
+          "isin": "INE066F01020",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "HAL",
+          "isin": "INE066F01012",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "HIRECT",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"HIRECT\" but have 2 distinct ISINs (INE835D01023, IN_HIRECT). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "HIRECT",
+          "isin": "INE835D01023",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "HIRECT",
+          "isin": "IN_HIRECT",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "JGCHEM",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"JGCHEM\" but have 2 distinct ISINs (INE0MB501011, INE0CG901018). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "JGCHEM",
+          "isin": "INE0MB501011",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "JGCHEM",
+          "isin": "INE0CG901018",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "JTLIND",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"JTLIND\" but have 2 distinct ISINs (INE391J01032, INE391J01024). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "JTLIND",
+          "isin": "INE391J01032",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "JTLIND",
+          "isin": "INE391J01024",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "KALYANI",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"KALYANI\" but have 2 distinct ISINs (INE610E01010, INE0N6U01018). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "KALYANI",
+          "isin": "INE610E01010",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "KALYANI",
+          "isin": "INE0N6U01018",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "KIRLOSENG",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"KIRLOSENG\" but have 2 distinct ISINs (INE146L01010, INE236P01020). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "KIRLOSENG",
+          "isin": "INE146L01010",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "KIRLOSENG",
+          "isin": "INE236P01020",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "KOTAKBANK",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"KOTAKBANK\" but have 2 distinct ISINs (INE237A01036, INE237A01028). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "KOTAKBANK",
+          "isin": "INE237A01036",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "KOTAKBANK",
+          "isin": "INE237A01028",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "KSOLVES",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"KSOLVES\" but have 2 distinct ISINs (INE0D6I01023, INE0D6I01015). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "KSOLVES",
+          "isin": "INE0D6I01023",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "KSOLVES",
+          "isin": "INE0D6I01015",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "MAZDOCK",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"MAZDOCK\" but have 2 distinct ISINs (INE249Z01020, INE249Z01012). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "MAZDOCK",
+          "isin": "INE249Z01020",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "MAZDOCK",
+          "isin": "INE249Z01012",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "MEESHO",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"MEESHO\" but have 2 distinct ISINs (INE0VDM01015, INE0MEE01010). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "MEESHO",
+          "isin": "INE0VDM01015",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "MEESHO",
+          "isin": "INE0MEE01010",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "NAUKRI",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"NAUKRI\" but have 2 distinct ISINs (INE663F01032, INE663F01024). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "NAUKRI",
+          "isin": "INE663F01032",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "NAUKRI",
+          "isin": "INE663F01024",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "NESTLEIND",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"NESTLEIND\" but have 2 distinct ISINs (INE239A01024, INE239A01016). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "NESTLEIND",
+          "isin": "INE239A01024",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "NESTLEIND",
+          "isin": "INE239A01016",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "NH",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"NH\" but have 2 distinct ISINs (INE410P01011, INE410P01024). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "NH",
+          "isin": "INE410P01011",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "NH",
+          "isin": "INE410P01024",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "ORIANA",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"ORIANA\" but have 2 distinct ISINs (INE0OUT01019, IN_ORIANA). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "ORIANA",
+          "isin": "INE0OUT01019",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "ORIANA",
+          "isin": "IN_ORIANA",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "PERSISTENT",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"PERSISTENT\" but have 2 distinct ISINs (INE262H01021, INE262H01013). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "PERSISTENT",
+          "isin": "INE262H01021",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "PERSISTENT",
+          "isin": "INE262H01013",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "QUESS",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"QUESS\" but have 2 distinct ISINs (INE615P01015, INE401U01016). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "QUESS",
+          "isin": "INE615P01015",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "QUESS",
+          "isin": "INE401U01016",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "SDBL",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"SDBL\" but have 2 distinct ISINs (INE480C01038, INE480C01020). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "SDBL",
+          "isin": "INE480C01038",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "SDBL",
+          "isin": "INE480C01020",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "TATAMTRDVR",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"TATAMTRDVR\" but have 2 distinct ISINs (INE155A01014, IN9155A01020). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "TATAMTRDVR",
+          "isin": "INE155A01014",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "TATAMTRDVR",
+          "isin": "IN9155A01020",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "TEMBO",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"TEMBO\" but have 2 distinct ISINs (INE869Y01028, INE869Y01010). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "TEMBO",
+          "isin": "INE869Y01028",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "TEMBO",
+          "isin": "INE869Y01010",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "TINNARUBR",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"TINNARUBR\" but have 2 distinct ISINs (INE015C01016, INE437C01024). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "TINNARUBR",
+          "isin": "INE015C01016",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "TINNARUBR",
+          "isin": "INE437C01024",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "UL-SMART HORIZON 3",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"UL-SMART HORIZON 3\" but have 2 distinct ISINs (1INF162422010S3, INF162422218). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "UL-SMART HORIZON 3",
+          "isin": "1INF162422010S3",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "UL-SMART HORIZON 3",
+          "isin": "INF162422218",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "UL-Smart Horizon 1",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"UL-Smart Horizon 1\" but have 2 distinct ISINs (INF162422010, INF162422101). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "UL-Smart Horizon 1",
+          "isin": "INF162422010",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "UL-Smart Horizon 1",
+          "isin": "INF162422101",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "UL-Smart Horizon 2",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "2 records share symbol \"UL-Smart Horizon 2\" but have 2 distinct ISINs (INF162422010S2, INF162422184). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 2,
+      "identities": [
+        {
+          "symbol": "UL-Smart Horizon 2",
+          "isin": "INF162422010S2",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "UL-Smart Horizon 2",
+          "isin": "INF162422184",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    },
+    {
+      "symbol": "VBL",
+      "prior_disposition": "VALID_NO_CHANGE",
+      "current_classification": "VALID_DISTINCT_INSTRUMENTS",
+      "reason": "3 records share symbol \"VBL\" but have 3 distinct ISINs (INE200M01039, INE200M01013, INE200M01021). Different ISINs = different legal instruments. No correction needed.",
+      "record_count": 3,
+      "identities": [
+        {
+          "symbol": "VBL",
+          "isin": "INE200M01039",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "VBL",
+          "isin": "INE200M01013",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        },
+        {
+          "symbol": "VBL",
+          "isin": "INE200M01021",
+          "exchange": "NSE",
+          "segment": "EQ",
+          "provider_key": null,
+          "historical": null
+        }
+      ],
+      "proposed_correction": null
+    }
+  ],
+  "proposed_corrections": []
+}

@@ -1,0 +1,1322 @@
+{
+  "nifty500_refs": [
+    {
+      "file": "src\\components\\AdvancedPortfolioAnalyticsDashboard.tsx",
+      "line": 140,
+      "text": "Extended Internal Rate of Return dynamically matched against Nifty 500 TRI & S&P 500 TRI on exact cash flow dates."
+    },
+    {
+      "file": "src\\components\\AdvancedPortfolioAnalyticsDashboard.tsx",
+      "line": 189,
+      "text": "<span className=\"text-[11px] text-slate-400\">Nifty 500 TRI: {r.nifty500}%</span>"
+    },
+    {
+      "file": "src\\components\\AdvancedPortfolioAnalyticsDashboard.tsx",
+      "line": 208,
+      "text": "<span className=\"text-[11px] text-slate-400\">Benchmark Return: {c.nifty500}%</span>"
+    },
+    {
+      "file": "src\\components\\ExecutiveConsensusView.tsx",
+      "line": 430,
+      "text": "NIFTY 500"
+    },
+    {
+      "file": "src\\components\\GreenfieldInvestmentPortal.tsx",
+      "line": 490,
+      "text": "<span className=\"text-[10px] font-mono text-slate-400 uppercase block font-bold truncate\">Macro Regime (Nifty 500)</span"
+    },
+    {
+      "file": "src\\components\\IndependentTechnicalStrategiesView.tsx",
+      "line": 513,
+      "text": "'S6_RS_BREAKOUT': 'RS Breakout (Nifty 500)',"
+    },
+    {
+      "file": "src\\components\\OpportunitiesRebalancingHub.tsx",
+      "line": 94,
+      "text": "const [stockUniverseFilter, setStockUniverseFilter] = useState<'ALL' | 'BULLISH' | 'BEARISH' | 'INVESTED' | 'NIFTY_500'>"
+    },
+    {
+      "file": "src\\components\\OpportunitiesRebalancingHub.tsx",
+      "line": 383,
+      "text": "const nifty500Stocks = scannerData?.nifty500StockOpportunities || (scannerData as any)?.nifty500Opportunities || [];"
+    },
+    {
+      "file": "src\\components\\OpportunitiesRebalancingHub.tsx",
+      "line": 385,
+      "text": "const allStocks = [...investedStocks, ...nifty500Stocks];"
+    },
+    {
+      "file": "src\\components\\OpportunitiesRebalancingHub.tsx",
+      "line": 486,
+      "text": "} else if (stockUniverseFilter === 'NIFTY_500') {"
+    },
+    {
+      "file": "src\\components\\OpportunitiesRebalancingHub.tsx",
+      "line": 487,
+      "text": "if (opp.universe !== 'NIFTY_500') return false;"
+    },
+    {
+      "file": "src\\components\\OpportunitiesRebalancingHub.tsx",
+      "line": 845,
+      "text": "{ id: 'NIFTY_500', label: `Nifty 500 (${nifty500Stocks.length})` }"
+    },
+    {
+      "file": "src\\components\\OpportunitiesRebalancingHub.tsx",
+      "line": 863,
+      "text": "{availablePortfolios.length > 0 && stockUniverseFilter !== 'NIFTY_500' && ("
+    },
+    {
+      "file": "src\\components\\OpportunitiesRebalancingHub.tsx",
+      "line": 981,
+      "text": "{opp.universe === 'INVESTED_PORTFOLIO' ? `HELD: ${opp.portfolioName || 'PORTFOLIO'}` : 'NIFTY 500'}"
+    },
+    {
+      "file": "src\\components\\OpportunitiesRebalancingHub.tsx",
+      "line": 1155,
+      "text": "}`} title=\"20-day Outperformance vs NIFTY 500 benchmark\">"
+    },
+    {
+      "file": "src\\components\\OpportunitiesRebalancingHub.tsx",
+      "line": 1901,
+      "text": "{r.category === 'INVESTED_PORTFOLIO' ? 'HELD' : 'NIFTY 500'}"
+    },
+    {
+      "file": "src\\components\\OpportunitiesRebalancingHub.tsx",
+      "line": 2860,
+      "text": "<div className=\"text-sm font-bold text-cyan-300 mb-3\">Nifty 500 Universe Tracking</div>"
+    },
+    {
+      "file": "src\\components\\OpportunityEngineMasterView.tsx",
+      "line": 659,
+      "text": "nifty500Count?: number;"
+    },
+    {
+      "file": "src\\components\\OpportunityEngineMasterView.tsx",
+      "line": 1135,
+      "text": "showToast('6-Stage Opportunity Scan completed successfully across Nifty 500 & Microcap 250 universe!');"
+    },
+    {
+      "file": "src\\components\\OpportunityEngineMasterView.tsx",
+      "line": 1676,
+      "text": "'Potential / Alpha vs Nifty 500',"
+    },
+    {
+      "file": "src\\components\\OpportunityEngineMasterView.tsx",
+      "line": 1770,
+      "text": "`Alpha vs N500: ${s.relativeStrengthAlpha}%`,"
+    },
+    {
+      "file": "src\\components\\OpportunityEngineMasterView.tsx",
+      "line": 2262,
+      "text": "<span className=\"text-[10px] font-mono text-slate-400 uppercase tracking-wider block\">Nifty 500 CMP / 50-DMA</span>"
+    },
+    {
+      "file": "src\\components\\OpportunityEngineMasterView.tsx",
+      "line": 3108,
+      "text": "<span className=\"text-[10px] text-slate-400 block font-mono\">Sector Tailwinds vs Nifty 500 Benchmark</span>"
+    },
+    {
+      "file": "src\\components\\OpportunityEngineMasterView.tsx",
+      "line": 3207,
+      "text": "title=\"Run on-demand 6-stage quantitative audit on ANY stock in Nifty 500 or Microcap 250\""
+    },
+    {
+      "file": "src\\components\\OpportunityEngineMasterView.tsx",
+      "line": 7050,
+      "text": "Tracking where smart money is exiting and which themes are capturing fresh institutional alpha vs Nifty 500"
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 82,
+      "text": "const nifty500Val = lastRow.nifty500_value || Math.round(niftyVal * 1.08);"
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 90,
+      "text": "nifty500: nifty500Val,"
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 95,
+      "text": "excessAlphaN500: actualVal - nifty500Val,"
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 112,
+      "text": "resList[lastIdx].excessAlphaN500 = resList[lastIdx].actual - (resList[lastIdx].nifty500 || Math.round(bVal * 1.08));"
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 125,
+      "text": "{ quarter: 'Baseline', actual: Math.round(curVal * 0.8), invested: Math.round(invVal * 0.8), nifty50: Math.round(curVal "
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 126,
+      "text": "{ quarter: 'Current', actual: curVal, invested: invVal, nifty50: Math.round(curVal * 0.55), nifty500: Math.round(curVal "
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 167,
+      "text": "const nifty500ValCr = ( (latestPoint.nifty500 || Math.round((latestPoint.nifty50 || 0) * 1.08)) / 10000000 ).toFixed(2);"
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 170,
+      "text": "const alphaN500Cr = ( Number(actualValCr) - Number(nifty500ValCr) ).toFixed(2);"
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 282,
+      "text": "<span className=\"text-[10px] text-slate-700 dark:text-slate-300\">vs Nifty 500:</span>"
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 283,
+      "text": "<span className=\"text-sm font-black text-blue-900 dark:text-blue-200\">{Number(alphaN500Cr) >= 0 ? '+' : ''}₹{alphaN500Cr"
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 380,
+      "text": "<span className=\"flex items-center gap-1\"><span className=\"w-3 h-1 inline-block rounded bg-indigo-400\"></span> Nifty 500"
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 392,
+      "text": "<div className=\"text-xs font-bold text-blue-900 dark:text-blue-300\">vs Nifty 500 TRI</div>"
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 393,
+      "text": "<div className={`text-base font-black font-mono mt-1 ${Number(alphaN500Cr) >= 0 ? 'text-emerald-600 dark:text-emerald-40"
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 436,
+      "text": "<Line type=\"monotone\" dataKey=\"nifty500\" name=\"Nifty 500 TRI (Cash-Flow Matched)\" stroke=\"#818cf8\" strokeWidth={2} strok"
+    },
+    {
+      "file": "src\\components\\QuantTechnicalStudioView.tsx",
+      "line": 55,
+      "text": "{ id: 'S6', name: 'S6 Nifty 500 RS Breakout', bucket: 'BUCKET_A_TREND', bucketLabel: 'Bucket A: Trend', description: 'In"
+    },
+    {
+      "file": "src\\components\\ResearchAgentDossierView.tsx",
+      "line": 533,
+      "text": "<span className=\"text-[10px] text-slate-400 block\">Alpha vs N500 (1M)</span>"
+    },
+    {
+      "file": "src\\components\\ResearchAgentDossierView.tsx",
+      "line": 534,
+      "text": "<span className={`font-bold ${dossier.doubleMomentum.alphaMetrics.sectorVsNifty500.m1 > 0 ? 'text-emerald-400' : 'text-s"
+    },
+    {
+      "file": "src\\components\\ResearchAgentDossierView.tsx",
+      "line": 535,
+      "text": "{dossier.doubleMomentum.alphaMetrics.sectorVsNifty500.m1 > 0 ? '+' : ''}{dossier.doubleMomentum.alphaMetrics.sectorVsNif"
+    },
+    {
+      "file": "src\\components\\SmartMoneyMomentumVpaView.tsx",
+      "line": 307,
+      "text": "Live scanning NIFTY 500 universe"
+    },
+    {
+      "file": "src\\components\\StrategyBuilderPanel.tsx",
+      "line": 49,
+      "text": "{ key: 'universe.indexMembership', family: 'universe', type: 'enum', label: 'Index Membership', description: 'Restrict t"
+    },
+    {
+      "file": "src\\components\\StrategyBuilderPanel.tsx",
+      "line": 121,
+      "text": "{ id: 'S6_RS_BREAKOUT', name: 'RS Breakout (Nifty 500)', shortName: 'S6', category: 'BREAKOUT', description: 'Relative S"
+    },
+    {
+      "file": "src\\scripts\\run_d22_fasttrack.ts",
+      "line": 15,
+      "text": "'nifty500',"
+    },
+    {
+      "file": "src\\scripts\\run_swarm.ts",
+      "line": 9,
+      "text": "'agent_b2_nifty500.ts',"
+    },
+    {
+      "file": "src\\scripts\\swarm\\agent_b2_nifty500.ts",
+      "line": 10,
+      "text": "const datasetId = 'B2_NIFTY500_OHLCV';"
+    },
+    {
+      "file": "src\\scripts\\swarm\\agent_b2_nifty500.ts",
+      "line": 36,
+      "text": "const instrument = await resolveUpstoxInstrument('NIFTY 500');"
+    }
+  ],
+  "sme_refs": [
+    {
+      "file": "src\\App.tsx",
+      "line": 1003,
+      "text": "const handleMergeTickers = async (sourceIsin: string, targetIsin: string) => {"
+    },
+    {
+      "file": "src\\App.tsx",
+      "line": 2017,
+      "text": "onMergeTickers={handleMergeTickers}"
+    },
+    {
+      "file": "src\\components\\AdvancedPortfolioAnalyticsDashboard.tsx",
+      "line": 224,
+      "text": "<span className=\"text-xs text-purple-400 mt-0.5 block\">Compared strictly against Nifty Microcap 250 & Nifty SME Emerge</"
+    },
+    {
+      "file": "src\\components\\AdvancedPortfolioAnalyticsDashboard.tsx",
+      "line": 227,
+      "text": "<span className=\"text-xl font-bold text-purple-300 font-mono block\">{m2.sme_tracking.sme_portfolio_xirr}% XIRR</span>"
+    },
+    {
+      "file": "src\\components\\AdvancedPortfolioAnalyticsDashboard.tsx",
+      "line": 228,
+      "text": "<span className=\"text-xs text-purple-400\">Microcap 250: {m2.sme_tracking.nifty_microcap250_xirr}% (Alpha: +{m2.sme_track"
+    },
+    {
+      "file": "src\\components\\ImportsHubView.tsx",
+      "line": 1984,
+      "text": "<option value=\"CORPORATE_ACTION_BONUS_SPLIT\">Corporate Action (Bonus / Stock Split / Demerger not in tradebook)</option>"
+    },
+    {
+      "file": "src\\components\\MasterTickersView.tsx",
+      "line": 167,
+      "text": "const handleMerge = async (e: React.FormEvent) => {"
+    },
+    {
+      "file": "src\\components\\MasterTickersView.tsx",
+      "line": 334,
+      "text": "<form onSubmit={handleMerge} className=\"space-y-4 text-sm\">"
+    },
+    {
+      "file": "src\\components\\SmartMoneyMomentumVpaView.tsx",
+      "line": 36,
+      "text": "emergencyStopArmed: boolean;"
+    },
+    {
+      "file": "src\\components\\SmartMoneyMomentumVpaView.tsx",
+      "line": 37,
+      "text": "emergencyStopLossPct: number;"
+    },
+    {
+      "file": "src\\components\\SmartMoneyMomentumVpaView.tsx",
+      "line": 99,
+      "text": "emergencyStopPrice: number | null;"
+    },
+    {
+      "file": "src\\components\\SmartMoneyMomentumVpaView.tsx",
+      "line": 183,
+      "text": "emergencyStopArmed: false,"
+    },
+    {
+      "file": "src\\components\\SmartMoneyMomentumVpaView.tsx",
+      "line": 184,
+      "text": "emergencyStopLossPct: 0,"
+    },
+    {
+      "file": "src\\components\\SmartMoneyMomentumVpaView.tsx",
+      "line": 287,
+      "text": "EMERGENCY CAP ACTIVE: -12.0% MAX LOSS"
+    },
+    {
+      "file": "src\\components\\SmartMoneyMomentumVpaView.tsx",
+      "line": 622,
+      "text": "{/* Bearish Emergency Cap */}"
+    },
+    {
+      "file": "src\\components\\SmartMoneyMomentumVpaView.tsx",
+      "line": 623,
+      "text": "{selectedItemForModal.emergencyStopPrice && ("
+    },
+    {
+      "file": "src\\components\\SmartMoneyMomentumVpaView.tsx",
+      "line": 625,
+      "text": "<span>Macro Bearish Drag Emergency Circuit Breaker (-12.0%)</span>"
+    },
+    {
+      "file": "src\\components\\SmartMoneyMomentumVpaView.tsx",
+      "line": 626,
+      "text": "<span className=\"font-bold\">₹{selectedItemForModal.emergencyStopPrice}</span>"
+    },
+    {
+      "file": "src\\components\\TransactionsView.tsx",
+      "line": 378,
+      "text": "<option value=\"DEMERGER\">Demergers</option>"
+    },
+    {
+      "file": "src\\components\\TransactionsView.tsx",
+      "line": 701,
+      "text": "<option value=\"DEMERGER\">DEMERGER COST REALLOC</option>"
+    },
+    {
+      "file": "src\\components\\TransactionsView.tsx",
+      "line": 869,
+      "text": "<option value=\"DEMERGER\">DEMERGER COST REALLOC</option>"
+    },
+    {
+      "file": "src\\server\\fifoEngine.ts",
+      "line": 205,
+      "text": "if (tType.includes('DEMERGER')) {"
+    },
+    {
+      "file": "src\\server\\fifoEngine.ts",
+      "line": 209,
+      "text": "resolvedType = 'DEMERGER';"
+    },
+    {
+      "file": "src\\server\\fifoEngine.ts",
+      "line": 513,
+      "text": "} else if (tType === 'DEMERGER') {"
+    },
+    {
+      "file": "src\\server\\fifoEngine.ts",
+      "line": 517,
+      "text": "const extractedCost = txn.net_amount; // amount allocated to the demerged entity"
+    },
+    {
+      "file": "src\\server\\fifoEngine.ts",
+      "line": 532,
+      "text": "action_type: 'DEMERGER',"
+    },
+    {
+      "file": "src\\server\\fifoEngine.ts",
+      "line": 537,
+      "text": "message: `Reduced parent cost by ${extractedCost} for demerger`"
+    },
+    {
+      "file": "src\\server\\fifoEngine.ts",
+      "line": 1703,
+      "text": "} else if (tType.includes('DEMERGER')) {"
+    },
+    {
+      "file": "src\\server\\fifoEngine.ts",
+      "line": 1704,
+      "text": "resolvedType = 'DEMERGER';"
+    },
+    {
+      "file": "src\\server\\fifoEngine.ts",
+      "line": 1811,
+      "text": "} else if (tType === 'DEMERGER') {"
+    },
+    {
+      "file": "src\\server\\intelligence\\engines\\FactValidationGate.ts",
+      "line": 224,
+      "text": "// Qualitative milestone or structural event (e.g. debt restructuring, demerger, commissioning)"
+    },
+    {
+      "file": "src\\server\\intelligence\\services\\ItasIiceReconciliationService.ts",
+      "line": 50,
+      "text": "exchangeBoard: 'MAIN_BOARD' | 'SME_EXCHANGE';"
+    },
+    {
+      "file": "src\\server\\intelligence\\types\\InvestmentBrief.ts",
+      "line": 137,
+      "text": "exchangeBoard: 'MAIN_BOARD' | 'SME_EXCHANGE';"
+    },
+    {
+      "file": "src\\server\\quant\\NEoWaveEngine.ts",
+      "line": 869,
+      "text": "summaryRationale: `Price moving in consolidative monowaves. Structural degree currently neutral. Monitoring for Wave 3 d"
+    },
+    {
+      "file": "src\\server\\services\\CapitalProtectionEngine.ts",
+      "line": 261,
+      "text": "| 'EMERGENCY_HALT';"
+    },
+    {
+      "file": "src\\server\\services\\CapitalProtectionEngine.ts",
+      "line": 302,
+      "text": "// Model Review / Emergency Halt at canonical MODEL_REVIEW thresholds."
+    },
+    {
+      "file": "src\\server\\services\\ConcallFailsafeHarvester.ts",
+      "line": 94,
+      "text": "if (listingPlatform === 'BSE_SME' || listingPlatform === 'NSE_EMERGE') continue;"
+    },
+    {
+      "file": "src\\server\\services\\ConsolidatedOpportunityEngine.ts",
+      "line": 3497,
+      "text": "postureHeadline = 'CAPITAL DEFENSE EMERGENCY: Severe Global Risk-Off Shock';"
+    },
+    {
+      "file": "src\\server\\services\\ConsolidatedOpportunityEngine.ts",
+      "line": 4120,
+      "text": "headline = 'CAPITAL DEFENSE EMERGENCY: Global Liquidity Squeeze & CAD Stress';"
+    },
+    {
+      "file": "src\\server\\services\\ConsolidatedOpportunityEngine.ts",
+      "line": 4123,
+      "text": "actionGuidance = 'Emergency capital preservation mode. Halt new long entries. Protect portfolio via tactical index put h"
+    },
+    {
+      "file": "src\\server\\services\\data\\CorporateActionNormalizer.ts",
+      "line": 17,
+      "text": "| 'DEMERGER';"
+    },
+    {
+      "file": "src\\server\\services\\data\\CorporateActionNormalizer.ts",
+      "line": 31,
+      "text": "priorIsin?: string;                 // if ISIN changed in demerger"
+    },
+    {
+      "file": "src\\server\\services\\data\\IdentityValidator.ts",
+      "line": 7,
+      "text": "* - Confirms that ticker symbol renames, demergers, and ISIN migrations preserve identity lineage."
+    },
+    {
+      "file": "src\\server\\services\\data\\providers\\NSECorporateActionProvider.ts",
+      "line": 61,
+      "text": "if (p.includes('DEMERGER')) {"
+    },
+    {
+      "file": "src\\server\\services\\data\\providers\\NSECorporateActionProvider.ts",
+      "line": 62,
+      "text": "return { type: 'DEMERGER', num: 1, den: 1 };"
+    },
+    {
+      "file": "src\\server\\services\\dataAcquisition\\CorporateActionAcquisitionEngine.ts",
+      "line": 4,
+      "text": "actionType: 'SPLIT' | 'BONUS' | 'DIVIDEND' | 'RIGHTS' | 'MERGER' | 'DEMERGER' | 'NAME_CHANGE';"
+    },
+    {
+      "file": "src\\server\\services\\ForensicExtractionSchema.ts",
+      "line": 4,
+      "text": "* with Multi-Exchange & Listing-Segment Customization (BSE Main, NSE Main, BSE SME, NSE Emerge)"
+    },
+    {
+      "file": "src\\server\\services\\ForensicExtractionSchema.ts",
+      "line": 7,
+      "text": "export type ListingPlatform = 'BSE_MAIN' | 'NSE_MAIN' | 'BSE_SME' | 'NSE_EMERGE';"
+    },
+    {
+      "file": "src\\server\\services\\ForensicExtractionSchema.ts",
+      "line": 79,
+      "text": "* SME/Emerge entities have thinner analyst coverage and higher asymmetric risk,"
+    },
+    {
+      "file": "src\\server\\services\\ForensicExtractionSchema.ts",
+      "line": 86,
+      "text": "NSE_EMERGE: 1.4,"
+    }
+  ],
+  "benchmark_index_refs": [
+    {
+      "file": "src\\App.tsx",
+      "line": 250,
+      "text": "const [benchmarkSymbol, setBenchmarkSymbol] = useState<string>('^NIFTY250SMR');"
+    },
+    {
+      "file": "src\\App.tsx",
+      "line": 2447,
+      "text": "const suggestions = ['RELIANCE', 'HDFCBANK', 'TCS', 'INFY', 'SBIN', 'ICICIBANK', 'BAJFINANCE', 'NIFTY 50', 'SENSEX'];"
+    },
+    {
+      "file": "src\\components\\AdvancedPortfolioAnalyticsDashboard.tsx",
+      "line": 271,
+      "text": "{/* Nifty 50 TRI */}"
+    },
+    {
+      "file": "src\\components\\AdvancedPortfolioAnalyticsDashboard.tsx",
+      "line": 273,
+      "text": "<span className=\"text-xs font-bold text-blue-400 uppercase tracking-wider block\">Nifty 50 TRI</span>"
+    },
+    {
+      "file": "src\\components\\AdvancedPortfolioAnalyticsDashboard.tsx",
+      "line": 277,
+      "text": "<strong className=\"text-blue-300 font-mono\">{m3.nifty50_tri.sharpe_ratio}</strong>"
+    },
+    {
+      "file": "src\\components\\AdvancedPortfolioAnalyticsDashboard.tsx",
+      "line": 281,
+      "text": "<strong className=\"text-blue-300 font-mono\">{m3.nifty50_tri.sortino_ratio}</strong>"
+    },
+    {
+      "file": "src\\components\\AdvancedPortfolioAnalyticsDashboard.tsx",
+      "line": 285,
+      "text": "<span>{m3.nifty50_tri.annualized_volatility}%</span>"
+    },
+    {
+      "file": "src\\components\\AdvancedPortfolioAnalyticsDashboard.tsx",
+      "line": 289,
+      "text": "<span>{m3.nifty50_tri.downside_volatility}%</span>"
+    },
+    {
+      "file": "src\\components\\AnalyticsView.tsx",
+      "line": 221,
+      "text": "'Nifty 50': val.benchmarks?.nifty50 || 0,"
+    },
+    {
+      "file": "src\\components\\AnalyticsView.tsx",
+      "line": 231,
+      "text": "nifty50: 'Nifty 50',"
+    },
+    {
+      "file": "src\\components\\AnalyticsView.tsx",
+      "line": 478,
+      "text": "<Bar dataKey=\"Nifty 50\" fill=\"#3b82f6\" radius={[4, 4, 0, 0]} />"
+    },
+    {
+      "file": "src\\components\\AnalyticsView.tsx",
+      "line": 495,
+      "text": "<th className=\"p-3 text-right\">Nifty 50</th>"
+    },
+    {
+      "file": "src\\components\\AnalyticsView.tsx",
+      "line": 532,
+      "text": "<td className=\"p-3 text-right font-mono\">{formatPct(val.benchmarks?.nifty50)}</td>"
+    },
+    {
+      "file": "src\\components\\AutonomousSmartMoneySentinelView.tsx",
+      "line": 984,
+      "text": "<strong className=\"text-purple-300\">Pillar 10: Smart Money Technique (SMT) Intermarket Divergence</strong> — Correlated "
+    },
+    {
+      "file": "src\\components\\AutonomousSmartMoneySentinelView.tsx",
+      "line": 1263,
+      "text": "<div className=\"text-[10px] text-slate-400 uppercase tracking-wider font-semibold\">Alpha vs Nifty 50</div>"
+    },
+    {
+      "file": "src\\components\\AutonomousSmartMoneySentinelView.tsx",
+      "line": 1622,
+      "text": "<div className=\"text-[10px] text-slate-400 uppercase\">Alpha vs Nifty 50</div>"
+    },
+    {
+      "file": "src\\components\\AutonomousSmartMoneySentinelView.tsx",
+      "line": 1631,
+      "text": "{/* Equity Curve vs Nifty 50 Preview */}"
+    },
+    {
+      "file": "src\\components\\AutonomousSmartMoneySentinelView.tsx",
+      "line": 1635,
+      "text": "Simulated Equity Curve vs Nifty 50 Benchmark"
+    },
+    {
+      "file": "src\\components\\AutonomousSmartMoneySentinelView.tsx",
+      "line": 2188,
+      "text": "<span className=\"text-[10px] font-mono text-slate-400\">vs NIFTY 50</span>"
+    },
+    {
+      "file": "src\\components\\CamsMutualFundsView.tsx",
+      "line": 1291,
+      "text": "Nifty 50 Benchmark: <strong className=\"text-slate-300 font-semibold\">{formatPct(consolidatedBenchXirr)}</strong>"
+    },
+    {
+      "file": "src\\components\\DashboardView.tsx",
+      "line": 156,
+      "text": "{ label: 'Nifty 50 Index', value: '^NSEI' },"
+    },
+    {
+      "file": "src\\components\\DashboardView.tsx",
+      "line": 608,
+      "text": "case '^NSEI': return 'Nifty 50';"
+    },
+    {
+      "file": "src\\components\\DashboardView.tsx",
+      "line": 1033,
+      "text": "<div className=\"text-[10px] text-wrap\" style={{color:'var(--text-muted)'}}>vs Nifty 50 Sharpe / Sortino</div>"
+    },
+    {
+      "file": "src\\components\\InstitutionalAnalyticsHub.tsx",
+      "line": 117,
+      "text": "{ name: 'Nifty 50', returnPct: -0.12 },"
+    },
+    {
+      "file": "src\\components\\InstitutionalAnalyticsHub.tsx",
+      "line": 195,
+      "text": "{ name: 'Nifty 50', returnPct: -0.12 },"
+    },
+    {
+      "file": "src\\components\\InstitutionalAnalyticsHub.tsx",
+      "line": 207,
+      "text": "{ name: 'Nifty 50', returnPct: -0.12 },"
+    },
+    {
+      "file": "src\\components\\InstitutionalAnalyticsHub.tsx",
+      "line": 1397,
+      "text": "{realReturnView === 'USD' ? 'Annualized Currency Devaluation' : realReturnView === 'GOLD' ? 'Physical Gold Price Compoun"
+    },
+    {
+      "file": "src\\components\\InstitutionalAnalyticsHub.tsx",
+      "line": 1404,
+      "text": ": (analyticsData?.custom?.benchmarks?.nifty50 !== undefined ? `+${analyticsData.custom.benchmarks.nifty50.toFixed(2)}% p"
+    },
+    {
+      "file": "src\\components\\InstitutionalAnalyticsHub.tsx",
+      "line": 1411,
+      "text": ": `Nifty 50 Cash-Flow Matched Return (${selectedPortfolio || 'Combined'})`}"
+    },
+    {
+      "file": "src\\components\\InstitutionalAnalyticsHub.tsx",
+      "line": 1489,
+      "text": "<th className=\"py-3 px-4 text-right\">NIFTY 50 (IN USD)</th>"
+    },
+    {
+      "file": "src\\components\\InstitutionalAnalyticsHub.tsx",
+      "line": 1506,
+      "text": "<th className=\"py-3 px-4 text-right\">NIFTY 50</th>"
+    },
+    {
+      "file": "src\\components\\InstitutionalAnalyticsHub.tsx",
+      "line": 1556,
+      "text": "const nifty50 = (isInc || isActive)"
+    },
+    {
+      "file": "src\\components\\InstitutionalAnalyticsHub.tsx",
+      "line": 1557,
+      "text": "? (analyticsData?.custom?.benchmarks?.nifty50 ?? trailingBench.nifty50)"
+    },
+    {
+      "file": "src\\components\\InstitutionalAnalyticsHub.tsx",
+      "line": 1558,
+      "text": ": trailingBench.nifty50;"
+    },
+    {
+      "file": "src\\components\\InstitutionalAnalyticsHub.tsx",
+      "line": 1594,
+      "text": "? (analyticsData?.macroRealReturns?.usd?.custom?.nifty50_usd_cagr ?? usdTrailingItem.nifty50_usd ?? 0)"
+    },
+    {
+      "file": "src\\components\\InstitutionalAnalyticsHub.tsx",
+      "line": 1595,
+      "text": ": (usdTrailingItem.nifty50_usd ?? 0);"
+    },
+    {
+      "file": "src\\components\\InstitutionalAnalyticsHub.tsx",
+      "line": 1681,
+      "text": "{nifty50 !== undefined && nifty50 !== null ? `${nifty50 >= 0 ? '+' : ''}${nifty50.toFixed(2)}%` : '—'}"
+    },
+    {
+      "file": "src\\components\\KnowledgeLabView.tsx",
+      "line": 141,
+      "text": "{ label: 'Nifty 50 ETF', query: 'Nifty 50 ETF vs Index Fund', cat: 'FINANCE' },"
+    },
+    {
+      "file": "src\\components\\MomentumReasoningPanel.tsx",
+      "line": 713,
+      "text": "Benchmark Excess Return: +{trace.backtest_audit.benchmarkExcessReturnPct}% over Nifty 50 TRI"
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 41,
+      "text": "nifty50: true,"
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 89,
+      "text": "nifty50: niftyVal,"
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 109,
+      "text": "const bVal = resList[lastIdx].nifty50 || 0;"
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 125,
+      "text": "{ quarter: 'Baseline', actual: Math.round(curVal * 0.8), invested: Math.round(invVal * 0.8), nifty50: Math.round(curVal "
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 126,
+      "text": "{ quarter: 'Current', actual: curVal, invested: invVal, nifty50: Math.round(curVal * 0.55), nifty500: Math.round(curVal "
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 137,
+      "text": "nifty50: row.nifty_return ?? 0,"
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 145,
+      "text": "{ fy: 'FY 2022-23', portfolio: 14.1, nifty50: 10.8, niftyNext50: 8.4, niftyMidcap150: 12.8, niftySmallcap250: 13.2, cumu"
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 146,
+      "text": "{ fy: 'FY 2023-24', portfolio: 105.4, nifty50: 84.2, niftyNext50: 60.1, niftyMidcap150: 76.4, niftySmallcap250: 83.1, cu"
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 147,
+      "text": "{ fy: 'FY 2024-25', portfolio: 49.5, nifty50: 43.3, niftyNext50: 32.4, niftyMidcap150: 38.8, niftySmallcap250: 44.2, cum"
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 148,
+      "text": "{ fy: 'FY 2025-26', portfolio: 9.8, nifty50: 6.1, niftyNext50: 5.2, niftyMidcap150: 7.3, niftySmallcap250: 8.6, cumulati"
+    },
+    {
+      "file": "src\\components\\PortfolioPerformanceGrowthIntelligence.tsx",
+      "line": 157,
+      "text": "{ category: 'Indian Equities & MFs', portfolioXirr: 18.4, benchXirr: 12.2, benchName: 'Nifty 50 TRI', alpha: '+6.2%' },"
+    }
+  ],
+  "universe_config_refs": [
+    {
+      "file": "src\\components\\FlexibleTelemetryPipelinePanel.tsx",
+      "line": 73,
+      "text": "const [panelView, setPanelView] = useState<'PIPELINE' | 'COMPARE_UNIVERSES'>('PIPELINE');"
+    },
+    {
+      "file": "src\\components\\FlexibleTelemetryPipelinePanel.tsx",
+      "line": 206,
+      "text": "// SUB-UNIVERSES CATALOG & STORAGE"
+    },
+    {
+      "file": "src\\components\\FlexibleTelemetryPipelinePanel.tsx",
+      "line": 395,
+      "text": "// COMPARE & CONTRAST DIFFERENT SUB-UNIVERSES MATRIX COMPUTATION"
+    },
+    {
+      "file": "src\\components\\FlexibleTelemetryPipelinePanel.tsx",
+      "line": 624,
+      "text": "onClick={() => setPanelView('COMPARE_UNIVERSES')}"
+    },
+    {
+      "file": "src\\components\\FlexibleTelemetryPipelinePanel.tsx",
+      "line": 626,
+      "text": "panelView === 'COMPARE_UNIVERSES'"
+    },
+    {
+      "file": "src\\components\\FlexibleTelemetryPipelinePanel.tsx",
+      "line": 920,
+      "text": "{/* ── CREATE / SAVE SUB-UNIVERSE CONTROLS ── */}"
+    },
+    {
+      "file": "src\\components\\FlexibleTelemetryPipelinePanel.tsx",
+      "line": 937,
+      "text": "placeholder=\"SUB-UNIVERSE NAME (E.G. ALPHA 1)...\""
+    },
+    {
+      "file": "src\\components\\FlexibleTelemetryPipelinePanel.tsx",
+      "line": 1224,
+      "text": "VIEW 2: COMPARE & CONTRAST DIFFERENT SUB-UNIVERSES SIDE-BY-SIDE MATRIX"
+    },
+    {
+      "file": "src\\components\\FlexibleTelemetryPipelinePanel.tsx",
+      "line": 1226,
+      "text": "{panelView === 'COMPARE_UNIVERSES' && ("
+    },
+    {
+      "file": "src\\components\\OpportunityEngineMasterView.tsx",
+      "line": 690,
+      "text": "const [activeTab, setActiveTab] = useState<'CONVERGENCE' | 'SUNRISE_UNIVERSE' | 'TECHNICAL_SETUPS' | 'SMART_MONEY_SENTIN"
+    },
+    {
+      "file": "src\\components\\OpportunityEngineMasterView.tsx",
+      "line": 2609,
+      "text": "{ id: 'SUNRISE_UNIVERSE', label: 'Sunrise & Conglomerates (SHG)', count: 15, icon: Building2, isSunrise: true },"
+    },
+    {
+      "file": "src\\components\\OpportunityEngineMasterView.tsx",
+      "line": 7733,
+      "text": "{activeTab === 'SUNRISE_UNIVERSE' && ("
+    },
+    {
+      "file": "src\\components\\RegimeBacktestComparisonView.tsx",
+      "line": 630,
+      "text": "{/* ── TAB: FULL UNIVERSE MATRIX ──────────────────────────────────────── */}"
+    },
+    {
+      "file": "src\\server\\routes\\forensicRoutes.ts",
+      "line": 519,
+      "text": "...MasterQuantUniverseService.UNIVERSE[0].fundamentals,"
+    },
+    {
+      "file": "src\\server\\services\\adapters\\TechnicalEngineAdapter.ts",
+      "line": 81,
+      "text": "return ['REQ_S1_DAILY_OHLCV', 'REQ_S1_UNIVERSE'];"
+    },
+    {
+      "file": "src\\server\\services\\audit\\PITDecisionEvidenceValidator.ts",
+      "line": 62,
+      "text": "code: 'CURRENT_UNIVERSE_CONTAMINATION',"
+    },
+    {
+      "file": "src\\server\\services\\audit\\ProvenanceEvidenceValidator.ts",
+      "line": 136,
+      "text": "securityId: 'NIFTY500_UNIVERSE',"
+    },
+    {
+      "file": "src\\server\\services\\audit\\RedTeamAuditEngine.ts",
+      "line": 74,
+      "text": "evidence: 'AdversarialAttackSuite Attack A verified: contemporary IPO injection triggers CURRENT_UNIVERSE_CONTAMINATION."
+    },
+    {
+      "file": "src\\server\\services\\audit\\StopTheLine.ts",
+      "line": 13,
+      "text": "| 'CURRENT_UNIVERSE_CONTAMINATION'"
+    },
+    {
+      "file": "src\\server\\services\\ConsolidatedOpportunityEngine.ts",
+      "line": 1707,
+      "text": "// ── MASTER INDIAN UNIVERSE: 750+ Constituent Stocks (Nifty 500 + Microcap 250 / SME + User Holdings) ──"
+    },
+    {
+      "file": "src\\server\\services\\datarichness\\S1ToS10RequirementsExtractor.ts",
+      "line": 16,
+      "text": "dependencyType: 'OHLCV' | 'INTRADAY' | 'FINANCIAL' | 'BENCHMARK' | 'CORPORATE_ACTION' | 'UNIVERSE';"
+    },
+    {
+      "file": "src\\server\\services\\ForensicTestSuiteRunner.ts",
+      "line": 100,
+      "text": "const titanFund = MasterQuantUniverseService.UNIVERSE.find((u) => u.symbol === 'TITAN')!.fundamentals;"
+    },
+    {
+      "file": "src\\server\\services\\ForensicTestSuiteRunner.ts",
+      "line": 113,
+      "text": "const dhflFund = MasterQuantUniverseService.UNIVERSE.find((u) => u.symbol === 'DHFL_HISTORICAL')!.fundamentals;"
+    },
+    {
+      "file": "src\\server\\services\\ForensicTestSuiteRunner.ts",
+      "line": 155,
+      "text": "const titan = MasterQuantUniverseService.UNIVERSE.find((u) => u.symbol === 'TITAN')!;"
+    },
+    {
+      "file": "src\\server\\services\\ForensicTestSuiteRunner.ts",
+      "line": 177,
+      "text": "const dhfl = MasterQuantUniverseService.UNIVERSE.find((u) => u.symbol === 'DHFL_HISTORICAL')!;"
+    },
+    {
+      "file": "src\\server\\services\\ForensicTestSuiteRunner.ts",
+      "line": 187,
+      "text": "const adani = MasterQuantUniverseService.UNIVERSE.find((u) => u.symbol === 'ADANIENT')!;"
+    },
+    {
+      "file": "src\\server\\services\\ForensicTestSuiteRunner.ts",
+      "line": 334,
+      "text": "...MasterQuantUniverseService.UNIVERSE[0].fundamentals,"
+    },
+    {
+      "file": "src\\server\\services\\MasterQuantUniverseService.ts",
+      "line": 37,
+      "text": "public static UNIVERSE: UniverseCompanyRecord[] = ["
+    },
+    {
+      "file": "src\\server\\services\\MasterQuantUniverseService.ts",
+      "line": 475,
+      "text": "const universe = this.UNIVERSE;"
+    },
+    {
+      "file": "src\\server\\services\\MasterQuantUniverseService.ts",
+      "line": 557,
+      "text": "const staticFound = this.UNIVERSE.find((u) => u.symbol.toUpperCase() === cleanSym);"
+    },
+    {
+      "file": "src\\server\\services\\phase2fasttrack\\AuditEngines.ts",
+      "line": 13,
+      "text": "attackId: \"RT-001-UNIVERSE-POISON\","
+    },
+    {
+      "file": "src\\server\\services\\phase2fasttrack\\AuditEngines.ts",
+      "line": 14,
+      "text": "pipelineReached: \"PIT_UNIVERSE_PROVIDER\","
+    },
+    {
+      "file": "src\\server\\services\\phase2fasttrack\\CP21IndependentVerifier.ts",
+      "line": 305,
+      "text": "pitUniverse: resolveComponentPath('pitUniverse', 'data/v6.3_UNIVERSE_INTEGRITY_REPORT.json', 'reports/v674-phase2/01B_CO"
+    },
+    {
+      "file": "src\\server\\services\\phase2fasttrack\\ResearchSnapshotBuilder.ts",
+      "line": 57,
+      "text": "const primary = 'data/v6.3_UNIVERSE_INTEGRITY_REPORT.json';"
+    },
+    {
+      "file": "src\\server\\services\\phase2fasttrack\\ResearchSnapshotBuilder.ts",
+      "line": 58,
+      "text": "const fallback = 'reports/v674-phase2/01B_COMMON_UNIVERSE_INTERSECTION_AUDIT.json';"
+    },
+    {
+      "file": "src\\server\\services\\phase2forensics\\Phase2ExcelReviewGenerator.ts",
+      "line": 89,
+      "text": "coverSheet.addRow(['Universe', 'NIFTY500_PIT_UNIVERSE']);"
+    },
+    {
+      "file": "src\\server\\services\\phase2forensics\\Phase2ExcelReviewGenerator.ts",
+      "line": 454,
+      "text": "pitSheet.addRow(['Universe Resolution', 'NIFTY500_PIT_UNIVERSE', 'VERIFIED']);"
+    },
+    {
+      "file": "src\\server\\services\\phase2forensics\\Phase2MasterOrchestrator.ts",
+      "line": 277,
+      "text": "path.join(this.outputDir, '01B_COMMON_UNIVERSE_INTERSECTION_AUDIT.json'),"
+    },
+    {
+      "file": "src\\server\\services\\phase2forensics\\Phase2ReportPackGenerator.ts",
+      "line": 212,
+      "text": "auditTitle: 'WEALTHOS PHASE 2.1 — COMMON UNIVERSE INTERSECTION AUDIT (50 COMMON STOCKS x 7 TRADING SESSIONS)',"
+    },
+    {
+      "file": "src\\server\\services\\phase2forensics\\Phase2ReportPackGenerator.ts",
+      "line": 223,
+      "text": "path.join(this.outputDir, '01B_COMMON_UNIVERSE_INTERSECTION_AUDIT.json'),"
+    },
+    {
+      "file": "src\\server\\services\\phase2forensics\\Phase2ReportPackGenerator.ts",
+      "line": 233,
+      "text": "COMMON_UNIVERSE_INTERSECTION_AUDIT_FILE: '01B_COMMON_UNIVERSE_INTERSECTION_AUDIT.json',"
+    },
+    {
+      "file": "src\\server\\services\\phase2forensics\\Phase2ReportPackGenerator.ts",
+      "line": 426,
+      "text": "- **PIT Universe**: NIFTY500_PIT_UNIVERSE"
+    },
+    {
+      "file": "src\\server\\services\\PureTechnicalStrategiesEngine.ts",
+      "line": 233,
+      "text": "// UNIVERSE SCAN REPORT INTERFACE"
+    },
+    {
+      "file": "src\\server\\services\\PureTechnicalStrategiesEngine.ts",
+      "line": 3068,
+      "text": "// UNIVERSE SCANNER (ALL 3 INDEPENDENT STRATEGIES + MULTI-CONVERGENCE)"
+    },
+    {
+      "file": "src\\server\\services\\QuantitativeBacktestScheduler.ts",
+      "line": 25,
+      "text": "export const TRACKED_UNIVERSE = ["
+    },
+    {
+      "file": "src\\server\\services\\QuantitativeBacktestScheduler.ts",
+      "line": 149,
+      "text": "const ingestResult = await this.ingestor.batchIngest(TRACKED_UNIVERSE, 200);"
+    },
+    {
+      "file": "src\\server\\services\\QuantitativeBacktestScheduler.ts",
+      "line": 175,
+      "text": "const fnoSymbols = TRACKED_UNIVERSE.filter(s => this.fno.isFnoEligible(s));"
+    },
+    {
+      "file": "src\\server\\services\\QuantitativeBacktestScheduler.ts",
+      "line": 234,
+      "text": "stocksScanned: TRACKED_UNIVERSE.length,"
+    },
+    {
+      "file": "src\\server\\services\\QuantitativeBacktestScheduler.ts",
+      "line": 247,
+      "text": "stocksScanned: TRACKED_UNIVERSE.length,"
+    },
+    {
+      "file": "src\\server\\services\\r43\\R43PITIntegrityGuard.ts",
+      "line": 35,
+      "text": "'CURRENT_UNIVERSE_FALLBACK',"
+    }
+  ],
+  "server_db_path": [
+    {
+      "file": "src\\App.tsx",
+      "line": 1288,
+      "text": "showToast('Full portfolio.db database has been successfully wiped and re-created blank!', 'success');"
+    },
+    {
+      "file": "src\\components\\SettingsView.tsx",
+      "line": 1082,
+      "text": "SQLite Database Backup (portfolio.db)"
+    },
+    {
+      "file": "src\\components\\SettingsView.tsx",
+      "line": 1103,
+      "text": "{dbExportProgress.status === 'uploading' && 'Uploading portfolio.db...'}"
+    },
+    {
+      "file": "src\\components\\SettingsView.tsx",
+      "line": 1138,
+      "text": "Download your entire portfolio tracker as a full project ZIP, or just backup your database. You can also upload a previo"
+    },
+    {
+      "file": "src\\components\\SettingsView.tsx",
+      "line": 1144,
+      "text": "{isRestoring ? 'Restoring Database...' : 'Upload & Restore portfolio.db'}"
+    },
+    {
+      "file": "src\\components\\SettingsView.tsx",
+      "line": 1162,
+      "text": "{isDownloadingDb ? 'Downloading DB...' : 'Download portfolio.db'}"
+    },
+    {
+      "file": "src\\components\\SettingsView.tsx",
+      "line": 1246,
+      "text": "Full Purge SQLite portfolio.db WIPE"
+    },
+    {
+      "file": "src\\lib\\driveExport.ts",
+      "line": 41,
+      "text": "currentFile: 'portfolio.db',"
+    },
+    {
+      "file": "src\\server\\database.ts",
+      "line": 22,
+      "text": "const DB_FILE = process.env.DATABASE_URL || path.join(process.cwd(), 'portfolio.db');"
+    },
+    {
+      "file": "src\\server\\database.ts",
+      "line": 70,
+      "text": "if (process.env.VITEST || process.env.NODE_ENV === 'test' || process.env.DB_PATH?.includes('test')) {"
+    },
+    {
+      "file": "src\\server\\database.ts",
+      "line": 88,
+      "text": ".filter(f => f.startsWith('portfolio.db.bak') || f.endsWith('.db.bak') || (f.includes('backup') && f.endsWith('.db')))"
+    },
+    {
+      "file": "src\\server\\database.ts",
+      "line": 109,
+      "text": "console.log(`[PersistentBackup] Auto-restoring portfolio.db from backup: ${path.basename(bestBackupPath)} (size: ${bestB"
+    },
+    {
+      "file": "src\\server\\services\\data\\DataCoverageValidator.ts",
+      "line": 65,
+      "text": "public async getExpectedSessions(from: string, to: string, dbPath: string = 'portfolio.db'): Promise<number> {"
+    },
+    {
+      "file": "src\\server\\services\\DatabaseManager.ts",
+      "line": 11,
+      "text": "this.dbPath = path.join(process.cwd(), 'portfolio.db');"
+    },
+    {
+      "file": "src\\server\\services\\DualSourceReconciliationEngine.ts",
+      "line": 9,
+      "text": "* Persists all drift discrepancies and consensus scores into DataSyncDriftLedger in portfolio.db."
+    },
+    {
+      "file": "src\\server\\services\\ForensicQualityAuditService.ts",
+      "line": 35,
+      "text": "const dbPath = path.resolve(process.cwd(), 'portfolio.db');"
+    },
+    {
+      "file": "src\\server\\services\\ListingPlatformClassifier.ts",
+      "line": 22,
+      "text": "const dbPath = path.resolve(process.cwd(), 'portfolio.db');"
+    },
+    {
+      "file": "src\\server\\services\\phase2fasttrack\\AuditEngines.ts",
+      "line": 80,
+      "text": "\"Real historical PIT data used via portfolio.db\""
+    },
+    {
+      "file": "src\\server\\services\\QuarantineQueueService.ts",
+      "line": 25,
+      "text": "const dbPath = path.resolve(process.cwd(), 'portfolio.db');"
+    },
+    {
+      "file": "src\\server\\services\\ScheduleOrchestrator.ts",
+      "line": 17,
+      "text": "const dbPath = path.resolve(process.cwd(), 'portfolio.db');"
+    },
+    {
+      "file": "src\\server\\services\\StatutoryFeedPoller.ts",
+      "line": 26,
+      "text": "const dbPath = path.resolve(process.cwd(), 'portfolio.db');"
+    },
+    {
+      "file": "scripts\\adversarial_forensic_suite.cjs",
+      "line": 275,
+      "text": "{ gate: 'Historical Sources', status: 'PASS', evidence: 'portfolio.db (4.13M rows)', blocking: true },"
+    },
+    {
+      "file": "scripts\\adversarial_forensic_suite.cjs",
+      "line": 278,
+      "text": "{ gate: 'Corporate Actions', status: 'PASS', evidence: '7,757 CorporateActions in portfolio.db', blocking: true },"
+    },
+    {
+      "file": "scripts\\agent_a_forensics.ts",
+      "line": 4,
+      "text": "* queries live portfolio.db for real row counts, and produces:"
+    },
+    {
+      "file": "scripts\\agent_a_forensics.ts",
+      "line": 19,
+      "text": "const DB_PATH = path.join(ROOT_DIR, 'portfolio.db');"
+    },
+    {
+      "file": "scripts\\agent_a_forensics.ts",
+      "line": 131,
+      "text": "if (fs.existsSync(DB_PATH)) {"
+    },
+    {
+      "file": "scripts\\agent_a_forensics.ts",
+      "line": 132,
+      "text": "const db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY);"
+    },
+    {
+      "file": "scripts\\agent_a_forensics.ts",
+      "line": 135,
+      "text": "console.log(`Audited ${tables.length} tables from ${DB_PATH}`);"
+    },
+    {
+      "file": "scripts\\agent_a_forensics.ts",
+      "line": 140,
+      "text": "console.warn(`Database not found at ${DB_PATH}`);"
+    },
+    {
+      "file": "scripts\\agent_a_forensics.ts",
+      "line": 176,
+      "text": "**Scope**: 134 Services + Live \\`portfolio.db\\` Schema & Population"
+    },
+    {
+      "file": "scripts\\agent_b_eval.ts",
+      "line": 16,
+      "text": "const DB_PATH = path.join(ROOT_DIR, 'portfolio.db');"
+    },
+    {
+      "file": "scripts\\agent_b_eval.ts",
+      "line": 20,
+      "text": "const db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY);"
+    },
+    {
+      "file": "scripts\\analyze_all_cache_and_stale.ts",
+      "line": 30,
+      "text": "'portfolio.db',"
+    },
+    {
+      "file": "scripts\\analyze_all_cache_and_stale.ts",
+      "line": 31,
+      "text": "'database.db',"
+    },
+    {
+      "file": "scripts\\audit\\build_provenance_registry.cjs",
+      "line": 59,
+      "text": "const dbPath = path.join(ROOT, 'data/portfolio.db');"
+    },
+    {
+      "file": "scripts\\audit\\build_provenance_registry.cjs",
+      "line": 200,
+      "text": "path: 'data/portfolio.db',"
+    },
+    {
+      "file": "scripts\\audit\\market_data_cert_audit.cjs",
+      "line": 80,
+      "text": "report['portfolio.db'] = auditDB('portfolio.db');"
+    },
+    {
+      "file": "scripts\\audit\\mda_step1_portfolio_db.cjs",
+      "line": 8,
+      "text": "// ── 1. portfolio.db (primary, 13.5 GB) ──────────────────────────────────────"
+    },
+    {
+      "file": "scripts\\audit\\mda_step1_portfolio_db.cjs",
+      "line": 9,
+      "text": "const dbPath = path.join(ROOT, 'portfolio.db');"
+    },
+    {
+      "file": "scripts\\audit\\mda_step1_portfolio_db.cjs",
+      "line": 10,
+      "text": "console.log('Auditing portfolio.db...');"
+    },
+    {
+      "file": "scripts\\audit\\mda_step2_code_refs.cjs",
+      "line": 11,
+      "text": "server_db_path: [],"
+    },
+    {
+      "file": "scripts\\audit\\mda_step2_code_refs.cjs",
+      "line": 22,
+      "text": "const DB_PATH_PATS = [/portfolio\\.db/i, /database\\.db/i, /DB_PATH/i];"
+    },
+    {
+      "file": "scripts\\audit\\mda_step2_code_refs.cjs",
+      "line": 33,
+      "text": "if (DB_PATH_PATS.some(p => p.test(line))) results.server_db_path.push({ file: rel, line: i+1, text: line.trim().substrin"
+    },
+    {
+      "file": "scripts\\audit\\reports\\MARKET_DATA_CERTIFICATION_AUDIT.json",
+      "line": 2,
+      "text": "\"portfolio.db\": {"
+    },
+    {
+      "file": "scripts\\audit\\verify_required_market_coverage.cjs",
+      "line": 6,
+      "text": "const DB_PATH = path.join(ROOT, 'data/portfolio_v6.3_pilot_research.db');"
+    },
+    {
+      "file": "scripts\\audit\\verify_required_market_coverage.cjs",
+      "line": 9,
+      "text": "if (fs.existsSync(DB_PATH)) {"
+    },
+    {
+      "file": "scripts\\audit\\verify_required_market_coverage.cjs",
+      "line": 10,
+      "text": "db = new Database(DB_PATH, {"
+    },
+    {
+      "file": "scripts\\audit\\verify_required_market_coverage.cjs",
+      "line": 242,
+      "text": "database: DB_PATH,"
+    },
+    {
+      "file": "scripts\\audit_candidate_coverage.ts",
+      "line": 25,
+      "text": "const dbPath = path.resolve(rootDir, 'portfolio.db');"
+    },
+    {
+      "file": "scripts\\audit_candidate_coverage.ts",
+      "line": 90,
+      "text": "// Let's get the distinct dates that have trading across the market in portfolio.db"
+    }
+  ],
+  "ingestion_sources": [],
+  "stk_json": {
+    "totalSymbols": 5066,
+    "sampleSymbols": [
+      "500002",
+      "500003",
+      "500008",
+      "500009",
+      "500010",
+      "500012",
+      "500013",
+      "500014",
+      "500016",
+      "500020",
+      "500023",
+      "500024",
+      "500027",
+      "500028",
+      "500029",
+      "500030",
+      "500031",
+      "500032",
+      "500033",
+      "500034"
+    ],
+    "fields": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16"
+    ],
+    "sampleEntry": "ABB India Limited"
+  },
+  "AUDIT_DATA_SOURCES_excerpt": "# NRI WealthOS -- External Data Source Audit\n\nGenerated: 2026-09-09\n\n---\n\n## 1. Complete Data Source Inventory\n\n| # | Service | External URL(s) | Quality Rating | Reliability | Key Data Fields | Storage Table(s) | Breaks Often? |\n|---|---------|----------------|----------------|-------------|-----------------|-------------------|---------------|\n| 1 | **screenerService.ts** | `https://www.screener.in/company/{SYM}/consolidated/` | SCRAPED | LOW | Company name, about, sector, industry, PE, ROCE, ROE, D/E, dividend yield, book value, face value, pros/cons, shareholding (promoter/FII/DII/public), 5yr growth metrics, quarterly results (sales, PAT, OPM), peers, concall/presentation docs | `AppConfig` (key: `screener_cache_{SYM}`) | YES -- HTML parsing, any layout change breaks all ratios |\n| 2 | **screenerService.ts** | `https://www.screener.in/api/company/search/?q={SYM}` | SCRAPED | LOW | Symbol-to-URL mapping (search fallback) | (used transiently) | YES -- undocumented API |\n| 3 | **FundamentalDataService.ts** | (none -- delegates to screenerService) | SCRAPED | LOW | PE, book value, dividend yield, ROCE, ROE, D/E, interest coverage, sales/PAT 5yr growth, promoter/FII/DII holding, pledged % | `FundamentalSnapshots` | YES -- inherits Screener fragility |\n| 4 | **TrendlyneIntelligenceService.ts** | (none -- synthesizes from Screener data + formulas) | DERIVED | MEDIUM | DVM scores (durability/valuation/momentum), SWOT, analyst consensus, Piotroski F-Score, Altman Z-Score, institutional checklists, forecaster (fwd EPS/PE) | `AppConfig` (key: `trendlyne_intel_{SYM}`) | NO -- but quality depends on Screener input |\n| 5 | **FnOIntelligenceService.ts** | `https://api.upstox.com/v2/option/chain?instrument_key={KEY}` | OFFICIAL | HIGH | PCR (OI + volume), max pain, ATM IV, IV percentile/rank, OI buildup, call/put OI totals, highest call/put OI strikes, rollover %, delivery % | `FnoDataCache` | NO -- authenticated Upstox API |\n| 6 | **NseBhavcopyService.ts** | `https://archives.nseindia.com/products/content/sec_bhavdata_full_{DDMMYYYY}.csv` | OFFICIAL | HIGH | OHLCV, avg price, volume, turnover, no. of trades, delivery qty, delivery % (all EQ series) | `NseBhavcopy` | RARELY -- official CSV, stable format |\n| 7 | **NseBhavcopyService.ts** | `https://archives.nseindia.com/content/equities/bulk.csv` | OFFICIAL | HIGH | Bulk deals: date, symbol, client, buy/sell, qty, price | `InstitutionalDeals` | RARELY |\n| 8 | **NseBhavcopyService.ts** | `https://archives.nseindia.com/content/equities/block.csv` | OFFICIAL | HIGH | Block deals: date, symbol, client, buy/sell, qty, price | `InstitutionalDeals` | RARELY |\n| 9 | **NseBhavcopyService.ts** | `https://www.amfiindia.com/spages/NAVAll.txt` | OFFICIAL | HIGH | MF scheme code, ISIN, scheme name, NAV, NAV date | `MfNavHistory` | RARELY -- stable semicolon-delimited format |\n| 10 | **NseBhavcopyService.ts** | `https://query1.finance.yahoo.com/v8/finance/chart/{PAIR}=X?interval=1d&range=1d` | SCRAPED | MEDIUM | Forex rates: USDINR, AEDINR, EURINR, GBPINR | `ForexRates` | SOMETIMES -- Yahoo undocumented API |\n| 11 | **NewsSentimentService.ts** | `https://news.google.com/rss/search?q={QUERY}` (5 Indian site-scoped feeds) | SCRAPED | MEDIUM | Headlines, pub date, source name, content snippet | `EventIntelligenceLog` | SOMETIMES -- Google News RSS, rate limits |\n| 12 | **NewsSentimentService.ts** | `https://finance.yahoo.com/rss/headline?s={SYM}` | SCRAPED | MEDIUM | US stock headlines | (in-memory only) | SOMETIMES |\n| 13 | **NewsSentimentService.ts** | `https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines` | SCRAPED | MEDIUM | MarketWatch headlines (US) | (in-memory only) | SOMETIMES |\n| 14 | **SmartMoneyFlowEngine.ts** | (none -- reads local `HistoricalPrices` + `yahooFinance.fetchTickerData` fallback) | DERIVED | MEDIUM | SMAS score, VWAP divergence, delivery surge, net institutional flow, block deals, sector flows | `SmartMoneySectorCache`, `DataProvenanceLog` | NO -- derived from local ",
+  "ingestion_files": [
+    "acquire_real_annual_report.cjs",
+    "acquire_real_annual_report.py",
+    "batch_discover_evidence.cjs",
+    "bse_symbol_map.json",
+    "discover_evidence.py",
+    "pilot_bse_codes.json"
+  ],
+  "nifty500_refs_total": 469,
+  "sme_refs_total": 182,
+  "benchmark_index_refs_total": 170,
+  "universe_config_refs_total": 150,
+  "server_db_path_total": 246
+}

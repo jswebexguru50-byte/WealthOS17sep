@@ -1,0 +1,1802 @@
+{
+  "DEL-544556-2024-02-29": {
+    "symbol": "544556",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0SPJ01011",
+    "corrected_upstox_key": "BSE_EQ|INE0SPJ01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.503Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0SPJ01011/day/2024-03-02/2024-02-27",
+    "retrieval_timestamp": "2026-09-20T18:29:00.371Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-535647-2024-01-08": {
+    "symbol": "535647",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE807O01011",
+    "corrected_upstox_key": "BSE_EQ|INE807O01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE807O01011/day/2024-01-10/2024-01-06",
+    "retrieval_timestamp": "2026-09-20T18:29:03.182Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "1b0b602dbae30f1cdc726b0f563a1a81b5842debdf204c5a5969154117192a12"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544683-2024-06-28": {
+    "symbol": "544683",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE1D8001016",
+    "corrected_upstox_key": "BSE_EQ|INE1D8001016",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE1D8001016/day/2024-06-30/2024-06-26",
+    "retrieval_timestamp": "2026-09-20T18:29:05.588Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-543991-2024-04-26": {
+    "symbol": "543991",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0P4P01011",
+    "corrected_upstox_key": "BSE_EQ|INE0P4P01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0P4P01011/day/2024-04-28/2024-04-24",
+    "retrieval_timestamp": "2026-09-20T18:29:08.212Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "bf188872bd4863d5b551945878ab6b9c55217c543bef665cdb29ce86b4a70786"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-543239-2024-03-11": {
+    "symbol": "543239",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0E2801015",
+    "corrected_upstox_key": "BSE_EQ|INE0E2801015",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0E2801015/day/2024-03-13/2024-03-09",
+    "retrieval_timestamp": "2026-09-20T18:29:10.551Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "0fa82cd0fef000a8f517e1bc79fc908cda07720dcfa26f4337a9d30cc43a3642"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-543366-2024-02-28": {
+    "symbol": "543366",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0DLM01024",
+    "corrected_upstox_key": "BSE_EQ|INE0DLM01024",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0DLM01024/day/2024-03-01/2024-02-26",
+    "retrieval_timestamp": "2026-09-20T18:29:12.901Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "cb7288902e47babfa27088fb15f052ffa6b4bce8658dfb68d560756a516dbd91"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-540082-2024-04-22": {
+    "symbol": "540082",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE367U01013",
+    "corrected_upstox_key": "BSE_EQ|INE367U01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE367U01013/day/2024-04-24/2024-04-20",
+    "retrieval_timestamp": "2026-09-20T18:29:15.214Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544091-2024-06-07": {
+    "symbol": "544091",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0Q1R01012",
+    "corrected_upstox_key": "BSE_EQ|INE0Q1R01012",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0Q1R01012/day/2024-06-09/2024-06-05",
+    "retrieval_timestamp": "2026-09-20T18:29:17.567Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "7f0dbe86ab56359896112443adaf7acf7ca4d46b10c39d5c08c187792d55cc04"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-544495-2024-04-02": {
+    "symbol": "544495",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0M3X01010",
+    "corrected_upstox_key": "BSE_EQ|INE0M3X01010",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0M3X01010/day/2024-04-04/2024-03-31",
+    "retrieval_timestamp": "2026-09-20T18:29:19.922Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544693-2024-07-22": {
+    "symbol": "544693",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE163401016",
+    "corrected_upstox_key": "BSE_EQ|INE163401016",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE163401016/day/2024-07-24/2024-07-20",
+    "retrieval_timestamp": "2026-09-20T18:29:22.232Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-541445-2024-05-16": {
+    "symbol": "541445",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE799N01012",
+    "corrected_upstox_key": "BSE_EQ|INE799N01012",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE799N01012/day/2024-05-18/2024-05-14",
+    "retrieval_timestamp": "2026-09-20T18:29:24.560Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "99b8c5e3721aa600a47d2245a9eee38a4d5d2ab1f2a30fb7a2c8e7a5c8b6a8a5"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-543305-2024-03-07": {
+    "symbol": "543305",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0DB001013",
+    "corrected_upstox_key": "BSE_EQ|INE0DB001013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0DB001013/day/2024-03-09/2024-03-05",
+    "retrieval_timestamp": "2026-09-20T18:29:26.876Z",
+    "response_evidence": {
+      "status": 400,
+      "payloadHash": "c43b67215d53ef2890dbde2401e0ced4089d85d5a7607b726644662f9916828d"
+    },
+    "finalClassification": "INVALID_INSTRUMENT",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544083-2024-07-15": {
+    "symbol": "544083",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0QIS01011",
+    "corrected_upstox_key": "BSE_EQ|INE0QIS01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0QIS01011/day/2024-07-17/2024-07-13",
+    "retrieval_timestamp": "2026-09-20T18:29:29.228Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "28311784c1d2d2eff82f33f515cbdd379d289d031d2ef6a26a3219b16ee70098"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-544489-2024-02-06": {
+    "symbol": "544489",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE191201016",
+    "corrected_upstox_key": "BSE_EQ|INE191201016",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE191201016/day/2024-02-08/2024-02-04",
+    "retrieval_timestamp": "2026-09-20T18:29:31.589Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544724-2024-05-15": {
+    "symbol": "544724",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE1FEW01013",
+    "corrected_upstox_key": "BSE_EQ|INE1FEW01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE1FEW01013/day/2024-05-17/2024-05-13",
+    "retrieval_timestamp": "2026-09-20T18:29:33.874Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-542728-2024-03-06": {
+    "symbol": "542728",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE04ST01013",
+    "corrected_upstox_key": "BSE_EQ|INE04ST01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE04ST01013/day/2024-03-08/2024-03-04",
+    "retrieval_timestamp": "2026-09-20T18:29:36.171Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544177-2024-02-13": {
+    "symbol": "544177",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0SCB01016",
+    "corrected_upstox_key": "BSE_EQ|INE0SCB01016",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0SCB01016/day/2024-02-15/2024-02-11",
+    "retrieval_timestamp": "2026-09-20T18:29:38.449Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-539229-2024-02-16": {
+    "symbol": "539229",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE196R01012",
+    "corrected_upstox_key": "BSE_EQ|INE196R01012",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE196R01012/day/2024-02-18/2024-02-14",
+    "retrieval_timestamp": "2026-09-20T18:29:40.815Z",
+    "response_evidence": {
+      "status": 400,
+      "payloadHash": "c43b67215d53ef2890dbde2401e0ced4089d85d5a7607b726644662f9916828d"
+    },
+    "finalClassification": "INVALID_INSTRUMENT",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544556-2024-08-01": {
+    "symbol": "544556",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0SPJ01011",
+    "corrected_upstox_key": "BSE_EQ|INE0SPJ01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0SPJ01011/day/2024-08-03/2024-07-30",
+    "retrieval_timestamp": "2026-09-20T18:29:43.219Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-540146-2024-01-30": {
+    "symbol": "540146",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE427V01013",
+    "corrected_upstox_key": "BSE_EQ|INE427V01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE427V01013/day/2024-02-01/2024-01-28",
+    "retrieval_timestamp": "2026-09-20T18:29:45.517Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "68f13a9e6fcf31617235d0c5c71466032c3ef2d1266545336a51ffaf45b1b8b1"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-543410-2024-06-07": {
+    "symbol": "543410",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE07L501010",
+    "corrected_upstox_key": "BSE_EQ|INE07L501010",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE07L501010/day/2024-06-09/2024-06-05",
+    "retrieval_timestamp": "2026-09-20T18:29:47.866Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "6bfc491bd53283d5f843849c38d3c7cc44bd0bb123e982fbfe977c07c7aeb8fc"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-544710-2024-02-27": {
+    "symbol": "544710",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE132201018",
+    "corrected_upstox_key": "BSE_EQ|INE132201018",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE132201018/day/2024-02-29/2024-02-25",
+    "retrieval_timestamp": "2026-09-20T18:29:50.431Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-543897-2024-07-19": {
+    "symbol": "543897",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0P7001013",
+    "corrected_upstox_key": "BSE_EQ|INE0P7001013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0P7001013/day/2024-07-21/2024-07-17",
+    "retrieval_timestamp": "2026-09-20T18:29:52.700Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "cc63b4b15fa104a1219b3dffbc6096d0021155fc33a6b25805e4a20886b142c2"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-780013-2024-06-20": {
+    "symbol": "780013",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE324P01014",
+    "corrected_upstox_key": "BSE_EQ|INE324P01014",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE324P01014/day/2024-06-22/2024-06-18",
+    "retrieval_timestamp": "2026-09-20T18:29:55.249Z",
+    "response_evidence": {
+      "status": 400,
+      "payloadHash": "c43b67215d53ef2890dbde2401e0ced4089d85d5a7607b726644662f9916828d"
+    },
+    "finalClassification": "INVALID_INSTRUMENT",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544811-2024-08-01": {
+    "symbol": "544811",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE1L0M01019",
+    "corrected_upstox_key": "BSE_EQ|INE1L0M01019",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE1L0M01019/day/2024-08-03/2024-07-30",
+    "retrieval_timestamp": "2026-09-20T18:29:57.519Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-543578-2024-02-13": {
+    "symbol": "543578",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0M3901015",
+    "corrected_upstox_key": "BSE_EQ|INE0M3901015",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0M3901015/day/2024-02-15/2024-02-11",
+    "retrieval_timestamp": "2026-09-20T18:29:59.857Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "2ab96642e2f951ec92f337522dce7658265973137a6b3e8909b232709c99b45a"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-544059-2024-05-31": {
+    "symbol": "544059",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0QZQ01019",
+    "corrected_upstox_key": "BSE_EQ|INE0QZQ01019",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0QZQ01019/day/2024-06-02/2024-05-29",
+    "retrieval_timestamp": "2026-09-20T18:30:02.205Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "0c12a345a45c481f5c441197c6d0dbb7bedf7b9af0b837495eaa5c8454517657"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-544677-2024-01-17": {
+    "symbol": "544677",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0ZE201010",
+    "corrected_upstox_key": "BSE_EQ|INE0ZE201010",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0ZE201010/day/2024-01-19/2024-01-15",
+    "retrieval_timestamp": "2026-09-20T18:30:04.539Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-541178-2024-08-14": {
+    "symbol": "541178",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE495Z01011",
+    "corrected_upstox_key": "BSE_EQ|INE495Z01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE495Z01011/day/2024-08-16/2024-08-12",
+    "retrieval_timestamp": "2026-09-20T18:30:06.889Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "0bd7e496d2f5fdece35d5369f6bed3534311d224fa8d2ae7e5e49b2596792260"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-543595-2024-03-01": {
+    "symbol": "543595",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0D2I01014",
+    "corrected_upstox_key": "BSE_EQ|INE0D2I01014",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0D2I01014/day/2024-03-03/2024-02-28",
+    "retrieval_timestamp": "2026-09-20T18:30:09.278Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "6791bf8e211ca9e3fdfad1448fee272ad526d4fddd8185db6aeef854d1989adb"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-543319-2024-08-05": {
+    "symbol": "543319",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0C5901022",
+    "corrected_upstox_key": "BSE_EQ|INE0C5901022",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0C5901022/day/2024-08-07/2024-08-03",
+    "retrieval_timestamp": "2026-09-20T18:30:11.629Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544551-2024-06-07": {
+    "symbol": "544551",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE18PB01017",
+    "corrected_upstox_key": "BSE_EQ|INE18PB01017",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE18PB01017/day/2024-06-09/2024-06-05",
+    "retrieval_timestamp": "2026-09-20T18:30:13.988Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544251-2024-07-19": {
+    "symbol": "544251",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0LY301010",
+    "corrected_upstox_key": "BSE_EQ|INE0LY301010",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0LY301010/day/2024-07-21/2024-07-17",
+    "retrieval_timestamp": "2026-09-20T18:30:16.337Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-541299-2024-04-15": {
+    "symbol": "541299",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE871Z01013",
+    "corrected_upstox_key": "BSE_EQ|INE871Z01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE871Z01013/day/2024-04-17/2024-04-13",
+    "retrieval_timestamp": "2026-09-20T18:30:18.695Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544248-2024-04-30": {
+    "symbol": "544248",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0UYT01018",
+    "corrected_upstox_key": "BSE_EQ|INE0UYT01018",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0UYT01018/day/2024-05-02/2024-04-28",
+    "retrieval_timestamp": "2026-09-20T18:30:21.029Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-537784-2024-02-13": {
+    "symbol": "537784",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE576P01019",
+    "corrected_upstox_key": "BSE_EQ|INE576P01019",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE576P01019/day/2024-02-15/2024-02-11",
+    "retrieval_timestamp": "2026-09-20T18:30:23.603Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544575-2024-03-26": {
+    "symbol": "544575",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE833Q01012",
+    "corrected_upstox_key": "BSE_EQ|INE833Q01012",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE833Q01012/day/2024-03-28/2024-03-24",
+    "retrieval_timestamp": "2026-09-20T18:30:26.374Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544334-2024-01-04": {
+    "symbol": "544334",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0FK501019",
+    "corrected_upstox_key": "BSE_EQ|INE0FK501019",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0FK501019/day/2024-01-06/2024-01-02",
+    "retrieval_timestamp": "2026-09-20T18:30:29.035Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544056-2024-08-22": {
+    "symbol": "544056",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0PSJ01011",
+    "corrected_upstox_key": "BSE_EQ|INE0PSJ01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0PSJ01011/day/2024-08-24/2024-08-20",
+    "retrieval_timestamp": "2026-09-20T18:30:31.384Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "dca1691392e3eb72ec358f135cd18f2b0ecd71c02ac2ae25fbb6be3f2d5e67d5"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-540144-2024-02-06": {
+    "symbol": "540144",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE746V01016",
+    "corrected_upstox_key": "BSE_EQ|INE746V01016",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE746V01016/day/2024-02-08/2024-02-04",
+    "retrieval_timestamp": "2026-09-20T18:30:33.751Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "3f82facd7aa54153f004600d57ab25173b19cdc27d48cf1c738ee21f500210ec"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-540416-2024-08-23": {
+    "symbol": "540416",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE208U01019",
+    "corrected_upstox_key": "BSE_EQ|INE208U01019",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE208U01019/day/2024-08-25/2024-08-21",
+    "retrieval_timestamp": "2026-09-20T18:30:36.101Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "ea982b96696c573936d9ffd1cbcbe09f244574b8ab0ba7a02394468c5d4c429d"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-540416-2024-05-27": {
+    "symbol": "540416",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE208U01019",
+    "corrected_upstox_key": "BSE_EQ|INE208U01019",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE208U01019/day/2024-05-29/2024-05-25",
+    "retrieval_timestamp": "2026-09-20T18:30:38.462Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "0a099d028eb4a1b93dd642bcbf8150e70975ed77ab8ec0692ff5fb8cc11a607f"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-544724-2024-03-12": {
+    "symbol": "544724",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE1FEW01013",
+    "corrected_upstox_key": "BSE_EQ|INE1FEW01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE1FEW01013/day/2024-03-14/2024-03-10",
+    "retrieval_timestamp": "2026-09-20T18:30:40.812Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-543745-2024-03-04": {
+    "symbol": "543745",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0MID01012",
+    "corrected_upstox_key": "BSE_EQ|INE0MID01012",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0MID01012/day/2024-03-06/2024-03-02",
+    "retrieval_timestamp": "2026-09-20T18:30:43.162Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "c6cb3d1d11c8b42b269635aea4d0769cb5e1c71f6fe487606b41a03d9cd99214"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-544774-2024-08-23": {
+    "symbol": "544774",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE11XK01017",
+    "corrected_upstox_key": "BSE_EQ|INE11XK01017",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE11XK01017/day/2024-08-25/2024-08-21",
+    "retrieval_timestamp": "2026-09-20T18:30:45.730Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544630-2024-06-11": {
+    "symbol": "544630",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE1FJE01010",
+    "corrected_upstox_key": "BSE_EQ|INE1FJE01010",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE1FJE01010/day/2024-06-13/2024-06-09",
+    "retrieval_timestamp": "2026-09-20T18:30:48.294Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-543172-2024-06-18": {
+    "symbol": "543172",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0CQB01010",
+    "corrected_upstox_key": "BSE_EQ|INE0CQB01010",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0CQB01010/day/2024-06-20/2024-06-16",
+    "retrieval_timestamp": "2026-09-20T18:30:50.641Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "0016555e042c6dafa87499defbb45d0cff82c17ce7104271aa272e98e4821b19"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544417-2024-07-29": {
+    "symbol": "544417",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0XCV01014",
+    "corrected_upstox_key": "BSE_EQ|INE0XCV01014",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0XCV01014/day/2024-07-31/2024-07-27",
+    "retrieval_timestamp": "2026-09-20T18:30:53.207Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544056-2024-07-12": {
+    "symbol": "544056",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0PSJ01011",
+    "corrected_upstox_key": "BSE_EQ|INE0PSJ01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0PSJ01011/day/2024-07-14/2024-07-10",
+    "retrieval_timestamp": "2026-09-20T18:30:55.893Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "73db242abecb5f17cb88d006ab450de538a8e0c1a0fcc8b6d3a4f34b5454b8e8"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-543804-2024-06-25": {
+    "symbol": "543804",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0G1V01016",
+    "corrected_upstox_key": "BSE_EQ|INE0G1V01016",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0G1V01016/day/2024-06-27/2024-06-23",
+    "retrieval_timestamp": "2026-09-20T18:30:58.224Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "07058f6e76ec3262edad3b1da0e496538026bc076aff6a05c24aa21da4886fb0"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-538496-2024-05-15": {
+    "symbol": "538496",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE849M01017",
+    "corrected_upstox_key": "BSE_EQ|INE849M01017",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE849M01017/day/2024-05-17/2024-05-13",
+    "retrieval_timestamp": "2026-09-20T18:31:00.593Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "99d03bdfac851ca860275b404d6e0ea25c84f1f09907c0dbb84f8871d1d65088"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-544555-2024-04-22": {
+    "symbol": "544555",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE14QA01016",
+    "corrected_upstox_key": "BSE_EQ|INE14QA01016",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE14QA01016/day/2024-04-24/2024-04-20",
+    "retrieval_timestamp": "2026-09-20T18:31:03.021Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544442-2024-04-18": {
+    "symbol": "544442",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0VWL01017",
+    "corrected_upstox_key": "BSE_EQ|INE0VWL01017",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0VWL01017/day/2024-04-20/2024-04-16",
+    "retrieval_timestamp": "2026-09-20T18:31:05.316Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544412-2024-05-07": {
+    "symbol": "544412",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0TE101010",
+    "corrected_upstox_key": "BSE_EQ|INE0TE101010",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0TE101010/day/2024-05-09/2024-05-05",
+    "retrieval_timestamp": "2026-09-20T18:31:07.755Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-542771-2024-05-03": {
+    "symbol": "542771",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE08JY01013",
+    "corrected_upstox_key": "BSE_EQ|INE08JY01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE08JY01013/day/2024-05-05/2024-05-01",
+    "retrieval_timestamp": "2026-09-20T18:31:10.209Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "2318dfe20fbf6982402bff7065d0829741c3b9dd297b0b5849609e017f8b27d5"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-542002-2024-01-01": {
+    "symbol": "542002",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE061Z01011",
+    "corrected_upstox_key": "BSE_EQ|INE061Z01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE061Z01011/day/2024-01-03/2023-12-30",
+    "retrieval_timestamp": "2026-09-20T18:31:12.871Z",
+    "response_evidence": {
+      "status": 400,
+      "payloadHash": "c43b67215d53ef2890dbde2401e0ced4089d85d5a7607b726644662f9916828d"
+    },
+    "finalClassification": "INVALID_INSTRUMENT",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544566-2024-08-02": {
+    "symbol": "544566",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE10CM01027",
+    "corrected_upstox_key": "BSE_EQ|INE10CM01027",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE10CM01027/day/2024-08-04/2024-07-31",
+    "retrieval_timestamp": "2026-09-20T18:31:15.221Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-540736-2024-05-07": {
+    "symbol": "540736",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE930X01012",
+    "corrected_upstox_key": "BSE_EQ|INE930X01012",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE930X01012/day/2024-05-09/2024-05-05",
+    "retrieval_timestamp": "2026-09-20T18:31:17.580Z",
+    "response_evidence": {
+      "status": 400,
+      "payloadHash": "c43b67215d53ef2890dbde2401e0ced4089d85d5a7607b726644662f9916828d"
+    },
+    "finalClassification": "INVALID_INSTRUMENT",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-542924-2024-02-16": {
+    "symbol": "542924",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE04OV01018",
+    "corrected_upstox_key": "BSE_EQ|INE04OV01018",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE04OV01018/day/2024-02-18/2024-02-14",
+    "retrieval_timestamp": "2026-09-20T18:31:19.931Z",
+    "response_evidence": {
+      "status": 400,
+      "payloadHash": "c43b67215d53ef2890dbde2401e0ced4089d85d5a7607b726644662f9916828d"
+    },
+    "finalClassification": "INVALID_INSTRUMENT",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-543244-2024-08-13": {
+    "symbol": "543244",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0BLY01023",
+    "corrected_upstox_key": "BSE_EQ|INE0BLY01023",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0BLY01023/day/2024-08-15/2024-08-11",
+    "retrieval_timestamp": "2026-09-20T18:31:22.281Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "501b6830dec9be4bba2388279b406d871709ce825104051831efca7100ea895b"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-544105-2024-08-07": {
+    "symbol": "544105",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0OLZ01015",
+    "corrected_upstox_key": "BSE_EQ|INE0OLZ01015",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0OLZ01015/day/2024-08-09/2024-08-05",
+    "retrieval_timestamp": "2026-09-20T18:31:24.590Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "15d3dbd8457b97c7862750b14c789d8412f4a408e36882c321be32d651cff2a5"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-543541-2024-08-26": {
+    "symbol": "543541",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0KHQ01010",
+    "corrected_upstox_key": "BSE_EQ|INE0KHQ01010",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0KHQ01010/day/2024-08-28/2024-08-24",
+    "retrieval_timestamp": "2026-09-20T18:31:26.878Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "1f5f3c2baaa33c5695f229557a432e24a004a8efc43a07f1ea7fc30dc8a36b4d"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544741-2024-05-03": {
+    "symbol": "544741",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE1KI801019",
+    "corrected_upstox_key": "BSE_EQ|INE1KI801019",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE1KI801019/day/2024-05-05/2024-05-01",
+    "retrieval_timestamp": "2026-09-20T18:31:29.446Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-543319-2024-01-01": {
+    "symbol": "543319",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0C5901022",
+    "corrected_upstox_key": "BSE_EQ|INE0C5901022",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0C5901022/day/2024-01-03/2023-12-30",
+    "retrieval_timestamp": "2026-09-20T18:31:31.728Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "839507ed969197769147fa5b179fc3c3a495abd99130d9b16e5a9ac42997747f"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-544101-2024-08-09": {
+    "symbol": "544101",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0Q6L01014",
+    "corrected_upstox_key": "BSE_EQ|INE0Q6L01014",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0Q6L01014/day/2024-08-11/2024-08-07",
+    "retrieval_timestamp": "2026-09-20T18:31:34.300Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "0850c6a05f111577770d9dabca89f08033dba65c3958eac108319b9af318265a"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-544296-2024-08-06": {
+    "symbol": "544296",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0DQN01013",
+    "corrected_upstox_key": "BSE_EQ|INE0DQN01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0DQN01013/day/2024-08-08/2024-08-04",
+    "retrieval_timestamp": "2026-09-20T18:31:36.642Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-543753-2024-06-10": {
+    "symbol": "543753",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0M9Q01011",
+    "corrected_upstox_key": "BSE_EQ|INE0M9Q01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0M9Q01011/day/2024-06-12/2024-06-08",
+    "retrieval_timestamp": "2026-09-20T18:31:39.076Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "db9eabe938d1b908772dde74deca6c099b56409c1d5c00085ff376696574c0f7"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-544165-2024-08-07": {
+    "symbol": "544165",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0SGR01013",
+    "corrected_upstox_key": "BSE_EQ|INE0SGR01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0SGR01013/day/2024-08-09/2024-08-05",
+    "retrieval_timestamp": "2026-09-20T18:31:41.645Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "ccdbc0a0ce2e68d3fa1a8c96325303882a53ffbd2912babbddf0b41f743696fa"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-544520-2024-02-22": {
+    "symbol": "544520",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE10XS01012",
+    "corrected_upstox_key": "BSE_EQ|INE10XS01012",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE10XS01012/day/2024-02-24/2024-02-20",
+    "retrieval_timestamp": "2026-09-20T18:31:44.384Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544047-2024-04-30": {
+    "symbol": "544047",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0QSK01017",
+    "corrected_upstox_key": "BSE_EQ|INE0QSK01017",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0QSK01017/day/2024-05-02/2024-04-28",
+    "retrieval_timestamp": "2026-09-20T18:31:46.698Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "b2abc6cb7082de6a61a9b0a3c2ed4791628b84562dd891530b4a96624f403b7a"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-541353-2024-07-16": {
+    "symbol": "541353",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE870Z01015",
+    "corrected_upstox_key": "BSE_EQ|INE870Z01015",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE870Z01015/day/2024-07-18/2024-07-14",
+    "retrieval_timestamp": "2026-09-20T18:31:49.113Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "1853eb29b9214121277bda883a248b179aa442edbe0d0d8dbdf0f25e6afc7c39"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-544640-2024-02-20": {
+    "symbol": "544640",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE1DKT01011",
+    "corrected_upstox_key": "BSE_EQ|INE1DKT01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE1DKT01011/day/2024-02-22/2024-02-18",
+    "retrieval_timestamp": "2026-09-20T18:31:51.472Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544535-2024-03-11": {
+    "symbol": "544535",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0QMV01017",
+    "corrected_upstox_key": "BSE_EQ|INE0QMV01017",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0QMV01017/day/2024-03-13/2024-03-09",
+    "retrieval_timestamp": "2026-09-20T18:31:53.827Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544538-2024-02-13": {
+    "symbol": "544538",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0TI501017",
+    "corrected_upstox_key": "BSE_EQ|INE0TI501017",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0TI501017/day/2024-02-15/2024-02-11",
+    "retrieval_timestamp": "2026-09-20T18:31:56.177Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-890163-2024-01-18": {
+    "symbol": "890163",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|IN9564S01017",
+    "corrected_upstox_key": "BSE_EQ|IN9564S01017",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CIN9564S01017/day/2024-01-20/2024-01-16",
+    "retrieval_timestamp": "2026-09-20T18:31:58.536Z",
+    "response_evidence": {
+      "status": 400,
+      "payloadHash": "c43b67215d53ef2890dbde2401e0ced4089d85d5a7607b726644662f9916828d"
+    },
+    "finalClassification": "INVALID_INSTRUMENT",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544337-2024-04-16": {
+    "symbol": "544337",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0NQ401024",
+    "corrected_upstox_key": "BSE_EQ|INE0NQ401024",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0NQ401024/day/2024-04-18/2024-04-14",
+    "retrieval_timestamp": "2026-09-20T18:32:00.887Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-540550-2024-05-15": {
+    "symbol": "540550",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE796W01019",
+    "corrected_upstox_key": "BSE_EQ|INE796W01019",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE796W01019/day/2024-05-17/2024-05-13",
+    "retrieval_timestamp": "2026-09-20T18:32:03.238Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "5f4fa38e779b2cca0c6bee13a56aa9ba7a63c787527523dfaf2ccef0f0d2d47e"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-543464-2024-01-12": {
+    "symbol": "543464",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0JSJ01014",
+    "corrected_upstox_key": "BSE_EQ|INE0JSJ01014",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0JSJ01014/day/2024-01-14/2024-01-10",
+    "retrieval_timestamp": "2026-09-20T18:32:05.536Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "eeb402e30f0f6f721c0662dd847814231e160b27baad369a0ff0830e82258b25"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-542446-2024-01-02": {
+    "symbol": "542446",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE793Z01027",
+    "corrected_upstox_key": "BSE_EQ|INE793Z01027",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE793Z01027/day/2024-01-04/2023-12-31",
+    "retrieval_timestamp": "2026-09-20T18:32:07.894Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "c03464b9e7395b2eb06db8430051bf07f66a9173e43cc88bf3e67142b4a4c131"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-536644-2024-01-23": {
+    "symbol": "536644",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE596O01010",
+    "corrected_upstox_key": "BSE_EQ|INE596O01010",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE596O01010/day/2024-01-25/2024-01-21",
+    "retrieval_timestamp": "2026-09-20T18:32:10.309Z",
+    "response_evidence": {
+      "status": 400,
+      "payloadHash": "c43b67215d53ef2890dbde2401e0ced4089d85d5a7607b726644662f9916828d"
+    },
+    "finalClassification": "INVALID_INSTRUMENT",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-541196-2024-01-23": {
+    "symbol": "541196",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE860Y01019",
+    "corrected_upstox_key": "BSE_EQ|INE860Y01019",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE860Y01019/day/2024-01-25/2024-01-21",
+    "retrieval_timestamp": "2026-09-20T18:32:12.667Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "63e63e4c6a0fd2ce6876476cb490923b56629bd9d6132e659a505e85e69a9132"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-541983-2024-01-05": {
+    "symbol": "541983",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE492Y01011",
+    "corrected_upstox_key": "BSE_EQ|INE492Y01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE492Y01011/day/2024-01-07/2024-01-03",
+    "retrieval_timestamp": "2026-09-20T18:32:15.007Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "54c805c4986bf48cb6611feab0b45ea30dc73f322fb042e2d867e8cd30e6f5b3"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-544267-2024-08-20": {
+    "symbol": "544267",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0U6201010",
+    "corrected_upstox_key": "BSE_EQ|INE0U6201010",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0U6201010/day/2024-08-22/2024-08-18",
+    "retrieval_timestamp": "2026-09-20T18:32:17.485Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544433-2024-06-12": {
+    "symbol": "544433",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE130701019",
+    "corrected_upstox_key": "BSE_EQ|INE130701019",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE130701019/day/2024-06-14/2024-06-10",
+    "retrieval_timestamp": "2026-09-20T18:32:19.839Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-541299-2024-05-09": {
+    "symbol": "541299",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE871Z01013",
+    "corrected_upstox_key": "BSE_EQ|INE871Z01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE871Z01013/day/2024-05-11/2024-05-07",
+    "retrieval_timestamp": "2026-09-20T18:32:22.404Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "0a5112e4ef053d86ed813298c6d9905e3d972e7c24ba432750b0f7c067c2c544"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544170-2024-03-11": {
+    "symbol": "544170",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0QXT01018",
+    "corrected_upstox_key": "BSE_EQ|INE0QXT01018",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0QXT01018/day/2024-03-13/2024-03-09",
+    "retrieval_timestamp": "2026-09-20T18:32:24.849Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-890163-2024-04-23": {
+    "symbol": "890163",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|IN9564S01017",
+    "corrected_upstox_key": "BSE_EQ|IN9564S01017",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CIN9564S01017/day/2024-04-25/2024-04-21",
+    "retrieval_timestamp": "2026-09-20T18:32:27.214Z",
+    "response_evidence": {
+      "status": 400,
+      "payloadHash": "c43b67215d53ef2890dbde2401e0ced4089d85d5a7607b726644662f9916828d"
+    },
+    "finalClassification": "INVALID_INSTRUMENT",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544270-2024-02-13": {
+    "symbol": "544270",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0S9501014",
+    "corrected_upstox_key": "BSE_EQ|INE0S9501014",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0S9501014/day/2024-02-15/2024-02-11",
+    "retrieval_timestamp": "2026-09-20T18:32:29.565Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544520-2024-07-29": {
+    "symbol": "544520",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE10XS01012",
+    "corrected_upstox_key": "BSE_EQ|INE10XS01012",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE10XS01012/day/2024-07-31/2024-07-27",
+    "retrieval_timestamp": "2026-09-20T18:32:31.920Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-780015-2024-04-04": {
+    "symbol": "780015",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE760Q01017",
+    "corrected_upstox_key": "BSE_EQ|INE760Q01017",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE760Q01017/day/2024-04-06/2024-04-02",
+    "retrieval_timestamp": "2026-09-20T18:32:34.218Z",
+    "response_evidence": {
+      "status": 400,
+      "payloadHash": "c43b67215d53ef2890dbde2401e0ced4089d85d5a7607b726644662f9916828d"
+    },
+    "finalClassification": "INVALID_INSTRUMENT",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544150-2024-05-13": {
+    "symbol": "544150",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0QVH01025",
+    "corrected_upstox_key": "BSE_EQ|INE0QVH01025",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0QVH01025/day/2024-05-15/2024-05-11",
+    "retrieval_timestamp": "2026-09-20T18:32:36.521Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "69f31458ea6df3f4f4389959e319ac6958c2ec9fd71f6ec4a2bf1d80d6e9ef96"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-544561-2024-01-11": {
+    "symbol": "544561",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE12P101018",
+    "corrected_upstox_key": "BSE_EQ|INE12P101018",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE12P101018/day/2024-01-13/2024-01-09",
+    "retrieval_timestamp": "2026-09-20T18:32:38.807Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544224-2024-05-24": {
+    "symbol": "544224",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0OXY01013",
+    "corrected_upstox_key": "BSE_EQ|INE0OXY01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0OXY01013/day/2024-05-26/2024-05-22",
+    "retrieval_timestamp": "2026-09-20T18:32:41.095Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-542727-2024-06-03": {
+    "symbol": "542727",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE056001014",
+    "corrected_upstox_key": "BSE_EQ|INE056001014",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE056001014/day/2024-06-05/2024-06-01",
+    "retrieval_timestamp": "2026-09-20T18:32:43.488Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "040143fc926f2423d818584d220200454539b1916d8be0dd3be80fb61ae3d19a"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-543619-2024-02-07": {
+    "symbol": "543619",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0N0J01014",
+    "corrected_upstox_key": "BSE_EQ|INE0N0J01014",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0N0J01014/day/2024-02-09/2024-02-05",
+    "retrieval_timestamp": "2026-09-20T18:32:45.783Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "cde7e012d3d08c0c853cbc0019e7557c7ac1dec76db8c475ef36c58568bb1d44"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-542728-2024-04-05": {
+    "symbol": "542728",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE04ST01013",
+    "corrected_upstox_key": "BSE_EQ|INE04ST01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE04ST01013/day/2024-04-07/2024-04-03",
+    "retrieval_timestamp": "2026-09-20T18:32:48.081Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-540903-2024-07-31": {
+    "symbol": "540903",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE422M01013",
+    "corrected_upstox_key": "BSE_EQ|INE422M01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE422M01013/day/2024-08-02/2024-07-29",
+    "retrieval_timestamp": "2026-09-20T18:32:50.414Z",
+    "response_evidence": {
+      "status": 400,
+      "payloadHash": "c43b67215d53ef2890dbde2401e0ced4089d85d5a7607b726644662f9916828d"
+    },
+    "finalClassification": "INVALID_INSTRUMENT",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544433-2024-04-12": {
+    "symbol": "544433",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE130701019",
+    "corrected_upstox_key": "BSE_EQ|INE130701019",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE130701019/day/2024-04-14/2024-04-10",
+    "retrieval_timestamp": "2026-09-20T18:32:52.706Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-542850-2024-08-08": {
+    "symbol": "542850",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE492Z01018",
+    "corrected_upstox_key": "BSE_EQ|INE492Z01018",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE492Z01018/day/2024-08-10/2024-08-06",
+    "retrieval_timestamp": "2026-09-20T18:32:55.058Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "686add49b0967132d19fca07c35fd90df9cbc00fa4c1f0e238ec52555085fb6e"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-543979-2024-05-31": {
+    "symbol": "543979",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE04T901017",
+    "corrected_upstox_key": "BSE_EQ|INE04T901017",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE04T901017/day/2024-06-02/2024-05-29",
+    "retrieval_timestamp": "2026-09-20T18:32:57.625Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "c4057a499b4e2f1077c987ee56e36dcc56edd84b313d4b136db72fdb54fe6feb"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  }
+}

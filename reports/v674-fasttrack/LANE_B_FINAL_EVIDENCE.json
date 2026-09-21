@@ -1,0 +1,76 @@
+{
+  "commitSha": "34931433964818cffaa6ed4e238f22db7cf6694a",
+  "cp21BaselineSha": "6d0e78f5b394e882212d67c76edfd21df7705981",
+  "predicateCount": 21,
+  "verifier21PointResults": [
+    { "id": "schemaValid", "status": "PASS", "evidence": "Dataset rows match canonical schema" },
+    { "id": "numericValuesFinite", "status": "PASS", "evidence": "All numeric values are finite" },
+    { "id": "noNullNumericValues", "status": "PASS", "evidence": "No null numeric values" },
+    { "id": "noNaN", "status": "PASS", "evidence": "No NaN numeric values" },
+    { "id": "noInfinity", "status": "PASS", "evidence": "No Infinity numeric values" },
+    { "id": "ohlcRelationshipValid", "status": "PASS", "evidence": "OHLC relationship is mathematically valid" },
+    { "id": "timestampValid", "status": "PASS", "evidence": "Timestamps are present" },
+    { "id": "timestampTimezoneExplicit", "status": "PASS", "evidence": "Timezones are explicit" },
+    { "id": "duplicateIdentityAbsent", "status": "PASS", "evidence": "No duplicate observations found" },
+    { "id": "securityIdentityResolved", "status": "PASS", "evidence": "Security identity resolved" },
+    { "id": "rawAcquisitionHashRecorded", "status": "PASS", "evidence": "Raw physical hash match" },
+    { "id": "canonicalHashReproducible", "status": "PASS", "evidence": "Canonical Hash Match" },
+    { "id": "tradingCalendarValid", "status": "NOT_VERIFIABLE", "evidence": "Calendar basis requires empirical holiday API" },
+    { "id": "sourceRecorded", "status": "PASS", "evidence": "Source explicitly recorded" },
+    { "id": "datasetIdRecorded", "status": "PASS", "evidence": "Dataset ID matches" },
+    { "id": "pitStatusExplicitlyClassified", "status": "PASS", "evidence": "PIT Status classified" },
+    { "id": "corporateActionBasisExplicit", "status": "NOT_VERIFIABLE", "evidence": "No empirical corporate action data attached" },
+    { "id": "coverageCalculated", "status": "PASS", "evidence": "Coverage metadata found" },
+    { "id": "missingRangesReported", "status": "PASS", "evidence": "Missing ranges array present" },
+    { "id": "promotionGatePassed", "status": "NOT_VERIFIABLE", "evidence": "Promotion gate evaluates predicates externally" },
+    { "id": "independentRehashPassed", "status": "PASS", "evidence": "Independent raw physical rehash match" }
+  ],
+  "rawHash": {
+    "physicalBytesRead": true,
+    "manifestMatch": true
+  },
+  "canonicalHash": {
+    "physicalReconstruction": true,
+    "writerVerifierMatch": true
+  },
+  "acquisition": {
+    "datesConfigurable": true,
+    "chunkingImplemented": true,
+    "chunkingExercised": true,
+    "missingRangesReported": true
+  },
+  "pitStatus": {
+    "evidenceDerived": true,
+    "forgeryRejected": true
+  },
+  "provider": "UPSTOX",
+  "endpointVersion": "V3",
+  "instrumentResolutionMode": {
+    "deterministic": true,
+    "mocked": false
+  },
+  "agentStatuses": {
+    "A": "PASS",
+    "B": "PASS",
+    "C": "PASS",
+    "D": "PASS",
+    "E": "PASS",
+    "F": "APPROVED"
+  },
+  "testResults": {
+    "testsPassed": 14,
+    "testsFailed": 0,
+    "testsSkipped": 0
+  },
+  "cp21RegressionClassification": {
+    "identical": true
+  },
+  "frozenControls": {
+    "matched": true,
+    "count": 7
+  },
+  "blockers": [],
+  "FILTER_DATA_READY": false,
+  "EMPIRICAL_ACQUISITION": false,
+  "ECONOMIC_REPLAY": false
+}

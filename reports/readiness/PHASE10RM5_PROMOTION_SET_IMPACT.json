@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-09-20T20:21:29.064Z",
+  "total_promotion_candidates": 18244,
+  "dispositions": {
+    "CLEAN_PROMOTION_CANDIDATES": 18244,
+    "BLOCKED_OHLC_OVERLAP": 0,
+    "BLOCKED_IDENTITY_OVERLAP": 0,
+    "BLOCKED_EXISTING_DB_CONFLICT": 0,
+    "BLOCKED_STRATEGY_IMPACT": 0,
+    "BLOCKED_PROVENANCE": 0,
+    "OTHER_BLOCKED": 0
+  },
+  "unaccounted_promotion_candidates": 0
+}

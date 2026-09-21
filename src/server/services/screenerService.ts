@@ -964,4 +964,30 @@ export class ScreenerService {
     } catch (_) {}
     return peers;
   }
+
+  public generateFallbackScreenerData(symbol: string): ScreenerData {
+    const sym = symbol.toUpperCase();
+    return {
+      symbol: sym,
+      company_name: sym,
+      about: `${sym} equity data unavailable`,
+      ratios: {},
+      pros: [],
+      cons: [],
+      documents: [],
+      concalls: [],
+      presentations: [],
+      peers: [],
+      shareholding: {
+        promoters: '—',
+        fiis: '—',
+        diis: '—',
+        govt: '—',
+        others: '—',
+        public_holding: '—',
+        dataIntegrityPassed: true
+      },
+      cached_at: new Date().toISOString()
+    };
+  }
 }

@@ -1,0 +1,36 @@
+{
+  "target_year": 2026,
+  "target_endpoint": "https://api.upstox.com/v3/historical-candle/{provider_key}/day/{toDate}/{fromDate}",
+  "expected_trading_sessions": 183,
+  "calendar_interval": {
+    "from": "2026-01-01",
+    "to": "2026-09-15"
+  },
+  "master_ticker_count": 3654,
+  "instrument_breakdown": {
+    "CURRENT_COMPLETE": 1936,
+    "CURRENT_MISSING_DATA": 1028,
+    "NOT_TRADING": 54,
+    "DELISTED_INACTIVE": 12,
+    "IDENTITY_REVIEW": 547,
+    "OUT_OF_SCOPE": 77
+  },
+  "total_queued_sessions": 15508,
+  "unique_instruments_queued": 1028,
+  "estimated_api_requests": 1028,
+  "estimated_runtime_hours": "2.86",
+  "state_machine_counts": {
+    "QUEUED": 15508
+  },
+  "production_db_status": "UNTOUCHED_READ_ONLY",
+  "qc_enforcement": {
+    "zero_llm_deterministic": true,
+    "isin_anchored": true,
+    "ohlc_mathematical_validation": true,
+    "anomaly_threshold_return": "40%",
+    "anomaly_threshold_spread": "50%",
+    "existing_data_conflict_detection": true,
+    "duplicate_detection": true
+  },
+  "generated_at": "2026-09-21T16:44:04.752Z"
+}

@@ -3517,26 +3517,26 @@ export class ConsolidatedOpportunityEngine {
           sp500Price: sp500Price ?? 0,
           sp500WeeklyPct: sp500Weekly ?? 0,
           nasdaqWeeklyPct: nasdaqWeekly ?? 0,
-          trendVsSma50: (sp500Weekly ?? 0) >= 0 ? 'ABOVE_50DMA' : 'BELOW_50DMA',
-          sentiment: (sp500Weekly ?? 0) >= 0 ? 'RISK_ON' : 'NEUTRAL'
+          trendVsSma50: ((sp500Weekly ?? 0) >= 0 ? 'ABOVE_50DMA' : 'BELOW_50DMA') as 'ABOVE_50DMA' | 'BELOW_50DMA',
+          sentiment: ((sp500Weekly ?? 0) >= 0 ? 'RISK_ON' : 'NEUTRAL') as 'RISK_ON' | 'NEUTRAL'
         },
         dollarIndex: {
           dxy: dxy ?? 0,
           weeklyChangePct: dxyWeekly ?? 0,
           usdInr: usdInr ?? 0,
-          status: dxy !== null ? (dxy < 103.5 ? 'WEAKENING_TAILWIND' : dxy <= 104.5 ? 'NEUTRAL_RANGE' : 'STRENGTHENING_HEADWIND') : 'NEUTRAL_RANGE',
+          status: (dxy !== null ? (dxy < 103.5 ? 'WEAKENING_TAILWIND' : dxy <= 104.5 ? 'NEUTRAL_RANGE' : 'STRENGTHENING_HEADWIND') : 'NEUTRAL_RANGE') as 'WEAKENING_TAILWIND' | 'NEUTRAL_RANGE' | 'STRENGTHENING_HEADWIND',
           fiiFlowImplication: dxy !== null ? (dxy < 104 ? 'FII emerging market flow tailwind' : 'FII outflow headwind') : 'Awaiting live DXY tick'
         },
         crudeOil: {
           brentPrice: brent ?? 0,
           weeklyChangePct: brentWeekly ?? 0,
-          status: brent !== null ? (brent < 75 ? 'BENIGN_SUB_75' : brent <= 84 ? 'MODERATE_75_85' : 'ELEVATED_INFLATIONARY_85_PLUS') : 'MODERATE_75_85',
+          status: (brent !== null ? (brent < 75 ? 'BENIGN_SUB_75' : brent <= 84 ? 'MODERATE_75_85' : 'ELEVATED_INFLATIONARY_85_PLUS') : 'MODERATE_75_85') as 'BENIGN_SUB_75' | 'MODERATE_75_85' | 'ELEVATED_INFLATIONARY_85_PLUS',
           indiaMacroImpact: brent !== null ? (brent < 80 ? 'Sub-$80 Brent supports low imported inflation, stable current account deficit, and robust gross margins across Indian manufacturing.' : 'Crude above $82 tightens OMC retail spreads and increases input costs for chemical/paint manufacturers.') : 'Crude price data awaiting live feed.',
           vulnerableSectors: ['Paints', 'Tyres', 'Aviation', 'Chemicals', 'OMCs']
         },
         us10YYield: {
           yieldPct: us10y ?? 0,
-          status: us10y !== null ? (us10y < 4.0 ? 'COOLING_SUB_4' : us10y <= 4.3 ? 'MODERATE_4_TO_43' : 'SPIKING_ABOVE_43') : 'MODERATE_4_TO_43',
+          status: (us10y !== null ? (us10y < 4.0 ? 'COOLING_SUB_4' : us10y <= 4.3 ? 'MODERATE_4_TO_43' : 'SPIKING_ABOVE_43') : 'MODERATE_4_TO_43') as 'COOLING_SUB_4' | 'MODERATE_4_TO_43' | 'SPIKING_ABOVE_43',
           liquidityImpact: us10y !== null ? 'US sovereign hurdle rates operating in neutral band; no panic liquidation.' : 'US 10Y yield data awaiting live feed.'
         }
       }

@@ -1,0 +1,78 @@
+{
+  "timestamp": "2026-09-20T20:09:00.431Z",
+  "database_ready": false,
+  "checks": [
+    {
+      "name": "duplicate symbol/date",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "NULL symbol",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "NULL date",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "NULL OHLC",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "non-positive prices",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "high < low",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "open > high",
+      "expected": 0,
+      "actual": 92,
+      "status": "FAIL"
+    },
+    {
+      "name": "open < low",
+      "expected": 0,
+      "actual": 98,
+      "status": "FAIL"
+    },
+    {
+      "name": "close > high",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "close < low",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "orphan rows",
+      "expected": 0,
+      "actual": 289823,
+      "status": "REVIEW"
+    },
+    {
+      "name": "MasterTickers duplicate symbols",
+      "expected": 0,
+      "actual": 37,
+      "status": "FAIL"
+    }
+  ]
+}

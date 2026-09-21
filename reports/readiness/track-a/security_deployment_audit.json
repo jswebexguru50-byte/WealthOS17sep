@@ -1,0 +1,83 @@
+{
+  "agent": "A4_SECURITY_DEPLOYMENT_AUDIT",
+  "captured_at": "2026-09-21T14:35:53.349Z",
+  "package_json": {
+    "name": "portfolio-tracker",
+    "version": "1.0.0",
+    "scripts": [
+      "dev",
+      "sync:schema",
+      "sync",
+      "build",
+      "start",
+      "test",
+      "test:unit",
+      "test:integration",
+      "test:negative",
+      "test:performance",
+      "test:e2e",
+      "test:full",
+      "electron:start",
+      "electron:build",
+      "clean",
+      "lint",
+      "wealthos:test",
+      "wealthos:test:unit",
+      "wealthos:test:integration",
+      "wealthos:test:e2e",
+      "wealthos:test:static",
+      "wealthos:test:fast",
+      "wealthos:test:coverage",
+      "r1:fingerprint",
+      "r1:gate",
+      "r1:test",
+      "v63:e2e",
+      "v63:research",
+      "v63:typecheck",
+      "chatgpt:export-schema",
+      "chatgpt-review",
+      "chatgpt-review:focused",
+      "verify:v672-r2",
+      "ai-review",
+      "ai-review:tunnel"
+    ],
+    "has_lockfile": true
+  },
+  "git": {
+    "db_files_in_git": [
+      "portfolio_staging.db"
+    ],
+    "env_files_in_git": [],
+    "db_in_gitignore": true,
+    "env_in_gitignore": true,
+    "tracked_file_count": 1870
+  },
+  "server_binding": {
+    "binds_to_all_interfaces": false,
+    "binds_localhost_only": false,
+    "next_js_default_localhost": true
+  },
+  "security": {
+    "has_public_tunnel": false,
+    "has_broad_cors": false,
+    "secret_issues_in_env": [],
+    "env_example_exists": false,
+    "env_local_exists": false,
+    "env_file_exists": true
+  },
+  "exposure": {
+    "public_exposure": false,
+    "ai_studio_direct_db_access": false,
+    "production_db_upload_risk": true
+  },
+  "issues": [
+    {
+      "severity": "P3",
+      "issue": "DB files tracked in git",
+      "files": [
+        "portfolio_staging.db"
+      ]
+    }
+  ],
+  "gate": "ISSUES_FOUND_1"
+}

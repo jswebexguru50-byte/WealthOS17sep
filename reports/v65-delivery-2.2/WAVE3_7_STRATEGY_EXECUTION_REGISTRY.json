@@ -1,0 +1,80 @@
+{
+  "auditVersion": "3.7.0",
+  "evaluatedAt": "2026-09-20T11:06:43.346Z",
+  "sourceCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
+  "candidateSymbolCount": 1623,
+  "classifiedStrategies": [
+    {
+      "strategyId": "S1_VPA_BREAKOUT",
+      "status": "IMPLEMENTED_AND_TEST_VERIFIED",
+      "reachability": "CALLABLE",
+      "dataSupport": "DATA_SUPPORTED"
+    },
+    {
+      "strategyId": "S2_INSTITUTIONAL_FVG",
+      "status": "IMPLEMENTED_AND_TEST_VERIFIED",
+      "reachability": "CALLABLE",
+      "dataSupport": "DATA_SUPPORTED"
+    },
+    {
+      "strategyId": "S3_HH_HL_COMPACTION",
+      "status": "IMPLEMENTED_AND_TEST_VERIFIED",
+      "reachability": "CALLABLE",
+      "dataSupport": "DATA_SUPPORTED"
+    },
+    {
+      "strategyId": "S4_HH_HL_SMA200",
+      "status": "IMPLEMENTED_AND_TEST_VERIFIED",
+      "reachability": "CALLABLE",
+      "dataSupport": "DATA_SUPPORTED"
+    },
+    {
+      "strategyId": "S5_50EMA_PULLBACK",
+      "status": "IMPLEMENTED_AND_TEST_VERIFIED",
+      "reachability": "CALLABLE",
+      "dataSupport": "DATA_SUPPORTED"
+    },
+    {
+      "strategyId": "S6_RS_BREAKOUT",
+      "status": "IMPLEMENTED_AND_TEST_VERIFIED",
+      "reachability": "CALLABLE",
+      "dataSupport": "DATA_SUPPORTED"
+    },
+    {
+      "strategyId": "S7_RSI_MEAN_REVERSION",
+      "status": "IMPLEMENTED_AND_TEST_VERIFIED",
+      "reachability": "CALLABLE",
+      "dataSupport": "DATA_SUPPORTED"
+    },
+    {
+      "strategyId": "S8_HIGH_TIGHT_FLAG",
+      "status": "IMPLEMENTED_AND_TEST_VERIFIED",
+      "reachability": "CALLABLE",
+      "dataSupport": "DATA_SUPPORTED"
+    },
+    {
+      "strategyId": "S9_VOLUME_DRYUP",
+      "status": "IMPLEMENTED_AND_TEST_VERIFIED",
+      "reachability": "CALLABLE",
+      "dataSupport": "DATA_SUPPORTED"
+    },
+    {
+      "strategyId": "S10_TRENDLINE_ORB",
+      "status": "IMPLEMENTED_AND_TEST_VERIFIED",
+      "reachability": "CALLABLE",
+      "dataSupport": "DATA_SUPPORTED"
+    },
+    {
+      "strategyId": "S11_SECTOR_ROTATION",
+      "status": "IMPLEMENTED_AND_TEST_VERIFIED",
+      "reachability": "CALLABLE",
+      "dataSupport": "DATA_SUPPORTED"
+    },
+    {
+      "strategyId": "S12_S20_ADVANCED",
+      "status": "IMPLEMENTED_BUT_DATA_INSUFFICIENT",
+      "reachability": "NOT_CALLABLE",
+      "dataSupport": "DATA_INSUFFICIENT"
+    }
+  ]
+}

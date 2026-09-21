@@ -1,0 +1,392 @@
+{
+  "DEL-PNGSREVA-2024-07-02": {
+    "symbol": "PNGSREVA",
+    "instrument_key": "NSE_EQ|INE1RDG01013",
+    "requested_date": "2024-07-02",
+    "raw_request_url": "https://api.upstox.com/v2/historical-candle/NSE_EQ%7CINE1RDG01013/day/2024-07-04/2024-06-30",
+    "raw_response_status": 200,
+    "raw_response_payload": {
+      "status": "success",
+      "data": {
+        "candles": []
+      }
+    }
+  },
+  "DEL-SNEHAA-2024-07-24": {
+    "symbol": "SNEHAA",
+    "instrument_key": "NSE_EQ|INE1OIC01018",
+    "requested_date": "2024-07-24",
+    "raw_request_url": "https://api.upstox.com/v2/historical-candle/NSE_EQ%7CINE1OIC01018/day/2024-07-26/2024-07-22",
+    "raw_response_status": 200,
+    "raw_response_payload": {
+      "status": "success",
+      "data": {
+        "candles": []
+      }
+    }
+  },
+  "DEL-BAJAJHFL-2024-03-04": {
+    "symbol": "BAJAJHFL",
+    "instrument_key": "NSE_EQ|INE377Y01014",
+    "requested_date": "2024-03-04",
+    "raw_request_url": "https://api.upstox.com/v2/historical-candle/NSE_EQ%7CINE377Y01014/day/2024-03-06/2024-03-02",
+    "raw_response_status": 200,
+    "raw_response_payload": {
+      "status": "success",
+      "data": {
+        "candles": []
+      }
+    }
+  },
+  "DEL-BLIL-2024-07-01": {
+    "symbol": "BLIL",
+    "instrument_key": "NSE_EQ|INE525F01025",
+    "requested_date": "2024-07-01",
+    "raw_request_url": "https://api.upstox.com/v2/historical-candle/NSE_EQ%7CINE525F01025/day/2024-07-03/2024-06-29",
+    "raw_response_status": 200,
+    "raw_response_payload": {
+      "status": "success",
+      "data": {
+        "candles": []
+      }
+    }
+  },
+  "DEL-AVSL-2024-08-28": {
+    "symbol": "AVSL",
+    "instrument_key": "NSE_EQ|INE522V01011",
+    "requested_date": "2024-08-28",
+    "raw_request_url": "https://api.upstox.com/v2/historical-candle/NSE_EQ%7CINE522V01011/day/2024-08-30/2024-08-26",
+    "raw_response_status": 200,
+    "raw_response_payload": {
+      "status": "success",
+      "data": {
+        "candles": [
+          [
+            "2024-08-29T00:00:00+05:30",
+            180,
+            180,
+            180,
+            180,
+            1000,
+            0
+          ]
+        ]
+      }
+    }
+  },
+  "DEL-CAPILLARY-2024-07-05": {
+    "symbol": "CAPILLARY",
+    "instrument_key": "NSE_EQ|INE0ILV01024",
+    "requested_date": "2024-07-05",
+    "raw_request_url": "https://api.upstox.com/v2/historical-candle/NSE_EQ%7CINE0ILV01024/day/2024-07-07/2024-07-03",
+    "raw_response_status": 200,
+    "raw_response_payload": {
+      "status": "success",
+      "data": {
+        "candles": []
+      }
+    }
+  },
+  "DEL-JAINIK-2024-06-10": {
+    "symbol": "JAINIK",
+    "instrument_key": "NSE_EQ|INE0XIL01012",
+    "requested_date": "2024-06-10",
+    "raw_request_url": "https://api.upstox.com/v2/historical-candle/NSE_EQ%7CINE0XIL01012/day/2024-06-12/2024-06-08",
+    "raw_response_status": 200,
+    "raw_response_payload": {
+      "status": "success",
+      "data": {
+        "candles": []
+      }
+    }
+  },
+  "DEL-SSEGL-2024-05-21": {
+    "symbol": "SSEGL",
+    "instrument_key": "NSE_EQ|INE0RFP01011",
+    "requested_date": "2024-05-21",
+    "raw_request_url": "https://api.upstox.com/v2/historical-candle/NSE_EQ%7CINE0RFP01011/day/2024-05-23/2024-05-19",
+    "raw_response_status": 200,
+    "raw_response_payload": {
+      "status": "success",
+      "data": {
+        "candles": []
+      }
+    }
+  },
+  "DEL-ROSSTECH-2024-01-12": {
+    "symbol": "ROSSTECH",
+    "instrument_key": "NSE_EQ|INE0OJW01016",
+    "requested_date": "2024-01-12",
+    "raw_request_url": "https://api.upstox.com/v2/historical-candle/NSE_EQ%7CINE0OJW01016/day/2024-01-14/2024-01-10",
+    "raw_response_status": 200,
+    "raw_response_payload": {
+      "status": "success",
+      "data": {
+        "candles": []
+      }
+    }
+  },
+  "DEL-ETML-2024-04-18": {
+    "symbol": "ETML",
+    "instrument_key": "NSE_EQ|INE0RHD01013",
+    "requested_date": "2024-04-18",
+    "raw_request_url": "https://api.upstox.com/v2/historical-candle/NSE_EQ%7CINE0RHD01013/day/2024-04-20/2024-04-16",
+    "raw_response_status": 200,
+    "raw_response_payload": {
+      "status": "success",
+      "data": {
+        "candles": []
+      }
+    }
+  },
+  "DEL-544373-2024-07-09": {
+    "symbol": "544373",
+    "instrument_key": "NSE_EQ|INE0VNH01014",
+    "exchange": "BSE",
+    "segment": "EQ",
+    "listing_date": null,
+    "status": "ACTIVE",
+    "requested_date": "2024-07-09",
+    "raw_request_url": "https://api.upstox.com/v2/historical-candle/NSE_EQ%7CINE0VNH01014/day/2024-07-11/2024-07-07",
+    "raw_response_status": 400,
+    "raw_response_payload": {
+      "status": "error",
+      "errors": [
+        {
+          "errorCode": "UDAPI100011",
+          "message": "Invalid Instrument key",
+          "propertyPath": null,
+          "invalidValue": null,
+          "error_code": "UDAPI100011",
+          "property_path": null,
+          "invalid_value": null
+        }
+      ]
+    }
+  },
+  "DEL-538128-2024-08-05": {
+    "symbol": "538128",
+    "instrument_key": "NSE_EQ|INE174Q01011",
+    "exchange": "BSE",
+    "segment": "EQ",
+    "listing_date": null,
+    "status": "ACTIVE",
+    "requested_date": "2024-08-05",
+    "raw_request_url": "https://api.upstox.com/v2/historical-candle/NSE_EQ%7CINE174Q01011/day/2024-08-07/2024-08-03",
+    "raw_response_status": 400,
+    "raw_response_payload": {
+      "status": "error",
+      "errors": [
+        {
+          "errorCode": "UDAPI100011",
+          "message": "Invalid Instrument key",
+          "propertyPath": null,
+          "invalidValue": null,
+          "error_code": "UDAPI100011",
+          "property_path": null,
+          "invalid_value": null
+        }
+      ]
+    }
+  },
+  "DEL-539521-2024-02-23": {
+    "symbol": "539521",
+    "instrument_key": "NSE_EQ|INE364T01012",
+    "exchange": "BSE",
+    "segment": "EQ",
+    "listing_date": null,
+    "status": "ACTIVE",
+    "requested_date": "2024-02-23",
+    "raw_request_url": "https://api.upstox.com/v2/historical-candle/NSE_EQ%7CINE364T01012/day/2024-02-25/2024-02-21",
+    "raw_response_status": 400,
+    "raw_response_payload": {
+      "status": "error",
+      "errors": [
+        {
+          "errorCode": "UDAPI100011",
+          "message": "Invalid Instrument key",
+          "propertyPath": null,
+          "invalidValue": null,
+          "error_code": "UDAPI100011",
+          "property_path": null,
+          "invalid_value": null
+        }
+      ]
+    }
+  },
+  "DEL-Motilal Oswal ELSS Tax Saver Fund - Direct Plan Growth (Non Demat)-2024-01-12": {
+    "symbol": "Motilal Oswal ELSS Tax Saver Fund - Direct Plan Growth (Non Demat)",
+    "instrument_key": "NSE_EQ|INF247L01569",
+    "exchange": "MUTUAL_FUND",
+    "segment": "MF",
+    "listing_date": null,
+    "status": "ACTIVE",
+    "requested_date": "2024-01-12",
+    "raw_request_url": "https://api.upstox.com/v2/historical-candle/NSE_EQ%7CINF247L01569/day/2024-01-14/2024-01-10",
+    "raw_response_status": 400,
+    "raw_response_payload": {
+      "status": "error",
+      "errors": [
+        {
+          "errorCode": "UDAPI100011",
+          "message": "Invalid Instrument key",
+          "propertyPath": null,
+          "invalidValue": null,
+          "error_code": "UDAPI100011",
+          "property_path": null,
+          "invalid_value": null
+        }
+      ]
+    }
+  },
+  "DEL-544372-2024-02-22": {
+    "symbol": "544372",
+    "instrument_key": "NSE_EQ|INE0RXS01018",
+    "exchange": "BSE",
+    "segment": "EQ",
+    "listing_date": null,
+    "status": "ACTIVE",
+    "requested_date": "2024-02-22",
+    "raw_request_url": "https://api.upstox.com/v2/historical-candle/NSE_EQ%7CINE0RXS01018/day/2024-02-24/2024-02-20",
+    "raw_response_status": 400,
+    "raw_response_payload": {
+      "status": "error",
+      "errors": [
+        {
+          "errorCode": "UDAPI100011",
+          "message": "Invalid Instrument key",
+          "propertyPath": null,
+          "invalidValue": null,
+          "error_code": "UDAPI100011",
+          "property_path": null,
+          "invalid_value": null
+        }
+      ]
+    }
+  },
+  "DEL-544509-2024-05-06": {
+    "symbol": "544509",
+    "instrument_key": "NSE_EQ|INE0XZB01017",
+    "exchange": "BSE",
+    "segment": "EQ",
+    "listing_date": null,
+    "status": "ACTIVE",
+    "requested_date": "2024-05-06",
+    "raw_request_url": "https://api.upstox.com/v2/historical-candle/NSE_EQ%7CINE0XZB01017/day/2024-05-08/2024-05-04",
+    "raw_response_status": 400,
+    "raw_response_payload": {
+      "status": "error",
+      "errors": [
+        {
+          "errorCode": "UDAPI100011",
+          "message": "Invalid Instrument key",
+          "propertyPath": null,
+          "invalidValue": null,
+          "error_code": "UDAPI100011",
+          "property_path": null,
+          "invalid_value": null
+        }
+      ]
+    }
+  },
+  "DEL-544458-2024-04-03": {
+    "symbol": "544458",
+    "instrument_key": "NSE_EQ|INE0FMZ01045",
+    "exchange": "BSE",
+    "segment": "EQ",
+    "listing_date": null,
+    "status": "ACTIVE",
+    "requested_date": "2024-04-03",
+    "raw_request_url": "https://api.upstox.com/v2/historical-candle/NSE_EQ%7CINE0FMZ01045/day/2024-04-05/2024-04-01",
+    "raw_response_status": 400,
+    "raw_response_payload": {
+      "status": "error",
+      "errors": [
+        {
+          "errorCode": "UDAPI100011",
+          "message": "Invalid Instrument key",
+          "propertyPath": null,
+          "invalidValue": null,
+          "error_code": "UDAPI100011",
+          "property_path": null,
+          "invalid_value": null
+        }
+      ]
+    }
+  },
+  "DEL-544372-2024-03-06": {
+    "symbol": "544372",
+    "instrument_key": "NSE_EQ|INE0RXS01018",
+    "exchange": "BSE",
+    "segment": "EQ",
+    "listing_date": null,
+    "status": "ACTIVE",
+    "requested_date": "2024-03-06",
+    "raw_request_url": "https://api.upstox.com/v2/historical-candle/NSE_EQ%7CINE0RXS01018/day/2024-03-08/2024-03-04",
+    "raw_response_status": 400,
+    "raw_response_payload": {
+      "status": "error",
+      "errors": [
+        {
+          "errorCode": "UDAPI100011",
+          "message": "Invalid Instrument key",
+          "propertyPath": null,
+          "invalidValue": null,
+          "error_code": "UDAPI100011",
+          "property_path": null,
+          "invalid_value": null
+        }
+      ]
+    }
+  },
+  "DEL-543372-2024-08-22": {
+    "symbol": "543372",
+    "instrument_key": "NSE_EQ|INE0H1201020",
+    "exchange": "BSE",
+    "segment": "EQ",
+    "listing_date": null,
+    "status": "ACTIVE",
+    "requested_date": "2024-08-22",
+    "raw_request_url": "https://api.upstox.com/v2/historical-candle/NSE_EQ%7CINE0H1201020/day/2024-08-24/2024-08-20",
+    "raw_response_status": 400,
+    "raw_response_payload": {
+      "status": "error",
+      "errors": [
+        {
+          "errorCode": "UDAPI100011",
+          "message": "Invalid Instrument key",
+          "propertyPath": null,
+          "invalidValue": null,
+          "error_code": "UDAPI100011",
+          "property_path": null,
+          "invalid_value": null
+        }
+      ]
+    }
+  },
+  "DEL-MRP-2024-08-29": {
+    "symbol": "MRP",
+    "instrument_key": "NSE_EQ|INE0D7801012",
+    "exchange": "NSE",
+    "segment": "EQ",
+    "listing_date": null,
+    "status": "ACTIVE",
+    "requested_date": "2024-08-29",
+    "raw_request_url": "https://api.upstox.com/v2/historical-candle/NSE_EQ%7CINE0D7801012/day/2024-08-31/2024-08-27",
+    "raw_response_status": 400,
+    "raw_response_payload": {
+      "status": "error",
+      "errors": [
+        {
+          "errorCode": "UDAPI100011",
+          "message": "Invalid Instrument key",
+          "propertyPath": null,
+          "invalidValue": null,
+          "error_code": "UDAPI100011",
+          "property_path": null,
+          "invalid_value": null
+        }
+      ]
+    }
+  }
+}

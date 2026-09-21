@@ -1,0 +1,55 @@
+{
+  "strategyId": "S4",
+  "name": "Volume Price Trend Accumulation",
+  "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+  "functionName": "evaluateS4",
+  "startLine": 2119,
+  "endLine": 2159,
+  "inputs": [
+    "Daily OHLCV",
+    "Volume"
+  ],
+  "indicators": [
+    "VPT Indicator",
+    "20-day VPT Signal Line"
+  ],
+  "lookbacks": [
+    "20 Days"
+  ],
+  "thresholds": [
+    "VPT > Signal Line",
+    "VPT Slope > 0"
+  ],
+  "comparators": [
+    "VPT > Signal Line"
+  ],
+  "entryConditions": [
+    "Accumulation breakout with price confirmation"
+  ],
+  "exitConditions": [
+    "VPT < Signal Line"
+  ],
+  "volumeConditions": [
+    "Volume spike > 2x average"
+  ],
+  "benchmarkDependencies": [
+    "NIFTY 500 volume regime"
+  ],
+  "intradayDependencies": [],
+  "corporateActionDependencies": [
+    "Split adjusted"
+  ],
+  "pitDependencies": [
+    "Trade date <= Decision date"
+  ],
+  "missingDataBehavior": "FAIL_CLOSED",
+  "fallbackBehavior": "NO_SYNTHETIC_FALLBACK",
+  "timestampSemantics": "EOD Close Available At 16:00 IST",
+  "sourceEvidence": {
+    "file": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "startLine": 2119,
+    "endLine": 2159,
+    "symbol": "evaluateS4",
+    "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+  }
+}

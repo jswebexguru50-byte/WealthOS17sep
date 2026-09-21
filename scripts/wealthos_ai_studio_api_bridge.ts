@@ -956,7 +956,7 @@ const server = http.createServer(async (req, res) => {
   res.end(JSON.stringify({ error: 'Endpoint not found' }));
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, '127.0.0.1', () => {
   console.log(`================================================================`);
   console.log(`  WEALTHOS GOOGLE AI STUDIO LOCAL DB API BRIDGE RUNNING         `);
   console.log(`  Port: http://localhost:${PORT}                                 `);

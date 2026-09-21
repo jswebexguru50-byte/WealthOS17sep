@@ -1,0 +1,28 @@
+{
+  "timestamp": "2026-09-20T20:34:45.460Z",
+  "accounting": {
+    "OHLC": {
+      "total": 190,
+      "classified": 190,
+      "unaccounted": 0
+    },
+    "Identity": {
+      "total": 37,
+      "classified": 37,
+      "unaccounted": 0
+    },
+    "Promotion": {
+      "total": 18244,
+      "classified": 18244,
+      "unaccounted": 18244
+    }
+  },
+  "GATES": {
+    "DATABASE_BASELINE_INTEGRITY": "FAIL",
+    "PROMOTION_SET_INTEGRITY": "PASS",
+    "IDENTITY_INTEGRITY": "PASS",
+    "STRATEGY_INPUT_INTEGRITY": "PASS",
+    "PROVENANCE_INTEGRITY": "BLOCKED",
+    "CERTIFICATION_INTEGRITY": "BLOCKED"
+  }
+}

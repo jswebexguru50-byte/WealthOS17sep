@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { SwarmAgentResult } from '../../scripts/swarm/SwarmAgentResult';
+import { SwarmAgentResult } from '../../../scripts/swarm/SwarmAgentResult';
 import { hashCanonicalDataset, serializeDataset } from './CanonicalObservationSerializer';
 
 const stagingBase = path.join(process.cwd(), 'data', 'enrichment', 'staging');

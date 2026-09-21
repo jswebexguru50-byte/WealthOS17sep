@@ -14,6 +14,20 @@ export interface PeerConcallInsight {
   keyGuidanceQuote: string;
 }
 
+export interface BrokerReportWithAudit {
+  id: string;
+  symbol: string;
+  broker: string;
+  reportDate: string;
+  action: 'BUY' | 'ACCUMULATE' | 'HOLD' | 'REDUCE' | 'SELL';
+  targetPrice: number;
+  currentPrice: number;
+  upsidePct: number;
+  summary: string;
+  pdfUrl?: string;
+  audited: boolean;
+}
+
 export class BrokerResearchIntelligenceService {
   private static mockPeerConcallDatabase: Record<string, PeerConcallInsight[]> = {
     TITAN: [
@@ -110,5 +124,33 @@ export class BrokerResearchIntelligenceService {
         keyGuidanceQuote: 'Navigating near-term sector adjustments with strict cost discipline.',
       },
     ];
+  }
+
+  public async getReportsForSymbol(symbol: string): Promise<BrokerReportWithAudit[]> {
+    return [];
+  }
+
+  public async getAllRecentReports(limit?: number): Promise<BrokerReportWithAudit[]> {
+    return [];
+  }
+
+  public async getActiveBuyOpportunities(limit?: number): Promise<BrokerReportWithAudit[]> {
+    return [];
+  }
+
+  public async getConsensusForSymbol(symbol: string): Promise<{
+    buyCount: number;
+    holdCount: number;
+    sellCount: number;
+    consensusAction: string;
+    meanTargetPrice: number;
+  }> {
+    return {
+      buyCount: 0,
+      holdCount: 0,
+      sellCount: 0,
+      consensusAction: 'HOLD',
+      meanTargetPrice: 0
+    };
   }
 }

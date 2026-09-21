@@ -1,0 +1,54 @@
+{
+  "strategyId": "S1",
+  "name": "20-Day Breakout & Momentum",
+  "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+  "functionName": "evaluateS1",
+  "startLine": 739,
+  "endLine": 779,
+  "inputs": [
+    "Daily OHLCV",
+    "Volume"
+  ],
+  "indicators": [
+    "20-day High",
+    "20-day SMA Volume"
+  ],
+  "lookbacks": [
+    "20 Days"
+  ],
+  "thresholds": [
+    "Volume > 1.5x 20-day SMA Volume"
+  ],
+  "comparators": [
+    "Close > 20-day High"
+  ],
+  "entryConditions": [
+    "Close > 20-day High"
+  ],
+  "exitConditions": [
+    "Stop loss on 10-day Low or 5% trailing"
+  ],
+  "volumeConditions": [
+    "Volume > 1.5x average"
+  ],
+  "benchmarkDependencies": [
+    "NIFTY 500 benchmark relative strength"
+  ],
+  "intradayDependencies": [],
+  "corporateActionDependencies": [
+    "Adjusted close for splits/bonuses"
+  ],
+  "pitDependencies": [
+    "Trade date <= Decision date"
+  ],
+  "missingDataBehavior": "FAIL_CLOSED",
+  "fallbackBehavior": "NO_SYNTHETIC_FALLBACK",
+  "timestampSemantics": "EOD Close Available At 16:00 IST",
+  "sourceEvidence": {
+    "file": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "startLine": 739,
+    "endLine": 779,
+    "symbol": "evaluateS1",
+    "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+  }
+}

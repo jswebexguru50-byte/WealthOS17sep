@@ -1,0 +1,1598 @@
+{
+  "passed": true,
+  "totalModules": 536,
+  "totalEdges": 264,
+  "unauthorizedExecutionPaths": [],
+  "edges": [
+    {
+      "fromModule": "src/server/services/dataAcquisition/AcquisitionScheduler.ts",
+      "toModule": "src/server/services/dataAcquisition/AcquisitionQueue.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/AcquisitionScheduler.ts",
+      "toModule": "src/server/services/dataAcquisition/SecurityUniverseProvider.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/AcquisitionWorker.ts",
+      "toModule": "src/server/services/dataAcquisition/AcquisitionQueue.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/AcquisitionWorker.ts",
+      "toModule": "src/server/services/dataAcquisition/DataSourceRegistry.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/AcquisitionWorker.ts",
+      "toModule": "src/server/services/dataAcquisition/DataProvenanceLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/AcquisitionWorker.ts",
+      "toModule": "src/server/services/dataAcquisition/HistoricalDataAcquisitionEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/AcquisitionWorker.ts",
+      "toModule": "src/server/services/dataAcquisition/CurrentDataAcquisitionEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/AcquisitionWorker.ts",
+      "toModule": "src/server/services/dataAcquisition/FundamentalEnrichmentEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/AcquisitionWorker.ts",
+      "toModule": "src/server/services/dataAcquisition/CorporateActionAcquisitionEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/AcquisitionWorker.ts",
+      "toModule": "src/server/services/dataAcquisition/ShareholdingAcquisitionEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/AcquisitionWorker.ts",
+      "toModule": "src/server/services/dataAcquisition/EventAcquisitionEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/AcquisitionWorker.ts",
+      "toModule": "src/server/services/dataAcquisition/IntradayAcquisitionEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/AcquisitionWorker.ts",
+      "toModule": "src/server/services/dataAcquisition/DerivativesAcquisitionEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/AcquisitionWorker.ts",
+      "toModule": "src/server/services/dataAcquisition/SectorIndexAcquisitionEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/AcquisitionWorker.ts",
+      "toModule": "src/server/services/dataAcquisition/SurveillanceAcquisitionEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/AcquisitionWorker.ts",
+      "toModule": "src/server/services/dataAcquisition/PITDataValidator.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/AcquisitionWorker.ts",
+      "toModule": "src/server/services/dataAcquisition/DataQualityGate.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/AcquisitionWorker.ts",
+      "toModule": "src/server/services/dataAcquisition/DataCoverageValidator.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/DataAcquisitionDaemon.ts",
+      "toModule": "src/server/services/dataAcquisition/AcquisitionQueue.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/DataAcquisitionDaemon.ts",
+      "toModule": "src/server/services/dataAcquisition/DataSourceRegistry.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/DataAcquisitionDaemon.ts",
+      "toModule": "src/server/services/dataAcquisition/DataProvenanceLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/DataAcquisitionDaemon.ts",
+      "toModule": "src/server/services/dataAcquisition/SecurityIdentityRegistry.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/DataAcquisitionDaemon.ts",
+      "toModule": "src/server/services/dataAcquisition/SecurityUniverseProvider.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/DataAcquisitionDaemon.ts",
+      "toModule": "src/server/services/dataAcquisition/AcquisitionScheduler.ts",
+      "classification": "EXECUTION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/DataAcquisitionDaemon.ts",
+      "toModule": "src/server/services/dataAcquisition/AcquisitionWorker.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/DataAcquisitionDaemon.ts",
+      "toModule": "src/server/services/dataAcquisition/AcquisitionTelemetry.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/DataAcquisitionDaemon.ts",
+      "toModule": "src/server/services/dataAcquisition/ResearchSnapshotManager.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/DataRecoveryPlanner.ts",
+      "toModule": "src/server/services/dataAcquisition/DataGapDetector.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataAcquisition/SecurityUniverseProvider.ts",
+      "toModule": "src/server/services/dataAcquisition/SecurityIdentityRegistry.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataenrichment/DataAcquisitionHttpClient.ts",
+      "toModule": "src/server/services/dataenrichment/DataSourceRegistry.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataenrichment/DatasetManifestWriter.ts",
+      "toModule": "src/server/services/dataenrichment/CanonicalObservationSerializer.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataenrichment/UpstoxChunkingUtility.ts",
+      "toModule": "src/server/services/dataenrichment/DataAcquisitionHttpClient.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataenrichment/verifiers/DatasetPromotionGate.ts",
+      "toModule": "src/server/services/dataenrichment/DataStagingContract.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataenrichment/verifiers/IndependentVerifier.ts",
+      "toModule": "src/server/services/dataenrichment/DataStagingContract.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/dataenrichment/verifiers/IndependentVerifier.ts",
+      "toModule": "src/server/services/dataenrichment/CanonicalObservationSerializer.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/datarichness/DataRichnessAuditor.ts",
+      "toModule": "src/server/services/datarichness/S1ToS10RequirementsExtractor.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/datarichness/DataRichnessAuditor.ts",
+      "toModule": "src/server/services/datarichness/PITNifty500Resolver.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/datarichness/DataRichnessAuditor.ts",
+      "toModule": "src/server/services/datarichness/DataRichnessAcquisitionWorker.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/datarichness/DataRichnessAuditor.ts",
+      "toModule": "src/server/services/datarichness/S10IntradayEnrichmentEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/AuditEngines.ts",
+      "toModule": "src/server/services/phase2fasttrack/EvidenceBus.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/CanonicalLedgerReconciliation.ts",
+      "toModule": "src/server/services/phase2fasttrack/FastTrackTypes.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/CanonicalLedgerReconciliation.ts",
+      "toModule": "src/server/services/phase2fasttrack/SignalLedgerHasher.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/CP21EvidenceLoader.ts",
+      "toModule": "src/server/services/phase2fasttrack/CP21VerificationEvidence.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/CP21IndependentVerifier.ts",
+      "toModule": "src/server/services/phase2fasttrack/CP21VerificationEvidence.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/CP21IndependentVerifier.ts",
+      "toModule": "src/server/services/phase2fasttrack/CP21EvidenceLoader.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/CP21IndependentVerifier.ts",
+      "toModule": "src/server/services/phase2fasttrack/ModuleDependencyAnalyzer.ts",
+      "classification": "AUTHORIZATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/CP21IndependentVerifier.ts",
+      "toModule": "src/server/services/research/PointInTimeDataEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/CP21IndependentVerifier.ts",
+      "toModule": "src/server/services/research/TradingCalendarService.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/CP21IndependentVerifier.ts",
+      "toModule": "src/server/services/phase2fasttrack/DecisionAuditLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/CP21IndependentVerifier.ts",
+      "toModule": "src/server/services/phase2fasttrack/ResearchSnapshotBuilder.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/CP21IndependentVerifier.ts",
+      "toModule": "src/server/services/phase2fasttrack/SignalLedgerHasher.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/DateEffectiveCostEngine.ts",
+      "toModule": "src/server/services/phase2fasttrack/OutcomeEvidenceTypes.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/EconomicStatisticsEngine.ts",
+      "toModule": "src/server/services/phase2fasttrack/EvidenceBus.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/EconomicStatisticsEngine.ts",
+      "toModule": "src/server/services/phase2fasttrack/FastTrackTypes.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/EntryResolutionEngine.ts",
+      "toModule": "src/server/services/research/PointInTimeDataEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/EntryResolutionEngine.ts",
+      "toModule": "src/server/services/phase2fasttrack/OutcomeEvidenceTypes.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/EntryResolutionEngine.ts",
+      "toModule": "src/server/services/phase2fasttrack/OutcomeEvidenceHasher.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/EvidenceBus.ts",
+      "toModule": "src/server/services/phase2fasttrack/FastTrackTypes.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/ExitResolutionEngine.ts",
+      "toModule": "src/server/services/research/PointInTimeDataEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/ExitResolutionEngine.ts",
+      "toModule": "src/server/services/phase2fasttrack/OutcomeEvidenceTypes.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/ExitResolutionEngine.ts",
+      "toModule": "src/server/services/phase2fasttrack/EntryResolutionEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/FastTrackCoordinator.ts",
+      "toModule": "src/server/services/phase2fasttrack/FastTrackTypes.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/FastTrackCoordinator.ts",
+      "toModule": "src/server/services/phase2fasttrack/EvidenceBus.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/FastTrackCoordinator.ts",
+      "toModule": "src/server/services/phase2fasttrack/ResearchSnapshotBuilder.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/FastTrackResearchSnapshot.ts",
+      "toModule": "src/server/services/phase2fasttrack/ResearchSnapshotBuilder.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/ForwardOutcomeCalculator.ts",
+      "toModule": "src/server/services/phase2fasttrack/FastTrackTypes.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/ForwardOutcomeCalculator.ts",
+      "toModule": "src/server/services/phase2fasttrack/EvidenceBus.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/ForwardOutcomeCalculator.ts",
+      "toModule": "src/server/services/DatabaseManager.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/ForwardOutcomeCalculator.ts",
+      "toModule": "src/server/services/phase2fasttrack/SwarmProgressBus.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/ForwardOutcomeCalculator.ts",
+      "toModule": "src/server/services/phase2fasttrack/EntryResolutionEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/ForwardOutcomeCalculator.ts",
+      "toModule": "src/server/services/research/PointInTimeDataEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/FTEVExecutionIsolationAudit.ts",
+      "toModule": "src/server/services/phase2fasttrack/FastTrackTypes.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/FTEVExecutionIsolationAudit.ts",
+      "toModule": "src/server/services/phase2fasttrack/SignalLedgerHasher.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/OutcomeEvidenceHasher.ts",
+      "toModule": "src/server/services/phase2fasttrack/OutcomeEvidenceTypes.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/ResearchSnapshotBuilder.ts",
+      "toModule": "src/server/services/phase2fasttrack/EvidenceArtifact.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/SignalLedgerHasher.ts",
+      "toModule": "src/server/services/phase2fasttrack/FastTrackTypes.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/StrategyReplayAdapter.ts",
+      "toModule": "src/server/services/phase2fasttrack/EntryResolutionEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/StrategyReplayAdapter.ts",
+      "toModule": "src/server/services/phase2fasttrack/ExitResolutionEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/StrategyReplayAdapter.ts",
+      "toModule": "src/server/services/phase2fasttrack/DateEffectiveCostEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/StrategyReplayAdapter.ts",
+      "toModule": "src/server/services/phase2fasttrack/TradeLedgerHasher.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/StrategyReplayAdapter.ts",
+      "toModule": "src/server/services/phase2fasttrack/ReplayReconciliationEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/StrategyReplayAdapter.ts",
+      "toModule": "src/server/services/phase2fasttrack/OutcomeEvidenceTypes.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/StrategyReplayAdapter.ts",
+      "toModule": "src/server/services/phase2fasttrack/FastTrackTypes.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/TrackBEngines.ts",
+      "toModule": "src/server/services/phase2fasttrack/EvidenceBus.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/TrackBEngines.ts",
+      "toModule": "src/server/services/phase2fasttrack/SwarmProgressBus.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/TrackCEngines.ts",
+      "toModule": "src/server/services/phase2fasttrack/EvidenceBus.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/TrackCEngines.ts",
+      "toModule": "src/server/services/phase2fasttrack/FastTrackTypes.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/TrackCEngines.ts",
+      "toModule": "src/server/services/DatabaseManager.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/TrackCEngines.ts",
+      "toModule": "src/server/services/phase2fasttrack/SwarmProgressBus.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/TrackDEngines.ts",
+      "toModule": "src/server/services/phase2fasttrack/EvidenceBus.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/TrackDEngines.ts",
+      "toModule": "src/server/services/phase2fasttrack/FastTrackTypes.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/TrackDEngines.ts",
+      "toModule": "src/server/services/phase2fasttrack/SwarmProgressBus.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2fasttrack/TradeLedgerHasher.ts",
+      "toModule": "src/server/services/phase2fasttrack/OutcomeEvidenceTypes.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/DownstreamWaterfallEnricher.ts",
+      "toModule": "src/server/services/phase2forensics/S1ToS10ForensicReplayEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/NearMissAnalyzer.ts",
+      "toModule": "src/server/services/phase2forensics/S1ToS10ForensicReplayEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/ParameterMatrixGenerator.ts",
+      "toModule": "src/server/services/phase2forensics/S1ToS10ForensicReplayEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/Phase2CleanRoomReplayer.ts",
+      "toModule": "src/server/services/phase2forensics/S1ToS10ForensicReplayEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/Phase2CleanRoomReplayer.ts",
+      "toModule": "src/server/services/phase2forensics/ParameterMatrixGenerator.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/Phase2CleanRoomReplayer.ts",
+      "toModule": "src/server/services/phase2forensics/PostSignalOutcomeTracker.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/Phase2ExcelReviewGenerator.ts",
+      "toModule": "src/server/services/phase2forensics/S1ToS10ForensicReplayEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/Phase2ExcelReviewGenerator.ts",
+      "toModule": "src/server/services/phase2forensics/ParameterMatrixGenerator.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/Phase2ExcelReviewGenerator.ts",
+      "toModule": "src/server/services/phase2forensics/NearMissAnalyzer.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/Phase2ExcelReviewGenerator.ts",
+      "toModule": "src/server/services/phase2forensics/DownstreamWaterfallEnricher.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/Phase2ExcelReviewGenerator.ts",
+      "toModule": "src/server/services/phase2forensics/PostSignalOutcomeTracker.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/Phase2MasterOrchestrator.ts",
+      "toModule": "src/server/services/phase2forensics/S1ToS10ForensicReplayEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/Phase2MasterOrchestrator.ts",
+      "toModule": "src/server/services/phase2forensics/ParameterMatrixGenerator.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/Phase2MasterOrchestrator.ts",
+      "toModule": "src/server/services/phase2forensics/NearMissAnalyzer.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/Phase2MasterOrchestrator.ts",
+      "toModule": "src/server/services/phase2forensics/DownstreamWaterfallEnricher.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/Phase2MasterOrchestrator.ts",
+      "toModule": "src/server/services/phase2forensics/PostSignalOutcomeTracker.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/Phase2MasterOrchestrator.ts",
+      "toModule": "src/server/services/phase2forensics/Phase2ExcelReviewGenerator.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/Phase2MasterOrchestrator.ts",
+      "toModule": "src/server/services/phase2forensics/Phase2ReportPackGenerator.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/Phase2MasterOrchestrator.ts",
+      "toModule": "src/server/services/phase2forensics/Phase2CleanRoomReplayer.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/Phase2ReportPackGenerator.ts",
+      "toModule": "src/server/services/phase2forensics/S1ToS10ForensicReplayEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/Phase2ReportPackGenerator.ts",
+      "toModule": "src/server/services/phase2forensics/ParameterMatrixGenerator.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/Phase2ReportPackGenerator.ts",
+      "toModule": "src/server/services/phase2forensics/NearMissAnalyzer.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/Phase2ReportPackGenerator.ts",
+      "toModule": "src/server/services/phase2forensics/DownstreamWaterfallEnricher.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/Phase2ReportPackGenerator.ts",
+      "toModule": "src/server/services/phase2forensics/PostSignalOutcomeTracker.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/Phase2ReportPackGenerator.ts",
+      "toModule": "src/server/services/phase2forensics/Phase2CleanRoomReplayer.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/phase2forensics/PostSignalOutcomeTracker.ts",
+      "toModule": "src/server/services/phase2forensics/S1ToS10ForensicReplayEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r421/R421AdversarialSuite.ts",
+      "toModule": "src/server/services/r421/R421LedgerReconstructor.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r421/R421AdversarialSuite.ts",
+      "toModule": "src/server/services/research/r4/R4LifecycleEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r421/R421AdversarialSuite.ts",
+      "toModule": "src/server/services/r421/R421CandidateDifferentiationAudit.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r421/R421ConcurrencyAudit.ts",
+      "toModule": "src/server/services/r421/R421LedgerReconstructor.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r421/R421CostReconstructor.ts",
+      "toModule": "src/server/services/r421/R421LedgerReconstructor.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r421/R421CostReconstructor.ts",
+      "toModule": "src/server/services/research/r4/R4LifecycleEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r421/R421HoldingPeriodAudit.ts",
+      "toModule": "src/server/services/r421/R421LedgerReconstructor.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r421/R421LifecycleReconstructor.ts",
+      "toModule": "src/server/services/r421/R421LedgerReconstructor.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r421/R421LifecycleReconstructor.ts",
+      "toModule": "src/server/services/research/r4/R4LifecycleEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r421/R421RAudit.ts",
+      "toModule": "src/server/services/r421/R421LedgerReconstructor.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r421/R421RegimeAudit.ts",
+      "toModule": "src/server/services/r421/R421LedgerReconstructor.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r421/R421RightTailAudit.ts",
+      "toModule": "src/server/services/r421/R421LedgerReconstructor.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r422/R422StrategyReadinessAudit.ts",
+      "toModule": "src/server/services/dataAudit/DataDomainAuditor.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r43/R43BootstrapEngine.ts",
+      "toModule": "src/server/services/r43/R43DeterministicSeedManager.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r43/R43CostSensitivityEngine.ts",
+      "toModule": "src/server/services/research/r4/R4LifecycleEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r43/R43LifecycleInteractionEngine.ts",
+      "toModule": "src/server/services/r421/R421LedgerReconstructor.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r43/R43LifecycleInteractionEngine.ts",
+      "toModule": "src/server/services/research/r4/R4LifecycleEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r43/R43ParameterSensitivityEngine.ts",
+      "toModule": "src/server/services/r421/R421LedgerReconstructor.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r43/R43ParameterSensitivityEngine.ts",
+      "toModule": "src/server/services/research/r4/R4LifecycleEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r43/R43RegimeRobustnessEngine.ts",
+      "toModule": "src/server/services/r421/R421LedgerReconstructor.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r43/R43RegimeRobustnessEngine.ts",
+      "toModule": "src/server/services/research/r4/R4LifecycleEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r43/R43RightTailRobustnessEngine.ts",
+      "toModule": "src/server/services/r421/R421LedgerReconstructor.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r43/R43RightTailRobustnessEngine.ts",
+      "toModule": "src/server/services/research/r4/R4LifecycleEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r43/R43SlippageSensitivityEngine.ts",
+      "toModule": "src/server/services/research/r4/R4LifecycleEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r43/R43TimeStabilityEngine.ts",
+      "toModule": "src/server/services/r421/R421LedgerReconstructor.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/r43/R43TimeStabilityEngine.ts",
+      "toModule": "src/server/services/research/r4/R4LifecycleEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/BHFDRValidator.ts",
+      "toModule": "src/server/services/research/StopTheLineRegistry.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/BlockBootstrapEngine.ts",
+      "toModule": "src/server/services/research/DeterministicRunContext.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/BlockBootstrapEngine.ts",
+      "toModule": "src/server/services/research/CanonicalTradeLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/BlockBootstrapEngine.ts",
+      "toModule": "src/server/services/research/ResearchRun.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/CleanRoomEconomicReplay.ts",
+      "toModule": "src/server/services/research/CanonicalTradeLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/CleanRoomEconomicReplay.ts",
+      "toModule": "src/server/services/research/ProducerTradePnlCalculator.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/CleanRoomEconomicReplay.ts",
+      "toModule": "src/server/services/research/ResearchRun.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/CleanRoomIndependentAuditor.ts",
+      "toModule": "src/server/services/research/CanonicalTradeLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/CleanRoomIndependentAuditor.ts",
+      "toModule": "src/server/services/research/ResearchRun.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/DecisionGraphValidator.ts",
+      "toModule": "src/server/services/research/StopTheLineRegistry.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/EconomicCostRobustnessEngine.ts",
+      "toModule": "src/server/services/research/CanonicalTradeLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/EconomicCostRobustnessEngine.ts",
+      "toModule": "src/server/services/research/CleanRoomEconomicReplay.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/EconomicCostRobustnessEngine.ts",
+      "toModule": "src/server/services/research/ProducerTradePnlCalculator.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/EconomicCostRobustnessEngine.ts",
+      "toModule": "src/server/services/research/ResearchRun.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/FrozenControlValidator.ts",
+      "toModule": "src/server/services/research/StopTheLineRegistry.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/IdealizedRiskOracle.ts",
+      "toModule": "src/server/services/research/types.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/OpportunitySuppressionAnalyzer.ts",
+      "toModule": "src/server/services/research/CanonicalTradeLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/OpportunitySuppressionAnalyzer.ts",
+      "toModule": "src/server/services/research/ResearchRun.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/OrderLevelCapacityEngine.ts",
+      "toModule": "src/server/services/research/CanonicalTradeLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/OrderLevelCapacityEngine.ts",
+      "toModule": "src/server/services/research/ResearchRun.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/ProducerTradePnlCalculator.ts",
+      "toModule": "src/server/services/research/CanonicalTradeLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/ProductionBypassAuditor.ts",
+      "toModule": "src/server/services/research/StopTheLineRegistry.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/r3/CandidateFilterEngine.ts",
+      "toModule": "src/server/services/research/r3/ResearchSnapshotManager.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/r3/CandidateFilterImplementations.ts",
+      "toModule": "src/server/services/research/r3/CandidateFilterEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/r3/CandidateStrategyAdapter.ts",
+      "toModule": "src/server/services/research/r3/CandidateFilterEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/r3/PredeclaredCandidateDefinitions.ts",
+      "toModule": "src/server/services/research/r3/ResearchHypothesisRegistry.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/r3/PredeclaredCandidateDefinitions.ts",
+      "toModule": "src/server/services/research/r3/ResearchExperimentRegistry.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/r3/PredeclaredCandidateDefinitions.ts",
+      "toModule": "src/server/services/research/r3/ResearchConfigurationRegistry.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/r3/PredeclaredExperimentDefinitions.ts",
+      "toModule": "src/server/services/research/r3/ResearchExperimentRegistry.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/r3/PredeclaredExperimentDefinitions.ts",
+      "toModule": "src/server/services/research/r3/ResearchConfigurationRegistry.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/r3/PredeclaredExperimentDefinitions.ts",
+      "toModule": "src/server/services/research/r3/PredeclaredCandidateDefinitions.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/r3/ResearchBacktestEngine.ts",
+      "toModule": "src/server/services/research/r3/CandidateFilterEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/r3/ResearchBacktestEngine.ts",
+      "toModule": "src/server/services/research/r3/CandidateStrategyAdapter.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/r3/ResearchDataBinding.ts",
+      "toModule": "src/server/services/research/r3/ResearchSnapshotManager.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/r3/ResearchHypothesisRegistry.ts",
+      "toModule": "src/server/services/research/r3/ResearchSnapshotManager.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/r3/ResearchOpportunitySuppressionAnalyzer.ts",
+      "toModule": "src/server/services/research/r3/ResearchBacktestEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/r3/ResearchWalkForwardEngine.ts",
+      "toModule": "src/server/services/research/r3/ResearchBacktestEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/r4/R4AuthenticFeatureProvider.ts",
+      "toModule": "src/server/services/research/r4/R4DataReadinessGate.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/r4/R4CandidateEngine.ts",
+      "toModule": "src/server/services/research/r4/R4HypothesisRegistry.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/r4/R4CandidateEngine.ts",
+      "toModule": "src/server/services/research/r4/R4AuthenticFeatureProvider.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/r4/R4CandidateEngine.ts",
+      "toModule": "src/server/services/research/r4/R4LifecycleEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/r4/R4OpportunitySuppressionAnalyzer.ts",
+      "toModule": "src/server/services/research/r4/R4CandidateEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/r4/R4PortfolioRiskEngine.ts",
+      "toModule": "src/server/services/research/r4/R4CandidateEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/ReplayReconciliationEngine.ts",
+      "toModule": "src/server/services/research/CleanRoomEconomicReplay.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/ReplayReconciliationEngine.ts",
+      "toModule": "src/server/services/research/CleanRoomIndependentAuditor.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/ReplayReconciliationEngine.ts",
+      "toModule": "src/server/services/research/StopTheLineRegistry.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/ResearchArtifactGenerator.ts",
+      "toModule": "src/server/services/research/EligibilityEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/ResearchArtifactGenerator.ts",
+      "toModule": "src/server/services/research/StopTheLineRegistry.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/ResearchContaminationDetector.ts",
+      "toModule": "src/server/services/research/StopTheLineRegistry.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/ResearchRun.ts",
+      "toModule": "src/server/services/research/CanonicalResearchInput.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/ResearchRun.ts",
+      "toModule": "src/server/services/research/FrozenControlValidator.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/ResearchRun.ts",
+      "toModule": "src/server/services/research/ExperimentRegistry.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/ResearchRun.ts",
+      "toModule": "src/server/services/research/DeterministicRunContext.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/TrueRegimeClassifier.ts",
+      "toModule": "src/server/services/research/CanonicalTradeLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/TrueRegimeClassifier.ts",
+      "toModule": "src/server/services/research/ResearchRun.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/TrueWalkForwardEngine.ts",
+      "toModule": "src/server/services/research/ResearchRun.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/TrueWalkForwardEngine.ts",
+      "toModule": "src/server/services/research/CleanRoomEconomicReplay.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/TrueWalkForwardEngine.ts",
+      "toModule": "src/server/services/research/StopTheLineRegistry.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/WalkForwardResearchEngine.ts",
+      "toModule": "src/server/services/research/types.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/WalkForwardResearchEngine.ts",
+      "toModule": "src/server/services/research/ExecutionSimulator.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/research/WalkForwardResearchEngine.ts",
+      "toModule": "src/server/services/research/StatisticsEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s110/S110ComposableIntegrationEngine.ts",
+      "toModule": "src/server/services/s110/S110StrategyReplayEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s110/S110ComposableIntegrationEngine.ts",
+      "toModule": "src/server/services/s110/S110CapitalEligibilityGate.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s110/S110FinalGate.ts",
+      "toModule": "src/server/services/s110/S110DependencyAuditEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s110/S110FinalGate.ts",
+      "toModule": "src/server/services/s110/S110DataGapEngine.ts",
+      "classification": "COMPUTATION",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s110/S110StrategyReplayEngine.ts",
+      "toModule": "src/server/services/s110/S110UniverseManager.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s110/S110StrategyReplayEngine.ts",
+      "toModule": "src/server/services/s110/S110DependencyAuditor.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r/cleanroom/S1101RCleanRoomRunner.ts",
+      "toModule": "src/server/services/s1101r/cleanroom/S1101RDependencyFirewall.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r/cleanroom/S1101RCleanRoomRunner.ts",
+      "toModule": "src/server/services/s1101r/S1101RMasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r/data/S1101RAcquisitionWorker.ts",
+      "toModule": "src/server/services/s1101r/data/S1101RChainOfCustody.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r/data/S1101RAcquisitionWorker.ts",
+      "toModule": "src/server/services/s1101r/data/S1101RDatasetVersionManager.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r/data/S1101RAcquisitionWorker.ts",
+      "toModule": "src/server/services/s1101r/S1101RMasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r/data/S1101RChainOfCustody.ts",
+      "toModule": "src/server/services/s1101r/S1101RMasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r/data/S1101RDatasetVersionManager.ts",
+      "toModule": "src/server/services/s1101r/S1101RMasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r/data/S1101RDataTruthAuditor.ts",
+      "toModule": "src/server/services/s1101r/S1101RMasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r/data/S1101RDataTruthAuditor.ts",
+      "toModule": "src/server/services/s1101r/data/S1101RDataGapRegister.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r/data/S1101RDataTruthAuditor.ts",
+      "toModule": "src/server/services/s1101r/data/S1101RAcquisitionWorker.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r/downstream/S1101RDownstreamChainAuditor.ts",
+      "toModule": "src/server/services/s1101r/S1101RMasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r/governance/S1101RConflictResolver.ts",
+      "toModule": "src/server/services/s1101r/S1101RMasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r/governance/S1101RDatabaseWriteAuditor.ts",
+      "toModule": "src/server/services/s1101r/S1101RMasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r/governance/S1101REnvironmentFirewall.ts",
+      "toModule": "src/server/services/s1101r/S1101RMasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r/governance/S1101RFinalGate.ts",
+      "toModule": "src/server/services/s1101r/S1101RMasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r/redteam/S1101RAdversarialAttacker.ts",
+      "toModule": "src/server/services/s1101r/S1101RMasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r/strategy/S1101RStrategyLogicAuditor.ts",
+      "toModule": "src/server/services/s1101r/S1101RMasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/cleanroom/S1101R2CleanRoomRunner.ts",
+      "toModule": "src/server/services/s1101r2/cleanroom/S1101R2DependencyFirewall.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/cleanroom/S1101R2CleanRoomRunner.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2MasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/cleanroom/S1101R2CleanRoomRunner.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2Types.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/data/S1101R2AcquisitionWorker.ts",
+      "toModule": "src/server/services/s1101r2/data/S1101R2ChainOfCustody.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/data/S1101R2AcquisitionWorker.ts",
+      "toModule": "src/server/services/s1101r2/data/S1101R2DatasetVersionManager.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/data/S1101R2AcquisitionWorker.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2MasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/data/S1101R2AcquisitionWorker.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2Types.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/data/S1101R2ChainOfCustody.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2MasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/data/S1101R2ChainOfCustody.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2Types.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/data/S1101R2DatasetVersionManager.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2Types.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/data/S1101R2DataTruthAuditor.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2MasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/data/S1101R2DataTruthAuditor.ts",
+      "toModule": "src/server/services/s1101r2/data/S1101R2DataGapRegister.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/data/S1101R2DataTruthAuditor.ts",
+      "toModule": "src/server/services/s1101r2/data/S1101R2AcquisitionWorker.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/data/S1101R2DataTruthAuditor.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2Types.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/downstream/S1101R2DownstreamChainAuditor.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2MasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/downstream/S1101R2DownstreamChainAuditor.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2Types.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/governance/S1101R2ConflictResolver.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2MasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/governance/S1101R2DatabaseWriteAuditor.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2MasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/governance/S1101R2DatabaseWriteAuditor.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2Types.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/governance/S1101R2EnvironmentFirewall.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2MasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/governance/S1101R2EnvironmentFirewall.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2Types.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/governance/S1101R2FinalGate.ts",
+      "toModule": "src/server/services/s1101r2/R2C1GitIdentityAudit.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/governance/S1101R2FinalGate.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2MasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/governance/S1101R2FinalGate.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2Types.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/governance/S1101R2MasterCoordinator.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2MasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/governance/S1101R2MasterCoordinator.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2Types.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/R2C1RepositoryScopeAudit.ts",
+      "toModule": "src/server/services/s1101r2/R2C1GitIdentityAudit.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/R2C2DatasetTransitionOrchestrator.ts",
+      "toModule": "src/server/services/s1101r2/R2C2DependencyGraph.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/R2C2DatasetTransitionOrchestrator.ts",
+      "toModule": "src/server/services/s1101r2/R2C2DependencyHash.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/redteam/S1101R2AdversarialAttacker.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2MasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/redteam/S1101R2AdversarialAttacker.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2Types.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/S1101R2DependencyRegistration.ts",
+      "toModule": "src/server/services/s1101r2/R2C2DependencyGraph.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/S1101R2MasterLedger.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2Types.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/strategy/S1101R2StrategyLogicAuditor.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2MasterLedger.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    },
+    {
+      "fromModule": "src/server/services/s1101r2/strategy/S1101R2StrategyLogicAuditor.ts",
+      "toModule": "src/server/services/s1101r2/S1101R2Types.ts",
+      "classification": "READ_ONLY",
+      "importType": "STATIC_IMPORT"
+    }
+  ],
+  "isolatedComponents": [
+    "src/server/services/phase2fasttrack/CP21IndependentVerifier.ts",
+    "src/server/services/phase2fasttrack/B1SampleBuilder.ts",
+    "src/server/services/phase2fasttrack/TrackBGate.ts",
+    "src/server/services/CapitalProtectionEngine.ts"
+  ]
+}

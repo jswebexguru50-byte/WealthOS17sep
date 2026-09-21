@@ -1,0 +1,56 @@
+{
+  "TOTAL_UNIVERSE": {
+    "count": 3554,
+    "available": 3554,
+    "missing": 0,
+    "percentage": 100
+  },
+  "OHLCV_COVERAGE": {
+    "count": 3554,
+    "available": 3554,
+    "missing": 0,
+    "percentage": 100
+  },
+  "OHLCV_SUFFICIENT_FOR_STRATEGY": {
+    "count": 3554,
+    "available": 3000,
+    "missing": 554,
+    "percentage": 84.4
+  },
+  "SECTOR_COVERAGE": {
+    "count": 3554,
+    "available": 3554,
+    "missing": 0,
+    "percentage": 100
+  },
+  "INDUSTRY_COVERAGE": {
+    "count": 3554,
+    "available": 3554,
+    "missing": 0,
+    "percentage": 100
+  },
+  "INDEX_COVERAGE": {
+    "count": 3554,
+    "available": 3554,
+    "missing": 0,
+    "percentage": 100
+  },
+  "PIT_INDEX_COVERAGE": {
+    "count": 3554,
+    "available": 3554,
+    "missing": 0,
+    "percentage": 100
+  },
+  "BENCHMARK_COVERAGE": {
+    "count": 3554,
+    "available": 3554,
+    "missing": 0,
+    "percentage": 100
+  },
+  "VOLUME_COVERAGE": {
+    "count": 3554,
+    "available": 3554,
+    "missing": 0,
+    "percentage": 100
+  }
+}

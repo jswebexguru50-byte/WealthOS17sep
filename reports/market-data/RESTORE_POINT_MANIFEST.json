@@ -1,0 +1,12 @@
+{
+  "database_path": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\portfolio.db",
+  "database_size": 13510496256,
+  "database_hash": "5c11f7595d73d2e970a942a0504a95af16f287dd7b36bbfa1ccba9f6a157d733",
+  "modification_timestamp": "2026-09-20T15:10:50.945Z",
+  "row_count_DailyOHLCV": 4130851,
+  "staging_hash": "206ec5df523b2431baf9e1d7f4658a4c81606cc6951ab6f5277924718b32c154",
+  "delta_queue_hash": "f7e00c6fc4894e55fbe08fdb9fac6c15aabbfad85d20d47e0b51667e8c9e58f8",
+  "frozen_control_hashes": "PASS",
+  "restore_artifact_identity": "portfolio_clone_test.db",
+  "timestamp": "2026-09-20T17:29:20.020Z"
+}

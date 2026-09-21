@@ -1,0 +1,54 @@
+{
+  "strategyId": "S9",
+  "name": "Stochastic Oversold Turnaround",
+  "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+  "functionName": "evaluateS9",
+  "startLine": 2782,
+  "endLine": 2822,
+  "inputs": [
+    "Daily OHLCV"
+  ],
+  "indicators": [
+    "14-3-3 Stochastic %K and %D"
+  ],
+  "lookbacks": [
+    "14 Days",
+    "3 Days"
+  ],
+  "thresholds": [
+    "%K < 20",
+    "%K > %D"
+  ],
+  "comparators": [
+    "%K > %D"
+  ],
+  "entryConditions": [
+    "%K turns up from below 20 and crosses above %D"
+  ],
+  "exitConditions": [
+    "%K > 80 or %K crosses below %D"
+  ],
+  "volumeConditions": [
+    "Volume > 1.0x average"
+  ],
+  "benchmarkDependencies": [
+    "NIFTY 500 regime"
+  ],
+  "intradayDependencies": [],
+  "corporateActionDependencies": [
+    "Split adjusted"
+  ],
+  "pitDependencies": [
+    "Trade date <= Decision date"
+  ],
+  "missingDataBehavior": "FAIL_CLOSED",
+  "fallbackBehavior": "NO_SYNTHETIC_FALLBACK",
+  "timestampSemantics": "EOD Close Available At 16:00 IST",
+  "sourceEvidence": {
+    "file": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "startLine": 2782,
+    "endLine": 2822,
+    "symbol": "evaluateS9",
+    "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+  }
+}

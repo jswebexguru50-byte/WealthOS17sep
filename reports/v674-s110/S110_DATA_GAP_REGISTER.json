@@ -1,0 +1,35 @@
+[
+  {
+    "gapId": "GAP-P0-2026-D5",
+    "domain": "D5_PIT_NIFTY500",
+    "priorityBand": "P0",
+    "requiredObservations": 11000,
+    "availableObservations": 11000,
+    "missingObservations": 0,
+    "affectedStrategies": [
+      "S1",
+      "S2",
+      "S3",
+      "S4",
+      "S5",
+      "S6",
+      "S7",
+      "S8",
+      "S9",
+      "S10"
+    ],
+    "status": "CANONICAL_PROMOTED"
+  },
+  {
+    "gapId": "GAP-P2-2018-D7",
+    "domain": "D7_INTRADAY_5MIN",
+    "priorityBand": "P2",
+    "requiredObservations": 147696,
+    "availableObservations": 147696,
+    "missingObservations": 0,
+    "affectedStrategies": [
+      "S10"
+    ],
+    "status": "CANONICAL_PROMOTED"
+  }
+]

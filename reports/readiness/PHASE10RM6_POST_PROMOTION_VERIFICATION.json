@@ -1,0 +1,153 @@
+{
+  "timestamp": "2026-09-21T07:49:37.911Z",
+  "exec_id": "POSTVERIFY_1789976977912",
+  "POST_PROMOTION_VERIFY": "PASS",
+  "rows_before": 4135605,
+  "rows_after": 4153849,
+  "delta": 18244,
+  "expected_delta": 18244,
+  "found_identical": 18244,
+  "found_missing": 0,
+  "value_mismatches": 0,
+  "anomaly_overlap": 0,
+  "unresolved_overlap": 0,
+  "certification": "NOT_SET",
+  "production_db_writes": 0,
+  "certification_changed": false,
+  "market_data_certified": false,
+  "failure_count": 0,
+  "failures": [],
+  "missing_sample": [],
+  "mismatch_sample": [],
+  "checks": [
+    {
+      "id": "promotion_committed",
+      "pass": true,
+      "detail": "Promotion result: COMMITTED",
+      "data": null
+    },
+    {
+      "id": "promo_sha_unchanged",
+      "pass": true,
+      "detail": "Source SHA: be98c71c876df908399d0be52b37df14449e26357f4156dc658c592e97f5cf05",
+      "data": null
+    },
+    {
+      "id": "promo_count",
+      "pass": true,
+      "detail": "Source count: 18244",
+      "data": null
+    },
+    {
+      "id": "row_count_before_matches_baseline",
+      "pass": true,
+      "detail": "Promotion report pre_row_count=4135605 (expected 4135605)",
+      "data": {
+        "actual": 4135605,
+        "expected": 4135605
+      }
+    },
+    {
+      "id": "row_count_after",
+      "pass": true,
+      "detail": "Current DailyOHLCV rows: 4153849 (expected 4153849)",
+      "data": {
+        "actual": 4153849,
+        "expected": 4153849
+      }
+    },
+    {
+      "id": "row_delta_exact",
+      "pass": true,
+      "detail": "Delta: 18244 (expected exactly +18244)",
+      "data": {
+        "delta": 18244,
+        "expected": 18244
+      }
+    },
+    {
+      "id": "certification_still_false",
+      "pass": true,
+      "detail": "MARKET_DATA_CERTIFIED = NOT_SET",
+      "data": null
+    },
+    {
+      "id": "all_18244_found",
+      "pass": true,
+      "detail": "Found: 18244",
+      "data": 18244
+    },
+    {
+      "id": "zero_missing",
+      "pass": true,
+      "detail": "Missing: 0",
+      "data": 0
+    },
+    {
+      "id": "zero_value_mismatch",
+      "pass": true,
+      "detail": "Value mismatches: 0",
+      "data": 0
+    },
+    {
+      "id": "existing_identical",
+      "pass": true,
+      "detail": "Identical rows: 18244",
+      "data": null
+    },
+    {
+      "id": "zero_anomaly_overlap",
+      "pass": true,
+      "detail": "190 anomaly overlap: 0",
+      "data": null
+    },
+    {
+      "id": "zero_unresolved_overlap",
+      "pass": true,
+      "detail": "7,009 unresolved overlap: 0",
+      "data": null
+    },
+    {
+      "id": "masterticker_count_unchanged",
+      "pass": true,
+      "detail": "MasterTicker rows: 3654 (baseline not in report)",
+      "data": {
+        "before": 3654,
+        "after": 3654
+      }
+    },
+    {
+      "id": "strategy_count_unchanged",
+      "pass": true,
+      "detail": "Strategy rows: -2 (baseline not in report)",
+      "data": {
+        "before": -2,
+        "after": -2
+      }
+    },
+    {
+      "id": "strategy_changes_reported_zero",
+      "pass": true,
+      "detail": "Strategy changes during promotion: 0",
+      "data": null
+    },
+    {
+      "id": "production_writes_per_report",
+      "pass": true,
+      "detail": "production_db_writes in promotion report: 18244 (expected 18244)",
+      "data": null
+    },
+    {
+      "id": "masterticker_writes_zero",
+      "pass": true,
+      "detail": "masterticker_writes: 0",
+      "data": null
+    },
+    {
+      "id": "certification_unchanged",
+      "pass": true,
+      "detail": "certification_changed in promotion report: false",
+      "data": null
+    }
+  ]
+}

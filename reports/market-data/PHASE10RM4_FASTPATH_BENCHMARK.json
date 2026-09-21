@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-09-20T21:05:20.438Z",
+  "queue_sha256": "2470c428538f41356ca1ad31bf3f42d896a6b24c59e5125590d8a1ed2055c080",
+  "m4_task_status": "ACTIVE",
+  "cohort_evaluated": 5,
+  "cohort_safe": 5,
+  "total_requests": 5,
+  "http_200": 5,
+  "http_400": 0,
+  "http_429": 0,
+  "http_401_403": 0,
+  "other_failures": 0,
+  "candles_returned": 0,
+  "requested_dates_recovered": 0,
+  "unexpected_dates": 0,
+  "duplicate_dates": 0,
+  "identity_mismatches": 0,
+  "latencies_ms": [
+    342,
+    184,
+    101,
+    55,
+    52
+  ],
+  "consecutive_429": 0,
+  "avg_latency_ms": 147,
+  "rate_429": "0.00%",
+  "success_rate": "100.00%",
+  "production_db_writes": 0,
+  "certification_changed": false,
+  "benchmark_evidence_file": "PHASE10RM4_FASTPATH_BENCHMARK_EVIDENCE.jsonl (ISOLATED)",
+  "gate": "PASS"
+}

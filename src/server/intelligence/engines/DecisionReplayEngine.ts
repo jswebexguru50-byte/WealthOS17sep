@@ -399,10 +399,10 @@ export class DecisionReplayEngine {
 
     // ── Step 4: Build iiceInput — credibility grade from rawInputClaims ONLY ──
     const credibilityGrade = this.deriveCredibilityGradeFromRawClaims(boundaryClaims);
-    const achievedClaims = boundaryClaims.filter((c: any) => c.status === 'ACHIEVED').length;
-    const brokenClaims = boundaryClaims.filter((c: any) => c.status === 'BROKEN').length;
+    const achievedCount = boundaryClaims.filter((c: any) => c.status === 'ACHIEVED' || c.status === 'ACHIEVED_EARLY').length;
+    const missedCount = boundaryClaims.filter((c: any) => c.status === 'MISSED').length;
     const totalClaims = boundaryClaims.length;
-    const sayDoRatio = totalClaims > 0 ? achievedClaims / totalClaims : 0;
+    const sayDoRatio = totalClaims > 0 ? achievedCount / totalClaims : 0;
 
     const iiceInput: IiceIntelligenceInput = {
       symbol: snapshot.issuerSymbol,
@@ -410,14 +410,16 @@ export class DecisionReplayEngine {
       marketCapTier: 'MIDCAP',
       exchangeBoard: 'MAIN_BOARD',
       walkTheTalk: {
+        symbol: snapshot.issuerSymbol,
         totalClaims,
-        achievedClaims,
-        brokenClaims,
-        pendingClaims: 0,
-        unverifiableClaims: 0,
+        achievedCount,
+        partiallyAchievedCount: 0,
+        missedCount,
+        reversedCount: 0,
+        openCount: 0,
+        dueForEvaluationCount: 0,
+        unresolvedCount: 0,
         grade: credibilityGrade,           // ← v3.2.1: From rawInputClaims, NOT from decisionState
-        sayDoRatio,
-        historicalBasis: 'COLD_STORAGE_REPLAY',
         keyEvidencedExamples: []
       },
       contradictions: snapshot.rawInputContradictions || [],

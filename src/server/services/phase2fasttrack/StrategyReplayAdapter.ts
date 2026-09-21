@@ -28,8 +28,7 @@ export class StrategyReplayAdapter {
       signal.decisionDate,
       availableBars,
       undefined, // S10 intraday bars not passed for generic replay here, but could be
-      true,
-      signal.intradayTimestamp
+      true
     );
 
     if (entryResolution.status !== 'RESOLVED' || !entryResolution.observation) {

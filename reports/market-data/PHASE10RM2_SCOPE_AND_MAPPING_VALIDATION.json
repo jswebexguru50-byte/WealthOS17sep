@@ -1,0 +1,48 @@
+{
+  "phase": "10R-M.2",
+  "timestamp": "2026-09-20T18:37:43.347Z",
+  "git_commit": "unknown",
+  "production_db_writes": 0,
+  "certification_changed": "NO",
+  "global_delta_recalculated": "NO",
+  "total_population": 3654,
+  "scope_counts": {
+    "listed_market": 3552,
+    "mutual_fund": 53,
+    "aif": 8,
+    "private_unlisted": 0,
+    "tracking_only": 21,
+    "foreign_listed": 20,
+    "unknown": 0
+  },
+  "excluded_from_listed_recovery": 102,
+  "bse_numeric_eligible_population": 544,
+  "bse_mapping_statistics": {
+    "eligible": 544,
+    "mappings": 544
+  },
+  "isin_statistics": {
+    "valid": 544,
+    "missing": 0,
+    "invalid": 0,
+    "duplicate": 0,
+    "conflicting": 0,
+    "unchanged": 0,
+    "corrected": 544,
+    "excluded": 102,
+    "ambiguous": 0
+  },
+  "isin_collision_statistics": {
+    "isin_collisions": 0,
+    "mapping_collisions": 0
+  },
+  "mutual_fund_statistics": {
+    "total": 53
+  },
+  "foreign_unknown_statistics": {
+    "total": 20
+  },
+  "reconciliation": "PASS",
+  "unexplained_population": 0,
+  "recommendation": "READY_FOR_CONTROLLED_RECOVERY"
+}

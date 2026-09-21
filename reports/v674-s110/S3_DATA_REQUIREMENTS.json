@@ -1,0 +1,16 @@
+[
+  {
+    "strategyId": "S3",
+    "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "sourceFunction": "evaluateS3",
+    "parameterName": "dailyOHLCV",
+    "sourceField": "high,low,close",
+    "formula": "14-day RSI oversold rebound (<30 to >35)",
+    "lookback": "14D",
+    "frequency": "DAILY",
+    "requiredHistory": "2018-01-01 to 2026-04-05",
+    "PITRequired": true,
+    "availabilityTimestampRequired": true,
+    "dependencyType": "OHLCV"
+  }
+]

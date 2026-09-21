@@ -1,0 +1,10 @@
+{
+  "ledgerRunId": "adversarial-ledger-1789842195384",
+  "firstRecordHash": "e25b9cf482245ab61204b53767e9f9276b2182ee079b6744a5e7dc1fce28c158",
+  "expectedRecordCount": 2,
+  "expectedFinalRecordHash": "f81cf3d22ecef7bc496819af20e4a5d5f13e6aad69f70191a508e64a0a07c352",
+  "ledgerFileHash": "9879501cd791533c6e30e85b30959485dd50352b80642813902e135eaeffac39",
+  "previousLedgerHeadHash": "e25b9cf482245ab61204b53767e9f9276b2182ee079b6744a5e7dc1fce28c158",
+  "snapshotHash": "test-snap",
+  "finalizedAt": "2026-09-19T18:23:15.387Z"
+}

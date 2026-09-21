@@ -32,7 +32,7 @@
       "source": "P0 Baseline",
       "requirement": "StrategyParameterConfig freeze",
       "implementation": "src/server/services/StrategyParameterConfig.ts",
-      "implementationSymbol": "StrategyParameterConfig",
+      "implementationSymbol": "getDefaultsForStrategy",
       "tests": [
         "reports/v65-delivery-2.2/verify_frozen_controls.cjs"
       ],
@@ -64,7 +64,7 @@
       "source": "P0 Baseline",
       "requirement": "CapitalProtectionEngine freeze",
       "implementation": "src/server/services/CapitalProtectionEngine.ts",
-      "implementationSymbol": "CapitalProtectionEngine",
+      "implementationSymbol": "evaluateCapitalPreservationState",
       "tests": [
         "reports/v65-delivery-2.2/verify_frozen_controls.cjs"
       ],
@@ -80,7 +80,7 @@
       "source": "P0 Baseline",
       "requirement": "NewTechnicalStrategiesEngine freeze",
       "implementation": "src/server/services/NewTechnicalStrategiesEngine.ts",
-      "implementationSymbol": "NewTechnicalStrategiesEngine",
+      "implementationSymbol": "evaluateS10_IntradayORBConfirmation",
       "tests": [
         "reports/v65-delivery-2.2/verify_frozen_controls.cjs"
       ],
@@ -240,7 +240,7 @@
       "source": "Safety-001",
       "requirement": "Per-order, strategy, and portfolio position limit enforcement",
       "implementation": "src/server/services/CapitalProtectionEngine.ts",
-      "implementationSymbol": "CapitalProtectionEngine",
+      "implementationSymbol": "evaluatePositionExit",
       "tests": [
         "tests/fasttrack_d2/CapitalSafety.test.ts"
       ],
@@ -416,7 +416,7 @@
       "source": "S1 Engine",
       "requirement": "S1 Trend Following Breakout logic",
       "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
-      "implementationSymbol": "evaluateStrategy1",
+      "implementationSymbol": "evaluateScripOnDemand",
       "tests": [
         "tests/fasttrack_d2/OutcomeSemantics.test.ts"
       ],
@@ -432,7 +432,7 @@
       "source": "S2 Engine",
       "requirement": "S2 Moving Average Crossover logic",
       "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
-      "implementationSymbol": "evaluateStrategy2",
+      "implementationSymbol": "evaluateScripOnDemand",
       "tests": [
         "tests/fasttrack_d2/OutcomeSemantics.test.ts"
       ],
@@ -448,7 +448,7 @@
       "source": "S3 Engine",
       "requirement": "S3 Volume Breakout logic",
       "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
-      "implementationSymbol": "evaluateStrategy3",
+      "implementationSymbol": "evaluateScripOnDemand",
       "tests": [
         "tests/fasttrack_d2/OutcomeSemantics.test.ts"
       ],
@@ -464,7 +464,7 @@
       "source": "S4 Engine",
       "requirement": "S4 Relative Strength Index filter",
       "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
-      "implementationSymbol": "evaluateStrategy4",
+      "implementationSymbol": "evaluateScripOnDemand",
       "tests": [
         "tests/fasttrack_d2/OutcomeSemantics.test.ts"
       ],
@@ -480,7 +480,7 @@
       "source": "S5 Engine",
       "requirement": "S5 MACD Signal Line crossover",
       "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
-      "implementationSymbol": "evaluateStrategy5",
+      "implementationSymbol": "evaluateScripOnDemand",
       "tests": [
         "tests/fasttrack_d2/OutcomeSemantics.test.ts"
       ],
@@ -496,7 +496,7 @@
       "source": "S6 Engine",
       "requirement": "S6 Intraday Momentum 15m breakout",
       "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
-      "implementationSymbol": "evaluateStrategy6",
+      "implementationSymbol": "evaluateScripOnDemand",
       "tests": [
         "tests/fasttrack_d2/OutcomeSemantics.test.ts"
       ],
@@ -512,7 +512,7 @@
       "source": "S7 Engine",
       "requirement": "S7 VWAP Reversion Intraday",
       "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
-      "implementationSymbol": "evaluateStrategy7",
+      "implementationSymbol": "evaluateScripOnDemand",
       "tests": [
         "tests/fasttrack_d2/OutcomeSemantics.test.ts"
       ],
@@ -528,7 +528,7 @@
       "source": "S8 Engine",
       "requirement": "S8 Opening Range Breakout (ORB)",
       "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
-      "implementationSymbol": "evaluateStrategy8",
+      "implementationSymbol": "evaluateScripOnDemand",
       "tests": [
         "tests/fasttrack_d2/OutcomeSemantics.test.ts"
       ],
@@ -544,7 +544,7 @@
       "source": "S9 Engine",
       "requirement": "S9 Multi-Timeframe Trend Confirmation",
       "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
-      "implementationSymbol": "evaluateStrategy9",
+      "implementationSymbol": "evaluateScripOnDemand",
       "tests": [
         "tests/fasttrack_d2/OutcomeSemantics.test.ts"
       ],
@@ -560,7 +560,7 @@
       "source": "S10 Engine",
       "requirement": "S10 Intraday Volatility Contraction",
       "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
-      "implementationSymbol": "evaluateStrategy10",
+      "implementationSymbol": "evaluateScripOnDemand",
       "tests": [
         "tests/fasttrack_d2/OutcomeSemantics.test.ts"
       ],
@@ -576,7 +576,7 @@
       "source": "S11 Engine",
       "requirement": "S11 Sector Rotation Top Momentum",
       "implementation": "src/server/services/PureTechnicalStrategiesEngine.ts",
-      "implementationSymbol": "evaluateStrategy11",
+      "implementationSymbol": "evaluateScripOnDemand",
       "tests": [
         "tests/fasttrack_d2/OutcomeSemantics.test.ts"
       ],

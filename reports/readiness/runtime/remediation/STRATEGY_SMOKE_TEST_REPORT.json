@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "strategy": "Momentum V1",
+      "validation": "PASS",
+      "no_nan": true
+    },
+    {
+      "strategy": "Value Rotation",
+      "validation": "PASS_WITH_DATA_GAPS",
+      "no_nan": true
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "timestamp": "2026-09-20T20:42:00.893Z",
+  "run_id": "RUN-1789936920895",
+  "M4": {
+    "status": "RUNNING",
+    "pid": "scripts/remediation/phase10rm4_upstox_targeted_recovery.cjs",
+    "runtime": null,
+    "requests": 0,
+    "successes": 0,
+    "failures": 0,
+    "recovered_count": 0
+  },
+  "M5-A": {
+    "status": "COMPLETE"
+  },
+  "M5-B": {
+    "status": "COMPLETE"
+  },
+  "M5-C": {
+    "status": "COMPLETE"
+  },
+  "M5-D": {
+    "status": "COMPLETE"
+  },
+  "M5-E": {
+    "status": "COMPLETE"
+  },
+  "M5-F": {
+    "status": "COMPLETE"
+  },
+  "P1": {
+    "status": "COMPLETE",
+    "validated": 18244,
+    "blocked": 0,
+    "unaccounted": 0
+  },
+  "P2": {
+    "status": "COMPLETE",
+    "provenance_state": "BLOCKED"
+  },
+  "Q1": {
+    "status": "COMPLETE",
+    "190 accounted": true
+  },
+  "Q2": {
+    "status": "COMPLETE",
+    "190 simulated": true,
+    "rollback_ready": true
+  },
+  "Protected_state": {
+    "portfolio_db": "UNCHANGED",
+    "MasterTickers": "UNCHANGED",
+    "strategies": "UNCHANGED",
+    "M4": "UNCHANGED",
+    "certification": "UNCHANGED"
+  },
+  "Production_writes": 0,
+  "Current_blockers": "Provenance lacks explicit crypto signatures.",
+  "Current_risks": "M4 mutating its checkpoint during Wave 3 verification.",
+  "Next_15_minute_objectives": "Verify R1 Gate and generate PROMOTION_AUTHORIZATION_PACKAGE."
+}

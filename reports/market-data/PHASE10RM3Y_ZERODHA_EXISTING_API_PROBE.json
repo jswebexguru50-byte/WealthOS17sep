@@ -1,0 +1,24 @@
+{
+  "phase": "10R-M.3Y-Z0",
+  "timestamp": "2026-09-20T19:22:19.631Z",
+  "packageVersion": "5.3.0",
+  "authenticationStatus": "SUCCESS",
+  "instrumentMasterStatus": "SUCCESS",
+  "targetIdentity": {
+    "isin": "INE883L01018",
+    "symbol": "534109",
+    "targetDate": "2024-01-01"
+  },
+  "identityResolution": "ZERODHA_ISIN_NOT_FOUND",
+  "historicalProbe": "PENDING",
+  "rangeProbe": "PENDING",
+  "productionDbWrites": 0,
+  "certificationChanged": false,
+  "finalClassification": "ZERODHA_ISIN_NOT_FOUND",
+  "userId": "PSI722",
+  "instrumentCounts": {
+    "total": 113036,
+    "bseTotal": 12992,
+    "bseEquity": 12992
+  }
+}

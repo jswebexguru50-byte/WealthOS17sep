@@ -101,7 +101,7 @@ export class DownstreamWaterfallEnricher {
     const bidAskSpreadBps = Number((3.5 + (hashNum * 4)).toFixed(1));
 
     const portfolioRiskStatus: 'APPROVED' | 'CAP_LIMITED' | 'REJECTED' =
-      fereStatus !== 'FAIL' && qglpStatus === 'PASS' ? 'APPROVED' : 'CAP_LIMITED';
+      fereStatus !== 'FAIL' && qglpStatus === 'PASS' ? 'APPROVED' : (fereStatus === 'FAIL' ? 'REJECTED' : 'CAP_LIMITED');
     const capitalProtectionCheck: 'PASS' | 'FAIL' = fereStatus !== 'FAIL' ? 'PASS' : 'FAIL';
     const fractionalKellyAllocationPct = Number((1.5 + (hashNum * 2.5)).toFixed(2));
 

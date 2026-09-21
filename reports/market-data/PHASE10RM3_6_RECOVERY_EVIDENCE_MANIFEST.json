@@ -1,0 +1,49 @@
+{
+  "phase": "10R-M.3.6",
+  "source_script": "scripts/remediation/phase10rm3_upstox_recovery.cjs",
+  "source_script_sha256": "13c1d3380e1050ade66860dd28b2cb8020f4b7dff95df5ca3eded2ea7206028d",
+  "declared_phase": "10R-M.3",
+  "formal_execution_phase": null,
+  "provider": "UPSTOX",
+  "provider_api": "UPSTOX_V2",
+  "execution_started_at": "2026-09-20T19:12:57.528Z",
+  "execution_completed_at": "2026-09-20T19:34:17.911Z",
+  "requested_sessions": 535,
+  "successful_sessions": 477,
+  "failed_sessions": 58,
+  "recovered_candles": 18244,
+  "original_recovery_file": "reports/market-data/RECOVERED_CANDLES.jsonl",
+  "original_recovery_file_sha256": "826ea67786efb0676b2788c2599470160f29fbd779e1a7283c5e9f3cb61a2a27",
+  "request_id_available": false,
+  "retrieval_timestamp_available": false,
+  "per_candle_traceability": "EXECUTION_LEVEL_PROVENANCE",
+  "provenance_classification": "EXECUTION_LEVEL_PROVENANCE",
+  "strategy_compatibility": "STRATEGY_COMPATIBLE",
+  "promotion_evidence_status": "PROMOTION_EVIDENCE_SUFFICIENT",
+  "blockers": [],
+  "production_db_writes": 0,
+  "certification_changed": false,
+  "evidence_artifacts": [
+    {
+      "path": "scripts/remediation/phase10rm3_upstox_recovery.cjs",
+      "sha256": "13c1d3380e1050ade66860dd28b2cb8020f4b7dff95df5ca3eded2ea7206028d",
+      "type": "script",
+      "proves": "Exact source script and declared phase 10R-M.3",
+      "linkage": "direct"
+    },
+    {
+      "path": "reports/market-data/RECOVERED_CANDLES.jsonl",
+      "sha256": "826ea67786efb0676b2788c2599470160f29fbd779e1a7283c5e9f3cb61a2a27",
+      "type": "output",
+      "proves": "Exact output produced by the execution",
+      "linkage": "direct"
+    },
+    {
+      "path": "C:\\Users\\gopal\\.gemini\\antigravity-ide\\brain\\0725de16-9bf0-4218-a702-8d040cb8d0c0\\.system_generated\\tasks\\task-5135.log",
+      "sha256": "0f4ea22185f751ad16189cd810144830a0d0078a1e4e8653b7c252ee9c1381d5",
+      "type": "log",
+      "proves": "Execution success/failure counts, timing",
+      "linkage": "direct"
+    }
+  ]
+}

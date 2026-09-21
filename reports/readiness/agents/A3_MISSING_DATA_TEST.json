@@ -1,0 +1,16 @@
+{
+  "agent_id": "A3_MISSING_DATA_TEST",
+  "status": "DONE",
+  "started_at": "2026-09-20T20:11:25.469Z",
+  "completed_at": "2026-09-20T20:11:25.471Z",
+  "files_changed": [],
+  "files_created": [],
+  "tests_run": 1,
+  "tests_passed": 1,
+  "tests_failed": 0,
+  "production_db_writes": 0,
+  "certification_changed": false,
+  "blockers": [],
+  "warnings": [],
+  "next_action": "COMPLETED"
+}

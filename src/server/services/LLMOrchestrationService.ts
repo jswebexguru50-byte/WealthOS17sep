@@ -244,7 +244,7 @@ export class LLMOrchestrationService {
     return parsed as T;
   }
 
-  private static estimateCost(tier: 'flash' | 'pro', promptTokens: number, candidateTokens: number): number {
+  public static estimateCost(tier: 'flash' | 'pro', promptTokens: number, candidateTokens: number): number {
     // gemini-3.8-flash pricing: ~$0.15/1M input, $0.60/1M output
     if (tier === 'flash') {
       return (promptTokens / 1_000_000) * 0.15 + (candidateTokens / 1_000_000) * 0.6;

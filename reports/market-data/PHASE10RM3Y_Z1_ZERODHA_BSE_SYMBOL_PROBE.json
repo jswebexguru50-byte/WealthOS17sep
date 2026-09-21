@@ -1,0 +1,18 @@
+{
+  "phase": "10R-M.3Y-Z1",
+  "provider": "ZERODHA",
+  "authentication": "SUCCESS",
+  "instrumentMaster": "SUCCESS",
+  "isinDirectResolution": "NOT_USED",
+  "wealthosBseSymbolResolution": "ZERODHA_BSE_SYMBOL_NOT_FOUND",
+  "zerodhaInstrumentTokenResolution": "NOT_FOUND",
+  "historicalProbe": "PENDING",
+  "rangeProbe": "PENDING",
+  "productionDbWrites": 0,
+  "certificationChanged": false,
+  "targetIdentity": {
+    "isin": "INE883L01018",
+    "symbol": "534109",
+    "targetDate": "2024-01-01"
+  }
+}

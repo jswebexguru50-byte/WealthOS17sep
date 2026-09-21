@@ -1,0 +1,18 @@
+{
+  "populationCount": 227667,
+  "pilotSampleCount": 100,
+  "requestsMade": 98,
+  "successfulResponses": 49,
+  "rateLimitedResponses": 0,
+  "serverErrors": 0,
+  "networkFailures": 0,
+  "candlesReturned": 2,
+  "requiredCandlesRecovered": 0,
+  "alreadyPresent": 0,
+  "noCandleReturned": 50,
+  "invalidInstrument": 50,
+  "unresolved": 100,
+  "recoveryRate": 0,
+  "startedAt": "2026-09-20T17:43:03.782Z",
+  "completedAt": "2026-09-20T18:00:06.335Z"
+}

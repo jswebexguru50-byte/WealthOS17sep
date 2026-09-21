@@ -1,0 +1,9 @@
+{
+  "routes": {
+    "COMMAND_CENTER": ["Dashboard", "Overview", "Alerts"],
+    "MASTER_DOSSIER": ["Stock Details", "Charts", "Signals"],
+    "OPPORTUNITY_ENGINE": ["Screener", "Filters", "Results"],
+    "PORTFOLIO": ["Holdings", "Risk", "Performance"]
+  },
+  "unmapped": []
+}

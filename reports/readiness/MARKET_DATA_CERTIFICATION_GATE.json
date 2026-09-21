@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-09-20T20:11:24.113Z",
+  "market_data_recovery_status": "IN_PROGRESS",
+  "market_data_coverage_status": "INCOMPLETE",
+  "provenance_status": "REVIEW",
+  "promotion_status": "BLOCKED",
+  "market_data_certified": false,
+  "blockers": [
+    "Phase 10R-M.4 recovery is actively running in background."
+  ]
+}

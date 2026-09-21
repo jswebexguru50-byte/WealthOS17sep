@@ -1,0 +1,1011 @@
+{
+  "total_rejected": 271678,
+  "categories": {
+    "CALENDAR_MISMATCHES_HOLIDAY": 43848,
+    "CALENDAR_MISMATCHES_PRE_LISTING": 163,
+    "GENUINE_MISSING_TRADING_SESSIONS": 227667,
+    "UNRESOLVED_PROVIDER_FAILURES": 0
+  },
+  "sample_evidence": [
+    {
+      "symbol": "20MICRONS",
+      "requested_date": "2024-01-22",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "20MICRONS",
+      "requested_date": "2024-01-26",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "20MICRONS",
+      "requested_date": "2024-03-08",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "20MICRONS",
+      "requested_date": "2024-03-25",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "20MICRONS",
+      "requested_date": "2024-03-29",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "20MICRONS",
+      "requested_date": "2024-04-11",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "20MICRONS",
+      "requested_date": "2024-04-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "20MICRONS",
+      "requested_date": "2024-05-01",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "20MICRONS",
+      "requested_date": "2024-05-20",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "20MICRONS",
+      "requested_date": "2024-06-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "20MICRONS",
+      "requested_date": "2024-07-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "20MICRONS",
+      "requested_date": "2024-08-15",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "21STCENMGM",
+      "requested_date": "2024-01-22",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "21STCENMGM",
+      "requested_date": "2024-01-26",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "21STCENMGM",
+      "requested_date": "2024-03-08",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "21STCENMGM",
+      "requested_date": "2024-03-25",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "21STCENMGM",
+      "requested_date": "2024-03-29",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "21STCENMGM",
+      "requested_date": "2024-04-11",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "21STCENMGM",
+      "requested_date": "2024-04-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "21STCENMGM",
+      "requested_date": "2024-05-01",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "21STCENMGM",
+      "requested_date": "2024-05-20",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "21STCENMGM",
+      "requested_date": "2024-06-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "21STCENMGM",
+      "requested_date": "2024-07-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "21STCENMGM",
+      "requested_date": "2024-08-15",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "360ONE",
+      "requested_date": "2024-01-22",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "360ONE",
+      "requested_date": "2024-01-26",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "360ONE",
+      "requested_date": "2024-03-08",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "360ONE",
+      "requested_date": "2024-03-25",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "360ONE",
+      "requested_date": "2024-03-29",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "360ONE",
+      "requested_date": "2024-04-11",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "360ONE",
+      "requested_date": "2024-04-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "360ONE",
+      "requested_date": "2024-05-01",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "360ONE",
+      "requested_date": "2024-05-20",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "360ONE",
+      "requested_date": "2024-06-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "360ONE",
+      "requested_date": "2024-07-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "360ONE",
+      "requested_date": "2024-08-15",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3BBLACKBIO",
+      "requested_date": "2024-01-22",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3BBLACKBIO",
+      "requested_date": "2024-01-26",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3BBLACKBIO",
+      "requested_date": "2024-03-08",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3BBLACKBIO",
+      "requested_date": "2024-03-25",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3BBLACKBIO",
+      "requested_date": "2024-03-29",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3BBLACKBIO",
+      "requested_date": "2024-04-11",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3BBLACKBIO",
+      "requested_date": "2024-04-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3BBLACKBIO",
+      "requested_date": "2024-05-01",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3BBLACKBIO",
+      "requested_date": "2024-05-20",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3BBLACKBIO",
+      "requested_date": "2024-06-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3BBLACKBIO",
+      "requested_date": "2024-07-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3BBLACKBIO",
+      "requested_date": "2024-08-15",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3IINFOLTD",
+      "requested_date": "2024-01-22",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3IINFOLTD",
+      "requested_date": "2024-01-26",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3IINFOLTD",
+      "requested_date": "2024-03-08",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3IINFOLTD",
+      "requested_date": "2024-03-25",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3IINFOLTD",
+      "requested_date": "2024-03-29",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3IINFOLTD",
+      "requested_date": "2024-04-11",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3IINFOLTD",
+      "requested_date": "2024-04-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3IINFOLTD",
+      "requested_date": "2024-05-01",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3IINFOLTD",
+      "requested_date": "2024-05-20",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3IINFOLTD",
+      "requested_date": "2024-06-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3IINFOLTD",
+      "requested_date": "2024-07-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3IINFOLTD",
+      "requested_date": "2024-08-15",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3MINDIA",
+      "requested_date": "2024-01-22",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3MINDIA",
+      "requested_date": "2024-01-26",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3MINDIA",
+      "requested_date": "2024-03-08",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3MINDIA",
+      "requested_date": "2024-03-25",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3MINDIA",
+      "requested_date": "2024-03-29",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3MINDIA",
+      "requested_date": "2024-04-11",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3MINDIA",
+      "requested_date": "2024-04-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3MINDIA",
+      "requested_date": "2024-05-01",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3MINDIA",
+      "requested_date": "2024-05-20",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3MINDIA",
+      "requested_date": "2024-06-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3MINDIA",
+      "requested_date": "2024-07-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3MINDIA",
+      "requested_date": "2024-08-15",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3PLAND",
+      "requested_date": "2024-01-22",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3PLAND",
+      "requested_date": "2024-01-26",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3PLAND",
+      "requested_date": "2024-03-08",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3PLAND",
+      "requested_date": "2024-03-25",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3PLAND",
+      "requested_date": "2024-03-29",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3PLAND",
+      "requested_date": "2024-04-11",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3PLAND",
+      "requested_date": "2024-04-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3PLAND",
+      "requested_date": "2024-05-01",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3PLAND",
+      "requested_date": "2024-05-20",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3PLAND",
+      "requested_date": "2024-06-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3PLAND",
+      "requested_date": "2024-07-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "3PLAND",
+      "requested_date": "2024-08-15",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "63MOONS",
+      "requested_date": "2024-01-22",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "63MOONS",
+      "requested_date": "2024-01-26",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "63MOONS",
+      "requested_date": "2024-03-08",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "63MOONS",
+      "requested_date": "2024-03-25",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "63MOONS",
+      "requested_date": "2024-03-29",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "63MOONS",
+      "requested_date": "2024-04-11",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "63MOONS",
+      "requested_date": "2024-04-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "63MOONS",
+      "requested_date": "2024-05-01",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "63MOONS",
+      "requested_date": "2024-05-20",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "63MOONS",
+      "requested_date": "2024-06-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "63MOONS",
+      "requested_date": "2024-07-17",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "63MOONS",
+      "requested_date": "2024-08-15",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "A2ZINFRA",
+      "requested_date": "2024-01-22",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "A2ZINFRA",
+      "requested_date": "2024-01-26",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "A2ZINFRA",
+      "requested_date": "2024-03-08",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    },
+    {
+      "symbol": "A2ZINFRA",
+      "requested_date": "2024-03-25",
+      "is_holiday": true,
+      "is_pre_listing": false,
+      "listing_date": null,
+      "upstox_returned": "NO_CANDLE",
+      "yahoo_returned": "NOT_REQUIRED",
+      "resolution": "CALENDAR_OR_LISTING_MISMATCH"
+    }
+  ]
+}

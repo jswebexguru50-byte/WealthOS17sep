@@ -19,7 +19,7 @@ export class FEREEngineAdapter implements ComposableEngine {
   public readonly capability: EngineCapability = {
     engineId: this.engineId,
     roles: ['FILTER', 'SCORER'],
-    produces: ['FERE_QUALITY_AUDIT', 'FILTER_PASS', 'FILTER_REJECT'],
+    produces: ['FERE_QUALITY_AUDIT'],
     consumes: [],
     independentMode: true,
     composableMode: true,

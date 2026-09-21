@@ -1,0 +1,18 @@
+{
+  "phase": "10R-M.4",
+  "queue_targets": 47529,
+  "unique_instruments": 421,
+  "request_windows_planned": 421,
+  "http_200": 421,
+  "http_400": 0,
+  "http_429": 0,
+  "other_failures": 0,
+  "recovered_candles": 0,
+  "unique_recovered_keys": 0,
+  "duplicates_skipped": 0,
+  "targets_satisfied": 0,
+  "targets_remaining": 47529,
+  "blocked_records_requested": 0,
+  "production_db_writes": 0,
+  "certification_changed": false
+}

@@ -1,0 +1,38 @@
+{
+  "phase": "10R-M.3Y-Z1.1",
+  "provider": "ZERODHA",
+  "authentication": "SUCCESS",
+  "instrumentMaster": "SUCCESS",
+  "target": {
+    "originalProviderKey": "NSE_EQ|INE883L01018",
+    "candidateProviderKey": "BSE_EQ|INE883L01018",
+    "ISIN": "INE883L01018",
+    "exchange": "BSE",
+    "segment": "EQ",
+    "symbol": "534109",
+    "marketDataScope": "LISTED_MARKET",
+    "mappingMethod": "BSE_EQ_NUMERIC_ISIN_REPLACEMENT",
+    "mappingStatus": "VALIDATED"
+  },
+  "identityEvidence": [],
+  "zerodhaMatches": [
+    {
+      "instrument_token": "136731908",
+      "exchange_token": "534109",
+      "tradingsymbol": "PYXISFIN",
+      "name": "PYXIS FINVEST ",
+      "last_price": 0,
+      "expiry": "",
+      "strike": 0,
+      "tick_size": 0.01,
+      "lot_size": 4000,
+      "instrument_type": "EQ",
+      "segment": "BSE",
+      "exchange": "BSE"
+    }
+  ],
+  "classification": "ZERODHA_CURRENT_INSTRUMENT_RESOLVED",
+  "historicalProbe": "NOT_RUN",
+  "productionDbWrites": 0,
+  "certificationChanged": false
+}

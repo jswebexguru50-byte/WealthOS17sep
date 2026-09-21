@@ -1,0 +1,55 @@
+{
+  "auditTimestamp": "2026-09-20T09:11:29.188Z",
+  "strategies": {
+    "S1": {
+      "primary": "D2_DAILY_OHLCV",
+      "lookback": "20_DAYS",
+      "intradayRequired": false
+    },
+    "S2": {
+      "primary": "D2_DAILY_OHLCV",
+      "lookback": "200_DAYS",
+      "intradayRequired": false
+    },
+    "S3": {
+      "primary": "D2_DAILY_OHLCV",
+      "lookback": "200_DAYS",
+      "intradayRequired": false
+    },
+    "S4": {
+      "primary": "D2_DAILY_OHLCV",
+      "lookback": "20_DAYS",
+      "intradayRequired": false
+    },
+    "S5": {
+      "primary": "D2_DAILY_OHLCV",
+      "lookback": "120_DAYS",
+      "intradayRequired": false
+    },
+    "S6": {
+      "primary": "D2_DAILY_OHLCV",
+      "lookback": "55_DAYS",
+      "intradayRequired": false
+    },
+    "S7": {
+      "primary": "D2_DAILY_OHLCV",
+      "lookback": "26_DAYS",
+      "intradayRequired": false
+    },
+    "S8": {
+      "primary": "D2_DAILY_OHLCV",
+      "lookback": "14_DAYS",
+      "intradayRequired": false
+    },
+    "S9": {
+      "primary": "D2_DAILY_OHLCV",
+      "lookback": "14_DAYS",
+      "intradayRequired": false
+    },
+    "S10": {
+      "primary": "D7_INTRADAY_5MIN",
+      "lookback": "15_MINUTES_ORB",
+      "intradayRequired": true
+    }
+  }
+}

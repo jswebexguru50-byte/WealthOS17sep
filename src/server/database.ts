@@ -139,14 +139,13 @@ export function getDB(): sqlite3.Database {
   });
   // Enable WAL mode, a 10-second busy timeout, and NORMAL synchronous mode to prevent 'database is locked' errors.
   // No db.serialize() wrapper — the sqlite3 driver queues these sequentially on a single connection already.
-  db.run("PRAGMA journal_mode=WAL;", (err) => {
-    if (err) console.error("PRAGMA journal_mode failed:", err.message);
-  });
+  // Enable a 30-second busy timeout.
+  // Safety fix: Removed PRAGMA journal_mode=WAL and synchronous=NORMAL
+  // to avoid mutating the SQLite database file header.
+  // The database should already be in WAL mode from setup, or operate read-only.
+  // We only set non-persistent memory/cache settings.
   db.run("PRAGMA busy_timeout=30000;", (err) => {
     if (err) console.error("PRAGMA busy_timeout failed:", err.message);
-  });
-  db.run("PRAGMA synchronous=NORMAL;", (err) => {
-    if (err) console.error("PRAGMA synchronous failed:", err.message);
   });
   db.run("PRAGMA temp_store=MEMORY;");
   db.run("PRAGMA cache_size=-64000;");

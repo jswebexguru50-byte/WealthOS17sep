@@ -1,0 +1,55 @@
+{
+  "strategyId": "S2",
+  "name": "RSI Mean Reversion",
+  "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+  "functionName": "evaluateS2",
+  "startLine": 1126,
+  "endLine": 1166,
+  "inputs": [
+    "Daily OHLCV"
+  ],
+  "indicators": [
+    "14-day RSI",
+    "200-day SMA"
+  ],
+  "lookbacks": [
+    "14 Days",
+    "200 Days"
+  ],
+  "thresholds": [
+    "RSI < 30",
+    "Close > 200 SMA"
+  ],
+  "comparators": [
+    "RSI < 30"
+  ],
+  "entryConditions": [
+    "Close > 200 SMA and RSI < 30"
+  ],
+  "exitConditions": [
+    "RSI > 50 or 8 days max hold"
+  ],
+  "volumeConditions": [
+    "None"
+  ],
+  "benchmarkDependencies": [
+    "NIFTY 500 trend filter"
+  ],
+  "intradayDependencies": [],
+  "corporateActionDependencies": [
+    "Split adjusted price"
+  ],
+  "pitDependencies": [
+    "Trade date <= Decision date"
+  ],
+  "missingDataBehavior": "FAIL_CLOSED",
+  "fallbackBehavior": "NO_SYNTHETIC_FALLBACK",
+  "timestampSemantics": "EOD Close Available At 16:00 IST",
+  "sourceEvidence": {
+    "file": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "startLine": 1126,
+    "endLine": 1166,
+    "symbol": "evaluateS2",
+    "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+  }
+}

@@ -22,7 +22,7 @@
       "testAssertions": [
         "SHA256 Match"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -41,7 +41,7 @@
         "src/server/services/StrategyParameterConfig.ts"
       ],
       "implementationSymbols": [
-        "StrategyParameterConfig"
+        "getDefaultsForStrategy"
       ],
       "testFiles": [
         "reports/v65-delivery-2.2/verify_frozen_controls.cjs"
@@ -52,7 +52,7 @@
       "testAssertions": [
         "SHA256 Match"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -82,7 +82,7 @@
       "testAssertions": [
         "SHA256 Match"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -101,7 +101,7 @@
         "src/server/services/CapitalProtectionEngine.ts"
       ],
       "implementationSymbols": [
-        "CapitalProtectionEngine"
+        "evaluateCapitalPreservationState"
       ],
       "testFiles": [
         "reports/v65-delivery-2.2/verify_frozen_controls.cjs"
@@ -112,7 +112,7 @@
       "testAssertions": [
         "SHA256 Match"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -131,7 +131,7 @@
         "src/server/services/NewTechnicalStrategiesEngine.ts"
       ],
       "implementationSymbols": [
-        "NewTechnicalStrategiesEngine"
+        "evaluateS10_IntradayORBConfirmation"
       ],
       "testFiles": [
         "reports/v65-delivery-2.2/verify_frozen_controls.cjs"
@@ -142,7 +142,7 @@
       "testAssertions": [
         "SHA256 Match"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -172,7 +172,7 @@
       "testAssertions": [
         "SHA256 Match"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -202,7 +202,7 @@
       "testAssertions": [
         "SHA256 Match"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -232,7 +232,7 @@
       "testAssertions": [
         "observationTimestamp === quoteTimestamp"
       ],
-      "latestExecutionCommit": "7c5be66",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -262,7 +262,7 @@
       "testAssertions": [
         "decoupled bootstrap without lock deadlock"
       ],
-      "latestExecutionCommit": "1214c8a",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -292,7 +292,7 @@
       "testCommands": [
         "npx vitest run tests/fasttrack_d2/DataValidationGate.test.ts"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PARTIAL",
       "status": "PARTIAL",
@@ -322,7 +322,7 @@
       "testAssertions": [
         "[BLOCK] BLOCKED or FAILED cannot enter analytics"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -352,7 +352,7 @@
       "testAssertions": [
         "runTrackB explicitly hard-locked"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -382,7 +382,7 @@
       "testAssertions": [
         "rejects future observation / publication"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -412,7 +412,7 @@
       "testAssertions": [
         "Idempotency Token Verified"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -431,7 +431,7 @@
         "src/server/services/CapitalProtectionEngine.ts"
       ],
       "implementationSymbols": [
-        "CapitalProtectionEngine"
+        "evaluatePositionExit"
       ],
       "testFiles": [
         "tests/fasttrack_d2/CapitalSafety.test.ts"
@@ -442,7 +442,7 @@
       "testAssertions": [
         "Hard limit checks verified"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -472,7 +472,7 @@
       "testAssertions": [
         "Restarts retain kill state"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -502,7 +502,7 @@
       "testAssertions": [
         "Endpoint probes verified"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -532,7 +532,7 @@
       "testAssertions": [
         "Source code scan clean"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -562,7 +562,7 @@
       "testAssertions": [
         "Token validation verified"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -592,7 +592,7 @@
       "testAssertions": [
         "Restore verified RTO=12.8s"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -622,7 +622,7 @@
       "testAssertions": [
         "Clean commit tip verified"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -652,7 +652,7 @@
       "testAssertions": [
         "Latency benchmarked"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -682,7 +682,7 @@
       "testAssertions": [
         "Config separation clean"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -712,7 +712,7 @@
       "testAssertions": [
         "Harness built, gated on P5 PASS"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "BLOCKED",
       "status": "BLOCKED",
@@ -742,7 +742,7 @@
       "testAssertions": [
         "Hash chain tamper resistance"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -761,7 +761,7 @@
         "src/server/services/PureTechnicalStrategiesEngine.ts"
       ],
       "implementationSymbols": [
-        "evaluateStrategy1"
+        "evaluateScripOnDemand"
       ],
       "testFiles": [
         "tests/fasttrack_d2/OutcomeSemantics.test.ts"
@@ -772,7 +772,7 @@
       "testAssertions": [
         "Daily strategy resolution deterministic"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -791,7 +791,7 @@
         "src/server/services/PureTechnicalStrategiesEngine.ts"
       ],
       "implementationSymbols": [
-        "evaluateStrategy2"
+        "evaluateScripOnDemand"
       ],
       "testFiles": [
         "tests/fasttrack_d2/OutcomeSemantics.test.ts"
@@ -802,7 +802,7 @@
       "testAssertions": [
         "Daily strategy resolution deterministic"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -821,7 +821,7 @@
         "src/server/services/PureTechnicalStrategiesEngine.ts"
       ],
       "implementationSymbols": [
-        "evaluateStrategy3"
+        "evaluateScripOnDemand"
       ],
       "testFiles": [
         "tests/fasttrack_d2/OutcomeSemantics.test.ts"
@@ -832,7 +832,7 @@
       "testAssertions": [
         "Daily strategy resolution deterministic"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -851,7 +851,7 @@
         "src/server/services/PureTechnicalStrategiesEngine.ts"
       ],
       "implementationSymbols": [
-        "evaluateStrategy4"
+        "evaluateScripOnDemand"
       ],
       "testFiles": [
         "tests/fasttrack_d2/OutcomeSemantics.test.ts"
@@ -862,7 +862,7 @@
       "testAssertions": [
         "Daily strategy resolution deterministic"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -881,7 +881,7 @@
         "src/server/services/PureTechnicalStrategiesEngine.ts"
       ],
       "implementationSymbols": [
-        "evaluateStrategy5"
+        "evaluateScripOnDemand"
       ],
       "testFiles": [
         "tests/fasttrack_d2/OutcomeSemantics.test.ts"
@@ -892,7 +892,7 @@
       "testAssertions": [
         "Daily strategy resolution deterministic"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -911,7 +911,7 @@
         "src/server/services/PureTechnicalStrategiesEngine.ts"
       ],
       "implementationSymbols": [
-        "evaluateStrategy6"
+        "evaluateScripOnDemand"
       ],
       "testFiles": [
         "tests/fasttrack_d2/OutcomeSemantics.test.ts"
@@ -922,7 +922,7 @@
       "testAssertions": [
         "Daily strategy resolution deterministic"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -941,7 +941,7 @@
         "src/server/services/PureTechnicalStrategiesEngine.ts"
       ],
       "implementationSymbols": [
-        "evaluateStrategy7"
+        "evaluateScripOnDemand"
       ],
       "testFiles": [
         "tests/fasttrack_d2/OutcomeSemantics.test.ts"
@@ -952,7 +952,7 @@
       "testAssertions": [
         "Daily strategy resolution deterministic"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -971,7 +971,7 @@
         "src/server/services/PureTechnicalStrategiesEngine.ts"
       ],
       "implementationSymbols": [
-        "evaluateStrategy8"
+        "evaluateScripOnDemand"
       ],
       "testFiles": [
         "tests/fasttrack_d2/OutcomeSemantics.test.ts"
@@ -982,7 +982,7 @@
       "testAssertions": [
         "Daily strategy resolution deterministic"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -1001,7 +1001,7 @@
         "src/server/services/PureTechnicalStrategiesEngine.ts"
       ],
       "implementationSymbols": [
-        "evaluateStrategy9"
+        "evaluateScripOnDemand"
       ],
       "testFiles": [
         "tests/fasttrack_d2/OutcomeSemantics.test.ts"
@@ -1012,7 +1012,7 @@
       "testAssertions": [
         "Daily strategy resolution deterministic"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -1031,7 +1031,7 @@
         "src/server/services/PureTechnicalStrategiesEngine.ts"
       ],
       "implementationSymbols": [
-        "evaluateStrategy10"
+        "evaluateScripOnDemand"
       ],
       "testFiles": [
         "tests/fasttrack_d2/OutcomeSemantics.test.ts"
@@ -1042,7 +1042,7 @@
       "testAssertions": [
         "S10 resolved 15m breakout without daily fallback"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -1061,7 +1061,7 @@
         "src/server/services/PureTechnicalStrategiesEngine.ts"
       ],
       "implementationSymbols": [
-        "evaluateStrategy11"
+        "evaluateScripOnDemand"
       ],
       "testFiles": [
         "tests/fasttrack_d2/OutcomeSemantics.test.ts"
@@ -1072,7 +1072,7 @@
       "testAssertions": [
         "Daily strategy resolution deterministic"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -1102,7 +1102,7 @@
       "testAssertions": [
         "DATA_INSUFFICIENT"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "DATA_INSUFFICIENT",
       "status": "NOT_IMPLEMENTED",
@@ -1132,7 +1132,7 @@
       "testAssertions": [
         "DATA_INSUFFICIENT"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "DATA_INSUFFICIENT",
       "status": "NOT_IMPLEMENTED",
@@ -1162,7 +1162,7 @@
       "testAssertions": [
         "DATA_INSUFFICIENT"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "DATA_INSUFFICIENT",
       "status": "NOT_IMPLEMENTED",
@@ -1192,7 +1192,7 @@
       "testAssertions": [
         "DATA_INSUFFICIENT"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "DATA_INSUFFICIENT",
       "status": "NOT_IMPLEMENTED",
@@ -1222,7 +1222,7 @@
       "testAssertions": [
         "DATA_INSUFFICIENT"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "DATA_INSUFFICIENT",
       "status": "NOT_IMPLEMENTED",
@@ -1252,7 +1252,7 @@
       "testAssertions": [
         "DATA_INSUFFICIENT"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "DATA_INSUFFICIENT",
       "status": "NOT_IMPLEMENTED",
@@ -1282,7 +1282,7 @@
       "testAssertions": [
         "DATA_INSUFFICIENT"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "DATA_INSUFFICIENT",
       "status": "NOT_IMPLEMENTED",
@@ -1312,7 +1312,7 @@
       "testAssertions": [
         "DATA_INSUFFICIENT"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "DATA_INSUFFICIENT",
       "status": "NOT_IMPLEMENTED",
@@ -1342,7 +1342,7 @@
       "testAssertions": [
         "DATA_INSUFFICIENT"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "DATA_INSUFFICIENT",
       "status": "NOT_IMPLEMENTED",
@@ -1372,7 +1372,7 @@
       "testAssertions": [
         "verifies complete PIT evidence"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -1402,7 +1402,7 @@
       "testAssertions": [
         "verifies complete PIT evidence"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -1432,7 +1432,7 @@
       "testAssertions": [
         "Hard limit checks verified"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",
@@ -1462,7 +1462,7 @@
       "testAssertions": [
         "DecisionAuditLedger hash chain integrity"
       ],
-      "latestExecutionCommit": "ebfa04d",
+      "latestExecutionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
       "executionTimestamp": "2026-09-20T14:00:00+04:00",
       "actualResult": "PASS",
       "status": "IMPLEMENTED_VERIFIED",

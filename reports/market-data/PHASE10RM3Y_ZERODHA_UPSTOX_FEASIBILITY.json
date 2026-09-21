@@ -1,0 +1,790 @@
+{
+  "phase": "10R-M.3Y",
+  "timestamp": "2026-09-20T19:09:54.223Z",
+  "mode": "READ_ONLY_FEASIBILITY_PROBE",
+  "productionDbWrites": 0,
+  "certificationChanged": false,
+  "input": {
+    "path": "reports/market-data/PHASE10RM3Y_INPUT.json",
+    "sha256": "A5E387A36F03BA1E909B013FD106872F79E874E9F48868FD31E200950930AED3"
+  },
+  "sampleSize": 10,
+  "selectedSample": [
+    {
+      "isin": "INE012A01025",
+      "targetDate": "2024-08-19",
+      "symbol": "ACC"
+    },
+    {
+      "isin": "INE0ALI01010",
+      "targetDate": "2024-01-01",
+      "symbol": "ADVAIT"
+    },
+    {
+      "isin": "INE14LE01019",
+      "targetDate": "2024-01-01",
+      "symbol": "ABLBL"
+    },
+    {
+      "isin": "INE1B0W01010",
+      "targetDate": "2024-01-01",
+      "symbol": "ADVANCE"
+    },
+    {
+      "isin": "INE28GN01010",
+      "targetDate": "2024-01-01",
+      "symbol": "ADVENTHTL"
+    },
+    {
+      "isin": "INE2FMX01012",
+      "targetDate": "2024-01-01",
+      "symbol": "AASTHA"
+    },
+    {
+      "isin": "INE364U01010",
+      "targetDate": "2024-08-19",
+      "symbol": "ADANIGREEN"
+    },
+    {
+      "isin": "INE365O01028",
+      "targetDate": "2024-01-01",
+      "symbol": "ABANSENT"
+    },
+    {
+      "isin": "INE366C01021",
+      "targetDate": "2024-01-01",
+      "symbol": "ACSTECH"
+    },
+    {
+      "isin": "INE423A01024",
+      "targetDate": "2024-08-19",
+      "symbol": "ADANIENT"
+    }
+  ],
+  "providerConfiguration": {
+    "zerodhaConfigured": true,
+    "upstoxEnabled": true
+  },
+  "zerodhaIdentityResults": [
+    {
+      "isin": "INE012A01025",
+      "targetDate": "2024-08-19",
+      "status": "ZERODHA_IDENTITY_EXACT",
+      "instrument": {
+        "instrument_token": "128104964",
+        "exchange_token": "500410",
+        "tradingsymbol": "ACC",
+        "name": "ACC",
+        "last_price": "0",
+        "expiry": null,
+        "strike": "0",
+        "tick_size": "0.05",
+        "lot_size": "1",
+        "instrument_type": "EQ",
+        "segment": "BSE",
+        "exchange": "BSE",
+        "isin": null
+      },
+      "instrumentToken": "128104964"
+    },
+    {
+      "isin": "INE0ALI01010",
+      "targetDate": "2024-01-01",
+      "status": "ZERODHA_IDENTITY_EXACT",
+      "instrument": {
+        "instrument_token": "139066884",
+        "exchange_token": "543230",
+        "tradingsymbol": "ADVAIT",
+        "name": "ADVAIT ENERGY TRANSITIONS LIMI",
+        "last_price": "0",
+        "expiry": null,
+        "strike": "0",
+        "tick_size": "0.05",
+        "lot_size": "1",
+        "instrument_type": "EQ",
+        "segment": "BSE",
+        "exchange": "BSE",
+        "isin": null
+      },
+      "instrumentToken": "139066884"
+    },
+    {
+      "isin": "INE14LE01019",
+      "targetDate": "2024-01-01",
+      "status": "ZERODHA_IDENTITY_EXACT",
+      "instrument": {
+        "instrument_token": "139367172",
+        "exchange_token": "544403",
+        "tradingsymbol": "ABLBL",
+        "name": "ADITYA BIRLA LIFESTYLE BRANDS",
+        "last_price": "0",
+        "expiry": null,
+        "strike": "0",
+        "tick_size": "0.01",
+        "lot_size": "1",
+        "instrument_type": "EQ",
+        "segment": "BSE",
+        "exchange": "BSE",
+        "isin": null
+      },
+      "instrumentToken": "139367172"
+    },
+    {
+      "isin": "INE1B0W01010",
+      "targetDate": "2024-01-01",
+      "status": "ZERODHA_IDENTITY_EXACT",
+      "instrument": {
+        "instrument_token": "139407876",
+        "exchange_token": "544562",
+        "tradingsymbol": "ADVANCE",
+        "name": "ADVANCE AGROLIFE ",
+        "last_price": "0",
+        "expiry": null,
+        "strike": "0",
+        "tick_size": "0.05",
+        "lot_size": "1",
+        "instrument_type": "EQ",
+        "segment": "BSE",
+        "exchange": "BSE",
+        "isin": null
+      },
+      "instrumentToken": "139407876"
+    },
+    {
+      "isin": "INE28GN01010",
+      "targetDate": "2024-01-01",
+      "status": "ZERODHA_IDENTITY_EXACT",
+      "instrument": {
+        "instrument_token": "139378180",
+        "exchange_token": "544446",
+        "tradingsymbol": "ADVENTHTL",
+        "name": "ADVENT HOTELS INTERNATIONAL LI",
+        "last_price": "0",
+        "expiry": null,
+        "strike": "0",
+        "tick_size": "0.05",
+        "lot_size": "1",
+        "instrument_type": "EQ",
+        "segment": "BSE",
+        "exchange": "BSE",
+        "isin": null
+      },
+      "instrumentToken": "139378180"
+    },
+    {
+      "isin": "INE2FMX01012",
+      "targetDate": "2024-01-01",
+      "status": "ZERODHA_IDENTITY_EXACT",
+      "instrument": {
+        "instrument_token": "139470852",
+        "exchange_token": "544808",
+        "tradingsymbol": "AASTHA",
+        "name": "AASTHA SPINTEX",
+        "last_price": "0",
+        "expiry": null,
+        "strike": "0",
+        "tick_size": "0.01",
+        "lot_size": "1",
+        "instrument_type": "EQ",
+        "segment": "BSE",
+        "exchange": "BSE",
+        "isin": null
+      },
+      "instrumentToken": "139470852"
+    },
+    {
+      "isin": "INE364U01010",
+      "targetDate": "2024-08-19",
+      "status": "ZERODHA_IDENTITY_EXACT",
+      "instrument": {
+        "instrument_token": "138611204",
+        "exchange_token": "541450",
+        "tradingsymbol": "ADANIGREEN",
+        "name": "ADANI GREEN ENERGY ",
+        "last_price": "0",
+        "expiry": null,
+        "strike": "0",
+        "tick_size": "0.05",
+        "lot_size": "1",
+        "instrument_type": "EQ",
+        "segment": "BSE",
+        "exchange": "BSE",
+        "isin": null
+      },
+      "instrumentToken": "138611204"
+    },
+    {
+      "isin": "INE365O01028",
+      "targetDate": "2024-01-01",
+      "status": "ZERODHA_IDENTITY_EXACT",
+      "instrument": {
+        "instrument_token": "131114244",
+        "exchange_token": "512165",
+        "tradingsymbol": "ABANSENT",
+        "name": "ABANS ENTERPRISES",
+        "last_price": "0",
+        "expiry": null,
+        "strike": "0",
+        "tick_size": "0.01",
+        "lot_size": "1",
+        "instrument_type": "EQ",
+        "segment": "BSE",
+        "exchange": "BSE",
+        "isin": null
+      },
+      "instrumentToken": "131114244"
+    },
+    {
+      "isin": "INE366C01021",
+      "targetDate": "2024-01-01",
+      "status": "ZERODHA_IDENTITY_EXACT",
+      "instrument": {
+        "instrument_token": "135870724",
+        "exchange_token": "530745",
+        "tradingsymbol": "ACSTECH",
+        "name": "ACS TECHNOLOGIES",
+        "last_price": "0",
+        "expiry": null,
+        "strike": "0",
+        "tick_size": "0.01",
+        "lot_size": "1",
+        "instrument_type": "EQ",
+        "segment": "BSE",
+        "exchange": "BSE",
+        "isin": null
+      },
+      "instrumentToken": "135870724"
+    },
+    {
+      "isin": "INE423A01024",
+      "targetDate": "2024-08-19",
+      "status": "ZERODHA_IDENTITY_EXACT",
+      "instrument": {
+        "instrument_token": "131225348",
+        "exchange_token": "512599",
+        "tradingsymbol": "ADANIENT",
+        "name": "ADANI ENTERPRISES",
+        "last_price": "0",
+        "expiry": null,
+        "strike": "0",
+        "tick_size": "0.05",
+        "lot_size": "1",
+        "instrument_type": "EQ",
+        "segment": "BSE",
+        "exchange": "BSE",
+        "isin": null
+      },
+      "instrumentToken": "131225348"
+    }
+  ],
+  "zerodhaHistoricalResults": [
+    {
+      "isin": "INE012A01025",
+      "targetDate": "2024-08-19",
+      "instrumentToken": "128104964",
+      "requestedFrom": "2024-08-17",
+      "requestedTo": "2024-08-21",
+      "httpStatus": 403,
+      "apiStatus": "error",
+      "returnedCandleCount": 0,
+      "exactDateFound": false,
+      "candle": null,
+      "error": "Incorrect `api_key` or `access_token`.",
+      "status": "ZERODHA_API_ERROR"
+    },
+    {
+      "isin": "INE0ALI01010",
+      "targetDate": "2024-01-01",
+      "instrumentToken": "139066884",
+      "requestedFrom": "2023-12-30",
+      "requestedTo": "2024-01-03",
+      "httpStatus": 403,
+      "apiStatus": "error",
+      "returnedCandleCount": 0,
+      "exactDateFound": false,
+      "candle": null,
+      "error": "Incorrect `api_key` or `access_token`.",
+      "status": "ZERODHA_API_ERROR"
+    },
+    {
+      "isin": "INE14LE01019",
+      "targetDate": "2024-01-01",
+      "instrumentToken": "139367172",
+      "requestedFrom": "2023-12-30",
+      "requestedTo": "2024-01-03",
+      "httpStatus": 403,
+      "apiStatus": "error",
+      "returnedCandleCount": 0,
+      "exactDateFound": false,
+      "candle": null,
+      "error": "Incorrect `api_key` or `access_token`.",
+      "status": "ZERODHA_API_ERROR"
+    },
+    {
+      "isin": "INE1B0W01010",
+      "targetDate": "2024-01-01",
+      "instrumentToken": "139407876",
+      "requestedFrom": "2023-12-30",
+      "requestedTo": "2024-01-03",
+      "httpStatus": 403,
+      "apiStatus": "error",
+      "returnedCandleCount": 0,
+      "exactDateFound": false,
+      "candle": null,
+      "error": "Incorrect `api_key` or `access_token`.",
+      "status": "ZERODHA_API_ERROR"
+    },
+    {
+      "isin": "INE28GN01010",
+      "targetDate": "2024-01-01",
+      "instrumentToken": "139378180",
+      "requestedFrom": "2023-12-30",
+      "requestedTo": "2024-01-03",
+      "httpStatus": 403,
+      "apiStatus": "error",
+      "returnedCandleCount": 0,
+      "exactDateFound": false,
+      "candle": null,
+      "error": "Incorrect `api_key` or `access_token`.",
+      "status": "ZERODHA_API_ERROR"
+    },
+    {
+      "isin": "INE2FMX01012",
+      "targetDate": "2024-01-01",
+      "instrumentToken": "139470852",
+      "requestedFrom": "2023-12-30",
+      "requestedTo": "2024-01-03",
+      "httpStatus": 403,
+      "apiStatus": "error",
+      "returnedCandleCount": 0,
+      "exactDateFound": false,
+      "candle": null,
+      "error": "Incorrect `api_key` or `access_token`.",
+      "status": "ZERODHA_API_ERROR"
+    },
+    {
+      "isin": "INE364U01010",
+      "targetDate": "2024-08-19",
+      "instrumentToken": "138611204",
+      "requestedFrom": "2024-08-17",
+      "requestedTo": "2024-08-21",
+      "httpStatus": 403,
+      "apiStatus": "error",
+      "returnedCandleCount": 0,
+      "exactDateFound": false,
+      "candle": null,
+      "error": "Incorrect `api_key` or `access_token`.",
+      "status": "ZERODHA_API_ERROR"
+    },
+    {
+      "isin": "INE365O01028",
+      "targetDate": "2024-01-01",
+      "instrumentToken": "131114244",
+      "requestedFrom": "2023-12-30",
+      "requestedTo": "2024-01-03",
+      "httpStatus": 403,
+      "apiStatus": "error",
+      "returnedCandleCount": 0,
+      "exactDateFound": false,
+      "candle": null,
+      "error": "Incorrect `api_key` or `access_token`.",
+      "status": "ZERODHA_API_ERROR"
+    },
+    {
+      "isin": "INE366C01021",
+      "targetDate": "2024-01-01",
+      "instrumentToken": "135870724",
+      "requestedFrom": "2023-12-30",
+      "requestedTo": "2024-01-03",
+      "httpStatus": 403,
+      "apiStatus": "error",
+      "returnedCandleCount": 0,
+      "exactDateFound": false,
+      "candle": null,
+      "error": "Incorrect `api_key` or `access_token`.",
+      "status": "ZERODHA_API_ERROR"
+    },
+    {
+      "isin": "INE423A01024",
+      "targetDate": "2024-08-19",
+      "instrumentToken": "131225348",
+      "requestedFrom": "2024-08-17",
+      "requestedTo": "2024-08-21",
+      "httpStatus": 403,
+      "apiStatus": "error",
+      "returnedCandleCount": 0,
+      "exactDateFound": false,
+      "candle": null,
+      "error": "Incorrect `api_key` or `access_token`.",
+      "status": "ZERODHA_API_ERROR"
+    }
+  ],
+  "upstoxResults": [
+    {
+      "isin": "INE012A01025",
+      "targetDate": "2024-08-19",
+      "status": "UPSTOX_EXACT_CANDLE",
+      "instrumentKey": "BSE_EQ|INE012A01025",
+      "candle": {
+        "date": "2024-08-19",
+        "open": 2358.4,
+        "high": 2358.4,
+        "low": 2329.3,
+        "close": 2347.3,
+        "volume": 7247
+      },
+      "rawMeta": {
+        "status": "success",
+        "data": {
+          "candles": [
+            [
+              "2024-08-21T00:00:00+05:30",
+              2320.05,
+              2342,
+              2316.6,
+              2324.8,
+              10579,
+              0
+            ],
+            [
+              "2024-08-20T00:00:00+05:30",
+              2368.75,
+              2368.75,
+              2319.9,
+              2326.25,
+              4217,
+              0
+            ],
+            [
+              "2024-08-19T00:00:00+05:30",
+              2358.4,
+              2358.4,
+              2329.3,
+              2347.3,
+              7247,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "isin": "INE0ALI01010",
+      "targetDate": "2024-01-01",
+      "status": "UPSTOX_EXACT_CANDLE",
+      "instrumentKey": "BSE_EQ|INE0ALI01010",
+      "candle": {
+        "date": "2024-01-01",
+        "open": 614,
+        "high": 614,
+        "low": 568.85,
+        "close": 595.55,
+        "volume": 21686
+      },
+      "rawMeta": {
+        "status": "success",
+        "data": {
+          "candles": [
+            [
+              "2024-01-03T00:00:00+05:30",
+              608,
+              617.95,
+              582.2,
+              591.25,
+              19252,
+              0
+            ],
+            [
+              "2024-01-02T00:00:00+05:30",
+              596,
+              608.9,
+              592.75,
+              604,
+              22030,
+              0
+            ],
+            [
+              "2024-01-01T00:00:00+05:30",
+              614,
+              614,
+              568.85,
+              595.55,
+              21686,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "isin": "INE14LE01019",
+      "targetDate": "2024-01-01",
+      "status": "UPSTOX_NO_CANDLE",
+      "instrumentKey": "BSE_EQ|INE14LE01019",
+      "candle": null,
+      "rawMeta": {
+        "status": "success",
+        "data": {
+          "candles": []
+        }
+      }
+    },
+    {
+      "isin": "INE1B0W01010",
+      "targetDate": "2024-01-01",
+      "status": "UPSTOX_NO_CANDLE",
+      "instrumentKey": "BSE_EQ|INE1B0W01010",
+      "candle": null,
+      "rawMeta": {
+        "status": "success",
+        "data": {
+          "candles": []
+        }
+      }
+    },
+    {
+      "isin": "INE28GN01010",
+      "targetDate": "2024-01-01",
+      "status": "UPSTOX_NO_CANDLE",
+      "instrumentKey": "BSE_EQ|INE28GN01010",
+      "candle": null,
+      "rawMeta": {
+        "status": "success",
+        "data": {
+          "candles": []
+        }
+      }
+    },
+    {
+      "isin": "INE2FMX01012",
+      "targetDate": "2024-01-01",
+      "status": "UPSTOX_NO_CANDLE",
+      "instrumentKey": "BSE_EQ|INE2FMX01012",
+      "candle": null,
+      "rawMeta": {
+        "status": "success",
+        "data": {
+          "candles": []
+        }
+      }
+    },
+    {
+      "isin": "INE364U01010",
+      "targetDate": "2024-08-19",
+      "status": "UPSTOX_EXACT_CANDLE",
+      "instrumentKey": "BSE_EQ|INE364U01010",
+      "candle": {
+        "date": "2024-08-19",
+        "open": 1812.05,
+        "high": 1907,
+        "low": 1812.05,
+        "close": 1898.6,
+        "volume": 72695
+      },
+      "rawMeta": {
+        "status": "success",
+        "data": {
+          "candles": [
+            [
+              "2024-08-21T00:00:00+05:30",
+              1929.95,
+              1992,
+              1904.9,
+              1918.95,
+              64255,
+              0
+            ],
+            [
+              "2024-08-20T00:00:00+05:30",
+              1901.4,
+              1938.35,
+              1879.25,
+              1924.1,
+              190724,
+              0
+            ],
+            [
+              "2024-08-19T00:00:00+05:30",
+              1812.05,
+              1907,
+              1812.05,
+              1898.6,
+              72695,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "isin": "INE365O01028",
+      "targetDate": "2024-01-01",
+      "status": "UPSTOX_EXACT_CANDLE",
+      "instrumentKey": "BSE_EQ|INE365O01028",
+      "candle": {
+        "date": "2024-01-01",
+        "open": 31.15,
+        "high": 32.35,
+        "low": 30.4,
+        "close": 30.6,
+        "volume": 1130
+      },
+      "rawMeta": {
+        "status": "success",
+        "data": {
+          "candles": [
+            [
+              "2024-01-03T00:00:00+05:30",
+              30.75,
+              31,
+              30,
+              31,
+              6460,
+              0
+            ],
+            [
+              "2024-01-02T00:00:00+05:30",
+              30.6,
+              31.3,
+              29.4,
+              30.75,
+              5255,
+              0
+            ],
+            [
+              "2024-01-01T00:00:00+05:30",
+              31.15,
+              32.35,
+              30.4,
+              30.6,
+              1130,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "isin": "INE366C01021",
+      "targetDate": "2024-01-01",
+      "status": "UPSTOX_NO_CANDLE",
+      "instrumentKey": "BSE_EQ|INE366C01021",
+      "candle": null,
+      "rawMeta": {
+        "status": "success",
+        "data": {
+          "candles": []
+        }
+      }
+    },
+    {
+      "isin": "INE423A01024",
+      "targetDate": "2024-08-19",
+      "status": "UPSTOX_EXACT_CANDLE",
+      "instrumentKey": "BSE_EQ|INE423A01024",
+      "candle": {
+        "date": "2024-08-19",
+        "open": 3128.8,
+        "high": 3133.4,
+        "low": 3091.6,
+        "close": 3102.1,
+        "volume": 22000
+      },
+      "rawMeta": {
+        "status": "success",
+        "data": {
+          "candles": [
+            [
+              "2024-08-21T00:00:00+05:30",
+              3084.95,
+              3152.5,
+              3067.15,
+              3115.55,
+              78779,
+              0
+            ],
+            [
+              "2024-08-20T00:00:00+05:30",
+              3110.35,
+              3127.95,
+              3060,
+              3071.2,
+              29019,
+              0
+            ],
+            [
+              "2024-08-19T00:00:00+05:30",
+              3128.8,
+              3133.4,
+              3091.6,
+              3102.1,
+              22000,
+              0
+            ]
+          ]
+        }
+      }
+    }
+  ],
+  "dualProviderComparisons": [],
+  "rangeProbeResults": [
+    {
+      "isin": "INE012A01025",
+      "targetDate": "2024-08-19",
+      "instrumentToken": "128104964",
+      "requestedFrom": "2024-07-20",
+      "requestedTo": "2024-09-18",
+      "httpStatus": 403,
+      "apiStatus": "error",
+      "returnedCandleCount": 0,
+      "firstReturnedDate": null,
+      "lastReturnedDate": null,
+      "classification": "RANGE_REJECTED"
+    },
+    {
+      "isin": "INE0ALI01010",
+      "targetDate": "2024-01-01",
+      "instrumentToken": "139066884",
+      "requestedFrom": "2023-12-02",
+      "requestedTo": "2024-01-31",
+      "httpStatus": 403,
+      "apiStatus": "error",
+      "returnedCandleCount": 0,
+      "firstReturnedDate": null,
+      "lastReturnedDate": null,
+      "classification": "RANGE_REJECTED"
+    },
+    {
+      "isin": "INE14LE01019",
+      "targetDate": "2024-01-01",
+      "instrumentToken": "139367172",
+      "requestedFrom": "2023-12-02",
+      "requestedTo": "2024-01-31",
+      "httpStatus": 403,
+      "apiStatus": "error",
+      "returnedCandleCount": 0,
+      "firstReturnedDate": null,
+      "lastReturnedDate": null,
+      "classification": "RANGE_REJECTED"
+    }
+  ],
+  "classifications": {
+    "ZERODHA_API_ERROR": 10,
+    "UPSTOX_ONLY": 5
+  },
+  "reconciliation": {
+    "selectedPopulation": 10,
+    "identityPopulation": 10,
+    "historicalPopulation": 10,
+    "finalPopulation": 10,
+    "unexplainedDrops": 0,
+    "pass": true
+  },
+  "recommendationBasis": {
+    "zerodhaExactIdentityCount": 10,
+    "zerodhaExactCandleCount": 0,
+    "rangeSupportedCount": 0,
+    "dualProviderExactMatchCount": 0,
+    "statement": "Feasibility evidence only; no production recovery authorized."
+  }
+}

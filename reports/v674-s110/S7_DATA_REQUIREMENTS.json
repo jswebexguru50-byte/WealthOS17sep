@@ -1,0 +1,16 @@
+[
+  {
+    "strategyId": "S7",
+    "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "sourceFunction": "evaluateS7",
+    "parameterName": "dailyOHLCV,financialsPIT",
+    "sourceField": "close,pe_ratio,roe,debt_to_equity",
+    "formula": "Quality Value Rebound (ROE>15%, D/E<0.5, PE<HistAvg)",
+    "lookback": "4Q",
+    "frequency": "DAILY",
+    "requiredHistory": "2018-01-01 to 2026-04-05",
+    "PITRequired": true,
+    "availabilityTimestampRequired": true,
+    "dependencyType": "FINANCIAL"
+  }
+]

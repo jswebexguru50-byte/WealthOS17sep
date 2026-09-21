@@ -1,0 +1,20 @@
+{
+  "phase": "10R-M.3",
+  "generatedAt": "2026-09-20T18:44:09.594Z",
+  "phase10rm2EligibleInstruments": 544,
+  "stagingInstruments": 544,
+  "unresolvedSessionsObserved": 232451,
+  "eligibleSessions": 88672,
+  "requestedSessions": 1000,
+  "classifiedSessions": 1000,
+  "excludedSessions": 143779,
+  "unexplainedSessions": 87672,
+  "duplicateLogicalSessions": 0,
+  "resultCounts": {
+    "RATE_LIMITED": 1000
+  },
+  "reconciliationPass": false,
+  "productionDbWrites": 0,
+  "certificationChanged": false,
+  "globalDeltaRecalculated": false
+}

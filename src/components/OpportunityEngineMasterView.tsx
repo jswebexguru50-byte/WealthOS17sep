@@ -1151,7 +1151,7 @@ export const OpportunityEngineMasterView: React.FC = () => {
       const payload = {
         symbol: opp.symbol,
         company_name: opp.companyName,
-        strategy_ids: opp.strategies?.join(', ') || 'Manual',
+        strategy_ids: 'Manual',
         gate_snapshot: JSON.stringify({ score: opp.convergenceScore, float: opp.floatRegime }),
         entry_price: opp.currentPrice,
         stop_loss: opp.tranches?.pointZeroStopLoss || (opp.currentPrice * 0.95),

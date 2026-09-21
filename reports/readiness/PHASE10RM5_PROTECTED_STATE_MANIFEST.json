@@ -1,0 +1,24 @@
+{
+  "M5-G-POST-WAVE3": {
+    "timestamp": "2026-09-20T20:34:46.468Z",
+    "portfolio_db": {
+      "path": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\portfolio.db",
+      "size": 13510496256,
+      "sha256": "f8770cc3718c719bf6a6c458488c3bb6c215674ed48c17d8624f6bbd0fc0cd10",
+      "mtime": "2026-09-20T17:29:21.564Z"
+    },
+    "master_tickers": {
+      "sha256": "3ef1f4ecf5b672f22e38cc965797eb2bf00ea852f4ce69bc3af25a2ed8240a09"
+    },
+    "frozen_strategies": {
+      "strategy1": null,
+      "strategy2": null
+    },
+    "m4_artifacts": {
+      "queue": "2470c428538f41356ca1ad31bf3f42d896a6b24c59e5125590d8a1ed2055c080",
+      "checkpoint": "0bb6f63644825525c0211b90b037584d8e00cf556b66c7bec32276c0f3118542",
+      "output": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "MARKET_DATA_CERTIFIED": false
+  }
+}

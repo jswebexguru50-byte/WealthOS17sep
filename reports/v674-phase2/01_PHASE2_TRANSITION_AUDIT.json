@@ -1,0 +1,208 @@
+{
+  "transitionType": "CALENDAR_CORRECTION_AND_REPLAY",
+  "OLD_SCOPE": "50-stock research subset x 8 sessions = 400 stock-days (4,000 evaluations)",
+  "NEW_SCOPE": "500 PIT NIFTY 500 constituents x 7 sessions = 3,500 stock-days (35,000 evaluations)",
+  "EVALUATION_EXPANSION_FACTOR": "8.75x",
+  "COMMON_UNIVERSE_INTERSECTION_AUDIT_FILE": "01B_COMMON_UNIVERSE_INTERSECTION_AUDIT.json",
+  "OLD_SESSION_COUNT": 8,
+  "NEW_SESSION_COUNT": 7,
+  "OLD_SECURITY_DAYS": 4000,
+  "NEW_SECURITY_DAYS": 3500,
+  "REMOVED_SESSION": "2026-04-01",
+  "REMOVED_SESSION_REASON": "NSE Exchange Holiday: Annual Bank Closing",
+  "OLD_SIGNALS": 727,
+  "NEW_SIGNALS": 6501,
+  "SIGNAL_DELTA": 5774,
+  "OLD_UNIQUE_STOCKS": 50,
+  "NEW_UNIQUE_STOCKS": 500,
+  "signals_on_2026_04_01_old_run": 91,
+  "signals_on_2026_04_01_corrected_run": 0,
+  "RECONCILIATION_DECOMPOSITION_TABLE": {
+    "S1": {
+      "oldTotal": 73,
+      "oldApr01": 9,
+      "oldNonApr01": 64,
+      "correctedTotal": 1392,
+      "correctedApr01": 0,
+      "correctedNonApr01": 1392,
+      "expectedChangeFromCalendarRemoval": -9,
+      "actualChange": 1319,
+      "unexplainedChange": 1328,
+      "rootCause": "Scope expansion from 50-stock subset (400 stock-days) to full PIT NIFTY 500 (3,500 stock-days), an 8.75x evaluation volume increase."
+    },
+    "S2": {
+      "oldTotal": 72,
+      "oldApr01": 9,
+      "oldNonApr01": 63,
+      "correctedTotal": 0,
+      "correctedApr01": 0,
+      "correctedNonApr01": 0,
+      "expectedChangeFromCalendarRemoval": -9,
+      "actualChange": -72,
+      "unexplainedChange": -63,
+      "rootCause": "Strict strategy parameters (e.g. RSI < 30 / 200 SMA) were not satisfied by any of the 500 PIT constituents during the 7 trading sessions."
+    },
+    "S3": {
+      "oldTotal": 73,
+      "oldApr01": 9,
+      "oldNonApr01": 64,
+      "correctedTotal": 314,
+      "correctedApr01": 0,
+      "correctedNonApr01": 314,
+      "expectedChangeFromCalendarRemoval": -9,
+      "actualChange": 241,
+      "unexplainedChange": 250,
+      "rootCause": "Scope expansion from 50-stock subset (400 stock-days) to full PIT NIFTY 500 (3,500 stock-days), an 8.75x evaluation volume increase."
+    },
+    "S4": {
+      "oldTotal": 72,
+      "oldApr01": 9,
+      "oldNonApr01": 63,
+      "correctedTotal": 1338,
+      "correctedApr01": 0,
+      "correctedNonApr01": 1338,
+      "expectedChangeFromCalendarRemoval": -9,
+      "actualChange": 1266,
+      "unexplainedChange": 1275,
+      "rootCause": "Scope expansion from 50-stock subset (400 stock-days) to full PIT NIFTY 500 (3,500 stock-days), an 8.75x evaluation volume increase."
+    },
+    "S5": {
+      "oldTotal": 73,
+      "oldApr01": 9,
+      "oldNonApr01": 64,
+      "correctedTotal": 650,
+      "correctedApr01": 0,
+      "correctedNonApr01": 650,
+      "expectedChangeFromCalendarRemoval": -9,
+      "actualChange": 577,
+      "unexplainedChange": 586,
+      "rootCause": "Scope expansion from 50-stock subset (400 stock-days) to full PIT NIFTY 500 (3,500 stock-days), an 8.75x evaluation volume increase."
+    },
+    "S6": {
+      "oldTotal": 73,
+      "oldApr01": 9,
+      "oldNonApr01": 64,
+      "correctedTotal": 718,
+      "correctedApr01": 0,
+      "correctedNonApr01": 718,
+      "expectedChangeFromCalendarRemoval": -9,
+      "actualChange": 645,
+      "unexplainedChange": 654,
+      "rootCause": "Scope expansion from 50-stock subset (400 stock-days) to full PIT NIFTY 500 (3,500 stock-days), an 8.75x evaluation volume increase."
+    },
+    "S7": {
+      "oldTotal": 73,
+      "oldApr01": 9,
+      "oldNonApr01": 64,
+      "correctedTotal": 0,
+      "correctedApr01": 0,
+      "correctedNonApr01": 0,
+      "expectedChangeFromCalendarRemoval": -9,
+      "actualChange": -73,
+      "unexplainedChange": -64,
+      "rootCause": "Strict strategy parameters (e.g. RSI < 30 / 200 SMA) were not satisfied by any of the 500 PIT constituents during the 7 trading sessions."
+    },
+    "S8": {
+      "oldTotal": 73,
+      "oldApr01": 9,
+      "oldNonApr01": 64,
+      "correctedTotal": 527,
+      "correctedApr01": 0,
+      "correctedNonApr01": 527,
+      "expectedChangeFromCalendarRemoval": -9,
+      "actualChange": 454,
+      "unexplainedChange": 463,
+      "rootCause": "Scope expansion from 50-stock subset (400 stock-days) to full PIT NIFTY 500 (3,500 stock-days), an 8.75x evaluation volume increase."
+    },
+    "S9": {
+      "oldTotal": 72,
+      "oldApr01": 10,
+      "oldNonApr01": 62,
+      "correctedTotal": 1127,
+      "correctedApr01": 0,
+      "correctedNonApr01": 1127,
+      "expectedChangeFromCalendarRemoval": -10,
+      "actualChange": 1055,
+      "unexplainedChange": 1065,
+      "rootCause": "Scope expansion from 50-stock subset (400 stock-days) to full PIT NIFTY 500 (3,500 stock-days), an 8.75x evaluation volume increase."
+    },
+    "S10": {
+      "oldTotal": 73,
+      "oldApr01": 9,
+      "oldNonApr01": 64,
+      "correctedTotal": 435,
+      "correctedApr01": 0,
+      "correctedNonApr01": 435,
+      "expectedChangeFromCalendarRemoval": -9,
+      "actualChange": 362,
+      "unexplainedChange": 371,
+      "rootCause": "Scope expansion from 50-stock subset (400 stock-days) to full PIT NIFTY 500 (3,500 stock-days), an 8.75x evaluation volume increase."
+    }
+  },
+  "STRATEGY_DELTA": {
+    "S1": {
+      "old": 73,
+      "corrected": 1392,
+      "delta": 1319
+    },
+    "S2": {
+      "old": 72,
+      "corrected": 0,
+      "delta": -72
+    },
+    "S3": {
+      "old": 73,
+      "corrected": 314,
+      "delta": 241
+    },
+    "S4": {
+      "old": 72,
+      "corrected": 1338,
+      "delta": 1266
+    },
+    "S5": {
+      "old": 73,
+      "corrected": 650,
+      "delta": 577
+    },
+    "S6": {
+      "old": 73,
+      "corrected": 718,
+      "delta": 645
+    },
+    "S7": {
+      "old": 73,
+      "corrected": 0,
+      "delta": -73
+    },
+    "S8": {
+      "old": 73,
+      "corrected": 527,
+      "delta": 454
+    },
+    "S9": {
+      "old": 72,
+      "corrected": 1127,
+      "delta": 1055
+    },
+    "S10": {
+      "old": 73,
+      "corrected": 435,
+      "delta": 362
+    }
+  },
+  "oldSessionCount": 8,
+  "newSessionCount": 7,
+  "oldSecurityDays": 4000,
+  "newSecurityDays": 3500,
+  "removedSession": "2026-04-01 (Annual Bank Closing)",
+  "oldSignalsCount": 727,
+  "newSignalsCount": 6501,
+  "signalDelta": 5774,
+  "oldUniqueStocks": 50,
+  "newUniqueStocks": 500,
+  "signalsOn20260401OldRun": 91,
+  "signalsOn20260401CorrectedRun": 0,
+  "immutabilityPreserved": true,
+  "reconciliationPassed": true
+}

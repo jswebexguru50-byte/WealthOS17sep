@@ -1,0 +1,16 @@
+
+Candidates:              20
+Requests:                20
+Responses:               20
+Request-log records:     20
+Response hashes:         20
+
+NO_CANDLE_RETURNED:      10
+INVALID_INSTRUMENT:      10
+ACQUIRED:                0
+
+Candidate/request reconciliation: PASS
+Identity reconciliation:         PASS
+Date reconciliation:             PASS
+Raw-response evidence:           PASS
+Production DB writes:            0

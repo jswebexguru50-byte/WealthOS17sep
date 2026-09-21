@@ -1,0 +1,46 @@
+[
+  {
+    "defectId": "DEF-001",
+    "file": "scripts/remediation/workers/worker_phase5a.cjs",
+    "range": "L20-35",
+    "observedBehavior": "Uses mockFetchExternalData() returning fabricated prices.",
+    "evidence": "Function returns hard-coded array for 2024-08-19 and 2024-08-20.",
+    "requiredCorrection": "Remove synthetic data; use real authorized provider or fail closed.",
+    "risk": "CERTIFICATION_INVALIDATION",
+    "dependency": "Phase 5A",
+    "verificationTest": "Ensure DAILYOHLCV_AUTOMATED_VALIDATION.json does not contain mock discrepancies."
+  },
+  {
+    "defectId": "DEF-002",
+    "file": "scripts/remediation/workers/worker_phase7.cjs",
+    "range": "L55",
+    "observedBehavior": "Limits coverage evaluation to boundaries.slice(0, 50).",
+    "evidence": "Code restricts exact gap detection to the first 50 symbols.",
+    "requiredCorrection": "Evaluate the entire certified universe defined in PRODUCTION_UNIVERSE_MANIFEST.",
+    "risk": "INCOMPLETE_COVERAGE",
+    "dependency": "Phase 7",
+    "verificationTest": "Ensure DELTA_ACQUISITION_QUEUE is based on the full universe."
+  },
+  {
+    "defectId": "DEF-003",
+    "file": "scripts/remediation/workers/worker_phase14.cjs",
+    "range": "L65",
+    "observedBehavior": "Creates a DUMMY BACKUP file due to ENOSPC.",
+    "evidence": "fs.writeFileSync(backupPath, 'DUMMY BACKUP DUE TO ENOSPC');",
+    "requiredCorrection": "Implement RESTORE_POINT.sql representing the exact inverse transaction.",
+    "risk": "NO_RECOVERY_POINT",
+    "dependency": "Phase 14",
+    "verificationTest": "Verify RESTORE_POINT_MANIFEST is created before transaction."
+  },
+  {
+    "defectId": "DEF-004",
+    "file": "scripts/remediation/workers/worker_phase16.cjs",
+    "range": "L15-L25",
+    "observedBehavior": "Sets MARKET_DATA_CERTIFIED=true if 538 rows are promoted.",
+    "evidence": "Certifies market data without ensuring index, fundamental, or corporate action completeness.",
+    "requiredCorrection": "Independently evaluate all domains. Leave MARKET_DATA_CERTIFIED=false if any are MISSING.",
+    "risk": "FALSE_CERTIFICATION",
+    "dependency": "Phase 16",
+    "verificationTest": "Verify FINAL_INDEPENDENT_CERTIFICATION_AUDIT output."
+  }
+]

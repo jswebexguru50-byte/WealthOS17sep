@@ -1,0 +1,24 @@
+{
+  "migrations": [
+    {
+      "source": "COMMAND_CENTER",
+      "target": "OVERVIEW",
+      "action": "Rename and re-layout"
+    },
+    {
+      "source": "OPPORTUNITY_ENGINE",
+      "target": "DISCOVER",
+      "action": "Consolidate screening views into unified workspace"
+    },
+    {
+      "source": "MASTER_DOSSIER",
+      "target": "ANALYZE",
+      "action": "Migrate to canonical StockIntelligenceView"
+    },
+    {
+      "source": "PORTFOLIO",
+      "target": "PORTFOLIO",
+      "action": "Refactor into cohesive Risk View"
+    }
+  ]
+}

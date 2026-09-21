@@ -1,0 +1,15 @@
+{
+  "timestamp": "2026-09-21T06:18:55.576Z",
+  "PREPROMOTION_GATE": "PASS",
+  "authorization_sha": "41db30e5d03a16af517c15e39cbedf5c1c3627a7fba818092f8b43e384643599",
+  "promotion_sha": "be98c71c876df908399d0be52b37df14449e26357f4156dc658c592e97f5cf05",
+  "promotion_count": 18244,
+  "m4_bundle_sha": "62a153a49e03815fe53be7b42933b7200c3869f0d4469641da57e183f119ab71",
+  "pre_promotion_db_sha": "(see preflight)",
+  "pre_promotion_db_rows": 4135605,
+  "backup_sha": "f8770cc3718c719bf6a6c458488c3bb6c215674ed48c17d8624f6bbd0fc0cd10",
+  "anomaly_overlap": 0,
+  "unresolved_overlap": 0,
+  "certification_state": "FALSE",
+  "production_db_writes": 0
+}

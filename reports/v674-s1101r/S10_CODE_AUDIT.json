@@ -1,0 +1,58 @@
+{
+  "strategyId": "S10",
+  "name": "Intraday 5-Min Opening Range Breakout (ORB)",
+  "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+  "functionName": "evaluateS10",
+  "startLine": 2955,
+  "endLine": 2995,
+  "inputs": [
+    "5-minute OHLCV Candles (09:15 to 09:30 IST)"
+  ],
+  "indicators": [
+    "Opening Range High/Low (09:15-09:30)",
+    "VWAP",
+    "Intraday Volume"
+  ],
+  "lookbacks": [
+    "15 Minutes (3 x 5-min candles)"
+  ],
+  "thresholds": [
+    "Price > 15-min Opening High",
+    "Volume > 2x ORB Average Volume"
+  ],
+  "comparators": [
+    "Close > ORB High"
+  ],
+  "entryConditions": [
+    "Intraday candle close > Opening Range High (09:15-09:30)"
+  ],
+  "exitConditions": [
+    "Intraday candle close < VWAP or End of Session 15:15 IST"
+  ],
+  "volumeConditions": [
+    "Volume > 2.0x 15-min opening volume average"
+  ],
+  "benchmarkDependencies": [
+    "NIFTY 500 Intraday Index Trend"
+  ],
+  "intradayDependencies": [
+    "Requires D7 Intraday 5-minute candles (09:15, 09:20, 09:25 IST)"
+  ],
+  "corporateActionDependencies": [
+    "Adjusted for corporate actions at session open"
+  ],
+  "pitDependencies": [
+    "Timestamp >= 09:30 IST AND Timestamp <= 15:15 IST"
+  ],
+  "missingDataBehavior": "FAIL_CLOSED",
+  "fallbackBehavior": "NO_SYNTHETIC_FALLBACK",
+  "timestampSemantics": "Intraday Timestamp Available At Exact Candle Close",
+  "sourceEvidence": {
+    "file": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "startLine": 2955,
+    "endLine": 2995,
+    "symbol": "evaluateS10",
+    "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+  },
+  "d7Required": true
+}

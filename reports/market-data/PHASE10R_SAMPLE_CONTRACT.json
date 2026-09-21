@@ -1,0 +1,612 @@
+{
+  "populationCount": 227667,
+  "populationHash": "8BCE84BB920C199C63FF2B2582CF51D06792602B580ED87F7ECE3E7C444D0B7E",
+  "sampleSize": 100,
+  "samplingAlgorithm": "Seeded PRNG (Math.sin) over sorted array index",
+  "seed": 42,
+  "strata": "Uniform random over sorted symbol-date tuples",
+  "selectedRecordIds": [
+    {
+      "recordId": "DEL-PNGSREVA-2024-07-02",
+      "symbol": "PNGSREVA",
+      "instrumentKey": "NSE_EQ|INE1RDG01013",
+      "date": "2024-07-02"
+    },
+    {
+      "recordId": "DEL-544373-2024-07-09",
+      "symbol": "544373",
+      "instrumentKey": "NSE_EQ|INE0VNH01014",
+      "date": "2024-07-09"
+    },
+    {
+      "recordId": "DEL-538128-2024-08-05",
+      "symbol": "538128",
+      "instrumentKey": "NSE_EQ|INE174Q01011",
+      "date": "2024-08-05"
+    },
+    {
+      "recordId": "DEL-539521-2024-02-23",
+      "symbol": "539521",
+      "instrumentKey": "NSE_EQ|INE364T01012",
+      "date": "2024-02-23"
+    },
+    {
+      "recordId": "DEL-SNEHAA-2024-07-24",
+      "symbol": "SNEHAA",
+      "instrumentKey": "NSE_EQ|INE1OIC01018",
+      "date": "2024-07-24"
+    },
+    {
+      "recordId": "DEL-Motilal Oswal ELSS Tax Saver Fund - Direct Plan Growth (Non Demat)-2024-01-12",
+      "symbol": "Motilal Oswal ELSS Tax Saver Fund - Direct Plan Growth (Non Demat)",
+      "instrumentKey": "NSE_EQ|INF247L01569",
+      "date": "2024-01-12"
+    },
+    {
+      "recordId": "DEL-BAJAJHFL-2024-03-04",
+      "symbol": "BAJAJHFL",
+      "instrumentKey": "NSE_EQ|INE377Y01014",
+      "date": "2024-03-04"
+    },
+    {
+      "recordId": "DEL-BLIL-2024-07-01",
+      "symbol": "BLIL",
+      "instrumentKey": "NSE_EQ|INE525F01025",
+      "date": "2024-07-01"
+    },
+    {
+      "recordId": "DEL-544372-2024-02-22",
+      "symbol": "544372",
+      "instrumentKey": "NSE_EQ|INE0RXS01018",
+      "date": "2024-02-22"
+    },
+    {
+      "recordId": "DEL-544509-2024-05-06",
+      "symbol": "544509",
+      "instrumentKey": "NSE_EQ|INE0XZB01017",
+      "date": "2024-05-06"
+    },
+    {
+      "recordId": "DEL-544458-2024-04-03",
+      "symbol": "544458",
+      "instrumentKey": "NSE_EQ|INE0FMZ01045",
+      "date": "2024-04-03"
+    },
+    {
+      "recordId": "DEL-544372-2024-03-06",
+      "symbol": "544372",
+      "instrumentKey": "NSE_EQ|INE0RXS01018",
+      "date": "2024-03-06"
+    },
+    {
+      "recordId": "DEL-543372-2024-08-22",
+      "symbol": "543372",
+      "instrumentKey": "NSE_EQ|INE0H1201020",
+      "date": "2024-08-22"
+    },
+    {
+      "recordId": "DEL-AVSL-2024-08-28",
+      "symbol": "AVSL",
+      "instrumentKey": "NSE_EQ|INE522V01011",
+      "date": "2024-08-28"
+    },
+    {
+      "recordId": "DEL-CAPILLARY-2024-07-05",
+      "symbol": "CAPILLARY",
+      "instrumentKey": "NSE_EQ|INE0ILV01024",
+      "date": "2024-07-05"
+    },
+    {
+      "recordId": "DEL-JAINIK-2024-06-10",
+      "symbol": "JAINIK",
+      "instrumentKey": "NSE_EQ|INE0XIL01012",
+      "date": "2024-06-10"
+    },
+    {
+      "recordId": "DEL-MRP-2024-08-29",
+      "symbol": "MRP",
+      "instrumentKey": "NSE_EQ|INE0D7801012",
+      "date": "2024-08-29"
+    },
+    {
+      "recordId": "DEL-544812-2024-07-29",
+      "symbol": "544812",
+      "instrumentKey": "NSE_EQ|INE226801012",
+      "date": "2024-07-29"
+    },
+    {
+      "recordId": "DEL-SSEGL-2024-05-21",
+      "symbol": "SSEGL",
+      "instrumentKey": "NSE_EQ|INE0RFP01011",
+      "date": "2024-05-21"
+    },
+    {
+      "recordId": "DEL-ROSSTECH-2024-01-12",
+      "symbol": "ROSSTECH",
+      "instrumentKey": "NSE_EQ|INE0OJW01016",
+      "date": "2024-01-12"
+    },
+    {
+      "recordId": "DEL-544091-2024-05-31",
+      "symbol": "544091",
+      "instrumentKey": "NSE_EQ|INE0Q1R01012",
+      "date": "2024-05-31"
+    },
+    {
+      "recordId": "DEL-ETML-2024-04-18",
+      "symbol": "ETML",
+      "instrumentKey": "NSE_EQ|INE0RHD01013",
+      "date": "2024-04-18"
+    },
+    {
+      "recordId": "DEL-544406-2024-06-18",
+      "symbol": "544406",
+      "instrumentKey": "NSE_EQ|INE1ABX01018",
+      "date": "2024-06-18"
+    },
+    {
+      "recordId": "DEL-544500-2024-05-22",
+      "symbol": "544500",
+      "instrumentKey": "NSE_EQ|INE15MX01014",
+      "date": "2024-05-22"
+    },
+    {
+      "recordId": "DEL-C2C-2024-06-06",
+      "symbol": "C2C",
+      "instrumentKey": "NSE_EQ|INE0U7V01015",
+      "date": "2024-06-06"
+    },
+    {
+      "recordId": "DEL-PWL-2024-03-15",
+      "symbol": "PWL",
+      "instrumentKey": "NSE_EQ|INE0LP301011",
+      "date": "2024-03-15"
+    },
+    {
+      "recordId": "DEL-MORARJEE-2024-05-23",
+      "symbol": "MORARJEE",
+      "instrumentKey": "NSE_EQ|INE161G01027",
+      "date": "2024-05-23"
+    },
+    {
+      "recordId": "DEL-543769-2024-01-29",
+      "symbol": "543769",
+      "instrumentKey": "NSE_EQ|INE0KN201016",
+      "date": "2024-01-29"
+    },
+    {
+      "recordId": "DEL-SURYALA-2024-02-19",
+      "symbol": "SURYALA",
+      "instrumentKey": "NSE_EQ|INE132C01027",
+      "date": "2024-02-19"
+    },
+    {
+      "recordId": "DEL-ELPROINTL-2024-02-28",
+      "symbol": "ELPROINTL",
+      "instrumentKey": "NSE_EQ|INE579B01039",
+      "date": "2024-02-28"
+    },
+    {
+      "recordId": "DEL-544304-2024-03-15",
+      "symbol": "544304",
+      "instrumentKey": "NSE_EQ|INE0WCH01015",
+      "date": "2024-03-15"
+    },
+    {
+      "recordId": "DEL-544472-2024-06-18",
+      "symbol": "544472",
+      "instrumentKey": "NSE_EQ|INE1KH601014",
+      "date": "2024-06-18"
+    },
+    {
+      "recordId": "DEL-ECOSMOBLTY-2024-01-16",
+      "symbol": "ECOSMOBLTY",
+      "instrumentKey": "NSE_EQ|INE06HJ01020",
+      "date": "2024-01-16"
+    },
+    {
+      "recordId": "DEL-544025-2024-05-06",
+      "symbol": "544025",
+      "instrumentKey": "NSE_EQ|INE0PP401015",
+      "date": "2024-05-06"
+    },
+    {
+      "recordId": "DEL-541445-2024-06-12",
+      "symbol": "541445",
+      "instrumentKey": "NSE_EQ|INE799N01012",
+      "date": "2024-06-12"
+    },
+    {
+      "recordId": "DEL-544156-2024-05-17",
+      "symbol": "544156",
+      "instrumentKey": "NSE_EQ|INE0QHY01011",
+      "date": "2024-05-17"
+    },
+    {
+      "recordId": "DEL-PNGSREVA-2024-07-15",
+      "symbol": "PNGSREVA",
+      "instrumentKey": "NSE_EQ|INE1RDG01013",
+      "date": "2024-07-15"
+    },
+    {
+      "recordId": "DEL-SHYAMDHANI-2024-02-29",
+      "symbol": "SHYAMDHANI",
+      "instrumentKey": "NSE_EQ|INE1CRP01016",
+      "date": "2024-02-29"
+    },
+    {
+      "recordId": "DEL-543410-2024-04-26",
+      "symbol": "543410",
+      "instrumentKey": "NSE_EQ|INE07L501010",
+      "date": "2024-04-26"
+    },
+    {
+      "recordId": "DEL-543497-2024-06-19",
+      "symbol": "543497",
+      "instrumentKey": "NSE_EQ|INE0KQ001017",
+      "date": "2024-06-19"
+    },
+    {
+      "recordId": "DEL-544503-2024-01-03",
+      "symbol": "544503",
+      "instrumentKey": "NSE_EQ|INE0ZN101029",
+      "date": "2024-01-03"
+    },
+    {
+      "recordId": "DEL-IWARE-2024-02-22",
+      "symbol": "IWARE",
+      "instrumentKey": "NSE_EQ|INE1AII01014",
+      "date": "2024-02-22"
+    },
+    {
+      "recordId": "DEL-SUNLITE-2024-01-23",
+      "symbol": "SUNLITE",
+      "instrumentKey": "NSE_EQ|INE0U2N01013",
+      "date": "2024-01-23"
+    },
+    {
+      "recordId": "DEL-544343-2024-05-09",
+      "symbol": "544343",
+      "instrumentKey": "NSE_EQ|INE0WXM01011",
+      "date": "2024-05-09"
+    },
+    {
+      "recordId": "DEL-AIRTEL-RE-2024-07-29",
+      "symbol": "AIRTEL-RE",
+      "instrumentKey": "NSE_EQ|IN8397D01014",
+      "date": "2024-07-29"
+    },
+    {
+      "recordId": "DEL-RNPL-2024-02-01",
+      "symbol": "RNPL",
+      "instrumentKey": "NSE_EQ|INE0VZX01015",
+      "date": "2024-02-01"
+    },
+    {
+      "recordId": "DEL-VTI-2024-01-08",
+      "symbol": "VTI",
+      "instrumentKey": "NSE_EQ|US9229087690",
+      "date": "2024-01-08"
+    },
+    {
+      "recordId": "DEL-MAJESAUT-2024-07-18",
+      "symbol": "MAJESAUT",
+      "instrumentKey": "NSE_EQ|INE201B01022",
+      "date": "2024-07-18"
+    },
+    {
+      "recordId": "DEL-VGINFOTECH-2024-08-28",
+      "symbol": "VGINFOTECH",
+      "instrumentKey": "NSE_EQ|INE0VRH01015",
+      "date": "2024-08-28"
+    },
+    {
+      "recordId": "DEL-SIDDHICOTS-2024-07-09",
+      "symbol": "SIDDHICOTS",
+      "instrumentKey": "NSE_EQ|INE0SVO01019",
+      "date": "2024-07-09"
+    },
+    {
+      "recordId": "DEL-544668-2024-08-12",
+      "symbol": "544668",
+      "instrumentKey": "NSE_EQ|INE0YJA01011",
+      "date": "2024-08-12"
+    },
+    {
+      "recordId": "DEL-543991-2024-04-18",
+      "symbol": "543991",
+      "instrumentKey": "NSE_EQ|INE0P4P01011",
+      "date": "2024-04-18"
+    },
+    {
+      "recordId": "DEL-BNDX-2024-05-10",
+      "symbol": "BNDX",
+      "instrumentKey": "NSE_EQ|US92203J4076",
+      "date": "2024-05-10"
+    },
+    {
+      "recordId": "DEL-HVAX-2024-04-19",
+      "symbol": "HVAX",
+      "instrumentKey": "NSE_EQ|INE0TO501019",
+      "date": "2024-04-19"
+    },
+    {
+      "recordId": "DEL-SILKY-2024-08-28",
+      "symbol": "SILKY",
+      "instrumentKey": "NSE_EQ|INE0SN801015",
+      "date": "2024-08-28"
+    },
+    {
+      "recordId": "DEL-541703-2024-01-23",
+      "symbol": "541703",
+      "instrumentKey": "NSE_EQ|INE00WY01013",
+      "date": "2024-01-23"
+    },
+    {
+      "recordId": "DEL-544011-2024-02-16",
+      "symbol": "544011",
+      "instrumentKey": "NSE_EQ|INE0Q6901013",
+      "date": "2024-02-16"
+    },
+    {
+      "recordId": "DEL-TINNARUBR-2024-04-30",
+      "symbol": "TINNARUBR",
+      "instrumentKey": "NSE_EQ|INE015C01016",
+      "date": "2024-04-30"
+    },
+    {
+      "recordId": "DEL-544676-2024-08-07",
+      "symbol": "544676",
+      "instrumentKey": "NSE_EQ|INE0CNJ01010",
+      "date": "2024-08-07"
+    },
+    {
+      "recordId": "DEL-544398-2024-02-12",
+      "symbol": "544398",
+      "instrumentKey": "NSE_EQ|INE0AOG01018",
+      "date": "2024-02-12"
+    },
+    {
+      "recordId": "DEL-544435-2024-02-19",
+      "symbol": "544435",
+      "instrumentKey": "NSE_EQ|INE0W1601012",
+      "date": "2024-02-19"
+    },
+    {
+      "recordId": "DEL-SPCL-2024-02-15",
+      "symbol": "SPCL",
+      "instrumentKey": "NSE_EQ|INE0T7B01010",
+      "date": "2024-02-15"
+    },
+    {
+      "recordId": "DEL-PATILAUTOM-2024-02-01",
+      "symbol": "PATILAUTOM",
+      "instrumentKey": "NSE_EQ|INE17GV01016",
+      "date": "2024-02-01"
+    },
+    {
+      "recordId": "DEL-JAINIK-2024-01-29",
+      "symbol": "JAINIK",
+      "instrumentKey": "NSE_EQ|INE0XIL01012",
+      "date": "2024-01-29"
+    },
+    {
+      "recordId": "DEL-Franklin India Flexi Cap Fund - IDCW-2024-08-06",
+      "symbol": "Franklin India Flexi Cap Fund - IDCW",
+      "instrumentKey": "NSE_EQ|INF090I01221",
+      "date": "2024-08-06"
+    },
+    {
+      "recordId": "DEL-REXPRO-2024-07-11",
+      "symbol": "REXPRO",
+      "instrumentKey": "NSE_EQ|INE113601012",
+      "date": "2024-07-11"
+    },
+    {
+      "recordId": "DEL-544036-2024-04-25",
+      "symbol": "544036",
+      "instrumentKey": "NSE_EQ|INE0RDM01013",
+      "date": "2024-04-25"
+    },
+    {
+      "recordId": "DEL-ANONDITA-2024-08-08",
+      "symbol": "ANONDITA",
+      "instrumentKey": "NSE_EQ|INE0VTV01012",
+      "date": "2024-08-08"
+    },
+    {
+      "recordId": "DEL-FRONTSP-2024-04-09",
+      "symbol": "FRONTSP",
+      "instrumentKey": "NSE_EQ|INE572D01014",
+      "date": "2024-04-09"
+    },
+    {
+      "recordId": "DEL-BRIGHOTEL-2024-04-10",
+      "symbol": "BRIGHOTEL",
+      "instrumentKey": "NSE_EQ|INE03NU01014",
+      "date": "2024-04-10"
+    },
+    {
+      "recordId": "DEL-540084-2024-04-05",
+      "symbol": "540084",
+      "instrumentKey": "NSE_EQ|INE592O01019",
+      "date": "2024-04-05"
+    },
+    {
+      "recordId": "DEL-544002-2024-06-27",
+      "symbol": "544002",
+      "instrumentKey": "NSE_EQ|INE0PA601017",
+      "date": "2024-06-27"
+    },
+    {
+      "recordId": "DEL-QUADFUTURE-2024-04-22",
+      "symbol": "QUADFUTURE",
+      "instrumentKey": "NSE_EQ|INE0LRY01011",
+      "date": "2024-04-22"
+    },
+    {
+      "recordId": "DEL-544707-2024-05-08",
+      "symbol": "544707",
+      "instrumentKey": "NSE_EQ|INE1W3Q01011",
+      "date": "2024-05-08"
+    },
+    {
+      "recordId": "DEL-HILINFRA-2024-05-17",
+      "symbol": "HILINFRA",
+      "instrumentKey": "NSE_EQ|INE00RL01028",
+      "date": "2024-05-17"
+    },
+    {
+      "recordId": "DEL-538496-2024-07-04",
+      "symbol": "538496",
+      "instrumentKey": "NSE_EQ|INE849M01017",
+      "date": "2024-07-04"
+    },
+    {
+      "recordId": "DEL-BNAGROCHEM-2024-08-23",
+      "symbol": "BNAGROCHEM",
+      "instrumentKey": "NSE_EQ|INE00HZ01011",
+      "date": "2024-08-23"
+    },
+    {
+      "recordId": "DEL-UYFINCORP-2024-08-22",
+      "symbol": "UYFINCORP",
+      "instrumentKey": "NSE_EQ|INE152C01025",
+      "date": "2024-08-22"
+    },
+    {
+      "recordId": "DEL-543391-2024-02-20",
+      "symbol": "543391",
+      "instrumentKey": "NSE_EQ|INE07GA01011",
+      "date": "2024-02-20"
+    },
+    {
+      "recordId": "DEL-543769-2024-06-07",
+      "symbol": "543769",
+      "instrumentKey": "NSE_EQ|INE0KN201016",
+      "date": "2024-06-07"
+    },
+    {
+      "recordId": "DEL-543544-2024-06-27",
+      "symbol": "543544",
+      "instrumentKey": "NSE_EQ|INE0KR801019",
+      "date": "2024-06-27"
+    },
+    {
+      "recordId": "DEL-VERA-2024-02-29",
+      "symbol": "VERA",
+      "instrumentKey": "NSE_EQ|INE709Z01015",
+      "date": "2024-02-29"
+    },
+    {
+      "recordId": "DEL-543542-2024-07-04",
+      "symbol": "543542",
+      "instrumentKey": "NSE_EQ|INE0L1C01019",
+      "date": "2024-07-04"
+    },
+    {
+      "recordId": "DEL-GPECO-2024-03-04",
+      "symbol": "GPECO",
+      "instrumentKey": "NSE_EQ|INE0S7E01015",
+      "date": "2024-03-04"
+    },
+    {
+      "recordId": "DEL-SUYOG-2024-02-22",
+      "symbol": "SUYOG",
+      "instrumentKey": "NSE_EQ|INE442P01014",
+      "date": "2024-02-22"
+    },
+    {
+      "recordId": "DEL-544539-2024-08-22",
+      "symbol": "544539",
+      "instrumentKey": "NSE_EQ|INE1IIQ01028",
+      "date": "2024-08-22"
+    },
+    {
+      "recordId": "DEL-544807-2024-06-25",
+      "symbol": "544807",
+      "instrumentKey": "NSE_EQ|INE0RBX01014",
+      "date": "2024-06-25"
+    },
+    {
+      "recordId": "DEL-544431-2024-06-06",
+      "symbol": "544431",
+      "instrumentKey": "NSE_EQ|INE0S9X01011",
+      "date": "2024-06-06"
+    },
+    {
+      "recordId": "DEL-TURTLEMINT-2024-08-22",
+      "symbol": "TURTLEMINT",
+      "instrumentKey": "NSE_EQ|INE0OC301013",
+      "date": "2024-08-22"
+    },
+    {
+      "recordId": "DEL-VGINFOTECH-2024-03-05",
+      "symbol": "VGINFOTECH",
+      "instrumentKey": "NSE_EQ|INE0VRH01015",
+      "date": "2024-03-05"
+    },
+    {
+      "recordId": "DEL-SAILIFE-2024-04-01",
+      "symbol": "SAILIFE",
+      "instrumentKey": "NSE_EQ|INE570L01029",
+      "date": "2024-04-01"
+    },
+    {
+      "recordId": "DEL-JYOTIGLOBL-2024-02-01",
+      "symbol": "JYOTIGLOBL",
+      "instrumentKey": "NSE_EQ|INE1M3T01017",
+      "date": "2024-02-01"
+    },
+    {
+      "recordId": "DEL-544354-2024-05-31",
+      "symbol": "544354",
+      "instrumentKey": "NSE_EQ|INE0W0H01017",
+      "date": "2024-05-31"
+    },
+    {
+      "recordId": "DEL-LENSKART-2024-05-29",
+      "symbol": "LENSKART",
+      "instrumentKey": "NSE_EQ|INE956O01016",
+      "date": "2024-05-29"
+    },
+    {
+      "recordId": "DEL-KKJEWELS-2024-03-22",
+      "symbol": "KKJEWELS",
+      "instrumentKey": "NSE_EQ|INE0XOW01017",
+      "date": "2024-03-22"
+    },
+    {
+      "recordId": "DEL-SELAN-2024-05-29",
+      "symbol": "SELAN",
+      "instrumentKey": "NSE_EQ|SELAN_UNKNOWN_1784693894829_581",
+      "date": "2024-05-29"
+    },
+    {
+      "recordId": "DEL-BMWVENTLTD-2024-06-21",
+      "symbol": "BMWVENTLTD",
+      "instrumentKey": "NSE_EQ|INE965W01036",
+      "date": "2024-06-21"
+    },
+    {
+      "recordId": "DEL-Parag Parikh Flexi Cap Fund - Direct Plan Growth-2024-07-29",
+      "symbol": "Parag Parikh Flexi Cap Fund - Direct Plan Growth",
+      "instrumentKey": "NSE_EQ|INF879O01027",
+      "date": "2024-07-29"
+    },
+    {
+      "recordId": "DEL-ABHAPOWER-2024-06-07",
+      "symbol": "ABHAPOWER",
+      "instrumentKey": "NSE_EQ|INE0UYG01015",
+      "date": "2024-06-07"
+    },
+    {
+      "recordId": "DEL-METROGLOBL-2024-06-13",
+      "symbol": "METROGLOBL",
+      "instrumentKey": "NSE_EQ|INE085D01033",
+      "date": "2024-06-13"
+    }
+  ],
+  "generatedAt": "2026-09-20T17:42:23.109Z",
+  "sourceDeltaHash": "8BCE84BB920C199C63FF2B2582CF51D06792602B580ED87F7ECE3E7C444D0B7E"
+}

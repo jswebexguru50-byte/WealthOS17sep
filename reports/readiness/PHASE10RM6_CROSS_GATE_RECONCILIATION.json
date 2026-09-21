@@ -1,0 +1,223 @@
+{
+  "timestamp": "2026-09-21T05:02:50.778Z",
+  "CROSS_GATE": "PASS",
+  "failure_count": 0,
+  "failures": [],
+  "gate_results": {
+    "m4_forensic_gate_file": {
+      "path": "reports\\market-data\\PHASE10RM4_FINAL_FORENSIC_GATE.json",
+      "exists": true
+    },
+    "m4_evidence_bundle": {
+      "path": "reports\\market-data\\M4_EVIDENCE_BUNDLE_MANIFEST.json",
+      "exists": true
+    },
+    "m4_unresolved_report": {
+      "path": "reports\\market-data\\M4_UNRESOLVED_DATE_REMEDIATION.json",
+      "exists": true
+    },
+    "m4_forensic_gate": {
+      "value": "PASS",
+      "expected": "PASS",
+      "pass": true
+    },
+    "m4_evidence_frozen": {
+      "value": "PASS",
+      "expected": "PASS",
+      "pass": true
+    },
+    "m4_frozen_artifact_count": {
+      "value": true,
+      "expected": true,
+      "pass": true,
+      "note": "At least 15 artifacts frozen"
+    },
+    "m4_complete_count": {
+      "value": 40520,
+      "expected": 40520,
+      "pass": true
+    },
+    "m4_manual_review_count": {
+      "value": 7009,
+      "expected": 7009,
+      "pass": true
+    },
+    "m4_unaccounted": {
+      "value": 0,
+      "expected": 0,
+      "pass": true
+    },
+    "m4_production_db_writes": {
+      "value": 0,
+      "expected": 0,
+      "pass": true
+    },
+    "m4_certification_changed": {
+      "value": false,
+      "expected": false,
+      "pass": true
+    },
+    "m4_mutation_detected": {
+      "value": false,
+      "expected": false,
+      "pass": true
+    },
+    "m4_unresolved_total": {
+      "value": 7009,
+      "expected": 7009,
+      "pass": true
+    },
+    "m4_unresolved_accounted": {
+      "value": 7009,
+      "expected": 7009,
+      "pass": true
+    },
+    "m4_unresolved_UNACCOUNTED": {
+      "value": 0,
+      "expected": 0,
+      "pass": true
+    },
+    "promotion_revalidation_file": {
+      "path": "reports\\readiness\\PHASE10RM56_PROMOTION_REVALIDATION.json",
+      "exists": true
+    },
+    "promotion_gate": {
+      "value": "PASS",
+      "expected": "PASS",
+      "pass": true
+    },
+    "promotion_sha_verified": {
+      "value": true,
+      "expected": true,
+      "pass": true
+    },
+    "promotion_file_sha256": {
+      "value": "be98c71c876df908399d0be52b37df14449e26357f4156dc658c592e97f5cf05",
+      "expected": "be98c71c876df908399d0be52b37df14449e26357f4156dc658c592e97f5cf05",
+      "pass": true
+    },
+    "promotion_record_count": {
+      "value": 18244,
+      "expected": 18244,
+      "pass": true
+    },
+    "promotion_anomaly_overlap": {
+      "value": 0,
+      "expected": 0,
+      "pass": true
+    },
+    "promotion_identity_fail": {
+      "value": 0,
+      "expected": 0,
+      "pass": true
+    },
+    "promotion_ohlc_fail": {
+      "value": 0,
+      "expected": 0,
+      "pass": true
+    },
+    "promotion_conflicting_rows": {
+      "value": 0,
+      "expected": 0,
+      "pass": true
+    },
+    "promotion_unexplained": {
+      "value": 0,
+      "expected": 0,
+      "pass": true
+    },
+    "promotion_schema_unresolved": {
+      "value": 0,
+      "expected": 0,
+      "pass": true
+    },
+    "promotion_new_missing": {
+      "value": 18244,
+      "expected": 18244,
+      "pass": true
+    },
+    "promotion_db_writes": {
+      "value": 0,
+      "expected": 0,
+      "pass": true
+    },
+    "ohlc_classification_file": {
+      "path": "reports\\readiness\\PHASE10RM57_OHLC_FORENSIC_CLASSIFICATION.json",
+      "exists": true
+    },
+    "ohlc_total_anomalies": {
+      "value": 190,
+      "expected": 190,
+      "pass": true
+    },
+    "ohlc_accounted": {
+      "value": 190,
+      "expected": 190,
+      "pass": true
+    },
+    "ohlc_UNACCOUNTED": {
+      "value": 0,
+      "expected": 0,
+      "pass": true
+    },
+    "ohlc_no_modifications": {
+      "value": true,
+      "expected": true,
+      "pass": true
+    },
+    "ohlc_db_writes": {
+      "value": 0,
+      "expected": 0,
+      "pass": true
+    },
+    "masterticker_review_file": {
+      "path": "reports\\readiness\\PHASE10RM58_MASTERTICKER_IDENTITY_REVIEW.json",
+      "exists": true
+    },
+    "masterticker_total": {
+      "value": 37,
+      "expected": 37,
+      "pass": true
+    },
+    "masterticker_accounted": {
+      "value": 37,
+      "expected": 37,
+      "pass": true
+    },
+    "masterticker_UNACCOUNTED": {
+      "value": 0,
+      "expected": 0,
+      "pass": true
+    },
+    "masterticker_modified": {
+      "value": false,
+      "expected": false,
+      "pass": true
+    },
+    "masterticker_db_writes": {
+      "value": 0,
+      "expected": 0,
+      "pass": true
+    },
+    "total_production_db_writes": {
+      "value": 0,
+      "expected": 0,
+      "pass": true
+    },
+    "masterticker_writes_global": {
+      "value": 0,
+      "expected": 0,
+      "pass": true
+    },
+    "certification_not_changed": {
+      "value": false,
+      "expected": false,
+      "pass": true
+    }
+  },
+  "production_db_writes_total": 0,
+  "masterticker_writes_total": 0,
+  "strategy_changes_total": 0,
+  "certification_changes_total": 0,
+  "market_data_certified": false
+}

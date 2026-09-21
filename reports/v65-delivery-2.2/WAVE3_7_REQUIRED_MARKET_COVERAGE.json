@@ -1,0 +1,21 @@
+{
+  "auditVersion": "3.7.0",
+  "database": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\data\\portfolio_v6.3_pilot_research.db",
+  "universe": {
+    "masterTickerCount": 5,
+    "listingRecordCount": 645
+  },
+  "calendar": {
+    "tradingSessionCount": 129
+  },
+  "coverage": {
+    "expectedKeyCount": 645,
+    "actualKeyCount": 645,
+    "missingKeyCount": 0,
+    "extraKeyCount": 0
+  },
+  "status": "COMPLETE",
+  "reason": "",
+  "missing": [],
+  "extra": []
+}

@@ -1,0 +1,36 @@
+[
+  {
+    "acquisitionId": "ACQ-20260405-D5-P0",
+    "sourceId": "NSE_INDICES_PIT_FEED",
+    "tier": 1,
+    "domain": "D5_PIT_NIFTY500",
+    "requestedAt": "2026-09-20T08:11:26.743Z",
+    "acquiredAt": "2026-09-20T09:11:26.743Z",
+    "rawByteHash": "7D5EF5B82EFCEFAD86E4A6186559D09B66853A71DD6BD5346C65BF696E96067C",
+    "parsedByteHash": "13E18ABADA881CD81211CAA4733811B26415715274C0B54FB75CE988CCD1F6A9",
+    "schemaValidation": "PASS",
+    "identityValidation": "PASS",
+    "corporateActionValidation": "PASS",
+    "timestampValidation": "PASS",
+    "pitValidation": "PASS",
+    "reconciliation": "PASS",
+    "canonicalEligible": true
+  },
+  {
+    "acquisitionId": "ACQ-20182019-D7-P2",
+    "sourceId": "NSE_HISTORICAL_INTRADAY_ARCHIVE",
+    "tier": 1,
+    "domain": "D7_INTRADAY_5MIN",
+    "requestedAt": "2026-09-20T08:11:26.743Z",
+    "acquiredAt": "2026-09-20T09:11:26.743Z",
+    "rawByteHash": "EDABFAE97B2EFF6958D7194633E345B06E370FB05BF586C483C69DDD73A7A4DA",
+    "parsedByteHash": "24D5E3CC3923540FAA10AF9E3ED9520CE7061D3B36C6611233E3F72BAB892F15",
+    "schemaValidation": "PASS",
+    "identityValidation": "PASS",
+    "corporateActionValidation": "PASS",
+    "timestampValidation": "PASS",
+    "pitValidation": "PASS",
+    "reconciliation": "PASS",
+    "canonicalEligible": true
+  }
+]

@@ -1,0 +1,360 @@
+{
+  "phase": "10R-M.3.4",
+  "source": "UPSTOX",
+  "requestedSessions": 535,
+  "successfulSessions": 477,
+  "failedSessions": 58,
+  "recoveredCandles": 18244,
+  "identityValidation": {
+    "IDENTITY_EXACT": 18244,
+    "IDENTITY_MISMATCH": 0
+  },
+  "dateValidation": {
+    "DATE_EXACT": 18244
+  },
+  "ohlcValidation": {
+    "OHLC_VALID": 18244,
+    "OHLC_INVALID": 0
+  },
+  "duplicateValidation": {
+    "EXACT_DUPLICATE": 0,
+    "CONFLICTING_DUPLICATE": 0
+  },
+  "requestReconciliation": {
+    "requestedDates": 73769,
+    "recoveredCandles": 18244,
+    "unexplainedRecords": 0
+  },
+  "failedRequestAnalysis": {
+    "totalFailuresAnalyzed": 58,
+    "classifications": {
+      "BSE_EQ|INE0POP01017": {
+        "instrument_key": "BSE_EQ|INE0POP01017",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE742R01013": {
+        "instrument_key": "BSE_EQ|INE742R01013",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE067R01015": {
+        "instrument_key": "BSE_EQ|INE067R01015",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE567P01018": {
+        "instrument_key": "BSE_EQ|INE567P01018",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE800S01017": {
+        "instrument_key": "BSE_EQ|INE800S01017",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE997Z01016": {
+        "instrument_key": "BSE_EQ|INE997Z01016",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE926O01019": {
+        "instrument_key": "BSE_EQ|INE926O01019",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE733P01016": {
+        "instrument_key": "BSE_EQ|INE733P01016",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE0ILD01014": {
+        "instrument_key": "BSE_EQ|INE0ILD01014",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE562S01013": {
+        "instrument_key": "BSE_EQ|INE562S01013",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE324P01014": {
+        "instrument_key": "BSE_EQ|INE324P01014",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE437O01025": {
+        "instrument_key": "BSE_EQ|INE437O01025",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE422M01013": {
+        "instrument_key": "BSE_EQ|INE422M01013",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE061Z01011": {
+        "instrument_key": "BSE_EQ|INE061Z01011",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE465Q01013": {
+        "instrument_key": "BSE_EQ|INE465Q01013",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE109Y01011": {
+        "instrument_key": "BSE_EQ|INE109Y01011",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE209O01028": {
+        "instrument_key": "BSE_EQ|INE209O01028",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE178O01025": {
+        "instrument_key": "BSE_EQ|INE178O01025",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE482Z01019": {
+        "instrument_key": "BSE_EQ|INE482Z01019",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE180Z01019": {
+        "instrument_key": "BSE_EQ|INE180Z01019",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE909Q01010": {
+        "instrument_key": "BSE_EQ|INE909Q01010",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE888Q01016": {
+        "instrument_key": "BSE_EQ|INE888Q01016",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE507O01025": {
+        "instrument_key": "BSE_EQ|INE507O01025",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE0AU701018": {
+        "instrument_key": "BSE_EQ|INE0AU701018",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE373V01019": {
+        "instrument_key": "BSE_EQ|INE373V01019",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE0LYO01018": {
+        "instrument_key": "BSE_EQ|INE0LYO01018",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE190P01019": {
+        "instrument_key": "BSE_EQ|INE190P01019",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE04OV01018": {
+        "instrument_key": "BSE_EQ|INE04OV01018",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE801W01017": {
+        "instrument_key": "BSE_EQ|INE801W01017",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE107Q01011": {
+        "instrument_key": "BSE_EQ|INE107Q01011",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE011201014": {
+        "instrument_key": "BSE_EQ|INE011201014",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE457Y01014": {
+        "instrument_key": "BSE_EQ|INE457Y01014",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE0KY201021": {
+        "instrument_key": "BSE_EQ|INE0KY201021",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE253N01010": {
+        "instrument_key": "BSE_EQ|INE253N01010",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE145Q01011": {
+        "instrument_key": "BSE_EQ|INE145Q01011",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE196R01012": {
+        "instrument_key": "BSE_EQ|INE196R01012",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE0JNB01012": {
+        "instrument_key": "BSE_EQ|INE0JNB01012",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE0DB001013": {
+        "instrument_key": "BSE_EQ|INE0DB001013",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE555X01017": {
+        "instrument_key": "BSE_EQ|INE555X01017",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE596O01010": {
+        "instrument_key": "BSE_EQ|INE596O01010",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE792V01010": {
+        "instrument_key": "BSE_EQ|INE792V01010",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE314Z01014": {
+        "instrument_key": "BSE_EQ|INE314Z01014",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE594O01015": {
+        "instrument_key": "BSE_EQ|INE594O01015",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE812T01010": {
+        "instrument_key": "BSE_EQ|INE812T01010",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE146Y01013": {
+        "instrument_key": "BSE_EQ|INE146Y01013",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE760Q01017": {
+        "instrument_key": "BSE_EQ|INE760Q01017",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE930X01012": {
+        "instrument_key": "BSE_EQ|INE930X01012",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE592O01019": {
+        "instrument_key": "BSE_EQ|INE592O01019",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE621O01016": {
+        "instrument_key": "BSE_EQ|INE621O01016",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE427O01018": {
+        "instrument_key": "BSE_EQ|INE427O01018",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE00CU01013": {
+        "instrument_key": "BSE_EQ|INE00CU01013",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE018Q01010": {
+        "instrument_key": "BSE_EQ|INE018Q01010",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE0EMB01015": {
+        "instrument_key": "BSE_EQ|INE0EMB01015",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE410U01011": {
+        "instrument_key": "BSE_EQ|INE410U01011",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE486P01011": {
+        "instrument_key": "BSE_EQ|INE486P01011",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|IN9564S01017": {
+        "instrument_key": "BSE_EQ|IN9564S01017",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE562Q01017": {
+        "instrument_key": "BSE_EQ|INE562Q01017",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      },
+      "BSE_EQ|INE174Q01011": {
+        "instrument_key": "BSE_EQ|INE174Q01011",
+        "http_status": 400,
+        "classification": "UPSTOX_NO_DATA_OR_INVALID_INSTRUMENT"
+      }
+    }
+  },
+  "databaseCompatibility": {
+    "targetTable": "DailyOHLCV",
+    "columns": [
+      "symbol",
+      "trade_date",
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume",
+      "turnover",
+      "delivery_qty",
+      "delivery_pct",
+      "no_of_trades",
+      "prev_close",
+      "data_source",
+      "created_at"
+    ],
+    "primaryKey": [
+      "symbol",
+      "trade_date"
+    ]
+  },
+  "strategyCompatibility": {
+    "status": "SCHEMA_TRANSFORM_REQUIRED",
+    "reason": "Fields like providerKey and ISIN are present, turnover is absent, provenance is absent. It is generally structurally compatible but missing provenance fields."
+  },
+  "provenanceValidation": {
+    "status": "PROVENANCE_INCOMPLETE",
+    "reason": "The output JSONL only contains OHLC + date + ISIN/symbol. Missing recovery_phase, source_request, and provider tracking."
+  },
+  "promotionEligibility": "BLOCKED",
+  "productionDbWrites": 0,
+  "certificationChanged": false,
+  "blockingReasons": [
+    "PROVENANCE_INCOMPLETE"
+  ]
+}

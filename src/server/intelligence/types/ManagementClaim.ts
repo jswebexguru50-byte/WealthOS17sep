@@ -36,8 +36,9 @@ export type ClaimStatus =
   | 'REVERSED'
   | 'NOT_DUE'
   | 'NOT_COMPARABLE'
-  | 'INSUFFICIENT_EVIDENCE'
   | 'UNRESOLVED';
+
+export type ClaimOutcome = ClaimStatus;
 
 export interface ManagementClaim {
   claimId: string;

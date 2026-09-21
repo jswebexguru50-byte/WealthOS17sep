@@ -171,32 +171,36 @@ export const ForensicIntelligenceMasterView: React.FC = () => {
             isPromotedToStage2: true,
             forensicScores: {
               beneish: {
-                mScore: raw.governanceAndAccounting?.deterministicScores?.beneishMScore || -2.5,
-                isManipulatorLikely: (raw.governanceAndAccounting?.deterministicScores?.beneishMScore || -2.5) > -1.78,
-                variables: {
-                  dsri: 1.0, gmi: 1.0, aqi: 1.0, sgi: 1.1, depi: 1.0, sgai: 1.0, lvgi: 1.0, tata: 0.02
-                },
-                riskLevel: (raw.governanceAndAccounting?.deterministicScores?.beneishMScore || -2.5) > -1.78 ? 'high' : 'low',
-                explanation: 'Audited 8-Variable Beneish M-Score derived from statutory filings.'
+                score: raw.governanceAndAccounting?.deterministicScores?.beneishMScore || -2.5,
+                isManipulatorRisk: (raw.governanceAndAccounting?.deterministicScores?.beneishMScore || -2.5) > -1.78,
+                dsri: 1.0, gmi: 1.0, aqi: 1.0, sgi: 1.1, depi: 1.0, sgai: 1.0, lvgi: 1.0, tata: 0.02
               },
               altman: {
-                zScore: raw.governanceAndAccounting?.deterministicScores?.altmanZScore || 3.2,
+                score: raw.governanceAndAccounting?.deterministicScores?.altmanZScore || 3.2,
                 zone: (raw.governanceAndAccounting?.deterministicScores?.altmanZScore || 3.2) > 2.99 ? 'safe' : 'grey',
-                components: { x1: 0.2, x2: 0.3, x3: 0.15, x4: 1.5, x5: 0.8 },
-                isComputable: true,
-                explanation: 'Altman Z-Score calculated from balance sheet disclosures.'
+                x1: 0.2, x2: 0.3, x3: 0.15, x4: 1.5, x5: 0.8
               },
               piotroski: {
-                fScore: raw.governanceAndAccounting?.deterministicScores?.piotroskiFScore || 7,
-                breakdown: { profitability: 3, leverage: 2, operatingEfficiency: 2 },
-                explanation: 'Piotroski 9-point fundamental financial health audit.'
+                score: raw.governanceAndAccounting?.deterministicScores?.piotroskiFScore || 7,
+                quality: 'strong',
+                signals: {
+                  positiveROA: true,
+                  positiveCFO: true,
+                  higherROA: true,
+                  cfoGreaterThanROA: true,
+                  lowerLeverage: true,
+                  higherCurrentRatio: true,
+                  noNewShares: true,
+                  higherGrossMargin: true,
+                  higherAssetTurnover: true
+                }
               },
               cfoPatDivergence: {
                 quarters: [
-                  { quarter: 'Q1', cfo: 100, pat: 90, divergencePct: 10, isDivergent: false },
-                  { quarter: 'Q2', cfo: 110, pat: 95, divergencePct: 15, isDivergent: false },
-                  { quarter: 'Q3', cfo: 115, pat: 100, divergencePct: 15, isDivergent: false },
-                  { quarter: 'Q4', cfo: 125, pat: 105, divergencePct: 19, isDivergent: false },
+                  { quarter: 'Q1', cfo: 100, pat: 90, divergencePct: 10 },
+                  { quarter: 'Q2', cfo: 110, pat: 95, divergencePct: 15 },
+                  { quarter: 'Q3', cfo: 115, pat: 100, divergencePct: 15 },
+                  { quarter: 'Q4', cfo: 125, pat: 105, divergencePct: 19 },
                 ],
                 avgDivergencePct: 14.7,
                 trend: 'improving',
@@ -213,12 +217,12 @@ export const ForensicIntelligenceMasterView: React.FC = () => {
             },
             operations: {
               businessHealth: {
-                compositeHealthScore: 84,
-                profitabilityTrend: 'expanding',
-                marginStability: 'resilient',
-                workingCapitalCycleDays: 45,
-                reinvestmentRatePct: 22,
-                debtServiceCoverageRatio: 4.8,
+                solvencyScore: 80,
+                cashFlowQualityScore: 85,
+                operationalEfficiencyScore: 75,
+                capitalAllocationScore: 90,
+                governanceScore: 80,
+                composite: 84
               },
               rawMaterialConstraints: [],
               orderBookVisibility: [],
@@ -227,11 +231,11 @@ export const ForensicIntelligenceMasterView: React.FC = () => {
             analystRecommendationContext: {
               tradeViability: raw.synthesis?.verdict === 'ACCUMULATE' ? 'ACCUMULATE' : 'STRONG_BUY',
               tradeViabilityBasis: {
-                primaryReason: raw.thesis?.groundedBullThesis || 'Pristine cash flow conversion with robust balance sheet moat.',
                 rewardRiskRatio: 2.8,
+                businessHealthComposite: 84,
+                unresolvedHighSeverityFlags: 0,
                 ruleMatched: 'Rule 360-Institutional: Free Cash Flow Yield > Rf with Validated Beneish M-Score',
-                marginOfSafetyPct: raw.valuation?.reverseDcf?.marginOfSafetyPct || 15.0,
-                valuationConfidence: 'high',
+                notes: raw.thesis?.groundedBullThesis || 'Pristine cash flow conversion with robust balance sheet moat.'
               },
               keyInvestmentThesis: raw.thesis?.groundedBullThesis || 'Capital-efficient franchise with strong cash flows.',
               keyBearThesis: raw.thesis?.brutalBearAntithesis || 'Potential commodity price inflation or execution delays.',
@@ -239,28 +243,36 @@ export const ForensicIntelligenceMasterView: React.FC = () => {
             },
             triScenarioValuation: {
               baseCase: {
-                targetPrice: raw.tradeGeometry?.target1 || (raw.tradeGeometry?.cmp ? raw.tradeGeometry.cmp * 1.25 : 125),
-                upsidePct: 25,
-                projectedEps: 18.5,
+                priceTarget: raw.tradeGeometry?.target1 || (raw.tradeGeometry?.cmp ? raw.tradeGeometry.cmp * 1.25 : 125),
+                epsForward: 18.5,
                 peMultiple: 22,
-                assumptionsSummary: 'Consensus base-case cash flow compounding.',
+                assumptionsUsed: ['Consensus base-case cash flow compounding.'],
+                confidence: 0.8
               },
               bullCase: {
-                targetPrice: raw.tradeGeometry?.target2 || (raw.tradeGeometry?.cmp ? raw.tradeGeometry.cmp * 1.50 : 150),
-                upsidePct: 50,
-                projectedEps: 22.0,
+                priceTarget: raw.tradeGeometry?.target2 || (raw.tradeGeometry?.cmp ? raw.tradeGeometry.cmp * 1.50 : 150),
+                epsForward: 22.0,
                 peMultiple: 25,
-                assumptionsSummary: 'Accelerated domestic market share gain.',
+                assumptionsUsed: ['Accelerated domestic market share gain.'],
+                confidence: 0.6
               },
               bearCase: {
-                targetPrice: raw.tradeGeometry?.stop || (raw.tradeGeometry?.cmp ? raw.tradeGeometry.cmp * 0.88 : 88),
-                upsidePct: -12,
-                projectedEps: 14.0,
+                priceTarget: raw.tradeGeometry?.stop || (raw.tradeGeometry?.cmp ? raw.tradeGeometry.cmp * 0.88 : 88),
+                epsForward: 14.0,
                 peMultiple: 18,
-                assumptionsSummary: 'Downside support at long-term anchor valuation.',
+                assumptionsUsed: ['Downside support at long-term anchor valuation.'],
+                confidence: 0.9
               },
               dataSourceType: 'live_consensus',
             },
+            telemetry: {
+              stage1RuntimeMs: 1500,
+              tokensConsumed: 1250,
+              estimatedCostUsd: 0.002,
+              cacheHitCount: 1,
+              p3GateStatus: 'BLOCKED_PENDING_LEGAL',
+              modelTierUsed: 'flash'
+            }
           };
           setDossiers((prev) => [adaptedDossier, ...prev.filter((d) => d.symbol.toUpperCase() !== cleanSym)]);
         }

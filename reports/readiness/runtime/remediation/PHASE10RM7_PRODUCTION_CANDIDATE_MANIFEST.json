@@ -1,0 +1,28 @@
+{
+  "status": "PRODUCTION_CANDIDATE",
+  "timestamp": "2026-09-21T11:20:00.000Z",
+  "baseline_db_sha": "c29455f633eaa9bb0c88be2df97c0898350c529a7de736b3dbcc6280474c018e",
+  "final_db_sha": "c29455f633eaa9bb0c88be2df97c0898350c529a7de736b3dbcc6280474c018e",
+  "daily_ohlcv": 4153849,
+  "certified": false,
+  "production_writes": 0,
+  "security_fix": "PASS",
+  "data_fix": "PASS",
+  "cache_cleanup": "PASS",
+  "defects_found": 2,
+  "fixes_applied": 2,
+  "remaining_defects": 0,
+  "critical_workflow": "PASS",
+  "regression": "PASS",
+  "edge_tests": "PASS",
+  "safety_gate": "PASS",
+  "remaining_known_data_gaps": {
+    "historical_unresolved": 7009,
+    "downloader_retries": 1634,
+    "no_data": 5375,
+    "ohlc_no_evidence": 109,
+    "source_conflict": 12,
+    "alpsindus_unresolved": 4
+  },
+  "production_candidate": "YES"
+}

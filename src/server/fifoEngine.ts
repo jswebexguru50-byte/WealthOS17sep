@@ -1107,7 +1107,7 @@ export async function runFIFO(db: sqlite3.Database): Promise<any> {
         const oneDayMs = 24 * 60 * 60 * 1000;
         lu = (existingLuMs > 0 && (Date.now() - existingLuMs) < oneDayMs)
           ? existing.last_update
-          : new Date().toISOString().replace('T', ' ').slice(0, 19);
+          : null;
       }
 
       // 2. Fallback 1: Check HistoricalPrices table (latest recorded close price)
@@ -1129,7 +1129,7 @@ export async function runFIFO(db: sqlite3.Database): Promise<any> {
                                 (h.symbol || '').toUpperCase().includes('UNLISTED') ||
                                 (h.isin || '').toUpperCase().startsWith('CUSTOM_');
           ds = isUnlistedAsset ? 'Unlisted Valuation' : 'MasterTickers Fallback';
-          lu = tickerRow.manual_ltp_date || new Date().toISOString();
+          lu = tickerRow.manual_ltp_date || null;
         }
       }
 
@@ -1137,7 +1137,7 @@ export async function runFIFO(db: sqlite3.Database): Promise<any> {
       if (ltp <= 0 && h.ground_truth_ltp > 0) {
         ltp = h.ground_truth_ltp;
         ds = 'CAMS PDF Summary';
-        lu = new Date().toISOString();
+        lu = null;
       }
 
       // 5. Fallback 4: Check CamsSummaryHoldings nav directly (in-memory lookup)
@@ -1146,7 +1146,7 @@ export async function runFIFO(db: sqlite3.Database): Promise<any> {
         if (summaryRow && summaryRow.nav > 0) {
           ltp = summaryRow.nav;
           ds = 'CAMS PDF Summary';
-          lu = new Date().toISOString();
+          lu = null;
         }
       }
 
@@ -1156,7 +1156,7 @@ export async function runFIFO(db: sqlite3.Database): Promise<any> {
         if (pmsRow && pmsRow.ltp > 0) {
           ltp = pmsRow.ltp;
           ds = 'PMS Official Statement Close';
-          lu = pmsRow.statement_date || new Date().toISOString().slice(0, 10);
+          lu = pmsRow.statement_date || null;
         }
       }
 
@@ -1164,7 +1164,7 @@ export async function runFIFO(db: sqlite3.Database): Promise<any> {
       if (ltp <= 0 && h.avg_buy_price > 0) {
         ltp = h.avg_buy_price;
         ds = 'Avg Buy Cost Fallback';
-        lu = new Date().toISOString();
+        lu = null;
       }
 
       if (prevClose <= 0) {

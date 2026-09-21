@@ -53,6 +53,7 @@ export interface DatasetManifest {
 
 export interface CanonicalMarketObservation {
   securityId: string;
+  instrumentKey?: string;
 
   exchange: string;
   segment: string;
@@ -70,6 +71,7 @@ export interface CanonicalMarketObservation {
   providerTimestamp: string;
   observationTimestamp: string;
   dataAcquisitionTimestamp: string;
+  dataReceivedTimestamp?: string;
 
   source: string;
   datasetId: string;

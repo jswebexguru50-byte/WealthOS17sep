@@ -1,0 +1,16 @@
+[
+  {
+    "strategyId": "S4",
+    "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "sourceFunction": "evaluateS4",
+    "parameterName": "dailyOHLCV,indexOHLCV",
+    "sourceField": "close",
+    "formula": "Relative Strength vs NIFTY 500 > 80 percentile",
+    "lookback": "63D",
+    "frequency": "DAILY",
+    "requiredHistory": "2018-01-01 to 2026-04-05",
+    "PITRequired": true,
+    "availabilityTimestampRequired": true,
+    "dependencyType": "BENCHMARK"
+  }
+]

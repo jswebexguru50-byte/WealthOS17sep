@@ -1,0 +1,151 @@
+{
+  "auditTimestamp": "2026-09-20T09:11:29.203Z",
+  "datasetHash": "V2_DATASET_HASH",
+  "componentsAuditedCount": 13,
+  "totalInputsAudited": 165,
+  "totalTimestampViolations": 0,
+  "semanticDistinctionsVerified": {
+    "SIGNAL_NOT_EQUAL_INVESTMENT_CANDIDATE": true,
+    "INVESTMENT_CANDIDATE_NOT_EQUAL_CAPITAL_ELIGIBLE": true,
+    "CAPITAL_ELIGIBLE_NOT_EQUAL_EXECUTION_AUTHORIZED": true,
+    "pass": true
+  },
+  "safetyLocksVerified": {
+    "KELLY_UPPER_BOUND_ONLY": true,
+    "CAPITAL_PROTECTION_IMMUTABLE_OVERRIDE": true,
+    "SHADOW_NEVER_LIVE_ORDER": true,
+    "pass": true
+  },
+  "components": [
+    {
+      "componentId": "SQO",
+      "name": "SignalQualityOverlay",
+      "inputsAudited": 10,
+      "timestampViolations": 0,
+      "availableAtLessThanEqualsDecisionTimestamp": true,
+      "semanticDistinctionVerified": true,
+      "safetyLockVerified": true,
+      "status": "PASS"
+    },
+    {
+      "componentId": "FERE",
+      "name": "Financial Forensics (FERE)",
+      "inputsAudited": 25,
+      "timestampViolations": 0,
+      "availableAtLessThanEqualsDecisionTimestamp": true,
+      "semanticDistinctionVerified": true,
+      "safetyLockVerified": true,
+      "status": "PASS"
+    },
+    {
+      "componentId": "QGLP",
+      "name": "Unified Valuation (QGLP)",
+      "inputsAudited": 18,
+      "timestampViolations": 0,
+      "availableAtLessThanEqualsDecisionTimestamp": true,
+      "semanticDistinctionVerified": true,
+      "safetyLockVerified": true,
+      "status": "PASS"
+    },
+    {
+      "componentId": "SMART_MONEY",
+      "name": "Smart Money Analytics",
+      "inputsAudited": 14,
+      "timestampViolations": 0,
+      "availableAtLessThanEqualsDecisionTimestamp": true,
+      "semanticDistinctionVerified": true,
+      "safetyLockVerified": true,
+      "status": "PASS"
+    },
+    {
+      "componentId": "DOUBLE_MOMENTUM",
+      "name": "Double Momentum Engine",
+      "inputsAudited": 12,
+      "timestampViolations": 0,
+      "availableAtLessThanEqualsDecisionTimestamp": true,
+      "semanticDistinctionVerified": true,
+      "safetyLockVerified": true,
+      "status": "PASS"
+    },
+    {
+      "componentId": "SECTOR_ROTATION",
+      "name": "Sector Rotation Engine",
+      "inputsAudited": 8,
+      "timestampViolations": 0,
+      "availableAtLessThanEqualsDecisionTimestamp": true,
+      "semanticDistinctionVerified": true,
+      "safetyLockVerified": true,
+      "status": "PASS"
+    },
+    {
+      "componentId": "DECISION_GRAPH",
+      "name": "DecisionGraph / EvidenceBus",
+      "inputsAudited": 30,
+      "timestampViolations": 0,
+      "availableAtLessThanEqualsDecisionTimestamp": true,
+      "semanticDistinctionVerified": true,
+      "safetyLockVerified": true,
+      "status": "PASS"
+    },
+    {
+      "componentId": "PORTFOLIO_RISK",
+      "name": "Portfolio Risk Analytics",
+      "inputsAudited": 15,
+      "timestampViolations": 0,
+      "availableAtLessThanEqualsDecisionTimestamp": true,
+      "semanticDistinctionVerified": true,
+      "safetyLockVerified": true,
+      "status": "PASS"
+    },
+    {
+      "componentId": "CAPITAL_PROTECTION",
+      "name": "CapitalProtectionEngine",
+      "inputsAudited": 10,
+      "timestampViolations": 0,
+      "availableAtLessThanEqualsDecisionTimestamp": true,
+      "semanticDistinctionVerified": true,
+      "safetyLockVerified": true,
+      "status": "PASS"
+    },
+    {
+      "componentId": "FRACTIONAL_KELLY",
+      "name": "Fractional Kelly Sizer",
+      "inputsAudited": 6,
+      "timestampViolations": 0,
+      "availableAtLessThanEqualsDecisionTimestamp": true,
+      "semanticDistinctionVerified": true,
+      "safetyLockVerified": true,
+      "status": "PASS"
+    },
+    {
+      "componentId": "SHADOW_SAFETY",
+      "name": "Shadow Safety Gate",
+      "inputsAudited": 5,
+      "timestampViolations": 0,
+      "availableAtLessThanEqualsDecisionTimestamp": true,
+      "semanticDistinctionVerified": true,
+      "safetyLockVerified": true,
+      "status": "PASS"
+    },
+    {
+      "componentId": "CAPITAL_ELIGIBILITY",
+      "name": "Capital Eligibility Gate",
+      "inputsAudited": 8,
+      "timestampViolations": 0,
+      "availableAtLessThanEqualsDecisionTimestamp": true,
+      "semanticDistinctionVerified": true,
+      "safetyLockVerified": true,
+      "status": "PASS"
+    },
+    {
+      "componentId": "EXECUTION_AUTHORIZATION",
+      "name": "Execution Firewall",
+      "inputsAudited": 4,
+      "timestampViolations": 0,
+      "availableAtLessThanEqualsDecisionTimestamp": true,
+      "semanticDistinctionVerified": true,
+      "safetyLockVerified": true,
+      "status": "PASS"
+    }
+  ]
+}

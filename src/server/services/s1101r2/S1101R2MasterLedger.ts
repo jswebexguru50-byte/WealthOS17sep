@@ -9,6 +9,8 @@ import {
   ArtifactManifestEntry,
 } from './S1101R2Types';
 
+export type { ConflictRecord };
+
 export interface FrozenControlEntry {
   path: string;
   expectedHash: string;

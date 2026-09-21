@@ -39,6 +39,8 @@ server.err
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+git_log_all.txt
+vitest-output*.txt
 .tempmediaStorage/
 .system_generated/
 0

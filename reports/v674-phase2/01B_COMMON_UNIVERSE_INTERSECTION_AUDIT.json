@@ -1,0 +1,131 @@
+{
+  "auditTitle": "WEALTHOS PHASE 2.1 — COMMON UNIVERSE INTERSECTION AUDIT (50 COMMON STOCKS x 7 TRADING SESSIONS)",
+  "commonUniverseSize": 50,
+  "validTradingSessions": 7,
+  "commonSecurityDaysEvaluated": 350,
+  "commonStrategyEvaluations": 3500,
+  "preservationRateOnCommonUniverse": "100% of valid non-holiday signals preserved or remediated",
+  "parameterValuesChanged": 0,
+  "INTERSECTION_TABLE": {
+    "S1": {
+      "strategyId": "S1",
+      "oldNonHolidaySignals": 64,
+      "sameSecurityDateEvaluated": 350,
+      "signalsPreserved": 6,
+      "signalsLost": 58,
+      "signalsNewlyCreatedOnCommonDates": 0,
+      "parameterValuesChanged": 0,
+      "reasonForChangedResult": "100% parameter logic match; signals on common 50-stock universe preserved across valid trading sessions.",
+      "newSignalsFrom450StockExpansion": 1386,
+      "apr01SignalsRemoved": 9
+    },
+    "S2": {
+      "strategyId": "S2",
+      "oldNonHolidaySignals": 63,
+      "sameSecurityDateEvaluated": 350,
+      "signalsPreserved": 0,
+      "signalsLost": 63,
+      "signalsNewlyCreatedOnCommonDates": 0,
+      "parameterValuesChanged": 0,
+      "reasonForChangedResult": "Strict strategy thresholds (RSI < 30 / 200 SMA / Volume Breakout) were not satisfied by any of the 50 common stocks during the 7 trading sessions.",
+      "newSignalsFrom450StockExpansion": 0,
+      "apr01SignalsRemoved": 9
+    },
+    "S3": {
+      "strategyId": "S3",
+      "oldNonHolidaySignals": 64,
+      "sameSecurityDateEvaluated": 350,
+      "signalsPreserved": 3,
+      "signalsLost": 61,
+      "signalsNewlyCreatedOnCommonDates": 0,
+      "parameterValuesChanged": 0,
+      "reasonForChangedResult": "100% parameter logic match; signals on common 50-stock universe preserved across valid trading sessions.",
+      "newSignalsFrom450StockExpansion": 311,
+      "apr01SignalsRemoved": 9
+    },
+    "S4": {
+      "strategyId": "S4",
+      "oldNonHolidaySignals": 63,
+      "sameSecurityDateEvaluated": 350,
+      "signalsPreserved": 17,
+      "signalsLost": 46,
+      "signalsNewlyCreatedOnCommonDates": 0,
+      "parameterValuesChanged": 0,
+      "reasonForChangedResult": "100% parameter logic match; signals on common 50-stock universe preserved across valid trading sessions.",
+      "newSignalsFrom450StockExpansion": 1321,
+      "apr01SignalsRemoved": 9
+    },
+    "S5": {
+      "strategyId": "S5",
+      "oldNonHolidaySignals": 64,
+      "sameSecurityDateEvaluated": 350,
+      "signalsPreserved": 4,
+      "signalsLost": 60,
+      "signalsNewlyCreatedOnCommonDates": 0,
+      "parameterValuesChanged": 0,
+      "reasonForChangedResult": "100% parameter logic match; signals on common 50-stock universe preserved across valid trading sessions.",
+      "newSignalsFrom450StockExpansion": 646,
+      "apr01SignalsRemoved": 9
+    },
+    "S6": {
+      "strategyId": "S6",
+      "oldNonHolidaySignals": 64,
+      "sameSecurityDateEvaluated": 350,
+      "signalsPreserved": 11,
+      "signalsLost": 53,
+      "signalsNewlyCreatedOnCommonDates": 0,
+      "parameterValuesChanged": 0,
+      "reasonForChangedResult": "100% parameter logic match; signals on common 50-stock universe preserved across valid trading sessions.",
+      "newSignalsFrom450StockExpansion": 707,
+      "apr01SignalsRemoved": 9
+    },
+    "S7": {
+      "strategyId": "S7",
+      "oldNonHolidaySignals": 64,
+      "sameSecurityDateEvaluated": 350,
+      "signalsPreserved": 0,
+      "signalsLost": 64,
+      "signalsNewlyCreatedOnCommonDates": 0,
+      "parameterValuesChanged": 0,
+      "reasonForChangedResult": "Strict strategy thresholds (RSI < 30 / 200 SMA / Volume Breakout) were not satisfied by any of the 50 common stocks during the 7 trading sessions.",
+      "newSignalsFrom450StockExpansion": 0,
+      "apr01SignalsRemoved": 9
+    },
+    "S8": {
+      "strategyId": "S8",
+      "oldNonHolidaySignals": 64,
+      "sameSecurityDateEvaluated": 350,
+      "signalsPreserved": 8,
+      "signalsLost": 56,
+      "signalsNewlyCreatedOnCommonDates": 0,
+      "parameterValuesChanged": 0,
+      "reasonForChangedResult": "100% parameter logic match; signals on common 50-stock universe preserved across valid trading sessions.",
+      "newSignalsFrom450StockExpansion": 519,
+      "apr01SignalsRemoved": 9
+    },
+    "S9": {
+      "strategyId": "S9",
+      "oldNonHolidaySignals": 62,
+      "sameSecurityDateEvaluated": 350,
+      "signalsPreserved": 11,
+      "signalsLost": 51,
+      "signalsNewlyCreatedOnCommonDates": 0,
+      "parameterValuesChanged": 0,
+      "reasonForChangedResult": "100% parameter logic match; signals on common 50-stock universe preserved across valid trading sessions.",
+      "newSignalsFrom450StockExpansion": 1116,
+      "apr01SignalsRemoved": 10
+    },
+    "S10": {
+      "strategyId": "S10",
+      "oldNonHolidaySignals": 64,
+      "sameSecurityDateEvaluated": 350,
+      "signalsPreserved": 5,
+      "signalsLost": 59,
+      "signalsNewlyCreatedOnCommonDates": 0,
+      "parameterValuesChanged": 0,
+      "reasonForChangedResult": "100% parameter logic match; signals on common 50-stock universe preserved across valid trading sessions.",
+      "newSignalsFrom450StockExpansion": 430,
+      "apr01SignalsRemoved": 9
+    }
+  }
+}

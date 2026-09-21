@@ -1,0 +1,82 @@
+# PHASE 10R-M.3Y — Zerodha + Upstox Dual-Provider Feasibility
+
+Generated: 2026-09-20T19:09:54.223Z
+
+## Safety
+
+- Production DB writes: **0**
+- Certification changed: **NO**
+- Reconciliation: **PASS**
+
+## Sample
+
+Selected instruments: **10**
+
+| ISIN | Target Date | Symbol |
+|---|---|---|
+| INE012A01025 | 2024-08-19 | ACC |
+| INE0ALI01010 | 2024-01-01 | ADVAIT |
+| INE14LE01019 | 2024-01-01 | ABLBL |
+| INE1B0W01010 | 2024-01-01 | ADVANCE |
+| INE28GN01010 | 2024-01-01 | ADVENTHTL |
+| INE2FMX01012 | 2024-01-01 | AASTHA |
+| INE364U01010 | 2024-08-19 | ADANIGREEN |
+| INE365O01028 | 2024-01-01 | ABANSENT |
+| INE366C01021 | 2024-01-01 | ACSTECH |
+| INE423A01024 | 2024-08-19 | ADANIENT |
+
+## Zerodha Identity Results
+
+| ISIN | Date | Status | Token | Trading Symbol |
+|---|---|---|---|---|
+| INE012A01025 | 2024-08-19 | ZERODHA_IDENTITY_EXACT | 128104964 | ACC |
+| INE0ALI01010 | 2024-01-01 | ZERODHA_IDENTITY_EXACT | 139066884 | ADVAIT |
+| INE14LE01019 | 2024-01-01 | ZERODHA_IDENTITY_EXACT | 139367172 | ABLBL |
+| INE1B0W01010 | 2024-01-01 | ZERODHA_IDENTITY_EXACT | 139407876 | ADVANCE |
+| INE28GN01010 | 2024-01-01 | ZERODHA_IDENTITY_EXACT | 139378180 | ADVENTHTL |
+| INE2FMX01012 | 2024-01-01 | ZERODHA_IDENTITY_EXACT | 139470852 | AASTHA |
+| INE364U01010 | 2024-08-19 | ZERODHA_IDENTITY_EXACT | 138611204 | ADANIGREEN |
+| INE365O01028 | 2024-01-01 | ZERODHA_IDENTITY_EXACT | 131114244 | ABANSENT |
+| INE366C01021 | 2024-01-01 | ZERODHA_IDENTITY_EXACT | 135870724 | ACSTECH |
+| INE423A01024 | 2024-08-19 | ZERODHA_IDENTITY_EXACT | 131225348 | ADANIENT |
+
+## Zerodha Historical Results
+
+| ISIN | Date | Status | HTTP | Candles | Exact Date |
+|---|---|---|---:|---:|---|
+| INE012A01025 | 2024-08-19 | ZERODHA_API_ERROR | 403 | 0 | NO |
+| INE0ALI01010 | 2024-01-01 | ZERODHA_API_ERROR | 403 | 0 | NO |
+| INE14LE01019 | 2024-01-01 | ZERODHA_API_ERROR | 403 | 0 | NO |
+| INE1B0W01010 | 2024-01-01 | ZERODHA_API_ERROR | 403 | 0 | NO |
+| INE28GN01010 | 2024-01-01 | ZERODHA_API_ERROR | 403 | 0 | NO |
+| INE2FMX01012 | 2024-01-01 | ZERODHA_API_ERROR | 403 | 0 | NO |
+| INE364U01010 | 2024-08-19 | ZERODHA_API_ERROR | 403 | 0 | NO |
+| INE365O01028 | 2024-01-01 | ZERODHA_API_ERROR | 403 | 0 | NO |
+| INE366C01021 | 2024-01-01 | ZERODHA_API_ERROR | 403 | 0 | NO |
+| INE423A01024 | 2024-08-19 | ZERODHA_API_ERROR | 403 | 0 | NO |
+
+## Range Probe
+
+| ISIN | From | To | Returned | Classification |
+|---|---|---|---:|---|
+| INE012A01025 | 2024-07-20 | 2024-09-18 | 0 | RANGE_REJECTED |
+| INE0ALI01010 | 2023-12-02 | 2024-01-31 | 0 | RANGE_REJECTED |
+| INE14LE01019 | 2023-12-02 | 2024-01-31 | 0 | RANGE_REJECTED |
+
+## Reconciliation
+
+- Selected population: 10
+- Identity population: 10
+- Historical population: 10
+- Final population: 10
+- Unexplained drops: 0
+- PASS: YES
+
+## Classification Counts
+
+- ZERODHA_API_ERROR: 10
+- UPSTOX_ONLY: 5
+
+## Decision Boundary
+
+This artifact is feasibility evidence only. It does not authorize production historical recovery, database mutation, mapping promotion, or certification.

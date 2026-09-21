@@ -1,6 +1,10 @@
 {
   "status": "COMPLETED",
-  "deltasRequested": 538,
-  "deltasAcquired": 538,
-  "deltasBlocked": 0
+  "deltasRequested": 1766,
+  "statistics": {
+    "rows_from_upstox": 4784,
+    "rows_from_yahoo_fallback": 0,
+    "rows_failed_both": 227667,
+    "rows_quarantined": 0
+  }
 }

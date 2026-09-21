@@ -7,7 +7,7 @@ export interface HypothesisRationale {
   expectedObservableEffect: string;
   failureMechanism: string;
   dataRequired: string[];
-  knownLimitations: string[];
+  knownLimitations: string | string[];
   predeclaredParameters: Record<string, unknown>;
 }
 

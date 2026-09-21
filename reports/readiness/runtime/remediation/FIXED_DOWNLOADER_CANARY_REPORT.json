@@ -1,0 +1,47 @@
+[
+  {
+    "date": "2024-07-08",
+    "url": "https://www.bseindia.com/download/BhavCopy/Equity/BhavCopy_BSE_CM_0_0_0_20240708_F_0000.CSV",
+    "http_status": 200,
+    "content_type": "application/octet-stream",
+    "validation": "PASS",
+    "payload_type": "UNIFIED",
+    "extracted_rows": 4517
+  },
+  {
+    "date": "2024-07-09",
+    "url": "https://www.bseindia.com/download/BhavCopy/Equity/BhavCopy_BSE_CM_0_0_0_20240709_F_0000.CSV",
+    "http_status": 200,
+    "content_type": "application/octet-stream",
+    "validation": "PASS",
+    "payload_type": "UNIFIED",
+    "extracted_rows": 4377
+  },
+  {
+    "date": "2024-07-10",
+    "url": "https://www.bseindia.com/download/BhavCopy/Equity/BhavCopy_BSE_CM_0_0_0_20240710_F_0000.CSV",
+    "http_status": 200,
+    "content_type": "application/octet-stream",
+    "validation": "PASS",
+    "payload_type": "UNIFIED",
+    "extracted_rows": 4335
+  },
+  {
+    "date": "2024-06-25",
+    "url": "https://www.bseindia.com/download/BhavCopy/Equity/EQ250624_CSV.ZIP",
+    "http_status": 200,
+    "content_type": "application/x-zip-compressed",
+    "validation": "PASS",
+    "payload_type": "LEGACY",
+    "extracted_rows": 4328
+  },
+  {
+    "date": "2023-12-01",
+    "url": "https://www.bseindia.com/download/BhavCopy/Equity/EQ011223_CSV.ZIP",
+    "http_status": 200,
+    "content_type": "application/x-zip-compressed",
+    "validation": "PASS",
+    "payload_type": "LEGACY",
+    "extracted_rows": 4209
+  }
+]

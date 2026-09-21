@@ -1,0 +1,16 @@
+[
+  {
+    "strategyId": "S6",
+    "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "sourceFunction": "evaluateS6",
+    "parameterName": "dailyOHLCV,indexOHLCV",
+    "sourceField": "close,volume",
+    "formula": "Dual Momentum (Absolute + Relative 12-month ROC)",
+    "lookback": "252D",
+    "frequency": "DAILY",
+    "requiredHistory": "2018-01-01 to 2026-04-05",
+    "PITRequired": true,
+    "availabilityTimestampRequired": true,
+    "dependencyType": "BENCHMARK"
+  }
+]

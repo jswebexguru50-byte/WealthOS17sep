@@ -1,0 +1,14 @@
+{
+  "duplicates": [
+    {
+      "type": "Stock Analysis",
+      "components": ["ScripIntelligencePortal", "StockDossierView", "StockIntelligenceView", "MasterQuantDossier11TabsView"],
+      "recommendation": "Consolidate into StockIntelligenceView"
+    },
+    {
+      "type": "Screeners",
+      "components": ["MultibaggerScreenerView", "OpportunityEngineMasterView", "SunriseIndustrialUniverseView"],
+      "recommendation": "Consolidate into DISCOVER"
+    }
+  ]
+}

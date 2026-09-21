@@ -1,0 +1,75 @@
+{
+  "timestamp": "2026-09-21T06:10:33.157Z",
+  "exec_id": "BACKUP_1789971033158",
+  "BACKUP_GATE": "PASS",
+  "source_db": "portfolio.db",
+  "source_sha256": "f8770cc3718c719bf6a6c458488c3bb6c215674ed48c17d8624f6bbd0fc0cd10",
+  "source_size": 13510496256,
+  "source_mtime": "2026-09-20T17:29:21.564Z",
+  "source_integrity": "ok",
+  "source_row_count": 4135605,
+  "backup_path": "reports\\readiness\\runtime\\m6\\artifacts\\portfolio_prepromotion_M6_1789969409800.db",
+  "backup_sha256": "f8770cc3718c719bf6a6c458488c3bb6c215674ed48c17d8624f6bbd0fc0cd10",
+  "backup_size": 13510496256,
+  "backup_integrity": "ok",
+  "backup_row_count": 4135605,
+  "sha_match": true,
+  "production_db_writes": 0,
+  "certification_changed": false,
+  "steps": [
+    {
+      "name": "source_db_exists",
+      "result": "PASS",
+      "detail": "12884.6 MB, mtime 2026-09-20T17:29:21.564Z",
+      "data": null
+    },
+    {
+      "name": "source_integrity",
+      "result": "PASS",
+      "detail": "SQLite integrity: ok",
+      "data": null
+    },
+    {
+      "name": "source_row_count",
+      "result": "PASS",
+      "detail": "DailyOHLCV rows: 4135605 (expected 4135605)",
+      "data": {
+        "actual": 4135605,
+        "expected": 4135605
+      }
+    },
+    {
+      "name": "source_sha256",
+      "result": "PASS",
+      "detail": "f8770cc3718c719bf6a6c458488c3bb6c215674ed48c17d8624f6bbd0fc0cd10",
+      "data": null
+    },
+    {
+      "name": "backup_created",
+      "result": "PASS",
+      "detail": "Reusing existing backup: portfolio_prepromotion_M6_1789969409800.db (SHA verified = source SHA)",
+      "data": null
+    },
+    {
+      "name": "backup_sha256_matches_source",
+      "result": "PASS",
+      "detail": "✓ f8770cc3718c719bf6a6c458488c3bb6c215674ed48c17d8624f6bbd0fc0cd10",
+      "data": null
+    },
+    {
+      "name": "backup_integrity",
+      "result": "PASS",
+      "detail": "Backup integrity: ok",
+      "data": null
+    },
+    {
+      "name": "backup_row_count",
+      "result": "PASS",
+      "detail": "Backup DailyOHLCV rows: 4135605",
+      "data": {
+        "actual": 4135605,
+        "expected": 4135605
+      }
+    }
+  ]
+}

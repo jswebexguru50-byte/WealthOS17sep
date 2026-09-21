@@ -2,121 +2,107 @@ const { parentPort } = require('worker_threads');
 const fs = require('fs');
 const path = require('path');
 const Database = require('better-sqlite3');
+const crypto = require('crypto');
 
 const ROOT = path.resolve(__dirname, '../../../');
 const REPORTS_DIR = path.join(ROOT, 'reports/market-data');
+const DB_PATH = path.join(ROOT, 'portfolio.db');
 
 function reportProgress(msg, progress = null) {
   if (parentPort) parentPort.postMessage({ type: 'progress', phase: 'Phase 7', message: msg, progress });
+  console.log(`[Phase 7] ${msg}`);
+}
+
+const NSE_CALENDAR_MAP = {
+  '2024-01-22': true, '2024-01-26': true, '2024-03-08': true, '2024-03-25': true,
+  '2024-03-29': true, '2024-04-11': true, '2024-04-17': true, '2024-05-01': true,
+  '2024-05-20': true, '2024-06-17': true, '2024-07-17': true, '2024-08-15': true,
+  '2024-10-02': true, '2024-11-15': true, '2024-11-20': true, '2024-12-25': true
+};
+
+function getTradingSessions(startStr, endStr) {
+  const dates = [];
+  const start = new Date(startStr); const end = new Date(endStr);
+  while (start <= end) {
+    const dStr = start.toISOString().split('T')[0];
+    if (start.getUTCDay() >= 1 && start.getUTCDay() <= 5 && !NSE_CALENDAR_MAP[dStr]) {
+      dates.push(dStr);
+    }
+    start.setDate(start.getDate() + 1);
+  }
+  return dates;
+}
+
+function getHash(data) {
+  return crypto.createHash('sha256').update(JSON.stringify(data)).digest('hex');
 }
 
 function run() {
-  reportProgress('Initializing Phase 7: Exact Delta Queue Generation...', 0);
+  reportProgress('Initializing Phase 7: Full-Universe Delta Calculation...', 0);
   
-  const dbPath = path.join(ROOT, 'portfolio.db');
-  const calendarPath = path.join(REPORTS_DIR, 'EMPIRICAL_CALENDAR.json');
+  const db = new Database(DB_PATH, { readonly: true });
   
-  let db;
-  let empiricalDates = [];
+  // FULL UNIVERSE!
+  const symbols = db.prepare("SELECT symbol FROM MasterTickers WHERE status = 'ACTIVE'").all().map(r => r.symbol);
   
-  try {
-    if (fs.existsSync(calendarPath)) {
-      empiricalDates = JSON.parse(fs.readFileSync(calendarPath, 'utf8'));
+  const queue = [];
+  let actionableDelta = 0;
+  const startTarget = '2024-01-01';
+  const endTarget = '2024-08-31';
+  const targetSessions = getTradingSessions(startTarget, endTarget);
+  
+  for (const sym of symbols) {
+    const m = db.prepare('SELECT upstox_key_nse, isin, exchange, listing_date FROM MasterTickers WHERE symbol = ?').get(sym);
+    const existing = db.prepare('SELECT trade_date FROM DailyOHLCV WHERE symbol = ? AND trade_date >= ? AND trade_date <= ?').all(sym, startTarget, endTarget).map(r => r.trade_date);
+    const existingSet = new Set(existing);
+    
+    let missing = [];
+    for (const d of targetSessions) {
+      if (m && m.listing_date && d < m.listing_date) continue; // skip pre-listing days
+      if (!existingSet.has(d)) missing.push(d);
     }
-  } catch(e) {}
-
-  if (empiricalDates.length === 0) {
-    reportProgress('Failed: No empirical calendar found.', 100);
-    if (parentPort) parentPort.postMessage({ type: 'done', phase: 'Phase 7' });
-    return;
+    
+    if (missing.length > 0) {
+      const m = db.prepare('SELECT upstox_key_nse, isin, exchange FROM MasterTickers WHERE symbol = ?').get(sym);
+      queue.push({
+        deltaQueueId: crypto.randomUUID(),
+        symbol: sym,
+        exchange: m ? m.exchange : 'NSE',
+        isin: m ? m.isin : null,
+        instrumentKey: m ? m.upstox_key_nse : null,
+        from: missing[0],
+        to: missing[missing.length - 1],
+        missingSessions: missing.length,
+        missingDates: missing,
+        reason: "MISSING_SESSIONS",
+        requiredFields: ["open", "high", "low", "close", "volume"],
+        approvedPrimarySource: "UPSTOX",
+        fallbackSource: "YAHOO_FINANCE",
+        priority: "HIGH"
+      });
+      actionableDelta += missing.length;
+    }
   }
 
-  const deltaQueue = [];
-  let totalMissing = 0;
-  
-  try {
-    db = new Database(dbPath, { readonly: true });
-    
-    reportProgress('Querying existing symbol boundaries...', 20);
-    // Get min and max dates per symbol
-    const boundaries = db.prepare(`SELECT symbol, MIN(trade_date) as min_date, MAX(trade_date) as max_date, COUNT(*) as existing_count FROM DailyOHLCV GROUP BY symbol`).all();
-    
-    reportProgress('Building coverage matrix and detecting gaps...', 40);
-    // In a real execution, we'd check every date for every symbol. 
-    // To do this performantly in Node/SQLite, we find expected vs actual counts.
-    // Note: this finds macroscopic gaps, and if expected != existing, we would then find exact missing dates.
-    
-    // As a representative implementation, we'll extract missing dates for a subset (e.g. pilot symbols) 
-    // and provide aggregate counts for others to respect memory bounds during execution, while writing
-    // the EXACT delta objects to the JSON file.
-    
-    // We'll limit exact gap detection to the first 50 symbols to prove the mechanism works deterministically
-    // without locking up the Node thread for 20 minutes.
-    const symbolsToDeepCheck = boundaries.slice(0, 50);
-    
-    for (let i = 0; i < symbolsToDeepCheck.length; i++) {
-      const b = symbolsToDeepCheck[i];
-      const startIndex = empiricalDates.indexOf(b.min_date);
-      const endIndex = empiricalDates.indexOf(b.max_date);
-      
-      if (startIndex !== -1 && endIndex !== -1) {
-        const expectedDates = empiricalDates.slice(startIndex, endIndex + 1);
-        const expectedCount = expectedDates.length;
-        
-        if (expectedCount > b.existing_count) {
-          // Identify EXACT missing dates
-          const existing = db.prepare(`SELECT trade_date FROM DailyOHLCV WHERE symbol = ?`).all(b.symbol).map(r => r.trade_date);
-          const existingSet = new Set(existing);
-          
-          for (const date of expectedDates) {
-            if (!existingSet.has(date)) {
-              deltaQueue.push({
-                symbol: b.symbol,
-                exchange: "NSE",
-                from: date,
-                to: date,
-                missingSessions: 1,
-                reason: "MISSING",
-                requiredFields: ["open", "high", "low", "close", "volume"],
-                approvedSource: "YAHOO_FINANCE_PROGRAMMATIC",
-                sourceAuthorizationEvidence: "CFG_API_ENTITLEMENT_FALLBACK",
-                priority: "HIGH",
-                estimatedRows: 1
-              });
-              totalMissing++;
-            }
-          }
-        }
-      }
-      
-      if (i % 10 === 0) {
-        reportProgress(`Processed gaps for ${i}/${symbolsToDeepCheck.length} symbols...`, 40 + (i / symbolsToDeepCheck.length) * 50);
-      }
-    }
-
-  } catch(e) {
-    reportProgress('Delta generation failed: ' + e.message);
-  }
-
-  reportProgress('Generating EXACT_DELTA_QUEUE.json...', 95);
-  
-  // Aggregate stats
-  const uniqueSymbols = new Set(deltaQueue.map(d => d.symbol)).size;
-  
   const manifest = {
-    auditMode: "REAL",
-    deltaQueueDeterministic: true,
-    total_missing_rows_detected: totalMissing,
-    symbols_affected: uniqueSymbols,
-    queue_sample: deltaQueue.slice(0, 100) // saving only first 100 for JSON viewability, normally save all
+    population_count: symbols.length,
+    population_hash: crypto.createHash('sha256').update(JSON.stringify(symbols)).digest('hex'),
+    expected_sessions: targetSessions.length * symbols.length,
+    actionable_delta: actionableDelta,
+    calculation_version: "1.0.0",
+    deltasGenerated: queue.length
   };
-  
-  fs.writeFileSync(path.join(REPORTS_DIR, 'STOCK_COVERAGE_MATRIX.json'), JSON.stringify(manifest, null, 2));
-  fs.writeFileSync(path.join(REPORTS_DIR, 'DELTA_ACQUISITION_QUEUE.json'), JSON.stringify(deltaQueue, null, 2));
 
-  if (db) db.close();
+  fs.writeFileSync(path.join(REPORTS_DIR, 'DELTA_ACQUISITION_QUEUE.json'), JSON.stringify(queue, null, 2));
+  fs.writeFileSync(path.join(REPORTS_DIR, 'PHASE7_FULL_UNIVERSE_COVERAGE.json'), JSON.stringify(manifest, null, 2));
+  fs.writeFileSync(path.join(REPORTS_DIR, 'PRODUCTION_UNIVERSE_MANIFEST.json'), JSON.stringify({
+    populationSize: symbols.length,
+    status: "COMPLETED",
+    timestamp: new Date().toISOString()
+  }, null, 2));
+  
+  db.close();
   reportProgress('Phase 7 Complete.', 100);
-  if (parentPort) parentPort.postMessage({ type: 'done', phase: 'Phase 7' });
 }
 
 run();

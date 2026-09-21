@@ -1,0 +1,12 @@
+{
+  "total_master_ticker_records": 3654,
+  "listed_market_records": 3552,
+  "mutual_fund_records": 53,
+  "aif_records": 8,
+  "private_unlisted_records": 0,
+  "tracking_only_records": 21,
+  "foreign_listed_records": 20,
+  "unknown_records": 0,
+  "excluded_from_recovery": 102,
+  "eligible_for_recovery": 3552
+}

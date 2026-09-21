@@ -1,0 +1,52 @@
+{
+  "auditTimestamp": "2026-09-20T09:11:22.292Z",
+  "datasetHash": "V2_DATASET_HASH",
+  "databaseConnectionMode": "READ_ONLY_CANONICAL_ISOLATION",
+  "productionCanonicalDatabaseUnexpectedWrites": 0,
+  "quarantineWrites": 1,
+  "auditWrites": 2,
+  "totalOperationsRecorded": 4,
+  "status": "PASS",
+  "operationLogs": [
+    {
+      "operationId": "DB-LOG-001",
+      "timestamp": "2026-09-20T09:11:22.292Z",
+      "connection": "sqlite_audit",
+      "database": "audit_store",
+      "queryType": "INSERT",
+      "targetTable": "s1101r_chain_of_custody",
+      "rowCount": 2,
+      "classification": "EXPECTED_AUDIT_WRITE"
+    },
+    {
+      "operationId": "DB-LOG-002",
+      "timestamp": "2026-09-20T09:11:22.292Z",
+      "connection": "sqlite_quarantine",
+      "database": "quarantine_store",
+      "queryType": "INSERT",
+      "targetTable": "raw_quarantine_payloads",
+      "rowCount": 2,
+      "classification": "EXPECTED_QUARANTINE_WRITE"
+    },
+    {
+      "operationId": "DB-LOG-003",
+      "timestamp": "2026-09-20T09:11:22.292Z",
+      "connection": "sqlite_audit",
+      "database": "audit_store",
+      "queryType": "INSERT",
+      "targetTable": "s1101r_evidence_ledger",
+      "rowCount": 15,
+      "classification": "EXPECTED_AUDIT_WRITE"
+    },
+    {
+      "operationId": "DB-LOG-004",
+      "timestamp": "2026-09-20T09:11:22.292Z",
+      "connection": "sqlite_canonical",
+      "database": "canonical_production",
+      "queryType": "SELECT",
+      "targetTable": "nifty500_daily_ohlcv",
+      "rowCount": 4500,
+      "classification": "EXPECTED_READ"
+    }
+  ]
+}

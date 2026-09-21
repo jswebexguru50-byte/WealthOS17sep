@@ -1,0 +1,81 @@
+{
+  "phase": "10R-M.3.8",
+  "timestamp": "2026-09-20T19:52:43.815Z",
+  "input_artifact_hashes": {
+    "POPULATION": {
+      "path": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\reports\\market-data\\BSE_EQ_POPULATION_MAPPING_STAGING.json",
+      "sha256": "85974939437db200cd1b559f5a53ff44a52f5144a9e39709e587a5564cbe3dfd",
+      "size": 187682
+    },
+    "REQUEST_MANIFEST": {
+      "path": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\reports\\market-data\\BSE_EQ_OPTIMIZED_STAGING.json",
+      "sha256": "79c1c60f97463c92d7ec3c0f7e3c9b6249a53604b6684cda331c3af8cf00af4c",
+      "size": 1754171
+    },
+    "REC_CANDLES": {
+      "path": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\reports\\market-data\\RECOVERED_CANDLES.jsonl",
+      "sha256": "826ea67786efb0676b2788c2599470160f29fbd779e1a7283c5e9f3cb61a2a27",
+      "size": 2948445
+    },
+    "ENRICHED_CANDLES": {
+      "path": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\reports\\market-data\\RECOVERED_CANDLES_PROVENANCE_ENRICHED.jsonl",
+      "sha256": "9dd387a2635da23d7aa64f28f6973d15964261b94dda7b11f897c8f77f55bb32",
+      "size": 10921073
+    },
+    "VAL_REPORT": {
+      "path": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\reports\\market-data\\PHASE10RM3_4_RECOVERED_CANDLES_VALIDATION.json",
+      "sha256": "37b663620a0b22acfbdd893095974124d39ccd67d78b6e62f536415309652363",
+      "size": 12252
+    },
+    "PROV_REPORT": {
+      "path": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\reports\\market-data\\PHASE10RM3_5_PROVENANCE_ENRICHMENT.json",
+      "sha256": "4a973a6915cb2ac44e2d9d83f7a5df1d3cc965261700af750f432a72c63524a1",
+      "size": 1723
+    },
+    "RECON_REPORT": {
+      "path": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\reports\\market-data\\PHASE10RM3_6_RECOVERY_EVIDENCE_MANIFEST.json",
+      "sha256": "f48caca0bf08f95abff8f612e445003e5da93b085189648334cb71a68af70de2",
+      "size": 2033
+    },
+    "DRY_RUN_REPORT": {
+      "path": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\reports\\market-data\\PHASE10RM3_7_PRODUCTION_PROMOTION_DRY_RUN.json",
+      "sha256": "9170c5084b02d4d32392461e52e40065980f2552e6265b725ae594ace7dfb941",
+      "size": 3839
+    },
+    "PROPOSED_INSERTS": {
+      "path": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\reports\\market-data\\PHASE10RM3_7_PROPOSED_INSERTS.jsonl",
+      "sha256": "be98c71c876df908399d0be52b37df14449e26357f4156dc658c592e97f5cf05",
+      "size": 8640573
+    }
+  },
+  "authoritative_bse_population_count": 544,
+  "unique_bse_identity_count": 544,
+  "required_date_count": 73769,
+  "existing_production_coverage": 0,
+  "recovered_coverage": 18244,
+  "combined_coverage": 18244,
+  "missing_date_count": 55525,
+  "recovery_session_counts": {
+    "requested": 535,
+    "successful": 477,
+    "failed": 58
+  },
+  "reconciliation_544": "PASS",
+  "reconciliation_535_session": "PASS",
+  "reconciliation_9_candidate": "PASS",
+  "reconciliation_18244_candle": "PASS",
+  "instrument_classification": {
+    "FULLY_RESOLVED": 56,
+    "PARTIALLY_RESOLVED": 156,
+    "UNRESOLVED": 323,
+    "NOT_YET_ACCOUNTED_FOR": 9,
+    "EXCLUDED": 0
+  },
+  "remaining_recovery_workload": {
+    "instruments": 488,
+    "dates": 55525
+  },
+  "production_db_writes": 0,
+  "certification_changed": false,
+  "blockers": []
+}

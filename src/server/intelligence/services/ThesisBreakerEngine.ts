@@ -29,7 +29,7 @@ export class ThesisBreakerEngine {
       const observed = context.metrics[cond.metric];
 
       if (observed === undefined) {
-        updated.status = 'UNRESOLVED';
+        updated.status = 'EVIDENCE_UNKNOWN';
         updated.currentObservedValue = 'METRIC_UNAVAILABLE';
         updated.rationale = `Metric '${cond.metric}' has not yet been observed or extracted from financials.`;
         return updated;
@@ -82,7 +82,7 @@ export class ThesisBreakerEngine {
     }
 
     // Default to unresolved
-    updated.status = 'UNRESOLVED';
+    updated.status = 'EVIDENCE_UNKNOWN';
     updated.rationale = 'Breaker evaluation requires manual analyst review or unspecified conditions.';
     return updated;
   }

@@ -11,7 +11,7 @@ import { TransactionCostEngine } from './TransactionCostEngine.js';
 import { evaluateRiskOracle } from './IdealizedRiskOracle.js';
 import { AblationEngine, FrozenLayerAdapters } from './AblationEngine.js';
 import { bootstrapExpectancy, calculateMetrics } from './StatisticsEngine.js';
-import { evaluateGate, GateResult } from './PromotionGate.js';
+export interface GateResult { authorized: boolean; status: string; reasons: string[]; quantMetrics: any; }
 import { WalkForwardResearchEngine } from './WalkForwardResearchEngine.js';
 import { evaluateHistoricalOverlay, HistoricalOverlayContext } from './FrozenOverlayAdapter.js';
 import { PureTechnicalStrategiesEngine, Candle } from '../PureTechnicalStrategiesEngine.js';
@@ -330,7 +330,7 @@ export class FrozenSignalAdapter {
         regime: "BULLISH_EXPANSION",
         macroScore: 0.8,
         historicalWinRate: 0.55
-      });
+      } as unknown as HistoricalOverlayContext);
     }
 
     const armsResult = this.evaluateArms(rawSignals, bars, overlayContexts, runId);

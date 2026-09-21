@@ -54,9 +54,9 @@ export class R4CandidateEngine {
     // ------------------------------------------------------------------------
     // LIFECYCLE EXPERIMENTS
     // ------------------------------------------------------------------------
-    if (exp.candidateFamily === 'LIFECYCLE' || exp.mode === 'LIFECYCLE_RULE') {
-      const policyId = exp.lifecyclePolicy || exp.parameters?.lifecyclePolicy || 'L1_EXISTING_BASELINE';
-      const lcRes = R4LifecycleEngine.evaluateLifecyclePolicy(t, policyId);
+    if (exp.candidateFamily === 'LIFECYCLE' || (exp.mode as string) === 'LIFECYCLE_RULE') {
+      const policyId = exp.parameters?.lifecyclePolicy || 'L1_EXISTING_BASELINE';
+      const lcRes = R4LifecycleEngine.evaluateLifecyclePolicy(t, policyId as string);
       return {
         isRetained: lcRes.isRetained,
         reason: lcRes.reason,
@@ -212,7 +212,7 @@ export class R4CandidateEngine {
       }
 
       case 'HF-EVENT': {
-        const evtRes = R4AuthenticFeatureProvider.getEarningsBlackout(securityId, decisionDate, exp.parameters?.blackoutDays || 5);
+        const evtRes = R4AuthenticFeatureProvider.getEarningsBlackout(securityId, decisionDate, (exp.parameters?.blackoutDays as number) || 5);
         if (evtRes.status !== 'READY' || !evtRes.value) {
           return { isRetained: false, reason: `PIT_FEATURE_UNAVAILABLE_${evtRes.status}`, provenanceHash: evtRes.provenanceHash };
         }

@@ -1,0 +1,46 @@
+{
+  "phase": "10R-M.3X",
+  "generatedAt": "2026-09-20T18:51:51.820Z",
+  "databaseMode": "READ_ONLY",
+  "productionDbWrites": 0,
+  "certificationChanged": "NO",
+  "globalDeltaRecalculated": "NO",
+  "sourcePopulation": {
+    "unresolvedSessions": 88672,
+    "validatedBSEInstruments": 544
+  },
+  "localCoverage": {
+    "exact": 0,
+    "identityEquivalent": 14903,
+    "conflicts": 0,
+    "notFound": 73769
+  },
+  "providerRecovery": {
+    "sessionsRemaining": 73769,
+    "instrumentsRemaining": 535
+  },
+  "optimization": {
+    "naiveSessionRequests": 73769,
+    "optimizedRangeRequests": 535,
+    "requestReduction": 73234,
+    "requestReductionPercent": "99.27%"
+  },
+  "calibration": {
+    "requests": 10,
+    "concurrency": 1,
+    "minDelay": 10,
+    "acquired": 0,
+    "rateLimited": 10,
+    "otherFailures": 0,
+    "averageLatency": 111,
+    "medianLatency": 71
+  },
+  "reconciliation": {
+    "totalSessions": 88672,
+    "classifiedSessions": 88672,
+    "unexplainedSessions": 0,
+    "duplicateSessions": 0,
+    "pass": true
+  },
+  "recommendation": "READY_FOR_OPTIMIZED_CONTROLLED_RECOVERY"
+}

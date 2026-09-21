@@ -1,0 +1,54 @@
+{
+  "strategyId": "S6",
+  "name": "55-Day Donchian Breakout",
+  "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+  "functionName": "evaluateS6",
+  "startLine": 2519,
+  "endLine": 2559,
+  "inputs": [
+    "Daily OHLCV"
+  ],
+  "indicators": [
+    "55-day Donchian High",
+    "20-day Donchian Low"
+  ],
+  "lookbacks": [
+    "55 Days",
+    "20 Days"
+  ],
+  "thresholds": [
+    "High >= 55-day High"
+  ],
+  "comparators": [
+    "Close >= 55-day Donchian High"
+  ],
+  "entryConditions": [
+    "New 55-day High"
+  ],
+  "exitConditions": [
+    "Close <= 20-day Donchian Low"
+  ],
+  "volumeConditions": [
+    "None"
+  ],
+  "benchmarkDependencies": [
+    "NIFTY 500 trend filter"
+  ],
+  "intradayDependencies": [],
+  "corporateActionDependencies": [
+    "Split adjusted"
+  ],
+  "pitDependencies": [
+    "Trade date <= Decision date"
+  ],
+  "missingDataBehavior": "FAIL_CLOSED",
+  "fallbackBehavior": "NO_SYNTHETIC_FALLBACK",
+  "timestampSemantics": "EOD Close Available At 16:00 IST",
+  "sourceEvidence": {
+    "file": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "startLine": 2519,
+    "endLine": 2559,
+    "symbol": "evaluateS6",
+    "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+  }
+}

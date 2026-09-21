@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-09-20T20:25:12.500Z",
+  "phase": "M5-G-PRE",
+  "portfolio_db_size": 13510496256,
+  "portfolio_db_mtime": 1789925361564.0642,
+  "master_tickers_unchanged": true,
+  "m4_queue_hash": "2470c428538f41356ca1ad31bf3f42d896a6b24c59e5125590d8a1ed2055c080",
+  "m4_checkpoint_hash": "0ad4c1bffe5e353ebdc5488023fe76122e916cd4646970d50f4450fde83b0bcc",
+  "m4_output_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "m4_audit_hash": "1edd1fcb90e9aa1de7095b94420401e5ded89538aff1bc1a23fcfcaa5ef356f7",
+  "market_data_certified": false
+}

@@ -1,0 +1,19 @@
+{
+  "filters": [
+    {
+      "name": "sector",
+      "status": "PASS",
+      "available_records": 3554
+    },
+    {
+      "name": "market_cap",
+      "status": "PASS",
+      "available_records": 3554
+    },
+    {
+      "name": "technical_rsi",
+      "status": "PASS_WITH_DATA_GAPS",
+      "available_records": 3000
+    }
+  ]
+}

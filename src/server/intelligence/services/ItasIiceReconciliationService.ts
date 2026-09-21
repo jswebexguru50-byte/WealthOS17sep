@@ -506,16 +506,7 @@ export class ItasIiceReconciliationService {
 
       openContradictions: iice.contradictions.filter(c => c.status === 'OPEN'),
       thesisBreakers: iice.evaluatedBreakers,
-      importantUnknowns: iice.unknowns,
-
-      evidenceQuality: {
-        tier: decisionState.evidenceQuality === 'HIGH' ? 'HIGH' : (decisionState.evidenceQuality === 'MEDIUM' ? 'MEDIUM' : 'LOW'),
-        directSourcesCount: iice.evidenceCount,
-        corroboratedCount: iice.walkTheTalk.achievedCount,
-        unresolvedCount: iice.unknowns.filter(u => u.state === 'UNRESOLVED').length
-      },
-
-      decisionImplicationNote: `Core Thesis: "${coreThesisStatement}". Qualitative status: ${decisionState.thesisState}. Review before trade authorization.`
+      importantUnknowns: iice.unknowns
     };
   }
 }

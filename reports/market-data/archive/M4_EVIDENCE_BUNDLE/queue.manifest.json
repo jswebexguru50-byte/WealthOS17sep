@@ -1,0 +1,10 @@
+{
+  "queue_path": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\reports\\market-data\\PHASE10RM3_9_REMAINING_COVERAGE_RECOVERY_QUEUE.jsonl",
+  "queue_sha256": "2470c428538f41356ca1ad31bf3f42d896a6b24c59e5125590d8a1ed2055c080",
+  "record_count": 47529,
+  "blocked_count": 8005,
+  "verified_at": "2026-09-20T21:06:05.916Z",
+  "schema_version": "1.0",
+  "runtime_version": "1.0.0",
+  "authoritative_source": "PHASE10RM3_9_REMAINING_COVERAGE_RECOVERY_QUEUE.jsonl"
+}

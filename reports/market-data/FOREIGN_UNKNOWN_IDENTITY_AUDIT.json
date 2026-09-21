@@ -1,0 +1,122 @@
+[
+  {
+    "symbol": "AAPL",
+    "exchange": "NASDAQ",
+    "originalProviderKey": "NSE_EQ|US0378331005",
+    "classification": "FOREIGN_LISTED"
+  },
+  {
+    "symbol": "MSFT",
+    "exchange": "NASDAQ",
+    "originalProviderKey": "NSE_EQ|US5949181045",
+    "classification": "FOREIGN_LISTED"
+  },
+  {
+    "symbol": "GOOGL",
+    "exchange": "NASDAQ",
+    "originalProviderKey": "NSE_EQ|US02079K3059",
+    "classification": "FOREIGN_LISTED"
+  },
+  {
+    "symbol": "AMZN",
+    "exchange": "NASDAQ",
+    "originalProviderKey": "NSE_EQ|US0231351067",
+    "classification": "FOREIGN_LISTED"
+  },
+  {
+    "symbol": "NVDA",
+    "exchange": "NASDAQ",
+    "originalProviderKey": "NSE_EQ|US67066G1040",
+    "classification": "FOREIGN_LISTED"
+  },
+  {
+    "symbol": "TSLA",
+    "exchange": "NASDAQ",
+    "originalProviderKey": "NSE_EQ|US88160R1014",
+    "classification": "FOREIGN_LISTED"
+  },
+  {
+    "symbol": "SPY",
+    "exchange": "NYSE",
+    "originalProviderKey": "NSE_EQ|US78462F1030",
+    "classification": "FOREIGN_LISTED"
+  },
+  {
+    "symbol": "QQQ",
+    "exchange": "NASDAQ",
+    "originalProviderKey": "NSE_EQ|US46090E1038",
+    "classification": "FOREIGN_LISTED"
+  },
+  {
+    "symbol": "VOO",
+    "exchange": "NYSE",
+    "originalProviderKey": "NSE_EQ|US9229083632",
+    "classification": "FOREIGN_LISTED"
+  },
+  {
+    "symbol": "VGT",
+    "exchange": "NYSE",
+    "originalProviderKey": "NSE_EQ|US92204A7028",
+    "classification": "FOREIGN_LISTED"
+  },
+  {
+    "symbol": "SCHG",
+    "exchange": "NYSE",
+    "originalProviderKey": "NSE_EQ|US8085243015",
+    "classification": "FOREIGN_LISTED"
+  },
+  {
+    "symbol": "MET",
+    "exchange": "NYSE",
+    "originalProviderKey": "NSE_EQ|US59156R1086",
+    "classification": "FOREIGN_LISTED"
+  },
+  {
+    "symbol": "IEFA",
+    "exchange": "US",
+    "originalProviderKey": "NSE_EQ|US46432F8427",
+    "classification": "FOREIGN_LISTED"
+  },
+  {
+    "symbol": "VTI",
+    "exchange": "US",
+    "originalProviderKey": "NSE_EQ|US9229087690",
+    "classification": "FOREIGN_LISTED"
+  },
+  {
+    "symbol": "VWO",
+    "exchange": "US",
+    "originalProviderKey": "NSE_EQ|US9220428588",
+    "classification": "FOREIGN_LISTED"
+  },
+  {
+    "symbol": "VNQ",
+    "exchange": "US",
+    "originalProviderKey": "NSE_EQ|US9229085538",
+    "classification": "FOREIGN_LISTED"
+  },
+  {
+    "symbol": "BND",
+    "exchange": "US",
+    "originalProviderKey": "NSE_EQ|US9219378356",
+    "classification": "FOREIGN_LISTED"
+  },
+  {
+    "symbol": "BNDX",
+    "exchange": "US",
+    "originalProviderKey": "NSE_EQ|US92203J4076",
+    "classification": "FOREIGN_LISTED"
+  },
+  {
+    "symbol": "USD_CASH",
+    "exchange": "US",
+    "originalProviderKey": "NSE_EQ|CASH_USD",
+    "classification": "FOREIGN_LISTED"
+  },
+  {
+    "symbol": "MANAGEMENT_FEE",
+    "exchange": "US",
+    "originalProviderKey": "NSE_EQ|FEE_USD",
+    "classification": "FOREIGN_LISTED"
+  }
+]

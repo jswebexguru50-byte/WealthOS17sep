@@ -1,0 +1,54 @@
+{
+  "strategyId": "S3",
+  "name": "50-200 Golden Cross Momentum",
+  "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+  "functionName": "evaluateS3",
+  "startLine": 1605,
+  "endLine": 1645,
+  "inputs": [
+    "Daily OHLCV"
+  ],
+  "indicators": [
+    "50-day SMA",
+    "200-day SMA"
+  ],
+  "lookbacks": [
+    "50 Days",
+    "200 Days"
+  ],
+  "thresholds": [
+    "50 SMA > 200 SMA"
+  ],
+  "comparators": [
+    "SMA50 > SMA200"
+  ],
+  "entryConditions": [
+    "Golden cross within last 5 bars"
+  ],
+  "exitConditions": [
+    "50 SMA < 200 SMA (Death Cross)"
+  ],
+  "volumeConditions": [
+    "Volume > 1.0x SMA20"
+  ],
+  "benchmarkDependencies": [
+    "NIFTY 500 market regime"
+  ],
+  "intradayDependencies": [],
+  "corporateActionDependencies": [
+    "Dividend & Split adjusted"
+  ],
+  "pitDependencies": [
+    "Trade date <= Decision date"
+  ],
+  "missingDataBehavior": "FAIL_CLOSED",
+  "fallbackBehavior": "NO_SYNTHETIC_FALLBACK",
+  "timestampSemantics": "EOD Close Available At 16:00 IST",
+  "sourceEvidence": {
+    "file": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "startLine": 1605,
+    "endLine": 1645,
+    "symbol": "evaluateS3",
+    "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+  }
+}

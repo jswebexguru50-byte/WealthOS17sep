@@ -84,7 +84,6 @@ import {
   dbGet,
   auditDBChange,
   setSwapInProgress,
-  recordValuationSnapshot
 } from './src/server/database.js';
 import { parsePMSFile, parseCCBankBookCSV, parseIIFLBankBookCSV, parsePMSTradeRegisterCSV, parseCCBankBookFromPdfText, parseCCTradeRegisterFromPdfText } from './src/server/pmsParser.js';
 import {
@@ -16897,71 +16896,76 @@ async function startServer() {
   });
 
 
-  // Asynchronously initialize database tables & WAL mode in background
-  setTimeout(async () => {
-    try {
-      await dbRun(db, 'PRAGMA journal_mode = WAL').catch(() => {});
-      await dbRun(db, 'PRAGMA synchronous = NORMAL').catch(() => {});
-      await dbRun(db, 'PRAGMA busy_timeout = 10000').catch(() => {});
-      await dbRun(db, 'PRAGMA cache_size = -64000').catch(() => {}); // 64MB page cache
-      await dbRun(db, 'PRAGMA temp_store = MEMORY').catch(() => {}); // temp tables in RAM
-      await dbRun(db, 'PRAGMA mmap_size = 268435456').catch(() => {}); // 256MB memory-mapped I/O
-      // skipIntegrityCheck=true: skip the slow PRAGMA integrity_check on every startup.
-      // The full check scans the entire DB file (minutes on 1.3 GB) and blocks all queries.
-      // Auto-recovery still runs if corruption is ever detected via quick_check.
-      await initializeDatabase(db, true).catch(console.error);
+  // ── STARTUP DB MUTATIONS GATE ─────────────────────────────────────────────
+  // All startup DB writes (PRAGMA WAL, CREATE TABLE/INDEX, seed, migrate,
+  // reconcile, initXxx) are gated behind ENABLE_STARTUP_DB_MUTATIONS=true.
+  // Normal production startup leaves this unset → fully read-only DB access.
+  // Set ENABLE_STARTUP_DB_MUTATIONS=true only for deliberate bootstrap/migration.
+  if (process.env.ENABLE_STARTUP_DB_MUTATIONS === 'true') {
+    setTimeout(async () => {
+      try {
+        console.log('[StartupMutations] ENABLE_STARTUP_DB_MUTATIONS=true — running DB init, WAL setup, seed, migrate.');
+        await dbRun(db, 'PRAGMA journal_mode = WAL').catch(() => {});
+        await dbRun(db, 'PRAGMA synchronous = NORMAL').catch(() => {});
+        await dbRun(db, 'PRAGMA busy_timeout = 10000').catch(() => {});
+        await dbRun(db, 'PRAGMA cache_size = -64000').catch(() => {}); // 64MB page cache
+        await dbRun(db, 'PRAGMA temp_store = MEMORY').catch(() => {}); // temp tables in RAM
+        await dbRun(db, 'PRAGMA mmap_size = 268435456').catch(() => {}); // 256MB memory-mapped I/O
+        // skipIntegrityCheck=true: skip the slow PRAGMA integrity_check on every startup.
+        await initializeDatabase(db, true).catch(console.error);
 
-      // ── Performance Indexes ─────────────────────────────────────────────────
-      // These are IF NOT EXISTS, so safe to run on every startup.
-      const indexes = [
-        'CREATE INDEX IF NOT EXISTS idx_txn_portfolio   ON Transactions(portfolio)',
-        'CREATE INDEX IF NOT EXISTS idx_txn_symbol      ON Transactions(symbol, portfolio)',
-        'CREATE INDEX IF NOT EXISTS idx_txn_isin        ON Transactions(isin, portfolio)',
-        'CREATE INDEX IF NOT EXISTS idx_holdings_port   ON Holdings(portfolio)',
-        'CREATE INDEX IF NOT EXISTS idx_holdings_symbol ON Holdings(symbol)',
-        'CREATE INDEX IF NOT EXISTS idx_holdings_isin   ON Holdings(isin)',
-        'CREATE INDEX IF NOT EXISTS idx_hist_symbol     ON HistoricalPrices(symbol, date)',
-        'CREATE INDEX IF NOT EXISTS idx_mt_symbol       ON MasterTickers(symbol)',
-        'CREATE INDEX IF NOT EXISTS idx_mt_isin         ON MasterTickers(isin)',
-      ];
-      for (const sql of indexes) {
-        await dbRun(db, sql).catch(() => {});
+        // ── Performance Indexes ──────────────────────────────────────────────
+        const indexes = [
+          'CREATE INDEX IF NOT EXISTS idx_txn_portfolio   ON Transactions(portfolio)',
+          'CREATE INDEX IF NOT EXISTS idx_txn_symbol      ON Transactions(symbol, portfolio)',
+          'CREATE INDEX IF NOT EXISTS idx_txn_isin        ON Transactions(isin, portfolio)',
+          'CREATE INDEX IF NOT EXISTS idx_holdings_port   ON Holdings(portfolio)',
+          'CREATE INDEX IF NOT EXISTS idx_holdings_symbol ON Holdings(symbol)',
+          'CREATE INDEX IF NOT EXISTS idx_holdings_isin   ON Holdings(isin)',
+          'CREATE INDEX IF NOT EXISTS idx_hist_symbol     ON HistoricalPrices(symbol, date)',
+          'CREATE INDEX IF NOT EXISTS idx_mt_symbol       ON MasterTickers(symbol)',
+          'CREATE INDEX IF NOT EXISTS idx_mt_isin         ON MasterTickers(isin)',
+        ];
+        for (const sql of indexes) {
+          await dbRun(db, sql).catch(() => {});
+        }
+        console.log('[StartupMutations] Database indexes ensured.');
+
+        console.log('[StartupMutations] Database initialized in High-Performance WAL Mode.');
+
+        await seedDatabase(db).catch(console.error);
+        await migratePortfolios(db).catch(console.error);
+        await reconcileCC9WithLatestStatement(db).catch(console.error);
+
+        await initializeTradingCalendar().catch(console.error);
+        await initDataFeedStatusTable().catch(console.error);
+        await initMutationDedupTable().catch(console.error);
+        await initCalibrationTables().catch(console.error);
+        await initAuditLedgerTable().catch(console.error);
+        await initConvictionTables().catch(console.error);
+        await initCorporateActionsTables().catch(console.error);
+        await initTaxHarvestingTables().catch(console.error);
+        console.log('[StartupMutations] Phase 0, 1, 2, and 7 foundational tables initialized.');
+      } catch (dbInitErr) {
+        console.error('[StartupMutations] Background DB initialization error:', dbInitErr);
       }
-      console.log('Database indexes ensured.');
-      // ───────────────────────────────────────────────────────────────────────
+    }, 10);
+  } else {
+    console.log('[StartupMutations] ENABLE_STARTUP_DB_MUTATIONS not set — skipping all startup DB writes. Production read-only mode.');
+  }
+  // ─────────────────────────────────────────────────────────────────────────
 
-      console.log('Database initialized successfully in High-Performance WAL Mode.');
-
-      await seedDatabase(db).catch(console.error);
-      await migratePortfolios(db).catch(console.error);
-      await reconcileCC9WithLatestStatement(db).catch(console.error);
-
-      await initializeTradingCalendar().catch(console.error);
-      await initDataFeedStatusTable().catch(console.error);
-      await initMutationDedupTable().catch(console.error);
-      await initCalibrationTables().catch(console.error);
-      await initAuditLedgerTable().catch(console.error);
-      await initConvictionTables().catch(console.error);
-      await initCorporateActionsTables().catch(console.error);
-      await initTaxHarvestingTables().catch(console.error);
-      console.log('Phase 0, 1, 2, and 7 foundational tables initialized.');
-
-      // Auto-cleanup any duplicate transactions in cc9 on server start
-      // DISABLED: await cleanupDuplicateTransactions(db, 'cc9').catch(console.error);
-    } catch (dbInitErr) {
-      console.error('[Server] Background DB initialization notice:', dbInitErr);
-    }
-  }, 10);
-
-  // WAL auto-checkpoint every 30 minutes (prevents WAL from growing to hundreds of MB)
-  setInterval(() => {
-    try {
-      const activeDb = getDB();
-      activeDb.run('PRAGMA wal_checkpoint(PASSIVE);', (err) => {
-        if (err) console.warn('[WAL] Checkpoint error:', err.message);
-      });
-    } catch (e) { /* DB may not be open yet, skip */ }
-  }, 30 * 60 * 1000);
+  // WAL auto-checkpoint — only when startup mutations are enabled (WAL mode active)
+  if (process.env.ENABLE_STARTUP_DB_MUTATIONS === 'true') {
+    setInterval(() => {
+      try {
+        const activeDb = getDB();
+        activeDb.run('PRAGMA wal_checkpoint(PASSIVE);', (err: any) => {
+          if (err) console.warn('[WAL] Checkpoint error:', err.message);
+        });
+      } catch (e) { /* DB may not be open yet, skip */ }
+    }, 30 * 60 * 1000);
+  }
 
   // Initialize ITAS Background Pre-Calculation Service (deferred to 120s after startup)
   setTimeout(async () => {
@@ -17011,38 +17015,42 @@ async function startServer() {
     }
   }, 150000);
 
-  // Auto-seed US holdings from Holdings table into MasterTickers with correct exchange info
-  setTimeout(async () => {
-    try {
-      const usHoldings = await dbAll(
-        db,
-        `SELECT DISTINCT H.symbol, H.isin, COALESCE(M.name, H.symbol) as name, COALESCE(M.exchange, 'NYSE') as exchange, COALESCE(M.sector, '') as sector
-         FROM Holdings H
-         LEFT JOIN MasterTickers M ON H.isin = M.isin
-         WHERE H.isin LIKE 'US%' AND H.symbol IS NOT NULL AND H.symbol != '' AND H.symbol != 'CASH' AND NOT H.symbol LIKE 'CASH%' AND NOT H.isin LIKE 'CASH%'`
-      );
-      let seeded = 0;
-      for (const h of usHoldings) {
-        const ex = h.exchange && !['NSE','BSE',''].includes(h.exchange.toUpperCase()) ? h.exchange : 'NYSE';
-        await dbRun(db, `
-          INSERT INTO MasterTickers (isin, symbol, name, exchange, sector)
-          VALUES (?, ?, ?, ?, ?)
-          ON CONFLICT(isin) DO UPDATE SET
-            symbol   = COALESCE(excluded.symbol, MasterTickers.symbol),
-            name     = CASE WHEN excluded.name != '' AND excluded.name != excluded.symbol THEN excluded.name ELSE MasterTickers.name END,
-            exchange = CASE WHEN MasterTickers.exchange IS NULL OR MasterTickers.exchange = 'NSE' OR MasterTickers.exchange = 'BSE'
-                            THEN excluded.exchange ELSE MasterTickers.exchange END,
-            sector   = CASE WHEN excluded.sector != '' THEN excluded.sector ELSE MasterTickers.sector END
-        `, [h.isin, h.symbol, h.name || h.symbol, ex, h.sector || '']);
-        seeded++;
+  // Auto-seed US holdings into MasterTickers — gated: only when startup mutations enabled
+  if (process.env.ENABLE_STARTUP_DB_MUTATIONS === 'true') {
+    setTimeout(async () => {
+      try {
+        const usHoldings = await dbAll(
+          db,
+          `SELECT DISTINCT H.symbol, H.isin, COALESCE(M.name, H.symbol) as name, COALESCE(M.exchange, 'NYSE') as exchange, COALESCE(M.sector, '') as sector
+           FROM Holdings H
+           LEFT JOIN MasterTickers M ON H.isin = M.isin
+           WHERE H.isin LIKE 'US%' AND H.symbol IS NOT NULL AND H.symbol != '' AND H.symbol != 'CASH' AND NOT H.symbol LIKE 'CASH%' AND NOT H.isin LIKE 'CASH%'`
+        );
+        let seeded = 0;
+        for (const h of usHoldings) {
+          const ex = h.exchange && !['NSE','BSE',''].includes(h.exchange.toUpperCase()) ? h.exchange : 'NYSE';
+          await dbRun(db, `
+            INSERT INTO MasterTickers (isin, symbol, name, exchange, sector)
+            VALUES (?, ?, ?, ?, ?)
+            ON CONFLICT(isin) DO UPDATE SET
+              symbol   = COALESCE(excluded.symbol, MasterTickers.symbol),
+              name     = CASE WHEN excluded.name != '' AND excluded.name != excluded.symbol THEN excluded.name ELSE MasterTickers.name END,
+              exchange = CASE WHEN MasterTickers.exchange IS NULL OR MasterTickers.exchange = 'NSE' OR MasterTickers.exchange = 'BSE'
+                              THEN excluded.exchange ELSE MasterTickers.exchange END,
+              sector   = CASE WHEN excluded.sector != '' THEN excluded.sector ELSE MasterTickers.sector END
+          `, [h.isin, h.symbol, h.name || h.symbol, ex, h.sector || '']);
+          seeded++;
+        }
+        if (seeded > 0) {
+          console.log(`[US Ticker Seed] Seeded/updated ${seeded} US tickers in MasterTickers.`);
+        }
+      } catch (err) {
+        console.error('[US Ticker Seed] Error:', err);
       }
-      if (seeded > 0) {
-        console.log(`[US Ticker Seed] Seeded/updated ${seeded} US tickers in MasterTickers.`);
-      }
-    } catch (err) {
-      console.error('[US Ticker Seed] Error:', err);
-    }
-  }, 1000);
+    }, 1000);
+  } else {
+    console.log('[US Ticker Seed] Skipped — ENABLE_STARTUP_DB_MUTATIONS not set.');
+  }
 
 
   // Trigger initial background FX rates sync asynchronously (deferred by 60s)
@@ -17051,19 +17059,23 @@ async function startServer() {
     BankAndFDService.getInstance().fetchLiveXERates().catch(console.error);
   }, 60000);
 
-  // Trigger initial baseline daily snapshot if not yet captured for today (deferred by 180s)
-  setTimeout(async () => {
-    try {
-      const todayIST = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
-      const existingSnap: any = await dbGet(db, "SELECT COUNT(*) as count FROM DailyPortfolioSnapshot WHERE date = ?", [todayIST]);
-      if (!existingSnap || existingSnap.count === 0) {
-        console.log(`[DailySnapshot] Initializing baseline daily snapshot for ${todayIST}...`);
-        await recordDailyPortfolioSnapshots(db, 'STARTUP_INIT');
+  // Daily snapshot write — gated: only when startup mutations enabled
+  if (process.env.ENABLE_STARTUP_DB_MUTATIONS === 'true') {
+    setTimeout(async () => {
+      try {
+        const todayIST = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
+        const existingSnap: any = await dbGet(db, "SELECT COUNT(*) as count FROM DailyPortfolioSnapshot WHERE date = ?", [todayIST]);
+        if (!existingSnap || existingSnap.count === 0) {
+          console.log(`[DailySnapshot] Initializing baseline daily snapshot for ${todayIST}...`);
+          await recordDailyPortfolioSnapshots(db, 'STARTUP_INIT');
+        }
+      } catch (e) {
+        console.error('[DailySnapshot] Error checking startup snapshot:', e);
       }
-    } catch (e) {
-      console.error('[DailySnapshot] Error checking startup snapshot:', e);
-    }
-  }, 180000);
+    }, 180000);
+  } else {
+    console.log('[DailySnapshot] Skipped — ENABLE_STARTUP_DB_MUTATIONS not set.');
+  }
 
   // ═══════════════════════════════════════════════════
   // 🧠 Initialize Self-Learning & Quant Engine
@@ -17072,99 +17084,94 @@ async function startServer() {
     const quantScheduler = QuantitativeBacktestScheduler.getInstance();
     await quantScheduler.initializeAllDatabases();
     console.log('[QuantEngine] All engine databases ready.');
+  } catch (err) {
+    console.error('[QuantEngine] Failed to initialize engine:', err);
+  }
 
+  if (process.env.ENABLE_BACKGROUND_SCHEDULERS === 'true') {
+    const quantScheduler = QuantitativeBacktestScheduler.getInstance();
     // Start the background hourly scheduler (deferred 10s to let server warm up)
     setTimeout(() => {
       quantScheduler.startBackgroundScheduler();
       console.log('[QuantEngine] Self-Learning Engine scheduler started.');
     }, 10000);
-  } catch (err) {
-    console.error('[QuantEngine] Failed to initialize engine:', err);
-  }
 
-  // ── Opportunity Engine Autonomous Periodic Scheduler & SQLite Persister ──
-  try {
-    OpportunityEngineScheduler.getInstance().startBackgroundScheduler();
-  } catch (oppErr) {
-    console.error('[OpportunityEngineScheduler] Failed to initialize scheduler:', oppErr);
-  }
-
-
-  // Smart Indian Market Hours Background Scheduler
-  // - Shares/Market Prices: Every 5 minutes during Indian Market Hours (Mon-Fri 09:00 - 15:35 IST), 30 mins off-hours
-  // - FDs & FX Rates: Every 30 minutes during Market Hours, 60 mins off-hours
-  // - Immutable EOD Snapshots: 15:36 IST (post market close) and 23:55 IST (midnight close)
-  let lastAutoFetchTimestamp = Date.now();
-  let lastFxSyncTimestamp = Date.now();
-  let lastEodSnapshotDate = '';
-  let lastMidnightSnapshotDate = '';
-
-  setInterval(async () => {
-    const inMarketHours = isIndianMarketHours();
-    const shareIntervalMs = inMarketHours ? 45 * 1000 : 15 * 60 * 1000;
-    const fdFxIntervalMs = inMarketHours ? 30 * 60 * 1000 : 60 * 60 * 1000;
-
-    const now = Date.now();
-    const elapsedShares = now - lastAutoFetchTimestamp;
-    const elapsedFx = now - lastFxSyncTimestamp;
-
-    // Check IST time for EOD and Midnight snapshots
-    const istNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
-    const istHour = istNow.getHours();
-    const istMinute = istNow.getMinutes();
-    const istDay = istNow.getDay();
-    const istDateStr = istNow.toLocaleDateString('en-CA'); // YYYY-MM-DD
-
-    // 1. Post-Market Close Snapshot (15:36 IST on weekdays Mon-Fri)
-    if (istHour === 15 && istMinute >= 36 && istDay >= 1 && istDay <= 5 && lastEodSnapshotDate !== istDateStr) {
-      lastEodSnapshotDate = istDateStr;
-      console.log(`[EOD Snapshot] Capturing post-market close portfolio snapshot for ${istDateStr}...`);
-      recordDailyPortfolioSnapshots(db, 'EOD_CLOSE').catch(console.error);
+    // ── Opportunity Engine Autonomous Periodic Scheduler & SQLite Persister ──
+    try {
+      OpportunityEngineScheduler.getInstance().startBackgroundScheduler();
+    } catch (oppErr) {
+      console.error('[OpportunityEngineScheduler] Failed to initialize scheduler:', oppErr);
     }
 
-    // 2. Midnight Closing Snapshot (23:55 IST every day)
-    if (istHour === 23 && istMinute >= 55 && lastMidnightSnapshotDate !== istDateStr) {
-      lastMidnightSnapshotDate = istDateStr;
-      console.log(`[Midnight Snapshot] Capturing end-of-day portfolio snapshot for ${istDateStr}...`);
-      recordDailyPortfolioSnapshots(db, 'MIDNIGHT_CLOSE').catch(console.error);
+    // Smart Indian Market Hours Background Scheduler
+    let lastAutoFetchTimestamp = Date.now();
+    let lastFxSyncTimestamp = Date.now();
+    let lastEodSnapshotDate = '';
+    let lastMidnightSnapshotDate = '';
 
-      // DB maintenance: trim old price history and checkpoint WAL (runs once per night)
-      setTimeout(async () => {
+    setInterval(async () => {
+      const inMarketHours = isIndianMarketHours();
+      const shareIntervalMs = inMarketHours ? 45 * 1000 : 15 * 60 * 1000;
+      const fdFxIntervalMs = inMarketHours ? 30 * 60 * 1000 : 60 * 60 * 1000;
+
+      const now = Date.now();
+      const elapsedShares = now - lastAutoFetchTimestamp;
+      const elapsedFx = now - lastFxSyncTimestamp;
+
+      const istNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+      const istHour = istNow.getHours();
+      const istMinute = istNow.getMinutes();
+      const istDay = istNow.getDay();
+      const istDateStr = istNow.toLocaleDateString('en-CA');
+
+      if (istHour === 15 && istMinute >= 36 && istDay >= 1 && istDay <= 5 && lastEodSnapshotDate !== istDateStr) {
+        lastEodSnapshotDate = istDateStr;
+        console.log(`[EOD Snapshot] Capturing post-market close portfolio snapshot for ${istDateStr}...`);
+        recordDailyPortfolioSnapshots(db, 'EOD_CLOSE').catch(console.error);
+      }
+
+      if (istHour === 23 && istMinute >= 55 && lastMidnightSnapshotDate !== istDateStr) {
+        lastMidnightSnapshotDate = istDateStr;
+        console.log(`[Midnight Snapshot] Capturing end-of-day portfolio snapshot for ${istDateStr}...`);
+        recordDailyPortfolioSnapshots(db, 'MIDNIGHT_CLOSE').catch(console.error);
+
+        setTimeout(async () => {
+          try {
+            await dbRun(db, `DELETE FROM HistoricalPrices WHERE date < date('now', '-5 years')`);
+            await dbRun(db, `DELETE FROM MarketSnapshots WHERE snapshot_date < date('now', '-90 days')`);
+            await dbRun(db, `DELETE FROM ValuationSnapshots WHERE timestamp < datetime('now', '-90 days')`);
+            console.log(`[DB Maintenance] Trimmed tables. Running WAL checkpoint...`);
+            await dbRun(db, `PRAGMA wal_checkpoint(FULL)`);
+          } catch (e: any) {
+            console.error('[DB Maintenance] Error during nightly trim:', e.message);
+          }
+        }, 30 * 1000);
+      }
+
+      if (elapsedShares >= shareIntervalMs) {
+        lastAutoFetchTimestamp = now;
+        console.log(`[Market Scheduler] Triggering auto-refresh`);
         try {
-          const hp = await dbRun(db, `DELETE FROM HistoricalPrices WHERE date < date('now', '-5 years')`);
-          const ms = await dbRun(db, `DELETE FROM MarketSnapshots WHERE snapshot_date < date('now', '-90 days')`);
-          const vs = await dbRun(db, `DELETE FROM ValuationSnapshots WHERE timestamp < datetime('now', '-90 days')`);
-          console.log(`[DB Maintenance] Trimmed HistoricalPrices, MarketSnapshots and ValuationSnapshots. Running WAL checkpoint...`);
-          await dbRun(db, `PRAGMA wal_checkpoint(FULL)`);
-          console.log(`[DB Maintenance] WAL checkpoint complete.`);
-        } catch (e: any) {
-          console.error('[DB Maintenance] Error during nightly trim:', e.message);
+          await autoFetchMarketData(db);
+          await persistRefreshStamp(db, 'market-prices');
+        } catch (err) {
+          console.error('[Market Scheduler] Error:', err);
         }
-      }, 30 * 1000); // 30s after midnight snapshot to avoid contention
-    }
-
-    if (elapsedShares >= shareIntervalMs) {
-      lastAutoFetchTimestamp = now;
-      const istTime = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
-      console.log(`[Market Scheduler] Triggering ${inMarketHours ? '45-sec (Market Hours)' : '15-min (Off-Hours)'} share price auto-refresh at IST: ${istTime}`);
-      try {
-        await autoFetchMarketData(db);
-        await persistRefreshStamp(db, 'market-prices');
-      } catch (err) {
-        console.error('[Market Scheduler] Error during background refresh:', err);
       }
-    }
 
-    if (elapsedFx >= fdFxIntervalMs) {
-      lastFxSyncTimestamp = now;
-      console.log(`[FX & FD Scheduler] Triggering ${inMarketHours ? '30-min (Market Hours)' : '60-min (Off-Hours)'} FX rates & FD valuation refresh...`);
-      try {
-        await BankAndFDService.getInstance().fetchLiveXERates();
-      } catch (err) {
-        console.error('[FX & FD Scheduler] Error during FX rate refresh:', err);
+      if (elapsedFx >= fdFxIntervalMs) {
+        lastFxSyncTimestamp = now;
+        console.log(`[FX & FD Scheduler] Triggering FX refresh`);
+        try {
+          await BankAndFDService.getInstance().fetchLiveXERates();
+        } catch (err) {
+          console.error('[FX & FD Scheduler] Error:', err);
+        }
       }
-    }
-  }, 10 * 1000); // Check tick every 10 seconds
+    }, 10 * 1000);
+  } else {
+    console.log('[Scheduler] Background schedulers are DISABLED by default for read-only API startup. (ENABLE_BACKGROUND_SCHEDULERS=false)');
+  }
 }
 
 startServer().catch(console.error);

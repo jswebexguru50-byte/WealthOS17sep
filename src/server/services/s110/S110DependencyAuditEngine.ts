@@ -178,7 +178,6 @@ export class S110DependencyAuditEngine {
     },
     {
       strategyId: 'S7',
-      name: 'RSI Capitulation Mean Reversion',
       strategyName: 'RSI Capitulation Mean Reversion',
       sourceFiles: ['src/server/services/PureTechnicalStrategiesEngine.ts'],
       sourceHashes: { 'PureTechnicalStrategiesEngine.ts': '825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3' },

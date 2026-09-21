@@ -1,0 +1,92 @@
+[
+  {
+    "strategyId": "S1",
+    "name": "Technical Strategy S1",
+    "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "functionName": "evaluateS1",
+    "startLine": 739,
+    "endLine": 779,
+    "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+  },
+  {
+    "strategyId": "S2",
+    "name": "Technical Strategy S2",
+    "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "functionName": "evaluateS2",
+    "startLine": 1126,
+    "endLine": 1166,
+    "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+  },
+  {
+    "strategyId": "S3",
+    "name": "Technical Strategy S3",
+    "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "functionName": "evaluateS3",
+    "startLine": 1605,
+    "endLine": 1645,
+    "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+  },
+  {
+    "strategyId": "S4",
+    "name": "Technical Strategy S4",
+    "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "functionName": "evaluateS4",
+    "startLine": 2119,
+    "endLine": 2159,
+    "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+  },
+  {
+    "strategyId": "S5",
+    "name": "Technical Strategy S5",
+    "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "functionName": "evaluateS5",
+    "startLine": 2434,
+    "endLine": 2474,
+    "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+  },
+  {
+    "strategyId": "S6",
+    "name": "Technical Strategy S6",
+    "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "functionName": "evaluateS6",
+    "startLine": 2519,
+    "endLine": 2559,
+    "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+  },
+  {
+    "strategyId": "S7",
+    "name": "Technical Strategy S7",
+    "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "functionName": "evaluateS7",
+    "startLine": 2607,
+    "endLine": 2647,
+    "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+  },
+  {
+    "strategyId": "S8",
+    "name": "Technical Strategy S8",
+    "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "functionName": "evaluateS8",
+    "startLine": 2699,
+    "endLine": 2739,
+    "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+  },
+  {
+    "strategyId": "S9",
+    "name": "Technical Strategy S9",
+    "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "functionName": "evaluateS9",
+    "startLine": 2782,
+    "endLine": 2822,
+    "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+  },
+  {
+    "strategyId": "S10",
+    "name": "Technical Strategy S10",
+    "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "functionName": "evaluateS10",
+    "startLine": 2955,
+    "endLine": 2995,
+    "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+  }
+]

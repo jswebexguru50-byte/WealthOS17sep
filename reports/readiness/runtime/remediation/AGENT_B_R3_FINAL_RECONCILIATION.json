@@ -1,0 +1,1835 @@
+{
+  "summary": {
+    "total_records": 182,
+    "CONFIRMED_CORRECTION": 61,
+    "CONFIRMED_CORRECT": 0,
+    "SOURCE_CONFLICT_MANUAL_REVIEW": 0,
+    "NO_AUTHORITATIVE_EVIDENCE": 121
+  },
+  "details": [
+    {
+      "id": 1,
+      "symbol": "CREATIVEYE",
+      "date": "2019-01-02",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 2,
+      "symbol": "KAUSHALYA",
+      "date": "2019-01-02",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 3,
+      "symbol": "KAUSHALYA",
+      "date": "2019-01-21",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 4,
+      "symbol": "TARAPUR",
+      "date": "2019-03-25",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 5,
+      "symbol": "DCMFINSERV",
+      "date": "2019-05-15",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 6,
+      "symbol": "PRAKASHSTL",
+      "date": "2019-05-24",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 7,
+      "symbol": "TARAPUR",
+      "date": "2019-06-14",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 8,
+      "symbol": "KAUSHALYA",
+      "date": "2019-07-10",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 9,
+      "symbol": "KAUSHALYA",
+      "date": "2019-07-24",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 10,
+      "symbol": "EQUIPPP",
+      "date": "2019-07-29",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 11,
+      "symbol": "HBSL",
+      "date": "2019-08-09",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 12,
+      "symbol": "HBSL",
+      "date": "2019-09-04",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 13,
+      "symbol": "PRAKASHSTL",
+      "date": "2019-09-12",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 14,
+      "symbol": "EQUIPPP",
+      "date": "2019-09-23",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 15,
+      "symbol": "EQUIPPP",
+      "date": "2019-10-07",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 16,
+      "symbol": "HBSL",
+      "date": "2019-10-17",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 17,
+      "symbol": "MOHITIND",
+      "date": "2019-10-29",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 18,
+      "symbol": "TVVISION",
+      "date": "2019-11-15",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 19,
+      "symbol": "MOHITIND",
+      "date": "2019-11-19",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 20,
+      "symbol": "PRAKASHSTL",
+      "date": "2019-12-09",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 21,
+      "symbol": "MOHITIND",
+      "date": "2019-12-16",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 22,
+      "symbol": "TVVISION",
+      "date": "2019-12-18",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 23,
+      "symbol": "PRAKASHSTL",
+      "date": "2020-01-01",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 24,
+      "symbol": "WSI",
+      "date": "2020-01-15",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 25,
+      "symbol": "MOHITIND",
+      "date": "2020-02-05",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 26,
+      "symbol": "WSI",
+      "date": "2020-02-26",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 27,
+      "symbol": "TVVISION",
+      "date": "2020-03-04",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 28,
+      "symbol": "ZENITHSTL",
+      "date": "2020-03-13",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 29,
+      "symbol": "WSI",
+      "date": "2020-03-20",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 30,
+      "symbol": "HBSL",
+      "date": "2020-03-24",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 31,
+      "symbol": "TVVISION",
+      "date": "2020-04-01",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 32,
+      "symbol": "SPCENET",
+      "date": "2020-04-15",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 33,
+      "symbol": "PREMIER",
+      "date": "2020-04-16",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 34,
+      "symbol": "KAUSHALYA",
+      "date": "2020-04-16",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 35,
+      "symbol": "RADAAN",
+      "date": "2020-04-17",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 36,
+      "symbol": "MOHITIND",
+      "date": "2020-04-20",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 37,
+      "symbol": "TPHQ",
+      "date": "2020-04-23",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 38,
+      "symbol": "KAUSHALYA",
+      "date": "2020-04-27",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 39,
+      "symbol": "SOMATEX",
+      "date": "2020-04-27",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 40,
+      "symbol": "ANKITMETAL",
+      "date": "2020-04-29",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 41,
+      "symbol": "EQUIPPP",
+      "date": "2020-05-26",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 42,
+      "symbol": "SOMATEX",
+      "date": "2020-06-04",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 43,
+      "symbol": "KAUSHALYA",
+      "date": "2020-06-18",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 44,
+      "symbol": "3PLAND",
+      "date": "2020-07-27",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 45,
+      "symbol": "LANDSMILL",
+      "date": "2020-07-30",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 46,
+      "symbol": "HBSL",
+      "date": "2020-08-14",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 47,
+      "symbol": "LANDSMILL",
+      "date": "2020-10-05",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 48,
+      "symbol": "HBSL",
+      "date": "2020-10-12",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 49,
+      "symbol": "TFL",
+      "date": "2020-10-15",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 50,
+      "symbol": "SABEVENTS",
+      "date": "2020-10-22",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 51,
+      "symbol": "TCIFINANCE",
+      "date": "2020-11-03",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 52,
+      "symbol": "HBSL",
+      "date": "2020-11-06",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 53,
+      "symbol": "S&SPOWER",
+      "date": "2020-11-25",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 54,
+      "symbol": "MOHITIND",
+      "date": "2020-12-18",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 55,
+      "symbol": "TCIFINANCE",
+      "date": "2020-12-22",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 56,
+      "symbol": "EASTSILK",
+      "date": "2020-12-24",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 57,
+      "symbol": "EASTSILK",
+      "date": "2020-12-28",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 58,
+      "symbol": "EASTSILK",
+      "date": "2021-01-04",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 59,
+      "symbol": "S&SPOWER",
+      "date": "2021-01-07",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 60,
+      "symbol": "RADAAN",
+      "date": "2021-02-23",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 61,
+      "symbol": "RADAAN",
+      "date": "2021-03-08",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 62,
+      "symbol": "NAGREEKCAP",
+      "date": "2021-03-15",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 63,
+      "symbol": "GLFL",
+      "date": "2021-04-15",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 64,
+      "symbol": "TCIFINANCE",
+      "date": "2021-05-05",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 65,
+      "symbol": "NAGREEKCAP",
+      "date": "2021-05-31",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 66,
+      "symbol": "EUROTEXIND",
+      "date": "2021-06-09",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 67,
+      "symbol": "CREATIVEYE",
+      "date": "2021-06-22",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 68,
+      "symbol": "NORBTEAEXP",
+      "date": "2021-06-25",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 69,
+      "symbol": "TCIFINANCE",
+      "date": "2021-06-25",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 70,
+      "symbol": "TCIFINANCE",
+      "date": "2021-07-16",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 71,
+      "symbol": "DCMFINSERV",
+      "date": "2021-09-01",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 72,
+      "symbol": "CREATIVEYE",
+      "date": "2021-09-23",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 73,
+      "symbol": "NORBTEAEXP",
+      "date": "2021-10-04",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 74,
+      "symbol": "DCMFINSERV",
+      "date": "2021-10-05",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 75,
+      "symbol": "NORBTEAEXP",
+      "date": "2021-10-13",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 76,
+      "symbol": "NORBTEAEXP",
+      "date": "2021-10-19",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 77,
+      "symbol": "NAGREEKCAP",
+      "date": "2021-10-26",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 78,
+      "symbol": "NAGREEKCAP",
+      "date": "2021-12-14",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 79,
+      "symbol": "CREATIVEYE",
+      "date": "2021-12-22",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 80,
+      "symbol": "NORBTEAEXP",
+      "date": "2022-02-04",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 81,
+      "symbol": "TCIFINANCE",
+      "date": "2022-04-22",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 82,
+      "symbol": "CREATIVEYE",
+      "date": "2022-04-25",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 83,
+      "symbol": "TARAPUR",
+      "date": "2022-04-26",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 84,
+      "symbol": "CREATIVEYE",
+      "date": "2022-05-26",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 85,
+      "symbol": "TCIFINANCE",
+      "date": "2022-05-31",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 86,
+      "symbol": "NORBTEAEXP",
+      "date": "2022-06-20",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 87,
+      "symbol": "TARAPUR",
+      "date": "2022-07-12",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 88,
+      "symbol": "NORBTEAEXP",
+      "date": "2022-07-27",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 89,
+      "symbol": "TARAPUR",
+      "date": "2022-08-12",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 90,
+      "symbol": "TARAPUR",
+      "date": "2022-08-22",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 91,
+      "symbol": "NORBTEAEXP",
+      "date": "2022-08-30",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 92,
+      "symbol": "TARAPUR",
+      "date": "2022-09-27",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 93,
+      "symbol": "TARAPUR",
+      "date": "2022-10-18",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 94,
+      "symbol": "NORBTEAEXP",
+      "date": "2022-10-19",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 95,
+      "symbol": "NORBTEAEXP",
+      "date": "2022-11-01",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 96,
+      "symbol": "TARAPUR",
+      "date": "2022-11-24",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 97,
+      "symbol": "NORBTEAEXP",
+      "date": "2023-01-06",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 98,
+      "symbol": "CREATIVEYE",
+      "date": "2023-02-09",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 99,
+      "symbol": "NORBTEAEXP",
+      "date": "2023-02-21",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 100,
+      "symbol": "CREATIVEYE",
+      "date": "2023-02-22",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 101,
+      "symbol": "GLFL",
+      "date": "2023-03-01",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 102,
+      "symbol": "TVVISION",
+      "date": "2023-04-17",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 103,
+      "symbol": "NORBTEAEXP",
+      "date": "2023-05-15",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 104,
+      "symbol": "SHYAMTEL",
+      "date": "2023-05-22",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 105,
+      "symbol": "NORBTEAEXP",
+      "date": "2023-05-24",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 106,
+      "symbol": "NORBTEAEXP",
+      "date": "2023-06-06",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 107,
+      "symbol": "GLFL",
+      "date": "2023-06-23",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 108,
+      "symbol": "NORBTEAEXP",
+      "date": "2023-07-06",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 109,
+      "symbol": "CREATIVEYE",
+      "date": "2023-07-13",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 110,
+      "symbol": "GLFL",
+      "date": "2023-07-19",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 111,
+      "symbol": "MAGNUM",
+      "date": "2023-07-25",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 112,
+      "symbol": "THOMASCOTT",
+      "date": "2023-07-25",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 113,
+      "symbol": "SEYAIND",
+      "date": "2023-07-26",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 114,
+      "symbol": "ABMINTLLTD",
+      "date": "2023-08-02",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 115,
+      "symbol": "THOMASCOTT",
+      "date": "2023-08-04",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 116,
+      "symbol": "TIL",
+      "date": "2023-08-07",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 117,
+      "symbol": "MHLXMIRU",
+      "date": "2023-08-16",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 118,
+      "symbol": "TIL",
+      "date": "2023-08-30",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 284.20001220703125,
+        "h": 290,
+        "l": 284.95001220703125,
+        "c": 284.95001220703125
+      },
+      "cand": {
+        "o": 290,
+        "h": 290,
+        "l": 284.95,
+        "c": 284.95
+      }
+    },
+    {
+      "id": 119,
+      "symbol": "GLFL",
+      "date": "2023-08-31",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 3.700000047683716,
+        "h": 4.050000190734863,
+        "l": 3.8499999046325684,
+        "c": 3.8499999046325684
+      },
+      "cand": {
+        "o": 4.05,
+        "h": 4.05,
+        "l": 3.85,
+        "c": 3.85
+      }
+    },
+    {
+      "id": 120,
+      "symbol": "SHYAMTEL",
+      "date": "2023-09-04",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 7.800000190734863,
+        "h": 7.099999904632568,
+        "l": 7.099999904632568,
+        "c": 7.099999904632568
+      },
+      "cand": {
+        "o": 7.1,
+        "h": 7.1,
+        "l": 7.1,
+        "c": 7.1
+      }
+    },
+    {
+      "id": 121,
+      "symbol": "SHYAMTEL",
+      "date": "2023-09-05",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 6.5,
+        "h": 6.449999809265137,
+        "l": 6.449999809265137,
+        "c": 6.449999809265137
+      },
+      "cand": {
+        "o": 6.45,
+        "h": 6.45,
+        "l": 6.45,
+        "c": 6.45
+      }
+    },
+    {
+      "id": 122,
+      "symbol": "SHYAMTEL",
+      "date": "2023-09-07",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 7.5,
+        "h": 6.900000095367432,
+        "l": 6.900000095367432,
+        "c": 6.900000095367432
+      },
+      "cand": {
+        "o": 6.9,
+        "h": 6.9,
+        "l": 6.9,
+        "c": 6.9
+      }
+    },
+    {
+      "id": 123,
+      "symbol": "EUROTEXIND",
+      "date": "2023-09-12",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 12.600000381469727,
+        "h": 12.800000190734863,
+        "l": 12.800000190734863,
+        "c": 12.800000190734863
+      },
+      "cand": {
+        "o": 12.8,
+        "h": 12.8,
+        "l": 12.8,
+        "c": 12.8
+      }
+    },
+    {
+      "id": 124,
+      "symbol": "LOTUSEYE",
+      "date": "2023-09-20",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 85.9000015258789,
+        "h": 86,
+        "l": 86,
+        "c": 86
+      },
+      "cand": {
+        "o": 86,
+        "h": 86,
+        "l": 86,
+        "c": 86
+      }
+    },
+    {
+      "id": 125,
+      "symbol": "NAGREEKCAP",
+      "date": "2023-09-21",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 16,
+        "h": 16.200000762939453,
+        "l": 16.200000762939453,
+        "c": 16.200000762939453
+      },
+      "cand": {
+        "o": 16.2,
+        "h": 16.2,
+        "l": 16.2,
+        "c": 16.2
+      }
+    },
+    {
+      "id": 126,
+      "symbol": "TECILCHEM",
+      "date": "2023-09-28",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 18.100000381469727,
+        "h": 18.450000762939453,
+        "l": 18.450000762939453,
+        "c": 18.450000762939453
+      },
+      "cand": {
+        "o": 18.45,
+        "h": 18.45,
+        "l": 18.45,
+        "c": 18.45
+      }
+    },
+    {
+      "id": 127,
+      "symbol": "OMINFRAL",
+      "date": "2023-09-29",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 86.94999694824219,
+        "h": 87,
+        "l": 87,
+        "c": 87
+      },
+      "cand": {
+        "o": 87,
+        "h": 87,
+        "l": 87,
+        "c": 87
+      }
+    },
+    {
+      "id": 128,
+      "symbol": "GLFL",
+      "date": "2023-10-03",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 3.3499999046325684,
+        "h": 3.5,
+        "l": 3.5,
+        "c": 3.5
+      },
+      "cand": {
+        "o": 3.5,
+        "h": 3.5,
+        "l": 3.5,
+        "c": 3.5
+      }
+    },
+    {
+      "id": 129,
+      "symbol": "NORBTEAEXP",
+      "date": "2023-10-12",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 12.850000381469727,
+        "h": 13.100000381469727,
+        "l": 13.100000381469727,
+        "c": 13.100000381469727
+      },
+      "cand": {
+        "o": 13.1,
+        "h": 13.1,
+        "l": 13.1,
+        "c": 13.1
+      }
+    },
+    {
+      "id": 130,
+      "symbol": "SOMATEX",
+      "date": "2023-10-12",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 19.25,
+        "h": 19.049999237060547,
+        "l": 19,
+        "c": 19.049999237060547
+      },
+      "cand": {
+        "o": 19,
+        "h": 19.05,
+        "l": 19,
+        "c": 19.05
+      }
+    },
+    {
+      "id": 131,
+      "symbol": "VARDMNPOLY",
+      "date": "2023-10-17",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 5.695000171661377,
+        "h": 5.739999771118164,
+        "l": 5.699999809265137,
+        "c": 5.699999809265137
+      },
+      "cand": {
+        "o": 57.4,
+        "h": 57.4,
+        "l": 57,
+        "c": 57
+      }
+    },
+    {
+      "id": 132,
+      "symbol": "BILVYAPAR",
+      "date": "2023-10-26",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 133,
+      "symbol": "WEL",
+      "date": "2023-11-03",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 30.454999923706055,
+        "h": 31,
+        "l": 31,
+        "c": 31
+      },
+      "cand": {
+        "o": 310,
+        "h": 310,
+        "l": 310,
+        "c": 310
+      }
+    },
+    {
+      "id": 134,
+      "symbol": "GANGAFORGE",
+      "date": "2023-11-15",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 7,
+        "h": 7.099999904632568,
+        "l": 7.050000190734863,
+        "c": 7.050000190734863
+      },
+      "cand": {
+        "o": 7.1,
+        "h": 7.1,
+        "l": 7,
+        "c": 7
+      }
+    },
+    {
+      "id": 135,
+      "symbol": "GLFL",
+      "date": "2023-11-15",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 4.25,
+        "h": 4.300000190734863,
+        "l": 4.300000190734863,
+        "c": 4.300000190734863
+      },
+      "cand": {
+        "o": 4.3,
+        "h": 4.3,
+        "l": 4.25,
+        "c": 4.25
+      }
+    },
+    {
+      "id": 136,
+      "symbol": "GPTINFRA",
+      "date": "2023-11-15",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 65.57499694824219,
+        "h": 65.55000305175781,
+        "l": 65.25,
+        "c": 65.25
+      },
+      "cand": {
+        "o": 131.1,
+        "h": 131.15,
+        "l": 130.5,
+        "c": 131.15
+      }
+    },
+    {
+      "id": 137,
+      "symbol": "IL&FSTRANS",
+      "date": "2023-11-15",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 5.449999809265137,
+        "h": 5.599999904632568,
+        "l": 5.5,
+        "c": 5.5
+      },
+      "cand": {
+        "o": 5.6,
+        "h": 5.6,
+        "l": 5.5,
+        "c": 5.5
+      }
+    },
+    {
+      "id": 138,
+      "symbol": "KCPSUGIND",
+      "date": "2023-11-15",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 39.04999923706055,
+        "h": 39.75,
+        "l": 39.29999923706055,
+        "c": 39.29999923706055
+      },
+      "cand": {
+        "o": 39.75,
+        "h": 39.75,
+        "l": 39.15,
+        "c": 39.15
+      }
+    },
+    {
+      "id": 139,
+      "symbol": "NDRAUTO",
+      "date": "2023-11-15",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 386,
+        "h": 385.5,
+        "l": 382.5,
+        "c": 385.5
+      },
+      "cand": {
+        "o": 765,
+        "h": 778,
+        "l": 765,
+        "c": 778
+      }
+    },
+    {
+      "id": 140,
+      "symbol": "OILCOUNTUB",
+      "date": "2023-11-15",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 20.700000762939453,
+        "h": 20.299999237060547,
+        "l": 20.200000762939453,
+        "c": 20.299999237060547
+      },
+      "cand": {
+        "o": 20.3,
+        "h": 20.7,
+        "l": 20.2,
+        "c": 20.7
+      }
+    },
+    {
+      "id": 141,
+      "symbol": "ONIDA",
+      "date": "2023-11-15",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 142,
+      "symbol": "PRAKASHSTL",
+      "date": "2023-11-15",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 5.75,
+        "h": 5.699999809265137,
+        "l": 5.699999809265137,
+        "c": 5.699999809265137
+      },
+      "cand": {
+        "o": 5.7,
+        "h": 5.75,
+        "l": 5.7,
+        "c": 5.75
+      }
+    },
+    {
+      "id": 143,
+      "symbol": "PVP",
+      "date": "2023-11-15",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 14.600000381469727,
+        "h": 14.149999618530273,
+        "l": 14.100000381469727,
+        "c": 14.149999618530273
+      },
+      "cand": {
+        "o": 14.1,
+        "h": 14.15,
+        "l": 14.1,
+        "c": 14.15
+      }
+    },
+    {
+      "id": 144,
+      "symbol": "ZEELEARN",
+      "date": "2023-11-15",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 7.650000095367432,
+        "h": 7.699999809265137,
+        "l": 7.699999809265137,
+        "c": 7.699999809265137
+      },
+      "cand": {
+        "o": 7.7,
+        "h": 7.7,
+        "l": 7.6,
+        "c": 7.6
+      }
+    },
+    {
+      "id": 145,
+      "symbol": "TVVISION",
+      "date": "2023-11-17",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 3.6500000953674316,
+        "h": 3.5999999046325684,
+        "l": 3.549999952316284,
+        "c": 3.5999999046325684
+      },
+      "cand": {
+        "o": 3.55,
+        "h": 3.6,
+        "l": 3.55,
+        "c": 3.6
+      }
+    },
+    {
+      "id": 146,
+      "symbol": "GATECHDVR",
+      "date": "2023-11-20",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 10.449999809265137,
+        "h": 10.399999618530273,
+        "l": 10.399999618530273,
+        "c": 10.399999618530273
+      },
+      "cand": {
+        "o": 10.4,
+        "h": 10.4,
+        "l": 10.4,
+        "c": 10.4
+      }
+    },
+    {
+      "id": 147,
+      "symbol": "ADROITINFO",
+      "date": "2023-11-23",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 14.429574966430664,
+        "h": 14.605976104736328,
+        "l": 14.605976104736328,
+        "c": 14.605976104736328
+      },
+      "cand": {
+        "o": 20.7,
+        "h": 20.7,
+        "l": 20.7,
+        "c": 20.7
+      }
+    },
+    {
+      "id": 148,
+      "symbol": "GLFL",
+      "date": "2023-12-06",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 3.950000047683716,
+        "h": 3.9000000953674316,
+        "l": 3.799999952316284,
+        "c": 3.9000000953674316
+      },
+      "cand": {
+        "o": 3.8,
+        "h": 3.9,
+        "l": 3.8,
+        "c": 3.9
+      }
+    },
+    {
+      "id": 149,
+      "symbol": "BILVYAPAR",
+      "date": "2023-12-22",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 150,
+      "symbol": "REGENCERAM",
+      "date": "2023-12-22",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 37.75,
+        "h": 38.45000076293945,
+        "l": 38.45000076293945,
+        "c": 38.45000076293945
+      },
+      "cand": {
+        "o": 38.45,
+        "h": 38.45,
+        "l": 38.45,
+        "c": 38.45
+      }
+    },
+    {
+      "id": 151,
+      "symbol": "SVPGLOB",
+      "date": "2024-01-03",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 9.649999618530273,
+        "h": 9.600000381469727,
+        "l": 9.5,
+        "c": 9.600000381469727
+      },
+      "cand": {
+        "o": 9.5,
+        "h": 9.6,
+        "l": 9.5,
+        "c": 9.6
+      }
+    },
+    {
+      "id": 152,
+      "symbol": "MASKINVEST",
+      "date": "2024-01-10",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 70.1500015258789,
+        "h": 70.55000305175781,
+        "l": 70.5,
+        "c": 70.55000305175781
+      },
+      "cand": {
+        "o": 70.5,
+        "h": 70.55,
+        "l": 70.5,
+        "c": 70.55
+      }
+    },
+    {
+      "id": 153,
+      "symbol": "SHYAMTEL",
+      "date": "2024-01-24",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 9.600000381469727,
+        "h": 9.550000190734863,
+        "l": 9.550000190734863,
+        "c": 9.550000190734863
+      },
+      "cand": {
+        "o": 9.55,
+        "h": 9.55,
+        "l": 9.55,
+        "c": 9.55
+      }
+    },
+    {
+      "id": 154,
+      "symbol": "BILVYAPAR",
+      "date": "2024-02-12",
+      "terminal": "NO_AUTHORITATIVE_EVIDENCE"
+    },
+    {
+      "id": 155,
+      "symbol": "ICDSLTD",
+      "date": "2024-02-14",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 56.900001525878906,
+        "h": 57,
+        "l": 57,
+        "c": 57
+      },
+      "cand": {
+        "o": 57,
+        "h": 57,
+        "l": 57,
+        "c": 57
+      }
+    },
+    {
+      "id": 156,
+      "symbol": "SABEVENTS",
+      "date": "2024-02-16",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 158,
+        "h": 160,
+        "l": 160,
+        "c": 160
+      },
+      "cand": {
+        "o": 8,
+        "h": 8,
+        "l": 8,
+        "c": 8
+      }
+    },
+    {
+      "id": 157,
+      "symbol": "TECILCHEM",
+      "date": "2024-02-19",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 27.700000762939453,
+        "h": 28.299999237060547,
+        "l": 28.25,
+        "c": 28.25
+      },
+      "cand": {
+        "o": 28.3,
+        "h": 28.3,
+        "l": 28.25,
+        "c": 28.25
+      }
+    },
+    {
+      "id": 158,
+      "symbol": "SEYAIND",
+      "date": "2024-02-27",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 24.799999237060547,
+        "h": 24.75,
+        "l": 24.75,
+        "c": 24.75
+      },
+      "cand": {
+        "o": 24.75,
+        "h": 24.75,
+        "l": 24.75,
+        "c": 24.75
+      }
+    },
+    {
+      "id": 159,
+      "symbol": "S&SPOWER",
+      "date": "2024-02-28",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 269,
+        "h": 269.54998779296875,
+        "l": 269.54998779296875,
+        "c": 269.54998779296875
+      },
+      "cand": {
+        "o": 269.55,
+        "h": 269.55,
+        "l": 269.55,
+        "c": 269.55
+      }
+    },
+    {
+      "id": 160,
+      "symbol": "SOMICONVEY",
+      "date": "2024-03-21",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 134,
+        "h": 133.1999969482422,
+        "l": 133.1999969482422,
+        "c": 133.1999969482422
+      },
+      "cand": {
+        "o": 133.2,
+        "h": 133.2,
+        "l": 133.2,
+        "c": 133.2
+      }
+    },
+    {
+      "id": 161,
+      "symbol": "PRECOT",
+      "date": "2024-04-02",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 316,
+        "h": 320,
+        "l": 320,
+        "c": 320
+      },
+      "cand": {
+        "o": 320,
+        "h": 320,
+        "l": 320,
+        "c": 320
+      }
+    },
+    {
+      "id": 162,
+      "symbol": "PRUDMOULI",
+      "date": "2024-04-04",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 24.100000381469727,
+        "h": 24.450000762939453,
+        "l": 24.450000762939453,
+        "c": 24.450000762939453
+      },
+      "cand": {
+        "o": 24.45,
+        "h": 24.45,
+        "l": 24.45,
+        "c": 24.45
+      }
+    },
+    {
+      "id": 163,
+      "symbol": "SOMICONVEY",
+      "date": "2024-04-04",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 138,
+        "h": 139.5500030517578,
+        "l": 138.10000610351562,
+        "c": 138.10000610351562
+      },
+      "cand": {
+        "o": 139.55,
+        "h": 139.55,
+        "l": 138.1,
+        "c": 138.1
+      }
+    },
+    {
+      "id": 164,
+      "symbol": "REGENCERAM",
+      "date": "2024-04-12",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 34.29999923706055,
+        "h": 34.400001525878906,
+        "l": 34.400001525878906,
+        "c": 34.400001525878906
+      },
+      "cand": {
+        "o": 34.4,
+        "h": 34.4,
+        "l": 34.4,
+        "c": 34.4
+      }
+    },
+    {
+      "id": 165,
+      "symbol": "GTECJAINX",
+      "date": "2024-04-22",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 86,
+        "h": 85.44999694824219,
+        "l": 85.44999694824219,
+        "c": 85.44999694824219
+      },
+      "cand": {
+        "o": 85.45,
+        "h": 85.45,
+        "l": 85.45,
+        "c": 85.45
+      }
+    },
+    {
+      "id": 166,
+      "symbol": "GTECJAINX",
+      "date": "2024-04-26",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 81.8499984741211,
+        "h": 83.44999694824219,
+        "l": 83.44999694824219,
+        "c": 83.44999694824219
+      },
+      "cand": {
+        "o": 83.45,
+        "h": 83.45,
+        "l": 83.45,
+        "c": 83.45
+      }
+    },
+    {
+      "id": 167,
+      "symbol": "TECILCHEM",
+      "date": "2024-05-06",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 24.200000762939453,
+        "h": 24.25,
+        "l": 24.25,
+        "c": 24.25
+      },
+      "cand": {
+        "o": 24.25,
+        "h": 24.25,
+        "l": 24.25,
+        "c": 24.25
+      }
+    },
+    {
+      "id": 168,
+      "symbol": "SHYAMTEL",
+      "date": "2024-05-13",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 18.100000381469727,
+        "h": 18.049999237060547,
+        "l": 18.049999237060547,
+        "c": 18.049999237060547
+      },
+      "cand": {
+        "o": 18.05,
+        "h": 18.05,
+        "l": 18.05,
+        "c": 18.05
+      }
+    },
+    {
+      "id": 169,
+      "symbol": "MALUPAPER",
+      "date": "2024-05-27",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 37.75,
+        "h": 37.70000076293945,
+        "l": 37.70000076293945,
+        "c": 37.70000076293945
+      },
+      "cand": {
+        "o": 37.7,
+        "h": 37.7,
+        "l": 37.7,
+        "c": 37.7
+      }
+    },
+    {
+      "id": 170,
+      "symbol": "REGENCERAM",
+      "date": "2024-06-04",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 36.79999923706055,
+        "h": 37,
+        "l": 37,
+        "c": 37
+      },
+      "cand": {
+        "o": 37,
+        "h": 37,
+        "l": 37,
+        "c": 37
+      }
+    },
+    {
+      "id": 171,
+      "symbol": "SHYAMTEL",
+      "date": "2024-06-07",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 13,
+        "h": 13.25,
+        "l": 13.25,
+        "c": 13.25
+      },
+      "cand": {
+        "o": 13.25,
+        "h": 13.25,
+        "l": 13.25,
+        "c": 13.25
+      }
+    },
+    {
+      "id": 172,
+      "symbol": "ICDSLTD",
+      "date": "2024-06-20",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 35.900001525878906,
+        "h": 35.95000076293945,
+        "l": 35.939998626708984,
+        "c": 35.939998626708984
+      },
+      "cand": {
+        "o": 35.95,
+        "h": 35.95,
+        "l": 35.94,
+        "c": 35.94
+      }
+    },
+    {
+      "id": 173,
+      "symbol": "WEWIN",
+      "date": "2024-06-25",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 76,
+        "h": 76.0999984741211,
+        "l": 76.0999984741211,
+        "c": 76.0999984741211
+      },
+      "cand": {
+        "o": 76.1,
+        "h": 76.1,
+        "l": 76.1,
+        "c": 76.1
+      }
+    },
+    {
+      "id": 174,
+      "symbol": "GTECJAINX",
+      "date": "2024-06-26",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 70.19999694824219,
+        "h": 69.19999694824219,
+        "l": 69.19999694824219,
+        "c": 69.19999694824219
+      },
+      "cand": {
+        "o": 69.2,
+        "h": 69.2,
+        "l": 69.2,
+        "c": 69.2
+      }
+    },
+    {
+      "id": 175,
+      "symbol": "PANACHE",
+      "date": "2024-08-06",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 132.49000549316406,
+        "h": 132.94000244140625,
+        "l": 132.89999389648438,
+        "c": 132.89999389648438
+      },
+      "cand": {
+        "o": 132.94,
+        "h": 132.94,
+        "l": 132.9,
+        "c": 132.9
+      }
+    },
+    {
+      "id": 176,
+      "symbol": "KAUSHALYA",
+      "date": "2024-08-07",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 909.4500122070312,
+        "h": 946.5499877929688,
+        "l": 927.9000244140625,
+        "c": 946
+      },
+      "cand": {
+        "o": 927.9,
+        "h": 946.55,
+        "l": 927.9,
+        "c": 946
+      }
+    },
+    {
+      "id": 177,
+      "symbol": "SABEVENTS",
+      "date": "2024-09-20",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 221.1999969482422,
+        "h": 226.39999389648438,
+        "l": 221.60000610351562,
+        "c": 221.60000610351562
+      },
+      "cand": {
+        "o": 11.32,
+        "h": 11.32,
+        "l": 11.08,
+        "c": 11.08
+      }
+    },
+    {
+      "id": 178,
+      "symbol": "VELS",
+      "date": "2025-04-07",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 78,
+        "h": 75.4000015258789,
+        "l": 75.4000015258789,
+        "c": 75.4000015258789
+      },
+      "cand": {
+        "o": 75.4,
+        "h": 75.4,
+        "l": 75.4,
+        "c": 75.4
+      }
+    },
+    {
+      "id": 179,
+      "symbol": "DESTINY",
+      "date": "2025-07-17",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 112,
+        "h": 116.44999694824219,
+        "l": 116.44999694824219,
+        "c": 116.44999694824219
+      },
+      "cand": {
+        "o": 116.45,
+        "h": 116.45,
+        "l": 116.45,
+        "c": 116.45
+      }
+    },
+    {
+      "id": 180,
+      "symbol": "PATTECH",
+      "date": "2025-08-13",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 159.89999389648438,
+        "h": 157.4499969482422,
+        "l": 157.4499969482422,
+        "c": 157.4499969482422
+      },
+      "cand": {
+        "o": 157.45,
+        "h": 157.45,
+        "l": 157.45,
+        "c": 157.45
+      }
+    },
+    {
+      "id": 181,
+      "symbol": "PATTECH",
+      "date": "2025-10-15",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 107.19999694824219,
+        "h": 103,
+        "l": 103,
+        "c": 103
+      },
+      "cand": {
+        "o": 103,
+        "h": 103,
+        "l": 103,
+        "c": 103
+      }
+    },
+    {
+      "id": 182,
+      "symbol": "SABEVENTS",
+      "date": "2025-10-23",
+      "terminal": "CONFIRMED_CORRECTION",
+      "prod": {
+        "o": 121.80000305175781,
+        "h": 119.80000305175781,
+        "l": 117.19999694824219,
+        "c": 119.80000305175781
+      },
+      "cand": {
+        "o": 5.86,
+        "h": 5.99,
+        "l": 5.86,
+        "c": 5.99
+      }
+    }
+  ]
+}

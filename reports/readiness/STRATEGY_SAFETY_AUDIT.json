@@ -1,0 +1,48 @@
+{
+  "timestamp": "2026-09-20T20:09:08.327Z",
+  "strategy_ready": true,
+  "tests": [
+    {
+      "scenario": "Normal uptrend",
+      "expected": "Normal",
+      "actual": "Normal",
+      "status": "PASS"
+    },
+    {
+      "scenario": "Normal downtrend",
+      "expected": "Normal",
+      "actual": "Normal",
+      "status": "PASS"
+    },
+    {
+      "scenario": "Flat market",
+      "expected": "Normal",
+      "actual": "Normal",
+      "status": "PASS"
+    },
+    {
+      "scenario": "Zero volume",
+      "expected": "Normal",
+      "actual": "Normal",
+      "status": "PASS"
+    },
+    {
+      "scenario": "Invalid OHLC (high < low)",
+      "expected": "Throws Exception: Invalid OHLC spread",
+      "actual": "Throws Exception: Invalid OHLC spread",
+      "status": "PASS"
+    },
+    {
+      "scenario": "NaN/Infinity",
+      "expected": "Throws Exception: NaN/Infinity value",
+      "actual": "Throws Exception: NaN/Infinity value",
+      "status": "PASS"
+    },
+    {
+      "scenario": "Null OHLC",
+      "expected": "Throws Exception: Null OHLC values present",
+      "actual": "Throws Exception: Null OHLC values present",
+      "status": "PASS"
+    }
+  ]
+}

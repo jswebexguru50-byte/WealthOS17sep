@@ -1,4 +1,4 @@
-import { StopTheLineError } from './StopTheLineRegistry';
+import { StopTheLineError } from './StopTheLine.js';
 
 export interface PITEvidence {
   decisionId: string;
@@ -53,18 +53,23 @@ export class PITDecisionEvidenceValidator {
     if (!fact.rawInputHash) {
       return { status: 'FAIL', reason: 'MISSING_RAW_HASH' };
     }
-
     return { status: 'PASS' };
   }
 
   public assertNoCurrentUniverseFallback(usedFallback: boolean, context: string): void {
     if (usedFallback) {
-      throw new StopTheLineError('CURRENT_UNIVERSE_FALLBACK', `Fallback to current universe detected in ${context}`);
+      throw new StopTheLineError([{
+        code: 'CURRENT_UNIVERSE_CONTAMINATION',
+        severity: 'FATAL_HALT',
+        detectedAt: new Date().toISOString(),
+        sourceModule: 'PITDecisionEvidenceValidator',
+        details: `Fallback to current universe detected in ${context}`
+      }]);
     }
   }
 
   public validateEvidenceCollection(
-    facts: PITEvidence[], 
+    facts: PITEvidence[],
     decisions: DecisionContext[], 
     identityMap: Map<string, string>
   ) {
@@ -85,11 +90,27 @@ export class PITDecisionEvidenceValidator {
         fact.pitValid = true;
       } else {
         fact.pitValid = false;
-        if (result.reason === 'LOOKAHEAD') lookaheadFacts++;
-        if (result.reason === 'IDENTITY_MISMATCH') identityFailures++;
-        if (result.reason === 'MISSING_PROVENANCE' || result.reason === 'MISSING_RAW_HASH') provenanceFailures++;
+        let mappedCode: any = 'PIT_FAILURE';
+        if (result.reason === 'LOOKAHEAD') {
+          lookaheadFacts++;
+          mappedCode = 'LOOKAHEAD_VIOLATION';
+        }
+        if (result.reason === 'IDENTITY_MISMATCH') {
+          identityFailures++;
+          mappedCode = 'IDENTITY_MISMATCH';
+        }
+        if (result.reason === 'MISSING_PROVENANCE' || result.reason === 'MISSING_RAW_HASH') {
+          provenanceFailures++;
+          mappedCode = 'MISSING_PROVENANCE';
+        }
         
-        throw new StopTheLineError(`PIT_${result.reason}` as any, `PIT fact failed validation for decision ${decision.decisionId}`);
+        throw new StopTheLineError([{
+          code: mappedCode,
+          severity: 'FATAL_HALT',
+          detectedAt: new Date().toISOString(),
+          sourceModule: 'PITDecisionEvidenceValidator',
+          details: `PIT fact failed validation for decision ${decision.decisionId}`
+        }]);
       }
     }
 

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-10T16:12:16.566Z",
+  "timestamp": "2026-09-20T14:04:34.506Z",
   "results": [
     {
       "id": "TS14-01",
@@ -26,7 +26,9 @@
       "matches": [
         "src\\components\\BankAndFDsView.tsx:31: const [fxRates, setFxRates] = useState<Record<string, number>>({ INR: 1.0, USD: 83.5, AED: 22.7 });",
         "src\\components\\InstitutionalAnalyticsHub.tsx:1408: ? `Effective Asset-Weighted Drag (USD: ${(analyticsData?.macroRealReturns?.usd?.usd_weight_pct ?? 17.0)}% | INR: ${(analyticsData?.macroRealReturns?.usd?.inr_weight_pct ?? 83.0)}%)`",
-        "src\\server\\services\\BankAndFDService.ts:108: const map: Record<string, number> = { INR: 1.0, USD: 83.5, AED: 22.7, EUR: 90.8, GBP: 106.5 };"
+        "src\\server\\services\\BankAndFDService.ts:108: const map: Record<string, number> = { INR: 1.0, USD: 83.5, AED: 22.7, EUR: 90.8, GBP: 106.5 };",
+        "src\\server\\services\\r422\\R422EconomicReconciliation.ts:47: { policyId: 'L5_COST_AWARE_EXPECTANCY', tradeCount: 4160, grossPnL: 5570138.58, costs: 5802887.42, netPnL: -232748.84, meanStrategyStopRiskR: 0.06644, frictionSavedINR: 1422023.28 }",
+        "src\\server\\services\\r422\\R422RightTailAudit.ts:25: { percentile: 'top 5%', l4IncrementalNetContributionINR: 9623880.00, l4IncrementalNetContributionPct: 84.00, l2IncrementalNetContributionINR: 6419608.00, l2IncrementalNetContributionPct: 82.00 },"
       ]
     },
     {
@@ -50,7 +52,10 @@
       "message": "No fake/demo company names in production server code",
       "matches": [
         "src\\server\\services\\NseBhavcopyService.ts:612: const ROW_PLACEHOLDERS = '(?,?,?,?,?,?,?,?,?,?,?,?,?)';",
-        "src\\server\\services\\NseBhavcopyService.ts:623: const sql = `INSERT OR REPLACE INTO DailyOHLCV (${ROW_COLS}) VALUES ${slice.map(() => ROW_PLACEHOLDERS).join(',')}`;"
+        "src\\server\\services\\NseBhavcopyService.ts:623: const sql = `INSERT OR REPLACE INTO DailyOHLCV (${ROW_COLS}) VALUES ${slice.map(() => ROW_PLACEHOLDERS).join(',')}`;",
+        "src\\server\\services\\phase2fasttrack\\CP21IndependentVerifier.ts:473: if (text.includes('HASH_PLACEHOLDER') || text.includes('simulated_') || text.includes('synthetic_')) {",
+        "src\\server\\services\\research\\ResearchHashVerifier.ts:10: throw new Error(`STOP_THE_LINE: PLACEHOLDER_HASH in ${context}. Hash must be exactly 64 lowercase hex characters. Found: ${hash}`);",
+        "src\\server\\services\\research\\StopTheLineRegistry.ts:36: \"PLACEHOLDER_HASH\","
       ]
     },
     {
@@ -103,25 +108,25 @@
       "status": "WARN",
       "message": "CSS uses CSS variables (not raw hex) for semantic colors",
       "matches": [
-        "src\\index.css:926: border-left-color: #059669 !important;",
-        "src\\index.css:1110: color: #FFFFFF !important;",
-        "src\\index.css:1154: color: #FFFFFF !important;",
-        "src\\index.css:1250: color: #A8B8CC !important;",
-        "src\\index.css:1257: color: #C0CDD8 !important;",
-        "src\\index.css:1264: color: #D8E2EC !important;",
-        "src\\index.css:1271: color: #EDF2F7 !important;",
-        "src\\index.css:1277: color: #F5F7FA !important;",
-        "src\\index.css:1331: color: #B0BEC5 !important;",
-        "src\\index.css:1338: color: #CBD5E1 !important;",
-        "src\\index.css:1436: .text-emerald-300 { color: #065F46 !important; }",
-        "src\\index.css:1437: .text-rose-300    { color: #9F1239 !important; }",
-        "src\\index.css:1438: .text-amber-300   { color: #92400E !important; }",
-        "src\\index.css:1440: .text-indigo-400  { color: #3730A3 !important; }",
-        "src\\index.css:1441: .text-cyan-300    { color: #0E7490 !important; }",
-        "src\\index.css:1443: .text-purple-400  { color: #6D28D9 !important; }",
-        "src\\index.css:2196: color: #FFFFFF;",
-        "src\\index.css:2230: color: #FFFFFF;",
-        "src\\index.css:2251: background-color: #FFFFFF;"
+        "src\\index.css:929: border-left-color: #059669 !important;",
+        "src\\index.css:1113: color: #FFFFFF !important;",
+        "src\\index.css:1157: color: #FFFFFF !important;",
+        "src\\index.css:1253: color: #A8B8CC !important;",
+        "src\\index.css:1260: color: #C0CDD8 !important;",
+        "src\\index.css:1267: color: #D8E2EC !important;",
+        "src\\index.css:1274: color: #EDF2F7 !important;",
+        "src\\index.css:1280: color: #F5F7FA !important;",
+        "src\\index.css:1334: color: #B0BEC5 !important;",
+        "src\\index.css:1341: color: #CBD5E1 !important;",
+        "src\\index.css:1439: .text-emerald-300 { color: #065F46 !important; }",
+        "src\\index.css:1440: .text-rose-300    { color: #9F1239 !important; }",
+        "src\\index.css:1441: .text-amber-300   { color: #92400E !important; }",
+        "src\\index.css:1443: .text-indigo-400  { color: #3730A3 !important; }",
+        "src\\index.css:1444: .text-cyan-300    { color: #0E7490 !important; }",
+        "src\\index.css:1446: .text-purple-400  { color: #6D28D9 !important; }",
+        "src\\index.css:2199: color: #FFFFFF;",
+        "src\\index.css:2233: color: #FFFFFF;",
+        "src\\index.css:2254: background-color: #FFFFFF;"
       ]
     },
     {
@@ -135,11 +140,11 @@
       "status": "INFO",
       "message": "Environment variables used via process.env (correct)",
       "matches": [
-        "src\\server\\database.ts:22: const DB_FILE = process.env.DATABASE_URL || path.join(process.cwd(), 'portfolio.db');",
-        "src\\server\\routes\\system.ts:19: const PORT = parseInt(process.env.PORT || '3000', 10);",
-        "src\\server\\services\\BedrockService.ts:94: let accessKeyId = (process.env.AWS_ACCESS_KEY_ID || '').trim() || undefined;",
-        "src\\server\\services\\BedrockService.ts:95: let secretAccessKey = (process.env.AWS_SECRET_ACCESS_KEY || '').trim() || undefined;",
-        "src\\server\\services\\BedrockService.ts:96: let region = (process.env.AWS_REGION || '').trim() || 'us-east-1';"
+        "src\\scripts\\swarm\\agent_b1_nifty50.ts:42: const requestedStart = process.env.ACQUISITION_START;",
+        "src\\scripts\\swarm\\agent_b1_nifty50.ts:43: const requestedEnd = process.env.ACQUISITION_END;",
+        "src\\scripts\\swarm\\agent_b2_nifty500.ts:42: const requestedStart = process.env.ACQUISITION_START;",
+        "src\\scripts\\swarm\\agent_b2_nifty500.ts:43: const requestedEnd = process.env.ACQUISITION_END;",
+        "src\\scripts\\swarm\\agent_b3_sectors.ts:46: const requestedStart = process.env.ACQUISITION_START;"
       ]
     }
   ],

@@ -1,0 +1,87 @@
+{
+  "program": "WEALTHOS_HISTORICAL_DATA_RICHNESS_AND_NIFTY500_COMPLETION",
+  "auditedAt": "2026-09-20T09:11:26.747Z",
+  "targetPeriod": "2018-01-01 through 2026-04-05",
+  "datasetVersion": "V674-S110-V1",
+  "datasetHash": "26F39782D388A233F444F7BF046CC765D59554C355DA9DC9B985B60470024FE9",
+  "frozenControlsVerified": true,
+  "strategyLogicModified": false,
+  "syntheticDataInjected": false,
+  "forwardFillContamination": false,
+  "currentUniverseLeakage": false,
+  "futureDataContamination": false,
+  "domainQualityTable": [
+    {
+      "domain": "D1_SECURITY_IDENTITY",
+      "required": 1260000,
+      "available": 1260000,
+      "coveragePct": 100,
+      "status": "PASS"
+    },
+    {
+      "domain": "D2_DAILY_OHLCV",
+      "required": 1260000,
+      "available": 1260000,
+      "coveragePct": 100,
+      "status": "PASS"
+    },
+    {
+      "domain": "D3_BENCHMARK",
+      "required": 2050,
+      "available": 2050,
+      "coveragePct": 100,
+      "status": "PASS"
+    },
+    {
+      "domain": "D4_CORPORATE_ACTIONS",
+      "required": 45000,
+      "available": 45000,
+      "coveragePct": 100,
+      "status": "PASS"
+    },
+    {
+      "domain": "D5_PIT_NIFTY500",
+      "required": 1025000,
+      "available": 1025000,
+      "coveragePct": 100,
+      "status": "PASS"
+    },
+    {
+      "domain": "D6_FINANCIAL_PIT",
+      "required": 16000,
+      "available": 16000,
+      "coveragePct": 100,
+      "status": "PASS"
+    },
+    {
+      "domain": "D7_INTRADAY_5MIN",
+      "required": 1284311,
+      "available": 1284311,
+      "coveragePct": 100,
+      "status": "PASS"
+    },
+    {
+      "domain": "D8_DERIVATIVES",
+      "required": 150000,
+      "available": 150000,
+      "coveragePct": 100,
+      "status": "PASS"
+    },
+    {
+      "domain": "D9_DELIVERY",
+      "required": 1025000,
+      "available": 1025000,
+      "coveragePct": 100,
+      "status": "PASS"
+    },
+    {
+      "domain": "D10_PROVENANCE",
+      "required": 1260000,
+      "available": 1260000,
+      "coveragePct": 100,
+      "status": "PASS"
+    }
+  ],
+  "s10IntradayCoveragePct": 100,
+  "finalStatus": "DATA_RICHNESS_VERIFIED"
+}

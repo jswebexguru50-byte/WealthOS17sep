@@ -1,0 +1,11 @@
+{
+  "rule": "BSE_numeric_EQ -> BSE_EQ|ISIN",
+  "testedCohortSize": 100,
+  "recoveryRate": "0.39",
+  "outcomes": {
+    "HTTP_200_ACQUIRED": 39,
+    "HTTP_200_NO_CANDLE": 50,
+    "HTTP_400_INVALID": 11,
+    "OTHER_ERROR": 0
+  }
+}

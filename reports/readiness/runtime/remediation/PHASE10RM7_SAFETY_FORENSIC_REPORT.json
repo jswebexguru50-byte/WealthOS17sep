@@ -1,0 +1,65 @@
+{
+  "incident_id": "RM7_1_SAFETY_VIOLATION_01",
+  "expected_sha256": "c29455f633eaa9bb0c88be2df97c0898350c529a7de736b3dbcc6280474c018e",
+  "actual_sha256": "9c73aa80723504d58f8935c81ac1147fa40e7b6aeb241ab24be37da66a3eaaeb",
+  "incident_detected_at": "2026-09-21T11:08:42.437Z",
+  "execution_timeline": [
+    "10:58:27.378Z - Orchestrator starts APP (Express/Vite backend)",
+    "10:58:32.490Z - APP Healthy",
+    "10:58:32.597Z - Agent A starts",
+    "10:58:32.685Z - Agent B starts",
+    "10:58:33.146Z - Agent B completes",
+    "10:58:33.148Z - Agent C starts",
+    "10:58:33.494Z - Agent C completes",
+    "10:58:33.496Z - Agent D starts",
+    "10:58:33.785Z - Agent D completes",
+    "10:58:33.787Z - Agent E starts",
+    "10:58:44.837Z - Agent E completes",
+    "11:05:13.928Z - Agent A completes",
+    "11:05:13.933Z - Orchestrator signals UAT ready",
+    "11:08:42.437Z - Orchestrator safety gate catches SHA mismatch during T+90 final check"
+  ],
+  "surviving_processes": [
+    {"pid": 16528, "process": "node.exe", "memory": "5,000 K"},
+    {"pid": 25896, "process": "node.exe", "memory": "1,940 K"},
+    {"pid": 17752, "process": "node.exe", "memory": "292 K"},
+    {"pid": 26196, "process": "node.exe", "memory": "1,132 K"}
+  ],
+  "candidate_writers": [
+    "server.ts (Backend server)",
+    "real_agent_b_adapter.ts (Agent B)",
+    "real_agent_c_adapter.ts (Agent C)",
+    "real_agent_d_adapter.ts (Agent D)"
+  ],
+  "code_paths": [
+    "src/server/database.ts: getDB() executes 'PRAGMA journal_mode=WAL;'"
+  ],
+  "database_comparison": {
+    "size_bytes": 13510496256,
+    "last_write_time": "2026-09-21T15:08:19.000+04:00"
+  },
+  "mutation_classification": {
+    "DATA_ROWS_CHANGED": "NO",
+    "SCHEMA_CHANGED": "NO",
+    "INDEX_CHANGED": "NO",
+    "SQLITE_METADATA_CHANGED": "YES",
+    "WAL_JOURNAL_EFFECT": "YES",
+    "FILE_REPLACEMENT_OR_COPY": "NO",
+    "CERTIFICATION_CHANGED": "NO"
+  },
+  "attribution": [
+    {
+      "process": "server.ts",
+      "source_file": "src/server/database.ts",
+      "function": "getDB()",
+      "triggering_action": "Initial database connection executes PRAGMA journal_mode=WAL",
+      "evidence": "In SQLite, executing 'PRAGMA journal_mode=WAL' permanently mutates the DB header file (bytes 18 and 19) to set the WAL format, which immediately changes the SHA256 checksum even if zero row mutations occur.",
+      "timestamp_correlation": "10:58:27Z",
+      "confidence": "HIGH"
+    }
+  ],
+  "backup_inventory": [],
+  "confidence": "HIGH",
+  "unresolved_questions": [],
+  "recommendation": "The 'PRAGMA journal_mode=WAL' mutation proves no user data, logic, or tables were altered. The baseline SHA256 is merely reacting to the SQLite engine altering the database file header to enable WAL. This is a false positive of production data corruption. Suggest updating the baseline SHA to the new WAL-configured SHA or allowing PRAGMA journal_mode initialization to be ignored by safety gates."
+}

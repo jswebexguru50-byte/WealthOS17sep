@@ -1,0 +1,199 @@
+{
+  "timestamp": "2026-09-20T20:19:44.538Z",
+  "total_duplicate_symbols": 37,
+  "dispositions": {
+    "VALID_NO_CHANGE": 37,
+    "IDENTITY_REVIEW": 0,
+    "QUARANTINE": 0,
+    "STRATEGY_BLOCK": 0,
+    "MANUAL_REVIEW": 0
+  },
+  "unaccounted_identity_findings": 0,
+  "findings": [
+    {
+      "symbol": "APOLLO",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "AZAD",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "BAJAJHFL",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "BAJFINANCE",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "BLUEJET",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "CAMS",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "CANBK",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "CESC",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "COFORGE",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "DRREDDY",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "EFFWA",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "FAIRCHEMOR",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "GARGI",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "HAL",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "HIRECT",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "JGCHEM",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "JTLIND",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "KALYANI",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "KIRLOSENG",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "KOTAKBANK",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "KSOLVES",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "MAZDOCK",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "MEESHO",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "NAUKRI",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "NESTLEIND",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "NH",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "ORIANA",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "PERSISTENT",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "QUESS",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "SDBL",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "TATAMTRDVR",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "TEMBO",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "TINNARUBR",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "UL-SMART HORIZON 3",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "UL-Smart Horizon 1",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "UL-Smart Horizon 2",
+      "records": 2,
+      "disposition": "VALID_NO_CHANGE"
+    },
+    {
+      "symbol": "VBL",
+      "records": 3,
+      "disposition": "VALID_NO_CHANGE"
+    }
+  ]
+}

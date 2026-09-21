@@ -1,0 +1,53 @@
+{
+  "algorithm_version": "1.0.0",
+  "population_row_count": 4130851,
+  "population_hash": "b44acfe5f0c584940f248dcf814ebafe0f9d62400cebedf21f8fbce91b05f227",
+  "seed": "SHA256_SORT_ALGORITHM",
+  "sample_size": 35,
+  "stratification_dimensions": [
+    "NSE",
+    "EQ"
+  ],
+  "replacement_policy": "NO_REPLACEMENT",
+  "exclusion_policy": "EXCLUDE_UNLISTED",
+  "selected_symbols": [
+    "SBIETFPB",
+    "MALLCOM",
+    "SPECTSTM",
+    "SFML",
+    "POWERMECH",
+    "DIVOPPBEES",
+    "KRISHIVAL",
+    "TECH",
+    "MTNL",
+    "KSCL",
+    "MAHSEAMLES",
+    "CALSOFT",
+    "MANAV",
+    "HYBRIDETF",
+    "MMEL",
+    "MOIPO",
+    "MASTEK",
+    "RADIOCITY",
+    "EIEL",
+    "PVSL",
+    "LICNETFGSC",
+    "KHADIM",
+    "HNGSNGBEES",
+    "MMFL",
+    "JAMNAAUTO",
+    "METROGLOBL",
+    "TUNWAL",
+    "NEPHROPLUS",
+    "BBL",
+    "GSS",
+    "MICEL",
+    "SIGIND",
+    "IGCL",
+    "GILT5YBEES",
+    "SRM"
+  ],
+  "selected_dates": [
+    "2024-08-01 to 2024-08-31"
+  ]
+}

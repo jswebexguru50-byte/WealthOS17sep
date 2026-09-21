@@ -1,0 +1,5 @@
+{
+  "name": "CP2.1_DECISION_LEDGER",
+  "fields": ["auditRecordId", "runId", "checkpoint", "decisionType", "subjectId", "parentArtifactHash", "inputHash", "outputHash", "predicateResults", "status", "reasonCodes", "createdAt", "recordHash", "previousRecordHash"],
+  "tamperResistant": true
+}

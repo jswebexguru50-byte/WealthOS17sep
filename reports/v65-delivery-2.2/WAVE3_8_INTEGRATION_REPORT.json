@@ -1,0 +1,23 @@
+{
+  "program": "WEALTHOS_WAVE_3_8",
+  "evaluatedAt": "2026-09-20T12:04:18.265Z",
+  "sourceCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
+  "executionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
+  "frozenControls": {
+    "status": "7/7 MATCH",
+    "verified": true
+  },
+  "typeScriptMetrics": {
+    "initialDiagnostics": 102,
+    "safeDeterministicFixesApplied": 1,
+    "baselineRemaining": 101,
+    "diagnosticsResolvedInWave3_8": 32,
+    "currentDiagnostics": 70,
+    "newDiagnosticsIntroduced": 0,
+    "unknownDiagnostics": 0
+  },
+  "productionBoundary": "STRICT_FAIL_CLOSED",
+  "fullRepositoryTypeScript": "FAIL",
+  "fullRegression": "FAIL_INCOMPLETE",
+  "status": "INTEGRATION_VERIFIED"
+}

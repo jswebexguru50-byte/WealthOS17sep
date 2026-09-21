@@ -1,0 +1,320 @@
+[
+  {
+    "symbol": "SETFNIF50",
+    "isin": "INF200KA1FS1",
+    "originalProviderKey": "NSE_EQ|INF200KA1FS1",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "NIPPON INDIA NATURAL RESOURCES FUND - GROWTH PLAN - GROWTH OPTION (Non Demat)",
+    "isin": "INF204K01844",
+    "originalProviderKey": "NSE_EQ|INF204K01844",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "NIPPON INDIA PHARMA FUND - GROWTH PLAN (Non Demat)",
+    "isin": "INF204K01968",
+    "originalProviderKey": "NSE_EQ|INF204K01968",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "NIPPON INDIA VISION LARGE & MID CAP FUND - GROWTH PLAN GROWTH OPTION (Non Demat)",
+    "isin": "INF204K01406",
+    "originalProviderKey": "NSE_EQ|INF204K01406",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "SBI Healthcare Opportunities Fund Regular Growth",
+    "isin": "INF200K01446",
+    "originalProviderKey": "NSE_EQ|INF200K01446",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "NIPPON INDIA SMALL CAP FUND - GROWTH PLAN GROWTH OPTION (Non Demat)",
+    "isin": "INF204K01HY3",
+    "originalProviderKey": "NSE_EQ|INF204K01HY3",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "SBI Large Cap Fund - Regular Plan - Growth",
+    "isin": "INF200K01180",
+    "originalProviderKey": "NSE_EQ|INF200K01180",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "NIPPON INDIA SMALL CAP FUND - DIRECT GROWTH PLAN GROWTH OPTION",
+    "isin": "INF204K01K15",
+    "originalProviderKey": "NSE_EQ|INF204K01K15",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "NIPPON INDIA POWER & INFRA FUND - DIRECT PLAN GROWTH PLAN - GROWTH OPTION (Non Demat)",
+    "isin": "INF204K01I92",
+    "originalProviderKey": "NSE_EQ|INF204K01I92",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "NIPPON INDIA PHARMA FUND - DIRECT GROWTH PLAN (Non Demat)",
+    "isin": "INF204K01I50",
+    "originalProviderKey": "NSE_EQ|INF204K01I50",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "NIPPON INDIA LARGE CAP FUND - DIRECT GROWTH PLAN GROWTH OPTION (Non Demat)",
+    "isin": "INF204K01XI3",
+    "originalProviderKey": "NSE_EQ|INF204K01XI3",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "Mirae Asset Large Cap Fund - Direct Plan (Non Demat)",
+    "isin": "INF769K01AX2",
+    "originalProviderKey": "NSE_EQ|INF769K01AX2",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "Motilal Oswal Flexi Cap Fund - Direct Plan Growth (Non Demat)",
+    "isin": "INF247L01502",
+    "originalProviderKey": "NSE_EQ|INF247L01502",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "Motilal Oswal ELSS Tax Saver Fund - Direct Plan Growth (Non Demat)",
+    "isin": "INF247L01569",
+    "originalProviderKey": "NSE_EQ|INF247L01569",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "Invesco India Financial Services Fund - Direct Plan Growth (Non Demat)",
+    "isin": "INF205K01KY4",
+    "originalProviderKey": "NSE_EQ|INF205K01KY4",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "Motilal Oswal Nasdaq 100 Fund of Fund - Direct Plan Growth (Non Demat)",
+    "isin": "INF247L01718",
+    "originalProviderKey": "NSE_EQ|INF247L01718",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "Parag Parikh Flexi Cap Fund - Direct Plan Growth",
+    "isin": "INF879O01027",
+    "originalProviderKey": "NSE_EQ|INF879O01027",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "quant Large and Mid Cap Fund - Direct Plan - Growth (Non Demat)",
+    "isin": "INF966L01648",
+    "originalProviderKey": "NSE_EQ|INF966L01648",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "quant ELSS Tax Saver Fund - Direct Plan - Growth (Non Demat)",
+    "isin": "INF966L01986",
+    "originalProviderKey": "NSE_EQ|INF966L01986",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "quant Multi Cap Fund - Direct Plan - Growth (Non Demat)",
+    "isin": "INF966L01614",
+    "originalProviderKey": "NSE_EQ|INF966L01614",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "quant Small Cap Fund - Direct Plan - Growth (Non Demat)",
+    "isin": "INF966L01689",
+    "originalProviderKey": "NSE_EQ|INF966L01689",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "Kotak Large Cap Fund - Growth (Regular Plan)",
+    "isin": "INF174K01153",
+    "originalProviderKey": "NSE_EQ|INF174K01153",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "Mirae Asset Midcap Fund - Regular Plan (Non Demat)",
+    "isin": "INF769K01EY2",
+    "originalProviderKey": "NSE_EQ|INF769K01EY2",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "NIPPON INDIA LARGE CAP FUND - GROWTH PLAN GROWTH OPTION (Non Demat)",
+    "isin": "INF204K01562",
+    "originalProviderKey": "NSE_EQ|INF204K01562",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "quant Small Cap Fund - Regular Plan - Growth (Non Demat)",
+    "isin": "INF966L01AA0",
+    "originalProviderKey": "NSE_EQ|INF966L01AA0",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "SBI Midcap Fund - Regular Plan - Growth",
+    "isin": "INF200K01560",
+    "originalProviderKey": "NSE_EQ|INF200K01560",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "Franklin India Technology Fund - Growth",
+    "isin": "INF090I01742",
+    "originalProviderKey": "NSE_EQ|INF090I01742",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "Franklin India Flexi Cap Fund - IDCW",
+    "isin": "INF090I01221",
+    "originalProviderKey": "NSE_EQ|INF090I01221",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "DSP Small Cap Fund - Regular Plan - Growth",
+    "isin": "INF740K01797",
+    "originalProviderKey": "NSE_EQ|INF740K01797",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "ICICI Prudential Large & Mid Cap Fund - Direct Plan - Growth",
+    "isin": "INF109K011O5",
+    "originalProviderKey": "NSE_EQ|INF109K011O5",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "HSBC Small Cap Fund - Direct Growth",
+    "isin": "INF917K01QA1",
+    "originalProviderKey": "NSE_EQ|INF917K01QA1",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "HSBC Midcap Fund - Direct Growth",
+    "isin": "INF917K01FZ1",
+    "originalProviderKey": "NSE_EQ|INF917K01FZ1",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "GOLDSHARE",
+    "isin": "INF789F01059",
+    "originalProviderKey": "NSE_EQ|INF789F01059",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "ICICI Prudential Value Discovery Fund - Growth",
+    "isin": "INF204K01323",
+    "originalProviderKey": "NSE_EQ|INF204K01323",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "Union Trigger Sr 2 Reg-G",
+    "isin": "INF582M01CD3",
+    "originalProviderKey": "NSE_EQ|INF582M01CD3",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "HDFC Large Cap Fund - Direct Plan - Growth Option",
+    "isin": "INF179K01YV8",
+    "originalProviderKey": "NSE_EQ|INF179K01YV8",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "Axis Small Cap Dir-G",
+    "isin": "INF846K01K35",
+    "originalProviderKey": "NSE_EQ|INF846K01K35",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "HDFC Large Cap Dir-IDCW",
+    "isin": "INF179K01YT2",
+    "originalProviderKey": "NSE_EQ|INF179K01YT2",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "Axis Large Cap Dir-G",
+    "isin": "INF846K01DP8",
+    "originalProviderKey": "NSE_EQ|INF846K01DP8",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "ICICI Pru Smallcap-G",
+    "isin": "INF109K01BI0",
+    "originalProviderKey": "NSE_EQ|INF109K01BI0",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "Unclaimed - Redemption - More than 3 Months to 3 Years (Non Demat) - ISIN: UNCLAIMDISIN",
+    "isin": "INFS5S7LMXXX",
+    "originalProviderKey": "NSE_EQ|INFS5S7LMXXX",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "Mirae Asset NYSE FANG+ ETF Fund of Fund - Direct Plan (Non Demat)",
+    "isin": "INF769K01HH0",
+    "originalProviderKey": "NSE_EQ|INF769K01HH0",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "SMALLCAP",
+    "isin": "INF769K01LC3",
+    "originalProviderKey": "NSE_EQ|INF769K01LC3",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "HDFC Large Cap Fund - Regular Plan - Growth",
+    "isin": "INF179K01BE2",
+    "originalProviderKey": "NSE_EQ|INF179K01BE2",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "ICICI Prudential Value Fund - Growth",
+    "isin": "INF109K01AF8",
+    "originalProviderKey": "NSE_EQ|INF109K01AF8",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "ICICI Prudential Banking and Financial Services Fund - Growth",
+    "isin": "INF109K01BU5",
+    "originalProviderKey": "NSE_EQ|INF109K01BU5",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "ICICI Prudential Infrastructure Fund - Growth",
+    "isin": "INF109K01AV5",
+    "originalProviderKey": "NSE_EQ|INF109K01AV5",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "Kotak Large & Mid Cap Fund - Regular Growth",
+    "isin": "INF174K01187",
+    "originalProviderKey": "NSE_EQ|INF174K01187",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "Kotak Small Cap Fund - Growth (Regular Plan)",
+    "isin": "INF174K01211",
+    "originalProviderKey": "NSE_EQ|INF174K01211",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "NIPPON INDIA CONSUMPTION FUND - GROWTH PLAN - GROWTH OPTION",
+    "isin": "INF204K01AQ4",
+    "originalProviderKey": "NSE_EQ|INF204K01AQ4",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "UTI Nifty200 Momentum 30 Index Fund - Regular Plan",
+    "isin": "INF789F1AUS7",
+    "originalProviderKey": "NSE_EQ|INF789F1AUS7",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "ICICINIFTY",
+    "isin": "INF109K012R6",
+    "originalProviderKey": "NSE_EQ|INF109K012R6",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  },
+  {
+    "symbol": "PHARMABEES",
+    "isin": "INF204KC1089",
+    "originalProviderKey": "NSE_EQ|INF204KC1089",
+    "status": "PENDING_PROVIDER_VALIDATION"
+  }
+]

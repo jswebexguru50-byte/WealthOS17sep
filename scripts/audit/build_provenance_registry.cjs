@@ -1,145 +1,239 @@
-/**
- * scripts/audit/build_provenance_registry.cjs
- *
- * Deterministic audit script to verify raw physical artifacts, compute SHA-256 digests,
- * and build DATA_SOURCE_PROVENANCE_REGISTRY.json with reproducible evidence.
- */
-
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { execFileSync } = require('child_process');
+const Database = require('better-sqlite3');
 
-function computeSha256(filePath) {
-  if (!fs.existsSync(filePath)) {
-    return null;
-  }
-  const fileBuffer = fs.readFileSync(filePath);
-  return crypto.createHash('sha256').update(fileBuffer).digest('hex');
+const ROOT = path.resolve(__dirname, '../../');
+const OUT = path.join(
+  ROOT,
+  'reports/v65-delivery-2.2/DATA_SOURCE_PROVENANCE_REGISTRY.json'
+);
+
+function sha256File(file) {
+  if (!fs.existsSync(file)) return null;
+
+  return crypto
+    .createHash('sha256')
+    .update(fs.readFileSync(file))
+    .digest('hex');
 }
 
-function computeStringSha256(content) {
-  return crypto.createHash('sha256').update(content).digest('hex');
+function sha256String(value) {
+  return crypto
+    .createHash('sha256')
+    .update(value, 'utf8')
+    .digest('hex');
 }
 
-function run() {
-  console.log('Building Provenance Registry from physical artifacts...');
-  const rootDir = path.resolve(__dirname, '../../');
-  
-  // Verify frozen controls as baseline reference
-  const frozenEnginePath = path.join(rootDir, 'src/server/services/PureTechnicalStrategiesEngine.ts');
-  const frozenEngineSha = computeSha256(frozenEnginePath);
+function git(command, args = []) {
+  return execFileSync('git', [command, ...args], {
+    cwd: ROOT,
+    encoding: 'utf8'
+  }).trim();
+}
 
-  // DailyOHLCV verification
-  const dailyOhlcvDbPath = path.join(rootDir, 'data/portfolio.db');
-  let dailyOhlcvSha = null;
-  let dailyOhlcvSize = 0;
-  if (fs.existsSync(dailyOhlcvDbPath)) {
-    const stats = fs.statSync(dailyOhlcvDbPath);
-    dailyOhlcvSize = stats.size;
-    dailyOhlcvSha = computeSha256(dailyOhlcvDbPath);
+function physicalFile(relativePath) {
+  const absolute = path.join(ROOT, relativePath);
+
+  if (!fs.existsSync(absolute)) {
+    return {
+      path: relativePath,
+      exists: false,
+      sha256: null,
+      sizeBytes: null
+    };
   }
 
-  // ValuationSnapshots verification
-  const valSnapshotSample = {
-    symbol: 'RELIANCE.NS',
-    observationTimestamp: '2026-09-18T15:30:00+05:30',
-    close: 2950.50,
-    peRatio: 24.2
+  const stat = fs.statSync(absolute);
+
+  return {
+    path: relativePath,
+    exists: true,
+    sha256: sha256File(absolute),
+    sizeBytes: stat.size
   };
-  const valCanonicalString = JSON.stringify(valSnapshotSample);
-  const valSnapshotSha = computeStringSha256(valCanonicalString);
+}
+
+function sqliteDataset() {
+  const dbPath = path.join(ROOT, 'data/portfolio.db');
+
+  if (!fs.existsSync(dbPath)) {
+    return {
+      exists: false,
+      sha256: null,
+      sizeBytes: null
+    };
+  }
+
+  const stat = fs.statSync(dbPath);
+
+  const db = new Database(dbPath, {
+    readonly: true,
+    fileMustExist: true
+  });
+
+  try {
+    const tables = db.prepare(`
+      SELECT name
+      FROM sqlite_master
+      WHERE type = 'table'
+      ORDER BY name
+    `).all();
+
+    const datasets = {};
+
+    for (const table of tables) {
+      const tableName = table.name;
+
+      const columns = db.prepare(`
+        PRAGMA table_info("${tableName.replace(/"/g, '""')}")
+      `).all();
+
+      const count = db.prepare(`
+        SELECT COUNT(*) AS count
+        FROM "${tableName.replace(/"/g, '""')}"
+      `).get().count;
+
+      datasets[tableName] = {
+        recordCount: Number(count),
+        columns: columns.map(c => ({
+          name: c.name,
+          type: c.type,
+          notnull: Boolean(c.notnull),
+          pk: Boolean(c.pk)
+        }))
+      };
+    }
+
+    return {
+      exists: true,
+      sha256: sha256File(dbPath),
+      sizeBytes: stat.size,
+      datasets
+    };
+  } finally {
+    db.close();
+  }
+}
+
+function sourceDerivedField(value, source, field) {
+  return {
+    value: value ?? null,
+    evidenceClass: value == null ? 'UNVERIFIED' : 'SOURCE_DERIVED',
+    source,
+    field
+  };
+}
+
+function buildDataset(datasetId, sourceAuthority, sourceProvider, artifact) {
+  const status =
+    artifact.exists && artifact.sha256
+      ? 'PHYSICALLY_PRESENT'
+      : 'UNVERIFIED';
+
+  return {
+    datasetId,
+    sourceAuthority,
+    sourceProvider,
+
+    artifact: {
+      path: artifact.path ?? null,
+      sha256: artifact.sha256 ?? null,
+      sizeBytes: artifact.sizeBytes ?? null
+    },
+
+    provenance: {
+      publicationTimestamp: {
+        value: null,
+        evidenceClass: 'UNVERIFIED'
+      },
+      observationTimestamp: {
+        value: null,
+        evidenceClass: 'UNVERIFIED'
+      },
+      effectiveTimestamp: {
+        value: null,
+        evidenceClass: 'UNVERIFIED'
+      },
+      retrievedAt: {
+        value: null,
+        evidenceClass: 'UNVERIFIED'
+      }
+    },
+
+    transformation: {
+      parserVersion: {
+        value: null,
+        evidenceClass: 'UNVERIFIED'
+      },
+      normalizationVersion: {
+        value: null,
+        evidenceClass: 'UNVERIFIED'
+      }
+    },
+
+    status
+  };
+}
+
+function main() {
+  const commit = git('rev-parse', ['HEAD']);
+  const branch = git('rev-parse', ['--abbrev-ref', 'HEAD']);
+
+  const db = sqliteDataset();
 
   const registry = {
-    registry_version: "3.6B_hardened",
-    def004_status: "OPEN",
-    audit_timestamp: new Date().toISOString(),
+    registry_version: '3.6D_source_derived',
+    generatedAt: new Date().toISOString(),
+    generatedAtEvidenceClass: 'AUDIT_EXECUTION_TIME',
+    sourceCommit: commit,
+    branch,
+    workingTreeStatus: git('status', ['--porcelain']),
+
     datasets: [
-      {
-        datasetId: "DailyOHLCV",
-        sourceAuthority: "EXCHANGE_SOURCE",
-        sourceProvider: "NSE",
-        sourceReference: "NSE_Bhavcopy_2026",
-        sourceArtifactId: "portfolio.db",
-        sourceArtifactHash: dailyOhlcvSha || "UNVERIFIABLE_FILE_MISSING",
-        sizeBytes: dailyOhlcvSize,
-        publicationTimestamp: "2026-09-18T18:00:00+05:30",
-        observationTimestamp: "2026-09-18T15:30:00+05:30",
-        effectiveTimestamp: "2026-09-18T15:30:00+05:30",
-        retrievedAt: "2026-09-18T18:15:00+05:30",
-        parserVersion: "v2.1.0",
-        normalizationVersion: "v1.0.0",
-        canonicalHash: computeStringSha256("DailyOHLCV_Canonical_v1_" + (dailyOhlcvSha || "empty")),
-        recordCount: 273750,
-        coverageStart: "2011-01-01",
-        coverageEnd: "2026-09-18",
-        status: dailyOhlcvSha ? "VERIFIED" : "UNVERIFIABLE"
-      },
-      {
-        datasetId: "ValuationSnapshots",
-        sourceAuthority: "AUTHORIZED_VENDOR",
-        sourceProvider: "YahooFinance",
-        sourceReference: "DEF-001_Timestamp_Remediated",
-        sourceArtifactId: "YFIN_QUOTE_20260918.json",
-        sourceArtifactHash: valSnapshotSha,
-        sizeBytes: 1048576,
-        publicationTimestamp: "2026-09-18T15:30:00+05:30",
-        observationTimestamp: "2026-09-18T15:30:00+05:30",
-        effectiveTimestamp: "2026-09-18T15:30:00+05:30",
-        retrievedAt: "2026-09-18T16:00:00+05:30",
-        parserVersion: "v2.2.0",
-        normalizationVersion: "v1.0.0",
-        canonicalHash: valSnapshotSha,
-        recordCount: 750,
-        coverageStart: "2020-01-01",
-        coverageEnd: "2026-09-18",
-        status: "VERIFIED"
-      },
-      {
-        datasetId: "HistoricalFinancialStatements",
-        sourceAuthority: "ISSUER_PRIMARY_FILING",
-        sourceProvider: "BSE_NSE_XBRL",
-        sourceReference: "DEF-004_Primary_Filing_Pending",
-        sourceArtifactId: "FIN_XBRL_UNVERIFIED",
-        sourceArtifactHash: "UNVERIFIED_RAW_HASH",
-        sizeBytes: 0,
-        publicationTimestamp: "UNVERIFIED",
-        observationTimestamp: "UNVERIFIED",
-        effectiveTimestamp: "UNVERIFIED",
-        retrievedAt: "2026-09-18T00:00:00+05:30",
-        parserVersion: "v1.0.0",
-        normalizationVersion: "v1.0.0",
-        canonicalHash: "UNVERIFIED",
-        recordCount: 12000,
-        coverageStart: "2015-01-01",
-        coverageEnd: "2026-06-30",
-        status: "DEF004_OPEN_UNVERIFIED_RAW_HASH"
-      },
-      {
-        datasetId: "HistoricalShareholdingPattern",
-        sourceAuthority: "ISSUER_PRIMARY_FILING",
-        sourceProvider: "BSE_NSE_XBRL",
-        sourceReference: "DEF-004_Primary_Filing_Pending",
-        sourceArtifactId: "SHP_XBRL_UNVERIFIED",
-        sourceArtifactHash: "UNVERIFIED_RAW_HASH",
-        sizeBytes: 0,
-        publicationTimestamp: "UNVERIFIED",
-        observationTimestamp: "UNVERIFIED",
-        effectiveTimestamp: "UNVERIFIED",
-        retrievedAt: "2026-09-18T00:00:00+05:30",
-        parserVersion: "v1.0.0",
-        normalizationVersion: "v1.0.0",
-        canonicalHash: "UNVERIFIED",
-        recordCount: 8000,
-        coverageStart: "2015-01-01",
-        coverageEnd: "2026-06-30",
-        status: "DEF004_OPEN_UNVERIFIED_RAW_HASH"
-      }
-    ]
+      buildDataset(
+        'DailyOHLCV',
+        'EXCHANGE_SOURCE',
+        'NSE',
+        {
+          path: 'data/portfolio.db',
+          exists: db.exists,
+          sha256: db.sha256,
+          sizeBytes: db.sizeBytes
+        }
+      ),
+
+      buildDataset(
+        'HistoricalFinancialStatements',
+        'ISSUER_PRIMARY_FILING',
+        'NSE/BSE_XBRL',
+        physicalFile('data/raw/financials')
+      ),
+
+      buildDataset(
+        'HistoricalShareholdingPattern',
+        'ISSUER_PRIMARY_FILING',
+        'NSE/BSE',
+        physicalFile('data/raw/shareholding')
+      )
+    ],
+
+    databaseInventory: db.datasets,
+
+    integrityRule:
+      'No provenance field may be populated unless it is derived from a physical artifact, database record, source response, or executable source metadata.'
   };
 
-  const outputPath = path.join(rootDir, 'reports/v65-delivery-2.2/DATA_SOURCE_PROVENANCE_REGISTRY.json');
-  fs.writeFileSync(outputPath, JSON.stringify(registry, null, 2));
-  console.log(`Provenance registry written to ${outputPath}`);
+  fs.mkdirSync(path.dirname(OUT), { recursive: true });
+
+  fs.writeFileSync(
+    OUT,
+    JSON.stringify(registry, null, 2) + '\n',
+    'utf8'
+  );
+
+  console.log(`Wrote ${OUT}`);
 }
 
-run();
+main();

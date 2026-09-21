@@ -1,0 +1,21 @@
+{
+  "auditor": "INDEPENDENT_WAVE_3_8_AUDITOR",
+  "evaluatedAt": "2026-09-20T12:04:18.265Z",
+  "sourceCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
+  "executionCommit": "8b74d8b4977e4ccccc040f7ac7e19f39986a6b1c",
+  "frozenControlsVerified": "7/7 MATCH",
+  "prohibitedConstructsCheck": {
+    "any": "PASSED",
+    "tsIgnore": "PASSED",
+    "tsExpectError": "PASSED",
+    "skipLibCheck": "PASSED",
+    "dummyReturns": "PASSED",
+    "fabricatedData": "PASSED"
+  },
+  "productionReadiness": "NOT_READY",
+  "capitalDeploymentPrerequisites": "NOT_MET",
+  "def004Status": "OPEN",
+  "acquisitionFlag": false,
+  "economicReplayFlag": false,
+  "auditVerdict": "FAIL_CLOSED_GATE_UPHELD"
+}

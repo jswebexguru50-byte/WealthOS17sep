@@ -1,0 +1,13 @@
+{
+  "gate": "WAVE_6_HUMAN_ACQUISITION_GATE",
+  "disposition": {
+    "WAVE_6_RECONCILIATION": "PASS",
+    "TRANSITION_TO_HUMAN_GATE": "AUTHORIZED",
+    "WAVE_7_ACQUISITION": "BLOCKED",
+    "PRODUCTION_WRITE": "BLOCKED",
+    "MARKET_DATA_CERTIFICATION": "NOT_PROVEN",
+    "CAPITAL_DEPLOYMENT_AUTHORIZATION": "NOT_AUTHORIZED"
+  },
+  "blocker": "ACCURACY_VALIDATION = BLOCKED due to unverified provider authorization.",
+  "required_action": "Await independent verification of intended-use authorization evidence for YAHOO_FINANCE_PROGRAMMATIC."
+}

@@ -90,7 +90,8 @@ export class BenjaminiHochbergValidator {
         alpha: this.alpha,
         criticalThreshold,
         adjustedQValue: adjustedQ,
-        significant: h.rawPValue <= criticalThreshold && adjustedQ <= this.alpha
+        significant: h.rawPValue <= criticalThreshold && adjustedQ <= this.alpha,
+        rejected: false
       });
     }
 

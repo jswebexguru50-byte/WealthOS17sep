@@ -1,0 +1,113 @@
+{
+  "timestamp": "2026-09-21T05:04:00.128Z",
+  "AUTHORIZATION": "PENDING_HUMAN_APPROVAL",
+  "authorization_note": "The existence of this file does NOT authorize production writes. Promotion requires explicit human sign-off on this exact file hash and the hash of portfolio.db backup.",
+  "promotion_set": {
+    "source_artifact": "reports/market-data/PHASE10RM5Y_PROMOTION_MANIFEST.jsonl",
+    "file_sha256": "be98c71c876df908399d0be52b37df14449e26357f4156dc658c592e97f5cf05",
+    "dry_run_content_sha256": "42d87d2396375e72a453c7e472e0c599a0083fba5642633b72ee5eec54d51abf",
+    "sha256_note": "file_sha256 = byte-level hash of the JSONL file. dry_run_content_sha256 = content-level hash from M3.7 dry-run. Both are valid independent measurements of the same 18,244-record set.",
+    "record_count": 18244,
+    "target_table": "DailyOHLCV",
+    "exchange_coverage": "BSE (primary); all records sourced from Upstox BSE_EQ segment",
+    "source_provider": "UPSTOX",
+    "recovery_phase": "Phase_10R_M4",
+    "fresh_revalidation_timestamp": "2026-09-21T05:01:05.585Z"
+  },
+  "m4_evidence": {
+    "bundle_compound_sha256": "62a153a49e03815fe53be7b42933b7200c3869f0d4469641da57e183f119ab71",
+    "frozen_artifact_count": 21,
+    "m4_forensic_gate": "PASS",
+    "m4_complete_count": 40520,
+    "m4_manual_review_count": 7009,
+    "m4_unaccounted": 0,
+    "queue_sha256": "2470c428538f41356ca1ad31bf3f42d896a6b24c59e5125590d8a1ed2055c080"
+  },
+  "revalidation": {
+    "gate": "PASS",
+    "new_missing_row": 18244,
+    "existing_identical_row": 0,
+    "existing_conflicting_row": 0,
+    "target_schema_unresolved": 0,
+    "unexplained": 0,
+    "anomaly_overlap": 0,
+    "identity_fail": 0,
+    "ohlc_fail": 0
+  },
+  "ohlc_anomalies": {
+    "total": 190,
+    "accounted": 190,
+    "UNACCOUNTED": 0,
+    "promotion_overlap": 0,
+    "no_modifications_applied": true,
+    "note": "All 190 anomalies are isolated from the 18,244 promotion set. They remain as QUARANTINE/IDENTITY_UNRESOLVED pending separate remediation."
+  },
+  "masterticker": {
+    "total_reviewed": 37,
+    "accounted": 37,
+    "UNACCOUNTED": 0,
+    "classification_summary": {
+      "VALID_DISTINCT_INSTRUMENTS": 37,
+      "IDENTITY_REVIEW": 0,
+      "PROPOSED_CORRECTION": 0,
+      "UNRESOLVED": 0
+    },
+    "proposed_corrections": 0,
+    "masterticker_modified": false,
+    "note": "All 37 duplicate symbols are VALID_DISTINCT_INSTRUMENTS (different ISINs or exchange/segment). No MasterTicker corrections required for the promotion set."
+  },
+  "unresolved_dates": {
+    "population": "M4_UNRESOLVED_DATE_REMEDIATION",
+    "total": 7009,
+    "isolation_note": "These 7,009 dates are fully isolated from the promotion set. They will NOT be promoted in this transaction.",
+    "remediation_status": "PENDING_SEPARATE_AUTHORIZATION"
+  },
+  "db_preflight": {
+    "status": "ACCESSIBLE",
+    "dailyohlcv_existing_rows": 4135605,
+    "expected_rows_after_promotion": 4153849,
+    "backup_required": true,
+    "backup_sha256": "NOT_YET_TAKEN — must be taken immediately before promotion",
+    "backup_path": "NOT_YET_DEFINED — must be defined in promotion execution plan"
+  },
+  "safety": {
+    "production_db_writes_to_date": 0,
+    "masterticker_writes_to_date": 0,
+    "strategy_changes_to_date": 0,
+    "certification_changes_to_date": 0,
+    "market_data_certified": false
+  },
+  "cross_gate": {
+    "result": "PASS",
+    "failure_count": 0,
+    "timestamp": "2026-09-21T05:02:50.778Z"
+  },
+  "rollback_plan": {
+    "approach": "DELETE WHERE symbol IN (promotion_set_symbols) AND trade_date IN (promotion_set_dates) AND source_provider = \"UPSTOX\"",
+    "note": "A pre-promotion backup of portfolio.db must be created and its SHA-256 recorded before any insertion. The backup file must be immutable after creation.",
+    "rollback_verification": "After rollback, verify DailyOHLCV row count equals pre-promotion count. Cross-reference with backup SHA-256.",
+    "backup_required_before_promotion": true,
+    "automated_rollback": false,
+    "rollback_requires_human_authorization": true
+  },
+  "next_authorized_transaction": {
+    "required_steps": [
+      "1. Human operator confirms this authorization package by its SHA-256.",
+      "2. Human operator confirms portfolio.db backup SHA-256.",
+      "3. Create portfolio.db backup in a safe, immutable location.",
+      "4. Verify backup SHA-256 matches expected pre-promotion state.",
+      "5. Insert exactly 18,244 rows from PHASE10RM5Y_PROMOTION_MANIFEST.jsonl into DailyOHLCV.",
+      "6. Verify post-insertion row count = pre-promotion count + 18,244.",
+      "7. Re-run phase10rm56_promotion_revalidation.cjs — expect EXISTING_IDENTICAL_ROW = 18,244.",
+      "8. Update MARKET_DATA_CERTIFIED only after all verification passes."
+    ],
+    "prohibited": [
+      "Do not insert before backup is confirmed.",
+      "Do not insert the 7,009 MANUAL_REVIEW dates in this transaction.",
+      "Do not modify MasterTickers as part of this transaction.",
+      "Do not use AI/LLM services during the insertion runtime.",
+      "Do not change certification before post-insertion verification passes."
+    ]
+  },
+  "_package_sha256": "41db30e5d03a16af517c15e39cbedf5c1c3627a7fba818092f8b43e384643599"
+}

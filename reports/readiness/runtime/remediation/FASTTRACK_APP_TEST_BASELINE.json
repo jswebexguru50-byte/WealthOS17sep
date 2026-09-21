@@ -1,0 +1,11 @@
+{
+  "database": {
+    "path": "portfolio.db",
+    "sha256": "c29455f633eaa9bb0c88be2df97c0898350c529a7de736b3dbcc6280474c018e",
+    "daily_ohlcv_rows": 4153849
+  },
+  "certification": false,
+  "m6_record_count": 18244,
+  "m6_protected_set_sha256": "871caeff6757b9ca77086e4df5d644f279893a6511aa81bbd6788103e4d91334",
+  "production_writes": 0
+}

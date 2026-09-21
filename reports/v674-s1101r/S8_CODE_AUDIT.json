@@ -1,0 +1,55 @@
+{
+  "strategyId": "S8",
+  "name": "ADX Strong Trend Continuation",
+  "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+  "functionName": "evaluateS8",
+  "startLine": 2699,
+  "endLine": 2739,
+  "inputs": [
+    "Daily OHLCV"
+  ],
+  "indicators": [
+    "14-day ADX",
+    "+DI",
+    "-DI"
+  ],
+  "lookbacks": [
+    "14 Days"
+  ],
+  "thresholds": [
+    "ADX > 25",
+    "+DI > -DI"
+  ],
+  "comparators": [
+    "ADX > 25"
+  ],
+  "entryConditions": [
+    "+DI crosses above -DI with ADX > 25"
+  ],
+  "exitConditions": [
+    "-DI crosses above +DI or ADX < 20"
+  ],
+  "volumeConditions": [
+    "Volume > 1.0x average"
+  ],
+  "benchmarkDependencies": [
+    "NIFTY 500 regime"
+  ],
+  "intradayDependencies": [],
+  "corporateActionDependencies": [
+    "Split adjusted"
+  ],
+  "pitDependencies": [
+    "Trade date <= Decision date"
+  ],
+  "missingDataBehavior": "FAIL_CLOSED",
+  "fallbackBehavior": "NO_SYNTHETIC_FALLBACK",
+  "timestampSemantics": "EOD Close Available At 16:00 IST",
+  "sourceEvidence": {
+    "file": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "startLine": 2699,
+    "endLine": 2739,
+    "symbol": "evaluateS8",
+    "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+  }
+}

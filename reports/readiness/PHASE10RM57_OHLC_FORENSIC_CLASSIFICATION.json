@@ -1,0 +1,4979 @@
+{
+  "timestamp": "2026-09-21T04:53:23.821Z",
+  "source_file": "PHASE10RM5_OHLC_FORENSICS.json",
+  "total_anomalies": 190,
+  "accounted": 190,
+  "UNACCOUNTED": 0,
+  "root_cause_summary": {
+    "IDENTITY_UNRESOLVED": 8,
+    "UNKNOWN_REQUIRES_REVIEW": 182
+  },
+  "no_modifications_applied": true,
+  "production_db_writes": 0,
+  "important_caveats": [
+    "FLOAT_PRECISION_ARTIFACT requires human confirmation before any repair.",
+    "SPLIT_ADJUSTMENT_CANDIDATE requires corporate action evidence — not established fact.",
+    "OHLC_RELATIONSHIP_VIOLATION root cause is not yet determined — do not repair.",
+    "IDENTITY_UNRESOLVED records cannot be corrected without authoritative identity evidence.",
+    "No row has been modified. All values are read-only observations.",
+    "These 190 rows have ZERO overlap with the 18,244 promotion set (verified by prior M5 analysis)."
+  ],
+  "classified": [
+    {
+      "row_identifier": 3104733,
+      "symbol": "GFSTEELS",
+      "trade_date": "2020-10-13",
+      "open": 3.299999952316284,
+      "high": 3,
+      "low": 3,
+      "close": 3,
+      "volume": 316,
+      "prior_classification": "IDENTITY_UNRESOLVED",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "IDENTITY_UNRESOLVED",
+      "confidence": "HIGH",
+      "evidence": {
+        "violated_invariants": [
+          "high(3) < open(3.299999952316284)"
+        ],
+        "isin_in_record": null,
+        "masterticker_match": null,
+        "note": "Symbol not found in MasterTickers. Cannot resolve provider_key or ISIN. Identity remains unresolved — no correction possible without authoritative source evidence."
+      },
+      "unresolved_questions": [
+        "What is the authoritative ISIN for this symbol?",
+        "Is this instrument listed on a known exchange?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3104751,
+      "symbol": "GFSTEELS",
+      "trade_date": "2020-11-06",
+      "open": 2.9000000953674316,
+      "high": 3,
+      "low": 2.950000047683716,
+      "close": 2.950000047683716,
+      "volume": 311,
+      "prior_classification": "IDENTITY_UNRESOLVED",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "IDENTITY_UNRESOLVED",
+      "confidence": "HIGH",
+      "evidence": {
+        "violated_invariants": [
+          "low(2.950000047683716) > open(2.9000000953674316)"
+        ],
+        "isin_in_record": null,
+        "masterticker_match": null,
+        "note": "Symbol not found in MasterTickers. Cannot resolve provider_key or ISIN. Identity remains unresolved — no correction possible without authoritative source evidence."
+      },
+      "unresolved_questions": [
+        "What is the authoritative ISIN for this symbol?",
+        "Is this instrument listed on a known exchange?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3104902,
+      "symbol": "GFSTEELS",
+      "trade_date": "2021-06-18",
+      "open": 2.8499999046325684,
+      "high": 3.049999952316284,
+      "low": 2.9000000953674316,
+      "close": 2.950000047683716,
+      "volume": 8873,
+      "prior_classification": "IDENTITY_UNRESOLVED",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "IDENTITY_UNRESOLVED",
+      "confidence": "HIGH",
+      "evidence": {
+        "violated_invariants": [
+          "low(2.9000000953674316) > open(2.8499999046325684)"
+        ],
+        "isin_in_record": null,
+        "masterticker_match": null,
+        "note": "Symbol not found in MasterTickers. Cannot resolve provider_key or ISIN. Identity remains unresolved — no correction possible without authoritative source evidence."
+      },
+      "unresolved_questions": [
+        "What is the authoritative ISIN for this symbol?",
+        "Is this instrument listed on a known exchange?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3116480,
+      "symbol": "SABEVENTS",
+      "trade_date": "2020-10-22",
+      "open": 28,
+      "high": 30,
+      "low": 29,
+      "close": 29,
+      "volume": 26,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(29) > open(28)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3117302,
+      "symbol": "SABEVENTS",
+      "trade_date": "2024-02-16",
+      "open": 158,
+      "high": 160,
+      "low": 160,
+      "close": 160,
+      "volume": 77,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(160) > open(158)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3117447,
+      "symbol": "SABEVENTS",
+      "trade_date": "2024-09-20",
+      "open": 221.1999969482422,
+      "high": 226.39999389648438,
+      "low": 221.60000610351562,
+      "close": 221.60000610351562,
+      "volume": 226,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(221.60000610351562) > open(221.1999969482422)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3117717,
+      "symbol": "SABEVENTS",
+      "trade_date": "2025-10-23",
+      "open": 121.80000305175781,
+      "high": 119.80000305175781,
+      "low": 117.19999694824219,
+      "close": 119.80000305175781,
+      "volume": 93,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(119.80000305175781) < open(121.80000305175781)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3149901,
+      "symbol": "ALPSINDUS",
+      "trade_date": "2020-11-06",
+      "open": 10,
+      "high": 11.5,
+      "low": 10.5,
+      "close": 11.5,
+      "volume": 41,
+      "prior_classification": "IDENTITY_UNRESOLVED",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "IDENTITY_UNRESOLVED",
+      "confidence": "HIGH",
+      "evidence": {
+        "violated_invariants": [
+          "low(10.5) > open(10)"
+        ],
+        "isin_in_record": null,
+        "masterticker_match": null,
+        "note": "Symbol not found in MasterTickers. Cannot resolve provider_key or ISIN. Identity remains unresolved — no correction possible without authoritative source evidence."
+      },
+      "unresolved_questions": [
+        "What is the authoritative ISIN for this symbol?",
+        "Is this instrument listed on a known exchange?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3150466,
+      "symbol": "ALPSINDUS",
+      "trade_date": "2023-02-15",
+      "open": 20,
+      "high": 19,
+      "low": 19,
+      "close": 19,
+      "volume": 15,
+      "prior_classification": "IDENTITY_UNRESOLVED",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "IDENTITY_UNRESOLVED",
+      "confidence": "HIGH",
+      "evidence": {
+        "violated_invariants": [
+          "high(19) < open(20)"
+        ],
+        "isin_in_record": null,
+        "masterticker_match": null,
+        "note": "Symbol not found in MasterTickers. Cannot resolve provider_key or ISIN. Identity remains unresolved — no correction possible without authoritative source evidence."
+      },
+      "unresolved_questions": [
+        "What is the authoritative ISIN for this symbol?",
+        "Is this instrument listed on a known exchange?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3150504,
+      "symbol": "ALPSINDUS",
+      "trade_date": "2023-04-17",
+      "open": 12,
+      "high": 13,
+      "low": 13,
+      "close": 13,
+      "volume": 200,
+      "prior_classification": "IDENTITY_UNRESOLVED",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "IDENTITY_UNRESOLVED",
+      "confidence": "HIGH",
+      "evidence": {
+        "violated_invariants": [
+          "low(13) > open(12)"
+        ],
+        "isin_in_record": null,
+        "masterticker_match": null,
+        "note": "Symbol not found in MasterTickers. Cannot resolve provider_key or ISIN. Identity remains unresolved — no correction possible without authoritative source evidence."
+      },
+      "unresolved_questions": [
+        "What is the authoritative ISIN for this symbol?",
+        "Is this instrument listed on a known exchange?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3150545,
+      "symbol": "ALPSINDUS",
+      "trade_date": "2023-06-14",
+      "open": 20,
+      "high": 21,
+      "low": 21,
+      "close": 21,
+      "volume": 111,
+      "prior_classification": "IDENTITY_UNRESOLVED",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "IDENTITY_UNRESOLVED",
+      "confidence": "HIGH",
+      "evidence": {
+        "violated_invariants": [
+          "low(21) > open(20)"
+        ],
+        "isin_in_record": null,
+        "masterticker_match": null,
+        "note": "Symbol not found in MasterTickers. Cannot resolve provider_key or ISIN. Identity remains unresolved — no correction possible without authoritative source evidence."
+      },
+      "unresolved_questions": [
+        "What is the authoritative ISIN for this symbol?",
+        "Is this instrument listed on a known exchange?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3284721,
+      "symbol": "NAGAFERT",
+      "trade_date": "2025-05-02",
+      "open": 4.360000133514404,
+      "high": 4.449999809265137,
+      "low": 4.400000095367432,
+      "close": 4.400000095367432,
+      "volume": 3740,
+      "prior_classification": "IDENTITY_UNRESOLVED",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "IDENTITY_UNRESOLVED",
+      "confidence": "HIGH",
+      "evidence": {
+        "violated_invariants": [
+          "low(4.400000095367432) > open(4.360000133514404)"
+        ],
+        "isin_in_record": null,
+        "masterticker_match": null,
+        "note": "Symbol not found in MasterTickers. Cannot resolve provider_key or ISIN. Identity remains unresolved — no correction possible without authoritative source evidence."
+      },
+      "unresolved_questions": [
+        "What is the authoritative ISIN for this symbol?",
+        "Is this instrument listed on a known exchange?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3348066,
+      "symbol": "EASTSILK",
+      "trade_date": "2020-12-24",
+      "open": 1.4500000476837158,
+      "high": 1.399999976158142,
+      "low": 1.399999976158142,
+      "close": 1.399999976158142,
+      "volume": 2200,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(1.399999976158142) < open(1.4500000476837158)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3348067,
+      "symbol": "EASTSILK",
+      "trade_date": "2020-12-28",
+      "open": 1.4500000476837158,
+      "high": 1.399999976158142,
+      "low": 1.399999976158142,
+      "close": 1.399999976158142,
+      "volume": 1906,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(1.399999976158142) < open(1.4500000476837158)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3348072,
+      "symbol": "EASTSILK",
+      "trade_date": "2021-01-04",
+      "open": 1.4500000476837158,
+      "high": 1.399999976158142,
+      "low": 1.399999976158142,
+      "close": 1.399999976158142,
+      "volume": 75378,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(1.399999976158142) < open(1.4500000476837158)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3372814,
+      "symbol": "ANKITMETAL",
+      "trade_date": "2020-04-29",
+      "open": 0.44999998807907104,
+      "high": 0.4000000059604645,
+      "low": 0.3499999940395355,
+      "close": 0.3499999940395355,
+      "volume": 100,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(0.4000000059604645) < open(0.44999998807907104)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3379249,
+      "symbol": "RADAAN",
+      "trade_date": "2020-04-17",
+      "open": 1.0499999523162842,
+      "high": 1.100000023841858,
+      "low": 1.100000023841858,
+      "close": 1.100000023841858,
+      "volume": 500,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(1.100000023841858) > open(1.0499999523162842)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3379465,
+      "symbol": "RADAAN",
+      "trade_date": "2021-02-23",
+      "open": 0.800000011920929,
+      "high": 0.75,
+      "low": 0.75,
+      "close": 0.75,
+      "volume": 5000,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(0.75) < open(0.800000011920929)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3379474,
+      "symbol": "RADAAN",
+      "trade_date": "2021-03-08",
+      "open": 0.8999999761581421,
+      "high": 0.8500000238418579,
+      "low": 0.8500000238418579,
+      "close": 0.8500000238418579,
+      "volume": 10268,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(0.8500000238418579) < open(0.8999999761581421)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3391088,
+      "symbol": "PREMIER",
+      "trade_date": "2020-04-16",
+      "open": 1.399999976158142,
+      "high": 1.350000023841858,
+      "low": 1.350000023841858,
+      "close": 1.350000023841858,
+      "volume": 100,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(1.350000023841858) < open(1.399999976158142)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3395187,
+      "symbol": "SEYAIND",
+      "trade_date": "2023-07-26",
+      "open": 26.700000762939453,
+      "high": 26.200000762939453,
+      "low": 26.200000762939453,
+      "close": 26.200000762939453,
+      "volume": 2190,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(26.200000762939453) < open(26.700000762939453)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3395332,
+      "symbol": "SEYAIND",
+      "trade_date": "2024-02-27",
+      "open": 24.799999237060547,
+      "high": 24.75,
+      "low": 24.75,
+      "close": 24.75,
+      "volume": 1756,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(24.75) < open(24.799999237060547)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3414312,
+      "symbol": "3PLAND",
+      "trade_date": "2020-07-27",
+      "open": 7.699999809265137,
+      "high": 8.100000381469727,
+      "low": 8.050000190734863,
+      "close": 8.050000190734863,
+      "volume": 80,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(8.050000190734863) > open(7.699999809265137)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3418008,
+      "symbol": "ABMINTLLTD",
+      "trade_date": "2023-08-02",
+      "open": 45.25,
+      "high": 46.150001525878906,
+      "low": 46.150001525878906,
+      "close": 46.150001525878906,
+      "volume": 200,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(46.150001525878906) > open(45.25)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3443898,
+      "symbol": "ADROITINFO",
+      "trade_date": "2023-11-23",
+      "open": 14.429574966430664,
+      "high": 14.605976104736328,
+      "low": 14.605976104736328,
+      "close": 14.605976104736328,
+      "volume": 9311,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(14.605976104736328) > open(14.429574966430664)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3701411,
+      "symbol": "BILVYAPAR",
+      "trade_date": "2023-10-26",
+      "open": 14.550000190734863,
+      "high": 14.699999809265137,
+      "low": 14.699999809265137,
+      "close": 14.699999809265137,
+      "volume": 85,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(14.699999809265137) > open(14.550000190734863)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3701450,
+      "symbol": "BILVYAPAR",
+      "trade_date": "2023-12-22",
+      "open": 14.75,
+      "high": 14.649999618530273,
+      "low": 14.5,
+      "close": 14.649999618530273,
+      "volume": 2218,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(14.649999618530273) < open(14.75)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3701483,
+      "symbol": "BILVYAPAR",
+      "trade_date": "2024-02-12",
+      "open": 17.700000762939453,
+      "high": 17.649999618530273,
+      "low": 17.600000381469727,
+      "close": 17.649999618530273,
+      "volume": 6401,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(17.649999618530273) < open(17.700000762939453)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3847196,
+      "symbol": "CREATIVEYE",
+      "trade_date": "2019-01-02",
+      "open": 2.75,
+      "high": 2.799999952316284,
+      "low": 2.799999952316284,
+      "close": 2.799999952316284,
+      "volume": 100,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(2.799999952316284) > open(2.75)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3847803,
+      "symbol": "CREATIVEYE",
+      "trade_date": "2021-06-22",
+      "open": 3.049999952316284,
+      "high": 3,
+      "low": 3,
+      "close": 3,
+      "volume": 150,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(3) < open(3.049999952316284)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3847867,
+      "symbol": "CREATIVEYE",
+      "trade_date": "2021-09-23",
+      "open": 3.3499999046325684,
+      "high": 3.1500000953674316,
+      "low": 3.1500000953674316,
+      "close": 3.1500000953674316,
+      "volume": 1401,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(3.1500000953674316) < open(3.3499999046325684)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3847928,
+      "symbol": "CREATIVEYE",
+      "trade_date": "2021-12-22",
+      "open": 3.75,
+      "high": 3.5,
+      "low": 3.450000047683716,
+      "close": 3.450000047683716,
+      "volume": 2300,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(3.5) < open(3.75)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3848011,
+      "symbol": "CREATIVEYE",
+      "trade_date": "2022-04-25",
+      "open": 4.599999904632568,
+      "high": 4.800000190734863,
+      "low": 4.75,
+      "close": 4.75,
+      "volume": 1329,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(4.75) > open(4.599999904632568)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3848033,
+      "symbol": "CREATIVEYE",
+      "trade_date": "2022-05-26",
+      "open": 4.25,
+      "high": 4.050000190734863,
+      "low": 3.9000000953674316,
+      "close": 3.9000000953674316,
+      "volume": 5011,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(4.050000190734863) < open(4.25)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3848211,
+      "symbol": "CREATIVEYE",
+      "trade_date": "2023-02-09",
+      "open": 4.5,
+      "high": 4.300000190734863,
+      "low": 4,
+      "close": 4.300000190734863,
+      "volume": 151,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(4.300000190734863) < open(4.5)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3848220,
+      "symbol": "CREATIVEYE",
+      "trade_date": "2023-02-22",
+      "open": 4.150000095367432,
+      "high": 4.900000095367432,
+      "low": 4.900000095367432,
+      "close": 4.900000095367432,
+      "volume": 1,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(4.900000095367432) > open(4.150000095367432)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3848314,
+      "symbol": "CREATIVEYE",
+      "trade_date": "2023-07-13",
+      "open": 3.5999999046325684,
+      "high": 3.9000000953674316,
+      "low": 3.9000000953674316,
+      "close": 3.9000000953674316,
+      "volume": 30,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(3.9000000953674316) > open(3.5999999046325684)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3887754,
+      "symbol": "DCMFINSERV",
+      "trade_date": "2019-05-15",
+      "open": 1.149999976158142,
+      "high": 1.100000023841858,
+      "low": 1.100000023841858,
+      "close": 1.100000023841858,
+      "volume": 11,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(1.100000023841858) < open(1.149999976158142)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3888323,
+      "symbol": "DCMFINSERV",
+      "trade_date": "2021-09-01",
+      "open": 2.5,
+      "high": 2.549999952316284,
+      "low": 2.549999952316284,
+      "close": 2.549999952316284,
+      "volume": 720,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(2.549999952316284) > open(2.5)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 3888346,
+      "symbol": "DCMFINSERV",
+      "trade_date": "2021-10-05",
+      "open": 2.5,
+      "high": 2.4000000953674316,
+      "low": 2.299999952316284,
+      "close": 2.4000000953674316,
+      "volume": 2409,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(2.4000000953674316) < open(2.5)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4009211,
+      "symbol": "EQUIPPP",
+      "trade_date": "2019-07-29",
+      "open": 5,
+      "high": 4,
+      "low": 4,
+      "close": 4,
+      "volume": 560,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(4) < open(5)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4009247,
+      "symbol": "EQUIPPP",
+      "trade_date": "2019-09-23",
+      "open": 9,
+      "high": 8,
+      "low": 8,
+      "close": 8,
+      "volume": 325,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(8) < open(9)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4009256,
+      "symbol": "EQUIPPP",
+      "trade_date": "2019-10-07",
+      "open": 6,
+      "high": 8,
+      "low": 7,
+      "close": 8,
+      "volume": 150,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(7) > open(6)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4009409,
+      "symbol": "EQUIPPP",
+      "trade_date": "2020-05-26",
+      "open": 5,
+      "high": 6,
+      "low": 6,
+      "close": 6,
+      "volume": 0,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(6) > open(5)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4030594,
+      "symbol": "EUROTEXIND",
+      "trade_date": "2021-06-09",
+      "open": 7.25,
+      "high": 7.550000190734863,
+      "low": 7.550000190734863,
+      "close": 7.550000190734863,
+      "volume": 1304,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(7.550000190734863) > open(7.25)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4031156,
+      "symbol": "EUROTEXIND",
+      "trade_date": "2023-09-12",
+      "open": 12.600000381469727,
+      "high": 12.800000190734863,
+      "low": 12.800000190734863,
+      "close": 12.800000190734863,
+      "volume": 808,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(12.800000190734863) > open(12.600000381469727)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4087434,
+      "symbol": "GATECHDVR",
+      "trade_date": "2023-11-20",
+      "open": 10.449999809265137,
+      "high": 10.399999618530273,
+      "low": 10.399999618530273,
+      "close": 10.399999618530273,
+      "volume": 546,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(10.399999618530273) < open(10.449999809265137)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4089414,
+      "symbol": "GANGAFORGE",
+      "trade_date": "2023-11-15",
+      "open": 7,
+      "high": 7.099999904632568,
+      "low": 7.050000190734863,
+      "close": 7.050000190734863,
+      "volume": 92018,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(7.050000190734863) > open(7)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4114300,
+      "symbol": "GLFL",
+      "trade_date": "2021-04-15",
+      "open": 2.75,
+      "high": 2.950000047683716,
+      "low": 2.950000047683716,
+      "close": 2.950000047683716,
+      "volume": 65,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(2.950000047683716) > open(2.75)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4114768,
+      "symbol": "GLFL",
+      "trade_date": "2023-03-01",
+      "open": 2.6500000953674316,
+      "high": 2.799999952316284,
+      "low": 2.700000047683716,
+      "close": 2.799999952316284,
+      "volume": 100,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(2.700000047683716) > open(2.6500000953674316)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4114844,
+      "symbol": "GLFL",
+      "trade_date": "2023-06-23",
+      "open": 3,
+      "high": 2.950000047683716,
+      "low": 2.950000047683716,
+      "close": 2.950000047683716,
+      "volume": 39,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(2.950000047683716) < open(3)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4114861,
+      "symbol": "GLFL",
+      "trade_date": "2023-07-19",
+      "open": 3.25,
+      "high": 3.0999999046325684,
+      "low": 3.049999952316284,
+      "close": 3.0999999046325684,
+      "volume": 4681,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(3.0999999046325684) < open(3.25)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4114891,
+      "symbol": "GLFL",
+      "trade_date": "2023-08-31",
+      "open": 3.700000047683716,
+      "high": 4.050000190734863,
+      "low": 3.8499999046325684,
+      "close": 3.8499999046325684,
+      "volume": 9703,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(3.8499999046325684) > open(3.700000047683716)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4114912,
+      "symbol": "GLFL",
+      "trade_date": "2023-10-03",
+      "open": 3.3499999046325684,
+      "high": 3.5,
+      "low": 3.5,
+      "close": 3.5,
+      "volume": 14,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(3.5) > open(3.3499999046325684)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4114941,
+      "symbol": "GLFL",
+      "trade_date": "2023-11-15",
+      "open": 4.25,
+      "high": 4.300000190734863,
+      "low": 4.300000190734863,
+      "close": 4.300000190734863,
+      "volume": 3057,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(4.300000190734863) > open(4.25)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4114955,
+      "symbol": "GLFL",
+      "trade_date": "2023-12-06",
+      "open": 3.950000047683716,
+      "high": 3.9000000953674316,
+      "low": 3.799999952316284,
+      "close": 3.9000000953674316,
+      "volume": 1790,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(3.9000000953674316) < open(3.950000047683716)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4169369,
+      "symbol": "GPTINFRA",
+      "trade_date": "2023-11-15",
+      "open": 65.57499694824219,
+      "high": 65.55000305175781,
+      "low": 65.25,
+      "close": 65.25,
+      "volume": 96668,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(65.55000305175781) < open(65.57499694824219)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4186667,
+      "symbol": "GTECJAINX",
+      "trade_date": "2024-04-22",
+      "open": 86,
+      "high": 85.44999694824219,
+      "low": 85.44999694824219,
+      "close": 85.44999694824219,
+      "volume": 100,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(85.44999694824219) < open(86)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4186671,
+      "symbol": "GTECJAINX",
+      "trade_date": "2024-04-26",
+      "open": 81.8499984741211,
+      "high": 83.44999694824219,
+      "low": 83.44999694824219,
+      "close": 83.44999694824219,
+      "volume": 7,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(83.44999694824219) > open(81.8499984741211)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4186711,
+      "symbol": "GTECJAINX",
+      "trade_date": "2024-06-26",
+      "open": 70.19999694824219,
+      "high": 69.19999694824219,
+      "low": 69.19999694824219,
+      "close": 69.19999694824219,
+      "volume": 305,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(69.19999694824219) < open(70.19999694824219)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4215913,
+      "symbol": "HBSL",
+      "trade_date": "2019-08-09",
+      "open": 7.349999904632568,
+      "high": 7.650000095367432,
+      "low": 7.650000095367432,
+      "close": 7.650000095367432,
+      "volume": 15,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(7.650000095367432) > open(7.349999904632568)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4215928,
+      "symbol": "HBSL",
+      "trade_date": "2019-09-04",
+      "open": 6.650000095367432,
+      "high": 6.949999809265137,
+      "low": 6.949999809265137,
+      "close": 6.949999809265137,
+      "volume": 81,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(6.949999809265137) > open(6.650000095367432)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4215956,
+      "symbol": "HBSL",
+      "trade_date": "2019-10-17",
+      "open": 7.349999904632568,
+      "high": 6.650000095367432,
+      "low": 6.650000095367432,
+      "close": 6.650000095367432,
+      "volume": 20,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(6.650000095367432) < open(7.349999904632568)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4216063,
+      "symbol": "HBSL",
+      "trade_date": "2020-03-24",
+      "open": 6,
+      "high": 6.550000190734863,
+      "low": 6.550000190734863,
+      "close": 6.550000190734863,
+      "volume": 28,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(6.550000190734863) > open(6)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4216160,
+      "symbol": "HBSL",
+      "trade_date": "2020-08-14",
+      "open": 5.449999809265137,
+      "high": 5.400000095367432,
+      "low": 5.400000095367432,
+      "close": 5.400000095367432,
+      "volume": 180,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(5.400000095367432) < open(5.449999809265137)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4216200,
+      "symbol": "HBSL",
+      "trade_date": "2020-10-12",
+      "open": 5.400000095367432,
+      "high": 5.349999904632568,
+      "low": 5.349999904632568,
+      "close": 5.349999904632568,
+      "volume": 499,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(5.349999904632568) < open(5.400000095367432)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4216219,
+      "symbol": "HBSL",
+      "trade_date": "2020-11-06",
+      "open": 5.400000095367432,
+      "high": 5.150000095367432,
+      "low": 5.150000095367432,
+      "close": 5.150000095367432,
+      "volume": 15,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(5.150000095367432) < open(5.400000095367432)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4295915,
+      "symbol": "ICDSLTD",
+      "trade_date": "2024-02-14",
+      "open": 56.900001525878906,
+      "high": 57,
+      "low": 57,
+      "close": 57,
+      "volume": 9669,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(57) > open(56.900001525878906)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4295998,
+      "symbol": "ICDSLTD",
+      "trade_date": "2024-06-20",
+      "open": 35.900001525878906,
+      "high": 35.95000076293945,
+      "low": 35.939998626708984,
+      "close": 35.939998626708984,
+      "volume": 142,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(35.939998626708984) > open(35.900001525878906)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4322682,
+      "symbol": "IL&FSTRANS",
+      "trade_date": "2023-11-15",
+      "open": 5.449999809265137,
+      "high": 5.599999904632568,
+      "low": 5.5,
+      "close": 5.5,
+      "volume": 23918,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(5.5) > open(5.449999809265137)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4492771,
+      "symbol": "KAUSHALYA",
+      "trade_date": "2019-01-02",
+      "open": 100,
+      "high": 105,
+      "low": 105,
+      "close": 105,
+      "volume": 50,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(105) > open(100)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4492784,
+      "symbol": "KAUSHALYA",
+      "trade_date": "2019-01-21",
+      "open": 95,
+      "high": 100,
+      "low": 100,
+      "close": 100,
+      "volume": 5,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(100) > open(95)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4492897,
+      "symbol": "KAUSHALYA",
+      "trade_date": "2019-07-10",
+      "open": 50,
+      "high": 45,
+      "low": 45,
+      "close": 45,
+      "volume": 6,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(45) < open(50)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4492907,
+      "symbol": "KAUSHALYA",
+      "trade_date": "2019-07-24",
+      "open": 40,
+      "high": 45,
+      "low": 45,
+      "close": 45,
+      "volume": 5,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(45) > open(40)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4493083,
+      "symbol": "KAUSHALYA",
+      "trade_date": "2020-04-16",
+      "open": 40,
+      "high": 45,
+      "low": 45,
+      "close": 45,
+      "volume": 10,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(45) > open(40)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4493090,
+      "symbol": "KAUSHALYA",
+      "trade_date": "2020-04-27",
+      "open": 50,
+      "high": 45,
+      "low": 45,
+      "close": 45,
+      "volume": 0,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(45) < open(50)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4493126,
+      "symbol": "KAUSHALYA",
+      "trade_date": "2020-06-18",
+      "open": 55,
+      "high": 50,
+      "low": 50,
+      "close": 50,
+      "volume": 1,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(50) < open(55)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4494151,
+      "symbol": "KAUSHALYA",
+      "trade_date": "2024-08-07",
+      "open": 909.4500122070312,
+      "high": 946.5499877929688,
+      "low": 927.9000244140625,
+      "close": 946,
+      "volume": 18,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(927.9000244140625) > open(909.4500122070312)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4509552,
+      "symbol": "KCPSUGIND",
+      "trade_date": "2023-11-15",
+      "open": 39.04999923706055,
+      "high": 39.75,
+      "low": 39.29999923706055,
+      "close": 39.29999923706055,
+      "volume": 167654,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(39.29999923706055) > open(39.04999923706055)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4583816,
+      "symbol": "LANDSMILL",
+      "trade_date": "2020-07-30",
+      "open": 0.06333299726247787,
+      "high": 0.06666599959135056,
+      "low": 0.06666599959135056,
+      "close": 0.06666599959135056,
+      "volume": 113490,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(0.06666599959135056) > open(0.06333299726247787)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4583862,
+      "symbol": "LANDSMILL",
+      "trade_date": "2020-10-05",
+      "open": 0.07666599750518799,
+      "high": 0.07999999821186066,
+      "low": 0.07999999821186066,
+      "close": 0.07999999821186066,
+      "volume": 2250,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(0.07999999821186066) > open(0.07666599750518799)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4610659,
+      "symbol": "LOTUSEYE",
+      "trade_date": "2023-09-20",
+      "open": 85.9000015258789,
+      "high": 86,
+      "low": 86,
+      "close": 86,
+      "volume": 514,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(86) > open(85.9000015258789)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4643125,
+      "symbol": "MAGNUM",
+      "trade_date": "2023-07-25",
+      "open": 35.56770324707031,
+      "high": 35.52002716064453,
+      "low": 35.52002716064453,
+      "close": 35.52002716064453,
+      "volume": 1343,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(35.52002716064453) < open(35.56770324707031)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4668416,
+      "symbol": "MALUPAPER",
+      "trade_date": "2024-05-27",
+      "open": 37.75,
+      "high": 37.70000076293945,
+      "low": 37.70000076293945,
+      "close": 37.70000076293945,
+      "volume": 15517,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(37.70000076293945) < open(37.75)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4681015,
+      "symbol": "MASKINVEST",
+      "trade_date": "2024-01-10",
+      "open": 70.1500015258789,
+      "high": 70.55000305175781,
+      "low": 70.5,
+      "close": 70.55000305175781,
+      "volume": 982,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(70.5) > open(70.1500015258789)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4718427,
+      "symbol": "MHLXMIRU",
+      "trade_date": "2023-08-16",
+      "open": 151.5,
+      "high": 151,
+      "low": 151,
+      "close": 151,
+      "volume": 2198,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(151) < open(151.5)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4736087,
+      "symbol": "MOHITIND",
+      "trade_date": "2019-10-29",
+      "open": 4.849999904632568,
+      "high": 4.900000095367432,
+      "low": 4.900000095367432,
+      "close": 4.900000095367432,
+      "volume": 2000,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(4.900000095367432) > open(4.849999904632568)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4736101,
+      "symbol": "MOHITIND",
+      "trade_date": "2019-11-19",
+      "open": 4.800000190734863,
+      "high": 5.400000095367432,
+      "low": 5.099999904632568,
+      "close": 5.400000095367432,
+      "volume": 3155,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(5.099999904632568) > open(4.800000190734863)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4736120,
+      "symbol": "MOHITIND",
+      "trade_date": "2019-12-16",
+      "open": 4.550000190734863,
+      "high": 4.599999904632568,
+      "low": 4.599999904632568,
+      "close": 4.599999904632568,
+      "volume": 5399,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(4.599999904632568) > open(4.550000190734863)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4736156,
+      "symbol": "MOHITIND",
+      "trade_date": "2020-02-05",
+      "open": 3.9000000953674316,
+      "high": 3.799999952316284,
+      "low": 3.799999952316284,
+      "close": 3.799999952316284,
+      "volume": 210,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(3.799999952316284) < open(3.9000000953674316)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4736203,
+      "symbol": "MOHITIND",
+      "trade_date": "2020-04-20",
+      "open": 3.3499999046325684,
+      "high": 3.5,
+      "low": 3.5,
+      "close": 3.5,
+      "volume": 5,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(3.5) > open(3.3499999046325684)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4736372,
+      "symbol": "MOHITIND",
+      "trade_date": "2020-12-18",
+      "open": 7.150000095367432,
+      "high": 7.5,
+      "low": 7.300000190734863,
+      "close": 7.300000190734863,
+      "volume": 1552,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(7.300000190734863) > open(7.150000095367432)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4785910,
+      "symbol": "NAGREEKCAP",
+      "trade_date": "2021-03-15",
+      "open": 6.400000095367432,
+      "high": 6.199999809265137,
+      "low": 6.199999809265137,
+      "close": 6.199999809265137,
+      "volume": 50,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(6.199999809265137) < open(6.400000095367432)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4785960,
+      "symbol": "NAGREEKCAP",
+      "trade_date": "2021-05-31",
+      "open": 6.800000190734863,
+      "high": 7.449999809265137,
+      "low": 7,
+      "close": 7.400000095367432,
+      "volume": 483,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(7) > open(6.800000190734863)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4786062,
+      "symbol": "NAGREEKCAP",
+      "trade_date": "2021-10-26",
+      "open": 7.349999904632568,
+      "high": 7,
+      "low": 6.75,
+      "close": 6.75,
+      "volume": 75,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(7) < open(7.349999904632568)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4786095,
+      "symbol": "NAGREEKCAP",
+      "trade_date": "2021-12-14",
+      "open": 10.300000190734863,
+      "high": 11.300000190734863,
+      "low": 11.300000190734863,
+      "close": 11.300000190734863,
+      "volume": 1000,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(11.300000190734863) > open(10.300000190734863)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4786535,
+      "symbol": "NAGREEKCAP",
+      "trade_date": "2023-09-21",
+      "open": 16,
+      "high": 16.200000762939453,
+      "low": 16.200000762939453,
+      "close": 16.200000762939453,
+      "volume": 1000,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(16.200000762939453) > open(16)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4812046,
+      "symbol": "NDRAUTO",
+      "trade_date": "2023-11-15",
+      "open": 386,
+      "high": 385.5,
+      "low": 382.5,
+      "close": 385.5,
+      "volume": 3068,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(385.5) < open(386)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4850536,
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2021-06-25",
+      "open": 6.349999904632568,
+      "high": 6.300000190734863,
+      "low": 6.25,
+      "close": 6.300000190734863,
+      "volume": 1750,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(6.300000190734863) < open(6.349999904632568)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4850604,
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2021-10-04",
+      "open": 7.25,
+      "high": 6.849999904632568,
+      "low": 6.800000190734863,
+      "close": 6.849999904632568,
+      "volume": 1606,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(6.849999904632568) < open(7.25)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4850611,
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2021-10-13",
+      "open": 7.199999809265137,
+      "high": 7.099999904632568,
+      "low": 7,
+      "close": 7.099999904632568,
+      "volume": 1670,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(7.099999904632568) < open(7.199999809265137)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4850614,
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2021-10-19",
+      "open": 7.349999904632568,
+      "high": 7.300000190734863,
+      "low": 7.050000190734863,
+      "close": 7.050000190734863,
+      "volume": 1700,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(7.300000190734863) < open(7.349999904632568)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4850689,
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2022-02-04",
+      "open": 8.649999618530273,
+      "high": 8.600000381469727,
+      "low": 8.550000190734863,
+      "close": 8.550000190734863,
+      "volume": 3801,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(8.600000381469727) < open(8.649999618530273)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4850780,
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2022-06-20",
+      "open": 5.75,
+      "high": 5.5,
+      "low": 5.300000190734863,
+      "close": 5.300000190734863,
+      "volume": 175,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(5.5) < open(5.75)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4850807,
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2022-07-27",
+      "open": 5.699999809265137,
+      "high": 5.550000190734863,
+      "low": 5.550000190734863,
+      "close": 5.550000190734863,
+      "volume": 100,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(5.550000190734863) < open(5.699999809265137)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4850829,
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2022-08-30",
+      "open": 7.050000190734863,
+      "high": 7.349999904632568,
+      "low": 7.349999904632568,
+      "close": 7.349999904632568,
+      "volume": 200,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(7.349999904632568) > open(7.050000190734863)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4850863,
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2022-10-19",
+      "open": 7,
+      "high": 6.900000095367432,
+      "low": 6.849999904632568,
+      "close": 6.900000095367432,
+      "volume": 410,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(6.900000095367432) < open(7)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4850871,
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2022-11-01",
+      "open": 6.699999809265137,
+      "high": 7,
+      "low": 7,
+      "close": 7,
+      "volume": 380,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(7) > open(6.699999809265137)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4850918,
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2023-01-06",
+      "open": 7.550000190734863,
+      "high": 7.900000095367432,
+      "low": 7.900000095367432,
+      "close": 7.900000095367432,
+      "volume": 500,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(7.900000095367432) > open(7.550000190734863)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4850949,
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2023-02-21",
+      "open": 8.949999809265137,
+      "high": 8.899999618530273,
+      "low": 8.899999618530273,
+      "close": 8.899999618530273,
+      "volume": 1800,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(8.899999618530273) < open(8.949999809265137)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4851002,
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2023-05-15",
+      "open": 7.949999809265137,
+      "high": 8.649999618530273,
+      "low": 8.399999618530273,
+      "close": 8.399999618530273,
+      "volume": 1308,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(8.399999618530273) > open(7.949999809265137)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4851009,
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2023-05-24",
+      "open": 8.75,
+      "high": 8,
+      "low": 8,
+      "close": 8,
+      "volume": 1000,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(8) < open(8.75)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4851018,
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2023-06-06",
+      "open": 8.75,
+      "high": 8.300000190734863,
+      "low": 8.25,
+      "close": 8.25,
+      "volume": 2099,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(8.300000190734863) < open(8.75)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4851039,
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2023-07-06",
+      "open": 7.300000190734863,
+      "high": 7.599999904632568,
+      "low": 7.599999904632568,
+      "close": 7.599999904632568,
+      "volume": 5,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(7.599999904632568) > open(7.300000190734863)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4851106,
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2023-10-12",
+      "open": 12.850000381469727,
+      "high": 13.100000381469727,
+      "low": 13.100000381469727,
+      "close": 13.100000381469727,
+      "volume": 2072,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(13.100000381469727) > open(12.850000381469727)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4879613,
+      "symbol": "OILCOUNTUB",
+      "trade_date": "2023-11-15",
+      "open": 20.700000762939453,
+      "high": 20.299999237060547,
+      "low": 20.200000762939453,
+      "close": 20.299999237060547,
+      "volume": 11920,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(20.299999237060547) < open(20.700000762939453)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4890643,
+      "symbol": "ONIDA",
+      "trade_date": "2023-11-15",
+      "open": 16.100000381469727,
+      "high": 16.25,
+      "low": 16.200000762939453,
+      "close": 16.200000762939453,
+      "volume": 155400,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(16.200000762939453) > open(16.100000381469727)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4895038,
+      "symbol": "OMINFRAL",
+      "trade_date": "2023-09-29",
+      "open": 86.94999694824219,
+      "high": 87,
+      "low": 87,
+      "close": 87,
+      "volume": 15679,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(87) > open(86.94999694824219)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 4927751,
+      "symbol": "PANACHE",
+      "trade_date": "2024-08-06",
+      "open": 132.49000549316406,
+      "high": 132.94000244140625,
+      "low": 132.89999389648438,
+      "close": 132.89999389648438,
+      "volume": 494,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(132.89999389648438) > open(132.49000549316406)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5019421,
+      "symbol": "PRAKASHSTL",
+      "trade_date": "2019-05-24",
+      "open": 0.30000001192092896,
+      "high": 0.25,
+      "low": 0.25,
+      "close": 0.25,
+      "volume": 122800,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(0.25) < open(0.30000001192092896)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5019495,
+      "symbol": "PRAKASHSTL",
+      "trade_date": "2019-09-12",
+      "open": 0.20000000298023224,
+      "high": 0.25,
+      "low": 0.25,
+      "close": 0.25,
+      "volume": 42000,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(0.25) > open(0.20000000298023224)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5019552,
+      "symbol": "PRAKASHSTL",
+      "trade_date": "2019-12-09",
+      "open": 0.25,
+      "high": 0.20000000298023224,
+      "low": 0.20000000298023224,
+      "close": 0.20000000298023224,
+      "volume": 800,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(0.20000000298023224) < open(0.25)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5019568,
+      "symbol": "PRAKASHSTL",
+      "trade_date": "2020-01-01",
+      "open": 0.30000001192092896,
+      "high": 0.25,
+      "low": 0.25,
+      "close": 0.25,
+      "volume": 12849,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(0.25) < open(0.30000001192092896)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5020529,
+      "symbol": "PRAKASHSTL",
+      "trade_date": "2023-11-15",
+      "open": 5.75,
+      "high": 5.699999809265137,
+      "low": 5.699999809265137,
+      "close": 5.699999809265137,
+      "volume": 241643,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(5.699999809265137) < open(5.75)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5023891,
+      "symbol": "PRECOT",
+      "trade_date": "2024-04-02",
+      "open": 316,
+      "high": 320,
+      "low": 320,
+      "close": 320,
+      "volume": 1503,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(320) > open(316)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5039504,
+      "symbol": "PRUDMOULI",
+      "trade_date": "2024-04-04",
+      "open": 24.100000381469727,
+      "high": 24.450000762939453,
+      "low": 24.450000762939453,
+      "close": 24.450000762939453,
+      "volume": 326,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(24.450000762939453) > open(24.100000381469727)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5056112,
+      "symbol": "PVP",
+      "trade_date": "2023-11-15",
+      "open": 14.600000381469727,
+      "high": 14.149999618530273,
+      "low": 14.100000381469727,
+      "close": 14.149999618530273,
+      "volume": 107956,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(14.149999618530273) < open(14.600000381469727)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5105657,
+      "symbol": "REGENCERAM",
+      "trade_date": "2023-12-22",
+      "open": 37.75,
+      "high": 38.45000076293945,
+      "low": 38.45000076293945,
+      "close": 38.45000076293945,
+      "volume": 235,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(38.45000076293945) > open(37.75)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5105730,
+      "symbol": "REGENCERAM",
+      "trade_date": "2024-04-12",
+      "open": 34.29999923706055,
+      "high": 34.400001525878906,
+      "low": 34.400001525878906,
+      "close": 34.400001525878906,
+      "volume": 50,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(34.400001525878906) > open(34.29999923706055)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5105764,
+      "symbol": "REGENCERAM",
+      "trade_date": "2024-06-04",
+      "open": 36.79999923706055,
+      "high": 37,
+      "low": 37,
+      "close": 37,
+      "volume": 2030,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(37) > open(36.79999923706055)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5166741,
+      "symbol": "S&SPOWER",
+      "trade_date": "2020-11-25",
+      "open": 10.199999809265137,
+      "high": 10,
+      "low": 10,
+      "close": 10,
+      "volume": 50,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(10) < open(10.199999809265137)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5166770,
+      "symbol": "S&SPOWER",
+      "trade_date": "2021-01-07",
+      "open": 9.399999618530273,
+      "high": 9,
+      "low": 9,
+      "close": 9,
+      "volume": 27,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(9) < open(9.399999618530273)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5167547,
+      "symbol": "S&SPOWER",
+      "trade_date": "2024-02-28",
+      "open": 269,
+      "high": 269.54998779296875,
+      "low": 269.54998779296875,
+      "close": 269.54998779296875,
+      "volume": 5707,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(269.54998779296875) > open(269)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5289261,
+      "symbol": "SHYAMTEL",
+      "trade_date": "2023-05-22",
+      "open": 8,
+      "high": 8.800000190734863,
+      "low": 8.399999618530273,
+      "close": 8.75,
+      "volume": 476,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(8.399999618530273) > open(8)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5289334,
+      "symbol": "SHYAMTEL",
+      "trade_date": "2023-09-04",
+      "open": 7.800000190734863,
+      "high": 7.099999904632568,
+      "low": 7.099999904632568,
+      "close": 7.099999904632568,
+      "volume": 70,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(7.099999904632568) < open(7.800000190734863)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5289335,
+      "symbol": "SHYAMTEL",
+      "trade_date": "2023-09-05",
+      "open": 6.5,
+      "high": 6.449999809265137,
+      "low": 6.449999809265137,
+      "close": 6.449999809265137,
+      "volume": 525,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(6.449999809265137) < open(6.5)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5289337,
+      "symbol": "SHYAMTEL",
+      "trade_date": "2023-09-07",
+      "open": 7.5,
+      "high": 6.900000095367432,
+      "low": 6.900000095367432,
+      "close": 6.900000095367432,
+      "volume": 6,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(6.900000095367432) < open(7.5)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5289429,
+      "symbol": "SHYAMTEL",
+      "trade_date": "2024-01-24",
+      "open": 9.600000381469727,
+      "high": 9.550000190734863,
+      "low": 9.550000190734863,
+      "close": 9.550000190734863,
+      "volume": 200,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(9.550000190734863) < open(9.600000381469727)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5289500,
+      "symbol": "SHYAMTEL",
+      "trade_date": "2024-05-13",
+      "open": 18.100000381469727,
+      "high": 18.049999237060547,
+      "low": 18.049999237060547,
+      "close": 18.049999237060547,
+      "volume": 1069,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(18.049999237060547) < open(18.100000381469727)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5289518,
+      "symbol": "SHYAMTEL",
+      "trade_date": "2024-06-07",
+      "open": 13,
+      "high": 13.25,
+      "low": 13.25,
+      "close": 13.25,
+      "volume": 500,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(13.25) > open(13)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5344892,
+      "symbol": "SOMICONVEY",
+      "trade_date": "2024-03-21",
+      "open": 134,
+      "high": 133.1999969482422,
+      "low": 133.1999969482422,
+      "close": 133.1999969482422,
+      "volume": 986,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(133.1999969482422) < open(134)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5344900,
+      "symbol": "SOMICONVEY",
+      "trade_date": "2024-04-04",
+      "open": 138,
+      "high": 139.5500030517578,
+      "low": 138.10000610351562,
+      "close": 138.10000610351562,
+      "volume": 3230,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(138.10000610351562) > open(138)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5355159,
+      "symbol": "SPCENET",
+      "trade_date": "2020-04-15",
+      "open": 1.0499999523162842,
+      "high": 1,
+      "low": 1,
+      "close": 1,
+      "volume": 500,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(1) < open(1.0499999523162842)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5356556,
+      "symbol": "SOMATEX",
+      "trade_date": "2020-04-27",
+      "open": 1.7999999523162842,
+      "high": 2,
+      "low": 1.9500000476837158,
+      "close": 2,
+      "volume": 30,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(1.9500000476837158) > open(1.7999999523162842)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5356582,
+      "symbol": "SOMATEX",
+      "trade_date": "2020-06-04",
+      "open": 2.450000047683716,
+      "high": 2.25,
+      "low": 2.25,
+      "close": 2.25,
+      "volume": 500,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(2.25) < open(2.450000047683716)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5357418,
+      "symbol": "SOMATEX",
+      "trade_date": "2023-10-12",
+      "open": 19.25,
+      "high": 19.049999237060547,
+      "low": 19,
+      "close": 19.049999237060547,
+      "volume": 1854,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(19.049999237060547) < open(19.25)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5449256,
+      "symbol": "SVPGLOB",
+      "trade_date": "2024-01-03",
+      "open": 9.649999618530273,
+      "high": 9.600000381469727,
+      "low": 9.5,
+      "close": 9.600000381469727,
+      "volume": 32483,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(9.600000381469727) < open(9.649999618530273)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5468068,
+      "symbol": "TARAPUR",
+      "trade_date": "2019-03-25",
+      "open": 3.799999952316284,
+      "high": 3.700000047683716,
+      "low": 3.700000047683716,
+      "close": 3.700000047683716,
+      "volume": 1105,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(3.700000047683716) < open(3.799999952316284)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5468121,
+      "symbol": "TARAPUR",
+      "trade_date": "2019-06-14",
+      "open": 5.550000190734863,
+      "high": 5.699999809265137,
+      "low": 5.699999809265137,
+      "close": 5.699999809265137,
+      "volume": 200,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(5.699999809265137) > open(5.550000190734863)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5468828,
+      "symbol": "TARAPUR",
+      "trade_date": "2022-04-26",
+      "open": 4.75,
+      "high": 4.5,
+      "low": 4.5,
+      "close": 4.5,
+      "volume": 100,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(4.5) < open(4.75)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5468882,
+      "symbol": "TARAPUR",
+      "trade_date": "2022-07-12",
+      "open": 3.9000000953674316,
+      "high": 3.75,
+      "low": 3.75,
+      "close": 3.75,
+      "volume": 5001,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(3.75) < open(3.9000000953674316)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5468904,
+      "symbol": "TARAPUR",
+      "trade_date": "2022-08-12",
+      "open": 4.650000095367432,
+      "high": 4.050000190734863,
+      "low": 3.950000047683716,
+      "close": 4.050000190734863,
+      "volume": 28,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(4.050000190734863) < open(4.650000095367432)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5468909,
+      "symbol": "TARAPUR",
+      "trade_date": "2022-08-22",
+      "open": 4,
+      "high": 4.099999904632568,
+      "low": 4.099999904632568,
+      "close": 4.099999904632568,
+      "volume": 7102,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(4.099999904632568) > open(4)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5468934,
+      "symbol": "TARAPUR",
+      "trade_date": "2022-09-27",
+      "open": 4.5,
+      "high": 4.599999904632568,
+      "low": 4.599999904632568,
+      "close": 4.599999904632568,
+      "volume": 310,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(4.599999904632568) > open(4.5)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5468948,
+      "symbol": "TARAPUR",
+      "trade_date": "2022-10-18",
+      "open": 4.449999809265137,
+      "high": 4.150000095367432,
+      "low": 4.150000095367432,
+      "close": 4.150000095367432,
+      "volume": 1500,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(4.150000095367432) < open(4.449999809265137)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5468973,
+      "symbol": "TARAPUR",
+      "trade_date": "2022-11-24",
+      "open": 4.400000095367432,
+      "high": 4.099999904632568,
+      "low": 4.050000190734863,
+      "close": 4.099999904632568,
+      "volume": 600,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(4.099999904632568) < open(4.400000095367432)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5485376,
+      "symbol": "TECILCHEM",
+      "trade_date": "2023-09-28",
+      "open": 18.100000381469727,
+      "high": 18.450000762939453,
+      "low": 18.450000762939453,
+      "close": 18.450000762939453,
+      "volume": 10,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(18.450000762939453) > open(18.100000381469727)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5485471,
+      "symbol": "TECILCHEM",
+      "trade_date": "2024-02-19",
+      "open": 27.700000762939453,
+      "high": 28.299999237060547,
+      "low": 28.25,
+      "close": 28.25,
+      "volume": 3125,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(28.25) > open(27.700000762939453)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5485520,
+      "symbol": "TECILCHEM",
+      "trade_date": "2024-05-06",
+      "open": 24.200000762939453,
+      "high": 24.25,
+      "low": 24.25,
+      "close": 24.25,
+      "volume": 20,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(24.25) > open(24.200000762939453)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5486086,
+      "symbol": "TCIFINANCE",
+      "trade_date": "2020-11-03",
+      "open": 4.199999809265137,
+      "high": 4.300000190734863,
+      "low": 4.300000190734863,
+      "close": 4.300000190734863,
+      "volume": 204,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(4.300000190734863) > open(4.199999809265137)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5486120,
+      "symbol": "TCIFINANCE",
+      "trade_date": "2020-12-22",
+      "open": 5,
+      "high": 5.199999809265137,
+      "low": 5.199999809265137,
+      "close": 5.199999809265137,
+      "volume": 21,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(5.199999809265137) > open(5)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5486209,
+      "symbol": "TCIFINANCE",
+      "trade_date": "2021-05-05",
+      "open": 4.800000190734863,
+      "high": 4.699999809265137,
+      "low": 4.699999809265137,
+      "close": 4.699999809265137,
+      "volume": 294,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(4.699999809265137) < open(4.800000190734863)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5486245,
+      "symbol": "TCIFINANCE",
+      "trade_date": "2021-06-25",
+      "open": 6.300000190734863,
+      "high": 6.400000095367432,
+      "low": 6.349999904632568,
+      "close": 6.349999904632568,
+      "volume": 2997,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(6.349999904632568) > open(6.300000190734863)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5486260,
+      "symbol": "TCIFINANCE",
+      "trade_date": "2021-07-16",
+      "open": 5.800000190734863,
+      "high": 5.550000190734863,
+      "low": 5.5,
+      "close": 5.5,
+      "volume": 9437,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(5.550000190734863) < open(5.800000190734863)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5486449,
+      "symbol": "TCIFINANCE",
+      "trade_date": "2022-04-22",
+      "open": 6.900000095367432,
+      "high": 7.199999809265137,
+      "low": 7.199999809265137,
+      "close": 7.199999809265137,
+      "volume": 150,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(7.199999809265137) > open(6.900000095367432)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5486475,
+      "symbol": "TCIFINANCE",
+      "trade_date": "2022-05-31",
+      "open": 5.5,
+      "high": 5.550000190734863,
+      "low": 5.550000190734863,
+      "close": 5.550000190734863,
+      "volume": 490,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(5.550000190734863) > open(5.5)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5509820,
+      "symbol": "TFL",
+      "trade_date": "2020-10-15",
+      "open": 2.552263021469116,
+      "high": 2.7345669269561768,
+      "low": 2.7345669269561768,
+      "close": 2.7345669269561768,
+      "volume": 109,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(2.7345669269561768) > open(2.552263021469116)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5518295,
+      "symbol": "THOMASCOTT",
+      "trade_date": "2023-07-25",
+      "open": 72.5,
+      "high": 73.69999694824219,
+      "low": 73.69999694824219,
+      "close": 73.69999694824219,
+      "volume": 100,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(73.69999694824219) > open(72.5)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5518303,
+      "symbol": "THOMASCOTT",
+      "trade_date": "2023-08-04",
+      "open": 74,
+      "high": 73.1500015258789,
+      "low": 73.1500015258789,
+      "close": 73.1500015258789,
+      "volume": 196,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(73.1500015258789) < open(74)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5527105,
+      "symbol": "TIL",
+      "trade_date": "2023-08-07",
+      "open": 266.29998779296875,
+      "high": 271.70001220703125,
+      "low": 269.3999938964844,
+      "close": 269.3999938964844,
+      "volume": 248,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(269.3999938964844) > open(266.29998779296875)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5527121,
+      "symbol": "TIL",
+      "trade_date": "2023-08-30",
+      "open": 284.20001220703125,
+      "high": 290,
+      "low": 284.95001220703125,
+      "close": 284.95001220703125,
+      "volume": 5906,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(284.95001220703125) > open(284.20001220703125)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5542694,
+      "symbol": "TPHQ",
+      "trade_date": "2020-04-23",
+      "open": 0.16140300035476685,
+      "high": 0.16601499915122986,
+      "low": 0.16601499915122986,
+      "close": 0.16601499915122986,
+      "volume": 1084,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(0.16601499915122986) > open(0.16140300035476685)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5582936,
+      "symbol": "TVVISION",
+      "trade_date": "2019-11-15",
+      "open": 1.4500000476837158,
+      "high": 1.399999976158142,
+      "low": 1.350000023841858,
+      "close": 1.350000023841858,
+      "volume": 2050,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(1.399999976158142) < open(1.4500000476837158)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5582959,
+      "symbol": "TVVISION",
+      "trade_date": "2019-12-18",
+      "open": 1.100000023841858,
+      "high": 1.0499999523162842,
+      "low": 1,
+      "close": 1,
+      "volume": 16148,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(1.0499999523162842) < open(1.100000023841858)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5583012,
+      "symbol": "TVVISION",
+      "trade_date": "2020-03-04",
+      "open": 1.0499999523162842,
+      "high": 1.149999976158142,
+      "low": 1.149999976158142,
+      "close": 1.149999976158142,
+      "volume": 30,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(1.149999976158142) > open(1.0499999523162842)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5583031,
+      "symbol": "TVVISION",
+      "trade_date": "2020-04-01",
+      "open": 1,
+      "high": 1.100000023841858,
+      "low": 1.100000023841858,
+      "close": 1.100000023841858,
+      "volume": 250,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(1.100000023841858) > open(1)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5583784,
+      "symbol": "TVVISION",
+      "trade_date": "2023-04-17",
+      "open": 2.5,
+      "high": 2.5999999046325684,
+      "low": 2.5999999046325684,
+      "close": 2.5999999046325684,
+      "volume": 103,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(2.5999999046325684) > open(2.5)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5583931,
+      "symbol": "TVVISION",
+      "trade_date": "2023-11-17",
+      "open": 3.6500000953674316,
+      "high": 3.5999999046325684,
+      "low": 3.549999952316284,
+      "close": 3.5999999046325684,
+      "volume": 4111,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(3.5999999046325684) < open(3.6500000953674316)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5635817,
+      "symbol": "VARDMNPOLY",
+      "trade_date": "2023-10-17",
+      "open": 5.695000171661377,
+      "high": 5.739999771118164,
+      "low": 5.699999809265137,
+      "close": 5.699999809265137,
+      "volume": 15910,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(5.699999809265137) > open(5.695000171661377)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5712773,
+      "symbol": "WEL",
+      "trade_date": "2023-11-03",
+      "open": 30.454999923706055,
+      "high": 31,
+      "low": 31,
+      "close": 31,
+      "volume": 730,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(31) > open(30.454999923706055)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5720249,
+      "symbol": "WEWIN",
+      "trade_date": "2024-06-25",
+      "open": 76,
+      "high": 76.0999984741211,
+      "low": 76.0999984741211,
+      "close": 76.0999984741211,
+      "volume": 350,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(76.0999984741211) > open(76)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5736328,
+      "symbol": "WSI",
+      "trade_date": "2020-01-15",
+      "open": 1.149999976158142,
+      "high": 1.100000023841858,
+      "low": 1.0499999523162842,
+      "close": 1.100000023841858,
+      "volume": 600,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(1.100000023841858) < open(1.149999976158142)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5736357,
+      "symbol": "WSI",
+      "trade_date": "2020-02-26",
+      "open": 1.399999976158142,
+      "high": 1.350000023841858,
+      "low": 1.2999999523162842,
+      "close": 1.350000023841858,
+      "volume": 6169,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(1.350000023841858) < open(1.399999976158142)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5736373,
+      "symbol": "WSI",
+      "trade_date": "2020-03-20",
+      "open": 1.25,
+      "high": 1.2000000476837158,
+      "low": 1.2000000476837158,
+      "close": 1.2000000476837158,
+      "volume": 500,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(1.2000000476837158) < open(1.25)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5752167,
+      "symbol": "ZEELEARN",
+      "trade_date": "2023-11-15",
+      "open": 7.650000095367432,
+      "high": 7.699999809265137,
+      "low": 7.699999809265137,
+      "close": 7.699999809265137,
+      "volume": 717021,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(7.699999809265137) > open(7.650000095367432)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5755436,
+      "symbol": "ZENITHSTL",
+      "trade_date": "2020-03-13",
+      "open": 0.4000000059604645,
+      "high": 0.3499999940395355,
+      "low": 0.3499999940395355,
+      "close": 0.3499999940395355,
+      "volume": 100,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(0.3499999940395355) < open(0.4000000059604645)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5771690,
+      "symbol": "DESTINY",
+      "trade_date": "2025-07-17",
+      "open": 112,
+      "high": 116.44999694824219,
+      "low": 116.44999694824219,
+      "close": 116.44999694824219,
+      "volume": 9000,
+      "prior_classification": "OHLC_INVALID_OPEN_BELOW_LOW",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "low(116.44999694824219) > open(112)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5773000,
+      "symbol": "PATTECH",
+      "trade_date": "2025-08-13",
+      "open": 159.89999389648438,
+      "high": 157.4499969482422,
+      "low": 157.4499969482422,
+      "close": 157.4499969482422,
+      "volume": 3000,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(157.4499969482422) < open(159.89999389648438)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5773029,
+      "symbol": "PATTECH",
+      "trade_date": "2025-10-15",
+      "open": 107.19999694824219,
+      "high": 103,
+      "low": 103,
+      "close": 103,
+      "volume": 1500,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(103) < open(107.19999694824219)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    },
+    {
+      "row_identifier": 5773757,
+      "symbol": "VELS",
+      "trade_date": "2025-04-07",
+      "open": 78,
+      "high": 75.4000015258789,
+      "low": 75.4000015258789,
+      "close": 75.4000015258789,
+      "volume": 1200,
+      "prior_classification": "OHLC_INVALID_OPEN_ABOVE_HIGH",
+      "prior_disposition": "QUARANTINE",
+      "root_cause": "UNKNOWN_REQUIRES_REVIEW",
+      "confidence": "LOW",
+      "evidence": {
+        "violated_invariants": [
+          "high(75.4000015258789) < open(78)"
+        ],
+        "note": "Cannot classify without additional evidence. Insufficient data to distinguish data-entry error, schema issue, or corporate action."
+      },
+      "unresolved_questions": [
+        "What is the upstream source for this candle?",
+        "What was the correct OHLCV for this date?"
+      ],
+      "modification_applied": false,
+      "production_db_written": false
+    }
+  ]
+}

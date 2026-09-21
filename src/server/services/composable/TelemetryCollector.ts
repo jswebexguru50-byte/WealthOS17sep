@@ -7,12 +7,12 @@
 
 import fs from 'fs';
 import path from 'path';
-import { EngineExecutionTelemetry } from './TelemetryContract.js';
+import { EngineTelemetryRecord } from './TelemetryContract.js';
 
 export class TelemetryCollector {
   private static instance: TelemetryCollector;
   private readonly logPath: string;
-  private memoryLogs: EngineExecutionTelemetry[] = [];
+  private memoryLogs: EngineTelemetryRecord[] = [];
 
   private constructor() {
     this.logPath = path.join(process.cwd(), 'data', 'v66', 'telemetry.jsonl');
@@ -29,12 +29,12 @@ export class TelemetryCollector {
     return TelemetryCollector.instance;
   }
 
-  public record(telemetry: EngineExecutionTelemetry): void {
+  public record(telemetry: EngineTelemetryRecord): void {
     this.memoryLogs.push(telemetry);
     fs.appendFileSync(this.logPath, JSON.stringify(telemetry) + '\n', 'utf8');
   }
 
-  public getTelemetryForRun(runId: string): EngineExecutionTelemetry[] {
+  public getTelemetryForRun(runId: string): EngineTelemetryRecord[] {
     return this.memoryLogs.filter(t => t.runId === runId);
   }
 

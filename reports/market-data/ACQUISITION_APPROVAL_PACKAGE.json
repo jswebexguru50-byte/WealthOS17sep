@@ -1,76 +1,16 @@
 {
-  "status": "PENDING_HUMAN_APPROVAL",
-  "auditMode": "REAL",
-  "auditEvidenceComplete": true,
-  "deltaQueueDeterministic": true,
-  "message": "Phase 9R Gate. Exact deltas calculated deterministically.",
-  "audit_summary": {
-    "rows_scanned": 4130313,
-    "structurally_invalid": 190,
-    "coverage_gaps": 538
-  },
-  "delta_queue": {
-    "acquisition_rows_required": 538,
-    "symbols_affected": 45,
-    "source_required": "NSE_HISTORICAL_DATA",
-    "first_3_deltas": [
-      {
-        "symbol": "20MICRONS",
-        "exchange": "NSE",
-        "from": "2024-08-19",
-        "to": "2024-08-19",
-        "missingSessions": 1,
-        "reason": "MISSING",
-        "requiredFields": [
-          "open",
-          "high",
-          "low",
-          "close",
-          "volume"
-        ],
-        "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
-        "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
-        "priority": "HIGH",
-        "estimatedRows": 1
-      },
-      {
-        "symbol": "20MICRONS",
-        "exchange": "NSE",
-        "from": "2024-08-20",
-        "to": "2024-08-20",
-        "missingSessions": 1,
-        "reason": "MISSING",
-        "requiredFields": [
-          "open",
-          "high",
-          "low",
-          "close",
-          "volume"
-        ],
-        "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
-        "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
-        "priority": "HIGH",
-        "estimatedRows": 1
-      },
-      {
-        "symbol": "20MICRONS",
-        "exchange": "NSE",
-        "from": "2025-02-01",
-        "to": "2025-02-01",
-        "missingSessions": 1,
-        "reason": "MISSING",
-        "requiredFields": [
-          "open",
-          "high",
-          "low",
-          "close",
-          "volume"
-        ],
-        "approvedSource": "YAHOO_FINANCE_PROGRAMMATIC",
-        "sourceAuthorizationEvidence": "CFG_API_ENTITLEMENT_FALLBACK",
-        "priority": "HIGH",
-        "estimatedRows": 1
-      }
-    ]
-  }
+  "phase": "WAVE_6",
+  "universeHash": "2de92f3f49380b07d33cefc32dfd0530d86cb53bffec132822372620dda5fca0",
+  "deltaCount": 34581,
+  "symbolsAffected": 2900,
+  "dataDomains": [
+    "DailyOHLCV"
+  ],
+  "provider": "YAHOO_FINANCE_PROGRAMMATIC",
+  "authorizationEvidence": "BLOCKED",
+  "expectedRows": 34581,
+  "reasons": [
+    "MISSING"
+  ],
+  "status": "AWAITING_HUMAN_APPROVAL"
 }

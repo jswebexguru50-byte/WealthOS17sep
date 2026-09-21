@@ -16,7 +16,7 @@ client = boto3.client(
     aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
 )
 
-MODEL_ID = "anthropic.claude-sonnet-4-5-20250929-v1:0"
+MODEL_ID = "us.anthropic.claude-sonnet-4-6"
 conversation_history = []
 
 def chat(prompt):

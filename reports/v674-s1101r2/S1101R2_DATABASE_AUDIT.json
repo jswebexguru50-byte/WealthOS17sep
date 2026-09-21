@@ -1,0 +1,11 @@
+{
+  "auditTimestamp": "2026-09-20T09:11:29.225Z",
+  "datasetHash": "V2_DATASET_HASH",
+  "applicationWriteCounter": 0,
+  "driverWriteStatements": 0,
+  "databaseWriteAudit": 0,
+  "filesystemForbiddenWrites": 0,
+  "canonicalDatabaseMode": "READ_ONLY",
+  "unexpectedCanonicalWrites": 0,
+  "status": "VERIFIED"
+}

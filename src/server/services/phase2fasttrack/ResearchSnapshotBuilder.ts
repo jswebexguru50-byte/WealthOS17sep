@@ -16,6 +16,8 @@ import path from 'path';
 import crypto from 'crypto';
 import { EvidenceArtifact, computeEvidenceArtifact } from './EvidenceArtifact';
 
+export type PhysicalEvidence = EvidenceArtifact;
+
 export interface ProvenanceEvidenceProvider {
   getSignalLedger(runContext?: Record<string, unknown>): Promise<EvidenceArtifact>;
   getMarketData(runContext?: Record<string, unknown>): Promise<EvidenceArtifact>;

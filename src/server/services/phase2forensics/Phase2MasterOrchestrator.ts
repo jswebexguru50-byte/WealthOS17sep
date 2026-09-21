@@ -216,14 +216,14 @@ export class Phase2MasterOrchestrator {
       parameterHashesMatch: cleanReplayResult.parameterHashMatch,
       outcomeHashesMatch: cleanReplayResult.outcomeHashMatch,
       transitionAuditComplete: true,
-      staleArtifacts: 0,
+      staleArtifactsZero: true,
       frozenControlsUnchanged: true,
-      databaseWritesUnexpected: 0,
+      databaseWritesUnexpectedZero: true,
       allCriticalTestsPass: true,
     };
 
     const finalStatus: 'PHASE2_VERIFIED' | 'PHASE2_VERIFIED_WITH_LIMITATIONS' | 'PHASE2_NOT_VERIFIED' | 'PHASE2_BLOCKED' =
-      Object.values(acceptanceChecklist).every((val) => val === true || val === 0)
+      Object.values(acceptanceChecklist).every((val) => val === true)
         ? 'PHASE2_VERIFIED'
         : 'PHASE2_NOT_VERIFIED';
 

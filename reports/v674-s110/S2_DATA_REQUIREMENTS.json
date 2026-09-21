@@ -1,0 +1,16 @@
+[
+  {
+    "strategyId": "S2",
+    "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "sourceFunction": "evaluateS2",
+    "parameterName": "dailyOHLCV",
+    "sourceField": "close",
+    "formula": "50-day EMA Cross Above 200-day EMA (Golden Cross)",
+    "lookback": "200D",
+    "frequency": "DAILY",
+    "requiredHistory": "2018-01-01 to 2026-04-05",
+    "PITRequired": true,
+    "availabilityTimestampRequired": true,
+    "dependencyType": "OHLCV"
+  }
+]

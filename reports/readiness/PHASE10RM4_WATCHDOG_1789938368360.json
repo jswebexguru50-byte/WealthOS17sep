@@ -1,0 +1,78 @@
+{
+  "timestamp": "2026-09-20T21:04:15.203Z",
+  "mode": "BASELINE",
+  "portfolio_db": {
+    "size": 13510496256,
+    "mtime": "2026-09-20T17:29:21.564Z",
+    "sha256": "f8770cc3718c719bf6a6c458488c3bb6c215674ed48c17d8624f6bbd0fc0cd10"
+  },
+  "master_tickers": {
+    "sha256": "3ef1f4ecf5b672f22e38cc965797eb2bf00ea852f4ce69bc3af25a2ed8240a09",
+    "size": 3958,
+    "mtime": "2026-09-20T20:19:44.567Z"
+  },
+  "m4_queue": {
+    "sha256": "2470c428538f41356ca1ad31bf3f42d896a6b24c59e5125590d8a1ed2055c080",
+    "size": 20627174,
+    "mtime": "2026-09-20T19:56:46.774Z"
+  },
+  "m4_checkpoint": {
+    "sha256": "8e886bcfd3b63116a315923ff5fed2fe2a22b01cf50433d644e4f70f69f2bf7f",
+    "size": 10596,
+    "mtime": "2026-09-20T21:06:00.187Z"
+  },
+  "certification": {
+    "MARKET_DATA_CERTIFIED": false
+  },
+  "strategy_integrity": {
+    "PureTechnicalStrategiesEngine.ts": {
+      "found": false,
+      "sha256": null,
+      "expected": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3",
+      "match": null,
+      "status": "NOT_FOUND"
+    },
+    "StrategyParameterConfig.ts": {
+      "found": false,
+      "sha256": null,
+      "expected": "901ca7a27b2eb4e09183426c9e0dfd7b812aeebf84472b49b9f829661fe7194b",
+      "match": null,
+      "status": "NOT_FOUND"
+    },
+    "SignalQualityOverlay.ts": {
+      "found": false,
+      "sha256": null,
+      "expected": "c41cddb152c150bea932a8b9bd8fcc6ea01a03a2ba030a723789aaada5c17452",
+      "match": null,
+      "status": "NOT_FOUND"
+    },
+    "CapitalProtectionEngine.ts": {
+      "found": false,
+      "sha256": null,
+      "expected": "63b8317889f5a60e9462f883e89acb57fe99e819935ec8f7b30036ecfe4ed753",
+      "match": null,
+      "status": "NOT_FOUND"
+    },
+    "NewTechnicalStrategiesEngine.ts": {
+      "found": false,
+      "sha256": null,
+      "expected": "78415ba3c74ca6a9cc2fcc96d2e54ba871e9bca73fc6e078570c412781b1d354",
+      "match": null,
+      "status": "NOT_FOUND"
+    },
+    "UpstoxIntradayIngestor.ts": {
+      "found": false,
+      "sha256": null,
+      "expected": "0f1c96d0e0c704672517f378990e17facdced7bfbf359daf9c6f37333be1b151",
+      "match": null,
+      "status": "NOT_FOUND"
+    }
+  },
+  "trade_ledger": {
+    "sha256": "035d8867f1f8dbc65f9fe35ea45263f20f9fee00a48d3d7f48807c24a2afd485",
+    "expected": "035d8867f1f8dbc65f9fe35ea45263f20f9fee00a48d3d7f48807c24a2afd485",
+    "match": true,
+    "status": "VERIFIED"
+  },
+  "violations": []
+}

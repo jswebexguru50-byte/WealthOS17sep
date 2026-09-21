@@ -1,0 +1,227 @@
+{
+  "timestamp": "2026-09-21T04:49:04.182Z",
+  "M4_EVIDENCE_FROZEN": "PASS",
+  "bundle_path": "reports\\market-data\\archive\\M4_EVIDENCE_BUNDLE",
+  "compound_sha256": "62a153a49e03815fe53be7b42933b7200c3869f0d4469641da57e183f119ab71",
+  "frozen_count": 21,
+  "missing_count": 0,
+  "mutation_detected": false,
+  "m4_forensic_gate": "PASS",
+  "m4_complete_count": 40520,
+  "m4_manual_review_count": 7009,
+  "m4_unaccounted": 0,
+  "production_db_writes": 0,
+  "certification_changed": false,
+  "artifacts": [
+    {
+      "label": "forensic_gate_json",
+      "src": "reports\\market-data\\PHASE10RM4_FINAL_FORENSIC_GATE.json",
+      "archive_path": "reports\\market-data\\archive\\M4_EVIDENCE_BUNDLE\\PHASE10RM4_FINAL_FORENSIC_GATE.json",
+      "status": "FROZEN",
+      "sha256": "f331177076601efd3acf52d8a04871d80f18e66232ad1dfc818c1b89b2473548",
+      "size": 1913,
+      "source_mtime": "2026-09-21T04:28:19.263Z",
+      "mutation_during_freeze": false
+    },
+    {
+      "label": "forensic_gate_md",
+      "src": "reports\\market-data\\PHASE10RM4_FINAL_FORENSIC_GATE.md",
+      "archive_path": "reports\\market-data\\archive\\M4_EVIDENCE_BUNDLE\\PHASE10RM4_FINAL_FORENSIC_GATE.md",
+      "status": "FROZEN",
+      "sha256": "b291d96fd3e72ba8140edc2c2638d48fcf2c76d06cffaf4b59748133a20d21e6",
+      "size": 3529,
+      "source_mtime": "2026-09-21T04:28:19.266Z",
+      "mutation_during_freeze": false
+    },
+    {
+      "label": "population_reconciliation_json",
+      "src": "reports\\market-data\\PHASE10RM4_FINAL_POPULATION_RECONCILIATION.json",
+      "archive_path": "reports\\market-data\\archive\\M4_EVIDENCE_BUNDLE\\PHASE10RM4_FINAL_POPULATION_RECONCILIATION.json",
+      "status": "FROZEN",
+      "sha256": "1420b43010dfd6cc15050d3996f667935657d4af12776eb2509545cfbfcd3104",
+      "size": 4633730,
+      "source_mtime": "2026-09-21T04:27:08.620Z",
+      "mutation_during_freeze": false
+    },
+    {
+      "label": "population_reconciliation_md",
+      "src": "reports\\market-data\\PHASE10RM4_FINAL_POPULATION_RECONCILIATION.md",
+      "archive_path": "reports\\market-data\\archive\\M4_EVIDENCE_BUNDLE\\PHASE10RM4_FINAL_POPULATION_RECONCILIATION.md",
+      "status": "FROZEN",
+      "sha256": "5ae9bc640b689df72903f2fce4500b8885760fd44c5d31e50a196dc692f4c4e6",
+      "size": 6441,
+      "source_mtime": "2026-09-21T04:29:28.488Z",
+      "mutation_during_freeze": false
+    },
+    {
+      "label": "unresolved_dates_detail",
+      "src": "reports\\market-data\\PHASE10RM4_UNRESOLVED_DATES_DETAIL.json",
+      "archive_path": "reports\\market-data\\archive\\M4_EVIDENCE_BUNDLE\\PHASE10RM4_UNRESOLVED_DATES_DETAIL.json",
+      "status": "FROZEN",
+      "sha256": "5a4655288807262db115b6a6a3c50ca6cca1f1b108b5bf1f3b719c8d99904bcb",
+      "size": 3497660,
+      "source_mtime": "2026-09-21T04:27:08.635Z",
+      "mutation_during_freeze": false
+    },
+    {
+      "label": "legacy_m4_checkpoint",
+      "src": "reports\\market-data\\PHASE10RM4_RECOVERY_CHECKPOINT.json",
+      "archive_path": "reports\\market-data\\archive\\M4_EVIDENCE_BUNDLE\\PHASE10RM4_RECOVERY_CHECKPOINT.json",
+      "status": "FROZEN",
+      "sha256": "2ed4288b71e7b421c370147cb921d23e5c0bc18cf800bf68c584d46c41c0b324",
+      "size": 11757,
+      "source_mtime": "2026-09-20T21:13:13.576Z",
+      "mutation_during_freeze": false
+    },
+    {
+      "label": "overnight_final_report",
+      "src": "reports\\market-data\\PHASE10RM4_OVERNIGHT_FINAL_REPORT.json",
+      "archive_path": "reports\\market-data\\archive\\M4_EVIDENCE_BUNDLE\\PHASE10RM4_OVERNIGHT_FINAL_REPORT.json",
+      "status": "FROZEN",
+      "sha256": "eea7258eba973d450cd3318a4203d8e81eb76825f5b2d4932efdd87c8291bdb7",
+      "size": 778,
+      "source_mtime": "2026-09-20T21:13:12.102Z",
+      "mutation_during_freeze": false
+    },
+    {
+      "label": "queue_manifest",
+      "src": "reports\\market-data\\runtime\\m4\\queue.manifest.json",
+      "archive_path": "reports\\market-data\\archive\\M4_EVIDENCE_BUNDLE\\queue.manifest.json",
+      "status": "FROZEN",
+      "sha256": "fe7998f3528fc9c1c6631cb3aecdf5e11b835fa50b93669f9edf67c9ef61a3e0",
+      "size": 484,
+      "source_mtime": "2026-09-20T21:06:05.918Z",
+      "mutation_during_freeze": false
+    },
+    {
+      "label": "runtime_checkpoint",
+      "src": "reports\\market-data\\runtime\\m4\\checkpoint.json",
+      "archive_path": "reports\\market-data\\archive\\M4_EVIDENCE_BUNDLE\\checkpoint.json",
+      "status": "FROZEN",
+      "sha256": "232dd9e8a303e5cc307be6c896e385860784d94040fe025fb924784256900c93",
+      "size": 208,
+      "source_mtime": "2026-09-20T21:13:12.087Z",
+      "mutation_during_freeze": false
+    },
+    {
+      "label": "runtime_events",
+      "src": "reports\\market-data\\runtime\\m4\\events.jsonl",
+      "archive_path": "reports\\market-data\\archive\\M4_EVIDENCE_BUNDLE\\events.jsonl",
+      "status": "FROZEN",
+      "sha256": "7fa97d7c9e34cfdca9b166b2d8ac545f2635daf823cb63d93765ad8dcdcaab9a",
+      "size": 762,
+      "source_mtime": "2026-09-20T21:13:12.105Z",
+      "mutation_during_freeze": false
+    },
+    {
+      "label": "runtime_requests",
+      "src": "reports\\market-data\\runtime\\m4\\requests.jsonl",
+      "archive_path": "reports\\market-data\\archive\\M4_EVIDENCE_BUNDLE\\requests.jsonl",
+      "status": "FROZEN",
+      "sha256": "ac86d742a3e4f2a6a2de1335c40d62c4553f33713a7112effde0c91f470bafef",
+      "size": 100108,
+      "source_mtime": "2026-09-20T21:13:11.316Z",
+      "mutation_during_freeze": false
+    },
+    {
+      "label": "runtime_failures",
+      "src": "reports\\market-data\\runtime\\m4\\failures.jsonl",
+      "archive_path": "reports\\market-data\\archive\\M4_EVIDENCE_BUNDLE\\failures.jsonl",
+      "status": "FROZEN",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0,
+      "source_mtime": "2026-09-20T21:06:07.488Z",
+      "mutation_during_freeze": false
+    },
+    {
+      "label": "runtime_recovered_candles",
+      "src": "reports\\market-data\\runtime\\m4\\recovered_candles.jsonl",
+      "archive_path": "reports\\market-data\\archive\\M4_EVIDENCE_BUNDLE\\recovered_candles.jsonl",
+      "status": "FROZEN",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0,
+      "source_mtime": "2026-09-20T20:01:41.278Z",
+      "mutation_during_freeze": false
+    },
+    {
+      "label": "runtime_reconciliation",
+      "src": "reports\\market-data\\runtime\\m4\\reconciliation.json",
+      "archive_path": "reports\\market-data\\archive\\M4_EVIDENCE_BUNDLE\\reconciliation.json",
+      "status": "FROZEN",
+      "sha256": "377830ef0a2584d92d475f34a1f0daa383df977356367f11340430ded13af8a9",
+      "size": 341,
+      "source_mtime": "2026-09-20T21:13:12.095Z",
+      "mutation_during_freeze": false
+    },
+    {
+      "label": "ai_dependency_audit",
+      "src": "reports\\market-data\\PHASE10RM6_AI_DEPENDENCY_AUDIT.json",
+      "archive_path": "reports\\market-data\\archive\\M4_EVIDENCE_BUNDLE\\PHASE10RM6_AI_DEPENDENCY_AUDIT.json",
+      "status": "FROZEN",
+      "sha256": "c84a71c22b24fa1029ddb982aca48d0be6da083a85237498f7251b2aab3684fc",
+      "size": 2847,
+      "source_mtime": "2026-09-20T21:04:13.248Z",
+      "mutation_during_freeze": false
+    },
+    {
+      "label": "offline_test_results",
+      "src": "reports\\market-data\\PHASE10RM6_OFFLINE_TEST_RESULTS.json",
+      "archive_path": "reports\\market-data\\archive\\M4_EVIDENCE_BUNDLE\\PHASE10RM6_OFFLINE_TEST_RESULTS.json",
+      "status": "FROZEN",
+      "sha256": "9cb9e65339d2c5866fbcd5830d64c411a346c788746ea9ce0e9721340f3f2665",
+      "size": 3964,
+      "source_mtime": "2026-09-20T21:04:14.487Z",
+      "mutation_during_freeze": false
+    },
+    {
+      "label": "m6_final_gate",
+      "src": "reports\\market-data\\PHASE10RM6_FINAL_GATE.json",
+      "archive_path": "reports\\market-data\\archive\\M4_EVIDENCE_BUNDLE\\PHASE10RM6_FINAL_GATE.json",
+      "status": "FROZEN",
+      "sha256": "1820817898a6da1a91f63344451c53fcd4582d0a0456c5b9807c90bf8ba506e6",
+      "size": 769,
+      "source_mtime": "2026-09-20T21:05:57.918Z",
+      "mutation_during_freeze": false
+    },
+    {
+      "label": "fastpath_manifest",
+      "src": "reports\\market-data\\PHASE10RM4_FASTPATH_MANIFEST.json",
+      "archive_path": "reports\\market-data\\archive\\M4_EVIDENCE_BUNDLE\\PHASE10RM4_FASTPATH_MANIFEST.json",
+      "status": "FROZEN",
+      "sha256": "1b496272a52b8781c6d20720574f251c9d2813fe43175e8e689070bd9511be24",
+      "size": 1641,
+      "source_mtime": "2026-09-20T21:05:56.875Z",
+      "mutation_during_freeze": false
+    },
+    {
+      "label": "fastpath_analysis",
+      "src": "reports\\market-data\\PHASE10RM4_FASTPATH_ANALYSIS.json",
+      "archive_path": "reports\\market-data\\archive\\M4_EVIDENCE_BUNDLE\\PHASE10RM4_FASTPATH_ANALYSIS.json",
+      "status": "FROZEN",
+      "sha256": "b3681630fee4c54af3198f7f4ee5efca6c983982c3b4f31c8917839e469abbbb",
+      "size": 176821,
+      "source_mtime": "2026-09-20T20:55:18.237Z",
+      "mutation_during_freeze": false
+    },
+    {
+      "label": "fastpath_benchmark",
+      "src": "reports\\market-data\\PHASE10RM4_FASTPATH_BENCHMARK.json",
+      "archive_path": "reports\\market-data\\archive\\M4_EVIDENCE_BUNDLE\\PHASE10RM4_FASTPATH_BENCHMARK.json",
+      "status": "FROZEN",
+      "sha256": "aa304c669f57b1d352902d0ac79246b044a5584dbb070c291607cc32742c4e08",
+      "size": 797,
+      "source_mtime": "2026-09-20T21:05:20.442Z",
+      "mutation_during_freeze": false
+    },
+    {
+      "label": "fastpath_benchmark_cohort",
+      "src": "reports\\market-data\\PHASE10RM4_FASTPATH_BENCHMARK_COHORT.json",
+      "archive_path": "reports\\market-data\\archive\\M4_EVIDENCE_BUNDLE\\PHASE10RM4_FASTPATH_BENCHMARK_COHORT.json",
+      "status": "FROZEN",
+      "sha256": "421a3bb3500d65733b625f7d925e7ed5d7690a84de848d31f30d444a8feb5002",
+      "size": 25591,
+      "source_mtime": "2026-09-20T21:04:30.790Z",
+      "mutation_during_freeze": false
+    }
+  ]
+}

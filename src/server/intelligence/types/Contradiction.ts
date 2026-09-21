@@ -38,6 +38,8 @@ export type ComparabilityState =
   | 'NOT_COMPARABLE'
   | 'CONDITIONALLY_COMPARABLE';
 
+export type ContradictionStatus = ContradictionState;
+
 // Legacy status alias for backward compatibility
 export type ContradictionResolutionStatus =
   | 'OPEN'

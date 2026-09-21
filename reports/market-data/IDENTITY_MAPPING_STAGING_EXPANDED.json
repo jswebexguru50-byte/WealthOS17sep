@@ -1,0 +1,1002 @@
+{
+  "DEL-544556-2024-02-29": {
+    "symbol": "544556",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0SPJ01011",
+    "corrected_upstox_key": "BSE_EQ|INE0SPJ01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.503Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-535647-2024-01-08": {
+    "symbol": "535647",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE807O01011",
+    "corrected_upstox_key": "BSE_EQ|INE807O01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544683-2024-06-28": {
+    "symbol": "544683",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE1D8001016",
+    "corrected_upstox_key": "BSE_EQ|INE1D8001016",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-543991-2024-04-26": {
+    "symbol": "543991",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0P4P01011",
+    "corrected_upstox_key": "BSE_EQ|INE0P4P01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-543239-2024-03-11": {
+    "symbol": "543239",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0E2801015",
+    "corrected_upstox_key": "BSE_EQ|INE0E2801015",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-543366-2024-02-28": {
+    "symbol": "543366",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0DLM01024",
+    "corrected_upstox_key": "BSE_EQ|INE0DLM01024",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-540082-2024-04-22": {
+    "symbol": "540082",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE367U01013",
+    "corrected_upstox_key": "BSE_EQ|INE367U01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544091-2024-06-07": {
+    "symbol": "544091",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0Q1R01012",
+    "corrected_upstox_key": "BSE_EQ|INE0Q1R01012",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544495-2024-04-02": {
+    "symbol": "544495",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0M3X01010",
+    "corrected_upstox_key": "BSE_EQ|INE0M3X01010",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544693-2024-07-22": {
+    "symbol": "544693",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE163401016",
+    "corrected_upstox_key": "BSE_EQ|INE163401016",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-541445-2024-05-16": {
+    "symbol": "541445",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE799N01012",
+    "corrected_upstox_key": "BSE_EQ|INE799N01012",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-543305-2024-03-07": {
+    "symbol": "543305",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0DB001013",
+    "corrected_upstox_key": "BSE_EQ|INE0DB001013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544083-2024-07-15": {
+    "symbol": "544083",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0QIS01011",
+    "corrected_upstox_key": "BSE_EQ|INE0QIS01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544489-2024-02-06": {
+    "symbol": "544489",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE191201016",
+    "corrected_upstox_key": "BSE_EQ|INE191201016",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544724-2024-05-15": {
+    "symbol": "544724",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE1FEW01013",
+    "corrected_upstox_key": "BSE_EQ|INE1FEW01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-542728-2024-03-06": {
+    "symbol": "542728",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE04ST01013",
+    "corrected_upstox_key": "BSE_EQ|INE04ST01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544177-2024-02-13": {
+    "symbol": "544177",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0SCB01016",
+    "corrected_upstox_key": "BSE_EQ|INE0SCB01016",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-539229-2024-02-16": {
+    "symbol": "539229",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE196R01012",
+    "corrected_upstox_key": "BSE_EQ|INE196R01012",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544556-2024-08-01": {
+    "symbol": "544556",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0SPJ01011",
+    "corrected_upstox_key": "BSE_EQ|INE0SPJ01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-540146-2024-01-30": {
+    "symbol": "540146",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE427V01013",
+    "corrected_upstox_key": "BSE_EQ|INE427V01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.516Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-543410-2024-06-07": {
+    "symbol": "543410",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE07L501010",
+    "corrected_upstox_key": "BSE_EQ|INE07L501010",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544710-2024-02-27": {
+    "symbol": "544710",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE132201018",
+    "corrected_upstox_key": "BSE_EQ|INE132201018",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-543897-2024-07-19": {
+    "symbol": "543897",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0P7001013",
+    "corrected_upstox_key": "BSE_EQ|INE0P7001013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-780013-2024-06-20": {
+    "symbol": "780013",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE324P01014",
+    "corrected_upstox_key": "BSE_EQ|INE324P01014",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544811-2024-08-01": {
+    "symbol": "544811",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE1L0M01019",
+    "corrected_upstox_key": "BSE_EQ|INE1L0M01019",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-543578-2024-02-13": {
+    "symbol": "543578",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0M3901015",
+    "corrected_upstox_key": "BSE_EQ|INE0M3901015",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544059-2024-05-31": {
+    "symbol": "544059",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0QZQ01019",
+    "corrected_upstox_key": "BSE_EQ|INE0QZQ01019",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544677-2024-01-17": {
+    "symbol": "544677",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0ZE201010",
+    "corrected_upstox_key": "BSE_EQ|INE0ZE201010",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-541178-2024-08-14": {
+    "symbol": "541178",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE495Z01011",
+    "corrected_upstox_key": "BSE_EQ|INE495Z01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-543595-2024-03-01": {
+    "symbol": "543595",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0D2I01014",
+    "corrected_upstox_key": "BSE_EQ|INE0D2I01014",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-543319-2024-08-05": {
+    "symbol": "543319",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0C5901022",
+    "corrected_upstox_key": "BSE_EQ|INE0C5901022",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544551-2024-06-07": {
+    "symbol": "544551",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE18PB01017",
+    "corrected_upstox_key": "BSE_EQ|INE18PB01017",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544251-2024-07-19": {
+    "symbol": "544251",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0LY301010",
+    "corrected_upstox_key": "BSE_EQ|INE0LY301010",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-541299-2024-04-15": {
+    "symbol": "541299",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE871Z01013",
+    "corrected_upstox_key": "BSE_EQ|INE871Z01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544248-2024-04-30": {
+    "symbol": "544248",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0UYT01018",
+    "corrected_upstox_key": "BSE_EQ|INE0UYT01018",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-537784-2024-02-13": {
+    "symbol": "537784",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE576P01019",
+    "corrected_upstox_key": "BSE_EQ|INE576P01019",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544575-2024-03-26": {
+    "symbol": "544575",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE833Q01012",
+    "corrected_upstox_key": "BSE_EQ|INE833Q01012",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544334-2024-01-04": {
+    "symbol": "544334",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0FK501019",
+    "corrected_upstox_key": "BSE_EQ|INE0FK501019",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544056-2024-08-22": {
+    "symbol": "544056",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0PSJ01011",
+    "corrected_upstox_key": "BSE_EQ|INE0PSJ01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-540144-2024-02-06": {
+    "symbol": "540144",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE746V01016",
+    "corrected_upstox_key": "BSE_EQ|INE746V01016",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-540416-2024-08-23": {
+    "symbol": "540416",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE208U01019",
+    "corrected_upstox_key": "BSE_EQ|INE208U01019",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-540416-2024-05-27": {
+    "symbol": "540416",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE208U01019",
+    "corrected_upstox_key": "BSE_EQ|INE208U01019",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544724-2024-03-12": {
+    "symbol": "544724",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE1FEW01013",
+    "corrected_upstox_key": "BSE_EQ|INE1FEW01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-543745-2024-03-04": {
+    "symbol": "543745",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0MID01012",
+    "corrected_upstox_key": "BSE_EQ|INE0MID01012",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544774-2024-08-23": {
+    "symbol": "544774",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE11XK01017",
+    "corrected_upstox_key": "BSE_EQ|INE11XK01017",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544630-2024-06-11": {
+    "symbol": "544630",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE1FJE01010",
+    "corrected_upstox_key": "BSE_EQ|INE1FJE01010",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-543172-2024-06-18": {
+    "symbol": "543172",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0CQB01010",
+    "corrected_upstox_key": "BSE_EQ|INE0CQB01010",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544417-2024-07-29": {
+    "symbol": "544417",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0XCV01014",
+    "corrected_upstox_key": "BSE_EQ|INE0XCV01014",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544056-2024-07-12": {
+    "symbol": "544056",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0PSJ01011",
+    "corrected_upstox_key": "BSE_EQ|INE0PSJ01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-543804-2024-06-25": {
+    "symbol": "543804",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0G1V01016",
+    "corrected_upstox_key": "BSE_EQ|INE0G1V01016",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-538496-2024-05-15": {
+    "symbol": "538496",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE849M01017",
+    "corrected_upstox_key": "BSE_EQ|INE849M01017",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544555-2024-04-22": {
+    "symbol": "544555",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE14QA01016",
+    "corrected_upstox_key": "BSE_EQ|INE14QA01016",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544442-2024-04-18": {
+    "symbol": "544442",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0VWL01017",
+    "corrected_upstox_key": "BSE_EQ|INE0VWL01017",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544412-2024-05-07": {
+    "symbol": "544412",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0TE101010",
+    "corrected_upstox_key": "BSE_EQ|INE0TE101010",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-542771-2024-05-03": {
+    "symbol": "542771",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE08JY01013",
+    "corrected_upstox_key": "BSE_EQ|INE08JY01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-542002-2024-01-01": {
+    "symbol": "542002",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE061Z01011",
+    "corrected_upstox_key": "BSE_EQ|INE061Z01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544566-2024-08-02": {
+    "symbol": "544566",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE10CM01027",
+    "corrected_upstox_key": "BSE_EQ|INE10CM01027",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-540736-2024-05-07": {
+    "symbol": "540736",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE930X01012",
+    "corrected_upstox_key": "BSE_EQ|INE930X01012",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-542924-2024-02-16": {
+    "symbol": "542924",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE04OV01018",
+    "corrected_upstox_key": "BSE_EQ|INE04OV01018",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-543244-2024-08-13": {
+    "symbol": "543244",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0BLY01023",
+    "corrected_upstox_key": "BSE_EQ|INE0BLY01023",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544105-2024-08-07": {
+    "symbol": "544105",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0OLZ01015",
+    "corrected_upstox_key": "BSE_EQ|INE0OLZ01015",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-543541-2024-08-26": {
+    "symbol": "543541",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0KHQ01010",
+    "corrected_upstox_key": "BSE_EQ|INE0KHQ01010",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544741-2024-05-03": {
+    "symbol": "544741",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE1KI801019",
+    "corrected_upstox_key": "BSE_EQ|INE1KI801019",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-543319-2024-01-01": {
+    "symbol": "543319",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0C5901022",
+    "corrected_upstox_key": "BSE_EQ|INE0C5901022",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544101-2024-08-09": {
+    "symbol": "544101",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0Q6L01014",
+    "corrected_upstox_key": "BSE_EQ|INE0Q6L01014",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544296-2024-08-06": {
+    "symbol": "544296",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0DQN01013",
+    "corrected_upstox_key": "BSE_EQ|INE0DQN01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-543753-2024-06-10": {
+    "symbol": "543753",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0M9Q01011",
+    "corrected_upstox_key": "BSE_EQ|INE0M9Q01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544165-2024-08-07": {
+    "symbol": "544165",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0SGR01013",
+    "corrected_upstox_key": "BSE_EQ|INE0SGR01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544520-2024-02-22": {
+    "symbol": "544520",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE10XS01012",
+    "corrected_upstox_key": "BSE_EQ|INE10XS01012",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544047-2024-04-30": {
+    "symbol": "544047",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0QSK01017",
+    "corrected_upstox_key": "BSE_EQ|INE0QSK01017",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-541353-2024-07-16": {
+    "symbol": "541353",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE870Z01015",
+    "corrected_upstox_key": "BSE_EQ|INE870Z01015",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544640-2024-02-20": {
+    "symbol": "544640",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE1DKT01011",
+    "corrected_upstox_key": "BSE_EQ|INE1DKT01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544535-2024-03-11": {
+    "symbol": "544535",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0QMV01017",
+    "corrected_upstox_key": "BSE_EQ|INE0QMV01017",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544538-2024-02-13": {
+    "symbol": "544538",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0TI501017",
+    "corrected_upstox_key": "BSE_EQ|INE0TI501017",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-890163-2024-01-18": {
+    "symbol": "890163",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|IN9564S01017",
+    "corrected_upstox_key": "BSE_EQ|IN9564S01017",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544337-2024-04-16": {
+    "symbol": "544337",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0NQ401024",
+    "corrected_upstox_key": "BSE_EQ|INE0NQ401024",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-540550-2024-05-15": {
+    "symbol": "540550",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE796W01019",
+    "corrected_upstox_key": "BSE_EQ|INE796W01019",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-543464-2024-01-12": {
+    "symbol": "543464",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0JSJ01014",
+    "corrected_upstox_key": "BSE_EQ|INE0JSJ01014",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-542446-2024-01-02": {
+    "symbol": "542446",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE793Z01027",
+    "corrected_upstox_key": "BSE_EQ|INE793Z01027",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-536644-2024-01-23": {
+    "symbol": "536644",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE596O01010",
+    "corrected_upstox_key": "BSE_EQ|INE596O01010",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-541196-2024-01-23": {
+    "symbol": "541196",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE860Y01019",
+    "corrected_upstox_key": "BSE_EQ|INE860Y01019",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-541983-2024-01-05": {
+    "symbol": "541983",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE492Y01011",
+    "corrected_upstox_key": "BSE_EQ|INE492Y01011",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544267-2024-08-20": {
+    "symbol": "544267",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0U6201010",
+    "corrected_upstox_key": "BSE_EQ|INE0U6201010",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544433-2024-06-12": {
+    "symbol": "544433",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE130701019",
+    "corrected_upstox_key": "BSE_EQ|INE130701019",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-541299-2024-05-09": {
+    "symbol": "541299",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE871Z01013",
+    "corrected_upstox_key": "BSE_EQ|INE871Z01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544170-2024-03-11": {
+    "symbol": "544170",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0QXT01018",
+    "corrected_upstox_key": "BSE_EQ|INE0QXT01018",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-890163-2024-04-23": {
+    "symbol": "890163",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|IN9564S01017",
+    "corrected_upstox_key": "BSE_EQ|IN9564S01017",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544270-2024-02-13": {
+    "symbol": "544270",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0S9501014",
+    "corrected_upstox_key": "BSE_EQ|INE0S9501014",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544520-2024-07-29": {
+    "symbol": "544520",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE10XS01012",
+    "corrected_upstox_key": "BSE_EQ|INE10XS01012",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-780015-2024-04-04": {
+    "symbol": "780015",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE760Q01017",
+    "corrected_upstox_key": "BSE_EQ|INE760Q01017",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544150-2024-05-13": {
+    "symbol": "544150",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0QVH01025",
+    "corrected_upstox_key": "BSE_EQ|INE0QVH01025",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544561-2024-01-11": {
+    "symbol": "544561",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE12P101018",
+    "corrected_upstox_key": "BSE_EQ|INE12P101018",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544224-2024-05-24": {
+    "symbol": "544224",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0OXY01013",
+    "corrected_upstox_key": "BSE_EQ|INE0OXY01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-542727-2024-06-03": {
+    "symbol": "542727",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE056001014",
+    "corrected_upstox_key": "BSE_EQ|INE056001014",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-543619-2024-02-07": {
+    "symbol": "543619",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE0N0J01014",
+    "corrected_upstox_key": "BSE_EQ|INE0N0J01014",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-542728-2024-04-05": {
+    "symbol": "542728",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE04ST01013",
+    "corrected_upstox_key": "BSE_EQ|INE04ST01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-540903-2024-07-31": {
+    "symbol": "540903",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE422M01013",
+    "corrected_upstox_key": "BSE_EQ|INE422M01013",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-544433-2024-04-12": {
+    "symbol": "544433",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE130701019",
+    "corrected_upstox_key": "BSE_EQ|INE130701019",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-542850-2024-08-08": {
+    "symbol": "542850",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE492Z01018",
+    "corrected_upstox_key": "BSE_EQ|INE492Z01018",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  },
+  "DEL-543979-2024-05-31": {
+    "symbol": "543979",
+    "exchange": "BSE",
+    "original_upstox_key": "NSE_EQ|INE04T901017",
+    "corrected_upstox_key": "BSE_EQ|INE04T901017",
+    "mapping_rationale": "BSE numeric with valid ISIN mapped to BSE_EQ",
+    "mapping_source": "Phase 10R-M Expansion Logic",
+    "mapping_timestamp": "2026-09-20T18:28:40.517Z",
+    "validation_status": "PENDING_RETEST"
+  }
+}

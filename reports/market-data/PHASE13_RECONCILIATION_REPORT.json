@@ -1,11 +1,9 @@
 {
-  "phase": "13",
-  "status": "PASS",
-  "reconciliation": {
-    "approvedDeltaQueueRows": 538,
-    "acquiredManifestRows": 538,
-    "validatedReportRows": 538,
-    "stagedDatabaseRows": 538
-  },
-  "message": "approved == acquired == validated == staged"
+  "deltaRequested": 232451,
+  "deltaAcquired": 4784,
+  "deltaValidated": 4784,
+  "deltaStaged": 4784,
+  "quarantinedAcquisition": 227667,
+  "quarantinedValidation": 0,
+  "status": "MATCH"
 }

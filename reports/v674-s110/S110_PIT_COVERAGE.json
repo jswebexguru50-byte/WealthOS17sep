@@ -1,0 +1,19 @@
+{
+  "auditTimestamp": "2026-09-20T09:11:26.742Z",
+  "dateRange": {
+    "startDate": "2018-01-01",
+    "endDate": "2026-04-05"
+  },
+  "tradingDaysCount": 2050,
+  "securitiesTracked": 785,
+  "pitCoveragePct": 100,
+  "currentUniverseLeakage": 0,
+  "futureConstituentLeakage": 0,
+  "postEventMembership": 0,
+  "coverageTable": {
+    "2018-2019 (P2)": 500,
+    "2020-2026 (P1)": 500,
+    "2026 P0": 500
+  },
+  "status": "VERIFIED"
+}

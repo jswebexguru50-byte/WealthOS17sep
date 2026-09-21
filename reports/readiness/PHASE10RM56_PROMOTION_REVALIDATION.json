@@ -1,0 +1,40 @@
+{
+  "timestamp": "2026-09-21T05:01:05.585Z",
+  "gate": "PASS",
+  "promotion_file": "PHASE10RM5Y_PROMOTION_MANIFEST.jsonl",
+  "file_sha256_verified": true,
+  "file_sha256": "be98c71c876df908399d0be52b37df14449e26357f4156dc658c592e97f5cf05",
+  "dry_run_content_sha256": "42d87d2396375e72a453c7e472e0c599a0083fba5642633b72ee5eec54d51abf",
+  "sha256_note": "file_sha256 = byte-level hash of the JSONL file. dry_run_content_sha256 = content-level hash from M3.7 dry-run. Both are valid independent measurements of the same 18,244-record set.",
+  "record_count": 18244,
+  "counts": {
+    "NEW_MISSING_ROW": 18244,
+    "EXISTING_IDENTICAL_ROW": 0,
+    "EXISTING_CONFLICTING_ROW": 0,
+    "TARGET_SCHEMA_UNRESOLVED": 0,
+    "UNEXPLAINED": 0,
+    "IDENTITY_FAIL": 0,
+    "OHLC_FAIL": 0,
+    "ANOMALY_OVERLAP": 0,
+    "IDENTITY_REVIEW_OVERLAP": 0,
+    "PARSE_ERROR": 0
+  },
+  "delta_vs_prior_dry_run": {
+    "prior_new_missing": 18244,
+    "current_new_missing": 18244,
+    "prior_conflicting": 0,
+    "current_conflicting": 0,
+    "prior_identical": 0,
+    "current_identical": 0,
+    "prior_unexplained": 0,
+    "current_unexplained": 0,
+    "schema_unresolved": 0,
+    "delta_new_missing": 0,
+    "delta_conflicting": 0
+  },
+  "identity_review_overlap_note": "NONE",
+  "issues_sample": [],
+  "total_issues": 0,
+  "production_db_writes": 0,
+  "certification_changed": false
+}

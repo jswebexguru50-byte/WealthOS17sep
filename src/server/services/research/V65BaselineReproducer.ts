@@ -19,6 +19,10 @@ export interface V65TradeRecord {
   totalCosts: number;
   netPnL: number;
   netR: number;
+  actualExitPrice?: number;
+  signalPrice?: number;
+  securityId?: string;
+  direction?: string;
 }
 
 export interface V65EquityPoint {

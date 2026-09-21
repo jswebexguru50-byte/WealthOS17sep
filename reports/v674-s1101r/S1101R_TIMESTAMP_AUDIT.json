@@ -1,0 +1,48 @@
+{
+  "auditTimestamp": "2026-09-20T09:11:22.264Z",
+  "datasetHash": "V2_DATASET_HASH",
+  "decisionTimestamp": "2026-09-18T15:30:00.000Z",
+  "inputs": [
+    {
+      "id": "INP-FERE-FINANCIALS",
+      "component": "FERE",
+      "availableAt": "2026-08-14T18:00:00.000Z"
+    },
+    {
+      "id": "INP-QGLP-VALUATION",
+      "component": "QGLP",
+      "availableAt": "2026-09-18T09:00:00.000Z"
+    },
+    {
+      "id": "INP-SMARTMONEY-FLOW",
+      "component": "SmartMoney",
+      "availableAt": "2026-09-17T20:00:00.000Z"
+    },
+    {
+      "id": "INP-MOMENTUM-VPA",
+      "component": "DoubleMomentum",
+      "availableAt": "2026-09-18T15:30:00.000Z"
+    },
+    {
+      "id": "INP-SECTOR-ROTATION",
+      "component": "SectorRotation",
+      "availableAt": "2026-09-18T15:30:00.000Z"
+    },
+    {
+      "id": "INP-RISK-VOLATILITY",
+      "component": "PortfolioRisk",
+      "availableAt": "2026-09-18T15:30:00.000Z"
+    },
+    {
+      "id": "INP-CAPITAL-PROTECTION",
+      "component": "CapitalProtectionEngine",
+      "availableAt": "2026-09-18T15:30:00.000Z"
+    },
+    {
+      "id": "INP-FRACTIONAL-KELLY",
+      "component": "FractionalKelly",
+      "availableAt": "2026-09-18T15:30:00.000Z"
+    }
+  ],
+  "violations": 0
+}

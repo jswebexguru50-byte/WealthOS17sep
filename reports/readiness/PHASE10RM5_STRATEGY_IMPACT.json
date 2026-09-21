@@ -1,0 +1,959 @@
+{
+  "timestamp": "2026-09-20T20:20:50.878Z",
+  "strategy_impact_analyzed": 190,
+  "no_strategy_impact": 0,
+  "historical_only": 75,
+  "current_signal_path_affected": 115,
+  "findings": [
+    {
+      "symbol": "GFSTEELS",
+      "trade_date": "2020-10-13",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "GFSTEELS",
+      "trade_date": "2020-11-06",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "GFSTEELS",
+      "trade_date": "2021-06-18",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "SABEVENTS",
+      "trade_date": "2020-10-22",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "SABEVENTS",
+      "trade_date": "2024-02-16",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "SABEVENTS",
+      "trade_date": "2024-09-20",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "SABEVENTS",
+      "trade_date": "2025-10-23",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "ALPSINDUS",
+      "trade_date": "2020-11-06",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "ALPSINDUS",
+      "trade_date": "2023-02-15",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "ALPSINDUS",
+      "trade_date": "2023-04-17",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "ALPSINDUS",
+      "trade_date": "2023-06-14",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "NAGAFERT",
+      "trade_date": "2025-05-02",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "EASTSILK",
+      "trade_date": "2020-12-24",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "EASTSILK",
+      "trade_date": "2020-12-28",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "EASTSILK",
+      "trade_date": "2021-01-04",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "ANKITMETAL",
+      "trade_date": "2020-04-29",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "RADAAN",
+      "trade_date": "2020-04-17",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "RADAAN",
+      "trade_date": "2021-02-23",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "RADAAN",
+      "trade_date": "2021-03-08",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "PREMIER",
+      "trade_date": "2020-04-16",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "SEYAIND",
+      "trade_date": "2023-07-26",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "SEYAIND",
+      "trade_date": "2024-02-27",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "3PLAND",
+      "trade_date": "2020-07-27",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "ABMINTLLTD",
+      "trade_date": "2023-08-02",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "ADROITINFO",
+      "trade_date": "2023-11-23",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "BILVYAPAR",
+      "trade_date": "2023-10-26",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "BILVYAPAR",
+      "trade_date": "2023-12-22",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "BILVYAPAR",
+      "trade_date": "2024-02-12",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "CREATIVEYE",
+      "trade_date": "2019-01-02",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "CREATIVEYE",
+      "trade_date": "2021-06-22",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "CREATIVEYE",
+      "trade_date": "2021-09-23",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "CREATIVEYE",
+      "trade_date": "2021-12-22",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "CREATIVEYE",
+      "trade_date": "2022-04-25",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "CREATIVEYE",
+      "trade_date": "2022-05-26",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "CREATIVEYE",
+      "trade_date": "2023-02-09",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "CREATIVEYE",
+      "trade_date": "2023-02-22",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "CREATIVEYE",
+      "trade_date": "2023-07-13",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "DCMFINSERV",
+      "trade_date": "2019-05-15",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "DCMFINSERV",
+      "trade_date": "2021-09-01",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "DCMFINSERV",
+      "trade_date": "2021-10-05",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "EQUIPPP",
+      "trade_date": "2019-07-29",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "EQUIPPP",
+      "trade_date": "2019-09-23",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "EQUIPPP",
+      "trade_date": "2019-10-07",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "EQUIPPP",
+      "trade_date": "2020-05-26",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "EUROTEXIND",
+      "trade_date": "2021-06-09",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "EUROTEXIND",
+      "trade_date": "2023-09-12",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "GATECHDVR",
+      "trade_date": "2023-11-20",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "GANGAFORGE",
+      "trade_date": "2023-11-15",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "GLFL",
+      "trade_date": "2021-04-15",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "GLFL",
+      "trade_date": "2023-03-01",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "GLFL",
+      "trade_date": "2023-06-23",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "GLFL",
+      "trade_date": "2023-07-19",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "GLFL",
+      "trade_date": "2023-08-31",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "GLFL",
+      "trade_date": "2023-10-03",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "GLFL",
+      "trade_date": "2023-11-15",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "GLFL",
+      "trade_date": "2023-12-06",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "GPTINFRA",
+      "trade_date": "2023-11-15",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "GTECJAINX",
+      "trade_date": "2024-04-22",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "GTECJAINX",
+      "trade_date": "2024-04-26",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "GTECJAINX",
+      "trade_date": "2024-06-26",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "HBSL",
+      "trade_date": "2019-08-09",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "HBSL",
+      "trade_date": "2019-09-04",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "HBSL",
+      "trade_date": "2019-10-17",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "HBSL",
+      "trade_date": "2020-03-24",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "HBSL",
+      "trade_date": "2020-08-14",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "HBSL",
+      "trade_date": "2020-10-12",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "HBSL",
+      "trade_date": "2020-11-06",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "ICDSLTD",
+      "trade_date": "2024-02-14",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "ICDSLTD",
+      "trade_date": "2024-06-20",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "IL&FSTRANS",
+      "trade_date": "2023-11-15",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "KAUSHALYA",
+      "trade_date": "2019-01-02",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "KAUSHALYA",
+      "trade_date": "2019-01-21",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "KAUSHALYA",
+      "trade_date": "2019-07-10",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "KAUSHALYA",
+      "trade_date": "2019-07-24",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "KAUSHALYA",
+      "trade_date": "2020-04-16",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "KAUSHALYA",
+      "trade_date": "2020-04-27",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "KAUSHALYA",
+      "trade_date": "2020-06-18",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "KAUSHALYA",
+      "trade_date": "2024-08-07",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "KCPSUGIND",
+      "trade_date": "2023-11-15",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "LANDSMILL",
+      "trade_date": "2020-07-30",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "LANDSMILL",
+      "trade_date": "2020-10-05",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "LOTUSEYE",
+      "trade_date": "2023-09-20",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "MAGNUM",
+      "trade_date": "2023-07-25",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "MALUPAPER",
+      "trade_date": "2024-05-27",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "MASKINVEST",
+      "trade_date": "2024-01-10",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "MHLXMIRU",
+      "trade_date": "2023-08-16",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "MOHITIND",
+      "trade_date": "2019-10-29",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "MOHITIND",
+      "trade_date": "2019-11-19",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "MOHITIND",
+      "trade_date": "2019-12-16",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "MOHITIND",
+      "trade_date": "2020-02-05",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "MOHITIND",
+      "trade_date": "2020-04-20",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "MOHITIND",
+      "trade_date": "2020-12-18",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "NAGREEKCAP",
+      "trade_date": "2021-03-15",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "NAGREEKCAP",
+      "trade_date": "2021-05-31",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "NAGREEKCAP",
+      "trade_date": "2021-10-26",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "NAGREEKCAP",
+      "trade_date": "2021-12-14",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "NAGREEKCAP",
+      "trade_date": "2023-09-21",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "NDRAUTO",
+      "trade_date": "2023-11-15",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2021-06-25",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2021-10-04",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2021-10-13",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2021-10-19",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2022-02-04",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2022-06-20",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2022-07-27",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2022-08-30",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2022-10-19",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2022-11-01",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2023-01-06",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2023-02-21",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2023-05-15",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2023-05-24",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2023-06-06",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2023-07-06",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "NORBTEAEXP",
+      "trade_date": "2023-10-12",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "OILCOUNTUB",
+      "trade_date": "2023-11-15",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "ONIDA",
+      "trade_date": "2023-11-15",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "OMINFRAL",
+      "trade_date": "2023-09-29",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "PANACHE",
+      "trade_date": "2024-08-06",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "PRAKASHSTL",
+      "trade_date": "2019-05-24",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "PRAKASHSTL",
+      "trade_date": "2019-09-12",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "PRAKASHSTL",
+      "trade_date": "2019-12-09",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "PRAKASHSTL",
+      "trade_date": "2020-01-01",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "PRAKASHSTL",
+      "trade_date": "2023-11-15",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "PRECOT",
+      "trade_date": "2024-04-02",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "PRUDMOULI",
+      "trade_date": "2024-04-04",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "PVP",
+      "trade_date": "2023-11-15",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "REGENCERAM",
+      "trade_date": "2023-12-22",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "REGENCERAM",
+      "trade_date": "2024-04-12",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "REGENCERAM",
+      "trade_date": "2024-06-04",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "S&SPOWER",
+      "trade_date": "2020-11-25",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "S&SPOWER",
+      "trade_date": "2021-01-07",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "S&SPOWER",
+      "trade_date": "2024-02-28",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "SHYAMTEL",
+      "trade_date": "2023-05-22",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "SHYAMTEL",
+      "trade_date": "2023-09-04",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "SHYAMTEL",
+      "trade_date": "2023-09-05",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "SHYAMTEL",
+      "trade_date": "2023-09-07",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "SHYAMTEL",
+      "trade_date": "2024-01-24",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "SHYAMTEL",
+      "trade_date": "2024-05-13",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "SHYAMTEL",
+      "trade_date": "2024-06-07",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "SOMICONVEY",
+      "trade_date": "2024-03-21",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "SOMICONVEY",
+      "trade_date": "2024-04-04",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "SPCENET",
+      "trade_date": "2020-04-15",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "SOMATEX",
+      "trade_date": "2020-04-27",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "SOMATEX",
+      "trade_date": "2020-06-04",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "SOMATEX",
+      "trade_date": "2023-10-12",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "SVPGLOB",
+      "trade_date": "2024-01-03",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "TARAPUR",
+      "trade_date": "2019-03-25",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "TARAPUR",
+      "trade_date": "2019-06-14",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "TARAPUR",
+      "trade_date": "2022-04-26",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "TARAPUR",
+      "trade_date": "2022-07-12",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "TARAPUR",
+      "trade_date": "2022-08-12",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "TARAPUR",
+      "trade_date": "2022-08-22",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "TARAPUR",
+      "trade_date": "2022-09-27",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "TARAPUR",
+      "trade_date": "2022-10-18",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "TARAPUR",
+      "trade_date": "2022-11-24",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "TECILCHEM",
+      "trade_date": "2023-09-28",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "TECILCHEM",
+      "trade_date": "2024-02-19",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "TECILCHEM",
+      "trade_date": "2024-05-06",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "TCIFINANCE",
+      "trade_date": "2020-11-03",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "TCIFINANCE",
+      "trade_date": "2020-12-22",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "TCIFINANCE",
+      "trade_date": "2021-05-05",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "TCIFINANCE",
+      "trade_date": "2021-06-25",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "TCIFINANCE",
+      "trade_date": "2021-07-16",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "TCIFINANCE",
+      "trade_date": "2022-04-22",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "TCIFINANCE",
+      "trade_date": "2022-05-31",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "TFL",
+      "trade_date": "2020-10-15",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "THOMASCOTT",
+      "trade_date": "2023-07-25",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "THOMASCOTT",
+      "trade_date": "2023-08-04",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "TIL",
+      "trade_date": "2023-08-07",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "TIL",
+      "trade_date": "2023-08-30",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "TPHQ",
+      "trade_date": "2020-04-23",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "TVVISION",
+      "trade_date": "2019-11-15",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "TVVISION",
+      "trade_date": "2019-12-18",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "TVVISION",
+      "trade_date": "2020-03-04",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "TVVISION",
+      "trade_date": "2020-04-01",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "TVVISION",
+      "trade_date": "2023-04-17",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "TVVISION",
+      "trade_date": "2023-11-17",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "VARDMNPOLY",
+      "trade_date": "2023-10-17",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "WEL",
+      "trade_date": "2023-11-03",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "WEWIN",
+      "trade_date": "2024-06-25",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "WSI",
+      "trade_date": "2020-01-15",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "WSI",
+      "trade_date": "2020-02-26",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "WSI",
+      "trade_date": "2020-03-20",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "ZEELEARN",
+      "trade_date": "2023-11-15",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "ZENITHSTL",
+      "trade_date": "2020-03-13",
+      "classification": "HISTORICAL_ONLY"
+    },
+    {
+      "symbol": "DESTINY",
+      "trade_date": "2025-07-17",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "PATTECH",
+      "trade_date": "2025-08-13",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "PATTECH",
+      "trade_date": "2025-10-15",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    },
+    {
+      "symbol": "VELS",
+      "trade_date": "2025-04-07",
+      "classification": "CURRENT_SIGNAL_PATH_AFFECTED"
+    }
+  ]
+}

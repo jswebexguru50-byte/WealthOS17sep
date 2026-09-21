@@ -1,0 +1,45 @@
+{
+  "S1": [
+    "D2_DAILY_OHLCV",
+    "D3_BENCHMARK",
+    "D5_PIT_NIFTY500"
+  ],
+  "S2": [
+    "D2_DAILY_OHLCV",
+    "D5_PIT_NIFTY500"
+  ],
+  "S3": [
+    "D2_DAILY_OHLCV",
+    "D5_PIT_NIFTY500"
+  ],
+  "S4": [
+    "D2_DAILY_OHLCV",
+    "D9_DELIVERY",
+    "D5_PIT_NIFTY500"
+  ],
+  "S5": [
+    "D2_DAILY_OHLCV",
+    "D5_PIT_NIFTY500"
+  ],
+  "S6": [
+    "D2_DAILY_OHLCV",
+    "D5_PIT_NIFTY500"
+  ],
+  "S7": [
+    "D2_DAILY_OHLCV",
+    "D5_PIT_NIFTY500"
+  ],
+  "S8": [
+    "D2_DAILY_OHLCV",
+    "D5_PIT_NIFTY500"
+  ],
+  "S9": [
+    "D2_DAILY_OHLCV",
+    "D5_PIT_NIFTY500"
+  ],
+  "S10": [
+    "D7_INTRADAY_5MIN",
+    "D2_DAILY_OHLCV",
+    "D5_PIT_NIFTY500"
+  ]
+}

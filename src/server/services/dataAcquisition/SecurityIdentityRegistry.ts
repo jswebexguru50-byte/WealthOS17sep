@@ -41,6 +41,11 @@ export class SecurityIdentityRegistry {
     return null;
   }
 
+  public resolveBySymbol(symbol: string): SecurityIdentityRecord | undefined {
+    const secId = this.resolveSecurityId(symbol);
+    return secId ? this.getIdentity(secId) : undefined;
+  }
+
   public getIdentity(securityId: string): SecurityIdentityRecord | undefined {
     return this.identities.get(securityId);
   }

@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-09-20T20:25:33.526Z",
+  "m4_active": true,
+  "m4_pid": "scripts/remediation/phase10rm4_upstox_targeted_recovery.cjs",
+  "runtime": null,
+  "output_file_size": 0,
+  "output_file_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "queue_hash": "2470c428538f41356ca1ad31bf3f42d896a6b24c59e5125590d8a1ed2055c080",
+  "checkpoint_hash": "58c41c331f9cb6cb0ecf93b5376e461a4c78241e2000a8a66dadb02bfc73768b",
+  "request_count": 0,
+  "success_count": 0,
+  "failure_count": 0,
+  "recovery_count": 0
+}

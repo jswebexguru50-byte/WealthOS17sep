@@ -1,0 +1,192 @@
+{
+  "DEL-544373-2024-07-09": {
+    "symbol": "544373",
+    "exchange": "BSE",
+    "segment": "EQ",
+    "original_upstox_key": "NSE_EQ|INE0VNH01014",
+    "corrected_upstox_key": "BSE_EQ|INE0VNH01014",
+    "mapping_rationale": "BSE equities incorrectly prefixed with NSE_EQ",
+    "mapping_source": "Heuristic Exchange Correction",
+    "mapping_timestamp": "2026-09-20T18:19:31.289Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0VNH01014/day/2024-07-11/2024-07-07",
+    "retrieval_timestamp": "2026-09-20T18:20:08.144Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-538128-2024-08-05": {
+    "symbol": "538128",
+    "exchange": "BSE",
+    "segment": "EQ",
+    "original_upstox_key": "NSE_EQ|INE174Q01011",
+    "corrected_upstox_key": "BSE_EQ|INE174Q01011",
+    "mapping_rationale": "BSE equities incorrectly prefixed with NSE_EQ",
+    "mapping_source": "Heuristic Exchange Correction",
+    "mapping_timestamp": "2026-09-20T18:19:31.316Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE174Q01011/day/2024-08-07/2024-08-03",
+    "retrieval_timestamp": "2026-09-20T18:20:11.197Z",
+    "response_evidence": {
+      "status": 400,
+      "payloadHash": "c43b67215d53ef2890dbde2401e0ced4089d85d5a7607b726644662f9916828d"
+    },
+    "finalClassification": "INVALID_INSTRUMENT",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-539521-2024-02-23": {
+    "symbol": "539521",
+    "exchange": "BSE",
+    "segment": "EQ",
+    "original_upstox_key": "NSE_EQ|INE364T01012",
+    "corrected_upstox_key": "BSE_EQ|INE364T01012",
+    "mapping_rationale": "BSE equities incorrectly prefixed with NSE_EQ",
+    "mapping_source": "Heuristic Exchange Correction",
+    "mapping_timestamp": "2026-09-20T18:19:31.316Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE364T01012/day/2024-02-25/2024-02-21",
+    "retrieval_timestamp": "2026-09-20T18:20:13.828Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-Motilal Oswal ELSS Tax Saver Fund - Direct Plan Growth (Non Demat)-2024-01-12": {
+    "symbol": "Motilal Oswal ELSS Tax Saver Fund - Direct Plan Growth (Non Demat)",
+    "exchange": "MUTUAL_FUND",
+    "segment": "MF",
+    "original_upstox_key": "NSE_EQ|INF247L01569",
+    "corrected_upstox_key": "BSE_MF|INF247L01569",
+    "mapping_rationale": "Mutual Funds incorrectly prefixed with NSE_EQ. Testing BSE_MF fallback.",
+    "mapping_source": "Heuristic Exchange Correction",
+    "mapping_timestamp": "2026-09-20T18:19:31.316Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_MF%7CINF247L01569/day/2024-01-14/2024-01-10",
+    "retrieval_timestamp": "2026-09-20T18:20:16.182Z",
+    "response_evidence": {
+      "status": 400,
+      "payloadHash": "f754dd6c2d356eeb060ffd0330611566e699d8854e66d358b4aa4ca92720ce6a"
+    },
+    "finalClassification": "INVALID_INSTRUMENT",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544372-2024-02-22": {
+    "symbol": "544372",
+    "exchange": "BSE",
+    "segment": "EQ",
+    "original_upstox_key": "NSE_EQ|INE0RXS01018",
+    "corrected_upstox_key": "BSE_EQ|INE0RXS01018",
+    "mapping_rationale": "BSE equities incorrectly prefixed with NSE_EQ",
+    "mapping_source": "Heuristic Exchange Correction",
+    "mapping_timestamp": "2026-09-20T18:19:31.316Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0RXS01018/day/2024-02-24/2024-02-20",
+    "retrieval_timestamp": "2026-09-20T18:20:18.763Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544509-2024-05-06": {
+    "symbol": "544509",
+    "exchange": "BSE",
+    "segment": "EQ",
+    "original_upstox_key": "NSE_EQ|INE0XZB01017",
+    "corrected_upstox_key": "BSE_EQ|INE0XZB01017",
+    "mapping_rationale": "BSE equities incorrectly prefixed with NSE_EQ",
+    "mapping_source": "Heuristic Exchange Correction",
+    "mapping_timestamp": "2026-09-20T18:19:31.316Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0XZB01017/day/2024-05-08/2024-05-04",
+    "retrieval_timestamp": "2026-09-20T18:20:21.300Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544458-2024-04-03": {
+    "symbol": "544458",
+    "exchange": "BSE",
+    "segment": "EQ",
+    "original_upstox_key": "NSE_EQ|INE0FMZ01045",
+    "corrected_upstox_key": "BSE_EQ|INE0FMZ01045",
+    "mapping_rationale": "BSE equities incorrectly prefixed with NSE_EQ",
+    "mapping_source": "Heuristic Exchange Correction",
+    "mapping_timestamp": "2026-09-20T18:19:31.316Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0FMZ01045/day/2024-04-05/2024-04-01",
+    "retrieval_timestamp": "2026-09-20T18:20:23.662Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-544372-2024-03-06": {
+    "symbol": "544372",
+    "exchange": "BSE",
+    "segment": "EQ",
+    "original_upstox_key": "NSE_EQ|INE0RXS01018",
+    "corrected_upstox_key": "BSE_EQ|INE0RXS01018",
+    "mapping_rationale": "BSE equities incorrectly prefixed with NSE_EQ",
+    "mapping_source": "Heuristic Exchange Correction",
+    "mapping_timestamp": "2026-09-20T18:19:31.316Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0RXS01018/day/2024-03-08/2024-03-04",
+    "retrieval_timestamp": "2026-09-20T18:20:26.004Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "83d511d64ffda7e4c950b5f2c8f95130e5fa0c872af9b85a70e1a6bf3616428f"
+    },
+    "finalClassification": "NO_CANDLE_RETURNED",
+    "resolutionStatus": "UNRESOLVED"
+  },
+  "DEL-543372-2024-08-22": {
+    "symbol": "543372",
+    "exchange": "BSE",
+    "segment": "EQ",
+    "original_upstox_key": "NSE_EQ|INE0H1201020",
+    "corrected_upstox_key": "BSE_EQ|INE0H1201020",
+    "mapping_rationale": "BSE equities incorrectly prefixed with NSE_EQ",
+    "mapping_source": "Heuristic Exchange Correction",
+    "mapping_timestamp": "2026-09-20T18:19:31.316Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/BSE_EQ%7CINE0H1201020/day/2024-08-24/2024-08-20",
+    "retrieval_timestamp": "2026-09-20T18:20:28.365Z",
+    "response_evidence": {
+      "status": 200,
+      "payloadHash": "ca1d138573baeba4616df7f1fafa1120230255d72267e656707b209e99a52ec7"
+    },
+    "finalClassification": "ACQUIRED",
+    "resolutionStatus": "RESOLVED"
+  },
+  "DEL-MRP-2024-08-29": {
+    "symbol": "MRP",
+    "exchange": "NSE",
+    "segment": "EQ",
+    "original_upstox_key": "NSE_EQ|INE0D7801012",
+    "corrected_upstox_key": "NSE_EQ|INE0D7801012",
+    "mapping_rationale": "NSE_EQ correctly prefixed but rejected. Likely delisted or ISIN changed.",
+    "mapping_source": "Heuristic Exchange Correction",
+    "mapping_timestamp": "2026-09-20T18:19:31.316Z",
+    "validation_status": "PENDING_RETEST",
+    "request_evidence": "https://api.upstox.com/v2/historical-candle/NSE_EQ%7CINE0D7801012/day/2024-08-31/2024-08-27",
+    "retrieval_timestamp": "2026-09-20T18:20:31.132Z",
+    "response_evidence": {
+      "status": 400,
+      "payloadHash": "c43b67215d53ef2890dbde2401e0ced4089d85d5a7607b726644662f9916828d"
+    },
+    "finalClassification": "INVALID_INSTRUMENT",
+    "resolutionStatus": "UNRESOLVED"
+  }
+}

@@ -1,0 +1,6 @@
+{"timestamp":"2026-09-20T21:06:05.373Z","type":"RUNTIME_START","pid":5668,"version":"1.0.0","agent_id":"M4-OVERNIGHT-1789938365364"}
+{"timestamp":"2026-09-20T21:06:07.479Z","type":"LEGACY_COMPLETIONS_IMPORTED","pid":5668,"count":378}
+{"timestamp":"2026-09-20T21:06:07.485Z","type":"LEGACY_CANDLES_IMPORTED","pid":5668,"count":0}
+{"timestamp":"2026-09-20T21:06:07.490Z","type":"PROTECTED_STATE_BASELINE","pid":5668,"portfolio_db_size":13510496256,"queue_hash":"2470c428538f41356ca1ad31bf3f42d896a6b24c59e5125590d8a1ed2055c080","certification_state":false}
+{"timestamp":"2026-09-20T21:06:07.678Z","type":"RECOVERY_LOOP_START","pid":5668,"staged":0}
+{"timestamp":"2026-09-20T21:13:12.104Z","type":"RUNTIME_COMPLETE","pid":5668,"safe_status":"COMPLETE","candles":0}

@@ -1,0 +1,14 @@
+{"timestamp":"2026-09-21T10:58:27.378Z","type":"APP_STARTING","message":"Starting Express/Vite backend"}
+{"timestamp":"2026-09-21T10:58:32.490Z","type":"APP_HEALTHY","message":"Application Services Healthy"}
+{"timestamp":"2026-09-21T10:58:32.597Z","type":"WORKER_START","message":"Starting agentA"}
+{"timestamp":"2026-09-21T10:58:32.685Z","type":"WORKER_START","message":"Starting agentB"}
+{"timestamp":"2026-09-21T10:58:33.146Z","type":"WORKER_COMPLETE","message":"agentB finished with code 0"}
+{"timestamp":"2026-09-21T10:58:33.148Z","type":"WORKER_START","message":"Starting agentC"}
+{"timestamp":"2026-09-21T10:58:33.494Z","type":"WORKER_COMPLETE","message":"agentC finished with code 0"}
+{"timestamp":"2026-09-21T10:58:33.496Z","type":"WORKER_START","message":"Starting agentD"}
+{"timestamp":"2026-09-21T10:58:33.785Z","type":"WORKER_COMPLETE","message":"agentD finished with code 0"}
+{"timestamp":"2026-09-21T10:58:33.787Z","type":"WORKER_START","message":"Starting agentE"}
+{"timestamp":"2026-09-21T10:58:44.837Z","type":"WORKER_COMPLETE","message":"agentE finished with code 0"}
+{"timestamp":"2026-09-21T11:05:13.928Z","type":"WORKER_COMPLETE","message":"agentA finished with code 0"}
+{"timestamp":"2026-09-21T11:05:13.933Z","type":"APPLICATION_SERVICES_HEALTHY"}
+{"timestamp":"2026-09-21T11:08:42.437Z","type":"SAFETY_VIOLATION","message":"Baseline SHA mismatch. Expected c29455f633eaa9bb0c88be2df97c0898350c529a7de736b3dbcc6280474c018e, got 9c73aa80723504d58f8935c81ac1147fa40e7b6aeb241ab24be37da66a3eaaeb"}

@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-09-20T21:13:12.094Z",
+  "expected_total": 47529,
+  "state_counts": {
+    "COMPLETE": 40520,
+    "FAILED_PERMANENT": 7009
+  },
+  "total_accounted": 47529,
+  "unaccounted": 0,
+  "reconciliation_equation_satisfied": true,
+  "duplicate_canonical_candles": 0,
+  "production_db_writes": 0,
+  "certification_changed": false
+}

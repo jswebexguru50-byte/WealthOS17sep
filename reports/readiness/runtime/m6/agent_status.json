@@ -1,0 +1,38 @@
+{
+  "190": {
+    "state": "CLASSIFIED_BY_M5_ANALYSIS",
+    "note": "182 UNKNOWN_REQUIRES_REVIEW, 8 IDENTITY_UNRESOLVED"
+  },
+  "7009": {
+    "state": "CLASSIFIED_BY_M4_ANALYSIS",
+    "note": "All 7,009 = NO_DATA_FOR_INSTRUMENT (BSE instruments absent from NSE DailyOHLCV)"
+  },
+  "backup": {
+    "state": "PASS",
+    "ts": "2026-09-21T06:18:55.570Z",
+    "backup_sha256": "f8770cc3718c719bf6a6c458488c3bb6c215674ed48c17d8624f6bbd0fc0cd10"
+  },
+  "preflight": {
+    "state": "PASS",
+    "ts": "2026-09-21T06:18:55.570Z"
+  },
+  "promote": {
+    "state": "COMMITTED",
+    "ts": "2026-09-21T07:49:20.941Z",
+    "inserted": 18244,
+    "post_rows": 4153849,
+    "exec_id": "PROMOTE_1789976703174"
+  },
+  "post_verify": {
+    "state": "PASS",
+    "ts": "2026-09-21T07:49:41.604Z",
+    "rows_after": 4153849,
+    "exec_id": "POSTVERIFY_1789976977912"
+  },
+  "cert_preflight": {
+    "state": "PASS",
+    "eligible": false,
+    "ts": "2026-09-21T07:49:51.295Z",
+    "exec_id": "CERT_PREFLIGHT_1789976991209"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "timestamp": "2026-09-20T20:11:28.441Z",
+  "phase": "READINESS_ORCHESTRATION",
+  "application_ready": false,
+  "market_data_complete": false,
+  "market_data_certified": false,
+  "production_db_writes": 0,
+  "agents": [
+    {
+      "id": "A1_DATABASE_INTEGRITY",
+      "status": "DONE",
+      "blockers": [
+        "open > high failed. Actual: 92",
+        "open < low failed. Actual: 98",
+        "MasterTickers duplicate symbols failed. Actual: 37"
+      ]
+    },
+    {
+      "id": "A2_STRATEGY_SAFETY",
+      "status": "DONE",
+      "blockers": []
+    },
+    {
+      "id": "A3_APP_READINESS",
+      "status": "DONE",
+      "blockers": []
+    },
+    {
+      "id": "A3_MARKET_DATA_GATE",
+      "status": "DONE",
+      "blockers": []
+    },
+    {
+      "id": "A3_MISSING_DATA_TEST",
+      "status": "DONE",
+      "blockers": []
+    },
+    {
+      "id": "A4_PROMOTE_MARKET_DATA",
+      "status": "DONE",
+      "blockers": []
+    },
+    {
+      "id": "A4_ROLLBACK_MARKET_DATA",
+      "status": "DONE",
+      "blockers": []
+    },
+    {
+      "id": "A5_SECURITY_AUDIT",
+      "status": "DONE",
+      "blockers": []
+    },
+    {
+      "id": "A6_RECOVERY_OBSERVER",
+      "status": "DONE",
+      "blockers": []
+    },
+    {
+      "id": "A7_BUILD_REPRODUCIBILITY",
+      "status": "DONE",
+      "blockers": []
+    }
+  ],
+  "blockers": [
+    "open > high failed. Actual: 92",
+    "open < low failed. Actual: 98",
+    "MasterTickers duplicate symbols failed. Actual: 37"
+  ]
+}

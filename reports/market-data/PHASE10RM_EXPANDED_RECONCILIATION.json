@@ -1,0 +1,9 @@
+{
+  "eligibleCandidates": 100,
+  "stagedCandidates": 100,
+  "requests": 100,
+  "responses": 100,
+  "finalClassifications": 100,
+  "unexplainedDrops": 0,
+  "productionDBWrites": 0
+}

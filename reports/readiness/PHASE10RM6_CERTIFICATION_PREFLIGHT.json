@@ -1,0 +1,119 @@
+{
+  "timestamp": "2026-09-21T07:49:51.208Z",
+  "exec_id": "CERT_PREFLIGHT_1789976991209",
+  "CERTIFICATION_PREFLIGHT": "PASS",
+  "CERTIFICATION_ELIGIBLE": false,
+  "certification_note": "Certification BLOCKED: 3 blocker(s) remain. 0 evidence item(s) missing.",
+  "MARKET_DATA_CERTIFIED": false,
+  "market_data_certified_current": "NOT_SET",
+  "certification_changed": false,
+  "evidence_present": 10,
+  "evidence_missing": 0,
+  "evidence_blocking": 3,
+  "cert_blockers": [
+    {
+      "label": "7,009 unresolved dates",
+      "reason": "Require separate remediation authorization (alternate provider, exchange calendar investigation, or explicit disposition)"
+    },
+    {
+      "label": "182 UNKNOWN_REQUIRES_REVIEW anomalies",
+      "reason": "OHLC root cause not yet established — cannot certify data quality without resolution or explicit exclusion decision"
+    },
+    {
+      "label": "8 IDENTITY_UNRESOLVED anomalies",
+      "reason": "Instrument identity unknown — cannot certify without authoritative ISIN/exchange evidence"
+    }
+  ],
+  "production_db_writes": 0,
+  "items": [
+    {
+      "label": "M4 forensic gate",
+      "status": "PRESENT",
+      "detail": "PASS",
+      "evidence": null
+    },
+    {
+      "label": "M4 evidence bundle",
+      "status": "PRESENT",
+      "detail": "M4_EVIDENCE_BUNDLE_MANIFEST.json",
+      "evidence": null
+    },
+    {
+      "label": "M4 unresolved population",
+      "status": "PRESENT",
+      "detail": "7,009 records, UNACCOUNTED = 0",
+      "evidence": {
+        "remediation_status": "PENDING_SEPARATE_AUTHORIZATION",
+        "total": 7009
+      }
+    },
+    {
+      "label": "M5 promotion validation",
+      "status": "PRESENT",
+      "detail": "PASS",
+      "evidence": null
+    },
+    {
+      "label": "190 OHLC classification",
+      "status": "PRESENT",
+      "detail": "190/190 accounted, 0 unaccounted",
+      "evidence": {
+        "note": "182 UNKNOWN_REQUIRES_REVIEW and 8 IDENTITY_UNRESOLVED — pending separate remediation before certification"
+      }
+    },
+    {
+      "label": "37 MasterTicker review",
+      "status": "PRESENT",
+      "detail": "37/37 accounted, all VALID_DISTINCT_INSTRUMENTS",
+      "evidence": null
+    },
+    {
+      "label": "M6 cross-gate",
+      "status": "PRESENT",
+      "detail": "PASS",
+      "evidence": null
+    },
+    {
+      "label": "Promotion committed",
+      "status": "PRESENT",
+      "detail": "COMMITTED",
+      "evidence": {
+        "inserted": 18244,
+        "delta": 18244
+      }
+    },
+    {
+      "label": "Post-promotion verification",
+      "status": "PRESENT",
+      "detail": "PASS",
+      "evidence": {
+        "rows_after": 4153849,
+        "delta": 18244
+      }
+    },
+    {
+      "label": "7,009 unresolved dates",
+      "status": "BLOCKING",
+      "detail": "PENDING — Require separate remediation authorization (alternate provider, exchange calendar investigation, or explicit disposition)",
+      "evidence": null
+    },
+    {
+      "label": "182 UNKNOWN_REQUIRES_REVIEW anomalies",
+      "status": "BLOCKING",
+      "detail": "PENDING — OHLC root cause not yet established — cannot certify data quality without resolution or explicit exclusion decision",
+      "evidence": null
+    },
+    {
+      "label": "8 IDENTITY_UNRESOLVED anomalies",
+      "status": "BLOCKING",
+      "detail": "PENDING — Instrument identity unknown — cannot certify without authoritative ISIN/exchange evidence",
+      "evidence": null
+    },
+    {
+      "label": "MARKET_DATA_CERTIFIED",
+      "status": "PRESENT",
+      "detail": "Current value: NOT_SET (required: not true)",
+      "evidence": null
+    }
+  ]
+}

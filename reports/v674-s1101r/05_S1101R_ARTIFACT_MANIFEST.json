@@ -1,0 +1,210 @@
+[
+  {
+    "path": "reports/v674-s1101r/S1_CODE_AUDIT.json",
+    "type": "JSON",
+    "producer": "Agent1_StrategyLogicAuditor",
+    "createdAt": "2026-09-20T09:11:22.188Z",
+    "inputHashes": [
+      "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+    ],
+    "outputHash": "10FE2B0D5CFACF0E00929C347708FE3DA4C11248149749F95FB1FF716A3672D5",
+    "datasetHash": "V674-S1101R-V1",
+    "gitCommit": "UNTRACKED_CLEAN",
+    "status": "PASS"
+  },
+  {
+    "path": "reports/v674-s1101r/S2_CODE_AUDIT.json",
+    "type": "JSON",
+    "producer": "Agent1_StrategyLogicAuditor",
+    "createdAt": "2026-09-20T09:11:22.199Z",
+    "inputHashes": [
+      "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+    ],
+    "outputHash": "8DBA67B42700A0676A8867D353554C5C04F2093FF376EEA60159B0A7CEBCCAD7",
+    "datasetHash": "V674-S1101R-V1",
+    "gitCommit": "UNTRACKED_CLEAN",
+    "status": "PASS"
+  },
+  {
+    "path": "reports/v674-s1101r/S3_CODE_AUDIT.json",
+    "type": "JSON",
+    "producer": "Agent1_StrategyLogicAuditor",
+    "createdAt": "2026-09-20T09:11:22.207Z",
+    "inputHashes": [
+      "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+    ],
+    "outputHash": "4524009263B2C930CEFB179920904B44B0609695010EC777E6949EC46479D9E0",
+    "datasetHash": "V674-S1101R-V1",
+    "gitCommit": "UNTRACKED_CLEAN",
+    "status": "PASS"
+  },
+  {
+    "path": "reports/v674-s1101r/S4_CODE_AUDIT.json",
+    "type": "JSON",
+    "producer": "Agent1_StrategyLogicAuditor",
+    "createdAt": "2026-09-20T09:11:22.213Z",
+    "inputHashes": [
+      "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+    ],
+    "outputHash": "9B056FC81FA15C7235E1CA01AB4812AB2D2980C4D7A87E19AFB0EC13D258F01C",
+    "datasetHash": "V674-S1101R-V1",
+    "gitCommit": "UNTRACKED_CLEAN",
+    "status": "PASS"
+  },
+  {
+    "path": "reports/v674-s1101r/S5_CODE_AUDIT.json",
+    "type": "JSON",
+    "producer": "Agent1_StrategyLogicAuditor",
+    "createdAt": "2026-09-20T09:11:22.220Z",
+    "inputHashes": [
+      "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+    ],
+    "outputHash": "9BF424ADFE25F3CC3D9B3F323C085E306F154153F9F7FE457A906AC78C50CB0A",
+    "datasetHash": "V674-S1101R-V1",
+    "gitCommit": "UNTRACKED_CLEAN",
+    "status": "PASS"
+  },
+  {
+    "path": "reports/v674-s1101r/S6_CODE_AUDIT.json",
+    "type": "JSON",
+    "producer": "Agent1_StrategyLogicAuditor",
+    "createdAt": "2026-09-20T09:11:22.227Z",
+    "inputHashes": [
+      "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+    ],
+    "outputHash": "DCD3F528A0C959EC81F665DA71D5B5DB2BD5D7E03AFDF70A6163B2AC891DEAA8",
+    "datasetHash": "V674-S1101R-V1",
+    "gitCommit": "UNTRACKED_CLEAN",
+    "status": "PASS"
+  },
+  {
+    "path": "reports/v674-s1101r/S7_CODE_AUDIT.json",
+    "type": "JSON",
+    "producer": "Agent1_StrategyLogicAuditor",
+    "createdAt": "2026-09-20T09:11:22.236Z",
+    "inputHashes": [
+      "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+    ],
+    "outputHash": "D85F9251AB63E6E9A1E2B5A7E5E11AE5D6E670D0A50CD4D38DB8025544E08821",
+    "datasetHash": "V674-S1101R-V1",
+    "gitCommit": "UNTRACKED_CLEAN",
+    "status": "PASS"
+  },
+  {
+    "path": "reports/v674-s1101r/S8_CODE_AUDIT.json",
+    "type": "JSON",
+    "producer": "Agent1_StrategyLogicAuditor",
+    "createdAt": "2026-09-20T09:11:22.242Z",
+    "inputHashes": [
+      "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+    ],
+    "outputHash": "112D52143640CA1517995265017766D3AC534037D5FA1B9371F9EC304970C771",
+    "datasetHash": "V674-S1101R-V1",
+    "gitCommit": "UNTRACKED_CLEAN",
+    "status": "PASS"
+  },
+  {
+    "path": "reports/v674-s1101r/S9_CODE_AUDIT.json",
+    "type": "JSON",
+    "producer": "Agent1_StrategyLogicAuditor",
+    "createdAt": "2026-09-20T09:11:22.247Z",
+    "inputHashes": [
+      "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+    ],
+    "outputHash": "613C8FB6808FECC95186DC97CDF1304F93180D1781EFE4DFEDDF91404AB43280",
+    "datasetHash": "V674-S1101R-V1",
+    "gitCommit": "UNTRACKED_CLEAN",
+    "status": "PASS"
+  },
+  {
+    "path": "reports/v674-s1101r/S10_CODE_AUDIT.json",
+    "type": "JSON",
+    "producer": "Agent1_StrategyLogicAuditor",
+    "createdAt": "2026-09-20T09:11:22.251Z",
+    "inputHashes": [
+      "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+    ],
+    "outputHash": "355B9AA756154E40034D72B22F667253A0526E443A82C8A57D62FC8D1656ABD1",
+    "datasetHash": "V674-S1101R-V1",
+    "gitCommit": "UNTRACKED_CLEAN",
+    "status": "PASS"
+  },
+  {
+    "path": "reports/v674-s1101r/S1101R_DOWNSTREAM_CHAIN_AUDIT.json",
+    "type": "JSON",
+    "producer": "Agent3_DownstreamChainAuditor",
+    "createdAt": "2026-09-20T09:11:22.267Z",
+    "inputHashes": [
+      "V2_DATASET_HASH"
+    ],
+    "outputHash": "06323AD32333F93511292CAC20473C21D680D23585360165F318C42C486B4707",
+    "datasetHash": "V2_DATASET_HASH",
+    "gitCommit": "UNTRACKED_CLEAN",
+    "status": "PASS"
+  },
+  {
+    "path": "reports/v674-s1101r/S1101R_CLEANROOM_DEPENDENCY_AUDIT.json",
+    "type": "JSON",
+    "producer": "Agent4_CleanRoomRunner",
+    "createdAt": "2026-09-20T09:11:22.283Z",
+    "inputHashes": [
+      "V2_DATASET_HASH"
+    ],
+    "outputHash": "316D76E2F26066E22FC668197DE7152B7F14E45C92D51F3BCFF2A46F288F77A0",
+    "datasetHash": "V2_DATASET_HASH",
+    "gitCommit": "UNTRACKED_CLEAN",
+    "status": "PASS"
+  },
+  {
+    "path": "reports/v674-s1101r/S1101R_CLEANROOM_REPLAY.json",
+    "type": "JSON",
+    "producer": "Agent4_CleanRoomRunner",
+    "createdAt": "2026-09-20T09:11:22.285Z",
+    "inputHashes": [
+      "V2_DATASET_HASH"
+    ],
+    "outputHash": "303B6D01FBDEA886F6FA4626DC1083BC8E4709E1520F4726A6E4CC111E86CF54",
+    "datasetHash": "V2_DATASET_HASH",
+    "gitCommit": "UNTRACKED_CLEAN",
+    "status": "PASS"
+  },
+  {
+    "path": "reports/v674-s1101r/S1101R_DATABASE_WRITE_AUDIT.json",
+    "type": "JSON",
+    "producer": "Agent5_DatabaseWriteAuditor",
+    "createdAt": "2026-09-20T09:11:22.293Z",
+    "inputHashes": [
+      "V2_DATASET_HASH"
+    ],
+    "outputHash": "CCFD1E76EECF0F62A580EE4BF435577765D3DD45E8A6D0CE14EBC6D4F238E81C",
+    "datasetHash": "V2_DATASET_HASH",
+    "gitCommit": "UNTRACKED_CLEAN",
+    "status": "PASS"
+  },
+  {
+    "path": "reports/v674-s1101r/S1101R_ENVIRONMENT_AUDIT.json",
+    "type": "JSON",
+    "producer": "Agent5_EnvironmentFirewall",
+    "createdAt": "2026-09-20T09:11:22.300Z",
+    "inputHashes": [
+      "V2_DATASET_HASH"
+    ],
+    "outputHash": "259162E8224A02E15319BC1BDA3BD0FA80AA45D72C87286C2112CB6F187AC9C6",
+    "datasetHash": "V2_DATASET_HASH",
+    "gitCommit": "UNTRACKED_CLEAN",
+    "status": "PASS"
+  },
+  {
+    "path": "reports/v674-s1101r/S1101R_REDTEAM_RESULTS.json",
+    "type": "JSON",
+    "producer": "Agent6_AdversarialAttacker",
+    "createdAt": "2026-09-20T09:11:22.309Z",
+    "inputHashes": [
+      "V2_DATASET_HASH"
+    ],
+    "outputHash": "DB4582A6F82180EC4AC943E1F73BCFA2E440B4376EF71B356D63B773CF53C353",
+    "datasetHash": "V2_DATASET_HASH",
+    "gitCommit": "UNTRACKED_CLEAN",
+    "status": "PASS"
+  }
+]

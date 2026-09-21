@@ -1,8 +1,6 @@
 {
-  "phase": "14",
   "status": "PASS",
-  "promotedRows": 538,
-  "frozenControlsVerified": true,
-  "backupPath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\portfolio.db.bak.1789917050523",
-  "message": "Transactional promotion completed successfully."
+  "rowsInserted": 4784,
+  "prePromotionRows": 4130851,
+  "postPromotionRows": 4135605
 }

@@ -1,0 +1,12 @@
+{
+  "hasPackageJson": true,
+  "hasTsConfig": true,
+  "nodeVersion": "v24.18.0",
+  "buildScripts": [
+    "build",
+    "electron:build"
+  ],
+  "warnings": [
+    "No Node engine specified in package.json"
+  ]
+}

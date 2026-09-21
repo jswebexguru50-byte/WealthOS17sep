@@ -1,11 +1,11 @@
 {
-  "timestamp": "2026-09-08T16:04:18.222Z",
+  "timestamp": "2026-09-20T14:05:47.032Z",
   "serverUrl": "http://localhost:3000",
   "results": {
-    "Static Audit (TS-14)": "PASS",
+    "Static Audit (TS-14)": "FAIL",
     "Core Financial Math (TS-3–TS-7)": "PASS",
     "Suite 16: Wealth Maximization (OBJ-1–6)": "PASS",
-    "Live Integration (TS-1–TS-15)": "FAIL",
+    "Live Integration (TS-1–TS-15)": "SKIPPED",
     "E2E Visual Tests": "SKIPPED"
   },
   "wealthObjectiveScorecard": {
@@ -43,6 +43,6 @@
       "outcome": "rebalanced.riskAdjustedAfterTaxValue >= baseline.riskAdjustedAfterTaxValue"
     }
   },
-  "totalPassed": 3,
+  "totalPassed": 2,
   "totalFailed": 1
 }

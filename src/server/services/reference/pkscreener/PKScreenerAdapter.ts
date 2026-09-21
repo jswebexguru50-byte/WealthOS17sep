@@ -33,6 +33,12 @@ export interface PKScreenerBatchRequest {
   pitContextHash: string;
 }
 
+export interface PKScreenerResponse {
+  securityId: string;
+  symbol: string;
+  observations: Array<{ capabilityId: string; value: unknown }>;
+}
+
 export class PKScreenerAdapter implements ReferenceEngineContract {
   public readonly referenceId = 'PKSCREENER';
   public readonly provider = 'PKSCREENER';

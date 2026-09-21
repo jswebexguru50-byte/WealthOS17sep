@@ -1,0 +1,10 @@
+{
+  "ledgerRunId": "audit-inv-1789901354479",
+  "firstRecordHash": "53da5a28895a47c81d9bd61a4efdda2c6c058fa1308bac55dc60b6523f075237",
+  "expectedRecordCount": 2,
+  "expectedFinalRecordHash": "c45001c478b8ca47575e15d2aac40a0d62f9f990c4c2f874b8b544b62fc38b70",
+  "ledgerFileHash": "453873a5f8b5b2047714d10ff4c6237febb624c0b2200a19920c433f2cdeabc4",
+  "previousLedgerHeadHash": "53da5a28895a47c81d9bd61a4efdda2c6c058fa1308bac55dc60b6523f075237",
+  "snapshotHash": "snapshot-anchor-test",
+  "finalizedAt": "2026-09-20T10:49:14.729Z"
+}

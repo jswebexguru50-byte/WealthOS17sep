@@ -1,0 +1,11 @@
+{
+  "state": "FINAL_STOP",
+  "ts": "2026-09-21T07:49:51.313Z",
+  "wave": 5,
+  "note": "Reset after backup MD template fix",
+  "backup_sha": "f8770cc3718c719bf6a6c458488c3bb6c215674ed48c17d8624f6bbd0fc0cd10",
+  "inserted": 18244,
+  "post_rows": 4153849,
+  "rows_after": 4153849,
+  "cert_eligible": false
+}

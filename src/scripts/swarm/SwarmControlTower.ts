@@ -20,7 +20,7 @@ export function updateControlTower(agentResults: SwarmAgentResult[]): void {
   
   for (const result of agentResults) {
     agents[result.agentId] = result.status;
-    if (result.status === 'PROMOTED') {
+    if ((result.status as string) === 'PROMOTED') {
       hasPromoted = true;
     } else if (result.status === 'FAILED') {
       hasFailed = true;

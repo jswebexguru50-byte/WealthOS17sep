@@ -1,0 +1,9 @@
+{
+  "DATA_REMEDIATION_CERTIFIED": false,
+  "MARKET_DATA_CERTIFIED": false,
+  "CAPITAL_DEPLOYMENT_AUTHORIZED": false,
+  "blockers": [
+    "Idempotency actionable delta is not zero",
+    "Mandatory dataset DailyOHLCV is not certified."
+  ]
+}

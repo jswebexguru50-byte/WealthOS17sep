@@ -1,0 +1,92 @@
+{
+  "timestamp": "2026-09-20T21:04:13.216Z",
+  "audited_files": [
+    {
+      "file": "phase10rm4_upstox_targeted_recovery.cjs",
+      "sha256": "7c0922dc5ac9b8232a11addd5f9d5326a5c95542225ee120a3c910690e13af10",
+      "size": 11415,
+      "status": "CLEAN",
+      "findings": []
+    },
+    {
+      "file": "phase10rm3_recovery.cjs",
+      "sha256": "fa8cf197a406baa47b909c3ebf24a185a3a606c2db6891071333652eb8ea0e90",
+      "size": 23309,
+      "status": "CLEAN",
+      "findings": []
+    },
+    {
+      "file": "phase10rm3_upstox_recovery.cjs",
+      "sha256": "13c1d3380e1050ade66860dd28b2cb8020f4b7dff95df5ca3eded2ea7206028d",
+      "size": 4415,
+      "status": "CLEAN",
+      "findings": []
+    },
+    {
+      "file": "phase10rm3_9_recovery_plan.cjs",
+      "sha256": "a1f4ef6f720dd75edfaaff3424df4b0d36f4352771a1af73d28b6c35758875cd",
+      "size": 9815,
+      "status": "CLEAN",
+      "findings": []
+    },
+    {
+      "file": "phase10rm3_8_reconciliation.cjs",
+      "sha256": "5f5ab409da8a3a2cd10a1b274af04e76132a179cad74a9a9aeebb5999cec8d95",
+      "size": 12387,
+      "status": "CLEAN",
+      "findings": []
+    },
+    {
+      "file": "phase10rm3_7_dry_run.cjs",
+      "sha256": "c60a66cf72f013315e8d0ee04fb6027d28efb001bde2f11cab2b040090df0035",
+      "size": 9665,
+      "status": "CLEAN",
+      "findings": []
+    },
+    {
+      "file": "phase10rm3_6_reconstruction.cjs",
+      "sha256": "cbfe02672e2c51c0a1b850f4410fe24f1625b2980c5c76869e15043dd96716c6",
+      "size": 6139,
+      "status": "CLEAN",
+      "findings": []
+    },
+    {
+      "file": "phase10rm3_5_provenance.cjs",
+      "sha256": "92d7c48244872b33c33775ddcb8ddbefe7c6286e1f103cbea8c7587456414558",
+      "size": 7636,
+      "status": "CLEAN",
+      "findings": []
+    },
+    {
+      "file": "phase10rm3_4_validation.cjs",
+      "sha256": "0d88949817aa96778ceb45fcdd6d92b92619e85ad81835a34744628b8cb3858a",
+      "size": 9198,
+      "status": "CLEAN",
+      "findings": []
+    },
+    {
+      "file": "phase10rm2_classifier.cjs",
+      "sha256": "a55fe391f706c8067cf08a316c867eca1c25d60c62e59c4952256e6252a43450",
+      "size": 12373,
+      "status": "CLEAN",
+      "findings": []
+    },
+    {
+      "file": "frozen_controls.cjs",
+      "sha256": "18400889a093756f16fa40c4ebedefb6d2c28ac1f90b9b14801db5d810ce2bbc",
+      "size": 2271,
+      "status": "CLEAN",
+      "findings": []
+    },
+    {
+      "file": "package.json",
+      "status": "CLEAN_SCOPED",
+      "note": "AI packages exist in package.json (@google/genai, @google/generative-ai, @aws-sdk/client-bedrock-runtime) but NONE are imported by recovery runtime scripts. These serve other application features (web UI, etc.) and are NOT recovery runtime dependencies.",
+      "findings": []
+    }
+  ],
+  "ai_runtime_findings": [],
+  "false_positives": [],
+  "AI_RUNTIME_DEPENDENCY": 0,
+  "gate_status": "PASS"
+}

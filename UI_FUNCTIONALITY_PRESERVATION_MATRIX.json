@@ -1,0 +1,327 @@
+{
+  "_meta": {
+    "purpose": "UI-WAVE Functionality Preservation Matrix",
+    "rule": "Before any route is deleted or consolidated, every existing capability must be enumerated here with a destination and verification test.",
+    "frozen_controls_gate": "7/7 PASS",
+    "ts_gate": "0 errors",
+    "backend_changes": 0
+  },
+  "routes": [
+    {
+      "old_route": "COMMAND_CENTER",
+      "old_label": "1. Dashboard & Command Center",
+      "new_route": "OVERVIEW",
+      "new_workspace": "FamilyOfficeCommandCenter",
+      "capabilities": [
+        "AUM summary metrics",
+        "Live price feed",
+        "Portfolio selector",
+        "Family member switcher",
+        "Opportunity pulse",
+        "Watchlist changes",
+        "Risk alerts banner"
+      ],
+      "api_calls": ["/api/dashboard", "/api/metrics", "/api/portfolios", "/api/alerts"],
+      "deep_link": "#overview",
+      "legacy_deep_links": ["#command-center", "#dashboard"],
+      "parameter_forwarding": ["portfolio", "member_id"],
+      "verification": "Navigate #command-center → confirms redirect to OVERVIEW, all metrics display"
+    },
+    {
+      "old_route": "OPPORTUNITY_ENGINE",
+      "old_label": "3. Quant & Technical Studio (Opp Engine sub)",
+      "new_route": "DISCOVER",
+      "new_workspace": "DiscoverWorkspace > OPPORTUNITY_ENGINE",
+      "capabilities": [
+        "S1–S26 scored signal list",
+        "Signal quality overlay display",
+        "Filter by directive",
+        "Capital-protection flag display",
+        "Sizing recommendation display"
+      ],
+      "api_calls": ["/api/opportunities", "/api/screener"],
+      "deep_link": "#discover",
+      "legacy_deep_links": ["#opportunity-engine", "#opportunity_engine"],
+      "parameter_forwarding": ["tab", "filter"],
+      "verification": "Navigate #opportunity-engine → DISCOVER tab active, opportunity list loads"
+    },
+    {
+      "old_route": "MULTIBAGGER",
+      "old_label": "Multibagger Screener",
+      "new_route": "DISCOVER",
+      "new_workspace": "DiscoverWorkspace > MULTIBAGGER",
+      "capabilities": [
+        "Quality + growth filter",
+        "Screener results table",
+        "Column sort",
+        "Export"
+      ],
+      "api_calls": ["/api/multibagger-screener"],
+      "deep_link": "#discover?sub=multibagger",
+      "legacy_deep_links": ["#multibagger"],
+      "parameter_forwarding": [],
+      "verification": "Navigate #multibagger → DISCOVER workspace, Multibagger sub-tab active"
+    },
+    {
+      "old_route": "SENTINEL",
+      "old_label": "Smart Money Sentinel",
+      "new_route": "DISCOVER",
+      "new_workspace": "DiscoverWorkspace > SENTINEL",
+      "capabilities": [
+        "Institutional flow alerts",
+        "Breakout signals",
+        "Alert management"
+      ],
+      "api_calls": ["/api/opportunities"],
+      "deep_link": "#discover?sub=sentinel",
+      "legacy_deep_links": ["#sentinel"],
+      "parameter_forwarding": [],
+      "verification": "Navigate #sentinel → DISCOVER workspace, Sentinel sub-tab active"
+    },
+    {
+      "old_route": "MOMENTUM_VPA",
+      "old_label": "Momentum & VPA",
+      "new_route": "DISCOVER",
+      "new_workspace": "DiscoverWorkspace > MOMENTUM_VPA",
+      "capabilities": ["Volume-price analysis", "Momentum signal display"],
+      "api_calls": ["/api/momentum-vpa"],
+      "deep_link": "#discover?sub=momentum",
+      "legacy_deep_links": ["#momentum-vpa"],
+      "parameter_forwarding": [],
+      "verification": "Navigate #momentum-vpa → DISCOVER, Momentum sub-tab active"
+    },
+    {
+      "old_route": "GREENFIELD_PORTAL",
+      "old_label": "Greenfield Investment Portal",
+      "new_route": "DISCOVER",
+      "new_workspace": "DiscoverWorkspace > GREENFIELD",
+      "capabilities": ["Early-stage sector analysis", "Sunrise industrial universe"],
+      "api_calls": ["/api/greenfield"],
+      "deep_link": "#discover?sub=greenfield",
+      "legacy_deep_links": ["#greenfield-portal"],
+      "parameter_forwarding": [],
+      "verification": "Navigate #greenfield-portal → DISCOVER, Greenfield sub-tab active"
+    },
+    {
+      "old_route": "MASTER_DOSSIER",
+      "old_label": "2. ITAS Master Dossier (11 tabs)",
+      "new_route": "ANALYZE",
+      "new_workspace": "MasterQuantDossier11TabsView (unchanged)",
+      "capabilities": [
+        "11 execution tabs",
+        "FERE deep dive",
+        "Signal evidence",
+        "Download exports"
+      ],
+      "api_calls": ["/api/master-dossier", "/api/fere"],
+      "deep_link": "#analyze",
+      "legacy_deep_links": ["#master-dossier", "#dossier"],
+      "parameter_forwarding": ["symbol"],
+      "verification": "Navigate #master-dossier → ANALYZE workspace, 11 tabs visible"
+    },
+    {
+      "old_route": "INTELLIGENCE",
+      "old_label": "6. Scrip Intelligence",
+      "new_route": "ANALYZE",
+      "new_workspace": "StockIntelligenceView (unchanged)",
+      "capabilities": [
+        "AI Verdict & Signal",
+        "Trendlyne DVM & SWOT",
+        "Broker Consensus",
+        "Predictive Model",
+        "Technical & Pivots",
+        "F&O Derivatives",
+        "Forward Outlook",
+        "Fundamentals",
+        "Sector & Peers",
+        "Multi-Source News",
+        "Portfolio Position"
+      ],
+      "api_calls": ["/api/scrip-intelligence/:symbol", "/api/broker-research/symbol/:symbol", "/api/momentum-reasoning/:symbol"],
+      "deep_link": "#analyze",
+      "legacy_deep_links": ["#intelligence"],
+      "parameter_forwarding": ["symbol"],
+      "verification": "Navigate #intelligence → ANALYZE, scrip intelligence for default symbol loads"
+    },
+    {
+      "old_route": "FORENSIC_INTELLIGENCE",
+      "old_label": "Forensic Intelligence",
+      "new_route": "ANALYZE",
+      "new_workspace": "ForensicIntelligenceMasterView (unchanged)",
+      "capabilities": ["Forensic audit", "Evidence chain"],
+      "api_calls": ["/api/forensic"],
+      "deep_link": "#analyze?sub=forensic",
+      "legacy_deep_links": ["#forensic-intelligence"],
+      "parameter_forwarding": ["symbol"],
+      "verification": "Navigate #forensic-intelligence → ANALYZE workspace"
+    },
+    {
+      "old_route": "PORTFOLIO",
+      "old_label": "4. Portfolio & Ledger",
+      "new_route": "PORTFOLIO",
+      "new_workspace": "PortfolioHubView (unchanged)",
+      "capabilities": [
+        "Holdings table (all asset classes)",
+        "P&L",
+        "FX Drag",
+        "XIRR",
+        "Growth history chart",
+        "Benchmark comparison",
+        "Asset class filter strip",
+        "Institutional analytics",
+        "Ratio analytics"
+      ],
+      "api_calls": ["/api/dashboard", "/api/metrics", "/api/portfolios", "/api/growth-history"],
+      "deep_link": "#portfolio",
+      "legacy_deep_links": ["#portfolio"],
+      "parameter_forwarding": ["portfolio", "member_id"],
+      "verification": "Navigate #portfolio → Holdings table with all asset classes, metrics populated"
+    },
+    {
+      "old_route": "ANALYTICS",
+      "old_label": "5. Analytics & Risk",
+      "new_route": "PORTFOLIO",
+      "new_workspace": "PortfolioHubView > INSTITUTIONAL_ANALYTICS sub-tab",
+      "capabilities": [
+        "Factor exposure",
+        "Stress test",
+        "VaR",
+        "Concentration risk",
+        "Liquidity risk"
+      ],
+      "api_calls": ["/api/analytics", "/api/risk"],
+      "deep_link": "#portfolio?sub=analytics",
+      "legacy_deep_links": ["#analytics"],
+      "parameter_forwarding": ["portfolio"],
+      "verification": "Navigate #analytics → PORTFOLIO workspace, Analytics sub-tab active"
+    },
+    {
+      "old_route": "LEDGER",
+      "old_label": "Activity & Ledger",
+      "new_route": "PORTFOLIO",
+      "new_workspace": "LedgerHubView (rendered within PORTFOLIO workspace via setActiveTab)",
+      "capabilities": [
+        "Transaction list",
+        "Corporate actions",
+        "Add/edit/delete transaction"
+      ],
+      "api_calls": ["/api/transactions", "/api/corporate-actions"],
+      "deep_link": "#portfolio?sub=ledger",
+      "legacy_deep_links": ["#ledger"],
+      "parameter_forwarding": ["portfolio"],
+      "verification": "Navigate #ledger → PORTFOLIO, Ledger accessible"
+    },
+    {
+      "old_route": "QUANT_TECHNICAL_STUDIO",
+      "old_label": "3. Quant & Technical Studio",
+      "new_route": "RESEARCH",
+      "new_workspace": "ResearchWorkspace > QUANT_STUDIO",
+      "capabilities": ["S1–S26 scanner", "Evidence buckets", "Strategy backtest"],
+      "api_calls": ["/api/quant-studio"],
+      "deep_link": "#research",
+      "legacy_deep_links": ["#quant-technical-studio", "#quant-v5"],
+      "parameter_forwarding": [],
+      "verification": "Navigate #quant-technical-studio → RESEARCH, Quant Studio tab active"
+    },
+    {
+      "old_route": "TECHNICAL_STRATEGIES",
+      "old_label": "Technical Strategies",
+      "new_route": "RESEARCH",
+      "new_workspace": "ResearchWorkspace > TECHNICAL",
+      "capabilities": ["Independent technical analysis", "Multi-strategy comparison"],
+      "api_calls": ["/api/technical-strategies"],
+      "deep_link": "#research?sub=technical",
+      "legacy_deep_links": ["#technical-strategies", "#independent-technical"],
+      "parameter_forwarding": [],
+      "verification": "Navigate #technical-strategies → RESEARCH, Technical tab active"
+    },
+    {
+      "old_route": "REPORT_STUDIO",
+      "old_label": "Report Studio",
+      "new_route": "RESEARCH",
+      "new_workspace": "ResearchWorkspace > REPORTS",
+      "capabilities": ["Institutional report generation", "PDF/XLSX export"],
+      "api_calls": ["/api/reports"],
+      "deep_link": "#research?sub=reports",
+      "legacy_deep_links": ["#report-studio"],
+      "parameter_forwarding": ["portfolio", "member_id"],
+      "verification": "Navigate #report-studio → RESEARCH, Report Studio tab active"
+    },
+    {
+      "old_route": "SETTINGS",
+      "old_label": "7. Settings & Masters",
+      "new_route": "AUDIT",
+      "new_workspace": "AuditWorkspace > SETTINGS",
+      "capabilities": [
+        "Master tickers",
+        "FX rates",
+        "Theme selector",
+        "Database inspector",
+        "Purge operations"
+      ],
+      "api_calls": ["/api/tickers", "/api/settings"],
+      "deep_link": "#audit",
+      "legacy_deep_links": ["#settings"],
+      "parameter_forwarding": [],
+      "verification": "Navigate #settings → AUDIT, Settings tab active"
+    },
+    {
+      "old_route": "IMPORTS",
+      "old_label": "Imports & Recon",
+      "new_route": "AUDIT",
+      "new_workspace": "AuditWorkspace > IMPORTS",
+      "capabilities": [
+        "Bulk import",
+        "PMS import",
+        "CAMS sync",
+        "Reconciliation",
+        "Batch rollback"
+      ],
+      "api_calls": ["/api/bulk-import", "/api/pms", "/api/reconcile"],
+      "deep_link": "#audit?sub=imports",
+      "legacy_deep_links": ["#imports"],
+      "parameter_forwarding": ["portfolio"],
+      "verification": "Navigate #imports → AUDIT, Imports tab active"
+    },
+    {
+      "old_route": "TAX_REPATRIATION",
+      "old_label": "Tax & Repatriation",
+      "new_route": "AUDIT",
+      "new_workspace": "AuditWorkspace > TAX",
+      "capabilities": ["NRI tax hub", "LTCG calculation display", "DTAA benefit display"],
+      "api_calls": ["/api/tax"],
+      "deep_link": "#audit?sub=tax",
+      "legacy_deep_links": ["#tax-repatriation"],
+      "parameter_forwarding": ["portfolio", "member_id"],
+      "verification": "Navigate #tax-repatriation → AUDIT, Tax tab active"
+    },
+    {
+      "old_route": "MAPPINGS",
+      "old_label": "Scrip Mappings",
+      "new_route": "AUDIT",
+      "new_workspace": "AuditWorkspace > MAPPINGS",
+      "capabilities": ["Asset scrip mapping master", "ISIN lookup"],
+      "api_calls": ["/api/mappings"],
+      "deep_link": "#audit?sub=mappings",
+      "legacy_deep_links": ["#mappings"],
+      "parameter_forwarding": [],
+      "verification": "Navigate #mappings → AUDIT, Mappings tab active"
+    },
+    {
+      "old_route": "FAMILY",
+      "old_label": "Family Governance",
+      "new_route": "AUDIT",
+      "new_workspace": "AuditWorkspace > FAMILY",
+      "capabilities": ["Family member management", "Benchmark assignment"],
+      "api_calls": ["/api/family-members"],
+      "deep_link": "#audit?sub=family",
+      "legacy_deep_links": ["#family"],
+      "parameter_forwarding": [],
+      "verification": "Navigate #family → AUDIT, Family tab active"
+    }
+  ],
+  "total_routes_mapped": 20,
+  "backend_changes": 0,
+  "chart_library_changes": 0,
+  "strategy_files_changed": 0
+}

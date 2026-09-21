@@ -1,5 +1,5 @@
-import { ImmutableSignal, EnrichedImmutableSignal } from '../FastTrackTypes.js';
-import { CP21Coordinator } from '../CP21Coordinator.js';
+import { ImmutableSignal, EnrichedImmutableSignal } from './FastTrackTypes.js';
+import { CP21Coordinator } from './CP21Coordinator.js';
 
 export class D1DataRecoveryAuditor {
     constructor(private coordinator: CP21Coordinator) {}

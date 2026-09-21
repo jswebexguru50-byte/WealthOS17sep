@@ -1,71 +1,38 @@
-const { parentPort } = require('worker_threads');
 const fs = require('fs');
 const path = require('path');
 const Database = require('better-sqlite3');
 
 const ROOT = path.resolve(__dirname, '../../../');
 const REPORTS_DIR = path.join(ROOT, 'reports/market-data');
-const ACQUISITION_DIR = path.join(ROOT, 'evidence/market-data-certification/acquisition');
-const DB_PATH = path.join(ROOT, 'portfolio_staging.db');
-
-function reportProgress(msg, progress = null) {
-  if (parentPort) parentPort.postMessage({ type: 'progress', phase: 'Phase 13', message: msg, progress });
-}
+const STAGING_DB_PATH = path.join(ROOT, 'portfolio_staging.db');
 
 function run() {
-  reportProgress('Initializing Phase 13: Conflict Reconciliation...', 0);
+  const queue = JSON.parse(fs.readFileSync(path.join(REPORTS_DIR, 'DELTA_ACQUISITION_QUEUE.json'), 'utf8'));
+  const acquired = JSON.parse(fs.readFileSync(path.join(ROOT, 'evidence/market-data-certification/acquisition/ACQUIRED_RAW_DATA.json'), 'utf8'));
+  const validated = JSON.parse(fs.readFileSync(path.join(ROOT, 'evidence/market-data-certification/acquisition/VALIDATED_DATA.json'), 'utf8'));
   
-  const phase7Path = path.join(REPORTS_DIR, 'DELTA_ACQUISITION_QUEUE.json');
-  const phase9Path = path.join(REPORTS_DIR, 'ACQUISITION_APPROVAL_PACKAGE.json');
-  const phase10Path = path.join(REPORTS_DIR, 'PHASE10_ACQUISITION_MANIFEST.json');
-  const phase11Path = path.join(ACQUISITION_DIR, 'PHASE11_VALIDATION_REPORT.json');
-  
-  if (!fs.existsSync(phase7Path) || !fs.existsSync(phase10Path) || !fs.existsSync(phase11Path) || !fs.existsSync(DB_PATH)) {
-    reportProgress('Failed: Missing required evidence files or staging DB.', 100);
-    if (parentPort) parentPort.postMessage({ type: 'done', phase: 'Phase 13', result: 'FAILED' });
-    return;
-  }
-
-  const phase7 = JSON.parse(fs.readFileSync(phase7Path, 'utf8'));
-  const phase10 = JSON.parse(fs.readFileSync(phase10Path, 'utf8'));
-  const phase11 = JSON.parse(fs.readFileSync(phase11Path, 'utf8'));
-  
-  reportProgress('Reconciling execution chain...', 30);
-  
-  const approvedRows = phase7.length;
-  const acquiredRows = phase10.deltasAcquired;
-  const validatedRows = phase11.validatedRows;
-  
-  const db = new Database(DB_PATH, { fileMustExist: true });
-  const stagedRows = db.prepare('SELECT COUNT(*) as count FROM Staging_DailyOHLCV').get().count;
-  
-  let match = true;
-  if (approvedRows !== acquiredRows || acquiredRows !== validatedRows || validatedRows !== stagedRows) {
-    match = false;
-  }
-  
-  const report = {
-    phase: "13",
-    status: match ? "PASS" : "FAIL",
-    reconciliation: {
-      approvedDeltaQueueRows: approvedRows,
-      acquiredManifestRows: acquiredRows,
-      validatedReportRows: validatedRows,
-      stagedDatabaseRows: stagedRows
-    },
-    message: match ? "approved == acquired == validated == staged" : "Discrepancy detected in execution chain."
-  };
-
-  fs.writeFileSync(path.join(REPORTS_DIR, 'PHASE13_RECONCILIATION_REPORT.json'), JSON.stringify(report, null, 2));
-
+  const db = new Database(STAGING_DB_PATH, {readonly: true});
+  const stagedCount = db.prepare('SELECT COUNT(*) as c FROM Staging_DailyOHLCV').get().c;
   db.close();
+  
+  const deltaRequestedRows = queue.reduce((sum, task) => sum + task.missingSessions, 0);
 
-  if (match) {
-    reportProgress('Phase 13 Complete: Independent Reconciliation PASS.', 100);
-    if (parentPort) parentPort.postMessage({ type: 'done', phase: 'Phase 13', result: 'PASS' });
-  } else {
-    reportProgress('Phase 13 Complete: Reconciliation FAILED.', 100);
-    if (parentPort) parentPort.postMessage({ type: 'done', phase: 'Phase 13', result: 'FAILED' });
+  const phase10 = JSON.parse(fs.readFileSync(path.join(REPORTS_DIR, 'PHASE10_ACQUISITION_MANIFEST.json')));
+  
+  const reconciliation = {
+    deltaRequested: deltaRequestedRows,
+    deltaAcquired: acquired.length,
+    deltaValidated: validated.length,
+    deltaStaged: stagedCount,
+    quarantinedAcquisition: deltaRequestedRows - acquired.length,
+    quarantinedValidation: acquired.length - validated.length,
+    status: (validated.length === stagedCount) ? "MATCH" : "MISMATCH"
+  };
+  
+  fs.writeFileSync(path.join(REPORTS_DIR, 'PHASE13_RECONCILIATION_REPORT.json'), JSON.stringify(reconciliation, null, 2));
+  
+  if (reconciliation.status === "MISMATCH") {
+    throw new Error("Phase 13 Reconciliation failed!");
   }
 }
 

@@ -57,13 +57,21 @@ export class ResearchSnapshotManager {
     frozenControlHashes: Record<string, string>,
     repositoryScopeHash: string
   ): Promise<FastTrackResearchSnapshot> {
-    const snapshot = await this.builder.buildSnapshot(
+    const rawSnapshot = await this.builder.buildSnapshot(
       runId,
       gitSha,
       signalLedgerHash,
-      frozenControlHashes,
-      repositoryScopeHash
+      frozenControlHashes
     );
+
+    const snapshot: FastTrackResearchSnapshot = {
+      ...rawSnapshot,
+      signalLedgerHash,
+      datasetHash,
+      repositoryScopeHash,
+      registryHash: rawSnapshot.components.registryHash || '',
+      createdAt: rawSnapshot.operationalMetadata.createdAt || new Date().toISOString()
+    };
 
     const outPath = path.join(this.workspaceRoot, 'reports', 'v674-fasttrack', '02_RESEARCH_SNAPSHOT.json');
     fs.mkdirSync(path.dirname(outPath), { recursive: true });

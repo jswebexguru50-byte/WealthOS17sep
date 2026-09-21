@@ -47,8 +47,8 @@ export class R421AdversarialSuite {
 
     // ATTACK-02: Change one lifecycle parameter post-hoc
     let attack2Passed = false;
-    const origHash = 'hash_L2_HOLD5_params';
-    const modifiedHash = 'hash_L2_HOLD6_params';
+    const origHash: string = 'hash_L2_HOLD5_params';
+    const modifiedHash: string = 'hash_L2_HOLD6_params';
     if (origHash !== modifiedHash) attack2Passed = true;
     results.push({
       attackId: 'ATTACK-02',

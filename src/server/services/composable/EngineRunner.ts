@@ -11,7 +11,7 @@ import { EvidenceBus } from './EvidenceBus.js';
 import { PITContext } from './PITContext.js';
 import { DecisionConflictResolver, ConflictResolutionResult } from './DecisionConflictResolver.js';
 import { TelemetryCollector } from './TelemetryCollector.js';
-import { DecisionTraceRecorder } from './DecisionTrace.js';
+import { DecisionTraceService } from './DecisionTrace.js';
 
 export interface RunResults {
   runId: string;
@@ -23,7 +23,7 @@ export interface RunResults {
 export class EngineRunner {
   private conflictResolver = new DecisionConflictResolver();
   private telemetry = TelemetryCollector.getInstance();
-  private traceRecorder = DecisionTraceRecorder.getInstance();
+  private traceRecorder = DecisionTraceService.getInstance();
 
   public async run(
     graph: DecisionGraph,
@@ -47,6 +47,7 @@ export class EngineRunner {
       // Record trace
       this.traceRecorder.recordTrace({
         securityId: secId,
+        symbol: secId,
         decisionDate: context.decisionDate,
         runId,
         layers: secEvidence.map(e => ({
@@ -56,7 +57,8 @@ export class EngineRunner {
           evidenceId: e.id,
           reason: e.type
         })),
-        finalDecision: res.finalDecision
+        finalDecision: res.finalDecision,
+        summaryReason: res.finalDecision
       });
     }
 
@@ -66,13 +68,14 @@ export class EngineRunner {
       runId,
       engineId: 'GRAPH_RUNNER',
       decisionDate: context.decisionDate,
-      executionDurationMs: duration,
-      evidenceProduced: bus.getAllEvidence().length,
-      rejectionsEmitted: decisions.filter(d => d.finalDecision === 'BLOCKED').length,
-      approvalsEmitted: decisions.filter(d => d.finalDecision === 'BUY').length,
+      signalsGenerated: bus.getAllEvidence().length,
+      signalsRejected: decisions.filter(d => d.finalDecision === 'BLOCKED').length,
       dataGapsEncountered: 0,
-      memoryHeapUsedBytes: process.memoryUsage().heapUsed,
-      timestamp: context.decisionTimestamp
+      pitViolations: 0,
+      passPct: (decisions.filter(d => d.finalDecision === 'BUY').length / (decisions.length || 1)) * 100,
+      rejectPct: (decisions.filter(d => d.finalDecision === 'BLOCKED').length / (decisions.length || 1)) * 100,
+      latencyMs: duration,
+      recordedAt: new Date().toISOString()
     });
 
     return {

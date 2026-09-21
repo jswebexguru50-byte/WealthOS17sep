@@ -10,6 +10,7 @@ import { S110ComposableIntegrationEngine } from '../../src/server/services/s110/
 import { S110ShadowSafetyGate } from '../../src/server/services/s110/S110ShadowSafetyGate';
 import { S110CapitalEligibilityGate } from '../../src/server/services/s110/S110CapitalEligibilityGate';
 import { S110FinalGate } from '../../src/server/services/s110/S110FinalGate';
+import { S110ContaminationAuditEngine } from '../../src/server/services/s110/audit/S110ContaminationAuditEngine';
 
 describe('WEALTHOS S110 DATA READINESS & PIT TEST SUITE', () => {
   beforeAll(() => {
@@ -41,8 +42,14 @@ describe('WEALTHOS S110 DATA READINESS & PIT TEST SUITE', () => {
     expect(resolved).toBe('ZYDUSLIFE');
   });
 
+
+
   test('Check 14: Corporate Action Adjustments', () => {
-    expect(true).toBe(true);
+    const audit = S110ContaminationAuditEngine.runContaminationAudit();
+    const caCheck = audit.find(a => a.checkId === 'CONTAM_02_FUTURE_CORPORATE_ACTIONS');
+    expect(caCheck).toBeDefined();
+    expect(caCheck?.status).toBe('CLEAN');
+    expect(caCheck?.affectedComponents).toContain('CorporateActionsEngine');
   });
 
   test('Check 15: Daily OHLCV Strategy Coverage', () => {
@@ -88,8 +95,18 @@ describe('WEALTHOS S110 DATA READINESS & PIT TEST SUITE', () => {
     expect(signals.length).toBeGreaterThan(0);
   });
 
+
+
   test('Check 21: Independent Clean-Room Replay Verification', () => {
-    expect(true).toBe(true);
+    const signals = S110StrategyReplayEngine.replayStrategyOnUniverse('S1', '2024-01-15');
+    expect(signals.length).toBeGreaterThan(0);
+    for (const sig of signals) {
+      if (sig.dataStatus === 'DATA_PRESENT') {
+        expect(sig.inputDataHash).toBeTruthy();
+        expect(sig.PITContextHash).toBeTruthy();
+        expect(sig.decisionHash).toBeTruthy();
+      }
+    }
   });
 
   test('Check 22: FERE/QGLP/Smart Money Composable Integration', () => {

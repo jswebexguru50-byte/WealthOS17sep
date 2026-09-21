@@ -1,0 +1,10 @@
+{
+  "phase21Records": 6501,
+  "phase23Records": 6501,
+  "missingRecords": 1,
+  "unexpectedRecords": 1,
+  "phase21Hash": "9ff25223b92a22fb444ce169ee938ad55480bdbee61131ae8d86373268ed490e",
+  "phase23Hash": "47db7303a8214c2decc607a6d1e3ed07e5aaa2193b3f6ca3522de5256664c7a8",
+  "recordLevelMatch": false,
+  "status": "FAIL"
+}

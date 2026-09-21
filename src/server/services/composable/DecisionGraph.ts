@@ -149,9 +149,9 @@ export class DecisionGraph {
         layers.push({
           engineId: engId,
           role: eng.capability.roles[0] || 'SIGNAL',
-          result: engEvt ? (resolution.finalDecision === 'BLOCKED' && engEvt.payload?.passed === false ? 'REJECT' : 'PASS') : 'NOT_REACHED',
+          result: engEvt ? (resolution.finalDecision === 'BLOCKED' && (engEvt.payload as any)?.passed === false ? 'REJECT' : 'PASS') : 'NOT_REACHED',
           evidenceId: engEvt?.id,
-          reason: engEvt?.payload?.reason
+          reason: (engEvt?.payload as any)?.reason
         });
       }
 

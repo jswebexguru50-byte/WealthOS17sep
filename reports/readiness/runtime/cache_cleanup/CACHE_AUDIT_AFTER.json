@@ -1,0 +1,36 @@
+﻿{
+    "timestamp_utc":  "2026-09-21T11:28:49.9891940Z",
+    "database":  {
+                     "path":  "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\portfolio.db",
+                     "size_bytes":  13510496256,
+                     "size_gb":  12.583,
+                     "size_mb":  12884.61,
+                     "sha256":  "312438BC171A8461AC4940B982C55BE7F093C47CA388FAA401B0D0B0545050CE"
+                 },
+    "approved_cache_paths":  [
+                                 {
+                                     "path":  ".vite",
+                                     "exists":  false,
+                                     "files":  0,
+                                     "size_bytes":  0,
+                                     "size_mb":  0,
+                                     "empty":  true
+                                 },
+                                 {
+                                     "path":  "node_modules\\.vite",
+                                     "exists":  false,
+                                     "files":  0,
+                                     "size_bytes":  0,
+                                     "size_mb":  0,
+                                     "empty":  true
+                                 },
+                                 {
+                                     "path":  "dist",
+                                     "exists":  false,
+                                     "files":  0,
+                                     "size_bytes":  0,
+                                     "size_mb":  0,
+                                     "empty":  true
+                                 }
+                             ]
+}

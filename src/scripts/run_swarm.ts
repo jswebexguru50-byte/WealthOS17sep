@@ -104,6 +104,7 @@ async function runSwarm() {
         if (fs.existsSync(manifestPath) && fs.existsSync(dataPath)) {
           const predicates = runIndependentVerification(res.datasetId, manifestPath, dataPath, rawPath);
           
+          const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
           const input: DatasetPromotionInput = {
             datasetId: res.datasetId,
             manifest,

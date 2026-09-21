@@ -1,0 +1,29 @@
+{
+  "phase": "10R-M.4-OVERNIGHT",
+  "runtime_version": "1.0.0",
+  "completed_at": "2026-09-20T21:13:12.102Z",
+  "duration_s": 424,
+  "queue_hash": "2470c428538f41356ca1ad31bf3f42d896a6b24c59e5125590d8a1ed2055c080",
+  "timestamp": "2026-09-20T21:13:12.094Z",
+  "expected_total": 47529,
+  "state_counts": {
+    "COMPLETE": 40520,
+    "FAILED_PERMANENT": 7009
+  },
+  "total_accounted": 47529,
+  "unaccounted": 0,
+  "reconciliation_equation_satisfied": true,
+  "duplicate_canonical_candles": 0,
+  "production_db_writes": 0,
+  "certification_changed": false,
+  "requests": 43,
+  "http_200": 43,
+  "http_400": 0,
+  "http_429": 0,
+  "http_401_403": 0,
+  "candles_recovered": 0,
+  "candles_validated": 0,
+  "candles_rejected": 0,
+  "duplicates_skipped": 0,
+  "safe_status": "COMPLETE"
+}

@@ -1,0 +1,35 @@
+{
+  "phase": "WAVE_5",
+  "strategies": [
+    {
+      "name": "PureTechnicalStrategiesEngine",
+      "inputDataset": "DailyOHLCV",
+      "historicalRequirement": "COMPLETE",
+      "pitRequirement": "STRICT",
+      "corporateActionRequirement": "ADJUSTED",
+      "indexDependency": "NONE",
+      "benchmarkDependency": "NONE",
+      "certificationState": "PARTIAL"
+    },
+    {
+      "name": "CapitalProtectionEngine",
+      "inputDataset": "IndexOHLCV",
+      "historicalRequirement": "COMPLETE",
+      "pitRequirement": "STRICT",
+      "corporateActionRequirement": "N/A",
+      "indexDependency": "NIFTY50",
+      "benchmarkDependency": "NONE",
+      "certificationState": "MISSING"
+    },
+    {
+      "name": "SignalQualityOverlay",
+      "inputDataset": "SectorBenchmarkData",
+      "historicalRequirement": "COMPLETE",
+      "pitRequirement": "STRICT",
+      "corporateActionRequirement": "N/A",
+      "indexDependency": "SECTORAL",
+      "benchmarkDependency": "REQUIRED",
+      "certificationState": "MISSING"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "strategyId": "S7",
+  "name": "MACD Bullish Divergence",
+  "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+  "functionName": "evaluateS7",
+  "startLine": 2607,
+  "endLine": 2647,
+  "inputs": [
+    "Daily OHLCV"
+  ],
+  "indicators": [
+    "12-26-9 MACD",
+    "MACD Histogram"
+  ],
+  "lookbacks": [
+    "12-26-9 Bars"
+  ],
+  "thresholds": [
+    "Histogram > 0",
+    "Histogram Slope > 0"
+  ],
+  "comparators": [
+    "Histogram > Signal"
+  ],
+  "entryConditions": [
+    "Bullish divergence between price and MACD histogram"
+  ],
+  "exitConditions": [
+    "MACD Histogram crosses below 0"
+  ],
+  "volumeConditions": [
+    "Volume > 1.0x average"
+  ],
+  "benchmarkDependencies": [
+    "NIFTY 500 regime"
+  ],
+  "intradayDependencies": [],
+  "corporateActionDependencies": [
+    "Split adjusted"
+  ],
+  "pitDependencies": [
+    "Trade date <= Decision date"
+  ],
+  "missingDataBehavior": "FAIL_CLOSED",
+  "fallbackBehavior": "NO_SYNTHETIC_FALLBACK",
+  "timestampSemantics": "EOD Close Available At 16:00 IST",
+  "sourceEvidence": {
+    "file": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "startLine": 2607,
+    "endLine": 2647,
+    "symbol": "evaluateS7",
+    "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+  }
+}

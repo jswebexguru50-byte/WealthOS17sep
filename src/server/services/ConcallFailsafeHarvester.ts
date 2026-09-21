@@ -1,5 +1,6 @@
 import * as cheerio from 'cheerio';
-import fetch from 'node-fetch';
+import fetch, { RequestInit as NodeFetchInit } from 'node-fetch';
+interface NodeFetchOptions extends NodeFetchInit { timeout?: number; }
 import { createRequire } from 'module';
 import { ListingPlatform, getFallbackOrder } from './ForensicExtractionSchema.js';
 
@@ -125,7 +126,7 @@ export class ConcallFailsafeHarvester {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
       },
       timeout: 8000
-    });
+    } as NodeFetchOptions);
 
     if (!res.ok) return null;
     const html = await res.text();
@@ -153,7 +154,7 @@ export class ConcallFailsafeHarvester {
     const pdfRes = await fetch(pdfUrl, {
       headers: { 'User-Agent': 'Mozilla/5.0' },
       timeout: 12000
-    });
+    } as NodeFetchOptions);
 
     if (!pdfRes.ok) return null;
     const arrayBuffer = await pdfRes.arrayBuffer();
@@ -181,7 +182,7 @@ export class ConcallFailsafeHarvester {
     const res = await fetch(url, {
       headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' },
       timeout: 8000
-    });
+    } as NodeFetchOptions);
 
     if (!res.ok) return null;
     const html = await res.text();
@@ -210,7 +211,7 @@ export class ConcallFailsafeHarvester {
     const pdfRes = await fetch(docUrl, {
       headers: { 'User-Agent': 'Mozilla/5.0' },
       timeout: 12000
-    });
+    } as NodeFetchOptions);
 
     if (!pdfRes.ok) return null;
     const buffer = Buffer.from(await pdfRes.arrayBuffer());
@@ -242,7 +243,7 @@ export class ConcallFailsafeHarvester {
         'Referer': 'https://www.bseindia.com/'
       },
       timeout: 6000
-    });
+    } as NodeFetchOptions);
 
     if (!res.ok) return null;
     const json: any = await res.json().catch(() => null);
@@ -259,7 +260,7 @@ export class ConcallFailsafeHarvester {
     const pdfRes = await fetch(pdfUrl, {
       headers: { 'User-Agent': 'Mozilla/5.0' },
       timeout: 12000
-    });
+    } as NodeFetchOptions);
 
     if (!pdfRes.ok) return null;
     const buffer = Buffer.from(await pdfRes.arrayBuffer());
@@ -288,7 +289,7 @@ export class ConcallFailsafeHarvester {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
       },
       timeout: 6000
-    });
+    } as NodeFetchOptions);
 
     if (!res.ok) return null;
     const html = await res.text();
@@ -302,7 +303,7 @@ export class ConcallFailsafeHarvester {
     const videoRes = await fetch(videoPageUrl, {
       headers: { 'User-Agent': 'Mozilla/5.0' },
       timeout: 6000
-    });
+    } as NodeFetchOptions);
     if (!videoRes.ok) return null;
     const videoHtml = await videoRes.text();
 
@@ -313,7 +314,7 @@ export class ConcallFailsafeHarvester {
     if (!captionTracks || captionTracks.length === 0) return null;
 
     const trackUrl = captionTracks[0].baseUrl;
-    const trackRes = await fetch(trackUrl, { timeout: 6000 });
+    const trackRes = await fetch(trackUrl, { timeout: 6000 } as NodeFetchOptions);
     if (!trackRes.ok) return null;
 
     const xml = await trackRes.text();

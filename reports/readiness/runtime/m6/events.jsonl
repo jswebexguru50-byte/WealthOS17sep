@@ -1,0 +1,64 @@
+﻿
+{"ts":"2026-09-21T05:18:26.570Z","event":"ORCHESTRATOR_START","state":"INIT","wave_arg":1}
+{"ts":"2026-09-21T05:18:26.572Z","event":"STATE_TRANSITION","state":"WAVE1_RUNNING","wave":1}
+{"ts":"2026-09-21T05:18:26.573Z","event":"WAVE1_START"}
+{"ts":"2026-09-21T05:26:47.927Z","event":"RUNTIME_RESET","reason":"Auth package SHA design fix — re-running Wave 1 clean"}
+{"ts":"2026-09-21T05:26:53.742Z","event":"ORCHESTRATOR_START","state":"INIT","wave_arg":1}
+{"ts":"2026-09-21T05:26:53.744Z","event":"STATE_TRANSITION","state":"WAVE1_RUNNING","wave":1}
+{"ts":"2026-09-21T05:26:53.744Z","event":"WAVE1_START"}
+{"ts":"2026-09-21T05:26:53.889Z","event":"PREFLIGHT_COMPLETE","gate":"PASS","failures":[],"exec_id":"PREFLIGHT_1789968413890"}
+{"ts":"2026-09-21T05:30:51.859Z","event":"AGENT_SUCCESS","script":"phase10rm6_promotion_preflight.cjs","exit_code":0}
+{"ts":"2026-09-21T05:34:22.646Z","event":"AGENT_FAIL","script":"phase10rm6_production_backup.cjs","exit_code":1}
+{"ts":"2026-09-21T05:34:22.657Z","event":"STATE_TRANSITION","state":"MANUAL_REVIEW","wave":1,"reason":"BACKUP_FAILED"}
+{"ts":"2026-09-21T05:35:47.828Z","event":"RUNTIME_RESET","reason":"sha256File streaming fix — re-running Wave 1"}
+{"ts":"2026-09-21T05:35:54.460Z","event":"ORCHESTRATOR_START","state":"INIT","wave_arg":1}
+{"ts":"2026-09-21T05:35:54.461Z","event":"STATE_TRANSITION","state":"WAVE1_RUNNING","wave":1}
+{"ts":"2026-09-21T05:35:54.462Z","event":"WAVE1_START"}
+{"ts":"2026-09-21T05:35:55.210Z","event":"PREFLIGHT_COMPLETE","gate":"PASS","failures":[],"exec_id":"PREFLIGHT_1789968955210"}
+{"ts":"2026-09-21T05:39:37.685Z","event":"AGENT_SUCCESS","script":"phase10rm6_promotion_preflight.cjs","exit_code":0}
+{"ts":"2026-09-21T05:49:37.857Z","event":"AGENT_FAIL","script":"phase10rm6_production_backup.cjs","exit_code":null,"error":"spawnSync node ETIMEDOUT"}
+{"ts":"2026-09-21T05:49:37.891Z","event":"STATE_TRANSITION","state":"MANUAL_REVIEW","wave":1,"reason":"BACKUP_FAILED"}
+{"ts":"2026-09-21T05:54:49.596Z","event":"RUNTIME_RESET","reason":"backup reuse fix — re-running Wave 1"}
+{"ts":"2026-09-21T05:54:57.296Z","event":"ORCHESTRATOR_START","state":"INIT","wave_arg":1}
+{"ts":"2026-09-21T05:54:57.298Z","event":"STATE_TRANSITION","state":"WAVE1_RUNNING","wave":1}
+{"ts":"2026-09-21T05:54:57.299Z","event":"WAVE1_START"}
+{"ts":"2026-09-21T05:54:57.500Z","event":"PREFLIGHT_COMPLETE","gate":"PASS","failures":[],"exec_id":"PREFLIGHT_1789970097501"}
+{"ts":"2026-09-21T05:58:31.753Z","event":"AGENT_SUCCESS","script":"phase10rm6_promotion_preflight.cjs","exit_code":0}
+{"ts":"2026-09-21T06:07:20.326Z","event":"AGENT_FAIL","script":"phase10rm6_production_backup.cjs","exit_code":1}
+{"ts":"2026-09-21T06:07:20.354Z","event":"STATE_TRANSITION","state":"MANUAL_REVIEW","wave":1,"reason":"BACKUP_FAILED"}
+{"ts":"2026-09-21T06:07:59.614Z","event":"RUNTIME_RESET","reason":"backup MD restIntegrity fix"}
+{"ts":"2026-09-21T06:08:05.544Z","event":"ORCHESTRATOR_START","state":"INIT","wave_arg":1}
+{"ts":"2026-09-21T06:08:05.546Z","event":"STATE_TRANSITION","state":"WAVE1_RUNNING","wave":1}
+{"ts":"2026-09-21T06:08:05.546Z","event":"WAVE1_START"}
+{"ts":"2026-09-21T06:08:05.693Z","event":"PREFLIGHT_COMPLETE","gate":"PASS","failures":[],"exec_id":"PREFLIGHT_1789970885694"}
+{"ts":"2026-09-21T06:10:33.043Z","event":"AGENT_SUCCESS","script":"phase10rm6_promotion_preflight.cjs","exit_code":0}
+{"ts":"2026-09-21T06:18:55.467Z","event":"BACKUP_COMPLETE","gate":"PASS","source_sha256":"f8770cc3718c719bf6a6c458488c3bb6c215674ed48c17d8624f6bbd0fc0cd10","backup_sha256":"f8770cc3718c719bf6a6c458488c3bb6c215674ed48c17d8624f6bbd0fc0cd10","backup_path":"reports\\readiness\\runtime\\m6\\artifacts\\portfolio_prepromotion_M6_1789969409800.db","exec_id":"BACKUP_1789971033158"}
+{"ts":"2026-09-21T06:18:55.567Z","event":"AGENT_SUCCESS","script":"phase10rm6_production_backup.cjs","exit_code":0}
+{"ts":"2026-09-21T06:18:55.575Z","event":"STATE_TRANSITION","state":"WAVE1_PASS","wave":1,"backup_sha":"f8770cc3718c719bf6a6c458488c3bb6c215674ed48c17d8624f6bbd0fc0cd10"}
+{"ts":"2026-09-21T06:18:55.576Z","event":"WAVE1_COMPLETE","preflight":"PASS","backup":"PASS","backup_sha":"f8770cc3718c719bf6a6c458488c3bb6c215674ed48c17d8624f6bbd0fc0cd10"}
+{"ts":"2026-09-21T06:18:55.579Z","event":"STATE_TRANSITION","state":"HUMAN_AUTHORIZATION_REQUIRED","wave":1,"backup_sha":"f8770cc3718c719bf6a6c458488c3bb6c215674ed48c17d8624f6bbd0fc0cd10"}
+{"ts":"2026-09-21T07:45:03.020Z","event":"ORCHESTRATOR_START","state":"HUMAN_AUTHORIZATION_REQUIRED","wave_arg":3}
+{"ts":"2026-09-21T07:45:03.024Z","event":"STATE_TRANSITION","state":"HUMAN_AUTHORIZED","wave":2}
+{"ts":"2026-09-21T07:45:03.024Z","event":"HUMAN_AUTHORIZATION_VERIFIED"}
+{"ts":"2026-09-21T07:45:03.026Z","event":"STATE_TRANSITION","state":"HUMAN_AUTHORIZED","wave":3}
+{"ts":"2026-09-21T07:45:03.026Z","event":"WAVE3_START"}
+{"ts":"2026-09-21T07:45:03.027Z","event":"STATE_TRANSITION","state":"TRANSACTION_STARTED","wave":3}
+{"ts":"2026-09-21T07:46:34.750Z","event":"LOCK_ACQUIRED","pid":22644,"exec_id":"PROMOTE_1789976703174"}
+{"ts":"2026-09-21T07:47:53.195Z","event":"PRE_TRANSACTION_REVALIDATION_PASS","exec_id":"PROMOTE_1789976703174","promo_count":18244,"anomaly_overlap":0,"unresolved_overlap":0,"db_sha_wave1":"f8770cc3718c719bf6a6c458488c3bb6c215674ed48c17d8624f6bbd0fc0cd10","db_sha_prelock":"f8770cc3718c719bf6a6c458488c3bb6c215674ed48c17d8624f6bbd0fc0cd10","db_sha_pretrans":"f8770cc3718c719bf6a6c458488c3bb6c215674ed48c17d8624f6bbd0fc0cd10"}
+{"ts":"2026-09-21T07:47:53.197Z","event":"TRANSACTION_STARTING","exec_id":"PROMOTE_1789976703174"}
+{"ts":"2026-09-21T07:49:21.071Z","event":"PROMOTION_COMMITTED","inserted":18244,"pre_rows":4135605,"post_rows":4153849,"delta":18244,"pre_sha":"f8770cc3718c719bf6a6c458488c3bb6c215674ed48c17d8624f6bbd0fc0cd10","post_sha":"c29455f633eaa9bb0c88be2df97c0898350c529a7de736b3dbcc6280474c018e","exec_id":"PROMOTE_1789976703174"}
+{"ts":"2026-09-21T07:49:21.221Z","event":"AGENT_SUCCESS","script":"phase10rm6_production_promote.cjs","exit_code":0}
+{"ts":"2026-09-21T07:49:21.235Z","event":"STATE_TRANSITION","state":"TRANSACTION_COMMITTED","wave":3,"inserted":18244,"post_rows":4153849}
+{"ts":"2026-09-21T07:49:21.236Z","event":"WAVE3_COMPLETE","result":"COMMITTED","inserted":18244}
+{"ts":"2026-09-21T07:49:37.749Z","event":"ORCHESTRATOR_START","state":"TRANSACTION_COMMITTED","wave_arg":4}
+{"ts":"2026-09-21T07:49:37.750Z","event":"WAVE4_START"}
+{"ts":"2026-09-21T07:49:41.603Z","event":"POST_VERIFY_COMPLETE","gate":"PASS","rows_after":4153849,"delta":18244,"identical":18244,"exec_id":"POSTVERIFY_1789976977912"}
+{"ts":"2026-09-21T07:49:41.623Z","event":"AGENT_SUCCESS","script":"phase10rm6_post_promotion_verification.cjs","exit_code":0}
+{"ts":"2026-09-21T07:49:41.625Z","event":"STATE_TRANSITION","state":"POST_VERIFY_PASS","wave":4,"rows_after":4153849}
+{"ts":"2026-09-21T07:49:41.625Z","event":"WAVE4_COMPLETE","rows_after":4153849,"delta":18244}
+{"ts":"2026-09-21T07:49:51.088Z","event":"ORCHESTRATOR_START","state":"POST_VERIFY_PASS","wave_arg":5}
+{"ts":"2026-09-21T07:49:51.089Z","event":"WAVE5_START"}
+{"ts":"2026-09-21T07:49:51.294Z","event":"CERTIFICATION_PREFLIGHT_COMPLETE","gate":"PASS","eligible":false,"blockers":3,"exec_id":"CERT_PREFLIGHT_1789976991209"}
+{"ts":"2026-09-21T07:49:51.312Z","event":"AGENT_SUCCESS","script":"phase10rm6_certification_preflight.cjs","exit_code":0}
+{"ts":"2026-09-21T07:49:51.313Z","event":"STATE_TRANSITION","state":"FINAL_STOP","wave":5,"cert_eligible":false}
+{"ts":"2026-09-21T07:49:51.314Z","event":"WAVE5_COMPLETE","cert_preflight":"PASS","eligible":false}

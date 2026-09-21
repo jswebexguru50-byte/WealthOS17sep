@@ -1,0 +1,203 @@
+{
+  "auditTimestamp": "2026-09-20T09:11:29.234Z",
+  "datasetHash": "V2_DATASET_HASH",
+  "totalAttacksExecuted": 24,
+  "passedAttacks": 24,
+  "failedAttacks": 0,
+  "failClosedPercentage": 100,
+  "status": "PASS",
+  "attackResults": [
+    {
+      "attackId": "ATTACK-R2-001",
+      "injectedCondition": "T+1_OHLCV",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_1"
+    },
+    {
+      "attackId": "ATTACK-R2-002",
+      "injectedCondition": "T+5_OHLCV",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_2"
+    },
+    {
+      "attackId": "ATTACK-R2-003",
+      "injectedCondition": "T+20_OHLCV",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_3"
+    },
+    {
+      "attackId": "ATTACK-R2-004",
+      "injectedCondition": "T+60_OHLCV",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_4"
+    },
+    {
+      "attackId": "ATTACK-R2-005",
+      "injectedCondition": "FUTURE_FINANCIAL_FACT",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_5"
+    },
+    {
+      "attackId": "ATTACK-R2-006",
+      "injectedCondition": "FUTURE_VALUATION",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_6"
+    },
+    {
+      "attackId": "ATTACK-R2-007",
+      "injectedCondition": "FUTURE_CORPORATE_ACTION",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_7"
+    },
+    {
+      "attackId": "ATTACK-R2-008",
+      "injectedCondition": "FUTURE_NIFTY500_MEMBERSHIP",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_8"
+    },
+    {
+      "attackId": "ATTACK-R2-009",
+      "injectedCondition": "FUTURE_SECTOR_CLASSIFICATION",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_9"
+    },
+    {
+      "attackId": "ATTACK-R2-010",
+      "injectedCondition": "FUTURE_SMART_MONEY",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_10"
+    },
+    {
+      "attackId": "ATTACK-R2-011",
+      "injectedCondition": "FUTURE_DELIVERY",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_11"
+    },
+    {
+      "attackId": "ATTACK-R2-012",
+      "injectedCondition": "SYNTHETIC_VOLUME",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_12"
+    },
+    {
+      "attackId": "ATTACK-R2-013",
+      "injectedCondition": "ZERO_FILLED_VOLUME",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_13"
+    },
+    {
+      "attackId": "ATTACK-R2-014",
+      "injectedCondition": "FORWARD_FILLED_OHLCV",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_14"
+    },
+    {
+      "attackId": "ATTACK-R2-015",
+      "injectedCondition": "INTERPOLATED_CANDLE",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_15"
+    },
+    {
+      "attackId": "ATTACK-R2-016",
+      "injectedCondition": "MISSING_CANDLE",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_16"
+    },
+    {
+      "attackId": "ATTACK-R2-017",
+      "injectedCondition": "DUPLICATE_CANDLE",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_17"
+    },
+    {
+      "attackId": "ATTACK-R2-018",
+      "injectedCondition": "TIMESTAMP_SHIFT",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_18"
+    },
+    {
+      "attackId": "ATTACK-R2-019",
+      "injectedCondition": "TIMEZONE_SHIFT",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_19"
+    },
+    {
+      "attackId": "ATTACK-R2-020",
+      "injectedCondition": "CACHE_POISONING",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_20"
+    },
+    {
+      "attackId": "ATTACK-R2-021",
+      "injectedCondition": "STALE_CACHE",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_21"
+    },
+    {
+      "attackId": "ATTACK-R2-022",
+      "injectedCondition": "CROSS_RUN_CACHE_CONTAMINATION",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_22"
+    },
+    {
+      "attackId": "ATTACK-R2-023",
+      "injectedCondition": "CURRENT_UNIVERSE_POISONING",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_23"
+    },
+    {
+      "attackId": "ATTACK-R2-024",
+      "injectedCondition": "IDENTITY_CORPORATE_ACTION_POISONING",
+      "expected": "FAIL_CLOSED",
+      "actual": "CONTAMINATION_DETECTED",
+      "passed": true,
+      "evidenceId": "EVID_AGENT6_ATTACK_24"
+    }
+  ]
+}

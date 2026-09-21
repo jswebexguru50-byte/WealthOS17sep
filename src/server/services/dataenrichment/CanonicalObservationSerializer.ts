@@ -1,14 +1,14 @@
 import crypto from 'node:crypto';
 
 export interface CanonicalMarketObservation {
-  instrumentKey: string;
+  instrumentKey?: string;
   barStartTime: string;
   providerTimestamp: string;
   observationTimestamp?: string;
   dataAcquisitionTimestamp: string;
-  dataReceivedTimestamp: string;
+  dataReceivedTimestamp?: string;
   evaluationTimestamp?: string;
-  candleState: 'OPEN' | 'CLOSED';
+  candleState?: 'OPEN' | 'CLOSED' | 'INVALID';
   open: number;
   high: number;
   low: number;

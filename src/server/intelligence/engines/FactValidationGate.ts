@@ -120,7 +120,7 @@ export class FactValidationGate {
     // Growth metrics (measurementType === 'GROWTH' or metric includes GROWTH) legitimately use PERCENT/BPS.
     const allowedUnits = VALID_UNITS_BY_FAMILY[candidate.metricFamily];
     const normalizedUnit = (candidate.unit || '').trim().toUpperCase();
-    const isGrowthMetric = candidate.measurementType === 'GROWTH' || (candidate.metric || '').toUpperCase().includes('GROWTH');
+    const isGrowthMetric = (candidate.metric || '').toUpperCase().includes('GROWTH');
     const isRatioMetric = candidate.measurementType === 'RATIO' || candidate.metric.includes('_TO_') || candidate.metric.endsWith('_RATIO');
     const isCurrencyUnit = /^(?:INR_|USD_|EUR_|GBP_)?(?:CRORE|LAKH|MILLION|BILLION|THOUSAND)S?$/i.test(normalizedUnit);
 

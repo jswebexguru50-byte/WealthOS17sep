@@ -30,6 +30,15 @@ export interface NormalizedNumber {
   scaleMultiplier: number;
 }
 
+export interface NumericalMatchResult {
+  found: boolean;
+  matchedExpression?: string;
+  matchedBaseValue?: number;
+  detectedCurrency?: string;
+  matchIndex?: number;
+  surroundingClause?: string;
+}
+
 /** Canonical currency symbol → ISO-3166 code mapping */
 const CURRENCY_PATTERNS: Array<{ pattern: RegExp; code: string }> = [
   { pattern: /₹/,                   code: 'INR' },
@@ -241,7 +250,7 @@ export class NumericalNormalizationEngine {
     quote: string,
     candidateCurrency?: string,
     relativeTolerance: number = 0.005
-  ): { found: boolean; matchedExpression?: string; matchedBaseValue?: number; detectedCurrency?: string } {
+  ): NumericalMatchResult {
     if (!quote || quote.trim().length === 0) {
       return { found: false };
     }

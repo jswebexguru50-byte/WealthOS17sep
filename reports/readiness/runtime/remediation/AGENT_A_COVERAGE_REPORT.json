@@ -1,0 +1,27 @@
+{
+  "agent": "AGENT_A_DATA_COVERAGE",
+  "timestamp": "2026-09-21T11:05:13.684Z",
+  "metrics": {
+    "canonical_universe": 3654,
+    "instruments_with_any_ohlcv": {
+      "count": 3157,
+      "pct": "86.40%"
+    },
+    "instruments_with_sufficient_history": {
+      "count": 1868,
+      "pct": "51.12%"
+    },
+    "sector_coverage": {
+      "count": 33,
+      "total": 44,
+      "pct": "75.00%"
+    },
+    "index_coverage_pct": "100.00%",
+    "benchmark_coverage_pct": "100.00%",
+    "date_pit_coverage": {
+      "robust_dates": 1913,
+      "total_dates": 2160,
+      "pct": "88.56%"
+    }
+  }
+}

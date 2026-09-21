@@ -1,0 +1,9 @@
+{
+  "reconciliationTimestamp": "2026-09-20T09:11:26.745Z",
+  "tier0CanonicalRecords": 1260000,
+  "tier1ExchangeAcquiredRecords": 158696,
+  "tier2LicensedRecords": 0,
+  "tier3ReconstructedRecords": 0,
+  "unresolvedDiscrepancies": 0,
+  "status": "VERIFIED"
+}

@@ -1,0 +1,181 @@
+{
+  "timestamp": "2026-09-21T06:08:05.693Z",
+  "exec_id": "PREFLIGHT_1789970885694",
+  "PREFLIGHT_GATE": "PASS",
+  "total_checks": 25,
+  "passed": 25,
+  "failed": 0,
+  "failures": [],
+  "production_db_writes": 0,
+  "certification_changed": false,
+  "market_data_certified": false,
+  "checks": [
+    {
+      "id": "auth_pkg_exists",
+      "pass": true,
+      "detail": "Authorization package at reports\\readiness\\PHASE10RM6_PRODUCTION_PROMOTION_AUTHORIZATION.json",
+      "value": null
+    },
+    {
+      "id": "auth_pkg_sha256",
+      "pass": true,
+      "detail": "Package SHA-256",
+      "value": {
+        "expected": "41db30e5d03a16af517c15e39cbedf5c1c3627a7fba818092f8b43e384643599",
+        "actual": "41db30e5d03a16af517c15e39cbedf5c1c3627a7fba818092f8b43e384643599"
+      }
+    },
+    {
+      "id": "auth_authorization",
+      "pass": true,
+      "detail": "Authorization field: PENDING_HUMAN_APPROVAL",
+      "value": null
+    },
+    {
+      "id": "promo_file_exists",
+      "pass": true,
+      "detail": "reports\\market-data\\PHASE10RM5Y_PROMOTION_MANIFEST.jsonl",
+      "value": null
+    },
+    {
+      "id": "promo_sha256",
+      "pass": true,
+      "detail": "Promotion file SHA",
+      "value": {
+        "expected": "be98c71c876df908399d0be52b37df14449e26357f4156dc658c592e97f5cf05",
+        "actual": "be98c71c876df908399d0be52b37df14449e26357f4156dc658c592e97f5cf05"
+      }
+    },
+    {
+      "id": "promo_count",
+      "pass": true,
+      "detail": "Record count: 18244",
+      "value": 18244
+    },
+    {
+      "id": "m4_bundle_exists",
+      "pass": true,
+      "detail": "reports\\market-data\\M4_EVIDENCE_BUNDLE_MANIFEST.json",
+      "value": null
+    },
+    {
+      "id": "m4_bundle_sha256",
+      "pass": true,
+      "detail": "M4 bundle compound SHA",
+      "value": {
+        "expected": "62a153a49e03815fe53be7b42933b7200c3869f0d4469641da57e183f119ab71",
+        "actual": "62a153a49e03815fe53be7b42933b7200c3869f0d4469641da57e183f119ab71"
+      }
+    },
+    {
+      "id": "m4_evidence_frozen",
+      "pass": true,
+      "detail": "M4_EVIDENCE_FROZEN",
+      "value": null
+    },
+    {
+      "id": "db_exists",
+      "pass": true,
+      "detail": "portfolio.db present",
+      "value": null
+    },
+    {
+      "id": "db_integrity",
+      "pass": true,
+      "detail": "SQLite integrity: ok",
+      "value": null
+    },
+    {
+      "id": "db_row_count",
+      "pass": true,
+      "detail": "DailyOHLCV rows: 4135605",
+      "value": {
+        "expected": 4135605,
+        "actual": 4135605
+      }
+    },
+    {
+      "id": "certification_false",
+      "pass": true,
+      "detail": "MARKET_DATA_CERTIFIED = NOT_SET",
+      "value": null
+    },
+    {
+      "id": "masterticker_count_sane",
+      "pass": true,
+      "detail": "MasterTickers rows: 3654",
+      "value": 3654
+    },
+    {
+      "id": "diagnostic_pragmas",
+      "pass": true,
+      "detail": "page_size=4096, page_count=3298461, freelist_count=2914654, auto_vacuum=0",
+      "value": {
+        "pageSize": 4096,
+        "pageCount": 3298461,
+        "freelistCount": 2914654,
+        "autoVacuum": 0
+      }
+    },
+    {
+      "id": "no_competing_lock",
+      "pass": true,
+      "detail": "No lock file present",
+      "value": null
+    },
+    {
+      "id": "canonical_keys_unique",
+      "pass": true,
+      "detail": "Duplicate canonical keys: 0",
+      "value": 0
+    },
+    {
+      "id": "no_existing_conflicts",
+      "pass": true,
+      "detail": "Conflicting rows: 0",
+      "value": 0
+    },
+    {
+      "id": "all_new_missing",
+      "pass": true,
+      "detail": "New missing rows: 18244",
+      "value": 18244
+    },
+    {
+      "id": "m5_gate_pass",
+      "pass": true,
+      "detail": "M5 revalidation gate: PASS",
+      "value": null
+    },
+    {
+      "id": "m5_anomaly_overlap",
+      "pass": true,
+      "detail": "Anomaly overlap = 0",
+      "value": null
+    },
+    {
+      "id": "m5_identity_fail",
+      "pass": true,
+      "detail": "Identity fail = 0",
+      "value": null
+    },
+    {
+      "id": "m5_ohlc_fail",
+      "pass": true,
+      "detail": "OHLC fail = 0",
+      "value": null
+    },
+    {
+      "id": "m5_conflicting",
+      "pass": true,
+      "detail": "Conflicting rows = 0",
+      "value": null
+    },
+    {
+      "id": "cross_gate_pass",
+      "pass": true,
+      "detail": "Cross-gate: PASS",
+      "value": null
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+{
+  "timestamp": "2026-09-20T21:04:14.485Z",
+  "test_mode": "OFFLINE_MOCKED",
+  "ai_env_vars_present": false,
+  "network_calls_made": 0,
+  "production_writes": 0,
+  "tests": [
+    {
+      "name": "Queue loading and state calculation",
+      "passed": true,
+      "detail": {
+        "pass": true,
+        "state": {
+          "total": 7,
+          "recoverable": 6,
+          "blocked": 1
+        }
+      }
+    },
+    {
+      "name": "OHLC validation — valid candle",
+      "passed": true,
+      "detail": {
+        "pass": true
+      }
+    },
+    {
+      "name": "OHLC validation — high below open (should reject)",
+      "passed": true,
+      "detail": {
+        "pass": true
+      }
+    },
+    {
+      "name": "HTTP response classification",
+      "passed": true,
+      "detail": {
+        "pass": true
+      }
+    },
+    {
+      "name": "Retry delay calculation",
+      "passed": true,
+      "detail": {
+        "pass": true
+      }
+    },
+    {
+      "name": "State machine — clean run (mocked SUCCESS)",
+      "passed": true,
+      "detail": {
+        "pass": true,
+        "recovered": 6
+      }
+    },
+    {
+      "name": "Blocked records not processed by state machine",
+      "passed": true,
+      "detail": {
+        "pass": true
+      }
+    },
+    {
+      "name": "Duplicate canonical key detection",
+      "passed": true,
+      "detail": {
+        "pass": true
+      }
+    },
+    {
+      "name": "Date validation",
+      "passed": true,
+      "detail": {
+        "pass": true
+      }
+    },
+    {
+      "name": "Identity validation",
+      "passed": true,
+      "detail": {
+        "pass": true
+      }
+    },
+    {
+      "name": "429 rate-limit handling — escalating backoff",
+      "passed": true,
+      "detail": {
+        "pass": true
+      }
+    },
+    {
+      "name": "Crash/restart safety at all 6 termination points",
+      "passed": true,
+      "detail": {
+        "pass": true,
+        "details": [
+          {
+            "termination_point": "BEFORE_REQUEST",
+            "pre_crash_processed": 1,
+            "pre_crash_staged": 1,
+            "post_restart_new_processed": 3,
+            "double_counted": 0,
+            "state_loss": 0,
+            "restart_safe": true
+          },
+          {
+            "termination_point": "AFTER_REQUEST",
+            "pre_crash_processed": 1,
+            "pre_crash_staged": 1,
+            "post_restart_new_processed": 3,
+            "double_counted": 0,
+            "state_loss": 0,
+            "restart_safe": true
+          },
+          {
+            "termination_point": "BEFORE_CANDLE_APPEND",
+            "pre_crash_processed": 1,
+            "pre_crash_staged": 1,
+            "post_restart_new_processed": 3,
+            "double_counted": 0,
+            "state_loss": 0,
+            "restart_safe": true
+          },
+          {
+            "termination_point": "AFTER_CANDLE_APPEND",
+            "pre_crash_processed": 1,
+            "pre_crash_staged": 1,
+            "post_restart_new_processed": 3,
+            "double_counted": 0,
+            "state_loss": 0,
+            "restart_safe": true
+          },
+          {
+            "termination_point": "BEFORE_CHECKPOINT",
+            "pre_crash_processed": 1,
+            "pre_crash_staged": 1,
+            "post_restart_new_processed": 3,
+            "double_counted": 0,
+            "state_loss": 0,
+            "restart_safe": true
+          },
+          {
+            "termination_point": "AFTER_CHECKPOINT",
+            "pre_crash_processed": 1,
+            "pre_crash_staged": 1,
+            "post_restart_new_processed": 3,
+            "double_counted": 0,
+            "state_loss": 0,
+            "restart_safe": true
+          }
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "total": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "RESTART_SAFE": "PASS",
+  "DURABLE_STATE": "PASS",
+  "QUEUE_RECONCILIATION": "PASS",
+  "NO_PRODUCTION_MUTATION": "PASS",
+  "CERTIFICATION_UNCHANGED": "PASS",
+  "overall_gate": "PASS"
+}

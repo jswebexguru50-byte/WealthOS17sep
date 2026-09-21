@@ -15,6 +15,8 @@ export interface ResearchExperiment {
   oosLocked: boolean;
 }
 
+export type ExperimentDefinition = ResearchExperiment;
+
 export interface ContaminationCheckResult {
   isContaminated: boolean;
   violation?: string;

@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "StockIntelligenceView": ["SignalQualityOverlay", "PureTechnicalStrategiesEngine"],
+    "OpportunityEngineMasterView": ["NewTechnicalStrategiesEngine"],
+    "PortfolioHubView": ["CapitalProtectionEngine"]
+  }
+}

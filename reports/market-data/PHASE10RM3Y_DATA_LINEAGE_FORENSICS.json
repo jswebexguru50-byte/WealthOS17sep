@@ -1,0 +1,58 @@
+{
+  "phase": "10R-M.3Y-DATA-LINEAGE",
+  "strategyEngines": [
+    "PureTechnicalStrategiesEngine.ts",
+    "NewTechnicalStrategiesEngine.ts",
+    "SignalQualityOverlay.ts",
+    "CapitalProtectionEngine.ts"
+  ],
+  "signalEntryPoints": [
+    "v65_runner_source.ts -> evaluateStrategy1()",
+    "src/server/services/RegimeBacktestEngine.ts -> evaluateStrategyX()",
+    "src/server/services/research/FrozenSignalAdapter.ts"
+  ],
+  "indicatorFunctions": [
+    "SMA",
+    "EMA",
+    "RSI",
+    "ATR",
+    "BollingerBands"
+  ],
+  "candleTypes": [
+    "Candle (date, open, high, low, close, volume, turnover)",
+    "IntradayCandle (timestamp, open, high, low, close, volume, openInterest)"
+  ],
+  "candleProducers": [
+    "queryDb('SELECT trade_date, open, high, low, close, volume, turnover FROM DailyOHLCV WHERE symbol = ? AND trade_date <= ? ORDER BY trade_date ASC LIMIT 60')"
+  ],
+  "repositories": [
+    "DailyOHLCV (Database table)",
+    "IntradayOHLCV (Database table)"
+  ],
+  "storageSources": [
+    "SQLite portfolio.db",
+    "SQLite portfolio_v6.3_pilot_research.db"
+  ],
+  "providerSources": [
+    "NSE_BHAVCOPY (from schema.sql)",
+    "Upstox (via UpstoxIntradayIngestor.ts for IntradayOHLCV)"
+  ],
+  "historicalCaches": [
+    "SQLite DBs (acting as primary historical cache)"
+  ],
+  "instrumentIdentitySources": [
+    "BSE_EQ_POPULATION_MAPPING_STAGING.json",
+    "stk.json",
+    "db/schema.sql"
+  ],
+  "candidateHistoricalDatasets": [
+    "portfolio.db -> DailyOHLCV",
+    "data/portfolio_v6.3_pilot_research.db -> DailyOHLCV"
+  ],
+  "targetInstrumentEvidence": [
+    "ISIN INE174Q01011 (from STAGING.json)",
+    "BSE symbol 534109 (from STAGING.json)"
+  ],
+  "productionDbWrites": 0,
+  "certificationChanged": false
+}

@@ -1,0 +1,141 @@
+﻿{
+    "timestamp_utc":  "2026-09-21T11:26:12.2728565Z",
+    "root":  "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release",
+    "database":  {
+                     "path":  "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\portfolio.db",
+                     "size_bytes":  13510496256,
+                     "size_gb":  12.583,
+                     "size_mb":  12884.61,
+                     "sha256":  "312438BC171A8461AC4940B982C55BE7F093C47CA388FAA401B0D0B0545050CE"
+                 },
+    "approved_cache_paths":  [
+                                 {
+                                     "path":  ".vite",
+                                     "exists":  false,
+                                     "files":  0,
+                                     "size_bytes":  0,
+                                     "size_mb":  0,
+                                     "empty":  true
+                                 },
+                                 {
+                                     "path":  "node_modules\\.vite",
+                                     "exists":  false,
+                                     "files":  0,
+                                     "size_bytes":  0,
+                                     "size_mb":  0,
+                                     "empty":  true
+                                 },
+                                 {
+                                     "path":  "dist",
+                                     "exists":  true,
+                                     "files":  105,
+                                     "size_bytes":  14374424,
+                                     "size_mb":  13.71,
+                                     "empty":  false
+                                 }
+                             ],
+    "empty_non_protected_directories":  [
+                                            {
+                                                "path":  ".reviews\\opera_chatgpt_profile\\Safe Browsing"
+                                            },
+                                            {
+                                                "path":  ".reviews\\opera_chatgpt_profile\\Crash Reports\\attachments"
+                                            },
+                                            {
+                                                "path":  ".reviews\\opera_chatgpt_profile\\Crash Reports\\reports"
+                                            },
+                                            {
+                                                "path":  ".reviews\\opera_chatgpt_profile\\Default\\Jump List Icons"
+                                            },
+                                            {
+                                                "path":  ".reviews\\opera_chatgpt_profile\\Default\\Jump List IconsOld"
+                                            },
+                                            {
+                                                "path":  ".reviews\\opera_chatgpt_profile\\Default\\wallpapers_cache"
+                                            },
+                                            {
+                                                "path":  ".reviews\\opera_chatgpt_profile\\Default\\blob_storage\\7464b59a-1932-493f-a40f-48fb58ff8dd4"
+                                            },
+                                            {
+                                                "path":  "audit_archive\\runs\\20260919-173608\\artifacts"
+                                            },
+                                            {
+                                                "path":  "audit_archive\\runs\\20260919T125235Z\\artifacts"
+                                            },
+                                            {
+                                                "path":  "audit_archive\\runs\\20260919T125328Z\\artifacts"
+                                            },
+                                            {
+                                                "path":  "audit_archive\\runs\\20260919T125328Z\\source\\.reviews\\opera_chatgpt_profile\\Safe Browsing"
+                                            },
+                                            {
+                                                "path":  "audit_archive\\runs\\20260919T125328Z\\source\\.reviews\\opera_chatgpt_profile\\Crash Reports\\attachments"
+                                            },
+                                            {
+                                                "path":  "audit_archive\\runs\\20260919T125328Z\\source\\.reviews\\opera_chatgpt_profile\\Crash Reports\\reports"
+                                            },
+                                            {
+                                                "path":  "audit_archive\\runs\\20260919T125328Z\\source\\.reviews\\opera_chatgpt_profile\\Default\\Jump List Icons"
+                                            },
+                                            {
+                                                "path":  "audit_archive\\runs\\20260919T125328Z\\source\\.reviews\\opera_chatgpt_profile\\Default\\Jump List IconsOld"
+                                            },
+                                            {
+                                                "path":  "audit_archive\\runs\\20260919T125328Z\\source\\.reviews\\opera_chatgpt_profile\\Default\\wallpapers_cache"
+                                            },
+                                            {
+                                                "path":  "audit_archive\\runs\\20260919T125328Z\\source\\.reviews\\opera_chatgpt_profile\\Default\\blob_storage\\7464b59a-1932-493f-a40f-48fb58ff8dd4"
+                                            },
+                                            {
+                                                "path":  "evidence\\market-data-certification\\automated_validation\\comparisons"
+                                            },
+                                            {
+                                                "path":  "evidence\\market-data-certification\\automated_validation\\discrepancy_resolutions"
+                                            },
+                                            {
+                                                "path":  "evidence\\market-data-certification\\automated_validation\\manifests"
+                                            },
+                                            {
+                                                "path":  "evidence\\market-data-certification\\tradingview\\comparisons"
+                                            },
+                                            {
+                                                "path":  "evidence\\market-data-certification\\tradingview\\discrepancy_resolutions"
+                                            },
+                                            {
+                                                "path":  "evidence\\market-data-certification\\tradingview\\hashes"
+                                            },
+                                            {
+                                                "path":  "evidence\\market-data-certification\\tradingview\\manifests"
+                                            },
+                                            {
+                                                "path":  "evidence\\market-data-certification\\tradingview\\raw_exports"
+                                            },
+                                            {
+                                                "path":  "evidence\\wave-3.9-preserved\\01_FROZEN_CONTROLS"
+                                            },
+                                            {
+                                                "path":  "evidence\\wave-3.9-preserved\\03_ROOT_DEFECTS"
+                                            },
+                                            {
+                                                "path":  "evidence\\wave-3.9-preserved\\05_MARKET_COVERAGE"
+                                            },
+                                            {
+                                                "path":  "evidence\\wave-3.9-preserved\\08_OPERATIONAL"
+                                            },
+                                            {
+                                                "path":  "evidence\\wave-3.9-preserved\\09_SECURITY_DR"
+                                            },
+                                            {
+                                                "path":  "evidence\\wave-3.9-preserved\\10_AGENT_A_Q"
+                                            },
+                                            {
+                                                "path":  "evidence\\wave-3.9-preserved\\12_EXECUTION_LOGS"
+                                            },
+                                            {
+                                                "path":  "node_modules\\.firebase-eGPUK3wX"
+                                            },
+                                            {
+                                                "path":  "scratch\\extracted_bundle\\data"
+                                            }
+                                        ]
+}

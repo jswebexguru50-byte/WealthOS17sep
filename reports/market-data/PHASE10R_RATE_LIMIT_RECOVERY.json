@@ -1,0 +1,11 @@
+{
+  "recovery_rate": 0,
+  "429_rate": 0,
+  "average_attempts": 1,
+  "median_attempts": 1,
+  "requests_per_recovered_candle": 0,
+  "average_backoff": 0,
+  "maximum_backoff": 0,
+  "provider_success_rate": 0.5,
+  "recommendation": "REQUIRES_CONFIGURATION_CHANGE"
+}

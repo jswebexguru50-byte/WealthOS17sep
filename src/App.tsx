@@ -99,6 +99,14 @@ const ForensicIntelligenceMasterView = React.lazy(() => import('./components/for
 const MasterQuantDossier11TabsView = React.lazy(() => import('./components/MasterQuantDossier11TabsView').then(m => ({ default: m.MasterQuantDossier11TabsView })));
 const QuantTechnicalStudioView = React.lazy(() => import('./components/QuantTechnicalStudioView').then(m => ({ default: m.QuantTechnicalStudioView })));
 
+// ── New UI-WAVE workspace compositors (display-only) ──────────────────────────
+const DiscoverWorkspace       = React.lazy(() => import('./components/DiscoverWorkspace').then(m => ({ default: m.DiscoverWorkspace })));
+const ResearchWorkspace       = React.lazy(() => import('./components/ResearchWorkspace').then(m => ({ default: m.ResearchWorkspace })));
+const AuditWorkspace          = React.lazy(() => import('./components/AuditWorkspace').then(m => ({ default: m.AuditWorkspace })));
+const NotFoundRecoveryView    = React.lazy(() => import('./components/NotFoundRecoveryView').then(m => ({ default: m.NotFoundRecoveryView })));
+// CmdKSearchModal imported eagerly — it's tiny and needed on first keypress
+import { CmdKSearchModal } from './components/UISystemPrimitives';
+
 // Lazy loading spinner used inside Suspense boundaries
 const LazyFallback = () => (
   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '40vh', color: '#64748b', fontSize: 14 }}>
@@ -106,7 +114,7 @@ const LazyFallback = () => (
   </div>
 );
 
-type TabType = 'COMMAND_CENTER' | 'MASTER_DOSSIER' | 'QUANT_TECHNICAL_STUDIO' | 'PORTFOLIO' | 'ANALYTICS' | 'QUANT_V5' | 'FORENSIC_INTELLIGENCE' | 'OPPORTUNITY_ENGINE' | 'TECHNICAL_STRATEGIES' | 'STRATEGY_EDITOR' | 'SENTINEL' | 'MOMENTUM_VPA' | 'GREENFIELD_PORTAL' | 'MULTIBAGGER' | 'REPORT_STUDIO' | 'TAX_REPATRIATION' | 'OPPORTUNITIES' | 'LEDGER' | 'IMPORTS' | 'FAMILY' | 'MAPPINGS' | 'INTELLIGENCE' | 'SETTINGS';
+type TabType = 'OVERVIEW' | 'DISCOVER' | 'ANALYZE' | 'PORTFOLIO' | 'RESEARCH' | 'AUDIT' | 'COMMAND_CENTER' | 'MASTER_DOSSIER' | 'QUANT_TECHNICAL_STUDIO' | 'ANALYTICS' | 'QUANT_V5' | 'FORENSIC_INTELLIGENCE' | 'OPPORTUNITY_ENGINE' | 'TECHNICAL_STRATEGIES' | 'STRATEGY_EDITOR' | 'SENTINEL' | 'MOMENTUM_VPA' | 'GREENFIELD_PORTAL' | 'MULTIBAGGER' | 'REPORT_STUDIO' | 'TAX_REPATRIATION' | 'OPPORTUNITIES' | 'LEDGER' | 'IMPORTS' | 'FAMILY' | 'MAPPINGS' | 'INTELLIGENCE' | 'SETTINGS';
 
 // Intercept window.fetch to automatically inject APP_PASSWORD authorization header
 if (typeof window !== 'undefined' && typeof window.fetch === 'function' && !(window.fetch as any).__isPatched) {
@@ -143,6 +151,15 @@ export default function App() {
   const getInitialTab = (): TabType => {
     if (typeof window !== 'undefined' && window.location.hash) {
       const h = window.location.hash.replace('#', '').toLowerCase();
+      // New Canonical Routes
+      if (h === 'overview' || h === 'dashboard') return 'OVERVIEW';
+      if (h === 'discover') return 'DISCOVER';
+      if (h === 'analyze') return 'ANALYZE';
+      if (h === 'portfolio') return 'PORTFOLIO';
+      if (h === 'research') return 'RESEARCH';
+      if (h === 'audit' || h === 'settings') return 'AUDIT';
+
+      // Fallback for legacy routes
       if (
         h === 'opportunity-engine' ||
         h === 'opportunity_engine' ||
@@ -152,22 +169,20 @@ export default function App() {
         h === 'multibagger' ||
         h === 'opportunities'
       ) {
-        return 'OPPORTUNITY_ENGINE';
+        return 'DISCOVER';
       }
-      if (h === 'portfolio') return 'PORTFOLIO';
-      if (h === 'analytics') return 'ANALYTICS';
-      if (h === 'master-dossier' || h === 'dossier' || h === 'master_dossier' || h === 'dossier-11-tabs') return 'MASTER_DOSSIER';
-      if (h === 'forensic' || h === 'forensic-intelligence' || h === 'forensic_intelligence') return 'FORENSIC_INTELLIGENCE';
-      if (h === 'quant-v5' || h === 'quant_v5') return 'QUANT_V5';
-      if (h === 'technical-strategies' || h === 'technical_strategies' || h === 'technical' || h === 'independent-technical') return 'TECHNICAL_STRATEGIES';
-      if (h === 'tax-repatriation' || h === 'tax_repatriation') return 'TAX_REPATRIATION';
-      if (h === 'report-studio' || h === 'report_studio') return 'REPORT_STUDIO';
-      if (h === 'ledger') return 'LEDGER';
-      if (h === 'imports') return 'IMPORTS';
-      if (h === 'intelligence') return 'INTELLIGENCE';
-      if (h === 'settings') return 'SETTINGS';
+      if (h === 'master-dossier' || h === 'dossier' || h === 'master_dossier' || h === 'dossier-11-tabs') return 'ANALYZE';
+      if (h === 'forensic' || h === 'forensic-intelligence' || h === 'forensic_intelligence') return 'ANALYZE';
+      if (h === 'quant-v5' || h === 'quant_v5') return 'RESEARCH';
+      if (h === 'technical-strategies' || h === 'technical_strategies' || h === 'technical' || h === 'independent-technical') return 'RESEARCH';
+      if (h === 'tax-repatriation' || h === 'tax_repatriation') return 'AUDIT';
+      if (h === 'report-studio' || h === 'report_studio') return 'RESEARCH';
+      if (h === 'ledger') return 'PORTFOLIO';
+      if (h === 'imports') return 'AUDIT';
+      if (h === 'intelligence') return 'ANALYZE';
+      if (h === 'analytics') return 'PORTFOLIO';
     }
-    return 'COMMAND_CENTER';
+    return 'OVERVIEW';
   };
 
   const [activeTab, setActiveTabState] = useState<TabType>(getInitialTab);
@@ -272,6 +287,8 @@ export default function App() {
   const [showAlertsModal, setShowAlertsModal] = useState(false);
   const [alertsCount, setAlertsCount] = useState(0);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  // Cmd/Ctrl+K global search
+  const [showCmdK, setShowCmdK] = useState(false);
 
   useEffect(() => {
     applyTheme(getActiveThemeId());
@@ -288,6 +305,18 @@ export default function App() {
       .catch(() => {});
 
     return () => window.removeEventListener('layoutChanged', onLayoutChange);
+  }, []);
+
+  // Cmd+K / Ctrl+K global search shortcut
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setShowCmdK(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
   }, []);
 
   const showToast = (text: string, type: 'success' | 'error' | 'warning' | 'info' = 'success') => {
@@ -1289,6 +1318,23 @@ export default function App() {
       {/* Wait Glass Loading Overlay */}
       <WaitGlass active={isLoading} message={loadingMsg} subMessage={loadingSub} />
 
+      {/* Cmd/Ctrl+K Global Search Modal */}
+      <CmdKSearchModal
+        isOpen={showCmdK}
+        onClose={() => setShowCmdK(false)}
+        tabs={[
+          { id: 'OVERVIEW', label: '1. Overview', sub: 'System Status & Context' },
+          { id: 'DISCOVER', label: '2. Discover', sub: 'Qualified Opportunities' },
+          { id: 'ANALYZE', label: '3. Analyze', sub: 'Stock Intelligence View' },
+          { id: 'PORTFOLIO', label: '4. Portfolio', sub: 'Risk, Ledger & Watchlist' },
+          { id: 'RESEARCH', label: '5. Research', sub: 'Thematic & Strategy' },
+          { id: 'AUDIT', label: '6. Audit & System', sub: 'Provenance & Settings' },
+        ]}
+        symbols={holdings.map(h => h.symbol).filter(Boolean)}
+        onSelectTab={(tabId) => setActiveTab(tabId as any)}
+        onSelectSymbol={(sym) => setSelectedIntelligenceSymbol(sym)}
+      />
+
       <div className="flex-1 flex flex-col lg:flex-row pb-20 lg:pb-0 w-full">
         {/* Mobile Topbar — Dynamic Theme & Notch Safe */}
         <div className="lg:hidden sticky top-0 z-40 px-3 py-2 flex items-center justify-between border-b backdrop-blur-xl mobile-topbar-compact safe-area-top" style={{backgroundColor:'var(--bg-sidebar)',borderColor:'var(--border-card)'}}>
@@ -1379,13 +1425,12 @@ export default function App() {
                 {/* Mobile Navigation List */}
                 <nav className="space-y-1 font-mono text-xs">
                   {[
-                    { id: 'COMMAND_CENTER', label: '1. Dashboard', sub: 'Master AUM & Live Pulse', icon: Zap, color: 'text-cyan-400' },
-                    { id: 'MASTER_DOSSIER', label: '2. ITAS Master Dossier', sub: '11 Execution Tabs & Downloads', icon: FileSpreadsheet, color: 'text-amber-400' },
-                    { id: 'QUANT_TECHNICAL_STUDIO', label: '3. Quant & Technical Studio', sub: 'S1–S26 Scanner & Evidence', icon: Sparkles, color: 'text-emerald-400' },
-                    { id: 'PORTFOLIO', label: '4. Portfolio & Ledger', sub: 'Holdings, P&L & FX Drag', icon: LayoutDashboard },
-                    { id: 'ANALYTICS', label: '5. Analytics & Risk', sub: 'Factor Exposure & Stress Test', icon: PieChartIcon },
-                    { id: 'INTELLIGENCE', label: '6. Scrip Intelligence', sub: 'Live Screener & Concalls', icon: BarChart4 },
-                    { id: 'SETTINGS', label: '7. Settings & Masters', sub: 'FDs, FX, Recon & Themes', icon: Wrench },
+                    { id: 'OVERVIEW', label: '1. Overview', sub: 'System Status & Context', icon: Zap, color: 'text-cyan-400' },
+                    { id: 'DISCOVER', label: '2. Discover', sub: 'Qualified Opportunities', icon: Search, color: 'text-amber-400' },
+                    { id: 'ANALYZE', label: '3. Analyze', sub: 'Stock Intelligence View', icon: FileSpreadsheet, color: 'text-emerald-400' },
+                    { id: 'PORTFOLIO', label: '4. Portfolio', sub: 'Risk, Ledger & Watchlist', icon: LayoutDashboard },
+                    { id: 'RESEARCH', label: '5. Research', sub: 'Thematic & Strategy', icon: PieChartIcon },
+                    { id: 'AUDIT', label: '6. Audit & System', sub: 'Provenance & Settings', icon: Wrench },
                   ].map(tab => {
                     const IconComp = tab.icon;
                     const isActive = activeTab === tab.id;
@@ -1457,13 +1502,12 @@ export default function App() {
             {/* Sidebar Navigation */}
             <nav className="space-y-1 w-full font-mono text-xs">
               {[
-                { id: 'COMMAND_CENTER', label: '1. Dashboard', sub: 'Master AUM & Live Pulse', icon: Zap, color: 'text-cyan-400' },
-                { id: 'MASTER_DOSSIER', label: '2. ITAS Master Dossier', sub: '11 Execution Tabs & Downloads', icon: FileSpreadsheet, color: 'text-amber-400' },
-                { id: 'QUANT_TECHNICAL_STUDIO', label: '3. Quant & Technical Studio', sub: 'S1–S26 Scanner & Evidence', icon: Sparkles, color: 'text-emerald-400' },
-                { id: 'PORTFOLIO', label: '4. Portfolio & Ledger', sub: 'Holdings, P&L & FX Drag', icon: LayoutDashboard },
-                { id: 'ANALYTICS', label: '5. Analytics & Risk', sub: 'Factor Exposure & Stress Test', icon: PieChartIcon },
-                { id: 'INTELLIGENCE', label: '6. Scrip Intelligence', sub: 'Live Screener & Concalls', icon: BarChart4 },
-                { id: 'SETTINGS', label: '7. Settings & Masters', sub: 'FDs, FX, Recon & Themes', icon: Wrench },
+                { id: 'OVERVIEW', label: '1. Overview', sub: 'System Status & Context', icon: Zap, color: 'text-cyan-400' },
+                { id: 'DISCOVER', label: '2. Discover', sub: 'Qualified Opportunities', icon: Search, color: 'text-amber-400' },
+                { id: 'ANALYZE', label: '3. Analyze', sub: 'Stock Intelligence View', icon: FileSpreadsheet, color: 'text-emerald-400' },
+                { id: 'PORTFOLIO', label: '4. Portfolio', sub: 'Risk, Ledger & Watchlist', icon: LayoutDashboard },
+                { id: 'RESEARCH', label: '5. Research', sub: 'Thematic & Strategy', icon: PieChartIcon },
+                { id: 'AUDIT', label: '6. Audit & System', sub: 'Provenance & Settings', icon: Wrench },
               ].map((tab) => {
                 const IconComp = tab.icon;
                 const isActive = activeTab === tab.id;
@@ -1567,20 +1611,18 @@ export default function App() {
                 <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-400 font-bold whitespace-nowrap">NRI WealthOS</span>
                 <span className="text-slate-500 font-mono">/</span>
                 <h2 className="text-xs sm:text-sm font-bold font-display uppercase tracking-tight text-white whitespace-nowrap truncate" style={{color:'var(--text-primary)'}}>
-                  {activeTab === 'COMMAND_CENTER' && '1. Dashboard & Command Center'}
-                  {activeTab === 'MASTER_DOSSIER' && '2. Master Quant & Forensic Dossier (11-Tab Execution Matrix)'}
-                  {(activeTab === 'QUANT_TECHNICAL_STUDIO' || activeTab === 'QUANT_V5' || activeTab === 'OPPORTUNITY_ENGINE' || activeTab === 'TECHNICAL_STRATEGIES' || activeTab === 'MOMENTUM_VPA' || activeTab === 'GREENFIELD_PORTAL' || activeTab === 'MULTIBAGGER') && '3. Quant & Technical Studio (S1–S26 Scanner & Evidence Buckets)'}
-                  {activeTab === 'PORTFOLIO' && '4. Portfolio & Ledger'}
-                  {activeTab === 'ANALYTICS' && '5. Analytics & Risk'}
-                  {activeTab === 'INTELLIGENCE' && '6. Scrip Intelligence & Research'}
-                  {activeTab === 'SETTINGS' && '7. Masters & Settings'}
+                  {(activeTab === 'OVERVIEW' || activeTab === 'COMMAND_CENTER') && '1. Overview & System Status'}
+                  {(activeTab === 'DISCOVER' || activeTab === 'OPPORTUNITY_ENGINE') && '2. Discover & Opportunity Generation'}
+                  {(activeTab === 'ANALYZE' || activeTab === 'MASTER_DOSSIER' || activeTab === 'INTELLIGENCE') && '3. Analyze & Stock Intelligence'}
+                  {(activeTab === 'PORTFOLIO') && '4. Portfolio Risk & Ledger'}
+                  {(activeTab === 'RESEARCH' || activeTab === 'QUANT_TECHNICAL_STUDIO' || activeTab === 'QUANT_V5' || activeTab === 'TECHNICAL_STRATEGIES' || activeTab === 'MOMENTUM_VPA' || activeTab === 'GREENFIELD_PORTAL' || activeTab === 'MULTIBAGGER') && '5. Research & Strategy Factory'}
+                  {(activeTab === 'AUDIT' || activeTab === 'SETTINGS' || activeTab === 'IMPORTS' || activeTab === 'LEDGER') && '6. Audit, Provenance & Settings'}
+                  {activeTab === 'ANALYTICS' && 'Analytics & Risk'}
                   {activeTab === 'STRATEGY_EDITOR' && 'Strategy Parameter Editor'}
                   {activeTab === 'SENTINEL' && 'Smart Money Sentinel'}
                   {activeTab === 'REPORT_STUDIO' && 'Report Studio'}
                   {activeTab === 'TAX_REPATRIATION' && 'Tax & Repatriation'}
                   {activeTab === 'OPPORTUNITIES' && 'Opportunities & Drift'}
-                  {activeTab === 'LEDGER' && 'Activity & Ledger'}
-                  {activeTab === 'IMPORTS' && 'Imports & Recon'}
                   {activeTab === 'FAMILY' && 'Family Governance'}
                   {activeTab === 'MAPPINGS' && 'Scrip Mappings'}
                 </h2>
@@ -1747,7 +1789,7 @@ export default function App() {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.15 }}
             >
-              {activeTab === 'COMMAND_CENTER' && (
+              {(activeTab === 'COMMAND_CENTER' || activeTab === 'OVERVIEW') && (
                 <Suspense fallback={<LazyFallback />}>
                   <FamilyOfficeCommandCenter
                     currentMemberId={currentMemberId}
@@ -1787,15 +1829,41 @@ export default function App() {
                 </Suspense>
               )}
 
-              {activeTab === 'MASTER_DOSSIER' && (
+              {(activeTab === 'MASTER_DOSSIER' || activeTab === 'ANALYZE') && (
                 <Suspense fallback={<LazyFallback />}>
                   <MasterQuantDossier11TabsView />
                 </Suspense>
               )}
 
-              {(activeTab === 'QUANT_TECHNICAL_STUDIO' || activeTab === 'QUANT_V5' || activeTab === 'OPPORTUNITY_ENGINE' || activeTab === 'TECHNICAL_STRATEGIES' || activeTab === 'MOMENTUM_VPA' || activeTab === 'GREENFIELD_PORTAL' || activeTab === 'MULTIBAGGER') && (
+              {(activeTab === 'DISCOVER' || activeTab === 'OPPORTUNITY_ENGINE' || activeTab === 'MULTIBAGGER' || activeTab === 'SENTINEL' || activeTab === 'MOMENTUM_VPA' || activeTab === 'GREENFIELD_PORTAL') && (
                 <Suspense fallback={<LazyFallback />}>
-                  <QuantTechnicalStudioView
+                  <DiscoverWorkspace
+                    initialSubTab={
+                      activeTab === 'MULTIBAGGER' ? 'MULTIBAGGER' :
+                      activeTab === 'SENTINEL' ? 'SENTINEL' :
+                      activeTab === 'MOMENTUM_VPA' ? 'MOMENTUM_VPA' :
+                      activeTab === 'GREENFIELD_PORTAL' ? 'GREENFIELD' :
+                      'OPPORTUNITY_ENGINE'
+                    }
+                    onSelectStock={(sym) => setSelectedStock(sym)}
+                    selectedPortfolio={selectedPortfolio}
+                  />
+                </Suspense>
+              )}
+
+              {(activeTab === 'RESEARCH' || activeTab === 'QUANT_TECHNICAL_STUDIO' || activeTab === 'QUANT_V5' || activeTab === 'TECHNICAL_STRATEGIES' || activeTab === 'MOMENTUM_VPA' || activeTab === 'GREENFIELD_PORTAL' || activeTab === 'REPORT_STUDIO') && (
+                <Suspense fallback={<LazyFallback />}>
+                  <ResearchWorkspace
+                    initialSubTab={
+                      activeTab === 'TECHNICAL_STRATEGIES' ? 'TECHNICAL' :
+                      activeTab === 'REPORT_STUDIO' ? 'REPORTS' :
+                      'QUANT_STUDIO'
+                    }
+                    currentMemberId={currentMemberId}
+                    selectedPortfolio={selectedPortfolio}
+                    portfolios={portfolios}
+                    formatCurrency={formatCurrency}
+                    showStockDrilldown={(sym) => setSelectedStock(sym)}
                     onSelectScrip={(sym) => setSelectedStock(sym)}
                   />
                 </Suspense>
@@ -1931,9 +1999,16 @@ export default function App() {
                 </Suspense>
               )}
 
-              {activeTab === 'SETTINGS' && (
+              {(activeTab === 'SETTINGS' || activeTab === 'AUDIT' || activeTab === 'IMPORTS' || activeTab === 'MAPPINGS' || activeTab === 'FAMILY' || activeTab === 'TAX_REPATRIATION') && (
                 <Suspense fallback={<LazyFallback />}>
-                  <SettingsHubView
+                  <AuditWorkspace
+                    initialSubTab={
+                      activeTab === 'IMPORTS' ? 'IMPORTS' :
+                      activeTab === 'MAPPINGS' ? 'MAPPINGS' :
+                      activeTab === 'FAMILY' ? 'FAMILY' :
+                      activeTab === 'TAX_REPATRIATION' ? 'TAX' :
+                      'SETTINGS'
+                    }
                     showToast={showToast}
                     triggerLoader={triggerLoader}
                     onAddTicker={handleAddTicker}
@@ -1945,8 +2020,41 @@ export default function App() {
                     onPurgeTransactions={handlePurgeTransactionsOnly}
                     onPurgeEverything={handlePurgeEverythingFull}
                     portfolios={portfolios}
+                    pmsPortfolios={pmsPortfolios}
                     selectedPortfolio={selectedPortfolio}
+                    onPortfolioChange={setSelectedPortfolio}
                     onDataChanged={refreshAllCoreData}
+                    onValidateBulk={handleBulkValidateUpload}
+                    onCommitBulk={handleBulkCommitUpload}
+                    onUndoBatch={handleUndoBatchRollback}
+                    onReconcile={handleReconcileUpload}
+                    onPMSUpload={handlePMSUpload}
+                    onAddTransaction={handleAddTransaction}
+                    currentMemberId={currentMemberId}
+                  />
+                </Suspense>
+              )}
+
+              {/* Not Found Recovery — explicit page for any unknown tab/route */}
+              {![
+                'OVERVIEW', 'COMMAND_CENTER', 'PORTFOLIO', 'MASTER_DOSSIER', 'ANALYZE',
+                'DISCOVER', 'OPPORTUNITY_ENGINE', 'MULTIBAGGER', 'SENTINEL', 'MOMENTUM_VPA', 'GREENFIELD_PORTAL',
+                'RESEARCH', 'QUANT_TECHNICAL_STUDIO', 'QUANT_V5', 'TECHNICAL_STRATEGIES', 'REPORT_STUDIO',
+                'AUDIT', 'SETTINGS', 'IMPORTS', 'MAPPINGS', 'FAMILY', 'TAX_REPATRIATION',
+                'FORENSIC_INTELLIGENCE', 'ANALYTICS', 'STRATEGY_EDITOR', 'SENTINEL', 'OPPORTUNITIES', 'LEDGER', 'INTELLIGENCE'
+              ].includes(activeTab) && (
+                <Suspense fallback={<LazyFallback />}>
+                  <NotFoundRecoveryView
+                    unknownRoute={activeTab}
+                    availableWorkspaces={[
+                      { id: 'OVERVIEW', label: '1. Overview', sub: 'System Status & Context' },
+                      { id: 'DISCOVER', label: '2. Discover', sub: 'Qualified Opportunities' },
+                      { id: 'ANALYZE', label: '3. Analyze', sub: 'Stock Intelligence View' },
+                      { id: 'PORTFOLIO', label: '4. Portfolio', sub: 'Risk, Ledger & Watchlist' },
+                      { id: 'RESEARCH', label: '5. Research', sub: 'Thematic & Strategy' },
+                      { id: 'AUDIT', label: '6. Audit & System', sub: 'Provenance & Settings' },
+                    ]}
+                    onNavigate={(id) => setActiveTab(id as any)}
                   />
                 </Suspense>
               )}

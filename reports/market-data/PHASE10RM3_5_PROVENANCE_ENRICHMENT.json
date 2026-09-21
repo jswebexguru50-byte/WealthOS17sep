@@ -1,0 +1,38 @@
+{
+  "phase": "10R-M.3.5",
+  "timestamp": "2026-09-20T19:41:20.441Z",
+  "original_file": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\reports\\market-data\\RECOVERED_CANDLES.jsonl",
+  "original_sha256": "826ea67786efb0676b2788c2599470160f29fbd779e1a7283c5e9f3cb61a2a27",
+  "enriched_file": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\reports\\market-data\\RECOVERED_CANDLES_PROVENANCE_ENRICHED.jsonl",
+  "enriched_sha256": "9dd387a2635da23d7aa64f28f6973d15964261b94dda7b11f897c8f77f55bb32",
+  "input_record_count": 18244,
+  "output_record_count": 18244,
+  "canonical_payload_hash_match_count": 18244,
+  "canonical_payload_hash_mismatch_count": 0,
+  "provenance_complete_count": 0,
+  "provenance_incomplete_count": 18244,
+  "provenance_classification_counts": {
+    "PROVENANCE_COMPLETE": 0,
+    "PROVENANCE_INCOMPLETE": 0,
+    "PROVENANCE_SOURCE_PHASE_UNVERIFIED": 18244,
+    "PROVENANCE_RETRIEVAL_TIME_UNAVAILABLE": 0,
+    "PROVENANCE_REQUEST_UNRESOLVED": 0
+  },
+  "request_reconciliation": "PASS",
+  "identity_reconciliation": "PASS",
+  "date_reconciliation": "PASS",
+  "strategy_compatibility": "REVIEW",
+  "database_compatibility": "PASS",
+  "production_db_writes": 0,
+  "certification_changed": false,
+  "provenanceReady": false,
+  "blockers": [
+    "PROVENANCE_SOURCE_PHASE_UNVERIFIED (Script outputs 10R-M.3, not 10R-M.3.3)",
+    "PROVENANCE_RETRIEVAL_TIME_UNAVAILABLE",
+    "PROVENANCE_REQUEST_UNRESOLVED (No session/request ID)"
+  ],
+  "source_artifacts_inspected": [
+    "scripts/remediation/phase10rm3_upstox_recovery.cjs",
+    "C:\\Users\\gopal\\.gemini\\antigravity-ide\\brain\\0725de16-9bf0-4218-a702-8d040cb8d0c0\\.system_generated\\tasks\\task-5135.log"
+  ]
+}

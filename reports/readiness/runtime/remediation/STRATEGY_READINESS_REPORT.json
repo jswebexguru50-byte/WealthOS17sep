@@ -1,0 +1,19 @@
+{
+  "strategies": [
+    {
+      "name": "Momentum V1",
+      "status": "PASS",
+      "execution_time_ms": 150
+    },
+    {
+      "name": "Value Rotation",
+      "status": "PASS_WITH_DATA_GAPS",
+      "execution_time_ms": 220
+    },
+    {
+      "name": "Microcap Breakout",
+      "status": "DATA_INSUFFICIENT",
+      "execution_time_ms": 45
+    }
+  ]
+}
