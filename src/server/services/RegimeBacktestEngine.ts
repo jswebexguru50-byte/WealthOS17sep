@@ -215,7 +215,7 @@ export class RegimeBacktestEngine {
         const adjusted = new Map<string, Candle[]>();
         for (let i = 0; i < candidates.length; i += 500) {
           const batch = await DuckDbAdjustedOhlcvService.getDailyBarsForSymbols(candidates.slice(i, i + 500), 25);
-          batch.forEach((bars, key) => adjusted.set(key, bars.map(r => ({ date: r.trade_date, open: Number(r.open_adjusted), high: Number(r.high_adjusted), low: Number(r.low_adjusted), close: Number(r.close_adjusted), volume: Number(r.volume_raw || 0), turnover: Number(r.close_adjusted) * Number(r.volume_raw || 0) }))));
+          batch.bars.forEach((bars, key) => adjusted.set(key, bars.map(r => ({ date: r.trade_date, open: Number(r.open_adjusted), high: Number(r.high_adjusted), low: Number(r.low_adjusted), close: Number(r.close_adjusted), volume: Number(r.volume_raw || 0), turnover: Number(r.close_adjusted) * Number(r.volume_raw || 0) }))));
         }
         const covered = rows.filter((r: any) => (adjusted.get(String(r.symbol).toUpperCase())?.length || 0) >= 25);
         if (covered.length >= (universeLimit ? Math.min(universeLimit, 5) : 40)) return covered.map((r: any) => ({

@@ -79,7 +79,7 @@ export class RiskAnalyticsEngine {
       const requestedSymbols = [...new Set(holdings.map((h: any) => String(h.symbol || '').toUpperCase().trim()).filter(Boolean))];
       for (let i = 0; i < requestedSymbols.length; i += 500) {
         const adjusted = await DuckDbAdjustedOhlcvService.getDailyBarsForSymbols(requestedSymbols.slice(i, i + 500), 10_000);
-        adjusted.forEach((bars, symbol) => histPricesMap.set(symbol, bars.map(r => ({ date: r.trade_date, close: Number(r.close_adjusted) }))));
+        adjusted.bars.forEach((bars, symbol) => histPricesMap.set(symbol, bars.map(r => ({ date: r.trade_date, close: Number(r.close_adjusted) }))));
       }
       const rawHist = await dbAll(db, `
         SELECT symbol, date, close_price 

@@ -187,7 +187,7 @@ export class SmartMoneyFlowEngine {
     const db = getDB();
     for (let i = 0; i < symbols.length; i += 500) {
       const adjusted = await DuckDbAdjustedOhlcvService.getDailyBarsForSymbols(symbols.slice(i, i + 500), 365);
-      adjusted.forEach((bars, symbol) => candlesMap.set(symbol, bars.map(r => ({
+      adjusted.bars.forEach((bars, symbol) => candlesMap.set(symbol, bars.map(r => ({
         date: r.trade_date, open: Number(r.open_adjusted), high: Number(r.high_adjusted), low: Number(r.low_adjusted), close: Number(r.close_adjusted), volume: Number(r.volume_raw || 0), dataSource: 'DUCKDB_ADJUSTED'
       }))));
     }
