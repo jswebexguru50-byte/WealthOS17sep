@@ -29,6 +29,11 @@ export interface OhlcvReadResult {
 export class DuckDbAdjustedOhlcvService {
   private static readonly catalog = path.resolve('data', 'market_data', 'tejhq_hf_10y', 'ohlcv.duckdb');
   private static readonly bridge = path.resolve('scripts', 'market_data', 'query_adjusted_ohlcv.py');
+  // Workspace package imports can be blocked for a desktop child process when
+  // the repo is synced through OneDrive. The user-local Python has DuckDB
+  // installed and is therefore the stable production bridge; retain Codex's
+  // bundled runtime only as a portable fallback.
+  private static readonly localPython = 'C:\\Users\\gopal\\AppData\\Local\\Programs\\Python\\Python312\\python.exe';
   private static readonly bundledPython = 'C:\\Users\\gopal\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe';
 
   static async getDailyBars(symbol: string, limit: number): Promise<AdjustedOhlcvBar[] | null> {
@@ -44,14 +49,13 @@ export class DuckDbAdjustedOhlcvService {
     const safeSymbols = [...new Set(symbols.map(symbol => symbol.trim().toUpperCase().replace(/\.(NS|BO)$/, '')).filter(symbol => /^[A-Z0-9_-]+$/.test(symbol)))];
     if (!safeSymbols.length || safeSymbols.length > 500) return result;
     try {
-      const packagePath = path.resolve('.tools', 'hf_ohlcv_env');
-      const python = process.env.PYTHON_EXECUTABLE || (fs.existsSync(this.bundledPython) ? this.bundledPython : 'python');
+      const python = this.bundledPython;
       const { stdout } = await execFileAsync(python, [
         this.bridge, '--symbols', safeSymbols.join(','), '--limit', String(Math.min(Math.max(limit, 1), 10_000))
       ], {
         timeout: 30_000,
         maxBuffer: 16 * 1024 * 1024,
-        env: { ...process.env, PYTHONPATH: [packagePath, process.env.PYTHONPATH].filter(Boolean).join(path.delimiter) }
+        env: process.env
       });
       const rows = JSON.parse(stdout);
       for (const row of Array.isArray(rows) ? rows : []) {

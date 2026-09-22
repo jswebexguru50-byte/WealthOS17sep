@@ -194,12 +194,13 @@ app.get('/api/market-data/adjusted-ohlcv/:symbol', async (req, res) => {
   }
   try {
     const bundledPython = 'C:\\Users\\gopal\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe';
-    const pythonPath = process.env.PYTHON_EXECUTABLE || (fs.existsSync(bundledPython) ? bundledPython : 'python');
-    const pythonPackages = path.resolve('.tools', 'hf_ohlcv_env');
+    // The bundled runtime is allowed by the desktop sandbox and now contains
+    // DuckDB. Avoid a OneDrive-hosted PYTHONPATH dependency.
+    const pythonPath = bundledPython;
     const { stdout } = await execFileAsync(pythonPath, [bridge, '--symbol', symbol, '--limit', String(limit), '--from-date', fromDate, '--to-date', toDate], {
       timeout: 30_000,
       maxBuffer: 16 * 1024 * 1024,
-      env: { ...process.env, PYTHONPATH: [pythonPackages, process.env.PYTHONPATH].filter(Boolean).join(path.delimiter) }
+      env: process.env
     });
     res.json({ success: true, source: 'DUCKDB_ADJUSTED', fallback: false, data: JSON.parse(stdout) });
   } catch (error: any) {
