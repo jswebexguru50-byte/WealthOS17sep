@@ -1748,7 +1748,11 @@ export class ConsolidatedOpportunityEngine {
         for (const match of matches || []) if (match.qualified && match.symbol) qualifiedSymbols.add(String(match.symbol).toUpperCase());
       }
       const deepCandidates = scanCandidates.filter(symbol => qualifiedSymbols.has(symbol.toUpperCase()));
-      console.log(`[COE] Strategy gate: ${strategyScan.total_scanned} scanned, ${deepCandidates.length} passed for deep analysis.`);
+      const currentProgress = PureTechnicalStrategiesEngine.getScanProgress();
+      if (currentProgress) {
+        currentProgress.deepAnalysisCount = deepCandidates.length;
+      }
+      console.log(`[COE] Universe: ${strategyScan.total_universe} total, ${strategyScan.duckdb_covered} DuckDB-covered, ${strategyScan.coverage_gaps} gaps, ${strategyScan.bridge_failures} bridge failures, ${strategyScan.strategy_evaluated} evaluated, ${deepCandidates.length} strategy-qualified, entering deep analysis`);
 
       const opportunities: ConsolidatedOpportunity[] = [];
 

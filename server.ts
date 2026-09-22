@@ -33,6 +33,8 @@ import { LiveMarketStreamService } from './src/server/services/LiveMarketStreamS
 import { AutonomousSmartMoneyAgent } from './src/server/services/AutonomousSmartMoneyAgent.js';
 import { StrategyCalibrationEngine } from './src/server/services/StrategyCalibrationEngine.js';
 import { StrategyPreCalculationService } from './src/server/services/StrategyPreCalculationService.js';
+import { DuckDbAdjustedOhlcvService } from './src/server/services/DuckDbAdjustedOhlcvService.js';
+
 
 function levenshteinDistance(a: string, b: string): number {
   if (a.length === 0) return b.length;
@@ -177,8 +179,10 @@ app.use('/api/strategies', strategiesRouter);
 app.use('/api/auth/kite', kiteRouter);
 
 // Permanent adjusted daily candles live outside SQLite in the DuckDB/Parquet
-// market store.  This read-only bridge keeps app state transactional in SQLite
-// while making long historical series available to every UI/API consumer.
+// market store. This read-only route delegates entirely to DuckDbAdjustedOhlcvService,
+// which is the single authority for Python resolution, bridge invocation,
+// stderr handling, and structured error reporting.
+
 app.get('/api/market-data/adjusted-ohlcv/:symbol', async (req, res) => {
   const symbol = String(req.params.symbol || '').trim().toUpperCase();
   const limit = Math.min(Math.max(Number.parseInt(String(req.query.limit || '365'), 10) || 365, 1), 10_000);
@@ -187,32 +191,63 @@ app.get('/api/market-data/adjusted-ohlcv/:symbol', async (req, res) => {
   if (!/^[A-Z0-9_-]+$/.test(symbol) || !/^\d{4}-\d{2}-\d{2}$/.test(fromDate) || !/^\d{4}-\d{2}-\d{2}$/.test(toDate)) {
     return res.status(400).json({ success: false, message: 'Invalid market-data query.' });
   }
-  const bridge = path.resolve('scripts', 'market_data', 'query_adjusted_ohlcv.py');
-  const catalog = path.resolve('data', 'market_data', 'tejhq_hf_10y', 'ohlcv.duckdb');
-  if (!fs.existsSync(bridge) || !fs.existsSync(catalog)) {
-    return res.status(503).json({ success: false, message: 'Adjusted OHLCV store is not available yet.' });
+  const result = await DuckDbAdjustedOhlcvService.invokeForSymbol(symbol, limit, fromDate, toDate);
+  if (result.success) {
+    return res.json({ success: true, source: result.source, executableUsed: result.executableUsed, data: result.data });
   }
+  return res.status(503).json({
+    success: false,
+    message: 'Adjusted OHLCV store is being finalized or is unavailable.',
+    executableUsed: result.executableUsed,
+    exitCode: result.error?.exitCode ?? null,
+    stderr: result.error?.stderr ?? '',
+    catalogPath: result.error?.catalogPath ?? '',
+    symbolQueried: result.error?.symbolQueried ?? symbol
+  });
+});
+
+// DuckDB bridge startup readiness check — validates one known partition (TCS) without
+// scanning all data. Returns INFRASTRUCTURE_ERROR metadata if the bridge is unhealthy.
+app.get('/api/market-data/duckdb-readiness', async (_req, res) => {
   try {
-    const bundledPython = 'C:\\Users\\gopal\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe';
-    // The bundled runtime is allowed by the desktop sandbox and now contains
-    // DuckDB. Avoid a OneDrive-hosted PYTHONPATH dependency.
-    const pythonPath = bundledPython;
-    const { stdout } = await execFileAsync(pythonPath, [bridge, '--symbol', symbol, '--limit', String(limit), '--from-date', fromDate, '--to-date', toDate], {
-      timeout: 30_000,
-      maxBuffer: 16 * 1024 * 1024,
-      env: process.env
+    const result = await DuckDbAdjustedOhlcvService.readinessCheck('TCS');
+    const status = result.ok ? 200 : 503;
+    return res.status(status).json({
+      ok: result.ok,
+      executableUsed: result.executableUsed,
+      catalogPath: result.catalogPath,
+      barsReturned: result.barsReturned,
+      durationMs: result.durationMs,
+      stderr: result.stderr || null,
+      error: result.error || null
     });
-    res.json({ success: true, source: 'DUCKDB_ADJUSTED', fallback: false, data: JSON.parse(stdout) });
-  } catch (error: any) {
-    console.error('[DuckDB OHLCV] Read failed:', error?.message || error);
-    res.status(503).json({ success: false, message: 'Adjusted OHLCV store is being finalized or is unavailable.' });
+  } catch (err: any) {
+    return res.status(500).json({ ok: false, error: err?.message || String(err) });
   }
 });
 
+// Live scan telemetry — exposes the full 9-field telemetry model covering both
+// PTSE (strategy scan phase) and COE (deep analysis phase).
+app.get('/api/market-data/scan-status', (_req, res) => {
+  try {
+    const { PureTechnicalStrategiesEngine } = require('./src/server/services/PureTechnicalStrategiesEngine.js');
+    const ptse = PureTechnicalStrategiesEngine.getScanProgress?.() ?? {};
+    // COE scan status is available on the COE singleton if it is already loaded.
+    let coe: any = {};
+    try {
+      const { ConsolidatedOpportunityEngine } = require('./src/server/services/ConsolidatedOpportunityEngine.js');
+      coe = ConsolidatedOpportunityEngine.getInstance?.()?.getScanStatus?.() ?? {};
+    } catch { /* COE not yet initialised */ }
+    return res.json({ ptse, coe, timestamp: new Date().toISOString() });
+  } catch (err: any) {
+    return res.status(500).json({ error: err?.message || String(err) });
+  }
+});
 
 app.get('/api/healthcheck', (req, res) => {
   res.json({ status: 'ok', app: 'NRI WealthOS', timestamp: new Date().toISOString() });
 });
+
 
 app.get('/api/health', (req, res) => {
   res.json({

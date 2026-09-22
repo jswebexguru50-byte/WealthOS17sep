@@ -488,7 +488,15 @@ export class PureTechnicalStrategiesEngine {
     currentSymbol?: string;
     qualifiedCount?: number;
     strategyMatches?: { [strategyId: string]: number };
-  } = { status: 'IDLE', scanned: 0, total: 0, percent: 0, currentSymbol: '', qualifiedCount: 0, strategyMatches: {} };
+    // Comprehensive scan telemetry
+    totalUniverse?: number;
+    duckdbCoveredCount?: number;
+    coverageGapCount?: number;
+    bridgeFailureCount?: number;
+    strategyEvaluatedCount?: number;
+    deepAnalysisCount?: number;
+    lastError?: string;
+  } = { status: 'IDLE', scanned: 0, total: 0, percent: 0, currentSymbol: '', qualifiedCount: 0, strategyMatches: {}, totalUniverse: 0, duckdbCoveredCount: 0, coverageGapCount: 0, bridgeFailureCount: 0, strategyEvaluatedCount: 0, deepAnalysisCount: 0, lastError: '' };
 
   public static getScanProgress() {
     return PureTechnicalStrategiesEngine.scanProgress;
@@ -3146,7 +3154,7 @@ export class PureTechnicalStrategiesEngine {
       }
     }
 
-    PureTechnicalStrategiesEngine.scanProgress = { status: 'SCANNING', scanned: 0, total: symbolsToScan.length, percent: 0 };
+    PureTechnicalStrategiesEngine.scanProgress = { status: 'SCANNING', scanned: 0, total: symbolsToScan.length, percent: 0, totalUniverse: symbolsToScan.length, duckdbCoveredCount: 0, coverageGapCount: 0, bridgeFailureCount: 0, strategyEvaluatedCount: 0, deepAnalysisCount: 0 };
 
     const strategy1Matches: Strategy1Result[] = [];
     const strategy2Matches: Strategy2Result[] = [];
@@ -3253,7 +3261,7 @@ export class PureTechnicalStrategiesEngine {
       }));
     }
 
-    PureTechnicalStrategiesEngine.scanProgress = { status: 'COMPLETE', scanned: symbolsToScan.length, total: symbolsToScan.length, percent: 100 };
+    PureTechnicalStrategiesEngine.scanProgress = { status: 'COMPLETE', scanned: symbolsToScan.length, total: symbolsToScan.length, percent: 100, totalUniverse: symbolsToScan.length };
 
     const report: IndependentTechnicalScanReport = {
       generatedAt: new Date().toISOString(),
@@ -3387,7 +3395,14 @@ export class PureTechnicalStrategiesEngine {
         percent: 100,
         currentSymbol: '',
         qualifiedCount: 0,
-        strategyMatches: {}
+        strategyMatches: {},
+        totalUniverse: 0,
+        duckdbCoveredCount: 0,
+        coverageGapCount: 0,
+        bridgeFailureCount: 0,
+        strategyEvaluatedCount: 0,
+        deepAnalysisCount: 0,
+        lastError: ''
       };
       return {
         strategy_results: {},
@@ -3425,8 +3440,20 @@ export class PureTechnicalStrategiesEngine {
       percent: 0,
       currentSymbol: symbolsToScan[0]?.symbol || '',
       qualifiedCount: 0,
-      strategyMatches: {}
+      strategyMatches: {},
+      totalUniverse: symbolsToScan.length,
+      duckdbCoveredCount: 0,
+      coverageGapCount: 0,
+      bridgeFailureCount: 0,
+      strategyEvaluatedCount: 0,
+      deepAnalysisCount: 0,
+      lastError: ''
     };
+
+    // Establish exact coverage gap statistics upfront using filesystem check
+    const coverage = DuckDbAdjustedOhlcvService.getDuckDbCoverage(symbolsToScan.map(s => s.symbol));
+    let totalBridgeFailures = 0;
+    let totalStrategyEvaluated = 0;
 
     // Scan all symbols in concurrent chunks of 25 for maximum throughput
     const CHUNK_SIZE = 25;
@@ -3434,15 +3461,17 @@ export class PureTechnicalStrategiesEngine {
       const chunk = symbolsToScan.slice(i, i + CHUNK_SIZE);
       // A single bounded DuckDB bridge process supplies the entire chunk.
       // Missing symbols alone may use the legacy fallback below.
-      const duckdbBars = await DuckDbAdjustedOhlcvService.getDailyBarsForSymbols(chunk.map(item => item.symbol), 600);
+      const duckdbResult = await DuckDbAdjustedOhlcvService.getDailyBarsForSymbols(chunk.map(item => item.symbol), 600);
+      totalBridgeFailures += duckdbResult.bridgeFailureCount;
 
       await Promise.all(chunk.map(async (item) => {
         try {
-          const adjusted = duckdbBars.get(item.symbol.trim().toUpperCase());
+          const adjusted = duckdbResult.bars.get(item.symbol.trim().toUpperCase());
           // The strategy gate is deliberately local-only. A missing DuckDB
           // partition is coverage work, not a reason to fan out into live
           // APIs while screening the complete universe.
           if (!adjusted?.length) return;
+          totalStrategyEvaluated++;
           const candles = adjusted.map(bar => ({ date: bar.trade_date, open: Number(bar.open_adjusted), high: Number(bar.high_adjusted), low: Number(bar.low_adjusted), close: Number(bar.close_adjusted), volume: Number(bar.volume_raw) || 0 }));
           if (!candles || candles.length < 25) return;
 
@@ -3484,13 +3513,20 @@ export class PureTechnicalStrategiesEngine {
       }
 
       PureTechnicalStrategiesEngine.scanProgress = {
-        status: 'SCANNING',
+        status: totalBridgeFailures > 0 ? 'BRIDGE_UNHEALTHY' : 'SCANNING',
         scanned: scannedSoFar,
         total: symbolsToScan.length,
         percent,
         currentSymbol: chunk[chunk.length - 1]?.symbol || '',
         qualifiedCount: totalQualified,
-        strategyMatches: strategyMatchesMap
+        strategyMatches: strategyMatchesMap,
+        totalUniverse: symbolsToScan.length,
+        duckdbCoveredCount: coverage.covered.size,
+        coverageGapCount: coverage.gaps.size,
+        bridgeFailureCount: totalBridgeFailures,
+        strategyEvaluatedCount: totalStrategyEvaluated,
+        deepAnalysisCount: 0,
+        lastError: totalBridgeFailures > 0 ? 'Bridge process failed during chunk fetch' : ''
       };
 
       // Small 5ms yield to event loop for API responsiveness
@@ -3503,20 +3539,32 @@ export class PureTechnicalStrategiesEngine {
       finalMatchesMap[sId] = strategyResults[sId]?.filter(x => x.qualified).length || 0;
     }
     PureTechnicalStrategiesEngine.scanProgress = {
-      status: 'IDLE',
+      status: totalBridgeFailures > 0 ? 'BRIDGE_UNHEALTHY' : 'COMPLETE',
       scanned: symbolsToScan.length,
       total: symbolsToScan.length,
       percent: 100,
       currentSymbol: 'COMPLETE',
       qualifiedCount: totalQualified,
-      strategyMatches: finalMatchesMap
+      strategyMatches: finalMatchesMap,
+      totalUniverse: symbolsToScan.length,
+      duckdbCoveredCount: coverage.covered.size,
+      coverageGapCount: coverage.gaps.size,
+      bridgeFailureCount: totalBridgeFailures,
+      strategyEvaluatedCount: totalStrategyEvaluated,
+      deepAnalysisCount: 0,
+      lastError: totalBridgeFailures > 0 ? 'Bridge process failed during scan' : ''
     };
 
     return {
       strategy_results: strategyResults,
       convergence: null,
       total_scanned: symbolsToScan.length,
-      total_qualified_across_all: totalQualified
+      total_qualified_across_all: totalQualified,
+      total_universe: symbolsToScan.length,
+      duckdb_covered: coverage.covered.size,
+      coverage_gaps: coverage.gaps.size,
+      bridge_failures: totalBridgeFailures,
+      strategy_evaluated: totalStrategyEvaluated
     };
   }
 }
