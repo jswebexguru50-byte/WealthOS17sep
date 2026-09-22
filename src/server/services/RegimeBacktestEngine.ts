@@ -29,6 +29,7 @@ import { FundamentalAlphaEngine } from './FundamentalAlphaEngine.js';
 import { SmartMoneyEngine } from './SmartMoneyEngine.js';
 import { evaluateS14_BearishHedge, evaluateS15_CreditSpreads } from '../quantEngine.js';
 import { NEoWaveEngine } from '../quant/NEoWaveEngine.js';
+import { DuckDbAdjustedOhlcvService } from './DuckDbAdjustedOhlcvService.js';
 
 export interface RegimeDefinition {
   id: 'BULLISH_2023_2024' | 'BEARISH_2024_2025' | 'SIDEWAYS_2025' | 'BULLISH_2025';
@@ -201,7 +202,6 @@ export class RegimeBacktestEngine {
                'EQUITY' as tier,
                0 as isFno
         FROM MasterTickers
-        WHERE symbol IN (SELECT DISTINCT symbol FROM DailyOHLCV)
       `;
 
       if (universeLimit && universeLimit > 0) {
@@ -211,7 +211,14 @@ export class RegimeBacktestEngine {
       const rows = await dbAll(db, query);
 
       if (rows && rows.length >= (universeLimit ? Math.min(universeLimit, 5) : 40)) {
-        return rows.map((r: any) => ({
+        const candidates = rows.map((r: any) => r.symbol);
+        const adjusted = new Map<string, Candle[]>();
+        for (let i = 0; i < candidates.length; i += 500) {
+          const batch = await DuckDbAdjustedOhlcvService.getDailyBarsForSymbols(candidates.slice(i, i + 500), 25);
+          batch.forEach((bars, key) => adjusted.set(key, bars.map(r => ({ date: r.trade_date, open: Number(r.open_adjusted), high: Number(r.high_adjusted), low: Number(r.low_adjusted), close: Number(r.close_adjusted), volume: Number(r.volume_raw || 0), turnover: Number(r.close_adjusted) * Number(r.volume_raw || 0) }))));
+        }
+        const covered = rows.filter((r: any) => (adjusted.get(String(r.symbol).toUpperCase())?.length || 0) >= 25);
+        if (covered.length >= (universeLimit ? Math.min(universeLimit, 5) : 40)) return covered.map((r: any) => ({
           symbol: r.symbol,
           name: r.name || r.symbol,
           tier: r.tier || 'MIDCAP',
@@ -276,7 +283,13 @@ export class RegimeBacktestEngine {
    */
   public async getDailyCandlesForScrip(symbol: string, db: Database): Promise<Candle[]> {
     try {
-      // 1. Try DailyOHLCV first (contains complete 4M+ daily OHLCV candles from 2018 to present)
+      // 1. Permanent corporate-action-adjusted DuckDB catalog.
+      const adjusted = await DuckDbAdjustedOhlcvService.getDailyBars(symbol, 10_000);
+      if (adjusted && adjusted.length >= 25) {
+        return adjusted.map(r => ({ date: r.trade_date, open: Number(r.open_adjusted), high: Number(r.high_adjusted), low: Number(r.low_adjusted), close: Number(r.close_adjusted), volume: Number(r.volume_raw || 0), turnover: Number(r.close_adjusted) * Number(r.volume_raw || 0) }));
+      }
+
+      // 2. SQLite fallback only when the catalog has no usable symbol coverage.
       const dRows: any[] = await dbAll(db, `
         SELECT trade_date as date, open, high, low, close, volume, turnover
         FROM DailyOHLCV

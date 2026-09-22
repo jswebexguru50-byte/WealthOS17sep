@@ -31,7 +31,12 @@ def main():
     env(); OUT.mkdir(parents=True,exist_ok=True)
     s=requests.Session(); s.headers.update({'X-Kite-Version':'3','Authorization':f"token {os.environ.get('KITE_API_KEY','')}:{token()}"})
     r=s.get('https://api.kite.trade/instruments/BSE',timeout=60,verify=False); r.raise_for_status()
-    instruments={x['tradingsymbol'].upper():x for x in csv.DictReader(io.StringIO(r.text)) if x.get('instrument_type')=='EQ'}
+    bse_equities=[x for x in csv.DictReader(io.StringIO(r.text)) if x.get('instrument_type')=='EQ']
+    # portfolio.db identifies BSE listings by numeric BSE scrip code (for
+    # example 544412); Kite exposes that identity in exchange_token, while
+    # tradingsymbol is a different alphabetic code.
+    instruments={x['tradingsymbol'].upper():x for x in bse_equities}
+    instruments_by_scrip={str(x.get('exchange_token','')).strip():x for x in bse_equities}
     with sqlite3.connect(f'file:{ROOT / "portfolio.db"}?mode=ro',uri=True) as db:
         active=db.execute("""SELECT upper(symbol), isin, upstox_key_bse FROM MasterTickers
           WHERE exchange='BSE' AND status='ACTIVE' AND upstox_key_bse IS NOT NULL ORDER BY upper(symbol)""").fetchall()
@@ -40,7 +45,7 @@ def main():
         rec=manifest['symbols'].get(symbol,{})
         dest=OUT/'candles'/f'symbol={symbol}'/'part-0.parquet'
         if rec.get('status')=='COMPLETE' and dest.exists(): continue
-        inst=instruments.get(symbol)
+        inst=instruments_by_scrip.get(symbol) or instruments.get(symbol)
         if not inst:
             manifest['symbols'][symbol]={'status':'NO_CURRENT_KITE_BSE_INSTRUMENT','isin':isin,'upstox_key_bse':key}; manifest_path.write_text(json.dumps(manifest,indent=2)); continue
         try:

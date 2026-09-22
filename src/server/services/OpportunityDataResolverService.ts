@@ -4,14 +4,15 @@
  * Zero-Cost Local-First Market Data Provider for NRI WealthOS Opportunity Engine.
  * 
  * Priority Hierarchy:
- * 1. Local SQLite DailyOHLCV & NseBhavcopy (Certified Exchange Master, 0ms latency)
- * 2. Local SQLite HistoricalPrices cache
+ * 1. Permanent DuckDB corporate-action-adjusted catalog
+ * 2. SQLite caches only when the catalog has no usable coverage
  * 3. Fallback to Yahoo/Upstox if local series is insufficient
  */
 
 import { getDB, dbAll, dbGet } from '../database.js';
 import { fetchTickerData, getYahooSymbol } from '../yahooFinance.js';
 import { roundINR } from '../../lib/decimalUtils.js';
+import { DuckDbAdjustedOhlcvService } from './DuckDbAdjustedOhlcvService.js';
 
 export interface ResolvedCandle {
   date: string;
@@ -32,7 +33,7 @@ export interface ResolvedMarketSnapshot {
   turnover20DayAvgCr: number;
   latestDate: string;
   candles: ResolvedCandle[];
-  dataSource: 'LOCAL_EXCHANGE_MASTER' | 'SQLITE_HISTORICAL_CACHE' | 'YAHOO_FALLBACK' | 'UPSTOX_FALLBACK';
+  dataSource: 'DUCKDB_ADJUSTED' | 'LOCAL_EXCHANGE_MASTER' | 'SQLITE_HISTORICAL_CACHE' | 'YAHOO_FALLBACK' | 'UPSTOX_FALLBACK';
   isLocalGroundTruth: boolean;
 }
 
@@ -53,7 +54,19 @@ export class OpportunityDataResolverService {
     const cleanSym = symbol.trim().toUpperCase().replace(/\.NS$/, '').replace(/\.BO$/, '');
     const db = getDB();
 
-    // 1. Try local DailyOHLCV + NseBhavcopy join first
+    // 1. Corporate-action-adjusted DuckDB first.
+    try {
+      const rows = await DuckDbAdjustedOhlcvService.getDailyBars(cleanSym, Math.max(minBars, 10_000));
+      if (rows && rows.length >= minBars) {
+        const candles: ResolvedCandle[] = rows.map(r => ({ date: r.trade_date, open: Number(r.open_adjusted), high: Number(r.high_adjusted), low: Number(r.low_adjusted), close: Number(r.close_adjusted), volume: Number(r.volume_raw || 0) }));
+        const latest = candles[candles.length - 1];
+        const prev = candles[candles.length - 2] || latest;
+        const avgTurnoverCr = roundINR(candles.slice(-20).reduce((total, c) => total + c.close * c.volume / 10000000, 0) / Math.min(candles.length, 20));
+        return { symbol: cleanSym, currentPrice: latest.close, previousClose: prev.close, singleDayChangePct: roundINR(prev.close > 0 ? ((latest.close - prev.close) / prev.close) * 100 : 0), turnover20DayAvgCr: avgTurnoverCr, latestDate: latest.date, candles, dataSource: 'DUCKDB_ADJUSTED', isLocalGroundTruth: true };
+      }
+    } catch (_) {}
+
+    // 2. SQLite fallback when DuckDB has no usable symbol coverage.
     try {
       const rows = await dbAll(db, `
         SELECT 

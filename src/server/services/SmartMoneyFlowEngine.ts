@@ -3,6 +3,7 @@ import { fetchTickerData } from '../yahooFinance.js';
 import { OrderBookImbalanceService, OrderBookDepth } from './OrderBookImbalanceService.js';
 import { MarketDataCache } from './MarketDataCache.js';
 import { InstitutionalBuyersService, AccumulationWindow } from './InstitutionalBuyersService.js';
+import { DuckDbAdjustedOhlcvService } from './DuckDbAdjustedOhlcvService.js';
 
 export type SmartMoneyTimeframe = '1D' | '3D' | '1W' | '15D' | '3W' | '1M' | '3M';
 
@@ -177,14 +178,19 @@ export class SmartMoneyFlowEngine {
   }
 
   /**
-   * High-performance batch loader for stock candle history from local SQLite HistoricalPrices.
-   * Loads hundreds of tickers in a single sub-second query.
+   * DuckDB-first batch loader. SQLite remains a clearly marked fallback per missing symbol.
    */
   public async loadHistoricalCandlesBatch(symbols: string[]): Promise<Map<string, any[]>> {
     const candlesMap = new Map<string, any[]>();
     if (!symbols || symbols.length === 0) return candlesMap;
 
     const db = getDB();
+    for (let i = 0; i < symbols.length; i += 500) {
+      const adjusted = await DuckDbAdjustedOhlcvService.getDailyBarsForSymbols(symbols.slice(i, i + 500), 365);
+      adjusted.forEach((bars, symbol) => candlesMap.set(symbol, bars.map(r => ({
+        date: r.trade_date, open: Number(r.open_adjusted), high: Number(r.high_adjusted), low: Number(r.low_adjusted), close: Number(r.close_adjusted), volume: Number(r.volume_raw || 0), dataSource: 'DUCKDB_ADJUSTED'
+      }))));
+    }
     const querySymbols: string[] = [];
     for (const s of symbols) {
       const clean = s.toUpperCase().replace(/\.NS$/, '').replace(/\.BO$/, '');
@@ -198,14 +204,16 @@ export class SmartMoneyFlowEngine {
 
     for (let i = 0; i < uniqueSyms.length; i += chunkSize) {
       const chunk = uniqueSyms.slice(i, i + chunkSize);
-      const placeholders = chunk.map(() => '?').join(',');
+      const missing = chunk.filter(s => !candlesMap.has(s.toUpperCase().replace(/\.(NS|BO)$/, '')));
+      if (!missing.length) continue;
+      const placeholders = missing.map(() => '?').join(',');
       try {
         const rows = await dbAll<any>(
           db,
           `SELECT symbol, date, close_price as close FROM HistoricalPrices 
            WHERE symbol IN (${placeholders}) AND date >= date('now', '-365 days') 
            ORDER BY date ASC`,
-          chunk
+          missing
         );
 
         for (const r of rows || []) {
@@ -219,7 +227,8 @@ export class SmartMoneyFlowEngine {
             open: Number(r.close),
             high: Number(r.close),
             low: Number(r.close),
-            volume: 150000
+            volume: 150000,
+            dataSource: 'SQLITE_LEGACY_FALLBACK'
           });
         }
       } catch (err) {
@@ -243,7 +252,14 @@ export class SmartMoneyFlowEngine {
     let candles = historicalCandles;
 
     if (!candles || candles.length < 5) {
-      // Query local SQLite HistoricalPrices (<1ms)
+      const adjusted = await DuckDbAdjustedOhlcvService.getDailyBars(cleanSym, 365);
+      if (adjusted && adjusted.length >= 5) {
+        candles = adjusted.map(r => ({ date: r.trade_date, open: Number(r.open_adjusted), high: Number(r.high_adjusted), low: Number(r.low_adjusted), close: Number(r.close_adjusted), volume: Number(r.volume_raw || 0), dataSource: 'DUCKDB_ADJUSTED' }));
+      }
+    }
+
+    if (!candles || candles.length < 5) {
+      // SQLite fallback only when DuckDB has no usable coverage.
       try {
         const db = getDB();
         const rows = await dbAll<any>(
@@ -260,7 +276,8 @@ export class SmartMoneyFlowEngine {
             open: Number(r.close),
             high: Number(r.close),
             low: Number(r.close),
-            volume: 150000
+            volume: 150000,
+            dataSource: 'SQLITE_LEGACY_FALLBACK'
           }));
         }
       } catch (_) {}
@@ -330,7 +347,7 @@ export class SmartMoneyFlowEngine {
     // Data Provenance & Sanctity
     const hasRealCandleVol = windowCandles.some(c => c.volume && c.volume > 0);
     const provenance: DataProvenance = {
-      source: hasRealCandleVol ? 'NSE_BHAVCOPY_DAILY' : 'NSE_ESTIMATED_VOLUME',
+      source: windowCandles.some(c => c.dataSource === 'DUCKDB_ADJUSTED') ? 'DUCKDB_ADJUSTED' : hasRealCandleVol ? 'SQLITE_LEGACY_FALLBACK' : 'NSE_ESTIMATED_VOLUME',
       sourceType: hasRealCandleVol ? 'SOURCED' : 'ESTIMATED',
       confidencePct: hasRealCandleVol ? 95 : 70,
       asOfDate: new Date().toISOString().split('T')[0],

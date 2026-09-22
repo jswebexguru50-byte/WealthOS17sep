@@ -328,17 +328,18 @@ export async function fetchTickerData(symbol: string, daysBack: number = 365 * 5
   // Any multi-day NSE request uses the permanent corporate-action-adjusted
   // catalog. A one-day/current request remains on the established live route
   // so Upstox supplies the latest tradable candle/quote.
-  if (exchange === 'NSE' && !symbol.startsWith('^') && daysBack > 1) {
-    const adjustedBars = await DuckDbAdjustedOhlcvService.getDailyBars(symbol, daysBack + 10);
-    if (adjustedBars?.length) {
-      const closePrices = adjustedBars
+  if ((exchange === 'NSE' || exchange === 'BSE') && !symbol.startsWith('^') && daysBack > 1) {
+    const ohlcvResult = await DuckDbAdjustedOhlcvService.getDailyBarsWithLegacyFallback(symbol, daysBack + 10);
+    if (ohlcvResult.bars.length) {
+      const closePrices = ohlcvResult.bars
         .filter(bar => bar.trade_date >= fromDateStr)
         .sort((a, b) => a.trade_date.localeCompare(b.trade_date))
         .map(bar => ({ date: bar.trade_date, close: Number(bar.close_adjusted), open: Number(bar.open_adjusted), high: Number(bar.high_adjusted), low: Number(bar.low_adjusted), volume: Number(bar.volume_raw) }));
       if (closePrices.length) {
         const latestPrice = closePrices[closePrices.length - 1].close;
         const prevClose = closePrices.length > 1 ? closePrices[closePrices.length - 2].close : latestPrice;
-        const result = { symbol, regularMarketPrice: latestPrice, chartPreviousClose: prevClose, closePrices, dividends: [], splits: [], dataSource: 'DuckDB adjusted OHLCV' };
+        const dataSource = ohlcvResult.source === 'DUCKDB_ADJUSTED' ? 'DuckDB adjusted OHLCV' : 'SQLite legacy fallback OHLCV';
+        const result = { symbol, regularMarketPrice: latestPrice, chartPreviousClose: prevClose, closePrices, dividends: [], splits: [], dataSource };
         tickerDataCache.set(cacheKey, result);
         return result;
       }

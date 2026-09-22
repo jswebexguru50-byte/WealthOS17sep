@@ -1,4 +1,5 @@
 import { getDB, dbAll } from '../database.js';
+import { DuckDbAdjustedOhlcvService } from './DuckDbAdjustedOhlcvService.js';
 
 export interface StressScenario {
   id: string;
@@ -74,6 +75,12 @@ export class RiskAnalyticsEngine {
     const niftyDailyReturns = new Map<string, number>();
 
     try {
+      // Canonical adjusted catalog first. SQLite fills only symbols absent from DuckDB.
+      const requestedSymbols = [...new Set(holdings.map((h: any) => String(h.symbol || '').toUpperCase().trim()).filter(Boolean))];
+      for (let i = 0; i < requestedSymbols.length; i += 500) {
+        const adjusted = await DuckDbAdjustedOhlcvService.getDailyBarsForSymbols(requestedSymbols.slice(i, i + 500), 10_000);
+        adjusted.forEach((bars, symbol) => histPricesMap.set(symbol, bars.map(r => ({ date: r.trade_date, close: Number(r.close_adjusted) }))));
+      }
       const rawHist = await dbAll(db, `
         SELECT symbol, date, close_price 
         FROM HistoricalPrices 
@@ -83,6 +90,7 @@ export class RiskAnalyticsEngine {
 
       for (const row of rawHist) {
         const sym = String(row.symbol || '').toUpperCase().trim();
+        if (histPricesMap.has(sym) || histPricesMap.has(sym.replace(/\.(NS|BO)$/, ''))) continue;
         if (!histPricesMap.has(sym)) histPricesMap.set(sym, []);
         histPricesMap.get(sym)!.push({ date: row.date, close: Number(row.close_price) });
       }
