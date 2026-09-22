@@ -39,12 +39,38 @@ export interface ResolvedMarketSnapshot {
 
 export class OpportunityDataResolverService {
   private static instance: OpportunityDataResolverService;
+  private readonly duckdbBarsCache = new Map<string, { expiresAt: number; bars: ResolvedCandle[] }>();
+  private static readonly CACHE_TTL_MS = 15 * 60 * 1000;
 
   public static getInstance(): OpportunityDataResolverService {
     if (!OpportunityDataResolverService.instance) {
       OpportunityDataResolverService.instance = new OpportunityDataResolverService();
     }
     return OpportunityDataResolverService.instance;
+  }
+
+  private toResolvedCandles(rows: Array<{ trade_date: string; open_adjusted: number; high_adjusted: number; low_adjusted: number; close_adjusted: number; volume_raw: number }>): ResolvedCandle[] {
+    return rows.map(r => ({ date: r.trade_date, open: Number(r.open_adjusted), high: Number(r.high_adjusted), low: Number(r.low_adjusted), close: Number(r.close_adjusted), volume: Number(r.volume_raw || 0) }));
+  }
+
+  /**
+   * One bounded DuckDB bridge call per 500 symbols. Call before a full scan so
+   * per-scrip evaluation is memory-only instead of spawning hundreds of Python
+   * processes.
+   */
+  public async prewarmDuckDb(symbols: string[], minBars: number = 240): Promise<void> {
+    const clean = [...new Set(symbols.map(symbol => symbol.trim().toUpperCase().replace(/\.(NS|BO)$/, '')).filter(Boolean))];
+    const now = Date.now();
+    const missing = clean.filter(symbol => {
+      const cached = this.duckdbBarsCache.get(symbol);
+      return !cached || cached.expiresAt <= now || cached.bars.length < minBars;
+    });
+    for (let offset = 0; offset < missing.length; offset += 500) {
+      const batch = await DuckDbAdjustedOhlcvService.getDailyBarsForSymbols(missing.slice(offset, offset + 500), Math.max(minBars, 260));
+      for (const [symbol, rows] of batch) {
+        this.duckdbBarsCache.set(symbol, { expiresAt: now + OpportunityDataResolverService.CACHE_TTL_MS, bars: this.toResolvedCandles(rows) });
+      }
+    }
   }
 
   /**
@@ -56,9 +82,13 @@ export class OpportunityDataResolverService {
 
     // 1. Corporate-action-adjusted DuckDB first.
     try {
-      const rows = await DuckDbAdjustedOhlcvService.getDailyBars(cleanSym, Math.max(minBars, 10_000));
-      if (rows && rows.length >= minBars) {
-        const candles: ResolvedCandle[] = rows.map(r => ({ date: r.trade_date, open: Number(r.open_adjusted), high: Number(r.high_adjusted), low: Number(r.low_adjusted), close: Number(r.close_adjusted), volume: Number(r.volume_raw || 0) }));
+      let cached = this.duckdbBarsCache.get(cleanSym);
+      if (!cached || cached.expiresAt <= Date.now()) {
+        await this.prewarmDuckDb([cleanSym], minBars);
+        cached = this.duckdbBarsCache.get(cleanSym);
+      }
+      if (cached && cached.bars.length >= minBars) {
+        const candles = cached.bars;
         const latest = candles[candles.length - 1];
         const prev = candles[candles.length - 2] || latest;
         const avgTurnoverCr = roundINR(candles.slice(-20).reduce((total, c) => total + c.close * c.volume / 10000000, 0) / Math.min(candles.length, 20));

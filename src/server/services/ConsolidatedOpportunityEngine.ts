@@ -43,6 +43,7 @@ import {
 } from './MasterIndianUniverseService.js';
 import { NewsSentimentService, StockEventContext } from './NewsSentimentService.js';
 import { MacroRegimeClassifierService, FactorWeights } from './MacroRegimeClassifierService.js';
+import { PureTechnicalStrategiesEngine } from './PureTechnicalStrategiesEngine.js';
 
 export type MacroRegime = 'AGGRESSIVE_EXPANSION' | 'CONSTRUCTIVE_STOCK_PICKING' | 'DEFENSIVE_PRESERVATION' | 'CAPITAL_DEFENSE_CASH';
 
@@ -1737,22 +1738,41 @@ export class ConsolidatedOpportunityEngine {
         ...masterSymbols
       ]));
 
+      // Stage 0: run deterministic strategies across the complete active
+      // universe. Only a strategy match earns deep analysis or a dossier row.
+      const strategyScan = await PureTechnicalStrategiesEngine.getInstance().scanUniverseAllStrategies([
+        'S1_VPA_BASE_BREAKOUT', 'S2_INSTITUTIONAL_FVG_CE', 'S3_HH_HL_COMPACTION',
+        'S4_HH_HL_SMA200_VPA', 'S5_50EMA_PULLBACK_VCP', 'S6_RS_BREAKOUT',
+        'S7_RSI_MEAN_REVERSION', 'S8_HIGH_TIGHT_FLAG', 'S9_VOLUME_DRYUP_RS',
+        'S10_TRENDLINE_ORB'
+      ]);
+      const qualifiedSymbols = new Set<string>();
+      for (const matches of Object.values(strategyScan.strategy_results || {}) as any[]) {
+        for (const match of matches || []) if (match.qualified && match.symbol) qualifiedSymbols.add(String(match.symbol).toUpperCase());
+      }
+      const deepCandidates = scanCandidates.filter(symbol => qualifiedSymbols.has(symbol.toUpperCase()));
+      console.log(`[COE] Strategy gate: ${strategyScan.total_scanned} scanned, ${deepCandidates.length} passed for deep analysis.`);
+
       const screenerService = ScreenerService.getInstance();
       const opportunities: ConsolidatedOpportunity[] = [];
 
       this.scanProgress = {
         isScanning: true,
-        totalCandidates: scanCandidates.length,
+        totalCandidates: deepCandidates.length,
         completedCount: 0,
         currentScrip: '',
         startedAt: Date.now(),
         progressPct: 0
       };
 
+      // Prime all historical candles in two bounded local DuckDB reads before
+      // evaluating the universe. Individual rows below now use memory only.
+      await OpportunityDataResolverService.getInstance().prewarmDuckDb(deepCandidates, 60);
+
       // Process in parallel batches of 8 to remain fast and respectful of rate limits
       const batchSize = 8;
-      for (let i = 0; i < scanCandidates.length; i += batchSize) {
-        const batch = scanCandidates.slice(i, i + batchSize);
+      for (let i = 0; i < deepCandidates.length; i += batchSize) {
+        const batch = deepCandidates.slice(i, i + batchSize);
         await Promise.all(
           batch.map(async (symbol) => {
             try {
@@ -1767,9 +1787,9 @@ export class ConsolidatedOpportunityEngine {
             }
           })
         );
-        this.scanProgress.completedCount = Math.min(scanCandidates.length, i + batch.length);
+        this.scanProgress.completedCount = Math.min(deepCandidates.length, i + batch.length);
         this.scanProgress.currentScrip = batch[batch.length - 1];
-        this.scanProgress.progressPct = Math.round((this.scanProgress.completedCount / scanCandidates.length) * 100);
+        this.scanProgress.progressPct = deepCandidates.length ? Math.round((this.scanProgress.completedCount / deepCandidates.length) * 100) : 100;
       }
 
       // Merge all previously evaluated scrips from SQLite OpportunityScripEvaluations

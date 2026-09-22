@@ -167,8 +167,9 @@ export class MasterIndianUniverseService {
   }
 
   /**
-   * Retrieves the comprehensive Master 750+ Indian Equities Universe,
-   * cleanly merged with live User Holdings from SQLite, guaranteed 100% Indian equities.
+   * Retrieves every active mapped NSE/BSE equity, with the curated index
+   * cohorts retained only as ranking categories. This is deliberately not a
+   * fixed 750-stock scan universe.
    */
   public async getMasterUniverse(portfolioHoldingsSymbols: string[] = []): Promise<{
     masterSymbols: string[];
@@ -217,6 +218,27 @@ export class MasterIndianUniverseService {
         categoryMap.set(sym, 'MICROCAP_SME');
         portfolioUniqueCount++;
       }
+    }
+
+    // Expand beyond the static benchmark lists to the current active security
+    // master. Symbols outside the curated cohorts are classified as
+    // MICROCAP_SME until a more specific membership is available.
+    try {
+      const active = await dbAll<any>(getDB(), `
+        SELECT DISTINCT upper(symbol) AS symbol
+          FROM MasterTickers
+         WHERE status = 'ACTIVE'
+           AND exchange IN ('NSE', 'BSE')
+           AND symbol IS NOT NULL AND trim(symbol) <> ''
+           AND (upstox_key_nse IS NOT NULL OR upstox_key_bse IS NOT NULL)
+         ORDER BY upper(symbol)`);
+      for (const row of active) {
+        const symbol = String(row.symbol || '').trim().toUpperCase();
+        if (!symbol || US_AND_FOREIGN_EQUITIES.has(symbol)) continue;
+        if (!categoryMap.has(symbol)) categoryMap.set(symbol, 'MICROCAP_SME');
+      }
+    } catch (error) {
+      console.warn('[MasterIndianUniverse] Active master read failed; using curated universe only.', error);
     }
 
     const masterSymbols = Array.from(categoryMap.keys());

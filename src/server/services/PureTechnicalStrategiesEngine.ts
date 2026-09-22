@@ -3104,9 +3104,11 @@ export class PureTechnicalStrategiesEngine {
           // Try to get company names from MasterTickers for matched symbols
           try {
             const mRows = await dbAll(db, `
-              SELECT symbol, COALESCE(company_name, name, symbol) as companyName
+        SELECT DISTINCT symbol, COALESCE(company_name, name, symbol) as companyName
               FROM MasterTickers
-              WHERE exchange = 'NSE' AND segment = 'EQ' AND symbol IS NOT NULL AND symbol != ''
+        WHERE status = 'ACTIVE' AND exchange IN ('NSE', 'BSE')
+          AND symbol IS NOT NULL AND symbol != ''
+          AND (upstox_key_nse IS NOT NULL OR upstox_key_bse IS NOT NULL)
             `);
             const nameMap = new Map<string, string>();
             (mRows || []).forEach((r: any) => nameMap.set(r.symbol, r.companyName));
@@ -3358,9 +3360,11 @@ export class PureTechnicalStrategiesEngine {
     // Get universe of symbols to scan directly from MasterTickers (ultra-fast 16ms query)
     try {
       const mRows = await dbAll<any>(db, `
-        SELECT symbol, COALESCE(company_name, name, symbol) as companyName
+        SELECT DISTINCT symbol, COALESCE(company_name, name, symbol) as companyName
         FROM MasterTickers
-        WHERE exchange = 'NSE' AND segment = 'EQ' AND symbol IS NOT NULL AND symbol != ''
+        WHERE status = 'ACTIVE' AND exchange IN ('NSE', 'BSE')
+          AND symbol IS NOT NULL AND symbol != ''
+          AND (upstox_key_nse IS NOT NULL OR upstox_key_bse IS NOT NULL)
         ORDER BY symbol ASC
         ${options?.universeLimit ? `LIMIT ${Math.min(options.universeLimit, 1000)}` : ''}
       `);
@@ -3428,10 +3432,16 @@ export class PureTechnicalStrategiesEngine {
     const CHUNK_SIZE = 25;
     for (let i = 0; i < symbolsToScan.length; i += CHUNK_SIZE) {
       const chunk = symbolsToScan.slice(i, i + CHUNK_SIZE);
+      // A single bounded DuckDB bridge process supplies the entire chunk.
+      // Missing symbols alone may use the legacy fallback below.
+      const duckdbBars = await DuckDbAdjustedOhlcvService.getDailyBarsForSymbols(chunk.map(item => item.symbol), 600);
 
       await Promise.all(chunk.map(async (item) => {
         try {
-          const candles = await this.getOHLCVBars(item.symbol, 600);
+          const adjusted = duckdbBars.get(item.symbol.trim().toUpperCase());
+          const candles = adjusted?.length
+            ? adjusted.map(bar => ({ date: bar.trade_date, open: Number(bar.open_adjusted), high: Number(bar.high_adjusted), low: Number(bar.low_adjusted), close: Number(bar.close_adjusted), volume: Number(bar.volume_raw) || 0 }))
+            : await this.getOHLCVBars(item.symbol, 600);
           if (!candles || candles.length < 25) return;
 
           // Run each requested strategy for this symbol in memory
