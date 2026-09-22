@@ -2192,7 +2192,8 @@ export class ConsolidatedOpportunityEngine {
    */
   public async evaluateScrip(
     symbol: string,
-    macro?: MasterOpportunityDashboardReport['macroTelemetry']
+    macro?: MasterOpportunityDashboardReport['macroTelemetry'],
+    forceRefresh: boolean = false
   ): Promise<ConsolidatedOpportunity | null> {
     const cleanSym = symbol.toUpperCase().replace(/\.NS$/, '').replace(/\.BO$/, '');
 
@@ -2206,7 +2207,7 @@ export class ConsolidatedOpportunityEngine {
 
     // 1. In-memory cache check (15 minutes)
     const cached = this.scripCache.get(cleanSym);
-    if (cached && Date.now() - cached.timestamp < 15 * 60 * 1000) {
+    if (!forceRefresh && cached && Date.now() - cached.timestamp < 15 * 60 * 1000) {
       return cached.data;
     }
 
@@ -2214,7 +2215,7 @@ export class ConsolidatedOpportunityEngine {
     try {
       const db = getDB();
       const row = await dbGet(db, `SELECT evaluation_json, last_updated_at FROM OpportunityScripEvaluations WHERE symbol = ?`, [cleanSym]);
-      if (row?.evaluation_json) {
+      if (!forceRefresh && row?.evaluation_json) {
         const ageMs = Date.now() - (row.last_updated_at || 0);
         if (ageMs < 4 * 3600 * 1000) {
           const parsed = JSON.parse(row.evaluation_json) as ConsolidatedOpportunity;

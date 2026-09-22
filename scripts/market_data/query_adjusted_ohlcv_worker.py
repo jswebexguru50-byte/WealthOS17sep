@@ -86,7 +86,10 @@ def handle_query(req: dict):
             FROM read_parquet({parquet_files}, union_by_name=true)
             WHERE trade_date >= '{from_date}' AND trade_date <= '{to_date}'
             QUALIFY ROW_NUMBER() OVER (PARTITION BY symbol ORDER BY trade_date DESC) <= {limit}
-            ORDER BY symbol, trade_date DESC
+            -- Keep the newest N bars per symbol, then return them in
+            -- chronological order. All technical strategies treat the final
+            -- array element as the current candle/CMP.
+            ORDER BY symbol, trade_date ASC
         """
         
         # We must return an array of rows or dict of arrays

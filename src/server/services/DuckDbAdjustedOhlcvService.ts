@@ -71,7 +71,10 @@ export class DuckDbAdjustedOhlcvService {
   public static workerStarts = 0;
 
   private static getPython(): string {
-    return fs.existsSync(this.localPython) ? this.localPython : this.bundledPython;
+    // The workstation installation is the catalog runtime and has DuckDB.
+    // fs.existsSync can be denied for AppData in child-process sandboxes, so
+    // it must not silently redirect the scanner to the bundled no-DuckDB copy.
+    return this.localPython;
   }
 
   private static async ensureWorker(): Promise<void> {
