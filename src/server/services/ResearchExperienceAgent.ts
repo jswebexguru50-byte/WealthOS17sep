@@ -21,6 +21,7 @@
 import fs from 'fs';
 import path from 'path';
 import { getDB, dbAll, dbGet } from '../database.js';
+import { DuckDbAdjustedOhlcvService } from './DuckDbAdjustedOhlcvService.js';
 import { NEoWaveEngine, OHLCVBar, NEoWaveAnalysisResult } from '../quant/NEoWaveEngine.js';
 import {
   classifyMacroRegimeV5,
@@ -147,8 +148,13 @@ export class ResearchExperienceAgent {
     const companyName = master?.name || `${cleanSym} Limited`;
     const sector = master?.sector || 'Diversified Growth';
 
-    // 2. Fetch Historical Daily Candles from DailyOHLCV (last 120 bars)
-    const rawDaily = await dbAll(db, `
+    // 2. Canonical adjusted history comes from DuckDB. SQLite is retained only
+    // as a compatibility fallback for symbols absent from the market catalog.
+    const duckBars = await DuckDbAdjustedOhlcvService.getDailyBars(cleanSym, 120);
+    const rawDaily = duckBars?.length ? duckBars.map(bar => ({
+      date: bar.trade_date, open: bar.open_adjusted, high: bar.high_adjusted,
+      low: bar.low_adjusted, close: bar.close_adjusted, volume: bar.volume_raw
+    })) : await dbAll(db, `
       SELECT trade_date as date, open, high, low, close, volume
       FROM DailyOHLCV
       WHERE symbol = ?

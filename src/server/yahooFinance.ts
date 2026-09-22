@@ -3,6 +3,7 @@ import sqlite3 from 'sqlite3';
 import { dbAll, dbRun, dbGet, getDB, runInDbLock } from './database.js';
 import { formatDate, parseDate, runFIFO } from './fifoEngine.js';
 import { persistRefreshStamp } from './refreshState.js';
+import { DuckDbAdjustedOhlcvService } from './services/DuckDbAdjustedOhlcvService.js';
 
 export async function safeJsonFromResponse<T = any>(res: Response): Promise<T | null> {
   try {
@@ -320,6 +321,29 @@ export async function fetchTickerData(symbol: string, daysBack: number = 365 * 5
   const fromDateObj = new Date();
   fromDateObj.setDate(fromDateObj.getDate() - daysBack);
   const fromDateStr = fromDateObj.toISOString().split('T')[0];
+
+  // Permanent local source for NSE historical candles.  It is corporate-action
+  // adjusted and does not write any candle rows back to SQLite.  Index/US data
+  // and absent symbols deliberately continue through the existing live paths.
+  // Any multi-day NSE request uses the permanent corporate-action-adjusted
+  // catalog. A one-day/current request remains on the established live route
+  // so Upstox supplies the latest tradable candle/quote.
+  if (exchange === 'NSE' && !symbol.startsWith('^') && daysBack > 1) {
+    const adjustedBars = await DuckDbAdjustedOhlcvService.getDailyBars(symbol, daysBack + 10);
+    if (adjustedBars?.length) {
+      const closePrices = adjustedBars
+        .filter(bar => bar.trade_date >= fromDateStr)
+        .sort((a, b) => a.trade_date.localeCompare(b.trade_date))
+        .map(bar => ({ date: bar.trade_date, close: Number(bar.close_adjusted), open: Number(bar.open_adjusted), high: Number(bar.high_adjusted), low: Number(bar.low_adjusted), volume: Number(bar.volume_raw) }));
+      if (closePrices.length) {
+        const latestPrice = closePrices[closePrices.length - 1].close;
+        const prevClose = closePrices.length > 1 ? closePrices[closePrices.length - 2].close : latestPrice;
+        const result = { symbol, regularMarketPrice: latestPrice, chartPreviousClose: prevClose, closePrices, dividends: [], splits: [], dataSource: 'DuckDB adjusted OHLCV' };
+        tickerDataCache.set(cacheKey, result);
+        return result;
+      }
+    }
+  }
 
   // 2. Query Yahoo Finance Chart API as Primary Feed for Official 30-min VWAP Settlement Close (Zerodha Standard)
   const end = Math.floor(Date.now() / 1000);

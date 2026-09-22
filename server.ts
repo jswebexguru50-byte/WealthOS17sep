@@ -10,6 +10,8 @@ import express from 'express';
 import path from 'path';
 import fs from 'fs';
 import os from 'os';
+import { execFile } from 'child_process';
+import { promisify } from 'util';
 import compression from 'compression';
 import zlib from 'zlib';
 import { createServer as createViteServer } from 'vite';
@@ -134,6 +136,9 @@ import { SocialMediaService } from './src/server/services/socialMediaService.js'
 import { LookthroughService } from './src/server/services/lookthroughService.js';
 import { forensicRouter } from './src/server/routes/forensicRoutes.js';
 import { strategiesRouter } from './src/server/routes/strategies.js';
+import kiteRouter from './src/server/routes/kite.js';
+
+const execFileAsync = promisify(execFile);
 
 if (dns && dns.setDefaultResultOrder) {
   dns.setDefaultResultOrder('ipv4first');
@@ -169,6 +174,39 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use('/api/forensic', forensicRouter);
 // Strategy Calibration, Signal Quality & Execution Endpoints
 app.use('/api/strategies', strategiesRouter);
+app.use('/api/auth/kite', kiteRouter);
+
+// Permanent adjusted daily candles live outside SQLite in the DuckDB/Parquet
+// market store.  This read-only bridge keeps app state transactional in SQLite
+// while making long historical series available to every UI/API consumer.
+app.get('/api/market-data/adjusted-ohlcv/:symbol', async (req, res) => {
+  const symbol = String(req.params.symbol || '').trim().toUpperCase();
+  const limit = Math.min(Math.max(Number.parseInt(String(req.query.limit || '365'), 10) || 365, 1), 10_000);
+  const fromDate = String(req.query.from || '1900-01-01');
+  const toDate = String(req.query.to || '2999-12-31');
+  if (!/^[A-Z0-9_-]+$/.test(symbol) || !/^\d{4}-\d{2}-\d{2}$/.test(fromDate) || !/^\d{4}-\d{2}-\d{2}$/.test(toDate)) {
+    return res.status(400).json({ success: false, message: 'Invalid market-data query.' });
+  }
+  const bridge = path.resolve('scripts', 'market_data', 'query_adjusted_ohlcv.py');
+  const catalog = path.resolve('data', 'market_data', 'tejhq_hf_10y', 'ohlcv.duckdb');
+  if (!fs.existsSync(bridge) || !fs.existsSync(catalog)) {
+    return res.status(503).json({ success: false, message: 'Adjusted OHLCV store is not available yet.' });
+  }
+  try {
+    const bundledPython = 'C:\\Users\\gopal\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe';
+    const pythonPath = process.env.PYTHON_EXECUTABLE || (fs.existsSync(bundledPython) ? bundledPython : 'python');
+    const pythonPackages = path.resolve('.tools', 'hf_ohlcv_env');
+    const { stdout } = await execFileAsync(pythonPath, [bridge, '--symbol', symbol, '--limit', String(limit), '--from-date', fromDate, '--to-date', toDate], {
+      timeout: 30_000,
+      maxBuffer: 16 * 1024 * 1024,
+      env: { ...process.env, PYTHONPATH: [pythonPackages, process.env.PYTHONPATH].filter(Boolean).join(path.delimiter) }
+    });
+    res.json({ success: true, source: 'DUCKDB_ADJUSTED', fallback: false, data: JSON.parse(stdout) });
+  } catch (error: any) {
+    console.error('[DuckDB OHLCV] Read failed:', error?.message || error);
+    res.status(503).json({ success: false, message: 'Adjusted OHLCV store is being finalized or is unavailable.' });
+  }
+});
 
 
 app.get('/api/healthcheck', (req, res) => {
@@ -16859,9 +16897,14 @@ async function startServer() {
     //   console.error('[StrategyPreCalculationService] Startup error:', err);
     // });
 
-    // Start Autonomous Smart Money Sentinel Background Supervisor Daemon
-    AutonomousSmartMoneyAgent.getInstance().startBackgroundDaemon();
-    console.log('[AutonomousAgent] AutonomousSmartMoneyAgent supervisor daemon active');
+    // Strategy work must never compete with the first portfolio valuation.
+    // Opt in explicitly for research/overnight sessions after the UI is open.
+    if (process.env.ENABLE_STARTUP_STRATEGIES === 'true') {
+      AutonomousSmartMoneyAgent.getInstance().startBackgroundDaemon();
+      console.log('[AutonomousAgent] AutonomousSmartMoneyAgent supervisor daemon active');
+    } else {
+      console.log('[AutonomousAgent] Deferred. Set ENABLE_STARTUP_STRATEGIES=true for strategy sessions.');
+    }
 
     // Run MasterTickerService initialization explicitly out of band of DB migration
     MasterTickerService.getInstance().autoInitializeMasterTickers().catch((e) => {
@@ -16967,8 +17010,8 @@ async function startServer() {
     }, 30 * 60 * 1000);
   }
 
-  // Initialize ITAS Background Pre-Calculation Service (deferred to 120s after startup)
-  setTimeout(async () => {
+  // Initialize strategy pre-calculation only in an explicit strategy session.
+  if (process.env.ENABLE_STARTUP_STRATEGIES === 'true') setTimeout(async () => {
     try {
       const { StrategyPreCalculationService } = await import('./src/server/services/StrategyPreCalculationService.js');
       await StrategyPreCalculationService.getInstance().initializeScheduler();
@@ -16978,7 +17021,7 @@ async function startServer() {
   }, 120000);
 
   // Trigger initial background market price sync asynchronously only during active market hours (deferred to 120s)
-  setTimeout(() => {
+  if (process.env.ENABLE_STARTUP_STRATEGIES === 'true') setTimeout(() => {
     if (isIndianMarketHours()) {
       autoFetchMarketData(getDB()).catch(console.error);
     }
@@ -16993,7 +17036,7 @@ async function startServer() {
 
   // Pre-warm dashboard payload caches after 150s — deferred so server can serve user
   // requests immediately; buildDashboardPayload does CPU-heavy XIRR computation.
-  setTimeout(async () => {
+  if (process.env.ENABLE_STARTUP_STRATEGIES === 'true') setTimeout(async () => {
     try {
       await buildDashboardPayload(null, false, '__all__::false');
       const activePorts = await dbAll(db, "SELECT DISTINCT portfolio FROM Holdings WHERE portfolio IS NOT NULL AND portfolio != '' UNION SELECT name FROM Portfolios WHERE status != 'ARCHIVED'");
@@ -17080,12 +17123,16 @@ async function startServer() {
   // ═══════════════════════════════════════════════════
   // 🧠 Initialize Self-Learning & Quant Engine
   // ═══════════════════════════════════════════════════
-  try {
-    const quantScheduler = QuantitativeBacktestScheduler.getInstance();
-    await quantScheduler.initializeAllDatabases();
-    console.log('[QuantEngine] All engine databases ready.');
-  } catch (err) {
-    console.error('[QuantEngine] Failed to initialize engine:', err);
+  if (process.env.ENABLE_STARTUP_STRATEGIES === 'true') {
+    try {
+      const quantScheduler = QuantitativeBacktestScheduler.getInstance();
+      await quantScheduler.initializeAllDatabases();
+      console.log('[QuantEngine] All engine databases ready.');
+    } catch (err) {
+      console.error('[QuantEngine] Failed to initialize engine:', err);
+    }
+  } else {
+    console.log('[QuantEngine] Deferred. Set ENABLE_STARTUP_STRATEGIES=true for strategy sessions.');
   }
 
   if (process.env.ENABLE_BACKGROUND_SCHEDULERS === 'true') {

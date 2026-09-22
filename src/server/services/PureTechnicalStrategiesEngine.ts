@@ -14,6 +14,7 @@ import { SMA, EMA, RSI, ATR, BollingerBands } from 'technicalindicators';
 import { fetchTickerData } from '../yahooFinance.js';
 import { getDB, dbAll, dbGet, dbRun } from '../database.js';
 import { StrategyParameterConfig, getDefaultsForStrategy } from './StrategyParameterConfig.js';
+import { DuckDbAdjustedOhlcvService } from './DuckDbAdjustedOhlcvService.js';
 
 export interface Candle {
   date: string;
@@ -2971,6 +2972,15 @@ export class PureTechnicalStrategiesEngine {
 
   private async getOHLCVBars(symbol: string, days: number = 600): Promise<Candle[] | null> {
     const db = getDB();
+    // Canonical route: Kite-adjusted DuckDB history, with the approved Upstox
+    // reconciliation overlay. SQLite remains a legacy fallback only.
+    const adjustedBars = await DuckDbAdjustedOhlcvService.getDailyBars(symbol, days);
+    if (adjustedBars && adjustedBars.length >= 25) {
+      return adjustedBars.reverse().map(bar => ({
+        date: bar.trade_date, open: Number(bar.open_adjusted), high: Number(bar.high_adjusted),
+        low: Number(bar.low_adjusted), close: Number(bar.close_adjusted), volume: Number(bar.volume_raw) || 0
+      }));
+    }
     try {
       const rows: any[] = await dbAll(db, `
         SELECT trade_date, open, high, low, close, volume, turnover

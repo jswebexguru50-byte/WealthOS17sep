@@ -1,0 +1,24 @@
+{
+  "promoted_no_structural_actions": 65,
+  "held_for_structural_action_adjustment": [
+    {
+      "symbol": "EQUITAS",
+      "actions": [
+        "RIGHTS ISSUE"
+      ]
+    },
+    {
+      "symbol": "JAKHARIA",
+      "actions": [
+        "BONUS"
+      ]
+    },
+    {
+      "symbol": "LKPFIN",
+      "actions": [
+        "BONUS"
+      ]
+    }
+  ],
+  "invalid_key_worklist": "reports/readiness/upstox_invalid_instrument_keys_42.csv"
+}

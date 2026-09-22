@@ -49,6 +49,7 @@ vitest-output*.txt
 cloudflared.exe
 tools/ai-review-server/.runtime/
 node_modules/
+.tools/
 dist/
 build/
 coverage/
