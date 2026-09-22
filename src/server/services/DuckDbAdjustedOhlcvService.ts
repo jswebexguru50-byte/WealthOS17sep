@@ -49,7 +49,9 @@ export class DuckDbAdjustedOhlcvService {
     const safeSymbols = [...new Set(symbols.map(symbol => symbol.trim().toUpperCase().replace(/\.(NS|BO)$/, '')).filter(symbol => /^[A-Z0-9_-]+$/.test(symbol)))];
     if (!safeSymbols.length || safeSymbols.length > 500) return result;
     try {
-      const python = this.bundledPython;
+      // Prefer the installed runtime, which owns the DuckDB dependency. The
+      // Codex-bundled Python is intentionally only a portable fallback.
+      const python = fs.existsSync(this.localPython) ? this.localPython : this.bundledPython;
       const { stdout } = await execFileAsync(python, [
         this.bridge, '--symbols', safeSymbols.join(','), '--limit', String(Math.min(Math.max(limit, 1), 10_000))
       ], {

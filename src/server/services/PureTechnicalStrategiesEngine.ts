@@ -3439,9 +3439,11 @@ export class PureTechnicalStrategiesEngine {
       await Promise.all(chunk.map(async (item) => {
         try {
           const adjusted = duckdbBars.get(item.symbol.trim().toUpperCase());
-          const candles = adjusted?.length
-            ? adjusted.map(bar => ({ date: bar.trade_date, open: Number(bar.open_adjusted), high: Number(bar.high_adjusted), low: Number(bar.low_adjusted), close: Number(bar.close_adjusted), volume: Number(bar.volume_raw) || 0 }))
-            : await this.getOHLCVBars(item.symbol, 600);
+          // The strategy gate is deliberately local-only. A missing DuckDB
+          // partition is coverage work, not a reason to fan out into live
+          // APIs while screening the complete universe.
+          if (!adjusted?.length) return;
+          const candles = adjusted.map(bar => ({ date: bar.trade_date, open: Number(bar.open_adjusted), high: Number(bar.high_adjusted), low: Number(bar.low_adjusted), close: Number(bar.close_adjusted), volume: Number(bar.volume_raw) || 0 }));
           if (!candles || candles.length < 25) return;
 
           // Run each requested strategy for this symbol in memory

@@ -1655,9 +1655,6 @@ export class ConsolidatedOpportunityEngine {
   public async executeFullScanPipeline(): Promise<MasterOpportunityDashboardReport> {
     this.isScanning = true;
     try {
-      // ── STAGE 1: MACRO MARKET REGIME & GLOBAL OUTLOOK ──
-      const macroTelemetry = await this.evaluateMacroRegime();
-
       // ── STAGE 5: LOAD ACTUAL USER PORTFOLIO HOLDINGS (SQLITE) ──
       const userHoldings = await this.fetchRealUserHoldings();
 
@@ -1753,7 +1750,6 @@ export class ConsolidatedOpportunityEngine {
       const deepCandidates = scanCandidates.filter(symbol => qualifiedSymbols.has(symbol.toUpperCase()));
       console.log(`[COE] Strategy gate: ${strategyScan.total_scanned} scanned, ${deepCandidates.length} passed for deep analysis.`);
 
-      const screenerService = ScreenerService.getInstance();
       const opportunities: ConsolidatedOpportunity[] = [];
 
       this.scanProgress = {
@@ -1768,6 +1764,11 @@ export class ConsolidatedOpportunityEngine {
       // Prime all historical candles in two bounded local DuckDB reads before
       // evaluating the universe. Individual rows below now use memory only.
       await OpportunityDataResolverService.getInstance().prewarmDuckDb(deepCandidates, 60);
+
+      // Macro is intentionally deferred until after the deterministic
+      // strategy gate. A slow remote macro source must never delay a full
+      // local-DuckDB strategy screen.
+      const macroTelemetry = await this.evaluateMacroRegime();
 
       // Process in parallel batches of 8 to remain fast and respectful of rate limits
       const batchSize = 8;
