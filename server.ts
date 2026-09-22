@@ -228,14 +228,14 @@ app.get('/api/market-data/duckdb-readiness', async (_req, res) => {
 
 // Live scan telemetry — exposes the full 9-field telemetry model covering both
 // PTSE (strategy scan phase) and COE (deep analysis phase).
-app.get('/api/market-data/scan-status', (_req, res) => {
+app.get('/api/market-data/scan-status', async (_req, res) => {
   try {
-    const { PureTechnicalStrategiesEngine } = require('./src/server/services/PureTechnicalStrategiesEngine.js');
+    const { PureTechnicalStrategiesEngine } = await import('./src/server/services/PureTechnicalStrategiesEngine.js');
     const ptse = PureTechnicalStrategiesEngine.getScanProgress?.() ?? {};
     // COE scan status is available on the COE singleton if it is already loaded.
     let coe: any = {};
     try {
-      const { ConsolidatedOpportunityEngine } = require('./src/server/services/ConsolidatedOpportunityEngine.js');
+      const { ConsolidatedOpportunityEngine } = await import('./src/server/services/ConsolidatedOpportunityEngine.js');
       coe = ConsolidatedOpportunityEngine.getInstance?.()?.getScanStatus?.() ?? {};
     } catch { /* COE not yet initialised */ }
     return res.json({ ptse, coe, timestamp: new Date().toISOString() });

@@ -1,10 +1,8 @@
-import { execFile } from 'child_process';
+﻿import { spawn, ChildProcess } from 'child_process';
 import path from 'path';
 import fs from 'fs';
-import { promisify } from 'util';
 import { dbAll, getDB } from '../database.js';
-
-const execFileAsync = promisify(execFile);
+import readline from 'readline';
 
 export interface AdjustedOhlcvBar {
   trade_date: string;
@@ -25,13 +23,11 @@ export interface OhlcvReadResult {
   source: OhlcvReadSource;
 }
 
-/** Structured result returned by the public single-symbol API route delegate. */
 export interface BridgeInvokeResult {
   success: boolean;
   source: 'DUCKDB_ADJUSTED';
   executableUsed: string;
   data: AdjustedOhlcvBar[];
-  /** Populated only when success === false. */
   error?: {
     message: string;
     exitCode: number | null;
@@ -52,52 +48,146 @@ export interface DuckDbReadinessResult {
   error?: string;
 }
 
-/**
- * Read-only bridge to the permanent local DuckDB/Parquet candle catalog.
- *
- * This class is the SINGLE authority for:
- *  - Python executable resolution (system-local then bundled fallback)
- *  - Bridge script invocation, timeout, stderr capture, and result parsing
- *  - Catalog and Parquet partition path resolution
- *  - Structured error reporting (COVERAGE_GAP vs INFRASTRUCTURE_ERROR)
- *
- * No caller (including server.ts routes) should duplicate any of this logic.
- */
+interface PendingRequest {
+  resolve: (value: any) => void;
+  reject: (reason: any) => void;
+  timeout: NodeJS.Timeout;
+}
+
 export class DuckDbAdjustedOhlcvService {
   private static readonly catalog = path.resolve('data', 'market_data', 'tejhq_hf_10y', 'ohlcv.duckdb');
-  private static readonly bridge = path.resolve('scripts', 'market_data', 'query_adjusted_ohlcv.py');
+  private static readonly bridgeWorker = path.resolve('scripts', 'market_data', 'query_adjusted_ohlcv_worker.py');
   private static readonly kiteParquetRoot = path.resolve(
     'data', 'market_data', 'tejhq_hf_10y', 'kite_adjusted_backfill', 'candles'
   );
-  // The user-local Python has DuckDB installed and is the stable production
-  // bridge. The Codex-bundled runtime is retained only as a portable fallback.
   private static readonly localPython = 'C:\\Users\\gopal\\AppData\\Local\\Programs\\Python\\Python312\\python.exe';
   private static readonly bundledPython = 'C:\\Users\\gopal\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe';
 
-  /** Resolve the Python executable: system-local first, bundled fallback. */
+  private static workerProcess: ChildProcess | null = null;
+  private static requestMap = new Map<number, PendingRequest>();
+  private static reqIdSeq = 1;
+  private static startupPromise: Promise<void> | null = null;
+  private static lastStderr = '';
+  public static workerStarts = 0;
+
   private static getPython(): string {
     return fs.existsSync(this.localPython) ? this.localPython : this.bundledPython;
   }
 
-  /** Shared exec options to avoid repetition across all bridge calls. */
-  private static execOpts(timeoutMs: number, maxBufferBytes: number) {
-    return {
-      timeout: timeoutMs,
-      maxBuffer: maxBufferBytes,
-      env: { ...process.env, PYTHONDONTWRITEBYTECODE: '1' },
-      cwd: path.resolve('.')
-    } as const;
+  private static async ensureWorker(): Promise<void> {
+    if (this.workerProcess && !this.workerProcess.killed) return;
+    
+    if (this.startupPromise) {
+      return this.startupPromise;
+    }
+
+    this.startupPromise = new Promise((resolve, reject) => {
+      const python = this.getPython();
+      this.workerStarts++;
+      
+      this.workerProcess = spawn(python, ['-u', this.bridgeWorker], {
+        env: { ...process.env, PYTHONDONTWRITEBYTECODE: '1', PYTHONUNBUFFERED: '1' },
+        cwd: path.resolve('.')
+      });
+
+      const rl = readline.createInterface({
+        input: this.workerProcess.stdout!,
+        crlfDelay: Infinity
+      });
+
+      rl.on('line', (line) => {
+        try {
+          const res = JSON.parse(line);
+          const req = this.requestMap.get(res.id);
+          if (req) {
+            clearTimeout(req.timeout);
+            this.requestMap.delete(res.id);
+            req.resolve(res);
+          }
+        } catch (e) {
+          console.error('[DuckDB Worker] Invalid JSON from stdout:', line);
+        }
+      });
+
+      this.workerProcess.stderr!.on('data', (data) => {
+        const msg = data.toString();
+        this.lastStderr += msg;
+        if (this.lastStderr.length > 10000) this.lastStderr = this.lastStderr.slice(-10000);
+        console.error('[DuckDB Worker ERR]', msg.trim());
+      });
+
+      this.workerProcess.on('exit', (code) => {
+        console.error(`[DuckDB Worker] Exited with code ${code}`);
+        this.workerProcess = null;
+        this.startupPromise = null;
+        const err = new Error(`Worker crashed with code ${code}. Stderr: ${this.lastStderr}`);
+        for (const [id, req] of this.requestMap.entries()) {
+          clearTimeout(req.timeout);
+          req.reject(err);
+        }
+        this.requestMap.clear();
+      });
+
+      this.workerProcess.on('error', (err) => {
+        reject(err);
+      });
+
+      // Quick ping to ensure it's up
+      const pingId = this.reqIdSeq++;
+      const timeout = setTimeout(() => {
+        reject(new Error("Worker ping timeout"));
+      }, 60000);
+
+      this.requestMap.set(pingId, {
+        resolve: () => {
+          clearTimeout(timeout);
+          resolve();
+        },
+        reject: (err) => {
+          clearTimeout(timeout);
+          reject(err);
+        },
+        timeout
+      });
+
+      this.workerProcess.stdin!.write(JSON.stringify({ cmd: 'ping', id: pingId }) + '\n');
+    });
+
+    try {
+      await this.startupPromise;
+    } catch (e) {
+      this.startupPromise = null;
+      throw e;
+    }
   }
 
-  // ────────────────────────────────────────────────────────────────────────
-  // PRIMARY API: single-symbol invoke (thin delegate for server.ts route)
-  // ────────────────────────────────────────────────────────────────────────
+  private static async sendCommand(cmd: any, timeoutMs: number = 120_000): Promise<any> {
+    await this.ensureWorker();
+    
+    const id = this.reqIdSeq++;
+    cmd.id = id;
+    
+    return new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => {
+        this.requestMap.delete(id);
+        reject(new Error("Worker request timeout"));
+      }, timeoutMs);
+      
+      this.requestMap.set(id, { resolve, reject, timeout });
+      
+      if (!this.workerProcess || !this.workerProcess.stdin) {
+        reject(new Error("Worker not available"));
+        return;
+      }
+      
+      try {
+        this.workerProcess.stdin.write(JSON.stringify(cmd) + '\n');
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
 
-  /**
-   * Invoke the bridge for a single symbol with optional date range.
-   * server.ts routes call THIS — never execFileAsync directly.
-   * Returns a fully-typed structured result including stderr on failure.
-   */
   static async invokeForSymbol(
     symbol: string,
     limit: number,
@@ -106,35 +196,30 @@ export class DuckDbAdjustedOhlcvService {
   ): Promise<BridgeInvokeResult> {
     const python = this.getPython();
     const clean = symbol.trim().toUpperCase().replace(/\.(NS|BO)$/, '');
-    if (!fs.existsSync(this.bridge) || !fs.existsSync(this.catalog)) {
-      return {
-        success: false, source: 'DUCKDB_ADJUSTED', executableUsed: python, data: [],
-        error: { message: 'Bridge script or catalog not found', exitCode: null, stderr: '', catalogPath: this.catalog, symbolQueried: clean }
-      };
-    }
     try {
-      const { stdout, stderr } = await execFileAsync(
-        python,
-        [this.bridge, '--symbol', clean, '--limit', String(Math.min(Math.max(limit, 1), 10_000)), '--from-date', fromDate, '--to-date', toDate],
-        this.execOpts(120_000, 16 * 1024 * 1024)
-      );
-      if (stderr?.trim()) console.warn('[DuckDB OHLCV] Bridge stderr:', stderr.trim());
-      const data: AdjustedOhlcvBar[] = JSON.parse(stdout || '[]');
-      return { success: true, source: 'DUCKDB_ADJUSTED', executableUsed: python, data };
+      const res = await this.sendCommand({
+        cmd: 'query',
+        symbols: [clean],
+        limit,
+        fromDate,
+        toDate
+      });
+      
+      if (res.ok) {
+        return { success: true, source: 'DUCKDB_ADJUSTED', executableUsed: python, data: res.rows || [] };
+      } else {
+        return {
+          success: false, source: 'DUCKDB_ADJUSTED', executableUsed: python, data: [],
+          error: { message: res.error, exitCode: null, stderr: this.lastStderr, catalogPath: this.catalog, symbolQueried: clean }
+        };
+      }
     } catch (err: any) {
-      const stderr: string = err?.stderr ?? (err?.killed ? 'Process timed out' : '');
-      const exitCode: number | null = err?.code ?? null;
-      console.error('[DuckDB OHLCV] invokeForSymbol INFRASTRUCTURE_ERROR - executable:', python, '| exit:', exitCode, '| stderr:', stderr || err?.message);
       return {
         success: false, source: 'DUCKDB_ADJUSTED', executableUsed: python, data: [],
-        error: { message: err?.message || String(err), exitCode, stderr, catalogPath: this.catalog, symbolQueried: clean }
+        error: { message: err?.message || String(err), exitCode: null, stderr: this.lastStderr, catalogPath: this.catalog, symbolQueried: clean }
       };
     }
   }
-
-  // ────────────────────────────────────────────────────────────────────────
-  // BATCH API: multi-symbol bridge (used by strategy scanner)
-  // ────────────────────────────────────────────────────────────────────────
 
   static async getDailyBars(symbol: string, limit: number): Promise<AdjustedOhlcvBar[] | null> {
     const { bars } = await this.getDailyBarsForSymbols([symbol], limit);
@@ -142,66 +227,47 @@ export class DuckDbAdjustedOhlcvService {
     return bars.get(safeSymbol) || null;
   }
 
-  /**
-   * Bounded batch bridge for strategy scans. One Python process per chunk of <=500 symbols.
-   * Returns both the bar map AND bridgeFailureCount so callers can distinguish:
-   *   COVERAGE_GAP         - symbol present in universe but no Parquet partition (expected)
-   *   INFRASTRUCTURE_ERROR - Python/DuckDB process failed (bridgeFailureCount > 0)
-   */
   static async getDailyBarsForSymbols(
     symbols: string[],
     limit: number
   ): Promise<{ bars: Map<string, AdjustedOhlcvBar[]>; bridgeFailureCount: number }> {
     const bars = new Map<string, AdjustedOhlcvBar[]>();
-    if (!fs.existsSync(this.catalog) || !fs.existsSync(this.bridge)) {
-      return { bars, bridgeFailureCount: 1 };
-    }
     const safeSymbols = [...new Set(
       symbols.map(s => s.trim().toUpperCase().replace(/\.(NS|BO)$/, '')).filter(s => /^[A-Z0-9_-]+$/.test(s))
     )];
-    if (!safeSymbols.length || safeSymbols.length > 500) return { bars, bridgeFailureCount: 0 };
-    const python = this.getPython();
+    
+    if (!safeSymbols.length) return { bars, bridgeFailureCount: 0 };
+    
     try {
-      const { stdout, stderr } = await execFileAsync(
-        python,
-        [this.bridge, '--symbols', safeSymbols.join(','), '--limit', String(Math.min(Math.max(limit, 1), 10_000))],
-        this.execOpts(120_000, 16 * 1024 * 1024)
-      );
-      if (stderr?.trim()) console.warn('[DuckDB OHLCV] Bridge stderr (batch):', stderr.trim());
-      const rows: AdjustedOhlcvBar[] = JSON.parse(stdout || '[]');
-      for (const row of Array.isArray(rows) ? rows : []) {
+      const res = await this.sendCommand({
+        cmd: 'query',
+        symbols: safeSymbols,
+        limit
+      }, 120_000);
+      
+      if (!res.ok) {
+        console.warn('[DuckDB OHLCV] Batch worker returned error:', res.error);
+        return { bars, bridgeFailureCount: 1 };
+      }
+      
+      const rows = res.rows || [];
+      for (const row of rows) {
         const key = String(row.symbol || '').toUpperCase();
         if (!bars.has(key)) bars.set(key, []);
         bars.get(key)!.push(row);
       }
       return { bars, bridgeFailureCount: 0 };
     } catch (err: any) {
-      const stderr: string = err?.stderr ?? '';
-      const exitCode: number | null = err?.code ?? null;
-      console.warn(
-        '[DuckDB OHLCV] Batch bridge INFRASTRUCTURE_ERROR - executable:', python,
-        '| exit:', exitCode,
-        '| stderr:', stderr || err?.message || String(err)
-      );
+      console.warn('[DuckDB OHLCV] Batch worker exception:', err?.message || String(err));
       return { bars, bridgeFailureCount: 1 };
     }
   }
 
-  // ────────────────────────────────────────────────────────────────────────
-  // PROVENANCE WRAPPERS
-  // ────────────────────────────────────────────────────────────────────────
-
-  /** Provenance-bearing canonical result for API/UI callers. */
   static async getDailyBarsWithSource(symbol: string, limit: number): Promise<OhlcvReadResult> {
     const bars = await this.getDailyBars(symbol, limit);
     return bars?.length ? { bars, source: 'DUCKDB_ADJUSTED' } : { bars: [], source: 'UNAVAILABLE' };
   }
 
-  /**
-   * Canonical app read: DuckDB always wins. SQLite is used only when the
-   * requested symbol is absent from the durable catalog, and its provenance is
-   * carried to callers so UI/API can never present it as adjusted Kite data.
-   */
   static async getDailyBarsWithLegacyFallback(symbol: string, limit: number): Promise<OhlcvReadResult> {
     const primary = await this.getDailyBarsWithSource(symbol, limit);
     if (primary.bars.length) return primary;
@@ -227,48 +293,42 @@ export class DuckDbAdjustedOhlcvService {
     }
   }
 
-  // ────────────────────────────────────────────────────────────────────────
-  // READINESS AND COVERAGE UTILITIES
-  // ────────────────────────────────────────────────────────────────────────
-
-  /**
-   * Lightweight startup readiness check. Validates the Python bridge can serve
-   * one known Parquet partition without scanning the full catalog.
-   * A false result is an INFRASTRUCTURE_ERROR, not a coverage gap.
-   */
   static async readinessCheck(symbol = 'TCS'): Promise<DuckDbReadinessResult> {
     const python = this.getPython();
     const t0 = Date.now();
     const clean = symbol.trim().toUpperCase().replace(/\.(NS|BO)$/, '');
-    if (!fs.existsSync(this.bridge) || !fs.existsSync(this.catalog)) {
-      return { ok: false, executableUsed: python, bars: [], barsReturned: 0, stderr: '',
-        durationMs: Date.now() - t0, catalogPath: this.catalog, error: 'Bridge script or catalog file not found' };
-    }
     try {
-      const { stdout, stderr } = await execFileAsync(
-        python, [this.bridge, '--symbols', clean, '--limit', '1'],
-        this.execOpts(60_000, 1024 * 1024)
-      );
-      const bars: AdjustedOhlcvBar[] = JSON.parse(stdout || '[]');
-      return { ok: bars.length > 0, executableUsed: python, bars, barsReturned: bars.length,
-        stderr: stderr?.trim() || '', durationMs: Date.now() - t0, catalogPath: this.catalog };
+      const res = await this.sendCommand({
+        cmd: 'query',
+        symbols: [clean],
+        limit: 1
+      }, 60_000);
+      
+      const bars = res.rows || [];
+      return { 
+        ok: res.ok && bars.length > 0, 
+        executableUsed: python, 
+        bars, 
+        barsReturned: bars.length,
+        stderr: this.lastStderr, 
+        durationMs: Date.now() - t0, 
+        catalogPath: this.catalog,
+        error: res.error
+      };
     } catch (err: any) {
-      const stderr: string = err?.stderr ?? '';
-      return { ok: false, executableUsed: python, bars: [], barsReturned: 0,
-        stderr: stderr || err?.message || String(err),
-        durationMs: Date.now() - t0, catalogPath: this.catalog, error: err?.message || String(err) };
+      return { 
+        ok: false, 
+        executableUsed: python, 
+        bars: [], 
+        barsReturned: 0,
+        stderr: this.lastStderr || err?.message,
+        durationMs: Date.now() - t0, 
+        catalogPath: this.catalog, 
+        error: err?.message || String(err) 
+      };
     }
   }
 
-  /**
-   * Fast filesystem-only coverage check against the exact provided universe list.
-   * Uses the same symbol=<SYM>/part-0.parquet naming convention as ingestion.
-   * Returns { covered, gaps } where covered.size + gaps.size === unique symbols in input.
-   *
-   * A symbol in `gaps` is a COVERAGE_GAP (expected, not an error).
-   * A bridge process failure is an INFRASTRUCTURE_ERROR (see readinessCheck / bridgeFailureCount).
-   * No Python process is spawned - purely synchronous fs.existsSync calls.
-   */
   static getDuckDbCoverage(symbols: string[]): { covered: Set<string>; gaps: Set<string> } {
     const covered = new Set<string>();
     const gaps = new Set<string>();

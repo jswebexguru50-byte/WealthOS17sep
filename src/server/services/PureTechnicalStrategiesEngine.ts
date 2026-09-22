@@ -496,7 +496,10 @@ export class PureTechnicalStrategiesEngine {
     strategyEvaluatedCount?: number;
     deepAnalysisCount?: number;
     lastError?: string;
-  } = { status: 'IDLE', scanned: 0, total: 0, percent: 0, currentSymbol: '', qualifiedCount: 0, strategyMatches: {}, totalUniverse: 0, duckdbCoveredCount: 0, coverageGapCount: 0, bridgeFailureCount: 0, strategyEvaluatedCount: 0, deepAnalysisCount: 0, lastError: '' };
+    workerStarts?: number;
+    duckdbBatchCount?: number;
+    lastBatchMs?: number;
+  } = { status: 'IDLE', scanned: 0, total: 0, percent: 0, currentSymbol: '', qualifiedCount: 0, strategyMatches: {}, totalUniverse: 0, duckdbCoveredCount: 0, coverageGapCount: 0, bridgeFailureCount: 0, strategyEvaluatedCount: 0, deepAnalysisCount: 0, lastError: '', workerStarts: 0, duckdbBatchCount: 0, lastBatchMs: 0 };
 
   public static getScanProgress() {
     return PureTechnicalStrategiesEngine.scanProgress;
@@ -3455,13 +3458,19 @@ export class PureTechnicalStrategiesEngine {
     let totalBridgeFailures = 0;
     let totalStrategyEvaluated = 0;
 
-    // Scan all symbols in concurrent chunks of 25 for maximum throughput
-    const CHUNK_SIZE = 25;
-    for (let i = 0; i < symbolsToScan.length; i += CHUNK_SIZE) {
-      const chunk = symbolsToScan.slice(i, i + CHUNK_SIZE);
-      // A single bounded DuckDB bridge process supplies the entire chunk.
-      // Missing symbols alone may use the legacy fallback below.
+    // Filter down to only covered symbols to avoid sending dead queries to Python
+    const coveredSymbols = symbolsToScan.filter(item => coverage.covered.has(item.symbol.trim().toUpperCase()));
+    let duckdbBatchCount = 0;
+    let lastBatchMs = 0;
+
+    // Scan covered symbols in concurrent chunks of 300 for maximum throughput with the persistent worker
+    const CHUNK_SIZE = 300;
+    for (let i = 0; i < coveredSymbols.length; i += CHUNK_SIZE) {
+      duckdbBatchCount++;
+      const t0 = Date.now();
+      const chunk = coveredSymbols.slice(i, i + CHUNK_SIZE);
       const duckdbResult = await DuckDbAdjustedOhlcvService.getDailyBarsForSymbols(chunk.map(item => item.symbol), 600);
+      lastBatchMs = Date.now() - t0;
       totalBridgeFailures += duckdbResult.bridgeFailureCount;
 
       await Promise.all(chunk.map(async (item) => {
@@ -3526,11 +3535,14 @@ export class PureTechnicalStrategiesEngine {
         bridgeFailureCount: totalBridgeFailures,
         strategyEvaluatedCount: totalStrategyEvaluated,
         deepAnalysisCount: 0,
-        lastError: totalBridgeFailures > 0 ? 'Bridge process failed during chunk fetch' : ''
+        lastError: totalBridgeFailures > 0 ? 'Bridge process failed during chunk fetch' : '',
+        workerStarts: DuckDbAdjustedOhlcvService.workerStarts,
+        duckdbBatchCount,
+        lastBatchMs
       };
 
-      // Small 5ms yield to event loop for API responsiveness
-      await new Promise(resolve => setTimeout(resolve, 5));
+      // Small yield to event loop for API responsiveness
+      await new Promise(resolve => setImmediate(resolve));
     }
 
     // Mark scan progress complete
@@ -3552,7 +3564,10 @@ export class PureTechnicalStrategiesEngine {
       bridgeFailureCount: totalBridgeFailures,
       strategyEvaluatedCount: totalStrategyEvaluated,
       deepAnalysisCount: 0,
-      lastError: totalBridgeFailures > 0 ? 'Bridge process failed during scan' : ''
+      lastError: totalBridgeFailures > 0 ? 'Bridge process failed during scan' : '',
+      workerStarts: DuckDbAdjustedOhlcvService.workerStarts,
+      duckdbBatchCount,
+      lastBatchMs
     };
 
     return {
@@ -3564,7 +3579,9 @@ export class PureTechnicalStrategiesEngine {
       duckdb_covered: coverage.covered.size,
       coverage_gaps: coverage.gaps.size,
       bridge_failures: totalBridgeFailures,
-      strategy_evaluated: totalStrategyEvaluated
+      strategy_evaluated: totalStrategyEvaluated,
+      worker_starts: DuckDbAdjustedOhlcvService.workerStarts,
+      batches: duckdbBatchCount
     };
   }
 }

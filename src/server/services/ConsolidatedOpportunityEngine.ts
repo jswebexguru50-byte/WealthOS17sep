@@ -1752,7 +1752,7 @@ export class ConsolidatedOpportunityEngine {
       if (currentProgress) {
         currentProgress.deepAnalysisCount = deepCandidates.length;
       }
-      console.log(`[COE] Universe: ${strategyScan.total_universe} total, ${strategyScan.duckdb_covered} DuckDB-covered, ${strategyScan.coverage_gaps} gaps, ${strategyScan.bridge_failures} bridge failures, ${strategyScan.strategy_evaluated} evaluated, ${deepCandidates.length} strategy-qualified, entering deep analysis`);
+      console.log(`[COE] Universe: ${strategyScan.total_universe} total, ${strategyScan.duckdb_covered} covered, ${strategyScan.coverage_gaps} gaps, ${strategyScan.bridge_failures} bridge fails, ${strategyScan.strategy_evaluated} eval, ${deepCandidates.length} qual | workerStarts: ${strategyScan.worker_starts}, batches: ${strategyScan.batches}`);
 
       const opportunities: ConsolidatedOpportunity[] = [];
 

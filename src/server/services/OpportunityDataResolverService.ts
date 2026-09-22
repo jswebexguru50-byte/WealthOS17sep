@@ -67,7 +67,7 @@ export class OpportunityDataResolverService {
     });
     for (let offset = 0; offset < missing.length; offset += 500) {
       const batch = await DuckDbAdjustedOhlcvService.getDailyBarsForSymbols(missing.slice(offset, offset + 500), Math.max(minBars, 260));
-      for (const [symbol, rows] of batch) {
+      for (const [symbol, rows] of batch.bars) {
         this.duckdbBarsCache.set(symbol, { expiresAt: now + OpportunityDataResolverService.CACHE_TTL_MS, bars: this.toResolvedCandles(rows) });
       }
     }
