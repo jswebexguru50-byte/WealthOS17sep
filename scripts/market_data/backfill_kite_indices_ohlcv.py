@@ -8,6 +8,7 @@ import os
 import sqlite3
 import sys
 import time
+import re
 from pathlib import Path
 
 import pandas as pd
@@ -47,7 +48,7 @@ def chunks():
 
 
 def safe_name(exchange: str, symbol: str) -> str:
-    return f'{exchange}__{symbol}'.replace('/', '_').replace('\\', '_')
+    return re.sub(r'[<>:"/\\|?*]', '_', f'{exchange}__{symbol}')
 
 
 def main() -> None:
@@ -88,7 +89,11 @@ def main() -> None:
                         'data_source': 'KITE_PUBLISHED_INDEX_LEVEL',
                     })
             if not rows:
-                raise RuntimeError('Kite returned no daily index candles')
+                manifest['indices'][identity] = {
+                    'status': 'NO_KITE_HISTORICAL_CANDLES', 'name': item.name,
+                    'kite_instrument_token': item.instrument_token,
+                }
+                continue
             frame = pd.DataFrame(rows).drop_duplicates(['symbol', 'trade_date']).sort_values('trade_date')
             output.parent.mkdir(parents=True, exist_ok=True)
             temporary = output.with_suffix('.parquet.partial')
