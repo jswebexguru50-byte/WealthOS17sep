@@ -155,6 +155,11 @@ def detect_s1b(frame: pd.DataFrame, config: S1BPatternConfig) -> dict[str, Any] 
                 trough_low = float(work.at[trough, "low"])
                 if origin_low <= 0 or peak_high <= origin_low:
                     continue
+                # A selected b remains the trough through the reversal signal.
+                # This prevents an earlier low being mislabelled as b when a
+                # later candle makes a lower low before the signal bar.
+                if trough_low > float(work.loc[trough:signal, "low"].min()):
+                    continue
                 displacement = (peak_high - origin_low) / origin_low
                 retracement = (peak_high - trough_low) / (peak_high - origin_low)
                 if (displacement < config.l1_min_displacement_pct
