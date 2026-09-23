@@ -200,7 +200,7 @@ def bullish_candle_patterns(work: pd.DataFrame, index: int, config: VPAPatternCo
     if (config.allow_marubozu and bullish
             and body / candle_range >= config.marubozu_min_body_ratio
             and np.isfinite(atr_value)
-            and (closing - opening) > config.marubozu_min_body_atr_multiple * atr_value):
+            and (closing - opening) >= config.marubozu_min_body_atr_multiple * atr_value):
         patterns.append("BULLISH_MARUBOZU")
     if (config.allow_hammer and bullish and lower_wick / body >= config.hammer_min_lower_wick_ratio
             and upper_wick / candle_range <= config.hammer_max_upper_wick_ratio):
