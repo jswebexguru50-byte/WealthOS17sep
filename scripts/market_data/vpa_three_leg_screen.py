@@ -75,6 +75,7 @@ class VPAPatternConfig:
 
     # RSI Support Parameters
     rsi_period: int = 14
+    atr_period: int = 14
     rsi_check_location: str = "signal_or_trough"
 
     # Trigger-candle Confirmation (signal candle c)
@@ -86,7 +87,8 @@ class VPAPatternConfig:
     allow_engulfing: bool = True
     exclude_doji: bool = True
     doji_max_body_ratio: float = 0.10
-    marubozu_min_body_ratio: float = 0.80
+    marubozu_min_body_ratio: float = 0.90
+    marubozu_min_body_atr_multiple: float = 1.00
     hammer_min_lower_wick_ratio: float = 2.0
     hammer_max_upper_wick_ratio: float = 0.15
     piercing_min_penetration: float = 0.50
@@ -193,8 +195,12 @@ def bullish_candle_patterns(work: pd.DataFrame, index: int, config: VPAPatternCo
     lower_wick = min(opening, closing) - low
     upper_wick = high - max(opening, closing)
     bullish = closing > opening
+    atr_value = float(work.at[index, "atr"]) if "atr" in work.columns else float("nan")
     patterns: list[str] = []
-    if config.allow_marubozu and bullish and body / candle_range >= config.marubozu_min_body_ratio:
+    if (config.allow_marubozu and bullish
+            and body / candle_range >= config.marubozu_min_body_ratio
+            and np.isfinite(atr_value)
+            and (closing - opening) > config.marubozu_min_body_atr_multiple * atr_value):
         patterns.append("BULLISH_MARUBOZU")
     if (config.allow_hammer and bullish and lower_wick / body >= config.hammer_min_lower_wick_ratio
             and upper_wick / candle_range <= config.hammer_max_upper_wick_ratio):
@@ -280,6 +286,14 @@ def detect_vpa_three_leg(frame: pd.DataFrame, config: VPAPatternConfig,
     ).mean()
     prepared["rsi"] = calculate_wilder_rsi(prepared["close"], config.rsi_period)
     prepared["sma"] = prepared["close"].rolling(config.sma_period, min_periods=config.sma_period).mean()
+    prior_close = prepared["close"].shift(1)
+    prepared["true_range"] = pd.concat([
+        prepared["high"] - prepared["low"],
+        (prepared["high"] - prior_close).abs(),
+        (prepared["low"] - prior_close).abs(),
+    ], axis=1).max(axis=1)
+    prepared["atr"] = prepared["true_range"].rolling(config.atr_period,
+                                                       min_periods=config.atr_period).mean()
     prepared["ath"] = prepared["close"].cummax()
     work = prepared.tail(maximum_history := max(config.total_lookback_bars, config.vol_ma_period)).reset_index(drop=True)
     c = len(work) - 1

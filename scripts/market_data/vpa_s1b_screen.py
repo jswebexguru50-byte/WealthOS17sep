@@ -69,7 +69,8 @@ class S1BPatternConfig:
     allow_piercing: bool = True
     allow_harami: bool = True
     allow_engulfing: bool = True
-    marubozu_min_body_ratio: float = 0.80
+    marubozu_min_body_ratio: float = 0.90
+    marubozu_min_body_atr_multiple: float = 1.00
     hammer_min_lower_wick_ratio: float = 2.0
     hammer_max_upper_wick_ratio: float = 0.15
     piercing_min_penetration: float = 0.50
