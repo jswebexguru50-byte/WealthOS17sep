@@ -247,12 +247,15 @@ def recent_xbrl_links(value: object, limit: int) -> list[tuple[str, dict]]:
     return ordered[:limit]
 
 
-def collect(con: sqlite3.Connection, limit: int, delay: float, max_documents: int) -> None:
+def collect(con: sqlite3.Connection, limit: int, delay: float, max_documents: int,
+            only_symbols: set[str] | None = None) -> None:
     session = requests.Session()
     session.mount('https://', WindowsTrustAdapter())
     symbols = con.execute('''SELECT isin,symbol FROM universe WHERE UPPER(COALESCE(status,''))='ACTIVE'
                              AND UPPER(COALESCE(exchange,'NSE'))='NSE'
                              ORDER BY priority_tier,symbol''').fetchall()
+    if only_symbols:
+        symbols = [row for row in symbols if row[1].upper() in only_symbols]
     if limit > 0:
         symbols = symbols[:limit]
     consecutive_network_errors = 0
@@ -347,6 +350,7 @@ def main() -> int:
     parser.add_argument('--limit', type=int, default=0)
     parser.add_argument('--delay', type=float, default=2.0)
     parser.add_argument('--max-documents', type=int, default=8)
+    parser.add_argument('--symbols', help='Comma-separated symbols to refresh; omitted means the selected universe.')
     parser.add_argument('--refresh-priority', action='store_true')
     args = parser.parse_args()
     con = connect()
@@ -355,7 +359,8 @@ def main() -> int:
     if args.refresh_priority:
         print(f'prioritized {refresh_index_priority(con)} matching NIFTY 500 ISINs', flush=True)
     if args.collect:
-        collect(con, args.limit, max(1.0, args.delay), max(1, args.max_documents))
+        selected = {s.strip().upper() for s in args.symbols.split(',') if s.strip()} if args.symbols else None
+        collect(con, args.limit, max(1.0, args.delay), max(1, args.max_documents), selected)
     result = report(con)
     (STORE / 'coverage.json').write_text(json.dumps(result, indent=2), encoding='utf-8')
     print(json.dumps(result), flush=True)

@@ -14,6 +14,7 @@ export interface FereEvidenceSummary {
   }>;
   metricCoverage: Array<{ metric: string; periodEnd: string | null; status: string; missingFields: string[]; reason: string | null }>;
   missingFields: string[];
+  companyCheck: Record<string, unknown> | null;
 }
 
 const evidencePath = path.resolve('data', 'fere', 'verified_filings', 'fere_evidence.db');
@@ -22,7 +23,7 @@ export async function readFereEvidence(isin: string | null, symbol: string): Pro
   const empty: FereEvidenceSummary = {
     status: 'SOURCE_UNAVAILABLE', isin, verifiedFactCount: 0,
     verifiedMetricCount: 0, identityReviewCount: 0, documents: [], metricCoverage: [],
-    missingFields: ['filing_evidence', 'complete_formula_inputs']
+    missingFields: ['filing_evidence', 'complete_formula_inputs'], companyCheck: null
   };
   if (!isin || !fs.existsSync(evidencePath)) return empty;
   const db = new sqlite3.Database(evidencePath, sqlite3.OPEN_READONLY);
@@ -43,6 +44,8 @@ export async function readFereEvidence(isin: string | null, symbol: string): Pro
       "SELECT COUNT(*) AS count FROM filing_document WHERE symbol = ? AND isin = ? AND status = 'IDENTITY_REVIEW'", [symbol, isin]);
     const coverageRows = await all<any>(
       'SELECT metric,period_end AS periodEnd,status,missing_fields AS missingFields,reason FROM metric_coverage WHERE isin=? ORDER BY metric', [isin]);
+    const companyChecks = await all<{ resultJson: string }>(
+      'SELECT result_json AS resultJson FROM company_check_result WHERE isin=? LIMIT 1', [isin]).catch(() => []);
     const metricCoverage = coverageRows.map(row => ({
       metric: row.metric, periodEnd: row.periodEnd, status: row.status,
       missingFields: JSON.parse(row.missingFields || '[]') as string[], reason: row.reason
@@ -53,7 +56,8 @@ export async function readFereEvidence(isin: string | null, symbol: string): Pro
       status: verifiedFactCount ? 'VERIFIED_PARTIAL' : documents.length ? 'DATA_INSUFFICIENT' : 'SOURCE_UNAVAILABLE',
       isin, verifiedFactCount, verifiedMetricCount, identityReviewCount: reviews[0]?.count || 0,
       documents, metricCoverage,
-      missingFields: verifiedMetricCount ? [] : [...new Set(metricCoverage.flatMap(row => row.missingFields))]
+      missingFields: verifiedMetricCount ? [] : [...new Set(metricCoverage.flatMap(row => row.missingFields))],
+      companyCheck: companyChecks[0]?.resultJson ? JSON.parse(companyChecks[0].resultJson) : null
     };
   } catch {
     return empty;

@@ -83,6 +83,17 @@ interface FilingEvidence {
   missingFields: string[];
 }
 
+interface CompanyCheck {
+  status: string; symbol: string; period_end: string | null; previous_period_end: string | null;
+  financials: Record<string, number | null>; derived: Record<string, number | null>;
+  red_flags: Array<{ rule: string; severity: string; explanation: string; evidence: Array<Record<string, unknown>> }>;
+  management_commitments: Array<{ id: number; metric: string; target: number | null; unit: string | null; deadline: string | null; status: string; source_url: string }>;
+  events: Array<{ event_type: string; date: string; severity: string; explanation: string; source_url: string }>;
+  missing_information: string[]; evidence: Array<{ fact_id: number; metric: string; value: number; unit: string; source_url: string; sha256: string }>;
+  data_freshness: string | null; synthetic_values: number; ghost_sources: number;
+  revised_at: string;
+}
+
 export const FereForensicDeepDiveModal: React.FC<FereForensicDeepDiveModalProps> = ({
   symbol,
   isOpen,
@@ -93,7 +104,9 @@ export const FereForensicDeepDiveModal: React.FC<FereForensicDeepDiveModalProps>
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [evidence, setEvidence] = useState<FilingEvidence | null>(null);
+  const [companyCheck, setCompanyCheck] = useState<CompanyCheck | null>(null);
   const [searchInput, setSearchInput] = useState<string>('');
+  const [refreshing, setRefreshing] = useState(false);
 
   const fetchStockForensics = async (targetSymbol: string) => {
     if (!targetSymbol) return;
@@ -101,12 +114,14 @@ export const FereForensicDeepDiveModal: React.FC<FereForensicDeepDiveModalProps>
     setError(null);
     setData(null);
     setEvidence(null);
+    setCompanyCheck(null);
     try {
       const clean = targetSymbol.trim().toUpperCase().replace('.NS', '').replace('.BO', '');
       const res = await fetch(`/api/forensic/fere-stock/${encodeURIComponent(clean)}`);
       const json = await res.json();
       if (json.success && json.data) {
-        setData(json.data);
+        if (json.data.financials && json.data.missing_information) setCompanyCheck(json.data);
+        else setData(json.data);
       } else {
         setError(json.error || `No FERE forensic data available for ${targetSymbol}`);
         setEvidence(json.evidence || null);
@@ -115,6 +130,20 @@ export const FereForensicDeepDiveModal: React.FC<FereForensicDeepDiveModalProps>
       setError(err.message || 'Failed to fetch FERE forensic details');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const refreshCompany = async () => {
+    if (!companyCheck?.symbol || refreshing) return;
+    setRefreshing(true);
+    try {
+      const response = await fetch(`/api/forensic/fere-stock/${encodeURIComponent(companyCheck.symbol)}/refresh`, { method: 'POST' });
+      if (!response.ok) throw new Error('Refresh could not be started');
+      window.setTimeout(() => fetchStockForensics(companyCheck.symbol), 3000);
+    } catch (err: any) {
+      setError(err.message || 'Refresh could not be started');
+    } finally {
+      setRefreshing(false);
     }
   };
 
@@ -511,6 +540,54 @@ export const FereForensicDeepDiveModal: React.FC<FereForensicDeepDiveModalProps>
                 </div>
               </div>
             </>
+          )}
+
+          {companyCheck && !loading && !error && (
+            <div className="space-y-4">
+              <div className="bg-slate-950 border border-slate-800 rounded-xl p-5">
+                <div className="flex items-center justify-between gap-3">
+                  <div><div className="text-2xl font-bold text-white">{companyCheck.symbol}</div>
+                    <div className="text-xs text-slate-400">Verified Company Check · {companyCheck.period_end || 'period unavailable'}</div></div>
+                  <div className="text-right">
+                    <span className="text-xs font-bold text-cyan-300">{companyCheck.status}</span>
+                    <div className="text-[10px] text-slate-500">Revised {new Date(companyCheck.revised_at).toLocaleString('en-IN')}</div>
+                    <button onClick={refreshCompany} disabled={refreshing}
+                      className="mt-1 inline-flex items-center gap-1 rounded bg-cyan-700 px-2 py-1 text-[10px] font-bold text-white disabled:opacity-50">
+                      <RefreshCw className={`h-3 w-3 ${refreshing ? 'animate-spin' : ''}`} /> {refreshing ? 'Refreshing' : 'Refresh data'}
+                    </button>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mt-4">
+                  {Object.entries(companyCheck.financials).map(([name, value]) => (
+                    <div key={name} className="bg-slate-900 border border-slate-800 rounded-lg p-3">
+                      <div className="text-[10px] uppercase text-slate-500">{name.replaceAll('_', ' ')}</div>
+                      <div className="text-sm font-mono text-white">{value == null ? 'NOT AVAILABLE' : Number(value).toLocaleString('en-IN')}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                  <h3 className="text-xs font-bold text-slate-300 uppercase mb-3">Active red flags</h3>
+                  {companyCheck.red_flags.length === 0 ? <p className="text-sm text-slate-500">None from available verified data.</p> :
+                    companyCheck.red_flags.map(flag => <div key={`${flag.rule}-${flag.explanation}`} className="mb-3 text-sm">
+                      <div className="text-amber-300 font-bold">{flag.severity} · {flag.rule}</div><div className="text-slate-300">{flag.explanation}</div></div>)}
+                </div>
+                <div className="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                  <h3 className="text-xs font-bold text-slate-300 uppercase mb-3">Management commitments</h3>
+                  {companyCheck.management_commitments.length === 0 ? <p className="text-sm text-slate-500">No accepted measurable commitments.</p> :
+                    companyCheck.management_commitments.map(claim => <a key={claim.id} href={claim.source_url} target="_blank" rel="noreferrer" className="block text-sm text-cyan-300 mb-2">
+                      {claim.metric}: {claim.target ?? 'target unavailable'} {claim.unit || ''} · {claim.status}</a>)}
+                </div>
+              </div>
+              <div className="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                <h3 className="text-xs font-bold text-slate-300 uppercase mb-2">Missing information</h3>
+                <p className="text-sm text-slate-400">{companyCheck.missing_information.join(', ') || 'None'}</p>
+                <p className="text-xs text-slate-500 mt-2">Synthetic values: {companyCheck.synthetic_values} · Ghost sources: {companyCheck.ghost_sources} · Freshness: {companyCheck.data_freshness || 'unknown'}</p>
+                <div className="mt-3 space-y-1">{companyCheck.evidence.slice(0, 20).map(fact =>
+                  <a key={fact.fact_id} href={fact.source_url} target="_blank" rel="noreferrer" className="block text-xs text-cyan-300 hover:underline">{fact.metric}: {fact.value.toLocaleString('en-IN')} {fact.unit}</a>)}</div>
+              </div>
+            </div>
           )}
         </div>
 

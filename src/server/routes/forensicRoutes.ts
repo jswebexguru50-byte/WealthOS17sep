@@ -13,6 +13,7 @@
 import express, { Router, Request, Response, NextFunction } from 'express';
 import fs from 'fs';
 import path from 'path';
+import { spawn } from 'child_process';
 import { MasterQuantUniverseService } from '../services/MasterQuantUniverseService.js';
 import { ForensicIntelligenceService } from '../services/ForensicIntelligenceService.js';
 import { ForensicTestSuiteRunner } from '../services/ForensicTestSuiteRunner.js';
@@ -557,6 +558,10 @@ forensicRouter.get('/fere-stock/:symbol', async (req: Request, res: Response) =>
       [cleanSymbol]);
     const evidence = await readFereEvidence(master?.isin || null, cleanSymbol);
 
+    if (evidence.companyCheck) {
+      return res.json({ success: true, symbol: cleanSymbol, data: evidence.companyCheck, evidence });
+    }
+
     const row = await dbGet<any>(
       db,
       `SELECT * FROM FEREEnrichedLedger WHERE symbol = ? OR symbol = ? LIMIT 1`,
@@ -588,6 +593,26 @@ forensicRouter.get('/fere-stock/:symbol', async (req: Request, res: Response) =>
     console.error('[FEREStockLookup] Error:', error);
     res.status(500).json({ success: false, error: error.message });
   }
+});
+
+forensicRouter.post('/fere-stock/:symbol/refresh', async (req: Request, res: Response) => {
+  const cleanSymbol = String(req.params.symbol || '').trim().toUpperCase().replace('.NS', '').replace('.BO', '');
+  if (!/^[A-Z0-9&-]{1,30}$/.test(cleanSymbol)) {
+    return res.status(400).json({ success: false, error: 'Invalid symbol.' });
+  }
+  const script = path.resolve('scripts', 'fere', 'run_company_checks.py');
+  const configuredPython = process.env.FERE_PYTHON;
+  const python = configuredPython || (process.platform === 'win32' ? 'py' : 'python3');
+  const pythonArgs = [
+    ...(process.platform === 'win32' && !configuredPython ? ['-3.12'] : []),
+    script, '--symbols', cleanSymbol, '--workers', '4', '--force', '--refresh-source'
+  ];
+  const child = spawn(python, pythonArgs, {
+    cwd: process.cwd(), detached: true, stdio: 'ignore', windowsHide: true,
+    env: { ...process.env, PYTHONPATH: path.resolve('scripts', 'fere') }
+  });
+  child.unref();
+  return res.status(202).json({ success: true, status: 'REFRESH_STARTED', symbol: cleanSymbol });
 });
 
 /**

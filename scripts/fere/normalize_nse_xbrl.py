@@ -29,6 +29,10 @@ FIELD_MAP = {
     'Assets': 'assets',
     'Liabilities': 'liabilities',
     'CashFlowsFromUsedInOperatingActivities': 'cfo',
+    'Borrowings': 'debt',
+    'CashAndCashEquivalents': 'cash',
+    'TradeReceivables': 'receivables',
+    'Inventories': 'inventory',
 }
 
 
