@@ -83,6 +83,9 @@ class VPAPatternConfig:
     allow_hammer: bool = True
     allow_piercing: bool = True
     allow_harami: bool = True
+    allow_engulfing: bool = True
+    exclude_doji: bool = True
+    doji_max_body_ratio: float = 0.10
     marubozu_min_body_ratio: float = 0.80
     hammer_min_lower_wick_ratio: float = 2.0
     hammer_max_upper_wick_ratio: float = 0.15
@@ -102,7 +105,7 @@ class VPATradePlanConfig:
     stop_below_pullback_pct: float = 0.00
     target_one_reward_to_risk: float = 2.0
     target_two_reward_to_risk: float = 3.0
-    strategy_name: str = "S1_VPA_3_LEG_RECLAIM"
+    strategy_name: str = "S1A_VPA_3_LEG_RECLAIM"
 
 
 DEFAULT_CONSTITUENTS_URL = "https://www.niftyindices.com/IndexConstituent/ind_nifty50list.csv"
@@ -185,6 +188,8 @@ def bullish_candle_patterns(work: pd.DataFrame, index: int, config: VPAPatternCo
     body = abs(closing - opening)
     if candle_range <= 0 or body <= 0:
         return []
+    if config.exclude_doji and body / candle_range <= config.doji_max_body_ratio:
+        return []
     lower_wick = min(opening, closing) - low
     upper_wick = high - max(opening, closing)
     bullish = closing > opening
@@ -205,6 +210,9 @@ def bullish_candle_patterns(work: pd.DataFrame, index: int, config: VPAPatternCo
             and body / prior_body <= config.harami_max_current_to_prior_body_ratio
             and opening >= prior_close and closing <= prior_open):
         patterns.append("BULLISH_HARAMI")
+    if (config.allow_engulfing and prior_close < prior_open and bullish
+            and opening <= prior_close and closing >= prior_open):
+        patterns.append("BULLISH_ENGULFING")
     return patterns
 
 
@@ -419,6 +427,8 @@ def main() -> int:
     parser.add_argument("--universe-name", default="nifty50", help="Audit label used in output filenames")
     parser.add_argument("--historical-bars", type=int, default=0,
                         help="Walk forward over this many latest trading bars; 0 evaluates only the latest bar")
+    parser.add_argument("--as-of-date", type=str,
+                        help="Evaluate each symbol only through this ISO date (YYYY-MM-DD).")
     arguments = parser.parse_args()
     config = VPAPatternConfig()
     plan = VPATradePlanConfig()
@@ -440,6 +450,8 @@ def main() -> int:
     con = duckdb.connect(":memory:")
     for symbol in constituents["symbol"]:
         daily = read_adjusted_daily(symbol, arguments.parquet_root, con)
+        if arguments.as_of_date:
+            daily = daily.loc[daily["trade_date"].astype(str) <= arguments.as_of_date].reset_index(drop=True)
         if daily.empty:
             coverage_gaps.append(symbol)
             continue
@@ -480,6 +492,7 @@ def main() -> int:
         "timeframe": "1D",
         "scan_mode": "ROLLING_WALK_FORWARD" if arguments.historical_bars else "LATEST_BAR",
         "historical_bars": arguments.historical_bars or None,
+        "as_of_date_requested": arguments.as_of_date,
         "constituent_source": ("LOCAL_ADJUSTED_PARQUET_PARTITIONS" if arguments.all_local_symbols else
                                arguments.symbols_file.as_posix() if arguments.symbols_file else
                                arguments.constituents_file.as_posix() if arguments.constituents_file else
