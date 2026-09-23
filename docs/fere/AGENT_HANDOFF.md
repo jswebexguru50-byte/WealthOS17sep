@@ -43,25 +43,25 @@ The local SQLite workflow uses these FERE tables: `company_check_state`, `compan
 
 ## Latest validation and findings
 
-- Python unit tests: 11 passed at the previous checkpoint.
+- Python unit tests: 7 passed at the latest checkpoint.
 - TypeScript: `npx tsc --noEmit` passed at the previous checkpoint.
 - Six-company validation used holdings `AKIKO`, `ALPEXSOLAR`, `ANLON` and technical candidates `RUBYMILLS`, `LXCHEM`, `USHAMART`.
 - `USHAMART` had verified partial FY26 data: revenue INR 36,910.6m, PAT INR 4,663.1m, EBITDA INR 7,570.9m, CFO INR 6,553.4m, revenue growth 6.24%, PAT growth 14.76%, EBITDA margin 20.51%, CFO/PAT 1.405.
 - The other five cards were `DATA_INSUFFICIENT`; missing evidence remained missing.
 - A live official-source retry exposed excessive PDF downloading. The collector now prefilters announcement subjects, examines at most 100 announcements, and downloads at most 20 relevant attachments per company.
+- The guarded live retry completed for `USHAMART` on 2026-09-23. It stored a verified 2026-06-30 shareholding snapshot (promoter 40.28%, public 59.60%, pledge unavailable), archived one announcement response and 20 relevant attachments, found no narrowly classified governance/credit event, and produced review-only management claim candidates. The rebuilt card recorded promoter holding as the only change from its prior revision.
+- Official shareholding submission dates are normalized to ISO before storage so card freshness comparisons remain chronological.
 
 ## Checkpoints
 
 - `6955ced` — verified zero-LLM FERE evidence pipeline.
 - `c231579` — practical incremental FERE company checker.
 - `fa4feb4` — expanded Company Card sources and workflow.
+- `4deec67` — safe announcement prefilter, download cap, and this persistent handoff.
 
 ## Resume checklist
 
 1. Run `python -m unittest scripts.fere.test_company_checker`.
 2. Run `npx tsc --noEmit`.
-3. Commit and push the announcement-prefilter fix plus this handoff file.
-4. Retry a targeted live refresh for `USHAMART`; inspect shareholding, material events, claim candidates, refresh-job stages, and the generated card.
-5. Add a source-coverage panel/catalog that clearly separates verified official sources from Screener discovery data.
-6. Run the broader selected-universe scan, inspect results, then make and push the final checkpoint.
-
+3. Validate and push the source-coverage panel/catalog, which separates official/primary sources from Screener discovery data.
+4. Run the broader selected-universe scan, inspect results, then make and push the final checkpoint.

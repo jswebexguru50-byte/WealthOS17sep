@@ -197,6 +197,16 @@ def run_company_check(identifier: str, force: bool = False) -> dict[str, Any]:
                    for r in con.execute('SELECT id,claim_date,source_url,source_sha256,source_evidence,metric,target,unit,deadline,status,actual_value,actual_fact_ids,evaluated_at FROM management_commitment WHERE isin=? ORDER BY claim_date DESC', (isin,))]
     required = ("revenue", "ebitda", "pat", "cfo", "debt", "cash", "receivables", "inventory", "promoter_holding", "promoter_pledge")
     missing = [m for m in required if current.get(m) is None]
+    source_coverage = [
+        {"source": "NSE financial-result XBRL", "authority": "OFFICIAL", "status": "AVAILABLE" if any(isinstance(e.get("fact_id"), int) for e in evidence) else "NOT_AVAILABLE"},
+        {"source": "NSE Regulation 31 shareholding", "authority": "OFFICIAL", "status": "AVAILABLE" if current.get("promoter_holding") is not None else "NOT_AVAILABLE"},
+        {"source": "NSE corporate announcements", "authority": "OFFICIAL", "status": "AVAILABLE" if events else "NO_CLASSIFIED_EVENT"},
+        {"source": "BSE corporate filings", "authority": "OFFICIAL", "status": "PLANNED_FALLBACK"},
+        {"source": "SEBI orders and corporate-filings directory", "authority": "OFFICIAL", "status": "PLANNED_FALLBACK"},
+        {"source": "MCA company filings", "authority": "OFFICIAL", "status": "PLANNED_FALLBACK"},
+        {"source": "Issuer investor-relations and rating-agency releases", "authority": "PRIMARY", "status": "PLANNED_FALLBACK"},
+        {"source": "Screener financials, ratios, peers and document links", "authority": "SECONDARY_DISCOVERY_ONLY", "status": "NOT_INGESTED"},
+    ]
     prior_card_row = con.execute('SELECT result_json FROM company_check_result WHERE isin=?', (isin,)).fetchone()
     prior_card = json.loads(prior_card_row[0]) if prior_card_row else None
     result = {"status": "VERIFIED_PARTIAL" if current else "DATA_INSUFFICIENT", "run_status": "PROCESSED",
@@ -204,6 +214,7 @@ def run_company_check(identifier: str, force: bool = False) -> dict[str, Any]:
               "financials": {k: current.get(k) for k in required}, "derived": derived,
               "red_flags": flags, "management_commitments": commitments, "events": events,
               "three_year_trends": trends,
+              "source_coverage": source_coverage,
               "missing_information": missing, "evidence": evidence,
               "data_freshness": max((e["available_at"] for e in evidence), default=None),
               "advanced_metrics": "OPTIONAL_NOT_BLOCKING", "synthetic_values": 0,

@@ -128,7 +128,7 @@ def collect_shareholding(con: sqlite3.Connection, session: requests.Session, sym
           promoter_pledge=excluded.promoter_pledge,public_holding=excluded.public_holding,
           employee_trusts=excluded.employee_trusts,available_at=excluded.available_at,status=excluded.status''',
           (isin,canonical,period,promoter,pledge,public,trusts,source_url,source_hash,
-           str(item.get('submissionDate') or item.get('broadcastDate') or now()),'VERIFIED_OFFICIAL'))
+           iso_date(str(item.get('submissionDate') or item.get('broadcastDate') or '')) or now(),'VERIFIED_OFFICIAL'))
         counts['shareholding'] += 1; counts['pledge'] += pledge is not None
     con.commit(); return counts
 

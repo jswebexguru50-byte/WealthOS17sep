@@ -94,6 +94,7 @@ interface CompanyCheck {
   revised_at: string;
   three_year_trends: Array<{ period_end: string; revenue: number | null; ebitda: number | null; pat: number | null; cfo: number | null; ebitda_margin: number | null }>;
   changes_since_previous_card: Array<{ field: string; before: unknown; after: unknown }>;
+  source_coverage: Array<{ source: string; authority: 'OFFICIAL' | 'PRIMARY' | 'SECONDARY_DISCOVERY_ONLY'; status: string }>;
 }
 
 interface ClaimCandidate { id: number; claimDate: string; sourceUrl: string; evidenceText: string; metric: string; target: number | null; unit: string | null; deadline: string | null; }
@@ -640,6 +641,14 @@ export const FereForensicDeepDiveModal: React.FC<FereForensicDeepDiveModalProps>
                     <span className="font-bold text-amber-300">{event.severity} · {event.event_type}</span>
                     <span className="ml-2 text-slate-500">{event.date}</span><div className="text-slate-300 mt-1">{event.explanation}</div>
                   </a>)}
+              </div>
+              <div className="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                <h3 className="text-xs font-bold text-slate-300 uppercase mb-3">Source coverage</h3>
+                <div className="grid md:grid-cols-2 gap-2">{(companyCheck.source_coverage || []).map(item => <div key={item.source} className="rounded border border-slate-800 bg-slate-900 p-3">
+                  <div className="text-xs font-semibold text-slate-200">{item.source}</div>
+                  <div className="mt-1 text-[10px] text-slate-500">{item.authority.replaceAll('_', ' ')} · {item.status.replaceAll('_', ' ')}</div>
+                </div>)}</div>
+                <p className="mt-3 text-[11px] text-slate-500">Secondary sources can identify items to investigate. Card facts require a matching official or primary filing.</p>
               </div>
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="bg-slate-950 border border-slate-800 rounded-xl p-4">
