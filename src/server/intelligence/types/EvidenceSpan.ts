@@ -25,6 +25,7 @@ export type VerificationStatus =
 
 export interface EvidenceSpan {
   evidenceId: string;
+  sourceId?: string; // Required for live verified evidence; legacy rows remain untrusted.
   issuerNseSymbol: string;
   issuerBseCode?: string;
   documentId: string;
@@ -34,6 +35,7 @@ export interface EvidenceSpan {
   page?: number;
   section?: string;
   quotedText: string;
+  extractionMethod?: string;
   verificationStatus: VerificationStatus;
   sourceUrl?: string;
   capturedAt: string;

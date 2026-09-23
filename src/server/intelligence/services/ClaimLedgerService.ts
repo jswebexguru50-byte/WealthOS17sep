@@ -9,6 +9,8 @@
 
 import sqlite3 from 'sqlite3';
 import { ManagementClaim, ClaimStatus, ManagementCredibilityScorecard, CredibilityGrade } from '../types/ManagementClaim.js';
+import { IntelligenceQualityGate } from './IntelligenceQualityGate.js';
+import { SourceArtifactTrust } from './SourceArtifactTrust.js';
 
 export class ClaimLedgerService {
   private db: sqlite3.Database;
@@ -21,6 +23,10 @@ export class ClaimLedgerService {
    * Records a new management claim anchored strictly to an evidenceId.
    */
   public async recordClaim(claim: Omit<ManagementClaim, 'createdAt'>): Promise<void> {
+    const validation = await new IntelligenceQualityGate(this.db).validateClaim({
+      ...claim, createdAt: new Date().toISOString()
+    });
+    if (!validation.approved) throw new Error(`Unverified management claim: ${validation.reasons.join('; ')}`);
     return new Promise((resolve, reject) => {
       const sql = `
         INSERT OR REPLACE INTO ManagementClaims (
@@ -78,6 +84,14 @@ export class ClaimLedgerService {
     // Check temporal constraint
     const claim = await this.getClaimById(claimId);
     if (!claim) throw new Error(`Claim '${claimId}' not found`);
+
+    const outcomeEvidence = await new Promise<any>((resolve, reject) => {
+      this.db.get('SELECT quoted_text FROM EvidenceInventory WHERE evidence_id = ?', [resolutionEvidenceId],
+        (error, row) => error ? reject(error) : resolve(row));
+    });
+    if (!outcomeEvidence || !SourceArtifactTrust.verify(resolutionEvidenceId, claim.issuerNseSymbol, outcomeEvidence.quoted_text || '')) {
+      throw new Error(`Resolution evidence '${resolutionEvidenceId}' is not authenticated`);
+    }
 
     if (status === 'MISSED' && claim.expectedPeriodEnd && currentDate < claim.expectedPeriodEnd) {
       throw new Error(`Cannot mark claim '${claimId}' as MISSED: current date (${currentDate}) is before expected period end (${claim.expectedPeriodEnd})`);

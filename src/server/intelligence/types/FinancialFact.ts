@@ -59,7 +59,7 @@ export const VALID_UNITS_BY_FAMILY: Record<MetricFamily, Set<string>> = {
   LEVERAGE:      new Set(['X', 'RATIO', 'TIMES', 'MULTIPLE', 'INR_CRORE', 'CRORE', 'LAKH', 'USD_MILLION']),
   SOLVENCY:      new Set(['X', 'RATIO', 'TIMES', 'MULTIPLE', '%', 'PERCENT', 'INR_CRORE', 'CRORE']),
   CONCENTRATION: new Set(['%', 'PERCENT', 'RATIO']),
-  CAPACITY:      new Set(['MW', 'GW', 'MWH', 'GWH', 'MT', 'TONNES', 'UNITS', 'INR_CRORE', 'CRORE']),
+  CAPACITY:      new Set(['MW', 'GW', 'MWH', 'GWH', 'MT', 'TONNES', 'UNITS']),
   REGULATORY:    new Set(['INR_CRORE', 'CRORE', 'USD_MILLION', 'MILLION', 'UNITS', '%', 'PERCENT']),
   DIVIDEND:      new Set(['INR_PER_SHARE', 'RS_PER_SHARE', '%', 'PERCENT', 'INR_CRORE', 'CRORE']),
 };

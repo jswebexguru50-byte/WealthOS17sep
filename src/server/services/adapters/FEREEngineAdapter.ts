@@ -11,6 +11,9 @@ import { ComposableEngine } from '../composable/EngineContract.js';
 import { EngineCapability } from '../composable/EngineCapability.js';
 import { PITContext } from '../composable/PITContext.js';
 import { EvidenceBus } from '../composable/EvidenceBus.js';
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 
 export class FEREEngineAdapter implements ComposableEngine {
   public readonly engineId = 'FERE';
@@ -31,43 +34,19 @@ export class FEREEngineAdapter implements ComposableEngine {
   };
 
   public async evaluate(bus: EvidenceBus, context: PITContext, universeSecurityIds: string[]): Promise<void> {
-    const sampleSecurities = universeSecurityIds.length > 0 ? universeSecurityIds : ['RELIANCE', 'TCS', 'INFY'];
-
-    for (const sym of sampleSecurities) {
-      // Deterministic proxy: evaluate forensic accounting health
-      const passed = sym !== 'ADANIENT'; // Deterministic test gate
-      const forensicScore = passed ? 88 : 34;
-
-      bus.emit({
-        type: 'FERE_QUALITY_AUDIT',
-        engineId: this.engineId,
-        securityId: sym,
-        engineVersion: this.version,
-        engineSourceHash: this.getSourceHash(),
-        parameterHash: this.getParameterHash(),
-        dataSnapshotHash: 'SNAP_FINANCIALS_V66',
-        inputEvidenceIds: [],
-        sourceRequirementIds: this.getDataRequirementIds(),
-        pitContextHash: context.contextHash,
-        decisionGraphHash: 'GRAPH_V66',
-        runId: `RUN_FERE_${context.decisionDate}`,
-        decisionDate: context.decisionDate,
-        decisionTimestamp: context.decisionTimestamp,
-        payload: {
-          forensicScore,
-          passed,
-          reason: passed ? 'Accounting quality acceptable' : 'High forensic risk detected in financial disclosures'
-        }
-      });
-    }
+    // This adapter has no verified financial-statement provider. Emitting a
+    // score here would turn a demonstration fixture into trading evidence.
+    void bus;
+    void context;
+    void universeSecurityIds;
   }
 
   public getSourceHash(): string {
-    return 'fere_engine_source_sha256_canonical';
+    return createHash('sha256').update(readFileSync(fileURLToPath(import.meta.url))).digest('hex');
   }
 
   public getParameterHash(): string {
-    return 'fere_parameters_sha256_canonical';
+    return createHash('sha256').update(JSON.stringify(this.capability)).digest('hex');
   }
 
   public getDataRequirementIds(): string[] {

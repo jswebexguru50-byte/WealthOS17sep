@@ -15,7 +15,7 @@
  * 5. sourceQuotedText is MANDATORY — fact cannot become SOURCE_SUPPORTED without a cited quote
  * 6. Normalized numerical equivalence present in cited quote (via NumericalNormalizationEngine)
  *    AND currency in candidate matches currency detected in quote (currency is semantic, not formatting)
- * 7. Source span authentic (starts with 'EV_' and valid format)
+ * 7. Source span authentic (authenticated archived bytes and exact quote)
  * 8. Scope EXPLICITLY declared — undefined/absent scope FAILS (STANDALONE | CONSOLIDATED | SEGMENT only)
  * 9. Quote span is non-trivial (> 10 chars; prevents empty string bypass)
  *
@@ -28,6 +28,7 @@ import { MetricFamily, FactVerificationStatus, FactVerificationMethod, VALID_UNI
 import { MeasurementType } from '../types/FinancialFact.js';
 import { MetricBinding } from '../types/MetricBinding.js';
 import { NumericalNormalizationEngine } from './NumericalNormalizationEngine.js';
+import { SourceArtifactTrust } from '../services/SourceArtifactTrust.js';
 
 export interface CandidateFactInput {
   factId: string;
@@ -148,8 +149,7 @@ export class FactValidationGate {
     // Indian and global exchanges have valid tickers starting with digits (360ONE, 3MINDIA, 5PAISA), 2 chars (LT, NH), or 3 chars (SCI, ITC)
     const issuerPattern = /^[A-Z0-9][A-Z0-9&_]{1,14}$/.test(candidate.issuerSymbol);
     const isSentinel = BLOCKED_ISSUER_SENTINELS.has(candidate.issuerSymbol.toUpperCase());
-    const isExplicitTestMock = candidate.issuerSymbol.toUpperCase() === 'TEST' && !candidate.factId.includes('CORRUPT');
-    const issuerNotSentinel = !isSentinel || isExplicitTestMock;
+    const issuerNotSentinel = !isSentinel;
     const issuerMatchesScope = Boolean(candidate.issuerSymbol) && issuerPattern && issuerNotSentinel;
 
     if (!issuerMatchesScope) {
@@ -312,14 +312,13 @@ export class FactValidationGate {
     }
 
     // ─── Check 7: Source Span Authentic ──────────────────────────────────────
-    const sourceSpanAuthentic =
-      Boolean(candidate.sourceEvidenceId) &&
-      candidate.sourceEvidenceId.startsWith('EV_') &&
-      candidate.sourceEvidenceId.length >= 5;
+    const sourceSpanAuthentic = SourceArtifactTrust.verify(
+      candidate.sourceEvidenceId, candidate.issuerSymbol, candidate.sourceQuotedText
+    );
 
     if (!sourceSpanAuthentic) {
       rejectionReasons.push(
-        `sourceEvidenceId '${candidate.sourceEvidenceId}' does not conform to canonical EV_ prefix (min 5 chars).`
+        `sourceEvidenceId '${candidate.sourceEvidenceId}' has no authenticated physical source and exact quote.`
       );
     }
 

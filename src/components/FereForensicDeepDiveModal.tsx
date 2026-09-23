@@ -73,6 +73,16 @@ interface FereForensicDeepDiveModalProps {
   onSelectSymbol?: (symbol: string) => void;
 }
 
+interface FilingEvidence {
+  status: string;
+  isin: string | null;
+  verifiedFactCount: number;
+  verifiedMetricCount: number;
+  documents: Array<{ sourceUrl: string; filingTimestamp: string | null; periodEnd: string | null; sha256: string | null; status: string }>;
+  metricCoverage: Array<{ metric: string; periodEnd: string | null; status: string; missingFields: string[] }>;
+  missingFields: string[];
+}
+
 export const FereForensicDeepDiveModal: React.FC<FereForensicDeepDiveModalProps> = ({
   symbol,
   isOpen,
@@ -82,12 +92,15 @@ export const FereForensicDeepDiveModal: React.FC<FereForensicDeepDiveModalProps>
   const [data, setData] = useState<FereStockData | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [evidence, setEvidence] = useState<FilingEvidence | null>(null);
   const [searchInput, setSearchInput] = useState<string>('');
 
   const fetchStockForensics = async (targetSymbol: string) => {
     if (!targetSymbol) return;
     setLoading(true);
     setError(null);
+    setData(null);
+    setEvidence(null);
     try {
       const clean = targetSymbol.trim().toUpperCase().replace('.NS', '').replace('.BO', '');
       const res = await fetch(`/api/forensic/fere-stock/${encodeURIComponent(clean)}`);
@@ -96,6 +109,7 @@ export const FereForensicDeepDiveModal: React.FC<FereForensicDeepDiveModalProps>
         setData(json.data);
       } else {
         setError(json.error || `No FERE forensic data available for ${targetSymbol}`);
+        setEvidence(json.evidence || null);
       }
     } catch (err: any) {
       setError(err.message || 'Failed to fetch FERE forensic details');
@@ -137,11 +151,11 @@ export const FereForensicDeepDiveModal: React.FC<FereForensicDeepDiveModalProps>
                   FERE 360° Forensic Deep Dive
                 </h2>
                 <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-                  3,559 Equities Enriched
+                  Verification required
                 </span>
               </div>
               <p className="text-xs text-slate-400">
-                Institutional Forensic Engine • Deterministic Accrual, Solvency & Manipulation Audit
+                Filing-backed results appear only after source verification
               </p>
             </div>
           </div>
@@ -187,11 +201,29 @@ export const FereForensicDeepDiveModal: React.FC<FereForensicDeepDiveModalProps>
             <div className="p-6 bg-red-950/30 border border-red-900/50 rounded-xl text-center space-y-2">
               <AlertTriangle className="w-8 h-8 text-red-400 mx-auto" />
               <p className="text-sm font-bold text-red-200">{error}</p>
-              <p className="text-xs text-slate-400">Verify the symbol ticker or check if it is actively traded on NSE/BSE.</p>
+              {evidence && (
+                <div className="mt-4 text-left text-xs text-slate-300 space-y-2">
+                  <p>ISIN: {evidence.isin || 'unresolved'} · Filing facts: {evidence.verifiedFactCount} · Complete FERE metrics: {evidence.verifiedMetricCount}</p>
+                  <p>Still needed: {evidence.missingFields.join(', ') || 'none'}</p>
+                  {evidence.metricCoverage?.map((metric) => (
+                    <p key={metric.metric}>{metric.metric}: {metric.status}
+                      {metric.periodEnd ? ` (${metric.periodEnd})` : ''}
+                      {metric.missingFields.length ? ` — missing ${metric.missingFields.join(', ')}` : ''}
+                    </p>
+                  ))}
+                  {evidence.documents.slice(0, 10).map((document) => (
+                    <a key={document.sourceUrl} href={document.sourceUrl} target="_blank" rel="noopener noreferrer"
+                       className="block text-cyan-300 hover:underline break-all">
+                      {document.periodEnd || 'Undated'} · {document.status} · NSE filing · {document.sourceUrl}
+                    </a>
+                  ))}
+                </div>
+              )}
+              <p className="text-xs text-slate-400">The legacy FERE ledger is awaiting verified financial statements and calculation lineage.</p>
             </div>
           )}
 
-          {data && !loading && (
+          {data && !loading && !error && (
             <>
               {/* Header Hero Card */}
               <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-5 relative overflow-hidden shadow-xl">

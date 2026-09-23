@@ -12,6 +12,7 @@ import sqlite3 from 'sqlite3';
 import { ManagementClaim } from '../types/ManagementClaim.js';
 import { IntelligenceEvent } from '../types/IntelligenceEvent.js';
 import { Contradiction } from '../types/Contradiction.js';
+import { SourceArtifactTrust } from './SourceArtifactTrust.js';
 
 export interface GateValidationResult {
   approved: boolean;
@@ -61,6 +62,8 @@ export class IntelligenceQualityGate {
         reasons.push(`Evidence ID '${claim.evidenceId}' does not exist in EvidenceInventory`);
       } else if (evidence.issuer_nse_symbol && evidence.issuer_nse_symbol !== claim.issuerNseSymbol) {
         reasons.push(`Issuer symbol mismatch: Claim symbol '${claim.issuerNseSymbol}' does not match Evidence symbol '${evidence.issuer_nse_symbol}'`);
+      } else if (!SourceArtifactTrust.verify(claim.evidenceId, claim.issuerNseSymbol, evidence.quoted_text || '')) {
+        reasons.push('Claim evidence has no authenticated physical source and exact quote');
       }
     }
 
@@ -76,6 +79,11 @@ export class IntelligenceQualityGate {
       const resEvidenceId = claim.evaluationEvidenceId || claim.resolutionEvidenceId;
       if (!resEvidenceId) {
         reasons.push(`Evaluated claim (${claim.status}) requires evaluationEvidenceId`);
+      } else {
+        const resolution = await this.getAsync('SELECT * FROM EvidenceInventory WHERE evidence_id = ?', [resEvidenceId]);
+        if (!resolution || !SourceArtifactTrust.verify(resEvidenceId, claim.issuerNseSymbol, resolution.quoted_text || '')) {
+          reasons.push('Claim outcome has no authenticated physical source and exact quote');
+        }
       }
       if (!claim.evaluationBasis && !claim.actualOutcomeDescription) {
         reasons.push(`Evaluated claim (${claim.status}) requires evaluationBasis or actualOutcomeDescription`);
@@ -110,6 +118,8 @@ export class IntelligenceQualityGate {
         reasons.push(`Evidence ID '${event.evidenceId}' does not exist in EvidenceInventory`);
       } else if (evidence.issuer_nse_symbol && evidence.issuer_nse_symbol !== event.issuerNseSymbol) {
         reasons.push(`Issuer symbol mismatch: Event symbol '${event.issuerNseSymbol}' does not match Evidence symbol '${evidence.issuer_nse_symbol}'`);
+      } else if (!SourceArtifactTrust.verify(event.evidenceId, event.issuerNseSymbol, evidence.quoted_text || '')) {
+        reasons.push('Event evidence has no authenticated physical source and exact quote');
       }
     }
 
@@ -154,6 +164,12 @@ export class IntelligenceQualityGate {
       }
       if (rightEvidence && rightEvidence.issuer_nse_symbol !== contra.issuerNseSymbol) {
         reasons.push(`Right Evidence issuer '${rightEvidence.issuer_nse_symbol}' does not match Contradiction symbol '${contra.issuerNseSymbol}'`);
+      }
+      if (leftEvidence && !SourceArtifactTrust.verify(contra.leftEvidenceId, contra.issuerNseSymbol, leftEvidence.quoted_text || '')) {
+        reasons.push('Left evidence has no authenticated physical source and exact quote');
+      }
+      if (rightEvidence && !SourceArtifactTrust.verify(contra.rightEvidenceId, contra.issuerNseSymbol, rightEvidence.quoted_text || '')) {
+        reasons.push('Right evidence has no authenticated physical source and exact quote');
       }
     }
 

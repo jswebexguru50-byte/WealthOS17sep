@@ -856,8 +856,6 @@ export async function runDossierFereEnrichment(): Promise<void> {
 
 // Auto-run if executed directly
 if (process.argv[1] && process.argv[1].includes('enrich_dossier_fere_cohort')) {
-  runDossierFereEnrichment().catch(err => {
-    console.error('Dossier FERE cohort enrichment failed:', err);
-    process.exit(1);
-  });
+  console.error('LEGACY_SYNTHETIC_QUARANTINED: this cohort writer cannot create live FERE evidence.');
+  process.exitCode = 1;
 }

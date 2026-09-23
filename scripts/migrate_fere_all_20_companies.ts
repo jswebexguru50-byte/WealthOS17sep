@@ -2,6 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import { INDEPENDENT_GOLDEN_COHORT } from '../tests/fixtures/independent_golden_cohort_fixture';
 
+throw new Error('LEGACY_SYNTHETIC_QUARANTINED: fixture migration cannot write live FERE data');
+
 const BASE = 'data/phase2_cohort';
 const SYMBOLS = Object.keys(INDEPENDENT_GOLDEN_COHORT);
 

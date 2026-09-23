@@ -10,7 +10,7 @@
  * - /api/forensic/telemetry (and /api/telemetry)
  */
 
-import express, { Router, Request, Response } from 'express';
+import express, { Router, Request, Response, NextFunction } from 'express';
 import fs from 'fs';
 import path from 'path';
 import { MasterQuantUniverseService } from '../services/MasterQuantUniverseService.js';
@@ -23,8 +23,23 @@ import { ForensicCacheService } from '../services/ForensicCacheService.js';
 import { StatutoryLineageService } from '../services/StatutoryLineageService.js';
 import { getDB, dbGet, dbAll } from '../database.js';
 import { DossierEmailDispatcher } from '../services/DossierEmailDispatcher.js';
+import { readFereEvidence } from '../services/FereEvidenceService.js';
 
 export const forensicRouter: Router = express.Router();
+
+const QUARANTINED_LEGACY_ROUTES = new Set([
+  '/49-dossiers', '/master-dossier-workbook', '/dossier-strategy-matrix',
+  '/universe', '/summary-stats', '/download-dossier-excel',
+  '/download-dossier-markdown', '/send-dossier-email', '/schedule-dossier-email'
+]);
+forensicRouter.use((req: Request, res: Response, next: NextFunction) => {
+  if (QUARANTINED_LEGACY_ROUTES.has(req.path) || req.path.startsWith('/dossier/') ||
+      req.path.startsWith('/recommendation-provenance/')) {
+    return res.status(422).json({ success: false, status: 'LEGACY_SYNTHETIC_QUARANTINED',
+      error: 'Legacy dossier outputs lack authenticated source documents and cannot be served as live FERE.' });
+  }
+  next();
+});
 
 // Health Check
 forensicRouter.get('/health', (req: Request, res: Response) => {
@@ -389,17 +404,8 @@ function adapt49DossierToForensicDossier(raw: any): any {
       },
       dataSourceType: 'live_consensus',
     },
-    walkTheTalk: raw.concallAudit ? {
-      auditedQuarters: [
-        { quarter: 'FY23', guidanceText: raw.concallAudit.concallGuidanceFY23 || 'Revenue expansion guidance', realizedMetricOutcome: 'Delivered', wasPromoterDirectionallyAccurate: true },
-        { quarter: 'FY24', guidanceText: raw.concallAudit.concallGuidanceFY24 || 'Margin expansion guidance', realizedMetricOutcome: 'Delivered', wasPromoterDirectionallyAccurate: true },
-        { quarter: 'FY25', guidanceText: raw.concallAudit.concallGuidanceFY25 || 'Order book ramp-up', realizedMetricOutcome: 'Delivered', wasPromoterDirectionallyAccurate: true },
-      ],
-      promoterGuidanceAccuracyRatePct: raw.concallAudit.credibilityGrade?.includes('GRADE A') ? 95 : 75,
-      materialMissCount: raw.concallAudit.credibilityGrade?.includes('GRADE C') ? 3 : 0,
-      managementCredibilityGrade: raw.concallAudit.credibilityGrade || 'GRADE A',
-      credibilitySummary: raw.concallAudit.credibilitySummary || 'Historical earnings calls demonstrate strong guidance delivery.',
-    } : undefined,
+    // Legacy concall summaries lack transcript claim IDs and later filing evidence.
+    walkTheTalk: undefined,
     telemetry: {
       stage1RuntimeMs: 12,
       stage2RuntimeMs: 45,
@@ -494,90 +500,12 @@ forensicRouter.get(['/config/weights', '/weights'], (req: Request, res: Response
   });
 });
 
-// Custom live analysis endpoint
+// Legacy custom-analysis used fixture fundamentals, invented quarters and a
+// ghost filing URL. Keep the route for client compatibility, but fail closed.
 forensicRouter.post('/custom-analysis', async (req: Request, res: Response) => {
-  try {
-    const {
-      symbol = 'CUSTOM',
-      companyName = 'Custom Ticker Inc.',
-      sector = 'General Industry',
-      currentPrice = 500,
-      marketCapCr = 10000,
-      peMultiple = 25,
-      trailingEps = 20,
-      growthRatePct = 15,
-      sales_t = 12000,
-      sales_prev = 10000,
-      cfo_t = 1500,
-      netIncome_t = 1200,
-      longTermDebt_t = 2000,
-      promoterPledgePct = 0,
-      newsHeadline = 'Company expands manufacturing capacity by 30%',
-    } = req.body;
-
-    const fundamentals = {
-      ...MasterQuantUniverseService.UNIVERSE[0].fundamentals,
-      sales_t: Number(sales_t),
-      sales_prev: Number(sales_prev),
-      cfo_t: Number(cfo_t),
-      netIncome_t: Number(netIncome_t),
-      longTermDebt_t: Number(longTermDebt_t),
-      promoterPledgePct: Number(promoterPledgePct),
-    };
-
-    const cfoPatQuarters = [
-      { quarter: 'Q1', cfo: cfo_t * 0.22, pat: netIncome_t * 0.23 },
-      { quarter: 'Q2', cfo: cfo_t * 0.24, pat: netIncome_t * 0.25 },
-      { quarter: 'Q3', cfo: cfo_t * 0.26, pat: netIncome_t * 0.26 },
-      { quarter: 'Q4', cfo: cfo_t * 0.28, pat: netIncome_t * 0.26 },
-    ];
-
-    const stage1 = await ForensicIntelligenceService.evaluateStage1(
-      symbol,
-      fundamentals,
-      [
-        {
-          id: 'cn-1',
-          title: newsHeadline,
-          sourceUrl: 'https://bseindia.com/custom_filing',
-          publishedDate: '2025-05-15',
-          snippet: newsHeadline,
-        },
-      ],
-      companyName,
-      ['Management'],
-      85,
-      { explicitUserRequest: true }
-    );
-
-    const dossier = await ForensicIntelligenceService.buildStage2Profile(
-      symbol,
-      companyName,
-      sector,
-      Number(currentPrice),
-      Number(marketCapCr),
-      fundamentals,
-      cfoPatQuarters,
-      {
-        trailingEps: Number(trailingEps),
-        baseGrowthRatePct: Number(growthRatePct),
-        basePeMultiple: Number(peMultiple),
-        dataSourceType: 'live_consensus',
-        dataCompleteness: 1.0,
-      },
-      'Management is executing on capacity expansions and debt reduction.',
-      stage1.newsFlags,
-      {
-        forceStage: 2,
-        p3LegalSignOffApproved: ForensicIntelligenceService.getP3LegalSignOff(),
-      }
-    );
-
-    res.json({ success: true, data: dossier });
-  } catch (error: any) {
-    console.error('Error in /api/forensic/custom-analysis:', error);
-    res.status(500).json({ success: false, error: error.message });
-  }
+  void req;
+  res.status(422).json({ success: false, status: 'NOT_EVALUATED',
+    error: 'Custom FERE analysis requires authenticated source documents and cannot use fixture inputs.' });
 });
 
 // System Telemetry
@@ -624,6 +552,10 @@ forensicRouter.get('/fere-stock/:symbol', async (req: Request, res: Response) =>
     const rawSymbol = String(req.params.symbol || '').trim().toUpperCase();
     const cleanSymbol = rawSymbol.replace('.NS', '').replace('.BO', '');
     const db = getDB();
+    const master = await dbGet<{ isin: string }>(db,
+      `SELECT isin FROM MasterTickers WHERE symbol = ? ORDER BY CASE WHEN status = 'ACTIVE' THEN 0 ELSE 1 END LIMIT 1`,
+      [cleanSymbol]);
+    const evidence = await readFereEvidence(master?.isin || null, cleanSymbol);
 
     const row = await dbGet<any>(
       db,
@@ -631,62 +563,27 @@ forensicRouter.get('/fere-stock/:symbol', async (req: Request, res: Response) =>
       [cleanSymbol, rawSymbol]
     );
 
-    if (!row) {
+    if (!row && evidence.status === 'SOURCE_UNAVAILABLE') {
       return res.status(404).json({
         success: false,
-        error: `Stock ${cleanSymbol} not found in FERE Enriched Ledger.`,
-        symbol: cleanSymbol
+        error: `No verified filing evidence is available for ${cleanSymbol}.`,
+        symbol: cleanSymbol,
+        evidence
       });
     }
 
-    // Prepare 100% transparent statutory links and provenance metadata
-    const externalLinks = {
-      bseAnnouncements: `https://www.bseindia.com/corporates/ann.html?scrip=${cleanSymbol}`,
-      nseFilings: `https://www.nseindia.com/get-quotes/equity?symbol=${cleanSymbol}`,
-      mca21Portal: 'https://www.mca.gov.in/content/mca/global/en/home.html',
-      sebiSastPortal: 'https://www.sebi.gov.in/sebiweb/home/HomeAction.do?doListing=yes&sid=3&ssid=15&smid=0',
-      screenerOverview: `https://www.screener.in/company/${cleanSymbol}/`
-    };
-
-    const provenance = {
-      primaryDataSource: 'BSE/NSE Regulatory Disclosures & MCA-21 Filings',
-      recencyTimestamp: row.enriched_at || '2026-09-16T17:50:00.000Z',
-      infoFetched: 'Audited Balance Sheets, Operating Cash Flows, P&L Schedules, Depreciation Notes, Debt Schedules, Shareholding & Pledge Disclosures.',
-      inferenceDerived: '8-variable Beneish M-Score for earnings manipulation, 5-variable Altman Z-Score for bankruptcy risk, Piotroski 9-point F-Score, Sloan Accrual Ratio, and Cash Conversion Cycle velocity.'
-    };
-
-    res.json({
-      success: true,
-      data: {
-        symbol: row.symbol,
-        companyName: row.company_name,
-        category: row.category,
-        marketCapCr: row.market_cap_cr,
-        cmp: row.cmp,
-        peRatio: row.pe_ratio,
-        rocePct: row.roce_pct,
-        debtToEquity: row.debt_to_equity,
-        promoterPledgePct: row.promoter_pledge_pct,
-        beneishMScore: row.beneish_m_score,
-        beneishFlag: row.beneish_flag,
-        altmanZScore: row.altman_z_score,
-        altmanZone: row.altman_zone,
-        piotroskiFScore: row.piotroski_f_score,
-        sloanAccrualRatio: row.sloan_accrual_ratio,
-        cashConversionCycle: row.cash_conversion_cycle,
-        dso: row.dso,
-        dio: row.dio,
-        dpo: row.dpo,
-        cfoToEbitdaPct: row.cfo_to_ebitda_pct,
-        compositeHealth: row.composite_health,
-        verdict: row.verdict,
-        tier: row.tier,
-        batchNumber: row.batch_number,
-        enrichedAt: row.enriched_at,
-        externalLinks,
-        provenance
-      }
+    // The legacy worker populated this table with estimated inputs. Its rows
+    // carry no source-level verification marker, so no score from this table
+    // can be presented as a filing-backed forensic finding.
+    return res.status(422).json({
+      success: false,
+      symbol: cleanSymbol,
+      status: 'UNVERIFIED_LEGACY_FERE',
+      error: `FERE scores for ${cleanSymbol} are unavailable until all filing-backed formula inputs are verified.`,
+      lastLegacyRefresh: row?.enriched_at || null,
+      evidence
     });
+
   } catch (error: any) {
     console.error('[FEREStockLookup] Error:', error);
     res.status(500).json({ success: false, error: error.message });
@@ -830,5 +727,3 @@ forensicRouter.get('/email-schedules', (req: Request, res: Response) => {
     data: DossierEmailDispatcher.getActiveSchedules()
   });
 });
-
-

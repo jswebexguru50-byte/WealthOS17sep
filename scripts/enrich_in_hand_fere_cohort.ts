@@ -3423,7 +3423,5 @@ async function runEnrichment() {
   await new Promise<void>((resolve) => db.close(() => resolve()));
 }
 
-runEnrichment().catch((err) => {
-  console.error('In-hand cohort enrichment failed:', err);
-  process.exit(1);
-});
+console.error('LEGACY_SYNTHETIC_QUARANTINED: this cohort writer cannot create live FERE evidence.');
+process.exitCode = 1;

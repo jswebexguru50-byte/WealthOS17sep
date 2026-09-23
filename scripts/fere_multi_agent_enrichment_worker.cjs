@@ -516,6 +516,16 @@ async function runEnrichmentWorker() {
   });
 }
 
-runEnrichmentWorker().catch(err => {
-  log(`FATAL Worker Error: ${err.message}`);
-});
+// This legacy worker derives key forensic ratios from fixed constants and
+// market-cap proxies. It must never refresh the production FERE ledger.
+log('FERE refresh unavailable: verified source financial statements are required. Legacy synthetic calculations are disabled.');
+try {
+  fs.writeFileSync(STATUS_FILE, JSON.stringify({
+    lastUpdated: new Date().toISOString(),
+    workerStatus: 'SOURCE_UNAVAILABLE',
+    reason: 'Legacy synthetic calculations disabled; verified financial statements required'
+  }, null, 2));
+} catch (error) {
+  log(`Could not write FERE status: ${error.message}`);
+}
+process.exitCode = 2;
