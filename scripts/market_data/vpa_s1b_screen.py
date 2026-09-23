@@ -57,7 +57,10 @@ class S1BPatternConfig:
     vol_short_thrust_spike_mult: float = 1.80
     vol_pullback_max_ratio: float = 0.75
     vol_trough_dryup_mult: float = 0.80
-    vol_trigger_min_mult: float = 1.00
+    vol_trigger_min_mult: float = 1.25
+    atr_period: int = 14
+    trigger_min_range_atr: float = 0.75
+    trigger_min_body_atr: float = 0.60
     exclude_doji: bool = True
     doji_max_body_ratio: float = 0.10
     require_bullish_candlestick: bool = True
@@ -99,6 +102,14 @@ def detect_s1b(frame: pd.DataFrame, config: S1BPatternConfig) -> dict[str, Any] 
     prepared["rsi"] = calculate_wilder_rsi(prepared["close"], config.rsi_period)
     prepared["sma"] = prepared["close"].rolling(config.sma_period,
                                                    min_periods=config.sma_period).mean()
+    prior_close = prepared["close"].shift(1)
+    prepared["true_range"] = pd.concat([
+        prepared["high"] - prepared["low"],
+        (prepared["high"] - prior_close).abs(),
+        (prepared["low"] - prior_close).abs(),
+    ], axis=1).max(axis=1)
+    prepared["atr"] = prepared["true_range"].rolling(config.atr_period,
+                                                       min_periods=config.atr_period).mean()
     prepared["ath"] = prepared["close"].cummax()
     work = prepared.tail(max(config.total_lookback_bars, config.vol_ma_period)).reset_index(drop=True)
     signal = len(work) - 1
@@ -106,6 +117,13 @@ def detect_s1b(frame: pd.DataFrame, config: S1BPatternConfig) -> dict[str, Any] 
         return None
     patterns = bullish_candle_patterns(work, signal, config)
     if config.require_bullish_candlestick and not patterns:
+        return None
+    trigger_range = float(work.at[signal, "high"] - work.at[signal, "low"])
+    trigger_body = abs(float(work.at[signal, "close"] - work.at[signal, "open"]))
+    trigger_atr = float(work.at[signal, "atr"])
+    if (not np.isfinite(trigger_atr) or trigger_atr <= 0
+            or trigger_range < config.trigger_min_range_atr * trigger_atr
+            or trigger_body < config.trigger_min_body_atr * trigger_atr):
         return None
     trigger_volume_multiple = float(work.at[signal, "volume"]) / float(work.at[signal, "vol_ma"])
     if trigger_volume_multiple < config.vol_trigger_min_mult:
@@ -167,6 +185,9 @@ def detect_s1b(frame: pd.DataFrame, config: S1BPatternConfig) -> dict[str, Any] 
                     "retracement_ratio": retracement, "leg1_volume_multiple": l1_volume / peak_vol_ma,
                     "leg2_to_leg1_volume_ratio": l2_volume / l1_volume, "trough_volume_multiple": trough_multiple,
                     "trigger_volume_multiple": trigger_volume_multiple, "candle_pattern": "|".join(patterns),
+                    "trigger_range": trigger_range, "trigger_body": trigger_body, "atr14": trigger_atr,
+                    "trigger_range_atr_multiple": trigger_range / trigger_atr,
+                    "trigger_body_atr_multiple": trigger_body / trigger_atr,
                     "rsi_level": support[0], "rsi_value": support[1], "ath": ath,
                     "ath_discount_pct": ath_discount, "sma": sma, "sma_distance_pct": sma_distance,
                     "entry": close, "stop": trough_low, "score": score,
