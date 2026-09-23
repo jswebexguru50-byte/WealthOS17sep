@@ -148,6 +148,7 @@ if (dns && dns.setDefaultResultOrder) {
 
 const app = express();
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+const BIND_HOST = process.env.BIND_HOST || '0.0.0.0';
 
 
 // Security Headers & CORS Middleware (Helmet-equivalent hardening)
@@ -16918,7 +16919,7 @@ async function startServer() {
   }
 
   // ── STEP 2: Bind port — server is IMMEDIATELY usable ──────────────────────
-  const server = app.listen(PORT, '0.0.0.0', () => {
+  const server = app.listen(PORT, BIND_HOST, () => {
     console.log(`✅ Server READY — accepting requests at http://localhost:${PORT}`);
   });
 

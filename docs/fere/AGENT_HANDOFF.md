@@ -48,7 +48,7 @@ The local SQLite workflow uses these FERE tables: `company_check_state`, `compan
 - Six-company validation used holdings `AKIKO`, `ALPEXSOLAR`, `ANLON` and technical candidates `RUBYMILLS`, `LXCHEM`, `USHAMART`.
 - `USHAMART` had verified partial FY26 data: revenue INR 36,910.6m, PAT INR 4,663.1m, EBITDA INR 7,570.9m, CFO INR 6,553.4m, revenue growth 6.24%, PAT growth 14.76%, EBITDA margin 20.51%, CFO/PAT 1.405.
 - The other five cards were `DATA_INSUFFICIENT`; missing evidence remained missing.
-- A live official-source retry exposed excessive PDF downloading. The collector now prefilters announcement subjects, examines at most 100 announcements, and downloads at most 20 relevant attachments per company.
+- A live official-source retry exposed excessive PDF downloading. The collector now prefilters announcement subjects, examines at most 100 announcements, and downloads at most 5 relevant attachments per company during batch refresh. Remaining official documents stay discoverable for an on-demand review.
 - The guarded live retry completed for `USHAMART` on 2026-09-23. It stored a verified 2026-06-30 shareholding snapshot (promoter 40.28%, public 59.60%, pledge unavailable), archived one announcement response and 20 relevant attachments, found no narrowly classified governance/credit event, and produced review-only management claim candidates. The rebuilt card recorded promoter holding as the only change from its prior revision.
 - Official shareholding submission dates are normalized to ISO before storage so card freshness comparisons remain chronological.
 
@@ -65,3 +65,14 @@ The local SQLite workflow uses these FERE tables: `company_check_state`, `compan
 2. Run `npx tsc --noEmit`.
 3. Validate and push the source-coverage panel/catalog, which separates official/primary sources from Screener discovery data.
 4. Run the broader selected-universe scan, inspect results, then make and push the final checkpoint.
+
+## 25-company holdings pilot
+
+- Selection rule: top current-value INR holdings whose ISIN begins `INE` and whose symbol matches an NSE-safe symbol format; fund, insurance, US and unresolved entries are excluded rather than force-matched.
+- First attempted cold run showed that 20 inline attachments per company was unsuitable for batching and was stopped safely after archived writes. The cap is now 5 per company before the timed retry.
+- Pilot symbols: `AKIKO, APOLLO, MUFIN, BLUEWATER, TEMBO, OBSCP, KALYANI, MRP, BLS, GPECO, ANLON, SOLARINDS, COSMICCRF, ANNU, ORIANA, LAURUSLABS, SONUINFRA, ALPEXSOLAR, INVICTA, HIRECT, UNOMINDA, SJLOGISTIC, POLYCAB, JGCHEM, BHARTIARTL`.
+- Local UI safety: `server.ts` now accepts `BIND_HOST`; use `BIND_HOST=127.0.0.1` for local viewing so portfolio data is not exposed on the LAN.
+- UI issue found during demonstration: `#analyze` displayed the Opportunity Engine even though `App.tsx` maps `ANALYZE` to `MasterQuantDossier11TabsView`, where the `FERE 360°` button lives. The card API and USHAMART result exist, but this route/render mismatch needs correction before the demonstration path is reliable.
+- Fast-track refresh: `--fast-card` reuses archived financial XBRL and refreshes official shareholding plus announcement metadata. PDF extraction is off by default and enabled only with `--deep-evidence`. Existing shareholding XBRL and announcement attachments are reused from the archive. The UI refresh endpoint invokes `--fast-card`.
+- Overnight runner: `scripts/fere/run_overnight_fetch.py` processes eligible INR holdings first and the archived official Nifty 500 next, de-duplicates symbols, uses batches of 25, checkpoints every batch, resumes completed batches, applies a 45-minute batch timeout, and fails integrity when any card reports nonzero `synthetic_values` or `ghost_sources`.
+- Overnight progress: `data/fere/verified_filings/overnight_progress.json`. Log: `data/fere/verified_filings/overnight_fetch.log`. Generated evidence/progress files remain local and are not committed.

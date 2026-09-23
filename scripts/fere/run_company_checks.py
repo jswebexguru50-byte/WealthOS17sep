@@ -48,6 +48,10 @@ def main() -> int:
     parser.add_argument('--force', action='store_true')
     parser.add_argument('--refresh-source', action='store_true',
                         help='Pull official filings and normalize them before rebuilding cards.')
+    parser.add_argument('--fast-card', action='store_true',
+                        help='Reuse archived financials; refresh shareholding and announcement metadata only.')
+    parser.add_argument('--deep-evidence', action='store_true',
+                        help='Download and parse a bounded set of relevant announcement attachments.')
     parser.add_argument('--job-id', help='Refresh job identifier created by the API.')
     args = parser.parse_args()
     symbols = ([s.strip().upper() for s in args.symbols.split(',') if s.strip()] if args.symbols
@@ -56,13 +60,15 @@ def main() -> int:
     if args.refresh_source and symbols:
         folder = Path(__file__).resolve().parent
         try:
-            update_job(args.job_id, 'RUNNING', 'FINANCIAL_FILINGS')
-            subprocess.run([sys.executable, str(folder / 'verified_filing_pipeline.py'), '--collect',
-                            '--symbols', ','.join(symbols)], check=True)
+            if not args.fast_card:
+                update_job(args.job_id, 'RUNNING', 'FINANCIAL_FILINGS')
+                subprocess.run([sys.executable, str(folder / 'verified_filing_pipeline.py'), '--collect',
+                                '--symbols', ','.join(symbols)], check=True)
             update_job(args.job_id, 'RUNNING', 'OFFICIAL_SHAREHOLDING_AND_EVENTS')
-            refresh_official_sources(symbols)
-            update_job(args.job_id, 'RUNNING', 'NORMALIZING_FACTS')
-            subprocess.run([sys.executable, str(folder / 'normalize_nse_xbrl.py')], check=True)
+            refresh_official_sources(symbols, include_attachments=args.deep_evidence)
+            if not args.fast_card:
+                update_job(args.job_id, 'RUNNING', 'NORMALIZING_FACTS')
+                subprocess.run([sys.executable, str(folder / 'normalize_nse_xbrl.py')], check=True)
         except Exception as exc:
             update_job(args.job_id, 'FAILED', 'SOURCE_REFRESH_FAILED', str(exc)); raise
     update_job(args.job_id, 'RUNNING', 'BUILDING_COMPANY_CARD')

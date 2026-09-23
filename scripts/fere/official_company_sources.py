@@ -7,6 +7,7 @@ import re
 import sqlite3
 import xml.etree.ElementTree as ET
 from datetime import date, datetime, timedelta
+from pathlib import Path
 from urllib.parse import quote
 
 import requests
@@ -115,12 +116,18 @@ def collect_shareholding(con: sqlite3.Connection, session: requests.Session, sym
         xbrl = official_url(str(item.get('xbrl') or '')) if item.get('xbrl') else None
         pledge = None; source_url = SHAREHOLDING; source_hash = digest
         if xbrl:
-            try:
-                doc = request(session, xbrl)
-                source_hash, _ = save_source(con, 'NSE_SHAREHOLDING_XBRL', xbrl, doc.content, '.xml')
-                pledge = parse_pledge_xml(doc.content); source_url = xbrl
-            except Exception:
-                pass
+            cached = con.execute('''SELECT promoter_pledge,source_sha256 FROM shareholding_snapshot
+                                    WHERE isin=? AND period_end=? AND source_url=? ORDER BY id DESC LIMIT 1''',
+                                 (isin, period, xbrl)).fetchone()
+            if cached:
+                pledge, source_hash, source_url = cached[0], cached[1], xbrl
+            else:
+                try:
+                    doc = request(session, xbrl)
+                    source_hash, _ = save_source(con, 'NSE_SHAREHOLDING_XBRL', xbrl, doc.content, '.xml')
+                    pledge = parse_pledge_xml(doc.content); source_url = xbrl
+                except Exception:
+                    pass
         con.execute('''INSERT INTO shareholding_snapshot
           (isin,symbol,period_end,promoter_holding,promoter_pledge,public_holding,employee_trusts,
            source_url,source_sha256,available_at,status) VALUES(?,?,?,?,?,?,?,?,?,?,?)
@@ -151,6 +158,7 @@ RELEVANT_ATTACHMENT_SUBJECT = re.compile(
     re.I,
 )
 CLAIM_SOURCE_SUBJECT = re.compile(r'\b(analyst|investor|conference|concall|presentation)\b', re.I)
+MAX_RELEVANT_ATTACHMENTS_PER_COMPANY = 5
 
 
 def announcement_rows(value) -> list[dict]:
@@ -161,7 +169,18 @@ def announcement_rows(value) -> list[dict]:
     return []
 
 
-def collect_announcements(con: sqlite3.Connection, session: requests.Session, symbols: set[str]) -> dict:
+def cached_attachment(con: sqlite3.Connection, url: str) -> tuple[bytes, str] | None:
+    row = con.execute('''SELECT archive_path,sha256 FROM official_source_snapshot
+                         WHERE source_type='NSE_ANNOUNCEMENT_ATTACHMENT' AND source_url=?
+                         ORDER BY id DESC LIMIT 1''', (url,)).fetchone()
+    if not row: return None
+    path = Path(row[0])
+    if not path.exists(): return None
+    return path.read_bytes(), row[1]
+
+
+def collect_announcements(con: sqlite3.Connection, session: requests.Session, symbols: set[str],
+                          include_attachments: bool = False) -> dict:
     identities = {row[1].upper(): (row[0], row[1]) for row in con.execute('SELECT isin,symbol FROM universe')}
     counts = {'events': 0, 'claim_candidates': 0}
     end = date.today(); start = end - timedelta(days=550)
@@ -186,16 +205,21 @@ def collect_announcements(con: sqlite3.Connection, session: requests.Session, sy
             attachment = official_url(str(item.get('attchmntFile') or item.get('attachment') or '')) if (item.get('attchmntFile') or item.get('attachment')) else None
             source_url, source_hash = url, digest
             body_text = ''
-            if attachment and relevant_downloads < 20:
+            if include_attachments and attachment and relevant_downloads < MAX_RELEVANT_ATTACHMENTS_PER_COMPANY:
                 try:
                     relevant_downloads += 1
-                    doc = request(session, attachment); suffix = '.pdf' if 'pdf' in doc.headers.get('Content-Type','').lower() else '.bin'
-                    source_hash, _ = save_source(con, 'NSE_ANNOUNCEMENT_ATTACHMENT', attachment, doc.content, suffix)
+                    cached = cached_attachment(con, attachment)
+                    if cached:
+                        content, source_hash = cached; suffix = '.pdf' if content.startswith(b'%PDF') else '.bin'
+                    else:
+                        doc = request(session, attachment); content = doc.content
+                        suffix = '.pdf' if 'pdf' in doc.headers.get('Content-Type','').lower() else '.bin'
+                        source_hash, _ = save_source(con, 'NSE_ANNOUNCEMENT_ATTACHMENT', attachment, content, suffix)
                     source_url = attachment
                     if suffix == '.pdf':
                         try:
                             from pypdf import PdfReader
-                            body_text = '\n'.join(page.extract_text() or '' for page in PdfReader(io.BytesIO(doc.content)).pages)
+                            body_text = '\n'.join(page.extract_text() or '' for page in PdfReader(io.BytesIO(content)).pages)
                         except Exception:
                             body_text = ''
                 except Exception:
@@ -219,8 +243,8 @@ def collect_announcements(con: sqlite3.Connection, session: requests.Session, sy
     return counts
 
 
-def refresh_official_sources(symbols: list[str]) -> dict:
+def refresh_official_sources(symbols: list[str], include_attachments: bool = False) -> dict:
     selected = {s.upper() for s in symbols}; con = connect(); ensure_schema(con); session = source_session()
     result = collect_shareholding(con, session, selected)
-    for key, value in collect_announcements(con, session, selected).items(): result[key] = value
+    for key, value in collect_announcements(con, session, selected, include_attachments).items(): result[key] = value
     con.close(); return result

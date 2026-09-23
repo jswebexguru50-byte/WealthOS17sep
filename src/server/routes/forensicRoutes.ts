@@ -616,7 +616,7 @@ forensicRouter.post('/fere-stock/:symbol/refresh', requireFereReviewer, async (r
   const python = configuredPython || (process.platform === 'win32' ? 'py' : 'python3');
   const pythonArgs = [
     ...(process.platform === 'win32' && !configuredPython ? ['-3.12'] : []),
-    script, '--symbols', cleanSymbol, '--workers', '4', '--force', '--refresh-source', '--job-id', jobId
+    script, '--symbols', cleanSymbol, '--workers', '4', '--force', '--refresh-source', '--fast-card', '--job-id', jobId
   ];
   const child = spawn(python, pythonArgs, {
     cwd: process.cwd(), detached: true, stdio: 'ignore', windowsHide: true,
