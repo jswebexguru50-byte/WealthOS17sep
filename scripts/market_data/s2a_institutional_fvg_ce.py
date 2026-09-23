@@ -24,6 +24,10 @@ class S2AConfig:
     strategy_id: str = "S2A"
     strategy_name: str = "S2_INSTITUTIONAL_FVG_CE"
     strategy_bucket: str = "Bucket B: Volume & Absorption"
+    initial_move_min_pct: float = 0.20
+    initial_move_lookback_bars: int = 25
+    initial_move_min_bars: int = 4
+    initial_move_max_bars: int = 25
     inflow_lookback_bars: int = 20
     inflow_vol_mult: float = 1.50
     fvg_min_size_pct: float = 0.015
@@ -109,6 +113,20 @@ def detect_s2a_at(data: pd.DataFrame, signal: int, config: S2AConfig) -> dict[st
     candidates: list[dict[str, Any]] = []
     for gap_bar in range(first_gap_bar, signal):
         displacement = gap_bar - 1
+        impulse_start = max(0, gap_bar - config.initial_move_lookback_bars)
+        origin_slice = data.iloc[impulse_start:gap_bar]
+        if origin_slice.empty:
+            continue
+        origin = int(origin_slice["low"].idxmin())
+        impulse_bars = gap_bar - origin
+        impulse_window = data.loc[origin:gap_bar, "high"]
+        impulse_high = float(impulse_window.max())
+        impulse_peak = int(impulse_window.idxmax())
+        origin_low = float(data.at[origin, "low"])
+        initial_move_pct = (impulse_high - origin_low) / origin_low if origin_low > 0 else 0.0
+        if (not config.initial_move_min_bars <= impulse_bars <= config.initial_move_max_bars
+                or initial_move_pct < config.initial_move_min_pct):
+            continue
         fvg_floor = float(data.at[gap_bar - 2, "high"])
         fvg_ceiling = float(data.at[gap_bar, "low"])
         gap_height = fvg_ceiling - fvg_floor
@@ -133,6 +151,9 @@ def detect_s2a_at(data: pd.DataFrame, signal: int, config: S2AConfig) -> dict[st
             "Signal_Date": str(pd.Timestamp(data.at[signal, "trade_date"]).date()),
             "Strategy_ID": config.strategy_id, "Strategy_Name": config.strategy_name,
             "Candle_Pattern": pattern,
+            "Initial_Move_Origin_Date": str(pd.Timestamp(data.at[origin, "trade_date"]).date()),
+            "Initial_Move_Peak_Date": str(pd.Timestamp(data.at[impulse_peak, "trade_date"]).date()),
+            "Initial_Move_Bars": impulse_bars, "Initial_Move_Pct": 100 * initial_move_pct,
             "FVG_Displacement_Date": str(pd.Timestamp(data.at[displacement, "trade_date"]).date()),
             "FVG_Low_Bound": fvg_floor, "FVG_High_Bound": fvg_ceiling, "CE_Level": ce_level,
             "Signal_Price": trigger_close, "FVG_Size_Pct": 100 * gap_height / fvg_floor,
@@ -170,6 +191,10 @@ def synthetic_ohlcv() -> pd.DataFrame:
     dates = pd.bdate_range("2025-01-01", periods=55)
     frame = pd.DataFrame({"trade_date": dates, "open": 100.0, "high": 101.0, "low": 99.0,
                           "close": 100.5, "volume": 1_000.0})
+    # A 20% initial advance feeds the FVG setup.
+    for index in range(20, 38):
+        price = 80 + (20 * (index - 20) / 17)
+        frame.loc[index, ["open", "high", "low", "close"]] = [price, price + 1, price - 0.5, price + 0.5]
     # FVG: high[37]=101, displacement volume at 38, low[39]=105 creates a 4-point gap.
     frame.loc[37, ["open", "high", "low", "close", "volume"]] = [100, 101, 99, 100, 1000]
     frame.loc[38, ["open", "high", "low", "close", "volume"]] = [101, 106, 100, 105, 2500]
