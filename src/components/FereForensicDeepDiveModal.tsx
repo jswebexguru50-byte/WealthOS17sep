@@ -92,7 +92,11 @@ interface CompanyCheck {
   missing_information: string[]; evidence: Array<{ fact_id: number; metric: string; value: number; unit: string; source_url: string; sha256: string }>;
   data_freshness: string | null; synthetic_values: number; ghost_sources: number;
   revised_at: string;
+  three_year_trends: Array<{ period_end: string; revenue: number | null; ebitda: number | null; pat: number | null; cfo: number | null; ebitda_margin: number | null }>;
+  changes_since_previous_card: Array<{ field: string; before: unknown; after: unknown }>;
 }
+
+interface ClaimCandidate { id: number; claimDate: string; sourceUrl: string; evidenceText: string; metric: string; target: number | null; unit: string | null; deadline: string | null; }
 
 export const FereForensicDeepDiveModal: React.FC<FereForensicDeepDiveModalProps> = ({
   symbol,
@@ -107,6 +111,8 @@ export const FereForensicDeepDiveModal: React.FC<FereForensicDeepDiveModalProps>
   const [companyCheck, setCompanyCheck] = useState<CompanyCheck | null>(null);
   const [searchInput, setSearchInput] = useState<string>('');
   const [refreshing, setRefreshing] = useState(false);
+  const [refreshStage, setRefreshStage] = useState<string | null>(null);
+  const [claimCandidates, setClaimCandidates] = useState<ClaimCandidate[]>([]);
 
   const fetchStockForensics = async (targetSymbol: string) => {
     if (!targetSymbol) return;
@@ -120,7 +126,11 @@ export const FereForensicDeepDiveModal: React.FC<FereForensicDeepDiveModalProps>
       const res = await fetch(`/api/forensic/fere-stock/${encodeURIComponent(clean)}`);
       const json = await res.json();
       if (json.success && json.data) {
-        if (json.data.financials && json.data.missing_information) setCompanyCheck(json.data);
+        if (json.data.financials && json.data.missing_information) {
+          setCompanyCheck(json.data);
+          fetch(`/api/forensic/fere-stock/${encodeURIComponent(clean)}/claim-candidates`).then(r => r.json())
+            .then(payload => setClaimCandidates(payload.success ? payload.data : [])).catch(() => setClaimCandidates([]));
+        }
         else setData(json.data);
       } else {
         setError(json.error || `No FERE forensic data available for ${targetSymbol}`);
@@ -137,14 +147,48 @@ export const FereForensicDeepDiveModal: React.FC<FereForensicDeepDiveModalProps>
     if (!companyCheck?.symbol || refreshing) return;
     setRefreshing(true);
     try {
-      const response = await fetch(`/api/forensic/fere-stock/${encodeURIComponent(companyCheck.symbol)}/refresh`, { method: 'POST' });
+      let token = sessionStorage.getItem('fere-review-token') || '';
+      if (!token) token = window.prompt('Enter FERE reviewer token') || '';
+      if (!token) throw new Error('Reviewer token is required');
+      sessionStorage.setItem('fere-review-token', token);
+      const response = await fetch(`/api/forensic/fere-stock/${encodeURIComponent(companyCheck.symbol)}/refresh`,
+        { method: 'POST', headers: { 'x-fere-review-token': token } });
       if (!response.ok) throw new Error('Refresh could not be started');
-      window.setTimeout(() => fetchStockForensics(companyCheck.symbol), 3000);
+      const payload = await response.json();
+      const poll = async () => {
+        const state = await fetch(`/api/forensic/fere-refresh/${encodeURIComponent(payload.jobId)}`).then(r => r.json());
+        if (!state.success) throw new Error('Refresh status unavailable');
+        setRefreshStage(state.data.stage);
+        if (state.data.status === 'COMPLETED') { setRefreshing(false); await fetchStockForensics(companyCheck.symbol); return; }
+        if (state.data.status === 'FAILED') throw new Error(state.data.detail || 'Refresh failed');
+        window.setTimeout(() => poll().catch(err => { setError(err.message); setRefreshing(false); }), 1500);
+      };
+      await poll();
     } catch (err: any) {
       setError(err.message || 'Refresh could not be started');
     } finally {
       setRefreshing(false);
     }
+  };
+
+  const decideClaim = async (candidate: ClaimCandidate, decision: 'ACCEPT' | 'EDIT' | 'IGNORE') => {
+    let token = sessionStorage.getItem('fere-review-token') || window.prompt('Enter FERE reviewer token') || '';
+    if (!token) return;
+    sessionStorage.setItem('fere-review-token', token);
+    const edits: Record<string, unknown> = {};
+    if (decision === 'EDIT') {
+      edits.metric = window.prompt('Metric', candidate.metric) || candidate.metric;
+      const target = window.prompt('Target', candidate.target == null ? '' : String(candidate.target));
+      edits.target = target ? Number(target) : null;
+      edits.unit = window.prompt('Unit', candidate.unit || '') || null;
+      edits.deadline = window.prompt('Deadline (YYYY-MM-DD)', candidate.deadline || '') || null;
+    }
+    const response = await fetch(`/api/forensic/fere-claim-candidates/${candidate.id}/decision`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'x-fere-review-token': token },
+      body: JSON.stringify({ decision, edits })
+    });
+    if (!response.ok) { setError('Claim decision was rejected'); return; }
+    setClaimCandidates(rows => rows.filter(row => row.id !== candidate.id));
   };
 
   useEffect(() => {
@@ -553,7 +597,7 @@ export const FereForensicDeepDiveModal: React.FC<FereForensicDeepDiveModalProps>
                     <div className="text-[10px] text-slate-500">Revised {new Date(companyCheck.revised_at).toLocaleString('en-IN')}</div>
                     <button onClick={refreshCompany} disabled={refreshing}
                       className="mt-1 inline-flex items-center gap-1 rounded bg-cyan-700 px-2 py-1 text-[10px] font-bold text-white disabled:opacity-50">
-                      <RefreshCw className={`h-3 w-3 ${refreshing ? 'animate-spin' : ''}`} /> {refreshing ? 'Refreshing' : 'Refresh data'}
+                      <RefreshCw className={`h-3 w-3 ${refreshing ? 'animate-spin' : ''}`} /> {refreshing ? (refreshStage || 'Refreshing') : 'Refresh data'}
                     </button>
                   </div>
                 </div>
@@ -565,6 +609,37 @@ export const FereForensicDeepDiveModal: React.FC<FereForensicDeepDiveModalProps>
                     </div>
                   ))}
                 </div>
+              </div>
+              <div className="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                <h3 className="text-xs font-bold text-slate-300 uppercase mb-3">Three-year financial trend</h3>
+                <div className="overflow-x-auto"><table className="w-full text-xs"><thead><tr className="text-slate-500">
+                  <th className="text-left p-2">Period</th><th className="text-right p-2">Revenue</th><th className="text-right p-2">EBITDA</th><th className="text-right p-2">PAT</th><th className="text-right p-2">CFO</th><th className="text-right p-2">Margin</th>
+                </tr></thead><tbody>{(companyCheck.three_year_trends || []).map(row => <tr key={row.period_end} className="border-t border-slate-800">
+                  <td className="p-2">{row.period_end}</td>{(['revenue','ebitda','pat','cfo'] as const).map(key => <td key={key} className="p-2 text-right font-mono">{row[key] == null ? 'N/A' : Number(row[key]).toLocaleString('en-IN')}</td>)}
+                  <td className="p-2 text-right">{row.ebitda_margin == null ? 'N/A' : `${(row.ebitda_margin * 100).toFixed(1)}%`}</td></tr>)}</tbody></table></div>
+              </div>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                  <h3 className="text-xs font-bold text-slate-300 uppercase mb-3">What changed</h3>
+                  {(companyCheck.changes_since_previous_card || []).length === 0 ? <p className="text-sm text-slate-500">No material field changes since the previous revision.</p> :
+                    companyCheck.changes_since_previous_card.slice(0, 20).map((change, index) => <div key={`${change.field}-${index}`} className="text-xs text-slate-300 mb-2"><b>{change.field}</b>: {String(change.before ?? 'N/A')} → {String(change.after ?? 'N/A')}</div>)}
+                </div>
+                <div className="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                  <h3 className="text-xs font-bold text-slate-300 uppercase mb-3">Commitments awaiting review</h3>
+                  {claimCandidates.length === 0 ? <p className="text-sm text-slate-500">No pending candidates.</p> : claimCandidates.map(candidate => <div key={candidate.id} className="border-b border-slate-800 pb-3 mb-3">
+                    <a href={candidate.sourceUrl} target="_blank" rel="noreferrer" className="text-xs text-cyan-300">{candidate.evidenceText}</a>
+                    <div className="text-xs text-slate-400 mt-1">{candidate.metric} · {candidate.target ?? 'target?'} {candidate.unit || ''}</div>
+                    <div className="flex gap-2 mt-2">{(['ACCEPT','EDIT','IGNORE'] as const).map(action => <button key={action} onClick={() => decideClaim(candidate, action)} className="rounded bg-slate-800 px-2 py-1 text-[10px] text-white">{action}</button>)}</div>
+                  </div>)}
+                </div>
+              </div>
+              <div className="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                <h3 className="text-xs font-bold text-slate-300 uppercase mb-3">Latest verified material events</h3>
+                {companyCheck.events.length === 0 ? <p className="text-sm text-slate-500">No classified official events in the current archive.</p> :
+                  companyCheck.events.slice(0, 15).map((event, index) => <a key={`${event.event_type}-${event.date}-${index}`} href={event.source_url} target="_blank" rel="noreferrer" className="block border-b border-slate-800 py-2 text-xs">
+                    <span className="font-bold text-amber-300">{event.severity} · {event.event_type}</span>
+                    <span className="ml-2 text-slate-500">{event.date}</span><div className="text-slate-300 mt-1">{event.explanation}</div>
+                  </a>)}
               </div>
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="bg-slate-950 border border-slate-800 rounded-xl p-4">

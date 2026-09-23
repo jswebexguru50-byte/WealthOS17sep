@@ -69,4 +69,4 @@ def accept(con: sqlite3.Connection, candidate_id: int, edits: dict | None = None
 def due_commitments(con: sqlite3.Connection, isin: str, today: str | None = None) -> list[dict]:
     today = today or datetime.now(timezone.utc).date().isoformat()
     con.row_factory = sqlite3.Row
-    return [dict(row) for row in con.execute("SELECT * FROM management_commitment WHERE isin=? AND deadline IS NOT NULL AND deadline<=? AND status IN ('OPEN','ON_TRACK','PARTIAL')", (isin, today))]
+    return [dict(row) for row in con.execute("SELECT * FROM management_commitment WHERE isin=? AND deadline IS NOT NULL AND deadline<=? AND status IN ('OPEN','ON_TRACK','PARTIAL','MISSED')", (isin, today))]

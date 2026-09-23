@@ -24,7 +24,17 @@ import { ForensicCacheService } from '../services/ForensicCacheService.js';
 import { StatutoryLineageService } from '../services/StatutoryLineageService.js';
 import { getDB, dbGet, dbAll } from '../database.js';
 import { DossierEmailDispatcher } from '../services/DossierEmailDispatcher.js';
-import { readFereEvidence } from '../services/FereEvidenceService.js';
+import { createFereRefreshJob, decideFereClaim, listFereClaimCandidates,
+         readFereEvidence, readFereRefreshJob } from '../services/FereEvidenceService.js';
+
+function requireFereReviewer(req: Request, res: Response, next: NextFunction) {
+  const expected = process.env.FERE_REVIEW_TOKEN;
+  const supplied = req.header('x-fere-review-token');
+  if (!expected || !supplied || supplied !== expected) {
+    return res.status(403).json({ success: false, error: 'FERE reviewer authorization is required.' });
+  }
+  next();
+}
 
 export const forensicRouter: Router = express.Router();
 
@@ -595,24 +605,48 @@ forensicRouter.get('/fere-stock/:symbol', async (req: Request, res: Response) =>
   }
 });
 
-forensicRouter.post('/fere-stock/:symbol/refresh', async (req: Request, res: Response) => {
+forensicRouter.post('/fere-stock/:symbol/refresh', requireFereReviewer, async (req: Request, res: Response) => {
   const cleanSymbol = String(req.params.symbol || '').trim().toUpperCase().replace('.NS', '').replace('.BO', '');
   if (!/^[A-Z0-9&-]{1,30}$/.test(cleanSymbol)) {
     return res.status(400).json({ success: false, error: 'Invalid symbol.' });
   }
+  const jobId = await createFereRefreshJob(cleanSymbol);
   const script = path.resolve('scripts', 'fere', 'run_company_checks.py');
   const configuredPython = process.env.FERE_PYTHON;
   const python = configuredPython || (process.platform === 'win32' ? 'py' : 'python3');
   const pythonArgs = [
     ...(process.platform === 'win32' && !configuredPython ? ['-3.12'] : []),
-    script, '--symbols', cleanSymbol, '--workers', '4', '--force', '--refresh-source'
+    script, '--symbols', cleanSymbol, '--workers', '4', '--force', '--refresh-source', '--job-id', jobId
   ];
   const child = spawn(python, pythonArgs, {
     cwd: process.cwd(), detached: true, stdio: 'ignore', windowsHide: true,
     env: { ...process.env, PYTHONPATH: path.resolve('scripts', 'fere') }
   });
   child.unref();
-  return res.status(202).json({ success: true, status: 'REFRESH_STARTED', symbol: cleanSymbol });
+  return res.status(202).json({ success: true, status: 'REFRESH_STARTED', symbol: cleanSymbol, jobId });
+});
+
+forensicRouter.get('/fere-refresh/:jobId', async (req: Request, res: Response) => {
+  const job = await readFereRefreshJob(String(req.params.jobId || ''));
+  return job ? res.json({ success: true, data: job }) : res.status(404).json({ success: false, error: 'Refresh job not found.' });
+});
+
+forensicRouter.get('/fere-stock/:symbol/claim-candidates', async (req: Request, res: Response) => {
+  const symbol = String(req.params.symbol || '').trim().toUpperCase().replace('.NS', '').replace('.BO', '');
+  const db = getDB();
+  const master = await dbGet<{ isin: string }>(db, 'SELECT isin FROM MasterTickers WHERE symbol=? LIMIT 1', [symbol]);
+  const data = master?.isin ? await listFereClaimCandidates(master.isin) : [];
+  return res.json({ success: true, symbol, data });
+});
+
+forensicRouter.post('/fere-claim-candidates/:candidateId/decision', requireFereReviewer, async (req: Request, res: Response) => {
+  const candidateId = Number(req.params.candidateId);
+  const decision = String(req.body?.decision || '').toUpperCase();
+  if (!Number.isInteger(candidateId) || !['ACCEPT','EDIT','IGNORE'].includes(decision)) {
+    return res.status(400).json({ success: false, error: 'Invalid claim decision.' });
+  }
+  await decideFereClaim(candidateId, decision as 'ACCEPT'|'EDIT'|'IGNORE', req.body?.edits || {});
+  return res.json({ success: true, candidateId, decision });
 });
 
 /**

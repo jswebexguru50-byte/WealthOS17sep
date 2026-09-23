@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import sqlite3 from 'sqlite3';
+import { randomUUID } from 'crypto';
 
 export interface FereEvidenceSummary {
   status: 'VERIFIED_PARTIAL' | 'DATA_INSUFFICIENT' | 'SOURCE_UNAVAILABLE';
@@ -18,6 +19,65 @@ export interface FereEvidenceSummary {
 }
 
 const evidencePath = path.resolve('data', 'fere', 'verified_filings', 'fere_evidence.db');
+
+const openDb = (mode = sqlite3.OPEN_READWRITE): sqlite3.Database => new sqlite3.Database(evidencePath, mode);
+const run = (db: sqlite3.Database, sql: string, params: unknown[] = []): Promise<void> => new Promise((resolve, reject) => {
+  db.run(sql, params, error => error ? reject(error) : resolve());
+});
+const get = <T>(db: sqlite3.Database, sql: string, params: unknown[] = []): Promise<T | undefined> => new Promise((resolve, reject) => {
+  db.get(sql, params, (error, row) => error ? reject(error) : resolve(row as T | undefined));
+});
+
+export async function createFereRefreshJob(symbol: string): Promise<string> {
+  const id = randomUUID(); const db = openDb(); const timestamp = new Date().toISOString();
+  try {
+    await run(db, `CREATE TABLE IF NOT EXISTS company_refresh_job (
+      id TEXT PRIMARY KEY, symbol TEXT NOT NULL, status TEXT NOT NULL, stage TEXT NOT NULL,
+      detail TEXT, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, completed_at TEXT)`);
+    await run(db, `INSERT INTO company_refresh_job(id,symbol,status,stage,created_at,updated_at)
+      VALUES(?,?,'QUEUED','QUEUED',?,?)`, [id, symbol, timestamp, timestamp]);
+    return id;
+  } finally { db.close(); }
+}
+
+export async function readFereRefreshJob(id: string): Promise<Record<string, unknown> | null> {
+  if (!fs.existsSync(evidencePath)) return null;
+  const db = openDb(sqlite3.OPEN_READONLY);
+  try {
+    const row = await get<any>(db, `SELECT id,symbol,status,stage,detail,created_at AS createdAt,
+      updated_at AS updatedAt,completed_at AS completedAt FROM company_refresh_job WHERE id=?`, [id]);
+    return row || null;
+  } catch { return null; } finally { db.close(); }
+}
+
+export async function listFereClaimCandidates(isin: string): Promise<Array<Record<string, unknown>>> {
+  const db = openDb(sqlite3.OPEN_READONLY);
+  try {
+    return await new Promise((resolve, reject) => db.all(`SELECT id,claim_date AS claimDate,source_url AS sourceUrl,
+      source_sha256 AS sourceSha256,evidence_text AS evidenceText,detected_metric AS metric,
+      detected_target AS target,detected_unit AS unit,detected_deadline AS deadline,decision
+      FROM management_claim_candidate WHERE isin=? AND decision='PENDING' ORDER BY claim_date DESC`, [isin],
+      (error, rows) => error ? reject(error) : resolve(rows as Array<Record<string, unknown>>)));
+  } catch { return []; } finally { db.close(); }
+}
+
+export async function decideFereClaim(candidateId: number, decision: 'ACCEPT'|'EDIT'|'IGNORE', edits: any = {}): Promise<void> {
+  const db = openDb();
+  try {
+    const row = await get<any>(db, 'SELECT * FROM management_claim_candidate WHERE id=?', [candidateId]);
+    if (!row) throw new Error('Claim candidate not found');
+    if (decision === 'IGNORE') { await run(db, "UPDATE management_claim_candidate SET decision='IGNORE' WHERE id=?", [candidateId]); return; }
+    const metric = String(edits.metric ?? row.detected_metric ?? '').trim();
+    if (!metric) throw new Error('Accepted commitment requires a metric');
+    await run(db, `INSERT INTO management_commitment
+      (isin,symbol,claim_date,source_url,source_sha256,source_evidence,metric,target,unit,deadline,status)
+      VALUES(?,?,?,?,?,?,?,?,?,?,'OPEN') ON CONFLICT(isin,source_sha256,source_evidence) DO UPDATE SET
+      metric=excluded.metric,target=excluded.target,unit=excluded.unit,deadline=excluded.deadline,status='OPEN'`,
+      [row.isin,row.symbol,row.claim_date,row.source_url,row.source_sha256,row.evidence_text,metric,
+       edits.target ?? row.detected_target,edits.unit ?? row.detected_unit,edits.deadline ?? row.detected_deadline]);
+    await run(db, 'UPDATE management_claim_candidate SET decision=? WHERE id=?', [decision, candidateId]);
+  } finally { db.close(); }
+}
 
 export async function readFereEvidence(isin: string | null, symbol: string): Promise<FereEvidenceSummary> {
   const empty: FereEvidenceSummary = {

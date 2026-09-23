@@ -26,20 +26,85 @@ def ensure_schema(con: sqlite3.Connection) -> None:
         isin TEXT PRIMARY KEY, symbol TEXT NOT NULL, status TEXT NOT NULL,
         period_end TEXT, previous_period_end TEXT, updated_at TEXT NOT NULL,
         result_json TEXT NOT NULL);
+      CREATE TABLE IF NOT EXISTS company_check_history (
+        id INTEGER PRIMARY KEY, isin TEXT NOT NULL, symbol TEXT NOT NULL,
+        revised_at TEXT NOT NULL, result_json TEXT NOT NULL);
       CREATE TABLE IF NOT EXISTS company_material_event (
         id INTEGER PRIMARY KEY, isin TEXT NOT NULL, symbol TEXT NOT NULL,
         event_type TEXT NOT NULL, event_date TEXT NOT NULL, severity TEXT NOT NULL,
         explanation TEXT NOT NULL, source_url TEXT NOT NULL, source_sha256 TEXT NOT NULL,
         verified INTEGER NOT NULL CHECK(verified IN (0,1)),
         UNIQUE(isin,event_type,event_date,source_sha256));
+      CREATE TABLE IF NOT EXISTS shareholding_snapshot (
+        id INTEGER PRIMARY KEY, isin TEXT NOT NULL, symbol TEXT NOT NULL,
+        period_end TEXT NOT NULL, promoter_holding REAL, promoter_pledge REAL,
+        public_holding REAL, employee_trusts REAL, source_url TEXT NOT NULL,
+        source_sha256 TEXT NOT NULL, available_at TEXT NOT NULL, status TEXT NOT NULL,
+        UNIQUE(isin,period_end,source_sha256));
     ''')
 
 
-def latest_checkpoint(con: sqlite3.Connection, isin: str) -> tuple[int, str | None, str | None, str | None]:
+def latest_checkpoint(con: sqlite3.Connection, isin: str) -> tuple[int, str | None, str | None, str | None, str | None]:
     row = con.execute('SELECT COALESCE(MAX(id),0),MAX(period_end) FROM filing_document WHERE isin=? AND sha256 IS NOT NULL', (isin,)).fetchone()
     management = con.execute('SELECT MAX(claim_date) FROM management_commitment WHERE isin=?', (isin,)).fetchone()[0]
-    credit = con.execute("SELECT MAX(event_date) FROM company_material_event WHERE isin=? AND event_type='CREDIT_RATING_DOWNGRADE'", (isin,)).fetchone()[0]
-    return int(row[0]), row[1], management, credit
+    event_date = con.execute('SELECT MAX(event_date) FROM company_material_event WHERE isin=?', (isin,)).fetchone()[0]
+    shareholding = con.execute('SELECT MAX(period_end) FROM shareholding_snapshot WHERE isin=?', (isin,)).fetchone()[0]
+    return int(row[0]), row[1], shareholding, management, event_date
+
+
+def shareholding_values(con: sqlite3.Connection, isin: str) -> tuple[dict, dict, list[dict]]:
+    con.row_factory = sqlite3.Row
+    rows = con.execute('''SELECT id,period_end,promoter_holding,promoter_pledge,public_holding,
+      source_url,source_sha256,available_at FROM shareholding_snapshot WHERE isin=?
+      ORDER BY period_end DESC,id DESC LIMIT 2''', (isin,)).fetchall()
+    def values(row):
+        return {"promoter_holding": row["promoter_holding"] / 100 if row["promoter_holding"] is not None else None,
+                "promoter_pledge": row["promoter_pledge"] / 100 if row["promoter_pledge"] is not None else None}
+    evidence = [{"fact_id": f"shareholding:{row['id']}", "metric": "promoter_holding",
+                 "value": row["promoter_holding"], "unit": "PERCENT", "source_url": row["source_url"],
+                 "sha256": row["source_sha256"], "available_at": row["available_at"],
+                 "taxonomy_field": "NSE_REGULATION_31_SHAREHOLDING"} for row in rows]
+    return (values(rows[0]) if rows else {}, values(rows[1]) if len(rows) > 1 else {}, evidence)
+
+
+def changed_fields(previous: dict | None, current: dict) -> list[dict]:
+    if not previous: return []
+    changes = []
+    for section in ("financials", "derived"):
+        before, after = previous.get(section, {}), current.get(section, {})
+        for key in sorted(set(before) | set(after)):
+            if before.get(key) != after.get(key):
+                changes.append({"field": f"{section}.{key}", "before": before.get(key), "after": after.get(key)})
+    before_flags = {f.get("rule") for f in previous.get("red_flags", [])}
+    after_flags = {f.get("rule") for f in current.get("red_flags", [])}
+    for rule in sorted(after_flags - before_flags): changes.append({"field": "red_flag", "before": None, "after": rule})
+    for rule in sorted(before_flags - after_flags): changes.append({"field": "red_flag", "before": rule, "after": None})
+    return changes
+
+
+def evaluate_commitments(con: sqlite3.Connection, isin: str, current: dict, derived: dict,
+                         evidence: list[dict]) -> None:
+    today = date.today().isoformat()
+    fact_ids = json.dumps([item["fact_id"] for item in evidence])
+    rows = con.execute("SELECT id,metric,target,unit,deadline,status FROM management_commitment WHERE isin=? AND status IN ('OPEN','ON_TRACK','PARTIAL')", (isin,)).fetchall()
+    for claim_id, metric, target, unit, deadline, status in rows:
+        key = str(metric).lower().replace(' ', '_')
+        actual = {"revenue": current.get("revenue"), "margin": current.get("ebitda_margin"),
+                  "ebitda_margin": current.get("ebitda_margin"), "debt": current.get("debt"),
+                  "debt_reduction": current.get("debt"), "growth": derived.get("revenue_yoy")}.get(key)
+        normalized = actual
+        unit_text = str(unit or '').lower()
+        if actual is not None and unit_text in ('crore', 'cr', '₹ crore', 'rs crore'):
+            normalized = actual / 10_000_000
+        elif actual is not None and unit_text in ('%', 'percent', 'percentage'):
+            normalized = actual * 100
+        if target is None or normalized is None:
+            new_status = 'NOT_VERIFIABLE' if deadline and deadline <= today else 'OPEN'
+        else:
+            achieved = normalized <= target if key in ('debt', 'debt_reduction') else normalized >= target
+            new_status = 'ACHIEVED' if achieved else 'MISSED' if deadline and deadline <= today else 'ON_TRACK'
+        con.execute('''UPDATE management_commitment SET status=?,actual_value=?,actual_fact_ids=?,evaluated_at=? WHERE id=?''',
+                    (new_status,normalized,fact_ids,datetime.now(timezone.utc).isoformat(),claim_id))
 
 
 def annual_periods(con: sqlite3.Connection, isin: str) -> list[tuple[str, str, str]]:
@@ -82,9 +147,9 @@ def run_company_check(identifier: str, force: bool = False) -> dict[str, Any]:
     if not row:
         con.close(); return {"status": "UNKNOWN_COMPANY", "identifier": identifier}
     isin, symbol = row
-    filing_id, filing_period, management_date, credit_date = latest_checkpoint(con, isin)
-    prior_state = con.execute('SELECT last_filing_id,last_management_communication,last_credit_rating_update FROM company_check_state WHERE isin=?', (isin,)).fetchone()
-    if not force and prior_state and tuple(prior_state) == (filing_id, management_date, credit_date):
+    filing_id, filing_period, shareholding_date, management_date, event_date = latest_checkpoint(con, isin)
+    prior_state = con.execute('SELECT last_filing_id,last_shareholding_filing,last_management_communication,last_credit_rating_update FROM company_check_state WHERE isin=?', (isin,)).fetchone()
+    if not force and prior_state and tuple(prior_state) == (filing_id, shareholding_date, management_date, event_date):
         cached = con.execute('SELECT result_json FROM company_check_result WHERE isin=?', (isin,)).fetchone()
         con.close()
         return {**json.loads(cached[0]), "run_status": "SKIPPED_NO_NEW_INFORMATION"} if cached else {"status": "SKIPPED_NO_NEW_INFORMATION", "symbol": symbol}
@@ -101,6 +166,16 @@ def run_company_check(identifier: str, force: bool = False) -> dict[str, Any]:
         previous, previous_evidence = period_values(con, isin, pair[1])
         evidence = current_evidence + previous_evidence
         period_end, previous_end = pair[0][1], pair[1][1]
+    share_current, share_previous, share_evidence = shareholding_values(con, isin)
+    current.update({k: v for k, v in share_current.items() if v is not None})
+    previous.update({k: v for k, v in share_previous.items() if v is not None})
+    evidence.extend(share_evidence)
+    trends = []
+    for period in periods[:3]:
+        values, refs = period_values(con, isin, period)
+        trends.append({"period_end": period[1], "revenue": values.get("revenue"), "ebitda": values.get("ebitda"),
+                       "pat": values.get("pat"), "cfo": values.get("cfo"), "ebitda_margin": values.get("ebitda_margin"),
+                       "source_fact_ids": [r["fact_id"] for r in refs]})
     derived = {
         "revenue_yoy": growth(current.get("revenue"), previous.get("revenue")),
         "pat_yoy": growth(current.get("pat"), previous.get("pat")),
@@ -110,6 +185,7 @@ def run_company_check(identifier: str, force: bool = False) -> dict[str, Any]:
         "ebitda_margin": current.get("ebitda_margin"), "cfo_pat": current.get("cfo_pat"),
         "net_debt_ebitda": current.get("net_debt_ebitda"),
     }
+    evaluate_commitments(con, isin, current, derived, evidence)
     events = [{"event_type": r[0], "date": r[1], "severity": r[2], "explanation": r[3],
                "source_url": r[4], "sha256": r[5], "verified": bool(r[6])}
               for r in con.execute('SELECT event_type,event_date,severity,explanation,source_url,source_sha256,verified FROM company_material_event WHERE isin=? ORDER BY event_date DESC', (isin,))]
@@ -121,24 +197,32 @@ def run_company_check(identifier: str, force: bool = False) -> dict[str, Any]:
                    for r in con.execute('SELECT id,claim_date,source_url,source_sha256,source_evidence,metric,target,unit,deadline,status,actual_value,actual_fact_ids,evaluated_at FROM management_commitment WHERE isin=? ORDER BY claim_date DESC', (isin,))]
     required = ("revenue", "ebitda", "pat", "cfo", "debt", "cash", "receivables", "inventory", "promoter_holding", "promoter_pledge")
     missing = [m for m in required if current.get(m) is None]
+    prior_card_row = con.execute('SELECT result_json FROM company_check_result WHERE isin=?', (isin,)).fetchone()
+    prior_card = json.loads(prior_card_row[0]) if prior_card_row else None
     result = {"status": "VERIFIED_PARTIAL" if current else "DATA_INSUFFICIENT", "run_status": "PROCESSED",
               "isin": isin, "symbol": symbol, "period_end": period_end, "previous_period_end": previous_end,
               "financials": {k: current.get(k) for k in required}, "derived": derived,
               "red_flags": flags, "management_commitments": commitments, "events": events,
+              "three_year_trends": trends,
               "missing_information": missing, "evidence": evidence,
               "data_freshness": max((e["available_at"] for e in evidence), default=None),
               "advanced_metrics": "OPTIONAL_NOT_BLOCKING", "synthetic_values": 0,
               "ghost_sources": 0, "thresholds": thresholds_dict()}
     checked_at = datetime.now(timezone.utc).isoformat()
     result["revised_at"] = checked_at
+    result["changes_since_previous_card"] = changed_fields(prior_card, result)
+    if prior_card:
+        con.execute('INSERT INTO company_check_history(isin,symbol,revised_at,result_json) VALUES(?,?,?,?)',
+                    (isin,symbol,prior_card.get("revised_at", checked_at),json.dumps(prior_card)))
     con.execute('''INSERT INTO company_check_result VALUES(?,?,?,?,?,?,?) ON CONFLICT(isin) DO UPDATE SET
       symbol=excluded.symbol,status=excluded.status,period_end=excluded.period_end,previous_period_end=excluded.previous_period_end,
       updated_at=excluded.updated_at,result_json=excluded.result_json''',
       (isin,symbol,result["status"],period_end,previous_end,checked_at,json.dumps(result)))
     con.execute('''INSERT INTO company_check_state
-      (isin,symbol,last_filing_id,last_result_period,last_management_communication,last_credit_rating_update,checked_at)
-      VALUES(?,?,?,?,?,?,?) ON CONFLICT(isin) DO UPDATE SET symbol=excluded.symbol,last_filing_id=excluded.last_filing_id,
-      last_result_period=excluded.last_result_period,last_management_communication=excluded.last_management_communication,
+      (isin,symbol,last_filing_id,last_result_period,last_shareholding_filing,last_management_communication,last_credit_rating_update,checked_at)
+      VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(isin) DO UPDATE SET symbol=excluded.symbol,last_filing_id=excluded.last_filing_id,
+      last_result_period=excluded.last_result_period,last_shareholding_filing=excluded.last_shareholding_filing,
+      last_management_communication=excluded.last_management_communication,
       last_credit_rating_update=excluded.last_credit_rating_update,checked_at=excluded.checked_at''',
-      (isin,symbol,filing_id,filing_period,management_date,credit_date,checked_at))
+      (isin,symbol,filing_id,filing_period,shareholding_date,management_date,event_date,checked_at))
     con.commit(); con.close(); return result
