@@ -144,6 +144,14 @@ EVENT_PATTERNS = [
     ('PROJECT_DELAY', 'WATCH', re.compile(r'\b(delay|defer|postpone)\w*\b.*\b(project|commission|plant|capex)\b', re.I)),
 ]
 
+RELEVANT_ATTACHMENT_SUBJECT = re.compile(
+    r'\b(credit rating|rating action|resignation|auditor|chief financial officer|cfo|default|payment|'
+    r'preferential|warrant|qualified institutions placement|qip|regulatory|guidance|project|commission|'
+    r'investor|analyst|conference|concall|presentation)\b',
+    re.I,
+)
+CLAIM_SOURCE_SUBJECT = re.compile(r'\b(analyst|investor|conference|concall|presentation)\b', re.I)
+
 
 def announcement_rows(value) -> list[dict]:
     if isinstance(value, list): return [v for v in value if isinstance(v, dict)]
@@ -166,14 +174,21 @@ def collect_announcements(con: sqlite3.Connection, session: requests.Session, sy
             continue
         digest, _ = save_source(con, 'NSE_CORPORATE_ANNOUNCEMENTS', url, response.content, '.json')
         isin, canonical = identities[symbol]
-        for item in announcement_rows(response.json()):
+        relevant_downloads = 0
+        for item in announcement_rows(response.json())[:100]:
             subject = str(item.get('desc') or item.get('subject') or item.get('purpose') or '').strip()
+            subject_events = [(event_type, severity, pattern) for event_type, severity, pattern in EVENT_PATTERNS
+                              if pattern.search(subject)]
+            is_claim_source = bool(CLAIM_SOURCE_SUBJECT.search(subject))
+            if not subject_events and not RELEVANT_ATTACHMENT_SUBJECT.search(subject):
+                continue
             event_date = str(item.get('an_dt') or item.get('broadcastDate') or item.get('date') or now())
             attachment = official_url(str(item.get('attchmntFile') or item.get('attachment') or '')) if (item.get('attchmntFile') or item.get('attachment')) else None
             source_url, source_hash = url, digest
             body_text = ''
-            if attachment:
+            if attachment and relevant_downloads < 20:
                 try:
+                    relevant_downloads += 1
                     doc = request(session, attachment); suffix = '.pdf' if 'pdf' in doc.headers.get('Content-Type','').lower() else '.bin'
                     source_hash, _ = save_source(con, 'NSE_ANNOUNCEMENT_ATTACHMENT', attachment, doc.content, suffix)
                     source_url = attachment
@@ -192,7 +207,7 @@ def collect_announcements(con: sqlite3.Connection, session: requests.Session, sy
                       (isin,symbol,event_type,event_date,severity,explanation,source_url,source_sha256,verified)
                       VALUES(?,?,?,?,?,?,?,?,1)''', (isin,canonical,event_type,event_date,severity,subject,source_url,source_hash))
                     counts['events'] += 1
-            if body_text and re.search(r'analyst|investor|conference|presentation|concall', subject, re.I):
+            if body_text and is_claim_source:
                 for candidate in detect_candidates(body_text):
                     con.execute('''INSERT OR IGNORE INTO management_claim_candidate
                       (isin,symbol,claim_date,source_url,source_sha256,evidence_text,detected_metric,
