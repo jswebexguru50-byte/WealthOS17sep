@@ -203,12 +203,40 @@ def detect_s1b(frame: pd.DataFrame, config: S1BPatternConfig) -> dict[str, Any] 
     return best
 
 
+def scan_historical_signals(frame: pd.DataFrame, config: S1BPatternConfig,
+                            trailing_bars: int | None = None) -> list[dict[str, Any]]:
+    """Walk forward without lookahead and retain only post-signal returns."""
+    first_index = max(config.total_lookback_bars, config.vol_ma_period,
+                      config.rsi_period, config.sma_period)
+    start_index = max(first_index, len(frame) - trailing_bars) if trailing_bars else first_index
+    next_allowed = start_index
+    records: list[dict[str, Any]] = []
+    for signal_index in range(start_index, len(frame)):
+        if signal_index < next_allowed:
+            continue
+        setup = detect_s1b(frame.iloc[:signal_index + 1], config)
+        if setup is None:
+            continue
+        close = float(frame.iloc[signal_index]["close"])
+        for horizon in config.forward_eval_bars:
+            future_index = signal_index + horizon
+            setup[f"forward_return_{horizon}b_pct"] = (
+                (float(frame.iloc[future_index]["close"]) / close - 1) * 100
+                if future_index < len(frame) else np.nan
+            )
+        records.append(setup)
+        next_allowed = signal_index + config.cooldown_bars
+    return records
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--parquet-root", type=Path, default=DEFAULT_PARQUET_ROOT)
     parser.add_argument("--report-root", type=Path, default=DEFAULT_REPORT_ROOT)
     parser.add_argument("--as-of-date", required=True, help="ISO date used as the data cutoff.")
     parser.add_argument("--universe-name", default="s1b_all_local")
+    parser.add_argument("--historical-bars", type=int, default=0,
+                        help="Walk forward over this many latest trading bars; 0 evaluates only the latest bar.")
     args = parser.parse_args()
     config = S1BPatternConfig()
     symbols = load_local_symbols(args.parquet_root)
@@ -221,8 +249,10 @@ def main() -> int:
         if daily.empty:
             gaps.append(symbol)
             continue
-        match = detect_s1b(daily, config)
-        if match:
+        symbol_matches = (scan_historical_signals(daily, config, args.historical_bars)
+                          if args.historical_bars else
+                          [match] if (match := detect_s1b(daily, config)) else [])
+        for match in symbol_matches:
             match["symbol"] = symbol
             match["Date_O"] = match["origin_date"]
             match["Date_a"] = match["leg1_high_date"]
@@ -236,6 +266,8 @@ def main() -> int:
     safe_name = "".join(c if c.isalnum() else "_" for c in args.universe_name.lower()).strip("_")
     evidence = {"strategy": "S1B", "generated_at_utc": datetime.now(timezone.utc).isoformat(),
                 "as_of_date_requested": args.as_of_date, "source": "KITE_ADJUSTED_PARQUET",
+                "scan_mode": "ROLLING_WALK_FORWARD" if args.historical_bars else "LATEST_BAR",
+                "historical_bars": args.historical_bars or None,
                 "symbols_requested": int(len(symbols)), "symbols_covered": int(len(symbols) - len(gaps)),
                 "coverage_gaps": gaps, "config": asdict(config), "matches": matches,
                 "limitations": ["ATH is the maximum adjusted close within available local history, not a verified lifetime ATH.",

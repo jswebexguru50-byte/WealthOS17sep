@@ -166,11 +166,14 @@ def detect_s2a_at(data: pd.DataFrame, signal: int, config: S2AConfig) -> dict[st
     return max(candidates, key=lambda item: item["Score"], default=None)
 
 
-def walk_forward_backtest(frame: pd.DataFrame, config: S2AConfig) -> pd.DataFrame:
+def walk_forward_backtest(frame: pd.DataFrame, config: S2AConfig,
+                          trailing_bars: int | None = None) -> pd.DataFrame:
     data = prepare_indicators(frame, config)
     records: list[dict[str, Any]] = []
     next_allowed = max(config.atr_period, config.vol_ma_period, 3)
-    for signal in range(next_allowed, len(data)):
+    start_signal = max(next_allowed, len(data) - trailing_bars) if trailing_bars else next_allowed
+    next_allowed = start_signal
+    for signal in range(start_signal, len(data)):
         if signal < next_allowed:
             continue
         setup = detect_s2a_at(data.iloc[:signal + 1].reset_index(drop=True), signal, config)
@@ -212,6 +215,8 @@ def main() -> int:
     parser.add_argument("--parquet-root", type=Path, default=DEFAULT_PARQUET_ROOT)
     parser.add_argument("--report-root", type=Path, default=DEFAULT_REPORT_ROOT)
     parser.add_argument("--universe-name", default="s2a_all_local")
+    parser.add_argument("--historical-bars", type=int, default=0,
+                        help="Walk forward over this many latest trading bars; 0 evaluates only the latest bar.")
     parser.add_argument("--verify-synthetic", action="store_true")
     args = parser.parse_args()
     config = S2AConfig()
@@ -233,11 +238,16 @@ def main() -> int:
         if daily.empty:
             gaps.append(symbol)
             continue
-        data = prepare_indicators(daily, config)
-        setup = detect_s2a_at(data, len(data) - 1, config)
-        if setup:
-            setup["Symbol"] = symbol
-            matches.append(setup)
+        if args.historical_bars:
+            for setup in walk_forward_backtest(daily, config, args.historical_bars).to_dict("records"):
+                setup["Symbol"] = symbol
+                matches.append(setup)
+        else:
+            data = prepare_indicators(daily, config)
+            setup = detect_s2a_at(data, len(data) - 1, config)
+            if setup:
+                setup["Symbol"] = symbol
+                matches.append(setup)
     con.close()
     matches.sort(key=lambda item: item["Score"], reverse=True)
     root = args.report_root.resolve(); root.mkdir(parents=True, exist_ok=True)
@@ -245,6 +255,8 @@ def main() -> int:
     name = "".join(c if c.isalnum() else "_" for c in args.universe_name.lower()).strip("_")
     evidence = {"strategy": "S2A", "generated_at_utc": datetime.now(timezone.utc).isoformat(),
                 "as_of_date_requested": args.as_of_date, "source": "KITE_ADJUSTED_PARQUET",
+                "scan_mode": "ROLLING_WALK_FORWARD" if args.historical_bars else "LATEST_BAR",
+                "historical_bars": args.historical_bars or None,
                 "symbols_requested": int(len(symbols)), "symbols_covered": int(len(symbols) - len(gaps)),
                 "coverage_gaps": gaps, "config": asdict(config), "matches": matches,
                 "limitations": ["S2A deliberately has no ATH, SMA, or RSI filters.",
