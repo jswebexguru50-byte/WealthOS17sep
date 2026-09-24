@@ -88,7 +88,7 @@ interface CompanyCheck {
   financials: Record<string, number | null>; derived: Record<string, number | null>;
   red_flags: Array<{ rule: string; severity: string; explanation: string; evidence: Array<Record<string, unknown>> }>;
   management_commitments: Array<{ id: number; metric: string; target: number | null; unit: string | null; deadline: string | null; status: string; source_url: string }>;
-  events: Array<{ event_type: string; date: string; severity: string; explanation: string; source_url: string }>;
+  events: Array<{ event_type: string; date: string; severity: string; explanation: string; source_url: string; document_url?: string | null }>;
   missing_information: string[]; evidence: Array<{ fact_id: number; metric: string; value: number; unit: string; source_url: string; sha256: string }>;
   data_freshness: string | null; synthetic_values: number; ghost_sources: number;
   revised_at: string;
@@ -637,7 +637,7 @@ export const FereForensicDeepDiveModal: React.FC<FereForensicDeepDiveModalProps>
               <div className="bg-slate-950 border border-slate-800 rounded-xl p-4">
                 <h3 className="text-xs font-bold text-slate-300 uppercase mb-3">Latest verified material events</h3>
                 {companyCheck.events.length === 0 ? <p className="text-sm text-slate-500">No classified official events in the current archive.</p> :
-                  companyCheck.events.slice(0, 15).map((event, index) => <a key={`${event.event_type}-${event.date}-${index}`} href={event.source_url} target="_blank" rel="noreferrer" className="block border-b border-slate-800 py-2 text-xs">
+                  companyCheck.events.slice(0, 15).map((event, index) => <a key={`${event.event_type}-${event.date}-${index}`} href={event.document_url || event.source_url} target="_blank" rel="noreferrer" className="block border-b border-slate-800 py-2 text-xs">
                     <span className="font-bold text-amber-300">{event.severity} · {event.event_type}</span>
                     <span className="ml-2 text-slate-500">{event.date}</span><div className="text-slate-300 mt-1">{event.explanation}</div>
                   </a>)}

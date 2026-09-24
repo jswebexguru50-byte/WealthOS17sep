@@ -13,6 +13,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from verified_filing_pipeline import DB_PATH, PORTFOLIO, ROOT
+from generate_status_report import main as generate_status_report
 
 STORE = DB_PATH.parent
 PROGRESS = STORE / 'overnight_progress.json'
@@ -33,8 +34,8 @@ def eligible_holdings() -> list[str]:
       WHERE h.quantity>0 AND UPPER(COALESCE(h.currency,'INR'))='INR' AND h.isin LIKE 'INE%'
       GROUP BY u.symbol,h.isin ORDER BY value_inr DESC''').fetchall()
     con.close()
-    return [str(row[0]) for row in rows
-            if str(row[0]) == str(row[0]).upper() and VALID_SYMBOL.fullmatch(str(row[0]))]
+    return list(dict.fromkeys(str(row[0]) for row in rows
+            if str(row[0]) == str(row[0]).upper() and VALID_SYMBOL.fullmatch(str(row[0]))))
 
 
 def nifty500_symbols() -> list[str]:
@@ -48,6 +49,16 @@ def nifty500_symbols() -> list[str]:
     with path.open('r', encoding='utf-8-sig', newline='') as handle:
         symbols = [str(item.get('Symbol') or '').strip().upper() for item in csv.DictReader(handle)]
     return [symbol for symbol in symbols if VALID_SYMBOL.fullmatch(symbol)]
+
+
+def remaining_nse_universe() -> list[str]:
+    con = sqlite3.connect(DB_PATH)
+    rows = con.execute('''SELECT symbol FROM universe
+                          WHERE exchange='NSE' AND UPPER(COALESCE(status,''))='ACTIVE'
+                            AND isin LIKE 'INE%' ORDER BY symbol''').fetchall()
+    con.close()
+    return [str(row[0]) for row in rows
+            if str(row[0]) == str(row[0]).upper() and VALID_SYMBOL.fullmatch(str(row[0]))]
 
 
 def load_progress(symbols: list[str], batch_size: int, deep_evidence: bool) -> dict:
@@ -91,14 +102,17 @@ def main() -> int:
     parser.add_argument('--deep-evidence', action='store_true')
     parser.add_argument('--plan-only', action='store_true')
     args = parser.parse_args()
-    holdings = eligible_holdings(); nifty = nifty500_symbols()
+    holdings = eligible_holdings(); nifty = nifty500_symbols(); universe = remaining_nse_universe()
     symbols = holdings + [symbol for symbol in nifty if symbol not in set(holdings)]
+    selected = set(symbols); symbols += [symbol for symbol in universe if symbol not in selected]
+    symbols = list(dict.fromkeys(symbols))
     progress = load_progress(symbols, args.batch_size, bool(args.deep_evidence))
     progress.update({'holdings_count': len(holdings), 'nifty500_count': len(nifty),
+                     'full_nse_candidates': len(universe), 'unique_total': len(symbols),
                      'deep_evidence': bool(args.deep_evidence)})
     save_progress(progress)
     if args.plan_only:
-        print(json.dumps({'holdings': len(holdings), 'nifty500': len(nifty), 'unique_symbols': len(symbols),
+        print(json.dumps({'holdings': len(holdings), 'nifty500': len(nifty), 'full_nse_candidates': len(universe), 'unique_symbols': len(symbols),
                           'batch_size': args.batch_size, 'batches': (len(symbols) + args.batch_size - 1) // args.batch_size,
                           'first_batch': symbols[:args.batch_size]}, indent=2))
         return 0
@@ -131,9 +145,14 @@ def main() -> int:
                                              'elapsed_seconds': round(time.monotonic() - started, 2),
                                              **detail})
             save_progress(progress); log.write(f'{now()} batch={key}/{total_batches} status={status} {detail}\n'); log.flush()
+            try: generate_status_report()
+            except Exception as exc:
+                log.write(f'{now()} status-report warning={exc}\n'); log.flush()
     statuses = [item.get('status') for item in progress['batches'].values()]
     progress['status'] = 'COMPLETED' if len(statuses) == total_batches and all(s == 'COMPLETED' for s in statuses) else 'COMPLETED_WITH_FAILURES'
     save_progress(progress)
+    try: generate_status_report()
+    except Exception: pass
     return 0 if progress['status'] == 'COMPLETED' else 1
 
 

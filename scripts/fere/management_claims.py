@@ -27,6 +27,12 @@ def ensure_schema(con: sqlite3.Connection) -> None:
         unit TEXT, deadline TEXT, status TEXT NOT NULL,
         actual_value REAL, actual_fact_ids TEXT, evaluated_at TEXT,
         UNIQUE(isin,source_sha256,source_evidence));
+      CREATE INDEX IF NOT EXISTS idx_claim_candidate_symbol_date
+        ON management_claim_candidate(symbol,claim_date DESC);
+      CREATE INDEX IF NOT EXISTS idx_claim_candidate_decision
+        ON management_claim_candidate(decision,symbol);
+      CREATE INDEX IF NOT EXISTS idx_commitment_symbol_status
+        ON management_commitment(symbol,status,deadline);
     ''')
 
 

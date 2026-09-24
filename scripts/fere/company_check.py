@@ -186,9 +186,11 @@ def run_company_check(identifier: str, force: bool = False) -> dict[str, Any]:
         "net_debt_ebitda": current.get("net_debt_ebitda"),
     }
     evaluate_commitments(con, isin, current, derived, evidence)
+    event_columns = {row[1] for row in con.execute('PRAGMA table_info(company_material_event)')}
+    document_select = 'document_url' if 'document_url' in event_columns else 'NULL'
     events = [{"event_type": r[0], "date": r[1], "severity": r[2], "explanation": r[3],
-               "source_url": r[4], "sha256": r[5], "verified": bool(r[6])}
-              for r in con.execute('SELECT event_type,event_date,severity,explanation,source_url,source_sha256,verified FROM company_material_event WHERE isin=? ORDER BY event_date DESC', (isin,))]
+               "source_url": r[4], "sha256": r[5], "verified": bool(r[6]), "document_url": r[7]}
+              for r in con.execute(f'SELECT event_type,event_date,severity,explanation,source_url,source_sha256,verified,{document_select} FROM company_material_event WHERE isin=? ORDER BY event_date DESC', (isin,))]
     due = due_commitments(con, isin)
     missed = [c for c in due if c["status"] == "MISSED"]
     metric_bundle = {"current": current, "prior": previous, "evidence": evidence}

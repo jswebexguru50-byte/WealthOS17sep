@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import io
+import hashlib
 import json
 import re
 import sqlite3
@@ -36,13 +37,24 @@ def ensure_schema(con: sqlite3.Connection) -> None:
         UNIQUE(isin,period_end,source_sha256));
       CREATE INDEX IF NOT EXISTS idx_shareholding_isin_period
         ON shareholding_snapshot(isin,period_end DESC);
+      CREATE INDEX IF NOT EXISTS idx_official_source_url
+        ON official_source_snapshot(source_url,source_type);
+      CREATE INDEX IF NOT EXISTS idx_official_source_hash
+        ON official_source_snapshot(sha256);
       CREATE TABLE IF NOT EXISTS company_material_event (
         id INTEGER PRIMARY KEY, isin TEXT NOT NULL, symbol TEXT NOT NULL,
         event_type TEXT NOT NULL, event_date TEXT NOT NULL, severity TEXT NOT NULL,
         explanation TEXT NOT NULL, source_url TEXT NOT NULL, source_sha256 TEXT NOT NULL,
         verified INTEGER NOT NULL CHECK(verified IN (0,1)),
         UNIQUE(isin,event_type,event_date,source_sha256));
+      CREATE INDEX IF NOT EXISTS idx_material_event_symbol_date
+        ON company_material_event(symbol,event_date DESC);
+      CREATE INDEX IF NOT EXISTS idx_material_event_type
+        ON company_material_event(event_type,severity);
     ''')
+    columns = {row[1] for row in con.execute('PRAGMA table_info(company_material_event)')}
+    if 'document_url' not in columns:
+        con.execute('ALTER TABLE company_material_event ADD COLUMN document_url TEXT')
 
 
 def as_float(value) -> float | None:
@@ -93,6 +105,13 @@ def save_source(con: sqlite3.Connection, kind: str, url: str, payload: bytes, su
     con.execute('INSERT OR IGNORE INTO official_source_snapshot(source_type,source_url,retrieved_at,sha256,archive_path) VALUES(?,?,?,?,?)',
                 (kind, url, now(), digest, path))
     return digest, path
+
+
+def save_remote_only_source(con: sqlite3.Connection, kind: str, url: str, payload: bytes) -> str:
+    digest = hashlib.sha256(payload).hexdigest()
+    con.execute('INSERT OR IGNORE INTO official_source_snapshot(source_type,source_url,retrieved_at,sha256,archive_path) VALUES(?,?,?,?,?)',
+                (kind, url, now(), digest, 'REMOTE_ONLY'))
+    return digest
 
 
 def collect_shareholding(con: sqlite3.Connection, session: requests.Session, symbols: set[str]) -> dict:
@@ -150,6 +169,16 @@ EVENT_PATTERNS = [
     ('GUIDANCE_CUT', 'MATERIAL', re.compile(r'\b(cut|reduce|withdraw|lower)\w*\b.*\bguidance\b', re.I)),
     ('PROJECT_DELAY', 'WATCH', re.compile(r'\b(delay|defer|postpone)\w*\b.*\b(project|commission|plant|capex)\b', re.I)),
 ]
+EVENT_REASONS = {
+    'AUDITOR_RESIGNATION': 'Matched the explicit auditor-resignation rule.',
+    'CFO_RESIGNATION': 'Matched the explicit CFO or Chief Financial Officer resignation rule.',
+    'CREDIT_RATING_DOWNGRADE': 'Matched credit-rating language containing downgrade, lowered, negative or default.',
+    'DEFAULT_OR_PAYMENT_DELAY': 'Matched explicit default or payment-delay language.',
+    'MATERIAL_DILUTION': 'Matched an explicit preferential issue, warrant, QIP or qualified placement term.',
+    'REGULATORY_ACTION': 'Matched explicit SEBI order, penalty, action or regulatory-action language.',
+    'GUIDANCE_CUT': 'Matched guidance together with cut, reduce, withdraw or lower language.',
+    'PROJECT_DELAY': 'Matched project, plant, capex or commissioning together with delay language.',
+}
 
 RELEVANT_ATTACHMENT_SUBJECT = re.compile(
     r'\b(credit rating|rating action|resignation|auditor|chief financial officer|cfo|default|payment|'
@@ -208,15 +237,21 @@ def collect_announcements(con: sqlite3.Connection, session: requests.Session, sy
             if include_attachments and attachment and relevant_downloads < MAX_RELEVANT_ATTACHMENTS_PER_COMPANY:
                 try:
                     relevant_downloads += 1
-                    cached = cached_attachment(con, attachment)
-                    if cached:
+                    processed = con.execute('''SELECT sha256 FROM official_source_snapshot
+                                               WHERE source_type='NSE_ANNOUNCEMENT_ATTACHMENT'
+                                                 AND source_url=? AND archive_path='REMOTE_ONLY'
+                                               ORDER BY id DESC LIMIT 1''', (attachment,)).fetchone()
+                    cached = cached_attachment(con, attachment) if not processed else None
+                    if processed:
+                        source_hash, source_url = processed[0], attachment
+                    elif cached:
                         content, source_hash = cached; suffix = '.pdf' if content.startswith(b'%PDF') else '.bin'
                     else:
                         doc = request(session, attachment); content = doc.content
                         suffix = '.pdf' if 'pdf' in doc.headers.get('Content-Type','').lower() else '.bin'
-                        source_hash, _ = save_source(con, 'NSE_ANNOUNCEMENT_ATTACHMENT', attachment, content, suffix)
-                    source_url = attachment
-                    if suffix == '.pdf':
+                        source_hash = save_remote_only_source(con, 'NSE_ANNOUNCEMENT_ATTACHMENT', attachment, content)
+                    if not processed: source_url = attachment
+                    if not processed and suffix == '.pdf':
                         try:
                             from pypdf import PdfReader
                             body_text = '\n'.join(page.extract_text() or '' for page in PdfReader(io.BytesIO(content)).pages)
@@ -227,9 +262,13 @@ def collect_announcements(con: sqlite3.Connection, session: requests.Session, sy
             combined = f'{subject} {body_text[:10000]}'
             for event_type, severity, pattern in EVENT_PATTERNS:
                 if pattern.search(combined):
-                    con.execute('''INSERT OR IGNORE INTO company_material_event
-                      (isin,symbol,event_type,event_date,severity,explanation,source_url,source_sha256,verified)
-                      VALUES(?,?,?,?,?,?,?,?,1)''', (isin,canonical,event_type,event_date,severity,subject,source_url,source_hash))
+                    reasoning = f"{EVENT_REASONS[event_type]} Evidence subject: {subject}"
+                    con.execute('''INSERT INTO company_material_event
+                      (isin,symbol,event_type,event_date,severity,explanation,source_url,source_sha256,verified,document_url)
+                      VALUES(?,?,?,?,?,?,?,?,1,?) ON CONFLICT(isin,event_type,event_date,source_sha256)
+                      DO UPDATE SET document_url=COALESCE(excluded.document_url,company_material_event.document_url),
+                                    explanation=excluded.explanation''',
+                      (isin,canonical,event_type,event_date,severity,reasoning,source_url,source_hash,attachment))
                     counts['events'] += 1
             if body_text and is_claim_source:
                 for candidate in detect_candidates(body_text):
