@@ -65,6 +65,7 @@ import {
 } from './components/ThemeSelectorModal';
 import { CommandCenterRightDrawer } from './components/CommandCenterRightDrawer';
 import { PreferencesModal } from './components/PreferencesModal';
+import { FereForensicDeepDiveModal } from './components/FereForensicDeepDiveModal';
 
 // ── Lazily loaded (heavy views — only parsed when first navigated to) ─────────
 const PortfolioHubView           = React.lazy(() => import('./components/PortfolioHubView').then(m => ({ default: m.PortfolioHubView })));
@@ -148,6 +149,9 @@ if (typeof window !== 'undefined' && typeof window.fetch === 'function' && !(win
 }
 
 export default function App() {
+  const directFereSymbol = typeof window !== 'undefined'
+    ? window.location.hash.match(/^#fere-card\/([A-Za-z0-9._-]+)$/i)?.[1]?.toUpperCase() || null
+    : null;
   const getInitialTab = (): TabType => {
     if (typeof window !== 'undefined' && window.location.hash) {
       const h = window.location.hash.replace('#', '').toLowerCase();
@@ -2428,6 +2432,13 @@ export default function App() {
           fetchHoldingsList();
         }}
       />
+
+      <FereForensicDeepDiveModal
+        symbol={directFereSymbol}
+        isOpen={Boolean(directFereSymbol)}
+        onClose={() => { window.location.hash = 'analyze'; }}
+        onSelectSymbol={(symbol) => { window.location.hash = `fere-card/${symbol.trim().toUpperCase()}`; }}
+      />
     </div>
   );
 }
@@ -2539,4 +2550,3 @@ function ScripSearchBar({ onAnalyze }: { onAnalyze: (symbol: string) => void }) 
     </div>
   );
 }
-
