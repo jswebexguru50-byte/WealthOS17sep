@@ -1736,13 +1736,17 @@ function runSchemaInitialization(db: Database): Promise<void> {
             provenance_tag TEXT DEFAULT 'SOURCED: NSE_PRIMARY',
             confidence_interval_str TEXT DEFAULT '±2.5%',
             evaluation_json TEXT,
-            last_updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            last_updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            scan_id TEXT,
+            origin TEXT DEFAULT 'SCAN'
           )
         `);
         db.all("PRAGMA table_info(OpportunityScripEvaluations)", (oeErr, oeRows) => {
           if (oeRows) {
             if (!oeRows.some((r: any) => r.name === 'provenance_tag')) db.run("ALTER TABLE OpportunityScripEvaluations ADD COLUMN provenance_tag TEXT DEFAULT 'SOURCED: NSE_PRIMARY'");
             if (!oeRows.some((r: any) => r.name === 'confidence_interval_str')) db.run("ALTER TABLE OpportunityScripEvaluations ADD COLUMN confidence_interval_str TEXT DEFAULT '±2.5%'");
+            if (!oeRows.some((r: any) => r.name === 'scan_id')) db.run("ALTER TABLE OpportunityScripEvaluations ADD COLUMN scan_id TEXT");
+            if (!oeRows.some((r: any) => r.name === 'origin')) db.run("ALTER TABLE OpportunityScripEvaluations ADD COLUMN origin TEXT DEFAULT 'SCAN'");
           }
         });
 
@@ -2238,7 +2242,9 @@ function runSchemaInitialization(db: Database): Promise<void> {
             actionable_now INTEGER DEFAULT 0,
             multibagger_tier TEXT,
             evaluation_json TEXT NOT NULL,
-            last_updated_at INTEGER NOT NULL
+            last_updated_at INTEGER NOT NULL,
+            scan_id TEXT,
+            origin TEXT DEFAULT 'SCAN'
           )
         `, (err) => {
           if (err) {

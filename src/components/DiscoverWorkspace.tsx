@@ -49,7 +49,7 @@ type DiscoverSubTab =
   | 'GREENFIELD';
 
 const SUB_TABS: Array<{ id: DiscoverSubTab; label: string; sub: string; icon: React.ElementType; color: string }> = [
-  { id: 'OPPORTUNITY_ENGINE', label: 'Opportunity Engine', sub: 'ITAS S1–S26 scored signals', icon: Zap, color: 'text-amber-400' },
+  { id: 'OPPORTUNITY_ENGINE', label: 'Opportunity Engine', sub: 'ITAS S1–S10 scored signals', icon: Zap, color: 'text-amber-400' },
   { id: 'MULTIBAGGER', label: 'Multibagger Screener', sub: 'Quality & growth filter', icon: TrendingUp, color: 'text-emerald-400' },
   { id: 'SENTINEL', label: 'Smart Money Sentinel', sub: 'Institutional flow & breakouts', icon: Eye, color: 'text-cyan-400' },
   { id: 'MOMENTUM_VPA', label: 'Momentum & VPA', sub: 'Volume-price action', icon: Activity, color: 'text-purple-400' },

@@ -694,7 +694,7 @@ export class PaperTradingPotService {
       `, [potId, limit]);
 
       if (!rows || rows.length === 0) {
-        return this.getFallbackEquityCurve(potId);
+        return [];
       }
 
       return rows.map(r => ({
@@ -711,7 +711,7 @@ export class PaperTradingPotService {
       }));
     } catch (err) {
       console.error('[PaperTradingPotService] getEquityCurve error:', err);
-      return this.getFallbackEquityCurve(potId);
+      return [];
     }
   }
 
@@ -989,28 +989,6 @@ export class PaperTradingPotService {
   }
 
   private getFallbackEquityCurve(potId: string): NAVHistoryPoint[] {
-    const points: NAVHistoryPoint[] = [];
-    const baseDate = Date.now() - 3600000 * 24 * 14;
-    let nav = 1000000;
-    let nifty = 1000000;
-
-    const deltas = [0, 4500, -1200, 8900, 3200, -2100, 9400, 6800, -1800, 11200, 5400, -3200, 14500, 8900];
-    for (let i = 0; i < deltas.length; i++) {
-      nav += deltas[i];
-      nifty += 2400 + Math.floor(Math.random() * 1500);
-      points.push({
-        id: i + 1,
-        potId,
-        nav,
-        cash: nav * 0.75,
-        invested: nav * 0.25,
-        dailyPnl: deltas[i],
-        dailyReturnPct: +(deltas[i] / nav * 100).toFixed(2),
-        benchmarkNiftyNav: nifty,
-        alphaVsBenchmarkPct: +((nav - nifty) / 10000).toFixed(2),
-        timestamp: new Date(baseDate + 3600000 * 24 * i).toISOString()
-      });
-    }
-    return points;
+    return [];
   }
 }

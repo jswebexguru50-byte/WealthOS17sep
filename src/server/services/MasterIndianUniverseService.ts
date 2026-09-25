@@ -224,17 +224,21 @@ export class MasterIndianUniverseService {
     // master. Symbols outside the curated cohorts are classified as
     // MICROCAP_SME until a more specific membership is available.
     try {
+      // Optimized query: Removed ORDER BY upper(symbol) to prevent excessive memory 
+      // sort overhead on large MasterTickers tables without a specific index.
       const active = await dbAll<any>(getDB(), `
         SELECT DISTINCT upper(symbol) AS symbol
           FROM MasterTickers
          WHERE status = 'ACTIVE'
            AND exchange IN ('NSE', 'BSE')
            AND symbol IS NOT NULL AND trim(symbol) <> ''
-           AND (upstox_key_nse IS NOT NULL OR upstox_key_bse IS NOT NULL)
-         ORDER BY upper(symbol)`);
+           AND (upstox_key_nse IS NOT NULL OR upstox_key_bse IS NOT NULL)`);
+           
       for (const row of active) {
         const symbol = String(row.symbol || '').trim().toUpperCase();
-        if (!symbol || US_AND_FOREIGN_EQUITIES.has(symbol)) continue;
+        // Strict safety net: valid Indian NSE/BSE tickers only (alphanumeric + some hyphens/amps, max 20 chars)
+        if (!symbol || US_AND_FOREIGN_EQUITIES.has(symbol) || symbol.length > 20 || !/^[A-Z0-9&\-]+$/.test(symbol)) continue;
+        
         if (!categoryMap.has(symbol)) categoryMap.set(symbol, 'MICROCAP_SME');
       }
     } catch (error) {

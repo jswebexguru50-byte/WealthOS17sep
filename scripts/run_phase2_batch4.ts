@@ -1057,7 +1057,5 @@ async function runBatch4() {
   await new Promise<void>((resolve) => db.close(() => resolve()));
 }
 
-runBatch4().catch((err) => {
-  console.error('Batch 4 execution failed:', err);
-  process.exit(1);
-});
+console.error('LEGACY_SYNTHETIC_QUARANTINED: this batch cannot create live FERE evidence.');
+process.exitCode = 1;

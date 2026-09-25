@@ -1,0 +1,29 @@
+{
+  "strategy": "S4A",
+  "generated_at_utc": "2026-09-24T18:27:01.585Z",
+  "source": "KITE_ADJUSTED_PARQUET",
+  "timeframe": "1D",
+  "scan_mode": "ROLLING_WALK_FORWARD",
+  "signal_start_date": "2026-05-18",
+  "as_of_date_requested": "2026-09-24",
+  "config": {
+    "weeklyPivotBars": 5,
+    "priceFloor": 50,
+    "marketCapFloorCr": 20000,
+    "movingAveragePeriod": 20,
+    "gapUpMinPct": 2,
+    "pullbackAtrMaxRatio": 0.5,
+    "supplyDryUpMaxRatio": 0.85,
+    "stopBelowLowestLowPct": 1
+  },
+  "symbols_requested": 2927,
+  "symbols_covered": 2927,
+  "symbols_with_period_candles": 2687,
+  "coverage_gaps": [],
+  "matches": [],
+  "limitations": [
+    "Evaluated using local adjusted Parquet store and benchmark index data.",
+    "Market cap is sourced from local SecurityDossierSnapshots in portfolio.db.",
+    "Weekly pivot-5 is confirmed with strict 2-week lead and 2-week follow bars."
+  ]
+}

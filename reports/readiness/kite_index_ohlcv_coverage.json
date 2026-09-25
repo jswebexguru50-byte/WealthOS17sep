@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-09-22T08:02:59.183282+00:00",
+  "generated_at": "2026-09-24T18:06:27.963780+00:00",
   "status": "READY",
   "catalog": "data\\market_data\\tejhq_hf_10y\\ohlcv.duckdb",
   "view": "index_ohlcv",
   "source": "KITE_PUBLISHED_INDEX_LEVEL",
   "note": "Index levels are not corporate-action-adjusted securities.",
   "validated_partitions": 206,
-  "rows": 425380,
+  "rows": 425772,
   "indices": 206,
   "first_trade_date": "2016-09-22",
-  "last_trade_date": "2026-09-22",
+  "last_trade_date": "2026-09-24",
   "kite_inventory_statuses": {
     "COMPLETE": 206,
     "NO_KITE_HISTORICAL_CANDLES": 4,

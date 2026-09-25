@@ -2151,6 +2151,18 @@ router.post('/opportunity-engine/scan', async (req: Request, res: Response) => {
   try {
     const engine = ConsolidatedOpportunityEngine.getInstance();
     const resStatus = engine.triggerBackgroundScan();
+    
+    if (resStatus.status === 'SCAN_ALREADY_RUNNING') {
+      console.warn('[API][OppEngine] Scan trigger rejected (HTTP 429): already running');
+      return res.status(429).json({
+        success: false,
+        status: resStatus.status,
+        isScanning: resStatus.isScanning,
+        error: 'Scan is currently in progress. Please wait for it to complete.'
+      });
+    }
+
+    console.info('[API][OppEngine] Background scan initiated successfully');
     res.json({
       success: true,
       status: resStatus.status,
@@ -2158,15 +2170,20 @@ router.post('/opportunity-engine/scan', async (req: Request, res: Response) => {
       message: 'Master quantitative scan running in background. Telemetry will persist to SQLite automatically.'
     });
   } catch (err: any) {
-    console.error('[API] /api/opportunity-engine/scan error:', err);
-    res.status(500).json({ success: false, error: err.message });
+    console.error('[API][OppEngine] /scan catastrophic error:', err);
+    res.status(503).json({ success: false, error: 'Service unavailable due to internal scan error.' });
   }
 });
 
 // GET /api/opportunity-engine/scan-status
 router.get('/opportunity-engine/scan-status', (req: Request, res: Response) => {
-  const status = ConsolidatedOpportunityEngine.getInstance().getScanStatus();
-  res.json({ success: true, data: status });
+  try {
+    const status = ConsolidatedOpportunityEngine.getInstance().getScanStatus();
+    res.json({ success: true, data: status });
+  } catch (err: any) {
+    console.error('[API][OppEngine] /scan-status telemetry fetch error:', err);
+    res.status(503).json({ success: false, error: 'Telemetry unavailable' });
+  }
 });
 
 
@@ -3093,7 +3110,7 @@ router.post('/strategies/custom/:id/run-backtest', async (req: Request, res: Res
     // Map strategy template to evaluator number
     const templateToEvaluator: Record<string, number> = {
       'S1_VPA_BASE_BREAKOUT': 1, 'S2_INSTITUTIONAL_FVG_CE': 2,
-      'S3_HH_HL_COMPACTION': 3, 'S4_HH_HL_SMA200_VPA': 4,
+      'S3_HH_HL_COMPACTION': 3, 'S3A_HH_HL_ATR_COMPRESSION': 31, 'S4_HH_HL_SMA200_VPA': 4,
       'S5_50EMA_PULLBACK_VCP': 5, 'S6_RS_BREAKOUT': 6,
       'S7_RSI_MEAN_REVERSION': 7, 'S8_HIGH_TIGHT_FLAG': 8,
       'S9_VOLUME_DRYUP_RS': 9, 'S10_TRENDLINE_ORB': 10,
@@ -3122,6 +3139,7 @@ router.post('/strategies/custom/:id/run-backtest', async (req: Request, res: Res
       if (evalNum === 1) result = engine.evaluateStrategy1(candles, symbol, '', options);
       else if (evalNum === 2) result = engine.evaluateStrategy2(candles, symbol, '', options);
       else if (evalNum === 3) result = engine.evaluateStrategy3(candles, symbol, '', options);
+      else if (evalNum === 31) result = engine.evaluateStrategy3a(candles, symbol, '', options);
       else if (evalNum === 4) result = engine.evaluateStrategy4(candles, symbol, '', options);
       else if (evalNum === 5) result = engine.evaluateStrategy5(candles, symbol, '', options);
       else if (evalNum === 6) result = engine.evaluateStrategy6(candles, symbol, '', options);
@@ -3178,7 +3196,7 @@ router.post('/strategies/custom/run-all-backtests', async (_req: Request, res: R
 
     const templateToEvaluator: Record<string, number> = {
       'S1_VPA_BASE_BREAKOUT': 1, 'S2_INSTITUTIONAL_FVG_CE': 2,
-      'S3_HH_HL_COMPACTION': 3, 'S4_HH_HL_SMA200_VPA': 4,
+      'S3_HH_HL_COMPACTION': 3, 'S3A_HH_HL_ATR_COMPRESSION': 31, 'S4_HH_HL_SMA200_VPA': 4,
       'S5_50EMA_PULLBACK_VCP': 5, 'S6_RS_BREAKOUT': 6,
       'S7_RSI_MEAN_REVERSION': 7, 'S8_HIGH_TIGHT_FLAG': 8,
       'S9_VOLUME_DRYUP_RS': 9, 'S10_TRENDLINE_ORB': 10,
@@ -3208,6 +3226,7 @@ router.post('/strategies/custom/run-all-backtests', async (_req: Request, res: R
           if (evalNum === 1) result = engine.evaluateStrategy1(candles, symbol, '', options);
           else if (evalNum === 2) result = engine.evaluateStrategy2(candles, symbol, '', options);
           else if (evalNum === 3) result = engine.evaluateStrategy3(candles, symbol, '', options);
+          else if (evalNum === 31) result = engine.evaluateStrategy3a(candles, symbol, '', options);
           else if (evalNum === 4) result = engine.evaluateStrategy4(candles, symbol, '', options);
           else if (evalNum === 5) result = engine.evaluateStrategy5(candles, symbol, '', options);
           else if (evalNum === 6) result = engine.evaluateStrategy6(candles, symbol, '', options);
@@ -3528,4 +3547,3 @@ router.get('/strategy-scan/export-excel', async (req: Request, res: Response) =>
 });
 
 export default router;
-

@@ -1112,9 +1112,6 @@ export const OpportunityEngineMasterView: React.FC = () => {
 
   useEffect(() => {
     fetchDashboard(false);
-    fetchSmartMoneyData('1W');
-    fetchSentinelData();
-    fetchBuyersData('1M');
   }, []);
 
   useEffect(() => {

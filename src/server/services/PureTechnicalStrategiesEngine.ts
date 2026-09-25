@@ -15,6 +15,9 @@ import { fetchTickerData } from '../yahooFinance.js';
 import { getDB, dbAll, dbGet, dbRun } from '../database.js';
 import { StrategyParameterConfig, getDefaultsForStrategy } from './StrategyParameterConfig.js';
 import { DuckDbAdjustedOhlcvService } from './DuckDbAdjustedOhlcvService.js';
+import { evaluateS3a, type S3aResult } from './S3aStrategy.js';
+import { evaluateS4a, type S4aContext, type S4aResult } from './S4aGapRunningStrategy.js';
+import { evaluateS5a, type S5aContext, type S5aResult } from './S5aMinerviniStrategy.js';
 
 export interface Candle {
   date: string;
@@ -42,6 +45,8 @@ export interface RuleCheck {
 export interface StrategyEvaluationOptions {
   filterPreceding52wLow?: boolean;
   config?: StrategyParameterConfig;
+  s4aContext?: S4aContext;
+  s5aContext?: S5aContext;
 }
 
 export interface Strategy1Result {
@@ -1342,6 +1347,27 @@ export class PureTechnicalStrategiesEngine {
       isAtLowestLow,
       barsLookedBack: p0Idx - startIdx + 1
     };
+  }
+
+  public evaluateStrategy3a(
+    candles: Candle[],
+    symbol = 'UNKNOWN',
+    companyName = symbol,
+    options?: StrategyEvaluationOptions
+  ): S3aResult {
+    return evaluateS3a(candles, symbol, companyName, options?.config?.s3a);
+  }
+
+  public evaluateStrategy4a(
+    candles: Candle[], symbol = 'UNKNOWN', companyName = symbol, options?: StrategyEvaluationOptions,
+  ): S4aResult {
+    return evaluateS4a(candles, symbol, companyName, options?.s4aContext, options?.config?.s4a);
+  }
+
+  public evaluateStrategy5a(
+    candles: Candle[], symbol = 'UNKNOWN', companyName = symbol, options?: StrategyEvaluationOptions,
+  ): S5aResult {
+    return evaluateS5a(candles, symbol, companyName, options?.s5aContext, options?.config?.s5a);
   }
 
   public evaluateStrategy3(
@@ -3381,10 +3407,20 @@ export class PureTechnicalStrategiesEngine {
       `);
 
       if (mRows && mRows.length > 0) {
-        symbolsToScan = mRows.map((r: any) => ({
-          symbol: r.symbol,
-          companyName: r.companyName || r.symbol
-        }));
+        const canonicalMap = new Map<string, { symbol: string; companyName: string }>();
+        for (const r of mRows) {
+          const rawSymbol = String(r.symbol).trim().toUpperCase();
+          const canonical = rawSymbol.replace(/\.(NS|BO)$/, '');
+          if (canonical) {
+            // ORDER BY symbol ASC means canonical ABC usually comes before ABC.BO or ABC.NS
+            // We use the canonicalized symbol as the key and the actual symbol to scan.
+            // DuckDB needs the canonical symbol, so we overwrite the symbol with the canonical one.
+            if (!canonicalMap.has(canonical)) {
+              canonicalMap.set(canonical, { symbol: canonical, companyName: r.companyName || r.symbol });
+            }
+          }
+        }
+        symbolsToScan = Array.from(canonicalMap.values());
       }
     } catch (_e) {
       // Fallback to minimal list
@@ -3422,6 +3458,9 @@ export class PureTechnicalStrategiesEngine {
       'S1_VPA_BASE_BREAKOUT': (c, s, n, o) => this.evaluateStrategy1(c, s, n, o),
       'S2_INSTITUTIONAL_FVG_CE': (c, s, n, o) => this.evaluateStrategy2(c, s, n, o),
       'S3_HH_HL_COMPACTION': (c, s, n, o) => this.evaluateStrategy3(c, s, n, o),
+      'S3A_HH_HL_ATR_COMPRESSION': (c, s, n, o) => this.evaluateStrategy3a(c, s, n, o),
+      'S4A_GAP_RUNNING_STOCKS': (c, s, n, o) => this.evaluateStrategy4a(c, s, n, o),
+      'S5A_MINERVINI_WINNING_STOCKS': (c, s, n, o) => this.evaluateStrategy5a(c, s, n, o),
       'S4_HH_HL_SMA200_VPA': (c, s, n, o) => this.evaluateStrategy4(c, s, n, o),
       'S5_50EMA_PULLBACK_VCP': (c, s, n, o) => this.evaluateStrategy5(c, s, n, o),
       'S6_RS_BREAKOUT': (c, s, n, o) => this.evaluateStrategy6(c, s, n, o),

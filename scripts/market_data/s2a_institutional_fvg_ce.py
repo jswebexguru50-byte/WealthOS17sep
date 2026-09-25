@@ -28,6 +28,12 @@ class S2AConfig:
     initial_move_lookback_bars: int = 25
     initial_move_min_bars: int = 4
     initial_move_max_bars: int = 25
+    enforce_weekly_swing_extension: bool = True
+    weekly_swing_lookback_weeks: int = 52
+    weekly_swing_min_completed_weeks: int = 8
+    weekly_swing_max_advance_pct: float = 0.50
+    exclude_upper_wick_pinbar: bool = True
+    max_close_from_high_range_ratio: float = 0.25
     inflow_lookback_bars: int = 20
     inflow_vol_mult: float = 1.50
     fvg_min_size_pct: float = 0.015
@@ -70,6 +76,38 @@ def prepare_indicators(frame: pd.DataFrame, config: S2AConfig) -> pd.DataFrame:
     return data
 
 
+def build_weekly_context(data: pd.DataFrame) -> list[tuple[pd.Timestamp, float, int]]:
+    """Precompute completed-week lows and exact daily anchor indices once."""
+    dates = pd.to_datetime(data["trade_date"])
+    week_ends = dates.dt.to_period("W-FRI").dt.end_time.dt.normalize()
+    context = []
+    for week_end, group in data.groupby(week_ends, sort=True):
+        anchor = int(group["low"].idxmin())
+        context.append((week_end, float(data.at[anchor, "low"]), anchor))
+    return context
+
+
+def weekly_swing_extension(data: pd.DataFrame, signal: int, config: S2AConfig,
+                           weekly_context: list[tuple[pd.Timestamp, float, int]] | None = None
+                           ) -> tuple[bool, float, float, float]:
+    """Compare the highest traded price since the weekly low with that low.
+
+    The current week is excluded, including when the signal happens on Friday,
+    so a historical run never sees a later bar from its own week.
+    """
+    signal_date = pd.Timestamp(data.at[signal, "trade_date"]).normalize()
+    context = weekly_context if weekly_context is not None else build_weekly_context(data.iloc[:signal + 1])
+    completed = [row for row in context if row[0] < signal_date][-config.weekly_swing_lookback_weeks:]
+    if len(completed) < config.weekly_swing_min_completed_weeks:
+        return False, float("nan"), float("nan"), float("nan")
+    _, swing_low, anchor_index = min(completed, key=lambda row: row[1])
+    if not np.isfinite(swing_low) or swing_low <= 0:
+        return False, float("nan"), float("nan"), float("nan")
+    peak = float(data.loc[anchor_index:signal, "high"].max())
+    advance = peak / swing_low - 1.0
+    return advance <= config.weekly_swing_max_advance_pct, swing_low, advance, peak
+
+
 def detect_candlestick_pattern(data: pd.DataFrame, index: int, config: S2AConfig) -> tuple[bool, str]:
     if index < 1:
         return False, "INSUFFICIENT_PRIOR_CANDLE"
@@ -78,6 +116,8 @@ def detect_candlestick_pattern(data: pd.DataFrame, index: int, config: S2AConfig
     candle_range, body = high - low, abs(close - opening)
     if candle_range <= 0 or body <= 0 or (config.exclude_doji and body / candle_range <= config.doji_max_body_ratio):
         return False, "DOJI_OR_ZERO_RANGE"
+    if config.exclude_upper_wick_pinbar and (high - close) / candle_range > config.max_close_from_high_range_ratio:
+        return False, "CLOSE_TOO_FAR_BELOW_HIGH"
     if close <= opening:
         return False, "NOT_BULLISH"
     atr = float(candle["atr"])
@@ -100,15 +140,22 @@ def detect_candlestick_pattern(data: pd.DataFrame, index: int, config: S2AConfig
     return False, "NO_BULLISH_REVERSAL_PATTERN"
 
 
-def detect_s2a_at(data: pd.DataFrame, signal: int, config: S2AConfig) -> dict[str, Any] | None:
+def detect_s2a_at(data: pd.DataFrame, signal: int, config: S2AConfig,
+                  weekly_context: list[tuple[pd.Timestamp, float, int]] | None = None) -> dict[str, Any] | None:
     if signal < max(config.atr_period, config.vol_ma_period, 3):
         return None
+    weekly_low, weekly_advance, weekly_peak = float("nan"), float("nan"), float("nan")
     trigger_volume_ratio = float(data.at[signal, "volume"] / data.at[signal, "volume_sma"])
     if not np.isfinite(trigger_volume_ratio) or trigger_volume_ratio < config.vol_trigger_min_mult:
         return None
     valid_candle, pattern = detect_candlestick_pattern(data, signal, config)
     if config.require_bullish_candlestick and not valid_candle:
         return None
+    if config.enforce_weekly_swing_extension:
+        weekly_allowed, weekly_low, weekly_advance, weekly_peak = weekly_swing_extension(
+            data, signal, config, weekly_context)
+        if not weekly_allowed:
+            return None
     first_gap_bar = max(2, signal - config.pullback_max_bars)
     candidates: list[dict[str, Any]] = []
     for gap_bar in range(first_gap_bar, signal):
@@ -161,6 +208,12 @@ def detect_s2a_at(data: pd.DataFrame, signal: int, config: S2AConfig) -> dict[st
             "Trigger_Vol_Ratio": trigger_volume_ratio,
             "Displacement_Vol_Ratio": displacement_volume_ratio,
             "Pullback_Vol_Ratio": pullback_volume / displacement_volume,
+            "Weekly_Swing_Low": weekly_low,
+            "Weekly_Peak_Since_Swing_Low": weekly_peak,
+            "Weekly_Advance_From_Swing_Low_Pct": 100 * weekly_advance,
+            "Close_From_Daily_High_Range_Pct": 100 * (
+                float(data.at[signal, "high"]) - trigger_close) /
+                (float(data.at[signal, "high"]) - float(data.at[signal, "low"])),
             "Score": gap_height / atr + displacement_volume_ratio + trigger_volume_ratio,
         })
     return max(candidates, key=lambda item: item["Score"], default=None)
@@ -169,6 +222,7 @@ def detect_s2a_at(data: pd.DataFrame, signal: int, config: S2AConfig) -> dict[st
 def walk_forward_backtest(frame: pd.DataFrame, config: S2AConfig,
                           trailing_bars: int | None = None) -> pd.DataFrame:
     data = prepare_indicators(frame, config)
+    weekly_context = build_weekly_context(data) if config.enforce_weekly_swing_extension else None
     records: list[dict[str, Any]] = []
     next_allowed = max(config.atr_period, config.vol_ma_period, 3)
     start_signal = max(next_allowed, len(data) - trailing_bars) if trailing_bars else next_allowed
@@ -176,7 +230,7 @@ def walk_forward_backtest(frame: pd.DataFrame, config: S2AConfig,
     for signal in range(start_signal, len(data)):
         if signal < next_allowed:
             continue
-        setup = detect_s2a_at(data.iloc[:signal + 1].reset_index(drop=True), signal, config)
+        setup = detect_s2a_at(data.iloc[:signal + 1].reset_index(drop=True), signal, config, weekly_context)
         if setup is None:
             continue
         price = float(data.at[signal, "close"])
@@ -217,6 +271,8 @@ def main() -> int:
     parser.add_argument("--universe-name", default="s2a_all_local")
     parser.add_argument("--historical-bars", type=int, default=0,
                         help="Walk forward over this many latest trading bars; 0 evaluates only the latest bar.")
+    parser.add_argument("--signal-start-date", help="Keep signals on or after this date (YYYY-MM-DD).")
+    parser.add_argument("--signal-end-date", help="Keep signals on or before this date (YYYY-MM-DD).")
     parser.add_argument("--verify-synthetic", action="store_true")
     args = parser.parse_args()
     config = S2AConfig()
@@ -232,14 +288,23 @@ def main() -> int:
     con = duckdb.connect(":memory:")
     matches: list[dict[str, Any]] = []
     gaps: list[str] = []
+    symbols_with_period_candles = 0
     for symbol in symbols["symbol"]:
         daily = read_adjusted_daily(symbol, args.parquet_root, con)
         daily = daily.loc[daily["trade_date"].astype(str) <= args.as_of_date].reset_index(drop=True)
         if daily.empty:
             gaps.append(symbol)
             continue
+        if args.signal_start_date and args.signal_end_date:
+            dates = daily["trade_date"].astype(str)
+            symbols_with_period_candles += int(((dates >= args.signal_start_date) &
+                                                (dates <= args.signal_end_date)).any())
         if args.historical_bars:
             for setup in walk_forward_backtest(daily, config, args.historical_bars).to_dict("records"):
+                if args.signal_start_date and setup["Signal_Date"] < args.signal_start_date:
+                    continue
+                if args.signal_end_date and setup["Signal_Date"] > args.signal_end_date:
+                    continue
                 setup["Symbol"] = symbol
                 matches.append(setup)
         else:
@@ -257,7 +322,9 @@ def main() -> int:
                 "as_of_date_requested": args.as_of_date, "source": "KITE_ADJUSTED_PARQUET",
                 "scan_mode": "ROLLING_WALK_FORWARD" if args.historical_bars else "LATEST_BAR",
                 "historical_bars": args.historical_bars or None,
+                "signal_start_date": args.signal_start_date, "signal_end_date": args.signal_end_date,
                 "symbols_requested": int(len(symbols)), "symbols_covered": int(len(symbols) - len(gaps)),
+                "symbols_with_period_candles": symbols_with_period_candles,
                 "coverage_gaps": gaps, "config": asdict(config), "matches": matches,
                 "limitations": ["S2A deliberately has no ATH, SMA, or RSI filters.",
                                 "A symbol may have an older final candle than the requested cutoff."]}
@@ -265,7 +332,8 @@ def main() -> int:
     json_path.write_text(json.dumps(evidence, indent=2), encoding="utf-8")
     pd.DataFrame(matches).to_csv(csv_path, index=False)
     print(json.dumps({"json": str(json_path), "csv": str(csv_path), "matches": len(matches),
-                      "covered": evidence["symbols_covered"], "requested": evidence["symbols_requested"]}))
+                      "covered": evidence["symbols_covered"], "with_period_candles": symbols_with_period_candles,
+                      "requested": evidence["symbols_requested"]}))
     return 0
 
 

@@ -104,16 +104,7 @@ export class ConcallFailsafeHarvester {
       }
     }
 
-    // Final statutory fallback
-    console.log(`[FailsafeHarvester] All active tiers exhausted. Using STATUTORY_FALLBACK for ${cleanSymbol}`);
-    return {
-      symbol: cleanSymbol,
-      sourceTier: 'STATUTORY_FALLBACK',
-      sourceUrl: `https://www.screener.in/company/${cleanSymbol}/consolidated/`,
-      transcriptText: `Management discussion and statutory disclosures for ${cleanSymbol} on ${listingPlatform}. Operational parameters and governance disclosures compiled from verified regulatory filings.`,
-      wordCount: 22,
-      period: 'FY25'
-    };
+    throw new Error(`CONCALL_SOURCE_UNAVAILABLE: no dated transcript was retrieved for ${cleanSymbol}`);
   }
 
   /**

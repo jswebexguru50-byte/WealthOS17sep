@@ -2,11 +2,11 @@
 
 export type ParameterFamily =
   | 'universe' | 'trend' | 'impulse' | 'pullback' | 'volume'
-  | 'volatility' | 'entry' | 'smartMoney' | 'risk' | 'filters';
+  | 'volatility' | 'entry' | 'smartMoney' | 'risk' | 'filters' | 's3a' | 's4a' | 's5a';
 
 export type StrategyId =
   | 'S1_VPA_BASE_BREAKOUT' | 'S2_INSTITUTIONAL_FVG_CE'
-  | 'S3_HH_HL_COMPACTION' | 'S4_HH_HL_SMA200_VPA'
+  | 'S3_HH_HL_COMPACTION' | 'S3A_HH_HL_ATR_COMPRESSION' | 'S4A_GAP_RUNNING_STOCKS' | 'S5A_MINERVINI_WINNING_STOCKS' | 'S4_HH_HL_SMA200_VPA'
   | 'S5_50EMA_PULLBACK_VCP' | 'S6_RS_BREAKOUT'
   | 'S7_RSI_MEAN_REVERSION' | 'S8_HIGH_TIGHT_FLAG'
   | 'S9_VOLUME_DRYUP_RS' | 'S10_TRENDLINE_ORB';
@@ -178,6 +178,9 @@ export interface StrategyParameterConfig {
   smartMoney: SmartMoneyParams;
   risk: RiskParams;
   filters: FiltersParams;
+  s3a?: Partial<import('./S3aStrategy.js').S3aConfig>;
+  s4a?: Partial<import('./S4aGapRunningStrategy.js').S4aConfig>;
+  s5a?: Partial<import('./S5aMinerviniStrategy.js').S5aConfig>;
 }
 
 // ─── Default Configs Per Strategy ───────────────────────────────────────────
@@ -453,6 +456,23 @@ export const STRATEGY_DEFAULTS: Record<StrategyId, Partial<StrategyParameterConf
       target1Method: 'H2_RETEST',
       target2FibExtension: 0.618,
     },
+  },
+  S3A_HH_HL_ATR_COMPRESSION: {
+    s3a: { smaPeriod: 50, smaRiseBars: 1, atrPeriod: 14,
+      pivotRadius: 2, structureLookbackBars: 60, precedingMoveLookbackBars: 5,
+      precedingMoveMinPct: 20, atrCompressionMaxRatio: 1,
+      requireBullishPivotCandles: true },
+  },
+  S4A_GAP_RUNNING_STOCKS: {
+    s4a: { weeklyPivotBars: 5, priceFloor: 50, marketCapFloorCr: 20_000,
+      movingAveragePeriod: 20, gapUpMinPct: 2, pullbackAtrMaxRatio: 0.50, supplyDryUpMaxRatio: 0.85,
+      stopBelowLowestLowPct: 1 },
+  },
+  S5A_MINERVINI_WINNING_STOCKS: {
+    s5a: { priceFloor: 50, weeksInYear: 52, near52WeekHighMaxDiscountPct: 25, above52WeekLowMinPct: 100,
+      sma50Period: 50, sma200Period: 200, dma200RisingBars: 65, highRecurrenceMinWeeks: 16,
+      highRecurrenceMaxWeeks: 26, minVcpCandles: 3, maxVcpCandles: 5, minVcpCount: 2,
+      maxVcpCount: 3, secondVcpMinContractionPct: 70, supplyDryUpMaxRatio: 0.85, atrPeriod: 20, atrMultiple: 2, maxStopLossPct: 10 },
   },
   S4_HH_HL_SMA200_VPA: {
     trend: {
@@ -742,6 +762,9 @@ export const STRATEGY_CATALOG: StrategyMeta[] = [
   { id: 'S1_VPA_BASE_BREAKOUT', name: 'VPA Base Breakout', shortName: 'S1', category: 'BREAKOUT', description: 'NR candle + EMA alignment + RSI confirmation at base of impulse move', families: ['trend', 'impulse', 'pullback', 'volume', 'volatility', 'entry', 'risk', 'filters'] },
   { id: 'S2_INSTITUTIONAL_FVG_CE', name: 'Institutional FVG/CE', shortName: 'S2', category: 'PULLBACK', description: 'Fair Value Gap with Consequent Encroachment entry after institutional impulse', families: ['impulse', 'pullback', 'volume', 'volatility', 'entry', 'smartMoney', 'risk', 'filters'] },
   { id: 'S3_HH_HL_COMPACTION', name: 'HH/HL Compaction', shortName: 'S3', category: 'BREAKOUT', description: 'Higher-Highs / Higher-Lows with range compaction at L2 level', families: ['trend', 'impulse', 'pullback', 'volume', 'entry', 'smartMoney', 'risk', 'filters'] },
+  { id: 'S3A_HH_HL_ATR_COMPRESSION', name: 'HH/HL ATR Compression', shortName: 'S3a', category: 'BREAKOUT', description: 'Strict HH/HL, rising SMA50 floor, ATR compression, S1a bullish pivot candles, and preceding 20% move', families: ['s3a'] },
+  { id: 'S4A_GAP_RUNNING_STOCKS', name: 'Gap Running Stocks', shortName: 'S4a', category: 'BREAKOUT', description: 'Weekly pivot-5, bullish broad market, gap-up, VPA pullback contraction and stated breakout entry', families: ['s4a'] },
+  { id: 'S5A_MINERVINI_WINNING_STOCKS', name: 'Minervini Winning Stocks', shortName: 'S5a', category: 'BREAKOUT', description: 'Weekly 52-week strength and VCP qualification with daily breakout and ATR stop', families: ['s5a'] },
   { id: 'S4_HH_HL_SMA200_VPA', name: 'HH/HL + SMA200 + VPA', shortName: 'S4', category: 'BREAKOUT', description: 'HH/HL compaction with SMA200 proximity and volume-price contraction', families: ['trend', 'impulse', 'pullback', 'volume', 'volatility', 'entry', 'smartMoney', 'risk', 'filters'] },
   { id: 'S5_50EMA_PULLBACK_VCP', name: '50 EMA Pullback VCP', shortName: 'S5', category: 'PULLBACK', description: 'Volatility Contraction Pattern at 50-EMA with drying volume', families: ['universe', 'trend', 'pullback', 'volume', 'volatility', 'entry', 'risk'] },
   { id: 'S6_RS_BREAKOUT', name: 'RS Breakout (Nifty 500)', shortName: 'S6', category: 'BREAKOUT', description: 'Relative Strength breakout from tight base near 52-week highs', families: ['universe', 'trend', 'impulse', 'pullback', 'volume', 'entry', 'risk'] },
@@ -769,6 +792,41 @@ export interface ParameterMeta {
 }
 
 export const PARAM_METADATA: ParameterMeta[] = [
+  { key: 's4a.weeklyPivotBars', family: 's4a', type: 'number', label: 'Weekly Pivot Bars', description: 'Confirmed weekly pivot width', default: 5, min: 5, max: 5, step: 1, usedBy: ['S4A_GAP_RUNNING_STOCKS'] },
+  { key: 's4a.priceFloor', family: 's4a', type: 'number', label: 'Price Floor', description: 'Remove penny stocks below this close', unit: 'INR', default: 50, min: 0, max: 1000, step: 1, usedBy: ['S4A_GAP_RUNNING_STOCKS'] },
+  { key: 's4a.marketCapFloorCr', family: 's4a', type: 'number', label: 'Market Cap Floor', description: 'Large-cap / high market-cap midcap floor', unit: 'Cr', default: 20000, min: 0, max: 100000, step: 100, usedBy: ['S4A_GAP_RUNNING_STOCKS'] },
+  { key: 's4a.movingAveragePeriod', family: 's4a', type: 'number', label: 'Market MA Period', description: 'SMA or EMA period for Nifty 500, Midcap and Smallcap', default: 20, min: 2, max: 100, step: 1, usedBy: ['S4A_GAP_RUNNING_STOCKS'] },
+  { key: 's4a.gapUpMinPct', family: 's4a', type: 'number', label: 'Minimum Clean Daily Gap-Up', description: 'Daily open above immediately prior trading session close', unit: '%', default: 2, min: 0, max: 20, step: 0.25, usedBy: ['S4A_GAP_RUNNING_STOCKS'] },
+  { key: 's4a.pullbackAtrMaxRatio', family: 's4a', type: 'number', label: 'Maximum Pullback ATR / ATR(14)', description: 'Average pullback true range divided by ATR(14)', unit: 'ratio', default: 0.50, min: 0, max: 1, step: 0.05, usedBy: ['S4A_GAP_RUNNING_STOCKS'] },
+  { key: 's4a.supplyDryUpMaxRatio', family: 's4a', type: 'number', label: 'Maximum Supply Dry-Up Ratio', description: 'Final five base sessions average volume divided by 20-day VMA', unit: 'ratio', default: 0.85, min: 0, max: 1, step: 0.05, usedBy: ['S4A_GAP_RUNNING_STOCKS'] },
+  { key: 's4a.stopBelowLowestLowPct', family: 's4a', type: 'number', label: 'Stop Below Lowest Daily Low', description: 'Stop loss below the lowest daily low', unit: '%', default: 1, min: 0, max: 10, step: 0.25, usedBy: ['S4A_GAP_RUNNING_STOCKS'] },
+  { key: 's5a.priceFloor', family: 's5a', type: 'number', label: 'Price Floor', description: 'Remove stocks below this close', unit: 'INR', default: 50, min: 0, max: 1000, step: 1, usedBy: ['S5A_MINERVINI_WINNING_STOCKS'] },
+  { key: 's5a.weeksInYear', family: 's5a', type: 'number', label: '52-Week Lookback', description: 'Weekly bars used for 52-week measures', default: 52, min: 52, max: 52, step: 1, usedBy: ['S5A_MINERVINI_WINNING_STOCKS'] },
+  { key: 's5a.near52WeekHighMaxDiscountPct', family: 's5a', type: 'number', label: 'Maximum 52-Week High Discount', description: 'Maximum distance below 52-week high', unit: '%', default: 25, min: 0, max: 100, step: 1, usedBy: ['S5A_MINERVINI_WINNING_STOCKS'] },
+  { key: 's5a.above52WeekLowMinPct', family: 's5a', type: 'number', label: 'Minimum Gain From 52-Week Low', description: 'Minimum price gain above 52-week low', unit: '%', default: 100, min: 0, max: 500, step: 5, usedBy: ['S5A_MINERVINI_WINNING_STOCKS'] },
+  { key: 's5a.sma50Period', family: 's5a', type: 'number', label: '50 DMA Period', description: 'Daily moving average period', default: 50, min: 50, max: 50, step: 1, usedBy: ['S5A_MINERVINI_WINNING_STOCKS'] },
+  { key: 's5a.sma200Period', family: 's5a', type: 'number', label: '200 DMA Period', description: 'Daily moving average period', default: 200, min: 200, max: 200, step: 1, usedBy: ['S5A_MINERVINI_WINNING_STOCKS'] },
+  { key: 's5a.dma200RisingBars', family: 's5a', type: 'number', label: '200 DMA Rising Window', description: 'Daily bars for the three-month rising test', default: 65, min: 1, max: 130, step: 1, usedBy: ['S5A_MINERVINI_WINNING_STOCKS'] },
+  { key: 's5a.highRecurrenceMinWeeks', family: 's5a', type: 'number', label: '52-Week High Minimum Interval', description: 'Minimum weekly interval between 52-week-high events', default: 16, min: 1, max: 52, step: 1, usedBy: ['S5A_MINERVINI_WINNING_STOCKS'] },
+  { key: 's5a.highRecurrenceMaxWeeks', family: 's5a', type: 'number', label: '52-Week High Maximum Interval', description: 'Maximum weekly interval between 52-week-high events', default: 26, min: 1, max: 52, step: 1, usedBy: ['S5A_MINERVINI_WINNING_STOCKS'] },
+  { key: 's5a.minVcpCandles', family: 's5a', type: 'number', label: 'Minimum VCP Candles', description: 'Minimum candles in each VCP contraction', default: 3, min: 3, max: 3, step: 1, usedBy: ['S5A_MINERVINI_WINNING_STOCKS'] },
+  { key: 's5a.maxVcpCandles', family: 's5a', type: 'number', label: 'Maximum VCP Candles', description: 'Maximum candles in each VCP contraction', default: 5, min: 5, max: 5, step: 1, usedBy: ['S5A_MINERVINI_WINNING_STOCKS'] },
+  { key: 's5a.minVcpCount', family: 's5a', type: 'number', label: 'Minimum Daily VCP Count', description: 'Minimum number of daily contractions', default: 2, min: 2, max: 2, step: 1, usedBy: ['S5A_MINERVINI_WINNING_STOCKS'] },
+  { key: 's5a.maxVcpCount', family: 's5a', type: 'number', label: 'Maximum Daily VCP Count', description: 'Maximum number of daily contractions', default: 3, min: 3, max: 3, step: 1, usedBy: ['S5A_MINERVINI_WINNING_STOCKS'] },
+  { key: 's5a.secondVcpMinContractionPct', family: 's5a', type: 'number', label: 'Second VCP Minimum Contraction', description: 'Minimum contraction if only two VCPs are present', unit: '%', default: 70, min: 0, max: 100, step: 1, usedBy: ['S5A_MINERVINI_WINNING_STOCKS'] },
+  { key: 's5a.supplyDryUpMaxRatio', family: 's5a', type: 'number', label: 'Maximum Supply Dry-Up Ratio', description: 'Final five daily base sessions average volume divided by 20-day VMA', unit: 'ratio', default: 0.85, min: 0, max: 1, step: 0.05, usedBy: ['S5A_MINERVINI_WINNING_STOCKS'] },
+  { key: 's5a.atrPeriod', family: 's5a', type: 'number', label: 'ATR Period', description: 'Daily ATR period for stop loss', default: 20, min: 20, max: 20, step: 1, usedBy: ['S5A_MINERVINI_WINNING_STOCKS'] },
+  { key: 's5a.atrMultiple', family: 's5a', type: 'number', label: 'ATR Stop Multiple', description: 'Stop distance in ATR multiples', default: 2, min: 2, max: 2, step: 1, usedBy: ['S5A_MINERVINI_WINNING_STOCKS'] },
+  { key: 's5a.maxStopLossPct', family: 's5a', type: 'number', label: 'Maximum Stop Loss', description: 'Maximum stop-loss distance', unit: '%', default: 10, min: 0, max: 100, step: 1, usedBy: ['S5A_MINERVINI_WINNING_STOCKS'] },
+  { key: 's3a.smaPeriod', family: 's3a', type: 'number', label: 'SMA Period', description: 'Rising floor period', default: 50, min: 10, max: 250, step: 1, usedBy: ['S3A_HH_HL_ATR_COMPRESSION'] },
+  { key: 's3a.smaRiseBars', family: 's3a', type: 'number', label: 'SMA Rise Bars', description: 'Slope comparison in trading sessions', default: 1, min: 1, max: 20, step: 1, usedBy: ['S3A_HH_HL_ATR_COMPRESSION'] },
+  { key: 's3a.atrPeriod', family: 's3a', type: 'number', label: 'ATR Period', description: 'True-range averaging period', default: 14, min: 2, max: 50, step: 1, usedBy: ['S3A_HH_HL_ATR_COMPRESSION'] },
+  { key: 's3a.pivotRadius', family: 's3a', type: 'number', label: 'Pivot Radius', description: 'Bars on each side confirming local HH/HL pivots', default: 2, min: 1, max: 5, step: 1, usedBy: ['S3A_HH_HL_ATR_COMPRESSION'] },
+  { key: 's3a.structureLookbackBars', family: 's3a', type: 'number', label: 'Structure Lookback', description: 'Daily candles searched for four pivots', default: 60, min: 15, max: 200, step: 1, usedBy: ['S3A_HH_HL_ATR_COMPRESSION'] },
+  { key: 's3a.precedingMoveLookbackBars', family: 's3a', type: 'number', label: 'Prior Move Sessions', description: 'Maximum trading sessions from P0 low to H1 high', default: 5, min: 1, max: 20, step: 1, usedBy: ['S3A_HH_HL_ATR_COMPRESSION'] },
+  { key: 's3a.precedingMoveMinPct', family: 's3a', type: 'number', label: 'Minimum Prior Move', description: 'P0 low to H1 high', unit: '%', default: 20, min: 0, max: 100, step: 1, usedBy: ['S3A_HH_HL_ATR_COMPRESSION'] },
+  { key: 's3a.atrCompressionMaxRatio', family: 's3a', type: 'number', label: 'ATR Compression Ratio', description: 'Second pullback average ATR / first pullback average ATR must be lower', default: 1, min: 0.1, max: 1.5, step: 0.05, usedBy: ['S3A_HH_HL_ATR_COMPRESSION'] },
+  { key: 's3a.requireBullishPivotCandles', family: 's3a', type: 'boolean', label: 'S1a Bullish Pivot Candles', description: 'Require bullish S1a candle at H1, L1, H2 and L2', default: true, usedBy: ['S3A_HH_HL_ATR_COMPRESSION'] },
   // Universe
   { key: 'universe.marketCapFloorCr', family: 'universe', type: 'number', label: 'Market Cap Floor', description: 'Minimum market capitalization', unit: 'Cr', default: 0, min: 0, max: 100000, step: 100, usedBy: ['S5_50EMA_PULLBACK_VCP'] },
   { key: 'universe.adtvFloorCr', family: 'universe', type: 'number', label: 'ADTV Floor', description: '20-day avg daily traded value minimum', unit: 'Cr', default: 0, min: 0, max: 500, step: 1, usedBy: ['S5_50EMA_PULLBACK_VCP', 'S10_TRENDLINE_ORB'] },
@@ -858,6 +916,9 @@ export function mergeWithDefaults(partial: Partial<StrategyParameterConfig>): St
     smartMoney: { ...BASE_DEFAULTS.smartMoney, ...partial.smartMoney },
     risk: { ...BASE_DEFAULTS.risk, ...partial.risk },
     filters: { ...BASE_DEFAULTS.filters, ...partial.filters },
+    s3a: partial.s3a,
+    s4a: partial.s4a,
+    s5a: partial.s5a,
   };
 }
 
@@ -901,6 +962,9 @@ export const FAMILY_LABELS: Record<ParameterFamily, string> = {
   smartMoney: 'Smart Money Detection',
   risk: 'Risk Management',
   filters: 'Optional Filters',
+  s3a: 'S3a Structure & Confirmation',
+  s4a: 'S4a Gap Running Stocks',
+  s5a: 'S5a Minervini Winning Stocks',
 };
 
 // ─── Database Seeding (Phase 1: Data Layer) ──────────────────────────────────
@@ -937,14 +1001,7 @@ export async function seedBuiltInPresets(db: any): Promise<void> {
     is_active: 1,
   }));
 
-  // Check if presets already exist
-  const existing = await dbAll(db, `SELECT COUNT(*) as cnt FROM CustomStrategies WHERE is_preset = 1`);
-  if (existing && existing[0]?.cnt > 0) {
-    console.log(`[StrategyPresetSeeding] Presets already seeded (${existing[0].cnt} found), skipping.`);
-    return;
-  }
-
-  // Insert all presets as a batch
+  // INSERT OR IGNORE preserves existing user-edited presets while adding new variants.
   for (const preset of presets) {
     try {
       await dbRun(
@@ -979,6 +1036,9 @@ function getColorForStrategy(strategyId: StrategyId): string {
     'S1_VPA_BASE_BREAKOUT': '#ef4444',      // Red
     'S2_INSTITUTIONAL_FVG_CE': '#f97316',   // Orange
     'S3_HH_HL_COMPACTION': '#eab308',       // Yellow
+    'S3A_HH_HL_ATR_COMPRESSION': '#facc15',
+    'S4A_GAP_RUNNING_STOCKS': '#22c55e',
+    'S5A_MINERVINI_WINNING_STOCKS': '#16a34a',
     'S4_HH_HL_SMA200_VPA': '#84cc16',       // Lime
     'S5_50EMA_PULLBACK_VCP': '#22c55e',     // Green
     'S6_RS_BREAKOUT': '#10b981',            // Emerald

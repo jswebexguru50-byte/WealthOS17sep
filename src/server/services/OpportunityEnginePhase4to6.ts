@@ -287,7 +287,10 @@ export async function computePositionSize(input: PositionSizeInput): Promise<Pos
   const db = getDB();
   const symbol = input.symbol.toUpperCase();
   const portfolioId = input.portfolio_id || 'ALL';
-  const availableCash = input.available_cash || 100000;
+  const availableCash = input.available_cash;
+  if (!Number.isFinite(availableCash) || availableCash < 0) {
+    throw new Error('Position sizing requires an observed available_cash amount, including an explicit zero.');
+  }
 
   // Step 0: Check Circuit Breaker (OPP-10)
   const breaker = await getDrawdownCircuitBreakerStatus(portfolioId);

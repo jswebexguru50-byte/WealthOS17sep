@@ -16,6 +16,8 @@ except Exception as e:
 
 CATALOG_PATH = Path('data/market_data/tejhq_hf_10y/ohlcv.duckdb').resolve()
 KITE_ROOT = Path('data/market_data/tejhq_hf_10y/kite_adjusted_backfill/candles').resolve()
+ALIAS_ROOT = Path('data/market_data/tejhq_hf_10y/resolved_symbol_aliases').resolve()
+INDEX_ROOT = Path('data/market_data/tejhq_hf_10y/kite_index_backfill/candles').resolve()
 
 def send_response(response: dict):
     # Ensure stdout is newline delimited JSON
@@ -42,6 +44,32 @@ def handle_query(req: dict):
         })
         return
 
+    # Kite index candles have a distinct raw schema and directory layout.
+    # Handle this explicitly so benchmark values are never invented by the app.
+    if len(symbols) == 1 and str(symbols[0]).strip().upper() == 'NIFTY 50':
+        index_path = INDEX_ROOT / 'index=NSE__NIFTY 50' / 'part-0.parquet'
+        if not index_path.exists():
+            send_response({'id': req_id, 'ok': True, 'rows': [], 'coveredSymbols': [],
+                           'coverageGaps': ['NIFTY 50'], 'queryMs': int((time.time() - t0) * 1000)})
+            return
+        try:
+            rows = con.execute("""
+                SELECT trade_date, 'NIFTY 50' AS symbol, NULL::VARCHAR AS isin,
+                       NULL::VARCHAR AS upstox_key_nse, open AS open_adjusted,
+                       high AS high_adjusted, low AS low_adjusted, close AS close_adjusted,
+                       volume AS volume_raw, data_source
+                FROM read_parquet(?)
+                WHERE trade_date >= ? AND trade_date <= ?
+                ORDER BY trade_date DESC LIMIT ?
+            """, [str(index_path), from_date, to_date, limit]).df().to_dict(orient='records')
+            rows.reverse()
+            send_response({'id': req_id, 'ok': True, 'rows': rows,
+                           'coveredSymbols': ['NIFTY 50'], 'coverageGaps': [],
+                           'queryMs': int((time.time() - t0) * 1000)})
+        except Exception as e:
+            send_response({'id': req_id, 'ok': False, 'error': str(e)})
+        return
+
     # Check coverage on filesystem
     covered = []
     gaps = []
@@ -51,7 +79,8 @@ def handle_query(req: dict):
         sym = str(s).strip().upper()
         if not sym:
             continue
-        p = KITE_ROOT / f"symbol={sym}" / "part-0.parquet"
+        alias_path = ALIAS_ROOT / f"symbol={sym}" / "part-0.parquet"
+        p = alias_path if alias_path.exists() else KITE_ROOT / f"symbol={sym}" / "part-0.parquet"
         if p.exists():
             covered.append(sym)
             parquet_files.append(str(p).replace('\\', '/'))

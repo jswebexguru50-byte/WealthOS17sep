@@ -1,4 +1,4 @@
-﻿import { spawn, ChildProcess } from 'child_process';
+import { spawn, ChildProcess } from 'child_process';
 import path from 'path';
 import fs from 'fs';
 import { dbAll, getDB } from '../database.js';
@@ -67,14 +67,30 @@ export class DuckDbAdjustedOhlcvService {
   private static requestMap = new Map<number, PendingRequest>();
   private static reqIdSeq = 1;
   private static startupPromise: Promise<void> | null = null;
+  private static restartPromise: Promise<void> | null = null;
   private static lastStderr = '';
   public static workerStarts = 0;
 
-  private static getPython(): string {
-    // The workstation installation is the catalog runtime and has DuckDB.
-    // fs.existsSync can be denied for AppData in child-process sandboxes, so
-    // it must not silently redirect the scanner to the bundled no-DuckDB copy.
-    return this.localPython;
+  private static async resolvePython(): Promise<string> {
+    const candidates = [
+      process.env.PYTHON_BIN,
+      'python',
+      'python3',
+      this.localPython,
+      this.bundledPython
+    ].filter(Boolean) as string[];
+
+    for (const bin of candidates) {
+      try {
+        const result = await new Promise<boolean>((resolve) => {
+          const p = spawn(bin, ['-c', 'import duckdb; print("OK")']);
+          p.on('exit', code => resolve(code === 0));
+          p.on('error', () => resolve(false));
+        });
+        if (result) return bin;
+      } catch (e) {}
+    }
+    throw new Error('No valid python executable with duckdb found');
   }
 
   private static async ensureWorker(): Promise<void> {
@@ -84,8 +100,9 @@ export class DuckDbAdjustedOhlcvService {
       return this.startupPromise;
     }
 
-    this.startupPromise = new Promise((resolve, reject) => {
-      const python = this.getPython();
+    this.startupPromise = new Promise(async (resolve, reject) => {
+      try {
+        const python = await this.resolvePython();
       this.workerStarts++;
       
       this.workerProcess = spawn(python, ['-u', this.bridgeWorker], {
@@ -109,6 +126,11 @@ export class DuckDbAdjustedOhlcvService {
           }
         } catch (e) {
           console.error('[DuckDB Worker] Invalid JSON from stdout:', line);
+          // Instead of silent failure, let's proactively kill the worker if it's spewing garbage
+          // so it can restart properly.
+          if (this.workerProcess) {
+            this.workerProcess.kill('SIGKILL');
+          }
         }
       });
 
@@ -154,6 +176,9 @@ export class DuckDbAdjustedOhlcvService {
       });
 
       this.workerProcess.stdin!.write(JSON.stringify({ cmd: 'ping', id: pingId }) + '\n');
+      } catch (err) {
+        reject(err);
+      }
     });
 
     try {
@@ -191,13 +216,35 @@ export class DuckDbAdjustedOhlcvService {
     });
   }
 
+  public static async restartWorker(): Promise<void> {
+    if (this.restartPromise) return this.restartPromise;
+    this.restartPromise = (async () => {
+      try {
+        if (this.workerProcess && !this.workerProcess.killed) {
+          this.workerProcess.kill('SIGTERM');
+          await new Promise(r => setTimeout(r, 100));
+          if (this.workerProcess && !this.workerProcess.killed) {
+            this.workerProcess.kill('SIGKILL');
+          }
+        }
+        this.workerProcess = null;
+        this.startupPromise = null;
+        await this.ensureWorker();
+      } finally {
+        this.restartPromise = null;
+      }
+    })();
+    return this.restartPromise;
+  }
+
   static async invokeForSymbol(
     symbol: string,
     limit: number,
     fromDate = '1900-01-01',
     toDate = '2999-12-31'
   ): Promise<BridgeInvokeResult> {
-    const python = this.getPython();
+    let python = 'python';
+    try { python = await this.resolvePython(); } catch(e) {}
     const clean = symbol.trim().toUpperCase().replace(/\.(NS|BO)$/, '');
     try {
       const res = await this.sendCommand({
@@ -236,7 +283,7 @@ export class DuckDbAdjustedOhlcvService {
   ): Promise<{ bars: Map<string, AdjustedOhlcvBar[]>; bridgeFailureCount: number }> {
     const bars = new Map<string, AdjustedOhlcvBar[]>();
     const safeSymbols = [...new Set(
-      symbols.map(s => s.trim().toUpperCase().replace(/\.(NS|BO)$/, '')).filter(s => /^[A-Z0-9_-]+$/.test(s))
+      symbols.map(s => s.trim().toUpperCase().replace(/\.(NS|BO)$/, '')).filter(s => /^[A-Z0-9_& -]+$/.test(s))
     )];
     
     if (!safeSymbols.length) return { bars, bridgeFailureCount: 0 };
@@ -297,7 +344,8 @@ export class DuckDbAdjustedOhlcvService {
   }
 
   static async readinessCheck(symbol = 'TCS'): Promise<DuckDbReadinessResult> {
-    const python = this.getPython();
+    let python = 'python';
+    try { python = await this.resolvePython(); } catch(e) {}
     const t0 = Date.now();
     const clean = symbol.trim().toUpperCase().replace(/\.(NS|BO)$/, '');
     try {

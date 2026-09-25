@@ -23,6 +23,7 @@ from vpa_three_leg_screen import (
     bullish_candle_patterns,
     calculate_wilder_rsi,
     load_local_symbols,
+    prepare_vpa_indicators,
     read_adjusted_daily,
 )
 
@@ -92,26 +93,12 @@ def rsi_support(work: pd.DataFrame, signal_index: int, trough_index: int,
     return None
 
 
-def detect_s1b(frame: pd.DataFrame, config: S1BPatternConfig) -> dict[str, Any] | None:
+def detect_s1b(frame: pd.DataFrame, config: S1BPatternConfig, *, prepared_input: bool = False) -> dict[str, Any] | None:
     minimum_history = max(config.total_lookback_bars, config.vol_ma_period,
                           config.rsi_period, config.sma_period)
     if len(frame) < minimum_history:
         return None
-    prepared = frame.copy()
-    prepared["vol_ma"] = prepared["volume"].rolling(config.vol_ma_period,
-                                                       min_periods=config.vol_ma_period).mean()
-    prepared["rsi"] = calculate_wilder_rsi(prepared["close"], config.rsi_period)
-    prepared["sma"] = prepared["close"].rolling(config.sma_period,
-                                                   min_periods=config.sma_period).mean()
-    prior_close = prepared["close"].shift(1)
-    prepared["true_range"] = pd.concat([
-        prepared["high"] - prepared["low"],
-        (prepared["high"] - prior_close).abs(),
-        (prepared["low"] - prior_close).abs(),
-    ], axis=1).max(axis=1)
-    prepared["atr"] = prepared["true_range"].rolling(config.atr_period,
-                                                       min_periods=config.atr_period).mean()
-    prepared["ath"] = prepared["close"].cummax()
+    prepared = frame if prepared_input else prepare_vpa_indicators(frame, config)
     work = prepared.tail(max(config.total_lookback_bars, config.vol_ma_period)).reset_index(drop=True)
     signal = len(work) - 1
     if not np.isfinite(work.at[signal, "vol_ma"]) or work.at[signal, "vol_ma"] <= 0:
@@ -210,11 +197,12 @@ def scan_historical_signals(frame: pd.DataFrame, config: S1BPatternConfig,
                       config.rsi_period, config.sma_period)
     start_index = max(first_index, len(frame) - trailing_bars) if trailing_bars else first_index
     next_allowed = start_index
+    prepared = prepare_vpa_indicators(frame, config)
     records: list[dict[str, Any]] = []
     for signal_index in range(start_index, len(frame)):
         if signal_index < next_allowed:
             continue
-        setup = detect_s1b(frame.iloc[:signal_index + 1], config)
+        setup = detect_s1b(prepared.iloc[:signal_index + 1], config, prepared_input=True)
         if setup is None:
             continue
         close = float(frame.iloc[signal_index]["close"])

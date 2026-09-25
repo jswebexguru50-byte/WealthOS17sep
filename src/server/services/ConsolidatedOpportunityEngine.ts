@@ -621,8 +621,10 @@ export interface MasterOpportunityDashboardReport {
     niftySmallcapCount?: number;
     microcapSmeCount?: number;
     portfolioHoldingsCount?: number;
-    smartMoneyQualifiedCount: number;
-    fundamentalGatePassedCount: number;
+    smartMoneyQualifiedCount: number | null;
+    smartMoneyGateStatus?: string;
+    fundamentalGatePassedCount: number | null;
+    fundamentalGateStatus?: string;
     vpaActionableCount: number;
     tripleConvergenceCount: number;
     automatedPaperExecutedCount: number;
@@ -744,6 +746,8 @@ export const US_AND_FOREIGN_EQUITIES = new Set([
 export class ConsolidatedOpportunityEngine {
   private static instance: ConsolidatedOpportunityEngine;
   private isScanning: boolean = false;
+  private activeScanId: string | null = null;
+  private latestCompletedScanId: string | null = null;
   private lastReport: MasterOpportunityDashboardReport | null = null;
   private lastScanTimestamp: number = 0;
   private scripCache = new Map<string, { data: ConsolidatedOpportunity; timestamp: number }>();
@@ -1099,15 +1103,15 @@ export class ConsolidatedOpportunityEngine {
   /**
    * Persists individual scrip evaluations into SQLite for fast incremental re-use.
    */
-  public async saveScripEvaluationsToDatabase(opportunities: ConsolidatedOpportunity[]): Promise<void> {
+  public async saveScripEvaluationsToDatabase(opportunities: ConsolidatedOpportunity[], scanId: string = 'DEFAULT_SCAN', origin: string = 'SCAN'): Promise<void> {
     try {
       const db = getDB();
       for (const opp of opportunities) {
         await dbRun(
           db,
           `INSERT INTO OpportunityScripEvaluations (
-             symbol, company_name, sector, market_cap_category, convergence_score, actionable_now, multibagger_tier, evaluation_json, last_updated_at, provenance_tag, confidence_interval_str
-           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+             symbol, company_name, sector, market_cap_category, convergence_score, actionable_now, multibagger_tier, evaluation_json, last_updated_at, provenance_tag, confidence_interval_str, scan_id, origin
+           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
            ON CONFLICT(symbol) DO UPDATE SET
              company_name = excluded.company_name,
              sector = excluded.sector,
@@ -1118,7 +1122,9 @@ export class ConsolidatedOpportunityEngine {
              evaluation_json = excluded.evaluation_json,
              last_updated_at = excluded.last_updated_at,
              provenance_tag = excluded.provenance_tag,
-             confidence_interval_str = excluded.confidence_interval_str`,
+             confidence_interval_str = excluded.confidence_interval_str,
+             scan_id = excluded.scan_id,
+             origin = excluded.origin`,
           [
             opp.symbol,
             opp.companyName,
@@ -1130,7 +1136,9 @@ export class ConsolidatedOpportunityEngine {
             JSON.stringify(opp),
             Date.now(),
             opp.dataProvenance?.sourceType || 'SOURCED',
-            opp.dataProvenance?.confidenceIntervalStr || '±2.1%'
+            opp.dataProvenance?.confidenceIntervalStr || '±2.1%',
+            scanId,
+            origin
           ]
         );
       }
@@ -1142,19 +1150,27 @@ export class ConsolidatedOpportunityEngine {
   /**
    * Triggers non-blocking background quantitative pipeline scan.
    */
-  public triggerBackgroundScan(): { status: string; isScanning: boolean } {
+  public triggerBackgroundScan(): { status: string; isScanning: boolean; scanId?: string } {
     if (this.isScanning) {
-      return { status: 'SCAN_ALREADY_RUNNING', isScanning: true };
+      return { status: 'SCAN_ALREADY_RUNNING', isScanning: true, scanId: this.activeScanId || undefined };
     }
+
+    this.isScanning = true;
+    const newScanId = 'SCAN_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
+    this.activeScanId = newScanId;
 
     // Run in background without awaiting
     setTimeout(() => {
-      this.executeFullScanPipeline().catch(err => {
+      this.executeFullScanPipeline(newScanId).then(() => {
+        this.latestCompletedScanId = newScanId;
+      }).catch(err => {
         console.error('[COE] Background pipeline execution error:', err);
+      }).finally(() => {
+        if (this.activeScanId === newScanId) this.activeScanId = null;
       });
     }, 50);
 
-    return { status: 'SCAN_STARTED', isScanning: true };
+    return { status: 'SCAN_STARTED', isScanning: true, scanId: newScanId };
   }
 
   /**
@@ -1164,6 +1180,8 @@ export class ConsolidatedOpportunityEngine {
     return {
       ...this.scanProgress,
       isScanning: this.isScanning,
+      activeScanId: this.activeScanId,
+      latestCompletedScanId: this.latestCompletedScanId,
       lastScanTimestamp: this.lastScanTimestamp,
       lastUpdatedAgeSec: this.lastScanTimestamp ? Math.round((Date.now() - this.lastScanTimestamp) / 1000) : null
     };
@@ -1652,7 +1670,7 @@ export class ConsolidatedOpportunityEngine {
   /**
    * Complete 6-Stage Opportunity Discovery & Portfolio Rebalancing Pipeline
    */
-  public async executeFullScanPipeline(): Promise<MasterOpportunityDashboardReport> {
+  public async executeFullScanPipeline(scanId: string = 'DEFAULT_SCAN'): Promise<MasterOpportunityDashboardReport> {
     this.isScanning = true;
     try {
       // ── STAGE 5: LOAD ACTUAL USER PORTFOLIO HOLDINGS (SQLITE) ──
@@ -1797,32 +1815,7 @@ export class ConsolidatedOpportunityEngine {
         this.scanProgress.progressPct = deepCandidates.length ? Math.round((this.scanProgress.completedCount / deepCandidates.length) * 100) : 100;
       }
 
-      // Merge all previously evaluated scrips from SQLite OpportunityScripEvaluations
-      try {
-        const db = getDB();
-        const storedRows = await dbAll<any>(db, `SELECT evaluation_json FROM OpportunityScripEvaluations`);
-        if (storedRows) {
-          const seen = new Set(opportunities.map(o => o.symbol));
-          for (const r of storedRows) {
-            try {
-              const storedOpp = JSON.parse(r.evaluation_json) as ConsolidatedOpportunity;
-              const isDegradedFallback = (
-                storedOpp.rocePct === 18 &&
-                storedOpp.roePct === 16 &&
-                storedOpp.promoterHoldingPct === 50 &&
-                storedOpp.fiiHoldingPct === 12 &&
-                storedOpp.diiHoldingPct === 14
-              );
-              if (!seen.has(storedOpp.symbol) && !isDegradedFallback) {
-                storedOpp.marketCapCategory = categoryMap.get(storedOpp.symbol) || storedOpp.marketCapCategory || 'NIFTY_MIDCAP';
-                storedOpp.isPortfolioHolding = portfolioSymbolsSet ? portfolioSymbolsSet.has(storedOpp.symbol) : false;
-                opportunities.push(storedOpp);
-                seen.add(storedOpp.symbol);
-              }
-            } catch (e) {}
-          }
-        }
-      } catch (e) {}
+      // Removed historical OpportunityScripEvaluations merge per Track A1
 
       // Sort by Convergence Score descending
       opportunities.sort((a, b) => b.convergenceScore - a.convergenceScore);
@@ -1874,8 +1867,10 @@ export class ConsolidatedOpportunityEngine {
           niftySmallcapCount: breakdown.niftySmallcapCount,
           microcapSmeCount: breakdown.microcapSmeCount,
           portfolioHoldingsCount: breakdown.portfolioUniqueCount,
-          smartMoneyQualifiedCount: Math.round(breakdown.totalCount * 0.28),
-          fundamentalGatePassedCount: Math.round(breakdown.totalCount * 0.19),
+          smartMoneyQualifiedCount: null,
+          smartMoneyGateStatus: 'NOT_EVALUATED',
+          fundamentalGatePassedCount: null,
+          fundamentalGateStatus: 'NOT_EVALUATED',
           vpaActionableCount: opportunities.filter(o => o.actionableNow).length,
           tripleConvergenceCount: opportunities.filter(o => o.convergenceScore >= 80).length,
           automatedPaperExecutedCount: automatedPaperCount,
@@ -1895,7 +1890,7 @@ export class ConsolidatedOpportunityEngine {
       this.lastReport = report;
       this.lastScanTimestamp = Date.now();
       await this.saveReportToDatabase(report);
-      await this.saveScripEvaluationsToDatabase(opportunities);
+      await this.saveScripEvaluationsToDatabase(opportunities, scanId, 'SCAN');
       return report;
     } finally {
       this.isScanning = false;

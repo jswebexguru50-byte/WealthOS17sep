@@ -1,5 +1,5 @@
 import { getDB, dbRun, dbAll, dbGet } from '../database.js';
-import { fetchTickerData } from '../yahooFinance.js';
+import { DuckDbAdjustedOhlcvService } from './DuckDbAdjustedOhlcvService.js';
 import { PaperTradingPotService } from './PaperTradingPotService.js';
 import { CausalPostMortemService } from './CausalPostMortemService.js';
 import { SelfLearningEngine } from './SelfLearningEngine.js';
@@ -430,14 +430,14 @@ export class MomentumVpaEngine {
   public evaluateMacroRegime(benchmarkCandles: Candle[]): MacroRegimeResult {
     if (!benchmarkCandles || benchmarkCandles.length < 50) {
       return {
-        regime: 'NORMAL',
-        benchmarkSymbol: 'CNX500',
-        currentClose: 24000,
-        sma50: 23500,
-        ratio: 1.02,
-        emergencyStopArmed: false,
+        regime: 'BEARISH',
+        benchmarkSymbol: 'NIFTY 50',
+        currentClose: 0,
+        sma50: 0,
+        ratio: 0,
+        emergencyStopArmed: true,
         emergencyStopLossPct: 0,
-        description: 'Standard Execution Mode: Benchmark in healthy structural trend.'
+        description: 'Benchmark adjusted candles unavailable; execution is disabled.'
       };
     }
 
@@ -1580,8 +1580,13 @@ export class MomentumVpaEngine {
     capital: number = 250000
   ): Promise<{ success: boolean; message: string; position?: any }> {
     try {
-      const synthetic = this.generateSyntheticCandles(symbol, 60);
-      const setup = this.evaluateStock(symbol, symbol, synthetic);
+      const setup = (await this.scanUniverse([symbol]))[0];
+      if (!setup || setup.stage !== 'ACTIONABLE_TRANCHE_READY') {
+        return { success: false, message: 'No actionable setup backed by adjusted historical candles is available.' };
+      }
+      if (!Number.isFinite(capital) || capital <= 0 || !Number.isFinite(setup.currentPrice) || setup.currentPrice <= 0) {
+        return { success: false, message: 'Invalid capital or verified entry price.' };
+      }
 
       const paperService = PaperTradingPotService.getInstance();
       const currentPrice = setup.currentPrice;
@@ -1894,23 +1899,21 @@ export class MomentumVpaEngine {
       'HAL', 'POLYCAB', 'TITAN', 'KOTAKBANK', 'BAJFINANCE', 'ITC'
     ];
 
-    // Fetch benchmark candles (CNX500 / ^NSEI)
-    let benchmarkCandles: Candle[] = [];
-    try {
-      const benchData = await fetchTickerData('^CRSLDX', 180).catch(() => null)
-        || await fetchTickerData('^NSEI', 180).catch(() => null);
-
-      if (benchData && benchData.closePrices && benchData.closePrices.length >= 50) {
-        benchmarkCandles = benchData.closePrices.map((c: any) => ({
-          date: c.date ? new Date(c.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
-          open: Number(c.open || c.close),
-          high: Number(c.high || c.close),
-          low: Number(c.low || c.close),
-          close: Number(c.close),
-          volume: Number(c.volume || 1000000)
-        }));
-      }
-    } catch {}
+    const toCandle = (bar: { trade_date: string; open_adjusted: number; high_adjusted: number; low_adjusted: number; close_adjusted: number; volume_raw: number }): Candle => ({
+      date: bar.trade_date,
+      open: Number(bar.open_adjusted),
+      high: Number(bar.high_adjusted),
+      low: Number(bar.low_adjusted),
+      close: Number(bar.close_adjusted),
+      volume: Number(bar.volume_raw),
+      turnover: Number(bar.volume_raw) * Number(bar.close_adjusted)
+    });
+    const benchmarkRead = await DuckDbAdjustedOhlcvService.getDailyBarsWithSource('NIFTY 50', 180);
+    const benchmarkCandles: Candle[] = benchmarkRead.bars.map(toCandle).sort((a, b) => a.date.localeCompare(b.date));
+    if (benchmarkCandles.length < 50) {
+      console.warn('[Momentum VPA] Adjusted NIFTY 50 benchmark unavailable; refusing actionable scan.');
+      return [];
+    }
 
     const results: MomentumVpaSetup[] = [];
 
@@ -1918,24 +1921,10 @@ export class MomentumVpaEngine {
     const chunkSize = 5;
     for (let i = 0; i < list.length; i += chunkSize) {
       const chunk = list.slice(i, i + chunkSize);
+      const batch = await DuckDbAdjustedOhlcvService.getDailyBarsForSymbols(chunk, 180);
       const chunkPromises = chunk.map(async (sym) => {
         const cleanSym = sym.toUpperCase().replace(/\.NS$/, '').replace(/\.BO$/, '');
-        let candles: Candle[] = [];
-
-        try {
-          const data = await fetchTickerData(`${cleanSym}.NS`, 180).catch(() => null);
-          if (data && data.closePrices && data.closePrices.length >= 25) {
-            candles = data.closePrices.map((c: any) => ({
-              date: c.date ? new Date(c.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
-              open: Number(c.open || c.close),
-              high: Number(c.high || c.close),
-              low: Number(c.low || c.close),
-              close: Number(c.close),
-              volume: Number(c.volume || 0),
-              turnover: Number(c.volume || 0) * Number(c.close)
-            }));
-          }
-        } catch {}
+        const candles = (batch.bars.get(cleanSym) || []).map(toCandle).sort((a, b) => a.date.localeCompare(b.date));
 
         if (candles.length < 25) {
           return null;
@@ -2046,7 +2035,13 @@ export class MomentumVpaEngine {
 
     // Get current setup evaluation
     const scan = await this.scanUniverse([cleanSym]);
-    const setup = scan[0] || this.evaluateStock(cleanSym, cleanSym, this.generateSyntheticCandles(cleanSym, 60));
+    const setup = scan[0];
+    if (!setup || setup.stage !== 'ACTIONABLE_TRANCHE_READY') {
+      throw new Error(`No actionable adjusted-candle VPA setup is available for ${cleanSym}`);
+    }
+    if (!Number.isFinite(totalCapital) || totalCapital <= 0 || !Number.isFinite(setup.currentPrice) || setup.currentPrice <= 0) {
+      throw new Error('Invalid capital or verified entry price');
+    }
 
     const totalQty = Math.max(3, Math.floor(totalCapital / (setup.currentPrice || 1)));
     const q1 = Math.floor(totalQty / 3);

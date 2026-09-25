@@ -95,6 +95,33 @@ def verify_integrity(symbols: list[str]) -> dict:
             'synthetic_values': 0, 'ghost_sources': 0}
 
 
+def already_processed(symbols: list[str]) -> set[str]:
+    """Never re-fetch a symbol with a saved, validated FERE card.
+
+    This batch collector is an enrichment backfill, not a periodic refresh.  A
+    card remains complete across restarts and changed batch ordering unless a
+    separate, explicit refresh operation requests it.
+    """
+    if not symbols:
+        return set()
+    con = sqlite3.connect(DB_PATH)
+    placeholders = ','.join('?' for _ in symbols)
+    rows = con.execute(f'''SELECT symbol,result_json FROM company_check_result
+                           WHERE symbol IN ({placeholders})''', symbols).fetchall()
+    con.close()
+    completed = set()
+    for symbol, result_json in rows:
+        try:
+            card = json.loads(result_json)
+            if (card.get('symbol') == symbol
+                    and card.get('status') in ('VERIFIED_PARTIAL', 'DATA_INSUFFICIENT')
+                    and card.get('synthetic_values') == 0 and card.get('ghost_sources') == 0):
+                completed.add(symbol)
+        except (TypeError, ValueError):
+            continue
+    return completed
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument('--batch-size', type=int, default=25)
@@ -125,18 +152,26 @@ def main() -> int:
             if prior.get('status') == 'COMPLETED':
                 continue
             batch = symbols[index * args.batch_size:(index + 1) * args.batch_size]
+            previously_checked = already_processed(batch)
+            pending = [symbol for symbol in batch if symbol not in previously_checked]
             started = time.monotonic()
-            progress['batches'][key] = {'status': 'RUNNING', 'symbols': batch, 'started_at': now()}
+            progress['batches'][key] = {'status': 'RUNNING', 'symbols': batch, 'started_at': now(),
+                                        'reused_recent_cards': len(previously_checked)}
             save_progress(progress)
-            command = [sys.executable, str(runner), '--symbols', ','.join(batch), '--workers', '6',
-                       '--force', '--refresh-source']
-            if args.deep_evidence: command.append('--deep-evidence')
             try:
-                result = subprocess.run(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT,
-                                        timeout=args.batch_timeout_minutes * 60, check=False)
+                if pending:
+                    command = [sys.executable, str(runner), '--symbols', ','.join(pending), '--workers', '6',
+                               '--force', '--refresh-source']
+                    if args.deep_evidence: command.append('--deep-evidence')
+                    result = subprocess.run(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT,
+                                            timeout=args.batch_timeout_minutes * 60, check=False)
+                    return_code = result.returncode
+                else:
+                    return_code = 0
                 integrity = verify_integrity(batch)
-                status = 'COMPLETED' if result.returncode == 0 else 'FAILED'
-                detail = {'return_code': result.returncode, **integrity}
+                status = 'COMPLETED' if return_code == 0 and not integrity['missing_cards'] else 'FAILED'
+                detail = {'return_code': return_code, 'fetched_symbols': len(pending),
+                          'reused_recent_cards': len(previously_checked), **integrity}
             except subprocess.TimeoutExpired:
                 status, detail = 'FAILED', {'error': 'BATCH_TIMEOUT'}
             except Exception as exc:

@@ -267,19 +267,8 @@ def sma_proximity_match(work: pd.DataFrame, signal_index: int, trough_index: int
     return None
 
 
-def detect_vpa_three_leg(frame: pd.DataFrame, config: VPAPatternConfig,
-                         plan: VPATradePlanConfig) -> dict[str, Any] | None:
-    """Find the best fully confirmed VPA structure ending at the final bar.
-
-    O is the low at the start of leg 1, a is the leg-1 high, b is the leg-2
-    low and c is the current/reclaim close.  All candidate spans and limits are
-    derived from ``config``; no pattern threshold is embedded in this routine.
-    """
-    minimum_history = max(config.total_lookback_bars, config.vol_ma_period, config.rsi_period, config.sma_period)
-    if len(frame) < minimum_history:
-        return None
-    # Calculate the volume reference before taking the pattern window.  This
-    # retains a complete SMA for an anchor that sits early in the last window.
+def prepare_vpa_indicators(frame: pd.DataFrame, config: VPAPatternConfig) -> pd.DataFrame:
+    """Compute only backward-looking indicators once for rolling scans."""
     prepared = frame.copy()
     prepared["vol_ma"] = prepared["volume"].rolling(
         config.vol_ma_period, min_periods=config.vol_ma_period
@@ -295,12 +284,43 @@ def detect_vpa_three_leg(frame: pd.DataFrame, config: VPAPatternConfig,
     prepared["atr"] = prepared["true_range"].rolling(config.atr_period,
                                                        min_periods=config.atr_period).mean()
     prepared["ath"] = prepared["close"].cummax()
+    return prepared
+
+
+def detect_vpa_three_leg(frame: pd.DataFrame, config: VPAPatternConfig,
+                         plan: VPATradePlanConfig, *, prepared_input: bool = False) -> dict[str, Any] | None:
+    """Find the best fully confirmed VPA structure ending at the final bar.
+
+    O is the low at the start of leg 1, a is the leg-1 high, b is the leg-2
+    low and c is the current/reclaim close.  All candidate spans and limits are
+    derived from ``config``; no pattern threshold is embedded in this routine.
+    """
+    minimum_history = max(config.total_lookback_bars, config.vol_ma_period, config.rsi_period, config.sma_period)
+    if len(frame) < minimum_history:
+        return None
+    # Calculate the volume reference before taking the pattern window.  This
+    # retains a complete SMA for an anchor that sits early in the last window.
+    prepared = frame if prepared_input else prepare_vpa_indicators(frame, config)
     work = prepared.tail(maximum_history := max(config.total_lookback_bars, config.vol_ma_period)).reset_index(drop=True)
     c = len(work) - 1
     if not np.isfinite(work.at[c, "vol_ma"]) or work.at[c, "vol_ma"] <= 0:
         return None
     candle_patterns = bullish_candle_patterns(work, c, config)
     if config.require_bullish_candlestick and not candle_patterns:
+        return None
+    # These rules depend only on the current bar, never on candidate pivots.
+    # Reject before the expensive O/a/b search without changing qualification.
+    current_close = float(work.at[c, "close"])
+    current_ath = float(work.at[c, "ath"])
+    if config.enforce_ath_discount and (
+            current_ath <= 0 or 1 - current_close / current_ath < config.ath_min_discount_pct):
+        return None
+    if config.enforce_sma_proximity and config.sma_check_location == "signal_bar":
+        current_sma = float(work.at[c, "sma"])
+        if (not np.isfinite(current_sma) or current_sma <= 0 or
+                abs(current_close - current_sma) / current_sma > config.sma_proximity_tolerance):
+            return None
+    if float(work.at[c, "volume"]) / float(work.at[c, "vol_ma"]) < config.vol_reclaim_min_mult:
         return None
 
     best: dict[str, Any] | None = None
@@ -323,6 +343,11 @@ def detect_vpa_three_leg(frame: pd.DataFrame, config: VPAPatternConfig,
                 displacement = (leg1_high - base_low) / base_low
                 retracement = (leg1_high - pullback_low) / (leg1_high - base_low)
                 reclaim = float(work.at[c, "close"]) / leg1_high
+                if (displacement < config.l1_min_displacement_pct or
+                        reclaim < config.l3_min_reclaim_ratio or
+                        not (config.l2_standard_min_retrace <= retracement <= config.l2_standard_max_retrace or
+                             retracement < config.l2_rsi60_max_retrace)):
+                    continue
                 l1 = work.iloc[origin : a + 1]
                 l2 = work.iloc[a + 1 : b + 1]
                 l1_volume = float(l1["volume"].mean())
@@ -408,10 +433,11 @@ def scan_historical_signals(frame: pd.DataFrame, config: VPAPatternConfig,
     next_allowed_index = first_index
     start_index = max(first_index, len(frame) - trailing_bars) if trailing_bars else first_index
     next_allowed_index = start_index
+    prepared = prepare_vpa_indicators(frame, config)
     for current_index in range(start_index, len(frame)):
         if current_index < next_allowed_index:
             continue
-        signal = detect_vpa_three_leg(frame.iloc[:current_index + 1], config, plan)
+        signal = detect_vpa_three_leg(prepared.iloc[:current_index + 1], config, plan, prepared_input=True)
         if signal is None:
             continue
         signal["signal_date"] = signal["as_of_date"]

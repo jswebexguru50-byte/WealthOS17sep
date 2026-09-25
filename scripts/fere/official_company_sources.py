@@ -7,14 +7,14 @@ import json
 import re
 import sqlite3
 import xml.etree.ElementTree as ET
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import quote
 
 import requests
 
 from management_claims import detect_candidates, ensure_schema as ensure_claim_schema
-from verified_filing_pipeline import (NSE_HOME, WindowsTrustAdapter, archive_bytes,
+from verified_filing_pipeline import (NSE_HOME, ROOT, WindowsTrustAdapter, archive_bytes,
                                       connect, now, official_url, request)
 
 SHAREHOLDING = f'{NSE_HOME}api/corporate-share-holdings-master?index=equities'
@@ -28,6 +28,10 @@ def ensure_schema(con: sqlite3.Connection) -> None:
         id INTEGER PRIMARY KEY, source_type TEXT NOT NULL, source_url TEXT NOT NULL,
         retrieved_at TEXT NOT NULL, sha256 TEXT NOT NULL, archive_path TEXT NOT NULL,
         UNIQUE(source_type,sha256));
+      CREATE TABLE IF NOT EXISTS official_source_fetch_cache (
+        source_type TEXT NOT NULL, source_url TEXT NOT NULL,
+        retrieved_at TEXT NOT NULL, sha256 TEXT NOT NULL, archive_path TEXT NOT NULL,
+        PRIMARY KEY(source_type,source_url));
       CREATE TABLE IF NOT EXISTS shareholding_snapshot (
         id INTEGER PRIMARY KEY, isin TEXT NOT NULL, symbol TEXT NOT NULL,
         period_end TEXT NOT NULL, promoter_holding REAL,
@@ -104,7 +108,35 @@ def save_source(con: sqlite3.Connection, kind: str, url: str, payload: bytes, su
     digest, path = archive_bytes(payload, suffix)
     con.execute('INSERT OR IGNORE INTO official_source_snapshot(source_type,source_url,retrieved_at,sha256,archive_path) VALUES(?,?,?,?,?)',
                 (kind, url, now(), digest, path))
+    con.execute('''INSERT INTO official_source_fetch_cache VALUES(?,?,?,?,?)
+                   ON CONFLICT(source_type,source_url) DO UPDATE SET
+                   retrieved_at=excluded.retrieved_at,sha256=excluded.sha256,archive_path=excluded.archive_path''',
+                (kind, url, now(), digest, path))
     return digest, path
+
+
+def cached_json_source(con: sqlite3.Connection, kind: str, url: str) -> tuple[object, str] | None:
+    """Reuse today's exact archived response only after checking persisted bytes."""
+    row = con.execute('''SELECT retrieved_at,sha256,archive_path FROM official_source_fetch_cache
+                         WHERE source_type=? AND source_url=?''', (kind, url)).fetchone()
+    if not row:
+        row = con.execute('''SELECT retrieved_at,sha256,archive_path FROM official_source_snapshot
+                             WHERE source_type=? AND source_url=? AND archive_path!='REMOTE_ONLY'
+                             ORDER BY id DESC LIMIT 1''', (kind, url)).fetchone()
+    if not row:
+        return None
+    try:
+        if datetime.fromisoformat(row[0]).astimezone(timezone.utc).date() != datetime.now(timezone.utc).date():
+            return None
+        target = (ROOT / row[2]).resolve()
+        if not target.is_relative_to((ROOT / 'data/fere/verified_filings/archive').resolve()):
+            return None
+        payload = target.read_bytes()
+        if not payload or hashlib.sha256(payload).hexdigest() != row[1]:
+            return None
+        return json.loads(payload), row[1]
+    except (OSError, ValueError, TypeError):
+        return None
 
 
 def save_remote_only_source(con: sqlite3.Connection, kind: str, url: str, payload: bytes) -> str:
@@ -115,9 +147,13 @@ def save_remote_only_source(con: sqlite3.Connection, kind: str, url: str, payloa
 
 
 def collect_shareholding(con: sqlite3.Connection, session: requests.Session, symbols: set[str]) -> dict:
-    response = request(session, SHAREHOLDING)
-    digest, _ = save_source(con, 'NSE_SHAREHOLDING_MASTER', SHAREHOLDING, response.content, '.json')
-    payload = response.json()
+    cached = cached_json_source(con, 'NSE_SHAREHOLDING_MASTER', SHAREHOLDING)
+    if cached:
+        payload, digest = cached
+    else:
+        response = request(session, SHAREHOLDING)
+        digest, _ = save_source(con, 'NSE_SHAREHOLDING_MASTER', SHAREHOLDING, response.content, '.json')
+        payload = response.json()
     rows = payload if isinstance(payload, list) else payload.get('data', []) if isinstance(payload, dict) else []
     identities = {row[1].upper(): (row[0], row[1]) for row in con.execute('SELECT isin,symbol FROM universe')}
     counts = {'shareholding': 0, 'pledge': 0}
@@ -216,14 +252,19 @@ def collect_announcements(con: sqlite3.Connection, session: requests.Session, sy
     for symbol in sorted(symbols):
         if symbol not in identities: continue
         url = f'{ANNOUNCEMENTS}?index=equities&symbol={quote(symbol)}&from_date={start.strftime("%d-%m-%Y")}&to_date={end.strftime("%d-%m-%Y")}'
-        try:
-            response = request(session, url)
-        except Exception:
-            continue
-        digest, _ = save_source(con, 'NSE_CORPORATE_ANNOUNCEMENTS', url, response.content, '.json')
+        cached = cached_json_source(con, 'NSE_CORPORATE_ANNOUNCEMENTS', url)
+        if cached:
+            payload, digest = cached
+        else:
+            try:
+                response = request(session, url)
+                digest, _ = save_source(con, 'NSE_CORPORATE_ANNOUNCEMENTS', url, response.content, '.json')
+                payload = response.json()
+            except Exception:
+                continue
         isin, canonical = identities[symbol]
         relevant_downloads = 0
-        for item in announcement_rows(response.json())[:100]:
+        for item in announcement_rows(payload)[:100]:
             subject = str(item.get('desc') or item.get('subject') or item.get('purpose') or '').strip()
             subject_events = [(event_type, severity, pattern) for event_type, severity, pattern in EVENT_PATTERNS
                               if pattern.search(subject)]

@@ -63,6 +63,10 @@ def main() -> None:
              AND low_adjusted > 0 AND close_adjusted > 0 AND high_adjusted >= low_adjusted
              AND high_adjusted >= open_adjusted AND high_adjusted >= close_adjusted
              AND low_adjusted <= open_adjusted AND low_adjusted <= close_adjusted""")
+        # The app reads only validated adjusted data. Staged Upstox raw candles
+        # cannot replace an adjusted Kite row, including after a later rerun.
+        con.execute("""CREATE OR REPLACE VIEW app_adjusted_ohlcv AS
+          SELECT * FROM primary_adjusted_ohlcv""")
         con.execute("""CREATE OR REPLACE VIEW market_data_source_policy AS
           SELECT 'KITE_CORPORATE_ACTION_ADJUSTED' AS primary_source,
                  'TEJHQ_HF_OFFICIAL_BHAVCOPY_ADJUSTED' AS fallback_source,
@@ -114,6 +118,11 @@ def main() -> None:
         print(json.dumps(payload, indent=2))
     finally:
         con.close()
+    # Refresh same-ISIN rename histories after every Kite publication so newly
+    # available Kite adjusted rows displace older fallback rows on that date.
+    if list((STORE / "upstox_targeted_backfill" / "instrument_snapshots").glob("current_nse_*.json.gz")):
+        from materialize_renamed_gap_history import main as refresh_aliases
+        refresh_aliases()
 
 
 if __name__ == "__main__":

@@ -40,7 +40,8 @@ export default defineConfig(() => {
           '**/artifacts/**',
           '**/dist/**',
           '**/uploads/**',
-          '**/tests/**'
+          '**/tests/**',
+          '**/data/**'
         ]
       },
     },
