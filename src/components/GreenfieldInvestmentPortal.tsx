@@ -48,11 +48,13 @@ import { MultibaggerScreenerView } from './MultibaggerScreenerView.js';
 interface GreenfieldInvestmentPortalProps {
   selectedPortfolio?: string;
   onNavigateToOrder?: (symbol: string) => void;
+  onSelectStock?: (symbol: string) => void;
 }
 
 export const GreenfieldInvestmentPortal: React.FC<GreenfieldInvestmentPortalProps> = ({
   selectedPortfolio = 'Combined',
-  onNavigateToOrder
+  onNavigateToOrder,
+  onSelectStock
 }) => {
   const [activePortalTab, setActivePortalTab] = useState<
     'CONSENSUS' | 'RECOMMENDATIONS' | 'MULTI_PORTAL' | 'SECTORAL_SHIFTS' | 'PAPER_SANDBOX' | 'POST_MORTEM' | 'SELF_LEARNING' | 'IPO_RADAR' | 'PORTFOLIO_REBALANCE' | 'MULTIBAGGER_RADAR'
@@ -690,7 +692,17 @@ export const GreenfieldInvestmentPortal: React.FC<GreenfieldInvestmentPortalProp
                   <div className="flex items-start justify-between gap-3 min-w-0">
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
-                        <h2 className="text-lg font-black text-white font-mono">{stock.symbol}</h2>
+                        {onSelectStock ? (
+                          <button
+                            onClick={() => onSelectStock(stock.symbol)}
+                            className="text-lg font-black text-white font-mono hover:text-cyan-400 transition-colors cursor-pointer text-left"
+                            title="Open in Analyze Workspace"
+                          >
+                            {stock.symbol}
+                          </button>
+                        ) : (
+                          <h2 className="text-lg font-black text-white font-mono">{stock.symbol}</h2>
+                        )}
                         <span className="text-xs text-slate-400 truncate max-w-[180px] sm:max-w-[240px]" title={stock.companyName}>
                           • {stock.companyName}
                         </span>
@@ -806,6 +818,17 @@ export const GreenfieldInvestmentPortal: React.FC<GreenfieldInvestmentPortalProp
                     </button>
 
                     <div className="flex flex-wrap items-center gap-2">
+                      {onSelectStock && (
+                        <button
+                          onClick={() => onSelectStock(stock.symbol)}
+                          className="px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
+                          title="Open in Analyze Workspace"
+                        >
+                          <Search className="w-3.5 h-3.5 text-amber-400" />
+                          Analyze
+                        </button>
+                      )}
+
                       <button
                         onClick={() => handleSimulatePaperTrade(stock)}
                         disabled={simulatingSymbol === stock.symbol}

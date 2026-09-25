@@ -38,12 +38,14 @@ export interface ForwardModelScenario {
   baseTarget: number;
   bullTarget: number;
   bearTarget: number;
+  pivotResistanceR2?: number;
+  pivotSupportS2?: number;
   upsidePct: number;
   downsidePct: number;
   riskRewardRatio: number;
-  forwardPeEstimated: number;
-  forwardEpsGrowthPct: number;
-  earningsHorizonDays: number;
+  forwardPeEstimated: number | null;
+  forwardEpsGrowthPct: number | null;
+  earningsHorizonDays: number | null;
   laymanMeaning: string;
 }
 
@@ -293,7 +295,7 @@ export class TechnicalAnalysisEngine {
       bias = 'BULLISH_GROWTH';
       portfolioImpactBadge = 'GROWTH CATALYST (Good for Portfolio)';
       oneLineTakeaway = `Strong multi-indicator momentum (${technicalScore}/100). Technical alignment favors aggressive capital appreciation.`;
-      actionGuidance = `Buy / Accumulate on intraday dips toward ₹${s1}. Initial target at ₹${bullTarget} (+${upsidePct}%).`;
+      actionGuidance = `Buy / Accumulate on intraday dips toward ₹${s1}. Technical resistance at R2 ₹${bullTarget} (+${upsidePct}%).`;
     } else if (technicalScore >= 55) {
       action = 'BUY_ACCUMULATE';
       bias = 'BULLISH_GROWTH';
@@ -372,6 +374,8 @@ export class TechnicalAnalysisEngine {
         baseTarget,
         bullTarget,
         bearTarget,
+        pivotResistanceR2: bullTarget,
+        pivotSupportS2: bearTarget,
         upsidePct,
         downsidePct,
         riskRewardRatio,

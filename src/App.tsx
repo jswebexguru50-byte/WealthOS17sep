@@ -122,7 +122,11 @@ if (typeof window !== 'undefined' && typeof window.fetch === 'function' && !(win
   try {
     const originalFetch = window.fetch.bind(window);
     const patchedFetch = function (input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
-      const savedPassword = localStorage.getItem('app-password');
+      const savedPassword =
+        sessionStorage.getItem('app-session-token') ||
+        sessionStorage.getItem('app-password') ||
+        localStorage.getItem('app-session-token') ||
+        localStorage.getItem('app-password');
       if (!savedPassword) {
         return originalFetch(input, init);
       }
@@ -153,11 +157,11 @@ export default function App() {
     ? window.location.hash.match(/^#fere-card\/([A-Za-z0-9._-]+)$/i)?.[1]?.toUpperCase() || null
     : null;
     const analyzeMatch = typeof window !== 'undefined'
-    ? window.location.hash.match(/^#(?:analyze|fere-card)\/([A-Za-z0-9._-]+)$/i)?.[1]?.toUpperCase() || null
+    ? window.location.hash.match(/^#(?:analyze|fere-card)\/([A-Za-z0-9._-]+)(?:\?.*)?$/i)?.[1]?.toUpperCase() || null
     : null;
   const getInitialTab = (): TabType => {
     if (typeof window !== 'undefined' && window.location.hash) {
-      const h = window.location.hash.replace('#', '').toLowerCase();
+      const h = window.location.hash.replace('#', '').split('?')[0].toLowerCase();
       // New Canonical Routes
       if (h === 'overview' || h === 'dashboard') return 'OVERVIEW';
       if (h === 'discover') return 'DISCOVER';
@@ -202,17 +206,18 @@ export default function App() {
     }
   };
   
-  const setActiveTab = (tab: TabType, symbol?: string) => {
+  const setActiveTab = (tab: TabType, symbol?: string, subTab?: string) => {
     setActiveTabState(tab);
     if (tab === 'ANALYZE' && symbol) {
       setSelectedIntelligenceSymbolState(symbol);
     }
     if (typeof window !== 'undefined') {
+      const tabParam = subTab ? `?tab=${subTab.toLowerCase()}` : '';
       if (tab === 'ANALYZE' && symbol) {
-        window.history.replaceState(null, '', `#analyze/${symbol}`);
+        window.history.replaceState(null, '', `#analyze/${symbol}${tabParam}`);
       } else {
         const slug = tab.toLowerCase();
-        window.history.replaceState(null, '', `#${slug}`);
+        window.history.replaceState(null, '', `#${slug}${tabParam}`);
       }
     }
   };

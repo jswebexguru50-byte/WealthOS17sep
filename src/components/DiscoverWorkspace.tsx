@@ -113,7 +113,10 @@ export function DiscoverWorkspace({
 
       {subTab === 'MULTIBAGGER' && (
         <Suspense fallback={<LazyFallback />}>
-          <MultibaggerScreenerView />
+          <MultibaggerScreenerView
+            onSelectStock={onSelectStock}
+            onNavigateToOrder={onSelectStock}
+          />
         </Suspense>
       )}
 
@@ -128,13 +131,20 @@ export function DiscoverWorkspace({
 
       {subTab === 'MOMENTUM_VPA' && (
         <Suspense fallback={<LazyFallback />}>
-          <SmartMoneyMomentumVpaView />
+          <SmartMoneyMomentumVpaView
+            selectedPortfolio={selectedPortfolio || 'Combined'}
+            onSelectStock={onSelectStock}
+          />
         </Suspense>
       )}
 
       {subTab === 'GREENFIELD' && (
         <Suspense fallback={<LazyFallback />}>
-          <GreenfieldInvestmentPortal />
+          <GreenfieldInvestmentPortal
+            selectedPortfolio={selectedPortfolio || 'Combined'}
+            onSelectStock={onSelectStock}
+            onNavigateToOrder={onSelectStock}
+          />
         </Suspense>
       )}
     </div>

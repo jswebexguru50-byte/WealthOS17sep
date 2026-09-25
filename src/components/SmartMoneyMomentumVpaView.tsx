@@ -119,10 +119,12 @@ export interface AlertItem {
 
 interface SmartMoneyMomentumVpaViewProps {
   selectedPortfolio?: string;
+  onSelectStock?: (symbol: string) => void;
 }
 
 export const SmartMoneyMomentumVpaView: React.FC<SmartMoneyMomentumVpaViewProps> = ({
-  selectedPortfolio = 'Combined'
+  selectedPortfolio = 'Combined',
+  onSelectStock
 }) => {
   const [items, setItems] = useState<MomentumVpaItem[]>([]);
   const [alerts, setAlerts] = useState<AlertItem[]>([]);
@@ -431,7 +433,17 @@ export const SmartMoneyMomentumVpaView: React.FC<SmartMoneyMomentumVpaViewProps>
               <div className="flex items-start justify-between gap-3 min-w-0">
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2 min-w-0">
-                    <span className="text-base font-bold text-white font-mono">{item.symbol}</span>
+                    {onSelectStock ? (
+                      <button
+                        onClick={() => onSelectStock(item.symbol)}
+                        className="text-base font-bold text-white font-mono hover:text-cyan-400 transition-colors cursor-pointer text-left"
+                        title="Open in Analyze Workspace"
+                      >
+                        {item.symbol}
+                      </button>
+                    ) : (
+                      <span className="text-base font-bold text-white font-mono">{item.symbol}</span>
+                    )}
                     <span className="text-xs text-slate-400 truncate max-w-[160px]">{item.companyName}</span>
                   </div>
                   <div className="text-lg font-bold font-mono text-cyan-300 mt-0.5">
@@ -530,13 +542,26 @@ export const SmartMoneyMomentumVpaView: React.FC<SmartMoneyMomentumVpaViewProps>
                   <ChevronRight className="w-3 h-3" />
                 </button>
 
-                <button
-                  onClick={() => setOrderModalItem(item)}
-                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white text-xs font-bold transition-all cursor-pointer shadow-md shadow-amber-950/40 whitespace-nowrap"
-                >
-                  <Zap className="w-3.5 h-3.5" />
-                  <span>1-Tap Arm Staggered Order</span>
-                </button>
+                <div className="flex items-center gap-2">
+                  {onSelectStock && (
+                    <button
+                      onClick={() => onSelectStock(item.symbol)}
+                      className="px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-xs font-bold font-mono transition-all cursor-pointer flex items-center gap-1"
+                      title="Open in Analyze Workspace"
+                    >
+                      <span>Analyze</span>
+                      <ChevronRight className="w-3 h-3 text-amber-400" />
+                    </button>
+                  )}
+
+                  <button
+                    onClick={() => setOrderModalItem(item)}
+                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white text-xs font-bold transition-all cursor-pointer shadow-md shadow-amber-950/40 whitespace-nowrap"
+                  >
+                    <Zap className="w-3.5 h-3.5" />
+                    <span>1-Tap Arm Staggered Order</span>
+                  </button>
+                </div>
               </div>
             </div>
           ))}

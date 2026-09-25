@@ -143,10 +143,12 @@ export interface MultibaggerRadarReport {
 
 interface MultibaggerScreenerViewProps {
   onNavigateToOrder?: (symbol: string) => void;
+  onSelectStock?: (symbol: string) => void;
 }
 
 export const MultibaggerScreenerView: React.FC<MultibaggerScreenerViewProps> = ({
-  onNavigateToOrder
+  onNavigateToOrder,
+  onSelectStock
 }) => {
   const [report, setReport] = useState<MultibaggerRadarReport | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -621,9 +623,13 @@ export const MultibaggerScreenerView: React.FC<MultibaggerScreenerViewProps> = (
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-lg font-black font-mono tracking-tight text-white">
+                        <button
+                          onClick={() => (onSelectStock || onNavigateToOrder)?.(candidate.symbol)}
+                          className="text-lg font-black font-mono tracking-tight text-white hover:text-cyan-400 transition-colors cursor-pointer text-left"
+                          title="Open in Analyze Workspace"
+                        >
                           {candidate.symbol}
-                        </span>
+                        </button>
                         <span className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 border border-slate-700">
                           {formatINR(candidate.cmp)}
                         </span>
@@ -832,6 +838,17 @@ export const MultibaggerScreenerView: React.FC<MultibaggerScreenerViewProps> = (
                     <BarChart2 className="w-4 h-4" />
                   </button>
 
+                  {onSelectStock && (
+                    <button
+                      onClick={() => onSelectStock(candidate.symbol)}
+                      className="flex items-center gap-1 py-2 px-3 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-xs font-bold transition-all cursor-pointer"
+                      title="Analyze this security in Analyze Workspace"
+                    >
+                      <Search className="w-3.5 h-3.5 text-amber-400" />
+                      <span>Analyze</span>
+                    </button>
+                  )}
+
                   {onNavigateToOrder && isPassing && (
                     <button
                       onClick={() => onNavigateToOrder(candidate.symbol)}
@@ -872,12 +889,27 @@ export const MultibaggerScreenerView: React.FC<MultibaggerScreenerViewProps> = (
                 </h4>
               </div>
 
-              <button
-                onClick={() => setSelectedCandidate(null)}
-                className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              <div className="flex items-center gap-2">
+                {onSelectStock && (
+                  <button
+                    onClick={() => {
+                      const sym = selectedCandidate.symbol;
+                      setSelectedCandidate(null);
+                      onSelectStock(sym);
+                    }}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-xs font-bold transition-all cursor-pointer"
+                  >
+                    <Search className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Open in Analyze</span>
+                  </button>
+                )}
+                <button
+                  onClick={() => setSelectedCandidate(null)}
+                  className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
             {/* Modal Navigation Tabs */}

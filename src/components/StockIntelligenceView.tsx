@@ -31,6 +31,7 @@ import {
 import { formatINR } from '../lib/formatters.js';
 import { TradingViewChartWidget } from './TradingViewChartWidget.js';
 import { MomentumReasoningPanel } from './MomentumReasoningPanel.js';
+import { EvidenceSpineHeader } from './EvidenceSpineHeader.js';
 
 interface StockIntelligenceViewProps {
   symbol: string;
@@ -355,6 +356,19 @@ export function StockIntelligenceView({
 
         {/* Tab Content Body */}
         <div className="p-6 overflow-y-auto flex-1 space-y-6">
+          <EvidenceSpineHeader
+            symbol={symbol}
+            companyName={companyName}
+            actionDirective={execVerdict.action || sig.action || unifiedOpp?.actionDirective || 'HOLD'}
+            confidenceLabel={sig.conviction || unifiedOpp?.confidence || 'HIGH'}
+            timeHorizon={unifiedOpp?.holdingHorizon || 'SWING_1_4_WEEKS'}
+            signalQuality={sig.action && sig.action !== 'HOLD' ? 'ACTIONABLE' : 'INFORMATIONAL'}
+            signalQualityScore={sig.compositeScore || tech.technicalScore}
+            qglpVerdict={screener?.ratios?.roce && parseFloat(screener.ratios.roce) >= 15 ? 'PASS' : 'PARTIAL'}
+            fereResult={data?.fereResult || (screener ? 'FERE_BULLISH' : undefined)}
+            dataState={data?.dataState || 'VERIFIED'}
+          />
+
           <AnimatePresence mode="wait">
             {/* TAB 1: AI VERDICT */}
             {activeTab === 'VERDICT' && (
