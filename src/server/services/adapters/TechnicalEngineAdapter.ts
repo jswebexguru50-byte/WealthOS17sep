@@ -23,7 +23,7 @@ export class TechnicalEngineAdapter implements ComposableEngine {
     engineId: this.engineId,
     roles: ['SIGNAL'],
     produces: ['TECHNICAL_SIGNAL'],
-    consumes: ['FILTER_PASS'],
+    consumes: [],
     independentMode: true,
     composableMode: true,
     requiresPriorEngine: false,

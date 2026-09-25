@@ -404,7 +404,10 @@ export class ScripIntelligenceDossierService {
     const rawDebtToEquity = screenerData?.ratios?.debt_to_equity ? parseFloat(screenerData.ratios.debt_to_equity) : 0;
     const piotroskiScore = trendlyneReport?.checklists?.piotroskiScore ?? 0;
     const altmanZScore: number | null = null;
-    const altmanZZone = 'DATA_INSUFFICIENT';
+    let altmanZZone: 'DATA_INSUFFICIENT' | 'SAFE' | 'GREY' | 'DISTRESS' = 'DATA_INSUFFICIENT';
+    if (altmanZScore !== null) {
+      altmanZZone = (altmanZScore > 2.9 ? 'SAFE' : (altmanZScore > 1.23 ? 'GREY' : 'DISTRESS'));
+    }
 
     // Technical Processing
     const rsi14 = indicators?.rsi14 || 0;

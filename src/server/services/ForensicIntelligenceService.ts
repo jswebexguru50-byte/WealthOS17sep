@@ -64,7 +64,7 @@ export class ForensicIntelligenceService {
    */
   public static async evaluateStage1(
     symbol: string,
-    fundamentals: RawFundamentalsInput,
+    fundamentals: RawFundamentalsInput | null,
     rawNews: any[],
     companyName: string,
     keyExecutives: string[],
@@ -113,9 +113,15 @@ export class ForensicIntelligenceService {
     }
 
     // 2. Deterministic Initial Scores
-    const altman = ForensicScoringService.calculateAltmanZScore(fundamentals);
-    const beneish = ForensicScoringService.calculateBeneishMScore(fundamentals);
-    const piotroski = ForensicScoringService.calculatePiotroskiFScore(fundamentals);
+    let altman = { score: 0, zone: 'Distress', riskStatus: 'High' } as any;
+    let beneish = { score: 0, isManipulatorRisk: false } as any;
+    let piotroski = { score: 0 } as any;
+
+    if (fundamentals) {
+      altman = ForensicScoringService.calculateAltmanZScore(fundamentals);
+      beneish = ForensicScoringService.calculateBeneishMScore(fundamentals);
+      piotroski = ForensicScoringService.calculatePiotroskiFScore(fundamentals);
+    }
 
     // Initial Stage 1 Composite Score (normalized 0 to 1)
     const normAltman = Math.min(Math.max(altman.score / 6.0, 0), 1);
@@ -163,13 +169,13 @@ export class ForensicIntelligenceService {
     sector: string,
     currentPrice: number,
     marketCapCr: number,
-    fundamentals: RawFundamentalsInput,
+    fundamentals: RawFundamentalsInput | null,
     cfoPatQuarters: { quarter: string; cfo: number; pat: number }[],
     valuationInput: {
       trailingEps: number;
       baseGrowthRatePct: number;
       basePeMultiple: number;
-      dataSourceType: 'live_consensus' | 'eps_stdev_fallback';
+      dataSourceType: string;
       dataCompleteness: number;
       consensusEpsBull?: number;
       consensusEpsBear?: number;
@@ -183,25 +189,35 @@ export class ForensicIntelligenceService {
     const sym = symbol.toUpperCase();
 
     // 1. Deterministic Core Forensics
-    const beneish = ForensicScoringService.calculateBeneishMScore(fundamentals);
-    const altman = ForensicScoringService.calculateAltmanZScore(fundamentals);
-    const piotroski = ForensicScoringService.calculatePiotroskiFScore(fundamentals);
+    let beneish = { score: 0, isManipulatorRisk: false } as any;
+    let altman = { score: 0, zone: 'Distress', riskStatus: 'High' } as any;
+    let piotroski = { score: 0 } as any;
+    let govPenalties = { totalPenalty: 0, flags: [] } as any;
     const cfoPat = ForensicScoringService.calculateCfoPatDivergence(cfoPatQuarters);
-    const govPenalties = ForensicScoringService.calculateGovernancePenalties(
-      fundamentals.promoterPledgePct,
-      fundamentals.promoterPledgePctPrev,
-      fundamentals.auditorTransition,
-      stage1Flags
-    );
+
+    if (fundamentals) {
+      beneish = ForensicScoringService.calculateBeneishMScore(fundamentals);
+      altman = ForensicScoringService.calculateAltmanZScore(fundamentals);
+      piotroski = ForensicScoringService.calculatePiotroskiFScore(fundamentals);
+      govPenalties = ForensicScoringService.calculateGovernancePenalties(
+        fundamentals.promoterPledgePct,
+        fundamentals.promoterPledgePctPrev,
+        fundamentals.auditorTransition,
+        stage1Flags
+      );
+    }
 
     // 2. Deterministic Business Health Composite (§3.1)
     const peerRanges = this.getDefaultPeerRanges();
-    const businessHealth = ForensicScoringService.calculateBusinessHealth(
-      fundamentals,
-      peerRanges,
-      cfoPat.avgDivergencePct,
-      govPenalties
-    );
+    let businessHealth = { composite: 0, breakdown: {} as any } as any;
+    if (fundamentals) {
+      businessHealth = ForensicScoringService.calculateBusinessHealth(
+        fundamentals,
+        peerRanges,
+        cfoPat.avgDivergencePct,
+        govPenalties
+      );
+    }
 
     // 3. Tri-Scenario Valuation (P2-8 & §3.3)
     const triValuation = UnifiedValuationService.calculateTriScenarioValuation({
@@ -209,7 +225,7 @@ export class ForensicIntelligenceService {
       trailingEps: valuationInput.trailingEps,
       baseGrowthRatePct: valuationInput.baseGrowthRatePct,
       basePeMultiple: valuationInput.basePeMultiple,
-      dataSourceType: valuationInput.dataSourceType,
+      dataSourceType: valuationInput.dataSourceType === 'live_consensus' ? 'live_consensus' : 'eps_stdev_fallback',
       dataCompleteness: valuationInput.dataCompleteness,
       consensusEpsBull: valuationInput.consensusEpsBull,
       consensusEpsBear: valuationInput.consensusEpsBear,

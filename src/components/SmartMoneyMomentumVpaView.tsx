@@ -508,7 +508,7 @@ export const SmartMoneyMomentumVpaView: React.FC<SmartMoneyMomentumVpaViewProps>
                   <span className="text-[10px] text-slate-500 block truncate">-{item.structuralRiskPct}% Risk</span>
                 </div>
                 <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 min-w-0 overflow-hidden">
-                  <span className="text-slate-500 text-[10px] block uppercase truncate">Target Band (+20-25%)</span>
+                  <span className="text-slate-500 text-[10px] block uppercase truncate">Target (S1A Model) (+20-25%)</span>
                   <strong className="text-emerald-300 font-bold block mt-0.5 truncate">₹{item.targetMinPrice} - {item.targetMaxPrice}</strong>
                   <span className="text-[10px] text-slate-500 block truncate">Mid: ₹{((item.targetMinPrice + item.targetMaxPrice) / 2).toFixed(0)}</span>
                 </div>
@@ -578,7 +578,7 @@ export const SmartMoneyMomentumVpaView: React.FC<SmartMoneyMomentumVpaViewProps>
               <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/40 flex items-center justify-between text-emerald-300">
                 <span className="font-bold flex items-center gap-1.5">
                   <Target className="w-4 h-4 text-emerald-400" />
-                  PROFIT TARGET CORRIDOR (+20% to +25%)
+                  TARGET (S1A Model) (+20% to +25%)
                 </span>
                 <span className="font-black">₹{selectedItemForModal.targetMinPrice} - ₹{selectedItemForModal.targetMaxPrice}</span>
               </div>
@@ -731,7 +731,7 @@ export const SmartMoneyMomentumVpaView: React.FC<SmartMoneyMomentumVpaViewProps>
                   <span className="font-bold">₹{orderModalItem.pointZeroStopLoss} (-{orderModalItem.structuralRiskPct}%)</span>
                 </div>
                 <div className="p-2.5 rounded-xl bg-emerald-950/30 border border-emerald-500/30 text-emerald-300">
-                  <span className="text-[10px] block uppercase">Profit Target Band (+20-25%)</span>
+                  <span className="text-[10px] block uppercase">Target (S1A Model) (+20-25%)</span>
                   <span className="font-bold">₹{orderModalItem.targetMinPrice} - ₹{orderModalItem.targetMaxPrice}</span>
                 </div>
               </div>

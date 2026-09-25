@@ -1,5 +1,69 @@
 import { getDB, dbGet, dbRun } from '../database.js';
 import { ScreenerService, ScreenerData } from './screenerService.js';
+import { z } from 'zod';
+
+export const TrendlyneIntelligenceReportSchema = z.object({
+  symbol: z.string(),
+  companyName: z.string(),
+  cmp: z.number(),
+  sector: z.string(),
+  industry: z.string().optional(),
+  dvm: z.object({
+    durabilityScore: z.number(),
+    durabilityGrade: z.enum(['HIGH', 'MEDIUM', 'LOW']),
+    durabilitySummary: z.string(),
+    valuationScore: z.number(),
+    valuationGrade: z.enum(['EXPENSIVE', 'ATTRACTIVE', 'FAIR', 'VERY_EXPENSIVE']),
+    valuationSummary: z.string(),
+    momentumScore: z.number(),
+    momentumGrade: z.enum(['STRONG', 'MEDIUM', 'WEAK']),
+    momentumSummary: z.string(),
+    overallDvmClassification: z.string(),
+    dvmBadgeColor: z.enum(['emerald', 'amber', 'rose', 'cyan', 'purple']),
+  }),
+  swot: z.object({
+    strengths: z.array(z.string()),
+    weaknesses: z.array(z.string()),
+    opportunities: z.array(z.string()),
+    threats: z.array(z.string()),
+  }),
+  analystConsensus: z.object({
+    totalAnalysts: z.number(),
+    strongBuyCount: z.number(),
+    buyCount: z.number(),
+    holdCount: z.number(),
+    sellCount: z.number(),
+    strongSellCount: z.number(),
+    consensusRating: z.enum(['STRONG_BUY', 'BUY', 'HOLD', 'REDUCE', 'SELL']),
+    meanTargetPrice: z.number(),
+    upsidePct: z.number(),
+    highTargetPrice: z.number(),
+    lowTargetPrice: z.number(),
+    callStatus: z.enum(['ACTIVE', 'TARGET_BREACHED', 'BELOW_ENTRY']),
+    callStatusLabel: z.string(),
+  }),
+  checklists: z.object({
+    piotroskiScore: z.number(),
+    piotroskiVerdict: z.enum(['STRONG', 'MODERATE', 'WEAK']),
+    altmanZScore: z.number(),
+    altmanZVerdict: z.enum(['SAFE_ZONE', 'GREY_ZONE', 'DISTRESS_ZONE']),
+    fiiHoldingPct: z.number(),
+    diiHoldingPct: z.number(),
+    promoterHoldingPct: z.number(),
+    promoterPledgePct: z.number(),
+    institutionalTrend: z.enum(['ACCUMULATING', 'STABLE', 'DISTRIBUTING']),
+    mutualFundHoldingsCount: z.number().optional(),
+  }),
+  forecaster: z.object({
+    revenueGrowth1YExpectedPct: z.number().nullable(),
+    profitGrowth1YExpectedPct: z.number().nullable(),
+    epsForward: z.number().nullable(),
+    peForward: z.number().nullable(),
+    status: z.string().optional(),
+    note: z.string().optional(),
+  }),
+  cachedAt: z.string(),
+});
 
 export interface TrendlyneDVM {
   durabilityScore: number; // 0-100
@@ -96,7 +160,7 @@ export class TrendlyneIntelligenceService {
     try {
       const cached = await dbGet(db, "SELECT value FROM AppConfig WHERE key = ?", [`trendlyne_intel_${cleanSym}`]);
       if (cached?.value) {
-        const parsed: TrendlyneIntelligenceReport = JSON.parse(cached.value);
+        const parsed = TrendlyneIntelligenceReportSchema.parse(JSON.parse(cached.value)) as unknown as TrendlyneIntelligenceReport;
         const ageMs = Date.now() - new Date(parsed.cachedAt).getTime();
         if (ageMs < 12 * 3600 * 1000) {
           // If live LTP was provided and differs significantly, update CMP and derived fields dynamically.

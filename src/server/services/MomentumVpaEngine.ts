@@ -870,6 +870,7 @@ export class MomentumVpaEngine {
     targetMaxPrice: number;
     emergencyStopPrice: number | null;
     riskRewardRatio: number;
+    targetNote?: string;
   } {
     let filledQty = 0;
     let totalCost = 0;
@@ -908,7 +909,8 @@ export class MomentumVpaEngine {
       targetMinPrice,
       targetMaxPrice,
       emergencyStopPrice,
-      riskRewardRatio: Math.max(1.5, riskRewardRatio)
+      riskRewardRatio: Math.max(1.5, riskRewardRatio),
+      targetNote: 'S1A_VPA_STRATEGY_MODEL: VWAP + 20% rule-based target'
     };
   }
 

@@ -98,7 +98,14 @@ export class OpportunityDataResolverService {
           : null;
         return { symbol: cleanSym, currentPrice: latest.close, previousClose: prev.close, singleDayChangePct: roundINR(prev.close > 0 ? ((latest.close - prev.close) / prev.close) * 100 : 0), turnover20DayAvgCr: avgTurnoverCr, latestDate: latest.date, candles, dataSource: 'DUCKDB_ADJUSTED', isLocalGroundTruth: true };
       }
-    } catch (_) {}
+    } catch (err: unknown) {
+      console.warn('[OpportunityDataResolverService] DuckDB lookup failed:', {
+        symbol: cleanSym,
+        error: err instanceof Error ? err.message : String(err),
+        stage: 'DUCKDB_PRIMARY',
+        recoverable: true
+      });
+    }
 
     // 2. SQLite fallback when DuckDB has no usable symbol coverage.
     try {
@@ -153,8 +160,13 @@ export class OpportunityDataResolverService {
           isLocalGroundTruth: true
         };
       }
-    } catch (e) {
-      // DailyOHLCV query failed, continue to fallback
+    } catch (err: unknown) {
+      console.warn('[OpportunityDataResolverService] SQLite DailyOHLCV lookup failed:', {
+        symbol: cleanSym,
+        error: err instanceof Error ? err.message : String(err),
+        stage: 'SQLITE_PRIMARY',
+        recoverable: true
+      });
     }
 
     // 2. Try local HistoricalPrices table
@@ -192,8 +204,13 @@ export class OpportunityDataResolverService {
           isLocalGroundTruth: true
         };
       }
-    } catch (e) {
-      // HistoricalPrices query failed, continue to external fallback
+    } catch (err: unknown) {
+      console.warn('[OpportunityDataResolverService] SQLite HistoricalPrices lookup failed:', {
+        symbol: cleanSym,
+        error: err instanceof Error ? err.message : String(err),
+        stage: 'SQLITE_SECONDARY',
+        recoverable: true
+      });
     }
 
     // 3. Fallback to Yahoo Finance / Upstox API
@@ -225,8 +242,13 @@ export class OpportunityDataResolverService {
           isLocalGroundTruth: false
         };
       }
-    } catch (e) {
-      // External query failed
+    } catch (err: unknown) {
+      console.warn('[OpportunityDataResolverService] External fallback failed:', {
+        symbol: cleanSym,
+        error: err instanceof Error ? err.message : String(err),
+        stage: 'EXTERNAL_FALLBACK',
+        recoverable: false
+      });
     }
 
     return null;
