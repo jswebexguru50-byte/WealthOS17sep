@@ -26,7 +26,7 @@ export interface PITValidationResult {
   securityId: string;
   factId: string;
   valid: boolean;
-  status: 'PASS' | 'LOOKAHEAD' | 'DATA_INSUFFICIENT';
+  status: 'PASS' | 'LOOKAHEAD' | 'DATA_INSUFFICIENT' | 'CURRENT_UNIVERSE_CONTAMINATION';
   reason?: string;
 }
 
@@ -117,12 +117,13 @@ export class PITEvidenceValidator {
 
     // 3. Absolute lookahead check: availableAt > decisionTimestamp
     if (availableTime > decisionTime) {
+      const isUniverse = fact.factType === 'INDEX_MEMBERSHIP';
       return {
         decisionId: fact.decisionId,
         securityId: fact.securityId,
         factId: fact.factId,
         valid: false,
-        status: 'LOOKAHEAD',
+        status: isUniverse ? 'CURRENT_UNIVERSE_CONTAMINATION' : 'LOOKAHEAD',
         reason: `Fact publication ${fact.factAvailableAt} occurred after decision timestamp ${fact.decisionTimestamp}.`
       };
     }

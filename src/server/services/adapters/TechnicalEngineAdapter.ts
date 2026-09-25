@@ -23,7 +23,7 @@ export class TechnicalEngineAdapter implements ComposableEngine {
     engineId: this.engineId,
     roles: ['SIGNAL'],
     produces: ['TECHNICAL_SIGNAL'],
-    consumes: ['FERE_QUALITY_AUDIT'],
+    consumes: ['FILTER_PASS'],
     independentMode: true,
     composableMode: true,
     requiresPriorEngine: false,
@@ -70,7 +70,7 @@ export class TechnicalEngineAdapter implements ComposableEngine {
   }
 
   public getSourceHash(): string {
-    return '825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3';
+    return '178c646e8d9423246c4ad57347429682c6b39dda9b08dfea4ee666621e075250';
   }
 
   public getParameterHash(): string {

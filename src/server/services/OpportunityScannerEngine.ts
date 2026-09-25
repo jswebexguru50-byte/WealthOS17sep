@@ -57,6 +57,8 @@ export interface ForensicShieldResult {
 }
 
 export interface StockInvestmentOpportunity {
+  securityId: string;
+  candidateId: string;
   symbol: string;
   companyName: string;
   universe: 'INVESTED_PORTFOLIO' | 'NIFTY_500' | 'CUSTOM_SEARCH';
@@ -108,6 +110,11 @@ export interface StockInvestmentOpportunity {
   signalExpiryDays?: number;
   isExpired?: boolean;
   decayStatus?: 'ACTIVE' | 'DECAYING' | 'EXPIRED';
+  score?: number | null;
+  coveragePct?: number;
+  unavailableFactors?: string[];
+  methodologyVersion?: string;
+  status?: string;
 }
 
 export interface MfInvestmentOpportunity {
@@ -204,73 +211,14 @@ export interface OpportunityScannerReport {
   suggestedCashAllocationPct?: number;
 }
 
-interface SectorValuationBenchmark {
-  peMean: number;
-  peStd: number;
-  roceMean: number;
-  roceStd: number;
-  beta: number;
-}
-
-const SECTOR_BENCHMARKS: Record<string, SectorValuationBenchmark> = {
-  'Consumer / Retail': { peMean: 62.0, peStd: 22.0, roceMean: 24.0, roceStd: 8.0, beta: 0.95 },
-  'Defense / Aerospace': { peMean: 44.0, peStd: 16.0, roceMean: 22.0, roceStd: 6.0, beta: 1.10 },
-  'Electronic Manufacturing / EMS': { peMean: 48.0, peStd: 18.0, roceMean: 20.0, roceStd: 7.0, beta: 1.25 },
-  'Capital Goods / Cables': { peMean: 38.0, peStd: 14.0, roceMean: 22.0, roceStd: 6.0, beta: 1.05 },
-  'Capital Markets / Fintech': { peMean: 36.0, peStd: 12.0, roceMean: 28.0, roceStd: 8.0, beta: 1.15 },
-  'Quick Commerce / Tech': { peMean: 55.0, peStd: 25.0, roceMean: 18.0, roceStd: 8.0, beta: 1.30 },
-  'Explosives / Mining Infra': { peMean: 34.0, peStd: 12.0, roceMean: 22.0, roceStd: 5.0, beta: 1.00 },
-  'Banking & Financial Services': { peMean: 18.0, peStd: 6.0, roceMean: 16.0, roceStd: 4.0, beta: 1.05 },
-  'SME High-Growth': { peMean: 32.0, peStd: 15.0, roceMean: 26.0, roceStd: 10.0, beta: 1.35 },
-  'Direct Indian Equity': { peMean: 30.0, peStd: 14.0, roceMean: 20.0, roceStd: 8.0, beta: 1.00 }
-};
-
-function getSectorBenchmark(sectorName: string): SectorValuationBenchmark {
-  const sLower = (sectorName || '').toLowerCase();
-  for (const [key, b] of Object.entries(SECTOR_BENCHMARKS)) {
-    if (sLower.includes(key.toLowerCase().split('/')[0].trim())) {
-      return b;
-    }
-  }
-  return SECTOR_BENCHMARKS['Direct Indian Equity'];
-}
-
 function computeSectorZScore(
   pe: number | null | undefined,
   roce: number | null | undefined,
   debt: number | null | undefined,
   sectorName: string
-): { zScore: number | null; fundScore: number } {
-  if (pe == null && roce == null && debt == null) {
-    return { zScore: null, fundScore: 50 };
-  }
-
-  const bench = getSectorBenchmark(sectorName);
-  let peZ = 0;
-  let roceZ = 0;
-  let debtPenalty = 0;
-  let validComponents = 0;
-
-  if (pe != null && pe > 0) {
-    peZ = (bench.peMean - pe) / Math.max(1, bench.peStd);
-    validComponents += 0.35;
-  }
-  if (roce != null) {
-    roceZ = (roce - bench.roceMean) / Math.max(1, bench.roceStd);
-    validComponents += 0.55;
-  }
-  if (debt != null) {
-    debtPenalty = debt > 1.0 ? (debt - 1.0) * -1.2 : debt < 0.3 ? 0.5 : 0;
-    validComponents += 0.10;
-  }
-
-  if (validComponents === 0) {
-    return { zScore: null, fundScore: 50 };
-  }
-
-  const compositeZ = ((roceZ * 0.55) + (peZ * 0.35) + (debtPenalty * 0.10)) / validComponents;
-  const percentileScore = Math.max(15, Math.min(98, Math.round(50 + (compositeZ * 18.0))));
-  return { zScore: Number(compositeZ.toFixed(2)), fundScore: percentileScore };
+): { zScore: number | null; fundScore: number | null; status?: string } {
+  // No hardcoded sector benchmarks permitted. Await database integration.
+  return { zScore: null, fundScore: null, status: 'DATA_INSUFFICIENT' };
 }
 
 /**
@@ -630,26 +578,41 @@ export class OpportunityScannerEngine {
       }
 
       const sectorName = isSME ? 'SME High-Growth' : 'Direct Indian Equity';
-      const bench = getSectorBenchmark(sectorName);
 
       // Fetch authentic fundamental snapshot if available (ZFA Phase 2)
       const fundSnap = await FundamentalDataService.getInstance().getSnapshot(sym).catch(() => null);
-      const rawPe = fundSnap?.pe_ratio ?? (isSME ? 28.0 : null);
-      const rawRoce = fundSnap?.roce_pct ?? (isSME ? 26.5 : null);
-      const rawDebt = fundSnap?.debt_to_equity ?? (isSME ? 0.20 : null);
-      const rawMargin = fundSnap?.operating_margin_pct ?? (isSME ? 20.0 : null);
+      const rawPe = fundSnap?.pe_ratio ?? null;
+      const rawRoce = fundSnap?.roce_pct ?? null;
+      const rawDebt = fundSnap?.debt_to_equity ?? null;
+      const rawMargin = fundSnap?.operating_margin_pct ?? null;
       const { zScore, fundScore } = computeSectorZScore(rawPe, rawRoce, rawDebt, sectorName);
 
-      let rsi = liveSnap?.rsi14 ?? (pnlPct > 30 ? 74.5 : pnlPct > 10 ? 61.0 : pnlPct < -12 ? 36.0 : 51.0);
-      let bandwidth = liveSnap?.bbBandwidth ?? (pnlPct > 30 ? 12.0 : pnlPct > 10 ? 7.4 : 9.0);
-      let percentB = liveSnap?.bbPercentB ?? (pnlPct > 30 ? 0.88 : pnlPct < -12 ? 0.22 : 0.55);
-      let isSqueeze = bandwidth <= weights.minBandwidthThresholdPct;
-      let relVol = liveSnap?.relativeVolume ?? (pnlPct > 10 ? 1.45 : pnlPct < -10 ? 0.65 : 0.95);
-      let isVolBreakout = relVol >= 1.4;
+      let rsi = liveSnap?.rsi14 ?? null;
+      let bandwidth = liveSnap?.bbBandwidth ?? null;
+      let percentB = liveSnap?.bbPercentB ?? null;
+      let isSqueeze = bandwidth != null && bandwidth <= weights.minBandwidthThresholdPct;
+      let relVol = liveSnap?.relativeVolume ?? null;
+      let isVolBreakout = relVol != null && relVol >= 1.4;
+
+      const unavailableFactors: string[] = [];
+      if (rawPe == null) unavailableFactors.push('pe_ratio');
+      if (rawRoce == null) unavailableFactors.push('roce_pct');
+      if (rawDebt == null) unavailableFactors.push('debt_to_equity');
+      if (rawMargin == null) unavailableFactors.push('operating_margin_pct');
+      if (rsi == null) unavailableFactors.push('rsi14');
+      if (bandwidth == null) unavailableFactors.push('bbBandwidth');
+      if (percentB == null) unavailableFactors.push('bbPercentB');
+      if (relVol == null) unavailableFactors.push('relativeVolume');
+      
+      const totalFactors = 8;
+      const coveragePct = Number((((totalFactors - unavailableFactors.length) / totalFactors) * 100).toFixed(1));
 
       // Delivery Surge metric (D_surge)
-      const deliverySurge = Number((relVol * (pnlPct > 5 ? 1.25 : 0.90)).toFixed(2));
-      const deliveryScore = deliverySurge >= 1.5 ? 92 : (deliverySurge >= 1.1 ? 75 : 45);
+      const deliverySurge: number | null = relVol ?? null;
+      const deliveryScore: number | null = deliverySurge != null
+        ? (deliverySurge >= 1.5 ? 92 : deliverySurge >= 1.1 ? 75 : 45)
+        : null;
+      if (deliveryScore == null) unavailableFactors.push('delivery_surge');
 
       // Relative Strength vs NIFTY 500 (RS_20)
       const rsNifty = Number((pnlPct - (regimeState?.nifty20dReturnPct || 2.5)).toFixed(1));
@@ -657,43 +620,61 @@ export class OpportunityScannerEngine {
 
       // Continuous Technical Score
       let techScore = 50;
-      if (rsi >= weights.rsiOversoldBoundary && rsi <= 68) {
-        techScore = 75 + (rsi >= 52 && rsi <= 64 ? 15 : 5);
-      } else if (rsi > 75) {
-        techScore = pnlPct > 45 ? 42 : 55; // Overbought vs structural trend
-      } else if (rsi < weights.rsiOversoldBoundary) {
-        techScore = 40;
-      } else {
-        techScore = 55;
+      if (rsi != null) {
+        if (rsi >= weights.rsiOversoldBoundary && rsi <= 68) {
+          techScore = 75 + (rsi >= 52 && rsi <= 64 ? 15 : 5);
+        } else if (rsi > 75) {
+          techScore = pnlPct > 45 ? 42 : 55; // Overbought vs structural trend
+        } else if (rsi < weights.rsiOversoldBoundary) {
+          techScore = 40;
+        } else {
+          techScore = 55;
+        }
       }
 
-      const bollScore = isSqueeze ? 90 : (bandwidth < 10 ? 70 : 45);
-      const volScore = isVolBreakout ? 92 : (relVol >= 1.0 ? 68 : 40);
-      const newsScore = pnlPct > 15 ? 80 : (pnlPct < -10 ? 45 : 65);
+      const bollScore = isSqueeze ? 90 : (bandwidth != null && bandwidth < 10 ? 70 : 45);
+      const volScore = isVolBreakout ? 92 : (relVol != null && relVol >= 1.0 ? 68 : 40);
+      
+      const newsSentiment: any = null; // Will be properly integrated later
+      const newsScore: number | null = newsSentiment?.overallSentimentScore != null
+        ? Math.round((newsSentiment.overallSentimentScore + 1) * 50)
+        : null;
+      if (newsScore == null) unavailableFactors.push('news_sentiment');
 
       // Continuous Logit Assembly
-      const rawComposite = (
-        fundScore * (weights.fundamentalWeightPct / 100) +
-        techScore * (weights.technicalMomentumWeightPct / 100) +
-        bollScore * (weights.bollingerSqueezeWeightPct / 100) +
-        volScore * (weights.volumeSurgeWeightPct / 100) +
-        deliveryScore * ((weights.deliverySurgeWeightPct || 14) / 100) +
-        rsScore * ((weights.relativeStrengthWeightPct || 8) / 100) +
-        newsScore * (weights.newsSentimentWeightPct / 100)
+      let activeWeightSum = weights.fundamentalWeightPct + weights.technicalMomentumWeightPct + weights.bollingerSqueezeWeightPct + weights.volumeSurgeWeightPct + (weights.relativeStrengthWeightPct || 8);
+      let rawComposite = (
+        (fundScore || 50) * weights.fundamentalWeightPct +
+        techScore * weights.technicalMomentumWeightPct +
+        bollScore * weights.bollingerSqueezeWeightPct +
+        volScore * weights.volumeSurgeWeightPct +
+        rsScore * (weights.relativeStrengthWeightPct || 8)
       );
+      if (deliveryScore != null) {
+        activeWeightSum += (weights.deliverySurgeWeightPct || 14);
+        rawComposite += deliveryScore * (weights.deliverySurgeWeightPct || 14);
+      }
+      if (newsScore != null) {
+        activeWeightSum += weights.newsSentimentWeightPct;
+        rawComposite += newsScore * weights.newsSentimentWeightPct;
+      }
+      rawComposite = rawComposite / (activeWeightSum / 100);
 
       const compositeScore = Number(Math.min(98, Math.max(20, rawComposite * regimeMultiplier)).toFixed(1));
 
       // Non-linear Platt Sigmoid Probability Calibration
-      const regimeProbs = regimeState?.regimeProbabilities || { bull: 0.7, chop: 0.2, bear: 0.1 };
-      let prob = computeCalibratedProbability(compositeScore, regimeProbs, weights.plattScalingA, weights.plattScalingB);
+      const regimeProbs = regimeState?.regimeProbabilities || null;
+      let prob = 50;
+      if (regimeProbs) {
+        prob = computeCalibratedProbability(compositeScore, regimeProbs, weights.plattScalingA, weights.plattScalingB);
+      }
 
       // Dynamic Quantile VaR Stop Envelope
       let downsidePct = 5.5;
       if (liveSnap?.atr14 && cmp > 0) {
-        downsidePct = Number(((liveSnap.atr14 * weights.atrStopMultiplier * bench.beta / cmp) * 100).toFixed(1));
+        downsidePct = Number(((liveSnap.atr14 * weights.atrStopMultiplier * 1.0 / cmp) * 100).toFixed(1));
       } else {
-        downsidePct = Number(((isSME ? 6.2 : 4.5) * (weights.atrStopMultiplier / 2.0) * bench.beta).toFixed(1));
+        downsidePct = Number(((isSME ? 6.2 : 4.5) * (weights.atrStopMultiplier / 2.0) * 1.0).toFixed(1));
       }
       downsidePct = Math.max(3.2, Math.min(11.0, downsidePct));
 
@@ -729,7 +710,15 @@ export class OpportunityScannerEngine {
         directive = 'HOLD';
         cat = 'VALUE_COMPOUNDER';
         rrMultiplier = 1.7;
-        rationale = `Rangebound consolidation (RSI ${rsi.toFixed(0)}). Moving averages converging; maintain existing allocation.`;
+        rationale = `Rangebound consolidation (RSI ${rsi?.toFixed(0) || 'N/A'}). Moving averages converging; maintain existing allocation.`;
+      }
+
+      let isInsufficientData = false;
+      if (coveragePct < 50) {
+        prob = 0;
+        isInsufficientData = true;
+        directive = 'HOLD';
+        rationale = 'INSUFFICIENT_DATA: Unable to score opportunity due to low factor coverage.';
       }
 
       const upsidePct = Number((downsidePct * rrMultiplier).toFixed(1));
@@ -767,10 +756,16 @@ export class OpportunityScannerEngine {
       }
 
       // Dynamic Chandelier ATR Trailing Stop
-      const liveAtr = liveSnap?.atr14 || (cmp * 0.025);
+      const liveAtr: number | null = liveSnap?.atr14 ?? null;
       const curPeak = Math.max(cmp, (h.current_value && h.quantity) ? (h.current_value / h.quantity) : cmp);
-      const chandelierTrailingStop = Math.round(curPeak - (liveAtr * 2.5 * bench.beta));
-      stopLossPrice = Math.min(Math.round(cmp * 0.98), Math.max(stopLossPrice, chandelierTrailingStop));
+      const chandelierTrailingStop = liveAtr != null
+        ? Math.round(curPeak - (liveAtr * 2.5))
+        : null;
+      if (chandelierTrailingStop != null) {
+        stopLossPrice = Math.min(Math.round(cmp * 0.98), Math.max(stopLossPrice, chandelierTrailingStop));
+      } else {
+        stopLossPrice = Math.min(Math.round(cmp * 0.98), stopLossPrice);
+      }
 
       // Multi-Broker Consensus
       const brokerService = BrokerResearchIntelligenceService.getInstance();
@@ -823,6 +818,8 @@ export class OpportunityScannerEngine {
       if (regSignal.isResolved) continue;
 
       investedStockOpportunities.push({
+        securityId: `SEC_${sym}_NSE`,
+        candidateId: `CAND_${sym}_${Date.now()}`,
         symbol: sym,
         companyName: sym,
         universe: 'INVESTED_PORTFOLIO',
@@ -855,15 +852,15 @@ export class OpportunityScannerEngine {
         stagedTranches,
         pillars: {
           fundamentals: {
-            rocePct: rawRoce,
-            peRatio: rawPe,
-            debtToEquity: rawDebt,
-            operatingMarginPct: 18.5,
-            moatDescription: `Normalized Sector Z-Score: ${zScore >= 0 ? '+' : ''}${zScore} (Industry Percentile: ${fundScore}/100)`
+            rocePct: rawRoce || 0,
+            peRatio: rawPe || 0,
+            debtToEquity: rawDebt || 0,
+            operatingMarginPct: rawMargin || 0,
+            moatDescription: `Normalized Sector Z-Score: ${zScore !== null && zScore >= 0 ? '+' : ''}${zScore || 0} (Industry Percentile: ${fundScore}/100)`
           },
           technicals: {
-            rsi14: Number(rsi.toFixed(1)),
-            trend: rsi > 60 ? 'STRONG_UPTREND' : (rsi < 40 ? 'OVERSOLD_BASE' : 'CONSOLIDATION_UPTREND'),
+            rsi14: rsi != null ? Number(rsi.toFixed(1)) : 0,
+            trend: rsi != null && rsi > 60 ? 'STRONG_UPTREND' : (rsi != null && rsi < 40 ? 'OVERSOLD_BASE' : 'CONSOLIDATION_UPTREND'),
             emaCross: 'Above 21 EMA support',
             pivotPoint: Number((cmp * 0.99).toFixed(1)),
             supportS1: stopLossPrice,
@@ -876,8 +873,8 @@ export class OpportunityScannerEngine {
           },
           priceAction: {
             bollingerSqueeze: isSqueeze,
-            bandwidthPct: Number(bandwidth.toFixed(1)),
-            percentB: Number(percentB.toFixed(2)),
+            bandwidthPct: bandwidth != null ? Number(bandwidth.toFixed(1)) : 0,
+            percentB: percentB != null ? Number(percentB.toFixed(2)) : 0,
             volumeBreakout: isVolBreakout,
             paMeaning: isSqueeze ? 'Volatility compression with healthy volume accumulation.' : 'Normal trading corridor.'
           },
@@ -920,7 +917,7 @@ export class OpportunityScannerEngine {
         const prevClose = Number(row.previous_close || rowPrice);
         const dayChangePct = prevClose > 0 ? ((rowPrice - prevClose) / prevClose) * 100 : 0;
         const sectorName = row.sector || 'Direct Indian Equity';
-        const bench = getSectorBenchmark(sectorName);
+
 
         // Fetch live market snapshot if present
         const snap = await ingestor.getLatestSnapshot(sym).catch(() => null);
@@ -935,10 +932,10 @@ export class OpportunityScannerEngine {
 
         // Fetch fundamental snapshot if available
         const fundSnap = await FundamentalDataService.getInstance().getSnapshot(sym).catch(() => null);
-        const rawPe = fundSnap?.pe_ratio ?? (bench.peMean * (dayChangePct > 3 ? 1.08 : 0.96));
-        const rawRoce = fundSnap?.roce_pct ?? (bench.roceMean * 1.05);
-        const rawDebt = fundSnap?.debt_to_equity ?? 0.25;
-        const rawMargin = fundSnap?.operating_margin_pct ?? 18.0;
+        const rawPe = fundSnap?.pe_ratio ?? null;
+        const rawRoce = fundSnap?.roce_pct ?? null;
+        const rawDebt = fundSnap?.debt_to_equity ?? null;
+        const rawMargin = fundSnap?.operating_margin_pct ?? null;
 
         const { zScore, fundScore } = computeSectorZScore(rawPe, rawRoce, rawDebt, sectorName);
 
@@ -948,7 +945,7 @@ export class OpportunityScannerEngine {
           const bearishProb = Math.min(94, Math.max(65, Math.round(72 + (rsi < 38 ? 8 : 0) + (dayChangePct < -3 ? 6 : 0))));
           const conf: StockInvestmentOpportunity['confidenceLevel'] = bearishProb >= 85 ? 'VERY_HIGH' : 'HIGH';
           const downsideExpansionPct = Math.max(8.0, Math.min(22.0, Number((Math.abs(dayChangePct) * 2.5 + 8.0).toFixed(1))));
-          const invalidationRiskPct = Math.max(3.5, Math.min(9.0, Number(((bench.beta * 4.5 * (weights.atrStopMultiplier / 2.0))).toFixed(1))));
+          const invalidationRiskPct = Math.max(3.5, Math.min(9.0, Number(((1.0 * 4.5 * (weights.atrStopMultiplier / 2.0))).toFixed(1))));
           const targetPrice = Math.round(liveCmp * (1 - (downsideExpansionPct / 100)));
           const stopLossPrice = Math.round(liveCmp * (1 + (invalidationRiskPct / 100)));
           const rr = Number((downsideExpansionPct / Math.max(0.1, invalidationRiskPct)).toFixed(2));
@@ -969,6 +966,8 @@ export class OpportunityScannerEngine {
           if (regSignal.isResolved) continue;
 
           nifty500StockOpportunities.push({
+            securityId: `SEC_${sym}_NSE`,
+            candidateId: `CAND_${sym}_${Date.now()}`,
             symbol: sym,
             companyName: row.name || sym,
             universe: 'NIFTY_500',
@@ -997,10 +996,10 @@ export class OpportunityScannerEngine {
             kellyAllocationPct: 3.5,
             pillars: {
               fundamentals: {
-                rocePct: Number(rawRoce.toFixed(1)),
-                peRatio: Number(rawPe.toFixed(1)),
-                debtToEquity: rawDebt,
-                operatingMarginPct: rawMargin,
+                rocePct: rawRoce != null ? Number(rawRoce.toFixed(1)) : 0,
+                peRatio: rawPe != null ? Number(rawPe.toFixed(1)) : 0,
+                debtToEquity: rawDebt || 0,
+                operatingMarginPct: rawMargin || 0,
                 moatDescription: `${row.name || sym} (Sector Z-Score: ${zScore >= 0 ? '+' : ''}${zScore})`
               },
               technicals: {
@@ -1039,8 +1038,10 @@ export class OpportunityScannerEngine {
         }
 
         // ── B. Evaluate Bullish Setups ──
-        const deliverySurge = Number(((isVolBreakout ? 1.5 : 1.1) * (rsi > 52 ? 1.15 : 0.95)).toFixed(2));
-        const deliveryScore = deliverySurge >= 1.4 ? 90 : (deliverySurge >= 1.1 ? 75 : 45);
+        const deliverySurge: number | null = relVol ?? null;
+        const deliveryScore: number | null = deliverySurge != null
+          ? (deliverySurge >= 1.5 ? 92 : deliverySurge >= 1.1 ? 75 : 45)
+          : null;
         const rsNifty = Number(((rsi - 50) * 0.75 + (dayChangePct > 0 ? 5.0 : -3.0)).toFixed(1));
         const rsScore = rsNifty > 5 ? 90 : (rsNifty > 0 ? 75 : 45);
 
@@ -1048,26 +1049,40 @@ export class OpportunityScannerEngine {
         const techScore = isRsiOptimal ? 88 : (rsi > 70 ? 75 : (rsi < 38 ? 45 : 62));
         const bollScore = isSqueeze ? 92 : (bandwidth < 9.5 ? 78 : 60);
         const volScore = isVolBreakout ? 92 : 65;
-        const newsScore = dayChangePct > 2 ? 85 : (dayChangePct < -2 ? 45 : 65);
+        const newsSentiment: any = null; // Will be properly integrated later
+        const newsScore: number | null = newsSentiment?.overallSentimentScore != null
+          ? Math.round((newsSentiment.overallSentimentScore + 1) * 50)
+          : null;
 
-        const rawComposite = (
-          fundScore * (weights.fundamentalWeightPct / 100) +
-          techScore * (weights.technicalMomentumWeightPct / 100) +
-          bollScore * (weights.bollingerSqueezeWeightPct / 100) +
-          volScore * (weights.volumeSurgeWeightPct / 100) +
-          deliveryScore * ((weights.deliverySurgeWeightPct || 14) / 100) +
-          rsScore * ((weights.relativeStrengthWeightPct || 8) / 100) +
-          newsScore * (weights.newsSentimentWeightPct / 100)
+        let activeWeightSum = weights.fundamentalWeightPct + weights.technicalMomentumWeightPct + weights.bollingerSqueezeWeightPct + weights.volumeSurgeWeightPct + (weights.relativeStrengthWeightPct || 8);
+        let rawComposite = (
+          (fundScore || 50) * weights.fundamentalWeightPct +
+          techScore * weights.technicalMomentumWeightPct +
+          bollScore * weights.bollingerSqueezeWeightPct +
+          volScore * weights.volumeSurgeWeightPct +
+          rsScore * (weights.relativeStrengthWeightPct || 8)
         );
+        if (deliveryScore != null) {
+          activeWeightSum += (weights.deliverySurgeWeightPct || 14);
+          rawComposite += deliveryScore * (weights.deliverySurgeWeightPct || 14);
+        }
+        if (newsScore != null) {
+          activeWeightSum += weights.newsSentimentWeightPct;
+          rawComposite += newsScore * weights.newsSentimentWeightPct;
+        }
+        rawComposite = rawComposite / (activeWeightSum / 100);
 
         const compositeScore = Number(Math.min(99, Math.max(20, rawComposite * regimeMultiplier)).toFixed(1));
-        const regimeProbs = regimeState?.regimeProbabilities || { bull: 0.7, chop: 0.2, bear: 0.1 };
-        const prob = computeCalibratedProbability(compositeScore, regimeProbs, weights.plattScalingA, weights.plattScalingB);
+        const regimeProbs = regimeState?.regimeProbabilities || null;
+        let prob = 50;
+        if (regimeProbs) {
+          prob = computeCalibratedProbability(compositeScore, regimeProbs, weights.plattScalingA, weights.plattScalingB);
+        }
 
         // Only include stocks with viable setup conviction
         if (prob >= 68 || isVolBreakout || isSqueeze) {
           const conf: StockInvestmentOpportunity['confidenceLevel'] = prob >= 84 ? 'VERY_HIGH' : prob >= 72 ? 'HIGH' : 'MODERATE';
-          const downsidePct = Math.max(3.2, Math.min(10.5, Number(((bench.beta > 1.1 ? 6.2 : 5.0) * (weights.atrStopMultiplier / 2.0)).toFixed(1))));
+          const downsidePct = Math.max(3.2, Math.min(10.5, Number(((5.0) * (weights.atrStopMultiplier / 2.0)).toFixed(1))));
 
           let cat: StockInvestmentOpportunity['strategyCategory'] = 'VALUE_COMPOUNDER';
           let rrMultiplier = 2.2;
@@ -1113,10 +1128,16 @@ export class OpportunityScannerEngine {
           }
 
           // Dynamic Chandelier ATR Trailing Stop
-          const liveAtr = snap?.atr14 || (liveCmp * 0.025);
+          const liveAtr: number | null = snap?.atr14 ?? null;
           const curPeak = Math.max(liveCmp, liveCmp);
-          const chandelierTrailingStop = Math.round(curPeak - (liveAtr * 2.5 * bench.beta));
-          stopLossPrice = Math.min(Math.round(liveCmp * 0.98), Math.max(stopLossPrice, chandelierTrailingStop));
+          const chandelierTrailingStop = liveAtr != null
+            ? Math.round(curPeak - (liveAtr * 2.5))
+            : null;
+          if (chandelierTrailingStop != null) {
+            stopLossPrice = Math.min(Math.round(liveCmp * 0.98), Math.max(stopLossPrice, chandelierTrailingStop));
+          } else {
+            stopLossPrice = Math.min(Math.round(liveCmp * 0.98), stopLossPrice);
+          }
 
           // Multi-Broker Consensus
           const brokerService = BrokerResearchIntelligenceService.getInstance();
@@ -1186,6 +1207,8 @@ export class OpportunityScannerEngine {
           if (regSignal.isResolved) continue;
 
           nifty500StockOpportunities.push({
+            securityId: `SEC_${sym}_NSE`,
+            candidateId: `CAND_${sym}_${Date.now()}`,
             symbol: sym,
             companyName: row.name || sym,
             universe: 'NIFTY_500',
@@ -1262,103 +1285,14 @@ export class OpportunityScannerEngine {
       console.warn('[OpportunityScanner] Dynamic universe scan error:', err);
     }
 
-    // ── 3. Dedicated Mutual Fund Opportunities (OPP-8: Institutional Details) ──
-    const institutionalMfCatalogue: MfInvestmentOpportunity[] = [
-      {
-        schemeName: 'Parag Parikh Flexi Cap Fund - Direct Growth',
-        folioNumber: 'PPFAS-DIR-91024',
-        portfolioName: 'Long Term Wealth',
-        category: 'Flexi Cap Fund',
-        currentNav: 82.45,
-        currentValue: 1250000,
-        costValue: 820000,
-        unrealizedReturnPct: 52.44,
-        actionRecommendation: 'MAINTAIN_RUNRATE',
-        rationale: 'Value-oriented global compounding engine. Low beta (0.78) with 15% offshore equity allocation provides currency resilience.',
-        trailing1yReturn: 28.6,
-        trailing3yReturn: 22.4,
-        expenseRatio: 0.61,
-        aumCr: 68450,
-        alphaVsBenchmark: 5.8,
-        sharpeRatio: 2.14,
-        crisilRating: 5,
-        peerComparison: 'Rank 1 in Category over 5-year rolling windows. Outperformed Nifty 500 TRI by +5.8% CAGR with 22% lower downside volatility.',
-        heldPeerScheme: 'HDFC Flexi Cap Fund'
-      },
-      {
-        schemeName: 'Nippon India Small Cap Fund - Direct Growth',
-        folioNumber: 'NIPPON-DIR-44182',
-        portfolioName: 'Growth Alpha',
-        category: 'Small Cap Fund',
-        currentNav: 154.20,
-        currentValue: 980000,
-        costValue: 640000,
-        unrealizedReturnPct: 53.12,
-        actionRecommendation: 'MAINTAIN_RUNRATE',
-        rationale: 'Industry-leading small cap franchise with massive breadth (over 180 holdings). High liquidity management discipline.',
-        trailing1yReturn: 34.8,
-        trailing3yReturn: 27.2,
-        expenseRatio: 0.68,
-        aumCr: 54200,
-        alphaVsBenchmark: 6.4,
-        sharpeRatio: 1.95,
-        crisilRating: 5,
-        peerComparison: 'Top decile alpha generation across 3, 5, and 7 year cycles. Superior liquidity profile despite large fund size.',
-        heldPeerScheme: 'Axis Small Cap Fund'
-      },
-      {
-        schemeName: 'HDFC Top 100 Fund - Direct Growth',
-        folioNumber: 'HDFC-DIR-78190',
-        portfolioName: 'Core Bluechip',
-        category: 'Large Cap Fund',
-        currentNav: 1042.80,
-        currentValue: 1420000,
-        costValue: 1100000,
-        unrealizedReturnPct: 29.09,
-        actionRecommendation: 'CONTINUE_SIP_AGGRESSIVE',
-        rationale: 'Prudent large cap compounding vehicle anchored in Tier-1 banking, infrastructure, and domestic consumption titans.',
-        trailing1yReturn: 24.2,
-        trailing3yReturn: 18.9,
-        expenseRatio: 0.74,
-        aumCr: 33800,
-        alphaVsBenchmark: 3.4,
-        sharpeRatio: 1.72,
-        crisilRating: 4,
-        peerComparison: 'Consistent upper-quartile delivery. Low turnover (18%) and lower expense ratio than category average.',
-        heldPeerScheme: 'ICICI Prudential Bluechip Fund'
-      },
-      {
-        schemeName: 'Mirae Asset ELSS Tax Saver Fund - Direct Growth',
-        folioNumber: 'MIRAE-DIR-55219',
-        portfolioName: 'Tax Saving 80C',
-        category: 'ELSS Tax Saver',
-        currentNav: 48.90,
-        currentValue: 650000,
-        costValue: 480000,
-        unrealizedReturnPct: 35.42,
-        actionRecommendation: 'CONTINUE_SIP_AGGRESSIVE',
-        rationale: 'Optimal 3-year statutory lock-in compounding. High quality growth at reasonable price (GARP) investment framework.',
-        trailing1yReturn: 26.5,
-        trailing3yReturn: 19.8,
-        expenseRatio: 0.58,
-        aumCr: 24100,
-        alphaVsBenchmark: 4.1,
-        sharpeRatio: 1.88,
-        crisilRating: 5,
-        peerComparison: 'Best-in-class risk-adjusted returns among tax-saving schemes. Eligible for Section 80C deduction.',
-        heldPeerScheme: 'Quant ELSS Tax Saver Fund'
-      }
-    ];
-
     const mfOpportunities: MfInvestmentOpportunity[] = mfHoldings.length > 0
       ? mfHoldings.map((mf: any, idx: number) => {
           const curVal = Number(mf.current_value || 0);
           const costVal = Number(mf.total_cost || 0);
           const retPct = costVal > 0 ? ((curVal - costVal) / costVal) * 100 : 0;
-          const template = institutionalMfCatalogue[idx % institutionalMfCatalogue.length];
 
           let action: MfInvestmentOpportunity['actionRecommendation'] = 'CONTINUE_SIP_AGGRESSIVE';
-          let rat = 'High alpha mutual fund with consistent outperformance against category benchmark.';
+          let rat = 'Analysis unavailable.';
 
           if (retPct > 50.0) {
             action = 'MAINTAIN_RUNRATE';
@@ -1372,25 +1306,25 @@ export class OpportunityScannerEngine {
             schemeName: mf.symbol,
             folioNumber: mf.symbol.includes('Folio:') ? mf.symbol.split('Folio:')[1]?.trim() : (mf.folio_number || `FOL-${1000 + idx}`),
             portfolioName: mf.portfolio,
-            category: mf.symbol.includes('Small') ? 'Small Cap Fund' : mf.symbol.includes('ELSS') ? 'ELSS Tax Saver' : template.category,
-            currentNav: Number(mf.ltp || template.currentNav),
-            currentValue: curVal || template.currentValue,
-            costValue: costVal || template.costValue,
-            unrealizedReturnPct: retPct || template.unrealizedReturnPct,
+            category: mf.symbol.includes('Small') ? 'Small Cap Fund' : mf.symbol.includes('ELSS') ? 'ELSS Tax Saver' : 'Equity Fund',
+            currentNav: Number(mf.ltp || 0),
+            currentValue: curVal,
+            costValue: costVal,
+            unrealizedReturnPct: retPct,
             actionRecommendation: action,
             rationale: rat,
-            trailing1yReturn: template.trailing1yReturn,
-            trailing3yReturn: template.trailing3yReturn,
-            expenseRatio: template.expenseRatio,
-            aumCr: template.aumCr,
-            alphaVsBenchmark: template.alphaVsBenchmark,
-            sharpeRatio: template.sharpeRatio,
-            crisilRating: template.crisilRating,
-            peerComparison: template.peerComparison,
-            heldPeerScheme: template.heldPeerScheme
+            trailing1yReturn: null as any,
+            trailing3yReturn: null as any,
+            expenseRatio: null as any,
+            aumCr: null as any,
+            alphaVsBenchmark: null as any,
+            sharpeRatio: null as any,
+            crisilRating: null as any,
+            peerComparison: '',
+            heldPeerScheme: ''
           };
         })
-      : institutionalMfCatalogue;
+      : [];
 
     // ── 4. OPP-3 Sector Concentration & OPP-9 Signal Decay Enrichment ──
     let totalPortfolioVal = 0;
@@ -1525,6 +1459,8 @@ export class OpportunityScannerEngine {
       const recDate = new Date().toISOString().split('T')[0];
 
       return {
+        securityId: `SEC_${symbol}_NSE`,
+        candidateId: `CAND_${symbol}_${Date.now()}`,
         symbol,
         companyName,
         universe: 'NIFTY_500',
@@ -1609,7 +1545,7 @@ export class OpportunityScannerEngine {
       debt = screener.ratios.debt_to_equity ? (parseFloat(screener.ratios.debt_to_equity.replace(/[^\d.]/g, '')) || 0) : 0.0;
     }
 
-    const bench = getSectorBenchmark(sector);
+
     const { zScore, fundScore } = computeSectorZScore(pe, roce, debt, sector);
 
     // Extract Technical Scores
@@ -1656,9 +1592,9 @@ export class OpportunityScannerEngine {
     // Dynamic downside risk & upside targets
     let downsidePct = 5.5;
     if (snap?.atr14 && cmp > 0) {
-      downsidePct = Number(((snap.atr14 * weights.atrStopMultiplier * bench.beta / cmp) * 100).toFixed(1));
+      downsidePct = Number(((snap.atr14 * weights.atrStopMultiplier * 1.0 / cmp) * 100).toFixed(1));
     } else {
-      downsidePct = Number((5.2 * (weights.atrStopMultiplier / 2.0) * bench.beta).toFixed(1));
+      downsidePct = Number((5.2 * (weights.atrStopMultiplier / 2.0) * 1.0).toFixed(1));
     }
     downsidePct = Math.max(3.2, Math.min(10.5, downsidePct));
 
@@ -1720,7 +1656,7 @@ export class OpportunityScannerEngine {
     // Dynamic Chandelier ATR Trailing Stop
     const liveAtr = snap?.atr14 || (cmp * 0.025);
     const curPeak = Math.max(cmp, (portfolioHoldingContext?.current_value && portfolioHoldingContext?.quantity) ? (portfolioHoldingContext.current_value / portfolioHoldingContext.quantity) : cmp);
-    const chandelierTrailingStop = Math.round(curPeak - (liveAtr * 2.5 * bench.beta));
+    const chandelierTrailingStop = Math.round(curPeak - (liveAtr * 2.5));
     stopLossPrice = Math.min(Math.round(cmp * 0.98), Math.max(stopLossPrice, chandelierTrailingStop));
 
     // Multi-Broker Consensus
@@ -1751,6 +1687,8 @@ export class OpportunityScannerEngine {
     const recDate = new Date().toISOString().split('T')[0];
 
     return {
+      securityId: `SEC_${symbol}_NSE`,
+      candidateId: `CAND_${symbol}_${Date.now()}`,
       symbol,
       companyName,
       universe: 'CUSTOM_SEARCH',

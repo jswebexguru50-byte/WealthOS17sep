@@ -475,6 +475,15 @@ const SCHEMA_MIGRATIONS: Array<{ version: number; name: string; sqls: string[] }
       'CREATE INDEX IF NOT EXISTS idx_hist_shp_sym ON HistoricalShareholdingPattern(symbol)',
     ],
   },
+  {
+    version: 12,
+    name: 'add_valuation_snapshot_timestamp_semantics',
+    sqls: [
+      'ALTER TABLE ValuationSnapshots ADD COLUMN observationDate TEXT',
+      'ALTER TABLE ValuationSnapshots ADD COLUMN observationTimestamp TEXT',
+      'ALTER TABLE ValuationSnapshots ADD COLUMN timestampPrecision TEXT'
+    ],
+  },
 ];
 
 export async function runMigrations(db: Database): Promise<void> {
@@ -509,6 +518,7 @@ export async function runMigrations(db: Database): Promise<void> {
     
   } catch (e: any) {
     console.error('[Migration] Migration runner error:', e.message);
+    throw e;
   }
 }
 
@@ -3565,4 +3575,52 @@ export async function dbGet<T = any>(dbOrSql: any, sqlOrParams?: any, maybeParam
       }
     }
   });
+}
+
+export async function recordValuationSnapshot(db: sqlite3.Database, payload: {
+  portfolio: string;
+  total_value_inr: number;
+  equity_value: number;
+  cash_value: number;
+  mf_value: number;
+  aif_value: number;
+  unlisted_value: number;
+  fx_rate_usd: number;
+  trigger_source: string;
+  drift_pct: number;
+  drift_alert: string | null;
+  observationDate?: string;
+  observationTimestamp?: string;
+}) {
+  if (!payload.observationDate && !payload.observationTimestamp) {
+    throw new Error("REJECTED: MISSING_OBSERVATION_TIMESTAMP");
+  }
+
+  let obsDate = null;
+  let obsTimestamp = null;
+  let precision = 'NONE';
+
+  if (payload.observationTimestamp) {
+    obsTimestamp = payload.observationTimestamp;
+    obsDate = payload.observationTimestamp.split('T')[0];
+    precision = 'EXACT';
+  } else if (payload.observationDate) {
+    obsDate = payload.observationDate;
+    obsTimestamp = null;
+    precision = 'DAY';
+  }
+
+  await dbRun(db, `
+    INSERT INTO ValuationSnapshots (
+      timestamp, portfolio, total_value_inr, equity_value, cash_value, 
+      mf_value, aif_value, unlisted_value, fx_rate_usd, trigger_source, 
+      drift_pct, drift_alert, observationDate, observationTimestamp, timestampPrecision
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `, [
+    obsTimestamp || obsDate, // legacy timestamp column
+    payload.portfolio, payload.total_value_inr, payload.equity_value, payload.cash_value,
+    payload.mf_value, payload.aif_value, payload.unlisted_value, payload.fx_rate_usd,
+    payload.trigger_source, payload.drift_pct, payload.drift_alert,
+    obsDate, obsTimestamp, precision
+  ]);
 }

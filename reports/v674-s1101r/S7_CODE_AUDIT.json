@@ -3,8 +3,8 @@
   "name": "MACD Bullish Divergence",
   "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
   "functionName": "evaluateS7",
-  "startLine": 2607,
-  "endLine": 2647,
+  "startLine": 2645,
+  "endLine": 2685,
   "inputs": [
     "Daily OHLCV"
   ],
@@ -46,9 +46,9 @@
   "timestampSemantics": "EOD Close Available At 16:00 IST",
   "sourceEvidence": {
     "file": "src/server/services/PureTechnicalStrategiesEngine.ts",
-    "startLine": 2607,
-    "endLine": 2647,
+    "startLine": 2645,
+    "endLine": 2685,
     "symbol": "evaluateS7",
-    "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+    "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
   }
 }

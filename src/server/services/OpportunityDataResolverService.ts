@@ -20,7 +20,7 @@ export interface ResolvedCandle {
   high: number;
   low: number;
   close: number;
-  volume: number;
+  volume: number | null;
   deliveryQty?: number;
   deliveryPct?: number;
 }
@@ -30,7 +30,7 @@ export interface ResolvedMarketSnapshot {
   currentPrice: number;
   previousClose: number;
   singleDayChangePct: number;
-  turnover20DayAvgCr: number;
+  turnover20DayAvgCr: number | null;
   latestDate: string;
   candles: ResolvedCandle[];
   dataSource: 'DUCKDB_ADJUSTED' | 'LOCAL_EXCHANGE_MASTER' | 'SQLITE_HISTORICAL_CACHE' | 'YAHOO_FALLBACK' | 'UPSTOX_FALLBACK';
@@ -91,7 +91,11 @@ export class OpportunityDataResolverService {
         const candles = cached.bars;
         const latest = candles[candles.length - 1];
         const prev = candles[candles.length - 2] || latest;
-        const avgTurnoverCr = roundINR(candles.slice(-20).reduce((total, c) => total + c.close * c.volume / 10000000, 0) / Math.min(candles.length, 20));
+        const last20 = candles.slice(-20);
+        const validTurnoverCandles = last20.filter(c => c.volume != null);
+        const avgTurnoverCr = validTurnoverCandles.length > 0 
+          ? roundINR(validTurnoverCandles.reduce((total, c) => total + c.close * (c.volume as number) / 10000000, 0) / validTurnoverCandles.length)
+          : null;
         return { symbol: cleanSym, currentPrice: latest.close, previousClose: prev.close, singleDayChangePct: roundINR(prev.close > 0 ? ((latest.close - prev.close) / prev.close) * 100 : 0), turnover20DayAvgCr: avgTurnoverCr, latestDate: latest.date, candles, dataSource: 'DUCKDB_ADJUSTED', isLocalGroundTruth: true };
       }
     } catch (_) {}
@@ -135,7 +139,7 @@ export class OpportunityDataResolverService {
             sumTurnoverCr += ((Number(r.close) * Number(r.volume || 0)) / 10000000);
           }
         }
-        const avgTurnoverCr = last20.length > 0 ? roundINR(sumTurnoverCr / last20.length) : 5.0;
+        const avgTurnoverCr = last20.length > 0 ? roundINR(sumTurnoverCr / last20.length) : null;
 
         return {
           symbol: cleanSym,
@@ -169,7 +173,7 @@ export class OpportunityDataResolverService {
           high: Number(r.close),
           low: Number(r.close),
           close: Number(r.close),
-          volume: 100000
+          volume: null
         }));
 
         const latest = candles[candles.length - 1];
@@ -181,7 +185,7 @@ export class OpportunityDataResolverService {
           currentPrice: latest.close,
           previousClose: prev.close,
           singleDayChangePct: roundINR(changePct),
-          turnover20DayAvgCr: 12.5, // verified baseline
+          turnover20DayAvgCr: null, // Removed verified baseline fallback
           latestDate: latest.date,
           candles,
           dataSource: 'SQLITE_HISTORICAL_CACHE',
@@ -202,7 +206,7 @@ export class OpportunityDataResolverService {
           high: cp.high ?? cp.close,
           low: cp.low ?? cp.close,
           close: cp.close,
-          volume: cp.volume ?? 50000
+          volume: cp.volume ?? null
         }));
 
         const latest = candles[candles.length - 1];
@@ -214,7 +218,7 @@ export class OpportunityDataResolverService {
           currentPrice: externalData.regularMarketPrice || latest.close,
           previousClose: externalData.chartPreviousClose || prev.close,
           singleDayChangePct: roundINR(changePct),
-          turnover20DayAvgCr: 8.5,
+          turnover20DayAvgCr: null,
           latestDate: latest.date,
           candles,
           dataSource: externalData.dataSource?.includes('Upstox') ? 'UPSTOX_FALLBACK' : 'YAHOO_FALLBACK',

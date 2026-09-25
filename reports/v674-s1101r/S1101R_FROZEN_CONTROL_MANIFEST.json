@@ -2,14 +2,14 @@
   {
     "path": "src/server/services/PureTechnicalStrategiesEngine.ts",
     "expectedHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3",
-    "actualHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3",
-    "status": "PASS"
+    "actualHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250",
+    "status": "FAIL"
   },
   {
     "path": "src/server/services/StrategyParameterConfig.ts",
     "expectedHash": "901CA7A27B2EB4E09183426C9E0DFD7B812AEEBF84472B49B9F829661FE7194B",
-    "actualHash": "901CA7A27B2EB4E09183426C9E0DFD7B812AEEBF84472B49B9F829661FE7194B",
-    "status": "PASS"
+    "actualHash": "9F477D5728BE60A2760D5DF9FF1CA0141A59438B5495EC7C7581811470C15F75",
+    "status": "FAIL"
   },
   {
     "path": "src/server/services/SignalQualityOverlay.ts",

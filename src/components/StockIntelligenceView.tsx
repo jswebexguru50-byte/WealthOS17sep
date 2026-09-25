@@ -188,7 +188,7 @@ export function StockIntelligenceView({
   const companyName = data.company_name || screener.company_name || symbol;
   const pivots = tech.pivots || {};
   const opt = tech.optionsAnalytics || {};
-  const fwd = tech.forwardOutlook || {};
+  const fwd = tech.modelScenario || {};
   const execVerdict = tech.executiveVerdict || {};
   const layman = tech.layman || {};
 

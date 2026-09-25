@@ -1477,10 +1477,21 @@ export async function runFIFO(db: sqlite3.Database): Promise<any> {
           }
         }
 
-        await dbRun(db, `
-          INSERT INTO ValuationSnapshots (portfolio, total_value_inr, equity_value, cash_value, mf_value, aif_value, unlisted_value, fx_rate_usd, trigger_source, drift_pct, drift_alert)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'FIFO_RECOMPUTE', ?, ?)
-        `, [pv.portfolio, pv.total_value, pv.equity_value, pv.cash_value, pv.mf_value, pv.aif_value, pv.unlisted_value, snapshotUsdRate, driftPct, driftAlert]);
+        const { recordValuationSnapshot } = await import('./database.js');
+        await recordValuationSnapshot(db, {
+          portfolio: pv.portfolio,
+          total_value_inr: pv.total_value,
+          equity_value: pv.equity_value,
+          cash_value: pv.cash_value,
+          mf_value: pv.mf_value,
+          aif_value: pv.aif_value,
+          unlisted_value: pv.unlisted_value,
+          fx_rate_usd: snapshotUsdRate,
+          trigger_source: 'FIFO_RECOMPUTE',
+          drift_pct: driftPct,
+          drift_alert: driftAlert,
+          observationDate: new Date().toISOString().split('T')[0]
+        });
       }
 
       // Prune old snapshots (keep last 500)

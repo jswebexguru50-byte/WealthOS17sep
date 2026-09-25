@@ -1,4 +1,4 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 import sqlite3 from 'sqlite3';
 import { dbAll, dbRun, dbGet, getDB, runInDbLock } from './database.js';
 import { formatDate, parseDate, runFIFO } from './fifoEngine.js';
@@ -1571,10 +1571,21 @@ export async function autoFetchMarketData(db: sqlite3.Database, portfolioFilter?
           }
         }
 
-        await dbRun(db, `
-          INSERT INTO ValuationSnapshots (timestamp, portfolio, total_value_inr, equity_value, cash_value, mf_value, aif_value, unlisted_value, fx_rate_usd, trigger_source, drift_pct, drift_alert)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'MARKET_SYNC', ?, ?)
-        `, [sourceObservationTimestamp, pv.portfolio, pv.total_value, pv.equity_value, pv.cash_value, pv.mf_value, pv.aif_value, pv.unlisted_value, snapUsdRate, driftPct, driftAlert]);
+        const { recordValuationSnapshot } = await import('./database.js');
+        await recordValuationSnapshot(db, {
+          portfolio: pv.portfolio,
+          total_value_inr: pv.total_value,
+          equity_value: pv.equity_value,
+          cash_value: pv.cash_value,
+          mf_value: pv.mf_value,
+          aif_value: pv.aif_value,
+          unlisted_value: pv.unlisted_value,
+          fx_rate_usd: snapUsdRate,
+          trigger_source: 'MARKET_SYNC',
+          drift_pct: driftPct,
+          drift_alert: driftAlert,
+          observationTimestamp: sourceObservationTimestamp || undefined,
+        });
       }
       console.log(`[Valuation Snapshot] Recorded ${portfolioVals.length} portfolio snapshots after market sync with explicit source observation timestamp: ${sourceObservationTimestamp}`);
     }

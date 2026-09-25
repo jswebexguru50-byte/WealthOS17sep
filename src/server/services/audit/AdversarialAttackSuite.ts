@@ -65,13 +65,13 @@ export class AdversarialAttackSuite {
       sourceId: 'NIFTY500_HISTORICAL_MEMBERSHIP'
     });
 
-    const defended = result.status === 'LOOKAHEAD';
+    const defended = result.status === 'CURRENT_UNIVERSE_CONTAMINATION';
 
     return {
       attackId: 'ATTACK_A',
       name: 'Current Universe Substitution Attack',
       attackDescription: 'Injects unvetted contemporary universe constituents into historical replay interval.',
-      expectedOutcome: 'LOOKAHEAD',
+      expectedOutcome: 'CURRENT_UNIVERSE_CONTAMINATION',
       actualOutcome: result.status,
       attackDefended: defended,
       tamperEvidence: result
@@ -234,7 +234,7 @@ export class AdversarialAttackSuite {
    * Attack F: Transitive Dependency Contamination Attack
    * Verifies AST module analyzer detects direct or transitive dependencies.
    */
-  public attackF_TransitiveDependency(): AdversarialAttackResult {
+  public attackF_AuditorContamination(): AdversarialAttackResult {
     const analyzer = new ModuleDependencyAnalyzer(this.workspaceRoot);
     const auditorPath = path.join(this.workspaceRoot, 'src', 'server', 'services', 'research', 'IndependentAuditEngine.ts');
     const independence = analyzer.assertAuditorIndependence(auditorPath);
@@ -374,7 +374,7 @@ export class AdversarialAttackSuite {
       this.attackC_ConfigurationMutation(),
       this.attackD_LedgerMutation(),
       this.attackE_FrozenFileMutation(),
-      this.attackF_TransitiveDependency(),
+      this.attackF_AuditorContamination(),
       this.attackG_ExecutionBypass(),
       this.attackH_MissingData(),
       this.attackZ_HardcodedGateEvidence()

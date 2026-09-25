@@ -3,7 +3,7 @@ import { config as loadEnv } from 'dotenv';
 loadEnv();
 
 // Allow Node to trust system/proxy certs when fetching market data from Upstox, AMFI, etc.
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 import dns from 'dns';
 dns.setDefaultResultOrder('ipv4first');
 import express from 'express';

@@ -3,8 +3,8 @@
   "name": "Intraday 5-Min Opening Range Breakout (ORB)",
   "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
   "functionName": "evaluateS10",
-  "startLine": 2955,
-  "endLine": 2995,
+  "startLine": 2993,
+  "endLine": 3033,
   "inputs": [
     "5-minute OHLCV Candles (09:15 to 09:30 IST)"
   ],
@@ -49,10 +49,10 @@
   "timestampSemantics": "Intraday Timestamp Available At Exact Candle Close",
   "sourceEvidence": {
     "file": "src/server/services/PureTechnicalStrategiesEngine.ts",
-    "startLine": 2955,
-    "endLine": 2995,
+    "startLine": 2993,
+    "endLine": 3033,
     "symbol": "evaluateS10",
-    "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+    "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
   },
   "d7Required": true
 }

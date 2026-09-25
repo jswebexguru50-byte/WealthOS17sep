@@ -120,8 +120,8 @@ export interface SecurityDossier {
     trendlyneValuationScore: number;
     trendlyneMomentumScore: number;
     piotroskiFScore: number; // 0-9
-    altmanZScore: number;
-    altmanZZone: 'SAFE' | 'GREY' | 'DISTRESS';
+    altmanZScore: number | null;
+    altmanZZone: 'SAFE' | 'GREY' | 'DISTRESS' | 'DATA_INSUFFICIENT';
     pros: string[];
     cons: string[];
   };
@@ -132,9 +132,9 @@ export interface SecurityDossier {
     rsi14: number;
     rsiInterpretation: string;
     emaAlignment: 'BULLISH_STACK' | 'BEARISH_STACK' | 'CONSOLIDATING';
-    ema20: number;
-    ema50: number;
-    sma200: number;
+    ema20: number | null;
+    ema50: number | null;
+    sma200: number | null;
     bollingerBandwidthPct: number;
     bollingerSqueeze: boolean;
     supportS1: number;
@@ -403,17 +403,17 @@ export class ScripIntelligenceDossierService {
     const rawRoe = screenerData?.ratios?.roe ? parseFloat(screenerData.ratios.roe) : 0;
     const rawDebtToEquity = screenerData?.ratios?.debt_to_equity ? parseFloat(screenerData.ratios.debt_to_equity) : 0;
     const piotroskiScore = trendlyneReport?.checklists?.piotroskiScore ?? 0;
-    const altmanZScore = Number((1.8 + (rawRoce / 15) - (rawDebtToEquity * 0.8)).toFixed(2));
-    const altmanZZone = altmanZScore > 2.99 ? 'SAFE' : (altmanZScore > 1.81 ? 'GREY' : 'DISTRESS');
+    const altmanZScore: number | null = null;
+    const altmanZZone = 'DATA_INSUFFICIENT';
 
     // Technical Processing
     const rsi14 = indicators?.rsi14 || 0;
-    const ema20 = Number((indicators?.sma20 || cmp * 0.98).toFixed(2));
-    const ema50 = Number((indicators?.ema50 || cmp * 0.95).toFixed(2));
-    const sma200 = Number((cmp * 0.88).toFixed(2));
+    const ema20: number | null = indicators?.sma20 ?? null;
+    const ema50: number | null = indicators?.ema50 ?? null;
+    const sma200: number | null = indicators?.sma200 ?? null;
     const bollingerBandwidthPct = indicators?.bbBandwidth || 0;
     const bollingerSqueeze = bollingerBandwidthPct < 7;
-    const emaAlignment = cmp > ema20 && ema20 > ema50 ? 'BULLISH_STACK' : (cmp < ema50 ? 'BEARISH_STACK' : 'CONSOLIDATING');
+    const emaAlignment = cmp > (ema20 || 0) && (ema20 || 0) > (ema50 || 0) ? 'BULLISH_STACK' : (cmp < (ema50 || 0) ? 'BEARISH_STACK' : 'CONSOLIDATING');
 
     // F&O Processing (Sourced via FnOIntelligenceService or Database)
     const isFno = FnOIntelligenceService.getInstance().isFnoEligible(sym);
@@ -725,7 +725,7 @@ function detectSectorCategory(sectorStr: string, industryStr: string, companyNam
       { criterion: 'ROCE ≥ 18% (Capital Efficiency)', passed: rawRoce >= 18, metricValue: `${rawRoce}%` },
       { criterion: 'Debt-to-Equity < 0.5 (Clean Balance Sheet)', passed: rawDebtToEquity < 0.5, metricValue: `${rawDebtToEquity}x` },
       { criterion: 'Piotroski F-Score ≥ 6 (Quality Operations)', passed: piotroskiScore >= 6, metricValue: `${piotroskiScore}/9` },
-      { criterion: 'Altman Z-Score in Safe Zone (> 1.8)', passed: altmanZScore >= 1.8, metricValue: `${altmanZScore}` },
+      { criterion: 'Altman Z-Score in Safe Zone (> 1.8)', passed: altmanZScore !== null && altmanZScore >= 1.8, metricValue: altmanZScore !== null ? `${altmanZScore}` : 'N/A' },
       { criterion: 'Positive Price Momentum vs Nifty 500', passed: rsi14 >= 50, metricValue: `RSI ${rsi14.toFixed(1)}` },
       { 
         criterion: 'Institutional Footprint (FII/DII Stake)', 

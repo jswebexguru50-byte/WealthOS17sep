@@ -4,12 +4,13 @@ import dns from 'dns';
 dns.setDefaultResultOrder('ipv4first');
 
 export interface LiveInstitutionalFlow {
-  fiiNetCashWeekCr: number;
-  diiNetCashWeekCr: number;
-  netInstitutionalCr: number;
-  fiiIndexFuturesLongPct: number;
-  diiSipRunRateCr: number;
-  regime: 'DII_ABSORPTION_WALL' | 'DOUBLE_ENGINE_BUYING' | 'FII_DOMINATED_OUTFLOW' | 'BALANCED_STABILITY';
+  status?: string;
+  fiiNetCashWeekCr: number | null;
+  diiNetCashWeekCr: number | null;
+  netInstitutionalCr: number | null;
+  fiiIndexFuturesLongPct: number | null;
+  diiSipRunRateCr: number | null;
+  regime: 'DII_ABSORPTION_WALL' | 'DOUBLE_ENGINE_BUYING' | 'FII_DOMINATED_OUTFLOW' | 'BALANCED_STABILITY' | 'SOURCE_UNAVAILABLE';
   commentary: string;
   asOfDate: string;
   source: string;
@@ -45,15 +46,16 @@ export class InstitutionalFlowService {
       this.getInstitutionalFlowPulse().catch(() => {});
     }
     return this.cache ? this.cache.data : {
-      fiiNetCashWeekCr: -123.19,
-      diiNetCashWeekCr: 1349.64,
-      netInstitutionalCr: 1226.45,
-      fiiIndexFuturesLongPct: 48.2,
-      diiSipRunRateCr: 23547,
-      regime: 'DII_ABSORPTION_WALL',
-      commentary: 'DII Absorption Wall: Domestic institutions (+₹1,350 Cr) comfortably absorbed FII selling (-₹123 Cr). Domestic SIP run-rate neutralizing external volatility.',
+      status: 'SOURCE_UNAVAILABLE',
+      fiiNetCashWeekCr: null,
+      diiNetCashWeekCr: null,
+      netInstitutionalCr: null,
+      fiiIndexFuturesLongPct: null,
+      diiSipRunRateCr: null,
+      regime: 'SOURCE_UNAVAILABLE',
+      commentary: 'NSE API Unavailable. No institutional flow data.',
       asOfDate: new Date().toISOString().split('T')[0],
-      source: 'NSE_PRIMARY_EXCHANGE'
+      source: 'SOURCE_UNAVAILABLE'
     };
   }
 
@@ -83,15 +85,16 @@ export class InstitutionalFlowService {
 
     // Baseline if fresh boot and exchange unavailable
     return {
-      fiiNetCashWeekCr: -123.19,
-      diiNetCashWeekCr: 1349.64,
-      netInstitutionalCr: 1226.45,
-      fiiIndexFuturesLongPct: 48.5,
-      diiSipRunRateCr: 23547,
-      regime: 'DII_ABSORPTION_WALL',
-      commentary: 'DII Domestic SIP Wall: Domestic institutions (+₹1,350 Cr) absorbing foreign net sales, providing structural market stability.',
+      status: 'SOURCE_UNAVAILABLE',
+      fiiNetCashWeekCr: null,
+      diiNetCashWeekCr: null,
+      netInstitutionalCr: null,
+      fiiIndexFuturesLongPct: null,
+      diiSipRunRateCr: null,
+      regime: 'SOURCE_UNAVAILABLE',
+      commentary: 'NSE API Unavailable. No institutional flow data.',
       asOfDate: new Date().toISOString().split('T')[0],
-      source: 'NSE_PRIMARY_EXCHANGE'
+      source: 'SOURCE_UNAVAILABLE'
     };
   }
 
@@ -143,10 +146,10 @@ export class InstitutionalFlowService {
               commentary = `Institutional flows balanced (FII: ₹${fiiNet.toFixed(0)} Cr, DII: ₹${diiNet.toFixed(0)} Cr). Selective stock-picking environment.`;
             }
 
-            // AMFI official monthly mutual fund SIP run-rate: ~₹23,547 Cr/mo
-            const amfiSipRunRate = 23547;
-            // FII Index Futures Long Positioning: default balanced range 46-52%
-            const fiiFuturesLongPct = 48.2;
+            // AMFI official monthly mutual fund SIP run-rate must be fetched from a live API source.
+            const amfiSipRunRate = null;
+            // FII Index Futures Long Positioning: removed hardcoded fallback
+            const fiiFuturesLongPct = null;
 
             resolve({
               fiiNetCashWeekCr: Number(fiiNet.toFixed(2)),

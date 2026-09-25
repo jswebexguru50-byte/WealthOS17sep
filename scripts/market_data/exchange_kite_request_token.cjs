@@ -3,7 +3,7 @@
 
 // Local environment uses an inspected TLS proxy; server.ts uses the same setting
 // for its Upstox and market-data requests.
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 require('dotenv').config();
 const crypto = require('node:crypto');
 const Database = require('better-sqlite3');

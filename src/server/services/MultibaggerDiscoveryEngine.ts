@@ -130,6 +130,7 @@ export interface MultibaggerScripRecord {
 }
 
 export interface MultibaggerRadarReport {
+  status?: string;
   generatedAt: string;
   totalEvaluated: number;
   passedPhase1Count: number;
@@ -159,6 +160,20 @@ export class MultibaggerDiscoveryEngine {
    * through the 4-Phase Mayer-Phelps-QGLP-Thorndike-Fisher pipeline using live authentic data.
    */
   public async scanMultibaggerUniverse(symbols?: string[]): Promise<MultibaggerRadarReport> {
+    if (process.env.NODE_ENV === 'production' && !process.env.LIVE_UNIVERSE_ENABLED) {
+      return {
+        status: 'NOT_IMPLEMENTED',
+        generatedAt: new Date().toISOString(),
+        totalEvaluated: 0,
+        passedPhase1Count: 0,
+        passedPhase2QglpCount: 0,
+        topRunnersCount: 0,
+        universe: [],
+        screenerInQuery: 'NOT_IMPLEMENTED',
+        pythonBacktestBlueprint: 'NOT_IMPLEMENTED'
+      };
+    }
+
     if (!symbols && this.lastReport && Date.now() - this.lastScanTime < 15 * 60 * 1000) {
       return this.lastReport;
     }
@@ -170,41 +185,11 @@ export class MultibaggerDiscoveryEngine {
     if (symbols && symbols.length > 0) {
       targetItems = symbols.map(s => {
         const clean = s.toUpperCase().replace(/\.NS$/, '').replace(/\.BO$/, '');
-        return rawMap.get(clean) || {
-          symbol: clean,
-          companyName: clean,
-          sector: 'Indian Equities',
-          cmp: 1000,
-          marketCapCr: 2000,
-          avgDailyTurnoverLakhs: 50,
-          promoterHoldingPct: 55,
-          promoterPledgePct: 0,
-          promoterStakeChange4QtrPct: 0,
-          dsoIncrease2YrPct: 5,
-          contingentLiabilitiesToNetWorthPct: 3,
-          salesCagr3YrPct: 20,
-          patCagr3YrPct: 25,
-          roce3YrAvgPct: 25,
-          roicPct: 24,
-          debtToEquity: 0.1,
-          cfoToPat3YrRatio: 0.85,
-          grossMarginVolatility5YrPct: 2.0,
-          grossMarginTtmPct: 35,
-          grossMargin3YrAvgPct: 34,
-          waccPct: 11,
-          cashConversionCycleDays: 40,
-          trailingPe: 20,
-          sectorMedianPe: 28,
-          capex: 30,
-          deltaNwc: 15,
-          depreciation: 20,
-          nopat: 100,
-          fiiDiiNetChange6mPct: 1.5,
-          rsRating6m: 80,
-          floatingSupplyPct: 25,
-          sma50: 950,
-          sma200: 850
-        };
+        const found = rawMap.get(clean);
+        if (!found) {
+          return { symbol: clean, isNotFound: true };
+        }
+        return found;
       });
     } else {
       targetItems = [...rawUniverse];
@@ -214,6 +199,27 @@ export class MultibaggerDiscoveryEngine {
 
     await Promise.all(targetItems.map(async (rawItem) => {
       try {
+        if (rawItem.isNotFound) {
+          evaluated.push({
+            id: `MULTI_${rawItem.symbol}`,
+            symbol: rawItem.symbol,
+            companyName: 'NOT_FOUND',
+            sector: 'NOT_FOUND',
+            cmp: 0,
+            marketCapCr: 0,
+            tier: 'FAILED_GATE',
+            tierBadge: 'DATA_INSUFFICIENT',
+            phase1Exclusion: { passed: false, reasons: ['DATA_INSUFFICIENT'] } as any,
+            phase2Qglp: { passed: false, reasons: ['DATA_INSUFFICIENT'] } as any,
+            phase3Scores: { totalMultibaggerScore: 0 } as any,
+            phase4Protocol: {} as any,
+            multibaggerThesis: 'DATA_INSUFFICIENT',
+            catalystRunway: 'DATA_INSUFFICIENT',
+            lastUpdated: new Date().toISOString()
+          });
+          return;
+        }
+
         const item = { ...rawItem };
         try {
           const tickerData = await fetchTickerData(`${item.symbol}.NS`, 200).catch(() => null);
@@ -566,266 +572,7 @@ def calculate_multibagger_rank(candidates: pd.DataFrame) -> pd.DataFrame:
    * and contrasting case studies.
    */
   private getRawUniverse(): any[] {
-    return [
-      {
-        symbol: 'SHARDAMOTR',
-        companyName: 'Sharda Motor Industries Ltd',
-        sector: 'Auto Components & Emissions',
-        cmp: 820.45,
-        marketCapCr: 4727.11,
-        avgDailyTurnoverLakhs: 185.0,
-        promoterHoldingPct: 73.2,
-        promoterPledgePct: 0.0,
-        promoterStakeChange4QtrPct: 0.0,
-        dsoIncrease2YrPct: 4.2,
-        contingentLiabilitiesToNetWorthPct: 3.1,
-        salesCagr3YrPct: 22.4,
-        patCagr3YrPct: 28.6,
-        roce3YrAvgPct: 34.5,
-        roicPct: 32.1,
-        debtToEquity: 0.02,
-        cfoToPat3YrRatio: 0.92,
-        grossMarginVolatility5YrPct: 1.8,
-        grossMarginTtmPct: 29.4,
-        grossMargin3YrAvgPct: 28.1,
-        waccPct: 10.5,
-        cashConversionCycleDays: 32,
-        trailingPe: 14.62,
-        sectorMedianPe: 28.5,
-        capex: 85,
-        deltaNwc: 35,
-        depreciation: 48,
-        nopat: 215,
-        fiiDiiNetChange6mPct: 2.1,
-        rsRating6m: 86,
-        floatingSupplyPct: 19.8,
-        sma50: 780.0,
-        sma200: 695.0,
-        thesis: 'Absolute monopoly in BS-VI commercial & passenger vehicle exhaust systems. 34.5% ROCE with debt-free cash balance of ₹450 Cr.',
-        catalyst: 'TREM-V tractor emission regulations rollout and EV battery enclosure manufacturing expansion.'
-      },
-      {
-        symbol: 'MPSLTD',
-        companyName: 'MPS Ltd',
-        sector: 'Digital Platform & EdTech IP',
-        cmp: 1754.40,
-        marketCapCr: 2994.49,
-        avgDailyTurnoverLakhs: 92.0,
-        promoterHoldingPct: 68.35,
-        promoterPledgePct: 0.0,
-        promoterStakeChange4QtrPct: 0.1,
-        dsoIncrease2YrPct: 6.8,
-        contingentLiabilitiesToNetWorthPct: 1.5,
-        salesCagr3YrPct: 18.2,
-        patCagr3YrPct: 31.4,
-        roce3YrAvgPct: 36.2,
-        roicPct: 34.8,
-        debtToEquity: 0.04,
-        cfoToPat3YrRatio: 0.88,
-        grossMarginVolatility5YrPct: 2.1,
-        grossMarginTtmPct: 54.2,
-        grossMargin3YrAvgPct: 52.8,
-        waccPct: 11.0,
-        cashConversionCycleDays: 45,
-        trailingPe: 18.24,
-        sectorMedianPe: 34.0,
-        capex: 28,
-        deltaNwc: 12,
-        depreciation: 18,
-        nopat: 142,
-        fiiDiiNetChange6mPct: 1.8,
-        rsRating6m: 82,
-        floatingSupplyPct: 22.4,
-        sma50: 1680.0,
-        sma200: 1490.0,
-        thesis: 'High-margin IP-led content creation & eLearning platform. 36% ROCE with 100% organic cash conversion and zero financial leverage.',
-        catalyst: 'US publisher AI-content transition mandate and European corporate learning acquisitions.'
-      },
-      {
-        symbol: 'JYOTIRES',
-        companyName: 'Jyoti Resins and Adhesives Ltd',
-        sector: 'Specialty Chemicals & Adhesives',
-        cmp: 855.10,
-        marketCapCr: 1026.12,
-        avgDailyTurnoverLakhs: 48.0,
-        promoterHoldingPct: 50.82,
-        promoterPledgePct: 0.0,
-        promoterStakeChange4QtrPct: 0.0,
-        dsoIncrease2YrPct: 8.5,
-        contingentLiabilitiesToNetWorthPct: 2.8,
-        salesCagr3YrPct: 26.5,
-        patCagr3YrPct: 34.2,
-        roce3YrAvgPct: 48.6,
-        roicPct: 46.2,
-        debtToEquity: 0.01,
-        cfoToPat3YrRatio: 0.85,
-        grossMarginVolatility5YrPct: 2.8,
-        grossMarginTtmPct: 38.5,
-        grossMargin3YrAvgPct: 36.9,
-        waccPct: 11.5,
-        cashConversionCycleDays: 38,
-        trailingPe: 14.72,
-        sectorMedianPe: 38.0,
-        capex: 18,
-        deltaNwc: 8,
-        depreciation: 9,
-        nopat: 64,
-        fiiDiiNetChange6mPct: 1.2,
-        rsRating6m: 88,
-        floatingSupplyPct: 38.5,
-        sma50: 810.0,
-        sma200: 710.0,
-        thesis: 'Fastest-growing wood adhesive brand (EURO 7000) challenging Pidilite’s Fevicol in semi-urban India. Phenomenal 48.6% ROCE with zero debt.',
-        catalyst: 'Pan-India distributor network expansion from 12 states to 24 states with doubling of compounding plant capacity.'
-      },
-      {
-        symbol: 'CONTROLP',
-        companyName: 'Control Print Ltd',
-        sector: 'Industrial Hardware & Coding',
-        cmp: 672.00,
-        marketCapCr: 1070.56,
-        avgDailyTurnoverLakhs: 64.0,
-        promoterHoldingPct: 53.76,
-        promoterPledgePct: 0.0,
-        promoterStakeChange4QtrPct: 0.0,
-        dsoIncrease2YrPct: 5.1,
-        contingentLiabilitiesToNetWorthPct: 4.2,
-        salesCagr3YrPct: 19.8,
-        patCagr3YrPct: 24.5,
-        roce3YrAvgPct: 31.8,
-        roicPct: 29.5,
-        debtToEquity: 0.05,
-        cfoToPat3YrRatio: 0.82,
-        grossMarginVolatility5YrPct: 1.9,
-        grossMarginTtmPct: 61.2,
-        grossMargin3YrAvgPct: 60.1,
-        waccPct: 10.8,
-        cashConversionCycleDays: 52,
-        trailingPe: 11.04,
-        sectorMedianPe: 26.0,
-        capex: 22,
-        deltaNwc: 14,
-        depreciation: 15,
-        nopat: 88,
-        fiiDiiNetChange6mPct: 1.4,
-        rsRating6m: 78,
-        floatingSupplyPct: 34.2,
-        sma50: 645.0,
-        sma200: 580.0,
-        thesis: 'High-margin consumables "razor-and-blade" model in batch coding, QR serialization, and pharmaceutical traceability. 31.8% ROCE at only 11x PE.',
-        catalyst: 'Government mandatory QR code mandate on top 300 pharmaceutical formulations.'
-      },
-      {
-        symbol: 'GANDHITUBE',
-        companyName: 'Gandhi Special Tubes Ltd',
-        sector: 'Precision Steel & Auto Hydraulics',
-        cmp: 828.45,
-        marketCapCr: 1004.33,
-        avgDailyTurnoverLakhs: 42.0,
-        promoterHoldingPct: 73.42,
-        promoterPledgePct: 0.0,
-        promoterStakeChange4QtrPct: 0.0,
-        dsoIncrease2YrPct: 3.4,
-        contingentLiabilitiesToNetWorthPct: 0.8,
-        salesCagr3YrPct: 16.4,
-        patCagr3YrPct: 21.0,
-        roce3YrAvgPct: 28.4,
-        roicPct: 27.0,
-        debtToEquity: 0.00,
-        cfoToPat3YrRatio: 0.94,
-        grossMarginVolatility5YrPct: 1.6,
-        grossMarginTtmPct: 42.1,
-        grossMargin3YrAvgPct: 41.5,
-        waccPct: 10.2,
-        cashConversionCycleDays: 41,
-        trailingPe: 13.98,
-        sectorMedianPe: 24.0,
-        capex: 14,
-        deltaNwc: 6,
-        depreciation: 11,
-        nopat: 68,
-        fiiDiiNetChange6mPct: 0.8,
-        rsRating6m: 76,
-        floatingSupplyPct: 18.2,
-        sma50: 805.0,
-        sma200: 740.0,
-        thesis: 'Zero debt, 28.4% ROCE precision cold-drawn seamless tubes manufacturer for automotive fuel injection and hydraulic lines.',
-        catalyst: 'Commercial vehicle replacement cycle and higher hydraulic pressure tubing exports.'
-      },
-      {
-        symbol: 'SOLARINDS',
-        companyName: 'Solar Industries India Ltd',
-        sector: 'Defense Munitions & Explosives',
-        cmp: 21465.0,
-        marketCapCr: 194120.0, // Large base example - passes QGLP quality but flagged on size runway
-        avgDailyTurnoverLakhs: 1420.0,
-        promoterHoldingPct: 73.15,
-        promoterPledgePct: 0.0,
-        promoterStakeChange4QtrPct: 0.0,
-        dsoIncrease2YrPct: 7.2,
-        contingentLiabilitiesToNetWorthPct: 8.5,
-        salesCagr3YrPct: 28.4,
-        patCagr3YrPct: 32.1,
-        roce3YrAvgPct: 31.2,
-        roicPct: 29.8,
-        debtToEquity: 0.22,
-        cfoToPat3YrRatio: 0.86,
-        grossMarginVolatility5YrPct: 2.4,
-        grossMarginTtmPct: 44.5,
-        grossMargin3YrAvgPct: 43.1,
-        waccPct: 11.2,
-        cashConversionCycleDays: 58,
-        trailingPe: 68.4,
-        sectorMedianPe: 55.0,
-        capex: 520,
-        deltaNwc: 180,
-        depreciation: 190,
-        nopat: 1840,
-        fiiDiiNetChange6mPct: 2.8,
-        rsRating6m: 91,
-        floatingSupplyPct: 14.2,
-        sma50: 20800.0,
-        sma200: 18400.0,
-        thesis: 'Sovereign defense explosives champion with ₹18,000 Cr order book. High ROCE compounder, but large market cap limits 10x velocity compared to small caps.',
-        catalyst: 'Pinaka rocket export contracts to Armenia and NATO-compatible artillery shell manufacturing.'
-      },
-      {
-        symbol: 'ORIANA',
-        companyName: 'Oriana Power Ltd',
-        sector: 'Solar EPC Contracting (Contrast Laggard)',
-        cmp: 1205.7,
-        marketCapCr: 2320.0,
-        avgDailyTurnoverLakhs: 210.0,
-        promoterHoldingPct: 61.4,
-        promoterPledgePct: 8.4, // Fails pledge (< 2%)
-        promoterStakeChange4QtrPct: -3.2, // Fails stability
-        dsoIncrease2YrPct: 48.0, // Fails DSO (ballooning receivables)
-        contingentLiabilitiesToNetWorthPct: 24.5, // Fails contingent (>15%)
-        salesCagr3YrPct: 42.0,
-        patCagr3YrPct: 14.2, // Fails PAT threshold
-        roce3YrAvgPct: 14.8, // Fails ROCE (< 20%)
-        roicPct: 12.1,
-        debtToEquity: 1.15, // Fails Debt (< 0.40)
-        cfoToPat3YrRatio: -0.22, // Fails CFO (Negative operating cash flow)
-        grossMarginVolatility5YrPct: 6.8, // Fails margin stability
-        grossMarginTtmPct: 18.2,
-        grossMargin3YrAvgPct: 24.5,
-        waccPct: 13.5,
-        cashConversionCycleDays: 145,
-        trailingPe: 42.5,
-        sectorMedianPe: 30.0,
-        capex: 85,
-        deltaNwc: 95,
-        depreciation: 12,
-        nopat: 28,
-        fiiDiiNetChange6mPct: -1.4,
-        rsRating6m: 32,
-        floatingSupplyPct: 28.5,
-        sma50: 1380.0,
-        sma200: 1540.0, // Broken trend
-        thesis: 'Exclusion Case Study: Rapid topline growth but negative cash flows, high debt (1.15x), rising receivables (+48%), and promoter pledging (8.4%). Demonstrates how Phase 1 & 2 prevent value traps.',
-        catalyst: 'None — High working capital stress in EPC contracting.'
-      }
-    ];
+    // Zero-tolerance for synthetic/fake data in production path.
+    return [];
   }
 }

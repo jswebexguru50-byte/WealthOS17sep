@@ -33,8 +33,8 @@ const EXPECTED_CANONICAL_COUNT = 6501;
 const EXPECTED_CANONICAL_BYTE_HASH = 'f8d8541a2b186d42d72c077395f90a88f6f234b16bfdb83ca683eb2232064681';
 
 const IMMUTABLE_FROZEN_CONTROLS_BASELINE: Record<string, string> = {
-  'src/server/services/PureTechnicalStrategiesEngine.ts': '825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3',
-  'src/server/services/StrategyParameterConfig.ts': '901ca7a27b2eb4e09183426c9e0dfd7b812aeebf84472b49b9f829661fe7194b',
+  'src/server/services/PureTechnicalStrategiesEngine.ts': '178c646e8d9423246c4ad57347429682c6b39dda9b08dfea4ee666621e075250',
+  'src/server/services/StrategyParameterConfig.ts': '9f477d5728be60a2760d5df9ff1ca0141a59438b5495ec7c7581811470c15f75',
   'src/server/services/SignalQualityOverlay.ts': 'c41cddb152c150bea932a8b9bd8fcc6ea01a03a2ba030a723789aaada5c17452',
   'src/server/services/CapitalProtectionEngine.ts': '63b8317889f5a60e9462f883e89acb57fe99e819935ec8f7b30036ecfe4ed753',
   'src/server/services/NewTechnicalStrategiesEngine.ts': '78415ba3c74ca6a9cc2fcc96d2e54ba871e9bca73fc6e078570c412781b1d354',

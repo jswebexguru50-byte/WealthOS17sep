@@ -115,7 +115,7 @@ const LazyFallback = () => (
   </div>
 );
 
-type TabType = 'OVERVIEW' | 'DISCOVER' | 'ANALYZE' | 'PORTFOLIO' | 'RESEARCH' | 'AUDIT' | 'COMMAND_CENTER' | 'MASTER_DOSSIER' | 'QUANT_TECHNICAL_STUDIO' | 'ANALYTICS' | 'QUANT_V5' | 'FORENSIC_INTELLIGENCE' | 'OPPORTUNITY_ENGINE' | 'TECHNICAL_STRATEGIES' | 'STRATEGY_EDITOR' | 'SENTINEL' | 'MOMENTUM_VPA' | 'GREENFIELD_PORTAL' | 'MULTIBAGGER' | 'REPORT_STUDIO' | 'TAX_REPATRIATION' | 'OPPORTUNITIES' | 'LEDGER' | 'IMPORTS' | 'FAMILY' | 'MAPPINGS' | 'INTELLIGENCE' | 'SETTINGS';
+type TabType = 'OVERVIEW' | 'DISCOVER' | 'ANALYZE' | 'PORTFOLIO' | 'RESEARCH' | 'AUDIT';
 
 // Intercept window.fetch to automatically inject APP_PASSWORD authorization header
 if (typeof window !== 'undefined' && typeof window.fetch === 'function' && !(window.fetch as any).__isPatched) {
@@ -151,6 +151,9 @@ if (typeof window !== 'undefined' && typeof window.fetch === 'function' && !(win
 export default function App() {
   const directFereSymbol = typeof window !== 'undefined'
     ? window.location.hash.match(/^#fere-card\/([A-Za-z0-9._-]+)$/i)?.[1]?.toUpperCase() || null
+    : null;
+    const analyzeMatch = typeof window !== 'undefined'
+    ? window.location.hash.match(/^#(?:analyze|fere-card)\/([A-Za-z0-9._-]+)$/i)?.[1]?.toUpperCase() || null
     : null;
   const getInitialTab = (): TabType => {
     if (typeof window !== 'undefined' && window.location.hash) {
@@ -190,12 +193,27 @@ export default function App() {
   };
 
   const [activeTab, setActiveTabState] = useState<TabType>(getInitialTab);
+  const [selectedIntelligenceSymbolState, setSelectedIntelligenceSymbolState] = useState<string | null>(analyzeMatch);
 
-  const setActiveTab = (tab: TabType) => {
+  const setSelectedIntelligenceSymbol = (symbol: string | null) => {
+    setSelectedIntelligenceSymbolState(symbol);
+    if (symbol) {
+      setActiveTab('ANALYZE', symbol);
+    }
+  };
+  
+  const setActiveTab = (tab: TabType, symbol?: string) => {
     setActiveTabState(tab);
+    if (tab === 'ANALYZE' && symbol) {
+      setSelectedIntelligenceSymbolState(symbol);
+    }
     if (typeof window !== 'undefined') {
-      const slug = tab.toLowerCase().replace(/_/g, '-');
-      window.history.replaceState(null, '', `#${slug}`);
+      if (tab === 'ANALYZE' && symbol) {
+        window.history.replaceState(null, '', `#analyze/${symbol}`);
+      } else {
+        const slug = tab.toLowerCase();
+        window.history.replaceState(null, '', `#${slug}`);
+      }
     }
   };
 
@@ -204,7 +222,7 @@ export default function App() {
       setActiveTabState(getInitialTab());
     };
     const handleNavigateForensic = (e: any) => {
-      setActiveTabState('FORENSIC_INTELLIGENCE');
+      setActiveTabState('ANALYZE');
     };
     window.addEventListener('hashchange', handleHash);
     window.addEventListener('navigate-forensic', handleNavigateForensic);
@@ -255,8 +273,7 @@ export default function App() {
 
   // Detailed stock lots modal
   const [selectedStock, setSelectedStock] = useState<string | null>(null);
-  const [selectedIntelligenceSymbol, setSelectedIntelligenceSymbol] = useState<string | null>(null);
-
+  
   // Web Price Matcher Confirmation Modal State
   const [webMatchConfirmModal, setWebMatchConfirmModal] = useState<{
     isOpen: boolean;
@@ -512,7 +529,7 @@ export default function App() {
       }
       setSelectedPortfolio(p);
       refreshAllCoreData(p, 2);
-      if (activeTab === 'COMMAND_CENTER' && p !== 'none') {
+      if (activeTab === 'OVERVIEW' && p !== 'none') {
         setActiveTab('PORTFOLIO');
       }
       return;
@@ -529,7 +546,7 @@ export default function App() {
       }
       setSelectedPortfolio(p);
       refreshAllCoreData(p, 1);
-      if (activeTab === 'COMMAND_CENTER' && p !== 'none') {
+      if (activeTab === 'OVERVIEW' && p !== 'none') {
         setActiveTab('PORTFOLIO');
       }
       return;
@@ -537,7 +554,7 @@ export default function App() {
 
     setSelectedPortfolio(p);
     refreshAllCoreData(p, currentMemberId);
-    if (activeTab === 'COMMAND_CENTER' && p !== 'none') {
+    if (activeTab === 'OVERVIEW' && p !== 'none') {
       setActiveTab('PORTFOLIO');
     }
   };
@@ -1615,21 +1632,14 @@ export default function App() {
                 <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-400 font-bold whitespace-nowrap">NRI WealthOS</span>
                 <span className="text-slate-500 font-mono">/</span>
                 <h2 className="text-xs sm:text-sm font-bold font-display uppercase tracking-tight text-white whitespace-nowrap truncate" style={{color:'var(--text-primary)'}}>
-                  {(activeTab === 'OVERVIEW' || activeTab === 'COMMAND_CENTER') && '1. Overview & System Status'}
-                  {(activeTab === 'DISCOVER' || activeTab === 'OPPORTUNITY_ENGINE') && '2. Discover & Opportunity Generation'}
-                  {(activeTab === 'ANALYZE' || activeTab === 'MASTER_DOSSIER' || activeTab === 'INTELLIGENCE') && '3. Analyze & Stock Intelligence'}
-                  {(activeTab === 'PORTFOLIO') && '4. Portfolio Risk & Ledger'}
-                  {(activeTab === 'RESEARCH' || activeTab === 'QUANT_TECHNICAL_STUDIO' || activeTab === 'QUANT_V5' || activeTab === 'TECHNICAL_STRATEGIES' || activeTab === 'MOMENTUM_VPA' || activeTab === 'GREENFIELD_PORTAL' || activeTab === 'MULTIBAGGER') && '5. Research & Strategy Factory'}
-                  {(activeTab === 'AUDIT' || activeTab === 'SETTINGS' || activeTab === 'IMPORTS' || activeTab === 'LEDGER') && '6. Audit, Provenance & Settings'}
-                  {activeTab === 'ANALYTICS' && 'Analytics & Risk'}
-                  {activeTab === 'STRATEGY_EDITOR' && 'Strategy Parameter Editor'}
-                  {activeTab === 'SENTINEL' && 'Smart Money Sentinel'}
-                  {activeTab === 'REPORT_STUDIO' && 'Report Studio'}
-                  {activeTab === 'TAX_REPATRIATION' && 'Tax & Repatriation'}
-                  {activeTab === 'OPPORTUNITIES' && 'Opportunities & Drift'}
-                  {activeTab === 'FAMILY' && 'Family Governance'}
-                  {activeTab === 'MAPPINGS' && 'Scrip Mappings'}
-                </h2>
+                  {activeTab === 'OVERVIEW' && '1. Overview & System Status'}
+                  {activeTab === 'DISCOVER' && '2. Discover & Opportunity Generation'}
+                  {activeTab === 'ANALYZE' && '3. Analyze & Stock Intelligence'}
+                  {activeTab === 'PORTFOLIO' && '4. Portfolio Risk & Ledger'}
+                  {activeTab === 'RESEARCH' && '5. Research & Strategy Factory'}
+                  {activeTab === 'AUDIT' && '6. Audit, Provenance & Settings'}
+                  {(activeTab === 'AUDIT' || activeTab === 'AUDIT' || activeTab === 'AUDIT' || activeTab === 'PORTFOLIO') && '6. Audit, Provenance & Settings'}
+                                                                                                                                                                </h2>
                 <span className="hidden md:inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 whitespace-nowrap">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                   LIVE
@@ -1641,7 +1651,7 @@ export default function App() {
                 <FamilyMemberSwitcher
                   currentMemberId={currentMemberId}
                   onSelectMember={handleMemberSelect}
-                  onOpenManageModal={() => setActiveTab('SETTINGS')}
+                  onOpenManageModal={() => setActiveTab('AUDIT')}
                 />
                 <MultiPortfolioSelect
                   portfolios={portfolios}
@@ -1793,20 +1803,48 @@ export default function App() {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.15 }}
             >
-              {(activeTab === 'COMMAND_CENTER' || activeTab === 'OVERVIEW') && (
+              {activeTab === 'OVERVIEW' && (
                 <Suspense fallback={<LazyFallback />}>
                   <FamilyOfficeCommandCenter
                     currentMemberId={currentMemberId}
-                    onSelectPortfolio={(pName) => {
-                      handlePortfolioSelect(pName);
-                    }}
-                    onOpenScripIntelligence={(sym) => {
-                      setSelectedIntelligenceSymbol(sym);
-                    }}
+                    onSelectPortfolio={(pName) => handlePortfolioSelect(pName)}
+                    onOpenScripIntelligence={(sym) => setSelectedIntelligenceSymbol(sym)}
                     onOpenPreferences={() => setShowPreferencesModal(true)}
                     formatCurrency={formatCurrency}
                   />
                 </Suspense>
+              )}
+
+              {activeTab === 'DISCOVER' && (
+                <Suspense fallback={<LazyFallback />}>
+                  <DiscoverWorkspace
+                    initialSubTab="OPPORTUNITY_ENGINE"
+                    onSelectStock={(sym) => setSelectedIntelligenceSymbol(sym)}
+                    selectedPortfolio={selectedPortfolio}
+                  />
+                </Suspense>
+              )}
+
+              {activeTab === 'ANALYZE' && (
+                <div className="w-full h-full flex flex-col space-y-4">
+                  {/* explicit FERE spine in all workspaces requirement for ANALYZE */}
+                  <Suspense fallback={<LazyFallback />}>
+                    {selectedIntelligenceSymbolState ? (
+                      <StockIntelligenceView
+                        symbol={selectedIntelligenceSymbolState}
+                        onClose={() => setActiveTab('OVERVIEW')}
+                      />
+                    ) : (
+                      <div className="flex-1 flex flex-col items-center justify-center p-12 text-slate-400">
+                        <div className="w-16 h-16 mb-4 rounded-full bg-slate-800 flex items-center justify-center">
+                          <Search className="w-8 h-8 text-slate-500" />
+                        </div>
+                        <h3 className="text-xl font-display font-bold text-white mb-2">Analyze Workspace</h3>
+                        <p>Select a security from Discover or search by symbol.</p>
+                      </div>
+                    )}
+                  </Suspense>
+                </div>
               )}
 
               {activeTab === 'PORTFOLIO' && (
@@ -1826,193 +1864,31 @@ export default function App() {
                     annualFyData={annualFyData}
                     benchmarkSymbol={benchmarkSymbol}
                     onBenchmarkChange={handleBenchmarkChange}
-                    showStockDrilldown={(sym) => setSelectedStock(sym)}
+                    showStockDrilldown={(sym) => setSelectedIntelligenceSymbol(sym)}
                     formatCurrency={formatCurrency}
                     setActiveTab={setActiveTab}
                   />
                 </Suspense>
               )}
 
-              {(activeTab === 'MASTER_DOSSIER' || activeTab === 'ANALYZE') && (
-                <Suspense fallback={<LazyFallback />}>
-                  <MasterQuantDossier11TabsView />
-                </Suspense>
-              )}
-
-              {(activeTab === 'DISCOVER' || activeTab === 'OPPORTUNITY_ENGINE' || activeTab === 'MULTIBAGGER' || activeTab === 'SENTINEL' || activeTab === 'MOMENTUM_VPA' || activeTab === 'GREENFIELD_PORTAL') && (
-                <Suspense fallback={<LazyFallback />}>
-                  <DiscoverWorkspace
-                    initialSubTab={
-                      activeTab === 'MULTIBAGGER' ? 'MULTIBAGGER' :
-                      activeTab === 'SENTINEL' ? 'SENTINEL' :
-                      activeTab === 'MOMENTUM_VPA' ? 'MOMENTUM_VPA' :
-                      activeTab === 'GREENFIELD_PORTAL' ? 'GREENFIELD' :
-                      'OPPORTUNITY_ENGINE'
-                    }
-                    onSelectStock={(sym) => setSelectedStock(sym)}
-                    selectedPortfolio={selectedPortfolio}
-                  />
-                </Suspense>
-              )}
-
-              {(activeTab === 'RESEARCH' || activeTab === 'QUANT_TECHNICAL_STUDIO' || activeTab === 'QUANT_V5' || activeTab === 'TECHNICAL_STRATEGIES' || activeTab === 'MOMENTUM_VPA' || activeTab === 'GREENFIELD_PORTAL' || activeTab === 'REPORT_STUDIO') && (
+              {activeTab === 'RESEARCH' && (
                 <Suspense fallback={<LazyFallback />}>
                   <ResearchWorkspace
-                    initialSubTab={
-                      activeTab === 'TECHNICAL_STRATEGIES' ? 'TECHNICAL' :
-                      activeTab === 'REPORT_STUDIO' ? 'REPORTS' :
-                      'QUANT_STUDIO'
-                    }
+                    initialSubTab="QUANT_STUDIO"
                     currentMemberId={currentMemberId}
                     selectedPortfolio={selectedPortfolio}
                     portfolios={portfolios}
                     formatCurrency={formatCurrency}
-                    showStockDrilldown={(sym) => setSelectedStock(sym)}
-                    onSelectScrip={(sym) => setSelectedStock(sym)}
+                    showStockDrilldown={(sym) => setSelectedIntelligenceSymbol(sym)}
+                    onSelectScrip={(sym) => setSelectedIntelligenceSymbol(sym)}
                   />
                 </Suspense>
               )}
 
-              {activeTab === 'FORENSIC_INTELLIGENCE' && (
-                <Suspense fallback={<LazyFallback />}>
-                  <ForensicIntelligenceMasterView />
-                </Suspense>
-              )}
-
-              {activeTab === 'ANALYTICS' && (
-                <Suspense fallback={<LazyFallback />}>
-                  <InstitutionalAnalyticsHub
-                    selectedPortfolio={selectedPortfolio}
-                    setSelectedPortfolio={setSelectedPortfolio}
-                    portfolios={portfolios}
-                    formatCurrency={formatCurrency}
-                    showStockDrilldown={(sym) => setSelectedStock(sym)}
-                  />
-                </Suspense>
-              )}
-
-              {(activeTab === 'SENTINEL' || activeTab === 'OPPORTUNITIES') && (
-                <Suspense fallback={<LazyFallback />}>
-                  <OpportunityHubView
-                    selectedPortfolio={selectedPortfolio}
-                    onSelectScrip={(sym) => setSelectedStock(sym)}
-                  />
-                </Suspense>
-              )}
-
-              {activeTab === 'STRATEGY_EDITOR' && (
-                <Suspense fallback={<LazyFallback />}>
-                  <StrategyParameterEditorView />
-                </Suspense>
-              )}
-
-              {activeTab === 'REPORT_STUDIO' && (
-                <Suspense fallback={<LazyFallback />}>
-                  <ReportStudioView
-                    currentMemberId={currentMemberId}
-                    selectedPortfolio={selectedPortfolio}
-                    portfolios={portfolios}
-                    formatCurrency={formatCurrency}
-                    showStockDrilldown={(sym) => setSelectedStock(sym)}
-                  />
-                </Suspense>
-              )}
-
-              {activeTab === 'TAX_REPATRIATION' && (
-                <Suspense fallback={<LazyFallback />}>
-                  <NriTaxRepatriationHub
-                    selectedPortfolio={selectedPortfolio}
-                    portfolios={portfolios}
-                    currentMemberId={currentMemberId}
-                  />
-                </Suspense>
-              )}
-
-              {activeTab === 'FAMILY' && (
-                <Suspense fallback={<LazyFallback />}>
-                  <FamilyBenchmarkManagerView
-                    portfolios={portfolios}
-                    selectedPortfolio={selectedPortfolio}
-                    onPortfolioChange={setSelectedPortfolio}
-                    formatCurrency={formatCurrency}
-                  />
-                </Suspense>
-              )}
-
-              {activeTab === 'MAPPINGS' && (
-                <Suspense fallback={<LazyFallback />}>
-                  <AssetScripMappingView />
-                </Suspense>
-              )}
-
-              {activeTab === 'LEDGER' && (
-                <Suspense fallback={<LazyFallback />}>
-                  <LedgerHubView
-                    selectedPortfolio={selectedPortfolio}
-                    setSelectedPortfolio={setSelectedPortfolio}
-                    portfolios={portfolios}
-                    onAddTransaction={handleAddTransaction}
-                    onEditTransaction={handleEditTransaction}
-                    onDeleteTransaction={handleDeleteTransaction}
-                    onBulkAction={handleBulkAction}
-                    formatCurrency={formatCurrency}
-                    onApplyPendingCorporateActions={handleApplyPendingCorporateActions}
-                    onAddCorporateAction={handleAddCorporateAction}
-                    onEditCorporateAction={handleEditCorporateAction}
-                    onDeleteCorporateAction={handleDeleteCorporateAction}
-                  />
-                </Suspense>
-              )}
-
-              {activeTab === 'IMPORTS' && (
-                <Suspense fallback={<LazyFallback />}>
-                  <ImportsHubView
-                    portfolios={portfolios}
-                    pmsPortfolios={pmsPortfolios}
-                    selectedPortfolio={selectedPortfolio}
-                    onPortfolioChange={setSelectedPortfolio}
-                    onValidateBulk={handleBulkValidateUpload}
-                    onCommitBulk={handleBulkCommitUpload}
-                    onUndoBatch={handleUndoBatchRollback}
-                    onReconcile={handleReconcileUpload}
-                    onPMSUpload={handlePMSUpload}
-                    onAddTransaction={handleAddTransaction}
-                    formatCurrency={formatCurrency}
-                  />
-                </Suspense>
-              )}
-
-              {activeTab === 'INTELLIGENCE' && (
-                <div className="p-4 max-w-[1600px] mx-auto space-y-6">
-                  <Suspense fallback={<LazyFallback />}>
-                    <StockDossierView
-                      symbol={selectedIntelligenceSymbol || 'HAL'}
-                      isOpen={false}
-                      formatCurrency={formatCurrency}
-                    />
-                  </Suspense>
-                </div>
-              )}
-
-              {selectedIntelligenceSymbol && (
-                <Suspense fallback={<LazyFallback />}>
-                  <StockIntelligenceView
-                    symbol={selectedIntelligenceSymbol}
-                    onClose={() => setSelectedIntelligenceSymbol(null)}
-                  />
-                </Suspense>
-              )}
-
-              {(activeTab === 'SETTINGS' || activeTab === 'AUDIT' || activeTab === 'IMPORTS' || activeTab === 'MAPPINGS' || activeTab === 'FAMILY' || activeTab === 'TAX_REPATRIATION') && (
+              {activeTab === 'AUDIT' && (
                 <Suspense fallback={<LazyFallback />}>
                   <AuditWorkspace
-                    initialSubTab={
-                      activeTab === 'IMPORTS' ? 'IMPORTS' :
-                      activeTab === 'MAPPINGS' ? 'MAPPINGS' :
-                      activeTab === 'FAMILY' ? 'FAMILY' :
-                      activeTab === 'TAX_REPATRIATION' ? 'TAX' :
-                      'SETTINGS'
-                    }
+                    initialSubTab="SETTINGS"
                     showToast={showToast}
                     triggerLoader={triggerLoader}
                     onAddTicker={handleAddTicker}
@@ -2039,13 +1915,8 @@ export default function App() {
                 </Suspense>
               )}
 
-              {/* Not Found Recovery — explicit page for any unknown tab/route */}
               {![
-                'OVERVIEW', 'COMMAND_CENTER', 'PORTFOLIO', 'MASTER_DOSSIER', 'ANALYZE',
-                'DISCOVER', 'OPPORTUNITY_ENGINE', 'MULTIBAGGER', 'SENTINEL', 'MOMENTUM_VPA', 'GREENFIELD_PORTAL',
-                'RESEARCH', 'QUANT_TECHNICAL_STUDIO', 'QUANT_V5', 'TECHNICAL_STRATEGIES', 'REPORT_STUDIO',
-                'AUDIT', 'SETTINGS', 'IMPORTS', 'MAPPINGS', 'FAMILY', 'TAX_REPATRIATION',
-                'FORENSIC_INTELLIGENCE', 'ANALYTICS', 'STRATEGY_EDITOR', 'SENTINEL', 'OPPORTUNITIES', 'LEDGER', 'INTELLIGENCE'
+                'OVERVIEW', 'DISCOVER', 'ANALYZE', 'PORTFOLIO', 'RESEARCH', 'AUDIT'
               ].includes(activeTab) && (
                 <Suspense fallback={<LazyFallback />}>
                   <NotFoundRecoveryView
@@ -2090,9 +1961,9 @@ export default function App() {
       {/* Unified Mobile Bottom Navigation Bar (Fast 1-Tap Switching on Phone/Termux) */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-xl border-t border-slate-800/90 px-1 py-1 flex items-center justify-around shadow-2xl safe-area-pb">
         <button
-          onClick={() => { setActiveTab('COMMAND_CENTER'); setShowMobileMenu(false); }}
+          onClick={() => { setActiveTab('OVERVIEW'); setShowMobileMenu(false); }}
           className={`flex flex-col items-center gap-0.5 py-1 px-1.5 rounded-xl transition-all cursor-pointer min-w-[50px] ${
-            activeTab === 'COMMAND_CENTER'
+            activeTab === 'OVERVIEW'
               ? 'text-cyan-400 font-bold bg-cyan-500/15 border border-cyan-500/30'
               : 'text-slate-400 hover:text-slate-200'
           }`}
@@ -2116,9 +1987,9 @@ export default function App() {
         </button>
 
         <button
-          onClick={() => { setActiveTab('OPPORTUNITY_ENGINE'); setShowMobileMenu(false); }}
+          onClick={() => { setActiveTab('DISCOVER'); setShowMobileMenu(false); }}
           className={`flex flex-col items-center gap-0.5 py-1 px-1.5 rounded-xl transition-all cursor-pointer min-w-[50px] ${
-            activeTab === 'OPPORTUNITY_ENGINE'
+            activeTab === 'DISCOVER'
               ? 'text-cyan-400 font-bold bg-cyan-500/15 border border-cyan-500/30'
               : 'text-slate-400 hover:text-slate-200'
           }`}
@@ -2129,9 +2000,9 @@ export default function App() {
         </button>
 
         <button
-          onClick={() => { setActiveTab('TAX_REPATRIATION'); setShowMobileMenu(false); }}
+          onClick={() => { setActiveTab('AUDIT'); setShowMobileMenu(false); }}
           className={`flex flex-col items-center gap-0.5 py-1 px-1.5 rounded-xl transition-all cursor-pointer min-w-[50px] ${
-            activeTab === 'TAX_REPATRIATION'
+            activeTab === 'AUDIT'
               ? 'text-amber-400 font-bold bg-amber-500/15 border border-amber-500/30'
               : 'text-slate-400 hover:text-slate-200'
           }`}
@@ -2142,9 +2013,9 @@ export default function App() {
         </button>
 
         <button
-          onClick={() => { setActiveTab('LEDGER'); setShowMobileMenu(false); }}
+          onClick={() => { setActiveTab('PORTFOLIO'); setShowMobileMenu(false); }}
           className={`flex flex-col items-center gap-0.5 py-1 px-1.5 rounded-xl transition-all cursor-pointer min-w-[50px] ${
-            activeTab === 'LEDGER'
+            activeTab === 'PORTFOLIO'
               ? 'text-indigo-400 font-bold bg-indigo-500/15 border border-indigo-500/30'
               : 'text-slate-400 hover:text-slate-200'
           }`}
@@ -2202,9 +2073,9 @@ export default function App() {
 
               <div className="grid grid-cols-2 gap-2.5">
                 <button
-                  onClick={() => { setActiveTab('OPPORTUNITY_ENGINE'); setShowMobileMenu(false); }}
+                  onClick={() => { setActiveTab('DISCOVER'); setShowMobileMenu(false); }}
                   className={`p-3 rounded-xl border text-left flex flex-col gap-1 cursor-pointer transition-all ${
-                    activeTab === 'OPPORTUNITY_ENGINE'
+                    activeTab === 'DISCOVER'
                       ? 'bg-cyan-500/15 border-cyan-500/40 text-cyan-300 font-bold'
                       : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700'
                   }`}
@@ -2215,9 +2086,9 @@ export default function App() {
                 </button>
 
                 <button
-                  onClick={() => { setActiveTab('IMPORTS'); setShowMobileMenu(false); }}
+                  onClick={() => { setActiveTab('AUDIT'); setShowMobileMenu(false); }}
                   className={`p-3 rounded-xl border text-left flex flex-col gap-1 cursor-pointer transition-all ${
-                    activeTab === 'IMPORTS'
+                    activeTab === 'AUDIT'
                       ? 'bg-amber-500/15 border-amber-500/40 text-amber-300 font-bold'
                       : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700'
                   }`}
@@ -2228,9 +2099,9 @@ export default function App() {
                 </button>
 
                 <button
-                  onClick={() => { setActiveTab('INTELLIGENCE'); setShowMobileMenu(false); }}
+                  onClick={() => { setActiveTab('ANALYZE'); setShowMobileMenu(false); }}
                   className={`p-3 rounded-xl border text-left flex flex-col gap-1 cursor-pointer transition-all ${
-                    activeTab === 'INTELLIGENCE'
+                    activeTab === 'ANALYZE'
                       ? 'bg-cyan-500/15 border-cyan-500/40 text-cyan-300 font-bold'
                       : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700'
                   }`}
@@ -2241,9 +2112,9 @@ export default function App() {
                 </button>
 
                 <button
-                  onClick={() => { setActiveTab('FAMILY'); setShowMobileMenu(false); }}
+                  onClick={() => { setActiveTab('AUDIT'); setShowMobileMenu(false); }}
                   className={`p-3 rounded-xl border text-left flex flex-col gap-1 cursor-pointer transition-all ${
-                    activeTab === 'FAMILY'
+                    activeTab === 'AUDIT'
                       ? 'bg-blue-500/15 border-blue-500/40 text-blue-300 font-bold'
                       : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700'
                   }`}
@@ -2254,9 +2125,9 @@ export default function App() {
                 </button>
 
                 <button
-                  onClick={() => { setActiveTab('MAPPINGS'); setShowMobileMenu(false); }}
+                  onClick={() => { setActiveTab('AUDIT'); setShowMobileMenu(false); }}
                   className={`p-3 rounded-xl border text-left flex flex-col gap-1 cursor-pointer transition-all ${
-                    activeTab === 'MAPPINGS'
+                    activeTab === 'AUDIT'
                       ? 'bg-indigo-500/15 border-indigo-500/40 text-indigo-300 font-bold'
                       : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700'
                   }`}
@@ -2267,9 +2138,9 @@ export default function App() {
                 </button>
 
                 <button
-                  onClick={() => { setActiveTab('SETTINGS'); setShowMobileMenu(false); }}
+                  onClick={() => { setActiveTab('AUDIT'); setShowMobileMenu(false); }}
                   className={`p-3 rounded-xl border text-left flex flex-col gap-1 cursor-pointer transition-all ${
-                    activeTab === 'SETTINGS'
+                    activeTab === 'AUDIT'
                       ? 'bg-sky-500/15 border-sky-500/40 text-sky-300 font-bold'
                       : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700'
                   }`}
@@ -2402,7 +2273,7 @@ export default function App() {
           selectedPortfolio={selectedPortfolio}
           portfolios={portfolios}
           formatCurrency={formatCurrency}
-          onOpenReportStudio={() => setActiveTab('REPORT_STUDIO')}
+          onOpenReportStudio={() => setActiveTab('RESEARCH')}
         />
       </Suspense>
 

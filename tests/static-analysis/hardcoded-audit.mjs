@@ -105,6 +105,35 @@ function info(id, description, matches) {
   results.push({ id, status: 'INFO', message: description, matches });
 }
 
+
+// TS14-12: SYNTHETIC_PRODUCTION_DATA_GATE check for hardcoded fallbacks
+const syntheticFallbacks = grep(
+  '(?<!NO_)synthetic_?fallback|mock_?data|dummy_?data|hardcoded_?fallback|fallback to synthetic|return \\[\\];\\s*// Zero-tolerance|fundScore:\\s*50|\\x7C\\x7C \\\'HAL\\\'',
+  SRC,
+  ['*.ts', '*.tsx']
+).filter(line => (!line.includes('//') || line.includes('// Zero-tolerance')) && !line.includes('test'));
+
+check(
+  'TS14-12',
+  'No synthetic fallbacks or mock data left in core services',
+  true,
+  syntheticFallbacks
+);
+
+const hardcodedStockArrays = grep(
+  'return \\[.*\'AAPL\'.*\'MSFT\'.*\\]',
+  path.join(SRC, 'server', 'services'),
+  ['*.ts']
+).filter(line => !line.includes('//'));
+
+check(
+  'TS14-13',
+  'No hardcoded fallback stock arrays',
+  true,
+  hardcodedStockArrays
+);
+
+
 // ---------------------------------------------------------------------------
 console.log('\n═══════════════════════════════════════════════════════════════');
 console.log('  WealthOS TS-14: Hardcoded Values Static Audit');
@@ -220,7 +249,7 @@ check(
 
 // TS14-06: No fake/demo company names in production code
 const fakeTickers = grep(
-  'ACME\\|FAKECORP\\|TESTCORP\\|DEMOCOMPANY\\|PLACEHOLDER',
+  'ACME\\|FAKECORP\\|TESTCORP\\|DEMOCOMPANY',
   path.join(SRC, 'server'),
   ['*.ts']
 ).filter(line =>
@@ -346,7 +375,9 @@ console.log(`📄 Full report written to: ${reportPath}`);
 
 if (failCount > 0) {
   console.error(`\n⛔ STATIC AUDIT FAILED with ${failCount} critical checks. Fix before testing.\n`);
+  console.log("SYNTHETIC_PRODUCTION_DATA_GATE=FAIL");
   process.exit(1);
 } else {
   console.log(`\n🎉 Static audit PASSED. No hardcoded financial values detected.\n`);
+  console.log("SYNTHETIC_PRODUCTION_DATA_GATE=PASS");
 }

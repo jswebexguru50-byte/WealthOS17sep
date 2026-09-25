@@ -3,8 +3,8 @@
   "name": "Bollinger Band Volatility Breakout",
   "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
   "functionName": "evaluateS5",
-  "startLine": 2434,
-  "endLine": 2474,
+  "startLine": 20,
+  "endLine": 60,
   "inputs": [
     "Daily OHLCV"
   ],
@@ -45,9 +45,9 @@
   "timestampSemantics": "EOD Close Available At 16:00 IST",
   "sourceEvidence": {
     "file": "src/server/services/PureTechnicalStrategiesEngine.ts",
-    "startLine": 2434,
-    "endLine": 2474,
+    "startLine": 20,
+    "endLine": 60,
     "symbol": "evaluateS5",
-    "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+    "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
   }
 }

@@ -27,6 +27,9 @@ describe('DEF-001: ValuationSnapshots Timestamp Semantics & Fail-Closed Guard', 
             trigger_source TEXT NOT NULL,
             drift_pct REAL DEFAULT 0,
             drift_alert TEXT,
+            observationDate TEXT,
+            observationTimestamp TEXT,
+            timestampPrecision TEXT,
             created_at TEXT DEFAULT CURRENT_TIMESTAMP
           )
         `);
@@ -46,6 +49,7 @@ describe('DEF-001: ValuationSnapshots Timestamp Semantics & Fail-Closed Guard', 
             holding_type TEXT NOT NULL,
             price_authority TEXT,
             data_source TEXT,
+            ltp REAL DEFAULT 0,
             last_update TEXT
           )
         `);

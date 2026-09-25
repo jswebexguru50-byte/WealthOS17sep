@@ -1,6 +1,6 @@
 {
   "status": "PHASE2_VERIFIED",
-  "timestamp": "2026-09-20T09:10:38.337Z",
+  "timestamp": "2026-09-25T07:05:06.231Z",
   "gitCommitSha": "40b88c4080145417ba1083b917387f7d024b1001",
   "datasetVersion": "V674-S110-V1",
   "datasetHash": "26F39782D388A233F444F7BF046CC765D59554C355DA9DC9B985B60470024FE9",
@@ -49,9 +49,9 @@
     "parameterHashesMatch": true,
     "outcomeHashesMatch": true,
     "transitionAuditComplete": true,
-    "staleArtifacts": 0,
+    "staleArtifactsZero": true,
     "frozenControlsUnchanged": true,
-    "databaseWritesUnexpected": 0,
+    "databaseWritesUnexpectedZero": true,
     "allCriticalTestsPass": true
   },
   "outputArtifacts": [

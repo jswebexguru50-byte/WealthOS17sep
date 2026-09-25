@@ -34,7 +34,7 @@ export interface OptionsIntelligence {
   portfolioVerdict: string;
 }
 
-export interface ForwardConsensus {
+export interface ForwardModelScenario {
   baseTarget: number;
   bullTarget: number;
   bearTarget: number;
@@ -90,7 +90,7 @@ export interface TechnicalAnalysisResult {
   };
   pivots: PivotPoints;
   optionsAnalytics: OptionsIntelligence;
-  forwardOutlook: ForwardConsensus;
+  modelScenario: ForwardModelScenario;
   patterns: string[];
   technicalScore: number;
   executiveVerdict: ExecutiveVerdict;
@@ -242,16 +242,16 @@ export class TechnicalAnalysisEngine {
         : 'No derivatives overhang. Institutional flows reflect direct equity delivery accumulation.';
     }
 
-    // Forward Consensus Targets
-    const baseTarget = Number((latestClose * (1 + (technicalScore > 50 ? 0.08 : -0.04))).toFixed(2));
-    const bullTarget = Number((latestClose * 1.20).toFixed(2));
-    const bearTarget = Number((latestClose * 0.88).toFixed(2));
+    // Forward Model Scenarios (Based on Technicals)
+    const baseTarget = Number((latestClose > pivot ? r1 : s1).toFixed(2));
+    const bullTarget = Number(r2.toFixed(2));
+    const bearTarget = Number(s2.toFixed(2));
     const upsidePct = Number((((bullTarget - latestClose) / latestClose) * 100).toFixed(1));
     const downsidePct = Number((((latestClose - bearTarget) / latestClose) * 100).toFixed(1));
-    const riskRewardRatio = Number((upsidePct / Math.max(1, downsidePct)).toFixed(2));
-    const forwardPeEstimated = Number((24.5 * (100 / technicalScore)).toFixed(1));
-    const forwardEpsGrowthPct = Number((14.5 + (technicalScore - 50) * 0.25).toFixed(1));
-    const earningsHorizonDays = Math.floor(25 + ((latestClose % 50) / 50) * 60);
+    const riskRewardRatio = Number((Math.max(0, upsidePct) / Math.max(1, Math.abs(downsidePct))).toFixed(2));
+    const forwardPeEstimated = null;
+    const forwardEpsGrowthPct = null;
+    const earningsHorizonDays = null;
 
     // Layman Dictionary
     const rsiMeaning = latestRsi < 30
@@ -368,7 +368,7 @@ export class TechnicalAnalysisEngine {
         laymanMeaning: optionsMeaning,
         portfolioVerdict: optionsVerdict
       },
-      forwardOutlook: {
+      modelScenario: {
         baseTarget,
         bullTarget,
         bearTarget,
@@ -378,7 +378,7 @@ export class TechnicalAnalysisEngine {
         forwardPeEstimated,
         forwardEpsGrowthPct,
         earningsHorizonDays,
-        laymanMeaning: `Consensus expects ${upsidePct}% upside in Bull Case vs ${downsidePct}% downside in Bear Case (Risk-Reward ${riskRewardRatio}:1).`
+        laymanMeaning: `MODEL SCENARIO — NOT CONSENSUS: Technical projection maps ${upsidePct}% upside to R2 vs ${Math.abs(downsidePct)}% downside to S2 (Risk-Reward ${riskRewardRatio}:1).`
       },
       patterns: isBbSqueeze ? ['Bollinger Squeeze (Explosive Breakout Watch)'] : (latestClose > latestSma200 ? ['Golden Multi-Month Support'] : []),
       technicalScore,

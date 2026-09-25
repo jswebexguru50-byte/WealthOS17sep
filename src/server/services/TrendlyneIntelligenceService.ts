@@ -65,10 +65,12 @@ export interface TrendlyneIntelligenceReport {
   analystConsensus: AnalystConsensus;
   checklists: InstitutionalChecklists;
   forecaster: {
-    revenueGrowth1YExpectedPct: number;
-    profitGrowth1YExpectedPct: number;
-    epsForward: number;
-    peForward: number;
+    revenueGrowth1YExpectedPct: number | null;
+    profitGrowth1YExpectedPct: number | null;
+    epsForward: number | null;
+    peForward: number | null;
+    status?: string;
+    note?: string;
   };
   cachedAt: string;
 }
@@ -142,7 +144,9 @@ export class TrendlyneIntelligenceService {
       const pRow = await dbGet(db, "SELECT close_price FROM HistoricalPrices WHERE symbol = ? ORDER BY date DESC LIMIT 1", [cleanSym]).catch(() => null);
       if (pRow && pRow.close_price > 0) cmp = pRow.close_price;
     }
-    if (cmp === 0) cmp = 1000; // sensible fallback
+    if (cmp === 0 || cmp == null) {
+      return { status: 'DATA_INSUFFICIENT', symbol: cleanSym } as any;
+    }
 
     // Compute Trendlyne DVM Scores
     const dvm = this.calculateDVM(cleanSym, screenerData, cmp);
@@ -151,8 +155,6 @@ export class TrendlyneIntelligenceService {
     const checklists = this.computeChecklists(cleanSym, screenerData, dvm);
 
     const peRatio = parseFloat(screenerData?.ratios?.stock_pe || '30');
-    const eps = cmp > 0 && peRatio > 0 ? cmp / peRatio : 10;
-    const forwardEps = eps * 1.18; // 18% expected forward earnings growth
 
     const report: TrendlyneIntelligenceReport = {
       symbol: cleanSym,
@@ -165,10 +167,12 @@ export class TrendlyneIntelligenceService {
       analystConsensus,
       checklists,
       forecaster: {
-        revenueGrowth1YExpectedPct: 18.5,
-        profitGrowth1YExpectedPct: 22.4,
-        epsForward: Number(forwardEps.toFixed(2)),
-        peForward: Number((peRatio > 0 ? peRatio * 0.85 : 25).toFixed(1))
+        revenueGrowth1YExpectedPct: null,
+        profitGrowth1YExpectedPct: null,
+        epsForward: null,
+        peForward: null,
+        status: 'SOURCE_UNAVAILABLE',
+        note: 'Forward estimates require a verified consensus provider'
       },
       cachedAt: new Date().toISOString()
     };

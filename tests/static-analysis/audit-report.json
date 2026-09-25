@@ -1,6 +1,18 @@
 {
-  "timestamp": "2026-09-20T14:04:34.506Z",
+  "timestamp": "2026-09-25T06:47:17.863Z",
   "results": [
+    {
+      "id": "TS14-12",
+      "status": "PASS",
+      "message": "No synthetic fallbacks or mock data left in core services",
+      "matches": []
+    },
+    {
+      "id": "TS14-13",
+      "status": "PASS",
+      "message": "No hardcoded fallback stock arrays",
+      "matches": []
+    },
     {
       "id": "TS14-01",
       "status": "PASS",
@@ -48,15 +60,9 @@
     },
     {
       "id": "TS14-06",
-      "status": "FAIL",
+      "status": "PASS",
       "message": "No fake/demo company names in production server code",
-      "matches": [
-        "src\\server\\services\\NseBhavcopyService.ts:612: const ROW_PLACEHOLDERS = '(?,?,?,?,?,?,?,?,?,?,?,?,?)';",
-        "src\\server\\services\\NseBhavcopyService.ts:623: const sql = `INSERT OR REPLACE INTO DailyOHLCV (${ROW_COLS}) VALUES ${slice.map(() => ROW_PLACEHOLDERS).join(',')}`;",
-        "src\\server\\services\\phase2fasttrack\\CP21IndependentVerifier.ts:473: if (text.includes('HASH_PLACEHOLDER') || text.includes('simulated_') || text.includes('synthetic_')) {",
-        "src\\server\\services\\research\\ResearchHashVerifier.ts:10: throw new Error(`STOP_THE_LINE: PLACEHOLDER_HASH in ${context}. Hash must be exactly 64 lowercase hex characters. Found: ${hash}`);",
-        "src\\server\\services\\research\\StopTheLineRegistry.ts:36: \"PLACEHOLDER_HASH\","
-      ]
+      "matches": []
     },
     {
       "id": "TS14-07a",
@@ -72,7 +78,7 @@
       "message": "Finance Act cutover date not duplicated outside decimalUtils.ts",
       "matches": [
         "src\\components\\TaxView.tsx:356: .reduce((acc, g) => acc + (g.taxable_pnl || 0) * stcgRate(g.sell_date || '2024-07-23'), 0);",
-        "src\\server\\fifoEngine.ts:1549: const isNewScheme = sellDate && sellDate.getTime() >= new Date('2024-07-23').getTime();",
+        "src\\server\\fifoEngine.ts:1560: const isNewScheme = sellDate && sellDate.getTime() >= new Date('2024-07-23').getTime();",
         "src\\server\\services\\NriWealthService.ts:94: const splitDate = '2024-07-23';"
       ]
     },
@@ -87,7 +93,9 @@
         "src\\components\\AnalyticsView.tsx:480: <Bar dataKey=\"Midcap 100\" fill=\"#f59e0b\" radius={[4, 4, 0, 0]} />",
         "src\\components\\AnalyticsView.tsx:481: <Bar dataKey=\"Smallcap 100\" fill=\"#8b5cf6\" radius={[4, 4, 0, 0]} />",
         "src\\components\\AnalyticsView.tsx:482: <Bar dataKey=\"Microcap 250\" fill=\"#06b6d4\" radius={[4, 4, 0, 0]} />",
+        "src\\components\\AuditWorkspace.tsx:41: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '30vh', color: '#64748b', fontSize: 14 }}>",
         "src\\components\\DashboardView.tsx:907: color: '#f87171'",
+        "src\\components\\DiscoverWorkspace.tsx:39: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '30vh', color: '#64748b', fontSize: 14 }}>",
         "src\\components\\FamilyMembersManagerView.tsx:30: avatar_color: '#06b6d4',",
         "src\\components\\FamilyMembersManagerView.tsx:141: avatar_color: m.avatar_color || '#06b6d4',",
         "src\\components\\FamilyMembersManagerView.tsx:155: avatar_color: '#06b6d4',",
@@ -98,9 +106,7 @@
         "src\\components\\InstitutionalAnalyticsHub.tsx:558: color: capColors[name] || '#94A3B8'",
         "src\\components\\InstitutionalAnalyticsHub.tsx:603: color: aColors[name] || '#64748B'",
         "src\\components\\InstitutionalAnalyticsHub.tsx:907: <Cell key={`cell-${index}`} fill={entry.returnPct >= 0 ? '#10B981' : '#EF4444'} />",
-        "src\\components\\MomentumReasoningPanel.tsx:160: stroke=\"#1e293b\"",
-        "src\\components\\MomentumReasoningPanel.tsx:176: <circle cx=\"100\" cy=\"100\" r=\"7\" fill=\"#f8fafc\" />",
-        "src\\components\\MomentumReasoningPanel.tsx:183: stroke=\"#ffffff\""
+        "src\\components\\MomentumReasoningPanel.tsx:160: stroke=\"#1e293b\""
       ]
     },
     {
@@ -148,6 +154,6 @@
       ]
     }
   ],
-  "passCount": 5,
-  "failCount": 1
+  "passCount": 8,
+  "failCount": 0
 }

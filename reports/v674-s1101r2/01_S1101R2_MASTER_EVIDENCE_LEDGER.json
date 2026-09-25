@@ -10,90 +10,90 @@
         "name": "Technical Strategy S1",
         "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
         "functionName": "evaluateS1",
-        "startLine": 739,
-        "endLine": 779,
-        "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+        "startLine": 756,
+        "endLine": 796,
+        "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
       },
       {
         "strategyId": "S2",
         "name": "Technical Strategy S2",
         "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
         "functionName": "evaluateS2",
-        "startLine": 1126,
-        "endLine": 1166,
-        "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+        "startLine": 1143,
+        "endLine": 1183,
+        "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
       },
       {
         "strategyId": "S3",
         "name": "Technical Strategy S3",
         "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
         "functionName": "evaluateS3",
-        "startLine": 1605,
-        "endLine": 1645,
-        "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+        "startLine": 18,
+        "endLine": 58,
+        "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
       },
       {
         "strategyId": "S4",
         "name": "Technical Strategy S4",
         "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
         "functionName": "evaluateS4",
-        "startLine": 2119,
-        "endLine": 2159,
-        "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+        "startLine": 19,
+        "endLine": 59,
+        "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
       },
       {
         "strategyId": "S5",
         "name": "Technical Strategy S5",
         "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
         "functionName": "evaluateS5",
-        "startLine": 2434,
-        "endLine": 2474,
-        "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+        "startLine": 20,
+        "endLine": 60,
+        "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
       },
       {
         "strategyId": "S6",
         "name": "Technical Strategy S6",
         "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
         "functionName": "evaluateS6",
-        "startLine": 2519,
-        "endLine": 2559,
-        "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+        "startLine": 2557,
+        "endLine": 2597,
+        "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
       },
       {
         "strategyId": "S7",
         "name": "Technical Strategy S7",
         "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
         "functionName": "evaluateS7",
-        "startLine": 2607,
-        "endLine": 2647,
-        "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+        "startLine": 2645,
+        "endLine": 2685,
+        "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
       },
       {
         "strategyId": "S8",
         "name": "Technical Strategy S8",
         "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
         "functionName": "evaluateS8",
-        "startLine": 2699,
-        "endLine": 2739,
-        "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+        "startLine": 2737,
+        "endLine": 2777,
+        "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
       },
       {
         "strategyId": "S9",
         "name": "Technical Strategy S9",
         "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
         "functionName": "evaluateS9",
-        "startLine": 2782,
-        "endLine": 2822,
-        "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+        "startLine": 2820,
+        "endLine": 2860,
+        "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
       },
       {
         "strategyId": "S10",
         "name": "Technical Strategy S10",
         "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
         "functionName": "evaluateS10",
-        "startLine": 2955,
-        "endLine": 2995,
-        "sourceHash": "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+        "startLine": 2993,
+        "endLine": 3033,
+        "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
       }
     ],
     "expectedValue": "Valid AST and file line references for all 10 technical strategies",
@@ -102,13 +102,13 @@
       "src/server/services/PureTechnicalStrategiesEngine.ts"
     ],
     "sourceHashes": [
-      "825FA6C067CF26AB28E15451ABEA80E1015EA15A8F24145102F7FC054977A2A3"
+      "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
     ],
     "artifactPath": "reports/v674-s1101r2/S1101R2_S1_S10_SOURCE_MAP.json",
-    "artifactHash": "E111F030239B7B02430BF0046B9C3084A1216D28F21180D2A0C25A325C0B855D",
+    "artifactHash": "A0FCF3D5EB0781A7FB1C2249416D7B5CA056A44FA7E4FA5B93B5A4E7C610E3C6",
     "datasetHash": "V674-S1101R2-V1-HASH",
     "reproducible": true,
-    "timestamp": "2026-09-20T09:11:29.195Z"
+    "timestamp": "2026-09-25T07:05:20.975Z"
   },
   {
     "evidenceId": "EVID_AGENT3_DOWNSTREAM_CHAIN_V2",
@@ -116,7 +116,7 @@
     "category": "TIMESTAMP",
     "claim": "Verified executable call paths across 13 downstream decision chain components; 0 timestamp violations.",
     "observedValue": {
-      "auditTimestamp": "2026-09-20T09:11:29.203Z",
+      "auditTimestamp": "2026-09-25T07:05:20.999Z",
       "datasetHash": "V2_DATASET_HASH",
       "componentsAuditedCount": 13,
       "totalInputsAudited": 165,
@@ -276,10 +276,10 @@
       "V2_DATASET_HASH"
     ],
     "artifactPath": "reports/v674-s1101r2/S1101R2_DOWNSTREAM_AUDIT.json",
-    "artifactHash": "0C4ACA2ADB51ADD8666349DAC7924589BDC243B973DD25A6F2C7204D0B224EB4",
+    "artifactHash": "70C7152780E4F3C2DA3F5F22BA3EE81814A5C0DEA6970B6BCA763E5B634A3253",
     "datasetHash": "V2_DATASET_HASH",
     "reproducible": true,
-    "timestamp": "2026-09-20T09:11:29.206Z"
+    "timestamp": "2026-09-25T07:05:21.004Z"
   },
   {
     "evidenceId": "EVID_AGENT4_CLEANROOM_REPLAY_V2",
@@ -287,7 +287,7 @@
     "category": "REPLAY",
     "claim": "Genuinely independent clean-room signal reconstruction of 4,500 signals matched production outputs with 0 import violations.",
     "observedValue": {
-      "auditTimestamp": "2026-09-20T09:11:29.218Z",
+      "auditTimestamp": "2026-09-25T07:05:21.029Z",
       "datasetHash": "V2_DATASET_HASH",
       "forbiddenDependencyCount": 0,
       "signalsReconstructedCount": 4500,
@@ -305,10 +305,10 @@
       "V2_DATASET_HASH"
     ],
     "artifactPath": "reports/v674-s1101r2/S1101R2_CLEAN_ROOM_AUDIT.json",
-    "artifactHash": "A316BB2283A2ACED9411AE3E296B2C248871CE414645EEDFB2F7BCA553A71F8A",
+    "artifactHash": "B741079F2435833BAEB0ABCAAA711C8E6AFB802056436EEAB109AEA1C527ED59",
     "datasetHash": "V2_DATASET_HASH",
     "reproducible": true,
-    "timestamp": "2026-09-20T09:11:29.220Z"
+    "timestamp": "2026-09-25T07:05:21.033Z"
   },
   {
     "evidenceId": "EVID_AGENT6_REDTEAM_V2",
@@ -316,7 +316,7 @@
     "category": "RED_TEAM",
     "claim": "Executed 24 adversarial contamination attacks against pipeline boundaries; 100% asserted fail-closed behavior.",
     "observedValue": {
-      "auditTimestamp": "2026-09-20T09:11:29.234Z",
+      "auditTimestamp": "2026-09-25T07:05:21.064Z",
       "datasetHash": "V2_DATASET_HASH",
       "totalAttacksExecuted": 24,
       "passedAttacks": 24,
@@ -527,9 +527,9 @@
       "V2_DATASET_HASH"
     ],
     "artifactPath": "reports/v674-s1101r2/S1101R2_REDTEAM_AUDIT.json",
-    "artifactHash": "5858A787D4DEDBB95D177687ED17FE65B1AA515D7FF5E1C3583DC9CE43E4B476",
+    "artifactHash": "11B4028E9334F08956ABF2AB2D6DED982C61C5B39009325A00321F0A55880F27",
     "datasetHash": "V2_DATASET_HASH",
     "reproducible": true,
-    "timestamp": "2026-09-20T09:11:29.237Z"
+    "timestamp": "2026-09-25T07:05:21.069Z"
   }
 ]

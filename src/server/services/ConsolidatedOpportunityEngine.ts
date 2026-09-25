@@ -494,7 +494,7 @@ export interface FiiDiiFlowPulse {
   netInstitutionalCr: number;
   fiiIndexFuturesLongPct: number;
   diiSipRunRateCr: number;
-  regime: 'DII_ABSORPTION_WALL' | 'DOUBLE_ENGINE_BUYING' | 'FII_DOMINATED_OUTFLOW' | 'BALANCED_STABILITY';
+  regime: 'DII_ABSORPTION_WALL' | 'DOUBLE_ENGINE_BUYING' | 'FII_DOMINATED_OUTFLOW' | 'BALANCED_STABILITY' | 'SOURCE_UNAVAILABLE';
   commentary: string;
 }
 
