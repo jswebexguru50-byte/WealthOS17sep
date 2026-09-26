@@ -45,7 +45,8 @@
     "fundamental:upstox": "cross-env NODE_OPTIONS=\"--require=./scripts/node_userinfo_fallback.cjs --use-system-ca\" tsx scripts/fundamental/run_upstox_fundamental_enrichment.ts",
     "fundamental:pipeline": "tsx scripts/fundamental/run_fundamental_pipeline.ts",
     "fundamental:sync": "python scripts/fundamental/sync_verified_fundamentals_package.py",
-    "fundamental:dossier": "node scripts/fundamental/build_selected_fundamental_dossier.mjs"
+    "fundamental:dossier": "node scripts/fundamental/build_selected_fundamental_dossier.mjs",
+    "dossier:combined": "python scripts/fundamental/merge_technical_fundamental_dossiers.py"
   },
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.1128.0",
