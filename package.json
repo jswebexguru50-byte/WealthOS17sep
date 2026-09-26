@@ -39,7 +39,13 @@
     "chatgpt-review:focused": "node scripts/chatgpt-review.js --focused",
     "verify:v672-r2": "tsx scripts/v672/run_v672_r2_master_verification.ts",
     "ai-review": "tsx tools/ai-review-server/src/server.ts",
-    "ai-review:tunnel": "powershell -ExecutionPolicy Bypass -File tools/ai-review-server/start-review-portal.ps1"
+    "ai-review:tunnel": "powershell -ExecutionPolicy Bypass -File tools/ai-review-server/start-review-portal.ps1",
+    "fundamental:filters": "tsx scripts/fundamental/run_filter_enrichment_daemon.ts",
+    "fundamental:priority": "tsx scripts/fundamental/build_priority_manifest.ts",
+    "fundamental:upstox": "cross-env NODE_OPTIONS=\"--require=./scripts/node_userinfo_fallback.cjs --use-system-ca\" tsx scripts/fundamental/run_upstox_fundamental_enrichment.ts",
+    "fundamental:pipeline": "tsx scripts/fundamental/run_fundamental_pipeline.ts",
+    "fundamental:sync": "python scripts/fundamental/sync_verified_fundamentals_package.py",
+    "fundamental:dossier": "node scripts/fundamental/build_selected_fundamental_dossier.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.1128.0",
