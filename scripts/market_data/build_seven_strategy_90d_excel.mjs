@@ -52,6 +52,7 @@ const files = {
   S2a: find('s2a_full_universe_90_'),
   S3a: find('s3a_full_universe_90_'),
   S4a: find('s4a_full_universe_90_'),
+  S4b: find('s4b_full_universe_90_'),
   S5a: find('s5a_full_universe_90_'),
 };
 
@@ -120,6 +121,12 @@ const specs = {
     ['Pullback ATR ratio', 'Pullback_ATR_Ratio', 'ratio'], ['Supply dry-up ratio', 'Supply_Dry_Up_Ratio', 'ratio'],
     ['Market cap (Cr) ₹', 'Market_Cap_Cr', 'price'], ['Measured rule checks', 'Rule_Checks', 'checks'],
   ]},
+  S4b: { color: '#0F766E', name: 'RSI-supported gap breakout', date: 'Signal_Date', fields: [
+    ['Signal date', 'Signal_Date', 'date'], ['Symbol', 'Symbol', 'text'], ['Signal close ₹', 'Signal_Price', 'price'],
+    ['Stop loss ₹', 'Stop_Loss', 'price'], ['Gap up %', 'Gap_Up_Pct', 'percent'],
+    ['RSI(14)', 'RSI14', 'number'], ['RSI support level', 'RSI_Support_Level', 'number'],
+    ['Bullish candle', 'Candle_Pattern', 'text'], ['Measured rule checks', 'Rule_Checks', 'checks'],
+  ]},
   S5a: { color: '#9F1239', name: 'Minervini winning stocks', date: 'Signal_Date', fields: [
     ['Signal date', 'Signal_Date', 'date'], ['Symbol', 'Symbol', 'text'], ['Signal close ₹', 'Signal_Price', 'price'],
     ['Entry ₹', 'Entry_Price', 'price'], ['Stop loss ₹', 'Stop_Loss', 'price'], ['Stop loss %', 'Stop_Loss_Pct', 'percent'],
@@ -150,7 +157,7 @@ const col = n => {
   return s;
 };
 
-const strategyIds = ['S1a', 'S1b', 'S2a', 'S3a', 'S4a', 'S5a'];
+const strategyIds = ['S1a', 'S1b', 'S2a', 'S3a', 'S4a', 'S4b', 'S5a'];
 
 for (const id of strategyIds) {
   const spec = specs[id], report = reports[id];
@@ -254,6 +261,7 @@ const core = {
   S2a: 'At least 20% initial advance, institutional-volume bullish fair-value gap, return to its 50% midpoint on quieter volume, and a bullish non-doji trigger. Excludes >50% weekly-low-to-peak advances and closes >25% below daily high.',
   S3a: 'Strict H2>H1 and L2>L1 pivots. P0-to-H1 rises at least 20% within five preceding sessions. Every bar from H1 to signal stays above a rising SMA50. Second-pullback ATR contracts. H1, L1, H2 and L2 each have an S1a bullish candle.',
   S4a: 'Breakouts with gaps in high-market-cap running stocks. Weekly pivot-5, price above 200 and 50 SMA, broad market indices above 20 EMA, 2%+ gap-up open, >=50% contraction pullback on volume dry-up, entry on swing-high break, stop 1% below daily lowest low.',
+  S4b: 'S4A variant: keeps the price, trend and 2% gap-up prerequisites, removes the broad-market and pullback/volume gates, and requires a non-doji bullish reversal pattern at RSI(14) support of 30, 40 or 50.',
   S5a: 'Mark Minervini winning-stocks setup. Within 25% of 52-week high, >=100% above 52-week low, 200 DMA rising >=3 months, 50 DMA > 200 DMA, 52-week high recurrence every 4–6 months, 2–3 VCP contractions (3–5 candles), final 5 sessions supply dry-up <=0.85x, entry on previous swing-high break, 2x ATR(20) stop (max 10%).',
 };
 
@@ -343,6 +351,7 @@ rows.push(['S1a', 'Implementation note', '90% Marubozu body + 1.0 ATR', 'Saved i
 rows.push(['S1b', 'Implementation note', '1.25x trigger volume', 'Saved implementation is stricter than the original 1.0x trigger-volume wording.', 'Code implementation']);
 rows.push(['S2a', 'Additional implementation gates', '20% initial move, 50% weekly cap, 25% close position', 'These were added after the original S2a prompt and are active in this scan.', 'Code implementation']);
 rows.push(['S4a', 'Prerequisites & Rules', 'Weekly pivot-5, 20K Cr mcap, 2%+ gap', 'Evaluated against broad market (Nifty 500, Midcap, Smallcap > 20 EMA) and 50% volume pullback.', 'Code implementation']);
+rows.push(['S4b', 'Prerequisites & Rules', '2%+ gap, RSI 30/40/50 support, bullish non-doji candle', 'Broad-market and pullback/volume gates are intentionally excluded. Permitted patterns: 90%/1 ATR marubozu, hammer, piercing, harami and engulfing.', 'Code implementation']);
 rows.push(['S5a', 'Prerequisites & Rules', 'Within 25% of 52W high, 100%+ above 52W low, rising 200 DMA, 2-3 VCPs', 'Strict Minervini criteria with supply dry-up <= 0.85 and 2x ATR stop (max 10%).', 'Code implementation']);
 
 definitions.getRange('A5:E5').values = [['Strategy', 'Parameter / rule', 'Value used', 'Plain-English meaning', 'Basis']];

@@ -4,6 +4,7 @@ import path from 'node:path';
 import { spawn } from 'node:child_process';
 import readline from 'node:readline';
 import { evaluateS5a, S5A_DEFAULTS } from '../../src/server/services/S5aMinerviniStrategy.ts';
+import { dedupeSameDaySignals } from './dedup_signals.mjs';
 
 const args = process.argv.slice(2);
 const arg = (key, fallback) => {
@@ -181,7 +182,9 @@ for await (const line of lines) {
 const code = await new Promise(resolve => child.on('close', resolve));
 if (code !== 0) throw new Error(`Candle stream failed (${code}): ${stderr.slice(-1200)}`);
 
-matches.sort((a, b) => b.Signal_Date.localeCompare(a.Signal_Date) || a.Symbol.localeCompare(b.Symbol));
+const rawMatchCount = matches.length;
+const dedupedMatches = dedupeSameDaySignals(matches);
+dedupedMatches.sort((a, b) => b.Signal_Date.localeCompare(a.Signal_Date) || a.Symbol.localeCompare(b.Symbol));
 await fs.mkdir(reportDir, { recursive: true });
 const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\..*/, 'Z');
 const output = path.join(reportDir, `s5a_full_universe_90_${asOfDate.replaceAll('-', '')}_${stamp}.json`);
@@ -199,7 +202,7 @@ const report = {
   symbols_covered: covered,
   symbols_with_period_candles: withPeriod,
   coverage_gaps: gaps,
-  matches,
+  matches: dedupedMatches,
   limitations: [
     'Evaluated using local adjusted Parquet store and weekly resampled candles.',
     '52-week high/low requires 52 completed weekly candles.',

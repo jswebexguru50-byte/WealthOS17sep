@@ -891,5 +891,40 @@ router.post('/generate-audit-record', (req, res) => {
   }
 });
 
+/**
+ * GET /strategies/seven-strategies-candidates
+ * Returns all candidates for the 7 strategies developed today (S1a, S1b, S2a, S3a, S4a, S4b, S5a),
+ * along with parameters met, rule checks, multi-strategy convergence, and FERE fundamental audit status.
+ */
+router.get('/seven-strategies-candidates', async (req, res) => {
+  try {
+    const { SevenStrategiesCandidatesService } = await import('../services/SevenStrategiesCandidatesService.js');
+    const force = req.query.refresh === 'true';
+    const service = SevenStrategiesCandidatesService.getInstance();
+    const payload = await service.getCandidatesPayload(force);
+    const candidates = Object.values(payload.strategies)
+      .flatMap(strategy => strategy.candidates);
+    res.json({ ...payload, candidates });
+  } catch (err: any) {
+    console.error('[SevenStrategiesEndpoint] Error:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+/**
+ * POST /strategies/seven-strategies-candidates/invalidate-cache
+ * Clears candidate cache to pick up freshly generated scan reports.
+ */
+router.post('/seven-strategies-candidates/invalidate-cache', async (req, res) => {
+  try {
+    const { SevenStrategiesCandidatesService } = await import('../services/SevenStrategiesCandidatesService.js');
+    SevenStrategiesCandidatesService.getInstance().invalidateCache();
+    res.json({ success: true, message: 'Seven strategies candidates cache invalidated' });
+  } catch (err: any) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 export const strategiesRouter = router;
 export default router;
+

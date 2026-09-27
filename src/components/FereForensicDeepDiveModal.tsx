@@ -99,6 +99,9 @@ interface CompanyCheck {
 
 interface ClaimCandidate { id: number; claimDate: string; sourceUrl: string; evidenceText: string; metric: string; target: number | null; unit: string | null; deadline: string | null; }
 
+// Client-side in-memory singleton cache for instantaneous (0ms) FERE card display
+const fereModalCache = new Map<string, { data: any; companyCheck: any; evidence: any; claimCandidates: any[] }>();
+
 export const FereForensicDeepDiveModal: React.FC<FereForensicDeepDiveModalProps> = ({
   symbol,
   isOpen,
@@ -117,28 +120,56 @@ export const FereForensicDeepDiveModal: React.FC<FereForensicDeepDiveModalProps>
 
   const fetchStockForensics = async (targetSymbol: string) => {
     if (!targetSymbol) return;
-    setLoading(true);
-    setError(null);
-    setData(null);
-    setEvidence(null);
-    setCompanyCheck(null);
+    const clean = targetSymbol.trim().toUpperCase().replace('.NS', '').replace('.BO', '');
+    const cached = fereModalCache.get(clean);
+
+    if (cached) {
+      setData(cached.data || null);
+      setCompanyCheck(cached.companyCheck || null);
+      setEvidence(cached.evidence || null);
+      setClaimCandidates(cached.claimCandidates || []);
+      setLoading(false);
+      setError(null);
+    } else {
+      setLoading(true);
+      setError(null);
+      setData(null);
+      setEvidence(null);
+      setCompanyCheck(null);
+    }
+
     try {
-      const clean = targetSymbol.trim().toUpperCase().replace('.NS', '').replace('.BO', '');
       const res = await fetch(`/api/forensic/fere-stock/${encodeURIComponent(clean)}`);
       const json = await res.json();
       if (json.success && json.data) {
         if (json.data.financials && json.data.missing_information) {
           setCompanyCheck(json.data);
-          fetch(`/api/forensic/fere-stock/${encodeURIComponent(clean)}/claim-candidates`).then(r => r.json())
-            .then(payload => setClaimCandidates(payload.success ? payload.data : [])).catch(() => setClaimCandidates([]));
+          let candidates: ClaimCandidate[] = Array.isArray(json.claimCandidates) ? json.claimCandidates : [];
+          if (!json.claimCandidates) {
+            try {
+              const cRes = await fetch(`/api/forensic/fere-stock/${encodeURIComponent(clean)}/claim-candidates`);
+              const cJson = await cRes.json();
+              if (cJson.success && Array.isArray(cJson.data)) {
+                candidates = cJson.data;
+              }
+            } catch {}
+          }
+          setClaimCandidates(candidates);
+          fereModalCache.set(clean, { data: null, companyCheck: json.data, evidence: json.evidence || null, claimCandidates: candidates });
+        } else {
+          setData(json.data);
+          fereModalCache.set(clean, { data: json.data, companyCheck: null, evidence: null, claimCandidates: [] });
         }
-        else setData(json.data);
       } else {
-        setError(json.error || `No FERE forensic data available for ${targetSymbol}`);
-        setEvidence(json.evidence || null);
+        if (!cached) {
+          setError(json.error || `No FERE forensic data available for ${targetSymbol}`);
+          setEvidence(json.evidence || null);
+        }
       }
     } catch (err: any) {
-      setError(err.message || 'Failed to fetch FERE forensic details');
+      if (!cached) {
+        setError(err.message || 'Failed to fetch FERE forensic details');
+      }
     } finally {
       setLoading(false);
     }

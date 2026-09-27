@@ -562,14 +562,28 @@ forensicRouter.get('/fere-stock/:symbol', async (req: Request, res: Response) =>
   try {
     const rawSymbol = String(req.params.symbol || '').trim().toUpperCase();
     const cleanSymbol = rawSymbol.replace('.NS', '').replace('.BO', '');
+
+    // Fast-path: query verified FERE evidence database directly (zero wait on portfolio.db lock)
+    const evidence = await readFereEvidence(null, cleanSymbol);
+
+    if (evidence.companyCheck) {
+      const claimCandidates = await listFereClaimCandidates(cleanSymbol);
+      return res.json({ success: true, symbol: cleanSymbol, data: evidence.companyCheck, evidence, claimCandidates });
+    }
+
+    // Fallback: Check portfolio.db MasterTickers and FEREEnrichedLedger only if no verified card was found
     const db = getDB();
     const master = await dbGet<{ isin: string }>(db,
       `SELECT isin FROM MasterTickers WHERE symbol = ? ORDER BY CASE WHEN status = 'ACTIVE' THEN 0 ELSE 1 END LIMIT 1`,
       [cleanSymbol]);
-    const evidence = await readFereEvidence(master?.isin || null, cleanSymbol);
 
-    if (evidence.companyCheck) {
-      return res.json({ success: true, symbol: cleanSymbol, data: evidence.companyCheck, evidence });
+    // Retry with resolved ISIN if MasterTickers had it
+    if (master?.isin && !evidence.isin) {
+      const retryEvidence = await readFereEvidence(master.isin, cleanSymbol);
+      if (retryEvidence.companyCheck) {
+        const claimCandidates = await listFereClaimCandidates(cleanSymbol);
+        return res.json({ success: true, symbol: cleanSymbol, data: retryEvidence.companyCheck, evidence: retryEvidence, claimCandidates });
+      }
     }
 
     const row = await dbGet<any>(
@@ -633,9 +647,7 @@ forensicRouter.get('/fere-refresh/:jobId', async (req: Request, res: Response) =
 
 forensicRouter.get('/fere-stock/:symbol/claim-candidates', async (req: Request, res: Response) => {
   const symbol = String(req.params.symbol || '').trim().toUpperCase().replace('.NS', '').replace('.BO', '');
-  const db = getDB();
-  const master = await dbGet<{ isin: string }>(db, 'SELECT isin FROM MasterTickers WHERE symbol=? LIMIT 1', [symbol]);
-  const data = master?.isin ? await listFereClaimCandidates(master.isin) : [];
+  const data = await listFereClaimCandidates(symbol);
   return res.json({ success: true, symbol, data });
 });
 

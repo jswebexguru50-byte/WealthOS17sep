@@ -165,13 +165,15 @@ export default function App() {
       // New Canonical Routes
       if (h === 'overview' || h === 'dashboard') return 'OVERVIEW';
       if (h === 'discover') return 'DISCOVER';
-      if (h === 'analyze') return 'ANALYZE';
+      if (h === 'analyze' || h.startsWith('analyze/')) return 'ANALYZE';
       if (h === 'portfolio') return 'PORTFOLIO';
       if (h === 'research') return 'RESEARCH';
       if (h === 'audit' || h === 'settings') return 'AUDIT';
 
       // Fallback for legacy routes
       if (
+        h === 'stockscans' ||
+        h === 'scans' ||
         h === 'opportunity-engine' ||
         h === 'opportunity_engine' ||
         h === 'greenfield-portal' ||
@@ -225,6 +227,9 @@ export default function App() {
   useEffect(() => {
     const handleHash = () => {
       setActiveTabState(getInitialTab());
+      const nextAnalyzeSymbol = window.location.hash
+        .match(/^#(?:analyze|fere-card)\/([A-Za-z0-9._-]+)(?:\?.*)?$/i)?.[1]?.toUpperCase() || null;
+      setSelectedIntelligenceSymbolState(nextAnalyzeSymbol);
     };
     const handleNavigateForensic = (e: any) => {
       setActiveTabState('ANALYZE');
@@ -1823,7 +1828,7 @@ export default function App() {
               {activeTab === 'DISCOVER' && (
                 <Suspense fallback={<LazyFallback />}>
                   <DiscoverWorkspace
-                    initialSubTab="OPPORTUNITY_ENGINE"
+                    initialSubTab="SEVEN_STRATEGIES"
                     onSelectStock={(sym) => setSelectedIntelligenceSymbol(sym)}
                     selectedPortfolio={selectedPortfolio}
                   />
@@ -1832,21 +1837,19 @@ export default function App() {
 
               {activeTab === 'ANALYZE' && (
                 <div className="w-full h-full flex flex-col space-y-4">
-                  {/* explicit FERE spine in all workspaces requirement for ANALYZE */}
                   <Suspense fallback={<LazyFallback />}>
                     {selectedIntelligenceSymbolState ? (
                       <StockIntelligenceView
                         symbol={selectedIntelligenceSymbolState}
-                        onClose={() => setActiveTab('OVERVIEW')}
+                        isOpen={true}
+                        onClose={() => {
+                          setSelectedIntelligenceSymbolState(null);
+                          setActiveTab('DISCOVER');
+                        }}
+                        formatCurrency={formatCurrency}
                       />
                     ) : (
-                      <div className="flex-1 flex flex-col items-center justify-center p-12 text-slate-400">
-                        <div className="w-16 h-16 mb-4 rounded-full bg-slate-800 flex items-center justify-center">
-                          <Search className="w-8 h-8 text-slate-500" />
-                        </div>
-                        <h3 className="text-xl font-display font-bold text-white mb-2">Analyze Workspace</h3>
-                        <p>Select a security from Discover or search by symbol.</p>
-                      </div>
+                      <ScripSearchBar onAnalyze={(sym) => setSelectedIntelligenceSymbol(sym)} />
                     )}
                   </Suspense>
                 </div>

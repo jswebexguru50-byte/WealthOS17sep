@@ -15,10 +15,14 @@ import {
   Eye,
   Zap,
   Compass,
-  Activity
+  Activity,
+  Sparkles
 } from 'lucide-react';
 
 // Lazy-load existing components — unmodified
+const StockScansWorkspace = React.lazy(() =>
+  import('./stockscans/StockScansWorkspace.js').then(m => ({ default: m.StockScansWorkspace || (m as any).default }))
+);
 const OpportunityEngineMasterView = React.lazy(() =>
   import('./OpportunityEngineMasterView.js').then(m => ({ default: m.OpportunityEngineMasterView || (m as any).default }))
 );
@@ -34,6 +38,9 @@ const SmartMoneyMomentumVpaView = React.lazy(() =>
 const GreenfieldInvestmentPortal = React.lazy(() =>
   import('./GreenfieldInvestmentPortal.js').then(m => ({ default: m.GreenfieldInvestmentPortal || (m as any).default }))
 );
+const SevenStrategiesCandidatesView = React.lazy(() =>
+  import('./SevenStrategiesCandidatesView.js').then(m => ({ default: m.SevenStrategiesCandidatesView || (m as any).default }))
+);
 
 const LazyFallback = () => (
   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '30vh', color: '#64748b', fontSize: 14 }}>
@@ -42,6 +49,8 @@ const LazyFallback = () => (
 );
 
 type DiscoverSubTab =
+  | 'STOCKSCANS'
+  | 'SEVEN_STRATEGIES'
   | 'OPPORTUNITY_ENGINE'
   | 'MULTIBAGGER'
   | 'SENTINEL'
@@ -49,6 +58,8 @@ type DiscoverSubTab =
   | 'GREENFIELD';
 
 const SUB_TABS: Array<{ id: DiscoverSubTab; label: string; sub: string; icon: React.ElementType; color: string }> = [
+  { id: 'STOCKSCANS', label: 'StockScans Parity', sub: 'Market breadth, prebuilt scans, scan match, FERE evidence', icon: Zap, color: 'text-cyan-400' },
+  { id: 'SEVEN_STRATEGIES', label: '7 Strategies (90D)', sub: 'S1a, S1b, S2a, S3a, S4a, S4b, S5a + FERE Deep Dive', icon: Sparkles, color: 'text-amber-400' },
   { id: 'OPPORTUNITY_ENGINE', label: 'Opportunity Engine', sub: 'ITAS S1–S10 scored signals', icon: Zap, color: 'text-amber-400' },
   { id: 'MULTIBAGGER', label: 'Multibagger Screener', sub: 'Quality & growth filter', icon: TrendingUp, color: 'text-emerald-400' },
   { id: 'SENTINEL', label: 'Smart Money Sentinel', sub: 'Institutional flow & breakouts', icon: Eye, color: 'text-cyan-400' },
@@ -64,7 +75,7 @@ interface DiscoverWorkspaceProps {
 }
 
 export function DiscoverWorkspace({
-  initialSubTab = 'OPPORTUNITY_ENGINE',
+  initialSubTab = 'SEVEN_STRATEGIES',
   onSelectStock,
   selectedPortfolio
 }: DiscoverWorkspaceProps) {
@@ -103,6 +114,24 @@ export function DiscoverWorkspace({
       </div>
 
       {/* Sub-Tab Content — each renders existing component unchanged */}
+      {subTab === 'STOCKSCANS' && (
+        <Suspense fallback={<LazyFallback />}>
+          <StockScansWorkspace
+            onSelectStock={onSelectStock}
+            selectedPortfolio={selectedPortfolio}
+          />
+        </Suspense>
+      )}
+
+      {subTab === 'SEVEN_STRATEGIES' && (
+        <Suspense fallback={<LazyFallback />}>
+          <SevenStrategiesCandidatesView
+            onSelectStock={onSelectStock}
+            selectedPortfolio={selectedPortfolio}
+          />
+        </Suspense>
+      )}
+
       {subTab === 'OPPORTUNITY_ENGINE' && (
         <Suspense fallback={<LazyFallback />}>
           <OpportunityEngineMasterView

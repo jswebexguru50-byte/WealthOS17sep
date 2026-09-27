@@ -10,7 +10,10 @@ import time
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 FERE_DB = os.path.join(ROOT_DIR, 'data', 'fere', 'verified_filings', 'fere_evidence.db')
 ARCHIVE_DIR = os.path.join(ROOT_DIR, 'data', 'fere', 'verified_filings', 'archive')
-MANIFEST_PATH = os.path.join(ROOT_DIR, 'data', 'fundamental_enrichment', 'excel_strategy_manifest.json')
+MANIFEST_PATH = os.environ.get(
+    'FUNDAMENTAL_MANIFEST_PATH',
+    os.path.join(ROOT_DIR, 'data', 'fundamental_enrichment', 'excel_strategy_manifest.json'),
+)
 
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',

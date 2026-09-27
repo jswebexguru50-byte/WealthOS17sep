@@ -16,7 +16,7 @@ import duckdb
 import numpy as np
 import pandas as pd
 
-from vpa_three_leg_screen import DEFAULT_PARQUET_ROOT, DEFAULT_REPORT_ROOT, load_local_symbols, read_adjusted_daily
+from vpa_three_leg_screen import DEFAULT_PARQUET_ROOT, DEFAULT_REPORT_ROOT, dedupe_same_day_signals, load_local_symbols, read_adjusted_daily
 
 
 @dataclass(frozen=True)
@@ -313,6 +313,8 @@ def main() -> int:
             if setup:
                 setup["Symbol"] = symbol
                 matches.append(setup)
+    raw_match_count = len(matches)
+    matches = dedupe_same_day_signals(matches, symbol_key="Symbol", date_keys=("Signal_Date", "signal_date"))
     con.close()
     matches.sort(key=lambda item: item["Score"], reverse=True)
     root = args.report_root.resolve(); root.mkdir(parents=True, exist_ok=True)
@@ -325,6 +327,7 @@ def main() -> int:
                 "signal_start_date": args.signal_start_date, "signal_end_date": args.signal_end_date,
                 "symbols_requested": int(len(symbols)), "symbols_covered": int(len(symbols) - len(gaps)),
                 "symbols_with_period_candles": symbols_with_period_candles,
+                "raw_matches_before_same_day_dedup": raw_match_count,
                 "coverage_gaps": gaps, "config": asdict(config), "matches": matches,
                 "limitations": ["S2A deliberately has no ATH, SMA, or RSI filters.",
                                 "A symbol may have an older final candle than the requested cutoff."]}

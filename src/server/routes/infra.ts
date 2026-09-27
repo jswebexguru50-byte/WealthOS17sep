@@ -3472,6 +3472,20 @@ router.get('/strategy-scan/progress', async (_req: Request, res: Response) => {
   }
 });
 
+// GET /api/fundamental-enrichment/progress
+// Reads the deterministic phase-1 daemon checkpoint. This endpoint never starts work.
+router.get('/fundamental-enrichment/progress', (_req: Request, res: Response) => {
+  try {
+    const progressPath = path.join(process.cwd(), 'data', 'fundamental_enrichment', 'filter_enrichment_progress.json');
+    if (!fs.existsSync(progressPath)) {
+      return res.json({ success: true, data: { status: 'NOT_STARTED', phase: 'MANDATORY_FILTERS', source: 'SQLITE_EXISTING_EVIDENCE' } });
+    }
+    return res.json({ success: true, data: JSON.parse(fs.readFileSync(progressPath, 'utf8')) });
+  } catch (err: any) {
+    return res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 // POST /api/strategy-scan/refresh-now
 // Trigger manual scan immediately
 router.post('/strategy-scan/refresh-now', async (_req: Request, res: Response) => {

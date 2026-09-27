@@ -11,11 +11,11 @@ import { ScripKnowledgeBaseService, InvestmentThesis } from './ScripKnowledgeBas
 export interface PeerComparisonRow {
   name: string;
   symbol: string;
-  cmp: number;
-  pe: number;
-  marketCapCr: number;
-  rocePct: number;
-  roePct: number;
+  cmp: number | null;
+  pe: number | null;
+  marketCapCr: number | null;
+  rocePct: number | null;
+  roePct: number | null;
   relativeStrength3M?: string;
 }
 
@@ -40,18 +40,18 @@ export interface SecurityDossier {
 
   // 1. Executive Outlook & Action Directive
   outlook: {
-    verdict: 'STRONG_BUY' | 'ACCUMULATE_ON_DIPS' | 'HOLD' | 'TRIM_PROFIT' | 'EXIT_STOP_LOSS';
+    verdict: 'STRONG_BUY' | 'ACCUMULATE_ON_DIPS' | 'HOLD' | 'TRIM_PROFIT' | 'EXIT_STOP_LOSS' | null;
     verdictDescription: string;
-    calibratedProbabilityPct: number;
-    confidenceInterval95: { lower: number; upper: number };
-    confidenceLevel: 'VERY_HIGH' | 'HIGH' | 'MODERATE' | 'LOW';
-    expectedUpsidePct: number;
-    targetPrice: number;
-    stopLossPrice: number;
-    horizonDays: number;
-    riskRewardRatio: number;
-    halfKellyAllocationPct: number;
-    suggestedInvestmentAmount?: number;
+    calibratedProbabilityPct: number | null;
+    confidenceInterval95: { lower: number | null; upper: number | null } | null;
+    confidenceLevel: 'VERY_HIGH' | 'HIGH' | 'MODERATE' | 'LOW' | null;
+    expectedUpsidePct: number | null;
+    targetPrice: number | null;
+    stopLossPrice: number | null;
+    horizonDays: number | null;
+    riskRewardRatio: number | null;
+    halfKellyAllocationPct: number | null;
+    suggestedInvestmentAmount?: number | null;
   };
 
   // 2 & 3. Dual-Axis Catalysts: Bull vs Bear
@@ -91,15 +91,16 @@ export interface SecurityDossier {
 
   // 6. Demand, Supply & Flow Dynamics
   demandSupplyFlows: {
-    realDeliveryPct: number;
-    deliverySurgeRatio: number; // e.g. 1.8x 20-DMA
-    deliveryTrend: 'ACCUMULATION' | 'NORMAL' | 'DISTRIBUTION';
-    stockEdgeFiiFlow: 'BUYING' | 'NEUTRAL' | 'SELLING';
-    stockEdgeDiiFlow: 'BUYING' | 'NEUTRAL' | 'SELLING';
-    fiiHoldingQoQChangePct: number;
-    diiHoldingQoQChangePct: number;
-    promoterPledgePct: number;
-    promoterHoldingPct: number;
+    realDeliveryPct: number | null;
+    deliverySurgeRatio: number | null; // e.g. 1.8x 20-DMA
+    deliveryTrend: 'ACCUMULATION' | 'NORMAL' | 'DISTRIBUTION' | 'UNAVAILABLE';
+    deliveryStatus: 'VERIFIED' | 'PARTIAL' | 'STALE' | 'DATA_INSUFFICIENT' | 'SOURCE_UNAVAILABLE' | 'IDENTITY_REVIEW' | 'BLOCKED';
+    stockEdgeFiiFlow: 'BUYING' | 'NEUTRAL' | 'SELLING' | 'UNAVAILABLE';
+    stockEdgeDiiFlow: 'BUYING' | 'NEUTRAL' | 'SELLING' | 'UNAVAILABLE';
+    fiiHoldingQoQChangePct: number | null;
+    diiHoldingQoQChangePct: number | null;
+    promoterPledgePct: number | null;
+    promoterHoldingPct: number | null;
     fiiHoldingPct?: number;
     diiHoldingPct?: number;
     publicHoldingPct?: number;
@@ -194,14 +195,14 @@ export interface SecurityDossier {
 
   // Factor Scores Breakdown (Normalized 0-100)
   scores: {
-    fundamentalScore: number;
-    valuationScore: number;
-    technicalScore: number;
-    volatilityScore: number;
-    flowScore: number;
-    newsScore: number;
-    fnoScore?: number;
-    compositeScore: number;
+    fundamentalScore: number | null;
+    valuationScore: number | null;
+    technicalScore: number | null;
+    volatilityScore: number | null;
+    flowScore: number | null;
+    newsScore: number | null;
+    fnoScore?: number | null;
+    compositeScore: number | null;
   };
 
   // In-Memory Portal Transparency Flags
@@ -470,22 +471,21 @@ export class ScripIntelligenceDossierService {
     }
 
     // Helper to parse percentages safely
-    const parsePct = (val?: string | number): number => {
+    const parsePct = (val?: string | number): number | null => {
       if (typeof val === 'number') return val;
-      if (!val) return 0;
+      if (!val) return null;
       const cleaned = parseFloat(val.toString().replace(/%/g, '').replace(/,/g, '').trim());
-      return isNaN(cleaned) ? 0 : cleaned;
+      return isNaN(cleaned) ? null : cleaned;
     };
 
-    const rawPromoterPct = parsePct(screenerData?.shareholding?.promoters) || 
-      (trendlyneReport?.checklists?.promoterHoldingPct ?? 52.0);
-    const rawFiiPct = parsePct(screenerData?.shareholding?.fiis) || 
-      (trendlyneReport?.checklists?.fiiHoldingPct ?? 18.5);
-    const rawDiiPct = parsePct(screenerData?.shareholding?.diis) || 
-      (trendlyneReport?.checklists?.diiHoldingPct ?? 14.2);
-    const rawPublicPct = parsePct(screenerData?.shareholding?.public_holding) || 
-      Math.max(0, Number((100 - rawPromoterPct - rawFiiPct - rawDiiPct).toFixed(2)));
-    const promoterPledgePct = trendlyneReport?.checklists?.promoterPledgePct ?? 0.0;
+    const rawPromoterPct = parsePct(screenerData?.shareholding?.promoters) ?? 
+      (trendlyneReport?.checklists?.promoterHoldingPct ?? null);
+    const rawFiiPct = parsePct(screenerData?.shareholding?.fiis) ?? 
+      (trendlyneReport?.checklists?.fiiHoldingPct ?? null);
+    const rawDiiPct = parsePct(screenerData?.shareholding?.diis) ?? 
+      (trendlyneReport?.checklists?.diiHoldingPct ?? null);
+    const rawPublicPct = parsePct(screenerData?.shareholding?.public_holding) ?? null;
+    const promoterPledgePct = trendlyneReport?.checklists?.promoterPledgePct ?? null;
 
     // Sourced QoQ changes & institutional flows
     const fiiChangeParsed = screenerData?.shareholding?.fiis_change ? 
@@ -493,20 +493,18 @@ export class ScripIntelligenceDossierService {
     const diiChangeParsed = screenerData?.shareholding?.diis_change ? 
       parsePct(screenerData.shareholding.diis_change) : undefined;
 
-    const fiiHoldingQoQChangePct = fiiChangeParsed ?? 0;
-    const diiHoldingQoQChangePct = diiChangeParsed ?? 0;
+    const fiiHoldingQoQChangePct = fiiChangeParsed ?? null;
+    const diiHoldingQoQChangePct = diiChangeParsed ?? null;
 
-    const stockEdgeFiiFlow: 'BUYING' | 'NEUTRAL' | 'SELLING' = 
-      fiiHoldingQoQChangePct > 0.25 ? 'BUYING' : (fiiHoldingQoQChangePct < -0.25 ? 'SELLING' : 'NEUTRAL');
-    const stockEdgeDiiFlow: 'BUYING' | 'NEUTRAL' | 'SELLING' = 
-      diiHoldingQoQChangePct > 0.25 ? 'BUYING' : (diiHoldingQoQChangePct < -0.25 ? 'SELLING' : 'NEUTRAL');
+    const stockEdgeFiiFlow = fiiHoldingQoQChangePct === null ? 'UNAVAILABLE' : (fiiHoldingQoQChangePct > 0.25 ? 'BUYING' : (fiiHoldingQoQChangePct < -0.25 ? 'SELLING' : 'NEUTRAL'));
+    const stockEdgeDiiFlow = diiHoldingQoQChangePct === null ? 'UNAVAILABLE' : (diiHoldingQoQChangePct > 0.25 ? 'BUYING' : (diiHoldingQoQChangePct < -0.25 ? 'SELLING' : 'NEUTRAL'));
 
     // Observed volume surge & delivery trend
-    const deliverySurgeRatio = Number((rsi14 >= 55 ? 1.20 : 0.95).toFixed(2));
-    const realDeliveryPct = 48.0;
-    const deliveryTrend: 'ACCUMULATION' | 'NORMAL' | 'DISTRIBUTION' = 
-      (deliverySurgeRatio >= 1.25 && cmp >= ema20) ? 'ACCUMULATION' : 
-      (deliverySurgeRatio >= 1.25 && cmp < ema20) ? 'DISTRIBUTION' : 'NORMAL';
+    const deliverySurgeRatio: number | null = null;
+    // Never produce a synthetic delivery metric.
+    const realDeliveryPct: number | null = null;
+    const deliveryStatus = 'DATA_INSUFFICIENT';
+    const deliveryTrend: 'ACCUMULATION' | 'NORMAL' | 'DISTRIBUTION' | 'UNAVAILABLE' = 'UNAVAILABLE';
 
 function detectSectorCategory(sectorStr: string, industryStr: string, companyNameStr: string = ''): 'BANKING' | 'IT' | 'PHARMA' | 'AUTO' | 'CAPEX' | 'POWER' | 'DEFENSE' | 'METALS' | 'CHEMICALS' | 'FMCG' | 'DIVERSIFIED' {
   const s = `${sectorStr || ''} ${industryStr || ''} ${companyNameStr || ''}`.toLowerCase();
@@ -564,7 +562,7 @@ function detectSectorCategory(sectorStr: string, industryStr: string, companyNam
     }
 
     // Insider Activity
-    let insiderActivity = 'No insider selling in last 90 days';
+    let insiderActivity = 'Insufficient data for insider tracking';
     if (rawPromoterPct > 68) {
       insiderActivity = `High promoter confidence: ${rawPromoterPct.toFixed(1)}% stake with zero pledge`;
     } else if (rawPromoterPct < 25 && (rawFiiPct + rawDiiPct) > 40) {
@@ -714,12 +712,12 @@ function detectSectorCategory(sectorStr: string, industryStr: string, companyNam
     const peers: PeerComparisonRow[] = (screenerData?.peers || []).slice(0, 4).map(p => ({
       name: p.name,
       symbol: p.symbol || p.name.toUpperCase().replace(/\s+/g, ''),
-      cmp: parseFloat((p.cmp || '0').replace(/,/g, '')),
-      pe: parseFloat(p.pe || '25'),
-      marketCapCr: parseFloat((p.market_cap || '10000').replace(/,/g, '')),
-      rocePct: parseFloat(p.roce || '18'),
-      roePct: parseFloat(p.roe || '15'),
-      relativeStrength3M: '+4.5%'
+      cmp: p.cmp ? parseFloat(p.cmp.replace(/,/g, '')) : null,
+      pe: p.pe ? parseFloat(p.pe) : null,
+      marketCapCr: p.market_cap ? parseFloat(p.market_cap.replace(/,/g, '')) : null,
+      rocePct: p.roce ? parseFloat(p.roce) : null,
+      roePct: p.roe ? parseFloat(p.roe) : null,
+      relativeStrength3M: undefined
     }));
 
     // Multibagger Checklist (8 points)
@@ -745,21 +743,21 @@ function detectSectorCategory(sectorStr: string, industryStr: string, companyNam
 
     // Tickertape 6-point checklist
     const ttChecks = [
-      { item: 'Intrinsic Value (Current price discount)', passed: rawPe < 35 },
+      { item: 'Intrinsic Value (Current price discount)', passed: rawPe > 0 && rawPe < 35 },
       { item: 'Returns vs Bank FD (Higher growth potential)', passed: rawRoce > 12 },
-      { item: 'Dividend Yield (Attractive payout or reinvestment)', passed: true },
-      { item: 'Entry Point (Not in overbought territory)', passed: rsi14 < 70 },
-      { item: 'No Red Flags (No SEBI surveillance or default)', passed: true },
-      { item: 'Consistent Earnings Growth (3Y CAGR > 15%)', passed: true }
+      { item: 'Dividend Yield (Attractive payout or reinvestment)', passed: false }, // Requires explicit evidence
+      { item: 'Entry Point (Not in overbought territory)', passed: rsi14 > 0 && rsi14 < 70 },
+      { item: 'No Red Flags (No SEBI surveillance or default)', passed: false }, // Requires explicit evidence
+      { item: 'Consistent Earnings Growth (3Y CAGR > 15%)', passed: false } // Requires explicit evidence
     ];
 
     // Factor Scores (0-100)
     const fundScore = Math.min(95, Math.max(40, Math.round(rawRoce * 2.2 - rawDebtToEquity * 20 + 25)));
     const valScore = Math.min(95, Math.max(35, Math.round(85 - rawPe * 0.9)));
     const techScore = Math.min(95, Math.max(40, Math.round(rsi14 * 0.9 + (bollingerSqueeze ? 15 : 5))));
-    const flowScore = Math.min(95, Math.max(45, 68));
+    const flowScore = 50; // Needs real flow analysis data to compute accurately
     const fnoScore = isFno ? Math.min(95, Math.max(40, Math.round((pcr > 0.8 && pcr < 1.2 ? 75 : 60)))) : undefined;
-    const compositeScore = Math.round(
+    let compositeScore = Math.round(
       fundScore * 0.25 +
       valScore * 0.15 +
       techScore * 0.25 +
@@ -774,10 +772,30 @@ function detectSectorCategory(sectorStr: string, industryStr: string, companyNam
     const probUpper = Math.min(98, Math.round(calibratedProb + 7));
 
     // Action verdict determination
-    let verdict: 'STRONG_BUY' | 'ACCUMULATE_ON_DIPS' | 'HOLD' | 'TRIM_PROFIT' | 'EXIT_STOP_LOSS' = 'ACCUMULATE_ON_DIPS';
+    let verdict: 'STRONG_BUY' | 'ACCUMULATE_ON_DIPS' | 'HOLD' | 'TRIM_PROFIT' | 'EXIT_STOP_LOSS' | null = 'ACCUMULATE_ON_DIPS';
     let verdictDesc = 'Favorable risk-reward for phased accumulation on minor market pullbacks.';
+    let compositeScoreResult: number | null = compositeScore;
+    let calibratedProbResult: number | null = calibratedProb;
+    let probLowerResult: number | null = probLower;
+    let probUpperResult: number | null = probUpper;
+    let targetPriceResult: number | null = Number((cmp * (1 + (compositeScore > 75 ? 0.22 : 0.14))).toFixed(2));
+    let stopLossPriceResult: number | null = Number((cmp * (1 - 0.07)).toFixed(2));
+    let expectedUpsidePctResult: number | null = Number((((targetPriceResult - cmp) / cmp) * 100).toFixed(1));
+    let riskRewardResult: number | null = Number((expectedUpsidePctResult / 7.0).toFixed(1));
 
-    if (calibratedProb >= 82 && mbPassedCount >= 6) {
+    // Wire the guard: If critical data is missing, fail closed and block decision.
+    if (!trendlyneReport || !screenerData) {
+      verdict = null;
+      verdictDesc = 'Critical evidence is unavailable; no investment decision was computed.';
+      compositeScoreResult = null;
+      calibratedProbResult = null;
+      probLowerResult = null;
+      probUpperResult = null;
+      targetPriceResult = null;
+      stopLossPriceResult = null;
+      expectedUpsidePctResult = null;
+      riskRewardResult = null;
+    } else if (calibratedProb >= 82 && mbPassedCount >= 6) {
       verdict = 'STRONG_BUY';
       verdictDesc = 'High-conviction alignment across fundamentals, technical momentum, and smart money flows.';
     } else if (holdingContext && holdingContext.pnlPct > 45 && rsi14 > 72) {
@@ -790,11 +808,6 @@ function detectSectorCategory(sectorStr: string, industryStr: string, companyNam
       verdict = 'HOLD';
       verdictDesc = 'Consolidating within expected bands. Maintain existing weight without adding fresh capital.';
     }
-
-    const targetPrice = Number((cmp * (1 + (compositeScore > 75 ? 0.22 : 0.14))).toFixed(2));
-    const stopLossPrice = Number((cmp * (1 - 0.07)).toFixed(2));
-    const expectedUpsidePct = Number((((targetPrice - cmp) / cmp) * 100).toFixed(1));
-    const riskReward = Number((expectedUpsidePct / 7.0).toFixed(1));
 
     // Sector-specific description & macro sensitivity
     let sectorDescription = `${sector} sector is demonstrating resilient operational fundamentals and sustained domestic demand.`;
@@ -927,16 +940,16 @@ function detectSectorCategory(sectorStr: string, industryStr: string, companyNam
       outlook: {
         verdict,
         verdictDescription: verdictDesc,
-        calibratedProbabilityPct: calibratedProb,
-        confidenceInterval95: { lower: probLower, upper: probUpper },
-        confidenceLevel: calibratedProb >= 80 ? 'VERY_HIGH' : (calibratedProb >= 68 ? 'HIGH' : 'MODERATE'),
-        expectedUpsidePct,
-        targetPrice,
-        stopLossPrice,
-        horizonDays: 90,
-        riskRewardRatio: riskReward,
-        halfKellyAllocationPct: Number(Math.min(8.5, Math.max(2.5, (calibratedProb - 50) * 0.2)).toFixed(1)),
-        suggestedInvestmentAmount: 50000
+        calibratedProbabilityPct: calibratedProbResult,
+        confidenceInterval95: probLowerResult !== null && probUpperResult !== null ? { lower: probLowerResult, upper: probUpperResult } : null,
+        confidenceLevel: calibratedProbResult === null ? null : (calibratedProbResult >= 80 ? 'VERY_HIGH' : (calibratedProbResult >= 68 ? 'HIGH' : 'MODERATE')),
+        expectedUpsidePct: expectedUpsidePctResult,
+        targetPrice: targetPriceResult,
+        stopLossPrice: stopLossPriceResult,
+        horizonDays: calibratedProbResult === null ? null : 90,
+        riskRewardRatio: riskRewardResult,
+        halfKellyAllocationPct: calibratedProbResult === null ? null : Number(Math.min(8.5, Math.max(2.5, (calibratedProbResult - 50) * 0.2)).toFixed(1)),
+        suggestedInvestmentAmount: calibratedProbResult === null ? null : 50000
       },
       catalysts: {
         bullCase,
@@ -963,6 +976,7 @@ function detectSectorCategory(sectorStr: string, industryStr: string, companyNam
         realDeliveryPct,
         deliverySurgeRatio,
         deliveryTrend,
+        deliveryStatus,
         stockEdgeFiiFlow,
         stockEdgeDiiFlow,
         fiiHoldingQoQChangePct,
@@ -1042,14 +1056,14 @@ function detectSectorCategory(sectorStr: string, industryStr: string, companyNam
         tickertapeChecklistItems: ttChecks
       },
       scores: {
-        fundamentalScore: fundScore,
-        valuationScore: valScore,
-        technicalScore: techScore,
-        volatilityScore: bollingerSqueeze ? 85 : 65,
-        flowScore,
-        newsScore: newsScoreVal,
-        fnoScore,
-        compositeScore
+        fundamentalScore: compositeScoreResult === null ? null : fundScore,
+        valuationScore: compositeScoreResult === null ? null : valScore,
+        technicalScore: compositeScoreResult === null ? null : techScore,
+        volatilityScore: compositeScoreResult === null ? null : (bollingerSqueeze ? 85 : 65),
+        flowScore: compositeScoreResult === null ? null : flowScore,
+        newsScore: compositeScoreResult === null ? null : newsScoreVal,
+        fnoScore: compositeScoreResult === null ? null : fnoScore,
+        compositeScore: compositeScoreResult
       },
       portalAttribution: {
         screener: Boolean(screenerData),

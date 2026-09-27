@@ -138,10 +138,10 @@ def sync_package(manifest_path=None):
         # 1. Resolve Shareholding & Pledge
         promoter_pct = None
         pledge_pct = None
-        fii_pct = 0.0
-        dii_pct = 0.0
+        fii_pct = None
+        dii_pct = None
         public_pct = None
-        as_of_date = '2026-06-30'
+        as_of_date = None
 
         if sym_u in shp_by_sym:
             r = shp_by_sym[sym_u]
@@ -165,7 +165,7 @@ def sync_package(manifest_path=None):
                         elif 'fii' in c:
                             fii_pct = float(latest_v)
                         elif 'dii' in c or 'mutual' in c:
-                            dii_pct += float(latest_v)
+                            dii_pct = (dii_pct or 0.0) + float(latest_v)
 
         # Check Screener fallback for SME
         sc_data = screener_by_sym.get(sym_u)
@@ -174,9 +174,6 @@ def sync_package(manifest_path=None):
                 promoter_pct = clean_float(sc_data[1]['promoter_pct'])
             if pledge_pct is None and sc_data[1].get('pledge_pct') is not None:
                 pledge_pct = clean_float(sc_data[1]['pledge_pct'])
-
-        if pledge_pct is None:
-            pledge_pct = 0.0
 
         # 2. Resolve Ratios (ROCE, ROE, P/E, Book Value, Debt)
         pe_ratio = None
@@ -217,6 +214,7 @@ def sync_package(manifest_path=None):
         latest_sales = None
         latest_pat = None
         latest_cfo = None
+        latest_operating_profit = None
         consecutive_pat_quarters = 0
 
         if sym_u in facts_by_sym:
@@ -226,6 +224,7 @@ def sync_package(manifest_path=None):
                 latest_sales = clean_float(facts_by_sym[sym_u][latest_p].get('sales'))
                 latest_pat = clean_float(facts_by_sym[sym_u][latest_p].get('pat'))
                 latest_cfo = clean_float(facts_by_sym[sym_u][latest_p].get('cfo'))
+                latest_operating_profit = clean_float(facts_by_sym[sym_u][latest_p].get('operating_profit'))
 
             # Check consecutive positive PAT
             for p in periods:
@@ -254,7 +253,9 @@ def sync_package(manifest_path=None):
         ))
 
         # 5. Upsert into HistoricalShareholdingPattern (portfolio.db)
-        if promoter_pct is not None:
+        if promoter_pct is not None and as_of_date is not None:
+            institutional_total = (fii_pct or 0.0) + (dii_pct or 0.0)
+            derived_public = 100.0 - promoter_pct - institutional_total
             cur_port.execute("""
                 INSERT OR REPLACE INTO HistoricalShareholdingPattern (
                     symbol, quarter_label, as_of_date, promoter_pct, fii_pct,
@@ -262,13 +263,13 @@ def sync_package(manifest_path=None):
                     sum_total_pct, free_float_pct, primary_source, is_reconciled, created_at
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
-                sym_u, 'Q1FY27', as_of_date, promoter_pct, fii_pct,
-                dii_pct, 0.0, 0.0, public_pct or (100.0 - promoter_pct - fii_pct - dii_pct), 0.0,
-                100.0, public_pct or (100.0 - promoter_pct), 'OFFICIAL_NSE_XBRL_TABLE_II', 1, now_iso
+                sym_u, as_of_date, as_of_date, promoter_pct, fii_pct,
+                dii_pct, None, None, public_pct if public_pct is not None else derived_public, None,
+                None, public_pct if public_pct is not None else (100.0 - promoter_pct), 'OFFICIAL_NSE_XBRL_TABLE_II', 1, now_iso
             ))
 
         # 6. Upsert into HistoricalFinancialStatements (portfolio.db)
-        if latest_sales is not None or latest_pat is not None:
+        if (latest_sales is not None or latest_pat is not None or latest_cfo is not None) and as_of_date is not None:
             cur_port.execute("""
                 INSERT OR REPLACE INTO HistoricalFinancialStatements (
                     symbol, statement_type, period_label, period_date,
@@ -276,20 +277,28 @@ def sync_package(manifest_path=None):
                     primary_source, is_reconciled, created_at
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
-                sym_u, 'QUARTERLY_PL', 'Q1FY27', as_of_date,
-                latest_sales, latest_sales, latest_pat, latest_cfo,
+                sym_u, 'QUARTERLY_PL', as_of_date, as_of_date,
+                latest_sales, latest_operating_profit, latest_pat, latest_cfo,
                 'FERE_AUDITED_XBRL', 1, now_iso
             ))
 
         # 7. Upsert into strategy_fundamental_filter_results (portfolio.db)
-        promoter_pass = 1 if (promoter_pct is not None and promoter_pct >= 40.0) else 0
-        no_pledge_pass = 1 if (pledge_pct is not None and pledge_pct <= 0.0) else 0
-        roce_pass = 1 if (roce_pct is not None and roce_pct >= 15.0) else 0
-        roe_pass = 1 if (roe_pct is not None and roe_pct >= 12.0) else 0
-        cash_flow_pass = 1 if (latest_cfo is not None and latest_cfo > 0) else 0
-
-        pass_count = promoter_pass + no_pledge_pass + roce_pass + roe_pass + (1 if consecutive_pat_quarters >= 4 else 0)
-        evidence_status = 'VERIFIED' if (promoter_pct is not None and pledge_pct is not None and roce_pct is not None) else 'PARTIAL'
+        promoter_pass = None if promoter_pct is None else (1 if promoter_pct > 66.6 else 0)
+        no_pledge_pass = None if pledge_pct is None else (1 if pledge_pct == 0.0 else 0)
+        roce_pass = None if roce_pct is None else (1 if roce_pct >= 35.0 else 0)
+        roe_pass = None if roe_pct is None else (1 if roe_pct >= 25.0 else 0)
+        profitable_8q = None if consecutive_pat_quarters < 8 else 1
+        institutional_pass = None if fii_pct is None or dii_pct is None else (1 if fii_pct + dii_pct > 0 else 0)
+        cash_flow_ratio = (latest_cfo / latest_operating_profit) if (
+            latest_cfo is not None and latest_operating_profit is not None and latest_operating_profit > 0
+        ) else None
+        cash_flow_pass = None if cash_flow_ratio is None else (1 if latest_cfo > 0 and cash_flow_ratio >= 0.5 else 0)
+        checks = [promoter_pass, profitable_8q, roce_pass, roe_pass, no_pledge_pass, institutional_pass, cash_flow_pass]
+        pass_count = sum(1 for value in checks if value == 1)
+        evidence_count = sum(1 for value in checks if value is not None)
+        evidence_status = 'VERIFIED' if evidence_count == 7 else ('PARTIAL' if evidence_count else 'UNAVAILABLE')
+        population = 'FULLY_COMPLIANT' if pass_count == 7 else ('PARTIAL' if pass_count > 0 else 'NOT_COMPLIANT')
+        run_key = 'FUNDAMENTAL_FULL_POPULATION' if os.path.basename(manifest_path) == 'full_population_manifest.json' else 'EXCEL_SIX_STRATEGIES_2026-09-25'
 
         cur_port.execute("""
             INSERT OR REPLACE INTO strategy_fundamental_filter_results (
@@ -302,14 +311,14 @@ def sync_package(manifest_path=None):
                 sector_momentum_status, double_momentum_status, source, evidence_note, evaluated_at
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
-            'EXCEL_SIX_STRATEGIES_2026-09-25', sym_u, 'SCAN_2026-09-25', 'SIX_STRATEGIES_COHORT',
+            run_key, sym_u, None, population,
             pass_count, 7, evidence_status, promoter_pct, promoter_pass,
-            1 if consecutive_pat_quarters >= 8 else 0, consecutive_pat_quarters,
+            profitable_8q, consecutive_pat_quarters,
             roce_pct, roce_pass, roe_pct, roe_pass,
-            pledge_pct, no_pledge_pass, fii_pct, dii_pct, 1 if (fii_pct + dii_pct) > 0 else 0,
-            0, latest_sales, latest_cfo,
-            (latest_cfo / latest_sales) if (latest_cfo and latest_sales) else None,
-            cash_flow_pass, 'ACTIVE_EVALUATED', 'ALIGNED', 'PASS',
+            pledge_pct, no_pledge_pass, fii_pct, dii_pct, institutional_pass,
+            None, latest_operating_profit, latest_cfo,
+            cash_flow_ratio,
+            cash_flow_pass, 'NOT_AVAILABLE', 'NOT_AVAILABLE', 'NOT_AVAILABLE',
             'VERIFIED_MULTI_SOURCE_PACKAGE', f"Promoter: {promoter_pct}%, Pledge: {pledge_pct}%, ROCE: {roce_pct}%, ROE: {roe_pct}%",
             now_iso
         ))

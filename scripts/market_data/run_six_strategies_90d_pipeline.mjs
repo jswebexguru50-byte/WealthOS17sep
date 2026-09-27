@@ -87,6 +87,13 @@ async function main() {
     '--signal-start-date', signalStartDate
   ]);
 
+  // S4B: S4A variant with RSI-supported bullish candle confirmation.
+  await runCommand('node', [
+    'scripts/market_data/scan_s4b_90d.mjs',
+    '--as-of-date', asOfDate,
+    '--signal-start-date', signalStartDate
+  ]);
+
   // Step 6: Run S5A (Minervini Winning Stocks)
   console.log('\n>>> Step 6/7: Scanning S5A (Minervini Winning Stocks)...');
   await runCommand('node', [

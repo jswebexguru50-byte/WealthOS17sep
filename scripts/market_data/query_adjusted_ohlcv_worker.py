@@ -46,29 +46,38 @@ def handle_query(req: dict):
 
     # Kite index candles have a distinct raw schema and directory layout.
     # Handle this explicitly so benchmark values are never invented by the app.
-    if len(symbols) == 1 and str(symbols[0]).strip().upper() == 'NIFTY 50':
-        index_path = INDEX_ROOT / 'index=NSE__NIFTY 50' / 'part-0.parquet'
-        if not index_path.exists():
-            send_response({'id': req_id, 'ok': True, 'rows': [], 'coveredSymbols': [],
-                           'coverageGaps': ['NIFTY 50'], 'queryMs': int((time.time() - t0) * 1000)})
+    def get_index_path(sym_str: str):
+        clean_name = sym_str.strip().upper()
+        for cand in [
+            INDEX_ROOT / f"index=NSE__{clean_name}" / "part-0.parquet",
+            INDEX_ROOT / f"index=BSE__{clean_name}" / "part-0.parquet",
+            INDEX_ROOT / f"index={clean_name}" / "part-0.parquet"
+        ]:
+            if cand.exists():
+                return cand
+        return None
+
+    if len(symbols) == 1:
+        idx_p = get_index_path(str(symbols[0]))
+        if idx_p:
+            sym_name = str(symbols[0]).strip().upper()
+            try:
+                rows = con.execute("""
+                    SELECT trade_date, ? AS symbol, NULL::VARCHAR AS isin,
+                           NULL::VARCHAR AS upstox_key_nse, open AS open_adjusted,
+                           high AS high_adjusted, low AS low_adjusted, close AS close_adjusted,
+                           volume AS volume_raw, data_source
+                    FROM read_parquet(?)
+                    WHERE trade_date >= ? AND trade_date <= ?
+                    ORDER BY trade_date DESC LIMIT ?
+                """, [sym_name, str(idx_p), from_date, to_date, limit]).df().to_dict(orient='records')
+                rows.reverse()
+                send_response({'id': req_id, 'ok': True, 'rows': rows,
+                               'coveredSymbols': [sym_name], 'coverageGaps': [],
+                               'queryMs': int((time.time() - t0) * 1000)})
+            except Exception as e:
+                send_response({'id': req_id, 'ok': False, 'error': str(e)})
             return
-        try:
-            rows = con.execute("""
-                SELECT trade_date, 'NIFTY 50' AS symbol, NULL::VARCHAR AS isin,
-                       NULL::VARCHAR AS upstox_key_nse, open AS open_adjusted,
-                       high AS high_adjusted, low AS low_adjusted, close AS close_adjusted,
-                       volume AS volume_raw, data_source
-                FROM read_parquet(?)
-                WHERE trade_date >= ? AND trade_date <= ?
-                ORDER BY trade_date DESC LIMIT ?
-            """, [str(index_path), from_date, to_date, limit]).df().to_dict(orient='records')
-            rows.reverse()
-            send_response({'id': req_id, 'ok': True, 'rows': rows,
-                           'coveredSymbols': ['NIFTY 50'], 'coverageGaps': [],
-                           'queryMs': int((time.time() - t0) * 1000)})
-        except Exception as e:
-            send_response({'id': req_id, 'ok': False, 'error': str(e)})
-        return
 
     # Check coverage on filesystem
     covered = []

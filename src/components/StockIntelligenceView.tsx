@@ -113,25 +113,12 @@ export function StockIntelligenceView({
     setError(null);
     setMomentumReport(null);
 
-    // Parallel fetch scrip intelligence, broker recommendations, and momentum reasoning report
-    Promise.all([
-      fetch(`/api/scrip-intelligence/${encodeURIComponent(symbol)}`).then((r) => r.json()),
-      fetch(`/api/broker-research/symbol/${encodeURIComponent(symbol)}`).then((r) => r.json()).catch(() => ({ data: [] })),
-      fetch(`/api/momentum-reasoning/${encodeURIComponent(symbol)}`).then((r) => r.json()).catch(() => null)
-    ])
-      .then(([intelJson, brokerJson, momentumJson]) => {
+    setBrokerReports([]);
+    fetch(`/api/scrip-intelligence/${encodeURIComponent(symbol)}`)
+      .then((r) => r.json())
+      .then((intelJson) => {
         if (intelJson.success) setData(intelJson.data || intelJson);
         else throw new Error(intelJson.message || 'Scrip intelligence error.');
-
-        if (brokerJson.success && Array.isArray(brokerJson.data)) {
-          setBrokerReports(brokerJson.data);
-        } else {
-          setBrokerReports([]);
-        }
-
-        if (momentumJson?.success && momentumJson?.data) {
-          setMomentumReport(momentumJson.data);
-        }
       })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
@@ -144,9 +131,9 @@ export function StockIntelligenceView({
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-fadeIn">
         <div className="bg-slate-900 border border-slate-700 rounded-3xl p-8 max-w-md w-full text-center space-y-4 shadow-2xl">
           <div className="w-12 h-12 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto" />
-          <h3 className="text-lg font-bold text-white tracking-tight">Synthesizing 360° Intelligence</h3>
+          <h3 className="text-lg font-bold text-white tracking-tight">Loading persisted evidence</h3>
           <p className="text-xs text-slate-400">
-            Running quantitative backtests, Bollinger Squeeze models, technical indicators & multi-source news for <span className="text-cyan-300 font-mono font-bold">{symbol}</span>...
+            Reading the existing strategy and FERE evidence for <span className="text-cyan-300 font-mono font-bold">{symbol}</span> without running scans or refresh jobs.
           </p>
         </div>
       </div>
@@ -168,6 +155,91 @@ export function StockIntelligenceView({
           >
             Close
           </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (['BLOCKED', 'DATA_INSUFFICIENT', 'SOURCE_UNAVAILABLE'].includes(data.dataState)) {
+    const fereEvidence = data.fereEvidence || {};
+    const documents = Array.isArray(fereEvidence.documents) ? fereEvidence.documents : [];
+    const missingFields = Array.isArray(fereEvidence.missingFields) ? fereEvidence.missingFields : [];
+
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 animate-fadeIn">
+        <div className="rounded-3xl w-full max-w-5xl max-h-[92vh] overflow-y-auto border border-slate-700 bg-slate-950 shadow-2xl">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800">
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Canonical Analyze</span>
+              <h2 className="text-xl font-black text-white">{data.company_name || symbol}</h2>
+              <span className="text-xs font-mono text-cyan-300">{symbol}{data.isin ? ` · ${data.isin}` : ''}</span>
+            </div>
+            <button onClick={onClose} className="p-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800" aria-label="Close analysis">
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          <div className="p-6 space-y-5">
+            <EvidenceSpineHeader
+              symbol={symbol}
+              companyName={data.company_name || symbol}
+              signalQuality="BLOCKED"
+              fereResult={data.fereResult || fereEvidence.status}
+              dataState={data.dataState}
+            />
+
+            <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4 flex items-start gap-3">
+              <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+              <div>
+                <h3 className="text-sm font-bold text-amber-200">Decision fields intentionally blocked</h3>
+                <p className="text-xs text-slate-300 mt-1">
+                  {data.actionSignal?.reason || 'Critical evidence is unavailable. No recommendation, score, probability, target, or stop was computed.'}
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
+                <span className="text-[10px] font-mono uppercase text-slate-500">FERE Status</span>
+                <div className="text-sm font-bold text-white mt-1">{fereEvidence.status || 'SOURCE_UNAVAILABLE'}</div>
+              </div>
+              <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
+                <span className="text-[10px] font-mono uppercase text-slate-500">Persisted Evidence Facts</span>
+                <div className="text-sm font-bold text-white mt-1">{Number(fereEvidence.verifiedFactCount || 0)}</div>
+              </div>
+              <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
+                <span className="text-[10px] font-mono uppercase text-slate-500">Verified Metrics</span>
+                <div className="text-sm font-bold text-white mt-1">{Number(fereEvidence.verifiedMetricCount || 0)}</div>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-4">
+              <h3 className="text-xs font-mono font-bold uppercase text-slate-300 flex items-center gap-2">
+                <FileText className="w-4 h-4 text-cyan-400" /> Persisted FERE documents
+              </h3>
+              {documents.length > 0 ? (
+                <div className="mt-3 space-y-2">
+                  {documents.map((document: any, index: number) => (
+                    <a
+                      key={`${document.sha256 || document.sourceUrl || 'document'}-${index}`}
+                      href={document.sourceUrl || undefined}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center justify-between gap-3 rounded-xl border border-slate-800 px-3 py-2 text-xs text-cyan-300 hover:bg-slate-800/60"
+                    >
+                      <span className="truncate">{document.sourceUrl || document.sha256 || 'Persisted filing evidence'}</span>
+                      <ExternalLink className="w-3.5 h-3.5 shrink-0" />
+                    </a>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-xs text-slate-500 mt-2">No persisted document evidence is attached to this card.</p>
+              )}
+              {missingFields.length > 0 && (
+                <p className="text-[11px] text-slate-500 mt-3">Missing: {missingFields.join(', ')}</p>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -359,14 +431,14 @@ export function StockIntelligenceView({
           <EvidenceSpineHeader
             symbol={symbol}
             companyName={companyName}
-            actionDirective={execVerdict.action || sig.action || unifiedOpp?.actionDirective || 'HOLD'}
-            confidenceLabel={sig.conviction || unifiedOpp?.confidence || 'HIGH'}
-            timeHorizon={unifiedOpp?.holdingHorizon || 'SWING_1_4_WEEKS'}
+            actionDirective={execVerdict.action || sig.action || unifiedOpp?.actionDirective || 'UNAVAILABLE'}
+            confidenceLabel={sig.conviction || unifiedOpp?.confidence || 'UNAVAILABLE'}
+            timeHorizon={unifiedOpp?.holdingHorizon || 'UNAVAILABLE'}
             signalQuality={sig.action && sig.action !== 'HOLD' ? 'ACTIONABLE' : 'INFORMATIONAL'}
-            signalQualityScore={sig.compositeScore || tech.technicalScore}
-            qglpVerdict={screener?.ratios?.roce && parseFloat(screener.ratios.roce) >= 15 ? 'PASS' : 'PARTIAL'}
-            fereResult={data?.fereResult || (screener ? 'FERE_BULLISH' : undefined)}
-            dataState={data?.dataState || 'VERIFIED'}
+            signalQualityScore={sig.compositeScore ?? tech.technicalScore}
+            qglpVerdict={data?.qglpVerdict}
+            fereResult={data?.fereResult}
+            dataState={data?.dataState || 'UNAVAILABLE'}
           />
 
           <AnimatePresence mode="wait">
@@ -382,19 +454,19 @@ export function StockIntelligenceView({
                     <div>
                       <span className="text-xs font-mono uppercase tracking-widest text-cyan-300 font-bold">Multi-Factor Action Signal</span>
                       <h3 className={`text-3xl font-black mt-1 ${getActionColor(execVerdict.action || sig.action)}`}>
-                        {(execVerdict.action || sig.action || 'HOLD').replace(/_/g, ' ')}
+                        {(execVerdict.action || sig.action || 'UNAVAILABLE').replace(/_/g, ' ')}
                       </h3>
                       <p className="text-xs text-slate-200 mt-1 max-w-xl font-medium">
-                        {execVerdict.oneLineTakeaway || sig.summary || 'Multi-factor signal consensus across technical, fundamental, sentiment, and portfolio context.'}
+                        {execVerdict.oneLineTakeaway || sig.summary || 'Signal context unavailable.'}
                       </p>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="text-right">
                         <span className="text-[11px] font-mono text-slate-300 block uppercase tracking-wider">Signal Score</span>
-                        <span className="text-2xl font-black text-white font-mono">{sig.compositeScore || tech.technicalScore || 50} <span className="text-sm text-slate-300 font-bold">/ 100</span></span>
+                        <span className="text-2xl font-black text-white font-mono">{sig.compositeScore ?? tech.technicalScore ?? 'N/A'} <span className="text-sm text-slate-300 font-bold">/ 100</span></span>
                       </div>
                       <span className="px-3 py-1.5 rounded-xl bg-indigo-500/20 text-indigo-300 font-mono text-xs font-bold border border-indigo-500/40">
-                        {sig.conviction || 'HIGH CONVICTION'}
+                        {sig.conviction || 'UNAVAILABLE'}
                       </span>
                     </div>
                   </div>
@@ -404,10 +476,10 @@ export function StockIntelligenceView({
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-1">
                     <span className="text-xs font-bold text-white block">Predicted Direction</span>
-                    <div className={`text-2xl font-black font-mono ${isBearishOpp ? 'text-rose-400' : getActionColor(pred.predictedDirection || 'BULLISH')}`}>
+                    <div className={`text-2xl font-black font-mono ${isBearishOpp ? 'text-rose-400' : getActionColor(pred.predictedDirection || 'UNAVAILABLE')}`}>
                       {isBearishOpp 
-                        ? `${unifiedOpp?.pillars?.prediction?.bearishProbabilityPct || (100 - (unifiedOpp?.bullishProbabilityPct || 12))}% Bearish`
-                        : `${unifiedOpp?.bullishProbabilityPct || pred.bullishProbabilityPct || 68}% Bullish`}
+                        ? `${unifiedOpp?.pillars?.prediction?.bearishProbabilityPct ?? 'N/A'}% Bearish`
+                        : `${unifiedOpp?.bullishProbabilityPct ?? pred.bullishProbabilityPct ?? 'N/A'}% Bullish`}
                     </div>
                     <p className="text-[11px] text-slate-300 font-medium leading-snug">
                       {isBearishOpp 
@@ -495,8 +567,8 @@ export function StockIntelligenceView({
                       <div className="text-left md:text-right">
                         <span className="text-[10px] font-mono text-slate-400 uppercase block">12M Consensus Target</span>
                         <span className="text-sm font-black font-mono text-emerald-400">
-                          ₹{tlConsensus.meanTargetPrice ? Number(tlConsensus.meanTargetPrice).toLocaleString('en-IN') : (fwd.bullTarget || '—')}
-                          <span className="text-[10px] text-emerald-300 font-bold ml-1">(+{tlConsensus.upsidePct || 18.5}%)</span>
+                          {tlConsensus.meanTargetPrice ? `₹${Number(tlConsensus.meanTargetPrice).toLocaleString('en-IN')}` : (fwd.bullTarget ? `₹${fwd.bullTarget}` : 'N/A')}
+                          <span className="text-[10px] text-emerald-300 font-bold ml-1">({tlConsensus.upsidePct != null ? `+${tlConsensus.upsidePct}%` : 'N/A'})</span>
                         </span>
                       </div>
                       <button
@@ -707,7 +779,7 @@ export function StockIntelligenceView({
                       <span className={`text-[11px] font-mono font-bold ${
                         (tlConsensus.upsidePct ?? 0) < 0 ? 'text-rose-300' : 'text-emerald-300'
                       }`}>
-                        {(tlConsensus.upsidePct ?? 0) >= 0 ? '+' : ''}{tlConsensus.upsidePct ?? 0}% {(tlConsensus.upsidePct ?? 0) < 0 ? '⚠️ Target breached' : 'Upside Potential'}
+                        {tlConsensus.upsidePct != null ? `${tlConsensus.upsidePct >= 0 ? '+' : ''}${tlConsensus.upsidePct}% ${tlConsensus.upsidePct < 0 ? '⚠️ Target breached' : 'Upside Potential'}` : 'N/A Upside Potential'}
                       </span>
                     </div>
 
@@ -846,18 +918,18 @@ export function StockIntelligenceView({
                     <div className="grid grid-cols-3 gap-2 text-center text-xs font-mono">
                       <div className="p-3 rounded-2xl bg-slate-950/80 border border-slate-800">
                         <span className="text-[10px] text-slate-400 uppercase block">Promoters</span>
-                        <strong className="text-emerald-400 text-sm mt-0.5 block">{tlChecklists.promoterHoldingPct || 62.4}%</strong>
-                        <span className="text-[9px] text-slate-500">Pledged: {tlChecklists.promoterPledgePct || 0.0}%</span>
+                        <strong className="text-emerald-400 text-sm mt-0.5 block">{tlChecklists.promoterHoldingPct != null ? `${tlChecklists.promoterHoldingPct}%` : 'N/A'}</strong>
+                        <span className="text-[9px] text-slate-500">Pledged: {tlChecklists.promoterPledgePct != null ? `${tlChecklists.promoterPledgePct}%` : 'N/A'}</span>
                       </div>
                       <div className="p-3 rounded-2xl bg-slate-950/80 border border-slate-800">
                         <span className="text-[10px] text-slate-400 uppercase block">FII Holding</span>
-                        <strong className="text-indigo-300 text-sm mt-0.5 block">{tlChecklists.fiiHoldingPct || 18.5}%</strong>
-                        <span className="text-[9px] text-emerald-400">+1.2% QoQ</span>
+                        <strong className="text-indigo-300 text-sm mt-0.5 block">{tlChecklists.fiiHoldingPct != null ? `${tlChecklists.fiiHoldingPct}%` : 'N/A'}</strong>
+                        <span className="text-[9px] text-slate-500">N/A QoQ</span>
                       </div>
                       <div className="p-3 rounded-2xl bg-slate-950/80 border border-slate-800">
                         <span className="text-[10px] text-slate-400 uppercase block">DII Holding</span>
-                        <strong className="text-amber-300 text-sm mt-0.5 block">{tlChecklists.diiHoldingPct || 16.2}%</strong>
-                        <span className="text-[9px] text-emerald-400">{tlChecklists.mutualFundHoldingsCount || 38} MFs</span>
+                        <strong className="text-amber-300 text-sm mt-0.5 block">{tlChecklists.diiHoldingPct != null ? `${tlChecklists.diiHoldingPct}%` : 'N/A'}</strong>
+                        <span className="text-[9px] text-emerald-400">{tlChecklists.mutualFundHoldingsCount != null ? `${tlChecklists.mutualFundHoldingsCount} MFs` : 'N/A'}</span>
                       </div>
                     </div>
                   </div>
@@ -875,11 +947,11 @@ export function StockIntelligenceView({
                     <div className="grid grid-cols-2 gap-2 text-center text-xs font-mono">
                       <div className="p-3 rounded-2xl bg-slate-950/80 border border-slate-800">
                         <span className="text-[10px] text-slate-400 uppercase block">Expected Revenue Growth</span>
-                        <strong className="text-emerald-400 text-base mt-0.5 block">+{tlForecaster.revenueGrowth1YExpectedPct || 18.5}%</strong>
+                        <strong className="text-emerald-400 text-base mt-0.5 block">{tlForecaster.revenueGrowth1YExpectedPct != null ? `+${tlForecaster.revenueGrowth1YExpectedPct}%` : 'N/A'}</strong>
                         <span className="text-[9px] text-slate-500">Forward 12-Month</span>
                       </div>
                       <div className="p-3 rounded-2xl bg-slate-950/80 border border-slate-800">
-                        <span className="text-[10px] text-emerald-400 text-base mt-0.5 block">+{tlForecaster.profitGrowth1YExpectedPct || 22.4}%</span>
+                        <span className="text-[10px] text-emerald-400 text-base mt-0.5 block">{tlForecaster.profitGrowth1YExpectedPct != null ? `+${tlForecaster.profitGrowth1YExpectedPct}%` : 'N/A'}</span>
                         <span className="text-[9px] text-slate-500">EBITDA Margin Capture</span>
                       </div>
                     </div>
@@ -1132,8 +1204,8 @@ export function StockIntelligenceView({
                       <Activity className="w-4 h-4 text-amber-400" /> Bollinger Band Squeeze & Dynamics
                     </h4>
                     <div className="flex justify-between items-center text-xs font-mono">
-                      <span className="text-slate-400">Bandwidth: <strong>{bbDyn.bandwidth || 8.4}%</strong></span>
-                      <span className="text-slate-400">%B Position: <strong>{Math.round((bbDyn.percentB || 0.6) * 100)}%</strong></span>
+                      <span className="text-slate-400">Bandwidth: <strong>{bbDyn.bandwidth ?? 'N/A'}%</strong></span>
+                      <span className="text-slate-400">%B Position: <strong>{bbDyn.percentB != null ? Math.round(bbDyn.percentB * 100) : 'N/A'}%</strong></span>
                       <span className={`px-2 py-0.5 rounded font-bold ${bbDyn.isSqueeze ? 'bg-amber-500/20 text-amber-300' : 'bg-slate-800 text-slate-300'}`}>
                         {bbDyn.isSqueeze ? 'SQUEEZE ACTIVE' : 'NORMAL'}
                       </span>
@@ -1177,25 +1249,25 @@ export function StockIntelligenceView({
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                         <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800">
                           <span className="text-[10px] font-mono uppercase text-slate-300 font-bold block tracking-wider">Win Rate</span>
-                          <span className="text-xl font-black font-mono text-emerald-400 mt-0.5 block">{currentStrat.winRatePct || 68.5}%</span>
-                          <span className="text-[10px] text-slate-300 font-medium">{currentStrat.totalTrades || 12} Completed Trades</span>
+                          <span className="text-xl font-black font-mono text-emerald-400 mt-0.5 block">{currentStrat.winRatePct ?? 'N/A'}%</span>
+                          <span className="text-[10px] text-slate-300 font-medium">{currentStrat.totalTrades ?? 'N/A'} Completed Trades</span>
                         </div>
 
                         <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800">
                           <span className="text-[10px] font-mono uppercase text-slate-300 font-bold block tracking-wider">Profit Factor</span>
-                          <span className="text-xl font-black font-mono text-cyan-300 mt-0.5 block">{currentStrat.profitFactor || 2.45}x</span>
+                          <span className="text-xl font-black font-mono text-cyan-300 mt-0.5 block">{currentStrat.profitFactor ?? 'N/A'}x</span>
                           <span className="text-[10px] text-slate-300 font-medium">Gross Wins / Losses</span>
                         </div>
 
                         <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800">
                           <span className="text-[10px] font-mono uppercase text-slate-300 font-bold block tracking-wider">Strategy Return</span>
-                          <span className="text-xl font-black font-mono text-emerald-400 mt-0.5 block">+{currentStrat.totalReturnPct || 42.8}%</span>
-                          <span className="text-[10px] text-slate-300 font-medium">Alpha: +{currentStrat.alphaPct || 15.2}%</span>
+                          <span className="text-xl font-black font-mono text-emerald-400 mt-0.5 block">+{currentStrat.totalReturnPct ?? 'N/A'}%</span>
+                          <span className="text-[10px] text-slate-300 font-medium">Alpha: +{currentStrat.alphaPct ?? 'N/A'}%</span>
                         </div>
 
                         <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800">
                           <span className="text-[10px] font-mono uppercase text-slate-300 font-bold block tracking-wider">Sharpe Ratio</span>
-                          <span className="text-xl font-black font-mono text-indigo-300 mt-0.5 block">{currentStrat.sharpeRatio || 1.85}</span>
+                          <span className="text-xl font-black font-mono text-indigo-300 mt-0.5 block">{currentStrat.sharpeRatio ?? 'N/A'}</span>
                           <span className="text-[10px] text-slate-300 font-medium">Risk-Adjusted Gain</span>
                         </div>
                       </div>
@@ -1368,7 +1440,7 @@ export function StockIntelligenceView({
                   <div className="w-full bg-slate-800 h-3 rounded-full overflow-hidden border border-slate-700 relative">
                     <div
                       className="h-full rounded-full bg-gradient-to-r from-rose-500 via-amber-400 to-emerald-400"
-                      style={{ width: `${tech.keyLevels?.range52WPositionPct || 50}%` }}
+                      style={{ width: `${tech.keyLevels?.range52WPositionPct ?? 0}%` }}
                     />
                   </div>
                   <div className="flex justify-between text-xs text-slate-300 font-mono">
@@ -1382,7 +1454,7 @@ export function StockIntelligenceView({
                   <div className="p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 space-y-1">
                     <span className="text-xs font-mono text-emerald-300 block uppercase font-bold">Bull Case Target</span>
                     <div className="text-2xl font-black font-mono text-emerald-400">₹{fwd.bullTarget || '—'}</div>
-                    <span className="text-xs font-mono text-emerald-300 block font-bold">+{fwd.upsidePct || 20}% Potential (Growth Scenario)</span>
+                    <span className="text-xs font-mono text-emerald-300 block font-bold">+{fwd.upsidePct ?? 'N/A'}% Potential (Growth Scenario)</span>
                     <p className="text-[11px] text-slate-300 pt-1">Driven by earnings beat, multiple expansion and order execution.</p>
                   </div>
 
@@ -1396,7 +1468,7 @@ export function StockIntelligenceView({
                   <div className="p-5 rounded-2xl bg-rose-500/10 border border-rose-500/30 space-y-1">
                     <span className="text-xs font-mono text-rose-300 block uppercase font-bold">Bear Case (Stop-Loss)</span>
                     <div className="text-2xl font-black font-mono text-rose-400">₹{fwd.bearTarget || '—'}</div>
-                    <span className="text-xs font-mono text-rose-300 block font-bold">-{fwd.downsidePct || 12}% Capital Risk</span>
+                    <span className="text-xs font-mono text-rose-300 block font-bold">-{fwd.downsidePct ?? 'N/A'}% Capital Risk</span>
                     <p className="text-[11px] text-slate-300 pt-1">Downside support floor if broad market correction occurs.</p>
                   </div>
                 </div>

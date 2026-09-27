@@ -12,7 +12,10 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 FERE_DB = os.path.join(ROOT_DIR, 'data', 'fere', 'verified_filings', 'fere_evidence.db')
 PORTFOLIO_DB = os.path.join(ROOT_DIR, 'portfolio.db')
 ARCHIVE_DIR = os.path.join(ROOT_DIR, 'data', 'fere', 'verified_filings', 'archive')
-MANIFEST_PATH = os.path.join(ROOT_DIR, 'data', 'fundamental_enrichment', 'excel_strategy_manifest.json')
+MANIFEST_PATH = os.environ.get(
+    'FUNDAMENTAL_MANIFEST_PATH',
+    os.path.join(ROOT_DIR, 'data', 'fundamental_enrichment', 'excel_strategy_manifest.json'),
+)
 
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
@@ -38,8 +41,17 @@ def run():
     cur_port = conn_port.cursor()
 
     already_pledge = {r[0].upper() for r in cur_fere.execute("SELECT DISTINCT symbol FROM shareholding_snapshot WHERE promoter_pledge IS NOT NULL").fetchall()}
-    pending_symbols = sorted(list(all_symbols - already_pledge))
-    print(f"Remaining pending symbols for pledge & facts: {len(pending_symbols)}")
+    missing_competitors = {r[0].upper() for r in cur_port.execute("""SELECT symbol FROM fundamental_endpoint_snapshots
+        WHERE provider='UPSTOX_FUNDAMENTALS' AND endpoint='competitors' AND status='NOT_AVAILABLE'""").fetchall()}
+    secondary_with_competitors = set()
+    for symbol, payload in cur_port.execute("SELECT symbol,response_json FROM fundamental_source_snapshots WHERE provider='SCREENER_SNAPSHOT' AND status='SUCCESS'").fetchall():
+        try:
+            if 'competitors' in json.loads(payload or '{}'):
+                secondary_with_competitors.add(symbol.upper())
+        except Exception:
+            pass
+    pending_symbols = sorted((all_symbols - already_pledge) | (missing_competitors - secondary_with_competitors))
+    print(f"Remaining pending symbols for pledge, facts, or competitors: {len(pending_symbols)}")
     if not pending_symbols:
         return
 
@@ -95,7 +107,7 @@ def run():
                     ratios[name_el.text.strip()] = val_el.text.strip()
 
             promoter_pct = None
-            pledge_pct = 0.0
+            pledge_pct = None
             sh_sec = soup.find('section', id='shareholding')
             if sh_sec:
                 table = sh_sec.find('table')
@@ -108,10 +120,20 @@ def run():
                             if 'promoter' in cat:
                                 promoter_pct = val
                             elif 'pledge' in cat or 'encumber' in cat:
-                                pledge_pct = val if val is not None else 0.0
+                                pledge_pct = val
 
-            if promoter_pct is None:
-                promoter_pct = 0.0
+            competitors = []
+            peers_sec = soup.find('section', id='peers')
+            if peers_sec:
+                for tr in peers_sec.find_all('tr'):
+                    link = tr.find('a', href=re.compile(r'^/company/'))
+                    if not link:
+                        continue
+                    competitors.append({
+                        'name': link.get_text(' ', strip=True),
+                        'url': f"https://www.screener.in{link.get('href')}",
+                        'row': [cell.get_text(' ', strip=True) for cell in tr.find_all(['th', 'td'])],
+                    })
 
             borrowings_cr = None
             bs_sec = soup.find('section', id='balance-sheet')
@@ -130,7 +152,9 @@ def run():
                 VALUES(?, ?, ?, ?, ?)
             """, ('SCREENER_HTML_SNAPSHOT', matched_url, now_iso, doc_sha, rel_path))
 
-            cur_fere.execute("""
+            if promoter_pct is not None or pledge_pct is not None:
+                period_end = now_iso[:10]
+                cur_fere.execute("""
                 INSERT INTO shareholding_snapshot(
                     isin, symbol, period_end, promoter_holding, promoter_pledge,
                     public_holding, employee_trusts, source_url, source_sha256, available_at, status
@@ -139,16 +163,17 @@ def run():
                     promoter_holding = excluded.promoter_holding,
                     promoter_pledge = excluded.promoter_pledge,
                     status = excluded.status
-            """, (
-                isin, sym, '2026-06-30', promoter_pct, pledge_pct,
-                100.0 - (promoter_pct or 0.0), 0.0, matched_url, doc_sha, now_iso, 'VERIFIED_AGGREGATED'
-            ))
+                """, (
+                    isin, sym, period_end, promoter_pct, pledge_pct,
+                    None, None, matched_url, doc_sha, now_iso, 'SOURCE_SUPPORTED_AGGREGATED'
+                ))
 
             extracted_json = {
                 'ratios': ratios,
                 'promoter_pct': promoter_pct,
                 'pledge_pct': pledge_pct,
                 'borrowings_cr': borrowings_cr,
+                'competitors': competitors,
                 'scraped_url': matched_url
             }
             cur_port.execute("""
@@ -160,7 +185,7 @@ def run():
             ))
             conn_fere.commit()
             conn_port.commit()
-            print(f"  [{i+1}/{len(pending_symbols)}] {sym} -> Promoter: {promoter_pct}%, Pledge: {pledge_pct}%, Debt: {borrowings_cr} Cr")
+            print(f"  [{i+1}/{len(pending_symbols)}] {sym} -> Promoter: {promoter_pct}, Pledge: {pledge_pct}, Debt: {borrowings_cr}, Competitors: {len(competitors)}")
             time.sleep(1.0)
         except Exception as e:
             print(f"  [{i+1}/{len(pending_symbols)}] {sym} Error: {e}")

@@ -4,6 +4,7 @@ import path from 'node:path';
 import { spawn } from 'node:child_process';
 import readline from 'node:readline';
 import { evaluateS3a, S3A_DEFAULTS } from '../../src/server/services/S3aStrategy.ts';
+import { dedupeSameDaySignals } from './dedup_signals.mjs';
 
 const args = process.argv.slice(2);
 const arg = (key, fallback) => {
@@ -55,7 +56,9 @@ for await (const line of lines) {
 }
 const code = await new Promise(resolve => child.on('close', resolve));
 if (code !== 0) throw new Error(`Candle stream failed (${code}): ${stderr.slice(-1200)}`);
-matches.sort((a, b) => b.Signal_Date.localeCompare(a.Signal_Date) || a.Symbol.localeCompare(b.Symbol));
+const rawMatchCount = matches.length;
+const dedupedMatches = dedupeSameDaySignals(matches);
+dedupedMatches.sort((a, b) => b.Signal_Date.localeCompare(a.Signal_Date) || a.Symbol.localeCompare(b.Symbol));
 await fs.mkdir(reportDir, { recursive: true });
 const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\..*/, 'Z');
 const output = path.join(reportDir, `s3a_full_universe_90_${asOfDate.replaceAll('-', '')}_${stamp}.json`);
@@ -63,10 +66,10 @@ const report = { strategy: 'S3A', generated_at_utc: new Date().toISOString(),
   source: 'KITE_ADJUSTED_PARQUET', timeframe: '1D', scan_mode: 'ROLLING_WALK_FORWARD',
   signal_start_date: signalStartDate, as_of_date_requested: asOfDate, config: S3A_DEFAULTS,
   symbols_requested: requested, symbols_covered: covered, symbols_with_period_candles: withPeriod,
-  coverage_gaps: gaps, matches,
+  coverage_gaps: gaps, matches: dedupedMatches,
   limitations: ['The same local adjusted Parquet store used by S1a/S1b/S2a is scanned.',
     'S3a requires S1a bullish candles at all four pivots; this is a strict interpretation.',
     'Pivot confirmation uses only candles available by each signal date.',
     'A repeated daily match with identical H1/L1/H2/L2 pivots is counted once, on its first eligible date.'] };
 await fs.writeFile(output, JSON.stringify(report));
-console.log(JSON.stringify({ output, requested, covered, withPeriod, matches: matches.length }));
+console.log(JSON.stringify({ output, requested, covered, withPeriod, rawMatches: rawMatchCount, matches: dedupedMatches.length }));

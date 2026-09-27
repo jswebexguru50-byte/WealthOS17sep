@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-25T13:35:02.664Z",
+  "timestamp": "2026-09-26T18:30:10.490Z",
   "results": [
     {
       "id": "TS14-12",
@@ -95,7 +95,7 @@
         "src\\components\\AnalyticsView.tsx:482: <Bar dataKey=\"Microcap 250\" fill=\"#06b6d4\" radius={[4, 4, 0, 0]} />",
         "src\\components\\AuditWorkspace.tsx:41: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '30vh', color: '#64748b', fontSize: 14 }}>",
         "src\\components\\DashboardView.tsx:907: color: '#f87171'",
-        "src\\components\\DiscoverWorkspace.tsx:39: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '30vh', color: '#64748b', fontSize: 14 }}>",
+        "src\\components\\DiscoverWorkspace.tsx:46: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '30vh', color: '#64748b', fontSize: 14 }}>",
         "src\\components\\FamilyMembersManagerView.tsx:30: avatar_color: '#06b6d4',",
         "src\\components\\FamilyMembersManagerView.tsx:141: avatar_color: m.avatar_color || '#06b6d4',",
         "src\\components\\FamilyMembersManagerView.tsx:155: avatar_color: '#06b6d4',",

@@ -115,6 +115,23 @@ DEFAULT_PARQUET_ROOT = Path("data/market_data/tejhq_hf_10y/kite_adjusted_backfil
 DEFAULT_REPORT_ROOT = Path("reports/readiness/vpa_three_leg")
 
 
+def dedupe_same_day_signals(rows: list[dict[str, Any]], *, symbol_key: str = "symbol",
+                            date_keys: tuple[str, ...] = ("signal_date", "Signal_Date", "as_of_date")) -> list[dict[str, Any]]:
+    """Keep one best-matching signal per symbol and trading session."""
+    best: dict[tuple[str, str], tuple[float, int, dict[str, Any]]] = {}
+    for position, row in enumerate(rows):
+        symbol = str(row.get(symbol_key, row.get("Symbol", ""))).strip().upper()
+        date = next((str(row.get(key, ""))[:10] for key in date_keys if row.get(key)), "")
+        if not symbol or not date:
+            continue
+        score = max((float(row[key]) for key in ("score", "Score", "match_score", "quality_score", "confidence_score")
+                     if isinstance(row.get(key), (int, float))), default=0.0)
+        current = best.get((symbol, date))
+        if current is None or score > current[0] or (score == current[0] and position > current[1]):
+            best[(symbol, date)] = (score, position, row)
+    return [item[2] for item in sorted(best.values(), key=lambda item: item[1])]
+
+
 def load_constituents(url: str | None, file_path: Path | None) -> pd.DataFrame:
     """Return the official constituent table; callers may pin a saved CSV."""
     if file_path:
@@ -524,6 +541,8 @@ def main() -> int:
                 f"targets are {plan.target_one_reward_to_risk:.1f}R / {plan.target_two_reward_to_risk:.1f}R."
             )
             matches.append(match)
+    raw_match_count = len(matches)
+    matches = dedupe_same_day_signals(matches)
     con.close()
     matches.sort(key=lambda item: item["score"], reverse=True)
     evidence = {
@@ -543,6 +562,7 @@ def main() -> int:
         "symbols_requested": int(len(constituents)),
         "symbols_covered": int(len(constituents) - len(coverage_gaps)),
         "coverage_gaps": coverage_gaps,
+        "raw_matches_before_same_day_dedup": raw_match_count,
         "matches": matches,
     }
     json_path = report_root / f"vpa_three_leg_{universe_name}_{timestamp}.json"

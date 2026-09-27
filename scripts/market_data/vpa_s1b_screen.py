@@ -23,6 +23,7 @@ from vpa_three_leg_screen import (
     bullish_candle_patterns,
     calculate_wilder_rsi,
     load_local_symbols,
+    dedupe_same_day_signals,
     prepare_vpa_indicators,
     read_adjusted_daily,
 )
@@ -246,6 +247,8 @@ def main() -> int:
             match["Date_a"] = match["leg1_high_date"]
             match["Signal_Date_b"] = match["as_of_date"]
             matches.append(match)
+    raw_match_count = len(matches)
+    matches = dedupe_same_day_signals(matches)
     con.close()
     matches.sort(key=lambda item: item["score"], reverse=True)
     report_root = args.report_root.resolve()
@@ -257,7 +260,8 @@ def main() -> int:
                 "scan_mode": "ROLLING_WALK_FORWARD" if args.historical_bars else "LATEST_BAR",
                 "historical_bars": args.historical_bars or None,
                 "symbols_requested": int(len(symbols)), "symbols_covered": int(len(symbols) - len(gaps)),
-                "coverage_gaps": gaps, "config": asdict(config), "matches": matches,
+                "coverage_gaps": gaps, "raw_matches_before_same_day_dedup": raw_match_count,
+                "config": asdict(config), "matches": matches,
                 "limitations": ["ATH is the maximum adjusted close within available local history, not a verified lifetime ATH.",
                                 "A symbol may have an older final candle than the requested cutoff."]}
     json_path = report_root / f"s1b_{safe_name}_{stamp}.json"

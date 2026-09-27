@@ -138,7 +138,9 @@ import { SocialMediaService } from './src/server/services/socialMediaService.js'
 import { LookthroughService } from './src/server/services/lookthroughService.js';
 import { forensicRouter } from './src/server/routes/forensicRoutes.js';
 import { strategiesRouter } from './src/server/routes/strategies.js';
+import { readFereEvidence } from './src/server/services/FereEvidenceService.js';
 import kiteRouter from './src/server/routes/kite.js';
+import { stockscansRouter } from './src/server/routes/stockscansRoutes.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -178,6 +180,8 @@ app.use('/api/forensic', forensicRouter);
 // Strategy Calibration, Signal Quality & Execution Endpoints
 app.use('/api/strategies', strategiesRouter);
 app.use('/api/auth/kite', kiteRouter);
+// StockScans Clean-Room Parity Endpoints
+app.use('/api/stockscans', stockscansRouter);
 
 // Permanent adjusted daily candles live outside SQLite in the DuckDB/Parquet
 // market store. This read-only route delegates entirely to DuckDbAdjustedOhlcvService,
@@ -825,7 +829,7 @@ app.get('/api/engine/universe', async (req, res) => {
   }
 });
 
-// Comprehensive Scrip Intelligence Handler
+// Read-only scrip evidence handler used by the canonical Analyze workspace.
 const handleScripIntelligence = async (rawSymbol: string, res: any) => {
   try {
     const cleanSym = rawSymbol.trim().toUpperCase().replace(/\.NS$/, '').replace(/\.BO$/, '');
@@ -834,156 +838,52 @@ const handleScripIntelligence = async (rawSymbol: string, res: any) => {
     }
 
     const db = getDB();
-
-    // 1. Fetch Fundamentals from Screener.in
-    let screenerData = await ScreenerService.getInstance().fetchScreenerData(cleanSym);
-    if (!screenerData) {
-      screenerData = ScreenerService.getInstance().generateFallbackScreenerData(cleanSym);
+    let identity: { isin?: string; symbol?: string; name?: string } | null = null;
+    try {
+      identity = await dbGet(db,
+        `SELECT isin, symbol, name FROM MasterTickers
+          WHERE UPPER(symbol) = ?
+          ORDER BY CASE WHEN status = 'ACTIVE' THEN 0 ELSE 1 END
+          LIMIT 1`,
+        [cleanSym]
+      ) as typeof identity;
+    } catch {
+      identity = null;
     }
 
-    // 2. Fetch Multi-Source News with Sentiment Analysis
-    const newsService = new NewsSentimentService();
-    const newsSentiment = await newsService.fetchNews(cleanSym);
-
-    // 3. Fetch Historical OHLCV Price Bars (365 days)
-    let ohlcv: any[] = [];
-    try {
-      const tickerInfo = await fetchTickerData(cleanSym, 365, false);
-      if (tickerInfo && Array.isArray(tickerInfo.closePrices) && tickerInfo.closePrices.length > 0) {
-        ohlcv = tickerInfo.closePrices;
-      }
-    } catch (e) {}
-
-    // Fallback OHLCV simulation if ticker fetch is not available for private/illiquid SME
-    if (ohlcv.length === 0) {
-      const holdingRow: any = await dbGet(db, "SELECT ltp, avg_buy_price FROM Holdings WHERE symbol = ? LIMIT 1", [cleanSym]);
-      const baseLtp = Number(holdingRow?.ltp || holdingRow?.avg_buy_price || 100);
-      ohlcv = Array.from({ length: 60 }).map((_, idx) => {
-        const factor = 1 + (Math.sin(idx / 5) * 0.08) + ((idx - 30) * 0.002);
-        const p = Number((baseLtp * factor).toFixed(2));
-        return {
-          date: new Date(Date.now() - (60 - idx) * 86400000).toISOString().split('T')[0],
-          open: p * 0.99,
-          high: p * 1.02,
-          low: p * 0.98,
-          close: p,
-          volume: 25000 + Math.round(Math.random() * 50000)
-        };
-      });
-    }
-
-    // 4. Run Technical Analysis Engine (Pivots, F&O Options, Consensus, Layman Dictionary)
-    const fnoSnap = await FnOIntelligenceService.getInstance().getFnOSnapshot(cleanSym).catch(() => null);
-    const technical = TechnicalAnalysisEngine.analyze(ohlcv, cleanSym, fnoSnap);
-
-    // 5. Run Quantitative Machine Learning & Backtesting Engine
-    const priceActionModel = PriceActionBacktestEngine.getInstance().analyzeAndBacktest(cleanSym, ohlcv);
-
-    // 6. Portfolio Context
-    let portfolioContext = null;
-    try {
-      const holdings = await dbAll(db, "SELECT current_value, total_cost, quantity, portfolio FROM Holdings WHERE symbol = ? AND quantity > 0", [cleanSym]);
-      if (holdings && holdings.length > 0) {
-        let totalVal = 0;
-        let totalCost = 0;
-        let ports: string[] = [];
-        holdings.forEach((h: any) => {
-          totalVal += Number(h.current_value || 0);
-          totalCost += Number(h.total_cost || 0);
-          if (h.portfolio) ports.push(h.portfolio);
-        });
-        const pnlPct = totalCost > 0 ? ((totalVal - totalCost) / totalCost) * 100 : 0;
-        portfolioContext = {
-          unrealized_pnl: totalVal - totalCost,
-          unrealized_pnl_pct: pnlPct,
-          days_held: 180,
-          weight_pct: 2.5,
-          portfolio: ports.join(', ')
-        };
-      }
-    } catch (e) {}
-
-    // 7. Composite Signal Synthesis with Evolved Weights
-    let activeWeights = undefined;
-    try {
-      const selfLearnReport = await SelfLearningEngine.getInstance().getSelfLearningReport();
-      activeWeights = selfLearnReport.currentGeneration.activeWeights;
-    } catch {}
-
-    const signal = SignalEngine.computeSignal({
-      technical,
-      fundamental: screenerData,
-      sentiment: newsSentiment,
-      portfolio: portfolioContext || undefined
-    }, activeWeights);
-
-    // 8. Canonical Unified 5-Pillar Opportunity Evaluation (Single Source of Truth)
-    let unifiedOpportunity: any = null;
-    try {
-      unifiedOpportunity = await OpportunityScannerEngine.getInstance().scanSingleScrip(cleanSym, portfolioContext);
-      if (unifiedOpportunity && technical && technical.executiveVerdict) {
-        // Synchronize executive verdict with unified single-source-of-truth directive
-        if (unifiedOpportunity.actionDirective === 'TRIM_PROFIT') {
-          technical.executiveVerdict.action = 'TRIM_PROFIT';
-          technical.executiveVerdict.bias = 'CONSOLIDATION';
-          technical.executiveVerdict.portfolioImpactBadge = 'HARVEST PROFIT (Lock in gains)';
-          technical.executiveVerdict.oneLineTakeaway = unifiedOpportunity.laymanRationale;
-          technical.executiveVerdict.actionGuidance = 'Trim 15-25% of position to bank profits while maintaining a trailing stop on the remainder.';
-        } else if (unifiedOpportunity.actionDirective === 'TRIM_EXIT' || unifiedOpportunity.actionDirective === 'SHORT_HEDGE' || unifiedOpportunity.actionDirective === 'BEARISH_BREAKDOWN') {
-          technical.executiveVerdict.action = 'DEFENSIVE_SELL';
-          technical.executiveVerdict.bias = 'BEARISH_DECLINE';
-          technical.executiveVerdict.portfolioImpactBadge = 'DOWNSIDE RISK (Drawdown containment)';
-          technical.executiveVerdict.oneLineTakeaway = unifiedOpportunity.laymanRationale;
-          technical.executiveVerdict.actionGuidance = 'Enforce strict stop-loss or hedge via F&O downside puts to protect family capital.';
-        } else if (unifiedOpportunity.actionDirective === 'STRONG_BUY') {
-          technical.executiveVerdict.action = 'STRONG_BUY';
-          technical.executiveVerdict.bias = 'BULLISH_GROWTH';
-          technical.executiveVerdict.portfolioImpactBadge = 'GROWTH CATALYST (Good for Portfolio)';
-          technical.executiveVerdict.oneLineTakeaway = unifiedOpportunity.laymanRationale;
-        } else if (unifiedOpportunity.actionDirective === 'SWING_BUY' || unifiedOpportunity.actionDirective === 'ACCUMULATE') {
-          technical.executiveVerdict.action = 'BUY_ACCUMULATE';
-          technical.executiveVerdict.bias = 'BULLISH_GROWTH';
-          technical.executiveVerdict.portfolioImpactBadge = 'GROWTH CATALYST (Good for Portfolio)';
-          technical.executiveVerdict.oneLineTakeaway = unifiedOpportunity.laymanRationale;
-        } else {
-          technical.executiveVerdict.action = 'HOLD_RIDE_TREND';
-          technical.executiveVerdict.bias = 'CONSOLIDATION';
-          technical.executiveVerdict.portfolioImpactBadge = 'STABLE VALUE (Neutral for Portfolio)';
-          technical.executiveVerdict.oneLineTakeaway = unifiedOpportunity.laymanRationale;
-        }
-
-        // Align Signal action
-        if (unifiedOpportunity.actionDirective === 'TRIM_PROFIT') signal.action = 'REDUCE';
-        else if (unifiedOpportunity.actionDirective === 'TRIM_EXIT' || unifiedOpportunity.actionDirective === 'SHORT_HEDGE') signal.action = 'SELL';
-        else if (unifiedOpportunity.actionDirective === 'STRONG_BUY') signal.action = 'STRONG BUY';
-        else if (unifiedOpportunity.actionDirective === 'SWING_BUY' || unifiedOpportunity.actionDirective === 'ACCUMULATE') signal.action = 'ADD_MORE';
-        else signal.action = 'HOLD';
-        signal.aiRationale = unifiedOpportunity.laymanRationale;
-      }
-    } catch (e) {
-      console.warn(`[handleScripIntelligence] Unified opportunity sync error for ${cleanSym}:`, e);
-    }
-
-    // 9. Trendlyne Institutional DVM, SWOT & Analyst Consensus
-    let trendlyneData: any = null;
-    try {
-      const liveCmp = technical?.cmp || (unifiedOpportunity?.cmp) || undefined;
-      trendlyneData = await TrendlyneIntelligenceService.getInstance().getScripIntelligence(cleanSym, liveCmp);
-    } catch (e) {
-      console.warn(`[handleScripIntelligence] Trendlyne sync error for ${cleanSym}:`, e);
-    }
-
+    const fereEvidence = await readFereEvidence(identity?.isin || null, cleanSym);
     const payload = {
       symbol: cleanSym,
-      company_name: screenerData?.company_name || cleanSym,
-      signal,
-      technical,
-      priceActionModel,
-      screener: screenerData,
-      news: newsSentiment,
-      portfolioContext,
-      unifiedOpportunity,
-      trendlyne: trendlyneData
+      isin: fereEvidence.isin || identity?.isin || null,
+      company_name: identity?.name || cleanSym,
+      dataState: fereEvidence.status === 'SOURCE_UNAVAILABLE' ? 'SOURCE_UNAVAILABLE' : 'DATA_INSUFFICIENT',
+      decisionStatus: 'BLOCKED',
+      actionSignal: {
+        action: null,
+        recommendation: null,
+        compositeScore: null,
+        calibratedProbabilityPct: null,
+        targetPrice: null,
+        stopLossPrice: null,
+        reason: 'Read-only evidence mode: critical decision sources were not evaluated, so no investment decision was computed.'
+      },
+      sourceStates: {
+        strategyReports: 'PERSISTED_READ_ONLY',
+        fere: fereEvidence.status,
+        technical: 'NOT_YET_CHECKED',
+        fundamental: 'NOT_YET_CHECKED',
+        analystConsensus: 'NOT_YET_CHECKED'
+      },
+      fereResult: fereEvidence.status,
+      fereEvidence,
+      signal: null,
+      technical: null,
+      priceActionModel: null,
+      screener: null,
+      news: null,
+      portfolioContext: null,
+      unifiedOpportunity: null,
+      trendlyne: null
     };
 
     res.json({ success: true, data: payload, ...payload });
@@ -11830,9 +11730,6 @@ app.get('/api/scrip-ai-analysis', async (req, res) => {
 
     // Fetch fundamental data from ScreenerService
     let screenerData = await ScreenerService.getInstance().fetchScreenerData(cleanSym);
-    if (!screenerData) {
-      screenerData = ScreenerService.getInstance().generateFallbackScreenerData(cleanSym);
-    }
 
     // Fetch technical analysis from Yahoo Finance
     const isUs = cleanSym.startsWith('US') || ['VOO', 'QQQ', 'AAPL', 'MSFT', 'NVDA', 'AMZN', 'GOOGL', 'TSLA', 'META', 'BRK.B', 'VGT', 'SCHG', 'SPY'].includes(cleanSym);
@@ -11850,6 +11747,22 @@ app.get('/api/scrip-ai-analysis', async (req, res) => {
     const newsService = new NewsSentimentService();
     const newsSentiment = await newsService.fetchNews(cleanSym);
 
+    if (!screenerData || !technicalAnalysis) {
+      return res.json({
+        success: true,
+        symbol: cleanSym,
+        analysis: {
+          recommendation: 'BLOCKED',
+          actionColor: 'text-slate-400',
+          sentiment: 'Unknown',
+          summary: 'Critical evidence is unavailable. No AI analysis generated.',
+          sources: [],
+          reasoning: 'Missing core fundamental or technical data.'
+        },
+        signalResult: { action: null, compositeScore: null, confidence: 'NONE' }
+      });
+    }
+
     // Compute composite signal using real engines
     const signalResult = SignalEngine.computeSignal({
       technical: technicalAnalysis,
@@ -11857,7 +11770,7 @@ app.get('/api/scrip-ai-analysis', async (req, res) => {
       sentiment: newsSentiment
     });
 
-    const recommendation = signalResult.action;
+    const recommendation = signalResult.action || 'HOLD';
     let actionColor = 'text-amber-400';
     if (recommendation.includes('BUY') || recommendation === 'STRONG BUY' || recommendation === 'ADD_MORE') {
       actionColor = 'text-emerald-400';
@@ -11871,21 +11784,21 @@ app.get('/api/scrip-ai-analysis', async (req, res) => {
       recommendation: recommendation.replace('_', ' '),
       actionColor,
       sentiment,
-      summary: `Real-time multi-factor analysis: Technical score (${signalResult.breakdown?.technicalScore || 50}/100), Fundamentals (${signalResult.breakdown?.fundamentalScore || 50}/100), Sentiment (${signalResult.breakdown?.sentimentScore || 50}/100).`,
+      summary: `Real-time multi-factor analysis: Technical score (${signalResult.breakdown?.technicalScore ?? 'N/A'}/100), Fundamentals (${signalResult.breakdown?.fundamentalScore ?? 'N/A'}/100), Sentiment (${signalResult.breakdown?.sentimentScore ?? 'N/A'}/100).`,
       sources: [
         {
           name: 'Screener.in Fundamentals',
-          insight: screenerData?.company_name ? `P/E: ${screenerData.ratios?.stock_pe || 'N/A'}, ROCE: ${screenerData.ratios?.roce || 'N/A'}%, Market Cap: ${screenerData.ratios?.market_cap || 'N/A'}. ${screenerData.pros && screenerData.pros.length > 0 ? screenerData.pros[0] : 'Solid business profile.'}` : 'Fundamental metrics within standard sectoral norms.',
-          impact: (screenerData?.ratios?.roce && parseFloat(screenerData.ratios.roce) > 15) ? 'Positive' : 'Neutral'
+          insight: `P/E: ${screenerData.ratios?.stock_pe ?? 'N/A'}, ROCE: ${screenerData.ratios?.roce ?? 'N/A'}%, Market Cap: ${screenerData.ratios?.market_cap ?? 'N/A'}. ${screenerData.pros && screenerData.pros.length > 0 ? screenerData.pros[0] : ''}`,
+          impact: (screenerData.ratios?.roce && parseFloat(screenerData.ratios.roce) > 15) ? 'Positive' : 'Neutral'
         },
         {
           name: 'Technical Analysis (200-DMA & RSI)',
-          insight: technicalAnalysis ? `RSI(14): ${technicalAnalysis.rsi?.toFixed(1) || '50.0'} (${technicalAnalysis.rsiCondition || 'Neutral'}). Trend: ${technicalAnalysis.trend || 'Consolidating'}. 50-DMA: ₹${technicalAnalysis.sma50?.toFixed(2) || 'N/A'}.` : 'Price consolidating near moving average bands.',
-          impact: (technicalAnalysis?.rsiCondition === 'Oversold' || technicalAnalysis?.trend === 'Bullish') ? 'Positive' : 'Neutral'
+          insight: `RSI(14): ${technicalAnalysis.rsi?.toFixed(1) ?? 'N/A'} (${technicalAnalysis.rsiCondition ?? 'N/A'}). Trend: ${technicalAnalysis.trend ?? 'N/A'}. 50-DMA: ₹${technicalAnalysis.sma50?.toFixed(2) ?? 'N/A'}.`,
+          impact: (technicalAnalysis.rsiCondition === 'Oversold' || technicalAnalysis.trend === 'Bullish') ? 'Positive' : 'Neutral'
         },
         {
           name: 'Social & Market Sentiment',
-          insight: newsSentiment?.articles && newsSentiment.articles.length > 0 ? `Latest: "${newsSentiment.articles[0].title}". Overall sentiment score: ${newsSentiment.overallSentimentScore}.` : 'Market commentary and news flow indicate steady institutional coverage.',
+          insight: newsSentiment?.articles && newsSentiment.articles.length > 0 ? `Latest: "${newsSentiment.articles[0].title}". Overall sentiment score: ${newsSentiment.overallSentimentScore}.` : 'No sentiment data.',
           impact: (newsSentiment?.overallSentimentScore && newsSentiment.overallSentimentScore > 0) ? 'Positive' : 'Neutral'
         },
         {
@@ -11915,9 +11828,6 @@ app.get('/api/scrip-intelligence', async (req, res) => {
     
     // Fetch Screener.in data (for Indian equities)
     let screenerData = await ScreenerService.getInstance().fetchScreenerData(cleanSym);
-    if (!screenerData) {
-      screenerData = ScreenerService.getInstance().generateFallbackScreenerData(cleanSym);
-    }
 
     // Fetch Social Media & YouTube Coverage Links
     const socialItems = SocialMediaService.getInstance().getSocialCoverageForScrip(cleanSym, screenerData?.company_name);
@@ -12053,7 +11963,6 @@ app.get('/api/portfolio-intelligence', async (req, res) => {
             ]);
           } catch {}
         }
-        if (!screenerData) screenerData = ScreenerService.getInstance().generateFallbackScreenerData(cleanSym);
 
         // 2. Technical analysis (Yahoo Finance or SQLite HistoricalPrices, 3s timeout)
         const yfSym = isUs ? cleanSym : `${cleanSym}.NS`;
@@ -12072,12 +11981,17 @@ app.get('/api/portfolio-intelligence', async (req, res) => {
           technicalAnalysis = TechnicalAnalysisEngine.analyze(tickerInfo.closePrices);
         }
 
-        const signalResult = SignalEngine.computeSignal({
-          technical: technicalAnalysis,
-          fundamental: screenerData,
-          sentiment: null, // News is skipped in batch for speed
-          portfolio: { unrealized_pnl_pct: pnl, days_held: 180, weight_pct: 1 }
-        }, activeWeights);
+        let signalResult = null;
+        if (screenerData && technicalAnalysis) {
+          signalResult = SignalEngine.computeSignal({
+            technical: technicalAnalysis,
+            fundamental: screenerData,
+            sentiment: null, // News is skipped in batch for speed
+            portfolio: { unrealized_pnl_pct: pnl, days_held: null, weight_pct: null }
+          }, activeWeights);
+        } else {
+          signalResult = { action: 'BLOCKED', compositeScore: null, confidence: 'NONE', breakdown: { technicalScore: null, fundamentalScore: null, sentimentScore: null } };
+        }
 
         return {
           symbol: cleanSym,
@@ -16520,32 +16434,8 @@ async function seedDatabase(db: any) {
       `, [tx.date, tx.portfolio, tx.type, tx.isin, tx.symbol, tx.quantity, tx.price, tx.gross_amount, tx.net_amount, tx.notes]);
     }
 
-    // 3. Seed Portfolio History
-    const now = new Date();
-    for (let i = 30; i >= 0; i--) {
-      const d = new Date();
-      d.setDate(now.getDate() - i);
-      const dateStr = d.toISOString().split('T')[0];
-      
-      const factor = 1 - (i / 30) * 0.15; // smooth upward progress
-      const fluctuation = 1 + (Math.sin(i * 0.4) * 0.025);
-      
-      const ltInvested = 799500 * factor;
-      const ltValue = 926900 * factor * fluctuation;
+    // 3. Seed Portfolio History disabled to prevent synthetic data injection
 
-      const satInvested = 426100 * factor;
-      const satValue = 518600 * factor * fluctuation;
-
-      await dbRun(db, `
-        INSERT OR REPLACE INTO PortfolioHistory (date, portfolio, cumulative_invested, market_value)
-        VALUES (?, 'Gopal Sharma - Long Term', ?, ?)
-      `, [dateStr, ltInvested, ltValue]);
-
-      await dbRun(db, `
-        INSERT OR REPLACE INTO PortfolioHistory (date, portfolio, cumulative_invested, market_value)
-        VALUES (?, 'Gopal Sharma - Satellite', ?, ?)
-      `, [dateStr, satInvested, satValue]);
-    }
 
     console.log('Demo portfolio data and history seeded successfully.');
 
@@ -17064,12 +16954,15 @@ async function startServer() {
     }
   }, 120000);
 
-  // Pre-cache lightweight market data at 120s (non-blocking fire-and-forget)
-  // Delayed to 120s to ensure DB is open and user is active
-  setTimeout(() => {
-    fetchTickerData('^NSEI', 365 * 5).catch(console.error);
-    generateImmediateGrowthHistory(getDB(), null).catch(console.error);
-  }, 120000);
+  // Pre-cache is disabled for disposable read-only runtime smoke tests.
+  if (process.env.READ_ONLY_RUNTIME !== 'true') {
+    setTimeout(() => {
+      fetchTickerData('^NSEI', 365 * 5).catch(console.error);
+      generateImmediateGrowthHistory(getDB(), null).catch(console.error);
+    }, 120000);
+  } else {
+    console.log('[ReadOnlyRuntime] Skipping market-data and growth-history pre-cache.');
+  }
 
   // Pre-warm dashboard payload caches after 150s — deferred so server can serve user
   // requests immediately; buildDashboardPayload does CPU-heavy XIRR computation.
@@ -17134,10 +17027,14 @@ async function startServer() {
 
 
   // Trigger initial background FX rates sync asynchronously (deferred by 60s)
-  setTimeout(() => {
-    console.log('[FX Sync] Performing initial FX rates fetch...');
-    BankAndFDService.getInstance().fetchLiveXERates().catch(console.error);
-  }, 60000);
+  if (process.env.READ_ONLY_RUNTIME !== 'true') {
+    setTimeout(() => {
+      console.log('[FX Sync] Performing initial FX rates fetch...');
+      BankAndFDService.getInstance().fetchLiveXERates().catch(console.error);
+    }, 60000);
+  } else {
+    console.log('[ReadOnlyRuntime] Skipping initial FX sync.');
+  }
 
   // Daily snapshot write — gated: only when startup mutations enabled
   if (process.env.ENABLE_STARTUP_DB_MUTATIONS === 'true') {
@@ -17258,4 +17155,8 @@ async function startServer() {
   }
 }
 
-startServer().catch(console.error);
+export { app };
+
+if (process.env.NODE_ENV !== 'test') {
+  startServer().catch(console.error);
+}

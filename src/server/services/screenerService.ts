@@ -381,12 +381,12 @@ export class ScreenerService {
           const quarterLabels = headerThs.filter(h => /\b(Mar|Jun|Sep|Dec)\s+20\d{2}\b/i.test(h) || /\b20\d{2}\b/.test(h));
           const latestQuarter = quarterLabels.length > 0 ? quarterLabels[quarterLabels.length - 1] : 'LATEST';
 
-          let rawPromoter = 0;
-          let rawFii = 0;
-          let rawDii = 0;
-          let rawGovt = 0;
-          let rawOthers = 0;
-          let rawPublic = 0;
+          let rawPromoter: number | null = null;
+          let rawFii: number | null = null;
+          let rawDii: number | null = null;
+          let rawGovt: number | null = null;
+          let rawOthers: number | null = null;
+          let rawPublic: number | null = null;
 
           const rows = table.querySelectorAll('tr');
           for (const r of rows) {
@@ -396,26 +396,27 @@ export class ScreenerService {
 
             // Always select the rightmost column (latest available quarter)
             const cellValueStr = cells[cells.length - 1];
-            const parsedVal = parseFloat(cellValueStr) || 0;
+            const parsedValStr = parseFloat(cellValueStr);
+            const parsedVal = isNaN(parsedValStr) ? null : parsedValStr;
 
             if (rowText.includes('promoter')) {
               rawPromoter = parsedVal;
-              shareholding.promoters = `${parsedVal}%`;
+              shareholding.promoters = parsedVal !== null ? `${parsedVal}%` : undefined;
             } else if (rowText.includes('fii')) {
               rawFii = parsedVal;
-              shareholding.fiis = `${parsedVal}%`;
+              shareholding.fiis = parsedVal !== null ? `${parsedVal}%` : undefined;
             } else if (rowText.includes('dii')) {
               rawDii = parsedVal;
-              shareholding.diis = `${parsedVal}%`;
+              shareholding.diis = parsedVal !== null ? `${parsedVal}%` : undefined;
             } else if (rowText.includes('government') || rowText.includes('govt')) {
               rawGovt = parsedVal;
-              shareholding.govt = `${parsedVal}%`;
+              shareholding.govt = parsedVal !== null ? `${parsedVal}%` : undefined;
             } else if (rowText.includes('others') || rowText.includes('custodian') || rowText.includes('trust')) {
               rawOthers = parsedVal;
-              shareholding.others = `${parsedVal}%`;
+              shareholding.others = parsedVal !== null ? `${parsedVal}%` : undefined;
             } else if (rowText.includes('public')) {
               rawPublic = parsedVal;
-              shareholding.public_holding = `${parsedVal}%`;
+              shareholding.public_holding = parsedVal !== null ? `${parsedVal}%` : undefined;
             } else if (rowText.includes('no. of shareholders') || rowText.includes('shareholders')) {
               shareholding.noOfShareholders = cellValueStr;
             }
@@ -965,29 +966,4 @@ export class ScreenerService {
     return peers;
   }
 
-  public generateFallbackScreenerData(symbol: string): ScreenerData {
-    const sym = symbol.toUpperCase();
-    return {
-      symbol: sym,
-      company_name: sym,
-      about: `${sym} equity data unavailable`,
-      ratios: {},
-      pros: [],
-      cons: [],
-      documents: [],
-      concalls: [],
-      presentations: [],
-      peers: [],
-      shareholding: {
-        promoters: '—',
-        fiis: '—',
-        diis: '—',
-        govt: '—',
-        others: '—',
-        public_holding: '—',
-        dataIntegrityPassed: true
-      },
-      cached_at: new Date().toISOString()
-    };
-  }
 }

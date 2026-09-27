@@ -105,7 +105,7 @@ function parseJson(value) {
 }
 
 function sourceCoverage(raw) {
-  const required = ['profile', 'balance-sheet', 'cash-flow', 'income-statement', 'share-holdings', 'key-ratios', 'corporate-actions'];
+  const required = ['profile', 'balance-sheet', 'cash-flow', 'income-statement', 'share-holdings', 'key-ratios', 'corporate-actions', 'competitors'];
   const json = parseJson(raw?.response_json);
   const present = required.filter(k => !!json[k]);
   const missing = required.filter(k => !json[k]);
@@ -113,7 +113,7 @@ function sourceCoverage(raw) {
 }
 
 function bestUpstoxRows(db, symbols) {
-  const required = ['profile', 'balance-sheet', 'cash-flow', 'income-statement', 'share-holdings', 'key-ratios', 'corporate-actions'];
+  const required = ['profile', 'balance-sheet', 'cash-flow', 'income-statement', 'share-holdings', 'key-ratios', 'corporate-actions', 'competitors'];
   const map = new Map();
   for (const symbol of symbols) {
     const rows = db.prepare(
@@ -242,7 +242,7 @@ addRows(summary, [
   { metric: 'Selected shares', value: symbols.length, notes: 'Source: data/fundamental_enrichment/excel_strategy_manifest.json' },
   { metric: 'Strategy workbook', value: path.basename(strategyWorkbookPath), notes: 'Last seven-strategy run used as requested.' },
   { metric: 'Cutoff date', value: cutoff, notes: 'Strategy signal cutoff.' },
-  { metric: 'Raw Upstox non-competitor endpoint coverage', value: `${dossierRows.filter(r => r.raw_required_complete === 'YES').length}/${symbols.length}`, notes: 'Required endpoints: profile, balance sheet, cash flow, income statement, shareholding, key ratios, corporate actions. Competitors intentionally excluded.' },
+  { metric: 'Raw Upstox endpoint coverage', value: `${dossierRows.filter(r => r.raw_required_complete === 'YES').length}/${symbols.length}`, notes: 'Required endpoints: profile, balance sheet, cash flow, income statement, shareholding, key ratios, corporate actions, and competitors.' },
   { metric: 'Verified mandatory filter rows', value: `${dossierRows.filter(r => r.evidence_status === 'VERIFIED').length}/${symbols.length}`, notes: 'Evidence status from strategy_fundamental_filter_results.' },
   { metric: 'Fully compliant mandatory filters', value: fullyCompliant.length, notes: 'All mandatory filters passed.' },
   { metric: 'Partial / failed mandatory filters', value: partial.length, notes: 'Still reported, not hidden.' },

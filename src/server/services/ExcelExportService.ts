@@ -15,6 +15,7 @@
 import * as XLSX from 'xlsx';
 import { Database } from 'sqlite3';
 import { dbAll, dbGet } from '../database.js';
+import { StrategyFundamentalFilterService, StrategyFundamentalEnrichment } from './StrategyFundamentalFilterService.js';
 
 export interface ScanResult {
   id: string;
@@ -87,6 +88,9 @@ export class ExcelExportService {
 
       // Fetch all results
       const results = await this.fetchScanResults(db, scanId);
+      const selectedResults = results.filter(r => r.qualified);
+      const fundamentalMap = await StrategyFundamentalFilterService.getInstance()
+        .enrichSymbols(db, selectedResults.map(r => r.symbol));
 
       // Parse strategy list from metadata
       const strategyIds = JSON.parse(metadata.strategy_ids_json || '[]');
@@ -103,6 +107,10 @@ export class ExcelExportService {
       const sheet3 = this.buildConvergenceMatrix(results, strategySummaries);
       const sheet4 = this.buildConsoleLog(results);
       const sheet5 = this.buildMetadataSheet(metadata, strategyIds, strategySummaries);
+      const fundamentalRows = selectedResults.map(result => ({ result, enrichment: fundamentalMap.get(result.symbol.toUpperCase()) }));
+      const sheet6 = this.buildFundamentalSheet(fundamentalRows, 'ALL_SELECTED');
+      const sheet7 = this.buildFundamentalSheet(fundamentalRows, 'FULLY_COMPLIANT');
+      const sheet8 = this.buildFundamentalSheet(fundamentalRows, 'PARTIAL');
 
       // Add sheets to workbook
       XLSX.utils.book_append_sheet(workbook, sheet1, 'Summary');
@@ -110,6 +118,9 @@ export class ExcelExportService {
       XLSX.utils.book_append_sheet(workbook, sheet3, 'Convergence Matrix');
       XLSX.utils.book_append_sheet(workbook, sheet4, 'Console Log');
       XLSX.utils.book_append_sheet(workbook, sheet5, 'Metadata');
+      XLSX.utils.book_append_sheet(workbook, sheet6, 'Fundamental Population');
+      XLSX.utils.book_append_sheet(workbook, sheet7, 'Fully Compliant');
+      XLSX.utils.book_append_sheet(workbook, sheet8, 'Partial Compliant');
 
       // Write to buffer
       const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
@@ -118,6 +129,45 @@ export class ExcelExportService {
       console.error('[ExcelExportService] Export failed:', error);
       throw error;
     }
+  }
+
+  private buildFundamentalSheet(
+    rows: Array<{ result: ScanResult; enrichment?: StrategyFundamentalEnrichment }>,
+    population: 'ALL_SELECTED' | 'FULLY_COMPLIANT' | 'PARTIAL'
+  ): XLSX.WorkSheet {
+    const headers = [
+      'Symbol', 'Strategy', 'Population', 'Passed Checks', 'Promoter %', 'Promoter >66.6%',
+      'Profitable Last 8Q', 'Profitable Quarters Found', 'ROCE %', 'ROCE >=35%', 'ROE %', 'ROE >=25%',
+      'Pledged %', 'No Pledge', 'FII %', 'DII %', 'Institutional Involvement', 'Institutional Increasing',
+      'Operating Profit Cr', 'CFO Cr', 'CFO / Operating Profit', 'Cash Flow >=50%',
+      'Sunrise Sector', 'PLI Scheme', 'QGLP Status', 'QGLP Score', 'Sector Momentum',
+      'Stock Momentum', 'Double Momentum', 'Recent Institutional Purchases', 'Evidence Status', 'Evidence Note'
+    ];
+    const data: any[][] = [headers];
+    for (const { result, enrichment } of rows) {
+      if (!enrichment) continue;
+      if (population !== 'ALL_SELECTED' && enrichment.population !== population) continue;
+      data.push([
+        result.symbol, result.strategy_id, enrichment.population, `${enrichment.passCount}/${enrichment.totalChecks}`,
+        enrichment.promoterPct, enrichment.promoterPass ? 'PASS' : 'FAIL',
+        enrichment.profitableLast8Quarters == null ? 'UNAVAILABLE' : enrichment.profitableLast8Quarters ? 'PASS' : 'FAIL',
+        enrichment.profitableQuarterCount, enrichment.rocePct, enrichment.rocePass ? 'PASS' : 'FAIL',
+        enrichment.roePct, enrichment.roePass ? 'PASS' : 'FAIL', enrichment.pledgedPct,
+        enrichment.noPledgePass == null ? 'UNAVAILABLE' : enrichment.noPledgePass ? 'PASS' : 'FAIL',
+        enrichment.fiiPct, enrichment.diiPct,
+        enrichment.institutionalInvolvementPass == null ? 'UNAVAILABLE' : enrichment.institutionalInvolvementPass ? 'PASS' : 'FAIL',
+        enrichment.institutionalIncreasing == null ? 'UNAVAILABLE' : enrichment.institutionalIncreasing ? 'YES' : 'NO',
+        enrichment.latestOperatingProfitCr, enrichment.latestCfoCr, enrichment.cashFlowToOperatingProfit,
+        enrichment.cashFlowPass == null ? 'UNAVAILABLE' : enrichment.cashFlowPass ? 'PASS' : 'FAIL',
+        enrichment.sunriseSector, enrichment.pliScheme, enrichment.qglpStatus, enrichment.qglpScore,
+        enrichment.sectorMomentumPct, enrichment.stockMomentumPct, enrichment.doubleMomentumStatus,
+        JSON.stringify(enrichment.institutionalPurchases), enrichment.evidenceStatus, enrichment.evidenceNote
+      ]);
+    }
+    const sheet = XLSX.utils.aoa_to_sheet(data);
+    sheet['!autofilter'] = { ref: `A1:${XLSX.utils.encode_col(headers.length - 1)}${Math.max(data.length, 1)}` };
+    sheet['!cols'] = headers.map(h => ({ wch: Math.min(34, Math.max(12, h.length + 2)) }));
+    return sheet;
   }
 
   /**
