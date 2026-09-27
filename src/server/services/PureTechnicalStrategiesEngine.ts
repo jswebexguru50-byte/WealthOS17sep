@@ -44,6 +44,8 @@ export interface RuleCheck {
 
 export interface StrategyEvaluationOptions {
   filterPreceding52wLow?: boolean;
+  /** Historical evaluation date; bars after this date are excluded. */
+  asOfDate?: string;
   config?: StrategyParameterConfig;
   s4aContext?: S4aContext;
   s5aContext?: S5aContext;
@@ -3514,7 +3516,8 @@ export class PureTechnicalStrategiesEngine {
 
       await Promise.all(chunk.map(async (item) => {
         try {
-          const adjusted = duckdbResult.bars.get(item.symbol.trim().toUpperCase());
+          const adjusted = duckdbResult.bars.get(item.symbol.trim().toUpperCase())
+            ?.filter(bar => !options?.asOfDate || String(bar.trade_date) <= options.asOfDate);
           // The strategy gate is deliberately local-only. A missing DuckDB
           // partition is coverage work, not a reason to fan out into live
           // APIs while screening the complete universe.

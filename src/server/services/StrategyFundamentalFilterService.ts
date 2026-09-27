@@ -1,5 +1,8 @@
 import { dbAll } from '../database.js';
 import { Database } from 'sqlite3';
+import { DuckDbAdjustedOhlcvService } from './DuckDbAdjustedOhlcvService.js';
+import { SectorMomentumService } from './SectorMomentumService.js';
+import { calculateQglp, DEFAULT_QGLP_CONFIG, QglpStatus } from './QglpScoringService.js';
 
 export const STRATEGY_FUNDAMENTAL_RULES = {
   promoterMinimumPct: 66.6,
@@ -36,7 +39,7 @@ export interface StrategyFundamentalEnrichment {
   cashFlowPass: boolean | null;
   sunriseSector: string | null;
   pliScheme: string | null;
-  qglpStatus: 'AVAILABLE_FROM_ENGINE' | 'NOT_AVAILABLE';
+  qglpStatus: QglpStatus;
   qglpScore: number | null;
   qglpReason: string;
   sectorMomentumStatus: 'AVAILABLE' | 'NOT_AVAILABLE';
@@ -100,9 +103,26 @@ export class StrategyFundamentalFilterService {
       SELECT symbol, client_name AS clientName, quantity, trade_price AS rate,
              deal_date AS date, deal_type AS dealType
       FROM InstitutionalDeals WHERE symbol IN (${placeholders}) ORDER BY deal_date DESC`, unique);
+    const ledger = await safeAll(`
+      SELECT symbol, sector, market_cap_cr AS marketCapCr, promoter_pct AS promoterPct,
+             fii_pct AS fiiPct, dii_pct AS diiPct, pledged_pct AS pledgedPct,
+             roce_pct AS rocePct, roe_pct AS roePct, latest_op_profit_cr AS operatingProfitCr,
+             cfo_cr AS cfoCr
+      FROM DataQualityAuditLedger WHERE symbol IN (${placeholders}) ORDER BY audited_at DESC`, unique);
+    const persisted = await safeAll(`
+      SELECT * FROM strategy_fundamental_filter_results WHERE symbol IN (${placeholders})
+      ORDER BY evaluated_at DESC`, unique);
+    const masters = await safeAll(`SELECT symbol, sector FROM MasterTickers WHERE symbol IN (${placeholders})`, unique);
 
     const snapshotBySymbol = latestBySymbol(snapshots);
     const sunriseBySymbol = latestBySymbol(sunrise);
+    const ledgerBySymbol = latestBySymbol(ledger);
+    const persistedBySymbol = latestBySymbol(persisted);
+    const masterBySymbol = latestBySymbol(masters);
+    const sectors = [...new Set(unique.map(symbol => String(ledgerBySymbol.get(symbol)?.sector || masterBySymbol.get(symbol)?.sector || '').trim()).filter(Boolean))];
+    const momentumEntries = await Promise.all(sectors.map(async sector => [sector, await SectorMomentumService.getForSector(sector).catch(() => null)] as const));
+    const momentumBySector = new Map(momentumEntries);
+    const stockBars = (await DuckDbAdjustedOhlcvService.getDailyBarsForSymbols(unique, 60).catch(() => ({ bars: new Map<string, any[]>() }))).bars;
     const holdingRows = new Map<string, AnyRow[]>();
     for (const row of holdings) {
       const symbol = String(row.symbol || '').trim().toUpperCase();
@@ -124,30 +144,41 @@ export class StrategyFundamentalFilterService {
 
     for (const symbol of unique) {
       const snapshot = snapshotBySymbol.get(symbol) || {};
+      const ledgerRow = ledgerBySymbol.get(symbol) || {};
+      const persistedRow = persistedBySymbol.get(symbol) || {};
       const sh = holdingRows.get(symbol) || [];
       const latestHolding = sh[0] || {};
       const previousHolding = sh[1] || {};
       const fins = (statementRows.get(symbol) || []).slice(0, STRATEGY_FUNDAMENTAL_RULES.profitableQuarterCount);
       const profitableQuarterCount = fins.filter(r => Number(r.patCr) > 0).length;
-      const profitableLast8Quarters = fins.length >= 8 ? profitableQuarterCount === 8 : null;
-      const opProfit = fins[0]?.operatingProfitCr == null ? null : Number(fins[0].operatingProfitCr);
+      const profitableLast8Quarters = fins.length >= 8 ? profitableQuarterCount === 8 : (persistedRow.profitable_last_8_quarters == null ? null : Boolean(persistedRow.profitable_last_8_quarters));
+      const opProfit = fins[0]?.operatingProfitCr == null
+        ? (ledgerRow.operatingProfitCr == null ? (persistedRow.latest_operating_profit_cr == null ? null : Number(persistedRow.latest_operating_profit_cr)) : Number(ledgerRow.operatingProfitCr))
+        : Number(fins[0].operatingProfitCr);
       const cfoRow = (cashFlowRows.get(symbol) || [])[0];
-      const cfo = cfoRow?.cfoCr == null ? null : Number(cfoRow.cfoCr);
-      const cashFlowRatio = opProfit != null && cfo != null && opProfit > 0 ? cfo / opProfit : null;
+      const cfo = cfoRow?.cfoCr == null
+        ? (ledgerRow.cfoCr == null ? (persistedRow.latest_cfo_cr == null ? null : Number(persistedRow.latest_cfo_cr)) : Number(ledgerRow.cfoCr))
+        : Number(cfoRow.cfoCr);
+      const periodsAlign = !cfoRow?.periodDate || !fins[0]?.periodDate
+        ? false
+        : String(cfoRow.periodDate) === String(fins[0].periodDate);
+      const alignedCfo = periodsAlign ? cfo : null;
+      const cashFlowRatio = opProfit != null && alignedCfo != null && opProfit > 0 ? alignedCfo / opProfit : null;
 
-      const promoterPct = snapshot.promoterPct ?? latestHolding.promoterPct ?? null;
-      const fiiPct = snapshot.fiiPct ?? latestHolding.fiiPct ?? null;
-      const diiPct = snapshot.diiPct ?? latestHolding.diiPct ?? null;
-      const pledgedPct = snapshot.pledgedPct ?? null;
-      const rocePct = snapshot.rocePct ?? null;
-      const roePct = snapshot.roePct ?? null;
+      const promoterPct = snapshot.promoterPct ?? latestHolding.promoterPct ?? ledgerRow.promoterPct ?? persistedRow.promoter_pct ?? null;
+      const fiiPct = snapshot.fiiPct ?? latestHolding.fiiPct ?? ledgerRow.fiiPct ?? persistedRow.fii_pct ?? null;
+      const diiPct = snapshot.diiPct ?? latestHolding.diiPct ?? ledgerRow.diiPct ?? persistedRow.dii_pct ?? null;
+      const pledgedPct = snapshot.pledgedPct ?? ledgerRow.pledgedPct ?? persistedRow.pledged_pct ?? null;
+      const rocePct = snapshot.rocePct ?? ledgerRow.rocePct ?? persistedRow.roce_pct ?? null;
+      const roePct = snapshot.roePct ?? ledgerRow.roePct ?? persistedRow.roe_pct ?? null;
       const promoterPass = promoterPct != null && Number(promoterPct) > STRATEGY_FUNDAMENTAL_RULES.promoterMinimumPct;
       const rocePass = rocePct != null && Number(rocePct) >= STRATEGY_FUNDAMENTAL_RULES.roceMinimumPct;
       const roePass = roePct != null && Number(roePct) >= STRATEGY_FUNDAMENTAL_RULES.roeMinimumPct;
       const noPledgePass = pledgedPct == null ? null : Number(pledgedPct) === 0;
       const institutionalInvolvementPass = fiiPct != null && diiPct != null ? Number(fiiPct) + Number(diiPct) > 0 : null;
       const institutionalIncreasing = latestHolding.fiiPct != null && previousHolding.fiiPct != null && latestHolding.diiPct != null && previousHolding.diiPct != null
-        ? Number(latestHolding.fiiPct) + Number(latestHolding.diiPct) > Number(previousHolding.fiiPct) + Number(previousHolding.diiPct) : null;
+        ? Number(latestHolding.fiiPct) + Number(latestHolding.diiPct) > Number(previousHolding.fiiPct) + Number(previousHolding.diiPct)
+        : (persistedRow.institutional_increasing == null ? null : Boolean(persistedRow.institutional_increasing));
       const cashFlowPass = cashFlowRatio == null ? null : cfo! > 0 && cashFlowRatio >= STRATEGY_FUNDAMENTAL_RULES.cashFlowToOperatingProfitMinimum;
       const checks = [promoterPass, profitableLast8Quarters === true, rocePass, roePass, noPledgePass === true, institutionalInvolvementPass === true, cashFlowPass === true];
       const passCount = checks.filter(Boolean).length;
@@ -155,6 +186,32 @@ export class StrategyFundamentalFilterService {
       const population: FundamentalPopulation = passCount === checks.length ? 'FULLY_COMPLIANT' : passCount > 0 ? 'PARTIAL' : 'NOT_COMPLIANT';
       const sun = sunriseBySymbol.get(symbol);
       const symbolDeals = deals.filter(d => String(d.symbol || '').trim().toUpperCase() === symbol).slice(0, 10);
+      const sectorName = String(ledgerRow.sector || masterBySymbol.get(symbol)?.sector || '').trim() || null;
+      const sectorMomentum = momentumBySector.get(String(sectorName || '').trim()) || null;
+      const bars = (stockBars.get(symbol) || []).slice().sort((a: any, b: any) => String(a.trade_date).localeCompare(String(b.trade_date)));
+      const closes = bars.map((b: any) => Number(b.close_adjusted)).filter(Number.isFinite);
+      const stockMomentumPct = closes.length >= 21 && closes[closes.length - 21] !== 0 ? ((closes.at(-1)! / closes[closes.length - 21]) - 1) * 100 : null;
+      const latestPat = fins[0]?.patCr == null ? null : Number(fins[0].patCr);
+      const cfoToPatPct = alignedCfo != null && latestPat != null && latestPat > 0 ? (alignedCfo / latestPat) * 100 : null;
+      const qglp = calculateQglp({
+        roePct: roePct == null ? null : Number(roePct),
+        rocePct: rocePct == null ? null : Number(rocePct),
+        cfoToPatPct,
+        cfoToOperatingProfitPct: cashFlowRatio == null ? null : cashFlowRatio * 100,
+        debtToEquity: null,
+        promoterPledgePct: pledgedPct == null ? null : Number(pledgedPct),
+        profitableQuarterCount: fins.length >= STRATEGY_FUNDAMENTAL_RULES.profitableQuarterCount ? profitableQuarterCount : null,
+        salesCagr3yPct: null,
+        profitCagr3yPct: null,
+        profitableYears: null,
+        positiveCfoYears: null,
+        roceConsistencyPct: null,
+        marginStabilityPct: null,
+        peVsHistoryPct: null,
+        peVsSectorPct: null,
+        peg: null,
+        fcfYieldPct: null,
+      }, DEFAULT_QGLP_CONFIG);
       out.set(symbol, {
         symbol, population, passCount, totalChecks: checks.length,
         promoterPct: promoterPct == null ? null : Number(promoterPct), promoterPass,
@@ -164,12 +221,14 @@ export class StrategyFundamentalFilterService {
         pledgedPct: pledgedPct == null ? null : Number(pledgedPct), noPledgePass,
         fiiPct: fiiPct == null ? null : Number(fiiPct), diiPct: diiPct == null ? null : Number(diiPct),
         institutionalInvolvementPass, institutionalIncreasing,
-        latestOperatingProfitCr: opProfit, latestCfoCr: cfo, cashFlowToOperatingProfit: cashFlowRatio, cashFlowPass,
+        latestOperatingProfitCr: opProfit, latestCfoCr: alignedCfo, cashFlowToOperatingProfit: cashFlowRatio, cashFlowPass,
         sunriseSector: sun?.verticalName || null, pliScheme: sun?.pliScheme || null,
-        qglpStatus: 'NOT_AVAILABLE', qglpScore: null,
-        qglpReason: 'No authenticated QGLP score was available in the strategy-export data path.',
-        sectorMomentumStatus: 'NOT_AVAILABLE', sectorMomentumPct: null, stockMomentumPct: null,
-        doubleMomentumStatus: 'NOT_AVAILABLE',
+        qglpStatus: qglp.status, qglpScore: qglp.score,
+        qglpReason: qglp.reason,
+        sectorMomentumStatus: sectorMomentum ? (sectorMomentum.status === 'UNAVAILABLE' ? 'NOT_AVAILABLE' : 'AVAILABLE') : (persistedRow.sector_momentum_status ? 'AVAILABLE' : 'NOT_AVAILABLE'),
+        sectorMomentumPct: sectorMomentum?.return20dPct ?? (persistedRow.sector_momentum_pct == null ? null : Number(persistedRow.sector_momentum_pct)),
+        stockMomentumPct: stockMomentumPct ?? (persistedRow.stock_momentum_pct == null ? null : Number(persistedRow.stock_momentum_pct)),
+        doubleMomentumStatus: (sectorMomentum?.status === 'BULLISH' && stockMomentumPct != null && stockMomentumPct > 0) || persistedRow.double_momentum_status === 'AVAILABLE' ? 'AVAILABLE' : 'NOT_AVAILABLE',
         institutionalPurchases: symbolDeals.map(d => ({ clientName: String(d.clientName || ''), quantity: Number(d.quantity), rate: Number(d.rate), date: String(d.date || ''), dealType: String(d.dealType || '') })),
         evidenceStatus: evidenceCount === 0 ? 'UNAVAILABLE' : evidenceCount < checks.length ? 'PARTIAL' : 'VERIFIED',
         evidenceNote: evidenceCount < checks.length ? 'One or more required fields are unavailable and therefore failed closed.' : 'All filter inputs are present in SQLite evidence tables.',

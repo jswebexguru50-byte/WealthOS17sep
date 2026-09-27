@@ -225,7 +225,7 @@ export class ForensicIntelligenceService {
       trailingEps: valuationInput.trailingEps,
       baseGrowthRatePct: valuationInput.baseGrowthRatePct,
       basePeMultiple: valuationInput.basePeMultiple,
-      dataSourceType: valuationInput.dataSourceType === 'live_consensus' ? 'live_consensus' : 'eps_stdev_fallback',
+      dataSourceType: valuationInput.dataSourceType === 'live_consensus' ? 'live_consensus' : 'user_sensitivity',
       dataCompleteness: valuationInput.dataCompleteness,
       consensusEpsBull: valuationInput.consensusEpsBull,
       consensusEpsBear: valuationInput.consensusEpsBear,

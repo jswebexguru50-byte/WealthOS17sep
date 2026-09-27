@@ -200,7 +200,7 @@ export interface ForensicDossier {
     baseCase: ScenarioResult;
     bullCase: ScenarioResult;
     bearCase: ScenarioResult;
-    dataSourceType: 'live_consensus' | 'eps_stdev_fallback';
+    dataSourceType: 'live_consensus' | 'user_sensitivity' | 'DATA_INSUFFICIENT';
     historicalOutcome?: {
       realizedPrice: number;
       fallsInsideModeledBand: boolean;

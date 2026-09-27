@@ -204,9 +204,6 @@ export function calculateEPVValuationV5(input: EPVValuationInput): EPVValuationO
     dcfIntrinsicValuePerShare: Number(dcfIntrinsicValuePerShare.toFixed(2)),
     growthValuePremiumPct: Number(growthValuePremiumPct.toFixed(2)),
     valuationGateStatus,
-    piotroskiFScore: 8, // Placeholder for score pipeline
-    altmanZScore: 3.45,
-    beneishMScore: -2.85,
   };
 }
 

@@ -16,6 +16,8 @@ import * as XLSX from 'xlsx';
 import { Database } from 'sqlite3';
 import { dbAll, dbGet } from '../database.js';
 import { StrategyFundamentalFilterService, StrategyFundamentalEnrichment } from './StrategyFundamentalFilterService.js';
+import { SectorMomentumService, SectorMomentumSnapshot } from './SectorMomentumService.js';
+import { SectorFlowService, SectorFlowSnapshot } from './SectorFlowService.js';
 
 export interface ScanResult {
   id: string;
@@ -77,7 +79,8 @@ export class ExcelExportService {
    */
   public async generateComprehensiveExport(
     scanId: string,
-    db: Database
+    db: Database,
+    options: { fromDate?: string; toDate?: string } = {}
   ): Promise<Buffer> {
     try {
       // Fetch metadata
@@ -87,7 +90,7 @@ export class ExcelExportService {
       }
 
       // Fetch all results
-      const results = await this.fetchScanResults(db, scanId);
+      const results = await this.fetchScanResults(db, scanId, options);
       const selectedResults = results.filter(r => r.qualified);
       const fundamentalMap = await StrategyFundamentalFilterService.getInstance()
         .enrichSymbols(db, selectedResults.map(r => r.symbol));
@@ -111,6 +114,8 @@ export class ExcelExportService {
       const sheet6 = this.buildFundamentalSheet(fundamentalRows, 'ALL_SELECTED');
       const sheet7 = this.buildFundamentalSheet(fundamentalRows, 'FULLY_COMPLIANT');
       const sheet8 = this.buildFundamentalSheet(fundamentalRows, 'PARTIAL');
+      const masterRows = await this.buildMasterAnalysisRows(db, selectedResults, fundamentalMap, options);
+      const sheet9 = this.buildMasterAnalysisSheet(masterRows);
 
       // Add sheets to workbook
       XLSX.utils.book_append_sheet(workbook, sheet1, 'Summary');
@@ -121,6 +126,7 @@ export class ExcelExportService {
       XLSX.utils.book_append_sheet(workbook, sheet6, 'Fundamental Population');
       XLSX.utils.book_append_sheet(workbook, sheet7, 'Fully Compliant');
       XLSX.utils.book_append_sheet(workbook, sheet8, 'Partial Compliant');
+      XLSX.utils.book_append_sheet(workbook, sheet9, 'Master Analysis');
 
       // Write to buffer
       const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
@@ -129,6 +135,74 @@ export class ExcelExportService {
       console.error('[ExcelExportService] Export failed:', error);
       throw error;
     }
+  }
+
+  private async buildMasterAnalysisRows(
+    db: Database,
+    results: ScanResult[],
+    fundamentalMap: Map<string, StrategyFundamentalEnrichment>,
+    options: { fromDate?: string; toDate?: string }
+  ): Promise<any[]> {
+    const symbols = [...new Set(results.filter(r => r.qualified).map(r => r.symbol.toUpperCase()))];
+    if (!symbols.length) return [];
+    const placeholders = symbols.map(() => '?').join(',');
+    const ledger = await dbAll<any>(db, `SELECT symbol, sector, market_cap_cr FROM DataQualityAuditLedger WHERE upper(symbol) IN (${placeholders})`, symbols).catch(() => []);
+    const masters = await dbAll<any>(db, `SELECT symbol, sector FROM MasterTickers WHERE upper(symbol) IN (${placeholders})`, symbols).catch(() => []);
+    const marketBySymbol = new Map<string, any>(masters.map((r: any) => [String(r.symbol).toUpperCase(), r]));
+    for (const row of ledger) {
+      const key = String(row.symbol).toUpperCase();
+      const existing = marketBySymbol.get(key) || {};
+      const cleanRow = Object.fromEntries(Object.entries(row).filter(([, value]) => value !== null && value !== undefined && value !== ''));
+      marketBySymbol.set(key, { ...existing, ...cleanRow });
+    }
+    const sectors = [...new Set([...marketBySymbol.values()].map((r: any) => String(r.sector || '').trim()).filter(Boolean))];
+    const momentumEntries = await Promise.all(sectors.map(async sector => [sector, await SectorMomentumService.getForSector(sector)] as const));
+    const momentumBySector = new Map(momentumEntries);
+    const flowRows = await SectorFlowService.getSectorFlows(options.fromDate, options.toDate);
+    const flowBySector = new Map(flowRows.map(row => [row.sector, row]));
+    return results.filter(r => r.qualified).map(result => {
+      const symbol = result.symbol.toUpperCase();
+      const enrichment = fundamentalMap.get(symbol);
+      const source = marketBySymbol.get(symbol) || {};
+      const marketCapCr = source.market_cap_cr == null || !Number.isFinite(Number(source.market_cap_cr)) ? null : Number(source.market_cap_cr);
+      const capCategory = marketCapCr == null ? 'UNAVAILABLE' : marketCapCr <= 5000 ? 'SMALL_CAP' : marketCapCr <= 20000 ? 'MID_CAP' : 'LARGE_CAP';
+      const momentum: SectorMomentumSnapshot = momentumBySector.get(String(source.sector || '')) || {
+        sectorName: source.sector || null, indexSymbol: null, asOf: null, status: 'UNAVAILABLE', aboveEma20: null, aboveSma20: null,
+        close: null, ema20: null, sma20: null, return20dPct: null, source: 'UNAVAILABLE'
+      };
+      const flow: SectorFlowSnapshot | undefined = flowBySector.get(String(source.sector || ''));
+      return {
+        'Signal Date': result.scan_date ? new Date(`${result.scan_date}T00:00:00Z`) : null, Symbol: symbol, Strategy: result.strategy_id, Entry: result.entry_price, Stop: result.stop_loss, Target1: result.target1, Target2: result.target2,
+        'R:R': result.rr_ratio, Confidence: result.confidence_pct, Sector: source.sector || 'UNAVAILABLE', 'Market Cap (Cr)': marketCapCr,
+        'Market Cap Category': capCategory, 'Market Cap Rule': '≤5000 Small; >5000–≤20000 Mid; >20000 Large', 'Sector Index': momentum.indexSymbol || 'UNAVAILABLE',
+        'Sector Momentum': momentum.status, 'Above 20 EMA': momentum.aboveEma20 == null ? 'UNAVAILABLE' : momentum.aboveEma20 ? 'YES' : 'NO',
+        'Above 20 SMA': momentum.aboveSma20 == null ? 'UNAVAILABLE' : momentum.aboveSma20 ? 'YES' : 'NO', 'Sector Return 20D %': momentum.return20dPct,
+        'Sector Momentum Reason': momentum.status === 'BULLISH' ? 'Adjusted sector-index close is above both 20 EMA and 20 SMA.' : momentum.status === 'NOT_BULLISH' ? 'Adjusted sector-index close is not above both 20 EMA and 20 SMA.' : 'No mapped sector index or sufficient adjusted OHLCV evidence.',
+        'Sector Flow': flow?.status || 'UNAVAILABLE', 'FII Change %': flow?.fIIChangePct ?? null, 'DII Change %': flow?.dIIChangePct ?? null,
+        'Institutional Change %': flow?.institutionalChangePct ?? null, 'Net Deal Value (Cr)': flow?.netDealValueCr ?? null, 'Flow Coverage %': flow?.coveragePct ?? null,
+        'Sector Flow Reason': flow?.reason || 'No sector-flow evidence returned.', 'Flow Sources': flow?.source?.join('; ') || 'UNAVAILABLE',
+        'Fundamental Population': enrichment?.population || 'UNAVAILABLE', 'Passed Checks': enrichment ? `${enrichment.passCount}/${enrichment.totalChecks}` : 'UNAVAILABLE',
+        'Promoter %': enrichment?.promoterPct ?? null, 'Profitable 8Q': enrichment?.profitableLast8Quarters == null ? 'UNAVAILABLE' : enrichment.profitableLast8Quarters ? 'PASS' : 'FAIL',
+        'ROCE %': enrichment?.rocePct ?? null, 'ROE %': enrichment?.roePct ?? null, 'Pledged %': enrichment?.pledgedPct ?? null,
+        'FII %': enrichment?.fiiPct ?? null, 'DII %': enrichment?.diiPct ?? null, 'Cash Flow Ratio': enrichment?.cashFlowToOperatingProfit ?? null,
+        'Institutional Increasing': enrichment?.institutionalIncreasing == null ? 'UNAVAILABLE' : enrichment.institutionalIncreasing ? 'YES' : 'NO',
+        'CFO Cr': enrichment?.latestCfoCr ?? null, 'Operating Profit Cr': enrichment?.latestOperatingProfitCr ?? null,
+        'Cash Flow >=50%': enrichment?.cashFlowPass == null ? 'UNAVAILABLE' : enrichment.cashFlowPass ? 'PASS' : 'FAIL',
+        'Sunrise Sector': enrichment?.sunriseSector ?? null, 'PLI Scheme': enrichment?.pliScheme ?? null,
+        'QGLP Status': enrichment?.qglpStatus ?? 'UNAVAILABLE', 'QGLP Score': enrichment?.qglpScore ?? null,
+        'Stock Momentum %': enrichment?.stockMomentumPct ?? null, 'Double Momentum': enrichment?.doubleMomentumStatus ?? 'UNAVAILABLE',
+        'Recent Institutional Purchases': enrichment?.institutionalPurchases?.length ? JSON.stringify(enrichment.institutionalPurchases) : 'UNAVAILABLE',
+        'Evidence Status': enrichment?.evidenceStatus || 'UNAVAILABLE'
+      };
+    });
+  }
+
+  private buildMasterAnalysisSheet(rows: any[]): XLSX.WorkSheet {
+    const headers = ['Signal Date', 'Symbol', 'Strategy', 'Entry', 'Stop', 'Target1', 'Target2', 'R:R', 'Confidence', 'Sector', 'Market Cap (Cr)', 'Market Cap Category', 'Market Cap Rule', 'Sector Index', 'Sector Momentum', 'Above 20 EMA', 'Above 20 SMA', 'Sector Return 20D %', 'Sector Momentum Reason', 'Sector Flow', 'FII Change %', 'DII Change %', 'Institutional Change %', 'Net Deal Value (Cr)', 'Flow Coverage %', 'Sector Flow Reason', 'Flow Sources', 'Fundamental Population', 'Passed Checks', 'Promoter %', 'Profitable 8Q', 'ROCE %', 'ROE %', 'Pledged %', 'FII %', 'DII %', 'Institutional Increasing', 'Operating Profit Cr', 'CFO Cr', 'Cash Flow Ratio', 'Cash Flow >=50%', 'Sunrise Sector', 'PLI Scheme', 'QGLP Status', 'QGLP Score', 'Stock Momentum %', 'Double Momentum', 'Recent Institutional Purchases', 'Evidence Status'];
+    const sheet = XLSX.utils.json_to_sheet(rows, { header: headers, cellDates: true });
+    sheet['!autofilter'] = { ref: `A1:${XLSX.utils.encode_col(headers.length - 1)}${Math.max(rows.length + 1, 1)}` };
+    sheet['!cols'] = headers.map(h => ({ wch: Math.min(42, Math.max(12, h.length + 2)) }));
+    return sheet;
   }
 
   private buildFundamentalSheet(
@@ -189,11 +263,15 @@ export class ExcelExportService {
   /**
    * Fetch all scan results for a scan ID
    */
-  private async fetchScanResults(db: Database, scanId: string): Promise<ScanResult[]> {
+  private async fetchScanResults(db: Database, scanId: string, options: { fromDate?: string; toDate?: string } = {}): Promise<ScanResult[]> {
+    const predicates = ['scan_id = ?'];
+    const params: any[] = [scanId];
+    if (options.fromDate) { predicates.push('date(scan_date) >= date(?)'); params.push(options.fromDate); }
+    if (options.toDate) { predicates.push('date(scan_date) <= date(?)'); params.push(options.toDate); }
     return new Promise((resolve, reject) => {
       db.all(
-        `SELECT * FROM strategy_scan_cache WHERE scan_id = ? ORDER BY strategy_id, symbol`,
-        [scanId],
+        `SELECT * FROM strategy_scan_cache WHERE ${predicates.join(' AND ')} ORDER BY strategy_id, symbol`,
+        params,
         (err, rows: ScanResult[] | undefined) => {
           if (err) reject(err);
           else resolve(rows || []);
@@ -502,6 +580,14 @@ export class ExcelExportService {
     data.push(['', 'All results fetched from strategy_scan_cache table']);
     data.push(['', 'Timestamp preserved as scan_completed_at']);
     data.push(['', 'Rule checks stored as JSON in rule_checks_json column']);
+    data.push(['Master Analysis Definitions', '']);
+    data.push(['Market-cap calculation', 'Uses latest available DataQualityAuditLedger.market_cap_cr evidence; unavailable values remain unavailable.']);
+    data.push(['Market-cap categories', '≤ ₹5,000 Cr = Small Cap; > ₹5,000 and ≤ ₹20,000 Cr = Mid Cap; > ₹20,000 Cr = Large Cap.']);
+    data.push(['Sector bullish rule', 'Sector adjusted-index close must be above both its 20-period EMA and 20-period SMA.']);
+    data.push(['Sector flow rule', 'Weighted current-vs-prior-quarter FII/DII ownership change, corroborated where available by disclosed institutional deals and sector-index momentum.']);
+    data.push(['Flow status meanings', 'HEAVY_INFLOW, ACCUMULATION, NEUTRAL, OUTFLOW, or UNAVAILABLE; insufficient coverage never receives a directional label.']);
+    data.push(['Flow coverage', 'Market-cap-weighted coverage of stocks with both current and prior-quarter shareholding evidence.']);
+    data.push(['Export duration', 'Use the UI selector or duration=today|day|week|month|custom&from=YYYY-MM-DD&to=YYYY-MM-DD.']);
 
     const sheet = XLSX.utils.aoa_to_sheet(data);
 

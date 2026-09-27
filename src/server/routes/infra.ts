@@ -819,6 +819,9 @@ router.get('/smart-money/scrip/:symbol', async (req: Request, res: Response) => 
     const data = await SmartMoneyFlowEngine.getInstance().getMultiTimeframeSmartMoney(symbol);
     res.json({ success: true, data });
   } catch (err: any) {
+    if (String(err?.message || '').startsWith('DATA_INSUFFICIENT:')) {
+      return res.status(422).json({ success: false, status: 'DATA_INSUFFICIENT', error: err.message, data: null });
+    }
     res.status(500).json({ success: false, error: err.message });
   }
 });
@@ -882,6 +885,9 @@ router.get('/support-resistance/:symbol', async (req: Request, res: Response) =>
     });
     res.json({ success: true, data });
   } catch (err: any) {
+    if (String(err?.message || '').startsWith('DATA_INSUFFICIENT:')) {
+      return res.status(422).json({ success: false, status: 'DATA_INSUFFICIENT', error: err.message, data: null });
+    }
     res.status(500).json({ success: false, error: err.message });
   }
 });
@@ -905,6 +911,9 @@ router.get('/momentum-reasoning/:symbol', async (req: Request, res: Response) =>
     });
     res.json({ success: true, data });
   } catch (err: any) {
+    if (String(err?.message || '').startsWith('DATA_INSUFFICIENT:')) {
+      return res.status(422).json({ success: false, status: 'DATA_INSUFFICIENT', error: err.message, data: null });
+    }
     res.status(500).json({ success: false, error: err.message });
   }
 });
@@ -3517,6 +3526,24 @@ router.get('/strategy-scan/metadata', async (_req: Request, res: Response) => {
 router.get('/strategy-scan/export-excel', async (req: Request, res: Response) => {
   try {
     const { scanId } = req.query;
+    const duration = String(req.query.duration || 'all').toLowerCase();
+    const isoDay = (d: Date) => d.toISOString().slice(0, 10);
+    const end = new Date();
+    let fromDate: string | undefined;
+    let toDate: string | undefined;
+    if (duration === 'today') {
+      fromDate = toDate = isoDay(end);
+    } else if (duration === 'day' || duration === 'last_day') {
+      const start = new Date(end); start.setDate(start.getDate() - 1); fromDate = isoDay(start); toDate = isoDay(end);
+    } else if (duration === 'week' || duration === 'last_week') {
+      const start = new Date(end); start.setDate(start.getDate() - 7); fromDate = isoDay(start); toDate = isoDay(end);
+    } else if (duration === 'month' || duration === 'last_month') {
+      const start = new Date(end); start.setMonth(start.getMonth() - 1); fromDate = isoDay(start); toDate = isoDay(end);
+    } else if (duration === 'custom') {
+      fromDate = req.query.from ? String(req.query.from) : undefined;
+      toDate = req.query.to ? String(req.query.to) : undefined;
+      if (!fromDate || !toDate) return res.status(400).json({ success: false, error: 'Custom duration requires from and to dates (YYYY-MM-DD).' });
+    }
 
     // Get the database instance
     const db = getDB();
@@ -3543,7 +3570,7 @@ router.get('/strategy-scan/export-excel', async (req: Request, res: Response) =>
     // Import and use ExcelExportService
     const { ExcelExportService } = await import('../services/ExcelExportService.js');
     const service = ExcelExportService.getInstance();
-    const buffer = await service.generateComprehensiveExport(targetScanId, db);
+    const buffer = await service.generateComprehensiveExport(targetScanId, db, { fromDate, toDate });
 
     // Stream file to user
     const timestamp = new Date().toISOString().replace(/[:-]/g, '').split('.')[0];

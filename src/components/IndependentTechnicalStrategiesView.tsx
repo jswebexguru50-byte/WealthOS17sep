@@ -391,6 +391,15 @@ export const IndependentTechnicalStrategiesView: React.FC<IndependentTechnicalSt
 
   // ── Strategy Builder Panel ──
   const [showStrategyBuilder, setShowStrategyBuilder] = useState<boolean>(false);
+  const [exportDuration, setExportDuration] = useState<'all' | 'today' | 'day' | 'week' | 'month' | 'custom'>('all');
+  const [exportFrom, setExportFrom] = useState<string>('');
+  const [exportTo, setExportTo] = useState<string>('');
+
+  const downloadMasterExcel = () => {
+    const params = new URLSearchParams({ duration: exportDuration });
+    if (exportDuration === 'custom' && exportFrom && exportTo) { params.set('from', exportFrom); params.set('to', exportTo); }
+    window.open(`/api/strategy-scan/export-excel?${params.toString()}`, '_blank');
+  };
 
   // Initialize: fetch strategy library, universe count, and cached results
   useEffect(() => {
@@ -1170,8 +1179,15 @@ export const IndependentTechnicalStrategiesView: React.FC<IndependentTechnicalSt
             New Strategy
           </button>
 
+          <select value={exportDuration} onChange={e => setExportDuration(e.target.value as any)} className="px-2 py-1.5 rounded-lg text-xs bg-slate-800 text-slate-200 border border-slate-700">
+            <option value="all">All scan dates</option><option value="today">Today</option><option value="day">Last day</option><option value="week">Last week</option><option value="month">Last month</option><option value="custom">Custom</option>
+          </select>
+          {exportDuration === 'custom' && <>
+            <input type="date" value={exportFrom} onChange={e => setExportFrom(e.target.value)} className="px-2 py-1.5 rounded-lg text-xs bg-slate-800 text-slate-200 border border-slate-700" />
+            <input type="date" value={exportTo} onChange={e => setExportTo(e.target.value)} className="px-2 py-1.5 rounded-lg text-xs bg-slate-800 text-slate-200 border border-slate-700" />
+          </>}
           <button
-            onClick={() => window.open('/api/strategies/export/excel', '_blank')}
+            onClick={downloadMasterExcel}
             className="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 bg-green-600 hover:bg-green-500 text-white transition cursor-pointer"
           >
             <Download className="w-3.5 h-3.5" />

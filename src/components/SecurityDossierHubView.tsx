@@ -71,6 +71,7 @@ export const SecurityDossierHubView: React.FC<SecurityDossierHubViewProps> = ({
   const [dossierLoading, setDossierLoading] = useState<boolean>(false);
   const [dossierError, setDossierError] = useState<string | null>(null);
   const [momentumReport, setMomentumReport] = useState<any | null>(null);
+  const [sectorFlowMatrix, setSectorFlowMatrix] = useState<any[]>([]);
 
   // Thesis Edit State
   const [isEditingThesis, setIsEditingThesis] = useState<boolean>(false);
@@ -106,6 +107,9 @@ export const SecurityDossierHubView: React.FC<SecurityDossierHubViewProps> = ({
       }
     };
     loadUniverse();
+    fetch('/api/stockscans/sector-flows').then(r => r.json()).then(data => {
+      if (Array.isArray(data?.sectors)) setSectorFlowMatrix(data.sectors);
+    }).catch(() => setSectorFlowMatrix([]));
     return () => { isMounted = false; };
   }, []);
 
@@ -676,6 +680,41 @@ export const SecurityDossierHubView: React.FC<SecurityDossierHubViewProps> = ({
                   {dossier.sectorPositioning.sectorStatus}
                 </span>
               </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-2 text-xs font-mono">
+                <div className="rounded-lg bg-slate-950/60 border border-slate-800 px-3 py-2">
+                  <span className="text-slate-500 block">Market Cap</span>
+                  <strong className="text-slate-200">{dossier.marketCapCr == null ? 'UNAVAILABLE' : `₹${Number(dossier.marketCapCr).toLocaleString('en-IN')} Cr`}</strong>
+                </div>
+                <div className="rounded-lg bg-slate-950/60 border border-slate-800 px-3 py-2">
+                  <span className="text-slate-500 block">Cap Class</span>
+                  <strong className="text-slate-200">{dossier.marketCapCategory || 'UNAVAILABLE'}</strong>
+                </div>
+                <div className="rounded-lg bg-slate-950/60 border border-slate-800 px-3 py-2">
+                  <span className="text-slate-500 block">Sector</span>
+                  <strong className="text-slate-200">{dossier.sectorPositioning.momentum?.status || 'UNAVAILABLE'}</strong>
+                </div>
+                <div className="rounded-lg bg-slate-950/60 border border-slate-800 px-3 py-2">
+                  <span className="text-slate-500 block">Above 20 EMA</span>
+                  <strong className="text-slate-200">{dossier.sectorPositioning.momentum?.aboveEma20 == null ? 'UNAVAILABLE' : dossier.sectorPositioning.momentum.aboveEma20 ? 'YES' : 'NO'}</strong>
+                </div>
+                <div className="rounded-lg bg-slate-950/60 border border-slate-800 px-3 py-2">
+                  <span className="text-slate-500 block">Above 20 SMA</span>
+                  <strong className="text-slate-200">{dossier.sectorPositioning.momentum?.aboveSma20 == null ? 'UNAVAILABLE' : dossier.sectorPositioning.momentum.aboveSma20 ? 'YES' : 'NO'}</strong>
+                </div>
+              </div>
+
+              {sectorFlowMatrix.length > 0 && <div className="rounded-xl border border-slate-800 bg-slate-950/40 p-3">
+                <div className="text-[10px] uppercase tracking-wider text-slate-500 mb-2">Sector Rotation Evidence</div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                  {sectorFlowMatrix.slice(0, 12).map((flow: any) => <div key={flow.sector} className="text-xs font-mono">
+                    <span className="text-slate-400">{flow.sector}</span><br />
+                    <span className={flow.status === 'HEAVY_INFLOW' || flow.status === 'ACCUMULATION' ? 'text-emerald-300' : flow.status === 'OUTFLOW' ? 'text-rose-300' : 'text-amber-300'}>{flow.status}</span>
+                    <span className="text-slate-500"> · {flow.coveragePct == null ? 'N/A' : `${Number(flow.coveragePct).toFixed(0)}% cov.`}</span>
+                  </div>)}
+                </div>
+                {(() => { const selectedFlow = sectorFlowMatrix.find((f: any) => f.sector === dossier.sectorPositioning.sectorName); return selectedFlow ? <p className="text-[11px] text-slate-400 mt-3">Selected sector: <span className="text-slate-200">{selectedFlow.status}</span> — {selectedFlow.reason}</p> : null; })()}
+              </div>}
 
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs border-collapse">

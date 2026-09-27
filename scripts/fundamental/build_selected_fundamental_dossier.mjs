@@ -137,6 +137,44 @@ function bestUpstoxRows(db, symbols) {
   return map;
 }
 
+function latestTrendlyneRows(db, symbols) {
+  const map = new Map(symbols.map(symbol => [symbol, new Map()]));
+  const rows = db.prepare(`SELECT * FROM fundamental_endpoint_snapshots
+    WHERE provider='TRENDLYNE_MCP' AND symbol IN (${placeholders(symbols)}) ORDER BY fetched_at`).all(...symbols);
+  for (const row of rows) map.get(String(row.symbol).toUpperCase())?.set(row.endpoint, row);
+  return map;
+}
+function trendlyneText(row) {
+  try {
+    const outer = JSON.parse(row?.response_json || '{}');
+    const content = outer.content?.find(item => item?.type === 'text')?.text || '';
+    const inner = JSON.parse(content);
+    return typeof inner.data === 'string' ? inner.data : content;
+  } catch { return ''; }
+}
+function trendlyneValue(text, symbol, label) {
+  const start = text.toLowerCase().indexOf(label.toLowerCase());
+  if (start < 0) return null;
+  const section = text.slice(start, text.indexOf('\n---', start) < 0 ? undefined : text.indexOf('\n---', start));
+  const match = new RegExp(`^${symbol.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}:([^\\r\\n]+)$`, 'im').exec(section);
+  if (!match || /^(none|null|n\/?a|na|-)$/i.test(match[1].trim())) return null;
+  const value = Number(match[1].trim());
+  return Number.isFinite(value) ? value : null;
+}
+function trendlyneDii(text) {
+  const start = text.indexOf('\n  DII:');
+  if (start < 0) return null;
+  const end = text.indexOf('\n  Public:', start);
+  const section = text.slice(start, end < 0 ? undefined : end);
+  const matches = [...section.matchAll(/\["[^"]+",\s*(-?[\d.]+)/g)];
+  return matches.length ? Number(matches.at(-1)[1]) : null;
+}
+function eightQuarterNetProfit(text, symbol) {
+  const labels = ['Net Profit Qtr', 'Net Profit 1Q Ago', 'Net Profit 2Q Ago', 'Net Profit 3Q Ago', 'Net Profit 4Q Ago', 'Net Profit 5Q Ago', 'Net Profit 6Q Ago', 'Net Profit 7Q Ago'];
+  const values = labels.map(label => trendlyneValue(text, symbol, label));
+  return { values, status: values.every(value => value !== null) ? 'VERIFIED' : 'DATA_INSUFFICIENT', result: values.every(value => value !== null) ? (values.every(value => value > 0) ? 'PASS' : 'FAIL') : 'NOT_EVALUABLE' };
+}
+
 function setColumns(ws, columns) {
   ws.columns = columns.map(([header, key, width]) => ({ header, key, width }));
   ws.getRow(1).font = { name: 'Arial', bold: true, color: { argb: 'FFFFFFFF' } };
@@ -180,6 +218,7 @@ const ph = placeholders(symbols);
 const fundamentals = latestRows(portfolio, 'FundamentalSnapshots', symbols);
 const filters = new Map(portfolio.prepare(`SELECT * FROM strategy_fundamental_filter_results WHERE run_key=? AND symbol IN (${ph})`).all('EXCEL_SIX_STRATEGIES_2026-09-25', ...symbols).map(r => [r.symbol, r]));
 const rawRows = bestUpstoxRows(portfolio, symbols);
+const trendlyneRows = latestTrendlyneRows(portfolio, symbols);
 const strategyMatches = readStrategyMatches(symbols);
 const shareholdingRows = fere.prepare(`SELECT symbol, COUNT(*) AS snapshots, MAX(period_end) AS latest_period, SUM(CASE WHEN promoter_pledge > 0 THEN 1 ELSE 0 END) AS pledged_periods, MIN(CASE WHEN source_sha256 IS NULL OR length(source_sha256) <> 64 THEN 0 ELSE 1 END) AS hashes_ok FROM shareholding_snapshot WHERE symbol IN (${ph}) GROUP BY symbol`).all(...symbols);
 const shareholding = new Map(shareholdingRows.map(r => [r.symbol, r]));
@@ -190,6 +229,13 @@ const dossierRows = symbols.map(symbol => {
   const raw = rawRows.get(symbol) || {};
   const cov = sourceCoverage(raw);
   const st = strategyMatches.get(symbol) || { strategies: new Set(), signalCount: 0 };
+  const trend = trendlyneRows.get(symbol) || new Map();
+  const paramText = trendlyneText(trend.get('parameters'));
+  const historyText = trendlyneText(trend.get('quarterly_profit_history'));
+  const holdingText = trendlyneText(trend.get('shareholding'));
+  const quarterly = eightQuarterNetProfit(historyText, symbol);
+  const cfo = trendlyneValue(paramText, symbol, 'Cash from Operating Act. Ann.');
+  const op = trendlyneValue(paramText, symbol, 'Operating Profit Ann.');
   return {
     symbol,
     company: f.company_name || symbol,
@@ -215,7 +261,7 @@ const dossierRows = symbols.map(symbol => {
     institutional_pass: r.institutional_involvement_pass ?? '',
     cfo_op_ratio: r.cash_flow_to_operating_profit ?? '',
     cash_flow_pass: r.cash_flow_pass ?? '',
-    qglp_status: r.qglp_status || '',
+    qglp_filter_status: r.qglp_status || '',
     sector_momentum_status: r.sector_momentum_status || '',
     double_momentum_status: r.double_momentum_status || '',
     pe_ratio: f.pe_ratio ?? '',
@@ -225,6 +271,26 @@ const dossierRows = symbols.map(symbol => {
     raw_missing: cov.missing,
     source: r.source || f.source || 'VERIFIED_MULTI_SOURCE',
     evidence_note: r.evidence_note || ''
+    ,trendlyne_status: trend.get('parameters')?.status || 'SOURCE_UNAVAILABLE'
+    ,trendlyne_fetched_at: trend.get('parameters')?.fetched_at || ''
+    ,trend_current_price: trendlyneValue(paramText, symbol, 'LTP')
+    ,trend_market_cap_cr: trendlyneValue(paramText, symbol, 'Market Cap')
+    ,trend_roce_pct: trendlyneValue(paramText, symbol, 'ROCE Ann. %')
+    ,trend_roe_pct: trendlyneValue(paramText, symbol, 'ROE Ann. %')
+    ,trend_cfo_cr: cfo
+    ,trend_operating_profit_cr: op
+    ,trend_cfo_op_pct: cfo !== null && op !== null && op !== 0 ? (cfo / op) * 100 : null
+    ,trend_promoter_pct: trendlyneValue(paramText, symbol, 'Promoter holding latest %')
+    ,trend_promoter_pledge_pct: trendlyneValue(paramText, symbol, 'Promoter holding pledge percentage % Qtr')
+    ,trend_fii_pct: trendlyneValue(paramText, symbol, 'FII holding current Qtr %')
+    ,trend_dii_pct: trendlyneDii(holdingText)
+    ,q1_net_profit: quarterly.values[0], q2_net_profit: quarterly.values[1], q3_net_profit: quarterly.values[2], q4_net_profit: quarterly.values[3]
+    ,q5_net_profit: quarterly.values[4], q6_net_profit: quarterly.values[5], q7_net_profit: quarterly.values[6], q8_net_profit: quarterly.values[7]
+    ,eight_quarter_data_status: quarterly.status, eight_quarter_profitability_result: quarterly.result
+    // A composite QGLP score is intentionally withheld until all four pillars
+    // have dated evidence. The component facts remain available to the user.
+    ,qglp_data_status: 'DATA_INSUFFICIENT', qglp_score: null
+    ,qglp_missing_inputs: '3Y sales CAGR; 3Y profit CAGR; profitable years; positive CFO years; ROCE consistency; margin stability; PE vs history/sector; PEG; FCF yield'
   };
 });
 
@@ -244,8 +310,7 @@ addRows(summary, [
   { metric: 'Cutoff date', value: cutoff, notes: 'Strategy signal cutoff.' },
   { metric: 'Raw Upstox endpoint coverage', value: `${dossierRows.filter(r => r.raw_required_complete === 'YES').length}/${symbols.length}`, notes: 'Required endpoints: profile, balance sheet, cash flow, income statement, shareholding, key ratios, corporate actions, and competitors.' },
   { metric: 'Verified mandatory filter rows', value: `${dossierRows.filter(r => r.evidence_status === 'VERIFIED').length}/${symbols.length}`, notes: 'Evidence status from strategy_fundamental_filter_results.' },
-  { metric: 'Fully compliant mandatory filters', value: fullyCompliant.length, notes: 'All mandatory filters passed.' },
-  { metric: 'Partial / failed mandatory filters', value: partial.length, notes: 'Still reported, not hidden.' },
+  { metric: 'Rule-result policy', value: 'INFORMATION ONLY', notes: 'Every selected symbol remains in the master sheet. PASS, FAIL and DATA_INSUFFICIENT are evidence labels, not exclusion rules.' },
   { metric: 'No synthetic data policy', value: 'ACTIVE', notes: 'Missing facts remain blank/null or partial; no fake values inserted.' }
 ]);
 fmtSheet(summary);
@@ -259,19 +324,27 @@ setColumns(dossier, [
   ['ROCE Pass', 'roce_pass', 11], ['ROE %', 'roe_pct', 11], ['ROE Pass', 'roe_pass', 11], ['Pledged %', 'pledged_pct', 11],
   ['No Pledge Pass', 'no_pledge_pass', 15], ['FII %', 'fii_pct', 10], ['DII %', 'dii_pct', 10],
   ['Institutional Pass', 'institutional_pass', 16], ['CFO / Op Profit', 'cfo_op_ratio', 15], ['Cash Flow Pass', 'cash_flow_pass', 15],
-  ['QGLP', 'qglp_status', 20], ['Sector Momentum', 'sector_momentum_status', 20], ['Double Momentum', 'double_momentum_status', 20],
+  ['Legacy QGLP Filter', 'qglp_filter_status', 20], ['QGLP Data Status', 'qglp_data_status', 20], ['QGLP Score', 'qglp_score', 12], ['QGLP Missing Inputs', 'qglp_missing_inputs', 46], ['Sector Momentum', 'sector_momentum_status', 20], ['Double Momentum', 'double_momentum_status', 20],
   ['P/E', 'pe_ratio', 10], ['Book Value', 'book_value', 12], ['Debt / Equity', 'debt_to_equity', 13],
+  ['Trendlyne Status', 'trendlyne_status', 16], ['Trendlyne Fetched', 'trendlyne_fetched_at', 22], ['Trend Price', 'trend_current_price', 13], ['Market Cap Cr', 'trend_market_cap_cr', 14],
+  ['Trend ROCE %', 'trend_roce_pct', 12], ['Trend ROE %', 'trend_roe_pct', 12], ['CFO Cr', 'trend_cfo_cr', 13], ['Operating Profit Cr', 'trend_operating_profit_cr', 17], ['CFO / Op Profit %', 'trend_cfo_op_pct', 17],
+  ['Trend Promoter %', 'trend_promoter_pct', 15], ['Trend Pledge %', 'trend_promoter_pledge_pct', 14], ['Trend FII %', 'trend_fii_pct', 12], ['Trend DII %', 'trend_dii_pct', 12],
+  ['Q1 Net Profit', 'q1_net_profit', 14], ['Q2 Net Profit', 'q2_net_profit', 14], ['Q3 Net Profit', 'q3_net_profit', 14], ['Q4 Net Profit', 'q4_net_profit', 14], ['Q5 Net Profit', 'q5_net_profit', 14], ['Q6 Net Profit', 'q6_net_profit', 14], ['Q7 Net Profit', 'q7_net_profit', 14], ['Q8 Net Profit', 'q8_net_profit', 14],
+  ['8Q Data Status', 'eight_quarter_data_status', 18], ['8Q Profitability', 'eight_quarter_profitability_result', 18],
   ['Raw Complete', 'raw_required_complete', 13], ['Raw Missing', 'raw_missing', 38], ['Source', 'source', 24], ['Evidence Note', 'evidence_note', 60]
 ]);
 addRows(dossier, dossierRows);
 fmtSheet(dossier);
 
-for (const [sheetName, rows] of [['Fully Compliant', fullyCompliant], ['Partial or Failed', partial]]) {
-  const ws = workbook.addWorksheet(sheetName, { views: [{ showGridLines: false }] });
-  setColumns(ws, dossier.columns.map(c => [c.header, c.key, c.width]));
-  addRows(ws, rows);
-  fmtSheet(ws);
-}
+const qglpWs = workbook.addWorksheet('QGLP Evidence', { views: [{ showGridLines: false }] });
+setColumns(qglpWs, [
+  ['Symbol', 'symbol', 14], ['QGLP Data Status', 'qglp_data_status', 20], ['QGLP Score', 'qglp_score', 12], ['Missing Inputs', 'qglp_missing_inputs', 65],
+  ['ROE %', 'trend_roe_pct', 12], ['ROCE %', 'trend_roce_pct', 12], ['CFO Cr', 'trend_cfo_cr', 14], ['Operating Profit Cr', 'trend_operating_profit_cr', 18], ['CFO / Op Profit %', 'trend_cfo_op_pct', 18],
+  ['Debt / Equity', 'debt_to_equity', 14], ['Promoter Pledge %', 'trend_promoter_pledge_pct', 18], ['8Q Data Status', 'eight_quarter_data_status', 18], ['8Q Profitability', 'eight_quarter_profitability_result', 18],
+  ['Q1 Net Profit', 'q1_net_profit', 14], ['Q2 Net Profit', 'q2_net_profit', 14], ['Q3 Net Profit', 'q3_net_profit', 14], ['Q4 Net Profit', 'q4_net_profit', 14], ['Q5 Net Profit', 'q5_net_profit', 14], ['Q6 Net Profit', 'q6_net_profit', 14], ['Q7 Net Profit', 'q7_net_profit', 14], ['Q8 Net Profit', 'q8_net_profit', 14], ['Trendlyne Fetched', 'trendlyne_fetched_at', 22]
+]);
+addRows(qglpWs, dossierRows);
+fmtSheet(qglpWs);
 
 const strategyWs = workbook.addWorksheet('Strategy Matches', { views: [{ showGridLines: false }] });
 setColumns(strategyWs, [['Symbol', 'symbol', 14], ['Strategies', 'strategies', 30], ['Signal Count', 'signal_count', 13], ['Latest Signal Date', 'latest_signal_date', 18], ['Best Signal Price', 'bestSignalPrice', 18]]);
@@ -300,6 +373,7 @@ addRows(dictWs, [
   { field: 'ROCE / ROE', meaning: 'Company ratio values. Banking-style entities may have null ROCE where not meaningful.', source: 'Upstox key-ratios + verified fallback' },
   { field: 'Cash Flow Pass', meaning: '1 when cash flow from operations is at least 50% of operating profit, when both facts are available.', source: 'Upstox cash-flow + FERE verified financial facts' },
   { field: 'QGLP / Momentum', meaning: 'Deterministic status fields persisted by the fundamental filter sync. They are indicators, not mandatory hard filters.', source: 'strategy_fundamental_filter_results' },
+  { field: 'QGLP Evidence', meaning: 'QGLP raw inputs and all eight quarterly profits are shown for every selected stock. The QGLP composite score is withheld as DATA_INSUFFICIENT until every Quality, Growth, Longevity and Price input has dated source evidence.', source: 'Trendlyne raw parameter, shareholding and quarterly-profit snapshots' },
   { field: 'Raw Complete', meaning: 'YES when all non-competitor Upstox endpoints are present for that symbol.', source: 'fundamental_source_snapshots' }
 ]);
 fmtSheet(dictWs);

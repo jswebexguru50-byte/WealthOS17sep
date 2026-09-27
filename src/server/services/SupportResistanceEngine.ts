@@ -97,13 +97,13 @@ export class SupportResistanceEngine {
     }
 
     if (!candles || candles.length < 20) {
-      return this.generateFallbackSR(cleanSym, riskProfile, customOverride);
+      throw new Error(`DATA_INSUFFICIENT: SUPPORT_RESISTANCE_OHLCV_COVERAGE_UNAVAILABLE for ${cleanSym}; no levels, stop, target, or risk/reward were calculated.`);
     }
 
     const latest = candles[candles.length - 1];
     const cmp = latest?.close ? Number(latest.close) : 0;
     if (cmp <= 0) {
-      return this.generateFallbackSR(cleanSym, riskProfile, customOverride);
+      throw new Error(`DATA_INSUFFICIENT: SUPPORT_RESISTANCE_INVALID_LAST_CLOSE for ${cleanSym}; no levels, stop, target, or risk/reward were calculated.`);
     }
 
     // 1. Identify raw Swing Highs and Swing Lows (Fractal lookback 5 periods)
@@ -524,35 +524,4 @@ export class SupportResistanceEngine {
     return { slope, intercept, rSquared };
   }
 
-  private generateFallbackSR(symbol: string, riskProfile: RiskProfile, customOverride?: CustomSROverride): SupportResistanceAnalysis {
-    return {
-      symbol,
-      cmp: 0,
-      riskProfile,
-      nearestSupport: null,
-      nearestResistance: null,
-      majorSupports: [],
-      majorResistances: [],
-      allLevels: [],
-      stackedTube: { supports: [], resistances: [], cmp: 0 },
-      trendline: {
-        supportSlope: 0,
-        resistanceSlope: 0,
-        channelType: 'HORIZONTAL_RANGE',
-        rSquaredFit: 0,
-        currentUpperTrendlinePrice: 0,
-        currentLowerTrendlinePrice: 0,
-        trendlineProximityPct: 0,
-        description: 'Insufficient historical candle data to calculate trendline channels.'
-      },
-      proximityState: 'MID_RANGE',
-      proximityModifier: 0,
-      proximityRationale: 'Support and resistance data not found. Minimum 20 historical candles required for fractal analysis.',
-      riskRewardRatio: 0,
-      recommendedStopLoss: 0,
-      recommendedTargetPrice: 0,
-      customOverrideActive: false,
-      asOfTimestamp: new Date().toISOString()
-    };
-  }
 }

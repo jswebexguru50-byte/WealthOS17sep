@@ -113,11 +113,15 @@ async function initResultsTable(db: sqlite3.Database): Promise<void> {
     roe_pass INTEGER, pledged_pct REAL, no_pledge_pass INTEGER, fii_pct REAL, dii_pct REAL,
     institutional_involvement_pass INTEGER, institutional_increasing INTEGER,
     latest_operating_profit_cr REAL, latest_cfo_cr REAL, cash_flow_to_operating_profit REAL,
-    cash_flow_pass INTEGER, qglp_status TEXT, sector_momentum_status TEXT,
+    cash_flow_pass INTEGER, qglp_status TEXT, qglp_score REAL, sector_momentum_status TEXT,
     double_momentum_status TEXT, source TEXT NOT NULL, evidence_note TEXT NOT NULL,
     evaluated_at TEXT NOT NULL, PRIMARY KEY (run_key, symbol)
   )`);
   await dbRun(db, 'CREATE INDEX IF NOT EXISTS idx_fund_filter_symbol ON strategy_fundamental_filter_results(symbol)');
+  const columns = await dbAll(db, 'PRAGMA table_info(strategy_fundamental_filter_results)');
+  if (!columns.some(c => String(c.name) === 'qglp_score')) {
+    await dbRun(db, 'ALTER TABLE strategy_fundamental_filter_results ADD COLUMN qglp_score REAL');
+  }
 }
 
 function boolDb(v: boolean | null): number | null { return v == null ? null : v ? 1 : 0; }
@@ -126,15 +130,15 @@ async function persist(db: sqlite3.Database, runKey: string, scanId: string | nu
     (run_key,symbol,scan_id,population,pass_count,total_checks,evidence_status,promoter_pct,promoter_pass,
      profitable_last_8_quarters,profitable_quarter_count,roce_pct,roce_pass,roe_pct,roe_pass,pledged_pct,
      no_pledge_pass,fii_pct,dii_pct,institutional_involvement_pass,institutional_increasing,
-     latest_operating_profit_cr,latest_cfo_cr,cash_flow_to_operating_profit,cash_flow_pass,qglp_status,
+     latest_operating_profit_cr,latest_cfo_cr,cash_flow_to_operating_profit,cash_flow_pass,qglp_status,qglp_score,
      sector_momentum_status,double_momentum_status,source,evidence_note,evaluated_at)
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, [
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, [
     runKey, e.symbol, scanId, e.population, e.passCount, e.totalChecks, e.evidenceStatus,
     e.promoterPct, boolDb(e.promoterPass), boolDb(e.profitableLast8Quarters), e.profitableQuarterCount,
     e.rocePct, boolDb(e.rocePass), e.roePct, boolDb(e.roePass), e.pledgedPct, boolDb(e.noPledgePass),
     e.fiiPct, e.diiPct, boolDb(e.institutionalInvolvementPass), boolDb(e.institutionalIncreasing),
     e.latestOperatingProfitCr, e.latestCfoCr, e.cashFlowToOperatingProfit, boolDb(e.cashFlowPass),
-    e.qglpStatus, e.sectorMomentumStatus, e.doubleMomentumStatus, 'SQLITE_EXISTING_EVIDENCE', e.evidenceNote, now()
+    e.qglpStatus, e.qglpScore, e.sectorMomentumStatus, e.doubleMomentumStatus, 'SQLITE_EXISTING_EVIDENCE', e.evidenceNote, now()
   ]);
 }
 

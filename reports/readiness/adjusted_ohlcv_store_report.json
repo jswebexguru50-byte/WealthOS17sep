@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-09-24T18:05:39.196646+00:00",
+  "generated_at": "2026-09-27T03:51:08.202434+00:00",
   "status": "READY",
   "validated_kite_partitions": 2927,
-  "primary_rows": 5229095,
+  "primary_rows": 5231866,
   "primary_symbols": 4423,
   "first_trade_date": "2016-09-21",
-  "last_trade_date": "2026-09-24",
-  "kite_primary_rows": 4421897,
+  "last_trade_date": "2026-09-25",
+  "kite_primary_rows": 4424668,
   "invalid_rows_quarantined": 8,
   "catalog": "data\\market_data\\tejhq_hf_10y\\ohlcv.duckdb",
   "datasets": {

@@ -21,7 +21,10 @@ def now() -> str:
 
 
 def complete() -> bool:
-    try: return json.loads(PROGRESS.read_text(encoding='utf-8')).get('status') == 'COMPLETED'
+    # A completed run with a small, explicitly recorded failure set is terminal.
+    # Retrying the entire universe in a tight loop cannot resolve an identity
+    # exception and unnecessarily replays already completed batches.
+    try: return json.loads(PROGRESS.read_text(encoding='utf-8')).get('status') in ('COMPLETED', 'COMPLETED_WITH_FAILURES')
     except Exception: return False
 
 

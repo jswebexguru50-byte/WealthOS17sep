@@ -33,9 +33,6 @@ export class ValuationEngineAdapter implements ComposableEngine {
     const targets = universeSecurityIds.length > 0 ? universeSecurityIds : ['RELIANCE', 'TCS', 'INFY'];
 
     for (const sym of targets) {
-      const marginOfSafetyPct = 15.0;
-      const passed = marginOfSafetyPct > 0;
-
       bus.emit({
         type: 'VALUATION_MARGIN_OF_SAFETY',
         engineId: this.engineId,
@@ -52,11 +49,11 @@ export class ValuationEngineAdapter implements ComposableEngine {
         decisionDate: context.decisionDate,
         decisionTimestamp: context.decisionTimestamp,
         payload: {
-          marginOfSafetyPct,
-          intrinsicValueEst: 2850,
-          currentPrice: 2450,
-          passed,
-          reason: passed ? 'Positive margin of safety' : 'Overvalued relative to fair value model'
+          marginOfSafetyPct: null,
+          intrinsicValueEst: null,
+          currentPrice: null,
+          passed: false,
+          reason: 'DATA_INSUFFICIENT'
         }
       });
     }

@@ -7,9 +7,11 @@ up to today's date (2026-09-24). Rebuilds DuckDB views and validates coverage.
 from __future__ import annotations
 
 import datetime as dt
+import argparse
 import json
 import os
 import sqlite3
+import ssl
 import sys
 import time
 import threading
@@ -26,7 +28,7 @@ KITE_STOCKS = STORE / "kite_adjusted_backfill"
 KITE_INDICES = STORE / "kite_index_backfill"
 CATALOG = STORE / "ohlcv.duckdb"
 
-TARGET_DATE = dt.date(2026, 9, 24)
+TARGET_DATE = dt.date.today()
 TARGET_DATE_STR = str(TARGET_DATE)
 
 def get_token() -> str:
@@ -44,13 +46,30 @@ def load_local_env() -> None:
                 k, v = line.split("=", 1)
                 os.environ.setdefault(k.strip(), v.strip())
 
+
+def windows_root_ca_bundle() -> Path:
+    certificates = ssl.enum_certificates("ROOT")
+    pem = "".join(
+        ssl.DER_cert_to_PEM_cert(certificate)
+        for certificate, encoding, _trust in certificates
+        if encoding == "x509_asn"
+    )
+    if not pem:
+        raise RuntimeError("Windows Root certificate store returned no X.509 certificates")
+    path = STORE / "kite_tls_windows_root.pem"
+    temporary = path.with_suffix(".partial")
+    temporary.write_text(pem, encoding="ascii")
+    temporary.replace(path)
+    return path
+
 class RateLimitedKiteSession:
-    def __init__(self, api_key: str, access_token: str, min_interval: float = 0.22):
+    def __init__(self, api_key: str, access_token: str, min_interval: float = 0.37):
         self.session = requests.Session()
         self.session.headers.update({
             "X-Kite-Version": "3",
             "Authorization": f"token {api_key}:{access_token}"
         })
+        self.session.verify = str(windows_root_ca_bundle())
         self.min_interval = min_interval
         self.lock = threading.Lock()
         self.last_call = 0.0
@@ -358,10 +377,19 @@ def verify_duckdb() -> None:
         con.close()
 
 def main():
+    global TARGET_DATE, TARGET_DATE_STR
+    parser = argparse.ArgumentParser(description="Incrementally refresh the local Kite daily OHLCV catalog.")
+    parser.add_argument("--target-date", type=dt.date.fromisoformat, default=dt.date.today(),
+                        help="Trading date to reconcile (YYYY-MM-DD; defaults to today).")
+    args = parser.parse_args()
+    TARGET_DATE = args.target_date
+    TARGET_DATE_STR = str(TARGET_DATE)
     load_local_env()
-    api_key = os.environ.get("KITE_API_KEY", "m8wqr277nffl4sx1")
+    api_key = os.environ.get("KITE_API_KEY", "")
+    if not api_key:
+        raise RuntimeError("KITE_API_KEY is not configured")
     access_token = get_token()
-    print(f"Initialized Kite session with API Key: {api_key}, Target Date: {TARGET_DATE_STR}")
+    print(f"Initialized Kite session for target date: {TARGET_DATE_STR}")
     
     kite_session = RateLimitedKiteSession(api_key, access_token, min_interval=0.22)
     

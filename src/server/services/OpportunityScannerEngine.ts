@@ -1554,6 +1554,7 @@ export class OpportunityScannerEngine {
     const roce = screener?.ratios?.roce ? parseFloat(screener.ratios.roce.replace(/[^\d.]/g, '')) : null;
     const pe = screener?.ratios?.stock_pe ? parseFloat(screener.ratios.stock_pe.replace(/[^\d.]/g, '')) : null;
     const debt = screener?.ratios?.debt_to_equity ? parseFloat(screener.ratios.debt_to_equity.replace(/[^\d.]/g, '')) : null;
+    const margin = screener?.ratios?.opm ? parseFloat(screener.ratios.opm.replace(/[^\d.-]/g, '')) : null;
 
     const { zScore, fundScore } = computeSectorZScore(pe, roce, debt, sector);
 
@@ -1566,6 +1567,7 @@ export class OpportunityScannerEngine {
       pe_ratio: pe ?? null,
       roce_pct: roce ?? null,
       debt_to_equity: debt ?? null,
+      margin_pct: margin ?? null,
       rsi14: rsi ?? null,
       bbBandwidth: bandwidth ?? null,
       relativeVolume: relVol ?? null,

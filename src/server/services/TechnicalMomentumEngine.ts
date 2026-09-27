@@ -210,7 +210,7 @@ export class TechnicalMomentumEngine {
     }
 
     if (!candles || candles.length < 25) {
-      return this.generateFallbackReport(cleanSym);
+      throw new Error(`DATA_INSUFFICIENT: TECHNICAL_OHLCV_COVERAGE_UNAVAILABLE for ${cleanSym}; no momentum score, probability, target, or recommendation was calculated.`);
     }
 
     const closePrices = candles.map(c => Number(c.close || 0));
@@ -740,88 +740,4 @@ export class TechnicalMomentumEngine {
     return report;
   }
 
-  private generateFallbackReport(symbol: string): TechnicalMomentumReport {
-    const sr = SupportResistanceEngine.getInstance();
-    const sm = SmartMoneyFlowEngine.getInstance();
-
-    const emptySR = (sr as any).generateFallbackSR(symbol, 'BALANCED');
-    const emptySM = (sm as any).generateFallbackStockMetrics(symbol, '1W');
-
-    const trace: MomentumReasoningTrace = {
-      symbol,
-      as_of_timestamp: new Date().toISOString(),
-      momentum_level: 'BUILDING_BULLISH',
-      sub_state: 'STABLE_MOMENTUM',
-      composite_score: 68,
-      confluence_score: 72,
-      factors: [],
-      featureImportance: [],
-      probability: 65,
-      sample_size_n: 35,
-      confidence_interval_95: [52, 78],
-      confidence_level: 'MEDIUM',
-      confidence_score_pct: 65,
-      confidence_diagnostics: {
-        confidenceScorePct: 65,
-        tier: 'MEDIUM',
-        dataQualityScore: 20,
-        indicatorAgreementScore: 25,
-        statisticalSignificanceScore: 20,
-        missingFeeds: ['Live tick stream'],
-        reasons: ['Fallback dataset used for initial bootstrap.']
-      },
-      backtest_audit: {
-        sampleSizeN: 35,
-        winRatePct: 65,
-        sharpeRatio: 1.45,
-        profitFactor: 1.72,
-        maxDrawdownPct: 10.5,
-        averageTradeReturnPct: 4.2,
-        benchmarkExcessReturnPct: 7.1,
-        auditVerifiedTimestamp: new Date().toISOString()
-      },
-      narrative: `**${symbol} — BUILDING BULLISH (Score: 68/100)**\n- Standard baseline momentum characteristics observed.`,
-      summary_line: 'BUILDING BULLISH (68/100) with 65% calibrated hit rate.'
-    };
-
-    return {
-      symbol,
-      companyName: symbol,
-      cmp: 1000,
-      momentumScore: 68,
-      momentumLevel: 'BUILDING_BULLISH',
-      subState: 'STABLE_MOMENTUM',
-      confluenceScore: 72,
-      gaugeData: { angleDeg: 122, colorZone: '#06B6D4', label: 'BUILDING BULLISH' },
-      weightProfileUsed: 'BALANCED',
-      components: {
-        roc: { roc10: 2.1, roc20: 5.4, roc60: 12.0, zScore: 0.8, subScore: 65, weight: 0.15 },
-        rsi: { rsi14: 62, slope: 2.5, band: 'STRONG (55-70)', subScore: 75, weight: 0.15 },
-        macd: { macd: 8.5, signal: 6.2, histogram: 2.3, histogramSlope: 0.4, crossoverState: 'ABOVE_ZERO', subScore: 78, weight: 0.15 },
-        bollinger: { state: 'WALKING_UPPER', bandwidth: 8.5, bandwidthDecile: 4, subScore: 75, weight: 0.22, upperBand: 1050, middleBand: 1000, lowerBand: 950 },
-        volumeSurge: { relativeVolume: 1.4, directionalSurge: 1.4, subScore: 70, weight: 0.18 },
-        maAlignment: { state: 'BULLISH_STACK', sma20: 980, sma50: 950, sma200: 900, ema20: 985, ema50: 955, subScore: 80, weight: 0.15 }
-      },
-      extendedIndicators: [],
-      supportResistance: emptySR,
-      smartMoney: {
-        symbol,
-        companyName: symbol,
-        sector: 'Equities',
-        cmp: 1000,
-        timeframes: { '1D': emptySM, '3D': emptySM, '1W': emptySM, '15D': emptySM, '3W': emptySM, '1M': emptySM, '3M': emptySM },
-        dominantBias: 'ACCUMULATION',
-        consensusScore: 65,
-        summaryText: 'Moderate institutional accumulation detected.',
-        asOfTimestamp: new Date().toISOString(),
-        provenance: {
-          source: 'TechnicalMomentumEngine',
-          sourceType: 'MODELED',
-          confidencePct: 80,
-          asOfDate: new Date().toISOString().split('T')[0]
-        }
-      },
-      trace
-    };
-  }
 }

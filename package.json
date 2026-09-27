@@ -47,6 +47,10 @@
     "fundamental:sync": "python scripts/fundamental/sync_verified_fundamentals_package.py",
     "fundamental:dossier": "node scripts/fundamental/build_selected_fundamental_dossier.mjs",
     "dossier:combined": "python scripts/fundamental/merge_technical_fundamental_dossiers.py"
+    ,"strategy:scan:30d": "cross-env NODE_OPTIONS=--require=./scripts/node_userinfo_fallback.cjs tsx scripts/strategy/run_30d_alphanumeric_dossier.ts",
+    "fundamental:qglp": "cross-env NODE_OPTIONS=--require=./scripts/node_userinfo_fallback.cjs tsx scripts/fundamental/run_qglp_enrichment_daemon.ts",
+    "fundamental:trendlyne": "cross-env NODE_OPTIONS=\"--use-system-ca --require=./scripts/node_userinfo_fallback.cjs\" tsx scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+    "fundamental:trendlyne:audit": "cross-env NODE_OPTIONS=--require=./scripts/node_userinfo_fallback.cjs tsx scripts/fundamental/audit_trendlyne_coverage.ts"
   },
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.1128.0",

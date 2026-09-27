@@ -302,14 +302,14 @@ forensicRouter.get('/universe', async (req: Request, res: Response) => {
 
 function adapt49DossierToForensicDossier(raw: any): any {
   if (!raw) return null;
-  const cmp = raw.tradeGeometry?.cmp || raw.valuation?.reverseDcf?.currentMarketPrice || 100;
-  const mcap = raw.operationalMoat?.investedCapitalCr || 1000;
-  const beneish = raw.governanceAndAccounting?.deterministicScores?.beneishMScore ?? -2.5;
-  const altman = raw.governanceAndAccounting?.deterministicScores?.altmanZScore ?? 3.2;
-  const piotroski = raw.governanceAndAccounting?.deterministicScores?.piotroskiFScore ?? 7;
-  const bullThesis = raw.thesis?.groundedBullThesis || raw.analystRecommendationContext?.keyInvestmentThesis || 'Pristine cash flow conversion with robust balance sheet moat.';
-  const bearThesis = raw.thesis?.brutalBearAntithesis || raw.analystRecommendationContext?.keyBearThesis || 'Potential commodity price inflation or execution delays.';
-  const verdict = raw.synthesis?.verdict || raw.tradeGeometry?.verdict || 'ACCUMULATE';
+  const cmp = raw.tradeGeometry?.cmp || raw.valuation?.reverseDcf?.currentMarketPrice || null;
+  const mcap = raw.operationalMoat?.investedCapitalCr || null;
+  const beneish = raw.governanceAndAccounting?.deterministicScores?.beneishMScore ?? null;
+  const altman = raw.governanceAndAccounting?.deterministicScores?.altmanZScore ?? null;
+  const piotroski = raw.governanceAndAccounting?.deterministicScores?.piotroskiFScore ?? null;
+  const bullThesis = raw.thesis?.groundedBullThesis || raw.analystRecommendationContext?.keyInvestmentThesis || 'DATA_INSUFFICIENT';
+  const bearThesis = raw.thesis?.brutalBearAntithesis || raw.analystRecommendationContext?.keyBearThesis || 'DATA_INSUFFICIENT';
+  const verdict = raw.synthesis?.verdict || raw.tradeGeometry?.verdict || 'DATA_INSUFFICIENT';
 
   return {
     symbol: raw.symbol,
@@ -325,25 +325,25 @@ function adapt49DossierToForensicDossier(raw: any): any {
       beneish: {
         score: beneish,
         mScore: beneish,
-        isManipulatorLikely: beneish > -1.78,
-        isManipulatorRisk: beneish > -1.78,
-        variables: { dsri: 1.0, gmi: 1.0, aqi: 1.0, sgi: 1.1, depi: 1.0, sgai: 1.0, lvgi: 1.0, tata: 0.02 },
-        riskLevel: beneish > -1.78 ? 'high' : 'low',
-        explanation: 'Audited 8-Variable Beneish M-Score derived from statutory filings.'
+        isManipulatorLikely: beneish !== null ? beneish > -1.78 : null,
+        isManipulatorRisk: beneish !== null ? beneish > -1.78 : null,
+        variables: { dsri: null, gmi: null, aqi: null, sgi: null, depi: null, sgai: null, lvgi: null, tata: null },
+        riskLevel: beneish !== null ? (beneish > -1.78 ? 'high' : 'low') : 'unknown',
+        explanation: beneish !== null ? 'Audited 8-Variable Beneish M-Score derived from statutory filings.' : 'DATA_INSUFFICIENT'
       },
       altman: {
         score: altman,
         zScore: altman,
-        zone: altman > 2.99 ? 'safe' : altman >= 1.81 ? 'grey' : 'distress',
-        components: { x1: 0.2, x2: 0.3, x3: 0.15, x4: 1.5, x5: 0.8 },
-        isComputable: true,
-        explanation: 'Altman Z-Score calculated from balance sheet disclosures.'
+        zone: altman !== null ? (altman > 2.99 ? 'safe' : altman >= 1.81 ? 'grey' : 'distress') : 'unknown',
+        components: { x1: null, x2: null, x3: null, x4: null, x5: null },
+        isComputable: altman !== null,
+        explanation: altman !== null ? 'Altman Z-Score calculated from balance sheet disclosures.' : 'DATA_INSUFFICIENT'
       },
       piotroski: {
         score: piotroski,
         fScore: piotroski,
-        breakdown: { profitability: 3, leverage: 2, operatingEfficiency: 2 },
-        explanation: 'Piotroski 9-point fundamental financial health audit.'
+        breakdown: { profitability: null, leverage: null, operatingEfficiency: null },
+        explanation: piotroski !== null ? 'Piotroski 9-point fundamental financial health audit.' : 'DATA_INSUFFICIENT'
       },
       cfoPatDivergence: {
         quarters: [
@@ -379,41 +379,41 @@ function adapt49DossierToForensicDossier(raw: any): any {
       positiveCatalysts: raw.thesis?.groundedBullThesis ? [{ category: 'Catalyst', insight: raw.thesis.groundedBullThesis, impact: 'positive' }] : [],
     },
     analystRecommendationContext: {
-      tradeViability: verdict === 'ACCUMULATE' ? 'ACCUMULATE' : 'STRONG_BUY',
+      tradeViability: verdict,
       tradeViabilityBasis: {
         primaryReason: bullThesis,
-        rewardRiskRatio: raw.tradeGeometry?.rewardRiskRatio || 2.8,
-        ruleMatched: 'Rule 360-Institutional: Free Cash Flow Yield > Rf with Validated Beneish M-Score',
-        marginOfSafetyPct: raw.valuation?.reverseDcf?.marginOfSafetyPct || 15.0,
-        valuationConfidence: 'high',
+        rewardRiskRatio: raw.tradeGeometry?.rewardRiskRatio || null,
+        ruleMatched: 'DATA_INSUFFICIENT',
+        marginOfSafetyPct: raw.valuation?.reverseDcf?.marginOfSafetyPct || null,
+        valuationConfidence: 'unknown',
       },
       keyInvestmentThesis: bullThesis,
       keyBearThesis: bearThesis,
-      healthReviewSummary: raw.businessProfile?.coreBusiness || 'Comprehensive forensic audit verified.',
+      healthReviewSummary: raw.businessProfile?.coreBusiness || 'DATA_INSUFFICIENT',
     },
     triScenarioValuation: {
       baseCase: {
-        targetPrice: raw.tradeGeometry?.target1 || Math.round(cmp * 1.25),
-        upsidePct: 25,
-        projectedEps: 18.5,
-        peMultiple: 22,
-        assumptionsSummary: 'Consensus base-case cash flow compounding.',
+        targetPrice: raw.tradeGeometry?.target1 || null,
+        upsidePct: null,
+        projectedEps: null,
+        peMultiple: null,
+        assumptionsSummary: 'DATA_INSUFFICIENT',
       },
       bullCase: {
-        targetPrice: raw.tradeGeometry?.target2 || Math.round(cmp * 1.50),
-        upsidePct: 50,
-        projectedEps: 22.0,
-        peMultiple: 25,
-        assumptionsSummary: 'Accelerated domestic market share gain.',
+        targetPrice: raw.tradeGeometry?.target2 || null,
+        upsidePct: null,
+        projectedEps: null,
+        peMultiple: null,
+        assumptionsSummary: 'DATA_INSUFFICIENT',
       },
       bearCase: {
-        targetPrice: raw.tradeGeometry?.stop || Math.round(cmp * 0.88),
-        upsidePct: -12,
-        projectedEps: 14.0,
-        peMultiple: 18,
-        assumptionsSummary: 'Downside support at structural invalidation stop.',
+        targetPrice: raw.tradeGeometry?.stop || null,
+        upsidePct: null,
+        projectedEps: null,
+        peMultiple: null,
+        assumptionsSummary: 'DATA_INSUFFICIENT',
       },
-      dataSourceType: 'live_consensus',
+      dataSourceType: 'DATA_INSUFFICIENT',
     },
     // Legacy concall summaries lack transcript claim IDs and later filing evidence.
     walkTheTalk: undefined,

@@ -59,6 +59,9 @@ coverage/
 .env
 .env.*
 *.local
+# Local MCP configurations may contain bearer-token URLs. Keep machine-specific
+# connector settings out of version control.
+.agents/mcp_config.json
 
 # OS & Editor Files
 .DS_Store

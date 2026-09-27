@@ -12027,6 +12027,9 @@ app.get('/api/dashboard/effective-holdings', async (req, res) => {
 // 4. Alias POST /api/market-prices/sync
 app.post('/api/market-prices/sync', async (req, res) => {
   try {
+    if (process.env.READ_ONLY_RUNTIME === 'true') {
+      return res.status(403).json({ success: false, message: 'Runtime is read-only (Phase A). Market price sync is disabled.' });
+    }
     const portfolio = req.body?.portfolio || req.query?.portfolio;
     const pFilter = typeof portfolio === 'string' ? portfolio : undefined;
 

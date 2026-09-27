@@ -11,7 +11,7 @@ export interface ValuationInput {
   trailingEps: number;
   baseGrowthRatePct: number;
   basePeMultiple: number;
-  dataSourceType: 'live_consensus' | 'eps_stdev_fallback';
+  dataSourceType: 'live_consensus' | 'user_sensitivity';
   dataCompleteness: number; // 0 to 1
   consensusEpsBull?: number;
   consensusEpsBear?: number;
@@ -25,7 +25,7 @@ export interface TriScenarioValuationResult {
   baseCase: ScenarioResult;
   bullCase: ScenarioResult;
   bearCase: ScenarioResult;
-  dataSourceType: 'live_consensus' | 'eps_stdev_fallback';
+  dataSourceType: 'live_consensus' | 'user_sensitivity';
   asymmetryRatio: number; // (bull - base) / (base - bear)
   historicalOutcome?: {
     realizedPrice: number;
@@ -71,8 +71,10 @@ export class ForensicValuationService {
     let bullAssumptions: string[];
     let bearAssumptions: string[];
 
-    if (dataSourceType === 'live_consensus' && consensusEpsBull !== undefined && consensusEpsBear !== undefined) {
-      // Live consensus allows asymmetric growth and multiple re-rating
+    if (dataSourceType === 'live_consensus') {
+      if (consensusEpsBull === undefined || consensusEpsBear === undefined) {
+        throw new Error('DATA_INSUFFICIENT: live_consensus requires consensusEpsBull and consensusEpsBear');
+      }
       epsBull = Number(consensusEpsBull.toFixed(2));
       peBull = Number((basePeMultiple * 1.15).toFixed(1));
       bullAssumptions = [
@@ -86,24 +88,25 @@ export class ForensicValuationService {
         `Consensus lower bound EPS: ₹${epsBear}`,
         `Multiple de-rating to ${peBear}x P/E on margin compression`,
       ];
-    } else {
-      // Fallback path: Symmetric EPS standard deviation band (§3.3 & T-VAL-03)
+    } else if (dataSourceType === 'user_sensitivity') {
       const stdevDelta = epsBase * historicalEpsStdevPct;
       epsBull = Number((epsBase + stdevDelta).toFixed(2));
       peBull = Number((peBase + historicalPeStdev).toFixed(1));
       bullAssumptions = [
-        'EPS_stdev_symmetric_fallback: +1.0 sigma historical EPS variation',
+        'User Sensitivity: +1.0 sigma historical EPS variation',
         `P/E expanded by +${historicalPeStdev} points to ${peBull}x`,
-        'Confidence docked to 0.6 due to reliance on historical fallback proxy',
+        'Sensitivity calculation only',
       ];
 
       epsBear = Number((epsBase - stdevDelta).toFixed(2));
       peBear = Number((peBase - historicalPeStdev).toFixed(1));
       bearAssumptions = [
-        'EPS_stdev_symmetric_fallback: -1.0 sigma historical EPS variation',
+        'User Sensitivity: -1.0 sigma historical EPS variation',
         `P/E compressed by -${historicalPeStdev} points to ${peBear}x`,
-        'Symmetric-band caveat applied per §3.3 spec',
+        'Sensitivity calculation only',
       ];
+    } else {
+      throw new Error(`DATA_INSUFFICIENT: Invalid dataSourceType ${dataSourceType}`);
     }
 
     const priceTargetBull = Number((epsBull * peBull).toFixed(2));

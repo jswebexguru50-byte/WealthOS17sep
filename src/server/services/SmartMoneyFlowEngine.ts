@@ -292,7 +292,7 @@ export class SmartMoneyFlowEngine {
     }
 
     if (!candles || candles.length === 0) {
-      return this.generateFallbackStockMetrics(cleanSym, timeframe, meta);
+      throw new Error(`DATA_INSUFFICIENT: SMART_MONEY_OHLCV_COVERAGE_UNAVAILABLE for ${cleanSym}; no flow classification or institutional conclusion was calculated.`);
     }
 
     const days = this.timeframeToDays(timeframe);
@@ -925,35 +925,4 @@ export class SmartMoneyFlowEngine {
     return result;
   }
 
-  private generateFallbackStockMetrics(symbol: string, timeframe: SmartMoneyTimeframe, meta?: any): SmartMoneyMetrics {
-    return {
-      symbol,
-      companyName: meta?.companyName || symbol,
-      sector: meta?.sector || 'Equities',
-      cmp: 0,
-      timeframe,
-      smasScore: null as any,
-      smasDelta: null as any,
-      classification: 'NEUTRAL_CHOP',
-      netInstitutionalFlowCr: null as any,
-      institutionalBreakdown: { fiiNetCr: null as any, diiNetCr: null as any, propNetCr: null as any, retailNetCr: null as any },
-      deliveryPct: null as any,
-      deliverySurgeRatio: null as any,
-      vwapDivergencePct: null as any,
-      blockDealsCount: null as any,
-      blockDealsTotalCr: null as any,
-      relativeVolume: null as any,
-      trendSlope: null as any,
-      convictionBadge: 'NEUTRAL_FLOW',
-      isCriticalFlow: false,
-      signals: ['DATA_INSUFFICIENT: Missing required volume/delivery history'],
-      provenance: {
-        source: 'NONE',
-        sourceType: 'UNAVAILABLE' as any,
-        confidencePct: 0,
-        asOfDate: new Date().toISOString().split('T')[0]
-      },
-      confidenceIntervalStr: 'N/A'
-    };
-  }
 }

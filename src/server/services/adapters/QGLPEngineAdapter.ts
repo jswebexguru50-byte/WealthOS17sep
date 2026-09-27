@@ -30,12 +30,12 @@ export class QGLPEngineAdapter implements ComposableEngine {
   };
 
   public async evaluate(bus: EvidenceBus, context: PITContext, universeSecurityIds: string[]): Promise<void> {
-    const targets = universeSecurityIds.length > 0 ? universeSecurityIds : ['RELIANCE', 'TCS', 'INFY'];
+    // This adapter is deliberately evidence-only. It does not manufacture a
+    // universe or scores; the database-backed QGLP enrichment service is the
+    // producer of verified QGLP results.
+    const targets = universeSecurityIds;
 
     for (const sym of targets) {
-      const qglpScore = 78;
-      const passed = qglpScore >= 60;
-
       bus.emit({
         type: 'QGLP_COMPOSITE_SCORE',
         engineId: this.engineId,
@@ -43,7 +43,7 @@ export class QGLPEngineAdapter implements ComposableEngine {
         engineVersion: this.version,
         engineSourceHash: this.getSourceHash(),
         parameterHash: this.getParameterHash(),
-        dataSnapshotHash: 'SNAP_QGLP_V66',
+        dataSnapshotHash: 'NO_PERSISTED_QGLP_SNAPSHOT',
         inputEvidenceIds: [],
         sourceRequirementIds: this.getDataRequirementIds(),
         pitContextHash: context.contextHash,
@@ -52,13 +52,14 @@ export class QGLPEngineAdapter implements ComposableEngine {
         decisionDate: context.decisionDate,
         decisionTimestamp: context.decisionTimestamp,
         payload: {
-          qglpScore,
-          quality: 80,
-          growth: 75,
-          longevity: 85,
-          priceFairness: 72,
-          passed,
-          reason: passed ? 'QGLP score above threshold' : 'QGLP score deficient'
+          qglpScore: null,
+          quality: null,
+          growth: null,
+          longevity: null,
+          priceFairness: null,
+          passed: null,
+          status: 'DATA_INSUFFICIENT',
+          reason: 'No persisted QGLP result was supplied to the adapter.'
         }
       });
     }

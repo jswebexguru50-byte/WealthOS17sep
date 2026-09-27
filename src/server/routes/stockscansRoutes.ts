@@ -14,8 +14,43 @@ import { MarketDataQueryService } from '../services/stockscans/MarketDataQuerySe
 import { EvidenceQueryService } from '../services/stockscans/EvidenceQueryService.js';
 import { WorkspaceService } from '../services/stockscans/WorkspaceService.js';
 import { UniverseId, MissingConstituentPolicy, DataStatus } from '../../types/stockscans.js';
+import { SectorMomentumService } from '../services/SectorMomentumService.js';
+import { SectorFlowService } from '../services/SectorFlowService.js';
 
 export const stockscansRouter = express.Router();
+
+// ── 0. Read-only sector momentum matrix ─────────────────────────────────────
+// Uses only persisted adjusted sector-index OHLCV. Missing index history stays unavailable.
+stockscansRouter.get('/sector-momentum', async (_req: Request, res: Response) => {
+  try {
+    const sectors = await SectorMomentumService.getUniverse();
+    const available = sectors.filter(s => s.status !== 'UNAVAILABLE');
+    return res.json({
+      success: true,
+      status: available.length ? 'VERIFIED' : 'UNAVAILABLE',
+      asOf: available.reduce<string | null>((latest, s) => !latest || (s.asOf && s.asOf > latest) ? s.asOf : latest, null),
+      sourceSystem: 'DUCKDB_ADJUSTED',
+      coverage: { requested: sectors.length, matched: available.length, unavailable: sectors.length - available.length },
+      sectors,
+      data: sectors
+    });
+  } catch (err: any) {
+    return res.status(500).json({ success: false, status: 'ERROR', sourceSystem: 'DUCKDB_ADJUSTED', data: null, error: err?.message || String(err) });
+  }
+});
+
+// ── 0b. Evidence-based sector institutional flow ────────────────────────────
+stockscansRouter.get('/sector-flows', async (req: Request, res: Response) => {
+  try {
+    const fromDate = req.query.from ? String(req.query.from) : undefined;
+    const toDate = req.query.to ? String(req.query.to) : undefined;
+    const sectors = await SectorFlowService.getSectorFlows(fromDate, toDate);
+    const available = sectors.filter(s => s.status !== 'UNAVAILABLE');
+    return res.json({ success: true, status: available.length ? 'VERIFIED' : 'UNAVAILABLE', sourceSystem: 'SQLITE_EVIDENCE+DUCKDB_ADJUSTED', fromDate: fromDate || null, toDate: toDate || null, coverage: { requested: sectors.length, matched: available.length, unavailable: sectors.length - available.length }, sectors, data: sectors });
+  } catch (err: any) {
+    return res.status(500).json({ success: false, status: 'ERROR', sourceSystem: 'SQLITE_EVIDENCE+DUCKDB_ADJUSTED', data: null, error: err?.message || String(err) });
+  }
+});
 
 // ── 1. Market Breadth Snapshot ───────────────────────────────────────────────
 stockscansRouter.get('/breadth', async (req: Request, res: Response) => {

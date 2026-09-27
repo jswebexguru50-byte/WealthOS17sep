@@ -601,7 +601,7 @@ export class ForensicTestSuiteRunner {
         trailingEps: 50,
         baseGrowthRatePct: 15,
         basePeMultiple: 20,
-        dataSourceType: 'eps_stdev_fallback', // Fallback mode
+        dataSourceType: 'user_sensitivity', // Fallback mode
         dataCompleteness: 1.0,
         historicalEpsStdevPct: 0.16,
         historicalPeStdev: 4.0,

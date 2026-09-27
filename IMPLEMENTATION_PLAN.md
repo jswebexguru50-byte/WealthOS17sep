@@ -1,53 +1,41 @@
-# WealthOS Delivery 2.x — P5 Master Coordination Plan
+# WealthOS Product Rearchitecture — Implementation Plan
 
-## Goal Description
-Orchestrate the remaining P5 independent verification streams in parallel, consolidate the evidence, and explicitly authorize the two verified production defects (SQLite Migration and Timestamp Semantics) prior to independent re-verification.
+## Current State & Scope
 
-## User Review Required
-> [!IMPORTANT]
-> **STRICT VERIFICATION-FIRST RULE**: The forensic status of the two production defects is as follows:
-> - **P5-D (SQLite Migration)**: Implementation: PRESENT, Tests: PRESENT, Independent verification: REQUIRED, Hardening: REQUIRED.
-> - **P5-E (Timestamp Semantics)**: Claimed defect: NEEDS SOURCE-LEVEL RECONFIRMATION, Test fixture: PRESENT, Test-to-function alignment: FAILED / INCOMPLETE, Remediation: NOT PROVEN.
+The active phase is `WEALTHOS_PRODUCT_REARCHITECTURE`. 
 
-## Proposed Changes
+Do not move to candidate persistence yet (Phase C is deferred). First make the existing Discover → Analyze → FERE → StockScans path truthful and stable.
 
-### P5-D: Persistence / SQLite Migration Defect
-The `valid_promoted_evidence` constraint is not retroactively applied to existing databases because `CREATE TABLE IF NOT EXISTS` ignores schema updates on existing tables.
+### Phase A — data truth and working Discover → Analyze [ACTIVE]
 
-#### [MODIFY] [DatasetPromotionMigration.test.ts](file:///c:/Users/gopal/OneDrive/Desktop/tesr/webapp_portable_release/tests/fasttrack_d2/DatasetPromotionMigration.test.ts)
-Update test fixture to assert quarantine correctness. Acceptance criteria:
-- `invalid production row = absent AND quarantine row = present AND quarantine reason = correct AND original hashes/metadata preserved`
-- **Idempotency Test**: Run migration twice. Expect same production rows, same quarantine rows, no duplicate quarantine, no corruption.
-- **Transaction/Recovery Failure-Injection Test**: Inject failure before rename, after rename, during insert, and before commit. Expect original database remains recoverable.
-- **Foreign-Key Verification**: Verify `PRAGMA foreign_keys` logic keeps foreign-key relationships intact (initially ON -> migration -> ON).
+Modify only the active approved files.
 
-#### [MODIFY] [database.ts](file:///c:/Users/gopal/OneDrive/Desktop/tesr/webapp_portable_release/src/server/database.ts)
-- Audit, harden and independently verify the existing `DatasetPromotionManifests` migration implementation.
-- Contract invariant: Legacy valid PROMOTED survives, legacy invalid PROMOTED quarantined, new invalid PROMOTED rejected by DB, new valid PROMOTED persists, downstream authorization only valid persisted evidence.
+1. Remove automatic identity creation.
+2. Make DuckDB candle quality explicit: row count, start/end date, missing-volume count, source and corporate-action status.
+3. Enforce score gating: no composite score, probability, entry, stop, target, or verdict unless all mandatory inputs are evidenced.
+4. Convert technical analysis to coverage-aware output.
+5. Make Smart Money and FERE use explicit unavailable states.
+6. Make `StockIntelligenceView` the sole canonical analysis UI. Keep `AnalyzeWorkspace` unused or remove it only after sign-off.
+7. Protect every write route in read-only runtime.
 
-### P5-E: Timestamp / `recordValuationSnapshot` Defect
-The `recordValuationSnapshot` function silently injects a date string when the source observation time is missing, causing PIT and staleness checks to be bypassed.
+Acceptance: a user can open a real strategy candidate, see its actual OHLCV/fundamental/FERE evidence, and clearly see what is unavailable—without invented numbers.
 
-#### [MODIFY] [RecordValuationSnapshotTimestamp.test.ts](file:///c:/Users/gopal/OneDrive/Desktop/tesr/webapp_portable_release/tests/fasttrack_d2/RecordValuationSnapshotTimestamp.test.ts)
-- Directly exercise `recordValuationSnapshot` (do not use `autoFetchMarketData` as a proxy).
-- Require explicit rejection (e.g. `expect(call).rejects.toThrow(...)` or `status = REJECTED`, `reason = MISSING_OBSERVATION_TIMESTAMP` followed by no `ValuationSnapshots` row), not merely zero rows returned.
+### Phase B — StockScans parity [AWAITING SIGN-OFF]
 
-#### [MODIFY] [database.ts](file:///c:/Users/gopal/OneDrive/Desktop/tesr/webapp_portable_release/src/server/database.ts)
-- Modify `recordValuationSnapshot` to require an explicit timestamp.
-- Explicitly separate `observationDate` vs `observationTimestamp`. Use `observedAt` with ISO-8601 timestamp where available. If only a trading date is supplied, explicitly store `observationDate = YYYY-MM-DD`, `observationTimestamp = null`, `timestampPrecision = DAY`. Never fabricate a time component.
+This needs explicit scope/sign-off first because its current files and persistence tables are outside the approved inventory.
 
-## Verification Plan
+Split the product into:
+- `POST /scan`: calculate only; no database writes.
+- `POST /saved-scans`: explicit user save.
+- `POST /watchlists`: explicit user action.
+- `POST /alerts`: explicit user action.
+- `GET /evidence`: read-only, source-linked evidence.
 
-### Automated Tests
-- Run `npx vitest run tests/fasttrack_d2/DatasetPromotionMigration.test.ts`
-- Run `npx vitest run tests/fasttrack_d2/RecordValuationSnapshotTimestamp.test.ts`
-- Rerun the complete integration suite to ensure no unexpected regressions.
+Do not let an ordinary scan create `stockscans_scan_runs`, watchlists, alerts, or custom-index records implicitly.
 
-### Manual Verification
-- Review the parallel read-only audit reports (Agents A, B, C, F, I, J) generated in `reports/v65-delivery-2.2/`.
-- Review the updated `MASTER_GAP_MATRIX.json` and `DELIVERY_2_X_MASTER_REQUIREMENTS.json`.
+### Phase C — candidate lifecycle and portfolio integration [AWAITING SIGN-OFF]
 
----
+Only after Phase A/B pass, approve the `InvestmentCandidates` table and migration. Then preserve a single `candidateId` from discovery through research, portfolio, monitoring, attribution, tax, and postmortem.
 
 ## Phase: WEALTHOS_PRODUCT_REARCHITECTURE [ACTIVE]
 
@@ -58,6 +46,8 @@ The acceptance criteria demand zero synthetic production data, so the data-truth
 ### Sign-off log
 - S3A/S4A/S5A Strategy Integration: User Approved, 2026-09-25
 - WEALTHOS_PRODUCT_REARCHITECTURE: User Approved, 2026-09-25
+- KITE_MARKET_DATA_DAEMON (instrument reconciliation, 15-minute and daily OHLCV ingestion, Parquet/DuckDB catalog publication): User Approved, 2026-09-27
+- FUNDAMENTAL_ENRICHMENT_RESUME_TASK (durable no-LLM execution of the existing resumable Upstox collector): User Approved, 2026-09-27
 
 ### INSPECTION SCOPE (Read-Only Authority)
 - src/server/services/risk/*
@@ -113,6 +103,23 @@ The acceptance criteria demand zero synthetic production data, so the data-truth
 - server.ts
   - **Allowed**: Route registration, compatibility endpoints, middleware necessary for approved workflow.
   - **Not Allowed**: Unrelated server architecture rewrite, authentication rewrite, global middleware refactor (e.g. TLS, CORS should be a separate phase).
+
+#### Deterministic Market-Data Operations (Approved 2026-09-27)
+- scripts/market_data/kite_market_data_daemon.py
+- scripts/market_data/install_kite_market_data_daemon.ps1
+- scripts/market_data/update_ohlcv_duckdb_today.py
+- data/market_data/tejhq_hf_10y/kite_instrument_master/*
+- data/market_data/tejhq_hf_10y/kite_15m_backfill/*
+- scripts/fundamental/install_upstox_fundamental_resume_task.ps1
+
+#### Deterministic FERE Incremental Cadence (User approved 2026-09-27)
+- scripts/fere/run_fere_cadence.py
+- scripts/fere/install_fere_cadence_schedule.ps1
+- scripts/fere/run_overnight_watchdog.py
+- data/fere/verified_filings/fere_cadence_state.json
+- data/fere/verified_filings/fere_cadence_progress.json
+- data/fere/verified_filings/fere_cadence.log
+- Uses existing FERE evidence tables and official-source collectors only; no new schema, LLM, inferred facts, or production portfolio writes.
 
 ### Phase 0 Governance Amendment: Persistence Layer (InvestmentCandidates)
 Before modifying backend services for the `candidateId` lifecycle across the application, explicit sign-off on the schema and persistence strategy for `InvestmentCandidates` is required. The `InvestmentCandidate` is the fundamental anchor that bridges the gap between Discovery (Signal), Research (Dossier), and Execution (Portfolio).

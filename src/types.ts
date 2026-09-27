@@ -308,9 +308,6 @@ export interface EPVValuationOutput {
   dcfIntrinsicValuePerShare: number;
   growthValuePremiumPct: number; // (DCF - EPV) / DCF * 100
   valuationGateStatus: 'EPV_MOAT_BUY' | 'SPECULATIVE_GROWTH_WARNING' | 'OVERVALUED_TRAP';
-  piotroskiFScore: number;
-  altmanZScore: number;
-  beneishMScore: number;
 }
 
 // --- MICROSTRUCTURE & OBI TYPES ---

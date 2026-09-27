@@ -87,12 +87,14 @@ async function main(): Promise<void> {
     const terminalCounts=await all(db,`SELECT symbol,COUNT(DISTINCT endpoint) n FROM fundamental_endpoint_snapshots WHERE provider='UPSTOX_FUNDAMENTALS' AND status IN ('SUCCESS','NOT_AVAILABLE') GROUP BY symbol`);
     const done=new Set(forceRefresh?[]:terminalCounts.filter(r=>Number(r.n)===endpoints.length).map(r=>String(r.symbol)));
     const pending=symbols.filter(symbol=>!done.has(symbol));
-    const progress:any={status:'RUNNING',phase:'UPSTOX_EIGHT_ENDPOINTS',provider:'UPSTOX_FUNDAMENTALS',group:groupArg,requested:symbols.length,completed:done.size,pending:pending.length,failed:0,endpointSuccesses:{},endpointUnavailable:{},updatedAt:now(),llmCalls:0};
+    const progress:any={status:'RUNNING',phase:'UPSTOX_EIGHT_ENDPOINTS',provider:'UPSTOX_FUNDAMENTALS',group:groupArg,requested:symbols.length,completed:done.size,pending:pending.length,failed:0,identityReview:0,endpointSuccesses:{},endpointUnavailable:{},updatedAt:now(),llmCalls:0};
     write(progress); console.log(`[Upstox Fundamentals] Total=${symbols.length} pending=${pending.length} cache-complete=${done.size}`);
     let consecutiveNetworkFailures=0;
     for(let offset=0;offset<pending.length;offset+=batchSize) for(const symbol of pending.slice(offset,offset+batchSize)) {
       const master=(await all(db,'SELECT isin FROM MasterTickers WHERE symbol=? LIMIT 1',[symbol]))[0]; const isin=String(master?.isin||'');
-      if(!isin){progress.failed++;progress.pending--;progress.updatedAt=now();write(progress);continue;}
+      if(!isin || /^UNKNOWN$/i.test(symbol) || /_UNKNOWN_/i.test(isin)){
+        progress.identityReview=(progress.identityReview||0)+1; progress.pending--; progress.lastSymbol=symbol; progress.updatedAt=now(); write(progress); console.log(`[Upstox Fundamentals] identity review required: ${symbol}`); continue;
+      }
       const cached=forceRefresh?new Map<string,DbRow>():await cachedEndpoints(db,symbol); const responses:Record<string,unknown>={}; const errors:Record<string,string>={};
       for(const [endpoint,row] of cached){if(row.status==='SUCCESS')responses[endpoint]=JSON.parse(String(row.response_json));else errors[endpoint]=String(row.error||'NOT_AVAILABLE');}
       for(const endpoint of endpoints){

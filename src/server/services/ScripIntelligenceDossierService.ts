@@ -7,6 +7,7 @@ import { MarketDataIngestorService } from './MarketDataIngestorService.js';
 import { MacroRegimeClassifierService, RegimeState } from './MacroRegimeClassifierService.js';
 import { BrokerResearchIntelligenceService } from './BrokerResearchIntelligenceService.js';
 import { ScripKnowledgeBaseService, InvestmentThesis } from './ScripKnowledgeBaseService.js';
+import { SectorMomentumService, SectorMomentumSnapshot } from './SectorMomentumService.js';
 
 export interface PeerComparisonRow {
   name: string;
@@ -26,7 +27,8 @@ export interface SecurityDossier {
   industry: string;
   cmp: number;
   change1dPct: number;
-  marketCapCr: number;
+  marketCapCr: number | null;
+  marketCapCategory: 'SMALL_CAP' | 'MID_CAP' | 'LARGE_CAP' | 'UNAVAILABLE';
   generatedAt: string;
   isHeld: boolean;
   holdingContext?: {
@@ -76,6 +78,7 @@ export interface SecurityDossier {
     relativeStrengthScore: number;
     valuationVerdict: string;
     peers: PeerComparisonRow[];
+    momentum: SectorMomentumSnapshot;
   };
 
   // 5. Macro & Market Mood
@@ -385,7 +388,18 @@ export class ScripIntelligenceDossierService {
     const companyName = screenerData?.company_name || masterTickerRow?.name || sym;
     const sector = screenerData?.sector || masterTickerRow?.sector || 'Diversified';
     const industry = screenerData?.industry || sector;
-    const marketCapCr = screenerData?.ratios?.market_cap ? parseFloat(screenerData.ratios.market_cap.replace(/,/g, '')) : 15000;
+    const parsedMarketCapCr = screenerData?.ratios?.market_cap
+      ? parseFloat(screenerData.ratios.market_cap.replace(/,/g, ''))
+      : null;
+    const marketCapCr = parsedMarketCapCr !== null && Number.isFinite(parsedMarketCapCr) ? parsedMarketCapCr : null;
+    const marketCapCategory = marketCapCr === null
+      ? 'UNAVAILABLE' as const
+      : marketCapCr <= 5000
+        ? 'SMALL_CAP' as const
+        : marketCapCr <= 20000
+          ? 'MID_CAP' as const
+          : 'LARGE_CAP' as const;
+    const sectorMomentum = await SectorMomentumService.getForSector(sector === 'Diversified' ? null : sector);
 
     // Holding context if user owns it
     const isHeld = Boolean(holdingRow && holdingRow.quantity > 0);
@@ -540,7 +554,9 @@ function detectSectorCategory(sectorStr: string, industryStr: string, companyNam
         orderBookVisibility = `Long-term PPA agreements & EPC execution milestones offering multi-year revenue visibility`;
         break;
       case 'CAPEX':
-        orderBookVisibility = `Order book at ~${(marketCapCr > 40000 ? '2.8x' : '2.2x')} annual revenues offering strong revenue visibility`;
+        orderBookVisibility = marketCapCr === null
+          ? 'Order-book visibility unavailable'
+          : `Order book at ~${(marketCapCr > 40000 ? '2.8x' : '2.2x')} annual revenues offering strong revenue visibility`;
         break;
       case 'AUTO':
         orderBookVisibility = `Strong order book & waiting periods across key premium/UV model lines`;
@@ -722,7 +738,7 @@ function detectSectorCategory(sectorStr: string, industryStr: string, companyNam
 
     // Multibagger Checklist (8 points)
     const mbChecks = [
-      { criterion: 'Market Cap < ₹25,000 Cr (High Runway)', passed: marketCapCr < 25000, metricValue: `₹${Math.round(marketCapCr)} Cr` },
+      { criterion: 'Market Cap < ₹25,000 Cr (High Runway)', passed: marketCapCr !== null && marketCapCr < 25000, metricValue: marketCapCr === null ? 'N/A' : `₹${Math.round(marketCapCr)} Cr` },
       { criterion: 'ROCE ≥ 18% (Capital Efficiency)', passed: rawRoce >= 18, metricValue: `${rawRoce}%` },
       { criterion: 'Debt-to-Equity < 0.5 (Clean Balance Sheet)', passed: rawDebtToEquity < 0.5, metricValue: `${rawDebtToEquity}x` },
       { criterion: 'Piotroski F-Score ≥ 6 (Quality Operations)', passed: piotroskiScore >= 6, metricValue: `${piotroskiScore}/9` },
@@ -934,6 +950,7 @@ function detectSectorCategory(sectorStr: string, industryStr: string, companyNam
       cmp,
       change1dPct,
       marketCapCr,
+      marketCapCategory,
       generatedAt: new Date().toISOString(),
       isHeld,
       holdingContext,
@@ -961,7 +978,8 @@ function detectSectorCategory(sectorStr: string, industryStr: string, companyNam
         sectorDescription,
         relativeStrengthScore: 68,
         valuationVerdict: `Trading at ${rawPe}x PE vs peer median of 28x. Premium supported by ${rawRoce}% ROCE.`,
-        peers
+        peers,
+        momentum: sectorMomentum
       },
       macroMarketMood: {
         tickertapeMmiScore: 62,
