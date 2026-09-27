@@ -14,6 +14,10 @@ export interface SecurityIdentityRecord {
   faceValue: number;
 }
 
+export type IdentityResolution =
+  | { status: 'VERIFIED'; securityId: string }
+  | { status: 'IDENTITY_REVIEW'; identifier: string; reason: string };
+
 export class SecurityIdentityRegistry {
   private static instance: SecurityIdentityRegistry;
   private identities: Map<string, SecurityIdentityRecord> = new Map();
@@ -109,45 +113,39 @@ export class SecurityIdentityRegistry {
     return 0;
   }
 
-  public resolveSecurityId(identifier: string): string | null {
-    if (!identifier) return null;
+  public resolveSecurityId(identifier: string): IdentityResolution {
+    if (!identifier) {
+      return {
+        status: 'IDENTITY_REVIEW',
+        identifier: '',
+        reason: 'Empty identifier provided',
+      };
+    }
     const clean = identifier.trim().toUpperCase();
-    if (this.identities.has(clean)) return clean;
-    if (this.symbolIndex.has(clean)) return this.symbolIndex.get(clean)!;
-    if (this.isinIndex.has(clean)) return this.isinIndex.get(clean)!;
+    
+    const securityId = 
+      this.identities.has(clean) ? clean :
+      this.symbolIndex.get(clean) ??
+      this.isinIndex.get(clean);
+
+    if (securityId) return { status: 'VERIFIED', securityId };
 
     // If not found and not yet loaded from DB, schedule async load
     if (!this.isLoadedFromDb) {
       this.populateFromDatabase().catch(() => {});
     }
 
-    // Dynamic fallback generation if canonical structure is evident
-    if (/^[A-Z]{3}[0-9A-Z]{9}$/.test(clean)) {
-      // It's a standard ISIN format (e.g. INE...)
-      const secId = `SEC_${clean}_NSE`;
-      this.registerIdentity({
-        securityId: secId,
-        primaryIsin: clean,
-        historicalIsins: [],
-        currentSymbol: '',
-        historicalSymbols: [],
-        entityType: 'NSE',
-        exchange: 'NSE',
-        listingDate: '',
-        delistingDate: null,
-        status: 'ACTIVE',
-        faceValue: 10
-      });
-      return secId;
-    }
-
-    return null;
+    return {
+      status: 'IDENTITY_REVIEW',
+      identifier: clean,
+      reason: 'No authoritative symbol/ISIN/provider mapping exists',
+    };
   }
 
   public resolveBySymbol(symbol: string): SecurityIdentityRecord | undefined {
     if (!symbol) return undefined;
-    const secId = this.resolveSecurityId(symbol);
-    return secId ? this.getIdentity(secId) : undefined;
+    const resolution = this.resolveSecurityId(symbol);
+    return resolution.status === 'VERIFIED' ? this.getIdentity(resolution.securityId) : undefined;
   }
 
   public getIdentity(securityId: string): SecurityIdentityRecord | undefined {

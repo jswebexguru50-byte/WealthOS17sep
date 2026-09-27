@@ -16950,7 +16950,11 @@ async function startServer() {
   // Trigger initial background market price sync asynchronously only during active market hours (deferred to 120s)
   if (process.env.ENABLE_STARTUP_STRATEGIES === 'true') setTimeout(() => {
     if (isIndianMarketHours()) {
-      autoFetchMarketData(getDB()).catch(console.error);
+      if (process.env.READ_ONLY_RUNTIME !== 'true') {
+        autoFetchMarketData(getDB()).catch(console.error);
+      } else {
+        console.log('[ReadOnlyRuntime] Skipping initial market-price sync.');
+      }
     }
   }, 120000);
 
@@ -17133,8 +17137,12 @@ async function startServer() {
         lastAutoFetchTimestamp = now;
         console.log(`[Market Scheduler] Triggering auto-refresh`);
         try {
-          await autoFetchMarketData(db);
-          await persistRefreshStamp(db, 'market-prices');
+          if (process.env.READ_ONLY_RUNTIME !== 'true') {
+            await autoFetchMarketData(db);
+            await persistRefreshStamp(db, 'market-prices');
+          } else {
+            console.log(`[ReadOnlyRuntime] Skipping auto-refresh`);
+          }
         } catch (err) {
           console.error('[Market Scheduler] Error:', err);
         }

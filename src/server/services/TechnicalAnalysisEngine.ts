@@ -69,12 +69,12 @@ export interface LaymanDictionary {
 
 export interface TechnicalAnalysisResult {
   cmp: number;
-  sma20: number;
-  sma50: number;
-  sma200: number;
-  ema9: number;
-  ema21: number;
-  rsi14: number;
+  sma20: number | null;
+  sma50: number | null;
+  sma200: number | null;
+  ema9: number | null;
+  ema21: number | null;
+  rsi14: number | null;
   macd: { MACD?: number; signal?: number; histogram?: number };
   bollingerBands: { upper?: number; middle?: number; lower?: number; bandwidth?: number; isSqueeze?: boolean };
   atr14: number;
@@ -101,7 +101,7 @@ export interface TechnicalAnalysisResult {
 
 export class TechnicalAnalysisEngine {
   static analyze(data: OHLCV[], symbol?: string, fnoSnapshot?: any): TechnicalAnalysisResult | null {
-    if (!data || data.length === 0) return null;
+    if (!data || data.length < 26) return null;
 
     const closePrices = data.map(d => Number(d.close || 0));
     const highPrices = data.map(d => Number(d.high !== undefined ? d.high : d.close));
@@ -109,12 +109,12 @@ export class TechnicalAnalysisEngine {
     const volumes = data.map(d => Number(d.volume !== undefined ? d.volume : 1));
 
     // Compute moving averages & indicators
-    const sma20 = SMA.calculate({ period: Math.min(20, closePrices.length), values: closePrices });
-    const sma50 = SMA.calculate({ period: Math.min(50, closePrices.length), values: closePrices });
-    const sma200 = SMA.calculate({ period: Math.min(200, closePrices.length), values: closePrices });
+    const sma20 = closePrices.length >= 20 ? SMA.calculate({ period: 20, values: closePrices }) : [];
+    const sma50 = closePrices.length >= 50 ? SMA.calculate({ period: 50, values: closePrices }) : [];
+    const sma200 = closePrices.length >= 200 ? SMA.calculate({ period: 200, values: closePrices }) : [];
     
-    const ema9 = EMA.calculate({ period: Math.min(9, closePrices.length), values: closePrices });
-    const ema21 = EMA.calculate({ period: Math.min(21, closePrices.length), values: closePrices });
+    const ema9 = closePrices.length >= 9 ? EMA.calculate({ period: 9, values: closePrices }) : [];
+    const ema21 = closePrices.length >= 21 ? EMA.calculate({ period: 21, values: closePrices }) : [];
 
     const rsi14 = RSI.calculate({ period: Math.min(14, closePrices.length), values: closePrices });
     
@@ -145,14 +145,14 @@ export class TechnicalAnalysisEngine {
     const latestHigh = highPrices[highPrices.length - 1] || latestClose;
     const latestLow = lowPrices[lowPrices.length - 1] || latestClose;
 
-    const latestSma20 = sma20.length > 0 ? Number(sma20[sma20.length - 1].toFixed(2)) : latestClose;
-    const latestSma50 = sma50.length > 0 ? Number(sma50[sma50.length - 1].toFixed(2)) : latestClose;
-    const latestSma200 = sma200.length > 0 ? Number(sma200[sma200.length - 1].toFixed(2)) : latestClose;
+    const latestSma20 = sma20.length > 0 ? Number(sma20[sma20.length - 1].toFixed(2)) : null;
+    const latestSma50 = sma50.length > 0 ? Number(sma50[sma50.length - 1].toFixed(2)) : null;
+    const latestSma200 = sma200.length > 0 ? Number(sma200[sma200.length - 1].toFixed(2)) : null;
     
-    const latestEma9 = ema9.length > 0 ? Number(ema9[ema9.length - 1].toFixed(2)) : latestClose;
-    const latestEma21 = ema21.length > 0 ? Number(ema21[ema21.length - 1].toFixed(2)) : latestClose;
+    const latestEma9 = ema9.length > 0 ? Number(ema9[ema9.length - 1].toFixed(2)) : null;
+    const latestEma21 = ema21.length > 0 ? Number(ema21[ema21.length - 1].toFixed(2)) : null;
 
-    const latestRsi = rsi14.length > 0 ? Number(rsi14[rsi14.length - 1].toFixed(2)) : 50;
+    const latestRsi = rsi14.length > 0 ? Number(rsi14[rsi14.length - 1].toFixed(2)) : null;
     const latestMacd = macdResult.length > 0 ? macdResult[macdResult.length - 1] : { MACD: 0, signal: 0, histogram: 0 };
     const latestBb = bbResult.length > 0 ? bbResult[bbResult.length - 1] : { upper: latestClose * 1.05, middle: latestClose, lower: latestClose * 0.95 };
 
@@ -170,10 +170,12 @@ export class TechnicalAnalysisEngine {
 
     // Determine primary structural trend
     let trend: 'UPTREND' | 'DOWNTREND' | 'SIDEWAYS' = 'SIDEWAYS';
-    if (latestClose > latestSma50 && latestSma50 > latestSma200) {
-      trend = 'UPTREND';
-    } else if (latestClose < latestSma50 && latestSma50 < latestSma200) {
-      trend = 'DOWNTREND';
+    if (latestSma50 !== null && latestSma200 !== null) {
+      if (latestClose > latestSma50 && latestSma50 > latestSma200) {
+        trend = 'UPTREND';
+      } else if (latestClose < latestSma50 && latestSma50 < latestSma200) {
+        trend = 'DOWNTREND';
+      }
     }
 
     // 52-Week Range metrics

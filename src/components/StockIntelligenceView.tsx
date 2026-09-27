@@ -498,7 +498,7 @@ export function StockIntelligenceView({
 
                   <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-1">
                     <span className="text-xs font-bold text-white block">Media Sentiment</span>
-                    <div className="text-2xl font-black font-mono text-indigo-300">{newsObj.sentimentVerdict || 'BULLISH'}</div>
+                    <div className="text-2xl font-black font-mono text-indigo-300">{newsObj.sentimentVerdict ?? 'N/A'}</div>
                     <p className="text-[11px] text-slate-300 font-medium leading-snug">{newsObj.laymanSummary || 'Balanced coverage across major financial press.'}</p>
                   </div>
 
@@ -559,7 +559,7 @@ export function StockIntelligenceView({
                           </span>
                         </div>
                         <p className="text-[11px] text-slate-300 mt-0.5 font-medium">
-                          Durability: <strong className="text-white">{tlDvm.durabilityScore || 75}/100</strong> ({tlDvm.durabilityGrade || 'HIGH'}) • Valuation: <strong className="text-white">{tlDvm.valuationScore || 45}/100</strong> ({tlDvm.valuationGrade || 'FAIR'}) • Momentum: <strong className="text-white">{tlDvm.momentumScore || 85}/100</strong> ({tlDvm.momentumGrade || 'STRONG'})
+                          Durability: <strong className="text-white">{tlDvm.durabilityScore || 75}/100</strong> ({tlDvm.durabilityGrade ?? 'N/A'}) • Valuation: <strong className="text-white">{tlDvm.valuationScore || 45}/100</strong> ({tlDvm.valuationGrade || 'FAIR'}) • Momentum: <strong className="text-white">{tlDvm.momentumScore || 85}/100</strong> ({tlDvm.momentumGrade || 'STRONG'})
                         </p>
                       </div>
                     </div>
@@ -637,7 +637,7 @@ export function StockIntelligenceView({
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">Durability (D)</span>
                         <span className={`px-2.5 py-0.5 rounded-full text-xs font-mono font-bold border ${getDvmGradeColor(tlDvm.durabilityGrade)}`}>
-                          {tlDvm.durabilityGrade || 'HIGH'}
+                          {tlDvm.durabilityGrade ?? 'N/A'}
                         </span>
                       </div>
                       <div className="flex items-baseline gap-2">
@@ -708,7 +708,7 @@ export function StockIntelligenceView({
                     </div>
                     <div className="pt-2 border-t border-slate-800/80 flex justify-between text-[11px] font-mono text-slate-400">
                       <span>RSI (14D): <strong className="text-cyan-300">{tech.rsi14 || '58'}</strong></span>
-                      <span>Trend: <strong className="text-emerald-400">{tech.trend || 'UPTREND'}</strong></span>
+                      <span>Trend: <strong className="text-emerald-400">{tech.trend ?? 'N/A'}</strong></span>
                     </div>
                   </div>
                 </div>
@@ -911,7 +911,7 @@ export function StockIntelligenceView({
                         Institutional Shareholding Trend
                       </h4>
                       <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold uppercase">
-                        {tlChecklists.institutionalTrend || 'ACCUMULATING'}
+                        {tlChecklists.institutionalTrend ?? 'N/A'}
                       </span>
                     </div>
 
@@ -1140,33 +1140,33 @@ export function StockIntelligenceView({
                       <span className="text-xs font-mono uppercase text-cyan-300 font-bold block">
                         Machine Learning & Price Action Predictive Model
                       </span>
-                      <h3 className={`text-2xl font-black mt-1 ${getActionColor(pred.predictedDirection || 'BULLISH_EXPANSION')}`}>
-                        {(pred.predictedDirection || 'BULLISH_EXPANSION').replace(/_/g, ' ')}
+                      <h3 className={`text-2xl font-black mt-1 ${getActionColor(pred.predictedDirection ?? 'N/A')}`}>
+                        {(pred.predictedDirection ?? 'N/A').replace(/_/g, ' ')}
                       </h3>
                       <p className="text-xs text-slate-200 mt-1 max-w-xl font-medium">
-                        {pred.laymanPredictionSummary || 'Model indicates strong statistical probability of upward expansion.'}
+                        {pred.laymanPredictionSummary ?? 'Data unavailable.'}
                       </p>
                     </div>
 
                     <div className="text-right shrink-0">
                       <span className="text-[11px] font-mono text-slate-300 block uppercase tracking-wider font-bold">Bullish Probability</span>
                       <span className="text-3xl font-black font-mono text-emerald-400">
-                        {pred.bullishProbabilityPct || 72}%
+                        {pred.bullishProbabilityPct ?? 'N/A'}%
                       </span>
-                      <span className="text-xs text-slate-300 block font-mono font-semibold">Confidence: {pred.confidenceLevel || 'HIGH'}</span>
+                      <span className="text-xs text-slate-300 block font-mono font-semibold">Confidence: {pred.confidenceLevel ?? 'N/A'}</span>
                     </div>
                   </div>
 
                   {/* Probability Meter Bar */}
                   <div className="space-y-1.5 pt-2 border-t border-slate-800">
                     <div className="flex justify-between text-xs font-mono text-slate-300">
-                      <span>Bearish Risk ({pred.bearishProbabilityPct || 28}%)</span>
-                      <span>Bullish Momentum ({pred.bullishProbabilityPct || 72}%)</span>
+                      <span>Bearish Risk ({pred.bearishProbabilityPct ?? 'N/A'}%)</span>
+                      <span>Bullish Momentum ({pred.bullishProbabilityPct ?? 'N/A'}%)</span>
                     </div>
                     <div className="w-full bg-slate-800 h-3 rounded-full overflow-hidden border border-slate-700 relative">
                       <div
                         className="h-full rounded-full bg-gradient-to-r from-rose-500 via-amber-400 to-emerald-400"
-                        style={{ width: `${pred.bullishProbabilityPct || 72}%` }}
+                        style={{ width: `${pred.bullishProbabilityPct ?? 'N/A'}%` }}
                       />
                     </div>
                   </div>
@@ -1211,7 +1211,7 @@ export function StockIntelligenceView({
                       </span>
                     </div>
                     <p className="text-xs text-slate-200 leading-relaxed font-medium">
-                      {bbDyn.laymanMeaning || 'Price is oscillating comfortably inside the volatility corridor.'}
+                      {bbDyn.laymanMeaning ?? 'Data unavailable.'}
                     </p>
                   </div>
                 </div>
@@ -1317,11 +1317,11 @@ export function StockIntelligenceView({
                     <div className="flex justify-between items-center">
                       <span className="text-xs font-mono text-slate-400 uppercase">RSI (14-Period Momentum)</span>
                       <strong className={`text-base font-mono font-black ${tech.rsi14 >= 70 ? 'text-rose-400' : tech.rsi14 <= 30 ? 'text-emerald-400' : 'text-slate-100'}`}>
-                        {tech.rsi14 || '52.4'}
+                        {tech.rsi14 ?? 'N/A'}
                       </strong>
                     </div>
                     <p className="text-xs text-slate-300 leading-relaxed">
-                      {layman.rsiMeaning || 'Measures speed and magnitude of recent price moves on a 0-100 scale.'}
+                      {layman.rsiMeaning ?? 'Data unavailable.'}
                     </p>
                   </div>
 
@@ -1329,11 +1329,11 @@ export function StockIntelligenceView({
                     <div className="flex justify-between items-center">
                       <span className="text-xs font-mono text-slate-400 uppercase">Structural Trend</span>
                       <strong className={`text-base font-mono font-black ${tech.trend === 'UPTREND' ? 'text-emerald-400' : tech.trend === 'DOWNTREND' ? 'text-rose-400' : 'text-amber-400'}`}>
-                        {tech.trend || 'UPTREND'}
+                        {tech.trend ?? 'N/A'}
                       </strong>
                     </div>
                     <p className="text-xs text-slate-300 leading-relaxed">
-                      {layman.trendMeaning || 'Moving average alignment indicates whether long-term buyers are in control.'}
+                      {layman.trendMeaning ?? 'Data unavailable.'}
                     </p>
                   </div>
 
@@ -1345,7 +1345,7 @@ export function StockIntelligenceView({
                       </strong>
                     </div>
                     <p className="text-xs text-slate-300 leading-relaxed">
-                      {layman.bollingerMeaning || 'Evaluates volatility compression before major directional breakout moves.'}
+                      {layman.bollingerMeaning ?? 'Data unavailable.'}
                     </p>
                   </div>
                 </div>
@@ -1357,7 +1357,7 @@ export function StockIntelligenceView({
                       <Layers className="w-4 h-4 text-indigo-400" /> Classical Floor Pivot Grid & Support Levels
                     </h4>
                     <span className="text-xs text-slate-400 font-mono">
-                      {layman.pivotMeaning || 'Key price milestones where buying or selling interest concentrates.'}
+                      {layman.pivotMeaning ?? 'Data unavailable.'}
                     </span>
                   </div>
 
@@ -1401,8 +1401,8 @@ export function StockIntelligenceView({
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-1">
                     <span className="text-xs font-mono text-slate-400 block uppercase">Put-Call Ratio (PCR)</span>
-                    <div className="text-3xl font-black font-mono text-cyan-300">{opt.pcr || '1.12'}</div>
-                    <span className="text-xs text-slate-300 block font-medium">{opt.laymanMeaning || 'Ratio of put contracts to call contracts.'}</span>
+                    <div className="text-3xl font-black font-mono text-cyan-300">{opt.pcr ?? 'N/A'}</div>
+                    <span className="text-xs text-slate-300 block font-medium">{opt.laymanMeaning ?? 'Data unavailable.'}</span>
                   </div>
 
                   <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-1">
@@ -1413,16 +1413,16 @@ export function StockIntelligenceView({
 
                   <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-1">
                     <span className="text-xs font-mono text-slate-400 block uppercase">ATM Implied Volatility</span>
-                    <div className="text-3xl font-black font-mono text-purple-300">{opt.atmIv || '24.5'}%</div>
+                    <div className="text-3xl font-black font-mono text-purple-300">{opt.atmIv ?? 'N/A'}%</div>
                     <span className="text-xs text-slate-300 block">Expected 30-day forward price fluctuations.</span>
                   </div>
 
                   <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-1">
                     <span className="text-xs font-mono text-slate-400 block uppercase">OI Buildup Signal</span>
                     <div className="text-xl font-black font-mono text-emerald-400">
-                      {(opt.oiBuildup || 'LONG_BUILD_UP').replace(/_/g, ' ')}
+                      {(opt.oiBuildup ?? 'N/A').replace(/_/g, ' ')}
                     </div>
-                    <span className="text-xs text-slate-300 block">{opt.portfolioVerdict || 'Positive derivative tailwind for portfolio.'}</span>
+                    <span className="text-xs text-slate-300 block">{opt.portfolioVerdict ?? 'Data unavailable.'}</span>
                   </div>
                 </div>
               </motion.div>
@@ -1435,7 +1435,7 @@ export function StockIntelligenceView({
                 <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3">
                   <div className="flex justify-between items-center">
                     <span className="text-xs font-mono font-bold text-slate-200 uppercase">52-Week Price Spectrum</span>
-                    <span className="text-xs font-mono text-cyan-300 font-bold">{layman.range52WMeaning || 'Position in 52W range'}</span>
+                    <span className="text-xs font-mono text-cyan-300 font-bold">{layman.range52WMeaning ?? 'Data unavailable.'}</span>
                   </div>
                   <div className="w-full bg-slate-800 h-3 rounded-full overflow-hidden border border-slate-700 relative">
                     <div
@@ -1604,7 +1604,7 @@ export function StockIntelligenceView({
                 <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                   <div>
                     <span className="text-[10px] font-mono uppercase text-slate-400 font-bold block">Aggregated Media Sentiment (Economic Times, Livemint, Moneycontrol, Google News)</span>
-                    <h4 className="text-sm font-black text-white mt-0.5">{newsObj.laymanSummary || 'Constructive corporate news flow.'}</h4>
+                    <h4 className="text-sm font-black text-white mt-0.5">{newsObj.laymanSummary ?? 'Data unavailable.'}</h4>
                   </div>
                   <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase ${
                     newsObj.sentimentVerdict === 'STRONG_BULLISH' || newsObj.sentimentVerdict === 'BULLISH'
@@ -1613,7 +1613,7 @@ export function StockIntelligenceView({
                       ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
                       : 'bg-blue-500/20 text-blue-300 border border-blue-500/40'
                   }`}>
-                    {newsObj.sentimentVerdict || 'BULLISH'}
+                    {newsObj.sentimentVerdict ?? 'N/A'}
                   </span>
                 </div>
 
@@ -1634,7 +1634,7 @@ export function StockIntelligenceView({
                           item.sentiment === 'POSITIVE' ? 'bg-emerald-500/20 text-emerald-300' :
                           item.sentiment === 'NEGATIVE' ? 'bg-rose-500/20 text-rose-300' : 'bg-slate-800 text-slate-300'
                         }`}>
-                          {item.sentiment || 'NEUTRAL'}
+                          {item.sentiment ?? 'N/A'}
                         </span>
                       </div>
                       <div className="flex items-center gap-2 text-[10px] text-slate-400">
