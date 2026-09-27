@@ -47,6 +47,11 @@ const verifiedParameterCodes = [
   'fiihold', 'fiipct1q', 'instihold', 'instipct1q', 'mfhold', 'mfpct1q',
   // Distributions
   'dividendpayout', 'dividendpayoutnpa', 'dividendpersharea',
+  // Expert additions: Forensic & Valuation adjustments
+  'contingentliabilitiesa', 'currentdebtcapleaseobligationa', 'inventoriesq', 
+  'finishedgoodsq', 'tradereceivablesa', 'insiderpinvokedyesterday', 
+  'insidersellmonthplustoday', 'delivery6mavg', 'capitalexpenditurea', 
+  'extraordinaryitemqmq6', 'pitroskif', 'ebita', 'wcq'
 ];
 const quarterlyProfitHistoryCodes = ['npq', 'npqmq1', 'npqmq2', 'npqmq3', 'npqmy1', 'npqmq5', 'npqmq6', 'npqmq7'];
 const parameterDiscoveryQueries = [

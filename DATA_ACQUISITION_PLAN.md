@@ -1,65 +1,65 @@
-# Data Acquisition Schema and Frequency Plan
+# Multibagger Discovery Platform Architecture (WealthOS)
 
-## 1. Core Principles
-The engine relies on a strictly evidence-based data acquisition model. No data field should be assumed, fabricated, or defaulted if it is absent from the source.
-- **Evidence-Backed**: Every field is sourced with clear provenance (Provider, Timestamp, Source Period).
-- **No Fabrications**: `DATA_INSUFFICIENT` is the only valid output if raw facts are missing.
-- **Source of Truth**: `fundamental_endpoint_snapshots` and `fundamental_source_snapshots` in `portfolio.db` (and `fere_evidence.db` for filings).
-- **Reusable Freshness Policy**: A field is only reused if it is recent, complete, and verified.
+## 1. Core Objective & Philosophy
+WealthOS is not a forensic scoring engine; it is a **functional investment platform** designed to discover multibaggers, test management execution, and evaluate expectations versus reality. 
+The system avoids turning every observation into a "score." Instead, it follows a testable, neutral evidence loop:
+*What did management say? -> What actually happened? -> What does the evidence show? -> Has the thesis strengthened, weakened, or broken?*
 
 ---
 
-## 2. Source Mapping & Data Types
+## 2. Platform Funnel & Engine Architecture
 
-| Domain | Required Fields / Signals | Primary Source | Secondary Source |
-|---|---|---|---|
-| **Price & OHLCV** | LTP, Volume, EOD Close, Adj. Prices, Indices | Kite Connect | Upstox |
-| **Financial History (Annual)**| Rev, CFO, NCF, Op Profit, PAT, PBT, EPS, BV, Capex, ROCE, ROE, Margins | Trendlyne | Upstox |
-| **Financial History (Qtr)**| Qtr Rev, Qtr PAT, Op Margins | Trendlyne | Upstox / FERE |
-| **Valuation Metrics** | PE (Current, 3Y, 5Y, 10Y avg), PEG, P/B, P/S, EV/EBITDA, Market Cap, Enterprise Value | Trendlyne | - |
-| **Balance Sheet / Cash**| Debt, Equity, ST Borrowing, Cash, Working Capital | Trendlyne | Upstox |
-| **Ownership & Deals** | Promoter, FII, DII, MF holding & change, Pledge, Insider, Bulk/Block Deals | Trendlyne | FERE |
-| **Corporate Events** | Earnings Dates, Dividends, Splits, Board Meetings | Trendlyne | FERE |
-| **Filings & Documents** | Annual Reports, XBRL, Investor Presentations, Audits | FERE (NSE/BSE) | Trendlyne |
-| **Macro / Smart Money**| India VIX, Nifty EMA/SMA, Advance/Decline, Institutional Delivery % | Kite Connect | NSE |
+### A. Multibagger Discovery Engine (Primary)
+Focuses on finding earnings acceleration and structural inflection before they are obvious.
+*   **Operating Leverage Inflection:** Detects when EBITDA/PAT grows materially faster than revenue alongside rising capacity utilization.
+*   **Growth Acceleration:** Flags persistent quarter-over-quarter and year-over-year acceleration across Revenue, EBITDA, and CFO.
+*   **ROCE Trajectory:** Prioritizes improving capital efficiency trajectories over static high-ROCE figures.
+
+### B. Business Inflection Engine
+Monitors the mechanisms that could drive 3-5x earnings growth over the next cycle.
+*   **Capacity Expansion:** Current vs. New Capacity, expected commissioning dates, and potential revenue capacity.
+*   **Order-Book to Revenue Conversion:** Order-book growth relative to historical execution speed and working capital drag.
+*   **Earnings Revisions:** Positive surprises relative to historical trends and consensus.
+
+### C. Management Walk-the-Talk Ledger
+Extracts and explicitly tracks management commitments against actual delivery.
+*   *Structure:* Date | Statement | Target | Deadline | Actual Result | Status (Achieved/Missed/Delayed) | Evidence
+*   Eliminates arbitrary "Credibility Scores" in favor of factual track records (e.g., "Management has delivered 4/5 revenue targets but 0/3 debt reduction targets").
+
+### D. Expectations vs. Valuation Engine
+Avoids outputting a single "Intrinsic Value." Exposes valuation as scenario ranges and reverse-engineers current market prices.
+*   **Reverse DCF:** "At today's price, the market implies X% revenue CAGR and Y% margins." Then tests if the company has ever demonstrated those economics.
+*   **Scenario Ranges:** EPV and DCF outputs are presented as Bear / Base / Bull ranges based on distinct, explicit assumptions (e.g., Maintenance Capex assumed at ₹70 vs. ₹95).
+*   **Historical & Peer Context:** Values companies against their own 5-year median metrics and direct competitors (ROCE, P/E, EV/EBITDA).
+
+### E. Financial Divergence & Forensic Guardrail (Kill-Switches)
+Forensics exist to answer: *"Is there something here that could destroy the thesis?"* 
+They are not the primary multibagger discovery tool. We track longitudinal divergence rather than branded heuristic traps (e.g., "Inventory Divergence" instead of "Damani Trap"):
+*   Revenue ↔ Receivables/Inventory
+*   EBITDA/PAT ↔ Cash From Operations (CFO)
+*   CWIP ↔ Commissioned Assets
+*   Promoter Holding ↔ Pledge Invocation / Open Market Sales
+*   **Rule:** Severe governance events (e.g., auditor resignation, heavy pledge invocation) trigger a `SEVERE_GOVERNANCE_RISK_EVENT` for manual review, rather than an automatic algorithmic sell.
+
+### F. Technical Entry Engine (S1-S12)
+Technical analysis identifies **WHEN** to enter, intersecting with the fundamental **WHAT**.
+*   *Setup:* Fundamental Inflection + Earnings Acceleration + Technical Breakout + Volume Confirmation.
 
 ---
 
-## 3. Freshness and Re-fetch Policy
+## 3. Data Classification & Handling Missing Data
 
-A provider call will NOT be made if the current snapshot is within its freshness window and structurally complete, UNLESS a new filing/event invalidates it.
+WealthOS separates data into three distinct tiers of truth:
+*   **Tier A (Primary Evidence):** NSE/BSE filings, Annual Reports, Concall Transcripts, Credit Ratings.
+*   **Tier B (Structured Secondary Data):** Trendlyne, Upstox API, Kite Connect.
+*   **Tier C (Derived Analysis):** WealthOS calculations (Scenario Assumptions, Divergence Checks).
 
-### Fetch Frequency Schedule
-| Data Category | Freshness Window (TTL) | Trigger to Re-fetch Early |
-|---|---|---|
-| **End-of-Day Price & Vol** | EOD Daily | Intraday if explicit trigger (e.g. limit order check). |
-| **Corporate Actions / News**| EOD Daily | News spike, earning results date, significant price action. |
-| **Insider / SAST / Deals** | EOD Daily | Block deal alerts during the session. |
-| **Quarterly Financials** | 15 Days | New quarterly result filing released on NSE/BSE. |
-| **Shareholding & Pledge** | 15 Days | End of quarter, or SAST disclosure filed. |
-| **Annual Financials & Ratios**| 15 Days | Annual result declared, or Annual Report published. |
-| **Documents & Presentations**| 30 Days | New document published on exchanges. |
-
-### Terminal Cached States (When NOT to re-fetch)
-If a field is missing, it is not simply re-queried infinitely. The system classifies missing data with terminal states:
-- `VERIFIED`: Fresh and successfully parsed.
-- `NOT_REPORTED_BY_SOURCE`: Source explicitly returns null/absent for the field (e.g., no historical PEG available). Retry only after standard TTL or event trigger.
-- `NOT_APPLICABLE`: Structurally impossible (e.g., promoter pledge for a completely widely-held professional company).
-- `NOT_PUBLICLY_SOURCEABLE`: Data that requires private access (e.g., undisclosed customer concentration). Do not fetch.
-- `IDENTITY_REVIEW`: ISIN/Symbol mismatch between source and local DB. Requires manual intervention.
+**Handling Missing Information (`DATA_INSUFFICIENT`):**
+*   **No Fabrications or Penalized Proxies:** If `maintenance_capex` is not reported, it remains `null` at the Fact layer. It is NOT artificially imputed with a 20-point penalty.
+*   **Graceful Degradation:** A missing input does not block the entire dossier. If DCF fails due to missing WACC assumptions, the system still outputs Cash Conversion, Governance, and Technicals as `AVAILABLE`. 
+*   **Expose Assumptions:** Instead of hardcoding derived proxies, missing fields can be filled by explicit, user-visible Scenario Assumptions (Low/Base/High).
 
 ---
 
-## 4. Derived & Valuation Field Handling
-Calculations and models (e.g., QGLP, DCF, EPV, Order Block Decay) must dynamically check the **freshness and completeness of their underlying raw inputs**.
-- If *all* inputs are valid and fresh: Calculate and return the derived metric.
-- If *any* input is missing or stale: The component emits `DATA_INSUFFICIENT` and queues the missing raw field for acquisition. 
-- **Models are NOT facts**: WACC, Terminal Growth, and Discount Rates are strictly *model assumptions*, not fetched facts. They must be user-configurable, visible, and never hard-coded as hidden fallbacks.
-
-## 5. Execution Pipeline
-The acquisition chain coordinates using a unified SQLite schema (`fundamental_endpoint_snapshots`).
-1. **Queue Generation**: Identify missing or stale fundamental/technical fields per symbol.
-2. **Provider Dispatch**: Route missing fields to Trendlyne MCP, Upstox, or Kite scripts.
-3. **Write & Validate**: Provider scripts write verbatim responses to DB with a timestamp.
-4. **Valuation Input Resolver**: Resolves raw facts into `VERIFIED`, `PARTIAL`, `DATA_INSUFFICIENT` or `SOURCE_UNAVAILABLE`.
-5. **Model Evaluation**: Runs pure functions (EPV, DCF) only if resolver yields `VERIFIED`.
+## 4. Anomaly-Triggered Document Investigation
+If the Divergence Engine detects an anomaly (e.g., Receivables +63% while Revenue +14%), the system automatically triggers a document search (Annual Reports, Concalls) for keywords (receivables, collections, credit terms) to extract management's explanation for future verification.
