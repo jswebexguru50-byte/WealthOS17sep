@@ -1,0 +1,222 @@
+{
+  "auditDate": "2026-09-28T19:03:16.931Z",
+  "universe": [
+    "RELIANCE",
+    "TCS",
+    "INFY",
+    "HDFCBANK",
+    "ICICIBANK",
+    "TATAMOTORS",
+    "TATASTEEL",
+    "TITAN",
+    "BEL",
+    "SUNPHARMA"
+  ],
+  "summary": {
+    "totalCompanies": 10,
+    "totalCells": 70,
+    "workingCells": 59
+  },
+  "matrix": [
+    {
+      "company": "RELIANCE",
+      "businessModel": "NON_FINANCIAL",
+      "tech": "WORKING",
+      "fund": "WORKING",
+      "fere": "WORKING",
+      "qglp": "WORKING",
+      "mgmt": "DATA_INSUFFICIENT",
+      "val": "WORKING",
+      "market": "WORKING"
+    },
+    {
+      "company": "TCS",
+      "businessModel": "NON_FINANCIAL",
+      "tech": "WORKING",
+      "fund": "WORKING",
+      "fere": "WORKING",
+      "qglp": "WORKING",
+      "mgmt": "DATA_INSUFFICIENT",
+      "val": "WORKING",
+      "market": "WORKING"
+    },
+    {
+      "company": "INFY",
+      "businessModel": "NON_FINANCIAL",
+      "tech": "WORKING",
+      "fund": "WORKING",
+      "fere": "WORKING",
+      "qglp": "WORKING",
+      "mgmt": "DATA_INSUFFICIENT",
+      "val": "WORKING",
+      "market": "WORKING"
+    },
+    {
+      "company": "HDFCBANK",
+      "businessModel": "BANK",
+      "tech": "WORKING",
+      "fund": "WORKING",
+      "fere": "WORKING",
+      "qglp": "WORKING",
+      "mgmt": "DATA_INSUFFICIENT",
+      "val": "WORKING",
+      "market": "WORKING"
+    },
+    {
+      "company": "ICICIBANK",
+      "businessModel": "BANK",
+      "tech": "WORKING",
+      "fund": "WORKING",
+      "fere": "WORKING",
+      "qglp": "WORKING",
+      "mgmt": "DATA_INSUFFICIENT",
+      "val": "WORKING",
+      "market": "WORKING"
+    },
+    {
+      "company": "TATAMOTORS",
+      "businessModel": "NON_FINANCIAL",
+      "tech": "WORKING",
+      "fund": "WORKING",
+      "fere": "DATA_INSUFFICIENT",
+      "qglp": "WORKING",
+      "mgmt": "DATA_INSUFFICIENT",
+      "val": "WORKING",
+      "market": "WORKING"
+    },
+    {
+      "company": "TATASTEEL",
+      "businessModel": "NON_FINANCIAL",
+      "tech": "WORKING",
+      "fund": "WORKING",
+      "fere": "WORKING",
+      "qglp": "WORKING",
+      "mgmt": "DATA_INSUFFICIENT",
+      "val": "WORKING",
+      "market": "WORKING"
+    },
+    {
+      "company": "TITAN",
+      "businessModel": "NON_FINANCIAL",
+      "tech": "WORKING",
+      "fund": "WORKING",
+      "fere": "WORKING",
+      "qglp": "WORKING",
+      "mgmt": "DATA_INSUFFICIENT",
+      "val": "WORKING",
+      "market": "WORKING"
+    },
+    {
+      "company": "BEL",
+      "businessModel": "NON_FINANCIAL",
+      "tech": "WORKING",
+      "fund": "WORKING",
+      "fere": "WORKING",
+      "qglp": "WORKING",
+      "mgmt": "DATA_INSUFFICIENT",
+      "val": "WORKING",
+      "market": "WORKING"
+    },
+    {
+      "company": "SUNPHARMA",
+      "businessModel": "NON_FINANCIAL",
+      "tech": "WORKING",
+      "fund": "WORKING",
+      "fere": "WORKING",
+      "qglp": "WORKING",
+      "mgmt": "DATA_INSUFFICIENT",
+      "val": "WORKING",
+      "market": "WORKING"
+    }
+  ],
+  "gaps": [
+    {
+      "company": "RELIANCE",
+      "module": "MANAGEMENT",
+      "status": "DATA_INSUFFICIENT",
+      "gap": "No indexed management commitment candidates",
+      "simplestFix": "Extract commitments from conference call transcripts",
+      "requiresNewProvider": false
+    },
+    {
+      "company": "TCS",
+      "module": "MANAGEMENT",
+      "status": "DATA_INSUFFICIENT",
+      "gap": "No indexed management commitment candidates",
+      "simplestFix": "Extract commitments from conference call transcripts",
+      "requiresNewProvider": false
+    },
+    {
+      "company": "INFY",
+      "module": "MANAGEMENT",
+      "status": "DATA_INSUFFICIENT",
+      "gap": "No indexed management commitment candidates",
+      "simplestFix": "Extract commitments from conference call transcripts",
+      "requiresNewProvider": false
+    },
+    {
+      "company": "HDFCBANK",
+      "module": "MANAGEMENT",
+      "status": "DATA_INSUFFICIENT",
+      "gap": "No indexed management commitment candidates",
+      "simplestFix": "Extract commitments from conference call transcripts",
+      "requiresNewProvider": false
+    },
+    {
+      "company": "ICICIBANK",
+      "module": "MANAGEMENT",
+      "status": "DATA_INSUFFICIENT",
+      "gap": "No indexed management commitment candidates",
+      "simplestFix": "Extract commitments from conference call transcripts",
+      "requiresNewProvider": false
+    },
+    {
+      "company": "TATAMOTORS",
+      "module": "FERE",
+      "status": "DATA_INSUFFICIENT",
+      "gap": "No verified XBRL or annual report filings indexed in fere_evidence.db",
+      "simplestFix": "Index company annual report into fere_evidence.db",
+      "requiresNewProvider": false
+    },
+    {
+      "company": "TATAMOTORS",
+      "module": "MANAGEMENT",
+      "status": "DATA_INSUFFICIENT",
+      "gap": "No indexed management commitment candidates",
+      "simplestFix": "Extract commitments from conference call transcripts",
+      "requiresNewProvider": false
+    },
+    {
+      "company": "TATASTEEL",
+      "module": "MANAGEMENT",
+      "status": "DATA_INSUFFICIENT",
+      "gap": "No indexed management commitment candidates",
+      "simplestFix": "Extract commitments from conference call transcripts",
+      "requiresNewProvider": false
+    },
+    {
+      "company": "TITAN",
+      "module": "MANAGEMENT",
+      "status": "DATA_INSUFFICIENT",
+      "gap": "No indexed management commitment candidates",
+      "simplestFix": "Extract commitments from conference call transcripts",
+      "requiresNewProvider": false
+    },
+    {
+      "company": "BEL",
+      "module": "MANAGEMENT",
+      "status": "DATA_INSUFFICIENT",
+      "gap": "No indexed management commitment candidates",
+      "simplestFix": "Extract commitments from conference call transcripts",
+      "requiresNewProvider": false
+    },
+    {
+      "company": "SUNPHARMA",
+      "module": "MANAGEMENT",
+      "status": "DATA_INSUFFICIENT",
+      "gap": "No indexed management commitment candidates",
+      "simplestFix": "Extract commitments from conference call transcripts",
+      "requiresNewProvider": false
+    }
+  ]
+}
