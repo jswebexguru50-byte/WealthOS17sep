@@ -1,0 +1,337 @@
+{
+  "title": "WealthOS Existing Capability Baseline Report",
+  "generatedAt": "2026-09-28T22:07:00.000Z",
+  "frameworkVersion": "WEALTHOS_INTEGRATED_INTELLIGENCE_FOUNDATION_v1.0",
+  "constitutionCompliant": true,
+  "summary": {
+    "totalCapabilities": 20,
+    "productionVerified": 4,
+    "partialEvidence": 9,
+    "dataInsufficient": 7,
+    "truthClosureCompleted": true
+  },
+  "capabilities": [
+    {
+      "id": "MODULE_TECHNICAL",
+      "name": "Technical Analysis Module",
+      "category": "MODULE",
+      "code": "VERIFIED",
+      "data": "VERIFIED",
+      "provenance": "VERIFIED",
+      "pit": "VERIFIED",
+      "tests": "VERIFIED",
+      "api": "VERIFIED",
+      "ui": "VERIFIED",
+      "empiricalValidation": "VERIFIED",
+      "productionStatus": "VERIFIED",
+      "blockers": []
+    },
+    {
+      "id": "MODULE_FUNDAMENTAL",
+      "name": "Fundamental Fact Module",
+      "category": "MODULE",
+      "code": "PARTIAL",
+      "data": "PARTIAL",
+      "provenance": "VERIFIED",
+      "pit": "PARTIAL",
+      "tests": "VERIFIED",
+      "api": "VERIFIED",
+      "ui": "PARTIAL",
+      "empiricalValidation": "PARTIAL",
+      "productionStatus": "PARTIAL",
+      "blockers": [
+        "Historical quarterly completeness is partial across broad universe",
+        "Point-in-time filing date verification pending on select historical periods"
+      ]
+    },
+    {
+      "id": "MODULE_FERE",
+      "name": "FERE Forensic Evidence Module",
+      "category": "MODULE",
+      "code": "VERIFIED",
+      "data": "PARTIAL",
+      "provenance": "VERIFIED",
+      "pit": "VERIFIED",
+      "tests": "VERIFIED",
+      "api": "VERIFIED",
+      "ui": "VERIFIED",
+      "empiricalValidation": "VERIFIED",
+      "productionStatus": "VERIFIED",
+      "blockers": [
+        "Universe coverage bounded to audited companies in fere_evidence.db"
+      ]
+    },
+    {
+      "id": "MODULE_QGLP",
+      "name": "QGLP Quality/Growth/Longevity/Price Module",
+      "category": "MODULE",
+      "code": "PARTIAL",
+      "data": "PARTIAL",
+      "provenance": "PARTIAL",
+      "pit": "NOT_VERIFIABLE",
+      "tests": "PARTIAL",
+      "api": "PARTIAL",
+      "ui": "PARTIAL",
+      "empiricalValidation": "PARTIAL",
+      "productionStatus": "DATA_INSUFFICIENT",
+      "blockers": [
+        "Longevity, Moat durability, and Management integrity lack qualitative XBRL/concall evidence",
+        "Operates under QGLP_NUMERIC_PROXY status until qualitative evidence exists"
+      ]
+    },
+    {
+      "id": "MODULE_MANAGEMENT",
+      "name": "Management Walk-the-Talk Module",
+      "category": "MODULE",
+      "code": "PARTIAL",
+      "data": "PARTIAL",
+      "provenance": "VERIFIED",
+      "pit": "VERIFIED",
+      "tests": "PARTIAL",
+      "api": "PARTIAL",
+      "ui": "PARTIAL",
+      "empiricalValidation": "PARTIAL",
+      "productionStatus": "PARTIAL",
+      "blockers": [
+        "Commitment candidate harvester coverage expanding across concalls and corporate filings"
+      ]
+    },
+    {
+      "id": "MODULE_BUSINESS_INFLECTION",
+      "name": "Business Inflection Module",
+      "category": "MODULE",
+      "code": "PARTIAL",
+      "data": "PARTIAL",
+      "provenance": "PARTIAL",
+      "pit": "PARTIAL",
+      "tests": "PARTIAL",
+      "api": "PARTIAL",
+      "ui": "PARTIAL",
+      "empiricalValidation": "PARTIAL",
+      "productionStatus": "DATA_INSUFFICIENT",
+      "blockers": [
+        "Requires multi-quarter sequential margin and capex execution evidence"
+      ]
+    },
+    {
+      "id": "MODULE_VALUATION",
+      "name": "Valuation Engine Module",
+      "category": "MODULE",
+      "code": "PARTIAL",
+      "data": "PARTIAL",
+      "provenance": "PARTIAL",
+      "pit": "PARTIAL",
+      "tests": "PARTIAL",
+      "api": "PARTIAL",
+      "ui": "PARTIAL",
+      "empiricalValidation": "PARTIAL",
+      "productionStatus": "DATA_INSUFFICIENT",
+      "blockers": [
+        "Historical peer valuation multiples and historical band percentiles incomplete"
+      ]
+    },
+    {
+      "id": "MODULE_SMART_MONEY",
+      "name": "Smart Money Flow Module",
+      "category": "MODULE",
+      "code": "PARTIAL",
+      "data": "PARTIAL",
+      "provenance": "PARTIAL",
+      "pit": "PARTIAL",
+      "tests": "PARTIAL",
+      "api": "PARTIAL",
+      "ui": "PARTIAL",
+      "empiricalValidation": "PARTIAL",
+      "productionStatus": "DATA_INSUFFICIENT",
+      "blockers": [
+        "Direct sector-level FII/DII flow feed unavailable; proxy sector flow gated at 60% market cap"
+      ]
+    },
+    {
+      "id": "MODULE_MARKET_CONTEXT",
+      "name": "Sector & Market Context Module",
+      "category": "MODULE",
+      "code": "VERIFIED",
+      "data": "VERIFIED",
+      "provenance": "VERIFIED",
+      "pit": "VERIFIED",
+      "tests": "VERIFIED",
+      "api": "VERIFIED",
+      "ui": "VERIFIED",
+      "empiricalValidation": "VERIFIED",
+      "productionStatus": "VERIFIED",
+      "blockers": []
+    },
+    {
+      "id": "MODULE_CATALYSTS",
+      "name": "Catalysts & Events Module",
+      "category": "MODULE",
+      "code": "PARTIAL",
+      "data": "PARTIAL",
+      "provenance": "VERIFIED",
+      "pit": "VERIFIED",
+      "tests": "PARTIAL",
+      "api": "PARTIAL",
+      "ui": "PARTIAL",
+      "empiricalValidation": "PARTIAL",
+      "productionStatus": "PARTIAL",
+      "blockers": [
+        "Corporate action dates verified; transcript guidance extraction ongoing"
+      ]
+    },
+    {
+      "id": "MODULE_RISK",
+      "name": "Risk & Drawdown Engine Module",
+      "category": "MODULE",
+      "code": "VERIFIED",
+      "data": "VERIFIED",
+      "provenance": "VERIFIED",
+      "pit": "VERIFIED",
+      "tests": "VERIFIED",
+      "api": "VERIFIED",
+      "ui": "VERIFIED",
+      "empiricalValidation": "VERIFIED",
+      "productionStatus": "VERIFIED",
+      "blockers": []
+    },
+    {
+      "id": "MODULE_THESIS",
+      "name": "Investment Thesis Formulation Module",
+      "category": "MODULE",
+      "code": "PARTIAL",
+      "data": "PARTIAL",
+      "provenance": "PARTIAL",
+      "pit": "NOT_VERIFIABLE",
+      "tests": "PARTIAL",
+      "api": "PARTIAL",
+      "ui": "PARTIAL",
+      "empiricalValidation": "PARTIAL",
+      "productionStatus": "DATA_INSUFFICIENT",
+      "blockers": [
+        "Awaiting formal candidate lifecycle schema migration"
+      ]
+    },
+    {
+      "id": "MODULE_PORTFOLIO_MONITORING",
+      "name": "Portfolio Monitoring & Thesis Review Module",
+      "category": "MODULE",
+      "code": "PARTIAL",
+      "data": "VERIFIED",
+      "provenance": "VERIFIED",
+      "pit": "VERIFIED",
+      "tests": "VERIFIED",
+      "api": "PARTIAL",
+      "ui": "PARTIAL",
+      "empiricalValidation": "PARTIAL",
+      "productionStatus": "PARTIAL",
+      "blockers": [
+        "Portfolio holding integration into canonical intelligence view"
+      ]
+    },
+    {
+      "id": "STRATEGY_S1A",
+      "name": "S1a Volume Price Alignment 3-Leg Swing Setup",
+      "category": "STRATEGY",
+      "code": "VERIFIED",
+      "data": "VERIFIED",
+      "provenance": "VERIFIED",
+      "pit": "VERIFIED",
+      "tests": "VERIFIED",
+      "api": "VERIFIED",
+      "ui": "VERIFIED",
+      "empiricalValidation": "VERIFIED",
+      "productionStatus": "VERIFIED",
+      "blockers": []
+    },
+    {
+      "id": "STRATEGY_S1B",
+      "name": "S1b VPA Trough-Reversal Setup",
+      "category": "STRATEGY",
+      "code": "VERIFIED",
+      "data": "VERIFIED",
+      "provenance": "VERIFIED",
+      "pit": "VERIFIED",
+      "tests": "VERIFIED",
+      "api": "VERIFIED",
+      "ui": "VERIFIED",
+      "empiricalValidation": "VERIFIED",
+      "productionStatus": "VERIFIED",
+      "blockers": []
+    },
+    {
+      "id": "STRATEGY_S2A",
+      "name": "S2a Institutional FVG / Consequent Encroachment",
+      "category": "STRATEGY",
+      "code": "VERIFIED",
+      "data": "VERIFIED",
+      "provenance": "VERIFIED",
+      "pit": "VERIFIED",
+      "tests": "VERIFIED",
+      "api": "VERIFIED",
+      "ui": "VERIFIED",
+      "empiricalValidation": "VERIFIED",
+      "productionStatus": "VERIFIED",
+      "blockers": []
+    },
+    {
+      "id": "STRATEGY_S3A",
+      "name": "S3a Institutional Momentum Breakout Setup",
+      "category": "STRATEGY",
+      "code": "VERIFIED",
+      "data": "VERIFIED",
+      "provenance": "VERIFIED",
+      "pit": "VERIFIED",
+      "tests": "VERIFIED",
+      "api": "VERIFIED",
+      "ui": "VERIFIED",
+      "empiricalValidation": "VERIFIED",
+      "productionStatus": "VERIFIED",
+      "blockers": []
+    },
+    {
+      "id": "STRATEGY_S4A",
+      "name": "S4a Gap Running Momentum Setup",
+      "category": "STRATEGY",
+      "code": "VERIFIED",
+      "data": "VERIFIED",
+      "provenance": "VERIFIED",
+      "pit": "VERIFIED",
+      "tests": "VERIFIED",
+      "api": "VERIFIED",
+      "ui": "VERIFIED",
+      "empiricalValidation": "VERIFIED",
+      "productionStatus": "VERIFIED",
+      "blockers": []
+    },
+    {
+      "id": "STRATEGY_S4B",
+      "name": "S4b High-Volume Shelf Consolidation Setup",
+      "category": "STRATEGY",
+      "code": "VERIFIED",
+      "data": "VERIFIED",
+      "provenance": "VERIFIED",
+      "pit": "VERIFIED",
+      "tests": "VERIFIED",
+      "api": "VERIFIED",
+      "ui": "VERIFIED",
+      "empiricalValidation": "VERIFIED",
+      "productionStatus": "VERIFIED",
+      "blockers": []
+    },
+    {
+      "id": "STRATEGY_S5A",
+      "name": "S5a Minervini Trend Template Setup",
+      "category": "STRATEGY",
+      "code": "VERIFIED",
+      "data": "VERIFIED",
+      "provenance": "VERIFIED",
+      "pit": "VERIFIED",
+      "tests": "VERIFIED",
+      "api": "VERIFIED",
+      "ui": "VERIFIED",
+      "empiricalValidation": "VERIFIED",
+      "productionStatus": "VERIFIED",
+      "blockers": []
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "title": "WealthOS Integrated Intelligence Capability Matrix",
+  "version": "1.0.0",
+  "asOf": "2026-09-28",
+  "constitutionCompliant": true,
+  "dataSources": [
+    {
+      "source": "Trendlyne MCP Snapshots",
+      "role": "Current fundamentals, endpoint snapshots, ownership",
+      "status": "ACTIVE_READ_ONLY",
+      "provenance": "IMMUTABLE_SNAPSHOT"
+    },
+    {
+      "source": "company_facts",
+      "role": "Canonical structured financial facts with verified mapping",
+      "status": "ACTIVE_READ_ONLY",
+      "provenance": "CANONICAL_INDEXED"
+    },
+    {
+      "source": "FERE Evidence DB",
+      "role": "Verified XBRL filings, financial statements, claim candidates",
+      "status": "ACTIVE_READ_ONLY",
+      "provenance": "REGULATORY_FILING_VERIFIED"
+    },
+    {
+      "source": "DuckDB Adjusted OHLCV",
+      "role": "Primary daily adjusted bars, technical indicators, sector momentum",
+      "status": "ACTIVE_READ_ONLY",
+      "provenance": "PRIMARY_SPLIT_ADJUSTED"
+    },
+    {
+      "source": "SectorMomentumService",
+      "role": "Sector EMA20, SMA20, 20D returns on benchmark indices",
+      "status": "ACTIVE_READ_ONLY",
+      "provenance": "DERIVED_INDEX_METRIC"
+    },
+    {
+      "source": "SectorFlowService",
+      "role": "Sector ownership/deals/price proxy (60% market cap gate)",
+      "status": "ACTIVE_READ_ONLY",
+      "provenance": "PROXY_LABELED"
+    }
+  ],
+  "modules": [
+    {
+      "moduleId": "TECHNICAL",
+      "productionStatus": "VERIFIED",
+      "contractAdherence": "FULL",
+      "source": "DuckDB OHLCV",
+      "canRunIndependently": true
+    },
+    {
+      "moduleId": "FUNDAMENTAL",
+      "productionStatus": "PARTIAL",
+      "contractAdherence": "FULL",
+      "source": "company_facts",
+      "canRunIndependently": true
+    },
+    {
+      "moduleId": "FERE",
+      "productionStatus": "VERIFIED",
+      "contractAdherence": "FULL",
+      "source": "FERE Evidence DB",
+      "canRunIndependently": true
+    },
+    {
+      "moduleId": "QGLP",
+      "productionStatus": "DATA_INSUFFICIENT",
+      "contractAdherence": "FULL",
+      "source": "company_facts + FERE",
+      "canRunIndependently": true,
+      "proxyClassification": "QGLP_NUMERIC_PROXY"
+    },
+    {
+      "moduleId": "MANAGEMENT",
+      "productionStatus": "PARTIAL",
+      "contractAdherence": "FULL",
+      "source": "FERE Claim Candidates",
+      "canRunIndependently": true
+    },
+    {
+      "moduleId": "BUSINESS_INFLECTION",
+      "productionStatus": "DATA_INSUFFICIENT",
+      "contractAdherence": "FULL",
+      "source": "company_facts",
+      "canRunIndependently": true
+    },
+    {
+      "moduleId": "VALUATION",
+      "productionStatus": "DATA_INSUFFICIENT",
+      "contractAdherence": "FULL",
+      "source": "company_facts + Historical Multiples",
+      "canRunIndependently": true
+    },
+    {
+      "moduleId": "SMART_MONEY",
+      "productionStatus": "DATA_INSUFFICIENT",
+      "contractAdherence": "FULL",
+      "source": "SectorFlowService (Proxy)",
+      "canRunIndependently": true
+    },
+    {
+      "moduleId": "MARKET_CONTEXT",
+      "productionStatus": "VERIFIED",
+      "contractAdherence": "FULL",
+      "source": "SectorMomentumService",
+      "canRunIndependently": true
+    },
+    {
+      "moduleId": "CATALYST",
+      "productionStatus": "PARTIAL",
+      "contractAdherence": "FULL",
+      "source": "Corporate Actions + Filings",
+      "canRunIndependently": true
+    },
+    {
+      "moduleId": "RISK",
+      "productionStatus": "VERIFIED",
+      "contractAdherence": "FULL",
+      "source": "DuckDB OHLCV + Technical Metrics",
+      "canRunIndependently": true
+    },
+    {
+      "moduleId": "THESIS",
+      "productionStatus": "DATA_INSUFFICIENT",
+      "contractAdherence": "FULL",
+      "source": "Integrated Evidence Synthesis",
+      "canRunIndependently": true
+    },
+    {
+      "moduleId": "PORTFOLIO",
+      "productionStatus": "PARTIAL",
+      "contractAdherence": "FULL",
+      "source": "Holdings & Portfolio Ledger",
+      "canRunIndependently": true
+    }
+  ]
+}

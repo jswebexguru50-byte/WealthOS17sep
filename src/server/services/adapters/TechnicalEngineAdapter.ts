@@ -34,23 +34,20 @@ export class TechnicalEngineAdapter implements ComposableEngine {
   };
 
   public async evaluate(bus: EvidenceBus, context: PITContext, universeSecurityIds: string[]): Promise<void> {
-    const targets = universeSecurityIds.length > 0 ? universeSecurityIds : ['RELIANCE', 'TCS', 'INFY'];
+    if (universeSecurityIds.length === 0) {
+      return;
+    }
 
-    for (const sym of targets) {
-      // Deterministic technical signal evaluation proxy
-      const action: 'BUY' | 'SELL' | 'HOLD' = 'BUY';
-      const strategyId = 'S1';
-      const conviction = 0.85;
-
+    for (const sym of universeSecurityIds) {
       bus.emit({
         type: 'TECHNICAL_SIGNAL',
         engineId: this.engineId,
-        strategyId,
+        strategyId: 'NONE',
         securityId: sym,
         engineVersion: this.version,
         engineSourceHash: this.getSourceHash(),
         parameterHash: this.getParameterHash(),
-        dataSnapshotHash: 'SNAP_PRICES_V66',
+        dataSnapshotHash: 'SNAP_PRICES_CANONICAL',
         inputEvidenceIds: [],
         sourceRequirementIds: this.getDataRequirementIds(),
         pitContextHash: context.contextHash,
@@ -59,11 +56,13 @@ export class TechnicalEngineAdapter implements ComposableEngine {
         decisionDate: context.decisionDate,
         decisionTimestamp: context.decisionTimestamp,
         payload: {
-          action,
-          strategyId,
-          conviction,
+          action: 'HOLD',
+          strategyId: 'NONE',
+          conviction: 0,
           symbol: sym,
-          passed: true
+          passed: false,
+          status: 'DATA_INSUFFICIENT',
+          reason: 'Awaiting canonical DuckDB OHLCV wiring'
         }
       });
     }

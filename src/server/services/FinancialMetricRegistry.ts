@@ -13,7 +13,7 @@ export interface DerivedMetricDefinition {
 export const FinancialMetricRegistry: Record<string, DerivedMetricDefinition> = {
   // PROFITABILITY
   'gross_margin': {
-    canonical_metric: 'gross_margin',
+    canonical_metric: 'gross_margin_derived',
     required_inputs: ['revenue', 'cogs'],
     compatible_periods: ['QUARTER', 'ANNUAL', 'TTM'],
     compatible_scopes: ['CONSOLIDATED', 'STANDALONE'],
@@ -26,7 +26,7 @@ export const FinancialMetricRegistry: Record<string, DerivedMetricDefinition> = 
     }
   },
   'ebitda_margin': {
-    canonical_metric: 'ebitda_margin',
+    canonical_metric: 'ebitda_margin_derived',
     required_inputs: ['ebitda', 'revenue'],
     compatible_periods: ['QUARTER', 'ANNUAL', 'TTM'],
     compatible_scopes: ['CONSOLIDATED', 'STANDALONE'],
@@ -39,7 +39,7 @@ export const FinancialMetricRegistry: Record<string, DerivedMetricDefinition> = 
     }
   },
   'pat_margin': {
-    canonical_metric: 'pat_margin',
+    canonical_metric: 'pat_margin_derived',
     required_inputs: ['pat', 'revenue'],
     compatible_periods: ['QUARTER', 'ANNUAL', 'TTM'],
     compatible_scopes: ['CONSOLIDATED', 'STANDALONE'],
@@ -54,33 +54,31 @@ export const FinancialMetricRegistry: Record<string, DerivedMetricDefinition> = 
 
   // CASH QUALITY
   'fcf': {
-    canonical_metric: 'fcf',
-    required_inputs: ['cfo', 'capex'],
+    canonical_metric: 'fcf_derived',
+    required_inputs: ['cfo', 'capex_cash_outflow'],
     compatible_periods: ['ANNUAL', 'TTM'],
     compatible_scopes: ['CONSOLIDATED', 'STANDALONE'],
     unit: 'INR_CRORE',
     version: 'V1',
     formula: (facts) => {
-      if (facts['cfo'] == null || facts['capex'] == null) return 'MISSING';
-      return facts['cfo']! - Math.abs(facts['capex']!);
+      // Disabled pending Capex sign convention verification
+      return 'MISSING';
     }
   },
   'fcf_margin': {
-    canonical_metric: 'fcf_margin',
-    required_inputs: ['cfo', 'capex', 'revenue'],
+    canonical_metric: 'fcf_margin_derived',
+    required_inputs: ['cfo', 'capex_cash_outflow', 'revenue'],
     compatible_periods: ['ANNUAL', 'TTM'],
     compatible_scopes: ['CONSOLIDATED', 'STANDALONE'],
     unit: 'PERCENTAGE',
     version: 'V1',
     formula: (facts) => {
-      if (facts['cfo'] == null || facts['capex'] == null || facts['revenue'] == null) return 'MISSING';
-      if (facts['revenue'] === 0) return 'NOT_MEANINGFUL';
-      const fcf = facts['cfo']! - Math.abs(facts['capex']!);
-      return (fcf / facts['revenue']!) * 100;
+      // Disabled pending Capex sign convention verification
+      return 'MISSING';
     }
   },
   'cfo_pat_ratio': {
-    canonical_metric: 'cfo_pat_ratio',
+    canonical_metric: 'cfo_pat_ratio_derived',
     required_inputs: ['cfo', 'pat'],
     compatible_periods: ['ANNUAL', 'TTM'],
     compatible_scopes: ['CONSOLIDATED', 'STANDALONE'],
@@ -93,23 +91,21 @@ export const FinancialMetricRegistry: Record<string, DerivedMetricDefinition> = 
     }
   },
   'fcf_pat_ratio': {
-    canonical_metric: 'fcf_pat_ratio',
-    required_inputs: ['cfo', 'capex', 'pat'],
+    canonical_metric: 'fcf_pat_ratio_derived',
+    required_inputs: ['cfo', 'capex_cash_outflow', 'pat'],
     compatible_periods: ['ANNUAL', 'TTM'],
     compatible_scopes: ['CONSOLIDATED', 'STANDALONE'],
     unit: 'RATIO',
     version: 'V1',
     formula: (facts) => {
-      if (facts['cfo'] == null || facts['capex'] == null || facts['pat'] == null) return 'MISSING';
-      if (facts['pat'] === 0) return 'NOT_MEANINGFUL';
-      const fcf = facts['cfo']! - Math.abs(facts['capex']!);
-      return fcf / facts['pat']!;
+      // Disabled pending Capex sign convention verification
+      return 'MISSING';
     }
   },
 
   // BALANCE SHEET STRENGTH
   'debt_equity': {
-    canonical_metric: 'debt_equity',
+    canonical_metric: 'debt_to_equity_derived',
     required_inputs: ['total_debt', 'net_worth'],
     compatible_periods: ['ANNUAL', 'TTM'],
     compatible_scopes: ['CONSOLIDATED', 'STANDALONE'],
@@ -122,7 +118,7 @@ export const FinancialMetricRegistry: Record<string, DerivedMetricDefinition> = 
     }
   },
   'net_debt_ebitda': {
-    canonical_metric: 'net_debt_ebitda',
+    canonical_metric: 'net_debt_ebitda_derived',
     required_inputs: ['net_debt', 'ebitda'],
     compatible_periods: ['ANNUAL', 'TTM'],
     compatible_scopes: ['CONSOLIDATED', 'STANDALONE'],
@@ -137,7 +133,7 @@ export const FinancialMetricRegistry: Record<string, DerivedMetricDefinition> = 
   
   // ROCE
   'roce': {
-    canonical_metric: 'roce',
+    canonical_metric: 'roce_derived',
     required_inputs: ['ebit', 'capital_employed'],
     compatible_periods: ['ANNUAL'],
     compatible_scopes: ['CONSOLIDATED', 'STANDALONE'],

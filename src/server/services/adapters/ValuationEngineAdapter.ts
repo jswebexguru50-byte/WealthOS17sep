@@ -29,34 +29,11 @@ export class ValuationEngineAdapter implements ComposableEngine {
     canBlockExecution: false
   };
 
-  public async evaluate(bus: EvidenceBus, context: PITContext, universeSecurityIds: string[]): Promise<void> {
-    const targets = universeSecurityIds.length > 0 ? universeSecurityIds : ['RELIANCE', 'TCS', 'INFY'];
+  public readonly productionPromotionAuthorized: false = false;
 
-    for (const sym of targets) {
-      bus.emit({
-        type: 'VALUATION_MARGIN_OF_SAFETY',
-        engineId: this.engineId,
-        securityId: sym,
-        engineVersion: this.version,
-        engineSourceHash: this.getSourceHash(),
-        parameterHash: this.getParameterHash(),
-        dataSnapshotHash: 'SNAP_VALUATION_V66',
-        inputEvidenceIds: [],
-        sourceRequirementIds: this.getDataRequirementIds(),
-        pitContextHash: context.contextHash,
-        decisionGraphHash: 'GRAPH_V66',
-        runId: `RUN_VAL_${context.decisionDate}`,
-        decisionDate: context.decisionDate,
-        decisionTimestamp: context.decisionTimestamp,
-        payload: {
-          marginOfSafetyPct: null,
-          intrinsicValueEst: null,
-          currentPrice: null,
-          passed: false,
-          reason: 'DATA_INSUFFICIENT'
-        }
-      });
-    }
+  public async evaluate(bus: EvidenceBus, context: PITContext, universeSecurityIds: string[]): Promise<void> {
+    // Disabled as active module runner until authentic source snapshot IDs are provided.
+    return;
   }
 
   public getSourceHash(): string {

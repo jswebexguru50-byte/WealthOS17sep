@@ -46,29 +46,14 @@ export class FundamentalAlphaEngine {
 
     // Strategy S17: Promoter SAST Creeping Squeeze
     // Promoters acquiring > 2% stake via open-market purchases with zero share pledging.
-    // As mock (due to missing SAST table), we simulate based on volume proxies and fallback logic.
+    // Zero-Fabrication Mandate: Volume accumulation proxy is disabled on production customer paths.
+    /**
+     * @deprecated RESEARCH_FIXTURE_ONLY - Not authorized for production customer paths.
+     */
     public evaluateS17_PromoterSqueeze(candles: Candle[]): ScanResult {
-        if (candles.length < 20) return { isSignal: false };
-        // Proxy logic: steady volume accumulation over 10 days without price drops
-        const recent = candles.slice(candles.length - 10);
-        let upDays = 0;
-        let downDays = 0;
-        let avgVol = 0;
-        recent.forEach(c => {
-            if (c.close > c.open) upDays++;
-            else downDays++;
-            avgVol += c.volume;
-        });
-        avgVol /= 10;
-        const lastVol = candles[candles.length - 1].volume;
-        
-        if (upDays >= 7 && lastVol > avgVol * 2) {
-            return {
-                isSignal: true,
-                reason: 'S17 Proxy: Sustained accumulation footprint hinting at promoter buying',
-                metrics: { upDays, downDays, volMultiplier: lastVol / avgVol }
-            };
-        }
-        return { isSignal: false };
+        return {
+            isSignal: false,
+            reason: 'DATA_INSUFFICIENT: Requires verified SAST regulatory filing table. Volume proxy disabled on production paths.'
+        };
     }
 }

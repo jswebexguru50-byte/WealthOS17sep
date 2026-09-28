@@ -212,13 +212,14 @@ export class TrendlyneIntelligenceService {
       return { status: 'DATA_INSUFFICIENT', symbol: cleanSym } as any;
     }
 
-    // Compute Trendlyne DVM Scores
+    // Compute Trendlyne DVM Scores from authentic sourced metrics
     const dvm = this.calculateDVM(cleanSym, screenerData, cmp);
     const swot = this.synthesizeSWOT(cleanSym, screenerData, dvm, cmp);
     const analystConsensus = this.synthesizeAnalystConsensus(cleanSym, cmp, dvm);
     const checklists = this.computeChecklists(cleanSym, screenerData, dvm);
 
-    const peRatio = parseFloat(screenerData?.ratios?.stock_pe || '30');
+    const rawStockPe = screenerData?.ratios?.stock_pe ? parseFloat(screenerData.ratios.stock_pe) : null;
+    const peRatio = rawStockPe !== null && !isNaN(rawStockPe) ? rawStockPe : null;
 
     const report: TrendlyneIntelligenceReport = {
       symbol: cleanSym,
@@ -254,276 +255,138 @@ export class TrendlyneIntelligenceService {
   }
 
   /**
-   * Durability, Valuation, Momentum (DVM) Score Synthesis
+   * Durability, Valuation, Momentum (DVM) Score Synthesis (Evidence-First)
    */
   private calculateDVM(symbol: string, sc: ScreenerData | null, cmp: number): TrendlyneDVM {
     const r = sc?.ratios;
-    const roce = parseFloat(r?.roce || '22');
-    const roe = parseFloat(r?.roe || '18');
-    const de = parseFloat(r?.debt_to_equity || '0.2');
-    const pe = parseFloat(r?.stock_pe || '45');
-    const pb = r?.book_value && cmp > 0 ? cmp / parseFloat(r.book_value) : 4.5;
+    const rawRoce = r?.roce ? parseFloat(r.roce) : null;
+    const rawRoe = r?.roe ? parseFloat(r.roe) : null;
+    const rawDe = r?.debt_to_equity ? parseFloat(r.debt_to_equity) : null;
+    const rawPe = r?.stock_pe ? parseFloat(r.stock_pe) : null;
+    const rawBv = r?.book_value ? parseFloat(r.book_value) : null;
+    const pb = rawBv && rawBv > 0 && cmp > 0 ? cmp / rawBv : null;
 
-    // 1. Durability Score (0-100)
-    // High ROCE, low debt, strong cash generation = high durability
-    let durScore = 55;
-    if (roce >= 25) durScore += 20;
-    else if (roce >= 15) durScore += 10;
-    else if (roce < 8) durScore -= 15;
-
-    if (roe >= 20) durScore += 12;
-    else if (roe >= 12) durScore += 6;
-
-    if (de <= 0.2) durScore += 15;
-    else if (de <= 0.6) durScore += 8;
-    else if (de > 1.5) durScore -= 20;
-
-    durScore = Math.max(20, Math.min(96, durScore));
-    const durGrade = durScore >= 70 ? 'HIGH' : durScore >= 45 ? 'MEDIUM' : 'LOW';
-
-    // 2. Valuation Score (0-100)
-    // Lower PE / PB / reasonable multiples = higher valuation score (more attractive)
-    let valScore = 50;
-    if (pe > 0) {
-      if (pe <= 18) valScore += 28;
-      else if (pe <= 30) valScore += 14;
-      else if (pe <= 55) valScore -= 5;
-      else if (pe > 75) valScore -= 25;
+    let durScore = 50;
+    let durFactors = 0;
+    if (rawRoce != null && !isNaN(rawRoce)) {
+      durFactors++;
+      if (rawRoce >= 25) durScore += 20;
+      else if (rawRoce >= 15) durScore += 10;
+      else if (rawRoce < 8) durScore -= 15;
     }
-    if (pb > 0) {
+    if (rawRoe != null && !isNaN(rawRoe)) {
+      durFactors++;
+      if (rawRoe >= 20) durScore += 12;
+      else if (rawRoe >= 12) durScore += 6;
+    }
+    if (rawDe != null && !isNaN(rawDe)) {
+      durFactors++;
+      if (rawDe <= 0.2) durScore += 15;
+      else if (rawDe <= 0.6) durScore += 8;
+      else if (rawDe > 1.5) durScore -= 20;
+    }
+    durScore = durFactors > 0 ? Math.max(20, Math.min(96, durScore)) : 0;
+    const durGrade = durFactors === 0 ? 'LOW' : durScore >= 70 ? 'HIGH' : durScore >= 45 ? 'MEDIUM' : 'LOW';
+
+    let valScore = 50;
+    let valFactors = 0;
+    if (rawPe != null && !isNaN(rawPe) && rawPe > 0) {
+      valFactors++;
+      if (rawPe <= 18) valScore += 28;
+      else if (rawPe <= 30) valScore += 14;
+      else if (rawPe <= 55) valScore -= 5;
+      else if (rawPe > 75) valScore -= 25;
+    }
+    if (pb != null && !isNaN(pb) && pb > 0) {
+      valFactors++;
       if (pb <= 2.5) valScore += 12;
       else if (pb > 10) valScore -= 15;
     }
-    valScore = Math.max(15, Math.min(90, valScore));
-    const valGrade = valScore >= 65 ? 'ATTRACTIVE' : valScore >= 40 ? 'FAIR' : valScore >= 25 ? 'EXPENSIVE' : 'VERY_EXPENSIVE';
+    valScore = valFactors > 0 ? Math.max(15, Math.min(90, valScore)) : 0;
+    const valGrade = valFactors === 0 ? 'FAIR' : valScore >= 65 ? 'ATTRACTIVE' : valScore >= 40 ? 'FAIR' : valScore >= 25 ? 'EXPENSIVE' : 'VERY_EXPENSIVE';
 
-    // 3. Momentum Score (0-100)
-    let momScore = 65;
-    // Known high-momentum leaders
-    if (['SOLARINDS', 'TRENT', 'BEL', 'HAL', 'DIXON', 'POLYCAB', 'CGPOWER'].includes(symbol)) {
-      momScore = 88;
-    } else {
-      momScore = Math.min(92, Math.max(35, 50 + (roce > 20 ? 15 : 0) + (pe > 35 ? 10 : -5)));
-    }
-    const momGrade = momScore >= 70 ? 'STRONG' : momScore >= 45 ? 'MEDIUM' : 'WEAK';
+    let momScore = 50;
+    const momGrade = 'MEDIUM';
 
-    // Classification
-    let dvmClass = 'Growth Compounder';
-    let badgeColor: 'emerald' | 'amber' | 'rose' | 'cyan' | 'purple' = 'emerald';
-
-    if (durGrade === 'HIGH' && momGrade === 'STRONG' && (valGrade === 'EXPENSIVE' || valGrade === 'VERY_EXPENSIVE')) {
-      dvmClass = 'High Durability, High Momentum (Premium Valuation)';
-      badgeColor = 'cyan';
-    } else if (durGrade === 'HIGH' && valGrade === 'ATTRACTIVE') {
-      dvmClass = 'Superstar Value Play (High Durability & Attractive Valuation)';
-      badgeColor = 'emerald';
-    } else if (durGrade === 'HIGH' && momGrade === 'STRONG') {
-      dvmClass = 'High Durability, Strong Momentum Leader';
-      badgeColor = 'purple';
-    } else if (durGrade === 'LOW' && valGrade === 'VERY_EXPENSIVE') {
-      dvmClass = 'High Risk / Expensive Multiple';
-      badgeColor = 'rose';
-    } else {
-      dvmClass = 'Stable Quality Compounder';
-      badgeColor = 'amber';
-    }
+    let dvmClass = 'Quality Proxy (Sourced Fundamentals)';
+    let badgeColor: 'emerald' | 'amber' | 'rose' | 'cyan' | 'purple' = 'amber';
 
     return {
       durabilityScore: durScore,
       durabilityGrade: durGrade,
-      durabilitySummary: `Durability Score ${durScore}/100: Clean balance sheet (Debt/Equity: ${de}), strong capital efficiency (ROCE: ${roce}%).`,
+      durabilitySummary: durFactors > 0 ? `Durability Score ${durScore}/100: ROCE ${rawRoce ?? 'N/A'}%, D/E ${rawDe ?? 'N/A'}` : 'Durability data insufficient',
       valuationScore: valScore,
       valuationGrade: valGrade,
-      valuationSummary: `Valuation Score ${valScore}/100: Trading at P/E of ${pe}x and P/B of ${pb.toFixed(1)}x.`,
+      valuationSummary: valFactors > 0 ? `Valuation Score ${valScore}/100: P/E ${rawPe ?? 'N/A'}x, P/B ${pb ? pb.toFixed(1) : 'N/A'}x` : 'Valuation data insufficient',
       momentumScore: momScore,
       momentumGrade: momGrade,
-      momentumSummary: `Momentum Score ${momScore}/100: Technical trend is in ${momGrade} momentum corridor above long-term moving averages.`,
+      momentumSummary: 'Momentum evaluated via DuckDB OHLCV',
       overallDvmClassification: dvmClass,
       dvmBadgeColor: badgeColor
     };
   }
 
   /**
-   * Synthesize SWOT Matrix
+   * Sourced SWOT Matrix (Strictly facts from filings/screener, no fabrications)
    */
   private synthesizeSWOT(symbol: string, sc: ScreenerData | null, dvm: TrendlyneDVM, cmp: number): TrendlyneSWOT {
     const pros = sc?.pros || [];
     const cons = sc?.cons || [];
 
-    const strengths = [
-      ...pros.slice(0, 3),
-      `High Durability rating (${dvm.durabilityScore}/100) reflecting sound balance sheet solvency and steady operating cash flow.`,
-      `Strong return on capital (ROCE: ${sc?.ratios?.roce || '25'}%) indicating superior capital allocation.`
-    ].filter(Boolean);
-
-    const weaknesses = [
-      ...cons.slice(0, 2),
-      dvm.valuationGrade === 'EXPENSIVE' || dvm.valuationGrade === 'VERY_EXPENSIVE' 
-        ? `Rich valuation multiple (P/E: ${sc?.ratios?.stock_pe || '45'}x) leaves low margin of safety for operational misses.`
-        : 'Moderate working capital cycle requiring continuous operational oversight.'
-    ].filter(Boolean);
-
-    const opportunities = [
-      'Expanding order book pipeline and beneficiary of sovereign Make-in-India / defense indigenization programs.',
-      'Operating leverage expansion leading to higher EBITDA margin capture as revenue scales.',
-      'Potential institutional re-rating as foreign portfolio investors (FPI) increase allocations.'
-    ];
-
-    const threats = [
-      'Raw material price inflation and international supply chain volatility.',
-      'Macroeconomic monetary tightening or sector-wide valuation multiple contraction.'
-    ];
+    const strengths = [...pros.slice(0, 3)].filter(Boolean);
+    const weaknesses = [...cons.slice(0, 3)].filter(Boolean);
+    const opportunities: string[] = [];
+    const threats: string[] = [];
 
     return { strengths, weaknesses, opportunities, threats };
   }
 
   /**
-   * Synthesize Institutional Analyst Consensus & Forward Targets
-   *
-   * IMPORTANT: targets are anchored to a REFERENCE price at synthesis time, NOT
-   * blindly rebased to live CMP.  This prevents the bug where a stock that has
-   * already exceeded its 12-month target keeps showing "15% upside" forever.
-   *
-   * The reference price is chosen as:
-   *   • The lowest of (current CMP, screener current_price) — i.e. the price at
-   *     the time of last full re-synthesis (cache miss / fresh report).
-   * After the report is cached, the caller updates upsidePct dynamically but
-   * leaves meanTargetPrice unchanged (so upside can go negative when CMP rises
-   * through the target).
+   * Analyst Consensus: Fail closed when no official provider feed exists
    */
   private synthesizeAnalystConsensus(symbol: string, cmp: number, dvm: TrendlyneDVM): AnalystConsensus {
-    // ── 1. Target upside multiplier — anchored to synthesis-time CMP ──────────
-    // Use a one-year consensus horizon. Do NOT re-anchor on every cache hit.
-    let upsideMult = 1.14; // default ~14% 1-year target
-    if (dvm.durabilityGrade === 'HIGH' && dvm.momentumGrade === 'STRONG') {
-      upsideMult = 1.18;
-    } else if (dvm.valuationGrade === 'FAIR') {
-      upsideMult = 1.12;
-    } else if (dvm.valuationGrade === 'EXPENSIVE') {
-      upsideMult = 1.07;  // expensive stocks have compressed analyst targets
-    } else if (dvm.valuationGrade === 'VERY_EXPENSIVE') {
-      upsideMult = 1.04;  // very expensive — targets barely above CMP
-    }
-
-    // Symbol-specific overrides for well-known names
-    if (symbol === 'SOLARINDS') upsideMult = 1.18;
-    if (symbol === 'TRENT')     upsideMult = 1.16;
-    if (symbol === 'BEL')       upsideMult = 1.20;
-    if (symbol === 'HAL')       upsideMult = 1.19;
-
-    // Target is anchored to cmp at the moment of report synthesis.
-    // After caching, only upsidePct (not meanTargetPrice) is updated dynamically.
-    const meanTarget    = Number((cmp * upsideMult).toFixed(1));
-    const highTarget    = Number((meanTarget * 1.07).toFixed(1));
-    const lowTarget     = Number((cmp * 0.94).toFixed(1));
-
-    // Live upside — can be NEGATIVE if CMP has already exceeded the target
-    const upsidePct = Number((((meanTarget - cmp) / cmp) * 100).toFixed(1));
-
-    // ── 2. Validity status ────────────────────────────────────────────────────
-    // Allows UI to suppress or badge stale calls appropriately
-    let callStatus: AnalystConsensus['callStatus'] = 'ACTIVE';
-    let callStatusLabel = 'Active – within target range';
-
-    if (cmp >= meanTarget) {
-      callStatus      = 'TARGET_BREACHED';
-      callStatusLabel = `CMP ₹${cmp.toLocaleString('en-IN')} has exceeded analyst target ₹${meanTarget.toLocaleString('en-IN')} — consider booking profits`;
-    } else if (cmp <= lowTarget) {
-      callStatus      = 'BELOW_ENTRY';
-      callStatusLabel = `CMP ₹${cmp.toLocaleString('en-IN')} is below analyst low target ₹${lowTarget.toLocaleString('en-IN')} — thesis under stress`;
-    }
-
-    // ── 3. DVM-derived consensus rating — NOT always STRONG_BUY ─────────────
-    // Derive from durability + valuation + momentum composite rather than hardcoding.
-    let consensusRating: AnalystConsensus['consensusRating'] = 'HOLD';
-    let strongBuyCount = 5;
-    let buyCount       = 8;
-    let holdCount      = 8;
-    let sellCount      = 2;
-    let strongSellCount = 1;
-    let totalAnalysts  = strongBuyCount + buyCount + holdCount + sellCount + strongSellCount;
-
-    if (callStatus === 'TARGET_BREACHED') {
-      // Target already hit — realistic consensus shifts toward HOLD/REDUCE
-      consensusRating  = 'HOLD';
-      strongBuyCount   = 2;
-      buyCount         = 5;
-      holdCount        = 11;
-      sellCount        = 5;
-      strongSellCount  = 1;
-    } else if (dvm.durabilityGrade === 'HIGH' && dvm.momentumGrade === 'STRONG' && dvm.valuationGrade !== 'VERY_EXPENSIVE') {
-      consensusRating  = 'STRONG_BUY';
-      strongBuyCount   = 13;
-      buyCount         = 6;
-      holdCount        = 3;
-      sellCount        = 1;
-      strongSellCount  = 0;
-    } else if (dvm.durabilityGrade === 'HIGH' && dvm.valuationGrade === 'ATTRACTIVE') {
-      consensusRating  = 'STRONG_BUY';
-      strongBuyCount   = 11;
-      buyCount         = 7;
-      holdCount        = 4;
-      sellCount        = 1;
-      strongSellCount  = 0;
-    } else if (dvm.durabilityGrade === 'HIGH' || dvm.momentumGrade === 'STRONG') {
-      consensusRating  = 'BUY';
-      strongBuyCount   = 7;
-      buyCount         = 9;
-      holdCount        = 6;
-      sellCount        = 1;
-      strongSellCount  = 0;
-    } else if (dvm.valuationGrade === 'VERY_EXPENSIVE') {
-      consensusRating  = 'REDUCE';
-      strongBuyCount   = 1;
-      buyCount         = 3;
-      holdCount        = 8;
-      sellCount        = 10;
-      strongSellCount  = 2;
-    } else if (dvm.durabilityGrade === 'LOW') {
-      consensusRating  = 'SELL';
-      strongBuyCount   = 0;
-      buyCount         = 2;
-      holdCount        = 5;
-      sellCount        = 10;
-      strongSellCount  = 5;
-    }
-    totalAnalysts = strongBuyCount + buyCount + holdCount + sellCount + strongSellCount;
-
     return {
-      totalAnalysts,
-      strongBuyCount,
-      buyCount,
-      holdCount,
-      sellCount,
-      strongSellCount,
-      consensusRating,
-      meanTargetPrice: meanTarget,
-      upsidePct,
-      highTargetPrice: highTarget,
-      lowTargetPrice:  lowTarget,
-      callStatus,
-      callStatusLabel
+      totalAnalysts: 0,
+      strongBuyCount: 0,
+      buyCount: 0,
+      holdCount: 0,
+      sellCount: 0,
+      strongSellCount: 0,
+      consensusRating: 'HOLD',
+      meanTargetPrice: 0,
+      upsidePct: 0,
+      highTargetPrice: 0,
+      lowTargetPrice: 0,
+      callStatus: 'BELOW_ENTRY',
+      callStatusLabel: 'SOURCE_UNAVAILABLE: No verified institutional consensus feed active'
     };
   }
+
 
   /**
    * Institutional Checklists: Piotroski F-Score & Altman Z-Score
    */
   private computeChecklists(symbol: string, sc: ScreenerData | null, dvm: TrendlyneDVM): InstitutionalChecklists {
     const r = sc?.ratios;
-    const roce = parseFloat(r?.roce || '22');
-    const de = parseFloat(r?.debt_to_equity || '0.2');
+    const rawRoce = r?.roce ? parseFloat(r.roce) : null;
+    const rawDe = r?.debt_to_equity ? parseFloat(r.debt_to_equity) : null;
 
-    let piotroski = 7;
-    if (roce > 20 && de < 0.3) piotroski = 8;
-    if (roce > 28 && de < 0.1) piotroski = 9;
-    if (roce < 10 || de > 1.2) piotroski = 5;
+    let piotroski = 0;
+    if (rawRoce != null && rawDe != null) {
+      piotroski = (rawRoce > 20 && rawDe < 0.3) ? 8 : (rawRoce > 12 && rawDe < 0.8) ? 6 : 4;
+    }
 
-    const zScore = de < 0.3 ? 6.4 : (de < 0.8 ? 3.8 : 2.1);
+    const zScore = rawDe != null ? (rawDe < 0.3 ? 6.4 : (rawDe < 0.8 ? 3.8 : 2.1)) : 0;
 
-    const fiiHolding = parseFloat(sc?.shareholding?.fiis?.replace('%', '') || '18.5');
-    const diiHolding = parseFloat(sc?.shareholding?.diis?.replace('%', '') || '16.2');
-    const promoterHolding = parseFloat(sc?.shareholding?.promoters?.replace('%', '') || '62.4');
+    const parseShareholding = (v?: string | null): number => {
+      if (!v) return 0;
+      const parsed = parseFloat(v.replace('%', ''));
+      return isNaN(parsed) ? 0 : parsed;
+    };
+
+    const fiiHolding = parseShareholding(sc?.shareholding?.fiis);
+    const diiHolding = parseShareholding(sc?.shareholding?.diis);
+    const promoterHolding = parseShareholding(sc?.shareholding?.promoters);
 
     return {
       piotroskiScore: piotroski,
@@ -534,8 +397,7 @@ export class TrendlyneIntelligenceService {
       diiHoldingPct: diiHolding,
       promoterHoldingPct: promoterHolding,
       promoterPledgePct: 0.0,
-      institutionalTrend: 'ACCUMULATING',
-      mutualFundHoldingsCount: 38
+      institutionalTrend: 'STABLE'
     };
   }
 }

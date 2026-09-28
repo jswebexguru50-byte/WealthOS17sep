@@ -639,8 +639,9 @@ export class OpportunityScannerEngine {
         : null;
 
       // Relative Strength vs NIFTY 500 (RS_20)
-      const rsNifty = Number((pnlPct - (regimeState?.nifty20dReturnPct || 2.5)).toFixed(1));
-      const rsScore = rsNifty > 10 ? 92 : (rsNifty > 0 ? 75 : 45);
+      const benchmarkReturn = regimeState?.nifty20dReturnPct ?? null;
+      const rsNifty = benchmarkReturn != null ? Number((pnlPct - benchmarkReturn).toFixed(1)) : null;
+      const rsScore = rsNifty != null ? (rsNifty > 10 ? 92 : (rsNifty > 0 ? 75 : 45)) : null;
 
       // Continuous Technical Score
       let techScore = 50;
@@ -665,14 +666,24 @@ export class OpportunityScannerEngine {
         : null;
 
       // Continuous Logit Assembly
-      let activeWeightSum = weights.fundamentalWeightPct + weights.technicalMomentumWeightPct + weights.bollingerSqueezeWeightPct + weights.volumeSurgeWeightPct + (weights.relativeStrengthWeightPct || 8);
+      let activeWeightSum = weights.technicalMomentumWeightPct + weights.bollingerSqueezeWeightPct + weights.volumeSurgeWeightPct;
       let rawComposite = (
-        (fundScore || 50) * weights.fundamentalWeightPct +
         techScore * weights.technicalMomentumWeightPct +
         bollScore * weights.bollingerSqueezeWeightPct +
-        volScore * weights.volumeSurgeWeightPct +
-        rsScore * (weights.relativeStrengthWeightPct || 8)
+        volScore * weights.volumeSurgeWeightPct
       );
+
+      if (fundScore != null) {
+        activeWeightSum += weights.fundamentalWeightPct;
+        rawComposite += fundScore * weights.fundamentalWeightPct;
+      }
+
+      if (rsScore != null) {
+        const rsWeight = weights.relativeStrengthWeightPct || 8;
+        activeWeightSum += rsWeight;
+        rawComposite += rsScore * rsWeight;
+      }
+
       if (deliveryScore != null) {
         activeWeightSum += (weights.deliverySurgeWeightPct || 14);
         rawComposite += deliveryScore * (weights.deliverySurgeWeightPct || 14);
@@ -681,7 +692,7 @@ export class OpportunityScannerEngine {
         activeWeightSum += weights.newsSentimentWeightPct;
         rawComposite += newsScore * weights.newsSentimentWeightPct;
       }
-      rawComposite = rawComposite / (activeWeightSum / 100);
+      rawComposite = activeWeightSum > 0 ? rawComposite / (activeWeightSum / 100) : 50;
 
       const compositeScore = Number(Math.min(98, Math.max(20, rawComposite * regimeMultiplier)).toFixed(1));
 
@@ -941,11 +952,12 @@ export class OpportunityScannerEngine {
         const liveCmp = snap?.close && snap.close > 0 ? snap.close : rowPrice;
         if (liveCmp <= 0) continue;
 
-        const rsi = snap?.rsi14 ?? (dayChangePct > 2 ? 62.0 : dayChangePct < -2 ? 38.0 : 50.0);
-        const bandwidth = snap?.bbBandwidth ?? (dayChangePct > 2 ? 8.2 : 9.5);
+        const rsi = snap?.rsi14 ?? null;
+        const bandwidth = snap?.bbBandwidth ?? null;
+        if (rsi == null || bandwidth == null) continue;
         const isSqueeze = bandwidth <= weights.minBandwidthThresholdPct;
-        const relVol = snap?.relativeVolume ?? (dayChangePct > 1.5 ? 1.4 : 0.95);
-        const isVolBreakout = relVol >= 1.35;
+        const relVol = snap?.relativeVolume ?? null;
+        const isVolBreakout = relVol != null && relVol >= 1.35;
 
         // Fetch fundamental snapshot if available
         const fundSnap = await FundamentalDataService.getInstance().getSnapshot(sym).catch(() => null);
@@ -1059,8 +1071,9 @@ export class OpportunityScannerEngine {
         const deliveryScore: number | null = deliverySurge != null
           ? (deliverySurge >= 1.5 ? 92 : deliverySurge >= 1.1 ? 75 : 45)
           : null;
-        const rsNifty = Number(((rsi - 50) * 0.75 + (dayChangePct > 0 ? 5.0 : -3.0)).toFixed(1));
-        const rsScore = rsNifty > 5 ? 90 : (rsNifty > 0 ? 75 : 45);
+        const rsBenchmark = regimeState?.nifty20dReturnPct ?? null;
+        const rsNifty = rsBenchmark != null ? Number((dayChangePct - rsBenchmark).toFixed(1)) : null;
+        const rsScore = rsNifty != null ? (rsNifty > 5 ? 90 : (rsNifty > 0 ? 75 : 45)) : null;
 
         const isRsiOptimal = (rsi >= weights.rsiOversoldBoundary && rsi <= weights.rsiOverboughtBoundary);
         const techScore = isRsiOptimal ? 88 : (rsi > 70 ? 75 : (rsi < 38 ? 45 : 62));
@@ -1071,14 +1084,21 @@ export class OpportunityScannerEngine {
           ? Math.round((newsSentiment.overallSentimentScore + 1) * 50)
           : null;
 
-        let activeWeightSum = weights.fundamentalWeightPct + weights.technicalMomentumWeightPct + weights.bollingerSqueezeWeightPct + weights.volumeSurgeWeightPct + (weights.relativeStrengthWeightPct || 8);
+        let activeWeightSum = weights.technicalMomentumWeightPct + weights.bollingerSqueezeWeightPct + weights.volumeSurgeWeightPct;
         let rawComposite = (
-          (fundScore || 50) * weights.fundamentalWeightPct +
           techScore * weights.technicalMomentumWeightPct +
           bollScore * weights.bollingerSqueezeWeightPct +
-          volScore * weights.volumeSurgeWeightPct +
-          rsScore * (weights.relativeStrengthWeightPct || 8)
+          volScore * weights.volumeSurgeWeightPct
         );
+        if (fundScore != null) {
+          activeWeightSum += weights.fundamentalWeightPct;
+          rawComposite += fundScore * weights.fundamentalWeightPct;
+        }
+        if (rsScore != null) {
+          const rsWeight = weights.relativeStrengthWeightPct || 8;
+          activeWeightSum += rsWeight;
+          rawComposite += rsScore * rsWeight;
+        }
         if (deliveryScore != null) {
           activeWeightSum += (weights.deliverySurgeWeightPct || 14);
           rawComposite += deliveryScore * (weights.deliverySurgeWeightPct || 14);
@@ -1087,7 +1107,7 @@ export class OpportunityScannerEngine {
           activeWeightSum += weights.newsSentimentWeightPct;
           rawComposite += newsScore * weights.newsSentimentWeightPct;
         }
-        rawComposite = rawComposite / (activeWeightSum / 100);
+        rawComposite = activeWeightSum > 0 ? rawComposite / (activeWeightSum / 100) : 50;
 
         const compositeScore = Number(Math.min(99, Math.max(20, rawComposite * regimeMultiplier)).toFixed(1));
         const regimeProbs = regimeState?.regimeProbabilities || null;

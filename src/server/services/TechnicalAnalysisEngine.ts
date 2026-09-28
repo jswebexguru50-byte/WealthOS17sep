@@ -35,6 +35,12 @@ export interface OptionsIntelligence {
 }
 
 export interface ForwardModelScenario {
+  scenarioType?: string;
+  formulaMethodology?: string;
+  disclaimer?: string;
+  baseScenarioLevel?: number;
+  bullScenarioLevel?: number;
+  bearScenarioLevel?: number;
   baseTarget: number;
   bullTarget: number;
   bearTarget: number;
@@ -373,6 +379,12 @@ export class TechnicalAnalysisEngine {
         portfolioVerdict: optionsVerdict
       },
       modelScenario: {
+        scenarioType: 'TECHNICAL_PIVOT_DERIVED',
+        formulaMethodology: 'Standard Floor Pivots: Pivot = (H+L+C)/3, R1 = 2*P - L, S1 = 2*P - H, R2 = P + (H - L), S2 = P - (H - L). Derived mathematically from historical OHLCV. Never an analyst consensus or forecast.',
+        disclaimer: 'Purely mathematical technical scenario levels. Not an analyst target or predictive forecast.',
+        baseScenarioLevel: baseTarget,
+        bullScenarioLevel: bullTarget,
+        bearScenarioLevel: bearTarget,
         baseTarget,
         bullTarget,
         bearTarget,
@@ -384,7 +396,7 @@ export class TechnicalAnalysisEngine {
         forwardPeEstimated,
         forwardEpsGrowthPct,
         earningsHorizonDays,
-        laymanMeaning: `MODEL SCENARIO — NOT CONSENSUS: Technical projection maps ${upsidePct}% upside to R2 vs ${Math.abs(downsidePct)}% downside to S2 (Risk-Reward ${riskRewardRatio}:1).`
+        laymanMeaning: `TECHNICAL SCENARIO (NOT CONSENSUS): Standard pivot projection maps ${upsidePct}% to R2 (₹${bullTarget}) vs ${Math.abs(downsidePct)}% to S2 (₹${bearTarget}) [Risk-Reward ${riskRewardRatio}:1].`
       },
       patterns: isBbSqueeze ? ['Bollinger Squeeze (Explosive Breakout Watch)'] : (latestClose > latestSma200 ? ['Golden Multi-Month Support'] : []),
       technicalScore,

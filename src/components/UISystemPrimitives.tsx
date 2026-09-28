@@ -28,6 +28,12 @@ export type DataState =
   | 'STALE'
   | 'UNVERIFIED'
   | 'BLOCKED'
+  | 'SOURCE_UNAVAILABLE'
+  | 'IDENTITY_REVIEW'
+  | 'PIT_NOT_VERIFIABLE'
+  | 'NOT_REQUESTED'
+  | 'NOT_APPLICABLE'
+  | 'ERROR'
   | string; // preserve any unknown state string as-is
 
 const DATA_STATE_CONFIG: Record<string, { icon: React.ElementType; bg: string; text: string; border: string; label: string }> = {
@@ -72,6 +78,48 @@ const DATA_STATE_CONFIG: Record<string, { icon: React.ElementType; bg: string; t
     text: 'text-rose-400',
     border: 'border-rose-500/30',
     label: 'BLOCKED'
+  },
+  SOURCE_UNAVAILABLE: {
+    icon: Ban,
+    bg: 'bg-slate-800/80',
+    text: 'text-slate-400',
+    border: 'border-slate-700',
+    label: 'SOURCE UNAVAILABLE'
+  },
+  IDENTITY_REVIEW: {
+    icon: AlertTriangle,
+    bg: 'bg-purple-500/15',
+    text: 'text-purple-400',
+    border: 'border-purple-500/30',
+    label: 'IDENTITY REVIEW'
+  },
+  PIT_NOT_VERIFIABLE: {
+    icon: Clock,
+    bg: 'bg-amber-500/15',
+    text: 'text-amber-400',
+    border: 'border-amber-500/30',
+    label: 'PIT NOT VERIFIABLE'
+  },
+  NOT_REQUESTED: {
+    icon: HelpCircle,
+    bg: 'bg-slate-800/50',
+    text: 'text-slate-500',
+    border: 'border-slate-700/50',
+    label: 'NOT REQUESTED'
+  },
+  NOT_APPLICABLE: {
+    icon: HelpCircle,
+    bg: 'bg-slate-800/50',
+    text: 'text-slate-500',
+    border: 'border-slate-700/50',
+    label: 'NOT APPLICABLE'
+  },
+  ERROR: {
+    icon: XCircle,
+    bg: 'bg-rose-500/15',
+    text: 'text-rose-400',
+    border: 'border-rose-500/30',
+    label: 'ERROR'
   }
 };
 

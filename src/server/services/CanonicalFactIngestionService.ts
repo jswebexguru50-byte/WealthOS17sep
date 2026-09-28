@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 export interface CanonicalMapping {
   provider: string;
   provider_token: string;
+  provider_label: string;
   canonical_metric: string;
   statement_type: string;
   period_type: string;
@@ -60,24 +61,42 @@ export class CanonicalFactIngestionService {
     const latest = rows.sort((a, b) => new Date(b.fetched_at).getTime() - new Date(a.fetched_at).getTime())[0];
     const payload = JSON.parse(latest.response_json);
     
-    const textContent = typeof payload.content?.[0]?.text === 'string' ? payload.content[0].text : '';
+    let textContent = '';
+    try {
+        const parsedText = JSON.parse(payload.content[0].text);
+        textContent = parsedText.data || '';
+    } catch {
+        textContent = typeof payload.content?.[0]?.text === 'string' ? payload.content[0].text : '';
+    }
     const blocks = textContent.split('\n---\n');
     
-    const extractedValues: Record<string, number | null> = {};
+    const extractedValues: Record<string, { status: string, value: number | null, exactLabel?: string }> = {};
 
     for (const block of blocks) {
       const lines = block.trim().split('\n');
       if (lines.length < 2) continue;
-      const title = lines[0]; // Helping text
+      const title = lines[0].trim(); 
       
       for (let i = 1; i < lines.length; i++) {
         const parts = lines[i].split(':');
-        if (parts.length === 2 && parts[0].trim() === symbol) {
-           const val = parseFloat(parts[1].trim());
-           if (!isNaN(val)) {
-             const match = mappings.find(m => m.provider_label === title || title.includes(m.provider_label) || m.provider_label.includes(title));
+        if (parts.length === 2) {
+           const parsedSymbol = parts[0].trim();
+           if (parsedSymbol === symbol) {
+             const valueStr = parts[1].trim();
+             const match = mappings.find(m => title === m.provider_label.trim());
+             
              if (match) {
-                 extractedValues[match.provider_token] = val;
+                 if (valueStr.toLowerCase() === 'none' || valueStr === '-' || valueStr === 'n/a') {
+                     extractedValues[match.provider_token] = { status: 'UNAVAILABLE_FROM_PROVIDER', value: null };
+                 } else {
+                     const val = parseFloat(valueStr);
+                     if (!isNaN(val)) {
+                         let finalVal = val;
+                         extractedValues[match.provider_token] = { status: 'AVAILABLE', value: finalVal, exactLabel: title };
+                     } else {
+                         extractedValues[match.provider_token] = { status: 'UNAVAILABLE_FROM_PROVIDER', value: null };
+                     }
+                 }
              }
            }
         }
@@ -85,28 +104,34 @@ export class CanonicalFactIngestionService {
     }
 
     for (const mapping of mappings) {
-      const value = extractedValues[mapping.provider_token];
-      const factId = uuidv4();
+      const extracted = extractedValues[mapping.provider_token];
+      const factId = `${companyId}_${mapping.canonical_metric}_LATEST_${mapping.period_type}_${mapping.consolidated_or_standalone}_REPORTED`;
       
-      const isMissing = value === undefined;
-      const factType = isMissing ? 'MISSING' : 'REPORTED';
-      const availabilityStatus = isMissing ? 'UNAVAILABLE_FROM_PROVIDER' : 'AVAILABLE';
-      const finalValue = isMissing ? null : value;
+      const isMissing = !extracted;
+      const factType = isMissing || extracted.value === null ? 'MISSING' : 'REPORTED';
+      const availabilityStatus = isMissing ? 'REQUESTED_NOT_RETURNED' : extracted.status;
+      const finalValue = isMissing ? null : extracted.value;
       
+      const exactLabel = isMissing ? null : (extracted as any).exactLabel;
+      const sourceDocumentId = `TRENDLYNE_MCP:parameters:${symbol}:${latest.fetched_at}`;
+
       await this.run(`
         INSERT OR REPLACE INTO company_facts (
           factId, companyId, symbol, isin, metric, value, unit, currency,
           periodType, periodEnd, asOfDate, factType, sourceType, scope,
-          provider, verificationStatus, fetchedAt, availabilityStatus
+          provider, verificationStatus, fetchedAt, availabilityStatus,
+          sourceDocumentId, providerToken, exactProviderLabel
         ) VALUES (
           ?, ?, ?, ?, ?, ?, ?, ?,
           ?, ?, ?, ?, ?, ?,
-          ?, ?, ?, ?
+          ?, ?, ?, ?,
+          ?, ?, ?
         )
       `, [
         factId, companyId, symbol, isin, mapping.canonical_metric, finalValue, mapping.unit, mapping.currency,
         mapping.period_type, 'LATEST', new Date().toISOString().split('T')[0], factType, 'STRUCTURED_SECONDARY', mapping.consolidated_or_standalone,
-        mapping.provider, 'SECONDARY_VERIFIED', latest.fetched_at, availabilityStatus
+        mapping.provider, 'SECONDARY_VERIFIED', latest.fetched_at, availabilityStatus,
+        sourceDocumentId, mapping.provider_token, exactLabel || null
       ]);
       factsInserted++;
     }

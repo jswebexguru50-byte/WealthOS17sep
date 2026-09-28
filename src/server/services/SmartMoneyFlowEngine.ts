@@ -562,64 +562,13 @@ export class SmartMoneyFlowEngine {
    * Compute Sector-Level Smart Money Flows across all Indian Market Sectors
    */
   public async getSectorSmartMoneyFlows(timeframe: SmartMoneyTimeframe = '1W'): Promise<SectorSmartMoneyFlow[]> {
-    const cacheKey = `sectors_${timeframe}`;
-    const cached = MarketDataCache.getInstance().get<SectorSmartMoneyFlow[]>(cacheKey);
-    if (cached && cached.length > 0) {
-      return cached;
-    }
+    // Zero-Fabrication Mandate: Fabricated sector cache and synthetic institutional splits (52% FII, 38% DII)
+    // are strictly disabled. Returns empty array until direct evidence-backed exchange disclosures are integrated.
+    return [];
+  }
 
-    // Check disk cache in SmartMoneySectorCache (only accept sourced entries with valid provenance)
-    try {
-      const db = getDB();
-      const rows = await dbAll<any>(
-        db,
-        `SELECT * FROM SmartMoneySectorCache WHERE timeframe = ? AND provenance_json IS NOT NULL AND datetime(updated_at) >= datetime('now', '-30 minutes')`,
-        [timeframe]
-      );
-      if (rows && rows.length >= 8) {
-        const diskResults: SectorSmartMoneyFlow[] = rows.map(r => {
-          let prov: DataProvenance;
-          try {
-            prov = JSON.parse(r.provenance_json);
-          } catch {
-            prov = {
-              source: 'NSE_CONSTITUENT_BHAVCOPY_AGGREGATE',
-              sourceType: 'SOURCED',
-              confidencePct: 92,
-              asOfDate: new Date().toISOString().split('T')[0],
-              reconciledAgainst: 'NSE_FII_DII_DAILY_REPORT'
-            };
-          }
-          return {
-            sector: r.sector,
-            timeframe: r.timeframe as SmartMoneyTimeframe,
-            netFlowCr: Number(r.net_flow_cr || 0),
-            averageSmas: Number(r.average_smas || 50),
-            smasDelta: Number(r.smas_delta || 0),
-            institutionalBreakdown: {
-              fiiNetCr: Number(((r.net_flow_cr || 0) * 0.52).toFixed(2)),
-              diiNetCr: Number(((r.net_flow_cr || 0) * 0.38).toFixed(2)),
-              propNetCr: Number(((r.net_flow_cr || 0) * 0.10).toFixed(2)),
-              retailNetCr: Number((-(r.net_flow_cr || 0) * 0.35).toFixed(2))
-            },
-            accumulationBreadthPct: Number(r.accumulation_breadth_pct || 50),
-            distributionBreadthPct: Number(r.distribution_breadth_pct || 50),
-            totalStocksAnalyzed: Number(r.total_stocks || 7),
-            flowDirection: (r.flow_direction || 'NEUTRAL') as any,
-            flowMomentumZScore: Number(r.flow_momentum_zscore || 0),
-            isCriticalFlow: Math.abs(Number(r.net_flow_cr || 0)) >= 500,
-            topInflowStocks: JSON.parse(r.top_inflows_json || '[]'),
-            topOutflowStocks: JSON.parse(r.top_outflows_json || '[]'),
-            provenance: prov,
-            confidenceIntervalStr: r.confidence_interval_str || `±₹${(Math.abs(Number(r.net_flow_cr || 0)) * 0.05).toFixed(1)} Cr`
-          };
-        });
-        diskResults.sort((a, b) => b.netFlowCr - a.netFlowCr);
-        MarketDataCache.getInstance().set(cacheKey, diskResults, this.CACHE_TTL_MS);
-        return diskResults;
-      }
-    } catch (_) {}
-
+  public async getSectorSmartMoneyFlowsDisabled(timeframe: SmartMoneyTimeframe = '1W'): Promise<SectorSmartMoneyFlow[]> {
+    const cacheKey = `sector_flows_${timeframe}`;
     const sectorMapping: Record<string, string[]> = {
       'Banking & Financials': ['HDFCBANK', 'ICICIBANK', 'SBIN', 'KOTAKBANK', 'AXISBANK', 'BAJFINANCE', 'BAJAJFINSV'],
       'Information Technology': ['TCS', 'INFY', 'HCLTECH', 'WIPRO', 'TECHM', 'LTIM', 'PERSISTENT', 'COFORGE'],

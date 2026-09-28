@@ -135,7 +135,7 @@ export interface SecurityDossier {
     trendClassification: string;
     rsi14: number;
     rsiInterpretation: string;
-    emaAlignment: 'BULLISH_STACK' | 'BEARISH_STACK' | 'CONSOLIDATING';
+    emaAlignment: 'BULLISH_STACK' | 'BEARISH_STACK' | 'CONSOLIDATING' | 'DATA_INSUFFICIENT';
     ema20: number | null;
     ema50: number | null;
     sma200: number | null;
@@ -377,14 +377,23 @@ export class ScripIntelligenceDossierService {
     ]);
 
     // Current Price Resolution
-    const cmp = Number(
+    const rawCmp = Number(
       holdingRow?.ltp ||
       masterTickerRow?.last_price ||
       indicators?.close ||
-      (screenerData?.ratios?.current_price ? parseFloat(screenerData.ratios.current_price.replace(/,/g, '')) : 100)
-    ) || 100;
+      (screenerData?.ratios?.current_price ? parseFloat(screenerData.ratios.current_price.replace(/,/g, '')) : null)
+    );
+    const cmp = !isNaN(rawCmp) && rawCmp > 0 ? rawCmp : null;
 
-    const change1dPct = holdingRow?.day_change_pct || 0.85;
+    if (!cmp) {
+      return {
+        status: 'DATA_INSUFFICIENT',
+        symbol: sym,
+        missingReason: 'No valid LTP, market quote, or OHLCV closing price available.'
+      } as any;
+    }
+
+    const change1dPct = holdingRow?.day_change_pct ?? (indicators?.changePct ?? null);
     const companyName = screenerData?.company_name || masterTickerRow?.name || sym;
     const sector = screenerData?.sector || masterTickerRow?.sector || 'Diversified';
     const industry = screenerData?.industry || sector;
@@ -409,15 +418,15 @@ export class ScripIntelligenceDossierService {
       currentValue: Number(holdingRow.current_value || (holdingRow.quantity * cmp)),
       pnl: Number(holdingRow.unrealized_pnl || 0),
       pnlPct: Number(holdingRow.unrealized_pct || 0),
-      portfolioWeightPct: 4.8 // calculated or estimated
+      portfolioWeightPct: null
     } : undefined;
 
     // Fundamentals Processing
-    const rawPe = screenerData?.ratios?.stock_pe ? parseFloat(screenerData.ratios.stock_pe) : (trendlyneReport?.valuation?.pe ?? 0);
-    const rawRoce = screenerData?.ratios?.roce ? parseFloat(screenerData.ratios.roce) : 0;
-    const rawRoe = screenerData?.ratios?.roe ? parseFloat(screenerData.ratios.roe) : 0;
-    const rawDebtToEquity = screenerData?.ratios?.debt_to_equity ? parseFloat(screenerData.ratios.debt_to_equity) : 0;
-    const piotroskiScore = trendlyneReport?.checklists?.piotroskiScore ?? 0;
+    const rawPe = screenerData?.ratios?.stock_pe ? parseFloat(screenerData.ratios.stock_pe) : (trendlyneReport?.valuation?.pe ?? null);
+    const rawRoce = screenerData?.ratios?.roce ? parseFloat(screenerData.ratios.roce) : null;
+    const rawRoe = screenerData?.ratios?.roe ? parseFloat(screenerData.ratios.roe) : null;
+    const rawDebtToEquity = screenerData?.ratios?.debt_to_equity ? parseFloat(screenerData.ratios.debt_to_equity) : null;
+    const piotroskiScore = trendlyneReport?.checklists?.piotroskiScore ?? null;
     const altmanZScore: number | null = null;
     let altmanZZone: 'DATA_INSUFFICIENT' | 'SAFE' | 'GREY' | 'DISTRESS' = 'DATA_INSUFFICIENT';
     if (altmanZScore !== null) {
@@ -425,13 +434,15 @@ export class ScripIntelligenceDossierService {
     }
 
     // Technical Processing
-    const rsi14 = indicators?.rsi14 || 0;
+    const rsi14 = indicators?.rsi14 ?? null;
     const ema20: number | null = indicators?.sma20 ?? null;
     const ema50: number | null = indicators?.ema50 ?? null;
     const sma200: number | null = indicators?.sma200 ?? null;
-    const bollingerBandwidthPct = indicators?.bbBandwidth || 0;
-    const bollingerSqueeze = bollingerBandwidthPct < 7;
-    const emaAlignment = cmp > (ema20 || 0) && (ema20 || 0) > (ema50 || 0) ? 'BULLISH_STACK' : (cmp < (ema50 || 0) ? 'BEARISH_STACK' : 'CONSOLIDATING');
+    const bollingerBandwidthPct = indicators?.bbBandwidth ?? null;
+    const bollingerSqueeze = bollingerBandwidthPct != null && bollingerBandwidthPct < 7;
+    const emaAlignment = cmp != null && ema20 != null && ema50 != null
+      ? (cmp > ema20 && ema20 > ema50 ? 'BULLISH_STACK' : (cmp < ema50 ? 'BEARISH_STACK' : 'CONSOLIDATING'))
+      : 'DATA_INSUFFICIENT';
 
     // F&O Processing (Sourced via FnOIntelligenceService or Database)
     const isFno = FnOIntelligenceService.getInstance().isFnoEligible(sym);
@@ -442,7 +453,9 @@ export class ScripIntelligenceDossierService {
     const oiBuildup = fnoSnapshot?.oiBuildup ?? 'NEUTRAL';
 
     // News & Catalysts Processing
-    const newsScoreVal = newsSentiment ? Math.round((newsSentiment.overallSentimentScore + 1) * 50) : 65;
+    const newsScoreVal = newsSentiment?.overallSentimentScore != null
+      ? Math.round((newsSentiment.overallSentimentScore + 1) * 50)
+      : null;
     const headlines = (newsSentiment?.articles || []).slice(0, 4).map(a => ({
       title: a.title,
       source: a.source || 'Pulse by Zerodha',
@@ -455,7 +468,7 @@ export class ScripIntelligenceDossierService {
     const bullCase: Array<{ title: string; description: string; sourcePortal: string }> = [];
     const bearCase: Array<{ title: string; description: string; sourcePortal: string }> = [];
 
-    if (rawRoce > 20) {
+    if (rawRoce != null && rawRoce > 20) {
       bullCase.push({
         title: `High Capital Efficiency (${rawRoce}% ROCE)`,
         description: `Company generates industry-leading return on capital employed, indicating strong pricing power and moat.`,
@@ -469,7 +482,7 @@ export class ScripIntelligenceDossierService {
         sourcePortal: 'Trendlyne DVM'
       });
     }
-    if (rsi14 > 50 && rsi14 < 68 && emaAlignment === 'BULLISH_STACK') {
+    if (rsi14 != null && rsi14 > 50 && rsi14 < 68 && emaAlignment === 'BULLISH_STACK') {
       bullCase.push({
         title: `Stage-2 Momentum Breakout`,
         description: `RSI in sweet spot (${rsi14.toFixed(1)}) with price trading cleanly above 20 & 50 EMAs with volume expansion.`,

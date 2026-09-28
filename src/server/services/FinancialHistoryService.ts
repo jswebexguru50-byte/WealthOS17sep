@@ -45,15 +45,24 @@ export class FinancialHistoryService {
           groupedByPeriod[f.periodEnd] = {};
         }
         groupedByPeriod[f.periodEnd][f.metric] = {
-           value: f.factType === 'MISSING' ? null : parseFloat(f.value),
+           value: f.factType === 'MISSING' || f.availabilityStatus === 'UNAVAILABLE_FROM_PROVIDER' ? null : parseFloat(f.value),
            factId: f.factId
         };
       }
     }
 
-    let newlyDerived = 0;
+    let stats = {
+      DERIVED_AVAILABLE: 0,
+      DERIVED_MISSING: 0,
+      DERIVED_NOT_MEANINGFUL: 0,
+      DERIVED_CONFLICTING: 0
+    };
 
     for (const [periodEnd, facts] of Object.entries(groupedByPeriod)) {
+      if (periodEnd === 'LATEST' && (periodType === 'ANNUAL' || periodType === 'QUARTER' || periodType === 'TTM')) {
+         continue; // Block derived calculations from snapshot-only data for historical periods
+      }
+      
       const valMap: Record<string, number | null> = {};
       for (const k of Object.keys(facts)) valMap[k] = facts[k].value;
 
@@ -72,16 +81,31 @@ export class FinancialHistoryService {
            parentIds.push(facts[req].factId);
         }
 
-        // If we don't even have the facts requested, we can't derive anything safely
-        // Alternatively, we could record a MISSING derived metric.
         if (!hasAllInputs) continue;
 
         const result = definition.formula(valMap);
         
-        const factId = uuidv4();
-        const isMissing = result === 'MISSING' || result === 'NOT_MEANINGFUL' || result === null;
+        const factId = `${companyId}_${definition.canonical_metric}_${periodEnd}_${periodType}_${scope}_DERIVED_${definition.version}`;
         
-        let finalValue = isMissing ? null : result;
+        let finalValue: number | null = null;
+        let availabilityStatus = 'AVAILABLE';
+        
+        if (result === 'MISSING') {
+           finalValue = null;
+           availabilityStatus = 'INSUFFICIENT_DATA';
+           stats.DERIVED_MISSING++;
+        } else if (result === 'NOT_MEANINGFUL') {
+           finalValue = null;
+           availabilityStatus = 'NOT_APPLICABLE';
+           stats.DERIVED_NOT_MEANINGFUL++;
+        } else {
+           finalValue = result as number;
+           availabilityStatus = 'AVAILABLE';
+           stats.DERIVED_AVAILABLE++;
+        }
+
+        const isRatio = definition.unit === 'PERCENTAGE' || definition.unit === 'RATIO';
+        const currency = isRatio ? null : 'INR';
 
         // Insert into company_facts
         await this.run(`
@@ -95,17 +119,15 @@ export class FinancialHistoryService {
             ?, ?, ?, ?, ?
           )
         `, [
-          factId, companyId, companyId, metricKey, finalValue, definition.unit, 'INR',
+          factId, companyId, companyId, definition.canonical_metric, finalValue, definition.unit, currency,
           periodType, periodEnd, new Date().toISOString().split('T')[0], 'DERIVED', 'DERIVED', scope,
           'WEALTHOS_DERIVED', new Date().toISOString(), JSON.stringify(parentIds), definition.version,
-          isMissing ? 'UNAVAILABLE' : 'AVAILABLE'
+          availabilityStatus
         ]);
-        
-        newlyDerived++;
       }
     }
     
-    return newlyDerived;
+    return stats;
   }
 
   async getAnnualHistory(companyId: string) {

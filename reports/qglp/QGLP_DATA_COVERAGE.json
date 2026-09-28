@@ -1,0 +1,251 @@
+{
+  "title": "WealthOS QGLP Data Coverage & Evidence Audit",
+  "generatedAt": "2026-09-28T22:07:45.000Z",
+  "frameworkVersion": "WEALTHOS_INTEGRATED_INTELLIGENCE_FOUNDATION_v1.0",
+  "overallClassification": "QGLP_NUMERIC_PROXY",
+  "constitutionStatus": "FAIL_CLOSED_COMPLIANT",
+  "summary": {
+    "totalChecklistItems": 18,
+    "passItems": 5,
+    "failItems": 1,
+    "partialItems": 3,
+    "dataInsufficientItems": 9,
+    "coveragePercentage": 44.4
+  },
+  "assessments": [
+    {
+      "category": "Quality of Business",
+      "status": "PARTIAL",
+      "items": [
+        {
+          "id": "QOB_ROCE_SUSTAINABILITY",
+          "question": "Has the business sustained ROCE/ROE > 15% across economic cycles?",
+          "answerStatus": "PASS",
+          "evidenceType": "QUANTITATIVE",
+          "quantitativeEvidence": { "metric": "ROCE", "value": 18.4, "unit": "PERCENTAGE" },
+          "qualitativeEvidence": null,
+          "confidence": 0.95,
+          "pitStatus": "VERIFIED",
+          "missingReason": null
+        },
+        {
+          "id": "QOB_MOAT_DURABILITY",
+          "question": "Does the business possess an identifiable, durable competitive moat (pricing power, switching costs, network effect)?",
+          "answerStatus": "DATA_INSUFFICIENT",
+          "evidenceType": "QUALITATIVE",
+          "quantitativeEvidence": null,
+          "qualitativeEvidence": null,
+          "confidence": null,
+          "pitStatus": "NOT_VERIFIABLE",
+          "missingReason": "Qualitative moat durability evidence not yet indexed from annual reports or concalls. ROCE alone cannot substitute for moat proof."
+        },
+        {
+          "id": "QOB_CAPITAL_ALLOCATION",
+          "question": "Is reinvestment rate matched by incremental return on invested capital (ROIC)?",
+          "answerStatus": "PARTIAL",
+          "evidenceType": "QUANTITATIVE",
+          "quantitativeEvidence": { "metric": "ROIC_PROXY", "value": 16.2 },
+          "qualitativeEvidence": null,
+          "confidence": 0.8,
+          "pitStatus": "VERIFIED",
+          "missingReason": "Long-term historical 10-year capex series partially available."
+        }
+      ]
+    },
+    {
+      "category": "Quality of Management",
+      "status": "DATA_INSUFFICIENT",
+      "items": [
+        {
+          "id": "QOM_PROMOTER_INTEGRITY",
+          "question": "Are there zero adverse regulatory actions, audit qualifications, or related-party siphoning flags?",
+          "answerStatus": "PASS",
+          "evidenceType": "FORENSIC",
+          "quantitativeEvidence": { "auditQualifications": 0, "relatedPartyAlerts": 0 },
+          "qualitativeEvidence": "Auditor report verified clean from FERE database.",
+          "confidence": 0.95,
+          "pitStatus": "VERIFIED",
+          "missingReason": null
+        },
+        {
+          "id": "QOM_WALK_THE_TALK",
+          "question": "Has management delivered on guidance and publicly declared milestone commitments?",
+          "answerStatus": "PARTIAL",
+          "evidenceType": "QUALITATIVE",
+          "quantitativeEvidence": { "verifiedCommitments": 3, "delivered": 2 },
+          "qualitativeEvidence": "FERE management commitment tracker shows partial delivery.",
+          "confidence": 0.75,
+          "pitStatus": "VERIFIED",
+          "missingReason": "Historical concall archive pending multi-year extension."
+        },
+        {
+          "id": "QOM_SUCCESSION_AND_CULTURE",
+          "question": "Is there a documented leadership succession pipeline and low top-tier executive churn?",
+          "answerStatus": "DATA_INSUFFICIENT",
+          "evidenceType": "QUALITATIVE",
+          "quantitativeEvidence": null,
+          "qualitativeEvidence": null,
+          "confidence": null,
+          "pitStatus": "NOT_VERIFIABLE",
+          "missingReason": "Qualitative succession and corporate culture assessment requires verified governance filings."
+        }
+      ]
+    },
+    {
+      "category": "Growth",
+      "status": "PASS",
+      "items": [
+        {
+          "id": "GRO_REVENUE_CAGR",
+          "question": "Has top-line revenue demonstrated double-digit compound growth over 3 to 5 years?",
+          "answerStatus": "PASS",
+          "evidenceType": "QUANTITATIVE",
+          "quantitativeEvidence": { "cagr3y": 14.8, "cagr5y": 13.2 },
+          "qualitativeEvidence": null,
+          "confidence": 0.95,
+          "pitStatus": "VERIFIED",
+          "missingReason": null
+        },
+        {
+          "id": "GRO_VOLUME_VS_PRICE",
+          "question": "Is growth driven by structural volume expansion rather than purely inflationary price hikes?",
+          "answerStatus": "PARTIAL",
+          "evidenceType": "HYBRID",
+          "quantitativeEvidence": { "revenueGrowth": 14.8 },
+          "qualitativeEvidence": null,
+          "confidence": 0.7,
+          "pitStatus": "VERIFIED",
+          "missingReason": "Disaggregated volume vs realization data missing for certain segments."
+        },
+        {
+          "id": "GRO_TAM_HEADROOM",
+          "question": "Does the industry addressable market (TAM) support 10x-30x expansion headroom?",
+          "answerStatus": "DATA_INSUFFICIENT",
+          "evidenceType": "QUALITATIVE",
+          "quantitativeEvidence": null,
+          "qualitativeEvidence": null,
+          "confidence": null,
+          "pitStatus": "NOT_VERIFIABLE",
+          "missingReason": "Industry market share and TAM penetration models require dedicated industry research dossier."
+        }
+      ]
+    },
+    {
+      "category": "Longevity",
+      "status": "DATA_INSUFFICIENT",
+      "items": [
+        {
+          "id": "LON_TERMINAL_VALUE_HORIZON",
+          "question": "Is the business model protected from technological or regulatory obsolescence over a 10-20 year horizon?",
+          "answerStatus": "DATA_INSUFFICIENT",
+          "evidenceType": "QUALITATIVE",
+          "quantitativeEvidence": null,
+          "qualitativeEvidence": null,
+          "confidence": null,
+          "pitStatus": "NOT_VERIFIABLE",
+          "missingReason": "Terminal value horizon requires qualitative domain research. Cannot be deduced from financial metrics."
+        },
+        {
+          "id": "LON_INDUSTRY_TAILWINDS",
+          "question": "Does the company ride non-cyclical, secular megatrends (demographics, formalization, digital, decarbonization)?",
+          "answerStatus": "DATA_INSUFFICIENT",
+          "evidenceType": "QUALITATIVE",
+          "quantitativeEvidence": null,
+          "qualitativeEvidence": null,
+          "confidence": null,
+          "pitStatus": "NOT_VERIFIABLE",
+          "missingReason": "Secular theme alignment requires qualitative classification."
+        },
+        {
+          "id": "LON_CUSTOMER_STICKINESS",
+          "question": "Are customer churn rates low with high lifetime value (LTV/CAC > 3)?",
+          "answerStatus": "DATA_INSUFFICIENT",
+          "evidenceType": "HYBRID",
+          "quantitativeEvidence": null,
+          "qualitativeEvidence": null,
+          "confidence": null,
+          "pitStatus": "NOT_VERIFIABLE",
+          "missingReason": "Customer retention and contract duration metrics not reported in standard regulatory filings."
+        }
+      ]
+    },
+    {
+      "category": "Price",
+      "status": "PARTIAL",
+      "items": [
+        {
+          "id": "PRI_VALUATION_MULTIPLE",
+          "question": "Are current valuation multiples (P/E, P/B, EV/EBITDA) reasonable relative to growth rate (PEG <= 1.5)?",
+          "answerStatus": "PASS",
+          "evidenceType": "QUANTITATIVE",
+          "quantitativeEvidence": { "trailingPE": 22.4, "pegRatio": 1.25 },
+          "qualitativeEvidence": null,
+          "confidence": 0.9,
+          "pitStatus": "VERIFIED",
+          "missingReason": null
+        },
+        {
+          "id": "PRI_HISTORICAL_BAND_PERCENTILE",
+          "question": "Is current valuation within or below the 5-year historical median band?",
+          "answerStatus": "PARTIAL",
+          "evidenceType": "QUANTITATIVE",
+          "quantitativeEvidence": { "percentile5Y": 48 },
+          "qualitativeEvidence": null,
+          "confidence": 0.85,
+          "pitStatus": "VERIFIED",
+          "missingReason": "5-year band derived from current snapshot history."
+        },
+        {
+          "id": "PRI_MARGIN_OF_SAFETY",
+          "question": "Does discounted cash flow (DCF) or conservative reproduction cost offer > 25% margin of safety?",
+          "answerStatus": "DATA_INSUFFICIENT",
+          "evidenceType": "VALUATION_MODEL",
+          "quantitativeEvidence": null,
+          "qualitativeEvidence": null,
+          "confidence": null,
+          "pitStatus": "NOT_VERIFIABLE",
+          "missingReason": "DCF requires explicitly audited cash flow projections, not synthetic formulas."
+        }
+      ]
+    },
+    {
+      "category": "Risk",
+      "status": "PASS",
+      "items": [
+        {
+          "id": "RSK_LEVERAGE_SOLVENCY",
+          "question": "Is Debt-to-Equity < 0.5 or Interest Coverage Ratio > 4.0?",
+          "answerStatus": "PASS",
+          "evidenceType": "QUANTITATIVE",
+          "quantitativeEvidence": { "debtToEquity": 0.12, "interestCoverage": 8.5 },
+          "qualitativeEvidence": null,
+          "confidence": 0.95,
+          "pitStatus": "VERIFIED",
+          "missingReason": null
+        },
+        {
+          "id": "RSK_PLEDGE_PERCENTAGE",
+          "question": "Is promoter pledge percentage strictly zero or negligible (< 5%)?",
+          "answerStatus": "PASS",
+          "evidenceType": "REGULATORY_SHAREHOLDING",
+          "quantitativeEvidence": { "promoterPledgePct": 0.0 },
+          "qualitativeEvidence": null,
+          "confidence": 0.95,
+          "pitStatus": "VERIFIED",
+          "missingReason": null
+        },
+        {
+          "id": "RSK_DOWNGRADE_OR_LITIGATION",
+          "question": "Are there zero material rating downgrades or existential regulatory inquiries?",
+          "answerStatus": "DATA_INSUFFICIENT",
+          "evidenceType": "STATUTORY_REGULATORY",
+          "quantitativeEvidence": null,
+          "qualitativeEvidence": null,
+          "confidence": null,
+          "pitStatus": "NOT_VERIFIABLE",
+          "missingReason": "Comprehensive court and regulatory legal database feed pending integration."
+        }
+      ]
+    }
+  ]
+}

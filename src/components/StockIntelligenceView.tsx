@@ -492,20 +492,26 @@ export function StockIntelligenceView({
 
                   <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-1">
                     <span className="text-xs font-bold text-white block">Technical Health</span>
-                    <div className="text-2xl font-black font-mono text-cyan-300">{sig.subScores?.technical || tech.technicalScore || 65}%</div>
+                    <div className="text-2xl font-black font-mono text-cyan-300">
+                      {sig.subScores?.technical != null ? `${sig.subScores.technical}%` : (tech.technicalScore != null ? `${tech.technicalScore}%` : 'N/A')}
+                    </div>
                     <p className="text-[11px] text-slate-300 font-medium leading-snug">{layman.trendMeaning || 'Moving averages and price momentum.'}</p>
                   </div>
 
                   <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-1">
                     <span className="text-xs font-bold text-white block">Media Sentiment</span>
                     <div className="text-2xl font-black font-mono text-indigo-300">{newsObj.sentimentVerdict ?? 'N/A'}</div>
-                    <p className="text-[11px] text-slate-300 font-medium leading-snug">{newsObj.laymanSummary || 'Balanced coverage across major financial press.'}</p>
+                    <p className="text-[11px] text-slate-300 font-medium leading-snug">{newsObj.laymanSummary || 'Media coverage feed.'}</p>
                   </div>
 
                   <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-1">
                     <span className="text-xs font-bold text-white block">Risk-Reward Ratio</span>
-                    <div className="text-2xl font-black font-mono text-amber-300">{fwd.riskRewardRatio || '2.5'}:1</div>
-                    <p className="text-[11px] text-slate-300 font-medium leading-snug">+{fwd.upsidePct || 20}% Bull vs -{fwd.downsidePct || 10}% Bear</p>
+                    <div className="text-2xl font-black font-mono text-amber-300">
+                      {fwd.riskRewardRatio != null ? `${fwd.riskRewardRatio}:1` : 'N/A'}
+                    </div>
+                    <p className="text-[11px] text-slate-300 font-medium leading-snug">
+                      {fwd.upsidePct != null && fwd.downsidePct != null ? `+${fwd.upsidePct}% Bull vs -${Math.abs(fwd.downsidePct)}% Bear` : 'Pivot scenario unavailable'}
+                    </p>
                   </div>
                 </div>
 
@@ -513,16 +519,13 @@ export function StockIntelligenceView({
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 space-y-2">
                     <h4 className="text-xs font-mono font-bold text-emerald-300 uppercase tracking-wider flex items-center gap-1.5">
-                      <TrendingUp className="w-4 h-4" /> Growth Catalysts (Good for Portfolio)
+                      <TrendingUp className="w-4 h-4" /> Growth Catalysts
                     </h4>
                     <ul className="text-xs text-slate-200 space-y-1.5 list-disc list-inside font-medium">
                       {sig.drivers?.length ? sig.drivers.map((d: string, i: number) => (
                         <li key={i}>{d}</li>
                       )) : (
-                        <>
-                          <li>Solid capital allocation and sustainable balance sheet leverage.</li>
-                          <li>Constructive price action holding above long-term institutional moving averages.</li>
-                        </>
+                        <li className="text-slate-400 list-none">No verified growth catalysts tagged.</li>
                       )}
                     </ul>
                   </div>
@@ -535,10 +538,7 @@ export function StockIntelligenceView({
                       {sig.risks?.length ? sig.risks.map((r: string, i: number) => (
                         <li key={i}>{r}</li>
                       )) : (
-                        <>
-                          <li>Maintain strict trailing stop-loss below daily support level (S1).</li>
-                          <li>Monitor broader benchmark market volatility and sector rotation.</li>
-                        </>
+                        <li className="text-slate-400 list-none">No active downside flags tagged.</li>
                       )}
                     </ul>
                   </div>
@@ -553,13 +553,13 @@ export function StockIntelligenceView({
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="text-xs font-bold text-white uppercase tracking-wider">Trendlyne Institutional DVM</span>
+                          <span className="text-xs font-bold text-white uppercase tracking-wider">Trendlyne Sourced Fundamentals</span>
                           <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold border ${getDvmGradeColor(tlDvm.durabilityGrade)}`}>
-                            {tlDvm.overallDvmClassification || 'Quality Compounder'}
+                            {tlDvm.overallDvmClassification || 'Sourced Metrics'}
                           </span>
                         </div>
                         <p className="text-[11px] text-slate-300 mt-0.5 font-medium">
-                          Durability: <strong className="text-white">{tlDvm.durabilityScore || 75}/100</strong> ({tlDvm.durabilityGrade ?? 'N/A'}) • Valuation: <strong className="text-white">{tlDvm.valuationScore || 45}/100</strong> ({tlDvm.valuationGrade || 'FAIR'}) • Momentum: <strong className="text-white">{tlDvm.momentumScore || 85}/100</strong> ({tlDvm.momentumGrade || 'STRONG'})
+                          Durability: <strong className="text-white">{tlDvm.durabilityScore != null ? `${tlDvm.durabilityScore}/100` : 'N/A'}</strong> ({tlDvm.durabilityGrade ?? 'N/A'}) • Valuation: <strong className="text-white">{tlDvm.valuationScore != null ? `${tlDvm.valuationScore}/100` : 'N/A'}</strong> ({tlDvm.valuationGrade ?? 'N/A'}) • Momentum: <strong className="text-white">{tlDvm.momentumScore != null ? `${tlDvm.momentumScore}/100` : 'N/A'}</strong> ({tlDvm.momentumGrade ?? 'N/A'})
                         </p>
                       </div>
                     </div>
@@ -567,8 +567,8 @@ export function StockIntelligenceView({
                       <div className="text-left md:text-right">
                         <span className="text-[10px] font-mono text-slate-400 uppercase block">12M Consensus Target</span>
                         <span className="text-sm font-black font-mono text-emerald-400">
-                          {tlConsensus.meanTargetPrice ? `₹${Number(tlConsensus.meanTargetPrice).toLocaleString('en-IN')}` : (fwd.bullTarget ? `₹${fwd.bullTarget}` : 'N/A')}
-                          <span className="text-[10px] text-emerald-300 font-bold ml-1">({tlConsensus.upsidePct != null ? `+${tlConsensus.upsidePct}%` : 'N/A'})</span>
+                          {tlConsensus.meanTargetPrice ? `₹${Number(tlConsensus.meanTargetPrice).toLocaleString('en-IN')}` : (fwd.bullTarget ? `₹${fwd.bullTarget} (Tech Scenario)` : 'SOURCE_UNAVAILABLE')}
+                          {tlConsensus.upsidePct ? <span className="text-[10px] text-emerald-300 font-bold ml-1">({`+${tlConsensus.upsidePct}%`})</span> : null}
                         </span>
                       </div>
                       <button
@@ -576,7 +576,7 @@ export function StockIntelligenceView({
                         onClick={() => setActiveTab('TRENDLYNE_DVM')}
                         className="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition-all cursor-pointer shadow-md"
                       >
-                        View DVM & SWOT →
+                        View Details →
                       </button>
                     </div>
                   </div>
@@ -600,30 +600,36 @@ export function StockIntelligenceView({
                         </span>
                       </div>
                       <h3 className="text-2xl font-black text-white tracking-tight">
-                        {tlDvm.overallDvmClassification || 'High Durability, Strong Momentum Leader'}
+                        {tlDvm.overallDvmClassification || 'Sourced Metrics'}
                       </h3>
                       <p className="text-xs text-slate-300 max-w-2xl mt-1 leading-relaxed">
-                        Synthesized from audited balance sheets, return on capital (ROCE/ROE), debt-to-equity leverage, 14-period momentum indicators, and institutional analyst consensus targets.
+                        Sourced from reported filings, capital returns (ROCE/ROE), debt-to-equity leverage, and technical momentum indicators.
                       </p>
                     </div>
 
                     <div className="flex items-center gap-3 bg-slate-950/80 p-3 rounded-2xl border border-slate-800 shrink-0">
                       <div className="text-center px-2">
                         <span className="text-[10px] font-mono text-slate-400 uppercase block">Piotroski</span>
-                        <span className="text-lg font-black font-mono text-emerald-400">{tlChecklists.piotroskiScore || 8}<span className="text-xs text-slate-400">/9</span></span>
-                        <span className="text-[9px] text-emerald-300 font-bold block uppercase">{tlChecklists.piotroskiVerdict || 'STRONG'}</span>
+                        <span className="text-lg font-black font-mono text-emerald-400">
+                          {tlChecklists.piotroskiScore != null ? <>{tlChecklists.piotroskiScore}<span className="text-xs text-slate-400">/9</span></> : 'N/A'}
+                        </span>
+                        <span className="text-[9px] text-emerald-300 font-bold block uppercase">{tlChecklists.piotroskiVerdict || 'N/A'}</span>
                       </div>
                       <div className="w-px h-8 bg-slate-800" />
                       <div className="text-center px-2">
                         <span className="text-[10px] font-mono text-slate-400 uppercase block">Altman Z</span>
-                        <span className="text-lg font-black font-mono text-cyan-300">{tlChecklists.altmanZScore || 6.4}</span>
-                        <span className="text-[9px] text-cyan-300 font-bold block uppercase">SAFE ZONE</span>
+                        <span className="text-lg font-black font-mono text-cyan-300">
+                          {tlChecklists.altmanZScore != null && tlChecklists.altmanZScore > 0 ? tlChecklists.altmanZScore : 'N/A'}
+                        </span>
+                        <span className="text-[9px] text-cyan-300 font-bold block uppercase">{tlChecklists.altmanZVerdict ? tlChecklists.altmanZVerdict.replace(/_/g, ' ') : 'N/A'}</span>
                       </div>
                       <div className="w-px h-8 bg-slate-800" />
                       <div className="text-center px-2">
                         <span className="text-[10px] font-mono text-slate-400 uppercase block">Consensus</span>
-                        <span className="text-lg font-black font-mono text-emerald-400">BUY</span>
-                        <span className="text-[9px] text-slate-400 font-bold block">{tlConsensus.totalAnalysts || 24} Desks</span>
+                        <span className="text-lg font-black font-mono text-slate-400">
+                          {tlConsensus.totalAnalysts > 0 ? (tlConsensus.consensusRating || 'HOLD') : 'N/A'}
+                        </span>
+                        <span className="text-[9px] text-slate-400 font-bold block">{tlConsensus.totalAnalysts > 0 ? `${tlConsensus.totalAnalysts} Desks` : 'FEED_ABSENT'}</span>
                       </div>
                     </div>
                   </div>
@@ -641,20 +647,22 @@ export function StockIntelligenceView({
                         </span>
                       </div>
                       <div className="flex items-baseline gap-2">
-                        <span className="text-3xl font-black font-mono text-white">{tlDvm.durabilityScore || 75}</span>
-                        <span className="text-sm font-mono text-slate-400">/ 100</span>
+                        <span className="text-3xl font-black font-mono text-white">
+                          {tlDvm.durabilityScore != null ? tlDvm.durabilityScore : 'N/A'}
+                        </span>
+                        {tlDvm.durabilityScore != null && <span className="text-sm font-mono text-slate-400">/ 100</span>}
                       </div>
                       {/* Progress Bar */}
                       <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full" style={{ width: `${tlDvm.durabilityScore || 75}%` }} />
+                        <div className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full" style={{ width: `${tlDvm.durabilityScore || 0}%` }} />
                       </div>
                       <p className="text-xs text-slate-300 leading-relaxed pt-1">
-                        {tlDvm.durabilitySummary || 'Strong operational cash flows, high ROCE, and negligible balance sheet leverage.'}
+                        {tlDvm.durabilitySummary || 'Durability metrics pending data coverage.'}
                       </p>
                     </div>
                     <div className="pt-2 border-t border-slate-800/80 flex justify-between text-[11px] font-mono text-slate-400">
-                      <span>Debt/Equity: <strong className="text-slate-200">{fund.debt_to_equity || '0.05'}</strong></span>
-                      <span>ROCE: <strong className="text-emerald-400">{fund.roce || '28.4%'}</strong></span>
+                      <span>Debt/Equity: <strong className="text-slate-200">{fund.debt_to_equity ?? 'N/A'}</strong></span>
+                      <span>ROCE: <strong className="text-emerald-400">{fund.roce ? `${fund.roce}%` : 'N/A'}</strong></span>
                     </div>
                   </div>
 
@@ -664,24 +672,26 @@ export function StockIntelligenceView({
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">Valuation (V)</span>
                         <span className={`px-2.5 py-0.5 rounded-full text-xs font-mono font-bold border ${getDvmGradeColor(tlDvm.valuationGrade)}`}>
-                          {(tlDvm.valuationGrade || 'EXPENSIVE').replace(/_/g, ' ')}
+                          {(tlDvm.valuationGrade || 'N/A').replace(/_/g, ' ')}
                         </span>
                       </div>
                       <div className="flex items-baseline gap-2">
-                        <span className="text-3xl font-black font-mono text-white">{tlDvm.valuationScore || 35}</span>
-                        <span className="text-sm font-mono text-slate-400">/ 100</span>
+                        <span className="text-3xl font-black font-mono text-white">
+                          {tlDvm.valuationScore != null ? tlDvm.valuationScore : 'N/A'}
+                        </span>
+                        {tlDvm.valuationScore != null && <span className="text-sm font-mono text-slate-400">/ 100</span>}
                       </div>
                       {/* Progress Bar */}
                       <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-amber-500 to-orange-400 rounded-full" style={{ width: `${tlDvm.valuationScore || 35}%` }} />
+                        <div className="h-full bg-gradient-to-r from-amber-500 to-orange-400 rounded-full" style={{ width: `${tlDvm.valuationScore || 0}%` }} />
                       </div>
                       <p className="text-xs text-slate-300 leading-relaxed pt-1">
-                        {tlDvm.valuationSummary || 'Trading at growth premium multiples reflecting strong market leadership.'}
+                        {tlDvm.valuationSummary || 'Valuation multiples pending data coverage.'}
                       </p>
                     </div>
                     <div className="pt-2 border-t border-slate-800/80 flex justify-between text-[11px] font-mono text-slate-400">
-                      <span>Stock P/E: <strong className="text-slate-200">{fund.stock_pe || '45x'}</strong></span>
-                      <span>P/B Multiple: <strong className="text-slate-200">{fund.book_value && tech.cmp ? (tech.cmp / parseFloat(fund.book_value)).toFixed(1) + 'x' : '—'}</strong></span>
+                      <span>Stock P/E: <strong className="text-slate-200">{fund.stock_pe ? `${fund.stock_pe}x` : 'N/A'}</strong></span>
+                      <span>P/B Multiple: <strong className="text-slate-200">{fund.book_value && tech.cmp ? (tech.cmp / parseFloat(fund.book_value)).toFixed(1) + 'x' : 'N/A'}</strong></span>
                     </div>
                   </div>
 
@@ -691,23 +701,25 @@ export function StockIntelligenceView({
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">Momentum (M)</span>
                         <span className={`px-2.5 py-0.5 rounded-full text-xs font-mono font-bold border ${getDvmGradeColor(tlDvm.momentumGrade)}`}>
-                          {tlDvm.momentumGrade || 'STRONG'}
+                          {tlDvm.momentumGrade || 'N/A'}
                         </span>
                       </div>
                       <div className="flex items-baseline gap-2">
-                        <span className="text-3xl font-black font-mono text-white">{tlDvm.momentumScore || 88}</span>
-                        <span className="text-sm font-mono text-slate-400">/ 100</span>
+                        <span className="text-3xl font-black font-mono text-white">
+                          {tlDvm.momentumScore != null ? tlDvm.momentumScore : 'N/A'}
+                        </span>
+                        {tlDvm.momentumScore != null && <span className="text-sm font-mono text-slate-400">/ 100</span>}
                       </div>
                       {/* Progress Bar */}
                       <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-purple-500 to-indigo-400 rounded-full" style={{ width: `${tlDvm.momentumScore || 88}%` }} />
+                        <div className="h-full bg-gradient-to-r from-purple-500 to-indigo-400 rounded-full" style={{ width: `${tlDvm.momentumScore || 0}%` }} />
                       </div>
                       <p className="text-xs text-slate-300 leading-relaxed pt-1">
-                        {tlDvm.momentumSummary || 'Price action exhibiting strong bullish momentum above all daily moving averages.'}
+                        {tlDvm.momentumSummary || 'Momentum calculated from OHLCV.'}
                       </p>
                     </div>
                     <div className="pt-2 border-t border-slate-800/80 flex justify-between text-[11px] font-mono text-slate-400">
-                      <span>RSI (14D): <strong className="text-cyan-300">{tech.rsi14 || '58'}</strong></span>
+                      <span>RSI (14D): <strong className="text-cyan-300">{tech.rsi14 != null ? tech.rsi14 : 'N/A'}</strong></span>
                       <span>Trend: <strong className="text-emerald-400">{tech.trend ?? 'N/A'}</strong></span>
                     </div>
                   </div>
@@ -719,9 +731,13 @@ export function StockIntelligenceView({
                     <div>
                       <h4 className="text-xs font-mono font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
                         <Award className="w-4 h-4 text-emerald-400" />
-                        Synthesized Analyst Consensus Target Price Envelope
+                        Analyst Consensus Status
                       </h4>
-                      <p className="text-xs text-slate-400 mt-0.5">Derived from {tlConsensus.totalAnalysts || 24} institutional brokerage research desks (DVM-adjusted)</p>
+                      <p className="text-xs text-slate-400 mt-0.5">
+                        {tlConsensus.totalAnalysts > 0 
+                          ? `Derived from ${tlConsensus.totalAnalysts} verified institutional research desks`
+                          : 'SOURCE_UNAVAILABLE: No third-party analyst consensus feed currently active.'}
+                      </p>
                     </div>
                     <span className={`px-3 py-1 rounded-xl border text-xs font-mono font-black uppercase ${
                       tlConsensus.consensusRating === 'STRONG_BUY'
@@ -730,9 +746,9 @@ export function StockIntelligenceView({
                         ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
                         : tlConsensus.consensusRating === 'HOLD'
                         ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                        : 'bg-rose-500/20 text-rose-300 border-rose-500/40'
+                        : 'bg-slate-800 text-slate-400 border-slate-700'
                     }`}>
-                      🎯 Consensus: {tlConsensus.consensusRating?.replace(/_/g, ' ') || 'HOLD'}
+                      🎯 Consensus: {tlConsensus.totalAnalysts > 0 ? (tlConsensus.consensusRating?.replace(/_/g, ' ') || 'HOLD') : 'UNAVAILABLE'}
                     </span>
                   </div>
 
@@ -795,10 +811,10 @@ export function StockIntelligenceView({
                   {/* Coverage Meter & Direct Trendlyne Link */}
                   <div className="pt-2 border-t border-slate-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-mono text-slate-400">
                     <div className="flex items-center gap-4 flex-wrap">
-                      <span>🟢 Strong Buy: <strong className="text-emerald-400">{tlConsensus.strongBuyCount ?? 5}</strong></span>
-                      <span>🔹 Buy: <strong className="text-cyan-300">{tlConsensus.buyCount ?? 8}</strong></span>
-                      <span>🟡 Hold: <strong className="text-amber-300">{tlConsensus.holdCount ?? 8}</strong></span>
-                      <span>🔴 Sell: <strong className="text-rose-400">{(tlConsensus.sellCount ?? 2) + (tlConsensus.strongSellCount ?? 1)}</strong></span>
+                      <span>🟢 Strong Buy: <strong className="text-emerald-400">{tlConsensus.strongBuyCount ?? 0}</strong></span>
+                      <span>🔹 Buy: <strong className="text-cyan-300">{tlConsensus.buyCount ?? 0}</strong></span>
+                      <span>🟡 Hold: <strong className="text-amber-300">{tlConsensus.holdCount ?? 0}</strong></span>
+                      <span>🔴 Sell: <strong className="text-rose-400">{(tlConsensus.sellCount ?? 0) + (tlConsensus.strongSellCount ?? 0)}</strong></span>
                     </div>
 
                     <a
