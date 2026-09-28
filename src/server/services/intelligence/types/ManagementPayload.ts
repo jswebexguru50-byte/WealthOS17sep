@@ -10,7 +10,8 @@ export interface ManagementCommitment {
   targetValue: number | string | null;
   targetPeriod: string | null;
   actualValue: number | string | null;
-  status: 'DELIVERED' | 'ACHIEVED' | 'PARTIALLY_ACHIEVED' | 'PARTIAL' | 'MISSED' | 'PENDING' | 'NOT_YET_DUE' | 'NOT_VERIFIABLE';
+  // V2: ACHIEVED_LATE added — timing matters for management credibility assessment
+  status: 'DELIVERED' | 'ACHIEVED' | 'ACHIEVED_LATE' | 'PARTIALLY_ACHIEVED' | 'PARTIAL' | 'MISSED' | 'PENDING' | 'NOT_YET_DUE' | 'NOT_VERIFIABLE';
   actualEvidence: EvidenceReference[];
 }
 
@@ -21,4 +22,25 @@ export interface ManagementPayload {
   missedCount: number;
   notVerifiableCount: number;
   dataAsOf: string | null;
+  // V2 additions (optional — backward-compatible with V1 consumers)
+  deliveryHistory?: {
+    total: number;
+    achieved: number;
+    achievedLate: number;
+    partiallyAchieved: number;
+    missed: number;
+    deferred: number;
+    notYetDue: number;
+    notVerifiable: number;
+    descriptiveLabel: string;
+  } | null;
+  narrativeChanges?: Array<{
+    fromDate: string;
+    toDate: string;
+    topic: string;
+    fromStatement: string;
+    toStatement: string;
+    shift: 'POSITIVE' | 'NEGATIVE' | 'NEUTRAL';
+  }> | null;
 }
+

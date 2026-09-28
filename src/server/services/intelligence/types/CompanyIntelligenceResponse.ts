@@ -8,6 +8,11 @@ import { ManagementPayload } from './ManagementPayload.js';
 import { BusinessInflectionPayload } from './BusinessInflectionPayload.js';
 import { ValuationPayload } from './ValuationPayload.js';
 import { MarketContextPayload } from './MarketContextPayload.js';
+// V2 module payloads
+import { BusinessDriverPayload } from './BusinessDriverPayload.js';
+import { DeltaPayload } from './DeltaPayload.js';
+import { ContradictionPayload } from './ContradictionPayload.js';
+import { AttentionPayload } from './AttentionPayload.js';
 
 export interface CompanyIntelligenceResponse {
   security: {
@@ -21,6 +26,7 @@ export interface CompanyIntelligenceResponse {
   };
   generatedAt: string;
   modules: {
+    // V1 modules (preserved)
     technical?: ModuleResult<TechnicalPayload>;
     fundamental?: ModuleResult<FundamentalPayload>;
     fere?: ModuleResult<FerePayload>;
@@ -29,5 +35,11 @@ export interface CompanyIntelligenceResponse {
     businessInflection?: ModuleResult<BusinessInflectionPayload>;
     valuation?: ModuleResult<ValuationPayload>;
     marketContext?: ModuleResult<MarketContextPayload>;
+    // V2 modules
+    businessDrivers?: ModuleResult<BusinessDriverPayload>;
+    delta?: ModuleResult<DeltaPayload>;
+    contradictions?: ModuleResult<ContradictionPayload>;
+    attention?: ModuleResult<AttentionPayload>;
   };
 }
+
