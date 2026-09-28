@@ -7,8 +7,10 @@ import { IntelligenceDelta, DeltaComparisonType } from '../contracts/DeltaContra
 
 export interface DeltaPayload {
   deltas: IntelligenceDelta[];
-  highCount: number;
-  mediumCount: number;
-  comparisonsAvailable: DeltaComparisonType[];
+  highCount?: number;
+  mediumCount?: number;
+  materialCount?: number;
+  comparisonsAvailable?: DeltaComparisonType[];
+  comparisonTypes?: DeltaComparisonType[];
   evaluatedAt: string;
 }

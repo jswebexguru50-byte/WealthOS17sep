@@ -1,12 +1,15 @@
 /**
  * ContradictionPayload.ts — V2
+ * Honest coverage reporting: patternsChecked/patternsEvaluated/patternsSkipped
  */
-import { Contradiction, ContradictionPatternId } from '../contracts/ContradictionContracts.js';
+import { Contradiction } from '../contracts/ContradictionContracts.js';
 
 export interface ContradictionPayload {
   contradictions: Contradiction[];
   openCount: number;
   materialCount: number;
-  patternsChecked: ContradictionPatternId[];
+  patternsChecked: number;       // total patterns in engine
+  patternsEvaluated?: number;    // patterns that had enough data
+  patternsSkipped?: number;      // patterns that lacked data
   evaluatedAt: string;
 }

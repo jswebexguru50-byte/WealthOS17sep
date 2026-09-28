@@ -14,4 +14,7 @@ export interface BusinessDriverPayload {
   coverage: 'FULL' | 'PARTIAL' | 'MINIMAL';
   sectorTemplate: string | null;
   evaluatedAt: string;
+  /** Honest coverage: how many drivers have real evidence (not UNKNOWN) */
+  driversWithEvidence?: number;
+  driversTotal?: number;
 }

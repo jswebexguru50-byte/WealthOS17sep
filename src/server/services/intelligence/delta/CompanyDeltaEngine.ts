@@ -95,11 +95,13 @@ export class CompanySnapshotStore {
         )
       `);
 
-      // Compute content hash from key metric values
+      // Compute content hash from ALL durable analytical states
       const hashInput = JSON.stringify({
         fundamentalState: snapshot.fundamentalState,
         managementState: snapshot.managementState,
         valuationState: snapshot.valuationState,
+        businessDriverState: snapshot.businessDriverState, // P0 fix: include drivers
+        technicalState: snapshot.technicalState,           // P0 fix: include technical
       });
       const contentHash = crypto.createHash('sha256').update(hashInput).digest('hex').substring(0, 16);
 
@@ -108,6 +110,9 @@ export class CompanySnapshotStore {
       if (latest?.contentHash === contentHash) {
         return false; // No material change — do not save
       }
+
+      // Ensure fere_state column exists (migration guard)
+      try { db.exec('ALTER TABLE company_intelligence_snapshot ADD COLUMN fere_state TEXT'); } catch { /* already exists */ }
 
       db.prepare(`
         INSERT INTO company_intelligence_snapshot
@@ -128,6 +133,37 @@ export class CompanySnapshotStore {
       return true; // Saved
     } catch {
       return false;
+    }
+  }
+
+  /**
+   * Load the most recent snapshot for delta comparison.
+   * Alias for getLatest with securityId fallback.
+   */
+  public async loadPriorSnapshot(securityId: string): Promise<CompanyIntelligenceSnapshot | null> {
+    const db = getDB();
+    if (!db) return null;
+    try {
+      const row = db.prepare(`
+        SELECT * FROM company_intelligence_snapshot
+        WHERE security_id = ? OR symbol = ?
+        ORDER BY created_at DESC LIMIT 1
+      `).get(securityId, securityId) as any;
+      if (!row) return null;
+      return {
+        securityId: row.security_id || securityId,
+        symbol: row.symbol,
+        asOfDate: row.as_of_date,
+        contentHash: row.content_hash,
+        fundamentalState: row.fundamental_state ? JSON.parse(row.fundamental_state) : null,
+        managementState: row.management_state ? JSON.parse(row.management_state) : null,
+        valuationState: row.valuation_state ? JSON.parse(row.valuation_state) : null,
+        businessDriverState: row.business_driver_state ? JSON.parse(row.business_driver_state) : null,
+        technicalState: row.technical_state ? JSON.parse(row.technical_state) : null,
+        createdAt: row.created_at,
+      };
+    } catch {
+      return null;
     }
   }
 }
@@ -312,4 +348,37 @@ export class CompanyDeltaEngine {
       .replace(/cr$/, '(₹cr)')
       .replace(/\b\w/g, c => c.toUpperCase());
   }
+
+  /**
+   * P0 Fix: computeDeltas wrapper for orchestrator integration.
+   * Converts AnalyticalFacts (CanonicalFact records) to flat numeric dicts
+   * and runs compare() with LAST_ANALYSIS comparison type.
+   */
+  public computeDeltas(params: {
+    symbol: string;
+    securityId: string;
+    current: Record<string, any>;
+    prior: Record<string, any>;
+    currentFacts: any;
+  }): { deltas: IntelligenceDelta[]; comparisonTypes: DeltaComparisonType[] } {
+    // Flatten CanonicalFact records to plain numeric dicts
+    const flatCurrent: Record<string, number> = {};
+    const flatPrior: Record<string, number> = {};
+
+    for (const [key, fact] of Object.entries(params.current)) {
+      const val = typeof fact === 'object' ? fact?.value : fact;
+      if (typeof val === 'number' && !isNaN(val)) flatCurrent[key] = val;
+    }
+    for (const [key, fact] of Object.entries(params.prior)) {
+      const val = typeof fact === 'object' ? fact?.value : fact;
+      if (typeof val === 'number' && !isNaN(val)) flatPrior[key] = val;
+    }
+
+    const deltas = this.compare(flatCurrent, flatPrior, 'LAST_ANALYSIS', 'FUNDAMENTALS');
+    return {
+      deltas,
+      comparisonTypes: ['LAST_ANALYSIS'],
+    };
+  }
 }
+

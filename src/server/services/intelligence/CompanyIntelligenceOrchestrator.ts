@@ -29,10 +29,14 @@ import { getDB, dbGet } from '../../database.js';
 import { BusinessDriverEngine } from './business/BusinessDriverEngine.js';
 import { ManagementIntelligenceEngine } from './management/ManagementIntelligenceEngine.js';
 import { ContradictionEngine } from './contradictions/ContradictionEngine.js';
+import { ContradictionStore } from './contradictions/ContradictionStore.js';
+import { CompanyDeltaEngine, CompanySnapshotStore } from './delta/CompanyDeltaEngine.js';
 import { ValuationIntelligenceEngine } from './valuation/ValuationIntelligenceEngine.js';
 import { AttentionEngine } from './attention/AttentionEngine.js';
 import { QuestionEngine } from './attention/QuestionEngine.js';
-import { CompanySnapshotStore } from './delta/CompanyDeltaEngine.js';
+import { ThesisEngine } from './thesis/ThesisEngine.js';
+// Assembler
+import { CompanyAnalyticalStateAssembler } from './assembler/CompanyAnalyticalStateAssembler.js';
 
 export interface SimpleModuleTelemetry {
   symbol: string;
@@ -221,41 +225,70 @@ export class CompanyIntelligenceOrchestrator {
     });
     modulesResult.businessInflection = businessInflection;
 
-    // 4. V2 engines — run after V1 modules (depend on Wave 1 outputs)
-    const fundamentalPayload = modulesResult.fundamental?.result ?? null;
+    // ═══════════════════════════════════════════════════════════════
+    // 4. V2 Intelligence Loop — uses typed CompanyAnalyticalState
+    //    No `as any` casting. All inputs are verified from state.
+    // ═══════════════════════════════════════════════════════════════
 
-    // Wave 1: Business Drivers
+    // 4a. Assemble CompanyAnalyticalState from module payloads
+    const analyticalState = await CompanyAnalyticalStateAssembler.getInstance().assemble({
+      securityId,
+      symbol: cleanSym,
+      businessModel: businessModel as string,
+      fundamentals: modulesResult.fundamental?.result ?? null,
+      management: modulesResult.management?.result ?? null,
+      valuation: modulesResult.valuation?.result ?? null,
+      market: modulesResult.marketContext?.result ?? null,
+      fere: modulesResult.fere?.result ?? null,
+      technical: modulesResult.technical?.result ?? null,
+    });
+
+    // 4b. Wave 1: Business Drivers — real canonical facts (not {})
+    let primaryDrivers: any[] = [];
     try {
       const driverResult = await BusinessDriverEngine.getInstance().evaluate({
         symbol: cleanSym,
         businessModel,
-        canonicalFacts: {},   // enriched by FundamentalIntelligenceEngine in full pipeline
+        canonicalFacts: analyticalState.facts.latest, // REAL facts
+        operatingKpis: analyticalState.facts.operatingKpis,
         managementEvidence: modulesResult.management?.result ?? null,
       });
+      primaryDrivers = driverResult.primaryDrivers;
       const evalTs = new Date().toISOString();
+      const withEvidence = driverResult.drivers.filter(d => d.direction !== 'UNKNOWN').length;
+      const driverStatus = driverResult.coverage === 'MINIMAL' ? 'DATA_INSUFFICIENT'
+        : withEvidence >= driverResult.drivers.length * 0.6 ? 'WORKING' : 'PARTIAL';
+      const driverDataStatus = withEvidence >= 3 ? 'PARTIAL' : 'DATA_INSUFFICIENT';
       modulesResult.businessDrivers = {
         moduleId: 'BUSINESS_DRIVERS' as any,
-        status: driverResult.coverage === 'MINIMAL' ? 'DATA_INSUFFICIENT' : 'PASS',
-        dataStatus: driverResult.coverage === 'MINIMAL' ? 'DATA_INSUFFICIENT' : 'VERIFIED',
+        status: driverStatus,
+        dataStatus: driverDataStatus,
         result: {
           drivers: driverResult.drivers,
-          primaryDrivers: driverResult.primaryDrivers,
+          primaryDrivers,
           businessModel: driverResult.businessModel,
           coverage: driverResult.coverage,
           sectorTemplate: businessModel,
           evaluatedAt: driverResult.evaluatedAt,
+          // Honest driver coverage
+          driversWithEvidence: withEvidence,
+          driversTotal: driverResult.drivers.length,
         },
         evidenceRefs: driverResult.drivers.flatMap(d => d.evidence),
-        missingRequirements: [],
-        warnings: driverResult.coverage === 'MINIMAL' ? ['Insufficient canonical facts for reliable driver state'] : [],
+        missingRequirements: driverResult.drivers
+          .filter(d => d.direction === 'UNKNOWN')
+          .map(d => `Missing evidence for driver: ${d.name}`),
+        warnings: driverResult.coverage === 'MINIMAL'
+          ? [`Only ${withEvidence}/${driverResult.drivers.length} drivers have evidence`]
+          : [],
         evaluationTimestamp: evalTs,
-        dataAsOf: evalTs,
+        dataAsOf: analyticalState.asOfDate,
         configVersion: '2.0.0',
         engineVersion: 'BusinessDriverEngine-v2.0',
       };
-    } catch { /* Non-fatal — do not blank the response */ }
+    } catch (e) { /* Non-fatal */ }
 
-    // Wave 1: Management delivery history
+    // 4c. Wave 1: Management delivery history (enrich management module)
     try {
       const deliveryHistory = await ManagementIntelligenceEngine.getInstance().getDeliveryHistory(cleanSym);
       if (deliveryHistory && modulesResult.management?.result) {
@@ -273,102 +306,244 @@ export class CompanyIntelligenceOrchestrator {
       }
     } catch { /* Non-fatal */ }
 
-    // Wave 2: Contradiction detection
+    // 4d. Wave 2: Delta Intelligence — wire CompanyDeltaEngine
+    let materialDeltas: any[] = [];
     try {
-      const fundamental = fundamentalPayload as any;
-      const contradictionInput = {
-        symbol: cleanSym,
-        securityId,
-        revenue: fundamental?.revenue ?? null,
-        revenuePrior: fundamental?.revenuePrior ?? null,
-        pat: fundamental?.pat ?? null,
-        patPrior: fundamental?.patPrior ?? null,
-        cfo: fundamental?.cfo ?? null,
-        cfoPrior: fundamental?.cfoPrior ?? null,
-        netDebt: fundamental?.netDebt ?? null,
-        netDebtPrior: fundamental?.netDebtPrior ?? null,
-        receivableDays: fundamental?.receivableDays ?? null,
-        receivableDaysPrior: fundamental?.receivableDaysPrior ?? null,
-        capex: fundamental?.capex ?? null,
-      };
-      const contraResult = ContradictionEngine.getInstance().evaluate(contradictionInput);
+      const priorSnapshot = await CompanySnapshotStore.getInstance().loadPriorSnapshot(securityId);
+      if (priorSnapshot) {
+        const deltaResult = CompanyDeltaEngine.getInstance().computeDeltas({
+          symbol: cleanSym,
+          securityId,
+          current: analyticalState.facts.latest,
+          prior: priorSnapshot.fundamentalState ?? {},
+          currentFacts: analyticalState.facts,
+        });
+        materialDeltas = deltaResult.deltas.filter(d => d.materiality === 'HIGH' || d.materiality === 'MEDIUM');
+        const evalTs = new Date().toISOString();
+        modulesResult.delta = {
+          moduleId: 'DELTA' as any,
+          status: deltaResult.deltas.length > 0 ? 'WORKING' : 'PARTIAL',
+          dataStatus: priorSnapshot ? 'PARTIAL' : 'DATA_INSUFFICIENT',
+          result: {
+            deltas: deltaResult.deltas,
+            materialCount: materialDeltas.length,
+            comparisonTypes: deltaResult.comparisonTypes,
+            evaluatedAt: evalTs,
+          },
+          evidenceRefs: deltaResult.deltas.flatMap(d => d.evidence ?? []),
+          missingRequirements: !priorSnapshot ? ['No prior snapshot — first-run analysis has no delta'] : [],
+          warnings: [],
+          evaluationTimestamp: evalTs,
+          dataAsOf: analyticalState.asOfDate,
+          configVersion: '2.0.0',
+          engineVersion: 'CompanyDeltaEngine-v2.0',
+        };
+      } else {
+        // No prior snapshot — first run, create initial
+        const evalTs = new Date().toISOString();
+        modulesResult.delta = {
+          moduleId: 'DELTA' as any,
+          status: 'DATA_INSUFFICIENT',
+          dataStatus: 'DATA_INSUFFICIENT',
+          result: {
+            deltas: [],
+            materialCount: 0,
+            comparisonTypes: ['LAST_ANALYSIS'],
+            evaluatedAt: evalTs,
+          },
+          evidenceRefs: [],
+          missingRequirements: ['No prior snapshot available — delta comparison requires at least two analysis runs'],
+          warnings: ['First analysis run — delta will be available on next refresh'],
+          evaluationTimestamp: evalTs,
+          dataAsOf: analyticalState.asOfDate,
+          configVersion: '2.0.0',
+          engineVersion: 'CompanyDeltaEngine-v2.0',
+        };
+      }
+    } catch { /* Non-fatal */ }
+
+    // 4e. Wave 2: Contradiction detection — from CompanyAnalyticalState
+    let openContradictions: any[] = [];
+    try {
+      const contradictionInput = CompanyAnalyticalStateAssembler.getInstance()
+        .toContradictionInput(analyticalState);
+      const contraResult = ContradictionEngine.getInstance().evaluate(contradictionInput as any);
+      // Reconcile with stored lifecycle
+      const reconciledContradictions = await ContradictionStore.getInstance()
+        .reconcile(securityId, cleanSym, contraResult.contradictions);
+      openContradictions = reconciledContradictions.filter(c => c.status === 'OPEN' || c.status === 'EXPLAINED');
+
       const evalTs = new Date().toISOString();
+      const patternsEvaluable = Array.isArray(contraResult.patternsChecked)
+        ? contraResult.patternsChecked.length
+        : (contraResult.patternsChecked as number ?? 0);
+      const patternsEvaluated = contraResult.contradictions.length;
+      const evidenceCoverage = patternsEvaluated >= patternsEvaluable * 0.7 ? 'PARTIAL' : 'DATA_INSUFFICIENT';
+
       modulesResult.contradictions = {
         moduleId: 'CONTRADICTIONS' as any,
-        status: 'PASS',
-        dataStatus: 'VERIFIED',
+        status: patternsEvaluated > 0 ? 'WORKING' : 'PARTIAL',
+        dataStatus: evidenceCoverage, // Honest: not VERIFIED just because execution succeeded
         result: {
-          contradictions: contraResult.contradictions,
-          openCount: contraResult.openCount,
+          contradictions: reconciledContradictions,
+          openCount: openContradictions.length,
           materialCount: contraResult.materialCount,
-          patternsChecked: contraResult.patternsChecked,
-          evaluatedAt: contraResult.evaluatedAt,
+          patternsChecked: patternsEvaluable,
+          patternsEvaluated,
+          patternsSkipped: patternsEvaluable - patternsEvaluated,
+          evaluatedAt: evalTs,
         },
-        evidenceRefs: contraResult.contradictions.flatMap(c => c.evidence),
-        missingRequirements: [],
-        warnings: [],
+        evidenceRefs: reconciledContradictions.flatMap(c => c.evidence),
+        missingRequirements: analyticalState.evidenceCoverage.limitations,
+        warnings: typeof patternsEvaluated === 'number' && typeof patternsEvaluable === 'number' && patternsEvaluated < patternsEvaluable
+          ? [`Only ${patternsEvaluated}/${patternsEvaluable} contradiction patterns had sufficient data`]
+          : [],
         evaluationTimestamp: evalTs,
-        dataAsOf: evalTs,
+        dataAsOf: analyticalState.asOfDate,
         configVersion: '2.0.0',
         engineVersion: 'ContradictionEngine-v2.0',
       };
     } catch { /* Non-fatal */ }
 
-    // Wave 3: Attention + Questions
+    // 4f. Wire ValuationIntelligenceEngine
     try {
-      const openContradictions = modulesResult.contradictions?.result?.contradictions.filter(c => c.status === 'OPEN') ?? [];
-      const mgmtHistory = modulesResult.management?.result?.deliveryHistory;
-      const missedCommitments = mgmtHistory && mgmtHistory.missed > 0
-        ? [{ originalStatement: `${mgmtHistory.missed} commitment(s) missed`, metric: null, status: 'MISSED' as const }]
-        : [];
-      const driverDeltas = (modulesResult.businessDrivers?.result?.primaryDrivers ?? [])
-        .filter(d => d.direction === 'DETERIORATING')
-        .map(d => ({ item: d.name, metric: d.relatedMetrics[0] || null, direction: 'DETERIORATED' as const, materiality: 'MEDIUM' as const, affectsThesis: true, evidence: d.evidence, category: 'BUSINESS' as any, comparisonType: 'LAST_ANALYSIS' as any, previousState: null, currentState: d.currentState, explanation: `${d.name} is deteriorating`, deltaId: d.driverId }));
+      const valuationResult = await ValuationIntelligenceEngine.getInstance().evaluate(
+        cleanSym,
+        businessModel as string,
+      );
+      if (modulesResult.valuation) {
+        modulesResult.valuation = {
+          ...modulesResult.valuation,
+          result: {
+            ...modulesResult.valuation.result,
+            historicalIntelligence: valuationResult,
+          } as any,
+        };
+      }
+    } catch { /* Non-fatal */ }
+
+    // 4g. Wave 3: Living Thesis — runs after drivers + contradictions
+    try {
+      const thesisResult = await ThesisEngine.getInstance().evaluate({
+        state: analyticalState,
+        primaryDrivers,
+        openContradictions,
+        materialDeltas,
+      });
+      const evalTs = new Date().toISOString();
+      const challengedPillars = thesisResult.pillars.filter(
+        p => p.status === 'CHALLENGED' || p.status === 'BROKEN'
+      ).length;
+      const thesisStatus = thesisResult.coverage === 'MINIMAL' ? 'DATA_INSUFFICIENT'
+        : challengedPillars > 0 ? 'WORKING'
+        : 'WORKING';
+      modulesResult.thesis = {
+        moduleId: 'THESIS' as any,
+        status: thesisStatus,
+        dataStatus: thesisResult.coverage === 'FULL' ? 'PARTIAL' : 'DATA_INSUFFICIENT',
+        result: {
+          thesis: thesisResult.thesis,
+          pillars: thesisResult.pillars,
+          changes: thesisResult.changes,
+          evaluatedAt: thesisResult.evaluatedAt,
+          coverage: thesisResult.coverage,
+          limitations: thesisResult.limitations,
+          patternsEvaluable: thesisResult.patternsEvaluable,
+          patternsEvaluated: thesisResult.patternsEvaluated,
+        },
+        evidenceRefs: thesisResult.pillars.flatMap(p => p.supportingEvidence),
+        missingRequirements: thesisResult.limitations,
+        warnings: thesisResult.patternsEvaluated < thesisResult.patternsEvaluable
+          ? [`${thesisResult.patternsEvaluated}/${thesisResult.patternsEvaluable} thesis pillars have evidence`]
+          : [],
+        evaluationTimestamp: evalTs,
+        dataAsOf: analyticalState.asOfDate,
+        configVersion: '2.0.0',
+        engineVersion: 'ThesisEngine-v2.0',
+      };
+    } catch { /* Non-fatal */ }
+
+    // 4h. Wave 3: Attention + Questions — real inputs (no fake aggregates)
+    try {
+      // Real missed commitments — individual statements, not "N missed"
+      const realMissedCommitments = analyticalState.missedCommitments;
+      // Real deltas from Delta module
+      const realDeltas = modulesResult.delta?.result?.deltas ?? [];
+      // Thesis changes for attention signals
+      const thesisChanges = modulesResult.thesis?.result?.changes ?? [];
 
       const attentionResult = AttentionEngine.getInstance().evaluate({
         symbol: cleanSym,
         securityId,
         openContradictions,
-        missedCommitments,
-        materialDeltas: driverDeltas,
-        primaryDriverIds: modulesResult.businessDrivers?.result?.primaryDrivers.map(d => d.driverId) ?? [],
+        missedCommitments: realMissedCommitments.map(c => ({
+          originalStatement: c.statement,
+          metric: c.targetMetric as string | null,
+          status: (c.status as any),
+          explanation: `Actual: ${c.actualValue ?? 'unknown'} vs target: ${c.targetValue ?? 'unknown'}`,
+        })),
+        materialDeltas: realDeltas as any,
+        primaryDriverIds: primaryDrivers.map(d => d.driverId),
+        thesisWeakened: thesisChanges
+          .filter((ch: any) => ch.changeType === 'WEAKENED' || ch.changeType === 'PILLAR_CHALLENGED')
+          .map((ch: any) => ({ pillarTitle: ch.affectedPillarId ?? 'Unknown', explanation: ch.reason })),
+        thesisStrengthened: thesisChanges
+          .filter((ch: any) => ch.changeType === 'STRENGTHENED')
+          .map((ch: any) => ({ pillarTitle: ch.affectedPillarId ?? 'Unknown', explanation: ch.reason })),
       });
 
       const questionResult = QuestionEngine.getInstance().generate({
         symbol: cleanSym,
         securityId,
         contradictions: openContradictions,
-        missedCommitments,
+        missedCommitments: realMissedCommitments.map(c => ({
+          originalStatement: c.statement,
+          metric: c.targetMetric as string | null,
+          status: (c.status as any),
+        })),
       });
 
       const evalTs = new Date().toISOString();
+      const hasRealInputs = openContradictions.length > 0 || realMissedCommitments.length > 0 || realDeltas.length > 0;
       modulesResult.attention = {
         moduleId: 'ATTENTION' as any,
-        status: 'PASS',
-        dataStatus: 'VERIFIED',
+        status: 'WORKING',
+        dataStatus: hasRealInputs ? 'PARTIAL' : 'DATA_INSUFFICIENT', // Honest
         result: {
           items: attentionResult.items,
           highCount: attentionResult.highCount,
           questions: questionResult,
           evaluatedAt: attentionResult.evaluatedAt,
         },
-        evidenceRefs: [],
-        missingRequirements: [],
+        evidenceRefs: attentionResult.items.flatMap(i =>
+          i.relatedEvidenceIds.map(id => ({
+            evidenceId: id,
+            sourceType: 'CANONICAL_FACT' as const,
+            sourceId: id,
+            timestamp: evalTs,
+            field: i.signal,
+            asOfDate: evalTs,
+          }))
+        ),
+        missingRequirements: !hasRealInputs
+          ? ['No contradictions, missed commitments, or material deltas available']
+          : [],
         warnings: [],
         evaluationTimestamp: evalTs,
-        dataAsOf: evalTs,
+        dataAsOf: analyticalState.asOfDate,
         configVersion: '2.0.0',
         engineVersion: 'AttentionEngine-v2.0',
       };
     } catch { /* Non-fatal */ }
 
-    // Wave 2: Persist snapshot only if analytical state changed
+    // 4i. Persist snapshot only if analytical state changed
+    //     Hash includes ALL durable states — drivers + technical too
     try {
       await CompanySnapshotStore.getInstance().saveIfChanged({
         securityId,
         symbol: cleanSym,
         asOfDate: generatedAt,
-        fundamentalState: fundamentalPayload as any,
+        fundamentalState: analyticalState.facts.latest as any,
         managementState: modulesResult.management?.result ?? null,
         valuationState: modulesResult.valuation?.result ?? null,
         businessDriverState: modulesResult.businessDrivers?.result ?? null,

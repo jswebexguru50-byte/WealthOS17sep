@@ -13,6 +13,7 @@ import { BusinessDriverPayload } from './BusinessDriverPayload.js';
 import { DeltaPayload } from './DeltaPayload.js';
 import { ContradictionPayload } from './ContradictionPayload.js';
 import { AttentionPayload } from './AttentionPayload.js';
+import { ThesisPayload } from './ThesisPayload.js';
 
 export interface CompanyIntelligenceResponse {
   security: {
@@ -40,6 +41,7 @@ export interface CompanyIntelligenceResponse {
     delta?: ModuleResult<DeltaPayload>;
     contradictions?: ModuleResult<ContradictionPayload>;
     attention?: ModuleResult<AttentionPayload>;
+    thesis?: ModuleResult<ThesisPayload>;
   };
 }
 
