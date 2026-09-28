@@ -12,6 +12,8 @@ async function main() {
 
   console.log("Setting up Canonical Fact Layer in: " + dbPath);
 
+  // DROP TABLE removed to prevent data loss. Schema changes should be additive.
+
   // Schema for Phase 1: CompanyFact
   await run(db, `
     CREATE TABLE IF NOT EXISTS company_facts (
@@ -34,33 +36,64 @@ async function main() {
       factType TEXT NOT NULL,
       sourceType TEXT NOT NULL,
       
+      scope TEXT NOT NULL,
+      
       provider TEXT,
       sourceDocumentId TEXT,
+      providerToken TEXT,
+      exactProviderLabel TEXT,
       sourceUrl TEXT,
       evidenceText TEXT,
       evidencePage INTEGER,
       
       verificationStatus TEXT NOT NULL,
+      availabilityStatus TEXT NOT NULL DEFAULT 'AVAILABLE',
       
       parentFactIds TEXT,
       calculationMethod TEXT,
       
       fetchedAt TEXT NOT NULL,
-      freshnessTtlDays INTEGER
+      freshnessTtlDays INTEGER,
+
+      UNIQUE(companyId, metric, periodEnd, periodType, scope, factType, calculationMethod)
     );
-    CREATE INDEX IF NOT EXISTS idx_company_facts_symbol_metric ON company_facts(symbol, metric);
   `);
   
+  // Add missing columns if table already existed
+  const addColumn = async (col: string, def: string) => {
+    try {
+      await run(db, `ALTER TABLE company_facts ADD COLUMN ${col} ${def}`);
+    } catch (e: any) {
+      if (!e.message.includes('duplicate column name')) console.error(e);
+    }
+  };
+  await addColumn('scope', "TEXT NOT NULL DEFAULT 'UNKNOWN'");
+  await addColumn('availabilityStatus', "TEXT NOT NULL DEFAULT 'AVAILABLE'");
+  await addColumn('providerToken', 'TEXT');
+  await addColumn('exactProviderLabel', 'TEXT');
+
+  await run(db, `CREATE INDEX IF NOT EXISTS idx_company_facts_symbol_metric ON company_facts(symbol, metric);`);
+
   // Create mapping table for known verified parameters to ensure we do not "assume" 
   // but explicitly map discovered Trendlyne parameters to canonical metrics.
   await run(db, `
     CREATE TABLE IF NOT EXISTS field_mapping_catalog (
       provider TEXT NOT NULL,
-      providerToken TEXT NOT NULL,
-      canonicalMetric TEXT NOT NULL,
-      periodType TEXT NOT NULL,
-      factType TEXT NOT NULL,
-      PRIMARY KEY (provider, providerToken)
+      provider_token TEXT NOT NULL,
+      provider_label TEXT,
+      canonical_metric TEXT NOT NULL,
+      statement_type TEXT,
+      period_type TEXT NOT NULL,
+      unit TEXT,
+      currency TEXT,
+      scale TEXT,
+      consolidated_or_standalone TEXT,
+      source_frequency TEXT,
+      mapping_status TEXT NOT NULL,
+      verified_at TEXT,
+      verification_method TEXT,
+      notes TEXT,
+      PRIMARY KEY (provider, provider_token)
     );
   `);
 

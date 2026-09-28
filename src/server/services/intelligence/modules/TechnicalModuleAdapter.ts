@@ -71,7 +71,15 @@ export class TechnicalModuleAdapter {
     const techAnalysis = TechnicalAnalysisEngine.analyze(engineInput, cleanSym);
     const closePrices = engineInput.map(b => b.close);
 
-    // EMA50 canonical calculation if not on techAnalysis
+    // EMA20 and EMA50 canonical calculation
+    let ema20Value: number | null = null;
+    if (closePrices.length >= 20) {
+      const ema20Series = EMA.calculate({ period: 20, values: closePrices });
+      if (ema20Series.length > 0) {
+        ema20Value = Number(ema20Series[ema20Series.length - 1].toFixed(2));
+      }
+    }
+
     let ema50Value: number | null = null;
     if (closePrices.length >= 50) {
       const ema50Series = EMA.calculate({ period: 50, values: closePrices });
@@ -83,6 +91,7 @@ export class TechnicalModuleAdapter {
     // 3. Evaluate existing pure technical strategies (S1 to S10)
     const strategySignals: StrategySignal[] = [];
     const evidenceRefs: EvidenceReference[] = [...ohlcvResult.provenance];
+    const warnings: string[] = [];
 
     try {
       const pureEngine = PureTechnicalStrategiesEngine.getInstance();
@@ -126,8 +135,9 @@ export class TechnicalModuleAdapter {
           }
         }
       }
-    } catch {
-      // If pure technical engine encounters a symbol gap, do not break the whole technical module
+    } catch (stratErr: any) {
+      // Invariant: Errors cannot disappear silently. Propagate warning and adjust status.
+      warnings.push(`Pure technical strategy engine evaluation error: ${stratErr?.message || stratErr}`);
     }
 
     const latestBar = bars[bars.length - 1];
@@ -140,20 +150,23 @@ export class TechnicalModuleAdapter {
 
     const payload: TechnicalPayload = {
       price: techAnalysis ? techAnalysis.cmp : (latestBar ? Number(latestBar.close_adjusted) : null),
-      ema20: techAnalysis ? (techAnalysis.ema21 ?? null) : null,
+      ema20: ema20Value,
       ema50: ema50Value,
       sma200: techAnalysis ? (techAnalysis.sma200 ?? null) : null,
       rsi14: techAnalysis ? (techAnalysis.rsi14 ?? null) : null,
       atrPct: techAnalysis ? (techAnalysis.atrPct ?? null) : null,
       high52w: techAnalysis ? (techAnalysis.keyLevels?.fiftyTwoWeekHigh ?? null) : null,
       low52w: techAnalysis ? (techAnalysis.keyLevels?.fiftyTwoWeekLow ?? null) : null,
-      rsPercentile: techAnalysis?.technicalScore ?? null,
+      // Invariant: Do not conflate absolute composite technicalScore with relative-strength percentile
+      rsPercentile: null,
       trend: trendStatus,
       signals: strategySignals,
       dataAsOf,
     };
 
-    const status: ModuleStatus = (payload.price !== null && payload.rsi14 !== null) ? 'WORKING' : 'PARTIAL';
+    const status: ModuleStatus = (payload.price !== null && payload.rsi14 !== null)
+      ? (warnings.length > 0 ? 'PARTIAL' : 'WORKING')
+      : 'PARTIAL';
 
     return {
       moduleId: 'TECHNICAL',
@@ -162,7 +175,7 @@ export class TechnicalModuleAdapter {
       result: payload,
       evidenceRefs,
       missingRequirements: [],
-      warnings: [],
+      warnings,
       evaluationTimestamp,
       dataAsOf,
       configVersion: '1.0.0',

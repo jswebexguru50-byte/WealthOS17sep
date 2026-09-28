@@ -67,6 +67,22 @@ export class ManagementModuleAdapter {
         ORDER BY claim_date DESC
       `).all(cleanSym, cleanSym) as any[];
 
+      // 2. Pre-fetch verified XBRL facts for deterministic actual-vs-promise comparison
+      const xbrlFacts = db.prepare(`
+        SELECT id, metric, value, unit, period_end AS periodEnd,
+               available_at AS availableAt, source_url AS sourceUrl,
+               filing_sha256 AS filingSha256
+        FROM verified_xbrl_fact
+        WHERE symbol = ? OR isin = ?
+        ORDER BY period_end DESC
+      `).all(cleanSym, cleanSym) as any[];
+
+      const factsByMetric: Record<string, any[]> = {};
+      for (const f of xbrlFacts) {
+        if (!factsByMetric[f.metric]) factsByMetric[f.metric] = [];
+        factsByMetric[f.metric].push(f);
+      }
+
       const commitments: ManagementCommitment[] = [];
 
       for (const row of candidates) {
@@ -92,6 +108,55 @@ export class ManagementModuleAdapter {
         else if (metricLower.includes('launch') || metricLower.includes('product')) category = 'Product Launch';
         else if (metricLower.includes('geographic') || metricLower.includes('expansion')) category = 'Geographic Expansion';
 
+        let actualVal: string | number | null = null;
+        let commitmentStatus: ManagementCommitment['status'] = 'PENDING';
+        const actualEvidence: EvidenceReference[] = [];
+
+        // Deterministic matching against subsequent reported actuals
+        let targetXbrlMetric: string | null = null;
+        if (metricLower.includes('revenue') || metricLower.includes('sales')) targetXbrlMetric = 'sales';
+        else if (metricLower.includes('profit') || metricLower.includes('pat')) targetXbrlMetric = 'pat';
+        else if (metricLower.includes('cfo') || metricLower.includes('cash')) targetXbrlMetric = 'cfo';
+
+        if (targetXbrlMetric && factsByMetric[targetXbrlMetric]?.length > 0) {
+          const matchingFacts = factsByMetric[targetXbrlMetric];
+          // If we have >= 2 periods, compare growth against target
+          if (matchingFacts.length >= 2 && row.target !== null && !isNaN(Number(row.target))) {
+            const latestFact = matchingFacts[0];
+            const priorFact = matchingFacts[1];
+            if (latestFact.value && priorFact.value && priorFact.value > 0) {
+              const reportedGrowth = Number((((latestFact.value - priorFact.value) / priorFact.value) * 100).toFixed(1));
+              actualVal = `${reportedGrowth}% (${targetXbrlMetric} YoY in ${latestFact.periodEnd})`;
+
+              const targetNum = Number(row.target);
+              if (reportedGrowth >= targetNum - 1.0) {
+                commitmentStatus = 'ACHIEVED';
+              } else if (reportedGrowth >= targetNum * 0.5) {
+                commitmentStatus = 'PARTIALLY_ACHIEVED';
+              } else {
+                commitmentStatus = 'MISSED';
+              }
+
+              const actualRef: EvidenceReference = {
+                evidenceId: `ACTUAL_XBRL_${cleanSym}_${latestFact.id}`,
+                sourceType: 'XBRL_FILING',
+                sourceId: latestFact.filingSha256 || `XBRL_${latestFact.id}`,
+                timestamp: latestFact.availableAt || latestFact.periodEnd,
+                uri: latestFact.sourceUrl || undefined,
+                notes: `Subsequent reported actual: ${targetXbrlMetric} = ${latestFact.value} ${latestFact.unit} (${latestFact.periodEnd})`,
+              };
+              actualEvidence.push(actualRef);
+              evidenceRefs.push(actualRef);
+            }
+          } else {
+            commitmentStatus = 'NOT_YET_DUE';
+          }
+        } else if (!targetXbrlMetric || row.target === null) {
+          commitmentStatus = 'NOT_VERIFIABLE';
+        } else {
+          commitmentStatus = 'PENDING';
+        }
+
         commitments.push({
           id: `COMMITMENT_${row.id}`,
           category,
@@ -101,16 +166,16 @@ export class ManagementModuleAdapter {
           targetMetric: row.metric || null,
           targetValue: row.target || null,
           targetPeriod: row.deadline || null,
-          actualValue: null,
-          status: 'PENDING',
-          actualEvidence: [],
+          actualValue: actualVal,
+          status: commitmentStatus,
+          actualEvidence,
         });
       }
 
-      let deliveredCount = 0;
-      let pendingCount = commitments.length;
-      let missedCount = 0;
-      let notVerifiableCount = 0;
+      const deliveredCount = commitments.filter(c => c.status === 'ACHIEVED' || c.status === 'DELIVERED' || c.status === 'PARTIALLY_ACHIEVED' || c.status === 'PARTIAL').length;
+      const missedCount = commitments.filter(c => c.status === 'MISSED').length;
+      const pendingCount = commitments.filter(c => c.status === 'PENDING' || c.status === 'NOT_YET_DUE').length;
+      const notVerifiableCount = commitments.filter(c => c.status === 'NOT_VERIFIABLE').length;
 
       const hasCommitments = commitments.length > 0;
       const status: ModuleStatus = hasCommitments ? 'WORKING' : 'DATA_INSUFFICIENT';
@@ -127,7 +192,7 @@ export class ManagementModuleAdapter {
       return {
         moduleId: 'MANAGEMENT',
         status,
-        dataStatus: hasCommitments ? 'VERIFIED' : 'DATA_INSUFFICIENT',
+        dataStatus: hasCommitments ? 'PARTIAL' : 'DATA_INSUFFICIENT',
         result: payload,
         evidenceRefs,
         missingRequirements: hasCommitments ? [] : [`No indexed management commitments found for ${cleanSym}`],

@@ -3,6 +3,7 @@ import {
   FreshnessStatus,
   FactEnvelope,
   EvidenceReference,
+  TruthQuality,
 } from './contracts/index.js';
 import { SecurityIdentityRegistry, SecurityIdentityRecord } from '../dataAcquisition/SecurityIdentityRegistry.js';
 import { DuckDbAdjustedOhlcvService, AdjustedOhlcvBar } from '../DuckDbAdjustedOhlcvService.js';
@@ -101,8 +102,16 @@ export class AnalysisEvidenceRepository {
         sql += ` AND scope = ?`;
         params.push(options.scope);
       }
+      if (options.asOfDate) {
+        // Enforce Point-In-Time (PIT) boundary: availableAt / asOfDate must be <= requested asOfDate
+        sql += ` AND (
+          (asOfDate IS NOT NULL AND asOfDate <= ?) OR
+          (asOfDate IS NULL AND (periodEnd <= ? OR fetchedAt <= ?))
+        )`;
+        params.push(options.asOfDate, options.asOfDate, options.asOfDate);
+      }
 
-      sql += ` ORDER BY fetchedAt DESC, periodEnd DESC LIMIT 1`;
+      sql += ` ORDER BY COALESCE(asOfDate, fetchedAt) DESC, periodEnd DESC LIMIT 1`;
 
       const rows = await dbAll<any>(db, sql, params);
 
@@ -135,6 +144,9 @@ export class AnalysisEvidenceRepository {
             }],
             freshness: this.evaluateFreshness(row.fetchedAt),
             missingReason: `Metric marked ${row.availabilityStatus} in canonical facts repository`,
+            truthQuality: 'RAW_PROVIDER',
+            informationDate: row.asOfDate || row.periodEnd || null,
+            availableAt: row.fetchedAt || row.asOfDate || null,
           };
         }
 
@@ -157,6 +169,11 @@ export class AnalysisEvidenceRepository {
         };
 
         const status: DataStatus = row.verificationStatus === 'SECONDARY_VERIFIED' ? 'VERIFIED' : 'PARTIAL';
+        const truthQuality: TruthQuality =
+          row.verificationStatus === 'SECONDARY_VERIFIED' ? 'CROSS_SOURCE_VERIFIED'
+          : row.verificationStatus === 'PRIMARY_VERIFIED' ? 'PRIMARY_SOURCE_VERIFIED'
+          : row.verificationStatus === 'CANONICAL_INDEXED' ? 'CANONICAL_MAPPED'
+          : 'PARSED';
 
         return {
           value: parsedVal as T,
@@ -169,17 +186,26 @@ export class AnalysisEvidenceRepository {
           provenance: [evidenceRef],
           freshness: this.evaluateFreshness(row.fetchedAt),
           missingReason: null,
+          truthQuality,
+          informationDate: row.asOfDate || row.periodEnd || null,
+          availableAt: row.fetchedAt || row.asOfDate || null,
         };
       }
 
       // 3. Fallback check: raw fundamental_endpoint_snapshots
-      const snapSql = `
+      let snapSql = `
         SELECT symbol, isin, provider, endpoint, fetched_at, response_json
         FROM fundamental_endpoint_snapshots
         WHERE (symbol = ? OR isin = ?)
-        ORDER BY fetched_at DESC LIMIT 1
       `;
-      const snapRows = await dbAll<any>(db, snapSql, [symbol, isin || symbol]);
+      const snapParams: any[] = [symbol, isin || symbol];
+      if (options.asOfDate) {
+        snapSql += ` AND fetched_at <= ?`;
+        snapParams.push(options.asOfDate);
+      }
+      snapSql += ` ORDER BY fetched_at DESC LIMIT 1`;
+
+      const snapRows = await dbAll<any>(db, snapSql, snapParams);
       if (snapRows && snapRows.length > 0) {
         const snap = snapRows[0];
         const snapId = `SNAP_${snap.provider || 'TRENDLYNE'}_${snap.symbol}_${snap.fetched_at}`;
@@ -201,6 +227,9 @@ export class AnalysisEvidenceRepository {
           }],
           freshness: this.evaluateFreshness(snap.fetched_at),
           missingReason: 'Metric exists in raw snapshot but awaiting canonical indexing',
+          truthQuality: 'RAW_PROVIDER',
+          informationDate: snap.fetched_at,
+          availableAt: snap.fetched_at,
         };
       }
 
@@ -278,7 +307,8 @@ export class AnalysisEvidenceRepository {
    */
   public async getAdjustedOhlcv(
     identifier: string,
-    limit: number = 250
+    limit: number = 250,
+    asOfDate?: string
   ): Promise<{
     bars: AdjustedOhlcvBar[];
     status: DataStatus;
@@ -297,7 +327,16 @@ export class AnalysisEvidenceRepository {
     const symbol = record?.nseSymbol || record?.currentSymbol || identifier.toUpperCase();
 
     try {
-      const bars = await DuckDbAdjustedOhlcvService.getDailyBars(symbol, limit);
+      // If asOfDate is specified, fetch sufficient bars and filter by trade_date <= asOfDate
+      const fetchCount = asOfDate ? Math.max(limit * 2, 500) : limit;
+      let bars = await DuckDbAdjustedOhlcvService.getDailyBars(symbol, fetchCount);
+      if (asOfDate && bars && bars.length > 0) {
+        bars = bars.filter(b => b.trade_date <= asOfDate);
+        if (bars.length > limit) {
+          bars = bars.slice(bars.length - limit);
+        }
+      }
+
       if (!bars || bars.length === 0) {
         return {
           bars: [],
@@ -312,7 +351,7 @@ export class AnalysisEvidenceRepository {
         sourceId: 'DUCKDB_ADJUSTED',
         timestamp: new Date().toISOString(),
         asOfDate: bars[bars.length - 1]?.trade_date,
-        notes: `Returned ${bars.length} adjusted bars from source: DUCKDB_ADJUSTED`,
+        notes: `Returned ${bars.length} adjusted bars from source: DUCKDB_ADJUSTED${asOfDate ? ` (asOfDate <= ${asOfDate})` : ''}`,
       }];
 
       return {

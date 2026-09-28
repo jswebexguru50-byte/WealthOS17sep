@@ -14,8 +14,14 @@ type Row = Record<string, unknown>;
 type SnapshotStatus = 'SUCCESS' | 'SOURCE_UNAVAILABLE' | 'DATA_INSUFFICIENT';
 const root = path.resolve(process.cwd());
 const dataDir = path.join(root, 'data', 'fundamental_enrichment');
-const manifestPath = path.join(dataDir, 'excel_strategy_manifest.json');
-const progressPath = path.join(dataDir, process.argv.includes('--quarterly-profit-history')
+const manifestArgumentIndex = process.argv.indexOf('--manifest');
+const manifestPath = manifestArgumentIndex >= 0
+  ? path.resolve(root, process.argv[manifestArgumentIndex + 1])
+  : path.join(dataDir, 'excel_strategy_manifest.json');
+const progressArgumentIndex = process.argv.indexOf('--progress-path');
+const progressPath = progressArgumentIndex >= 0
+  ? path.resolve(root, process.argv[progressArgumentIndex + 1])
+  : path.join(dataDir, process.argv.includes('--quarterly-profit-history')
   ? 'trendlyne_quarterly_history_progress.json'
   : 'trendlyne_mcp_progress.json');
 const toolSchemaPath = path.join(dataDir, 'trendlyne_mcp_tool_schema.json');
@@ -45,6 +51,9 @@ const verifiedParameterCodes = [
   // provider labels them; they are not relabelled as DII.
   'prompct', 'prompct1q', 'prompledge', 'prompledge1q',
   'fiihold', 'fiipct1q', 'instihold', 'instipct1q', 'mfhold', 'mfpct1q',
+  // Provider-catalogue verified longer-horizon ownership context. These fill
+  // the remaining slots in the provider's 50-parameter request limit.
+  'prompct4q', 'fiipct4q', 'pubpct',
   // Distributions
   'dividendpayout', 'dividendpayoutnpa', 'dividendpersharea',
   // Expert additions: Forensic & Valuation adjustments
@@ -147,7 +156,7 @@ function chunks<T>(items: T[], size: number): T[][] { return Array.from({ length
 
 async function main() {
   if (process.argv.includes('--help')) {
-    console.log('Usage: npm run fundamental:trendlyne -- [--discover-tools] [--discover-parameters] [--quarterly-profit-history] [--max-symbols N] [--delay-ms N] [--force]');
+    console.log('Usage: npm run fundamental:trendlyne -- [--manifest path] [--progress-path path] [--discover-tools] [--discover-parameters] [--quarterly-profit-history] [--max-symbols N] [--delay-ms N] [--force]');
     return;
   }
   const url = endpointUrl();
@@ -188,7 +197,7 @@ async function main() {
     const db = new sqlite3.Database(dbPath);
     const parameterEndpoint = quarterlyHistoryOnly ? 'quarterly_profit_history' : 'parameters';
     const requestedParameterCodes = quarterlyHistoryOnly ? quarterlyProfitHistoryCodes : verifiedParameterCodes;
-    const progress: Record<string, unknown> = { status: 'RUNNING', provider: 'TRENDLYNE_MCP', universe: 'latest_30_day_strategy_manifest', requested: symbols.length, completed: 0, skippedFresh: 0, failed: 0, pending: symbols.length, phase: quarterlyHistoryOnly ? 'QUARTERLY_PROFIT_HISTORY' : 'RAW_PROVIDER_PROFILES', profileRefreshDays: Object.fromEntries(profiles.map(p => [p.endpoint, p.ttlDays])), requestedParameterCodes, llmCalls: 0, updatedAt: now() };
+    const progress: Record<string, unknown> = { status: 'RUNNING', provider: 'TRENDLYNE_MCP', universe: path.basename(manifestPath), manifest: path.relative(root, manifestPath), requested: symbols.length, completed: 0, skippedFresh: 0, failed: 0, pending: symbols.length, phase: quarterlyHistoryOnly ? 'QUARTERLY_PROFIT_HISTORY' : 'RAW_PROVIDER_PROFILES', profileRefreshDays: Object.fromEntries(profiles.map(p => [p.endpoint, p.ttlDays])), requestedParameterCodes, llmCalls: 0, updatedAt: now() };
     try {
       await requireEvidenceTables(db);
       const singleTool = tools.get('get_stock_parameter_values');

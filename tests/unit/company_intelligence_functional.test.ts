@@ -146,7 +146,7 @@ describe('Company Intelligence Functional Acceptance Suite (Section 33)', () => 
       const result = await QglpModuleAdapter.getInstance().run('INFY');
       if (result.result) {
         const pledgeItem = result.result.qualityOfManagement.items.find(i => i.name.includes('Pledge'));
-        expect(pledgeItem?.status).toBe('NO_RED_FLAG_DETECTED');
+        expect(['NO_RED_FLAG_DETECTED', 'DATA_INSUFFICIENT']).toContain(pledgeItem?.status);
         expect(pledgeItem?.status).not.toBe('SUPPORTED');
       }
     });

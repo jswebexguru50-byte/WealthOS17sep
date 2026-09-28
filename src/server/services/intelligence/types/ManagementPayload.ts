@@ -10,7 +10,7 @@ export interface ManagementCommitment {
   targetValue: number | string | null;
   targetPeriod: string | null;
   actualValue: number | string | null;
-  status: 'DELIVERED' | 'PARTIAL' | 'MISSED' | 'PENDING' | 'NOT_VERIFIABLE';
+  status: 'DELIVERED' | 'ACHIEVED' | 'PARTIALLY_ACHIEVED' | 'PARTIAL' | 'MISSED' | 'PENDING' | 'NOT_YET_DUE' | 'NOT_VERIFIABLE';
   actualEvidence: EvidenceReference[];
 }
 

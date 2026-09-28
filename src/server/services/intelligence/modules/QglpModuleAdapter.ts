@@ -15,11 +15,14 @@
  *     - Do NOT infer management integrity from a clean audit report
  */
 
-import { ModuleResult, ModuleStatus, EvidenceReference } from '../contracts/index.js';
+import { ModuleResult, ModuleStatus, DataStatus, EvidenceReference } from '../contracts/index.js';
 import { QglpPayload, QglpPillar, QglpEvidenceAssessment } from '../types/QglpPayload.js';
 import { FundamentalModuleAdapter } from './FundamentalModuleAdapter.js';
 import { FereModuleAdapter } from './FereModuleAdapter.js';
 import { ValuationModuleAdapter } from './ValuationModuleAdapter.js';
+import Database from 'better-sqlite3';
+import path from 'path';
+import fs from 'fs';
 
 export class QglpModuleAdapter {
   private static instance: QglpModuleAdapter;
@@ -103,26 +106,100 @@ export class QglpModuleAdapter {
     const fereWarnings = fere?.warnings || [];
     const hasAuditQualification = auditorNotes.some(a => a.hasQualification);
 
+    // Query actual promoter pledge evidence from shareholding_snapshot
+    let pledgeStatus: QglpEvidenceAssessment['status'] = 'DATA_INSUFFICIENT';
+    let pledgeObservation = 'Promoter pledge data not registered in canonical repository (unknown remains unknown)';
+    const pledgeEvidence: EvidenceReference[] = [];
+
+    const fereDbPath = path.resolve('data', 'fere', 'verified_filings', 'fere_evidence.db');
+    if (fs.existsSync(fereDbPath)) {
+      try {
+        const fereDb = new Database(fereDbPath, { readonly: true, fileMustExist: true });
+        const shpRow = fereDb.prepare(`
+          SELECT period_end, promoter_pledge, source_url, source_sha256, available_at
+          FROM shareholding_snapshot
+          WHERE symbol = ? OR isin = ?
+          ORDER BY period_end DESC LIMIT 1
+        `).get(cleanSym, cleanSym) as any;
+
+        if (shpRow && shpRow.promoter_pledge !== null && shpRow.promoter_pledge !== undefined) {
+          const pledgePct = Number(shpRow.promoter_pledge);
+          if (pledgePct <= 0.05) {
+            pledgeStatus = 'NO_RED_FLAG_DETECTED';
+            pledgeObservation = `Promoter pledge at ${(pledgePct * 100).toFixed(1)}% (below 5% distress threshold, filing ${shpRow.period_end})`;
+          } else {
+            pledgeStatus = 'WARNING';
+            pledgeObservation = `Elevated promoter pledge at ${(pledgePct * 100).toFixed(1)}% flagged in canonical filing (${shpRow.period_end})`;
+          }
+          const ref: EvidenceReference = {
+            evidenceId: `PLEDGE_${cleanSym}_${shpRow.period_end}`,
+            sourceType: 'SHAREHOLDING_FILING',
+            sourceId: shpRow.source_sha256 || `SHP_${cleanSym}`,
+            timestamp: shpRow.available_at || shpRow.period_end,
+            uri: shpRow.source_url || undefined,
+            notes: `Promoter pledge: ${(pledgePct * 100).toFixed(1)}%`,
+          };
+          pledgeEvidence.push(ref);
+          evidenceRefs.push(ref);
+        }
+      } catch {
+        // If query fails, status remains DATA_INSUFFICIENT
+      }
+    }
+
+    // Cash conversion logic: Absence of FERE warnings != positive evidence
+    let cashConversionStatus: QglpEvidenceAssessment['status'] = 'DATA_INSUFFICIENT';
+    let cashConversionObservation = 'CFO and PAT history required to verify cash conversion (absence of warnings != positive evidence)';
+    const cashEvidence: EvidenceReference[] = [];
+
+    if (fund?.businessModel === 'BANK' || fund?.businessModel === 'NBFC') {
+      cashConversionStatus = 'NOT_APPLICABLE';
+      cashConversionObservation = 'Industrial cash conversion (CFO/PAT) not applicable to financial institutions';
+    } else {
+      const cfoSeries = fund?.historicalSeries?.['CFO'] || [];
+      const patSeries = fund?.historicalSeries?.['PAT'] || [];
+
+      if (cfoSeries.length > 0 && patSeries.length > 0) {
+        const cfo = cfoSeries[0]?.value;
+        const pat = patSeries[0]?.value;
+        if (cfo !== null && pat !== null && pat > 0) {
+          const conversionRatio = cfo / pat;
+          if (cfoSeries[0].provenance) cashEvidence.push(...cfoSeries[0].provenance);
+          if (conversionRatio >= 0.8) {
+            cashConversionStatus = 'SUPPORTED';
+            cashConversionObservation = `CFO/PAT conversion ratio healthy at ${(conversionRatio * 100).toFixed(0)}% (CFO: ${cfo} Cr, PAT: ${pat} Cr)`;
+          } else {
+            cashConversionStatus = 'WARNING';
+            cashConversionObservation = `CFO conversion lag detected: CFO at ${(conversionRatio * 100).toFixed(0)}% of PAT (CFO: ${cfo} Cr, PAT: ${pat} Cr)`;
+          }
+        } else if (fereWarnings.some(w => w.severity === 'MATERIAL')) {
+          cashConversionStatus = 'WARNING';
+          cashConversionObservation = 'Material accounting/cash conversion warnings flagged in FERE';
+        }
+      }
+    }
+
     const mgmtItems: QglpEvidenceAssessment[] = [
       {
         name: 'Statutory Audit Cleanliness',
         // Invariant: Clean audit report -> NO_RED_FLAG_DETECTED, not management integrity!
         status: hasAuditQualification ? 'WARNING' : auditorNotes.length > 0 ? 'NO_RED_FLAG_DETECTED' : 'DATA_INSUFFICIENT',
-        observation: hasAuditQualification ? 'Auditor qualification noted' : 'Unqualified statutory audit opinion; no red flags detected',
+        observation: hasAuditQualification ? 'Auditor qualification noted' : auditorNotes.length > 0 ? 'Unqualified statutory audit opinion; no red flags detected' : 'Statutory audit notes awaiting canonical indexing',
         evidence: evidenceRefs.slice(0, 1),
       },
       {
         name: 'Promoter Pledge Discipline',
-        // Invariant: Zero pledge does NOT imply superior management quality
-        status: 'NO_RED_FLAG_DETECTED',
-        observation: 'No high-pledge distress signal registered in canonical filings',
-        evidence: evidenceRefs.slice(0, 1),
+        // Invariant: Missing pledge data remains DATA_INSUFFICIENT, never NO_RED_FLAG_DETECTED
+        status: pledgeStatus,
+        observation: pledgeObservation,
+        evidence: pledgeEvidence.length > 0 ? pledgeEvidence : [],
       },
       {
         name: 'Financial Quality & Cash Conversion',
-        status: fereWarnings.some(w => w.severity === 'MATERIAL') ? 'WARNING' : fereWarnings.length > 0 ? 'PARTIAL' : 'SUPPORTED',
-        observation: fereWarnings.length > 0 ? `${fereWarnings.length} FERE financial warnings flagged` : 'No cash conversion lag detected',
-        evidence: evidenceRefs.slice(0, 1),
+        // Invariant: Absence of detected warnings != evidence of good cash conversion
+        status: cashConversionStatus,
+        observation: cashConversionObservation,
+        evidence: cashEvidence.length > 0 ? cashEvidence : [],
       },
     ];
 
@@ -133,7 +210,7 @@ export class QglpModuleAdapter {
     const growthItems: QglpEvidenceAssessment[] = [
       {
         name: 'Top-Line Revenue Trajectory',
-        status: revTrajectory?.status === 'ACCELERATING' ? 'SUPPORTED' : revTrajectory?.status === 'STABLE' ? 'PARTIAL' : revTrajectory?.status === 'DECELERATING' ? 'WARNING' : 'DATA_INSUFFICIENT',
+        status: revTrajectory?.status === 'ACCELERATING' || revTrajectory?.status === 'GROWING' ? 'SUPPORTED' : revTrajectory?.status === 'STABLE' ? 'PARTIAL' : revTrajectory?.status === 'DECELERATING' || revTrajectory?.status === 'DECLINING' ? 'WARNING' : 'DATA_INSUFFICIENT',
         observation: revTrajectory?.latestGrowthPct !== null && revTrajectory?.latestGrowthPct !== undefined
           ? `YoY growth at ${revTrajectory.latestGrowthPct}% (${revTrajectory.status || 'DATA_INSUFFICIENT'})`
           : 'Multi-period revenue history required',
@@ -193,8 +270,8 @@ export class QglpModuleAdapter {
     const riskItems: QglpEvidenceAssessment[] = [
       {
         name: 'Accounting & Auditor Red Flags',
-        status: fereWarnings.length > 0 ? 'WARNING' : 'NO_RED_FLAG_DETECTED',
-        observation: fereWarnings.length > 0 ? `${fereWarnings.map(w => w.title).join('; ')}` : 'No forensic accounting red flags detected',
+        status: fereWarnings.length > 0 ? 'WARNING' : fere ? 'NO_RED_FLAG_DETECTED' : 'DATA_INSUFFICIENT',
+        observation: fereWarnings.length > 0 ? `${fereWarnings.map(w => w.title).join('; ')}` : fere ? 'No forensic accounting red flags detected in indexed filings' : 'Forensic risk evidence not available',
         evidence: evidenceRefs.slice(0, 1),
       },
     ];
@@ -209,13 +286,18 @@ export class QglpModuleAdapter {
       dataAsOf: evaluationTimestamp,
     };
 
-    const hasAnySupport = businessItems.some(i => i.status === 'SUPPORTED' || i.status === 'PARTIAL');
-    const status: ModuleStatus = hasAnySupport ? 'WORKING' : 'PARTIAL';
+    const allItems = [...businessItems, ...mgmtItems, ...growthItems, ...longevityItems, ...priceItems, ...riskItems];
+    const supportedCount = allItems.filter(i => i.status === 'SUPPORTED' || i.status === 'NO_RED_FLAG_DETECTED').length;
+    const insufficientCount = allItems.filter(i => i.status === 'DATA_INSUFFICIENT').length;
+
+    // Invariant: Truth status != execution status. Missing substantial pillars means PARTIAL truth quality.
+    const dataStatus: DataStatus = insufficientCount <= 3 ? 'VERIFIED' : 'PARTIAL';
+    const status: ModuleStatus = (supportedCount >= 4 && insufficientCount <= 6) ? 'WORKING' : 'PARTIAL';
 
     return {
       moduleId: 'QGLP',
       status,
-      dataStatus: 'VERIFIED',
+      dataStatus,
       result: payload,
       evidenceRefs,
       missingRequirements: [],

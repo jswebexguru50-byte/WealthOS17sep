@@ -56,6 +56,8 @@ export class BusinessInflectionModule {
     // 1. Fundamental Revenue Acceleration
     const revTraj = fundamental?.trajectory?.revenueGrowthYoY;
     if (revTraj?.status === 'ACCELERATING' && revTraj.latestGrowthPct !== null) {
+      const revEv = fundamental?.historicalSeries?.['Revenue']?.[0]?.provenance || [];
+      evidenceRefs.push(...revEv);
       whyInteresting.push({
         id: 'INF_REV_ACCEL',
         type: 'POSITIVE_INFLECTION',
@@ -64,13 +66,16 @@ export class BusinessInflectionModule {
         detail: `YoY top-line growth accelerated (${revTraj.periodsCompared || 'recent periods'}).`,
         confidence: 'HIGH',
         sourceModule: 'FUNDAMENTAL',
-        evidence: [],
+        evidence: revEv,
       });
     }
 
     // 2. Fundamental Margin Expansion
     const marginTraj = fundamental?.trajectory?.marginTrajectory;
     if (marginTraj?.status === 'EXPANDING' && marginTraj.bpsChange !== null) {
+      const marginEv = fundamental?.historicalSeries?.[marginTraj.metricUsed === 'NIM' ? 'NIM' : 'EBITDA']?.[0]?.provenance ||
+        fundamental?.historicalSeries?.['Revenue']?.[0]?.provenance || [];
+      evidenceRefs.push(...marginEv);
       whyInteresting.push({
         id: 'INF_MARGIN_EXP',
         type: 'POSITIVE_INFLECTION',
@@ -79,7 +84,7 @@ export class BusinessInflectionModule {
         detail: `Operating margin expanded significantly (${marginTraj.metricUsed}).`,
         confidence: 'HIGH',
         sourceModule: 'FUNDAMENTAL',
-        evidence: [],
+        evidence: marginEv,
       });
     }
 
@@ -87,6 +92,14 @@ export class BusinessInflectionModule {
     const qualifiedSignals = (technical?.signals || []).filter(s => s.qualified);
     if (qualifiedSignals.length > 0) {
       const topSig = qualifiedSignals[0];
+      const techSigEv: EvidenceReference = {
+        evidenceId: `TECH_SIG_${topSig.strategyId}`,
+        sourceType: 'DUCKDB_OHLCV',
+        sourceId: topSig.strategyId,
+        timestamp: technical?.dataAsOf || evaluationTimestamp,
+        notes: `Qualified under strategy ${topSig.strategyId}: ${topSig.name}`,
+      };
+      evidenceRefs.push(techSigEv);
       whyInteresting.push({
         id: `INF_TECH_${topSig.strategyId}`,
         type: 'POSITIVE_INFLECTION',
@@ -95,24 +108,34 @@ export class BusinessInflectionModule {
         detail: `Qualified under pure strategy ${topSig.strategyId} with stop loss & target defined.`,
         confidence: 'HIGH',
         sourceModule: 'TECHNICAL',
-        evidence: [],
+        evidence: [techSigEv],
       });
     } else if (technical?.trend === 'BULLISH') {
+      const techTrendEv: EvidenceReference = {
+        evidenceId: 'TECH_TREND_BULLISH',
+        sourceType: 'DUCKDB_OHLCV',
+        sourceId: 'TECHNICAL_ANALYSIS',
+        timestamp: technical?.dataAsOf || evaluationTimestamp,
+        notes: 'Price action and short-to-intermediate moving averages in bullish alignment',
+      };
+      evidenceRefs.push(techTrendEv);
       whyInteresting.push({
         id: 'INF_TECH_BULLISH',
         type: 'POSITIVE_INFLECTION',
         category: 'TECHNICAL',
         headline: `Technical structural trend is Bullish`,
-        detail: `Price trading above 50-day and 200-day moving averages with constructive momentum.`,
+        detail: `Short-term and medium-term moving average structure indicates positive price momentum.`,
         confidence: 'MEDIUM',
         sourceModule: 'TECHNICAL',
-        evidence: [],
+        evidence: [techTrendEv],
       });
     }
 
     // 4. High Quality Return Profile
     const returnProfile = fundamental?.trajectory?.returnProfile;
     if (returnProfile?.status === 'HIGH_QUALITY' && returnProfile.latestValue !== null) {
+      const returnEv = fundamental?.historicalSeries?.[returnProfile.metric]?.[0]?.provenance || [];
+      evidenceRefs.push(...returnEv);
       whyInteresting.push({
         id: 'INF_RETURN_PROFILE',
         type: 'POSITIVE_INFLECTION',
@@ -121,21 +144,29 @@ export class BusinessInflectionModule {
         detail: `Generates high returns on capital above hurdle benchmark.`,
         confidence: 'HIGH',
         sourceModule: 'FUNDAMENTAL',
-        evidence: [],
+        evidence: returnEv,
       });
     }
 
     // 5. Market / Sector Tailwind
     if (market?.sectorTrend === 'BULLISH' && market.sectorName) {
+      const sectorEv: EvidenceReference = {
+        evidenceId: `SECTOR_TAILWIND_${market.sectorName}`,
+        sourceType: 'SECTOR_SERVICE',
+        sourceId: market.sectorName,
+        timestamp: market.dataAsOf || evaluationTimestamp,
+        notes: `Sector ${market.sectorName} classified as Bullish momentum`,
+      };
+      evidenceRefs.push(sectorEv);
       whyInteresting.push({
         id: 'INF_SECTOR_TAILWIND',
         type: 'POSITIVE_INFLECTION',
         category: 'MARKET',
         headline: `${market.sectorName} sector showing Bullish momentum`,
-        detail: `Stock is positioned in a leading sector with supportive institutional flows.`,
+        detail: `Stock belongs to ${market.sectorName} which exhibits positive technical momentum.`,
         confidence: 'MEDIUM',
         sourceModule: 'MARKET_CONTEXT',
-        evidence: [],
+        evidence: [sectorEv],
       });
     }
 
@@ -160,20 +191,30 @@ export class BusinessInflectionModule {
 
     // 2. Technical Trend Weakness
     if (technical?.trend === 'BEARISH') {
+      const bearEv: EvidenceReference = {
+        evidenceId: 'TECH_TREND_BEARISH',
+        sourceType: 'DUCKDB_OHLCV',
+        sourceId: 'TECHNICAL_ANALYSIS',
+        timestamp: technical?.dataAsOf || evaluationTimestamp,
+        notes: 'Intermediate trend classified as Bearish',
+      };
+      evidenceRefs.push(bearEv);
       whatNeedsAttention.push({
         id: 'ATTN_TECH_BEARISH',
         type: 'NEGATIVE_INFLECTION',
         category: 'TECHNICAL',
         headline: 'Technical structural trend is Bearish',
-        detail: 'Price trading below key intermediate moving averages with negative slope.',
+        detail: 'Price action below key intermediate moving averages with negative slope.',
         confidence: 'HIGH',
         sourceModule: 'TECHNICAL',
-        evidence: [],
+        evidence: [bearEv],
       });
     }
 
     // 3. Margin Contraction or Top-Line Deceleration
     if (revTraj?.status === 'DECELERATING') {
+      const decelEv = fundamental?.historicalSeries?.['Revenue']?.[0]?.provenance || [];
+      evidenceRefs.push(...decelEv);
       whatNeedsAttention.push({
         id: 'ATTN_REV_DECEL',
         type: 'WATCH_ITEM',
@@ -182,14 +223,16 @@ export class BusinessInflectionModule {
         detail: 'Recent revenue growth has slowed relative to prior comparative periods.',
         confidence: 'MEDIUM',
         sourceModule: 'FUNDAMENTAL',
-        evidence: [],
+        evidence: decelEv,
       });
     }
 
     // 4. Management Commitments Pending Verification
     const commitments = management?.commitments || [];
-    const pendingCommitments = commitments.filter(c => c.status === 'PENDING');
+    const pendingCommitments = commitments.filter(c => c.status === 'PENDING' || c.status === 'NOT_YET_DUE');
     if (pendingCommitments.length > 0) {
+      const mgmtEv = pendingCommitments.slice(0, 1).map(c => c.sourceDocument);
+      evidenceRefs.push(...mgmtEv);
       whatNeedsAttention.push({
         id: 'ATTN_MGMT_PENDING',
         type: 'WATCH_ITEM',
@@ -198,7 +241,7 @@ export class BusinessInflectionModule {
         detail: `Forward guidance on ${pendingCommitments.map(c => c.category).slice(0, 3).join(', ')} awaiting realization.`,
         confidence: 'LOW',
         sourceModule: 'MANAGEMENT',
-        evidence: pendingCommitments.slice(0, 1).map(c => c.sourceDocument),
+        evidence: mgmtEv,
       });
     }
 

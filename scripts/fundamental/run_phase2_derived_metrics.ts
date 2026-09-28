@@ -24,8 +24,14 @@ async function main() {
   
   let report = `# Phase 2 Financial History Report\n\n`;
   report += `This report verifies the successful execution of Phase 2: Financial History & Derived Metrics.\n\n`;
+  report += `**PHASE_2_STATUS = BLOCKED_NO_PERIODIC_FINANCIAL_HISTORY**\n\n`;
 
-  let totalDerived = 0;
+  let stats = {
+    DERIVED_AVAILABLE: 0,
+    DERIVED_MISSING: 0,
+    DERIVED_NOT_MEANINGFUL: 0,
+    DERIVED_CONFLICTING: 0
+  };
 
   for (const symbol of pilotSymbols) {
     const companyRows = await all<{ id: string }>(db, `SELECT id FROM MasterTickers WHERE symbol=?`, [symbol]);
@@ -33,11 +39,17 @@ async function main() {
 
     // Compute derived metrics for ANNUAL / CONSOLIDATED
     const newlyDerived = await service.computeAndStoreDerivedMetrics(companyId, 'ANNUAL', 'CONSOLIDATED');
-    totalDerived += newlyDerived;
+    stats.DERIVED_AVAILABLE += newlyDerived.DERIVED_AVAILABLE;
+    stats.DERIVED_MISSING += newlyDerived.DERIVED_MISSING;
+    stats.DERIVED_NOT_MEANINGFUL += newlyDerived.DERIVED_NOT_MEANINGFUL;
+    stats.DERIVED_CONFLICTING += newlyDerived.DERIVED_CONFLICTING;
   }
 
   report += `## Global Summary\n`;
-  report += `- **Total Derived Facts Computed:** ${totalDerived}\n`;
+  report += `- **DERIVED_AVAILABLE:** ${stats.DERIVED_AVAILABLE}\n`;
+  report += `- **DERIVED_MISSING:** ${stats.DERIVED_MISSING}\n`;
+  report += `- **DERIVED_NOT_MEANINGFUL:** ${stats.DERIVED_NOT_MEANINGFUL}\n`;
+  report += `- **DERIVED_CONFLICTING:** ${stats.DERIVED_CONFLICTING}\n`;
   report += `- **Formula Centralization:** Verified (using FinancialMetricRegistry.ts)\n`;
   report += `- **Data Provenance:** Verified (parentFactIds lineage preserved in company_facts)\n`;
   report += `- **Missing-State Handling:** Verified (MISSING inputs produce UNAVAILABLE derived metrics rather than 0)\n\n`;
@@ -55,14 +67,14 @@ async function main() {
     report += `### ${sym}\n\n`;
     for (const f of facts) {
       if (f.factType === 'DERIVED') {
-         if (f.availabilityStatus === 'UNAVAILABLE') {
-            report += `- [DERIVED] ${f.metric} (${f.periodEnd}): MISSING (Insufficient Inputs)\n`;
+         if (f.value === null) {
+            report += `- [DERIVED] ${f.metric} (${f.periodEnd}): MISSING (Status: ${f.availabilityStatus})\n`;
          } else {
             report += `- [DERIVED] ${f.metric} (${f.periodEnd}): ${f.value} [Parents: ${f.parentFactIds}]\n`;
          }
       } else {
-         if (f.availabilityStatus === 'UNAVAILABLE_FROM_PROVIDER') {
-            report += `- [REPORTED] ${f.metric} (${f.periodEnd}): MISSING\n`;
+         if (f.value === null) {
+            report += `- [REPORTED] ${f.metric} (${f.periodEnd}): MISSING (Status: ${f.availabilityStatus})\n`;
          } else {
             report += `- [REPORTED] ${f.metric} (${f.periodEnd}): ${f.value}\n`;
          }
@@ -80,7 +92,11 @@ async function main() {
   report += `6. Consolidated/standalone scopes are never mixed: **YES**\n`;
   report += `7. Missing parents result in missing derived metrics: **YES**\n`;
   report += `8. No proxy/imputation is introduced: **YES**\n`;
-  report += `9. Derived metrics reproduce deterministically: **YES**\n\n`;
+  if (stats.DERIVED_AVAILABLE === 0) {
+    report += `9. Derived metrics complete: **NO (Zero valid periodic calculations were produced)**\n\n`;
+  } else {
+    report += `9. Derived metrics complete: **YES**\n\n`;
+  }
 
   writeFileSync('PHASE_2_FINANCIAL_HISTORY_REPORT.md', report);
   console.log("Phase 2 complete. Report written to PHASE_2_FINANCIAL_HISTORY_REPORT.md");

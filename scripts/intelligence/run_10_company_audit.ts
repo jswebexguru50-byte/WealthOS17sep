@@ -135,10 +135,11 @@ async function runAudit() {
     md += `| ${r.company} | ${r.businessModel} | ${r.tech} | ${r.fund} | ${r.fere} | ${r.qglp} | ${r.mgmt} | ${r.val} | ${r.market} |\n`;
   }
 
-  md += `\n### Functional Coverage Summary\n\n`;
+  md += `\n### Functional Execution Summary\n\n`;
   md += `- **Total Evaluated Modules:** ${jsonReport.summary.totalCells}\n`;
-  md += `- **Fully Working Modules:** ${jsonReport.summary.workingCells} / ${jsonReport.summary.totalCells} (${((jsonReport.summary.workingCells / jsonReport.summary.totalCells) * 100).toFixed(1)}%)\n`;
-  md += `- **Gracefully Degraded / Partial / Gap Modules:** ${gaps.length}\n\n`;
+  md += `- **Module Execution Availability:** ${jsonReport.summary.workingCells} / ${jsonReport.summary.totalCells} modules executing cleanly\n`;
+  md += `- **Gracefully Degraded / Partial / Gap Modules:** ${gaps.length}\n`;
+  md += `- **Analytical Truth & PIT Correctness:** Tracked independently via Golden Intelligence Matrix and TruthQuality taxonomy (not conflated with software execution)\n\n`;
 
   md += `### Actionable Functional Backlog (Actual Data Gaps)\n\n`;
   md += `| Company | Module | Status | Gap | Simplest Fix | External Provider Req? |\n`;

@@ -1,6 +1,6 @@
 # TEN-COMPANY FUNCTIONAL INTELLIGENCE AUDIT
 
-**Audit Evaluation Date:** 2026-09-28T19:03:16.931Z
+**Audit Evaluation Date:** 2026-09-28T19:44:47.072Z
 **Universe:** RELIANCE, TCS, INFY, HDFCBANK, ICICIBANK, TATAMOTORS, TATASTEEL, TITAN, BEL, SUNPHARMA
 
 ### Functional Status Matrix
@@ -18,11 +18,12 @@
 | BEL | NON_FINANCIAL | WORKING | WORKING | WORKING | WORKING | DATA_INSUFFICIENT | WORKING | WORKING |
 | SUNPHARMA | NON_FINANCIAL | WORKING | WORKING | WORKING | WORKING | DATA_INSUFFICIENT | WORKING | WORKING |
 
-### Functional Coverage Summary
+### Functional Execution Summary
 
 - **Total Evaluated Modules:** 70
-- **Fully Working Modules:** 59 / 70 (84.3%)
+- **Module Execution Availability:** 59 / 70 modules executing cleanly
 - **Gracefully Degraded / Partial / Gap Modules:** 11
+- **Analytical Truth & PIT Correctness:** Tracked independently via Golden Intelligence Matrix and TruthQuality taxonomy (not conflated with software execution)
 
 ### Actionable Functional Backlog (Actual Data Gaps)
 

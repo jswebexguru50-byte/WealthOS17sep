@@ -1,9 +1,11 @@
-import { DataStatus, FreshnessStatus } from './DataStatus.js';
+import { DataStatus, FreshnessStatus, TruthQuality } from './DataStatus.js';
 
 export type EvidenceSourceType =
   | 'TRENDLYNE_SNAPSHOT'
   | 'CANONICAL_FACT'
   | 'FERE_FILING'
+  | 'XBRL_FILING'
+  | 'SHAREHOLDING_FILING'
   | 'DUCKDB_OHLCV'
   | 'SECTOR_SERVICE'
   | 'EXCHANGE_FILING'
@@ -38,12 +40,16 @@ export interface DataProvenance {
 export interface FactEnvelope<T = any> {
   value: T | null;
   status: DataStatus;
+  truthQuality?: TruthQuality;
   securityId: string | null;
   metric: string;
   periodType: string | null;
   periodEnd: string | null;
+  informationDate?: string | null;
+  availableAt?: string | null;
   scope: string | null;
   provenance: EvidenceReference[];
   freshness: FreshnessStatus;
   missingReason: string | null;
 }
+

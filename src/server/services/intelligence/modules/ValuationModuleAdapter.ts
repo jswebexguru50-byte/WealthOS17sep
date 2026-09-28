@@ -119,7 +119,8 @@ export class ValuationModuleAdapter {
     const buildMetric = (metricName: string, val: number | null): ValuationMetric => ({
       metric: metricName,
       current: val,
-      relativeStatus: val !== null ? 'NEAR_MEDIAN' : 'DATA_INSUFFICIENT',
+      // Invariant: Current valuation != relative valuation. Cheap/fair/expensive/near-median requires an empirical comparison basis.
+      relativeStatus: 'DATA_INSUFFICIENT',
       evidence: evidenceRefs.slice(0, 1),
     });
 
@@ -142,7 +143,8 @@ export class ValuationModuleAdapter {
     return {
       moduleId: 'VALUATION',
       status,
-      dataStatus: hasAny ? 'VERIFIED' : 'DATA_INSUFFICIENT',
+      // Parsed snapshot data without independent cross-verification is PARTIAL, not VERIFIED
+      dataStatus: hasAny ? 'PARTIAL' : 'DATA_INSUFFICIENT',
       result: payload,
       evidenceRefs,
       missingRequirements: hasAny ? [] : [`No valuation multiples found for ${cleanSym}`],

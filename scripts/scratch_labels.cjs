@@ -1,0 +1,9 @@
+import sqlite3 from 'sqlite3';
+
+const db = new sqlite3.Database('portfolio.db');
+db.all('SELECT response_json FROM fundamental_endpoint_snapshots WHERE endpoint="parameters" LIMIT 1', (err, rows) => {
+  if (err) throw err;
+  const data = JSON.parse(rows[0].response_json);
+  const text = JSON.parse(data.content[0].text).data;
+  console.log(text.split('\n---\n').map(b => b.split('\n')[0]).join(' | '));
+});

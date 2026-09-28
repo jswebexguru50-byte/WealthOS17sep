@@ -143,7 +143,7 @@ export class FundamentalModuleAdapter {
         value: typeof h.value === 'number' ? h.value : Number(h.value) || null,
         unit,
         scope,
-        status: 'VERIFIED',
+        status: 'PARTIAL',
         provenance: evidenceRefs.slice(0, 1),
       }));
     };
@@ -183,22 +183,22 @@ export class FundamentalModuleAdapter {
         const name = String(r.name || '').trim().toUpperCase();
         if (name === 'ROE') {
           latestRoe = numVal;
-          series['ROE'] = [{ period: 'LATEST', value: numVal, unit: 'PERCENT', scope, status: 'VERIFIED', provenance: evidenceRefs.slice(0, 1) }];
+          series['ROE'] = [{ period: 'LATEST', value: numVal, unit: 'PERCENT', scope, status: 'PARTIAL', provenance: evidenceRefs.slice(0, 1) }];
         } else if (name === 'ROCE') {
           latestRoce = numVal;
-          series['ROCE'] = [{ period: 'LATEST', value: numVal, unit: 'PERCENT', scope, status: 'VERIFIED', provenance: evidenceRefs.slice(0, 1) }];
+          series['ROCE'] = [{ period: 'LATEST', value: numVal, unit: 'PERCENT', scope, status: 'PARTIAL', provenance: evidenceRefs.slice(0, 1) }];
         } else if (name === 'ROA') {
           latestRoa = numVal;
-          series['ROA'] = [{ period: 'LATEST', value: numVal, unit: 'PERCENT', scope, status: 'VERIFIED', provenance: evidenceRefs.slice(0, 1) }];
+          series['ROA'] = [{ period: 'LATEST', value: numVal, unit: 'PERCENT', scope, status: 'PARTIAL', provenance: evidenceRefs.slice(0, 1) }];
         } else if (name === 'NIM') {
           latestNim = numVal;
-          series['NIM'] = [{ period: 'LATEST', value: numVal, unit: 'PERCENT', scope, status: 'VERIFIED', provenance: evidenceRefs.slice(0, 1) }];
+          series['NIM'] = [{ period: 'LATEST', value: numVal, unit: 'PERCENT', scope, status: 'PARTIAL', provenance: evidenceRefs.slice(0, 1) }];
         } else if (name.includes('NPA') || name === 'NET NPA') {
           latestNpa = numVal;
-          series['NetNPA'] = [{ period: 'LATEST', value: numVal, unit: 'PERCENT', scope, status: 'VERIFIED', provenance: evidenceRefs.slice(0, 1) }];
+          series['NetNPA'] = [{ period: 'LATEST', value: numVal, unit: 'PERCENT', scope, status: 'PARTIAL', provenance: evidenceRefs.slice(0, 1) }];
         } else if (name === 'CASA') {
           latestCasa = numVal;
-          series['CASA'] = [{ period: 'LATEST', value: numVal, unit: 'PERCENT', scope, status: 'VERIFIED', provenance: evidenceRefs.slice(0, 1) }];
+          series['CASA'] = [{ period: 'LATEST', value: numVal, unit: 'PERCENT', scope, status: 'PARTIAL', provenance: evidenceRefs.slice(0, 1) }];
         }
       }
     }
@@ -206,7 +206,7 @@ export class FundamentalModuleAdapter {
     // 3. Derive Transparent Trajectory
     // Revenue Growth YoY Trajectory
     const revSeries = series['Revenue'] || [];
-    let revGrowthStatus: 'ACCELERATING' | 'DECELERATING' | 'STABLE' | 'DATA_INSUFFICIENT' = 'DATA_INSUFFICIENT';
+    let revGrowthStatus: 'ACCELERATING' | 'DECELERATING' | 'STABLE' | 'GROWING' | 'DECLINING' | 'DATA_INSUFFICIENT' = 'DATA_INSUFFICIENT';
     let latestGrowth: number | null = null;
     let priorGrowth: number | null = null;
     let periodsCompared: string | null = null;
@@ -235,7 +235,8 @@ export class FundamentalModuleAdapter {
       if (v0 && v1 && v1 > 0) {
         latestGrowth = Number((((v0 - v1) / v1) * 100).toFixed(2));
         periodsCompared = `${revSeries[0].period} vs ${revSeries[1].period}`;
-        revGrowthStatus = 'STABLE';
+        // Invariant: One interval cannot be labeled STABLE or ACCELERATING. It is simply GROWING or DECLINING.
+        revGrowthStatus = latestGrowth >= 0 ? 'GROWING' : 'DECLINING';
       }
     }
 
@@ -245,8 +246,19 @@ export class FundamentalModuleAdapter {
     let marginMetricUsed = businessModel === 'BANK' ? 'NIM' : 'EBITDA_MARGIN';
 
     if (businessModel === 'BANK') {
-      if (latestNim !== null) {
-        marginStatus = latestNim >= 3.5 ? 'EXPANDING' : latestNim < 2.8 ? 'CONTRACTING' : 'STABLE';
+      const nimSeries = series['NIM'] || [];
+      if (nimSeries.length >= 2 && nimSeries[0]?.value !== null && nimSeries[1]?.value !== null) {
+        bpsDelta = Math.round(((nimSeries[0].value! - nimSeries[1].value!) * 100));
+        if (bpsDelta >= 15) {
+          marginStatus = 'EXPANDING';
+        } else if (bpsDelta <= -15) {
+          marginStatus = 'CONTRACTING';
+        } else {
+          marginStatus = 'STABLE';
+        }
+      } else {
+        // Invariant: Level is not trajectory. High absolute NIM does not mean expansion without prior period.
+        marginStatus = 'DATA_INSUFFICIENT';
       }
     } else {
       const ebitdaSeries = series['EBITDA'] || [];
@@ -319,7 +331,8 @@ export class FundamentalModuleAdapter {
     return {
       moduleId: 'FUNDAMENTAL',
       status: moduleStatus,
-      dataStatus: 'VERIFIED',
+      // Parsed snapshot data without independent canonical verification is PARTIAL, not VERIFIED
+      dataStatus: hasData ? 'PARTIAL' : 'DATA_INSUFFICIENT',
       result: {
         businessModel,
         historicalSeries: series,

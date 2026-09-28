@@ -16,7 +16,7 @@ export interface FundamentalSeries {
 
 export interface FundamentalTrajectory {
   revenueGrowthYoY: {
-    status: 'ACCELERATING' | 'DECELERATING' | 'STABLE' | 'DATA_INSUFFICIENT';
+    status: 'ACCELERATING' | 'DECELERATING' | 'STABLE' | 'GROWING' | 'DECLINING' | 'DATA_INSUFFICIENT';
     latestGrowthPct: number | null;
     priorGrowthPct: number | null;
     periodsCompared: string | null;

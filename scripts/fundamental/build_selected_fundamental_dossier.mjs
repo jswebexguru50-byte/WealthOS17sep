@@ -1,20 +1,11 @@
 #!/usr/bin/env node
 /**
  * Build a repeatable fundamental dossier workbook for the selected strategy cohort.
- *
- * Inputs:
- *   - data/fundamental_enrichment/excel_strategy_manifest.json
- *   - outputs/.../Six_Strategies_90_Sessions_2026-09-25.xlsx
- *   - portfolio.db synced fundamental tables
- *   - data/fere/verified_filings/fere_evidence.db source evidence
- *
- * Optional:
- *   --refresh-fundamentals  Fetch Upstox fundamentals for selected shares first.
- *   --force-refresh         Re-fetch even when prior Upstox SUCCESS rows exist.
  */
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
-import { execFileSync } from 'node:child_process';
+import { spawnSync } from 'node:child_process';
 import Database from 'better-sqlite3';
 import ExcelJS from 'exceljs';
 import XLSX from 'xlsx';
@@ -31,54 +22,39 @@ const manifestPath = path.resolve(root, getArg('--manifest', 'data/fundamental_e
 const strategyWorkbookPath = path.resolve(root, getArg('--strategy-workbook', 'outputs/01a0c502-921f-7491-9a42-361d54d7bea0/Six_Strategies_90_Sessions_2026-09-25.xlsx'));
 const outDir = path.resolve(root, getArg('--out-dir', 'outputs/fundamental_dossiers'));
 const portfolioDbPath = path.resolve(root, 'portfolio.db');
-const fereDbPath = path.resolve(root, 'data/fere/verified_filings/fere_evidence.db');
-const pythonPath = getArg('--python', 'C:\\Users\\gopal\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe');
 const cutoff = getArg('--cutoff', '2026-09-25');
+const APPROVED_STRATEGIES = ['S1a', 'S1b', 'S2a', 'S3a', 'S4a', 'S4b', 'S5a'];
+const sectorSnapshotPath = path.resolve(root, getArg('--sector-snapshot', 'data/fundamental_enrichment/sector_momentum_snapshot.json'));
 
 fs.mkdirSync(outDir, { recursive: true });
-
-function runRefreshSteps() {
-  if (!has('--refresh-fundamentals')) return;
-  const npmCmd = process.platform === 'win32' ? 'npm.cmd' : 'npm';
-  const upstoxArgs = ['run', 'fundamental:upstox', '--', '--group', 'excelStrategyMatches', '--batch-size', '1'];
-  if (has('--force-refresh')) upstoxArgs.push('--force');
-  execFileSync(npmCmd, upstoxArgs, { cwd: root, stdio: 'inherit' });
-  if (fs.existsSync(pythonPath)) {
-    execFileSync(pythonPath, ['scripts/fundamental/sync_verified_fundamentals_package.py', '--manifest', manifestPath], { cwd: root, stdio: 'inherit' });
-  } else {
-    console.warn(`[Dossier] Python not found at ${pythonPath}; skipped sync step.`);
-  }
-}
 
 function placeholders(items) {
   return items.map(() => '?').join(',');
 }
 
-function latestRows(db, table, symbols, orderCol = 'fetched_at') {
-  const ph = placeholders(symbols);
-  const rows = db.prepare(`SELECT * FROM ${table} WHERE symbol IN (${ph}) ORDER BY ${orderCol}`).all(...symbols);
-  const map = new Map();
-  for (const row of rows) map.set(String(row.symbol).toUpperCase(), row);
-  return map;
-}
-
 function readStrategyMatches(symbols) {
-  const bySymbol = new Map(symbols.map(s => [s, { symbol: s, strategies: new Set(), signalCount: 0, latestSignalDate: null, bestSignalPrice: null }]));
+  const bySymbol = new Map(symbols.map(s => [s, { symbol: s, strategies: new Set(), signalKeys: new Set(), latestSignalDate: null, bestSignalPrice: null }]));
   if (!fs.existsSync(strategyWorkbookPath)) return bySymbol;
 
   const workbook = XLSX.readFile(strategyWorkbookPath);
-  const strategySheets = workbook.SheetNames.filter(s => /^S\d/i.test(s));
+  const strategySheets = workbook.SheetNames.filter(s => APPROVED_STRATEGIES.includes(s));
+  const missingStrategies = APPROVED_STRATEGIES.filter(s => !strategySheets.includes(s));
+  if (missingStrategies.length) {
+    throw new Error(`Technical workbook is missing approved strategy sheets: ${missingStrategies.join(', ')}`);
+  }
   for (const sheetName of strategySheets) {
     const ws = workbook.Sheets[sheetName];
     const rows = XLSX.utils.sheet_to_json(ws, { range: 5, defval: null });
-    for (const row of rows) {
+    for (const [rowIndex, row] of rows.entries()) {
       const symbol = String(row.Symbol || row.symbol || '').trim().toUpperCase();
       if (!bySymbol.has(symbol)) continue;
       const record = bySymbol.get(symbol);
       record.strategies.add(sheetName);
-      record.signalCount += 1;
       const rawSignalDate = row['Signal date'] || row['Signal_Date'] || row.Signal_Date || row.signal_date || row.as_of_date || '';
       const signalDate = normalizeExcelDate(rawSignalDate);
+      // One signal per symbol, strategy, and date. The source has no intraday
+      // timestamp, so duplicate same-day records are intentionally collapsed.
+      record.signalKeys.add(`${sheetName}|${signalDate || `UNDATED:${rowIndex}`}`);
       if (signalDate && (!record.latestSignalDate || signalDate > record.latestSignalDate)) record.latestSignalDate = signalDate;
       const price = Number(row['Signal close ₹'] ?? row.Signal_Price ?? row.cmp ?? row.close);
       if (Number.isFinite(price)) record.bestSignalPrice = price;
@@ -98,81 +74,6 @@ function normalizeExcelDate(value) {
   if (/^\d+(\.\d+)?$/.test(text)) return normalizeExcelDate(Number(text));
   const match = text.match(/\d{4}-\d{2}-\d{2}/);
   return match ? match[0] : text.slice(0, 10);
-}
-
-function parseJson(value) {
-  try { return value ? JSON.parse(value) : {}; } catch { return {}; }
-}
-
-function sourceCoverage(raw) {
-  const required = ['profile', 'balance-sheet', 'cash-flow', 'income-statement', 'share-holdings', 'key-ratios', 'corporate-actions', 'competitors'];
-  const json = parseJson(raw?.response_json);
-  const present = required.filter(k => !!json[k]);
-  const missing = required.filter(k => !json[k]);
-  return { present: present.join(', '), missing: missing.join(', '), complete: missing.length === 0 ? 'YES' : 'NO' };
-}
-
-function bestUpstoxRows(db, symbols) {
-  const required = ['profile', 'balance-sheet', 'cash-flow', 'income-statement', 'share-holdings', 'key-ratios', 'corporate-actions', 'competitors'];
-  const map = new Map();
-  for (const symbol of symbols) {
-    const rows = db.prepare(
-      `SELECT * FROM fundamental_source_snapshots
-       WHERE provider=? AND status=? AND symbol=?
-       ORDER BY fetched_at DESC`
-    ).all('UPSTOX_FUNDAMENTALS', 'SUCCESS', symbol);
-    let best = null;
-    let bestMissing = Infinity;
-    for (const row of rows) {
-      const json = parseJson(row.response_json);
-      const missing = required.filter(endpoint => !json[endpoint]).length;
-      if (!best || missing < bestMissing) {
-        best = row;
-        bestMissing = missing;
-      }
-      if (missing === 0) break;
-    }
-    if (best) map.set(symbol, best);
-  }
-  return map;
-}
-
-function latestTrendlyneRows(db, symbols) {
-  const map = new Map(symbols.map(symbol => [symbol, new Map()]));
-  const rows = db.prepare(`SELECT * FROM fundamental_endpoint_snapshots
-    WHERE provider='TRENDLYNE_MCP' AND symbol IN (${placeholders(symbols)}) ORDER BY fetched_at`).all(...symbols);
-  for (const row of rows) map.get(String(row.symbol).toUpperCase())?.set(row.endpoint, row);
-  return map;
-}
-function trendlyneText(row) {
-  try {
-    const outer = JSON.parse(row?.response_json || '{}');
-    const content = outer.content?.find(item => item?.type === 'text')?.text || '';
-    const inner = JSON.parse(content);
-    return typeof inner.data === 'string' ? inner.data : content;
-  } catch { return ''; }
-}
-function trendlyneValue(text, symbol, label) {
-  const start = text.toLowerCase().indexOf(label.toLowerCase());
-  if (start < 0) return null;
-  const section = text.slice(start, text.indexOf('\n---', start) < 0 ? undefined : text.indexOf('\n---', start));
-  const match = new RegExp(`^${symbol.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}:([^\\r\\n]+)$`, 'im').exec(section);
-  if (!match || /^(none|null|n\/?a|na|-)$/i.test(match[1].trim())) return null;
-  const value = Number(match[1].trim());
-  return Number.isFinite(value) ? value : null;
-}
-function trendlyneDii(text) {
-  const start = text.indexOf('\n  DII:');
-  if (start < 0) return null;
-  const end = text.indexOf('\n  Public:', start);
-  const section = text.slice(start, end < 0 ? undefined : end);
-  const matches = [...section.matchAll(/\["[^"]+",\s*(-?[\d.]+)/g)];
-  return matches.length ? Number(matches.at(-1)[1]) : null;
-}
-function eightQuarterNetProfit(text, symbol) {
-  const labels = ['Net Profit Qtr', 'Net Profit 1Q Ago', 'Net Profit 2Q Ago', 'Net Profit 3Q Ago', 'Net Profit 4Q Ago', 'Net Profit 5Q Ago', 'Net Profit 6Q Ago', 'Net Profit 7Q Ago'];
-  const values = labels.map(label => trendlyneValue(text, symbol, label));
-  return { values, status: values.every(value => value !== null) ? 'VERIFIED' : 'DATA_INSUFFICIENT', result: values.every(value => value !== null) ? (values.every(value => value > 0) ? 'PASS' : 'FAIL') : 'NOT_EVALUABLE' };
 }
 
 function setColumns(ws, columns) {
@@ -207,174 +108,436 @@ function fmtSheet(ws) {
   }));
 }
 
-runRefreshSteps();
-
+if (!fs.existsSync(manifestPath)) {
+  console.error(`Manifest missing at ${manifestPath}`);
+  process.exit(1);
+}
 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 const symbols = manifest.symbols.map(s => String(s).toUpperCase());
+if (symbols.length === 0) {
+  console.error('Manifest must contain at least one symbol.');
+  process.exit(1);
+}
+const uniqueSymbols = new Set(symbols);
+if (uniqueSymbols.size !== symbols.length) {
+  console.error(`Manifest must contain unique symbols. Found ${symbols.length} entries but ${uniqueSymbols.size} unique symbols.`);
+  process.exit(1);
+}
+const cohortCount = symbols.length;
+
 const portfolio = new Database(portfolioDbPath, { readonly: true });
-const fere = new Database(fereDbPath, { readonly: true });
 const ph = placeholders(symbols);
 
-const fundamentals = latestRows(portfolio, 'FundamentalSnapshots', symbols);
-const filters = new Map(portfolio.prepare(`SELECT * FROM strategy_fundamental_filter_results WHERE run_key=? AND symbol IN (${ph})`).all('EXCEL_SIX_STRATEGIES_2026-09-25', ...symbols).map(r => [r.symbol, r]));
-const rawRows = bestUpstoxRows(portfolio, symbols);
-const trendlyneRows = latestTrendlyneRows(portfolio, symbols);
 const strategyMatches = readStrategyMatches(symbols);
-const shareholdingRows = fere.prepare(`SELECT symbol, COUNT(*) AS snapshots, MAX(period_end) AS latest_period, SUM(CASE WHEN promoter_pledge > 0 THEN 1 ELSE 0 END) AS pledged_periods, MIN(CASE WHEN source_sha256 IS NULL OR length(source_sha256) <> 64 THEN 0 ELSE 1 END) AS hashes_ok FROM shareholding_snapshot WHERE symbol IN (${ph}) GROUP BY symbol`).all(...symbols);
-const shareholding = new Map(shareholdingRows.map(r => [r.symbol, r]));
+const sectorMomentumBySymbol = loadSectorMomentum(symbols);
+
+const DOSSIER_METRIC_MAP = {
+  market_cap_cr: { metric: 'market_cap', periodType: 'INSTANT', scope: 'UNKNOWN' },
+  roce_pct: { metric: 'roce_reported', periodType: 'ANNUAL', scope: 'UNKNOWN' },
+  roe_pct: { metric: 'roe', periodType: 'ANNUAL', scope: 'UNKNOWN' },
+  cfo_cr: { metric: 'cfo', periodType: 'ANNUAL', scope: 'UNKNOWN' },
+  operating_profit_cr: { metric: 'operating_profit', periodType: 'ANNUAL', scope: 'UNKNOWN' },
+  promoter_pct: { metric: 'promoter_holding', periodType: 'INSTANT', scope: 'UNKNOWN' },
+  promoter_pledge_pct: { metric: 'promoter_pledge', periodType: 'QUARTER', scope: 'UNKNOWN' },
+  fii_pct: { metric: 'fii_holding', periodType: 'QUARTER', scope: 'UNKNOWN' },
+  pe_ratio: { metric: 'pe_ratio', periodType: 'TTM', scope: 'UNKNOWN' },
+  book_value: { metric: 'bvps', periodType: 'ANNUAL', scope: 'UNKNOWN' },
+  debt_to_equity: { metric: 'debt_to_equity_reported', periodType: 'ANNUAL', scope: 'UNKNOWN' },
+};
+
+// company_facts preserves the provider's raw value.  The master dossier, however,
+// must expose financial measures as true Excel numbers (or null), never as
+// numeric-looking strings.  This conversion is deliberately narrow: it applies
+// only to the numerical fields selected by DOSSIER_METRIC_MAP and never invents a
+// value when the provider returned an unparseable value.
+function numericFact(fact) {
+  if (!fact || fact.value === null || fact.value === undefined || fact.value === '') {
+    return { value: null, availabilityStatus: fact?.availabilityStatus || 'NOT_YET_REQUESTED' };
+  }
+  const normalized = typeof fact.value === 'string' ? fact.value.replace(/,/g, '').trim() : fact.value;
+  const numeric = typeof normalized === 'number' ? normalized : Number(normalized);
+  if (Number.isFinite(numeric)) return { ...fact, value: numeric };
+  return {
+    ...fact,
+    value: null,
+    availabilityStatus: fact.availabilityStatus === 'AVAILABLE' ? 'INSUFFICIENT_DATA' : fact.availabilityStatus
+  };
+}
+
+function loadSectorMomentum(symbols) {
+  const scriptPath = path.resolve(root, 'scripts/fundamental/build_sector_momentum_snapshot.py');
+  const indexRoot = path.resolve(root, 'data/market_data/tejhq_hf_10y/kite_index_backfill/candles');
+  const proxyMapPath = path.resolve(root, 'data/fundamental_enrichment/trendlyne_sector_to_nse_index_proxy_map.json');
+  const inputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'wealthos-sector-'));
+  const inputPath = path.join(inputDir, 'symbols.json');
+  fs.writeFileSync(inputPath, JSON.stringify(symbols));
+  const pythonCandidates = [
+    process.env.PYTHON_BIN,
+    'C:\\Users\\gopal\\AppData\\Local\\Programs\\Python\\Python312\\python.exe',
+  ].filter(Boolean);
+  let failure = null;
+  try {
+    for (const python of pythonCandidates) {
+      const result = spawnSync(python, [scriptPath, '--db', portfolioDbPath, '--symbols-json', inputPath, '--index-root', indexRoot, '--output', sectorSnapshotPath, '--provider-proxy-map', proxyMapPath], {
+        cwd: root,
+        encoding: 'utf8',
+        timeout: 120000,
+      });
+      if (result.status === 0 && fs.existsSync(sectorSnapshotPath)) {
+        const parsed = JSON.parse(fs.readFileSync(sectorSnapshotPath, 'utf8'));
+        return new Map((parsed.rows || []).map(row => [String(row.symbol).toUpperCase(), row]));
+      }
+      failure = (result.error?.message || result.stderr || `exit ${result.status}`).trim();
+    }
+  } finally {
+    fs.rmSync(inputDir, { recursive: true, force: true });
+  }
+  console.warn(`[sector-momentum] persisted sector-index snapshot unavailable: ${failure || 'unknown error'}`);
+  return new Map();
+}
+
+const allTraceableFacts = portfolio.prepare(`
+  SELECT * FROM company_facts
+  WHERE symbol IN (${ph})
+    AND provider = 'TRENDLYNE_MCP'
+    AND providerToken IS NOT NULL
+    AND exactProviderLabel IS NOT NULL
+    AND sourceDocumentId IS NOT NULL
+    AND fetchedAt IS NOT NULL
+    AND factType IN ('REPORTED', 'MISSING')
+`).all(...symbols);
+
+// Process latest facts, handling conflicts
+const factsBySymbol = new Map(symbols.map(s => [s, []]));
+const grouped = new Map(); // key = full identity
+
+for (const fact of allTraceableFacts) {
+  const sym = String(fact.symbol).toUpperCase();
+  const met = String(fact.metric);
+  const key = [
+    sym,
+    met,
+    fact.periodType,
+    fact.periodEnd,
+    fact.scope,
+    fact.factType
+  ].join('|');
+  
+  if (!grouped.has(key)) grouped.set(key, []);
+  grouped.get(key).push(fact);
+}
+
+for (const [key, facts] of grouped.entries()) {
+  const sym = key.split('|')[0];
+  if (!facts.length) continue;
+  
+  facts.sort((a, b) => new Date(b.fetchedAt).getTime() - new Date(a.fetchedAt).getTime());
+  
+  const latestFetchedAt = facts[0].fetchedAt;
+  const sameTimeFacts = facts.filter(f => f.fetchedAt === latestFetchedAt);
+  
+  let chosenFact;
+  if (sameTimeFacts.length > 1) {
+    const val = sameTimeFacts[0].value;
+    // Check materially different non-null values
+    const isConflict = sameTimeFacts.some(f => f.value !== null && val !== null && f.value !== val);
+    if (isConflict) {
+      chosenFact = { ...sameTimeFacts[0], value: null, availabilityStatus: 'CONFLICTING' };
+    } else {
+      chosenFact = sameTimeFacts[0];
+    }
+  } else {
+    chosenFact = sameTimeFacts[0];
+  }
+  
+  // Apply 15-day staleness
+  if (chosenFact.fetchedAt) {
+    const fetched = new Date(chosenFact.fetchedAt).getTime();
+    const diffDays = (Date.now() - fetched) / (1000 * 60 * 60 * 24);
+    if (diffDays > 15 && chosenFact.availabilityStatus === 'AVAILABLE') {
+      chosenFact.availabilityStatus = 'STALE';
+    }
+  }
+
+  factsBySymbol.get(sym).push(chosenFact);
+}
+
+function getFact(symbol, canonicalMetricKey) {
+  const req = DOSSIER_METRIC_MAP[canonicalMetricKey];
+  if (!req) {
+    return { value: null, availabilityStatus: 'NOT_YET_REQUESTED' };
+  }
+  const facts = factsBySymbol.get(symbol) || [];
+  
+  // Scope selection rule:
+  // 1. Prefer the declared scope when present.
+  // 2. If the declared scope is UNKNOWN, accept only UNKNOWN.
+  // 3. Do not silently select a legacy CONSOLIDATED or STANDALONE fact merely because it is present.
+  
+  let candidates = facts.filter(x => x.metric === req.metric && x.periodType === req.periodType);
+  let best = candidates.find(x => x.scope === req.scope);
+  
+  if (!best) {
+    return { value: null, availabilityStatus: 'NOT_YET_REQUESTED' };
+  }
+  return best;
+}
+
+const evidenceRows = [];
+let eligibleSnapshotCount = 0;
+let eligiblePeriodicCount = 0;
 
 const dossierRows = symbols.map(symbol => {
-  const f = fundamentals.get(symbol) || {};
-  const r = filters.get(symbol) || {};
-  const raw = rawRows.get(symbol) || {};
-  const cov = sourceCoverage(raw);
   const st = strategyMatches.get(symbol) || { strategies: new Set(), signalCount: 0 };
-  const trend = trendlyneRows.get(symbol) || new Map();
-  const paramText = trendlyneText(trend.get('parameters'));
-  const historyText = trendlyneText(trend.get('quarterly_profit_history'));
-  const holdingText = trendlyneText(trend.get('shareholding'));
-  const quarterly = eightQuarterNetProfit(historyText, symbol);
-  const cfo = trendlyneValue(paramText, symbol, 'Cash from Operating Act. Ann.');
-  const op = trendlyneValue(paramText, symbol, 'Operating Profit Ann.');
+  
+  const facts = factsBySymbol.get(symbol) || [];
+  for (const f of facts) {
+    evidenceRows.push({
+      symbol,
+      canonical_metric: f.metric,
+      value: f.value,
+      availability_status: f.availabilityStatus,
+      provider: f.provider,
+      provider_token: f.providerToken,
+      exact_provider_label: f.exactProviderLabel,
+      source_document_id: f.sourceDocumentId,
+      fetched_at: f.fetchedAt,
+      scope: f.scope,
+      period_type: f.periodType,
+      period_end: f.periodEnd,
+      unit: f.unit,
+      currency: f.currency
+    });
+  }
+  
+  let eligibleSnapshot = false;
+  let eligiblePeriodic = false;
+  for (const f of facts) {
+    if (f.periodEnd === 'LATEST' && f.availabilityStatus === 'AVAILABLE') eligibleSnapshot = true;
+    if (f.periodEnd !== 'LATEST' && f.availabilityStatus === 'AVAILABLE' && ['ANNUAL', 'QUARTER', 'TTM'].includes(f.periodType)) eligiblePeriodic = true;
+  }
+  if (eligibleSnapshot) eligibleSnapshotCount++;
+  if (eligiblePeriodic) eligiblePeriodicCount++;
+
+  const roce = numericFact(getFact(symbol, 'roce_pct'));
+  const roe = numericFact(getFact(symbol, 'roe_pct'));
+  const cfo = numericFact(getFact(symbol, 'cfo_cr'));
+  const op = numericFact(getFact(symbol, 'operating_profit_cr'));
+  const promoter = numericFact(getFact(symbol, 'promoter_pct'));
+  const pledge = numericFact(getFact(symbol, 'promoter_pledge_pct'));
+  const fii = numericFact(getFact(symbol, 'fii_pct'));
+  const dii = numericFact(getFact(symbol, 'dii_holding_pct')); // unmapped
+  const pe = numericFact(getFact(symbol, 'pe_ratio'));
+  const bv = numericFact(getFact(symbol, 'book_value'));
+  const de = numericFact(getFact(symbol, 'debt_to_equity'));
+  const price = numericFact(getFact(symbol, 'current_price')); // unmapped
+  const mcap = numericFact(getFact(symbol, 'market_cap_cr'));
+  const sectorMomentum = sectorMomentumBySymbol.get(symbol) || {
+    sector: null, indexSymbol: null, asOf: null, close: null, ema20: null, sma20: null,
+    return20dPct: null, aboveEma20: null, aboveSma20: null, status: 'SOURCE_UNAVAILABLE',
+    availabilityReason: 'Sector-momentum snapshot could not be built from saved sector-index OHLCV.',
+    source: 'KITE_INDEX_PARQUET'
+  };
+
+  let cfo_op_val = null;
+  let cfo_op_status = 'INSUFFICIENT_DATA';
+  if (cfo.availabilityStatus === 'AVAILABLE' && op.availabilityStatus === 'AVAILABLE' && op.value !== null && Number(op.value) !== 0) {
+    cfo_op_val = (Number(cfo.value) / Number(op.value)) * 100;
+    cfo_op_status = 'AVAILABLE';
+  }
+
+  const parseDate = (d) => {
+    if (!d) return null;
+    const pd = new Date(d);
+    return isNaN(pd.getTime()) ? null : pd;
+  };
+  const signalDateObj = parseDate(st.latestSignalDate);
+
   return {
     symbol,
-    company: f.company_name || symbol,
-    sector: f.sector || '',
     strategies: [...st.strategies].join(', '),
-    signal_count: st.signalCount || 0,
-    latest_signal_date: st.latestSignalDate || '',
-    evidence_status: r.evidence_status || 'MISSING',
-    pass_count: r.pass_count ?? '',
-    total_checks: r.total_checks ?? '',
-    promoter_pct: r.promoter_pct ?? f.promoter_holding_pct ?? '',
-    promoter_pass: r.promoter_pass ?? '',
-    profitable_8q: r.profitable_last_8_quarters ?? '',
-    profitable_quarters: r.profitable_quarter_count ?? '',
-    roce_pct: r.roce_pct ?? f.roce_pct ?? '',
-    roce_pass: r.roce_pass ?? '',
-    roe_pct: r.roe_pct ?? f.roe_pct ?? '',
-    roe_pass: r.roe_pass ?? '',
-    pledged_pct: r.pledged_pct ?? f.pledged_pct ?? '',
-    no_pledge_pass: r.no_pledge_pass ?? '',
-    fii_pct: r.fii_pct ?? f.fii_holding_pct ?? '',
-    dii_pct: r.dii_pct ?? f.dii_holding_pct ?? '',
-    institutional_pass: r.institutional_involvement_pass ?? '',
-    cfo_op_ratio: r.cash_flow_to_operating_profit ?? '',
-    cash_flow_pass: r.cash_flow_pass ?? '',
-    qglp_filter_status: r.qglp_status || '',
-    sector_momentum_status: r.sector_momentum_status || '',
-    double_momentum_status: r.double_momentum_status || '',
-    pe_ratio: f.pe_ratio ?? '',
-    book_value: f.book_value ?? '',
-    debt_to_equity: f.debt_to_equity ?? '',
-    raw_required_complete: cov.complete,
-    raw_missing: cov.missing,
-    source: r.source || f.source || 'VERIFIED_MULTI_SOURCE',
-    evidence_note: r.evidence_note || ''
-    ,trendlyne_status: trend.get('parameters')?.status || 'SOURCE_UNAVAILABLE'
-    ,trendlyne_fetched_at: trend.get('parameters')?.fetched_at || ''
-    ,trend_current_price: trendlyneValue(paramText, symbol, 'LTP')
-    ,trend_market_cap_cr: trendlyneValue(paramText, symbol, 'Market Cap')
-    ,trend_roce_pct: trendlyneValue(paramText, symbol, 'ROCE Ann. %')
-    ,trend_roe_pct: trendlyneValue(paramText, symbol, 'ROE Ann. %')
-    ,trend_cfo_cr: cfo
-    ,trend_operating_profit_cr: op
-    ,trend_cfo_op_pct: cfo !== null && op !== null && op !== 0 ? (cfo / op) * 100 : null
-    ,trend_promoter_pct: trendlyneValue(paramText, symbol, 'Promoter holding latest %')
-    ,trend_promoter_pledge_pct: trendlyneValue(paramText, symbol, 'Promoter holding pledge percentage % Qtr')
-    ,trend_fii_pct: trendlyneValue(paramText, symbol, 'FII holding current Qtr %')
-    ,trend_dii_pct: trendlyneDii(holdingText)
-    ,q1_net_profit: quarterly.values[0], q2_net_profit: quarterly.values[1], q3_net_profit: quarterly.values[2], q4_net_profit: quarterly.values[3]
-    ,q5_net_profit: quarterly.values[4], q6_net_profit: quarterly.values[5], q7_net_profit: quarterly.values[6], q8_net_profit: quarterly.values[7]
-    ,eight_quarter_data_status: quarterly.status, eight_quarter_profitability_result: quarterly.result
-    // A composite QGLP score is intentionally withheld until all four pillars
-    // have dated evidence. The component facts remain available to the user.
-    ,qglp_data_status: 'DATA_INSUFFICIENT', qglp_score: null
-    ,qglp_missing_inputs: '3Y sales CAGR; 3Y profit CAGR; profitable years; positive CFO years; ROCE consistency; margin stability; PE vs history/sector; PEG; FCF yield'
+    signal_count: st.signalKeys?.size || 0,
+    latest_signal_date: signalDateObj,
+    latest_signal_date_status: signalDateObj ? 'AVAILABLE' : 'NOT_YET_REQUESTED',
+
+    trend_current_price: price.value,
+    trend_current_price_status: price.availabilityStatus,
+    trend_market_cap_cr: mcap.value,
+    trend_market_cap_cr_status: mcap.availabilityStatus,
+    
+    trend_roce_pct: roce.value,
+    trend_roce_pct_status: roce.availabilityStatus,
+    trend_roe_pct: roe.value,
+    trend_roe_pct_status: roe.availabilityStatus,
+    trend_cfo_cr: cfo.value,
+    trend_cfo_cr_status: cfo.availabilityStatus,
+    trend_operating_profit_cr: op.value,
+    trend_operating_profit_cr_status: op.availabilityStatus,
+    trend_cfo_op_pct: cfo_op_val,
+    trend_cfo_op_pct_status: cfo_op_status,
+    
+    trend_promoter_pct: promoter.value,
+    trend_promoter_pct_status: promoter.availabilityStatus,
+    trend_promoter_pledge_pct: pledge.value,
+    trend_promoter_pledge_pct_status: pledge.availabilityStatus,
+    trend_fii_pct: fii.value,
+    trend_fii_pct_status: fii.availabilityStatus,
+    trend_dii_pct: dii.value,
+    trend_dii_pct_status: dii.availabilityStatus,
+    
+    pe_ratio: pe.value,
+    pe_ratio_status: pe.availabilityStatus,
+    book_value: bv.value,
+    book_value_status: bv.availabilityStatus,
+    debt_to_equity: de.value,
+    debt_to_equity_status: de.availabilityStatus,
+
+    eight_quarter_data_status: 'INSUFFICIENT_DATA',
+    eight_quarter_data_reason: 'Dated multi-period history is not yet available.',
+    qglp_data_status: 'INSUFFICIENT_DATA',
+    qglp_data_reason: 'Dated multi-period history is not yet available.',
+    fcf_dcf_status: 'INSUFFICIENT_DATA',
+    fcf_dcf_reason: 'Dated cash-flow history and verified Capex sign convention are unavailable.',
+    sector: sectorMomentum.sector,
+    sector_index: sectorMomentum.indexSymbol,
+    sector_as_of: sectorMomentum.asOf,
+    sector_close: sectorMomentum.close,
+    sector_ema20: sectorMomentum.ema20,
+    sector_sma20: sectorMomentum.sma20,
+    sector_return_20d_pct: sectorMomentum.return20dPct,
+    sector_above_ema20: sectorMomentum.aboveEma20,
+    sector_above_sma20: sectorMomentum.aboveSma20,
+    sector_momentum_status: sectorMomentum.status,
+    sector_momentum_reason: sectorMomentum.availabilityReason,
+    sector_momentum_source: sectorMomentum.source,
+    sector_index_mapping_method: sectorMomentum.indexMappingMethod || 'SOURCE_UNAVAILABLE',
+    double_momentum_status: 'NOT_YET_REQUESTED',
+    double_momentum_reason: 'Stock 20-day return has not been calculated in this snapshot export.',
   };
 });
 
-const fullyCompliant = dossierRows.filter(r => r.evidence_status === 'VERIFIED' && Number(r.pass_count) === Number(r.total_checks));
-const partial = dossierRows.filter(r => r.evidence_status !== 'VERIFIED' || Number(r.pass_count) !== Number(r.total_checks));
 const workbook = new ExcelJS.Workbook();
 workbook.creator = 'WealthOS deterministic dossier generator';
 workbook.created = new Date();
 workbook.modified = new Date();
 workbook.properties.date1904 = false;
 
-const summary = workbook.addWorksheet('Executive Summary', { views: [{ showGridLines: false }] });
+const summary = workbook.addWorksheet('Coverage Summary', { views: [{ showGridLines: false }] });
 setColumns(summary, [['Metric', 'metric', 38], ['Value', 'value', 28], ['Notes', 'notes', 95]]);
 addRows(summary, [
   { metric: 'Selected shares', value: symbols.length, notes: 'Source: data/fundamental_enrichment/excel_strategy_manifest.json' },
-  { metric: 'Strategy workbook', value: path.basename(strategyWorkbookPath), notes: 'Last seven-strategy run used as requested.' },
+  { metric: 'Strategy universe', value: APPROVED_STRATEGIES.join(', '), notes: 'Exactly seven approved alphanumeric strategies.' },
+  { metric: 'Technical workbook', value: path.basename(strategyWorkbookPath), notes: 'Filename is legacy; workbook content is validated against all seven approved strategy sheets.' },
   { metric: 'Cutoff date', value: cutoff, notes: 'Strategy signal cutoff.' },
-  { metric: 'Raw Upstox endpoint coverage', value: `${dossierRows.filter(r => r.raw_required_complete === 'YES').length}/${symbols.length}`, notes: 'Required endpoints: profile, balance sheet, cash flow, income statement, shareholding, key ratios, corporate actions, and competitors.' },
-  { metric: 'Verified mandatory filter rows', value: `${dossierRows.filter(r => r.evidence_status === 'VERIFIED').length}/${symbols.length}`, notes: 'Evidence status from strategy_fundamental_filter_results.' },
-  { metric: 'Rule-result policy', value: 'INFORMATION ONLY', notes: 'Every selected symbol remains in the master sheet. PASS, FAIL and DATA_INSUFFICIENT are evidence labels, not exclusion rules.' },
-  { metric: 'No synthetic data policy', value: 'ACTIVE', notes: 'Missing facts remain blank/null or partial; no fake values inserted.' }
+  { metric: 'Traceable Snapshot Eligible', value: eligibleSnapshotCount, notes: 'Count of symbols with verifiable canonical LATEST facts.' },
+  { metric: 'Periodic History Eligible', value: eligiblePeriodicCount, notes: 'Count of symbols with dated traceable annual, quarterly, or TTM facts; LATEST snapshots do not qualify.' },
+  { metric: 'LATEST snapshot data', value: 'Point-in-Time', notes: 'LATEST snapshot data is not historical analysis and cannot be used for trends.' },
+  { metric: 'Rule-result policy', value: 'INFORMATION ONLY', notes: 'Every selected symbol remains in the master sheet. Availability statuses indicate evidence completeness.' },
+  { metric: 'No synthetic data policy', value: 'ACTIVE', notes: 'Missing facts display their explicit availability status; no fake values inserted.' }
 ]);
 fmtSheet(summary);
 
-const dossier = workbook.addWorksheet('All 179 Dossier', { views: [{ showGridLines: false }] });
+const dossier = workbook.addWorksheet(`All ${cohortCount} Dossier`, { views: [{ showGridLines: false }] });
 setColumns(dossier, [
-  ['Symbol', 'symbol', 14], ['Company', 'company', 32], ['Sector', 'sector', 22], ['Strategies', 'strategies', 22],
-  ['Signals', 'signal_count', 10], ['Latest Signal', 'latest_signal_date', 14], ['Evidence', 'evidence_status', 14],
-  ['Pass Count', 'pass_count', 11], ['Total Checks', 'total_checks', 12], ['Promoter %', 'promoter_pct', 12],
-  ['Promoter Pass', 'promoter_pass', 13], ['Profitable 8Q', 'profitable_8q', 13], ['ROCE %', 'roce_pct', 11],
-  ['ROCE Pass', 'roce_pass', 11], ['ROE %', 'roe_pct', 11], ['ROE Pass', 'roe_pass', 11], ['Pledged %', 'pledged_pct', 11],
-  ['No Pledge Pass', 'no_pledge_pass', 15], ['FII %', 'fii_pct', 10], ['DII %', 'dii_pct', 10],
-  ['Institutional Pass', 'institutional_pass', 16], ['CFO / Op Profit', 'cfo_op_ratio', 15], ['Cash Flow Pass', 'cash_flow_pass', 15],
-  ['Legacy QGLP Filter', 'qglp_filter_status', 20], ['QGLP Data Status', 'qglp_data_status', 20], ['QGLP Score', 'qglp_score', 12], ['QGLP Missing Inputs', 'qglp_missing_inputs', 46], ['Sector Momentum', 'sector_momentum_status', 20], ['Double Momentum', 'double_momentum_status', 20],
-  ['P/E', 'pe_ratio', 10], ['Book Value', 'book_value', 12], ['Debt / Equity', 'debt_to_equity', 13],
-  ['Trendlyne Status', 'trendlyne_status', 16], ['Trendlyne Fetched', 'trendlyne_fetched_at', 22], ['Trend Price', 'trend_current_price', 13], ['Market Cap Cr', 'trend_market_cap_cr', 14],
-  ['Trend ROCE %', 'trend_roce_pct', 12], ['Trend ROE %', 'trend_roe_pct', 12], ['CFO Cr', 'trend_cfo_cr', 13], ['Operating Profit Cr', 'trend_operating_profit_cr', 17], ['CFO / Op Profit %', 'trend_cfo_op_pct', 17],
-  ['Trend Promoter %', 'trend_promoter_pct', 15], ['Trend Pledge %', 'trend_promoter_pledge_pct', 14], ['Trend FII %', 'trend_fii_pct', 12], ['Trend DII %', 'trend_dii_pct', 12],
-  ['Q1 Net Profit', 'q1_net_profit', 14], ['Q2 Net Profit', 'q2_net_profit', 14], ['Q3 Net Profit', 'q3_net_profit', 14], ['Q4 Net Profit', 'q4_net_profit', 14], ['Q5 Net Profit', 'q5_net_profit', 14], ['Q6 Net Profit', 'q6_net_profit', 14], ['Q7 Net Profit', 'q7_net_profit', 14], ['Q8 Net Profit', 'q8_net_profit', 14],
-  ['8Q Data Status', 'eight_quarter_data_status', 18], ['8Q Profitability', 'eight_quarter_profitability_result', 18],
-  ['Raw Complete', 'raw_required_complete', 13], ['Raw Missing', 'raw_missing', 38], ['Source', 'source', 24], ['Evidence Note', 'evidence_note', 60]
+  ['Symbol', 'symbol', 14], 
+  ['Strategies', 'strategies', 22],
+  ['Signals', 'signal_count', 10], 
+  ['Latest Signal Date', 'latest_signal_date', 14],
+  ['Latest Signal Status', 'latest_signal_date_status', 22],
+  
+  ['Market Cap Value', 'trend_market_cap_cr', 18], 
+  ['Market Cap Status', 'trend_market_cap_cr_status', 25],
+  
+  ['Trend Price Value', 'trend_current_price', 18], 
+  ['Trend Price Status', 'trend_current_price_status', 25], 
+  
+  ['ROCE Value', 'trend_roce_pct', 18], 
+  ['ROCE Status', 'trend_roce_pct_status', 25], 
+  ['ROE Value', 'trend_roe_pct', 18], 
+  ['ROE Status', 'trend_roe_pct_status', 25], 
+  
+  ['CFO Value', 'trend_cfo_cr', 18], 
+  ['CFO Status', 'trend_cfo_cr_status', 25], 
+  ['Operating Profit Value', 'trend_operating_profit_cr', 22], 
+  ['Operating Profit Status', 'trend_operating_profit_cr_status', 25], 
+  ['CFO / Operating Profit Value', 'trend_cfo_op_pct', 25],
+  ['CFO / Operating Profit Status', 'trend_cfo_op_pct_status', 28],
+  
+  ['Promoter Holding Value', 'trend_promoter_pct', 22], 
+  ['Promoter Holding Status', 'trend_promoter_pct_status', 25], 
+  ['Promoter Pledge Value', 'trend_promoter_pledge_pct', 22], 
+  ['Promoter Pledge Status', 'trend_promoter_pledge_pct_status', 25], 
+  ['FII Holding Value', 'trend_fii_pct', 18], 
+  ['FII Holding Status', 'trend_fii_pct_status', 25], 
+  ['DII Holding Value', 'trend_dii_pct', 18],
+  ['DII Holding Status', 'trend_dii_pct_status', 25],
+  
+  ['P/E Value', 'pe_ratio', 18], 
+  ['P/E Status', 'pe_ratio_status', 25], 
+  ['Book Value Value', 'book_value', 18], 
+  ['Book Value Status', 'book_value_status', 25], 
+  ['Debt / Equity Value', 'debt_to_equity', 18],
+  ['Debt / Equity Status', 'debt_to_equity_status', 25],
+
+  ['8Q Data Status', 'eight_quarter_data_status', 25],
+  ['8Q Data Availability Reason', 'eight_quarter_data_reason', 60],
+  ['QGLP Data Status', 'qglp_data_status', 25],
+  ['QGLP Availability Reason', 'qglp_data_reason', 60],
+  ['FCF / DCF Status', 'fcf_dcf_status', 25],
+  ['FCF / DCF Availability Reason', 'fcf_dcf_reason', 60],
+  ['Sector', 'sector', 25],
+  ['Sector Index', 'sector_index', 25],
+  ['Sector As Of', 'sector_as_of', 16],
+  ['Sector Close', 'sector_close', 18],
+  ['Sector EMA 20', 'sector_ema20', 18],
+  ['Sector SMA 20', 'sector_sma20', 18],
+  ['Sector Return 20D %', 'sector_return_20d_pct', 22],
+  ['Sector Above EMA 20', 'sector_above_ema20', 21],
+  ['Sector Above SMA 20', 'sector_above_sma20', 21],
+  ['Sector Momentum Status', 'sector_momentum_status', 25], 
+  ['Sector Momentum Availability Reason', 'sector_momentum_reason', 60], 
+  ['Sector Momentum Source', 'sector_momentum_source', 25],
+  ['Sector Index Mapping Method', 'sector_index_mapping_method', 35],
+  ['Double Momentum Status', 'double_momentum_status', 25],
+  ['Double Momentum Availability Reason', 'double_momentum_reason', 60],
 ]);
 addRows(dossier, dossierRows);
 fmtSheet(dossier);
 
-const qglpWs = workbook.addWorksheet('QGLP Evidence', { views: [{ showGridLines: false }] });
-setColumns(qglpWs, [
-  ['Symbol', 'symbol', 14], ['QGLP Data Status', 'qglp_data_status', 20], ['QGLP Score', 'qglp_score', 12], ['Missing Inputs', 'qglp_missing_inputs', 65],
-  ['ROE %', 'trend_roe_pct', 12], ['ROCE %', 'trend_roce_pct', 12], ['CFO Cr', 'trend_cfo_cr', 14], ['Operating Profit Cr', 'trend_operating_profit_cr', 18], ['CFO / Op Profit %', 'trend_cfo_op_pct', 18],
-  ['Debt / Equity', 'debt_to_equity', 14], ['Promoter Pledge %', 'trend_promoter_pledge_pct', 18], ['8Q Data Status', 'eight_quarter_data_status', 18], ['8Q Profitability', 'eight_quarter_profitability_result', 18],
-  ['Q1 Net Profit', 'q1_net_profit', 14], ['Q2 Net Profit', 'q2_net_profit', 14], ['Q3 Net Profit', 'q3_net_profit', 14], ['Q4 Net Profit', 'q4_net_profit', 14], ['Q5 Net Profit', 'q5_net_profit', 14], ['Q6 Net Profit', 'q6_net_profit', 14], ['Q7 Net Profit', 'q7_net_profit', 14], ['Q8 Net Profit', 'q8_net_profit', 14], ['Trendlyne Fetched', 'trendlyne_fetched_at', 22]
+dossier.getColumn('latest_signal_date').numFmt = 'yyyy-mm-dd';
+
+const evidenceSheet = workbook.addWorksheet('Fundamental Evidence', { views: [{ showGridLines: false }] });
+setColumns(evidenceSheet, [
+  ['Symbol', 'symbol', 14],
+  ['Canonical Metric', 'canonical_metric', 25],
+  ['Value', 'value', 15],
+  ['Availability Status', 'availability_status', 25],
+  ['Provider', 'provider', 20],
+  ['Provider Token', 'provider_token', 35],
+  ['Exact Provider Label', 'exact_provider_label', 35],
+  ['Source Document ID', 'source_document_id', 35],
+  ['Fetched At', 'fetched_at', 25],
+  ['Scope', 'scope', 15],
+  ['Period Type', 'period_type', 15],
+  ['Period End', 'period_end', 15],
+  ['Unit', 'unit', 10],
+  ['Currency', 'currency', 10]
 ]);
-addRows(qglpWs, dossierRows);
-fmtSheet(qglpWs);
-
-const strategyWs = workbook.addWorksheet('Strategy Matches', { views: [{ showGridLines: false }] });
-setColumns(strategyWs, [['Symbol', 'symbol', 14], ['Strategies', 'strategies', 30], ['Signal Count', 'signal_count', 13], ['Latest Signal Date', 'latest_signal_date', 18], ['Best Signal Price', 'bestSignalPrice', 18]]);
-addRows(strategyWs, symbols.map(symbol => {
-  const r = strategyMatches.get(symbol);
-  return { symbol, strategies: [...(r?.strategies || [])].join(', '), signal_count: r?.signalCount || 0, latest_signal_date: r?.latestSignalDate || '', bestSignalPrice: r?.bestSignalPrice || '' };
-}));
-fmtSheet(strategyWs);
-
-const sourceWs = workbook.addWorksheet('Source Audit Trail', { views: [{ showGridLines: false }] });
-setColumns(sourceWs, [['Symbol', 'symbol', 14], ['Upstox Fetched At', 'fetched_at', 24], ['Status', 'status', 12], ['Required Complete', 'complete', 18], ['Present Endpoints', 'present', 74], ['Missing Endpoints', 'missing', 45], ['Shareholding Snapshots', 'snapshots', 20], ['Latest Filing Period', 'latest_period', 20], ['Pledged Periods', 'pledged_periods', 15], ['SHA Hashes OK', 'hashes_ok', 15], ['Error', 'error', 60]]);
-addRows(sourceWs, symbols.map(symbol => {
-  const raw = rawRows.get(symbol) || {};
-  const cov = sourceCoverage(raw);
-  const sh = shareholding.get(symbol) || {};
-  return { symbol, fetched_at: raw.fetched_at || '', status: raw.status || '', complete: cov.complete, present: cov.present, missing: cov.missing, snapshots: sh.snapshots || 0, latest_period: sh.latest_period || '', pledged_periods: sh.pledged_periods || 0, hashes_ok: sh.hashes_ok === 1 ? 'YES' : 'CHECK', error: raw.error || '' };
-}));
-fmtSheet(sourceWs);
+addRows(evidenceSheet, evidenceRows);
+fmtSheet(evidenceSheet);
 
 const dictWs = workbook.addWorksheet('Data Dictionary', { views: [{ showGridLines: false }] });
 setColumns(dictWs, [['Field', 'field', 30], ['Meaning', 'meaning', 95], ['Source', 'source', 45]]);
 addRows(dictWs, [
-  { field: 'Promoter %', meaning: 'Latest promoter holding percentage from official shareholding snapshot or Upstox share-holdings endpoint.', source: 'FERE NSE/BSE filings + Upstox fundamentals' },
-  { field: 'No Pledge Pass', meaning: '1 only when latest promoter pledge/encumbrance is exactly zero. Positive pledge is not hidden.', source: 'Official shareholding XBRL/Table II extraction' },
-  { field: 'Profitable 8Q', meaning: '1 when available parsed financials show eight consecutive profitable quarters.', source: 'FERE verified XBRL facts' },
-  { field: 'ROCE / ROE', meaning: 'Company ratio values. Banking-style entities may have null ROCE where not meaningful.', source: 'Upstox key-ratios + verified fallback' },
-  { field: 'Cash Flow Pass', meaning: '1 when cash flow from operations is at least 50% of operating profit, when both facts are available.', source: 'Upstox cash-flow + FERE verified financial facts' },
-  { field: 'QGLP / Momentum', meaning: 'Deterministic status fields persisted by the fundamental filter sync. They are indicators, not mandatory hard filters.', source: 'strategy_fundamental_filter_results' },
-  { field: 'QGLP Evidence', meaning: 'QGLP raw inputs and all eight quarterly profits are shown for every selected stock. The QGLP composite score is withheld as DATA_INSUFFICIENT until every Quality, Growth, Longevity and Price input has dated source evidence.', source: 'Trendlyne raw parameter, shareholding and quarterly-profit snapshots' },
-  { field: 'Raw Complete', meaning: 'YES when all non-competitor Upstox endpoints are present for that symbol.', source: 'fundamental_source_snapshots' }
+  { field: 'AVAILABLE', meaning: 'The fact has been verified and extracted with full provenance.', source: 'company_facts' },
+  { field: 'NOT_YET_REQUESTED', meaning: 'Fact has not been explicitly requested from the provider.', source: 'company_facts' },
+  { field: 'REQUESTED_NOT_RETURNED', meaning: 'Provider did not return this field in the response payload.', source: 'company_facts' },
+  { field: 'UNAVAILABLE_FROM_PROVIDER', meaning: 'Provider explicitly states the data is missing/unavailable.', source: 'company_facts' },
+  { field: 'STALE', meaning: 'Data is present but older than acceptable threshold.', source: 'company_facts' },
+  { field: 'INSUFFICIENT_DATA', meaning: 'Underlying components are missing or zero.', source: 'Calculated' },
+  { field: 'CONFLICTING', meaning: 'Conflicting values returned by provider for the exact same point in time.', source: 'company_facts' },
+  { field: 'NOT_APPLICABLE', meaning: 'Metric does not apply to this symbol.', source: 'company_facts' },
+  { field: 'Snapshot Values', meaning: 'Point-in-time provider values directly extracted from the canonical fact pipeline.', source: 'company_facts' },
 ]);
 fmtSheet(dictWs);
 
@@ -397,7 +560,7 @@ for (const ws of workbook.worksheets) {
   }));
 }
 
-const outFile = path.join(outDir, `Fundamental_Dossier_179_${cutoff.replaceAll('-', '')}.xlsx`);
+const outFile = path.join(outDir, `Fundamental_Dossier_${cohortCount}_${cutoff.replaceAll('-', '')}.xlsx`);
 await workbook.xlsx.writeFile(outFile);
 
 const audit = {
@@ -406,22 +569,22 @@ const audit = {
   strategyWorkbook: strategyWorkbookPath,
   outputWorkbook: outFile,
   symbols: symbols.length,
-  rawRequiredComplete: dossierRows.filter(r => r.raw_required_complete === 'YES').length,
-  verifiedEvidenceRows: dossierRows.filter(r => r.evidence_status === 'VERIFIED').length,
-  fullyCompliant: fullyCompliant.length,
-  partialOrFailed: partial.length,
+  rawRequiredComplete: 0,
+  verifiedEvidenceRows: evidenceRows.length,
+  fullyCompliant: 0,
+  partialOrFailed: symbols.length,
   ignoredEndpoint: 'competitors',
   dbPersistence: {
     portfolioDb: portfolioDbPath,
     rawTable: 'fundamental_source_snapshots',
-    syncedTables: ['FundamentalSnapshots', 'HistoricalShareholdingPattern', 'HistoricalFinancialStatements', 'strategy_fundamental_filter_results', 'sunrise_industrial_universe'],
-    fereDb: fereDbPath,
-    fereTables: ['shareholding_snapshot', 'verified_xbrl_fact']
+    syncedTables: ['company_facts'],
+    fereDb: 'N/A',
+    fereTables: []
   }
 };
-const auditPath = path.join(outDir, `Fundamental_Dossier_179_${cutoff.replaceAll('-', '')}_audit.json`);
+const auditPath = path.join(outDir, `Fundamental_Dossier_${cohortCount}_${cutoff.replaceAll('-', '')}_audit.json`);
 fs.writeFileSync(auditPath, JSON.stringify(audit, null, 2));
-const dataPath = path.join(outDir, `Fundamental_Dossier_179_${cutoff.replaceAll('-', '')}_data.json`);
+const dataPath = path.join(outDir, `Fundamental_Dossier_${cohortCount}_${cutoff.replaceAll('-', '')}_data.json`);
 fs.writeFileSync(dataPath, JSON.stringify({
   generatedAt: audit.generatedAt,
   symbols,
