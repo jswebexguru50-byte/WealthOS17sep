@@ -34,6 +34,7 @@ import { AutonomousSmartMoneyAgent } from './src/server/services/AutonomousSmart
 import { StrategyCalibrationEngine } from './src/server/services/StrategyCalibrationEngine.js';
 import { StrategyPreCalculationService } from './src/server/services/StrategyPreCalculationService.js';
 import { DuckDbAdjustedOhlcvService } from './src/server/services/DuckDbAdjustedOhlcvService.js';
+import { CompanyIntelligenceOrchestrator } from './src/server/services/intelligence/CompanyIntelligenceOrchestrator.js';
 
 
 function levenshteinDistance(a: string, b: string): number {
@@ -829,35 +830,38 @@ app.get('/api/engine/universe', async (req, res) => {
   }
 });
 
-// Read-only scrip evidence handler used by the canonical Analyze workspace.
-const handleScripIntelligence = async (rawSymbol: string, res: any) => {
+// Company intelligence handler powering the canonical Analyze cockpit
+const handleScripIntelligence = async (rawSymbol: string, res: any, req?: any) => {
   try {
     const cleanSym = rawSymbol.trim().toUpperCase().replace(/\.NS$/, '').replace(/\.BO$/, '');
     if (!cleanSym) {
       return res.status(400).json({ success: false, message: 'Symbol is required' });
     }
 
-    const db = getDB();
-    let identity: { isin?: string; symbol?: string; name?: string } | null = null;
-    try {
-      identity = await dbGet(db,
-        `SELECT isin, symbol, name FROM MasterTickers
-          WHERE UPPER(symbol) = ?
-          ORDER BY CASE WHEN status = 'ACTIVE' THEN 0 ELSE 1 END
-          LIMIT 1`,
-        [cleanSym]
-      ) as typeof identity;
-    } catch {
-      identity = null;
-    }
+    const rawModules = req?.query?.modules;
+    const requestedModules = rawModules
+      ? String(rawModules).split(',').map((m: string) => m.trim().toUpperCase() as any)
+      : undefined;
 
-    const fereEvidence = await readFereEvidence(identity?.isin || null, cleanSym);
+    const response = await CompanyIntelligenceOrchestrator.getInstance().getCompanyIntelligence(cleanSym, requestedModules);
+
+    // Provide new canonical contract while preserving backward-compatible properties
     const payload = {
+      ...response,
       symbol: cleanSym,
-      isin: fereEvidence.isin || identity?.isin || null,
-      company_name: identity?.name || cleanSym,
-      dataState: fereEvidence.status === 'SOURCE_UNAVAILABLE' ? 'SOURCE_UNAVAILABLE' : 'DATA_INSUFFICIENT',
-      decisionStatus: 'BLOCKED',
+      isin: response.security.isin,
+      company_name: response.security.companyName || cleanSym,
+      dataState: 'WORKING',
+      decisionStatus: 'AVAILABLE',
+      fereEvidence: response.modules.fere?.result || null,
+      fereResult: response.modules.fere?.status || 'DATA_INSUFFICIENT',
+      technical: response.modules.technical?.result || null,
+      fundamental: response.modules.fundamental?.result || null,
+      qglp: response.modules.qglp?.result || null,
+      management: response.modules.management?.result || null,
+      businessInflection: response.modules.businessInflection?.result || null,
+      valuation: response.modules.valuation?.result || null,
+      marketContext: response.modules.marketContext?.result || null,
       actionSignal: {
         action: null,
         recommendation: null,
@@ -865,25 +869,8 @@ const handleScripIntelligence = async (rawSymbol: string, res: any) => {
         calibratedProbabilityPct: null,
         targetPrice: null,
         stopLossPrice: null,
-        reason: 'Read-only evidence mode: critical decision sources were not evaluated, so no investment decision was computed.'
-      },
-      sourceStates: {
-        strategyReports: 'PERSISTED_READ_ONLY',
-        fere: fereEvidence.status,
-        technical: 'NOT_YET_CHECKED',
-        fundamental: 'NOT_YET_CHECKED',
-        analystConsensus: 'NOT_YET_CHECKED'
-      },
-      fereResult: fereEvidence.status,
-      fereEvidence,
-      signal: null,
-      technical: null,
-      priceActionModel: null,
-      screener: null,
-      news: null,
-      portfolioContext: null,
-      unifiedOpportunity: null,
-      trendlyne: null
+        reason: 'Independent module investment research cockpit mode'
+      }
     };
 
     res.json({ success: true, data: payload, ...payload });
@@ -904,12 +891,12 @@ app.get('/api/trendlyne/:symbol', async (req, res) => {
 });
 
 app.get('/api/scrip-intelligence/:symbol', async (req, res) => {
-  await handleScripIntelligence(req.params.symbol, res);
+  await handleScripIntelligence(req.params.symbol, res, req);
 });
 
 app.get('/api/scrip-intelligence', async (req, res) => {
   const sym = String(req.query.symbol || '').trim();
-  await handleScripIntelligence(sym, res);
+  await handleScripIntelligence(sym, res, req);
 });
 // ─────────────────────────────────────────────────────────────────────────────
 
