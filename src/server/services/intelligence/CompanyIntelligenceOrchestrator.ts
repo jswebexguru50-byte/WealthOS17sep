@@ -44,6 +44,10 @@ import { RiskEngine } from './risks/RiskEngine.js';
 import { CompanyTimelineEngine } from './timeline/CompanyTimelineEngine.js';
 import { CommitmentSupersessionEngine } from './management/CommitmentSupersessionEngine.js';
 import { NarrativeChangeEngine } from './management/NarrativeChangeEngine.js';
+// Constitution Gatekeepers
+import { ClaimSafetyGate } from './safety/ClaimSafetyGate.js';
+import { CrossModuleConsistencyValidator } from './validation/CrossModuleConsistencyValidator.js';
+import { DataCoverageEngine } from './coverage/DataCoverageEngine.js';
 
 export interface SimpleModuleTelemetry {
   symbol: string;
@@ -151,6 +155,17 @@ export class CompanyIntelligenceOrchestrator {
         engineVersion: 'CompanyIntelligenceOrchestrator-v1.0',
       };
     }
+  }
+
+  /**
+   * Alias for getCompanyIntelligence matching master architecture specification.
+   */
+  public async orchestrate(
+    identifier: string,
+    asOfDate?: string | null,
+    shouldPersist?: boolean
+  ): Promise<CompanyIntelligenceResponse> {
+    return this.getCompanyIntelligence(identifier, undefined, { asOfDate: asOfDate || undefined, persist: shouldPersist });
   }
 
   /**
@@ -679,6 +694,68 @@ export class CompanyIntelligenceOrchestrator {
       } catch { /* Non-fatal */ }
     }
 
+    // 5. Constitution Invariants: ClaimSafetyGate & CrossModuleConsistency & DataCoverage
+    const safetyReport = { totalAudited: 0, rejectedCount: 0, approvedCount: 0 };
+    try {
+      const safetyGate = ClaimSafetyGate.getInstance();
+      if (modulesResult.thesis?.result?.pillars) {
+        const auditedPillars = modulesResult.thesis.result.pillars.filter((p: any) => {
+          safetyReport.totalAudited++;
+          const res = safetyGate.auditAssertion({
+            id: p.pillarId || p.title,
+            text: p.title + ': ' + (p.summary || ''),
+            kind: 'FACT',
+            evidenceRefs: p.supportingEvidence || [],
+            confidence: 'HIGH',
+            support: p.supportingEvidence && p.supportingEvidence.length > 0 ? 'DIRECT' : 'UNSUPPORTED',
+            limitations: [],
+            asOfDate: generatedAt,
+          });
+          if (res.passed) {
+            safetyReport.approvedCount++;
+            return true;
+          } else {
+            safetyReport.rejectedCount++;
+            return false;
+          }
+        });
+        modulesResult.thesis.result.pillars = auditedPillars;
+      }
+    } catch { /* Non-fatal safety gate audit */ }
+
+    // Cross-Module Consistency
+    let consistencyReport = undefined;
+    try {
+      const validator = CrossModuleConsistencyValidator.getInstance();
+      const observations: any[] = [];
+      const fRes = modulesResult.fundamental?.result as any;
+      if (fRes?.roce?.value != null) {
+        observations.push({ module: 'FUNDAMENTAL', metric: 'ROCE', value: Number(fRes.roce.value), period: fRes.roce.period });
+      }
+      const vRes = modulesResult.valuation?.result as any;
+      if (vRes?.roce?.value != null) {
+        observations.push({ module: 'VALUATION', metric: 'ROCE', value: Number(vRes.roce.value), period: vRes.roce.period });
+      }
+      consistencyReport = validator.validate(observations);
+    } catch { /* Non-fatal consistency audit */ }
+
+    // Field-level Data Coverage
+    let dataCoverage = undefined;
+    try {
+      const coverageEngine = DataCoverageEngine.getInstance();
+      dataCoverage = coverageEngine.evaluateCoverage(
+        securityId,
+        isin || securityId,
+        {
+          incomeStatement: analyticalState.facts?.latest as any,
+          keyRatios: analyticalState.facts?.latest as any,
+          prices: [],
+          managementClaims: modulesResult.management?.result?.commitments,
+        },
+        generatedAt
+      );
+    } catch { /* Non-fatal coverage audit */ }
+
     return {
       security: {
         securityId,
@@ -691,6 +768,9 @@ export class CompanyIntelligenceOrchestrator {
       },
       generatedAt,
       modules: modulesResult,
+      dataCoverage,
+      consistencyReport,
+      safetyReport,
     };
   }
 

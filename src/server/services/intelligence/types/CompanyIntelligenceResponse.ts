@@ -15,6 +15,9 @@ import { ContradictionPayload } from './ContradictionPayload.js';
 import { AttentionPayload } from './AttentionPayload.js';
 import { ThesisPayload } from './ThesisPayload.js';
 
+import { CompanyDataCoverage } from '../contracts/CoverageContracts.js';
+import { ConsistencyValidationReport } from '../validation/CrossModuleConsistencyValidator.js';
+
 export interface CompanyIntelligenceResponse {
   security: {
     securityId: string;
@@ -46,6 +49,13 @@ export interface CompanyIntelligenceResponse {
     catalysts?: ModuleResult<any>;
     risks?: ModuleResult<any>;
     timeline?: ModuleResult<any>;
+  };
+  dataCoverage?: CompanyDataCoverage;
+  consistencyReport?: ConsistencyValidationReport;
+  safetyReport?: {
+    totalAudited: number;
+    rejectedCount: number;
+    approvedCount: number;
   };
 }
 

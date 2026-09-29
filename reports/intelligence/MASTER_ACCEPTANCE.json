@@ -1,0 +1,141 @@
+{
+  "evaluatedAt": "2026-09-29T06:14:15.137Z",
+  "constitutionVersion": "1.0.0",
+  "totalCompanies": 11,
+  "passedCompanies": 11,
+  "failedCompanies": 0,
+  "matrix": {
+    "RELIANCE": {
+      "symbol": "RELIANCE",
+      "status": "PASS",
+      "dataCoverageStatus": "INSUFFICIENT",
+      "suitability": "DATA_INSUFFICIENT",
+      "modulesEvaluated": 17,
+      "thesisPillarsCount": 1,
+      "safetyAuditPassed": true,
+      "unsupportedAssertionsCount": 0,
+      "consistencyPassed": true,
+      "durationMs": 5967
+    },
+    "TCS": {
+      "symbol": "TCS",
+      "status": "PASS",
+      "dataCoverageStatus": "INSUFFICIENT",
+      "suitability": "DATA_INSUFFICIENT",
+      "modulesEvaluated": 17,
+      "thesisPillarsCount": 0,
+      "safetyAuditPassed": true,
+      "unsupportedAssertionsCount": 0,
+      "consistencyPassed": true,
+      "durationMs": 885
+    },
+    "HDFCBANK": {
+      "symbol": "HDFCBANK",
+      "status": "PASS",
+      "dataCoverageStatus": "INSUFFICIENT",
+      "suitability": "DATA_INSUFFICIENT",
+      "modulesEvaluated": 17,
+      "thesisPillarsCount": 3,
+      "safetyAuditPassed": true,
+      "unsupportedAssertionsCount": 0,
+      "consistencyPassed": true,
+      "durationMs": 936
+    },
+    "TATAMOTORS": {
+      "symbol": "TATAMOTORS",
+      "status": "PASS",
+      "dataCoverageStatus": "INSUFFICIENT",
+      "suitability": "DATA_INSUFFICIENT",
+      "modulesEvaluated": 17,
+      "thesisPillarsCount": 1,
+      "safetyAuditPassed": true,
+      "unsupportedAssertionsCount": 0,
+      "consistencyPassed": true,
+      "durationMs": 4447
+    },
+    "TATASTEEL": {
+      "symbol": "TATASTEEL",
+      "status": "PASS",
+      "dataCoverageStatus": "INSUFFICIENT",
+      "suitability": "DATA_INSUFFICIENT",
+      "modulesEvaluated": 17,
+      "thesisPillarsCount": 0,
+      "safetyAuditPassed": true,
+      "unsupportedAssertionsCount": 0,
+      "consistencyPassed": true,
+      "durationMs": 869
+    },
+    "INFY": {
+      "symbol": "INFY",
+      "status": "PASS",
+      "dataCoverageStatus": "INSUFFICIENT",
+      "suitability": "DATA_INSUFFICIENT",
+      "modulesEvaluated": 17,
+      "thesisPillarsCount": 1,
+      "safetyAuditPassed": true,
+      "unsupportedAssertionsCount": 0,
+      "consistencyPassed": true,
+      "durationMs": 557
+    },
+    "ICICIBANK": {
+      "symbol": "ICICIBANK",
+      "status": "PASS",
+      "dataCoverageStatus": "INSUFFICIENT",
+      "suitability": "DATA_INSUFFICIENT",
+      "modulesEvaluated": 17,
+      "thesisPillarsCount": 2,
+      "safetyAuditPassed": true,
+      "unsupportedAssertionsCount": 0,
+      "consistencyPassed": true,
+      "durationMs": 544
+    },
+    "SUNPHARMA": {
+      "symbol": "SUNPHARMA",
+      "status": "PASS",
+      "dataCoverageStatus": "INSUFFICIENT",
+      "suitability": "DATA_INSUFFICIENT",
+      "modulesEvaluated": 17,
+      "thesisPillarsCount": 1,
+      "safetyAuditPassed": true,
+      "unsupportedAssertionsCount": 0,
+      "consistencyPassed": true,
+      "durationMs": 822
+    },
+    "TITAN": {
+      "symbol": "TITAN",
+      "status": "PASS",
+      "dataCoverageStatus": "INSUFFICIENT",
+      "suitability": "DATA_INSUFFICIENT",
+      "modulesEvaluated": 17,
+      "thesisPillarsCount": 1,
+      "safetyAuditPassed": true,
+      "unsupportedAssertionsCount": 0,
+      "consistencyPassed": true,
+      "durationMs": 938
+    },
+    "BEL": {
+      "symbol": "BEL",
+      "status": "PASS",
+      "dataCoverageStatus": "INSUFFICIENT",
+      "suitability": "DATA_INSUFFICIENT",
+      "modulesEvaluated": 17,
+      "thesisPillarsCount": 1,
+      "safetyAuditPassed": true,
+      "unsupportedAssertionsCount": 0,
+      "consistencyPassed": true,
+      "durationMs": 779
+    },
+    "DYCL": {
+      "symbol": "DYCL",
+      "status": "PASS",
+      "dataCoverageStatus": "INSUFFICIENT",
+      "suitability": "DATA_INSUFFICIENT",
+      "modulesEvaluated": 17,
+      "thesisPillarsCount": 0,
+      "safetyAuditPassed": true,
+      "unsupportedAssertionsCount": 0,
+      "consistencyPassed": true,
+      "durationMs": 965
+    }
+  }
+}
