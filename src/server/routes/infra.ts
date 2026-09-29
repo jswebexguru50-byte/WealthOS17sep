@@ -3588,7 +3588,7 @@ router.get('/strategy-scan/export-excel', async (req: Request, res: Response) =>
 });
 
 // ─── Company Intelligence Cockpit V2 API ──────────────────────────────────────
-router.get('/company-intelligence/:symbol', async (req: Request, res: Response) => {
+const handleCompanyIntelligence = async (req: Request, res: Response) => {
   try {
     const symbol = req.params.symbol;
     if (!symbol) {
@@ -3606,6 +3606,9 @@ router.get('/company-intelligence/:symbol', async (req: Request, res: Response) 
     console.error('[infra.ts] Company intelligence route error:', err);
     return res.status(500).json({ error: err.message || 'Internal error' });
   }
-});
+};
+
+router.get('/v2/company-intelligence/:symbol', handleCompanyIntelligence);
+router.get('/company-intelligence/:symbol', handleCompanyIntelligence);
 
 export default router;

@@ -922,6 +922,15 @@ app.post('/api/scrip-intelligence/:symbol/refresh', async (req, res) => {
   await handleScripIntelligence(req.params.symbol, res, req);
 });
 
+app.get('/api/v2/company-intelligence/:symbol', async (req, res) => {
+  await handleScripIntelligence(req.params.symbol, res, req);
+});
+
+app.post('/api/v2/company-intelligence/:symbol/refresh', async (req, res) => {
+  req.query = { ...req.query, refresh: 'true' };
+  await handleScripIntelligence(req.params.symbol, res, req);
+});
+
 app.get('/api/company-intelligence/:symbol', async (req, res) => {
   await handleScripIntelligence(req.params.symbol, res, req);
 });

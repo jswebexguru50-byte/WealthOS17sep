@@ -27,6 +27,7 @@ export interface CompanyIntelligenceResponse {
     sector: string | null;
     industry: string | null;
     businessModel: BusinessModel;
+    scope?: string | null;
   };
   generatedAt: string;
   modules: {
@@ -51,6 +52,15 @@ export interface CompanyIntelligenceResponse {
     timeline?: ModuleResult<any>;
   };
   dataCoverage?: CompanyDataCoverage;
+  coverage?: any;
+  freshness?: any;
+  overview?: any;
+  timeline?: any;
+  delta?: any;
+  attention?: any;
+  questions?: any[];
+  snapshot?: any;
+  monitoring?: any;
   consistencyReport?: ConsistencyValidationReport;
   safetyReport?: {
     totalAudited: number;

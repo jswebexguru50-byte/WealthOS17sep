@@ -44,9 +44,12 @@ export interface CompanyTimeline {
   generatedAt: string;
 }
 
+import { CompanyEvent } from '../contracts/CompanyEvent.js';
+
 export interface TimelineBuildInput {
   securityId: string;
   symbol: string;
+  corporateEvents?: CompanyEvent[];
   commitments?: ManagementCommitment[];
   contradictions?: Contradiction[];
   thesisChanges?: ThesisChange[];
@@ -70,6 +73,7 @@ export class CompanyTimelineEngine {
     const {
       securityId,
       symbol,
+      corporateEvents = [],
       commitments = [],
       contradictions = [],
       thesisChanges = [],
@@ -80,6 +84,30 @@ export class CompanyTimelineEngine {
     const datedEvents: TimelineEvent[] = [];
     const undatedEvents: TimelineEvent[] = [];
     const now = new Date().toISOString();
+
+    // 0. Primary Corporate Events from CompanyEventRepository
+    for (const ce of corporateEvents) {
+      const evtDate = ce.occurredAt && ce.occurredAt.length >= 10 ? ce.occurredAt.substring(0, 10) : null;
+      const type: TimelineEventType =
+        ce.eventType === 'FINANCIAL_RESULT' ? 'RESULT'
+        : ce.eventType === 'MANAGEMENT_GUIDANCE' ? 'MANAGEMENT_GUIDANCE'
+        : (ce.eventType as any);
+
+      const evt: TimelineEvent = {
+        eventId: ce.eventId,
+        date: evtDate,
+        dateStatus: evtDate ? 'EXACT' : 'UNKNOWN',
+        type,
+        title: ce.title,
+        summary: ce.description,
+        importance: ce.materiality,
+        evidence: ce.evidenceRefs,
+        metadata: { eventType: ce.eventType, affectedDomains: ce.affectedDomains },
+      };
+
+      if (evtDate) datedEvents.push(evt);
+      else undatedEvents.push(evt);
+    }
 
     // 1. Management commitments (Guidance statements & outcomes)
     for (const c of commitments) {

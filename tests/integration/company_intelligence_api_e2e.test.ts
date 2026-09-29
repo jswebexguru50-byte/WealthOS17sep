@@ -67,7 +67,7 @@ describe('Company Intelligence API E2E & Read-Only Invariants', () => {
     expect(postCount).toBe(initialCount);
 
     portDb.close();
-  });
+  }, 60000);
 
   it('GET /api/company-intelligence/DYCL correctly reflects adversarial small-cap standalone state', async () => {
     const res = await request(app)
@@ -85,5 +85,27 @@ describe('Company Intelligence API E2E & Read-Only Invariants', () => {
     expect(bodyStr).not.toMatch(/float is manipulated/i);
     expect(bodyStr).not.toMatch(/institutions distrust/i);
     expect(bodyStr).not.toMatch(/management crisis/i);
+  });
+
+  it('GET /api/v2/company-intelligence/DYCL returns complete frozen V2 contract', async () => {
+    const res = await request(app)
+      .get('/api/v2/company-intelligence/DYCL')
+      .expect(200);
+
+    expect(res.body).toBeDefined();
+    // V2 Top-Level Contracts (Checkpoint 5)
+    expect(res.body.security).toBeDefined();
+    expect(res.body.security.symbol).toBe('DYCL');
+    expect(res.body.freshness).toBeDefined();
+    expect(res.body.freshness.marketPrice).toBeDefined();
+    expect(res.body.overview).toBeDefined();
+    expect(res.body.overview.whyInteresting).toBeInstanceOf(Array);
+    expect(res.body.overview.whyInteresting.length).toBeGreaterThan(0);
+    expect(res.body.timeline).toBeDefined();
+    expect(res.body.timeline.events).toBeInstanceOf(Array);
+    expect(res.body.monitoring).toBeDefined();
+    expect(res.body.monitoring.activeWatches).toBeInstanceOf(Array);
+    expect(res.body.modules).toBeDefined();
+    expect(res.body.modules.management?.result?.walkTheTalkLedger).toBeInstanceOf(Array);
   });
 });

@@ -38,6 +38,7 @@ export interface ManagementPayload {
   missedCount: number;
   notVerifiableCount: number;
   dataAsOf: string | null;
+  walkTheTalkLedger?: any[];
   // V2 additions (optional — backward-compatible with V1 consumers)
   deliveryHistory?: {
     total: number;
