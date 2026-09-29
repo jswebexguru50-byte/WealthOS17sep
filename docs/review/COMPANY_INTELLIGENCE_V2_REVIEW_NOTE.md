@@ -70,7 +70,7 @@ Following the review of the Wave-1 delivery and the DYCL adversarial case analys
 1. **Identity Reconciliation (Workstream B1)**:
    - Established ISIN as the immutable identity key across `portfolio.db`, `fere_evidence.db`, and endpoint snapshot caches.
    - 11/11 acceptance companies resolved without orphan records:
-     - RELIANCE (`INE002A01018`), TCS (`INE467B01029`), HDFCBANK (`INE040A01034`), TATAMOTORS (`INE155A01022`), TATASTEEL (`INE081A01020`), INFY (`INE009A01021`), ICICIBANK (`INE090A01021`), SUNPHARMA (`INE044A01036`), TITAN (`INE280A01028`), BEL (`INE263A01024`), and DYCL (`INE0CG101014`).
+     - RELIANCE (`INE002A01018`), TCS (`INE467B01029`), HDFCBANK (`INE040A01034`), TATAMOTORS (`INE155A01022`), TATASTEEL (`INE081A01020`), INFY (`INE009A01021`), ICICIBANK (`INE090A01021`), SUNPHARMA (`INE044A01036`), TITAN (`INE280A01028`), BEL (`INE263A01024`), and DYCL (`INE600Y01019`).
 2. **Canonical Facts Ingestion (Workstream B2)**:
    - Populated 632 verified multi-period metrics into `company_facts` in `portfolio.db` covering Revenue, EBITDA, EBIT, PAT, EPS, Assets, Equity, Debt, Cash, Receivables, CFO, Capex, ROCE, and Operating Margins.
    - All facts include valid PIT timestamps (`documentDate`, `availableAt`), period bounds, currency (`INR`), scale (`CRORES`), and explicit consolidation flags (`CONSOLIDATED` for large caps, `STANDALONE` for DYCL).
@@ -111,7 +111,7 @@ We sampled 80 canonical facts across four diverse companies (`TCS`, `RELIANCE`, 
 
 ## 6. The 11th Company: Dynamic Cables (DYCL) Adversarial Audit
 
-Dynamic Cables Ltd. (`DYCL`, `INE0CG101014`) serves as the small-cap adversarial acceptance case. It tests how the system behaves under lower institutional coverage, high price volatility, proprietary trading, senior management resignations, and valuation divergences.
+Dynamic Cables Ltd. (`DYCL`, `INE600Y01019`) serves as the small-cap adversarial acceptance case. It tests how the system behaves under lower institutional coverage, high price volatility, proprietary trading, senior management resignations, and valuation divergences.
 
 ### A. Ground-Truth Data Established & Verified
 1. **Fundamental Trajectory**:

@@ -54,12 +54,12 @@ export function populateGateBData(): { factsInserted: number; claimsInserted: nu
       factId, companyId, symbol, isin, metric, value, unit, currency,
       periodType, periodStart, periodEnd, asOfDate, reportedAt, factType,
       sourceType, scope, provider, sourceDocumentId, verificationStatus,
-      availabilityStatus, fetchedAt
+      availabilityStatus, fetchedAt, availableAt, publishedAt
     ) VALUES (
       ?, ?, ?, ?, ?, ?, ?, ?,
       ?, ?, ?, ?, ?, ?,
       ?, ?, ?, ?, ?,
-      ?, ?
+      ?, ?, ?, ?
     )
   `);
 
@@ -92,8 +92,8 @@ export function populateGateBData(): { factsInserted: number; claimsInserted: nu
                 insertFact.run(
                   factId, companyId, sym, isin, metricKey, String(item.value), 'INR_CR', 'INR',
                   'ANNUAL', null, norm.periodEnd, asOfDate, norm.periodEnd, 'REPORTED',
-                  'EXCHANGE_FILING', 'CONSOLIDATED', 'UPSTOX_XBRL', `Filing_${sym}_${norm.fiscalYear}`, 'VERIFIED',
-                  'AVAILABLE', fetchedAt
+                  'EXCHANGE_FILING', 'CONSOLIDATED', 'UPSTOX_XBRL', `Filing_${sym}_${norm.fiscalYear}`, 'SOURCE_LINKED',
+                  'AVAILABLE', fetchedAt, norm.periodEnd, norm.periodEnd
                 );
                 factsInserted++;
               }
@@ -118,8 +118,8 @@ export function populateGateBData(): { factsInserted: number; claimsInserted: nu
             insertFact.run(
               factId, companyId, sym, isin, 'total_asset_cr', String(item.total_asset), 'INR_CR', 'INR',
               'ANNUAL', null, norm.periodEnd, asOfDate, norm.periodEnd, 'REPORTED',
-              'EXCHANGE_FILING', 'CONSOLIDATED', 'UPSTOX_XBRL', `BS_${sym}_${norm.fiscalYear}`, 'VERIFIED',
-              'AVAILABLE', fetchedAt
+              'EXCHANGE_FILING', 'CONSOLIDATED', 'UPSTOX_XBRL', `BS_${sym}_${norm.fiscalYear}`, 'SOURCE_LINKED',
+              'AVAILABLE', fetchedAt, norm.periodEnd, norm.periodEnd
             );
             factsInserted++;
           }
@@ -128,8 +128,8 @@ export function populateGateBData(): { factsInserted: number; claimsInserted: nu
             insertFact.run(
               factId, companyId, sym, isin, 'total_liability_cr', String(item.total_liability), 'INR_CR', 'INR',
               'ANNUAL', null, norm.periodEnd, asOfDate, norm.periodEnd, 'REPORTED',
-              'EXCHANGE_FILING', 'CONSOLIDATED', 'UPSTOX_XBRL', `BS_${sym}_${norm.fiscalYear}`, 'VERIFIED',
-              'AVAILABLE', fetchedAt
+              'EXCHANGE_FILING', 'CONSOLIDATED', 'UPSTOX_XBRL', `BS_${sym}_${norm.fiscalYear}`, 'SOURCE_LINKED',
+              'AVAILABLE', fetchedAt, norm.periodEnd, norm.periodEnd
             );
             factsInserted++;
           }
@@ -159,8 +159,8 @@ export function populateGateBData(): { factsInserted: number; claimsInserted: nu
                 insertFact.run(
                   factId, companyId, sym, isin, metricKey, String(item.value), 'INR_CR', 'INR',
                   'ANNUAL', null, norm.periodEnd, asOfDate, norm.periodEnd, 'REPORTED',
-                  'EXCHANGE_FILING', 'CONSOLIDATED', 'UPSTOX_XBRL', `CF_${sym}_${norm.fiscalYear}`, 'VERIFIED',
-                  'AVAILABLE', fetchedAt
+                  'EXCHANGE_FILING', 'CONSOLIDATED', 'UPSTOX_XBRL', `CF_${sym}_${norm.fiscalYear}`, 'SOURCE_LINKED',
+                  'AVAILABLE', fetchedAt, norm.periodEnd, norm.periodEnd
                 );
                 factsInserted++;
               }
@@ -193,8 +193,8 @@ export function populateGateBData(): { factsInserted: number; claimsInserted: nu
             insertFact.run(
               factId, companyId, sym, isin, metricKey, String(val), metricKey.endsWith('_pct') ? 'PERCENT' : 'RATIO', 'INR',
               'TTM', null, '2026-03-31', asOfDate, '2026-09-26', 'DERIVED',
-              'STRUCTURED_SECONDARY', 'CONSOLIDATED', 'UPSTOX_RATIOS', `Ratios_${sym}`, 'VERIFIED',
-              'AVAILABLE', fetchedAt
+              'STRUCTURED_SECONDARY', 'CONSOLIDATED', 'UPSTOX_RATIOS', `Ratios_${sym}`, 'SOURCE_LINKED',
+              'AVAILABLE', fetchedAt, '2026-09-26', '2026-09-26'
             );
             factsInserted++;
           }
@@ -226,8 +226,8 @@ export function populateGateBData(): { factsInserted: number; claimsInserted: nu
                 insertFact.run(
                   factId, companyId, sym, isin, metricKey, String(item.value), 'PERCENT', 'INR',
                   'QUARTERLY', null, norm.periodEnd, asOfDate, norm.periodEnd, 'REPORTED',
-                  'EXCHANGE_FILING', 'CONSOLIDATED', 'BSE_SHAREHOLDING', `SH_${sym}_${norm.periodEnd}`, 'VERIFIED',
-                  'AVAILABLE', fetchedAt
+                  'EXCHANGE_FILING', 'CONSOLIDATED', 'BSE_SHAREHOLDING', `SH_${sym}_${norm.periodEnd}`, 'SOURCE_LINKED',
+                  'AVAILABLE', fetchedAt, norm.periodEnd, norm.periodEnd
                 );
                 factsInserted++;
               }
@@ -264,8 +264,8 @@ export function populateGateBData(): { factsInserted: number; claimsInserted: nu
         insertFact.run(
           factId, companyId, sym, isin, df.metric, String(df.val), df.metric.endsWith('_pct') ? 'PERCENT' : df.metric.endsWith('_cr') ? 'INR_CR' : 'RATIO', 'INR',
           df.type, null, df.period, asOfDate, df.period, 'REPORTED',
-          'AUDITED_FINANCIAL_STATEMENT', 'STANDALONE', 'BSE_FILING', `DYCL_Audited_${df.period}`, 'VERIFIED',
-          'AVAILABLE', fetchedAt
+          'AUDITED_FINANCIAL_STATEMENT', 'STANDALONE', 'BSE_FILING', `DYCL_Audited_${df.period}`, 'SOURCE_LINKED',
+          'AVAILABLE', fetchedAt, df.period, df.period
         );
         factsInserted++;
       }

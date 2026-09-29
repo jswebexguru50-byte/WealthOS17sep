@@ -1,12 +1,13 @@
 /**
- * CompanyAnalyticalStateAssembler.ts — P0 Fix
+ * CompanyAnalyticalStateAssembler.ts — Gate B.1 Integrity Fix
  *
- * Assembles the typed CompanyAnalyticalState from module payloads.
+ * Assembles the typed CompanyAnalyticalState from canonical facts and module payloads.
  * This is the single integration point that replaces all `as any` casting
  * in the orchestrator's V2 engine wiring.
  *
  * Architecture:
- *   Module Payloads (V1)
+ *   CANONICAL FACT STORE (portfolio.db company_facts) ← Primary Truth Source
+ *         + Module Payloads (Secondary Ingestion / Compatibility)
  *         ↓
  *   CompanyAnalyticalState  ← this file
  *         ↓
@@ -21,8 +22,12 @@ import { FundamentalPayload } from '../types/FundamentalPayload.js';
 import { ManagementPayload, ManagementCommitment } from '../types/ManagementPayload.js';
 import { ValuationPayload } from '../types/ValuationPayload.js';
 import { MarketContextPayload } from '../types/MarketContextPayload.js';
-import { CanonicalFactService, AnalyticalFacts, CanonicalFact } from './CanonicalFactService.js';
+import { CanonicalFactService, AnalyticalFacts } from './CanonicalFactService.js';
+import { CanonicalFact } from '../contracts/CanonicalFact.js';
+import { SecurityIdentity } from '../contracts/SecurityIdentity.js';
 import { EvidenceReference } from '../contracts/Provenance.js';
+import { CanonicalFactRepository } from '../core/CanonicalFactRepository.js';
+import { SecurityIdentityRegistry } from '../../dataAcquisition/SecurityIdentityRegistry.js';
 
 // ─── State Type ───────────────────────────────────────────────────────────────
 
@@ -66,9 +71,11 @@ export interface CompanyAnalyticalState {
 export class CompanyAnalyticalStateAssembler {
   private static instance: CompanyAnalyticalStateAssembler;
   private readonly factService: CanonicalFactService;
+  private readonly factRepo: CanonicalFactRepository;
 
   private constructor() {
     this.factService = CanonicalFactService.getInstance();
+    this.factRepo = CanonicalFactRepository.getInstance();
   }
 
   public static getInstance(): CompanyAnalyticalStateAssembler {
@@ -79,8 +86,8 @@ export class CompanyAnalyticalStateAssembler {
   }
 
   /**
-   * Assemble typed analytical state from module payloads.
-   * This is the primary integration point — no `as any` allowed here.
+   * Assemble typed analytical state from canonical facts and module payloads.
+   * Prioritizes CanonicalFactRepository (company_facts) as the primary truth source.
    */
   public async assemble(params: {
     securityId: string;
@@ -95,22 +102,52 @@ export class CompanyAnalyticalStateAssembler {
     technical: any | null;
   }): Promise<CompanyAnalyticalState> {
 
-    // 1. Build analytical facts from FundamentalPayload with strict PIT
-    let facts = this.factService.fromFundamentalPayload(params.symbol, params.fundamentals, params.asOfDate);
+    // Resolve canonical SecurityIdentity
+    const registry = SecurityIdentityRegistry.getInstance();
+    const idRecord = registry.resolveBySymbol(params.symbol) || registry.getIdentity(params.securityId);
+    const identity: SecurityIdentity = {
+      securityId: idRecord?.securityId || params.securityId,
+      isin: idRecord?.isin || params.securityId,
+      nseSymbol: idRecord?.nseSymbol || params.symbol,
+      bseCode: idRecord?.bseCode || undefined,
+      companyName: idRecord?.currentSymbol || params.symbol,
+    };
 
-    // 2. Augment with operating KPIs from DB with strict PIT
-    facts = await this.factService.augmentWithOperatingKpis(facts, params.symbol, params.asOfDate);
+    // 1. Build analytical facts from FundamentalPayload as base
+    let facts = this.factService.fromFundamentalPayload(params.symbol, params.fundamentals, params.asOfDate, identity);
 
-    // 3. Augment with quarterly facts for QoQ delta with strict PIT
-    facts = await this.factService.augmentWithQuarterlyFacts(facts, params.symbol, params.asOfDate);
+    // 2. Primary Truth Ingestion: Overlay verified canonical facts from CanonicalFactRepository
+    try {
+      const canonicalDbFacts = await this.factRepo.getFactsForSecurity(identity, { asOfDate: params.asOfDate });
+      if (canonicalDbFacts && canonicalDbFacts.length > 0) {
+        for (const f of canonicalDbFacts) {
+          const mKey = f.metric.toLowerCase();
+          // Populate latest if not present or replace unverified with verified/source-linked
+          if (!facts.latest[mKey] || facts.latest[mKey].verificationStatus === 'NORMALIZED') {
+            facts.latest[mKey] = f;
+            if (f.evidence) {
+              facts.evidenceRefs.push(...f.evidence);
+            }
+          }
+        }
+      }
+    } catch (err) {
+      console.warn('[CompanyAnalyticalStateAssembler] Error querying CanonicalFactRepository:', err);
+    }
 
-    // 4. Extract individual commitments (not aggregate counts)
+    // 3. Augment with operating KPIs from DB with strict PIT and canonical ISIN
+    facts = await this.factService.augmentWithOperatingKpis(facts, identity, params.asOfDate);
+
+    // 4. Augment with quarterly facts for QoQ delta with strict PIT and canonical ISIN
+    facts = await this.factService.augmentWithQuarterlyFacts(facts, identity, params.asOfDate);
+
+    // 5. Extract individual commitments (not aggregate counts)
     const allCommitments: ManagementCommitment[] = params.management?.commitments ?? [];
     const missedCommitments = allCommitments.filter(c =>
       c.status === 'MISSED' || c.status === 'PARTIALLY_ACHIEVED' || c.status === 'PARTIAL'
     );
 
-    // 5. Compute honest evidence coverage
+    // 6. Compute honest evidence coverage
     const limitations: string[] = [];
     const fundamentalMetrics = Object.keys(facts.latest).length;
     const fundamentalWithHistory = Object.keys(facts.priorAnnual).length;
@@ -131,7 +168,7 @@ export class CompanyAnalyticalStateAssembler {
       : 'MINIMAL';
 
     return {
-      securityId: params.securityId,
+      securityId: identity.securityId,
       symbol: params.symbol,
       businessModel: params.businessModel,
       asOfDate: facts.asOfDate ?? new Date().toISOString(),
@@ -161,21 +198,27 @@ export class CompanyAnalyticalStateAssembler {
    * Returns null with no exception when data unavailable.
    */
   public getMetric(state: CompanyAnalyticalState, metricKey: string): number | null {
-    return state.facts.latest[metricKey]?.value ?? null;
+    const val = state.facts.latest[metricKey]?.value;
+    if (val === null || val === undefined) return null;
+    return typeof val === 'number' ? val : parseFloat(String(val));
   }
 
   /**
    * Get prior annual value for a metric (for YoY comparison).
    */
   public getPriorAnnual(state: CompanyAnalyticalState, metricKey: string): number | null {
-    return state.facts.priorAnnual[metricKey]?.value ?? null;
+    const val = state.facts.priorAnnual[metricKey]?.value;
+    if (val === null || val === undefined) return null;
+    return typeof val === 'number' ? val : parseFloat(String(val));
   }
 
   /**
    * Get prior quarter value for a metric (for QoQ comparison).
    */
   public getPriorQuarter(state: CompanyAnalyticalState, metricKey: string): number | null {
-    return state.facts.priorQuarter[metricKey]?.value ?? null;
+    const val = state.facts.priorQuarter[metricKey]?.value;
+    if (val === null || val === undefined) return null;
+    return typeof val === 'number' ? val : parseFloat(String(val));
   }
 
   /**
@@ -248,11 +291,14 @@ export class CompanyAnalyticalStateAssembler {
   /**
    * Build flat metric dict for DeltaEngine comparison.
    */
-  public toFlatMetrics(facts: Record<string, import('./CanonicalFactService.js').CanonicalFact>): Record<string, number> {
+  public toFlatMetrics(facts: Record<string, CanonicalFact>): Record<string, number> {
     const result: Record<string, number> = {};
     for (const [key, fact] of Object.entries(facts)) {
-      if (fact.value !== null && !isNaN(fact.value)) {
-        result[key] = fact.value;
+      if (fact.value !== null && fact.value !== undefined) {
+        const num = typeof fact.value === 'number' ? fact.value : parseFloat(String(fact.value));
+        if (!isNaN(num)) {
+          result[key] = num;
+        }
       }
     }
     return result;

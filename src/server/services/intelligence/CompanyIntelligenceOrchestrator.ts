@@ -322,7 +322,21 @@ export class CompanyIntelligenceOrchestrator {
         configVersion: '2.0.0',
         engineVersion: 'BusinessDriverEngine-v2.0',
       };
-    } catch (e) { /* Non-fatal */ }
+    } catch (e: any) {
+      modulesResult.businessDrivers = {
+        moduleId: 'BUSINESS_DRIVERS' as any,
+        status: 'ERROR',
+        dataStatus: 'ERROR',
+        result: null,
+        evidenceRefs: [],
+        missingRequirements: [],
+        warnings: ['BusinessDriverEngine failed: ' + (e?.message || String(e))],
+        evaluationTimestamp: new Date().toISOString(),
+        dataAsOf: analyticalState.asOfDate,
+        configVersion: '2.0.0',
+        engineVersion: 'BusinessDriverEngine-v2.0',
+      };
+    }
 
     // 4c. Wave 1: Management delivery history (enrich management module)
     try {
@@ -340,7 +354,21 @@ export class CompanyIntelligenceOrchestrator {
           descriptiveLabel: deliveryHistory.descriptiveLabel,
         };
       }
-    } catch { /* Non-fatal */ }
+    } catch (e: any) {
+      modulesResult.delta = {
+        moduleId: 'DELTA' as any,
+        status: 'ERROR',
+        dataStatus: 'ERROR',
+        result: null,
+        evidenceRefs: [],
+        missingRequirements: [],
+        warnings: ['CompanyDeltaEngine failed: ' + (e?.message || String(e))],
+        evaluationTimestamp: new Date().toISOString(),
+        dataAsOf: analyticalState.asOfDate,
+        configVersion: '2.0.0',
+        engineVersion: 'CompanyDeltaEngine-v2.0',
+      };
+    }
 
     // 4d. Wave 2: Delta Intelligence — wire CompanyDeltaEngine
     let materialDeltas: any[] = [];
@@ -396,7 +424,21 @@ export class CompanyIntelligenceOrchestrator {
           engineVersion: 'CompanyDeltaEngine-v2.0',
         };
       }
-    } catch { /* Non-fatal */ }
+    } catch (e: any) {
+      modulesResult.delta = {
+        moduleId: 'DELTA' as any,
+        status: 'ERROR',
+        dataStatus: 'ERROR',
+        result: null,
+        evidenceRefs: [],
+        missingRequirements: [],
+        warnings: ['CompanyDeltaEngine failed: ' + (e?.message || String(e))],
+        evaluationTimestamp: new Date().toISOString(),
+        dataAsOf: analyticalState.asOfDate,
+        configVersion: '2.0.0',
+        engineVersion: 'CompanyDeltaEngine-v2.0',
+      };
+    }
 
     // 4e. Wave 2: Contradiction detection — from CompanyAnalyticalState
     let openContradictions: any[] = [];
@@ -447,7 +489,21 @@ export class CompanyIntelligenceOrchestrator {
         configVersion: '2.0.0',
         engineVersion: 'ContradictionEngine-v2.0',
       };
-    } catch { /* Non-fatal */ }
+    } catch (e: any) {
+      modulesResult.contradictions = {
+        moduleId: 'CONTRADICTIONS' as any,
+        status: 'ERROR',
+        dataStatus: 'ERROR',
+        result: null,
+        evidenceRefs: [],
+        missingRequirements: [],
+        warnings: ['ContradictionEngine failed: ' + (e?.message || String(e))],
+        evaluationTimestamp: new Date().toISOString(),
+        dataAsOf: analyticalState.asOfDate,
+        configVersion: '2.0.0',
+        engineVersion: 'ContradictionEngine-v2.0',
+      };
+    }
 
     // 4f. Wire ValuationIntelligenceEngine
     try {
@@ -464,7 +520,21 @@ export class CompanyIntelligenceOrchestrator {
           } as any,
         };
       }
-    } catch { /* Non-fatal */ }
+    } catch (e: any) {
+      modulesResult.delta = {
+        moduleId: 'DELTA' as any,
+        status: 'ERROR',
+        dataStatus: 'ERROR',
+        result: null,
+        evidenceRefs: [],
+        missingRequirements: [],
+        warnings: ['CompanyDeltaEngine failed: ' + (e?.message || String(e))],
+        evaluationTimestamp: new Date().toISOString(),
+        dataAsOf: analyticalState.asOfDate,
+        configVersion: '2.0.0',
+        engineVersion: 'CompanyDeltaEngine-v2.0',
+      };
+    }
 
     // 4g. Wave 3: Living Thesis — runs after drivers + contradictions
     try {
@@ -506,7 +576,21 @@ export class CompanyIntelligenceOrchestrator {
         configVersion: '2.0.0',
         engineVersion: 'ThesisEngine-v2.0',
       };
-    } catch { /* Non-fatal */ }
+    } catch (e: any) {
+      modulesResult.thesis = {
+        moduleId: 'THESIS' as any,
+        status: 'ERROR',
+        dataStatus: 'ERROR',
+        result: null,
+        evidenceRefs: [],
+        missingRequirements: [],
+        warnings: ['ThesisEngine failed: ' + (e?.message || String(e))],
+        evaluationTimestamp: new Date().toISOString(),
+        dataAsOf: analyticalState.asOfDate,
+        configVersion: '2.0.0',
+        engineVersion: 'ThesisEngine-v2.0',
+      };
+    }
 
     // 4h. Wave 3: Attention + Questions — real inputs (no fake aggregates)
     try {
@@ -560,16 +644,11 @@ export class CompanyIntelligenceOrchestrator {
           questions: questionResult,
           evaluatedAt: attentionResult.evaluatedAt,
         },
-        evidenceRefs: attentionResult.items.flatMap(i =>
-          i.relatedEvidenceIds.map(id => ({
-            evidenceId: id,
-            sourceType: 'CANONICAL_FACT' as const,
-            sourceId: id,
-            timestamp: evalTs,
-            field: i.signal,
-            asOfDate: evalTs,
-          }))
-        ),
+        evidenceRefs: [
+          ...openContradictions.flatMap(c => c.evidence || []),
+          ...realMissedCommitments.flatMap(m => (m.sourceDocument ? [m.sourceDocument] : (m.actualEvidence || []))),
+          ...realDeltas.flatMap(d => d.evidence || []),
+        ],
         missingRequirements: !hasRealInputs
           ? ['No contradictions, missed commitments, or material deltas available']
           : [],
@@ -579,7 +658,21 @@ export class CompanyIntelligenceOrchestrator {
         configVersion: '2.0.0',
         engineVersion: 'AttentionEngine-v2.0',
       };
-    } catch { /* Non-fatal */ }
+    } catch (e: any) {
+      modulesResult.attention = {
+        moduleId: 'ATTENTION' as any,
+        status: 'ERROR',
+        dataStatus: 'ERROR',
+        result: null,
+        evidenceRefs: [],
+        missingRequirements: [],
+        warnings: ['AttentionEngine failed: ' + (e?.message || String(e))],
+        evaluationTimestamp: new Date().toISOString(),
+        dataAsOf: analyticalState.asOfDate,
+        configVersion: '2.0.0',
+        engineVersion: 'AttentionEngine-v2.0',
+      };
+    }
 
     // 4j. Operating KPI Intelligence — non-accounting operational data
     try {
@@ -598,7 +691,21 @@ export class CompanyIntelligenceOrchestrator {
         configVersion: '2.0.0',
         engineVersion: 'OperatingKpiService-v2.0',
       };
-    } catch { /* Non-fatal */ }
+    } catch (e: any) {
+      modulesResult.operatingKpis = {
+        moduleId: 'OPERATING_KPIS' as any,
+        status: 'ERROR',
+        dataStatus: 'ERROR',
+        result: null,
+        evidenceRefs: [],
+        missingRequirements: [],
+        warnings: ['OperatingKpiService failed: ' + (e?.message || String(e))],
+        evaluationTimestamp: new Date().toISOString(),
+        dataAsOf: analyticalState.asOfDate,
+        configVersion: '2.0.0',
+        engineVersion: 'OperatingKpiService-v2.0',
+      };
+    }
 
     // 4k. Catalyst Engine — product, capacity, debt, and corporate actions
     let companyCatalysts: any[] = [];
@@ -624,7 +731,21 @@ export class CompanyIntelligenceOrchestrator {
         configVersion: '2.0.0',
         engineVersion: 'CatalystEngine-v2.0',
       };
-    } catch { /* Non-fatal */ }
+    } catch (e: any) {
+      modulesResult.catalysts = {
+        moduleId: 'CATALYSTS' as any,
+        status: 'ERROR',
+        dataStatus: 'ERROR',
+        result: null,
+        evidenceRefs: [],
+        missingRequirements: [],
+        warnings: ['CatalystEngine failed: ' + (e?.message || String(e))],
+        evaluationTimestamp: new Date().toISOString(),
+        dataAsOf: asOfDate || new Date().toISOString(),
+        configVersion: '2.0.0',
+        engineVersion: 'CatalystEngine-v2.0',
+      };
+    }
 
     // 4l. Risk Engine — business, balance sheet, valuation, execution risks
     try {
@@ -650,7 +771,21 @@ export class CompanyIntelligenceOrchestrator {
         configVersion: '2.0.0',
         engineVersion: 'RiskEngine-v2.0',
       };
-    } catch { /* Non-fatal */ }
+    } catch (e: any) {
+      modulesResult.risks = {
+        moduleId: 'RISKS' as any,
+        status: 'ERROR',
+        dataStatus: 'ERROR',
+        result: null,
+        evidenceRefs: [],
+        missingRequirements: [],
+        warnings: ['RiskEngine failed: ' + (e?.message || String(e))],
+        evaluationTimestamp: new Date().toISOString(),
+        dataAsOf: asOfDate || new Date().toISOString(),
+        configVersion: '2.0.0',
+        engineVersion: 'RiskEngine-v2.0',
+      };
+    }
 
     // 4m. Company Event Timeline — unified chronological narrative
     try {
@@ -676,7 +811,21 @@ export class CompanyIntelligenceOrchestrator {
         configVersion: '2.0.0',
         engineVersion: 'CompanyTimelineEngine-v2.0',
       };
-    } catch { /* Non-fatal */ }
+    } catch (e: any) {
+      modulesResult.timeline = {
+        moduleId: 'TIMELINE' as any,
+        status: 'ERROR',
+        dataStatus: 'ERROR',
+        result: null,
+        evidenceRefs: [],
+        missingRequirements: [],
+        warnings: ['CompanyTimelineEngine failed: ' + (e?.message || String(e))],
+        evaluationTimestamp: new Date().toISOString(),
+        dataAsOf: asOfDate || new Date().toISOString(),
+        configVersion: '2.0.0',
+        engineVersion: 'CompanyTimelineEngine-v2.0',
+      };
+    }
 
     // 4i. Persist snapshot only if explicit refresh/persist requested AND state changed
     if (shouldPersist) {
@@ -704,10 +853,10 @@ export class CompanyIntelligenceOrchestrator {
           const res = safetyGate.auditAssertion({
             id: p.pillarId || p.title,
             text: p.title + ': ' + (p.summary || p.explanation || ''),
-            kind: p.kind || (p.supportingEvidence && p.supportingEvidence.length > 0 ? 'FACT' : 'HYPOTHESIS'),
+            kind: p.kind,
             evidenceRefs: p.supportingEvidence || [],
-            confidence: p.confidence || (p.supportingEvidence && p.supportingEvidence.length > 0 ? 'HIGH' : 'LOW'),
-            support: p.support || (p.supportingEvidence && p.supportingEvidence.length > 0 ? 'DIRECT' : 'UNSUPPORTED'),
+            confidence: p.confidence,
+            support: p.support,
             limitations: [],
             asOfDate: generatedAt,
           });

@@ -79,14 +79,18 @@ describe('WealthOS Company Intelligence — Master Acceptance Suite (10 Golden +
       let safetyPassed = true;
       if (modules.thesis?.result?.pillars) {
         for (const pillar of modules.thesis.result.pillars) {
-          // Inspect the engine-emitted attributes directly
+          // Fail-closed verification: Engine MUST emit kind, confidence, and support directly
+          expect(pillar.kind).toBeDefined();
+          expect(pillar.confidence).toBeDefined();
+          expect(pillar.support).toBeDefined();
+
           const audit = safetyGate.auditAssertion({
             id: pillar.pillarId || pillar.title,
             text: pillar.title + ': ' + (pillar.summary || pillar.explanation || ''),
-            kind: pillar.kind || (pillar.supportingEvidence && pillar.supportingEvidence.length > 0 ? 'FACT' : 'HYPOTHESIS'),
+            kind: pillar.kind!,
             evidenceRefs: pillar.supportingEvidence || [],
-            confidence: pillar.confidence || (pillar.supportingEvidence && pillar.supportingEvidence.length > 0 ? 'HIGH' : 'LOW'),
-            support: pillar.support || (pillar.supportingEvidence && pillar.supportingEvidence.length > 0 ? 'DIRECT' : 'UNSUPPORTED'),
+            confidence: pillar.confidence!,
+            support: pillar.support!,
             limitations: [],
             asOfDate: response.generatedAt,
           });
@@ -181,4 +185,30 @@ describe('WealthOS Company Intelligence — Master Acceptance Suite (10 Golden +
     // Management coverage is SUFFICIENT because DYCL management commitments are now populated and verified
     expect(dyclResponse.dataCoverage?.domains.MANAGEMENT.overallStatus).toBe('SUFFICIENT');
   }, 30000);
+
+  it('strictly verifies canonical ISIN and identity reconciliation for all 11 companies', async () => {
+    const { SecurityIdentityRegistry } = await import('../../src/server/services/dataAcquisition/SecurityIdentityRegistry.js');
+    const registry = SecurityIdentityRegistry.getInstance();
+
+    const EXPECTED_IDENTITIES: Record<string, string> = {
+      RELIANCE: 'INE002A01018',
+      TCS: 'INE467B01029',
+      HDFCBANK: 'INE040A01034',
+      TATAMOTORS: 'INE155A01022',
+      TATASTEEL: 'INE081A01020',
+      INFY: 'INE009A01021',
+      ICICIBANK: 'INE090A01021',
+      SUNPHARMA: 'INE044A01036',
+      TITAN: 'INE280A01028',
+      BEL: 'INE263A01024',
+      DYCL: 'INE600Y01019',
+    };
+
+    for (const [sym, expectedIsin] of Object.entries(EXPECTED_IDENTITIES)) {
+      const record = registry.resolveBySymbol(sym);
+      expect(record, 'Identity record must exist for ' + sym).toBeDefined();
+      expect(record!.isin).toBe(expectedIsin);
+      expect(record!.securityId).toBe(expectedIsin);
+    }
+  });
 });

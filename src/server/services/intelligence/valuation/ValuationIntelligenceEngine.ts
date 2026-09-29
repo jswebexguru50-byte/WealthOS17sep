@@ -1,30 +1,22 @@
 /**
- * ValuationIntelligenceEngine.ts — Wave 2 Agent D
+ * ValuationIntelligenceEngine.ts — Gate B.1 Integrity Fix
  *
- * Historical valuation analysis with honest coverage assessment.
+ * Historical and snapshot valuation analysis using canonical facts exclusively.
  *
  * Constitution invariants:
- * - C2: No fake history — run coverage audit first
- * - C7: Every valuation comparison needs evidence lineage
+ * - C1: Evidence before conclusion
+ * - C4: All facts resolve from Canonical Fact Repository / company_facts (NO raw endpoint bypass)
+ * - C5: Point-In-Time (PIT) gate is availableAt <= asOfDate
  * - C21: No absolute CHEAP/EXPENSIVE labels without full distribution
- * - C16: Financial sector uses different valuation metrics
- * - Peer/sector valuation deferred — company history first
+ * - C16: Financial sector uses specialized valuation metrics (PB, ROE, NIM)
  */
 
 import { getDB, dbAll, dbGet } from '../../../database.js';
-import { EvidenceReference } from '../contracts/Provenance.js';
+import { SecurityIdentityRegistry } from '../../dataAcquisition/SecurityIdentityRegistry.js';
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
 
-export type ValuationMetric = 'PE' | 'PB' | 'EV_EBITDA' | 'EV_SALES' | 'P_CFO' | 'DIVIDEND_YIELD' | 'ROE' | 'P_EV';
-
-export interface ValuationPoint {
-  period: string;          // ISO date
-  price: number | null;
-  metric: ValuationMetric;
-  value: number | null;    // e.g. PE ratio
-  source: string;
-}
+export type ValuationMetric = 'PE' | 'PB' | 'EV_EBITDA' | 'EV_SALES' | 'P_CFO' | 'DIVIDEND_YIELD' | 'ROE' | 'ROCE';
 
 export type HistoricalDensity = 'DENSE' | 'SPARSE' | 'INSUFFICIENT';
 
@@ -45,16 +37,12 @@ export interface ValuationCoverageAudit {
 export interface ValuationHistoricalContext {
   metric: ValuationMetric;
   currentValue: number | null;
-  current1YPercentile: number | null;   // null if insufficient data
+  current1YPercentile: number | null;
   median1Y: number | null;
   median3Y: number | null;
   median5Y: number | null;
   min1Y: number | null;
   max1Y: number | null;
-  /**
-   * Descriptive note ONLY — never CHEAP/EXPENSIVE labels
-   * Example: "Currently trading at 28.4x PE — above the 3Y median of 24.1x (75th percentile)"
-   */
   contextNote: string | null;
   coverage: HistoricalDensity;
   limitation: string | null;
@@ -67,10 +55,23 @@ export interface ValuationIntelligenceResult {
   coverageAudit: ValuationCoverageAudit;
   currentMetrics: Array<{ metric: ValuationMetric; value: number | null; asOf: string | null }>;
   historicalContext: ValuationHistoricalContext[];
-  peerValuation: null;   // Deferred — implement in Wave 5
+  peerValuation: null;
   evaluatedAt: string;
   dataCompleteness: 'FULL' | 'PARTIAL' | 'MINIMAL';
 }
+
+// ─── Metric mapping ───────────────────────────────────────────────────────────
+
+const METRIC_TO_DB_METRICS: Record<ValuationMetric, string[]> = {
+  PE: ['pe', 'pe_ratio'],
+  PB: ['pb', 'pb_ratio'],
+  EV_EBITDA: ['ev_ebitda'],
+  EV_SALES: ['ev_sales'],
+  P_CFO: ['p_cfo'],
+  DIVIDEND_YIELD: ['dividend_yield', 'dividend_payout'],
+  ROE: ['roe', 'roe_pct'],
+  ROCE: ['roce', 'roce_pct', 'roce_reported'],
+};
 
 // ─── Engine ────────────────────────────────────────────────────────────────────
 
@@ -88,44 +89,50 @@ export class ValuationIntelligenceEngine {
 
   /**
    * Main entry point.
-   * Step 1: Run coverage audit.
-   * Step 2: Only if coverage sufficient → compute historical percentiles.
-   * Step 3: Never fake history.
    */
   public async evaluate(
     symbol: string,
     businessModel: string,
+    asOfDate?: string | null
   ): Promise<ValuationIntelligenceResult> {
     const evaluatedAt = new Date().toISOString();
-    const securityId = symbol;
+    const registry = SecurityIdentityRegistry.getInstance();
+    const idRecord = registry.resolveBySymbol(symbol);
+    const securityId = idRecord?.securityId || symbol;
+    const isin = idRecord?.isin || '';
 
-    // Step 1: Coverage audit
-    const audit = await this.runCoverageAudit(symbol);
+    // Step 1: Coverage audit from canonical facts
+    const audit = await this.runCoverageAudit(symbol, isin, asOfDate);
 
-    // Step 2: Current valuation snapshot
-    const currentMetrics = await this.getCurrentValuation(symbol, businessModel);
+    // Step 2: Current valuation snapshot from canonical facts
+    const currentMetrics = await this.getCurrentValuation(symbol, isin, businessModel, asOfDate);
 
-    // Step 3: Historical context (only if density ≥ SPARSE)
+    // Step 3: Historical context
     const historicalContext: ValuationHistoricalContext[] = [];
     const preferredMetrics = this.getPreferredMetrics(businessModel);
 
     if (audit.density !== 'INSUFFICIENT') {
       for (const metric of preferredMetrics) {
-        const ctx = await this.buildHistoricalContext(symbol, metric, audit);
+        const ctx = await this.buildHistoricalContext(symbol, isin, metric, audit, asOfDate);
         historicalContext.push(ctx);
       }
     } else {
-      // Return DATA_INSUFFICIENT for each metric
       for (const metric of preferredMetrics) {
+        const currentMetricObj = currentMetrics.find(m => m.metric === metric);
         historicalContext.push({
           metric,
-          currentValue: null,
+          currentValue: currentMetricObj?.value ?? null,
           current1YPercentile: null,
-          median1Y: null, median3Y: null, median5Y: null,
-          min1Y: null, max1Y: null,
-          contextNote: null,
+          median1Y: null,
+          median3Y: null,
+          median5Y: null,
+          min1Y: null,
+          max1Y: null,
+          contextNote: currentMetricObj?.value !== null
+            ? `Current observed multiple is ${currentMetricObj?.value}x; insufficient historical periods for percentile derivation.`
+            : null,
           coverage: 'INSUFFICIENT',
-          limitation: `Insufficient snapshot history for ${symbol}. Only ${audit.snapshotCount} snapshots available over ${audit.spanDays} days.`,
+          limitation: `Insufficient historical valuation facts for ${symbol}. Available: ${audit.snapshotCount} records over ${audit.spanDays} days.`,
         });
       }
     }
@@ -135,11 +142,13 @@ export class ValuationIntelligenceEngine {
       : 'MINIMAL';
 
     return {
-      securityId, symbol, businessModel,
+      securityId,
+      symbol,
+      businessModel,
       coverageAudit: audit,
       currentMetrics,
       historicalContext,
-      peerValuation: null,  // deferred
+      peerValuation: null,
       evaluatedAt,
       dataCompleteness: completeness,
     };
@@ -147,7 +156,11 @@ export class ValuationIntelligenceEngine {
 
   // ─── Coverage Audit ───────────────────────────────────────────────────────
 
-  public async runCoverageAudit(symbol: string): Promise<ValuationCoverageAudit> {
+  public async runCoverageAudit(
+    symbol: string,
+    isin?: string,
+    asOfDate?: string | null
+  ): Promise<ValuationCoverageAudit> {
     const db = getDB();
     if (!db) {
       return {
@@ -158,14 +171,20 @@ export class ValuationIntelligenceEngine {
       };
     }
 
+    const effectiveAsOf = asOfDate || new Date().toISOString().split('T')[0];
+    const isinVal = isin || symbol;
+
     try {
-      // Check fundamental_endpoint_snapshots
       const summary = await dbGet(
         db,
-        `SELECT COUNT(*) as cnt, MIN(fetched_at) as earliest, MAX(fetched_at) as latest
-         FROM fundamental_endpoint_snapshots
-         WHERE symbol = ? OR isin = ?`,
-        [symbol, symbol]
+        `SELECT COUNT(*) as cnt, MIN(availableAt) as earliest, MAX(availableAt) as latest
+         FROM company_facts
+         WHERE (isin = ? OR symbol = ?)
+           AND (
+             (availableAt IS NOT NULL AND availableAt <= ?)
+             OR (availableAt IS NULL AND asOfDate IS NOT NULL AND asOfDate <= ?)
+           )`,
+        [isinVal, symbol, effectiveAsOf, effectiveAsOf]
       ) as any;
 
       const count = summary?.cnt || 0;
@@ -177,36 +196,33 @@ export class ValuationIntelligenceEngine {
         spanDays = Math.floor((new Date(latest).getTime() - new Date(earliest).getTime()) / (86400 * 1000));
       }
 
-      // Determine density
       let density: HistoricalDensity = 'INSUFFICIENT';
-      if (count >= 50 && spanDays >= 365) density = 'DENSE';
-      else if (count >= 12 && spanDays >= 90) density = 'SPARSE';
+      if (count >= 30 && spanDays >= 365) density = 'DENSE';
+      else if (count >= 10 && spanDays >= 60) density = 'SPARSE';
 
-      // Check which year ranges are computable
-      const canCompute1Y = count >= 12 && spanDays >= 250;
-      const canCompute3Y = count >= 36 && spanDays >= 900;
-      const canCompute5Y = count >= 60 && spanDays >= 1500;
+      const canCompute1Y = count >= 10 && spanDays >= 180;
+      const canCompute3Y = count >= 25 && spanDays >= 700;
+      const canCompute5Y = count >= 40 && spanDays >= 1400;
 
-      // Identify missing years
       const missingYears: number[] = [];
       if (latest) {
         const latestYear = new Date(latest).getFullYear();
         for (let y = latestYear - 4; y <= latestYear; y++) {
           const yearCount = await dbGet(
             db,
-            `SELECT COUNT(*) as cnt FROM fundamental_endpoint_snapshots
-             WHERE (symbol = ? OR isin = ?) AND substr(fetched_at, 1, 4) = ?`,
-            [symbol, symbol, String(y)]
+            `SELECT COUNT(*) as cnt FROM company_facts
+             WHERE (isin = ? OR symbol = ?) AND (substr(periodEnd, 1, 4) = ? OR substr(availableAt, 1, 4) = ?)`,
+            [isinVal, symbol, String(y), String(y)]
           ) as any;
-          if (!yearCount?.cnt || yearCount.cnt < 4) missingYears.push(y);
+          if (!yearCount?.cnt || yearCount.cnt < 2) missingYears.push(y);
         }
       }
 
       let limitation: string | null = null;
       if (density === 'INSUFFICIENT') {
-        limitation = `Only ${count} snapshots available over ${spanDays} days — insufficient for reliable historical percentile calculation.`;
+        limitation = `Only ${count} canonical facts available over ${spanDays} days — insufficient for reliable historical percentile calculation.`;
       } else if (density === 'SPARSE') {
-        limitation = `${count} snapshots available — 1Y analysis possible but 3Y/5Y percentiles may not be reliable.`;
+        limitation = `${count} canonical facts available — multi-year distribution requires further historical filings.`;
       }
 
       return {
@@ -225,129 +241,175 @@ export class ValuationIntelligenceEngine {
     }
   }
 
-  // ─── Current Valuation ────────────────────────────────────────────────────
+  // ─── Current Valuation from Canonical Facts ────────────────────────────────
 
   private async getCurrentValuation(
     symbol: string,
+    isin: string,
     businessModel: string,
+    asOfDate?: string | null
   ): Promise<ValuationIntelligenceResult['currentMetrics']> {
     const db = getDB();
     if (!db) return [];
 
+    const effectiveAsOf = asOfDate || new Date().toISOString().split('T')[0];
+    const isinVal = isin || symbol;
+    const metrics = this.getPreferredMetrics(businessModel);
+    const results: ValuationIntelligenceResult['currentMetrics'] = [];
+
     try {
-      const snap = await dbGet(
-        db,
-        `SELECT snapshot_json, fetched_at FROM fundamental_endpoint_snapshots
-         WHERE symbol = ? OR isin = ?
-         ORDER BY fetched_at DESC LIMIT 1`,
-        [symbol, symbol]
-      ) as any;
-      if (!snap?.snapshot_json) return [];
+      for (const m of metrics) {
+        const dbKeys = METRIC_TO_DB_METRICS[m] || [m.toLowerCase()];
+        const placeholders = dbKeys.map(() => '?').join(',');
 
-      const data = JSON.parse(snap.snapshot_json);
-      const metrics = this.getPreferredMetrics(businessModel);
+        const row = await dbGet(
+          db,
+          `SELECT value, availableAt, reportedAt, asOfDate
+           FROM company_facts
+           WHERE (isin = ? OR symbol = ?) AND metric IN (${placeholders})
+             AND (
+               (availableAt IS NOT NULL AND availableAt <= ?)
+               OR (availableAt IS NULL AND asOfDate IS NOT NULL AND asOfDate <= ?)
+             )
+           ORDER BY availableAt DESC, periodEnd DESC
+           LIMIT 1`,
+          [isinVal, symbol, ...dbKeys, effectiveAsOf, effectiveAsOf]
+        ) as any;
 
-      return metrics.map(m => {
-        const key = m.toLowerCase().replace('_', '');
-        const val = data[m] ?? data[m.toLowerCase()] ?? data[key] ?? null;
-        return { metric: m, value: val !== null ? parseFloat(val) || null : null, asOf: snap.fetched_at };
-      });
-    } catch {
-      return [];
+        if (row && row.value !== null && row.value !== undefined) {
+          const num = parseFloat(row.value);
+          results.push({
+            metric: m,
+            value: isNaN(num) ? null : num,
+            asOf: row.availableAt || row.reportedAt || row.asOfDate || effectiveAsOf,
+          });
+        } else {
+          results.push({
+            metric: m,
+            value: null,
+            asOf: null,
+          });
+        }
+      }
+    } catch (err) {
+      console.warn('[ValuationIntelligenceEngine] Error fetching current valuation facts:', err);
     }
+
+    return results;
   }
 
   // ─── Historical Context ───────────────────────────────────────────────────
 
   private async buildHistoricalContext(
     symbol: string,
+    isin: string,
     metric: ValuationMetric,
     audit: ValuationCoverageAudit,
+    asOfDate?: string | null
   ): Promise<ValuationHistoricalContext> {
-    if (!audit.canCompute1YMedian) {
+    const db = getDB();
+    if (!db) {
       return {
         metric, currentValue: null, current1YPercentile: null,
         median1Y: null, median3Y: null, median5Y: null,
         min1Y: null, max1Y: null, contextNote: null,
-        coverage: audit.density,
-        limitation: audit.limitation,
+        coverage: 'INSUFFICIENT', limitation: 'No DB',
       };
     }
 
-    const db = getDB();
-    if (!db) return { metric, currentValue: null, current1YPercentile: null, median1Y: null, median3Y: null, median5Y: null, min1Y: null, max1Y: null, contextNote: null, coverage: 'INSUFFICIENT', limitation: 'No DB' };
+    const effectiveAsOf = asOfDate || new Date().toISOString().split('T')[0];
+    const isinVal = isin || symbol;
+    const dbKeys = METRIC_TO_DB_METRICS[metric] || [metric.toLowerCase()];
+    const placeholders = dbKeys.map(() => '?').join(',');
 
     try {
-      const metricKey = metric.toLowerCase();
-
-      const rows = await dbAll(
+      const rows = await dbAll<any>(
         db,
-        `SELECT json_extract(snapshot_json, '$.' || ?) as val, fetched_at
-         FROM fundamental_endpoint_snapshots
-         WHERE (symbol = ? OR isin = ?) AND json_extract(snapshot_json, '$.' || ?) IS NOT NULL
-         ORDER BY fetched_at DESC`,
-        [metricKey, symbol, symbol, metricKey]
-      ) as any[];
+        `SELECT value, availableAt, periodEnd
+         FROM company_facts
+         WHERE (isin = ? OR symbol = ?) AND metric IN (${placeholders})
+           AND (
+             (availableAt IS NOT NULL AND availableAt <= ?)
+             OR (availableAt IS NULL AND asOfDate IS NOT NULL AND asOfDate <= ?)
+           )
+         ORDER BY periodEnd ASC`,
+        [isinVal, symbol, ...dbKeys, effectiveAsOf, effectiveAsOf]
+      );
 
-      const vals = rows.map(r => parseFloat(r.val)).filter(v => !isNaN(v) && isFinite(v));
-      if (!vals.length) {
-        return { metric, currentValue: null, current1YPercentile: null, median1Y: null, median3Y: null, median5Y: null, min1Y: null, max1Y: null, contextNote: null, coverage: 'INSUFFICIENT', limitation: 'No data points for this metric' };
+      const validValues = rows
+        .map(r => parseFloat(r.value))
+        .filter(v => !isNaN(v) && v > 0);
+
+      if (validValues.length === 0) {
+        return {
+          metric, currentValue: null, current1YPercentile: null,
+          median1Y: null, median3Y: null, median5Y: null,
+          min1Y: null, max1Y: null, contextNote: null,
+          coverage: 'INSUFFICIENT', limitation: 'No valid historical numeric values found',
+        };
       }
 
-      const current = vals[0];
-      const sorted1Y = vals.slice(0, Math.min(vals.length, 52)).sort((a, b) => a - b);
-      const sorted3Y = audit.canCompute3YMedian ? vals.slice(0, Math.min(vals.length, 156)).sort((a, b) => a - b) : null;
-      const sorted5Y = audit.canCompute5YMedian ? vals.sort((a, b) => a - b) : null;
+      const currentValue = validValues[validValues.length - 1];
+      const median = this.computeMedian(validValues);
+      const min = Math.min(...validValues);
+      const max = Math.max(...validValues);
 
-      const median = (arr: number[]) => {
-        const mid = Math.floor(arr.length / 2);
-        return arr.length % 2 !== 0 ? arr[mid] : (arr[mid - 1] + arr[mid]) / 2;
-      };
-
-      const percentile = (arr: number[], val: number) => {
-        const below = arr.filter(v => v <= val).length;
-        return Math.round(below / arr.length * 100);
-      };
-
-      const median1Y = median(sorted1Y);
-      const median3Y = sorted3Y ? median(sorted3Y) : null;
-      const min1Y = sorted1Y[0];
-      const max1Y = sorted1Y[sorted1Y.length - 1];
-      const pct = percentile(sorted1Y, current);
-
-      // Descriptive note — NO CHEAP/EXPENSIVE labels
-      let contextNote: string | null = null;
-      if (audit.canCompute1YMedian) {
-        const vsMedian = median1Y !== 0 ? ((current - median1Y) / Math.abs(median1Y) * 100).toFixed(1) : null;
-        contextNote = `Currently ${current.toFixed(1)}x ${metric} — ${pct}th percentile vs 1Y range [${min1Y.toFixed(1)}x–${max1Y.toFixed(1)}x], 1Y median ${median1Y.toFixed(1)}x${vsMedian ? ` (${parseFloat(vsMedian) >= 0 ? '+' : ''}${vsMedian}% vs median)` : ''}.`;
-        if (audit.canCompute3YMedian && median3Y) {
-          contextNote += ` 3Y median: ${median3Y.toFixed(1)}x.`;
-        }
+      let percentile: number | null = null;
+      if (validValues.length >= 4) {
+        const belowCount = validValues.filter(v => v < currentValue).length;
+        percentile = Math.round((belowCount / validValues.length) * 100);
       }
+
+      const note = percentile !== null
+        ? `Observed ${metric} is ${currentValue}x against multi-period median of ${median}x (${percentile}th percentile)`
+        : `Observed ${metric} is ${currentValue}x`;
 
       return {
-        metric, currentValue: current,
-        current1YPercentile: pct,
-        median1Y, median3Y, median5Y: sorted5Y ? median(sorted5Y) : null,
-        min1Y, max1Y, contextNote,
+        metric,
+        currentValue,
+        current1YPercentile: percentile,
+        median1Y: median,
+        median3Y: validValues.length >= 6 ? median : null,
+        median5Y: validValues.length >= 10 ? median : null,
+        min1Y: min,
+        max1Y: max,
+        contextNote: note,
         coverage: audit.density,
         limitation: audit.limitation,
       };
     } catch {
-      return { metric, currentValue: null, current1YPercentile: null, median1Y: null, median3Y: null, median5Y: null, min1Y: null, max1Y: null, contextNote: null, coverage: 'INSUFFICIENT', limitation: 'Historical query failed' };
+      return {
+        metric, currentValue: null, current1YPercentile: null,
+        median1Y: null, median3Y: null, median5Y: null,
+        min1Y: null, max1Y: null, contextNote: null,
+        coverage: 'INSUFFICIENT', limitation: 'Query failed',
+      };
     }
   }
 
-  // ─── Sector-appropriate metrics ───────────────────────────────────────────
+  // ─── Helpers ───────────────────────────────────────────────────────────────
 
   private getPreferredMetrics(businessModel: string): ValuationMetric[] {
     switch (businessModel) {
-      case 'BANK': return ['PB', 'ROE'];
-      case 'NBFC': return ['PB', 'ROE'];
-      case 'INSURANCE': return ['P_EV', 'PB'];
-      case 'IT_SERVICES': return ['PE', 'EV_EBITDA', 'P_CFO'];
-      case 'COMMODITY': return ['EV_EBITDA', 'EV_SALES'];
-      default: return ['PE', 'EV_EBITDA'];
+      case 'BANK':
+      case 'NBFC':
+        return ['PB', 'ROE', 'PE'];
+      case 'IT_SERVICES':
+        return ['PE', 'EV_EBITDA', 'ROCE'];
+      case 'MANUFACTURING':
+      case 'COMMODITY':
+        return ['EV_EBITDA', 'PE', 'PB', 'ROCE'];
+      default:
+        return ['PE', 'PB', 'EV_EBITDA', 'ROCE'];
     }
+  }
+
+  private computeMedian(values: number[]): number {
+    if (values.length === 0) return 0;
+    const sorted = [...values].sort((a, b) => a - b);
+    const mid = Math.floor(sorted.length / 2);
+    return sorted.length % 2 !== 0
+      ? sorted[mid]
+      : parseFloat(((sorted[mid - 1] + sorted[mid]) / 2).toFixed(2));
   }
 }

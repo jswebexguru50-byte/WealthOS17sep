@@ -1,42 +1,42 @@
 {
-  "evaluatedAt": "2026-09-29T06:48:39.604Z",
+  "evaluatedAt": "2026-09-29T08:38:01.056Z",
   "constitutionVersion": "1.0.0",
   "gateStatus": "GATE B — REAL DATA FOUNDATION & SOURCE-TO-SCREEN PROOF",
   "totalCompanies": 11,
   "executionPassedCompanies": 11,
   "constitutionPassedCompanies": 11,
-  "sufficientCoverageCompanies": 0,
-  "productionAcceptanceReadyCompanies": 0,
+  "sufficientCoverageCompanies": 9,
+  "productionAcceptanceReadyCompanies": 9,
   "matrix": {
     "RELIANCE": {
       "symbol": "RELIANCE",
       "executionStatus": "PASS",
       "constitutionStatus": "PASS",
-      "coverageStatus": "PARTIAL",
+      "coverageStatus": "COMPLETE",
       "managementCoverageStatus": "SUFFICIENT",
-      "suitability": "CONDITIONAL_ANALYSIS",
-      "productionAcceptance": "NOT_READY",
+      "suitability": "FULL_ANALYSIS",
+      "productionAcceptance": "ACCEPTANCE_READY",
       "modulesEvaluated": 17,
       "thesisPillarsCount": 1,
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 42123
+      "durationMs": 13762
     },
     "TCS": {
       "symbol": "TCS",
       "executionStatus": "PASS",
       "constitutionStatus": "PASS",
-      "coverageStatus": "PARTIAL",
+      "coverageStatus": "COMPLETE",
       "managementCoverageStatus": "SUFFICIENT",
-      "suitability": "CONDITIONAL_ANALYSIS",
-      "productionAcceptance": "NOT_READY",
+      "suitability": "FULL_ANALYSIS",
+      "productionAcceptance": "ACCEPTANCE_READY",
       "modulesEvaluated": 17,
       "thesisPillarsCount": 0,
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 7274
+      "durationMs": 9645
     },
     "HDFCBANK": {
       "symbol": "HDFCBANK",
@@ -51,52 +51,52 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 1312
+      "durationMs": 1864
     },
     "TATAMOTORS": {
       "symbol": "TATAMOTORS",
       "executionStatus": "PASS",
       "constitutionStatus": "PASS",
-      "coverageStatus": "PARTIAL",
+      "coverageStatus": "COMPLETE",
       "managementCoverageStatus": "SUFFICIENT",
-      "suitability": "CONDITIONAL_ANALYSIS",
-      "productionAcceptance": "NOT_READY",
+      "suitability": "FULL_ANALYSIS",
+      "productionAcceptance": "ACCEPTANCE_READY",
       "modulesEvaluated": 17,
       "thesisPillarsCount": 2,
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 1354
+      "durationMs": 2224
     },
     "TATASTEEL": {
       "symbol": "TATASTEEL",
       "executionStatus": "PASS",
       "constitutionStatus": "PASS",
-      "coverageStatus": "PARTIAL",
+      "coverageStatus": "COMPLETE",
       "managementCoverageStatus": "SUFFICIENT",
-      "suitability": "CONDITIONAL_ANALYSIS",
-      "productionAcceptance": "NOT_READY",
+      "suitability": "FULL_ANALYSIS",
+      "productionAcceptance": "ACCEPTANCE_READY",
       "modulesEvaluated": 17,
       "thesisPillarsCount": 1,
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 2745
+      "durationMs": 3418
     },
     "INFY": {
       "symbol": "INFY",
       "executionStatus": "PASS",
       "constitutionStatus": "PASS",
-      "coverageStatus": "PARTIAL",
+      "coverageStatus": "COMPLETE",
       "managementCoverageStatus": "SUFFICIENT",
-      "suitability": "CONDITIONAL_ANALYSIS",
-      "productionAcceptance": "NOT_READY",
+      "suitability": "FULL_ANALYSIS",
+      "productionAcceptance": "ACCEPTANCE_READY",
       "modulesEvaluated": 17,
-      "thesisPillarsCount": 1,
+      "thesisPillarsCount": 2,
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 1637
+      "durationMs": 1617
     },
     "ICICIBANK": {
       "symbol": "ICICIBANK",
@@ -111,67 +111,67 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 1166
+      "durationMs": 1646
     },
     "SUNPHARMA": {
       "symbol": "SUNPHARMA",
       "executionStatus": "PASS",
       "constitutionStatus": "PASS",
-      "coverageStatus": "PARTIAL",
+      "coverageStatus": "COMPLETE",
       "managementCoverageStatus": "SUFFICIENT",
-      "suitability": "CONDITIONAL_ANALYSIS",
-      "productionAcceptance": "NOT_READY",
+      "suitability": "FULL_ANALYSIS",
+      "productionAcceptance": "ACCEPTANCE_READY",
       "modulesEvaluated": 17,
-      "thesisPillarsCount": 1,
+      "thesisPillarsCount": 2,
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 1524
+      "durationMs": 1516
     },
     "TITAN": {
       "symbol": "TITAN",
       "executionStatus": "PASS",
       "constitutionStatus": "PASS",
-      "coverageStatus": "PARTIAL",
+      "coverageStatus": "COMPLETE",
       "managementCoverageStatus": "SUFFICIENT",
-      "suitability": "CONDITIONAL_ANALYSIS",
-      "productionAcceptance": "NOT_READY",
+      "suitability": "FULL_ANALYSIS",
+      "productionAcceptance": "ACCEPTANCE_READY",
       "modulesEvaluated": 17,
-      "thesisPillarsCount": 1,
+      "thesisPillarsCount": 2,
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 1073
+      "durationMs": 2023
     },
     "BEL": {
       "symbol": "BEL",
       "executionStatus": "PASS",
       "constitutionStatus": "PASS",
-      "coverageStatus": "PARTIAL",
+      "coverageStatus": "COMPLETE",
       "managementCoverageStatus": "SUFFICIENT",
-      "suitability": "CONDITIONAL_ANALYSIS",
-      "productionAcceptance": "NOT_READY",
+      "suitability": "FULL_ANALYSIS",
+      "productionAcceptance": "ACCEPTANCE_READY",
       "modulesEvaluated": 17,
-      "thesisPillarsCount": 1,
+      "thesisPillarsCount": 2,
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 1130
+      "durationMs": 6033
     },
     "DYCL": {
       "symbol": "DYCL",
       "executionStatus": "PASS",
       "constitutionStatus": "PASS",
-      "coverageStatus": "PARTIAL",
+      "coverageStatus": "COMPLETE",
       "managementCoverageStatus": "SUFFICIENT",
-      "suitability": "CONDITIONAL_ANALYSIS",
-      "productionAcceptance": "NOT_READY",
+      "suitability": "FULL_ANALYSIS",
+      "productionAcceptance": "ACCEPTANCE_READY",
       "modulesEvaluated": 17,
       "thesisPillarsCount": 1,
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 1591
+      "durationMs": 12526
     }
   }
 }
