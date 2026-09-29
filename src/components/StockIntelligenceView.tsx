@@ -18,7 +18,13 @@ import {
   Info,
   ChevronRight,
   ShieldAlert,
-  ArrowUpRight
+  ArrowUpRight,
+  GitBranch,
+  Crosshair,
+  BookOpen,
+  CalendarDays,
+  ArrowRightLeft,
+  HelpCircle
 } from 'lucide-react';
 import { formatINR } from '../lib/formatters.js';
 import { CompanyIntelligenceOverview } from './company-intelligence/CompanyIntelligenceOverview.js';
@@ -31,14 +37,18 @@ interface StockIntelligenceViewProps {
 }
 
 const TABS = [
-  { id: 'OVERVIEW', label: 'Overview', icon: Compass },
-  { id: 'TECHNICAL', label: 'Technical', icon: Activity },
-  { id: 'FUNDAMENTAL', label: 'Fundamental', icon: FileText },
-  { id: 'QGLP', label: 'QGLP', icon: Shield },
-  { id: 'FERE', label: 'FERE', icon: AlertTriangle },
-  { id: 'MANAGEMENT', label: 'Management', icon: Users },
-  { id: 'VALUATION', label: 'Valuation', icon: BarChart2 },
-  { id: 'MARKET', label: 'Market / Sector', icon: PieChartIcon },
+  { id: 'OVERVIEW',       label: 'Overview',        icon: Compass,       modKey: null },
+  { id: 'BUSINESS',       label: 'Business',         icon: GitBranch,     modKey: 'businessDrivers' },
+  { id: 'TECHNICAL',      label: 'Technical',        icon: Activity,      modKey: 'technical' },
+  { id: 'FUNDAMENTAL',    label: 'Fundamentals',     icon: FileText,      modKey: 'fundamental' },
+  { id: 'MANAGEMENT',     label: 'Management',       icon: Users,         modKey: 'management' },
+  { id: 'FERE',           label: 'FERE',             icon: AlertTriangle, modKey: 'fere' },
+  { id: 'QGLP',           label: 'QGLP',             icon: Shield,        modKey: 'qglp' },
+  { id: 'VALUATION',      label: 'Valuation',        icon: BarChart2,     modKey: 'valuation' },
+  { id: 'MARKET',         label: 'Market',           icon: PieChartIcon,  modKey: 'marketContext' },
+  { id: 'CONTRADICTIONS', label: 'Contradictions',   icon: Crosshair,     modKey: 'contradictions' },
+  { id: 'THESIS',         label: 'Thesis',           icon: BookOpen,      modKey: 'thesis' },
+  { id: 'TIMELINE',       label: 'Timeline',         icon: CalendarDays,  modKey: null },
 ];
 
 export function StockIntelligenceView({
@@ -117,6 +127,13 @@ export function StockIntelligenceView({
   const val = modules.valuation?.result || data.valuation || null;
   const market = modules.marketContext?.result || data.marketContext || null;
   const inflection = modules.businessInflection?.result || data.businessInflection || null;
+  // V2 engines
+  const drivers = modules.businessDrivers?.result || null;
+  const contradictions = modules.contradictions?.result || null;
+  const thesis = modules.thesis?.result || null;
+  const delta = modules.delta?.result || null;
+  const attention = modules.attention?.result || null;
+  const questions = modules.questions?.result || null;
 
   const companyName = security.companyName || data.company_name || symbol;
   const businessModel = security.businessModel || 'NON_FINANCIAL';
@@ -187,25 +204,24 @@ export function StockIntelligenceView({
           </div>
         </div>
 
-        {/* Tab Navigation (Exact 8 Functional Modules) */}
-        <div className="flex items-center gap-1 px-6 py-2 overflow-x-auto bg-slate-950/80 border-b border-slate-800/80">
+        {/* Tab Navigation — full V2 module set */}
+        <div className="flex items-center gap-1 px-4 py-2 overflow-x-auto bg-slate-950/80 border-b border-slate-800/80 scrollbar-thin scrollbar-thumb-slate-700">
           {TABS.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
-            const modKey = tab.id === 'MARKET' ? 'marketContext' : tab.id.toLowerCase();
-            const modStatus = modules[modKey]?.status;
+            const modStatus = tab.modKey ? modules[tab.modKey]?.status : null;
 
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-bold transition-all cursor-pointer whitespace-nowrap ${
                   isActive
                     ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-600/20'
                     : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
                 }`}
               >
-                <Icon className="w-3.5 h-3.5" />
+                <Icon className="w-3 h-3" />
                 <span>{tab.label}</span>
                 {modStatus && (
                   <span className={`w-1.5 h-1.5 rounded-full ${
@@ -823,6 +839,291 @@ export function StockIntelligenceView({
               ) : (
                 <div className="p-8 text-center text-slate-400 bg-slate-900 rounded-2xl border border-slate-800">
                   Market and sector context data unavailable.
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ─────────────────────────────────────────────────────────────────
+              TAB: BUSINESS DRIVERS
+          ───────────────────────────────────────────────────────────────── */}
+          {activeTab === 'BUSINESS' && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div className="flex items-center gap-2">
+                  <GitBranch className="w-5 h-5 text-violet-400" />
+                  <h3 className="text-base font-bold text-white">Business Drivers</h3>
+                </div>
+                {getStatusBadge(modules.businessDrivers?.status)}
+              </div>
+
+              {drivers?.drivers?.length > 0 ? (
+                <div className="space-y-3">
+                  {drivers.drivers.map((d: any, i: number) => (
+                    <div key={i} className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-bold text-white">{d.name}</span>
+                        <div className="flex items-center gap-2">
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                            d.direction === 'IMPROVING' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' :
+                            d.direction === 'DETERIORATING' ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30' :
+                            d.direction === 'STABLE' ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' :
+                            'bg-slate-700 text-slate-400 border border-slate-600'
+                          }`}>{d.direction}</span>
+                          <span className={`text-[10px] font-mono px-2 py-0.5 rounded-md ${
+                            d.status === 'SUPPORTED' ? 'bg-emerald-500/10 text-emerald-400' :
+                            d.status === 'PARTIAL' ? 'bg-amber-500/10 text-amber-400' :
+                            'bg-slate-800 text-slate-500'
+                          }`}>{d.status}</span>
+                        </div>
+                      </div>
+                      {d.currentState && (
+                        <p className="text-xs text-slate-400">{d.currentState}</p>
+                      )}
+                      {d.evidence?.length > 0 && (
+                        <div className="flex flex-wrap gap-1 mt-1">
+                          {d.evidence.slice(0, 3).map((ev: string, j: number) => (
+                            <span key={j} className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">{ev}</span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                  <div className="p-3 rounded-xl bg-slate-800/40 border border-slate-700/50 text-xs text-slate-400">
+                    <span className="font-bold text-slate-300">{drivers.driversWithEvidence || 0}/{drivers.driversTotal || 0}</span> drivers have evidence ·
+                    Template: <span className="font-mono text-cyan-400">{drivers.businessModel || 'UNKNOWN'}</span>
+                  </div>
+                </div>
+              ) : (
+                <div className="p-8 text-center text-slate-400 bg-slate-900 rounded-2xl border border-slate-800 space-y-2">
+                  <GitBranch className="w-8 h-8 mx-auto text-slate-600" />
+                  <p className="text-sm font-bold text-slate-300">Business driver analysis</p>
+                  <p className="text-xs text-slate-500">
+                    {modules.businessDrivers?.missingRequirements?.[0] || 'Driver evidence not yet indexed for this company.'}
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ─────────────────────────────────────────────────────────────────
+              TAB: CONTRADICTIONS
+          ───────────────────────────────────────────────────────────────── */}
+          {activeTab === 'CONTRADICTIONS' && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div className="flex items-center gap-2">
+                  <Crosshair className="w-5 h-5 text-orange-400" />
+                  <h3 className="text-base font-bold text-white">Contradictions in Evidence</h3>
+                </div>
+                {getStatusBadge(modules.contradictions?.status)}
+              </div>
+
+              {/* Coverage summary */}
+              {contradictions && (
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-center">
+                    <span className="text-2xl font-black text-orange-300">{contradictions.contradictionsDetected ?? 0}</span>
+                    <span className="text-[10px] text-slate-400 block">Detected</span>
+                  </div>
+                  <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-center">
+                    <span className="text-2xl font-black text-cyan-300">{contradictions.patternsEvaluated ?? 0}</span>
+                    <span className="text-[10px] text-slate-400 block">Patterns Evaluated</span>
+                  </div>
+                  <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-center">
+                    <span className="text-2xl font-black text-slate-300">{contradictions.patternsSkipped ?? 0}</span>
+                    <span className="text-[10px] text-slate-400 block">Skipped (missing data)</span>
+                  </div>
+                </div>
+              )}
+
+              {contradictions?.contradictions?.length > 0 ? (
+                <div className="space-y-3">
+                  {contradictions.contradictions.map((c: any, i: number) => (
+                    <div key={i} className={`p-4 rounded-xl border space-y-3 ${
+                      c.severity === 'HIGH' ? 'bg-rose-500/5 border-rose-500/30' :
+                      c.severity === 'MEDIUM' ? 'bg-orange-500/5 border-orange-500/30' :
+                      'bg-slate-900 border-slate-800'
+                    }`}>
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="space-y-0.5">
+                          <div className="flex items-center gap-2">
+                            <ArrowRightLeft className="w-3.5 h-3.5 text-orange-400 shrink-0" />
+                            <span className="text-sm font-bold text-white">{c.observationA}</span>
+                          </div>
+                          <div className="flex items-center gap-2 ml-5">
+                            <span className="text-xs text-slate-400">vs.</span>
+                            <span className="text-sm font-semibold text-slate-200">{c.observationB}</span>
+                          </div>
+                        </div>
+                        <span className={`shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                          c.severity === 'HIGH' ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30' :
+                          c.severity === 'MEDIUM' ? 'bg-orange-500/20 text-orange-300 border border-orange-500/30' :
+                          'bg-slate-700 text-slate-400'
+                        }`}>{c.severity}</span>
+                      </div>
+                      {c.whyItMatters && (
+                        <p className="text-xs text-slate-400 pl-5">{c.whyItMatters}</p>
+                      )}
+                      {c.possibleExplanations?.length > 0 && (
+                        <div className="pl-5 space-y-1">
+                          <p className="text-[10px] font-bold text-slate-500 uppercase">Possible explanations:</p>
+                          {c.possibleExplanations.map((ex: string, j: number) => (
+                            <p key={j} className="text-[11px] text-slate-400">· {ex}</p>
+                          ))}
+                        </div>
+                      )}
+                      <div className="pl-5 flex items-center gap-2">
+                        <span className={`text-[10px] px-2 py-0.5 rounded-md font-mono ${
+                          c.status === 'OPEN' ? 'bg-orange-500/10 text-orange-400' :
+                          c.status === 'EXPLAINED' ? 'bg-blue-500/10 text-blue-400' :
+                          'bg-slate-800 text-slate-500'
+                        }`}>{c.status}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="p-8 text-center text-slate-400 bg-slate-900 rounded-2xl border border-slate-800 space-y-2">
+                  <CheckCircle className="w-8 h-8 mx-auto text-slate-600" />
+                  <p className="text-sm font-bold text-slate-300">
+                    {contradictions?.patternsEvaluated > 0
+                      ? `No contradictions detected across ${contradictions.patternsEvaluated} patterns`
+                      : 'Contradiction analysis requires fundamental + FERE data'}
+                  </p>
+                  {modules.contradictions?.missingRequirements?.length > 0 && (
+                    <p className="text-xs text-slate-500">{modules.contradictions.missingRequirements[0]}</p>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ─────────────────────────────────────────────────────────────────
+              TAB: THESIS
+          ───────────────────────────────────────────────────────────────── */}
+          {activeTab === 'THESIS' && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div className="flex items-center gap-2">
+                  <BookOpen className="w-5 h-5 text-blue-400" />
+                  <h3 className="text-base font-bold text-white">Investment Thesis</h3>
+                </div>
+                {getStatusBadge(modules.thesis?.status)}
+              </div>
+
+              {thesis ? (
+                <div className="space-y-5">
+                  {/* Thesis summary */}
+                  {thesis.thesis?.summary && (
+                    <div className="p-4 rounded-xl bg-blue-500/5 border border-blue-500/20">
+                      <p className="text-sm text-slate-200 leading-relaxed">{thesis.thesis.summary}</p>
+                      <p className="text-[10px] text-slate-500 mt-2 font-mono">Evidence coverage: {thesis.coverage || 'PARTIAL'}</p>
+                    </div>
+                  )}
+
+                  {/* Pillars */}
+                  {thesis.pillars?.length > 0 && (
+                    <div className="space-y-2">
+                      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Thesis Pillars</h4>
+                      {thesis.pillars.map((p: any, i: number) => (
+                        <div key={i} className={`p-3 rounded-xl border flex items-center justify-between ${
+                          p.status === 'SUPPORTED' ? 'bg-emerald-500/5 border-emerald-500/20' :
+                          p.status === 'CHALLENGED' ? 'bg-orange-500/5 border-orange-500/20' :
+                          p.status === 'BROKEN' ? 'bg-rose-500/5 border-rose-500/20' :
+                          p.status === 'PARTIALLY_SUPPORTED' ? 'bg-amber-500/5 border-amber-500/20' :
+                          'bg-slate-900 border-slate-800'
+                        }`}>
+                          <div>
+                            <p className="text-sm font-semibold text-white">{p.name}</p>
+                            {p.summary && <p className="text-xs text-slate-400 mt-0.5">{p.summary}</p>}
+                          </div>
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md shrink-0 ml-3 ${
+                            p.status === 'SUPPORTED' ? 'bg-emerald-500/20 text-emerald-300' :
+                            p.status === 'CHALLENGED' ? 'bg-orange-500/20 text-orange-300' :
+                            p.status === 'BROKEN' ? 'bg-rose-500/20 text-rose-300' :
+                            p.status === 'PARTIALLY_SUPPORTED' ? 'bg-amber-500/20 text-amber-300' :
+                            'bg-slate-700 text-slate-400'
+                          }`}>{p.status?.replace('_', ' ')}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Limitations */}
+                  {thesis.limitations?.length > 0 && (
+                    <div className="p-3 rounded-xl bg-slate-800/40 border border-slate-700/50">
+                      <p className="text-[10px] font-bold text-slate-500 uppercase mb-1">What we don't know</p>
+                      {thesis.limitations.slice(0, 3).map((l: string, i: number) => (
+                        <p key={i} className="text-xs text-slate-400">· {l}</p>
+                      ))}
+                    </div>
+                  )}
+
+                  <p className="text-[10px] text-slate-500">
+                    {thesis.patternsEvaluated}/{thesis.patternsEvaluable} thesis pillars evaluated · Data as of {thesis.thesis?.dataAsOf || modules.thesis?.dataAsOf || 'N/A'}
+                  </p>
+                </div>
+              ) : (
+                <div className="p-8 text-center text-slate-400 bg-slate-900 rounded-2xl border border-slate-800 space-y-2">
+                  <BookOpen className="w-8 h-8 mx-auto text-slate-600" />
+                  <p className="text-sm font-bold text-slate-300">Thesis requires fundamental + driver + FERE evidence</p>
+                  <p className="text-xs text-slate-500">{modules.thesis?.missingRequirements?.[0] || 'Thesis builds as evidence accumulates.'}</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ─────────────────────────────────────────────────────────────────
+              TAB: TIMELINE
+          ───────────────────────────────────────────────────────────────── */}
+          {activeTab === 'TIMELINE' && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div className="flex items-center gap-2">
+                  <CalendarDays className="w-5 h-5 text-cyan-400" />
+                  <h3 className="text-base font-bold text-white">Company Timeline</h3>
+                </div>
+                <span className="text-[10px] text-slate-500 font-mono">RESULTS · COMMITMENTS · CORPORATE ACTIONS · REGIME CHANGES</span>
+              </div>
+
+              {/* Delta as timeline proxy until CompanyTimelineEngine is fully wired */}
+              {delta?.deltas?.length > 0 ? (
+                <div className="space-y-2">
+                  <p className="text-xs text-slate-500 font-mono">WHAT CHANGED SINCE LAST ANALYSIS</p>
+                  {delta.deltas.map((d: any, i: number) => (
+                    <div key={i} className="flex items-start gap-3 p-3 rounded-xl bg-slate-900 border border-slate-800">
+                      <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${
+                        d.direction === 'IMPROVED' ? 'bg-emerald-400' :
+                        d.direction === 'DETERIORATED' ? 'bg-rose-400' :
+                        'bg-amber-400'
+                      }`} />
+                      <div className="flex-1">
+                        <p className="text-sm font-semibold text-white">{d.metric}</p>
+                        {d.previousValue !== null && d.currentValue !== null && (
+                          <p className="text-xs text-slate-400 font-mono">
+                            {String(d.previousValue)} → {String(d.currentValue)}
+                          </p>
+                        )}
+                        <p className="text-[10px] text-slate-500">{d.category} · {d.materiality} materiality</p>
+                      </div>
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                        d.direction === 'IMPROVED' ? 'bg-emerald-500/20 text-emerald-300' :
+                        d.direction === 'DETERIORATED' ? 'bg-rose-500/20 text-rose-300' :
+                        'bg-amber-500/20 text-amber-300'
+                      }`}>{d.direction}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="p-8 text-center text-slate-400 bg-slate-900 rounded-2xl border border-slate-800 space-y-2">
+                  <CalendarDays className="w-8 h-8 mx-auto text-slate-600" />
+                  <p className="text-sm font-bold text-slate-300">Full Timeline</p>
+                  <p className="text-xs text-slate-500">
+                    {delta?.deltas?.length === 0
+                      ? 'Delta requires two analysis runs — use the Refresh action to create a comparison point.'
+                      : 'Timeline aggregates results, commitments, corporate actions, and regime changes.'}
+                  </p>
                 </div>
               )}
             </div>

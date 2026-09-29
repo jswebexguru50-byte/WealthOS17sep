@@ -1,0 +1,29 @@
+﻿{
+  "auditDate": "2026-09-29",
+  "auditedBy": "Wave1_AgentA_Coordinator",
+  "goldenCompanies": {
+    "RELIANCE": { "fundamental_endpoint_snapshots": 8, "management_claim_candidate": 0, "ManagementClaims_portfolio": 0 },
+    "TCS": { "fundamental_endpoint_snapshots": 8, "management_claim_candidate": 0, "ManagementClaims_portfolio": 0 },
+    "HDFCBANK": { "fundamental_endpoint_snapshots": 8, "management_claim_candidate": 0, "ManagementClaims_portfolio": 0 },
+    "TATAMOTORS": { "fundamental_endpoint_snapshots": 8, "management_claim_candidate": 0, "ManagementClaims_portfolio": 0 },
+    "TATASTEEL": { "fundamental_endpoint_snapshots": 8, "management_claim_candidate": 0, "ManagementClaims_portfolio": 0 },
+    "INFY": { "fundamental_endpoint_snapshots": 8, "management_claim_candidate": 0, "ManagementClaims_portfolio": 0 },
+    "ICICIBANK": { "fundamental_endpoint_snapshots": 8, "management_claim_candidate": 0, "ManagementClaims_portfolio": 0 },
+    "SUNPHARMA": { "fundamental_endpoint_snapshots": 8, "management_claim_candidate": 0, "ManagementClaims_portfolio": 0 },
+    "TITAN": { "fundamental_endpoint_snapshots": 8, "management_claim_candidate": 0, "ManagementClaims_portfolio": 0 },
+    "BEL": { "fundamental_endpoint_snapshots": 8, "management_claim_candidate": 0, "ManagementClaims_portfolio": 0 }
+  },
+  "systemWide": {
+    "fere_evidence_db_path": "data/fere/verified_filings/fere_evidence.db",
+    "management_claim_candidate_total": 201,
+    "management_claim_candidate_golden_match": 0,
+    "management_claim_candidate_symbols_have_data": ["APOLLO","BHARTIARTL","BLS","HIRECT","JGCHEM","LAURUSLABS","MUFIN","POLYCAB","SOLARINDS","TEMBO","UNOMINDA","USHAMART"],
+    "company_facts_total": 5569,
+    "company_facts_golden_match": 0
+  },
+  "acquisitionPriority": {
+    "P0_WORKING": ["fundamental_endpoint_snapshots — all 10 golden companies covered"],
+    "P1_MANAGEMENT": "201 claim candidates exist but none for golden companies. Requires FERE ingestion run against golden company filings.",
+    "P2_COMPANY_FACTS": "5569 rows but none for golden company symbols. Medium impact — BusinessDriverEngine falls back to fundamental_endpoint_snapshots."
+  }
+}
