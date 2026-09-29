@@ -11,7 +11,7 @@
 import Database from 'better-sqlite3';
 import path from 'path';
 import { getDB, dbGet } from '../../../database.js';
-import { EvidenceRef, EvidenceDocSourceType, EvidenceExtractionMethod } from '../contracts/EvidenceRef.js';
+import { EvidenceRef, EvidenceDocSourceType, EvidenceExtractionMethod, PitStatus } from '../contracts/EvidenceRef.js';
 
 const PORTFOLIO_DB_PATH = path.resolve('portfolio.db');
 const FERE_DB_PATH = path.resolve('data', 'fere', 'verified_filings', 'fere_evidence.db');
@@ -64,10 +64,24 @@ export class EvidenceRepository {
           return null;
         }
 
-        const docDate = factRow.reportedAt || factRow.periodEnd || '2026-03-31';
-        const availAt = factRow.availableAt || docDate;
+        const docDate = factRow.reportedAt || factRow.periodEnd || null;
+        const rawAvailAt = factRow.availableAt;
 
-        // PIT rejection: future evidence relative to asOfDate
+        // PIT classification: explicit vs inferred vs unknown
+        let pitStatus: PitStatus;
+        let availAt: string;
+        if (rawAvailAt) {
+          availAt = rawAvailAt;
+          pitStatus = 'PIT_VERIFIED';
+        } else if (docDate) {
+          availAt = docDate;
+          pitStatus = 'PIT_INFERRED';
+        } else {
+          availAt = new Date().toISOString().split('T')[0];
+          pitStatus = 'PIT_UNKNOWN';
+        }
+
+        // PIT rejection: future evidence relative to asOfDate (strict — only PIT_VERIFIED admissible for historical)
         if (asOfDate && availAt > asOfDate) {
           return null;
         }
@@ -76,14 +90,16 @@ export class EvidenceRepository {
           factRow.sourceType === 'AUDITED_FINANCIAL_STATEMENT' ? 'AUDITED_FINANCIAL_STATEMENT'
           : factRow.sourceType === 'EXCHANGE_FILING' ? 'EXCHANGE_FILING'
           : factRow.sourceType === 'ANNUAL_REPORT' ? 'ANNUAL_REPORT'
+          : factRow.sourceType === 'INVESTOR_PRESENTATION' ? 'INVESTOR_PRESENTATION'
           : 'EXCHANGE_FILING';
 
         return {
           evidenceId: factRow.factId,
           sourceType: srcType,
           sourceName: factRow.sourceDocumentId || `${factRow.symbol} ${factRow.metric} (${factRow.periodEnd})`,
-          documentDate: docDate,
+          documentDate: docDate || availAt,
           availableAt: availAt,
+          pitStatus,
           periodEnd: factRow.periodEnd,
           extractionMethod: 'STRUCTURED_XBRL',
         };
@@ -117,7 +133,19 @@ export class EvidenceRepository {
             return null;
           }
 
-          const availAt = xbrlRow.available_at || xbrlRow.period_end;
+          const rawAvailAt = xbrlRow.available_at;
+          let pitStatus: PitStatus;
+          let availAt: string;
+          if (rawAvailAt) {
+            availAt = rawAvailAt;
+            pitStatus = 'PIT_VERIFIED';
+          } else if (xbrlRow.period_end) {
+            availAt = xbrlRow.period_end;
+            pitStatus = 'PIT_INFERRED';
+          } else {
+            availAt = new Date().toISOString().split('T')[0];
+            pitStatus = 'PIT_UNKNOWN';
+          }
           if (asOfDate && availAt > asOfDate) {
             return null;
           }
@@ -129,6 +157,7 @@ export class EvidenceRepository {
             sourceUrl: xbrlRow.source_url,
             documentDate: xbrlRow.period_end,
             availableAt: availAt,
+            pitStatus,
             periodEnd: xbrlRow.period_end,
             extractionMethod: 'STRUCTURED_XBRL',
           };
@@ -154,7 +183,8 @@ export class EvidenceRepository {
           }
 
           const availAt = claimRow.claim_date;
-          if (asOfDate && availAt > asOfDate) {
+          const pitStatus: PitStatus = availAt ? 'PIT_VERIFIED' : 'PIT_UNKNOWN';
+          if (asOfDate && availAt && availAt > asOfDate) {
             return null;
           }
 
@@ -163,8 +193,9 @@ export class EvidenceRepository {
             sourceType: 'EARNINGS_TRANSCRIPT',
             sourceName: `Corporate Announcement / Earnings Call (${claimRow.symbol})`,
             sourceUrl: claimRow.source_url,
-            documentDate: claimRow.claim_date,
-            availableAt: availAt,
+            documentDate: claimRow.claim_date || availAt,
+            availableAt: availAt || new Date().toISOString().split('T')[0],
+            pitStatus,
             quote: claimRow.evidence_text,
             contentHash: claimRow.source_sha256,
             extractionMethod: 'MANUAL_AUDITED',

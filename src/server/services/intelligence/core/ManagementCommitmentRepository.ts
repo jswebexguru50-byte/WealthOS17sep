@@ -363,7 +363,7 @@ export class ManagementCommitmentRepository {
         baselineValue: '9.7% (FY25)',
         statementEvidence: {
           evidenceId: `ev_${isin}_margin_fy26_stmt`,
-          sourceType: 'OTHER',
+          sourceType: 'INVESTOR_PRESENTATION',
           sourceName: 'DYCL FY25 Investor Presentation',
           documentDate: '2025-05-15',
           availableAt: '2025-05-15',

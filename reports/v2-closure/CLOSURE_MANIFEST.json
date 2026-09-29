@@ -1,0 +1,67 @@
+﻿{
+  "_comment": "DO NOT manually set any gate value. All values must be written by executed tests. Manual edits are test fraud.",
+  "manifestVersion": "1.0.0",
+  "repository": {
+    "branch": "ai-review",
+    "baselineSha": "84f7b1e54c1b877f0340db244ce5563713f6c4b9",
+    "candidateSha": "PENDING",
+    "workingTreeStatus": "PENDING",
+    "localEqualsRemote": "PENDING"
+  },
+  "compiler": { "tscNoEmit": "PENDING", "exitCode": "PENDING" },
+  "proofA_DYCL_Live": {
+    "status": "PENDING",
+    "checks": {
+      "evidence_changed": "PENDING",
+      "canonical_facts_changed": "PENDING",
+      "only_affected_engines_recomputed": "PENDING",
+      "management_commitment_updated_where_relevant": "PENDING",
+      "contradiction_tension_updated_where_relevant": "PENDING",
+      "snapshot_B_created": "PENDING",
+      "delta_A_to_B_generated": "PENDING",
+      "watch_rule_evaluated": "PENDING",
+      "timeline_updated": "PENDING",
+      "overview_what_changed_updated": "PENDING",
+      "unrelated_outputs_unchanged": "PENDING"
+    }
+  },
+  "proofB_Generic_Architecture": {
+    "status": "PENDING",
+    "companies": {
+      "DYCL": { "archetype": "industrial", "overview": "PENDING", "business": "PENDING", "financials": "PENDING", "management": "PENDING", "valuation": "PENDING", "technical": "PENDING", "timeline": "PENDING", "evidence": "PENDING" },
+      "TCS": { "archetype": "IT_services", "overview": "PENDING", "business": "PENDING", "financials": "PENDING", "management": "PENDING", "valuation": "PENDING", "technical": "PENDING", "timeline": "PENDING", "evidence": "PENDING" },
+      "HDFCBANK": { "archetype": "banking", "overview": "PENDING", "business": "PENDING", "financials": "PENDING", "management": "PENDING", "valuation": "PENDING", "technical": "PENDING", "timeline": "PENDING", "evidence": "PENDING" }
+    },
+    "symbolSpecificProductionCodeAdded": false
+  },
+  "proofC_Release": {
+    "status": "PENDING",
+    "companiesExecuted": "PENDING",
+    "realityOracleObservationsTotal": "PENDING",
+    "realityOracleObservationsVerified": "PENDING",
+    "unexplainedMaterialMismatches": "PENDING",
+    "checks": {
+      "typeScript_compilation": "PENDING",
+      "unit_integration_suite": "PENDING",
+      "api_e2e_v2": "PENDING",
+      "browser_e2e": "PENDING",
+      "get_zero_write_invariant": "PENDING",
+      "pit_verified": "PENDING",
+      "evidence_resolution": "PENDING",
+      "snapshot_determinism": "PENDING",
+      "refresh_idempotency": "PENDING",
+      "module_failure_degraded_mode": "PENDING",
+      "concurrency_performance": "PENDING"
+    }
+  },
+  "architectureInvariants": {
+    "zeroDuplicateCanonicalContracts": "PENDING",
+    "zeroEngineRawProviderReads": "PENDING",
+    "zeroV2LegacyFallback": "PENDING",
+    "zeroSymbolSpecificProductionBranches": "PENDING",
+    "pitStatusOnAllEvidenceRefs": "PENDING",
+    "getWritesZero": "PENDING"
+  },
+  "knownLimitationsAndExclusions": ["PENDING - developer must list all known gaps before submitting for review"],
+  "productionAcceptance": "NOT_READY"
+}

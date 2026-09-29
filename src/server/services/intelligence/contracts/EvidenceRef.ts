@@ -9,6 +9,7 @@ export type EvidenceDocSourceType =
   | 'EXCHANGE_FILING'
   | 'ANNUAL_REPORT'
   | 'EARNINGS_TRANSCRIPT'
+  | 'INVESTOR_PRESENTATION'
   | 'PRICE_RECORD'
   | 'REGULATORY_DISCLOSURE'
   | 'CORPORATE_ACTION'
@@ -16,6 +17,18 @@ export type EvidenceDocSourceType =
   | 'CREDIT_RATING_REPORT'
   | 'SHAREHOLDING_DISCLOSURE'
   | 'OTHER';
+
+/**
+ * PIT (Point-In-Time) status for every resolved EvidenceRef.
+ *
+ * PIT_VERIFIED   — availableAt is explicitly known and <= asOfDate.
+ * PIT_INFERRED   — availableAt was absent; periodEnd/reportedAt was substituted.
+ *                  Acceptable for current analysis; excluded from strict historical replay.
+ * PIT_UNKNOWN    — No date could be determined. Evidence is surfaced but excluded from
+ *                  historical replay and flagged in coverage reports.
+ */
+export type PitStatus = 'PIT_VERIFIED' | 'PIT_INFERRED' | 'PIT_UNKNOWN';
+
 
 export type EvidenceExtractionMethod =
   | 'MANUAL_AUDITED'
@@ -31,6 +44,13 @@ export interface EvidenceRef {
   sourceUrl?: string | null;
   documentDate: string;        // YYYY-MM-DD
   availableAt: string;         // ISO timestamp (PIT invariant)
+  /**
+   * Explicit PIT classification.
+   * When absent, consumers MUST treat as PIT_INFERRED.
+   * Set explicitly in EvidenceRepository.resolve() for all newly resolved refs.
+   * Existing code that omits this field is implicitly PIT_INFERRED (availableAt may be a substitute).
+   */
+  pitStatus?: PitStatus;
   periodStart?: string | null; // ISO date
   periodEnd?: string | null;   // ISO date
   page?: number | null;

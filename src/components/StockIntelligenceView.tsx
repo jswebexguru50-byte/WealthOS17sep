@@ -117,16 +117,17 @@ export function StockIntelligenceView({
     );
   }
 
-  // Extract Canonical Modules (V2 Clean Contract)
+  // Extract Canonical V2 Modules — NO legacy fallback allowed.
+  // If a module is missing, its value is null and the UI renders DATA_INSUFFICIENT.
   const security = data.security || {};
   const modules = data.modules || {};
   const overview = data.overview || null;
   const freshness = data.freshness || null;
   const monitoring = data.monitoring || null;
-  const timelineData = data.timeline || modules.timeline?.result || null;
-  const delta = data.delta || modules.delta?.result || null;
-  const attention = data.attention || modules.attention?.result || null;
-  const questions = data.questions || modules.questions?.result || null;
+  const timelineData = modules.timeline?.result || null;   // V2: real CompanyEvents only
+  const delta = modules.delta?.result || null;             // V2: analytical state changes only
+  const attention = modules.attention?.result || null;
+  const questions = modules.questions?.result || null;
 
   const tech = modules.technical?.result || null;
   const fund = modules.fundamental?.result || null;
