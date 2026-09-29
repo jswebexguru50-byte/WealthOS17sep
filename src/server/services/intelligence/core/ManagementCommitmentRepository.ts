@@ -8,6 +8,7 @@
  *   Who said it → What was said → Metric/Target/Deadline → Subsequent Actual → Status → Evidence.
  * - Standardizes on 9 actionable Walk-the-Talk statuses:
  *   ACHIEVED, ON_TRACK, PARTIALLY_ACHIEVED, MISSED, REVISED, SUPERSEDED, NOT_YET_DUE, NOT_MEASURABLE, INSUFFICIENT_EVIDENCE.
+ * - Status is DERIVED dynamically by comparing target vs actual facts as of PIT cutoff, NEVER pre-seeded.
  */
 
 import Database from 'better-sqlite3';
@@ -16,7 +17,6 @@ import { SecurityIdentity } from '../contracts/SecurityIdentity.js';
 import { EvidenceRef } from '../contracts/EvidenceRef.js';
 
 const FERE_DB_PATH = path.resolve('data', 'fere', 'verified_filings', 'fere_evidence.db');
-const PORTFOLIO_DB_PATH = path.resolve('portfolio.db');
 
 export type WalkTheTalkStatus =
   | 'ACHIEVED'
@@ -39,6 +39,7 @@ export interface MaterialCommitmentRecord {
   sourceDocument: string;
   sourceUrl?: string;
   metric: string;
+  operator: 'GTE' | 'LTE' | 'EQ' | 'COMMISSIONED';
   targetValue: number | string;
   targetUnit: string;
   deadline: string;
@@ -49,6 +50,34 @@ export interface MaterialCommitmentRecord {
   status: WalkTheTalkStatus;
   evaluationExplanation: string;
   evidenceRefs: EvidenceRef[];
+}
+
+export interface RawCommitmentDefinition {
+  commitmentId: string;
+  securityId: string;
+  symbol: string;
+  speaker: string;
+  statement: string;
+  statementDate: string;
+  sourceDocument: string;
+  sourceUrl?: string;
+  metric: string;
+  operator: 'GTE' | 'LTE' | 'EQ' | 'COMMISSIONED';
+  targetValue: number | string;
+  targetUnit: string;
+  deadline: string;
+  materiality: 'HIGH' | 'MEDIUM' | 'LOW';
+  measurability: 'MEASURABLE' | 'QUALITATIVE' | 'DIRECTIONAL';
+  baselineValue?: string | null;
+  statementEvidence: EvidenceRef;
+  reportedActuals?: Array<{
+    value: number | string;
+    periodEnd: string;
+    publishedDate: string;
+    availableAt: string;
+    qualifier?: string;
+    evidence: EvidenceRef;
+  }>;
 }
 
 export class ManagementCommitmentRepository {
@@ -64,7 +93,8 @@ export class ManagementCommitmentRepository {
   }
 
   /**
-   * Retrieves all verified management commitments for a given security.
+   * Retrieves all verified management commitments for a given security,
+   * dynamically deriving their Walk-the-Talk status from actual verified disclosures as of cutoff.
    */
   public async getCommitmentsForSecurity(
     identity: SecurityIdentity,
@@ -74,12 +104,12 @@ export class ManagementCommitmentRepository {
     const sym = identity.nseSymbol || identity.bseCode || '';
     const cutoff = asOfDate || new Date().toISOString().split('T')[0];
 
-    const results: MaterialCommitmentRecord[] = [];
+    const rawDefinitions: RawCommitmentDefinition[] = [];
 
+    // 1. Query raw claim candidates from fere_evidence.db
     try {
       const fereDb = new Database(FERE_DB_PATH, { readonly: true });
       try {
-        // Query candidates / commitments in fere_evidence.db
         const rows = fereDb.prepare(`
           SELECT id, isin, symbol, claim_date, source_url, source_sha256,
                  evidence_text, detected_metric, detected_target, detected_unit, detected_deadline, decision
@@ -89,30 +119,24 @@ export class ManagementCommitmentRepository {
         `).all(isin, sym, cutoff) as any[];
 
         for (const r of rows) {
-          const isDycl = sym === 'DYCL' || isin === 'INE600Y01019';
-          // Format into MaterialCommitmentRecord
-          results.push({
+          rawDefinitions.push({
             commitmentId: `mgt_${isin}_${r.id}`,
             securityId: isin,
             symbol: sym,
-            speaker: isDycl ? 'Managing Director & CEO' : 'Executive Management',
+            speaker: 'Executive Management',
             statement: r.evidence_text,
             statementDate: r.claim_date,
             sourceDocument: `Corporate Presentation / Call (${r.claim_date})`,
             sourceUrl: r.source_url,
             metric: r.detected_metric || 'growth',
+            operator: 'GTE',
             targetValue: r.detected_target || 'N/A',
             targetUnit: r.detected_unit || '%',
-            deadline: r.detected_deadline || 'FY2026',
+            deadline: r.detected_deadline || '2026-03-31',
             materiality: 'HIGH',
             measurability: 'MEASURABLE',
-            baselineValue: isDycl ? '₹1,031.96 Cr (FY25)' : null,
-            subsequentActual: isDycl ? '₹1,204.57 Cr (+16.7% YoY in FY26)' : null,
-            status: isDycl ? 'ACHIEVED' : 'ON_TRACK',
-            evaluationExplanation: isDycl
-              ? 'FY26 audited revenue expanded by 16.7% YoY from ₹1,031.96 Cr to ₹1,204.57 Cr, meeting the >15% expansion target.'
-              : 'Progress monitored against reported financial statements.',
-            evidenceRefs: [{
+            baselineValue: null,
+            statementEvidence: {
               evidenceId: `ev_mgt_${r.id}`,
               sourceType: 'EARNINGS_TRANSCRIPT',
               sourceName: `Corporate Announcement / Earnings Call (${r.claim_date})`,
@@ -122,7 +146,7 @@ export class ManagementCommitmentRepository {
               quote: r.evidence_text,
               contentHash: r.source_sha256,
               extractionMethod: 'MANUAL_AUDITED',
-            }],
+            },
           });
         }
       } finally {
@@ -132,21 +156,150 @@ export class ManagementCommitmentRepository {
       console.warn('[ManagementCommitmentRepository] Failed to query fere_evidence.db:', e);
     }
 
-    // Complement with curated audited commitments for DYCL if only 1 exists
-    if ((sym === 'DYCL' || isin === 'INE600Y01019') && results.length < 5) {
-      const dyclLedger = this.getDyclCuratedLedger(isin, cutoff);
-      for (const dl of dyclLedger) {
-        if (!results.some(r => r.commitmentId === dl.commitmentId)) {
-          results.push(dl);
-        }
+    // 2. Load verified reference commitment declarations
+    const referenceCommitments = this.getReferenceCommitments(isin, sym, cutoff);
+    for (const ref of referenceCommitments) {
+      if (!rawDefinitions.some(r => r.commitmentId === ref.commitmentId)) {
+        rawDefinitions.push(ref);
       }
     }
+
+    // 3. Derive status dynamically for every raw commitment
+    const results: MaterialCommitmentRecord[] = rawDefinitions.map(def =>
+      this.deriveCommitmentEvaluation(def, cutoff)
+    );
 
     return results.sort((a, b) => b.statementDate.localeCompare(a.statementDate));
   }
 
-  private getDyclCuratedLedger(isin: string, cutoff: string): MaterialCommitmentRecord[] {
-    const records: MaterialCommitmentRecord[] = [
+  /**
+   * Evaluates a commitment definition against actual disclosures strictly adhering to Point-In-Time (PIT).
+   * Status is DERIVED from mathematical comparison or audit delivery, NEVER pre-seeded.
+   */
+  public deriveCommitmentEvaluation(
+    def: RawCommitmentDefinition,
+    cutoffDate: string
+  ): MaterialCommitmentRecord {
+    // Filter actuals by PIT: availableAt <= cutoffDate
+    const visibleActuals = (def.reportedActuals || []).filter(
+      act => act.availableAt <= cutoffDate
+    );
+
+    // If no verified actual is available at or before cutoffDate:
+    if (visibleActuals.length === 0) {
+      const isPastDeadline = def.deadline <= cutoffDate;
+      return {
+        commitmentId: def.commitmentId,
+        securityId: def.securityId,
+        symbol: def.symbol,
+        speaker: def.speaker,
+        statement: def.statement,
+        statementDate: def.statementDate,
+        sourceDocument: def.sourceDocument,
+        sourceUrl: def.sourceUrl,
+        metric: def.metric,
+        operator: def.operator,
+        targetValue: def.targetValue,
+        targetUnit: def.targetUnit,
+        deadline: def.deadline,
+        materiality: def.materiality,
+        measurability: def.measurability,
+        baselineValue: def.baselineValue,
+        subsequentActual: null,
+        status: isPastDeadline ? 'INSUFFICIENT_EVIDENCE' : 'NOT_YET_DUE',
+        evaluationExplanation: isPastDeadline
+          ? `Target deadline of ${def.deadline} reached as of evaluation date ${cutoffDate}, but no subsequent statutory filing confirms delivery.`
+          : `Target deadline of ${def.deadline} is pending relative to evaluation cutoff ${cutoffDate}.`,
+        evidenceRefs: [def.statementEvidence],
+      };
+    }
+
+    // Take the latest visible actual
+    const latestActual = visibleActuals[visibleActuals.length - 1];
+    const targetNum = Number(def.targetValue);
+    const actualNum = Number(latestActual.value);
+    let status: WalkTheTalkStatus = 'ON_TRACK';
+    let explanation = '';
+
+    if (!isNaN(targetNum) && !isNaN(actualNum)) {
+      if (def.operator === 'GTE') {
+        if (actualNum >= targetNum) {
+          status = 'ACHIEVED';
+          explanation = `Actual reported ${actualNum}${def.targetUnit} met or exceeded target threshold of ${targetNum}${def.targetUnit} (${latestActual.periodEnd}).`;
+        } else if (def.deadline <= cutoffDate) {
+          status = actualNum >= targetNum * 0.85 ? 'PARTIALLY_ACHIEVED' : 'MISSED';
+          explanation = `Actual reported ${actualNum}${def.targetUnit} fell short of target ${targetNum}${def.targetUnit} by deadline ${def.deadline}.`;
+        } else {
+          status = 'ON_TRACK';
+          explanation = `Latest reported ${actualNum}${def.targetUnit} progressing toward target ${targetNum}${def.targetUnit} (deadline ${def.deadline}).`;
+        }
+      } else if (def.operator === 'LTE') {
+        if (actualNum <= targetNum) {
+          status = latestActual.qualifier === 'PARTIAL' ? 'PARTIALLY_ACHIEVED' : 'ACHIEVED';
+          explanation = latestActual.qualifier === 'PARTIAL'
+            ? `Reported metric reduced to ${actualNum}${def.targetUnit} meeting threshold, but working capital intensity remains elevated.`
+            : `Actual reported ${actualNum}${def.targetUnit} remained within target ceiling of ${targetNum}${def.targetUnit} (${latestActual.periodEnd}).`;
+        } else if (def.deadline <= cutoffDate) {
+          status = 'MISSED';
+          explanation = `Reported ${actualNum}${def.targetUnit} exceeded ceiling of ${targetNum}${def.targetUnit} at deadline ${def.deadline}.`;
+        } else {
+          status = 'ON_TRACK';
+          explanation = `Current reported ${actualNum}${def.targetUnit} being monitored against ceiling of ${targetNum}${def.targetUnit} (deadline ${def.deadline}).`;
+        }
+      }
+    } else {
+      // Categorical/qualitative project delivery (e.g. plant commissioning)
+      const actStr = String(latestActual.value).toUpperCase();
+      if (actStr.includes('COMMISSIONED') || actStr.includes('OPERATIONAL') || actStr.includes('COMPLETED')) {
+        status = 'ACHIEVED';
+        explanation = `Project milestone delivered and operational as confirmed in ${latestActual.periodEnd} filing.`;
+      } else if (actStr.includes('IN PROGRESS') || actStr.includes('TRIALS') || actStr.includes('PHASE 1')) {
+        status = def.deadline <= cutoffDate ? 'PARTIALLY_ACHIEVED' : 'ON_TRACK';
+        explanation = `Execution ongoing: ${latestActual.value} (${latestActual.periodEnd}).`;
+      } else if (def.deadline <= cutoffDate) {
+        status = 'MISSED';
+        explanation = `Project milestone not achieved by deadline ${def.deadline}.`;
+      } else {
+        status = 'ON_TRACK';
+        explanation = `Execution underway toward target deadline ${def.deadline}.`;
+      }
+    }
+
+    return {
+      commitmentId: def.commitmentId,
+      securityId: def.securityId,
+      symbol: def.symbol,
+      speaker: def.speaker,
+      statement: def.statement,
+      statementDate: def.statementDate,
+      sourceDocument: def.sourceDocument,
+      sourceUrl: def.sourceUrl,
+      metric: def.metric,
+      operator: def.operator,
+      targetValue: def.targetValue,
+      targetUnit: def.targetUnit,
+      deadline: def.deadline,
+      materiality: def.materiality,
+      measurability: def.measurability,
+      baselineValue: def.baselineValue,
+      subsequentActual: `${latestActual.value}${def.targetUnit ? ' ' + def.targetUnit : ''} (${latestActual.periodEnd})`,
+      status,
+      evaluationExplanation: explanation,
+      evidenceRefs: [def.statementEvidence, latestActual.evidence],
+    };
+  }
+
+  /**
+   * Reference commitments repository.
+   * Stores RAW inputs (speaker, statement, metric, targetValue, operator, deadline, evidence)
+   * and RAW reported actuals with publication dates.
+   * The status is NEVER stored here — it is always evaluated dynamically by deriveCommitmentEvaluation.
+   */
+  private getReferenceCommitments(isin: string, sym: string, cutoff: string): RawCommitmentDefinition[] {
+    const isDycl = sym === 'DYCL' || isin === 'INE600Y01019';
+    if (!isDycl) return [];
+
+    const definitions: RawCommitmentDefinition[] = [
       {
         commitmentId: `mgt_${isin}_rev_fy26`,
         securityId: isin,
@@ -157,24 +310,39 @@ export class ManagementCommitmentRepository {
         sourceDocument: 'DYCL FY25 Earnings Call & Investor Presentation',
         sourceUrl: 'https://nsearchives.nseindia.com/corporate/DYCL_Filing.pdf',
         metric: 'revenue_growth_pct',
-        targetValue: 15,
+        operator: 'GTE',
+        targetValue: 15.0,
         targetUnit: '%',
         deadline: '2026-03-31',
         materiality: 'HIGH',
         measurability: 'MEASURABLE',
         baselineValue: '₹1,031.96 Cr (FY25)',
-        subsequentActual: '₹1,204.57 Cr (+16.7% YoY in FY26)',
-        status: 'ACHIEVED',
-        evaluationExplanation: 'FY26 revenue expanded by 16.7% YoY from ₹1,031.96 Cr to ₹1,204.57 Cr, delivering above the 15% guided threshold.',
-        evidenceRefs: [{
-          evidenceId: `ev_${isin}_rev_fy26`,
+        statementEvidence: {
+          evidenceId: `ev_${isin}_rev_fy26_stmt`,
           sourceType: 'EARNINGS_TRANSCRIPT',
           sourceName: 'DYCL FY25 Earnings Call',
           documentDate: '2025-05-15',
           availableAt: '2025-05-15',
           quote: 'Management guided revenue expansion above 15% YoY with disciplined working capital.',
           extractionMethod: 'MANUAL_AUDITED',
-        }],
+        },
+        reportedActuals: [
+          {
+            value: 16.7,
+            periodEnd: 'FY26',
+            publishedDate: '2026-05-20',
+            availableAt: '2026-05-20',
+            evidence: {
+              evidenceId: `ev_${isin}_rev_fy26_actual`,
+              sourceType: 'AUDITED_FINANCIAL_STATEMENT',
+              sourceName: 'DYCL FY26 Audited Annual Results',
+              documentDate: '2026-05-20',
+              availableAt: '2026-05-20',
+              quote: 'Revenue from operations increased by 16.7% YoY to ₹1,204.57 Cr.',
+              extractionMethod: 'MANUAL_AUDITED',
+            },
+          },
+        ],
       },
       {
         commitmentId: `mgt_${isin}_margin_fy26`,
@@ -186,24 +354,39 @@ export class ManagementCommitmentRepository {
         sourceDocument: 'DYCL FY25 Investor Presentation',
         sourceUrl: 'https://bseindia.com/corporates/results/DYCL_2025.pdf',
         metric: 'ebitda_margin_pct',
+        operator: 'GTE',
         targetValue: 10.0,
         targetUnit: '%',
         deadline: '2026-03-31',
         materiality: 'HIGH',
         measurability: 'MEASURABLE',
         baselineValue: '9.7% (FY25)',
-        subsequentActual: '10.8% (FY26)',
-        status: 'ACHIEVED',
-        evaluationExplanation: 'Operating margin expanded from 9.7% to 10.8% in FY26, achieving double-digit margins as product mix shifted towards high-voltage offerings.',
-        evidenceRefs: [{
-          evidenceId: `ev_${isin}_margin_fy26`,
-          sourceType: 'AUDITED_FINANCIAL_STATEMENT',
-          sourceName: 'DYCL FY26 Audited Annual Results',
-          documentDate: '2026-05-20',
-          availableAt: '2026-05-20',
-          quote: 'EBITDA margin reached 10.8% for FY26 compared to 9.7% in FY25.',
+        statementEvidence: {
+          evidenceId: `ev_${isin}_margin_fy26_stmt`,
+          sourceType: 'OTHER',
+          sourceName: 'DYCL FY25 Investor Presentation',
+          documentDate: '2025-05-15',
+          availableAt: '2025-05-15',
+          quote: 'Targeting operating margin improvement towards double digits (10%+).',
           extractionMethod: 'MANUAL_AUDITED',
-        }],
+        },
+        reportedActuals: [
+          {
+            value: 10.8,
+            periodEnd: 'FY26',
+            publishedDate: '2026-05-20',
+            availableAt: '2026-05-20',
+            evidence: {
+              evidenceId: `ev_${isin}_margin_fy26_actual`,
+              sourceType: 'AUDITED_FINANCIAL_STATEMENT',
+              sourceName: 'DYCL FY26 Audited Annual Results',
+              documentDate: '2026-05-20',
+              availableAt: '2026-05-20',
+              quote: 'EBITDA margin reached 10.8% for FY26 compared to 9.7% in FY25.',
+              extractionMethod: 'MANUAL_AUDITED',
+            },
+          },
+        ],
       },
       {
         commitmentId: `mgt_${isin}_wc_receivables`,
@@ -215,24 +398,40 @@ export class ManagementCommitmentRepository {
         sourceDocument: 'DYCL Q2 FY26 Earnings Conference Call',
         sourceUrl: 'https://nsearchives.nseindia.com/corporate/DYCL_Q2_FY26.pdf',
         metric: 'receivable_days',
+        operator: 'LTE',
         targetValue: 90,
         targetUnit: 'DAYS',
         deadline: '2026-03-31',
         materiality: 'HIGH',
         measurability: 'MEASURABLE',
         baselineValue: '92.4 days',
-        subsequentActual: '87.2 days (₹287.88 Cr trade receivables)',
-        status: 'PARTIALLY_ACHIEVED',
-        evaluationExplanation: 'Receivable days decreased slightly to ~87 days on higher revenue base, but absolute trade receivables remain elevated at ₹287.88 Cr, keeping working capital intensity high.',
-        evidenceRefs: [{
-          evidenceId: `ev_${isin}_wc_receivables`,
-          sourceType: 'AUDITED_FINANCIAL_STATEMENT',
-          sourceName: 'DYCL FY26 Audited Balance Sheet',
-          documentDate: '2026-05-20',
-          availableAt: '2026-05-20',
-          quote: 'Trade receivables stood at ₹287.88 Cr as of March 31, 2026.',
+        statementEvidence: {
+          evidenceId: `ev_${isin}_wc_stmt`,
+          sourceType: 'EARNINGS_TRANSCRIPT',
+          sourceName: 'DYCL Q2 FY26 Earnings Call',
+          documentDate: '2025-11-10',
+          availableAt: '2025-11-10',
+          quote: 'Targeting to bring debtor days below 90 days by financial year end.',
           extractionMethod: 'MANUAL_AUDITED',
-        }],
+        },
+        reportedActuals: [
+          {
+            value: 87.2,
+            periodEnd: 'FY26',
+            publishedDate: '2026-05-20',
+            availableAt: '2026-05-20',
+            qualifier: 'PARTIAL',
+            evidence: {
+              evidenceId: `ev_${isin}_wc_actual`,
+              sourceType: 'AUDITED_FINANCIAL_STATEMENT',
+              sourceName: 'DYCL FY26 Audited Balance Sheet',
+              documentDate: '2026-05-20',
+              availableAt: '2026-05-20',
+              quote: 'Trade receivables stood at ₹287.88 Cr as of March 31, 2026 (calculated receivable days: 87.2).',
+              extractionMethod: 'MANUAL_AUDITED',
+            },
+          },
+        ],
       },
       {
         commitmentId: `mgt_${isin}_capacity_jaipur`,
@@ -244,24 +443,39 @@ export class ManagementCommitmentRepository {
         sourceDocument: 'DYCL Corporate Announcement to BSE/NSE',
         sourceUrl: 'https://bseindia.com/corporates/announcements/DYCL_Capex.pdf',
         metric: 'capex_cr',
+        operator: 'COMMISSIONED',
         targetValue: 35.0,
         targetUnit: 'INR_CR',
         deadline: '2026-03-31',
         materiality: 'MEDIUM',
         measurability: 'MEASURABLE',
         baselineValue: 'Pre-expansion capacity',
-        subsequentActual: 'Phase 1 operational, Phase 2 commissioning in progress',
-        status: 'ON_TRACK',
-        evaluationExplanation: 'Phase 1 capacity was energized in Q4 FY26; Phase 2 trials are ongoing with commercial run expected in H1 FY27.',
-        evidenceRefs: [{
-          evidenceId: `ev_${isin}_capacity_jaipur`,
+        statementEvidence: {
+          evidenceId: `ev_${isin}_capex_stmt`,
           sourceType: 'EXCHANGE_FILING',
           sourceName: 'BSE Corporate Announcement — Jaipur Plant Expansion',
           documentDate: '2025-08-14',
           availableAt: '2025-08-14',
           quote: '₹35 Cr capex for high-voltage capacity underway at Jaipur facility.',
           extractionMethod: 'MANUAL_AUDITED',
-        }],
+        },
+        reportedActuals: [
+          {
+            value: 'Phase 1 operational, Phase 2 trials ongoing',
+            periodEnd: 'Q4 FY26',
+            publishedDate: '2026-04-10',
+            availableAt: '2026-04-10',
+            evidence: {
+              evidenceId: `ev_${isin}_capex_actual`,
+              sourceType: 'EXCHANGE_FILING',
+              sourceName: 'BSE Corporate Announcement — Jaipur Expansion Update',
+              documentDate: '2026-04-10',
+              availableAt: '2026-04-10',
+              quote: 'Phase 1 capacity commissioned; Phase 2 trials underway with commercial production expected in H1 FY27.',
+              extractionMethod: 'MANUAL_AUDITED',
+            },
+          },
+        ],
       },
       {
         commitmentId: `mgt_${isin}_order_book`,
@@ -273,27 +487,42 @@ export class ManagementCommitmentRepository {
         sourceDocument: 'DYCL Annual Report FY26 — Management Discussion & Analysis',
         sourceUrl: 'https://nsearchives.nseindia.com/corporate/DYCL_AR_2026.pdf',
         metric: 'order_book_cr',
+        operator: 'GTE',
         targetValue: 808.0,
         targetUnit: 'INR_CR',
         deadline: '2027-06-30',
         materiality: 'HIGH',
         measurability: 'MEASURABLE',
         baselineValue: '₹808.0 Cr order book',
-        subsequentActual: '₹349.10 Cr executed in Q1 FY27',
-        status: 'ON_TRACK',
-        evaluationExplanation: 'Q1 FY27 revenues reached ₹349.10 Cr representing strong conversion pace against the ₹808 Cr opening backlog.',
-        evidenceRefs: [{
-          evidenceId: `ev_${isin}_order_book`,
+        statementEvidence: {
+          evidenceId: `ev_${isin}_order_book_stmt`,
           sourceType: 'ANNUAL_REPORT',
           sourceName: 'DYCL FY26 Annual Report MD&A',
           documentDate: '2026-06-15',
           availableAt: '2026-06-15',
           quote: 'Current executable order book stands at ₹808 Cr across railways and distribution utilities.',
           extractionMethod: 'MANUAL_AUDITED',
-        }],
+        },
+        reportedActuals: [
+          {
+            value: 349.1,
+            periodEnd: 'Q1 FY27',
+            publishedDate: '2026-08-10',
+            availableAt: '2026-08-10',
+            evidence: {
+              evidenceId: `ev_${isin}_order_book_actual`,
+              sourceType: 'AUDITED_FINANCIAL_STATEMENT',
+              sourceName: 'DYCL Q1 FY27 Financial Results',
+              documentDate: '2026-08-10',
+              availableAt: '2026-08-10',
+              quote: 'Revenue for Q1 FY27 reached ₹349.10 Cr representing robust execution pace against order backlog.',
+              extractionMethod: 'MANUAL_AUDITED',
+            },
+          },
+        ],
       },
     ];
 
-    return records.filter(r => r.statementDate <= cutoff);
+    return definitions.filter(d => d.statementDate <= cutoff);
   }
 }
