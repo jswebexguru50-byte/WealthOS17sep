@@ -7,8 +7,6 @@
  * Evaluate Watch Rules → Return Updated Cockpit
  */
 
-import Database from 'better-sqlite3';
-import path from 'path';
 import crypto from 'crypto';
 import { SecurityIdentity } from '../contracts/SecurityIdentity.js';
 import { CompanyIntelligenceResponse } from '../types/CompanyIntelligenceResponse.js';
@@ -25,9 +23,10 @@ import {
 } from '../contracts/WatchContracts.js';
 import { WatchRuleRepository } from '../core/WatchRuleRepository.js';
 import { CompanyEventRepository } from '../core/CompanyEventRepository.js';
+import { CanonicalFactRepository } from '../core/CanonicalFactRepository.js';
 import { AnalysisModule } from '../contracts/AnalysisModule.js';
 
-const PORTFOLIO_DB_PATH = path.resolve('portfolio.db');
+
 
 export type RefreshTrigger =
   | 'PRICE_UPDATE'
@@ -296,112 +295,73 @@ export class CompanyRefreshCoordinator {
     return { affected, unaffected };
   }
 
+  /**
+   * Persists ingested facts via the single write authority: CanonicalFactRepository.
+   * NO direct database access. Zero SQL statements in this method.
+   */
   private async persistIngestedFacts(
     identity: SecurityIdentity,
     facts: IngestedFact[],
     disclosure: IngestedDisclosurePayload
   ): Promise<number> {
-    const db = new Database(PORTFOLIO_DB_PATH);
+    const factRepo = CanonicalFactRepository.getInstance();
     let count = 0;
-    try {
-      const stmt = db.prepare(`
-        INSERT OR REPLACE INTO company_facts (
-          factId, companyId, isin, symbol, metric, value, unit, periodType, periodEnd,
-          asOfDate, reportedAt, availableAt, factType, sourceType, scope, provider,
-          verificationStatus, sourceDocumentId, fetchedAt
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `);
-
-      const now = new Date().toISOString();
-      const insertMany = db.transaction((rows: IngestedFact[]) => {
-        for (const f of rows) {
-          const factId = `fact_${identity.isin}_${f.metric}_${f.periodEnd.replace(/[^a-zA-Z0-9]/g, '_')}`;
-          stmt.run(
-            factId,
-            identity.securityId || identity.isin,
-            identity.isin,
-            identity.nseSymbol || identity.bseCode || '',
-            f.metric,
-            Number(f.value),
-            f.unit,
-            f.periodType,
-            f.periodEnd,
-            f.availableAt,
-            f.publishedDate,
-            f.availableAt,
-            'PRIMARY',
-            f.sourceType || disclosure.sourceType,
-            'CONSOLIDATED',
-            'DISCLOSURE_INGESTION',
-            'VERIFIED',
-            f.sourceDocumentId || disclosure.sourceName,
-            now
-          );
-          count++;
-        }
-      });
-
-      insertMany(facts);
-    } catch (e) {
-      console.warn('[CompanyRefreshCoordinator] Failed to insert company_facts:', e);
-    } finally {
-      try { db.close(); } catch {}
+    for (const f of facts) {
+      try {
+        await factRepo.persistIngestedFact(
+          identity,
+          f.metric,
+          f.value,
+          f.unit,
+          f.periodType,
+          f.periodEnd,
+          f.publishedDate,
+          f.availableAt,
+          f.sourceType || disclosure.sourceType,
+          f.sourceDocumentId || disclosure.sourceName,
+          f.evidenceText,
+        );
+        count++;
+      } catch (e) {
+        // Log explicitly — no silent swallowing
+        console.error('[CompanyRefreshCoordinator] Failed to persist fact via CanonicalFactRepository:', e);
+        throw e;
+      }
     }
     return count;
   }
 
+  /**
+   * Persists ingested events via the single write authority: CompanyEventRepository.
+   * NO direct database access. Zero SQL statements in this method.
+   */
   private async persistIngestedEvents(
     identity: SecurityIdentity,
     events: IngestedCorporateEvent[],
     disclosure: IngestedDisclosurePayload
   ): Promise<number> {
-    const db = new Database(PORTFOLIO_DB_PATH);
+    const eventRepo = CompanyEventRepository.getInstance();
     let count = 0;
-    try {
-      const stmt = db.prepare(`
-        INSERT OR REPLACE INTO company_events (
-          eventId, securityId, isin, symbol, eventType, occurredAt, availableAt,
-          materiality, title, description, sourceUrl, evidenceRefs, affectedDomains, createdAt
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `);
-
-      const now = new Date().toISOString();
-      const insertMany = db.transaction((rows: IngestedCorporateEvent[]) => {
-        for (const ev of rows) {
-          // Deterministic event identity: hash stable event inputs, never use Date.now()
-          const identityPreimage = [
-            identity.isin,
-            ev.eventType,
-            ev.eventDate,
-            ev.headline.trim().toLowerCase().substring(0, 80),
-            disclosure.sourceUrl || '',
-          ].join('|');
-          const eventId = `ev_${crypto.createHash('sha256').update(identityPreimage).digest('hex').substring(0, 16)}`;
-          stmt.run(
-            eventId,
-            identity.securityId || identity.isin,
-            identity.isin,
-            identity.nseSymbol || identity.bseCode || '',
-            ev.eventType,
-            ev.eventDate,
-            ev.eventDate,
-            ev.impactScope || 'MATERIAL',
-            ev.headline,
-            ev.description,
-            ev.sourceUrl || disclosure.sourceUrl || '',
-            JSON.stringify([{ evidenceId: `ev_${eventId}`, sourceUrl: ev.sourceUrl || null }]),
-            JSON.stringify(['FUNDAMENTALS', 'MANAGEMENT']),
-            now
-          );
-          count++;
-        }
-      });
-
-      insertMany(events);
-    } catch (e) {
-      console.warn('[CompanyRefreshCoordinator] Failed to insert corporate_events:', e);
-    } finally {
-      try { db.close(); } catch {}
+    for (const ev of events) {
+      try {
+        await eventRepo.persistEvent({
+          isin: identity.isin,
+          symbol: identity.nseSymbol || identity.bseCode || '',
+          eventType: ev.eventType,
+          occurredAt: ev.eventDate,
+          availableAt: ev.eventDate,
+          materiality: ev.impactScope || 'MATERIAL',
+          title: ev.headline,
+          description: ev.description,
+          sourceUrl: ev.sourceUrl || disclosure.sourceUrl || null,
+          evidenceRefs: [{ evidenceId: `ev_source_${identity.isin}_${ev.eventType}`, sourceUrl: ev.sourceUrl || null }],
+          affectedDomains: ['FUNDAMENTALS', 'MANAGEMENT'],
+        });
+        count++;
+      } catch (e) {
+        console.error('[CompanyRefreshCoordinator] Failed to persist event via CompanyEventRepository:', e);
+        throw e;
+      }
     }
     return count;
   }

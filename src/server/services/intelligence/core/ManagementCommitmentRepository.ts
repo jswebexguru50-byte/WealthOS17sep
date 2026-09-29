@@ -15,6 +15,8 @@ import Database from 'better-sqlite3';
 import path from 'path';
 import { SecurityIdentity } from '../contracts/SecurityIdentity.js';
 import { EvidenceRef } from '../contracts/EvidenceRef.js';
+import { getDB, dbRun } from '../../../database.js';
+import { ManagementCommitment } from '../contracts/ManagementContracts.js';
 
 const FERE_DB_PATH = path.resolve('data', 'fere', 'verified_filings', 'fere_evidence.db');
 
@@ -90,6 +92,47 @@ export class ManagementCommitmentRepository {
       ManagementCommitmentRepository.instance = new ManagementCommitmentRepository();
     }
     return ManagementCommitmentRepository.instance;
+  }
+
+  /**
+   * Single write authority for management_commitments in portfolio.db.
+   * INSERT OR REPLACE semantics — idempotent on commitmentId.
+   * Called exclusively by SourceDocumentIngestionPipeline.
+   * Status persisted as-ingested; Walk-the-Talk evaluation is DERIVED at read time
+   * via deriveCommitmentEvaluation() — NEVER pre-seeded by ingestion.
+   */
+  public async persistCommitment(commitment: ManagementCommitment, symbol: string): Promise<void> {
+    const db = getDB();
+    if (!db) throw new Error('[ManagementCommitmentRepository] Database not initialised — cannot persist commitment.');
+    const sql = `
+      INSERT OR REPLACE INTO management_commitments (
+        commitment_id, security_id, symbol, statement_date, speaker,
+        source_document_id, original_statement, category, commitment_type,
+        metric_key, target_value, target_min, target_max, target_unit,
+        target_period, status, evaluation_explanation, evidence_id, created_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    await dbRun(db, sql, [
+      commitment.commitmentId,
+      commitment.securityId,
+      symbol,
+      commitment.statementDate,
+      commitment.speaker || 'Management',
+      commitment.source?.sourceId || commitment.source?.documentId || null,
+      commitment.originalStatement,
+      commitment.category,
+      commitment.commitmentType,
+      commitment.metricMapping?.canonicalMetric || null,
+      commitment.targetValue ?? null,
+      commitment.targetMin ?? null,
+      commitment.targetMax ?? null,
+      commitment.targetUnit ?? null,
+      commitment.targetPeriod ?? null,
+      commitment.status,
+      commitment.evaluationExplanation || '',
+      `ev_${commitment.commitmentId}`,
+      new Date().toISOString(),
+    ]);
   }
 
   /**

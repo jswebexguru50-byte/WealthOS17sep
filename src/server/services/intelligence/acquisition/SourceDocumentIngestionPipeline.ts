@@ -11,10 +11,13 @@
  * 2. Zero company-specific hardcoded branches.
  * 3. Strict Point-in-Time (PIT) metadata propagation.
  * 4. Zero runtime DDL.
+ * 5. ZERO direct database writes — all persistence delegated to repository layer.
+ *    company_facts   → CanonicalFactRepository.persistFact()
+ *    company_events  → CompanyEventRepository.persistEvent()
+ *    management_commitments → ManagementCommitmentRepository.persistCommitment()
  */
 
 import crypto from 'crypto';
-import { getDB, dbRun } from '../../../database.js';
 import {
   SourceDocument,
   SourceDocumentType,
@@ -22,6 +25,9 @@ import {
 } from '../contracts/SourceDocument.js';
 import { SecurityIdentity } from '../contracts/SecurityIdentity.js';
 import { SourceDocumentRepository } from '../core/SourceDocumentRepository.js';
+import { CanonicalFactRepository } from '../core/CanonicalFactRepository.js';
+import { CompanyEventRepository } from '../core/CompanyEventRepository.js';
+import { ManagementCommitmentRepository } from '../core/ManagementCommitmentRepository.js';
 import { EventClassifier } from './EventClassifier.js';
 import {
   FinancialResultNormalizer,
@@ -64,6 +70,10 @@ export class SourceDocumentIngestionPipeline {
 
   public async ingestDisclosure(payload: IngestionPayload): Promise<IngestionResult> {
     const docRepo = SourceDocumentRepository.getInstance();
+    const factRepo = CanonicalFactRepository.getInstance();
+    const eventRepo = CompanyEventRepository.getInstance();
+    const commitmentRepo = ManagementCommitmentRepository.getInstance();
+
     const contentHash = this.computeContentHash(payload.rawContent);
     const isin = payload.identity.isin;
     const symbol = payload.identity.nseSymbol || payload.identity.bseCode || '';
@@ -103,120 +113,48 @@ export class SourceDocumentIngestionPipeline {
     let factsCreated = 0;
     let eventsCreated = 0;
     let commitmentsCreated = 0;
-    const db = getDB();
 
-    // 2. Financial Normalization (if metrics provided or if financial results document)
+    // 2. Financial Normalization → CanonicalFactRepository (single write authority)
     if (payload.financialMetrics) {
       const normalizer = FinancialResultNormalizer.getInstance();
-      const facts = normalizer.normalize(sourceDoc, payload.identity, payload.financialMetrics);
-
-      const insertFactSql = `
-        INSERT OR REPLACE INTO company_facts (
-          factId, companyId, symbol, isin, metric, value, unit, periodType,
-          periodEnd, asOfDate, reportedAt, availableAt, factType, sourceType,
-          scope, provider, verificationStatus, sourceDocumentId, sourceUrl,
-          evidenceText, calculationMethod, fetchedAt
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `;
+      const facts = normalizer.normalize(doc, payload.identity, payload.financialMetrics);
 
       for (const f of facts) {
-        await dbRun(db, insertFactSql, [
-          f.factId,
-          f.companyId,
-          f.symbol,
-          f.isin,
-          f.metric,
-          f.value,
-          f.unit,
-          f.periodType,
-          f.periodEnd,
-          f.asOfDate,
-          f.reportedAt,
-          f.availableAt,
-          f.factType,
-          f.sourceType,
-          f.scope,
-          f.provider,
-          f.verificationStatus,
-          f.sourceDocumentId,
-          f.sourceUrl,
-          f.evidenceText,
-          f.calculationMethod,
-          new Date().toISOString(),
-        ]);
+        await factRepo.persistFact(f);
         factsCreated++;
       }
     }
 
-    // 3. Corporate Event Classification & Ingestion
+    // 3. Corporate Event Classification → CompanyEventRepository (single write authority)
     const classifier = EventClassifier.getInstance();
     const classified = classifier.classify(payload.title, payload.rawContent);
 
     const eventPreimage = `${isin}|${classified.eventType}|${payload.publishedAt}|${payload.title.toLowerCase().trim()}`;
     const eventId = `ev_${crypto.createHash('sha256').update(eventPreimage).digest('hex').substring(0, 16)}`;
 
-    const insertEventSql = `
-      INSERT OR REPLACE INTO company_events (
-        eventId, securityId, isin, symbol, eventType, occurredAt, availableAt,
-        materiality, title, description, sourceUrl, evidenceRefs, affectedDomains, createdAt
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `;
-
-    const now = new Date().toISOString();
-    await dbRun(db, insertEventSql, [
+    await eventRepo.persistEvent({
       eventId,
       isin,
-      isin,
       symbol,
-      classified.eventType,
-      payload.publishedAt,
-      payload.availableAt,
-      classified.significance,
-      payload.title,
-      classified.summary,
-      payload.sourceUrl || '',
-      JSON.stringify([{ evidenceId: `ev_${eventId}`, sourceUrl: payload.sourceUrl || null }]),
-      JSON.stringify(['FUNDAMENTALS', 'MANAGEMENT']),
-      now,
-    ]);
+      eventType: classified.eventType,
+      occurredAt: payload.publishedAt,
+      availableAt: payload.availableAt,
+      materiality: classified.significance,
+      title: payload.title,
+      description: classified.summary,
+      sourceUrl: payload.sourceUrl || null,
+      evidenceRefs: [{ evidenceId: `ev_${eventId}`, sourceUrl: payload.sourceUrl || null }],
+      affectedDomains: ['FUNDAMENTALS', 'MANAGEMENT'],
+    });
     eventsCreated++;
 
-    // 4. Management Forward-Looking Commitment Extraction
+    // 4. Management Forward-Looking Commitment Extraction → ManagementCommitmentRepository
     if (payload.forwardLookingStatements && payload.forwardLookingStatements.length > 0) {
       const extractor = CommitmentExtractor.getInstance();
-      const commitments = extractor.extractCommitments(sourceDoc, payload.forwardLookingStatements);
-
-      const insertCommitmentSql = `
-        INSERT OR REPLACE INTO management_commitments (
-          commitment_id, security_id, symbol, statement_date, speaker,
-          source_document_id, original_statement, category, commitment_type,
-          metric_key, target_value, target_min, target_max, target_unit,
-          target_period, status, evaluation_explanation, evidence_id, created_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `;
+      const commitments = extractor.extractCommitments(doc, payload.forwardLookingStatements);
 
       for (const comm of commitments) {
-        await dbRun(db, insertCommitmentSql, [
-          comm.commitmentId,
-          comm.securityId,
-          symbol,
-          comm.statementDate,
-          comm.speaker || 'Management',
-          sourceDoc.documentId,
-          comm.originalStatement,
-          comm.category,
-          comm.commitmentType,
-          comm.metricMapping?.canonicalMetric || null,
-          comm.targetValue || null,
-          comm.targetMin || null,
-          comm.targetMax || null,
-          comm.targetUnit || null,
-          comm.targetPeriod || null,
-          comm.status,
-          comm.evaluationExplanation || '',
-          `ev_${comm.commitmentId}`,
-          new Date().toISOString(),
-        ]);
+        await commitmentRepo.persistCommitment(comm, symbol);
         commitmentsCreated++;
       }
     }
@@ -224,7 +162,7 @@ export class SourceDocumentIngestionPipeline {
     // Mark document as successfully parsed
     await docRepo.updateParseStatus(doc.documentId, 'PARSED', 'VERIFIED');
 
-    // 5. Trigger Dependency-Selective Refresh in RefreshCoordinator
+    // 5. Trigger Dependency-Selective Refresh via RefreshCoordinator
     let triggerType: 'FINANCIAL_RESULTS' | 'CORPORATE_ANNOUNCEMENT' | 'EARNINGS_TRANSCRIPT' = 'CORPORATE_ANNOUNCEMENT';
     if (payload.sourceType === 'FINANCIAL_RESULTS' || factsCreated > 0) {
       triggerType = 'FINANCIAL_RESULTS';
@@ -235,7 +173,6 @@ export class SourceDocumentIngestionPipeline {
     const coordinator = CompanyRefreshCoordinator.getInstance();
     const { affected } = coordinator.resolveAffectedModules(triggerType);
 
-    // Run selective refresh through coordinator
     try {
       await coordinator.refreshCompany(
         payload.identity,

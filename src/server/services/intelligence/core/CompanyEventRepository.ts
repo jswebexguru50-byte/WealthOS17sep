@@ -9,7 +9,8 @@
  * - Covers results, guidance, orders, capex/capacity, management changes, shareholding, corporate actions.
  */
 
-import { getDB, dbAll } from '../../../database.js';
+import crypto from 'crypto';
+import { getDB, dbAll, dbRun } from '../../../database.js';
 import { CompanyEvent, CompanyEventType, EventMateriality } from '../contracts/CompanyEvent.js';
 import { SecurityIdentity } from '../contracts/SecurityIdentity.js';
 import { ManagementCommitmentRepository } from './ManagementCommitmentRepository.js';
@@ -24,6 +25,66 @@ export class CompanyEventRepository {
       CompanyEventRepository.instance = new CompanyEventRepository();
     }
     return CompanyEventRepository.instance;
+  }
+
+  /**
+   * Single write authority for company_events.
+   * INSERT OR REPLACE semantics — idempotent on eventId.
+   * Called exclusively by SourceDocumentIngestionPipeline and CompanyRefreshCoordinator.
+   * NO other module may write to company_events.
+   */
+  public async persistEvent(params: {
+    isin: string;
+    symbol: string;
+    eventType: string;
+    occurredAt: string;
+    availableAt: string;
+    materiality: string;
+    title: string;
+    description: string;
+    sourceUrl: string | null;
+    evidenceRefs: Array<{ evidenceId: string; sourceUrl: string | null }>;
+    affectedDomains: string[];
+    /** Optional pre-computed deterministic eventId.
+     *  If omitted, a SHA-256 over isin|eventType|occurredAt|title is used. */
+    eventId?: string;
+  }): Promise<string> {
+    const db = getDB();
+    if (!db) throw new Error('[CompanyEventRepository] Database not initialised — cannot persist event.');
+
+    const identityPreimage = [
+      params.isin,
+      params.eventType,
+      params.occurredAt,
+      params.title.trim().toLowerCase().substring(0, 80),
+      params.sourceUrl || '',
+    ].join('|');
+    const eventId = params.eventId
+      ?? `ev_${crypto.createHash('sha256').update(identityPreimage).digest('hex').substring(0, 16)}`;
+
+    const sql = `
+      INSERT OR REPLACE INTO company_events (
+        eventId, securityId, isin, symbol, eventType, occurredAt, availableAt,
+        materiality, title, description, sourceUrl, evidenceRefs, affectedDomains, createdAt
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    await dbRun(db, sql, [
+      eventId,
+      params.isin,
+      params.isin,
+      params.symbol,
+      params.eventType,
+      params.occurredAt,
+      params.availableAt,
+      params.materiality,
+      params.title,
+      params.description,
+      params.sourceUrl || '',
+      JSON.stringify(params.evidenceRefs),
+      JSON.stringify(params.affectedDomains),
+      new Date().toISOString(),
+    ]);
+    return eventId;
   }
 
   /**

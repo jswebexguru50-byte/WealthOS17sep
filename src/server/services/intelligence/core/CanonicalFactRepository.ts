@@ -10,7 +10,8 @@
  * - No synthetic current-timestamp for unknown document/availability metadata.
  */
 
-import { getDB, dbAll } from '../../../database.js';
+import crypto from 'crypto';
+import { getDB, dbAll, dbRun } from '../../../database.js';
 import { CanonicalFact, FactVerificationStatus } from '../contracts/CanonicalFact.js';
 import { SecurityIdentity } from '../contracts/SecurityIdentity.js';
 import {
@@ -19,6 +20,35 @@ import {
   EvidenceExtractionMethod,
   PitStatus,
 } from '../contracts/EvidenceRef.js';
+
+/**
+ * Canonical fact write payload accepted by persistFact().
+ * Mirrors NormalizedCanonicalFactInput from FinancialResultNormalizer so pipeline
+ * never needs to open a raw DB connection.
+ */
+export interface CanonicalFactWriteInput {
+  factId: string;
+  companyId: string;
+  isin: string;
+  symbol: string;
+  metric: string;
+  value: number;
+  unit: string;
+  periodType: string;
+  periodEnd: string;
+  asOfDate: string;
+  reportedAt: string;
+  availableAt: string;
+  factType: string;
+  sourceType: string;
+  scope: string;
+  provider: string;
+  verificationStatus: string;
+  sourceDocumentId: string;
+  sourceUrl: string | null;
+  evidenceText: string;
+  calculationMethod: string;
+}
 
 export type PitMode = 'STRICT' | 'ALLOW_INFERRED';
 
@@ -65,6 +95,92 @@ export class CanonicalFactRepository {
       CanonicalFactRepository.instance = new CanonicalFactRepository();
     }
     return CanonicalFactRepository.instance;
+  }
+
+  /**
+   * Single write authority for company_facts.
+   * INSERT OR REPLACE semantics — idempotent on factId.
+   * Called by SourceDocumentIngestionPipeline and CompanyRefreshCoordinator.
+   * NO other module may write to company_facts.
+   */
+  public async persistFact(input: CanonicalFactWriteInput): Promise<void> {
+    const db = getDB();
+    if (!db) throw new Error('[CanonicalFactRepository] Database not initialised — cannot persist fact.');
+    const sql = `
+      INSERT OR REPLACE INTO company_facts (
+        factId, companyId, symbol, isin, metric, value, unit, periodType,
+        periodEnd, asOfDate, reportedAt, availableAt, factType, sourceType,
+        scope, provider, verificationStatus, sourceDocumentId, sourceUrl,
+        evidenceText, calculationMethod, fetchedAt
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    await dbRun(db, sql, [
+      input.factId,
+      input.companyId,
+      input.symbol,
+      input.isin,
+      input.metric,
+      input.value,
+      input.unit,
+      input.periodType,
+      input.periodEnd,
+      input.asOfDate,
+      input.reportedAt,
+      input.availableAt,
+      input.factType,
+      input.sourceType,
+      input.scope,
+      input.provider,
+      input.verificationStatus,
+      input.sourceDocumentId,
+      input.sourceUrl,
+      input.evidenceText,
+      input.calculationMethod,
+      new Date().toISOString(),
+    ]);
+  }
+
+  /**
+   * Convenience overload for CompanyRefreshCoordinator.IngestedFact payloads.
+   * Derives a deterministic factId from ISIN + metric + periodEnd.
+   */
+  public async persistIngestedFact(
+    identity: SecurityIdentity,
+    metric: string,
+    value: number | string,
+    unit: string,
+    periodType: 'ANNUAL' | 'QUARTERLY' | 'TTM',
+    periodEnd: string,
+    publishedDate: string,
+    availableAt: string,
+    sourceType: string,
+    sourceDocumentId?: string,
+    evidenceText?: string,
+  ): Promise<void> {
+    const factId = `fact_${identity.isin}_${metric}_${periodEnd.replace(/[^a-zA-Z0-9]/g, '_')}`;
+    await this.persistFact({
+      factId,
+      companyId: identity.securityId || identity.isin,
+      isin: identity.isin,
+      symbol: identity.nseSymbol || identity.bseCode || '',
+      metric,
+      value: Number(value),
+      unit,
+      periodType,
+      periodEnd,
+      asOfDate: availableAt,
+      reportedAt: publishedDate,
+      availableAt,
+      factType: 'PRIMARY',
+      sourceType: sourceType || 'AUDITED_FINANCIAL_STATEMENT',
+      scope: 'CONSOLIDATED',
+      provider: 'DISCLOSURE_INGESTION',
+      verificationStatus: 'VERIFIED',
+      sourceDocumentId: sourceDocumentId || '',
+      sourceUrl: null,
+      evidenceText: evidenceText || '',
+      calculationMethod: 'STRUCTURED_XBRL',
+    });
   }
 
   public async getFactsForSecurity(
