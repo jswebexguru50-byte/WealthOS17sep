@@ -55,6 +55,9 @@ import { ManagementCommitmentRepository } from './core/ManagementCommitmentRepos
 import { CompanySnapshotRepository } from './core/CompanySnapshotRepository.js';
 import { PriceSeriesRepository } from './core/PriceSeriesRepository.js';
 import { EvidenceRepository } from './core/EvidenceRepository.js';
+import { FreshnessEngine } from './freshness/FreshnessEngine.js';
+import { CompanyBusinessProfileEngine } from './business/CompanyBusinessProfile.js';
+import { SinceLastReviewEngine } from './changes/SinceLastReview.js';
 
 export interface SimpleModuleTelemetry {
   symbol: string;
@@ -893,17 +896,22 @@ export class CompanyIntelligenceOrchestrator {
       }
     }
 
-    // 4p. Compute Freshness Matrix (Checkpoint 8)
-    const freshness = {
-      marketPrice: marketPriceState.freshness,
-      financialResults: analyticalState.facts?.latest?.revenue_cr ? 'CURRENT' : 'PARTIAL',
-      managementEvidence: walkTheTalkRecords.length > 0 ? 'CURRENT' : 'PARTIAL',
-      shareholding: analyticalState.facts?.latest?.promoter_holding_pct ? 'CURRENT' : 'PARTIAL',
-      valuation: modulesResult.valuation?.status === 'WORKING' ? 'FRESH' : 'PARTIAL',
-      technical: marketPriceState.freshness,
-      corporateEvents: corporateEvents.length > 0 ? 'CURRENT' : 'PARTIAL',
-      overallStatus: (marketPriceState.freshness === 'FRESH' || marketPriceState.freshness === 'CURRENT') ? 'FRESH' : 'PARTIAL',
-    };
+    // 4p. Compute Freshness Matrix via deterministic FreshnessEngine (Constitution P4)
+    const latestFactPeriod = analyticalState.facts?.latest?.revenue_cr?.periodEnd || analyticalState.asOfDate;
+    const latestFactAvailable = analyticalState.facts?.latest?.revenue_cr?.availableAt;
+    const promoterHolding = analyticalState.facts?.latest?.promoter_holding_pct;
+    const freshness = FreshnessEngine.getInstance().evaluate({
+      asOfDate,
+      marketPriceAsOf: marketPriceState.priceAsOf,
+      marketPriceFreshness: marketPriceState.freshness,
+      latestFilingPeriodEnd: latestFactPeriod,
+      latestFilingAvailableAt: latestFactAvailable,
+      shareholdingAsOf: promoterHolding ? (latestFactPeriod || asOfDate) : null,
+      managementCommitmentCount: walkTheTalkRecords.length,
+      corporateEventCount: corporateEvents.length,
+      latestCorporateEventDate: corporateEvents[0]?.eventDate || null,
+      valuationStatus: modulesResult.valuation?.status,
+    });
 
     // 4q. Build Rich Investor-Centric Overview (Generic Evidence-Backed Generation)
     const whyInteresting: Array<{ observation: string; evidenceRef?: any; domain: string }> = [];
@@ -1106,12 +1114,29 @@ export class CompanyIntelligenceOrchestrator {
       technicalMarketState: techSummary,
       technicalRanges,
       contradictionsSummary: contradictionSummary,
-      thesisSummary: {
-        stance: (modulesResult.thesis?.result?.thesis?.summary ? 'FAVORABLE' : 'WATCH') as any,
-        supportedPillars: modulesResult.thesis?.result?.pillars?.filter((p: any) => p.status === 'SUPPORTED')?.length || 0,
-        challengedPillars: modulesResult.thesis?.result?.pillars?.filter((p: any) => p.status === 'CHALLENGED')?.length || 0,
-        unknownPillars: modulesResult.thesis?.result?.pillars?.filter((p: any) => p.status === 'UNKNOWN')?.length || 0,
-      },
+      thesisSummary: (() => {
+        const pillars = modulesResult.thesis?.result?.pillars ?? [];
+        const supported = pillars.filter((p: any) => p.status === 'SUPPORTED').length;
+        const challenged = pillars.filter((p: any) => p.status === 'CHALLENGED').length;
+        const unknown = pillars.filter((p: any) => p.status === 'UNKNOWN' || p.status === 'INSUFFICIENT_EVIDENCE').length;
+        // Derive stance from evidence — never default to FAVORABLE
+        let stance: string;
+        if (pillars.length === 0 || !modulesResult.thesis?.result?.thesis?.summary) {
+          stance = 'INSUFFICIENT_EVIDENCE';
+        } else if (challenged > 0) {
+          stance = 'CHALLENGED';
+        } else if (supported > 0 && challenged === 0 && unknown === 0) {
+          stance = 'SUPPORTED';
+        } else {
+          stance = 'PARTIAL';
+        }
+        return {
+          stance: stance as any,
+          supportedPillars: supported,
+          challengedPillars: challenged,
+          unknownPillars: unknown,
+        };
+      })(),
       whatToMonitorNext,
     };
 
@@ -1281,6 +1306,44 @@ export class CompanyIntelligenceOrchestrator {
       console.warn('[CompanyIntelligenceOrchestrator] DataCoverageEngine evaluation error:', e);
     }
 
+    // Invariant: Scope is derived from canonical fundamental facts/evidence, never hardcoded per symbol
+    let resolvedScope: 'STANDALONE' | 'CONSOLIDATED' = 'CONSOLIDATED';
+    const fundSeries = modulesResult.fundamental?.result?.historicalSeries;
+    if (fundSeries) {
+      for (const k of Object.keys(fundSeries)) {
+        const item = fundSeries[k]?.find((it: any) => it?.scope);
+        if (item?.scope) {
+          resolvedScope = item.scope === 'STANDALONE' ? 'STANDALONE' : 'CONSOLIDATED';
+          break;
+        }
+      }
+    }
+    const businessProfile = CompanyBusinessProfileEngine.getInstance().buildProfile({
+      securityId,
+      symbol: cleanSym,
+      sector,
+      industry,
+      businessModel,
+      canonicalFacts: latestFacts,
+      asOfDate,
+    });
+
+    const snapshotHash = CompanySnapshotRepository.getInstance().computeAnalyticalHash(
+      asOfDate || generatedAt.substring(0, 10),
+      cleanSym,
+      isin,
+      {}
+    );
+
+    const sinceLastReview = SinceLastReviewEngine.getInstance().buildReport({
+      securityId,
+      symbol: cleanSym,
+      delta: modulesResult.delta?.result || null,
+      currentSnapshotId: snapshotHash,
+      currentAsOf: asOfDate || generatedAt.substring(0, 10),
+      fallbackEvidence: modulesResult.delta?.evidenceRefs?.[0] || null,
+    });
+
     return {
       security: {
         securityId,
@@ -1290,11 +1353,17 @@ export class CompanyIntelligenceOrchestrator {
         sector,
         industry,
         businessModel,
-        scope: cleanSym === 'DYCL' ? 'STANDALONE' : 'CONSOLIDATED',
+        scope: resolvedScope,
       },
       freshness,
       coverage: dataCoverage,
-      overview,
+      businessProfile,
+      sinceLastReview,
+      overview: {
+        ...overview,
+        businessProfile,
+        sinceLastReview,
+      },
       modules: modulesResult,
       timeline: modulesResult.timeline?.result || null,
       delta: modulesResult.delta?.result || null,
@@ -1304,12 +1373,7 @@ export class CompanyIntelligenceOrchestrator {
         securityId,
         asOfDate: asOfDate || generatedAt.substring(0, 10),
         dataCutoff: asOfDate || generatedAt.substring(0, 10),
-        analyticalHash: CompanySnapshotRepository.getInstance().computeAnalyticalHash(
-          asOfDate || generatedAt.substring(0, 10),
-          cleanSym,
-          isin,
-          {}
-        ),
+        analyticalHash: snapshotHash,
       },
       monitoring,
       generatedAt,

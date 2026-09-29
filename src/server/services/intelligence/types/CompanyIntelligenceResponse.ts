@@ -54,6 +54,8 @@ export interface CompanyIntelligenceResponse {
   dataCoverage?: CompanyDataCoverage;
   coverage?: any;
   freshness?: any;
+  businessProfile?: any;
+  sinceLastReview?: any;
   overview?: any;
   timeline?: any;
   delta?: any;

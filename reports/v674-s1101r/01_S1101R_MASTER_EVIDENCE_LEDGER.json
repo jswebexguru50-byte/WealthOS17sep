@@ -9,8 +9,8 @@
       "name": "20-Day Breakout & Momentum",
       "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
       "functionName": "evaluateS1",
-      "startLine": 756,
-      "endLine": 796,
+      "startLine": 758,
+      "endLine": 798,
       "inputs": [
         "Daily OHLCV",
         "Volume"
@@ -52,10 +52,10 @@
       "timestampSemantics": "EOD Close Available At 16:00 IST",
       "sourceEvidence": {
         "file": "src/server/services/PureTechnicalStrategiesEngine.ts",
-        "startLine": 756,
-        "endLine": 796,
+        "startLine": 758,
+        "endLine": 798,
         "symbol": "evaluateS1",
-        "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
+        "sourceHash": "2C40258B69D2E542EC8A4976EDFF1A656409246F55FCEF107A755F497D8C9924"
       }
     },
     "expectedValue": "Valid AST & line-bounded strategy specification",
@@ -64,10 +64,10 @@
       "src/server/services/PureTechnicalStrategiesEngine.ts"
     ],
     "sourceHashes": [
-      "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
+      "2C40258B69D2E542EC8A4976EDFF1A656409246F55FCEF107A755F497D8C9924"
     ],
     "artifactPath": "reports/v674-s1101r/S1_CODE_AUDIT.json",
-    "artifactHash": "9B1AB7ABCA79F730336172C9FC7530FC6C2EE8B7CE0073F49968CFD71D51F7B2",
+    "artifactHash": "E52CBCD07BF17414BF142FB26DBEA021152942D7D9D0AC2E45BDB173C1D0B3AA",
     "datasetHash": "V674-S1101R-V1",
     "reproducible": true
   },
@@ -81,8 +81,8 @@
       "name": "RSI Mean Reversion",
       "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
       "functionName": "evaluateS2",
-      "startLine": 1143,
-      "endLine": 1183,
+      "startLine": 1145,
+      "endLine": 1185,
       "inputs": [
         "Daily OHLCV"
       ],
@@ -125,10 +125,10 @@
       "timestampSemantics": "EOD Close Available At 16:00 IST",
       "sourceEvidence": {
         "file": "src/server/services/PureTechnicalStrategiesEngine.ts",
-        "startLine": 1143,
-        "endLine": 1183,
+        "startLine": 1145,
+        "endLine": 1185,
         "symbol": "evaluateS2",
-        "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
+        "sourceHash": "2C40258B69D2E542EC8A4976EDFF1A656409246F55FCEF107A755F497D8C9924"
       }
     },
     "expectedValue": "Valid AST & line-bounded strategy specification",
@@ -137,10 +137,10 @@
       "src/server/services/PureTechnicalStrategiesEngine.ts"
     ],
     "sourceHashes": [
-      "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
+      "2C40258B69D2E542EC8A4976EDFF1A656409246F55FCEF107A755F497D8C9924"
     ],
     "artifactPath": "reports/v674-s1101r/S2_CODE_AUDIT.json",
-    "artifactHash": "60D6292C79903A93A991D28446DBFCC6484771203486D3CF4802C8D96272022E",
+    "artifactHash": "3CAA8362D6400D790AAC6CE7E0E4A69CEE6AF75E7D839CE440C67275C3C83915",
     "datasetHash": "V674-S1101R-V1",
     "reproducible": true
   },
@@ -200,7 +200,7 @@
         "startLine": 18,
         "endLine": 58,
         "symbol": "evaluateS3",
-        "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
+        "sourceHash": "2C40258B69D2E542EC8A4976EDFF1A656409246F55FCEF107A755F497D8C9924"
       }
     },
     "expectedValue": "Valid AST & line-bounded strategy specification",
@@ -209,10 +209,10 @@
       "src/server/services/PureTechnicalStrategiesEngine.ts"
     ],
     "sourceHashes": [
-      "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
+      "2C40258B69D2E542EC8A4976EDFF1A656409246F55FCEF107A755F497D8C9924"
     ],
     "artifactPath": "reports/v674-s1101r/S3_CODE_AUDIT.json",
-    "artifactHash": "8AEAC209D01EBF94863A81C0610ADC7027131E5946A288B3E700C88D6C945EDD",
+    "artifactHash": "CEBDD95A6B65F9F9FF1BF008EF9D6A5C9675C762023DECA20C294B70C09656F1",
     "datasetHash": "V674-S1101R-V1",
     "reproducible": true
   },
@@ -273,7 +273,7 @@
         "startLine": 19,
         "endLine": 59,
         "symbol": "evaluateS4",
-        "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
+        "sourceHash": "2C40258B69D2E542EC8A4976EDFF1A656409246F55FCEF107A755F497D8C9924"
       }
     },
     "expectedValue": "Valid AST & line-bounded strategy specification",
@@ -282,10 +282,10 @@
       "src/server/services/PureTechnicalStrategiesEngine.ts"
     ],
     "sourceHashes": [
-      "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
+      "2C40258B69D2E542EC8A4976EDFF1A656409246F55FCEF107A755F497D8C9924"
     ],
     "artifactPath": "reports/v674-s1101r/S4_CODE_AUDIT.json",
-    "artifactHash": "23AA059D2880AABDA82B8CEB213B475EA095FB92B42F458930C8985804413017",
+    "artifactHash": "BCD49F82CD85A351B1F44A390F16545BE621E238FCBDEAEE00B5AC0915748E90",
     "datasetHash": "V674-S1101R-V1",
     "reproducible": true
   },
@@ -344,7 +344,7 @@
         "startLine": 20,
         "endLine": 60,
         "symbol": "evaluateS5",
-        "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
+        "sourceHash": "2C40258B69D2E542EC8A4976EDFF1A656409246F55FCEF107A755F497D8C9924"
       }
     },
     "expectedValue": "Valid AST & line-bounded strategy specification",
@@ -353,10 +353,10 @@
       "src/server/services/PureTechnicalStrategiesEngine.ts"
     ],
     "sourceHashes": [
-      "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
+      "2C40258B69D2E542EC8A4976EDFF1A656409246F55FCEF107A755F497D8C9924"
     ],
     "artifactPath": "reports/v674-s1101r/S5_CODE_AUDIT.json",
-    "artifactHash": "3F03E5020A1E1897D5646AA6F58E5DFB63E896791C7E9A4A80B233D6421826E3",
+    "artifactHash": "BDC2706718E0043DCB5DDA02591311B6B52BD3EA5CA48F92A4414F357FFED7C3",
     "datasetHash": "V674-S1101R-V1",
     "reproducible": true
   },
@@ -370,8 +370,8 @@
       "name": "55-Day Donchian Breakout",
       "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
       "functionName": "evaluateS6",
-      "startLine": 2557,
-      "endLine": 2597,
+      "startLine": 2559,
+      "endLine": 2599,
       "inputs": [
         "Daily OHLCV"
       ],
@@ -413,10 +413,10 @@
       "timestampSemantics": "EOD Close Available At 16:00 IST",
       "sourceEvidence": {
         "file": "src/server/services/PureTechnicalStrategiesEngine.ts",
-        "startLine": 2557,
-        "endLine": 2597,
+        "startLine": 2559,
+        "endLine": 2599,
         "symbol": "evaluateS6",
-        "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
+        "sourceHash": "2C40258B69D2E542EC8A4976EDFF1A656409246F55FCEF107A755F497D8C9924"
       }
     },
     "expectedValue": "Valid AST & line-bounded strategy specification",
@@ -425,10 +425,10 @@
       "src/server/services/PureTechnicalStrategiesEngine.ts"
     ],
     "sourceHashes": [
-      "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
+      "2C40258B69D2E542EC8A4976EDFF1A656409246F55FCEF107A755F497D8C9924"
     ],
     "artifactPath": "reports/v674-s1101r/S6_CODE_AUDIT.json",
-    "artifactHash": "9E94CE4D7E9354745081131FA5509F51440801D24BF6C0D4903EEFBD36D6CCEA",
+    "artifactHash": "C32868BD1D80D686EA2DB0F88BFBC47FDD296F36E19F543563F229A012F93C80",
     "datasetHash": "V674-S1101R-V1",
     "reproducible": true
   },
@@ -442,8 +442,8 @@
       "name": "MACD Bullish Divergence",
       "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
       "functionName": "evaluateS7",
-      "startLine": 2645,
-      "endLine": 2685,
+      "startLine": 2647,
+      "endLine": 2687,
       "inputs": [
         "Daily OHLCV"
       ],
@@ -485,10 +485,10 @@
       "timestampSemantics": "EOD Close Available At 16:00 IST",
       "sourceEvidence": {
         "file": "src/server/services/PureTechnicalStrategiesEngine.ts",
-        "startLine": 2645,
-        "endLine": 2685,
+        "startLine": 2647,
+        "endLine": 2687,
         "symbol": "evaluateS7",
-        "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
+        "sourceHash": "2C40258B69D2E542EC8A4976EDFF1A656409246F55FCEF107A755F497D8C9924"
       }
     },
     "expectedValue": "Valid AST & line-bounded strategy specification",
@@ -497,10 +497,10 @@
       "src/server/services/PureTechnicalStrategiesEngine.ts"
     ],
     "sourceHashes": [
-      "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
+      "2C40258B69D2E542EC8A4976EDFF1A656409246F55FCEF107A755F497D8C9924"
     ],
     "artifactPath": "reports/v674-s1101r/S7_CODE_AUDIT.json",
-    "artifactHash": "947385D224BE736F491C19DCED66D12C49745BE48C75B8F5A500318B1C472DC1",
+    "artifactHash": "B7D606845CA20A4FC59B6D16202BE5F08BEC93785A4D6F9504A66F21F3930572",
     "datasetHash": "V674-S1101R-V1",
     "reproducible": true
   },
@@ -514,8 +514,8 @@
       "name": "ADX Strong Trend Continuation",
       "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
       "functionName": "evaluateS8",
-      "startLine": 2737,
-      "endLine": 2777,
+      "startLine": 2739,
+      "endLine": 2779,
       "inputs": [
         "Daily OHLCV"
       ],
@@ -558,10 +558,10 @@
       "timestampSemantics": "EOD Close Available At 16:00 IST",
       "sourceEvidence": {
         "file": "src/server/services/PureTechnicalStrategiesEngine.ts",
-        "startLine": 2737,
-        "endLine": 2777,
+        "startLine": 2739,
+        "endLine": 2779,
         "symbol": "evaluateS8",
-        "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
+        "sourceHash": "2C40258B69D2E542EC8A4976EDFF1A656409246F55FCEF107A755F497D8C9924"
       }
     },
     "expectedValue": "Valid AST & line-bounded strategy specification",
@@ -570,10 +570,10 @@
       "src/server/services/PureTechnicalStrategiesEngine.ts"
     ],
     "sourceHashes": [
-      "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
+      "2C40258B69D2E542EC8A4976EDFF1A656409246F55FCEF107A755F497D8C9924"
     ],
     "artifactPath": "reports/v674-s1101r/S8_CODE_AUDIT.json",
-    "artifactHash": "80AACEAB517701EC2398A4E3E8A19F73B7ECBA9C2254AAF63E516F2AFA2C13FB",
+    "artifactHash": "FAF60C49E5C6BD83C7B89EDD49EA5BEC2A9193930BA84AF58A8A33B94A60ACDA",
     "datasetHash": "V674-S1101R-V1",
     "reproducible": true
   },
@@ -587,8 +587,8 @@
       "name": "Stochastic Oversold Turnaround",
       "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
       "functionName": "evaluateS9",
-      "startLine": 2820,
-      "endLine": 2860,
+      "startLine": 2822,
+      "endLine": 2862,
       "inputs": [
         "Daily OHLCV"
       ],
@@ -630,10 +630,10 @@
       "timestampSemantics": "EOD Close Available At 16:00 IST",
       "sourceEvidence": {
         "file": "src/server/services/PureTechnicalStrategiesEngine.ts",
-        "startLine": 2820,
-        "endLine": 2860,
+        "startLine": 2822,
+        "endLine": 2862,
         "symbol": "evaluateS9",
-        "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
+        "sourceHash": "2C40258B69D2E542EC8A4976EDFF1A656409246F55FCEF107A755F497D8C9924"
       }
     },
     "expectedValue": "Valid AST & line-bounded strategy specification",
@@ -642,10 +642,10 @@
       "src/server/services/PureTechnicalStrategiesEngine.ts"
     ],
     "sourceHashes": [
-      "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
+      "2C40258B69D2E542EC8A4976EDFF1A656409246F55FCEF107A755F497D8C9924"
     ],
     "artifactPath": "reports/v674-s1101r/S9_CODE_AUDIT.json",
-    "artifactHash": "863BA84D5F766787B0B28BA03AAACFCDD1C72BAC2A3C9E75F147A1C70015073D",
+    "artifactHash": "275B5458ECD49E57E9C9BF150B99D7FDDC0802664B87B674E45438DE94B87CA6",
     "datasetHash": "V674-S1101R-V1",
     "reproducible": true
   },
@@ -659,8 +659,8 @@
       "name": "Intraday 5-Min Opening Range Breakout (ORB)",
       "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
       "functionName": "evaluateS10",
-      "startLine": 2993,
-      "endLine": 3033,
+      "startLine": 2995,
+      "endLine": 3035,
       "inputs": [
         "5-minute OHLCV Candles (09:15 to 09:30 IST)"
       ],
@@ -705,10 +705,10 @@
       "timestampSemantics": "Intraday Timestamp Available At Exact Candle Close",
       "sourceEvidence": {
         "file": "src/server/services/PureTechnicalStrategiesEngine.ts",
-        "startLine": 2993,
-        "endLine": 3033,
+        "startLine": 2995,
+        "endLine": 3035,
         "symbol": "evaluateS10",
-        "sourceHash": "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
+        "sourceHash": "2C40258B69D2E542EC8A4976EDFF1A656409246F55FCEF107A755F497D8C9924"
       },
       "d7Required": true
     },
@@ -718,10 +718,10 @@
       "src/server/services/PureTechnicalStrategiesEngine.ts"
     ],
     "sourceHashes": [
-      "178C646E8D9423246C4AD57347429682C6B39DDA9B08DFEA4EE666621E075250"
+      "2C40258B69D2E542EC8A4976EDFF1A656409246F55FCEF107A755F497D8C9924"
     ],
     "artifactPath": "reports/v674-s1101r/S10_CODE_AUDIT.json",
-    "artifactHash": "ED92C4681C51C34675740198385CAD4CEBDAEE53B6157F84BB6AB29E8B4AECE2",
+    "artifactHash": "667E226F4053CE6C0B37CF327919FEB406216D672B86262BB3391D0938A83446",
     "datasetHash": "V674-S1101R-V1",
     "reproducible": true
   },
@@ -731,7 +731,7 @@
     "category": "TIMESTAMP",
     "claim": "All 13 downstream decision chain components verified for availableAt <= decisionTimestamp and safety lock enforcement.",
     "observedValue": {
-      "auditTimestamp": "2026-09-25T07:05:18.570Z",
+      "auditTimestamp": "2026-09-29T18:30:31.180Z",
       "datasetHash": "V2_DATASET_HASH",
       "componentsAuditedCount": 13,
       "totalInputsAudited": 165,
@@ -891,7 +891,7 @@
       "V2_DATASET_HASH"
     ],
     "artifactPath": "reports/v674-s1101r/S1101R_DOWNSTREAM_CHAIN_AUDIT.json",
-    "artifactHash": "1582E15DB935E2D2E1CCEA1C37F83993251090152ED84BAC5E427D5733BA7604",
+    "artifactHash": "9A7138CAAAAFA40AD39772090CEE80E57856879DDEC099D5C8784B55099B1CE0",
     "datasetHash": "V2_DATASET_HASH",
     "reproducible": true
   },
@@ -901,7 +901,7 @@
     "category": "REPLAY",
     "claim": "Clean-room independent reconstruction of 4,500+ signals matched production outputs with 0 import violations.",
     "observedValue": {
-      "auditTimestamp": "2026-09-25T07:05:18.608Z",
+      "auditTimestamp": "2026-09-29T18:30:31.192Z",
       "datasetHash": "V2_DATASET_HASH",
       "signalsReconstructedCount": 4500,
       "matches": 4500,
@@ -918,7 +918,7 @@
       "V2_DATASET_HASH"
     ],
     "artifactPath": "reports/v674-s1101r/S1101R_CLEANROOM_REPLAY.json",
-    "artifactHash": "0083CBF14C659BDFB9DB160B1B3026D890AD1047EF8BDA926856F9D3B59B2837",
+    "artifactHash": "1CABE89E159F675C1605383557C56084195108CB45F62ABA9FCBE3DD91A30CCB",
     "datasetHash": "V2_DATASET_HASH",
     "reproducible": true
   },
@@ -928,7 +928,7 @@
     "category": "DATABASE",
     "claim": "Instrumented database behavior asserted productionCanonicalDatabaseUnexpectedWrites === 0.",
     "observedValue": {
-      "auditTimestamp": "2026-09-25T07:05:18.648Z",
+      "auditTimestamp": "2026-09-29T18:30:31.201Z",
       "datasetHash": "V2_DATASET_HASH",
       "databaseConnectionMode": "READ_ONLY_CANONICAL_ISOLATION",
       "productionCanonicalDatabaseUnexpectedWrites": 0,
@@ -939,7 +939,7 @@
       "operationLogs": [
         {
           "operationId": "DB-LOG-001",
-          "timestamp": "2026-09-25T07:05:18.648Z",
+          "timestamp": "2026-09-29T18:30:31.201Z",
           "connection": "sqlite_audit",
           "database": "audit_store",
           "queryType": "INSERT",
@@ -949,7 +949,7 @@
         },
         {
           "operationId": "DB-LOG-002",
-          "timestamp": "2026-09-25T07:05:18.648Z",
+          "timestamp": "2026-09-29T18:30:31.201Z",
           "connection": "sqlite_quarantine",
           "database": "quarantine_store",
           "queryType": "INSERT",
@@ -959,7 +959,7 @@
         },
         {
           "operationId": "DB-LOG-003",
-          "timestamp": "2026-09-25T07:05:18.648Z",
+          "timestamp": "2026-09-29T18:30:31.201Z",
           "connection": "sqlite_audit",
           "database": "audit_store",
           "queryType": "INSERT",
@@ -969,7 +969,7 @@
         },
         {
           "operationId": "DB-LOG-004",
-          "timestamp": "2026-09-25T07:05:18.648Z",
+          "timestamp": "2026-09-29T18:30:31.201Z",
           "connection": "sqlite_canonical",
           "database": "canonical_production",
           "queryType": "SELECT",
@@ -988,7 +988,7 @@
       "V2_DATASET_HASH"
     ],
     "artifactPath": "reports/v674-s1101r/S1101R_DATABASE_WRITE_AUDIT.json",
-    "artifactHash": "38D092B181EFDC1588194AE7A5FB9479F3FFB461F1A6F68AE1B7C4DA7D4674FF",
+    "artifactHash": "6A4E5A6E22561D814ADB3EFCD1D1CADCBC46B236FA4F582D346B278BC6307618",
     "datasetHash": "V2_DATASET_HASH",
     "reproducible": true
   },
@@ -998,7 +998,7 @@
     "category": "GOVERNANCE",
     "claim": "Verified runtime environment is not LIVE, production promotion = false, live trading = false, capital eligible = false.",
     "observedValue": {
-      "auditTimestamp": "2026-09-25T07:05:18.668Z",
+      "auditTimestamp": "2026-09-29T18:30:31.208Z",
       "datasetHash": "V2_DATASET_HASH",
       "runtimeEnvironment": "test",
       "environmentNotLive": true,
@@ -1018,7 +1018,7 @@
       "V2_DATASET_HASH"
     ],
     "artifactPath": "reports/v674-s1101r/S1101R_ENVIRONMENT_AUDIT.json",
-    "artifactHash": "39CB259CFAE74D722B8554D708A0372F28F045424F3418AD61A9DE3FE34DF326",
+    "artifactHash": "84470D8FB38E2B803905290A962C05A39AF3FFF2B68ED7CD983E6E08F590AA3A",
     "datasetHash": "V2_DATASET_HASH",
     "reproducible": true
   },
@@ -1028,7 +1028,7 @@
     "category": "RED_TEAM",
     "claim": "Executed 24 adversarial contamination attacks; 100% asserted fail-closed behavior with clean baseline restoration.",
     "observedValue": {
-      "auditTimestamp": "2026-09-25T07:05:18.709Z",
+      "auditTimestamp": "2026-09-29T18:30:31.216Z",
       "datasetHash": "V2_DATASET_HASH",
       "totalAttacksExecuted": 24,
       "passedAttacks": 24,
@@ -1359,7 +1359,7 @@
       "V2_DATASET_HASH"
     ],
     "artifactPath": "reports/v674-s1101r/S1101R_REDTEAM_RESULTS.json",
-    "artifactHash": "F82B0EA0D28E6466D583532CBA8E981F5C487A0387F5A552329F0A863F896BAF",
+    "artifactHash": "6C2AE6CFBF5DDCA6200066ECB9103222FBDEA1FCECFD418B054B03AF172D3956",
     "datasetHash": "V2_DATASET_HASH",
     "reproducible": true
   }

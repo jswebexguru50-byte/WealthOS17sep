@@ -21,6 +21,7 @@ import {
 import { EvidenceReference } from '../contracts/Provenance.js';
 import { getDB, dbAll, dbGet } from '../../../database.js';
 import { CompanyDriverRegistry } from './CompanyDriverRegistry.js';
+import { SectorArchetypeRegistry } from './SectorArchetypeRegistry.js';
 
 // ─── Sector Driver Templates (Fallback when company-specific drivers not registered) ──
 
@@ -145,14 +146,22 @@ export class BusinessDriverEngine {
         sectorTemplate: businessModel,
       }));
     } else {
-      // Fallback to sector template
-      switch (businessModel) {
-        case 'BANK':        definitions = BANK_DRIVER_DEFINITIONS; break;
-        case 'NBFC':        definitions = NBFC_DRIVER_DEFINITIONS; break;
-        case 'IT_SERVICES': definitions = IT_SERVICES_DRIVER_DEFINITIONS; break;
-        case 'COMMODITY':   definitions = COMMODITY_DRIVER_DEFINITIONS; break;
-        case 'CONSUMER':    definitions = CONSUMER_DRIVER_DEFINITIONS; break;
-        default:            definitions = MANUFACTURING_DRIVER_DEFINITIONS; break;
+      // 2. Generic sector archetype resolution — covers ALL companies dynamically
+      const archetypeRegistry = SectorArchetypeRegistry.getInstance();
+      const archetype = archetypeRegistry.resolveFromSectorString(businessModel);
+      const template = archetypeRegistry.getTemplate(archetype) ?? archetypeRegistry.getTemplate('INDUSTRIAL');
+      if (template) {
+        definitions = template.drivers.map(d => ({
+          driverId: d.driverId,
+          name: d.name,
+          category: d.category,
+          materiality: d.materiality,
+          description: d.description,
+          relatedMetrics: d.linkedMetrics,
+          sectorTemplate: template.archetype,
+        }));
+      } else {
+        definitions = MANUFACTURING_DRIVER_DEFINITIONS;
       }
     }
 

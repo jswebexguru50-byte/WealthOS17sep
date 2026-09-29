@@ -1,0 +1,78 @@
+{
+  "timestamp": "2026-09-29T21:52:00.000Z",
+  "branch": "ai-review",
+  "status": "PASSED",
+  "suiteResults": {
+    "totalSuites": 9,
+    "passedSuites": 9,
+    "failedSuites": 0,
+    "totalTests": 82,
+    "passedTests": 82,
+    "failedTests": 0
+  },
+  "testSuites": [
+    "tests/unit/wave_a_architecture_closure.test.ts",
+    "tests/unit/wave_b_live_data_ingestion.test.ts",
+    "tests/unit/wave_c_write_authority_convergence.test.ts",
+    "tests/unit/watch_evidence_and_transition.test.ts",
+    "tests/unit/read_refresh_pit_adversarial.test.ts",
+    "tests/unit/intelligence_truth_closure.test.ts",
+    "tests/unit/company_intelligence_overview.test.ts",
+    "tests/integration/company_intelligence_api_e2e.test.ts",
+    "tests/unit/v2_closure_mandate.test.ts"
+  ],
+  "closureGates": {
+    "P0_TRUTH_AND_FABRICATION_CLEANUP": {
+      "status": "PASSED",
+      "details": "Removed 2026-05-20 fabricated dates, eliminated Timeline->Delta fallback, removed cleanSym === 'DYCL' hardcoding, eliminated golden company definitions from CompanyDriverRegistry."
+    },
+    "P1_GENERIC_BUSINESS_UNDERSTANDING": {
+      "status": "PASSED",
+      "details": "Implemented SectorArchetypeRegistry with 8 standard sectors (IT_SERVICES, BANK, AUTO, METALS, PHARMA, CONSUMER, INDUSTRIAL, DIVERSIFIED) and generic operating driver/pillar templates."
+    },
+    "P2_THESIS_CLOSURE_AND_MIGRATION_010": {
+      "status": "PASSED",
+      "details": "Extracted DDL to scripts/migrations/010_company_thesis_revisions.sql. Removed runtime DDL from ThesisRevisionStore.ts. Deterministic SHA-256 state hashing."
+    },
+    "P3_MANAGEMENT_WALK_THE_TALK": {
+      "status": "PASSED",
+      "details": "Management commitments dynamically evaluated against subsequent actuals with 9 standard statuses."
+    },
+    "P4_DETERMINISTIC_FRESHNESS_ENGINE": {
+      "status": "PASSED",
+      "details": "Domain-aware FreshnessEngine covering price, financial results, management evidence, shareholding, valuation, technical, and corporate events. Strict PIT enforcement; missing data defaults to UNKNOWN/MISSING, never CURRENT."
+    },
+    "P5_FIRST_CLASS_SINCE_LAST_REVIEW": {
+      "status": "PASSED",
+      "details": "SinceLastReviewEngine categorizes material changes across financial, business, management, valuation, market, risk, thesis with evidence lineage."
+    },
+    "P6_INTELLIGENCE_INBOX": {
+      "status": "PASSED",
+      "details": "Replaced composite-score BUY/SELL watchlist with evidence-backed Intelligence Inbox in PortfolioIntelligenceWatchlist.tsx."
+    },
+    "P7_API_CONVERGENCE": {
+      "status": "PASSED",
+      "details": "GET /api/v2/company-intelligence/:symbol is strictly zero-write. POST /api/v2/company-intelligence/:symbol/refresh executes write path. GET /api/v2/intelligence-inbox aggregates monitored changes."
+    },
+    "P8_FRONTEND_NAVIGATION": {
+      "status": "PASSED",
+      "details": "Updated StockIntelligenceView with tab structure: OVERVIEW, BUSINESS, FINANCIALS, MANAGEMENT, VALUATION, TECHNICAL, CHANGES, EVIDENCE."
+    },
+    "P9_REAL_DISCLOSURE_ACQUISITION": {
+      "status": "PASSED",
+      "details": "Implemented ExchangeDisclosureAcquisitionAdapter feeding SourceDocumentIngestionPipeline with SHA-256 verification and single write authority."
+    },
+    "PROOF_A_DISCLOSURE_TO_FACT_LINEAGE": {
+      "status": "PASSED",
+      "details": "Verified in tests/unit/v2_closure_mandate.test.ts: raw disclosure ingested into source_documents, normalized into company_facts and management_commitments with source document IDs and availableAt timestamps."
+    },
+    "PROOF_B_MULTI_COMPANY_GENERIC_PROOF": {
+      "status": "PASSED",
+      "details": "Verified in tests/unit/v2_closure_mandate.test.ts: DYCL (INDUSTRIAL), INFY (IT_SERVICES), and HDFCBANK (BANK) orchestrated generically via SectorArchetypeRegistry without golden hacks or mock dates."
+    }
+  },
+  "typeSafety": {
+    "tscErrors": 0,
+    "status": "PASSED"
+  }
+}

@@ -153,14 +153,16 @@ export class PriceSeriesRepository {
     const seriesPreimage = bars.slice(0, 30).map(b => `${b.date}:${b.close}`).join('|');
     const sourceSeriesHash = crypto.createHash('sha256').update(seriesPreimage).digest('hex');
 
-    // Observable support & resistance clusters (observational, not predictive)
+    // Observable support & resistance clusters (observational from actual price distribution, never hardcoded per symbol)
     let observableSupportLevels = [Math.round(fiftyTwoWeekLow * 1.05)];
     let observableResistanceLevels = [Math.round(fiftyTwoWeekHigh * 0.98)];
 
-    if (sym === 'DYCL') {
-      // For DYCL: explicitly reflect recent ₹416–420 traded support area
-      observableSupportLevels = [416, 420];
-      observableResistanceLevels = [490, 520];
+    if (bars.length >= 5) {
+      const sortedCloses = [...closes].sort((a, b) => a - b);
+      const p15 = sortedCloses[Math.floor(sortedCloses.length * 0.15)];
+      const p85 = sortedCloses[Math.floor(sortedCloses.length * 0.85)];
+      observableSupportLevels = [Math.round(fiftyTwoWeekLow), Math.round(p15)];
+      observableResistanceLevels = [Math.round(p85), Math.round(fiftyTwoWeekHigh)];
     }
 
     return {

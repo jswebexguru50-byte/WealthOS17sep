@@ -60,33 +60,17 @@ export class ThesisRevisionStore {
       .substring(0, 16);
   }
 
-  private tableInitialized = false;
-
-  public async ensureTable(): Promise<void> {
-    if (this.tableInitialized) return;
-    const db = getDB();
-    if (!db) return;
-    try {
-      await dbRun(
-        db,
-        `CREATE TABLE IF NOT EXISTS company_thesis_revisions (
-           revision_id TEXT PRIMARY KEY,
-           security_id TEXT NOT NULL,
-           as_of_date TEXT NOT NULL,
-           state_hash TEXT NOT NULL,
-           created_at TEXT NOT NULL,
-           thesis_json TEXT NOT NULL
-         )`
-      );
-      await dbRun(
-        db,
-        `CREATE INDEX IF NOT EXISTS idx_thesis_rev_security
-         ON company_thesis_revisions(security_id, created_at DESC)`
-      );
-      this.tableInitialized = true;
-    } catch {
-      // Table may already exist
-    }
+  /**
+   * Deterministic revision identity.
+   * SHA-256(securityId | asOfDate | stateHash) — never random.
+   * Same thesis state on same date produces same revisionId (idempotent).
+   */
+  private makeRevisionId(securityId: string, asOfDate: string, stateHash: string): string {
+    return `rev_${crypto
+      .createHash('sha256')
+      .update(`${securityId}|${asOfDate}|${stateHash}`)
+      .digest('hex')
+      .substring(0, 16)}`;
   }
 
   /**
@@ -98,7 +82,6 @@ export class ThesisRevisionStore {
     asOfDate: string,
     thesis: CompanyThesis
   ): Promise<{ saved: boolean; revisionId: string; stateHash: string }> {
-    await this.ensureTable();
     const db = getDB();
     if (!db) {
       return { saved: false, revisionId: thesis.thesisId, stateHash: '' };
@@ -120,12 +103,13 @@ export class ThesisRevisionStore {
         return { saved: false, revisionId: prior.revision_id, stateHash };
       }
 
-      const revisionId = crypto.randomUUID();
+      // Deterministic revision ID: same thesis state on same asOfDate → same ID
+      const revisionId = this.makeRevisionId(securityId, asOfDate, stateHash);
       const createdAt = new Date().toISOString();
 
       await dbRun(
         db,
-        `INSERT INTO company_thesis_revisions (
+        `INSERT OR IGNORE INTO company_thesis_revisions (
            revision_id, security_id, as_of_date, state_hash, created_at, thesis_json
          ) VALUES (?, ?, ?, ?, ?, ?)`,
         [
@@ -140,8 +124,8 @@ export class ThesisRevisionStore {
 
       return { saved: true, revisionId, stateHash };
     } catch (err) {
-      console.warn('[ThesisRevisionStore] Error saving thesis revision:', err);
-      return { saved: false, revisionId: thesis.thesisId, stateHash };
+      console.error('[ThesisRevisionStore] Error saving thesis revision:', err);
+      throw err;
     }
   }
 
@@ -149,7 +133,6 @@ export class ThesisRevisionStore {
    * Retrieves the most recent thesis revision for a security.
    */
   public async getLatestRevision(securityId: string): Promise<ThesisRevision | null> {
-    await this.ensureTable();
     const db = getDB();
     if (!db) return null;
 
@@ -182,7 +165,6 @@ export class ThesisRevisionStore {
    * Retrieves complete chronological history of thesis revisions for a security.
    */
   public async getRevisionHistory(securityId: string, limit = 20): Promise<ThesisRevision[]> {
-    await this.ensureTable();
     const db = getDB();
     if (!db) return [];
 

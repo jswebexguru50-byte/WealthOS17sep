@@ -24,7 +24,9 @@ import {
   BookOpen,
   CalendarDays,
   ArrowRightLeft,
-  HelpCircle
+  HelpCircle,
+  History,
+  FileCheck
 } from 'lucide-react';
 import { formatINR } from '../lib/formatters.js';
 import { CompanyIntelligenceOverview, EvidenceDrawerItem } from './company-intelligence/CompanyIntelligenceOverview.js';
@@ -39,15 +41,15 @@ interface StockIntelligenceViewProps {
 const TABS = [
   { id: 'OVERVIEW',       label: 'Overview',        icon: Compass,       modKey: null },
   { id: 'BUSINESS',       label: 'Business',         icon: GitBranch,     modKey: 'businessDrivers' },
-  { id: 'TECHNICAL',      label: 'Technical',        icon: Activity,      modKey: 'technical' },
-  { id: 'FUNDAMENTAL',    label: 'Fundamentals',     icon: FileText,      modKey: 'fundamental' },
+  { id: 'FUNDAMENTAL',    label: 'Financials',       icon: FileText,      modKey: 'fundamental' },
   { id: 'MANAGEMENT',     label: 'Management',       icon: Users,         modKey: 'management' },
+  { id: 'VALUATION',      label: 'Valuation',        icon: BarChart2,     modKey: 'valuation' },
+  { id: 'TECHNICAL',      label: 'Technical',        icon: Activity,      modKey: 'technical' },
+  { id: 'CHANGES',        label: 'Changes',          icon: History,       modKey: null },
+  { id: 'EVIDENCE',       label: 'Evidence',         icon: FileCheck,     modKey: null },
   { id: 'FERE',           label: 'FERE',             icon: AlertTriangle, modKey: 'fere' },
   { id: 'QGLP',           label: 'QGLP',             icon: Shield,        modKey: 'qglp' },
-  { id: 'VALUATION',      label: 'Valuation',        icon: BarChart2,     modKey: 'valuation' },
-  { id: 'MARKET',         label: 'Market',           icon: PieChartIcon,  modKey: 'marketContext' },
   { id: 'CONTRADICTIONS', label: 'Contradictions',   icon: Crosshair,     modKey: 'contradictions' },
-  { id: 'THESIS',         label: 'Thesis',           icon: BookOpen,      modKey: 'thesis' },
   { id: 'TIMELINE',       label: 'Timeline',         icon: CalendarDays,  modKey: null },
 ];
 
@@ -1164,39 +1166,149 @@ export function StockIntelligenceView({
                     ))}
                   </div>
                 </div>
-              ) : delta?.deltas?.length > 0 ? (
-                <div className="space-y-2">
-                  <p className="text-xs text-slate-500 font-mono">WHAT CHANGED SINCE LAST ANALYSIS</p>
-                  {delta.deltas.map((d: any, i: number) => (
-                    <div key={i} className="flex items-start gap-3 p-3 rounded-xl bg-slate-900 border border-slate-800">
-                      <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${
-                        d.direction === 'IMPROVED' ? 'bg-emerald-400' :
-                        d.direction === 'DETERIORATED' ? 'bg-rose-400' :
-                        'bg-amber-400'
-                      }`} />
-                      <div className="flex-1">
-                        <p className="text-sm font-semibold text-white">{d.metric}</p>
-                        {d.previousValue !== null && d.currentValue !== null && (
-                          <p className="text-xs text-slate-400 font-mono">
-                            {String(d.previousValue)} → {String(d.currentValue)}
-                          </p>
-                        )}
-                        <p className="text-[10px] text-slate-500">{d.category} · {d.materiality} materiality</p>
-                      </div>
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
-                        d.direction === 'IMPROVED' ? 'bg-emerald-500/20 text-emerald-300' :
-                        d.direction === 'DETERIORATED' ? 'bg-rose-500/20 text-rose-300' :
-                        'bg-amber-500/20 text-amber-300'
-                      }`}>{d.direction}</span>
-                    </div>
-                  ))}
-                </div>
               ) : (
                 <div className="p-8 text-center text-slate-400 bg-slate-900 rounded-2xl border border-slate-800 space-y-2">
                   <CalendarDays className="w-8 h-8 mx-auto text-slate-600" />
                   <p className="text-sm font-bold text-slate-300">Company Timeline</p>
                   <p className="text-xs text-slate-500">
                     No verified corporate events recorded for this instrument yet.
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ─────────────────────────────────────────────────────────────────
+              TAB: CHANGES (First-class "What Changed?" / SinceLastReview)
+          ───────────────────────────────────────────────────────────────── */}
+          {activeTab === 'CHANGES' && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div className="flex items-center gap-2">
+                  <History className="w-5 h-5 text-cyan-400" />
+                  <h3 className="text-base font-bold text-white">What Changed (Since Last Review)</h3>
+                </div>
+                <span className="text-[10px] text-slate-500 font-mono">
+                  {data?.sinceLastReview?.isInitialBaseline ? 'INITIAL BASELINE' : `${data?.sinceLastReview?.totalChanges ?? 0} MATERIAL DELTAS`}
+                </span>
+              </div>
+
+              {data?.sinceLastReview?.isInitialBaseline ? (
+                <div className="p-8 text-center text-slate-400 bg-slate-900 rounded-2xl border border-slate-800 space-y-2">
+                  <History className="w-8 h-8 mx-auto text-slate-600" />
+                  <p className="text-sm font-bold text-slate-300">Initial Analytical Baseline Established</p>
+                  <p className="text-xs text-slate-500">
+                    As of {data.sinceLastReview.currentAsOf}. Material deltas and narrative updates will track subsequent corporate filings.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {Object.entries((data?.sinceLastReview?.categorizedChanges as Record<string, any[]>) || {}).map(([category, items]) => {
+                    if (!items || items.length === 0) return null;
+                    return (
+                      <div key={category} className="space-y-2">
+                        <h4 className="text-xs font-mono font-bold uppercase text-slate-400 tracking-wider flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-cyan-400" />
+                          {category} Changes ({items.length})
+                        </h4>
+                        <div className="grid gap-2">
+                          {items.map((item: any) => (
+                            <div key={item.id} className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                              <div className="space-y-1">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-sm font-semibold text-white">{item.title}</span>
+                                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
+                                    item.changeType === 'IMPROVED' ? 'bg-emerald-500/20 text-emerald-300' :
+                                    item.changeType === 'DETERIORATED' ? 'bg-rose-500/20 text-rose-300' :
+                                    'bg-cyan-500/20 text-cyan-300'
+                                  }`}>{item.changeType}</span>
+                                </div>
+                                <p className="text-xs text-slate-400">{item.description}</p>
+                                {item.previousValue !== undefined && item.currentValue !== undefined && (
+                                  <p className="text-[11px] font-mono text-slate-500">
+                                    Delta: {String(item.previousValue)} → {String(item.currentValue)}
+                                  </p>
+                                )}
+                              </div>
+                              {item.evidenceRef && (
+                                <button
+                                  onClick={() => setSelectedEvidence({
+                                    headline: item.title,
+                                    sourceName: item.evidenceRef.sourceName,
+                                    documentDate: item.evidenceRef.documentDate,
+                                    availableAt: item.evidenceRef.availableAt,
+                                    sourceType: item.evidenceRef.sourceType,
+                                  })}
+                                  className="self-start sm:self-auto px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-cyan-400 border border-slate-700 transition"
+                                >
+                                  Evidence
+                                </button>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ─────────────────────────────────────────────────────────────────
+              TAB: EVIDENCE (Primary Filings & Audit Ledger)
+          ───────────────────────────────────────────────────────────────── */}
+          {activeTab === 'EVIDENCE' && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div className="flex items-center gap-2">
+                  <FileCheck className="w-5 h-5 text-emerald-400" />
+                  <h3 className="text-base font-bold text-white">Verified Evidence & Source Filings</h3>
+                </div>
+                <span className="text-[10px] text-slate-500 font-mono">
+                  POINT-IN-TIME AUDITED · IMMUTABLE
+                </span>
+              </div>
+
+              {((data?.modules?.fundamental?.evidenceRefs || []).concat(data?.businessProfile?.evidenceRefs || [])).length > 0 ? (
+                <div className="grid gap-3">
+                  {((data?.modules?.fundamental?.evidenceRefs || []).concat(data?.businessProfile?.evidenceRefs || [])).map((ref: any, idx: number) => (
+                    <div key={idx} className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between gap-4">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-semibold text-white">{ref.sourceName || 'Primary Filing'}</span>
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            {ref.sourceType || 'AUDITED_STATEMENT'}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-4 text-xs font-mono text-slate-400">
+                          <span>Filing Date: {ref.documentDate || 'Verified'}</span>
+                          <span>PIT Available: {ref.availableAt || ref.documentDate || 'Recorded'}</span>
+                          {ref.factId && <span className="text-slate-500">Fact: {ref.factId}</span>}
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setSelectedEvidence({
+                          headline: `Verified Filing: ${ref.sourceName || 'Primary Filing'}`,
+                          sourceName: ref.sourceName,
+                          documentDate: ref.documentDate,
+                          availableAt: ref.availableAt,
+                          sourceType: ref.sourceType,
+                          factId: ref.factId,
+                        })}
+                        className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-medium text-cyan-300 border border-slate-700 transition"
+                      >
+                        Inspect
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="p-8 text-center text-slate-400 bg-slate-900 rounded-2xl border border-slate-800 space-y-2">
+                  <FileCheck className="w-8 h-8 mx-auto text-slate-600" />
+                  <p className="text-sm font-bold text-slate-300">No External Filing Evidence Ingested</p>
+                  <p className="text-xs text-slate-500">
+                    Run disclosure acquisition to attach primary annual reports, exchange filings, or investor presentations.
                   </p>
                 </div>
               )}
@@ -1269,11 +1381,11 @@ export function StockIntelligenceView({
                   </div>
                   <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800">
                     <span className="text-[10px] font-mono uppercase text-slate-500 block">Published Date</span>
-                    <span className="font-mono text-slate-300">{selectedEvidence.documentDate || '2026-05-20'}</span>
+                    <span className="font-mono text-slate-300">{selectedEvidence.documentDate || 'Unknown'}</span>
                   </div>
                   <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800">
                     <span className="text-[10px] font-mono uppercase text-slate-500 block">WealthOS PIT Available</span>
-                    <span className="font-mono text-emerald-400">{selectedEvidence.availableAt || selectedEvidence.documentDate || '2026-05-20'}</span>
+                    <span className="font-mono text-emerald-400">{selectedEvidence.availableAt || selectedEvidence.documentDate || 'Unknown'}</span>
                   </div>
                 </div>
 

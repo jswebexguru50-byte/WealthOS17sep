@@ -1,5 +1,5 @@
 {
-  "auditTimestamp": "2026-09-25T07:05:20.965Z",
+  "auditTimestamp": "2026-09-29T18:30:32.287Z",
   "strategies": {
     "S1": {
       "primary": "D2_DAILY_OHLCV",

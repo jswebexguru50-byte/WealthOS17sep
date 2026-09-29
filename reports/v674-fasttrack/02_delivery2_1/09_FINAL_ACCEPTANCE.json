@@ -1,10 +1,10 @@
 {
   "schemaVersion": "2.1",
-  "repositorySha": "7df43daf142a23a6a9b942019bd3a85cad9094ee",
+  "repositorySha": "dc74d6138f17fc85fd6099d2e57ad7ff0304b015",
   "repositoryRef": "ai-review",
-  "parentSha": "acd3d7a78b73b873b8b5ef1bec750389126609b9",
+  "parentSha": "d1bcb37598f2373578bee4df382d11fef9ec19d8",
   "generatedFromCleanWorkingTree": true,
-  "deliveryDecision": "IMPLEMENTED_AND_VERIFIED",
+  "deliveryDecision": "FAILED",
   "canonicalEvidenceHash": "d64f2285a1c93739f0b3b9e3b34d35fbcf0c1216ab940c511a064230bdf62fb6",
   "implementationHash": "656fb56a3f2759d90583a468b45ae9bbc6000c37e63ed844d64dbd9fce202166",
   "canonicalLedger": {
@@ -42,13 +42,16 @@
   },
   "tests": {
     "total": 18,
-    "passed": 18,
-    "failed": 0,
-    "failures": []
+    "passed": 16,
+    "failed": 2,
+    "failures": [
+      "D2-RI-04: Frozen control src/server/services/PureTechnicalStrategiesEngine.ts modified! Expected: 178c646e8d9423246c4ad57347429682c6b39dda9b08dfea4ee666621e075250, Got: 2c40258b69d2e542ec8a4976edff1a656409246f55fcef107a755f497d8c9924\n+ actual - expected\n\n+ '2c40258b69d2e542ec8a4976edff1a656409246f55fcef107a755f497d8c9924'\n- '178c646e8d9423246c4ad57347429682c6b39dda9b08dfea4ee666621e075250'\n",
+      "D2-RI-14: Decision must be IMPLEMENTED_AND_VERIFIED\n+ actual - expected\n\n+ 'FAILED'\n- 'IMPLEMENTED_AND_VERIFIED'\n"
+    ]
   },
-  "decision": "IMPLEMENTED_AND_VERIFIED",
+  "decision": "FAILED",
   "operationalMetadata": {
-    "executedAt": "2026-09-25T07:02:52.586Z",
+    "executedAt": "2026-09-29T18:33:33.044Z",
     "nodeVersion": "v24.18.0"
   }
 }

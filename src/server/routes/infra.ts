@@ -3588,18 +3588,17 @@ router.get('/strategy-scan/export-excel', async (req: Request, res: Response) =>
 });
 
 // ─── Company Intelligence Cockpit V2 API ──────────────────────────────────────
-const handleCompanyIntelligence = async (req: Request, res: Response) => {
+const handleCompanyIntelligenceGet = async (req: Request, res: Response) => {
   try {
     const symbol = req.params.symbol;
     if (!symbol) {
       return res.status(400).json({ error: 'Symbol parameter is required.' });
     }
     const asOfDate = (req.query.asOfDate as string) || null;
-    const persist = req.query.persist === 'true';
-
+    // Invariant: GET requests are strictly ZERO-WRITE (persist: false)
     const { CompanyIntelligenceOrchestrator } = await import('../services/intelligence/CompanyIntelligenceOrchestrator.js');
     const orchestrator = CompanyIntelligenceOrchestrator.getInstance();
-    const result = await orchestrator.orchestrate(symbol, asOfDate, persist);
+    const result = await orchestrator.orchestrate(symbol, asOfDate, false);
 
     return res.json(result);
   } catch (err: any) {
@@ -3608,7 +3607,39 @@ const handleCompanyIntelligence = async (req: Request, res: Response) => {
   }
 };
 
-router.get('/v2/company-intelligence/:symbol', handleCompanyIntelligence);
-router.get('/company-intelligence/:symbol', handleCompanyIntelligence);
+const handleCompanyIntelligenceRefresh = async (req: Request, res: Response) => {
+  try {
+    const symbol = req.params.symbol;
+    if (!symbol) {
+      return res.status(400).json({ error: 'Symbol parameter is required.' });
+    }
+    const asOfDate = (req.body?.asOfDate as string) || (req.query.asOfDate as string) || null;
+    // Refresh endpoint allows persisting new analytical snapshots
+    const { CompanyIntelligenceOrchestrator } = await import('../services/intelligence/CompanyIntelligenceOrchestrator.js');
+    const orchestrator = CompanyIntelligenceOrchestrator.getInstance();
+    const result = await orchestrator.orchestrate(symbol, asOfDate, true);
+
+    return res.json({ success: true, refreshedAt: new Date().toISOString(), result });
+  } catch (err: any) {
+    console.error('[infra.ts] Company intelligence refresh error:', err);
+    return res.status(500).json({ error: err.message || 'Internal error' });
+  }
+};
+
+const handleIntelligenceInbox = async (req: Request, res: Response) => {
+  try {
+    const { IntelligenceInboxService } = await import('../services/intelligence/inbox/IntelligenceInboxService.js');
+    const inbox = await IntelligenceInboxService.getInstance().getInbox();
+    return res.json(inbox);
+  } catch (err: any) {
+    console.error('[infra.ts] Intelligence inbox route error:', err);
+    return res.status(500).json({ error: err.message || 'Internal error' });
+  }
+};
+
+router.get('/v2/company-intelligence/:symbol', handleCompanyIntelligenceGet);
+router.post('/v2/company-intelligence/:symbol/refresh', handleCompanyIntelligenceRefresh);
+router.get('/v2/intelligence-inbox', handleIntelligenceInbox);
+router.get('/company-intelligence/:symbol', handleCompanyIntelligenceGet);
 
 export default router;
