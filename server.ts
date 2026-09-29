@@ -843,7 +843,30 @@ const handleScripIntelligence = async (rawSymbol: string, res: any, req?: any) =
       ? String(rawModules).split(',').map((m: string) => m.trim().toUpperCase() as any)
       : undefined;
 
-    const response = await CompanyIntelligenceOrchestrator.getInstance().getCompanyIntelligence(cleanSym, requestedModules);
+    // A page read is always side-effect free. State advancement is deliberately
+    // owned by the explicit POST /:symbol/refresh endpoint.
+    const shouldPersist = req?.method === 'POST';
+    const asOfDate = req?.query?.asOfDate ? String(req.query.asOfDate) : undefined;
+    const response = await CompanyIntelligenceOrchestrator.getInstance().getCompanyIntelligence(
+      cleanSym,
+      requestedModules,
+      { persist: shouldPersist, asOfDate }
+    );
+
+    // Preserve the older response shape without inventing an overall state or a
+    // decision.  Module status is the source of truth; a company can have
+    // usable technical evidence while fundamental or FERE evidence is absent.
+    const moduleResults = Object.values(response.modules).filter(Boolean) as Array<any>;
+    const usableDataStates = new Set([
+      'VERIFIED', 'PARTIAL', 'RAW_PROVIDER', 'PARSED', 'CANONICAL_MAPPED',
+      'PRIMARY_SOURCE_VERIFIED', 'CROSS_SOURCE_VERIFIED', 'DERIVED_VERIFIED',
+    ]);
+    const usableModules = moduleResults.filter(module => usableDataStates.has(module.dataStatus));
+    const dataState = usableModules.length === 0
+      ? 'DATA_INSUFFICIENT'
+      : usableModules.length === moduleResults.length
+        ? 'READY'
+        : 'PARTIAL';
 
     // Provide new canonical contract while preserving backward-compatible properties
     const payload = {
@@ -851,8 +874,8 @@ const handleScripIntelligence = async (rawSymbol: string, res: any, req?: any) =
       symbol: cleanSym,
       isin: response.security.isin,
       company_name: response.security.companyName || cleanSym,
-      dataState: 'WORKING',
-      decisionStatus: 'AVAILABLE',
+      dataState,
+      decisionStatus: 'NO_AUTOMATED_DECISION',
       fereEvidence: response.modules.fere?.result || null,
       fereResult: response.modules.fere?.status || 'DATA_INSUFFICIENT',
       technical: response.modules.technical?.result || null,
@@ -891,6 +914,20 @@ app.get('/api/trendlyne/:symbol', async (req, res) => {
 });
 
 app.get('/api/scrip-intelligence/:symbol', async (req, res) => {
+  await handleScripIntelligence(req.params.symbol, res, req);
+});
+
+app.post('/api/scrip-intelligence/:symbol/refresh', async (req, res) => {
+  req.query = { ...req.query, refresh: 'true' };
+  await handleScripIntelligence(req.params.symbol, res, req);
+});
+
+app.get('/api/company-intelligence/:symbol', async (req, res) => {
+  await handleScripIntelligence(req.params.symbol, res, req);
+});
+
+app.post('/api/company-intelligence/:symbol/refresh', async (req, res) => {
+  req.query = { ...req.query, refresh: 'true' };
   await handleScripIntelligence(req.params.symbol, res, req);
 });
 

@@ -327,20 +327,10 @@ export class ScripIntelligenceDossierService {
   public static async getSecurityDossier(symbol: string, forceRefresh: boolean = false): Promise<SecurityDossier> {
     const sym = symbol.toUpperCase().trim();
 
-    // 1. Check in-memory cache first
-    if (!forceRefresh) {
-      const cached = this.dossierCache.get(sym);
-      if (cached && (Date.now() - cached.timestamp) < this.CACHE_TTL_MS) {
-        return cached.data;
-      }
-
-      // 2. Check SQLite persistent database for previously researched dossier
-      const savedInDb = await ScripKnowledgeBaseService.getSavedDossier(sym, 12);
-      if (savedInDb) {
-        this.dossierCache.set(sym, { data: savedInDb, timestamp: Date.now() });
-        return savedInDb;
-      }
-    }
+    // Do not serve cached legacy dossiers: those records can contain outputs
+    // produced before the evidence gate.  The canonical intelligence pipeline
+    // owns durable evidence-backed snapshots.
+    void forceRefresh;
 
     const db = getDB();
 
@@ -375,6 +365,20 @@ export class ScripIntelligenceDossierService {
       BrokerResearchIntelligenceService.getInstance().getReportsForSymbol(sym).catch(() => []),
       ScripKnowledgeBaseService.getThesis(sym).catch(() => null)
     ]);
+
+    // The legacy dossier contains derived scores, recommendations, targets,
+    // and company narratives.  It is only safe to build when both of its
+    // declared primary sources are available.  Returning early also prevents
+    // the later legacy cache write from persisting a synthetic dossier.
+    if (!screenerData || !trendlyneReport) {
+      return {
+        status: 'DATA_INSUFFICIENT',
+        symbol: sym,
+        missingReason: !screenerData
+          ? 'Screener fundamental source is unavailable.'
+          : 'Evidence-backed Trendlyne intelligence is unavailable.'
+      } as any;
+    }
 
     // Current Price Resolution
     const rawCmp = Number(
@@ -1113,10 +1117,14 @@ function detectSectorCategory(sectorStr: string, industryStr: string, companyNam
     // Cache the dossier in memory
     this.dossierCache.set(sym, { data: dossier, timestamp: Date.now() });
 
-    // Persist all researched elements in SQLite database asynchronously
-    ScripKnowledgeBaseService.saveCompleteDossier(dossier).catch(e => {
-      console.error('[ScripIntelligenceDossierService] Error saving researched dossier to DB:', e);
-    });
+    // Read-only analysis must not mutate dossier persistence.  A future
+    // evidence-backed persistence flow may explicitly opt in outside this
+    // legacy request path.
+    if (process.env.READ_ONLY_RUNTIME !== 'true') {
+      ScripKnowledgeBaseService.saveCompleteDossier(dossier).catch(e => {
+        console.error('[ScripIntelligenceDossierService] Error saving researched dossier to DB:', e);
+      });
+    }
 
     return dossier;
   }

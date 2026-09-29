@@ -111,7 +111,6 @@ export class SmartMoneyFlowEngine {
   public static getInstance(): SmartMoneyFlowEngine {
     if (!SmartMoneyFlowEngine.instance) {
       SmartMoneyFlowEngine.instance = new SmartMoneyFlowEngine();
-      SmartMoneyFlowEngine.instance.initTables().catch(() => {});
     }
     return SmartMoneyFlowEngine.instance;
   }
@@ -249,6 +248,15 @@ export class SmartMoneyFlowEngine {
     meta?: { companyName?: string; sector?: string }
   ): Promise<SmartMoneyMetrics> {
     const cleanSym = symbol.toUpperCase().replace(/\.NS$/, '').replace(/\.BO$/, '');
+    // The legacy implementation inferred delivery and participant net flows
+    // from OHLCV, then labelled them institutional.  OHLCV is not evidence of
+    // FII/DII/prop/retail participation.  Disable this output until verified
+    // delivery and participant-deal records are connected.
+    void timeframe;
+    void historicalCandles;
+    void meta;
+    throw new Error(`SOURCE_UNAVAILABLE: verified smart-money delivery and participant-flow evidence is unavailable for ${cleanSym}.`);
+
     let candles = historicalCandles;
 
     if (!candles || candles.length < 5) {

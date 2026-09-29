@@ -11,7 +11,7 @@
  */
 
 import crypto from 'crypto';
-import { getDB } from '../../../database.js';
+import { getDB, dbRun, dbAll } from '../../../database.js';
 import {
   Contradiction,
   ContradictionPatternId,
@@ -30,37 +30,6 @@ export class ContradictionStore {
       ContradictionStore.instance = new ContradictionStore();
     }
     return ContradictionStore.instance;
-  }
-
-  /**
-   * Ensure table exists (idempotent).
-   */
-  public ensureTable(): void {
-    const db = getDB();
-    if (!db) return;
-    try {
-      db.exec(`
-        CREATE TABLE IF NOT EXISTS company_contradiction (
-          contradiction_id TEXT PRIMARY KEY,
-          security_id TEXT NOT NULL,
-          symbol TEXT NOT NULL,
-          pattern_id TEXT NOT NULL,
-          status TEXT NOT NULL DEFAULT 'OPEN',
-          severity TEXT NOT NULL,
-          observation_a TEXT NOT NULL,
-          observation_b TEXT NOT NULL,
-          explanation TEXT NOT NULL,
-          possible_interpretations TEXT,
-          evidence_json TEXT,
-          first_detected_at TEXT NOT NULL,
-          last_observed_at TEXT NOT NULL,
-          resolved_at TEXT,
-          explanation_notes TEXT
-        );
-        CREATE INDEX IF NOT EXISTS idx_contradiction_security
-          ON company_contradiction(security_id, status);
-      `);
-    } catch { /* Table may already exist */ }
   }
 
   /**
@@ -85,7 +54,6 @@ export class ContradictionStore {
     symbol: string,
     newContradictions: Contradiction[],
   ): Promise<Contradiction[]> {
-    this.ensureTable();
     const db = getDB();
     if (!db) return newContradictions;
 
@@ -99,11 +67,11 @@ export class ContradictionStore {
       }));
 
       // 2. Load prior OPEN/EXPLAINED contradictions
-      const priorOpen = db.prepare(`
+      const priorOpen = await dbAll(db, `
         SELECT contradiction_id, pattern_id, status, first_detected_at, explanation_notes
         FROM company_contradiction
         WHERE security_id = ? AND status IN ('OPEN', 'EXPLAINED')
-      `).all(securityId) as unknown as Array<{
+      `, [securityId]) as unknown as Array<{
         contradiction_id: string;
         pattern_id: string;
         status: string;
@@ -120,13 +88,13 @@ export class ContradictionStore {
         const priorRecord = priorOpen.find(r => r.contradiction_id === c.contradictionId);
         const status: ContradictionStatus = priorRecord?.status as ContradictionStatus ?? 'OPEN';
 
-        db.prepare(`
+        await dbRun(db, `
           INSERT OR REPLACE INTO company_contradiction
             (contradiction_id, security_id, symbol, pattern_id, status, severity,
              observation_a, observation_b, explanation, possible_interpretations,
              evidence_json, first_detected_at, last_observed_at)
           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `).run(
+        `, [
           c.contradictionId,
           securityId,
           symbol,
@@ -140,17 +108,17 @@ export class ContradictionStore {
           JSON.stringify(c.evidence),
           isNew ? now : (priorRecord?.first_detected_at ?? now),
           now,
-        );
+        ]);
       }
 
       // 4. Mark NO_LONGER_APPLICABLE for prior open contradictions not in current run
       for (const prior of priorOpen) {
         if (!newIds.has(prior.contradiction_id) && prior.status === 'OPEN') {
-          db.prepare(`
+          await dbRun(db, `
             UPDATE company_contradiction
             SET status = 'NO_LONGER_APPLICABLE', resolved_at = ?
             WHERE contradiction_id = ?
-          `).run(now, prior.contradiction_id);
+          `, [now, prior.contradiction_id]);
         }
       }
 
@@ -178,11 +146,11 @@ export class ContradictionStore {
     const db = getDB();
     if (!db) return [];
     try {
-      const rows = db.prepare(`
+      const rows = await dbAll(db, `
         SELECT * FROM company_contradiction
         WHERE security_id = ? AND status IN ('OPEN', 'EXPLAINED')
         ORDER BY first_detected_at DESC
-      `).all(securityId) as unknown as any[];
+      `, [securityId]) as unknown as any[];
 
       return rows.map(r => ({
         contradictionId: r.contradiction_id,
@@ -207,11 +175,11 @@ export class ContradictionStore {
     const db = getDB();
     if (!db) return;
     try {
-      db.prepare(`
+      await dbRun(db, `
         UPDATE company_contradiction
         SET status = 'EXPLAINED', explanation_notes = ?
         WHERE contradiction_id = ?
-      `).run(notes, contradictionId);
+      `, [notes, contradictionId]);
     } catch { /* Non-fatal */ }
   }
 
@@ -222,11 +190,11 @@ export class ContradictionStore {
     const db = getDB();
     if (!db) return;
     try {
-      db.prepare(`
+      await dbRun(db, `
         UPDATE company_contradiction
         SET status = 'RESOLVED', resolved_at = ?
         WHERE contradiction_id = ?
-      `).run(new Date().toISOString(), contradictionId);
+      `, [new Date().toISOString(), contradictionId]);
     } catch { /* Non-fatal */ }
   }
 }

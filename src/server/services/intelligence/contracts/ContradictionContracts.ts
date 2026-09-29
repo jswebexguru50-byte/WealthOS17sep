@@ -1,11 +1,12 @@
 /**
- * ContradictionContracts.ts — Wave 0 Contract Freeze
+ * ContradictionContracts.ts — Wave 0 Contract Freeze (Updated for P0.1 Coverage Fix)
  *
  * Contradiction model for WealthOS V2.
  *
  * Key design decisions:
  * - 6 high-value patterns ONLY (not 10+ noisy ones)
  * - Contradiction lifecycle: OPEN → EXPLAINED → RESOLVED → NO_LONGER_APPLICABLE
+ * - Explicit distinction between pattern evaluability, evaluation, and contradiction trigger
  * - No automatic misconduct inference — surface inconsistency for investigation
  * - Contradictions are never fabricated for test coverage
  */
@@ -14,9 +15,6 @@ import { EvidenceReference } from './Provenance.js';
 
 // ─── 6 Canonical Contradiction Patterns ──────────────────────────────────────
 
-/**
- * Start with these 6. Add more only based on real observed companies.
- */
 export type ContradictionPatternId =
   | 'GUIDANCE_VS_ACTUAL'        // management guidance vs actual outcome
   | 'PAT_VS_CFO'               // PAT improving, CFO declining
@@ -27,19 +25,20 @@ export type ContradictionPatternId =
 
 export type ContradictionSeverity = 'MATERIAL' | 'WATCH' | 'MINOR';
 
-/**
- * Lifecycle of a contradiction — investment history.
- *
- * OPEN: detected and unresolved
- * EXPLAINED: management has given context (e.g. "working capital timing"); not yet confirmed
- * RESOLVED: subsequent evidence shows contradiction no longer exists
- * NO_LONGER_APPLICABLE: metric no longer relevant (e.g. company restructured)
- */
 export type ContradictionStatus =
   | 'OPEN'
   | 'EXPLAINED'
   | 'RESOLVED'
   | 'NO_LONGER_APPLICABLE';
+
+// ─── Pattern Evaluation Audit ────────────────────────────────────────────────
+
+export interface PatternEvaluation {
+  patternId: ContradictionPatternId;
+  evaluable: boolean;
+  triggered: boolean;
+  missingInputs: string[];
+}
 
 // ─── Contradiction Record ─────────────────────────────────────────────────────
 
@@ -81,5 +80,11 @@ export interface ContradictionResult {
   openCount: number;
   materialCount: number;
   evaluatedAt: string;
-  patternsChecked: ContradictionPatternId[];
+  patternsChecked: ContradictionPatternId[]; // kept for back-compat
+  evaluations: PatternEvaluation[];
+  patternsConfigured: number;
+  patternsEvaluable: number;
+  patternsEvaluated: number;
+  contradictionsDetected: number;
+  patternsSkipped: number;
 }

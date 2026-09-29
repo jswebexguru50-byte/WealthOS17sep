@@ -30,36 +30,11 @@ export class FundamentalAlphaAdapter implements ComposableEngine {
   };
 
   public async evaluate(bus: EvidenceBus, context: PITContext, universeSecurityIds: string[]): Promise<void> {
-    const targets = universeSecurityIds.length > 0 ? universeSecurityIds : ['RELIANCE', 'TCS', 'INFY'];
-
-    for (const sym of targets) {
-      const roe = 18.5;
-      const debtToEquity = 0.45;
-      const passed = roe > 15 && debtToEquity < 1.0;
-
-      bus.emit({
-        type: 'FUNDAMENTAL_FACTS',
-        engineId: this.engineId,
-        securityId: sym,
-        engineVersion: this.version,
-        engineSourceHash: this.getSourceHash(),
-        parameterHash: this.getParameterHash(),
-        dataSnapshotHash: 'SNAP_FUNDAMENTALS_V66',
-        inputEvidenceIds: [],
-        sourceRequirementIds: this.getDataRequirementIds(),
-        pitContextHash: context.contextHash,
-        decisionGraphHash: 'GRAPH_V66',
-        runId: `RUN_FUND_${context.decisionDate}`,
-        decisionDate: context.decisionDate,
-        decisionTimestamp: context.decisionTimestamp,
-        payload: {
-          roe,
-          debtToEquity,
-          passed,
-          reason: passed ? 'Healthy fundamental balance sheet and profitability' : 'High leverage or weak ROE'
-        }
-      });
-    }
+    // Canonical company_facts has to be supplied before this adapter can
+    // publish a fundamental conclusion.  Fixed ROE/debt examples are not data.
+    void bus;
+    void context;
+    void universeSecurityIds;
   }
 
   public getSourceHash(): string {

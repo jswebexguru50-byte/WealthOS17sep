@@ -253,9 +253,13 @@ def sync_package(manifest_path=None):
         ))
 
         # 5. Upsert into HistoricalShareholdingPattern (portfolio.db)
-        if promoter_pct is not None and as_of_date is not None:
-            institutional_total = (fii_pct or 0.0) + (dii_pct or 0.0)
-            derived_public = 100.0 - promoter_pct - institutional_total
+        if promoter_pct is not None and public_pct is not None and as_of_date is not None:
+            # NSE's public category already includes FII/DII subcategories;
+            # adding them again would double count.  The legacy table requires
+            # free_float_pct, so omit the row entirely when public holding is
+            # not source-reported instead of deriving it from missing data.
+            reported_total = promoter_pct + public_pct
+            is_reconciled = int(abs(reported_total - 100.0) <= 0.25)
             cur_port.execute("""
                 INSERT OR REPLACE INTO HistoricalShareholdingPattern (
                     symbol, quarter_label, as_of_date, promoter_pct, fii_pct,
@@ -264,8 +268,8 @@ def sync_package(manifest_path=None):
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 sym_u, as_of_date, as_of_date, promoter_pct, fii_pct,
-                dii_pct, None, None, public_pct if public_pct is not None else derived_public, None,
-                None, public_pct if public_pct is not None else (100.0 - promoter_pct), 'OFFICIAL_NSE_XBRL_TABLE_II', 1, now_iso
+                dii_pct, None, None, public_pct, None,
+                reported_total, public_pct, 'OFFICIAL_NSE_XBRL_TABLE_II', is_reconciled, now_iso
             ))
 
         # 6. Upsert into HistoricalFinancialStatements (portfolio.db)

@@ -14,6 +14,7 @@
  */
 
 import { ModuleResult, ModuleStatus, EvidenceReference } from '../contracts/index.js';
+import { evidenceSourceTypeForProvider } from '../contracts/Provenance.js';
 import {
   FundamentalPayload,
   FundamentalSeries,
@@ -115,7 +116,7 @@ export class FundamentalModuleAdapter {
           }
           evidenceRefs.push({
             evidenceId: `SNAP_${s.provider}_${s.endpoint}_${cleanSym}`,
-            sourceType: 'TRENDLYNE_SNAPSHOT',
+            sourceType: evidenceSourceTypeForProvider(s.provider),
             sourceId: `${s.provider}:${s.endpoint}:${cleanSym}`,
             timestamp: s.fetched_at,
             notes: `Endpoint ${s.endpoint} from ${s.provider}`,

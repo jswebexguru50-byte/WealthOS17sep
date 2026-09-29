@@ -152,106 +152,17 @@ export class TrendlyneIntelligenceService {
   /**
    * Get complete Trendlyne Intelligence Report for any NSE/BSE stock
    */
-  public async getScripIntelligence(symbol: string, liveLtp?: number): Promise<TrendlyneIntelligenceReport> {
+  public async getScripIntelligence(symbol: string, liveLtp?: number): Promise<TrendlyneIntelligenceReport | null> {
     const cleanSym = symbol.trim().toUpperCase().replace(/\.NS$/, '').replace(/\.BO$/, '');
-    const db = getDB();
-
-    // Check cached report in SQLite (valid for 12 hours)
-    try {
-      const cached = await dbGet(db, "SELECT value FROM AppConfig WHERE key = ?", [`trendlyne_intel_${cleanSym}`]);
-      if (cached?.value) {
-        const parsed = TrendlyneIntelligenceReportSchema.parse(JSON.parse(cached.value)) as unknown as TrendlyneIntelligenceReport;
-        const ageMs = Date.now() - new Date(parsed.cachedAt).getTime();
-        if (ageMs < 12 * 3600 * 1000) {
-          // If live LTP was provided and differs significantly, update CMP and derived fields dynamically.
-          // CRITICAL: meanTargetPrice is NOT re-anchored here — it stays locked to the synthesis-time price
-          // so that upside correctly becomes negative when CMP has already exceeded the target.
-          if (liveLtp && liveLtp > 0 && Math.abs(liveLtp - parsed.cmp) > 1) {
-            parsed.cmp = liveLtp;
-            const ac = parsed.analystConsensus;
-            if (ac.meanTargetPrice > 0) {
-              // Recalculate live upside — can be negative if CMP > target
-              ac.upsidePct = Number((((ac.meanTargetPrice - liveLtp) / liveLtp) * 100).toFixed(1));
-
-              // Re-evaluate validity status against live price
-              if (liveLtp >= ac.meanTargetPrice) {
-                ac.callStatus      = 'TARGET_BREACHED';
-                ac.callStatusLabel = `CMP ₹${liveLtp.toLocaleString('en-IN')} has exceeded analyst target ₹${ac.meanTargetPrice.toLocaleString('en-IN')} — consider booking profits`;
-              } else if (liveLtp <= ac.lowTargetPrice) {
-                ac.callStatus      = 'BELOW_ENTRY';
-                ac.callStatusLabel = `CMP ₹${liveLtp.toLocaleString('en-IN')} is below analyst low target ₹${ac.lowTargetPrice.toLocaleString('en-IN')} — thesis under stress`;
-              } else {
-                ac.callStatus      = 'ACTIVE';
-                ac.callStatusLabel = 'Active – within target range';
-              }
-            }
-          }
-          return parsed;
-        }
-      }
-    } catch (_e) {}
-
-    // Fetch fundamental Screener data as baseline
-    const screenerData: ScreenerData | null = await ScreenerService.getInstance().fetchScreenerData(cleanSym).catch(() => null);
-
-    // Resolve actual live CMP from holdings / screener / master
-    let cmp = liveLtp && liveLtp > 0 ? liveLtp : 0;
-    if (cmp === 0) {
-      const hRow = await dbGet(db, "SELECT ltp, avg_buy_price FROM Holdings WHERE symbol = ? AND quantity > 0 LIMIT 1", [cleanSym]).catch(() => null);
-      if (hRow && hRow.ltp > 0) cmp = hRow.ltp;
-    }
-    if (cmp === 0 && screenerData?.ratios?.current_price) {
-      const parsedPrice = parseFloat(screenerData.ratios.current_price.replace(/,/g, ''));
-      if (!isNaN(parsedPrice) && parsedPrice > 0) cmp = parsedPrice;
-    }
-    if (cmp === 0) {
-      const pRow = await dbGet(db, "SELECT close_price FROM HistoricalPrices WHERE symbol = ? ORDER BY date DESC LIMIT 1", [cleanSym]).catch(() => null);
-      if (pRow && pRow.close_price > 0) cmp = pRow.close_price;
-    }
-    if (cmp === 0 || cmp == null) {
-      return { status: 'DATA_INSUFFICIENT', symbol: cleanSym } as any;
-    }
-
-    // Compute Trendlyne DVM Scores from authentic sourced metrics
-    const dvm = this.calculateDVM(cleanSym, screenerData, cmp);
-    const swot = this.synthesizeSWOT(cleanSym, screenerData, dvm, cmp);
-    const analystConsensus = this.synthesizeAnalystConsensus(cleanSym, cmp, dvm);
-    const checklists = this.computeChecklists(cleanSym, screenerData, dvm);
-
-    const rawStockPe = screenerData?.ratios?.stock_pe ? parseFloat(screenerData.ratios.stock_pe) : null;
-    const peRatio = rawStockPe !== null && !isNaN(rawStockPe) ? rawStockPe : null;
-
-    const report: TrendlyneIntelligenceReport = {
-      symbol: cleanSym,
-      companyName: screenerData?.company_name || cleanSym,
-      cmp,
-      sector: screenerData?.sector || screenerData?.industry || 'Indian Equities',
-      industry: screenerData?.industry || 'Diversified',
-      dvm,
-      swot,
-      analystConsensus,
-      checklists,
-      forecaster: {
-        revenueGrowth1YExpectedPct: null,
-        profitGrowth1YExpectedPct: null,
-        epsForward: null,
-        peForward: null,
-        status: 'SOURCE_UNAVAILABLE',
-        note: 'Forward estimates require a verified consensus provider'
-      },
-      cachedAt: new Date().toISOString()
-    };
-
-    // Cache in SQLite
-    try {
-      await dbRun(
-        db,
-        "INSERT OR REPLACE INTO AppConfig (key, value) VALUES (?, ?)",
-        [`trendlyne_intel_${cleanSym}`, JSON.stringify(report)]
-      );
-    } catch (_e) {}
-
-    return report;
+    // The legacy implementation built a "Trendlyne" report from Screener
+    // values and fixed defaults, then cached it as if it were provider data.
+    // Canonical Trendlyne snapshots are now available through the intelligence
+    // fact pipeline.  Until this legacy response is rebuilt from those
+    // evidence-backed records, it must return no report rather than publish a
+    // synthetic DVM, SWOT, consensus, or checklist.
+    void cleanSym;
+    void liveLtp;
+    return null;
   }
 
   /**

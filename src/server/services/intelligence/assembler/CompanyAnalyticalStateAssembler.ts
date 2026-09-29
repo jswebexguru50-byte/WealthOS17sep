@@ -86,6 +86,7 @@ export class CompanyAnalyticalStateAssembler {
     securityId: string;
     symbol: string;
     businessModel: string;
+    asOfDate?: string | null;
     fundamentals: FundamentalPayload | null;
     management: ManagementPayload | null;
     valuation: ValuationPayload | null;
@@ -94,14 +95,14 @@ export class CompanyAnalyticalStateAssembler {
     technical: any | null;
   }): Promise<CompanyAnalyticalState> {
 
-    // 1. Build analytical facts from FundamentalPayload
-    let facts = this.factService.fromFundamentalPayload(params.symbol, params.fundamentals);
+    // 1. Build analytical facts from FundamentalPayload with strict PIT
+    let facts = this.factService.fromFundamentalPayload(params.symbol, params.fundamentals, params.asOfDate);
 
-    // 2. Augment with operating KPIs from DB
-    facts = await this.factService.augmentWithOperatingKpis(facts, params.symbol);
+    // 2. Augment with operating KPIs from DB with strict PIT
+    facts = await this.factService.augmentWithOperatingKpis(facts, params.symbol, params.asOfDate);
 
-    // 3. Augment with quarterly facts for QoQ delta
-    facts = await this.factService.augmentWithQuarterlyFacts(facts, params.symbol);
+    // 3. Augment with quarterly facts for QoQ delta with strict PIT
+    facts = await this.factService.augmentWithQuarterlyFacts(facts, params.symbol, params.asOfDate);
 
     // 4. Extract individual commitments (not aggregate counts)
     const allCommitments: ManagementCommitment[] = params.management?.commitments ?? [];
@@ -181,9 +182,11 @@ export class CompanyAnalyticalStateAssembler {
    * Build the flat metric dict expected by ContradictionEngine.
    * Maps from AnalyticalFacts to flat numbers — null when unavailable.
    */
-  public toContradictionInput(state: CompanyAnalyticalState): Record<string, number | null | string> {
+  public toContradictionInput(state: CompanyAnalyticalState): Record<string, any> {
     const g = (key: string) => this.getMetric(state, key);
     const p = (key: string) => this.getPriorAnnual(state, key);
+    const e = (key: string, prior = false): EvidenceReference[] =>
+      (prior ? state.facts.priorAnnual[key] : state.facts.latest[key])?.evidence ?? [];
 
     return {
       symbol: state.symbol,
@@ -224,6 +227,21 @@ export class CompanyAnalyticalStateAssembler {
 
       // Management guidance (from management payload)
       debtGuidance: this.extractDebtGuidance(state),
+      evidenceByMetric: {
+        actual_revenue: e('revenue_cr'),
+        revenue_prior: e('revenue_cr', true),
+        pat_current: e('pat_cr'),
+        pat_prior: e('pat_cr', true),
+        cfo_current: e('cfo_cr'),
+        cfo_prior: e('cfo_cr', true),
+        receivable_days: e('receivable_days'),
+        net_debt_current: e('net_debt_cr'),
+        net_debt_prior: e('net_debt_cr', true),
+        capex: e('capex_cr'),
+        capacity_utilisation: e('capacity_utilisation_pct'),
+        order_book_current: e('order_book_cr'),
+        order_book_prior: e('order_book_cr', true),
+      },
     };
   }
 

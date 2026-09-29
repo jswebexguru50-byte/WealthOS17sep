@@ -99,20 +99,19 @@ export class FundamentalIntelligenceEngine {
     if (!db) return empty('No database connection');
 
     try {
-      const rows = await Promise.resolve(
-        db.prepare(`
-          SELECT value, period_end, data_source
-          FROM company_facts
-          WHERE (symbol = ? OR isin = ?)
-            AND metric_key = ?
-            AND period_type = ?
-            AND scope IN ('CONSOLIDATED', 'ANNUAL')
-          ORDER BY period_end DESC
-          LIMIT 10
-        `).all(symbol, symbol, metric, periodType) as unknown as Array<{ value: string; period_end: string; data_source: string }>
-      );
+      const rows = await dbAll(
+        db,
+        `SELECT value, periodEnd as period_end, provider as data_source
+         FROM company_facts
+         WHERE (symbol = ? OR isin = ?)
+           AND metric = ?
+           AND periodType = ?
+         ORDER BY periodEnd DESC
+         LIMIT 10`,
+        [symbol, symbol, metric, periodType]
+      ) as Array<{ value: string; period_end: string; data_source: string }>;
 
-      if (!rows.length) return empty('No data found');
+      if (!rows || !rows.length) return empty('No data found');
 
       // Parse and sort chronologically
       const sorted = rows

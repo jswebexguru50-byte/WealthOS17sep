@@ -4,14 +4,30 @@ export interface ManagementCommitment {
   id: string;
   category: string; // Revenue, Margins, Capex, Capacity, Utilisation, Debt, Working Capital, Orders, Product Launch, Geographic Expansion
   statementDate: string;
+  speaker?: string;
   sourceDocument: EvidenceReference;
   statement: string;
   targetMetric: string | null;
   targetValue: number | string | null;
   targetPeriod: string | null;
+  deadline?: string | null;
+  baselineValue?: number | string | null;
   actualValue: number | string | null;
-  // V2: ACHIEVED_LATE added — timing matters for management credibility assessment
-  status: 'DELIVERED' | 'ACHIEVED' | 'ACHIEVED_LATE' | 'PARTIALLY_ACHIEVED' | 'PARTIAL' | 'MISSED' | 'PENDING' | 'NOT_YET_DUE' | 'NOT_VERIFIABLE';
+  status:
+    | 'DELIVERED'
+    | 'ACHIEVED'
+    | 'ACHIEVED_LATE'
+    | 'PARTIALLY_ACHIEVED'
+    | 'PARTIAL'
+    | 'MISSED'
+    | 'PENDING'
+    | 'NOT_YET_DUE'
+    | 'DEFERRED'
+    | 'WITHDRAWN'
+    | 'SUPERSEDED'
+    | 'NOT_VERIFIABLE';
+  supersededById?: string;
+  supersedesId?: string;
   actualEvidence: EvidenceReference[];
 }
 

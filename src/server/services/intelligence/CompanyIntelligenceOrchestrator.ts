@@ -37,6 +37,13 @@ import { QuestionEngine } from './attention/QuestionEngine.js';
 import { ThesisEngine } from './thesis/ThesisEngine.js';
 // Assembler
 import { CompanyAnalyticalStateAssembler } from './assembler/CompanyAnalyticalStateAssembler.js';
+// V3 Product Realization Engines
+import { OperatingKpiService } from './kpi/OperatingKpiService.js';
+import { CatalystEngine } from './catalysts/CatalystEngine.js';
+import { RiskEngine } from './risks/RiskEngine.js';
+import { CompanyTimelineEngine } from './timeline/CompanyTimelineEngine.js';
+import { CommitmentSupersessionEngine } from './management/CommitmentSupersessionEngine.js';
+import { NarrativeChangeEngine } from './management/NarrativeChangeEngine.js';
 
 export interface SimpleModuleTelemetry {
   symbol: string;
@@ -152,10 +159,13 @@ export class CompanyIntelligenceOrchestrator {
    */
   public async getCompanyIntelligence(
     identifier: string,
-    requestedModules?: AnalysisModule[]
+    requestedModules?: AnalysisModule[],
+    options?: { persist?: boolean; asOfDate?: string }
   ): Promise<CompanyIntelligenceResponse> {
     const cleanSym = identifier.trim().toUpperCase().replace(/\.NS$/, '').replace(/\.BO$/, '');
     const generatedAt = new Date().toISOString();
+    const shouldPersist = options?.persist === true;
+    const asOfDate = options?.asOfDate || null;
 
     // 1. Resolve canonical security identity & metadata
     const registry = SecurityIdentityRegistry.getInstance();
@@ -215,6 +225,15 @@ export class CompanyIntelligenceOrchestrator {
       }
     }
 
+    // Apply management commitment supersession logic if management commitments exist
+    if (modulesResult.management?.result?.commitments) {
+      try {
+        const supersessionRes = CommitmentSupersessionEngine.getInstance()
+          .resolveSupersessions(modulesResult.management.result.commitments);
+        modulesResult.management.result.commitments = supersessionRes.commitments;
+      } catch { /* Non-fatal */ }
+    }
+
     // 3. Derive Business Inflection in-memory from completed results
     const businessInflection = BusinessInflectionModule.getInstance().derive(cleanSym, {
       technical: modulesResult.technical?.result,
@@ -235,6 +254,7 @@ export class CompanyIntelligenceOrchestrator {
       securityId,
       symbol: cleanSym,
       businessModel: businessModel as string,
+      asOfDate,
       fundamentals: modulesResult.fundamental?.result ?? null,
       management: modulesResult.management?.result ?? null,
       valuation: modulesResult.valuation?.result ?? null,
@@ -252,6 +272,7 @@ export class CompanyIntelligenceOrchestrator {
         canonicalFacts: analyticalState.facts.latest, // REAL facts
         operatingKpis: analyticalState.facts.operatingKpis,
         managementEvidence: modulesResult.management?.result ?? null,
+        asOfDate,
       });
       primaryDrivers = driverResult.primaryDrivers;
       const evalTs = new Date().toISOString();
@@ -368,17 +389,21 @@ export class CompanyIntelligenceOrchestrator {
       const contradictionInput = CompanyAnalyticalStateAssembler.getInstance()
         .toContradictionInput(analyticalState);
       const contraResult = ContradictionEngine.getInstance().evaluate(contradictionInput as any);
-      // Reconcile with stored lifecycle
-      const reconciledContradictions = await ContradictionStore.getInstance()
-        .reconcile(securityId, cleanSym, contraResult.contradictions);
+      // Reads must be side-effect free.  Lifecycle reconciliation is an
+      // explicit refresh operation only; a normal company-page GET reports
+      // the current evidence-backed observations without writing them.
+      const reconciledContradictions = shouldPersist
+        ? await ContradictionStore.getInstance().reconcile(securityId, cleanSym, contraResult.contradictions)
+        : contraResult.contradictions;
       openContradictions = reconciledContradictions.filter(c => c.status === 'OPEN' || c.status === 'EXPLAINED');
 
       const evalTs = new Date().toISOString();
-      const patternsEvaluable = Array.isArray(contraResult.patternsChecked)
-        ? contraResult.patternsChecked.length
-        : (contraResult.patternsChecked as number ?? 0);
-      const patternsEvaluated = contraResult.contradictions.length;
-      const evidenceCoverage = patternsEvaluated >= patternsEvaluable * 0.7 ? 'PARTIAL' : 'DATA_INSUFFICIENT';
+      const patternsConfigured = contraResult.patternsConfigured || 6;
+      const patternsEvaluable = contraResult.patternsEvaluable;
+      const patternsEvaluated = contraResult.patternsEvaluated;
+      const patternsSkipped = contraResult.patternsSkipped;
+      const contradictionsDetected = contraResult.contradictionsDetected;
+      const evidenceCoverage = patternsEvaluated >= patternsConfigured * 0.7 ? 'PARTIAL' : 'DATA_INSUFFICIENT';
 
       modulesResult.contradictions = {
         moduleId: 'CONTRADICTIONS' as any,
@@ -388,15 +413,19 @@ export class CompanyIntelligenceOrchestrator {
           contradictions: reconciledContradictions,
           openCount: openContradictions.length,
           materialCount: contraResult.materialCount,
-          patternsChecked: patternsEvaluable,
+          patternsChecked: patternsConfigured,
+          patternsConfigured,
+          patternsEvaluable,
           patternsEvaluated,
-          patternsSkipped: patternsEvaluable - patternsEvaluated,
+          patternsSkipped,
+          contradictionsDetected,
+          evaluations: contraResult.evaluations,
           evaluatedAt: evalTs,
         },
         evidenceRefs: reconciledContradictions.flatMap(c => c.evidence),
         missingRequirements: analyticalState.evidenceCoverage.limitations,
-        warnings: typeof patternsEvaluated === 'number' && typeof patternsEvaluable === 'number' && patternsEvaluated < patternsEvaluable
-          ? [`Only ${patternsEvaluated}/${patternsEvaluable} contradiction patterns had sufficient data`]
+        warnings: patternsSkipped > 0
+          ? [`${patternsSkipped}/${patternsConfigured} contradiction patterns skipped due to missing inputs`]
           : [],
         evaluationTimestamp: evalTs,
         dataAsOf: analyticalState.asOfDate,
@@ -429,6 +458,7 @@ export class CompanyIntelligenceOrchestrator {
         primaryDrivers,
         openContradictions,
         materialDeltas,
+        persist: shouldPersist,
       });
       const evalTs = new Date().toISOString();
       const challengedPillars = thesisResult.pillars.filter(
@@ -536,20 +566,118 @@ export class CompanyIntelligenceOrchestrator {
       };
     } catch { /* Non-fatal */ }
 
-    // 4i. Persist snapshot only if analytical state changed
-    //     Hash includes ALL durable states — drivers + technical too
+    // 4j. Operating KPI Intelligence — non-accounting operational data
     try {
-      await CompanySnapshotStore.getInstance().saveIfChanged({
+      const kpiReport = await OperatingKpiService.getInstance().getKpisForCompany(cleanSym, asOfDate);
+      const evalTs = new Date().toISOString();
+      modulesResult.operatingKpis = {
+        moduleId: 'OPERATING_KPIS' as any,
+        status: kpiReport.coveredCount > 0 ? 'WORKING' : 'DATA_INSUFFICIENT',
+        dataStatus: kpiReport.coveragePct >= 60 ? 'PARTIAL' : kpiReport.coveragePct > 0 ? 'PARTIAL' : 'DATA_INSUFFICIENT',
+        result: kpiReport,
+        evidenceRefs: kpiReport.kpis.flatMap(k => k.evidence),
+        missingRequirements: kpiReport.coveredCount === 0 ? ['No operating KPIs available for this business model'] : [],
+        warnings: [],
+        evaluationTimestamp: evalTs,
+        dataAsOf: kpiReport.asOfDate,
+        configVersion: '2.0.0',
+        engineVersion: 'OperatingKpiService-v2.0',
+      };
+    } catch { /* Non-fatal */ }
+
+    // 4k. Catalyst Engine — product, capacity, debt, and corporate actions
+    let companyCatalysts: any[] = [];
+    try {
+      const catalystResult = CatalystEngine.getInstance().evaluate({
         securityId,
         symbol: cleanSym,
-        asOfDate: generatedAt,
-        fundamentalState: analyticalState.facts.latest as any,
-        managementState: modulesResult.management?.result ?? null,
-        valuationState: modulesResult.valuation?.result ?? null,
-        businessDriverState: modulesResult.businessDrivers?.result ?? null,
-        technicalState: modulesResult.technical?.result ?? null,
+        managementCommitments: modulesResult.management?.result?.commitments ?? [],
+        asOfDate,
       });
+      companyCatalysts = catalystResult.catalysts;
+      const evalTs = new Date().toISOString();
+      modulesResult.catalysts = {
+        moduleId: 'CATALYSTS' as any,
+        status: catalystResult.catalysts.length > 0 ? 'WORKING' : 'DATA_INSUFFICIENT',
+        dataStatus: catalystResult.catalysts.length > 0 ? 'PARTIAL' : 'DATA_INSUFFICIENT',
+        result: catalystResult,
+        evidenceRefs: catalystResult.catalysts.flatMap(c => c.evidence),
+        missingRequirements: catalystResult.catalysts.length === 0 ? ['No catalysts identified'] : [],
+        warnings: [],
+        evaluationTimestamp: evalTs,
+        dataAsOf: asOfDate || evalTs,
+        configVersion: '2.0.0',
+        engineVersion: 'CatalystEngine-v2.0',
+      };
     } catch { /* Non-fatal */ }
+
+    // 4l. Risk Engine — business, balance sheet, valuation, execution risks
+    try {
+      const riskResult = RiskEngine.getInstance().evaluate({
+        securityId,
+        symbol: cleanSym,
+        businessModel: businessModel as string,
+        state: analyticalState,
+        contradictions: openContradictions,
+        valuationPercentile: (modulesResult.valuation?.result as any)?.historicalIntelligence?.historicalPercentile ?? null,
+      });
+      const evalTs = new Date().toISOString();
+      modulesResult.risks = {
+        moduleId: 'RISKS' as any,
+        status: riskResult.risks.length > 0 ? 'WORKING' : 'DATA_INSUFFICIENT',
+        dataStatus: riskResult.risks.length > 0 ? 'PARTIAL' : 'DATA_INSUFFICIENT',
+        result: riskResult,
+        evidenceRefs: riskResult.risks.flatMap(r => r.evidence),
+        missingRequirements: [],
+        warnings: [],
+        evaluationTimestamp: evalTs,
+        dataAsOf: asOfDate || evalTs,
+        configVersion: '2.0.0',
+        engineVersion: 'RiskEngine-v2.0',
+      };
+    } catch { /* Non-fatal */ }
+
+    // 4m. Company Event Timeline — unified chronological narrative
+    try {
+      const timeline = CompanyTimelineEngine.getInstance().buildTimeline({
+        securityId,
+        symbol: cleanSym,
+        commitments: modulesResult.management?.result?.commitments ?? [],
+        contradictions: openContradictions,
+        thesisChanges: modulesResult.thesis?.result?.changes ?? [],
+        catalysts: companyCatalysts,
+      });
+      const evalTs = new Date().toISOString();
+      modulesResult.timeline = {
+        moduleId: 'TIMELINE' as any,
+        status: timeline.events.length > 0 ? 'WORKING' : 'PARTIAL',
+        dataStatus: timeline.events.length > 0 ? 'PARTIAL' : 'DATA_INSUFFICIENT',
+        result: timeline,
+        evidenceRefs: timeline.events.flatMap(e => e.evidence || []),
+        missingRequirements: timeline.events.length === 0 ? ['No timeline events generated'] : [],
+        warnings: [],
+        evaluationTimestamp: evalTs,
+        dataAsOf: asOfDate || evalTs,
+        configVersion: '2.0.0',
+        engineVersion: 'CompanyTimelineEngine-v2.0',
+      };
+    } catch { /* Non-fatal */ }
+
+    // 4i. Persist snapshot only if explicit refresh/persist requested AND state changed
+    if (shouldPersist) {
+      try {
+        await CompanySnapshotStore.getInstance().saveIfChanged({
+          securityId,
+          symbol: cleanSym,
+          asOfDate: generatedAt,
+          fundamentalState: analyticalState.facts.latest as any,
+          managementState: modulesResult.management?.result ?? null,
+          valuationState: modulesResult.valuation?.result ?? null,
+          businessDriverState: modulesResult.businessDrivers?.result ?? null,
+          technicalState: modulesResult.technical?.result ?? null,
+        });
+      } catch { /* Non-fatal */ }
+    }
 
     return {
       security: {

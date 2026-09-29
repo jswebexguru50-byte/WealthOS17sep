@@ -11,7 +11,7 @@
  * - Materiality thresholds are metric-aware (not universal %)
  */
 
-import { getDB, dbAll, dbGet } from '../../../database.js';
+import { getDB, dbAll, dbGet, dbRun } from '../../../database.js';
 import {
   IntelligenceDelta,
   DeltaCategory,
@@ -25,11 +25,10 @@ import {
 import { EvidenceReference } from '../contracts/Provenance.js';
 import crypto from 'crypto';
 
-// ─── Snapshot Store ────────────────────────────────────────────────────────────
+// ─── Snapshot Store ───────────────────────────────────────────────────────────
 
 export class CompanySnapshotStore {
   private static instance: CompanySnapshotStore;
-
   private constructor() {}
 
   public static getInstance(): CompanySnapshotStore {
@@ -44,12 +43,12 @@ export class CompanySnapshotStore {
     const db = getDB();
     if (!db) return null;
     try {
-      const row = await Promise.resolve(
-        db.prepare(`
-          SELECT * FROM company_intelligence_snapshot
-          WHERE symbol = ?
-          ORDER BY created_at DESC LIMIT 1
-        `).get(symbol) as any
+      const row = await dbGet<any>(
+        db,
+        `SELECT * FROM company_intelligence_snapshot
+         WHERE symbol = ?
+         ORDER BY created_at DESC LIMIT 1`,
+        [symbol]
       );
       if (!row) return null;
       return {
@@ -78,30 +77,13 @@ export class CompanySnapshotStore {
     if (!db) return false;
 
     try {
-      // Create table if not exists
-      db.exec(`
-        CREATE TABLE IF NOT EXISTS company_intelligence_snapshot (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          security_id TEXT,
-          symbol TEXT NOT NULL,
-          as_of_date TEXT NOT NULL,
-          content_hash TEXT NOT NULL,
-          fundamental_state TEXT,
-          management_state TEXT,
-          valuation_state TEXT,
-          business_driver_state TEXT,
-          technical_state TEXT,
-          created_at TEXT NOT NULL
-        )
-      `);
-
       // Compute content hash from ALL durable analytical states
       const hashInput = JSON.stringify({
         fundamentalState: snapshot.fundamentalState,
         managementState: snapshot.managementState,
         valuationState: snapshot.valuationState,
-        businessDriverState: snapshot.businessDriverState, // P0 fix: include drivers
-        technicalState: snapshot.technicalState,           // P0 fix: include technical
+        businessDriverState: snapshot.businessDriverState,
+        technicalState: snapshot.technicalState,
       });
       const contentHash = crypto.createHash('sha256').update(hashInput).digest('hex').substring(0, 16);
 
@@ -111,24 +93,23 @@ export class CompanySnapshotStore {
         return false; // No material change — do not save
       }
 
-      // Ensure fere_state column exists (migration guard)
-      try { db.exec('ALTER TABLE company_intelligence_snapshot ADD COLUMN fere_state TEXT'); } catch { /* already exists */ }
-
-      db.prepare(`
-        INSERT INTO company_intelligence_snapshot
+      await dbRun(
+        db,
+        `INSERT INTO company_intelligence_snapshot
           (security_id, symbol, as_of_date, content_hash, fundamental_state, management_state, valuation_state, business_driver_state, technical_state, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `).run(
-        snapshot.securityId,
-        snapshot.symbol,
-        snapshot.asOfDate,
-        contentHash,
-        snapshot.fundamentalState ? JSON.stringify(snapshot.fundamentalState) : null,
-        snapshot.managementState ? JSON.stringify(snapshot.managementState) : null,
-        snapshot.valuationState ? JSON.stringify(snapshot.valuationState) : null,
-        snapshot.businessDriverState ? JSON.stringify(snapshot.businessDriverState) : null,
-        snapshot.technicalState ? JSON.stringify(snapshot.technicalState) : null,
-        new Date().toISOString(),
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+          snapshot.securityId,
+          snapshot.symbol,
+          snapshot.asOfDate,
+          contentHash,
+          snapshot.fundamentalState ? JSON.stringify(snapshot.fundamentalState) : null,
+          snapshot.managementState ? JSON.stringify(snapshot.managementState) : null,
+          snapshot.valuationState ? JSON.stringify(snapshot.valuationState) : null,
+          snapshot.businessDriverState ? JSON.stringify(snapshot.businessDriverState) : null,
+          snapshot.technicalState ? JSON.stringify(snapshot.technicalState) : null,
+          new Date().toISOString(),
+        ]
       );
       return true; // Saved
     } catch {
@@ -144,11 +125,13 @@ export class CompanySnapshotStore {
     const db = getDB();
     if (!db) return null;
     try {
-      const row = db.prepare(`
-        SELECT * FROM company_intelligence_snapshot
-        WHERE security_id = ? OR symbol = ?
-        ORDER BY created_at DESC LIMIT 1
-      `).get(securityId, securityId) as any;
+      const row = await dbGet<any>(
+        db,
+        `SELECT * FROM company_intelligence_snapshot
+         WHERE security_id = ? OR symbol = ?
+         ORDER BY created_at DESC LIMIT 1`,
+        [securityId, securityId]
+      );
       if (!row) return null;
       return {
         securityId: row.security_id || securityId,
@@ -381,4 +364,3 @@ export class CompanyDeltaEngine {
     };
   }
 }
-

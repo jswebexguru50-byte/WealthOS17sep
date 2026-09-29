@@ -21,6 +21,7 @@ import {
   ArrowUpRight
 } from 'lucide-react';
 import { formatINR } from '../lib/formatters.js';
+import { CompanyIntelligenceOverview } from './company-intelligence/CompanyIntelligenceOverview.js';
 
 interface StockIntelligenceViewProps {
   symbol: string;
@@ -224,135 +225,7 @@ export function StockIntelligenceView({
               TAB 1: OVERVIEW (WHY INTERESTING? + WHAT NEEDS ATTENTION?)
           ───────────────────────────────────────────────────────────────── */}
           {activeTab === 'OVERVIEW' && (
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                
-                {/* WHY IS IT INTERESTING? */}
-                <div className="rounded-2xl border border-emerald-500/30 bg-emerald-950/10 p-5 space-y-4">
-                  <div className="flex items-center justify-between border-b border-emerald-500/20 pb-3">
-                    <div className="flex items-center gap-2">
-                      <TrendingUp className="w-5 h-5 text-emerald-400" />
-                      <h3 className="text-sm font-black uppercase tracking-wider text-emerald-300">
-                        Why is it interesting?
-                      </h3>
-                    </div>
-                    <span className="text-[10px] font-mono text-emerald-400/80">MAX 5 INFLECTIONS</span>
-                  </div>
-
-                  {inflection?.whyInteresting && inflection.whyInteresting.length > 0 ? (
-                    <div className="space-y-3">
-                      {inflection.whyInteresting.map((item: any) => (
-                        <div
-                          key={item.id}
-                          onClick={() => {
-                            if (item.sourceModule === 'TECHNICAL') setActiveTab('TECHNICAL');
-                            else if (item.sourceModule === 'FUNDAMENTAL') setActiveTab('FUNDAMENTAL');
-                            else if (item.sourceModule === 'MARKET_CONTEXT') setActiveTab('MARKET');
-                          }}
-                          className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-emerald-500/40 cursor-pointer transition-all flex items-start justify-between gap-3 group"
-                        >
-                          <div className="space-y-1">
-                            <div className="flex items-center gap-2">
-                              <span className="text-emerald-400 font-black text-xs">↑</span>
-                              <span className="text-xs font-bold text-slate-100 group-hover:text-emerald-300 transition-colors">
-                                {item.headline}
-                              </span>
-                            </div>
-                            <p className="text-[11px] text-slate-400 leading-relaxed pl-3.5">
-                              {item.detail}
-                            </p>
-                          </div>
-                          <span className="text-[9px] font-mono uppercase px-2 py-0.5 rounded bg-slate-800 text-slate-400 shrink-0">
-                            {item.sourceModule}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-xs text-slate-400 py-4 text-center">
-                      No positive inflection signals detected under active criteria.
-                    </p>
-                  )}
-                </div>
-
-                {/* WHAT CAN GO WRONG / WHAT NEEDS ATTENTION? */}
-                <div className="rounded-2xl border border-amber-500/30 bg-amber-950/10 p-5 space-y-4">
-                  <div className="flex items-center justify-between border-b border-amber-500/20 pb-3">
-                    <div className="flex items-center gap-2">
-                      <AlertTriangle className="w-5 h-5 text-amber-400" />
-                      <h3 className="text-sm font-black uppercase tracking-wider text-amber-300">
-                        What needs attention?
-                      </h3>
-                    </div>
-                    <span className="text-[10px] font-mono text-amber-400/80">WATCH & DIVERGENCES</span>
-                  </div>
-
-                  {inflection?.whatNeedsAttention && inflection.whatNeedsAttention.length > 0 ? (
-                    <div className="space-y-3">
-                      {inflection.whatNeedsAttention.map((item: any) => (
-                        <div
-                          key={item.id}
-                          onClick={() => {
-                            if (item.sourceModule === 'FERE') setActiveTab('FERE');
-                            else if (item.sourceModule === 'TECHNICAL') setActiveTab('TECHNICAL');
-                            else if (item.sourceModule === 'MANAGEMENT') setActiveTab('MANAGEMENT');
-                            else if (item.sourceModule === 'FUNDAMENTAL') setActiveTab('FUNDAMENTAL');
-                          }}
-                          className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-amber-500/40 cursor-pointer transition-all flex items-start justify-between gap-3 group"
-                        >
-                          <div className="space-y-1">
-                            <div className="flex items-center gap-2">
-                              <span className="text-amber-400 font-bold text-xs">⚠</span>
-                              <span className="text-xs font-bold text-slate-100 group-hover:text-amber-300 transition-colors">
-                                {item.headline}
-                              </span>
-                            </div>
-                            <p className="text-[11px] text-slate-400 leading-relaxed pl-3.5">
-                              {item.detail}
-                            </p>
-                          </div>
-                          <span className="text-[9px] font-mono uppercase px-2 py-0.5 rounded bg-slate-800 text-slate-400 shrink-0">
-                            {item.sourceModule}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-xs text-slate-400 py-4 text-center">
-                      No material forensic accounting or structural breakdown warnings flagged.
-                    </p>
-                  )}
-                </div>
-
-              </div>
-
-              {/* Module Health Matrix */}
-              <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-5 space-y-4">
-                <h3 className="text-xs font-black uppercase tracking-wider text-slate-300">
-                  Analytical Module Coverage Status
-                </h3>
-                <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
-                  {[
-                    { id: 'TECHNICAL', label: 'Technical', res: modules.technical },
-                    { id: 'FUNDAMENTAL', label: 'Fundamental', res: modules.fundamental },
-                    { id: 'FERE', label: 'FERE', res: modules.fere },
-                    { id: 'QGLP', label: 'QGLP', res: modules.qglp },
-                    { id: 'MANAGEMENT', label: 'Management', res: modules.management },
-                    { id: 'VALUATION', label: 'Valuation', res: modules.valuation },
-                    { id: 'MARKET', label: 'Market Context', res: modules.marketContext },
-                  ].map((m) => (
-                    <div
-                      key={m.id}
-                      onClick={() => setActiveTab(m.id)}
-                      className="p-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-slate-700 cursor-pointer transition-all space-y-2"
-                    >
-                      <div className="text-[11px] font-bold text-slate-300">{m.label}</div>
-                      <div>{getStatusBadge(m.res?.status)}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <CompanyIntelligenceOverview modules={modules} />
           )}
 
           {/* ─────────────────────────────────────────────────────────────────

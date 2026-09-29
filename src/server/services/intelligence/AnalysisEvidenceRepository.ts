@@ -5,6 +5,7 @@ import {
   EvidenceReference,
   TruthQuality,
 } from './contracts/index.js';
+import { evidenceSourceTypeForProvider } from './contracts/Provenance.js';
 import { SecurityIdentityRegistry, SecurityIdentityRecord } from '../dataAcquisition/SecurityIdentityRegistry.js';
 import { DuckDbAdjustedOhlcvService, AdjustedOhlcvBar } from '../DuckDbAdjustedOhlcvService.js';
 import { readFereEvidence, FereEvidenceSummary } from '../FereEvidenceService.js';
@@ -219,7 +220,7 @@ export class AnalysisEvidenceRepository {
           scope: options.scope || null,
           provenance: [{
             evidenceId: snapId,
-            sourceType: 'TRENDLYNE_SNAPSHOT',
+            sourceType: evidenceSourceTypeForProvider(snap.provider),
             sourceId: `${snap.provider || 'TRENDLYNE'}:${snap.endpoint || 'parameters'}:${snap.symbol}`,
             timestamp: snap.fetched_at,
             field: metric,

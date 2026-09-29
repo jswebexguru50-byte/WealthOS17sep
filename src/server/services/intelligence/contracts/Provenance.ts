@@ -2,6 +2,8 @@ import { DataStatus, FreshnessStatus, TruthQuality } from './DataStatus.js';
 
 export type EvidenceSourceType =
   | 'TRENDLYNE_SNAPSHOT'
+  | 'UPSTOX_SNAPSHOT'
+  | 'KITE_SNAPSHOT'
   | 'CANONICAL_FACT'
   | 'FERE_FILING'
   | 'XBRL_FILING'
@@ -10,7 +12,12 @@ export type EvidenceSourceType =
   | 'SECTOR_SERVICE'
   | 'EXCHANGE_FILING'
   | 'REGULATORY_SAST'
-  | 'IDENTITY_REGISTRY';
+  | 'IDENTITY_REGISTRY'
+  | 'TRANSCRIPT'
+  | 'ANNUAL_REPORT'
+  | 'INVESTOR_PRESENTATION'
+  | 'PRESS_RELEASE'
+  | 'DERIVED';
 
 export interface EvidenceReference {
   evidenceId: string;
@@ -26,6 +33,15 @@ export interface EvidenceReference {
   filingId?: string;
   pageNumber?: number;
   tableId?: string;
+}
+
+/** Maps persisted provider labels to their truthful evidence source type. */
+export function evidenceSourceTypeForProvider(provider: string | null | undefined): EvidenceSourceType {
+  const normalized = (provider || '').trim().toUpperCase();
+  if (normalized.includes('UPSTOX')) return 'UPSTOX_SNAPSHOT';
+  if (normalized.includes('KITE') || normalized.includes('ZERODHA')) return 'KITE_SNAPSHOT';
+  if (normalized.includes('TRENDLYNE')) return 'TRENDLYNE_SNAPSHOT';
+  return 'CANONICAL_FACT';
 }
 
 export interface DataProvenance {
@@ -52,4 +68,3 @@ export interface FactEnvelope<T = any> {
   freshness: FreshnessStatus;
   missingReason: string | null;
 }
-

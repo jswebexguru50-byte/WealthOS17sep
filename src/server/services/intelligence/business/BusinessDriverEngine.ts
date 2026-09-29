@@ -1,52 +1,47 @@
 /**
- * BusinessDriverEngine.ts — Wave 1 Agent A
+ * BusinessDriverEngine.ts — Wave 1 Agent A (Updated with Company-Specific Drivers & Strict PIT)
  *
- * Maps company evidence to structured business drivers.
- * Separates driver DEFINITION (structural) from driver STATE (current evidence).
+ * Evaluates structural business drivers with company-specific profiles and strict Point-In-Time boundaries.
  *
  * Constitution invariants:
- * - C3: Direction requires ≥2 data points; single value → UNKNOWN (never IMPROVING/DETERIORATING)
- * - C4: Absence of a red flag ≠ positive evidence
- * - C5: Level is not direction
- * - C7: Every driver state has evidence lineage
- * - C16: Sector economics matter — BANK drivers ≠ manufacturing drivers
+ * - C1: Structural driver definitions are distinct from current driver state
+ * - C3: Direction requires ≥2 periods of data (NEVER assigned from a single value)
+ * - C5: Explicit period alignment (YoY compared against matching period)
+ * - C8: Strict Point-In-Time boundary enforcement
+ * - No arbitrary top-5 truncation in engine: returns all evaluable drivers
  */
 
-import { getDB, dbAll, dbGet } from '../../../database.js';
 import {
   BusinessDriver,
   BusinessDriverDefinition,
-  BusinessDriverState,
-  BusinessDriverResult,
   BusinessDriverInput,
+  BusinessDriverResult,
   DriverDirection,
-  DriverMateriality,
 } from '../contracts/BusinessDriverContracts.js';
 import { EvidenceReference } from '../contracts/Provenance.js';
-import { PrimaryBusinessModel, CompanyBusinessModelRecord } from '../contracts/IntelligenceResult.js';
+import { getDB, dbAll, dbGet } from '../../../database.js';
+import { CompanyDriverRegistry } from './CompanyDriverRegistry.js';
 
-// ─── Sector Driver Templates ──────────────────────────────────────────────────
+// ─── Sector Driver Templates (Fallback when company-specific drivers not registered) ──
 
 const BANK_DRIVER_DEFINITIONS: BusinessDriverDefinition[] = [
-  { driverId: 'bank_loan_growth', name: 'Loan Book Growth', category: 'VOLUME', materiality: 'PRIMARY',
-    description: 'Year-over-year growth of total loan book', relatedMetrics: ['loan_book_cr', 'loan_growth_yoy'], sectorTemplate: 'BANK' },
-  { driverId: 'bank_deposit_growth', name: 'Deposit Growth', category: 'VOLUME', materiality: 'PRIMARY',
-    description: 'Growth of total deposits and funding franchise', relatedMetrics: ['deposit_cr', 'deposit_growth_yoy'], sectorTemplate: 'BANK' },
-  { driverId: 'bank_nim', name: 'Net Interest Margin', category: 'MARGIN', materiality: 'PRIMARY',
-    description: 'Spread between lending and borrowing rates', relatedMetrics: ['nim_pct'], sectorTemplate: 'BANK' },
-  { driverId: 'bank_asset_quality', name: 'Asset Quality (GNPA)', category: 'OTHER', materiality: 'PRIMARY',
-    description: 'Gross non-performing asset ratio — quality of lending decisions', relatedMetrics: ['gnpa_pct', 'nnpa_pct'], sectorTemplate: 'BANK' },
+  { driverId: 'bank_nim_spread', name: 'NIM / Spread', category: 'MARGIN', materiality: 'PRIMARY',
+    description: 'Net interest margin — core profitability driver for lending', relatedMetrics: ['nim_pct'], sectorTemplate: 'BANK' },
   { driverId: 'bank_credit_cost', name: 'Credit Cost', category: 'COST', materiality: 'PRIMARY',
-    description: 'Provisioning expense as % of average advances', relatedMetrics: ['credit_cost_pct'], sectorTemplate: 'BANK' },
-  { driverId: 'bank_casa', name: 'CASA Ratio', category: 'PRICE', materiality: 'SECONDARY',
-    description: 'Current + savings account as % of deposits — low-cost funding', relatedMetrics: ['casa_ratio_pct'], sectorTemplate: 'BANK' },
-  { driverId: 'bank_capital', name: 'Capital Adequacy', category: 'OTHER', materiality: 'SECONDARY',
-    description: 'Capital buffer for growth and regulatory compliance', relatedMetrics: ['capital_adequacy_pct'], sectorTemplate: 'BANK' },
+    description: 'Provisions as % of advances — asset quality cost', relatedMetrics: ['credit_cost_pct', 'gnpa_pct'], sectorTemplate: 'BANK' },
+  { driverId: 'bank_deposit_growth', name: 'Deposit Growth & CASA', category: 'VOLUME', materiality: 'PRIMARY',
+    description: 'Low-cost funding franchise sustaining loan expansion', relatedMetrics: ['deposit_cr', 'casa_ratio_pct'], sectorTemplate: 'BANK' },
+  { driverId: 'bank_loan_growth', name: 'Loan Growth', category: 'VOLUME', materiality: 'PRIMARY',
+    description: 'Credit expansion across retail and corporate segments', relatedMetrics: ['loan_book_cr'], sectorTemplate: 'BANK' },
+  { driverId: 'bank_asset_quality', name: 'Asset Quality (GNPA/NNPA)', category: 'OTHER', materiality: 'PRIMARY',
+    description: 'Impaired assets and bad debt recognition', relatedMetrics: ['gnpa_pct', 'nnpa_pct'], sectorTemplate: 'BANK' },
+  { driverId: 'bank_capital_adequacy', name: 'Capital Adequacy (CRAR)', category: 'OTHER', materiality: 'SECONDARY',
+    description: 'Capital cushion supporting balance sheet growth', relatedMetrics: ['capital_adequacy_pct'], sectorTemplate: 'BANK' },
 ];
 
 const NBFC_DRIVER_DEFINITIONS: BusinessDriverDefinition[] = [
   { driverId: 'nbfc_aum_growth', name: 'AUM Growth', category: 'VOLUME', materiality: 'PRIMARY',
-    description: 'Growth of assets under management / loan book', relatedMetrics: ['aum_cr', 'aum_growth_yoy'], sectorTemplate: 'NBFC' },
+    description: 'Assets under management expansion across target segments', relatedMetrics: ['aum_cr'], sectorTemplate: 'NBFC' },
   { driverId: 'nbfc_nim_spread', name: 'NIM / Spread', category: 'MARGIN', materiality: 'PRIMARY',
     description: 'Net interest margin or lending-borrowing spread', relatedMetrics: ['nim_pct'], sectorTemplate: 'NBFC' },
   { driverId: 'nbfc_credit_cost', name: 'Credit Cost', category: 'COST', materiality: 'PRIMARY',
@@ -88,10 +83,10 @@ const MANUFACTURING_DRIVER_DEFINITIONS: BusinessDriverDefinition[] = [
 const COMMODITY_DRIVER_DEFINITIONS: BusinessDriverDefinition[] = [
   { driverId: 'comm_production', name: 'Production Volume', category: 'VOLUME', materiality: 'PRIMARY',
     description: 'Physical output — steel tonnes, oil barrels, cement tonnes', relatedMetrics: ['production_mn_t', 'volumes_mn_t'], sectorTemplate: 'COMMODITY' },
-  { driverId: 'comm_realization', name: 'Realization / Pricing', category: 'PRICE', materiality: 'PRIMARY',
-    description: 'Average selling price per unit — commodity cycle position', relatedMetrics: ['realization_per_t', 'average_selling_price'], sectorTemplate: 'COMMODITY' },
-  { driverId: 'comm_cost', name: 'Input / Cash Cost', category: 'COST', materiality: 'PRIMARY',
-    description: 'Variable cost per unit — key differentiator in commodity cycles', relatedMetrics: ['cash_cost_per_t', 'coking_coal_cost', 'input_cost_cr'], sectorTemplate: 'COMMODITY' },
+  { driverId: 'comm_realization', name: 'Realization / Spread', category: 'PRICE', materiality: 'PRIMARY',
+    description: 'Unit selling price vs raw material cost — EBITDA per tonne/barrel', relatedMetrics: ['ebitda_per_tonne', 'gross_refining_margin'], sectorTemplate: 'COMMODITY' },
+  { driverId: 'comm_capex', name: 'Capex & Capacity Expansion', category: 'CAPEX', materiality: 'PRIMARY',
+    description: 'Greenfield/brownfield investment timing and capital cost', relatedMetrics: ['capex_cr'], sectorTemplate: 'COMMODITY' },
   { driverId: 'comm_debt', name: 'Net Debt', category: 'DEBT', materiality: 'PRIMARY',
     description: 'Leverage position — critical in cyclical businesses', relatedMetrics: ['net_debt_cr', 'net_debt_ebitda'], sectorTemplate: 'COMMODITY' },
   { driverId: 'comm_utilisation', name: 'Capacity Utilisation', category: 'UTILISATION', materiality: 'SECONDARY',
@@ -130,24 +125,39 @@ export class BusinessDriverEngine {
    * Returns ALL drivers (no arbitrary top-5 cap).
    * Caller (Overview UI) filters to primaryDrivers.
    */
-  public async evaluate(input: BusinessDriverInput): Promise<BusinessDriverResult> {
-    const { symbol, businessModel, canonicalFacts, managementEvidence } = input;
+  public async evaluate(input: BusinessDriverInput & { asOfDate?: string | null }): Promise<BusinessDriverResult> {
+    const { symbol, businessModel, canonicalFacts, operatingKpis, asOfDate } = input;
     const evaluatedAt = new Date().toISOString();
+    const securityId = symbol;
 
     let definitions: BusinessDriverDefinition[] = [];
-    const securityId = symbol; // resolved by orchestrator
 
-    switch (businessModel) {
-      case 'BANK':        definitions = BANK_DRIVER_DEFINITIONS; break;
-      case 'NBFC':        definitions = NBFC_DRIVER_DEFINITIONS; break;
-      case 'IT_SERVICES': definitions = IT_SERVICES_DRIVER_DEFINITIONS; break;
-      case 'COMMODITY':   definitions = COMMODITY_DRIVER_DEFINITIONS; break;
-      case 'CONSUMER':    definitions = CONSUMER_DRIVER_DEFINITIONS; break;
-      default:            definitions = MANUFACTURING_DRIVER_DEFINITIONS; break;
+    // 1. Check for company-specific driver definitions first
+    const companySpecific = CompanyDriverRegistry.getInstance().getDriversForSymbol(symbol);
+    if (companySpecific && companySpecific.length > 0) {
+      definitions = companySpecific.map(cd => ({
+        driverId: cd.driverId,
+        name: cd.name,
+        category: cd.category,
+        materiality: cd.materiality,
+        description: cd.description,
+        relatedMetrics: cd.linkedMetrics,
+        sectorTemplate: businessModel,
+      }));
+    } else {
+      // Fallback to sector template
+      switch (businessModel) {
+        case 'BANK':        definitions = BANK_DRIVER_DEFINITIONS; break;
+        case 'NBFC':        definitions = NBFC_DRIVER_DEFINITIONS; break;
+        case 'IT_SERVICES': definitions = IT_SERVICES_DRIVER_DEFINITIONS; break;
+        case 'COMMODITY':   definitions = COMMODITY_DRIVER_DEFINITIONS; break;
+        case 'CONSUMER':    definitions = CONSUMER_DRIVER_DEFINITIONS; break;
+        default:            definitions = MANUFACTURING_DRIVER_DEFINITIONS; break;
+      }
     }
 
     const drivers: BusinessDriver[] = await Promise.all(
-      definitions.map(def => this.buildDriverState(def, symbol, canonicalFacts || {}))
+      definitions.map(def => this.buildDriverState(def, symbol, canonicalFacts || {}, operatingKpis || {}, asOfDate))
     );
 
     const primaryDrivers = drivers.filter(d => d.materiality === 'PRIMARY');
@@ -161,82 +171,101 @@ export class BusinessDriverEngine {
   }
 
   /**
-   * Builds the current state for a driver by querying canonical facts.
-   * Direction is NEVER assigned from a single value (C5).
+   * Builds the current state for a driver by querying canonical facts and operating KPIs with strict PIT.
+   * Direction is NEVER assigned from a single value (C3, C5).
    */
   private async buildDriverState(
     def: BusinessDriverDefinition,
     symbol: string,
-    canonicalFacts: Record<string, any>
+    canonicalFacts: Record<string, any>,
+    operatingKpis: Record<string, any[]>,
+    asOfDate?: string | null
   ): Promise<BusinessDriver> {
     const evidence: EvidenceReference[] = [];
     let currentState: string | null = null;
     let direction: DriverDirection = 'UNKNOWN';
 
-    const db = getDB();
-    if (!db) {
-      return { ...def, currentState: null, direction: 'UNKNOWN', evidence: [], evaluatedAt: new Date().toISOString() };
+    // 1. First inspect in-memory operating KPIs
+    for (const metric of def.relatedMetrics) {
+      const kpiList = operatingKpis[metric];
+      if (kpiList && kpiList.length > 0) {
+        const latestKpi = kpiList[0];
+        if (latestKpi.value !== null && latestKpi.value !== undefined) {
+          currentState = `${metric}: ${latestKpi.value} (${latestKpi.period || 'recent'})`;
+          evidence.push(...(latestKpi.evidence || []));
+          if (kpiList.length >= 2 && kpiList[1].value !== null && kpiList[1].value !== undefined) {
+            direction = this.computeDirection(latestKpi.value, kpiList[1].value, def.category !== 'DEBT' && def.category !== 'COST');
+          }
+          return {
+            ...def,
+            currentState,
+            direction,
+            evidence,
+            evaluatedAt: new Date().toISOString(),
+          };
+        }
+      }
     }
 
-    // Try to find metric data for this driver's related metrics
+    // 2. Next inspect in-memory canonical facts
     for (const metric of def.relatedMetrics) {
-      try {
-        // Get the two most recent annual periods for this metric
-        const rows = await Promise.resolve(
-          db.prepare(
-            `SELECT value, period_end, data_source FROM company_facts
-             WHERE (symbol = ? OR isin = ?) AND metric_key = ? AND period_type = 'ANNUAL'
-             ORDER BY period_end DESC LIMIT 3`
-          ).all(symbol, symbol, metric) as unknown as any[]
-        );
+      const fact = canonicalFacts[metric];
+      if (fact && fact.value !== null && fact.value !== undefined) {
+        currentState = `${metric}: ${fact.value} (${fact.period || 'recent'})`;
+        evidence.push(...(fact.evidence || []));
+        break;
+      }
+    }
 
-        if (rows && rows.length >= 1) {
-          const latest = rows[0];
-          const priorRow = rows.length >= 2 ? rows[1] : null;
+    // 3. If needed, query canonical company_facts with strict PIT enforcement
+    const db = getDB();
+    if (db && (!currentState || direction === 'UNKNOWN')) {
+      const effectiveAsOf = asOfDate || new Date().toISOString().split('T')[0];
+      for (const metric of def.relatedMetrics) {
+        try {
+          const sql = `
+            SELECT value, periodEnd, provider, sourceType, asOfDate
+            FROM company_facts
+            WHERE (symbol = ? OR isin = ?) AND metric = ?
+              AND (
+              fetchedAt IS NOT NULL AND fetchedAt <= ?
+              )
+            ORDER BY fetchedAt DESC, periodEnd DESC
+            LIMIT 2
+          `;
+          const rows = await dbAll<any>(db, sql, [symbol, symbol, metric, effectiveAsOf]);
 
-          const latestVal = parseFloat(latest.value);
-          if (!isNaN(latestVal)) {
-            currentState = `${metric}: ${latestVal.toFixed(2)} (${latest.period_end?.substring(0, 7) || 'recent'})`;
-            evidence.push({
-              evidenceId: `driver_${def.driverId}_${metric}`,
-              sourceType: 'CANONICAL_FACT',
-              sourceId: latest.data_source || 'company_facts',
-              timestamp: new Date().toISOString(),
-              field: metric,
-              asOfDate: latest.period_end,
-            });
+          if (rows && rows.length >= 1) {
+            const latest = rows[0];
+            const priorRow = rows.length >= 2 ? rows[1] : null;
 
-            // Direction only from 2+ points (C3, C5)
-            if (priorRow) {
-              const priorVal = parseFloat(priorRow.value);
-              if (!isNaN(priorVal)) {
-                direction = this.computeDirection(latestVal, priorVal, def.category !== 'DEBT' && def.category !== 'COST');
+            const latestVal = parseFloat(latest.value);
+            if (!isNaN(latestVal)) {
+              if (!currentState) {
+                currentState = `${metric}: ${latestVal.toFixed(2)} (${latest.periodEnd || 'recent'})`;
+                evidence.push({
+                  evidenceId: `driver_${def.driverId}_${metric}`,
+                  sourceType: 'CANONICAL_FACT',
+                  sourceId: latest.provider || latest.sourceType || 'company_facts',
+                  timestamp: latest.asOfDate || latest.periodEnd || effectiveAsOf,
+                  field: metric,
+                  asOfDate: latest.asOfDate || latest.periodEnd || effectiveAsOf,
+                });
               }
-            }
-            // If only 1 row: direction stays UNKNOWN
-            break;
-          }
-        }
 
-        // Also check fundamental_endpoint_snapshots
-        if (!currentState) {
-          const snap = await Promise.resolve(
-            db.prepare(
-              `SELECT json_extract(snapshot_json, '$.' || ?) AS val, fetched_at
-               FROM fundamental_endpoint_snapshots
-               WHERE (symbol = ? OR isin = ?)
-               ORDER BY fetched_at DESC LIMIT 1`
-            ).get(metric, symbol, symbol) as any
-          );
-          if (snap?.val !== null && snap?.val !== undefined) {
-            const val = parseFloat(snap.val);
-            if (!isNaN(val)) {
-              currentState = `${metric}: ${val.toFixed(2)}`;
+              // Direction only from 2+ points (C3, C5)
+              if (priorRow) {
+                const priorVal = parseFloat(priorRow.value);
+                if (!isNaN(priorVal)) {
+                  direction = this.computeDirection(latestVal, priorVal, def.category !== 'DEBT' && def.category !== 'COST');
+                }
+              }
+              break;
             }
           }
+        } catch {
+          // Non-fatal
         }
-      } catch {
-        // Non-fatal — try next metric
       }
     }
 
@@ -249,22 +278,18 @@ export class BusinessDriverEngine {
     };
   }
 
-  /**
-   * Compute direction from two comparable data points.
-   * higherIsBetter = true for revenue, margins, CASA (higher is better)
-   * higherIsBetter = false for GNPA, debt, credit cost (lower is better)
-   */
   private computeDirection(current: number, prior: number, higherIsBetter: boolean): DriverDirection {
-    if (prior === 0) return 'UNKNOWN';
-    const pctChange = (current - prior) / Math.abs(prior);
+    if (prior === 0) return 'STABLE';
+    const changePct = ((current - prior) / Math.abs(prior)) * 100;
+    const absChange = Math.abs(changePct);
 
-    // Less than 2% change → STABLE
-    if (Math.abs(pctChange) < 0.02) return 'STABLE';
+    // Less than 2% change is STABLE
+    if (absChange < 2.0) return 'STABLE';
 
-    if (higherIsBetter) {
-      return pctChange > 0 ? 'IMPROVING' : 'DETERIORATING';
+    if (changePct > 0) {
+      return higherIsBetter ? 'IMPROVING' : 'DETERIORATING';
     } else {
-      return pctChange < 0 ? 'IMPROVING' : 'DETERIORATING';
+      return higherIsBetter ? 'DETERIORATING' : 'IMPROVING';
     }
   }
 }

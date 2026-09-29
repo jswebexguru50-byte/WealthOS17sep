@@ -30,36 +30,12 @@ export class SectorRotationAdapter implements ComposableEngine {
   };
 
   public async evaluate(bus: EvidenceBus, context: PITContext, universeSecurityIds: string[]): Promise<void> {
-    const targets = universeSecurityIds.length > 0 ? universeSecurityIds : ['RELIANCE', 'TCS', 'INFY'];
-
-    for (const sym of targets) {
-      const sector = sym === 'TCS' || sym === 'INFY' ? 'IT' : 'ENERGY';
-      const sectorRank = sector === 'IT' ? 2 : 4; // Top sector
-      const passed = sectorRank <= 5;
-
-      bus.emit({
-        type: 'SECTOR_RELATIVE_STRENGTH',
-        engineId: this.engineId,
-        securityId: sym,
-        engineVersion: this.version,
-        engineSourceHash: this.getSourceHash(),
-        parameterHash: this.getParameterHash(),
-        dataSnapshotHash: 'SNAP_SECTOR_V66',
-        inputEvidenceIds: [],
-        sourceRequirementIds: this.getDataRequirementIds(),
-        pitContextHash: context.contextHash,
-        decisionGraphHash: 'GRAPH_V66',
-        runId: `RUN_SEC_${context.decisionDate}`,
-        decisionDate: context.decisionDate,
-        decisionTimestamp: context.decisionTimestamp,
-        payload: {
-          sector,
-          sectorRank,
-          passed,
-          reason: passed ? `Belongs to leading sector ${sector}` : `Lagging sector`
-        }
-      });
-    }
+    // Sector mapping and rank must come from the verified sector/OHLCV
+    // service.  The previous symbol-based examples were customer-visible
+    // fabricated sector conclusions.
+    void bus;
+    void context;
+    void universeSecurityIds;
   }
 
   public getSourceHash(): string {

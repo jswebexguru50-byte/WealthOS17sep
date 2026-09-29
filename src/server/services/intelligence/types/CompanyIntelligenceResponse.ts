@@ -42,6 +42,10 @@ export interface CompanyIntelligenceResponse {
     contradictions?: ModuleResult<ContradictionPayload>;
     attention?: ModuleResult<AttentionPayload>;
     thesis?: ModuleResult<ThesisPayload>;
+    operatingKpis?: ModuleResult<any>;
+    catalysts?: ModuleResult<any>;
+    risks?: ModuleResult<any>;
+    timeline?: ModuleResult<any>;
   };
 }
 

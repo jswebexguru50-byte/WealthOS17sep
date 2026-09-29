@@ -1,18 +1,17 @@
 /**
- * ThesisEngine.ts — P0 New
+ * ThesisEngine.ts — P0 / P0.1 Fix
  *
  * Living Investment Thesis — evidence-driven, never recommendation-making.
  *
  * Design:
  * - Pillars come from business driver definitions + management commitments
  * - Status is derived deterministically from supporting vs contradicting evidence
+ * - Evaluates proposition truth strictly (STABLE does not imply SUPPORT if proposition expects growth)
  * - Never produces BUY/SELL/HOLD
- * - History is preserved: new evidence updates, never silently replaces
- * - Persisted in company_thesis table
+ * - Immutable thesis revisions persisted via ThesisRevisionStore only when requested (persist: true)
  */
 
 import crypto from 'crypto';
-import { getDB } from '../../../database.js';
 import {
   CompanyThesis,
   ThesisPillar,
@@ -25,6 +24,7 @@ import { CompanyAnalyticalState } from '../assembler/CompanyAnalyticalStateAssem
 import { BusinessDriver } from '../contracts/BusinessDriverContracts.js';
 import { Contradiction } from '../contracts/ContradictionContracts.js';
 import { IntelligenceDelta } from '../contracts/DeltaContracts.js';
+import { ThesisRevisionStore } from './ThesisRevisionStore.js';
 
 // ─── Thesis Payload ─────────────────────────────────────────────────────────
 
@@ -46,34 +46,42 @@ export interface ThesisEngineInput {
   primaryDrivers: BusinessDriver[];
   openContradictions: Contradiction[];
   materialDeltas: IntelligenceDelta[];
+  persist?: boolean;
 }
 
-// ─── Pillar builders by sector ────────────────────────────────────────────────
+// ─── Pillar Template ──────────────────────────────────────────────────────────
 
-const SECTOR_THESIS_TEMPLATES: Record<string, Array<{ title: string; proposition: string; relatedMetrics: string[]; assumptions: string[] }>> = {
+interface PillarTemplate {
+  title: string;
+  proposition: string;
+  relatedMetrics: string[];
+  assumptions: string[];
+}
+
+const SECTOR_PILLAR_TEMPLATES: Record<string, PillarTemplate[]> = {
   BANK: [
-    { title: 'Loan Growth Quality',
-      proposition: 'Loan book grows while maintaining asset quality',
-      relatedMetrics: ['loan_book_cr', 'loan_growth_yoy', 'gnpa_pct', 'nnpa_pct'],
-      assumptions: ['Credit underwriting standards remain consistent', 'Macro environment does not sharply deteriorate'] },
-    { title: 'Margin Resilience',
-      proposition: 'Net interest margin stays stable through rate and competitive cycles',
+    { title: 'Deposit Franchise Strength',
+      proposition: 'Low-cost CASA deposit franchise sustains loan growth without margin compression',
+      relatedMetrics: ['deposit_cr', 'casa_ratio_pct'],
+      assumptions: ['Branch network remains effective at deposit mobilization', 'CASA ratio does not deteriorate significantly'] },
+    { title: 'NIM Defense',
+      proposition: 'Net interest margin held through pricing power and liability management',
       relatedMetrics: ['nim_pct'],
-      assumptions: ['CASA franchise provides funding cost advantage'] },
-    { title: 'Capital Adequacy',
-      proposition: 'Capital buffer supports growth ambitions without dilution',
+      assumptions: ['Cost of funds remains stable relative to lending yields', 'No aggressive price competition on prime loans'] },
+    { title: 'Underwriting Quality',
+      proposition: 'Asset quality remains controlled through the cycle; credit costs within historical bounds',
+      relatedMetrics: ['gnpa_pct', 'nnpa_pct', 'credit_cost_pct'],
+      assumptions: ['No systemic deterioration in retail or SME borrower health', 'Provision coverage is adequate'] },
+    { title: 'Capital Efficiency',
+      proposition: 'Capital adequacy supports planned growth without dilutive equity raises',
       relatedMetrics: ['capital_adequacy_pct', 'roe_pct'],
-      assumptions: ['RBI regulatory norms maintained'] },
+      assumptions: ['Internal capital generation matches balance sheet growth rate'] },
   ],
   IT_SERVICES: [
-    { title: 'Revenue Momentum',
-      proposition: 'CC revenue growth reflects genuine demand expansion, not just currency',
-      relatedMetrics: ['cc_revenue_growth_yoy', 'revenue_growth_yoy'],
-      assumptions: ['Client spend on technology remains resilient'] },
-    { title: 'Deal Pipeline Strength',
-      proposition: 'Large deal TCV sustains medium-term revenue visibility',
-      relatedMetrics: ['large_deal_tcv_cr', 'deal_tcv_cr'],
-      assumptions: ['Deal ramp-ups follow historical patterns'] },
+    { title: 'Growth Momentum & Deal Pipeline',
+      proposition: 'Large deal total contract value (TCV) converts to constant-currency revenue growth',
+      relatedMetrics: ['large_deal_tcv_cr', 'deal_tcv_cr', 'cc_revenue_growth_yoy'],
+      assumptions: ['Deal ramp-ups follow historical patterns', 'Discretionary spending does not freeze'] },
     { title: 'Margin Sustainability',
       proposition: 'EBIT margins held through utilisation, pyramid, and pricing',
       relatedMetrics: ['ebit_margin_pct', 'employee_utilisation_pct', 'attrition_pct'],
@@ -93,23 +101,13 @@ const SECTOR_THESIS_TEMPLATES: Record<string, Array<{ title: string; proposition
       relatedMetrics: ['capex_cr', 'roce_pct'],
       assumptions: ['Capacity utilisation ramps as guided'] },
     { title: 'Deleveraging / Balance Sheet',
-      proposition: 'Free cash flow converts to debt reduction',
+      proposition: 'Operating cash flow reduces leverage toward sustainable targets',
       relatedMetrics: ['net_debt_cr', 'cfo_cr'],
-      assumptions: ['No major acquisitions or unexpected capex overruns'] },
-  ],
-  NBFC: [
-    { title: 'AUM Growth Quality',
-      proposition: 'Loan book grows in targeted segments without credit deterioration',
-      relatedMetrics: ['aum_cr', 'gnpa_pct'],
-      assumptions: ['Target segment demand stable'] },
-    { title: 'Spread Sustainability',
-      proposition: 'NIM or spread remains healthy through funding cost cycles',
-      relatedMetrics: ['nim_pct', 'cost_of_funds_pct'],
-      assumptions: ['Funding access not disrupted'] },
+      assumptions: ['Working capital does not absorb excess cash'] },
   ],
 };
 
-// ─── Engine ──────────────────────────────────────────────────────────────────
+// ─── Engine ───────────────────────────────────────────────────────────────────
 
 export class ThesisEngine {
   private static instance: ThesisEngine;
@@ -124,18 +122,19 @@ export class ThesisEngine {
   }
 
   public async evaluate(input: ThesisEngineInput): Promise<ThesisPayload> {
+    const { state, primaryDrivers, openContradictions, materialDeltas, persist = false } = input;
     const now = new Date().toISOString();
-    const { state, primaryDrivers, openContradictions, materialDeltas } = input;
 
-    // 1. Get sector template
-    const templates = SECTOR_THESIS_TEMPLATES[state.businessModel] ?? SECTOR_THESIS_TEMPLATES['MANUFACTURING'];
-    const patternsEvaluable = templates.length;
+    // 1. Load prior thesis revision (immutable history)
+    const priorRevision = await ThesisRevisionStore.getInstance().getLatestRevision(state.securityId);
+    const priorThesis = priorRevision?.thesis ?? null;
+
+    // 2. Select pillar templates based on business model
+    const templates = SECTOR_PILLAR_TEMPLATES[state.businessModel] ||
+                      SECTOR_PILLAR_TEMPLATES.MANUFACTURING;
+
     let patternsEvaluated = 0;
-
-    // 2. Load prior thesis for delta comparison
-    const priorThesis = await this.loadPriorThesis(state.securityId);
     const changes: ThesisChange[] = [];
-    const limitations: string[] = [];
 
     // 3. Build pillars from templates + actual evidence
     const pillars: ThesisPillar[] = [];
@@ -200,10 +199,7 @@ export class ThesisEngine {
       : `${state.symbol} thesis has partial evidence — key pillars remain to be verified.`;
 
     // 8. Construct thesis object
-    const thesisId = crypto.createHash('sha256')
-      .update(`${state.securityId}:${state.asOfDate}`)
-      .digest('hex')
-      .substring(0, 16);
+    const thesisId = priorRevision?.revisionId || crypto.randomUUID().substring(0, 16);
 
     const thesis: CompanyThesis = {
       thesisId,
@@ -211,7 +207,7 @@ export class ThesisEngine {
       asOfDate: state.asOfDate,
       summary,
       thesisPillars: pillars,
-      catalysts: [],   // Catalyst Intelligence is Wave 5+
+      catalysts: [],
       risks: openContradictions.map(c => ({
         title: c.observationB.substring(0, 60),
         explanation: c.explanation,
@@ -221,13 +217,19 @@ export class ThesisEngine {
       unresolvedQuestions,
       thesisChanges: changes,
       evidence: pillars.flatMap(p => p.supportingEvidence).slice(0, 10),
-      previousThesisHash: priorThesis?.thesisId,
+      previousThesisHash: priorRevision?.stateHash,
       createdAt: priorThesis?.createdAt ?? now,
       updatedAt: now,
     };
 
-    // 9. Persist
-    await this.persistThesis(thesis);
+    // 9. Persist revision ONLY if requested (Explicit flow: Read does NOT mutate)
+    if (persist) {
+      await ThesisRevisionStore.getInstance().saveIfChanged(
+        state.securityId,
+        state.asOfDate || now.split('T')[0],
+        thesis
+      );
+    }
 
     const coverage = patternsEvaluated >= templates.length * 0.8 ? 'FULL'
       : patternsEvaluated >= templates.length * 0.4 ? 'PARTIAL'
@@ -239,24 +241,26 @@ export class ThesisEngine {
       changes,
       evaluatedAt: now,
       coverage,
-      limitations,
-      patternsEvaluable,
+      limitations: state.evidenceCoverage.limitations,
+      patternsEvaluable: templates.length,
       patternsEvaluated,
     };
   }
 
-  // ─── Pillar Builder ─────────────────────────────────────────────────────────
+  // ─── Private: build individual pillar ───────────────────────────────────────
 
   private buildPillar(
-    template: { title: string; proposition: string; relatedMetrics: string[]; assumptions: string[] },
+    template: PillarTemplate,
     state: CompanyAnalyticalState,
     drivers: BusinessDriver[],
     contradictions: Contradiction[],
     deltas: IntelligenceDelta[],
     now: string,
   ): { pillar: ThesisPillar; evaluated: boolean } {
-
-    const pillarId = `${state.securityId}_${template.title.replace(/\s+/g, '_').toLowerCase()}`;
+    const pillarId = crypto.createHash('sha256')
+      .update(`${template.title}:${state.securityId}`)
+      .digest('hex')
+      .substring(0, 12);
 
     // Find related driver
     const relatedDriver = drivers.find(d =>
@@ -273,25 +277,40 @@ export class ThesisEngine {
     // Find supporting evidence from driver
     const supportingEvidence: EvidenceReference[] = (relatedDriver?.evidence ?? []).slice(0, 3);
 
-    // Determine status
+    // Determine status adhering to Section 11 constitution:
+    // A driver being STABLE does NOT automatically imply SUPPORT if the proposition demands active expansion/deleveraging.
     let status: ThesisPillarStatus = 'UNKNOWN';
     let explanation = 'Insufficient evidence to assess this pillar.';
     let evaluated = false;
+
+    const requiresActiveGrowth = /growth|expand|increas|accelerat|reduc|deleverag/i.test(template.proposition);
+    const isMaintenanceOrDefense = /sustain|hold|maintain|defend|stable|within/i.test(template.proposition);
 
     if (relatedDriver) {
       evaluated = true;
       if (contradictingEvidence.length > 0) {
         status = 'CHALLENGED';
-        explanation = `${template.title}: Evidence supports this pillar, but ${contradictingEvidence.length} active contradiction(s) raise concerns.`;
-      } else if (relatedDriver.direction === 'IMPROVING' || relatedDriver.direction === 'STABLE') {
+        explanation = `${template.title}: Evidence exists for this pillar, but ${contradictingEvidence.length} active contradiction(s) challenge the proposition.`;
+      } else if (relatedDriver.direction === 'IMPROVING') {
         status = supportingEvidence.length >= 2 ? 'SUPPORTED' : 'PARTIALLY_SUPPORTED';
-        explanation = `${template.title}: ${relatedDriver.description || template.proposition}. Direction: ${relatedDriver.direction}.`;
+        explanation = `${template.title}: ${relatedDriver.name} is improving, supporting the proposition.`;
+      } else if (relatedDriver.direction === 'STABLE') {
+        if (isMaintenanceOrDefense) {
+          status = supportingEvidence.length >= 2 ? 'SUPPORTED' : 'PARTIALLY_SUPPORTED';
+          explanation = `${template.title}: ${relatedDriver.name} is stable, satisfying the sustainability proposition.`;
+        } else if (requiresActiveGrowth) {
+          status = 'PARTIALLY_SUPPORTED';
+          explanation = `${template.title}: Metric is stable, but proposition asserts active growth/improvement (${template.proposition}).`;
+        } else {
+          status = 'PARTIALLY_SUPPORTED';
+          explanation = `${template.title}: Driver is stable.`;
+        }
       } else if (relatedDriver.direction === 'DETERIORATING') {
         status = 'CHALLENGED';
         explanation = `${template.title}: Driver is deteriorating — ${relatedDriver.name} shows ${relatedDriver.direction}.`;
       } else {
         status = 'PARTIALLY_SUPPORTED';
-        explanation = `${template.title}: Driver exists but direction unclear (${relatedDriver.direction}).`;
+        explanation = `${template.title}: Driver exists but direction is unclear (${relatedDriver.direction}).`;
       }
     } else {
       // Check if facts available for direct assessment
@@ -330,46 +349,5 @@ export class ThesisEngine {
       },
       evaluated,
     };
-  }
-
-  // ─── Persistence ────────────────────────────────────────────────────────────
-
-  private async loadPriorThesis(securityId: string): Promise<CompanyThesis | null> {
-    const db = getDB();
-    if (!db) return null;
-    try {
-      db.exec(`
-        CREATE TABLE IF NOT EXISTS company_thesis (
-          thesis_id TEXT PRIMARY KEY,
-          security_id TEXT NOT NULL,
-          thesis_json TEXT NOT NULL,
-          created_at TEXT NOT NULL,
-          updated_at TEXT NOT NULL
-        )
-      `);
-      const row = db.prepare(`
-        SELECT thesis_json FROM company_thesis
-        WHERE security_id = ? ORDER BY updated_at DESC LIMIT 1
-      `).get(securityId) as unknown as { thesis_json: string } | undefined;
-
-      return row ? JSON.parse(row.thesis_json) : null;
-    } catch { return null; }
-  }
-
-  private async persistThesis(thesis: CompanyThesis): Promise<void> {
-    const db = getDB();
-    if (!db) return;
-    try {
-      db.prepare(`
-        INSERT OR REPLACE INTO company_thesis (thesis_id, security_id, thesis_json, created_at, updated_at)
-        VALUES (?, ?, ?, ?, ?)
-      `).run(
-        thesis.thesisId,
-        thesis.securityId,
-        JSON.stringify(thesis),
-        thesis.createdAt,
-        thesis.updatedAt,
-      );
-    } catch { /* Non-fatal */ }
   }
 }

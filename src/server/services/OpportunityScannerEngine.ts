@@ -515,6 +515,24 @@ export class OpportunityScannerEngine {
   }
 
   public async scanOpportunities(): Promise<OpportunityScannerReport> {
+    // This legacy scanner still combines several unavailable inputs with
+    // modeled delivery, news, and risk/reward values.  Seven-strategy reports
+    // remain the approved Discover source; do not publish fabricated
+    // opportunity candidates while this scorer is being rewired to canonical
+    // facts and DuckDB coverage.
+    return {
+      investedStockOpportunities: [],
+      nifty500StockOpportunities: [],
+      mfOpportunities: [],
+      topPicksCount: 0,
+      scannedStocksCount: 0,
+      lastUpdated: new Date().toISOString(),
+      regimeState: 'DATA_INSUFFICIENT',
+      convictionMultiplier: null,
+      capitalPreservationMode: null,
+      suggestedCashAllocationPct: null
+    } as any;
+
     await this.initializeRegistryDatabase();
     const db = getDB();
     const allHoldings = await dbAll(db, `
@@ -1438,6 +1456,38 @@ export class OpportunityScannerEngine {
    */
   public async scanSingleScrip(rawSymbol: string, portfolioHoldingContext?: any): Promise<StockInvestmentOpportunity> {
     const symbol = rawSymbol.trim().toUpperCase();
+    // This evaluator currently derives delivery, relative strength, news,
+    // benchmark regime probabilities, targets, and stops from constants or
+    // proxies.  It must not emit a decision until those inputs are supplied
+    // from canonical source snapshots.
+    return {
+      securityId: `SEC_${symbol}_NSE`,
+      candidateId: null,
+      symbol,
+      companyName: symbol,
+      status: 'DATA_INSUFFICIENT',
+      missingFactors: [
+        'verified_delivery_data',
+        'verified_relative_strength_benchmark',
+        'verified_news_sentiment',
+        'verified_macro_regime_probability',
+        'verified_atr_stop_input'
+      ],
+      compositeScore: null,
+      probabilityPct: null,
+      bullishProbabilityPct: null,
+      actionDirective: 'HOLD',
+      strategyCategory: 'VALUE_COMPOUNDER',
+      targetPrice: null,
+      stopLossPrice: null,
+      upsidePotentialPct: null,
+      downsideRiskPct: null,
+      riskRewardRatio: null,
+      confidenceLevel: 'LOW',
+      portfolioVerdict: null,
+      recommendationDate: new Date().toISOString().split('T')[0]
+    } as any;
+
     const db = getDB();
     const selfLearning = await SelfLearningEngine.getInstance().getSelfLearningReport();
     const weights = selfLearning.currentGeneration.activeWeights;

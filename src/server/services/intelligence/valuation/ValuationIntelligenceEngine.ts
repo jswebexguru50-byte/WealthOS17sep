@@ -160,13 +160,13 @@ export class ValuationIntelligenceEngine {
 
     try {
       // Check fundamental_endpoint_snapshots
-      const summary = await Promise.resolve(
-        db.prepare(`
-          SELECT COUNT(*) as cnt, MIN(fetched_at) as earliest, MAX(fetched_at) as latest
-          FROM fundamental_endpoint_snapshots
-          WHERE symbol = ? OR isin = ?
-        `).get(symbol, symbol) as any
-      );
+      const summary = await dbGet(
+        db,
+        `SELECT COUNT(*) as cnt, MIN(fetched_at) as earliest, MAX(fetched_at) as latest
+         FROM fundamental_endpoint_snapshots
+         WHERE symbol = ? OR isin = ?`,
+        [symbol, symbol]
+      ) as any;
 
       const count = summary?.cnt || 0;
       const earliest = summary?.earliest || null;
@@ -192,12 +192,12 @@ export class ValuationIntelligenceEngine {
       if (latest) {
         const latestYear = new Date(latest).getFullYear();
         for (let y = latestYear - 4; y <= latestYear; y++) {
-          const yearCount = await Promise.resolve(
-            db.prepare(`
-              SELECT COUNT(*) as cnt FROM fundamental_endpoint_snapshots
-              WHERE (symbol = ? OR isin = ?) AND substr(fetched_at, 1, 4) = ?
-            `).get(symbol, symbol, String(y)) as any
-          );
+          const yearCount = await dbGet(
+            db,
+            `SELECT COUNT(*) as cnt FROM fundamental_endpoint_snapshots
+             WHERE (symbol = ? OR isin = ?) AND substr(fetched_at, 1, 4) = ?`,
+            [symbol, symbol, String(y)]
+          ) as any;
           if (!yearCount?.cnt || yearCount.cnt < 4) missingYears.push(y);
         }
       }
@@ -235,13 +235,13 @@ export class ValuationIntelligenceEngine {
     if (!db) return [];
 
     try {
-      const snap = await Promise.resolve(
-        db.prepare(`
-          SELECT snapshot_json, fetched_at FROM fundamental_endpoint_snapshots
-          WHERE symbol = ? OR isin = ?
-          ORDER BY fetched_at DESC LIMIT 1
-        `).get(symbol, symbol) as any
-      );
+      const snap = await dbGet(
+        db,
+        `SELECT snapshot_json, fetched_at FROM fundamental_endpoint_snapshots
+         WHERE symbol = ? OR isin = ?
+         ORDER BY fetched_at DESC LIMIT 1`,
+        [symbol, symbol]
+      ) as any;
       if (!snap?.snapshot_json) return [];
 
       const data = JSON.parse(snap.snapshot_json);
@@ -280,14 +280,14 @@ export class ValuationIntelligenceEngine {
     try {
       const metricKey = metric.toLowerCase();
 
-      const rows = await Promise.resolve(
-        db.prepare(`
-          SELECT json_extract(snapshot_json, '$.' || ?) as val, fetched_at
-          FROM fundamental_endpoint_snapshots
-          WHERE (symbol = ? OR isin = ?) AND json_extract(snapshot_json, '$.' || ?) IS NOT NULL
-          ORDER BY fetched_at DESC
-        `).all(metricKey, symbol, symbol, metricKey) as unknown as any[]
-      );
+      const rows = await dbAll(
+        db,
+        `SELECT json_extract(snapshot_json, '$.' || ?) as val, fetched_at
+         FROM fundamental_endpoint_snapshots
+         WHERE (symbol = ? OR isin = ?) AND json_extract(snapshot_json, '$.' || ?) IS NOT NULL
+         ORDER BY fetched_at DESC`,
+        [metricKey, symbol, symbol, metricKey]
+      ) as any[];
 
       const vals = rows.map(r => parseFloat(r.val)).filter(v => !isNaN(v) && isFinite(v));
       if (!vals.length) {
