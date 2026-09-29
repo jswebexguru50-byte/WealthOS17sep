@@ -12,9 +12,10 @@
  * 8. Zero runtime DDL in analytical repositories
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 import * as fs from 'fs';
 import * as path from 'path';
+import { getDB, dbRun } from '../../src/server/database.js';
 import { WatchRuleRepository } from '../../src/server/services/intelligence/core/WatchRuleRepository.js';
 import { CompanySnapshotRepository } from '../../src/server/services/intelligence/core/CompanySnapshotRepository.js';
 import { CanonicalFactRepository } from '../../src/server/services/intelligence/core/CanonicalFactRepository.js';
@@ -206,26 +207,92 @@ describe('Wave A Architecture Closure', () => {
   });
 
   describe('5. Strict Point-in-Time (PIT) Semantics', () => {
-    it('backfilled availability is semantically classified as PIT_INFERRED', async () => {
-      const repo = CanonicalFactRepository.getInstance();
-      // Test through mapRowToFact via private method test or verify resolveEvidenceRefs behavior
-      const testRefs = await repo.resolveEvidenceRefs([]);
-      expect(testRefs).toEqual([]);
+    const repo = CanonicalFactRepository.getInstance();
+    const testIsin = `IN_PIT_TEST_${Date.now()}`;
+    const testIdentity: SecurityIdentity = {
+      companyId: testIsin,
+      isin: testIsin,
+      nseSymbol: 'PITTEST',
+      bseCode: '888888',
+      companyName: 'PIT Test Corp',
+    };
+
+    const factAId = `fact_a_${Date.now()}`;
+    const factBId = `fact_b_${Date.now()}`;
+    const factCId = `fact_c_${Date.now()}`;
+
+    beforeAll(async () => {
+      const db = getDB();
+      const now = new Date().toISOString();
+      const insertSql = `INSERT OR REPLACE INTO company_facts (
+        factId, companyId, symbol, isin, metric, value, unit, periodType,
+        periodEnd, asOfDate, reportedAt, availableAt, factType, sourceType,
+        scope, provider, verificationStatus, fetchedAt
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+      // Fact A: verified disclosure where availableAt is strictly after periodEnd
+      await dbRun(db, insertSql, [
+        factAId, testIsin, 'PITTEST', testIsin, 'revenue_cr', 1000, 'Cr', 'ANNUAL',
+        '2025-03-31', '2026-09-29', '2025-05-15', '2025-05-15', 'PRIMARY', 'EXCHANGE_FILING',
+        'CONSOLIDATED', 'NSE_DISCLOSURE', 'VERIFIED', now,
+      ]);
+
+      // Fact B: backfilled data where availableAt equals periodEnd and provider is backfill
+      await dbRun(db, insertSql, [
+        factBId, testIsin, 'PITTEST', testIsin, 'pat_cr', 200, 'Cr', 'ANNUAL',
+        '2024-03-31', '2026-09-29', '2024-03-31', '2024-03-31', 'PRIMARY', 'EXCHANGE_FILING',
+        'CONSOLIDATED', 'historical_backfill', 'VERIFIED', now,
+      ]);
+
+      // Fact C: unknown availability (null availableAt and null reportedAt)
+      await dbRun(db, insertSql, [
+        factCId, testIsin, 'PITTEST', testIsin, 'ebitda_cr', 300, 'Cr', 'ANNUAL',
+        '2023-03-31', '2026-09-29', null, null, 'PRIMARY', 'EXCHANGE_FILING',
+        'CONSOLIDATED', null, 'VERIFIED', now,
+      ]);
     });
 
-    it('STRICT mode query string excludes backfill rows where availableAt equals periodEnd', () => {
-      const repoPath = path.join(
-        process.cwd(),
-        'src',
-        'server',
-        'services',
-        'intelligence',
-        'core',
-        'CanonicalFactRepository.ts'
-      );
-      const content = fs.readFileSync(repoPath, 'utf-8');
-      expect(content).toContain("availableAt != periodEnd");
-      expect(content).toContain("provider NOT LIKE '%backfill%'");
+    it('classifies fact A as PIT_VERIFIED, fact B as PIT_INFERRED, and fact C as PIT_UNKNOWN in evidence resolution', async () => {
+      const refs = await repo.resolveEvidenceRefs([factAId, factBId, factCId]);
+      expect(refs.length).toBe(3);
+
+      const refA = refs.find(r => r.evidenceId === `fact_ev_${factAId}`);
+      expect(refA).toBeDefined();
+      expect(refA?.pitStatus).toBe('PIT_VERIFIED');
+      expect(refA?.availableAt).toBe('2025-05-15');
+
+      const refB = refs.find(r => r.evidenceId === `fact_ev_${factBId}`);
+      expect(refB).toBeDefined();
+      expect(refB?.pitStatus).toBe('PIT_INFERRED');
+      expect(refB?.availableAt).toBe('2024-03-31');
+
+      const refC = refs.find(r => r.evidenceId === `fact_ev_${factCId}`);
+      expect(refC).toBeDefined();
+      expect(refC?.pitStatus).toBe('PIT_UNKNOWN');
+      expect(refC?.availableAt).toBeNull();
+    });
+
+    it('STRICT mode query admits verified Fact A while strictly excluding backfilled Fact B and unknown Fact C', async () => {
+      const strictFacts = await repo.getFactsForSecurity(testIdentity, {
+        asOfDate: '2026-09-29',
+        pitMode: 'STRICT',
+      });
+
+      const strictFactIds = strictFacts.map(f => f.factId);
+      expect(strictFactIds).toContain(factAId);
+      expect(strictFactIds).not.toContain(factBId);
+      expect(strictFactIds).not.toContain(factCId);
+    });
+
+    it('ALLOW_INFERRED mode query admits backfilled Fact B alongside verified Fact A', async () => {
+      const inferredFacts = await repo.getFactsForSecurity(testIdentity, {
+        asOfDate: '2026-09-29',
+        pitMode: 'ALLOW_INFERRED',
+      });
+
+      const inferredFactIds = inferredFacts.map(f => f.factId);
+      expect(inferredFactIds).toContain(factAId);
+      expect(inferredFactIds).toContain(factBId);
     });
   });
 

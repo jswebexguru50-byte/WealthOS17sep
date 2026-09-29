@@ -26,15 +26,17 @@
 
 ---
 
-## Wave B — Live Data (P1, next)
+## Wave B — Live Data (P1, COMPLETED)
 
 | # | Fix | File | Status |
 |---|-----|------|--------|
-| B1 | SourceDocument contract | contracts/SourceDocument.ts | PENDING |
-| B2 | SourceDocumentRepository | core/SourceDocumentRepository.ts | PENDING |
-| B3 | Generic corporate event classifier | acquisition/EventClassifier.ts | PENDING |
-| B4 | Generic financial result normalizer | acquisition/FinancialResultNormalizer.ts | PENDING |
-| B5 | Management commitment pipeline (generic, not DYCL) | acquisition/CommitmentExtractor.ts | PENDING |
+| B1 | SourceDocument contract | contracts/SourceDocument.ts | ✅ COMPLETE |
+| B2 | SourceDocumentRepository | core/SourceDocumentRepository.ts | ✅ COMPLETE |
+| B3 | Generic corporate event classifier | acquisition/EventClassifier.ts | ✅ COMPLETE |
+| B4 | Generic financial result normalizer | acquisition/FinancialResultNormalizer.ts | ✅ COMPLETE |
+| B5 | Management commitment pipeline (generic, not DYCL) | acquisition/CommitmentExtractor.ts | ✅ COMPLETE |
+| B6 | Master ingestion pipeline with content-hash idempotency | acquisition/SourceDocumentIngestionPipeline.ts | ✅ COMPLETE |
+| B7 | Wave B integration test suite (12/12 passing) | tests/unit/wave_b_live_data_ingestion.test.ts | ✅ COMPLETE |
 
 ---
 

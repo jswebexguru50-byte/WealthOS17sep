@@ -235,7 +235,7 @@ export class CanonicalFactRepository {
       const rows = await dbAll<any>(db, sql, factIds);
       return rows.map(r => {
         const rawAvailAt: string | null = r.availableAt || null;
-        const rawDocDate: string | null = r.reportedAt || r.periodEnd || null;
+        const rawDocDate: string | null = r.reportedAt || null;
         let availableAt: string | null;
         let pitStatus: PitStatus;
         const isBackfilled = (r.provider && String(r.provider).toLowerCase().includes('backfill')) ||
@@ -277,7 +277,7 @@ export class CanonicalFactRepository {
     const periodEnd: string | null = row.periodEnd || null;
 
     const rawAvailAt: string | null = row.availableAt || null;
-    const rawDocDate: string | null = row.publishedAt || row.reportedAt || row.asOfDate || null;
+    const rawDocDate: string | null = row.publishedAt || row.reportedAt || null;
     let availableAt: string | null;
     let pitStatus: PitStatus;
     const isBackfilledRow = (row.provider && String(row.provider).toLowerCase().includes('backfill')) ||

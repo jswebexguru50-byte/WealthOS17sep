@@ -306,16 +306,19 @@ export class CompanyRefreshCoordinator {
     try {
       const stmt = db.prepare(`
         INSERT OR REPLACE INTO company_facts (
-          factId, isin, symbol, metric, value, unit, periodType, periodEnd,
-          asOfDate, reportedAt, availableAt, sourceDocumentId, sourceType, provider
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          factId, companyId, isin, symbol, metric, value, unit, periodType, periodEnd,
+          asOfDate, reportedAt, availableAt, factType, sourceType, scope, provider,
+          verificationStatus, sourceDocumentId, fetchedAt
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `);
 
+      const now = new Date().toISOString();
       const insertMany = db.transaction((rows: IngestedFact[]) => {
         for (const f of rows) {
           const factId = `fact_${identity.isin}_${f.metric}_${f.periodEnd.replace(/[^a-zA-Z0-9]/g, '_')}`;
           stmt.run(
             factId,
+            identity.securityId || identity.isin,
             identity.isin,
             identity.nseSymbol || identity.bseCode || '',
             f.metric,
@@ -326,9 +329,13 @@ export class CompanyRefreshCoordinator {
             f.availableAt,
             f.publishedDate,
             f.availableAt,
-            f.sourceDocumentId || disclosure.sourceName,
+            'PRIMARY',
             f.sourceType || disclosure.sourceType,
-            'DISCLOSURE_INGESTION'
+            'CONSOLIDATED',
+            'DISCLOSURE_INGESTION',
+            'VERIFIED',
+            f.sourceDocumentId || disclosure.sourceName,
+            now
           );
           count++;
         }
@@ -352,12 +359,13 @@ export class CompanyRefreshCoordinator {
     let count = 0;
     try {
       const stmt = db.prepare(`
-        INSERT OR REPLACE INTO corporate_events (
-          eventId, isin, symbol, eventType, headline, eventDate, description,
-          sourceUrl, impactScope, verificationStatus, createdAt
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT OR REPLACE INTO company_events (
+          eventId, securityId, isin, symbol, eventType, occurredAt, availableAt,
+          materiality, title, description, sourceUrl, evidenceRefs, affectedDomains, createdAt
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `);
 
+      const now = new Date().toISOString();
       const insertMany = db.transaction((rows: IngestedCorporateEvent[]) => {
         for (const ev of rows) {
           // Deterministic event identity: hash stable event inputs, never use Date.now()
@@ -371,16 +379,19 @@ export class CompanyRefreshCoordinator {
           const eventId = `ev_${crypto.createHash('sha256').update(identityPreimage).digest('hex').substring(0, 16)}`;
           stmt.run(
             eventId,
+            identity.securityId || identity.isin,
             identity.isin,
             identity.nseSymbol || identity.bseCode || '',
             ev.eventType,
-            ev.headline,
             ev.eventDate,
+            ev.eventDate,
+            ev.impactScope || 'MATERIAL',
+            ev.headline,
             ev.description,
             ev.sourceUrl || disclosure.sourceUrl || '',
-            ev.impactScope || 'MATERIAL',
-            'VERIFIED',
-            new Date().toISOString()
+            JSON.stringify([{ evidenceId: `ev_${eventId}`, sourceUrl: ev.sourceUrl || null }]),
+            JSON.stringify(['FUNDAMENTALS', 'MANAGEMENT']),
+            now
           );
           count++;
         }
@@ -395,7 +406,7 @@ export class CompanyRefreshCoordinator {
     return count;
   }
 
-  private async evaluateWatchRules(
+  public async evaluateWatchRules(
     identity: SecurityIdentity,
     response: CompanyIntelligenceResponse,
     timelineEvents: any[] = [],
@@ -554,6 +565,33 @@ export class CompanyRefreshCoordinator {
           await watchRepo.saveWatchEvent(triggeredEvent);
         } catch (e) {
           console.warn('[CompanyRefreshCoordinator] Failed to persist watch event:', e);
+        }
+      } else if (!isTriggered && isTransition && previousState === 'TRIGGERED') {
+        // Resolution transition: breach cleared -> emit resolution WatchEvent
+        const resolutionIdentityPreimage = [
+          rule.watchId,
+          response.snapshot?.snapshotId || isin,
+          'RESOLVED',
+          now,
+        ].join('|');
+        const resolutionEventId = `we_${crypto.createHash('sha256').update(resolutionIdentityPreimage).digest('hex').substring(0, 16)}`;
+
+        const resolutionEvent: WatchEvent = {
+          eventId: resolutionEventId,
+          watchId: rule.watchId,
+          securityId: rule.securityId,
+          symbol: rule.symbol,
+          occurredAt: now,
+          summary: `Watch rule ${rule.watchId} resolved — condition cleared`,
+          severity: 'INFO' as const,
+          evidenceIds: triggeringEvidenceIds.length > 0 ? triggeringEvidenceIds : [`res_${rule.watchId}`],
+        };
+        triggered.push(resolutionEvent);
+
+        try {
+          await watchRepo.saveWatchEvent(resolutionEvent);
+        } catch (e) {
+          console.warn('[CompanyRefreshCoordinator] Failed to persist resolution watch event:', e);
         }
       }
     }
