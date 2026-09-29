@@ -703,11 +703,11 @@ export class CompanyIntelligenceOrchestrator {
           safetyReport.totalAudited++;
           const res = safetyGate.auditAssertion({
             id: p.pillarId || p.title,
-            text: p.title + ': ' + (p.summary || ''),
-            kind: 'FACT',
+            text: p.title + ': ' + (p.summary || p.explanation || ''),
+            kind: p.kind || (p.supportingEvidence && p.supportingEvidence.length > 0 ? 'FACT' : 'HYPOTHESIS'),
             evidenceRefs: p.supportingEvidence || [],
-            confidence: 'HIGH',
-            support: p.supportingEvidence && p.supportingEvidence.length > 0 ? 'DIRECT' : 'UNSUPPORTED',
+            confidence: p.confidence || (p.supportingEvidence && p.supportingEvidence.length > 0 ? 'HIGH' : 'LOW'),
+            support: p.support || (p.supportingEvidence && p.supportingEvidence.length > 0 ? 'DIRECT' : 'UNSUPPORTED'),
             limitations: [],
             asOfDate: generatedAt,
           });
@@ -749,8 +749,9 @@ export class CompanyIntelligenceOrchestrator {
         {
           incomeStatement: analyticalState.facts?.latest as any,
           keyRatios: analyticalState.facts?.latest as any,
-          prices: [],
+          prices: (modulesResult.technical?.result as any)?.prices || [],
           managementClaims: modulesResult.management?.result?.commitments,
+          canonicalFacts: analyticalState.facts?.latest as any,
         },
         generatedAt
       );

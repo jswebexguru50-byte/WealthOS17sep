@@ -1,0 +1,263 @@
+{
+  "auditedAt": "2026-09-29T06:33:16.280Z",
+  "acceptanceUniverseCount": 11,
+  "canonicalIdentityResolved": 11,
+  "ambiguousSecurities": 0,
+  "orphanCompanyFacts": 0,
+  "silentSymbolIsinMismatches": 0,
+  "securities": {
+    "RELIANCE": {
+      "securityId": "INE002A01018",
+      "isin": "INE002A01018",
+      "nseSymbol": "RELIANCE",
+      "bseCode": "500325",
+      "companyName": "Reliance Industries Limited",
+      "sector": "Energy",
+      "resolved": true,
+      "portfolioDb": {
+        "masterTickers": true,
+        "historicalPricesCount": 740,
+        "fundamentalSnapshotsCount": 8,
+        "companyFactsCount": 0
+      },
+      "fereEvidenceDb": {
+        "universeListed": true,
+        "filingDocumentsCount": 17,
+        "verifiedXbrlFactsCount": 192,
+        "materialEventsCount": 0,
+        "shareholdingSnapshotsCount": 1,
+        "managementClaimsCount": 0
+      }
+    },
+    "TCS": {
+      "securityId": "INE467B01029",
+      "isin": "INE467B01029",
+      "nseSymbol": "TCS",
+      "bseCode": "532540",
+      "companyName": "Tata Consultancy Services Limited",
+      "sector": "Information Technology",
+      "resolved": true,
+      "portfolioDb": {
+        "masterTickers": true,
+        "historicalPricesCount": 1245,
+        "fundamentalSnapshotsCount": 8,
+        "companyFactsCount": 0
+      },
+      "fereEvidenceDb": {
+        "universeListed": true,
+        "filingDocumentsCount": 17,
+        "verifiedXbrlFactsCount": 192,
+        "materialEventsCount": 0,
+        "shareholdingSnapshotsCount": 1,
+        "managementClaimsCount": 0
+      }
+    },
+    "HDFCBANK": {
+      "securityId": "INE040A01034",
+      "isin": "INE040A01034",
+      "nseSymbol": "HDFCBANK",
+      "bseCode": "500180",
+      "companyName": "HDFC Bank Limited",
+      "sector": "Financial Services",
+      "resolved": true,
+      "portfolioDb": {
+        "masterTickers": true,
+        "historicalPricesCount": 1247,
+        "fundamentalSnapshotsCount": 8,
+        "companyFactsCount": 0
+      },
+      "fereEvidenceDb": {
+        "universeListed": true,
+        "filingDocumentsCount": 17,
+        "verifiedXbrlFactsCount": 7,
+        "materialEventsCount": 0,
+        "shareholdingSnapshotsCount": 1,
+        "managementClaimsCount": 0
+      }
+    },
+    "TATAMOTORS": {
+      "securityId": "INE155A01022",
+      "isin": "INE155A01022",
+      "nseSymbol": "TATAMOTORS",
+      "bseCode": "500570",
+      "companyName": "Tata Motors Limited",
+      "sector": "Automobile",
+      "resolved": true,
+      "portfolioDb": {
+        "masterTickers": true,
+        "historicalPricesCount": 211,
+        "fundamentalSnapshotsCount": 8,
+        "companyFactsCount": 0
+      },
+      "fereEvidenceDb": {
+        "universeListed": true,
+        "filingDocumentsCount": 0,
+        "verifiedXbrlFactsCount": 0,
+        "materialEventsCount": 0,
+        "shareholdingSnapshotsCount": 0,
+        "managementClaimsCount": 0
+      }
+    },
+    "TATASTEEL": {
+      "securityId": "INE081A01020",
+      "isin": "INE081A01020",
+      "nseSymbol": "TATASTEEL",
+      "bseCode": "500470",
+      "companyName": "Tata Steel Limited",
+      "sector": "Metals & Mining",
+      "resolved": true,
+      "portfolioDb": {
+        "masterTickers": true,
+        "historicalPricesCount": 1245,
+        "fundamentalSnapshotsCount": 8,
+        "companyFactsCount": 0
+      },
+      "fereEvidenceDb": {
+        "universeListed": true,
+        "filingDocumentsCount": 16,
+        "verifiedXbrlFactsCount": 25,
+        "materialEventsCount": 0,
+        "shareholdingSnapshotsCount": 1,
+        "managementClaimsCount": 0
+      }
+    },
+    "INFY": {
+      "securityId": "INE009A01021",
+      "isin": "INE009A01021",
+      "nseSymbol": "INFY",
+      "bseCode": "500209",
+      "companyName": "Infosys Limited",
+      "sector": "Information Technology",
+      "resolved": true,
+      "portfolioDb": {
+        "masterTickers": true,
+        "historicalPricesCount": 738,
+        "fundamentalSnapshotsCount": 8,
+        "companyFactsCount": 0
+      },
+      "fereEvidenceDb": {
+        "universeListed": true,
+        "filingDocumentsCount": 17,
+        "verifiedXbrlFactsCount": 192,
+        "materialEventsCount": 0,
+        "shareholdingSnapshotsCount": 1,
+        "managementClaimsCount": 0
+      }
+    },
+    "ICICIBANK": {
+      "securityId": "INE090A01021",
+      "isin": "INE090A01021",
+      "nseSymbol": "ICICIBANK",
+      "bseCode": "532174",
+      "companyName": "ICICI Bank Limited",
+      "sector": "Financial Services",
+      "resolved": true,
+      "portfolioDb": {
+        "masterTickers": true,
+        "historicalPricesCount": 263,
+        "fundamentalSnapshotsCount": 8,
+        "companyFactsCount": 0
+      },
+      "fereEvidenceDb": {
+        "universeListed": true,
+        "filingDocumentsCount": 17,
+        "verifiedXbrlFactsCount": 7,
+        "materialEventsCount": 0,
+        "shareholdingSnapshotsCount": 1,
+        "managementClaimsCount": 0
+      }
+    },
+    "SUNPHARMA": {
+      "securityId": "INE044A01036",
+      "isin": "INE044A01036",
+      "nseSymbol": "SUNPHARMA",
+      "bseCode": "524715",
+      "companyName": "Sun Pharmaceutical Industries Limited",
+      "sector": "Healthcare",
+      "resolved": true,
+      "portfolioDb": {
+        "masterTickers": true,
+        "historicalPricesCount": 263,
+        "fundamentalSnapshotsCount": 8,
+        "companyFactsCount": 0
+      },
+      "fereEvidenceDb": {
+        "universeListed": true,
+        "filingDocumentsCount": 17,
+        "verifiedXbrlFactsCount": 42,
+        "materialEventsCount": 0,
+        "shareholdingSnapshotsCount": 1,
+        "managementClaimsCount": 0
+      }
+    },
+    "TITAN": {
+      "securityId": "INE280A01028",
+      "isin": "INE280A01028",
+      "nseSymbol": "TITAN",
+      "bseCode": "500114",
+      "companyName": "Titan Company Limited",
+      "sector": "Consumer Durables",
+      "resolved": true,
+      "portfolioDb": {
+        "masterTickers": true,
+        "historicalPricesCount": 738,
+        "fundamentalSnapshotsCount": 8,
+        "companyFactsCount": 0
+      },
+      "fereEvidenceDb": {
+        "universeListed": true,
+        "filingDocumentsCount": 17,
+        "verifiedXbrlFactsCount": 42,
+        "materialEventsCount": 0,
+        "shareholdingSnapshotsCount": 1,
+        "managementClaimsCount": 0
+      }
+    },
+    "BEL": {
+      "securityId": "INE263A01024",
+      "isin": "INE263A01024",
+      "nseSymbol": "BEL",
+      "bseCode": "500049",
+      "companyName": "Bharat Electronics Limited",
+      "sector": "Industrials",
+      "resolved": true,
+      "portfolioDb": {
+        "masterTickers": true,
+        "historicalPricesCount": 737,
+        "fundamentalSnapshotsCount": 8,
+        "companyFactsCount": 0
+      },
+      "fereEvidenceDb": {
+        "universeListed": true,
+        "filingDocumentsCount": 17,
+        "verifiedXbrlFactsCount": 42,
+        "materialEventsCount": 0,
+        "shareholdingSnapshotsCount": 1,
+        "managementClaimsCount": 0
+      }
+    },
+    "DYCL": {
+      "securityId": "INE600Y01019",
+      "isin": "INE600Y01019",
+      "nseSymbol": "DYCL",
+      "bseCode": "540795",
+      "companyName": "Dynamic Cables Limited",
+      "sector": "Industrials",
+      "resolved": true,
+      "portfolioDb": {
+        "masterTickers": true,
+        "historicalPricesCount": 1023,
+        "fundamentalSnapshotsCount": 8,
+        "companyFactsCount": 0
+      },
+      "fereEvidenceDb": {
+        "universeListed": true,
+        "filingDocumentsCount": 16,
+        "verifiedXbrlFactsCount": 219,
+        "materialEventsCount": 0,
+        "shareholdingSnapshotsCount": 1,
+        "managementClaimsCount": 0
+      }
+    }
+  }
+}

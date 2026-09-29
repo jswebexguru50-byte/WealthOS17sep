@@ -42,6 +42,9 @@ export interface ThesisPillar {
   unansweredQuestions: string[];
 
   explanation: string;                // evidence-grounded narrative
+  kind?: 'FACT' | 'DERIVED_FACT' | 'MANAGEMENT_CLAIM' | 'INTERPRETATION' | 'HYPOTHESIS' | 'UNKNOWN';
+  confidence?: 'HIGH' | 'MEDIUM' | 'LOW';
+  support?: 'DIRECT' | 'DERIVED' | 'CORROBORATED' | 'WEAK' | 'UNSUPPORTED';
 }
 
 // ─── Thesis Change ────────────────────────────────────────────────────────────

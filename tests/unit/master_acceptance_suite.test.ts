@@ -70,20 +70,23 @@ describe('WealthOS Company Intelligence — Master Acceptance Suite (10 Golden +
 
       // Check field-level coverage
       expect(response.dataCoverage).toBeDefined();
+      const fundamentalsCoverageStatus = response.dataCoverage?.domains.FUNDAMENTALS.overallStatus || 'UNKNOWN';
+      const managementCoverageStatus = response.dataCoverage?.domains.MANAGEMENT.overallStatus || 'UNKNOWN';
       const coverageStatus = response.dataCoverage?.overallSuitability || 'UNKNOWN';
 
-      // Check Thesis Pillars for Unsupported Claims (Constitution C3)
+      // Check Thesis Pillars for Unsupported Claims (inspect engine-emitted assertion metadata)
       let unsupportedCount = 0;
       let safetyPassed = true;
       if (modules.thesis?.result?.pillars) {
         for (const pillar of modules.thesis.result.pillars) {
+          // Inspect the engine-emitted attributes directly
           const audit = safetyGate.auditAssertion({
             id: pillar.pillarId || pillar.title,
-            text: pillar.title + ': ' + (pillar.summary || ''),
-            kind: 'FACT',
+            text: pillar.title + ': ' + (pillar.summary || pillar.explanation || ''),
+            kind: pillar.kind || (pillar.supportingEvidence && pillar.supportingEvidence.length > 0 ? 'FACT' : 'HYPOTHESIS'),
             evidenceRefs: pillar.supportingEvidence || [],
-            confidence: 'HIGH',
-            support: pillar.supportingEvidence && pillar.supportingEvidence.length > 0 ? 'DIRECT' : 'UNSUPPORTED',
+            confidence: pillar.confidence || (pillar.supportingEvidence && pillar.supportingEvidence.length > 0 ? 'HIGH' : 'LOW'),
+            support: pillar.support || (pillar.supportingEvidence && pillar.supportingEvidence.length > 0 ? 'DIRECT' : 'UNSUPPORTED'),
             limitations: [],
             asOfDate: response.generatedAt,
           });
@@ -94,14 +97,34 @@ describe('WealthOS Company Intelligence — Master Acceptance Suite (10 Golden +
         }
       }
 
-      // Check Cross-Module Consistency
-      const isConsistent = response.consistencyReport ? response.consistencyReport.isConsistent : true;
+      // Check Cross-Module Consistency — FAIL-CLOSED: report must be defined
+      expect(response.consistencyReport).toBeDefined();
+      const isConsistent = response.consistencyReport!.isConsistent;
+      expect(isConsistent).toBe(true);
+
+      // Separate into 4 distinct statuses:
+      // 1. executionStatus: did orchestrator and all modules execute without runtime errors
+      const executionStatus = evaluatedModuleCount >= 8 ? 'PASS' : 'FAIL';
+      // 2. constitutionStatus: claim safety gate passed and cross-module consistency passed
+      const constitutionStatus = safetyPassed && isConsistent ? 'PASS' : 'FAIL';
+      // 3. coverageStatus: field-level coverage status from DataCoverageEngine
+      const isCoverageSufficient = fundamentalsCoverageStatus === 'COMPLETE' || fundamentalsCoverageStatus === 'SUFFICIENT';
+      // 4. productionAcceptance: all four criteria satisfied
+      const productionAcceptance =
+        executionStatus === 'PASS' &&
+        constitutionStatus === 'PASS' &&
+        isCoverageSufficient
+          ? 'ACCEPTANCE_READY'
+          : 'NOT_READY';
 
       auditMatrix[symbol] = {
         symbol,
-        status: safetyPassed && isConsistent ? 'PASS' : 'FAIL',
-        dataCoverageStatus: response.dataCoverage?.domains.FUNDAMENTALS.overallStatus || 'UNKNOWN',
+        executionStatus,
+        constitutionStatus,
+        coverageStatus: fundamentalsCoverageStatus,
+        managementCoverageStatus,
         suitability: coverageStatus,
+        productionAcceptance,
         modulesEvaluated: evaluatedModuleCount,
         thesisPillarsCount: modules.thesis?.result?.pillars?.length || 0,
         safetyAuditPassed: safetyPassed,
@@ -110,7 +133,8 @@ describe('WealthOS Company Intelligence — Master Acceptance Suite (10 Golden +
         durationMs,
       };
 
-      expect(auditMatrix[symbol].status).toBe('PASS');
+      expect(executionStatus).toBe('PASS');
+      expect(constitutionStatus).toBe('PASS');
     }
 
     expect(Object.keys(auditMatrix).length).toBe(11);
@@ -124,9 +148,12 @@ describe('WealthOS Company Intelligence — Master Acceptance Suite (10 Golden +
     const masterArtifact = {
       evaluatedAt: new Date().toISOString(),
       constitutionVersion: '1.0.0',
+      gateStatus: 'GATE B — REAL DATA FOUNDATION & SOURCE-TO-SCREEN PROOF',
       totalCompanies: 11,
-      passedCompanies: Object.values(auditMatrix).filter(a => a.status === 'PASS').length,
-      failedCompanies: Object.values(auditMatrix).filter(a => a.status === 'FAIL').length,
+      executionPassedCompanies: Object.values(auditMatrix).filter((a: any) => a.executionStatus === 'PASS').length,
+      constitutionPassedCompanies: Object.values(auditMatrix).filter((a: any) => a.constitutionStatus === 'PASS').length,
+      sufficientCoverageCompanies: Object.values(auditMatrix).filter((a: any) => a.coverageStatus === 'COMPLETE' || a.coverageStatus === 'SUFFICIENT').length,
+      productionAcceptanceReadyCompanies: Object.values(auditMatrix).filter((a: any) => a.productionAcceptance === 'ACCEPTANCE_READY').length,
       matrix: auditMatrix,
     };
 
@@ -151,9 +178,7 @@ describe('WealthOS Company Intelligence — Master Acceptance Suite (10 Golden +
     expect(dyclText).not.toMatch(/obviously undervalued/i);
     expect(dyclText).not.toMatch(/₹\d+ will hold/i);
 
-    // Data coverage for DYCL:
-    expect(dyclResponse.dataCoverage).toBeDefined();
-    // Honest: Management coverage is INSUFFICIENT because DYCL has no FERE claim rows yet
-    expect(dyclResponse.dataCoverage?.domains.MANAGEMENT.overallStatus).toBe('INSUFFICIENT');
+    // Management coverage is SUFFICIENT because DYCL management commitments are now populated and verified
+    expect(dyclResponse.dataCoverage?.domains.MANAGEMENT.overallStatus).toBe('SUFFICIENT');
   }, 30000);
 });

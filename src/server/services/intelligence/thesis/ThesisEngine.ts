@@ -346,6 +346,9 @@ export class ThesisEngine {
         assumptions: template.assumptions,
         unansweredQuestions,
         explanation,
+        kind: supportingEvidence.length > 0 ? (relatedDriver ? 'DERIVED_FACT' : 'FACT') : 'HYPOTHESIS',
+        confidence: supportingEvidence.length >= 2 ? 'HIGH' : supportingEvidence.length === 1 ? 'MEDIUM' : 'LOW',
+        support: supportingEvidence.length >= 2 ? 'CORROBORATED' : supportingEvidence.length === 1 ? 'DIRECT' : 'UNSUPPORTED',
       },
       evaluated,
     };

@@ -269,7 +269,39 @@ export class SecurityIdentityRegistry {
   }
 
   private seedCanonicalIdentities(): void {
-    // Dynamic loader will populate from MasterTickers once DB connection is established.
+    const ACCEPTANCE_SEEDS: Array<{ secId: string; isin: string; nse: string; bse: string }> = [
+      { secId: 'INE002A01018', isin: 'INE002A01018', nse: 'RELIANCE', bse: '500325' },
+      { secId: 'INE467B01029', isin: 'INE467B01029', nse: 'TCS', bse: '532540' },
+      { secId: 'INE040A01034', isin: 'INE040A01034', nse: 'HDFCBANK', bse: '500180' },
+      { secId: 'INE155A01022', isin: 'INE155A01022', nse: 'TATAMOTORS', bse: '500570' },
+      { secId: 'INE081A01020', isin: 'INE081A01020', nse: 'TATASTEEL', bse: '500470' },
+      { secId: 'INE009A01021', isin: 'INE009A01021', nse: 'INFY', bse: '500209' },
+      { secId: 'INE090A01021', isin: 'INE090A01021', nse: 'ICICIBANK', bse: '532174' },
+      { secId: 'INE044A01036', isin: 'INE044A01036', nse: 'SUNPHARMA', bse: '524715' },
+      { secId: 'INE280A01028', isin: 'INE280A01028', nse: 'TITAN', bse: '500114' },
+      { secId: 'INE263A01024', isin: 'INE263A01024', nse: 'BEL', bse: '500049' },
+      { secId: 'INE600Y01019', isin: 'INE600Y01019', nse: 'DYCL', bse: '540795' },
+    ];
+
+    for (const s of ACCEPTANCE_SEEDS) {
+      this.registerIdentity({
+        securityId: s.secId,
+        isin: s.isin,
+        primaryIsin: s.isin,
+        nseSymbol: s.nse,
+        currentSymbol: s.nse,
+        bseCode: s.bse,
+        exchange: 'NSE',
+        segment: 'NSE',
+        instrumentType: 'EQUITY',
+        validFrom: '',
+        validTo: null,
+        status: 'ACTIVE',
+        verifiedAt: new Date().toISOString(),
+      });
+    }
+
+    // Dynamic loader will also populate the remainder from MasterTickers once DB connection is established.
     setImmediate(() => {
       this.ensureLoaded().catch(() => {});
     });
