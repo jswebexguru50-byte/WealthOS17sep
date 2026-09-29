@@ -12,25 +12,16 @@ export async function setup() {
   fs.mkdirSync(reportsDir, { recursive: true });
   fs.mkdirSync(screenshotsDir, { recursive: true });
 
-  // Verify server is up
-  const maxAttempts = 10;
-  let attempts = 0;
-  while (attempts < maxAttempts) {
-    try {
-      const res = await fetch('http://localhost:3000/api/healthcheck');
-      if (res.ok) {
-        console.log('✅ WealthOS server is live at http://localhost:3000');
-        return;
-      }
-    } catch {
-      // Server not ready yet
+  // Quick check if external server is live (in-process tests do not require it)
+  try {
+    const res = await fetch('http://localhost:3000/api/healthcheck', { signal: AbortSignal.timeout(1000) });
+    if (res.ok) {
+      console.log('✅ WealthOS server is live at http://localhost:3000');
+      return;
     }
-    attempts++;
-    await new Promise(r => setTimeout(r, 2000));
+  } catch {
+    // External server not running — self-contained tests will use in-process app
   }
-
-  console.warn('⚠️ Server not detected at http://localhost:3000. Integration tests may fail.');
-  console.warn('   Run: node dist/server.cjs  before executing tests.');
 }
 
 export async function teardown() {

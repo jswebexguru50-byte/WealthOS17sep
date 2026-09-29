@@ -1,0 +1,1128 @@
+{
+  "RELIANCE": {
+    "symbol": "RELIANCE",
+    "business": "RELIANCE | Model: NON_FINANCIAL | Sector: N/A",
+    "primaryDrivers": [
+      {
+        "driverId": "reliance_o2c",
+        "name": "Oil-to-Chemicals (O2C) Refining & Petrochem",
+        "category": "MARGIN",
+        "materiality": "PRIMARY",
+        "description": "Gross refining margins (GRM), feedstock crude sourcing, and downstream polymer spreads",
+        "relatedMetrics": [
+          "ebitda_cr",
+          "revenue_cr"
+        ],
+        "sectorTemplate": "NON_FINANCIAL",
+        "currentState": "ebitda_cr: 123162 (Mar 2026)",
+        "direction": "UNKNOWN",
+        "evidence": [
+          {
+            "evidenceId": "SNAP_UPSTOX_FUNDAMENTALS_competitors_RELIANCE",
+            "sourceType": "UPSTOX_SNAPSHOT",
+            "sourceId": "UPSTOX_FUNDAMENTALS:competitors:RELIANCE",
+            "timestamp": "2026-09-26T11:54:10.576Z",
+            "notes": "Endpoint competitors from UPSTOX_FUNDAMENTALS"
+          }
+        ],
+        "evaluatedAt": "2026-09-29T04:29:59.484Z"
+      },
+      {
+        "driverId": "reliance_jio",
+        "name": "Jio Connectivity & ARPU Growth",
+        "category": "VOLUME",
+        "materiality": "PRIMARY",
+        "description": "Subscriber growth, tariff hikes, and 5G FWA monetization",
+        "relatedMetrics": [
+          "revenue_cr",
+          "ebitda_cr"
+        ],
+        "sectorTemplate": "NON_FINANCIAL",
+        "currentState": "revenue_cr: 1086181 (Mar 2026)",
+        "direction": "UNKNOWN",
+        "evidence": [
+          {
+            "evidenceId": "SNAP_UPSTOX_FUNDAMENTALS_competitors_RELIANCE",
+            "sourceType": "UPSTOX_SNAPSHOT",
+            "sourceId": "UPSTOX_FUNDAMENTALS:competitors:RELIANCE",
+            "timestamp": "2026-09-26T11:54:10.576Z",
+            "notes": "Endpoint competitors from UPSTOX_FUNDAMENTALS"
+          }
+        ],
+        "evaluatedAt": "2026-09-29T04:29:59.485Z"
+      },
+      {
+        "driverId": "reliance_retail",
+        "name": "Reliance Retail Scale & Omnichannel",
+        "category": "VOLUME",
+        "materiality": "PRIMARY",
+        "description": "Store network additions, grocery and fashion throughput, and margin maturation",
+        "relatedMetrics": [
+          "revenue_cr",
+          "ebitda_cr"
+        ],
+        "sectorTemplate": "NON_FINANCIAL",
+        "currentState": "revenue_cr: 1086181 (Mar 2026)",
+        "direction": "UNKNOWN",
+        "evidence": [
+          {
+            "evidenceId": "SNAP_UPSTOX_FUNDAMENTALS_competitors_RELIANCE",
+            "sourceType": "UPSTOX_SNAPSHOT",
+            "sourceId": "UPSTOX_FUNDAMENTALS:competitors:RELIANCE",
+            "timestamp": "2026-09-26T11:54:10.576Z",
+            "notes": "Endpoint competitors from UPSTOX_FUNDAMENTALS"
+          }
+        ],
+        "evaluatedAt": "2026-09-29T04:29:59.485Z"
+      }
+    ],
+    "currentDriverState": [
+      {
+        "name": "Oil-to-Chemicals (O2C) Refining & Petrochem",
+        "state": "ebitda_cr: 123162 (Mar 2026)",
+        "direction": "UNKNOWN"
+      },
+      {
+        "name": "Jio Connectivity & ARPU Growth",
+        "state": "revenue_cr: 1086181 (Mar 2026)",
+        "direction": "UNKNOWN"
+      },
+      {
+        "name": "Reliance Retail Scale & Omnichannel",
+        "state": "revenue_cr: 1086181 (Mar 2026)",
+        "direction": "UNKNOWN"
+      },
+      {
+        "name": "New Energy & Gigafactory Capex",
+        "state": "No data",
+        "direction": "UNKNOWN"
+      }
+    ],
+    "fundamentalTrajectory": {
+      "revenueGrowthYoY": {
+        "status": "ACCELERATING",
+        "latestGrowthPct": 10.53,
+        "priorGrowthPct": 7.15,
+        "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+      },
+      "marginTrajectory": {
+        "status": "EXPANDING",
+        "bpsChange": 55,
+        "metricUsed": "EBITDA_MARGIN"
+      },
+      "debtTrajectory": {
+        "status": "DATA_INSUFFICIENT",
+        "changePct": null
+      },
+      "returnProfile": {
+        "metric": "ROCE",
+        "latestValue": 10.39,
+        "status": "LOW"
+      }
+    },
+    "managementPromises": 0,
+    "managementDelivery": {
+      "total": 0,
+      "achieved": 0,
+      "missed": 0,
+      "pending": 0
+    },
+    "whatChanged": [],
+    "contradictions": [],
+    "valuation": {
+      "status": "WORKING",
+      "historical": {
+        "securityId": "RELIANCE",
+        "symbol": "RELIANCE",
+        "businessModel": "NON_FINANCIAL",
+        "coverageAudit": {
+          "symbol": "RELIANCE",
+          "snapshotCount": 8,
+          "earliestSnapshot": "2026-09-26T11:54:03.472Z",
+          "latestSnapshot": "2026-09-26T11:54:10.576Z",
+          "spanDays": 0,
+          "density": "INSUFFICIENT",
+          "canCompute1YMedian": false,
+          "canCompute3YMedian": false,
+          "canCompute5YMedian": false,
+          "missingYears": [
+            2022,
+            2023,
+            2024,
+            2025
+          ],
+          "limitation": "Only 8 snapshots available over 0 days — insufficient for reliable historical percentile calculation."
+        },
+        "currentMetrics": [],
+        "historicalContext": [
+          {
+            "metric": "PE",
+            "currentValue": null,
+            "current1YPercentile": null,
+            "median1Y": null,
+            "median3Y": null,
+            "median5Y": null,
+            "min1Y": null,
+            "max1Y": null,
+            "contextNote": null,
+            "coverage": "INSUFFICIENT",
+            "limitation": "Insufficient snapshot history for RELIANCE. Only 8 snapshots available over 0 days."
+          },
+          {
+            "metric": "EV_EBITDA",
+            "currentValue": null,
+            "current1YPercentile": null,
+            "median1Y": null,
+            "median3Y": null,
+            "median5Y": null,
+            "min1Y": null,
+            "max1Y": null,
+            "contextNote": null,
+            "coverage": "INSUFFICIENT",
+            "limitation": "Insufficient snapshot history for RELIANCE. Only 8 snapshots available over 0 days."
+          }
+        ],
+        "peerValuation": null,
+        "evaluatedAt": "2026-09-29T04:29:59.490Z",
+        "dataCompleteness": "MINIMAL"
+      }
+    },
+    "thesis": {
+      "summary": "RELIANCE thesis has partial evidence — key pillars remain to be verified.",
+      "pillars": [
+        {
+          "title": "Volume & Revenue Growth",
+          "status": "PARTIALLY_SUPPORTED",
+          "explanation": "Volume & Revenue Growth: Driver exists but direction is unclear (UNKNOWN)."
+        },
+        {
+          "title": "Margin Trajectory",
+          "status": "UNKNOWN",
+          "explanation": "Insufficient evidence to assess this pillar."
+        },
+        {
+          "title": "Capex Returns",
+          "status": "UNKNOWN",
+          "explanation": "Insufficient evidence to assess this pillar."
+        },
+        {
+          "title": "Deleveraging / Balance Sheet",
+          "status": "UNKNOWN",
+          "explanation": "No evidence available for Deleveraging / Balance Sheet metrics: net_debt_cr, cfo_cr."
+        }
+      ],
+      "changes": []
+    },
+    "catalysts": [],
+    "risks": [],
+    "attention": [],
+    "questions": [],
+    "dataGaps": [
+      "Missing evidence for driver: Oil-to-Chemicals (O2C) Refining & Petrochem",
+      "Missing evidence for driver: Jio Connectivity & ARPU Growth",
+      "Missing evidence for driver: Reliance Retail Scale & Omnichannel",
+      "Missing evidence for driver: New Energy & Gigafactory Capex",
+      "No operating KPIs available for this business model",
+      "No management commitments found",
+      "No operating KPI data — analysis is accounting-based only"
+    ],
+    "evidenceCount": 45
+  },
+  "TCS": {
+    "symbol": "TCS",
+    "business": "TCS | Model: NON_FINANCIAL | Sector: N/A",
+    "primaryDrivers": [
+      {
+        "driverId": "tcs_cc_revenue",
+        "name": "Constant Currency Revenue Growth",
+        "category": "VOLUME",
+        "materiality": "PRIMARY",
+        "description": "CC organic growth across North America, UK, and Continental Europe",
+        "relatedMetrics": [
+          "cc_revenue_growth_yoy",
+          "revenue_growth_yoy"
+        ],
+        "sectorTemplate": "NON_FINANCIAL",
+        "currentState": null,
+        "direction": "UNKNOWN",
+        "evidence": [],
+        "evaluatedAt": "2026-09-29T04:30:00.699Z"
+      },
+      {
+        "driverId": "tcs_deal_tcv",
+        "name": "Total & Large Deal TCV Wins",
+        "category": "ORDER_BOOK",
+        "materiality": "PRIMARY",
+        "description": "Deal signings and book-to-bill pipeline providing revenue visibility",
+        "relatedMetrics": [
+          "large_deal_tcv_cr",
+          "deal_tcv_cr"
+        ],
+        "sectorTemplate": "NON_FINANCIAL",
+        "currentState": null,
+        "direction": "UNKNOWN",
+        "evidence": [],
+        "evaluatedAt": "2026-09-29T04:30:00.699Z"
+      },
+      {
+        "driverId": "tcs_ebit_margin",
+        "name": "Operating EBIT Margin",
+        "category": "MARGIN",
+        "materiality": "PRIMARY",
+        "description": "EBIT margin discipline via utilisation, pyramid optimisation, and pricing",
+        "relatedMetrics": [
+          "ebit_margin_pct"
+        ],
+        "sectorTemplate": "NON_FINANCIAL",
+        "currentState": null,
+        "direction": "UNKNOWN",
+        "evidence": [],
+        "evaluatedAt": "2026-09-29T04:30:00.691Z"
+      }
+    ],
+    "currentDriverState": [
+      {
+        "name": "Constant Currency Revenue Growth",
+        "state": "No data",
+        "direction": "UNKNOWN"
+      },
+      {
+        "name": "Total & Large Deal TCV Wins",
+        "state": "No data",
+        "direction": "UNKNOWN"
+      },
+      {
+        "name": "Operating EBIT Margin",
+        "state": "No data",
+        "direction": "UNKNOWN"
+      },
+      {
+        "name": "Workforce Utilisation & Attrition",
+        "state": "No data",
+        "direction": "UNKNOWN"
+      }
+    ],
+    "fundamentalTrajectory": {
+      "revenueGrowthYoY": {
+        "status": "STABLE",
+        "latestGrowthPct": 4.68,
+        "priorGrowthPct": 5.7,
+        "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+      },
+      "marginTrajectory": {
+        "status": "CONTRACTING",
+        "bpsChange": -107,
+        "metricUsed": "EBITDA_MARGIN"
+      },
+      "debtTrajectory": {
+        "status": "DATA_INSUFFICIENT",
+        "changePct": null
+      },
+      "returnProfile": {
+        "metric": "ROCE",
+        "latestValue": 55.21,
+        "status": "HIGH_QUALITY"
+      }
+    },
+    "managementPromises": 0,
+    "managementDelivery": {
+      "total": 0,
+      "achieved": 0,
+      "missed": 0,
+      "pending": 0
+    },
+    "whatChanged": [],
+    "contradictions": [],
+    "valuation": {
+      "status": "WORKING",
+      "historical": {
+        "securityId": "TCS",
+        "symbol": "TCS",
+        "businessModel": "NON_FINANCIAL",
+        "coverageAudit": {
+          "symbol": "TCS",
+          "snapshotCount": 8,
+          "earliestSnapshot": "2026-09-26T13:51:19.223Z",
+          "latestSnapshot": "2026-09-26T13:51:28.915Z",
+          "spanDays": 0,
+          "density": "INSUFFICIENT",
+          "canCompute1YMedian": false,
+          "canCompute3YMedian": false,
+          "canCompute5YMedian": false,
+          "missingYears": [
+            2022,
+            2023,
+            2024,
+            2025
+          ],
+          "limitation": "Only 8 snapshots available over 0 days — insufficient for reliable historical percentile calculation."
+        },
+        "currentMetrics": [],
+        "historicalContext": [
+          {
+            "metric": "PE",
+            "currentValue": null,
+            "current1YPercentile": null,
+            "median1Y": null,
+            "median3Y": null,
+            "median5Y": null,
+            "min1Y": null,
+            "max1Y": null,
+            "contextNote": null,
+            "coverage": "INSUFFICIENT",
+            "limitation": "Insufficient snapshot history for TCS. Only 8 snapshots available over 0 days."
+          },
+          {
+            "metric": "EV_EBITDA",
+            "currentValue": null,
+            "current1YPercentile": null,
+            "median1Y": null,
+            "median3Y": null,
+            "median5Y": null,
+            "min1Y": null,
+            "max1Y": null,
+            "contextNote": null,
+            "coverage": "INSUFFICIENT",
+            "limitation": "Insufficient snapshot history for TCS. Only 8 snapshots available over 0 days."
+          }
+        ],
+        "peerValuation": null,
+        "evaluatedAt": "2026-09-29T04:30:00.704Z",
+        "dataCompleteness": "MINIMAL"
+      }
+    },
+    "thesis": {
+      "summary": "TCS thesis has partial evidence — key pillars remain to be verified.",
+      "pillars": [
+        {
+          "title": "Volume & Revenue Growth",
+          "status": "PARTIALLY_SUPPORTED",
+          "explanation": "Volume & Revenue Growth: Driver exists but direction is unclear (UNKNOWN)."
+        },
+        {
+          "title": "Margin Trajectory",
+          "status": "PARTIALLY_SUPPORTED",
+          "explanation": "Margin Trajectory: Driver exists but direction is unclear (UNKNOWN)."
+        },
+        {
+          "title": "Capex Returns",
+          "status": "UNKNOWN",
+          "explanation": "Insufficient evidence to assess this pillar."
+        },
+        {
+          "title": "Deleveraging / Balance Sheet",
+          "status": "UNKNOWN",
+          "explanation": "No evidence available for Deleveraging / Balance Sheet metrics: net_debt_cr, cfo_cr."
+        }
+      ],
+      "changes": []
+    },
+    "catalysts": [],
+    "risks": [],
+    "attention": [],
+    "questions": [],
+    "dataGaps": [
+      "Missing evidence for driver: Constant Currency Revenue Growth",
+      "Missing evidence for driver: Total & Large Deal TCV Wins",
+      "Missing evidence for driver: Operating EBIT Margin",
+      "Missing evidence for driver: Workforce Utilisation & Attrition",
+      "No operating KPIs available for this business model",
+      "No management commitments found",
+      "No operating KPI data — analysis is accounting-based only"
+    ],
+    "evidenceCount": 37
+  },
+  "HDFCBANK": {
+    "symbol": "HDFCBANK",
+    "business": "HDFCBANK | Model: BANK | Sector: N/A",
+    "primaryDrivers": [
+      {
+        "driverId": "hdfc_deposit_casa",
+        "name": "Deposit Accretion & CASA Share",
+        "category": "VOLUME",
+        "materiality": "PRIMARY",
+        "description": "Branch-led retail deposit mobilisation post-merger to replace wholesale borrowings",
+        "relatedMetrics": [
+          "deposit_cr",
+          "casa_ratio_pct"
+        ],
+        "sectorTemplate": "BANK",
+        "currentState": "casa_ratio_pct: 34 (LATEST)",
+        "direction": "UNKNOWN",
+        "evidence": [
+          {
+            "evidenceId": "SNAP_UPSTOX_FUNDAMENTALS_competitors_HDFCBANK",
+            "sourceType": "UPSTOX_SNAPSHOT",
+            "sourceId": "UPSTOX_FUNDAMENTALS:competitors:HDFCBANK",
+            "timestamp": "2026-09-26T11:50:51.192Z",
+            "notes": "Endpoint competitors from UPSTOX_FUNDAMENTALS"
+          }
+        ],
+        "evaluatedAt": "2026-09-29T04:30:01.716Z"
+      },
+      {
+        "driverId": "hdfc_nim_spread",
+        "name": "Net Interest Margin (NIM)",
+        "category": "MARGIN",
+        "materiality": "PRIMARY",
+        "description": "NIM trajectory as high-cost liabilities mature and retail loan mix rises",
+        "relatedMetrics": [
+          "nim_pct"
+        ],
+        "sectorTemplate": "BANK",
+        "currentState": "nim_pct: 3.28 (LATEST)",
+        "direction": "UNKNOWN",
+        "evidence": [
+          {
+            "evidenceId": "SNAP_UPSTOX_FUNDAMENTALS_competitors_HDFCBANK",
+            "sourceType": "UPSTOX_SNAPSHOT",
+            "sourceId": "UPSTOX_FUNDAMENTALS:competitors:HDFCBANK",
+            "timestamp": "2026-09-26T11:50:51.192Z",
+            "notes": "Endpoint competitors from UPSTOX_FUNDAMENTALS"
+          }
+        ],
+        "evaluatedAt": "2026-09-29T04:30:01.713Z"
+      },
+      {
+        "driverId": "hdfc_credit_cost_asset_quality",
+        "name": "Asset Quality & Credit Cost",
+        "category": "COST",
+        "materiality": "PRIMARY",
+        "description": "GNPA, NNPA and provisioning cost across retail and corporate book",
+        "relatedMetrics": [
+          "gnpa_pct",
+          "nnpa_pct",
+          "credit_cost_pct"
+        ],
+        "sectorTemplate": "BANK",
+        "currentState": "nnpa_pct: 0.38 (LATEST)",
+        "direction": "UNKNOWN",
+        "evidence": [
+          {
+            "evidenceId": "SNAP_UPSTOX_FUNDAMENTALS_competitors_HDFCBANK",
+            "sourceType": "UPSTOX_SNAPSHOT",
+            "sourceId": "UPSTOX_FUNDAMENTALS:competitors:HDFCBANK",
+            "timestamp": "2026-09-26T11:50:51.192Z",
+            "notes": "Endpoint competitors from UPSTOX_FUNDAMENTALS"
+          }
+        ],
+        "evaluatedAt": "2026-09-29T04:30:01.717Z"
+      },
+      {
+        "driverId": "hdfc_loan_growth",
+        "name": "Advances / Loan Growth",
+        "category": "VOLUME",
+        "materiality": "PRIMARY",
+        "description": "Credit growth aligned to deposit pacing to optimize Credit-Deposit (LDR) ratio",
+        "relatedMetrics": [
+          "loan_book_cr"
+        ],
+        "sectorTemplate": "BANK",
+        "currentState": null,
+        "direction": "UNKNOWN",
+        "evidence": [],
+        "evaluatedAt": "2026-09-29T04:30:01.714Z"
+      }
+    ],
+    "currentDriverState": [
+      {
+        "name": "Deposit Accretion & CASA Share",
+        "state": "casa_ratio_pct: 34 (LATEST)",
+        "direction": "UNKNOWN"
+      },
+      {
+        "name": "Net Interest Margin (NIM)",
+        "state": "nim_pct: 3.28 (LATEST)",
+        "direction": "UNKNOWN"
+      },
+      {
+        "name": "Asset Quality & Credit Cost",
+        "state": "nnpa_pct: 0.38 (LATEST)",
+        "direction": "UNKNOWN"
+      },
+      {
+        "name": "Advances / Loan Growth",
+        "state": "No data",
+        "direction": "UNKNOWN"
+      }
+    ],
+    "fundamentalTrajectory": {
+      "revenueGrowthYoY": {
+        "status": "DECELERATING",
+        "latestGrowthPct": 5.21,
+        "priorGrowthPct": 15.42,
+        "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+      },
+      "marginTrajectory": {
+        "status": "DATA_INSUFFICIENT",
+        "bpsChange": null,
+        "metricUsed": "NIM"
+      },
+      "debtTrajectory": {
+        "status": "NOT_APPLICABLE",
+        "changePct": null
+      },
+      "returnProfile": {
+        "metric": "ROE",
+        "latestValue": 13.61,
+        "status": "MODERATE"
+      }
+    },
+    "managementPromises": 0,
+    "managementDelivery": {
+      "total": 0,
+      "achieved": 0,
+      "missed": 0,
+      "pending": 0
+    },
+    "whatChanged": [],
+    "contradictions": [],
+    "valuation": {
+      "status": "WORKING",
+      "historical": {
+        "securityId": "HDFCBANK",
+        "symbol": "HDFCBANK",
+        "businessModel": "BANK",
+        "coverageAudit": {
+          "symbol": "HDFCBANK",
+          "snapshotCount": 8,
+          "earliestSnapshot": "2026-09-26T11:50:41.224Z",
+          "latestSnapshot": "2026-09-26T11:50:51.192Z",
+          "spanDays": 0,
+          "density": "INSUFFICIENT",
+          "canCompute1YMedian": false,
+          "canCompute3YMedian": false,
+          "canCompute5YMedian": false,
+          "missingYears": [
+            2022,
+            2023,
+            2024,
+            2025
+          ],
+          "limitation": "Only 8 snapshots available over 0 days — insufficient for reliable historical percentile calculation."
+        },
+        "currentMetrics": [],
+        "historicalContext": [
+          {
+            "metric": "PB",
+            "currentValue": null,
+            "current1YPercentile": null,
+            "median1Y": null,
+            "median3Y": null,
+            "median5Y": null,
+            "min1Y": null,
+            "max1Y": null,
+            "contextNote": null,
+            "coverage": "INSUFFICIENT",
+            "limitation": "Insufficient snapshot history for HDFCBANK. Only 8 snapshots available over 0 days."
+          },
+          {
+            "metric": "ROE",
+            "currentValue": null,
+            "current1YPercentile": null,
+            "median1Y": null,
+            "median3Y": null,
+            "median5Y": null,
+            "min1Y": null,
+            "max1Y": null,
+            "contextNote": null,
+            "coverage": "INSUFFICIENT",
+            "limitation": "Insufficient snapshot history for HDFCBANK. Only 8 snapshots available over 0 days."
+          }
+        ],
+        "peerValuation": null,
+        "evaluatedAt": "2026-09-29T04:30:01.720Z",
+        "dataCompleteness": "MINIMAL"
+      }
+    },
+    "thesis": {
+      "summary": "HDFCBANK thesis pillars largely supported by available evidence.",
+      "pillars": [
+        {
+          "title": "Deposit Franchise Strength",
+          "status": "PARTIALLY_SUPPORTED",
+          "explanation": "Deposit Franchise Strength: Driver exists but direction is unclear (UNKNOWN)."
+        },
+        {
+          "title": "NIM Defense",
+          "status": "PARTIALLY_SUPPORTED",
+          "explanation": "NIM Defense: Driver exists but direction is unclear (UNKNOWN)."
+        },
+        {
+          "title": "Underwriting Quality",
+          "status": "PARTIALLY_SUPPORTED",
+          "explanation": "Underwriting Quality: Driver exists but direction is unclear (UNKNOWN)."
+        },
+        {
+          "title": "Capital Efficiency",
+          "status": "UNKNOWN",
+          "explanation": "Insufficient evidence to assess this pillar."
+        }
+      ],
+      "changes": []
+    },
+    "catalysts": [],
+    "risks": [],
+    "attention": [],
+    "questions": [],
+    "dataGaps": [
+      "Missing evidence for driver: Deposit Accretion & CASA Share",
+      "Missing evidence for driver: Net Interest Margin (NIM)",
+      "Missing evidence for driver: Asset Quality & Credit Cost",
+      "Missing evidence for driver: Advances / Loan Growth",
+      "No operating KPIs available for this business model",
+      "No management commitments found",
+      "No operating KPI data — analysis is accounting-based only"
+    ],
+    "evidenceCount": 29
+  },
+  "TATAMOTORS": {
+    "symbol": "TATAMOTORS",
+    "business": "TATAMOTORS | Model: NON_FINANCIAL | Sector: N/A",
+    "primaryDrivers": [
+      {
+        "driverId": "tatamotors_jlr_volumes",
+        "name": "JLR Wholesales & Retail Volumes",
+        "category": "VOLUME",
+        "materiality": "PRIMARY",
+        "description": "Jaguar Land Rover wholesales and order bank execution driving global cash flow",
+        "relatedMetrics": [
+          "jlr_volumes_k",
+          "revenue_cr"
+        ],
+        "sectorTemplate": "NON_FINANCIAL",
+        "currentState": "revenue_cr: 341369 (Mar 2026)",
+        "direction": "UNKNOWN",
+        "evidence": [
+          {
+            "evidenceId": "SNAP_UPSTOX_FUNDAMENTALS_competitors_TATAMOTORS",
+            "sourceType": "UPSTOX_SNAPSHOT",
+            "sourceId": "UPSTOX_FUNDAMENTALS:competitors:TATAMOTORS",
+            "timestamp": "2026-09-26T11:55:35.587Z",
+            "notes": "Endpoint competitors from UPSTOX_FUNDAMENTALS"
+          }
+        ],
+        "evaluatedAt": "2026-09-29T04:30:02.456Z"
+      },
+      {
+        "driverId": "tatamotors_jlr_ebit",
+        "name": "JLR EBIT Margin & Pricing Power",
+        "category": "MARGIN",
+        "materiality": "PRIMARY",
+        "description": "Range Rover/Defender mix defending profitability and EBIT margin",
+        "relatedMetrics": [
+          "jlr_ebit_margin_pct",
+          "ebit_margin_pct"
+        ],
+        "sectorTemplate": "NON_FINANCIAL",
+        "currentState": null,
+        "direction": "UNKNOWN",
+        "evidence": [],
+        "evaluatedAt": "2026-09-29T04:30:02.456Z"
+      },
+      {
+        "driverId": "tatamotors_india_cv",
+        "name": "India Commercial Vehicle (CV) Demand",
+        "category": "VOLUME",
+        "materiality": "PRIMARY",
+        "description": "India CV volumes and infrastructure freight cycle",
+        "relatedMetrics": [
+          "india_cv_volumes_k"
+        ],
+        "sectorTemplate": "NON_FINANCIAL",
+        "currentState": null,
+        "direction": "UNKNOWN",
+        "evidence": [],
+        "evaluatedAt": "2026-09-29T04:30:02.453Z"
+      },
+      {
+        "driverId": "tatamotors_india_pv_ev",
+        "name": "India Passenger Vehicles & EV Leadership",
+        "category": "VOLUME",
+        "materiality": "PRIMARY",
+        "description": "India PV market share, SUV lineup, and EV market dominance",
+        "relatedMetrics": [
+          "india_pv_volumes_k"
+        ],
+        "sectorTemplate": "NON_FINANCIAL",
+        "currentState": null,
+        "direction": "UNKNOWN",
+        "evidence": [],
+        "evaluatedAt": "2026-09-29T04:30:02.453Z"
+      },
+      {
+        "driverId": "tatamotors_net_debt",
+        "name": "Net Automotive Debt Reduction",
+        "category": "DEBT",
+        "materiality": "PRIMARY",
+        "description": "Deleveraging trajectory toward net-zero auto debt through JLR FCF",
+        "relatedMetrics": [
+          "net_auto_debt_cr",
+          "net_debt_cr",
+          "cfo_cr"
+        ],
+        "sectorTemplate": "NON_FINANCIAL",
+        "currentState": null,
+        "direction": "UNKNOWN",
+        "evidence": [],
+        "evaluatedAt": "2026-09-29T04:30:02.458Z"
+      }
+    ],
+    "currentDriverState": [
+      {
+        "name": "JLR Wholesales & Retail Volumes",
+        "state": "revenue_cr: 341369 (Mar 2026)",
+        "direction": "UNKNOWN"
+      },
+      {
+        "name": "JLR EBIT Margin & Pricing Power",
+        "state": "No data",
+        "direction": "UNKNOWN"
+      },
+      {
+        "name": "India Commercial Vehicle (CV) Demand",
+        "state": "No data",
+        "direction": "UNKNOWN"
+      },
+      {
+        "name": "India Passenger Vehicles & EV Leadership",
+        "state": "No data",
+        "direction": "UNKNOWN"
+      },
+      {
+        "name": "Net Automotive Debt Reduction",
+        "state": "No data",
+        "direction": "UNKNOWN"
+      }
+    ],
+    "fundamentalTrajectory": {
+      "revenueGrowthYoY": {
+        "status": "ACCELERATING",
+        "latestGrowthPct": -8.12,
+        "priorGrowthPct": -15.51,
+        "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+      },
+      "marginTrajectory": {
+        "status": "CONTRACTING",
+        "bpsChange": -813,
+        "metricUsed": "EBITDA_MARGIN"
+      },
+      "debtTrajectory": {
+        "status": "DATA_INSUFFICIENT",
+        "changePct": null
+      },
+      "returnProfile": {
+        "metric": "ROCE",
+        "latestValue": 2.52,
+        "status": "LOW"
+      }
+    },
+    "managementPromises": 0,
+    "managementDelivery": {
+      "total": 0,
+      "achieved": 0,
+      "missed": 0,
+      "pending": 0
+    },
+    "whatChanged": [],
+    "contradictions": [],
+    "valuation": {
+      "status": "WORKING",
+      "historical": {
+        "securityId": "TATAMOTORS",
+        "symbol": "TATAMOTORS",
+        "businessModel": "NON_FINANCIAL",
+        "coverageAudit": {
+          "symbol": "TATAMOTORS",
+          "snapshotCount": 8,
+          "earliestSnapshot": "2026-09-26T11:55:28.446Z",
+          "latestSnapshot": "2026-09-26T11:55:35.587Z",
+          "spanDays": 0,
+          "density": "INSUFFICIENT",
+          "canCompute1YMedian": false,
+          "canCompute3YMedian": false,
+          "canCompute5YMedian": false,
+          "missingYears": [
+            2022,
+            2023,
+            2024,
+            2025
+          ],
+          "limitation": "Only 8 snapshots available over 0 days — insufficient for reliable historical percentile calculation."
+        },
+        "currentMetrics": [],
+        "historicalContext": [
+          {
+            "metric": "PE",
+            "currentValue": null,
+            "current1YPercentile": null,
+            "median1Y": null,
+            "median3Y": null,
+            "median5Y": null,
+            "min1Y": null,
+            "max1Y": null,
+            "contextNote": null,
+            "coverage": "INSUFFICIENT",
+            "limitation": "Insufficient snapshot history for TATAMOTORS. Only 8 snapshots available over 0 days."
+          },
+          {
+            "metric": "EV_EBITDA",
+            "currentValue": null,
+            "current1YPercentile": null,
+            "median1Y": null,
+            "median3Y": null,
+            "median5Y": null,
+            "min1Y": null,
+            "max1Y": null,
+            "contextNote": null,
+            "coverage": "INSUFFICIENT",
+            "limitation": "Insufficient snapshot history for TATAMOTORS. Only 8 snapshots available over 0 days."
+          }
+        ],
+        "peerValuation": null,
+        "evaluatedAt": "2026-09-29T04:30:02.461Z",
+        "dataCompleteness": "MINIMAL"
+      }
+    },
+    "thesis": {
+      "summary": "TATAMOTORS thesis pillars largely supported by available evidence.",
+      "pillars": [
+        {
+          "title": "Volume & Revenue Growth",
+          "status": "PARTIALLY_SUPPORTED",
+          "explanation": "Volume & Revenue Growth: Driver exists but direction is unclear (UNKNOWN)."
+        },
+        {
+          "title": "Margin Trajectory",
+          "status": "PARTIALLY_SUPPORTED",
+          "explanation": "Margin Trajectory: Driver exists but direction is unclear (UNKNOWN)."
+        },
+        {
+          "title": "Capex Returns",
+          "status": "UNKNOWN",
+          "explanation": "Insufficient evidence to assess this pillar."
+        },
+        {
+          "title": "Deleveraging / Balance Sheet",
+          "status": "PARTIALLY_SUPPORTED",
+          "explanation": "Deleveraging / Balance Sheet: Driver exists but direction is unclear (UNKNOWN)."
+        }
+      ],
+      "changes": []
+    },
+    "catalysts": [],
+    "risks": [],
+    "attention": [],
+    "questions": [],
+    "dataGaps": [
+      "Missing evidence for driver: JLR Wholesales & Retail Volumes",
+      "Missing evidence for driver: JLR EBIT Margin & Pricing Power",
+      "Missing evidence for driver: India Commercial Vehicle (CV) Demand",
+      "Missing evidence for driver: India Passenger Vehicles & EV Leadership",
+      "Missing evidence for driver: Net Automotive Debt Reduction",
+      "No operating KPIs available for this business model",
+      "No management commitments found",
+      "No operating KPI data — analysis is accounting-based only"
+    ],
+    "evidenceCount": 20
+  },
+  "TATASTEEL": {
+    "symbol": "TATASTEEL",
+    "business": "TATASTEEL | Model: NON_FINANCIAL | Sector: N/A",
+    "primaryDrivers": [
+      {
+        "driverId": "tatasteel_india_ebitda",
+        "name": "India Volume & EBITDA / Tonne",
+        "category": "MARGIN",
+        "materiality": "PRIMARY",
+        "description": "Kalinganagar expansion and captive iron ore driving high domestic unit margins",
+        "relatedMetrics": [
+          "india_ebitda_t",
+          "india_production_mt",
+          "india_delivery_mt"
+        ],
+        "sectorTemplate": "NON_FINANCIAL",
+        "currentState": null,
+        "direction": "UNKNOWN",
+        "evidence": [],
+        "evaluatedAt": "2026-09-29T04:30:03.810Z"
+      },
+      {
+        "driverId": "tatasteel_europe_turnaround",
+        "name": "UK / Netherlands Restructuring",
+        "category": "COST",
+        "materiality": "PRIMARY",
+        "description": "Port Talbot EAF transition and Dutch blast furnace stability stemming cash bleed",
+        "relatedMetrics": [
+          "europe_ebitda_t"
+        ],
+        "sectorTemplate": "NON_FINANCIAL",
+        "currentState": null,
+        "direction": "UNKNOWN",
+        "evidence": [],
+        "evaluatedAt": "2026-09-29T04:30:03.806Z"
+      },
+      {
+        "driverId": "tatasteel_net_debt",
+        "name": "Net Debt & Free Cash Generation",
+        "category": "DEBT",
+        "materiality": "PRIMARY",
+        "description": "Debt service capability through commodity price cycles and UK capex grants",
+        "relatedMetrics": [
+          "net_debt_cr",
+          "cfo_cr"
+        ],
+        "sectorTemplate": "NON_FINANCIAL",
+        "currentState": null,
+        "direction": "UNKNOWN",
+        "evidence": [],
+        "evaluatedAt": "2026-09-29T04:30:03.809Z"
+      }
+    ],
+    "currentDriverState": [
+      {
+        "name": "India Volume & EBITDA / Tonne",
+        "state": "No data",
+        "direction": "UNKNOWN"
+      },
+      {
+        "name": "UK / Netherlands Restructuring",
+        "state": "No data",
+        "direction": "UNKNOWN"
+      },
+      {
+        "name": "Net Debt & Free Cash Generation",
+        "state": "No data",
+        "direction": "UNKNOWN"
+      }
+    ],
+    "fundamentalTrajectory": {
+      "revenueGrowthYoY": {
+        "status": "ACCELERATING",
+        "latestGrowthPct": 6.12,
+        "priorGrowthPct": -4.72,
+        "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+      },
+      "marginTrajectory": {
+        "status": "EXPANDING",
+        "bpsChange": 302,
+        "metricUsed": "EBITDA_MARGIN"
+      },
+      "debtTrajectory": {
+        "status": "DATA_INSUFFICIENT",
+        "changePct": null
+      },
+      "returnProfile": {
+        "metric": "ROCE",
+        "latestValue": 11.35,
+        "status": "LOW"
+      }
+    },
+    "managementPromises": 0,
+    "managementDelivery": {
+      "total": 0,
+      "achieved": 0,
+      "missed": 0,
+      "pending": 0
+    },
+    "whatChanged": [],
+    "contradictions": [],
+    "valuation": {
+      "status": "WORKING",
+      "historical": {
+        "securityId": "TATASTEEL",
+        "symbol": "TATASTEEL",
+        "businessModel": "NON_FINANCIAL",
+        "coverageAudit": {
+          "symbol": "TATASTEEL",
+          "snapshotCount": 8,
+          "earliestSnapshot": "2026-09-26T13:27:59.974Z",
+          "latestSnapshot": "2026-09-26T13:28:07.393Z",
+          "spanDays": 0,
+          "density": "INSUFFICIENT",
+          "canCompute1YMedian": false,
+          "canCompute3YMedian": false,
+          "canCompute5YMedian": false,
+          "missingYears": [
+            2022,
+            2023,
+            2024,
+            2025
+          ],
+          "limitation": "Only 8 snapshots available over 0 days — insufficient for reliable historical percentile calculation."
+        },
+        "currentMetrics": [],
+        "historicalContext": [
+          {
+            "metric": "PE",
+            "currentValue": null,
+            "current1YPercentile": null,
+            "median1Y": null,
+            "median3Y": null,
+            "median5Y": null,
+            "min1Y": null,
+            "max1Y": null,
+            "contextNote": null,
+            "coverage": "INSUFFICIENT",
+            "limitation": "Insufficient snapshot history for TATASTEEL. Only 8 snapshots available over 0 days."
+          },
+          {
+            "metric": "EV_EBITDA",
+            "currentValue": null,
+            "current1YPercentile": null,
+            "median1Y": null,
+            "median3Y": null,
+            "median5Y": null,
+            "min1Y": null,
+            "max1Y": null,
+            "contextNote": null,
+            "coverage": "INSUFFICIENT",
+            "limitation": "Insufficient snapshot history for TATASTEEL. Only 8 snapshots available over 0 days."
+          }
+        ],
+        "peerValuation": null,
+        "evaluatedAt": "2026-09-29T04:30:03.812Z",
+        "dataCompleteness": "MINIMAL"
+      }
+    },
+    "thesis": {
+      "summary": "TATASTEEL thesis has partial evidence — key pillars remain to be verified.",
+      "pillars": [
+        {
+          "title": "Volume & Revenue Growth",
+          "status": "UNKNOWN",
+          "explanation": "Insufficient evidence to assess this pillar."
+        },
+        {
+          "title": "Margin Trajectory",
+          "status": "UNKNOWN",
+          "explanation": "Insufficient evidence to assess this pillar."
+        },
+        {
+          "title": "Capex Returns",
+          "status": "UNKNOWN",
+          "explanation": "Insufficient evidence to assess this pillar."
+        },
+        {
+          "title": "Deleveraging / Balance Sheet",
+          "status": "PARTIALLY_SUPPORTED",
+          "explanation": "Deleveraging / Balance Sheet: Driver exists but direction is unclear (UNKNOWN)."
+        }
+      ],
+      "changes": []
+    },
+    "catalysts": [],
+    "risks": [],
+    "attention": [],
+    "questions": [],
+    "dataGaps": [
+      "Missing evidence for driver: India Volume & EBITDA / Tonne",
+      "Missing evidence for driver: UK / Netherlands Restructuring",
+      "Missing evidence for driver: Net Debt & Free Cash Generation",
+      "No operating KPIs available for this business model",
+      "No management commitments found",
+      "No operating KPI data — analysis is accounting-based only"
+    ],
+    "evidenceCount": 23
+  }
+}

@@ -618,6 +618,40 @@ forensicRouter.get('/fere-stock/:symbol', async (req: Request, res: Response) =>
     res.status(500).json({ success: false, error: error.message });
   }
 });
+/**
+ * GET /api/forensic/:symbol/evidence
+ * Canonical FERE read-only evidence retrieval.
+ * Invariants:
+ * - Read-only, no mutations.
+ * - Reports exact count of verified filing facts / evidence.
+ * - Preserves distinctions: VERIFIED_PARTIAL, DATA_INSUFFICIENT, SOURCE_UNAVAILABLE.
+ */
+forensicRouter.get('/:symbol/evidence', async (req: Request, res: Response) => {
+  try {
+    const rawSymbol = String(req.params.symbol || '').trim().toUpperCase();
+    const cleanSymbol = rawSymbol.replace('.NS', '').replace('.BO', '');
+
+    const evidenceSummary = await readFereEvidence(null, cleanSymbol);
+    const documents = evidenceSummary.documents || [];
+    const evidenceList = Array.isArray(evidenceSummary.companyCheck?.evidence)
+      ? evidenceSummary.companyCheck.evidence
+      : documents;
+
+    return res.json({
+      success: true,
+      symbol: cleanSymbol,
+      status: evidenceSummary.status,
+      count: evidenceList.length,
+      evidence: evidenceList,
+      documents,
+      missingFields: evidenceSummary.missingFields,
+      verifiedFactCount: evidenceSummary.verifiedFactCount,
+    });
+  } catch (error: any) {
+    console.error('[FEREEvidenceLookup] Error:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
 
 forensicRouter.post('/fere-stock/:symbol/refresh', requireFereReviewer, async (req: Request, res: Response) => {
   const cleanSymbol = String(req.params.symbol || '').trim().toUpperCase().replace('.NS', '').replace('.BO', '');

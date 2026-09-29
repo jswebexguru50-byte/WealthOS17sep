@@ -74,9 +74,9 @@ export class DuckDbAdjustedOhlcvService {
   private static async resolvePython(): Promise<string> {
     const candidates = [
       process.env.PYTHON_BIN,
+      this.localPython,
       'python',
       'python3',
-      this.localPython,
       this.bundledPython
     ].filter(Boolean) as string[];
 

@@ -166,18 +166,13 @@ export class FereModuleAdapter {
       // Divergence checks fail closed without throwing
     }
 
-    // 5. Auditor observations
-    const auditorObservations: AuditorObservation[] = [
-      {
-        period: 'LATEST_ANNUAL',
-        auditorName: 'Statutory Auditor',
-        opinion: 'UNQUALIFIED',
-        hasQualification: false,
-        evidence: evidenceRefs.slice(0, 1),
-      },
-    ];
+    // Auditor opinions require an explicitly parsed, source-linked observation.
+    // A filing's existence alone is not evidence of an unqualified opinion.
+    const auditorObservations: AuditorObservation[] = [];
 
-    const verifiedFactCount = summary?.verifiedFactCount || availableFilings.length;
+    // Preserve the persisted FERE fact count exactly. Filing documents are not
+    // a substitute for verified facts.
+    const verifiedFactCount = summary?.verifiedFactCount ?? 0;
     let moduleStatus: ModuleStatus = 'DATA_INSUFFICIENT';
 
     if (availableFilings.length > 0 || warnings.length > 0) {

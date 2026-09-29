@@ -60,6 +60,35 @@ export class ThesisRevisionStore {
       .substring(0, 16);
   }
 
+  private tableInitialized = false;
+
+  public async ensureTable(): Promise<void> {
+    if (this.tableInitialized) return;
+    const db = getDB();
+    if (!db) return;
+    try {
+      await dbRun(
+        db,
+        `CREATE TABLE IF NOT EXISTS company_thesis_revisions (
+           revision_id TEXT PRIMARY KEY,
+           security_id TEXT NOT NULL,
+           as_of_date TEXT NOT NULL,
+           state_hash TEXT NOT NULL,
+           created_at TEXT NOT NULL,
+           thesis_json TEXT NOT NULL
+         )`
+      );
+      await dbRun(
+        db,
+        `CREATE INDEX IF NOT EXISTS idx_thesis_rev_security
+         ON company_thesis_revisions(security_id, created_at DESC)`
+      );
+      this.tableInitialized = true;
+    } catch {
+      // Table may already exist
+    }
+  }
+
   /**
    * Persists a new revision ONLY IF the thesis state changed.
    * Never overwrites prior revisions.
@@ -69,6 +98,7 @@ export class ThesisRevisionStore {
     asOfDate: string,
     thesis: CompanyThesis
   ): Promise<{ saved: boolean; revisionId: string; stateHash: string }> {
+    await this.ensureTable();
     const db = getDB();
     if (!db) {
       return { saved: false, revisionId: thesis.thesisId, stateHash: '' };
@@ -119,6 +149,7 @@ export class ThesisRevisionStore {
    * Retrieves the most recent thesis revision for a security.
    */
   public async getLatestRevision(securityId: string): Promise<ThesisRevision | null> {
+    await this.ensureTable();
     const db = getDB();
     if (!db) return null;
 
@@ -151,6 +182,7 @@ export class ThesisRevisionStore {
    * Retrieves complete chronological history of thesis revisions for a security.
    */
   public async getRevisionHistory(securityId: string, limit = 20): Promise<ThesisRevision[]> {
+    await this.ensureTable();
     const db = getDB();
     if (!db) return [];
 
