@@ -11,7 +11,8 @@
  * - C16: Financial sector uses specialized valuation metrics (PB, ROE, NIM)
  */
 
-import { getDB, dbAll, dbGet } from '../../../database.js';
+import { CanonicalFactRepository } from '../core/CanonicalFactRepository.js';
+import { SecurityIdentity } from '../contracts/SecurityIdentity.js';
 import { SecurityIdentityRegistry } from '../../dataAcquisition/SecurityIdentityRegistry.js';
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
@@ -161,40 +162,27 @@ export class ValuationIntelligenceEngine {
     isin?: string,
     asOfDate?: string | null
   ): Promise<ValuationCoverageAudit> {
-    const db = getDB();
-    if (!db) {
-      return {
-        symbol, snapshotCount: 0, earliestSnapshot: null, latestSnapshot: null,
-        spanDays: 0, density: 'INSUFFICIENT',
-        canCompute1YMedian: false, canCompute3YMedian: false, canCompute5YMedian: false,
-        missingYears: [], limitation: 'No database connection',
-      };
-    }
-
     const effectiveAsOf = asOfDate || new Date().toISOString().split('T')[0];
     const isinVal = isin || symbol;
+    const identity: SecurityIdentity = {
+      securityId: isinVal,
+      isin: isinVal,
+      nseSymbol: symbol,
+      companyName: symbol,
+    };
 
     try {
-      const summary = await dbGet(
-        db,
-        `SELECT COUNT(*) as cnt, MIN(availableAt) as earliest, MAX(availableAt) as latest
-         FROM company_facts
-         WHERE (isin = ? OR symbol = ?)
-           AND (
-             (availableAt IS NOT NULL AND availableAt <= ?)
-             OR (availableAt IS NULL AND asOfDate IS NOT NULL AND asOfDate <= ?)
-           )`,
-        [isinVal, symbol, effectiveAsOf, effectiveAsOf]
-      ) as any;
+      const summary = await CanonicalFactRepository.getInstance().getCoverageSummary(
+        identity,
+        effectiveAsOf,
+        'ALLOW_INFERRED'
+      );
 
-      const count = summary?.cnt || 0;
-      const earliest = summary?.earliest || null;
-      const latest = summary?.latest || null;
-
-      let spanDays = 0;
-      if (earliest && latest) {
-        spanDays = Math.floor((new Date(latest).getTime() - new Date(earliest).getTime()) / (86400 * 1000));
-      }
+      const count = summary.count;
+      const earliest = summary.earliest;
+      const latest = summary.latest;
+      const spanDays = summary.spanDays;
+      const missingYears = summary.missingYears;
 
       let density: HistoricalDensity = 'INSUFFICIENT';
       if (count >= 30 && spanDays >= 365) density = 'DENSE';
@@ -203,20 +191,6 @@ export class ValuationIntelligenceEngine {
       const canCompute1Y = count >= 10 && spanDays >= 180;
       const canCompute3Y = count >= 25 && spanDays >= 700;
       const canCompute5Y = count >= 40 && spanDays >= 1400;
-
-      const missingYears: number[] = [];
-      if (latest) {
-        const latestYear = new Date(latest).getFullYear();
-        for (let y = latestYear - 4; y <= latestYear; y++) {
-          const yearCount = await dbGet(
-            db,
-            `SELECT COUNT(*) as cnt FROM company_facts
-             WHERE (isin = ? OR symbol = ?) AND (substr(periodEnd, 1, 4) = ? OR substr(availableAt, 1, 4) = ?)`,
-            [isinVal, symbol, String(y), String(y)]
-          ) as any;
-          if (!yearCount?.cnt || yearCount.cnt < 2) missingYears.push(y);
-        }
-      }
 
       let limitation: string | null = null;
       if (density === 'INSUFFICIENT') {
@@ -249,39 +223,37 @@ export class ValuationIntelligenceEngine {
     businessModel: string,
     asOfDate?: string | null
   ): Promise<ValuationIntelligenceResult['currentMetrics']> {
-    const db = getDB();
-    if (!db) return [];
-
     const effectiveAsOf = asOfDate || new Date().toISOString().split('T')[0];
     const isinVal = isin || symbol;
+    const identity: SecurityIdentity = {
+      securityId: isinVal,
+      isin: isinVal,
+      nseSymbol: symbol,
+      companyName: symbol,
+    };
     const metrics = this.getPreferredMetrics(businessModel);
     const results: ValuationIntelligenceResult['currentMetrics'] = [];
 
     try {
+      const factRepo = CanonicalFactRepository.getInstance();
+      const latestFacts = await factRepo.getLatestFactsByMetric(identity, effectiveAsOf, 'ALLOW_INFERRED');
+
       for (const m of metrics) {
         const dbKeys = METRIC_TO_DB_METRICS[m] || [m.toLowerCase()];
-        const placeholders = dbKeys.map(() => '?').join(',');
+        let matchedFact = null;
+        for (const k of dbKeys) {
+          if (latestFacts[k.toLowerCase()]) {
+            matchedFact = latestFacts[k.toLowerCase()];
+            break;
+          }
+        }
 
-        const row = await dbGet(
-          db,
-          `SELECT value, availableAt, reportedAt, asOfDate
-           FROM company_facts
-           WHERE (isin = ? OR symbol = ?) AND metric IN (${placeholders})
-             AND (
-               (availableAt IS NOT NULL AND availableAt <= ?)
-               OR (availableAt IS NULL AND asOfDate IS NOT NULL AND asOfDate <= ?)
-             )
-           ORDER BY availableAt DESC, periodEnd DESC
-           LIMIT 1`,
-          [isinVal, symbol, ...dbKeys, effectiveAsOf, effectiveAsOf]
-        ) as any;
-
-        if (row && row.value !== null && row.value !== undefined) {
-          const num = parseFloat(row.value);
+        if (matchedFact && matchedFact.value !== null && matchedFact.value !== undefined) {
+          const num = typeof matchedFact.value === 'number' ? matchedFact.value : parseFloat(String(matchedFact.value));
           results.push({
             metric: m,
             value: isNaN(num) ? null : num,
-            asOf: row.availableAt || row.reportedAt || row.asOfDate || effectiveAsOf,
+            asOf: matchedFact.availableAt || matchedFact.publishedAt || effectiveAsOf,
           });
         } else {
           results.push({
@@ -307,37 +279,27 @@ export class ValuationIntelligenceEngine {
     audit: ValuationCoverageAudit,
     asOfDate?: string | null
   ): Promise<ValuationHistoricalContext> {
-    const db = getDB();
-    if (!db) {
-      return {
-        metric, currentValue: null, current1YPercentile: null,
-        median1Y: null, median3Y: null, median5Y: null,
-        min1Y: null, max1Y: null, contextNote: null,
-        coverage: 'INSUFFICIENT', limitation: 'No DB',
-      };
-    }
-
     const effectiveAsOf = asOfDate || new Date().toISOString().split('T')[0];
     const isinVal = isin || symbol;
+    const identity: SecurityIdentity = {
+      securityId: isinVal,
+      isin: isinVal,
+      nseSymbol: symbol,
+      companyName: symbol,
+    };
     const dbKeys = METRIC_TO_DB_METRICS[metric] || [metric.toLowerCase()];
-    const placeholders = dbKeys.map(() => '?').join(',');
 
     try {
-      const rows = await dbAll<any>(
-        db,
-        `SELECT value, availableAt, periodEnd
-         FROM company_facts
-         WHERE (isin = ? OR symbol = ?) AND metric IN (${placeholders})
-           AND (
-             (availableAt IS NOT NULL AND availableAt <= ?)
-             OR (availableAt IS NULL AND asOfDate IS NOT NULL AND asOfDate <= ?)
-           )
-         ORDER BY periodEnd ASC`,
-        [isinVal, symbol, ...dbKeys, effectiveAsOf, effectiveAsOf]
+      const factRepo = CanonicalFactRepository.getInstance();
+      const facts = await factRepo.getHistoricalSeriesMultiMetric(
+        identity,
+        dbKeys,
+        effectiveAsOf,
+        'ALLOW_INFERRED'
       );
 
-      const validValues = rows
-        .map(r => parseFloat(r.value))
+      const validValues = facts
+        .map(f => (typeof f.value === 'number' ? f.value : parseFloat(String(f.value))))
         .filter(v => !isNaN(v) && v > 0);
 
       if (validValues.length === 0) {

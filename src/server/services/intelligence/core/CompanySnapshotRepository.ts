@@ -20,38 +20,12 @@ import { SecurityIdentity } from '../contracts/SecurityIdentity.js';
 
 const PORTFOLIO_DB_PATH = path.resolve('portfolio.db');
 
-/** Ensures V2 columns exist. Runs once on first access; idempotent via IF NOT EXISTS. */
-function ensureV2Columns(db: InstanceType<typeof Database>): void {
-  try {
-    db.exec(`
-      ALTER TABLE company_intelligence_snapshot ADD COLUMN canonical_fact_hash TEXT;
-    `);
-  } catch { /* column already exists */ }
-  try {
-    db.exec(`
-      ALTER TABLE company_intelligence_snapshot ADD COLUMN evidence_hash TEXT;
-    `);
-  } catch { /* column already exists */ }
-  try {
-    db.exec(`
-      ALTER TABLE company_intelligence_snapshot ADD COLUMN module_hashes TEXT;
-    `);
-  } catch { /* column already exists */ }
-  try {
-    db.exec(`
-      ALTER TABLE company_intelligence_snapshot ADD COLUMN analytical_hash TEXT;
-    `);
-  } catch { /* column already exists */ }
-  try {
-    db.exec(`
-      ALTER TABLE company_intelligence_snapshot ADD COLUMN payload_summary TEXT;
-    `);
-  } catch { /* column already exists */ }
-}
+// V2 columns are created at startup by scripts/migrations/005_company_snapshot_v2.sql
+// Never run DDL from repositories — schema changes belong in the migration runner.
 
 export class CompanySnapshotRepository {
   private static instance: CompanySnapshotRepository;
-  private v2MigrationDone = false;
+
 
   private constructor() {}
 
@@ -77,12 +51,7 @@ export class CompanySnapshotRepository {
     return crypto.createHash('sha256').update(preimage).digest('hex');
   }
 
-  private ensureMigration(db: InstanceType<typeof Database>): void {
-    if (!this.v2MigrationDone) {
-      ensureV2Columns(db);
-      this.v2MigrationDone = true;
-    }
-  }
+
 
   /**
    * Retrieves the most recent prior snapshot for a security.
@@ -201,7 +170,7 @@ export class CompanySnapshotRepository {
   public async saveSnapshot(snapshot: CompanyImmutableSnapshot): Promise<void> {
     const db = new Database(PORTFOLIO_DB_PATH);
     try {
-      this.ensureMigration(db);
+      // Schema guaranteed by startup migration runner
 
       const analyticalHash = this.computeAnalyticalHash(
         snapshot.dataCutoff,

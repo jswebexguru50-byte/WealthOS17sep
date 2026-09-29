@@ -25,8 +25,16 @@ import {
 import { EvidenceReference } from '../contracts/Provenance.js';
 import crypto from 'crypto';
 
+import { CompanySnapshotRepository } from '../core/CompanySnapshotRepository.js';
+import { SecurityIdentity } from '../contracts/SecurityIdentity.js';
+
 // ─── Snapshot Store ───────────────────────────────────────────────────────────
 
+/**
+ * CompanySnapshotStore — Compat adapter that delegates exclusively to
+ * CompanySnapshotRepository (Constitution Article C6).
+ * Avoids duplicate schema maintenance and ensures single source of truth.
+ */
 export class CompanySnapshotStore {
   private static instance: CompanySnapshotStore;
   private constructor() {}
@@ -40,116 +48,96 @@ export class CompanySnapshotStore {
 
   /** Get the most recent snapshot for a company */
   public async getLatest(symbol: string): Promise<CompanyIntelligenceSnapshot | null> {
-    const db = getDB();
-    if (!db) return null;
-    try {
-      const row = await dbGet<any>(
-        db,
-        `SELECT * FROM company_intelligence_snapshot
-         WHERE symbol = ?
-         ORDER BY created_at DESC LIMIT 1`,
-        [symbol]
-      );
-      if (!row) return null;
-      return {
-        securityId: row.security_id || symbol,
-        symbol: row.symbol,
-        asOfDate: row.as_of_date,
-        contentHash: row.content_hash,
-        fundamentalState: row.fundamental_state ? JSON.parse(row.fundamental_state) : null,
-        managementState: row.management_state ? JSON.parse(row.management_state) : null,
-        valuationState: row.valuation_state ? JSON.parse(row.valuation_state) : null,
-        businessDriverState: row.business_driver_state ? JSON.parse(row.business_driver_state) : null,
-        technicalState: row.technical_state ? JSON.parse(row.technical_state) : null,
-        createdAt: row.created_at,
-      };
-    } catch {
-      return null;
-    }
+    return this.loadPriorSnapshot(symbol);
   }
 
   /**
-   * Save snapshot ONLY when content hash differs from previous.
+   * Save snapshot via canonical CompanySnapshotRepository.
    * Never saves on every GET — only on material state change.
    */
   public async saveIfChanged(snapshot: Omit<CompanyIntelligenceSnapshot, 'contentHash' | 'createdAt'>): Promise<boolean> {
-    const db = getDB();
-    if (!db) return false;
+    const repo = CompanySnapshotRepository.getInstance();
+    const identity: SecurityIdentity = {
+      securityId: snapshot.securityId,
+      isin: snapshot.securityId,
+      nseSymbol: snapshot.symbol,
+      companyName: snapshot.symbol,
+    };
 
-    try {
-      // Compute content hash from ALL durable analytical states
-      const hashInput = JSON.stringify({
-        fundamentalState: snapshot.fundamentalState,
-        managementState: snapshot.managementState,
-        valuationState: snapshot.valuationState,
-        businessDriverState: snapshot.businessDriverState,
-        technicalState: snapshot.technicalState,
-      });
-      const contentHash = crypto.createHash('sha256').update(hashInput).digest('hex').substring(0, 16);
+    const prior = await repo.getPreviousSnapshot(identity, snapshot.asOfDate);
+    const factHash = crypto
+      .createHash('sha256')
+      .update(JSON.stringify(snapshot.fundamentalState || {}))
+      .digest('hex');
+    const evidenceHash = crypto
+      .createHash('sha256')
+      .update(JSON.stringify(snapshot.managementState || {}))
+      .digest('hex');
 
-      // Check if latest snapshot has same hash
-      const latest = await this.getLatest(snapshot.symbol);
-      if (latest?.contentHash === contentHash) {
-        return false; // No material change — do not save
-      }
+    const moduleHashes: Record<string, string> = {
+      fundamental: factHash,
+      management: evidenceHash,
+      valuation: crypto.createHash('sha256').update(JSON.stringify(snapshot.valuationState || {})).digest('hex'),
+      business: crypto.createHash('sha256').update(JSON.stringify(snapshot.businessDriverState || {})).digest('hex'),
+      technical: crypto.createHash('sha256').update(JSON.stringify(snapshot.technicalState || {})).digest('hex'),
+    };
 
-      await dbRun(
-        db,
-        `INSERT INTO company_intelligence_snapshot
-          (security_id, symbol, as_of_date, content_hash, fundamental_state, management_state, valuation_state, business_driver_state, technical_state, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [
-          snapshot.securityId,
-          snapshot.symbol,
-          snapshot.asOfDate,
-          contentHash,
-          snapshot.fundamentalState ? JSON.stringify(snapshot.fundamentalState) : null,
-          snapshot.managementState ? JSON.stringify(snapshot.managementState) : null,
-          snapshot.valuationState ? JSON.stringify(snapshot.valuationState) : null,
-          snapshot.businessDriverState ? JSON.stringify(snapshot.businessDriverState) : null,
-          snapshot.technicalState ? JSON.stringify(snapshot.technicalState) : null,
-          new Date().toISOString(),
-        ]
-      );
-      return true; // Saved
-    } catch {
-      return false;
+    const analyticalHash = repo.computeAnalyticalHash(
+      snapshot.asOfDate,
+      factHash,
+      evidenceHash,
+      moduleHashes
+    );
+
+    if (prior && prior.canonicalFactHash === factHash && prior.evidenceHash === evidenceHash) {
+      return false; // No material change — do not save duplicate
     }
+
+    await repo.saveSnapshot({
+      snapshotId: `snap_${snapshot.securityId}_${analyticalHash.substring(0, 8)}`,
+      securityId: snapshot.securityId,
+      isin: snapshot.securityId,
+      asOf: snapshot.asOfDate,
+      dataCutoff: snapshot.asOfDate,
+      canonicalFactHash: factHash,
+      evidenceHash,
+      moduleHashes,
+      createdAt: new Date().toISOString(),
+      payloadSummary: (snapshot.fundamentalState as any) || {},
+    });
+
+    return true;
   }
 
   /**
-   * Load the most recent snapshot for delta comparison.
-   * Alias for getLatest with securityId fallback.
+   * Load the most recent snapshot for delta comparison via CompanySnapshotRepository.
    */
   public async loadPriorSnapshot(securityId: string): Promise<CompanyIntelligenceSnapshot | null> {
-    const db = getDB();
-    if (!db) return null;
-    try {
-      const row = await dbGet<any>(
-        db,
-        `SELECT * FROM company_intelligence_snapshot
-         WHERE security_id = ? OR symbol = ?
-         ORDER BY created_at DESC LIMIT 1`,
-        [securityId, securityId]
-      );
-      if (!row) return null;
-      return {
-        securityId: row.security_id || securityId,
-        symbol: row.symbol,
-        asOfDate: row.as_of_date,
-        contentHash: row.content_hash,
-        fundamentalState: row.fundamental_state ? JSON.parse(row.fundamental_state) : null,
-        managementState: row.management_state ? JSON.parse(row.management_state) : null,
-        valuationState: row.valuation_state ? JSON.parse(row.valuation_state) : null,
-        businessDriverState: row.business_driver_state ? JSON.parse(row.business_driver_state) : null,
-        technicalState: row.technical_state ? JSON.parse(row.technical_state) : null,
-        createdAt: row.created_at,
-      };
-    } catch {
-      return null;
-    }
+    const repo = CompanySnapshotRepository.getInstance();
+    const identity: SecurityIdentity = {
+      securityId,
+      isin: securityId,
+      nseSymbol: securityId,
+      companyName: securityId,
+    };
+    const prior = await repo.getPreviousSnapshot(identity);
+    if (!prior) return null;
+
+    return {
+      securityId: prior.securityId,
+      symbol: prior.isin || securityId,
+      asOfDate: prior.asOf,
+      contentHash: prior.canonicalFactHash,
+      fundamentalState: prior.payloadSummary as any,
+      managementState: null,
+      valuationState: null,
+      businessDriverState: null,
+      technicalState: null,
+      createdAt: prior.createdAt,
+    };
   }
 }
+
 
 // ─── Delta Engine ──────────────────────────────────────────────────────────────
 

@@ -8,6 +8,7 @@
  * Scans engine files for direct raw-provider DB access patterns.
  */
 
+import { describe, it, expect } from 'vitest';
 import * as fs from 'fs';
 import * as path from 'path';
 

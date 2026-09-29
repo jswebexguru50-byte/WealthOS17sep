@@ -23,6 +23,9 @@ import {
   WatchSubjectType,
   WatchConditionOperator,
 } from '../contracts/WatchContracts.js';
+import { WatchRuleRepository } from '../core/WatchRuleRepository.js';
+import { CompanyEventRepository } from '../core/CompanyEventRepository.js';
+import { AnalysisModule } from '../contracts/AnalysisModule.js';
 
 const PORTFOLIO_DB_PATH = path.resolve('portfolio.db');
 
@@ -108,6 +111,16 @@ export class CompanyRefreshCoordinator {
     const list = this.watchRules.get(rule.securityId) || [];
     list.push(rule);
     this.watchRules.set(rule.securityId, list);
+    WatchRuleRepository.getInstance().saveRule(rule).catch(e => {
+      console.warn('[CompanyRefreshCoordinator] Failed to persist watch rule:', e);
+    });
+  }
+
+  public async registerWatchRuleAsync(rule: WatchRule): Promise<void> {
+    const list = this.watchRules.get(rule.securityId) || [];
+    list.push(rule);
+    this.watchRules.set(rule.securityId, list);
+    await WatchRuleRepository.getInstance().saveRule(rule);
   }
 
   public getWatchRules(securityId: string): WatchRule[] {
@@ -145,11 +158,26 @@ export class CompanyRefreshCoordinator {
     const snapshotRepo = CompanySnapshotRepository.getInstance();
     const priorSnapshot = await snapshotRepo.getPreviousSnapshot(identity, effectiveAsOf);
 
-    // 4. Run orchestrator recomputation (uses symbol-based entry point)
+    // 4. Run dependency-selective orchestrator recomputation
     const orchestrator = CompanyIntelligenceOrchestrator.getInstance();
+    const moduleMap: Record<string, AnalysisModule> = {
+      fundamental: 'FUNDAMENTAL',
+      technical: 'TECHNICAL',
+      valuation: 'VALUATION',
+      management: 'MANAGEMENT',
+      businessDrivers: 'BUSINESS_INFLECTION',
+      qglp: 'QGLP',
+      fere: 'FERE',
+      market: 'MARKET_CONTEXT',
+      catalysts: 'CATALYST',
+    };
+    const affectedModulesToRun: AnalysisModule[] | undefined = trigger === 'MANUAL_REFRESH'
+      ? undefined
+      : affected.map(m => moduleMap[m]).filter((m): m is AnalysisModule => !!m);
+
     const updatedResponse = await orchestrator.getCompanyIntelligence(
       sym || isin,
-      undefined,
+      affectedModulesToRun && affectedModulesToRun.length > 0 ? affectedModulesToRun : undefined,
       { asOfDate: effectiveAsOf, persist: true }
     );
 
@@ -159,11 +187,18 @@ export class CompanyRefreshCoordinator {
       ClaimSafetyGate.getInstance().filterAssertions(allAssertions);
     }
 
-    // 6. Compute Delta between prior snapshot and current response
+    // 6. Compute Delta: NEW (updatedResponse) vs OLD (priorSnapshot)
+    //    CRITICAL: previousFacts = prior snapshot, currentFacts = newly computed state.
+    //    Never compare priorSnapshot to itself.
     const deltaSummary: string[] = [];
     if (priorSnapshot) {
-      const currentFacts: Record<string, any> = priorSnapshot.payloadSummary || {};
+      // previousFacts: verified prior analytical state
       const previousFacts: Record<string, any> = priorSnapshot.payloadSummary || {};
+      // currentFacts: the newly computed analytical state from updatedResponse
+      const currentFacts: Record<string, any> = (updatedResponse as any)?.modules?.fundamental?.facts
+        ?? (updatedResponse as any)?.fundamentals?.facts
+        ?? (updatedResponse as any)?.snapshot?.facts
+        ?? {};
       const deltaItems = CompanyDeltaEngine.getInstance().compare(
         currentFacts,
         previousFacts,
@@ -175,9 +210,9 @@ export class CompanyRefreshCoordinator {
       }
     }
 
-    // 7. Evaluate Watch Rules — pass events for EVENT-type watches
+    // 7. Evaluate Watch Rules — pass events for EVENT-type watches with persistent evaluation
     const events: any[] = (updatedResponse as any).timelineEvents || [];
-    const { evaluations, triggered } = this.evaluateWatchRules(identity, updatedResponse, events);
+    const { evaluations, triggered } = await this.evaluateWatchRules(identity, updatedResponse, events, effectiveAsOf);
 
     // Snapshot identity must be deterministic — fail explicitly if unavailable
     const snapshotId = updatedResponse.snapshot?.snapshotId;
@@ -360,20 +395,46 @@ export class CompanyRefreshCoordinator {
     return count;
   }
 
-  private evaluateWatchRules(
+  private async evaluateWatchRules(
     identity: SecurityIdentity,
     response: CompanyIntelligenceResponse,
-    timelineEvents: any[] = []
-  ): { evaluations: WatchEvaluation[]; triggered: WatchEvent[] } {
+    timelineEvents: any[] = [],
+    effectiveAsOf?: string
+  ): Promise<{ evaluations: WatchEvaluation[]; triggered: WatchEvent[] }> {
     const evaluations: WatchEvaluation[] = [];
     const triggered: WatchEvent[] = [];
 
     const isin = identity.isin;
-    const rules = this.watchRules.get(isin) || [];
+    const watchRepo = WatchRuleRepository.getInstance();
+
+    // Load persistent rules and merge with in-memory rules
+    let repoRules: WatchRule[] = [];
+    try {
+      repoRules = await watchRepo.getRulesForSecurity(isin);
+    } catch (e) {
+      console.warn('[CompanyRefreshCoordinator] Failed to query watch rules from repo:', e);
+    }
+    const memRules = this.watchRules.get(isin) || [];
+    const allRuleMap = new Map<string, WatchRule>();
+    for (const r of repoRules) allRuleMap.set(r.watchId, r);
+    for (const r of memRules) allRuleMap.set(r.watchId, r);
+    const rules = Array.from(allRuleMap.values()).filter(r => r.status === 'ACTIVE');
+
     const now = new Date().toISOString();
 
     const snapshot = response.snapshot;
     const facts = snapshot?.facts || {};
+
+    // For EVENT watches: query CompanyEventRepository if timelineEvents is empty
+    let activeTimelineEvents = timelineEvents;
+    if (!activeTimelineEvents || activeTimelineEvents.length === 0) {
+      try {
+        activeTimelineEvents = await CompanyEventRepository.getInstance().getEvents(identity, effectiveAsOf);
+      } catch (err) {
+        console.warn('[CompanyRefreshCoordinator] Failed to fetch events from CompanyEventRepository:', err);
+        activeTimelineEvents = [];
+      }
+    }
 
     for (const rule of rules) {
       let isTriggered = false;
@@ -406,8 +467,8 @@ export class CompanyRefreshCoordinator {
           }
         }
       } else if (rule.subjectType === 'EVENT') {
-        // EVENT watches inspect Timeline/CompanyEvents — NOT analytical Delta
-        const matchingEvent = timelineEvents.find(
+        // EVENT watches inspect CompanyEventRepository events — NOT analytical Delta
+        const matchingEvent = activeTimelineEvents.find(
           (ev: any) =>
             ev.eventType === rule.subject ||
             ev.title?.toLowerCase().includes(rule.subject.toLowerCase())
@@ -428,8 +489,15 @@ export class CompanyRefreshCoordinator {
         }
       }
 
-      // Stateful transition: only emit alert on state changes
-      const prevEval = this.lastEvaluations.get(rule.watchId);
+      // Stateful transition: load persistent previous evaluation
+      let prevEval = this.lastEvaluations.get(rule.watchId);
+      if (!prevEval) {
+        try {
+          prevEval = (await watchRepo.getLatestEvaluation(rule.watchId)) || undefined;
+        } catch {
+          prevEval = undefined;
+        }
+      }
       const previousState: WatchEvaluation['previousState'] =
         prevEval ? prevEval.currentState : 'UNKNOWN';
       const currentState: WatchEvaluation['currentState'] =
@@ -450,6 +518,13 @@ export class CompanyRefreshCoordinator {
       evaluations.push(evaluation);
       this.lastEvaluations.set(rule.watchId, evaluation);
 
+      // Persist evaluation
+      try {
+        await watchRepo.saveEvaluation(evaluation);
+      } catch (e) {
+        console.warn('[CompanyRefreshCoordinator] Failed to persist watch evaluation:', e);
+      }
+
       // Only emit a WatchEvent when state TRANSITIONS (not on repeated identical state)
       const isTransition = previousState !== currentState;
       if (isTriggered && isTransition) {
@@ -462,7 +537,7 @@ export class CompanyRefreshCoordinator {
         ].join('|');
         const watchEventId = `we_${crypto.createHash('sha256').update(watchIdentityPreimage).digest('hex').substring(0, 16)}`;
 
-        triggered.push({
+        const triggeredEvent: WatchEvent = {
           eventId: watchEventId,
           watchId: rule.watchId,
           securityId: rule.securityId,
@@ -471,7 +546,15 @@ export class CompanyRefreshCoordinator {
           summary: triggerReason,
           severity: 'ALERT' as const,
           evidenceIds: triggeringEvidenceIds,
-        });
+        };
+        triggered.push(triggeredEvent);
+
+        // Persist triggered event
+        try {
+          await watchRepo.saveWatchEvent(triggeredEvent);
+        } catch (e) {
+          console.warn('[CompanyRefreshCoordinator] Failed to persist watch event:', e);
+        }
       }
     }
 

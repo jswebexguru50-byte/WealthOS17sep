@@ -80,7 +80,7 @@ export class CanonicalFactRepository {
     const pitMode: PitMode = options.pitMode || 'ALLOW_INFERRED';
 
     const pitClause = pitMode === 'STRICT'
-      ? `availableAt IS NOT NULL AND availableAt <= ?`
+      ? `availableAt IS NOT NULL AND availableAt <= ? AND (provider IS NULL OR provider NOT LIKE '%backfill%') AND (periodEnd IS NULL OR availableAt != periodEnd)`
       : `(availableAt IS NOT NULL AND availableAt <= ?) OR (availableAt IS NULL AND asOfDate IS NOT NULL AND asOfDate <= ?)`;
     const pitParams: any[] = pitMode === 'STRICT' ? [effectiveAsOf] : [effectiveAsOf, effectiveAsOf];
 
@@ -97,6 +97,74 @@ export class CanonicalFactRepository {
     } catch (err) {
       console.error(`[CanonicalFactRepository] Failed to fetch facts for ${identity.isin}:`, err);
       return [];
+    }
+  }
+
+  /**
+   * Provides coverage and span metrics for analytical engines (e.g. ValuationIntelligenceEngine).
+   * Replaces raw SQL queries in analytical engines.
+   */
+  public async getCoverageSummary(
+    identity: SecurityIdentity,
+    asOfDate?: string | null,
+    pitMode: PitMode = 'ALLOW_INFERRED'
+  ): Promise<{
+    count: number;
+    earliest: string | null;
+    latest: string | null;
+    spanDays: number;
+    missingYears: number[];
+  }> {
+    const db = getDB();
+    if (!db) {
+      return { count: 0, earliest: null, latest: null, spanDays: 0, missingYears: [] };
+    }
+
+    const effectiveAsOf = asOfDate || new Date().toISOString().split('T')[0];
+    const isin = identity.isin || '';
+    const symbol = identity.nseSymbol || identity.bseCode || '';
+
+    const pitClause = pitMode === 'STRICT'
+      ? `availableAt IS NOT NULL AND availableAt <= ? AND (provider IS NULL OR provider NOT LIKE '%backfill%') AND (periodEnd IS NULL OR availableAt != periodEnd)`
+      : `(availableAt IS NOT NULL AND availableAt <= ?) OR (availableAt IS NULL AND asOfDate IS NOT NULL AND asOfDate <= ?)`;
+    const pitParams: any[] = pitMode === 'STRICT' ? [effectiveAsOf] : [effectiveAsOf, effectiveAsOf];
+
+    try {
+      const summary = (await dbAll<any>(
+        db,
+        `SELECT COUNT(*) as cnt, MIN(availableAt) as earliest, MAX(availableAt) as latest
+         FROM company_facts
+         WHERE (isin = ? OR symbol = ?) AND (${pitClause})`,
+        [isin, symbol, ...pitParams]
+      ))[0];
+
+      const count = summary?.cnt || 0;
+      const earliest = summary?.earliest || null;
+      const latest = summary?.latest || null;
+
+      let spanDays = 0;
+      if (earliest && latest) {
+        spanDays = Math.floor((new Date(latest).getTime() - new Date(earliest).getTime()) / (86400 * 1000));
+      }
+
+      const missingYears: number[] = [];
+      if (latest) {
+        const latestYear = new Date(latest).getFullYear();
+        for (let y = latestYear - 4; y <= latestYear; y++) {
+          const yrCount = (await dbAll<any>(
+            db,
+            `SELECT COUNT(*) as cnt FROM company_facts
+             WHERE (isin = ? OR symbol = ?) AND (${pitClause}) AND (substr(periodEnd, 1, 4) = ? OR substr(availableAt, 1, 4) = ?)`,
+            [isin, symbol, ...pitParams, String(y), String(y)]
+          ))[0];
+          if (!yrCount?.cnt || yrCount.cnt < 2) missingYears.push(y);
+        }
+      }
+
+      return { count, earliest, latest, spanDays, missingYears };
+    } catch (err) {
+      console.error('[CanonicalFactRepository] getCoverageSummary failed:', err);
+      return { count: 0, earliest: null, latest: null, spanDays: 0, missingYears: [] };
     }
   }
 
@@ -120,6 +188,15 @@ export class CanonicalFactRepository {
     asOfDate?: string | null,
     pitMode: PitMode = 'STRICT'
   ): Promise<CanonicalFact[]> {
+    return this.getHistoricalSeriesMultiMetric(identity, [metric], asOfDate, pitMode);
+  }
+
+  public async getHistoricalSeriesMultiMetric(
+    identity: SecurityIdentity,
+    metrics: string[],
+    asOfDate?: string | null,
+    pitMode: PitMode = 'STRICT'
+  ): Promise<CanonicalFact[]> {
     const db = getDB();
     if (!db) return [];
 
@@ -128,17 +205,18 @@ export class CanonicalFactRepository {
     const symbol = identity.nseSymbol || identity.bseCode || '';
 
     const pitClause = pitMode === 'STRICT'
-      ? `availableAt IS NOT NULL AND availableAt <= ?`
+      ? `availableAt IS NOT NULL AND availableAt <= ? AND (provider IS NULL OR provider NOT LIKE '%backfill%') AND (periodEnd IS NULL OR availableAt != periodEnd)`
       : `(availableAt IS NOT NULL AND availableAt <= ?) OR (availableAt IS NULL AND asOfDate IS NOT NULL AND asOfDate <= ?)`;
     const pitParams: any[] = pitMode === 'STRICT' ? [effectiveAsOf] : [effectiveAsOf, effectiveAsOf];
 
-    const sql = `SELECT * FROM company_facts WHERE (isin = ? OR symbol = ?) AND metric = ? AND (${pitClause}) ORDER BY periodEnd ASC`;
+    const placeholders = metrics.map(() => '?').join(',');
+    const sql = `SELECT * FROM company_facts WHERE (isin = ? OR symbol = ?) AND metric IN (${placeholders}) AND (${pitClause}) ORDER BY periodEnd ASC`;
 
     try {
-      const rows = await dbAll<any>(db, sql, [isin, symbol, metric, ...pitParams]);
+      const rows = await dbAll<any>(db, sql, [isin, symbol, ...metrics, ...pitParams]);
       return rows.map(r => this.mapRowToFact(r));
     } catch (err) {
-      console.error(`[CanonicalFactRepository] Failed historical series query for ${metric}:`, err);
+      console.error(`[CanonicalFactRepository] Failed historical series query for [${metrics.join(',')}]:`, err);
       return [];
     }
   }
@@ -160,9 +238,18 @@ export class CanonicalFactRepository {
         const rawDocDate: string | null = r.reportedAt || r.periodEnd || null;
         let availableAt: string | null;
         let pitStatus: PitStatus;
-        if (rawAvailAt) { availableAt = rawAvailAt; pitStatus = 'PIT_VERIFIED'; }
-        else if (rawDocDate) { availableAt = rawDocDate; pitStatus = 'PIT_INFERRED'; }
-        else { availableAt = null; pitStatus = 'PIT_UNKNOWN'; }
+        const isBackfilled = (r.provider && String(r.provider).toLowerCase().includes('backfill')) ||
+                             (rawAvailAt && rawAvailAt === r.periodEnd);
+        if (rawAvailAt) {
+          availableAt = rawAvailAt;
+          pitStatus = isBackfilled ? 'PIT_INFERRED' : 'PIT_VERIFIED';
+        } else if (rawDocDate) {
+          availableAt = rawDocDate;
+          pitStatus = 'PIT_INFERRED';
+        } else {
+          availableAt = null;
+          pitStatus = 'PIT_UNKNOWN';
+        }
         const ref: EvidenceRef = {
           evidenceId: `fact_ev_${r.factId}`,
           sourceType: mapEvidenceSourceType(r.sourceType),
@@ -193,9 +280,18 @@ export class CanonicalFactRepository {
     const rawDocDate: string | null = row.publishedAt || row.reportedAt || row.asOfDate || null;
     let availableAt: string | null;
     let pitStatus: PitStatus;
-    if (rawAvailAt) { availableAt = rawAvailAt; pitStatus = 'PIT_VERIFIED'; }
-    else if (rawDocDate) { availableAt = rawDocDate; pitStatus = 'PIT_INFERRED'; }
-    else { availableAt = null; pitStatus = 'PIT_UNKNOWN'; }
+    const isBackfilledRow = (row.provider && String(row.provider).toLowerCase().includes('backfill')) ||
+                            (rawAvailAt && rawAvailAt === row.periodEnd);
+    if (rawAvailAt) {
+      availableAt = rawAvailAt;
+      pitStatus = isBackfilledRow ? 'PIT_INFERRED' : 'PIT_VERIFIED';
+    } else if (rawDocDate) {
+      availableAt = rawDocDate;
+      pitStatus = 'PIT_INFERRED';
+    } else {
+      availableAt = null;
+      pitStatus = 'PIT_UNKNOWN';
+    }
 
     const verificationStatus: FactVerificationStatus =
       (row.verificationStatus as FactVerificationStatus) || 'SOURCE_LINKED';

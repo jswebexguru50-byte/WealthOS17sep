@@ -28,9 +28,10 @@ import { getDB, dbGet } from '../../database.js';
 // V2 engines
 import { BusinessDriverEngine } from './business/BusinessDriverEngine.js';
 import { ManagementIntelligenceEngine } from './management/ManagementIntelligenceEngine.js';
+import crypto from 'crypto';
 import { ContradictionEngine } from './contradictions/ContradictionEngine.js';
 import { ContradictionStore } from './contradictions/ContradictionStore.js';
-import { CompanyDeltaEngine, CompanySnapshotStore } from './delta/CompanyDeltaEngine.js';
+import { CompanyDeltaEngine } from './delta/CompanyDeltaEngine.js';
 import { ValuationIntelligenceEngine } from './valuation/ValuationIntelligenceEngine.js';
 import { AttentionEngine } from './attention/AttentionEngine.js';
 import { QuestionEngine } from './attention/QuestionEngine.js';
@@ -261,7 +262,12 @@ export class CompanyIntelligenceOrchestrator {
         const supersessionRes = CommitmentSupersessionEngine.getInstance()
           .resolveSupersessions(modulesResult.management.result.commitments);
         modulesResult.management.result.commitments = supersessionRes.commitments;
-      } catch { /* Non-fatal */ }
+      } catch (e: any) {
+        console.warn('[CompanyIntelligenceOrchestrator] Supersession engine failed:', e);
+        if (modulesResult.management) {
+          modulesResult.management.warnings.push('Supersession engine failed: ' + (e?.message || String(e)));
+        }
+      }
     }
 
     // 3. Derive Business Inflection in-memory from completed results
@@ -388,13 +394,16 @@ export class CompanyIntelligenceOrchestrator {
     // 4d. Wave 2: Delta Intelligence — wire CompanyDeltaEngine
     let materialDeltas: any[] = [];
     try {
-      const priorSnapshot = await CompanySnapshotStore.getInstance().loadPriorSnapshot(securityId);
+      const priorSnapshot = await CompanySnapshotRepository.getInstance().getPreviousSnapshot(
+        identity,
+        analyticalState.asOfDate
+      );
       if (priorSnapshot) {
         const deltaResult = CompanyDeltaEngine.getInstance().computeDeltas({
           symbol: cleanSym,
           securityId,
           current: analyticalState.facts.latest,
-          prior: priorSnapshot.fundamentalState ?? {},
+          prior: (priorSnapshot.payloadSummary as any) ?? {},
           currentFacts: analyticalState.facts,
         });
         materialDeltas = deltaResult.deltas.filter(d => d.materiality === 'HIGH' || d.materiality === 'MEDIUM');
@@ -877,8 +886,11 @@ export class CompanyIntelligenceOrchestrator {
       if (modulesResult.management?.result) {
         modulesResult.management.result.walkTheTalkLedger = walkTheTalkRecords;
       }
-    } catch {
-      // Non-fatal
+    } catch (e: any) {
+      console.warn('[CompanyIntelligenceOrchestrator] ManagementCommitmentRepository failed:', e);
+      if (modulesResult.management) {
+        modulesResult.management.warnings.push('Walk-the-Talk ledger query failed: ' + (e?.message || String(e)));
+      }
     }
 
     // 4p. Compute Freshness Matrix (Checkpoint 8)
@@ -1157,17 +1169,44 @@ export class CompanyIntelligenceOrchestrator {
     // 4i. Persist snapshot only if explicit refresh/persist requested AND state changed
     if (shouldPersist) {
       try {
-        await CompanySnapshotStore.getInstance().saveIfChanged({
+        const repo = CompanySnapshotRepository.getInstance();
+        const factHash = crypto
+          .createHash('sha256')
+          .update(JSON.stringify(analyticalState.facts.latest || {}))
+          .digest('hex');
+        const evidenceHash = crypto
+          .createHash('sha256')
+          .update(JSON.stringify(modulesResult.management?.result || {}))
+          .digest('hex');
+        const moduleHashes: Record<string, string> = {
+          fundamental: factHash,
+          management: evidenceHash,
+          valuation: crypto.createHash('sha256').update(JSON.stringify(modulesResult.valuation?.result || {})).digest('hex'),
+          business: crypto.createHash('sha256').update(JSON.stringify(modulesResult.businessDrivers?.result || {})).digest('hex'),
+          technical: crypto.createHash('sha256').update(JSON.stringify(modulesResult.technical?.result || {})).digest('hex'),
+        };
+        const analyticalHash = repo.computeAnalyticalHash(
+          analyticalState.asOfDate,
+          factHash,
+          evidenceHash,
+          moduleHashes
+        );
+
+        await repo.saveSnapshot({
+          snapshotId: `snap_${securityId}_${analyticalHash.substring(0, 8)}`,
           securityId,
-          symbol: cleanSym,
-          asOfDate: generatedAt,
-          fundamentalState: analyticalState.facts.latest as any,
-          managementState: modulesResult.management?.result ?? null,
-          valuationState: modulesResult.valuation?.result ?? null,
-          businessDriverState: modulesResult.businessDrivers?.result ?? null,
-          technicalState: modulesResult.technical?.result ?? null,
+          isin: identity.isin,
+          asOf: analyticalState.asOfDate,
+          dataCutoff: analyticalState.asOfDate,
+          canonicalFactHash: factHash,
+          evidenceHash,
+          moduleHashes,
+          createdAt: generatedAt,
+          payloadSummary: (analyticalState.facts.latest as any) || {},
         });
-      } catch { /* Non-fatal */ }
+      } catch (err: any) {
+        console.warn('[CompanyIntelligenceOrchestrator] Failed to persist snapshot to repository:', err);
+      }
     }
 
     // 5. Constitution Invariants: ClaimSafetyGate & CrossModuleConsistency & DataCoverage
@@ -1197,7 +1236,12 @@ export class CompanyIntelligenceOrchestrator {
         });
         modulesResult.thesis.result.pillars = auditedPillars;
       }
-    } catch { /* Non-fatal safety gate audit */ }
+    } catch (e: any) {
+      console.warn('[CompanyIntelligenceOrchestrator] ClaimSafetyGate audit error:', e);
+      if (modulesResult.thesis) {
+        modulesResult.thesis.warnings.push('ClaimSafetyGate audit failed: ' + (e?.message || String(e)));
+      }
+    }
 
     // Cross-Module Consistency
     let consistencyReport = undefined;
@@ -1213,7 +1257,9 @@ export class CompanyIntelligenceOrchestrator {
         observations.push({ module: 'VALUATION', metric: 'ROCE', value: Number(vRes.roce.value), period: vRes.roce.period });
       }
       consistencyReport = validator.validate(observations);
-    } catch { /* Non-fatal consistency audit */ }
+    } catch (e: any) {
+      console.warn('[CompanyIntelligenceOrchestrator] CrossModuleConsistencyValidator audit error:', e);
+    }
 
     // Field-level Data Coverage
     let dataCoverage = undefined;
@@ -1231,7 +1277,9 @@ export class CompanyIntelligenceOrchestrator {
         },
         generatedAt
       );
-    } catch { /* Non-fatal coverage audit */ }
+    } catch (e: any) {
+      console.warn('[CompanyIntelligenceOrchestrator] DataCoverageEngine evaluation error:', e);
+    }
 
     return {
       security: {

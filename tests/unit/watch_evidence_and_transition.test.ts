@@ -8,6 +8,7 @@
  * stateful transition logic.
  */
 
+import { describe, it, expect } from 'vitest';
 import { WatchRule, WatchEvaluation, WatchEvent } from '../../src/server/services/intelligence/contracts/WatchContracts.js';
 import { CompanyRefreshCoordinator } from '../../src/server/services/intelligence/coordinator/CompanyRefreshCoordinator.js';
 
