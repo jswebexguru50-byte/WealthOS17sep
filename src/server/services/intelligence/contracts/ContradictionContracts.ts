@@ -23,6 +23,11 @@ export type ContradictionPatternId =
   | 'CAPACITY_VS_UTILISATION'   // capex/capacity expansion + falling utilisation
   | 'DEMAND_NARRATIVE_VS_KPI';  // demand claim + declining order book or volumes
 
+export type AnalyticalConflict =
+  | 'CONTRADICTION'  // Two propositions cannot simultaneously be true
+  | 'TENSION'        // Both can be true, but together warrant investigation (e.g. PAT rising while CFO lags)
+  | 'DIVERGENCE';    // Two related trajectories move differently (e.g. order book +40%, revenue +5%)
+
 export type ContradictionSeverity = 'MATERIAL' | 'WATCH' | 'MINOR';
 
 export type ContradictionStatus =
@@ -52,6 +57,7 @@ export interface Contradiction {
 
   severity: ContradictionSeverity;
   status: ContradictionStatus;
+  conflictType?: AnalyticalConflict;
 
   explanation: string;
 

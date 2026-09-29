@@ -26,3 +26,4 @@ export * from './CanonicalFact.js';
 export * from './CompanyEvent.js';
 export * from './CompanySnapshot.js';
 export * from './CoverageContracts.js';
+export * from './WatchContracts.js';

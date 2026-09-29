@@ -30,10 +30,17 @@ export class EvidenceRepository {
 
   /**
    * Resolves a single evidenceId to an authoritative EvidenceRef.
-   * Returns null if evidence cannot be authenticated.
+   * Returns null if evidence cannot be authenticated, belongs to the wrong security, or is future-dated.
    */
-  public async resolve(evidenceId: string): Promise<EvidenceRef | null> {
+  public async resolve(
+    evidenceId: string,
+    securityContext?: { isin?: string; symbol?: string; asOfDate?: string }
+  ): Promise<EvidenceRef | null> {
     if (!evidenceId) return null;
+
+    const targetIsin = securityContext?.isin;
+    const targetSymbol = securityContext?.symbol;
+    const asOfDate = securityContext?.asOfDate;
 
     // 1. Check company_facts in portfolio.db
     const portDb = new Database(PORTFOLIO_DB_PATH, { readonly: true });
@@ -48,8 +55,23 @@ export class EvidenceRepository {
 
       if (factRow) {
         portDb.close();
+
+        // Security mismatch rejection
+        if (targetIsin && factRow.isin && factRow.isin !== targetIsin) {
+          return null;
+        }
+        if (targetSymbol && factRow.symbol && factRow.symbol !== targetSymbol) {
+          return null;
+        }
+
         const docDate = factRow.reportedAt || factRow.periodEnd || '2026-03-31';
         const availAt = factRow.availableAt || docDate;
+
+        // PIT rejection: future evidence relative to asOfDate
+        if (asOfDate && availAt > asOfDate) {
+          return null;
+        }
+
         const srcType: EvidenceDocSourceType =
           factRow.sourceType === 'AUDITED_FINANCIAL_STATEMENT' ? 'AUDITED_FINANCIAL_STATEMENT'
           : factRow.sourceType === 'EXCHANGE_FILING' ? 'EXCHANGE_FILING'
@@ -86,13 +108,27 @@ export class EvidenceRepository {
 
         if (xbrlRow) {
           fereDb.close();
+
+          // Security mismatch rejection
+          if (targetIsin && xbrlRow.isin && xbrlRow.isin !== targetIsin) {
+            return null;
+          }
+          if (targetSymbol && xbrlRow.symbol && xbrlRow.symbol !== targetSymbol) {
+            return null;
+          }
+
+          const availAt = xbrlRow.available_at || xbrlRow.period_end;
+          if (asOfDate && availAt > asOfDate) {
+            return null;
+          }
+
           return {
             evidenceId: `xbrl_${xbrlRow.id}`,
             sourceType: 'EXCHANGE_FILING',
             sourceName: `MCA XBRL Filing: ${xbrlRow.taxonomy_field}`,
             sourceUrl: xbrlRow.source_url,
             documentDate: xbrlRow.period_end,
-            availableAt: xbrlRow.available_at || xbrlRow.period_end,
+            availableAt: availAt,
             periodEnd: xbrlRow.period_end,
             extractionMethod: 'STRUCTURED_XBRL',
           };
@@ -108,13 +144,27 @@ export class EvidenceRepository {
 
         if (claimRow) {
           fereDb.close();
+
+          // Security mismatch rejection
+          if (targetIsin && claimRow.isin && claimRow.isin !== targetIsin) {
+            return null;
+          }
+          if (targetSymbol && claimRow.symbol && claimRow.symbol !== targetSymbol) {
+            return null;
+          }
+
+          const availAt = claimRow.claim_date;
+          if (asOfDate && availAt > asOfDate) {
+            return null;
+          }
+
           return {
             evidenceId: `claim_${claimRow.id}`,
             sourceType: 'EARNINGS_TRANSCRIPT',
             sourceName: `Corporate Announcement / Earnings Call (${claimRow.symbol})`,
             sourceUrl: claimRow.source_url,
             documentDate: claimRow.claim_date,
-            availableAt: claimRow.claim_date,
+            availableAt: availAt,
             quote: claimRow.evidence_text,
             contentHash: claimRow.source_sha256,
             extractionMethod: 'MANUAL_AUDITED',

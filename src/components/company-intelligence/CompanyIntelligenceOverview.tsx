@@ -249,28 +249,19 @@ export function CompanyIntelligenceOverview({
         <p className="text-xs text-slate-300 leading-relaxed bg-slate-950/60 p-3 rounded-xl border border-slate-800">
           {overview?.fundamentalTrajectory}
         </p>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
-            <span className="text-[10px] font-mono text-slate-500 uppercase">FY26 Revenue</span>
-            <span className="block text-base font-black text-white font-mono mt-0.5">₹1,204.57 Cr</span>
-            <span className="text-[10px] text-emerald-400 font-mono">+16.7% YoY</span>
+        {overview?.keyMetrics && overview.keyMetrics.length > 0 && (
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {overview.keyMetrics.map((km: any, idx: number) => (
+              <div key={idx} className="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                <span className="text-[10px] font-mono text-slate-500 uppercase truncate block">{km.label}</span>
+                <span className="block text-base font-black text-white font-mono mt-0.5">{km.value}</span>
+                <span className={`text-[10px] font-mono ${km.trend === 'DOWN' ? 'text-amber-400' : 'text-emerald-400'}`}>
+                  {km.subtext}
+                </span>
+              </div>
+            ))}
           </div>
-          <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
-            <span className="text-[10px] font-mono text-slate-500 uppercase">FY26 Net Profit (PAT)</span>
-            <span className="block text-base font-black text-white font-mono mt-0.5">₹84.44 Cr</span>
-            <span className="text-[10px] text-emerald-400 font-mono">+30.3% YoY</span>
-          </div>
-          <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
-            <span className="text-[10px] font-mono text-slate-500 uppercase">Return on Capital (ROCE)</span>
-            <span className="block text-base font-black text-white font-mono mt-0.5">26.69%</span>
-            <span className="text-[10px] text-emerald-400 font-mono">High Productivity</span>
-          </div>
-          <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
-            <span className="text-[10px] font-mono text-slate-500 uppercase">Debt to Equity</span>
-            <span className="block text-base font-black text-white font-mono mt-0.5">0.09x</span>
-            <span className="text-[10px] text-emerald-400 font-mono">Conservative Balance Sheet</span>
-          </div>
-        </div>
+        )}
       </section>
 
       {/* ─── Q5: Management Walk-the-Talk Ledger ────────────────────────────── */}
@@ -364,15 +355,21 @@ export function CompanyIntelligenceOverview({
           <div className="grid grid-cols-3 gap-2">
             <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-center">
               <span className="text-[9px] font-mono text-slate-500 uppercase block">P/E Multiple</span>
-              <span className="text-base font-black text-cyan-300 font-mono">23.1x</span>
+              <span className="text-base font-black text-cyan-300 font-mono">
+                {overview?.valuationMetrics?.peRatio || '—'}
+              </span>
             </div>
             <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-center">
               <span className="text-[9px] font-mono text-slate-500 uppercase block">Peer Median</span>
-              <span className="text-base font-black text-slate-400 font-mono">43.0x</span>
+              <span className="text-base font-black text-slate-400 font-mono">
+                {overview?.valuationMetrics?.peerMedianPe || '—'}
+              </span>
             </div>
             <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-center">
-              <span className="text-[9px] font-mono text-slate-500 uppercase block">Discount</span>
-              <span className="text-base font-black text-amber-300 font-mono">-46%</span>
+              <span className="text-[9px] font-mono text-slate-500 uppercase block">Rel. Spread</span>
+              <span className="text-base font-black text-amber-300 font-mono">
+                {overview?.valuationMetrics?.discount || '—'}
+              </span>
             </div>
           </div>
         </div>
@@ -394,11 +391,15 @@ export function CompanyIntelligenceOverview({
           <div className="grid grid-cols-2 gap-2">
             <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-center">
               <span className="text-[9px] font-mono text-slate-500 uppercase block">Observed Support Zone</span>
-              <span className="text-sm font-black text-emerald-300 font-mono">₹416 – ₹420</span>
+              <span className="text-sm font-black text-emerald-300 font-mono">
+                {overview?.technicalRanges?.support || 'Chart Level'}
+              </span>
             </div>
             <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-center">
               <span className="text-[9px] font-mono text-slate-500 uppercase block">Observed Resistance Zone</span>
-              <span className="text-sm font-black text-rose-300 font-mono">₹490 – ₹520</span>
+              <span className="text-sm font-black text-rose-300 font-mono">
+                {overview?.technicalRanges?.resistance || 'Chart Level'}
+              </span>
             </div>
           </div>
         </div>
@@ -498,7 +499,7 @@ export function CompanyIntelligenceOverview({
               {activeWatches.map((w: any) => (
                 <div key={w.watchId} className="p-3 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between gap-3">
                   <div>
-                    <span className="text-xs font-bold text-slate-100">{w.metric}</span>
+                    <span className="text-xs font-bold text-slate-100">{w.subject || w.metric}</span>
                     <p className="text-[10px] text-slate-400 mt-0.5">{w.description}</p>
                   </div>
                   <span className="px-2 py-1 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 shrink-0">

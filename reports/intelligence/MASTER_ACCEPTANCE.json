@@ -1,5 +1,5 @@
 {
-  "evaluatedAt": "2026-09-29T08:38:01.056Z",
+  "evaluatedAt": "2026-09-29T09:48:14.039Z",
   "constitutionVersion": "1.0.0",
   "gateStatus": "GATE B — REAL DATA FOUNDATION & SOURCE-TO-SCREEN PROOF",
   "totalCompanies": 11,
@@ -21,7 +21,7 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 13762
+      "durationMs": 12166
     },
     "TCS": {
       "symbol": "TCS",
@@ -36,7 +36,7 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 9645
+      "durationMs": 1927
     },
     "HDFCBANK": {
       "symbol": "HDFCBANK",
@@ -51,7 +51,7 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 1864
+      "durationMs": 2150
     },
     "TATAMOTORS": {
       "symbol": "TATAMOTORS",
@@ -66,7 +66,7 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 2224
+      "durationMs": 2091
     },
     "TATASTEEL": {
       "symbol": "TATASTEEL",
@@ -81,7 +81,7 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 3418
+      "durationMs": 2345
     },
     "INFY": {
       "symbol": "INFY",
@@ -96,7 +96,7 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 1617
+      "durationMs": 2332
     },
     "ICICIBANK": {
       "symbol": "ICICIBANK",
@@ -111,7 +111,7 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 1646
+      "durationMs": 2220
     },
     "SUNPHARMA": {
       "symbol": "SUNPHARMA",
@@ -126,7 +126,7 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 1516
+      "durationMs": 1283
     },
     "TITAN": {
       "symbol": "TITAN",
@@ -141,7 +141,7 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 2023
+      "durationMs": 1197
     },
     "BEL": {
       "symbol": "BEL",
@@ -156,7 +156,7 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 6033
+      "durationMs": 1059
     },
     "DYCL": {
       "symbol": "DYCL",
@@ -167,11 +167,11 @@
       "suitability": "FULL_ANALYSIS",
       "productionAcceptance": "ACCEPTANCE_READY",
       "modulesEvaluated": 17,
-      "thesisPillarsCount": 1,
+      "thesisPillarsCount": 2,
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 12526
+      "durationMs": 820
     }
   }
 }

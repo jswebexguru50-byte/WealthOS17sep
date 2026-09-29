@@ -893,69 +893,67 @@ export class CompanyIntelligenceOrchestrator {
       overallStatus: (marketPriceState.freshness === 'FRESH' || marketPriceState.freshness === 'CURRENT') ? 'FRESH' : 'PARTIAL',
     };
 
-    // 4q. Build Rich Investor-Centric Overview (Checkpoint 6 & 7)
+    // 4q. Build Rich Investor-Centric Overview (Generic Evidence-Backed Generation)
     const whyInteresting: Array<{ observation: string; evidenceRef?: any; domain: string }> = [];
-    if (cleanSym === 'DYCL') {
-      whyInteresting.push(
-        {
-          observation: 'FY26 revenue expanded by 16.7% YoY to ₹1,204.57 Cr with PAT growing 30.3% to ₹84.44 Cr.',
-          domain: 'FUNDAMENTALS',
-          evidenceRef: {
-            evidenceId: 'ev_dycl_fy26_results',
-            sourceType: 'AUDITED_FINANCIAL_STATEMENT',
-            sourceName: 'DYCL FY26 Audited Annual Results',
-            documentDate: '2026-05-20',
-            availableAt: '2026-05-20',
-            periodEnd: '2026-03-31',
-            extractionMethod: 'MANUAL_AUDITED',
-          },
-        },
-        {
-          observation: 'High capital productivity (ROCE ~26.7%) maintained alongside low financial leverage (D/E 0.09x).',
-          domain: 'FUNDAMENTALS',
-          evidenceRef: {
-            evidenceId: 'ev_dycl_roce_balance_sheet',
-            sourceType: 'AUDITED_FINANCIAL_STATEMENT',
-            sourceName: 'DYCL Audited Balance Sheet & Notes',
-            documentDate: '2026-05-20',
-            availableAt: '2026-05-20',
-            periodEnd: '2026-03-31',
-            extractionMethod: 'MANUAL_AUDITED',
-          },
-        },
-        {
-          observation: '₹808 Cr executable order book provides strong operational visibility into FY27 across power distribution utilities.',
-          domain: 'BUSINESS',
-          evidenceRef: {
-            evidenceId: 'ev_dycl_order_book_ar',
-            sourceType: 'ANNUAL_REPORT',
-            sourceName: 'DYCL FY26 Annual Report MD&A',
-            documentDate: '2026-06-15',
-            availableAt: '2026-06-15',
-            periodEnd: '2026-03-31',
-            extractionMethod: 'MANUAL_AUDITED',
-          },
-        },
-        {
-          observation: 'Trades at ~23x P/E, a 46% discount relative to peer median (43x); differences in scale, liquidity, and product mix must be evaluated.',
-          domain: 'VALUATION',
-          evidenceRef: {
-            evidenceId: 'ev_dycl_valuation_multiple',
-            sourceType: 'PRICE_RECORD',
-            sourceName: 'Market Valuation Terminal',
-            documentDate: '2026-09-24',
-            availableAt: '2026-09-24',
-            extractionMethod: 'STRUCTURED_XBRL',
-          },
-        }
-      );
-    } else {
-      const rev = analyticalState.facts?.latest?.revenue_cr?.value;
-      const pat = analyticalState.facts?.latest?.pat_cr?.value;
-      const roce = analyticalState.facts?.latest?.roce_pct?.value;
-      if (rev) whyInteresting.push({ observation: `Disclosed revenue of ₹${Number(rev).toLocaleString()} Cr in latest reported period.`, domain: 'FUNDAMENTALS' });
-      if (pat) whyInteresting.push({ observation: `Generated net profit of ₹${Number(pat).toLocaleString()} Cr.`, domain: 'FUNDAMENTALS' });
-      if (roce) whyInteresting.push({ observation: `Reported return on capital employed (ROCE) of ${roce}%.`, domain: 'FUNDAMENTALS' });
+    const latestFacts = analyticalState.facts?.latest || {};
+    const priorAnnualFacts = analyticalState.facts?.priorAnnual || {};
+
+    const rev = latestFacts.revenue_cr?.value;
+    const revPrior = priorAnnualFacts.revenue_cr?.value;
+    const pat = latestFacts.pat_cr?.value;
+    const patPrior = priorAnnualFacts.pat_cr?.value;
+    const roce = latestFacts.roce_pct?.value;
+    const deRatio = latestFacts.debt_to_equity?.value;
+    const cfo = latestFacts.cfo_cr?.value;
+    const receivables = latestFacts.trade_receivables_cr?.value;
+
+    if (rev !== undefined && rev !== null) {
+      let revGrowth = '';
+      if (revPrior && Number(revPrior) > 0) {
+        const pct = (((Number(rev) - Number(revPrior)) / Number(revPrior)) * 100).toFixed(1);
+        revGrowth = ` (${Number(pct) >= 0 ? '+' : ''}${pct}% YoY)`;
+      }
+      let patGrowth = '';
+      if (pat !== undefined && pat !== null && patPrior && Number(patPrior) > 0) {
+        const pct = (((Number(pat) - Number(patPrior)) / Number(patPrior)) * 100).toFixed(1);
+        patGrowth = ` with PAT of ₹${Number(pat).toLocaleString()} Cr (${Number(pct) >= 0 ? '+' : ''}${pct}% YoY)`;
+      }
+      whyInteresting.push({
+        observation: `Reported annual revenue of ₹${Number(rev).toLocaleString()} Cr${revGrowth}${patGrowth}.`,
+        domain: 'FUNDAMENTALS',
+        evidenceRef: latestFacts.revenue_cr?.evidenceRef || undefined,
+      });
+    }
+
+    if (roce !== undefined && roce !== null) {
+      const deStr = deRatio !== undefined && deRatio !== null ? ` alongside leverage of ${deRatio}x D/E` : '';
+      whyInteresting.push({
+        observation: `Capital productivity reflected in Return on Capital Employed (ROCE) of ${roce}%${deStr}.`,
+        domain: 'FUNDAMENTALS',
+        evidenceRef: latestFacts.roce_pct?.evidenceRef || undefined,
+      });
+    }
+
+    // Business driver backed observation
+    if (primaryDrivers.length > 0) {
+      const topDriver = primaryDrivers[0];
+      whyInteresting.push({
+        observation: `Key operating business driver: ${topDriver.name} (${topDriver.direction || 'ACTIVE'}) — ${topDriver.description}`,
+        domain: 'BUSINESS',
+        evidenceRef: undefined,
+      });
+    }
+
+    // Valuation context observation
+    const valMultiple = (modulesResult.valuation?.result as any)?.peRatio?.value ?? null;
+    const peerMedianPe = (modulesResult.valuation?.result as any)?.peerMedianPe ?? null;
+    if (valMultiple !== null) {
+      const peerStr = peerMedianPe ? ` vs peer median ${peerMedianPe}x` : '';
+      whyInteresting.push({
+        observation: `Trades at ${valMultiple}x P/E multiple${peerStr}; relative multiples reflect business scale, liquidity, and operating profile.`,
+        domain: 'VALUATION',
+        evidenceRef: undefined,
+      });
     }
 
     const deltas = modulesResult.delta?.result?.deltas || [];
@@ -963,52 +961,198 @@ export class CompanyIntelligenceOrchestrator {
       ? deltas.map((d: any) => `${d.item || d.domain}: ${d.explanation || d.narrative || d.direction}`)
       : [`Initial analytical baseline established as of ${asOfDate || generatedAt.substring(0, 10)}. Subsequent disclosures will compute time-series deltas.`];
 
+    // Generic Fundamental Trajectory Summary
+    let trajectorySummary = `Operating business model classified as ${businessModel} within ${sector || 'Equities'} (${industry || 'General'}).`;
+    if (rev !== undefined && rev !== null) {
+      trajectorySummary = `Latest disclosed revenue ₹${Number(rev).toLocaleString()} Cr` +
+        (pat !== undefined && pat !== null ? `, with net profit (PAT) ₹${Number(pat).toLocaleString()} Cr.` : '.');
+      if (receivables !== undefined && receivables !== null && cfo !== undefined && cfo !== null) {
+        trajectorySummary += ` Working capital conversion shows trade receivables of ₹${Number(receivables).toLocaleString()} Cr alongside operating cash flow (CFO) of ₹${Number(cfo).toLocaleString()} Cr.`;
+      }
+    }
+
+    // Generic Management Delivery Summary
+    const deliveredCommitments = walkTheTalkRecords.filter(r => r.status === 'ACHIEVED' || r.status === 'DELIVERED');
+    const pendingCommitments = walkTheTalkRecords.filter(r => r.status === 'ON_TRACK' || r.status === 'PARTIALLY_ACHIEVED');
+    const mgmtSummary = walkTheTalkRecords.length > 0
+      ? `Tracked ${walkTheTalkRecords.length} management commitments: ${deliveredCommitments.length} achieved/delivered, ${pendingCommitments.length} on track or partially achieved.`
+      : 'No formal management commitments cataloged for this evaluation period.';
+
+    // Generic Technical Summary
+    const techSummary = marketPriceState.latestPrice > 0
+      ? `Latest traded price ₹${marketPriceState.latestPrice} (Freshness: ${marketPriceState.freshness}). 52-week trading range ₹${marketPriceState.fiftyTwoWeekLow} – ₹${marketPriceState.fiftyTwoWeekHigh}.` +
+        (marketPriceState.observableSupportLevels?.length > 0 ? ` Observable traded support area ₹${marketPriceState.observableSupportLevels[0].minPrice}–${marketPriceState.observableSupportLevels[0].maxPrice}.` : '')
+      : 'Market price series unobservable or currently stale.';
+
+    // Generic Tension / Contradiction Summary
+    let contradictionSummary = 'No open contradictions or analytical tensions detected across active data.';
+    if (openContradictions.length > 0) {
+      contradictionSummary = `${openContradictions.length} analytical tension(s) flagged: ` +
+        openContradictions.slice(0, 2).map((c: any) => `${c.observationA} vs ${c.observationB}`).join('; ');
+    }
+
+    // Generic Watch Items
+    const whatToMonitorNext: Array<{ question: string; metricToWatch: string; targetOrTrigger: string }> = [];
+    if (receivables !== undefined && receivables !== null) {
+      whatToMonitorNext.push({
+        question: 'Will trade receivable days trend down towards normalized cycle?',
+        metricToWatch: 'trade_receivables_cr',
+        targetOrTrigger: 'Receivables normalization',
+      });
+    }
+    if (latestFacts.ebitda_margin_pct?.value !== undefined && latestFacts.ebitda_margin_pct?.value !== null) {
+      whatToMonitorNext.push({
+        question: 'Can the company sustain operating margin performance under cost fluctuations?',
+        metricToWatch: 'ebitda_margin_pct',
+        targetOrTrigger: `>= ${latestFacts.ebitda_margin_pct.value}%`,
+      });
+    }
+    whatToMonitorNext.push({
+      question: 'Next earnings release revenue and margin trajectory delivery',
+      metricToWatch: 'revenue_cr',
+      targetOrTrigger: 'Quarterly Filing',
+    });
+
+    const discountPct = (valMultiple !== null && peerMedianPe && peerMedianPe > 0)
+      ? (((valMultiple - peerMedianPe) / peerMedianPe) * 100).toFixed(0)
+      : null;
+
+    const keyMetrics: Array<{ label: string; value: string; subtext: string; trend?: 'UP' | 'DOWN' | 'FLAT' }> = [];
+    if (rev !== undefined && rev !== null) {
+      let revGrowth = 'Audited';
+      let trend: 'UP' | 'DOWN' | 'FLAT' = 'FLAT';
+      if (revPrior && Number(revPrior) > 0) {
+        const pct = (((Number(rev) - Number(revPrior)) / Number(revPrior)) * 100).toFixed(1);
+        revGrowth = `${Number(pct) >= 0 ? '+' : ''}${pct}% YoY`;
+        trend = Number(pct) >= 0 ? 'UP' : 'DOWN';
+      }
+      keyMetrics.push({
+        label: latestFacts.revenue_cr?.periodEnd ? `${latestFacts.revenue_cr.periodEnd.substring(0, 4)} Revenue` : 'Revenue',
+        value: `₹${Number(rev).toLocaleString()} Cr`,
+        subtext: revGrowth,
+        trend,
+      });
+    }
+    if (pat !== undefined && pat !== null) {
+      let patGrowth = 'Audited';
+      let trend: 'UP' | 'DOWN' | 'FLAT' = 'FLAT';
+      if (patPrior && Number(patPrior) > 0) {
+        const pct = (((Number(pat) - Number(patPrior)) / Number(patPrior)) * 100).toFixed(1);
+        patGrowth = `${Number(pct) >= 0 ? '+' : ''}${pct}% YoY`;
+        trend = Number(pct) >= 0 ? 'UP' : 'DOWN';
+      }
+      keyMetrics.push({
+        label: latestFacts.pat_cr?.periodEnd ? `${latestFacts.pat_cr.periodEnd.substring(0, 4)} Net Profit (PAT)` : 'Net Profit (PAT)',
+        value: `₹${Number(pat).toLocaleString()} Cr`,
+        subtext: patGrowth,
+        trend,
+      });
+    }
+    if (roce !== undefined && roce !== null) {
+      keyMetrics.push({
+        label: 'Return on Capital (ROCE)',
+        value: `${roce}%`,
+        subtext: Number(roce) > 15 ? 'High Productivity' : 'Capital Efficiency',
+        trend: Number(roce) > 15 ? 'UP' : 'FLAT',
+      });
+    }
+    if (deRatio !== undefined && deRatio !== null) {
+      keyMetrics.push({
+        label: 'Debt to Equity',
+        value: `${deRatio}x`,
+        subtext: Number(deRatio) < 0.5 ? 'Conservative Balance Sheet' : 'Leverage Ratio',
+        trend: Number(deRatio) < 0.5 ? 'UP' : 'DOWN',
+      });
+    }
+
+    const valuationMetrics = {
+      peRatio: valMultiple !== null ? `${valMultiple}x` : '—',
+      peerMedianPe: peerMedianPe !== null ? `${peerMedianPe}x` : '—',
+      discount: discountPct !== null ? `${Number(discountPct) > 0 ? '+' : ''}${discountPct}%` : '—',
+    };
+
+    const technicalRanges = {
+      support: marketPriceState.observableSupportLevels?.[0]
+        ? `₹${marketPriceState.observableSupportLevels[0].minPrice} – ₹${marketPriceState.observableSupportLevels[0].maxPrice}`
+        : (marketPriceState.fiftyTwoWeekLow > 0 ? `52W Low ₹${marketPriceState.fiftyTwoWeekLow}` : 'Under evaluation'),
+      resistance: marketPriceState.observableResistanceLevels?.[0]
+        ? `₹${marketPriceState.observableResistanceLevels[0].minPrice} – ₹${marketPriceState.observableResistanceLevels[0].maxPrice}`
+        : (marketPriceState.fiftyTwoWeekHigh > 0 ? `52W High ₹${marketPriceState.fiftyTwoWeekHigh}` : 'Under evaluation'),
+    };
+
     const overview = {
       whatChanged,
       whyInteresting,
-      businessEconomics: cleanSym === 'DYCL'
-        ? 'Specialized manufacturer of high-voltage (HV) and low-voltage (LV) power cables, all-aluminium alloy conductors (AAAC), and aerial bunched cables for power distribution utilities, EPCs, and railways.'
-        : `Operating business model classified as ${businessModel} within ${sector} (${industry}).`,
-      fundamentalTrajectory: cleanSym === 'DYCL'
-        ? 'Consistent multi-year revenue expansion from ₹671.74 Cr (FY24) to ₹1,031.96 Cr (FY25) and ₹1,204.57 Cr (FY26). Operating margin widened to 10.8%. Q1 FY27 PAT rose 37.1% YoY to ₹24.95 Cr.'
-        : 'Financial trajectory evaluated against canonical multi-period statements.',
-      managementDelivery: cleanSym === 'DYCL'
-        ? 'Delivered on FY26 guidance with >15% revenue expansion (+16.7% actual) and double-digit margins (10.8% actual). Working capital discipline partially achieved; trade receivables remain elevated at ₹287.88 Cr.'
-        : `${walkTheTalkRecords.length} material management commitments tracked across statements and reported outcomes.`,
-      valuationContext: cleanSym === 'DYCL'
-        ? 'Trades at 23.1x P/E vs peer median 43x. Discount reflects scale differences, small-cap liquidity, and conductor mix without implying guaranteed undervaluation.'
+      businessEconomics: `Business model classified as ${businessModel} within ${sector || 'Equities'} (${industry || 'General'}). Structural drivers evaluate product mix, capacity, and execution pace.`,
+      fundamentalTrajectory: trajectorySummary,
+      keyMetrics,
+      managementDelivery: mgmtSummary,
+      valuationContext: valMultiple !== null
+        ? `Trades at ${valMultiple}x P/E multiple` + (peerMedianPe ? ` vs peer median ${peerMedianPe}x.` : '.') + ' Multiples should be evaluated against historical growth and capital return.'
         : 'Valuation multiples computed from verified financial horizon and closing price state.',
-      technicalMarketState: cleanSym === 'DYCL'
-        ? `Traded at ₹${marketPriceState.latestPrice} as of ${marketPriceState.priceAsOf}. ₹416–420 has recently acted as an observable traded support area; resistance observed near swing highs ₹490–520.`
-        : `Traded at ₹${marketPriceState.latestPrice} with 52-week range ₹${marketPriceState.fiftyTwoWeekLow}–${marketPriceState.fiftyTwoWeekHigh}.`,
-      contradictionsSummary: cleanSym === 'DYCL'
-        ? 'Tension between strong earnings growth/low leverage and elevated trade receivables (₹287.88 Cr) with 0% domestic mutual fund ownership.'
-        : (openContradictions.length > 0 ? `${openContradictions.length} competing observations flagged.` : 'No contradictory observations detected across active data.'),
+      valuationMetrics,
+      technicalMarketState: techSummary,
+      technicalRanges,
+      contradictionsSummary: contradictionSummary,
       thesisSummary: {
         stance: (modulesResult.thesis?.result?.thesis?.summary ? 'FAVORABLE' : 'WATCH') as any,
         supportedPillars: modulesResult.thesis?.result?.pillars?.filter((p: any) => p.status === 'SUPPORTED')?.length || 0,
         challengedPillars: modulesResult.thesis?.result?.pillars?.filter((p: any) => p.status === 'CHALLENGED')?.length || 0,
         unknownPillars: modulesResult.thesis?.result?.pillars?.filter((p: any) => p.status === 'UNKNOWN')?.length || 0,
       },
-      whatToMonitorNext: cleanSym === 'DYCL' ? [
-        { question: 'Will trade receivable days trend down towards sub-90 targets in upcoming quarters?', metricToWatch: 'trade_receivables_cr', targetOrTrigger: 'Below ₹250 Cr' },
-        { question: 'When will Phase 2 high-voltage reconductoring capacity at Jaipur plant reach commercial run?', metricToWatch: 'capex_jaipur_phase2', targetOrTrigger: 'Commercial Commissioning' },
-        { question: 'Can the company sustain double-digit (10%+) operating margin under metal price volatility?', metricToWatch: 'ebitda_margin_pct', targetOrTrigger: '>= 10.0%' },
-      ] : [
-        { question: 'Next earnings release revenue and margin delivery', metricToWatch: 'revenue_cr', targetOrTrigger: 'Quarterly Filing' }
-      ],
+      whatToMonitorNext,
     };
 
-    // 4r. Monitoring Loop: Active Watches
-    const monitoring = {
-      activeWatches: [
-        { watchId: `w_wc_${cleanSym}`, metric: 'trade_receivables_cr', condition: 'BELOW_THRESHOLD', threshold: 250, unit: 'INR_CR', status: 'ACTIVE', description: 'Monitor trade receivables reduction towards sub-90 debtor days' },
-        { watchId: `w_margin_${cleanSym}`, metric: 'ebitda_margin_pct', condition: 'MAINTAIN_ABOVE', threshold: 10.0, unit: 'PERCENT', status: 'ACTIVE', description: 'Track sustainment of double-digit (10%+) operating margin' },
-        { watchId: `w_capex_${cleanSym}`, metric: 'capex_jaipur_phase2', condition: 'EVENT_TRIGGER', threshold: 'COMMISSIONED', unit: 'STATUS', status: 'ACTIVE', description: 'Watch Jaipur plant high-voltage reconductoring Phase 2 commercial commissioning' },
-        { watchId: `w_orders_${cleanSym}`, metric: 'order_book_cr', condition: 'MAINTAIN_ABOVE', threshold: 800, unit: 'INR_CR', status: 'ACTIVE', description: 'Track order inflow momentum to maintain >₹800 Cr executable backlog' },
-        { watchId: `w_mgmt_${cleanSym}`, metric: 'management_changes', condition: 'EVENT_TRIGGER', threshold: 'STABILIZED', unit: 'STATUS', status: 'ACTIVE', description: 'Monitor operational continuity following September executive departures' },
-      ],
-    };
+    // 4r. Monitoring Loop: Generic Active Watches from Canonical Rules
+    const activeWatches: any[] = [];
+    if (receivables !== undefined && receivables !== null) {
+      activeWatches.push({
+        watchId: `w_wc_${cleanSym}`,
+        userId: 'system',
+        securityId,
+        symbol: cleanSym,
+        subjectType: 'METRIC',
+        subject: 'trade_receivables_cr',
+        operator: 'BELOW_THRESHOLD',
+        threshold: Number(receivables) * 0.9,
+        unit: 'INR_CR',
+        status: 'ACTIVE',
+        description: `Monitor trade receivables reduction towards sub-${(Number(receivables) * 0.9).toFixed(0)} Cr target`,
+        createdAt: generatedAt,
+      });
+    }
+    if (latestFacts.ebitda_margin_pct?.value !== undefined && latestFacts.ebitda_margin_pct?.value !== null) {
+      activeWatches.push({
+        watchId: `w_margin_${cleanSym}`,
+        userId: 'system',
+        securityId,
+        symbol: cleanSym,
+        subjectType: 'METRIC',
+        subject: 'ebitda_margin_pct',
+        operator: 'MAINTAIN_ABOVE',
+        threshold: Number(latestFacts.ebitda_margin_pct.value),
+        unit: 'PERCENT',
+        status: 'ACTIVE',
+        description: `Track sustainment of operating margin above ${latestFacts.ebitda_margin_pct.value}%`,
+        createdAt: generatedAt,
+      });
+    }
+    activeWatches.push({
+      watchId: `w_results_${cleanSym}`,
+      userId: 'system',
+      securityId,
+      symbol: cleanSym,
+      subjectType: 'EVENT',
+      subject: 'FINANCIAL_RESULTS',
+      operator: 'EVENT_TRIGGER',
+      threshold: 'PUBLISHED',
+      unit: 'STATUS',
+      status: 'ACTIVE',
+      description: 'Trigger notification when new statutory quarterly or annual results are published',
+      createdAt: generatedAt,
+    });
+
+    const monitoring = { activeWatches };
 
     // 4i. Persist snapshot only if explicit refresh/persist requested AND state changed
     if (shouldPersist) {

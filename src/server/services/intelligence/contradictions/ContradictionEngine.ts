@@ -14,6 +14,7 @@
  */
 
 import {
+  AnalyticalConflict,
   Contradiction,
   ContradictionPatternId,
   ContradictionResult,
@@ -135,6 +136,13 @@ export class ContradictionEngine {
         });
 
         if (res.candidate && triggered) {
+          const conflictType: AnalyticalConflict =
+            pattern.id === 'GUIDANCE_VS_ACTUAL' || pattern.id === 'DELEVERAGING_CLAIM_VS_DEBT'
+              ? 'CONTRADICTION'
+              : pattern.id === 'PAT_VS_CFO' || pattern.id === 'GROWTH_VS_WORKING_CAPITAL'
+                ? 'TENSION'
+                : 'DIVERGENCE';
+
           contradictions.push({
             contradictionId: crypto.randomUUID(),
             patternId: pattern.id,
@@ -142,6 +150,7 @@ export class ContradictionEngine {
             observationB: res.candidate.observationB,
             severity: res.candidate.severity,
             status: 'OPEN',
+            conflictType,
             explanation: res.candidate.explanation,
             possibleInterpretations: res.candidate.possibleInterpretations,
             evidence,
