@@ -193,7 +193,7 @@ export class CompanyDeltaEngine {
         // String comparison for non-numeric states
         if (curr !== prev) {
           deltas.push({
-            deltaId: `${comparisonType}_${key}_${Date.now()}`,
+            deltaId: `delta_${comparisonType}_${key}_${crypto.createHash('sha256').update(`${comparisonType}|${key}|${prev}|${curr}`).digest('hex').substring(0, 12)}`,
             category,
             comparisonType,
             item: this.formatMetricName(key),
@@ -220,7 +220,7 @@ export class CompanyDeltaEngine {
       const direction = this.computeDirection(key, curr, prev);
 
       deltas.push({
-        deltaId: `${comparisonType}_${key}_${Date.now()}`,
+        deltaId: `delta_${comparisonType}_${key}_${crypto.createHash('sha256').update(`${comparisonType}|${key}|${prev}|${curr}`).digest('hex').substring(0, 12)}`,
         category,
         comparisonType,
         item: this.formatMetricName(key),

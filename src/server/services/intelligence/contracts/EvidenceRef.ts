@@ -42,17 +42,24 @@ export interface EvidenceRef {
   sourceType: EvidenceDocSourceType;
   sourceName: string;
   sourceUrl?: string | null;
-  documentDate: string;        // YYYY-MM-DD
-  availableAt: string;         // ISO timestamp (PIT invariant)
+  documentDate: string | null;    // YYYY-MM-DD — best known publication date; null = genuinely unknown, do NOT fabricate today
   /**
-   * Explicit PIT classification.
-   * When absent, consumers MUST treat as PIT_INFERRED.
-   * Set explicitly in EvidenceRepository.resolve() for all newly resolved refs.
-   * Existing code that omits this field is implicitly PIT_INFERRED (availableAt may be a substitute).
+   * When the document was first publicly available (PIT invariant).
+   * null means genuinely unknown — do NOT substitute today, periodEnd, or reportedAt.
+   * Historical replay must reject evidence where availableAt is null or pitStatus !== 'PIT_VERIFIED'.
    */
-  pitStatus?: PitStatus;
-  periodStart?: string | null; // ISO date
-  periodEnd?: string | null;   // ISO date
+  availableAt: string | null;
+  /**
+   * Mandatory PIT classification. The compiler enforces this on every producer.
+   * PIT_VERIFIED   — availableAt is explicitly known from the source record.
+   * PIT_INFERRED   — availableAt was absent; documentDate/periodEnd was substituted.
+   *                  Acceptable for current analysis; excluded from strict historical replay.
+   * PIT_UNKNOWN    — No date can be determined. availableAt must be null.
+   *                  Evidence is surfaced but excluded from all historical replay.
+   */
+  pitStatus: PitStatus;
+  periodStart?: string | null;    // ISO date
+  periodEnd?: string | null;      // ISO date
   page?: number | null;
   section?: string | null;
   quote?: string | null;

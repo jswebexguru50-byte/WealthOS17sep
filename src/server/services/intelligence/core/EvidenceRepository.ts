@@ -69,7 +69,7 @@ export class EvidenceRepository {
 
         // PIT classification: explicit vs inferred vs unknown
         let pitStatus: PitStatus;
-        let availAt: string;
+        let availAt: string | null;
         if (rawAvailAt) {
           availAt = rawAvailAt;
           pitStatus = 'PIT_VERIFIED';
@@ -77,12 +77,12 @@ export class EvidenceRepository {
           availAt = docDate;
           pitStatus = 'PIT_INFERRED';
         } else {
-          availAt = new Date().toISOString().split('T')[0];
+          availAt = null;  // genuinely unknown — do NOT fabricate
           pitStatus = 'PIT_UNKNOWN';
         }
 
         // PIT rejection: future evidence relative to asOfDate (strict — only PIT_VERIFIED admissible for historical)
-        if (asOfDate && availAt > asOfDate) {
+        if (asOfDate && availAt && availAt > asOfDate) {
           return null;
         }
 
@@ -91,13 +91,19 @@ export class EvidenceRepository {
           : factRow.sourceType === 'EXCHANGE_FILING' ? 'EXCHANGE_FILING'
           : factRow.sourceType === 'ANNUAL_REPORT' ? 'ANNUAL_REPORT'
           : factRow.sourceType === 'INVESTOR_PRESENTATION' ? 'INVESTOR_PRESENTATION'
-          : 'EXCHANGE_FILING';
+          : factRow.sourceType === 'EARNINGS_TRANSCRIPT' ? 'EARNINGS_TRANSCRIPT'
+          : factRow.sourceType === 'REGULATORY_DISCLOSURE' ? 'REGULATORY_DISCLOSURE'
+          : factRow.sourceType === 'CORPORATE_ACTION' ? 'CORPORATE_ACTION'
+          : factRow.sourceType === 'CREDIT_RATING_REPORT' ? 'CREDIT_RATING_REPORT'
+          : factRow.sourceType === 'SHAREHOLDING_DISCLOSURE' ? 'SHAREHOLDING_DISCLOSURE'
+          : factRow.sourceType === 'PRICE_RECORD' ? 'PRICE_RECORD'
+          : 'OTHER';
 
         return {
           evidenceId: factRow.factId,
           sourceType: srcType,
           sourceName: factRow.sourceDocumentId || `${factRow.symbol} ${factRow.metric} (${factRow.periodEnd})`,
-          documentDate: docDate || availAt,
+          documentDate: docDate || null,   // null = genuinely unknown — do NOT fabricate today
           availableAt: availAt,
           pitStatus,
           periodEnd: factRow.periodEnd,
@@ -135,7 +141,7 @@ export class EvidenceRepository {
 
           const rawAvailAt = xbrlRow.available_at;
           let pitStatus: PitStatus;
-          let availAt: string;
+          let availAt: string | null;
           if (rawAvailAt) {
             availAt = rawAvailAt;
             pitStatus = 'PIT_VERIFIED';
@@ -143,10 +149,10 @@ export class EvidenceRepository {
             availAt = xbrlRow.period_end;
             pitStatus = 'PIT_INFERRED';
           } else {
-            availAt = new Date().toISOString().split('T')[0];
+            availAt = null;  // genuinely unknown — do NOT fabricate
             pitStatus = 'PIT_UNKNOWN';
           }
-          if (asOfDate && availAt > asOfDate) {
+          if (asOfDate && availAt && availAt > asOfDate) {
             return null;
           }
 
@@ -155,7 +161,7 @@ export class EvidenceRepository {
             sourceType: 'EXCHANGE_FILING',
             sourceName: `MCA XBRL Filing: ${xbrlRow.taxonomy_field}`,
             sourceUrl: xbrlRow.source_url,
-            documentDate: xbrlRow.period_end,
+            documentDate: xbrlRow.period_end || null,   // null = genuinely unknown — do NOT fabricate today
             availableAt: availAt,
             pitStatus,
             periodEnd: xbrlRow.period_end,
@@ -182,9 +188,9 @@ export class EvidenceRepository {
             return null;
           }
 
-          const availAt = claimRow.claim_date;
-          const pitStatus: PitStatus = availAt ? 'PIT_VERIFIED' : 'PIT_UNKNOWN';
-          if (asOfDate && availAt && availAt > asOfDate) {
+          const rawClaimDate: string | null = claimRow.claim_date || null;
+          const claimPitStatus: PitStatus = rawClaimDate ? 'PIT_VERIFIED' : 'PIT_UNKNOWN';
+          if (asOfDate && rawClaimDate && rawClaimDate > asOfDate) {
             return null;
           }
 
@@ -193,9 +199,9 @@ export class EvidenceRepository {
             sourceType: 'EARNINGS_TRANSCRIPT',
             sourceName: `Corporate Announcement / Earnings Call (${claimRow.symbol})`,
             sourceUrl: claimRow.source_url,
-            documentDate: claimRow.claim_date || availAt,
-            availableAt: availAt || new Date().toISOString().split('T')[0],
-            pitStatus,
+            documentDate: rawClaimDate || null,   // null = genuinely unknown — do NOT fabricate today
+            availableAt: rawClaimDate,  // null if genuinely unknown — never fabricate
+            pitStatus: claimPitStatus,
             quote: claimRow.evidence_text,
             contentHash: claimRow.source_sha256,
             extractionMethod: 'MANUAL_AUDITED',

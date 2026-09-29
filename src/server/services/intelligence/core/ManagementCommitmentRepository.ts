@@ -1,11 +1,11 @@
 /**
- * ManagementCommitmentRepository.ts — Constitution Article C1 & C6
+ * ManagementCommitmentRepository.ts â€” Constitution Article C1 & C6
  *
  * Dedicated repository for Management Commitments and Walk-the-Talk ledger.
  * Invariants:
  * - Queries by SecurityIdentity (ISIN primary).
  * - Tracks commitments from statement to subsequent reality:
- *   Who said it → What was said → Metric/Target/Deadline → Subsequent Actual → Status → Evidence.
+ *   Who said it â†’ What was said â†’ Metric/Target/Deadline â†’ Subsequent Actual â†’ Status â†’ Evidence.
  * - Standardizes on 9 actionable Walk-the-Talk statuses:
  *   ACHIEVED, ON_TRACK, PARTIALLY_ACHIEVED, MISSED, REVISED, SUPERSEDED, NOT_YET_DUE, NOT_MEASURABLE, INSUFFICIENT_EVIDENCE.
  * - Status is DERIVED dynamically by comparing target vs actual facts as of PIT cutoff, NEVER pre-seeded.
@@ -141,8 +141,9 @@ export class ManagementCommitmentRepository {
               sourceType: 'EARNINGS_TRANSCRIPT',
               sourceName: `Corporate Announcement / Earnings Call (${r.claim_date})`,
               sourceUrl: r.source_url,
-              documentDate: r.claim_date,
-              availableAt: r.claim_date,
+              documentDate: r.claim_date || null,
+              availableAt: r.claim_date || null,
+              pitStatus: r.claim_date ? 'PIT_INFERRED' : 'PIT_UNKNOWN',
               quote: r.evidence_text,
               contentHash: r.source_sha256,
               extractionMethod: 'MANUAL_AUDITED',
@@ -157,12 +158,9 @@ export class ManagementCommitmentRepository {
     }
 
     // 2. Load verified reference commitment declarations
-    const referenceCommitments = this.getReferenceCommitments(isin, sym, cutoff);
-    for (const ref of referenceCommitments) {
-      if (!rawDefinitions.some(r => r.commitmentId === ref.commitmentId)) {
-        rawDefinitions.push(ref);
-      }
-    }
+    // 2. Reference commitments from curated test fixtures are NOT loaded here.
+    // Production commitments come exclusively from management_claim_candidate in fere_evidence.db.
+    // For DYCL test fixtures see: tests/fixtures/dycl_reference_commitments.ts
 
     // 3. Derive status dynamically for every raw commitment
     const results: MaterialCommitmentRecord[] = rawDefinitions.map(def =>
@@ -289,240 +287,5 @@ export class ManagementCommitmentRepository {
     };
   }
 
-  /**
-   * Reference commitments repository.
-   * Stores RAW inputs (speaker, statement, metric, targetValue, operator, deadline, evidence)
-   * and RAW reported actuals with publication dates.
-   * The status is NEVER stored here — it is always evaluated dynamically by deriveCommitmentEvaluation.
-   */
-  private getReferenceCommitments(isin: string, sym: string, cutoff: string): RawCommitmentDefinition[] {
-    const isDycl = sym === 'DYCL' || isin === 'INE600Y01019';
-    if (!isDycl) return [];
-
-    const definitions: RawCommitmentDefinition[] = [
-      {
-        commitmentId: `mgt_${isin}_rev_fy26`,
-        securityId: isin,
-        symbol: 'DYCL',
-        speaker: 'Managing Director & CEO',
-        statement: 'Management guided revenue expansion above 15% YoY with disciplined working capital.',
-        statementDate: '2025-05-15',
-        sourceDocument: 'DYCL FY25 Earnings Call & Investor Presentation',
-        sourceUrl: 'https://nsearchives.nseindia.com/corporate/DYCL_Filing.pdf',
-        metric: 'revenue_growth_pct',
-        operator: 'GTE',
-        targetValue: 15.0,
-        targetUnit: '%',
-        deadline: '2026-03-31',
-        materiality: 'HIGH',
-        measurability: 'MEASURABLE',
-        baselineValue: '₹1,031.96 Cr (FY25)',
-        statementEvidence: {
-          evidenceId: `ev_${isin}_rev_fy26_stmt`,
-          sourceType: 'EARNINGS_TRANSCRIPT',
-          sourceName: 'DYCL FY25 Earnings Call',
-          documentDate: '2025-05-15',
-          availableAt: '2025-05-15',
-          quote: 'Management guided revenue expansion above 15% YoY with disciplined working capital.',
-          extractionMethod: 'MANUAL_AUDITED',
-        },
-        reportedActuals: [
-          {
-            value: 16.7,
-            periodEnd: 'FY26',
-            publishedDate: '2026-05-20',
-            availableAt: '2026-05-20',
-            evidence: {
-              evidenceId: `ev_${isin}_rev_fy26_actual`,
-              sourceType: 'AUDITED_FINANCIAL_STATEMENT',
-              sourceName: 'DYCL FY26 Audited Annual Results',
-              documentDate: '2026-05-20',
-              availableAt: '2026-05-20',
-              quote: 'Revenue from operations increased by 16.7% YoY to ₹1,204.57 Cr.',
-              extractionMethod: 'MANUAL_AUDITED',
-            },
-          },
-        ],
-      },
-      {
-        commitmentId: `mgt_${isin}_margin_fy26`,
-        securityId: isin,
-        symbol: 'DYCL',
-        speaker: 'Chief Financial Officer',
-        statement: 'Targeting operating margin improvement towards double digits (10%+) driven by high-voltage cable mix.',
-        statementDate: '2025-05-15',
-        sourceDocument: 'DYCL FY25 Investor Presentation',
-        sourceUrl: 'https://bseindia.com/corporates/results/DYCL_2025.pdf',
-        metric: 'ebitda_margin_pct',
-        operator: 'GTE',
-        targetValue: 10.0,
-        targetUnit: '%',
-        deadline: '2026-03-31',
-        materiality: 'HIGH',
-        measurability: 'MEASURABLE',
-        baselineValue: '9.7% (FY25)',
-        statementEvidence: {
-          evidenceId: `ev_${isin}_margin_fy26_stmt`,
-          sourceType: 'INVESTOR_PRESENTATION',
-          sourceName: 'DYCL FY25 Investor Presentation',
-          documentDate: '2025-05-15',
-          availableAt: '2025-05-15',
-          quote: 'Targeting operating margin improvement towards double digits (10%+).',
-          extractionMethod: 'MANUAL_AUDITED',
-        },
-        reportedActuals: [
-          {
-            value: 10.8,
-            periodEnd: 'FY26',
-            publishedDate: '2026-05-20',
-            availableAt: '2026-05-20',
-            evidence: {
-              evidenceId: `ev_${isin}_margin_fy26_actual`,
-              sourceType: 'AUDITED_FINANCIAL_STATEMENT',
-              sourceName: 'DYCL FY26 Audited Annual Results',
-              documentDate: '2026-05-20',
-              availableAt: '2026-05-20',
-              quote: 'EBITDA margin reached 10.8% for FY26 compared to 9.7% in FY25.',
-              extractionMethod: 'MANUAL_AUDITED',
-            },
-          },
-        ],
-      },
-      {
-        commitmentId: `mgt_${isin}_wc_receivables`,
-        securityId: isin,
-        symbol: 'DYCL',
-        speaker: 'Managing Director & CEO',
-        statement: 'Stated commitment to curtail trade receivable days below 90 days across government distribution projects.',
-        statementDate: '2025-11-10',
-        sourceDocument: 'DYCL Q2 FY26 Earnings Conference Call',
-        sourceUrl: 'https://nsearchives.nseindia.com/corporate/DYCL_Q2_FY26.pdf',
-        metric: 'receivable_days',
-        operator: 'LTE',
-        targetValue: 90,
-        targetUnit: 'DAYS',
-        deadline: '2026-03-31',
-        materiality: 'HIGH',
-        measurability: 'MEASURABLE',
-        baselineValue: '92.4 days',
-        statementEvidence: {
-          evidenceId: `ev_${isin}_wc_stmt`,
-          sourceType: 'EARNINGS_TRANSCRIPT',
-          sourceName: 'DYCL Q2 FY26 Earnings Call',
-          documentDate: '2025-11-10',
-          availableAt: '2025-11-10',
-          quote: 'Targeting to bring debtor days below 90 days by financial year end.',
-          extractionMethod: 'MANUAL_AUDITED',
-        },
-        reportedActuals: [
-          {
-            value: 87.2,
-            periodEnd: 'FY26',
-            publishedDate: '2026-05-20',
-            availableAt: '2026-05-20',
-            qualifier: 'PARTIAL',
-            evidence: {
-              evidenceId: `ev_${isin}_wc_actual`,
-              sourceType: 'AUDITED_FINANCIAL_STATEMENT',
-              sourceName: 'DYCL FY26 Audited Balance Sheet',
-              documentDate: '2026-05-20',
-              availableAt: '2026-05-20',
-              quote: 'Trade receivables stood at ₹287.88 Cr as of March 31, 2026 (calculated receivable days: 87.2).',
-              extractionMethod: 'MANUAL_AUDITED',
-            },
-          },
-        ],
-      },
-      {
-        commitmentId: `mgt_${isin}_capacity_jaipur`,
-        securityId: isin,
-        symbol: 'DYCL',
-        speaker: 'Executive Director (Operations)',
-        statement: 'Execution of ₹35 Cr capex program for additional high-voltage reconductoring lines at Jaipur plant by Q4 FY26.',
-        statementDate: '2025-08-14',
-        sourceDocument: 'DYCL Corporate Announcement to BSE/NSE',
-        sourceUrl: 'https://bseindia.com/corporates/announcements/DYCL_Capex.pdf',
-        metric: 'capex_cr',
-        operator: 'COMMISSIONED',
-        targetValue: 35.0,
-        targetUnit: 'INR_CR',
-        deadline: '2026-03-31',
-        materiality: 'MEDIUM',
-        measurability: 'MEASURABLE',
-        baselineValue: 'Pre-expansion capacity',
-        statementEvidence: {
-          evidenceId: `ev_${isin}_capex_stmt`,
-          sourceType: 'EXCHANGE_FILING',
-          sourceName: 'BSE Corporate Announcement — Jaipur Plant Expansion',
-          documentDate: '2025-08-14',
-          availableAt: '2025-08-14',
-          quote: '₹35 Cr capex for high-voltage capacity underway at Jaipur facility.',
-          extractionMethod: 'MANUAL_AUDITED',
-        },
-        reportedActuals: [
-          {
-            value: 'Phase 1 operational, Phase 2 trials ongoing',
-            periodEnd: 'Q4 FY26',
-            publishedDate: '2026-04-10',
-            availableAt: '2026-04-10',
-            evidence: {
-              evidenceId: `ev_${isin}_capex_actual`,
-              sourceType: 'EXCHANGE_FILING',
-              sourceName: 'BSE Corporate Announcement — Jaipur Expansion Update',
-              documentDate: '2026-04-10',
-              availableAt: '2026-04-10',
-              quote: 'Phase 1 capacity commissioned; Phase 2 trials underway with commercial production expected in H1 FY27.',
-              extractionMethod: 'MANUAL_AUDITED',
-            },
-          },
-        ],
-      },
-      {
-        commitmentId: `mgt_${isin}_order_book`,
-        securityId: isin,
-        symbol: 'DYCL',
-        speaker: 'Managing Director & CEO',
-        statement: 'Targeting execution of outstanding order book of over ₹800 Cr within 12 to 15 months.',
-        statementDate: '2026-06-15',
-        sourceDocument: 'DYCL Annual Report FY26 — Management Discussion & Analysis',
-        sourceUrl: 'https://nsearchives.nseindia.com/corporate/DYCL_AR_2026.pdf',
-        metric: 'order_book_cr',
-        operator: 'GTE',
-        targetValue: 808.0,
-        targetUnit: 'INR_CR',
-        deadline: '2027-06-30',
-        materiality: 'HIGH',
-        measurability: 'MEASURABLE',
-        baselineValue: '₹808.0 Cr order book',
-        statementEvidence: {
-          evidenceId: `ev_${isin}_order_book_stmt`,
-          sourceType: 'ANNUAL_REPORT',
-          sourceName: 'DYCL FY26 Annual Report MD&A',
-          documentDate: '2026-06-15',
-          availableAt: '2026-06-15',
-          quote: 'Current executable order book stands at ₹808 Cr across railways and distribution utilities.',
-          extractionMethod: 'MANUAL_AUDITED',
-        },
-        reportedActuals: [
-          {
-            value: 349.1,
-            periodEnd: 'Q1 FY27',
-            publishedDate: '2026-08-10',
-            availableAt: '2026-08-10',
-            evidence: {
-              evidenceId: `ev_${isin}_order_book_actual`,
-              sourceType: 'AUDITED_FINANCIAL_STATEMENT',
-              sourceName: 'DYCL Q1 FY27 Financial Results',
-              documentDate: '2026-08-10',
-              availableAt: '2026-08-10',
-              quote: 'Revenue for Q1 FY27 reached ₹349.10 Cr representing robust execution pace against order backlog.',
-              extractionMethod: 'MANUAL_AUDITED',
-            },
-          },
-        ],
-      },
-    ];
-
-    return definitions.filter(d => d.statementDate <= cutoff);
-  }
 }
+

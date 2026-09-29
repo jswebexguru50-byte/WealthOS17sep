@@ -83,9 +83,15 @@ export interface RefreshResult {
 export class CompanyRefreshCoordinator {
   private static instance: CompanyRefreshCoordinator;
   private readonly watchRules: Map<string, WatchRule[]> = new Map();
+  /**
+   * Persists the most recent WatchEvaluation per watchId across invocations.
+   * Required for stateful transition detection (SATISFIED→TRIGGERED, TRIGGERED→SATISFIED).
+   */
+  private readonly lastEvaluations: Map<string, WatchEvaluation> = new Map();
 
   private constructor() {
-    this.initWatchRules();
+    // No DYCL-specific or any symbol-specific watch rules here.
+    // Watch rules must be loaded via registerWatchRule() from a WatchRuleRepository or test fixtures.
   }
 
   public static getInstance(): CompanyRefreshCoordinator {
@@ -169,8 +175,15 @@ export class CompanyRefreshCoordinator {
       }
     }
 
-    // 7. Evaluate Watch Rules
-    const { evaluations, triggered } = this.evaluateWatchRules(identity, updatedResponse);
+    // 7. Evaluate Watch Rules — pass events for EVENT-type watches
+    const events: any[] = (updatedResponse as any).timelineEvents || [];
+    const { evaluations, triggered } = this.evaluateWatchRules(identity, updatedResponse, events);
+
+    // Snapshot identity must be deterministic — fail explicitly if unavailable
+    const snapshotId = updatedResponse.snapshot?.snapshotId;
+    if (!snapshotId) {
+      console.error('[CompanyRefreshCoordinator] Snapshot ID missing — deterministic snapshot was not generated. Aborting snapshot reference.');
+    }
 
     return {
       securityId: isin,
@@ -180,7 +193,7 @@ export class CompanyRefreshCoordinator {
       unaffectedModules: unaffected,
       newFactsStored,
       newEventsStored,
-      snapshotId: updatedResponse.snapshot?.snapshotId || `snap_${isin}_${Date.now()}`,
+      snapshotId: snapshotId || 'SNAPSHOT_GENERATION_FAILED',
       deltaSummary: deltaSummary.length > 0 ? deltaSummary : ['No material changes detected'],
       watchEvaluations: evaluations,
       triggeredWatches: triggered,
@@ -312,7 +325,15 @@ export class CompanyRefreshCoordinator {
 
       const insertMany = db.transaction((rows: IngestedCorporateEvent[]) => {
         for (const ev of rows) {
-          const eventId = `ev_${identity.isin}_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
+          // Deterministic event identity: hash stable event inputs, never use Date.now()
+          const identityPreimage = [
+            identity.isin,
+            ev.eventType,
+            ev.eventDate,
+            ev.headline.trim().toLowerCase().substring(0, 80),
+            disclosure.sourceUrl || '',
+          ].join('|');
+          const eventId = `ev_${crypto.createHash('sha256').update(identityPreimage).digest('hex').substring(0, 16)}`;
           stmt.run(
             eventId,
             identity.isin,
@@ -341,7 +362,8 @@ export class CompanyRefreshCoordinator {
 
   private evaluateWatchRules(
     identity: SecurityIdentity,
-    response: CompanyIntelligenceResponse
+    response: CompanyIntelligenceResponse,
+    timelineEvents: any[] = []
   ): { evaluations: WatchEvaluation[]; triggered: WatchEvent[] } {
     const evaluations: WatchEvaluation[] = [];
     const triggered: WatchEvent[] = [];
@@ -357,6 +379,7 @@ export class CompanyRefreshCoordinator {
       let isTriggered = false;
       let observedValue: any = null;
       let triggerReason = '';
+      let triggeringEvidenceIds: string[] = [];
 
       if (rule.subjectType === 'METRIC') {
         const fact = facts[rule.subject];
@@ -376,79 +399,82 @@ export class CompanyRefreshCoordinator {
               isTriggered = true;
               triggerReason = `Metric ${rule.subject} maintained at ${numObs} >= ${numThresh}`;
             }
+            // Carry evidence IDs from the triggering fact
+            if (isTriggered && fact.evidenceRef?.evidenceId) {
+              triggeringEvidenceIds = [fact.evidenceRef.evidenceId];
+            }
           }
         }
       } else if (rule.subjectType === 'EVENT') {
-        const deltas = (response.modules.delta?.result as any)?.deltas || [];
-        const matchingDelta = deltas.find(
-          (d: any) => d.domain === rule.subject || (d.item && d.item.includes(rule.subject))
+        // EVENT watches inspect Timeline/CompanyEvents — NOT analytical Delta
+        const matchingEvent = timelineEvents.find(
+          (ev: any) =>
+            ev.eventType === rule.subject ||
+            ev.title?.toLowerCase().includes(rule.subject.toLowerCase())
         );
-        if (matchingDelta) {
+        if (matchingEvent) {
           isTriggered = true;
-          observedValue = matchingDelta.explanation || 'Event Occurred';
+          observedValue = matchingEvent.title || 'Event Occurred';
           triggerReason = `Event watch triggered: ${observedValue}`;
+          // Carry evidence IDs from the triggering CompanyEvent
+          if (matchingEvent.evidenceRefs?.length > 0) {
+            triggeringEvidenceIds = matchingEvent.evidenceRefs
+              .map((r: any) => r.evidenceId)
+              .filter(Boolean);
+          }
+          if (triggeringEvidenceIds.length === 0) {
+            triggeringEvidenceIds = matchingEvent.eventId ? [matchingEvent.eventId] : [];
+          }
         }
       }
 
-      evaluations.push({
+      // Stateful transition: only emit alert on state changes
+      const prevEval = this.lastEvaluations.get(rule.watchId);
+      const previousState: WatchEvaluation['previousState'] =
+        prevEval ? prevEval.currentState : 'UNKNOWN';
+      const currentState: WatchEvaluation['currentState'] =
+        isTriggered ? 'TRIGGERED' : 'SATISFIED';
+
+      const evaluation: WatchEvaluation = {
         watchId: rule.watchId,
         securityId: rule.securityId,
         symbol: rule.symbol,
         evaluatedAt: now,
-        previousState: 'UNKNOWN' as const,
-        currentState: isTriggered ? 'TRIGGERED' : 'UNKNOWN' as const,
-        triggeringEvidenceIds: [],
-        explanation: isTriggered ? triggerReason : `Watch rule ${rule.watchId} evaluated — no threshold breach`,
-      });
+        previousState,
+        currentState,
+        triggeringEvidenceIds,
+        explanation: isTriggered
+          ? triggerReason
+          : `Watch rule ${rule.watchId} evaluated — no threshold breach`,
+      };
+      evaluations.push(evaluation);
+      this.lastEvaluations.set(rule.watchId, evaluation);
 
-      if (isTriggered) {
+      // Only emit a WatchEvent when state TRANSITIONS (not on repeated identical state)
+      const isTransition = previousState !== currentState;
+      if (isTriggered && isTransition) {
+        // Deterministic watch event identity: hash watchId + triggeringSnapshot + evidenceIds
+        const watchIdentityPreimage = [
+          rule.watchId,
+          response.snapshot?.snapshotId || isin,
+          currentState,
+          triggeringEvidenceIds.join(','),
+        ].join('|');
+        const watchEventId = `we_${crypto.createHash('sha256').update(watchIdentityPreimage).digest('hex').substring(0, 16)}`;
+
         triggered.push({
-          eventId: `we_${rule.watchId}_${Date.now()}`,
+          eventId: watchEventId,
           watchId: rule.watchId,
           securityId: rule.securityId,
           symbol: rule.symbol,
           occurredAt: now,
           summary: triggerReason,
           severity: 'ALERT' as const,
-          evidenceIds: [],
+          evidenceIds: triggeringEvidenceIds,
         });
       }
     }
 
     return { evaluations, triggered };
-  }
-
-  private initWatchRules(): void {
-    // Seed default baseline watch rules for DYCL
-    this.watchRules.set('INE600Y01019', [
-      {
-        watchId: 'w_wc_dycl',
-        userId: 'system',
-        securityId: 'INE600Y01019',
-        symbol: 'DYCL',
-        subjectType: 'METRIC' as const,
-        subject: 'trade_receivables_cr',
-        operator: 'BELOW_THRESHOLD' as const,
-        threshold: 250,
-        unit: 'INR_CR',
-        status: 'ACTIVE' as const,
-        description: 'Alert if trade receivables fall below ₹250 Cr — signals working capital stress',
-        createdAt: '2026-05-20T00:00:00Z',
-      },
-      {
-        watchId: 'w_margin_dycl',
-        userId: 'system',
-        securityId: 'INE600Y01019',
-        symbol: 'DYCL',
-        subjectType: 'METRIC' as const,
-        subject: 'ebitda_margin_pct',
-        operator: 'MAINTAIN_ABOVE' as const,
-        threshold: 10.0,
-        unit: '%',
-        status: 'ACTIVE' as const,
-        description: 'Monitor that EBITDA margin stays at or above 10% — management commitment threshold',
-        createdAt: '2026-05-20T00:00:00Z',
-      },
-    ]);
   }
 }

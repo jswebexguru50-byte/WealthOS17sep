@@ -3,26 +3,61 @@
  *
  * Single source of truth for canonical financial and operational facts.
  * Invariants:
- * - Queries always take SecurityIdentity / ISIN, never loose symbols alone.
- * - Point-In-Time (PIT) gate is strictly `availableAt <= asOfDate` (NOT fetchedAt).
- * - Maps database records directly into universal CanonicalFact contract.
- * - Resolves evidence references without synthetic fabrication.
+ * - PIT gate:
+ *   STRICT mode: availableAt IS NOT NULL AND availableAt <= asOfDate (historical replay).
+ *   ALLOW_INFERRED mode: also admits rows with NULL availableAt when asOfDate IS NOT NULL (current analysis).
+ * - No fabricated enum casts (no `as any` for EvidenceRef fields).
+ * - No synthetic current-timestamp for unknown document/availability metadata.
  */
 
-import { getDB, dbAll, dbGet } from '../../../database.js';
+import { getDB, dbAll } from '../../../database.js';
 import { CanonicalFact, FactVerificationStatus } from '../contracts/CanonicalFact.js';
 import { SecurityIdentity } from '../contracts/SecurityIdentity.js';
-import { EvidenceRef } from '../contracts/EvidenceRef.js';
+import {
+  EvidenceRef,
+  EvidenceDocSourceType,
+  EvidenceExtractionMethod,
+  PitStatus,
+} from '../contracts/EvidenceRef.js';
+
+export type PitMode = 'STRICT' | 'ALLOW_INFERRED';
 
 export interface FactQueryOptions {
   periodType?: 'ANNUAL' | 'QUARTERLY' | 'TTM' | 'POINT_IN_TIME';
   asOfDate?: string | null;
   consolidatedOrStandalone?: 'CONSOLIDATED' | 'STANDALONE' | 'SEGMENT';
+  pitMode?: PitMode;
+}
+
+function mapEvidenceSourceType(raw: string | null | undefined): EvidenceDocSourceType {
+  switch (raw) {
+    case 'EXCHANGE_FILING':             return 'EXCHANGE_FILING';
+    case 'ANNUAL_REPORT':               return 'ANNUAL_REPORT';
+    case 'EARNINGS_TRANSCRIPT':         return 'EARNINGS_TRANSCRIPT';
+    case 'INVESTOR_PRESENTATION':       return 'INVESTOR_PRESENTATION';
+    case 'PRICE_RECORD':                return 'PRICE_RECORD';
+    case 'REGULATORY_DISCLOSURE':       return 'REGULATORY_DISCLOSURE';
+    case 'CORPORATE_ACTION':            return 'CORPORATE_ACTION';
+    case 'AUDITED_FINANCIAL_STATEMENT': return 'AUDITED_FINANCIAL_STATEMENT';
+    case 'CREDIT_RATING_REPORT':        return 'CREDIT_RATING_REPORT';
+    case 'SHAREHOLDING_DISCLOSURE':     return 'SHAREHOLDING_DISCLOSURE';
+    default:                            return 'OTHER';
+  }
+}
+
+function mapExtractionMethod(raw: string | null | undefined): EvidenceExtractionMethod {
+  switch (raw) {
+    case 'MANUAL_AUDITED':           return 'MANUAL_AUDITED';
+    case 'STRUCTURED_XBRL':         return 'STRUCTURED_XBRL';
+    case 'PARSED_REGEX':             return 'PARSED_REGEX';
+    case 'LLM_EXTRACTED_VERIFIED':  return 'LLM_EXTRACTED_VERIFIED';
+    case 'DIRECT_EXCHANGE_FEED':    return 'DIRECT_EXCHANGE_FEED';
+    default:                         return 'STRUCTURED_XBRL';
+  }
 }
 
 export class CanonicalFactRepository {
   private static instance: CanonicalFactRepository;
-
   private constructor() {}
 
   public static getInstance(): CanonicalFactRepository {
@@ -32,9 +67,6 @@ export class CanonicalFactRepository {
     return CanonicalFactRepository.instance;
   }
 
-  /**
-   * Retrieves all canonical facts for a security enforcing Point-In-Time (availableAt <= asOfDate).
-   */
   public async getFactsForSecurity(
     identity: SecurityIdentity,
     options: FactQueryOptions = {}
@@ -45,28 +77,18 @@ export class CanonicalFactRepository {
     const effectiveAsOf = options.asOfDate || new Date().toISOString().split('T')[0];
     const isin = identity.isin || '';
     const symbol = identity.nseSymbol || identity.bseCode || '';
+    const pitMode: PitMode = options.pitMode || 'ALLOW_INFERRED';
 
-    let sql = `
-      SELECT *
-      FROM company_facts
-      WHERE (isin = ? OR symbol = ?)
-        AND (
-          (availableAt IS NOT NULL AND availableAt <= ?)
-          OR (availableAt IS NULL AND asOfDate IS NOT NULL AND asOfDate <= ?)
-        )
-    `;
-    const params: any[] = [isin, symbol, effectiveAsOf, effectiveAsOf];
+    const pitClause = pitMode === 'STRICT'
+      ? `availableAt IS NOT NULL AND availableAt <= ?`
+      : `(availableAt IS NOT NULL AND availableAt <= ?) OR (availableAt IS NULL AND asOfDate IS NOT NULL AND asOfDate <= ?)`;
+    const pitParams: any[] = pitMode === 'STRICT' ? [effectiveAsOf] : [effectiveAsOf, effectiveAsOf];
 
-    if (options.periodType) {
-      sql += ` AND periodType = ?`;
-      params.push(options.periodType);
-    }
+    let sql = `SELECT * FROM company_facts WHERE (isin = ? OR symbol = ?) AND (${pitClause})`;
+    const params: any[] = [isin, symbol, ...pitParams];
 
-    if (options.consolidatedOrStandalone) {
-      sql += ` AND scope = ?`;
-      params.push(options.consolidatedOrStandalone);
-    }
-
+    if (options.periodType) { sql += ` AND periodType = ?`; params.push(options.periodType); }
+    if (options.consolidatedOrStandalone) { sql += ` AND scope = ?`; params.push(options.consolidatedOrStandalone); }
     sql += ` ORDER BY periodEnd DESC, availableAt DESC`;
 
     try {
@@ -78,33 +100,25 @@ export class CanonicalFactRepository {
     }
   }
 
-  /**
-   * Retrieves the latest fact for each metric for a security, enforcing PIT.
-   */
   public async getLatestFactsByMetric(
     identity: SecurityIdentity,
-    asOfDate?: string | null
+    asOfDate?: string | null,
+    pitMode?: PitMode
   ): Promise<Record<string, CanonicalFact>> {
-    const facts = await this.getFactsForSecurity(identity, { asOfDate });
+    const facts = await this.getFactsForSecurity(identity, { asOfDate, pitMode });
     const latestByMetric: Record<string, CanonicalFact> = {};
-
     for (const fact of facts) {
       const key = fact.metric.toLowerCase();
-      if (!latestByMetric[key]) {
-        latestByMetric[key] = fact;
-      }
+      if (!latestByMetric[key]) latestByMetric[key] = fact;
     }
-
     return latestByMetric;
   }
 
-  /**
-   * Retrieves historical series for a specific metric for a security.
-   */
   public async getHistoricalSeries(
     identity: SecurityIdentity,
     metric: string,
-    asOfDate?: string | null
+    asOfDate?: string | null,
+    pitMode: PitMode = 'STRICT'
   ): Promise<CanonicalFact[]> {
     const db = getDB();
     if (!db) return [];
@@ -113,19 +127,15 @@ export class CanonicalFactRepository {
     const isin = identity.isin || '';
     const symbol = identity.nseSymbol || identity.bseCode || '';
 
-    const sql = `
-      SELECT *
-      FROM company_facts
-      WHERE (isin = ? OR symbol = ?) AND metric = ?
-        AND (
-          (availableAt IS NOT NULL AND availableAt <= ?)
-          OR (availableAt IS NULL AND asOfDate IS NOT NULL AND asOfDate <= ?)
-        )
-      ORDER BY periodEnd ASC
-    `;
+    const pitClause = pitMode === 'STRICT'
+      ? `availableAt IS NOT NULL AND availableAt <= ?`
+      : `(availableAt IS NOT NULL AND availableAt <= ?) OR (availableAt IS NULL AND asOfDate IS NOT NULL AND asOfDate <= ?)`;
+    const pitParams: any[] = pitMode === 'STRICT' ? [effectiveAsOf] : [effectiveAsOf, effectiveAsOf];
+
+    const sql = `SELECT * FROM company_facts WHERE (isin = ? OR symbol = ?) AND metric = ? AND (${pitClause}) ORDER BY periodEnd ASC`;
 
     try {
-      const rows = await dbAll<any>(db, sql, [isin, symbol, metric, effectiveAsOf, effectiveAsOf]);
+      const rows = await dbAll<any>(db, sql, [isin, symbol, metric, ...pitParams]);
       return rows.map(r => this.mapRowToFact(r));
     } catch (err) {
       console.error(`[CanonicalFactRepository] Failed historical series query for ${metric}:`, err);
@@ -133,64 +143,75 @@ export class CanonicalFactRepository {
     }
   }
 
-  /**
-   * Resolves fact IDs into verified EvidenceRef objects. Returns only genuinely existing evidence.
-   */
   public async resolveEvidenceRefs(factIds: string[]): Promise<EvidenceRef[]> {
     if (!factIds || factIds.length === 0) return [];
     const db = getDB();
     if (!db) return [];
 
     const placeholders = factIds.map(() => '?').join(',');
-    const sql = `
-      SELECT factId, isin, symbol, metric, periodEnd, sourceDocumentId, sourceUrl,
-             reportedAt, availableAt, asOfDate, evidenceText, sourceType
-      FROM company_facts
-      WHERE factId IN (${placeholders})
-    `;
+    const sql = `SELECT factId, isin, symbol, metric, periodEnd, sourceDocumentId, sourceUrl,
+                        reportedAt, availableAt, asOfDate, evidenceText, sourceType, calculationMethod
+                 FROM company_facts WHERE factId IN (${placeholders})`;
 
     try {
       const rows = await dbAll<any>(db, sql, factIds);
-      return rows.map(r => ({
-        evidenceId: `fact_ev_${r.factId}`,
-        sourceType: (r.sourceType === 'EXCHANGE_FILING' ? 'STATUTORY_FILING' : 'DATA_PROVIDER_RECORD') as any,
-        sourceName: r.sourceDocumentId || `${r.symbol} ${r.metric}`,
-        sourceUrl: r.sourceUrl || undefined,
-        documentDate: r.reportedAt || r.asOfDate || new Date().toISOString(),
-        availableAt: r.availableAt || r.reportedAt || r.asOfDate || new Date().toISOString(),
-        periodEnd: r.periodEnd || undefined,
-        quote: r.evidenceText || undefined,
-        extractionMethod: 'XBRL_DIRECT_EXTRACTION' as any,
-      }));
+      return rows.map(r => {
+        const rawAvailAt: string | null = r.availableAt || null;
+        const rawDocDate: string | null = r.reportedAt || r.periodEnd || null;
+        let availableAt: string | null;
+        let pitStatus: PitStatus;
+        if (rawAvailAt) { availableAt = rawAvailAt; pitStatus = 'PIT_VERIFIED'; }
+        else if (rawDocDate) { availableAt = rawDocDate; pitStatus = 'PIT_INFERRED'; }
+        else { availableAt = null; pitStatus = 'PIT_UNKNOWN'; }
+        const ref: EvidenceRef = {
+          evidenceId: `fact_ev_${r.factId}`,
+          sourceType: mapEvidenceSourceType(r.sourceType),
+          sourceName: r.sourceDocumentId || `${r.symbol} ${r.metric}`,
+          sourceUrl: r.sourceUrl || null,
+          documentDate: rawDocDate || null,   // null = genuinely unknown — do NOT fabricate today
+          availableAt,
+          pitStatus,
+          periodEnd: r.periodEnd || null,
+          quote: r.evidenceText || null,
+          extractionMethod: mapExtractionMethod(r.calculationMethod),
+        };
+        return ref;
+      });
     } catch (err) {
       console.error('[CanonicalFactRepository] resolveEvidenceRefs failed:', err);
       return [];
     }
   }
 
-  // ─── Mapper ─────────────────────────────────────────────────────────────────
-
   private mapRowToFact(row: any): CanonicalFact {
     const isin = row.isin || '';
     const numVal = isNaN(Number(row.value)) ? row.value : parseFloat(row.value);
     const metric = row.metric || '';
-    const periodEnd = row.periodEnd || null;
-    const publishedAt = row.publishedAt || row.reportedAt || row.asOfDate || new Date().toISOString();
-    const availableAt = row.availableAt || row.reportedAt || row.asOfDate || new Date().toISOString();
+    const periodEnd: string | null = row.periodEnd || null;
+
+    const rawAvailAt: string | null = row.availableAt || null;
+    const rawDocDate: string | null = row.publishedAt || row.reportedAt || row.asOfDate || null;
+    let availableAt: string | null;
+    let pitStatus: PitStatus;
+    if (rawAvailAt) { availableAt = rawAvailAt; pitStatus = 'PIT_VERIFIED'; }
+    else if (rawDocDate) { availableAt = rawDocDate; pitStatus = 'PIT_INFERRED'; }
+    else { availableAt = null; pitStatus = 'PIT_UNKNOWN'; }
+
     const verificationStatus: FactVerificationStatus =
       (row.verificationStatus as FactVerificationStatus) || 'SOURCE_LINKED';
 
     const evidenceRef: EvidenceRef = {
       evidenceId: `fact_ev_${row.factId || `${isin}_${metric}_${periodEnd}`}`,
-      sourceType: (row.sourceType === 'EXCHANGE_FILING' ? 'STATUTORY_FILING' : 'DATA_PROVIDER_RECORD') as any,
+      sourceType: mapEvidenceSourceType(row.sourceType),
       sourceName: row.sourceDocumentId || row.provider || 'Statutory Disclosure',
-      sourceUrl: row.sourceUrl || undefined,
-      documentDate: publishedAt,
-      availableAt: availableAt,
-      periodStart: row.periodStart || undefined,
-      periodEnd: periodEnd || undefined,
-      quote: row.evidenceText || undefined,
-      extractionMethod: (row.calculationMethod || 'XBRL_DIRECT_EXTRACTION') as any,
+      sourceUrl: row.sourceUrl || null,
+      documentDate: rawDocDate || null,   // null = genuinely unknown — do NOT fabricate today
+      availableAt,
+      pitStatus,
+      periodStart: row.periodStart || null,
+      periodEnd: periodEnd || null,
+      quote: row.evidenceText || null,
+      extractionMethod: mapExtractionMethod(row.calculationMethod),
     };
 
     return {
@@ -217,13 +238,13 @@ export class CanonicalFactRepository {
         evidenceId: evidenceRef.evidenceId,
         sourceType: 'CANONICAL_FACT' as const,
         sourceId: row.sourceDocumentId || row.factId || `${isin}_${metric}`,
-        timestamp: availableAt,
+        timestamp: availableAt || rawDocDate || null,   // null = unknown — do NOT fabricate
         field: metric,
-        asOfDate: availableAt,
+        asOfDate: availableAt || rawDocDate || null,
       }],
-      publishedAt,
-      availableAt,
-      ingestedAt: row.fetchedAt || undefined,
+      publishedAt: rawDocDate || null,
+      availableAt: availableAt || null,
+      ingestedAt: row.fetchedAt || null,
       verificationStatus,
       derivationFormula: row.derivationFormula || null,
       inputFactIds: row.inputFactIds ? JSON.parse(row.inputFactIds) : undefined,

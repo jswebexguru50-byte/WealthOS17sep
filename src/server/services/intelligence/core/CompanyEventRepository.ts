@@ -121,8 +121,9 @@ export class CompanyEventRepository {
             evidenceId: `ev_fin_${isin}_${key}`,
             sourceType: 'AUDITED_FINANCIAL_STATEMENT',
             sourceName: `Financial Results ${data.periodEnd}`,
-            documentDate: data.reportedAt || data.periodEnd,
-            availableAt: data.availableAt || data.periodEnd,
+            documentDate: data.reportedAt || data.periodEnd || null,
+            availableAt: data.availableAt || data.periodEnd || null,
+            pitStatus: data.availableAt ? 'PIT_VERIFIED' : (data.periodEnd ? 'PIT_INFERRED' : 'PIT_UNKNOWN'),
             periodEnd: data.periodEnd,
             extractionMethod: 'STRUCTURED_XBRL',
           }],
@@ -156,78 +157,6 @@ export class CompanyEventRepository {
       }
     } catch {
       // Non-fatal
-    }
-
-    // 4. Curated corporate and governance events for DYCL if applicable
-    if (symbol === 'DYCL' || isin === 'INE600Y01019') {
-      const curatedDyclEvents: CompanyEvent[] = [
-        {
-          eventId: `evt_${isin}_mgmt_change_sep2026`,
-          securityId: isin,
-          eventType: 'MANAGEMENT_CHANGE',
-          occurredAt: '2026-09-08',
-          availableAt: '2026-09-08T18:30:00Z',
-          materiality: 'HIGH',
-          title: 'Executive Disclosures: Two Senior Management Departures',
-          description: 'Two senior executive departures disclosed in September; operational impact unverified.',
-          evidenceRefs: [{
-            evidenceId: `ev_${isin}_mgmt_change_reg30`,
-            sourceType: 'REGULATORY_DISCLOSURE',
-            sourceName: 'BSE Regulation 30 Disclosure — Change in Senior Management Personnel',
-            documentDate: '2026-09-08',
-            availableAt: '2026-09-08T18:30:00Z',
-            quote: 'Disclosure under Regulation 30 regarding resignation of two senior operational executives.',
-            extractionMethod: 'MANUAL_AUDITED',
-          }],
-          affectedDomains: ['MANAGEMENT', 'GOVERNANCE'],
-        },
-        {
-          eventId: `evt_${isin}_order_win_rdss`,
-          securityId: isin,
-          eventType: 'ORDER_WIN',
-          occurredAt: '2026-07-22',
-          availableAt: '2026-07-22T14:15:00Z',
-          materiality: 'MEDIUM',
-          title: 'Order Inflow: Distribution Utility Supply Contract',
-          description: 'Secured ₹112 Cr order for medium-voltage cabling under government RDSS distribution modernization.',
-          evidenceRefs: [{
-            evidenceId: `ev_${isin}_order_rdss`,
-            sourceType: 'EXCHANGE_FILING',
-            sourceName: 'NSE Corporate Announcement — Receipt of Commercial Order',
-            documentDate: '2026-07-22',
-            availableAt: '2026-07-22T14:15:00Z',
-            quote: 'Company received purchase orders aggregating to ₹112 Cr from state electricity distribution companies.',
-            extractionMethod: 'MANUAL_AUDITED',
-          }],
-          affectedDomains: ['FUNDAMENTALS', 'MANAGEMENT'],
-        },
-        {
-          eventId: `evt_${isin}_shareholding_q1_fy27`,
-          securityId: isin,
-          eventType: 'SHAREHOLDING_CHANGE',
-          occurredAt: '2026-07-15',
-          availableAt: '2026-07-15T12:00:00Z',
-          materiality: 'MEDIUM',
-          title: 'Shareholding Pattern Disclosure: Q1 FY27',
-          description: 'Promoter holding at 74.44%; zero reported domestic mutual-fund ownership.',
-          evidenceRefs: [{
-            evidenceId: `ev_${isin}_sh_q1fy27`,
-            sourceType: 'SHAREHOLDING_DISCLOSURE',
-            sourceName: 'BSE Regulation 31 Shareholding Pattern for Quarter Ended June 30, 2026',
-            documentDate: '2026-07-15',
-            availableAt: '2026-07-15T12:00:00Z',
-            quote: 'Promoter & Promoter Group holding: 74.44%, Mutual Funds: 0.00%.',
-            extractionMethod: 'MANUAL_AUDITED',
-          }],
-          affectedDomains: ['GOVERNANCE'],
-        },
-      ];
-
-      for (const ev of curatedDyclEvents) {
-        if (ev.occurredAt <= effectiveAsOf && !events.some(e => e.eventId === ev.eventId)) {
-          events.push(ev);
-        }
-      }
     }
 
     return events.sort((a, b) => (b.occurredAt || '').localeCompare(a.occurredAt || ''));
