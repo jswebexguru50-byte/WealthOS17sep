@@ -250,19 +250,22 @@ export class SectorArchetypeRegistry {
     if (!sector) return 'UNKNOWN';
     const normalized = sector.trim().toUpperCase();
 
-    if (/\bIT\b|INFORMATION TECHNOLOGY|SOFTWARE|TECH SERVICE|INFY|TCS|WIPRO|HCLTECH/i.test(normalized)) return 'IT_SERVICES';
-    if (/\bBANK|HDFCBANK|ICICIBANK|SBIN|KOTAKBANK|AXISBANK/i.test(normalized)) return 'BANK';
-    if (/\bNBFC|HOUSING FINANCE|MICROFINANCE|BAJFINANCE/i.test(normalized)) return 'NBFC';
-    if (/\bAUTO|AUTOMOBILE|VEHICLE|TWO.WHEEL|TATAMOTORS|MARUTI|M&M/i.test(normalized)) return 'AUTO';
-    if (/AUTO.COMP|COMPONENT|ANCILLAR/i.test(normalized)) return 'AUTO_COMPONENTS';
-    if (/\bMETAL|STEEL|ALUMIN|COPPER|MINING|TATASTEEL|JSWSTEEL/i.test(normalized)) return 'METALS';
-    if (/PHARMA|DRUG|BIOTECH|HEALTHCARE|HOSPITAL|SUNPHARMA|CIPLA/i.test(normalized)) return 'PHARMA';
-    if (/CONSUMER|FMCG|RETAIL|FASHION|JEWEL|ITC|TITAN|HINDUNILVR/i.test(normalized)) return 'CONSUMER';
-    if (/CAPITAL.GOOD|INDUSTRIAL|ENGINEER|DEFENCE|AEROSPACE|INFRA|CABLE|WIRE|DYCL|BEL|LT\b/i.test(normalized)) return 'INDUSTRIAL';
-    if (/ENERGY|OIL|GAS|POWER|UTILITIES|REFIN/i.test(normalized)) return 'ENERGY';
-    if (/TELECOM|COMMUNICATION/i.test(normalized)) return 'TELECOM';
-    if (/REAL.ESTATE|REALTY|PROP/i.test(normalized)) return 'REAL_ESTATE';
-    if (/DIVERSIF|CONGLOMERATE|RELIANCE/i.test(normalized)) return 'DIVERSIFIED';
+    // NOTE: patterns match sector/industry vocabulary from exchange master data ONLY.
+    // Stock ticker symbols (INFY, TCS, DYCL, etc.) are NEVER embedded here — those are
+    // identity aliases, not sector descriptions. Any new mapping must use generic sector words.
+    if (/\bIT\b|INFORMATION TECHNOLOGY|SOFTWARE|TECH SERVICE|TECH CONSULTING/i.test(normalized)) return 'IT_SERVICES';
+    if (/\bBANK(?:ING)?\b/i.test(normalized)) return 'BANK';
+    if (/\bNBFC\b|HOUSING FINANCE|MICROFINANCE|NON.BANK(?:ING)? FINANCE/i.test(normalized)) return 'NBFC';
+    if (/\bAUTO(?:MOBILE)?|VEHICLE|TWO.WHEEL(?:ER)?|PASSENGER VEHICLE|COMMERCIAL VEHICLE/i.test(normalized)) return 'AUTO';
+    if (/AUTO.COMP(?:ONENT)?|ANCILLAR/i.test(normalized)) return 'AUTO_COMPONENTS';
+    if (/\bMETAL|STEEL|ALUMIN(?:IUM|UM)|COPPER|MINING|IRON.ORE/i.test(normalized)) return 'METALS';
+    if (/PHARMA(?:CEUTICAL)?|DRUG|BIOTECH|HEALTHCARE|HOSPITAL|MEDICAL DEVICE/i.test(normalized)) return 'PHARMA';
+    if (/CONSUMER|FMCG|FAST.MOVING|RETAIL|FASHION|JEWELLER|PERSONAL CARE/i.test(normalized)) return 'CONSUMER';
+    if (/CAPITAL.GOOD|INDUSTRIAL|ENGINEER(?:ING)?|DEFENCE|AEROSPACE|INFRA(?:STRUCTURE)?|CABLE|WIRE/i.test(normalized)) return 'INDUSTRIAL';
+    if (/\bENERGY\b|OIL.?\bGAS\b|\bGAS\b|POWER|UTILITIES|REFIN(?:ING|ERY)?/i.test(normalized)) return 'ENERGY';
+    if (/TELECOM(?:MUNICATION)?|WIRELESS|BROADBAND/i.test(normalized)) return 'TELECOM';
+    if (/REAL.ESTATE|REALTY|PROP(?:ERTY)?|DEVELOPER/i.test(normalized)) return 'REAL_ESTATE';
+    if (/DIVERSIF(?:IED)?|CONGLOMERATE/i.test(normalized)) return 'DIVERSIFIED';
 
     return 'UNKNOWN';
   }

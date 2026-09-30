@@ -64,10 +64,8 @@ export class IntelligenceInboxService {
       }
     } catch {}
 
-    // 2. Add standard sample universe if empty
-    if (symbolsToInspect.size === 0) {
-      ['DYCL', 'TCS', 'HDFCBANK', 'TATAMOTORS', 'TATASTEEL'].forEach(s => symbolsToInspect.add(s));
-    }
+    // No hardcoded fallback symbols — if there are no watched securities in the DB,
+    // the inbox is legitimately empty. Demo symbols must never be injected here.
 
     const items: InboxItem[] = [];
     const orchestrator = CompanyIntelligenceOrchestrator.getInstance();

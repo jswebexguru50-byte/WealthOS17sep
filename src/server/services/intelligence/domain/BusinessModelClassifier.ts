@@ -5,7 +5,16 @@ export type BusinessModel =
   | 'INSURANCE'
   | 'UNKNOWN';
 
+/**
+ * BusinessModelClassifier — classifies a company's business model for engine routing.
+ *
+ * PRIMARY: sector and industry strings from canonical identity metadata (NSE/BSE master data).
+ * SECONDARY HINT: known-symbol sets — applied ONLY when both sector and industry are absent.
+ *   Symbol sets are a convenience bootstrap for the 5 golden companies and must NEVER override
+ *   sector/industry metadata when that metadata is present.
+ */
 export class BusinessModelClassifier {
+  // Known-symbol hints — used ONLY as a fallback when sector/industry strings are absent.
   private static readonly BANK_SYMBOLS = new Set([
     'HDFCBANK', 'ICICIBANK', 'SBIN', 'KOTAKBANK', 'AXISBANK',
     'INDUSINDBK', 'BANKBARODA', 'PNB', 'CANBK', 'IDFCFIRSTB',
@@ -26,16 +35,7 @@ export class BusinessModelClassifier {
     const cleanSector = (sector || '').toLowerCase();
     const cleanIndustry = (industry || '').toLowerCase();
 
-    if (this.BANK_SYMBOLS.has(cleanSym)) {
-      return 'BANK';
-    }
-    if (this.NBFC_SYMBOLS.has(cleanSym)) {
-      return 'NBFC';
-    }
-    if (this.INSURANCE_SYMBOLS.has(cleanSym)) {
-      return 'INSURANCE';
-    }
-
+    // ── PRIMARY: sector/industry vocabulary (canonical identity metadata) ──────
     if (cleanSector.includes('bank') || cleanIndustry.includes('bank')) {
       return 'BANK';
     }
@@ -46,6 +46,13 @@ export class BusinessModelClassifier {
       return 'NBFC';
     }
 
+    // ── SECONDARY HINT: symbol sets — only when sector AND industry are absent ──
+    if (!sector && !industry && cleanSym) {
+      if (this.BANK_SYMBOLS.has(cleanSym)) return 'BANK';
+      if (this.NBFC_SYMBOLS.has(cleanSym)) return 'NBFC';
+      if (this.INSURANCE_SYMBOLS.has(cleanSym)) return 'INSURANCE';
+    }
+
     if (!sector && !industry && !cleanSym) {
       return 'UNKNOWN';
     }
@@ -53,3 +60,4 @@ export class BusinessModelClassifier {
     return 'NON_FINANCIAL';
   }
 }
+

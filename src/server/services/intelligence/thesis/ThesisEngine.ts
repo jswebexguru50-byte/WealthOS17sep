@@ -199,7 +199,10 @@ export class ThesisEngine {
       : `${state.symbol} thesis has partial evidence — key pillars remain to be verified.`;
 
     // 8. Construct thesis object
-    const thesisId = priorRevision?.revisionId || crypto.randomUUID().substring(0, 16);
+    // Deterministic thesis identity: sha256(securityId + "THESIS_V2"), truncated to 16 hex chars.
+    // The same security always maps to the same thesis lineage — randomUUID() is explicitly forbidden.
+    const thesisId = priorRevision?.revisionId ||
+      crypto.createHash('sha256').update(`${state.securityId}:THESIS_V2`).digest('hex').substring(0, 16);
 
     const thesis: CompanyThesis = {
       thesisId,

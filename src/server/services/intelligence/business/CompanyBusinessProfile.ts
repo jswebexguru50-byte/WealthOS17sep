@@ -120,9 +120,15 @@ export class CompanyBusinessProfileEngine {
 
     // Resolve sector archetype generically
     const archetypeRegistry = SectorArchetypeRegistry.getInstance();
-    const sectorStr = sector || industry || (businessModel && businessModel !== 'NON_FINANCIAL' ? businessModel : null) || symbol;
+    // Resolve sector from metadata vocabulary only. The stock symbol is NOT a sector descriptor —
+    // passing it (e.g. 'DYCL') would produce UNKNOWN anyway. When absent, null → UNKNOWN,
+    // and line 125 correctly falls back to the INDUSTRIAL generic template.
+    const sectorStr = sector || industry || (businessModel && businessModel !== 'NON_FINANCIAL' ? businessModel : null) || null;
     const archetype = archetypeRegistry.resolveFromSectorString(sectorStr);
     const template = archetypeRegistry.getTemplate(archetype) ?? archetypeRegistry.getTemplate('INDUSTRIAL');
+    // Effective archetype reflects the template actually applied. UNKNOWN means no sector metadata
+    // is available but the INDUSTRIAL generic template is still applied for non-financial companies.
+    const effectiveArchetype = archetype !== 'UNKNOWN' ? archetype : (template ? 'INDUSTRIAL' : 'UNKNOWN');
 
     const evidenceRefs: EvidenceReference[] = [];
 
@@ -183,11 +189,11 @@ export class CompanyBusinessProfileEngine {
     return {
       securityId,
       symbol,
-      sectorArchetype: archetype,
+      sectorArchetype: effectiveArchetype,
       businessDescription: {
         summary: industry
-          ? `${symbol} operates in the ${industry} industry (${archetype} archetype).`
-          : `${symbol} is an exchange-listed company classified under ${archetype} archetype.`,
+          ? `${symbol} operates in the ${industry} industry (${effectiveArchetype} archetype).`
+          : `${symbol} is an exchange-listed company classified under ${effectiveArchetype} archetype.`,
         evidenceRef: evidenceRefs[0] || null,
       },
       productsServices: [],
