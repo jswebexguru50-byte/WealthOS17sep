@@ -1,0 +1,105 @@
+{
+  "probedAt": "2026-09-30T02:41:36.491Z",
+  "serverStatus": "CONNECTED",
+  "maxScripsPerCall": 10,
+  "maxMetricsPerCall": 50,
+  "maxCellsPerCall": 500,
+  "discoveredTools": [
+    {
+      "toolName": "get_document_search_results",
+      "description": "Searches the company document vector database using semantic similarity.\nThis database contains chunked and embedded text from company filings and reports:\n- Annual Reports (full-year filings with financial statements, management commentary, notes)\n- Quarterly Results (quarterly financial performance and segment data)\n- Earnings Call Transcripts (management commentary, Q&A with analysts)\n- Investor Presentations (strategy updates, growth outlook, capital allocation plans)\n\nIMPORTANT INSTRUCTIONS:\n- Use a specific, focused query for best results. Avoid broad or multi-topic queries.\n- Include the company name in the query for accurate retrieval.\n- Use financial terminology in the query (e.g. \"revenue\", \"EBITDA\", \"PAT\", \"debt-to-equity\").\n\nArgs:\n    query: A focused natural-language search query. Include the company name and the\n        specific financial metric, event, or topic you are looking for.\n        Good example: \"Infosys FY24 annual report revenue and operating margin\"\n        Bad example:  \"Tell me about the company\"\nReturns:\n    A JSON string containing relevant document chunks and source information matching the semantic query.",
+      "supportedParams": [
+        "query"
+      ]
+    },
+    {
+      "toolName": "get_overview_news_corp_events",
+      "description": "Fetches a stock's overview, technical analysis, news feed, or upcoming/historical corporate events.\n\nUse this tool to get comprehensive information about a company's financial indicators,\nmoving averages, news updates, or corporate actions (dividends, splits, board meetings, etc.).\nYou MUST specify the category to fetch using the 'type' parameter.\n\nArgs:\n    stock_code (str): The identifier of the stock. This can be an NSE symbol/code (e.g., 'INFY'),\n                      a BSE script code (e.g., '500209'), or the company's ISIN (e.g., 'INE009A01021').\n                      If required, you can optionally call `search_entities` first to get the correct stock code identifier.\n    type (str): The specific category of data to fetch. Allowed values are:\n                - 'overview': Retrieves key stock overview details including checklists, valuation, ASM/GSM status, forecaster, and basic metrics.\n                - 'technical': Retrieves technical analysis indicators, including RSI, MFI, MACD, and moving averages (EMA/SMA).\n                - 'news': Retrieves latest news feed and exchange announcements for the stock.\n                - 'events': Retrieves all corporate actions and events (Bonus, Splits, Dividends, Board Meetings, Rights).",
+      "supportedParams": [
+        "stock_code",
+        "type"
+      ]
+    },
+    {
+      "toolName": "get_ownership_deals_insider_sast",
+      "description": "Fetches stock-level corporate ownership data, promoter/insider transactions, \nand bulk/block market deals for a given company.\n\nUse this tool to inspect shareholding patterns, insider trading (SAST) details, \nor market bulk/block deals. You MUST specify the data category to fetch using the 'type' parameter.\n\nArgs:\n    stock_code (str): The identifier of the stock. This can be an NSE symbol/code (e.g., 'INFY'),\n                      a BSE script code (e.g., '500209'), or the company's ISIN (e.g., 'INE009A01021').\n                      If required, you can optionally call `search_entities` first to get the correct stock code identifier.\n    type (str): The specific category of data to fetch. Allowed values are:\n                - 'shareholding': Retrieves latest shareholding pattern (promoter, institutional, FII, DII, mutual fund, and public holdings).\n                - 'sast': Retrieves Insider Trading and SAST (Substantial Acquisition of Shares and Takeovers) transaction logs, promoter acquisitions/disposals, and share pledges.\n                - 'bulblockdeal': Retrieves bulk and block market deals data (date, buyer/seller name, quantity, and average trade price).",
+      "supportedParams": [
+        "stock_code",
+        "type"
+      ]
+    },
+    {
+      "toolName": "get_parameter_values_multi_stock",
+      "description": "Performs semantic search over the structured database to find the latest available company data,\nstock prices, and financial metrics. Use this tool for natural-language or exploratory queries.\n\nFor exact parameter extraction when you already know the stock codes and metric field names,\nuse `search_financial_parameters` to resolve field names and `get_stock_parameter_values`\nto fetch values for specific stocks.\n\nSnapshot data contained in a database contains the latest values of:\n    - Balance Sheet: Balance Sheet Annual\n    - Cash Flow: Cash Flow Annual\n    - Financial Ratios: Financial Ratios Annual\n    - Forecaster: Consensus Estimates Latest\n    - Income Statement: Income Statement Quarter\n    - Insider Trades: Insider Trades Latest\n    - Price & Volume: Price & Volume Latest\n    - Ratios: Other Ratios Latest\n    - Scores: Scores Latest\n    - Shareholding: Shareholding Quarter Aggregates\n    - Technicals: Technicals Day OHLC\n\nArgs:\n    query: The natural-language query containing metrics/ratios or topics to search for.\n    type: The category of financial entity to filter search results by. Allowed values are: 'stock', 'etf', 'index'. Defaults to 'stock'.",
+      "supportedParams": [
+        "query",
+        "type"
+      ]
+    },
+    {
+      "toolName": "get_stock_parameter_values",
+      "description": "Fetches current or historical values of specific financial parameters/metrics for a list of stocks.\n\nUse this tool when you already know the exact stock codes and masked parameter tokens.\nResolve stock codes with `search_entities` (prefer `nse_code`) and parameters with `search_financial_parameters`.\n\nLimits: pass at most 10 stock codes and 10 parameters in a single call. If you need more,\nsplit the request into multiple calls.\n\nArgs:\n    stock_codes: A list of stock identifiers (1 to 10 per call). Each can be an NSE symbol (e.g., 'INFY'),\n        BSE script code (e.g., '500209'), or ISIN (e.g., 'INE009A01021').\n    parameters: A list of masked parameter tokens (1 to 50 per call). Use the `parameter` value from\n        `search_financial_parameters` results — not `helping_text`, not internal field keys like ROE_A.\n        Examples: `roea` (ROE Annual %), `pettm` (PE TTM), `currentprice` (Current Price).\n\nExample:\n    After `search_financial_parameters(\"roe annual\")` returns:\n        {\"parameter\": \"roea\", \"helping_text\": \"ROE Annual %\"}\n    call:\n        stock_codes=[\"INFY\"]\n        parameters=[\"roea\"]\n\nReturns:\n    A JSON string containing a markdown table or structured values of the requested parameters for each stock.",
+      "supportedParams": [
+        "parameters",
+        "stock_codes"
+      ]
+    },
+    {
+      "toolName": "search_entities",
+      "description": "Search for Indian stocks, ETFs, or indices by name, BSE/NSE symbol, ticker, sector, industry, or thematic description\nto resolve and find the correct stock code (NSE symbol/BSE code/ISIN) needed for other tools.\n\nArgs:\n    query: The search term. Can be a company name, symbol, ticker, sector, industry, or thematic/keyword description (e.g., 'Infosys', 'IT Services', 'Tata Group', 'Automobile sector').\n    entity_type: The category of financial entity to search for. Allowed values are: 'stock', 'etf', 'index'. Defaults to 'stock'.\n    limit: Optional maximum number of stock records to return (defaults to 10).\n\nReturns:\n    A JSON string containing a success status and a list of matching records under the 'data' key.\n    Each record in 'data' contains:\n    - `name` (string): The full name of the company/stock/ETF/index.\n    - `nse_code` (string or null): The NSE symbol (e.g., 'INFY'), which is the preferred stock_code parameter for other tools.\n    - `bse_code` (string or null): The BSE script code (e.g., '500209').\n    - `isin` (string or null): The ISIN of the company (e.g., 'INE009A01021').\n    - `entity_type` (string or null): The type of page (e.g., 'stock', 'etf', 'index').\n    - `sector` (string or null): The sector name of the company (null for ETFs and indices).\n    - `industry` (string or null): The industry name of the company (null for ETFs and indices).",
+      "supportedParams": [
+        "entity_type",
+        "limit",
+        "query"
+      ]
+    },
+    {
+      "toolName": "search_financial_parameters",
+      "description": "Search for specific financial parameters, metrics, or field names (e.g., 'PE ratio', 'Revenue', 'Operating Profit Margin') in the database.\nUse this tool to find the masked parameter token and human-readable label for `get_stock_parameter_values`.\n\nTypical workflow on `/mcp`:\n    1. Resolve stock codes with `search_entities` (prefer `nse_code`).\n    2. Resolve parameters with this tool.\n    3. Pass stock codes and the masked `parameter` tokens (e.g. `roea`) to `get_stock_parameter_values`.\n       Use `helping_text` only to explain the metric to the user.\n\nArgs:\n    query: The name of the financial parameter or metric you are looking for (e.g., \"sales growth\", \"operating profit margin\").\n\nReturns:\n    A JSON string containing a list of matching parameters. Each result includes:\n        - `parameter`: masked screener token to pass to `get_stock_parameter_values` (e.g. `roea`)\n        - `helping_text`: human-readable label for display (e.g. `ROE Annual %`)",
+      "supportedParams": [
+        "query"
+      ]
+    },
+    {
+      "toolName": "watchlist_add_stock",
+      "description": "Add a stock to a user's specified watchlist.\n\nUse this tool when a user wants to save or track a stock in one of their watchlists.\nRequires both a valid stock ID and watchlist ID.\n\nArgs:\n    stock_id (str or int): The unique ID of the stock to add (e.g., obtained from `search_entities`).\n    watchlist_id (str or int): The unique ID of the target watchlist (e.g., obtained from `watchlist_listing`).\n\nReturns:\n    str: JSON string containing the execution status (\"success\" or \"error\"), response message,\n         and updated watchlist confirmation.",
+      "supportedParams": [
+        "stock_id",
+        "watchlist_id"
+      ]
+    },
+    {
+      "toolName": "watchlist_creation",
+      "description": "Create a new custom watchlist for the authenticated user.\n\nUse this tool when a user wants to create, set up, or build a new watchlist to group and track stocks.\nRequires a title/name for the watchlist; the description is optional.\n\nArgs:\n    watchlistTitle (str): The required display name or title for the new watchlist (e.g., \"Tech Stocks\", \"Long Term Holdings\").\n    watchlistDesc (str, optional): Optional description or notes detailing the purpose of the watchlist. Defaults to \"\".\n\nReturns:\n    str: JSON string containing the execution status (\"success\" or \"error\"), response message,\n         and details of the newly created watchlist (including the new `watchlist_id`).",
+      "supportedParams": [
+        "watchlistDesc",
+        "watchlistTitle"
+      ]
+    },
+    {
+      "toolName": "watchlist_listing",
+      "description": "Retrieve all watchlists created by the authenticated user.\n\nUse this tool when a user asks to list, view, or check their watchlists, or when you need\nto retrieve a `watchlist_id` prior to adding or removing stocks.\n\nReturns:\n    str: JSON string containing a list of the user's watchlists. Each item includes:\n         - `watchlist_id` (int/str): The unique identifier for the watchlist.\n         - `name` (str): The display name of the watchlist.\n         - `is_default` (bool): Indicates if it is the user's primary/default watchlist.\n         - `stock_count` (int): The total number of stocks currently in the watchlist.",
+      "supportedParams": []
+    },
+    {
+      "toolName": "watchlist_remove_stock",
+      "description": "Remove a stock from a user's specified watchlist.\n\nUse this tool when a user wants to delete, remove, or untrack a stock from one of their watchlists.\nRequires both a valid stock ID and watchlist ID.\n\nArgs:\n    stock_id (str or int): The unique ID of the stock to remove (e.g., obtained from `search_entities` or watchlist items).\n    watchlist_id (str or int): The unique ID of the target watchlist (e.g., obtained from `watchlist_listing`).\n\nReturns:\n    str: JSON string containing the execution status (\"success\" or \"error\"), response message,\n         and removal confirmation.",
+      "supportedParams": [
+        "stock_id",
+        "watchlist_id"
+      ]
+    },
+    {
+      "toolName": "watchlist_stocks",
+      "description": "Retrieve all stocks and their details contained within a specific watchlist.\n\nUse this tool when a user wants to view, check, or list the stocks inside a specific watchlist.\nRequires a valid `watchlist_id`, which can be retrieved using the `watchlist_listing` tool.\n\nArgs:\n    watchlist_id (str or int): The unique ID of the watchlist whose stocks are to be fetched (obtained from `watchlist_listing`).\n\nReturns:\n    str: JSON string containing watchlist metadata and the array of stocks (including stock IDs, names,\n         prices, and financial metrics).",
+      "supportedParams": [
+        "watchlist_id"
+      ]
+    }
+  ],
+  "documentSearchSupported": true,
+  "multiStockStructuredSupported": true,
+  "ownershipSupported": true,
+  "corporateEventsSupported": true,
+  "quotaReportedByServer": false
+}

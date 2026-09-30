@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-09-30T04:15:11.480Z",
+  "totalUniverseStocks": 4223,
+  "totalJobs": 12679,
+  "completedJobs": 2701,
+  "pendingJobs": 9978,
+  "runningJobs": 0,
+  "progressPct": "21.30%",
+  "quota": {
+    "dailyUsed": 900,
+    "dailyLimit": 1000,
+    "dailyReserve": 100,
+    "monthlyUsed": 900,
+    "monthlyLimit": 10000
+  }
+}
