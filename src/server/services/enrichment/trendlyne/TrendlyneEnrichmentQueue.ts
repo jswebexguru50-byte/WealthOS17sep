@@ -71,7 +71,8 @@ export class TrendlyneEnrichmentQueue {
           `INSERT INTO trendlyne_enrichment_jobs
            (job_id, security_id, job_type, pack_id, pack_version, period_key, priority, state, attempt_count, request_hash, created_at)
            VALUES (?, ?, ?, ?, ?, ?, ?, 'PENDING', 0, ?, ?)
-           ON CONFLICT(job_id) DO UPDATE SET state = 'PENDING', priority = excluded.priority, attempt_count = 0, error_code = null, error_message = null`,
+           ON CONFLICT(job_id) DO UPDATE SET state = 'PENDING', priority = excluded.priority, attempt_count = 0, error_code = null, error_message = null
+           WHERE trendlyne_enrichment_jobs.state != 'COMPLETE'`,
           [
             job.jobId,
             job.securityId,
