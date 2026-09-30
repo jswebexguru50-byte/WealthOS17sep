@@ -18,6 +18,7 @@ import { TrendlyneMcpClient } from '../../src/server/services/enrichment/trendly
 import { TrendlyneQuotaManager } from '../../src/server/services/enrichment/trendlyne/TrendlyneQuotaManager.js';
 import { TrendlyneEnrichmentQueue } from '../../src/server/services/enrichment/trendlyne/TrendlyneEnrichmentQueue.js';
 import { TrendlyneEnrichmentDaemon } from '../../src/server/services/enrichment/trendlyne/TrendlyneEnrichmentDaemon.js';
+import { TrendlyneBatchPlanner } from '../../src/server/services/enrichment/trendlyne/TrendlyneBatchPlanner.js';
 import { TrendlyneCoverageService } from '../../src/server/services/enrichment/trendlyne/TrendlyneCoverageService.js';
 import { TrendlyneHealthService } from '../../src/server/services/enrichment/trendlyne/TrendlyneHealthService.js';
 
@@ -106,4 +107,20 @@ describe('Trendlyne MCP Max Enrichment Integration Suite', () => {
     expect(status.quota.dailyLimit).toBe(1000);
     expect(status.queue).toBeDefined();
   });
+
+  it('6. strictly enforces per-batch limits: scrips <= 10, metrics <= 50, cells <= 500', () => {
+    const planner = new TrendlyneBatchPlanner();
+    const mockWorkItems = Array.from({ length: 35 }, (_, i) => ({
+      scrip: { securityId: `SEC_${i}`, symbol: `SYM${i}`, priority: 'P2' as const }
+    }));
+    const batches = planner.planBatches(mockWorkItems);
+    expect(batches.length).toBeGreaterThan(0);
+    for (const batch of batches) {
+      expect(batch.scrips.length).toBeLessThanOrEqual(10);
+      expect(batch.metricIds.length).toBeLessThanOrEqual(50);
+      expect(batch.requestedCells).toBeLessThanOrEqual(500);
+      expect(batch.requestedCells).toBe(batch.scrips.length * batch.metricIds.length);
+    }
+  });
 });
+

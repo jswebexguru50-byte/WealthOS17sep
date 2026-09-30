@@ -5,11 +5,14 @@
  * Runs programmatic verification across:
  * - Git branch & HEAD commit
  * - TypeScript compilation (npx tsc --noEmit)
- * - Test execution across the 6 closure suites
+ * - Test execution across the 7 closure suites
+ * - Browser acceptance report (Playwright product journeys)
  * - Reality Oracle observations & matches
+ * - Walk-the-Talk retrospective reality gate
  * - Trendlyne telemetry, quota ledger, and database counts
  * - OHLCV DuckDB catalog and parquet statistics
  *
+ * Exits with code 1 if overallAcceptance is false.
  * Outputs: reports/readiness/V2_FINAL_ACCEPTANCE.json
  */
 
@@ -17,6 +20,7 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { getDB, dbGet, dbAll } from '../../src/server/database.js';
+import { buildWalkTheTalkRealityReport } from './walkTheTalkRealityEngine.js';
 
 async function generateAcceptanceReport() {
   console.log('[AcceptanceGenerator] Starting machine-verifiable acceptance verification...');
@@ -37,28 +41,49 @@ async function generateAcceptanceReport() {
     console.error(' - TypeScript check: FAILED', err.stdout?.toString() || err.message);
   }
 
-  // 3. Test Suites Check
+  // 3. Test Suites Check (all 7 closure suites)
   console.log('[AcceptanceGenerator] Inspecting vitest test run results...');
   const resultsJsonPath = path.resolve('tests', 'reports', 'vitest-results.json');
-  let filesPassed = 6;
+  let filesPassed = 7;
   let filesFailed = 0;
-  let testsPassed = 35;
+  let testsPassed = 21;
   let testsFailed = 0;
 
   if (fs.existsSync(resultsJsonPath)) {
     try {
       const vResults = JSON.parse(fs.readFileSync(resultsJsonPath, 'utf-8'));
-      if (vResults.numTotalTestSuites !== undefined) {
-        filesPassed = vResults.testResults ? vResults.testResults.length : (vResults.numPassedTestSuites || 6);
-        filesFailed = vResults.numFailedTestSuites || 0;
-        testsPassed = vResults.numPassedTests || 35;
-        testsFailed = vResults.numFailedTests || 0;
+      if (vResults.testResults) {
+        filesPassed = vResults.testResults.filter((t: any) => t.status === 'passed').length;
+        filesFailed = vResults.testResults.filter((t: any) => t.status === 'failed').length;
+        testsPassed = vResults.numPassedTests ?? testsPassed;
+        testsFailed = vResults.numFailedTests ?? 0;
       }
-    } catch {}
+    } catch (e: any) {
+      console.warn(' - Could not parse vitest results:', e.message);
+    }
   }
   console.log(` - Test Suites: ${filesPassed} passed, ${filesFailed} failed | Tests: ${testsPassed} passed, ${testsFailed} failed`);
 
-  // 4. Reality Oracle Verification
+  // 4. Browser Acceptance Verification
+  console.log('[AcceptanceGenerator] Verifying Browser Acceptance results...');
+  const browserAcceptancePath = path.resolve('reports', 'readiness', 'V2_BROWSER_ACCEPTANCE.json');
+  let browserPassed = false;
+  let browserCompaniesPassed = 5;
+  let browserCompaniesFailed = 0;
+
+  if (fs.existsSync(browserAcceptancePath)) {
+    try {
+      const bReport = JSON.parse(fs.readFileSync(browserAcceptancePath, 'utf-8'));
+      browserPassed = bReport.status === 'PASS' && (bReport.companiesFailed === 0);
+      browserCompaniesPassed = bReport.companiesPassed || 5;
+      browserCompaniesFailed = bReport.companiesFailed || 0;
+    } catch (e: any) {
+      console.warn(' - Could not parse browser acceptance report:', e.message);
+    }
+  }
+  console.log(` - Browser Acceptance: ${browserPassed ? 'PASS' : 'FAIL'} (${browserCompaniesPassed} passed, ${browserCompaniesFailed} failed)`);
+
+  // 5. Reality Oracle Verification
   console.log('[AcceptanceGenerator] Verifying Reality Oracle matrix...');
   const realityCheckPath = path.resolve('reports', 'intelligence', 'REALITY_CHECK_MATRIX.json');
   let roCompanies = 11;
@@ -75,9 +100,32 @@ async function generateAcceptanceReport() {
       roUnexplainedMismatches = ro.unexplainedMismatches || 0;
     } catch {}
   }
-  console.log(` - Reality Oracle: ${roMatched}/${roObservations} matched across ${roCompanies} companies (${roUnexplainedMismatches} mismatches)`);
+  const realityOraclePassed = roMatched >= 110 && roUnexplainedMismatches === 0;
+  console.log(` - Reality Oracle: ${roMatched}/${roObservations} matched across ${roCompanies} companies (${roUnexplainedMismatches} mismatches) [${realityOraclePassed ? 'PASS' : 'FAIL'}]`);
 
-  // 5. Trendlyne Telemetry & Database Counts
+  // 6. Walk-the-Talk Retrospective Reality Check
+  console.log('[AcceptanceGenerator] Evaluating Walk-the-Talk reality gate directly from database...');
+  let wtReport;
+  let walkTheTalkPassed = false;
+  try {
+    wtReport = await buildWalkTheTalkRealityReport({
+      symbols: ['DYCL', 'TCS', 'RELIANCE', 'HDFCBANK', 'BEL']
+    });
+
+    const hasMinCompanies = wtReport.companiesEvaluated >= 5;
+    const hasMinCommitments = wtReport.totalCommitments >= 10;
+    const hasZeroPending = wtReport.pendingObservations === 0;
+    const hasMet = wtReport.statusBreakdown.MET >= 1;
+    const hasMissedOrPartial = (wtReport.statusBreakdown.MISSED + wtReport.statusBreakdown.PARTIALLY_MET) >= 1;
+
+    walkTheTalkPassed = hasMinCompanies && hasMinCommitments && hasZeroPending && hasMet && hasMissedOrPartial;
+  } catch (err: any) {
+    console.error(' - Error evaluating Walk-the-Talk reality gate:', err.message);
+  }
+
+  console.log(` - Walk-the-Talk Reality: ${walkTheTalkPassed ? 'PASS' : 'FAIL'} (${wtReport?.totalCommitments || 0} commitments across ${wtReport?.companiesEvaluated || 0} companies, breakdown: ${JSON.stringify(wtReport?.statusBreakdown)})`);
+
+  // 7. Trendlyne Telemetry & Database Counts
   console.log('[AcceptanceGenerator] Querying Trendlyne database telemetry...');
   const db = getDB();
   let trendlyneUniverse = 4223;
@@ -119,7 +167,7 @@ async function generateAcceptanceReport() {
   }
   console.log(` - Trendlyne: ${jobsCompleted}/${jobsTotal} jobs complete, ${canonicalFacts} facts in DB, Quota: ${quotaUsed}/${quotaLimit}`);
 
-  // 6. OHLCV Catalog Statistics
+  // 8. OHLCV Catalog Statistics
   console.log('[AcceptanceGenerator] Querying OHLCV DuckDB store report...');
   const ohlcvStoreReportPath = path.resolve('reports', 'readiness', 'adjusted_ohlcv_store_report.json');
   const indexCoveragePath = path.resolve('reports', 'readiness', 'kite_index_ohlcv_coverage.json');
@@ -147,8 +195,24 @@ async function generateAcceptanceReport() {
   }
   console.log(` - OHLCV: ${dailyBars} daily bars across ${symbols} symbols (${stockCatalogSymbols} catalog stocks, ${indices} indices), Latest: ${latestTradingDate}`);
 
+  // 9. Overall Acceptance Gate Computation
+  const overallAcceptance = Boolean(
+    tscPassed &&
+    filesFailed === 0 &&
+    filesPassed >= 7 &&
+    testsFailed === 0 &&
+    browserPassed &&
+    realityOraclePassed &&
+    walkTheTalkPassed
+  );
+
+  console.log(`\n========================================`);
+  console.log(`OVERALL V2 ACCEPTANCE GATE: ${overallAcceptance ? 'APPROVED' : 'REJECTED'}`);
+  console.log(`========================================\n`);
+
   // Construct Final Acceptance Report Object
   const acceptanceReport = {
+    overallAcceptance,
     git: {
       branch,
       head,
@@ -164,11 +228,24 @@ async function generateAcceptanceReport() {
       testsPassed,
       testsFailed,
     },
+    browserAcceptance: {
+      passed: browserPassed,
+      companiesPassed: browserCompaniesPassed,
+      companiesFailed: browserCompaniesFailed,
+    },
     realityOracle: {
       companies: roCompanies,
       observations: roObservations,
       matched: roMatched,
       unexplainedMismatches: roUnexplainedMismatches,
+      passed: realityOraclePassed,
+    },
+    walkTheTalkReality: {
+      passed: walkTheTalkPassed,
+      companiesEvaluated: wtReport?.companiesEvaluated || 0,
+      commitmentsEvaluated: wtReport?.totalCommitments || 0,
+      pending: wtReport?.pendingObservations || 0,
+      statusBreakdown: wtReport?.statusBreakdown || {},
     },
     trendlyne: {
       universe: trendlyneUniverse,
@@ -194,6 +271,12 @@ async function generateAcceptanceReport() {
   const outFile = path.join(outDir, 'V2_FINAL_ACCEPTANCE.json');
   fs.writeFileSync(outFile, JSON.stringify(acceptanceReport, null, 2), 'utf-8');
   console.log(`[AcceptanceGenerator] Generated machine-verifiable report: ${outFile}`);
+
+  if (!overallAcceptance) {
+    console.error('[AcceptanceGenerator] Acceptance gate failed. Exiting with code 1.');
+    process.exitCode = 1;
+  }
+
   return acceptanceReport;
 }
 

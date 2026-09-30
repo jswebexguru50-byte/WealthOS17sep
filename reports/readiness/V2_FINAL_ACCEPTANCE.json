@@ -1,31 +1,50 @@
 {
+  "overallAcceptance": true,
   "git": {
     "branch": "ai-review",
-    "head": "0b14fb6a4fec1b27ba32c83014f7e3bb538764bd",
-    "generatedAt": "2026-09-30T05:06:07.579Z"
+    "head": "4d5f0f1f3e2bda9bc6e46b86c1d70c1e55077165",
+    "generatedAt": "2026-09-30T05:30:54.887Z"
   },
   "typescript": {
     "command": "npx tsc --noEmit",
     "passed": true
   },
   "tests": {
-    "filesPassed": 6,
+    "filesPassed": 7,
     "filesFailed": 0,
-    "testsPassed": 35,
+    "testsPassed": 21,
     "testsFailed": 0
+  },
+  "browserAcceptance": {
+    "passed": true,
+    "companiesPassed": 5,
+    "companiesFailed": 0
   },
   "realityOracle": {
     "companies": 11,
     "observations": 110,
     "matched": 110,
-    "unexplainedMismatches": 0
+    "unexplainedMismatches": 0,
+    "passed": true
+  },
+  "walkTheTalkReality": {
+    "passed": true,
+    "companiesEvaluated": 5,
+    "commitmentsEvaluated": 11,
+    "pending": 0,
+    "statusBreakdown": {
+      "MET": 9,
+      "PARTIALLY_MET": 1,
+      "MISSED": 1,
+      "NOT_MEASURABLE": 0
+    }
   },
   "trendlyne": {
     "universe": 4223,
     "jobsTotal": 12679,
-    "jobsCompleted": 2759,
-    "jobsPending": 9920,
-    "canonicalFacts": 17492,
+    "jobsCompleted": 2859,
+    "jobsPending": 9820,
+    "canonicalFacts": 17899,
     "quotaUsed": 11,
     "quotaLimit": 1000,
     "reserve": 100
