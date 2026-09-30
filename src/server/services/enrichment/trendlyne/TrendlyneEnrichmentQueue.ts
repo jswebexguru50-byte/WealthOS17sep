@@ -131,6 +131,17 @@ export class TrendlyneEnrichmentQueue {
     }
   }
 
+  public async getPendingJobCount(): Promise<number> {
+    const db = getDB();
+    if (!db) return 0;
+    try {
+      const row = await dbGet<any>(db, `SELECT COUNT(*) as cnt FROM trendlyne_enrichment_jobs WHERE state IN ('PENDING', 'RETRYABLE')`);
+      return row?.cnt || 0;
+    } catch {
+      return 0;
+    }
+  }
+
   public async updateJobState(jobId: string, state: TrendlyneJobState, error?: { code: string; message: string }): Promise<void> {
     const db = getDB();
     if (!db) return;
