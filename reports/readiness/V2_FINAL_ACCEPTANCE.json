@@ -1,8 +1,8 @@
 {
   "git": {
     "branch": "ai-review",
-    "head": "e8cd57705f412c038ebe86662b3d97a86a82404f",
-    "generatedAt": "2026-09-30T04:45:45.796Z"
+    "head": "0b14fb6a4fec1b27ba32c83014f7e3bb538764bd",
+    "generatedAt": "2026-09-30T05:06:07.579Z"
   },
   "typescript": {
     "command": "npx tsc --noEmit",
@@ -23,10 +23,10 @@
   "trendlyne": {
     "universe": 4223,
     "jobsTotal": 12679,
-    "jobsCompleted": 2701,
-    "jobsPending": 9978,
-    "canonicalFacts": 17312,
-    "quotaUsed": 900,
+    "jobsCompleted": 2759,
+    "jobsPending": 9920,
+    "canonicalFacts": 17492,
+    "quotaUsed": 11,
     "quotaLimit": 1000,
     "reserve": 100
   },

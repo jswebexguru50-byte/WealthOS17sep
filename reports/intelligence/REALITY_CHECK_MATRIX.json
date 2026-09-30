@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-30T02:41:39.041Z",
+  "generatedAt": "2026-09-30T05:05:53.193Z",
   "evaluationGate": "GATE_B1_INTEGRITY_CLOSURE",
   "targetUniverse": [
     "RELIANCE",
@@ -1597,8 +1597,8 @@
       "sourceDocument": "Capital_Productivity_Schedule_ICICIBANK",
       "sourceLocator": "Ratios_ICICIBANK_KeyMetrics",
       "publishedAt": "2026-09-26",
-      "availableAt": "2026-09-30T02:41:36.724Z",
-      "ingestedAt": "2026-09-30T02:41:36.851Z",
+      "availableAt": "2026-09-30T03:59:54.638Z",
+      "ingestedAt": "2026-09-30T03:59:54.780Z",
       "verificationMethod": "RECOMPUTED_DERIVATION",
       "variance": 0,
       "status": "VERIFIED",
