@@ -1,11 +1,11 @@
 {
   "_comment": "DO NOT manually set any gate value. All values must be written by executed tests. Manual edits are test fraud.",
   "manifestVersion": "1.0.0",
-  "generatedAt": "2026-09-30T02:02:34.309Z",
+  "generatedAt": "2026-09-30T02:03:52.797Z",
   "repository": {
     "branch": "ai-review",
     "baselineSha": "84f7b1e54c1b877f0340db244ce5563713f6c4b9",
-    "candidateSha": "79d29fe2c76b6f33767cdf3ff4705c0bd54556b9",
+    "candidateSha": "f3bb7d7de0c7da2d5af2932fbab17a4483e31c1f",
     "workingTreeStatus": "VERIFIED_READY",
     "localEqualsRemote": "TRACKING_ORIGIN_ai-review"
   },
