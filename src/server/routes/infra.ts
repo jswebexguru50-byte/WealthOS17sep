@@ -3637,9 +3637,38 @@ const handleIntelligenceInbox = async (req: Request, res: Response) => {
   }
 };
 
+const handleDataCoverageGet = async (req: Request, res: Response) => {
+  const { symbol } = req.params;
+  if (!symbol) {
+    return res.status(400).json({ error: 'Missing required parameter: symbol' });
+  }
+  try {
+    const { TrendlyneCoverageService } = await import('../services/enrichment/trendlyne/TrendlyneCoverageService.js');
+    const coverage = await TrendlyneCoverageService.getInstance().getSymbolCoverage(symbol);
+    return res.json(coverage);
+  } catch (err: any) {
+    console.error('[infra.ts] Data coverage route error:', err);
+    return res.status(500).json({ error: err.message || 'Internal error' });
+  }
+};
+
+const handleEnrichmentStatusGet = async (_req: Request, res: Response) => {
+  try {
+    const { TrendlyneHealthService } = await import('../services/enrichment/trendlyne/TrendlyneHealthService.js');
+    const status = await TrendlyneHealthService.getInstance().getEnrichmentStatus();
+    return res.json(status);
+  } catch (err: any) {
+    console.error('[infra.ts] Enrichment status route error:', err);
+    return res.status(500).json({ error: err.message || 'Internal error' });
+  }
+};
+
 router.get('/v2/company-intelligence/:symbol', handleCompanyIntelligenceGet);
 router.post('/v2/company-intelligence/:symbol/refresh', handleCompanyIntelligenceRefresh);
 router.get('/v2/intelligence-inbox', handleIntelligenceInbox);
+router.get('/v2/data-coverage/:symbol', handleDataCoverageGet);
+router.get('/v2/enrichment/status', handleEnrichmentStatusGet);
 router.get('/company-intelligence/:symbol', handleCompanyIntelligenceGet);
 
 export default router;
+

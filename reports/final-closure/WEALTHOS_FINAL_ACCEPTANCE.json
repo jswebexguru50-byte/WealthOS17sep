@@ -1,0 +1,67 @@
+{
+  "sha": "595df3e1573443d4e6209fef7a583a06ec3ff66a",
+  "workingTree": "CLEAN",
+  "tsc": "PASS",
+  "tests": {
+    "files": 6,
+    "passed": 35,
+    "failed": 0,
+    "suites": [
+      "tests/unit/trendlyne_batch_capacity.test.ts",
+      "tests/integration/trendlyne_mcp_enrichment.test.ts",
+      "tests/unit/integrity_final.test.ts",
+      "tests/integration/gate4_operational_invariants.test.ts",
+      "tests/integration/gate5_reality_oracle.test.ts",
+      "tests/integration/closure_manifest_gate.test.ts"
+    ]
+  },
+  "browserE2E": {
+    "status": "PASS",
+    "symbolsTested": ["DYCL", "INFY", "HDFCBANK"],
+    "cockpitPanelsVerified": 8,
+    "zeroWriteGetVerified": true,
+    "refreshIdempotencyVerified": true
+  },
+  "trendlyne": {
+    "capabilityProbe": "PASS",
+    "structuredMetricCount": 150,
+    "verifiedMappings": 150,
+    "metricPackCount": 3,
+    "callsConsumed": 1,
+    "batchEfficiency": 100,
+    "quotaCompliance": "PASS",
+    "restartResume": "PASS",
+    "idempotency": "PASS",
+    "envelopeStandard": "10 scrips × 50 metrics = 500 cells"
+  },
+  "coverage": {
+    "acceptanceCompanies": {
+      "total": 11,
+      "covered": 11,
+      "symbols": [
+        "DYCL",
+        "TCS",
+        "HDFCBANK",
+        "RELIANCE",
+        "TATAMOTORS",
+        "TATASTEEL",
+        "INFY",
+        "ICICIBANK",
+        "SUNPHARMA",
+        "TITAN",
+        "BEL"
+      ]
+    },
+    "portfolio": {
+      "status": "AVAILABLE"
+    },
+    "watchlist": {
+      "status": "AVAILABLE"
+    }
+  },
+  "realityOracle": {
+    "observations": 110,
+    "unexplainedMaterialMismatches": 0
+  },
+  "productionAcceptance": "READY"
+}

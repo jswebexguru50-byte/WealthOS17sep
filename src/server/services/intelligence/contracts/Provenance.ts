@@ -23,7 +23,8 @@ export interface EvidenceReference {
   evidenceId: string;
   sourceType: EvidenceSourceType;
   sourceId: string;
-  timestamp: string;
+  timestamp?: string | null;
+  pitStatus?: 'PIT_VERIFIED' | 'PIT_INFERRED' | 'PIT_UNKNOWN';
   field?: string;
   asOfDate?: string;
   confidence?: number;

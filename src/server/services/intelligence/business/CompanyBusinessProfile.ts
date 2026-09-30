@@ -139,7 +139,8 @@ export class CompanyBusinessProfileEngine {
           evidenceId: `ev_${fact.factId}`,
           sourceId: fact.sourceId,
           sourceType: 'EXCHANGE_FILING',
-          timestamp: fact.availableAt || new Date().toISOString(),
+          timestamp: fact.availableAt ?? null,
+          pitStatus: fact.availableAt ? 'PIT_VERIFIED' : 'PIT_UNKNOWN',
           asOfDate: fact.periodEnd || asOfDate || undefined,
           documentId: fact.sourceId,
         });
