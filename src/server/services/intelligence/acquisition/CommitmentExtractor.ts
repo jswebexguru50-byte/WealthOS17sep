@@ -83,14 +83,14 @@ export class CommitmentExtractor {
     const marginRangeMatch = lower.match(/(?:ebitda|operating|pat)?\s*margin.*?(?:of|between|at)?\s*([0-9]+(?:\.[0-9]+)?)\s*(?:-|to)\s*([0-9]+(?:\.[0-9]+)?)\s*%/);
     const marginSingleMatch = lower.match(/(?:ebitda|operating|pat)?\s*margin.*?(?:of|at|above|exceeding)?\s*([0-9]+(?:\.[0-9]+)?)\s*%/);
 
-    if (marginRangeMatch && (lower.includes('expect') || lower.includes('target') || lower.includes('aim') || lower.includes('guidance'))) {
+    if (marginRangeMatch && (lower.includes('expect') || lower.includes('target') || lower.includes('aim') || lower.includes('guidance') || lower.includes('guide'))) {
       category = 'MARGIN';
       commitmentType = 'RANGE';
       canonicalMetric = lower.includes('pat') ? 'pat_margin_pct' : 'ebitda_margin_pct';
       targetMin = parseFloat(marginRangeMatch[1]);
       targetMax = parseFloat(marginRangeMatch[2]);
       targetUnit = '%';
-    } else if (marginSingleMatch && (lower.includes('expect') || lower.includes('target') || lower.includes('aim') || lower.includes('guidance'))) {
+    } else if (marginSingleMatch && (lower.includes('expect') || lower.includes('target') || lower.includes('aim') || lower.includes('guidance') || lower.includes('guide'))) {
       category = 'MARGIN';
       commitmentType = 'NUMERIC_TARGET';
       canonicalMetric = lower.includes('pat') ? 'pat_margin_pct' : 'ebitda_margin_pct';

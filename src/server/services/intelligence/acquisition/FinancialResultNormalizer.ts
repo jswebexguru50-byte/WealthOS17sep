@@ -17,6 +17,7 @@ export interface RawFinancialDisclosure {
   scope?: 'CONSOLIDATED' | 'STANDALONE';
   currency?: string;
   metrics: Record<string, number | string>;
+  auditStatus?: 'AUDITED' | 'UNAUDITED' | 'LIMITED_REVIEW';
   rawNotes?: string;
 }
 

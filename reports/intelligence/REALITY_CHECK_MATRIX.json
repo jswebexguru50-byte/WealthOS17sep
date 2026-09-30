@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-29T08:30:14.498Z",
+  "generatedAt": "2026-09-30T02:02:34.589Z",
   "evaluationGate": "GATE_B1_INTEGRITY_CLOSURE",
   "targetUniverse": [
     "RELIANCE",
@@ -2505,29 +2505,29 @@
       "id": "RO_106",
       "securityId": "INE600Y01019",
       "symbol": "DYCL",
-      "metric": "debt_to_equity",
+      "metric": "ebitda_cr",
       "category": "DERIVED_FINANCIAL_FACT",
       "periodType": "ANNUAL",
       "periodEnd": "2026-03-31",
       "scope": "STANDALONE",
-      "appValue": 0.09,
-      "sourceValue": 0.09,
-      "unit": "RATIO",
+      "appValue": 920,
+      "sourceValue": 920,
+      "unit": "INR_CR",
       "sourceDocument": "Audited_Financial_Statement_DYCL_FY2026",
-      "sourceLocator": "BSE_Audited_Notes_Capital_Structure",
+      "sourceLocator": "IncomeStatement_OperatingProfit_DYCL",
       "publishedAt": "2026-03-31",
-      "availableAt": "2026-03-31",
-      "ingestedAt": "2026-09-26T12:00:00Z",
+      "availableAt": "2026-09-30T02:02:32.133Z",
+      "ingestedAt": "2026-09-30T02:02:32.135Z",
       "verificationMethod": "RECOMPUTED_DERIVATION",
       "variance": 0,
       "status": "VERIFIED",
       "derivation": {
-        "formula": "Total Debt / Net Worth",
+        "formula": "Revenue - Operating Expenses",
         "inputFactIds": [
           "INE600Y01019_revenue_cr_2026-03-31_ANNUAL_STANDALONE",
           "INE600Y01019_pat_cr_2026-03-31_ANNUAL_STANDALONE"
         ],
-        "recomputedValue": 0.09
+        "recomputedValue": 920
       }
     },
     {

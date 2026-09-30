@@ -1,5 +1,5 @@
 {
-  "evaluatedAt": "2026-09-29T18:32:31.824Z",
+  "evaluatedAt": "2026-09-30T01:07:47.599Z",
   "constitutionVersion": "1.0.0",
   "gateStatus": "GATE B — REAL DATA FOUNDATION & SOURCE-TO-SCREEN PROOF",
   "totalCompanies": 11,
@@ -21,7 +21,7 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 2762
+      "durationMs": 3801
     },
     "TCS": {
       "symbol": "TCS",
@@ -36,7 +36,7 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 937
+      "durationMs": 1770
     },
     "HDFCBANK": {
       "symbol": "HDFCBANK",
@@ -51,7 +51,7 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 561
+      "durationMs": 1145
     },
     "TATAMOTORS": {
       "symbol": "TATAMOTORS",
@@ -66,7 +66,7 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 520
+      "durationMs": 1120
     },
     "TATASTEEL": {
       "symbol": "TATASTEEL",
@@ -81,7 +81,7 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 929
+      "durationMs": 1626
     },
     "INFY": {
       "symbol": "INFY",
@@ -96,7 +96,7 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 562
+      "durationMs": 1378
     },
     "ICICIBANK": {
       "symbol": "ICICIBANK",
@@ -111,7 +111,7 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 534
+      "durationMs": 1150
     },
     "SUNPHARMA": {
       "symbol": "SUNPHARMA",
@@ -126,7 +126,7 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 752
+      "durationMs": 1606
     },
     "TITAN": {
       "symbol": "TITAN",
@@ -141,7 +141,7 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 814
+      "durationMs": 1628
     },
     "BEL": {
       "symbol": "BEL",
@@ -156,7 +156,7 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 722
+      "durationMs": 1553
     },
     "DYCL": {
       "symbol": "DYCL",
@@ -171,7 +171,7 @@
       "safetyAuditPassed": true,
       "unsupportedAssertionsCount": 0,
       "consistencyPassed": true,
-      "durationMs": 751
+      "durationMs": 1613
     }
   }
 }

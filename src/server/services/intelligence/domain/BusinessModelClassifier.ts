@@ -9,31 +9,12 @@ export type BusinessModel =
  * BusinessModelClassifier — classifies a company's business model for engine routing.
  *
  * PRIMARY: sector and industry strings from canonical identity metadata (NSE/BSE master data).
- * SECONDARY HINT: known-symbol sets — applied ONLY when both sector and industry are absent.
- *   Symbol sets are a convenience bootstrap for the 5 golden companies and must NEVER override
- *   sector/industry metadata when that metadata is present.
+ * ZERO ticker-guessing: if sector and industry are absent, returns UNKNOWN.
  */
 export class BusinessModelClassifier {
-  // Known-symbol hints — used ONLY as a fallback when sector/industry strings are absent.
-  private static readonly BANK_SYMBOLS = new Set([
-    'HDFCBANK', 'ICICIBANK', 'SBIN', 'KOTAKBANK', 'AXISBANK',
-    'INDUSINDBK', 'BANKBARODA', 'PNB', 'CANBK', 'IDFCFIRSTB',
-    'AUBANK', 'FEDERALBNK', 'BANDHANBNK'
-  ]);
-
-  private static readonly NBFC_SYMBOLS = new Set([
-    'BAJFINANCE', 'BAJAJFINSV', 'CHOLAFIN', 'SHRIRAMFIN',
-    'MUTHOOTFIN', 'M&MFIN', 'L&TFH', 'POONAWALLA', 'MANAPPURAM'
-  ]);
-
-  private static readonly INSURANCE_SYMBOLS = new Set([
-    'HDFCLIFE', 'SBILIFE', 'ICICIPRULI', 'ICICIGI', 'GICRE', 'NIACL'
-  ]);
-
   public static classify(symbol: string, sector?: string | null, industry?: string | null): BusinessModel {
-    const cleanSym = (symbol || '').toUpperCase().trim().replace(/\.NS$/, '').replace(/\.BO$/, '');
-    const cleanSector = (sector || '').toLowerCase();
-    const cleanIndustry = (industry || '').toLowerCase();
+    const cleanSector = (sector || '').toLowerCase().trim();
+    const cleanIndustry = (industry || '').toLowerCase().trim();
 
     // ── PRIMARY: sector/industry vocabulary (canonical identity metadata) ──────
     if (cleanSector.includes('bank') || cleanIndustry.includes('bank')) {
@@ -46,14 +27,8 @@ export class BusinessModelClassifier {
       return 'NBFC';
     }
 
-    // ── SECONDARY HINT: symbol sets — only when sector AND industry are absent ──
-    if (!sector && !industry && cleanSym) {
-      if (this.BANK_SYMBOLS.has(cleanSym)) return 'BANK';
-      if (this.NBFC_SYMBOLS.has(cleanSym)) return 'NBFC';
-      if (this.INSURANCE_SYMBOLS.has(cleanSym)) return 'INSURANCE';
-    }
-
-    if (!sector && !industry && !cleanSym) {
+    // If both sector and industry are absent, return UNKNOWN (zero ticker guessing)
+    if (!cleanSector && !cleanIndustry) {
       return 'UNKNOWN';
     }
 

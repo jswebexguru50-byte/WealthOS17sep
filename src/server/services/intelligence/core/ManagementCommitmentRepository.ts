@@ -15,7 +15,7 @@ import Database from 'better-sqlite3';
 import path from 'path';
 import { SecurityIdentity } from '../contracts/SecurityIdentity.js';
 import { EvidenceRef } from '../contracts/EvidenceRef.js';
-import { getDB, dbRun } from '../../../database.js';
+import { getDB, dbRun, dbAll } from '../../../database.js';
 import { ManagementCommitment } from '../contracts/ManagementContracts.js';
 
 const FERE_DB_PATH = path.resolve('data', 'fere', 'verified_filings', 'fere_evidence.db');
@@ -149,7 +149,55 @@ export class ManagementCommitmentRepository {
 
     const rawDefinitions: RawCommitmentDefinition[] = [];
 
-    // 1. Query raw claim candidates from fere_evidence.db
+    // 1. Query canonical management_commitments from portfolio.db (single write authority table)
+    const db = getDB();
+    if (db) {
+      try {
+        const rows = await dbAll<any>(
+          db,
+          `SELECT * FROM management_commitments
+           WHERE (security_id = ? OR symbol = ?) AND statement_date <= ?
+           ORDER BY statement_date DESC`,
+          [isin, sym, cutoff]
+        );
+        for (const r of rows) {
+          rawDefinitions.push({
+            commitmentId: r.commitment_id,
+            securityId: r.security_id,
+            symbol: r.symbol,
+            speaker: r.speaker || 'Management',
+            statement: r.original_statement,
+            statementDate: r.statement_date,
+            sourceDocument: r.source_document_id || 'Corporate Announcement',
+            sourceUrl: undefined,
+            metric: r.metric_key || 'growth',
+            operator: 'GTE',
+            targetValue: r.target_value ?? r.target_min ?? 'N/A',
+            targetUnit: r.target_unit || '%',
+            deadline: r.target_period || '2026-03-31',
+            materiality: 'HIGH',
+            measurability: 'MEASURABLE',
+            baselineValue: null,
+            statementEvidence: {
+              evidenceId: r.evidence_id || `ev_${r.commitment_id}`,
+              sourceType: 'EXCHANGE_FILING',
+              sourceName: `Corporate Disclosure (${r.statement_date})`,
+              sourceUrl: null,
+              documentDate: r.statement_date || null,
+              availableAt: r.statement_date || null,
+              pitStatus: 'PIT_INFERRED',
+              quote: r.original_statement,
+              contentHash: r.commitment_id,
+              extractionMethod: 'MANUAL_AUDITED',
+            },
+          });
+        }
+      } catch (err) {
+        // Table might be empty or unmigrated in some test runs
+      }
+    }
+
+    // 2. Query raw claim candidates from fere_evidence.db
     try {
       const fereDb = new Database(FERE_DB_PATH, { readonly: true });
       try {

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * integrity_final.test.ts — Final integrity regression suite
  *
  * Verifies the three Phase-1 closure mandates:
@@ -55,11 +55,14 @@ describe("BusinessModelClassifier — sector/industry primary", () => {
   it("unknown symbol + sector='Insurance' → INSURANCE", () => {
     expect(BusinessModelClassifier.classify("NEWINSURER", "Insurance", null)).toBe("INSURANCE");
   });
-  it("HDFCBANK with no sector/industry → BANK via symbol hint", () => {
-    expect(BusinessModelClassifier.classify("HDFCBANK", null, null)).toBe("BANK");
+  it("HDFCBANK with no sector/industry → UNKNOWN (zero ticker guessing)", () => {
+    expect(BusinessModelClassifier.classify("HDFCBANK", null, null)).toBe("UNKNOWN");
   });
-  it("DYCL with no sector/industry → NON_FINANCIAL (industrial company, not in any hint set)", () => {
-    expect(BusinessModelClassifier.classify("DYCL", null, null)).toBe("NON_FINANCIAL");
+  it("DYCL with no sector/industry → UNKNOWN (zero ticker guessing)", () => {
+    expect(BusinessModelClassifier.classify("DYCL", null, null)).toBe("UNKNOWN");
+  });
+  it("DYCL with sector='Industrial Machinery' → NON_FINANCIAL", () => {
+    expect(BusinessModelClassifier.classify("DYCL", "Industrial Machinery", null)).toBe("NON_FINANCIAL");
   });
   it("empty symbol + no sector/industry → UNKNOWN", () => {
     expect(BusinessModelClassifier.classify("", null, null)).toBe("UNKNOWN");
