@@ -1,0 +1,40 @@
+{
+  "git": {
+    "branch": "ai-review",
+    "head": "e8cd57705f412c038ebe86662b3d97a86a82404f",
+    "generatedAt": "2026-09-30T04:45:45.796Z"
+  },
+  "typescript": {
+    "command": "npx tsc --noEmit",
+    "passed": true
+  },
+  "tests": {
+    "filesPassed": 6,
+    "filesFailed": 0,
+    "testsPassed": 35,
+    "testsFailed": 0
+  },
+  "realityOracle": {
+    "companies": 11,
+    "observations": 110,
+    "matched": 110,
+    "unexplainedMismatches": 0
+  },
+  "trendlyne": {
+    "universe": 4223,
+    "jobsTotal": 12679,
+    "jobsCompleted": 2701,
+    "jobsPending": 9978,
+    "canonicalFacts": 17312,
+    "quotaUsed": 900,
+    "quotaLimit": 1000,
+    "reserve": 100
+  },
+  "ohlcv": {
+    "dailyBars": 5239769,
+    "symbols": 4423,
+    "stockCatalogSymbols": 2927,
+    "indices": 206,
+    "latestTradingDate": "2026-09-30"
+  }
+}
