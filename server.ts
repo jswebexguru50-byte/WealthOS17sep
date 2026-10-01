@@ -142,6 +142,7 @@ import { strategiesRouter } from './src/server/routes/strategies.js';
 import { readFereEvidence } from './src/server/services/FereEvidenceService.js';
 import kiteRouter from './src/server/routes/kite.js';
 import { stockscansRouter } from './src/server/routes/stockscansRoutes.js';
+import { remoteBridgeRouter } from './src/server/routes/remoteBridgeRouter.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -183,6 +184,7 @@ app.use('/api/strategies', strategiesRouter);
 app.use('/api/auth/kite', kiteRouter);
 // StockScans Clean-Room Parity Endpoints
 app.use('/api/stockscans', stockscansRouter);
+app.use('/api/remote', remoteBridgeRouter);
 
 // Permanent adjusted daily candles live outside SQLite in the DuckDB/Parquet
 // market store. This read-only route delegates entirely to DuckDbAdjustedOhlcvService,
