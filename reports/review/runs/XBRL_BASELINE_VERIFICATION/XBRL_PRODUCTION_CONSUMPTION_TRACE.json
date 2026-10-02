@@ -1,0 +1,1309 @@
+{
+  "traceDescription": "Production consumption trace across 7 representative sectors tracing RAW XBRL -> NORMALIZATION -> PROMOTION -> company_facts -> CanonicalFactService -> Fundamental Analysis -> Derived Metrics -> API/Narratives",
+  "pipelineStages": [
+    {
+      "stage": "RAW_XBRL",
+      "source": "NSE XML archive in data/fere/verified_filings/archive/*.xml"
+    },
+    {
+      "stage": "NORMALIZATION",
+      "script": "scripts/fere/normalize_nse_xbrl.py",
+      "table": "fere_evidence.db -> verified_xbrl_fact"
+    },
+    {
+      "stage": "CANONICAL_PROMOTION",
+      "script": "scripts/fundamental/promote_all_xbrl_to_company_facts.py",
+      "table": "portfolio.db -> company_facts"
+    },
+    {
+      "stage": "CANONICAL_SERVICE",
+      "module": "src/server/services/intelligence/assembler/CanonicalFactService.ts",
+      "role": "Point-in-Time gating (availableAt <= asOfDate), scope segregation"
+    },
+    {
+      "stage": "DERIVED_METRICS",
+      "registry": "src/server/services/FinancialMetricRegistry.ts",
+      "role": "Calculates operating_plus_investing_cash_flow, net_debt_financing_flow, etc."
+    },
+    {
+      "stage": "FUNDAMENTAL_ANALYSIS",
+      "services": [
+        "BusinessDriverEngine",
+        "OperatingKpiService",
+        "Quant Moat Screener"
+      ],
+      "role": "Scoring, archetype calibration, screening"
+    }
+  ],
+  "companyTraces": {
+    "TCS": {
+      "sector": "IT/Services",
+      "companyName": "Tata Consultancy Services Ltd",
+      "symbol": "TCS",
+      "metrics": {
+        "other_income": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "1568.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-09T13:06:12+00:00"
+        },
+        "total_income": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "73843.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-09T13:06:12+00:00"
+        },
+        "other_expenses": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "11582.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-09T13:06:12+00:00"
+        },
+        "purchases_stock_trade": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "0.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-09T13:06:12+00:00"
+        },
+        "inventory_change": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "0.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-09T13:06:12+00:00"
+        },
+        "employee_expenses": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "42137.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-09T13:06:12+00:00"
+        },
+        "pbt_before_exceptional": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "18612.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-09T13:06:12+00:00"
+        },
+        "exceptional_items_pretax": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "-668.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-09T13:06:12+00:00"
+        },
+        "oci": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "253.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-09T13:06:12+00:00"
+        },
+        "exceptional_items": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "tax_expense": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "4524.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-09T13:06:12+00:00"
+        },
+        "current_tax": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "4722.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-09T13:06:12+00:00"
+        },
+        "deferred_tax_charge": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "-198.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-09T13:06:12+00:00"
+        },
+        "eps_basic": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "36.9",
+          "unit": "INR_PER_SHARE",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-09T13:06:12+00:00"
+        },
+        "eps_diluted": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "36.9",
+          "unit": "INR_PER_SHARE",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-09T13:06:12+00:00"
+        },
+        "face_value": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "1.0",
+          "unit": "INR_PER_SHARE",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-09T13:06:12+00:00"
+        },
+        "cfi": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "-12845.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-04-09T18:12:16+00:00"
+        },
+        "cff": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "-42133.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-04-09T18:12:16+00:00"
+        },
+        "debt_repaid": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "0.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-04-09T18:12:16+00:00"
+        },
+        "debt_raised": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "0.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-04-09T18:12:16+00:00"
+        },
+        "dividends_paid": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "39571.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-04-09T18:12:16+00:00"
+        },
+        "debt_to_equity": {
+          "status": "CONSUMED_BY_INTERPRETATION",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "0.0",
+          "unit": "RATIO",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-09T13:06:12+00:00"
+        },
+        "dscr": {
+          "status": "CONSUMED_BY_INTERPRETATION",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "0.0",
+          "unit": "RATIO",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-09T13:06:12+00:00"
+        },
+        "roa": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        }
+      }
+    },
+    "HDFCBANK": {
+      "sector": "Bank",
+      "companyName": "HDFC Bank Ltd",
+      "symbol": "HDFCBANK",
+      "metrics": {
+        "other_income": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "42535.03",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-18T10:31:12+00:00"
+        },
+        "total_income": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "133110.36",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-18T10:31:12+00:00"
+        },
+        "other_expenses": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "purchases_stock_trade": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "inventory_change": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "employee_expenses": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "pbt_before_exceptional": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "exceptional_items_pretax": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "oci": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "exceptional_items": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "0.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-18T10:31:12+00:00"
+        },
+        "tax_expense": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "6810.47",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-18T10:31:12+00:00"
+        },
+        "current_tax": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "deferred_tax_charge": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "eps_basic": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "eps_diluted": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "face_value": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "1.0",
+          "unit": "INR_PER_SHARE",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-18T10:31:12+00:00"
+        },
+        "cfi": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "6362.72",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-04-18T14:00:49+00:00"
+        },
+        "cff": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "-59004.85",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-04-18T14:00:49+00:00"
+        },
+        "debt_repaid": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "48895.19",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-04-18T14:00:49+00:00"
+        },
+        "debt_raised": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "700.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-04-18T14:00:49+00:00"
+        },
+        "dividends_paid": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "20705.98",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-04-18T14:00:49+00:00"
+        },
+        "debt_to_equity": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "dscr": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "roa": {
+          "status": "CONSUMED_BY_INTERPRETATION",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "0.0",
+          "unit": "RATIO",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-18T10:31:12+00:00"
+        }
+      }
+    },
+    "BAJFINANCE": {
+      "sector": "NBFC",
+      "companyName": "Bajaj Finance Ltd",
+      "symbol": "BAJFINANCE",
+      "metrics": {
+        "other_income": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "0.97",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T13:30:09+00:00"
+        },
+        "total_income": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "23166.42",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T13:30:09+00:00"
+        },
+        "other_expenses": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "1101.18",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T13:30:09+00:00"
+        },
+        "purchases_stock_trade": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "0.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T13:30:09+00:00"
+        },
+        "inventory_change": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "0.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T13:30:09+00:00"
+        },
+        "employee_expenses": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "2644.83",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T13:30:09+00:00"
+        },
+        "pbt_before_exceptional": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "8143.89",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T13:30:09+00:00"
+        },
+        "exceptional_items_pretax": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "0.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T13:30:09+00:00"
+        },
+        "oci": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "189.38",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T13:30:09+00:00"
+        },
+        "exceptional_items": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "tax_expense": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "2068.4",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T13:30:09+00:00"
+        },
+        "current_tax": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "2442.67",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T13:30:09+00:00"
+        },
+        "deferred_tax_charge": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "-374.27",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T13:30:09+00:00"
+        },
+        "eps_basic": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "9.62",
+          "unit": "INR_PER_SHARE",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T13:30:09+00:00"
+        },
+        "eps_diluted": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "9.6",
+          "unit": "INR_PER_SHARE",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T13:30:09+00:00"
+        },
+        "face_value": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "1.0",
+          "unit": "INR_PER_SHARE",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T13:30:09+00:00"
+        },
+        "cfi": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "-3388.63",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-04-29T17:15:16+00:00"
+        },
+        "cff": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "67432.87",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-04-29T17:15:16+00:00"
+        },
+        "debt_repaid": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "55884.92",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-04-29T17:15:16+00:00"
+        },
+        "debt_raised": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "125221.45",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-04-29T17:15:16+00:00"
+        },
+        "dividends_paid": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "3476.61",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-04-29T17:15:16+00:00"
+        },
+        "debt_to_equity": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "dscr": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "roa": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        }
+      }
+    },
+    "20MICRONS": {
+      "sector": "Industrial",
+      "companyName": "20 Microns Ltd",
+      "symbol": "20MICRONS",
+      "metrics": {
+        "other_income": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "2.3042",
+          "unit": "INR_CR",
+          "scope": "STANDALONE",
+          "availableAt": "2026-07-31T10:35:16+00:00"
+        },
+        "total_income": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "215.0388",
+          "unit": "INR_CR",
+          "scope": "STANDALONE",
+          "availableAt": "2026-07-31T10:35:16+00:00"
+        },
+        "other_expenses": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "57.0038",
+          "unit": "INR_CR",
+          "scope": "STANDALONE",
+          "availableAt": "2026-07-31T10:35:16+00:00"
+        },
+        "purchases_stock_trade": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "0.0",
+          "unit": "INR_CR",
+          "scope": "STANDALONE",
+          "availableAt": "2026-07-31T10:35:16+00:00"
+        },
+        "inventory_change": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "-1.2237",
+          "unit": "INR_CR",
+          "scope": "STANDALONE",
+          "availableAt": "2026-07-31T10:35:16+00:00"
+        },
+        "employee_expenses": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "19.3248",
+          "unit": "INR_CR",
+          "scope": "STANDALONE",
+          "availableAt": "2026-07-31T10:35:16+00:00"
+        },
+        "pbt_before_exceptional": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "21.7342",
+          "unit": "INR_CR",
+          "scope": "STANDALONE",
+          "availableAt": "2026-07-31T10:35:16+00:00"
+        },
+        "exceptional_items_pretax": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "0.0",
+          "unit": "INR_CR",
+          "scope": "STANDALONE",
+          "availableAt": "2026-07-31T10:35:16+00:00"
+        },
+        "oci": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "-0.4449",
+          "unit": "INR_CR",
+          "scope": "STANDALONE",
+          "availableAt": "2026-07-31T10:35:16+00:00"
+        },
+        "exceptional_items": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "tax_expense": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "5.5725",
+          "unit": "INR_CR",
+          "scope": "STANDALONE",
+          "availableAt": "2026-07-31T10:35:16+00:00"
+        },
+        "current_tax": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "5.6684",
+          "unit": "INR_CR",
+          "scope": "STANDALONE",
+          "availableAt": "2026-07-31T10:35:16+00:00"
+        },
+        "deferred_tax_charge": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "-0.0959",
+          "unit": "INR_CR",
+          "scope": "STANDALONE",
+          "availableAt": "2026-07-31T10:35:16+00:00"
+        },
+        "eps_basic": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "4.58",
+          "unit": "INR_PER_SHARE",
+          "scope": "STANDALONE",
+          "availableAt": "2026-07-31T10:35:16+00:00"
+        },
+        "eps_diluted": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "4.58",
+          "unit": "INR_PER_SHARE",
+          "scope": "STANDALONE",
+          "availableAt": "2026-07-31T10:35:16+00:00"
+        },
+        "face_value": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "5.0",
+          "unit": "INR_PER_SHARE",
+          "scope": "STANDALONE",
+          "availableAt": "2026-07-31T10:35:16+00:00"
+        },
+        "cfi": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "-30.9351",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-05-22T12:16:15+00:00"
+        },
+        "cff": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "-30.3744",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-05-22T12:16:15+00:00"
+        },
+        "debt_repaid": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "4.7582",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-05-22T12:16:15+00:00"
+        },
+        "debt_raised": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "-0.4997",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-05-22T12:16:15+00:00"
+        },
+        "dividends_paid": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "4.4108",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-05-22T12:16:15+00:00"
+        },
+        "debt_to_equity": {
+          "status": "CONSUMED_BY_INTERPRETATION",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "0.0",
+          "unit": "RATIO",
+          "scope": "STANDALONE",
+          "availableAt": "2026-07-31T10:35:16+00:00"
+        },
+        "dscr": {
+          "status": "CONSUMED_BY_INTERPRETATION",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "0.0",
+          "unit": "RATIO",
+          "scope": "STANDALONE",
+          "availableAt": "2026-07-31T10:35:16+00:00"
+        },
+        "roa": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        }
+      }
+    },
+    "ITC": {
+      "sector": "Consumer",
+      "companyName": "ITC Ltd",
+      "symbol": "ITC",
+      "metrics": {
+        "other_income": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "655.71",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T11:53:53+00:00"
+        },
+        "total_income": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "30179.01",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T11:53:53+00:00"
+        },
+        "other_expenses": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "13574.67",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T11:53:53+00:00"
+        },
+        "purchases_stock_trade": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "2865.95",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T11:53:53+00:00"
+        },
+        "inventory_change": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "-957.34",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T11:53:53+00:00"
+        },
+        "employee_expenses": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "1877.01",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T11:53:53+00:00"
+        },
+        "pbt_before_exceptional": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "5369.06",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T11:53:53+00:00"
+        },
+        "exceptional_items_pretax": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "405.88",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T11:53:53+00:00"
+        },
+        "oci": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "365.71",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T11:53:53+00:00"
+        },
+        "exceptional_items": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "tax_expense": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "1352.06",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T11:53:53+00:00"
+        },
+        "current_tax": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "1358.35",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T11:53:53+00:00"
+        },
+        "deferred_tax_charge": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "-6.29",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T11:53:53+00:00"
+        },
+        "eps_basic": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "3.51",
+          "unit": "INR_PER_SHARE",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T11:53:53+00:00"
+        },
+        "eps_diluted": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "3.51",
+          "unit": "INR_PER_SHARE",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T11:53:53+00:00"
+        },
+        "face_value": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "1.0",
+          "unit": "INR_PER_SHARE",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T11:53:53+00:00"
+        },
+        "cfi": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "-2320.74",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-05-21T13:02:29+00:00"
+        },
+        "cff": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "-16147.12",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-05-21T13:02:29+00:00"
+        },
+        "debt_repaid": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "105.31",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-05-21T13:02:29+00:00"
+        },
+        "debt_raised": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "2120.5",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-05-21T13:02:29+00:00"
+        },
+        "dividends_paid": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "18272.02",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-05-21T13:02:29+00:00"
+        },
+        "debt_to_equity": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "dscr": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "roa": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        }
+      }
+    },
+    "SUNPHARMA": {
+      "sector": "Pharma",
+      "companyName": "Sun Pharmaceutical Industries Ltd",
+      "symbol": "SUNPHARMA",
+      "metrics": {
+        "other_income": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "723.62",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T12:54:07+00:00"
+        },
+        "total_income": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "16023.5",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T12:54:07+00:00"
+        },
+        "other_expenses": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "4691.82",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T12:54:07+00:00"
+        },
+        "purchases_stock_trade": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "1019.5",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T12:54:07+00:00"
+        },
+        "inventory_change": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "-82.62",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T12:54:07+00:00"
+        },
+        "employee_expenses": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "3227.23",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T12:54:07+00:00"
+        },
+        "pbt_before_exceptional": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "4302.9",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T12:54:07+00:00"
+        },
+        "exceptional_items_pretax": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "-204.09",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T12:54:07+00:00"
+        },
+        "oci": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "1509.15",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T12:54:07+00:00"
+        },
+        "exceptional_items": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "tax_expense": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "1188.01",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T12:54:07+00:00"
+        },
+        "current_tax": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "1188.01",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T12:54:07+00:00"
+        },
+        "deferred_tax_charge": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "0.0",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T12:54:07+00:00"
+        },
+        "eps_basic": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "12.1",
+          "unit": "INR_PER_SHARE",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T12:54:07+00:00"
+        },
+        "eps_diluted": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "12.1",
+          "unit": "INR_PER_SHARE",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T12:54:07+00:00"
+        },
+        "face_value": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "1.0",
+          "unit": "INR_PER_SHARE",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-31T12:54:07+00:00"
+        },
+        "cfi": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "-11344.05",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-05-22T13:09:14+00:00"
+        },
+        "cff": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "-2512.55",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-05-22T13:09:14+00:00"
+        },
+        "debt_repaid": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "3410.19",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-05-22T13:09:14+00:00"
+        },
+        "debt_raised": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "5322.07",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-05-22T13:09:14+00:00"
+        },
+        "dividends_paid": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "3937.8",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-05-22T13:09:14+00:00"
+        },
+        "debt_to_equity": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "dscr": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "roa": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        }
+      }
+    },
+    "TATASTEEL": {
+      "sector": "Commodity/Cyclical",
+      "companyName": "Tata Steel Ltd",
+      "symbol": "TATASTEEL",
+      "metrics": {
+        "other_income": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "232.68",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T14:26:08+00:00"
+        },
+        "total_income": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "61026.97",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T14:26:08+00:00"
+        },
+        "other_expenses": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "21349.68",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T14:26:08+00:00"
+        },
+        "purchases_stock_trade": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "5182.35",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T14:26:08+00:00"
+        },
+        "inventory_change": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "-2413.56",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T14:26:08+00:00"
+        },
+        "employee_expenses": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "7225.8",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T14:26:08+00:00"
+        },
+        "pbt_before_exceptional": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "4086.86",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T14:26:08+00:00"
+        },
+        "exceptional_items_pretax": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "-345.48",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T14:26:08+00:00"
+        },
+        "oci": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "-48.41",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T14:26:08+00:00"
+        },
+        "exceptional_items": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        },
+        "tax_expense": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "1452.29",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T14:26:08+00:00"
+        },
+        "current_tax": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "999.73",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T14:26:08+00:00"
+        },
+        "deferred_tax_charge": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "452.56",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T14:26:08+00:00"
+        },
+        "eps_basic": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "1.86",
+          "unit": "INR_PER_SHARE",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T14:26:08+00:00"
+        },
+        "eps_diluted": {
+          "status": "CONSUMED_DIRECTLY",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "1.86",
+          "unit": "INR_PER_SHARE",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T14:26:08+00:00"
+        },
+        "face_value": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "1.0",
+          "unit": "INR_PER_SHARE",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T14:26:08+00:00"
+        },
+        "cfi": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "-14905.31",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-05-15T14:32:07+00:00"
+        },
+        "cff": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "-21387.12",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-05-15T14:32:07+00:00"
+        },
+        "debt_repaid": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "23896.78",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-05-15T14:32:07+00:00"
+        },
+        "debt_raised": {
+          "status": "CONSUMED_AS_DERIVED_INPUT",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "15953.5",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-05-15T14:32:07+00:00"
+        },
+        "dividends_paid": {
+          "status": "AVAILABLE_NOT_CONSUMED",
+          "latestPeriodEnd": "2026-03-31",
+          "latestValue": "4489.87",
+          "unit": "INR_CR",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-05-15T14:32:07+00:00"
+        },
+        "debt_to_equity": {
+          "status": "CONSUMED_BY_INTERPRETATION",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "0.008",
+          "unit": "RATIO",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T14:26:08+00:00"
+        },
+        "dscr": {
+          "status": "CONSUMED_BY_INTERPRETATION",
+          "latestPeriodEnd": "2026-06-30",
+          "latestValue": "0.0103",
+          "unit": "RATIO",
+          "scope": "CONSOLIDATED",
+          "availableAt": "2026-07-30T14:26:08+00:00"
+        },
+        "roa": {
+          "status": "UNAVAILABLE_FOR_COMPANY",
+          "reason": "Not reported in quarterly filing or sector-exempt"
+        }
+      }
+    }
+  }
+}

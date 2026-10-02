@@ -1,0 +1,85 @@
+{
+  "auditSummary": "Balance sheet source coverage analysis distinguishing SOURCE_MISSING (quarterly NSE XBRL archive) from WEALTHOS_MISSING (global WealthOS availability).",
+  "metrics": {
+    "total_assets": {
+      "sourcesAvailable": ["UPSTOX_XBRL"],
+      "periodCoverage": "ANNUAL",
+      "companyCoverage": "40 companies currently ingested",
+      "scopeCoverage": "CONSOLIDATED",
+      "latestAvailableDate": "2026-03-31",
+      "preferredSource": "UPSTOX_XBRL",
+      "fallbackSource": "TRENDLYNE_MCP",
+      "missingReason": "SOURCE_MISSING in quarterly NSE XBRL (Indian MCA/SEBI Ind AS quarterly reporting standard mandates P&L and Cash Flow statements, but only mandates full Balance Sheet in Annual Filings)."
+    },
+    "total_liabilities": {
+      "sourcesAvailable": ["UPSTOX_XBRL"],
+      "periodCoverage": "ANNUAL",
+      "companyCoverage": "40 companies currently ingested",
+      "scopeCoverage": "CONSOLIDATED",
+      "latestAvailableDate": "2026-03-31",
+      "preferredSource": "UPSTOX_XBRL",
+      "fallbackSource": "TRENDLYNE_MCP",
+      "missingReason": "SOURCE_MISSING in quarterly NSE XBRL (Mandated only in Annual Filings under SEBI LODR)."
+    },
+    "borrowings_debt": {
+      "sourcesAvailable": ["FERE_NSE_XBRL", "TRENDLYNE_MCP"],
+      "periodCoverage": "QUARTERLY (Cash Flow debt financing lines + D/E ratio) / ANNUAL (net_debt)",
+      "companyCoverage": "3,019 companies in FERE; 3,547 companies in Trendlyne",
+      "scopeCoverage": "CONSOLIDATED, STANDALONE",
+      "latestAvailableDate": "2026-06-30",
+      "preferredSource": "FERE_NSE_XBRL",
+      "fallbackSource": "TRENDLYNE_MCP",
+      "missingReason": "Gross debt stock is SOURCE_MISSING in quarterly XBRL balance sheets, but debt financing flows (debt_raised, debt_repaid) and leverage ratios (debt_to_equity) are available quarterly in FERE."
+    },
+    "cash_and_cash_equivalents": {
+      "sourcesAvailable": ["TRENDLYNE_MCP"],
+      "periodCoverage": "ANNUAL",
+      "companyCoverage": "3,547 companies",
+      "scopeCoverage": "CONSOLIDATED, UNKNOWN",
+      "latestAvailableDate": "LATEST",
+      "preferredSource": "TRENDLYNE_MCP",
+      "fallbackSource": "UPSTOX_XBRL",
+      "missingReason": "Quarterly balance sheet cash stock is SOURCE_MISSING in quarterly XBRL; net change in cash flows is captured via CFO+CFI+CFF."
+    },
+    "trade_receivables": {
+      "sourcesAvailable": ["BSE_FILING"],
+      "periodCoverage": "ANNUAL",
+      "companyCoverage": "1 company currently ingested in BSE_FILING",
+      "scopeCoverage": "STANDALONE",
+      "latestAvailableDate": "2026-03-31",
+      "preferredSource": "BSE_FILING",
+      "fallbackSource": "ANNUAL_XBRL",
+      "missingReason": "SOURCE_MISSING in quarterly NSE XBRL; mandated only in full annual audited financial statements."
+    },
+    "inventory": {
+      "sourcesAvailable": ["FERE_NSE_XBRL"],
+      "periodCoverage": "QUARTERLY, ANNUAL",
+      "companyCoverage": "3,019 companies",
+      "scopeCoverage": "CONSOLIDATED, STANDALONE",
+      "latestAvailableDate": "2026-06-30",
+      "preferredSource": "FERE_NSE_XBRL",
+      "fallbackSource": "ANNUAL_XBRL",
+      "missingReason": "Balance sheet inventory stock is SOURCE_MISSING in quarterly filings, but P&L inventory change (inventory_change) is fully available quarterly across 24,584 records."
+    },
+    "equity_capital": {
+      "sourcesAvailable": ["FERE_NSE_XBRL"],
+      "periodCoverage": "QUARTERLY, HALF_YEARLY, ANNUAL",
+      "companyCoverage": "3,019 companies",
+      "scopeCoverage": "CONSOLIDATED, STANDALONE",
+      "latestAvailableDate": "2026-06-30",
+      "preferredSource": "FERE_NSE_XBRL",
+      "fallbackSource": "TRENDLYNE_MCP",
+      "missingReason": "NOT_MISSING. Fully available quarterly across 49,880 records in FERE_NSE_XBRL."
+    },
+    "working_capital_items": {
+      "sourcesAvailable": ["FERE_NSE_XBRL", "TRENDLYNE_MCP"],
+      "periodCoverage": "QUARTERLY (flow changes) / ANNUAL (stock balances)",
+      "companyCoverage": "3,019 companies in FERE",
+      "scopeCoverage": "CONSOLIDATED, STANDALONE",
+      "latestAvailableDate": "2026-06-30",
+      "preferredSource": "FERE_NSE_XBRL",
+      "fallbackSource": "TRENDLYNE_MCP",
+      "missingReason": "Balance sheet stock levels are SOURCE_MISSING in quarterly XBRL, while inventory change and working-capital adjustments to CFO are captured in quarterly cash flows."
+    }
+  }
+}

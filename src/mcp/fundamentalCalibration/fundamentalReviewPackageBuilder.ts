@@ -369,10 +369,15 @@ export class FundamentalReviewPackageBuilder {
       for (const pillar of qglpModule.result.pillars) {
         for (const item of pillar.items) {
           if (item.status !== 'NOT_APPLICABLE') {
-            interpretations.push({
-              claimId: `CLAIM_${cleanSym}_QGLP_${pillar.pillarName.toUpperCase().replace(/\s/g, '_')}_${item.name.toUpperCase().replace(/[^A-Z0-9]/g, '_')}`,
-              module: 'QGLP',
-              dimension: pillar.pillarName.toUpperCase().replace(/\s/g, '_'),
+              let mappedDim: any = 'QUALITY_OF_BUSINESS';
+              if (pillar.pillarName.toUpperCase().includes('GROWTH')) mappedDim = 'REVENUE_GROWTH';
+              else if (pillar.pillarName.toUpperCase().includes('LONGEVITY')) mappedDim = 'GROWTH_LONGEVITY';
+              else if (pillar.pillarName.toUpperCase().includes('PRICE')) mappedDim = 'VALUATION_MULTIPLE';
+
+              interpretations.push({
+                claimId: `CLAIM_${cleanSym}_QGLP_${pillar.pillarName.toUpperCase().replace(/\s/g, '_')}_${item.name.toUpperCase().replace(/[^A-Z0-9]/g, '_')}`,
+                module: 'QGLP',
+                dimension: mappedDim,
               claimStatement: `QGLP Pillar '${pillar.pillarName}' - Item '${item.name}' assessed as ${item.status}. Observation: ${item.observation}`,
               wealthosStatus: item.status,
               underlyingMetricValues: {
@@ -415,7 +420,7 @@ export class FundamentalReviewPackageBuilder {
         interpretations.push({
           claimId: `CLAIM_${cleanSym}_MGMT_${c.id}`,
           module: 'MANAGEMENT',
-          dimension: 'MANAGEMENT_COMMITMENT',
+          dimension: 'QUALITY_OF_MANAGEMENT',
           claimStatement: `Management commitment in category '${c.category}' targeting ${c.targetMetric} to ${c.targetValue} for ${c.targetPeriod}. Status: ${c.status}.`,
           wealthosStatus: c.status,
           underlyingMetricValues: {

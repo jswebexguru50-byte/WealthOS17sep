@@ -1,0 +1,80 @@
+{
+  "testSuite": "tests/unit/xbrl_baseline_verification.test.ts",
+  "executedAt": "2026-10-02T09:43:53Z",
+  "framework": "vitest v5.0.0",
+  "status": "ALL_TESTS_PASSED",
+  "summary": {
+    "total": 13,
+    "passed": 13,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 10.18
+  },
+  "tests": [
+    {
+      "name": "1. Unit Typing & Scale Verification > verifies per-share metrics are typed as INR_PER_SHARE and unscaled",
+      "status": "PASSED",
+      "durationMs": 4278
+    },
+    {
+      "name": "1. Unit Typing & Scale Verification > verifies ratio metrics are typed as RATIO and are dimensionless",
+      "status": "PASSED",
+      "durationMs": 2336
+    },
+    {
+      "name": "1. Unit Typing & Scale Verification > verifies ROA is represented as a decimal fraction, not percentage",
+      "status": "PASSED",
+      "durationMs": 2228
+    },
+    {
+      "name": "1. Unit Typing & Scale Verification > verifies monetary aggregates are scaled to INR_CR",
+      "status": "PASSED",
+      "durationMs": 842
+    },
+    {
+      "name": "2. Period Semantics > verifies discrete periodType taxonomy prevents silent YTD relabeling",
+      "status": "PASSED",
+      "durationMs": 71
+    },
+    {
+      "name": "2. Period Semantics > verifies QUARTERLY facts have duration of approximately 90 days",
+      "status": "PASSED",
+      "durationMs": 3
+    },
+    {
+      "name": "3. Scope Separation > verifies CONSOLIDATED and STANDALONE facts have distinct factIds and do not collide",
+      "status": "PASSED",
+      "durationMs": 4
+    },
+    {
+      "name": "4. Available-At / Point-in-Time Integrity > verifies availableAt strictly exceeds periodEnd with zero future leakage",
+      "status": "PASSED",
+      "durationMs": 3
+    },
+    {
+      "name": "4. Available-At / Point-in-Time Integrity > verifies availableAt is not substituted with periodEnd",
+      "status": "PASSED",
+      "durationMs": 3
+    },
+    {
+      "name": "5. Derived Metric Semantics > verifies operating_plus_investing_cash_flow is defined as CFO + CFI",
+      "status": "PASSED",
+      "durationMs": 1
+    },
+    {
+      "name": "5. Derived Metric Semantics > verifies net_debt_financing_flow is defined as debt_raised - debt_repaid",
+      "status": "PASSED",
+      "durationMs": 0
+    },
+    {
+      "name": "5. Derived Metric Semantics > verifies fcf is NOT defined as CFO + CFI and enforces capex requirement",
+      "status": "PASSED",
+      "durationMs": 0
+    },
+    {
+      "name": "6. Source-to-Canonical Traceability > verifies promoted facts include full audit traceability",
+      "status": "PASSED",
+      "durationMs": 2
+    }
+  ]
+}

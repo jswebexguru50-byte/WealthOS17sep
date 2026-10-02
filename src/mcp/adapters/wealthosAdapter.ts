@@ -335,38 +335,58 @@ export class WealthOSProductionAdapter {
 
   // ── 8. Technical Strategies (S1–S10) ──────────────────────────────────────────
   static async evaluateStrategies(symbol: string, strategies?: string[]) {
-    const ohlcvResp = await this.getAdjustedOhlcv(symbol, 250);
-    const candles = ohlcvResp.candles || [];
-    if (candles.length < 20) {
+    try {
+      const ohlcvResp = await this.getAdjustedOhlcv(symbol, 600);
+      const candles = ohlcvResp.data || [];
+      const engine = PureTechnicalStrategiesEngine.getInstance();
+      const onDemandResult = await engine.evaluateScripOnDemand(symbol);
+      
+      const availableStrategies = strategies || ['S1A', 'S1B', 'S2A', 'S3A', 'S4B', 'S5A'];
+      const results: any[] = [];
+      
+      const mapResult = (stratId: string, resultObj: any) => {
+        if (!resultObj) return null;
+        return {
+          strategyId: stratId,
+          matched: resultObj.qualified || false,
+          score: typeof resultObj.score === 'number' ? resultObj.score : null,
+          entryPrice: resultObj.entryPrice || resultObj.cmp || null,
+          stopLoss: resultObj.stopLoss || null,
+          targetPrice: resultObj.target1 || resultObj.targetPrice || null,
+          explanation: resultObj.explanation || 'No setup pattern identified on bar close'
+        };
+      };
+      
+      for (const strat of availableStrategies) {
+        let r = null;
+        if (strat.startsWith('S1')) r = mapResult(strat, onDemandResult.strategy1);
+        else if (strat.startsWith('S2')) r = mapResult(strat, onDemandResult.strategy2);
+        else if (strat.startsWith('S3')) r = mapResult(strat, onDemandResult.strategy3);
+        else if (strat.startsWith('S4')) r = mapResult(strat, onDemandResult.strategy4);
+        else if (strat.startsWith('S5')) r = mapResult(strat, onDemandResult.strategy5);
+        else if (strat.startsWith('S6')) r = mapResult(strat, onDemandResult.strategy6);
+        else if (strat.startsWith('S7')) r = mapResult(strat, onDemandResult.strategy7);
+        else if (strat.startsWith('S8')) r = mapResult(strat, onDemandResult.strategy8);
+        else if (strat.startsWith('S9')) r = mapResult(strat, onDemandResult.strategy9);
+        else if (strat.startsWith('S10')) r = mapResult(strat, onDemandResult.strategy10);
+        
+        if (r) results.push(r);
+      }
+      
+      return {
+        symbol: symbol.toUpperCase(),
+        candlesAnalyzed: candles.length,
+        evaluatedStrategies: availableStrategies.length,
+        results
+      };
+    } catch (e: any) {
       return {
         symbol: symbol.toUpperCase(),
         status: 'INSUFFICIENT_DATA',
-        candlesCount: candles.length,
+        candlesCount: 0,
         results: []
       };
     }
-
-    const availableStrategies = strategies || ['S1A', 'S1B', 'S2A', 'S3A', 'S4B', 'S5A'];
-    const results: any[] = [];
-    for (const strat of availableStrategies) {
-      const evalResult = await PureTechnicalStrategiesEngine.evaluateSymbol(strat, symbol.toUpperCase(), candles);
-      results.push({
-        strategyId: strat,
-        matched: evalResult?.matched || false,
-        score: evalResult?.score || 0,
-        entryPrice: evalResult?.entryPrice || null,
-        stopLoss: evalResult?.stopLoss || null,
-        targetPrice: evalResult?.targetPrice || null,
-        explanation: evalResult?.explanation || 'No setup pattern identified on bar close'
-      });
-    }
-
-    return {
-      symbol: symbol.toUpperCase(),
-      candlesAnalyzed: candles.length,
-      evaluatedStrategies: availableStrategies.length,
-      results
-    };
   }
 
   // ── 9. Sector Momentum ───────────────────────────────────────────────────────
@@ -603,12 +623,12 @@ export class WealthOSProductionAdapter {
   // ── 19. Technical Indicators Computation ─────────────────────────────────────
   static async getTechnicalIndicators(symbol: string, indicators?: string[]) {
     const ohlcvResp = await this.getAdjustedOhlcv(symbol, 200);
-    const candles = ohlcvResp.candles || [];
+    const candles = ohlcvResp.data || [];
     if (candles.length === 0) {
       return { symbol: symbol.toUpperCase(), status: 'INSUFFICIENT_DATA', indicators: {} };
     }
 
-    const closes = candles.map((c: any) => c.close);
+    const closes = candles.map((c: any) => c.close_adjusted);
     const latestClose = closes[closes.length - 1];
 
     const calcSma = (period: number) => {

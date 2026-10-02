@@ -1,0 +1,44 @@
+{
+  "program": "XBRL_CANONICAL_BASELINE_VERIFICATION",
+  "status": "AWAITING_INDEPENDENT_REVIEW",
+  "frozenAt": "2026-10-02T09:14:00Z",
+  "git": {
+    "branch": "ai-review",
+    "head": "51bdc013fb554859ee1e56e91d3a684cceafbf87",
+    "workingTreeStatus": "clean",
+    "upstream": "origin/ai-review",
+    "recentCommits": [
+      { "sha": "51bdc01", "summary": "test(reports): update vitest report" },
+      { "sha": "80a1948", "summary": "docs(reviewer): add comprehensive reviewer walkthrough for XBRL expansion and agent-scripts" },
+      { "sha": "b7af182", "summary": "feat(intelligence): promote 779k canonical XBRL facts and integrate agent-scripts" },
+      { "sha": "a641d67", "summary": "feat(remote): add secure read-only WealthOS remote gateway" },
+      { "sha": "a82dc89", "summary": "docs(readiness): update V2_FINAL_ACCEPTANCE with head commit sha" }
+    ]
+  },
+  "databases": {
+    "portfolioDb": "portfolio.db",
+    "fereEvidenceDb": "data/fere/verified_filings/fere_evidence.db",
+    "fereDuckdb": "data/fere_evidence.duckdb",
+    "ohlcvDuckdb": "ohlcv.duckdb"
+  },
+  "relevantSourceFiles": [
+    "scripts/fere/normalize_nse_xbrl.py",
+    "scripts/fundamental/promote_all_xbrl_to_company_facts.py",
+    "src/server/services/intelligence/assembler/CanonicalFactService.ts",
+    "src/server/services/intelligence/core/CanonicalFactRepository.ts",
+    "src/server/services/intelligence/modules/FundamentalModuleAdapter.ts",
+    "src/server/services/intelligence/modules/FundamentalExperienceBuilder.ts",
+    "src/server/services/intelligence/valuation/ValuationIntelligenceEngine.ts",
+    "AGENTS.md",
+    "vendor/agent-scripts/AGENTS.MD",
+    ".agents/skills/agent-scripts-index/SKILL.md",
+    "data/fundamental_enrichment/xbrl_canonical_promotion_report.json"
+  ],
+  "governanceInvariants": {
+    "independentSemanticReviewer": "Codex",
+    "implementer": "Antigravity",
+    "status": "AWAITING_INDEPENDENT_REVIEW",
+    "fundamentalCalibrationPassed": false,
+    "semanticInterpretationCertified": false
+  }
+}

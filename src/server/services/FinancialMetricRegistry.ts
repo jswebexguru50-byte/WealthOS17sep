@@ -52,6 +52,34 @@ export const FinancialMetricRegistry: Record<string, DerivedMetricDefinition> = 
     }
   },
 
+  // COMBINED CASH FLOWS (NOT conventional FCF)
+  'operating_plus_investing_cash_flow': {
+    canonical_metric: 'operating_plus_investing_cash_flow_derived',
+    required_inputs: ['cfo', 'cfi'],
+    compatible_periods: ['ANNUAL', 'QUARTERLY', 'TTM'],
+    compatible_scopes: ['CONSOLIDATED', 'STANDALONE'],
+    unit: 'INR_CRORE',
+    version: 'V1',
+    formula: (facts) => {
+      if (facts['cfo'] == null || facts['cfi'] == null) return 'MISSING';
+      return facts['cfo']! + facts['cfi']!;
+    }
+  },
+
+  // FINANCING CASH FLOWS (NOT balance-sheet net debt change)
+  'net_debt_financing_flow': {
+    canonical_metric: 'net_debt_financing_flow_derived',
+    required_inputs: ['debt_raised', 'debt_repaid'],
+    compatible_periods: ['ANNUAL', 'QUARTERLY', 'TTM'],
+    compatible_scopes: ['CONSOLIDATED', 'STANDALONE'],
+    unit: 'INR_CRORE',
+    version: 'V1',
+    formula: (facts) => {
+      if (facts['debt_raised'] == null || facts['debt_repaid'] == null) return 'MISSING';
+      return facts['debt_raised']! - facts['debt_repaid']!;
+    }
+  },
+
   // CASH QUALITY
   'fcf': {
     canonical_metric: 'fcf_derived',
@@ -61,8 +89,11 @@ export const FinancialMetricRegistry: Record<string, DerivedMetricDefinition> = 
     unit: 'INR_CRORE',
     version: 'V1',
     formula: (facts) => {
-      // Disabled pending Capex sign convention verification
-      return 'MISSING';
+      // Conventional FCF requires explicit Capex deduction (CFO - Capex).
+      // Aggregate CFI must NOT be substituted without verifying its constituent lines.
+      if (facts['cfo'] == null || facts['capex_cash_outflow'] == null) return 'MISSING';
+      const capexOutflow = Math.abs(facts['capex_cash_outflow']!);
+      return facts['cfo']! - capexOutflow;
     }
   },
   'fcf_margin': {
@@ -73,8 +104,12 @@ export const FinancialMetricRegistry: Record<string, DerivedMetricDefinition> = 
     unit: 'PERCENTAGE',
     version: 'V1',
     formula: (facts) => {
-      // Disabled pending Capex sign convention verification
-      return 'MISSING';
+      // Conventional FCF margin requires verified Capex
+      if (facts['cfo'] == null || facts['capex_cash_outflow'] == null || facts['revenue'] == null) return 'MISSING';
+      if (facts['revenue'] === 0) return 'NOT_MEANINGFUL';
+      const capexOutflow = Math.abs(facts['capex_cash_outflow']!);
+      const fcf = facts['cfo']! - capexOutflow;
+      return (fcf / facts['revenue']!) * 100;
     }
   },
   'cfo_pat_ratio': {
@@ -98,8 +133,12 @@ export const FinancialMetricRegistry: Record<string, DerivedMetricDefinition> = 
     unit: 'RATIO',
     version: 'V1',
     formula: (facts) => {
-      // Disabled pending Capex sign convention verification
-      return 'MISSING';
+      // Conventional FCF to PAT requires verified Capex
+      if (facts['cfo'] == null || facts['capex_cash_outflow'] == null || facts['pat'] == null) return 'MISSING';
+      if (facts['pat'] === 0) return 'NOT_MEANINGFUL';
+      const capexOutflow = Math.abs(facts['capex_cash_outflow']!);
+      const fcf = facts['cfo']! - capexOutflow;
+      return fcf / facts['pat']!;
     }
   },
 

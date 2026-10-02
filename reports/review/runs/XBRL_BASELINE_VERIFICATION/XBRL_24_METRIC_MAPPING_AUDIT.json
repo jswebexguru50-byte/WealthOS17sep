@@ -1,0 +1,2739 @@
+{
+  "other_income": {
+    "taxonomyField": "OtherIncome",
+    "taxonomyLabel": "Other Income",
+    "financialMeaning": "Non-operating income including interest, dividend, foreign exchange gain, and net gain on investment sales.",
+    "statementType": "PROFIT_AND_LOSS",
+    "periodType": "DURATION",
+    "unit": "INR_CR",
+    "sourceUnit": "INR",
+    "scale": "DIVIDE_BY_10_POW_7",
+    "signConvention": "POSITIVE_CREDIT",
+    "instantDurationSemantics": "DURATION",
+    "annualQuarterlySemantics": "QUARTERLY_OR_ANNUAL_ACCORDING_TO_CONTEXT",
+    "ytdDiscreteQuarterSemantics": "DEPENDS_ON_CONTEXT_REF",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 20000,
+    "companyFactsCount": 20000,
+    "sourceObservedUnits": [
+      "INR"
+    ],
+    "cfObservedUnits": [
+      "INR_CR"
+    ],
+    "sourceDistribution": {
+      "min": -4350970000.0,
+      "max": 1946843700000.0,
+      "mean": 2695202658.2,
+      "median": 150210000.0,
+      "p5": 903800.0000000002,
+      "p95": 7493679999.999997
+    },
+    "cfDistribution": {
+      "min": -291.673,
+      "max": 194684.37,
+      "mean": 196.002330357,
+      "median": 7.9266000000000005,
+      "p5": 0.054895,
+      "p95": 370.3729999999995
+    },
+    "representativeSourceSamples": [
+      {
+        "val": 13057000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 61316000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 3790000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 29725000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 19674000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "1.2887",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "1.1767",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.3429",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.2529",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.1174",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-06-30",
+        "scope": "CONSOLIDATED"
+      }
+    ]
+  },
+  "total_income": {
+    "taxonomyField": "Income",
+    "taxonomyLabel": "Total Income",
+    "financialMeaning": "Total revenue from operations plus other income under Ind AS Schedule III.",
+    "statementType": "PROFIT_AND_LOSS",
+    "periodType": "DURATION",
+    "unit": "INR_CR",
+    "sourceUnit": "INR",
+    "scale": "DIVIDE_BY_10_POW_7",
+    "signConvention": "POSITIVE_CREDIT",
+    "instantDurationSemantics": "DURATION",
+    "annualQuarterlySemantics": "QUARTERLY_OR_ANNUAL_ACCORDING_TO_CONTEXT",
+    "ytdDiscreteQuarterSemantics": "DEPENDS_ON_CONTEXT_REF",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 20000,
+    "companyFactsCount": 20000,
+    "sourceObservedUnits": [
+      "INR"
+    ],
+    "cfObservedUnits": [
+      "INR_CR"
+    ],
+    "sourceDistribution": {
+      "min": -1991834000.0,
+      "max": 11046370000000.0,
+      "mean": 75425699625.15,
+      "median": 9601730500.0,
+      "p5": 151033500.00000003,
+      "p95": 271744200000.0
+    },
+    "cfDistribution": {
+      "min": -199.1834,
+      "max": 1104637.0,
+      "mean": 5687.584989563,
+      "median": 508.67215,
+      "p5": 8.700995,
+      "p95": 15520.785999999996
+    },
+    "representativeSourceSamples": [
+      {
+        "val": 1528510000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 4916538000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 1752680000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 5681228000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 1888952000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "36.5319",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "22.7749",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "24.9713",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "13.8865",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "11.6727",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-06-30",
+        "scope": "CONSOLIDATED"
+      }
+    ]
+  },
+  "other_expenses": {
+    "taxonomyField": "OtherExpenses",
+    "taxonomyLabel": "Other Expenses",
+    "financialMeaning": "All operational, administrative, selling and overhead expenses not classified as materials, stock purchase, inventory change, employee benefits, finance costs, or depreciation.",
+    "statementType": "PROFIT_AND_LOSS",
+    "periodType": "DURATION",
+    "unit": "INR_CR",
+    "sourceUnit": "INR",
+    "scale": "DIVIDE_BY_10_POW_7",
+    "signConvention": "POSITIVE_DEBIT",
+    "instantDurationSemantics": "DURATION",
+    "annualQuarterlySemantics": "QUARTERLY_OR_ANNUAL_ACCORDING_TO_CONTEXT",
+    "ytdDiscreteQuarterSemantics": "DEPENDS_ON_CONTEXT_REF",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 20000,
+    "companyFactsCount": 20000,
+    "sourceObservedUnits": [
+      "INR"
+    ],
+    "cfObservedUnits": [
+      "INR_CR"
+    ],
+    "sourceDistribution": {
+      "min": -2221700000.0,
+      "max": 1798326600000.0,
+      "mean": 14323932289.8,
+      "median": 1370450000.0,
+      "p5": 18825950.000000004,
+      "p95": 49883323799.99993
+    },
+    "cfDistribution": {
+      "min": -8601.47,
+      "max": 179832.66,
+      "mean": 1036.825263572,
+      "median": 79.2752,
+      "p5": 1.2183300000000001,
+      "p95": 2910.8756499999986
+    },
+    "representativeSourceSamples": [
+      {
+        "val": 403123000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 1252185000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 444007000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 1381868000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 508549000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "3.9023",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "2.9247",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "2.4779",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "2.1585",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.7205",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-06-30",
+        "scope": "CONSOLIDATED"
+      }
+    ]
+  },
+  "purchases_stock_trade": {
+    "taxonomyField": "PurchasesOfStockInTrade",
+    "taxonomyLabel": "Purchases of Stock-in-Trade",
+    "financialMeaning": "Goods purchased during the period for direct resale without further processing.",
+    "statementType": "PROFIT_AND_LOSS",
+    "periodType": "DURATION",
+    "unit": "INR_CR",
+    "sourceUnit": "INR",
+    "scale": "DIVIDE_BY_10_POW_7",
+    "signConvention": "POSITIVE_DEBIT",
+    "instantDurationSemantics": "DURATION",
+    "annualQuarterlySemantics": "QUARTERLY_OR_ANNUAL_ACCORDING_TO_CONTEXT",
+    "ytdDiscreteQuarterSemantics": "DEPENDS_ON_CONTEXT_REF",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 20000,
+    "companyFactsCount": 20000,
+    "sourceObservedUnits": [
+      "INR"
+    ],
+    "cfObservedUnits": [
+      "INR_CR"
+    ],
+    "sourceDistribution": {
+      "min": -9324000000.0,
+      "max": 3243790600000.0,
+      "mean": 9377068196.05,
+      "median": 0.0,
+      "p5": 0.0,
+      "p95": 12357174999.999992
+    },
+    "cfDistribution": {
+      "min": -932.4,
+      "max": 324379.06,
+      "mean": 742.755123,
+      "median": 0.0,
+      "p5": 0.0,
+      "p95": 916.0663049999982
+    },
+    "representativeSourceSamples": [
+      {
+        "val": 0.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 0.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 6250000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 11969000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 0.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "11.9082",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "10.1785",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "4.8915",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-06-30",
+        "scope": "CONSOLIDATED"
+      }
+    ]
+  },
+  "inventory_change": {
+    "taxonomyField": "ChangesInInventoriesOfFinishedGoodsWorkInProgressAndStockInTrade",
+    "taxonomyLabel": "Changes in Inventories of Finished Goods, Work-in-Progress and Stock-in-Trade",
+    "financialMeaning": "Change in inventory balances over the period (opening inventory less closing inventory). Positive indicates inventory drawdown (expense); negative indicates inventory buildup (credit to expenses).",
+    "statementType": "PROFIT_AND_LOSS",
+    "periodType": "DURATION",
+    "unit": "INR_CR",
+    "sourceUnit": "INR",
+    "scale": "DIVIDE_BY_10_POW_7",
+    "signConvention": "SIGNED_NET_DEBIT",
+    "instantDurationSemantics": "DURATION",
+    "annualQuarterlySemantics": "QUARTERLY_OR_ANNUAL_ACCORDING_TO_CONTEXT",
+    "ytdDiscreteQuarterSemantics": "DEPENDS_ON_CONTEXT_REF",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 20000,
+    "companyFactsCount": 20000,
+    "sourceObservedUnits": [
+      "INR"
+    ],
+    "cfObservedUnits": [
+      "INR_CR"
+    ],
+    "sourceDistribution": {
+      "min": -302630000000.0,
+      "max": 85840000000.0,
+      "mean": -481071459.35,
+      "median": 0.0,
+      "p5": -2601820000.0,
+      "p95": 874015999.9999998
+    },
+    "cfDistribution": {
+      "min": -30263.0,
+      "max": 5562.28,
+      "mean": -38.091228619999995,
+      "median": 0.0,
+      "p5": -150.38865,
+      "p95": 60.2
+    },
+    "representativeSourceSamples": [
+      {
+        "val": -24497000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": -37342000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": -16652000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": -31280000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 30107000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "-6.8652",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "-6.8652",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "5.4636",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "5.8978",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "-0.4747",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-06-30",
+        "scope": "CONSOLIDATED"
+      }
+    ]
+  },
+  "employee_expenses": {
+    "taxonomyField": "EmployeeBenefitExpense",
+    "taxonomyLabel": "Employee Benefit Expense",
+    "financialMeaning": "Salaries, wages, staff welfare, provident fund contributions, and share-based payment expenses.",
+    "statementType": "PROFIT_AND_LOSS",
+    "periodType": "DURATION",
+    "unit": "INR_CR",
+    "sourceUnit": "INR",
+    "scale": "DIVIDE_BY_10_POW_7",
+    "signConvention": "POSITIVE_DEBIT",
+    "instantDurationSemantics": "DURATION",
+    "annualQuarterlySemantics": "QUARTERLY_OR_ANNUAL_ACCORDING_TO_CONTEXT",
+    "ytdDiscreteQuarterSemantics": "DEPENDS_ON_CONTEXT_REF",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 20000,
+    "companyFactsCount": 20000,
+    "sourceObservedUnits": [
+      "INR"
+    ],
+    "cfObservedUnits": [
+      "INR_CR"
+    ],
+    "sourceDistribution": {
+      "min": -10600000.0,
+      "max": 1549940000000.0,
+      "mean": 5860766442.9,
+      "median": 726600000.0,
+      "p5": 9377000.0,
+      "p95": 17752054999.999973
+    },
+    "cfDistribution": {
+      "min": -1.0797,
+      "max": 154994.0,
+      "mean": 409.88451853,
+      "median": 38.6045,
+      "p5": 0.635865,
+      "p95": 1102.07275
+    },
+    "representativeSourceSamples": [
+      {
+        "val": 132417000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 401910000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 153882000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 473960000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 139098000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "3.7073",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "3.7073",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "2.3444",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "2.2003",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "1.0925",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-06-30",
+        "scope": "CONSOLIDATED"
+      }
+    ]
+  },
+  "pbt_before_exceptional": {
+    "taxonomyField": "ProfitBeforeExceptionalItemsAndTax",
+    "taxonomyLabel": "Profit Before Exceptional Items and Tax",
+    "financialMeaning": "Operating and ordinary earnings before deducting exceptional or non-recurring items and income taxes.",
+    "statementType": "PROFIT_AND_LOSS",
+    "periodType": "DURATION",
+    "unit": "INR_CR",
+    "sourceUnit": "INR",
+    "scale": "DIVIDE_BY_10_POW_7",
+    "signConvention": "SIGNED_NET",
+    "instantDurationSemantics": "DURATION",
+    "annualQuarterlySemantics": "QUARTERLY_OR_ANNUAL_ACCORDING_TO_CONTEXT",
+    "ytdDiscreteQuarterSemantics": "DEPENDS_ON_CONTEXT_REF",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 20000,
+    "companyFactsCount": 20000,
+    "sourceObservedUnits": [
+      "INR"
+    ],
+    "cfObservedUnits": [
+      "INR_CR"
+    ],
+    "sourceDistribution": {
+      "min": -311697000000.0,
+      "max": 1231620000000.0,
+      "mean": 7883110891.35,
+      "median": 878366500.0,
+      "p5": -183106000.0,
+      "p95": 32614159999.99998
+    },
+    "cfDistribution": {
+      "min": -18199.49,
+      "max": 123162.0,
+      "mean": 538.892176958,
+      "median": 35.839349999999996,
+      "p5": -31.065085,
+      "p95": 1845.6034999999977
+    },
+    "representativeSourceSamples": [
+      {
+        "val": 134272000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 529474000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 153745000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 591094000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 167967000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "-3.2772",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "-4.1484",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "-2.5288",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "-3.1416",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.5795",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-06-30",
+        "scope": "CONSOLIDATED"
+      }
+    ]
+  },
+  "exceptional_items_pretax": {
+    "taxonomyField": "ExceptionalItemsBeforeTax",
+    "taxonomyLabel": "Exceptional Items Before Tax",
+    "financialMeaning": "Material items of income or expense arising from ordinary activities that are of such size, nature or incidence that separate disclosure is required before tax.",
+    "statementType": "PROFIT_AND_LOSS",
+    "periodType": "DURATION",
+    "unit": "INR_CR",
+    "sourceUnit": "INR",
+    "scale": "DIVIDE_BY_10_POW_7",
+    "signConvention": "SIGNED_NET",
+    "instantDurationSemantics": "DURATION",
+    "annualQuarterlySemantics": "QUARTERLY_OR_ANNUAL_ACCORDING_TO_CONTEXT",
+    "ytdDiscreteQuarterSemantics": "DEPENDS_ON_CONTEXT_REF",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 20000,
+    "companyFactsCount": 20000,
+    "sourceObservedUnits": [
+      "INR"
+    ],
+    "cfObservedUnits": [
+      "INR_CR"
+    ],
+    "sourceDistribution": {
+      "min": -136356800000.0,
+      "max": 586070000000.0,
+      "mean": 52832013.3,
+      "median": 0.0,
+      "p5": -313024500.0,
+      "p95": 74300000.0
+    },
+    "cfDistribution": {
+      "min": -13635.68,
+      "max": 17888.0,
+      "mean": 2.0161403549999997,
+      "median": 0.0,
+      "p5": -15.598089999999996,
+      "p95": 5.37786499999999
+    },
+    "representativeSourceSamples": [
+      {
+        "val": 0.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": -15556000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 0.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": -15556000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 0.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-06-30",
+        "scope": "CONSOLIDATED"
+      }
+    ]
+  },
+  "oci": {
+    "taxonomyField": "OtherComprehensiveIncomeNetOfTaxes",
+    "taxonomyLabel": "Other Comprehensive Income Net of Taxes",
+    "financialMeaning": "Items of income and expense (including reclassification adjustments) that are not recognized in profit or loss as required or permitted by other Ind AS, net of tax.",
+    "statementType": "STATEMENT_OF_COMPREHENSIVE_INCOME",
+    "periodType": "DURATION",
+    "unit": "INR_CR",
+    "sourceUnit": "INR",
+    "scale": "DIVIDE_BY_10_POW_7",
+    "signConvention": "SIGNED_NET",
+    "instantDurationSemantics": "DURATION",
+    "annualQuarterlySemantics": "QUARTERLY_OR_ANNUAL_ACCORDING_TO_CONTEXT",
+    "ytdDiscreteQuarterSemantics": "DEPENDS_ON_CONTEXT_REF",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 20000,
+    "companyFactsCount": 20000,
+    "sourceObservedUnits": [
+      "INR"
+    ],
+    "cfObservedUnits": [
+      "INR_CR"
+    ],
+    "sourceDistribution": {
+      "min": -214819000000.0,
+      "max": 234236200000.0,
+      "mean": 255798911.57,
+      "median": 0.0,
+      "p5": -424571150.0,
+      "p95": 1031572999.9999995
+    },
+    "cfDistribution": {
+      "min": -18812.0,
+      "max": 18373.05,
+      "mean": 22.774617826999997,
+      "median": 0.0,
+      "p5": -15.312499999999998,
+      "p95": 69.22199999999997
+    },
+    "representativeSourceSamples": [
+      {
+        "val": 762000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": -759000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 290000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": -874000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 62511000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-06-30",
+        "scope": "CONSOLIDATED"
+      }
+    ]
+  },
+  "exceptional_items": {
+    "taxonomyField": "ExceptionalItems",
+    "taxonomyLabel": "Exceptional Items",
+    "financialMeaning": "Exceptional items tag used in alternative taxonomy entry points or legacy templates.",
+    "statementType": "PROFIT_AND_LOSS",
+    "periodType": "DURATION",
+    "unit": "INR_CR",
+    "sourceUnit": "INR",
+    "scale": "DIVIDE_BY_10_POW_7",
+    "signConvention": "SIGNED_NET",
+    "instantDurationSemantics": "DURATION",
+    "annualQuarterlySemantics": "QUARTERLY_OR_ANNUAL_ACCORDING_TO_CONTEXT",
+    "ytdDiscreteQuarterSemantics": "DEPENDS_ON_CONTEXT_REF",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 757,
+    "companyFactsCount": 553,
+    "sourceObservedUnits": [
+      "INR"
+    ],
+    "cfObservedUnits": [
+      "INR_CR"
+    ],
+    "sourceDistribution": {
+      "min": -56802300000.0,
+      "max": 38034000000.0,
+      "mean": -29029060.7661823,
+      "median": 0.0,
+      "p5": 0.0,
+      "p95": 0.0
+    },
+    "cfDistribution": {
+      "min": -5680.23,
+      "max": 3803.4,
+      "mean": -11.93969674502712,
+      "median": 0.0,
+      "p5": 0.0,
+      "p95": 0.0
+    },
+    "representativeSourceSamples": [
+      {
+        "val": -2653000.0,
+        "unit": "INR",
+        "sym": "ANNAPURNA",
+        "period": "2026-03-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": -2653000.0,
+        "unit": "INR",
+        "sym": "ANNAPURNA",
+        "period": "2026-03-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 18346000.0,
+        "unit": "INR",
+        "sym": "ANNAPURNA",
+        "period": "2025-03-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 18346000.0,
+        "unit": "INR",
+        "sym": "ANNAPURNA",
+        "period": "2025-03-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 0.0,
+        "unit": "INR",
+        "sym": "AUBANK",
+        "period": "2024-12-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "IDBI",
+        "period": "2026-06-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "IDBI",
+        "period": "2026-03-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "IDBI",
+        "period": "2026-03-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "IDBI",
+        "period": "2025-03-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "IDBI",
+        "period": "2025-03-31",
+        "scope": "CONSOLIDATED"
+      }
+    ]
+  },
+  "tax_expense": {
+    "taxonomyField": "TaxExpense",
+    "taxonomyLabel": "Tax Expense",
+    "financialMeaning": "Total tax expense comprising current tax and deferred tax recognized in the statement of profit and loss.",
+    "statementType": "PROFIT_AND_LOSS",
+    "periodType": "DURATION",
+    "unit": "INR_CR",
+    "sourceUnit": "INR",
+    "scale": "DIVIDE_BY_10_POW_7",
+    "signConvention": "POSITIVE_DEBIT",
+    "instantDurationSemantics": "DURATION",
+    "annualQuarterlySemantics": "QUARTERLY_OR_ANNUAL_ACCORDING_TO_CONTEXT",
+    "ytdDiscreteQuarterSemantics": "DEPENDS_ON_CONTEXT_REF",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 20000,
+    "companyFactsCount": 20000,
+    "sourceObservedUnits": [
+      "INR"
+    ],
+    "cfObservedUnits": [
+      "INR_CR"
+    ],
+    "sourceDistribution": {
+      "min": -90621100000.0,
+      "max": 288595100000.0,
+      "mean": 2207934247.15,
+      "median": 221250000.0,
+      "p5": -20004999.999999996,
+      "p95": 8941419999.999979
+    },
+    "cfDistribution": {
+      "min": -5905.4,
+      "max": 28859.51,
+      "mean": 154.4089246055,
+      "median": 8.7842,
+      "p5": -1.953384999999999,
+      "p95": 495.0089999999987
+    },
+    "representativeSourceSamples": [
+      {
+        "val": 34432000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 133997000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 38900000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 151642000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 46359000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.0808",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-06-30",
+        "scope": "CONSOLIDATED"
+      }
+    ]
+  },
+  "current_tax": {
+    "taxonomyField": "CurrentTax",
+    "taxonomyLabel": "Current Tax",
+    "financialMeaning": "The amount of income taxes payable or recoverable in respect of the taxable profit or tax loss for a period.",
+    "statementType": "PROFIT_AND_LOSS",
+    "periodType": "DURATION",
+    "unit": "INR_CR",
+    "sourceUnit": "INR",
+    "scale": "DIVIDE_BY_10_POW_7",
+    "signConvention": "POSITIVE_DEBIT",
+    "instantDurationSemantics": "DURATION",
+    "annualQuarterlySemantics": "QUARTERLY_OR_ANNUAL_ACCORDING_TO_CONTEXT",
+    "ytdDiscreteQuarterSemantics": "DEPENDS_ON_CONTEXT_REF",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 20000,
+    "companyFactsCount": 20000,
+    "sourceObservedUnits": [
+      "INR"
+    ],
+    "cfObservedUnits": [
+      "INR_CR"
+    ],
+    "sourceDistribution": {
+      "min": -90686700000.0,
+      "max": 188021700000.0,
+      "mean": 1790592035.25,
+      "median": 178729500.0,
+      "p5": 0.0,
+      "p95": 7270574999.999991
+    },
+    "cfDistribution": {
+      "min": -9068.67,
+      "max": 18802.17,
+      "mean": 123.84247313249999,
+      "median": 7.258,
+      "p5": 0.0,
+      "p95": 413.9140549999992
+    },
+    "representativeSourceSamples": [
+      {
+        "val": 32493000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 128702000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 37202000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 146106000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 46324000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.0808",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-06-30",
+        "scope": "CONSOLIDATED"
+      }
+    ]
+  },
+  "deferred_tax_charge": {
+    "taxonomyField": "DeferredTax",
+    "taxonomyLabel": "Deferred Tax",
+    "financialMeaning": "The amounts of income taxes payable or recoverable in future periods in respect of taxable temporary differences, deductible temporary differences, and carryforward of unused tax losses.",
+    "statementType": "PROFIT_AND_LOSS",
+    "periodType": "DURATION",
+    "unit": "INR_CR",
+    "sourceUnit": "INR",
+    "scale": "DIVIDE_BY_10_POW_7",
+    "signConvention": "SIGNED_NET_DEBIT",
+    "instantDurationSemantics": "DURATION",
+    "annualQuarterlySemantics": "QUARTERLY_OR_ANNUAL_ACCORDING_TO_CONTEXT",
+    "ytdDiscreteQuarterSemantics": "DEPENDS_ON_CONTEXT_REF",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 20000,
+    "companyFactsCount": 20000,
+    "sourceObservedUnits": [
+      "INR"
+    ],
+    "cfObservedUnits": [
+      "INR_CR"
+    ],
+    "sourceDistribution": {
+      "min": -103113600000.0,
+      "max": 178160000000.0,
+      "mean": 132580512.35,
+      "median": 0.0,
+      "p5": -460000000.0,
+      "p95": 751954999.9999992
+    },
+    "cfDistribution": {
+      "min": -8788.77,
+      "max": 17816.0,
+      "mean": 9.962137903,
+      "median": 0.0,
+      "p5": -24.131149999999998,
+      "p95": 35.72594999999998
+    },
+    "representativeSourceSamples": [
+      {
+        "val": 1940000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 5295000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 1697000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 5536000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 36000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-06-30",
+        "scope": "CONSOLIDATED"
+      }
+    ]
+  },
+  "eps_basic": {
+    "taxonomyField": "BasicEarningsLossPerShareFromContinuingAndDiscontinuedOperations",
+    "taxonomyLabel": "Basic Earnings (Loss) Per Share",
+    "financialMeaning": "Profit or loss attributable to ordinary equity holders divided by the weighted average number of ordinary shares outstanding during the period.",
+    "statementType": "PROFIT_AND_LOSS",
+    "periodType": "DURATION",
+    "unit": "INR_PER_SHARE",
+    "sourceUnit": "INRPerShare",
+    "scale": "UNSCALED_RAW",
+    "signConvention": "SIGNED_NET",
+    "instantDurationSemantics": "DURATION",
+    "annualQuarterlySemantics": "QUARTERLY_OR_ANNUAL_ACCORDING_TO_CONTEXT",
+    "ytdDiscreteQuarterSemantics": "DEPENDS_ON_CONTEXT_REF",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 20000,
+    "companyFactsCount": 20000,
+    "sourceObservedUnits": [
+      "INRPerShare"
+    ],
+    "cfObservedUnits": [
+      "INR_PER_SHARE"
+    ],
+    "sourceDistribution": {
+      "min": -431.42,
+      "max": 5720.39,
+      "mean": 18.5205025,
+      "median": 5.01,
+      "p5": -2.38,
+      "p95": 69.67249999999997
+    },
+    "cfDistribution": {
+      "min": -457.07,
+      "max": 48654.13,
+      "mean": 19.7899615,
+      "median": 4.31,
+      "p5": -4.13,
+      "p95": 66.49149999999997
+    },
+    "representativeSourceSamples": [
+      {
+        "val": 2.83,
+        "unit": "INRPerShare",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 10.77,
+        "unit": "INRPerShare",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 3.25,
+        "unit": "INRPerShare",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 12.02,
+        "unit": "INRPerShare",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 3.45,
+        "unit": "INRPerShare",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "-0.34",
+        "unit": "INR_PER_SHARE",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "-0.47",
+        "unit": "INR_PER_SHARE",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "-0.28",
+        "unit": "INR_PER_SHARE",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "-0.35",
+        "unit": "INR_PER_SHARE",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.1",
+        "unit": "INR_PER_SHARE",
+        "sym": "KSHITIJPOL",
+        "period": "2024-06-30",
+        "scope": "CONSOLIDATED"
+      }
+    ]
+  },
+  "eps_diluted": {
+    "taxonomyField": "DilutedEarningsLossPerShareFromContinuingAndDiscontinuedOperations",
+    "taxonomyLabel": "Diluted Earnings (Loss) Per Share",
+    "financialMeaning": "Basic earnings per share adjusted for the effects of all dilutive potential ordinary shares.",
+    "statementType": "PROFIT_AND_LOSS",
+    "periodType": "DURATION",
+    "unit": "INR_PER_SHARE",
+    "sourceUnit": "INRPerShare",
+    "scale": "UNSCALED_RAW",
+    "signConvention": "SIGNED_NET",
+    "instantDurationSemantics": "DURATION",
+    "annualQuarterlySemantics": "QUARTERLY_OR_ANNUAL_ACCORDING_TO_CONTEXT",
+    "ytdDiscreteQuarterSemantics": "DEPENDS_ON_CONTEXT_REF",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 20000,
+    "companyFactsCount": 20000,
+    "sourceObservedUnits": [
+      "INRPerShare"
+    ],
+    "cfObservedUnits": [
+      "INR_PER_SHARE"
+    ],
+    "sourceDistribution": {
+      "min": -431.42,
+      "max": 5720.39,
+      "mean": 18.255389,
+      "median": 4.92,
+      "p5": -2.35,
+      "p95": 68.64
+    },
+    "cfDistribution": {
+      "min": -457.07,
+      "max": 48654.13,
+      "mean": 19.5483155,
+      "median": 4.21,
+      "p5": -3.991499999999999,
+      "p95": 65.96149999999997
+    },
+    "representativeSourceSamples": [
+      {
+        "val": 2.83,
+        "unit": "INRPerShare",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 10.77,
+        "unit": "INRPerShare",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 3.25,
+        "unit": "INRPerShare",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 12.02,
+        "unit": "INRPerShare",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 3.45,
+        "unit": "INRPerShare",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "-0.34",
+        "unit": "INR_PER_SHARE",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "-0.47",
+        "unit": "INR_PER_SHARE",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "-0.28",
+        "unit": "INR_PER_SHARE",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "-0.35",
+        "unit": "INR_PER_SHARE",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.1",
+        "unit": "INR_PER_SHARE",
+        "sym": "KSHITIJPOL",
+        "period": "2024-06-30",
+        "scope": "CONSOLIDATED"
+      }
+    ]
+  },
+  "face_value": {
+    "taxonomyField": "FaceValueOfEquityShareCapital",
+    "taxonomyLabel": "Face Value of Equity Share Capital",
+    "financialMeaning": "Nominal or par value of an equity share in Indian Rupees.",
+    "statementType": "SHARE_CAPITAL_NOTES",
+    "periodType": "INSTANT",
+    "unit": "INR_PER_SHARE",
+    "sourceUnit": "INRPerShare",
+    "scale": "UNSCALED_RAW",
+    "signConvention": "POSITIVE",
+    "instantDurationSemantics": "INSTANT",
+    "annualQuarterlySemantics": "POINT_IN_TIME_SNAPSHOT",
+    "ytdDiscreteQuarterSemantics": "INSTANT_AS_OF_DATE",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 20000,
+    "companyFactsCount": 20000,
+    "sourceObservedUnits": [
+      "INRPerShare"
+    ],
+    "cfObservedUnits": [
+      "INR_PER_SHARE"
+    ],
+    "sourceDistribution": {
+      "min": -372.56,
+      "max": 1586949.0,
+      "mean": 282.4665675,
+      "median": 5.0,
+      "p5": 1.0,
+      "p95": 10.0
+    },
+    "cfDistribution": {
+      "min": -372.56,
+      "max": 134123705.0,
+      "mean": 14298.809192999997,
+      "median": 5.0,
+      "p5": 1.0,
+      "p95": 10.0
+    },
+    "representativeSourceSamples": [
+      {
+        "val": 5.0,
+        "unit": "INRPerShare",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 5.0,
+        "unit": "INRPerShare",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 5.0,
+        "unit": "INRPerShare",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 5.0,
+        "unit": "INRPerShare",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 5.0,
+        "unit": "INRPerShare",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "2.0",
+        "unit": "INR_PER_SHARE",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "2.0",
+        "unit": "INR_PER_SHARE",
+        "sym": "KSHITIJPOL",
+        "period": "2024-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "2.0",
+        "unit": "INR_PER_SHARE",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "2.0",
+        "unit": "INR_PER_SHARE",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "2.0",
+        "unit": "INR_PER_SHARE",
+        "sym": "KSHITIJPOL",
+        "period": "2024-06-30",
+        "scope": "CONSOLIDATED"
+      }
+    ]
+  },
+  "cfi": {
+    "taxonomyField": "CashFlowsFromUsedInInvestingActivities",
+    "taxonomyLabel": "Cash Flows From (Used In) Investing Activities",
+    "financialMeaning": "Aggregate net cash flows from the acquisition and disposal of long-term assets and other investments not included in cash equivalents.",
+    "statementType": "CASH_FLOW_STATEMENT",
+    "periodType": "DURATION",
+    "unit": "INR_CR",
+    "sourceUnit": "INR",
+    "scale": "DIVIDE_BY_10_POW_7",
+    "signConvention": "SIGNED_NET_INFLOW_POSITIVE",
+    "instantDurationSemantics": "DURATION",
+    "annualQuarterlySemantics": "QUARTERLY_OR_ANNUAL_ACCORDING_TO_CONTEXT",
+    "ytdDiscreteQuarterSemantics": "DEPENDS_ON_CONTEXT_REF",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 15078,
+    "companyFactsCount": 14245,
+    "sourceObservedUnits": [
+      "INR"
+    ],
+    "cfObservedUnits": [
+      "INR_CR"
+    ],
+    "sourceDistribution": {
+      "min": -1375350000000.0,
+      "max": 404234300000.0,
+      "mean": -4584399831.794668,
+      "median": -274442500.0,
+      "p5": -16490900000.0,
+      "p95": 1221094999.9999988
+    },
+    "cfDistribution": {
+      "min": -137535.0,
+      "max": 40423.43,
+      "mean": -446.07163021972616,
+      "median": -27.1302,
+      "p5": -1570.8172,
+      "p95": 123.43199999999956
+    },
+    "representativeSourceSamples": [
+      {
+        "val": -186899000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": -204686000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": -278538000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": -116255000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": -139743000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "-3.4371",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "-0.1005",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "-12.32",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-03-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "-2.12",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "-4.5067",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2023-03-31",
+        "scope": "STANDALONE"
+      }
+    ]
+  },
+  "cff": {
+    "taxonomyField": "CashFlowsFromUsedInFinancingActivities",
+    "taxonomyLabel": "Cash Flows From (Used In) Financing Activities",
+    "financialMeaning": "Aggregate net cash flows that result in changes in the size and composition of the contributed equity and borrowings of the enterprise.",
+    "statementType": "CASH_FLOW_STATEMENT",
+    "periodType": "DURATION",
+    "unit": "INR_CR",
+    "sourceUnit": "INR",
+    "scale": "DIVIDE_BY_10_POW_7",
+    "signConvention": "SIGNED_NET_INFLOW_POSITIVE",
+    "instantDurationSemantics": "DURATION",
+    "annualQuarterlySemantics": "QUARTERLY_OR_ANNUAL_ACCORDING_TO_CONTEXT",
+    "ytdDiscreteQuarterSemantics": "DEPENDS_ON_CONTEXT_REF",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 15079,
+    "companyFactsCount": 14245,
+    "sourceObservedUnits": [
+      "INR"
+    ],
+    "cfObservedUnits": [
+      "INR_CR"
+    ],
+    "sourceDistribution": {
+      "min": -1024775400000.0,
+      "max": 1012613000000.0,
+      "mean": 189227819.98143113,
+      "median": -54335000.0,
+      "p5": -10024249999.999998,
+      "p95": 7872639999.999995
+    },
+    "cfDistribution": {
+      "min": -102477.54,
+      "max": 101261.3,
+      "mean": -10.171436676026667,
+      "median": -5.6776,
+      "p5": -994.4779999999997,
+      "p95": 739.3795999999982
+    },
+    "representativeSourceSamples": [
+      {
+        "val": -7615000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": -55101000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": -107828000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": -141362000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": -390922000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "6.9578",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "16.4199",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "17.95",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-03-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "3.9623",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "7.302",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2023-03-31",
+        "scope": "STANDALONE"
+      }
+    ]
+  },
+  "debt_repaid": {
+    "taxonomyField": "RepaymentsOfBorrowingsClassifiedAsFinancingActivities",
+    "taxonomyLabel": "Repayments of Borrowings Classified as Financing Activities",
+    "financialMeaning": "Gross principal repayments on borrowings during the period.",
+    "statementType": "CASH_FLOW_STATEMENT",
+    "periodType": "DURATION",
+    "unit": "INR_CR",
+    "sourceUnit": "INR",
+    "scale": "DIVIDE_BY_10_POW_7",
+    "signConvention": "POSITIVE_OUTFLOW_OR_SIGNED",
+    "instantDurationSemantics": "DURATION",
+    "annualQuarterlySemantics": "QUARTERLY_OR_ANNUAL_ACCORDING_TO_CONTEXT",
+    "ytdDiscreteQuarterSemantics": "DEPENDS_ON_CONTEXT_REF",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 15079,
+    "companyFactsCount": 14245,
+    "sourceObservedUnits": [
+      "INR"
+    ],
+    "cfObservedUnits": [
+      "INR_CR"
+    ],
+    "sourceDistribution": {
+      "min": -303610300000.0,
+      "max": 2465256700000.0,
+      "mean": 9233078459.480072,
+      "median": 16600000.0,
+      "p5": 0.0,
+      "p95": 19447020000.0
+    },
+    "cfDistribution": {
+      "min": -30361.03,
+      "max": 246525.67,
+      "mean": 880.111383113373,
+      "median": 1.869,
+      "p5": 0.0,
+      "p95": 1837.6179999999963
+    },
+    "representativeSourceSamples": [
+      {
+        "val": 61074000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 61568000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": -57064000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": -58408000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 94452000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "16.3196",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "7.1217",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-03-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2023-03-31",
+        "scope": "STANDALONE"
+      }
+    ]
+  },
+  "debt_raised": {
+    "taxonomyField": "ProceedsFromBorrowingsClassifiedAsFinancingActivities",
+    "taxonomyLabel": "Proceeds from Borrowings Classified as Financing Activities",
+    "financialMeaning": "Gross proceeds from new borrowings during the period.",
+    "statementType": "CASH_FLOW_STATEMENT",
+    "periodType": "DURATION",
+    "unit": "INR_CR",
+    "sourceUnit": "INR",
+    "scale": "DIVIDE_BY_10_POW_7",
+    "signConvention": "POSITIVE_INFLOW",
+    "instantDurationSemantics": "DURATION",
+    "annualQuarterlySemantics": "QUARTERLY_OR_ANNUAL_ACCORDING_TO_CONTEXT",
+    "ytdDiscreteQuarterSemantics": "DEPENDS_ON_CONTEXT_REF",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 15079,
+    "companyFactsCount": 14245,
+    "sourceObservedUnits": [
+      "INR"
+    ],
+    "cfObservedUnits": [
+      "INR_CR"
+    ],
+    "sourceDistribution": {
+      "min": -180457700000.0,
+      "max": 2490213800000.0,
+      "mean": 11597725831.865509,
+      "median": 12069000.0,
+      "p5": -28121699.999999993,
+      "p95": 25784909799.999817
+    },
+    "cfDistribution": {
+      "min": -18045.77,
+      "max": 249021.38,
+      "mean": 1096.7718777023517,
+      "median": 1.2167,
+      "p5": -2.9397999999999995,
+      "p95": 2480.489439999991
+    },
+    "representativeSourceSamples": [
+      {
+        "val": 211994000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 198581000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": -41736000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": -57266000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": -138613000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "21.66",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-03-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "7.6723",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "5.0461",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2023-03-31",
+        "scope": "STANDALONE"
+      }
+    ]
+  },
+  "dividends_paid": {
+    "taxonomyField": "DividendsPaidClassifiedAsFinancingActivities",
+    "taxonomyLabel": "Dividends Paid Classified as Financing Activities",
+    "financialMeaning": "Cash dividends paid to equity holders during the period.",
+    "statementType": "CASH_FLOW_STATEMENT",
+    "periodType": "DURATION",
+    "unit": "INR_CR",
+    "sourceUnit": "INR",
+    "scale": "DIVIDE_BY_10_POW_7",
+    "signConvention": "POSITIVE_OUTFLOW_OR_SIGNED",
+    "instantDurationSemantics": "DURATION",
+    "annualQuarterlySemantics": "QUARTERLY_OR_ANNUAL_ACCORDING_TO_CONTEXT",
+    "ytdDiscreteQuarterSemantics": "DEPENDS_ON_CONTEXT_REF",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 15079,
+    "companyFactsCount": 14245,
+    "sourceObservedUnits": [
+      "INR"
+    ],
+    "cfObservedUnits": [
+      "INR_CR"
+    ],
+    "sourceDistribution": {
+      "min": -78464610000.0,
+      "max": 449620000000.0,
+      "mean": 2001145979.6405597,
+      "median": 7930000.0,
+      "p5": 0.0,
+      "p95": 5631479999.999975
+    },
+    "cfDistribution": {
+      "min": -7846.461,
+      "max": 44962.0,
+      "mean": 200.520287034047,
+      "median": 0.8029,
+      "p5": 0.0,
+      "p95": 541.57
+    },
+    "representativeSourceSamples": [
+      {
+        "val": 26465000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 26464000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 44108000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 44108000.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 0.0,
+        "unit": "INR",
+        "sym": "20MICRONS",
+        "period": "2023-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-03-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.0",
+        "unit": "INR_CR",
+        "sym": "KSHITIJPOL",
+        "period": "2023-03-31",
+        "scope": "STANDALONE"
+      }
+    ]
+  },
+  "debt_to_equity": {
+    "taxonomyField": "DebtEquityRatio",
+    "taxonomyLabel": "Debt Equity Ratio",
+    "financialMeaning": "Ratio of Total Debt to Total Equity under SEBI LODR Regulation 52.",
+    "statementType": "FINANCIAL_RATIO_DISCLOSURE",
+    "periodType": "INSTANT_OR_DURATION",
+    "unit": "RATIO",
+    "sourceUnit": "pure",
+    "scale": "DIMENSIONLESS_MULTIPLE",
+    "signConvention": "RATIO_POSITIVE_OR_NEGATIVE_IF_NEGATIVE_EQUITY",
+    "instantDurationSemantics": "AS_OF_PERIOD_END",
+    "annualQuarterlySemantics": "PERIOD_END_RATIO",
+    "ytdDiscreteQuarterSemantics": "PERIOD_END_RATIO",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 12740,
+    "companyFactsCount": 8085,
+    "sourceObservedUnits": [
+      "pure"
+    ],
+    "cfObservedUnits": [
+      "RATIO"
+    ],
+    "sourceDistribution": {
+      "min": -1.0407,
+      "max": 3.176,
+      "mean": 0.010943838304552592,
+      "median": 0.0,
+      "p5": 0.0,
+      "p95": 0.0378
+    },
+    "cfDistribution": {
+      "min": -1.0407,
+      "max": 3.176,
+      "mean": 0.013110525664811381,
+      "median": 0.0,
+      "p5": 0.0,
+      "p95": 0.04
+    },
+    "representativeSourceSamples": [
+      {
+        "val": 0.0,
+        "unit": "pure",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 0.0,
+        "unit": "pure",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 0.0,
+        "unit": "pure",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 0.0,
+        "unit": "pure",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 0.0,
+        "unit": "pure",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "0.02",
+        "unit": "RATIO",
+        "sym": "KSHITIJPOL",
+        "period": "2024-06-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.01",
+        "unit": "RATIO",
+        "sym": "KSHITIJPOL",
+        "period": "2024-06-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.01",
+        "unit": "RATIO",
+        "sym": "TATAMTRDVR",
+        "period": "2024-06-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0",
+        "unit": "RATIO",
+        "sym": "TATAMTRDVR",
+        "period": "2024-06-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.01",
+        "unit": "RATIO",
+        "sym": "TATAMTRDVR",
+        "period": "2024-03-31",
+        "scope": "CONSOLIDATED"
+      }
+    ]
+  },
+  "dscr": {
+    "taxonomyField": "DebtServiceCoverageRatio",
+    "taxonomyLabel": "Debt Service Coverage Ratio",
+    "financialMeaning": "Ratio of Earnings available for debt service to total debt service requirements under SEBI LODR Regulation 52.",
+    "statementType": "FINANCIAL_RATIO_DISCLOSURE",
+    "periodType": "DURATION",
+    "unit": "RATIO",
+    "sourceUnit": "pure",
+    "scale": "DIMENSIONLESS_MULTIPLE",
+    "signConvention": "POSITIVE_MULTIPLE",
+    "instantDurationSemantics": "DURATION",
+    "annualQuarterlySemantics": "PERIOD_RATIO",
+    "ytdDiscreteQuarterSemantics": "PERIOD_RATIO",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 12054,
+    "companyFactsCount": 7632,
+    "sourceObservedUnits": [
+      "pure"
+    ],
+    "cfObservedUnits": [
+      "RATIO"
+    ],
+    "sourceDistribution": {
+      "min": -0.8937,
+      "max": 40.0236,
+      "mean": 0.03241422764227642,
+      "median": 0.0,
+      "p5": 0.0,
+      "p95": 0.07
+    },
+    "cfDistribution": {
+      "min": -0.8937,
+      "max": 40.0236,
+      "mean": 0.04132215670859539,
+      "median": 0.0,
+      "p5": 0.0,
+      "p95": 0.0795
+    },
+    "representativeSourceSamples": [
+      {
+        "val": 0.0,
+        "unit": "pure",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 0.0,
+        "unit": "pure",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 0.0,
+        "unit": "pure",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 0.0,
+        "unit": "pure",
+        "sym": "20MICRONS",
+        "period": "2023-12-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": 0.0,
+        "unit": "pure",
+        "sym": "20MICRONS",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "0.0",
+        "unit": "RATIO",
+        "sym": "KSHITIJPOL",
+        "period": "2024-06-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0",
+        "unit": "RATIO",
+        "sym": "KSHITIJPOL",
+        "period": "2024-06-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.01",
+        "unit": "RATIO",
+        "sym": "TATAMTRDVR",
+        "period": "2024-06-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.03",
+        "unit": "RATIO",
+        "sym": "TATAMTRDVR",
+        "period": "2024-06-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": "0.01",
+        "unit": "RATIO",
+        "sym": "TATAMTRDVR",
+        "period": "2024-03-31",
+        "scope": "CONSOLIDATED"
+      }
+    ]
+  },
+  "roa": {
+    "taxonomyField": "ReturnOnAssets",
+    "taxonomyLabel": "Return on Assets",
+    "financialMeaning": "Ratio of net profit to total assets disclosed by banking and financial entities.",
+    "statementType": "FINANCIAL_RATIO_DISCLOSURE",
+    "periodType": "DURATION",
+    "unit": "RATIO",
+    "sourceUnit": "pure_or_inr",
+    "scale": "DIMENSIONLESS_DECIMAL_FRACTION",
+    "signConvention": "DECIMAL_FRACTION",
+    "instantDurationSemantics": "DURATION",
+    "annualQuarterlySemantics": "PERIOD_RATIO",
+    "ytdDiscreteQuarterSemantics": "PERIOD_RATIO",
+    "scope": "CONSOLIDATED_OR_STANDALONE",
+    "verificationStatus": "VERIFIED",
+    "sourceObservationCount": 650,
+    "companyFactsCount": 461,
+    "sourceObservedUnits": [
+      "INR",
+      "pure"
+    ],
+    "cfObservedUnits": [
+      "RATIO"
+    ],
+    "sourceDistribution": {
+      "min": -0.0416,
+      "max": 0.0273,
+      "mean": 0.007816,
+      "median": 0.0082,
+      "p5": 0.0,
+      "p95": 0.01920999999999999
+    },
+    "cfDistribution": {
+      "min": -0.0416,
+      "max": 0.0273,
+      "mean": 0.007760086767895878,
+      "median": 0.0082,
+      "p5": 0.0,
+      "p95": 0.0193
+    },
+    "representativeSourceSamples": [
+      {
+        "val": 0.0037,
+        "unit": "INR",
+        "sym": "AUBANK",
+        "period": "2024-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 0.012,
+        "unit": "INR",
+        "sym": "AUBANK",
+        "period": "2024-12-31",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 0.0043,
+        "unit": "INR",
+        "sym": "AUBANK",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 0.0083,
+        "unit": "INR",
+        "sym": "AUBANK",
+        "period": "2024-09-30",
+        "scope": "STANDALONE"
+      },
+      {
+        "val": 0.0035,
+        "unit": "INR",
+        "sym": "AUBANK",
+        "period": "2024-03-31",
+        "scope": "STANDALONE"
+      }
+    ],
+    "representativeCfSamples": [
+      {
+        "val": "0.0189",
+        "unit": "RATIO",
+        "sym": "IDBI",
+        "period": "2026-06-30",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0227",
+        "unit": "RATIO",
+        "sym": "IDBI",
+        "period": "2026-03-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0175",
+        "unit": "RATIO",
+        "sym": "IDBI",
+        "period": "2026-03-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0198",
+        "unit": "RATIO",
+        "sym": "IDBI",
+        "period": "2025-03-31",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "val": "0.0211",
+        "unit": "RATIO",
+        "sym": "IDBI",
+        "period": "2025-03-31",
+        "scope": "CONSOLIDATED"
+      }
+    ]
+  }
+}

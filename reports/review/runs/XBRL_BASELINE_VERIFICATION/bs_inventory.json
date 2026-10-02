@@ -1,0 +1,515 @@
+[
+  {
+    "metric": "capex_cash_outflow",
+    "provider": "TRENDLYNE_MCP",
+    "periodType": "ANNUAL",
+    "scope": "CONSOLIDATED",
+    "count": 9,
+    "minPeriod": "LATEST",
+    "maxPeriod": "LATEST"
+  },
+  {
+    "metric": "capex_cash_outflow",
+    "provider": "TRENDLYNE_MCP",
+    "periodType": "ANNUAL",
+    "scope": "UNKNOWN",
+    "count": 3538,
+    "minPeriod": "LATEST",
+    "maxPeriod": "LATEST"
+  },
+  {
+    "metric": "cash_eps",
+    "provider": "TRENDLYNE_MCP",
+    "periodType": "ANNUAL",
+    "scope": "CONSOLIDATED",
+    "count": 9,
+    "minPeriod": "LATEST",
+    "maxPeriod": "LATEST"
+  },
+  {
+    "metric": "cash_eps",
+    "provider": "TRENDLYNE_MCP",
+    "periodType": "ANNUAL",
+    "scope": "UNKNOWN",
+    "count": 3538,
+    "minPeriod": "LATEST",
+    "maxPeriod": "LATEST"
+  },
+  {
+    "metric": "debt_raised",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "ANNUAL",
+    "scope": "CONSOLIDATED",
+    "count": 2874,
+    "minPeriod": "2022-03-31",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "debt_raised",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "ANNUAL",
+    "scope": "STANDALONE",
+    "count": 891,
+    "minPeriod": "2022-03-31",
+    "maxPeriod": "2026-03-31"
+  },
+  {
+    "metric": "debt_raised",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "HALF_YEARLY",
+    "scope": "CONSOLIDATED",
+    "count": 28,
+    "minPeriod": "2022-09-30",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "debt_raised",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "HALF_YEARLY",
+    "scope": "STANDALONE",
+    "count": 477,
+    "minPeriod": "2022-09-30",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "debt_raised",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "NINE_MONTHS",
+    "scope": "STANDALONE",
+    "count": 3,
+    "minPeriod": "2025-03-31",
+    "maxPeriod": "2025-03-31"
+  },
+  {
+    "metric": "debt_raised",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "QUARTERLY",
+    "scope": "CONSOLIDATED",
+    "count": 4107,
+    "minPeriod": "2021-03-31",
+    "maxPeriod": "2024-12-31"
+  },
+  {
+    "metric": "debt_raised",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "QUARTERLY",
+    "scope": "STANDALONE",
+    "count": 5865,
+    "minPeriod": "2019-03-31",
+    "maxPeriod": "2024-12-31"
+  },
+  {
+    "metric": "debt_repaid",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "ANNUAL",
+    "scope": "CONSOLIDATED",
+    "count": 2874,
+    "minPeriod": "2022-03-31",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "debt_repaid",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "ANNUAL",
+    "scope": "STANDALONE",
+    "count": 891,
+    "minPeriod": "2022-03-31",
+    "maxPeriod": "2026-03-31"
+  },
+  {
+    "metric": "debt_repaid",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "HALF_YEARLY",
+    "scope": "CONSOLIDATED",
+    "count": 28,
+    "minPeriod": "2022-09-30",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "debt_repaid",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "HALF_YEARLY",
+    "scope": "STANDALONE",
+    "count": 477,
+    "minPeriod": "2022-09-30",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "debt_repaid",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "NINE_MONTHS",
+    "scope": "STANDALONE",
+    "count": 3,
+    "minPeriod": "2025-03-31",
+    "maxPeriod": "2025-03-31"
+  },
+  {
+    "metric": "debt_repaid",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "QUARTERLY",
+    "scope": "CONSOLIDATED",
+    "count": 4107,
+    "minPeriod": "2021-03-31",
+    "maxPeriod": "2024-12-31"
+  },
+  {
+    "metric": "debt_repaid",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "QUARTERLY",
+    "scope": "STANDALONE",
+    "count": 5865,
+    "minPeriod": "2019-03-31",
+    "maxPeriod": "2024-12-31"
+  },
+  {
+    "metric": "debt_to_equity",
+    "provider": "BSE_FILING",
+    "periodType": "ANNUAL",
+    "scope": "STANDALONE",
+    "count": 1,
+    "minPeriod": "2026-03-31",
+    "maxPeriod": "2026-03-31"
+  },
+  {
+    "metric": "debt_to_equity",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "ANNUAL",
+    "scope": "CONSOLIDATED",
+    "count": 765,
+    "minPeriod": "2022-03-31",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "debt_to_equity",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "ANNUAL",
+    "scope": "STANDALONE",
+    "count": 210,
+    "minPeriod": "2022-03-31",
+    "maxPeriod": "2026-03-31"
+  },
+  {
+    "metric": "debt_to_equity",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "HALF_YEARLY",
+    "scope": "CONSOLIDATED",
+    "count": 32,
+    "minPeriod": "2022-09-30",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "debt_to_equity",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "HALF_YEARLY",
+    "scope": "STANDALONE",
+    "count": 116,
+    "minPeriod": "2022-09-30",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "debt_to_equity",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "NINE_MONTHS",
+    "scope": "CONSOLIDATED",
+    "count": 4,
+    "minPeriod": "2025-12-31",
+    "maxPeriod": "2026-03-31"
+  },
+  {
+    "metric": "debt_to_equity",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "NINE_MONTHS",
+    "scope": "STANDALONE",
+    "count": 107,
+    "minPeriod": "2025-03-31",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "debt_to_equity",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "PERIOD",
+    "scope": "STANDALONE",
+    "count": 1,
+    "minPeriod": "2026-03-31",
+    "maxPeriod": "2026-03-31"
+  },
+  {
+    "metric": "debt_to_equity",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "QUARTERLY",
+    "scope": "CONSOLIDATED",
+    "count": 3248,
+    "minPeriod": "2022-03-31",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "debt_to_equity",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "QUARTERLY",
+    "scope": "STANDALONE",
+    "count": 3602,
+    "minPeriod": "2022-03-31",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "debt_to_equity",
+    "provider": "TRENDLYNE_MCP",
+    "periodType": "ANNUAL",
+    "scope": "CONSOLIDATED",
+    "count": 9,
+    "minPeriod": "LATEST",
+    "maxPeriod": "LATEST"
+  },
+  {
+    "metric": "debt_to_equity_reported",
+    "provider": "TRENDLYNE_MCP",
+    "periodType": "ANNUAL",
+    "scope": "CONSOLIDATED",
+    "count": 9,
+    "minPeriod": "LATEST",
+    "maxPeriod": "LATEST"
+  },
+  {
+    "metric": "debt_to_equity_reported",
+    "provider": "TRENDLYNE_MCP",
+    "periodType": "ANNUAL",
+    "scope": "UNKNOWN",
+    "count": 3538,
+    "minPeriod": "LATEST",
+    "maxPeriod": "LATEST"
+  },
+  {
+    "metric": "equity_capital",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "ANNUAL",
+    "scope": "CONSOLIDATED",
+    "count": 5732,
+    "minPeriod": "2022-03-31",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "equity_capital",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "ANNUAL",
+    "scope": "STANDALONE",
+    "count": 1760,
+    "minPeriod": "2022-03-31",
+    "maxPeriod": "2026-03-31"
+  },
+  {
+    "metric": "equity_capital",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "HALF_YEARLY",
+    "scope": "CONSOLIDATED",
+    "count": 218,
+    "minPeriod": "2022-09-30",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "equity_capital",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "HALF_YEARLY",
+    "scope": "STANDALONE",
+    "count": 1014,
+    "minPeriod": "2022-09-30",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "equity_capital",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "NINE_MONTHS",
+    "scope": "CONSOLIDATED",
+    "count": 52,
+    "minPeriod": "2025-12-31",
+    "maxPeriod": "2026-03-31"
+  },
+  {
+    "metric": "equity_capital",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "NINE_MONTHS",
+    "scope": "STANDALONE",
+    "count": 954,
+    "minPeriod": "2025-03-31",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "equity_capital",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "PERIOD",
+    "scope": "STANDALONE",
+    "count": 2,
+    "minPeriod": "2026-03-31",
+    "maxPeriod": "2026-03-31"
+  },
+  {
+    "metric": "equity_capital",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "QUARTERLY",
+    "scope": "CONSOLIDATED",
+    "count": 23284,
+    "minPeriod": "2021-03-31",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "equity_capital",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "QUARTERLY",
+    "scope": "STANDALONE",
+    "count": 26596,
+    "minPeriod": "2019-03-31",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "inventory_change",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "ANNUAL",
+    "scope": "CONSOLIDATED",
+    "count": 2823,
+    "minPeriod": "2022-03-31",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "inventory_change",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "ANNUAL",
+    "scope": "STANDALONE",
+    "count": 848,
+    "minPeriod": "2022-03-31",
+    "maxPeriod": "2026-03-31"
+  },
+  {
+    "metric": "inventory_change",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "HALF_YEARLY",
+    "scope": "CONSOLIDATED",
+    "count": 107,
+    "minPeriod": "2022-09-30",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "inventory_change",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "HALF_YEARLY",
+    "scope": "STANDALONE",
+    "count": 490,
+    "minPeriod": "2022-09-30",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "inventory_change",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "NINE_MONTHS",
+    "scope": "CONSOLIDATED",
+    "count": 26,
+    "minPeriod": "2025-12-31",
+    "maxPeriod": "2026-03-31"
+  },
+  {
+    "metric": "inventory_change",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "NINE_MONTHS",
+    "scope": "STANDALONE",
+    "count": 461,
+    "minPeriod": "2025-03-31",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "inventory_change",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "PERIOD",
+    "scope": "STANDALONE",
+    "count": 1,
+    "minPeriod": "2026-03-31",
+    "maxPeriod": "2026-03-31"
+  },
+  {
+    "metric": "inventory_change",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "QUARTERLY",
+    "scope": "CONSOLIDATED",
+    "count": 11525,
+    "minPeriod": "2021-03-31",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "inventory_change",
+    "provider": "FERE_NSE_XBRL",
+    "periodType": "QUARTERLY",
+    "scope": "STANDALONE",
+    "count": 13059,
+    "minPeriod": "2019-03-31",
+    "maxPeriod": "2026-06-30"
+  },
+  {
+    "metric": "net_cash_flow",
+    "provider": "TRENDLYNE_MCP",
+    "periodType": "ANNUAL",
+    "scope": "CONSOLIDATED",
+    "count": 9,
+    "minPeriod": "LATEST",
+    "maxPeriod": "LATEST"
+  },
+  {
+    "metric": "net_cash_flow",
+    "provider": "TRENDLYNE_MCP",
+    "periodType": "ANNUAL",
+    "scope": "UNKNOWN",
+    "count": 3538,
+    "minPeriod": "LATEST",
+    "maxPeriod": "LATEST"
+  },
+  {
+    "metric": "net_debt",
+    "provider": "TRENDLYNE_MCP",
+    "periodType": "ANNUAL",
+    "scope": "CONSOLIDATED",
+    "count": 9,
+    "minPeriod": "LATEST",
+    "maxPeriod": "LATEST"
+  },
+  {
+    "metric": "net_debt",
+    "provider": "TRENDLYNE_MCP",
+    "periodType": "ANNUAL",
+    "scope": "UNKNOWN",
+    "count": 3538,
+    "minPeriod": "LATEST",
+    "maxPeriod": "LATEST"
+  },
+  {
+    "metric": "net_debt_ebitda",
+    "provider": null,
+    "periodType": "ANNUAL",
+    "scope": "CONSOLIDATED",
+    "count": 9,
+    "minPeriod": "LATEST",
+    "maxPeriod": "LATEST"
+  },
+  {
+    "metric": "total_asset_cr",
+    "provider": "UPSTOX_XBRL",
+    "periodType": "ANNUAL",
+    "scope": "CONSOLIDATED",
+    "count": 40,
+    "minPeriod": "2023-03-31",
+    "maxPeriod": "2026-03-31"
+  },
+  {
+    "metric": "total_liability_cr",
+    "provider": "UPSTOX_XBRL",
+    "periodType": "ANNUAL",
+    "scope": "CONSOLIDATED",
+    "count": 40,
+    "minPeriod": "2023-03-31",
+    "maxPeriod": "2026-03-31"
+  },
+  {
+    "metric": "trade_receivables_cr",
+    "provider": "BSE_FILING",
+    "periodType": "ANNUAL",
+    "scope": "STANDALONE",
+    "count": 1,
+    "minPeriod": "2026-03-31",
+    "maxPeriod": "2026-03-31"
+  }
+]

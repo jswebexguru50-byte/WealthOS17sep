@@ -153,8 +153,6 @@ export class FundamentalReviewEngine {
             run.issueTypeCounts[issue]++;
           }
         }
-      } else if (claim.issueType && run.issueTypeCounts[claim.issueType] !== undefined) {
-        run.issueTypeCounts[claim.issueType]++;
       }
 
       if (!run.moduleBreakdown[claim.module]) {

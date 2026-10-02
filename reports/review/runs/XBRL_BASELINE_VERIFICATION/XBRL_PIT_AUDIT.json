@@ -1,0 +1,125 @@
+{
+  "auditSummary": "Point-in-Time (PIT) and availability verification for FERE NSE XBRL company_facts.",
+  "sampleEvaluated": 100000,
+  "metrics": {
+    "futureLeakageCount": 0,
+    "exactPeriodEndSubstitutedCount": 0,
+    "validFilingLagCount": 100000,
+    "lagStatisticsDays": {
+      "min": 9,
+      "max": 973,
+      "mean": 45.58615,
+      "median": 43.0,
+      "p25": 34.0,
+      "p75": 51.0,
+      "p95": 61.0
+    }
+  },
+  "representativeSamples": [
+    {
+      "symbol": "20MICRONS",
+      "metric": "depreciation",
+      "periodEnd": "2026-06-30",
+      "availableAt": "2026-07-31T10:34:16+00:00",
+      "scope": "CONSOLIDATED",
+      "periodType": "QUARTERLY",
+      "lagDays": 31,
+      "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1705980_31072026040422_WEB.xml"
+    },
+    {
+      "symbol": "20MICRONS",
+      "metric": "equity_capital",
+      "periodEnd": "2026-06-30",
+      "availableAt": "2026-07-31T10:34:16+00:00",
+      "scope": "CONSOLIDATED",
+      "periodType": "QUARTERLY",
+      "lagDays": 31,
+      "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1705980_31072026040422_WEB.xml"
+    },
+    {
+      "symbol": "20MICRONS",
+      "metric": "finance_costs",
+      "periodEnd": "2026-06-30",
+      "availableAt": "2026-07-31T10:34:16+00:00",
+      "scope": "CONSOLIDATED",
+      "periodType": "QUARTERLY",
+      "lagDays": 31,
+      "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1705980_31072026040422_WEB.xml"
+    },
+    {
+      "symbol": "20MICRONS",
+      "metric": "materials_cost",
+      "periodEnd": "2026-06-30",
+      "availableAt": "2026-07-31T10:34:16+00:00",
+      "scope": "CONSOLIDATED",
+      "periodType": "QUARTERLY",
+      "lagDays": 31,
+      "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1705980_31072026040422_WEB.xml"
+    },
+    {
+      "symbol": "20MICRONS",
+      "metric": "pat",
+      "periodEnd": "2026-06-30",
+      "availableAt": "2026-07-31T10:34:16+00:00",
+      "scope": "CONSOLIDATED",
+      "periodType": "QUARTERLY",
+      "lagDays": 31,
+      "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1705980_31072026040422_WEB.xml"
+    },
+    {
+      "symbol": "20MICRONS",
+      "metric": "pbt",
+      "periodEnd": "2026-06-30",
+      "availableAt": "2026-07-31T10:34:16+00:00",
+      "scope": "CONSOLIDATED",
+      "periodType": "QUARTERLY",
+      "lagDays": 31,
+      "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1705980_31072026040422_WEB.xml"
+    },
+    {
+      "symbol": "20MICRONS",
+      "metric": "revenue",
+      "periodEnd": "2026-06-30",
+      "availableAt": "2026-07-31T10:34:16+00:00",
+      "scope": "CONSOLIDATED",
+      "periodType": "QUARTERLY",
+      "lagDays": 31,
+      "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1705980_31072026040422_WEB.xml"
+    },
+    {
+      "symbol": "20MICRONS",
+      "metric": "total_expenses",
+      "periodEnd": "2026-06-30",
+      "availableAt": "2026-07-31T10:34:16+00:00",
+      "scope": "CONSOLIDATED",
+      "periodType": "QUARTERLY",
+      "lagDays": 31,
+      "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1705980_31072026040422_WEB.xml"
+    },
+    {
+      "symbol": "20MICRONS",
+      "metric": "depreciation",
+      "periodEnd": "2026-06-30",
+      "availableAt": "2026-07-31T10:35:16+00:00",
+      "scope": "STANDALONE",
+      "periodType": "QUARTERLY",
+      "lagDays": 31,
+      "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1705982_31072026040518_WEB.xml"
+    },
+    {
+      "symbol": "20MICRONS",
+      "metric": "equity_capital",
+      "periodEnd": "2026-06-30",
+      "availableAt": "2026-07-31T10:35:16+00:00",
+      "scope": "STANDALONE",
+      "periodType": "QUARTERLY",
+      "lagDays": 31,
+      "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1705982_31072026040518_WEB.xml"
+    }
+  ],
+  "pitQueryTest": {
+    "testQuery": "fact.availableAt <= requestedAsOfDate",
+    "testedDate": "2024-05-01",
+    "result": "Correctly excludes Q4 FY24 filings published after May 1, 2024 and admits historical quarters published prior to cutoff."
+  }
+}

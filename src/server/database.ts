@@ -36,10 +36,10 @@ export function createPersistentBackup() {
 
   setTimeout(async () => {
     try {
-      if (fs.existsSync(DB_FILE)) {
-        const stat = await fs.promises.stat(DB_FILE);
+      if (fs.existsSync(getDbFile())) {
+        const stat = await fs.promises.stat(getDbFile());
         if (stat.size > 8192) {
-          await fs.promises.copyFile(DB_FILE, PERSISTENT_BACKUP_PATH);
+          await fs.promises.copyFile(getDbFile(), PERSISTENT_BACKUP_PATH);
         }
       }
     } catch (e) {
@@ -74,11 +74,12 @@ export function restorePersistentBackupIfNeeded() {
     return; // Bypass auto-restore for unit/integration tests to allow clean test databases
   }
   try {
-    const dbExists = fs.existsSync(DB_FILE);
-    let currentDbValid = dbExists && fs.statSync(DB_FILE).size >= 8192;
+    const dbPath = getDbFile();
+    const dbExists = fs.existsSync(dbPath);
+    let currentDbValid = dbExists && fs.statSync(dbPath).size >= 8192;
     
     if (currentDbValid) {
-      const checkVal = getDatabaseTxCountSync(DB_FILE);
+      const checkVal = getDatabaseTxCountSync(dbPath);
       if (checkVal < 0) currentDbValid = false;
     }
 
@@ -96,7 +97,7 @@ export function restorePersistentBackupIfNeeded() {
     let bestBackupSize = 0;
 
     for (const candidate of candidateFiles) {
-      if (candidate === DB_FILE) continue;
+      if (candidate === dbPath) continue;
       if (fs.existsSync(candidate)) {
         const size = fs.statSync(candidate).size;
         if (size > 8192 && getDatabaseTxCountSync(candidate) > 0) {
@@ -110,10 +111,10 @@ export function restorePersistentBackupIfNeeded() {
 
     if (needsRestore && bestBackupPath) {
       console.log(`[PersistentBackup] Auto-restoring portfolio.db from backup: ${path.basename(bestBackupPath)} (size: ${bestBackupSize} bytes)...`);
-      if (fs.existsSync(DB_FILE)) {
-        try { fs.unlinkSync(DB_FILE); } catch {}
+      if (fs.existsSync(dbPath)) {
+        try { fs.unlinkSync(dbPath); } catch {}
       }
-      fs.copyFileSync(bestBackupPath, DB_FILE);
+      fs.copyFileSync(bestBackupPath, dbPath);
       console.log(`[PersistentBackup] Successfully restored database from ${path.basename(bestBackupPath)}!`);
     }
   } catch (e) {
@@ -170,20 +171,21 @@ export function closeDB(): Promise<void> {
 
 export async function repairCorruptDatabase(): Promise<boolean> {
   console.warn('[DB Recovery] Initiating self-healing repair for corrupt database file...');
+  const dbPath = getDbFile();
   try {
     await closeDB();
-    if (!fs.existsSync(DB_FILE)) {
+    if (!fs.existsSync(dbPath)) {
       console.log('[DB Recovery] DB_FILE does not exist, nothing to repair.');
       return false;
     }
 
     const timestamp = Date.now();
-    const backupCorruptFile = `${DB_FILE}.corrupt.${timestamp}`;
-    const cleanFile = `${DB_FILE}.clean.${timestamp}`;
+    const backupCorruptFile = `${dbPath}.corrupt.${timestamp}`;
+    const cleanFile = `${dbPath}.clean.${timestamp}`;
 
     if (fs.existsSync(cleanFile)) fs.unlinkSync(cleanFile);
 
-    const srcDb = new sqlite3.Database(DB_FILE);
+    const srcDb = new sqlite3.Database(dbPath);
     const dstDb = new sqlite3.Database(cleanFile);
 
     // 1. Get all table schemas
@@ -239,13 +241,13 @@ export async function repairCorruptDatabase(): Promise<boolean> {
     await new Promise<void>((res) => dstDb.close(() => res()));
 
     // Rename corrupt DB to backup and replace
-    try { fs.copyFileSync(DB_FILE, backupCorruptFile); } catch {}
-    if (fs.existsSync(`${DB_FILE}-wal`)) try { fs.unlinkSync(`${DB_FILE}-wal`); } catch {}
-    if (fs.existsSync(`${DB_FILE}-shm`)) try { fs.unlinkSync(`${DB_FILE}-shm`); } catch {}
-    if (fs.existsSync(DB_FILE)) try { fs.unlinkSync(DB_FILE); } catch {}
+    try { fs.copyFileSync(dbPath, backupCorruptFile); } catch {}
+    if (fs.existsSync(`${dbPath}-wal`)) try { fs.unlinkSync(`${dbPath}-wal`); } catch {}
+    if (fs.existsSync(`${dbPath}-shm`)) try { fs.unlinkSync(`${dbPath}-shm`); } catch {}
+    if (fs.existsSync(dbPath)) try { fs.unlinkSync(dbPath); } catch {}
 
     if (fs.existsSync(cleanFile) && tables.length > 0) {
-      fs.renameSync(cleanFile, DB_FILE);
+      fs.renameSync(cleanFile, dbPath);
       console.log(`[DB Recovery] Database successfully repaired! Old corrupt copy backed up to ${path.basename(backupCorruptFile)}`);
     } else {
       if (fs.existsSync(cleanFile)) try { fs.unlinkSync(cleanFile); } catch {}

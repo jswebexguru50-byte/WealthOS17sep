@@ -1,0 +1,44 @@
+{
+  "program": "XBRL_CANONICAL_BASELINE_VERIFICATION",
+  "artifact": "XBRL_PROMOTION_RECONCILIATION",
+  "generatedAt": "2026-10-02T09:18:00Z",
+  "status": "VERIFIED_MATHEMATICAL_TIE",
+  "reconciliation": {
+    "SOURCE_FACTS": 3354422,
+    "MAPPED_SOURCE_FACTS": 1165211,
+    "UNMAPPED_SOURCE_FACTS": 2189211,
+    "ELIGIBLE_SOURCE_FACTS": 1165211,
+    "INELIGIBLE_SOURCE_FACTS": 0,
+    "DEDUPLICATED_GROUPS": 779298,
+    "COLLAPSED_DUPLICATES": 385913,
+    "VALIDATION_SKIPS": {
+      "badDate": 0,
+      "badScope": 0,
+      "badValue": 0,
+      "noTicker": 0,
+      "totalSkips": 0
+    },
+    "PROMOTION_ATTEMPTS": 779298,
+    "INSERTED_NEW": 529760,
+    "UPDATED_EXISTING": 249538,
+    "UNCHANGED_EXISTING": 249172,
+    "FINAL_DATABASE_DELTA": 529760
+  },
+  "databaseEstate": {
+    "previousTotalCompanyFacts": 623037,
+    "currentTotalCompanyFacts": 1152797,
+    "previousFereFacts": 498710,
+    "currentFereFacts": 1028470,
+    "nonFereFacts": 124327,
+    "netCompanyFactsDelta": 529760,
+    "netFereDelta": 529760
+  },
+  "mathematicalProof": {
+    "tier1_sourceToMapped": "SOURCE_FACTS (3,354,422) = MAPPED_SOURCE_FACTS (1,165,211) + UNMAPPED_SOURCE_FACTS (2,189,211)",
+    "tier2_mappedToDedup": "MAPPED_SOURCE_FACTS (1,165,211) = DEDUPLICATED_GROUPS (779,298) + COLLAPSED_DUPLICATES (385,913)",
+    "tier3_promotionToDb": "PROMOTION_ATTEMPTS (779,298) = INSERTED_NEW (529,760) + UPDATED_EXISTING (249,538)",
+    "tier4_databaseDelta": "CURRENT_FERE (1,028,470) = PREVIOUS_FERE (498,710) + INSERTED_NEW (529,760)",
+    "tier5_totalCompanyFacts": "CURRENT_CF (1,152,797) = PREVIOUS_CF (623,037) + INSERTED_NEW (529,760)",
+    "tier6_nonFerePreservation": "CURRENT_CF (1,152,797) - CURRENT_FERE (1,028,470) = NON_FERE (124,327) [100% UNTOUCHED]"
+  }
+}

@@ -8,6 +8,7 @@ import { MacroRegimeClassifierService, RegimeState } from './MacroRegimeClassifi
 import { BrokerResearchIntelligenceService } from './BrokerResearchIntelligenceService.js';
 import { ScripKnowledgeBaseService, InvestmentThesis } from './ScripKnowledgeBaseService.js';
 import { SectorMomentumService, SectorMomentumSnapshot } from './SectorMomentumService.js';
+import { FundamentalAnalysisBuilder } from './intelligence/builders/FundamentalAnalysisBuilder.js';
 
 export interface PeerComparisonRow {
   name: string;
@@ -31,6 +32,15 @@ export interface SecurityDossier {
   marketCapCategory: 'SMALL_CAP' | 'MID_CAP' | 'LARGE_CAP' | 'UNAVAILABLE';
   generatedAt: string;
   isHeld: boolean;
+  isComplete?: boolean;
+  missingData?: string[];
+  qglpScore?: any;
+  evidenceState?: 'COMPLETE' | 'PARTIAL' | 'INSUFFICIENT';
+  missingCriticalInputs?: string[];
+  sourceCoverage?: string[];
+  keyStrengths?: string[];
+  keyRisks?: string[];
+  watchNext?: string[];
   holdingContext?: {
     quantity: number;
     averagePrice: number;
@@ -353,7 +363,8 @@ export class ScripIntelligenceDossierService {
       indicators,
       macroRegime,
       brokerReports,
-      thesis
+      thesis,
+      fundamentalDossier
     ] = await Promise.all([
       dbGet(db, `SELECT * FROM Holdings WHERE symbol = ? AND quantity > 0 LIMIT 1`, [sym]).catch(() => null),
       dbGet(db, `SELECT * FROM MasterTickers WHERE symbol = ? LIMIT 1`, [sym]).catch(() => null),
@@ -363,7 +374,8 @@ export class ScripIntelligenceDossierService {
       MarketDataIngestorService.getInstance().getLatestSnapshot(sym).catch(() => null),
       MacroRegimeClassifierService.getInstance().getCurrentRegime().catch(() => null),
       BrokerResearchIntelligenceService.getInstance().getReportsForSymbol(sym).catch(() => []),
-      ScripKnowledgeBaseService.getThesis(sym).catch(() => null)
+      ScripKnowledgeBaseService.getThesis(sym).catch(() => null),
+      FundamentalAnalysisBuilder.getInstance().buildDossier({ securityId: sym, isin: sym, nseSymbol: sym, companyName: sym }).catch(() => null)
     ]);
 
     // The legacy dossier contains derived scores, recommendations, targets,
@@ -427,9 +439,9 @@ export class ScripIntelligenceDossierService {
 
     // Fundamentals Processing
     const rawPe = screenerData?.ratios?.stock_pe ? parseFloat(screenerData.ratios.stock_pe) : (trendlyneReport?.valuation?.pe ?? null);
-    const rawRoce = screenerData?.ratios?.roce ? parseFloat(screenerData.ratios.roce) : null;
-    const rawRoe = screenerData?.ratios?.roe ? parseFloat(screenerData.ratios.roe) : null;
-    const rawDebtToEquity = screenerData?.ratios?.debt_to_equity ? parseFloat(screenerData.ratios.debt_to_equity) : null;
+    const rawRoce = fundamentalDossier?.facts?.roce?.value ?? (screenerData?.ratios?.roce ? parseFloat(screenerData.ratios.roce) : null);
+    const rawRoe = fundamentalDossier?.facts?.roe?.value ?? (screenerData?.ratios?.roe ? parseFloat(screenerData.ratios.roe) : null);
+    const rawDebtToEquity = fundamentalDossier?.facts?.debt_to_equity?.value ?? (screenerData?.ratios?.debt_to_equity ? parseFloat(screenerData.ratios.debt_to_equity) : null);
     const piotroskiScore = trendlyneReport?.checklists?.piotroskiScore ?? null;
     const altmanZScore: number | null = null;
     let altmanZZone: 'DATA_INSUFFICIENT' | 'SAFE' | 'GREY' | 'DISTRESS' = 'DATA_INSUFFICIENT';
@@ -817,7 +829,7 @@ function detectSectorCategory(sectorStr: string, industryStr: string, companyNam
     let riskRewardResult: number | null = Number((expectedUpsidePctResult / 7.0).toFixed(1));
 
     // Wire the guard: If critical data is missing, fail closed and block decision.
-    if (!trendlyneReport || !screenerData) {
+    if (!trendlyneReport || !screenerData || fundamentalDossier?.qglpScore?.overallRating === 'INSUFFICIENT_DATA') {
       verdict = null;
       verdictDesc = 'Critical evidence is unavailable; no investment decision was computed.';
       compositeScoreResult = null;
@@ -971,6 +983,15 @@ function detectSectorCategory(sectorStr: string, industryStr: string, companyNam
       generatedAt: new Date().toISOString(),
       isHeld,
       holdingContext,
+      isComplete: fundamentalDossier?.isComplete,
+      missingData: fundamentalDossier?.missingData,
+      qglpScore: fundamentalDossier?.qglpScore,
+      evidenceState: fundamentalDossier?.qglpScore?.overallRating === 'INSUFFICIENT_DATA' ? 'PARTIAL' : 'COMPLETE',
+      missingCriticalInputs: fundamentalDossier?.qglpScore?.missingCriticalInputs || [],
+      sourceCoverage: fundamentalDossier?.qglpScore?.sourceCoverage,
+      keyStrengths: fundamentalDossier?.qglpScore?.keyStrengths || [],
+      keyRisks: fundamentalDossier?.qglpScore?.keyRisks || [],
+      watchNext: fundamentalDossier?.qglpScore?.whatToWatchNext || [],
       outlook: {
         verdict,
         verdictDescription: verdictDesc,

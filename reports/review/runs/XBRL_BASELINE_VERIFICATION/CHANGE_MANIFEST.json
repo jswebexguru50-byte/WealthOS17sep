@@ -1,0 +1,88 @@
+{
+  "program": "XBRL_CANONICAL_BASELINE_VERIFICATION",
+  "generatedAt": "2026-10-02T09:45:00Z",
+  "baselineHead": "51bdc013fb554859ee1e56e91d3a684cceafbf87",
+  "targetBranch": "ai-review",
+  "filesChanged": [
+    {
+      "path": "src/server/services/FinancialMetricRegistry.ts",
+      "classification": "PRODUCTION_CODE",
+      "description": "Registered operating_plus_investing_cash_flow_derived (cfo + cfi) and net_debt_financing_flow_derived (debt_raised - debt_repaid) with strict economic semantics; guarded conventional fcf from improper CFO+CFI substitution."
+    },
+    {
+      "path": "AGENTS.md",
+      "classification": "AGENT_INFRASTRUCTURE",
+      "description": "Enforced strict constitutional precedence of WealthOS Universal Review Protocol, Codex reviewer authority, and zero synthetic evidence over vendored agent utility scripts."
+    },
+    {
+      "path": "REVIEWER_WALKTHROUGH_XBRL_AND_AGENT_SCRIPTS.md",
+      "classification": "REPORT",
+      "description": "Corrected cash flow and leverage metric descriptions to reflect operating_plus_investing_cash_flow and net_debt_financing_flow rather than conventional FCF or net debt movement."
+    },
+    {
+      "path": "tests/unit/xbrl_baseline_verification.test.ts",
+      "classification": "TEST",
+      "description": "Added comprehensive deterministic verification test suite covering unit typing, ratio representation, monetary scaling, period semantics, scope separation, PIT behavior, derived metrics, and source traceability (13/13 passing)."
+    },
+    {
+      "path": "reports/review/runs/XBRL_BASELINE_VERIFICATION/BASELINE_MANIFEST.json",
+      "classification": "REVIEW_INFRASTRUCTURE",
+      "description": "Frozen git baseline manifest recording HEAD, branch, working tree status, database paths, and commit lineage."
+    },
+    {
+      "path": "reports/review/runs/XBRL_BASELINE_VERIFICATION/XBRL_PROMOTION_RECONCILIATION.json",
+      "classification": "REVIEW_INFRASTRUCTURE",
+      "description": "Exact 6-tier mathematical reconciliation proving the tie between 3,354,422 source facts, 1,165,211 mapped facts, 779,298 deduplicated facts, 529,760 net new database rows, and 249,538 legacy updates."
+    },
+    {
+      "path": "reports/review/runs/XBRL_BASELINE_VERIFICATION/XBRL_PROMOTION_RECONCILIATION.md",
+      "classification": "REPORT",
+      "description": "Human-readable mathematical reconciliation report with full reconciliation table and proofs."
+    },
+    {
+      "path": "reports/review/runs/XBRL_BASELINE_VERIFICATION/XBRL_24_METRIC_MAPPING_AUDIT.json",
+      "classification": "REVIEW_INFRASTRUCTURE",
+      "description": "Comprehensive audit of all 24 new canonical metrics verifying taxonomy tokens, labels, accounting statements, period types, sign conventions, and verification statuses."
+    },
+    {
+      "path": "reports/review/runs/XBRL_BASELINE_VERIFICATION/XBRL_24_METRIC_MAPPING_AUDIT.md",
+      "classification": "REPORT",
+      "description": "Detailed field-by-field audit markdown report for the 24 new canonical metrics."
+    },
+    {
+      "path": "reports/review/runs/XBRL_BASELINE_VERIFICATION/XBRL_UNIT_SCALE_AUDIT.json",
+      "classification": "REVIEW_INFRASTRUCTURE",
+      "description": "Unit and scale audit verifying per-share metrics (INR_PER_SHARE), monetary scaling (/10^7 INR_CR), and ratio representations (dimensionless multiple vs decimal fraction)."
+    },
+    {
+      "path": "reports/review/runs/XBRL_BASELINE_VERIFICATION/BALANCE_SHEET_SOURCE_COVERAGE.json",
+      "classification": "REVIEW_INFRASTRUCTURE",
+      "description": "Distinguishes SOURCE_MISSING (quarterly NSE XBRL archive) from WEALTHOS_MISSING across all 8 core balance sheet metric families."
+    },
+    {
+      "path": "reports/review/runs/XBRL_BASELINE_VERIFICATION/XBRL_PIT_AUDIT.json",
+      "classification": "REVIEW_INFRASTRUCTURE",
+      "description": "Point-in-Time audit across 100,000 facts proving 100% valid filing lags (mean 45.6 days), 0 future leakage, and 0 periodEnd substitutions."
+    },
+    {
+      "path": "reports/review/runs/XBRL_BASELINE_VERIFICATION/XBRL_PRODUCTION_CONSUMPTION_TRACE.json",
+      "classification": "REVIEW_INFRASTRUCTURE",
+      "description": "Full pipeline trace across 7 representative sectors (IT, Bank, NBFC, Industrial, Consumer, Pharma, Cyclical) tracing Raw XBRL to API consumption."
+    },
+    {
+      "path": "reports/review/runs/XBRL_BASELINE_VERIFICATION/TEST_RESULTS.json",
+      "classification": "REVIEW_INFRASTRUCTURE",
+      "description": "Deterministic test execution results (13/13 passed in 10.18s)."
+    },
+    {
+      "path": "reports/review/runs/XBRL_BASELINE_VERIFICATION/CHANGE_MANIFEST.json",
+      "classification": "REVIEW_INFRASTRUCTURE",
+      "description": "This file - complete classification and description of all modified and generated files."
+    },
+    {
+      "path": "reports/review/runs/XBRL_BASELINE_VERIFICATION/INDEPENDENT_REVIEW_HANDOFF.md",
+      "classification": "REPORT",
+      "description": "Handoff dossier for Codex independent semantic review, establishing final program state as AWAITING_INDEPENDENT_REVIEW."
+    }
+  ]
+}

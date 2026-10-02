@@ -71,17 +71,17 @@ Enables effective tax rate verification and deferred tax manipulation detection:
 - `eps_diluted` (29,340 rows | `INR_PER_SHARE`): Diluted earnings per share (accounts for convertibles, options, warrants).
 
 ### E. Cash Flow Investing & Financing Lines
-Unlocks Free Cash Flow (`CFO + CFI`) and net capital reallocation analysis:
-- `cfi` (14,245 rows | `INR_CR`): Cash from investing activities; authentic Capex proxy.
-- `cff` (14,245 rows | `INR_CR`): Cash from financing activities.
+Enables exact cash flow decomposition and capital reallocation analysis:
+- `cfi` (14,245 rows | `INR_CR`): Cash flows from used in investing activities (aggregate investing cash flow).
+- `cff` (14,245 rows | `INR_CR`): Cash flows from used in financing activities.
 - `debt_raised` (14,245 rows | `INR_CR`): Gross proceeds from borrowings.
-- `debt_repaid` (14,245 rows | `INR_CR`): Debt repayment outflows.
+- `debt_repaid` (14,245 rows | `INR_CR`): Debt repayment principal outflows.
 - `dividends_paid` (14,245 rows | `INR_CR`): Cash distributions to equity holders.
 
 ### F. Exchange-Audited Ratios
-- `debt_to_equity` (8,085 rows | `RATIO`): Reported leverage ratio.
-- `dscr` (7,632 rows | `RATIO`): Debt Service Coverage Ratio.
-- `roa` (461 rows | `RATIO`): Return on Assets.
+- `debt_to_equity` (8,085 rows | `RATIO`): Reported leverage multiple (dimensionless multiple).
+- `dscr` (7,632 rows | `RATIO`): Debt Service Coverage Ratio (dimensionless multiple).
+- `roa` (461 rows | `RATIO`): Return on Assets (dimensionless decimal fraction).
 
 ---
 
@@ -90,10 +90,10 @@ Unlocks Free Cash Flow (`CFO + CFI`) and net capital reallocation analysis:
 ### Root Cause: Absence of Standalone Balance Sheet Items in Quarterly Filings
 The normalizer's forward-compatibility fields (`Assets`, `Liabilities`, `Borrowings`, `CashAndCashEquivalents`, `TradeReceivables`, `Inventories`) were verified as **absent in the raw quarterly XML archive**.
 - **Reason**: The Indian MCA / SEBI Ind-AS quarterly XBRL filing taxonomy mandates the Statement of Profit & Loss, Statement of Cash Flows, and specific ratios/adjustments. Full standalone balance sheets are mandated only for annual filings.
-- **Remediation & Proxies Enabled**:
-  1. **Capex & FCF**: Computed directly as `cfo + cfi`.
-  2. **Net Debt Movement**: Derived from financing cash flows: `debt_raised - debt_repaid`.
-  3. **Solvency / Leverage**: Available directly via `debt_to_equity` (8,085 records) or derived via `debt_to_equity × equity_capital`.
+- **Derived Concepts & Precision**:
+  1. **Combined Operating + Investing Cash Flow (`cfo + cfi`)**: Formally registered as `operating_plus_investing_cash_flow` (DERIVED). It is explicitly NOT conventional Free Cash Flow (`FCF = CFO - CAPEX`), as aggregate CFI includes investment sales/purchases, loans, and other non-capex investing flows.
+  2. **Net Debt Financing Flow (`debt_raised - debt_repaid`)**: Formally registered as `net_debt_financing_flow` (DERIVED). It represents net debt financing cash flow, NOT balance-sheet net debt change (which requires closing cash, borrowings, and liquid investments).
+  3. **Solvency / Leverage**: Available directly via exchange-reported `debt_to_equity` (8,085 records).
 
 ### Strict Unit Typing & Zero-Distortion Rule
 - Per-share metrics (`eps_basic`, `eps_diluted`, `face_value`) are typed as `INR_PER_SHARE` and preserved as raw per-share figures (never divided by $10^7$).

@@ -58,9 +58,24 @@ export class TrendlyneCanonicalMapper {
     for (const item of metrics) {
       if (!item.canonicalMetric || item.value === null) continue;
 
+      // Do not promote relative '1Q ago' values unless anchored to real period dates
+      const isRelativeHistorical = /_q[1-9]$|_y[1-9]$|_annual$/i.test(item.canonicalMetric);
+      if (isRelativeHistorical && (!item.periodEnd || item.periodEnd === effectiveDate)) {
+        continue;
+      }
+      
+      const resolvedPeriodEnd = item.periodType === 'LATEST' ? effectiveDate : (item.periodEnd || null);
+      if (!resolvedPeriodEnd && item.periodType !== 'LATEST') {
+         continue; // Cannot promote historical fact without explicit anchor
+      }
+
+      if (typeof item.value !== 'number' || !Number.isFinite(item.value)) {
+        continue; // Do not use 0 as a synthetic fallback
+      }
+
       const factId = crypto
         .createHash('sha256')
-        .update(`trendlyne:${item.symbol}:${item.canonicalMetric}:${effectiveDate}`)
+        .update(`trendlyne:${item.symbol}:${item.canonicalMetric}:${resolvedPeriodEnd}`)
         .digest('hex');
 
       // Check existing fact for this security
@@ -95,10 +110,10 @@ export class TrendlyneCanonicalMapper {
         isin: item.symbol,
         symbol: item.symbol,
         metric: item.canonicalMetric,
-        value: typeof item.value === 'number' ? item.value : 0,
+        value: item.value,
         unit: item.unit || 'INR_CR',
         periodType: item.periodType || 'LATEST',
-        periodEnd: effectiveDate,
+        periodEnd: resolvedPeriodEnd,
         asOfDate: effectiveDate,
         reportedAt: item.retrievedAt,
         availableAt: item.retrievedAt,

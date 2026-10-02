@@ -12,6 +12,7 @@ import { verifyXirrOracle } from '../verification/xirrVerifier.js';
 import { verifyFinancialMetricOracle } from '../verification/financialVerifier.js';
 import { verifyTechnicalIndicatorOracle } from '../verification/technicalVerifier.js';
 import { FundamentalCalibrationAdapter } from '../adapters/fundamentalCalibrationAdapter.js';
+import { SevenStrategiesCandidatesService } from '../../server/services/SevenStrategiesCandidatesService.js';
 import { createEnvelope, McpResponseEnvelope, McpError, McpErrorCode } from '../types.js';
 
 export interface McpToolDefinition {
@@ -454,8 +455,11 @@ export const TOOLS: McpToolDefinition[] = [
       }
     },
     handler: async (args) => {
-      const candidates = await SevenStrategiesCandidatesService.getCandidates(args.strategyId);
-      return createEnvelope(candidates);
+      const payload = await SevenStrategiesCandidatesService.getInstance().getCandidatesPayload();
+      if (args.strategyId && payload.strategies[args.strategyId as keyof typeof payload.strategies]) {
+        return createEnvelope(payload.strategies[args.strategyId as keyof typeof payload.strategies].candidates);
+      }
+      return createEnvelope(payload);
     }
   },
   {

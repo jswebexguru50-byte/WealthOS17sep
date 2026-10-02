@@ -96,7 +96,7 @@ export class FundamentalExperienceBuilder {
   ): EvidenceField<T> {
     // Invariant: No field without persisted fetchedAt / timestamp can be VERIFIED
     let resolvedStatus = status;
-    if ((resolvedStatus === 'VERIFIED' || resolvedStatus === 'VERIFIED_CANONICAL') && !fetchedAt) {
+    if (resolvedStatus === 'VERIFIED' && !fetchedAt) {
       resolvedStatus = 'VERIFIED_PARTIAL';
     }
     return {

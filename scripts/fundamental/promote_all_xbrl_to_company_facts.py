@@ -106,6 +106,10 @@ FIELD_MAP: dict[str, str] = {
     # ── NEW: Cash flow — investing & financing activities ────────────────────
     "CashFlowsFromUsedInInvestingActivities":                             "cfi",
     "CashFlowsFromUsedInFinancingActivities":                             "cff",
+    "PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities": "capex_cash_outflow",
+    "PurchaseOfIntangibleAssetsClassifiedAsInvestingActivities":          "capex_intangible_cash_outflow",
+    "PurchaseOfInvestmentPropertyClassifiedAsInvestingActivities":        "capex_investment_property_cash_outflow",
+    "PurchaseOfOtherLongTermAssetsClassifiedAsInvestingActivities":       "capex_other_long_term_assets_cash_outflow",
     "RepaymentsOfBorrowingsClassifiedAsFinancingActivities":              "debt_repaid",
     "ProceedsFromBorrowingsClassifiedAsFinancingActivities":              "debt_raised",
     "DividendsPaidClassifiedAsFinancingActivities":                       "dividends_paid",

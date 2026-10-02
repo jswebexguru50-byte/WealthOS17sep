@@ -1,0 +1,717 @@
+{
+  "auditSummary": "Audit of unit typing, monetary scaling, and ratio representation across all 24 new metrics.",
+  "ratioRepresentations": {
+    "debt_to_equity": {
+      "canonicalUnit": "RATIO",
+      "semanticRepresentation": "DIMENSIONLESS_MULTIPLE",
+      "interpretation": "Value represents multiple (e.g., 1.5 means 1.5x debt to equity; 0.02 means 0.02x). NOT a percentage (not scaled by 100).",
+      "rangeObserved": [
+        -1.0407,
+        3.176
+      ],
+      "notes": "Negative values occur when shareholders' equity is negative (net worth erosion)."
+    },
+    "dscr": {
+      "canonicalUnit": "RATIO",
+      "semanticRepresentation": "DIMENSIONLESS_MULTIPLE",
+      "interpretation": "Value represents coverage multiple (e.g., 4.9 means 4.9x coverage). Dimensionless multiple.",
+      "rangeObserved": [
+        -0.8937,
+        40.0236
+      ],
+      "notes": "Negative coverage indicates negative operating cash/earnings available for debt service."
+    },
+    "roa": {
+      "canonicalUnit": "RATIO",
+      "semanticRepresentation": "DIMENSIONLESS_DECIMAL_FRACTION",
+      "interpretation": "Value represents decimal fraction (e.g., 0.015 represents 1.5% ROA; 0.0082 represents 0.82% ROA). It is NOT stored as 1.5 or 15.",
+      "rangeObserved": [
+        -0.0416,
+        0.0273
+      ],
+      "notes": "Decimal fraction. For percentage display, multiply by 100."
+    }
+  },
+  "perShareMetrics": {
+    "eps_basic": {
+      "canonicalUnit": "INR_PER_SHARE",
+      "scaling": "UNSCALED_RAW",
+      "verifiedNotDividedBy10Pow7": true,
+      "interpretation": "Direct INR per share amount."
+    },
+    "eps_diluted": {
+      "canonicalUnit": "INR_PER_SHARE",
+      "scaling": "UNSCALED_RAW",
+      "verifiedNotDividedBy10Pow7": true,
+      "interpretation": "Direct INR per share amount."
+    },
+    "face_value": {
+      "canonicalUnit": "INR_PER_SHARE",
+      "scaling": "UNSCALED_RAW",
+      "verifiedNotDividedBy10Pow7": true,
+      "interpretation": "Direct INR per share nominal par value (e.g., 10, 5, 2, 1)."
+    }
+  },
+  "monetaryAggregateMetrics": {
+    "scalingFactor": "1e-7 (raw INR / 10,000,000)",
+    "canonicalUnit": "INR_CR",
+    "verified": true,
+    "sampleMedians": {
+      "other_income": "7.93 INR_CR (raw 15.02 Cr)",
+      "total_income": "508.67 INR_CR (raw 960.17 Cr)",
+      "employee_expenses": "38.60 INR_CR (raw 72.66 Cr)",
+      "cfi": "-27.13 INR_CR (raw -27.44 Cr)",
+      "cff": "-5.68 INR_CR (raw -5.43 Cr)"
+    }
+  },
+  "metricSamplesByCompany": {
+    "TCS": [
+      {
+        "metric": "current_tax",
+        "periodEnd": "2026-06-30",
+        "value": "4722.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "debt_to_equity",
+        "periodEnd": "2026-06-30",
+        "value": "0.0",
+        "unit": "RATIO",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "deferred_tax_charge",
+        "periodEnd": "2026-06-30",
+        "value": "-198.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "depreciation",
+        "periodEnd": "2026-06-30",
+        "value": "1239",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "depreciation",
+        "periodEnd": "2026-06-30",
+        "value": "1239.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "dscr",
+        "periodEnd": "2026-06-30",
+        "value": "0.0",
+        "unit": "RATIO",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "employee_expenses",
+        "periodEnd": "2026-06-30",
+        "value": "42137.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "eps_basic",
+        "periodEnd": "2026-06-30",
+        "value": "36.9",
+        "unit": "INR_PER_SHARE",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "eps_diluted",
+        "periodEnd": "2026-06-30",
+        "value": "36.9",
+        "unit": "INR_PER_SHARE",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "equity_capital",
+        "periodEnd": "2026-06-30",
+        "value": "362",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      }
+    ],
+    "INFY": [
+      {
+        "metric": "current_tax",
+        "periodEnd": "2026-06-30",
+        "value": "3356.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "deferred_tax_charge",
+        "periodEnd": "2026-06-30",
+        "value": "-103.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "depreciation",
+        "periodEnd": "2026-06-30",
+        "value": "1246",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "depreciation",
+        "periodEnd": "2026-06-30",
+        "value": "1246.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "employee_expenses",
+        "periodEnd": "2026-06-30",
+        "value": "25287.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "eps_basic",
+        "periodEnd": "2026-06-30",
+        "value": "19.19",
+        "unit": "INR_PER_SHARE",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "eps_diluted",
+        "periodEnd": "2026-06-30",
+        "value": "19.17",
+        "unit": "INR_PER_SHARE",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "equity_capital",
+        "periodEnd": "2026-06-30",
+        "value": "2025",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "equity_capital",
+        "periodEnd": "2026-06-30",
+        "value": "2025.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "exceptional_items_pretax",
+        "periodEnd": "2026-06-30",
+        "value": "0.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      }
+    ],
+    "HDFCBANK": [
+      {
+        "metric": "equity_capital",
+        "periodEnd": "2026-06-30",
+        "value": "1540.13",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "equity_capital",
+        "periodEnd": "2026-06-30",
+        "value": "1540.13",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "exceptional_items",
+        "periodEnd": "2026-06-30",
+        "value": "0.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "face_value",
+        "periodEnd": "2026-06-30",
+        "value": "1.0",
+        "unit": "INR_PER_SHARE",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "other_income",
+        "periodEnd": "2026-06-30",
+        "value": "42535.03",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "roa",
+        "periodEnd": "2026-06-30",
+        "value": "0.0",
+        "unit": "RATIO",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "tax_expense",
+        "periodEnd": "2026-06-30",
+        "value": "6810.47",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "total_income",
+        "periodEnd": "2026-06-30",
+        "value": "133110.36",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "cff",
+        "periodEnd": "2026-03-31",
+        "value": "-59004.85",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "cfi",
+        "periodEnd": "2026-03-31",
+        "value": "6362.72",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      }
+    ],
+    "ICICIBANK": [
+      {
+        "metric": "equity_capital",
+        "periodEnd": "2026-06-30",
+        "value": "1434.94",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "equity_capital",
+        "periodEnd": "2026-06-30",
+        "value": "1434.94",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "exceptional_items",
+        "periodEnd": "2026-06-30",
+        "value": "0.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "face_value",
+        "periodEnd": "2026-06-30",
+        "value": "2.0",
+        "unit": "INR_PER_SHARE",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "other_income",
+        "periodEnd": "2026-06-30",
+        "value": "27448.37",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "roa",
+        "periodEnd": "2026-06-30",
+        "value": "0.0221",
+        "unit": "RATIO",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "tax_expense",
+        "periodEnd": "2026-06-30",
+        "value": "5097.39",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "total_income",
+        "periodEnd": "2026-06-30",
+        "value": "79689.22",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "cff",
+        "periodEnd": "2026-03-31",
+        "value": "-4660.55",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "cfi",
+        "periodEnd": "2026-03-31",
+        "value": "-13013.59",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      }
+    ],
+    "BAJFINANCE": [
+      {
+        "metric": "current_tax",
+        "periodEnd": "2026-06-30",
+        "value": "2442.67",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "deferred_tax_charge",
+        "periodEnd": "2026-06-30",
+        "value": "-374.27",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "depreciation",
+        "periodEnd": "2026-06-30",
+        "value": "287.55",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "depreciation",
+        "periodEnd": "2026-06-30",
+        "value": "287.55",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "employee_expenses",
+        "periodEnd": "2026-06-30",
+        "value": "2644.83",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "eps_basic",
+        "periodEnd": "2026-06-30",
+        "value": "9.62",
+        "unit": "INR_PER_SHARE",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "eps_diluted",
+        "periodEnd": "2026-06-30",
+        "value": "9.6",
+        "unit": "INR_PER_SHARE",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "equity_capital",
+        "periodEnd": "2026-06-30",
+        "value": "622.09",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "equity_capital",
+        "periodEnd": "2026-06-30",
+        "value": "622.09",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "exceptional_items_pretax",
+        "periodEnd": "2026-06-30",
+        "value": "0.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      }
+    ],
+    "RELIANCE": [
+      {
+        "metric": "current_tax",
+        "periodEnd": "2026-06-30",
+        "value": "4671.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "debt_to_equity",
+        "periodEnd": "2026-06-30",
+        "value": "0.004",
+        "unit": "RATIO",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "deferred_tax_charge",
+        "periodEnd": "2026-06-30",
+        "value": "2958.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "depreciation",
+        "periodEnd": "2026-06-30",
+        "value": "15100",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "depreciation",
+        "periodEnd": "2026-06-30",
+        "value": "15100.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "dscr",
+        "periodEnd": "2026-06-30",
+        "value": "0.0312",
+        "unit": "RATIO",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "employee_expenses",
+        "periodEnd": "2026-06-30",
+        "value": "7717.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "eps_basic",
+        "periodEnd": "2026-06-30",
+        "value": "15.48",
+        "unit": "INR_PER_SHARE",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "eps_diluted",
+        "periodEnd": "2026-06-30",
+        "value": "15.48",
+        "unit": "INR_PER_SHARE",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "equity_capital",
+        "periodEnd": "2026-06-30",
+        "value": "13533",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      }
+    ],
+    "SUNPHARMA": [
+      {
+        "metric": "current_tax",
+        "periodEnd": "2026-06-30",
+        "value": "1188.01",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "deferred_tax_charge",
+        "periodEnd": "2026-06-30",
+        "value": "0.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "depreciation",
+        "periodEnd": "2026-06-30",
+        "value": "738.72",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "depreciation",
+        "periodEnd": "2026-06-30",
+        "value": "738.72",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "employee_expenses",
+        "periodEnd": "2026-06-30",
+        "value": "3227.23",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "eps_basic",
+        "periodEnd": "2026-06-30",
+        "value": "12.1",
+        "unit": "INR_PER_SHARE",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "eps_diluted",
+        "periodEnd": "2026-06-30",
+        "value": "12.1",
+        "unit": "INR_PER_SHARE",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "equity_capital",
+        "periodEnd": "2026-06-30",
+        "value": "239.93",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "equity_capital",
+        "periodEnd": "2026-06-30",
+        "value": "239.93",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "exceptional_items_pretax",
+        "periodEnd": "2026-06-30",
+        "value": "-204.09",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      }
+    ],
+    "HINDALCO": [
+      {
+        "metric": "current_tax",
+        "periodEnd": "2026-06-30",
+        "value": "2595.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "deferred_tax_charge",
+        "periodEnd": "2026-06-30",
+        "value": "-215.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "depreciation",
+        "periodEnd": "2026-06-30",
+        "value": "2337",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "depreciation",
+        "periodEnd": "2026-06-30",
+        "value": "2337.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "employee_expenses",
+        "periodEnd": "2026-06-30",
+        "value": "4725.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "eps_basic",
+        "periodEnd": "2026-06-30",
+        "value": "31.58",
+        "unit": "INR_PER_SHARE",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "eps_diluted",
+        "periodEnd": "2026-06-30",
+        "value": "31.51",
+        "unit": "INR_PER_SHARE",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "equity_capital",
+        "periodEnd": "2026-06-30",
+        "value": "222",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "equity_capital",
+        "periodEnd": "2026-06-30",
+        "value": "222.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "exceptional_items_pretax",
+        "periodEnd": "2026-06-30",
+        "value": "-2299.0",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      }
+    ],
+    "ITC": [
+      {
+        "metric": "current_tax",
+        "periodEnd": "2026-06-30",
+        "value": "1358.35",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "deferred_tax_charge",
+        "periodEnd": "2026-06-30",
+        "value": "-6.29",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "depreciation",
+        "periodEnd": "2026-06-30",
+        "value": "427.73",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "depreciation",
+        "periodEnd": "2026-06-30",
+        "value": "427.73",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "employee_expenses",
+        "periodEnd": "2026-06-30",
+        "value": "1877.01",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "eps_basic",
+        "periodEnd": "2026-06-30",
+        "value": "3.51",
+        "unit": "INR_PER_SHARE",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "eps_diluted",
+        "periodEnd": "2026-06-30",
+        "value": "3.51",
+        "unit": "INR_PER_SHARE",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "equity_capital",
+        "periodEnd": "2026-06-30",
+        "value": "1252.95",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "equity_capital",
+        "periodEnd": "2026-06-30",
+        "value": "1252.95",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      },
+      {
+        "metric": "exceptional_items_pretax",
+        "periodEnd": "2026-06-30",
+        "value": "405.88",
+        "unit": "INR_CR",
+        "scope": "CONSOLIDATED"
+      }
+    ]
+  }
+}

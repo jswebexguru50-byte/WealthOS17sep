@@ -386,18 +386,18 @@ export class CommercialExcelReportService {
         companyName: s.companyName,
         sector: s.sector,
         currentPrice: s.currentPrice,
-        triadScore: `${s.triadCompositeScore || 85}/100`,
+        triadScore: s.triadCompositeScore ? `${s.triadCompositeScore}/100` : 'MISSING',
         suitability: s.suitability,
-        roce: `${f.rocePct || 28.5}%`,
-        roe: `${f.roePct || 24.2}%`,
-        cagr: `+${f.revenueCagr3Yr || 25.4}%`,
-        ebitda: `${f.ebitdaMarginPct || 18.5}%`,
-        debt: `${f.debtToEquity || 0.12}`,
-        pe: `${f.peRatio || 34.5}x`,
-        indPe: `${f.industryPe || 42.0}x`,
-        valuationStatus: (f.peRatio || 34.5) < (f.industryPe || 42.0) ? 'UNDERVALUED' : 'FAIR',
-        moat: f.economicMoat || 'Market leadership with massive domestic order book and pricing power.',
-        portalConsensus: 'Moneycontrol (Bullish), Trendlyne (92/100 Quality), Value Research (5-Star), Chittorgarh (Inflow Spike)'
+        roce: f.rocePct != null ? `${f.rocePct}%` : 'MISSING',
+        roe: f.roePct != null ? `${f.roePct}%` : 'MISSING',
+        cagr: f.revenueCagr3Yr != null ? `+${f.revenueCagr3Yr}%` : 'MISSING',
+        ebitda: f.ebitdaMarginPct != null ? `${f.ebitdaMarginPct}%` : 'MISSING',
+        debt: f.debtToEquity != null ? `${f.debtToEquity}` : 'MISSING',
+        pe: f.peRatio != null ? `${f.peRatio}x` : 'MISSING',
+        indPe: f.industryPe != null ? `${f.industryPe}x` : 'MISSING',
+        valuationStatus: (f.peRatio != null && f.industryPe != null) ? (f.peRatio < f.industryPe ? 'UNDERVALUED' : 'FAIR') : 'DATA_INSUFFICIENT',
+        moat: f.economicMoat || 'MISSING (Awaiting Qualitative Input)',
+        portalConsensus: 'DATA_INSUFFICIENT'
       });
 
       this.applyZebraAndBorders(row, index % 2 === 1);
@@ -674,19 +674,19 @@ export class CommercialExcelReportService {
         cmp: scrip.cmp,
         marketCap: scrip.marketCapCr,
         tierBadge: scrip.tierBadge,
-        totalScore: `${s.totalMultibaggerScore} / 100`,
-        allocationScore: `${s.allocationScore} / 30`,
-        reinvestmentRate: `${s.reinvestmentRatePct}%`,
-        intrinsicGrowth: `+${s.intrinsicGrowthPct}%`,
-        moatScore: `${s.moatScore} / 25`,
-        moatSpread: `+${s.moatSpreadPct}%`,
-        twinEngineScore: `${s.twinEngineScore} / 25`,
-        peHeadroom: `${s.multipleHeadroomRatio}x`,
-        pegRatio: s.pegRatio,
-        accumulationScore: `${s.accumulationScore} / 20`,
-        coffeeCanSize: `${scrip.phase4Protocol.recommendedPositionSizePct}%`,
-        gatesStatus: (scrip.phase1Exclusion.passed && scrip.phase2Qglp.passed) ? '✅ ALL GATES PASSED' : '❌ FAILED EXCLUSION',
-        thesis: scrip.multibaggerThesis
+        totalScore: s?.totalMultibaggerScore != null ? `${s.totalMultibaggerScore} / 100` : 'MISSING',
+        allocationScore: s?.allocationScore != null ? `${s.allocationScore} / 30` : 'MISSING',
+        reinvestmentRate: s?.reinvestmentRatePct != null ? `${s.reinvestmentRatePct}%` : 'MISSING',
+        intrinsicGrowth: s?.intrinsicGrowthPct != null ? `+${s.intrinsicGrowthPct}%` : 'MISSING',
+        moatScore: s?.moatScore != null ? `${s.moatScore} / 25` : 'MISSING',
+        moatSpread: s?.moatSpreadPct != null ? `+${s.moatSpreadPct}%` : 'MISSING',
+        twinEngineScore: s?.twinEngineScore != null ? `${s.twinEngineScore} / 25` : 'MISSING',
+        peHeadroom: s?.multipleHeadroomRatio != null ? `${s.multipleHeadroomRatio}x` : 'MISSING',
+        pegRatio: s?.pegRatio != null ? s.pegRatio : 'MISSING',
+        accumulationScore: s?.accumulationScore != null ? `${s.accumulationScore} / 20` : 'MISSING',
+        coffeeCanSize: scrip?.phase4Protocol?.recommendedPositionSizePct != null ? `${scrip.phase4Protocol.recommendedPositionSizePct}%` : 'MISSING',
+        gatesStatus: (scrip?.phase1Exclusion?.passed && scrip?.phase2Qglp?.passed) ? '✅ ALL GATES PASSED' : '❌ FAILED EXCLUSION',
+        thesis: scrip?.multibaggerThesis || 'MISSING (Awaiting Qualitative Input)'
       });
 
       this.applyZebraAndBorders(row, index % 2 === 1);

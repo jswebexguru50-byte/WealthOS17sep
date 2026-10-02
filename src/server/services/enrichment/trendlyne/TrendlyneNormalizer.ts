@@ -14,6 +14,7 @@ export interface NormalizedTrendlyneMetric {
   periodType: string | null;
   retrievedAt: string;
   sourceDocId?: string;
+  periodEnd?: string;
 }
 
 export class TrendlyneNormalizer {
