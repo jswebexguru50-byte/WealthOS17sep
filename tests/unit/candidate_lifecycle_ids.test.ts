@@ -83,7 +83,7 @@ describe('CandidateLifecycleIdService', () => {
     
     const c1 = CandidateLifecycleIdService.generateCandidateId(params);
     expect(c1.candidateIdStatus).toBe('DATA_INSUFFICIENT');
-    expect(c1.candidateId).toMatch(/^CAN-UNKNOWN_-INFY-[0-9A-F]{8}$/); // UNKNOWN_DATE mapped to UNKNOWND because substring(0, 8)
+    expect(c1.candidateId).toMatch(/^CAN-UNKNOWN_DATE-INFY-[0-9A-F]{8}$/);
   });
 
   it('6. IDs are uppercase URL-safe', () => {

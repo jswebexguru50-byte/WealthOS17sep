@@ -152,7 +152,7 @@ interface ScanData {
 }
 
 interface SevenStrategiesCandidatesViewProps {
-  onSelectStock?: (symbol: string) => void;
+  onSelectStock?: (symbol: string, context?: { candidateId?: string, signalIds?: string[] }) => void;
   selectedPortfolio?: string;
 }
 
@@ -762,7 +762,7 @@ export const SevenStrategiesCandidatesView: React.FC<SevenStrategiesCandidatesVi
                           <Target className="w-4 h-4" />
                         </button>
                         <button
-                          onClick={() => onSelectStock(item.symbol)}
+                          onClick={() => onSelectStock(item.symbol, { candidateId: item.candidateId, signalIds: item.signals?.map(s => s.signalId).filter(Boolean) as string[] })}
                           disabled={!(item as any).canAnalyze}
                           className={`p-1.5 rounded-lg border transition ${
                             (item as any).canAnalyze
@@ -918,7 +918,7 @@ export const SevenStrategiesCandidatesView: React.FC<SevenStrategiesCandidatesVi
                     </button>
                     {onSelectStock && (
                       <button
-                        onClick={() => onSelectStock(c.symbol)}
+                        onClick={() => onSelectStock(c.symbol, { candidateId: c.candidateId, signalIds: c.signals?.map(s => s.signalId).filter(Boolean) as string[] })}
                         className="p-1.5 rounded-lg text-slate-400 hover:text-white bg-slate-800/60 hover:bg-slate-700/60 border border-slate-700/50 transition cursor-pointer"
                         title="Open Quant Dossier"
                       >
@@ -1006,7 +1006,7 @@ export const SevenStrategiesCandidatesView: React.FC<SevenStrategiesCandidatesVi
         isOpen={isFereModalOpen}
         onClose={() => setIsFereModalOpen(false)}
         onSelectSymbol={(sym) => {
-          if (onSelectStock) onSelectStock(sym);
+          if (onSelectStock) onSelectStock(sym, { candidateId: undefined, signalIds: undefined });
         }}
       />
     </div>

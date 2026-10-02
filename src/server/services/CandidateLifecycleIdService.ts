@@ -63,7 +63,7 @@ export class CandidateLifecycleIdService {
     const hash = crypto.createHash('sha256').update(fingerprint).digest('hex').substring(0, 8).toUpperCase();
     
     // Format: SIG-{YYYYMMDD}-{STRATEGY}-{SYMBOL}-{HASH}
-    const safeDate = dateStr.length >= 8 ? dateStr.substring(0, 8) : dateStr;
+    const safeDate = dateStr === 'UNKNOWN_DATE' ? dateStr : (dateStr.length >= 8 ? dateStr.substring(0, 8) : dateStr);
     const signalId = `SIG-${safeDate}-${strategy}-${symbol}-${hash}`;
 
     return {
@@ -103,7 +103,7 @@ export class CandidateLifecycleIdService {
     const hash = crypto.createHash('sha256').update(fingerprint).digest('hex').substring(0, 8).toUpperCase();
     
     // Format: CAN-{YYYYMMDD}-{SYMBOL}-{HASH}
-    const safeDate = dateStr.length >= 8 ? dateStr.substring(0, 8) : dateStr;
+    const safeDate = dateStr === 'UNKNOWN_DATE' ? dateStr : (dateStr.length >= 8 ? dateStr.substring(0, 8) : dateStr);
     const candidateId = `CAN-${safeDate}-${symbol}-${hash}`;
 
     return {
