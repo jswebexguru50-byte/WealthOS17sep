@@ -1,0 +1,179 @@
+{
+  "strategy": "S4B",
+  "generated_at_utc": "2026-09-30T06:43:45.458Z",
+  "source": "KITE_ADJUSTED_PARQUET",
+  "timeframe": "1D",
+  "scan_mode": "ROLLING_WALK_FORWARD",
+  "signal_start_date": "2026-09-15",
+  "as_of_date_requested": "2026-09-29",
+  "config": {
+    "priceFloor": 50,
+    "gapUpMinPct": 2,
+    "rsiPeriod": 14,
+    "rsiSupportLevels": [
+      30,
+      40,
+      50
+    ],
+    "rsiTolerance": 3.5,
+    "marubozuMinBodyRatio": 0.9,
+    "marubozuMinBodyAtrMultiple": 1,
+    "excludeDoji": true
+  },
+  "symbols_requested": 2927,
+  "symbols_covered": 2927,
+  "symbols_with_period_candles": 2674,
+  "coverage_gaps": [],
+  "matches": [
+    {
+      "Signal_Date": "2026-09-24",
+      "Symbol": "AERONEU",
+      "Signal_Price": 80.64,
+      "Gap_Up_Pct": 2.340936374549818,
+      "RSI14": 52.360515021459236,
+      "RSI_Support_Level": 50,
+      "Candle_Pattern": "MARUBOZU",
+      "Stop_Loss": 62.5779,
+      "Rule_Checks": [
+        {
+          "id": "S4B_NO_DOJI_BULLISH_RSI",
+          "name": "Bullish non-doji candle at RSI support",
+          "passed": true,
+          "actualValue": "MARUBOZU; RSI 52.36",
+          "benchmarkRule": "RSI(14) within ±3.5 of 30, 40, or 50; permitted bullish pattern",
+          "explanation": "S4B removes S4A broad-market and pullback/volume gates."
+        }
+      ],
+      "Data_Last_Date": "2026-09-29"
+    },
+    {
+      "Signal_Date": "2026-09-24",
+      "Symbol": "ARHAM",
+      "Signal_Price": 213.8,
+      "Gap_Up_Pct": 2.330050444391052,
+      "RSI14": 49.25544100801836,
+      "RSI_Support_Level": 50,
+      "Candle_Pattern": "HAMMER",
+      "Stop_Loss": 70.092,
+      "Rule_Checks": [
+        {
+          "id": "S4B_NO_DOJI_BULLISH_RSI",
+          "name": "Bullish non-doji candle at RSI support",
+          "passed": true,
+          "actualValue": "HAMMER; RSI 49.26",
+          "benchmarkRule": "RSI(14) within ±3.5 of 30, 40, or 50; permitted bullish pattern",
+          "explanation": "S4B removes S4A broad-market and pullback/volume gates."
+        }
+      ],
+      "Data_Last_Date": "2026-09-29"
+    },
+    {
+      "Signal_Date": "2026-09-24",
+      "Symbol": "JAINIK",
+      "Signal_Price": 202.85,
+      "Gap_Up_Pct": 4.554865424430643,
+      "RSI14": 48.676824378508414,
+      "RSI_Support_Level": 50,
+      "Candle_Pattern": "HAMMER",
+      "Stop_Loss": 59.994,
+      "Rule_Checks": [
+        {
+          "id": "S4B_NO_DOJI_BULLISH_RSI",
+          "name": "Bullish non-doji candle at RSI support",
+          "passed": true,
+          "actualValue": "HAMMER; RSI 48.68",
+          "benchmarkRule": "RSI(14) within ±3.5 of 30, 40, or 50; permitted bullish pattern",
+          "explanation": "S4B removes S4A broad-market and pullback/volume gates."
+        }
+      ],
+      "Data_Last_Date": "2026-09-29"
+    },
+    {
+      "Signal_Date": "2026-09-24",
+      "Symbol": "LAMBODHARA",
+      "Signal_Price": 141.5,
+      "Gap_Up_Pct": 2.1114864864864913,
+      "RSI14": 52.99806576402321,
+      "RSI_Support_Level": 50,
+      "Candle_Pattern": "MARUBOZU",
+      "Stop_Loss": 80.982,
+      "Rule_Checks": [
+        {
+          "id": "S4B_NO_DOJI_BULLISH_RSI",
+          "name": "Bullish non-doji candle at RSI support",
+          "passed": true,
+          "actualValue": "MARUBOZU; RSI 53.00",
+          "benchmarkRule": "RSI(14) within ±3.5 of 30, 40, or 50; permitted bullish pattern",
+          "explanation": "S4B removes S4A broad-market and pullback/volume gates."
+        }
+      ],
+      "Data_Last_Date": "2026-09-29"
+    },
+    {
+      "Signal_Date": "2026-09-23",
+      "Symbol": "KONSTELEC",
+      "Signal_Price": 61.9,
+      "Gap_Up_Pct": 3.1276415891800635,
+      "RSI14": 42.73127753303964,
+      "RSI_Support_Level": 40,
+      "Candle_Pattern": "HAMMER",
+      "Stop_Loss": 27.72,
+      "Rule_Checks": [
+        {
+          "id": "S4B_NO_DOJI_BULLISH_RSI",
+          "name": "Bullish non-doji candle at RSI support",
+          "passed": true,
+          "actualValue": "HAMMER; RSI 42.73",
+          "benchmarkRule": "RSI(14) within ±3.5 of 30, 40, or 50; permitted bullish pattern",
+          "explanation": "S4B removes S4A broad-market and pullback/volume gates."
+        }
+      ],
+      "Data_Last_Date": "2026-09-29"
+    },
+    {
+      "Signal_Date": "2026-09-23",
+      "Symbol": "SHETHJI",
+      "Signal_Price": 190,
+      "Gap_Up_Pct": 2.9826464208242864,
+      "RSI14": 52.14152700186219,
+      "RSI_Support_Level": 50,
+      "Candle_Pattern": "HAMMER",
+      "Stop_Loss": 94.545,
+      "Rule_Checks": [
+        {
+          "id": "S4B_NO_DOJI_BULLISH_RSI",
+          "name": "Bullish non-doji candle at RSI support",
+          "passed": true,
+          "actualValue": "HAMMER; RSI 52.14",
+          "benchmarkRule": "RSI(14) within ±3.5 of 30, 40, or 50; permitted bullish pattern",
+          "explanation": "S4B removes S4A broad-market and pullback/volume gates."
+        }
+      ],
+      "Data_Last_Date": "2026-09-29"
+    },
+    {
+      "Signal_Date": "2026-09-17",
+      "Symbol": "SPECIALITY",
+      "Signal_Price": 139.36,
+      "Gap_Up_Pct": 2.17681030653043,
+      "RSI14": 42.631578947368425,
+      "RSI_Support_Level": 40,
+      "Candle_Pattern": "HAMMER",
+      "Stop_Loss": 81.873,
+      "Rule_Checks": [
+        {
+          "id": "S4B_NO_DOJI_BULLISH_RSI",
+          "name": "Bullish non-doji candle at RSI support",
+          "passed": true,
+          "actualValue": "HAMMER; RSI 42.63",
+          "benchmarkRule": "RSI(14) within ±3.5 of 30, 40, or 50; permitted bullish pattern",
+          "explanation": "S4B removes S4A broad-market and pullback/volume gates."
+        }
+      ],
+      "Data_Last_Date": "2026-09-29"
+    }
+  ],
+  "limitations": [
+    "S4B intentionally excludes S4A broad-market and pullback/volume gates."
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "canonicalRunId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+  "runId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+  "dataMode": "REAL_HISTORICAL",
+  "alignmentVerification": {
+    "sameCanonicalRun": true,
+    "sameExecutionModel": true,
+    "sameUniverse": true,
+    "sameCostModel": true,
+    "sameDateRange": true
+  },
+  "armA_RawStrategy": {
+    "description": "Raw Technical Strategy Signals without Overlay",
+    "researchSubsetN": 19,
+    "walkForwardOosN": 19,
+    "winRate": 0,
+    "expectancy": null,
+    "profitFactor": 0,
+    "netPnL": null,
+    "maxDD": 0,
+    "sharpe": null,
+    "sortino": null,
+    "calmar": null,
+    "avgWin": 0,
+    "avgLoss": 0,
+    "avgDurationDays": 14.2,
+    "exposurePct": 18.5,
+    "cost2xResult": {
+      "expectancy": null,
+      "profitFactor": 0,
+      "netPnL": null
+    },
+    "cost2xRobustness": "DESCRIPTIVE_PASS",
+    "promotionGate": "NOT_EVALUABLE",
+    "bootstrapCIs": {
+      "pExpectancyGreaterThanZero": 0,
+      "pExpectancyGreaterThan20R": 0,
+      "ci95Lower": null,
+      "ci95Upper": null
+    }
+  },
+  "armB_OverlayRemediated": {
+    "description": "Strategy + Signal Quality Overlay under T+1 Next-Bar Execution",
+    "researchSubsetN": 19,
+    "walkForwardOosN": 19,
+    "winRate": 0,
+    "expectancy": null,
+    "profitFactor": 0,
+    "netPnL": null,
+    "maxDD": 0,
+    "sharpe": null,
+    "sortino": null,
+    "calmar": null,
+    "avgWin": 0,
+    "avgLoss": 0,
+    "avgDurationDays": 14.2,
+    "exposurePct": 18.5,
+    "cost2xResult": {
+      "expectancy": null,
+      "profitFactor": 0,
+      "netPnL": null
+    },
+    "cost2xRobustness": "DESCRIPTIVE_PASS",
+    "promotionGate": "NOT_EVALUABLE",
+    "bootstrapCIs": {
+      "pExpectancyGreaterThanZero": 0,
+      "pExpectancyGreaterThan20R": 0,
+      "ci95Lower": null,
+      "ci95Upper": null
+    }
+  },
+  "incrementalOverlayEffect": {
+    "tradeCountReductionPct": 0,
+    "expectancyDelta": null,
+    "profitFactorDelta": 0,
+    "netPnLDelta": null
+  },
+  "evaluatedAt": "2026-09-17T14:58:33.147Z",
+  "ledgerSha256": "035d8867f1f8dbc65f9fe35ea45263f20f9fee00a48d3d7f48807c24a2afd485"
+}

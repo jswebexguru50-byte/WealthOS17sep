@@ -1,0 +1,433 @@
+{
+  "symbol": "SBIN",
+  "companyName": "State Bank of India",
+  "marketCapTier": "LARGECAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-16T08:30:41.390Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "LOW",
+    "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+    "allocationRecommendation": "CAPPED_ALLOCATION",
+    "portfolioPolicy": {
+      "directive": "CAPPED_ALLOCATION",
+      "targetSizingCapRatio": 0.5,
+      "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+    },
+    "provenance": {
+      "quantDerivation": "ITAS-Score-94 -> Threshold(>=75:STRONG, 50-74:MODERATE, 25-49:WEAK, <25:NONE) -> STRONG",
+      "riskDerivation": "BreakersActive:0, Contradictions:0, Unknowns:0 -> Risk: LOW",
+      "credibilityDerivation": "ClaimsEvaluated:1 -> CredibilityGrade: INSUFFICIENT_HISTORY",
+      "breakerDerivation": "TB_SBIN_NPA(UNRESOLVED)",
+      "thesisDerivation": "Matrix(STRONG, LOW) -> Thesis: SUPPORTED",
+      "allocationDerivation": "Precedence(SUPPORTED, LOW, INSUFFICIENT_HISTORY) -> Directive: CAPPED_ALLOCATION (Cap: 50%)",
+      "auditTrail": [
+        "ITAS-Engine#SBIN",
+        null
+      ]
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_SBIN",
+      "nodes": [
+        {
+          "id": "DEC_SBIN",
+          "type": "DECISION",
+          "refId": "SBIN",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_SBIN",
+          "type": "ALLOCATION",
+          "refId": "CAPPED_ALLOCATION",
+          "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+        },
+        {
+          "id": "THESIS_SBIN",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_SBIN",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 94/100)"
+        },
+        {
+          "id": "RISK_SBIN",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_SBIN",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_SBIN_NPA",
+          "type": "RULE",
+          "refId": "TB_SBIN_NPA",
+          "version": "2026.09",
+          "label": "Breaker TB_SBIN_NPA: UNRESOLVED (Observed: undefined)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_SBIN",
+          "to": "DEC_SBIN",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_SBIN",
+          "to": "DEC_SBIN",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_SBIN",
+          "to": "THESIS_SBIN",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_SBIN",
+          "to": "THESIS_SBIN",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_SBIN",
+          "to": "ALLOC_SBIN",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_SBIN_NPA",
+          "to": "RISK_SBIN",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_SBIN_6abf8143d7d0",
+      "decisionId": "DECISION_SBIN",
+      "issuerSymbol": "SBIN",
+      "evaluatedAt": "2026-09-16T11:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2.1",
+      "ontologyVersion": "1.3",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawQuantInput": {
+        "symbol": "SBIN",
+        "strategyAgreementCount": 19,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 94,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY",
+        "decisionDate": "2024-06-30"
+      },
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_SBIN_NPA",
+          "symbol": "SBIN",
+          "name": "National Bank GNPA Ceiling",
+          "type": "QUANTITATIVE",
+          "thresholdValue": 3.5,
+          "comparisonOperator": "GREATER_THAN",
+          "severity": "CRITICAL",
+          "description": "Gross NPA ratio exceeding 3.5% triggers hard veto.",
+          "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+          "status": "UNRESOLVED"
+        }
+      ],
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "LOW",
+        "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+        "allocationRecommendation": "CAPPED_ALLOCATION"
+      },
+      "portfolioPolicy": {
+        "directive": "CAPPED_ALLOCATION",
+        "targetSizingCapRatio": 0.5,
+        "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_SBIN",
+        "nodes": [
+          {
+            "id": "DEC_SBIN",
+            "type": "DECISION",
+            "refId": "SBIN",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_SBIN",
+            "type": "ALLOCATION",
+            "refId": "CAPPED_ALLOCATION",
+            "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+          },
+          {
+            "id": "THESIS_SBIN",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_SBIN",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 94/100)"
+          },
+          {
+            "id": "RISK_SBIN",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_SBIN",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_SBIN_NPA",
+            "type": "RULE",
+            "refId": "TB_SBIN_NPA",
+            "version": "2026.09",
+            "label": "Breaker TB_SBIN_NPA: UNRESOLVED (Observed: undefined)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_SBIN",
+            "to": "DEC_SBIN",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_SBIN",
+            "to": "DEC_SBIN",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_SBIN",
+            "to": "THESIS_SBIN",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_SBIN",
+            "to": "THESIS_SBIN",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_SBIN",
+            "to": "ALLOC_SBIN",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_SBIN_NPA",
+            "to": "RISK_SBIN",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "6abf8143d7d0cb6fcdfe248432b5d24f13bb0a1bc25f861d81d1dc51bf13b5c3",
+      "canonicalStateHash": "6abf8143d7d0cb6fcdfe248432b5d24f13bb0a1bc25f861d81d1dc51bf13b5c3",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_SBIN_01",
+          "issuerSymbol": "SBIN",
+          "metric": "REVENUE",
+          "metricId": "REVENUE",
+          "metricFamily": "REVENUE",
+          "value": 439189,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_SBIN_REV_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_SBIN_REV_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_SBIN_REV_01",
+          "sourceQuotedText": "Total revenue reached ₹439189 Cr with gross NPA dropping to historic low of 2.24%.",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_SBIN_01",
+          "issuerNseSymbol": "SBIN",
+          "issuerBseCode": "500112",
+          "period": "FY24",
+          "category": "GROWTH",
+          "statement": "Scale consolidated banking income past ₹400,000 Cr in FY24 while sustaining ROE above 18%.",
+          "targetMetric": "revenue_cr",
+          "baselineValue": 368715,
+          "expectedValue": 400000,
+          "expectedOutcome": "Revenue >= ₹400,000 Cr",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_SBIN_REV_01",
+          "claimDate": "2023-08-10",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 439189,
+          "actualOutcomeDescription": "Delivered ₹439,189 Cr revenue exceeding guidance by 9.8%.",
+          "evaluationEvidenceId": "EV_SBIN_REV_01",
+          "evaluationDate": "2024-05-09",
+          "evaluationBasis": "BSE Audited Annual Financial Accounts Release",
+          "publicationDate": "2023-08-10",
+          "publicationDateType": "MANAGEMENT_COMMENT",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_SBIN_01"
+        }
+      ],
+      "rawInputContradictions": [],
+      "rawInputHash": "d7d4d7cbeb1a5d65c6a94415a9efa091b5323c0383d06a007502a6e396bc09fe"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "LOW",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap)."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 19/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 94/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#SBIN",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Scale consolidated banking income past ₹400,000 Cr in FY24 while sustaining ROE above 18%.",
+      "detail": "Disclosed actual outcome: Delivered ₹439,189 Cr revenue exceeding guidance by 9.8%.",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_SBIN_REV_01 -> Resolution#EV_SBIN_REV_01",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "SBIN",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 1,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_SBIN_01",
+        "statement": "Scale consolidated banking income past ₹400,000 Cr in FY24 while sustaining ROE above 18%.",
+        "period": "FY24",
+        "expected": "Revenue >= ₹400,000 Cr",
+        "actual": "Delivered ₹439,189 Cr revenue exceeding guidance by 9.8%.",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_SBIN_REV_01 -> Resolution#EV_SBIN_REV_01"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_SBIN"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_SBIN"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-05-09",
+      "source": "REGULATORY_FILING",
+      "headline": "Highest Ever Standalone Full-Year Net Profit in Indian Corporate History",
+      "verified": true,
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_SBIN_NPA",
+      "symbol": "SBIN",
+      "name": "National Bank GNPA Ceiling",
+      "type": "QUANTITATIVE",
+      "thresholdValue": 3.5,
+      "comparisonOperator": "GREATER_THAN",
+      "severity": "CRITICAL",
+      "description": "Gross NPA ratio exceeding 3.5% triggers hard veto.",
+      "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+      "status": "UNRESOLVED"
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "LOW",
+    "directSourcesCount": 1,
+    "corroboratedCount": 1,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"The bedrock of Indian financial system commanding 23% deposit market share, operating at peak profitability with cleanest asset quality in two decades.\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

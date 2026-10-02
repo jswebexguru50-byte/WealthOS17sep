@@ -1,0 +1,1140 @@
+{
+  "strategy": "S5A",
+  "generated_at_utc": "2026-10-01T15:27:00.896Z",
+  "source": "KITE_ADJUSTED_PARQUET",
+  "timeframe": "1D",
+  "scan_mode": "ROLLING_WALK_FORWARD",
+  "signal_start_date": "2026-09-30",
+  "as_of_date_requested": "2026-10-01",
+  "config": {
+    "priceFloor": 50,
+    "weeksInYear": 52,
+    "near52WeekHighMaxDiscountPct": 25,
+    "above52WeekLowMinPct": 100,
+    "sma50Period": 50,
+    "sma200Period": 200,
+    "dma200RisingBars": 65,
+    "highRecurrenceMinWeeks": 16,
+    "highRecurrenceMaxWeeks": 26,
+    "minVcpCandles": 3,
+    "maxVcpCandles": 5,
+    "minVcpCount": 2,
+    "maxVcpCount": 3,
+    "secondVcpMinContractionPct": 70,
+    "supplyDryUpMaxRatio": 0.85,
+    "atrPeriod": 20,
+    "atrMultiple": 2,
+    "maxStopLossPct": 10
+  },
+  "symbols_requested": 2927,
+  "symbols_covered": 2927,
+  "symbols_with_period_candles": 2522,
+  "coverage_gaps": [],
+  "matches": [
+    {
+      "Signal_Date": "2026-10-01",
+      "Symbol": "GLOBALPET",
+      "Signal_Price": 179,
+      "Weekly_52W_High": 179,
+      "Weekly_52W_Low": 85,
+      "Discount_From_52W_High_Pct": 0,
+      "Gain_From_52W_Low_Pct": 110.58823529411765,
+      "SMA50": 157.704,
+      "SMA200": 135.26700000000005,
+      "High_Recurrence_Weeks": 17,
+      "VCP_Count": 3,
+      "Previous_Swing_High": 174.7,
+      "Supply_Dry_Up_Ratio": 0.0903954802259887,
+      "Entry_Price": 174.7,
+      "ATR20": 4.562500000000002,
+      "Stop_Loss": 169.875,
+      "Stop_Loss_Pct": 5.0977653631284925,
+      "Rule_Checks": [
+        {
+          "id": "PRICE_FLOOR",
+          "name": "Not a penny stock",
+          "passed": true,
+          "actualValue": 179,
+          "benchmarkRule": "Close >= ₹50",
+          "explanation": "Stated price floor."
+        },
+        {
+          "id": "NEAR_52W_HIGH",
+          "name": "Within 25% of 52-week high",
+          "passed": true,
+          "actualValue": "0.00% below high",
+          "benchmarkRule": "<= 25% below 52-week high",
+          "explanation": "Stated prerequisite."
+        },
+        {
+          "id": "ABOVE_52W_LOW",
+          "name": "At least 100% above 52-week low",
+          "passed": true,
+          "actualValue": "110.59% above low",
+          "benchmarkRule": ">= 100% above 52-week low",
+          "explanation": "Stated prerequisite."
+        },
+        {
+          "id": "HIGH_RECURRENCE",
+          "name": "52-week high every 4–6 months",
+          "passed": true,
+          "actualValue": 17,
+          "benchmarkRule": "16–26 weeks between 52-week-high events",
+          "explanation": "Uses weekly 52-week-high events only."
+        },
+        {
+          "id": "TREND",
+          "name": "200 DMA rising; 50 DMA above 200 DMA; price above 200 DMA",
+          "passed": true,
+          "actualValue": "Close 179; SMA50 157.704; SMA200 135.26700000000005; prior SMA200 126.99000000000004",
+          "benchmarkRule": "SMA200 rising over 65 daily bars; SMA50 > SMA200; Close > SMA200",
+          "explanation": "“Preferably above 50 DMA” is reported only, not made into a hidden gate."
+        },
+        {
+          "id": "PREFER_ABOVE_50DMA",
+          "name": "Price above 50 DMA (preference)",
+          "passed": true,
+          "actualValue": 179,
+          "benchmarkRule": "Preferably Close > SMA50",
+          "explanation": "Informational preference, not a qualification rule."
+        },
+        {
+          "id": "VCP",
+          "name": "Daily VCP contractions",
+          "passed": true,
+          "actualValue": "3 VCPs; contractions 6.79%, 6.70%, 3.03%",
+          "benchmarkRule": "2–3 daily VCPs of 3–5 candles, lower volatility; 2 allowed only when second contraction >= 70%",
+          "explanation": "Contraction magnitude is reported as (1 − swing low / swing high) × 100, the positive magnitude of the stated swing-low ÷ swing-high − 1 formula."
+        },
+        {
+          "id": "SUPPLY_DRY_UP",
+          "name": "Supply dry-up ratio",
+          "passed": true,
+          "actualValue": "0.09",
+          "benchmarkRule": "Final 5 daily base sessions average volume / VMA(20) <= 0.85",
+          "explanation": "Uses the final five daily sessions ending at the supplied latest VCP base date."
+        },
+        {
+          "id": "ENTRY",
+          "name": "Daily previous swing-high break",
+          "passed": true,
+          "actualValue": 174.7,
+          "benchmarkRule": "Current daily high > supplied previous daily swing high",
+          "explanation": "Daily chart is used only for entry timing."
+        },
+        {
+          "id": "STOP",
+          "name": "ATR stop loss",
+          "passed": true,
+          "actualValue": 169.875,
+          "benchmarkRule": "2 × ATR(20), maximum 10%",
+          "explanation": "Stop is capped at the stated maximum loss."
+        },
+        {
+          "id": "POST_BUY",
+          "name": "Post-buy monitoring",
+          "passed": true,
+          "actualValue": "Green>red: true; up volume>down volume: true; tennis-ball/shallow-pullback: not algorithmically defined",
+          "benchmarkRule": "Observe green/red days, up/down volume, quick bounce and shallow pullbacks",
+          "explanation": "Monitoring observations only; undefined qualitative items are not fabricated or used as filters."
+        }
+      ],
+      "Data_Last_Date": "2026-10-01"
+    },
+    {
+      "Signal_Date": "2026-10-01",
+      "Symbol": "MBAPL",
+      "Signal_Price": 166,
+      "Weekly_52W_High": 174.94,
+      "Weekly_52W_Low": 76.55,
+      "Discount_From_52W_High_Pct": 5.110323539499251,
+      "Gain_From_52W_Low_Pct": 116.85173089483997,
+      "SMA50": 162.90999999999994,
+      "SMA200": 115.76674999999999,
+      "High_Recurrence_Weeks": 16,
+      "VCP_Count": 3,
+      "Previous_Swing_High": 170.5,
+      "Supply_Dry_Up_Ratio": 0.8013094069664242,
+      "Entry_Price": 170.5,
+      "ATR20": 6.215000000000002,
+      "Stop_Loss": 153.57,
+      "Stop_Loss_Pct": 7.487951807228921,
+      "Rule_Checks": [
+        {
+          "id": "PRICE_FLOOR",
+          "name": "Not a penny stock",
+          "passed": true,
+          "actualValue": 166,
+          "benchmarkRule": "Close >= ₹50",
+          "explanation": "Stated price floor."
+        },
+        {
+          "id": "NEAR_52W_HIGH",
+          "name": "Within 25% of 52-week high",
+          "passed": true,
+          "actualValue": "5.11% below high",
+          "benchmarkRule": "<= 25% below 52-week high",
+          "explanation": "Stated prerequisite."
+        },
+        {
+          "id": "ABOVE_52W_LOW",
+          "name": "At least 100% above 52-week low",
+          "passed": true,
+          "actualValue": "116.85% above low",
+          "benchmarkRule": ">= 100% above 52-week low",
+          "explanation": "Stated prerequisite."
+        },
+        {
+          "id": "HIGH_RECURRENCE",
+          "name": "52-week high every 4–6 months",
+          "passed": true,
+          "actualValue": 16,
+          "benchmarkRule": "16–26 weeks between 52-week-high events",
+          "explanation": "Uses weekly 52-week-high events only."
+        },
+        {
+          "id": "TREND",
+          "name": "200 DMA rising; 50 DMA above 200 DMA; price above 200 DMA",
+          "passed": true,
+          "actualValue": "Close 166; SMA50 162.90999999999994; SMA200 115.76674999999999; prior SMA200 92.27899999999998",
+          "benchmarkRule": "SMA200 rising over 65 daily bars; SMA50 > SMA200; Close > SMA200",
+          "explanation": "“Preferably above 50 DMA” is reported only, not made into a hidden gate."
+        },
+        {
+          "id": "PREFER_ABOVE_50DMA",
+          "name": "Price above 50 DMA (preference)",
+          "passed": true,
+          "actualValue": 166,
+          "benchmarkRule": "Preferably Close > SMA50",
+          "explanation": "Informational preference, not a qualification rule."
+        },
+        {
+          "id": "VCP",
+          "name": "Daily VCP contractions",
+          "passed": true,
+          "actualValue": "3 VCPs; contractions 8.37%, 6.17%, 3.80%",
+          "benchmarkRule": "2–3 daily VCPs of 3–5 candles, lower volatility; 2 allowed only when second contraction >= 70%",
+          "explanation": "Contraction magnitude is reported as (1 − swing low / swing high) × 100, the positive magnitude of the stated swing-low ÷ swing-high − 1 formula."
+        },
+        {
+          "id": "SUPPLY_DRY_UP",
+          "name": "Supply dry-up ratio",
+          "passed": true,
+          "actualValue": "0.80",
+          "benchmarkRule": "Final 5 daily base sessions average volume / VMA(20) <= 0.85",
+          "explanation": "Uses the final five daily sessions ending at the supplied latest VCP base date."
+        },
+        {
+          "id": "ENTRY",
+          "name": "Daily previous swing-high break",
+          "passed": true,
+          "actualValue": 170.5,
+          "benchmarkRule": "Current daily high > supplied previous daily swing high",
+          "explanation": "Daily chart is used only for entry timing."
+        },
+        {
+          "id": "STOP",
+          "name": "ATR stop loss",
+          "passed": true,
+          "actualValue": 153.57,
+          "benchmarkRule": "2 × ATR(20), maximum 10%",
+          "explanation": "Stop is capped at the stated maximum loss."
+        },
+        {
+          "id": "POST_BUY",
+          "name": "Post-buy monitoring",
+          "passed": true,
+          "actualValue": "Green>red: false; up volume>down volume: true; tennis-ball/shallow-pullback: not algorithmically defined",
+          "benchmarkRule": "Observe green/red days, up/down volume, quick bounce and shallow pullbacks",
+          "explanation": "Monitoring observations only; undefined qualitative items are not fabricated or used as filters."
+        }
+      ],
+      "Data_Last_Date": "2026-10-01"
+    },
+    {
+      "Signal_Date": "2026-10-01",
+      "Symbol": "MTARTECH",
+      "Signal_Price": 7771,
+      "Weekly_52W_High": 8714,
+      "Weekly_52W_Low": 1866.2,
+      "Discount_From_52W_High_Pct": 10.821666284140463,
+      "Gain_From_52W_Low_Pct": 316.40767334690815,
+      "SMA50": 6869.92,
+      "SMA200": 5330.57,
+      "High_Recurrence_Weeks": 16,
+      "VCP_Count": 3,
+      "Previous_Swing_High": 7945,
+      "Supply_Dry_Up_Ratio": 0.8048915276541987,
+      "Entry_Price": 7945,
+      "ATR20": 365.675,
+      "Stop_Loss": 7039.65,
+      "Stop_Loss_Pct": 9.41127268047871,
+      "Rule_Checks": [
+        {
+          "id": "PRICE_FLOOR",
+          "name": "Not a penny stock",
+          "passed": true,
+          "actualValue": 7771,
+          "benchmarkRule": "Close >= ₹50",
+          "explanation": "Stated price floor."
+        },
+        {
+          "id": "NEAR_52W_HIGH",
+          "name": "Within 25% of 52-week high",
+          "passed": true,
+          "actualValue": "10.82% below high",
+          "benchmarkRule": "<= 25% below 52-week high",
+          "explanation": "Stated prerequisite."
+        },
+        {
+          "id": "ABOVE_52W_LOW",
+          "name": "At least 100% above 52-week low",
+          "passed": true,
+          "actualValue": "316.41% above low",
+          "benchmarkRule": ">= 100% above 52-week low",
+          "explanation": "Stated prerequisite."
+        },
+        {
+          "id": "HIGH_RECURRENCE",
+          "name": "52-week high every 4–6 months",
+          "passed": true,
+          "actualValue": 16,
+          "benchmarkRule": "16–26 weeks between 52-week-high events",
+          "explanation": "Uses weekly 52-week-high events only."
+        },
+        {
+          "id": "TREND",
+          "name": "200 DMA rising; 50 DMA above 200 DMA; price above 200 DMA",
+          "passed": true,
+          "actualValue": "Close 7771; SMA50 6869.92; SMA200 5330.57; prior SMA200 3830.1455",
+          "benchmarkRule": "SMA200 rising over 65 daily bars; SMA50 > SMA200; Close > SMA200",
+          "explanation": "“Preferably above 50 DMA” is reported only, not made into a hidden gate."
+        },
+        {
+          "id": "PREFER_ABOVE_50DMA",
+          "name": "Price above 50 DMA (preference)",
+          "passed": true,
+          "actualValue": 7771,
+          "benchmarkRule": "Preferably Close > SMA50",
+          "explanation": "Informational preference, not a qualification rule."
+        },
+        {
+          "id": "VCP",
+          "name": "Daily VCP contractions",
+          "passed": true,
+          "actualValue": "3 VCPs; contractions 6.61%, 5.84%, 4.48%",
+          "benchmarkRule": "2–3 daily VCPs of 3–5 candles, lower volatility; 2 allowed only when second contraction >= 70%",
+          "explanation": "Contraction magnitude is reported as (1 − swing low / swing high) × 100, the positive magnitude of the stated swing-low ÷ swing-high − 1 formula."
+        },
+        {
+          "id": "SUPPLY_DRY_UP",
+          "name": "Supply dry-up ratio",
+          "passed": true,
+          "actualValue": "0.80",
+          "benchmarkRule": "Final 5 daily base sessions average volume / VMA(20) <= 0.85",
+          "explanation": "Uses the final five daily sessions ending at the supplied latest VCP base date."
+        },
+        {
+          "id": "ENTRY",
+          "name": "Daily previous swing-high break",
+          "passed": true,
+          "actualValue": 7945,
+          "benchmarkRule": "Current daily high > supplied previous daily swing high",
+          "explanation": "Daily chart is used only for entry timing."
+        },
+        {
+          "id": "STOP",
+          "name": "ATR stop loss",
+          "passed": true,
+          "actualValue": 7039.65,
+          "benchmarkRule": "2 × ATR(20), maximum 10%",
+          "explanation": "Stop is capped at the stated maximum loss."
+        },
+        {
+          "id": "POST_BUY",
+          "name": "Post-buy monitoring",
+          "passed": true,
+          "actualValue": "Green>red: true; up volume>down volume: true; tennis-ball/shallow-pullback: not algorithmically defined",
+          "benchmarkRule": "Observe green/red days, up/down volume, quick bounce and shallow pullbacks",
+          "explanation": "Monitoring observations only; undefined qualitative items are not fabricated or used as filters."
+        }
+      ],
+      "Data_Last_Date": "2026-10-01"
+    },
+    {
+      "Signal_Date": "2026-10-01",
+      "Symbol": "RAMRAT",
+      "Signal_Price": 617,
+      "Weekly_52W_High": 620,
+      "Weekly_52W_Low": 268,
+      "Discount_From_52W_High_Pct": 0.4838709677419395,
+      "Gain_From_52W_Low_Pct": 130.22388059701493,
+      "SMA50": 507.98399999999987,
+      "SMA200": 394.205,
+      "High_Recurrence_Weeks": 18,
+      "VCP_Count": 3,
+      "Previous_Swing_High": 578.2,
+      "Supply_Dry_Up_Ratio": 0.5505559797730201,
+      "Entry_Price": 578.2,
+      "ATR20": 25.772499999999997,
+      "Stop_Loss": 565.455,
+      "Stop_Loss_Pct": 8.354132901134514,
+      "Rule_Checks": [
+        {
+          "id": "PRICE_FLOOR",
+          "name": "Not a penny stock",
+          "passed": true,
+          "actualValue": 617,
+          "benchmarkRule": "Close >= ₹50",
+          "explanation": "Stated price floor."
+        },
+        {
+          "id": "NEAR_52W_HIGH",
+          "name": "Within 25% of 52-week high",
+          "passed": true,
+          "actualValue": "0.48% below high",
+          "benchmarkRule": "<= 25% below 52-week high",
+          "explanation": "Stated prerequisite."
+        },
+        {
+          "id": "ABOVE_52W_LOW",
+          "name": "At least 100% above 52-week low",
+          "passed": true,
+          "actualValue": "130.22% above low",
+          "benchmarkRule": ">= 100% above 52-week low",
+          "explanation": "Stated prerequisite."
+        },
+        {
+          "id": "HIGH_RECURRENCE",
+          "name": "52-week high every 4–6 months",
+          "passed": true,
+          "actualValue": 18,
+          "benchmarkRule": "16–26 weeks between 52-week-high events",
+          "explanation": "Uses weekly 52-week-high events only."
+        },
+        {
+          "id": "TREND",
+          "name": "200 DMA rising; 50 DMA above 200 DMA; price above 200 DMA",
+          "passed": true,
+          "actualValue": "Close 617; SMA50 507.98399999999987; SMA200 394.205; prior SMA200 339.8540000000001",
+          "benchmarkRule": "SMA200 rising over 65 daily bars; SMA50 > SMA200; Close > SMA200",
+          "explanation": "“Preferably above 50 DMA” is reported only, not made into a hidden gate."
+        },
+        {
+          "id": "PREFER_ABOVE_50DMA",
+          "name": "Price above 50 DMA (preference)",
+          "passed": true,
+          "actualValue": 617,
+          "benchmarkRule": "Preferably Close > SMA50",
+          "explanation": "Informational preference, not a qualification rule."
+        },
+        {
+          "id": "VCP",
+          "name": "Daily VCP contractions",
+          "passed": true,
+          "actualValue": "3 VCPs; contractions 11.35%, 8.65%, 3.36%",
+          "benchmarkRule": "2–3 daily VCPs of 3–5 candles, lower volatility; 2 allowed only when second contraction >= 70%",
+          "explanation": "Contraction magnitude is reported as (1 − swing low / swing high) × 100, the positive magnitude of the stated swing-low ÷ swing-high − 1 formula."
+        },
+        {
+          "id": "SUPPLY_DRY_UP",
+          "name": "Supply dry-up ratio",
+          "passed": true,
+          "actualValue": "0.55",
+          "benchmarkRule": "Final 5 daily base sessions average volume / VMA(20) <= 0.85",
+          "explanation": "Uses the final five daily sessions ending at the supplied latest VCP base date."
+        },
+        {
+          "id": "ENTRY",
+          "name": "Daily previous swing-high break",
+          "passed": true,
+          "actualValue": 578.2,
+          "benchmarkRule": "Current daily high > supplied previous daily swing high",
+          "explanation": "Daily chart is used only for entry timing."
+        },
+        {
+          "id": "STOP",
+          "name": "ATR stop loss",
+          "passed": true,
+          "actualValue": 565.455,
+          "benchmarkRule": "2 × ATR(20), maximum 10%",
+          "explanation": "Stop is capped at the stated maximum loss."
+        },
+        {
+          "id": "POST_BUY",
+          "name": "Post-buy monitoring",
+          "passed": true,
+          "actualValue": "Green>red: true; up volume>down volume: true; tennis-ball/shallow-pullback: not algorithmically defined",
+          "benchmarkRule": "Observe green/red days, up/down volume, quick bounce and shallow pullbacks",
+          "explanation": "Monitoring observations only; undefined qualitative items are not fabricated or used as filters."
+        }
+      ],
+      "Data_Last_Date": "2026-10-01"
+    },
+    {
+      "Signal_Date": "2026-10-01",
+      "Symbol": "RATNAVEER",
+      "Signal_Price": 345,
+      "Weekly_52W_High": 354.5,
+      "Weekly_52W_Low": 129.98,
+      "Discount_From_52W_High_Pct": 2.6798307475317307,
+      "Gain_From_52W_Low_Pct": 165.42545006924146,
+      "SMA50": 264.365,
+      "SMA200": 185.21114999999995,
+      "High_Recurrence_Weeks": 21,
+      "VCP_Count": 3,
+      "Previous_Swing_High": 343.75,
+      "Supply_Dry_Up_Ratio": 0.7623848335138228,
+      "Entry_Price": 343.75,
+      "ATR20": 19.867499999999996,
+      "Stop_Loss": 310.5,
+      "Stop_Loss_Pct": 9.999999999999998,
+      "Rule_Checks": [
+        {
+          "id": "PRICE_FLOOR",
+          "name": "Not a penny stock",
+          "passed": true,
+          "actualValue": 345,
+          "benchmarkRule": "Close >= ₹50",
+          "explanation": "Stated price floor."
+        },
+        {
+          "id": "NEAR_52W_HIGH",
+          "name": "Within 25% of 52-week high",
+          "passed": true,
+          "actualValue": "2.68% below high",
+          "benchmarkRule": "<= 25% below 52-week high",
+          "explanation": "Stated prerequisite."
+        },
+        {
+          "id": "ABOVE_52W_LOW",
+          "name": "At least 100% above 52-week low",
+          "passed": true,
+          "actualValue": "165.43% above low",
+          "benchmarkRule": ">= 100% above 52-week low",
+          "explanation": "Stated prerequisite."
+        },
+        {
+          "id": "HIGH_RECURRENCE",
+          "name": "52-week high every 4–6 months",
+          "passed": true,
+          "actualValue": 21,
+          "benchmarkRule": "16–26 weeks between 52-week-high events",
+          "explanation": "Uses weekly 52-week-high events only."
+        },
+        {
+          "id": "TREND",
+          "name": "200 DMA rising; 50 DMA above 200 DMA; price above 200 DMA",
+          "passed": true,
+          "actualValue": "Close 345; SMA50 264.365; SMA200 185.21114999999995; prior SMA200 155.29715000000002",
+          "benchmarkRule": "SMA200 rising over 65 daily bars; SMA50 > SMA200; Close > SMA200",
+          "explanation": "“Preferably above 50 DMA” is reported only, not made into a hidden gate."
+        },
+        {
+          "id": "PREFER_ABOVE_50DMA",
+          "name": "Price above 50 DMA (preference)",
+          "passed": true,
+          "actualValue": 345,
+          "benchmarkRule": "Preferably Close > SMA50",
+          "explanation": "Informational preference, not a qualification rule."
+        },
+        {
+          "id": "VCP",
+          "name": "Daily VCP contractions",
+          "passed": true,
+          "actualValue": "3 VCPs; contractions 11.04%, 7.97%, 5.80%",
+          "benchmarkRule": "2–3 daily VCPs of 3–5 candles, lower volatility; 2 allowed only when second contraction >= 70%",
+          "explanation": "Contraction magnitude is reported as (1 − swing low / swing high) × 100, the positive magnitude of the stated swing-low ÷ swing-high − 1 formula."
+        },
+        {
+          "id": "SUPPLY_DRY_UP",
+          "name": "Supply dry-up ratio",
+          "passed": true,
+          "actualValue": "0.76",
+          "benchmarkRule": "Final 5 daily base sessions average volume / VMA(20) <= 0.85",
+          "explanation": "Uses the final five daily sessions ending at the supplied latest VCP base date."
+        },
+        {
+          "id": "ENTRY",
+          "name": "Daily previous swing-high break",
+          "passed": true,
+          "actualValue": 343.75,
+          "benchmarkRule": "Current daily high > supplied previous daily swing high",
+          "explanation": "Daily chart is used only for entry timing."
+        },
+        {
+          "id": "STOP",
+          "name": "ATR stop loss",
+          "passed": true,
+          "actualValue": 310.5,
+          "benchmarkRule": "2 × ATR(20), maximum 10%",
+          "explanation": "Stop is capped at the stated maximum loss."
+        },
+        {
+          "id": "POST_BUY",
+          "name": "Post-buy monitoring",
+          "passed": true,
+          "actualValue": "Green>red: false; up volume>down volume: true; tennis-ball/shallow-pullback: not algorithmically defined",
+          "benchmarkRule": "Observe green/red days, up/down volume, quick bounce and shallow pullbacks",
+          "explanation": "Monitoring observations only; undefined qualitative items are not fabricated or used as filters."
+        }
+      ],
+      "Data_Last_Date": "2026-10-01"
+    },
+    {
+      "Signal_Date": "2026-10-01",
+      "Symbol": "RRKABEL",
+      "Signal_Price": 2525,
+      "Weekly_52W_High": 2983.8,
+      "Weekly_52W_Low": 1218.9,
+      "Discount_From_52W_High_Pct": 15.37636570815739,
+      "Gain_From_52W_Low_Pct": 107.15399130363438,
+      "SMA50": 2628.1259999999997,
+      "SMA200": 1938.8925,
+      "High_Recurrence_Weeks": 16,
+      "VCP_Count": 3,
+      "Previous_Swing_High": 2567.7,
+      "Supply_Dry_Up_Ratio": 0.41229318775386925,
+      "Entry_Price": 2567.7,
+      "ATR20": 87.31500000000003,
+      "Stop_Loss": 2350.37,
+      "Stop_Loss_Pct": 6.9160396039603995,
+      "Rule_Checks": [
+        {
+          "id": "PRICE_FLOOR",
+          "name": "Not a penny stock",
+          "passed": true,
+          "actualValue": 2525,
+          "benchmarkRule": "Close >= ₹50",
+          "explanation": "Stated price floor."
+        },
+        {
+          "id": "NEAR_52W_HIGH",
+          "name": "Within 25% of 52-week high",
+          "passed": true,
+          "actualValue": "15.38% below high",
+          "benchmarkRule": "<= 25% below 52-week high",
+          "explanation": "Stated prerequisite."
+        },
+        {
+          "id": "ABOVE_52W_LOW",
+          "name": "At least 100% above 52-week low",
+          "passed": true,
+          "actualValue": "107.15% above low",
+          "benchmarkRule": ">= 100% above 52-week low",
+          "explanation": "Stated prerequisite."
+        },
+        {
+          "id": "HIGH_RECURRENCE",
+          "name": "52-week high every 4–6 months",
+          "passed": true,
+          "actualValue": 16,
+          "benchmarkRule": "16–26 weeks between 52-week-high events",
+          "explanation": "Uses weekly 52-week-high events only."
+        },
+        {
+          "id": "TREND",
+          "name": "200 DMA rising; 50 DMA above 200 DMA; price above 200 DMA",
+          "passed": true,
+          "actualValue": "Close 2525; SMA50 2628.1259999999997; SMA200 1938.8925; prior SMA200 1536.5065",
+          "benchmarkRule": "SMA200 rising over 65 daily bars; SMA50 > SMA200; Close > SMA200",
+          "explanation": "“Preferably above 50 DMA” is reported only, not made into a hidden gate."
+        },
+        {
+          "id": "PREFER_ABOVE_50DMA",
+          "name": "Price above 50 DMA (preference)",
+          "passed": false,
+          "actualValue": 2525,
+          "benchmarkRule": "Preferably Close > SMA50",
+          "explanation": "Informational preference, not a qualification rule."
+        },
+        {
+          "id": "VCP",
+          "name": "Daily VCP contractions",
+          "passed": true,
+          "actualValue": "3 VCPs; contractions 21.02%, 5.56%, 4.96%",
+          "benchmarkRule": "2–3 daily VCPs of 3–5 candles, lower volatility; 2 allowed only when second contraction >= 70%",
+          "explanation": "Contraction magnitude is reported as (1 − swing low / swing high) × 100, the positive magnitude of the stated swing-low ÷ swing-high − 1 formula."
+        },
+        {
+          "id": "SUPPLY_DRY_UP",
+          "name": "Supply dry-up ratio",
+          "passed": true,
+          "actualValue": "0.41",
+          "benchmarkRule": "Final 5 daily base sessions average volume / VMA(20) <= 0.85",
+          "explanation": "Uses the final five daily sessions ending at the supplied latest VCP base date."
+        },
+        {
+          "id": "ENTRY",
+          "name": "Daily previous swing-high break",
+          "passed": true,
+          "actualValue": 2567.7,
+          "benchmarkRule": "Current daily high > supplied previous daily swing high",
+          "explanation": "Daily chart is used only for entry timing."
+        },
+        {
+          "id": "STOP",
+          "name": "ATR stop loss",
+          "passed": true,
+          "actualValue": 2350.37,
+          "benchmarkRule": "2 × ATR(20), maximum 10%",
+          "explanation": "Stop is capped at the stated maximum loss."
+        },
+        {
+          "id": "POST_BUY",
+          "name": "Post-buy monitoring",
+          "passed": true,
+          "actualValue": "Green>red: false; up volume>down volume: false; tennis-ball/shallow-pullback: not algorithmically defined",
+          "benchmarkRule": "Observe green/red days, up/down volume, quick bounce and shallow pullbacks",
+          "explanation": "Monitoring observations only; undefined qualitative items are not fabricated or used as filters."
+        }
+      ],
+      "Data_Last_Date": "2026-10-01"
+    },
+    {
+      "Signal_Date": "2026-09-30",
+      "Symbol": "AZAD",
+      "Signal_Price": 3017.7,
+      "Weekly_52W_High": 2986.6,
+      "Weekly_52W_Low": 1360,
+      "Discount_From_52W_High_Pct": -1.041317886559967,
+      "Gain_From_52W_Low_Pct": 121.88970588235293,
+      "SMA50": 2666.2460000000005,
+      "SMA200": 2036.5254999999995,
+      "High_Recurrence_Weeks": 16,
+      "VCP_Count": 3,
+      "Previous_Swing_High": 2904.2,
+      "Supply_Dry_Up_Ratio": 0.8316622944274994,
+      "Entry_Price": 2904.2,
+      "ATR20": 119.73499999999999,
+      "Stop_Loss": 2778.23,
+      "Stop_Loss_Pct": 7.935513801902106,
+      "Rule_Checks": [
+        {
+          "id": "PRICE_FLOOR",
+          "name": "Not a penny stock",
+          "passed": true,
+          "actualValue": 3017.7,
+          "benchmarkRule": "Close >= ₹50",
+          "explanation": "Stated price floor."
+        },
+        {
+          "id": "NEAR_52W_HIGH",
+          "name": "Within 25% of 52-week high",
+          "passed": true,
+          "actualValue": "-1.04% below high",
+          "benchmarkRule": "<= 25% below 52-week high",
+          "explanation": "Stated prerequisite."
+        },
+        {
+          "id": "ABOVE_52W_LOW",
+          "name": "At least 100% above 52-week low",
+          "passed": true,
+          "actualValue": "121.89% above low",
+          "benchmarkRule": ">= 100% above 52-week low",
+          "explanation": "Stated prerequisite."
+        },
+        {
+          "id": "HIGH_RECURRENCE",
+          "name": "52-week high every 4–6 months",
+          "passed": true,
+          "actualValue": 16,
+          "benchmarkRule": "16–26 weeks between 52-week-high events",
+          "explanation": "Uses weekly 52-week-high events only."
+        },
+        {
+          "id": "TREND",
+          "name": "200 DMA rising; 50 DMA above 200 DMA; price above 200 DMA",
+          "passed": true,
+          "actualValue": "Close 3017.7; SMA50 2666.2460000000005; SMA200 2036.5254999999995; prior SMA200 1730.8734999999988",
+          "benchmarkRule": "SMA200 rising over 65 daily bars; SMA50 > SMA200; Close > SMA200",
+          "explanation": "“Preferably above 50 DMA” is reported only, not made into a hidden gate."
+        },
+        {
+          "id": "PREFER_ABOVE_50DMA",
+          "name": "Price above 50 DMA (preference)",
+          "passed": true,
+          "actualValue": 3017.7,
+          "benchmarkRule": "Preferably Close > SMA50",
+          "explanation": "Informational preference, not a qualification rule."
+        },
+        {
+          "id": "VCP",
+          "name": "Daily VCP contractions",
+          "passed": true,
+          "actualValue": "3 VCPs; contractions 8.89%, 7.60%, 5.26%",
+          "benchmarkRule": "2–3 daily VCPs of 3–5 candles, lower volatility; 2 allowed only when second contraction >= 70%",
+          "explanation": "Contraction magnitude is reported as (1 − swing low / swing high) × 100, the positive magnitude of the stated swing-low ÷ swing-high − 1 formula."
+        },
+        {
+          "id": "SUPPLY_DRY_UP",
+          "name": "Supply dry-up ratio",
+          "passed": true,
+          "actualValue": "0.83",
+          "benchmarkRule": "Final 5 daily base sessions average volume / VMA(20) <= 0.85",
+          "explanation": "Uses the final five daily sessions ending at the supplied latest VCP base date."
+        },
+        {
+          "id": "ENTRY",
+          "name": "Daily previous swing-high break",
+          "passed": true,
+          "actualValue": 2904.2,
+          "benchmarkRule": "Current daily high > supplied previous daily swing high",
+          "explanation": "Daily chart is used only for entry timing."
+        },
+        {
+          "id": "STOP",
+          "name": "ATR stop loss",
+          "passed": true,
+          "actualValue": 2778.23,
+          "benchmarkRule": "2 × ATR(20), maximum 10%",
+          "explanation": "Stop is capped at the stated maximum loss."
+        },
+        {
+          "id": "POST_BUY",
+          "name": "Post-buy monitoring",
+          "passed": true,
+          "actualValue": "Green>red: false; up volume>down volume: true; tennis-ball/shallow-pullback: not algorithmically defined",
+          "benchmarkRule": "Observe green/red days, up/down volume, quick bounce and shallow pullbacks",
+          "explanation": "Monitoring observations only; undefined qualitative items are not fabricated or used as filters."
+        }
+      ],
+      "Data_Last_Date": "2026-10-01"
+    },
+    {
+      "Signal_Date": "2026-09-30",
+      "Symbol": "RAMRAT",
+      "Signal_Price": 594.2,
+      "Weekly_52W_High": 602.45,
+      "Weekly_52W_Low": 268,
+      "Discount_From_52W_High_Pct": 1.3694082496472748,
+      "Gain_From_52W_Low_Pct": 121.71641791044779,
+      "SMA50": 503.9759999999999,
+      "SMA200": 392.64950000000005,
+      "High_Recurrence_Weeks": 16,
+      "VCP_Count": 3,
+      "Previous_Swing_High": 578.2,
+      "Supply_Dry_Up_Ratio": 0.5505559797730201,
+      "Entry_Price": 578.2,
+      "ATR20": 25.772499999999997,
+      "Stop_Loss": 542.6550000000001,
+      "Stop_Loss_Pct": 8.674688657017827,
+      "Rule_Checks": [
+        {
+          "id": "PRICE_FLOOR",
+          "name": "Not a penny stock",
+          "passed": true,
+          "actualValue": 594.2,
+          "benchmarkRule": "Close >= ₹50",
+          "explanation": "Stated price floor."
+        },
+        {
+          "id": "NEAR_52W_HIGH",
+          "name": "Within 25% of 52-week high",
+          "passed": true,
+          "actualValue": "1.37% below high",
+          "benchmarkRule": "<= 25% below 52-week high",
+          "explanation": "Stated prerequisite."
+        },
+        {
+          "id": "ABOVE_52W_LOW",
+          "name": "At least 100% above 52-week low",
+          "passed": true,
+          "actualValue": "121.72% above low",
+          "benchmarkRule": ">= 100% above 52-week low",
+          "explanation": "Stated prerequisite."
+        },
+        {
+          "id": "HIGH_RECURRENCE",
+          "name": "52-week high every 4–6 months",
+          "passed": true,
+          "actualValue": 16,
+          "benchmarkRule": "16–26 weeks between 52-week-high events",
+          "explanation": "Uses weekly 52-week-high events only."
+        },
+        {
+          "id": "TREND",
+          "name": "200 DMA rising; 50 DMA above 200 DMA; price above 200 DMA",
+          "passed": true,
+          "actualValue": "Close 594.2; SMA50 503.9759999999999; SMA200 392.64950000000005; prior SMA200 339.68025",
+          "benchmarkRule": "SMA200 rising over 65 daily bars; SMA50 > SMA200; Close > SMA200",
+          "explanation": "“Preferably above 50 DMA” is reported only, not made into a hidden gate."
+        },
+        {
+          "id": "PREFER_ABOVE_50DMA",
+          "name": "Price above 50 DMA (preference)",
+          "passed": true,
+          "actualValue": 594.2,
+          "benchmarkRule": "Preferably Close > SMA50",
+          "explanation": "Informational preference, not a qualification rule."
+        },
+        {
+          "id": "VCP",
+          "name": "Daily VCP contractions",
+          "passed": true,
+          "actualValue": "3 VCPs; contractions 11.35%, 8.65%, 3.36%",
+          "benchmarkRule": "2–3 daily VCPs of 3–5 candles, lower volatility; 2 allowed only when second contraction >= 70%",
+          "explanation": "Contraction magnitude is reported as (1 − swing low / swing high) × 100, the positive magnitude of the stated swing-low ÷ swing-high − 1 formula."
+        },
+        {
+          "id": "SUPPLY_DRY_UP",
+          "name": "Supply dry-up ratio",
+          "passed": true,
+          "actualValue": "0.55",
+          "benchmarkRule": "Final 5 daily base sessions average volume / VMA(20) <= 0.85",
+          "explanation": "Uses the final five daily sessions ending at the supplied latest VCP base date."
+        },
+        {
+          "id": "ENTRY",
+          "name": "Daily previous swing-high break",
+          "passed": true,
+          "actualValue": 578.2,
+          "benchmarkRule": "Current daily high > supplied previous daily swing high",
+          "explanation": "Daily chart is used only for entry timing."
+        },
+        {
+          "id": "STOP",
+          "name": "ATR stop loss",
+          "passed": true,
+          "actualValue": 542.6550000000001,
+          "benchmarkRule": "2 × ATR(20), maximum 10%",
+          "explanation": "Stop is capped at the stated maximum loss."
+        },
+        {
+          "id": "POST_BUY",
+          "name": "Post-buy monitoring",
+          "passed": true,
+          "actualValue": "Green>red: false; up volume>down volume: true; tennis-ball/shallow-pullback: not algorithmically defined",
+          "benchmarkRule": "Observe green/red days, up/down volume, quick bounce and shallow pullbacks",
+          "explanation": "Monitoring observations only; undefined qualitative items are not fabricated or used as filters."
+        }
+      ],
+      "Data_Last_Date": "2026-10-01"
+    },
+    {
+      "Signal_Date": "2026-09-30",
+      "Symbol": "RATNAVEER",
+      "Signal_Price": 333.25,
+      "Weekly_52W_High": 343.75,
+      "Weekly_52W_Low": 129.98,
+      "Discount_From_52W_High_Pct": 3.0545454545454542,
+      "Gain_From_52W_Low_Pct": 156.38559778427452,
+      "SMA50": 260.95779999999996,
+      "SMA200": 184.26694999999995,
+      "High_Recurrence_Weeks": 20,
+      "VCP_Count": 3,
+      "Previous_Swing_High": 343.75,
+      "Supply_Dry_Up_Ratio": 0.7623848335138228,
+      "Entry_Price": 343.75,
+      "ATR20": 19.224999999999998,
+      "Stop_Loss": 299.925,
+      "Stop_Loss_Pct": 9.999999999999998,
+      "Rule_Checks": [
+        {
+          "id": "PRICE_FLOOR",
+          "name": "Not a penny stock",
+          "passed": true,
+          "actualValue": 333.25,
+          "benchmarkRule": "Close >= ₹50",
+          "explanation": "Stated price floor."
+        },
+        {
+          "id": "NEAR_52W_HIGH",
+          "name": "Within 25% of 52-week high",
+          "passed": true,
+          "actualValue": "3.05% below high",
+          "benchmarkRule": "<= 25% below 52-week high",
+          "explanation": "Stated prerequisite."
+        },
+        {
+          "id": "ABOVE_52W_LOW",
+          "name": "At least 100% above 52-week low",
+          "passed": true,
+          "actualValue": "156.39% above low",
+          "benchmarkRule": ">= 100% above 52-week low",
+          "explanation": "Stated prerequisite."
+        },
+        {
+          "id": "HIGH_RECURRENCE",
+          "name": "52-week high every 4–6 months",
+          "passed": true,
+          "actualValue": 20,
+          "benchmarkRule": "16–26 weeks between 52-week-high events",
+          "explanation": "Uses weekly 52-week-high events only."
+        },
+        {
+          "id": "TREND",
+          "name": "200 DMA rising; 50 DMA above 200 DMA; price above 200 DMA",
+          "passed": true,
+          "actualValue": "Close 333.25; SMA50 260.95779999999996; SMA200 184.26694999999995; prior SMA200 155.1448",
+          "benchmarkRule": "SMA200 rising over 65 daily bars; SMA50 > SMA200; Close > SMA200",
+          "explanation": "“Preferably above 50 DMA” is reported only, not made into a hidden gate."
+        },
+        {
+          "id": "PREFER_ABOVE_50DMA",
+          "name": "Price above 50 DMA (preference)",
+          "passed": true,
+          "actualValue": 333.25,
+          "benchmarkRule": "Preferably Close > SMA50",
+          "explanation": "Informational preference, not a qualification rule."
+        },
+        {
+          "id": "VCP",
+          "name": "Daily VCP contractions",
+          "passed": true,
+          "actualValue": "3 VCPs; contractions 11.04%, 7.97%, 5.80%",
+          "benchmarkRule": "2–3 daily VCPs of 3–5 candles, lower volatility; 2 allowed only when second contraction >= 70%",
+          "explanation": "Contraction magnitude is reported as (1 − swing low / swing high) × 100, the positive magnitude of the stated swing-low ÷ swing-high − 1 formula."
+        },
+        {
+          "id": "SUPPLY_DRY_UP",
+          "name": "Supply dry-up ratio",
+          "passed": true,
+          "actualValue": "0.76",
+          "benchmarkRule": "Final 5 daily base sessions average volume / VMA(20) <= 0.85",
+          "explanation": "Uses the final five daily sessions ending at the supplied latest VCP base date."
+        },
+        {
+          "id": "ENTRY",
+          "name": "Daily previous swing-high break",
+          "passed": true,
+          "actualValue": 343.75,
+          "benchmarkRule": "Current daily high > supplied previous daily swing high",
+          "explanation": "Daily chart is used only for entry timing."
+        },
+        {
+          "id": "STOP",
+          "name": "ATR stop loss",
+          "passed": true,
+          "actualValue": 299.925,
+          "benchmarkRule": "2 × ATR(20), maximum 10%",
+          "explanation": "Stop is capped at the stated maximum loss."
+        },
+        {
+          "id": "POST_BUY",
+          "name": "Post-buy monitoring",
+          "passed": true,
+          "actualValue": "Green>red: false; up volume>down volume: true; tennis-ball/shallow-pullback: not algorithmically defined",
+          "benchmarkRule": "Observe green/red days, up/down volume, quick bounce and shallow pullbacks",
+          "explanation": "Monitoring observations only; undefined qualitative items are not fabricated or used as filters."
+        }
+      ],
+      "Data_Last_Date": "2026-10-01"
+    },
+    {
+      "Signal_Date": "2026-09-30",
+      "Symbol": "SIGMAADV",
+      "Signal_Price": 1025.7,
+      "Weekly_52W_High": 980,
+      "Weekly_52W_Low": 140.1,
+      "Discount_From_52W_High_Pct": -4.663265306122444,
+      "Gain_From_52W_Low_Pct": 632.1199143468951,
+      "SMA50": 740.8510000000002,
+      "SMA200": 397.0263499999999,
+      "High_Recurrence_Weeks": 16,
+      "VCP_Count": 3,
+      "Previous_Swing_High": 980,
+      "Supply_Dry_Up_Ratio": 0.7011260195570437,
+      "Entry_Price": 980,
+      "ATR20": 51.355,
+      "Stop_Loss": 923.1300000000001,
+      "Stop_Loss_Pct": 9.999999999999998,
+      "Rule_Checks": [
+        {
+          "id": "PRICE_FLOOR",
+          "name": "Not a penny stock",
+          "passed": true,
+          "actualValue": 1025.7,
+          "benchmarkRule": "Close >= ₹50",
+          "explanation": "Stated price floor."
+        },
+        {
+          "id": "NEAR_52W_HIGH",
+          "name": "Within 25% of 52-week high",
+          "passed": true,
+          "actualValue": "-4.66% below high",
+          "benchmarkRule": "<= 25% below 52-week high",
+          "explanation": "Stated prerequisite."
+        },
+        {
+          "id": "ABOVE_52W_LOW",
+          "name": "At least 100% above 52-week low",
+          "passed": true,
+          "actualValue": "632.12% above low",
+          "benchmarkRule": ">= 100% above 52-week low",
+          "explanation": "Stated prerequisite."
+        },
+        {
+          "id": "HIGH_RECURRENCE",
+          "name": "52-week high every 4–6 months",
+          "passed": true,
+          "actualValue": 16,
+          "benchmarkRule": "16–26 weeks between 52-week-high events",
+          "explanation": "Uses weekly 52-week-high events only."
+        },
+        {
+          "id": "TREND",
+          "name": "200 DMA rising; 50 DMA above 200 DMA; price above 200 DMA",
+          "passed": true,
+          "actualValue": "Close 1025.7; SMA50 740.8510000000002; SMA200 397.0263499999999; prior SMA200 227.3981500000001",
+          "benchmarkRule": "SMA200 rising over 65 daily bars; SMA50 > SMA200; Close > SMA200",
+          "explanation": "“Preferably above 50 DMA” is reported only, not made into a hidden gate."
+        },
+        {
+          "id": "PREFER_ABOVE_50DMA",
+          "name": "Price above 50 DMA (preference)",
+          "passed": true,
+          "actualValue": 1025.7,
+          "benchmarkRule": "Preferably Close > SMA50",
+          "explanation": "Informational preference, not a qualification rule."
+        },
+        {
+          "id": "VCP",
+          "name": "Daily VCP contractions",
+          "passed": true,
+          "actualValue": "3 VCPs; contractions 12.39%, 8.34%, 6.37%",
+          "benchmarkRule": "2–3 daily VCPs of 3–5 candles, lower volatility; 2 allowed only when second contraction >= 70%",
+          "explanation": "Contraction magnitude is reported as (1 − swing low / swing high) × 100, the positive magnitude of the stated swing-low ÷ swing-high − 1 formula."
+        },
+        {
+          "id": "SUPPLY_DRY_UP",
+          "name": "Supply dry-up ratio",
+          "passed": true,
+          "actualValue": "0.70",
+          "benchmarkRule": "Final 5 daily base sessions average volume / VMA(20) <= 0.85",
+          "explanation": "Uses the final five daily sessions ending at the supplied latest VCP base date."
+        },
+        {
+          "id": "ENTRY",
+          "name": "Daily previous swing-high break",
+          "passed": true,
+          "actualValue": 980,
+          "benchmarkRule": "Current daily high > supplied previous daily swing high",
+          "explanation": "Daily chart is used only for entry timing."
+        },
+        {
+          "id": "STOP",
+          "name": "ATR stop loss",
+          "passed": true,
+          "actualValue": 923.1300000000001,
+          "benchmarkRule": "2 × ATR(20), maximum 10%",
+          "explanation": "Stop is capped at the stated maximum loss."
+        },
+        {
+          "id": "POST_BUY",
+          "name": "Post-buy monitoring",
+          "passed": true,
+          "actualValue": "Green>red: true; up volume>down volume: true; tennis-ball/shallow-pullback: not algorithmically defined",
+          "benchmarkRule": "Observe green/red days, up/down volume, quick bounce and shallow pullbacks",
+          "explanation": "Monitoring observations only; undefined qualitative items are not fabricated or used as filters."
+        }
+      ],
+      "Data_Last_Date": "2026-10-01"
+    }
+  ],
+  "limitations": [
+    "Evaluated using local adjusted Parquet store and weekly resampled candles.",
+    "52-week high/low requires 52 completed weekly candles.",
+    "VCP contractions and previous swing high are extracted algorithmically from daily swing pivots."
+  ]
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "breakerId": "TB_ARVSMART_LEVERAGE",
+    "symbol": "ARVSMART",
+    "name": "Excessive Leverage Expansion",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 2.5,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Net Debt / Equity exceeding 2.5x breaks capital preservation shield.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  },
+  {
+    "breakerId": "TB_ARVSMART_STRUCTURAL_STOP",
+    "symbol": "ARVSMART",
+    "name": "Structural Stop Loss Violation",
+    "type": "PRICE_ACTION",
+    "thresholdValue": 533.12,
+    "comparisonOperator": "LESS_THAN",
+    "severity": "CRITICAL",
+    "description": "Confirmed daily close below ₹533.12 invalidates technical thesis.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

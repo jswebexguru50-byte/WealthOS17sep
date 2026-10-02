@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_SBIFUN_REV_01",
+    "issuerNseSymbol": "SBIFUN",
+    "issuerBseCode": "500112",
+    "documentId": "DOC_SBIFUN_AR24",
+    "documentHash": "0123456789abcdef0123456789abcdef0123456789abcdef1",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 38,
+    "pagePrinted": "36",
+    "quotedText": "Consolidated revenue for FY24 reached ₹2850 Cr with average assets under management crossing ₹9.1 lakh crore.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

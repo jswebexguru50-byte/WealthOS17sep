@@ -1,0 +1,14 @@
+[
+  {
+    "breakerId": "TB_PAYTM_REGULATORY",
+    "symbol": "PAYTM",
+    "name": "Critical Regulatory Embargo Breaker",
+    "type": "QUALITATIVE",
+    "thresholdValue": 1,
+    "comparisonOperator": "GREATER_THAN_OR_EQUAL",
+    "severity": "CRITICAL",
+    "description": "Imposition of central bank statutory restriction on core business operations triggers immediate hard veto.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

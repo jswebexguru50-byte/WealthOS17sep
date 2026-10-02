@@ -1,0 +1,15 @@
+{
+  "state": "IDLE",
+  "lastUpdated": "2026-10-01T08:19:00.000Z",
+  "updatedBy": "ANTIGRAVITY",
+  "activeRunId": null,
+  "activeRequestId": null,
+  "stateHistory": [
+    {
+      "state": "IDLE",
+      "updatedBy": "ANTIGRAVITY",
+      "timestamp": "2026-10-01T08:19:00.000Z",
+      "note": "Control plane initialized. Ready for Codex review runs."
+    }
+  ]
+}

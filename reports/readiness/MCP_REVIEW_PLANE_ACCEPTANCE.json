@@ -1,0 +1,167 @@
+{
+  "generatedAt": "2026-09-30T18:37:16.975Z",
+  "totalChecks": 12,
+  "passedChecks": 12,
+  "passRatePct": 100,
+  "checks": [
+    {
+      "checkId": "REV-REPO-01",
+      "name": "Get Repository Status",
+      "category": "REPOSITORY_REVIEW",
+      "input": {},
+      "result": {
+        "branch": "ai-review",
+        "commit": "a82dc89e8abd907f9709424fb7ba61e86702350e",
+        "modifiedCount": 23
+      },
+      "passed": true
+    },
+    {
+      "checkId": "REV-SRC-01",
+      "name": "Sandboxed Source Search",
+      "category": "REPOSITORY_REVIEW",
+      "input": {
+        "query": "calculateXIRR",
+        "filter": "src/server/*.ts"
+      },
+      "result": {
+        "matchCount": 9
+      },
+      "passed": true
+    },
+    {
+      "checkId": "REV-SRC-02",
+      "name": "Sandboxed File Slicing",
+      "category": "REPOSITORY_REVIEW",
+      "input": {
+        "filePath": "src/server/xirr.ts",
+        "startLine": 1,
+        "endLine": 20
+      },
+      "result": {
+        "totalLines": 775,
+        "slicedLines": 20
+      },
+      "passed": true
+    },
+    {
+      "checkId": "REV-SEC-01",
+      "name": "Security Guard: Block Sensitive Files",
+      "category": "SECURITY_SANDBOX",
+      "input": {
+        "target": ".env"
+      },
+      "result": {
+        "blocked": true
+      },
+      "passed": true
+    },
+    {
+      "checkId": "REV-HEALTH-01",
+      "name": "System Runtime & Memory Health",
+      "category": "RUNTIME_HEALTH",
+      "input": {},
+      "result": {
+        "uptime": 1,
+        "memoryRssMb": 67,
+        "node": "v24.18.0"
+      },
+      "passed": true
+    },
+    {
+      "checkId": "REV-BROWSER-01",
+      "name": "Controlled Playwright Route Journey",
+      "category": "BROWSER_VERIFICATION",
+      "input": {
+        "journey": "overview"
+      },
+      "result": {
+        "targetUrl": "http://127.0.0.1:3000/",
+        "statusCode": 200,
+        "passed": true
+      },
+      "passed": true
+    },
+    {
+      "checkId": "REV-LOOP-01",
+      "name": "Session Creation & Baselining",
+      "category": "DEVELOPER_LOOP",
+      "input": {
+        "objective": "Verify Universal MCP and Review Plane"
+      },
+      "result": {
+        "sessionId": "DEV-20260930-009",
+        "status": "BASELINED",
+        "baselineCommit": "a82dc89e8abd907f9709424fb7ba61e86702350e"
+      },
+      "passed": true
+    },
+    {
+      "checkId": "REV-LOOP-02",
+      "name": "Antigravity Structured Handoff Package",
+      "category": "ANTIGRAVITY_INTEGRATION",
+      "input": {
+        "sessionId": "DEV-20260930-009"
+      },
+      "result": {
+        "status": "DEVELOPER_WORKING",
+        "baselineSHA": "a82dc89e8abd907f9709424fb7ba61e86702350e",
+        "forbiddenRulesCount": 3
+      },
+      "passed": true
+    },
+    {
+      "checkId": "REV-LOOP-03",
+      "name": "Remediation Request Dispatch (Cycle 1)",
+      "category": "DEVELOPER_LOOP",
+      "input": {
+        "cycle": 1
+      },
+      "result": {
+        "status": "REMEDIATION_REQUIRED",
+        "cycle": 1,
+        "maxCycles": 3
+      },
+      "passed": true
+    },
+    {
+      "checkId": "REV-LOOP-04",
+      "name": "Resume Session & Change Detection",
+      "category": "ANTIGRAVITY_INTEGRATION",
+      "input": {
+        "sessionId": "DEV-20260930-009"
+      },
+      "result": {
+        "status": "REVIEWING",
+        "changesDetected": true
+      },
+      "passed": true
+    },
+    {
+      "checkId": "REV-LOOP-05",
+      "name": "Test-Integrity Guard Evaluation",
+      "category": "TEST_INTEGRITY",
+      "input": {
+        "sessionId": "DEV-20260930-009"
+      },
+      "result": {
+        "integrityFlagsCount": 0,
+        "flags": []
+      },
+      "passed": true
+    },
+    {
+      "checkId": "REV-LOOP-06",
+      "name": "Repair Cycle Limit & Escalation Guard",
+      "category": "DEVELOPER_LOOP",
+      "input": {
+        "attemptedCycle": 4
+      },
+      "result": {
+        "status": "HUMAN_REVIEW_REQUIRED",
+        "message": "Maximum autonomous repair cycles (3) reached. Escalating to human reviewer."
+      },
+      "passed": true
+    }
+  ]
+}

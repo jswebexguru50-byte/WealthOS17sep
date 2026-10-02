@@ -1,0 +1,19 @@
+{
+  "symbol": "BAJAJHFL",
+  "coreThesisStatement": "Fastest-growing prime housing finance company in India leveraging Bajaj brand, AAA credit rating, and low cost of borrowings to compound mortgage AUM.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Pristine Prime Underwriting",
+      "description": "Over 85% salaried home loan borrowers with average credit scores exceeding 750."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Lowest Cost of Funds",
+      "description": "AAA rating enabling razor-thin borrowing spreads competing directly with top private banks."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_BHFL_NPA"
+  ]
+}

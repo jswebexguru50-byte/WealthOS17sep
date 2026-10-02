@@ -46,12 +46,15 @@
     "fundamental:pipeline": "tsx scripts/fundamental/run_fundamental_pipeline.ts",
     "fundamental:sync": "python scripts/fundamental/sync_verified_fundamentals_package.py",
     "fundamental:dossier": "node scripts/fundamental/build_selected_fundamental_dossier.mjs",
-    "dossier:combined": "python scripts/fundamental/merge_technical_fundamental_dossiers.py"
-    ,"strategy:scan:30d": "cross-env NODE_OPTIONS=--require=./scripts/node_userinfo_fallback.cjs tsx scripts/strategy/run_30d_alphanumeric_dossier.ts",
+    "dossier:combined": "python scripts/fundamental/merge_technical_fundamental_dossiers.py",
+    "strategy:scan:30d": "cross-env NODE_OPTIONS=--require=./scripts/node_userinfo_fallback.cjs tsx scripts/strategy/run_30d_alphanumeric_dossier.ts",
     "fundamental:qglp": "cross-env NODE_OPTIONS=--require=./scripts/node_userinfo_fallback.cjs tsx scripts/fundamental/run_qglp_enrichment_daemon.ts",
     "fundamental:trendlyne": "cross-env NODE_OPTIONS=\"--use-system-ca --require=./scripts/node_userinfo_fallback.cjs\" tsx scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
     "fundamental:trendlyne:audit": "cross-env NODE_OPTIONS=--require=./scripts/node_userinfo_fallback.cjs tsx scripts/fundamental/audit_trendlyne_coverage.ts",
-    "intelligence:acceptance": "vitest run tests/unit/master_acceptance_suite.test.ts"
+    "intelligence:acceptance": "vitest run tests/unit/master_acceptance_suite.test.ts",
+    "mcp:stdio": "cross-env NODE_OPTIONS=--require=./scripts/node_userinfo_fallback.cjs tsx src/mcp/transports/stdio.ts",
+    "mcp:http": "cross-env NODE_OPTIONS=--require=./scripts/node_userinfo_fallback.cjs tsx src/mcp/transports/http.ts",
+    "mcp:test": "vitest run tests/unit/wealthos_universal_mcp.test.ts"
   },
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.1128.0",
@@ -61,6 +64,7 @@
     "@google/genai": "^2.4.0",
     "@google/generative-ai": "^0.24.1",
     "@libsql/client": "^0.14.0",
+    "@modelcontextprotocol/sdk": "^1.31.0",
     "@react-oauth/google": "^0.13.5",
     "@tailwindcss/vite": "^4.1.14",
     "@types/compression": "^1.8.1",

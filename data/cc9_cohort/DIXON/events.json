@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_DIXON_01",
+    "issuerNseSymbol": "DIXON",
+    "issuerBseCode": "540699",
+    "eventDate": "2024-04-18",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "Acquisition of Majority Stake in Ismartu India",
+    "description": "Acquired 50.1% stake in Ismartu India expanding smartphone manufacturing capacity for Transsion brands.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_DIXON_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

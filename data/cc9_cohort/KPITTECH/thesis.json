@@ -1,0 +1,19 @@
+{
+  "symbol": "KPITTECH",
+  "coreThesisStatement": "Pure-play global leader in automotive embedded software, autonomous driving, and electric powertrain architecture partnering with top 10 global OEMs.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "SDV Megatrend Moat",
+      "description": "Deep integration into AUTOSAR, middleware, and battery software systems."
+    },
+    {
+      "pillarId": "P2",
+      "title": "High Revenue Visibility",
+      "description": "Order book and strategic client partnerships spanning 5+ year vehicle lifecycle development."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_KPIT_LEVERAGE"
+  ]
+}

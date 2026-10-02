@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_STLNETWORK_REV_FY26",
+    "issuerNseSymbol": "STLNETWORK",
+    "issuerBseCode": "524707",
+    "documentHash": "e2f03dd43fd5f98bcf3d3ae518ec8eb8b9a38581caa7ea8b8ac62895d5e09385",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹465 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_STLNETWORK_PAT_FY26",
+    "issuerNseSymbol": "STLNETWORK",
+    "issuerBseCode": "524707",
+    "documentHash": "e2f03dd43fd5f98bcf3d3ae518ec8eb8b9a38581caa7ea8b8ac62895d5e09385",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹56 Cr with operating margin of 10.1%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_STLNETWORK_DEBT_FY26",
+    "issuerNseSymbol": "STLNETWORK",
+    "issuerBseCode": "524707",
+    "documentHash": "2175f301c150840a194ddb56c5644ea8fbc5991b6d76aeb4d3041f0b21727993",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 1.15x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_STLNETWORK_CONCALL_Q4FY26",
+    "issuerNseSymbol": "STLNETWORK",
+    "issuerBseCode": "524707",
+    "documentHash": "7675691c6e95106dc1ce3c6402dfd63d8a55b16fcdeee9a2a7b218e8f9135cc9",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for positive FCF and BharatNet III project wins; met FCF target, secured initial optical packages.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

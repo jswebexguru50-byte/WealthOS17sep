@@ -1,0 +1,433 @@
+{
+  "symbol": "RELIANCE",
+  "companyName": "Reliance Industries Limited",
+  "marketCapTier": "LARGECAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-16T08:30:40.643Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "LOW",
+    "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+    "allocationRecommendation": "CAPPED_ALLOCATION",
+    "portfolioPolicy": {
+      "directive": "CAPPED_ALLOCATION",
+      "targetSizingCapRatio": 0.5,
+      "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+    },
+    "provenance": {
+      "quantDerivation": "ITAS-Score-92 -> Threshold(>=75:STRONG, 50-74:MODERATE, 25-49:WEAK, <25:NONE) -> STRONG",
+      "riskDerivation": "BreakersActive:0, Contradictions:0, Unknowns:0 -> Risk: LOW",
+      "credibilityDerivation": "ClaimsEvaluated:1 -> CredibilityGrade: INSUFFICIENT_HISTORY",
+      "breakerDerivation": "TB_RIL_LEVERAGE(UNRESOLVED)",
+      "thesisDerivation": "Matrix(STRONG, LOW) -> Thesis: SUPPORTED",
+      "allocationDerivation": "Precedence(SUPPORTED, LOW, INSUFFICIENT_HISTORY) -> Directive: CAPPED_ALLOCATION (Cap: 50%)",
+      "auditTrail": [
+        "ITAS-Engine#RELIANCE",
+        null
+      ]
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_RELIANCE",
+      "nodes": [
+        {
+          "id": "DEC_RELIANCE",
+          "type": "DECISION",
+          "refId": "RELIANCE",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_RELIANCE",
+          "type": "ALLOCATION",
+          "refId": "CAPPED_ALLOCATION",
+          "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+        },
+        {
+          "id": "THESIS_RELIANCE",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_RELIANCE",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 92/100)"
+        },
+        {
+          "id": "RISK_RELIANCE",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_RELIANCE",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_RIL_LEVERAGE",
+          "type": "RULE",
+          "refId": "TB_RIL_LEVERAGE",
+          "version": "2026.09",
+          "label": "Breaker TB_RIL_LEVERAGE: UNRESOLVED (Observed: undefined)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_RELIANCE",
+          "to": "DEC_RELIANCE",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_RELIANCE",
+          "to": "DEC_RELIANCE",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_RELIANCE",
+          "to": "THESIS_RELIANCE",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_RELIANCE",
+          "to": "THESIS_RELIANCE",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_RELIANCE",
+          "to": "ALLOC_RELIANCE",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_RIL_LEVERAGE",
+          "to": "RISK_RELIANCE",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_RELIANCE_d55a975ad170",
+      "decisionId": "DECISION_RELIANCE",
+      "issuerSymbol": "RELIANCE",
+      "evaluatedAt": "2026-09-16T11:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2.1",
+      "ontologyVersion": "1.3",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawQuantInput": {
+        "symbol": "RELIANCE",
+        "strategyAgreementCount": 18,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 92,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY",
+        "decisionDate": "2024-06-30"
+      },
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_RIL_LEVERAGE",
+          "symbol": "RELIANCE",
+          "name": "Conglomerate Net Debt Ceiling",
+          "type": "QUANTITATIVE",
+          "thresholdValue": 2.5,
+          "comparisonOperator": "GREATER_THAN",
+          "severity": "CRITICAL",
+          "description": "Net Debt / EBITDA exceeding 2.5x triggers hard veto.",
+          "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+          "status": "UNRESOLVED"
+        }
+      ],
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "LOW",
+        "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+        "allocationRecommendation": "CAPPED_ALLOCATION"
+      },
+      "portfolioPolicy": {
+        "directive": "CAPPED_ALLOCATION",
+        "targetSizingCapRatio": 0.5,
+        "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_RELIANCE",
+        "nodes": [
+          {
+            "id": "DEC_RELIANCE",
+            "type": "DECISION",
+            "refId": "RELIANCE",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_RELIANCE",
+            "type": "ALLOCATION",
+            "refId": "CAPPED_ALLOCATION",
+            "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+          },
+          {
+            "id": "THESIS_RELIANCE",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_RELIANCE",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 92/100)"
+          },
+          {
+            "id": "RISK_RELIANCE",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_RELIANCE",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_RIL_LEVERAGE",
+            "type": "RULE",
+            "refId": "TB_RIL_LEVERAGE",
+            "version": "2026.09",
+            "label": "Breaker TB_RIL_LEVERAGE: UNRESOLVED (Observed: undefined)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_RELIANCE",
+            "to": "DEC_RELIANCE",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_RELIANCE",
+            "to": "DEC_RELIANCE",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_RELIANCE",
+            "to": "THESIS_RELIANCE",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_RELIANCE",
+            "to": "THESIS_RELIANCE",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_RELIANCE",
+            "to": "ALLOC_RELIANCE",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_RIL_LEVERAGE",
+            "to": "RISK_RELIANCE",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "d55a975ad170010e63cc4ffa7822a234b1875d1b7a89b8c8814795f1d235368c",
+      "canonicalStateHash": "d55a975ad170010e63cc4ffa7822a234b1875d1b7a89b8c8814795f1d235368c",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_RELIANCE_01",
+          "issuerSymbol": "RELIANCE",
+          "metric": "REVENUE",
+          "metricId": "REVENUE",
+          "metricFamily": "REVENUE",
+          "value": 1000122,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_RIL_REV_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_RIL_REV_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_RIL_REV_01",
+          "sourceQuotedText": "Consolidated revenue for FY24 reached ₹1000122 Cr with retail and digital services leading expansion.",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_RELIANCE_01",
+          "issuerNseSymbol": "RELIANCE",
+          "issuerBseCode": "500325",
+          "period": "FY24",
+          "category": "GROWTH",
+          "statement": "Scale consolidated annual gross revenue to cross ₹950,000 Cr in FY24.",
+          "targetMetric": "revenue_cr",
+          "baselineValue": 974864,
+          "expectedValue": 950000,
+          "expectedOutcome": "Revenue >= ₹950,000 Cr",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_RIL_REV_01",
+          "claimDate": "2023-08-28",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 1000122,
+          "actualOutcomeDescription": "Delivered ₹1,000,122 Cr revenue crossing 10 lakh crore milestone.",
+          "evaluationEvidenceId": "EV_RIL_REV_01",
+          "evaluationDate": "2024-04-22",
+          "evaluationBasis": "BSE Audited Financial Accounts Release",
+          "publicationDate": "2023-08-28",
+          "publicationDateType": "MANAGEMENT_COMMENT",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_RELIANCE_01"
+        }
+      ],
+      "rawInputContradictions": [],
+      "rawInputHash": "87971f381bb51881ea6d82e07d370857e12f77ac7d8a15f6a2456ddfe90588e3"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "LOW",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap)."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 18/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 92/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#RELIANCE",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Scale consolidated annual gross revenue to cross ₹950,000 Cr in FY24.",
+      "detail": "Disclosed actual outcome: Delivered ₹1,000,122 Cr revenue crossing 10 lakh crore milestone.",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_RIL_REV_01 -> Resolution#EV_RIL_REV_01",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "RELIANCE",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 1,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_RELIANCE_01",
+        "statement": "Scale consolidated annual gross revenue to cross ₹950,000 Cr in FY24.",
+        "period": "FY24",
+        "expected": "Revenue >= ₹950,000 Cr",
+        "actual": "Delivered ₹1,000,122 Cr revenue crossing 10 lakh crore milestone.",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_RIL_REV_01 -> Resolution#EV_RIL_REV_01"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_RELIANCE"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_RELIANCE"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-02-28",
+      "source": "REGULATORY_FILING",
+      "headline": "Strategic Media Joint Venture with The Walt Disney Company",
+      "verified": true,
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_RIL_LEVERAGE",
+      "symbol": "RELIANCE",
+      "name": "Conglomerate Net Debt Ceiling",
+      "type": "QUANTITATIVE",
+      "thresholdValue": 2.5,
+      "comparisonOperator": "GREATER_THAN",
+      "severity": "CRITICAL",
+      "description": "Net Debt / EBITDA exceeding 2.5x triggers hard veto.",
+      "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+      "status": "UNRESOLVED"
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "LOW",
+    "directSourcesCount": 1,
+    "corroboratedCount": 1,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"India's largest corporate conglomerate transforming from traditional O2C refining to dominant digital consumer ecosystem (Jio, Retail, Green Energy).\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

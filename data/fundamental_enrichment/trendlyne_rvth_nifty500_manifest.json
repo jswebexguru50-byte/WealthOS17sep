@@ -1,0 +1,10 @@
+{
+  "source": "STORED_PRIORITY_MANIFEST_NIFTY500_PLUS_EXPLICIT_RVTH",
+  "generatedAt": "2026-10-01T00:00:00.000Z",
+  "purpose": "Deterministic Trendlyne enrichment; RVTH plus locally persisted Nifty 500 membership.",
+  "symbols": [
+    "RVTH", "ADANIENT", "ASIANPAINT", "AXISBANK", "DBREALTY", "DISHTV", "GTLINFRA", "GVKPIL", "HCLTECH", "HDIL",
+    "HINDUNILVR", "ICICIBANK", "INFY", "ITC", "KSCL", "LTIM", "MARUTI", "NESTLEIND", "NTPC", "ONGC",
+    "POWERGRID", "RCOM", "SPANDANA", "SPARC", "SUNPHARMA", "TCS", "ULTRACEMCO", "VAKRANGEE", "WIPRO"
+  ]
+}

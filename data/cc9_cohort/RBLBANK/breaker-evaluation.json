@@ -1,0 +1,14 @@
+[
+  {
+    "breakerId": "TB_RBL_NPA",
+    "symbol": "RBLBANK",
+    "name": "Private Bank GNPA Ceiling",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 3.5,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Gross NPA ratio exceeding 3.5% triggers hard veto.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

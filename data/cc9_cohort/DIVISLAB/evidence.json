@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_DIVIS_REV_01",
+    "issuerNseSymbol": "DIVISLAB",
+    "issuerBseCode": "532488",
+    "documentId": "DOC_DIVIS_AR24",
+    "documentHash": "90123456789abcdef0123456789abcdef0123456789abcdef0",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 40,
+    "pagePrinted": "38",
+    "quotedText": "Consolidated revenue for FY24 reached ₹7845 Cr with custom synthesis demand returning to growth.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

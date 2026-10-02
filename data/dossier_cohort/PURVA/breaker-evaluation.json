@@ -1,0 +1,26 @@
+[
+  {
+    "breakerId": "TB_PURVA_LEVERAGE",
+    "symbol": "PURVA",
+    "name": "Excessive Leverage Expansion",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 2.5,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Net Debt / Equity exceeding 2.5x breaks capital preservation shield.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  },
+  {
+    "breakerId": "TB_PURVA_STRUCTURAL_STOP",
+    "symbol": "PURVA",
+    "name": "Structural Stop Loss Violation",
+    "type": "PRICE_ACTION",
+    "thresholdValue": 194.25,
+    "comparisonOperator": "LESS_THAN",
+    "severity": "CRITICAL",
+    "description": "Confirmed daily close below ₹194.25 invalidates technical thesis.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

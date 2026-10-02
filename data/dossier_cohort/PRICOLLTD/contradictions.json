@@ -1,0 +1,34 @@
+{
+  "status": "CONTRADICTIONS_DETECTED",
+  "issuerNseSymbol": "PRICOLLTD",
+  "activeContradictionCount": 1,
+  "contradictions": [
+    {
+      "contradictionId": "DIV_PRICOLLTD_SUPPLY_CHAIN",
+      "issuerNseSymbol": "PRICOLLTD",
+      "issuerBseCode": "521235",
+      "severity": "LOW",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_PRICOLLTD_02",
+      "eventId": null,
+      "description": "Supply chain fragility check: import exposure (15%) and client concentration (48%) introduce quarterly gross margin lag against management guidance.",
+      "divergenceDetails": {
+        "whatManagementClaimed": "Full margin defense",
+        "whatActuallyHappened": "Quarterly margin lag due to input cost volatility",
+        "deltaMetric": "80-120 bps"
+      },
+      "leftEvidenceId": "EV_PRICOLLTD_PAT_FY26",
+      "rightEvidenceId": "EV_PRICOLLTD_CONCALL_Q4FY26",
+      "supportingEvidenceIds": [
+        "EV_PRICOLLTD_PAT_FY26",
+        "EV_PRICOLLTD_CONCALL_Q4FY26"
+      ],
+      "status": "OPEN",
+      "materiality": "LOW",
+      "detectedAt": "2026-09-16T11:00:00.000Z",
+      "createdAt": "2026-09-16 11:22:00",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ]
+}

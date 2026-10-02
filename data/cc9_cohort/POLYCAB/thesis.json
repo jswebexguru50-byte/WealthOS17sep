@@ -1,0 +1,19 @@
+{
+  "symbol": "POLYCAB",
+  "coreThesisStatement": "Market leader in Indian cables and wires capitalizing on pan-India infrastructure capex, real estate revival, and exports.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Market Share Dominance",
+      "description": "Over 25% organized market share in cables and wires."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Project Leap Execution",
+      "description": "Expanding B2C retail FMEG distribution across tier-2/3 cities."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_POLYCAB_LEVERAGE"
+  ]
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_SBIN_01",
+    "issuerNseSymbol": "SBIN",
+    "issuerBseCode": "500112",
+    "eventDate": "2024-05-09",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Highest Ever Standalone Full-Year Net Profit in Indian Corporate History",
+    "description": "Reported annual net profit of ₹61,077 Cr representing over 21% return on equity.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_SBIN_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

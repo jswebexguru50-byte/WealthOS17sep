@@ -1,13 +1,20 @@
 """Normalize exact, unambiguous NSE XBRL facts from archived XML.
 
 No fuzzy field matching. Every fact retains filing hash, source URL, context,
-period, scope, unit, and NSE broadcast timestamp. Unmapped fields stay absent.
+period, scope, unit, and NSE broadcast timestamp.
+
+Curated FIELD_MAP metrics are normalized to WealthOS canonical names. Other
+numeric issuer-level facts are preserved under exact taxonomy-derived metric
+names prefixed with ``xbrl_`` so no downloaded XBRL information is silently
+dropped. These generic metrics are evidence inventory, not interpreted ratios.
 """
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import math
+import re
 import sqlite3
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
@@ -18,26 +25,73 @@ from verified_filing_pipeline import DB_PATH, ROOT, connect
 IST = timezone(timedelta(hours=5, minutes=30))
 XBRLI = '{http://www.xbrl.org/2003/instance}'
 FIELD_MAP = {
-    'RevenueFromOperations': 'sales',
-    'ProfitLossForPeriod': 'pat',
-    'DepreciationDepletionAndAmortisationExpense': 'depreciation',
-    'Expenses': 'total_expenses',
-    'FinanceCosts': 'finance_costs',
-    'ProfitBeforeTax': 'pbt',
-    'CostOfMaterialsConsumed': 'materials_cost',
-    'PaidUpValueOfEquityShareCapital': 'equity_capital',
-    'Assets': 'assets',
-    'Liabilities': 'liabilities',
-    'CashFlowsFromUsedInOperatingActivities': 'cfo',
-    'Borrowings': 'debt',
-    'CashAndCashEquivalents': 'cash',
-    'TradeReceivables': 'receivables',
-    'Inventories': 'inventory',
+    # ── Already promoted (9 original fields) ─────────────────────────────────
+    'RevenueFromOperations':                                              'revenue',
+    'ProfitLossForPeriod':                                                'pat',
+    'DepreciationDepletionAndAmortisationExpense':                        'depreciation',
+    'Expenses':                                                           'total_expenses',
+    'FinanceCosts':                                                       'finance_costs',
+    'ProfitBeforeTax':                                                    'pbt',
+    'CostOfMaterialsConsumed':                                            'materials_cost',
+    'PaidUpValueOfEquityShareCapital':                                    'equity_capital',
+    'CashFlowsFromUsedInOperatingActivities':                             'cfo',
+    # ── Balance-sheet names retained for completeness but absent in archive ─
+    # These exist in FIELD_MAP for forward-compatibility when/if NSE adds them.
+    'Assets':                                                             'total_assets',
+    'Liabilities':                                                        'total_liabilities',
+    'Borrowings':                                                         'total_debt',
+    'CashAndCashEquivalents':                                             'cash_and_equivalents',
+    'TradeReceivables':                                                   'trade_receivables',
+    'Inventories':                                                        'inventories',
+    # ── NEW: Income decomposition (TIER 1 — 45k–46k rows, 2,700+ ISINs) ─────
+    'Income':                                                             'total_income',
+    'OtherIncome':                                                        'other_income',
+    'OtherExpenses':                                                      'other_expenses',
+    'PurchasesOfStockInTrade':                                            'purchases_stock_trade',
+    'ChangesInInventoriesOfFinishedGoodsWorkInProgressAndStockInTrade':  'inventory_change',
+    'EmployeeBenefitExpense':                                             'employee_expenses',
+    # ── NEW: P&L quality / adjustments ───────────────────────────────────────
+    'ProfitBeforeExceptionalItemsAndTax':                                 'pbt_before_exceptional',
+    'ExceptionalItemsBeforeTax':                                          'exceptional_items_pretax',
+    'OtherComprehensiveIncomeNetOfTaxes':                                 'oci',
+    # ── NEW: Tax breakdown ────────────────────────────────────────────────────
+    'TaxExpense':                                                         'tax_expense',
+    'CurrentTax':                                                         'current_tax',
+    'DeferredTax':                                                        'deferred_tax_charge',
+    # ── NEW: EPS (45k rows, 2,687 ISINs) ─────────────────────────────────────
+    'BasicEarningsLossPerShareFromContinuingAndDiscontinuedOperations':   'eps_basic',
+    'DilutedEarningsLossPerShareFromContinuingAndDiscontinuedOperations': 'eps_diluted',
+    'FaceValueOfEquityShareCapital':                                      'face_value',
+    # ── NEW: Cash flow — investing & financing (15k rows, 2,711 ISINs) ───────
+    'CashFlowsFromUsedInInvestingActivities':                             'cfi',
+    'CashFlowsFromUsedInFinancingActivities':                             'cff',
+    'RepaymentsOfBorrowingsClassifiedAsFinancingActivities':              'debt_repaid',
+    'ProceedsFromBorrowingsClassifiedAsFinancingActivities':              'debt_raised',
+    'DividendsPaidClassifiedAsFinancingActivities':                       'dividends_paid',
+    # ── NEW: Ratios (NSE-reported, no computation needed) ────────────────────
+    'DebtEquityRatio':                                                    'debt_to_equity',
+    'DebtServiceCoverageRatio':                                           'dscr',
+    'ReturnOnAssets':                                                     'roa',
+    'ExceptionalItems':                                                   'exceptional_items',
+}
+EXCLUDED_GENERIC_FIELDS = {
+    # Identity / metadata fields should not be promoted as analytical facts.
+    'Symbol',
+    'ScripCode',
+    'ISIN',
+    'NameOfCompany',
+    'NatureOfReportStandaloneConsolidated',
 }
 
 
 def local_name(tag: str) -> str:
     return tag.rsplit('}', 1)[-1]
+
+
+def generic_metric_name(taxonomy: str) -> str:
+    parts = re.findall(r'[A-Z]?[a-z]+|[A-Z]+(?=[A-Z]|$)|\d+', taxonomy)
+    snake = '_'.join(part.lower() for part in parts if part)
+    return f'xbrl_{snake or taxonomy.lower()}'
 
 
 def filed_at(value: str | None) -> str | None:
@@ -141,9 +195,14 @@ def normalize_one(con: sqlite3.Connection, doc: tuple, meta: dict) -> int:
         taxonomy = local_name(elem.tag)
         metric = FIELD_MAP.get(taxonomy)
         context_ref = elem.attrib.get('contextRef')
-        if not metric or context_ref not in contexts or scopes.get(context_ref) not in ('STANDALONE', 'CONSOLIDATED'):
+        if context_ref not in contexts or scopes.get(context_ref) not in ('STANDALONE', 'CONSOLIDATED'):
             continue
-        if elem.attrib.get('unitRef') != 'INR':
+        if not metric:
+            if taxonomy in EXCLUDED_GENERIC_FIELDS:
+                continue
+            metric = generic_metric_name(taxonomy)
+        unit_ref = elem.attrib.get('unitRef')
+        if not unit_ref:
             continue
         try:
             value = float((elem.text or '').strip().replace(',', ''))
@@ -159,7 +218,7 @@ def normalize_one(con: sqlite3.Connection, doc: tuple, meta: dict) -> int:
            period_start,period_end,scope,context_ref,metric,value,unit,taxonomy_field)
           VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)''',
           (filing_isin,symbol,filing_id,file_hash,url,available,start,end,scopes[context_ref],
-           context_ref,metric,value,'INR',taxonomy))
+           context_ref,metric,value,unit_ref,taxonomy))
         count += 1
     con.execute('''UPDATE filing_document SET filing_timestamp=?, period_end=?,
                    statement_scope=?,status=?,error=NULL WHERE id=?''',
@@ -170,14 +229,26 @@ def normalize_one(con: sqlite3.Connection, doc: tuple, meta: dict) -> int:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--reparse-all', action='store_true',
+                        help='Re-read every archived XML document. Existing facts are preserved by INSERT OR IGNORE.')
+    args = parser.parse_args()
     con = connect()
     ensure_schema(con)
     metadata = metadata_by_url(con)
     stats = {'parsed_documents': 0, 'facts_seen': 0, 'unmapped_documents': 0, 'errors': 0}
-    docs = con.execute('''SELECT id,isin,symbol,source_url,sha256,archive_path
-                          FROM filing_document WHERE status='ARCHIVED_UNPARSED'
-                          OR (status='PARSE_ERROR' AND error='NSE broadcast timestamp missing')
-                          AND lower(source_url) LIKE '%.xml' ORDER BY id''').fetchall()
+    if args.reparse_all:
+        docs = con.execute('''SELECT id,isin,symbol,source_url,sha256,archive_path
+                              FROM filing_document
+                              WHERE lower(source_url) LIKE '%.xml'
+                                AND archive_path IS NOT NULL
+                              ORDER BY id''').fetchall()
+    else:
+        docs = con.execute('''SELECT id,isin,symbol,source_url,sha256,archive_path
+                              FROM filing_document
+                              WHERE (status='ARCHIVED_UNPARSED'
+                                OR (status='PARSE_ERROR' AND error='NSE broadcast timestamp missing'))
+                                AND lower(source_url) LIKE '%.xml' ORDER BY id''').fetchall()
     for doc in docs:
         item = metadata.get(doc[3])
         if not item:
@@ -193,6 +264,7 @@ def main() -> None:
                         ('PARSE_ERROR', str(exc)[:500], doc[0]))
         con.commit()
     stats['stored_facts'] = con.execute('SELECT COUNT(*) FROM verified_xbrl_fact').fetchone()[0]
+    stats['stored_metrics'] = con.execute('SELECT COUNT(DISTINCT metric) FROM verified_xbrl_fact').fetchone()[0]
     print(json.dumps(stats), flush=True)
     con.close()
 

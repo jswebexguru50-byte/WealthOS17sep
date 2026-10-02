@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "GMDCLTD",
+  "issuerBseCode": "515841",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_GMDCLTD_AR2024",
+      "documentName": "GMDCLTD_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "ad9d20298aba55f8d9b3d73e6fc315e3a7f1a8e699bcda2a5be94ac5da9a32c1",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_GMDCLTD_AUDITED_RESULTS",
+      "documentName": "GMDCLTD_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "e6a12aacd6d4915ae1ddc0fc5fd3b0cd90bec2cc2b427a432e6b7c01245306d9",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_GMDCLTD_CONCALL_Q4FY26",
+      "documentName": "GMDCLTD_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "747a64e14d48751aeaa1cbc8ff6b08c91a0b7e11465e059eab674b938377d757",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

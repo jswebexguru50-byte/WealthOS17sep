@@ -1,0 +1,14 @@
+[
+  {
+    "breakerId": "TB_GROWW_LEVERAGE",
+    "symbol": "GROWW",
+    "name": "Fintech Zero Debt Incurrence",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 0.5,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Debt / Equity ratio exceeding 0.5x triggers hard veto.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

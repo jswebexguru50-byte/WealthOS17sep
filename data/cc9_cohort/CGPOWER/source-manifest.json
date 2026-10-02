@@ -1,0 +1,17 @@
+{
+  "issuerNseSymbol": "CGPOWER",
+  "issuerBseCode": "500093",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_CGPOWER_AR24",
+      "documentName": "CG_Power_Annual_Report_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-18",
+      "documentHashSha256": "ef0123456789abcdef0123456789abcdef0123456789abcde",
+      "pageCount": 260,
+      "filingAuthority": "BSE / NSE"
+    }
+  ]
+}

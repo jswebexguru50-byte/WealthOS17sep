@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_EIEL_REV_FY26",
+    "issuerNseSymbol": "EIEL",
+    "issuerBseCode": "508897",
+    "documentHash": "7fcabe90e4d1058dc33fd721037e5736968fb7bc5810a4a392c5c2f77606ad67",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹2461 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_EIEL_PAT_FY26",
+    "issuerNseSymbol": "EIEL",
+    "issuerBseCode": "508897",
+    "documentHash": "7fcabe90e4d1058dc33fd721037e5736968fb7bc5810a4a392c5c2f77606ad67",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹295 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_EIEL_DEBT_FY26",
+    "issuerNseSymbol": "EIEL",
+    "issuerBseCode": "508897",
+    "documentHash": "4b3de8a0aad6dfb49662a82f44ad78db926a53472a03b739d765ada9934989c5",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_EIEL_CONCALL_Q4FY26",
+    "issuerNseSymbol": "EIEL",
+    "issuerBseCode": "508897",
+    "documentHash": "dde7adf003adba8de86df26618e203bf6a1a22da4c8d63bfb9da08b30b86ead4",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

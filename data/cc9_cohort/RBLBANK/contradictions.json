@@ -1,0 +1,33 @@
+{
+  "status": "CONTRADICTIONS_DETECTED",
+  "issuerNseSymbol": "RBLBANK",
+  "activeContradictionCount": 1,
+  "contradictions": [
+    {
+      "contradictionId": "CONTRA_RBL_NPA_01",
+      "issuerNseSymbol": "RBLBANK",
+      "issuerBseCode": "540065",
+      "severity": "HIGH",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_RBL_01",
+      "eventId": "EVT_RBL_01",
+      "description": "Management guided credit card and unsecured slippage costs to remain below 2.5%, but audited accounts confirmed a surge to 4.1%.",
+      "divergenceDetails": {
+        "whatManagementClaimed": "Credit costs strictly under 2.5%",
+        "whatActuallyHappened": "Credit costs surged to 4.1% due to unsecured retail default spike",
+        "deltaMetric": "credit_cost_pct"
+      },
+      "leftEvidenceId": "EV_RBL_PROMISE_01",
+      "rightEvidenceId": "EV_RBL_RESULT_01",
+      "supportingEvidenceIds": [
+        "EV_RBL_RESULT_01"
+      ],
+      "status": "OPEN",
+      "materiality": "HIGH",
+      "detectedAt": "2024-04-27T12:00:00.000Z",
+      "createdAt": "2026-09-16 08:30:41",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ]
+}

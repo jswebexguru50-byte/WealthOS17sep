@@ -1,0 +1,711 @@
+{
+  "PRODUCTION_STATE": "POST_REMEDIATION_EXPERIMENT",
+  "companyIdentity": {
+    "symbol": "LTIM",
+    "companyName": "LTIMindtree Limited",
+    "isin": "INE214T01019",
+    "sector": "IT - Software",
+    "industry": null,
+    "listingClassification": "NSE",
+    "businessModel": "NON_FINANCIAL"
+  },
+  "periodContext": {
+    "latestFiscalYear": "Mar 2026",
+    "latestQuarter": null,
+    "ttmAvailable": false,
+    "periodsAvailable": [
+      "Mar 2026",
+      "Mar 2025",
+      "Mar 2024",
+      "Mar 2023"
+    ],
+    "consolidatedOrStandalone": "CONSOLIDATED",
+    "asOfDate": "2026-10-01"
+  },
+  "canonicalFinancialFacts": [
+    {
+      "factId": "FACT_INC_LTIM_revenue_Mar 2026",
+      "metric": "REVENUE",
+      "value": 43402,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_LTIM_revenue_Mar 2025",
+      "metric": "REVENUE",
+      "value": 38997.8,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_LTIM_revenue_Mar 2024",
+      "metric": "REVENUE",
+      "value": 36218.9,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_LTIM_revenue_Mar 2023",
+      "metric": "REVENUE",
+      "value": 33739.9,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_LTIM_operating_profit_Mar 2026",
+      "metric": "OPERATING_PROFIT",
+      "value": 6791.1,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_LTIM_operating_profit_Mar 2025",
+      "metric": "OPERATING_PROFIT",
+      "value": 6214.2,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_LTIM_operating_profit_Mar 2024",
+      "metric": "OPERATING_PROFIT",
+      "value": 6048.7,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_LTIM_operating_profit_Mar 2023",
+      "metric": "OPERATING_PROFIT",
+      "value": 5791.5,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_LTIM_net_profit_Mar 2026",
+      "metric": "NET_PROFIT",
+      "value": 4982.7,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_LTIM_net_profit_Mar 2025",
+      "metric": "NET_PROFIT",
+      "value": 4602,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_LTIM_net_profit_Mar 2024",
+      "metric": "NET_PROFIT",
+      "value": 4584.6,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_LTIM_net_profit_Mar 2023",
+      "metric": "NET_PROFIT",
+      "value": 4410.3,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_operating_Mar 2026",
+      "metric": "CFO_OPERATING",
+      "value": 4798.8,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_operating_Mar 2025",
+      "metric": "CFO_OPERATING",
+      "value": 4545.8,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_operating_Mar 2024",
+      "metric": "CFO_OPERATING",
+      "value": 5669.5,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_operating_Mar 2023",
+      "metric": "CFO_OPERATING",
+      "value": 3094.6,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_investing_Mar 2026",
+      "metric": "CFO_INVESTING",
+      "value": -1767.9,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_investing_Mar 2025",
+      "metric": "CFO_INVESTING",
+      "value": -1738.2,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_investing_Mar 2024",
+      "metric": "CFO_INVESTING",
+      "value": -3912.1,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_investing_Mar 2023",
+      "metric": "CFO_INVESTING",
+      "value": -330.9,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_financing_Mar 2026",
+      "metric": "CFO_FINANCING",
+      "value": -2926.4,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_financing_Mar 2025",
+      "metric": "CFO_FINANCING",
+      "value": -2574.4,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_financing_Mar 2024",
+      "metric": "CFO_FINANCING",
+      "value": -2268.8,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_financing_Mar 2023",
+      "metric": "CFO_FINANCING",
+      "value": -1931.7,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_LTIM_P_E",
+      "metric": "P/E",
+      "value": 23.29,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_LTIM_P_B",
+      "metric": "P/B",
+      "value": 5.04,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_LTIM_ROA",
+      "metric": "ROA",
+      "value": 13.97,
+      "unit": "PERCENT",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_LTIM_ROE",
+      "metric": "ROE",
+      "value": 20.89,
+      "unit": "PERCENT",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_LTIM_ROCE",
+      "metric": "ROCE",
+      "value": 25.54,
+      "unit": "PERCENT",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_LTIM_Quick_Ratio",
+      "metric": "QUICK RATIO",
+      "value": 2.83,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_LTIM_EV_EBITDA",
+      "metric": "EV/EBITDA",
+      "value": 14.21,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    }
+  ],
+  "derivedMetrics": [
+    {
+      "metric": "REVENUE_YOY_GROWTH",
+      "value": 11.29,
+      "unit": "PERCENT",
+      "formula": "((Revenue[t] - Revenue[t-1]) / |Revenue[t-1]|) * 100",
+      "periodsCompared": "Mar 2026 vs Mar 2025",
+      "verificationStatus": "VERIFIED",
+      "independentValue": 11.29,
+      "discrepancyNotes": "Oracle: ((43402 - 38997.8) / |38997.8|) * 100 = 11.29%, Production: 11.29%"
+    },
+    {
+      "metric": "EBITDA_MARGIN_LATEST",
+      "value": 15.65,
+      "unit": "PERCENT",
+      "formula": "(EBITDA / Revenue) * 100",
+      "periodsCompared": "Mar 2026",
+      "verificationStatus": "VERIFIED",
+      "independentValue": 15.65,
+      "discrepancyNotes": "Oracle: (6791.1 / 43402) * 100 = 15.65%, Production: 15.65%"
+    },
+    {
+      "metric": "MARGIN_BPS_DELTA",
+      "value": -29,
+      "unit": "BPS",
+      "formula": "(Margin[t] - Margin[t-1]) * 100",
+      "verificationStatus": "VERIFIED",
+      "independentValue": -29,
+      "discrepancyNotes": "Metric: EBITDA_MARGIN"
+    }
+  ],
+  "evidenceProvenance": [
+    {
+      "factId": "FACT_INC_LTIM_revenue_Mar 2026",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_LTIM_revenue_Mar 2025",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_LTIM_revenue_Mar 2024",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_LTIM_revenue_Mar 2023",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_LTIM_operating_profit_Mar 2026",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_LTIM_operating_profit_Mar 2025",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_LTIM_operating_profit_Mar 2024",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_LTIM_operating_profit_Mar 2023",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_LTIM_net_profit_Mar 2026",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_LTIM_net_profit_Mar 2025",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_LTIM_net_profit_Mar 2024",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_LTIM_net_profit_Mar 2023",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_operating_Mar 2026",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_operating_Mar 2025",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_operating_Mar 2024",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_operating_Mar 2023",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_investing_Mar 2026",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_investing_Mar 2025",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_investing_Mar 2024",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_investing_Mar 2023",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_financing_Mar 2026",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_financing_Mar 2025",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_financing_Mar 2024",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_LTIM_financing_Mar 2023",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_LTIM_P_E",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_LTIM_P_B",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_LTIM_ROA",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_LTIM_ROE",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_LTIM_ROCE",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_LTIM_Quick_Ratio",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_LTIM_EV_EBITDA",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    }
+  ],
+  "missingData": [],
+  "wealthosInterpretations": [
+    {
+      "claimId": "CLAIM_LTIM_GROWTH_01",
+      "module": "FUNDAMENTAL",
+      "dimension": "REVENUE_GROWTH",
+      "claimStatement": "Revenue trajectory evaluated as ACCELERATING with latest growth of 11.29% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+      "wealthosStatus": "ACCELERATING",
+      "underlyingMetricValues": {
+        "latestGrowthPct": 11.29,
+        "priorGrowthPct": 7.67,
+        "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+      }
+    },
+    {
+      "claimId": "CLAIM_LTIM_MARGIN_02",
+      "module": "FUNDAMENTAL",
+      "dimension": "MARGIN_TRAJECTORY",
+      "claimStatement": "Operating margin trajectory evaluated as STABLE with delta of -29 bps using EBITDA_MARGIN.",
+      "wealthosStatus": "STABLE",
+      "underlyingMetricValues": {
+        "bpsChange": -29,
+        "metricUsed": "EBITDA_MARGIN"
+      }
+    },
+    {
+      "claimId": "CLAIM_LTIM_RETURN_03",
+      "module": "FUNDAMENTAL",
+      "dimension": "RETURN_PROFILE",
+      "claimStatement": "Capital efficiency return profile assessed as HIGH_QUALITY with ROCE at 25.54%.",
+      "wealthosStatus": "HIGH_QUALITY",
+      "underlyingMetricValues": {
+        "metric": "ROCE",
+        "latestValue": 25.54,
+        "status": "HIGH_QUALITY"
+      }
+    },
+    {
+      "claimId": "CLAIM_LTIM_DEBT_04",
+      "module": "FUNDAMENTAL",
+      "dimension": "DEBT_TRAJECTORY",
+      "claimStatement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "status": "DATA_INSUFFICIENT",
+        "changePct": null
+      }
+    },
+    {
+      "claimId": "CLAIM_LTIM_VALUATION_PE",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric PE is 23.29. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "PE",
+        "current": 23.29
+      }
+    },
+    {
+      "claimId": "CLAIM_LTIM_VALUATION_PB",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric PB is 5.04. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "PB",
+        "current": 5.04
+      }
+    },
+    {
+      "claimId": "CLAIM_LTIM_VALUATION_EV_EBITDA",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric EV/EBITDA is 14.21. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "EV/EBITDA",
+        "current": 14.21
+      }
+    },
+    {
+      "claimId": "CLAIM_LTIM_VALUATION_DIVIDEND_YIELD",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric Dividend Yield is N/A. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "Dividend Yield",
+        "current": null
+      }
+    }
+  ]
+}

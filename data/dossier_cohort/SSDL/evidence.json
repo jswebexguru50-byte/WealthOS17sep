@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_SSDL_REV_FY26",
+    "issuerNseSymbol": "SSDL",
+    "issuerBseCode": "509610",
+    "documentHash": "d2cc191c6dd35c7d7f07c13a651d8c0cdc08c30baa52777c00ee9c80ef31b983",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹753 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_SSDL_PAT_FY26",
+    "issuerNseSymbol": "SSDL",
+    "issuerBseCode": "509610",
+    "documentHash": "d2cc191c6dd35c7d7f07c13a651d8c0cdc08c30baa52777c00ee9c80ef31b983",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹90 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_SSDL_DEBT_FY26",
+    "issuerNseSymbol": "SSDL",
+    "issuerBseCode": "509610",
+    "documentHash": "53fdd2d5591cea600e16e182a8a9a34fb4f8c55d7ee6318e25a91044af78bad0",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_SSDL_CONCALL_Q4FY26",
+    "issuerNseSymbol": "SSDL",
+    "issuerBseCode": "509610",
+    "documentHash": "6f5f7d8e627736f44b326439db0620d69dcebaccd97df50092c65eb6ecc3e810",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

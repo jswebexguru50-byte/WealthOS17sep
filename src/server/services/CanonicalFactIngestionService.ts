@@ -69,6 +69,19 @@ export class CanonicalFactIngestionService {
         textContent = typeof payload.content?.[0]?.text === 'string' ? payload.content[0].text : '';
     }
     const blocks = textContent.split('\n---\n');
+
+    // Trendlyne's parameter payload begins with a provider observation line
+    // ending in YYYY-MM-DD.  This is an as-of observation date, not a claimed
+    // statutory period end.  Preserve it separately and leave periodEnd as
+    // LATEST so annual/quarterly history is never fabricated from a snapshot.
+    const firstLine = textContent.split(/\r?\n/).find((line: string) => line.trim()) || '';
+    const observationDate = firstLine.match(/\b(\d{4}-\d{2}-\d{2})\b/)?.[1] || null;
+    const availableAt = latest.fetched_at;
+    const normalizedPeriodType = (periodType: string) => {
+      if (periodType === 'QUARTER') return 'QUARTERLY';
+      if (periodType === 'INSTANT') return 'POINT_IN_TIME';
+      return periodType;
+    };
     
     const extractedValues: Record<string, { status: string, value: number | null, exactLabel?: string }> = {};
 
@@ -105,7 +118,8 @@ export class CanonicalFactIngestionService {
 
     for (const mapping of mappings) {
       const extracted = extractedValues[mapping.provider_token];
-      const factId = `${companyId}_${mapping.canonical_metric}_LATEST_${mapping.period_type}_${mapping.consolidated_or_standalone}_REPORTED`;
+      const periodType = normalizedPeriodType(mapping.period_type);
+      const factId = `${companyId}_${mapping.canonical_metric}_LATEST_${periodType}_${mapping.consolidated_or_standalone}_REPORTED`;
       
       const isMissing = !extracted;
       const factType = isMissing || extracted.value === null ? 'MISSING' : 'REPORTED';
@@ -119,18 +133,18 @@ export class CanonicalFactIngestionService {
         INSERT OR REPLACE INTO company_facts (
           factId, companyId, symbol, isin, metric, value, unit, currency,
           periodType, periodEnd, asOfDate, factType, sourceType, scope,
-          provider, verificationStatus, fetchedAt, availabilityStatus,
+          provider, verificationStatus, fetchedAt, availableAt, availabilityStatus,
           sourceDocumentId, providerToken, exactProviderLabel
         ) VALUES (
           ?, ?, ?, ?, ?, ?, ?, ?,
+          ?, ?, ?, ?, ?,
           ?, ?, ?, ?, ?, ?,
-          ?, ?, ?, ?,
           ?, ?, ?
         )
       `, [
         factId, companyId, symbol, isin, mapping.canonical_metric, finalValue, mapping.unit, mapping.currency,
-        mapping.period_type, 'LATEST', new Date().toISOString().split('T')[0], factType, 'STRUCTURED_SECONDARY', mapping.consolidated_or_standalone,
-        mapping.provider, 'SECONDARY_VERIFIED', latest.fetched_at, availabilityStatus,
+        periodType, 'LATEST', observationDate || latest.fetched_at.slice(0, 10), factType, 'STRUCTURED_SECONDARY', mapping.consolidated_or_standalone,
+        mapping.provider, 'VERIFIED_PARTIAL', latest.fetched_at, availableAt, availabilityStatus,
         sourceDocumentId, mapping.provider_token, exactLabel || null
       ]);
       factsInserted++;

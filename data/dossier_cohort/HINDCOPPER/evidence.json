@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_HINDCOPPER_REV_FY26",
+    "issuerNseSymbol": "HINDCOPPER",
+    "issuerBseCode": "523188",
+    "documentHash": "dddfdee97a2c48aaaa7d8a598b6df319593d2b5a7aff52156340d270a545681f",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹6151 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_HINDCOPPER_PAT_FY26",
+    "issuerNseSymbol": "HINDCOPPER",
+    "issuerBseCode": "523188",
+    "documentHash": "dddfdee97a2c48aaaa7d8a598b6df319593d2b5a7aff52156340d270a545681f",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹738 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_HINDCOPPER_DEBT_FY26",
+    "issuerNseSymbol": "HINDCOPPER",
+    "issuerBseCode": "523188",
+    "documentHash": "0db65bcd450d2c362b66b3c653c7f558a72528b0161dedc36a5bd0b60f672179",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_HINDCOPPER_CONCALL_Q4FY26",
+    "issuerNseSymbol": "HINDCOPPER",
+    "issuerBseCode": "523188",
+    "documentHash": "556d4b269fca8d01aecb5ceed8e4f534e5e05d92cd716f1f93c8a3fbcd599ceb",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

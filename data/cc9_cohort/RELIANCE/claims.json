@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_RELIANCE_01",
+    "issuerNseSymbol": "RELIANCE",
+    "issuerBseCode": "500325",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Scale consolidated annual gross revenue to cross ₹950,000 Cr in FY24.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 974864,
+    "expectedValue": 950000,
+    "expectedOutcome": "Revenue >= ₹950,000 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_RIL_REV_01",
+    "claimDate": "2023-08-28",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 1000122,
+    "actualOutcomeDescription": "Delivered ₹1,000,122 Cr revenue crossing 10 lakh crore milestone.",
+    "evaluationEvidenceId": "EV_RIL_REV_01",
+    "evaluationDate": "2024-04-22",
+    "evaluationBasis": "BSE Audited Financial Accounts Release",
+    "publicationDate": "2023-08-28",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_RELIANCE_01"
+  }
+]

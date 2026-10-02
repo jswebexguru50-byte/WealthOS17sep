@@ -1,0 +1,120 @@
+{
+  "metadata": {
+    "reportType": "AI_STUDIO_MIGRATION_RECONCILIATION_REPORT",
+    "timestamp": "2026-09-17T11:06:43.493Z",
+    "status": "VERIFIED_AND_READY_FOR_INGESTION",
+    "targetModel": "Gemini 1.5 Pro (Google AI Studio)",
+    "contextWindowCapacity": "2,000,000 tokens"
+  },
+  "codePackage": {
+    "filePath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\data\\WealthOS_v6.3_Google_AI_Studio_Complete_Pack.xml",
+    "sizeBytes": 2421974,
+    "sizeMb": 2.31,
+    "estimatedTokens": 625762,
+    "tokenUtilizationPct": 31.3,
+    "sha256": "15158cf008067fc1b37a0235c50e7d93171a43d4f490814fb12ba0a658d2f5e6",
+    "requiredModulesVerified": {
+      "PureTechnicalStrategiesEngine.ts": true,
+      "NewTechnicalStrategiesEngine.ts": true,
+      "SignalQualityOverlay.ts": true,
+      "CapitalProtectionEngine.ts": true,
+      "StrategyParameterConfig.ts": true,
+      "UpstoxIntradayIngestor.ts": true,
+      "ExecutionSimulator.ts": true,
+      "TradingCalendarService.ts": true,
+      "FrozenSignalAdapter.ts": true,
+      "AblationEngine.ts": true,
+      "PointInTimeDataEngine.ts": true,
+      "ForensicScoringService.ts": true,
+      "MomentumVpaEngine.ts": true,
+      "012_phase2_pit_research_schema.sql": true,
+      "phase2_data_quality.test.ts": true,
+      "authoritative_phase2_research_dataset.sql": true
+    }
+  },
+  "dataPackage": {
+    "totalChunks": 8,
+    "totalRows": 188721,
+    "totalSizeBytes": 59815906,
+    "totalSizeMb": 57.04,
+    "chunks": [
+      {
+        "chunkId": "CHUNK_00",
+        "category": "REFERENCE",
+        "fileName": "chunk_00_reference_and_calendar.json",
+        "sizeKb": 74.8,
+        "rowCount": 188,
+        "sha256": "28adbd011db3aa5607a1c5d9f6dc4489139ddfede98f1af9c5f5f6b5a8298fac",
+        "integrityPassed": true
+      },
+      {
+        "chunkId": "CHUNK_01",
+        "category": "PORTFOLIO",
+        "fileName": "chunk_01_transactions_and_gains.jsonl",
+        "sizeKb": 11195.6,
+        "rowCount": 22292,
+        "sha256": "503fc9e43551081b7b75d60326fd77878669de673e9370717d334b43363489fe",
+        "integrityPassed": true
+      },
+      {
+        "chunkId": "CHUNK_02",
+        "category": "FORENSICS",
+        "fileName": "chunk_02_forensic_and_fundamentals.jsonl",
+        "sizeKb": 2052.3,
+        "rowCount": 3559,
+        "sha256": "224dfffc83f935c6c290299a73b9cee924e3467d9d87ca0e8626c672d7373206",
+        "integrityPassed": true
+      },
+      {
+        "chunkId": "CHUNK_03",
+        "category": "RESEARCH_BARS",
+        "fileName": "chunk_03_pilot_research_bars.jsonl",
+        "sizeKb": 128.3,
+        "rowCount": 645,
+        "sha256": "0d0b5ac4ba9d3bdadaed480c27bbbe692f2b78d3be9bce28622ad336acf68a8d",
+        "integrityPassed": true
+      },
+      {
+        "chunkId": "CHUNK_04",
+        "category": "CORPORATE_ACTIONS",
+        "fileName": "chunk_04_historical_corporate_actions.jsonl",
+        "sizeKb": 4165.1,
+        "rowCount": 7757,
+        "sha256": "b68ffc6cf40deb01d4a34d4066fa8eccc4e15cd9bc3c63801a8b1ccd8e55e71a",
+        "integrityPassed": true
+      },
+      {
+        "chunkId": "CHUNK_05",
+        "category": "VALUATIONS",
+        "fileName": "chunk_05_mf_nav_and_valuations.jsonl",
+        "sizeKb": 15152,
+        "rowCount": 71296,
+        "sha256": "88a8971bd132c3329c1a395a53e3ec1b0390e9608b52dee0bafa62ee7592e497",
+        "integrityPassed": true
+      },
+      {
+        "chunkId": "CHUNK_06",
+        "category": "MARKET_SNAPSHOTS",
+        "fileName": "chunk_06_market_snapshots.jsonl",
+        "sizeKb": 17153.7,
+        "rowCount": 32984,
+        "sha256": "4b9d595b985660078f585bb2c822b37badc98bc1a2d11e174224ffbd6a6cff12",
+        "integrityPassed": true
+      },
+      {
+        "chunkId": "CHUNK_07",
+        "category": "BROAD_MARKET",
+        "fileName": "chunk_07_broad_market_daily_ohlcv.jsonl",
+        "sizeKb": 8492.1,
+        "rowCount": 50000,
+        "sha256": "9a32fc3e6a74014b547b65a0792ba90ca467977a168451a9764a1bc232eeed26",
+        "integrityPassed": true
+      }
+    ]
+  },
+  "reconciliationVerdict": {
+    "codeIntegrity": "100% PASS — All core services, engines, tests, and schemas encapsulated.",
+    "dataIntegrity": "100% PASS — All reference, portfolio, forensic, and OHLCV chunks validated.",
+    "readyForAiStudio": true
+  }
+}

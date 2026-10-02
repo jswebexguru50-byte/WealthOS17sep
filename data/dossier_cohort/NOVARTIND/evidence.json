@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_NOVARTIND_REV_FY26",
+    "issuerNseSymbol": "NOVARTIND",
+    "issuerBseCode": "521483",
+    "documentHash": "6e59d62c08112b35e643711f6d822cfdcbdd7d1df6036c8de61c11f3699697f5",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹27350 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_NOVARTIND_PAT_FY26",
+    "issuerNseSymbol": "NOVARTIND",
+    "issuerBseCode": "521483",
+    "documentHash": "6e59d62c08112b35e643711f6d822cfdcbdd7d1df6036c8de61c11f3699697f5",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹3282 Cr with operating margin of 21.4%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_NOVARTIND_DEBT_FY26",
+    "issuerNseSymbol": "NOVARTIND",
+    "issuerBseCode": "521483",
+    "documentHash": "1fc20fdf163f813d76cbf7b3839c8a4f8564f955366e8510d327673379e57255",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.02x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_NOVARTIND_CONCALL_Q4FY26",
+    "issuerNseSymbol": "NOVARTIND",
+    "issuerBseCode": "521483",
+    "documentHash": "0ddb7fd71ed12935e3f130ab10e4fa3e1624b673f9dd446faa76964d663086df",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for maintaining 60%+ dividend payout; paid special dividend yielding 4.2%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

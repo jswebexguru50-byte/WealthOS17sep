@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "SCI",
+  "issuerBseCode": "506913",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_SCI_AR2024",
+      "documentName": "SCI_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "a810a081a4c8c792dc0dfc374cf5033a7400d670b11ec733cfdde88d11940fda",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_SCI_AUDITED_RESULTS",
+      "documentName": "SCI_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "236b3a2e93dfae2280408cfe85d258f6f92dd0b6ab9f87c18750bd12a6eab39c",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_SCI_CONCALL_Q4FY26",
+      "documentName": "SCI_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "b924bac729741f1dc0fdbd7355896d33bf349d21a7f721bf007217673953b2f8",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

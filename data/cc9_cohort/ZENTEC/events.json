@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_ZENTEC_01",
+    "issuerNseSymbol": "ZENTEC",
+    "issuerBseCode": "533339",
+    "eventDate": "2024-06-12",
+    "category": "ORDER_BOOK",
+    "headline": "Export Order Win for Counter-Unmanned Aerial Systems (CUAS)",
+    "description": "Secured landmark export contract worth ₹340 Cr from friendly foreign nation for integrated drone jamming systems.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_ZENTEC_ORDER_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

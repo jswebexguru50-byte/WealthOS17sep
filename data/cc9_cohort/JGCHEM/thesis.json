@@ -1,0 +1,19 @@
+{
+  "symbol": "JGCHEM",
+  "coreThesisStatement": "Largest manufacturer of zinc oxide in India with over 30% domestic market share supplying tier-1 global tyre makers.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Tyre Industry Integration",
+      "description": "Long-term supplier to top 10 tyre manufacturers in India."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Pharma Grade Expansion",
+      "description": "Expanding into higher-margin USP-grade zinc oxide for cosmetics and pharmaceuticals."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_JGCHEM_LEVERAGE"
+  ]
+}

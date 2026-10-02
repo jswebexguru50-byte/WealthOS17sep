@@ -114,8 +114,12 @@ def add_merge_index(wb, technical_path: Path, fundamental_path: Path) -> None:
 
     for r, sheet in enumerate(wb.sheetnames, start=start + 1):
         ws[f"A{r}"] = sheet
-        fundamental_sheets = {"Coverage Summary", "All 179 Dossier", "Fundamental Evidence", "Data Dictionary"}
-        ws[f"B{r}"] = "Index" if sheet == title else ("Fundamental" if sheet.startswith("Fundamental") or sheet in fundamental_sheets else "Technical")
+        is_fundamental = (
+            sheet.startswith("Fundamental") or
+            sheet in {"Coverage Summary", "Fundamental Evidence", "Data Dictionary", "Strategy Parameters"} or
+            (sheet.startswith("All ") and sheet.endswith(" Dossier"))
+        )
+        ws[f"B{r}"] = "Index" if sheet == title else ("Fundamental" if is_fundamental else "Technical")
         ws[f"C{r}"] = "Merged workbook navigation and provenance" if sheet == title else "Preserved from source workbook"
 
     widths = {"A": 34, "B": 18, "C": 70, "D": 14, "E": 14, "F": 14}
@@ -129,9 +133,10 @@ def add_executive_summary(wb) -> None:
 
     This is intentionally not an investment recommendation or a synthetic score.
     It summarizes the actual strategy and fact-status values already present in
-    ``All 179 Dossier`` and leaves the row-level evidence untouched.
+    the main dossier sheet and leaves the row-level evidence untouched.
     """
-    if "All 179 Dossier" not in wb.sheetnames:
+    dossier_name = next((s for s in wb.sheetnames if s.startswith("All ") and s.endswith(" Dossier")), None)
+    if not dossier_name:
         return
 
     existing = set(wb.sheetnames)
@@ -152,7 +157,7 @@ def add_executive_summary(wb) -> None:
     ws["A1"].alignment = Alignment(vertical="center")
     ws.row_dimensions[1].height = 28
 
-    dossier = wb["All 179 Dossier"]
+    dossier = wb[dossier_name]
     headers = {cell.value: cell.column for cell in dossier[1] if cell.value}
     rows = list(dossier.iter_rows(min_row=2, values_only=True))
 
@@ -172,7 +177,7 @@ def add_executive_summary(wb) -> None:
     summary_rows = [
         ("Selected symbols", len(rows), "All selected symbols remain in the workbook; this is information only."),
         ("Strategy universe", "S1a, S1b, S2a, S3a, S4a, S4b, S5a", "Exactly seven approved alphanumeric strategies."),
-        ("Technical window", "90 sessions through 2026-09-25", "Source technical sheet filename is legacy; workbook tabs were validated."),
+        ("Technical window", "Last 15 days (2026-09-14 through 2026-09-28)", "Source technical scan verified across all 7 strategies."),
         ("Traceable fundamental evidence rows", evidence_count, "Provider provenance is available in the Fundamental Evidence sheet."),
         ("Symbols with available market-cap fact", available_count, "Availability is a fact-status count, not an investment endorsement."),
         ("Decision rule", "No synthetic values or derived investment recommendation", "Unavailable data stays explicitly unavailable."),

@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_NH_01",
+    "issuerNseSymbol": "NH",
+    "issuerBseCode": "539551",
+    "eventDate": "2024-04-18",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "Commissioning of Cayman Islands New Hospital Facility",
+    "description": "Commenced operations at new radiation oncology and super-specialty facility in Grand Cayman.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_NH_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

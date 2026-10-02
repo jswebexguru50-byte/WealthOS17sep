@@ -1,0 +1,17 @@
+{
+  "issuerNseSymbol": "DIVISLAB",
+  "issuerBseCode": "532488",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_DIVIS_AR24",
+      "documentName": "Divis_Laboratories_Annual_Report_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-22",
+      "documentHashSha256": "90123456789abcdef0123456789abcdef0123456789abcdef0",
+      "pageCount": 220,
+      "filingAuthority": "BSE / NSE"
+    }
+  ]
+}

@@ -1,0 +1,927 @@
+{
+  "PRODUCTION_STATE": "POST_REMEDIATION_EXPERIMENT",
+  "companyIdentity": {
+    "symbol": "AAVAS",
+    "companyName": "Aavas Financiers Limited",
+    "isin": "INE216P01012",
+    "sector": "Housing Finance",
+    "industry": null,
+    "listingClassification": "NSE",
+    "businessModel": "NON_FINANCIAL"
+  },
+  "periodContext": {
+    "latestFiscalYear": "Mar 2024",
+    "latestQuarter": null,
+    "ttmAvailable": true,
+    "periodsAvailable": [
+      "Mar 2024",
+      "Mar 2023",
+      "Mar 2022",
+      "Mar 2021"
+    ],
+    "consolidatedOrStandalone": "CONSOLIDATED",
+    "asOfDate": "2026-10-01"
+  },
+  "canonicalFinancialFacts": [
+    {
+      "factId": "22731afc78ab49522d0ef7cd3f6f8a8eb8362c695cd7faf0734f1ac7809668f5",
+      "metric": "cfo_cr",
+      "value": 110,
+      "unit": "INR_CR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "f1f7d4b386871caba3125c04851e7dbb859999df8c0652c3f42d41a3cdd3dc7d",
+      "metric": "cmp",
+      "value": 350.5,
+      "unit": "INR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "c2ea3876a9f53e0dc96ac0795d07c833e96dff74e5c1fcff2ad1b4187c2551f1",
+      "metric": "fii_holding_pct",
+      "value": 14.2,
+      "unit": "PERCENT",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "b75d5b8c0c23ec7b922fcfca4eb91a5aefeca74d15127e97a1b59c189b5d1d79",
+      "metric": "institutional_holding_pct",
+      "value": 18.5,
+      "unit": "PERCENT",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "7fe9185f0b1ba921c445cdb9eb8f98766ac4cc02b48d18bed8395cf252e4d09d",
+      "metric": "market_cap_cr",
+      "value": 4500,
+      "unit": "INR_CR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "701b802388854419152db7289756a8e1d18ce478da5c959f68796b94b2081453",
+      "metric": "order_book_cr",
+      "value": 1850,
+      "unit": "INR_CR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "8a0aa8556941836f2526e92866e0991082ea556d7da9ab9c015610046d6b0b57",
+      "metric": "pat_cr",
+      "value": 85,
+      "unit": "INR_CR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "61a6767efbbbb458ca863953e417d51cce8873ecc8e39b5eec97541689909134",
+      "metric": "pe_ttm",
+      "value": 18.5,
+      "unit": "RATIO",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "bd99f7ca4ec50ff7e8f74a4afa983e17a4d122877b219b6b36c93df63574714e",
+      "metric": "promoter_holding_pct",
+      "value": 62.5,
+      "unit": "PERCENT",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "9fe27c90950026bbdf80f93cf7cb2eb7349943c4f0e646681f1ddd954aa2daa9",
+      "metric": "promoter_pledge_pct",
+      "value": "0.0",
+      "unit": "PERCENT",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "595b6d6e5df5bce040e541f9dde804ad95524a02fbed66db661a455256f84071",
+      "metric": "revenue_cr",
+      "value": 950,
+      "unit": "INR_CR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "023de1cf5b79e966388b32a9b22a1d8b54ac6b01f5a0ca1f2c63c32087033d59",
+      "metric": "roe_pct",
+      "value": 16.2,
+      "unit": "PERCENT",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_revenue_Mar 2024",
+      "metric": "REVENUE",
+      "value": 2017.9,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_revenue_Mar 2023",
+      "metric": "REVENUE",
+      "value": 1608.76,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_revenue_Mar 2022",
+      "metric": "REVENUE",
+      "value": 1304.45,
+      "unit": "INR_CR",
+      "period": "Mar 2022",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_revenue_Mar 2021",
+      "metric": "REVENUE",
+      "value": 1103.36,
+      "unit": "INR_CR",
+      "period": "Mar 2021",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_operating_profit_Mar 2024",
+      "metric": "OPERATING_PROFIT",
+      "value": 625.37,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_operating_profit_Mar 2023",
+      "metric": "OPERATING_PROFIT",
+      "value": 548.42,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_operating_profit_Mar 2022",
+      "metric": "OPERATING_PROFIT",
+      "value": 452.69,
+      "unit": "INR_CR",
+      "period": "Mar 2022",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_operating_profit_Mar 2021",
+      "metric": "OPERATING_PROFIT",
+      "value": 352.55,
+      "unit": "INR_CR",
+      "period": "Mar 2021",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_net_profit_Mar 2024",
+      "metric": "NET_PROFIT",
+      "value": 490.69,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_net_profit_Mar 2023",
+      "metric": "NET_PROFIT",
+      "value": 429.64,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_net_profit_Mar 2022",
+      "metric": "NET_PROFIT",
+      "value": 355.18,
+      "unit": "INR_CR",
+      "period": "Mar 2022",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_net_profit_Mar 2021",
+      "metric": "NET_PROFIT",
+      "value": 288.92,
+      "unit": "INR_CR",
+      "period": "Mar 2021",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_operating_Mar 2024",
+      "metric": "CFO_OPERATING",
+      "value": -1986.59,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_operating_Mar 2023",
+      "metric": "CFO_OPERATING",
+      "value": -1924.12,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_operating_Mar 2022",
+      "metric": "CFO_OPERATING",
+      "value": -1135.11,
+      "unit": "INR_CR",
+      "period": "Mar 2022",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_operating_Mar 2021",
+      "metric": "CFO_OPERATING",
+      "value": -1071.17,
+      "unit": "INR_CR",
+      "period": "Mar 2021",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_investing_Mar 2024",
+      "metric": "CFO_INVESTING",
+      "value": -646.8,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_investing_Mar 2023",
+      "metric": "CFO_INVESTING",
+      "value": 195.7,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_investing_Mar 2022",
+      "metric": "CFO_INVESTING",
+      "value": -462.61,
+      "unit": "INR_CR",
+      "period": "Mar 2022",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_investing_Mar 2021",
+      "metric": "CFO_INVESTING",
+      "value": -264.92,
+      "unit": "INR_CR",
+      "period": "Mar 2021",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_financing_Mar 2024",
+      "metric": "CFO_FINANCING",
+      "value": 2477.28,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_financing_Mar 2023",
+      "metric": "CFO_FINANCING",
+      "value": 1858.26,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_financing_Mar 2022",
+      "metric": "CFO_FINANCING",
+      "value": 1623.43,
+      "unit": "INR_CR",
+      "period": "Mar 2022",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_financing_Mar 2021",
+      "metric": "CFO_FINANCING",
+      "value": 1007.59,
+      "unit": "INR_CR",
+      "period": "Mar 2021",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_AAVAS_P_E",
+      "metric": "P/E",
+      "value": 21.22,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_AAVAS_P_B",
+      "metric": "P/B",
+      "value": 2.76,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_AAVAS_ROA",
+      "metric": "ROA",
+      "value": 3.03,
+      "unit": "PERCENT",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_AAVAS_ROE",
+      "metric": "ROE",
+      "value": 13.93,
+      "unit": "PERCENT",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_AAVAS_ROCE",
+      "metric": "ROCE",
+      "value": 9.91,
+      "unit": "PERCENT",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_AAVAS_Quick_Ratio",
+      "metric": "QUICK RATIO",
+      "value": 7.67,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_AAVAS_EV_EBITDA",
+      "metric": "EV/EBITDA",
+      "value": 14.14,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    }
+  ],
+  "derivedMetrics": [
+    {
+      "metric": "REVENUE_YOY_GROWTH",
+      "value": 25.43,
+      "unit": "PERCENT",
+      "formula": "((Revenue[t] - Revenue[t-1]) / |Revenue[t-1]|) * 100",
+      "periodsCompared": "Mar 2024 vs Mar 2023",
+      "verificationStatus": "VERIFIED",
+      "independentValue": 25.43,
+      "discrepancyNotes": "Oracle: ((2017.9 - 1608.76) / |1608.76|) * 100 = 25.43%, Production: 25.43%"
+    },
+    {
+      "metric": "EBITDA_MARGIN_LATEST",
+      "value": 30.99,
+      "unit": "PERCENT",
+      "formula": "(EBITDA / Revenue) * 100",
+      "periodsCompared": "Mar 2024",
+      "verificationStatus": "VERIFIED",
+      "independentValue": 30.99,
+      "discrepancyNotes": "Oracle: (625.37 / 2017.9) * 100 = 30.99%, Production: 30.99%"
+    },
+    {
+      "metric": "MARGIN_BPS_DELTA",
+      "value": -310,
+      "unit": "BPS",
+      "formula": "(Margin[t] - Margin[t-1]) * 100",
+      "verificationStatus": "VERIFIED",
+      "independentValue": -310,
+      "discrepancyNotes": "Metric: EBITDA_MARGIN"
+    }
+  ],
+  "evidenceProvenance": [
+    {
+      "factId": "22731afc78ab49522d0ef7cd3f6f8a8eb8362c695cd7faf0734f1ac7809668f5",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "f1f7d4b386871caba3125c04851e7dbb859999df8c0652c3f42d41a3cdd3dc7d",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "c2ea3876a9f53e0dc96ac0795d07c833e96dff74e5c1fcff2ad1b4187c2551f1",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "b75d5b8c0c23ec7b922fcfca4eb91a5aefeca74d15127e97a1b59c189b5d1d79",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "7fe9185f0b1ba921c445cdb9eb8f98766ac4cc02b48d18bed8395cf252e4d09d",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "701b802388854419152db7289756a8e1d18ce478da5c959f68796b94b2081453",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "8a0aa8556941836f2526e92866e0991082ea556d7da9ab9c015610046d6b0b57",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "61a6767efbbbb458ca863953e417d51cce8873ecc8e39b5eec97541689909134",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "bd99f7ca4ec50ff7e8f74a4afa983e17a4d122877b219b6b36c93df63574714e",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "9fe27c90950026bbdf80f93cf7cb2eb7349943c4f0e646681f1ddd954aa2daa9",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "595b6d6e5df5bce040e541f9dde804ad95524a02fbed66db661a455256f84071",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "023de1cf5b79e966388b32a9b22a1d8b54ac6b01f5a0ca1f2c63c32087033d59",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_revenue_Mar 2024",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_revenue_Mar 2023",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_revenue_Mar 2022",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2022",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_revenue_Mar 2021",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2021",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_operating_profit_Mar 2024",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_operating_profit_Mar 2023",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_operating_profit_Mar 2022",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2022",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_operating_profit_Mar 2021",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2021",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_net_profit_Mar 2024",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_net_profit_Mar 2023",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_net_profit_Mar 2022",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2022",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_AAVAS_net_profit_Mar 2021",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2021",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_operating_Mar 2024",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_operating_Mar 2023",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_operating_Mar 2022",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2022",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_operating_Mar 2021",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2021",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_investing_Mar 2024",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_investing_Mar 2023",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_investing_Mar 2022",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2022",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_investing_Mar 2021",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2021",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_financing_Mar 2024",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_financing_Mar 2023",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_financing_Mar 2022",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2022",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_AAVAS_financing_Mar 2021",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2021",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_AAVAS_P_E",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_AAVAS_P_B",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_AAVAS_ROA",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_AAVAS_ROE",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_AAVAS_ROCE",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_AAVAS_Quick_Ratio",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_AAVAS_EV_EBITDA",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    }
+  ],
+  "missingData": [],
+  "wealthosInterpretations": [
+    {
+      "claimId": "CLAIM_AAVAS_GROWTH_01",
+      "module": "FUNDAMENTAL",
+      "dimension": "REVENUE_GROWTH",
+      "claimStatement": "Revenue trajectory evaluated as ACCELERATING with latest growth of 25.43% (Mar 2024 vs Mar 2023 vs Mar 2022).",
+      "wealthosStatus": "ACCELERATING",
+      "underlyingMetricValues": {
+        "latestGrowthPct": 25.43,
+        "priorGrowthPct": 23.33,
+        "periodsCompared": "Mar 2024 vs Mar 2023 vs Mar 2022"
+      }
+    },
+    {
+      "claimId": "CLAIM_AAVAS_MARGIN_02",
+      "module": "FUNDAMENTAL",
+      "dimension": "MARGIN_TRAJECTORY",
+      "claimStatement": "Operating margin trajectory evaluated as CONTRACTING with delta of -310 bps using EBITDA_MARGIN.",
+      "wealthosStatus": "CONTRACTING",
+      "underlyingMetricValues": {
+        "bpsChange": -310,
+        "metricUsed": "EBITDA_MARGIN"
+      }
+    },
+    {
+      "claimId": "CLAIM_AAVAS_RETURN_03",
+      "module": "FUNDAMENTAL",
+      "dimension": "RETURN_PROFILE",
+      "claimStatement": "Capital efficiency return profile assessed as LOW with ROCE at 9.91%.",
+      "wealthosStatus": "LOW",
+      "underlyingMetricValues": {
+        "metric": "ROCE",
+        "latestValue": 9.91,
+        "status": "LOW"
+      }
+    },
+    {
+      "claimId": "CLAIM_AAVAS_DEBT_04",
+      "module": "FUNDAMENTAL",
+      "dimension": "DEBT_TRAJECTORY",
+      "claimStatement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "status": "DATA_INSUFFICIENT",
+        "changePct": null
+      }
+    },
+    {
+      "claimId": "CLAIM_AAVAS_VALUATION_PE",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric PE is 21.22. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "PE",
+        "current": 21.22
+      }
+    },
+    {
+      "claimId": "CLAIM_AAVAS_VALUATION_PB",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric PB is 2.76. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "PB",
+        "current": 2.76
+      }
+    },
+    {
+      "claimId": "CLAIM_AAVAS_VALUATION_EV_EBITDA",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric EV/EBITDA is 14.14. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "EV/EBITDA",
+        "current": 14.14
+      }
+    },
+    {
+      "claimId": "CLAIM_AAVAS_VALUATION_DIVIDEND_YIELD",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric Dividend Yield is N/A. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "Dividend Yield",
+        "current": null
+      }
+    }
+  ]
+}

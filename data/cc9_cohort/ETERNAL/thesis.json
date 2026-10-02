@@ -1,0 +1,19 @@
+{
+  "symbol": "ETERNAL",
+  "coreThesisStatement": "Hyper-scaling consumer internet duopoly dominating Indian food delivery and pioneering the 10-minute quick commerce revolution (Blinkit).",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Quick Commerce J-Curve",
+      "description": "Blinkit store-level EBITDA turning positive with 100%+ YoY gross order value growth."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Food Delivery Cash Cow",
+      "description": "Core food delivery platform throwing off predictable operating free cash flow."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_ETERNAL_BURN"
+  ]
+}

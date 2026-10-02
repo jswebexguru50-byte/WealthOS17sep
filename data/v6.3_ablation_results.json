@@ -1,0 +1,172 @@
+{
+  "runId": "RUN-V63-E2E-1789622948116",
+  "cumulative": [
+    {
+      "layer": "RAW",
+      "metrics": {
+        "trades": 360,
+        "netPnl": 188079.46999999977,
+        "expectancyR": 0.10130666666666663,
+        "profitFactor": 1.1426292610517026,
+        "maxDrawdownPct": 0,
+        "calmar": 0,
+        "sortino": 0,
+        "winRate": 0.4222222222222222,
+        "meanMAE": -0.053909166666666834,
+        "meanMFE": 0.03277361111111109
+      }
+    },
+    {
+      "layer": "RAW+SIGNAL_QUALITY",
+      "metrics": {
+        "trades": 288,
+        "netPnl": -5477.2099999999955,
+        "expectancyR": 0.0008729166666666484,
+        "profitFactor": 0.9946325045589373,
+        "maxDrawdownPct": 0,
+        "calmar": 0,
+        "sortino": 0,
+        "winRate": 0.3888888888888889,
+        "meanMAE": -0.052550000000000104,
+        "meanMFE": 0.033955555555555544
+      }
+    },
+    {
+      "layer": "RAW+SIGNAL_QUALITY+RISK_SIZING",
+      "metrics": {
+        "trades": 288,
+        "netPnl": -5477.2099999999955,
+        "expectancyR": 0.0008729166666666484,
+        "profitFactor": 0.9946325045589373,
+        "maxDrawdownPct": 0,
+        "calmar": 0,
+        "sortino": 0,
+        "winRate": 0.3888888888888889,
+        "meanMAE": -0.052550000000000104,
+        "meanMFE": 0.033955555555555544
+      }
+    },
+    {
+      "layer": "RAW+SIGNAL_QUALITY+RISK_SIZING+GAP_RISK",
+      "metrics": {
+        "trades": 259,
+        "netPnl": 29053.549999999956,
+        "expectancyR": 0.027380694980694897,
+        "profitFactor": 1.0313576055723932,
+        "maxDrawdownPct": 0,
+        "calmar": 0,
+        "sortino": 0,
+        "winRate": 0.39768339768339767,
+        "meanMAE": -0.04997065637065647,
+        "meanMFE": 0.037950193050193044
+      }
+    },
+    {
+      "layer": "RAW+SIGNAL_QUALITY+RISK_SIZING+GAP_RISK+CAPITAL_PROTECTION",
+      "metrics": {
+        "trades": 259,
+        "netPnl": 29053.549999999956,
+        "expectancyR": 0.027380694980694897,
+        "profitFactor": 1.0313576055723932,
+        "maxDrawdownPct": 0,
+        "calmar": 0,
+        "sortino": 0,
+        "winRate": 0.39768339768339767,
+        "meanMAE": -0.04997065637065647,
+        "meanMFE": 0.037950193050193044
+      }
+    },
+    {
+      "layer": "RAW+SIGNAL_QUALITY+RISK_SIZING+GAP_RISK+CAPITAL_PROTECTION+EXIT_FRAMEWORK",
+      "metrics": {
+        "trades": 259,
+        "netPnl": 29053.549999999956,
+        "expectancyR": 0.027380694980694897,
+        "profitFactor": 1.0313576055723932,
+        "maxDrawdownPct": 0,
+        "calmar": 0,
+        "sortino": 0,
+        "winRate": 0.39768339768339767,
+        "meanMAE": -0.04997065637065647,
+        "meanMFE": 0.037950193050193044
+      }
+    }
+  ],
+  "leaveOneOut": [
+    {
+      "removedLayer": "SIGNAL_QUALITY",
+      "metrics": {
+        "trades": 324,
+        "netPnl": 87370.39000000003,
+        "expectancyR": 0.05669074074074062,
+        "profitFactor": 1.0746473909059144,
+        "maxDrawdownPct": 0,
+        "calmar": 0,
+        "sortino": 0,
+        "winRate": 0.4074074074074074,
+        "meanMAE": -0.05330524691358036,
+        "meanMFE": 0.03329907407407405
+      }
+    },
+    {
+      "removedLayer": "RISK_SIZING",
+      "metrics": {
+        "trades": 259,
+        "netPnl": 29053.549999999956,
+        "expectancyR": 0.027380694980694897,
+        "profitFactor": 1.0313576055723932,
+        "maxDrawdownPct": 0,
+        "calmar": 0,
+        "sortino": 0,
+        "winRate": 0.39768339768339767,
+        "meanMAE": -0.04997065637065647,
+        "meanMFE": 0.037950193050193044
+      }
+    },
+    {
+      "removedLayer": "GAP_RISK",
+      "metrics": {
+        "trades": 288,
+        "netPnl": -5477.2099999999955,
+        "expectancyR": 0.0008729166666666484,
+        "profitFactor": 0.9946325045589373,
+        "maxDrawdownPct": 0,
+        "calmar": 0,
+        "sortino": 0,
+        "winRate": 0.3888888888888889,
+        "meanMAE": -0.052550000000000104,
+        "meanMFE": 0.033955555555555544
+      }
+    },
+    {
+      "removedLayer": "CAPITAL_PROTECTION",
+      "metrics": {
+        "trades": 259,
+        "netPnl": 29053.549999999956,
+        "expectancyR": 0.027380694980694897,
+        "profitFactor": 1.0313576055723932,
+        "maxDrawdownPct": 0,
+        "calmar": 0,
+        "sortino": 0,
+        "winRate": 0.39768339768339767,
+        "meanMAE": -0.04997065637065647,
+        "meanMFE": 0.037950193050193044
+      }
+    },
+    {
+      "removedLayer": "EXIT_FRAMEWORK",
+      "metrics": {
+        "trades": 259,
+        "netPnl": 29053.549999999956,
+        "expectancyR": 0.027380694980694897,
+        "profitFactor": 1.0313576055723932,
+        "maxDrawdownPct": 0,
+        "calmar": 0,
+        "sortino": 0,
+        "winRate": 0.39768339768339767,
+        "meanMAE": -0.04997065637065647,
+        "meanMFE": 0.037950193050193044
+      }
+    }
+  ]
+}

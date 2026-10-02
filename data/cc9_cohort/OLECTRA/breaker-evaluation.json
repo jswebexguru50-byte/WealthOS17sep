@@ -1,0 +1,14 @@
+[
+  {
+    "breakerId": "TB_OLECTRA_LEVERAGE",
+    "symbol": "OLECTRA",
+    "name": "EV Bus Capex Debt Ceiling",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 2.2,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Net Debt / EBITDA exceeding 2.2x triggers hard veto.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

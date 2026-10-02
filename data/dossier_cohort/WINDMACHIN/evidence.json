@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_WINDMACHIN_REV_FY26",
+    "issuerNseSymbol": "WINDMACHIN",
+    "issuerBseCode": "522878",
+    "documentHash": "06bc2a67e76d16e0a344812937458f66559a22a91d57db92df41bd5966d2a806",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹3759 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_WINDMACHIN_PAT_FY26",
+    "issuerNseSymbol": "WINDMACHIN",
+    "issuerBseCode": "522878",
+    "documentHash": "06bc2a67e76d16e0a344812937458f66559a22a91d57db92df41bd5966d2a806",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹451 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_WINDMACHIN_DEBT_FY26",
+    "issuerNseSymbol": "WINDMACHIN",
+    "issuerBseCode": "522878",
+    "documentHash": "dbe3462c08d51aa28722e19d6cd42d89e3f7d2ed0bffd2e218d4c42550986ab5",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_WINDMACHIN_CONCALL_Q4FY26",
+    "issuerNseSymbol": "WINDMACHIN",
+    "issuerBseCode": "522878",
+    "documentHash": "9a5c173dbb3daf3962737144c5079374969208f56a645f3514495da5cfbb92bf",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

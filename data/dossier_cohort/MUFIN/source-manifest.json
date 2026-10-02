@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "MUFIN",
+  "issuerBseCode": "511873",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_MUFIN_AR2024",
+      "documentName": "MUFIN_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "a63cb3624318426e6df3682d10081a8efc02b6b507fb2809e2189698629b6073",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_MUFIN_AUDITED_RESULTS",
+      "documentName": "MUFIN_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "9e7aed0f0bcf3ffdfdc3b23fc2366bd9410d063ca34c42c113cc5a1beedfbbc6",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_MUFIN_CONCALL_Q4FY26",
+      "documentName": "MUFIN_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "31e7a129ee5c5dbc80ffff2349df73bcffe2712369a1d58a2aeebc25a8ba23e4",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

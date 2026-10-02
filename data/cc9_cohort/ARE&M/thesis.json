@@ -1,0 +1,19 @@
+{
+  "symbol": "ARE&M",
+  "coreThesisStatement": "Duopolistic battery powerhouse (Amaron) using robust cash flows from lead-acid replacement market to build India's first commercial 16 GWh lithium-ion giga-hub in Telangana.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Amaron Brand Moat",
+      "description": "Over 35% domestic market share in organized auto replacement batteries."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Gotion Tech Partnership",
+      "description": "Access to Tier-1 global lithium chemistry IP for electric 2W/3W and stationary energy storage."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_AREM_LEVERAGE"
+  ]
+}

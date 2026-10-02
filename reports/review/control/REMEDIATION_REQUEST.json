@@ -1,0 +1,50 @@
+{
+  "requestId": "CAL_020_REMEDIATION_001",
+  "reviewId": "FUNDAMENTAL_CAL_020",
+  "program": "FUNDAMENTAL_CALIBRATION",
+  "iteration": 1,
+  "status": "READY_FOR_DEVELOPMENT",
+  "reviewer": "CODEX",
+  "reviewedHead": "a82dc89e8abd907f9709424fb7ba61e86702350e",
+  "findings": [
+    {
+      "findingId": "CAL020_VALUATION_COVERAGE_001",
+      "severity": "P1",
+      "observedBehavior": "Valuation marks completeness FULL from all-company fact count and time span even where the valuation metric itself has one usable observation; the displayed one-year median equals current value and percentile is null.",
+      "evidence": ["reports/review/runs/FUNDAMENTAL_CAL_020/FRESH_PRODUCTION_CAPTURE.json: 9/20 DENSE/FULL companies have null percentile and single-point median", "src/server/services/intelligence/valuation/ValuationIntelligenceEngine.ts:160", "src/server/services/intelligence/valuation/ValuationIntelligenceEngine.ts:141"],
+      "requirementProvenance": "CAL_020: evidence, derivation, freshness and missingness must be truthful"
+    },
+    {
+      "findingId": "CAL020_QGLP_FORENSIC_NEGATIVE_002",
+      "severity": "P1",
+      "observedBehavior": "QGLP emits NO_RED_FLAG_DETECTED when FERE is merely an object with no warnings, including FERE DATA_INSUFFICIENT. The displayed evidence is an Upstox competitors snapshot, not forensic evidence.",
+      "evidence": ["Fresh capture: BAJFINANCE, LTIM and TATAMOTORS show FERE DATA_INSUFFICIENT/zero evidence but QGLP NO_RED_FLAG_DETECTED", "src/server/services/intelligence/modules/QglpModuleAdapter.ts:273-274"],
+      "requirementProvenance": "CAL_020: evidence before conclusion and explicit missing/source-unavailable semantics"
+    },
+    {
+      "findingId": "CAL020_QGLP_LEVERAGE_DEFAULT_003",
+      "severity": "P1",
+      "observedBehavior": "QGLP asserts historical leverage support for all non-banks without debt evidence and applies industrial leverage language to NBFCs.",
+      "evidence": ["Fresh capture: 19/20 have PARTIAL leverage assertion while debt trajectory is DATA_INSUFFICIENT or NOT_APPLICABLE", "src/server/services/intelligence/modules/QglpModuleAdapter.ts:235-236"],
+      "requirementProvenance": "CAL_020: business-model-aware, evidence-backed fundamental interpretation"
+    },
+    {
+      "findingId": "CAL020_BUSINESS_MODEL_MISROUTING_004",
+      "severity": "P1",
+      "observedBehavior": "UNKNOWN business model routes through industrial fundamental and QGLP logic instead of withholding model-dependent conclusions.",
+      "evidence": ["Fresh capture AAVAS: UNKNOWN model with EBITDA_MARGIN and industrial QGLP items", "src/server/services/intelligence/modules/FundamentalModuleAdapter.ts:247-300", "src/server/services/intelligence/modules/QglpModuleAdapter.ts:96,235"],
+      "requirementProvenance": "CAL_020: business-model context and no unsupported derivation"
+    }
+  ],
+  "affectedCapabilities": ["CAP_FUNDAMENTAL_ANALYSIS", "CAP_VALUATION_GOVERNANCE", "CAP_FORENSIC_INTELLIGENCE", "CAP_MANAGEMENT_WTT"],
+  "affectedCompanies": ["AAVAS", "BAJFINANCE", "LTIM", "TATAMOTORS", "TCS", "TITAN", "RELIANCE", "HDFCBANK", "INFY", "SUNPHARMA", "TATASTEEL", "DYCL"],
+  "affectedClaims": ["historical valuation completeness", "no forensic red flags", "balance-sheet leverage supported", "business-model-specific fundamental interpretation"],
+  "affectedBusinessModels": ["UNKNOWN", "BANK", "NBFC", "NON_FINANCIAL"],
+  "rootCauseAssessment": "The product treats aggregate fact counts, object presence, and default non-bank branches as evidence for specific financial claims. It must gate every displayed claim on its exact dated inputs and business-model applicability.",
+  "generalBehaviorRequired": "Implement metric-level evidence gating without changing thresholds to force a pass. (1) Valuation coverage must be calculated separately per valuation metric from dated metric observations; do not emit FULL, median, range, or percentile without that metric's qualifying history. (2) QGLP risk must require sufficient FERE evidence and cite FERE evidence before NO_RED_FLAG_DETECTED; FERE missing/partial must remain DATA_INSUFFICIENT. (3) QGLP leverage must use dated debt/leverage facts, not a non-bank default; BANK and NBFC must receive model-appropriate NOT_APPLICABLE or evidence-backed treatments. (4) UNKNOWN model must block model-dependent industrial analysis until verified classification exists. Preserve successful arithmetic and partial-source semantics.",
+  "acceptanceCriteria": ["New tests use a fresh disposable DB fixture and exercise real adapters/engines, not copied decision tables", "Metric-level valuation history with one observation returns DATA_INSUFFICIENT/null statistics; multiple dated observations produce correctly computed median/range/percentile", "QGLP with FERE DATA_INSUFFICIENT never says NO_RED_FLAG_DETECTED", "QGLP leverage with absent debt evidence is DATA_INSUFFICIENT; BANK/NBFC behavior is explicitly model-aware", "UNKNOWN business model does not emit industrial EBITDA-margin, cash-conversion or leverage conclusions", "Existing 20-company arithmetic for revenue growth and non-financial EBITDA-margin bps remains correct", "No migrations, ingestion runs, database writes, threshold tuning for the cohort, or changes to reviewer artifacts other than completion evidence"],
+  "testsRequired": ["Targeted unit/integration tests for all four findings", "TypeScript check", "Run the 20-company CAL_020 capture on a disposable current DB copy and report before/after production DB SHA or equivalent no-write evidence"],
+  "regressionScope": "FundamentalModuleAdapter, QglpModuleAdapter, ValuationIntelligenceEngine and their existing/targeted tests only",
+  "protectedAreas": ["Production database", "Data ingestion", "Review framework", "Historical review evidence", "Existing dirty and untracked work"],
+  "forbiddenShortcuts": ["Company-specific exceptions", "Suppressing affected QGLP items instead of correct evidence gating", "Marking missing values as zero or safe", "Using aggregate fact count as per-metric coverage", "Writing pilot verdicts into the production pipeline", "Changing data merely to satisfy tests"]
+}

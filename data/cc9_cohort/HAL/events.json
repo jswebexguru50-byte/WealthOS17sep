@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_HAL_01",
+    "issuerNseSymbol": "HAL",
+    "issuerBseCode": "541154",
+    "eventDate": "2024-04-12",
+    "category": "ORDER_BOOK",
+    "headline": "Tejas Mk-1A Fighter Aircraft Maiden Flight Test Series",
+    "description": "Successfully completed series production maiden flight tests for LCA Tejas Mk-1A with modern radar.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_HAL_ORDER_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

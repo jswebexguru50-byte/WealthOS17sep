@@ -1,0 +1,711 @@
+{
+  "PRODUCTION_STATE": "POST_REMEDIATION_EXPERIMENT",
+  "companyIdentity": {
+    "symbol": "PIDILITIND",
+    "companyName": "Pidilite Industries Limited",
+    "isin": "INE318A01026",
+    "sector": "Basic Materials",
+    "industry": null,
+    "listingClassification": "NSE",
+    "businessModel": "NON_FINANCIAL"
+  },
+  "periodContext": {
+    "latestFiscalYear": "Mar 2026",
+    "latestQuarter": null,
+    "ttmAvailable": false,
+    "periodsAvailable": [
+      "Mar 2026",
+      "Mar 2025",
+      "Mar 2024",
+      "Mar 2023"
+    ],
+    "consolidatedOrStandalone": "CONSOLIDATED",
+    "asOfDate": "2026-10-01"
+  },
+  "canonicalFinancialFacts": [
+    {
+      "factId": "FACT_INC_PIDILITIND_revenue_Mar 2026",
+      "metric": "REVENUE",
+      "value": 14867.01,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_PIDILITIND_revenue_Mar 2025",
+      "metric": "REVENUE",
+      "value": 13387.53,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_PIDILITIND_revenue_Mar 2024",
+      "metric": "REVENUE",
+      "value": 12522.64,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_PIDILITIND_revenue_Mar 2023",
+      "metric": "REVENUE",
+      "value": 11848.71,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_PIDILITIND_operating_profit_Mar 2026",
+      "metric": "OPERATING_PROFIT",
+      "value": 3320.17,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_PIDILITIND_operating_profit_Mar 2025",
+      "metric": "OPERATING_PROFIT",
+      "value": 2822.7,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_PIDILITIND_operating_profit_Mar 2024",
+      "metric": "OPERATING_PROFIT",
+      "value": 2379.35,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_PIDILITIND_operating_profit_Mar 2023",
+      "metric": "OPERATING_PROFIT",
+      "value": 1723.24,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_PIDILITIND_net_profit_Mar 2026",
+      "metric": "NET_PROFIT",
+      "value": 2470.72,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_PIDILITIND_net_profit_Mar 2025",
+      "metric": "NET_PROFIT",
+      "value": 2096.17,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_PIDILITIND_net_profit_Mar 2024",
+      "metric": "NET_PROFIT",
+      "value": 1747.42,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_PIDILITIND_net_profit_Mar 2023",
+      "metric": "NET_PROFIT",
+      "value": 1288.87,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_operating_Mar 2026",
+      "metric": "CFO_OPERATING",
+      "value": 2828.45,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_operating_Mar 2025",
+      "metric": "CFO_OPERATING",
+      "value": 2286.63,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_operating_Mar 2024",
+      "metric": "CFO_OPERATING",
+      "value": 2724.03,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_operating_Mar 2023",
+      "metric": "CFO_OPERATING",
+      "value": 1557.57,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_investing_Mar 2026",
+      "metric": "CFO_INVESTING",
+      "value": -1224.1,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_investing_Mar 2025",
+      "metric": "CFO_INVESTING",
+      "value": -1541.59,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_investing_Mar 2024",
+      "metric": "CFO_INVESTING",
+      "value": -1769.29,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_investing_Mar 2023",
+      "metric": "CFO_INVESTING",
+      "value": -898.95,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_financing_Mar 2026",
+      "metric": "CFO_FINANCING",
+      "value": -1672.77,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_financing_Mar 2025",
+      "metric": "CFO_FINANCING",
+      "value": -917.94,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_financing_Mar 2024",
+      "metric": "CFO_FINANCING",
+      "value": -742.45,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_financing_Mar 2023",
+      "metric": "CFO_FINANCING",
+      "value": -656.43,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_PIDILITIND_P_E",
+      "metric": "P/E",
+      "value": 57.52,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_PIDILITIND_P_B",
+      "metric": "P/B",
+      "value": 14.21,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_PIDILITIND_ROA",
+      "metric": "ROA",
+      "value": 17.34,
+      "unit": "PERCENT",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_PIDILITIND_ROE",
+      "metric": "ROE",
+      "value": 22.61,
+      "unit": "PERCENT",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_PIDILITIND_ROCE",
+      "metric": "ROCE",
+      "value": 29.97,
+      "unit": "PERCENT",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_PIDILITIND_Quick_Ratio",
+      "metric": "QUICK RATIO",
+      "value": 1.9,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_PIDILITIND_EV_EBITDA",
+      "metric": "EV/EBITDA",
+      "value": 38.36,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    }
+  ],
+  "derivedMetrics": [
+    {
+      "metric": "REVENUE_YOY_GROWTH",
+      "value": 11.05,
+      "unit": "PERCENT",
+      "formula": "((Revenue[t] - Revenue[t-1]) / |Revenue[t-1]|) * 100",
+      "periodsCompared": "Mar 2026 vs Mar 2025",
+      "verificationStatus": "VERIFIED",
+      "independentValue": 11.05,
+      "discrepancyNotes": "Oracle: ((14867.01 - 13387.53) / |13387.53|) * 100 = 11.05%, Production: 11.05%"
+    },
+    {
+      "metric": "EBITDA_MARGIN_LATEST",
+      "value": 22.33,
+      "unit": "PERCENT",
+      "formula": "(EBITDA / Revenue) * 100",
+      "periodsCompared": "Mar 2026",
+      "verificationStatus": "VERIFIED",
+      "independentValue": 22.33,
+      "discrepancyNotes": "Oracle: (3320.17 / 14867.01) * 100 = 22.33%, Production: 22.33%"
+    },
+    {
+      "metric": "MARGIN_BPS_DELTA",
+      "value": 125,
+      "unit": "BPS",
+      "formula": "(Margin[t] - Margin[t-1]) * 100",
+      "verificationStatus": "VERIFIED",
+      "independentValue": 125,
+      "discrepancyNotes": "Metric: EBITDA_MARGIN"
+    }
+  ],
+  "evidenceProvenance": [
+    {
+      "factId": "FACT_INC_PIDILITIND_revenue_Mar 2026",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_PIDILITIND_revenue_Mar 2025",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_PIDILITIND_revenue_Mar 2024",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_PIDILITIND_revenue_Mar 2023",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_PIDILITIND_operating_profit_Mar 2026",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_PIDILITIND_operating_profit_Mar 2025",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_PIDILITIND_operating_profit_Mar 2024",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_PIDILITIND_operating_profit_Mar 2023",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_PIDILITIND_net_profit_Mar 2026",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_PIDILITIND_net_profit_Mar 2025",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_PIDILITIND_net_profit_Mar 2024",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_PIDILITIND_net_profit_Mar 2023",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_operating_Mar 2026",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_operating_Mar 2025",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_operating_Mar 2024",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_operating_Mar 2023",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_investing_Mar 2026",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_investing_Mar 2025",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_investing_Mar 2024",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_investing_Mar 2023",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_financing_Mar 2026",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_financing_Mar 2025",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_financing_Mar 2024",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_PIDILITIND_financing_Mar 2023",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_PIDILITIND_P_E",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_PIDILITIND_P_B",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_PIDILITIND_ROA",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_PIDILITIND_ROE",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_PIDILITIND_ROCE",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_PIDILITIND_Quick_Ratio",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_PIDILITIND_EV_EBITDA",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    }
+  ],
+  "missingData": [],
+  "wealthosInterpretations": [
+    {
+      "claimId": "CLAIM_PIDILITIND_GROWTH_01",
+      "module": "FUNDAMENTAL",
+      "dimension": "REVENUE_GROWTH",
+      "claimStatement": "Revenue trajectory evaluated as ACCELERATING with latest growth of 11.05% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+      "wealthosStatus": "ACCELERATING",
+      "underlyingMetricValues": {
+        "latestGrowthPct": 11.05,
+        "priorGrowthPct": 6.91,
+        "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+      }
+    },
+    {
+      "claimId": "CLAIM_PIDILITIND_MARGIN_02",
+      "module": "FUNDAMENTAL",
+      "dimension": "MARGIN_TRAJECTORY",
+      "claimStatement": "Operating margin trajectory evaluated as EXPANDING with delta of 125 bps using EBITDA_MARGIN.",
+      "wealthosStatus": "EXPANDING",
+      "underlyingMetricValues": {
+        "bpsChange": 125,
+        "metricUsed": "EBITDA_MARGIN"
+      }
+    },
+    {
+      "claimId": "CLAIM_PIDILITIND_RETURN_03",
+      "module": "FUNDAMENTAL",
+      "dimension": "RETURN_PROFILE",
+      "claimStatement": "Capital efficiency return profile assessed as HIGH_QUALITY with ROCE at 29.97%.",
+      "wealthosStatus": "HIGH_QUALITY",
+      "underlyingMetricValues": {
+        "metric": "ROCE",
+        "latestValue": 29.97,
+        "status": "HIGH_QUALITY"
+      }
+    },
+    {
+      "claimId": "CLAIM_PIDILITIND_DEBT_04",
+      "module": "FUNDAMENTAL",
+      "dimension": "DEBT_TRAJECTORY",
+      "claimStatement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "status": "DATA_INSUFFICIENT",
+        "changePct": null
+      }
+    },
+    {
+      "claimId": "CLAIM_PIDILITIND_VALUATION_PE",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric PE is 57.52. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "PE",
+        "current": 57.52
+      }
+    },
+    {
+      "claimId": "CLAIM_PIDILITIND_VALUATION_PB",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric PB is 14.21. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "PB",
+        "current": 14.21
+      }
+    },
+    {
+      "claimId": "CLAIM_PIDILITIND_VALUATION_EV_EBITDA",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric EV/EBITDA is 38.36. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "EV/EBITDA",
+        "current": 38.36
+      }
+    },
+    {
+      "claimId": "CLAIM_PIDILITIND_VALUATION_DIVIDEND_YIELD",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric Dividend Yield is N/A. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "Dividend Yield",
+        "current": null
+      }
+    }
+  ]
+}

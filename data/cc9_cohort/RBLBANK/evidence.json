@@ -1,0 +1,38 @@
+[
+  {
+    "evidenceId": "EV_RBL_REV_01",
+    "issuerNseSymbol": "RBLBANK",
+    "issuerBseCode": "540065",
+    "documentId": "DOC_RBL_AR24",
+    "documentHash": "56789abcdef0123456789abcdef0123456789abcdef6",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 52,
+    "pagePrinted": "50",
+    "quotedText": "Total revenue reached ₹15392 Cr while microfinance and credit card credit costs elevated significantly.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_RBL_PROMISE_01",
+    "issuerNseSymbol": "RBLBANK",
+    "issuerBseCode": "540065",
+    "documentId": "DOC_RBL_AR24",
+    "documentHash": "56789abcdef0123456789abcdef0123456789abcdef6",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 28,
+    "pagePrinted": "26",
+    "quotedText": "Management guided credit card and unsecured credit costs to remain below 2.5% of advances throughout FY24.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_RBL_RESULT_01",
+    "issuerNseSymbol": "RBLBANK",
+    "issuerBseCode": "540065",
+    "documentId": "DOC_RBL_AR24",
+    "documentHash": "56789abcdef0123456789abcdef0123456789abcdef6",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 65,
+    "pagePrinted": "63",
+    "quotedText": "Audited accounts revealed unsecured credit card and MFI credit costs surged to 4.1% forcing substantial additional provision allocations.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

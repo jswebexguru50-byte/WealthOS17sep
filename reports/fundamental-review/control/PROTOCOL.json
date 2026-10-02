@@ -1,0 +1,132 @@
+{
+  "protocol": "WEALTHOS_FUNDAMENTAL_CALIBRATION_CONTROL_PLANE",
+  "version": "1.0.0",
+  "lastUpdated": "2026-10-01T08:20:00.000Z",
+  "roles": {
+    "CODEX": {
+      "role": "INDEPENDENT_REVIEWER",
+      "authority": "REVIEWER_VERIFIER_ACCEPTANCE_AUTHORITY",
+      "allowedStateTransitions": [
+        "CODEX_REVIEWING",
+        "REMEDIATION_READY",
+        "REMEDIATION_REQUIRED",
+        "PASS",
+        "HUMAN_APPROVAL_REQUIRED",
+        "IDLE"
+      ],
+      "responsibilities": [
+        "Select and execute review cohorts (CAL_020, CAL_050, HOLDOUT_030, etc.)",
+        "Issue authoritative REMEDIATION_REQUEST artifacts",
+        "Verify remediations and issue final verdicts",
+        "Escalate to HUMAN_APPROVAL_REQUIRED when consensus or limits are reached"
+      ]
+    },
+    "ANTIGRAVITY": {
+      "role": "IMPLEMENTATION_AGENT",
+      "authority": "IMPLEMENTER",
+      "allowedStateTransitions": [
+        "ANTIGRAVITY_WORKING",
+        "AWAITING_CODEX_VERIFICATION",
+        "BLOCKED"
+      ],
+      "prohibitedStateTransitions": [
+        "PASS",
+        "REMEDIATION_READY",
+        "REMEDIATION_REQUIRED",
+        "HUMAN_APPROVAL_REQUIRED"
+      ],
+      "responsibilities": [
+        "Consume REMEDIATION_REQUEST when REVIEW_STATE is REMEDIATION_READY",
+        "Identify root causes (data vs derivation vs interpretation)",
+        "Implement generalized, business-model-aware fixes",
+        "Write deterministic regression tests",
+        "Run typecheck, tests, and build",
+        "Issue REMEDIATION_COMPLETE artifacts",
+        "Transition state to AWAITING_CODEX_VERIFICATION"
+      ],
+      "prohibitions": [
+        "Must NOT grade interpretations or issue review verdicts",
+        "Must NOT approve own work or declare PASS",
+        "Must NOT use company-specific conditionals (if symbol === ...) or allowlists",
+        "Must NOT invent ungrounded numerical thresholds",
+        "Must NOT weaken evidence provenance, PIT controls, or synthetic quarantine"
+      ]
+    }
+  },
+  "stateMachine": {
+    "validStates": [
+      "IDLE",
+      "CODEX_REVIEWING",
+      "REMEDIATION_READY",
+      "ANTIGRAVITY_WORKING",
+      "AWAITING_CODEX_VERIFICATION",
+      "REMEDIATION_REQUIRED",
+      "PASS",
+      "HUMAN_APPROVAL_REQUIRED",
+      "BLOCKED"
+    ],
+    "currentStateFile": "reports/fundamental-review/control/REVIEW_STATE.json"
+  },
+  "contracts": {
+    "remediationRequest": {
+      "path": "reports/fundamental-review/control/REMEDIATION_REQUEST.json",
+      "requiredFields": [
+        "requestId",
+        "reviewRunId",
+        "status",
+        "iteration",
+        "findings",
+        "affectedClaims",
+        "affectedDimensions",
+        "affectedBusinessModels",
+        "evidence",
+        "rootCauseAssessment",
+        "generalBehaviorRequired",
+        "acceptanceCriteria",
+        "testsRequired",
+        "forbiddenShortcuts"
+      ]
+    },
+    "remediationComplete": {
+      "path": "reports/fundamental-review/control/REMEDIATION_COMPLETE.json",
+      "requiredFields": [
+        "requestId",
+        "reviewRunId",
+        "iteration",
+        "status",
+        "gitBefore",
+        "gitAfter",
+        "filesChanged",
+        "implementationSummary",
+        "testsAdded",
+        "testsRun",
+        "testResults",
+        "productionOutputsRegenerated",
+        "knownLimitations",
+        "developerConcerns",
+        "timestamp"
+      ]
+    },
+    "humanApproval": {
+      "path": "reports/fundamental-review/control/HUMAN_APPROVAL_REQUIRED.json"
+    }
+  },
+  "constraints": {
+    "maxIterationsPerSystemicFinding": 3,
+    "forbiddenShortcuts": [
+      "symbol allowlists",
+      "isin allowlists",
+      "companyName allowlists",
+      "arbitrary thresholds without empirical provenance",
+      "synthetic data as production evidence"
+    ],
+    "protectedAreas": [
+      "S1-S10 technical strategy mathematics",
+      "portfolio accounting",
+      "XIRR methodology",
+      "tax logic",
+      "trade identity",
+      "CP2.1 frozen control logic"
+    ]
+  }
+}

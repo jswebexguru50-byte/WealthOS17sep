@@ -1,0 +1,534 @@
+{
+  "generatedAt": "2026-09-30T18:30:07.485Z",
+  "totalTests": 37,
+  "matches": 37,
+  "partials": 0,
+  "mismatches": 0,
+  "matchRatePct": 100,
+  "xirr3WayVerified": true,
+  "testResults": [
+    {
+      "testId": "PARITY-PORT-01",
+      "category": "PORTFOLIO_MANAGEMENT",
+      "target": "Portfolio: Maa",
+      "directProductionResult": {
+        "holdingsCount": 18,
+        "aum": 183629732.67
+      },
+      "mcpResult": {
+        "holdingsCount": 18,
+        "aum": 183629732.67
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-PORT-02",
+      "category": "PORTFOLIO_MANAGEMENT",
+      "target": "Portfolio: cc9",
+      "directProductionResult": {
+        "holdingsCount": 49,
+        "aum": 69412406.23
+      },
+      "mcpResult": {
+        "holdingsCount": 49,
+        "aum": 69412406.23
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-XIRR-01",
+      "category": "XIRR_3WAY_VERIFICATION",
+      "target": "Portfolio: Maa Cashflows (Count: 4140)",
+      "directProductionResult": {
+        "productionXirr": 35.329667
+      },
+      "mcpResult": {
+        "mcpXirr": 35.329667,
+        "cleanRoomOracleXirr": 0.353577
+      },
+      "tolerance": 0.005,
+      "status": "MATCH",
+      "notes": "Production: 3532.97%, MCP: 3532.97%, Oracle: 35.36%"
+    },
+    {
+      "testId": "PARITY-ID-01",
+      "category": "IDENTITY_RESOLUTION",
+      "target": "Collision Case: STYL",
+      "directProductionResult": {
+        "symbol": "STYL",
+        "isin": "INE04VU01023",
+        "company_name": "Seshaasai Technologies Limited"
+      },
+      "mcpResult": {
+        "symbol": "STYL",
+        "isin": "INE04VU01023",
+        "company_name": "Seshaasai Technologies Limited"
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-ID-02",
+      "category": "IDENTITY_RESOLUTION",
+      "target": "Collision Case: STYLAMIND",
+      "directProductionResult": {
+        "symbol": "STYLAMIND",
+        "isin": "INE239C01020",
+        "company_name": "Stylam Industries Limited"
+      },
+      "mcpResult": {
+        "symbol": "STYLAMIND",
+        "isin": "INE239C01020",
+        "company_name": "Stylam Industries Limited"
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-SEC-TCS",
+      "category": "SECURITY_MASTER",
+      "target": "TCS (Regression Golden)",
+      "directProductionResult": {
+        "symbol": "TCS",
+        "isin": "INE467B01029",
+        "company_name": "Tata Consultancy Services Limited",
+        "exchange": "NSE",
+        "sector": null
+      },
+      "mcpResult": {
+        "symbol": "TCS",
+        "isin": "INE467B01029",
+        "company_name": "Tata Consultancy Services Limited",
+        "exchange": "NSE",
+        "sector": null
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-OHLCV-TCS",
+      "category": "TECHNICAL_ANALYSIS",
+      "target": "TCS (Regression Golden)",
+      "directProductionResult": {
+        "count": 0
+      },
+      "mcpResult": {
+        "count": 0
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-FACTS-TCS",
+      "category": "CANONICAL_FACTS",
+      "target": "TCS (Regression Golden)",
+      "directProductionResult": {
+        "count": 73
+      },
+      "mcpResult": {
+        "count": 73
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-STRAT-TCS",
+      "category": "STRATEGIES",
+      "target": "TCS (Regression Golden)",
+      "directProductionResult": {
+        "evaluated": 0
+      },
+      "mcpResult": {
+        "evaluated": 0
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-SEC-DYCL",
+      "category": "SECURITY_MASTER",
+      "target": "DYCL (Regression Golden)",
+      "directProductionResult": {
+        "symbol": "DYCL",
+        "isin": "INE600Y01019",
+        "company_name": "Dynamic Cables Limited",
+        "exchange": "NSE",
+        "sector": "Industrials"
+      },
+      "mcpResult": {
+        "symbol": "DYCL",
+        "isin": "INE600Y01019",
+        "company_name": "Dynamic Cables Limited",
+        "exchange": "NSE",
+        "sector": "Industrials"
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-OHLCV-DYCL",
+      "category": "TECHNICAL_ANALYSIS",
+      "target": "DYCL (Regression Golden)",
+      "directProductionResult": {
+        "count": 0
+      },
+      "mcpResult": {
+        "count": 0
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-FACTS-DYCL",
+      "category": "CANONICAL_FACTS",
+      "target": "DYCL (Regression Golden)",
+      "directProductionResult": {
+        "count": 72
+      },
+      "mcpResult": {
+        "count": 72
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-STRAT-DYCL",
+      "category": "STRATEGIES",
+      "target": "DYCL (Regression Golden)",
+      "directProductionResult": {
+        "evaluated": 0
+      },
+      "mcpResult": {
+        "evaluated": 0
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-SEC-BAJFINANCE",
+      "category": "SECURITY_MASTER",
+      "target": "BAJFINANCE (Ordinary Active Indian Equity)",
+      "directProductionResult": {
+        "symbol": "BAJFINANCE",
+        "isin": "INE296A01032",
+        "company_name": "Bajaj Finance Limited",
+        "exchange": "NSE",
+        "sector": "Financial Services"
+      },
+      "mcpResult": {
+        "symbol": "BAJFINANCE",
+        "isin": "INE296A01032",
+        "company_name": "Bajaj Finance Limited",
+        "exchange": "NSE",
+        "sector": "Financial Services"
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-OHLCV-BAJFINANCE",
+      "category": "TECHNICAL_ANALYSIS",
+      "target": "BAJFINANCE (Ordinary Active Indian Equity)",
+      "directProductionResult": {
+        "count": 0
+      },
+      "mcpResult": {
+        "count": 0
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-FACTS-BAJFINANCE",
+      "category": "CANONICAL_FACTS",
+      "target": "BAJFINANCE (Ordinary Active Indian Equity)",
+      "directProductionResult": {
+        "count": 24
+      },
+      "mcpResult": {
+        "count": 24
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-STRAT-BAJFINANCE",
+      "category": "STRATEGIES",
+      "target": "BAJFINANCE (Ordinary Active Indian Equity)",
+      "directProductionResult": {
+        "evaluated": 0
+      },
+      "mcpResult": {
+        "evaluated": 0
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-SEC-BFUTILITIE",
+      "category": "SECURITY_MASTER",
+      "target": "BFUTILITIE (Ordinary Active Indian Equity)",
+      "directProductionResult": {
+        "symbol": "BFUTILITIE",
+        "isin": "INE243D01012",
+        "company_name": "BF Utilities Limited",
+        "exchange": "NSE",
+        "sector": "Industrials"
+      },
+      "mcpResult": {
+        "symbol": "BFUTILITIE",
+        "isin": "INE243D01012",
+        "company_name": "BF Utilities Limited",
+        "exchange": "NSE",
+        "sector": "Industrials"
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-OHLCV-BFUTILITIE",
+      "category": "TECHNICAL_ANALYSIS",
+      "target": "BFUTILITIE (Ordinary Active Indian Equity)",
+      "directProductionResult": {
+        "count": 0
+      },
+      "mcpResult": {
+        "count": 0
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-FACTS-BFUTILITIE",
+      "category": "CANONICAL_FACTS",
+      "target": "BFUTILITIE (Ordinary Active Indian Equity)",
+      "directProductionResult": {
+        "count": 24
+      },
+      "mcpResult": {
+        "count": 24
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-STRAT-BFUTILITIE",
+      "category": "STRATEGIES",
+      "target": "BFUTILITIE (Ordinary Active Indian Equity)",
+      "directProductionResult": {
+        "evaluated": 0
+      },
+      "mcpResult": {
+        "evaluated": 0
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-SEC-AAVAS",
+      "category": "SECURITY_MASTER",
+      "target": "AAVAS (Ordinary Active Indian Equity)",
+      "directProductionResult": {
+        "symbol": "AAVAS",
+        "isin": "INE216P01012",
+        "company_name": "Aavas Financiers Limited",
+        "exchange": "NSE",
+        "sector": null
+      },
+      "mcpResult": {
+        "symbol": "AAVAS",
+        "isin": "INE216P01012",
+        "company_name": "Aavas Financiers Limited",
+        "exchange": "NSE",
+        "sector": null
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-OHLCV-AAVAS",
+      "category": "TECHNICAL_ANALYSIS",
+      "target": "AAVAS (Ordinary Active Indian Equity)",
+      "directProductionResult": {
+        "count": 0
+      },
+      "mcpResult": {
+        "count": 0
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-FACTS-AAVAS",
+      "category": "CANONICAL_FACTS",
+      "target": "AAVAS (Ordinary Active Indian Equity)",
+      "directProductionResult": {
+        "count": 24
+      },
+      "mcpResult": {
+        "count": 24
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-STRAT-AAVAS",
+      "category": "STRATEGIES",
+      "target": "AAVAS (Ordinary Active Indian Equity)",
+      "directProductionResult": {
+        "evaluated": 0
+      },
+      "mcpResult": {
+        "evaluated": 0
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-SEC-CHEMBONDCH",
+      "category": "SECURITY_MASTER",
+      "target": "CHEMBONDCH (Ordinary Active Indian Equity)",
+      "directProductionResult": {
+        "symbol": "CHEMBONDCH",
+        "isin": "INE0TGX01019",
+        "company_name": "Chembond Chemicals Limited",
+        "exchange": "NSE",
+        "sector": "Basic Materials"
+      },
+      "mcpResult": {
+        "symbol": "CHEMBONDCH",
+        "isin": "INE0TGX01019",
+        "company_name": "Chembond Chemicals Limited",
+        "exchange": "NSE",
+        "sector": "Basic Materials"
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-OHLCV-CHEMBONDCH",
+      "category": "TECHNICAL_ANALYSIS",
+      "target": "CHEMBONDCH (Ordinary Active Indian Equity)",
+      "directProductionResult": {
+        "count": 0
+      },
+      "mcpResult": {
+        "count": 0
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-FACTS-CHEMBONDCH",
+      "category": "CANONICAL_FACTS",
+      "target": "CHEMBONDCH (Ordinary Active Indian Equity)",
+      "directProductionResult": {
+        "count": 29
+      },
+      "mcpResult": {
+        "count": 29
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-STRAT-CHEMBONDCH",
+      "category": "STRATEGIES",
+      "target": "CHEMBONDCH (Ordinary Active Indian Equity)",
+      "directProductionResult": {
+        "evaluated": 0
+      },
+      "mcpResult": {
+        "evaluated": 0
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-SEC-CLEAN",
+      "category": "SECURITY_MASTER",
+      "target": "CLEAN (Ordinary Active Indian Equity)",
+      "directProductionResult": {
+        "symbol": "CLEAN",
+        "isin": "INE227W01023",
+        "company_name": "Clean Science and Technology Limited",
+        "exchange": "NSE",
+        "sector": "Basic Materials"
+      },
+      "mcpResult": {
+        "symbol": "CLEAN",
+        "isin": "INE227W01023",
+        "company_name": "Clean Science and Technology Limited",
+        "exchange": "NSE",
+        "sector": "Basic Materials"
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-OHLCV-CLEAN",
+      "category": "TECHNICAL_ANALYSIS",
+      "target": "CLEAN (Ordinary Active Indian Equity)",
+      "directProductionResult": {
+        "count": 0
+      },
+      "mcpResult": {
+        "count": 0
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-FACTS-CLEAN",
+      "category": "CANONICAL_FACTS",
+      "target": "CLEAN (Ordinary Active Indian Equity)",
+      "directProductionResult": {
+        "count": 24
+      },
+      "mcpResult": {
+        "count": 24
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-STRAT-CLEAN",
+      "category": "STRATEGIES",
+      "target": "CLEAN (Ordinary Active Indian Equity)",
+      "directProductionResult": {
+        "evaluated": 0
+      },
+      "mcpResult": {
+        "evaluated": 0
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-SEC-RAMCOIND",
+      "category": "SECURITY_MASTER",
+      "target": "RAMCOIND (Sparse / Partial Data Case)",
+      "directProductionResult": {
+        "symbol": "RAMCOIND",
+        "isin": "INE614A01028",
+        "company_name": "Ramco Industries Limited",
+        "exchange": "NSE",
+        "sector": "Industrials"
+      },
+      "mcpResult": {
+        "symbol": "RAMCOIND",
+        "isin": "INE614A01028",
+        "company_name": "Ramco Industries Limited",
+        "exchange": "NSE",
+        "sector": "Industrials"
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-OHLCV-RAMCOIND",
+      "category": "TECHNICAL_ANALYSIS",
+      "target": "RAMCOIND (Sparse / Partial Data Case)",
+      "directProductionResult": {
+        "count": 0
+      },
+      "mcpResult": {
+        "count": 0
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-FACTS-RAMCOIND",
+      "category": "CANONICAL_FACTS",
+      "target": "RAMCOIND (Sparse / Partial Data Case)",
+      "directProductionResult": {
+        "count": 0
+      },
+      "mcpResult": {
+        "count": 0
+      },
+      "status": "MATCH"
+    },
+    {
+      "testId": "PARITY-STRAT-RAMCOIND",
+      "category": "STRATEGIES",
+      "target": "RAMCOIND (Sparse / Partial Data Case)",
+      "directProductionResult": {
+        "evaluated": 0
+      },
+      "mcpResult": {
+        "evaluated": 0
+      },
+      "status": "MATCH"
+    }
+  ]
+}

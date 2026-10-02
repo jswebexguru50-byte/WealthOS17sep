@@ -35,8 +35,11 @@ async function main() {
   }
 
   const pilotSymbols = candidates.map(c => c.symbol);
+  const maxSymbolsIndex = process.argv.indexOf('--max-symbols');
+  const maxSymbols = maxSymbolsIndex >= 0 ? Math.max(0, Number(process.argv[maxSymbolsIndex + 1])) : 0;
+  const scopedSymbols = maxSymbols > 0 ? pilotSymbols.slice(0, maxSymbols) : pilotSymbols;
 
-  console.log(`Starting Phase 1B Canonical Ingestion for ${pilotSymbols.length} Candidates...`);
+  console.log(`Starting Phase 1B Canonical Ingestion for ${scopedSymbols.length} Candidates...`);
   
   let report = `# Phase 1 Canonical Data Report\n\n`;
   report += `This report verifies the execution of Phase 1: Canonical Fact Ingestion.\n\n`;
@@ -45,7 +48,7 @@ async function main() {
   let totalReportedAvailable = 0;
   let totalReportedMissing = 0;
 
-  for (const symbol of pilotSymbols) {
+  for (const symbol of scopedSymbols) {
     const inserted = await service.ingestForSymbol(symbol);
     
     const companyRows = await new Promise<any[]>((resolve, reject) => db.all(`SELECT id FROM MasterTickers WHERE symbol=?`, [symbol], (err, rows) => err ? reject(err) : resolve(rows)));

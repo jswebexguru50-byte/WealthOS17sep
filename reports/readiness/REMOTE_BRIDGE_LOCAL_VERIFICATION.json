@@ -1,0 +1,157 @@
+{
+  "timestamp": "2026-10-01T07:03:19.372Z",
+  "sqliteIntegrity": {
+    "before": {
+      "size": 1633144832,
+      "changeCounter": 12360,
+      "dataVersion": 12360,
+      "headerSha256": "fc62e180266dcf2423f7d62f8f307250665b6ce51c92955805d742d0c8d31b44"
+    },
+    "after": {
+      "size": 1633144832,
+      "changeCounter": 12360,
+      "dataVersion": 12360,
+      "headerSha256": "fc62e180266dcf2423f7d62f8f307250665b6ce51c92955805d742d0c8d31b44"
+    }
+  },
+  "results": [
+    {
+      "step": 1,
+      "name": "Server Starts",
+      "status": "PASS",
+      "details": "Bound successfully to 127.0.0.1:49678"
+    },
+    {
+      "step": 2,
+      "name": "/remote/health works",
+      "status": "PASS",
+      "details": "Status 200, body={\"status\":\"ok\"}",
+      "responseSnippet": {
+        "status": "ok"
+      }
+    },
+    {
+      "step": 3,
+      "name": "Unauthenticated Request Rejected",
+      "status": "PASS",
+      "details": "HTTP 401 (MISSING_AUTHORIZATION)",
+      "responseSnippet": {
+        "success": false,
+        "error": "MISSING_AUTHORIZATION",
+        "message": "Authorization header with Bearer token is required."
+      }
+    },
+    {
+      "step": 4,
+      "name": "Invalid Token Rejected",
+      "status": "PASS",
+      "details": "HTTP 403 (FORBIDDEN)",
+      "responseSnippet": {
+        "success": false,
+        "error": "FORBIDDEN",
+        "message": "Invalid authentication token."
+      }
+    },
+    {
+      "step": 5,
+      "name": "Valid Token Success",
+      "status": "PASS",
+      "details": "HTTP 200, Security: Tata Consultancy Services Limited",
+      "responseSnippet": {
+        "success": true,
+        "data": {
+          "symbol": "TCS",
+          "isin": "INE467B01029",
+          "company_name": "Tata Consultancy Services Limited",
+          "exchange": "NSE",
+          "sector": null,
+          "industry": null,
+          "status": "ACTIVE",
+          "platform": "MAINBOARD",
+          "assetClass": "EQUITY"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "name": "Known Symbol TCS Returns Real Data",
+      "status": "PASS",
+      "details": "HTTP 200, Modules returned: fundamental, valuation, qglp, fere, management, marketContext",
+      "responseSnippet": {
+        "symbol": "TCS",
+        "isin": "INE467B01029",
+        "companyName": "Tata Consultancy Services Limited",
+        "dataState": "PARTIAL",
+        "moduleStatuses": {
+          "fundamental": "PARTIAL",
+          "valuation": "PARTIAL",
+          "qglp": "PARTIAL",
+          "fere": "VERIFIED",
+          "management": "PARTIAL",
+          "marketContext": "VERIFIED"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "name": "Unknown Symbol Fails Safely",
+      "status": "PASS",
+      "details": "HTTP 404 (SECURITY_NOT_FOUND)",
+      "responseSnippet": {
+        "success": false,
+        "error": "SECURITY_NOT_FOUND",
+        "message": "Security 'NONEXISTENT999' not found in canonical master_tickers."
+      }
+    },
+    {
+      "step": 8,
+      "name": "Missing Data Remains DATA_INSUFFICIENT / Preserved",
+      "status": "PASS",
+      "details": "Reported statuses: {\"fundamental\":\"PARTIAL\",\"valuation\":\"PARTIAL\",\"qglp\":\"PARTIAL\"}",
+      "responseSnippet": {
+        "fundamental": "PARTIAL",
+        "valuation": "PARTIAL",
+        "qglp": "PARTIAL"
+      }
+    },
+    {
+      "step": 9,
+      "name": "Bounded OHLC Request Works",
+      "status": "PASS",
+      "details": "Returned 5 bars from source: DUCKDB_ADJUSTED",
+      "responseSnippet": {
+        "count": 5,
+        "source": "DUCKDB_ADJUSTED",
+        "firstBar": {
+          "trade_date": "2026-09-24",
+          "symbol": "TCS",
+          "isin": "INE467B01029",
+          "upstox_key_nse": "NSE_EQ|INE467B01029",
+          "open_adjusted": 2076,
+          "high_adjusted": 2096.9,
+          "low_adjusted": 2067.1,
+          "close_adjusted": 2073.6,
+          "volume_raw": 1602513,
+          "data_source": "KITE_CORPORATE_ACTION_ADJUSTED"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "name": "Excessive Request Rejected",
+      "status": "PASS",
+      "details": "HTTP 400 (LIMIT_EXCEEDED: Limit exceeds maximum allowed boundary of 500 rows.)",
+      "responseSnippet": {
+        "success": false,
+        "error": "LIMIT_EXCEEDED",
+        "message": "Limit exceeds maximum allowed boundary of 500 rows."
+      }
+    },
+    {
+      "step": 11,
+      "name": "No Database Modified (Zero Writes Verified)",
+      "status": "PASS",
+      "details": "ChangeCounter: 12360 -> 12360, Size: 1633144832 -> 1633144832"
+    }
+  ]
+}

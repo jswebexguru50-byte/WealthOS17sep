@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "CURIS",
+  "issuerBseCode": "512090",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_CURIS_AR2024",
+      "documentName": "CURIS_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "afee6f276509852dd75d98a8e4f9cbc1d32aaafe15de91ab65b5c90a97f76c1c",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_CURIS_AUDITED_RESULTS",
+      "documentName": "CURIS_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "d6dff85335bd2e127331adf799d66065099aed11c7c2aed7ca206d4be42cf4e0",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_CURIS_CONCALL_Q4FY26",
+      "documentName": "CURIS_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "d20ce4a6eceda4f2149766adf640d5777301b8d65b87f06c6bed70926f245684",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

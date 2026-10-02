@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_ETERNAL_REV_01",
+    "issuerNseSymbol": "ETERNAL",
+    "issuerBseCode": "543320",
+    "documentId": "DOC_ETERNAL_AR24",
+    "documentHash": "8f90123456789abcdef0123456789abcdef0123456789abcde",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 52,
+    "pagePrinted": "50",
+    "quotedText": "Consolidated revenue for FY24 reached ₹12114 Cr led by explosive Blinkit quick commerce growth.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

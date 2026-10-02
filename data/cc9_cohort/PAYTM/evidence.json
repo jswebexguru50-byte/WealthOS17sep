@@ -1,0 +1,38 @@
+[
+  {
+    "evidenceId": "EV_PAYTM_REV_01",
+    "issuerNseSymbol": "PAYTM",
+    "issuerBseCode": "543396",
+    "documentId": "DOC_PAYTM_AR24",
+    "documentHash": "3456789abcdef0123456789abcdef0123456789abcdef01234",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 45,
+    "pagePrinted": "43",
+    "quotedText": "Consolidated revenue for FY24 reached ₹9978 Cr while regulatory actions triggered significant operational restructuring.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_PAYTM_PROMISE_01",
+    "issuerNseSymbol": "PAYTM",
+    "issuerBseCode": "543396",
+    "documentId": "DOC_PAYTM_AR24",
+    "documentHash": "3456789abcdef0123456789abcdef0123456789abcdef01234",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 22,
+    "pagePrinted": "20",
+    "quotedText": "Management affirmed full operational regulatory compliance and uninterrupted banking service continuity for Paytm Payments Bank.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_PAYTM_RBI_ORDER",
+    "issuerNseSymbol": "PAYTM",
+    "issuerBseCode": "543396",
+    "documentId": "DOC_PAYTM_RBI_DIR",
+    "documentHash": "456789abcdef0123456789abcdef0123456789abcdef012345",
+    "documentType": "REGULATORY_ORDER",
+    "pagePhysical": 2,
+    "pagePrinted": "2",
+    "quotedText": "RBI directed Paytm Payments Bank to halt onboarding new customers and stop credit transactions and wallet top-ups due to persistent material non-compliances.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

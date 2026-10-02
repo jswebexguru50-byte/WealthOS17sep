@@ -1,0 +1,2076 @@
+{
+  "generatedAt": "2026-10-01T15:12:38.170Z",
+  "strataEvaluated": 45,
+  "stratumCoverage": {
+    "AGRICULTURE_COMMODITIES__LARGE": {
+      "companyCount": 1,
+      "verifiedFieldRatePct": 18.92,
+      "partialFieldRatePct": 13.51,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 3,
+        "MasterTickers/Profile": 2,
+        "UpstoxProfile/FERE": 1,
+        "ClassificationEngine": 1,
+        "UPSTOX_FUNDAMENTALS": 4,
+        "DERIVED_CALCULATED": 4,
+        "UPSTOX_KEY_RATIOS": 4,
+        "UPSTOX_VALUATION": 3,
+        "FundamentalSnapshots/FERE": 1,
+        "UPSTOX_CASH_FLOW": 1,
+        "UPSTOX_SHAREHOLDINGS": 3,
+        "FundamentalSnapshots": 1,
+        "InstitutionalDeals": 1,
+        "CorporateActions": 1,
+        "UPSTOX_PROFILE": 1,
+        "QglpModuleAdapter": 2
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 1,
+      "topUnresolvedFields": [
+        "symbol (1)",
+        "revenue (1)",
+        "operating_profit_ebitda (1)",
+        "operating_margin (1)",
+        "pat (1)"
+      ],
+      "topMissingSources": [
+        "capex (1)",
+        "fcf (1)",
+        "operating_kpis (1)",
+        "catalysts (1)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "AUTO_AUTO_ANCILLARY__LARGE": {
+      "companyCount": 5,
+      "verifiedFieldRatePct": 18.92,
+      "partialFieldRatePct": 13.51,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 15,
+        "MasterTickers/Profile": 10,
+        "UpstoxProfile/FERE": 5,
+        "ClassificationEngine": 5,
+        "UPSTOX_FUNDAMENTALS": 20,
+        "DERIVED_CALCULATED": 20,
+        "UPSTOX_KEY_RATIOS": 20,
+        "UPSTOX_VALUATION": 15,
+        "FundamentalSnapshots/FERE": 5,
+        "UPSTOX_CASH_FLOW": 5,
+        "UPSTOX_SHAREHOLDINGS": 15,
+        "FundamentalSnapshots": 5,
+        "InstitutionalDeals": 5,
+        "CorporateActions": 5,
+        "UPSTOX_PROFILE": 5,
+        "QglpModuleAdapter": 10
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 5,
+      "topUnresolvedFields": [
+        "symbol (5)",
+        "revenue (5)",
+        "operating_profit_ebitda (5)",
+        "operating_margin (5)",
+        "pat (5)"
+      ],
+      "topMissingSources": [
+        "capex (5)",
+        "fcf (5)",
+        "operating_kpis (5)",
+        "catalysts (5)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "BANKS_NBFC_INSURANCE__LARGE": {
+      "companyCount": 15,
+      "verifiedFieldRatePct": 17.66,
+      "partialFieldRatePct": 14.59,
+      "unavailableFieldRatePct": 67.75,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 45,
+        "MasterTickers/Profile": 30,
+        "UpstoxProfile/FERE": 15,
+        "ClassificationEngine": 15,
+        "UPSTOX_FUNDAMENTALS": 60,
+        "DERIVED_CALCULATED": 60,
+        "UPSTOX_KEY_RATIOS": 60,
+        "UPSTOX_VALUATION": 45,
+        "FundamentalSnapshots/FERE": 15,
+        "UPSTOX_CASH_FLOW": 15,
+        "UPSTOX_SHAREHOLDINGS": 45,
+        "FundamentalSnapshots": 15,
+        "InstitutionalDeals": 15,
+        "CorporateActions": 15,
+        "UPSTOX_PROFILE": 15,
+        "QglpModuleAdapter": 30
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 15,
+      "topUnresolvedFields": [
+        "symbol (15)",
+        "revenue (15)",
+        "operating_profit_ebitda (15)",
+        "operating_margin (15)",
+        "pat (15)"
+      ],
+      "topMissingSources": [
+        "capex (15)",
+        "fcf (15)",
+        "operating_kpis (15)",
+        "catalysts (15)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "CAPITAL_GOODS_INDUSTRIALS__LARGE": {
+      "companyCount": 6,
+      "verifiedFieldRatePct": 18.47,
+      "partialFieldRatePct": 13.96,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 18,
+        "MasterTickers/Profile": 12,
+        "UpstoxProfile/FERE": 6,
+        "ClassificationEngine": 6,
+        "UPSTOX_FUNDAMENTALS": 24,
+        "DERIVED_CALCULATED": 24,
+        "UPSTOX_KEY_RATIOS": 24,
+        "UPSTOX_VALUATION": 18,
+        "FundamentalSnapshots/FERE": 6,
+        "UPSTOX_CASH_FLOW": 6,
+        "UPSTOX_SHAREHOLDINGS": 18,
+        "FundamentalSnapshots": 6,
+        "InstitutionalDeals": 6,
+        "CorporateActions": 6,
+        "UPSTOX_PROFILE": 6,
+        "QglpModuleAdapter": 12
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 6,
+      "topUnresolvedFields": [
+        "symbol (6)",
+        "revenue (6)",
+        "operating_profit_ebitda (6)",
+        "operating_margin (6)",
+        "pat (6)"
+      ],
+      "topMissingSources": [
+        "capex (6)",
+        "fcf (6)",
+        "operating_kpis (6)",
+        "catalysts (6)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "CHEMICALS__LARGE": {
+      "companyCount": 3,
+      "verifiedFieldRatePct": 18.02,
+      "partialFieldRatePct": 14.41,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 9,
+        "MasterTickers/Profile": 6,
+        "UpstoxProfile/FERE": 3,
+        "ClassificationEngine": 3,
+        "UPSTOX_FUNDAMENTALS": 12,
+        "DERIVED_CALCULATED": 12,
+        "UPSTOX_KEY_RATIOS": 12,
+        "UPSTOX_VALUATION": 9,
+        "FundamentalSnapshots/FERE": 3,
+        "UPSTOX_CASH_FLOW": 3,
+        "UPSTOX_SHAREHOLDINGS": 9,
+        "FundamentalSnapshots": 3,
+        "InstitutionalDeals": 3,
+        "CorporateActions": 3,
+        "UPSTOX_PROFILE": 3,
+        "QglpModuleAdapter": 6
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 3,
+      "topUnresolvedFields": [
+        "symbol (3)",
+        "revenue (3)",
+        "operating_profit_ebitda (3)",
+        "operating_margin (3)",
+        "pat (3)"
+      ],
+      "topMissingSources": [
+        "capex (3)",
+        "fcf (3)",
+        "operating_kpis (3)",
+        "catalysts (3)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "CONSUMER_RETAIL__LARGE": {
+      "companyCount": 1,
+      "verifiedFieldRatePct": 16.22,
+      "partialFieldRatePct": 16.22,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 3,
+        "MasterTickers/Profile": 2,
+        "UpstoxProfile/FERE": 1,
+        "ClassificationEngine": 1,
+        "UPSTOX_FUNDAMENTALS": 4,
+        "DERIVED_CALCULATED": 4,
+        "UPSTOX_KEY_RATIOS": 4,
+        "UPSTOX_VALUATION": 3,
+        "FundamentalSnapshots/FERE": 1,
+        "UPSTOX_CASH_FLOW": 1,
+        "UPSTOX_SHAREHOLDINGS": 3,
+        "FundamentalSnapshots": 1,
+        "InstitutionalDeals": 1,
+        "CorporateActions": 1,
+        "UPSTOX_PROFILE": 1,
+        "QglpModuleAdapter": 2
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 1,
+      "topUnresolvedFields": [
+        "symbol (1)",
+        "revenue (1)",
+        "operating_profit_ebitda (1)",
+        "operating_margin (1)",
+        "pat (1)"
+      ],
+      "topMissingSources": [
+        "capex (1)",
+        "fcf (1)",
+        "operating_kpis (1)",
+        "catalysts (1)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "ENERGY_UTILITIES__LARGE": {
+      "companyCount": 2,
+      "verifiedFieldRatePct": 18.92,
+      "partialFieldRatePct": 13.51,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 6,
+        "MasterTickers/Profile": 4,
+        "UpstoxProfile/FERE": 2,
+        "ClassificationEngine": 2,
+        "UPSTOX_FUNDAMENTALS": 8,
+        "DERIVED_CALCULATED": 8,
+        "UPSTOX_KEY_RATIOS": 8,
+        "UPSTOX_VALUATION": 6,
+        "FundamentalSnapshots/FERE": 2,
+        "UPSTOX_CASH_FLOW": 2,
+        "UPSTOX_SHAREHOLDINGS": 6,
+        "FundamentalSnapshots": 2,
+        "InstitutionalDeals": 2,
+        "CorporateActions": 2,
+        "UPSTOX_PROFILE": 2,
+        "QglpModuleAdapter": 4
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 2,
+      "topUnresolvedFields": [
+        "symbol (2)",
+        "revenue (2)",
+        "operating_profit_ebitda (2)",
+        "operating_margin (2)",
+        "pat (2)"
+      ],
+      "topMissingSources": [
+        "capex (2)",
+        "fcf (2)",
+        "operating_kpis (2)",
+        "catalysts (2)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "FMCG__LARGE": {
+      "companyCount": 3,
+      "verifiedFieldRatePct": 17.12,
+      "partialFieldRatePct": 15.32,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 9,
+        "MasterTickers/Profile": 6,
+        "UpstoxProfile/FERE": 3,
+        "ClassificationEngine": 3,
+        "UPSTOX_FUNDAMENTALS": 12,
+        "DERIVED_CALCULATED": 12,
+        "UPSTOX_KEY_RATIOS": 12,
+        "UPSTOX_VALUATION": 9,
+        "FundamentalSnapshots/FERE": 3,
+        "UPSTOX_CASH_FLOW": 3,
+        "UPSTOX_SHAREHOLDINGS": 9,
+        "FundamentalSnapshots": 3,
+        "InstitutionalDeals": 3,
+        "CorporateActions": 3,
+        "UPSTOX_PROFILE": 3,
+        "QglpModuleAdapter": 6
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 3,
+      "topUnresolvedFields": [
+        "symbol (3)",
+        "revenue (3)",
+        "operating_profit_ebitda (3)",
+        "operating_margin (3)",
+        "pat (3)"
+      ],
+      "topMissingSources": [
+        "capex (3)",
+        "fcf (3)",
+        "operating_kpis (3)",
+        "catalysts (3)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "INFRASTRUCTURE_LOGISTICS__LARGE": {
+      "companyCount": 1,
+      "verifiedFieldRatePct": 16.22,
+      "partialFieldRatePct": 16.22,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 3,
+        "MasterTickers/Profile": 2,
+        "UpstoxProfile/FERE": 1,
+        "ClassificationEngine": 1,
+        "UPSTOX_FUNDAMENTALS": 4,
+        "DERIVED_CALCULATED": 4,
+        "UPSTOX_KEY_RATIOS": 4,
+        "UPSTOX_VALUATION": 3,
+        "FundamentalSnapshots/FERE": 1,
+        "UPSTOX_CASH_FLOW": 1,
+        "UPSTOX_SHAREHOLDINGS": 3,
+        "FundamentalSnapshots": 1,
+        "InstitutionalDeals": 1,
+        "CorporateActions": 1,
+        "UPSTOX_PROFILE": 1,
+        "QglpModuleAdapter": 2
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 1,
+      "topUnresolvedFields": [
+        "symbol (1)",
+        "revenue (1)",
+        "operating_profit_ebitda (1)",
+        "operating_margin (1)",
+        "pat (1)"
+      ],
+      "topMissingSources": [
+        "capex (1)",
+        "fcf (1)",
+        "operating_kpis (1)",
+        "catalysts (1)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "IT_SERVICES__LARGE": {
+      "companyCount": 5,
+      "verifiedFieldRatePct": 17.84,
+      "partialFieldRatePct": 14.59,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 15,
+        "MasterTickers/Profile": 10,
+        "UpstoxProfile/FERE": 5,
+        "ClassificationEngine": 5,
+        "UPSTOX_FUNDAMENTALS": 20,
+        "DERIVED_CALCULATED": 20,
+        "UPSTOX_KEY_RATIOS": 20,
+        "UPSTOX_VALUATION": 15,
+        "FundamentalSnapshots/FERE": 5,
+        "UPSTOX_CASH_FLOW": 5,
+        "UPSTOX_SHAREHOLDINGS": 15,
+        "FundamentalSnapshots": 5,
+        "InstitutionalDeals": 5,
+        "CorporateActions": 5,
+        "UPSTOX_PROFILE": 5,
+        "QglpModuleAdapter": 10
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 5,
+      "topUnresolvedFields": [
+        "symbol (5)",
+        "revenue (5)",
+        "operating_profit_ebitda (5)",
+        "operating_margin (5)",
+        "pat (5)"
+      ],
+      "topMissingSources": [
+        "capex (5)",
+        "fcf (5)",
+        "operating_kpis (5)",
+        "catalysts (5)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "METALS_MINING__LARGE": {
+      "companyCount": 1,
+      "verifiedFieldRatePct": 18.92,
+      "partialFieldRatePct": 13.51,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 3,
+        "MasterTickers/Profile": 2,
+        "UpstoxProfile/FERE": 1,
+        "ClassificationEngine": 1,
+        "UPSTOX_FUNDAMENTALS": 4,
+        "DERIVED_CALCULATED": 4,
+        "UPSTOX_KEY_RATIOS": 4,
+        "UPSTOX_VALUATION": 3,
+        "FundamentalSnapshots/FERE": 1,
+        "UPSTOX_CASH_FLOW": 1,
+        "UPSTOX_SHAREHOLDINGS": 3,
+        "FundamentalSnapshots": 1,
+        "InstitutionalDeals": 1,
+        "CorporateActions": 1,
+        "UPSTOX_PROFILE": 1,
+        "QglpModuleAdapter": 2
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 1,
+      "topUnresolvedFields": [
+        "symbol (1)",
+        "revenue (1)",
+        "operating_profit_ebitda (1)",
+        "operating_margin (1)",
+        "pat (1)"
+      ],
+      "topMissingSources": [
+        "capex (1)",
+        "fcf (1)",
+        "operating_kpis (1)",
+        "catalysts (1)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "PHARMA_HEALTHCARE__LARGE": {
+      "companyCount": 4,
+      "verifiedFieldRatePct": 18.92,
+      "partialFieldRatePct": 12.84,
+      "unavailableFieldRatePct": 68.24,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 12,
+        "MasterTickers/Profile": 8,
+        "UpstoxProfile/FERE": 4,
+        "ClassificationEngine": 4,
+        "UPSTOX_FUNDAMENTALS": 16,
+        "DERIVED_CALCULATED": 16,
+        "UPSTOX_KEY_RATIOS": 16,
+        "UPSTOX_VALUATION": 12,
+        "FundamentalSnapshots/FERE": 4,
+        "UPSTOX_CASH_FLOW": 4,
+        "UPSTOX_SHAREHOLDINGS": 12,
+        "FundamentalSnapshots": 4,
+        "InstitutionalDeals": 4,
+        "CorporateActions": 4,
+        "UPSTOX_PROFILE": 4,
+        "QglpModuleAdapter": 8
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 4,
+      "topUnresolvedFields": [
+        "symbol (4)",
+        "revenue (4)",
+        "operating_profit_ebitda (4)",
+        "operating_margin (4)",
+        "pat (4)"
+      ],
+      "topMissingSources": [
+        "capex (4)",
+        "fcf (4)",
+        "operating_kpis (4)",
+        "catalysts (4)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "REAL_ESTATE__LARGE": {
+      "companyCount": 1,
+      "verifiedFieldRatePct": 16.22,
+      "partialFieldRatePct": 16.22,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 3,
+        "MasterTickers/Profile": 2,
+        "UpstoxProfile/FERE": 1,
+        "ClassificationEngine": 1,
+        "UPSTOX_FUNDAMENTALS": 4,
+        "DERIVED_CALCULATED": 4,
+        "UPSTOX_KEY_RATIOS": 4,
+        "UPSTOX_VALUATION": 3,
+        "FundamentalSnapshots/FERE": 1,
+        "UPSTOX_CASH_FLOW": 1,
+        "UPSTOX_SHAREHOLDINGS": 3,
+        "FundamentalSnapshots": 1,
+        "InstitutionalDeals": 1,
+        "CorporateActions": 1,
+        "UPSTOX_PROFILE": 1,
+        "QglpModuleAdapter": 2
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 1,
+      "topUnresolvedFields": [
+        "symbol (1)",
+        "revenue (1)",
+        "operating_profit_ebitda (1)",
+        "operating_margin (1)",
+        "pat (1)"
+      ],
+      "topMissingSources": [
+        "capex (1)",
+        "fcf (1)",
+        "operating_kpis (1)",
+        "catalysts (1)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "TELECOM_MEDIA__LARGE": {
+      "companyCount": 1,
+      "verifiedFieldRatePct": 18.92,
+      "partialFieldRatePct": 13.51,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 3,
+        "MasterTickers/Profile": 2,
+        "UpstoxProfile/FERE": 1,
+        "ClassificationEngine": 1,
+        "UPSTOX_FUNDAMENTALS": 4,
+        "DERIVED_CALCULATED": 4,
+        "UPSTOX_KEY_RATIOS": 4,
+        "UPSTOX_VALUATION": 3,
+        "FundamentalSnapshots/FERE": 1,
+        "UPSTOX_CASH_FLOW": 1,
+        "UPSTOX_SHAREHOLDINGS": 3,
+        "FundamentalSnapshots": 1,
+        "InstitutionalDeals": 1,
+        "CorporateActions": 1,
+        "UPSTOX_PROFILE": 1,
+        "QglpModuleAdapter": 2
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 1,
+      "topUnresolvedFields": [
+        "symbol (1)",
+        "revenue (1)",
+        "operating_profit_ebitda (1)",
+        "operating_margin (1)",
+        "pat (1)"
+      ],
+      "topMissingSources": [
+        "capex (1)",
+        "fcf (1)",
+        "operating_kpis (1)",
+        "catalysts (1)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "TEXTILES__LARGE": {
+      "companyCount": 1,
+      "verifiedFieldRatePct": 18.92,
+      "partialFieldRatePct": 13.51,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 3,
+        "MasterTickers/Profile": 2,
+        "UpstoxProfile/FERE": 1,
+        "ClassificationEngine": 1,
+        "UPSTOX_FUNDAMENTALS": 4,
+        "DERIVED_CALCULATED": 4,
+        "UPSTOX_KEY_RATIOS": 4,
+        "UPSTOX_VALUATION": 3,
+        "FundamentalSnapshots/FERE": 1,
+        "UPSTOX_CASH_FLOW": 1,
+        "UPSTOX_SHAREHOLDINGS": 3,
+        "FundamentalSnapshots": 1,
+        "InstitutionalDeals": 1,
+        "CorporateActions": 1,
+        "UPSTOX_PROFILE": 1,
+        "QglpModuleAdapter": 2
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 1,
+      "topUnresolvedFields": [
+        "symbol (1)",
+        "revenue (1)",
+        "operating_profit_ebitda (1)",
+        "operating_margin (1)",
+        "pat (1)"
+      ],
+      "topMissingSources": [
+        "capex (1)",
+        "fcf (1)",
+        "operating_kpis (1)",
+        "catalysts (1)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "AGRICULTURE_COMMODITIES__MID": {
+      "companyCount": 2,
+      "verifiedFieldRatePct": 16.22,
+      "partialFieldRatePct": 16.22,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 6,
+        "MasterTickers/Profile": 4,
+        "UpstoxProfile/FERE": 2,
+        "ClassificationEngine": 2,
+        "UPSTOX_FUNDAMENTALS": 8,
+        "DERIVED_CALCULATED": 8,
+        "UPSTOX_KEY_RATIOS": 8,
+        "UPSTOX_VALUATION": 6,
+        "FundamentalSnapshots/FERE": 2,
+        "UPSTOX_CASH_FLOW": 2,
+        "UPSTOX_SHAREHOLDINGS": 6,
+        "FundamentalSnapshots": 2,
+        "InstitutionalDeals": 2,
+        "CorporateActions": 2,
+        "UPSTOX_PROFILE": 2,
+        "QglpModuleAdapter": 4
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 2,
+      "topUnresolvedFields": [
+        "symbol (2)",
+        "revenue (2)",
+        "operating_profit_ebitda (2)",
+        "operating_margin (2)",
+        "pat (2)"
+      ],
+      "topMissingSources": [
+        "capex (2)",
+        "fcf (2)",
+        "operating_kpis (2)",
+        "catalysts (2)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "AUTO_AUTO_ANCILLARY__MID": {
+      "companyCount": 2,
+      "verifiedFieldRatePct": 16.22,
+      "partialFieldRatePct": 16.22,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 6,
+        "MasterTickers/Profile": 4,
+        "UpstoxProfile/FERE": 2,
+        "ClassificationEngine": 2,
+        "UPSTOX_FUNDAMENTALS": 8,
+        "DERIVED_CALCULATED": 8,
+        "UPSTOX_KEY_RATIOS": 8,
+        "UPSTOX_VALUATION": 6,
+        "FundamentalSnapshots/FERE": 2,
+        "UPSTOX_CASH_FLOW": 2,
+        "UPSTOX_SHAREHOLDINGS": 6,
+        "FundamentalSnapshots": 2,
+        "InstitutionalDeals": 2,
+        "CorporateActions": 2,
+        "UPSTOX_PROFILE": 2,
+        "QglpModuleAdapter": 4
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 2,
+      "topUnresolvedFields": [
+        "symbol (2)",
+        "revenue (2)",
+        "operating_profit_ebitda (2)",
+        "operating_margin (2)",
+        "pat (2)"
+      ],
+      "topMissingSources": [
+        "capex (2)",
+        "fcf (2)",
+        "operating_kpis (2)",
+        "catalysts (2)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "BANKS_NBFC_INSURANCE__MID": {
+      "companyCount": 14,
+      "verifiedFieldRatePct": 16.99,
+      "partialFieldRatePct": 15.25,
+      "unavailableFieldRatePct": 67.76,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 42,
+        "MasterTickers/Profile": 28,
+        "UpstoxProfile/FERE": 14,
+        "ClassificationEngine": 14,
+        "UPSTOX_FUNDAMENTALS": 56,
+        "DERIVED_CALCULATED": 56,
+        "UPSTOX_KEY_RATIOS": 56,
+        "UPSTOX_VALUATION": 42,
+        "FundamentalSnapshots/FERE": 14,
+        "UPSTOX_CASH_FLOW": 14,
+        "UPSTOX_SHAREHOLDINGS": 42,
+        "FundamentalSnapshots": 14,
+        "InstitutionalDeals": 14,
+        "CorporateActions": 14,
+        "UPSTOX_PROFILE": 14,
+        "QglpModuleAdapter": 28
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 14,
+      "topUnresolvedFields": [
+        "symbol (14)",
+        "revenue (14)",
+        "operating_profit_ebitda (14)",
+        "operating_margin (14)",
+        "pat (14)"
+      ],
+      "topMissingSources": [
+        "capex (14)",
+        "fcf (14)",
+        "operating_kpis (14)",
+        "catalysts (14)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "CAPITAL_GOODS_INDUSTRIALS__MID": {
+      "companyCount": 22,
+      "verifiedFieldRatePct": 17.69,
+      "partialFieldRatePct": 14.74,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 66,
+        "MasterTickers/Profile": 44,
+        "UpstoxProfile/FERE": 22,
+        "ClassificationEngine": 22,
+        "UPSTOX_FUNDAMENTALS": 88,
+        "DERIVED_CALCULATED": 88,
+        "UPSTOX_KEY_RATIOS": 88,
+        "UPSTOX_VALUATION": 66,
+        "FundamentalSnapshots/FERE": 22,
+        "UPSTOX_CASH_FLOW": 22,
+        "UPSTOX_SHAREHOLDINGS": 66,
+        "FundamentalSnapshots": 22,
+        "InstitutionalDeals": 22,
+        "CorporateActions": 22,
+        "UPSTOX_PROFILE": 22,
+        "QglpModuleAdapter": 44
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 22,
+      "topUnresolvedFields": [
+        "symbol (22)",
+        "revenue (22)",
+        "operating_profit_ebitda (22)",
+        "operating_margin (22)",
+        "pat (22)"
+      ],
+      "topMissingSources": [
+        "capex (22)",
+        "fcf (22)",
+        "operating_kpis (22)",
+        "catalysts (22)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "CHEMICALS__MID": {
+      "companyCount": 4,
+      "verifiedFieldRatePct": 16.89,
+      "partialFieldRatePct": 14.86,
+      "unavailableFieldRatePct": 68.24,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 12,
+        "MasterTickers/Profile": 8,
+        "UpstoxProfile/FERE": 4,
+        "ClassificationEngine": 4,
+        "UPSTOX_FUNDAMENTALS": 16,
+        "DERIVED_CALCULATED": 16,
+        "UPSTOX_KEY_RATIOS": 16,
+        "UPSTOX_VALUATION": 12,
+        "FundamentalSnapshots/FERE": 4,
+        "UPSTOX_CASH_FLOW": 4,
+        "UPSTOX_SHAREHOLDINGS": 12,
+        "FundamentalSnapshots": 4,
+        "InstitutionalDeals": 4,
+        "CorporateActions": 4,
+        "UPSTOX_PROFILE": 4,
+        "QglpModuleAdapter": 8
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 4,
+      "topUnresolvedFields": [
+        "symbol (4)",
+        "revenue (4)",
+        "operating_profit_ebitda (4)",
+        "operating_margin (4)",
+        "pat (4)"
+      ],
+      "topMissingSources": [
+        "capex (4)",
+        "fcf (4)",
+        "operating_kpis (4)",
+        "catalysts (4)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "CONSUMER_RETAIL__MID": {
+      "companyCount": 4,
+      "verifiedFieldRatePct": 16.89,
+      "partialFieldRatePct": 15.54,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 12,
+        "MasterTickers/Profile": 8,
+        "UpstoxProfile/FERE": 4,
+        "ClassificationEngine": 4,
+        "UPSTOX_FUNDAMENTALS": 16,
+        "DERIVED_CALCULATED": 16,
+        "UPSTOX_KEY_RATIOS": 16,
+        "UPSTOX_VALUATION": 12,
+        "FundamentalSnapshots/FERE": 4,
+        "UPSTOX_CASH_FLOW": 4,
+        "UPSTOX_SHAREHOLDINGS": 12,
+        "FundamentalSnapshots": 4,
+        "InstitutionalDeals": 4,
+        "CorporateActions": 4,
+        "UPSTOX_PROFILE": 4,
+        "QglpModuleAdapter": 8
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 4,
+      "topUnresolvedFields": [
+        "symbol (4)",
+        "revenue (4)",
+        "operating_profit_ebitda (4)",
+        "operating_margin (4)",
+        "pat (4)"
+      ],
+      "topMissingSources": [
+        "capex (4)",
+        "fcf (4)",
+        "operating_kpis (4)",
+        "catalysts (4)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "ENERGY_UTILITIES__MID": {
+      "companyCount": 1,
+      "verifiedFieldRatePct": 16.22,
+      "partialFieldRatePct": 13.51,
+      "unavailableFieldRatePct": 70.27,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 3,
+        "MasterTickers/Profile": 2,
+        "UpstoxProfile/FERE": 1,
+        "ClassificationEngine": 1,
+        "UPSTOX_FUNDAMENTALS": 4,
+        "DERIVED_CALCULATED": 4,
+        "UPSTOX_KEY_RATIOS": 4,
+        "UPSTOX_VALUATION": 3,
+        "FundamentalSnapshots/FERE": 1,
+        "UPSTOX_CASH_FLOW": 1,
+        "UPSTOX_SHAREHOLDINGS": 3,
+        "FundamentalSnapshots": 1,
+        "InstitutionalDeals": 1,
+        "CorporateActions": 1,
+        "UPSTOX_PROFILE": 1,
+        "QglpModuleAdapter": 2
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 1,
+      "topUnresolvedFields": [
+        "symbol (1)",
+        "revenue (1)",
+        "operating_profit_ebitda (1)",
+        "operating_margin (1)",
+        "pat (1)"
+      ],
+      "topMissingSources": [
+        "capex (1)",
+        "fcf (1)",
+        "operating_kpis (1)",
+        "catalysts (1)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "FMCG__MID": {
+      "companyCount": 1,
+      "verifiedFieldRatePct": 18.92,
+      "partialFieldRatePct": 13.51,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 3,
+        "MasterTickers/Profile": 2,
+        "UpstoxProfile/FERE": 1,
+        "ClassificationEngine": 1,
+        "UPSTOX_FUNDAMENTALS": 4,
+        "DERIVED_CALCULATED": 4,
+        "UPSTOX_KEY_RATIOS": 4,
+        "UPSTOX_VALUATION": 3,
+        "FundamentalSnapshots/FERE": 1,
+        "UPSTOX_CASH_FLOW": 1,
+        "UPSTOX_SHAREHOLDINGS": 3,
+        "FundamentalSnapshots": 1,
+        "InstitutionalDeals": 1,
+        "CorporateActions": 1,
+        "UPSTOX_PROFILE": 1,
+        "QglpModuleAdapter": 2
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 1,
+      "topUnresolvedFields": [
+        "symbol (1)",
+        "revenue (1)",
+        "operating_profit_ebitda (1)",
+        "operating_margin (1)",
+        "pat (1)"
+      ],
+      "topMissingSources": [
+        "capex (1)",
+        "fcf (1)",
+        "operating_kpis (1)",
+        "catalysts (1)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "INFRASTRUCTURE_LOGISTICS__MID": {
+      "companyCount": 2,
+      "verifiedFieldRatePct": 16.22,
+      "partialFieldRatePct": 16.22,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 6,
+        "MasterTickers/Profile": 4,
+        "UpstoxProfile/FERE": 2,
+        "ClassificationEngine": 2,
+        "UPSTOX_FUNDAMENTALS": 8,
+        "DERIVED_CALCULATED": 8,
+        "UPSTOX_KEY_RATIOS": 8,
+        "UPSTOX_VALUATION": 6,
+        "FundamentalSnapshots/FERE": 2,
+        "UPSTOX_CASH_FLOW": 2,
+        "UPSTOX_SHAREHOLDINGS": 6,
+        "FundamentalSnapshots": 2,
+        "InstitutionalDeals": 2,
+        "CorporateActions": 2,
+        "UPSTOX_PROFILE": 2,
+        "QglpModuleAdapter": 4
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 2,
+      "topUnresolvedFields": [
+        "symbol (2)",
+        "revenue (2)",
+        "operating_profit_ebitda (2)",
+        "operating_margin (2)",
+        "pat (2)"
+      ],
+      "topMissingSources": [
+        "capex (2)",
+        "fcf (2)",
+        "operating_kpis (2)",
+        "catalysts (2)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "IT_SERVICES__MID": {
+      "companyCount": 11,
+      "verifiedFieldRatePct": 16.95,
+      "partialFieldRatePct": 15.48,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 33,
+        "MasterTickers/Profile": 22,
+        "UpstoxProfile/FERE": 11,
+        "ClassificationEngine": 11,
+        "UPSTOX_FUNDAMENTALS": 44,
+        "DERIVED_CALCULATED": 44,
+        "UPSTOX_KEY_RATIOS": 44,
+        "UPSTOX_VALUATION": 33,
+        "FundamentalSnapshots/FERE": 11,
+        "UPSTOX_CASH_FLOW": 11,
+        "UPSTOX_SHAREHOLDINGS": 33,
+        "FundamentalSnapshots": 11,
+        "InstitutionalDeals": 11,
+        "CorporateActions": 11,
+        "UPSTOX_PROFILE": 11,
+        "QglpModuleAdapter": 22
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 11,
+      "topUnresolvedFields": [
+        "symbol (11)",
+        "revenue (11)",
+        "operating_profit_ebitda (11)",
+        "operating_margin (11)",
+        "pat (11)"
+      ],
+      "topMissingSources": [
+        "capex (11)",
+        "fcf (11)",
+        "operating_kpis (11)",
+        "catalysts (11)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "METALS_MINING__MID": {
+      "companyCount": 2,
+      "verifiedFieldRatePct": 17.57,
+      "partialFieldRatePct": 14.86,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 6,
+        "MasterTickers/Profile": 4,
+        "UpstoxProfile/FERE": 2,
+        "ClassificationEngine": 2,
+        "UPSTOX_FUNDAMENTALS": 8,
+        "DERIVED_CALCULATED": 8,
+        "UPSTOX_KEY_RATIOS": 8,
+        "UPSTOX_VALUATION": 6,
+        "FundamentalSnapshots/FERE": 2,
+        "UPSTOX_CASH_FLOW": 2,
+        "UPSTOX_SHAREHOLDINGS": 6,
+        "FundamentalSnapshots": 2,
+        "InstitutionalDeals": 2,
+        "CorporateActions": 2,
+        "UPSTOX_PROFILE": 2,
+        "QglpModuleAdapter": 4
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 2,
+      "topUnresolvedFields": [
+        "symbol (2)",
+        "revenue (2)",
+        "operating_profit_ebitda (2)",
+        "operating_margin (2)",
+        "pat (2)"
+      ],
+      "topMissingSources": [
+        "capex (2)",
+        "fcf (2)",
+        "operating_kpis (2)",
+        "catalysts (2)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "PHARMA_HEALTHCARE__MID": {
+      "companyCount": 4,
+      "verifiedFieldRatePct": 16.22,
+      "partialFieldRatePct": 16.22,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 12,
+        "MasterTickers/Profile": 8,
+        "UpstoxProfile/FERE": 4,
+        "ClassificationEngine": 4,
+        "UPSTOX_FUNDAMENTALS": 16,
+        "DERIVED_CALCULATED": 16,
+        "UPSTOX_KEY_RATIOS": 16,
+        "UPSTOX_VALUATION": 12,
+        "FundamentalSnapshots/FERE": 4,
+        "UPSTOX_CASH_FLOW": 4,
+        "UPSTOX_SHAREHOLDINGS": 12,
+        "FundamentalSnapshots": 4,
+        "InstitutionalDeals": 4,
+        "CorporateActions": 4,
+        "UPSTOX_PROFILE": 4,
+        "QglpModuleAdapter": 8
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 4,
+      "topUnresolvedFields": [
+        "symbol (4)",
+        "revenue (4)",
+        "operating_profit_ebitda (4)",
+        "operating_margin (4)",
+        "pat (4)"
+      ],
+      "topMissingSources": [
+        "capex (4)",
+        "fcf (4)",
+        "operating_kpis (4)",
+        "catalysts (4)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "REAL_ESTATE__MID": {
+      "companyCount": 4,
+      "verifiedFieldRatePct": 16.89,
+      "partialFieldRatePct": 15.54,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 12,
+        "MasterTickers/Profile": 8,
+        "UpstoxProfile/FERE": 4,
+        "ClassificationEngine": 4,
+        "UPSTOX_FUNDAMENTALS": 16,
+        "DERIVED_CALCULATED": 16,
+        "UPSTOX_KEY_RATIOS": 16,
+        "UPSTOX_VALUATION": 12,
+        "FundamentalSnapshots/FERE": 4,
+        "UPSTOX_CASH_FLOW": 4,
+        "UPSTOX_SHAREHOLDINGS": 12,
+        "FundamentalSnapshots": 4,
+        "InstitutionalDeals": 4,
+        "CorporateActions": 4,
+        "UPSTOX_PROFILE": 4,
+        "QglpModuleAdapter": 8
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 4,
+      "topUnresolvedFields": [
+        "symbol (4)",
+        "revenue (4)",
+        "operating_profit_ebitda (4)",
+        "operating_margin (4)",
+        "pat (4)"
+      ],
+      "topMissingSources": [
+        "capex (4)",
+        "fcf (4)",
+        "operating_kpis (4)",
+        "catalysts (4)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "TELECOM_MEDIA__MID": {
+      "companyCount": 1,
+      "verifiedFieldRatePct": 16.22,
+      "partialFieldRatePct": 16.22,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 3,
+        "MasterTickers/Profile": 2,
+        "UpstoxProfile/FERE": 1,
+        "ClassificationEngine": 1,
+        "UPSTOX_FUNDAMENTALS": 4,
+        "DERIVED_CALCULATED": 4,
+        "UPSTOX_KEY_RATIOS": 4,
+        "UPSTOX_VALUATION": 3,
+        "FundamentalSnapshots/FERE": 1,
+        "UPSTOX_CASH_FLOW": 1,
+        "UPSTOX_SHAREHOLDINGS": 3,
+        "FundamentalSnapshots": 1,
+        "InstitutionalDeals": 1,
+        "CorporateActions": 1,
+        "UPSTOX_PROFILE": 1,
+        "QglpModuleAdapter": 2
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 1,
+      "topUnresolvedFields": [
+        "symbol (1)",
+        "revenue (1)",
+        "operating_profit_ebitda (1)",
+        "operating_margin (1)",
+        "pat (1)"
+      ],
+      "topMissingSources": [
+        "capex (1)",
+        "fcf (1)",
+        "operating_kpis (1)",
+        "catalysts (1)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "TEXTILES__MID": {
+      "companyCount": 1,
+      "verifiedFieldRatePct": 18.92,
+      "partialFieldRatePct": 13.51,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 3,
+        "MasterTickers/Profile": 2,
+        "UpstoxProfile/FERE": 1,
+        "ClassificationEngine": 1,
+        "UPSTOX_FUNDAMENTALS": 4,
+        "DERIVED_CALCULATED": 4,
+        "UPSTOX_KEY_RATIOS": 4,
+        "UPSTOX_VALUATION": 3,
+        "FundamentalSnapshots/FERE": 1,
+        "UPSTOX_CASH_FLOW": 1,
+        "UPSTOX_SHAREHOLDINGS": 3,
+        "FundamentalSnapshots": 1,
+        "InstitutionalDeals": 1,
+        "CorporateActions": 1,
+        "UPSTOX_PROFILE": 1,
+        "QglpModuleAdapter": 2
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 1,
+      "topUnresolvedFields": [
+        "symbol (1)",
+        "revenue (1)",
+        "operating_profit_ebitda (1)",
+        "operating_margin (1)",
+        "pat (1)"
+      ],
+      "topMissingSources": [
+        "capex (1)",
+        "fcf (1)",
+        "operating_kpis (1)",
+        "catalysts (1)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "AGRICULTURE_COMMODITIES__SMALL": {
+      "companyCount": 1,
+      "verifiedFieldRatePct": 16.22,
+      "partialFieldRatePct": 13.51,
+      "unavailableFieldRatePct": 70.27,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 3,
+        "MasterTickers/Profile": 2,
+        "UpstoxProfile/FERE": 1,
+        "ClassificationEngine": 1,
+        "UPSTOX_FUNDAMENTALS": 4,
+        "DERIVED_CALCULATED": 4,
+        "UPSTOX_KEY_RATIOS": 4,
+        "UPSTOX_VALUATION": 3,
+        "FundamentalSnapshots/FERE": 1,
+        "UPSTOX_CASH_FLOW": 1,
+        "UPSTOX_SHAREHOLDINGS": 3,
+        "FundamentalSnapshots": 1,
+        "InstitutionalDeals": 1,
+        "CorporateActions": 1,
+        "UPSTOX_PROFILE": 1,
+        "QglpModuleAdapter": 2
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 1,
+      "topUnresolvedFields": [
+        "symbol (1)",
+        "revenue (1)",
+        "operating_profit_ebitda (1)",
+        "operating_margin (1)",
+        "pat (1)"
+      ],
+      "topMissingSources": [
+        "capex (1)",
+        "fcf (1)",
+        "operating_kpis (1)",
+        "catalysts (1)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "AUTO_AUTO_ANCILLARY__SMALL": {
+      "companyCount": 4,
+      "verifiedFieldRatePct": 16.22,
+      "partialFieldRatePct": 15.54,
+      "unavailableFieldRatePct": 68.24,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 12,
+        "MasterTickers/Profile": 8,
+        "UpstoxProfile/FERE": 4,
+        "ClassificationEngine": 4,
+        "UPSTOX_FUNDAMENTALS": 16,
+        "DERIVED_CALCULATED": 16,
+        "UPSTOX_KEY_RATIOS": 16,
+        "UPSTOX_VALUATION": 12,
+        "FundamentalSnapshots/FERE": 4,
+        "UPSTOX_CASH_FLOW": 4,
+        "UPSTOX_SHAREHOLDINGS": 12,
+        "FundamentalSnapshots": 4,
+        "InstitutionalDeals": 4,
+        "CorporateActions": 4,
+        "UPSTOX_PROFILE": 4,
+        "QglpModuleAdapter": 8
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 4,
+      "topUnresolvedFields": [
+        "symbol (4)",
+        "revenue (4)",
+        "operating_profit_ebitda (4)",
+        "operating_margin (4)",
+        "pat (4)"
+      ],
+      "topMissingSources": [
+        "capex (4)",
+        "fcf (4)",
+        "operating_kpis (4)",
+        "catalysts (4)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "BANKS_NBFC_INSURANCE__SMALL": {
+      "companyCount": 6,
+      "verifiedFieldRatePct": 16.67,
+      "partialFieldRatePct": 14.86,
+      "unavailableFieldRatePct": 68.47,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 18,
+        "MasterTickers/Profile": 12,
+        "UpstoxProfile/FERE": 6,
+        "ClassificationEngine": 6,
+        "UPSTOX_FUNDAMENTALS": 24,
+        "DERIVED_CALCULATED": 24,
+        "UPSTOX_KEY_RATIOS": 24,
+        "UPSTOX_VALUATION": 18,
+        "FundamentalSnapshots/FERE": 6,
+        "UPSTOX_CASH_FLOW": 6,
+        "UPSTOX_SHAREHOLDINGS": 18,
+        "FundamentalSnapshots": 6,
+        "InstitutionalDeals": 6,
+        "CorporateActions": 6,
+        "UPSTOX_PROFILE": 6,
+        "QglpModuleAdapter": 12
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 6,
+      "topUnresolvedFields": [
+        "symbol (6)",
+        "revenue (6)",
+        "operating_profit_ebitda (6)",
+        "operating_margin (6)",
+        "pat (6)"
+      ],
+      "topMissingSources": [
+        "capex (6)",
+        "fcf (6)",
+        "operating_kpis (6)",
+        "catalysts (6)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "CAPITAL_GOODS_INDUSTRIALS__SMALL": {
+      "companyCount": 14,
+      "verifiedFieldRatePct": 16.22,
+      "partialFieldRatePct": 14.86,
+      "unavailableFieldRatePct": 68.92,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 42,
+        "MasterTickers/Profile": 28,
+        "UpstoxProfile/FERE": 14,
+        "ClassificationEngine": 14,
+        "UPSTOX_FUNDAMENTALS": 56,
+        "DERIVED_CALCULATED": 56,
+        "UPSTOX_KEY_RATIOS": 56,
+        "UPSTOX_VALUATION": 42,
+        "FundamentalSnapshots/FERE": 14,
+        "UPSTOX_CASH_FLOW": 14,
+        "UPSTOX_SHAREHOLDINGS": 42,
+        "FundamentalSnapshots": 14,
+        "InstitutionalDeals": 14,
+        "CorporateActions": 14,
+        "UPSTOX_PROFILE": 14,
+        "QglpModuleAdapter": 28
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 14,
+      "topUnresolvedFields": [
+        "symbol (14)",
+        "revenue (14)",
+        "operating_profit_ebitda (14)",
+        "operating_margin (14)",
+        "pat (14)"
+      ],
+      "topMissingSources": [
+        "capex (14)",
+        "fcf (14)",
+        "operating_kpis (14)",
+        "catalysts (14)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "CHEMICALS__SMALL": {
+      "companyCount": 5,
+      "verifiedFieldRatePct": 16.76,
+      "partialFieldRatePct": 15.14,
+      "unavailableFieldRatePct": 68.11,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 15,
+        "MasterTickers/Profile": 10,
+        "UpstoxProfile/FERE": 5,
+        "ClassificationEngine": 5,
+        "UPSTOX_FUNDAMENTALS": 20,
+        "DERIVED_CALCULATED": 20,
+        "UPSTOX_KEY_RATIOS": 20,
+        "UPSTOX_VALUATION": 15,
+        "FundamentalSnapshots/FERE": 5,
+        "UPSTOX_CASH_FLOW": 5,
+        "UPSTOX_SHAREHOLDINGS": 15,
+        "FundamentalSnapshots": 5,
+        "InstitutionalDeals": 5,
+        "CorporateActions": 5,
+        "UPSTOX_PROFILE": 5,
+        "QglpModuleAdapter": 10
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 5,
+      "topUnresolvedFields": [
+        "symbol (5)",
+        "revenue (5)",
+        "operating_profit_ebitda (5)",
+        "operating_margin (5)",
+        "pat (5)"
+      ],
+      "topMissingSources": [
+        "capex (5)",
+        "fcf (5)",
+        "operating_kpis (5)",
+        "catalysts (5)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "CONSUMER_RETAIL__SMALL": {
+      "companyCount": 8,
+      "verifiedFieldRatePct": 16.55,
+      "partialFieldRatePct": 15.2,
+      "unavailableFieldRatePct": 68.24,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 24,
+        "MasterTickers/Profile": 16,
+        "UpstoxProfile/FERE": 8,
+        "ClassificationEngine": 8,
+        "UPSTOX_FUNDAMENTALS": 32,
+        "DERIVED_CALCULATED": 32,
+        "UPSTOX_KEY_RATIOS": 32,
+        "UPSTOX_VALUATION": 24,
+        "FundamentalSnapshots/FERE": 8,
+        "UPSTOX_CASH_FLOW": 8,
+        "UPSTOX_SHAREHOLDINGS": 24,
+        "FundamentalSnapshots": 8,
+        "InstitutionalDeals": 8,
+        "CorporateActions": 8,
+        "UPSTOX_PROFILE": 8,
+        "QglpModuleAdapter": 16
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 8,
+      "topUnresolvedFields": [
+        "symbol (8)",
+        "revenue (8)",
+        "operating_profit_ebitda (8)",
+        "operating_margin (8)",
+        "pat (8)"
+      ],
+      "topMissingSources": [
+        "capex (8)",
+        "fcf (8)",
+        "operating_kpis (8)",
+        "catalysts (8)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "ENERGY_UTILITIES__SMALL": {
+      "companyCount": 1,
+      "verifiedFieldRatePct": 16.22,
+      "partialFieldRatePct": 16.22,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 3,
+        "MasterTickers/Profile": 2,
+        "UpstoxProfile/FERE": 1,
+        "ClassificationEngine": 1,
+        "UPSTOX_FUNDAMENTALS": 4,
+        "DERIVED_CALCULATED": 4,
+        "UPSTOX_KEY_RATIOS": 4,
+        "UPSTOX_VALUATION": 3,
+        "FundamentalSnapshots/FERE": 1,
+        "UPSTOX_CASH_FLOW": 1,
+        "UPSTOX_SHAREHOLDINGS": 3,
+        "FundamentalSnapshots": 1,
+        "InstitutionalDeals": 1,
+        "CorporateActions": 1,
+        "UPSTOX_PROFILE": 1,
+        "QglpModuleAdapter": 2
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 1,
+      "topUnresolvedFields": [
+        "symbol (1)",
+        "revenue (1)",
+        "operating_profit_ebitda (1)",
+        "operating_margin (1)",
+        "pat (1)"
+      ],
+      "topMissingSources": [
+        "capex (1)",
+        "fcf (1)",
+        "operating_kpis (1)",
+        "catalysts (1)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "FMCG__SMALL": {
+      "companyCount": 4,
+      "verifiedFieldRatePct": 16.22,
+      "partialFieldRatePct": 15.54,
+      "unavailableFieldRatePct": 68.24,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 12,
+        "MasterTickers/Profile": 8,
+        "UpstoxProfile/FERE": 4,
+        "ClassificationEngine": 4,
+        "UPSTOX_FUNDAMENTALS": 16,
+        "DERIVED_CALCULATED": 16,
+        "UPSTOX_KEY_RATIOS": 16,
+        "UPSTOX_VALUATION": 12,
+        "FundamentalSnapshots/FERE": 4,
+        "UPSTOX_CASH_FLOW": 4,
+        "UPSTOX_SHAREHOLDINGS": 12,
+        "FundamentalSnapshots": 4,
+        "InstitutionalDeals": 4,
+        "CorporateActions": 4,
+        "UPSTOX_PROFILE": 4,
+        "QglpModuleAdapter": 8
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 4,
+      "topUnresolvedFields": [
+        "symbol (4)",
+        "revenue (4)",
+        "operating_profit_ebitda (4)",
+        "operating_margin (4)",
+        "pat (4)"
+      ],
+      "topMissingSources": [
+        "capex (4)",
+        "fcf (4)",
+        "operating_kpis (4)",
+        "catalysts (4)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "INFRASTRUCTURE_LOGISTICS__SMALL": {
+      "companyCount": 6,
+      "verifiedFieldRatePct": 16.67,
+      "partialFieldRatePct": 14.86,
+      "unavailableFieldRatePct": 68.47,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 18,
+        "MasterTickers/Profile": 12,
+        "UpstoxProfile/FERE": 6,
+        "ClassificationEngine": 6,
+        "UPSTOX_FUNDAMENTALS": 24,
+        "DERIVED_CALCULATED": 24,
+        "UPSTOX_KEY_RATIOS": 24,
+        "UPSTOX_VALUATION": 18,
+        "FundamentalSnapshots/FERE": 6,
+        "UPSTOX_CASH_FLOW": 6,
+        "UPSTOX_SHAREHOLDINGS": 18,
+        "FundamentalSnapshots": 6,
+        "InstitutionalDeals": 6,
+        "CorporateActions": 6,
+        "UPSTOX_PROFILE": 6,
+        "QglpModuleAdapter": 12
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 6,
+      "topUnresolvedFields": [
+        "symbol (6)",
+        "revenue (6)",
+        "operating_profit_ebitda (6)",
+        "operating_margin (6)",
+        "pat (6)"
+      ],
+      "topMissingSources": [
+        "capex (6)",
+        "fcf (6)",
+        "operating_kpis (6)",
+        "catalysts (6)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "IT_SERVICES__SMALL": {
+      "companyCount": 10,
+      "verifiedFieldRatePct": 16.49,
+      "partialFieldRatePct": 15.68,
+      "unavailableFieldRatePct": 67.84,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 30,
+        "MasterTickers/Profile": 20,
+        "UpstoxProfile/FERE": 10,
+        "ClassificationEngine": 10,
+        "UPSTOX_FUNDAMENTALS": 40,
+        "DERIVED_CALCULATED": 40,
+        "UPSTOX_KEY_RATIOS": 40,
+        "UPSTOX_VALUATION": 30,
+        "FundamentalSnapshots/FERE": 10,
+        "UPSTOX_CASH_FLOW": 10,
+        "UPSTOX_SHAREHOLDINGS": 30,
+        "FundamentalSnapshots": 10,
+        "InstitutionalDeals": 10,
+        "CorporateActions": 10,
+        "UPSTOX_PROFILE": 10,
+        "QglpModuleAdapter": 20
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 10,
+      "topUnresolvedFields": [
+        "symbol (10)",
+        "revenue (10)",
+        "operating_profit_ebitda (10)",
+        "operating_margin (10)",
+        "pat (10)"
+      ],
+      "topMissingSources": [
+        "capex (10)",
+        "fcf (10)",
+        "operating_kpis (10)",
+        "catalysts (10)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "METALS_MINING__SMALL": {
+      "companyCount": 2,
+      "verifiedFieldRatePct": 16.22,
+      "partialFieldRatePct": 14.86,
+      "unavailableFieldRatePct": 68.92,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 6,
+        "MasterTickers/Profile": 4,
+        "UpstoxProfile/FERE": 2,
+        "ClassificationEngine": 2,
+        "UPSTOX_FUNDAMENTALS": 8,
+        "DERIVED_CALCULATED": 8,
+        "UPSTOX_KEY_RATIOS": 8,
+        "UPSTOX_VALUATION": 6,
+        "FundamentalSnapshots/FERE": 2,
+        "UPSTOX_CASH_FLOW": 2,
+        "UPSTOX_SHAREHOLDINGS": 6,
+        "FundamentalSnapshots": 2,
+        "InstitutionalDeals": 2,
+        "CorporateActions": 2,
+        "UPSTOX_PROFILE": 2,
+        "QglpModuleAdapter": 4
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 2,
+      "topUnresolvedFields": [
+        "symbol (2)",
+        "revenue (2)",
+        "operating_profit_ebitda (2)",
+        "operating_margin (2)",
+        "pat (2)"
+      ],
+      "topMissingSources": [
+        "capex (2)",
+        "fcf (2)",
+        "operating_kpis (2)",
+        "catalysts (2)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "PHARMA_HEALTHCARE__SMALL": {
+      "companyCount": 7,
+      "verifiedFieldRatePct": 16.22,
+      "partialFieldRatePct": 15.44,
+      "unavailableFieldRatePct": 68.34,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 21,
+        "MasterTickers/Profile": 14,
+        "UpstoxProfile/FERE": 7,
+        "ClassificationEngine": 7,
+        "UPSTOX_FUNDAMENTALS": 28,
+        "DERIVED_CALCULATED": 28,
+        "UPSTOX_KEY_RATIOS": 28,
+        "UPSTOX_VALUATION": 21,
+        "FundamentalSnapshots/FERE": 7,
+        "UPSTOX_CASH_FLOW": 7,
+        "UPSTOX_SHAREHOLDINGS": 21,
+        "FundamentalSnapshots": 7,
+        "InstitutionalDeals": 7,
+        "CorporateActions": 7,
+        "UPSTOX_PROFILE": 7,
+        "QglpModuleAdapter": 14
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 7,
+      "topUnresolvedFields": [
+        "symbol (7)",
+        "revenue (7)",
+        "operating_profit_ebitda (7)",
+        "operating_margin (7)",
+        "pat (7)"
+      ],
+      "topMissingSources": [
+        "capex (7)",
+        "fcf (7)",
+        "operating_kpis (7)",
+        "catalysts (7)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "REAL_ESTATE__SMALL": {
+      "companyCount": 1,
+      "verifiedFieldRatePct": 16.22,
+      "partialFieldRatePct": 16.22,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 3,
+        "MasterTickers/Profile": 2,
+        "UpstoxProfile/FERE": 1,
+        "ClassificationEngine": 1,
+        "UPSTOX_FUNDAMENTALS": 4,
+        "DERIVED_CALCULATED": 4,
+        "UPSTOX_KEY_RATIOS": 4,
+        "UPSTOX_VALUATION": 3,
+        "FundamentalSnapshots/FERE": 1,
+        "UPSTOX_CASH_FLOW": 1,
+        "UPSTOX_SHAREHOLDINGS": 3,
+        "FundamentalSnapshots": 1,
+        "InstitutionalDeals": 1,
+        "CorporateActions": 1,
+        "UPSTOX_PROFILE": 1,
+        "QglpModuleAdapter": 2
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 1,
+      "topUnresolvedFields": [
+        "symbol (1)",
+        "revenue (1)",
+        "operating_profit_ebitda (1)",
+        "operating_margin (1)",
+        "pat (1)"
+      ],
+      "topMissingSources": [
+        "capex (1)",
+        "fcf (1)",
+        "operating_kpis (1)",
+        "catalysts (1)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "TELECOM_MEDIA__SMALL": {
+      "companyCount": 2,
+      "verifiedFieldRatePct": 16.22,
+      "partialFieldRatePct": 16.22,
+      "unavailableFieldRatePct": 67.57,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 6,
+        "MasterTickers/Profile": 4,
+        "UpstoxProfile/FERE": 2,
+        "ClassificationEngine": 2,
+        "UPSTOX_FUNDAMENTALS": 8,
+        "DERIVED_CALCULATED": 8,
+        "UPSTOX_KEY_RATIOS": 8,
+        "UPSTOX_VALUATION": 6,
+        "FundamentalSnapshots/FERE": 2,
+        "UPSTOX_CASH_FLOW": 2,
+        "UPSTOX_SHAREHOLDINGS": 6,
+        "FundamentalSnapshots": 2,
+        "InstitutionalDeals": 2,
+        "CorporateActions": 2,
+        "UPSTOX_PROFILE": 2,
+        "QglpModuleAdapter": 4
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 2,
+      "topUnresolvedFields": [
+        "symbol (2)",
+        "revenue (2)",
+        "operating_profit_ebitda (2)",
+        "operating_margin (2)",
+        "pat (2)"
+      ],
+      "topMissingSources": [
+        "capex (2)",
+        "fcf (2)",
+        "operating_kpis (2)",
+        "catalysts (2)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    },
+    "TEXTILES__SMALL": {
+      "companyCount": 4,
+      "verifiedFieldRatePct": 16.89,
+      "partialFieldRatePct": 14.19,
+      "unavailableFieldRatePct": 68.92,
+      "conflictRatePct": 0,
+      "freshnessDistribution": {
+        "current30DaysPct": 100,
+        "stalePct": 0
+      },
+      "sourceProviderDistribution": {
+        "MasterTickers": 12,
+        "MasterTickers/Profile": 8,
+        "UpstoxProfile/FERE": 4,
+        "ClassificationEngine": 4,
+        "UPSTOX_FUNDAMENTALS": 16,
+        "DERIVED_CALCULATED": 16,
+        "UPSTOX_KEY_RATIOS": 16,
+        "UPSTOX_VALUATION": 12,
+        "FundamentalSnapshots/FERE": 4,
+        "UPSTOX_CASH_FLOW": 4,
+        "UPSTOX_SHAREHOLDINGS": 12,
+        "FundamentalSnapshots": 4,
+        "InstitutionalDeals": 4,
+        "CorporateActions": 4,
+        "UPSTOX_PROFILE": 4,
+        "QglpModuleAdapter": 8
+      },
+      "qglpEligibilityRatePct": 0,
+      "qglpBlockedCount": 4,
+      "topUnresolvedFields": [
+        "symbol (4)",
+        "revenue (4)",
+        "operating_profit_ebitda (4)",
+        "operating_margin (4)",
+        "pat (4)"
+      ],
+      "topMissingSources": [
+        "capex (4)",
+        "fcf (4)",
+        "operating_kpis (4)",
+        "catalysts (4)"
+      ],
+      "sourceFetchFailures": 0,
+      "coverageExceptions": []
+    }
+  }
+}

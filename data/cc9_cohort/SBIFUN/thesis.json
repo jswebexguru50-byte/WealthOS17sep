@@ -1,0 +1,19 @@
+{
+  "symbol": "SBIFUN",
+  "coreThesisStatement": "India's largest asset manager leveraging State Bank of India's 22,000+ branch distribution network to capture domestic SIP inflows.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Market Share Dominance",
+      "description": "Over 16% total mutual fund industry market share."
+    },
+    {
+      "pillarId": "P2",
+      "title": "High Dividend Payout",
+      "description": "Capital-light operating model converting over 85% of net profit into free cash flow."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_SBIFUN_LEVERAGE"
+  ]
+}

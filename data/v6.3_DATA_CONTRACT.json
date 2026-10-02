@@ -1,0 +1,162 @@
+{
+  "contractVersion": "6.3.0",
+  "contractName": "WEALTHOS_PIT_HISTORICAL_RESEARCH_DATA_CONTRACT",
+  "effectiveDate": "2026-09-17",
+  "auditPrinciple": "STRICT_PIT_FAIL_CLOSED_NO_SYNTHETIC_FALLBACKS",
+  "fields": [
+    {
+      "fieldName": "trade_date",
+      "source": "NSE_BSE_BHAVCOPY",
+      "economicTimestamp": "Date of trade session (YYYY-MM-DD)",
+      "publicationTimestamp": "EOD 15:35:00+05:30",
+      "availableAt": "YYYY-MM-DDT15:35:00+05:30",
+      "pitRequirement": "MANDATORY_STRICT",
+      "requirementLevel": "MANDATORY",
+      "validationRule": "Must match regex ^\\d{4}-\\d{2}-\\d{2}$ and be an official exchange trading day",
+      "permittedFallback": "NONE_FAIL_CLOSED"
+    },
+    {
+      "fieldName": "open",
+      "source": "NSE_BSE_BHAVCOPY",
+      "economicTimestamp": "09:15:00+05:30 (Market Open)",
+      "publicationTimestamp": "15:35:00+05:30 (Official Bhavcopy Release)",
+      "availableAt": "YYYY-MM-DDT15:35:00+05:30",
+      "pitRequirement": "Cannot be used for decision prior to session close for EOD strategies; used as fill price for next-session execution at 09:15:00+05:30 of next tradable day",
+      "requirementLevel": "MANDATORY",
+      "validationRule": "open > 0 and open >= lower_circuit and open <= upper_circuit",
+      "permittedFallback": "NONE_FAIL_CLOSED"
+    },
+    {
+      "fieldName": "high",
+      "source": "NSE_BSE_BHAVCOPY",
+      "economicTimestamp": "Intraday session peak",
+      "publicationTimestamp": "15:35:00+05:30 (Bhavcopy Release)",
+      "availableAt": "YYYY-MM-DDT15:35:00+05:30",
+      "pitRequirement": "Cannot be observed prior to session close",
+      "requirementLevel": "MANDATORY",
+      "validationRule": "high >= open and high >= close and high >= low",
+      "permittedFallback": "NONE_FAIL_CLOSED"
+    },
+    {
+      "fieldName": "low",
+      "source": "NSE_BSE_BHAVCOPY",
+      "economicTimestamp": "Intraday session trough",
+      "publicationTimestamp": "15:35:00+05:30 (Bhavcopy Release)",
+      "availableAt": "YYYY-MM-DDT15:35:00+05:30",
+      "pitRequirement": "Cannot be observed prior to session close",
+      "requirementLevel": "MANDATORY",
+      "validationRule": "low <= open and low <= close and low <= high and low > 0",
+      "permittedFallback": "NONE_FAIL_CLOSED"
+    },
+    {
+      "fieldName": "close",
+      "source": "NSE_BSE_BHAVCOPY",
+      "economicTimestamp": "15:30:00+05:30 (Official 30-min VWAP Close)",
+      "publicationTimestamp": "15:35:00+05:30 (Bhavcopy Release)",
+      "availableAt": "YYYY-MM-DDT15:35:00+05:30",
+      "pitRequirement": "Available strictly at 15:35:00+05:30 for EOD strategy signal generation",
+      "requirementLevel": "MANDATORY",
+      "validationRule": "close > 0 and isFinite(close)",
+      "permittedFallback": "NONE_FAIL_CLOSED"
+    },
+    {
+      "fieldName": "volume",
+      "source": "NSE_BSE_BHAVCOPY",
+      "economicTimestamp": "Cumulative daily traded quantity",
+      "publicationTimestamp": "15:35:00+05:30 (Bhavcopy Release)",
+      "availableAt": "YYYY-MM-DDT15:35:00+05:30",
+      "pitRequirement": "Available strictly at 15:35:00+05:30",
+      "requirementLevel": "MANDATORY",
+      "validationRule": "volume >= 0 and isInteger(volume)",
+      "permittedFallback": "NONE_FAIL_CLOSED"
+    },
+    {
+      "fieldName": "delivery_qty",
+      "source": "NSE_BSE_DELIVERY_REPORTS",
+      "economicTimestamp": "Settled security delivery quantity",
+      "publicationTimestamp": "18:00:00+05:30 (Exchange Delivery Data Feed)",
+      "availableAt": "YYYY-MM-DDT18:00:00+05:30",
+      "pitRequirement": "Delivery-dependent strategy filters cannot execute until 18:00:00+05:30; cannot execute on next-day open unless published before 09:00:00",
+      "requirementLevel": "MANDATORY",
+      "validationRule": "delivery_qty >= 0 and delivery_qty <= volume",
+      "permittedFallback": "NONE_FAIL_CLOSED"
+    },
+    {
+      "fieldName": "turnover",
+      "source": "NSE_BSE_BHAVCOPY",
+      "economicTimestamp": "Gross daily traded value in INR",
+      "publicationTimestamp": "15:35:00+05:30 (Bhavcopy Release)",
+      "availableAt": "YYYY-MM-DDT15:35:00+05:30",
+      "pitRequirement": "Available at 15:35:00+05:30",
+      "requirementLevel": "MANDATORY",
+      "validationRule": "turnover >= 0 and isFinite(turnover) and turnover >= (low * volume * 0.5)",
+      "permittedFallback": "NONE_FAIL_CLOSED"
+    },
+    {
+      "fieldName": "tradable",
+      "source": "NSE_TRADING_CALENDAR_AND_HALT_FEED",
+      "economicTimestamp": "Daily session operational status",
+      "publicationTimestamp": "08:30:00+05:30 (Pre-market confirmation)",
+      "availableAt": "YYYY-MM-DDT08:30:00+05:30",
+      "pitRequirement": "Must be true for next-bar execution; non-trading sessions or suspended scrips must be skipped",
+      "requirementLevel": "MANDATORY",
+      "validationRule": "boolean (volume > 0 and close > 0 and not isSuspended and not isHoliday)",
+      "permittedFallback": "NONE_FAIL_CLOSED"
+    },
+    {
+      "fieldName": "trading_calendar",
+      "source": "EXCHANGE_SETTLEMENT_SCHEDULE",
+      "economicTimestamp": "Exchange declared trading holiday calendar",
+      "publicationTimestamp": "Annual declaration with ad-hoc circular revisions",
+      "availableAt": "Effective immediately upon official exchange circular timestamp",
+      "pitRequirement": "Future trading holidays cannot be assumed until formally published",
+      "requirementLevel": "MANDATORY",
+      "validationRule": "Complete coverage of all calendar days in evaluation window",
+      "permittedFallback": "NONE_FAIL_CLOSED"
+    },
+    {
+      "fieldName": "index_membership",
+      "source": "NSE_INDICES_MONTHLY_AND_SEMI_ANNUAL_REBALANCING",
+      "economicTimestamp": "Effective rebalance date",
+      "publicationTimestamp": "Exchange announcement date (typically 4 weeks prior to effective date)",
+      "availableAt": "Effective date 09:15:00+05:30",
+      "pitRequirement": "Survivorship bias elimination: historical universe membership strictly point-in-time as of trade_date",
+      "requirementLevel": "MANDATORY",
+      "validationRule": "Historical membership table contains as_of_date with active constituent flags",
+      "permittedFallback": "NONE_FAIL_CLOSED"
+    },
+    {
+      "fieldName": "corporate_actions",
+      "source": "BSE_NSE_CORPORATE_ANNOUNCEMENTS",
+      "economicTimestamp": "Ex-date of split, bonus, rights, dividend",
+      "publicationTimestamp": "Announcement timestamp via exchange API",
+      "availableAt": "Ex-date 09:15:00+05:30 for price adjustment; announcement date for forward knowledge",
+      "pitRequirement": "Adjusted historical prices cannot reflect split/bonus before the official ex-date",
+      "requirementLevel": "MANDATORY",
+      "validationRule": "Adjustment factors strictly applied on or after ex_date only",
+      "permittedFallback": "NONE_FAIL_CLOSED"
+    },
+    {
+      "fieldName": "shareholding_patterns",
+      "source": "BSE_NSE_REGULATION_31_FILINGS",
+      "economicTimestamp": "Quarter end date (e.g., 2024-03-31)",
+      "publicationTimestamp": "Actual exchange filing timestamp (typically 15-21 days after quarter end)",
+      "availableAt": "filing_timestamp (strictly PIT, NOT quarter_end_date)",
+      "pitRequirement": "Filing data strictly unavailable to research harness prior to filing_timestamp",
+      "requirementLevel": "MANDATORY_FOR_OVERLAY",
+      "validationRule": "as_of_date <= filing_timestamp",
+      "permittedFallback": "NONE_FAIL_CLOSED"
+    },
+    {
+      "fieldName": "financial_results",
+      "source": "BSE_NSE_REGULATION_33_FILINGS",
+      "economicTimestamp": "Reporting period end date",
+      "publicationTimestamp": "Actual exchange outcome announcement timestamp",
+      "availableAt": "board_meeting_outcome_timestamp",
+      "pitRequirement": "Earnings data cannot be used until board meeting outcome is officially stamped",
+      "requirementLevel": "MANDATORY_FOR_OVERLAY",
+      "validationRule": "period_end < announcement_timestamp",
+      "permittedFallback": "NONE_FAIL_CLOSED"
+    }
+  ]
+}

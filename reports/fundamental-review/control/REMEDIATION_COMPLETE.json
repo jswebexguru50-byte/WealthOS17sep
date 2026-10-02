@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RemediationCompleteContract",
+  "requestId": null,
+  "reviewRunId": null,
+  "iteration": 0,
+  "status": "NONE",
+  "gitBefore": null,
+  "gitAfter": null,
+  "filesChanged": [],
+  "implementationSummary": null,
+  "testsAdded": [],
+  "testsRun": [],
+  "testResults": null,
+  "productionOutputsRegenerated": [],
+  "knownLimitations": [],
+  "developerConcerns": [],
+  "timestamp": null
+}

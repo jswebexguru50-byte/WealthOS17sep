@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CodexVerificationRecordContract",
+  "verificationId": "FUNDAMENTAL_CAL_020_VERIFICATION_001",
+  "reviewId": "FUNDAMENTAL_CAL_020",
+  "requestId": "CAL_020_REMEDIATION_001",
+  "program": "FUNDAMENTAL_CALIBRATION",
+  "iteration": 1,
+  "verifiedBy": "CODEX",
+  "verifiedHead": "a82dc89e8abd907f9709424fb7ba61e86702350e",
+  "verdict": "REMEDIATION_REQUIRED",
+  "findingsResolved": [],
+  "findingsRemaining": ["CAL020_VALUATION_COVERAGE_001", "CAL020_QGLP_FORENSIC_NEGATIVE_002", "CAL020_QGLP_LEVERAGE_DEFAULT_003", "CAL020_BUSINESS_MODEL_MISROUTING_004"],
+  "findingsNew": [],
+  "evidence": [
+    "reports/review/runs/FUNDAMENTAL_CAL_020/RUN_MANIFEST.json",
+    "reports/review/runs/FUNDAMENTAL_CAL_020/FRESH_PRODUCTION_CAPTURE.json",
+    "reports/review/runs/FUNDAMENTAL_CAL_020/INDEPENDENT_FINDINGS_FROZEN.json",
+    "reports/review/runs/FUNDAMENTAL_CAL_020/CLUSTERS.json",
+    "reports/review/control/REMEDIATION_REQUEST.json"
+  ],
+  "notes": "Fresh current product evaluation ran against a disposable online SQLite backup with persist:false. Findings were frozen before clustering and no PILOT_RUN semantic verdict was consulted. Revenue growth and non-financial margin arithmetic were independently recomputed and matched. The four P1 findings are material and generalized: valuation completeness is not metric-level, QGLP turns insufficient FERE into a negative assurance, QGLP invents leverage support, and UNKNOWN business models route into industrial logic.",
+  "nextAction": "ANTIGRAVITY implements CAL_020_REMEDIATION_001 and returns REMEDIATION_COMPLETE for independent Codex re-verification.",
+  "timestamp": "2026-10-01T05:14:00.000Z"
+}

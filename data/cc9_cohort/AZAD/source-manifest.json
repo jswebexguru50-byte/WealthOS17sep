@@ -1,0 +1,17 @@
+{
+  "issuerNseSymbol": "AZAD",
+  "issuerBseCode": "544061",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_AZAD_AR24",
+      "documentName": "Azad_Engineering_Annual_Report_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-28",
+      "documentHashSha256": "7e8f90123456789abcdef0123456789abcdef0123456789abcd",
+      "pageCount": 160,
+      "filingAuthority": "BSE / NSE"
+    }
+  ]
+}

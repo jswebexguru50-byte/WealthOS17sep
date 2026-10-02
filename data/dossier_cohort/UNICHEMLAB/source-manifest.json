@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "UNICHEMLAB",
+  "issuerBseCode": "522568",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_UNICHEMLAB_AR2024",
+      "documentName": "UNICHEMLAB_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "706b8638816217a1a3b9357780426e5962c28c3024c426ec59d5ddc4771e8e56",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_UNICHEMLAB_AUDITED_RESULTS",
+      "documentName": "UNICHEMLAB_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "7874c51f1702e29bc29f216958d3db095906cc433b4331d5fca795421aa9728f",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_UNICHEMLAB_CONCALL_Q4FY26",
+      "documentName": "UNICHEMLAB_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "b557edf0790772f61adcde0ea109e20c31abf953091ca0ac67676ad382db5c55",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

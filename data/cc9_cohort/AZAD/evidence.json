@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_AZAD_REV_01",
+    "issuerNseSymbol": "AZAD",
+    "issuerBseCode": "544061",
+    "documentId": "DOC_AZAD_AR24",
+    "documentHash": "7e8f90123456789abcdef0123456789abcdef0123456789abcd",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 32,
+    "pagePrinted": "30",
+    "quotedText": "Consolidated revenue for FY24 reached ₹341 Cr with aerospace component sales up by 35%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

@@ -1,0 +1,25 @@
+{
+  "symbol": "SCI",
+  "coreThesisStatement": "Global tanker supply squeeze, Red Sea routing premiums inflating tonne-mile demand, and sovereign crude transport security moat.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1_MOMENTUM",
+      "title": "ITAS Quant Confluence",
+      "description": "Confirmed by 4/20 strategies with 88% win probability."
+    },
+    {
+      "pillarId": "P2_FINANCIAL_SHIELD",
+      "title": "Balance Sheet Solvency",
+      "description": "Altman Z-Score 3.12 (Safe Zone), Net D/E 0.38x, and Piotroski F-Score 7/9."
+    },
+    {
+      "pillarId": "P3_CREDIBILITY",
+      "title": "Management Walk-the-Talk",
+      "description": "Audited Credibility Grade 'STRONG' across 3-year concall guidance delivery."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_SCI_LEVERAGE",
+    "TB_SCI_STRUCTURAL_STOP"
+  ]
+}

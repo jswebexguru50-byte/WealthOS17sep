@@ -1,0 +1,43 @@
+{
+  "status": "FAILED",
+  "startedAt": "2026-09-28T21:11:00.861411+00:00",
+  "requested": 3564,
+  "manifest": "data/fundamental_enrichment/full_population_manifest.json",
+  "llmCalls": 0,
+  "fereIntegrated": false,
+  "currentStep": "PERMANENT_DATABASE_SYNC",
+  "steps": {
+    "UPSTOX_EIGHT_ENDPOINTS": {
+      "status": "COMPLETED",
+      "startedAt": "2026-09-28T21:11:00.864407+00:00",
+      "exitCode": 0,
+      "completedAt": "2026-09-28T21:11:05.632531+00:00"
+    },
+    "OFFICIAL_NSE_PLEDGE": {
+      "status": "COMPLETED",
+      "startedAt": "2026-09-28T21:11:05.636671+00:00",
+      "exitCode": 0,
+      "completedAt": "2026-09-28T21:41:11.997356+00:00"
+    },
+    "MARKED_SECONDARY_FALLBACK": {
+      "status": "COMPLETED",
+      "startedAt": "2026-09-28T21:41:12.034804+00:00",
+      "exitCode": 0,
+      "completedAt": "2026-09-28T22:26:18.216599+00:00"
+    },
+    "SUNRISE_PLI_TAGGING": {
+      "status": "COMPLETED",
+      "startedAt": "2026-09-28T22:26:18.434725+00:00",
+      "exitCode": 0,
+      "completedAt": "2026-09-28T22:26:22.957655+00:00"
+    },
+    "PERMANENT_DATABASE_SYNC": {
+      "status": "FAILED",
+      "startedAt": "2026-09-28T22:26:23.047638+00:00",
+      "exitCode": 1,
+      "completedAt": "2026-09-28T22:26:36.335372+00:00"
+    }
+  },
+  "updatedAt": "2026-09-28T22:26:36.358214+00:00",
+  "error": "PERMANENT_DATABASE_SYNC failed with exit code 1"
+}

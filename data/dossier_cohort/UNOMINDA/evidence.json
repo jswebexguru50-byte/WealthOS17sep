@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_UNOMINDA_REV_FY26",
+    "issuerNseSymbol": "UNOMINDA",
+    "issuerBseCode": "518693",
+    "documentHash": "d09bfe1ae8ebbb5690d59848af04c5c81e329997624beba905761db0a13e6c3f",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹14496 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_UNOMINDA_PAT_FY26",
+    "issuerNseSymbol": "UNOMINDA",
+    "issuerBseCode": "518693",
+    "documentHash": "d09bfe1ae8ebbb5690d59848af04c5c81e329997624beba905761db0a13e6c3f",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹1740 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_UNOMINDA_DEBT_FY26",
+    "issuerNseSymbol": "UNOMINDA",
+    "issuerBseCode": "518693",
+    "documentHash": "86a7a72efa8a01842ea0628d2fc415ab6f4c0a58078ddc5b9601f67c75477d97",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_UNOMINDA_CONCALL_Q4FY26",
+    "issuerNseSymbol": "UNOMINDA",
+    "issuerBseCode": "518693",
+    "documentHash": "fc4f38f5e71db4016337167e780e3b8c71aaa92b4c5142a2d04ba58fd9a1e32a",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

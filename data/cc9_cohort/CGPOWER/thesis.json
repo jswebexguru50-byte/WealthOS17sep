@@ -1,0 +1,19 @@
+{
+  "symbol": "CGPOWER",
+  "coreThesisStatement": "Phenomenal Murugappa Group turnaround transforming electrical engineering champion into India's leading commercial semiconductor packaging player.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Motors & Transformers Moat",
+      "description": "Number 1 market share in industrial motors and high-voltage power transformers."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Semiconductor Optionality",
+      "description": "Sanand OSAT JV partnered with Renesas positioning company at the center of India Semiconductor Mission."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_CGPOWER_LEVERAGE"
+  ]
+}

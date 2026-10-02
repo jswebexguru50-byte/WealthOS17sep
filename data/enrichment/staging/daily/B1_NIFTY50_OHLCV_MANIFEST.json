@@ -1,0 +1,21 @@
+{
+  "agentId": "B1",
+  "runId": "run-1789838284337",
+  "datasetId": "B1_NIFTY50_OHLCV",
+  "status": "BLOCKED",
+  "source": "UPSTOX_V3",
+  "provider": "UPSTOX",
+  "rowsAcquired": 0,
+  "rowsValidated": 0,
+  "rowsRejected": 0,
+  "pitStatus": "UNKNOWN",
+  "calendarStatus": "UNKNOWN",
+  "failureReasons": [
+    "INSTRUMENT_RESOLUTION_UNAVAILABLE: Unrecognized CSV schema"
+  ],
+  "startedAt": "2026-09-19T17:18:04.335Z",
+  "completedAt": "2026-09-19T17:18:04.968Z",
+  "reasonCode": "INSTRUMENT_RESOLUTION_UNAVAILABLE",
+  "rawSha256": "",
+  "canonicalSha256": ""
+}

@@ -1,0 +1,19 @@
+{
+  "symbol": "TATAMOTORS",
+  "coreThesisStatement": "Massive automotive turnaround story unlocking value via imminent demerger into commercial vehicles leader and high-margin luxury EV innovator (JLR & Tata Passenger EV).",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "EV Domestic Monopoly",
+      "description": "Over 70% Indian passenger electric vehicle market share (Nexon EV, Punch EV)."
+    },
+    {
+      "pillarId": "P2",
+      "title": "JLR Order Backlog",
+      "description": "Defender and Range Rover order bank generating historic operating margins."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_TAMO_LEVERAGE"
+  ]
+}

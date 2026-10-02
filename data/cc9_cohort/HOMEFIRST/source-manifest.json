@@ -1,0 +1,17 @@
+{
+  "issuerNseSymbol": "HOMEFIRST",
+  "issuerBseCode": "543259",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_HOMEFIRST_AR24",
+      "documentName": "Home_First_Finance_Annual_Report_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-20",
+      "documentHashSha256": "89abcdef0123456789abcdef0123456789abcdef012345678",
+      "pageCount": 220,
+      "filingAuthority": "BSE / NSE"
+    }
+  ]
+}

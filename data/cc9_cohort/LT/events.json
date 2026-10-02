@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_LT_01",
+    "issuerNseSymbol": "LT",
+    "issuerBseCode": "500510",
+    "eventDate": "2024-04-12",
+    "category": "ORDER_BOOK",
+    "headline": "Ultra-Mega Middle East Hydrocarbon EPC Order Award",
+    "description": "Secured international EPC orders exceeding ₹15,000 Cr for gas compression and carbon capture.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_LT_ORDER_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

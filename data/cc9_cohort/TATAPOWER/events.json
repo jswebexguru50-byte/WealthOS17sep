@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_TATAPOWER_01",
+    "issuerNseSymbol": "TATAPOWER",
+    "issuerBseCode": "500400",
+    "eventDate": "2024-04-15",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "Commissioning of 4.3 GW Solar Cell and Module Manufacturing Facility",
+    "description": "Commenced commercial production at state-of-the-art 4.3 GW solar cell and bifacial module giga-plant in Tirunelveli, Tamil Nadu.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_TP_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

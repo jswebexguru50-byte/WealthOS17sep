@@ -1,0 +1,25 @@
+{
+  "symbol": "STLNETWORK",
+  "coreThesisStatement": "Structural beneficiary of BharatNet Phase-III (₹65,000 Cr rollout) and global AI data center fiber densification requiring 4x more fiber than traditional cloud centers.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1_MOMENTUM",
+      "title": "ITAS Quant Confluence",
+      "description": "Confirmed by 5/20 strategies with 93% win probability."
+    },
+    {
+      "pillarId": "P2_FINANCIAL_SHIELD",
+      "title": "Balance Sheet Solvency",
+      "description": "Altman Z-Score 2.85 (Grey Zone), Net D/E 1.15x, and Piotroski F-Score 6/9."
+    },
+    {
+      "pillarId": "P3_CREDIBILITY",
+      "title": "Management Walk-the-Talk",
+      "description": "Audited Credibility Grade 'GENERALLY_CREDIBLE' across 3-year concall guidance delivery."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_STLNETWORK_LEVERAGE",
+    "TB_STLNETWORK_STRUCTURAL_STOP"
+  ]
+}

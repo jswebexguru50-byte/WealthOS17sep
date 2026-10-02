@@ -50,7 +50,10 @@ export interface CompanyIntelligenceResponse {
     catalysts?: ModuleResult<any>;
     risks?: ModuleResult<any>;
     timeline?: ModuleResult<any>;
+    recentAccumulation?: ModuleResult<any>;
+    fundamentalExperience?: ModuleResult<any>;
   };
+  fundamentalExperience?: any;
   dataCoverage?: CompanyDataCoverage;
   coverage?: any;
   freshness?: any;

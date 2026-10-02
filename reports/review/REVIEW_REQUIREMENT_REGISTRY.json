@@ -1,0 +1,275 @@
+{
+  "registry": "REVIEW_REQUIREMENT_REGISTRY",
+  "version": "1.0.0",
+  "lastUpdated": "2026-10-01T08:45:00.000Z",
+  "totalRequirements": 20,
+  "statusCounts": {
+    "IMPLEMENTED": 18,
+    "DOCUMENTED": 1,
+    "PROPOSED": 1,
+    "UNPROVEN": 0,
+    "DEPRECATED": 0
+  },
+  "requirements": [
+    {
+      "requirementId": "REQ_DATA_001",
+      "domain": "DATA_INTEGRITY",
+      "title": "Corporate Action Adjusted OHLCV Continuity",
+      "status": "IMPLEMENTED",
+      "description": "Historical price and volume series must be accurately adjusted for stock splits, bonus issues, and rights issues without creating artificial price leaps.",
+      "traceability": {
+        "codeContracts": ["src/server/services/DuckDbAdjustedOhlcvService.ts", "src/server/services/CorporateActionsEngine.ts"],
+        "tests": ["tests/unit/market_data_certification.test.ts"],
+        "specifications": ["reports/readiness/DATABASE_INTEGRITY_AUDIT.md"]
+      },
+      "verificationMethod": "DETERMINISTIC_TEST"
+    },
+    {
+      "requirementId": "REQ_DATA_002",
+      "domain": "DATA_INTEGRITY",
+      "title": "Dual-Source Market Data Cross-Verification",
+      "status": "IMPLEMENTED",
+      "description": "Market feeds from primary broker (Kite) and secondary archives (Bhavcopy/Stooq) must agree within tolerance before final promotion.",
+      "traceability": {
+        "codeContracts": ["src/server/services/DualSourceReconciliationEngine.ts", "src/server/services/UniversalDataIntegrityGate.ts"],
+        "tests": ["tests/unit/market_data_certification.test.ts"],
+        "specifications": ["reports/readiness/MARKET_DATA_CERTIFICATION_GATE.md"]
+      },
+      "verificationMethod": "DETERMINISTIC_TEST"
+    },
+    {
+      "requirementId": "REQ_SEC_001",
+      "domain": "SECURITY_MASTER",
+      "title": "Unambiguous Security Resolution & Collision Shield",
+      "status": "IMPLEMENTED",
+      "description": "Every traded asset must resolve to a unique MasterTicker, mapping NSE symbol, BSE code, and ISIN without namespace collisions or zombie ticker overwrites.",
+      "traceability": {
+        "codeContracts": ["src/server/services/MasterTickerService.ts", "src/server/services/AssetScripMappingService.ts"],
+        "tests": ["tests/unit/security_resolution.test.ts"],
+        "specifications": ["reports/readiness/PHASE10RM58_MASTERTICKER_IDENTITY_REVIEW.md"]
+      },
+      "verificationMethod": "DETERMINISTIC_TEST"
+    },
+    {
+      "requirementId": "REQ_FUND_001",
+      "domain": "FUNDAMENTAL_INTELLIGENCE",
+      "title": "Generalized Business Model Taxonomy & Metric Selection",
+      "status": "IMPLEMENTED",
+      "description": "Fundamental metrics and interpretations must dynamically adapt to business models (BANK, NBFC, IT_SERVICES, INDUSTRIAL, CONSUMER) without hardcoded company allowlists.",
+      "traceability": {
+        "codeContracts": ["src/server/services/intelligence/domain/BusinessModelClassifier.ts", "src/server/services/intelligence/modules/FundamentalModuleAdapter.ts"],
+        "tests": ["tests/unit/fundamental_quarantine.test.ts"],
+        "specifications": ["reports/fundamental-review/PILOT_RUN_001.md"]
+      },
+      "verificationMethod": "MCP_PROBE"
+    },
+    {
+      "requirementId": "REQ_FUND_002",
+      "domain": "FUNDAMENTAL_INTELLIGENCE",
+      "title": "DuPont Decomposition & Capital Return Integrity",
+      "status": "IMPLEMENTED",
+      "description": "ROCE, ROE, and ROA calculations must strictly preserve balance sheet identity; capital employed must exclude financial liabilities for non-financial firms.",
+      "traceability": {
+        "codeContracts": ["src/server/services/FinancialMetricRegistry.ts", "src/server/services/FinancialHistoryService.ts"],
+        "tests": ["tests/unit/fundamental_quarantine.test.ts"],
+        "specifications": ["reports/fundamental-review/PILOT_RUN_001.md"]
+      },
+      "verificationMethod": "MCP_PROBE"
+    },
+    {
+      "requirementId": "REQ_FUND_003",
+      "domain": "FUNDAMENTAL_INTELLIGENCE",
+      "title": "Banking & Lending Institution Prudential Metrics",
+      "status": "IMPLEMENTED",
+      "description": "Financial lenders must be evaluated on NIM, GNPA/NNPA, Provision Coverage Ratio (PCR), and Capital Adequacy (CAR) instead of EBITDA, operating margin, or standard ROCE.",
+      "traceability": {
+        "codeContracts": ["src/server/services/intelligence/modules/FundamentalModuleAdapter.ts"],
+        "tests": ["tests/unit/fundamental_quarantine.test.ts"],
+        "specifications": ["reports/fundamental-review/POST_PILOT_001_CHANGE_LEDGER.md"]
+      },
+      "verificationMethod": "MCP_PROBE"
+    },
+    {
+      "requirementId": "REQ_FUND_004",
+      "domain": "GOVERNANCE_AND_TRACK_RECORD",
+      "title": "Walk-The-Talk Management Guidance vs Delivery Audit",
+      "status": "IMPLEMENTED",
+      "description": "Concall guidance claims must be verified against actual quarterly reported numbers over a rolling 4-quarter window.",
+      "traceability": {
+        "codeContracts": ["src/server/services/ConcallFailsafeHarvester.ts", "src/server/services/TranscriptRetrievalService.ts"],
+        "tests": ["tests/unit/concall_harvester.test.ts"],
+        "specifications": ["reports/readiness/WALK_THE_TALK_REALITY_TEST.md"]
+      },
+      "verificationMethod": "DETERMINISTIC_TEST"
+    },
+    {
+      "requirementId": "REQ_VAL_001",
+      "domain": "VALUATION",
+      "title": "Multi-Cycle Valuation Percentile Band Normalization",
+      "status": "IMPLEMENTED",
+      "description": "Valuation multiples (P/E, P/B, EV/EBITDA) must be normalized against 3-year, 5-year, and 10-year historical percentiles rather than single-point absolute thresholds.",
+      "traceability": {
+        "codeContracts": ["src/server/services/ForensicValuationService.ts", "src/server/services/UnifiedValuationService.ts"],
+        "tests": ["tests/unit/valuation_service.test.ts"],
+        "specifications": ["docs/plans/Phase10_Roadmap.md"]
+      },
+      "verificationMethod": "DETERMINISTIC_TEST"
+    },
+    {
+      "requirementId": "REQ_STRAT_001",
+      "domain": "TRADING_STRATEGIES",
+      "title": "S1A Volume Price Alignment (VPA) 3-Leg Swing Setup",
+      "status": "IMPLEMENTED",
+      "description": "Strict compliance with S1A specification: 3-leg swing structure, volume expansion on impulse, volume dry-up on pullbacks, and swing high breakout validation.",
+      "traceability": {
+        "codeContracts": ["src/server/services/PureTechnicalStrategiesEngine.ts", "src/server/services/MomentumVpaEngine.ts"],
+        "tests": ["tests/unit/strategy_rules.test.ts"],
+        "specifications": ["docs/strategies/S1A/S1A.original.txt", "AGENTS.md"]
+      },
+      "verificationMethod": "DETERMINISTIC_TEST"
+    },
+    {
+      "requirementId": "REQ_STRAT_002",
+      "domain": "TRADING_STRATEGIES",
+      "title": "S1B VPA Trough-Reversal Setup",
+      "status": "IMPLEMENTED",
+      "description": "Strict compliance with S1B specification: multi-bar accumulation base, volume absorption at price floor, and reversal confirmation.",
+      "traceability": {
+        "codeContracts": ["src/server/services/PureTechnicalStrategiesEngine.ts"],
+        "tests": ["tests/unit/strategy_rules.test.ts"],
+        "specifications": ["docs/strategies/S1B/S1B.original.txt", "AGENTS.md"]
+      },
+      "verificationMethod": "DETERMINISTIC_TEST"
+    },
+    {
+      "requirementId": "REQ_STRAT_003",
+      "domain": "TRADING_STRATEGIES",
+      "title": "S2A Institutional FVG & Consequent Encroachment Setup",
+      "status": "IMPLEMENTED",
+      "description": "Strict compliance with S2A specification: 3-candle Fair Value Gap detection, 50% consequent encroachment midpoint retest, and institutional orderflow alignment.",
+      "traceability": {
+        "codeContracts": ["src/server/services/PureTechnicalStrategiesEngine.ts", "src/server/services/SmartMoneyConceptsEngine.ts"],
+        "tests": ["tests/unit/strategy_rules.test.ts"],
+        "specifications": ["docs/strategies/S2A/S2A.original.txt", "AGENTS.md"]
+      },
+      "verificationMethod": "DETERMINISTIC_TEST"
+    },
+    {
+      "requirementId": "REQ_PORT_001",
+      "domain": "PORTFOLIO_MANAGEMENT",
+      "title": "Multi-Broker Transaction Idempotence & Trade Deduplication",
+      "status": "IMPLEMENTED",
+      "description": "Tradebook synchronization across Zerodha, Upstox, and CAMS must use deterministic order/trade hashes to guarantee zero duplicate holdings.",
+      "traceability": {
+        "codeContracts": ["src/server/services/TransactionDeduplicationService.ts", "src/server/services/MultiBrokerReconService.ts"],
+        "tests": ["tests/unit/transaction_dedup.test.ts"],
+        "specifications": ["reports/readiness/SCRIP_LIFECYCLE_E2E_ACCEPTANCE.md"]
+      },
+      "verificationMethod": "DETERMINISTIC_TEST"
+    },
+    {
+      "requirementId": "REQ_PORT_002",
+      "domain": "PERFORMANCE_MEASUREMENT",
+      "title": "Exact Post-Tax Daily Cash Flow XIRR Calculation",
+      "status": "IMPLEMENTED",
+      "description": "Portfolio and holding-level returns must be computed using exact Newton-Raphson cash-flow discounting accounting for net cash flows and terminal value.",
+      "traceability": {
+        "codeContracts": ["src/server/services/PostTaxXirrService.ts"],
+        "tests": ["tests/unit/xirr_calculation.test.ts"],
+        "specifications": ["docs/plans/Phase10_Roadmap.md"]
+      },
+      "verificationMethod": "DETERMINISTIC_TEST"
+    },
+    {
+      "requirementId": "REQ_TAX_001",
+      "domain": "TAX_OPTIMIZATION",
+      "title": "Section 112A Grandfathering & LTCG Cost Basis",
+      "status": "IMPLEMENTED",
+      "description": "Capital gains on equity acquired before 31-Jan-2018 must apply grandfathered fair market value rules pursuant to Indian Income Tax Section 112A.",
+      "traceability": {
+        "codeContracts": ["src/server/services/TaxHarvestingEngine.ts", "src/server/services/NriWealthService.ts"],
+        "tests": ["tests/unit/tax_harvesting.test.ts"],
+        "specifications": ["docs/plans/Phase10_Roadmap.md"]
+      },
+      "verificationMethod": "DETERMINISTIC_TEST"
+    },
+    {
+      "requirementId": "REQ_MCP_001",
+      "domain": "MCP_PLATFORM",
+      "title": "Model Context Protocol Specification Compliance",
+      "status": "IMPLEMENTED",
+      "description": "Universal MCP endpoint must conform to protocol version 2024-11-05 supporting initialize, tools/list, and tools/call over Streamable HTTP and SSE.",
+      "traceability": {
+        "codeContracts": ["src/mcp/transports/http.ts", "src/mcp/registry/toolRegistry.ts"],
+        "tests": ["tests/unit/wealthos_universal_mcp.test.ts"],
+        "specifications": ["reports/readiness/GATEWAY_LAUNCH_ACCEPTANCE.md"]
+      },
+      "verificationMethod": "MCP_PROBE"
+    },
+    {
+      "requirementId": "REQ_MCP_002",
+      "domain": "MCP_PLATFORM",
+      "title": "Dual-Plane Authorization & Profile Isolation",
+      "status": "IMPLEMENTED",
+      "description": "Product and Review planes must be cryptographically isolated: Product bearer keys must be rejected (HTTP 403) from accessing the Review plane.",
+      "traceability": {
+        "codeContracts": ["src/mcp/transports/http.ts", "src/mcp/registry/toolRegistry.ts"],
+        "tests": ["tests/unit/wealthos_universal_mcp.test.ts"],
+        "specifications": ["reports/readiness/MCP_REVIEW_PLANE_ACCEPTANCE.md"]
+      },
+      "verificationMethod": "MCP_PROBE"
+    },
+    {
+      "requirementId": "REQ_EVID_001",
+      "domain": "DATA_PROVENANCE",
+      "title": "Synthetic Data Quarantine & Provenance Isolation",
+      "status": "IMPLEMENTED",
+      "description": "Synthetic fixtures, mock estimates, and benchmark seeds must be physically isolated in quarantined tables and blocked from production screening.",
+      "traceability": {
+        "codeContracts": ["src/server/services/QuarantineQueueService.ts", "src/server/services/FereEvidenceService.ts"],
+        "tests": ["tests/unit/fundamental_quarantine.test.ts"],
+        "specifications": ["reports/readiness/PHASE10RM5X_QUARANTINE_DESIGN.md"]
+      },
+      "verificationMethod": "DETERMINISTIC_TEST"
+    },
+    {
+      "requirementId": "REQ_PIT_001",
+      "domain": "TEMPORAL_INTEGRITY",
+      "title": "Point-in-Time Universe Survivorship Prevention",
+      "status": "IMPLEMENTED",
+      "description": "Historical backtests and screening replays must query historical constituent snapshots to eliminate survivorship and lookahead bias.",
+      "traceability": {
+        "codeContracts": ["src/server/services/HistoricalPITUniverseProvider.ts", "src/server/services/HistoricalReplayBacktestEngine.ts"],
+        "tests": ["tests/unit/pit_universe.test.ts"],
+        "specifications": ["docs/plans/Phase10_Roadmap.md"]
+      },
+      "verificationMethod": "DETERMINISTIC_TEST"
+    },
+    {
+      "requirementId": "REQ_FORENSIC_001",
+      "domain": "FORENSIC_ACCOUNTING",
+      "title": "Beneish M-Score & Financial Manipulation Detection",
+      "status": "IMPLEMENTED",
+      "description": "Calculation of the 8-variable Beneish M-Score (DSRI, GMI, AQI, SGI, DEPI, SGAI, LVGI, TATA) to flag potential earnings manipulation.",
+      "traceability": {
+        "codeContracts": ["src/server/services/ForensicScoringService.ts", "src/server/services/ForensicQualityAuditService.ts"],
+        "tests": ["tests/unit/forensic_scoring.test.ts"],
+        "specifications": ["docs/plans/Phase10_Roadmap.md"]
+      },
+      "verificationMethod": "DETERMINISTIC_TEST"
+    },
+    {
+      "requirementId": "REQ_AUTO_001",
+      "domain": "SELF_LEARNING",
+      "title": "Autonomous Strategy Sensitivity Recalibration",
+      "status": "PROPOSED",
+      "description": "Continuous self-learning pipeline proposing parameter refinements based on multi-regime backtest performance deviations.",
+      "traceability": {
+        "codeContracts": ["src/server/services/AutoCalibrationProposalService.ts", "src/server/services/AutonomousSelfLearningService.ts"],
+        "tests": [],
+        "specifications": ["docs/plans/Phase10_Roadmap.md"]
+      },
+      "verificationMethod": "AUDIT_LOG_CHECK"
+    }
+  ]
+}

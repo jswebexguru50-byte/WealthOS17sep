@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "NAVA",
+  "issuerBseCode": "509114",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_NAVA_AR2024",
+      "documentName": "NAVA_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "a882fa230ce3e5b77cdfa311cc9f6405b6169809213325f8fb5136c0aa7ac877",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_NAVA_AUDITED_RESULTS",
+      "documentName": "NAVA_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "3a60845f03787f432a4089420a65c6df896a149b240153cf30c9c44d08b4a7db",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_NAVA_CONCALL_Q4FY26",
+      "documentName": "NAVA_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "4479eb09622ae1ff6130e91aa512543dde02866433e62741684adacc2c7962d1",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

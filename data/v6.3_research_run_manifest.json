@@ -1,0 +1,52 @@
+{
+  "runId": "RUN-V63-E2E-1789622948116",
+  "parentBaseline": "v6.2.0-FROZEN",
+  "milestone": "v6.3.0",
+  "mode": "RESEARCH_HARNESS_VALIDATION",
+  "dataProvenance": {
+    "type": "SYNTHETIC_HARNESS_FIXTURE",
+    "universeSize": 8,
+    "symbols": [
+      "RELIANCE",
+      "TCS",
+      "INFY",
+      "HDFCBANK",
+      "ICICIBANK",
+      "BHARTIARTL",
+      "SBIN",
+      "ITC"
+    ],
+    "barsPerSymbol": 250,
+    "totalBars": 4000,
+    "startDate": "2023-01-02T15:35:00+05:30",
+    "purpose": "Deterministic E2E pipeline, determinism, ledger schema & mathematical logic verification. NOT a live multi-year historical backtest."
+  },
+  "experimentalArms": [
+    "A_RAW",
+    "B_V62_OVERLAY",
+    "C_CHALLENGERS",
+    "D_RISK_ORACLE"
+  ],
+  "immutableCoreProductionEngines": {
+    "status": "FROZEN",
+    "baselineHash": "76e9695320fb3549f9e18452f9326d1a64aef11e47d545b258fc31d2f7e10969",
+    "s1ToS20Altered": false,
+    "overlayAltered": false
+  },
+  "executionSettings": {
+    "initialCapital": 10000000,
+    "brokeragePerLeg": 20,
+    "sttRate": 0.001,
+    "stampDutyBuyRate": 0.00015,
+    "exchangeTxnRate": 0.0000345,
+    "gstRate": 0.18,
+    "slippageBps": 10,
+    "impactBps": 5,
+    "maxParticipationPct": 0.015,
+    "allowShortCash": false,
+    "intrabarPolicy": "CONSERVATIVE_STOP_FIRST",
+    "enforcePitTimestamps": true
+  },
+  "timestamp": "2026-09-17T05:30:00.000Z",
+  "manifestHash": "7c251fc093266828b3e899a4f5993677684439a78f701810c3144cc8bce80e6f"
+}

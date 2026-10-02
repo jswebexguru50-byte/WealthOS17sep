@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_HDFCBANK_01",
+    "issuerNseSymbol": "HDFCBANK",
+    "issuerBseCode": "500180",
+    "eventDate": "2024-04-20",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Approval of Listing for HDB Financial Services IPO",
+    "description": "Board of Directors in-principle approved initiating the initial public offering process for NBFC subsidiary HDB Financial.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_HDFC_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

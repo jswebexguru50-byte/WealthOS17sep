@@ -1,0 +1,906 @@
+{
+  "PRODUCTION_STATE": "POST_REMEDIATION_EXPERIMENT",
+  "companyIdentity": {
+    "symbol": "POLYCAB",
+    "companyName": "Polycab India Limited",
+    "isin": "INE455K01017",
+    "sector": "Industrials",
+    "industry": null,
+    "listingClassification": "NSE",
+    "businessModel": "NON_FINANCIAL"
+  },
+  "periodContext": {
+    "latestFiscalYear": "Mar 2026",
+    "latestQuarter": null,
+    "ttmAvailable": false,
+    "periodsAvailable": [
+      "Mar 2026",
+      "Mar 2025",
+      "Mar 2024",
+      "Mar 2023"
+    ],
+    "consolidatedOrStandalone": "CONSOLIDATED",
+    "asOfDate": "2026-10-01"
+  },
+  "canonicalFinancialFacts": [
+    {
+      "factId": "FACT_INC_POLYCAB_revenue_Mar 2026",
+      "metric": "REVENUE",
+      "value": 29120.04,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_POLYCAB_revenue_Mar 2025",
+      "metric": "REVENUE",
+      "value": 22615.95,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_POLYCAB_revenue_Mar 2024",
+      "metric": "REVENUE",
+      "value": 18260.32,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_POLYCAB_revenue_Mar 2023",
+      "metric": "REVENUE",
+      "value": 14241.11,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_POLYCAB_operating_profit_Mar 2026",
+      "metric": "OPERATING_PROFIT",
+      "value": 3613.08,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_POLYCAB_operating_profit_Mar 2025",
+      "metric": "OPERATING_PROFIT",
+      "value": 2700.85,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_POLYCAB_operating_profit_Mar 2024",
+      "metric": "OPERATING_PROFIT",
+      "value": 2359.3,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_POLYCAB_operating_profit_Mar 2023",
+      "metric": "OPERATING_PROFIT",
+      "value": 1707.26,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_POLYCAB_net_profit_Mar 2026",
+      "metric": "NET_PROFIT",
+      "value": 2708.43,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_POLYCAB_net_profit_Mar 2025",
+      "metric": "NET_PROFIT",
+      "value": 2045.54,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_POLYCAB_net_profit_Mar 2024",
+      "metric": "NET_PROFIT",
+      "value": 1802.92,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_POLYCAB_net_profit_Mar 2023",
+      "metric": "NET_PROFIT",
+      "value": 1283.09,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_operating_Mar 2026",
+      "metric": "CFO_OPERATING",
+      "value": 3810.67,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_operating_Mar 2025",
+      "metric": "CFO_OPERATING",
+      "value": 1808.53,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_operating_Mar 2024",
+      "metric": "CFO_OPERATING",
+      "value": 1296.24,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_operating_Mar 2023",
+      "metric": "CFO_OPERATING",
+      "value": 1427.52,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_investing_Mar 2026",
+      "metric": "CFO_INVESTING",
+      "value": -2849.71,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_investing_Mar 2025",
+      "metric": "CFO_INVESTING",
+      "value": -1239.31,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_investing_Mar 2024",
+      "metric": "CFO_INVESTING",
+      "value": -751.88,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_investing_Mar 2023",
+      "metric": "CFO_INVESTING",
+      "value": -1202.65,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_financing_Mar 2026",
+      "metric": "CFO_FINANCING",
+      "value": -799.04,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_financing_Mar 2025",
+      "metric": "CFO_FINANCING",
+      "value": -628.28,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_financing_Mar 2024",
+      "metric": "CFO_FINANCING",
+      "value": -387.41,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_financing_Mar 2023",
+      "metric": "CFO_FINANCING",
+      "value": -227.07,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_POLYCAB_P_E",
+      "metric": "P/E",
+      "value": 43.57,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_POLYCAB_P_B",
+      "metric": "P/B",
+      "value": 10.54,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_POLYCAB_ROA",
+      "metric": "ROA",
+      "value": 14.19,
+      "unit": "PERCENT",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_POLYCAB_ROE",
+      "metric": "ROE",
+      "value": 22.25,
+      "unit": "PERCENT",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_POLYCAB_ROCE",
+      "metric": "ROCE",
+      "value": 31.1,
+      "unit": "PERCENT",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_POLYCAB_Quick_Ratio",
+      "metric": "QUICK RATIO",
+      "value": 1.14,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_POLYCAB_EV_EBITDA",
+      "metric": "EV/EBITDA",
+      "value": 27.59,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    }
+  ],
+  "derivedMetrics": [
+    {
+      "metric": "REVENUE_YOY_GROWTH",
+      "value": 28.76,
+      "unit": "PERCENT",
+      "formula": "((Revenue[t] - Revenue[t-1]) / |Revenue[t-1]|) * 100",
+      "periodsCompared": "Mar 2026 vs Mar 2025",
+      "verificationStatus": "VERIFIED",
+      "independentValue": 28.76,
+      "discrepancyNotes": "Oracle: ((29120.04 - 22615.95) / |22615.95|) * 100 = 28.76%, Production: 28.76%"
+    },
+    {
+      "metric": "EBITDA_MARGIN_LATEST",
+      "value": 12.41,
+      "unit": "PERCENT",
+      "formula": "(EBITDA / Revenue) * 100",
+      "periodsCompared": "Mar 2026",
+      "verificationStatus": "VERIFIED",
+      "independentValue": 12.41,
+      "discrepancyNotes": "Oracle: (3613.08 / 29120.04) * 100 = 12.41%, Production: 12.41%"
+    },
+    {
+      "metric": "MARGIN_BPS_DELTA",
+      "value": 47,
+      "unit": "BPS",
+      "formula": "(Margin[t] - Margin[t-1]) * 100",
+      "verificationStatus": "VERIFIED",
+      "independentValue": 47,
+      "discrepancyNotes": "Metric: EBITDA_MARGIN"
+    }
+  ],
+  "evidenceProvenance": [
+    {
+      "factId": "FACT_INC_POLYCAB_revenue_Mar 2026",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_POLYCAB_revenue_Mar 2025",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_POLYCAB_revenue_Mar 2024",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_POLYCAB_revenue_Mar 2023",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_POLYCAB_operating_profit_Mar 2026",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_POLYCAB_operating_profit_Mar 2025",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_POLYCAB_operating_profit_Mar 2024",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_POLYCAB_operating_profit_Mar 2023",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_POLYCAB_net_profit_Mar 2026",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_POLYCAB_net_profit_Mar 2025",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_POLYCAB_net_profit_Mar 2024",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_POLYCAB_net_profit_Mar 2023",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_operating_Mar 2026",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_operating_Mar 2025",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_operating_Mar 2024",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_operating_Mar 2023",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_investing_Mar 2026",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_investing_Mar 2025",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_investing_Mar 2024",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_investing_Mar 2023",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_financing_Mar 2026",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_financing_Mar 2025",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_financing_Mar 2024",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_POLYCAB_financing_Mar 2023",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_POLYCAB_P_E",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_POLYCAB_P_B",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_POLYCAB_ROA",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_POLYCAB_ROE",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_POLYCAB_ROCE",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_POLYCAB_Quick_Ratio",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_POLYCAB_EV_EBITDA",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    }
+  ],
+  "missingData": [],
+  "wealthosInterpretations": [
+    {
+      "claimId": "CLAIM_POLYCAB_GROWTH_01",
+      "module": "FUNDAMENTAL",
+      "dimension": "REVENUE_GROWTH",
+      "claimStatement": "Revenue trajectory evaluated as ACCELERATING with latest growth of 28.76% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+      "wealthosStatus": "ACCELERATING",
+      "underlyingMetricValues": {
+        "latestGrowthPct": 28.76,
+        "priorGrowthPct": 23.85,
+        "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+      }
+    },
+    {
+      "claimId": "CLAIM_POLYCAB_MARGIN_02",
+      "module": "FUNDAMENTAL",
+      "dimension": "MARGIN_TRAJECTORY",
+      "claimStatement": "Operating margin trajectory evaluated as STABLE with delta of 47 bps using EBITDA_MARGIN.",
+      "wealthosStatus": "STABLE",
+      "underlyingMetricValues": {
+        "bpsChange": 47,
+        "metricUsed": "EBITDA_MARGIN"
+      }
+    },
+    {
+      "claimId": "CLAIM_POLYCAB_RETURN_03",
+      "module": "FUNDAMENTAL",
+      "dimension": "RETURN_PROFILE",
+      "claimStatement": "Capital efficiency return profile assessed as HIGH_QUALITY with ROCE at 31.1%.",
+      "wealthosStatus": "HIGH_QUALITY",
+      "underlyingMetricValues": {
+        "metric": "ROCE",
+        "latestValue": 31.1,
+        "status": "HIGH_QUALITY"
+      }
+    },
+    {
+      "claimId": "CLAIM_POLYCAB_DEBT_04",
+      "module": "FUNDAMENTAL",
+      "dimension": "DEBT_TRAJECTORY",
+      "claimStatement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "status": "DATA_INSUFFICIENT",
+        "changePct": null
+      }
+    },
+    {
+      "claimId": "CLAIM_POLYCAB_VALUATION_PE",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric PE is 43.57. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "PE",
+        "current": 43.57
+      }
+    },
+    {
+      "claimId": "CLAIM_POLYCAB_VALUATION_PB",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric PB is 10.54. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "PB",
+        "current": 10.54
+      }
+    },
+    {
+      "claimId": "CLAIM_POLYCAB_VALUATION_EV_EBITDA",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric EV/EBITDA is 27.59. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "EV/EBITDA",
+        "current": 27.59
+      }
+    },
+    {
+      "claimId": "CLAIM_POLYCAB_VALUATION_DIVIDEND_YIELD",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric Dividend Yield is N/A. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "Dividend Yield",
+        "current": null
+      }
+    },
+    {
+      "claimId": "CLAIM_POLYCAB_MGMT_COMMITMENT_104",
+      "module": "MANAGEMENT",
+      "dimension": "MANAGEMENT_COMMITMENT",
+      "claimStatement": "Management commitment in category 'Margins' targeting margin to 11 for null. Status: NOT_VERIFIABLE.",
+      "wealthosStatus": "NOT_VERIFIABLE",
+      "underlyingMetricValues": {
+        "statement": "margin guidance of 11% to 13% for this business.",
+        "targetMetric": "margin",
+        "targetValue": 11,
+        "actualValue": null
+      }
+    },
+    {
+      "claimId": "CLAIM_POLYCAB_MGMT_COMMITMENT_105",
+      "module": "MANAGEMENT",
+      "dimension": "MANAGEMENT_COMMITMENT",
+      "claimStatement": "Management commitment in category 'Margins' targeting margin to 8 for null. Status: NOT_VERIFIABLE.",
+      "wealthosStatus": "NOT_VERIFIABLE",
+      "underlyingMetricValues": {
+        "statement": "Project Spring, where we target EBITDA margins of 8% to 10% by FY 2030.",
+        "targetMetric": "margin",
+        "targetValue": 8,
+        "actualValue": null
+      }
+    },
+    {
+      "claimId": "CLAIM_POLYCAB_MGMT_COMMITMENT_106",
+      "module": "MANAGEMENT",
+      "dimension": "MANAGEMENT_COMMITMENT",
+      "claimStatement": "Management commitment in category 'Revenue' targeting project to 11 for null. Status: NOT_VERIFIABLE.",
+      "wealthosStatus": "NOT_VERIFIABLE",
+      "underlyingMetricValues": {
+        "statement": "term guidance of 11% to 13% under Project Spring, we definitely want to operate there.",
+        "targetMetric": "project",
+        "targetValue": 11,
+        "actualValue": null
+      }
+    },
+    {
+      "claimId": "CLAIM_POLYCAB_MGMT_COMMITMENT_107",
+      "module": "MANAGEMENT",
+      "dimension": "MANAGEMENT_COMMITMENT",
+      "claimStatement": "Management commitment in category 'Margins' targeting margin to 8 for null. Status: NOT_VERIFIABLE.",
+      "wealthosStatus": "NOT_VERIFIABLE",
+      "underlyingMetricValues": {
+        "statement": "able to reach 8% to 10% of EBITDA margins on FMEG.",
+        "targetMetric": "margin",
+        "targetValue": 8,
+        "actualValue": null
+      }
+    },
+    {
+      "claimId": "CLAIM_POLYCAB_MGMT_COMMITMENT_108",
+      "module": "MANAGEMENT",
+      "dimension": "MANAGEMENT_COMMITMENT",
+      "claimStatement": "Management commitment in category 'Working Capital' targeting working capital to 25 for null. Status: NOT_VERIFIABLE.",
+      "wealthosStatus": "NOT_VERIFIABLE",
+      "underlyingMetricValues": {
+        "statement": "working capital cycle has improved to 25 days in Quarter 4, primarily due to temporary increase",
+        "targetMetric": "working capital",
+        "targetValue": 25,
+        "actualValue": null
+      }
+    },
+    {
+      "claimId": "CLAIM_POLYCAB_MGMT_COMMITMENT_109",
+      "module": "MANAGEMENT",
+      "dimension": "MANAGEMENT_COMMITMENT",
+      "claimStatement": "Management commitment in category 'Working Capital' targeting working capital to 45 for null. Status: NOT_VERIFIABLE.",
+      "wealthosStatus": "NOT_VERIFIABLE",
+      "underlyingMetricValues": {
+        "statement": "basis, we expect the working capital cycle to revert to our steady-state range of 45 to 50 days.",
+        "targetMetric": "working capital",
+        "targetValue": 45,
+        "actualValue": null
+      }
+    },
+    {
+      "claimId": "CLAIM_POLYCAB_MGMT_COMMITMENT_110",
+      "module": "MANAGEMENT",
+      "dimension": "MANAGEMENT_COMMITMENT",
+      "claimStatement": "Management commitment in category 'Capex' targeting capex to 60 for null. Status: NOT_VERIFIABLE.",
+      "wealthosStatus": "NOT_VERIFIABLE",
+      "underlyingMetricValues": {
+        "statement": "We remain on track to execute our planned capex program of INR 60 billion to INR 80 billion",
+        "targetMetric": "capex",
+        "targetValue": 60,
+        "actualValue": null
+      }
+    },
+    {
+      "claimId": "CLAIM_POLYCAB_MGMT_COMMITMENT_111",
+      "module": "MANAGEMENT",
+      "dimension": "MANAGEMENT_COMMITMENT",
+      "claimStatement": "Management commitment in category 'Revenue' targeting revenue to 26 for null. Status: MISSED.",
+      "wealthosStatus": "MISSED",
+      "underlyingMetricValues": {
+        "statement": "FY26, EPC revenues marginally declined by 15% year -on-year, reaching INR 5,098 million,",
+        "targetMetric": "revenue",
+        "targetValue": 26,
+        "actualValue": "-7.4% (sales YoY in 2026-06-30)"
+      }
+    },
+    {
+      "claimId": "CLAIM_POLYCAB_MGMT_COMMITMENT_112",
+      "module": "MANAGEMENT",
+      "dimension": "MANAGEMENT_COMMITMENT",
+      "claimStatement": "Management commitment in category 'Revenue' targeting growth to 1.5 for null. Status: NOT_VERIFIABLE.",
+      "wealthosStatus": "NOT_VERIFIABLE",
+      "underlyingMetricValues": {
+        "statement": "exceeded our guidance, tracking at 1.5x to 2x of the industry growth with margins remaining far",
+        "targetMetric": "growth",
+        "targetValue": 1.5,
+        "actualValue": null
+      }
+    },
+    {
+      "claimId": "CLAIM_POLYCAB_MGMT_COMMITMENT_113",
+      "module": "MANAGEMENT",
+      "dimension": "MANAGEMENT_COMMITMENT",
+      "claimStatement": "Management commitment in category 'Revenue' targeting exports to 10 for null. Status: NOT_VERIFIABLE.",
+      "wealthosStatus": "NOT_VERIFIABLE",
+      "underlyingMetricValues": {
+        "statement": "achieve our target of greater than 10% contribution from exports by financial year 2030.",
+        "targetMetric": "exports",
+        "targetValue": 10,
+        "actualValue": null
+      }
+    },
+    {
+      "claimId": "CLAIM_POLYCAB_MGMT_COMMITMENT_114",
+      "module": "MANAGEMENT",
+      "dimension": "MANAGEMENT_COMMITMENT",
+      "claimStatement": "Management commitment in category 'Margins' targeting margin to 1.5 for null. Status: NOT_VERIFIABLE.",
+      "wealthosStatus": "NOT_VERIFIABLE",
+      "underlyingMetricValues": {
+        "statement": "target of growing at 1.5x to 2x of market rate, while maintaining a clear focus on margin",
+        "targetMetric": "margin",
+        "targetValue": 1.5,
+        "actualValue": null
+      }
+    },
+    {
+      "claimId": "CLAIM_POLYCAB_MGMT_COMMITMENT_115",
+      "module": "MANAGEMENT",
+      "dimension": "MANAGEMENT_COMMITMENT",
+      "claimStatement": "Management commitment in category 'Capex' targeting capex to 26 for null. Status: NOT_VERIFIABLE.",
+      "wealthosStatus": "NOT_VERIFIABLE",
+      "underlyingMetricValues": {
+        "statement": "FY26, we incurred capex of INR 14.8 billion, in line with our annual guidance of INR 12 billion",
+        "targetMetric": "capex",
+        "targetValue": 26,
+        "actualValue": null
+      }
+    },
+    {
+      "claimId": "CLAIM_POLYCAB_MGMT_COMMITMENT_116",
+      "module": "MANAGEMENT",
+      "dimension": "MANAGEMENT_COMMITMENT",
+      "claimStatement": "Management commitment in category 'Revenue' targeting project to 6 for null. Status: NOT_VERIFIABLE.",
+      "wealthosStatus": "NOT_VERIFIABLE",
+      "underlyingMetricValues": {
+        "statement": "to expand, again, in line with our Project Spring guidance of INR 6,000 crores to INR 8,000",
+        "targetMetric": "project",
+        "targetValue": 6,
+        "actualValue": null
+      }
+    },
+    {
+      "claimId": "CLAIM_POLYCAB_MGMT_COMMITMENT_117",
+      "module": "MANAGEMENT",
+      "dimension": "MANAGEMENT_COMMITMENT",
+      "claimStatement": "Management commitment in category 'Margins' targeting margin to 11 for null. Status: NOT_VERIFIABLE.",
+      "wealthosStatus": "NOT_VERIFIABLE",
+      "underlyingMetricValues": {
+        "statement": "expect 11% to 13% EBITDA margin.",
+        "targetMetric": "margin",
+        "targetValue": 11,
+        "actualValue": null
+      }
+    },
+    {
+      "claimId": "CLAIM_POLYCAB_MGMT_COMMITMENT_118",
+      "module": "MANAGEMENT",
+      "dimension": "MANAGEMENT_COMMITMENT",
+      "claimStatement": "Management commitment in category 'Capex' targeting capex to 1 for null. Status: NOT_VERIFIABLE.",
+      "wealthosStatus": "NOT_VERIFIABLE",
+      "underlyingMetricValues": {
+        "statement": "Plus if you look at our capex guidance, we've already pumped in INR 1,500 crores in this",
+        "targetMetric": "capex",
+        "targetValue": 1,
+        "actualValue": null
+      }
+    }
+  ]
+}

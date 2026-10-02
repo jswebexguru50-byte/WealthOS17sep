@@ -1,0 +1,1131 @@
+{
+  "asOf": "2026-09-30T16:36:26.414Z",
+  "gitCommit": "a82dc89e8abd907f9709424fb7ba61e86702350e",
+  "overallStatus": "CONDITIONALLY_VERIFIED",
+  "verdictSummary": "The core WealthOS V2 investment-research engine is functionally authentic, resilient, and operational across real Indian equities without synthetic values or narrative overreach. However, the claimed 100% lifecycle acceptance artifact (SCRIP_LIFECYCLE_E2E_ACCEPTANCE.json) contained 35 STATIC_ASSERTIONS and 14 SELF_REFERENTIAL test shortcuts. Final status is strictly CONDITIONALLY_VERIFIED: the production system is ready for real-world investor usage, but the prior 100% test badge is superseded by this independent challenge audit.",
+  "productionFilesModified": 0,
+  "testAuthenticity": {
+    "totalAudited": 120,
+    "realProductionPath": 59,
+    "independentOracle": 11,
+    "staticAssertion": 35,
+    "selfReferential": 14,
+    "fixtureTest": 1,
+    "unproven": 0,
+    "failingPatternsIdentified": [
+      "35 tests hardcoded static 'PASS' without executing logic",
+      "14 tests evaluated self-referential inline mock lambdas",
+      "1 tests evaluated synthetic fixtures (WAVEBTEST)"
+    ]
+  },
+  "sections": {
+    "SEC_01_TEST_AUTHENTICITY": {
+      "section": "SECTION_1",
+      "name": "Lifecycle Test Authenticity Audit",
+      "passed": false,
+      "status": "FAIL",
+      "summary": "Identified 35 STATIC_ASSERTIONS and 14 SELF_REFERENTIAL tests in claimed 120-test run. Prevents unconditional INDEPENDENT_VERIFIED status.",
+      "evidence": {
+        "totalAudited": 120,
+        "realProductionPath": 59,
+        "independentOracle": 11,
+        "staticAssertion": 35,
+        "selfReferential": 14,
+        "fixtureTest": 1,
+        "unproven": 0,
+        "breakdownByLane": {
+          "L0_INTEGRITY": [
+            {
+              "id": "L0-TSC",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "L0-V2-ACCEPTANCE",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "L0-REALITY-ORACLE",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "L0-WALK-THE-TALK",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "L0-BROWSER-ACCEPTANCE",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "L0-GET-ZERO-WRITE",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "L0-REFRESH-IDEMPOTENCE",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "L0-NO-BLACK-BOX-SCORE",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "L0-SYMBOL-FREE-ANALYTICS",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "L0-QUOTA-RESERVE",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "L0-NO-BROKER-EXECUTION",
+              "class": "REAL_PRODUCTION_PATH"
+            }
+          ],
+          "BOT_A": [
+            {
+              "id": "E2E-001",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-002",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-003",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-004",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-005",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-006",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-007",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-008",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-009",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-010",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-011",
+              "class": "SELF_REFERENTIAL"
+            },
+            {
+              "id": "E2E-012",
+              "class": "SELF_REFERENTIAL"
+            },
+            {
+              "id": "E2E-013",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-014",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-015",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-016",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-017",
+              "class": "REAL_PRODUCTION_PATH"
+            }
+          ],
+          "BOT_B": [
+            {
+              "id": "E2E-018",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-019",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-020",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-021",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-022",
+              "class": "SELF_REFERENTIAL"
+            },
+            {
+              "id": "E2E-023",
+              "class": "SELF_REFERENTIAL"
+            },
+            {
+              "id": "E2E-024",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-025",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-026",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-027",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-028",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-029",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-030",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-031",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-032",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-033",
+              "class": "INDEPENDENT_ORACLE"
+            },
+            {
+              "id": "E2E-034",
+              "class": "INDEPENDENT_ORACLE"
+            },
+            {
+              "id": "E2E-035",
+              "class": "INDEPENDENT_ORACLE"
+            },
+            {
+              "id": "E2E-036",
+              "class": "INDEPENDENT_ORACLE"
+            },
+            {
+              "id": "E2E-037",
+              "class": "SELF_REFERENTIAL"
+            },
+            {
+              "id": "E2E-038",
+              "class": "SELF_REFERENTIAL"
+            },
+            {
+              "id": "E2E-039",
+              "class": "SELF_REFERENTIAL"
+            },
+            {
+              "id": "E2E-040",
+              "class": "SELF_REFERENTIAL"
+            },
+            {
+              "id": "L8-SECTOR",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-052",
+              "class": "INDEPENDENT_ORACLE"
+            },
+            {
+              "id": "E2E-053",
+              "class": "INDEPENDENT_ORACLE"
+            },
+            {
+              "id": "E2E-054",
+              "class": "INDEPENDENT_ORACLE"
+            },
+            {
+              "id": "E2E-055",
+              "class": "INDEPENDENT_ORACLE"
+            },
+            {
+              "id": "E2E-056",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-057",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-058",
+              "class": "INDEPENDENT_ORACLE"
+            },
+            {
+              "id": "E2E-059",
+              "class": "INDEPENDENT_ORACLE"
+            },
+            {
+              "id": "E2E-060",
+              "class": "SELF_REFERENTIAL"
+            }
+          ],
+          "BOT_C": [
+            {
+              "id": "E2E-041",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-042",
+              "class": "SELF_REFERENTIAL"
+            },
+            {
+              "id": "E2E-043",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-044",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-045",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-046",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-047",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-048",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-049",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-050",
+              "class": "SELF_REFERENTIAL"
+            },
+            {
+              "id": "E2E-051",
+              "class": "STATIC_ASSERTION"
+            }
+          ],
+          "BOT_D": [
+            {
+              "id": "E2E-061",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-062",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-063",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-064",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-065",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-066",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-067",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-068",
+              "class": "INDEPENDENT_ORACLE"
+            },
+            {
+              "id": "L15-STRATEGIES-80",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-069",
+              "class": "SELF_REFERENTIAL"
+            },
+            {
+              "id": "L17-CONVERGENCE",
+              "class": "SELF_REFERENTIAL"
+            }
+          ],
+          "BOT_E": [
+            {
+              "id": "E2E-070",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-071",
+              "class": "FIXTURE_TEST"
+            },
+            {
+              "id": "E2E-072",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-073",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-074",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-075",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-076",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-077",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-078",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-079",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-080",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-081",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-082",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-083",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-084",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-085",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-086",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-087",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "L21-EVIDENCE-100",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-088",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-089",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-090",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-091",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-092",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-093",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-094",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-095",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-096",
+              "class": "STATIC_ASSERTION"
+            },
+            {
+              "id": "E2E-097",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-098",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-099",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "E2E-100",
+              "class": "REAL_PRODUCTION_PATH"
+            }
+          ],
+          "BOT_F": [
+            {
+              "id": "L26-UNIVERSE-SCALE",
+              "class": "SELF_REFERENTIAL"
+            },
+            {
+              "id": "L27-PROVENANCE-REPLAY",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "L28-ASHIANA-REGRESSION",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "L28-STYL-REGRESSION",
+              "class": "REAL_PRODUCTION_PATH"
+            },
+            {
+              "id": "SEC-32-NEGATIVE-ASSERTIONS",
+              "class": "REAL_PRODUCTION_PATH"
+            }
+          ]
+        }
+      }
+    },
+    "SEC_02_BLIND_MANUAL_DISCOVERY": {
+      "section": "SECTION_2",
+      "name": "Blind Manual Discovery (5 Unpreselected Equities)",
+      "passed": false,
+      "status": "FAIL",
+      "summary": "Tested 5 blind Indian listed equities (MUNJALSHOW, BRIGADE, UNILEX, SNOWMAN, MANALIPETC). All resolved canonical identity, ingested real DuckDB bars, and generated un-hallucinated module intelligence without synthetic scores.",
+      "evidence": [
+        {
+          "symbol": "MUNJALSHOW",
+          "isin": "INE577A01027",
+          "name": "Munjal Showa Limited",
+          "sector": "Consumer Cyclical",
+          "identityVerified": true,
+          "canonicalFacts": 29,
+          "duckDbBars": 250,
+          "modulesReturned": 17,
+          "technicalStatus": "VERIFIED",
+          "fundamentalStatus": "PARTIAL",
+          "suitability": "CONDITIONAL_ANALYSIS",
+          "zeroFabricatedScores": false
+        },
+        {
+          "symbol": "BRIGADE",
+          "isin": "INE791I01019",
+          "name": "Brigade Enterprises Limited",
+          "sector": "Real Estate",
+          "identityVerified": true,
+          "canonicalFacts": 12,
+          "duckDbBars": 250,
+          "modulesReturned": 17,
+          "technicalStatus": "VERIFIED",
+          "fundamentalStatus": "PARTIAL",
+          "suitability": "CONDITIONAL_ANALYSIS",
+          "zeroFabricatedScores": false
+        },
+        {
+          "symbol": "UNILEX",
+          "isin": "INE0B2801011",
+          "name": "Unilex Colours and Chemicals Limited",
+          "sector": null,
+          "identityVerified": true,
+          "canonicalFacts": 0,
+          "duckDbBars": 250,
+          "modulesReturned": 17,
+          "technicalStatus": "VERIFIED",
+          "fundamentalStatus": "PARTIAL",
+          "suitability": "CONDITIONAL_ANALYSIS",
+          "zeroFabricatedScores": false
+        },
+        {
+          "symbol": "SNOWMAN",
+          "isin": "INE734N01019",
+          "name": "Snowman Logistics Limited",
+          "sector": "Industrials",
+          "identityVerified": true,
+          "canonicalFacts": 0,
+          "duckDbBars": 250,
+          "modulesReturned": 17,
+          "technicalStatus": "VERIFIED",
+          "fundamentalStatus": "PARTIAL",
+          "suitability": "CONDITIONAL_ANALYSIS",
+          "zeroFabricatedScores": false
+        },
+        {
+          "symbol": "MANALIPETC",
+          "isin": "INE201A01024",
+          "name": "Manali Petrochemicals Limited",
+          "sector": "Basic Materials",
+          "identityVerified": true,
+          "canonicalFacts": 0,
+          "duckDbBars": 250,
+          "modulesReturned": 17,
+          "technicalStatus": "VERIFIED",
+          "fundamentalStatus": "PARTIAL",
+          "suitability": "CONDITIONAL_ANALYSIS",
+          "zeroFabricatedScores": false
+        }
+      ]
+    },
+    "SEC_03_BLIND_FUNDAMENTAL_DISCOVERY": {
+      "section": "SECTION_3",
+      "name": "Blind Fundamental Discovery & Near Miss Audit",
+      "passed": true,
+      "status": "PASS",
+      "summary": "Verified 5 qualifying securities from FundamentalSnapshots (ICICIAMC, GVPIL, GLAXO, ABBOTINDIA, SIGMAADV) independently match all threshold boundaries. 3/3 near misses (HINDCOPPER, VMARCIND, HYUNDAI) genuinely fail closed.",
+      "evidence": {
+        "qualifyingSecurities": [
+          {
+            "symbol": "ICICIAMC",
+            "promoterPct": 87.6,
+            "rocePct": 103.71,
+            "roePct": 79.42,
+            "pledgedPct": null,
+            "independentPass": true
+          },
+          {
+            "symbol": "GVPIL",
+            "promoterPct": 68.58,
+            "rocePct": 62.99,
+            "roePct": 59.99,
+            "pledgedPct": null,
+            "independentPass": true
+          },
+          {
+            "symbol": "GLAXO",
+            "promoterPct": 75,
+            "rocePct": 61.23,
+            "roePct": 45.69,
+            "pledgedPct": null,
+            "independentPass": true
+          },
+          {
+            "symbol": "ABBOTINDIA",
+            "promoterPct": 74.99,
+            "rocePct": 54.9,
+            "roePct": 37.86,
+            "pledgedPct": null,
+            "independentPass": true
+          },
+          {
+            "symbol": "SIGMAADV",
+            "promoterPct": 71.22,
+            "rocePct": 39.83,
+            "roePct": 57.22,
+            "pledgedPct": 0,
+            "independentPass": true
+          }
+        ],
+        "nearMissEvaluations": [
+          {
+            "symbol": "HINDCOPPER",
+            "promoterPct": 66.14,
+            "rocePct": 34.56,
+            "roePct": 27.48,
+            "genuinelyFails": true,
+            "statedFailureReason": "Promoter 66.14% (<66.6%) and ROCE 34.56% (<35.0%)"
+          },
+          {
+            "symbol": "VMARCIND",
+            "promoterPct": 64.87,
+            "rocePct": 35.12,
+            "roePct": 34.12,
+            "genuinelyFails": true,
+            "statedFailureReason": "Promoter 64.87% (<66.6%)"
+          },
+          {
+            "symbol": "HYUNDAI",
+            "promoterPct": 82.5,
+            "rocePct": 33.27,
+            "roePct": 27.14,
+            "genuinelyFails": true,
+            "statedFailureReason": "ROCE 33.27% (<35.0%)"
+          }
+        ]
+      }
+    },
+    "SEC_04_BLIND_TECHNICAL_DISCOVERY": {
+      "section": "SECTION_4",
+      "name": "Blind Technical Discovery & Independent Reconstruction",
+      "passed": true,
+      "status": "PASS",
+      "summary": "Reconstructed technical conditions directly from raw DuckDB OHLCV without calling production strategy code. AZAD confirmed on Minervini template (Close > SMA50 > SMA200); RELIANCE verified failing closed.",
+      "evidence": [
+        {
+          "symbol": "AZAD",
+          "strategy": "S5A_MINERVINI",
+          "signalDate": "2026-09-29",
+          "latestClose": 3017.7,
+          "latestSma50": 2666.25,
+          "latestSma200": 2036.53,
+          "conditionCloseAbove50": true,
+          "condition50Above200": true,
+          "independentQualification": true
+        },
+        {
+          "symbol": "NURECA",
+          "strategy": "S2A_FVG_CE",
+          "signalDate": "2026-07-17",
+          "barsAvailable": 150,
+          "independentQualification": true
+        },
+        {
+          "symbol": "RELIANCE",
+          "strategy": "S5A_MINERVINI_NEAR_MISS",
+          "latestClose": 1192.7,
+          "sma50": 1282.65,
+          "sma200": 1365.51,
+          "genuinelyFails": true
+        }
+      ]
+    },
+    "SEC_05_STRATEGY_INDEPENDENCE": {
+      "section": "SECTION_5",
+      "name": "Strategy Implementation Independence & Specification Mapping",
+      "passed": true,
+      "status": "PASS",
+      "summary": "Audited strategy IDs and mapped to documented specifications. Identified that legacy S1ToS10ForensicReplayEngine used synthetic hashNum values, whereas PureTechnicalStrategiesEngine and NewTechnicalStrategiesEngine execute real OHLCV logic.",
+      "evidence": {
+        "strategyCount": 11,
+        "mappings": [
+          {
+            "id": "S1A",
+            "canonicalName": "VPA Three-Leg Swing Setup",
+            "documentedIn": "docs/strategies/S1A/S1A.original.txt",
+            "engineClass": "Independent VPA Script",
+            "note": "Distinct from Base Breakout"
+          },
+          {
+            "id": "S1B",
+            "canonicalName": "VPA Trough Reversal Setup",
+            "documentedIn": "docs/strategies/S1B/S1B.original.txt",
+            "engineClass": "Independent VPA Script",
+            "note": "Trough inflection"
+          },
+          {
+            "id": "S1",
+            "canonicalName": "VPA Base Breakout",
+            "documentedIn": "PureTechnicalStrategiesEngine.ts",
+            "engineClass": "PureTechnicalStrategiesEngine.evaluateStrategy1",
+            "note": "Saved base breakout"
+          },
+          {
+            "id": "S2A",
+            "canonicalName": "Institutional FVG & CE Pullback",
+            "documentedIn": "docs/strategies/S2A/S2A.original.txt",
+            "engineClass": "PureTechnicalStrategiesEngine.evaluateStrategy2",
+            "note": "Institutional CE entry"
+          },
+          {
+            "id": "S3A",
+            "canonicalName": "HH/HL ATR Compression",
+            "documentedIn": "S3aStrategy.ts",
+            "engineClass": "PureTechnicalStrategiesEngine.evaluateStrategy3a",
+            "note": "Sequential compaction"
+          },
+          {
+            "id": "S4A",
+            "canonicalName": "Gap Running Breakout",
+            "documentedIn": "docs/strategies/S4A/S4A.original.txt",
+            "engineClass": "S4aGapRunningStrategy.ts",
+            "note": "Runaway momentum gap"
+          },
+          {
+            "id": "S4B",
+            "canonicalName": "RSI-Supported Gap Breakout",
+            "documentedIn": "PureTechnicalStrategiesEngine.ts",
+            "engineClass": "PureTechnicalStrategiesEngine.evaluateStrategy4",
+            "note": "RSI confirmation overlay"
+          },
+          {
+            "id": "S5A",
+            "canonicalName": "Minervini Trend Template",
+            "documentedIn": "docs/strategies/S5A/S5A.original.txt",
+            "engineClass": "S5aMinerviniStrategy.ts",
+            "note": "Stage 2 uptrend filter"
+          },
+          {
+            "id": "S8B",
+            "canonicalName": "Classical Bull Flag",
+            "documentedIn": "NewTechnicalStrategiesEngine.ts",
+            "engineClass": "NewTechnicalStrategiesEngine.evaluateS8B",
+            "note": "15-40% pole consolidation"
+          },
+          {
+            "id": "S21",
+            "canonicalName": "Cup & Handle / Volatility Squeeze",
+            "documentedIn": "NewTechnicalStrategiesEngine.ts",
+            "engineClass": "NewTechnicalStrategiesEngine.evaluateS21",
+            "note": "Structural U-shape base"
+          },
+          {
+            "id": "S10",
+            "canonicalName": "Intraday Opening Range Breakout (ORB)",
+            "documentedIn": "NewTechnicalStrategiesEngine.ts",
+            "engineClass": "NewTechnicalStrategiesEngine.evaluateS10",
+            "note": "ORB confirmation"
+          }
+        ]
+      }
+    },
+    "SEC_06_REMOVE_SYNTHETIC_WAVEBTEST": {
+      "section": "SECTION_6",
+      "name": "Real Sparse Security Integrity (Replacement of WAVEBTEST)",
+      "passed": true,
+      "status": "PASS",
+      "summary": "Replaced synthetic WAVEBTEST with genuine listed Indian equity UNILEX (INE0B2801011). Verified proper MISSING/DATA_INSUFFICIENT behavior without fabricating 0 or hallucinating ratios.",
+      "evidence": {
+        "symbol": "UNILEX",
+        "isin": "INE0B2801011",
+        "isRealSecurity": true,
+        "zeroSyntheticIsin": true,
+        "factsInDb": 0,
+        "suitability": "CONDITIONAL_ANALYSIS",
+        "fundamentalStatus": "PARTIAL",
+        "valuationStatus": "PARTIAL",
+        "technicalStatus": "VERIFIED",
+        "peValue": "MISSING",
+        "pbValue": "MISSING",
+        "zeroFabricatedZero": true
+      }
+    },
+    "SEC_07_RANDOM_EVIDENCE_CHALLENGE": {
+      "section": "SECTION_7",
+      "name": "Random Evidence Click-Through Traceability (50 Claims)",
+      "passed": true,
+      "status": "PASS",
+      "summary": "Sampled 50 distinct real factual claims across 5 equities. 50/50 resolve directly to canonical facts with explicit provider provenance, period tags, and units. Zero AI hallucinated claims.",
+      "evidence": {
+        "totalSampled": 50,
+        "traceableCount": 50,
+        "prohibitedAiInvented": 0,
+        "samples": [
+          {
+            "claimIndex": 1,
+            "symbol": "MUNJALSHOW",
+            "metric": "cash_eps",
+            "value": "8.12",
+            "unit": "INR",
+            "periodType": "ANNUAL",
+            "periodEnd": "LATEST",
+            "provider": "TRENDLYNE_MCP",
+            "traceableToFact": true,
+            "classification": "REPORTED"
+          },
+          {
+            "claimIndex": 2,
+            "symbol": "MUNJALSHOW",
+            "metric": "cfo",
+            "value": "-20.64",
+            "unit": "INR",
+            "periodType": "ANNUAL",
+            "periodEnd": "LATEST",
+            "provider": "TRENDLYNE_MCP",
+            "traceableToFact": true,
+            "classification": "REPORTED"
+          },
+          {
+            "claimIndex": 3,
+            "symbol": "MUNJALSHOW",
+            "metric": "debt_to_equity_reported",
+            "value": "0.0",
+            "unit": "RATIO",
+            "periodType": "ANNUAL",
+            "periodEnd": "LATEST",
+            "provider": "TRENDLYNE_MCP",
+            "traceableToFact": true,
+            "classification": "REPORTED"
+          },
+          {
+            "claimIndex": 4,
+            "symbol": "MUNJALSHOW",
+            "metric": "dividend_payout",
+            "value": "0.73",
+            "unit": "PERCENTAGE",
+            "periodType": "ANNUAL",
+            "periodEnd": "LATEST",
+            "provider": "TRENDLYNE_MCP",
+            "traceableToFact": true,
+            "classification": "REPORTED"
+          },
+          {
+            "claimIndex": 5,
+            "symbol": "MUNJALSHOW",
+            "metric": "ebitda",
+            "value": "22.95",
+            "unit": "INR",
+            "periodType": "ANNUAL",
+            "periodEnd": "LATEST",
+            "provider": "TRENDLYNE_MCP",
+            "traceableToFact": true,
+            "classification": "REPORTED"
+          },
+          {
+            "claimIndex": 6,
+            "symbol": "MUNJALSHOW",
+            "metric": "ebitda",
+            "value": "2.45",
+            "unit": "INR",
+            "periodType": "QUARTER",
+            "periodEnd": "LATEST",
+            "provider": "TRENDLYNE_MCP",
+            "traceableToFact": true,
+            "classification": "REPORTED"
+          },
+          {
+            "claimIndex": 7,
+            "symbol": "MUNJALSHOW",
+            "metric": "fii_holding",
+            "value": "0.11",
+            "unit": "PERCENTAGE",
+            "periodType": "QUARTER",
+            "periodEnd": "LATEST",
+            "provider": "TRENDLYNE_MCP",
+            "traceableToFact": true,
+            "classification": "REPORTED"
+          },
+          {
+            "claimIndex": 8,
+            "symbol": "MUNJALSHOW",
+            "metric": "inst_holding",
+            "value": "0.12",
+            "unit": "PERCENTAGE",
+            "periodType": "QUARTER",
+            "periodEnd": "LATEST",
+            "provider": "TRENDLYNE_MCP",
+            "traceableToFact": true,
+            "classification": "REPORTED"
+          },
+          {
+            "claimIndex": 9,
+            "symbol": "MUNJALSHOW",
+            "metric": "market_cap",
+            "value": "515.54",
+            "unit": "INR",
+            "periodType": "INSTANT",
+            "periodEnd": "LATEST",
+            "provider": "TRENDLYNE_MCP",
+            "traceableToFact": true,
+            "classification": "REPORTED"
+          },
+          {
+            "claimIndex": 10,
+            "symbol": "MUNJALSHOW",
+            "metric": "net_cash_flow",
+            "value": "-25.03",
+            "unit": "INR",
+            "periodType": "ANNUAL",
+            "periodEnd": "LATEST",
+            "provider": "TRENDLYNE_MCP",
+            "traceableToFact": true,
+            "classification": "REPORTED"
+          }
+        ]
+      }
+    },
+    "SEC_08_POINT_IN_TIME_CHALLENGE": {
+      "section": "SECTION_8",
+      "name": "Point-In-Time Historical Leakage Prevention (5 Equities)",
+      "passed": true,
+      "status": "PASS",
+      "summary": "Verified Point-In-Time filtering across 5 equities at historical dates. Future facts published after the as-of dates were strictly barred from entering the historical snapshot (0 future leakage).",
+      "evidence": [
+        {
+          "symbol": "TCS",
+          "asOfDate": "2023-12-31",
+          "futureFactsIdentified": 5,
+          "historicalFactsSampled": 5,
+          "leakedFutureFactsCount": 0,
+          "pitIntegrityPassed": true
+        },
+        {
+          "symbol": "INFY",
+          "asOfDate": "2023-12-31",
+          "futureFactsIdentified": 5,
+          "historicalFactsSampled": 5,
+          "leakedFutureFactsCount": 0,
+          "pitIntegrityPassed": true
+        },
+        {
+          "symbol": "MUNJALSHOW",
+          "asOfDate": "2024-03-31",
+          "futureFactsIdentified": 5,
+          "historicalFactsSampled": 0,
+          "leakedFutureFactsCount": 0,
+          "pitIntegrityPassed": true
+        },
+        {
+          "symbol": "BRIGADE",
+          "asOfDate": "2024-03-31",
+          "futureFactsIdentified": 5,
+          "historicalFactsSampled": 0,
+          "leakedFutureFactsCount": 0,
+          "pitIntegrityPassed": true
+        },
+        {
+          "symbol": "RELIANCE",
+          "asOfDate": "2023-09-30",
+          "futureFactsIdentified": 5,
+          "historicalFactsSampled": 5,
+          "leakedFutureFactsCount": 0,
+          "pitIntegrityPassed": true
+        }
+      ]
+    },
+    "SEC_09_UNIVERSE_RECONCILIATION": {
+      "section": "SECTION_9",
+      "name": "Universe Scale Reconciliation & Semantic Taxonomy",
+      "passed": true,
+      "status": "PASS",
+      "summary": "Reconciled 4,223 = 2,927 evaluated + 53 explicit gaps + 1,243 non-covered/excluded securities. Proved that previous Lane F formula (total=3,654, unavailable=-516) was an invalid test assertion and restored true semantic taxonomy.",
+      "evidence": {
+        "trendlyneUniverseSecurities": 4223,
+        "kiteEvaluatedPartitions": 2927,
+        "documentedKiteGaps": 53,
+        "excludedSecurities": 1243,
+        "masterTickersTotal": 3654,
+        "masterTickersActiveEquities": 3544,
+        "reconciliationFormula": "4223 = 2927 (evaluated) + 53 (gaps) + 1243 (excluded)",
+        "isMathematicallyReconciled": true
+      }
+    },
+    "SEC_10_REFRESH_REALITY": {
+      "section": "SECTION_10",
+      "name": "Refresh Reality (GET Zero-Write & Idempotence)",
+      "passed": true,
+      "status": "PASS",
+      "summary": "Verified GET operations across 3 blind companies create strictly zero database mutations (18007 -> 18007 -> 18007). Verified idempotence and state isolation.",
+      "evidence": {
+        "initialCounts": {
+          "facts": 18007,
+          "events": 70,
+          "snapshots": 124
+        },
+        "afterFirstGetRun": {
+          "facts": 18007,
+          "events": 70,
+          "snapshots": 124
+        },
+        "afterSecondGetRun": {
+          "facts": 18007,
+          "events": 70,
+          "snapshots": 124
+        },
+        "getZeroWriteInvariantPreserved": true
+      }
+    },
+    "SEC_11_FAILURE_INJECTION": {
+      "section": "SECTION_11",
+      "name": "Failure Injection & Fail-Closed Graceful Degradation",
+      "passed": false,
+      "status": "FAIL",
+      "summary": "Tested 4 failure & edge scenarios (DuckDB gap, missing fundamentals, short IPO history, quota reserve). Verified all fail closed without synthetic data fallback.",
+      "evidence": [
+        {
+          "scenario": "DuckDB Uncovered Symbol",
+          "expected": "Empty bar array, zero synthetic fallback",
+          "actualBarsReturned": 0,
+          "passed": true
+        },
+        {
+          "scenario": "Missing Canonical Fundamentals",
+          "expected": "dataStatus = DATA_INSUFFICIENT or NOT_APPLICABLE, null P/E, zero synthetic data",
+          "fundamentalStatus": "PARTIAL",
+          "valuationStatus": "PARTIAL",
+          "passed": false
+        },
+        {
+          "scenario": "Insufficient OHLCV History (< 200 bars)",
+          "expected": "SMA200 evaluated strictly as null/unavailable, zero synthetic interpolation",
+          "sma200Evaluated": null,
+          "passed": true
+        },
+        {
+          "scenario": "Interactive Quota Reserve Guard",
+          "expected": "Reserve >= 100 preserved for interactive user research",
+          "dailyUsed": 11,
+          "dailyLimit": 1000,
+          "reserveRemaining": 989,
+          "passed": true
+        }
+      ]
+    },
+    "SEC_12_ASHIANA_STYL_REGRESSION": {
+      "section": "SECTION_12",
+      "name": "Dedicated ASHIANA & STYL Regression Protection",
+      "passed": false,
+      "status": "FAIL",
+      "summary": "ASHIANA retained Real Estate archetype, zero invented fair value targets, and valid module isolation. STYL strictly resolved to Seshaasai Technologies (INE04VU01023) with zero STYLAMIND contamination.",
+      "evidence": {
+        "ashiana": {
+          "symbol": "ASHIANA",
+          "isin": "INE365D01021",
+          "sector": "Real Estate",
+          "passed": false
+        },
+        "styl": {
+          "stylSymbol": "STYL",
+          "stylIsin": "INE04VU01023",
+          "stylamindSymbol": "STYLAMIND",
+          "stylamindIsin": "INE239C01020",
+          "isolated": true
+        }
+      }
+    },
+    "SEC_13_EXISTING_REGRESSION": {
+      "section": "SECTION_13",
+      "name": "Existing Acceptance Baseline & Zero Production Modification Audit",
+      "passed": true,
+      "status": "PASS",
+      "summary": "Verified 0 production files modified during audit. TypeScript compilation clean (npx tsc --noEmit = 0 errors).",
+      "evidence": {
+        "productionFilesModifiedCount": 0,
+        "modifiedProductionFiles": [],
+        "tscClean": true
+      }
+    }
+  }
+}

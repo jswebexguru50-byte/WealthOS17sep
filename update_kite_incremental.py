@@ -48,16 +48,16 @@ def main():
     symbols_dict = manifest.get("symbols", {})
     
     updated_count = 0
-    TARGET_DATE = dt.date(2026, 9, 22)
+    TARGET_DATE = dt.date.today()
     
-    # We will only update symbols that are COMPLETE but max_trade_date < '2026-09-22'
+    # We will only update symbols that are COMPLETE but max_trade_date < TARGET_DATE
     for symbol, record in symbols_dict.items():
         if record.get("status") == "COMPLETE":
             max_date_str = record.get("max_trade_date", "")
             if not max_date_str: continue
             
             # If they already have data for target date or later, skip
-            if max_date_str >= "2026-09-22":
+            if max_date_str >= str(TARGET_DATE):
                 continue
                 
             # Need to update

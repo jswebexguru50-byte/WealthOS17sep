@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_ZUARIIND_REV_FY26",
+    "issuerNseSymbol": "ZUARIIND",
+    "issuerBseCode": "519034",
+    "documentHash": "28755349b812a55eba10a66b4954733e215b4864e4d61297928bd4ec1872f46e",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹3316 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_ZUARIIND_PAT_FY26",
+    "issuerNseSymbol": "ZUARIIND",
+    "issuerBseCode": "519034",
+    "documentHash": "28755349b812a55eba10a66b4954733e215b4864e4d61297928bd4ec1872f46e",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹398 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_ZUARIIND_DEBT_FY26",
+    "issuerNseSymbol": "ZUARIIND",
+    "issuerBseCode": "519034",
+    "documentHash": "701570cfe8d5fac6c562b26d306a25ae36c25639434a1a5f427eb702280a4085",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_ZUARIIND_CONCALL_Q4FY26",
+    "issuerNseSymbol": "ZUARIIND",
+    "issuerBseCode": "519034",
+    "documentHash": "409b491933810a274a945da775d932df28a9a8d0cf910ab830943eb4589f3036",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

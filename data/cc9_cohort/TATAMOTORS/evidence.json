@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_TAMO_REV_01",
+    "issuerNseSymbol": "TATAMOTORS",
+    "issuerBseCode": "500570",
+    "documentId": "DOC_TATAMOTORS_AR24",
+    "documentHash": "def0123456789abcdef0123456789abcdef0123456789abcde",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 72,
+    "pagePrinted": "70",
+    "quotedText": "Consolidated revenue for FY24 reached ₹437928 Cr with Jaguar Land Rover record free cash flows.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

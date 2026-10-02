@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_SOLAR_01",
+    "issuerNseSymbol": "SOLARINDS",
+    "issuerBseCode": "500405",
+    "eventDate": "2024-04-18",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Export Defense Ammunition Order Inflow",
+    "description": "Secured export order worth ₹450 Cr for supply of defense ammunition and rocket propellants.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_SOLAR_ORDER_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

@@ -1,0 +1,51 @@
+Authorized Account Access
+
+Google OAuth & Zero-Trust Security Gateway
+
+PRIMARY AUTHORIZED ACCOUNT
+Edit
+gopal.sharma@gmail.com
+Verified Owner
+SIGN IN AS GOPAL.SHARMA@GMAIL.COM
+OR SIGN IN WITH ANOTHER ACCOUNT EMAIL
+Authorize
+
+🔒 Zero-Trust Protection: Local session tokens are cryptographically secured for your device.
+
+NRI WEALTHOS
+V3.0
+GLOBAL WEALTH & TAX
+1. Overview
+System Status & Context
+2. Discover
+Qualified Opportunities
+3. Analyze
+Stock Intelligence View
+4. Portfolio
+Risk, Ledger & Watchlist
+5. Research
+Thematic & Strategy
+6. Audit & System
+Provenance & Settings
+Themes & Layouts
+Open App in New Window
+SQLite ENGINE: SECURE
+NRI WEALTHOS
+/
+1. OVERVIEW & SYSTEM STATUS
+LIVE
+U
+Member View
+0 Accounts • Resident
+Combined Portfolio
+WORKSPACE:
+Combined
+•
+0 Scrips Tracked
+Alerts
+Risk & VaR
+Snapshot
+Reports
+Classic Standard
+⏳
+Loading...

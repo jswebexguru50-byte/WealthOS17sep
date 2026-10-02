@@ -1,0 +1,286 @@
+{
+  "asOf": "2026-09-30T16:10:48.468Z",
+  "commit": "a82dc89e8abd907f9709424fb7ba61e86702350e",
+  "universe": {
+    "companiesTested": 24,
+    "entryRoutesTested": 12,
+    "strategiesTested": 10,
+    "testCohort": [
+      {
+        "symbol": "TCS",
+        "name": "Tata Consultancy Services Limited",
+        "isin": "INE467B01029",
+        "category": "MANUAL_NORMAL",
+        "sector": "Information Technology"
+      },
+      {
+        "symbol": "INFY",
+        "name": "Infosys Limited",
+        "isin": "INE009A01021",
+        "category": "MANUAL_NORMAL",
+        "sector": "Information Technology"
+      },
+      {
+        "symbol": "HDFCBANK",
+        "name": "HDFC Bank Limited",
+        "isin": "INE040A01034",
+        "category": "MANUAL_NORMAL",
+        "sector": "Financial Services"
+      },
+      {
+        "symbol": "TITAN",
+        "name": "Titan Company Limited",
+        "isin": "INE280A01028",
+        "category": "FUNDAMENTAL_FILTER_DISCOVERY",
+        "sector": "Consumer Discretionary"
+      },
+      {
+        "symbol": "SUNPHARMA",
+        "name": "Sun Pharmaceutical Industries Limited",
+        "isin": "INE044A01036",
+        "category": "FUNDAMENTAL_FILTER_DISCOVERY",
+        "sector": "Healthcare"
+      },
+      {
+        "symbol": "BEL",
+        "name": "Bharat Electronics Limited",
+        "isin": "INE263A01024",
+        "category": "FUNDAMENTAL_FILTER_DISCOVERY",
+        "sector": "Capital Goods"
+      },
+      {
+        "symbol": "RELIANCE",
+        "name": "Reliance Industries Limited",
+        "isin": "INE002A01018",
+        "category": "TECHNICAL_DISCOVERY",
+        "sector": "Oil Gas & Consumable Fuels"
+      },
+      {
+        "symbol": "TATAMOTORS",
+        "name": "Tata Motors Limited",
+        "isin": "INE155A01022",
+        "category": "TECHNICAL_DISCOVERY",
+        "sector": "Automobile and Auto Components"
+      },
+      {
+        "symbol": "TATASTEEL",
+        "name": "Tata Steel Limited",
+        "isin": "INE081A01020",
+        "category": "TECHNICAL_DISCOVERY",
+        "sector": "Metals & Mining"
+      },
+      {
+        "symbol": "ICICIBANK",
+        "name": "ICICI Bank Limited",
+        "isin": "INE090A01021",
+        "category": "DUAL_DISCOVERY",
+        "sector": "Financial Services"
+      },
+      {
+        "symbol": "DYCL",
+        "name": "Dynamic Cables Limited",
+        "isin": "INE600K01018",
+        "category": "DUAL_DISCOVERY",
+        "sector": "Capital Goods"
+      },
+      {
+        "symbol": "ASHIANA",
+        "name": "Ashiana Housing Limited",
+        "isin": "INE365D01021",
+        "category": "ASHIANA_SPECIAL",
+        "sector": "Real Estate"
+      },
+      {
+        "symbol": "STYL",
+        "name": "Seshaasai Technologies Limited",
+        "isin": "INE04VU01023",
+        "category": "STYL_AMBIGUOUS",
+        "sector": "Technology"
+      },
+      {
+        "symbol": "STYLAMIND",
+        "name": "Stylam Industries Limited",
+        "isin": "INE239C01020",
+        "category": "STYLAMIND_SIMILAR",
+        "sector": "Consumer Cyclical"
+      },
+      {
+        "symbol": "AKIKO",
+        "name": "Akiko Global Services Limited",
+        "isin": "INE0RRJ01015",
+        "category": "PORTFOLIO_HOLDING",
+        "sector": "Financial Services"
+      },
+      {
+        "symbol": "APLAPOLLO",
+        "name": "APL Apollo Tubes Limited",
+        "isin": "INE702C01027",
+        "category": "PORTFOLIO_HOLDING",
+        "sector": "Capital Goods"
+      },
+      {
+        "symbol": "BAJAJHFL",
+        "name": "Bajaj Housing Finance Limited",
+        "isin": "INE377Y01017",
+        "category": "RECENT_IPO",
+        "sector": "Financial Services"
+      },
+      {
+        "symbol": "WAVEBTEST",
+        "name": "Wave Mechanics Test Scrip",
+        "isin": "IN9999999999",
+        "category": "SPARSE_FUNDAMENTALS",
+        "sector": "Industrials"
+      },
+      {
+        "symbol": "UNICHEMLAB",
+        "name": "Unichem Laboratories Limited",
+        "isin": "INE351A01035",
+        "category": "DUCKDB_COVERAGE_GAP",
+        "sector": "Healthcare"
+      },
+      {
+        "symbol": "IDEA",
+        "name": "Vodafone Idea Limited",
+        "isin": "INE669E01016",
+        "category": "LOSS_MAKING_HIGH_LEVERAGE",
+        "sector": "Telecommunication"
+      },
+      {
+        "symbol": "SUZLON",
+        "name": "Suzlon Energy Limited",
+        "isin": "INE040H01021",
+        "category": "EXCEPTIONAL_GROWTH",
+        "sector": "Capital Goods"
+      },
+      {
+        "symbol": "ARE&M",
+        "name": "Amara Raja Energy & Mobility Limited",
+        "isin": "INE885A01032",
+        "category": "CORPORATE_ACTION_HISTORY",
+        "sector": "Automobile and Auto Components"
+      },
+      {
+        "symbol": "PAYTM",
+        "name": "One 97 Communications Limited",
+        "isin": "INE982J01020",
+        "category": "GUIDANCE_FAILED_REGULATORY",
+        "sector": "Financial Services"
+      },
+      {
+        "symbol": "BLISSGVS",
+        "name": "Bliss GVS Pharma Limited",
+        "isin": "INE416D01022",
+        "category": "CONFLICTING_PROVIDER_DATA",
+        "sector": "Healthcare"
+      }
+    ]
+  },
+  "gates": {
+    "existingV2Regression": true,
+    "discovery": true,
+    "identity": true,
+    "canonicalFacts": true,
+    "pointInTime": true,
+    "businessUnderstanding": true,
+    "financialReasoning": true,
+    "management": true,
+    "walkTheTalk": true,
+    "catalysts": true,
+    "risks": true,
+    "valuation": true,
+    "marketData": true,
+    "technicalIndicators": true,
+    "strategies": true,
+    "api": true,
+    "browser": true,
+    "evidenceTraceability": true,
+    "monitoring": true,
+    "thesisRevision": true,
+    "failureHandling": true,
+    "deterministicReplay": true
+  },
+  "evidenceTraceability": {
+    "sampledClaims": 100,
+    "verifiedClaims": 100,
+    "classificationBreakdown": {
+      "REPORTED": 68,
+      "DERIVED": 22,
+      "SCENARIO": 6,
+      "MISSING": 4,
+      "PROHIBITED_AI": 0
+    }
+  },
+  "negativeAssertions": {
+    "scannedEntities": 24,
+    "violationsDetected": 0,
+    "prohibitedPatternsChecked": [
+      "\\bBUY\\b",
+      "\\bSELL\\b",
+      "Investment Score\\s*=\\s*\\d+",
+      "unsupported \"high conviction\"",
+      "unsupported \"highly attractive\"",
+      "synthetic financial fact",
+      "fabricated citation",
+      "hard-coded company outcome",
+      "hard-coded strategy result",
+      "unexplained price target",
+      "missing represented as zero",
+      "standalone/consolidated mixing",
+      "annual/quarterly mixing",
+      "future PIT leakage",
+      "technical pattern presented as engine-confirmed signal",
+      "stale data presented as current",
+      "source-less management claim",
+      "silent provider fallback",
+      "company-specific branches"
+    ],
+    "passed": true
+  },
+  "laneSummaries": {
+    "L0_INTEGRITY": {
+      "total": 11,
+      "passed": 11,
+      "failed": 0,
+      "durationMs": 60
+    },
+    "BOT_A": {
+      "total": 17,
+      "passed": 17,
+      "failed": 0,
+      "durationMs": 1596
+    },
+    "BOT_B": {
+      "total": 33,
+      "passed": 33,
+      "failed": 0,
+      "durationMs": 3170
+    },
+    "BOT_C": {
+      "total": 11,
+      "passed": 11,
+      "failed": 0,
+      "durationMs": 20
+    },
+    "BOT_D": {
+      "total": 11,
+      "passed": 11,
+      "failed": 0,
+      "durationMs": 38
+    },
+    "BOT_E": {
+      "total": 32,
+      "passed": 32,
+      "failed": 0,
+      "durationMs": 8745
+    },
+    "BOT_F": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "durationMs": 16170
+    }
+  },
+  "failures": [],
+  "overallAcceptance": true
+}

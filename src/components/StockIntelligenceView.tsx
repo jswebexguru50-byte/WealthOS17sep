@@ -26,10 +26,12 @@ import {
   ArrowRightLeft,
   HelpCircle,
   History,
-  FileCheck
+  FileCheck,
+  Eye
 } from 'lucide-react';
 import { formatINR } from '../lib/formatters.js';
 import { CompanyIntelligenceOverview, EvidenceDrawerItem } from './company-intelligence/CompanyIntelligenceOverview.js';
+import { FundamentalExperienceView } from './company-intelligence/FundamentalExperienceView.js';
 
 interface StockIntelligenceViewProps {
   symbol: string;
@@ -42,6 +44,7 @@ const TABS = [
   { id: 'OVERVIEW',       label: 'Overview',        icon: Compass,       modKey: null },
   { id: 'BUSINESS',       label: 'Business',         icon: GitBranch,     modKey: 'businessDrivers' },
   { id: 'FUNDAMENTAL',    label: 'Financials',       icon: FileText,      modKey: 'fundamental' },
+  { id: 'SMART_MONEY',    label: 'Smart Money',      icon: Eye,           modKey: 'recentAccumulation' },
   { id: 'MANAGEMENT',     label: 'Management',       icon: Users,         modKey: 'management' },
   { id: 'VALUATION',      label: 'Valuation',        icon: BarChart2,     modKey: 'valuation' },
   { id: 'TECHNICAL',      label: 'Technical',        icon: Activity,      modKey: 'technical' },
@@ -53,6 +56,8 @@ const TABS = [
   { id: 'TIMELINE',       label: 'Timeline',         icon: CalendarDays,  modKey: null },
 ];
 
+import { useStockIntelligence } from '../hooks/useStockIntelligence.js';
+
 export function StockIntelligenceView({
   symbol,
   isOpen,
@@ -60,28 +65,9 @@ export function StockIntelligenceView({
   formatCurrency = (v) => formatINR(v)
 }: StockIntelligenceViewProps) {
   const [activeTab, setActiveTab] = useState('OVERVIEW');
-  const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [selectedEvidence, setSelectedEvidence] = useState<EvidenceDrawerItem | null>(null);
 
-  useEffect(() => {
-    if (!isOpen || !symbol) return;
-    setLoading(true);
-    setError(null);
-
-    fetch(`/api/v2/company-intelligence/${encodeURIComponent(symbol)}`)
-      .then((r) => r.json())
-      .then((intelJson) => {
-        if (intelJson.success || intelJson.modules || intelJson.overview) {
-          setData(intelJson.data || intelJson);
-        } else {
-          throw new Error(intelJson.message || intelJson.error || 'Scrip intelligence error.');
-        }
-      })
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, [symbol, isOpen]);
+  const { data, loading, error, status } = useStockIntelligence(symbol, isOpen);
 
   if (!isOpen) return null;
 
@@ -142,6 +128,8 @@ export function StockIntelligenceView({
   const drivers = modules.businessDrivers?.result || null;
   const contradictions = modules.contradictions?.result || null;
   const thesis = modules.thesis?.result || null;
+  const fundExp = modules.fundamentalExperience?.result || (data as any).fundamentalExperience || null;
+  const recentAcc = modules.recentAccumulation?.result || null;
 
   const companyName = security.companyName || symbol;
   const businessModel = security.businessModel || 'NON_FINANCIAL';
@@ -371,6 +359,13 @@ export function StockIntelligenceView({
               TAB 3: FUNDAMENTAL (MODEL AWARE: BANK VS NON-FINANCIAL)
           ───────────────────────────────────────────────────────────────── */}
           {activeTab === 'FUNDAMENTAL' && (
+            fundExp ? (
+              <FundamentalExperienceView
+                experience={fundExp}
+                symbol={symbol}
+                formatCurrency={formatCurrency}
+              />
+            ) : (
             <div className="space-y-6">
               <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                 <div className="flex items-center gap-2">
@@ -477,6 +472,18 @@ export function StockIntelligenceView({
                 </div>
               )}
             </div>
+            )
+          )}
+
+          {/* ─────────────────────────────────────────────────────────────────
+              TAB 3B: SMART MONEY / RECENT ACCUMULATION ENGINE
+          ───────────────────────────────────────────────────────────────── */}
+          {activeTab === 'SMART_MONEY' && (
+            <FundamentalExperienceView
+              experience={fundExp}
+              symbol={symbol}
+              formatCurrency={formatCurrency}
+            />
           )}
 
           {/* ─────────────────────────────────────────────────────────────────

@@ -1,0 +1,33 @@
+{
+  "status": "DATA_INSUFFICIENT",
+  "dataMode": "REAL_HISTORICAL_RESEARCH_SUBSET",
+  "database": "portfolio_v6.3_research_subset.db",
+  "databaseSha256": "f9ad3b132161a2cc8b6927baa1ca1134d9d1b6ad42ec87ecc603b13293d52752",
+  "databaseSha256Scope": "ENTIRE_FILE",
+  "preflight": {
+    "databasePath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\data\\portfolio_v6.3_research_subset.db",
+    "databaseSha256": "f9ad3b132161a2cc8b6927baa1ca1134d9d1b6ad42ec87ecc603b13293d52752",
+    "integrityCheck": "ok",
+    "foreignKeyErrors": 0,
+    "dailyBars": 105243,
+    "symbols": 60,
+    "dateMin": "2018-01-01",
+    "dateMax": "2025-12-31",
+    "deliveryRows": 814,
+    "turnoverRows": 814,
+    "calendarRows": 42,
+    "calendarTradingRows": 0,
+    "indexConstituentRows": 0,
+    "corporateActionRows": 1035,
+    "corporateActionExDateRows": 1,
+    "shareholdingRows": 56,
+    "shareholdingAsOfRows": 0,
+    "financialRows": 213,
+    "financialPeriodRows": 0
+  },
+  "failure": "DATA_INSUFFICIENT\n - DELIVERY_DATA_INCOMPLETE: 814/105243\n - TURNOVER_DATA_INCOMPLETE: 814/105243\n - TRADING_CALENDAR_UNAVAILABLE\n - HISTORICAL_INDEX_MEMBERSHIP_UNAVAILABLE\n - SHAREHOLDING_AS_OF_DATE_UNAVAILABLE\n - FINANCIAL_PERIOD_DATE_UNAVAILABLE",
+  "productionCodeModified": false,
+  "syntheticFallbacksUsed": false,
+  "intrabarAmbiguityPolicy": "CONSERVATIVE_STOP_FIRST",
+  "executionTimestamp": "2026-09-17T13:02:23.452Z"
+}

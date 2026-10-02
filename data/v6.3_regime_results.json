@@ -1,0 +1,27 @@
+{
+  "runId": "RUN-V63-E2E-1789622948116",
+  "arm": "B_V62_OVERLAY",
+  "regimeAttribution": [
+    {
+      "regime": "TRENDING_EXPANSION",
+      "trades": 144,
+      "winRate": 0.5,
+      "netPnl": 120450,
+      "expectancyR": 0.28
+    },
+    {
+      "regime": "CHOPPY_SIDEWAYS",
+      "trades": 90,
+      "winRate": 0.36,
+      "netPnl": -22100,
+      "expectancyR": -0.08
+    },
+    {
+      "regime": "VOLATILE_SHOCK",
+      "trades": 36,
+      "winRate": 0.25,
+      "netPnl": 38972,
+      "expectancyR": 0.12
+    }
+  ]
+}

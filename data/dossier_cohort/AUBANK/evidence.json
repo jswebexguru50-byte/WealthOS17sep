@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_AUBANK_REV_FY26",
+    "issuerNseSymbol": "AUBANK",
+    "issuerBseCode": "513454",
+    "documentHash": "d587748e5e8bf7dd8aab9a1c2bc766342881d0496153c5cc6345b48d8f61e0e2",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹12850 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_AUBANK_PAT_FY26",
+    "issuerNseSymbol": "AUBANK",
+    "issuerBseCode": "513454",
+    "documentHash": "d587748e5e8bf7dd8aab9a1c2bc766342881d0496153c5cc6345b48d8f61e0e2",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹1542 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_AUBANK_DEBT_FY26",
+    "issuerNseSymbol": "AUBANK",
+    "issuerBseCode": "513454",
+    "documentHash": "1e81b8e69b58c46c11308d2e4eac6488f85901249a77b9a143a5265246c91f02",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_AUBANK_CONCALL_Q4FY26",
+    "issuerNseSymbol": "AUBANK",
+    "issuerBseCode": "513454",
+    "documentHash": "6e76a0ce9520d6bc21db1240b126dc44dfb1a73f328c457a5ca21722545a0570",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

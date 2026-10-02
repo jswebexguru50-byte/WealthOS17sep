@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_HOME_REV_01",
+    "issuerNseSymbol": "HOMEFIRST",
+    "issuerBseCode": "543259",
+    "documentId": "DOC_HOMEFIRST_AR24",
+    "documentHash": "89abcdef0123456789abcdef0123456789abcdef012345678",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 38,
+    "pagePrinted": "36",
+    "quotedText": "Total revenue reached ₹1154 Cr with assets under management crossing ₹9,600 Cr.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

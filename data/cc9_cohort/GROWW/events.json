@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_GROWW_01",
+    "issuerNseSymbol": "GROWW",
+    "issuerBseCode": "GROWW",
+    "eventDate": "2024-05-15",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Number 1 Stock Broker in India by Active NSE Clients",
+    "description": "Became the largest stock broker in India with active NSE client market share surpassing 24%.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_GROWW_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

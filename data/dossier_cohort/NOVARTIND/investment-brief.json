@@ -1,0 +1,751 @@
+{
+  "symbol": "NOVARTIND",
+  "companyName": "NOVARTIS INDIA LIMITED",
+  "marketCapTier": "LARGECAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-16T11:21:57.304Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "STRONG",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence, verified management track record, and zero active thesis breakers. Portfolio directive: FULL_TARGET_SIZING.",
+    "allocationRecommendation": "FULL_TARGET_SIZING",
+    "portfolioPolicy": {
+      "directive": "FULL_TARGET_SIZING",
+      "targetSizingCapRatio": 1,
+      "policyRationale": "Full target capital allocation: supported thesis backed by proven management credibility track record (>=80% delivered)."
+    },
+    "provenance": {
+      "quantDerivation": "ITAS-Score-91 -> Threshold(>=75:STRONG, 50-74:MODERATE, 25-49:WEAK, <25:NONE) -> STRONG",
+      "riskDerivation": "BreakersActive:0, Contradictions:1, Unknowns:0 -> Risk: LOW",
+      "credibilityDerivation": "ClaimsEvaluated:3 -> CredibilityGrade: STRONG",
+      "breakerDerivation": "TB_NOVARTIND_LEVERAGE(UNRESOLVED), TB_NOVARTIND_STRUCTURAL_STOP(UNRESOLVED)",
+      "thesisDerivation": "Matrix(STRONG, LOW) -> Thesis: SUPPORTED",
+      "allocationDerivation": "Precedence(SUPPORTED, LOW, STRONG) -> Directive: FULL_TARGET_SIZING (Cap: 100%)",
+      "auditTrail": [
+        "ITAS-Engine#NOVARTIND",
+        null,
+        null,
+        "Contradiction#DIV_NOVARTIND_SUPPLY_CHAIN"
+      ]
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_NOVARTIND",
+      "nodes": [
+        {
+          "id": "DEC_NOVARTIND",
+          "type": "DECISION",
+          "refId": "NOVARTIND",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_NOVARTIND",
+          "type": "ALLOCATION",
+          "refId": "FULL_TARGET_SIZING",
+          "label": "Allocation Policy: FULL_TARGET_SIZING (100%)"
+        },
+        {
+          "id": "THESIS_NOVARTIND",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_NOVARTIND",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 91/100)"
+        },
+        {
+          "id": "RISK_NOVARTIND",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_NOVARTIND",
+          "type": "FACT",
+          "refId": "STRONG",
+          "label": "Credibility Track Record: STRONG (Claims: 3)"
+        },
+        {
+          "id": "BRK_TB_NOVARTIND_LEVERAGE",
+          "type": "RULE",
+          "refId": "TB_NOVARTIND_LEVERAGE",
+          "version": "2026.09",
+          "label": "Breaker TB_NOVARTIND_LEVERAGE: UNRESOLVED (Observed: undefined)"
+        },
+        {
+          "id": "BRK_TB_NOVARTIND_STRUCTURAL_STOP",
+          "type": "RULE",
+          "refId": "TB_NOVARTIND_STRUCTURAL_STOP",
+          "version": "2026.09",
+          "label": "Breaker TB_NOVARTIND_STRUCTURAL_STOP: UNRESOLVED (Observed: undefined)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_NOVARTIND",
+          "to": "DEC_NOVARTIND",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_NOVARTIND",
+          "to": "DEC_NOVARTIND",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_NOVARTIND",
+          "to": "THESIS_NOVARTIND",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_NOVARTIND",
+          "to": "THESIS_NOVARTIND",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_NOVARTIND",
+          "to": "ALLOC_NOVARTIND",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_NOVARTIND_LEVERAGE",
+          "to": "RISK_NOVARTIND",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "BRK_TB_NOVARTIND_STRUCTURAL_STOP",
+          "to": "RISK_NOVARTIND",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_NOVARTIND_ef8c457ca7b2",
+      "decisionId": "DECISION_NOVARTIND",
+      "issuerSymbol": "NOVARTIND",
+      "evaluatedAt": "2026-09-16T11:00:00.000Z",
+      "decisionDate": "2026-09-15",
+      "schemaVersion": "3.2.1",
+      "ontologyVersion": "1.3",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawQuantInput": {
+        "symbol": "NOVARTIND",
+        "strategyAgreementCount": 4,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 91,
+        "marketRegime": "BULLISH",
+        "quantDirective": "BUY",
+        "decisionDate": "2026-09-15",
+        "evaluatedAt": "2026-09-16T11:00:00.000Z"
+      },
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_NOVARTIND_LEVERAGE",
+          "symbol": "NOVARTIND",
+          "name": "Excessive Leverage Expansion",
+          "type": "QUANTITATIVE",
+          "thresholdValue": 2.5,
+          "comparisonOperator": "GREATER_THAN",
+          "severity": "CRITICAL",
+          "description": "Net Debt / Equity exceeding 2.5x breaks capital preservation shield.",
+          "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+          "status": "UNRESOLVED"
+        },
+        {
+          "breakerId": "TB_NOVARTIND_STRUCTURAL_STOP",
+          "symbol": "NOVARTIND",
+          "name": "Structural Stop Loss Violation",
+          "type": "PRICE_ACTION",
+          "thresholdValue": 2067.66,
+          "comparisonOperator": "LESS_THAN",
+          "severity": "CRITICAL",
+          "description": "Confirmed daily close below ₹2067.66 invalidates technical thesis.",
+          "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+          "status": "UNRESOLVED"
+        }
+      ],
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "STRONG",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence, verified management track record, and zero active thesis breakers. Portfolio directive: FULL_TARGET_SIZING.",
+        "allocationRecommendation": "FULL_TARGET_SIZING"
+      },
+      "portfolioPolicy": {
+        "directive": "FULL_TARGET_SIZING",
+        "targetSizingCapRatio": 1,
+        "policyRationale": "Full target capital allocation: supported thesis backed by proven management credibility track record (>=80% delivered)."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_NOVARTIND",
+        "nodes": [
+          {
+            "id": "DEC_NOVARTIND",
+            "type": "DECISION",
+            "refId": "NOVARTIND",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_NOVARTIND",
+            "type": "ALLOCATION",
+            "refId": "FULL_TARGET_SIZING",
+            "label": "Allocation Policy: FULL_TARGET_SIZING (100%)"
+          },
+          {
+            "id": "THESIS_NOVARTIND",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_NOVARTIND",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 91/100)"
+          },
+          {
+            "id": "RISK_NOVARTIND",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_NOVARTIND",
+            "type": "FACT",
+            "refId": "STRONG",
+            "label": "Credibility Track Record: STRONG (Claims: 3)"
+          },
+          {
+            "id": "BRK_TB_NOVARTIND_LEVERAGE",
+            "type": "RULE",
+            "refId": "TB_NOVARTIND_LEVERAGE",
+            "version": "2026.09",
+            "label": "Breaker TB_NOVARTIND_LEVERAGE: UNRESOLVED (Observed: undefined)"
+          },
+          {
+            "id": "BRK_TB_NOVARTIND_STRUCTURAL_STOP",
+            "type": "RULE",
+            "refId": "TB_NOVARTIND_STRUCTURAL_STOP",
+            "version": "2026.09",
+            "label": "Breaker TB_NOVARTIND_STRUCTURAL_STOP: UNRESOLVED (Observed: undefined)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_NOVARTIND",
+            "to": "DEC_NOVARTIND",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_NOVARTIND",
+            "to": "DEC_NOVARTIND",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_NOVARTIND",
+            "to": "THESIS_NOVARTIND",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_NOVARTIND",
+            "to": "THESIS_NOVARTIND",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_NOVARTIND",
+            "to": "ALLOC_NOVARTIND",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_NOVARTIND_LEVERAGE",
+            "to": "RISK_NOVARTIND",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "BRK_TB_NOVARTIND_STRUCTURAL_STOP",
+            "to": "RISK_NOVARTIND",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "ef8c457ca7b2ed2d6978e64ec1686d218446a20007492f36de0c6b1c822d5a5c",
+      "canonicalStateHash": "ef8c457ca7b2ed2d6978e64ec1686d218446a20007492f36de0c6b1c822d5a5c",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_NOVARTIND_01",
+          "issuerSymbol": "NOVARTIND",
+          "metric": "REVENUE",
+          "metricFamily": "REVENUE",
+          "value": 27350,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "asOfDate": "2026-03-31",
+          "currency": "INR",
+          "accountingMethodology": "REPORTED",
+          "accountingStandard": "IND_AS",
+          "filingAuthority": "NSE_CORPORATE_ANNOUNCEMENT",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2026-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "B S R & Co. LLP (KPMG Network)",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_NOVARTIND_REV_FY26",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2026-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_NOVARTIND_REV_FY26",
+          "sourceQuotedText": "Consolidated revenue from operations for the fiscal period reached ₹27350 Cr, reflecting continuous operating scale.",
+          "publicationDate": "2026-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_NOVARTIND_02",
+          "issuerSymbol": "NOVARTIND",
+          "metric": "EBITDA_MARGIN",
+          "metricFamily": "MARGIN",
+          "value": 21.4,
+          "unit": "%",
+          "scope": "CONSOLIDATED",
+          "measurementType": "RATIO",
+          "asOfDate": "2026-03-31",
+          "currency": "INR",
+          "accountingMethodology": "REPORTED",
+          "accountingStandard": "IND_AS",
+          "filingAuthority": "NSE_CORPORATE_ANNOUNCEMENT",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2026-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "B S R & Co. LLP (KPMG Network)",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_NOVARTIND_PAT_FY26",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2026-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_NOVARTIND_PAT_FY26",
+          "sourceQuotedText": "Consolidated profit after tax stood at ₹3282 Cr with operating margin of 21.4%.",
+          "publicationDate": "2026-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_NOVARTIND_03",
+          "issuerSymbol": "NOVARTIND",
+          "metric": "NET_DEBT_TO_EQUITY",
+          "metricFamily": "LEVERAGE",
+          "value": 0.02,
+          "unit": "MULTIPLE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "RATIO",
+          "asOfDate": "2026-03-31",
+          "currency": "INR",
+          "accountingMethodology": "REPORTED",
+          "accountingStandard": "IND_AS",
+          "filingAuthority": "NSE_CORPORATE_ANNOUNCEMENT",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2026-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "B S R & Co. LLP (KPMG Network)",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_NOVARTIND_DEBT_FY26",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2026-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_NOVARTIND_DEBT_FY26",
+          "sourceQuotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.02x.",
+          "publicationDate": "2026-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_NOVARTIND_01",
+          "issuerNseSymbol": "NOVARTIND",
+          "issuerBseCode": "521483",
+          "period": "FY23",
+          "category": "GROWTH",
+          "statement": "Guided for double-digit volume growth in core cardiology portfolio; achieved 11.2% volume growth.",
+          "targetMetric": "revenue_cr",
+          "baselineValue": 21880,
+          "expectedValue": 27350,
+          "expectedOutcome": "Achieve projected scale",
+          "expectedTimeframe": "FY23",
+          "evidenceId": "EV_NOVARTIND_CONCALL_Q4FY26",
+          "claimDate": "2022-09-15",
+          "expectedPeriodStart": "2022-04-01",
+          "expectedPeriodEnd": "2023-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 27350,
+          "actualOutcomeDescription": "Delivered target revenue expansion on schedule.",
+          "evaluationEvidenceId": "EV_NOVARTIND_REV_FY26",
+          "evaluationDate": "2023-05-25",
+          "evaluationBasis": "Audited Financial Results FY23",
+          "publicationDate": "2022-09-15",
+          "publicationDateType": "MANAGEMENT_COMMENT",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_NOVARTIND_01"
+        },
+        {
+          "claimId": "CLM_NOVARTIND_02",
+          "issuerNseSymbol": "NOVARTIND",
+          "issuerBseCode": "521483",
+          "period": "FY24",
+          "category": "MARGIN",
+          "statement": "Guided for operating margin expansion above 22%; delivered 23.4% driven by favorable product mix.",
+          "targetMetric": "ebitda_margin_pct",
+          "baselineValue": 20.4,
+          "expectedValue": 21.4,
+          "expectedOutcome": "EBITDA Margin >= 21.4%",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_NOVARTIND_CONCALL_Q4FY26",
+          "claimDate": "2023-09-15",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 21.4,
+          "actualOutcomeDescription": "Preserved operating margin across commodity cycles.",
+          "evaluationEvidenceId": "EV_NOVARTIND_PAT_FY26",
+          "evaluationDate": "2024-05-28",
+          "evaluationBasis": "Audited Financial Results FY24",
+          "publicationDate": "2023-09-15",
+          "publicationDateType": "MANAGEMENT_COMMENT",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_NOVARTIND_02"
+        },
+        {
+          "claimId": "CLM_NOVARTIND_03",
+          "issuerNseSymbol": "NOVARTIND",
+          "issuerBseCode": "521483",
+          "period": "FY25",
+          "category": "CAPITAL_ALLOCATION",
+          "statement": "Guided for maintaining 60%+ dividend payout; paid special dividend yielding 4.2%.",
+          "targetMetric": "debt_equity",
+          "baselineValue": 0.12000000000000001,
+          "expectedValue": 0.02,
+          "expectedOutcome": "Net D/E <= 0.02x",
+          "expectedTimeframe": "FY25",
+          "evidenceId": "EV_NOVARTIND_DEBT_FY26",
+          "claimDate": "2024-09-15",
+          "expectedPeriodStart": "2024-04-01",
+          "expectedPeriodEnd": "2025-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 0.02,
+          "actualOutcomeDescription": "Maintained balance sheet solvency within conservative boundaries.",
+          "evaluationEvidenceId": "EV_NOVARTIND_DEBT_FY26",
+          "evaluationDate": "2025-05-27",
+          "evaluationBasis": "Audited Financial Results FY25",
+          "publicationDate": "2024-09-15",
+          "publicationDateType": "MANAGEMENT_COMMENT",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_NOVARTIND_03"
+        }
+      ],
+      "rawInputContradictions": [
+        {
+          "contradictionId": "DIV_NOVARTIND_SUPPLY_CHAIN",
+          "issuerNseSymbol": "NOVARTIND",
+          "issuerBseCode": "521483",
+          "severity": "LOW",
+          "type": "CLAIM_VS_RESULT",
+          "claimId": "CLM_NOVARTIND_02",
+          "eventId": null,
+          "description": "Supply chain fragility check: import exposure (68%) and client concentration (34%) introduce quarterly gross margin lag against management guidance.",
+          "divergenceDetails": {
+            "whatManagementClaimed": "Full margin defense",
+            "whatActuallyHappened": "Quarterly margin lag due to input cost volatility",
+            "deltaMetric": "80-120 bps"
+          },
+          "leftEvidenceId": "EV_NOVARTIND_PAT_FY26",
+          "rightEvidenceId": "EV_NOVARTIND_CONCALL_Q4FY26",
+          "supportingEvidenceIds": [
+            "EV_NOVARTIND_PAT_FY26",
+            "EV_NOVARTIND_CONCALL_Q4FY26"
+          ],
+          "status": "OPEN",
+          "materiality": "LOW",
+          "detectedAt": "2026-09-16T11:00:00.000Z",
+          "createdAt": "2026-09-16 11:21:57",
+          "resolvedAt": null,
+          "resolutionBasis": null
+        }
+      ],
+      "rawInputHash": "d3bcf3127bad1cab6189eb84cbb0d236f08e4e1c5ecc2c3b51c5c05bd024bdc1"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "MEDIUM",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity supported by clean qualitative intelligence, verified management track record, and zero active thesis breakers. Portfolio directive: FULL_TARGET_SIZING."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 4/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 91/100 with active directive BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#NOVARTIND",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Guided for double-digit volume growth in core cardiology portfolio; achieved 11.2% volume growth.",
+      "detail": "Disclosed actual outcome: Delivered target revenue expansion on schedule.",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_NOVARTIND_CONCALL_Q4FY26 -> Resolution#EV_NOVARTIND_REV_FY26",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Guided for operating margin expansion above 22%; delivered 23.4% driven by favorable product mix.",
+      "detail": "Disclosed actual outcome: Preserved operating margin across commodity cycles.",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_NOVARTIND_CONCALL_Q4FY26 -> Resolution#EV_NOVARTIND_PAT_FY26",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Guided for maintaining 60%+ dividend payout; paid special dividend yielding 4.2%.",
+      "detail": "Disclosed actual outcome: Maintained balance sheet solvency within conservative boundaries.",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_NOVARTIND_DEBT_FY26 -> Resolution#EV_NOVARTIND_DEBT_FY26",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [
+    {
+      "headline": "Contradiction detected (LOW severity): Supply chain fragility check: import exposure (68%) and client concentration (34%) introduce quarterly gross margin lag against management guidance.",
+      "detail": "Disclosed divergence between promise and observed financial reality.",
+      "sourceDocType": "CONTRADICTION_ENGINE",
+      "evidenceLineage": "LeftEvidence#EV_NOVARTIND_PAT_FY26 vs RightEvidence#EV_NOVARTIND_CONCALL_Q4FY26",
+      "significance": "HIGH"
+    }
+  ],
+  "walkTheTalk": {
+    "symbol": "NOVARTIND",
+    "grade": "STRONG",
+    "totalClaims": 3,
+    "achievedCount": 3,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_NOVARTIND_01",
+        "statement": "Guided for double-digit volume growth in core cardiology portfolio; achieved 11.2% volume growth.",
+        "period": "FY23",
+        "expected": "Achieve projected scale",
+        "actual": "Delivered target revenue expansion on schedule.",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_NOVARTIND_CONCALL_Q4FY26 -> Resolution#EV_NOVARTIND_REV_FY26"
+      },
+      {
+        "claimId": "CLM_NOVARTIND_02",
+        "statement": "Guided for operating margin expansion above 22%; delivered 23.4% driven by favorable product mix.",
+        "period": "FY24",
+        "expected": "EBITDA Margin >= 21.4%",
+        "actual": "Preserved operating margin across commodity cycles.",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_NOVARTIND_CONCALL_Q4FY26 -> Resolution#EV_NOVARTIND_PAT_FY26"
+      },
+      {
+        "claimId": "CLM_NOVARTIND_03",
+        "statement": "Guided for maintaining 60%+ dividend payout; paid special dividend yielding 4.2%.",
+        "period": "FY25",
+        "expected": "Net D/E <= 0.02x",
+        "actual": "Maintained balance sheet solvency within conservative boundaries.",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_NOVARTIND_DEBT_FY26 -> Resolution#EV_NOVARTIND_DEBT_FY26"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_NOVARTIND"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_NOVARTIND"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2026-05-26",
+      "source": "STATUTORY_FILING",
+      "headline": "NOVARTIND Audited Results FY26 Approved",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    },
+    {
+      "date": "2026-08-20",
+      "source": "EXCHANGE_DISCLOSURE",
+      "headline": "NOVARTIND Capacity Expansion Milestone",
+      "verified": true,
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+    }
+  ],
+  "openContradictions": [
+    {
+      "contradictionId": "DIV_NOVARTIND_SUPPLY_CHAIN",
+      "issuerNseSymbol": "NOVARTIND",
+      "issuerBseCode": "521483",
+      "severity": "LOW",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_NOVARTIND_02",
+      "eventId": null,
+      "description": "Supply chain fragility check: import exposure (68%) and client concentration (34%) introduce quarterly gross margin lag against management guidance.",
+      "divergenceDetails": {
+        "whatManagementClaimed": "Full margin defense",
+        "whatActuallyHappened": "Quarterly margin lag due to input cost volatility",
+        "deltaMetric": "80-120 bps"
+      },
+      "leftEvidenceId": "EV_NOVARTIND_PAT_FY26",
+      "rightEvidenceId": "EV_NOVARTIND_CONCALL_Q4FY26",
+      "supportingEvidenceIds": [
+        "EV_NOVARTIND_PAT_FY26",
+        "EV_NOVARTIND_CONCALL_Q4FY26"
+      ],
+      "status": "OPEN",
+      "materiality": "LOW",
+      "detectedAt": "2026-09-16T11:00:00.000Z",
+      "createdAt": "2026-09-16 11:21:57",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_NOVARTIND_LEVERAGE",
+      "symbol": "NOVARTIND",
+      "name": "Excessive Leverage Expansion",
+      "type": "QUANTITATIVE",
+      "thresholdValue": 2.5,
+      "comparisonOperator": "GREATER_THAN",
+      "severity": "CRITICAL",
+      "description": "Net Debt / Equity exceeding 2.5x breaks capital preservation shield.",
+      "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+      "status": "UNRESOLVED"
+    },
+    {
+      "breakerId": "TB_NOVARTIND_STRUCTURAL_STOP",
+      "symbol": "NOVARTIND",
+      "name": "Structural Stop Loss Violation",
+      "type": "PRICE_ACTION",
+      "thresholdValue": 2067.66,
+      "comparisonOperator": "LESS_THAN",
+      "severity": "CRITICAL",
+      "description": "Confirmed daily close below ₹2067.66 invalidates technical thesis.",
+      "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+      "status": "UNRESOLVED"
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "MEDIUM",
+    "directSourcesCount": 4,
+    "corroboratedCount": 3,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Debt-free MNC compounder trading at reasonable valuations with inelastic demand in chronic therapies and potential parentage restructuring upside.\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

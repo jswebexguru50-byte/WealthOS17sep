@@ -1,0 +1,19 @@
+{
+  "symbol": "SOLARINDS",
+  "coreThesisStatement": "Global leadership in industrial explosives and massive defense indigenization order inflow.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Defense Indigenization",
+      "description": "Monopolistic position in Pinaka warhead propellants."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Export Expansion",
+      "description": "Expanding footprints across 75+ countries."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_SOLAR_LEVERAGE"
+  ]
+}

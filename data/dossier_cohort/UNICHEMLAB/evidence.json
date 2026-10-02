@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_UNICHEMLAB_REV_FY26",
+    "issuerNseSymbol": "UNICHEMLAB",
+    "issuerBseCode": "522568",
+    "documentHash": "7874c51f1702e29bc29f216958d3db095906cc433b4331d5fca795421aa9728f",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹6488 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_UNICHEMLAB_PAT_FY26",
+    "issuerNseSymbol": "UNICHEMLAB",
+    "issuerBseCode": "522568",
+    "documentHash": "7874c51f1702e29bc29f216958d3db095906cc433b4331d5fca795421aa9728f",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹779 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_UNICHEMLAB_DEBT_FY26",
+    "issuerNseSymbol": "UNICHEMLAB",
+    "issuerBseCode": "522568",
+    "documentHash": "706b8638816217a1a3b9357780426e5962c28c3024c426ec59d5ddc4771e8e56",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_UNICHEMLAB_CONCALL_Q4FY26",
+    "issuerNseSymbol": "UNICHEMLAB",
+    "issuerBseCode": "522568",
+    "documentHash": "b557edf0790772f61adcde0ea109e20c31abf953091ca0ac67676ad382db5c55",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

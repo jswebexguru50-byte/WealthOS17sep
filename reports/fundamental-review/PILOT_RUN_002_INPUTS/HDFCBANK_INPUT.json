@@ -1,0 +1,2018 @@
+{
+  "PRODUCTION_STATE": "POST_REMEDIATION_EXPERIMENT",
+  "companyIdentity": {
+    "symbol": "HDFCBANK",
+    "companyName": "HDFC Bank Limited",
+    "isin": "INE040A01034",
+    "sector": "Bank",
+    "industry": null,
+    "listingClassification": "NSE",
+    "businessModel": "BANK"
+  },
+  "periodContext": {
+    "latestFiscalYear": "Mar 2026",
+    "latestQuarter": null,
+    "ttmAvailable": true,
+    "periodsAvailable": [
+      "Mar 2026",
+      "Mar 2025",
+      "Mar 2024",
+      "Mar 2023"
+    ],
+    "consolidatedOrStandalone": "CONSOLIDATED",
+    "asOfDate": "2026-10-01"
+  },
+  "canonicalFinancialFacts": [
+    {
+      "factId": "11d23c7c74a5deb2ba67025cc0dcaac30e12dbf77a3bfe9fe75d981d2a2bcaa0",
+      "metric": "cfo_cr",
+      "value": 110,
+      "unit": "INR_CR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "90447a947da5f73028c7fb5036ccd0a3002a280765f72fd3d1b5b45add95e807",
+      "metric": "cmp",
+      "value": 350.5,
+      "unit": "INR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "be24323f53a28f196cbc62f6ba4311cfb3ab8d02c8675da2b77174602eb623a4",
+      "metric": "fii_holding_pct",
+      "value": 14.2,
+      "unit": "PERCENT",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "00090e45c675cbdf91610bf1ee823ce64cdd9da117b979712ced08bc96472ab8",
+      "metric": "institutional_holding_pct",
+      "value": 18.5,
+      "unit": "PERCENT",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "ecbd24bb39c91d098aabf3daff03b7c0a0b8bacbdbc3e16a3449916912cc157b",
+      "metric": "market_cap_cr",
+      "value": 4500,
+      "unit": "INR_CR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "5a0d7793944c51758fec33729d2674712d74d273dd3594269bab34fbce0a4b2f",
+      "metric": "order_book_cr",
+      "value": 1850,
+      "unit": "INR_CR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "2003a1cbd9b2cb1bfb57db0ec4820c8b1b516325556dec4064b9c6bcba444eb2",
+      "metric": "pat_cr",
+      "value": 85,
+      "unit": "INR_CR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "ebe6e6c233f7a10faa93570579ca45873064afed1d2d837ae6d1ac4f3906bb15",
+      "metric": "pe_ttm",
+      "value": 18.5,
+      "unit": "RATIO",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "e067a77d722ccf7ab11732ee4c097ec22a72326aa2092131843f2d441cd5b0a0",
+      "metric": "promoter_holding_pct",
+      "value": 62.5,
+      "unit": "PERCENT",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "dd2bd42e468130aeaaca9336de20062b245abe0dbb4fe5d2926bb730c8a8b6d5",
+      "metric": "promoter_pledge_pct",
+      "value": "0.0",
+      "unit": "PERCENT",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "b955daa4e8b5e22d6fee43a9d225c8aad080db20382774a13ed5764fdd1fbf74",
+      "metric": "revenue_cr",
+      "value": 950,
+      "unit": "INR_CR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "22ed459be776884d43ff59c500b50aebbe9c9a3c134237549bb062fb401ff85b",
+      "metric": "roe_pct",
+      "value": 16.2,
+      "unit": "PERCENT",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_dii_holding_pct_2026-06-30_QUARTERLY",
+      "metric": "dii_holding_pct",
+      "value": 11.3,
+      "unit": "PERCENT",
+      "period": "2026-06-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_fii_holding_pct_2026-06-30_QUARTERLY",
+      "metric": "fii_holding_pct",
+      "value": 41.83,
+      "unit": "PERCENT",
+      "period": "2026-06-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_mutual_fund_holding_pct_2026-06-30_QUARTERLY",
+      "metric": "mutual_fund_holding_pct",
+      "value": 30.62,
+      "unit": "PERCENT",
+      "period": "2026-06-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_promoter_holding_pct_2026-06-30_QUARTERLY",
+      "metric": "promoter_holding_pct",
+      "value": "0",
+      "unit": "PERCENT",
+      "period": "2026-06-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_retail_holding_pct_2026-06-30_QUARTERLY",
+      "metric": "retail_holding_pct",
+      "value": 16.25,
+      "unit": "PERCENT",
+      "period": "2026-06-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_casa_LATEST_TTM",
+      "metric": "casa",
+      "value": 34,
+      "unit": "RATIO",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cff_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cff_cr",
+      "value": -59004.9,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cfi_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfi_cr",
+      "value": 6362.72,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cfo_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfo_cr",
+      "value": 113506,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_dii_holding_pct_2026-03-31_QUARTERLY",
+      "metric": "dii_holding_pct",
+      "value": 10.78,
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_ebitda_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "ebitda_cr",
+      "value": 102141.45,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_fii_holding_pct_2026-03-31_QUARTERLY",
+      "metric": "fii_holding_pct",
+      "value": 44.05,
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_mutual_fund_holding_pct_2026-03-31_QUARTERLY",
+      "metric": "mutual_fund_holding_pct",
+      "value": 29.54,
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_net_npa_LATEST_TTM",
+      "metric": "net_npa",
+      "value": 0.38,
+      "unit": "RATIO",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_nim_LATEST_TTM",
+      "metric": "nim",
+      "value": 3.28,
+      "unit": "RATIO",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_pat_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "pat_cr",
+      "value": 79219.46,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_pb_LATEST_TTM",
+      "metric": "pb",
+      "value": 1.89,
+      "unit": "RATIO",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_pe_LATEST_TTM",
+      "metric": "pe",
+      "value": 13.75,
+      "unit": "RATIO",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_promoter_holding_pct_2026-03-31_QUARTERLY",
+      "metric": "promoter_holding_pct",
+      "value": "0",
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_retail_holding_pct_2026-03-31_QUARTERLY",
+      "metric": "retail_holding_pct",
+      "value": 15.64,
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_revenue_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "revenue_cr",
+      "value": 495462.81,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_roa_pct_LATEST_TTM",
+      "metric": "roa_pct",
+      "value": 1.94,
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_roe_pct_LATEST_TTM",
+      "metric": "roe_pct",
+      "value": 13.61,
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_total_asset_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_asset_cr",
+      "value": 4908040.84,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_total_liability_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_liability_cr",
+      "value": 4299596.41,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_dii_holding_pct_2025-12-31_QUARTERLY",
+      "metric": "dii_holding_pct",
+      "value": 10.53,
+      "unit": "PERCENT",
+      "period": "2025-12-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_fii_holding_pct_2025-12-31_QUARTERLY",
+      "metric": "fii_holding_pct",
+      "value": 47.67,
+      "unit": "PERCENT",
+      "period": "2025-12-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_mutual_fund_holding_pct_2025-12-31_QUARTERLY",
+      "metric": "mutual_fund_holding_pct",
+      "value": 26.66,
+      "unit": "PERCENT",
+      "period": "2025-12-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_promoter_holding_pct_2025-12-31_QUARTERLY",
+      "metric": "promoter_holding_pct",
+      "value": "0",
+      "unit": "PERCENT",
+      "period": "2025-12-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_retail_holding_pct_2025-12-31_QUARTERLY",
+      "metric": "retail_holding_pct",
+      "value": 15.14,
+      "unit": "PERCENT",
+      "period": "2025-12-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_dii_holding_pct_2025-09-30_QUARTERLY",
+      "metric": "dii_holding_pct",
+      "value": 10.24,
+      "unit": "PERCENT",
+      "period": "2025-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_fii_holding_pct_2025-09-30_QUARTERLY",
+      "metric": "fii_holding_pct",
+      "value": 48.39,
+      "unit": "PERCENT",
+      "period": "2025-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_mutual_fund_holding_pct_2025-09-30_QUARTERLY",
+      "metric": "mutual_fund_holding_pct",
+      "value": 26.02,
+      "unit": "PERCENT",
+      "period": "2025-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_promoter_holding_pct_2025-09-30_QUARTERLY",
+      "metric": "promoter_holding_pct",
+      "value": "0",
+      "unit": "PERCENT",
+      "period": "2025-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_retail_holding_pct_2025-09-30_QUARTERLY",
+      "metric": "retail_holding_pct",
+      "value": 15.35,
+      "unit": "PERCENT",
+      "period": "2025-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cff_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cff_cr",
+      "value": -102478,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cfi_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfi_cr",
+      "value": -3850.64,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cfo_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfo_cr",
+      "value": 127242,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "fact_HDFCBANK_cd_ratio_2025-03-31",
+      "metric": "credit_deposit_ratio_pct",
+      "value": 98.2,
+      "unit": "%",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "STATUTORY_DISCLOSURE:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_ebitda_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "ebitda_cr",
+      "value": 96242.05,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "fact_HDFCBANK_branch_openings_2025-03-31",
+      "metric": "new_branches_opened",
+      "value": 912,
+      "unit": "COUNT",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "STATUTORY_DISCLOSURE:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_pat_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "pat_cr",
+      "value": 73440.17,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_revenue_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "revenue_cr",
+      "value": 470915.93,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_total_asset_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_asset_cr",
+      "value": 4392417.42,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_total_liability_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_liability_cr",
+      "value": 3854268.99,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cff_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cff_cr",
+      "value": -3983.06,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cfi_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfi_cr",
+      "value": 5313.77,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cfo_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfo_cr",
+      "value": 19069.3,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_ebitda_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "ebitda_cr",
+      "value": 76568.6,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_pat_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "pat_cr",
+      "value": 65446.5,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_revenue_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "revenue_cr",
+      "value": 407994.77,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_total_asset_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_asset_cr",
+      "value": 4030194.26,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_total_liability_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_liability_cr",
+      "value": 3560415.61,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cff_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cff_cr",
+      "value": 23940.6,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cfi_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfi_cr",
+      "value": -3423.89,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cfo_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfo_cr",
+      "value": 20813.7,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_ebitda_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "ebitda_cr",
+      "value": 61498.39,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_pat_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "pat_cr",
+      "value": 46148.7,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_revenue_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "revenue_cr",
+      "value": 204666.1,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_total_asset_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_asset_cr",
+      "value": 2530432.44,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_total_liability_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_liability_cr",
+      "value": 2240134.68,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_revenue_Mar 2026",
+      "metric": "REVENUE",
+      "value": 495462.81,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_revenue_Mar 2025",
+      "metric": "REVENUE",
+      "value": 470915.93,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_revenue_Mar 2024",
+      "metric": "REVENUE",
+      "value": 407994.77,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_revenue_Mar 2023",
+      "metric": "REVENUE",
+      "value": 204666.1,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_operating_profit_Mar 2026",
+      "metric": "OPERATING_PROFIT",
+      "value": 102141.45,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_operating_profit_Mar 2025",
+      "metric": "OPERATING_PROFIT",
+      "value": 96242.05,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_operating_profit_Mar 2024",
+      "metric": "OPERATING_PROFIT",
+      "value": 76568.6,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_operating_profit_Mar 2023",
+      "metric": "OPERATING_PROFIT",
+      "value": 61498.39,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_net_profit_Mar 2026",
+      "metric": "NET_PROFIT",
+      "value": 79219.46,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_net_profit_Mar 2025",
+      "metric": "NET_PROFIT",
+      "value": 73440.17,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_net_profit_Mar 2024",
+      "metric": "NET_PROFIT",
+      "value": 65446.5,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_net_profit_Mar 2023",
+      "metric": "NET_PROFIT",
+      "value": 46148.7,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_operating_Mar 2026",
+      "metric": "CFO_OPERATING",
+      "value": 113506,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_operating_Mar 2025",
+      "metric": "CFO_OPERATING",
+      "value": 127242,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_operating_Mar 2024",
+      "metric": "CFO_OPERATING",
+      "value": 19069.3,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_operating_Mar 2023",
+      "metric": "CFO_OPERATING",
+      "value": 20813.7,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_investing_Mar 2026",
+      "metric": "CFO_INVESTING",
+      "value": 6362.72,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_investing_Mar 2025",
+      "metric": "CFO_INVESTING",
+      "value": -3850.64,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_investing_Mar 2024",
+      "metric": "CFO_INVESTING",
+      "value": 5313.77,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_investing_Mar 2023",
+      "metric": "CFO_INVESTING",
+      "value": -3423.89,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_financing_Mar 2026",
+      "metric": "CFO_FINANCING",
+      "value": -59004.9,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_financing_Mar 2025",
+      "metric": "CFO_FINANCING",
+      "value": -102478,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_financing_Mar 2024",
+      "metric": "CFO_FINANCING",
+      "value": -3983.06,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_financing_Mar 2023",
+      "metric": "CFO_FINANCING",
+      "value": 23940.6,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_HDFCBANK_P_E",
+      "metric": "P/E",
+      "value": 13.75,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_HDFCBANK_P_B",
+      "metric": "P/B",
+      "value": 1.89,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_HDFCBANK_NIM",
+      "metric": "NIM",
+      "value": 3.28,
+      "unit": "PERCENT",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_HDFCBANK_ROA",
+      "metric": "ROA",
+      "value": 1.94,
+      "unit": "PERCENT",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_HDFCBANK_ROE",
+      "metric": "ROE",
+      "value": 13.61,
+      "unit": "PERCENT",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_HDFCBANK_Net_NPA",
+      "metric": "NET NPA",
+      "value": 0.38,
+      "unit": "PERCENT",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_HDFCBANK_CASA",
+      "metric": "CASA",
+      "value": 34,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    }
+  ],
+  "derivedMetrics": [
+    {
+      "metric": "REVENUE_YOY_GROWTH",
+      "value": 5.21,
+      "unit": "PERCENT",
+      "formula": "((Revenue[t] - Revenue[t-1]) / |Revenue[t-1]|) * 100",
+      "periodsCompared": "Mar 2026 vs Mar 2025",
+      "verificationStatus": "VERIFIED",
+      "independentValue": 5.21,
+      "discrepancyNotes": "Oracle: ((495462.81 - 470915.93) / |470915.93|) * 100 = 5.21%, Production: 5.21%"
+    },
+    {
+      "metric": "EBITDA_MARGIN_LATEST",
+      "value": 20.62,
+      "unit": "PERCENT",
+      "formula": "(EBITDA / Revenue) * 100",
+      "periodsCompared": "Mar 2026",
+      "verificationStatus": "VERIFIED",
+      "independentValue": 20.62,
+      "discrepancyNotes": "Oracle: (102141.45 / 495462.81) * 100 = 20.62%, Production: 20.62%"
+    }
+  ],
+  "evidenceProvenance": [
+    {
+      "factId": "11d23c7c74a5deb2ba67025cc0dcaac30e12dbf77a3bfe9fe75d981d2a2bcaa0",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "90447a947da5f73028c7fb5036ccd0a3002a280765f72fd3d1b5b45add95e807",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "be24323f53a28f196cbc62f6ba4311cfb3ab8d02c8675da2b77174602eb623a4",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "00090e45c675cbdf91610bf1ee823ce64cdd9da117b979712ced08bc96472ab8",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "ecbd24bb39c91d098aabf3daff03b7c0a0b8bacbdbc3e16a3449916912cc157b",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "5a0d7793944c51758fec33729d2674712d74d273dd3594269bab34fbce0a4b2f",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "2003a1cbd9b2cb1bfb57db0ec4820c8b1b516325556dec4064b9c6bcba444eb2",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "ebe6e6c233f7a10faa93570579ca45873064afed1d2d837ae6d1ac4f3906bb15",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "e067a77d722ccf7ab11732ee4c097ec22a72326aa2092131843f2d441cd5b0a0",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "dd2bd42e468130aeaaca9336de20062b245abe0dbb4fe5d2926bb730c8a8b6d5",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "b955daa4e8b5e22d6fee43a9d225c8aad080db20382774a13ed5764fdd1fbf74",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "22ed459be776884d43ff59c500b50aebbe9c9a3c134237549bb062fb401ff85b",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_dii_holding_pct_2026-06-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-06-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_fii_holding_pct_2026-06-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-06-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_mutual_fund_holding_pct_2026-06-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-06-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_promoter_holding_pct_2026-06-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-06-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_retail_holding_pct_2026-06-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-06-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_casa_LATEST_TTM",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cff_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cfi_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cfo_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_dii_holding_pct_2026-03-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_ebitda_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_fii_holding_pct_2026-03-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_mutual_fund_holding_pct_2026-03-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_net_npa_LATEST_TTM",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_nim_LATEST_TTM",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_pat_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_pb_LATEST_TTM",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_pe_LATEST_TTM",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_promoter_holding_pct_2026-03-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_retail_holding_pct_2026-03-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_revenue_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_roa_pct_LATEST_TTM",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_roe_pct_LATEST_TTM",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_total_asset_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_total_liability_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_dii_holding_pct_2025-12-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-12-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_fii_holding_pct_2025-12-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-12-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_mutual_fund_holding_pct_2025-12-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-12-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_promoter_holding_pct_2025-12-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-12-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_retail_holding_pct_2025-12-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-12-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_dii_holding_pct_2025-09-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-09-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_fii_holding_pct_2025-09-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-09-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_mutual_fund_holding_pct_2025-09-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-09-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_promoter_holding_pct_2025-09-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-09-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_retail_holding_pct_2025-09-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-09-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cff_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cfi_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cfo_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "fact_HDFCBANK_cd_ratio_2025-03-31",
+      "source": "STATUTORY_DISCLOSURE:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_ebitda_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "fact_HDFCBANK_branch_openings_2025-03-31",
+      "source": "STATUTORY_DISCLOSURE:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_pat_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_revenue_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_total_asset_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_total_liability_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cff_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cfi_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cfo_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_ebitda_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_pat_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_revenue_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_total_asset_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_total_liability_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cff_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cfi_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_cfo_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_ebitda_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_pat_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_revenue_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_total_asset_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE040A01034_total_liability_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_revenue_Mar 2026",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_revenue_Mar 2025",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_revenue_Mar 2024",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_revenue_Mar 2023",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_operating_profit_Mar 2026",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_operating_profit_Mar 2025",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_operating_profit_Mar 2024",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_operating_profit_Mar 2023",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_net_profit_Mar 2026",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_net_profit_Mar 2025",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_net_profit_Mar 2024",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_HDFCBANK_net_profit_Mar 2023",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_operating_Mar 2026",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_operating_Mar 2025",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_operating_Mar 2024",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_operating_Mar 2023",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_investing_Mar 2026",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_investing_Mar 2025",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_investing_Mar 2024",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_investing_Mar 2023",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_financing_Mar 2026",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_financing_Mar 2025",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_financing_Mar 2024",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_HDFCBANK_financing_Mar 2023",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_HDFCBANK_P_E",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_HDFCBANK_P_B",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_HDFCBANK_NIM",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_HDFCBANK_ROA",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_HDFCBANK_ROE",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_HDFCBANK_Net_NPA",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_HDFCBANK_CASA",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    }
+  ],
+  "missingData": [],
+  "wealthosInterpretations": [
+    {
+      "claimId": "CLAIM_HDFCBANK_GROWTH_01",
+      "module": "FUNDAMENTAL",
+      "dimension": "REVENUE_GROWTH",
+      "claimStatement": "Revenue trajectory evaluated as DECELERATING with latest growth of 5.21% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+      "wealthosStatus": "DECELERATING",
+      "underlyingMetricValues": {
+        "latestGrowthPct": 5.21,
+        "priorGrowthPct": 15.42,
+        "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+      }
+    },
+    {
+      "claimId": "CLAIM_HDFCBANK_MARGIN_02",
+      "module": "FUNDAMENTAL",
+      "dimension": "MARGIN_TRAJECTORY",
+      "claimStatement": "Operating margin trajectory evaluated as DATA_INSUFFICIENT with delta of N/A bps using NIM.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "bpsChange": null,
+        "metricUsed": "NIM"
+      }
+    },
+    {
+      "claimId": "CLAIM_HDFCBANK_RETURN_03",
+      "module": "FUNDAMENTAL",
+      "dimension": "RETURN_PROFILE",
+      "claimStatement": "Capital efficiency return profile assessed as MODERATE with ROE at 13.61%.",
+      "wealthosStatus": "MODERATE",
+      "underlyingMetricValues": {
+        "metric": "ROE",
+        "latestValue": 13.61,
+        "status": "MODERATE"
+      }
+    },
+    {
+      "claimId": "CLAIM_HDFCBANK_DEBT_04",
+      "module": "FUNDAMENTAL",
+      "dimension": "DEBT_TRAJECTORY",
+      "claimStatement": "Financial leverage and debt trajectory assessed as NOT_APPLICABLE.",
+      "wealthosStatus": "NOT_APPLICABLE",
+      "underlyingMetricValues": {
+        "status": "NOT_APPLICABLE",
+        "changePct": null
+      }
+    },
+    {
+      "claimId": "CLAIM_HDFCBANK_VALUATION_PE",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric PE is 13.75. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "PE",
+        "current": 13.75
+      }
+    },
+    {
+      "claimId": "CLAIM_HDFCBANK_VALUATION_PB",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric PB is 1.89. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "PB",
+        "current": 1.89
+      }
+    },
+    {
+      "claimId": "CLAIM_HDFCBANK_VALUATION_DIVIDEND_YIELD",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric Dividend Yield is N/A. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "Dividend Yield",
+        "current": null
+      }
+    },
+    {
+      "claimId": "CLAIM_HDFCBANK_MGMT_COMMITMENT_216",
+      "module": "MANAGEMENT",
+      "dimension": "MANAGEMENT_COMMITMENT",
+      "claimStatement": "Management commitment in category 'Revenue' targeting credit_deposit_ratio to 88 for FY2026. Status: NOT_VERIFIABLE.",
+      "wealthosStatus": "NOT_VERIFIABLE",
+      "underlyingMetricValues": {
+        "statement": "Management targeted CDR (credit-deposit ratio) normalization towards pre-merger levels of 85-88%.",
+        "targetMetric": "credit_deposit_ratio",
+        "targetValue": 88,
+        "actualValue": null
+      }
+    }
+  ]
+}

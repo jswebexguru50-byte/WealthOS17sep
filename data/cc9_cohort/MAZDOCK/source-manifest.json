@@ -1,0 +1,17 @@
+{
+  "issuerNseSymbol": "MAZDOCK",
+  "issuerBseCode": "543237",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_MAZDOCK_AR24",
+      "documentName": "Mazagon_Dock_Annual_Report_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-24",
+      "documentHashSha256": "293a4b5c6d7e8f90123456789abcdef0123456789abcdef012345678",
+      "pageCount": 250,
+      "filingAuthority": "BSE / NSE"
+    }
+  ]
+}

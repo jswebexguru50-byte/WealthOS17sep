@@ -1,0 +1,25 @@
+{
+  "symbol": "BAJAJFINSV",
+  "coreThesisStatement": "Strong retail credit growth, expanding branch footprint in Tier-2/3 geographies, and healthy capital adequacy ratio (>20%).",
+  "investmentPillars": [
+    {
+      "pillarId": "P1_MOMENTUM",
+      "title": "ITAS Quant Confluence",
+      "description": "Confirmed by 3/20 strategies with 83.5% win probability."
+    },
+    {
+      "pillarId": "P2_FINANCIAL_SHIELD",
+      "title": "Balance Sheet Solvency",
+      "description": "Altman Z-Score 3.2 (Safe Zone), Net D/E 0.35x, and Piotroski F-Score 7/9."
+    },
+    {
+      "pillarId": "P3_CREDIBILITY",
+      "title": "Management Walk-the-Talk",
+      "description": "Audited Credibility Grade 'GENERALLY_CREDIBLE' across 3-year concall guidance delivery."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_BAJAJFINSV_LEVERAGE",
+    "TB_BAJAJFINSV_STRUCTURAL_STOP"
+  ]
+}

@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_VMART_REV_FY26",
+    "issuerNseSymbol": "VMART",
+    "issuerBseCode": "512214",
+    "documentHash": "75dd5346f6a8eb96089bdf8cd96e716eeef12be0ea713f179ceed509fece2fd4",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹9873 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_VMART_PAT_FY26",
+    "issuerNseSymbol": "VMART",
+    "issuerBseCode": "512214",
+    "documentHash": "75dd5346f6a8eb96089bdf8cd96e716eeef12be0ea713f179ceed509fece2fd4",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹1185 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_VMART_DEBT_FY26",
+    "issuerNseSymbol": "VMART",
+    "issuerBseCode": "512214",
+    "documentHash": "c4c4a9bea92396c4be57ca03c0854f50f874b1c428d44409968155e202dc642a",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_VMART_CONCALL_Q4FY26",
+    "issuerNseSymbol": "VMART",
+    "issuerBseCode": "512214",
+    "documentHash": "b9fe5f27ebde28321254f78a0938d761a0d388dbb07fe0c136daa1456fe62ebc",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

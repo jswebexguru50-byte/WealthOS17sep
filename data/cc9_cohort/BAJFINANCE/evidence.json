@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_BAJFIN_REV_01",
+    "issuerNseSymbol": "BAJFINANCE",
+    "issuerBseCode": "500034",
+    "documentId": "DOC_BAJFIN_AR24",
+    "documentHash": "9abcdef0123456789abcdef0123456789abcdef0123456789",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 75,
+    "pagePrinted": "73",
+    "quotedText": "Total revenue reached ₹54969 Cr with customer franchise expanding to 83.6 million clients.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

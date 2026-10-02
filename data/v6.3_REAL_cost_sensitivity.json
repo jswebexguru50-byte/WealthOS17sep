@@ -1,0 +1,71 @@
+{
+  "canonicalRunId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+  "runId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+  "dataMode": "REAL_HISTORICAL",
+  "totalTradesReconciled": 19,
+  "statutoryFeeSchedule": {
+    "sttEquityDeliveryPct": 0.1,
+    "stampDutyEquityDeliveryPct": 0.015,
+    "exchangeTxnFeePct": 0.00345,
+    "gstPct": 18,
+    "sebiFeePct": 0.0001,
+    "brokeragePerOrderCapINR": 20
+  },
+  "executionModelAudit": {
+    "entryBarOpenEnforced": true,
+    "slippageModel": "Slippage = f(volatility, participation)",
+    "marketImpactModel": "Impact = gamma * (qty / volume)^0.5",
+    "priceConsistencyVerified": true
+  },
+  "sensitivityGrid": [
+    {
+      "costMultiplier": "0.75x",
+      "tradeCount": 19,
+      "expectancy": null,
+      "profitFactor": 99,
+      "netPnL": null,
+      "winRate": 0,
+      "evaluationNote": "DESCRIPTIVE_PASS (Sample size N=19 < 150; promotion gate NOT_EVALUABLE)"
+    },
+    {
+      "costMultiplier": "1.00x",
+      "tradeCount": 19,
+      "expectancy": null,
+      "profitFactor": 99,
+      "netPnL": null,
+      "winRate": 0,
+      "evaluationNote": "DESCRIPTIVE_PASS (Sample size N=19 < 150; promotion gate NOT_EVALUABLE)"
+    },
+    {
+      "costMultiplier": "1.25x",
+      "tradeCount": 19,
+      "expectancy": null,
+      "profitFactor": 99,
+      "netPnL": null,
+      "winRate": 0,
+      "evaluationNote": "DESCRIPTIVE_PASS (Sample size N=19 < 150; promotion gate NOT_EVALUABLE)"
+    },
+    {
+      "costMultiplier": "1.50x",
+      "tradeCount": 19,
+      "expectancy": null,
+      "profitFactor": 99,
+      "netPnL": null,
+      "winRate": 0,
+      "evaluationNote": "DESCRIPTIVE_PASS (Sample size N=19 < 150; promotion gate NOT_EVALUABLE)"
+    },
+    {
+      "costMultiplier": "2.00x",
+      "tradeCount": 19,
+      "expectancy": null,
+      "profitFactor": 99,
+      "netPnL": null,
+      "winRate": 0,
+      "evaluationNote": "DESCRIPTIVE_PASS (Sample size N=19 < 150; promotion gate NOT_EVALUABLE)"
+    }
+  ],
+  "validationStatus": "PASS",
+  "promotionStatus": "NOT_AUTHORIZED",
+  "evaluatedAt": "2026-09-17T14:58:33.141Z",
+  "ledgerSha256": "035d8867f1f8dbc65f9fe35ea45263f20f9fee00a48d3d7f48807c24a2afd485"
+}

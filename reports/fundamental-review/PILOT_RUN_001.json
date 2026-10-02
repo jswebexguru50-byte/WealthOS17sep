@@ -1,0 +1,3061 @@
+{
+  "runId": "PILOT_RUN_001",
+  "name": "Pilot Fundamental Interpretation Calibration Run",
+  "phase": "PILOT",
+  "createdAt": "2026-09-30T18:57:12.776Z",
+  "status": "FROZEN",
+  "cohort": [
+    {
+      "symbol": "TCS",
+      "companyName": "Tata Consultancy Services Limited",
+      "sector": "Technology",
+      "capCategory": "Large Cap",
+      "rationale": "Mature IT services, asset-light, high return on capital, high cash translation, net cash balance sheet."
+    },
+    {
+      "symbol": "INFY",
+      "companyName": "Infosys Limited",
+      "sector": "Technology",
+      "capCategory": "Large Cap",
+      "rationale": "Global IT leader, asset-light, rich multi-year reporting, high capital efficiency."
+    },
+    {
+      "symbol": "BAJFINANCE",
+      "companyName": "Bajaj Finance Limited",
+      "sector": "Financial Services",
+      "capCategory": "Large Cap",
+      "rationale": "Leading retail NBFC, high leverage business model, requires financial-accounting interpretation."
+    },
+    {
+      "symbol": "HDFCBANK",
+      "companyName": "HDFC Bank Limited",
+      "sector": "Financial Services",
+      "capCategory": "Large Cap",
+      "rationale": "Systemically important private bank, loan book asset-heavy, NIM/NPA dynamics instead of industrial EBITDA."
+    },
+    {
+      "symbol": "RELIANCE",
+      "companyName": "Reliance Industries Limited",
+      "sector": "Energy",
+      "capCategory": "Large Cap",
+      "rationale": "Diversified conglomerate, highly capital-intensive, large debt/capex cycles, complex consolidated statements."
+    },
+    {
+      "symbol": "TATAMOTORS",
+      "companyName": "Tata Motors Limited",
+      "sector": "Consumer Cyclical",
+      "capCategory": "Large Cap",
+      "rationale": "Automotive OEM manufacturing, global cyclical business, significant historical leverage, turnaround profile."
+    },
+    {
+      "symbol": "TATASTEEL",
+      "companyName": "Tata Steel Limited",
+      "sector": "Basic Materials",
+      "capCategory": "Large Cap",
+      "rationale": "Commodity steel manufacturing, heavy assets, extreme cyclicality, sensitive to input cost volatility."
+    },
+    {
+      "symbol": "SUNPHARMA",
+      "companyName": "Sun Pharmaceutical Industries Limited",
+      "sector": "Healthcare",
+      "capCategory": "Large Cap",
+      "rationale": "Specialty pharma manufacturing, high R&D capex, regulatory sensitivity, defensible cash flows."
+    },
+    {
+      "symbol": "TITAN",
+      "companyName": "Titan Company Limited",
+      "sector": "Consumer Cyclical",
+      "capCategory": "Large Cap",
+      "rationale": "Jewelry & lifestyle retail, working-capital-heavy (gold inventory), high ROCE brand compounder."
+    },
+    {
+      "symbol": "LTIM",
+      "companyName": "LTIMindtree Limited",
+      "sector": "Technology",
+      "capCategory": "Large Cap",
+      "rationale": "Tier-1 IT services compounder post-merger, asset-light, high ROE, export earnings."
+    },
+    {
+      "symbol": "LT",
+      "companyName": "Larsen & Toubro Limited",
+      "sector": "Industrials",
+      "capCategory": "Large Cap",
+      "rationale": "Engineering & infrastructure EPC conglomerate, long working-capital cycles, order book driven."
+    },
+    {
+      "symbol": "ASTRAL",
+      "companyName": "Astral Limited",
+      "sector": "Industrials",
+      "capCategory": "Mid Cap",
+      "rationale": "Building materials (pipes & adhesives), high growth manufacturing, strong reinvestment rate."
+    },
+    {
+      "symbol": "POLYCAB",
+      "companyName": "Polycab India Limited",
+      "sector": "Industrials",
+      "capCategory": "Large/Mid Cap",
+      "rationale": "Cables & wires manufacturing, fast-moving electrical goods, high volume growth, raw material price passthrough."
+    },
+    {
+      "symbol": "DEEPAKNTR",
+      "companyName": "Deepak Nitrite Limited",
+      "sector": "Basic Materials",
+      "capCategory": "Mid Cap",
+      "rationale": "Specialty chemical manufacturer, capex expansion phase, commodity intermediate cycles."
+    },
+    {
+      "symbol": "PIDILITIND",
+      "companyName": "Pidilite Industries Limited",
+      "sector": "Basic Materials",
+      "capCategory": "Large Cap",
+      "rationale": "Consumer adhesives monopoly, pricing power, high gross margins, low balance sheet debt."
+    },
+    {
+      "symbol": "AAVAS",
+      "companyName": "Aavas Financiers Limited",
+      "sector": "Financial Services",
+      "capCategory": "Mid/Small Cap",
+      "rationale": "Affordable housing finance company, retail lending, leverage and credit cost sensitivity."
+    },
+    {
+      "symbol": "CLEAN",
+      "companyName": "Clean Science and Technology Limited",
+      "sector": "Basic Materials",
+      "capCategory": "Mid/Small Cap",
+      "rationale": "Catalytic chemical synthesis, industry-leading 40%+ EBITDA margins, zero debt, asset-light specialty chemicals."
+    },
+    {
+      "symbol": "RAMCOIND",
+      "companyName": "Ramco Industries Limited",
+      "sector": "Industrials",
+      "capCategory": "Small Cap",
+      "rationale": "Cement sheets & building products, small cap asset-heavy, sparse/partial data test case."
+    },
+    {
+      "symbol": "DYCL",
+      "companyName": "Dynamic Cables Limited",
+      "sector": "Industrials",
+      "capCategory": "Small Cap",
+      "rationale": "Power cables manufacturer, working-capital intensive, small-cap turnaround, tender-based bidding."
+    },
+    {
+      "symbol": "STYL",
+      "companyName": "Seshaasai Technologies Limited",
+      "sector": "Technology",
+      "capCategory": "Small Cap",
+      "rationale": "Digital smart card solutions, asset-light technology service, identity-collision regression scrip."
+    }
+  ],
+  "totalCompanies": 20,
+  "totalClaimsReviewed": 100,
+  "outcomesSummary": {
+    "SUPPORTED": 74,
+    "REASONABLE": 22,
+    "QUESTIONABLE": 3,
+    "UNSUPPORTED": 0,
+    "INSUFFICIENT_EVIDENCE": 1
+  },
+  "moduleBreakdown": {
+    "FUNDAMENTAL": {
+      "supported": 76,
+      "questionedOrUnsupported": 3,
+      "missing": 1
+    },
+    "VALUATION": {
+      "supported": 20,
+      "questionedOrUnsupported": 0,
+      "missing": 0
+    }
+  },
+  "issueTypeCounts": {
+    "DATA_ERROR": 0,
+    "DERIVATION_ERROR": 0,
+    "PERIOD_ALIGNMENT_ERROR": 0,
+    "SCOPE_ERROR": 0,
+    "UNIT_ERROR": 0,
+    "INTERPRETATION_RULE_ERROR": 1,
+    "CONTEXT_MISSING": 0,
+    "SECTOR_CONTEXT_MISSING": 3,
+    "EVIDENCE_ERROR": 0,
+    "STALE_DATA": 0,
+    "INSUFFICIENT_EVIDENCE": 1,
+    "OTHER": 0
+  },
+  "reviewedClaims": [
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "TCS",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_TCS_GROWTH_01",
+      "dimension": "REVENUE_GROWTH",
+      "wealthosInterpretation": {
+        "status": "STABLE",
+        "statement": "Revenue trajectory evaluated as STABLE with latest growth of 4.68% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+        "metrics": {
+          "latestGrowthPct": 4.68,
+          "priorGrowthPct": 5.7,
+          "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+        }
+      },
+      "reviewStatus": "REASONABLE",
+      "factsSupportingWealthos": [
+        "Latest Revenue YoY Growth: 4.68%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Revenue evaluated as STABLE.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "TCS",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_TCS_MARGIN_02",
+      "dimension": "MARGIN_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "CONTRACTING",
+        "statement": "Operating margin trajectory evaluated as CONTRACTING with delta of -107 bps using EBITDA_MARGIN.",
+        "metrics": {
+          "bpsChange": -107,
+          "metricUsed": "EBITDA_MARGIN"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Margin delta: -107 bps using EBITDA_MARGIN"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Margin status 'CONTRACTING' accurately aligns with -107 bps change (threshold 50 bps for industrial, 15 bps for NIM).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "TCS",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_TCS_RETURN_03",
+      "dimension": "RETURN_PROFILE",
+      "wealthosInterpretation": {
+        "status": "HIGH_QUALITY",
+        "statement": "Capital efficiency return profile assessed as HIGH_QUALITY with ROCE at 55.21%.",
+        "metrics": {
+          "metric": "ROCE",
+          "latestValue": 55.21,
+          "status": "HIGH_QUALITY"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "ROCE: 55.21%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Return metric 55.21% comfortably clears high-quality hurdle rate (>=18%).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "TCS",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_TCS_DEBT_04",
+      "dimension": "DEBT_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "DATA_INSUFFICIENT",
+        "statement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+        "metrics": {
+          "status": "DATA_INSUFFICIENT",
+          "changePct": null
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Balance sheet debt history currently lacks multi-year snapshot pairing in database; engine correctly abstains.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "TCS",
+      "module": "VALUATION",
+      "claimId": "CLAIM_TCS_VALUATION_06",
+      "dimension": "VALUATION_MULTIPLE",
+      "wealthosInterpretation": {
+        "status": "AVAILABLE",
+        "statement": "Valuation assessment evaluated as AVAILABLE with trailing multiples.",
+        "metrics": {
+          "evEbitda": {
+            "metric": "EV/EBITDA",
+            "current": 10.29,
+            "relativeStatus": "DATA_INSUFFICIENT",
+            "evidence": [
+              {
+                "evidenceId": "VAL_SNAP_TCS",
+                "sourceType": "TRENDLYNE_SNAPSHOT",
+                "sourceId": "UPSTOX_FUNDAMENTALS:key-ratios:TCS",
+                "timestamp": "2026-09-26T13:51:26.456Z",
+                "notes": "Extracted valuation ratios from canonical snapshot"
+              }
+            ]
+          }
+        }
+      },
+      "reviewStatus": "REASONABLE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Valuation multiple status grounded in available ratio snapshots.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "INFY",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_INFY_GROWTH_01",
+      "dimension": "REVENUE_GROWTH",
+      "wealthosInterpretation": {
+        "status": "ACCELERATING",
+        "statement": "Revenue trajectory evaluated as ACCELERATING with latest growth of 9.83% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+        "metrics": {
+          "latestGrowthPct": 9.83,
+          "priorGrowthPct": 5.18,
+          "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Latest Revenue YoY Growth: 9.83%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Trajectory status 'ACCELERATING' is mathematically consistent with 9.83% latest growth vs 5.18% prior growth.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "INFY",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_INFY_MARGIN_02",
+      "dimension": "MARGIN_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "CONTRACTING",
+        "statement": "Operating margin trajectory evaluated as CONTRACTING with delta of -72 bps using EBITDA_MARGIN.",
+        "metrics": {
+          "bpsChange": -72,
+          "metricUsed": "EBITDA_MARGIN"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Margin delta: -72 bps using EBITDA_MARGIN"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Margin status 'CONTRACTING' accurately aligns with -72 bps change (threshold 50 bps for industrial, 15 bps for NIM).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "INFY",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_INFY_RETURN_03",
+      "dimension": "RETURN_PROFILE",
+      "wealthosInterpretation": {
+        "status": "HIGH_QUALITY",
+        "statement": "Capital efficiency return profile assessed as HIGH_QUALITY with ROCE at 40.54%.",
+        "metrics": {
+          "metric": "ROCE",
+          "latestValue": 40.54,
+          "status": "HIGH_QUALITY"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "ROCE: 40.54%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Return metric 40.54% comfortably clears high-quality hurdle rate (>=18%).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "INFY",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_INFY_DEBT_04",
+      "dimension": "DEBT_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "DATA_INSUFFICIENT",
+        "statement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+        "metrics": {
+          "status": "DATA_INSUFFICIENT",
+          "changePct": null
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Balance sheet debt history currently lacks multi-year snapshot pairing in database; engine correctly abstains.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "INFY",
+      "module": "VALUATION",
+      "claimId": "CLAIM_INFY_VALUATION_06",
+      "dimension": "VALUATION_MULTIPLE",
+      "wealthosInterpretation": {
+        "status": "AVAILABLE",
+        "statement": "Valuation assessment evaluated as AVAILABLE with trailing multiples.",
+        "metrics": {
+          "evEbitda": {
+            "metric": "EV/EBITDA",
+            "current": 8.54,
+            "relativeStatus": "DATA_INSUFFICIENT",
+            "evidence": [
+              {
+                "evidenceId": "VAL_SNAP_INFY",
+                "sourceType": "TRENDLYNE_SNAPSHOT",
+                "sourceId": "UPSTOX_FUNDAMENTALS:key-ratios:INFY",
+                "timestamp": "2026-09-26T13:48:54.449Z",
+                "notes": "Extracted valuation ratios from canonical snapshot"
+              }
+            ]
+          }
+        }
+      },
+      "reviewStatus": "REASONABLE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Valuation multiple status grounded in available ratio snapshots.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "BAJFINANCE",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_BAJFINANCE_GROWTH_01",
+      "dimension": "REVENUE_GROWTH",
+      "wealthosInterpretation": {
+        "status": "DECELERATING",
+        "statement": "Revenue trajectory evaluated as DECELERATING with latest growth of 19.15% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+        "metrics": {
+          "latestGrowthPct": 19.15,
+          "priorGrowthPct": 25.17,
+          "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Latest Revenue YoY Growth: 19.15%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Trajectory status 'DECELERATING' is mathematically consistent with 19.15% latest growth vs 25.17% prior growth.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "BAJFINANCE",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_BAJFINANCE_MARGIN_02",
+      "dimension": "MARGIN_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "CONTRACTING",
+        "statement": "Operating margin trajectory evaluated as CONTRACTING with delta of -60 bps using EBITDA_MARGIN.",
+        "metrics": {
+          "bpsChange": -60,
+          "metricUsed": "EBITDA_MARGIN"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Margin delta: -60 bps using EBITDA_MARGIN"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Margin status 'CONTRACTING' accurately aligns with -60 bps change (threshold 50 bps for industrial, 15 bps for NIM).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "BAJFINANCE",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_BAJFINANCE_RETURN_03",
+      "dimension": "RETURN_PROFILE",
+      "wealthosInterpretation": {
+        "status": "LOW",
+        "statement": "Capital efficiency return profile assessed as LOW with ROCE at 9.91%.",
+        "metrics": {
+          "metric": "ROCE",
+          "latestValue": 9.91,
+          "status": "LOW"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "ROCE: 9.91%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Return metric 9.91% falls below 12% cost-of-capital benchmark.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "BAJFINANCE",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_BAJFINANCE_DEBT_04",
+      "dimension": "DEBT_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "NOT_APPLICABLE",
+        "statement": "Financial leverage and debt trajectory assessed as NOT_APPLICABLE.",
+        "metrics": {
+          "status": "NOT_APPLICABLE",
+          "changePct": null
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Financial sector entity explicitly classified as NOT_APPLICABLE for debt trajectory."
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Correctly identifies that debt-to-equity leverage rules do not apply to financial sector lending books.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "BAJFINANCE",
+      "module": "VALUATION",
+      "claimId": "CLAIM_BAJFINANCE_VALUATION_06",
+      "dimension": "VALUATION_MULTIPLE",
+      "wealthosInterpretation": {
+        "status": "AVAILABLE",
+        "statement": "Valuation assessment evaluated as AVAILABLE with trailing multiples.",
+        "metrics": {
+          "evEbitda": {
+            "metric": "EV/EBITDA",
+            "current": 17.67,
+            "relativeStatus": "DATA_INSUFFICIENT",
+            "evidence": [
+              {
+                "evidenceId": "VAL_SNAP_BAJFINANCE",
+                "sourceType": "TRENDLYNE_SNAPSHOT",
+                "sourceId": "UPSTOX_FUNDAMENTALS:key-ratios:BAJFINANCE",
+                "timestamp": "2026-09-26T11:47:09.368Z",
+                "notes": "Extracted valuation ratios from canonical snapshot"
+              }
+            ]
+          }
+        }
+      },
+      "reviewStatus": "REASONABLE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Valuation multiple status grounded in available ratio snapshots.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "HDFCBANK",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_HDFCBANK_GROWTH_01",
+      "dimension": "REVENUE_GROWTH",
+      "wealthosInterpretation": {
+        "status": "DECELERATING",
+        "statement": "Revenue trajectory evaluated as DECELERATING with latest growth of 5.21% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+        "metrics": {
+          "latestGrowthPct": 5.21,
+          "priorGrowthPct": 15.42,
+          "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Latest Revenue YoY Growth: 5.21%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Trajectory status 'DECELERATING' is mathematically consistent with 5.21% latest growth vs 15.42% prior growth.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "HDFCBANK",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_HDFCBANK_MARGIN_02",
+      "dimension": "MARGIN_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "STABLE",
+        "statement": "Operating margin trajectory evaluated as STABLE with delta of 18 bps using EBITDA_MARGIN.",
+        "metrics": {
+          "bpsChange": 18,
+          "metricUsed": "EBITDA_MARGIN"
+        }
+      },
+      "reviewStatus": "QUESTIONABLE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [
+        "Banking entity evaluated using industrial metric: EBITDA_MARGIN"
+      ],
+      "missingContext": [],
+      "issueTypes": [
+        "SECTOR_CONTEXT_MISSING",
+        "INTERPRETATION_RULE_ERROR"
+      ],
+      "reviewerExplanation": "Banking entities have no cost of goods sold; EBITDA margin is meaningless. NIM or Cost-to-Income must be used.",
+      "potentialGeneralRule": "Rule: If businessModel === \"BANK\", margin trajectory MUST evaluate NIM delta, never industrial EBITDA margin.",
+      "requiresCodeChange": true,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "HDFCBANK",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_HDFCBANK_RETURN_03",
+      "dimension": "RETURN_PROFILE",
+      "wealthosInterpretation": {
+        "status": "MODERATE",
+        "statement": "Capital efficiency return profile assessed as MODERATE with ROCE at 13.61%.",
+        "metrics": {
+          "metric": "ROCE",
+          "latestValue": 13.61,
+          "status": "MODERATE"
+        }
+      },
+      "reviewStatus": "QUESTIONABLE",
+      "factsSupportingWealthos": [
+        "ROCE: 13.61%"
+      ],
+      "factsContradictingWealthos": [
+        "ROCE metric applied to banking balance sheet where deposits are liabilities."
+      ],
+      "missingContext": [],
+      "issueTypes": [
+        "SECTOR_CONTEXT_MISSING"
+      ],
+      "reviewerExplanation": "Banks operate on leverage; ROCE is distorted by deposits. ROE or ROA is the appropriate capital efficiency metric.",
+      "potentialGeneralRule": "Rule: For businessModel === \"BANK\", return profile must prioritize ROE / ROA over ROCE.",
+      "requiresCodeChange": true,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "HDFCBANK",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_HDFCBANK_DEBT_04",
+      "dimension": "DEBT_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "DATA_INSUFFICIENT",
+        "statement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+        "metrics": {
+          "status": "DATA_INSUFFICIENT",
+          "changePct": null
+        }
+      },
+      "reviewStatus": "QUESTIONABLE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [
+        "SECTOR_CONTEXT_MISSING"
+      ],
+      "reviewerExplanation": "Debt trajectory asserted for financial entity where borrowings represent operating capital.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": true,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "HDFCBANK",
+      "module": "VALUATION",
+      "claimId": "CLAIM_HDFCBANK_VALUATION_06",
+      "dimension": "VALUATION_MULTIPLE",
+      "wealthosInterpretation": {
+        "status": "AVAILABLE",
+        "statement": "Valuation assessment evaluated as AVAILABLE with trailing multiples.",
+        "metrics": {
+          "evEbitda": {
+            "metric": "EV/EBITDA",
+            "current": null,
+            "relativeStatus": "DATA_INSUFFICIENT",
+            "evidence": [
+              {
+                "evidenceId": "VAL_SNAP_HDFCBANK",
+                "sourceType": "TRENDLYNE_SNAPSHOT",
+                "sourceId": "UPSTOX_FUNDAMENTALS:key-ratios:HDFCBANK",
+                "timestamp": "2026-09-26T11:50:48.817Z",
+                "notes": "Extracted valuation ratios from canonical snapshot"
+              }
+            ]
+          }
+        }
+      },
+      "reviewStatus": "REASONABLE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Valuation multiple status grounded in available ratio snapshots.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "RELIANCE",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_RELIANCE_GROWTH_01",
+      "dimension": "REVENUE_GROWTH",
+      "wealthosInterpretation": {
+        "status": "ACCELERATING",
+        "statement": "Revenue trajectory evaluated as ACCELERATING with latest growth of 10.53% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+        "metrics": {
+          "latestGrowthPct": 10.53,
+          "priorGrowthPct": 7.15,
+          "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Latest Revenue YoY Growth: 10.53%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Trajectory status 'ACCELERATING' is mathematically consistent with 10.53% latest growth vs 7.15% prior growth.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "RELIANCE",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_RELIANCE_MARGIN_02",
+      "dimension": "MARGIN_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "EXPANDING",
+        "statement": "Operating margin trajectory evaluated as EXPANDING with delta of 55 bps using EBITDA_MARGIN.",
+        "metrics": {
+          "bpsChange": 55,
+          "metricUsed": "EBITDA_MARGIN"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Margin delta: 55 bps using EBITDA_MARGIN"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Margin status 'EXPANDING' accurately aligns with 55 bps change (threshold 50 bps for industrial, 15 bps for NIM).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "RELIANCE",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_RELIANCE_RETURN_03",
+      "dimension": "RETURN_PROFILE",
+      "wealthosInterpretation": {
+        "status": "LOW",
+        "statement": "Capital efficiency return profile assessed as LOW with ROCE at 10.39%.",
+        "metrics": {
+          "metric": "ROCE",
+          "latestValue": 10.39,
+          "status": "LOW"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "ROCE: 10.39%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Return metric 10.39% falls below 12% cost-of-capital benchmark.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "RELIANCE",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_RELIANCE_DEBT_04",
+      "dimension": "DEBT_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "DATA_INSUFFICIENT",
+        "statement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+        "metrics": {
+          "status": "DATA_INSUFFICIENT",
+          "changePct": null
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Balance sheet debt history currently lacks multi-year snapshot pairing in database; engine correctly abstains.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "RELIANCE",
+      "module": "VALUATION",
+      "claimId": "CLAIM_RELIANCE_VALUATION_06",
+      "dimension": "VALUATION_MULTIPLE",
+      "wealthosInterpretation": {
+        "status": "AVAILABLE",
+        "statement": "Valuation assessment evaluated as AVAILABLE with trailing multiples.",
+        "metrics": {
+          "evEbitda": {
+            "metric": "EV/EBITDA",
+            "current": 9.35,
+            "relativeStatus": "DATA_INSUFFICIENT",
+            "evidence": [
+              {
+                "evidenceId": "VAL_SNAP_RELIANCE",
+                "sourceType": "TRENDLYNE_SNAPSHOT",
+                "sourceId": "UPSTOX_FUNDAMENTALS:key-ratios:RELIANCE",
+                "timestamp": "2026-09-26T11:54:08.554Z",
+                "notes": "Extracted valuation ratios from canonical snapshot"
+              }
+            ]
+          }
+        }
+      },
+      "reviewStatus": "REASONABLE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Valuation multiple status grounded in available ratio snapshots.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "TATAMOTORS",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_TATAMOTORS_GROWTH_01",
+      "dimension": "REVENUE_GROWTH",
+      "wealthosInterpretation": {
+        "status": "ACCELERATING",
+        "statement": "Revenue trajectory evaluated as ACCELERATING with latest growth of -8.12% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+        "metrics": {
+          "latestGrowthPct": -8.12,
+          "priorGrowthPct": -15.51,
+          "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Latest Revenue YoY Growth: -8.12%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Trajectory status 'ACCELERATING' is mathematically consistent with -8.12% latest growth vs -15.51% prior growth.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "TATAMOTORS",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_TATAMOTORS_MARGIN_02",
+      "dimension": "MARGIN_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "CONTRACTING",
+        "statement": "Operating margin trajectory evaluated as CONTRACTING with delta of -813 bps using EBITDA_MARGIN.",
+        "metrics": {
+          "bpsChange": -813,
+          "metricUsed": "EBITDA_MARGIN"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Margin delta: -813 bps using EBITDA_MARGIN"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Margin status 'CONTRACTING' accurately aligns with -813 bps change (threshold 50 bps for industrial, 15 bps for NIM).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "TATAMOTORS",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_TATAMOTORS_RETURN_03",
+      "dimension": "RETURN_PROFILE",
+      "wealthosInterpretation": {
+        "status": "LOW",
+        "statement": "Capital efficiency return profile assessed as LOW with ROCE at 2.52%.",
+        "metrics": {
+          "metric": "ROCE",
+          "latestValue": 2.52,
+          "status": "LOW"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "ROCE: 2.52%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Return metric 2.52% falls below 12% cost-of-capital benchmark.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "TATAMOTORS",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_TATAMOTORS_DEBT_04",
+      "dimension": "DEBT_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "DATA_INSUFFICIENT",
+        "statement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+        "metrics": {
+          "status": "DATA_INSUFFICIENT",
+          "changePct": null
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Balance sheet debt history currently lacks multi-year snapshot pairing in database; engine correctly abstains.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "TATAMOTORS",
+      "module": "VALUATION",
+      "claimId": "CLAIM_TATAMOTORS_VALUATION_06",
+      "dimension": "VALUATION_MULTIPLE",
+      "wealthosInterpretation": {
+        "status": "AVAILABLE",
+        "statement": "Valuation assessment evaluated as AVAILABLE with trailing multiples.",
+        "metrics": {
+          "evEbitda": {
+            "metric": "EV/EBITDA",
+            "current": 1.41,
+            "relativeStatus": "DATA_INSUFFICIENT",
+            "evidence": [
+              {
+                "evidenceId": "VAL_SNAP_TATAMOTORS",
+                "sourceType": "TRENDLYNE_SNAPSHOT",
+                "sourceId": "UPSTOX_FUNDAMENTALS:key-ratios:TATAMOTORS",
+                "timestamp": "2026-09-26T11:55:33.535Z",
+                "notes": "Extracted valuation ratios from canonical snapshot"
+              }
+            ]
+          }
+        }
+      },
+      "reviewStatus": "REASONABLE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Valuation multiple status grounded in available ratio snapshots.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "TATASTEEL",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_TATASTEEL_GROWTH_01",
+      "dimension": "REVENUE_GROWTH",
+      "wealthosInterpretation": {
+        "status": "ACCELERATING",
+        "statement": "Revenue trajectory evaluated as ACCELERATING with latest growth of 6.12% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+        "metrics": {
+          "latestGrowthPct": 6.12,
+          "priorGrowthPct": -4.72,
+          "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Latest Revenue YoY Growth: 6.12%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Trajectory status 'ACCELERATING' is mathematically consistent with 6.12% latest growth vs -4.72% prior growth.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "TATASTEEL",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_TATASTEEL_MARGIN_02",
+      "dimension": "MARGIN_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "EXPANDING",
+        "statement": "Operating margin trajectory evaluated as EXPANDING with delta of 302 bps using EBITDA_MARGIN.",
+        "metrics": {
+          "bpsChange": 302,
+          "metricUsed": "EBITDA_MARGIN"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Margin delta: 302 bps using EBITDA_MARGIN"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Margin status 'EXPANDING' accurately aligns with 302 bps change (threshold 50 bps for industrial, 15 bps for NIM).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "TATASTEEL",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_TATASTEEL_RETURN_03",
+      "dimension": "RETURN_PROFILE",
+      "wealthosInterpretation": {
+        "status": "LOW",
+        "statement": "Capital efficiency return profile assessed as LOW with ROCE at 11.35%.",
+        "metrics": {
+          "metric": "ROCE",
+          "latestValue": 11.35,
+          "status": "LOW"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "ROCE: 11.35%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Return metric 11.35% falls below 12% cost-of-capital benchmark.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "TATASTEEL",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_TATASTEEL_DEBT_04",
+      "dimension": "DEBT_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "DATA_INSUFFICIENT",
+        "statement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+        "metrics": {
+          "status": "DATA_INSUFFICIENT",
+          "changePct": null
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Balance sheet debt history currently lacks multi-year snapshot pairing in database; engine correctly abstains.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "TATASTEEL",
+      "module": "VALUATION",
+      "claimId": "CLAIM_TATASTEEL_VALUATION_06",
+      "dimension": "VALUATION_MULTIPLE",
+      "wealthosInterpretation": {
+        "status": "AVAILABLE",
+        "statement": "Valuation assessment evaluated as AVAILABLE with trailing multiples.",
+        "metrics": {
+          "evEbitda": {
+            "metric": "EV/EBITDA",
+            "current": 8.64,
+            "relativeStatus": "DATA_INSUFFICIENT",
+            "evidence": [
+              {
+                "evidenceId": "VAL_SNAP_TATASTEEL",
+                "sourceType": "TRENDLYNE_SNAPSHOT",
+                "sourceId": "UPSTOX_FUNDAMENTALS:key-ratios:TATASTEEL",
+                "timestamp": "2026-09-26T13:28:05.290Z",
+                "notes": "Extracted valuation ratios from canonical snapshot"
+              }
+            ]
+          }
+        }
+      },
+      "reviewStatus": "REASONABLE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Valuation multiple status grounded in available ratio snapshots.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "SUNPHARMA",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_SUNPHARMA_GROWTH_01",
+      "dimension": "REVENUE_GROWTH",
+      "wealthosInterpretation": {
+        "status": "STABLE",
+        "statement": "Revenue trajectory evaluated as STABLE with latest growth of 10.8% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+        "metrics": {
+          "latestGrowthPct": 10.8,
+          "priorGrowthPct": 9.41,
+          "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+        }
+      },
+      "reviewStatus": "REASONABLE",
+      "factsSupportingWealthos": [
+        "Latest Revenue YoY Growth: 10.8%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Revenue evaluated as STABLE.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "SUNPHARMA",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_SUNPHARMA_MARGIN_02",
+      "dimension": "MARGIN_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "STABLE",
+        "statement": "Operating margin trajectory evaluated as STABLE with delta of -20 bps using EBITDA_MARGIN.",
+        "metrics": {
+          "bpsChange": -20,
+          "metricUsed": "EBITDA_MARGIN"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Margin delta: -20 bps using EBITDA_MARGIN"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Margin status 'STABLE' accurately aligns with -20 bps change (threshold 50 bps for industrial, 15 bps for NIM).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "SUNPHARMA",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_SUNPHARMA_RETURN_03",
+      "dimension": "RETURN_PROFILE",
+      "wealthosInterpretation": {
+        "status": "MODERATE",
+        "statement": "Capital efficiency return profile assessed as MODERATE with ROCE at 17.33%.",
+        "metrics": {
+          "metric": "ROCE",
+          "latestValue": 17.33,
+          "status": "MODERATE"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "ROCE: 17.33%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Return metric 17.33% satisfies moderate capital return benchmark (12-18%).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "SUNPHARMA",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_SUNPHARMA_DEBT_04",
+      "dimension": "DEBT_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "DATA_INSUFFICIENT",
+        "statement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+        "metrics": {
+          "status": "DATA_INSUFFICIENT",
+          "changePct": null
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Balance sheet debt history currently lacks multi-year snapshot pairing in database; engine correctly abstains.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "SUNPHARMA",
+      "module": "VALUATION",
+      "claimId": "CLAIM_SUNPHARMA_VALUATION_06",
+      "dimension": "VALUATION_MULTIPLE",
+      "wealthosInterpretation": {
+        "status": "AVAILABLE",
+        "statement": "Valuation assessment evaluated as AVAILABLE with trailing multiples.",
+        "metrics": {
+          "evEbitda": {
+            "metric": "EV/EBITDA",
+            "current": 22.54,
+            "relativeStatus": "DATA_INSUFFICIENT",
+            "evidence": [
+              {
+                "evidenceId": "VAL_SNAP_SUNPHARMA",
+                "sourceType": "TRENDLYNE_SNAPSHOT",
+                "sourceId": "UPSTOX_FUNDAMENTALS:key-ratios:SUNPHARMA",
+                "timestamp": "2026-09-26T13:51:13.909Z",
+                "notes": "Extracted valuation ratios from canonical snapshot"
+              }
+            ]
+          }
+        }
+      },
+      "reviewStatus": "REASONABLE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Valuation multiple status grounded in available ratio snapshots.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "TITAN",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_TITAN_GROWTH_01",
+      "dimension": "REVENUE_GROWTH",
+      "wealthosInterpretation": {
+        "status": "ACCELERATING",
+        "statement": "Revenue trajectory evaluated as ACCELERATING with latest growth of 44.62% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+        "metrics": {
+          "latestGrowthPct": 44.62,
+          "priorGrowthPct": 18.07,
+          "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Latest Revenue YoY Growth: 44.62%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Trajectory status 'ACCELERATING' is mathematically consistent with 44.62% latest growth vs 18.07% prior growth.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "TITAN",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_TITAN_MARGIN_02",
+      "dimension": "MARGIN_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "STABLE",
+        "statement": "Operating margin trajectory evaluated as STABLE with delta of 27 bps using EBITDA_MARGIN.",
+        "metrics": {
+          "bpsChange": 27,
+          "metricUsed": "EBITDA_MARGIN"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Margin delta: 27 bps using EBITDA_MARGIN"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Margin status 'STABLE' accurately aligns with 27 bps change (threshold 50 bps for industrial, 15 bps for NIM).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "TITAN",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_TITAN_RETURN_03",
+      "dimension": "RETURN_PROFILE",
+      "wealthosInterpretation": {
+        "status": "HIGH_QUALITY",
+        "statement": "Capital efficiency return profile assessed as HIGH_QUALITY with ROCE at 24.83%.",
+        "metrics": {
+          "metric": "ROCE",
+          "latestValue": 24.83,
+          "status": "HIGH_QUALITY"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "ROCE: 24.83%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Return metric 24.83% comfortably clears high-quality hurdle rate (>=18%).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "TITAN",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_TITAN_DEBT_04",
+      "dimension": "DEBT_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "DATA_INSUFFICIENT",
+        "statement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+        "metrics": {
+          "status": "DATA_INSUFFICIENT",
+          "changePct": null
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Balance sheet debt history currently lacks multi-year snapshot pairing in database; engine correctly abstains.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "TITAN",
+      "module": "VALUATION",
+      "claimId": "CLAIM_TITAN_VALUATION_06",
+      "dimension": "VALUATION_MULTIPLE",
+      "wealthosInterpretation": {
+        "status": "AVAILABLE",
+        "statement": "Valuation assessment evaluated as AVAILABLE with trailing multiples.",
+        "metrics": {
+          "evEbitda": {
+            "metric": "EV/EBITDA",
+            "current": 46.18,
+            "relativeStatus": "DATA_INSUFFICIENT",
+            "evidence": [
+              {
+                "evidenceId": "VAL_SNAP_TITAN",
+                "sourceType": "TRENDLYNE_SNAPSHOT",
+                "sourceId": "UPSTOX_FUNDAMENTALS:key-ratios:TITAN",
+                "timestamp": "2026-09-26T13:32:28.420Z",
+                "notes": "Extracted valuation ratios from canonical snapshot"
+              }
+            ]
+          }
+        }
+      },
+      "reviewStatus": "REASONABLE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Valuation multiple status grounded in available ratio snapshots.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "LTIM",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_LTIM_GROWTH_01",
+      "dimension": "REVENUE_GROWTH",
+      "wealthosInterpretation": {
+        "status": "ACCELERATING",
+        "statement": "Revenue trajectory evaluated as ACCELERATING with latest growth of 11.29% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+        "metrics": {
+          "latestGrowthPct": 11.29,
+          "priorGrowthPct": 7.67,
+          "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Latest Revenue YoY Growth: 11.29%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Trajectory status 'ACCELERATING' is mathematically consistent with 11.29% latest growth vs 7.67% prior growth.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "LTIM",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_LTIM_MARGIN_02",
+      "dimension": "MARGIN_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "STABLE",
+        "statement": "Operating margin trajectory evaluated as STABLE with delta of -29 bps using EBITDA_MARGIN.",
+        "metrics": {
+          "bpsChange": -29,
+          "metricUsed": "EBITDA_MARGIN"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Margin delta: -29 bps using EBITDA_MARGIN"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Margin status 'STABLE' accurately aligns with -29 bps change (threshold 50 bps for industrial, 15 bps for NIM).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "LTIM",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_LTIM_RETURN_03",
+      "dimension": "RETURN_PROFILE",
+      "wealthosInterpretation": {
+        "status": "HIGH_QUALITY",
+        "statement": "Capital efficiency return profile assessed as HIGH_QUALITY with ROCE at 25.54%.",
+        "metrics": {
+          "metric": "ROCE",
+          "latestValue": 25.54,
+          "status": "HIGH_QUALITY"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "ROCE: 25.54%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Return metric 25.54% comfortably clears high-quality hurdle rate (>=18%).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "LTIM",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_LTIM_DEBT_04",
+      "dimension": "DEBT_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "DATA_INSUFFICIENT",
+        "statement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+        "metrics": {
+          "status": "DATA_INSUFFICIENT",
+          "changePct": null
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Balance sheet debt history currently lacks multi-year snapshot pairing in database; engine correctly abstains.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "LTIM",
+      "module": "VALUATION",
+      "claimId": "CLAIM_LTIM_VALUATION_06",
+      "dimension": "VALUATION_MULTIPLE",
+      "wealthosInterpretation": {
+        "status": "AVAILABLE",
+        "statement": "Valuation assessment evaluated as AVAILABLE with trailing multiples.",
+        "metrics": {
+          "evEbitda": {
+            "metric": "EV/EBITDA",
+            "current": 14.21,
+            "relativeStatus": "DATA_INSUFFICIENT",
+            "evidence": [
+              {
+                "evidenceId": "VAL_SNAP_LTIM",
+                "sourceType": "TRENDLYNE_SNAPSHOT",
+                "sourceId": "UPSTOX_FUNDAMENTALS:key-ratios:LTIM",
+                "timestamp": "2026-09-26T13:49:28.296Z",
+                "notes": "Extracted valuation ratios from canonical snapshot"
+              }
+            ]
+          }
+        }
+      },
+      "reviewStatus": "REASONABLE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Valuation multiple status grounded in available ratio snapshots.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "LT",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_LT_GROWTH_01",
+      "dimension": "REVENUE_GROWTH",
+      "wealthosInterpretation": {
+        "status": "DECELERATING",
+        "statement": "Revenue trajectory evaluated as DECELERATING with latest growth of 12.23% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+        "metrics": {
+          "latestGrowthPct": 12.23,
+          "priorGrowthPct": 15.35,
+          "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Latest Revenue YoY Growth: 12.23%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Trajectory status 'DECELERATING' is mathematically consistent with 12.23% latest growth vs 15.35% prior growth.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "LT",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_LT_MARGIN_02",
+      "dimension": "MARGIN_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "STABLE",
+        "statement": "Operating margin trajectory evaluated as STABLE with delta of -17 bps using EBITDA_MARGIN.",
+        "metrics": {
+          "bpsChange": -17,
+          "metricUsed": "EBITDA_MARGIN"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Margin delta: -17 bps using EBITDA_MARGIN"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Margin status 'STABLE' accurately aligns with -17 bps change (threshold 50 bps for industrial, 15 bps for NIM).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "LT",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_LT_RETURN_03",
+      "dimension": "RETURN_PROFILE",
+      "wealthosInterpretation": {
+        "status": "MODERATE",
+        "statement": "Capital efficiency return profile assessed as MODERATE with ROCE at 15.13%.",
+        "metrics": {
+          "metric": "ROCE",
+          "latestValue": 15.13,
+          "status": "MODERATE"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "ROCE: 15.13%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Return metric 15.13% satisfies moderate capital return benchmark (12-18%).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "LT",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_LT_DEBT_04",
+      "dimension": "DEBT_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "DATA_INSUFFICIENT",
+        "statement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+        "metrics": {
+          "status": "DATA_INSUFFICIENT",
+          "changePct": null
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Balance sheet debt history currently lacks multi-year snapshot pairing in database; engine correctly abstains.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "LT",
+      "module": "VALUATION",
+      "claimId": "CLAIM_LT_VALUATION_06",
+      "dimension": "VALUATION_MULTIPLE",
+      "wealthosInterpretation": {
+        "status": "AVAILABLE",
+        "statement": "Valuation assessment evaluated as AVAILABLE with trailing multiples.",
+        "metrics": {
+          "evEbitda": {
+            "metric": "EV/EBITDA",
+            "current": 15.38,
+            "relativeStatus": "DATA_INSUFFICIENT",
+            "evidence": [
+              {
+                "evidenceId": "VAL_SNAP_LT",
+                "sourceType": "TRENDLYNE_SNAPSHOT",
+                "sourceId": "UPSTOX_FUNDAMENTALS:key-ratios:LT",
+                "timestamp": "2026-09-26T11:51:50.068Z",
+                "notes": "Extracted valuation ratios from canonical snapshot"
+              }
+            ]
+          }
+        }
+      },
+      "reviewStatus": "REASONABLE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Valuation multiple status grounded in available ratio snapshots.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "ASTRAL",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_ASTRAL_GROWTH_01",
+      "dimension": "REVENUE_GROWTH",
+      "wealthosInterpretation": {
+        "status": "ACCELERATING",
+        "statement": "Revenue trajectory evaluated as ACCELERATING with latest growth of 12.64% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+        "metrics": {
+          "latestGrowthPct": 12.64,
+          "priorGrowthPct": 3.35,
+          "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Latest Revenue YoY Growth: 12.64%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Trajectory status 'ACCELERATING' is mathematically consistent with 12.64% latest growth vs 3.35% prior growth.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "ASTRAL",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_ASTRAL_MARGIN_02",
+      "dimension": "MARGIN_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "CONTRACTING",
+        "statement": "Operating margin trajectory evaluated as CONTRACTING with delta of -92 bps using EBITDA_MARGIN.",
+        "metrics": {
+          "bpsChange": -92,
+          "metricUsed": "EBITDA_MARGIN"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Margin delta: -92 bps using EBITDA_MARGIN"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Margin status 'CONTRACTING' accurately aligns with -92 bps change (threshold 50 bps for industrial, 15 bps for NIM).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "ASTRAL",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_ASTRAL_RETURN_03",
+      "dimension": "RETURN_PROFILE",
+      "wealthosInterpretation": {
+        "status": "HIGH_QUALITY",
+        "statement": "Capital efficiency return profile assessed as HIGH_QUALITY with ROCE at 18.44%.",
+        "metrics": {
+          "metric": "ROCE",
+          "latestValue": 18.44,
+          "status": "HIGH_QUALITY"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "ROCE: 18.44%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Return metric 18.44% comfortably clears high-quality hurdle rate (>=18%).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "ASTRAL",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_ASTRAL_DEBT_04",
+      "dimension": "DEBT_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "DATA_INSUFFICIENT",
+        "statement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+        "metrics": {
+          "status": "DATA_INSUFFICIENT",
+          "changePct": null
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Balance sheet debt history currently lacks multi-year snapshot pairing in database; engine correctly abstains.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "ASTRAL",
+      "module": "VALUATION",
+      "claimId": "CLAIM_ASTRAL_VALUATION_06",
+      "dimension": "VALUATION_MULTIPLE",
+      "wealthosInterpretation": {
+        "status": "AVAILABLE",
+        "statement": "Valuation assessment evaluated as AVAILABLE with trailing multiples.",
+        "metrics": {
+          "evEbitda": {
+            "metric": "EV/EBITDA",
+            "current": 32.29,
+            "relativeStatus": "DATA_INSUFFICIENT",
+            "evidence": [
+              {
+                "evidenceId": "VAL_SNAP_ASTRAL",
+                "sourceType": "TRENDLYNE_SNAPSHOT",
+                "sourceId": "UPSTOX_FUNDAMENTALS:key-ratios:ASTRAL",
+                "timestamp": "2026-09-26T15:59:58.723Z",
+                "notes": "Extracted valuation ratios from canonical snapshot"
+              }
+            ]
+          }
+        }
+      },
+      "reviewStatus": "REASONABLE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Valuation multiple status grounded in available ratio snapshots.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "POLYCAB",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_POLYCAB_GROWTH_01",
+      "dimension": "REVENUE_GROWTH",
+      "wealthosInterpretation": {
+        "status": "ACCELERATING",
+        "statement": "Revenue trajectory evaluated as ACCELERATING with latest growth of 28.76% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+        "metrics": {
+          "latestGrowthPct": 28.76,
+          "priorGrowthPct": 23.85,
+          "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Latest Revenue YoY Growth: 28.76%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Trajectory status 'ACCELERATING' is mathematically consistent with 28.76% latest growth vs 23.85% prior growth.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "POLYCAB",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_POLYCAB_MARGIN_02",
+      "dimension": "MARGIN_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "STABLE",
+        "statement": "Operating margin trajectory evaluated as STABLE with delta of 47 bps using EBITDA_MARGIN.",
+        "metrics": {
+          "bpsChange": 47,
+          "metricUsed": "EBITDA_MARGIN"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Margin delta: 47 bps using EBITDA_MARGIN"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Margin status 'STABLE' accurately aligns with 47 bps change (threshold 50 bps for industrial, 15 bps for NIM).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "POLYCAB",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_POLYCAB_RETURN_03",
+      "dimension": "RETURN_PROFILE",
+      "wealthosInterpretation": {
+        "status": "HIGH_QUALITY",
+        "statement": "Capital efficiency return profile assessed as HIGH_QUALITY with ROCE at 31.1%.",
+        "metrics": {
+          "metric": "ROCE",
+          "latestValue": 31.1,
+          "status": "HIGH_QUALITY"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "ROCE: 31.1%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Return metric 31.1% comfortably clears high-quality hurdle rate (>=18%).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "POLYCAB",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_POLYCAB_DEBT_04",
+      "dimension": "DEBT_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "DATA_INSUFFICIENT",
+        "statement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+        "metrics": {
+          "status": "DATA_INSUFFICIENT",
+          "changePct": null
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Balance sheet debt history currently lacks multi-year snapshot pairing in database; engine correctly abstains.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "POLYCAB",
+      "module": "VALUATION",
+      "claimId": "CLAIM_POLYCAB_VALUATION_06",
+      "dimension": "VALUATION_MULTIPLE",
+      "wealthosInterpretation": {
+        "status": "AVAILABLE",
+        "statement": "Valuation assessment evaluated as AVAILABLE with trailing multiples.",
+        "metrics": {
+          "evEbitda": {
+            "metric": "EV/EBITDA",
+            "current": 27.59,
+            "relativeStatus": "DATA_INSUFFICIENT",
+            "evidence": [
+              {
+                "evidenceId": "VAL_SNAP_POLYCAB",
+                "sourceType": "TRENDLYNE_SNAPSHOT",
+                "sourceId": "UPSTOX_FUNDAMENTALS:key-ratios:POLYCAB",
+                "timestamp": "2026-09-26T11:53:39.470Z",
+                "notes": "Extracted valuation ratios from canonical snapshot"
+              }
+            ]
+          }
+        }
+      },
+      "reviewStatus": "REASONABLE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Valuation multiple status grounded in available ratio snapshots.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "DEEPAKNTR",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_DEEPAKNTR_GROWTH_01",
+      "dimension": "REVENUE_GROWTH",
+      "wealthosInterpretation": {
+        "status": "DECELERATING",
+        "statement": "Revenue trajectory evaluated as DECELERATING with latest growth of -5.01% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+        "metrics": {
+          "latestGrowthPct": -5.01,
+          "priorGrowthPct": 7.84,
+          "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Latest Revenue YoY Growth: -5.01%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Trajectory status 'DECELERATING' is mathematically consistent with -5.01% latest growth vs 7.84% prior growth.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "DEEPAKNTR",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_DEEPAKNTR_MARGIN_02",
+      "dimension": "MARGIN_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "CONTRACTING",
+        "statement": "Operating margin trajectory evaluated as CONTRACTING with delta of -186 bps using EBITDA_MARGIN.",
+        "metrics": {
+          "bpsChange": -186,
+          "metricUsed": "EBITDA_MARGIN"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Margin delta: -186 bps using EBITDA_MARGIN"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Margin status 'CONTRACTING' accurately aligns with -186 bps change (threshold 50 bps for industrial, 15 bps for NIM).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "DEEPAKNTR",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_DEEPAKNTR_RETURN_03",
+      "dimension": "RETURN_PROFILE",
+      "wealthosInterpretation": {
+        "status": "LOW",
+        "statement": "Capital efficiency return profile assessed as LOW with ROCE at 10.74%.",
+        "metrics": {
+          "metric": "ROCE",
+          "latestValue": 10.74,
+          "status": "LOW"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "ROCE: 10.74%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Return metric 10.74% falls below 12% cost-of-capital benchmark.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "DEEPAKNTR",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_DEEPAKNTR_DEBT_04",
+      "dimension": "DEBT_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "DATA_INSUFFICIENT",
+        "statement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+        "metrics": {
+          "status": "DATA_INSUFFICIENT",
+          "changePct": null
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Balance sheet debt history currently lacks multi-year snapshot pairing in database; engine correctly abstains.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "DEEPAKNTR",
+      "module": "VALUATION",
+      "claimId": "CLAIM_DEEPAKNTR_VALUATION_06",
+      "dimension": "VALUATION_MULTIPLE",
+      "wealthosInterpretation": {
+        "status": "AVAILABLE",
+        "statement": "Valuation assessment evaluated as AVAILABLE with trailing multiples.",
+        "metrics": {
+          "evEbitda": {
+            "metric": "EV/EBITDA",
+            "current": 16.96,
+            "relativeStatus": "DATA_INSUFFICIENT",
+            "evidence": [
+              {
+                "evidenceId": "VAL_SNAP_DEEPAKNTR",
+                "sourceType": "TRENDLYNE_SNAPSHOT",
+                "sourceId": "UPSTOX_FUNDAMENTALS:key-ratios:DEEPAKNTR",
+                "timestamp": "2026-09-26T16:41:02.849Z",
+                "notes": "Extracted valuation ratios from canonical snapshot"
+              }
+            ]
+          }
+        }
+      },
+      "reviewStatus": "REASONABLE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Valuation multiple status grounded in available ratio snapshots.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "PIDILITIND",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_PIDILITIND_GROWTH_01",
+      "dimension": "REVENUE_GROWTH",
+      "wealthosInterpretation": {
+        "status": "ACCELERATING",
+        "statement": "Revenue trajectory evaluated as ACCELERATING with latest growth of 11.05% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+        "metrics": {
+          "latestGrowthPct": 11.05,
+          "priorGrowthPct": 6.91,
+          "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Latest Revenue YoY Growth: 11.05%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Trajectory status 'ACCELERATING' is mathematically consistent with 11.05% latest growth vs 6.91% prior growth.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "PIDILITIND",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_PIDILITIND_MARGIN_02",
+      "dimension": "MARGIN_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "EXPANDING",
+        "statement": "Operating margin trajectory evaluated as EXPANDING with delta of 125 bps using EBITDA_MARGIN.",
+        "metrics": {
+          "bpsChange": 125,
+          "metricUsed": "EBITDA_MARGIN"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Margin delta: 125 bps using EBITDA_MARGIN"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Margin status 'EXPANDING' accurately aligns with 125 bps change (threshold 50 bps for industrial, 15 bps for NIM).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "PIDILITIND",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_PIDILITIND_RETURN_03",
+      "dimension": "RETURN_PROFILE",
+      "wealthosInterpretation": {
+        "status": "HIGH_QUALITY",
+        "statement": "Capital efficiency return profile assessed as HIGH_QUALITY with ROCE at 29.97%.",
+        "metrics": {
+          "metric": "ROCE",
+          "latestValue": 29.97,
+          "status": "HIGH_QUALITY"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "ROCE: 29.97%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Return metric 29.97% comfortably clears high-quality hurdle rate (>=18%).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "PIDILITIND",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_PIDILITIND_DEBT_04",
+      "dimension": "DEBT_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "DATA_INSUFFICIENT",
+        "statement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+        "metrics": {
+          "status": "DATA_INSUFFICIENT",
+          "changePct": null
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Balance sheet debt history currently lacks multi-year snapshot pairing in database; engine correctly abstains.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "PIDILITIND",
+      "module": "VALUATION",
+      "claimId": "CLAIM_PIDILITIND_VALUATION_06",
+      "dimension": "VALUATION_MULTIPLE",
+      "wealthosInterpretation": {
+        "status": "AVAILABLE",
+        "statement": "Valuation assessment evaluated as AVAILABLE with trailing multiples.",
+        "metrics": {
+          "evEbitda": {
+            "metric": "EV/EBITDA",
+            "current": 38.36,
+            "relativeStatus": "DATA_INSUFFICIENT",
+            "evidence": [
+              {
+                "evidenceId": "VAL_SNAP_PIDILITIND",
+                "sourceType": "TRENDLYNE_SNAPSHOT",
+                "sourceId": "UPSTOX_FUNDAMENTALS:key-ratios:PIDILITIND",
+                "timestamp": "2026-09-26T11:53:29.595Z",
+                "notes": "Extracted valuation ratios from canonical snapshot"
+              }
+            ]
+          }
+        }
+      },
+      "reviewStatus": "REASONABLE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Valuation multiple status grounded in available ratio snapshots.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "AAVAS",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_AAVAS_GROWTH_01",
+      "dimension": "REVENUE_GROWTH",
+      "wealthosInterpretation": {
+        "status": "ACCELERATING",
+        "statement": "Revenue trajectory evaluated as ACCELERATING with latest growth of 25.43% (Mar 2024 vs Mar 2023 vs Mar 2022).",
+        "metrics": {
+          "latestGrowthPct": 25.43,
+          "priorGrowthPct": 23.33,
+          "periodsCompared": "Mar 2024 vs Mar 2023 vs Mar 2022"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Latest Revenue YoY Growth: 25.43%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Trajectory status 'ACCELERATING' is mathematically consistent with 25.43% latest growth vs 23.33% prior growth.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "AAVAS",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_AAVAS_MARGIN_02",
+      "dimension": "MARGIN_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "CONTRACTING",
+        "statement": "Operating margin trajectory evaluated as CONTRACTING with delta of -310 bps using EBITDA_MARGIN.",
+        "metrics": {
+          "bpsChange": -310,
+          "metricUsed": "EBITDA_MARGIN"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Margin delta: -310 bps using EBITDA_MARGIN"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Margin status 'CONTRACTING' accurately aligns with -310 bps change (threshold 50 bps for industrial, 15 bps for NIM).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "AAVAS",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_AAVAS_RETURN_03",
+      "dimension": "RETURN_PROFILE",
+      "wealthosInterpretation": {
+        "status": "LOW",
+        "statement": "Capital efficiency return profile assessed as LOW with ROCE at 9.91%.",
+        "metrics": {
+          "metric": "ROCE",
+          "latestValue": 9.91,
+          "status": "LOW"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "ROCE: 9.91%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Return metric 9.91% falls below 12% cost-of-capital benchmark.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "AAVAS",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_AAVAS_DEBT_04",
+      "dimension": "DEBT_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "DATA_INSUFFICIENT",
+        "statement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+        "metrics": {
+          "status": "DATA_INSUFFICIENT",
+          "changePct": null
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Balance sheet debt history currently lacks multi-year snapshot pairing in database; engine correctly abstains.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "AAVAS",
+      "module": "VALUATION",
+      "claimId": "CLAIM_AAVAS_VALUATION_06",
+      "dimension": "VALUATION_MULTIPLE",
+      "wealthosInterpretation": {
+        "status": "AVAILABLE",
+        "statement": "Valuation assessment evaluated as AVAILABLE with trailing multiples.",
+        "metrics": {
+          "evEbitda": {
+            "metric": "EV/EBITDA",
+            "current": 14.14,
+            "relativeStatus": "DATA_INSUFFICIENT",
+            "evidence": [
+              {
+                "evidenceId": "VAL_SNAP_AAVAS",
+                "sourceType": "TRENDLYNE_SNAPSHOT",
+                "sourceId": "UPSTOX_FUNDAMENTALS:key-ratios:AAVAS",
+                "timestamp": "2026-09-26T15:32:50.468Z",
+                "notes": "Extracted valuation ratios from canonical snapshot"
+              }
+            ]
+          }
+        }
+      },
+      "reviewStatus": "REASONABLE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Valuation multiple status grounded in available ratio snapshots.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "CLEAN",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_CLEAN_GROWTH_01",
+      "dimension": "REVENUE_GROWTH",
+      "wealthosInterpretation": {
+        "status": "DECELERATING",
+        "statement": "Revenue trajectory evaluated as DECELERATING with latest growth of -1.6% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+        "metrics": {
+          "latestGrowthPct": -1.6,
+          "priorGrowthPct": 20.71,
+          "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Latest Revenue YoY Growth: -1.6%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Trajectory status 'DECELERATING' is mathematically consistent with -1.6% latest growth vs 20.71% prior growth.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "CLEAN",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_CLEAN_MARGIN_02",
+      "dimension": "MARGIN_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "CONTRACTING",
+        "statement": "Operating margin trajectory evaluated as CONTRACTING with delta of -418 bps using EBITDA_MARGIN.",
+        "metrics": {
+          "bpsChange": -418,
+          "metricUsed": "EBITDA_MARGIN"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Margin delta: -418 bps using EBITDA_MARGIN"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Margin status 'CONTRACTING' accurately aligns with -418 bps change (threshold 50 bps for industrial, 15 bps for NIM).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "CLEAN",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_CLEAN_RETURN_03",
+      "dimension": "RETURN_PROFILE",
+      "wealthosInterpretation": {
+        "status": "HIGH_QUALITY",
+        "statement": "Capital efficiency return profile assessed as HIGH_QUALITY with ROCE at 19.52%.",
+        "metrics": {
+          "metric": "ROCE",
+          "latestValue": 19.52,
+          "status": "HIGH_QUALITY"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "ROCE: 19.52%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Return metric 19.52% comfortably clears high-quality hurdle rate (>=18%).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "CLEAN",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_CLEAN_DEBT_04",
+      "dimension": "DEBT_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "DATA_INSUFFICIENT",
+        "statement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+        "metrics": {
+          "status": "DATA_INSUFFICIENT",
+          "changePct": null
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Balance sheet debt history currently lacks multi-year snapshot pairing in database; engine correctly abstains.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "CLEAN",
+      "module": "VALUATION",
+      "claimId": "CLAIM_CLEAN_VALUATION_06",
+      "dimension": "VALUATION_MULTIPLE",
+      "wealthosInterpretation": {
+        "status": "AVAILABLE",
+        "statement": "Valuation assessment evaluated as AVAILABLE with trailing multiples.",
+        "metrics": {
+          "evEbitda": {
+            "metric": "EV/EBITDA",
+            "current": 21.99,
+            "relativeStatus": "DATA_INSUFFICIENT",
+            "evidence": [
+              {
+                "evidenceId": "VAL_SNAP_CLEAN",
+                "sourceType": "TRENDLYNE_SNAPSHOT",
+                "sourceId": "UPSTOX_FUNDAMENTALS:key-ratios:CLEAN",
+                "timestamp": "2026-09-26T09:29:57.606Z",
+                "notes": "Extracted valuation ratios from canonical snapshot"
+              }
+            ]
+          }
+        }
+      },
+      "reviewStatus": "REASONABLE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Valuation multiple status grounded in available ratio snapshots.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "RAMCOIND",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_RAMCOIND_GROWTH_01",
+      "dimension": "REVENUE_GROWTH",
+      "wealthosInterpretation": {
+        "status": "DECELERATING",
+        "statement": "Revenue trajectory evaluated as DECELERATING with latest growth of 6.97% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+        "metrics": {
+          "latestGrowthPct": 6.97,
+          "priorGrowthPct": 11.48,
+          "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Latest Revenue YoY Growth: 6.97%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Trajectory status 'DECELERATING' is mathematically consistent with 6.97% latest growth vs 11.48% prior growth.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "RAMCOIND",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_RAMCOIND_MARGIN_02",
+      "dimension": "MARGIN_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "EXPANDING",
+        "statement": "Operating margin trajectory evaluated as EXPANDING with delta of 270 bps using EBITDA_MARGIN.",
+        "metrics": {
+          "bpsChange": 270,
+          "metricUsed": "EBITDA_MARGIN"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Margin delta: 270 bps using EBITDA_MARGIN"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Margin status 'EXPANDING' accurately aligns with 270 bps change (threshold 50 bps for industrial, 15 bps for NIM).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "RAMCOIND",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_RAMCOIND_RETURN_03",
+      "dimension": "RETURN_PROFILE",
+      "wealthosInterpretation": {
+        "status": "LOW",
+        "statement": "Capital efficiency return profile assessed as LOW with ROCE at 4.64%.",
+        "metrics": {
+          "metric": "ROCE",
+          "latestValue": 4.64,
+          "status": "LOW"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "ROCE: 4.64%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Return metric 4.64% falls below 12% cost-of-capital benchmark.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "RAMCOIND",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_RAMCOIND_DEBT_04",
+      "dimension": "DEBT_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "DATA_INSUFFICIENT",
+        "statement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+        "metrics": {
+          "status": "DATA_INSUFFICIENT",
+          "changePct": null
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Balance sheet debt history currently lacks multi-year snapshot pairing in database; engine correctly abstains.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "RAMCOIND",
+      "module": "VALUATION",
+      "claimId": "CLAIM_RAMCOIND_VALUATION_06",
+      "dimension": "VALUATION_MULTIPLE",
+      "wealthosInterpretation": {
+        "status": "AVAILABLE",
+        "statement": "Valuation assessment evaluated as AVAILABLE with trailing multiples.",
+        "metrics": {
+          "evEbitda": {
+            "metric": "EV/EBITDA",
+            "current": 9.26,
+            "relativeStatus": "DATA_INSUFFICIENT",
+            "evidence": [
+              {
+                "evidenceId": "VAL_SNAP_RAMCOIND",
+                "sourceType": "TRENDLYNE_SNAPSHOT",
+                "sourceId": "UPSTOX_FUNDAMENTALS:key-ratios:RAMCOIND",
+                "timestamp": "2026-09-27T02:02:13.744Z",
+                "notes": "Extracted valuation ratios from canonical snapshot"
+              }
+            ]
+          }
+        }
+      },
+      "reviewStatus": "REASONABLE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Valuation multiple status grounded in available ratio snapshots.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "DYCL",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_DYCL_GROWTH_01",
+      "dimension": "REVENUE_GROWTH",
+      "wealthosInterpretation": {
+        "status": "DATA_INSUFFICIENT",
+        "statement": "Revenue trajectory evaluated as DATA_INSUFFICIENT with latest growth of N/A% (unknown periods).",
+        "metrics": {
+          "latestGrowthPct": null,
+          "priorGrowthPct": null,
+          "periodsCompared": null
+        }
+      },
+      "reviewStatus": "INSUFFICIENT_EVIDENCE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [
+        "Prior year historical revenue periods not available in snapshot."
+      ],
+      "issueTypes": [
+        "INSUFFICIENT_EVIDENCE"
+      ],
+      "reviewerExplanation": "Revenue growth trajectory cannot be validated due to absence of prior period revenue.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "DYCL",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_DYCL_MARGIN_02",
+      "dimension": "MARGIN_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "DATA_INSUFFICIENT",
+        "statement": "Operating margin trajectory evaluated as DATA_INSUFFICIENT with delta of N/A bps using EBITDA_MARGIN.",
+        "metrics": {
+          "bpsChange": null,
+          "metricUsed": "EBITDA_MARGIN"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Correctly abstains from asserting margin trajectory when historical revenue/EBITDA pairs are missing.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "DYCL",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_DYCL_RETURN_03",
+      "dimension": "RETURN_PROFILE",
+      "wealthosInterpretation": {
+        "status": "HIGH_QUALITY",
+        "statement": "Capital efficiency return profile assessed as HIGH_QUALITY with ROCE at 24.89%.",
+        "metrics": {
+          "metric": "ROCE",
+          "latestValue": 24.89,
+          "status": "HIGH_QUALITY"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "ROCE: 24.89%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Return metric 24.89% comfortably clears high-quality hurdle rate (>=18%).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "DYCL",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_DYCL_DEBT_04",
+      "dimension": "DEBT_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "DATA_INSUFFICIENT",
+        "statement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+        "metrics": {
+          "status": "DATA_INSUFFICIENT",
+          "changePct": null
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Balance sheet debt history currently lacks multi-year snapshot pairing in database; engine correctly abstains.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "DYCL",
+      "module": "VALUATION",
+      "claimId": "CLAIM_DYCL_VALUATION_06",
+      "dimension": "VALUATION_MULTIPLE",
+      "wealthosInterpretation": {
+        "status": "AVAILABLE",
+        "statement": "Valuation assessment evaluated as AVAILABLE with trailing multiples.",
+        "metrics": {
+          "evEbitda": {
+            "metric": "EV/EBITDA",
+            "current": 15.83,
+            "relativeStatus": "DATA_INSUFFICIENT",
+            "evidence": [
+              {
+                "evidenceId": "VAL_SNAP_DYCL",
+                "sourceType": "TRENDLYNE_SNAPSHOT",
+                "sourceId": "UPSTOX_FUNDAMENTALS:key-ratios:DYCL",
+                "timestamp": "2026-09-26T12:10:15.176Z",
+                "notes": "Extracted valuation ratios from canonical snapshot"
+              }
+            ]
+          }
+        }
+      },
+      "reviewStatus": "REASONABLE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Valuation multiple status grounded in available ratio snapshots.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "STYL",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_STYL_GROWTH_01",
+      "dimension": "REVENUE_GROWTH",
+      "wealthosInterpretation": {
+        "status": "ACCELERATING",
+        "statement": "Revenue trajectory evaluated as ACCELERATING with latest growth of -1.21% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+        "metrics": {
+          "latestGrowthPct": -1.21,
+          "priorGrowthPct": -6.12,
+          "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Latest Revenue YoY Growth: -1.21%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Trajectory status 'ACCELERATING' is mathematically consistent with -1.21% latest growth vs -6.12% prior growth.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "STYL",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_STYL_MARGIN_02",
+      "dimension": "MARGIN_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "EXPANDING",
+        "statement": "Operating margin trajectory evaluated as EXPANDING with delta of 257 bps using EBITDA_MARGIN.",
+        "metrics": {
+          "bpsChange": 257,
+          "metricUsed": "EBITDA_MARGIN"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "Margin delta: 257 bps using EBITDA_MARGIN"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Margin status 'EXPANDING' accurately aligns with 257 bps change (threshold 50 bps for industrial, 15 bps for NIM).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "STYL",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_STYL_RETURN_03",
+      "dimension": "RETURN_PROFILE",
+      "wealthosInterpretation": {
+        "status": "HIGH_QUALITY",
+        "statement": "Capital efficiency return profile assessed as HIGH_QUALITY with ROCE at 23.16%.",
+        "metrics": {
+          "metric": "ROCE",
+          "latestValue": 23.16,
+          "status": "HIGH_QUALITY"
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [
+        "ROCE: 23.16%"
+      ],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Return metric 23.16% comfortably clears high-quality hurdle rate (>=18%).",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "STYL",
+      "module": "FUNDAMENTAL",
+      "claimId": "CLAIM_STYL_DEBT_04",
+      "dimension": "DEBT_TRAJECTORY",
+      "wealthosInterpretation": {
+        "status": "DATA_INSUFFICIENT",
+        "statement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+        "metrics": {
+          "status": "DATA_INSUFFICIENT",
+          "changePct": null
+        }
+      },
+      "reviewStatus": "SUPPORTED",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Balance sheet debt history currently lacks multi-year snapshot pairing in database; engine correctly abstains.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "HIGH"
+    },
+    {
+      "reviewRunId": "PILOT_RUN_001",
+      "symbol": "STYL",
+      "module": "VALUATION",
+      "claimId": "CLAIM_STYL_VALUATION_06",
+      "dimension": "VALUATION_MULTIPLE",
+      "wealthosInterpretation": {
+        "status": "AVAILABLE",
+        "statement": "Valuation assessment evaluated as AVAILABLE with trailing multiples.",
+        "metrics": {
+          "evEbitda": {
+            "metric": "EV/EBITDA",
+            "current": 14.11,
+            "relativeStatus": "DATA_INSUFFICIENT",
+            "evidence": [
+              {
+                "evidenceId": "VAL_SNAP_STYL",
+                "sourceType": "TRENDLYNE_SNAPSHOT",
+                "sourceId": "UPSTOX_FUNDAMENTALS:key-ratios:STYL",
+                "timestamp": "2026-09-27T03:24:20.382Z",
+                "notes": "Extracted valuation ratios from canonical snapshot"
+              }
+            ]
+          }
+        }
+      },
+      "reviewStatus": "REASONABLE",
+      "factsSupportingWealthos": [],
+      "factsContradictingWealthos": [],
+      "missingContext": [],
+      "issueTypes": [],
+      "reviewerExplanation": "Valuation multiple status grounded in available ratio snapshots.",
+      "potentialGeneralRule": null,
+      "requiresCodeChange": false,
+      "confidence": "MEDIUM"
+    }
+  ],
+  "clusters": [
+    {
+      "clusterId": "CLUSTER_SECTOR_CONTEXT_01",
+      "clusterName": "Financial / Banking Sector Rule Incompatibility",
+      "category": "SECTOR_CONTEXT",
+      "affectedSymbols": [
+        "HDFCBANK"
+      ],
+      "affectedClaimIds": [
+        "CLAIM_HDFCBANK_MARGIN_02",
+        "CLAIM_HDFCBANK_RETURN_03",
+        "CLAIM_HDFCBANK_DEBT_04"
+      ],
+      "rootCauseSummary": "Generic non-financial balance sheet or margin rules applied to banks/NBFCs without adapting for NIM or loan book leverage.",
+      "issueTypes": [
+        "SECTOR_CONTEXT_MISSING",
+        "INTERPRETATION_RULE_ERROR"
+      ],
+      "suggestedGeneralRemediation": "Ensure BusinessModelClassifier routes banks and NBFCs to dedicated banking ratio evaluation (NIM, Cost-to-Income, Gross NPA) instead of EBITDA margin.",
+      "forbiddenCompanyHardcoding": [
+        "Do NOT write `if (symbol === \"HDFCBANK\")`",
+        "Use businessModel === \"BANK\" or \"NBFC\""
+      ]
+    },
+    {
+      "clusterId": "CLUSTER_MARGIN_INTERPRETATION_02",
+      "clusterName": "Margin Delta Threshold & Scale Sensitivity",
+      "category": "MARGIN_INTERPRETATION",
+      "affectedSymbols": [
+        "HDFCBANK"
+      ],
+      "affectedClaimIds": [
+        "CLAIM_HDFCBANK_MARGIN_02"
+      ],
+      "rootCauseSummary": "Fixed 50 bps threshold treats tiny delta in high-margin businesses the same as razor-thin margin businesses.",
+      "issueTypes": [
+        "INTERPRETATION_RULE_ERROR"
+      ],
+      "suggestedGeneralRemediation": "Adopt proportional margin delta (e.g. delta relative to baseline margin) alongside absolute bps threshold.",
+      "forbiddenCompanyHardcoding": [
+        "Do NOT write symbol-specific margin thresholds"
+      ]
+    },
+    {
+      "clusterId": "CLUSTER_ROCE_ROE_03",
+      "clusterName": "Capital Efficiency Metric Selection & Thresholds",
+      "category": "ROCE_ROE_INTERPRETATION",
+      "affectedSymbols": [
+        "HDFCBANK"
+      ],
+      "affectedClaimIds": [
+        "CLAIM_HDFCBANK_RETURN_03"
+      ],
+      "rootCauseSummary": "Static 18% ROCE threshold labels capital-intensive utilities or regulated infrastructure as low return without considering cost of capital or regulatory ROE.",
+      "issueTypes": [
+        "INTERPRETATION_RULE_ERROR",
+        "CONTEXT_MISSING"
+      ],
+      "suggestedGeneralRemediation": "Introduce sector-specific return benchmarks (e.g. 12-14% for regulated utilities/infra, 15%+ for banks, 18%+ for asset-light FMCG/IT).",
+      "forbiddenCompanyHardcoding": [
+        "Do NOT hardcode utility company names"
+      ]
+    }
+  ]
+}

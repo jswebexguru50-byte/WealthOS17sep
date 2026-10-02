@@ -1,0 +1,17 @@
+{
+  "issuerNseSymbol": "ARE&M",
+  "issuerBseCode": "500008",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_AREM_AR24",
+      "documentName": "Amara_Raja_Annual_Report_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-26",
+      "documentHashSha256": "89abcdef0123456789abcdef0123456789abcdef9",
+      "pageCount": 240,
+      "filingAuthority": "BSE / NSE"
+    }
+  ]
+}

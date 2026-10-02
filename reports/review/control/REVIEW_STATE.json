@@ -1,0 +1,78 @@
+{
+  "state": "AWAITING_CODEX_VERIFICATION",
+  "program": "FUNDAMENTAL_CALIBRATION",
+  "reviewId": "FUNDAMENTAL_PILOT_200",
+  "requestId": "PILOT_200_CALIBRATION_001",
+  "iteration": 1,
+  "setBy": "ANTIGRAVITY",
+  "reason": "Completed deterministic 200-company calibration cohort selection, full pipeline evaluation against disposable DB copy, zero production DB writes verified, 8 deterministic unit tests passed, and all 8 required pilot artifacts generated in reports/review/fundamental_pilot/.",
+  "activeOwner": "CODEX",
+  "nextArtifact": "reports/review/control/VERIFICATION_RECORD.json",
+  "timestamp": "2026-10-01T15:18:00.000Z",
+  "stateHistory": [
+    {
+      "state": "AWAITING_CODEX_VERIFICATION",
+      "setBy": "ANTIGRAVITY",
+      "timestamp": "2026-10-01T04:57:06.153Z",
+      "reason": "Antigravity completed FRAMEWORK_HARDENING_002: authoritative transition controller, capability registry expansion (23 capabilities), and lightweight test suite execution paths.",
+      "requestId": "FRAMEWORK_HARDENING_002",
+      "reviewId": "FRAMEWORK_INIT_REVIEW_001"
+    },
+    {
+      "state": "CODEX_REVIEWING",
+      "setBy": "CODEX",
+      "timestamp": "2026-10-01T05:02:10.244Z",
+      "reason": "Independent verification of FRAMEWORK_HARDENING_002 commenced.",
+      "requestId": "FRAMEWORK_HARDENING_002",
+      "reviewId": "FRAMEWORK_INIT_REVIEW_001"
+    },
+    {
+      "state": "PASS",
+      "setBy": "CODEX",
+      "timestamp": "2026-10-01T05:02:38.715Z",
+      "reason": "FRAMEWORK_HARDENING_002 independently verified. Framework frozen for normal protocol operation.",
+      "requestId": "FRAMEWORK_HARDENING_002",
+      "reviewId": "FRAMEWORK_INIT_REVIEW_001"
+    },
+    {
+      "state": "IDLE",
+      "setBy": "CODEX",
+      "timestamp": "2026-10-01T05:02:50.739Z",
+      "reason": "Framework verification closed; initialize CAL_020.",
+      "requestId": "CAL_020",
+      "reviewId": "FUNDAMENTAL_CAL_020"
+    },
+    {
+      "state": "CODEX_REVIEWING",
+      "setBy": "CODEX",
+      "timestamp": "2026-10-01T05:02:50.742Z",
+      "reason": "Independent CAL_020 review initiated; frozen cohort and fresh production capture required before semantic comparison.",
+      "requestId": "CAL_020",
+      "reviewId": "FUNDAMENTAL_CAL_020"
+    },
+    {
+      "state": "REMEDIATION_READY",
+      "setBy": "CODEX",
+      "timestamp": "2026-10-01T05:12:14.522Z",
+      "reason": "CAL_020 independent findings frozen and material generalized defects require remediation.",
+      "requestId": "CAL_020_REMEDIATION_001",
+      "reviewId": "FUNDAMENTAL_CAL_020"
+    },
+    {
+      "state": "ANTIGRAVITY_WORKING",
+      "setBy": "ANTIGRAVITY",
+      "timestamp": "2026-10-01T05:13:52.333Z",
+      "reason": "Antigravity consumed CAL_020_REMEDIATION_001 and is implementing the 4 generalized P1 remediations.",
+      "requestId": "CAL_020_REMEDIATION_001",
+      "reviewId": "FUNDAMENTAL_CAL_020"
+    },
+    {
+      "state": "AWAITING_CODEX_VERIFICATION",
+      "setBy": "ANTIGRAVITY",
+      "timestamp": "2026-10-01T05:46:07.343Z",
+      "reason": "Remediated all 4 CAL_020 findings with metric-level valuation history, FERE-backed QGLP risk, model-aware leverage, and UNKNOWN business model fail-closed handling. Verified against disposable DB copy with zero production DB writes.",
+      "requestId": "CAL_020_REMEDIATION_001",
+      "reviewId": "FUNDAMENTAL_CAL_020"
+    }
+  ]
+}

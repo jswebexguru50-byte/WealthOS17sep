@@ -1,0 +1,1184 @@
+{
+  "generatedAt": "2026-10-01T20:56:29.382Z",
+  "mode": "DRY_RUN",
+  "dbPath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\portfolio.db",
+  "requested": 230,
+  "symbolsWithSnapshot": 15,
+  "symbolsWithAnchor": 15,
+  "skippedNoAnchor": 0,
+  "factsPrepared": 93,
+  "factsWritten": 0,
+  "missingValues": 27,
+  "providerHeaderDates": [
+    "2026-09-24",
+    "2026-09-25"
+  ],
+  "policy": "Quarterly PAT values are from Trendlyne relative labels; periodEnd is anchored to the latest explicit Trendlyne shareholding quarter label for the same symbol. These are VERIFIED_PARTIAL, not filing-derived VERIFIED facts.",
+  "symbols": [
+    {
+      "symbol": "AKIKO",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ALPEXSOLAR",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ANLON",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ANNU",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "APLAPOLLO",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "APOLLO",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ARE&M",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AZAD",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BAJAJHFL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BAJFINANCE",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BANKBARODA",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BEL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BHARTIARTL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BLS",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BLUEJET",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BLUEWATER",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 7
+    },
+    {
+      "symbol": "CDSL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CGPOWER",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "COSMICCRF",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "DESCO",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "DIVISLAB",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "DIXON",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "EPL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ETERNAL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "FEDERALBNK",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "FRATELLIVI",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "GANECOS",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "GOKEX",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "GPECO",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "GROWW",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "HAL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "HDFCBANK",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "HIRECT",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "HOMEFIRST",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "INVICTA",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "JGCHEM",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "KPITTECH",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "LAURUSLABS",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 8
+    },
+    {
+      "symbol": "LT",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "M&M",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "MAZDOCK",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "MEESHO",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "MRP",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "MUFIN",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "NH",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "OBSCP",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 7
+    },
+    {
+      "symbol": "OLECTRA",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ORIANA",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "PAYTM",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "PIDILITIND",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "POLYCAB",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "RAJRATAN",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "RBLBANK",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "RELIANCE",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "SBIFUN",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "SBIN",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "SJLOGISTIC",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "SMARTHORIZON",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "SOLARINDS",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "SONUINFRA",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "TATACONSUM",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "TATAMOTORS",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "TATAPOWER",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "TEMBO",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "TINNARUBR",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "TRANSRAILL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "UL -HINDON",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "UL-DELTA GALAXY",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "UNOMINDA",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ZENTEC",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "360ONE",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "3IINFOLTD",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "63MOONS",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AARADHYA",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AAREYDRUGS",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AARTECH",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AARTIDRUGS",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AARTISURF",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ABBOTINDIA",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ABSLAMC",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ABSMARINE",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ACCENTMIC",
+      "status": "NO_NUMERIC_PROFIT_VALUES",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ACCORD",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ACETEC",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ACMESOLAR",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ADANIPORTS",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ADFFOODS",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ADVANCE",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ADVENZYMES",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AEGISLOG",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 8
+    },
+    {
+      "symbol": "AEGISVOPAK",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AEPL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AFFLE",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AGARWALEYE",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AGARWALTUF",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AGI",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AGL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AHCL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AIIL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AIRAN",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AJAXENGG",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AKANKSHA",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AKSHARCHEM",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AKUMS",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ALBERTDAVD",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ALEMBICLTD",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ALGOQUANT",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ALICON",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ALKEM",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ALLCARGO",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ALPHAGEO",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AMANTA",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AMDIND",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AMEYA",
+      "status": "NO_NUMERIC_PROFIT_VALUES",
+      "anchorPeriodEnd": "2026-03-31",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ANANTRAJ",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ANDHRAPAP",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ANDHRSUGAR",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ANGELONE",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ANMOL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ANSALAPI",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ANTELOPUS",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 8
+    },
+    {
+      "symbol": "ANUHPHR",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "APCOTEXIND",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "APLLTD",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ARABIAN",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ARCHIDPLY",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ARHAM",
+      "status": "NO_NUMERIC_PROFIT_VALUES",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ARIES",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ARIHANTCAP",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ARROWGREEN",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ARTEMISMED",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ASAHIINDIA",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ASAHISONG",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ASHOKAMET",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ASHOKLEY",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ASIANHOTNR",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ASIANTILES",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ASKAUTOLTD",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ASTEC",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "ATGL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AURIONPRO",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AUTOIND",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AVALON",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AVIENCE",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AVL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AVTNPL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AWFIS",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AXISCADES",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BAFNAPH",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 8
+    },
+    {
+      "symbol": "BAHETI",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BAJAJ-AUTO",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BAJAJCON",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 8
+    },
+    {
+      "symbol": "BAJAJHCARE",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BAJAJHIND",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BAJAJHLDNG",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BALAJITELE",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BALKRISIND",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BALPHARMA",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BANARBEADS",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BANDHANBNK",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BANKINDIA",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BANSALWIRE",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BBOX",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BBTCL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BCG",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BDL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BECTORFOOD",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BEML",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BEPL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BESTAGRO",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BFUTILITIE",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BHADORA",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BHAGERIA",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BHAGYANGR",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 8
+    },
+    {
+      "symbol": "BHARATSE",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BHARTIHEXA",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BI",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BIKEWO",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BIL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BIRLACABLE",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BIRLANU",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BIRLAPREC",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BLACKBUCK",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BLACKROSE",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BLISSGVS",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 8
+    },
+    {
+      "symbol": "BLUESTARCO",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BLUESTONE",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BMLL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BODALCHEM",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BOHRAIND",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BOROLTD",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BORORENEW",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BOSCH-HCIL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BOSCHLTD",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BOSS",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BPCL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BRIGADE",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BUILDPRO",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BULKCORP",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CANHLIFE",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CANTABIL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CAPILLARY",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 7
+    },
+    {
+      "symbol": "CAPTRUST",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CARBORUNIV",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CARERATING",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CARRARO",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CARTRADE",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CASTROLIND",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CBAZAAR",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CEATLTD",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CEIGALL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CEMPRO",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CENTENKA",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CENTRALBK",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CENTUM",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 8
+    },
+    {
+      "symbol": "CEWATER",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CGCL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CHALET",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CHEMBOND",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CHEMPLASTS",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CHENNPETRO",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 8
+    },
+    {
+      "symbol": "CHOICEIN",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CINELINE",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CKKRETAIL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CLEAN",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CLSEL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CMRGREEN",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "CNL",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "COALINDIA",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "COFFEEDAY",
+      "status": "NO_QUARTERLY_PROFIT_SNAPSHOT",
+      "factsPrepared": 0
+    }
+  ]
+}

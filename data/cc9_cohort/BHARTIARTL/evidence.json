@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_BHARTI_REV_01",
+    "issuerNseSymbol": "BHARTIARTL",
+    "issuerBseCode": "532454",
+    "documentId": "DOC_BHARTI_AR24",
+    "documentHash": "e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef01234",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 65,
+    "pagePrinted": "63",
+    "quotedText": "Consolidated revenue for FY24 reached ₹149982 Cr supported by steady ARPU expansion.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

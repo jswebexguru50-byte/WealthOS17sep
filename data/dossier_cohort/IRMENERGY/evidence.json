@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_IRMENERGY_REV_FY26",
+    "issuerNseSymbol": "IRMENERGY",
+    "issuerBseCode": "521390",
+    "documentHash": "552da2a4766b5962487480ce3f39d6986a22017300a18a5a8325ddd1593c7101",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹3331 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_IRMENERGY_PAT_FY26",
+    "issuerNseSymbol": "IRMENERGY",
+    "issuerBseCode": "521390",
+    "documentHash": "552da2a4766b5962487480ce3f39d6986a22017300a18a5a8325ddd1593c7101",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹400 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_IRMENERGY_DEBT_FY26",
+    "issuerNseSymbol": "IRMENERGY",
+    "issuerBseCode": "521390",
+    "documentHash": "a78acd19c57cc7c90acbc7ccbd61e93254a285f7220ba285b30851a4d9c2e5a8",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_IRMENERGY_CONCALL_Q4FY26",
+    "issuerNseSymbol": "IRMENERGY",
+    "issuerBseCode": "521390",
+    "documentHash": "3112d5da579fc76d6ded9e33101ed4bd7ccc30069a4a8a31cbe96bd2d1f85c56",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

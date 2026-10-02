@@ -1,0 +1,2038 @@
+{
+  "PRODUCTION_STATE": "POST_REMEDIATION_EXPERIMENT",
+  "companyIdentity": {
+    "symbol": "RELIANCE",
+    "companyName": "Reliance Industries Limited",
+    "isin": "INE002A01018",
+    "sector": "Energy",
+    "industry": null,
+    "listingClassification": "NSE",
+    "businessModel": "CONGLOMERATE"
+  },
+  "periodContext": {
+    "latestFiscalYear": "Mar 2026",
+    "latestQuarter": null,
+    "ttmAvailable": true,
+    "periodsAvailable": [
+      "Mar 2026",
+      "Mar 2025",
+      "Mar 2024",
+      "Mar 2023"
+    ],
+    "consolidatedOrStandalone": "CONSOLIDATED",
+    "asOfDate": "2026-10-01"
+  },
+  "canonicalFinancialFacts": [
+    {
+      "factId": "73d2b0abf71580770b1485d063cc2a5fe654f2599cdbb9cd18d7b286b2eff2d1",
+      "metric": "cfo_cr",
+      "value": 110,
+      "unit": "INR_CR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "5a7954a17642749e6d4b96ced86fcda326ec4b2ea5573655f06fbc3d363e1825",
+      "metric": "cmp",
+      "value": 350.5,
+      "unit": "INR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "2ba68b680911827bc35472be03392b0a2064bcc8843904fdcfd8a182ce6fda1f",
+      "metric": "fii_holding_pct",
+      "value": 14.2,
+      "unit": "PERCENT",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "fda3d30ce9cda3d5f268bab3c8b4af69752c8448bf7168e8f7d77e6f74b8d4bd",
+      "metric": "institutional_holding_pct",
+      "value": 18.5,
+      "unit": "PERCENT",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "5ba8d0a29190616d8329cef87aa93051f3f7c14baef077fca25b967de906a5b2",
+      "metric": "market_cap_cr",
+      "value": 4500,
+      "unit": "INR_CR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "e14ab0238deebfb271b237b0201c100cd780b904f3c15e01c2aef8c70a71bd66",
+      "metric": "order_book_cr",
+      "value": 1850,
+      "unit": "INR_CR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "2c41936d079dc4722283aa9dd8753a4fcaa51bc423000fc6780bcb82b59e979b",
+      "metric": "pat_cr",
+      "value": 85,
+      "unit": "INR_CR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "8116f52e2df36c61ca54b664a0f38493df3ea6d392901e4a4416b05f45ccb74e",
+      "metric": "pe_ttm",
+      "value": 18.5,
+      "unit": "RATIO",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "b57ef25e278d43b60aeb0aa3031ee7eab42e1f0a96324b85f1f005f6adba711d",
+      "metric": "promoter_holding_pct",
+      "value": 62.5,
+      "unit": "PERCENT",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "7a4e6b783a9b1bed4b00a8f4aabbae1240634ff69af9e8d1272cb6bdbfa26aca",
+      "metric": "promoter_pledge_pct",
+      "value": "0.0",
+      "unit": "PERCENT",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "89b0212da8435482b0a718412ff8cd2d509e261cc55827912cbececc96461fa1",
+      "metric": "revenue_cr",
+      "value": 950,
+      "unit": "INR_CR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "c693ae3cf661e8c1f3102b2a7db8055c46ed01e789d2a9eba2b822f9f1c90e5f",
+      "metric": "roe_pct",
+      "value": 16.2,
+      "unit": "PERCENT",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_dii_holding_pct_2026-06-30_QUARTERLY",
+      "metric": "dii_holding_pct",
+      "value": 11.08,
+      "unit": "PERCENT",
+      "period": "2026-06-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_fii_holding_pct_2026-06-30_QUARTERLY",
+      "metric": "fii_holding_pct",
+      "value": 17.2,
+      "unit": "PERCENT",
+      "period": "2026-06-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_mutual_fund_holding_pct_2026-06-30_QUARTERLY",
+      "metric": "mutual_fund_holding_pct",
+      "value": 10.11,
+      "unit": "PERCENT",
+      "period": "2026-06-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_promoter_holding_pct_2026-06-30_QUARTERLY",
+      "metric": "promoter_holding_pct",
+      "value": 50.48,
+      "unit": "PERCENT",
+      "period": "2026-06-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_retail_holding_pct_2026-06-30_QUARTERLY",
+      "metric": "retail_holding_pct",
+      "value": 11.13,
+      "unit": "PERCENT",
+      "period": "2026-06-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cff_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cff_cr",
+      "value": -51549,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cfi_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfi_cr",
+      "value": -101089,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cfo_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfo_cr",
+      "value": 192113,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_dii_holding_pct_2026-03-31_QUARTERLY",
+      "metric": "dii_holding_pct",
+      "value": 10.77,
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_ebitda_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "ebitda_cr",
+      "value": 123162,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_ev_ebitda_LATEST_TTM",
+      "metric": "ev_ebitda",
+      "value": 9.35,
+      "unit": "RATIO",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_fii_holding_pct_2026-03-31_QUARTERLY",
+      "metric": "fii_holding_pct",
+      "value": 18.67,
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_mutual_fund_holding_pct_2026-03-31_QUARTERLY",
+      "metric": "mutual_fund_holding_pct",
+      "value": 9.78,
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_pat_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "pat_cr",
+      "value": 95610,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_pb_LATEST_TTM",
+      "metric": "pb",
+      "value": 1.84,
+      "unit": "RATIO",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_pe_LATEST_TTM",
+      "metric": "pe",
+      "value": 18.82,
+      "unit": "RATIO",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_promoter_holding_pct_2026-03-31_QUARTERLY",
+      "metric": "promoter_holding_pct",
+      "value": 50,
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_quick_ratio_LATEST_TTM",
+      "metric": "quick_ratio",
+      "value": 0.79,
+      "unit": "RATIO",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_retail_holding_pct_2026-03-31_QUARTERLY",
+      "metric": "retail_holding_pct",
+      "value": 10.79,
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_revenue_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "revenue_cr",
+      "value": 1086181,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_roa_pct_LATEST_TTM",
+      "metric": "roa_pct",
+      "value": 4.04,
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_roce_pct_LATEST_TTM",
+      "metric": "roce_pct",
+      "value": 10.39,
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_roe_pct_LATEST_TTM",
+      "metric": "roe_pct",
+      "value": 8.94,
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_total_asset_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_asset_cr",
+      "value": 2178140,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_total_liability_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_liability_cr",
+      "value": 1092274,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_dii_holding_pct_2025-12-31_QUARTERLY",
+      "metric": "dii_holding_pct",
+      "value": 10.66,
+      "unit": "PERCENT",
+      "period": "2025-12-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_fii_holding_pct_2025-12-31_QUARTERLY",
+      "metric": "fii_holding_pct",
+      "value": 19.09,
+      "unit": "PERCENT",
+      "period": "2025-12-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_mutual_fund_holding_pct_2025-12-31_QUARTERLY",
+      "metric": "mutual_fund_holding_pct",
+      "value": 9.52,
+      "unit": "PERCENT",
+      "period": "2025-12-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_promoter_holding_pct_2025-12-31_QUARTERLY",
+      "metric": "promoter_holding_pct",
+      "value": 50.01,
+      "unit": "PERCENT",
+      "period": "2025-12-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_retail_holding_pct_2025-12-31_QUARTERLY",
+      "metric": "retail_holding_pct",
+      "value": 10.73,
+      "unit": "PERCENT",
+      "period": "2025-12-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_dii_holding_pct_2025-09-30_QUARTERLY",
+      "metric": "dii_holding_pct",
+      "value": 10.67,
+      "unit": "PERCENT",
+      "period": "2025-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_fii_holding_pct_2025-09-30_QUARTERLY",
+      "metric": "fii_holding_pct",
+      "value": 18.65,
+      "unit": "PERCENT",
+      "period": "2025-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_mutual_fund_holding_pct_2025-09-30_QUARTERLY",
+      "metric": "mutual_fund_holding_pct",
+      "value": 9.66,
+      "unit": "PERCENT",
+      "period": "2025-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_promoter_holding_pct_2025-09-30_QUARTERLY",
+      "metric": "promoter_holding_pct",
+      "value": 50.01,
+      "unit": "PERCENT",
+      "period": "2025-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_retail_holding_pct_2025-09-30_QUARTERLY",
+      "metric": "retail_holding_pct",
+      "value": 11.01,
+      "unit": "PERCENT",
+      "period": "2025-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cff_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cff_cr",
+      "value": -31891,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cfi_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfi_cr",
+      "value": -137535,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cfo_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfo_cr",
+      "value": 178703,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_ebitda_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "ebitda_cr",
+      "value": 106017,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_pat_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "pat_cr",
+      "value": 80787,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_revenue_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "revenue_cr",
+      "value": 982671,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_total_asset_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_asset_cr",
+      "value": 1950121,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_total_liability_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_liability_cr",
+      "value": 940495,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cff_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cff_cr",
+      "value": -16646,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cfi_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfi_cr",
+      "value": -113581,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cfo_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfo_cr",
+      "value": 158788,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_ebitda_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "ebitda_cr",
+      "value": 104340,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "fact_RELIANCE_stores_added_2024-03-31",
+      "metric": "net_new_stores_added",
+      "value": 2707,
+      "unit": "COUNT",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "STATUTORY_DISCLOSURE:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_pat_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "pat_cr",
+      "value": 78633,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_revenue_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "revenue_cr",
+      "value": 917121,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_total_asset_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_asset_cr",
+      "value": 1755986,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_total_liability_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_liability_cr",
+      "value": 830198,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "fact_RELIANCE_5g_rollout_2023-12-31",
+      "metric": "pan_india_5g_coverage_status",
+      "value": 1,
+      "unit": "FLAG",
+      "period": "2023-12-31",
+      "scope": "CONSOLIDATED",
+      "source": "STATUTORY_DISCLOSURE:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cff_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cff_cr",
+      "value": 10455,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cfi_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfi_cr",
+      "value": -91235,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cfo_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfo_cr",
+      "value": 115032,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_ebitda_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "ebitda_cr",
+      "value": 94046,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_pat_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "pat_cr",
+      "value": 74088,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_revenue_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "revenue_cr",
+      "value": 889569,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_total_asset_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_asset_cr",
+      "value": 1607431,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_total_liability_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_liability_cr",
+      "value": 778550,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_revenue_Mar 2026",
+      "metric": "REVENUE",
+      "value": 1086181,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_revenue_Mar 2025",
+      "metric": "REVENUE",
+      "value": 982671,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_revenue_Mar 2024",
+      "metric": "REVENUE",
+      "value": 917121,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_revenue_Mar 2023",
+      "metric": "REVENUE",
+      "value": 889569,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_operating_profit_Mar 2026",
+      "metric": "OPERATING_PROFIT",
+      "value": 123162,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_operating_profit_Mar 2025",
+      "metric": "OPERATING_PROFIT",
+      "value": 106017,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_operating_profit_Mar 2024",
+      "metric": "OPERATING_PROFIT",
+      "value": 104340,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_operating_profit_Mar 2023",
+      "metric": "OPERATING_PROFIT",
+      "value": 94046,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_net_profit_Mar 2026",
+      "metric": "NET_PROFIT",
+      "value": 95610,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_net_profit_Mar 2025",
+      "metric": "NET_PROFIT",
+      "value": 80787,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_net_profit_Mar 2024",
+      "metric": "NET_PROFIT",
+      "value": 78633,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_net_profit_Mar 2023",
+      "metric": "NET_PROFIT",
+      "value": 74088,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_operating_Mar 2026",
+      "metric": "CFO_OPERATING",
+      "value": 192113,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_operating_Mar 2025",
+      "metric": "CFO_OPERATING",
+      "value": 178703,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_operating_Mar 2024",
+      "metric": "CFO_OPERATING",
+      "value": 158788,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_operating_Mar 2023",
+      "metric": "CFO_OPERATING",
+      "value": 115032,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_investing_Mar 2026",
+      "metric": "CFO_INVESTING",
+      "value": -101089,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_investing_Mar 2025",
+      "metric": "CFO_INVESTING",
+      "value": -137535,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_investing_Mar 2024",
+      "metric": "CFO_INVESTING",
+      "value": -113581,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_investing_Mar 2023",
+      "metric": "CFO_INVESTING",
+      "value": -91235,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_financing_Mar 2026",
+      "metric": "CFO_FINANCING",
+      "value": -51549,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_financing_Mar 2025",
+      "metric": "CFO_FINANCING",
+      "value": -31891,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_financing_Mar 2024",
+      "metric": "CFO_FINANCING",
+      "value": -16646,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_financing_Mar 2023",
+      "metric": "CFO_FINANCING",
+      "value": 10455,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_RELIANCE_P_E",
+      "metric": "P/E",
+      "value": 18.82,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_RELIANCE_P_B",
+      "metric": "P/B",
+      "value": 1.84,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_RELIANCE_ROA",
+      "metric": "ROA",
+      "value": 4.04,
+      "unit": "PERCENT",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_RELIANCE_ROE",
+      "metric": "ROE",
+      "value": 8.94,
+      "unit": "PERCENT",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_RELIANCE_ROCE",
+      "metric": "ROCE",
+      "value": 10.39,
+      "unit": "PERCENT",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_RELIANCE_Quick_Ratio",
+      "metric": "QUICK RATIO",
+      "value": 0.79,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_RELIANCE_EV_EBITDA",
+      "metric": "EV/EBITDA",
+      "value": 9.35,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    }
+  ],
+  "derivedMetrics": [
+    {
+      "metric": "REVENUE_YOY_GROWTH",
+      "value": 10.53,
+      "unit": "PERCENT",
+      "formula": "((Revenue[t] - Revenue[t-1]) / |Revenue[t-1]|) * 100",
+      "periodsCompared": "Mar 2026 vs Mar 2025",
+      "verificationStatus": "VERIFIED",
+      "independentValue": 10.53,
+      "discrepancyNotes": "Oracle: ((1086181 - 982671) / |982671|) * 100 = 10.53%, Production: 10.53%"
+    },
+    {
+      "metric": "EBITDA_MARGIN_LATEST",
+      "value": 11.34,
+      "unit": "PERCENT",
+      "formula": "(EBITDA / Revenue) * 100",
+      "periodsCompared": "Mar 2026",
+      "verificationStatus": "VERIFIED",
+      "independentValue": 11.34,
+      "discrepancyNotes": "Oracle: (123162 / 1086181) * 100 = 11.34%, Production: 11.34%"
+    },
+    {
+      "metric": "MARGIN_BPS_DELTA",
+      "value": 55,
+      "unit": "BPS",
+      "formula": "(Margin[t] - Margin[t-1]) * 100",
+      "verificationStatus": "VERIFIED",
+      "independentValue": 55,
+      "discrepancyNotes": "Metric: EBITDA_MARGIN"
+    }
+  ],
+  "evidenceProvenance": [
+    {
+      "factId": "73d2b0abf71580770b1485d063cc2a5fe654f2599cdbb9cd18d7b286b2eff2d1",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "5a7954a17642749e6d4b96ced86fcda326ec4b2ea5573655f06fbc3d363e1825",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "2ba68b680911827bc35472be03392b0a2064bcc8843904fdcfd8a182ce6fda1f",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "fda3d30ce9cda3d5f268bab3c8b4af69752c8448bf7168e8f7d77e6f74b8d4bd",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "5ba8d0a29190616d8329cef87aa93051f3f7c14baef077fca25b967de906a5b2",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "e14ab0238deebfb271b237b0201c100cd780b904f3c15e01c2aef8c70a71bd66",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "2c41936d079dc4722283aa9dd8753a4fcaa51bc423000fc6780bcb82b59e979b",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "8116f52e2df36c61ca54b664a0f38493df3ea6d392901e4a4416b05f45ccb74e",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "b57ef25e278d43b60aeb0aa3031ee7eab42e1f0a96324b85f1f005f6adba711d",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "7a4e6b783a9b1bed4b00a8f4aabbae1240634ff69af9e8d1272cb6bdbfa26aca",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "89b0212da8435482b0a718412ff8cd2d509e261cc55827912cbececc96461fa1",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "c693ae3cf661e8c1f3102b2a7db8055c46ed01e789d2a9eba2b822f9f1c90e5f",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_dii_holding_pct_2026-06-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-06-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_fii_holding_pct_2026-06-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-06-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_mutual_fund_holding_pct_2026-06-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-06-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_promoter_holding_pct_2026-06-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-06-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_retail_holding_pct_2026-06-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-06-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cff_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cfi_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cfo_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_dii_holding_pct_2026-03-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_ebitda_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_ev_ebitda_LATEST_TTM",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_fii_holding_pct_2026-03-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_mutual_fund_holding_pct_2026-03-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_pat_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_pb_LATEST_TTM",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_pe_LATEST_TTM",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_promoter_holding_pct_2026-03-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_quick_ratio_LATEST_TTM",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_retail_holding_pct_2026-03-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_revenue_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_roa_pct_LATEST_TTM",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_roce_pct_LATEST_TTM",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_roe_pct_LATEST_TTM",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_total_asset_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_total_liability_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_dii_holding_pct_2025-12-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-12-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_fii_holding_pct_2025-12-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-12-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_mutual_fund_holding_pct_2025-12-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-12-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_promoter_holding_pct_2025-12-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-12-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_retail_holding_pct_2025-12-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-12-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_dii_holding_pct_2025-09-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-09-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_fii_holding_pct_2025-09-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-09-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_mutual_fund_holding_pct_2025-09-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-09-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_promoter_holding_pct_2025-09-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-09-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_retail_holding_pct_2025-09-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-09-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cff_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cfi_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cfo_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_ebitda_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_pat_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_revenue_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_total_asset_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_total_liability_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cff_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cfi_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cfo_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_ebitda_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "fact_RELIANCE_stores_added_2024-03-31",
+      "source": "STATUTORY_DISCLOSURE:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_pat_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_revenue_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_total_asset_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_total_liability_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "fact_RELIANCE_5g_rollout_2023-12-31",
+      "source": "STATUTORY_DISCLOSURE:EXCHANGE_FILING",
+      "period": "2023-12-31",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cff_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cfi_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_cfo_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_ebitda_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_pat_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_revenue_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_total_asset_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE002A01018_total_liability_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_revenue_Mar 2026",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_revenue_Mar 2025",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_revenue_Mar 2024",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_revenue_Mar 2023",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_operating_profit_Mar 2026",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_operating_profit_Mar 2025",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_operating_profit_Mar 2024",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_operating_profit_Mar 2023",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_net_profit_Mar 2026",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_net_profit_Mar 2025",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_net_profit_Mar 2024",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_RELIANCE_net_profit_Mar 2023",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_operating_Mar 2026",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_operating_Mar 2025",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_operating_Mar 2024",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_operating_Mar 2023",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_investing_Mar 2026",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_investing_Mar 2025",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_investing_Mar 2024",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_investing_Mar 2023",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_financing_Mar 2026",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_financing_Mar 2025",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_financing_Mar 2024",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_RELIANCE_financing_Mar 2023",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_RELIANCE_P_E",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_RELIANCE_P_B",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_RELIANCE_ROA",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_RELIANCE_ROE",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_RELIANCE_ROCE",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_RELIANCE_Quick_Ratio",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_RELIANCE_EV_EBITDA",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    }
+  ],
+  "missingData": [],
+  "wealthosInterpretations": [
+    {
+      "claimId": "CLAIM_RELIANCE_GROWTH_01",
+      "module": "FUNDAMENTAL",
+      "dimension": "REVENUE_GROWTH",
+      "claimStatement": "Revenue trajectory evaluated as ACCELERATING with latest growth of 10.53% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+      "wealthosStatus": "ACCELERATING",
+      "underlyingMetricValues": {
+        "latestGrowthPct": 10.53,
+        "priorGrowthPct": 7.15,
+        "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+      }
+    },
+    {
+      "claimId": "CLAIM_RELIANCE_MARGIN_02",
+      "module": "FUNDAMENTAL",
+      "dimension": "MARGIN_TRAJECTORY",
+      "claimStatement": "Operating margin trajectory evaluated as EXPANDING with delta of 55 bps using EBITDA_MARGIN.",
+      "wealthosStatus": "EXPANDING",
+      "underlyingMetricValues": {
+        "bpsChange": 55,
+        "metricUsed": "EBITDA_MARGIN"
+      }
+    },
+    {
+      "claimId": "CLAIM_RELIANCE_RETURN_03",
+      "module": "FUNDAMENTAL",
+      "dimension": "RETURN_PROFILE",
+      "claimStatement": "Capital efficiency return profile assessed as LOW with ROCE at 10.39%.",
+      "wealthosStatus": "LOW",
+      "underlyingMetricValues": {
+        "metric": "ROCE",
+        "latestValue": 10.39,
+        "status": "LOW"
+      }
+    },
+    {
+      "claimId": "CLAIM_RELIANCE_DEBT_04",
+      "module": "FUNDAMENTAL",
+      "dimension": "DEBT_TRAJECTORY",
+      "claimStatement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "status": "DATA_INSUFFICIENT",
+        "changePct": null
+      }
+    },
+    {
+      "claimId": "CLAIM_RELIANCE_VALUATION_PE",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric PE is 18.82. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "PE",
+        "current": 18.82
+      }
+    },
+    {
+      "claimId": "CLAIM_RELIANCE_VALUATION_PB",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric PB is 1.84. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "PB",
+        "current": 1.84
+      }
+    },
+    {
+      "claimId": "CLAIM_RELIANCE_VALUATION_EV_EBITDA",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric EV/EBITDA is 9.35. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "EV/EBITDA",
+        "current": 9.35
+      }
+    },
+    {
+      "claimId": "CLAIM_RELIANCE_VALUATION_DIVIDEND_YIELD",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric Dividend Yield is N/A. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "Dividend Yield",
+        "current": null
+      }
+    },
+    {
+      "claimId": "CLAIM_RELIANCE_MGMT_COMMITMENT_215",
+      "module": "MANAGEMENT",
+      "dimension": "MANAGEMENT_COMMITMENT",
+      "claimStatement": "Management commitment in category 'Capex' targeting capex_cr to 130000 for FY2026. Status: NOT_VERIFIABLE.",
+      "wealthosStatus": "NOT_VERIFIABLE",
+      "underlyingMetricValues": {
+        "statement": "Pan-India 5G rollout completed with full monetization roadmap underway.",
+        "targetMetric": "capex_cr",
+        "targetValue": 130000,
+        "actualValue": null
+      }
+    }
+  ]
+}

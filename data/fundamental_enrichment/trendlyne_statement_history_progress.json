@@ -1,0 +1,6 @@
+{
+  "status": "FAILED",
+  "message": "EPERM: operation not permitted, rename 'C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\data\\fundamental_enrichment\\trendlyne_statement_history_progress.json.15172.tmp' -> 'C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\data\\fundamental_enrichment\\trendlyne_statement_history_progress.json'",
+  "updatedAt": "2026-10-01T21:12:29.344Z",
+  "llmCalls": 0
+}

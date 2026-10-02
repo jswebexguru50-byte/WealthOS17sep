@@ -1,0 +1,13 @@
+{
+  "reviewId": "FUNDAMENTAL_CAL_020",
+  "program": "FUNDAMENTAL_CALIBRATION",
+  "reviewer": "CODEX",
+  "status": "REMEDIATION_READY",
+  "cohort": ["AAVAS", "ASTRAL", "BAJFINANCE", "CLEAN", "DEEPAKNTR", "DYCL", "HDFCBANK", "INFY", "LTIM", "LT", "PIDILITIND", "POLYCAB", "RAMCOIND", "RELIANCE", "STYL", "SUNPHARMA", "TATAMOTORS", "TATASTEEL", "TCS", "TITAN"],
+  "blindness": "No PILOT_RUN_001 or PILOT_RUN_002 semantic verdict or finding may be consulted before independent company findings are frozen.",
+  "captureMethod": "Run current product CompanyIntelligenceOrchestrator with persist:false against a disposable copy of portfolio.db; record raw canonical facts and product responses incrementally.",
+  "reviewDimensions": ["data", "derivation", "period_scope", "interpretation", "business_model_context", "evidence", "freshness", "missingness"],
+  "createdAt": "2026-10-01T05:05:00.000Z",
+  "completedAt": "2026-10-01T05:12:14.522Z",
+  "decision": "Four P1 generalized findings were frozen before clustering. See INDEPENDENT_FINDINGS_FROZEN.json and the current control-plane remediation request."
+}

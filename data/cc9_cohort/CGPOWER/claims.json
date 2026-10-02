@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_CGPOWER_01",
+    "issuerNseSymbol": "CGPOWER",
+    "issuerBseCode": "500093",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Scale annual industrial engineering turnover to cross ₹7,500 Cr in FY24.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 6973,
+    "expectedValue": 7500,
+    "expectedOutcome": "Revenue >= ₹7,500 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_CGPOWER_REV_01",
+    "claimDate": "2023-08-16",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 8046,
+    "actualOutcomeDescription": "Delivered ₹8,046 Cr revenue beating guidance by 7.3%.",
+    "evaluationEvidenceId": "EV_CGPOWER_REV_01",
+    "evaluationDate": "2024-05-08",
+    "evaluationBasis": "BSE Audited Financial Accounts Release",
+    "publicationDate": "2023-08-16",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_CGPOWER_01"
+  }
+]

@@ -1,0 +1,905 @@
+{
+  "provider": "TRENDLYNE_MCP",
+  "generatedAt": "2026-10-01T21:11:07.995Z",
+  "queries": [
+    "promoter holding percentage",
+    "promoter pledged shares percentage",
+    "FII holding percentage",
+    "DII holding percentage",
+    "FII holding quarterly change",
+    "DII holding quarterly change",
+    "cash from operating activities annual",
+    "net cash flow annual",
+    "operating profit annual",
+    "profit after tax quarterly",
+    "sales quarterly",
+    "debt to equity annual",
+    "return on equity annual",
+    "return on capital employed annual",
+    "market capitalization",
+    "free cash flow annual",
+    "book value per share",
+    "dividend payout ratio",
+    "Net Profit 1Qtr Ago",
+    "Net Profit 2Qtr Ago",
+    "Net Profit 3Qtr Ago",
+    "Net Profit 4Qtr Ago",
+    "Net Profit 5Qtr Ago",
+    "Net Profit 6Qtr Ago",
+    "Net Profit 7Qtr Ago",
+    "operating revenue annual historical",
+    "capital expenditure annual",
+    "operating profit margin annual historical",
+    "PE historical valuation",
+    "PEG ratio",
+    "total revenue annual historical",
+    "latest financial result",
+    "latest result date",
+    "latest quarter result",
+    "quarter ended",
+    "financial result date",
+    "total revenue qtr",
+    "operating revenue qtr",
+    "net profit qtr",
+    "net profit 1Q ago",
+    "revenue 1Q ago",
+    "operating profit 1Q ago",
+    "cash flow annual",
+    "debt annual",
+    "operating revenue annual 1 year ago",
+    "total revenue annual 1 year ago",
+    "net profit annual 1 year ago",
+    "pat annual 1 year ago",
+    "operating profit annual 1 year ago",
+    "cash from operating activity annual 1 year ago",
+    "capital expenditure annual 1 year ago",
+    "borrowings annual 1 year ago",
+    "interest annual 1 year ago",
+    "operating margin annual 1 year ago",
+    "roce annual 1 year ago",
+    "roe annual 1 year ago",
+    "latest result announcement date",
+    "result declared date",
+    "financial year end",
+    "operating profit 7 qtr ago",
+    "operating profit 6 qtr ago",
+    "operating profit 5 qtr ago",
+    "operating profit 4 qtr ago",
+    "capex annual",
+    "fixed assets purchase annual",
+    "cash from investing activity annual",
+    "cash from operating activity annual",
+    "cash flow from operations annual",
+    "capital work in progress annual"
+  ],
+  "results": {
+    "promoter holding percentage": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"prompct\", \"helping_text\": \"Promoter holding latest %\"}, {\"parameter\": \"prompct1q\", \"helping_text\": \"Promoter holding change QoQ %\"}, {\"parameter\": \"prompct4q\", \"helping_text\": \"Promoter holding change 4Qtr %\"}, {\"parameter\": \"prompledge\", \"helping_text\": \"Promoter holding pledge percentage % Qtr\"}, {\"parameter\": \"prompct8q\", \"helping_text\": \"Promoter holding change 8Qtr %\"}, {\"parameter\": \"pubpct\", \"helping_text\": \"Public holding current Qtr %\"}, {\"parameter\": \"prompledge1q\", \"helping_text\": \"Promoter pledge change QoQ %\"}, {\"parameter\": \"instihold\", \"helping_text\": \"Institutional holding current Qtr %\"}, {\"parameter\": \"fiihold\", \"helping_text\": \"FII holding current Qtr %\"}, {\"parameter\": \"pubpct1q\", \"helping_text\": \"Public holding change QoQ %\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"prompct\", \"helping_text\": \"Promoter holding latest %\"}, {\"parameter\": \"prompct1q\", \"helping_text\": \"Promoter holding change QoQ %\"}, {\"parameter\": \"prompct4q\", \"helping_text\": \"Promoter holding change 4Qtr %\"}, {\"parameter\": \"prompledge\", \"helping_text\": \"Promoter holding pledge percentage % Qtr\"}, {\"parameter\": \"prompct8q\", \"helping_text\": \"Promoter holding change 8Qtr %\"}, {\"parameter\": \"pubpct\", \"helping_text\": \"Public holding current Qtr %\"}, {\"parameter\": \"prompledge1q\", \"helping_text\": \"Promoter pledge change QoQ %\"}, {\"parameter\": \"instihold\", \"helping_text\": \"Institutional holding current Qtr %\"}, {\"parameter\": \"fiihold\", \"helping_text\": \"FII holding current Qtr %\"}, {\"parameter\": \"pubpct1q\", \"helping_text\": \"Public holding change QoQ %\"}]}"
+      }
+    },
+    "promoter pledged shares percentage": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"prompledge\", \"helping_text\": \"Promoter holding pledge percentage % Qtr\"}, {\"parameter\": \"prompct\", \"helping_text\": \"Promoter holding latest %\"}, {\"parameter\": \"insiderpinvokeddayp\", \"helping_text\": \"Insider Pledge invoked as %Total Shares Today\"}, {\"parameter\": \"prompledge1q\", \"helping_text\": \"Promoter pledge change QoQ %\"}, {\"parameter\": \"insiderpinvokedyesterdayp\", \"helping_text\": \"Insider Pledge invoked as %Total Shares Yesterday\"}, {\"parameter\": \"prompct1q\", \"helping_text\": \"Promoter holding change QoQ %\"}, {\"parameter\": \"prompct4q\", \"helping_text\": \"Promoter holding change 4Qtr %\"}, {\"parameter\": \"insiderpinvokedmonthp\", \"helping_text\": \"Insider Pledge invoked as %Total Shares Last Month\"}, {\"parameter\": \"insiderpinvokedweekp\", \"helping_text\": \"Insider Pledge invoked as %Total Shares Last Week\"}, {\"parameter\": \"pubpct\", \"helping_text\": \"Public holding current Qtr %\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"prompledge\", \"helping_text\": \"Promoter holding pledge percentage % Qtr\"}, {\"parameter\": \"prompct\", \"helping_text\": \"Promoter holding latest %\"}, {\"parameter\": \"insiderpinvokeddayp\", \"helping_text\": \"Insider Pledge invoked as %Total Shares Today\"}, {\"parameter\": \"prompledge1q\", \"helping_text\": \"Promoter pledge change QoQ %\"}, {\"parameter\": \"insiderpinvokedyesterdayp\", \"helping_text\": \"Insider Pledge invoked as %Total Shares Yesterday\"}, {\"parameter\": \"prompct1q\", \"helping_text\": \"Promoter holding change QoQ %\"}, {\"parameter\": \"prompct4q\", \"helping_text\": \"Promoter holding change 4Qtr %\"}, {\"parameter\": \"insiderpinvokedmonthp\", \"helping_text\": \"Insider Pledge invoked as %Total Shares Last Month\"}, {\"parameter\": \"insiderpinvokedweekp\", \"helping_text\": \"Insider Pledge invoked as %Total Shares Last Week\"}, {\"parameter\": \"pubpct\", \"helping_text\": \"Public holding current Qtr %\"}]}"
+      }
+    },
+    "FII holding percentage": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"fiihold\", \"helping_text\": \"FII holding current Qtr %\"}, {\"parameter\": \"fiipct1q\", \"helping_text\": \"FII holding change QoQ %\"}, {\"parameter\": \"fiipct4q\", \"helping_text\": \"FII holding change 4Qtr %\"}, {\"parameter\": \"fiipct8q\", \"helping_text\": \"FII holding change 8Qtr %\"}, {\"parameter\": \"instihold\", \"helping_text\": \"Institutional holding current Qtr %\"}, {\"parameter\": \"mfhold\", \"helping_text\": \"MF holding current Qtr %\"}, {\"parameter\": \"mfpct1q\", \"helping_text\": \"MF holding change QoQ %\"}, {\"parameter\": \"pubpct\", \"helping_text\": \"Public holding current Qtr %\"}, {\"parameter\": \"instipct1q\", \"helping_text\": \"Institutional holding change QoQ %\"}, {\"parameter\": \"pubpct1q\", \"helping_text\": \"Public holding change QoQ %\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"fiihold\", \"helping_text\": \"FII holding current Qtr %\"}, {\"parameter\": \"fiipct1q\", \"helping_text\": \"FII holding change QoQ %\"}, {\"parameter\": \"fiipct4q\", \"helping_text\": \"FII holding change 4Qtr %\"}, {\"parameter\": \"fiipct8q\", \"helping_text\": \"FII holding change 8Qtr %\"}, {\"parameter\": \"instihold\", \"helping_text\": \"Institutional holding current Qtr %\"}, {\"parameter\": \"mfhold\", \"helping_text\": \"MF holding current Qtr %\"}, {\"parameter\": \"mfpct1q\", \"helping_text\": \"MF holding change QoQ %\"}, {\"parameter\": \"pubpct\", \"helping_text\": \"Public holding current Qtr %\"}, {\"parameter\": \"instipct1q\", \"helping_text\": \"Institutional holding change QoQ %\"}, {\"parameter\": \"pubpct1q\", \"helping_text\": \"Public holding change QoQ %\"}]}"
+      }
+    },
+    "DII holding percentage": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"fiihold\", \"helping_text\": \"FII holding current Qtr %\"}, {\"parameter\": \"fiipct1q\", \"helping_text\": \"FII holding change QoQ %\"}, {\"parameter\": \"instihold\", \"helping_text\": \"Institutional holding current Qtr %\"}, {\"parameter\": \"fiipct4q\", \"helping_text\": \"FII holding change 4Qtr %\"}, {\"parameter\": \"mfhold\", \"helping_text\": \"MF holding current Qtr %\"}, {\"parameter\": \"fiipct8q\", \"helping_text\": \"FII holding change 8Qtr %\"}, {\"parameter\": \"mfpct1q\", \"helping_text\": \"MF holding change QoQ %\"}, {\"parameter\": \"instipct1q\", \"helping_text\": \"Institutional holding change QoQ %\"}, {\"parameter\": \"pubpct\", \"helping_text\": \"Public holding current Qtr %\"}, {\"parameter\": \"prompct1q\", \"helping_text\": \"Promoter holding change QoQ %\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"fiihold\", \"helping_text\": \"FII holding current Qtr %\"}, {\"parameter\": \"fiipct1q\", \"helping_text\": \"FII holding change QoQ %\"}, {\"parameter\": \"instihold\", \"helping_text\": \"Institutional holding current Qtr %\"}, {\"parameter\": \"fiipct4q\", \"helping_text\": \"FII holding change 4Qtr %\"}, {\"parameter\": \"mfhold\", \"helping_text\": \"MF holding current Qtr %\"}, {\"parameter\": \"fiipct8q\", \"helping_text\": \"FII holding change 8Qtr %\"}, {\"parameter\": \"mfpct1q\", \"helping_text\": \"MF holding change QoQ %\"}, {\"parameter\": \"instipct1q\", \"helping_text\": \"Institutional holding change QoQ %\"}, {\"parameter\": \"pubpct\", \"helping_text\": \"Public holding current Qtr %\"}, {\"parameter\": \"prompct1q\", \"helping_text\": \"Promoter holding change QoQ %\"}]}"
+      }
+    },
+    "FII holding quarterly change": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"fiipct1q\", \"helping_text\": \"FII holding change QoQ %\"}, {\"parameter\": \"fiipct4q\", \"helping_text\": \"FII holding change 4Qtr %\"}, {\"parameter\": \"fiipct8q\", \"helping_text\": \"FII holding change 8Qtr %\"}, {\"parameter\": \"fiihold\", \"helping_text\": \"FII holding current Qtr %\"}, {\"parameter\": \"mfpct1q\", \"helping_text\": \"MF holding change QoQ %\"}, {\"parameter\": \"pubpct1q\", \"helping_text\": \"Public holding change QoQ %\"}, {\"parameter\": \"instihold\", \"helping_text\": \"Institutional holding current Qtr %\"}, {\"parameter\": \"mfpct8q\", \"helping_text\": \"MF holding change 8Qtr %\"}, {\"parameter\": \"instipct1q\", \"helping_text\": \"Institutional holding change QoQ %\"}, {\"parameter\": \"pubpct8q\", \"helping_text\": \"Public holding change 8Qtr %\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"fiipct1q\", \"helping_text\": \"FII holding change QoQ %\"}, {\"parameter\": \"fiipct4q\", \"helping_text\": \"FII holding change 4Qtr %\"}, {\"parameter\": \"fiipct8q\", \"helping_text\": \"FII holding change 8Qtr %\"}, {\"parameter\": \"fiihold\", \"helping_text\": \"FII holding current Qtr %\"}, {\"parameter\": \"mfpct1q\", \"helping_text\": \"MF holding change QoQ %\"}, {\"parameter\": \"pubpct1q\", \"helping_text\": \"Public holding change QoQ %\"}, {\"parameter\": \"instihold\", \"helping_text\": \"Institutional holding current Qtr %\"}, {\"parameter\": \"mfpct8q\", \"helping_text\": \"MF holding change 8Qtr %\"}, {\"parameter\": \"instipct1q\", \"helping_text\": \"Institutional holding change QoQ %\"}, {\"parameter\": \"pubpct8q\", \"helping_text\": \"Public holding change 8Qtr %\"}]}"
+      }
+    },
+    "DII holding quarterly change": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"fiipct1q\", \"helping_text\": \"FII holding change QoQ %\"}, {\"parameter\": \"fiipct4q\", \"helping_text\": \"FII holding change 4Qtr %\"}, {\"parameter\": \"fiipct8q\", \"helping_text\": \"FII holding change 8Qtr %\"}, {\"parameter\": \"fiihold\", \"helping_text\": \"FII holding current Qtr %\"}, {\"parameter\": \"prompct4q\", \"helping_text\": \"Promoter holding change 4Qtr %\"}, {\"parameter\": \"pubpct1q\", \"helping_text\": \"Public holding change QoQ %\"}, {\"parameter\": \"instihold\", \"helping_text\": \"Institutional holding current Qtr %\"}, {\"parameter\": \"mfpct1q\", \"helping_text\": \"MF holding change QoQ %\"}, {\"parameter\": \"prompct1q\", \"helping_text\": \"Promoter holding change QoQ %\"}, {\"parameter\": \"mfpct8q\", \"helping_text\": \"MF holding change 8Qtr %\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"fiipct1q\", \"helping_text\": \"FII holding change QoQ %\"}, {\"parameter\": \"fiipct4q\", \"helping_text\": \"FII holding change 4Qtr %\"}, {\"parameter\": \"fiipct8q\", \"helping_text\": \"FII holding change 8Qtr %\"}, {\"parameter\": \"fiihold\", \"helping_text\": \"FII holding current Qtr %\"}, {\"parameter\": \"prompct4q\", \"helping_text\": \"Promoter holding change 4Qtr %\"}, {\"parameter\": \"pubpct1q\", \"helping_text\": \"Public holding change QoQ %\"}, {\"parameter\": \"instihold\", \"helping_text\": \"Institutional holding current Qtr %\"}, {\"parameter\": \"mfpct1q\", \"helping_text\": \"MF holding change QoQ %\"}, {\"parameter\": \"prompct1q\", \"helping_text\": \"Promoter holding change QoQ %\"}, {\"parameter\": \"mfpct8q\", \"helping_text\": \"MF holding change 8Qtr %\"}]}"
+      }
+    },
+    "cash from operating activities annual": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"cfoamy4\", \"helping_text\": \"Cash from Operating Activity Annual 4Yr Ago\"}, {\"parameter\": \"cfoamy2\", \"helping_text\": \"Cash from Operating Activity Annual 2Yr Ago\"}, {\"parameter\": \"cfoamy3\", \"helping_text\": \"Cash from Operating Activity Annual 3Yr Ago\"}, {\"parameter\": \"cfoamy1\", \"helping_text\": \"Cash from Operating Activity Annual 1Yr Ago\"}, {\"parameter\": \"cfoa\", \"helping_text\": \"Cash from Operating Activity Annual\"}, {\"parameter\": \"cfoamy5\", \"helping_text\": \"Cash from Operating Activity Annual 5Yr Ago\"}, {\"parameter\": \"cfoagrowth\", \"helping_text\": \"Operating Cash Flow YoY Growth %\"}, {\"parameter\": \"depreciationandamortizationq\", \"helping_text\": \"Depreciation & Amortization Quarter\"}, {\"parameter\": \"cfiamy1\", \"helping_text\": \"Cash from Investing Activity Annual 1Yr Ago\"}, {\"parameter\": \"wcq\", \"helping_text\": \"Working Capital Quarter\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"cfoamy4\", \"helping_text\": \"Cash from Operating Activity Annual 4Yr Ago\"}, {\"parameter\": \"cfoamy2\", \"helping_text\": \"Cash from Operating Activity Annual 2Yr Ago\"}, {\"parameter\": \"cfoamy3\", \"helping_text\": \"Cash from Operating Activity Annual 3Yr Ago\"}, {\"parameter\": \"cfoamy1\", \"helping_text\": \"Cash from Operating Activity Annual 1Yr Ago\"}, {\"parameter\": \"cfoa\", \"helping_text\": \"Cash from Operating Activity Annual\"}, {\"parameter\": \"cfoamy5\", \"helping_text\": \"Cash from Operating Activity Annual 5Yr Ago\"}, {\"parameter\": \"cfoagrowth\", \"helping_text\": \"Operating Cash Flow YoY Growth %\"}, {\"parameter\": \"depreciationandamortizationq\", \"helping_text\": \"Depreciation & Amortization Quarter\"}, {\"parameter\": \"cfiamy1\", \"helping_text\": \"Cash from Investing Activity Annual 1Yr Ago\"}, {\"parameter\": \"wcq\", \"helping_text\": \"Working Capital Quarter\"}]}"
+      }
+    },
+    "net cash flow annual": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"ncfa\", \"helping_text\": \"Net Cash Flow Annual\"}, {\"parameter\": \"ncfamy5\", \"helping_text\": \"Net Cash Flow Annual 5Yr Ago\"}, {\"parameter\": \"ncfamy4\", \"helping_text\": \"Net Cash Flow Annual 4Yr Ago\"}, {\"parameter\": \"ncfamy2\", \"helping_text\": \"Net Cash Flow Annual 2Yr Ago\"}, {\"parameter\": \"ncfamy3\", \"helping_text\": \"Net Cash Flow Annual 3Yr Ago\"}, {\"parameter\": \"ncfamy1\", \"helping_text\": \"Net Cash Flow Annual 1Yr Ago\"}, {\"parameter\": \"ncfagy1\", \"helping_text\": \"Net Cash Flow YoY Growth %\"}, {\"parameter\": \"cfoamy4\", \"helping_text\": \"Cash from Operating Activity Annual 4Yr Ago\"}, {\"parameter\": \"netincdecincashandcashequivalentsa\", \"helping_text\": \"Net Increase In Cash Plus Cash Equivalents Annual\"}, {\"parameter\": \"cashtoa\", \"helping_text\": \"Cash Turnover Annual\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"ncfa\", \"helping_text\": \"Net Cash Flow Annual\"}, {\"parameter\": \"ncfamy5\", \"helping_text\": \"Net Cash Flow Annual 5Yr Ago\"}, {\"parameter\": \"ncfamy4\", \"helping_text\": \"Net Cash Flow Annual 4Yr Ago\"}, {\"parameter\": \"ncfamy2\", \"helping_text\": \"Net Cash Flow Annual 2Yr Ago\"}, {\"parameter\": \"ncfamy3\", \"helping_text\": \"Net Cash Flow Annual 3Yr Ago\"}, {\"parameter\": \"ncfamy1\", \"helping_text\": \"Net Cash Flow Annual 1Yr Ago\"}, {\"parameter\": \"ncfagy1\", \"helping_text\": \"Net Cash Flow YoY Growth %\"}, {\"parameter\": \"cfoamy4\", \"helping_text\": \"Cash from Operating Activity Annual 4Yr Ago\"}, {\"parameter\": \"netincdecincashandcashequivalentsa\", \"helping_text\": \"Net Increase In Cash Plus Cash Equivalents Annual\"}, {\"parameter\": \"cashtoa\", \"helping_text\": \"Cash Turnover Annual\"}]}"
+      }
+    },
+    "operating profit annual": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"opa\", \"helping_text\": \"Operating Profit Annual\"}, {\"parameter\": \"opamy4\", \"helping_text\": \"Operating Profit Annual 4Yr Ago\"}, {\"parameter\": \"opamy2\", \"helping_text\": \"Operating Profit Annual 2Yr Ago\"}, {\"parameter\": \"opamy5\", \"helping_text\": \"Operating Profit Annual 5Yr Ago\"}, {\"parameter\": \"opamy3\", \"helping_text\": \"Operating Profit Annual 3Yr Ago\"}, {\"parameter\": \"pbta\", \"helping_text\": \"Profit Before Tax Annual\"}, {\"parameter\": \"opamy1\", \"helping_text\": \"Operating Profit Annual 1Yr Ago\"}, {\"parameter\": \"opq\", \"helping_text\": \"Operating Profit Qtr\"}, {\"parameter\": \"opma\", \"helping_text\": \"Operting Profit Margin Annual %\"}, {\"parameter\": \"totaloperatingrevenuesa\", \"helping_text\": \"Operating Revenue Annual\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"opa\", \"helping_text\": \"Operating Profit Annual\"}, {\"parameter\": \"opamy4\", \"helping_text\": \"Operating Profit Annual 4Yr Ago\"}, {\"parameter\": \"opamy2\", \"helping_text\": \"Operating Profit Annual 2Yr Ago\"}, {\"parameter\": \"opamy5\", \"helping_text\": \"Operating Profit Annual 5Yr Ago\"}, {\"parameter\": \"opamy3\", \"helping_text\": \"Operating Profit Annual 3Yr Ago\"}, {\"parameter\": \"pbta\", \"helping_text\": \"Profit Before Tax Annual\"}, {\"parameter\": \"opamy1\", \"helping_text\": \"Operating Profit Annual 1Yr Ago\"}, {\"parameter\": \"opq\", \"helping_text\": \"Operating Profit Qtr\"}, {\"parameter\": \"opma\", \"helping_text\": \"Operting Profit Margin Annual %\"}, {\"parameter\": \"totaloperatingrevenuesa\", \"helping_text\": \"Operating Revenue Annual\"}]}"
+      }
+    },
+    "profit after tax quarterly": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"reportedpatq\", \"helping_text\": \"Reported PAT Qtr\"}, {\"parameter\": \"pbtq\", \"helping_text\": \"Profit Before Tax Qtr\"}, {\"parameter\": \"npq\", \"helping_text\": \"Net Profit Qtr\"}, {\"parameter\": \"pbtqmy1\", \"helping_text\": \"Profit Before Tax 4Qtr Ago\"}, {\"parameter\": \"pbta\", \"helping_text\": \"Profit Before Tax Annual\"}, {\"parameter\": \"opq\", \"helping_text\": \"Operating Profit Qtr\"}, {\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}, {\"parameter\": \"pbtqmq1\", \"helping_text\": \"Profit Before Tax 1Qtr Ago\"}, {\"parameter\": \"pata\", \"helping_text\": \"PAT Before ExtraOrdinary Items Annual\"}, {\"parameter\": \"npqmq6\", \"helping_text\": \"Net Profit 6Qtr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"reportedpatq\", \"helping_text\": \"Reported PAT Qtr\"}, {\"parameter\": \"pbtq\", \"helping_text\": \"Profit Before Tax Qtr\"}, {\"parameter\": \"npq\", \"helping_text\": \"Net Profit Qtr\"}, {\"parameter\": \"pbtqmy1\", \"helping_text\": \"Profit Before Tax 4Qtr Ago\"}, {\"parameter\": \"pbta\", \"helping_text\": \"Profit Before Tax Annual\"}, {\"parameter\": \"opq\", \"helping_text\": \"Operating Profit Qtr\"}, {\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}, {\"parameter\": \"pbtqmq1\", \"helping_text\": \"Profit Before Tax 1Qtr Ago\"}, {\"parameter\": \"pata\", \"helping_text\": \"PAT Before ExtraOrdinary Items Annual\"}, {\"parameter\": \"npqmq6\", \"helping_text\": \"Net Profit 6Qtr Ago\"}]}"
+      }
+    },
+    "sales quarterly": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"totalsrq\", \"helping_text\": \"Total Revenue Qtr\"}, {\"parameter\": \"qtrchangep\", \"helping_text\": \"Qtr Change %\"}, {\"parameter\": \"qtrhigh\", \"helping_text\": \"Qtr High\"}, {\"parameter\": \"adminandsellingexpensesq\", \"helping_text\": \"Admin Plus Selling Expenses Qtr\"}, {\"parameter\": \"oiq\", \"helping_text\": \"Other Income Qtr\"}, {\"parameter\": \"qtrclose\", \"helping_text\": \"Qtr Close\"}, {\"parameter\": \"sastonlysellqtr\", \"helping_text\": \"SAST Sells Last Quarter\"}, {\"parameter\": \"otheroperatingincomeq\", \"helping_text\": \"Other Operating Income Qtr\"}, {\"parameter\": \"qtrlow\", \"helping_text\": \"Qtr Low\"}, {\"parameter\": \"opq\", \"helping_text\": \"Operating Profit Qtr\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"totalsrq\", \"helping_text\": \"Total Revenue Qtr\"}, {\"parameter\": \"qtrchangep\", \"helping_text\": \"Qtr Change %\"}, {\"parameter\": \"qtrhigh\", \"helping_text\": \"Qtr High\"}, {\"parameter\": \"adminandsellingexpensesq\", \"helping_text\": \"Admin Plus Selling Expenses Qtr\"}, {\"parameter\": \"oiq\", \"helping_text\": \"Other Income Qtr\"}, {\"parameter\": \"qtrclose\", \"helping_text\": \"Qtr Close\"}, {\"parameter\": \"sastonlysellqtr\", \"helping_text\": \"SAST Sells Last Quarter\"}, {\"parameter\": \"otheroperatingincomeq\", \"helping_text\": \"Other Operating Income Qtr\"}, {\"parameter\": \"qtrlow\", \"helping_text\": \"Qtr Low\"}, {\"parameter\": \"opq\", \"helping_text\": \"Operating Profit Qtr\"}]}"
+      }
+    },
+    "debt to equity annual": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"debtcea\", \"helping_text\": \"Total Debt to Total Equity Annual\"}, {\"parameter\": \"ltdea\", \"helping_text\": \"Long Term Debt To Equity Annual\"}, {\"parameter\": \"ltdeamy1\", \"helping_text\": \"Long Term Debt To Equity Annual 1Yr Ago\"}, {\"parameter\": \"shorttermborrowingsa\", \"helping_text\": \"Short Term Debt Annual\"}, {\"parameter\": \"netdebtq\", \"helping_text\": \"Net Debt Quarter\"}, {\"parameter\": \"netdebta\", \"helping_text\": \"Net Debt Annual\"}, {\"parameter\": \"dividendpayoutnpa\", \"helping_text\": \"Dividend Payout to NP Annual\"}, {\"parameter\": \"cratioa\", \"helping_text\": \"Current Ratio Annual\"}, {\"parameter\": \"shorttermborrowingsamy1\", \"helping_text\": \"Short Term Debt Annual 1Yr ago\"}, {\"parameter\": \"borrowingsa\", \"helping_text\": \"Borrowings Annual\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"debtcea\", \"helping_text\": \"Total Debt to Total Equity Annual\"}, {\"parameter\": \"ltdea\", \"helping_text\": \"Long Term Debt To Equity Annual\"}, {\"parameter\": \"ltdeamy1\", \"helping_text\": \"Long Term Debt To Equity Annual 1Yr Ago\"}, {\"parameter\": \"shorttermborrowingsa\", \"helping_text\": \"Short Term Debt Annual\"}, {\"parameter\": \"netdebtq\", \"helping_text\": \"Net Debt Quarter\"}, {\"parameter\": \"netdebta\", \"helping_text\": \"Net Debt Annual\"}, {\"parameter\": \"dividendpayoutnpa\", \"helping_text\": \"Dividend Payout to NP Annual\"}, {\"parameter\": \"cratioa\", \"helping_text\": \"Current Ratio Annual\"}, {\"parameter\": \"shorttermborrowingsamy1\", \"helping_text\": \"Short Term Debt Annual 1Yr ago\"}, {\"parameter\": \"borrowingsa\", \"helping_text\": \"Borrowings Annual\"}]}"
+      }
+    },
+    "return on equity annual": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"roea\", \"helping_text\": \"ROE Annual %\"}, {\"parameter\": \"roeamy2\", \"helping_text\": \"ROE Annual 2Yr Ago %\"}, {\"parameter\": \"roeamy1\", \"helping_text\": \"ROE Annual 1Yr Ago %\"}, {\"parameter\": \"roeamy4\", \"helping_text\": \"ROE Annual 4Yr Ago %\"}, {\"parameter\": \"roeamy3\", \"helping_text\": \"ROE Annual 3Yr Ago %\"}, {\"parameter\": \"roeamy5\", \"helping_text\": \"ROE Annual 5Yr Ago %\"}, {\"parameter\": \"roeaave3\", \"helping_text\": \"ROE Annual 3Yr Avg %\"}, {\"parameter\": \"roaa\", \"helping_text\": \"RoA Annual %\"}, {\"parameter\": \"rocea\", \"helping_text\": \"ROCE Annual %\"}, {\"parameter\": \"roeaave5\", \"helping_text\": \"ROE Annual 5Yr Avg %\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"roea\", \"helping_text\": \"ROE Annual %\"}, {\"parameter\": \"roeamy2\", \"helping_text\": \"ROE Annual 2Yr Ago %\"}, {\"parameter\": \"roeamy1\", \"helping_text\": \"ROE Annual 1Yr Ago %\"}, {\"parameter\": \"roeamy4\", \"helping_text\": \"ROE Annual 4Yr Ago %\"}, {\"parameter\": \"roeamy3\", \"helping_text\": \"ROE Annual 3Yr Ago %\"}, {\"parameter\": \"roeamy5\", \"helping_text\": \"ROE Annual 5Yr Ago %\"}, {\"parameter\": \"roeaave3\", \"helping_text\": \"ROE Annual 3Yr Avg %\"}, {\"parameter\": \"roaa\", \"helping_text\": \"RoA Annual %\"}, {\"parameter\": \"rocea\", \"helping_text\": \"ROCE Annual %\"}, {\"parameter\": \"roeaave5\", \"helping_text\": \"ROE Annual 5Yr Avg %\"}]}"
+      }
+    },
+    "return on capital employed annual": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"rocea\", \"helping_text\": \"ROCE Annual %\"}, {\"parameter\": \"roceamy1\", \"helping_text\": \"ROCE Annual 1Yr Ago %\"}, {\"parameter\": \"roceaave3\", \"helping_text\": \"ROCE Annual 3Yr Avg %\"}, {\"parameter\": \"roea\", \"helping_text\": \"ROE Annual %\"}, {\"parameter\": \"roica\", \"helping_text\": \"ROIC Annual %\"}, {\"parameter\": \"roaa\", \"helping_text\": \"RoA Annual %\"}, {\"parameter\": \"roceaave5\", \"helping_text\": \"ROCE Annual 5Yr Avg %\"}, {\"parameter\": \"roeamy2\", \"helping_text\": \"ROE Annual 2Yr Ago %\"}, {\"parameter\": \"roeamy1\", \"helping_text\": \"ROE Annual 1Yr Ago %\"}, {\"parameter\": \"roeamy4\", \"helping_text\": \"ROE Annual 4Yr Ago %\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"rocea\", \"helping_text\": \"ROCE Annual %\"}, {\"parameter\": \"roceamy1\", \"helping_text\": \"ROCE Annual 1Yr Ago %\"}, {\"parameter\": \"roceaave3\", \"helping_text\": \"ROCE Annual 3Yr Avg %\"}, {\"parameter\": \"roea\", \"helping_text\": \"ROE Annual %\"}, {\"parameter\": \"roica\", \"helping_text\": \"ROIC Annual %\"}, {\"parameter\": \"roaa\", \"helping_text\": \"RoA Annual %\"}, {\"parameter\": \"roceaave5\", \"helping_text\": \"ROCE Annual 5Yr Avg %\"}, {\"parameter\": \"roeamy2\", \"helping_text\": \"ROE Annual 2Yr Ago %\"}, {\"parameter\": \"roeamy1\", \"helping_text\": \"ROE Annual 1Yr Ago %\"}, {\"parameter\": \"roeamy4\", \"helping_text\": \"ROE Annual 4Yr Ago %\"}]}"
+      }
+    },
+    "market capitalization": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"mcapq\", \"helping_text\": \"Market Capitalization\"}, {\"parameter\": \"freefloatmcapq\", \"helping_text\": \"Free Float Market Cap\"}, {\"parameter\": \"marketcappersalesa\", \"helping_text\": \"Market Cap Per Sales Annual\"}, {\"parameter\": \"totalcapitalizationq\", \"helping_text\": \"Total Capitalization Quarter\"}, {\"parameter\": \"totalcapitalizationa\", \"helping_text\": \"Total Capitalization Annual\"}, {\"parameter\": \"grahamratio\", \"helping_text\": \"Graham Ratio\"}, {\"parameter\": \"pettm\", \"helping_text\": \"PE TTM Price to Earnings\"}, {\"parameter\": \"tangiblebookvalueq\", \"helping_text\": \"Tangible Book Value Quarter\"}, {\"parameter\": \"commonstocka\", \"helping_text\": \"Common Stock Annual\"}, {\"parameter\": \"commonstockissuanceq\", \"helping_text\": \"Common Stock Issuance Quarter\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"mcapq\", \"helping_text\": \"Market Capitalization\"}, {\"parameter\": \"freefloatmcapq\", \"helping_text\": \"Free Float Market Cap\"}, {\"parameter\": \"marketcappersalesa\", \"helping_text\": \"Market Cap Per Sales Annual\"}, {\"parameter\": \"totalcapitalizationq\", \"helping_text\": \"Total Capitalization Quarter\"}, {\"parameter\": \"totalcapitalizationa\", \"helping_text\": \"Total Capitalization Annual\"}, {\"parameter\": \"grahamratio\", \"helping_text\": \"Graham Ratio\"}, {\"parameter\": \"pettm\", \"helping_text\": \"PE TTM Price to Earnings\"}, {\"parameter\": \"tangiblebookvalueq\", \"helping_text\": \"Tangible Book Value Quarter\"}, {\"parameter\": \"commonstocka\", \"helping_text\": \"Common Stock Annual\"}, {\"parameter\": \"commonstockissuanceq\", \"helping_text\": \"Common Stock Issuance Quarter\"}]}"
+      }
+    },
+    "free cash flow annual": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"ncfamy5\", \"helping_text\": \"Net Cash Flow Annual 5Yr Ago\"}, {\"parameter\": \"ncfamy2\", \"helping_text\": \"Net Cash Flow Annual 2Yr Ago\"}, {\"parameter\": \"ncfa\", \"helping_text\": \"Net Cash Flow Annual\"}, {\"parameter\": \"cepsa\", \"helping_text\": \"Cash EPS Annual\"}, {\"parameter\": \"ncfamy1\", \"helping_text\": \"Net Cash Flow Annual 1Yr Ago\"}, {\"parameter\": \"cfoamy4\", \"helping_text\": \"Cash from Operating Activity Annual 4Yr Ago\"}, {\"parameter\": \"cfoamy5\", \"helping_text\": \"Cash from Operating Activity Annual 5Yr Ago\"}, {\"parameter\": \"cfoamy3\", \"helping_text\": \"Cash from Operating Activity Annual 3Yr Ago\"}, {\"parameter\": \"cfoamy1\", \"helping_text\": \"Cash from Operating Activity Annual 1Yr Ago\"}, {\"parameter\": \"ncfamy3\", \"helping_text\": \"Net Cash Flow Annual 3Yr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"ncfamy5\", \"helping_text\": \"Net Cash Flow Annual 5Yr Ago\"}, {\"parameter\": \"ncfamy2\", \"helping_text\": \"Net Cash Flow Annual 2Yr Ago\"}, {\"parameter\": \"ncfa\", \"helping_text\": \"Net Cash Flow Annual\"}, {\"parameter\": \"cepsa\", \"helping_text\": \"Cash EPS Annual\"}, {\"parameter\": \"ncfamy1\", \"helping_text\": \"Net Cash Flow Annual 1Yr Ago\"}, {\"parameter\": \"cfoamy4\", \"helping_text\": \"Cash from Operating Activity Annual 4Yr Ago\"}, {\"parameter\": \"cfoamy5\", \"helping_text\": \"Cash from Operating Activity Annual 5Yr Ago\"}, {\"parameter\": \"cfoamy3\", \"helping_text\": \"Cash from Operating Activity Annual 3Yr Ago\"}, {\"parameter\": \"cfoamy1\", \"helping_text\": \"Cash from Operating Activity Annual 1Yr Ago\"}, {\"parameter\": \"ncfamy3\", \"helping_text\": \"Net Cash Flow Annual 3Yr Ago\"}]}"
+      }
+    },
+    "book value per share": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"bvshq\", \"helping_text\": \"Book Value Per Share Latest\"}, {\"parameter\": \"bvshamy3\", \"helping_text\": \"Book Value per Share Annual 3Yr ago\"}, {\"parameter\": \"bvsha\", \"helping_text\": \"Book Value Per Share Annual\"}, {\"parameter\": \"bvshamy1\", \"helping_text\": \"Book Value Per Share Annual 1Yr Ago\"}, {\"parameter\": \"bvshadja\", \"helping_text\": \"Book Value Per Share Annual Adjusted\"}, {\"parameter\": \"bvshamy2\", \"helping_text\": \"Book Value Per Share Annual 2Yr Ago\"}, {\"parameter\": \"tangiblebookvaluea\", \"helping_text\": \"Tangible Book Value Annual\"}, {\"parameter\": \"tangiblebookvalueq\", \"helping_text\": \"Tangible Book Value Quarter\"}, {\"parameter\": \"pbva\", \"helping_text\": \"Price to Book Value Adjusted\"}, {\"parameter\": \"grahamratio\", \"helping_text\": \"Graham Ratio\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"bvshq\", \"helping_text\": \"Book Value Per Share Latest\"}, {\"parameter\": \"bvshamy3\", \"helping_text\": \"Book Value per Share Annual 3Yr ago\"}, {\"parameter\": \"bvsha\", \"helping_text\": \"Book Value Per Share Annual\"}, {\"parameter\": \"bvshamy1\", \"helping_text\": \"Book Value Per Share Annual 1Yr Ago\"}, {\"parameter\": \"bvshadja\", \"helping_text\": \"Book Value Per Share Annual Adjusted\"}, {\"parameter\": \"bvshamy2\", \"helping_text\": \"Book Value Per Share Annual 2Yr Ago\"}, {\"parameter\": \"tangiblebookvaluea\", \"helping_text\": \"Tangible Book Value Annual\"}, {\"parameter\": \"tangiblebookvalueq\", \"helping_text\": \"Tangible Book Value Quarter\"}, {\"parameter\": \"pbva\", \"helping_text\": \"Price to Book Value Adjusted\"}, {\"parameter\": \"grahamratio\", \"helping_text\": \"Graham Ratio\"}]}"
+      }
+    },
+    "dividend payout ratio": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"dividendpayoutnpa\", \"helping_text\": \"Dividend Payout to NP Annual\"}, {\"parameter\": \"dividendpayout\", \"helping_text\": \"Dividend payout ratio TTM %\"}, {\"parameter\": \"dividendpayoutmy1\", \"helping_text\": \"Dividend payout ratio preceding TTM %\"}, {\"parameter\": \"dividendpayout2yr\", \"helping_text\": \"Dividend payout ratio 2Yr %\"}, {\"parameter\": \"dividend3yactual\", \"helping_text\": \"Dividend Sum 3Yr\"}, {\"parameter\": \"dividendpersharea\", \"helping_text\": \"Dividend Per Share Annual\"}, {\"parameter\": \"divlastyear\", \"helping_text\": \"Dividend in past 12M\"}, {\"parameter\": \"dividend1yactual\", \"helping_text\": \"Dividend 1year\"}, {\"parameter\": \"dividend5yactual\", \"helping_text\": \"Dividend Sum 5Yr\"}, {\"parameter\": \"dividend2yactual\", \"helping_text\": \"Dividend Sum 2Yr\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"dividendpayoutnpa\", \"helping_text\": \"Dividend Payout to NP Annual\"}, {\"parameter\": \"dividendpayout\", \"helping_text\": \"Dividend payout ratio TTM %\"}, {\"parameter\": \"dividendpayoutmy1\", \"helping_text\": \"Dividend payout ratio preceding TTM %\"}, {\"parameter\": \"dividendpayout2yr\", \"helping_text\": \"Dividend payout ratio 2Yr %\"}, {\"parameter\": \"dividend3yactual\", \"helping_text\": \"Dividend Sum 3Yr\"}, {\"parameter\": \"dividendpersharea\", \"helping_text\": \"Dividend Per Share Annual\"}, {\"parameter\": \"divlastyear\", \"helping_text\": \"Dividend in past 12M\"}, {\"parameter\": \"dividend1yactual\", \"helping_text\": \"Dividend 1year\"}, {\"parameter\": \"dividend5yactual\", \"helping_text\": \"Dividend Sum 5Yr\"}, {\"parameter\": \"dividend2yactual\", \"helping_text\": \"Dividend Sum 2Yr\"}]}"
+      }
+    },
+    "Net Profit 1Qtr Ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}, {\"parameter\": \"npqmq1\", \"helping_text\": \"Net Profit 1Qtr Ago\"}, {\"parameter\": \"npqmq2\", \"helping_text\": \"Net Profit 2Qtr Ago\"}, {\"parameter\": \"npqmy1\", \"helping_text\": \"Net Profit 4Qtr Ago\"}, {\"parameter\": \"npqmq6\", \"helping_text\": \"Net Profit 6Qtr Ago\"}, {\"parameter\": \"npttmmq1\", \"helping_text\": \"Net Profit TTM 1Qtr Ago\"}, {\"parameter\": \"npqmq7\", \"helping_text\": \"Net Profit 7Qtr Ago\"}, {\"parameter\": \"npqmq5\", \"helping_text\": \"Net Profit 5Qtr Ago\"}, {\"parameter\": \"netpctqmq1\", \"helping_text\": \"Net Profit Margin 1Qtr ago %\"}, {\"parameter\": \"npq\", \"helping_text\": \"Net Profit Qtr\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}, {\"parameter\": \"npqmq1\", \"helping_text\": \"Net Profit 1Qtr Ago\"}, {\"parameter\": \"npqmq2\", \"helping_text\": \"Net Profit 2Qtr Ago\"}, {\"parameter\": \"npqmy1\", \"helping_text\": \"Net Profit 4Qtr Ago\"}, {\"parameter\": \"npqmq6\", \"helping_text\": \"Net Profit 6Qtr Ago\"}, {\"parameter\": \"npttmmq1\", \"helping_text\": \"Net Profit TTM 1Qtr Ago\"}, {\"parameter\": \"npqmq7\", \"helping_text\": \"Net Profit 7Qtr Ago\"}, {\"parameter\": \"npqmq5\", \"helping_text\": \"Net Profit 5Qtr Ago\"}, {\"parameter\": \"netpctqmq1\", \"helping_text\": \"Net Profit Margin 1Qtr ago %\"}, {\"parameter\": \"npq\", \"helping_text\": \"Net Profit Qtr\"}]}"
+      }
+    },
+    "Net Profit 2Qtr Ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"npqmq2\", \"helping_text\": \"Net Profit 2Qtr Ago\"}, {\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}, {\"parameter\": \"npqmq6\", \"helping_text\": \"Net Profit 6Qtr Ago\"}, {\"parameter\": \"npqmy1\", \"helping_text\": \"Net Profit 4Qtr Ago\"}, {\"parameter\": \"npqmq1\", \"helping_text\": \"Net Profit 1Qtr Ago\"}, {\"parameter\": \"npqmq7\", \"helping_text\": \"Net Profit 7Qtr Ago\"}, {\"parameter\": \"npqmq5\", \"helping_text\": \"Net Profit 5Qtr Ago\"}, {\"parameter\": \"npttmmq2\", \"helping_text\": \"Net Profit TTM 2Qtr Ago\"}, {\"parameter\": \"npqmy2\", \"helping_text\": \"Net Profit 8Qtr Ago\"}, {\"parameter\": \"npq\", \"helping_text\": \"Net Profit Qtr\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"npqmq2\", \"helping_text\": \"Net Profit 2Qtr Ago\"}, {\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}, {\"parameter\": \"npqmq6\", \"helping_text\": \"Net Profit 6Qtr Ago\"}, {\"parameter\": \"npqmy1\", \"helping_text\": \"Net Profit 4Qtr Ago\"}, {\"parameter\": \"npqmq1\", \"helping_text\": \"Net Profit 1Qtr Ago\"}, {\"parameter\": \"npqmq7\", \"helping_text\": \"Net Profit 7Qtr Ago\"}, {\"parameter\": \"npqmq5\", \"helping_text\": \"Net Profit 5Qtr Ago\"}, {\"parameter\": \"npttmmq2\", \"helping_text\": \"Net Profit TTM 2Qtr Ago\"}, {\"parameter\": \"npqmy2\", \"helping_text\": \"Net Profit 8Qtr Ago\"}, {\"parameter\": \"npq\", \"helping_text\": \"Net Profit Qtr\"}]}"
+      }
+    },
+    "Net Profit 3Qtr Ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}, {\"parameter\": \"npqmq2\", \"helping_text\": \"Net Profit 2Qtr Ago\"}, {\"parameter\": \"npqmy1\", \"helping_text\": \"Net Profit 4Qtr Ago\"}, {\"parameter\": \"npqmq6\", \"helping_text\": \"Net Profit 6Qtr Ago\"}, {\"parameter\": \"npqmq1\", \"helping_text\": \"Net Profit 1Qtr Ago\"}, {\"parameter\": \"npqmq7\", \"helping_text\": \"Net Profit 7Qtr Ago\"}, {\"parameter\": \"opqmq3\", \"helping_text\": \"Operating Profit 3Qtr Ago\"}, {\"parameter\": \"npttmmq3\", \"helping_text\": \"Net Profit TTM 3Qtr Ago\"}, {\"parameter\": \"npqmq5\", \"helping_text\": \"Net Profit 5Qtr Ago\"}, {\"parameter\": \"npqmy2\", \"helping_text\": \"Net Profit 8Qtr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}, {\"parameter\": \"npqmq2\", \"helping_text\": \"Net Profit 2Qtr Ago\"}, {\"parameter\": \"npqmy1\", \"helping_text\": \"Net Profit 4Qtr Ago\"}, {\"parameter\": \"npqmq6\", \"helping_text\": \"Net Profit 6Qtr Ago\"}, {\"parameter\": \"npqmq1\", \"helping_text\": \"Net Profit 1Qtr Ago\"}, {\"parameter\": \"npqmq7\", \"helping_text\": \"Net Profit 7Qtr Ago\"}, {\"parameter\": \"opqmq3\", \"helping_text\": \"Operating Profit 3Qtr Ago\"}, {\"parameter\": \"npttmmq3\", \"helping_text\": \"Net Profit TTM 3Qtr Ago\"}, {\"parameter\": \"npqmq5\", \"helping_text\": \"Net Profit 5Qtr Ago\"}, {\"parameter\": \"npqmy2\", \"helping_text\": \"Net Profit 8Qtr Ago\"}]}"
+      }
+    },
+    "Net Profit 4Qtr Ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"npqmy1\", \"helping_text\": \"Net Profit 4Qtr Ago\"}, {\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}, {\"parameter\": \"npqmq2\", \"helping_text\": \"Net Profit 2Qtr Ago\"}, {\"parameter\": \"npqmq1\", \"helping_text\": \"Net Profit 1Qtr Ago\"}, {\"parameter\": \"npqmq6\", \"helping_text\": \"Net Profit 6Qtr Ago\"}, {\"parameter\": \"npqmq7\", \"helping_text\": \"Net Profit 7Qtr Ago\"}, {\"parameter\": \"npqmq5\", \"helping_text\": \"Net Profit 5Qtr Ago\"}, {\"parameter\": \"npttmmq4\", \"helping_text\": \"Net Profit TTM 4Qtr Ago\"}, {\"parameter\": \"npqmy2\", \"helping_text\": \"Net Profit 8Qtr Ago\"}, {\"parameter\": \"npttmmq1\", \"helping_text\": \"Net Profit TTM 1Qtr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"npqmy1\", \"helping_text\": \"Net Profit 4Qtr Ago\"}, {\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}, {\"parameter\": \"npqmq2\", \"helping_text\": \"Net Profit 2Qtr Ago\"}, {\"parameter\": \"npqmq1\", \"helping_text\": \"Net Profit 1Qtr Ago\"}, {\"parameter\": \"npqmq6\", \"helping_text\": \"Net Profit 6Qtr Ago\"}, {\"parameter\": \"npqmq7\", \"helping_text\": \"Net Profit 7Qtr Ago\"}, {\"parameter\": \"npqmq5\", \"helping_text\": \"Net Profit 5Qtr Ago\"}, {\"parameter\": \"npttmmq4\", \"helping_text\": \"Net Profit TTM 4Qtr Ago\"}, {\"parameter\": \"npqmy2\", \"helping_text\": \"Net Profit 8Qtr Ago\"}, {\"parameter\": \"npttmmq1\", \"helping_text\": \"Net Profit TTM 1Qtr Ago\"}]}"
+      }
+    },
+    "Net Profit 5Qtr Ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"npqmq5\", \"helping_text\": \"Net Profit 5Qtr Ago\"}, {\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}, {\"parameter\": \"npttmmq5\", \"helping_text\": \"Net Profit TTM 5Qtr Ago\"}, {\"parameter\": \"npqmq6\", \"helping_text\": \"Net Profit 6Qtr Ago\"}, {\"parameter\": \"npqmq2\", \"helping_text\": \"Net Profit 2Qtr Ago\"}, {\"parameter\": \"npqmy1\", \"helping_text\": \"Net Profit 4Qtr Ago\"}, {\"parameter\": \"npqmq7\", \"helping_text\": \"Net Profit 7Qtr Ago\"}, {\"parameter\": \"npqmq1\", \"helping_text\": \"Net Profit 1Qtr Ago\"}, {\"parameter\": \"npqmy2\", \"helping_text\": \"Net Profit 8Qtr Ago\"}, {\"parameter\": \"npq\", \"helping_text\": \"Net Profit Qtr\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"npqmq5\", \"helping_text\": \"Net Profit 5Qtr Ago\"}, {\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}, {\"parameter\": \"npttmmq5\", \"helping_text\": \"Net Profit TTM 5Qtr Ago\"}, {\"parameter\": \"npqmq6\", \"helping_text\": \"Net Profit 6Qtr Ago\"}, {\"parameter\": \"npqmq2\", \"helping_text\": \"Net Profit 2Qtr Ago\"}, {\"parameter\": \"npqmy1\", \"helping_text\": \"Net Profit 4Qtr Ago\"}, {\"parameter\": \"npqmq7\", \"helping_text\": \"Net Profit 7Qtr Ago\"}, {\"parameter\": \"npqmq1\", \"helping_text\": \"Net Profit 1Qtr Ago\"}, {\"parameter\": \"npqmy2\", \"helping_text\": \"Net Profit 8Qtr Ago\"}, {\"parameter\": \"npq\", \"helping_text\": \"Net Profit Qtr\"}]}"
+      }
+    },
+    "Net Profit 6Qtr Ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"npqmq6\", \"helping_text\": \"Net Profit 6Qtr Ago\"}, {\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}, {\"parameter\": \"npqmq7\", \"helping_text\": \"Net Profit 7Qtr Ago\"}, {\"parameter\": \"npqmq2\", \"helping_text\": \"Net Profit 2Qtr Ago\"}, {\"parameter\": \"npqmy1\", \"helping_text\": \"Net Profit 4Qtr Ago\"}, {\"parameter\": \"npqmq5\", \"helping_text\": \"Net Profit 5Qtr Ago\"}, {\"parameter\": \"npqmy2\", \"helping_text\": \"Net Profit 8Qtr Ago\"}, {\"parameter\": \"npq\", \"helping_text\": \"Net Profit Qtr\"}, {\"parameter\": \"npqmq1\", \"helping_text\": \"Net Profit 1Qtr Ago\"}, {\"parameter\": \"npttmmq5\", \"helping_text\": \"Net Profit TTM 5Qtr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"npqmq6\", \"helping_text\": \"Net Profit 6Qtr Ago\"}, {\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}, {\"parameter\": \"npqmq7\", \"helping_text\": \"Net Profit 7Qtr Ago\"}, {\"parameter\": \"npqmq2\", \"helping_text\": \"Net Profit 2Qtr Ago\"}, {\"parameter\": \"npqmy1\", \"helping_text\": \"Net Profit 4Qtr Ago\"}, {\"parameter\": \"npqmq5\", \"helping_text\": \"Net Profit 5Qtr Ago\"}, {\"parameter\": \"npqmy2\", \"helping_text\": \"Net Profit 8Qtr Ago\"}, {\"parameter\": \"npq\", \"helping_text\": \"Net Profit Qtr\"}, {\"parameter\": \"npqmq1\", \"helping_text\": \"Net Profit 1Qtr Ago\"}, {\"parameter\": \"npttmmq5\", \"helping_text\": \"Net Profit TTM 5Qtr Ago\"}]}"
+      }
+    },
+    "Net Profit 7Qtr Ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"npqmq7\", \"helping_text\": \"Net Profit 7Qtr Ago\"}, {\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}, {\"parameter\": \"npqmq6\", \"helping_text\": \"Net Profit 6Qtr Ago\"}, {\"parameter\": \"npqmq2\", \"helping_text\": \"Net Profit 2Qtr Ago\"}, {\"parameter\": \"npqmy2\", \"helping_text\": \"Net Profit 8Qtr Ago\"}, {\"parameter\": \"npqmy1\", \"helping_text\": \"Net Profit 4Qtr Ago\"}, {\"parameter\": \"npqmq5\", \"helping_text\": \"Net Profit 5Qtr Ago\"}, {\"parameter\": \"npqmq1\", \"helping_text\": \"Net Profit 1Qtr Ago\"}, {\"parameter\": \"npq\", \"helping_text\": \"Net Profit Qtr\"}, {\"parameter\": \"npttmmq5\", \"helping_text\": \"Net Profit TTM 5Qtr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"npqmq7\", \"helping_text\": \"Net Profit 7Qtr Ago\"}, {\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}, {\"parameter\": \"npqmq6\", \"helping_text\": \"Net Profit 6Qtr Ago\"}, {\"parameter\": \"npqmq2\", \"helping_text\": \"Net Profit 2Qtr Ago\"}, {\"parameter\": \"npqmy2\", \"helping_text\": \"Net Profit 8Qtr Ago\"}, {\"parameter\": \"npqmy1\", \"helping_text\": \"Net Profit 4Qtr Ago\"}, {\"parameter\": \"npqmq5\", \"helping_text\": \"Net Profit 5Qtr Ago\"}, {\"parameter\": \"npqmq1\", \"helping_text\": \"Net Profit 1Qtr Ago\"}, {\"parameter\": \"npq\", \"helping_text\": \"Net Profit Qtr\"}, {\"parameter\": \"npttmmq5\", \"helping_text\": \"Net Profit TTM 5Qtr Ago\"}]}"
+      }
+    },
+    "operating revenue annual historical": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"totaloperatingrevenuesa\", \"helping_text\": \"Operating Revenue Annual\"}, {\"parameter\": \"otheroperatingrevenuesa\", \"helping_text\": \"Other Operating Revenue Annual\"}, {\"parameter\": \"sramy3\", \"helping_text\": \"Revenue Annual 3Yr ago\"}, {\"parameter\": \"sramy4\", \"helping_text\": \"Revenue Annual 4Yr ago\"}, {\"parameter\": \"sramy2\", \"helping_text\": \"Revenue Annual 2Yr ago\"}, {\"parameter\": \"sramy5\", \"helping_text\": \"Revenue Annual 5Yr ago\"}, {\"parameter\": \"sra\", \"helping_text\": \"Total Revenue Annual\"}, {\"parameter\": \"revenuefromoperationsgrossa\", \"helping_text\": \"Revenue Gross From Operations Annual\"}, {\"parameter\": \"srqmq2\", \"helping_text\": \"Operating Revenue 2Qtrs ago\"}, {\"parameter\": \"srq\", \"helping_text\": \"Operating Revenue Qtr\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"totaloperatingrevenuesa\", \"helping_text\": \"Operating Revenue Annual\"}, {\"parameter\": \"otheroperatingrevenuesa\", \"helping_text\": \"Other Operating Revenue Annual\"}, {\"parameter\": \"sramy3\", \"helping_text\": \"Revenue Annual 3Yr ago\"}, {\"parameter\": \"sramy4\", \"helping_text\": \"Revenue Annual 4Yr ago\"}, {\"parameter\": \"sramy2\", \"helping_text\": \"Revenue Annual 2Yr ago\"}, {\"parameter\": \"sramy5\", \"helping_text\": \"Revenue Annual 5Yr ago\"}, {\"parameter\": \"sra\", \"helping_text\": \"Total Revenue Annual\"}, {\"parameter\": \"revenuefromoperationsgrossa\", \"helping_text\": \"Revenue Gross From Operations Annual\"}, {\"parameter\": \"srqmq2\", \"helping_text\": \"Operating Revenue 2Qtrs ago\"}, {\"parameter\": \"srq\", \"helping_text\": \"Operating Revenue Qtr\"}]}"
+      }
+    },
+    "capital expenditure annual": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"oexpnsa\", \"helping_text\": \"Operating Expenses Annual\"}, {\"parameter\": \"expensescapitalisedq\", \"helping_text\": \"Expenses Capitalised Qtr\"}, {\"parameter\": \"operatinganddirectexpensesa\", \"helping_text\": \"Operating Plus Direct Expenses Annual\"}, {\"parameter\": \"capitalexpenditurea\", \"helping_text\": \"Capital Expenditure Annual\"}, {\"parameter\": \"fixedassetsa\", \"helping_text\": \"Fixed Assets Annual\"}, {\"parameter\": \"depamy4\", \"helping_text\": \"Depreciation Annual 4Yr Ago\"}, {\"parameter\": \"totalexpensesa\", \"helping_text\": \"Total Expenses Annual\"}, {\"parameter\": \"operatingexpensesexcludesemployeecostanddepreciationa\", \"helping_text\": \"Operating Expenses Excluding Employee Cost & Depreciation Annual\"}, {\"parameter\": \"inta\", \"helping_text\": \"Interest Annual\"}, {\"parameter\": \"capitalexpenditureq\", \"helping_text\": \"Capital Expenditure Current Quarter\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"oexpnsa\", \"helping_text\": \"Operating Expenses Annual\"}, {\"parameter\": \"expensescapitalisedq\", \"helping_text\": \"Expenses Capitalised Qtr\"}, {\"parameter\": \"operatinganddirectexpensesa\", \"helping_text\": \"Operating Plus Direct Expenses Annual\"}, {\"parameter\": \"capitalexpenditurea\", \"helping_text\": \"Capital Expenditure Annual\"}, {\"parameter\": \"fixedassetsa\", \"helping_text\": \"Fixed Assets Annual\"}, {\"parameter\": \"depamy4\", \"helping_text\": \"Depreciation Annual 4Yr Ago\"}, {\"parameter\": \"totalexpensesa\", \"helping_text\": \"Total Expenses Annual\"}, {\"parameter\": \"operatingexpensesexcludesemployeecostanddepreciationa\", \"helping_text\": \"Operating Expenses Excluding Employee Cost & Depreciation Annual\"}, {\"parameter\": \"inta\", \"helping_text\": \"Interest Annual\"}, {\"parameter\": \"capitalexpenditureq\", \"helping_text\": \"Capital Expenditure Current Quarter\"}]}"
+      }
+    },
+    "operating profit margin annual historical": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"opmpctamy1\", \"helping_text\": \"Operating Profit Margin Annual 1Yr ago %\"}, {\"parameter\": \"opmpcta\", \"helping_text\": \"Operating Profit Margin Annual %\"}, {\"parameter\": \"opma\", \"helping_text\": \"Operting Profit Margin Annual %\"}, {\"parameter\": \"opmpctttm\", \"helping_text\": \"Operating Profit Margin TTM %\"}, {\"parameter\": \"opmpctq\", \"helping_text\": \"Operating Profit Margin Qtr %\"}, {\"parameter\": \"opmpctqmy1\", \"helping_text\": \"Operating Profit Margin Qtr 4Qtr ago %\"}, {\"parameter\": \"opamy5\", \"helping_text\": \"Operating Profit Annual 5Yr Ago\"}, {\"parameter\": \"opamy3\", \"helping_text\": \"Operating Profit Annual 3Yr Ago\"}, {\"parameter\": \"opamy4\", \"helping_text\": \"Operating Profit Annual 4Yr Ago\"}, {\"parameter\": \"opamy2\", \"helping_text\": \"Operating Profit Annual 2Yr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"opmpctamy1\", \"helping_text\": \"Operating Profit Margin Annual 1Yr ago %\"}, {\"parameter\": \"opmpcta\", \"helping_text\": \"Operating Profit Margin Annual %\"}, {\"parameter\": \"opma\", \"helping_text\": \"Operting Profit Margin Annual %\"}, {\"parameter\": \"opmpctttm\", \"helping_text\": \"Operating Profit Margin TTM %\"}, {\"parameter\": \"opmpctq\", \"helping_text\": \"Operating Profit Margin Qtr %\"}, {\"parameter\": \"opmpctqmy1\", \"helping_text\": \"Operating Profit Margin Qtr 4Qtr ago %\"}, {\"parameter\": \"opamy5\", \"helping_text\": \"Operating Profit Annual 5Yr Ago\"}, {\"parameter\": \"opamy3\", \"helping_text\": \"Operating Profit Annual 3Yr Ago\"}, {\"parameter\": \"opamy4\", \"helping_text\": \"Operating Profit Annual 4Yr Ago\"}, {\"parameter\": \"opamy2\", \"helping_text\": \"Operating Profit Annual 2Yr Ago\"}]}"
+      }
+    },
+    "PE historical valuation": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"peavg3y\", \"helping_text\": \"PE 3Yr Average\"}, {\"parameter\": \"peavg5y\", \"helping_text\": \"PE 5Yr Average\"}, {\"parameter\": \"peavg10y\", \"helping_text\": \"PE 10Yr Average\"}, {\"parameter\": \"pettm\", \"helping_text\": \"PE TTM Price to Earnings\"}, {\"parameter\": \"psttm\", \"helping_text\": \"Price to Sales TTM\"}, {\"parameter\": \"pricepeavg5y\", \"helping_text\": \"Fair Price based on 5Yr Average PE\"}, {\"parameter\": \"pegttm\", \"helping_text\": \"PEG TTM PE to Growth\"}, {\"parameter\": \"pcfoa\", \"helping_text\": \"Price to Cashflow from Operations\"}, {\"parameter\": \"priceupcurpevspeavg5y\", \"helping_text\": \"Fair Price Upside based on 5Yr Average PE\"}, {\"parameter\": \"pbva\", \"helping_text\": \"Price to Book Value Adjusted\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"peavg3y\", \"helping_text\": \"PE 3Yr Average\"}, {\"parameter\": \"peavg5y\", \"helping_text\": \"PE 5Yr Average\"}, {\"parameter\": \"peavg10y\", \"helping_text\": \"PE 10Yr Average\"}, {\"parameter\": \"pettm\", \"helping_text\": \"PE TTM Price to Earnings\"}, {\"parameter\": \"psttm\", \"helping_text\": \"Price to Sales TTM\"}, {\"parameter\": \"pricepeavg5y\", \"helping_text\": \"Fair Price based on 5Yr Average PE\"}, {\"parameter\": \"pegttm\", \"helping_text\": \"PEG TTM PE to Growth\"}, {\"parameter\": \"pcfoa\", \"helping_text\": \"Price to Cashflow from Operations\"}, {\"parameter\": \"priceupcurpevspeavg5y\", \"helping_text\": \"Fair Price Upside based on 5Yr Average PE\"}, {\"parameter\": \"pbva\", \"helping_text\": \"Price to Book Value Adjusted\"}]}"
+      }
+    },
+    "PEG ratio": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"pegttm\", \"helping_text\": \"PEG TTM PE to Growth\"}, {\"parameter\": \"grahamratio\", \"helping_text\": \"Graham Ratio\"}, {\"parameter\": \"pettm\", \"helping_text\": \"PE TTM Price to Earnings\"}, {\"parameter\": \"pricepeavg5y\", \"helping_text\": \"Fair Price based on 5Yr Average PE\"}, {\"parameter\": \"peavg3y\", \"helping_text\": \"PE 3Yr Average\"}, {\"parameter\": \"peavg5y\", \"helping_text\": \"PE 5Yr Average\"}, {\"parameter\": \"pricetosalesa\", \"helping_text\": \"Price To Sales Annual\"}, {\"parameter\": \"peavg10y\", \"helping_text\": \"PE 10Yr Average\"}, {\"parameter\": \"psttm\", \"helping_text\": \"Price to Sales TTM\"}, {\"parameter\": \"epsttm\", \"helping_text\": \"Basic EPS TTM\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"pegttm\", \"helping_text\": \"PEG TTM PE to Growth\"}, {\"parameter\": \"grahamratio\", \"helping_text\": \"Graham Ratio\"}, {\"parameter\": \"pettm\", \"helping_text\": \"PE TTM Price to Earnings\"}, {\"parameter\": \"pricepeavg5y\", \"helping_text\": \"Fair Price based on 5Yr Average PE\"}, {\"parameter\": \"peavg3y\", \"helping_text\": \"PE 3Yr Average\"}, {\"parameter\": \"peavg5y\", \"helping_text\": \"PE 5Yr Average\"}, {\"parameter\": \"pricetosalesa\", \"helping_text\": \"Price To Sales Annual\"}, {\"parameter\": \"peavg10y\", \"helping_text\": \"PE 10Yr Average\"}, {\"parameter\": \"psttm\", \"helping_text\": \"Price to Sales TTM\"}, {\"parameter\": \"epsttm\", \"helping_text\": \"Basic EPS TTM\"}]}"
+      }
+    },
+    "total revenue annual historical": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"sra\", \"helping_text\": \"Total Revenue Annual\"}, {\"parameter\": \"sramy3\", \"helping_text\": \"Revenue Annual 3Yr ago\"}, {\"parameter\": \"sraave5\", \"helping_text\": \"Total Revenue Annual avg 5Yr\"}, {\"parameter\": \"sramy2\", \"helping_text\": \"Revenue Annual 2Yr ago\"}, {\"parameter\": \"sramy4\", \"helping_text\": \"Revenue Annual 4Yr ago\"}, {\"parameter\": \"totalsrq\", \"helping_text\": \"Total Revenue Qtr\"}, {\"parameter\": \"sramy1\", \"helping_text\": \"Total Revenue Annual 1Yr Ago\"}, {\"parameter\": \"sramy5\", \"helping_text\": \"Revenue Annual 5Yr ago\"}, {\"parameter\": \"totaloperatingrevenuesa\", \"helping_text\": \"Operating Revenue Annual\"}, {\"parameter\": \"revenuefromoperationsgrossa\", \"helping_text\": \"Revenue Gross From Operations Annual\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"sra\", \"helping_text\": \"Total Revenue Annual\"}, {\"parameter\": \"sramy3\", \"helping_text\": \"Revenue Annual 3Yr ago\"}, {\"parameter\": \"sraave5\", \"helping_text\": \"Total Revenue Annual avg 5Yr\"}, {\"parameter\": \"sramy2\", \"helping_text\": \"Revenue Annual 2Yr ago\"}, {\"parameter\": \"sramy4\", \"helping_text\": \"Revenue Annual 4Yr ago\"}, {\"parameter\": \"totalsrq\", \"helping_text\": \"Total Revenue Qtr\"}, {\"parameter\": \"sramy1\", \"helping_text\": \"Total Revenue Annual 1Yr Ago\"}, {\"parameter\": \"sramy5\", \"helping_text\": \"Revenue Annual 5Yr ago\"}, {\"parameter\": \"totaloperatingrevenuesa\", \"helping_text\": \"Operating Revenue Annual\"}, {\"parameter\": \"revenuefromoperationsgrossa\", \"helping_text\": \"Revenue Gross From Operations Annual\"}]}"
+      }
+    },
+    "latest financial result": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"totalshareholdersfundsamy1\", \"helping_text\": \"Total ShareHolders Funds Annual 1Yr ago\"}, {\"parameter\": \"srqmq2\", \"helping_text\": \"Operating Revenue 2Qtrs ago\"}, {\"parameter\": \"fiihold\", \"helping_text\": \"FII holding current Qtr %\"}, {\"parameter\": \"epsadjq\", \"helping_text\": \"Earning Per Share Adjusted latest Qtr\"}, {\"parameter\": \"pata\", \"helping_text\": \"PAT Before ExtraOrdinary Items Annual\"}, {\"parameter\": \"pubpct\", \"helping_text\": \"Public holding current Qtr %\"}, {\"parameter\": \"srqmq3\", \"helping_text\": \"Operating Revenue 3Qtrs ago\"}, {\"parameter\": \"srqmq6\", \"helping_text\": \"Operating Revenue 6Qtrs ago\"}, {\"parameter\": \"extraordinaryitemqmq6\", \"helping_text\": \"ExtraOrdinary Items 6Qtr ago\"}, {\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"totalshareholdersfundsamy1\", \"helping_text\": \"Total ShareHolders Funds Annual 1Yr ago\"}, {\"parameter\": \"srqmq2\", \"helping_text\": \"Operating Revenue 2Qtrs ago\"}, {\"parameter\": \"fiihold\", \"helping_text\": \"FII holding current Qtr %\"}, {\"parameter\": \"epsadjq\", \"helping_text\": \"Earning Per Share Adjusted latest Qtr\"}, {\"parameter\": \"pata\", \"helping_text\": \"PAT Before ExtraOrdinary Items Annual\"}, {\"parameter\": \"pubpct\", \"helping_text\": \"Public holding current Qtr %\"}, {\"parameter\": \"srqmq3\", \"helping_text\": \"Operating Revenue 3Qtrs ago\"}, {\"parameter\": \"srqmq6\", \"helping_text\": \"Operating Revenue 6Qtrs ago\"}, {\"parameter\": \"extraordinaryitemqmq6\", \"helping_text\": \"ExtraOrdinary Items 6Qtr ago\"}, {\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}]}"
+      }
+    },
+    "latest result date": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"yearhighdate\", \"helping_text\": \"Date of 52W High\"}, {\"parameter\": \"yearlowdate\", \"helping_text\": \"Date of 52W Low\"}, {\"parameter\": \"deliveryhighest6m\", \"helping_text\": \"Delivery volume 6Month Highest\"}, {\"parameter\": \"prevdaychange\", \"helping_text\": \"Prev Day Change %\"}, {\"parameter\": \"halfyrhigh\", \"helping_text\": \"Half Yr High\"}, {\"parameter\": \"cvolhighest6m\", \"helping_text\": \"Consolidated volume 6Month Highest\"}, {\"parameter\": \"deliveryhighest3m\", \"helping_text\": \"Delivery volume 3Month Highest\"}, {\"parameter\": \"twodayprevclose\", \"helping_text\": \"Two day previous close price\"}, {\"parameter\": \"cvolhighest3m\", \"helping_text\": \"Consolidated volume 3Month Highest\"}, {\"parameter\": \"halfyrchangep\", \"helping_text\": \"Half Yr Change %\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"yearhighdate\", \"helping_text\": \"Date of 52W High\"}, {\"parameter\": \"yearlowdate\", \"helping_text\": \"Date of 52W Low\"}, {\"parameter\": \"deliveryhighest6m\", \"helping_text\": \"Delivery volume 6Month Highest\"}, {\"parameter\": \"prevdaychange\", \"helping_text\": \"Prev Day Change %\"}, {\"parameter\": \"halfyrhigh\", \"helping_text\": \"Half Yr High\"}, {\"parameter\": \"cvolhighest6m\", \"helping_text\": \"Consolidated volume 6Month Highest\"}, {\"parameter\": \"deliveryhighest3m\", \"helping_text\": \"Delivery volume 3Month Highest\"}, {\"parameter\": \"twodayprevclose\", \"helping_text\": \"Two day previous close price\"}, {\"parameter\": \"cvolhighest3m\", \"helping_text\": \"Consolidated volume 3Month Highest\"}, {\"parameter\": \"halfyrchangep\", \"helping_text\": \"Half Yr Change %\"}]}"
+      }
+    },
+    "latest quarter result": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"reportedpatq\", \"helping_text\": \"Reported PAT Qtr\"}, {\"parameter\": \"instihold\", \"helping_text\": \"Institutional holding current Qtr %\"}, {\"parameter\": \"epsyoygrowth\", \"helping_text\": \"EPS Qtr YoY Growth %\"}, {\"parameter\": \"srqmq2\", \"helping_text\": \"Operating Revenue 2Qtrs ago\"}, {\"parameter\": \"fiihold\", \"helping_text\": \"FII holding current Qtr %\"}, {\"parameter\": \"pubpct\", \"helping_text\": \"Public holding current Qtr %\"}, {\"parameter\": \"epsadjq\", \"helping_text\": \"Earning Per Share Adjusted latest Qtr\"}, {\"parameter\": \"prompledge\", \"helping_text\": \"Promoter holding pledge percentage % Qtr\"}, {\"parameter\": \"srqmq3\", \"helping_text\": \"Operating Revenue 3Qtrs ago\"}, {\"parameter\": \"srqmq6\", \"helping_text\": \"Operating Revenue 6Qtrs ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"reportedpatq\", \"helping_text\": \"Reported PAT Qtr\"}, {\"parameter\": \"instihold\", \"helping_text\": \"Institutional holding current Qtr %\"}, {\"parameter\": \"epsyoygrowth\", \"helping_text\": \"EPS Qtr YoY Growth %\"}, {\"parameter\": \"srqmq2\", \"helping_text\": \"Operating Revenue 2Qtrs ago\"}, {\"parameter\": \"fiihold\", \"helping_text\": \"FII holding current Qtr %\"}, {\"parameter\": \"pubpct\", \"helping_text\": \"Public holding current Qtr %\"}, {\"parameter\": \"epsadjq\", \"helping_text\": \"Earning Per Share Adjusted latest Qtr\"}, {\"parameter\": \"prompledge\", \"helping_text\": \"Promoter holding pledge percentage % Qtr\"}, {\"parameter\": \"srqmq3\", \"helping_text\": \"Operating Revenue 3Qtrs ago\"}, {\"parameter\": \"srqmq6\", \"helping_text\": \"Operating Revenue 6Qtrs ago\"}]}"
+      }
+    },
+    "quarter ended": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"qtrclose\", \"helping_text\": \"Qtr Close\"}, {\"parameter\": \"qtrchangep\", \"helping_text\": \"Qtr Change %\"}, {\"parameter\": \"reportedpatq\", \"helping_text\": \"Reported PAT Qtr\"}, {\"parameter\": \"srqmq3\", \"helping_text\": \"Operating Revenue 3Qtrs ago\"}, {\"parameter\": \"expensescapitalisedq\", \"helping_text\": \"Expenses Capitalised Qtr\"}, {\"parameter\": \"exciseq\", \"helping_text\": \"Excise Qtr\"}, {\"parameter\": \"qtrhigh\", \"helping_text\": \"Qtr High\"}, {\"parameter\": \"srqmq2\", \"helping_text\": \"Operating Revenue 2Qtrs ago\"}, {\"parameter\": \"exceptionalitemsq\", \"helping_text\": \"Exceptional Items Qtr\"}, {\"parameter\": \"extraordinaryitemq\", \"helping_text\": \"ExtraOrdinary Items Qtr\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"qtrclose\", \"helping_text\": \"Qtr Close\"}, {\"parameter\": \"qtrchangep\", \"helping_text\": \"Qtr Change %\"}, {\"parameter\": \"reportedpatq\", \"helping_text\": \"Reported PAT Qtr\"}, {\"parameter\": \"srqmq3\", \"helping_text\": \"Operating Revenue 3Qtrs ago\"}, {\"parameter\": \"expensescapitalisedq\", \"helping_text\": \"Expenses Capitalised Qtr\"}, {\"parameter\": \"exciseq\", \"helping_text\": \"Excise Qtr\"}, {\"parameter\": \"qtrhigh\", \"helping_text\": \"Qtr High\"}, {\"parameter\": \"srqmq2\", \"helping_text\": \"Operating Revenue 2Qtrs ago\"}, {\"parameter\": \"exceptionalitemsq\", \"helping_text\": \"Exceptional Items Qtr\"}, {\"parameter\": \"extraordinaryitemq\", \"helping_text\": \"ExtraOrdinary Items Qtr\"}]}"
+      }
+    },
+    "financial result date": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"yearhighdate\", \"helping_text\": \"Date of 52W High\"}, {\"parameter\": \"yearlowdate\", \"helping_text\": \"Date of 52W Low\"}, {\"parameter\": \"reportedpatq\", \"helping_text\": \"Reported PAT Qtr\"}, {\"parameter\": \"epsyoygrowth\", \"helping_text\": \"EPS Qtr YoY Growth %\"}, {\"parameter\": \"vfhymy2epsa\", \"helping_text\": \"Basic EPS Annual 2Yr Ago\"}, {\"parameter\": \"fiihold\", \"helping_text\": \"FII holding current Qtr %\"}, {\"parameter\": \"srqmq2\", \"helping_text\": \"Operating Revenue 2Qtrs ago\"}, {\"parameter\": \"vfhymy4epsa\", \"helping_text\": \"Basic EPS Annual 4Yr Ago\"}, {\"parameter\": \"epsqoqgrowth\", \"helping_text\": \"Basic EPS QoQ Growth %\"}, {\"parameter\": \"op4qq\", \"helping_text\": \"Operating Profit Growth Qtr YoY %\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"yearhighdate\", \"helping_text\": \"Date of 52W High\"}, {\"parameter\": \"yearlowdate\", \"helping_text\": \"Date of 52W Low\"}, {\"parameter\": \"reportedpatq\", \"helping_text\": \"Reported PAT Qtr\"}, {\"parameter\": \"epsyoygrowth\", \"helping_text\": \"EPS Qtr YoY Growth %\"}, {\"parameter\": \"vfhymy2epsa\", \"helping_text\": \"Basic EPS Annual 2Yr Ago\"}, {\"parameter\": \"fiihold\", \"helping_text\": \"FII holding current Qtr %\"}, {\"parameter\": \"srqmq2\", \"helping_text\": \"Operating Revenue 2Qtrs ago\"}, {\"parameter\": \"vfhymy4epsa\", \"helping_text\": \"Basic EPS Annual 4Yr Ago\"}, {\"parameter\": \"epsqoqgrowth\", \"helping_text\": \"Basic EPS QoQ Growth %\"}, {\"parameter\": \"op4qq\", \"helping_text\": \"Operating Profit Growth Qtr YoY %\"}]}"
+      }
+    },
+    "total revenue qtr": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"totalsrq\", \"helping_text\": \"Total Revenue Qtr\"}, {\"parameter\": \"totalsrqmq3\", \"helping_text\": \"Total Revenue 3Qtr ago\"}, {\"parameter\": \"totalsrqmq2\", \"helping_text\": \"Total Revenue 2Qtr ago\"}, {\"parameter\": \"totalsrqmy1\", \"helping_text\": \"Total Revenue 4Qtr ago\"}, {\"parameter\": \"totalsrqmq1\", \"helping_text\": \"Total Revenue 1Qtr ago\"}, {\"parameter\": \"otheroperatingincomeq\", \"helping_text\": \"Other Operating Income Qtr\"}, {\"parameter\": \"oiq\", \"helping_text\": \"Other Income Qtr\"}, {\"parameter\": \"srq\", \"helping_text\": \"Operating Revenue Qtr\"}, {\"parameter\": \"srqmq2\", \"helping_text\": \"Operating Revenue 2Qtrs ago\"}, {\"parameter\": \"srqmq5\", \"helping_text\": \"Operating Revenue 5Qtrs ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"totalsrq\", \"helping_text\": \"Total Revenue Qtr\"}, {\"parameter\": \"totalsrqmq3\", \"helping_text\": \"Total Revenue 3Qtr ago\"}, {\"parameter\": \"totalsrqmq2\", \"helping_text\": \"Total Revenue 2Qtr ago\"}, {\"parameter\": \"totalsrqmy1\", \"helping_text\": \"Total Revenue 4Qtr ago\"}, {\"parameter\": \"totalsrqmq1\", \"helping_text\": \"Total Revenue 1Qtr ago\"}, {\"parameter\": \"otheroperatingincomeq\", \"helping_text\": \"Other Operating Income Qtr\"}, {\"parameter\": \"oiq\", \"helping_text\": \"Other Income Qtr\"}, {\"parameter\": \"srq\", \"helping_text\": \"Operating Revenue Qtr\"}, {\"parameter\": \"srqmq2\", \"helping_text\": \"Operating Revenue 2Qtrs ago\"}, {\"parameter\": \"srqmq5\", \"helping_text\": \"Operating Revenue 5Qtrs ago\"}]}"
+      }
+    },
+    "operating revenue qtr": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"srq\", \"helping_text\": \"Operating Revenue Qtr\"}, {\"parameter\": \"srqmq2\", \"helping_text\": \"Operating Revenue 2Qtrs ago\"}, {\"parameter\": \"otheroperatingincomeq\", \"helping_text\": \"Other Operating Income Qtr\"}, {\"parameter\": \"srqmq3\", \"helping_text\": \"Operating Revenue 3Qtrs ago\"}, {\"parameter\": \"srqmq7\", \"helping_text\": \"Operating Revenue 7Qtrs ago\"}, {\"parameter\": \"operatingincomeq\", \"helping_text\": \"Operating Income Qtr\"}, {\"parameter\": \"srqmq5\", \"helping_text\": \"Operating Revenue 5Qtrs ago\"}, {\"parameter\": \"srqmq6\", \"helping_text\": \"Operating Revenue 6Qtrs ago\"}, {\"parameter\": \"srqmy1\", \"helping_text\": \"Operating Revenue 4Qtrs ago\"}, {\"parameter\": \"srqmy2\", \"helping_text\": \"Operating Revenue 8Qtrs ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"srq\", \"helping_text\": \"Operating Revenue Qtr\"}, {\"parameter\": \"srqmq2\", \"helping_text\": \"Operating Revenue 2Qtrs ago\"}, {\"parameter\": \"otheroperatingincomeq\", \"helping_text\": \"Other Operating Income Qtr\"}, {\"parameter\": \"srqmq3\", \"helping_text\": \"Operating Revenue 3Qtrs ago\"}, {\"parameter\": \"srqmq7\", \"helping_text\": \"Operating Revenue 7Qtrs ago\"}, {\"parameter\": \"operatingincomeq\", \"helping_text\": \"Operating Income Qtr\"}, {\"parameter\": \"srqmq5\", \"helping_text\": \"Operating Revenue 5Qtrs ago\"}, {\"parameter\": \"srqmq6\", \"helping_text\": \"Operating Revenue 6Qtrs ago\"}, {\"parameter\": \"srqmy1\", \"helping_text\": \"Operating Revenue 4Qtrs ago\"}, {\"parameter\": \"srqmy2\", \"helping_text\": \"Operating Revenue 8Qtrs ago\"}]}"
+      }
+    },
+    "net profit qtr": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"npq\", \"helping_text\": \"Net Profit Qtr\"}, {\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}, {\"parameter\": \"npqmq6\", \"helping_text\": \"Net Profit 6Qtr Ago\"}, {\"parameter\": \"npqmq2\", \"helping_text\": \"Net Profit 2Qtr Ago\"}, {\"parameter\": \"npqmq5\", \"helping_text\": \"Net Profit 5Qtr Ago\"}, {\"parameter\": \"npqmq7\", \"helping_text\": \"Net Profit 7Qtr Ago\"}, {\"parameter\": \"npqmy1\", \"helping_text\": \"Net Profit 4Qtr Ago\"}, {\"parameter\": \"npqmq1\", \"helping_text\": \"Net Profit 1Qtr Ago\"}, {\"parameter\": \"opq\", \"helping_text\": \"Operating Profit Qtr\"}, {\"parameter\": \"reportedpatq\", \"helping_text\": \"Reported PAT Qtr\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"npq\", \"helping_text\": \"Net Profit Qtr\"}, {\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}, {\"parameter\": \"npqmq6\", \"helping_text\": \"Net Profit 6Qtr Ago\"}, {\"parameter\": \"npqmq2\", \"helping_text\": \"Net Profit 2Qtr Ago\"}, {\"parameter\": \"npqmq5\", \"helping_text\": \"Net Profit 5Qtr Ago\"}, {\"parameter\": \"npqmq7\", \"helping_text\": \"Net Profit 7Qtr Ago\"}, {\"parameter\": \"npqmy1\", \"helping_text\": \"Net Profit 4Qtr Ago\"}, {\"parameter\": \"npqmq1\", \"helping_text\": \"Net Profit 1Qtr Ago\"}, {\"parameter\": \"opq\", \"helping_text\": \"Operating Profit Qtr\"}, {\"parameter\": \"reportedpatq\", \"helping_text\": \"Reported PAT Qtr\"}]}"
+      }
+    },
+    "net profit 1Q ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}, {\"parameter\": \"npqmq1\", \"helping_text\": \"Net Profit 1Qtr Ago\"}, {\"parameter\": \"npqmq2\", \"helping_text\": \"Net Profit 2Qtr Ago\"}, {\"parameter\": \"npqmy1\", \"helping_text\": \"Net Profit 4Qtr Ago\"}, {\"parameter\": \"npqmq6\", \"helping_text\": \"Net Profit 6Qtr Ago\"}, {\"parameter\": \"npttmmq1\", \"helping_text\": \"Net Profit TTM 1Qtr Ago\"}, {\"parameter\": \"netpctqmq1\", \"helping_text\": \"Net Profit Margin 1Qtr ago %\"}, {\"parameter\": \"npqmq7\", \"helping_text\": \"Net Profit 7Qtr Ago\"}, {\"parameter\": \"npqmq5\", \"helping_text\": \"Net Profit 5Qtr Ago\"}, {\"parameter\": \"npqmy2\", \"helping_text\": \"Net Profit 8Qtr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}, {\"parameter\": \"npqmq1\", \"helping_text\": \"Net Profit 1Qtr Ago\"}, {\"parameter\": \"npqmq2\", \"helping_text\": \"Net Profit 2Qtr Ago\"}, {\"parameter\": \"npqmy1\", \"helping_text\": \"Net Profit 4Qtr Ago\"}, {\"parameter\": \"npqmq6\", \"helping_text\": \"Net Profit 6Qtr Ago\"}, {\"parameter\": \"npttmmq1\", \"helping_text\": \"Net Profit TTM 1Qtr Ago\"}, {\"parameter\": \"netpctqmq1\", \"helping_text\": \"Net Profit Margin 1Qtr ago %\"}, {\"parameter\": \"npqmq7\", \"helping_text\": \"Net Profit 7Qtr Ago\"}, {\"parameter\": \"npqmq5\", \"helping_text\": \"Net Profit 5Qtr Ago\"}, {\"parameter\": \"npqmy2\", \"helping_text\": \"Net Profit 8Qtr Ago\"}]}"
+      }
+    },
+    "revenue 1Q ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"totalsrqmq1\", \"helping_text\": \"Total Revenue 1Qtr ago\"}, {\"parameter\": \"totalsrqmq2\", \"helping_text\": \"Total Revenue 2Qtr ago\"}, {\"parameter\": \"totalsrqmy1\", \"helping_text\": \"Total Revenue 4Qtr ago\"}, {\"parameter\": \"totalsrqmq3\", \"helping_text\": \"Total Revenue 3Qtr ago\"}, {\"parameter\": \"oiqmq1\", \"helping_text\": \"Other Income 1Qtr Ago\"}, {\"parameter\": \"srqmq2\", \"helping_text\": \"Operating Revenue 2Qtrs ago\"}, {\"parameter\": \"srqmq3\", \"helping_text\": \"Operating Revenue 3Qtrs ago\"}, {\"parameter\": \"totalsrq\", \"helping_text\": \"Total Revenue Qtr\"}, {\"parameter\": \"srqmq1\", \"helping_text\": \"Operating Revenue 1Qtr Ago\"}, {\"parameter\": \"oiqmq3\", \"helping_text\": \"Other Income 3Qtr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"totalsrqmq1\", \"helping_text\": \"Total Revenue 1Qtr ago\"}, {\"parameter\": \"totalsrqmq2\", \"helping_text\": \"Total Revenue 2Qtr ago\"}, {\"parameter\": \"totalsrqmy1\", \"helping_text\": \"Total Revenue 4Qtr ago\"}, {\"parameter\": \"totalsrqmq3\", \"helping_text\": \"Total Revenue 3Qtr ago\"}, {\"parameter\": \"oiqmq1\", \"helping_text\": \"Other Income 1Qtr Ago\"}, {\"parameter\": \"srqmq2\", \"helping_text\": \"Operating Revenue 2Qtrs ago\"}, {\"parameter\": \"srqmq3\", \"helping_text\": \"Operating Revenue 3Qtrs ago\"}, {\"parameter\": \"totalsrq\", \"helping_text\": \"Total Revenue Qtr\"}, {\"parameter\": \"srqmq1\", \"helping_text\": \"Operating Revenue 1Qtr Ago\"}, {\"parameter\": \"oiqmq3\", \"helping_text\": \"Other Income 3Qtr Ago\"}]}"
+      }
+    },
+    "operating profit 1Q ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"opqmq1\", \"helping_text\": \"Operating Profit 1Qtr Ago\"}, {\"parameter\": \"opqmq3\", \"helping_text\": \"Operating Profit 3Qtr Ago\"}, {\"parameter\": \"opqmq2\", \"helping_text\": \"Operating Profit 2Qtr Ago\"}, {\"parameter\": \"opqmy1\", \"helping_text\": \"Operating Profit 4Qtr Ago\"}, {\"parameter\": \"opmpctqmq1\", \"helping_text\": \"Operating Profit Margin 1Qtr ago %\"}, {\"parameter\": \"opqmq5\", \"helping_text\": \"Operating Profit 5Qtr Ago\"}, {\"parameter\": \"opttmmy1\", \"helping_text\": \"Operating Profit TTM 1Yr Ago\"}, {\"parameter\": \"opamy1\", \"helping_text\": \"Operating Profit Annual 1Yr Ago\"}, {\"parameter\": \"opq\", \"helping_text\": \"Operating Profit Qtr\"}, {\"parameter\": \"opqmq6\", \"helping_text\": \"Operating Profit 6Qtr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"opqmq1\", \"helping_text\": \"Operating Profit 1Qtr Ago\"}, {\"parameter\": \"opqmq3\", \"helping_text\": \"Operating Profit 3Qtr Ago\"}, {\"parameter\": \"opqmq2\", \"helping_text\": \"Operating Profit 2Qtr Ago\"}, {\"parameter\": \"opqmy1\", \"helping_text\": \"Operating Profit 4Qtr Ago\"}, {\"parameter\": \"opmpctqmq1\", \"helping_text\": \"Operating Profit Margin 1Qtr ago %\"}, {\"parameter\": \"opqmq5\", \"helping_text\": \"Operating Profit 5Qtr Ago\"}, {\"parameter\": \"opttmmy1\", \"helping_text\": \"Operating Profit TTM 1Yr Ago\"}, {\"parameter\": \"opamy1\", \"helping_text\": \"Operating Profit Annual 1Yr Ago\"}, {\"parameter\": \"opq\", \"helping_text\": \"Operating Profit Qtr\"}, {\"parameter\": \"opqmq6\", \"helping_text\": \"Operating Profit 6Qtr Ago\"}]}"
+      }
+    },
+    "cash flow annual": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"ncfa\", \"helping_text\": \"Net Cash Flow Annual\"}, {\"parameter\": \"cashtoa\", \"helping_text\": \"Cash Turnover Annual\"}, {\"parameter\": \"ncfamy5\", \"helping_text\": \"Net Cash Flow Annual 5Yr Ago\"}, {\"parameter\": \"ncfamy4\", \"helping_text\": \"Net Cash Flow Annual 4Yr Ago\"}, {\"parameter\": \"ncfamy2\", \"helping_text\": \"Net Cash Flow Annual 2Yr Ago\"}, {\"parameter\": \"ncfamy1\", \"helping_text\": \"Net Cash Flow Annual 1Yr Ago\"}, {\"parameter\": \"cfia\", \"helping_text\": \"Cash from Investing Activity Annual\"}, {\"parameter\": \"ncfamy3\", \"helping_text\": \"Net Cash Flow Annual 3Yr Ago\"}, {\"parameter\": \"cfoa\", \"helping_text\": \"Cash from Operating Activity Annual\"}, {\"parameter\": \"cfoamy4\", \"helping_text\": \"Cash from Operating Activity Annual 4Yr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"ncfa\", \"helping_text\": \"Net Cash Flow Annual\"}, {\"parameter\": \"cashtoa\", \"helping_text\": \"Cash Turnover Annual\"}, {\"parameter\": \"ncfamy5\", \"helping_text\": \"Net Cash Flow Annual 5Yr Ago\"}, {\"parameter\": \"ncfamy4\", \"helping_text\": \"Net Cash Flow Annual 4Yr Ago\"}, {\"parameter\": \"ncfamy2\", \"helping_text\": \"Net Cash Flow Annual 2Yr Ago\"}, {\"parameter\": \"ncfamy1\", \"helping_text\": \"Net Cash Flow Annual 1Yr Ago\"}, {\"parameter\": \"cfia\", \"helping_text\": \"Cash from Investing Activity Annual\"}, {\"parameter\": \"ncfamy3\", \"helping_text\": \"Net Cash Flow Annual 3Yr Ago\"}, {\"parameter\": \"cfoa\", \"helping_text\": \"Cash from Operating Activity Annual\"}, {\"parameter\": \"cfoamy4\", \"helping_text\": \"Cash from Operating Activity Annual 4Yr Ago\"}]}"
+      }
+    },
+    "debt annual": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"borrowingsa\", \"helping_text\": \"Borrowings Annual\"}, {\"parameter\": \"inta\", \"helping_text\": \"Interest Annual\"}, {\"parameter\": \"longtermborrowingsa\", \"helping_text\": \"Long Term Debt Annual\"}, {\"parameter\": \"shorttermborrowingsa\", \"helping_text\": \"Short Term Debt Annual\"}, {\"parameter\": \"debtcea\", \"helping_text\": \"Total Debt to Total Equity Annual\"}, {\"parameter\": \"advancesa\", \"helping_text\": \"Advances Annual\"}, {\"parameter\": \"intamy2\", \"helping_text\": \"Interest Annual 2Yr Ago\"}, {\"parameter\": \"intamy1\", \"helping_text\": \"Interest Annual 1Yr Ago\"}, {\"parameter\": \"ltdea\", \"helping_text\": \"Long Term Debt To Equity Annual\"}, {\"parameter\": \"totalexpensesa\", \"helping_text\": \"Total Expenses Annual\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"borrowingsa\", \"helping_text\": \"Borrowings Annual\"}, {\"parameter\": \"inta\", \"helping_text\": \"Interest Annual\"}, {\"parameter\": \"longtermborrowingsa\", \"helping_text\": \"Long Term Debt Annual\"}, {\"parameter\": \"shorttermborrowingsa\", \"helping_text\": \"Short Term Debt Annual\"}, {\"parameter\": \"debtcea\", \"helping_text\": \"Total Debt to Total Equity Annual\"}, {\"parameter\": \"advancesa\", \"helping_text\": \"Advances Annual\"}, {\"parameter\": \"intamy2\", \"helping_text\": \"Interest Annual 2Yr Ago\"}, {\"parameter\": \"intamy1\", \"helping_text\": \"Interest Annual 1Yr Ago\"}, {\"parameter\": \"ltdea\", \"helping_text\": \"Long Term Debt To Equity Annual\"}, {\"parameter\": \"totalexpensesa\", \"helping_text\": \"Total Expenses Annual\"}]}"
+      }
+    },
+    "operating revenue annual 1 year ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"sramy4\", \"helping_text\": \"Revenue Annual 4Yr ago\"}, {\"parameter\": \"sramy2\", \"helping_text\": \"Revenue Annual 2Yr ago\"}, {\"parameter\": \"sramy3\", \"helping_text\": \"Revenue Annual 3Yr ago\"}, {\"parameter\": \"sramy1\", \"helping_text\": \"Total Revenue Annual 1Yr Ago\"}, {\"parameter\": \"sramy5\", \"helping_text\": \"Revenue Annual 5Yr ago\"}, {\"parameter\": \"srqmq2\", \"helping_text\": \"Operating Revenue 2Qtrs ago\"}, {\"parameter\": \"srqmq3\", \"helping_text\": \"Operating Revenue 3Qtrs ago\"}, {\"parameter\": \"totaloperatingrevenuesa\", \"helping_text\": \"Operating Revenue Annual\"}, {\"parameter\": \"oexpnsamy1\", \"helping_text\": \"Operating Expenses Annual 1Yr Ago\"}, {\"parameter\": \"srttmmy1\", \"helping_text\": \"Operating Revenue TTM 1Yr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"sramy4\", \"helping_text\": \"Revenue Annual 4Yr ago\"}, {\"parameter\": \"sramy2\", \"helping_text\": \"Revenue Annual 2Yr ago\"}, {\"parameter\": \"sramy3\", \"helping_text\": \"Revenue Annual 3Yr ago\"}, {\"parameter\": \"sramy1\", \"helping_text\": \"Total Revenue Annual 1Yr Ago\"}, {\"parameter\": \"sramy5\", \"helping_text\": \"Revenue Annual 5Yr ago\"}, {\"parameter\": \"srqmq2\", \"helping_text\": \"Operating Revenue 2Qtrs ago\"}, {\"parameter\": \"srqmq3\", \"helping_text\": \"Operating Revenue 3Qtrs ago\"}, {\"parameter\": \"totaloperatingrevenuesa\", \"helping_text\": \"Operating Revenue Annual\"}, {\"parameter\": \"oexpnsamy1\", \"helping_text\": \"Operating Expenses Annual 1Yr Ago\"}, {\"parameter\": \"srttmmy1\", \"helping_text\": \"Operating Revenue TTM 1Yr Ago\"}]}"
+      }
+    },
+    "total revenue annual 1 year ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"sramy1\", \"helping_text\": \"Total Revenue Annual 1Yr Ago\"}, {\"parameter\": \"sramy4\", \"helping_text\": \"Revenue Annual 4Yr ago\"}, {\"parameter\": \"sramy2\", \"helping_text\": \"Revenue Annual 2Yr ago\"}, {\"parameter\": \"sramy3\", \"helping_text\": \"Revenue Annual 3Yr ago\"}, {\"parameter\": \"sramy5\", \"helping_text\": \"Revenue Annual 5Yr ago\"}, {\"parameter\": \"sra\", \"helping_text\": \"Total Revenue Annual\"}, {\"parameter\": \"totalsrqmq1\", \"helping_text\": \"Total Revenue 1Qtr ago\"}, {\"parameter\": \"totalsrqmq3\", \"helping_text\": \"Total Revenue 3Qtr ago\"}, {\"parameter\": \"totalsrqmq2\", \"helping_text\": \"Total Revenue 2Qtr ago\"}, {\"parameter\": \"oiamy1\", \"helping_text\": \"Other Income Annual 1Yr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"sramy1\", \"helping_text\": \"Total Revenue Annual 1Yr Ago\"}, {\"parameter\": \"sramy4\", \"helping_text\": \"Revenue Annual 4Yr ago\"}, {\"parameter\": \"sramy2\", \"helping_text\": \"Revenue Annual 2Yr ago\"}, {\"parameter\": \"sramy3\", \"helping_text\": \"Revenue Annual 3Yr ago\"}, {\"parameter\": \"sramy5\", \"helping_text\": \"Revenue Annual 5Yr ago\"}, {\"parameter\": \"sra\", \"helping_text\": \"Total Revenue Annual\"}, {\"parameter\": \"totalsrqmq1\", \"helping_text\": \"Total Revenue 1Qtr ago\"}, {\"parameter\": \"totalsrqmq3\", \"helping_text\": \"Total Revenue 3Qtr ago\"}, {\"parameter\": \"totalsrqmq2\", \"helping_text\": \"Total Revenue 2Qtr ago\"}, {\"parameter\": \"oiamy1\", \"helping_text\": \"Other Income Annual 1Yr Ago\"}]}"
+      }
+    },
+    "net profit annual 1 year ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"npamy1\", \"helping_text\": \"Net Profit Annual 1Yr Ago\"}, {\"parameter\": \"npamy2\", \"helping_text\": \"Net Profit Annual 2Yr ago\"}, {\"parameter\": \"npamy3\", \"helping_text\": \"Net Profit Annual 3Yr Ago\"}, {\"parameter\": \"npamy4\", \"helping_text\": \"Net Profit Annual 4Yr Ago\"}, {\"parameter\": \"pbtamy1\", \"helping_text\": \"Profit Before Tax Annual 1Yr Ago\"}, {\"parameter\": \"npamy5\", \"helping_text\": \"Net Profit Annual 5Yr Ago\"}, {\"parameter\": \"opamy1\", \"helping_text\": \"Operating Profit Annual 1Yr Ago\"}, {\"parameter\": \"netpctamy1\", \"helping_text\": \"Net Profit Margin Annual 1Yr ago %\"}, {\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}, {\"parameter\": \"npqmq1\", \"helping_text\": \"Net Profit 1Qtr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"npamy1\", \"helping_text\": \"Net Profit Annual 1Yr Ago\"}, {\"parameter\": \"npamy2\", \"helping_text\": \"Net Profit Annual 2Yr ago\"}, {\"parameter\": \"npamy3\", \"helping_text\": \"Net Profit Annual 3Yr Ago\"}, {\"parameter\": \"npamy4\", \"helping_text\": \"Net Profit Annual 4Yr Ago\"}, {\"parameter\": \"pbtamy1\", \"helping_text\": \"Profit Before Tax Annual 1Yr Ago\"}, {\"parameter\": \"npamy5\", \"helping_text\": \"Net Profit Annual 5Yr Ago\"}, {\"parameter\": \"opamy1\", \"helping_text\": \"Operating Profit Annual 1Yr Ago\"}, {\"parameter\": \"netpctamy1\", \"helping_text\": \"Net Profit Margin Annual 1Yr ago %\"}, {\"parameter\": \"npqmq3\", \"helping_text\": \"Net Profit 3Qtr Ago\"}, {\"parameter\": \"npqmq1\", \"helping_text\": \"Net Profit 1Qtr Ago\"}]}"
+      }
+    },
+    "pat annual 1 year ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"taxamy1\", \"helping_text\": \"Tax Annual 1Yr Ago\"}, {\"parameter\": \"sramy4\", \"helping_text\": \"Revenue Annual 4Yr ago\"}, {\"parameter\": \"npperbranchesa\", \"helping_text\": \"NP Per Branch Annual\"}, {\"parameter\": \"depamy1\", \"helping_text\": \"Depreciation Annual 1Yr Ago\"}, {\"parameter\": \"sramy2\", \"helping_text\": \"Revenue Annual 2Yr ago\"}, {\"parameter\": \"npamy2\", \"helping_text\": \"Net Profit Annual 2Yr ago\"}, {\"parameter\": \"intamy1\", \"helping_text\": \"Interest Annual 1Yr Ago\"}, {\"parameter\": \"npamy1\", \"helping_text\": \"Net Profit Annual 1Yr Ago\"}, {\"parameter\": \"taxa\", \"helping_text\": \"Tax Annual\"}, {\"parameter\": \"oexpnsamy1\", \"helping_text\": \"Operating Expenses Annual 1Yr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"taxamy1\", \"helping_text\": \"Tax Annual 1Yr Ago\"}, {\"parameter\": \"sramy4\", \"helping_text\": \"Revenue Annual 4Yr ago\"}, {\"parameter\": \"npperbranchesa\", \"helping_text\": \"NP Per Branch Annual\"}, {\"parameter\": \"depamy1\", \"helping_text\": \"Depreciation Annual 1Yr Ago\"}, {\"parameter\": \"sramy2\", \"helping_text\": \"Revenue Annual 2Yr ago\"}, {\"parameter\": \"npamy2\", \"helping_text\": \"Net Profit Annual 2Yr ago\"}, {\"parameter\": \"intamy1\", \"helping_text\": \"Interest Annual 1Yr Ago\"}, {\"parameter\": \"npamy1\", \"helping_text\": \"Net Profit Annual 1Yr Ago\"}, {\"parameter\": \"taxa\", \"helping_text\": \"Tax Annual\"}, {\"parameter\": \"oexpnsamy1\", \"helping_text\": \"Operating Expenses Annual 1Yr Ago\"}]}"
+      }
+    },
+    "operating profit annual 1 year ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"opamy1\", \"helping_text\": \"Operating Profit Annual 1Yr Ago\"}, {\"parameter\": \"opamy4\", \"helping_text\": \"Operating Profit Annual 4Yr Ago\"}, {\"parameter\": \"opamy2\", \"helping_text\": \"Operating Profit Annual 2Yr Ago\"}, {\"parameter\": \"opamy3\", \"helping_text\": \"Operating Profit Annual 3Yr Ago\"}, {\"parameter\": \"opamy5\", \"helping_text\": \"Operating Profit Annual 5Yr Ago\"}, {\"parameter\": \"opttmmy1\", \"helping_text\": \"Operating Profit TTM 1Yr Ago\"}, {\"parameter\": \"opqmq1\", \"helping_text\": \"Operating Profit 1Qtr Ago\"}, {\"parameter\": \"pbtamy1\", \"helping_text\": \"Profit Before Tax Annual 1Yr Ago\"}, {\"parameter\": \"npamy1\", \"helping_text\": \"Net Profit Annual 1Yr Ago\"}, {\"parameter\": \"opa\", \"helping_text\": \"Operating Profit Annual\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"opamy1\", \"helping_text\": \"Operating Profit Annual 1Yr Ago\"}, {\"parameter\": \"opamy4\", \"helping_text\": \"Operating Profit Annual 4Yr Ago\"}, {\"parameter\": \"opamy2\", \"helping_text\": \"Operating Profit Annual 2Yr Ago\"}, {\"parameter\": \"opamy3\", \"helping_text\": \"Operating Profit Annual 3Yr Ago\"}, {\"parameter\": \"opamy5\", \"helping_text\": \"Operating Profit Annual 5Yr Ago\"}, {\"parameter\": \"opttmmy1\", \"helping_text\": \"Operating Profit TTM 1Yr Ago\"}, {\"parameter\": \"opqmq1\", \"helping_text\": \"Operating Profit 1Qtr Ago\"}, {\"parameter\": \"pbtamy1\", \"helping_text\": \"Profit Before Tax Annual 1Yr Ago\"}, {\"parameter\": \"npamy1\", \"helping_text\": \"Net Profit Annual 1Yr Ago\"}, {\"parameter\": \"opa\", \"helping_text\": \"Operating Profit Annual\"}]}"
+      }
+    },
+    "cash from operating activity annual 1 year ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"cfoamy1\", \"helping_text\": \"Cash from Operating Activity Annual 1Yr Ago\"}, {\"parameter\": \"cfoamy4\", \"helping_text\": \"Cash from Operating Activity Annual 4Yr Ago\"}, {\"parameter\": \"cfoamy2\", \"helping_text\": \"Cash from Operating Activity Annual 2Yr Ago\"}, {\"parameter\": \"cfoamy3\", \"helping_text\": \"Cash from Operating Activity Annual 3Yr Ago\"}, {\"parameter\": \"cfiamy1\", \"helping_text\": \"Cash from Investing Activity Annual 1Yr Ago\"}, {\"parameter\": \"cfoamy5\", \"helping_text\": \"Cash from Operating Activity Annual 5Yr Ago\"}, {\"parameter\": \"cfaamy1\", \"helping_text\": \"Cash from Financing Activity Annual 1Yr Ago\"}, {\"parameter\": \"ncfamy1\", \"helping_text\": \"Net Cash Flow Annual 1Yr Ago\"}, {\"parameter\": \"cfiamy4\", \"helping_text\": \"Cash from Investing Activity Annual 4Yr Ago\"}, {\"parameter\": \"ncfamy2\", \"helping_text\": \"Net Cash Flow Annual 2Yr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"cfoamy1\", \"helping_text\": \"Cash from Operating Activity Annual 1Yr Ago\"}, {\"parameter\": \"cfoamy4\", \"helping_text\": \"Cash from Operating Activity Annual 4Yr Ago\"}, {\"parameter\": \"cfoamy2\", \"helping_text\": \"Cash from Operating Activity Annual 2Yr Ago\"}, {\"parameter\": \"cfoamy3\", \"helping_text\": \"Cash from Operating Activity Annual 3Yr Ago\"}, {\"parameter\": \"cfiamy1\", \"helping_text\": \"Cash from Investing Activity Annual 1Yr Ago\"}, {\"parameter\": \"cfoamy5\", \"helping_text\": \"Cash from Operating Activity Annual 5Yr Ago\"}, {\"parameter\": \"cfaamy1\", \"helping_text\": \"Cash from Financing Activity Annual 1Yr Ago\"}, {\"parameter\": \"ncfamy1\", \"helping_text\": \"Net Cash Flow Annual 1Yr Ago\"}, {\"parameter\": \"cfiamy4\", \"helping_text\": \"Cash from Investing Activity Annual 4Yr Ago\"}, {\"parameter\": \"ncfamy2\", \"helping_text\": \"Net Cash Flow Annual 2Yr Ago\"}]}"
+      }
+    },
+    "capital expenditure annual 1 year ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"depamy1\", \"helping_text\": \"Depreciation Annual 1Yr Ago\"}, {\"parameter\": \"oexpnsamy1\", \"helping_text\": \"Operating Expenses Annual 1Yr Ago\"}, {\"parameter\": \"depamy4\", \"helping_text\": \"Depreciation Annual 4Yr Ago\"}, {\"parameter\": \"cfiamy1\", \"helping_text\": \"Cash from Investing Activity Annual 1Yr Ago\"}, {\"parameter\": \"oexpnsamy4\", \"helping_text\": \"Operating Expenses Annual 4Yr Ago\"}, {\"parameter\": \"cfoamy1\", \"helping_text\": \"Cash from Operating Activity Annual 1Yr Ago\"}, {\"parameter\": \"cfiamy4\", \"helping_text\": \"Cash from Investing Activity Annual 4Yr Ago\"}, {\"parameter\": \"intamy1\", \"helping_text\": \"Interest Annual 1Yr Ago\"}, {\"parameter\": \"capitalworkinprogressamy1\", \"helping_text\": \"Capital Work In Progress Annual 1yr ago\"}, {\"parameter\": \"depamy2\", \"helping_text\": \"Depreciation Annual 2Yr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"depamy1\", \"helping_text\": \"Depreciation Annual 1Yr Ago\"}, {\"parameter\": \"oexpnsamy1\", \"helping_text\": \"Operating Expenses Annual 1Yr Ago\"}, {\"parameter\": \"depamy4\", \"helping_text\": \"Depreciation Annual 4Yr Ago\"}, {\"parameter\": \"cfiamy1\", \"helping_text\": \"Cash from Investing Activity Annual 1Yr Ago\"}, {\"parameter\": \"oexpnsamy4\", \"helping_text\": \"Operating Expenses Annual 4Yr Ago\"}, {\"parameter\": \"cfoamy1\", \"helping_text\": \"Cash from Operating Activity Annual 1Yr Ago\"}, {\"parameter\": \"cfiamy4\", \"helping_text\": \"Cash from Investing Activity Annual 4Yr Ago\"}, {\"parameter\": \"intamy1\", \"helping_text\": \"Interest Annual 1Yr Ago\"}, {\"parameter\": \"capitalworkinprogressamy1\", \"helping_text\": \"Capital Work In Progress Annual 1yr ago\"}, {\"parameter\": \"depamy2\", \"helping_text\": \"Depreciation Annual 2Yr Ago\"}]}"
+      }
+    },
+    "borrowings annual 1 year ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"shorttermborrowingsamy1\", \"helping_text\": \"Short Term Debt Annual 1Yr ago\"}, {\"parameter\": \"borrowingsa\", \"helping_text\": \"Borrowings Annual\"}, {\"parameter\": \"totalnoncurrentliabilitiesamy1\", \"helping_text\": \"Total Non Current Liabilities Annual 1Yr ago\"}, {\"parameter\": \"clamy1\", \"helping_text\": \"Total Current Liabilities Annual 1Yr Ago\"}, {\"parameter\": \"shorttermprovisionsamy1\", \"helping_text\": \"Short Term Provisions Annual 1Yr ago\"}, {\"parameter\": \"taamy1\", \"helping_text\": \"Total Assets Annual 1Yr Ago\"}, {\"parameter\": \"cfaamy1\", \"helping_text\": \"Cash from Financing Activity Annual 1Yr Ago\"}, {\"parameter\": \"caamy1\", \"helping_text\": \"Total Current Assets Annual 1Yr Ago\"}, {\"parameter\": \"othercurrentborrowingsa\", \"helping_text\": \"Other Current Borrowings Annual\"}, {\"parameter\": \"borrowingsq\", \"helping_text\": \"Borrowings Current Qtr\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"shorttermborrowingsamy1\", \"helping_text\": \"Short Term Debt Annual 1Yr ago\"}, {\"parameter\": \"borrowingsa\", \"helping_text\": \"Borrowings Annual\"}, {\"parameter\": \"totalnoncurrentliabilitiesamy1\", \"helping_text\": \"Total Non Current Liabilities Annual 1Yr ago\"}, {\"parameter\": \"clamy1\", \"helping_text\": \"Total Current Liabilities Annual 1Yr Ago\"}, {\"parameter\": \"shorttermprovisionsamy1\", \"helping_text\": \"Short Term Provisions Annual 1Yr ago\"}, {\"parameter\": \"taamy1\", \"helping_text\": \"Total Assets Annual 1Yr Ago\"}, {\"parameter\": \"cfaamy1\", \"helping_text\": \"Cash from Financing Activity Annual 1Yr Ago\"}, {\"parameter\": \"caamy1\", \"helping_text\": \"Total Current Assets Annual 1Yr Ago\"}, {\"parameter\": \"othercurrentborrowingsa\", \"helping_text\": \"Other Current Borrowings Annual\"}, {\"parameter\": \"borrowingsq\", \"helping_text\": \"Borrowings Current Qtr\"}]}"
+      }
+    },
+    "interest annual 1 year ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"intamy1\", \"helping_text\": \"Interest Annual 1Yr Ago\"}, {\"parameter\": \"intamy2\", \"helping_text\": \"Interest Annual 2Yr Ago\"}, {\"parameter\": \"intamy4\", \"helping_text\": \"Interest Annual 4Yr Ago\"}, {\"parameter\": \"intamy5\", \"helping_text\": \"Interest Annual 5Yr Ago\"}, {\"parameter\": \"intamy3\", \"helping_text\": \"Interest Annual 3Yr Ago\"}, {\"parameter\": \"inta\", \"helping_text\": \"Interest Annual\"}, {\"parameter\": \"taxamy1\", \"helping_text\": \"Tax Annual 1Yr Ago\"}, {\"parameter\": \"casaamy1\", \"helping_text\": \"CASA Ratio Annual 1Yr Ago %\"}, {\"parameter\": \"intqmq1\", \"helping_text\": \"Interest 1Qtr Ago\"}, {\"parameter\": \"intqmq3\", \"helping_text\": \"Interest 3Qtr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"intamy1\", \"helping_text\": \"Interest Annual 1Yr Ago\"}, {\"parameter\": \"intamy2\", \"helping_text\": \"Interest Annual 2Yr Ago\"}, {\"parameter\": \"intamy4\", \"helping_text\": \"Interest Annual 4Yr Ago\"}, {\"parameter\": \"intamy5\", \"helping_text\": \"Interest Annual 5Yr Ago\"}, {\"parameter\": \"intamy3\", \"helping_text\": \"Interest Annual 3Yr Ago\"}, {\"parameter\": \"inta\", \"helping_text\": \"Interest Annual\"}, {\"parameter\": \"taxamy1\", \"helping_text\": \"Tax Annual 1Yr Ago\"}, {\"parameter\": \"casaamy1\", \"helping_text\": \"CASA Ratio Annual 1Yr Ago %\"}, {\"parameter\": \"intqmq1\", \"helping_text\": \"Interest 1Qtr Ago\"}, {\"parameter\": \"intqmq3\", \"helping_text\": \"Interest 3Qtr Ago\"}]}"
+      }
+    },
+    "operating margin annual 1 year ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"opmpctamy1\", \"helping_text\": \"Operating Profit Margin Annual 1Yr ago %\"}, {\"parameter\": \"opmpctqmq1\", \"helping_text\": \"Operating Profit Margin 1Qtr ago %\"}, {\"parameter\": \"netpctamy1\", \"helping_text\": \"Net Profit Margin Annual 1Yr ago %\"}, {\"parameter\": \"opttmmy1\", \"helping_text\": \"Operating Profit TTM 1Yr Ago\"}, {\"parameter\": \"opamy1\", \"helping_text\": \"Operating Profit Annual 1Yr Ago\"}, {\"parameter\": \"opmpctttm\", \"helping_text\": \"Operating Profit Margin TTM %\"}, {\"parameter\": \"oexpnsamy1\", \"helping_text\": \"Operating Expenses Annual 1Yr Ago\"}, {\"parameter\": \"opmpctqmy1\", \"helping_text\": \"Operating Profit Margin Qtr 4Qtr ago %\"}, {\"parameter\": \"epsadjamy1\", \"helping_text\": \"Earning Per Share Adjusted Annual 1Yr Ago\"}, {\"parameter\": \"oexpnsamy4\", \"helping_text\": \"Operating Expenses Annual 4Yr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"opmpctamy1\", \"helping_text\": \"Operating Profit Margin Annual 1Yr ago %\"}, {\"parameter\": \"opmpctqmq1\", \"helping_text\": \"Operating Profit Margin 1Qtr ago %\"}, {\"parameter\": \"netpctamy1\", \"helping_text\": \"Net Profit Margin Annual 1Yr ago %\"}, {\"parameter\": \"opttmmy1\", \"helping_text\": \"Operating Profit TTM 1Yr Ago\"}, {\"parameter\": \"opamy1\", \"helping_text\": \"Operating Profit Annual 1Yr Ago\"}, {\"parameter\": \"opmpctttm\", \"helping_text\": \"Operating Profit Margin TTM %\"}, {\"parameter\": \"oexpnsamy1\", \"helping_text\": \"Operating Expenses Annual 1Yr Ago\"}, {\"parameter\": \"opmpctqmy1\", \"helping_text\": \"Operating Profit Margin Qtr 4Qtr ago %\"}, {\"parameter\": \"epsadjamy1\", \"helping_text\": \"Earning Per Share Adjusted Annual 1Yr Ago\"}, {\"parameter\": \"oexpnsamy4\", \"helping_text\": \"Operating Expenses Annual 4Yr Ago\"}]}"
+      }
+    },
+    "roce annual 1 year ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"roceamy1\", \"helping_text\": \"ROCE Annual 1Yr Ago %\"}, {\"parameter\": \"rocea\", \"helping_text\": \"ROCE Annual %\"}, {\"parameter\": \"roceaave3\", \"helping_text\": \"ROCE Annual 3Yr Avg %\"}, {\"parameter\": \"roceaave5\", \"helping_text\": \"ROCE Annual 5Yr Avg %\"}, {\"parameter\": \"roeamy1\", \"helping_text\": \"ROE Annual 1Yr Ago %\"}, {\"parameter\": \"roaamy1\", \"helping_text\": \"RoA Annual 1Yr Ago %\"}, {\"parameter\": \"roeamy2\", \"helping_text\": \"ROE Annual 2Yr Ago %\"}, {\"parameter\": \"roica\", \"helping_text\": \"ROIC Annual %\"}, {\"parameter\": \"roeamy4\", \"helping_text\": \"ROE Annual 4Yr Ago %\"}, {\"parameter\": \"roaamy3\", \"helping_text\": \"RoA Annual 3Yr Ago %\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"roceamy1\", \"helping_text\": \"ROCE Annual 1Yr Ago %\"}, {\"parameter\": \"rocea\", \"helping_text\": \"ROCE Annual %\"}, {\"parameter\": \"roceaave3\", \"helping_text\": \"ROCE Annual 3Yr Avg %\"}, {\"parameter\": \"roceaave5\", \"helping_text\": \"ROCE Annual 5Yr Avg %\"}, {\"parameter\": \"roeamy1\", \"helping_text\": \"ROE Annual 1Yr Ago %\"}, {\"parameter\": \"roaamy1\", \"helping_text\": \"RoA Annual 1Yr Ago %\"}, {\"parameter\": \"roeamy2\", \"helping_text\": \"ROE Annual 2Yr Ago %\"}, {\"parameter\": \"roica\", \"helping_text\": \"ROIC Annual %\"}, {\"parameter\": \"roeamy4\", \"helping_text\": \"ROE Annual 4Yr Ago %\"}, {\"parameter\": \"roaamy3\", \"helping_text\": \"RoA Annual 3Yr Ago %\"}]}"
+      }
+    },
+    "roe annual 1 year ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"roea\", \"helping_text\": \"ROE Annual %\"}, {\"parameter\": \"roeamy1\", \"helping_text\": \"ROE Annual 1Yr Ago %\"}, {\"parameter\": \"roeamy2\", \"helping_text\": \"ROE Annual 2Yr Ago %\"}, {\"parameter\": \"rocea\", \"helping_text\": \"ROCE Annual %\"}, {\"parameter\": \"roeamy4\", \"helping_text\": \"ROE Annual 4Yr Ago %\"}, {\"parameter\": \"roeamy5\", \"helping_text\": \"ROE Annual 5Yr Ago %\"}, {\"parameter\": \"roeamy3\", \"helping_text\": \"ROE Annual 3Yr Ago %\"}, {\"parameter\": \"roica\", \"helping_text\": \"ROIC Annual %\"}, {\"parameter\": \"roceamy1\", \"helping_text\": \"ROCE Annual 1Yr Ago %\"}, {\"parameter\": \"roaa\", \"helping_text\": \"RoA Annual %\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"roea\", \"helping_text\": \"ROE Annual %\"}, {\"parameter\": \"roeamy1\", \"helping_text\": \"ROE Annual 1Yr Ago %\"}, {\"parameter\": \"roeamy2\", \"helping_text\": \"ROE Annual 2Yr Ago %\"}, {\"parameter\": \"rocea\", \"helping_text\": \"ROCE Annual %\"}, {\"parameter\": \"roeamy4\", \"helping_text\": \"ROE Annual 4Yr Ago %\"}, {\"parameter\": \"roeamy5\", \"helping_text\": \"ROE Annual 5Yr Ago %\"}, {\"parameter\": \"roeamy3\", \"helping_text\": \"ROE Annual 3Yr Ago %\"}, {\"parameter\": \"roica\", \"helping_text\": \"ROIC Annual %\"}, {\"parameter\": \"roceamy1\", \"helping_text\": \"ROCE Annual 1Yr Ago %\"}, {\"parameter\": \"roaa\", \"helping_text\": \"RoA Annual %\"}]}"
+      }
+    },
+    "latest result announcement date": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"yearhighdate\", \"helping_text\": \"Date of 52W High\"}, {\"parameter\": \"yearlowdate\", \"helping_text\": \"Date of 52W Low\"}, {\"parameter\": \"cvolhighest6m\", \"helping_text\": \"Consolidated volume 6Month Highest\"}, {\"parameter\": \"cvolhighest3m\", \"helping_text\": \"Consolidated volume 3Month Highest\"}, {\"parameter\": \"deliveryhighest6m\", \"helping_text\": \"Delivery volume 6Month Highest\"}, {\"parameter\": \"prompct\", \"helping_text\": \"Promoter holding latest %\"}, {\"parameter\": \"reportedpatq\", \"helping_text\": \"Reported PAT Qtr\"}, {\"parameter\": \"prompledge\", \"helping_text\": \"Promoter holding pledge percentage % Qtr\"}, {\"parameter\": \"deliveryhighest3m\", \"helping_text\": \"Delivery volume 3Month Highest\"}, {\"parameter\": \"twodayprevclose\", \"helping_text\": \"Two day previous close price\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"yearhighdate\", \"helping_text\": \"Date of 52W High\"}, {\"parameter\": \"yearlowdate\", \"helping_text\": \"Date of 52W Low\"}, {\"parameter\": \"cvolhighest6m\", \"helping_text\": \"Consolidated volume 6Month Highest\"}, {\"parameter\": \"cvolhighest3m\", \"helping_text\": \"Consolidated volume 3Month Highest\"}, {\"parameter\": \"deliveryhighest6m\", \"helping_text\": \"Delivery volume 6Month Highest\"}, {\"parameter\": \"prompct\", \"helping_text\": \"Promoter holding latest %\"}, {\"parameter\": \"reportedpatq\", \"helping_text\": \"Reported PAT Qtr\"}, {\"parameter\": \"prompledge\", \"helping_text\": \"Promoter holding pledge percentage % Qtr\"}, {\"parameter\": \"deliveryhighest3m\", \"helping_text\": \"Delivery volume 3Month Highest\"}, {\"parameter\": \"twodayprevclose\", \"helping_text\": \"Two day previous close price\"}]}"
+      }
+    },
+    "result declared date": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"yearhighdate\", \"helping_text\": \"Date of 52W High\"}, {\"parameter\": \"yearlowdate\", \"helping_text\": \"Date of 52W Low\"}, {\"parameter\": \"cvolhighest6m\", \"helping_text\": \"Consolidated volume 6Month Highest\"}, {\"parameter\": \"deliveryhighest6m\", \"helping_text\": \"Delivery volume 6Month Highest\"}, {\"parameter\": \"cvolhighest3m\", \"helping_text\": \"Consolidated volume 3Month Highest\"}, {\"parameter\": \"twodayprevclose\", \"helping_text\": \"Two day previous close price\"}, {\"parameter\": \"prompledge\", \"helping_text\": \"Promoter holding pledge percentage % Qtr\"}, {\"parameter\": \"deliveryhighest3m\", \"helping_text\": \"Delivery volume 3Month Highest\"}, {\"parameter\": \"reportedpatq\", \"helping_text\": \"Reported PAT Qtr\"}, {\"parameter\": \"pubpct\", \"helping_text\": \"Public holding current Qtr %\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"yearhighdate\", \"helping_text\": \"Date of 52W High\"}, {\"parameter\": \"yearlowdate\", \"helping_text\": \"Date of 52W Low\"}, {\"parameter\": \"cvolhighest6m\", \"helping_text\": \"Consolidated volume 6Month Highest\"}, {\"parameter\": \"deliveryhighest6m\", \"helping_text\": \"Delivery volume 6Month Highest\"}, {\"parameter\": \"cvolhighest3m\", \"helping_text\": \"Consolidated volume 3Month Highest\"}, {\"parameter\": \"twodayprevclose\", \"helping_text\": \"Two day previous close price\"}, {\"parameter\": \"prompledge\", \"helping_text\": \"Promoter holding pledge percentage % Qtr\"}, {\"parameter\": \"deliveryhighest3m\", \"helping_text\": \"Delivery volume 3Month Highest\"}, {\"parameter\": \"reportedpatq\", \"helping_text\": \"Reported PAT Qtr\"}, {\"parameter\": \"pubpct\", \"helping_text\": \"Public holding current Qtr %\"}]}"
+      }
+    },
+    "financial year end": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"employeebenefitexpensesa\", \"helping_text\": \"Employee Expenses Annual\"}, {\"parameter\": \"taxa\", \"helping_text\": \"Tax Annual\"}, {\"parameter\": \"transfertofromspecialreservea\", \"helping_text\": \"Transfer To From Special Reserve Annual\"}, {\"parameter\": \"transfertofromstatutoryreservea\", \"helping_text\": \"Transfer To From Statutory Reserve Annual\"}, {\"parameter\": \"miscexpenseswoffa\", \"helping_text\": \"Misc Expended written Off Annual\"}, {\"parameter\": \"halfyrclose\", \"helping_text\": \"Half Yr Close\"}, {\"parameter\": \"transfertofromcapitalreservea\", \"helping_text\": \"Transfer To From Capital Reserve Annual\"}, {\"parameter\": \"transfertofromreservefunda\", \"helping_text\": \"Transfer To From Reserve Fund Annual\"}, {\"parameter\": \"expensescapitalisedq\", \"helping_text\": \"Expenses Capitalised Qtr\"}, {\"parameter\": \"fixedassetsa\", \"helping_text\": \"Fixed Assets Annual\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"employeebenefitexpensesa\", \"helping_text\": \"Employee Expenses Annual\"}, {\"parameter\": \"taxa\", \"helping_text\": \"Tax Annual\"}, {\"parameter\": \"transfertofromspecialreservea\", \"helping_text\": \"Transfer To From Special Reserve Annual\"}, {\"parameter\": \"transfertofromstatutoryreservea\", \"helping_text\": \"Transfer To From Statutory Reserve Annual\"}, {\"parameter\": \"miscexpenseswoffa\", \"helping_text\": \"Misc Expended written Off Annual\"}, {\"parameter\": \"halfyrclose\", \"helping_text\": \"Half Yr Close\"}, {\"parameter\": \"transfertofromcapitalreservea\", \"helping_text\": \"Transfer To From Capital Reserve Annual\"}, {\"parameter\": \"transfertofromreservefunda\", \"helping_text\": \"Transfer To From Reserve Fund Annual\"}, {\"parameter\": \"expensescapitalisedq\", \"helping_text\": \"Expenses Capitalised Qtr\"}, {\"parameter\": \"fixedassetsa\", \"helping_text\": \"Fixed Assets Annual\"}]}"
+      }
+    },
+    "operating profit 7 qtr ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"opqmq7\", \"helping_text\": \"Operating Profit 7Qtr Ago\"}, {\"parameter\": \"opq\", \"helping_text\": \"Operating Profit Qtr\"}, {\"parameter\": \"opqmq3\", \"helping_text\": \"Operating Profit 3Qtr Ago\"}, {\"parameter\": \"opqmq6\", \"helping_text\": \"Operating Profit 6Qtr Ago\"}, {\"parameter\": \"srqmq7\", \"helping_text\": \"Operating Revenue 7Qtrs ago\"}, {\"parameter\": \"opqmy1\", \"helping_text\": \"Operating Profit 4Qtr Ago\"}, {\"parameter\": \"opqmq2\", \"helping_text\": \"Operating Profit 2Qtr Ago\"}, {\"parameter\": \"opqmq5\", \"helping_text\": \"Operating Profit 5Qtr Ago\"}, {\"parameter\": \"op4qq\", \"helping_text\": \"Operating Profit Growth Qtr YoY %\"}, {\"parameter\": \"opqmq1\", \"helping_text\": \"Operating Profit 1Qtr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"opqmq7\", \"helping_text\": \"Operating Profit 7Qtr Ago\"}, {\"parameter\": \"opq\", \"helping_text\": \"Operating Profit Qtr\"}, {\"parameter\": \"opqmq3\", \"helping_text\": \"Operating Profit 3Qtr Ago\"}, {\"parameter\": \"opqmq6\", \"helping_text\": \"Operating Profit 6Qtr Ago\"}, {\"parameter\": \"srqmq7\", \"helping_text\": \"Operating Revenue 7Qtrs ago\"}, {\"parameter\": \"opqmy1\", \"helping_text\": \"Operating Profit 4Qtr Ago\"}, {\"parameter\": \"opqmq2\", \"helping_text\": \"Operating Profit 2Qtr Ago\"}, {\"parameter\": \"opqmq5\", \"helping_text\": \"Operating Profit 5Qtr Ago\"}, {\"parameter\": \"op4qq\", \"helping_text\": \"Operating Profit Growth Qtr YoY %\"}, {\"parameter\": \"opqmq1\", \"helping_text\": \"Operating Profit 1Qtr Ago\"}]}"
+      }
+    },
+    "operating profit 6 qtr ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"opqmq6\", \"helping_text\": \"Operating Profit 6Qtr Ago\"}, {\"parameter\": \"opq\", \"helping_text\": \"Operating Profit Qtr\"}, {\"parameter\": \"opqmq3\", \"helping_text\": \"Operating Profit 3Qtr Ago\"}, {\"parameter\": \"opqmq2\", \"helping_text\": \"Operating Profit 2Qtr Ago\"}, {\"parameter\": \"opqmq7\", \"helping_text\": \"Operating Profit 7Qtr Ago\"}, {\"parameter\": \"opqmq5\", \"helping_text\": \"Operating Profit 5Qtr Ago\"}, {\"parameter\": \"opqmy1\", \"helping_text\": \"Operating Profit 4Qtr Ago\"}, {\"parameter\": \"opqmq1\", \"helping_text\": \"Operating Profit 1Qtr Ago\"}, {\"parameter\": \"op4qq\", \"helping_text\": \"Operating Profit Growth Qtr YoY %\"}, {\"parameter\": \"srqmq6\", \"helping_text\": \"Operating Revenue 6Qtrs ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"opqmq6\", \"helping_text\": \"Operating Profit 6Qtr Ago\"}, {\"parameter\": \"opq\", \"helping_text\": \"Operating Profit Qtr\"}, {\"parameter\": \"opqmq3\", \"helping_text\": \"Operating Profit 3Qtr Ago\"}, {\"parameter\": \"opqmq2\", \"helping_text\": \"Operating Profit 2Qtr Ago\"}, {\"parameter\": \"opqmq7\", \"helping_text\": \"Operating Profit 7Qtr Ago\"}, {\"parameter\": \"opqmq5\", \"helping_text\": \"Operating Profit 5Qtr Ago\"}, {\"parameter\": \"opqmy1\", \"helping_text\": \"Operating Profit 4Qtr Ago\"}, {\"parameter\": \"opqmq1\", \"helping_text\": \"Operating Profit 1Qtr Ago\"}, {\"parameter\": \"op4qq\", \"helping_text\": \"Operating Profit Growth Qtr YoY %\"}, {\"parameter\": \"srqmq6\", \"helping_text\": \"Operating Revenue 6Qtrs ago\"}]}"
+      }
+    },
+    "operating profit 5 qtr ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"opqmq5\", \"helping_text\": \"Operating Profit 5Qtr Ago\"}, {\"parameter\": \"opq\", \"helping_text\": \"Operating Profit Qtr\"}, {\"parameter\": \"opqmq3\", \"helping_text\": \"Operating Profit 3Qtr Ago\"}, {\"parameter\": \"opqmy1\", \"helping_text\": \"Operating Profit 4Qtr Ago\"}, {\"parameter\": \"opqmq2\", \"helping_text\": \"Operating Profit 2Qtr Ago\"}, {\"parameter\": \"opqmq6\", \"helping_text\": \"Operating Profit 6Qtr Ago\"}, {\"parameter\": \"opqmq1\", \"helping_text\": \"Operating Profit 1Qtr Ago\"}, {\"parameter\": \"srqmq5\", \"helping_text\": \"Operating Revenue 5Qtrs ago\"}, {\"parameter\": \"opamy5\", \"helping_text\": \"Operating Profit Annual 5Yr Ago\"}, {\"parameter\": \"opqmq7\", \"helping_text\": \"Operating Profit 7Qtr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"opqmq5\", \"helping_text\": \"Operating Profit 5Qtr Ago\"}, {\"parameter\": \"opq\", \"helping_text\": \"Operating Profit Qtr\"}, {\"parameter\": \"opqmq3\", \"helping_text\": \"Operating Profit 3Qtr Ago\"}, {\"parameter\": \"opqmy1\", \"helping_text\": \"Operating Profit 4Qtr Ago\"}, {\"parameter\": \"opqmq2\", \"helping_text\": \"Operating Profit 2Qtr Ago\"}, {\"parameter\": \"opqmq6\", \"helping_text\": \"Operating Profit 6Qtr Ago\"}, {\"parameter\": \"opqmq1\", \"helping_text\": \"Operating Profit 1Qtr Ago\"}, {\"parameter\": \"srqmq5\", \"helping_text\": \"Operating Revenue 5Qtrs ago\"}, {\"parameter\": \"opamy5\", \"helping_text\": \"Operating Profit Annual 5Yr Ago\"}, {\"parameter\": \"opqmq7\", \"helping_text\": \"Operating Profit 7Qtr Ago\"}]}"
+      }
+    },
+    "operating profit 4 qtr ago": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"opqmy1\", \"helping_text\": \"Operating Profit 4Qtr Ago\"}, {\"parameter\": \"opqmq3\", \"helping_text\": \"Operating Profit 3Qtr Ago\"}, {\"parameter\": \"opqmq2\", \"helping_text\": \"Operating Profit 2Qtr Ago\"}, {\"parameter\": \"opqmq1\", \"helping_text\": \"Operating Profit 1Qtr Ago\"}, {\"parameter\": \"opq\", \"helping_text\": \"Operating Profit Qtr\"}, {\"parameter\": \"opmpctqmy1\", \"helping_text\": \"Operating Profit Margin Qtr 4Qtr ago %\"}, {\"parameter\": \"opqmq5\", \"helping_text\": \"Operating Profit 5Qtr Ago\"}, {\"parameter\": \"opqmq6\", \"helping_text\": \"Operating Profit 6Qtr Ago\"}, {\"parameter\": \"opamy4\", \"helping_text\": \"Operating Profit Annual 4Yr Ago\"}, {\"parameter\": \"srqmq2\", \"helping_text\": \"Operating Revenue 2Qtrs ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"opqmy1\", \"helping_text\": \"Operating Profit 4Qtr Ago\"}, {\"parameter\": \"opqmq3\", \"helping_text\": \"Operating Profit 3Qtr Ago\"}, {\"parameter\": \"opqmq2\", \"helping_text\": \"Operating Profit 2Qtr Ago\"}, {\"parameter\": \"opqmq1\", \"helping_text\": \"Operating Profit 1Qtr Ago\"}, {\"parameter\": \"opq\", \"helping_text\": \"Operating Profit Qtr\"}, {\"parameter\": \"opmpctqmy1\", \"helping_text\": \"Operating Profit Margin Qtr 4Qtr ago %\"}, {\"parameter\": \"opqmq5\", \"helping_text\": \"Operating Profit 5Qtr Ago\"}, {\"parameter\": \"opqmq6\", \"helping_text\": \"Operating Profit 6Qtr Ago\"}, {\"parameter\": \"opamy4\", \"helping_text\": \"Operating Profit Annual 4Yr Ago\"}, {\"parameter\": \"srqmq2\", \"helping_text\": \"Operating Revenue 2Qtrs ago\"}]}"
+      }
+    },
+    "capex annual": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"expensescapitalisedq\", \"helping_text\": \"Expenses Capitalised Qtr\"}, {\"parameter\": \"operatinganddirectexpensesa\", \"helping_text\": \"Operating Plus Direct Expenses Annual\"}, {\"parameter\": \"oexpnsa\", \"helping_text\": \"Operating Expenses Annual\"}, {\"parameter\": \"fixedassetsa\", \"helping_text\": \"Fixed Assets Annual\"}, {\"parameter\": \"operatingexpensesexcludesemployeecostanddepreciationa\", \"helping_text\": \"Operating Expenses Excluding Employee Cost & Depreciation Annual\"}, {\"parameter\": \"totalexpensesa\", \"helping_text\": \"Total Expenses Annual\"}, {\"parameter\": \"depamy4\", \"helping_text\": \"Depreciation Annual 4Yr Ago\"}, {\"parameter\": \"transfertofromcapitalreservea\", \"helping_text\": \"Transfer To From Capital Reserve Annual\"}, {\"parameter\": \"oexpnsamy4\", \"helping_text\": \"Operating Expenses Annual 4Yr Ago\"}, {\"parameter\": \"noncurrentinvestmentsa\", \"helping_text\": \"Non Current Investments Annual\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"expensescapitalisedq\", \"helping_text\": \"Expenses Capitalised Qtr\"}, {\"parameter\": \"operatinganddirectexpensesa\", \"helping_text\": \"Operating Plus Direct Expenses Annual\"}, {\"parameter\": \"oexpnsa\", \"helping_text\": \"Operating Expenses Annual\"}, {\"parameter\": \"fixedassetsa\", \"helping_text\": \"Fixed Assets Annual\"}, {\"parameter\": \"operatingexpensesexcludesemployeecostanddepreciationa\", \"helping_text\": \"Operating Expenses Excluding Employee Cost & Depreciation Annual\"}, {\"parameter\": \"totalexpensesa\", \"helping_text\": \"Total Expenses Annual\"}, {\"parameter\": \"depamy4\", \"helping_text\": \"Depreciation Annual 4Yr Ago\"}, {\"parameter\": \"transfertofromcapitalreservea\", \"helping_text\": \"Transfer To From Capital Reserve Annual\"}, {\"parameter\": \"oexpnsamy4\", \"helping_text\": \"Operating Expenses Annual 4Yr Ago\"}, {\"parameter\": \"noncurrentinvestmentsa\", \"helping_text\": \"Non Current Investments Annual\"}]}"
+      }
+    },
+    "fixed assets purchase annual": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"fixedassetsa\", \"helping_text\": \"Fixed Assets Annual\"}, {\"parameter\": \"tangibleassetsa\", \"helping_text\": \"Tangible Assets Annual\"}, {\"parameter\": \"othernoncurrentassetsa\", \"helping_text\": \"Other Non Current Assets Annual\"}, {\"parameter\": \"noncurrentinvestmentsa\", \"helping_text\": \"Non Current Investments Annual\"}, {\"parameter\": \"inventoriesa\", \"helping_text\": \"Inventories Annual\"}, {\"parameter\": \"investmentsa\", \"helping_text\": \"Investments Annual\"}, {\"parameter\": \"importedstoresandsparesa\", \"helping_text\": \"Imported Stores Plus Spares Annual\"}, {\"parameter\": \"machineryfurnitureequipmenta\", \"helping_text\": \"Machinery Furniture Equipment Annual\"}, {\"parameter\": \"otherassetsa\", \"helping_text\": \"Other Assets Annual\"}, {\"parameter\": \"tangibleassetsq\", \"helping_text\": \"Tangible Assets Quarter\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"fixedassetsa\", \"helping_text\": \"Fixed Assets Annual\"}, {\"parameter\": \"tangibleassetsa\", \"helping_text\": \"Tangible Assets Annual\"}, {\"parameter\": \"othernoncurrentassetsa\", \"helping_text\": \"Other Non Current Assets Annual\"}, {\"parameter\": \"noncurrentinvestmentsa\", \"helping_text\": \"Non Current Investments Annual\"}, {\"parameter\": \"inventoriesa\", \"helping_text\": \"Inventories Annual\"}, {\"parameter\": \"investmentsa\", \"helping_text\": \"Investments Annual\"}, {\"parameter\": \"importedstoresandsparesa\", \"helping_text\": \"Imported Stores Plus Spares Annual\"}, {\"parameter\": \"machineryfurnitureequipmenta\", \"helping_text\": \"Machinery Furniture Equipment Annual\"}, {\"parameter\": \"otherassetsa\", \"helping_text\": \"Other Assets Annual\"}, {\"parameter\": \"tangibleassetsq\", \"helping_text\": \"Tangible Assets Quarter\"}]}"
+      }
+    },
+    "cash from investing activity annual": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"cfiamy1\", \"helping_text\": \"Cash from Investing Activity Annual 1Yr Ago\"}, {\"parameter\": \"cfiamy4\", \"helping_text\": \"Cash from Investing Activity Annual 4Yr Ago\"}, {\"parameter\": \"cfiamy3\", \"helping_text\": \"Cash from Investing Activity Annual 3Yr Ago\"}, {\"parameter\": \"cfiamy2\", \"helping_text\": \"Cash from Investing Activity Annual 2Yr Ago\"}, {\"parameter\": \"cfia\", \"helping_text\": \"Cash from Investing Activity Annual\"}, {\"parameter\": \"cfiamy5\", \"helping_text\": \"Cash from Investing Activity Annual 5Yr Ago\"}, {\"parameter\": \"netotherinvestingchangesa\", \"helping_text\": \"Net Other Investing Changes Annual\"}, {\"parameter\": \"netbusinesspurchaseandsalea\", \"helping_text\": \"Net Business Purchase & Sale Annual\"}, {\"parameter\": \"cfoamy4\", \"helping_text\": \"Cash from Operating Activity Annual 4Yr Ago\"}, {\"parameter\": \"purchaseofppeq\", \"helping_text\": \"Purchase Of PPE Quarter\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"cfiamy1\", \"helping_text\": \"Cash from Investing Activity Annual 1Yr Ago\"}, {\"parameter\": \"cfiamy4\", \"helping_text\": \"Cash from Investing Activity Annual 4Yr Ago\"}, {\"parameter\": \"cfiamy3\", \"helping_text\": \"Cash from Investing Activity Annual 3Yr Ago\"}, {\"parameter\": \"cfiamy2\", \"helping_text\": \"Cash from Investing Activity Annual 2Yr Ago\"}, {\"parameter\": \"cfia\", \"helping_text\": \"Cash from Investing Activity Annual\"}, {\"parameter\": \"cfiamy5\", \"helping_text\": \"Cash from Investing Activity Annual 5Yr Ago\"}, {\"parameter\": \"netotherinvestingchangesa\", \"helping_text\": \"Net Other Investing Changes Annual\"}, {\"parameter\": \"netbusinesspurchaseandsalea\", \"helping_text\": \"Net Business Purchase & Sale Annual\"}, {\"parameter\": \"cfoamy4\", \"helping_text\": \"Cash from Operating Activity Annual 4Yr Ago\"}, {\"parameter\": \"purchaseofppeq\", \"helping_text\": \"Purchase Of PPE Quarter\"}]}"
+      }
+    },
+    "cash from operating activity annual": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"cfoamy4\", \"helping_text\": \"Cash from Operating Activity Annual 4Yr Ago\"}, {\"parameter\": \"cfoamy2\", \"helping_text\": \"Cash from Operating Activity Annual 2Yr Ago\"}, {\"parameter\": \"cfoamy3\", \"helping_text\": \"Cash from Operating Activity Annual 3Yr Ago\"}, {\"parameter\": \"cfoamy1\", \"helping_text\": \"Cash from Operating Activity Annual 1Yr Ago\"}, {\"parameter\": \"cfoa\", \"helping_text\": \"Cash from Operating Activity Annual\"}, {\"parameter\": \"cfoamy5\", \"helping_text\": \"Cash from Operating Activity Annual 5Yr Ago\"}, {\"parameter\": \"wcq\", \"helping_text\": \"Working Capital Quarter\"}, {\"parameter\": \"cfoagrowth\", \"helping_text\": \"Operating Cash Flow YoY Growth %\"}, {\"parameter\": \"cfiamy4\", \"helping_text\": \"Cash from Investing Activity Annual 4Yr Ago\"}, {\"parameter\": \"depreciationandamortizationq\", \"helping_text\": \"Depreciation & Amortization Quarter\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"cfoamy4\", \"helping_text\": \"Cash from Operating Activity Annual 4Yr Ago\"}, {\"parameter\": \"cfoamy2\", \"helping_text\": \"Cash from Operating Activity Annual 2Yr Ago\"}, {\"parameter\": \"cfoamy3\", \"helping_text\": \"Cash from Operating Activity Annual 3Yr Ago\"}, {\"parameter\": \"cfoamy1\", \"helping_text\": \"Cash from Operating Activity Annual 1Yr Ago\"}, {\"parameter\": \"cfoa\", \"helping_text\": \"Cash from Operating Activity Annual\"}, {\"parameter\": \"cfoamy5\", \"helping_text\": \"Cash from Operating Activity Annual 5Yr Ago\"}, {\"parameter\": \"wcq\", \"helping_text\": \"Working Capital Quarter\"}, {\"parameter\": \"cfoagrowth\", \"helping_text\": \"Operating Cash Flow YoY Growth %\"}, {\"parameter\": \"cfiamy4\", \"helping_text\": \"Cash from Investing Activity Annual 4Yr Ago\"}, {\"parameter\": \"depreciationandamortizationq\", \"helping_text\": \"Depreciation & Amortization Quarter\"}]}"
+      }
+    },
+    "cash flow from operations annual": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"cfoamy4\", \"helping_text\": \"Cash from Operating Activity Annual 4Yr Ago\"}, {\"parameter\": \"cfoamy2\", \"helping_text\": \"Cash from Operating Activity Annual 2Yr Ago\"}, {\"parameter\": \"cfoamy1\", \"helping_text\": \"Cash from Operating Activity Annual 1Yr Ago\"}, {\"parameter\": \"cfoamy3\", \"helping_text\": \"Cash from Operating Activity Annual 3Yr Ago\"}, {\"parameter\": \"cfoamy5\", \"helping_text\": \"Cash from Operating Activity Annual 5Yr Ago\"}, {\"parameter\": \"cfoa\", \"helping_text\": \"Cash from Operating Activity Annual\"}, {\"parameter\": \"ncfamy5\", \"helping_text\": \"Net Cash Flow Annual 5Yr Ago\"}, {\"parameter\": \"ncfamy2\", \"helping_text\": \"Net Cash Flow Annual 2Yr Ago\"}, {\"parameter\": \"cfiamy1\", \"helping_text\": \"Cash from Investing Activity Annual 1Yr Ago\"}, {\"parameter\": \"cfiamy4\", \"helping_text\": \"Cash from Investing Activity Annual 4Yr Ago\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"cfoamy4\", \"helping_text\": \"Cash from Operating Activity Annual 4Yr Ago\"}, {\"parameter\": \"cfoamy2\", \"helping_text\": \"Cash from Operating Activity Annual 2Yr Ago\"}, {\"parameter\": \"cfoamy1\", \"helping_text\": \"Cash from Operating Activity Annual 1Yr Ago\"}, {\"parameter\": \"cfoamy3\", \"helping_text\": \"Cash from Operating Activity Annual 3Yr Ago\"}, {\"parameter\": \"cfoamy5\", \"helping_text\": \"Cash from Operating Activity Annual 5Yr Ago\"}, {\"parameter\": \"cfoa\", \"helping_text\": \"Cash from Operating Activity Annual\"}, {\"parameter\": \"ncfamy5\", \"helping_text\": \"Net Cash Flow Annual 5Yr Ago\"}, {\"parameter\": \"ncfamy2\", \"helping_text\": \"Net Cash Flow Annual 2Yr Ago\"}, {\"parameter\": \"cfiamy1\", \"helping_text\": \"Cash from Investing Activity Annual 1Yr Ago\"}, {\"parameter\": \"cfiamy4\", \"helping_text\": \"Cash from Investing Activity Annual 4Yr Ago\"}]}"
+      }
+    },
+    "capital work in progress annual": {
+      "isError": false,
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"status\": \"success\", \"data\": [{\"parameter\": \"capitalworkinprogressa\", \"helping_text\": \"Capital Work In Progress Annual\"}, {\"parameter\": \"capitalworkinprogressamy1\", \"helping_text\": \"Capital Work In Progress Annual 1yr ago\"}, {\"parameter\": \"fixedassetsa\", \"helping_text\": \"Fixed Assets Annual\"}, {\"parameter\": \"intangibleassetsunderdevelopmenta\", \"helping_text\": \"Intangible Assets Under Development Annual\"}, {\"parameter\": \"noncurrentinvestmentsa\", \"helping_text\": \"Non Current Investments Annual\"}, {\"parameter\": \"othernoncurrentassetsa\", \"helping_text\": \"Other Non Current Assets Annual\"}, {\"parameter\": \"tangibleassetsa\", \"helping_text\": \"Tangible Assets Annual\"}, {\"parameter\": \"expensescapitalisedq\", \"helping_text\": \"Expenses Capitalised Qtr\"}, {\"parameter\": \"currentinvestmentsa\", \"helping_text\": \"Current Investments Annual\"}, {\"parameter\": \"transfertofromcapitalreservea\", \"helping_text\": \"Transfer To From Capital Reserve Annual\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "result": "{\"status\": \"success\", \"data\": [{\"parameter\": \"capitalworkinprogressa\", \"helping_text\": \"Capital Work In Progress Annual\"}, {\"parameter\": \"capitalworkinprogressamy1\", \"helping_text\": \"Capital Work In Progress Annual 1yr ago\"}, {\"parameter\": \"fixedassetsa\", \"helping_text\": \"Fixed Assets Annual\"}, {\"parameter\": \"intangibleassetsunderdevelopmenta\", \"helping_text\": \"Intangible Assets Under Development Annual\"}, {\"parameter\": \"noncurrentinvestmentsa\", \"helping_text\": \"Non Current Investments Annual\"}, {\"parameter\": \"othernoncurrentassetsa\", \"helping_text\": \"Other Non Current Assets Annual\"}, {\"parameter\": \"tangibleassetsa\", \"helping_text\": \"Tangible Assets Annual\"}, {\"parameter\": \"expensescapitalisedq\", \"helping_text\": \"Expenses Capitalised Qtr\"}, {\"parameter\": \"currentinvestmentsa\", \"helping_text\": \"Current Investments Annual\"}, {\"parameter\": \"transfertofromcapitalreservea\", \"helping_text\": \"Transfer To From Capital Reserve Annual\"}]}"
+      }
+    }
+  }
+}

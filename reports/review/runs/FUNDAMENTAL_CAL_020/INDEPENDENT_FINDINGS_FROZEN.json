@@ -1,0 +1,50 @@
+{
+  "reviewId": "FUNDAMENTAL_CAL_020",
+  "status": "FINDINGS_FROZEN_BEFORE_CLUSTERING",
+  "capture": "FRESH_PRODUCTION_CAPTURE.json",
+  "reviewer": "CODEX",
+  "findings": [
+    {
+      "findingId": "CAL020_VALUATION_COVERAGE_001",
+      "severity": "P1",
+      "dimension": ["data", "derivation", "freshness", "missingness", "interpretation"],
+      "observedBehavior": "Valuation dataCompleteness is marked FULL from total company-fact count and time span, although the displayed valuation metric has only one usable observation. The product emits DENSE coverage and a one-year median equal to the current value while percentile remains null.",
+      "cohortEvidence": "9/20: DYCL, HDFCBANK, INFY, RELIANCE, SUNPHARMA, TATAMOTORS, TATASTEEL, TCS and TITAN. Every one has DENSE/FULL, null current1YPercentile, and median1Y equal to currentValue.",
+      "productionEvidence": ["src/server/services/intelligence/valuation/ValuationIntelligenceEngine.ts:160 runCoverageAudit uses all canonical facts instead of facts for the requested valuation metric", "src/server/services/intelligence/valuation/ValuationIntelligenceEngine.ts:141 sets FULL solely from audit density"],
+      "independentArithmetic": "For TCS, current PE=15.06, reported median1Y=15.06 and percentile=null. A distribution with one observation cannot support a historical median/coverage claim.",
+      "requiredOutcome": "Metric-level historical coverage must gate each metric's median, range and percentile. Any metric with fewer than the configured number of dated observations must report DATA_INSUFFICIENT and null historical statistics; overall completeness may not be FULL when every presented valuation metric lacks a usable distribution."
+    },
+    {
+      "findingId": "CAL020_QGLP_FORENSIC_NEGATIVE_002",
+      "severity": "P1",
+      "dimension": ["evidence", "missingness", "interpretation", "provenance"],
+      "observedBehavior": "QGLP reports NO_RED_FLAG_DETECTED whenever the FERE result object exists and has no warnings, including when FERE is DATA_INSUFFICIENT with zero evidence. The displayed risk-item evidence is an Upstox competitors snapshot rather than forensic evidence.",
+      "cohortEvidence": "20/20 received NO_RED_FLAG_DETECTED. BAJFINANCE, LTIM and TATAMOTORS had FERE DATA_INSUFFICIENT with zero evidence yet still received the negative red-flag conclusion.",
+      "productionEvidence": ["src/server/services/intelligence/modules/QglpModuleAdapter.ts:273 defaults fere-without-warnings to NO_RED_FLAG_DETECTED", "src/server/services/intelligence/modules/QglpModuleAdapter.ts:274 emits the claim", "Fresh capture shows the risk item evidence source UPSTOX_FUNDAMENTALS:competitors:<symbol>, not FERE"],
+      "requiredOutcome": "Emit NO_RED_FLAG_DETECTED only where FERE has an evidence-backed sufficient/verified coverage result and the cited evidence belongs to the forensic review. Otherwise emit DATA_INSUFFICIENT."
+    },
+    {
+      "findingId": "CAL020_QGLP_LEVERAGE_DEFAULT_003",
+      "severity": "P1",
+      "dimension": ["evidence", "derivation", "business_model_context", "missingness"],
+      "observedBehavior": "QGLP labels non-bank longevity as PARTIAL with 'Historical balance sheet leverage supported' without consulting debt trajectory or debt evidence. It also applies that industrial assertion to an NBFC.",
+      "cohortEvidence": "19/20 received this assertion while debtTrajectory was DATA_INSUFFICIENT or NOT_APPLICABLE. Examples: TCS DATA_INSUFFICIENT; BAJFINANCE NBFC/NOT_APPLICABLE; AAVAS DATA_INSUFFICIENT.",
+      "productionEvidence": ["src/server/services/intelligence/modules/QglpModuleAdapter.ts:235 assigns PARTIAL for every business model other than BANK", "src/server/services/intelligence/modules/QglpModuleAdapter.ts:236 emits the unsupported statement"],
+      "requiredOutcome": "Use debt/equity or leverage time series with dated evidence before any leverage/deleveraging conclusion. Banks and NBFCs require financial-institution-specific capital/liquidity treatment; otherwise the item is NOT_APPLICABLE or DATA_INSUFFICIENT."
+    },
+    {
+      "findingId": "CAL020_BUSINESS_MODEL_MISROUTING_004",
+      "severity": "P1",
+      "dimension": ["business_model_context", "derivation", "interpretation", "missingness"],
+      "observedBehavior": "When canonical sector/industry is absent, AAVAS is classified UNKNOWN. The fundamental path then treats UNKNOWN as non-financial and evaluates EBITDA margin, ROCE and industrial cash/leverage concepts instead of returning an explicit routing gap.",
+      "cohortEvidence": "AAVAS identity is 'Aavas Financiers Limited' with null sector/industry; product result businessModel=UNKNOWN, marginMetricUsed=EBITDA_MARGIN and QGLP says working-capital and balance-sheet items are partially evaluated.",
+      "productionEvidence": ["src/server/services/intelligence/domain/BusinessModelClassifier.ts returns UNKNOWN with absent canonical metadata", "src/server/services/intelligence/modules/FundamentalModuleAdapter.ts:247 uses BANK/NBFC only for financial routing, treating UNKNOWN as industrial", "src/server/services/intelligence/modules/QglpModuleAdapter.ts:96 and :235 use BANK-only exclusions"],
+      "requiredOutcome": "Unknown classification must fail closed for model-dependent financial interpretation. Resolve business model through verified identity metadata before routing; do not use industrial EBITDA, CFO/PAT, debt or return-profile logic for UNKNOWN."
+    }
+  ],
+  "arithmeticChecks": {
+    "revenueGrowth": "20/20 independently recomputed latest/prior revenue growth values matched the captured fundamental trajectory values.",
+    "marginBps": "17/17 non-financial companies with two revenue and EBITDA periods matched the independently recomputed margin bps change. BAJFINANCE was excluded because its financial-model route correctly withheld industrial margin output."
+  },
+  "frozenAt": "2026-10-01T05:11:00.000Z"
+}

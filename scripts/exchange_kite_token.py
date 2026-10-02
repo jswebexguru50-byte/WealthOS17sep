@@ -4,7 +4,7 @@ import sqlite3
 import json
 from pathlib import Path
 
-token = 'kwt5JY0Abtb4PGPVdxWWZgBEwFMZMhev'
+token = 'NXV4J53Y3nTsqdEq3QMsQ6DWPGl5YKnO'
 api_key = 'm8wqr277nffl4sx1'
 api_secret = '7fpyz17fh7sqt05x4xvhw3wbc2x8kvaa'
 

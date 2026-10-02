@@ -1,0 +1,19 @@
+{
+  "symbol": "APLAPOLLO",
+  "coreThesisStatement": "Structural steel tube market creator and leader holding 55% domestic share substituting conventional timber and RCC columns in airport/stadium construction.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Market Creation Moat",
+      "description": "First-mover in rectangular and square hollow sections for prefabricated building."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Distribution Density",
+      "description": "Over 800 distributors and 50,000 fabricator touchpoints across India."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_APL_LEVERAGE"
+  ]
+}

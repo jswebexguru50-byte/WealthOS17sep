@@ -1,0 +1,591 @@
+{
+  "runId": "REC-V63-1789639540908",
+  "timestamp": "2026-09-17T10:05:40.908Z",
+  "repositoryCommit": "UNKNOWN_OR_UNTRACKED",
+  "canonicalAuditBoundary": "This package verifies the integrity and fail-closed behavior of the v6.3 empirical research harness; it does not constitute evidence that the v6.3 strategies have been statistically validated or approved for production deployment.",
+  "canonicalEvidenceStates": {
+    "REAL_DATA_AVAILABLE": "YES",
+    "REAL_DATA_PIT_VALID": "PARTIAL",
+    "STRATEGY_REPLAYABLE": "PARTIAL",
+    "STATISTICALLY_VALIDATED": "NO"
+  },
+  "statusDefinitions": {
+    "PRODUCTION_CODE_FREEZE": "FREEZE VERIFIED",
+    "PRODUCTION_PROMOTION": "PROMOTION NOT AUTHORIZED"
+  },
+  "productionHashes": {
+    "PureTechnicalStrategiesEngine.ts": {
+      "path": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "sha256": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3",
+      "status": "FROZEN_VERIFIED"
+    },
+    "NewTechnicalStrategiesEngine.ts": {
+      "path": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "sha256": "78415ba3c74ca6a9cc2fcc96d2e54ba871e9bca73fc6e078570c412781b1d354",
+      "status": "FROZEN_VERIFIED"
+    },
+    "SignalQualityOverlay.ts": {
+      "path": "src/server/services/SignalQualityOverlay.ts",
+      "sha256": "c41cddb152c150bea932a8b9bd8fcc6ea01a03a2ba030a723789aaada5c17452",
+      "status": "FROZEN_VERIFIED"
+    },
+    "CapitalProtectionEngine.ts": {
+      "path": "src/server/services/CapitalProtectionEngine.ts",
+      "sha256": "63b8317889f5a60e9462f883e89acb57fe99e819935ec8f7b30036ecfe4ed753",
+      "status": "FROZEN_VERIFIED"
+    },
+    "StrategyParameterConfig.ts": {
+      "path": "src/server/services/StrategyParameterConfig.ts",
+      "sha256": "901ca7a27b2eb4e09183426c9e0dfd7b812aeebf84472b49b9f829661fe7194b",
+      "status": "FROZEN_VERIFIED"
+    },
+    "UpstoxIntradayIngestor.ts": {
+      "path": "src/server/services/UpstoxIntradayIngestor.ts",
+      "sha256": "0f1c96d0e0c704672517f378990e17facdced7bfbf359daf9c6f37333be1b151",
+      "status": "FROZEN_VERIFIED"
+    }
+  },
+  "strategies": {
+    "S1": {
+      "strategyId": "S1",
+      "found": true,
+      "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "source": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "exportedClass": "PureTechnicalStrategiesEngine",
+      "entryPoint": "evaluateStrategy1",
+      "inputType": "Candle[]",
+      "outputType": "Strategy1Result",
+      "dependencies": [
+        "DailyOHLCV"
+      ],
+      "deterministic": true,
+      "historicalInputsAvailable": true,
+      "replayable": true,
+      "productionHash": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3",
+      "status": "VERIFIED_REPLAYABLE"
+    },
+    "S2": {
+      "strategyId": "S2",
+      "found": true,
+      "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "source": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "exportedClass": "PureTechnicalStrategiesEngine",
+      "entryPoint": "evaluateStrategy2",
+      "inputType": "Candle[]",
+      "outputType": "Strategy2Result",
+      "dependencies": [
+        "DailyOHLCV"
+      ],
+      "deterministic": true,
+      "historicalInputsAvailable": true,
+      "replayable": true,
+      "productionHash": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3",
+      "status": "VERIFIED_REPLAYABLE"
+    },
+    "S3": {
+      "strategyId": "S3",
+      "found": true,
+      "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "source": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "exportedClass": "PureTechnicalStrategiesEngine",
+      "entryPoint": "evaluateStrategy3",
+      "inputType": "Candle[]",
+      "outputType": "Strategy3Result",
+      "dependencies": [
+        "DailyOHLCV"
+      ],
+      "deterministic": true,
+      "historicalInputsAvailable": true,
+      "replayable": true,
+      "productionHash": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3",
+      "status": "VERIFIED_REPLAYABLE"
+    },
+    "S4": {
+      "strategyId": "S4",
+      "found": true,
+      "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "source": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "exportedClass": "PureTechnicalStrategiesEngine",
+      "entryPoint": "evaluateStrategy4",
+      "inputType": "Candle[]",
+      "outputType": "Strategy4Result",
+      "dependencies": [
+        "DailyOHLCV"
+      ],
+      "deterministic": true,
+      "historicalInputsAvailable": true,
+      "replayable": true,
+      "productionHash": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3",
+      "status": "VERIFIED_REPLAYABLE"
+    },
+    "S5": {
+      "strategyId": "S5",
+      "found": true,
+      "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "source": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "exportedClass": "PureTechnicalStrategiesEngine",
+      "entryPoint": "evaluateStrategy5",
+      "inputType": "Candle[]",
+      "outputType": "Strategy5Result",
+      "dependencies": [
+        "DailyOHLCV"
+      ],
+      "deterministic": true,
+      "historicalInputsAvailable": true,
+      "replayable": true,
+      "productionHash": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3",
+      "status": "VERIFIED_REPLAYABLE"
+    },
+    "S6": {
+      "strategyId": "S6",
+      "found": true,
+      "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "source": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "exportedClass": "PureTechnicalStrategiesEngine",
+      "entryPoint": "evaluateStrategy6",
+      "inputType": "Candle[]",
+      "outputType": "Strategy6Result",
+      "dependencies": [
+        "DailyOHLCV"
+      ],
+      "deterministic": true,
+      "historicalInputsAvailable": true,
+      "replayable": true,
+      "productionHash": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3",
+      "status": "VERIFIED_REPLAYABLE"
+    },
+    "S7": {
+      "strategyId": "S7",
+      "found": true,
+      "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "source": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "exportedClass": "PureTechnicalStrategiesEngine",
+      "entryPoint": "evaluateStrategy7",
+      "inputType": "Candle[]",
+      "outputType": "Strategy7Result",
+      "dependencies": [
+        "DailyOHLCV"
+      ],
+      "deterministic": true,
+      "historicalInputsAvailable": true,
+      "replayable": true,
+      "productionHash": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3",
+      "status": "VERIFIED_REPLAYABLE"
+    },
+    "S8": {
+      "strategyId": "S8",
+      "found": true,
+      "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "source": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "exportedClass": "PureTechnicalStrategiesEngine",
+      "entryPoint": "evaluateStrategy8",
+      "inputType": "Candle[]",
+      "outputType": "Strategy8Result",
+      "dependencies": [
+        "DailyOHLCV"
+      ],
+      "deterministic": true,
+      "historicalInputsAvailable": true,
+      "replayable": true,
+      "productionHash": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3",
+      "status": "VERIFIED_REPLAYABLE"
+    },
+    "S9": {
+      "strategyId": "S9",
+      "found": true,
+      "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "source": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "exportedClass": "PureTechnicalStrategiesEngine",
+      "entryPoint": "evaluateStrategy9",
+      "inputType": "Candle[]",
+      "outputType": "Strategy9Result",
+      "dependencies": [
+        "DailyOHLCV"
+      ],
+      "deterministic": true,
+      "historicalInputsAvailable": true,
+      "replayable": true,
+      "productionHash": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3",
+      "status": "VERIFIED_REPLAYABLE"
+    },
+    "S10": {
+      "strategyId": "S10",
+      "found": true,
+      "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "source": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "exportedClass": "PureTechnicalStrategiesEngine",
+      "entryPoint": "evaluateStrategy10",
+      "inputType": "Candle[]",
+      "outputType": "Strategy10Result",
+      "dependencies": [
+        "DailyOHLCV"
+      ],
+      "deterministic": true,
+      "historicalInputsAvailable": true,
+      "replayable": true,
+      "productionHash": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3",
+      "status": "VERIFIED_REPLAYABLE"
+    },
+    "S11": {
+      "strategyId": "S11",
+      "found": true,
+      "sourceFile": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "source": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "exportedClass": "PureTechnicalStrategiesEngine",
+      "entryPoint": "evaluateStrategy11",
+      "inputType": "Candle[]",
+      "outputType": "Strategy11Result",
+      "dependencies": [
+        "DailyOHLCV"
+      ],
+      "deterministic": true,
+      "historicalInputsAvailable": true,
+      "replayable": true,
+      "productionHash": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3",
+      "status": "VERIFIED_REPLAYABLE"
+    },
+    "S12": {
+      "strategyId": "S12",
+      "found": false,
+      "sourceFile": null,
+      "source": null,
+      "exportedClass": null,
+      "entryPoint": null,
+      "inputType": null,
+      "outputType": null,
+      "dependencies": [
+        "L2_ORDER_FLOW_OR_INTRADAY"
+      ],
+      "deterministic": false,
+      "historicalInputsAvailable": false,
+      "replayable": false,
+      "productionHash": null,
+      "status": "MISSING_FROZEN_STRATEGY_IMPLEMENTATION"
+    },
+    "S13": {
+      "strategyId": "S13",
+      "found": false,
+      "sourceFile": null,
+      "source": null,
+      "exportedClass": null,
+      "entryPoint": null,
+      "inputType": null,
+      "outputType": null,
+      "dependencies": [
+        "L2_ORDER_FLOW_OR_INTRADAY"
+      ],
+      "deterministic": false,
+      "historicalInputsAvailable": false,
+      "replayable": false,
+      "productionHash": null,
+      "status": "MISSING_FROZEN_STRATEGY_IMPLEMENTATION"
+    },
+    "S14": {
+      "strategyId": "S14",
+      "found": false,
+      "sourceFile": null,
+      "source": null,
+      "exportedClass": null,
+      "entryPoint": null,
+      "inputType": null,
+      "outputType": null,
+      "dependencies": [
+        "L2_ORDER_FLOW_OR_INTRADAY"
+      ],
+      "deterministic": false,
+      "historicalInputsAvailable": false,
+      "replayable": false,
+      "productionHash": null,
+      "status": "MISSING_FROZEN_STRATEGY_IMPLEMENTATION"
+    },
+    "S15": {
+      "strategyId": "S15",
+      "found": false,
+      "sourceFile": null,
+      "source": null,
+      "exportedClass": null,
+      "entryPoint": null,
+      "inputType": null,
+      "outputType": null,
+      "dependencies": [
+        "L2_ORDER_FLOW_OR_INTRADAY"
+      ],
+      "deterministic": false,
+      "historicalInputsAvailable": false,
+      "replayable": false,
+      "productionHash": null,
+      "status": "MISSING_FROZEN_STRATEGY_IMPLEMENTATION"
+    },
+    "S16": {
+      "strategyId": "S16",
+      "found": false,
+      "sourceFile": null,
+      "source": null,
+      "exportedClass": null,
+      "entryPoint": null,
+      "inputType": null,
+      "outputType": null,
+      "dependencies": [
+        "L2_ORDER_FLOW_OR_INTRADAY"
+      ],
+      "deterministic": false,
+      "historicalInputsAvailable": false,
+      "replayable": false,
+      "productionHash": null,
+      "status": "MISSING_FROZEN_STRATEGY_IMPLEMENTATION"
+    },
+    "S17": {
+      "strategyId": "S17",
+      "found": false,
+      "sourceFile": null,
+      "source": null,
+      "exportedClass": null,
+      "entryPoint": null,
+      "inputType": null,
+      "outputType": null,
+      "dependencies": [
+        "L2_ORDER_FLOW_OR_INTRADAY"
+      ],
+      "deterministic": false,
+      "historicalInputsAvailable": false,
+      "replayable": false,
+      "productionHash": null,
+      "status": "MISSING_FROZEN_STRATEGY_IMPLEMENTATION"
+    },
+    "S18": {
+      "strategyId": "S18",
+      "found": false,
+      "sourceFile": null,
+      "source": null,
+      "exportedClass": null,
+      "entryPoint": null,
+      "inputType": null,
+      "outputType": null,
+      "dependencies": [
+        "L2_ORDER_FLOW_OR_INTRADAY"
+      ],
+      "deterministic": false,
+      "historicalInputsAvailable": false,
+      "replayable": false,
+      "productionHash": null,
+      "status": "MISSING_FROZEN_STRATEGY_IMPLEMENTATION"
+    },
+    "S19": {
+      "strategyId": "S19",
+      "found": false,
+      "sourceFile": null,
+      "source": null,
+      "exportedClass": null,
+      "entryPoint": null,
+      "inputType": null,
+      "outputType": null,
+      "dependencies": [
+        "L2_ORDER_FLOW_OR_INTRADAY"
+      ],
+      "deterministic": false,
+      "historicalInputsAvailable": false,
+      "replayable": false,
+      "productionHash": null,
+      "status": "MISSING_FROZEN_STRATEGY_IMPLEMENTATION"
+    },
+    "S20": {
+      "strategyId": "S20",
+      "found": false,
+      "sourceFile": null,
+      "source": null,
+      "exportedClass": null,
+      "entryPoint": null,
+      "inputType": null,
+      "outputType": null,
+      "dependencies": [
+        "L2_ORDER_FLOW_OR_INTRADAY"
+      ],
+      "deterministic": false,
+      "historicalInputsAvailable": false,
+      "replayable": false,
+      "productionHash": null,
+      "status": "MISSING_FROZEN_STRATEGY_IMPLEMENTATION"
+    },
+    "S8B": {
+      "strategyId": "S8B",
+      "found": true,
+      "sourceFile": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "source": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "exportedClass": "NewTechnicalStrategiesEngine",
+      "entryPoint": "evaluateS8B",
+      "inputType": "Candle[]",
+      "outputType": "TechnicalSignal | null",
+      "dependencies": [
+        "DailyOHLCV"
+      ],
+      "deterministic": true,
+      "historicalInputsAvailable": true,
+      "replayable": true,
+      "productionHash": "78415ba3c74ca6a9cc2fcc96d2e54ba871e9bca73fc6e078570c412781b1d354",
+      "status": "VERIFIED_REPLAYABLE_CHALLENGER"
+    },
+    "S21": {
+      "strategyId": "S21",
+      "found": true,
+      "sourceFile": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "source": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "exportedClass": "NewTechnicalStrategiesEngine",
+      "entryPoint": "evaluateS21",
+      "inputType": "Candle[]",
+      "outputType": "TechnicalSignal | null",
+      "dependencies": [
+        "DailyOHLCV"
+      ],
+      "deterministic": true,
+      "historicalInputsAvailable": true,
+      "replayable": true,
+      "productionHash": "78415ba3c74ca6a9cc2fcc96d2e54ba871e9bca73fc6e078570c412781b1d354",
+      "status": "VERIFIED_REPLAYABLE_CHALLENGER"
+    },
+    "S22": {
+      "strategyId": "S22",
+      "found": true,
+      "sourceFile": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "source": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "exportedClass": "NewTechnicalStrategiesEngine",
+      "entryPoint": "evaluateS22",
+      "inputType": "Candle[]",
+      "outputType": "TechnicalSignal | null",
+      "dependencies": [
+        "DailyOHLCV"
+      ],
+      "deterministic": true,
+      "historicalInputsAvailable": true,
+      "replayable": true,
+      "productionHash": "78415ba3c74ca6a9cc2fcc96d2e54ba871e9bca73fc6e078570c412781b1d354",
+      "status": "VERIFIED_REPLAYABLE_CHALLENGER"
+    },
+    "S23": {
+      "strategyId": "S23",
+      "found": true,
+      "sourceFile": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "source": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "exportedClass": "NewTechnicalStrategiesEngine",
+      "entryPoint": "evaluateS23",
+      "inputType": "Candle[]",
+      "outputType": "TechnicalSignal | null",
+      "dependencies": [
+        "DailyOHLCV"
+      ],
+      "deterministic": true,
+      "historicalInputsAvailable": true,
+      "replayable": true,
+      "productionHash": "78415ba3c74ca6a9cc2fcc96d2e54ba871e9bca73fc6e078570c412781b1d354",
+      "status": "VERIFIED_REPLAYABLE_CHALLENGER"
+    },
+    "S24": {
+      "strategyId": "S24",
+      "found": true,
+      "sourceFile": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "source": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "exportedClass": "NewTechnicalStrategiesEngine",
+      "entryPoint": "evaluateS24",
+      "inputType": "Candle[]",
+      "outputType": "TechnicalSignal | null",
+      "dependencies": [
+        "DailyOHLCV"
+      ],
+      "deterministic": true,
+      "historicalInputsAvailable": true,
+      "replayable": true,
+      "productionHash": "78415ba3c74ca6a9cc2fcc96d2e54ba871e9bca73fc6e078570c412781b1d354",
+      "status": "VERIFIED_REPLAYABLE_CHALLENGER"
+    },
+    "S25": {
+      "strategyId": "S25",
+      "found": true,
+      "sourceFile": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "source": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "exportedClass": "NewTechnicalStrategiesEngine",
+      "entryPoint": "evaluateS25",
+      "inputType": "Candle[]",
+      "outputType": "TechnicalSignal | null",
+      "dependencies": [
+        "DailyOHLCV"
+      ],
+      "deterministic": true,
+      "historicalInputsAvailable": true,
+      "replayable": true,
+      "productionHash": "78415ba3c74ca6a9cc2fcc96d2e54ba871e9bca73fc6e078570c412781b1d354",
+      "status": "VERIFIED_REPLAYABLE_CHALLENGER"
+    },
+    "S26": {
+      "strategyId": "S26",
+      "found": true,
+      "sourceFile": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "source": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "exportedClass": "NewTechnicalStrategiesEngine",
+      "entryPoint": "evaluateS26",
+      "inputType": "Candle[]",
+      "outputType": "TechnicalSignal | null",
+      "dependencies": [
+        "DailyOHLCV"
+      ],
+      "deterministic": true,
+      "historicalInputsAvailable": true,
+      "replayable": true,
+      "productionHash": "78415ba3c74ca6a9cc2fcc96d2e54ba871e9bca73fc6e078570c412781b1d354",
+      "status": "VERIFIED_REPLAYABLE_CHALLENGER"
+    }
+  },
+  "researchComponents": {
+    "signalReplay": {
+      "file": "src/server/services/research/FrozenSignalAdapter.ts",
+      "status": "IMPLEMENTED",
+      "decoupledFromProduction": true
+    },
+    "overlayAdapter": {
+      "file": "src/server/services/research/FrozenOverlayAdapter.ts",
+      "status": "IMPLEMENTED",
+      "pitEnforced": true,
+      "syntheticConstantsBanned": true
+    },
+    "ablationEngine": {
+      "file": "src/server/services/research/AblationEngine.ts",
+      "status": "IMPLEMENTED",
+      "moduloFiltersBanned": true,
+      "usesLayerAdapters": true
+    },
+    "executionSimulator": {
+      "file": "src/server/services/research/ExecutionSimulator.ts",
+      "status": "EVENT_LOOP_RECONCILED",
+      "sameBarExecutionRejected": true,
+      "nextBarOpenFill": true,
+      "intrabarAmbiguityPolicy": "CONSERVATIVE_STOP_FIRST"
+    },
+    "markToMarket": {
+      "type": "CONTINUOUS_MULTI_ASSET",
+      "status": "SYNCHRONOUS_TIMESTAMP_GROUPING",
+      "formula": "Equity_t = Cash_t + sum_i (Qty_{i,t} * MarkPrice_{i,t})"
+    },
+    "transactionCosts": {
+      "file": "src/server/services/research/TransactionCostEngine.ts",
+      "status": "STATUTORY_SCHEDULE_RECONCILED",
+      "components": [
+        "brokerage",
+        "stt",
+        "exchangeTxn",
+        "stampDuty",
+        "gst",
+        "slippage",
+        "marketImpact"
+      ]
+    },
+    "preflightGate": {
+      "file": "src/server/services/research/ResearchPreflight.ts",
+      "status": "FAIL_CLOSED_ENFORCED"
+    }
+  },
+  "blockingIssues": [
+    "OFFLINE_SUBSET_INCOMPLETE: DailyOHLCV has 814 / 105,243 rows populated for delivery and turnover.",
+    "TRADING_CALENDAR_UNPOPULATED: 0 trading days flagged in research subset trading_calendar table.",
+    "INDEX_MEMBERSHIP_UNAVAILABLE: IndexConstituents table has 0 historical records in research subset.",
+    "S12_S20_UNEXPOSED: Strategies S12-S20 require live L2/L3 streaming feeds and are not implemented for offline daily replay."
+  ],
+  "status": "RECONCILED_RESEARCH_HARNESS_EMPIRICAL_PROMOTION_BLOCKED"
+}

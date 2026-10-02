@@ -1,0 +1,2002 @@
+{
+  "PRODUCTION_STATE": "POST_REMEDIATION_EXPERIMENT",
+  "companyIdentity": {
+    "symbol": "TITAN",
+    "companyName": "Titan Company Limited",
+    "isin": "INE280A01028",
+    "sector": "Consumer Cyclical",
+    "industry": null,
+    "listingClassification": "NSE",
+    "businessModel": "NON_FINANCIAL"
+  },
+  "periodContext": {
+    "latestFiscalYear": "Mar 2026",
+    "latestQuarter": null,
+    "ttmAvailable": true,
+    "periodsAvailable": [
+      "Mar 2026",
+      "Mar 2025",
+      "Mar 2024",
+      "Mar 2023"
+    ],
+    "consolidatedOrStandalone": "CONSOLIDATED",
+    "asOfDate": "2026-10-01"
+  },
+  "canonicalFinancialFacts": [
+    {
+      "factId": "d298a3a51d58cce61f0f68adcff336bc2d3dddaeff0976ebb6c8b38413afffb1",
+      "metric": "cfo_cr",
+      "value": 110,
+      "unit": "INR_CR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "dfd9f6ad6f287b06e01709bc9340fe7ea26d5c3ce16bbe63b6d230d0676eeac3",
+      "metric": "cmp",
+      "value": 350.5,
+      "unit": "INR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "f9b75784c2e58608c0e1425491f54bf1c74281c4f471505ad8c545e56e5b5625",
+      "metric": "fii_holding_pct",
+      "value": 14.2,
+      "unit": "PERCENT",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "1b39fadda05d42a0820f3b06cb9cdd446c01297c8572857e415d1f7892d3fcd6",
+      "metric": "institutional_holding_pct",
+      "value": 18.5,
+      "unit": "PERCENT",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "6b78363155c100a9653164d7112f199d1d937612a76fbe2a2c568b5661b64a18",
+      "metric": "market_cap_cr",
+      "value": 4500,
+      "unit": "INR_CR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "8e37fcb5ac3570b62a320695de6f50cf5bcef5c0695bc7addd2e92e9f850b21c",
+      "metric": "order_book_cr",
+      "value": 1850,
+      "unit": "INR_CR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "0011e8c9383a124059a3f1a767c8b7fb5e02ed5d906e26b9ebe9550389dc5223",
+      "metric": "pat_cr",
+      "value": 85,
+      "unit": "INR_CR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "2ef894e5062064b84d11b10afefb9b186161ee8d75c66e97d8ce9850c80f38ed",
+      "metric": "pe_ttm",
+      "value": 18.5,
+      "unit": "RATIO",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "e8ef6ef1a529f73bb9f060e14e87f285dee4127e40cb8b7b130ba28adec26bea",
+      "metric": "promoter_holding_pct",
+      "value": 62.5,
+      "unit": "PERCENT",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "c48801dd9c13eec22eb81a298f300adf1048fbc8d23abb551013dd95874a4a29",
+      "metric": "promoter_pledge_pct",
+      "value": "0.0",
+      "unit": "PERCENT",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "fe72cb1d8f60c848fb3da7bd3f5a47345997ff0a3bc42697db8a1e89df6ba045",
+      "metric": "revenue_cr",
+      "value": 950,
+      "unit": "INR_CR",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "52f6d928754f9c146d89a3f5345e377487f3e48b2a5e4450501142def61196b0",
+      "metric": "roe_pct",
+      "value": 16.2,
+      "unit": "PERCENT",
+      "period": "2026-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "availabilityDate": "2026-09-30",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_dii_holding_pct_2026-06-30_QUARTERLY",
+      "metric": "dii_holding_pct",
+      "value": 6.61,
+      "unit": "PERCENT",
+      "period": "2026-06-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_fii_holding_pct_2026-06-30_QUARTERLY",
+      "metric": "fii_holding_pct",
+      "value": 15.38,
+      "unit": "PERCENT",
+      "period": "2026-06-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_mutual_fund_holding_pct_2026-06-30_QUARTERLY",
+      "metric": "mutual_fund_holding_pct",
+      "value": 8.73,
+      "unit": "PERCENT",
+      "period": "2026-06-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_promoter_holding_pct_2026-06-30_QUARTERLY",
+      "metric": "promoter_holding_pct",
+      "value": 52.9,
+      "unit": "PERCENT",
+      "period": "2026-06-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_retail_holding_pct_2026-06-30_QUARTERLY",
+      "metric": "retail_holding_pct",
+      "value": 16.38,
+      "unit": "PERCENT",
+      "period": "2026-06-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cff_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cff_cr",
+      "value": -2159,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cfi_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfi_cr",
+      "value": -2934,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cfo_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfo_cr",
+      "value": 5590,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_dii_holding_pct_2026-03-31_QUARTERLY",
+      "metric": "dii_holding_pct",
+      "value": 6.58,
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_ebitda_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "ebitda_cr",
+      "value": 6801,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_ev_ebitda_LATEST_TTM",
+      "metric": "ev_ebitda",
+      "value": 46.18,
+      "unit": "RATIO",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_fii_holding_pct_2026-03-31_QUARTERLY",
+      "metric": "fii_holding_pct",
+      "value": 15.65,
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_mutual_fund_holding_pct_2026-03-31_QUARTERLY",
+      "metric": "mutual_fund_holding_pct",
+      "value": 8.45,
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_pat_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "pat_cr",
+      "value": 5073,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_pb_LATEST_TTM",
+      "metric": "pb",
+      "value": 27.58,
+      "unit": "RATIO",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_pe_LATEST_TTM",
+      "metric": "pe",
+      "value": 75.2,
+      "unit": "RATIO",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_promoter_holding_pct_2026-03-31_QUARTERLY",
+      "metric": "promoter_holding_pct",
+      "value": 52.9,
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_quick_ratio_LATEST_TTM",
+      "metric": "quick_ratio",
+      "value": 0.2,
+      "unit": "RATIO",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_retail_holding_pct_2026-03-31_QUARTERLY",
+      "metric": "retail_holding_pct",
+      "value": 16.42,
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_revenue_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "revenue_cr",
+      "value": 88136,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_roa_pct_LATEST_TTM",
+      "metric": "roa_pct",
+      "value": 9.51,
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_roce_pct_LATEST_TTM",
+      "metric": "roce_pct",
+      "value": 24.83,
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_roe_pct_LATEST_TTM",
+      "metric": "roe_pct",
+      "value": 32.31,
+      "unit": "PERCENT",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_total_asset_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_asset_cr",
+      "value": 60561,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_total_liability_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_liability_cr",
+      "value": 44858,
+      "unit": "INR_CR",
+      "period": "2026-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_dii_holding_pct_2025-12-31_QUARTERLY",
+      "metric": "dii_holding_pct",
+      "value": 6.77,
+      "unit": "PERCENT",
+      "period": "2025-12-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_fii_holding_pct_2025-12-31_QUARTERLY",
+      "metric": "fii_holding_pct",
+      "value": 15.55,
+      "unit": "PERCENT",
+      "period": "2025-12-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_mutual_fund_holding_pct_2025-12-31_QUARTERLY",
+      "metric": "mutual_fund_holding_pct",
+      "value": 8.23,
+      "unit": "PERCENT",
+      "period": "2025-12-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_promoter_holding_pct_2025-12-31_QUARTERLY",
+      "metric": "promoter_holding_pct",
+      "value": 52.9,
+      "unit": "PERCENT",
+      "period": "2025-12-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_retail_holding_pct_2025-12-31_QUARTERLY",
+      "metric": "retail_holding_pct",
+      "value": 16.55,
+      "unit": "PERCENT",
+      "period": "2025-12-31",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_dii_holding_pct_2025-09-30_QUARTERLY",
+      "metric": "dii_holding_pct",
+      "value": 6.33,
+      "unit": "PERCENT",
+      "period": "2025-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_fii_holding_pct_2025-09-30_QUARTERLY",
+      "metric": "fii_holding_pct",
+      "value": 16.11,
+      "unit": "PERCENT",
+      "period": "2025-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_mutual_fund_holding_pct_2025-09-30_QUARTERLY",
+      "metric": "mutual_fund_holding_pct",
+      "value": 7.84,
+      "unit": "PERCENT",
+      "period": "2025-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_promoter_holding_pct_2025-09-30_QUARTERLY",
+      "metric": "promoter_holding_pct",
+      "value": 52.9,
+      "unit": "PERCENT",
+      "period": "2025-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_retail_holding_pct_2025-09-30_QUARTERLY",
+      "metric": "retail_holding_pct",
+      "value": 16.84,
+      "unit": "PERCENT",
+      "period": "2025-09-30",
+      "scope": "CONSOLIDATED",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cff_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cff_cr",
+      "value": -7,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cfi_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfi_cr",
+      "value": 546,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cfo_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfo_cr",
+      "value": -541,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_ebitda_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "ebitda_cr",
+      "value": 4535,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_pat_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "pat_cr",
+      "value": 3337,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_revenue_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "revenue_cr",
+      "value": 60942,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_total_asset_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_asset_cr",
+      "value": 40647,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_total_liability_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_liability_cr",
+      "value": 29023,
+      "unit": "INR_CR",
+      "period": "2025-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cff_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cff_cr",
+      "value": -1329,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cfi_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfi_cr",
+      "value": -189,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cfo_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfo_cr",
+      "value": 1695,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_ebitda_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "ebitda_cr",
+      "value": 4623,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_pat_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "pat_cr",
+      "value": 3496,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_revenue_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "revenue_cr",
+      "value": 51617,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_total_asset_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_asset_cr",
+      "value": 31550,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_total_liability_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_liability_cr",
+      "value": 22157,
+      "unit": "INR_CR",
+      "period": "2024-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cff_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cff_cr",
+      "value": 457,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cfi_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfi_cr",
+      "value": -1811,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cfo_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "cfo_cr",
+      "value": 1370,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_ebitda_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "ebitda_cr",
+      "value": 4447,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_pat_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "pat_cr",
+      "value": 3274,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_revenue_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "revenue_cr",
+      "value": 40883,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_total_asset_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_asset_cr",
+      "value": 27023,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_total_liability_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "metric": "total_liability_cr",
+      "value": 15119,
+      "unit": "INR_CR",
+      "period": "2023-03-31",
+      "scope": "CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "availabilityDate": "2026-09-29",
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_revenue_Mar 2026",
+      "metric": "REVENUE",
+      "value": 88136,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_revenue_Mar 2025",
+      "metric": "REVENUE",
+      "value": 60942,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_revenue_Mar 2024",
+      "metric": "REVENUE",
+      "value": 51617,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_revenue_Mar 2023",
+      "metric": "REVENUE",
+      "value": 40883,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_operating_profit_Mar 2026",
+      "metric": "OPERATING_PROFIT",
+      "value": 6801,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_operating_profit_Mar 2025",
+      "metric": "OPERATING_PROFIT",
+      "value": 4535,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_operating_profit_Mar 2024",
+      "metric": "OPERATING_PROFIT",
+      "value": 4623,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_operating_profit_Mar 2023",
+      "metric": "OPERATING_PROFIT",
+      "value": 4447,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_net_profit_Mar 2026",
+      "metric": "NET_PROFIT",
+      "value": 5073,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_net_profit_Mar 2025",
+      "metric": "NET_PROFIT",
+      "value": 3337,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_net_profit_Mar 2024",
+      "metric": "NET_PROFIT",
+      "value": 3496,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_net_profit_Mar 2023",
+      "metric": "NET_PROFIT",
+      "value": 3274,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:income-statement",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_operating_Mar 2026",
+      "metric": "CFO_OPERATING",
+      "value": 5590,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_operating_Mar 2025",
+      "metric": "CFO_OPERATING",
+      "value": -541,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_operating_Mar 2024",
+      "metric": "CFO_OPERATING",
+      "value": 1695,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_operating_Mar 2023",
+      "metric": "CFO_OPERATING",
+      "value": 1370,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_investing_Mar 2026",
+      "metric": "CFO_INVESTING",
+      "value": -2934,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_investing_Mar 2025",
+      "metric": "CFO_INVESTING",
+      "value": 546,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_investing_Mar 2024",
+      "metric": "CFO_INVESTING",
+      "value": -189,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_investing_Mar 2023",
+      "metric": "CFO_INVESTING",
+      "value": -1811,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_financing_Mar 2026",
+      "metric": "CFO_FINANCING",
+      "value": -2159,
+      "unit": "INR_CR",
+      "period": "Mar 2026",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_financing_Mar 2025",
+      "metric": "CFO_FINANCING",
+      "value": -7,
+      "unit": "INR_CR",
+      "period": "Mar 2025",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_financing_Mar 2024",
+      "metric": "CFO_FINANCING",
+      "value": -1329,
+      "unit": "INR_CR",
+      "period": "Mar 2024",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_financing_Mar 2023",
+      "metric": "CFO_FINANCING",
+      "value": 457,
+      "unit": "INR_CR",
+      "period": "Mar 2023",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:cash-flow",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_TITAN_P_E",
+      "metric": "P/E",
+      "value": 75.2,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_TITAN_P_B",
+      "metric": "P/B",
+      "value": 27.58,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_TITAN_ROA",
+      "metric": "ROA",
+      "value": 9.51,
+      "unit": "PERCENT",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_TITAN_ROE",
+      "metric": "ROE",
+      "value": 32.31,
+      "unit": "PERCENT",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_TITAN_ROCE",
+      "metric": "ROCE",
+      "value": 24.83,
+      "unit": "PERCENT",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_TITAN_Quick_Ratio",
+      "metric": "QUICK RATIO",
+      "value": 0.2,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_TITAN_EV_EBITDA",
+      "metric": "EV/EBITDA",
+      "value": 46.18,
+      "unit": "MULTIPLE",
+      "period": "LATEST",
+      "scope": "CONSOLIDATED",
+      "source": "SNAPSHOT:key-ratios",
+      "availabilityDate": null,
+      "factType": "REPORTED"
+    }
+  ],
+  "derivedMetrics": [
+    {
+      "metric": "REVENUE_YOY_GROWTH",
+      "value": 44.62,
+      "unit": "PERCENT",
+      "formula": "((Revenue[t] - Revenue[t-1]) / |Revenue[t-1]|) * 100",
+      "periodsCompared": "Mar 2026 vs Mar 2025",
+      "verificationStatus": "VERIFIED",
+      "independentValue": 44.62,
+      "discrepancyNotes": "Oracle: ((88136 - 60942) / |60942|) * 100 = 44.62%, Production: 44.62%"
+    },
+    {
+      "metric": "EBITDA_MARGIN_LATEST",
+      "value": 7.72,
+      "unit": "PERCENT",
+      "formula": "(EBITDA / Revenue) * 100",
+      "periodsCompared": "Mar 2026",
+      "verificationStatus": "VERIFIED",
+      "independentValue": 7.72,
+      "discrepancyNotes": "Oracle: (6801 / 88136) * 100 = 7.72%, Production: 7.72%"
+    },
+    {
+      "metric": "MARGIN_BPS_DELTA",
+      "value": 27,
+      "unit": "BPS",
+      "formula": "(Margin[t] - Margin[t-1]) * 100",
+      "verificationStatus": "VERIFIED",
+      "independentValue": 27,
+      "discrepancyNotes": "Metric: EBITDA_MARGIN"
+    }
+  ],
+  "evidenceProvenance": [
+    {
+      "factId": "d298a3a51d58cce61f0f68adcff336bc2d3dddaeff0976ebb6c8b38413afffb1",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "dfd9f6ad6f287b06e01709bc9340fe7ea26d5c3ce16bbe63b6d230d0676eeac3",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "f9b75784c2e58608c0e1425491f54bf1c74281c4f471505ad8c545e56e5b5625",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "1b39fadda05d42a0820f3b06cb9cdd446c01297c8572857e415d1f7892d3fcd6",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "6b78363155c100a9653164d7112f199d1d937612a76fbe2a2c568b5661b64a18",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "8e37fcb5ac3570b62a320695de6f50cf5bcef5c0695bc7addd2e92e9f850b21c",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "0011e8c9383a124059a3f1a767c8b7fb5e02ed5d906e26b9ebe9550389dc5223",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "2ef894e5062064b84d11b10afefb9b186161ee8d75c66e97d8ce9850c80f38ed",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "e8ef6ef1a529f73bb9f060e14e87f285dee4127e40cb8b7b130ba28adec26bea",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "c48801dd9c13eec22eb81a298f300adf1048fbc8d23abb551013dd95874a4a29",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "fe72cb1d8f60c848fb3da7bd3f5a47345997ff0a3bc42697db8a1e89df6ba045",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "52f6d928754f9c146d89a3f5345e377487f3e48b2a5e4450501142def61196b0",
+      "source": "TRENDLYNE_MCP_MAX:TRENDLYNE_SNAPSHOT",
+      "period": "2026-09-30",
+      "availabilityDate": "2026-09-30",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_dii_holding_pct_2026-06-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-06-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_fii_holding_pct_2026-06-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-06-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_mutual_fund_holding_pct_2026-06-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-06-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_promoter_holding_pct_2026-06-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-06-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_retail_holding_pct_2026-06-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-06-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cff_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cfi_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cfo_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_dii_holding_pct_2026-03-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_ebitda_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_ev_ebitda_LATEST_TTM",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_fii_holding_pct_2026-03-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_mutual_fund_holding_pct_2026-03-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_pat_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_pb_LATEST_TTM",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_pe_LATEST_TTM",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_promoter_holding_pct_2026-03-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_quick_ratio_LATEST_TTM",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_retail_holding_pct_2026-03-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_revenue_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_roa_pct_LATEST_TTM",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_roce_pct_LATEST_TTM",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_roe_pct_LATEST_TTM",
+      "source": "UPSTOX_RATIOS:STRUCTURED_SECONDARY",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_total_asset_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_total_liability_cr_2026-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2026-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_dii_holding_pct_2025-12-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-12-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_fii_holding_pct_2025-12-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-12-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_mutual_fund_holding_pct_2025-12-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-12-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_promoter_holding_pct_2025-12-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-12-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_retail_holding_pct_2025-12-31_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-12-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_dii_holding_pct_2025-09-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-09-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_fii_holding_pct_2025-09-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-09-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_mutual_fund_holding_pct_2025-09-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-09-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_promoter_holding_pct_2025-09-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-09-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_retail_holding_pct_2025-09-30_QUARTERLY",
+      "source": "BSE_SHAREHOLDING:EXCHANGE_FILING",
+      "period": "2025-09-30",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cff_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cfi_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cfo_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_ebitda_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_pat_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_revenue_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_total_asset_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_total_liability_cr_2025-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2025-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cff_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cfi_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cfo_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_ebitda_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_pat_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_revenue_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_total_asset_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_total_liability_cr_2024-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2024-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cff_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cfi_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_cfo_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_ebitda_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_pat_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_revenue_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_total_asset_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "INE280A01028_total_liability_cr_2023-03-31_ANNUAL_CONSOLIDATED",
+      "source": "UPSTOX_XBRL:EXCHANGE_FILING",
+      "period": "2023-03-31",
+      "availabilityDate": "2026-09-29",
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_revenue_Mar 2026",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_revenue_Mar 2025",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_revenue_Mar 2024",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_revenue_Mar 2023",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_operating_profit_Mar 2026",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_operating_profit_Mar 2025",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_operating_profit_Mar 2024",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_operating_profit_Mar 2023",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_net_profit_Mar 2026",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_net_profit_Mar 2025",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_net_profit_Mar 2024",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_INC_TITAN_net_profit_Mar 2023",
+      "source": "SNAPSHOT:income-statement",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_operating_Mar 2026",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_operating_Mar 2025",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_operating_Mar 2024",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_operating_Mar 2023",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_investing_Mar 2026",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_investing_Mar 2025",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_investing_Mar 2024",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_investing_Mar 2023",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_financing_Mar 2026",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2026",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_financing_Mar 2025",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2025",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_financing_Mar 2024",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2024",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_CF_TITAN_financing_Mar 2023",
+      "source": "SNAPSHOT:cash-flow",
+      "period": "Mar 2023",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_TITAN_P_E",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_TITAN_P_B",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_TITAN_ROA",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_TITAN_ROE",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_TITAN_ROCE",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_TITAN_Quick_Ratio",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    },
+    {
+      "factId": "FACT_RATIO_TITAN_EV_EBITDA",
+      "source": "SNAPSHOT:key-ratios",
+      "period": "LATEST",
+      "availabilityDate": null,
+      "status": "REPORTED"
+    }
+  ],
+  "missingData": [],
+  "wealthosInterpretations": [
+    {
+      "claimId": "CLAIM_TITAN_GROWTH_01",
+      "module": "FUNDAMENTAL",
+      "dimension": "REVENUE_GROWTH",
+      "claimStatement": "Revenue trajectory evaluated as ACCELERATING with latest growth of 44.62% (Mar 2026 vs Mar 2025 vs Mar 2024).",
+      "wealthosStatus": "ACCELERATING",
+      "underlyingMetricValues": {
+        "latestGrowthPct": 44.62,
+        "priorGrowthPct": 18.07,
+        "periodsCompared": "Mar 2026 vs Mar 2025 vs Mar 2024"
+      }
+    },
+    {
+      "claimId": "CLAIM_TITAN_MARGIN_02",
+      "module": "FUNDAMENTAL",
+      "dimension": "MARGIN_TRAJECTORY",
+      "claimStatement": "Operating margin trajectory evaluated as STABLE with delta of 27 bps using EBITDA_MARGIN.",
+      "wealthosStatus": "STABLE",
+      "underlyingMetricValues": {
+        "bpsChange": 27,
+        "metricUsed": "EBITDA_MARGIN"
+      }
+    },
+    {
+      "claimId": "CLAIM_TITAN_RETURN_03",
+      "module": "FUNDAMENTAL",
+      "dimension": "RETURN_PROFILE",
+      "claimStatement": "Capital efficiency return profile assessed as HIGH_QUALITY with ROCE at 24.83%.",
+      "wealthosStatus": "HIGH_QUALITY",
+      "underlyingMetricValues": {
+        "metric": "ROCE",
+        "latestValue": 24.83,
+        "status": "HIGH_QUALITY"
+      }
+    },
+    {
+      "claimId": "CLAIM_TITAN_DEBT_04",
+      "module": "FUNDAMENTAL",
+      "dimension": "DEBT_TRAJECTORY",
+      "claimStatement": "Financial leverage and debt trajectory assessed as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "status": "DATA_INSUFFICIENT",
+        "changePct": null
+      }
+    },
+    {
+      "claimId": "CLAIM_TITAN_VALUATION_PE",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric PE is 75.2. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "PE",
+        "current": 75.2
+      }
+    },
+    {
+      "claimId": "CLAIM_TITAN_VALUATION_PB",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric PB is 27.58. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "PB",
+        "current": 27.58
+      }
+    },
+    {
+      "claimId": "CLAIM_TITAN_VALUATION_EV_EBITDA",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric EV/EBITDA is 46.18. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "EV/EBITDA",
+        "current": 46.18
+      }
+    },
+    {
+      "claimId": "CLAIM_TITAN_VALUATION_DIVIDEND_YIELD",
+      "module": "VALUATION",
+      "dimension": "VALUATION_MULTIPLE",
+      "claimStatement": "Valuation metric Dividend Yield is N/A. Status evaluated as DATA_INSUFFICIENT.",
+      "wealthosStatus": "DATA_INSUFFICIENT",
+      "underlyingMetricValues": {
+        "metric": "Dividend Yield",
+        "current": null
+      }
+    },
+    {
+      "claimId": "CLAIM_TITAN_MGMT_COMMITMENT_220",
+      "module": "MANAGEMENT",
+      "dimension": "MANAGEMENT_COMMITMENT",
+      "claimStatement": "Management commitment in category 'Margins' targeting ebit_margin_pct to 12 for FY2026. Status: NOT_VERIFIABLE.",
+      "wealthosStatus": "NOT_VERIFIABLE",
+      "underlyingMetricValues": {
+        "statement": "Targeted double-digit jewellery EBIT margin around 11.5% to 12.5%.",
+        "targetMetric": "ebit_margin_pct",
+        "targetValue": 12,
+        "actualValue": null
+      }
+    }
+  ]
+}

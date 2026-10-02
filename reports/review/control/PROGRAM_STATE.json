@@ -1,0 +1,60 @@
+{
+  "activeProgram": "PROGRAM_01_FUNDAMENTAL_CALIBRATION",
+  "programs": {
+    "PROGRAM_01_FUNDAMENTAL_CALIBRATION": {
+      "name": "Fundamental Calibration Program",
+      "status": "PILOT_EVALUATED",
+      "activeRunId": "CAL_200",
+      "wavesPlanned": ["CAL_020", "CAL_050", "HOLDOUT_030", "CAL_100", "CAL_150", "CAL_200"],
+      "lastUpdated": "2026-10-01T15:15:00.000Z"
+    },
+    "PROGRAM_02_DATA_TRUTH_INTEGRITY": {
+      "name": "Data Truth & Canonical Store Integrity",
+      "status": "PLANNED",
+      "activeRunId": null,
+      "lastUpdated": "2026-10-01T08:45:00.000Z"
+    },
+    "PROGRAM_03_SECURITY_IDENTITY_UNIVERSE": {
+      "name": "Security Identity & Universe Governance",
+      "status": "PLANNED",
+      "activeRunId": null,
+      "lastUpdated": "2026-10-01T08:45:00.000Z"
+    },
+    "PROGRAM_04_VALUATION_GOVERNANCE": {
+      "name": "Forensic Valuation & Multiple Normalization",
+      "status": "PLANNED",
+      "activeRunId": null,
+      "lastUpdated": "2026-10-01T08:45:00.000Z"
+    },
+    "PROGRAM_05_TECHNICAL_STRATEGY": {
+      "name": "Technical Strategy Rules (S1-S10) Integrity",
+      "status": "PLANNED",
+      "activeRunId": null,
+      "lastUpdated": "2026-10-01T08:45:00.000Z"
+    },
+    "PROGRAM_06_PORTFOLIO_ACCOUNTING": {
+      "name": "Multi-Broker Portfolio Accounting & XIRR",
+      "status": "PLANNED",
+      "activeRunId": null,
+      "lastUpdated": "2026-10-01T08:45:00.000Z"
+    },
+    "PROGRAM_07_EVIDENCE_PROVENANCE_PIT": {
+      "name": "Evidence Provenance & PIT Freshness Gate",
+      "status": "PLANNED",
+      "activeRunId": null,
+      "lastUpdated": "2026-10-01T08:45:00.000Z"
+    },
+    "PROGRAM_08_UNIVERSAL_API_MCP": {
+      "name": "Universal API & MCP Review Plane Platform",
+      "status": "PLANNED",
+      "activeRunId": null,
+      "lastUpdated": "2026-10-01T08:45:00.000Z"
+    },
+    "PROGRAM_09_UI_BROWSER_JOURNEYS": {
+      "name": "End-to-End UI & Browser Journey Verification",
+      "status": "PLANNED",
+      "activeRunId": null,
+      "lastUpdated": "2026-10-01T08:45:00.000Z"
+    }
+  }
+}

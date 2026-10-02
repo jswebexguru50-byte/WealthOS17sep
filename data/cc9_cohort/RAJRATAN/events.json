@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_RAJRATAN_01",
+    "issuerNseSymbol": "RAJRATAN",
+    "issuerBseCode": "517562",
+    "eventDate": "2024-03-25",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "Chennai Greenfield Tyre Bead Wire Facility Commissioning",
+    "description": "Commenced trial production runs at new 60,000 TPA greenfield manufacturing unit near Chennai ports.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_RAJRATAN_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

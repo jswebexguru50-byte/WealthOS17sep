@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "JINDALSTEL",
+  "issuerBseCode": "523126",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_JINDALSTEL_AR2024",
+      "documentName": "JINDALSTEL_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "c33993a637c01626fb0207d66afcf6a418bece75938e4ddbba74fc2469cf2f95",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_JINDALSTEL_AUDITED_RESULTS",
+      "documentName": "JINDALSTEL_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "08d305992b27788700196f52f711b8b170ee3a69729171369824d5dd800d07b5",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_JINDALSTEL_CONCALL_Q4FY26",
+      "documentName": "JINDALSTEL_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "aa5e3923f553932d96c314df7d201f995688cb688a438918a55f88f19f6e968b",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_MUFIN_REV_FY26",
+    "issuerNseSymbol": "MUFIN",
+    "issuerBseCode": "511873",
+    "documentHash": "9e7aed0f0bcf3ffdfdc3b23fc2366bd9410d063ca34c42c113cc5a1beedfbbc6",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹1656 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_MUFIN_PAT_FY26",
+    "issuerNseSymbol": "MUFIN",
+    "issuerBseCode": "511873",
+    "documentHash": "9e7aed0f0bcf3ffdfdc3b23fc2366bd9410d063ca34c42c113cc5a1beedfbbc6",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹199 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_MUFIN_DEBT_FY26",
+    "issuerNseSymbol": "MUFIN",
+    "issuerBseCode": "511873",
+    "documentHash": "a63cb3624318426e6df3682d10081a8efc02b6b507fb2809e2189698629b6073",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_MUFIN_CONCALL_Q4FY26",
+    "issuerNseSymbol": "MUFIN",
+    "issuerBseCode": "511873",
+    "documentHash": "31e7a129ee5c5dbc80ffff2349df73bcffe2712369a1d58a2aeebc25a8ba23e4",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "symbol": "MAZDOCK",
+  "coreThesisStatement": "Premier naval shipyard possessing sole indigenous capacity for conventional submarine construction and guided missile stealth destroyers.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Submarine Moat",
+      "description": "Exclusive builder for Indian Navy Project 75 submarines."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Cash-Rich Balance Sheet",
+      "description": "Over ₹4,000 Cr in net cash providing immense financial resilience."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_MAZ_LEVERAGE"
+  ]
+}

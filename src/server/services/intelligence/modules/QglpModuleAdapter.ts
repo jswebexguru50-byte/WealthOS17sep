@@ -49,11 +49,13 @@ export class QglpModuleAdapter {
     ]);
 
     const fund = fundRes.status === 'fulfilled' ? fundRes.value.result : null;
-    const fere = fereRes.status === 'fulfilled' ? fereRes.value.result : null;
+    const fereModuleResult = fereRes.status === 'fulfilled' ? fereRes.value : null;
+    const fere = fereModuleResult?.result ?? null;
+    const fereEvidence = fereModuleResult?.evidenceRefs ?? [];
     const val = valRes.status === 'fulfilled' ? valRes.value.result : null;
 
     if (fundRes.status === 'fulfilled') evidenceRefs.push(...fundRes.value.evidenceRefs.slice(0, 1));
-    if (fereRes.status === 'fulfilled') evidenceRefs.push(...fereRes.value.evidenceRefs.slice(0, 1));
+    if (fereEvidence.length > 0) evidenceRefs.push(...fereEvidence.slice(0, 1));
     if (valRes.status === 'fulfilled') evidenceRefs.push(...valRes.value.evidenceRefs.slice(0, 1));
 
     const buildPillar = (
@@ -93,9 +95,21 @@ export class QglpModuleAdapter {
       },
       {
         name: 'Operating Working Capital Discipline',
-        status: fund?.businessModel === 'BANK' ? 'NOT_APPLICABLE' : fund?.trajectory?.marginTrajectory?.status === 'EXPANDING' ? 'SUPPORTED' : 'PARTIAL',
-        observation: fund?.businessModel === 'BANK' ? 'Not applicable for banking institutions' : 'Evaluated via historical margin trajectory',
-        evidence: evidenceRefs.slice(0, 1),
+        status: fund?.businessModel === 'BANK' || fund?.businessModel === 'NBFC'
+          ? 'NOT_APPLICABLE'
+          : fund?.businessModel === 'UNKNOWN'
+          ? 'DATA_INSUFFICIENT'
+          : fund?.trajectory?.marginTrajectory?.status === 'EXPANDING'
+          ? 'SUPPORTED'
+          : 'PARTIAL',
+        observation: fund?.businessModel === 'BANK' || fund?.businessModel === 'NBFC'
+          ? 'Not applicable for banking and lending institutions'
+          : fund?.businessModel === 'UNKNOWN'
+          ? 'Working capital discipline withheld pending verified business model classification'
+          : 'Evaluated via historical margin trajectory',
+        evidence: fund?.businessModel === 'UNKNOWN' || fund?.businessModel === 'BANK' || fund?.businessModel === 'NBFC'
+          ? []
+          : evidenceRefs.slice(0, 1),
       },
     ];
 
@@ -229,12 +243,47 @@ export class QglpModuleAdapter {
     // ─────────────────────────────────────────────────────────────────────────
     // PILLAR 4: LONGEVITY
     // ─────────────────────────────────────────────────────────────────────────
+    const isFinancialModel = fund?.businessModel === 'BANK' || fund?.businessModel === 'NBFC';
+    const isUnknownModel = fund?.businessModel === 'UNKNOWN';
+    const debtStatus = fund?.trajectory?.debtTrajectory?.status;
+
+    let longevityStatus: QglpEvidenceAssessment['status'] = 'DATA_INSUFFICIENT';
+    let longevityObservation = 'Debt and balance sheet leverage evidence not available in canonical series';
+    let longevityEvidence: EvidenceReference[] = [];
+
+    if (fund?.businessModel === 'BANK') {
+      longevityStatus = 'NOT_APPLICABLE';
+      longevityObservation = 'Capital adequacy assessed under banking prudential norms';
+    } else if (fund?.businessModel === 'NBFC') {
+      longevityStatus = 'NOT_APPLICABLE';
+      longevityObservation = 'Asset-liability maturity & borrowing structure assessed under NBFC prudential norms';
+    } else if (isUnknownModel) {
+      longevityStatus = 'DATA_INSUFFICIENT';
+      longevityObservation = 'Leverage interpretation withheld pending verified business model classification';
+    } else if (debtStatus === 'DELEVERAGING') {
+      longevityStatus = 'SUPPORTED';
+      longevityObservation = 'Historical balance sheet deleveraging supported by debt reduction';
+      longevityEvidence = evidenceRefs.slice(0, 1);
+    } else if (debtStatus === 'STABLE') {
+      longevityStatus = 'PARTIAL';
+      longevityObservation = 'Balance sheet leverage stable across reporting periods';
+      longevityEvidence = evidenceRefs.slice(0, 1);
+    } else if (debtStatus === 'LEVERAGING') {
+      longevityStatus = 'WARNING';
+      longevityObservation = 'Elevated balance sheet debt expansion observed';
+      longevityEvidence = evidenceRefs.slice(0, 1);
+    } else {
+      longevityStatus = 'DATA_INSUFFICIENT';
+      longevityObservation = 'Debt and balance sheet leverage evidence not available in canonical series';
+      longevityEvidence = [];
+    }
+
     const longevityItems: QglpEvidenceAssessment[] = [
       {
         name: 'Balance Sheet Solvency & Deleveraging',
-        status: fund?.businessModel === 'BANK' ? 'NOT_APPLICABLE' : 'PARTIAL',
-        observation: fund?.businessModel === 'BANK' ? 'Capital adequacy assessed under banking norms' : 'Historical balance sheet leverage supported',
-        evidence: evidenceRefs.slice(0, 1),
+        status: longevityStatus,
+        observation: longevityObservation,
+        evidence: longevityEvidence,
       },
       {
         name: 'Industry Terminal Value & TAM',
@@ -267,22 +316,119 @@ export class QglpModuleAdapter {
     // ─────────────────────────────────────────────────────────────────────────
     // PILLAR 6: RISK
     // ─────────────────────────────────────────────────────────────────────────
+    const hasFereFilingEvidence = (fere?.availableFilings?.length ?? 0) > 0 && fereEvidence.length > 0;
+    const isFereWorking = fereModuleResult?.status === 'WORKING';
+
+    let riskStatus: QglpEvidenceAssessment['status'] = 'DATA_INSUFFICIENT';
+    let riskObservation = 'Forensic risk evidence not available or insufficient for red flag clearance';
+    let riskEvidence: EvidenceReference[] = [];
+
+    if (fereWarnings.length > 0) {
+      riskStatus = 'WARNING';
+      riskObservation = fereWarnings.map(w => w.title).join('; ');
+      riskEvidence = fereEvidence.slice(0, 2);
+    } else if (isFereWorking && hasFereFilingEvidence) {
+      riskStatus = 'NO_RED_FLAG_DETECTED';
+      riskObservation = 'No forensic accounting red flags detected in indexed filings';
+      riskEvidence = fereEvidence.slice(0, 2);
+    } else {
+      riskStatus = 'DATA_INSUFFICIENT';
+      riskObservation = 'Forensic risk evidence not available or insufficient for red flag clearance';
+      riskEvidence = [];
+    }
+
     const riskItems: QglpEvidenceAssessment[] = [
       {
         name: 'Accounting & Auditor Red Flags',
-        status: fereWarnings.length > 0 ? 'WARNING' : fere ? 'NO_RED_FLAG_DETECTED' : 'DATA_INSUFFICIENT',
-        observation: fereWarnings.length > 0 ? `${fereWarnings.map(w => w.title).join('; ')}` : fere ? 'No forensic accounting red flags detected in indexed filings' : 'Forensic risk evidence not available',
-        evidence: evidenceRefs.slice(0, 1),
+        status: riskStatus,
+        observation: riskObservation,
+        evidence: riskEvidence,
       },
     ];
 
+    // Build 4 explicit dimensions
+    const qItems = [...businessItems, ...mgmtItems];
+    const qSupported = qItems.filter(i => i.status === 'SUPPORTED' || i.status === 'NO_RED_FLAG_DETECTED').length;
+    const qWarning = qItems.filter(i => i.status === 'WARNING').length;
+    const qMissing = qItems.filter(i => i.status === 'DATA_INSUFFICIENT').length;
+    const qStatus = qWarning > 0 ? 'WEAK' : qSupported >= 2 ? 'SUPPORTIVE' : qMissing > 2 ? 'MISSING' : 'MIXED';
+
+    const gSupported = growthItems.filter(i => i.status === 'SUPPORTED').length;
+    const gWarning = growthItems.filter(i => i.status === 'WARNING').length;
+    const gMissing = growthItems.filter(i => i.status === 'DATA_INSUFFICIENT').length;
+    const gStatus = gWarning > 0 ? 'WEAK' : gSupported >= 2 ? 'SUPPORTIVE' : gMissing >= 2 ? 'MISSING' : 'MIXED';
+
+    const lSupported = longevityItems.filter(i => i.status === 'SUPPORTED' || i.status === 'NO_RED_FLAG_DETECTED').length;
+    // Invariant: Longevity must be MISSING when durability inputs are absent; never default to MODERATE
+    const lStatus = lSupported >= 2 ? 'STRONG' : lSupported === 1 ? 'MODERATE' : 'MISSING';
+
+    // Invariant: A single latest P/E observation must NOT produce an interpretive conclusion (ATTRACTIVE/REASONABLE/DEMANDING)
+    // without dated valuation history or verified peer comparison context
+    const hasHistoricalValuation = (((val as any)?.pe as any)?.historicalSeries?.length ?? 0) >= 3;
+    const hasPeerValuation = (((val as any)?.peerComparison as any)?.peers?.length ?? 0) > 0;
+    let pStatus = 'MISSING';
+    const priceMissingInputs = priceItems.filter(i => i.status === 'DATA_INSUFFICIENT').map(i => i.name);
+
+    if (pe === null || pe === undefined) {
+      pStatus = 'MISSING';
+    } else if (!hasHistoricalValuation && !hasPeerValuation) {
+      pStatus = 'DATA_INSUFFICIENT';
+      priceMissingInputs.push('Dated historical valuation series (3Y/5Y)', 'Verified comparable-peer valuation context');
+    } else {
+      pStatus = pe < 15 ? 'ATTRACTIVE_IF_EARNINGS_HOLD' : pe <= 30 ? 'REASONABLE' : 'DEMANDING';
+    }
+
+    const dimensions = {
+      quality: {
+        dimension: 'QUALITY' as const,
+        status: qStatus as any,
+        summary: `Quality assessment derived from ${qSupported} supported pillars and ${qWarning} warnings.`,
+        evidenceList: qItems.map(i => ({ parameter: i.name, value: i.observation, status: i.status, source: 'QGLP Quality' })),
+        missingInputs: qItems.filter(i => i.status === 'DATA_INSUFFICIENT').map(i => i.name),
+      },
+      growth: {
+        dimension: 'GROWTH' as const,
+        status: gStatus as any,
+        summary: `Growth trajectory assessment derived from ${gSupported} supported metrics and ${gWarning} warnings.`,
+        evidenceList: growthItems.map(i => ({ parameter: i.name, value: i.observation, status: i.status, source: 'QGLP Growth' })),
+        missingInputs: growthItems.filter(i => i.status === 'DATA_INSUFFICIENT').map(i => i.name),
+      },
+      longevity: {
+        dimension: 'LONGEVITY' as const,
+        status: lStatus as any,
+        summary: lStatus === 'MISSING'
+          ? 'Durability, moat, and competitive positioning evidence absent in canonical filings.'
+          : `Longevity assessment reflecting franchise staying power and competitive positioning.`,
+        evidenceList: longevityItems.map(i => ({ parameter: i.name, value: i.observation, status: i.status, source: 'QGLP Longevity' })),
+        missingInputs: longevityItems.filter(i => i.status === 'DATA_INSUFFICIENT').map(i => i.name),
+      },
+      price: {
+        dimension: 'PRICE' as const,
+        status: pStatus as any,
+        summary: pe !== null && pe !== undefined
+          ? `Reported P/E of ${pe}x.${pStatus === 'DATA_INSUFFICIENT' ? ' Interpretive valuation conclusion withheld pending historical/peer valuation context.' : ''}`
+          : 'Valuation multiple unavailable.',
+        evidenceList: priceItems.map(i => ({ parameter: i.name, value: i.observation, status: i.status, source: 'QGLP Price' })),
+        missingInputs: priceMissingInputs,
+      },
+    };
+
+    const pBusiness = buildPillar('Quality of Business', businessItems);
+    const pMgmt = buildPillar('Quality of Management', mgmtItems);
+    const pGrowth = buildPillar('Growth', growthItems);
+    const pLongevity = buildPillar('Longevity', longevityItems);
+    const pPrice = buildPillar('Price', priceItems);
+    const pRisk = buildPillar('Risk', riskItems);
+
     const payload: QglpPayload = {
-      qualityOfBusiness: buildPillar('Quality of Business', businessItems),
-      qualityOfManagement: buildPillar('Quality of Management', mgmtItems),
-      growth: buildPillar('Growth', growthItems),
-      longevity: buildPillar('Longevity', longevityItems),
-      price: buildPillar('Price', priceItems),
-      risk: buildPillar('Risk', riskItems),
+      qualityOfBusiness: pBusiness,
+      qualityOfManagement: pMgmt,
+      growth: pGrowth,
+      longevity: pLongevity,
+      price: pPrice,
+      risk: pRisk,
+      pillars: [pBusiness, pMgmt, pGrowth, pLongevity, pPrice, pRisk],
+      dimensions,
       dataAsOf: evaluationTimestamp,
     };
 

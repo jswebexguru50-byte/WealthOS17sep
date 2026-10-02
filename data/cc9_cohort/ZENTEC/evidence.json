@@ -1,0 +1,26 @@
+[
+  {
+    "evidenceId": "EV_ZENTEC_REV_01",
+    "issuerNseSymbol": "ZENTEC",
+    "issuerBseCode": "533339",
+    "documentId": "DOC_ZENTEC_AR24",
+    "documentHash": "6789abcdef0123456789abcdef0123456789abcdef0123456",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 35,
+    "pagePrinted": "33",
+    "quotedText": "Consolidated revenue for FY24 reached ₹430 Cr with anti-drone system dispatches driving record profits.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_ZENTEC_ORDER_01",
+    "issuerNseSymbol": "ZENTEC",
+    "issuerBseCode": "533339",
+    "documentId": "DOC_ZENTEC_AR24",
+    "documentHash": "6789abcdef0123456789abcdef0123456789abcdef0123456",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 48,
+    "pagePrinted": "46",
+    "quotedText": "Total confirmed order book stood at ₹1402 Cr as of 31st March 2024 across domestic armed forces and export orders.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

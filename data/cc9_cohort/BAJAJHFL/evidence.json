@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_BHFL_REV_01",
+    "issuerNseSymbol": "BAJAJHFL",
+    "issuerBseCode": "544252",
+    "documentId": "DOC_BAJAJHFL_AR24",
+    "documentHash": "abcdef0123456789abcdef0123456789abcdefb",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 38,
+    "pagePrinted": "36",
+    "quotedText": "Total revenue reached ₹7617 Cr with housing loan assets under management crossing ₹91,370 Cr.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

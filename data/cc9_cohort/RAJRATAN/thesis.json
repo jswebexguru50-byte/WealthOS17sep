@@ -1,0 +1,19 @@
+{
+  "symbol": "RAJRATAN",
+  "coreThesisStatement": "Largest tyre bead wire producer in India with sole manufacturing facility in Thailand serving global tyre giants (Bridgestone, Michelin, Apollo).",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Market Share Dominance",
+      "description": "Over 50% domestic market share in bead wire."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Export Proximity",
+      "description": "Chennai greenfield facility cutting logistics costs for global exports."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_RAJRATAN_LEVERAGE"
+  ]
+}

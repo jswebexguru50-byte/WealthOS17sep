@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_POLYCAB_01",
+    "issuerNseSymbol": "POLYCAB",
+    "issuerBseCode": "542652",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Achieve Project Leap target to cross ₹16,500 Cr revenue in FY24.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 14108,
+    "expectedValue": 16500,
+    "expectedOutcome": "Revenue >= ₹16,500 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_POLYCAB_REV_01",
+    "claimDate": "2023-08-18",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 18039,
+    "actualOutcomeDescription": "Delivered ₹18,039 Cr revenue exceeding Project Leap milestone by 9.3%.",
+    "evaluationEvidenceId": "EV_POLYCAB_REV_01",
+    "evaluationDate": "2024-05-11",
+    "evaluationBasis": "Audited Financial Results BSE",
+    "publicationDate": "2023-08-18",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_POLYCAB_01"
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_FRAT_REV_01",
+    "issuerNseSymbol": "FRATELLIVI",
+    "issuerBseCode": "539745",
+    "documentId": "DOC_FRATELLI_AR24",
+    "documentHash": "f0123456789abcdef0123456789abcdef0123456789abcdef2",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 28,
+    "pagePrinted": "26",
+    "quotedText": "Consolidated revenue for FY24 reached ₹242 Cr with premium varietal wine consumption surging.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

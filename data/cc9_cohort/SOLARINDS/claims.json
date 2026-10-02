@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_SOLAR_01",
+    "issuerNseSymbol": "SOLARINDS",
+    "issuerBseCode": "500405",
+    "period": "FY24",
+    "category": "ORDER_BOOK",
+    "statement": "Scale defense order book to exceed ₹3,500 Cr by FY24 end.",
+    "targetMetric": "order_book_cr",
+    "baselineValue": 2800,
+    "expectedValue": 3500,
+    "expectedOutcome": "Order book >= ₹3,500 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_SOLAR_ORDER_01",
+    "claimDate": "2023-08-10",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 4150,
+    "actualOutcomeDescription": "Delivered ₹4,150 Cr order book exceeding guidance by 18.6%.",
+    "evaluationEvidenceId": "EV_SOLAR_ORDER_01",
+    "evaluationDate": "2024-05-24",
+    "evaluationBasis": "BSE Audited Financial Results Review",
+    "publicationDate": "2023-08-10",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_SOLAR_02"
+  }
+]

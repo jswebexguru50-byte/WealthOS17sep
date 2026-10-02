@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RemediationRequestContract",
+  "requestId": null,
+  "reviewRunId": null,
+  "status": "NONE",
+  "iteration": 0,
+  "findings": [],
+  "affectedClaims": [],
+  "affectedDimensions": [],
+  "affectedBusinessModels": [],
+  "evidence": [],
+  "rootCauseAssessment": [],
+  "generalBehaviorRequired": [],
+  "acceptanceCriteria": [],
+  "testsRequired": [],
+  "forbiddenShortcuts": []
+}

@@ -1,0 +1,147 @@
+{
+  "BANKBARODA": {
+    "symbol": "BANKBARODA",
+    "firstAvailableDate": "2025-10-01",
+    "lastAvailableDate": "2026-03-31",
+    "expectedTradingSessions": 129,
+    "actualTradingSessions": 129,
+    "missingOHLCVRecords": 0,
+    "missingDeliveryRecords": 0,
+    "missingTurnoverRecords": 0,
+    "missingPITAvailabilityRecords": 0,
+    "corporateActionCoverage": {
+      "recordedActions": 0,
+      "actions": [],
+      "discrepancies": []
+    },
+    "historicalUniverseCoverage": {
+      "eligible": true,
+      "universe": "NIFTY_100",
+      "effectiveFrom": "2025-08-15",
+      "effectiveTo": null,
+      "source": "NSE_SEMI_ANNUAL_INDEX_RECONSTITUTION_CIRCULAR"
+    },
+    "tradingCalendarCoverage": {
+      "aligned": true,
+      "missingCalendarDates": []
+    },
+    "coverageSatisfied": true,
+    "notes": []
+  },
+  "CANBK": {
+    "symbol": "CANBK",
+    "firstAvailableDate": "2025-10-01",
+    "lastAvailableDate": "2026-03-31",
+    "expectedTradingSessions": 129,
+    "actualTradingSessions": 129,
+    "missingOHLCVRecords": 0,
+    "missingDeliveryRecords": 0,
+    "missingTurnoverRecords": 0,
+    "missingPITAvailabilityRecords": 0,
+    "corporateActionCoverage": {
+      "recordedActions": 0,
+      "actions": [],
+      "discrepancies": []
+    },
+    "historicalUniverseCoverage": {
+      "eligible": true,
+      "universe": "NIFTY_100",
+      "effectiveFrom": "2025-08-15",
+      "effectiveTo": null,
+      "source": "NSE_SEMI_ANNUAL_INDEX_RECONSTITUTION_CIRCULAR"
+    },
+    "tradingCalendarCoverage": {
+      "aligned": true,
+      "missingCalendarDates": []
+    },
+    "coverageSatisfied": true,
+    "notes": []
+  },
+  "BAJAJFINSV": {
+    "symbol": "BAJAJFINSV",
+    "firstAvailableDate": "2025-10-01",
+    "lastAvailableDate": "2026-03-31",
+    "expectedTradingSessions": 129,
+    "actualTradingSessions": 129,
+    "missingOHLCVRecords": 0,
+    "missingDeliveryRecords": 0,
+    "missingTurnoverRecords": 0,
+    "missingPITAvailabilityRecords": 0,
+    "corporateActionCoverage": {
+      "recordedActions": 0,
+      "actions": [],
+      "discrepancies": []
+    },
+    "historicalUniverseCoverage": {
+      "eligible": true,
+      "universe": "NIFTY_50",
+      "effectiveFrom": "2025-08-15",
+      "effectiveTo": null,
+      "source": "NSE_SEMI_ANNUAL_INDEX_RECONSTITUTION_CIRCULAR"
+    },
+    "tradingCalendarCoverage": {
+      "aligned": true,
+      "missingCalendarDates": []
+    },
+    "coverageSatisfied": true,
+    "notes": []
+  },
+  "BAJFINANCE": {
+    "symbol": "BAJFINANCE",
+    "firstAvailableDate": "2025-10-01",
+    "lastAvailableDate": "2026-03-31",
+    "expectedTradingSessions": 129,
+    "actualTradingSessions": 129,
+    "missingOHLCVRecords": 0,
+    "missingDeliveryRecords": 0,
+    "missingTurnoverRecords": 0,
+    "missingPITAvailabilityRecords": 0,
+    "corporateActionCoverage": {
+      "recordedActions": 0,
+      "actions": [],
+      "discrepancies": []
+    },
+    "historicalUniverseCoverage": {
+      "eligible": true,
+      "universe": "NIFTY_50",
+      "effectiveFrom": "2025-08-15",
+      "effectiveTo": null,
+      "source": "NSE_SEMI_ANNUAL_INDEX_RECONSTITUTION_CIRCULAR"
+    },
+    "tradingCalendarCoverage": {
+      "aligned": true,
+      "missingCalendarDates": []
+    },
+    "coverageSatisfied": true,
+    "notes": []
+  },
+  "5PAISA": {
+    "symbol": "5PAISA",
+    "firstAvailableDate": "2025-10-01",
+    "lastAvailableDate": "2026-03-31",
+    "expectedTradingSessions": 129,
+    "actualTradingSessions": 129,
+    "missingOHLCVRecords": 0,
+    "missingDeliveryRecords": 0,
+    "missingTurnoverRecords": 0,
+    "missingPITAvailabilityRecords": 0,
+    "corporateActionCoverage": {
+      "recordedActions": 0,
+      "actions": [],
+      "discrepancies": []
+    },
+    "historicalUniverseCoverage": {
+      "eligible": true,
+      "universe": "NIFTY_MICROCAP_250",
+      "effectiveFrom": "2025-08-15",
+      "effectiveTo": null,
+      "source": "NSE_SEMI_ANNUAL_INDEX_RECONSTITUTION_CIRCULAR"
+    },
+    "tradingCalendarCoverage": {
+      "aligned": true,
+      "missingCalendarDates": []
+    },
+    "coverageSatisfied": true,
+    "notes": []
+  }
+}

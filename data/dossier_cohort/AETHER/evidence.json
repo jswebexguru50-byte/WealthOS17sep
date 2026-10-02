@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_AETHER_REV_FY26",
+    "issuerNseSymbol": "AETHER",
+    "issuerBseCode": "513671",
+    "documentHash": "e58cf429093a665d70c700245602b168e7dd39d127f622cdb060d702df8990b4",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹19789 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_AETHER_PAT_FY26",
+    "issuerNseSymbol": "AETHER",
+    "issuerBseCode": "513671",
+    "documentHash": "e58cf429093a665d70c700245602b168e7dd39d127f622cdb060d702df8990b4",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹2375 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_AETHER_DEBT_FY26",
+    "issuerNseSymbol": "AETHER",
+    "issuerBseCode": "513671",
+    "documentHash": "e4fff6e2c5719258c797efdd12fe59c5b7448b4f9fcbb9991ded52929dd3983b",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_AETHER_CONCALL_Q4FY26",
+    "issuerNseSymbol": "AETHER",
+    "issuerBseCode": "513671",
+    "documentHash": "671ad49f5441849d4714dc71a6bd50d557a2f890ed85c39a63b6c00a20a72d30",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

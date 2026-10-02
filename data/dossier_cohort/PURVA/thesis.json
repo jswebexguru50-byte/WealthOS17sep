@@ -1,0 +1,25 @@
+{
+  "symbol": "PURVA",
+  "coreThesisStatement": "Multi-year housing upcycle in Bengaluru and South India, record pre-sales collections, and debt deleveraging.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1_MOMENTUM",
+      "title": "ITAS Quant Confluence",
+      "description": "Confirmed by 3/20 strategies with 83.5% win probability."
+    },
+    {
+      "pillarId": "P2_FINANCIAL_SHIELD",
+      "title": "Balance Sheet Solvency",
+      "description": "Altman Z-Score 2.95 (Grey Zone), Net D/E 0.35x, and Piotroski F-Score 6/9."
+    },
+    {
+      "pillarId": "P3_CREDIBILITY",
+      "title": "Management Walk-the-Talk",
+      "description": "Audited Credibility Grade 'GENERALLY_CREDIBLE' across 3-year concall guidance delivery."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_PURVA_LEVERAGE",
+    "TB_PURVA_STRUCTURAL_STOP"
+  ]
+}

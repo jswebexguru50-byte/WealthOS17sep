@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_MM_01",
+    "issuerNseSymbol": "M&M",
+    "issuerBseCode": "500520",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Scale automotive and farm equipment consolidated revenue past ₹130,000 Cr in FY24.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 121269,
+    "expectedValue": 130000,
+    "expectedOutcome": "Revenue >= ₹130,000 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_MM_REV_01",
+    "claimDate": "2023-08-10",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 139078,
+    "actualOutcomeDescription": "Delivered ₹139,078 Cr revenue beating guidance by 7.0%.",
+    "evaluationEvidenceId": "EV_MM_REV_01",
+    "evaluationDate": "2024-05-16",
+    "evaluationBasis": "BSE Audited Financial Results Release",
+    "publicationDate": "2023-08-10",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_MM_01"
+  }
+]

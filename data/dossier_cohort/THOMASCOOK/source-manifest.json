@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "THOMASCOOK",
+  "issuerBseCode": "523560",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_THOMASCOOK_AR2024",
+      "documentName": "THOMASCOOK_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "c6d7553e3548ab139d90a3cf685a36e72e0236d4ab3eaaae12c29d82907f2a51",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_THOMASCOOK_AUDITED_RESULTS",
+      "documentName": "THOMASCOOK_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "e039247c59437c4532f7f27945cc8b4a32cffaefafbec94ad84aa5071a9fd21d",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_THOMASCOOK_CONCALL_Q4FY26",
+      "documentName": "THOMASCOOK_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "4afefc4083a6db9cacc862378af172770a00fc052c92b0a7cb1366524342251e",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

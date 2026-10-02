@@ -12,6 +12,16 @@ import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/
 
 type Row = Record<string, unknown>;
 type SnapshotStatus = 'SUCCESS' | 'SOURCE_UNAVAILABLE' | 'DATA_INSUFFICIENT';
+type TrendlyneFieldMapping = {
+  token: string;
+  providerLabel: string;
+  canonicalMetric: string;
+  periodType: 'QUARTERLY' | 'ANNUAL' | 'LATEST';
+  relativeOffset: number | null;
+  unit: 'INR_CR' | 'PERCENTAGE' | 'RATIO' | 'PRICE' | 'COUNT';
+  promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' | 'ANNUAL_FY_ANCHOR_REQUIRED' | 'CURRENT_SNAPSHOT_ONLY';
+  notes?: string;
+};
 const root = path.resolve(process.cwd());
 const dataDir = path.join(root, 'data', 'fundamental_enrichment');
 const manifestArgumentIndex = process.argv.indexOf('--manifest');
@@ -23,6 +33,8 @@ const progressPath = progressArgumentIndex >= 0
   ? path.resolve(root, process.argv[progressArgumentIndex + 1])
   : path.join(dataDir, process.argv.includes('--quarterly-profit-history')
   ? 'trendlyne_quarterly_history_progress.json'
+  : process.argv.includes('--statement-history-pack')
+  ? 'trendlyne_statement_history_progress.json'
   : 'trendlyne_mcp_progress.json');
 const toolSchemaPath = path.join(dataDir, 'trendlyne_mcp_tool_schema.json');
 const dbPath = (process.env.DATABASE_URL || path.join(root, 'portfolio.db')).replace(/^sqlite:\/\//, '');
@@ -30,6 +42,13 @@ const force = process.argv.includes('--force');
 const discoverOnly = process.argv.includes('--discover-tools');
 const discoverParameters = process.argv.includes('--discover-parameters');
 const quarterlyHistoryOnly = process.argv.includes('--quarterly-profit-history');
+const statementHistoryPack = process.argv.includes('--statement-history-pack');
+const parametersOnly = process.argv.includes('--parameters-only');
+// A parameter request consumes a provider call even when its final batch has
+// only a few symbols.  Normal scheduled runs therefore retain a tail until it
+// can be compacted with later due symbols.  An operator may opt in for an
+// explicit one-off completion request.
+const allowPartialBatch = process.argv.includes('--allow-partial-batch');
 const parameterQueryIndexes = process.argv.reduce<number[]>((indexes, argument, index) => argument === '--parameter-query' ? [...indexes, index] : indexes, []);
 const customParameterQueries = parameterQueryIndexes.map(index => process.argv[index + 1]).filter((value): value is string => Boolean(value));
 const maxSymbolsIndex = process.argv.indexOf('--max-symbols');
@@ -37,6 +56,7 @@ const maxSymbols = maxSymbolsIndex >= 0 ? Math.max(0, Number(process.argv[maxSym
 const delayIndex = process.argv.indexOf('--delay-ms');
 const delayMs = delayIndex >= 0 ? Math.max(500, Number(process.argv[delayIndex + 1])) : 1000;
 const parameterCatalogPath = path.join(dataDir, 'trendlyne_parameter_catalog.json');
+const acquisitionContractPath = path.join(dataDir, 'trendlyne_statement_history_acquisition_contract.json');
 
 // Exact tokens verified against the live provider. Add tokens only after a
 // successful search_financial_parameters lookup; never guess provider keys.
@@ -58,11 +78,72 @@ const verifiedParameterCodes = [
   'dividendpayout', 'dividendpayoutnpa', 'dividendpersharea',
   // Expert additions: Forensic & Valuation adjustments
   'contingentliabilitiesa', 'currentdebtcapleaseobligationa', 'inventoriesq', 
-  'finishedgoodsq', 'tradereceivablesa', 'insiderpinvokedyesterday', 
+  'finishedgoodsq', 'tradereceivablesa', 'sra', 
   'insidersellmonthplustoday', 'delivery6mavg', 'capitalexpenditurea', 
   'extraordinaryitemqmq6', 'pitroskif', 'ebita', 'wcq'
 ];
 const quarterlyProfitHistoryCodes = ['npq', 'npqmq1', 'npqmq2', 'npqmq3', 'npqmy1', 'npqmq5', 'npqmq6', 'npqmq7'];
+// Full 50-token deterministic statement/quality pack for high-completeness
+// fundamental analysis. This is the source of truth for both fetch and parse.
+// Relative quarter/year labels must be anchored before being promoted as dated
+// facts. Do not add/rename tokens without a successful provider discovery.
+const statementHistoryFieldMappings: TrendlyneFieldMapping[] = [
+  { token: 'srq', providerLabel: 'Operating Rev. Qtr', canonicalMetric: 'revenue', periodType: 'QUARTERLY', relativeOffset: 0, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+  { token: 'srqmq1', providerLabel: 'Operating Rev.1Q Ago', canonicalMetric: 'revenue', periodType: 'QUARTERLY', relativeOffset: 1, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+  { token: 'srqmq2', providerLabel: 'Operating Rev. 2Q ago', canonicalMetric: 'revenue', periodType: 'QUARTERLY', relativeOffset: 2, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+  { token: 'srqmq3', providerLabel: 'Operating Rev. 3Q ago', canonicalMetric: 'revenue', periodType: 'QUARTERLY', relativeOffset: 3, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+  { token: 'srqmy1', providerLabel: 'Operating Rev. 4Q ago', canonicalMetric: 'revenue', periodType: 'QUARTERLY', relativeOffset: 4, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+  { token: 'srqmq5', providerLabel: 'Operating Rev. 5Q ago', canonicalMetric: 'revenue', periodType: 'QUARTERLY', relativeOffset: 5, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+  { token: 'srqmq6', providerLabel: 'Operating Rev. 6Q ago', canonicalMetric: 'revenue', periodType: 'QUARTERLY', relativeOffset: 6, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+  { token: 'srqmq7', providerLabel: 'Operating Rev. 7Q ago', canonicalMetric: 'revenue', periodType: 'QUARTERLY', relativeOffset: 7, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+
+  { token: 'opq', providerLabel: 'Operating Profit Qtr', canonicalMetric: 'operating_profit', periodType: 'QUARTERLY', relativeOffset: 0, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+  { token: 'opqmq1', providerLabel: 'Operating Profit 1Q Ago', canonicalMetric: 'operating_profit', periodType: 'QUARTERLY', relativeOffset: 1, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+  { token: 'opqmq2', providerLabel: 'Operating Profit 2Q Ago', canonicalMetric: 'operating_profit', periodType: 'QUARTERLY', relativeOffset: 2, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+  { token: 'opqmq3', providerLabel: 'Operating Profit 3Q Ago', canonicalMetric: 'operating_profit', periodType: 'QUARTERLY', relativeOffset: 3, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+  { token: 'opqmy1', providerLabel: 'Operating Profit 4Q Ago', canonicalMetric: 'operating_profit', periodType: 'QUARTERLY', relativeOffset: 4, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+  { token: 'opqmq5', providerLabel: 'Operating Profit 5Qtr Ago', canonicalMetric: 'operating_profit', periodType: 'QUARTERLY', relativeOffset: 5, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+  { token: 'opqmq6', providerLabel: 'Operating Profit 6Qtr Ago', canonicalMetric: 'operating_profit', periodType: 'QUARTERLY', relativeOffset: 6, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+  { token: 'opqmq7', providerLabel: 'Operating Profit 7Qtr Ago', canonicalMetric: 'operating_profit', periodType: 'QUARTERLY', relativeOffset: 7, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+
+  { token: 'npq', providerLabel: 'Net Profit Qtr', canonicalMetric: 'pat', periodType: 'QUARTERLY', relativeOffset: 0, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+  { token: 'npqmq1', providerLabel: 'Net Profit 1Q Ago', canonicalMetric: 'pat', periodType: 'QUARTERLY', relativeOffset: 1, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+  { token: 'npqmq2', providerLabel: 'Net Profit 2Q Ago', canonicalMetric: 'pat', periodType: 'QUARTERLY', relativeOffset: 2, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+  { token: 'npqmq3', providerLabel: 'Net Profit 3Q Ago', canonicalMetric: 'pat', periodType: 'QUARTERLY', relativeOffset: 3, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+  { token: 'npqmy1', providerLabel: 'Net Profit 4Q Ago', canonicalMetric: 'pat', periodType: 'QUARTERLY', relativeOffset: 4, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+  { token: 'npqmq5', providerLabel: 'Net Profit 5Q Ago', canonicalMetric: 'pat', periodType: 'QUARTERLY', relativeOffset: 5, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+  { token: 'npqmq6', providerLabel: 'Net Profit 6Q Ago', canonicalMetric: 'pat', periodType: 'QUARTERLY', relativeOffset: 6, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+  { token: 'npqmq7', providerLabel: 'Net Profit 7Q Ago', canonicalMetric: 'pat', periodType: 'QUARTERLY', relativeOffset: 7, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+
+  { token: 'sra', providerLabel: 'Total Rev. Ann.', canonicalMetric: 'revenue', periodType: 'ANNUAL', relativeOffset: 0, unit: 'INR_CR', promotionPolicy: 'ANNUAL_FY_ANCHOR_REQUIRED' },
+  { token: 'sramy1', providerLabel: 'Total Rev. Ann. 1Y Ago', canonicalMetric: 'revenue', periodType: 'ANNUAL', relativeOffset: 1, unit: 'INR_CR', promotionPolicy: 'ANNUAL_FY_ANCHOR_REQUIRED' },
+  { token: 'sramy2', providerLabel: 'Rev. Ann. 2Y ago', canonicalMetric: 'revenue', periodType: 'ANNUAL', relativeOffset: 2, unit: 'INR_CR', promotionPolicy: 'ANNUAL_FY_ANCHOR_REQUIRED' },
+  { token: 'sramy3', providerLabel: 'Rev. Ann. 3Y ago', canonicalMetric: 'revenue', periodType: 'ANNUAL', relativeOffset: 3, unit: 'INR_CR', promotionPolicy: 'ANNUAL_FY_ANCHOR_REQUIRED' },
+  { token: 'opa', providerLabel: 'Operating Profit Ann.', canonicalMetric: 'operating_profit', periodType: 'ANNUAL', relativeOffset: 0, unit: 'INR_CR', promotionPolicy: 'ANNUAL_FY_ANCHOR_REQUIRED' },
+  { token: 'opamy1', providerLabel: 'Operating Profit Ann. 1Y Ago', canonicalMetric: 'operating_profit', periodType: 'ANNUAL', relativeOffset: 1, unit: 'INR_CR', promotionPolicy: 'ANNUAL_FY_ANCHOR_REQUIRED' },
+  { token: 'opamy2', providerLabel: 'Operating Profit Ann. 2Y ago', canonicalMetric: 'operating_profit', periodType: 'ANNUAL', relativeOffset: 2, unit: 'INR_CR', promotionPolicy: 'ANNUAL_FY_ANCHOR_REQUIRED' },
+  { token: 'npamy1', providerLabel: 'Net Profit Ann. 1Y Ago', canonicalMetric: 'pat', periodType: 'ANNUAL', relativeOffset: 1, unit: 'INR_CR', promotionPolicy: 'ANNUAL_FY_ANCHOR_REQUIRED' },
+  { token: 'npamy2', providerLabel: 'Net Profit Ann. 2Y ago', canonicalMetric: 'pat', periodType: 'ANNUAL', relativeOffset: 2, unit: 'INR_CR', promotionPolicy: 'ANNUAL_FY_ANCHOR_REQUIRED' },
+  { token: 'cfoa', providerLabel: 'Cash from Operating Act. Ann.', canonicalMetric: 'cfo', periodType: 'ANNUAL', relativeOffset: 0, unit: 'INR_CR', promotionPolicy: 'ANNUAL_FY_ANCHOR_REQUIRED' },
+  { token: 'cfoamy1', providerLabel: 'Cash from Operating Act. Ann. 1Y Ago', canonicalMetric: 'cfo', periodType: 'ANNUAL', relativeOffset: 1, unit: 'INR_CR', promotionPolicy: 'ANNUAL_FY_ANCHOR_REQUIRED' },
+  { token: 'cfoamy2', providerLabel: 'Cash from Operating Act. Ann. 2Y Ago', canonicalMetric: 'cfo', periodType: 'ANNUAL', relativeOffset: 2, unit: 'INR_CR', promotionPolicy: 'ANNUAL_FY_ANCHOR_REQUIRED' },
+  { token: 'cfia', providerLabel: 'Cash from Investing Act. Ann.', canonicalMetric: 'cash_from_investing', periodType: 'ANNUAL', relativeOffset: 0, unit: 'INR_CR', promotionPolicy: 'ANNUAL_FY_ANCHOR_REQUIRED' },
+  { token: 'cfiamy1', providerLabel: 'Cash from Investing Act. Ann. 1Y Ago', canonicalMetric: 'cash_from_investing', periodType: 'ANNUAL', relativeOffset: 1, unit: 'INR_CR', promotionPolicy: 'ANNUAL_FY_ANCHOR_REQUIRED' },
+  { token: 'capitalexpenditurea', providerLabel: 'Capex Ann.', canonicalMetric: 'capex_cash_outflow', periodType: 'ANNUAL', relativeOffset: 0, unit: 'INR_CR', promotionPolicy: 'ANNUAL_FY_ANCHOR_REQUIRED' },
+  { token: 'capitalexpenditureq', providerLabel: 'Capex Qtr', canonicalMetric: 'capex_cash_outflow', periodType: 'QUARTERLY', relativeOffset: 0, unit: 'INR_CR', promotionPolicy: 'EXPLICIT_QUARTER_ANCHOR_REQUIRED' },
+  { token: 'capitalworkinprogressa', providerLabel: 'Capital Work In Progress Ann.', canonicalMetric: 'capital_work_in_progress', periodType: 'ANNUAL', relativeOffset: 0, unit: 'INR_CR', promotionPolicy: 'ANNUAL_FY_ANCHOR_REQUIRED' },
+  { token: 'borrowingsa', providerLabel: 'Borrowings Ann.', canonicalMetric: 'borrowings', periodType: 'ANNUAL', relativeOffset: 0, unit: 'INR_CR', promotionPolicy: 'ANNUAL_FY_ANCHOR_REQUIRED' },
+  { token: 'inta', providerLabel: 'Interest Ann.', canonicalMetric: 'interest_expense', periodType: 'ANNUAL', relativeOffset: 0, unit: 'INR_CR', promotionPolicy: 'ANNUAL_FY_ANCHOR_REQUIRED' },
+
+  { token: 'mcapq', providerLabel: 'Market Cap', canonicalMetric: 'market_cap', periodType: 'LATEST', relativeOffset: null, unit: 'INR_CR', promotionPolicy: 'CURRENT_SNAPSHOT_ONLY' },
+  { token: 'pettm', providerLabel: 'PE TTM', canonicalMetric: 'pe_ratio', periodType: 'LATEST', relativeOffset: null, unit: 'RATIO', promotionPolicy: 'CURRENT_SNAPSHOT_ONLY' },
+  { token: 'bvshq', providerLabel: 'BVSH Latest', canonicalMetric: 'book_value', periodType: 'LATEST', relativeOffset: null, unit: 'PRICE', promotionPolicy: 'CURRENT_SNAPSHOT_ONLY' },
+  { token: 'debtcea', providerLabel: 'Total Debt to Total Equity Ann.', canonicalMetric: 'debt_to_equity_reported', periodType: 'ANNUAL', relativeOffset: 0, unit: 'RATIO', promotionPolicy: 'ANNUAL_FY_ANCHOR_REQUIRED' },
+  { token: 'roea', providerLabel: 'ROE Ann. %', canonicalMetric: 'roe', periodType: 'ANNUAL', relativeOffset: 0, unit: 'PERCENTAGE', promotionPolicy: 'ANNUAL_FY_ANCHOR_REQUIRED' },
+  { token: 'rocea', providerLabel: 'ROCE Ann. %', canonicalMetric: 'roce_reported', periodType: 'ANNUAL', relativeOffset: 0, unit: 'PERCENTAGE', promotionPolicy: 'ANNUAL_FY_ANCHOR_REQUIRED' },
+  { token: 'roica', providerLabel: 'ROIC Ann. %', canonicalMetric: 'roic', periodType: 'ANNUAL', relativeOffset: 0, unit: 'PERCENTAGE', promotionPolicy: 'ANNUAL_FY_ANCHOR_REQUIRED' },
+];
+const statementHistoryParameterCodes = statementHistoryFieldMappings.map(field => field.token);
 const parameterDiscoveryQueries = [
   'promoter holding percentage', 'promoter pledged shares percentage',
   'FII holding percentage', 'DII holding percentage', 'FII holding quarterly change', 'DII holding quarterly change',
@@ -103,10 +184,47 @@ function writeJson(file: string, value: unknown) {
   // workspace. A PID-specific temporary path prevents one job from moving
   // another job's progress file on Windows/OneDrive.
   const temporary = `${file}.${process.pid}.tmp`;
-  fs.writeFileSync(temporary, JSON.stringify(value, null, 2));
-  fs.renameSync(temporary, file);
+  const payload = JSON.stringify(value, null, 2);
+  fs.writeFileSync(temporary, payload);
+  try {
+    fs.renameSync(temporary, file);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'EPERM') throw error;
+    // OneDrive/Windows can transiently lock JSON progress files.  Progress
+    // files are observability artifacts, so fall back to a direct overwrite
+    // instead of aborting the provider batch after evidence has been saved.
+    fs.writeFileSync(file, payload);
+    try { fs.unlinkSync(temporary); } catch { /* best-effort cleanup */ }
+  }
 }
 function writeProgress(value: unknown) { writeJson(progressPath, value); }
+
+function writeStatementHistoryAcquisitionContract() {
+  writeJson(acquisitionContractPath, {
+    provider: 'TRENDLYNE_MCP',
+    endpoint: 'statement_history_parameters',
+    generatedAt: now(),
+    maxSymbolsPerCall: 10,
+    maxMetricsPerCall: 50,
+    requestedMetricCount: statementHistoryParameterCodes.length,
+    parameterCodes: statementHistoryParameterCodes,
+    fieldMappings: statementHistoryFieldMappings,
+    promotionRules: {
+      EXPLICIT_QUARTER_ANCHOR_REQUIRED: [
+        'Provider relative quarter labels such as 1Q Ago / 2Q Ago are not promoted as dated company_facts unless the same symbol has explicit Trendlyne quarter-end labels from a verified shareholding/period anchor.',
+        'Values remain raw provider snapshots when no explicit anchor exists.',
+      ],
+      ANNUAL_FY_ANCHOR_REQUIRED: [
+        'Provider relative annual labels are anchored only from a same-symbol explicit latest quarter-end label.',
+        'Derived annual period ends use Indian March fiscal year-end and remain VERIFIED_PARTIAL until official filing evidence independently confirms the exact period.',
+      ],
+      CURRENT_SNAPSHOT_ONLY: [
+        'Latest point-in-time provider values are retained as current snapshots and are not treated as historical dated facts.',
+      ],
+    },
+    nonSyntheticPolicy: 'No missing value is defaulted or inferred. Unavailable provider values remain unavailable.',
+  });
+}
 
 async function requireEvidenceTables(db: sqlite3.Database) {
   const rows = await all(db, "SELECT name FROM sqlite_master WHERE type='table' AND name IN ('fundamental_endpoint_snapshots','fundamental_source_snapshots')");
@@ -152,11 +270,42 @@ function documentArgs(tool: any, symbol: string): Record<string, unknown> | null
   return 'query' in props(tool) ? { query: `${symbol} annual report financial statements management commentary` } : null;
 }
 function decode(result: any) { return { isError: Boolean(result?.isError), content: result?.content ?? [], structuredContent: result?.structuredContent ?? null }; }
+function providerPayload(payload: any): any | null {
+  const text = payload?.content?.find?.((item: any) => item?.type === 'text' && typeof item.text === 'string')?.text;
+  if (!text) return null;
+  try { return JSON.parse(text); } catch { return null; }
+}
+function providerErrorMessage(payload: any): string | null {
+  if (payload?.isError) return 'MCP_TOOL_RETURNED_ERROR';
+  const parsed = providerPayload(payload);
+  if (parsed?.status === 'error') return typeof parsed.message === 'string' ? parsed.message : 'PROVIDER_STATUS_ERROR';
+  return null;
+}
 function chunks<T>(items: T[], size: number): T[][] { return Array.from({ length: Math.ceil(items.length / size) }, (_, index) => items.slice(index * size, (index + 1) * size)); }
 
 async function main() {
   if (process.argv.includes('--help')) {
-    console.log('Usage: npm run fundamental:trendlyne -- [--manifest path] [--progress-path path] [--discover-tools] [--discover-parameters] [--quarterly-profit-history] [--max-symbols N] [--delay-ms N] [--force]');
+    console.log('Usage: npm run fundamental:trendlyne -- [--manifest path] [--progress-path path] [--discover-tools] [--discover-parameters] [--quarterly-profit-history] [--statement-history-pack] [--parameters-only] [--allow-partial-batch] [--max-symbols N] [--delay-ms N] [--force]');
+    return;
+  }
+  if (statementHistoryPack && maxSymbolsIndex >= 0 && maxSymbols === 0) {
+    if (statementHistoryParameterCodes.length !== 50) {
+      throw new Error(`PACK_CONFIGURATION_ERROR: expected exactly 50 Trendlyne parameter tokens, received ${statementHistoryParameterCodes.length}.`);
+    }
+    if (new Set(statementHistoryParameterCodes).size !== statementHistoryParameterCodes.length) {
+      throw new Error('PACK_CONFIGURATION_ERROR: Trendlyne statement-history pack contains duplicate tokens.');
+    }
+    writeStatementHistoryAcquisitionContract();
+    writeProgress({
+      status: 'CONTRACT_WRITTEN',
+      provider: 'TRENDLYNE_MCP',
+      endpoint: 'statement_history_parameters',
+      requestedParameterCodes: statementHistoryParameterCodes,
+      acquisitionContractPath: path.relative(root, acquisitionContractPath),
+      llmCalls: 0,
+      updatedAt: now(),
+    });
+    console.log(`Wrote Trendlyne statement-history acquisition contract: ${acquisitionContractPath}`);
     return;
   }
   const url = endpointUrl();
@@ -195,30 +344,64 @@ async function main() {
     let symbols = [...new Set((manifest.symbols || []).map((item: unknown) => String(item).trim().toUpperCase()))].filter((symbol: string) => /^[A-Z0-9&.-]+$/.test(symbol));
     if (maxSymbols > 0) symbols = symbols.slice(0, maxSymbols);
     const db = new sqlite3.Database(dbPath);
-    const parameterEndpoint = quarterlyHistoryOnly ? 'quarterly_profit_history' : 'parameters';
-    const requestedParameterCodes = quarterlyHistoryOnly ? quarterlyProfitHistoryCodes : verifiedParameterCodes;
-    const progress: Record<string, unknown> = { status: 'RUNNING', provider: 'TRENDLYNE_MCP', universe: path.basename(manifestPath), manifest: path.relative(root, manifestPath), requested: symbols.length, completed: 0, skippedFresh: 0, failed: 0, pending: symbols.length, phase: quarterlyHistoryOnly ? 'QUARTERLY_PROFIT_HISTORY' : 'RAW_PROVIDER_PROFILES', profileRefreshDays: Object.fromEntries(profiles.map(p => [p.endpoint, p.ttlDays])), requestedParameterCodes, llmCalls: 0, updatedAt: now() };
+    const parameterEndpoint = quarterlyHistoryOnly
+      ? 'quarterly_profit_history'
+      : statementHistoryPack
+      ? 'statement_history_parameters'
+      : 'parameters';
+    const requestedParameterCodes = quarterlyHistoryOnly
+      ? quarterlyProfitHistoryCodes
+      : statementHistoryPack
+      ? statementHistoryParameterCodes
+      : verifiedParameterCodes;
+    if (!quarterlyHistoryOnly && requestedParameterCodes.length !== 50) {
+      throw new Error(`PACK_CONFIGURATION_ERROR: expected exactly 50 Trendlyne parameter tokens, received ${requestedParameterCodes.length}.`);
+    }
+    if (new Set(requestedParameterCodes).size !== requestedParameterCodes.length) {
+      throw new Error('PACK_CONFIGURATION_ERROR: Trendlyne parameter pack contains duplicate tokens.');
+    }
+    if (statementHistoryPack) {
+      writeStatementHistoryAcquisitionContract();
+    }
+    const progress: Record<string, unknown> = { status: 'RUNNING', provider: 'TRENDLYNE_MCP', universe: path.basename(manifestPath), manifest: path.relative(root, manifestPath), requested: symbols.length, completed: 0, skippedFresh: 0, deferredParameterTail: 0, failed: 0, pending: symbols.length, phase: quarterlyHistoryOnly ? 'QUARTERLY_PROFIT_HISTORY' : statementHistoryPack ? 'STATEMENT_HISTORY_PARAMETERS' : parametersOnly ? 'RAW_PROVIDER_PARAMETERS_ONLY' : 'RAW_PROVIDER_PROFILES', profileRefreshDays: Object.fromEntries(profiles.map(p => [p.endpoint, p.ttlDays])), requestedParameterCodes, allowPartialBatch, llmCalls: 0, updatedAt: now() };
     try {
+      progress.stage = 'VALIDATING_DB_TABLES';
+      writeProgress(progress);
       await requireEvidenceTables(db);
       const singleTool = tools.get('get_stock_parameter_values');
       const parameterTool = singleTool;
       // The provider's exact-parameter tool permits at most ten stock codes.
       // Its semantic multi-stock tool is deliberately not used for factual extraction.
-      const batches = chunks(symbols, 10);
+      // Find due symbols before batching rather than removing fresh symbols
+      // inside arbitrary ten-symbol blocks.  This permits full batches across
+      // the entire priority order and avoids wasting capacity on 1-9 symbols.
+      progress.stage = 'SELECTING_DUE_SYMBOLS';
+      writeProgress(progress);
+      const dueSymbols = force ? symbols : (await Promise.all(symbols.map(symbol => isFresh(db, symbol, parameterEndpoint, 15))))
+        .flatMap((fresh, index) => fresh ? [] : [symbols[index]]);
+      const deferredTail = !allowPartialBatch && !quarterlyHistoryOnly
+        ? dueSymbols.splice(Math.floor(dueSymbols.length / 10) * 10)
+        : [];
+      progress.deferredParameterTail = deferredTail.length;
+      progress.dueSymbols = dueSymbols.length;
+      progress.totalBatches = Math.ceil(dueSymbols.length / 10);
+      progress.stage = 'FETCHING_PROVIDER_BATCHES';
+      writeProgress(progress);
+      const batches = chunks(dueSymbols, 10);
       for (const batch of batches) {
-        const required = force ? batch : (await Promise.all(batch.map(symbol => isFresh(db, symbol, parameterEndpoint, 15)))).flatMap((fresh, index) => fresh ? [] : [batch[index]]);
-        if (!required.length) continue;
-        const args = parameterTool ? parameterArgs(parameterTool, required, requestedParameterCodes) : null;
+        const args = parameterTool ? parameterArgs(parameterTool, batch, requestedParameterCodes) : null;
         if (!parameterTool || !args) {
-          for (const symbol of required) await save(db, symbol, parameterEndpoint, 'DATA_INSUFFICIENT', null, 'TOOL_ARGUMENT_SCHEMA_UNMAPPED');
-          progress.failed = Number(progress.failed) + required.length;
+          for (const symbol of batch) await save(db, symbol, parameterEndpoint, 'DATA_INSUFFICIENT', null, 'TOOL_ARGUMENT_SCHEMA_UNMAPPED');
+          progress.failed = Number(progress.failed) + batch.length;
         } else {
           try {
             const payload = decode(await client.callTool({ name: parameterTool.name, arguments: args }));
-            for (const symbol of required) await save(db, symbol, parameterEndpoint, payload.isError ? 'DATA_INSUFFICIENT' : 'SUCCESS', payload, payload.isError ? 'MCP_TOOL_RETURNED_ERROR' : null);
+            const providerError = providerErrorMessage(payload);
+            for (const symbol of batch) await save(db, symbol, parameterEndpoint, providerError ? 'SOURCE_UNAVAILABLE' : 'SUCCESS', payload, providerError);
+            if (providerError) progress.failed = Number(progress.failed) + batch.length;
           } catch (error) {
-            for (const symbol of required) await save(db, symbol, parameterEndpoint, 'SOURCE_UNAVAILABLE', null, error instanceof Error ? error.message : String(error));
-            progress.failed = Number(progress.failed) + required.length;
+            for (const symbol of batch) await save(db, symbol, parameterEndpoint, 'SOURCE_UNAVAILABLE', null, error instanceof Error ? error.message : String(error));
+            progress.failed = Number(progress.failed) + batch.length;
           }
           await sleep(delayMs);
         }
@@ -238,7 +421,7 @@ async function main() {
       for (const symbol of symbols) {
         let failed = false;
         let madeCall = false;
-        for (const profile of profiles.slice(1)) {
+        for (const profile of (parametersOnly ? [] : profiles.slice(1))) {
           if (await isFresh(db, symbol, profile.endpoint, profile.ttlDays)) continue;
           const tool = tools.get(profile.tool);
           const args = tool ? (profile.endpoint === 'documents' ? documentArgs(tool, symbol) : identifierArgs(tool, symbol, 'type' in profile ? profile.type : undefined)) : null;
@@ -249,8 +432,9 @@ async function main() {
           madeCall = true;
           try {
             const payload = decode(await client.callTool({ name: tool.name, arguments: args }));
-            if (payload.isError) failed = true;
-            await save(db, symbol, profile.endpoint, payload.isError ? 'DATA_INSUFFICIENT' : 'SUCCESS', payload, payload.isError ? 'MCP_TOOL_RETURNED_ERROR' : null);
+            const providerError = providerErrorMessage(payload);
+            if (providerError) failed = true;
+            await save(db, symbol, profile.endpoint, providerError ? 'SOURCE_UNAVAILABLE' : 'SUCCESS', payload, providerError);
           } catch (error) {
             failed = true;
             await save(db, symbol, profile.endpoint, 'SOURCE_UNAVAILABLE', null, error instanceof Error ? error.message : String(error));

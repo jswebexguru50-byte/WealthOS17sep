@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_UNIONBANK_REV_FY26",
+    "issuerNseSymbol": "UNIONBANK",
+    "issuerBseCode": "520987",
+    "documentHash": "d495f93641875eb9dd60b27032716857295a42612cac67e48300e059206aecc7",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹2188 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_UNIONBANK_PAT_FY26",
+    "issuerNseSymbol": "UNIONBANK",
+    "issuerBseCode": "520987",
+    "documentHash": "d495f93641875eb9dd60b27032716857295a42612cac67e48300e059206aecc7",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹263 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_UNIONBANK_DEBT_FY26",
+    "issuerNseSymbol": "UNIONBANK",
+    "issuerBseCode": "520987",
+    "documentHash": "7cf47a9e2ead230bc9e5394146ceb28e55f8127261dc76cf8a7326850338f8ec",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_UNIONBANK_CONCALL_Q4FY26",
+    "issuerNseSymbol": "UNIONBANK",
+    "issuerBseCode": "520987",
+    "documentHash": "8719f2656563153f1f7afc8a0364e5e941a40ef3f9497a1d0e0cb37a36b824c1",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

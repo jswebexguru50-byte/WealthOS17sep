@@ -1,0 +1,183 @@
+{
+  "canonicalRunId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+  "runId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+  "ledgerSha256": "035d8867f1f8dbc65f9fe35ea45263f20f9fee00a48d3d7f48807c24a2afd485",
+  "windows": [
+    {
+      "window": "Window 1",
+      "trainPeriod": "2018-01-01 to 2020-12-31",
+      "oosPeriod": "2021-01-01 to 2021-12-31",
+      "armA_Raw": {
+        "trades": 2268,
+        "netPnl": 569487724,
+        "expectancyR": 0.6132,
+        "profitFactor": 4.816,
+        "winRate": 0.632
+      },
+      "armB_Overlay": {
+        "trades": 225,
+        "netPnl": 2945522,
+        "expectancyR": 0.5164,
+        "profitFactor": 1.345,
+        "winRate": 0.342,
+        "meanMAE": 0.0939,
+        "meanMFE": 0.2035,
+        "bootstrap": {
+          "lower95": 0.1071,
+          "median": 0.5217,
+          "upper95": 1.0214,
+          "pPositive": 0.995,
+          "pAbove020": 0.927
+        }
+      },
+      "armC_Challengers": {
+        "trades": 164,
+        "netPnl": 643180,
+        "expectancyR": 0.0743,
+        "profitFactor": 1.226,
+        "winRate": 0.506
+      }
+    },
+    {
+      "window": "Window 2",
+      "trainPeriod": "2019-01-01 to 2021-12-31",
+      "oosPeriod": "2022-01-01 to 2022-12-31",
+      "armA_Raw": {
+        "trades": 2340,
+        "netPnl": 11313061,
+        "expectancyR": -0.0054,
+        "profitFactor": 1.029,
+        "winRate": 0.421
+      },
+      "armB_Overlay": {
+        "trades": 164,
+        "netPnl": 3671769,
+        "expectancyR": 0.6652,
+        "profitFactor": 1.617,
+        "winRate": 0.396,
+        "meanMAE": -0.0295,
+        "meanMFE": 0.0584,
+        "bootstrap": {
+          "lower95": 0.238,
+          "median": 0.6428,
+          "upper95": 1.1567,
+          "pPositive": 0.996,
+          "pAbove020": 0.983
+        }
+      },
+      "armC_Challengers": {
+        "trades": 134,
+        "netPnl": -375129,
+        "expectancyR": -0.0311,
+        "profitFactor": 0.868,
+        "winRate": 0.425
+      }
+    },
+    {
+      "window": "Window 3",
+      "trainPeriod": "2020-01-01 to 2022-12-31",
+      "oosPeriod": "2023-01-01 to 2023-12-31",
+      "armA_Raw": {
+        "trades": 2905,
+        "netPnl": 365032598,
+        "expectancyR": 0.2336,
+        "profitFactor": 2.341,
+        "winRate": 0.497
+      },
+      "armB_Overlay": {
+        "trades": 173,
+        "netPnl": 3160898,
+        "expectancyR": 0.3279,
+        "profitFactor": 1.447,
+        "winRate": 0.428,
+        "meanMAE": -0.0261,
+        "meanMFE": 0.0468,
+        "bootstrap": {
+          "lower95": -0.0201,
+          "median": 0.3278,
+          "upper95": 0.6798,
+          "pPositive": 0.965,
+          "pAbove020": 0.736
+        }
+      },
+      "armC_Challengers": {
+        "trades": 147,
+        "netPnl": 2860777,
+        "expectancyR": 0.2958,
+        "profitFactor": 3.044,
+        "winRate": 0.687
+      }
+    },
+    {
+      "window": "Window 4",
+      "trainPeriod": "2021-01-01 to 2023-12-31",
+      "oosPeriod": "2024-01-01 to 2024-12-31",
+      "armA_Raw": {
+        "trades": 2404,
+        "netPnl": 426893316,
+        "expectancyR": 0.2931,
+        "profitFactor": 2.311,
+        "winRate": 0.53
+      },
+      "armB_Overlay": {
+        "trades": 124,
+        "netPnl": 2615481,
+        "expectancyR": 0.2855,
+        "profitFactor": 1.433,
+        "winRate": 0.371,
+        "meanMAE": -0.0326,
+        "meanMFE": 0.062,
+        "bootstrap": {
+          "lower95": -0.1117,
+          "median": 0.2889,
+          "upper95": 0.7466,
+          "pPositive": 0.916,
+          "pAbove020": 0.659
+        }
+      },
+      "armC_Challengers": {
+        "trades": 131,
+        "netPnl": 188398,
+        "expectancyR": 0.0249,
+        "profitFactor": 1.075,
+        "winRate": 0.504
+      }
+    },
+    {
+      "window": "Window 5",
+      "trainPeriod": "2022-01-01 to 2024-12-31",
+      "oosPeriod": "2025-01-01 to 2025-12-31",
+      "armA_Raw": {
+        "trades": 2310,
+        "netPnl": -109790969,
+        "expectancyR": -0.1235,
+        "profitFactor": 0.744,
+        "winRate": 0.378
+      },
+      "armB_Overlay": {
+        "trades": 168,
+        "netPnl": -2524926,
+        "expectancyR": -0.2774,
+        "profitFactor": 0.724,
+        "winRate": 0.286,
+        "meanMAE": -0.0304,
+        "meanMFE": 0.0393,
+        "bootstrap": {
+          "lower95": -0.5448,
+          "median": -0.278,
+          "upper95": 0.0251,
+          "pPositive": 0.033,
+          "pAbove020": 0.001
+        }
+      },
+      "armC_Challengers": {
+        "trades": 124,
+        "netPnl": 557382,
+        "expectancyR": 0.0775,
+        "profitFactor": 1.293,
+        "winRate": 0.548
+      }
+    }
+  ],
+  "dataMode": "REAL_HISTORICAL"
+}

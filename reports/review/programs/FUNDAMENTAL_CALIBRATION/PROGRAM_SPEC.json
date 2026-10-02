@@ -1,0 +1,89 @@
+{
+  "programId": "PROGRAM_01_FUNDAMENTAL_CALIBRATION",
+  "name": "WealthOS Fundamental Interpretation Calibration Program",
+  "leadReviewer": "CODEX",
+  "implementationAgent": "ANTIGRAVITY",
+  "programDescription": "Systematic multi-wave independent review of fundamental metrics, financial statement interpretation, and business-model-aware analysis across diverse Indian market sectors.",
+  "reviewWaves": [
+    {
+      "waveId": "CAL_020",
+      "name": "Initial 20-Company Calibration Cohort",
+      "sampleSize": 20,
+      "status": "PENDING_CODEX_INITIALIZATION",
+      "cohortReference": {
+        "symbols": [
+          "AAVAS",
+          "ASTRAL",
+          "BAJFINANCE",
+          "CLEAN",
+          "DEEPAKNTR",
+          "DYCL",
+          "HDFCBANK",
+          "INFY",
+          "LTIM",
+          "LT",
+          "PIDILITIND",
+          "POLYCAB",
+          "RAMCOIND",
+          "RELIANCE",
+          "STYL",
+          "SUNPHARMA",
+          "TATAMOTORS",
+          "TATASTEEL",
+          "TCS",
+          "TITAN"
+        ],
+        "sectorDistribution": "Diversified across Banking, NBFC, IT Services, Consumer, Chemicals, Pharma, Auto, Industrials, and Materials",
+        "preconditions": [
+          "No developer-authored expected semantic verdicts",
+          "Independent evaluation against raw canonical financial facts",
+          "Evaluation date fixed to available data coverage"
+        ]
+      }
+    },
+    {
+      "waveId": "CAL_050",
+      "name": "50-Company Expansion Wave",
+      "sampleSize": 50,
+      "status": "PLANNED"
+    },
+    {
+      "waveId": "HOLDOUT_030",
+      "name": "30-Company Out-of-Sample Holdout Verification",
+      "sampleSize": 30,
+      "status": "PLANNED"
+    },
+    {
+      "waveId": "CAL_100",
+      "name": "100-Company Scale Wave",
+      "sampleSize": 100,
+      "status": "PLANNED"
+    },
+    {
+      "waveId": "CAL_150",
+      "name": "150-Company Deep Market Coverage Wave",
+      "sampleSize": 150,
+      "status": "PLANNED"
+    },
+    {
+      "waveId": "CAL_200",
+      "name": "200-Company Full Calibration Wave",
+      "sampleSize": 200,
+      "status": "PLANNED"
+    }
+  ],
+  "associatedCapabilities": [
+    "CAP_FUNDAMENTAL_ANALYSIS",
+    "CAP_FORENSIC_INTELLIGENCE",
+    "CAP_VALUATION_GOVERNANCE",
+    "CAP_MANAGEMENT_WTT",
+    "CAP_EVIDENCE_PROVENANCE"
+  ],
+  "associatedRequirements": [
+    "REQ_FUND_001",
+    "REQ_FUND_002",
+    "REQ_FUND_003",
+    "REQ_FUND_004",
+    "REQ_EVID_001"
+  ]
+}

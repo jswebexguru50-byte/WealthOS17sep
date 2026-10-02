@@ -1,0 +1,25 @@
+{
+  "symbol": "TATATECH",
+  "coreThesisStatement": "Tata pedigree, full vehicle turnkey development capability, expansion with Airbus in aerospace, and valuation consolidation post-IPO froth.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1_MOMENTUM",
+      "title": "ITAS Quant Confluence",
+      "description": "Confirmed by 4/20 strategies with 88% win probability."
+    },
+    {
+      "pillarId": "P2_FINANCIAL_SHIELD",
+      "title": "Balance Sheet Solvency",
+      "description": "Altman Z-Score 5.65 (Safe Zone), Net D/E 0.05x, and Piotroski F-Score 8/9."
+    },
+    {
+      "pillarId": "P3_CREDIBILITY",
+      "title": "Management Walk-the-Talk",
+      "description": "Audited Credibility Grade 'STRONG' across 3-year concall guidance delivery."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_TATATECH_LEVERAGE",
+    "TB_TATATECH_STRUCTURAL_STOP"
+  ]
+}

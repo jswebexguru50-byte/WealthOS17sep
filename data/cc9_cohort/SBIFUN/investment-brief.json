@@ -1,0 +1,433 @@
+{
+  "symbol": "SBIFUN",
+  "companyName": "SBI Funds Management Limited (SBI Mutual Fund)",
+  "marketCapTier": "LARGECAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-16T08:30:41.273Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "LOW",
+    "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+    "allocationRecommendation": "CAPPED_ALLOCATION",
+    "portfolioPolicy": {
+      "directive": "CAPPED_ALLOCATION",
+      "targetSizingCapRatio": 0.5,
+      "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+    },
+    "provenance": {
+      "quantDerivation": "ITAS-Score-95 -> Threshold(>=75:STRONG, 50-74:MODERATE, 25-49:WEAK, <25:NONE) -> STRONG",
+      "riskDerivation": "BreakersActive:0, Contradictions:0, Unknowns:0 -> Risk: LOW",
+      "credibilityDerivation": "ClaimsEvaluated:1 -> CredibilityGrade: INSUFFICIENT_HISTORY",
+      "breakerDerivation": "TB_SBIFUN_LEVERAGE(UNRESOLVED)",
+      "thesisDerivation": "Matrix(STRONG, LOW) -> Thesis: SUPPORTED",
+      "allocationDerivation": "Precedence(SUPPORTED, LOW, INSUFFICIENT_HISTORY) -> Directive: CAPPED_ALLOCATION (Cap: 50%)",
+      "auditTrail": [
+        "ITAS-Engine#SBIFUN",
+        null
+      ]
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_SBIFUN",
+      "nodes": [
+        {
+          "id": "DEC_SBIFUN",
+          "type": "DECISION",
+          "refId": "SBIFUN",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_SBIFUN",
+          "type": "ALLOCATION",
+          "refId": "CAPPED_ALLOCATION",
+          "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+        },
+        {
+          "id": "THESIS_SBIFUN",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_SBIFUN",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 95/100)"
+        },
+        {
+          "id": "RISK_SBIFUN",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_SBIFUN",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_SBIFUN_LEVERAGE",
+          "type": "RULE",
+          "refId": "TB_SBIFUN_LEVERAGE",
+          "version": "2026.09",
+          "label": "Breaker TB_SBIFUN_LEVERAGE: UNRESOLVED (Observed: undefined)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_SBIFUN",
+          "to": "DEC_SBIFUN",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_SBIFUN",
+          "to": "DEC_SBIFUN",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_SBIFUN",
+          "to": "THESIS_SBIFUN",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_SBIFUN",
+          "to": "THESIS_SBIFUN",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_SBIFUN",
+          "to": "ALLOC_SBIFUN",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_SBIFUN_LEVERAGE",
+          "to": "RISK_SBIFUN",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_SBIFUN_8dc29830e4b6",
+      "decisionId": "DECISION_SBIFUN",
+      "issuerSymbol": "SBIFUN",
+      "evaluatedAt": "2026-09-16T11:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2.1",
+      "ontologyVersion": "1.3",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawQuantInput": {
+        "symbol": "SBIFUN",
+        "strategyAgreementCount": 19,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 95,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY",
+        "decisionDate": "2024-06-30"
+      },
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_SBIFUN_LEVERAGE",
+          "symbol": "SBIFUN",
+          "name": "Asset Management Debt Incurrence Limit",
+          "type": "QUANTITATIVE",
+          "thresholdValue": 0.5,
+          "comparisonOperator": "GREATER_THAN",
+          "severity": "CRITICAL",
+          "description": "Debt / Equity ratio exceeding 0.5x triggers hard veto.",
+          "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+          "status": "UNRESOLVED"
+        }
+      ],
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "LOW",
+        "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+        "allocationRecommendation": "CAPPED_ALLOCATION"
+      },
+      "portfolioPolicy": {
+        "directive": "CAPPED_ALLOCATION",
+        "targetSizingCapRatio": 0.5,
+        "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_SBIFUN",
+        "nodes": [
+          {
+            "id": "DEC_SBIFUN",
+            "type": "DECISION",
+            "refId": "SBIFUN",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_SBIFUN",
+            "type": "ALLOCATION",
+            "refId": "CAPPED_ALLOCATION",
+            "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+          },
+          {
+            "id": "THESIS_SBIFUN",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_SBIFUN",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 95/100)"
+          },
+          {
+            "id": "RISK_SBIFUN",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_SBIFUN",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_SBIFUN_LEVERAGE",
+            "type": "RULE",
+            "refId": "TB_SBIFUN_LEVERAGE",
+            "version": "2026.09",
+            "label": "Breaker TB_SBIFUN_LEVERAGE: UNRESOLVED (Observed: undefined)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_SBIFUN",
+            "to": "DEC_SBIFUN",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_SBIFUN",
+            "to": "DEC_SBIFUN",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_SBIFUN",
+            "to": "THESIS_SBIFUN",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_SBIFUN",
+            "to": "THESIS_SBIFUN",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_SBIFUN",
+            "to": "ALLOC_SBIFUN",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_SBIFUN_LEVERAGE",
+            "to": "RISK_SBIFUN",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "8dc29830e4b6c87132d562bf1284f0f5301d757bc29635a83f1da1bb731e1dbd",
+      "canonicalStateHash": "8dc29830e4b6c87132d562bf1284f0f5301d757bc29635a83f1da1bb731e1dbd",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_SBIFUN_01",
+          "issuerSymbol": "SBIFUN",
+          "metric": "REVENUE",
+          "metricId": "REVENUE",
+          "metricFamily": "REVENUE",
+          "value": 2850,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_SBIFUN_REV_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_SBIFUN_REV_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_SBIFUN_REV_01",
+          "sourceQuotedText": "Consolidated revenue for FY24 reached ₹2850 Cr with average assets under management crossing ₹9.1 lakh crore.",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_SBIFUN_01",
+          "issuerNseSymbol": "SBIFUN",
+          "issuerBseCode": "500112",
+          "period": "FY24",
+          "category": "GROWTH",
+          "statement": "Scale mutual fund management fees past ₹2,500 Cr in FY24 supported by SIP inflows.",
+          "targetMetric": "revenue_cr",
+          "baselineValue": 2280,
+          "expectedValue": 2500,
+          "expectedOutcome": "Revenue >= ₹2,500 Cr",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_SBIFUN_REV_01",
+          "claimDate": "2023-08-15",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 2850,
+          "actualOutcomeDescription": "Delivered ₹2,850 Cr revenue exceeding expectation by 14.0%.",
+          "evaluationEvidenceId": "EV_SBIFUN_REV_01",
+          "evaluationDate": "2024-05-18",
+          "evaluationBasis": "Statutory Financial Accounts Review",
+          "publicationDate": "2023-08-15",
+          "publicationDateType": "MANAGEMENT_COMMENT",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_SBIFUN_01"
+        }
+      ],
+      "rawInputContradictions": [],
+      "rawInputHash": "653474477179cc1034f8625f1b49012df547f19fdc5713f2f31730c43aeb837e"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "LOW",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap)."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 19/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 95/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#SBIFUN",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Scale mutual fund management fees past ₹2,500 Cr in FY24 supported by SIP inflows.",
+      "detail": "Disclosed actual outcome: Delivered ₹2,850 Cr revenue exceeding expectation by 14.0%.",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_SBIFUN_REV_01 -> Resolution#EV_SBIFUN_REV_01",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "SBIFUN",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 1,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_SBIFUN_01",
+        "statement": "Scale mutual fund management fees past ₹2,500 Cr in FY24 supported by SIP inflows.",
+        "period": "FY24",
+        "expected": "Revenue >= ₹2,500 Cr",
+        "actual": "Delivered ₹2,850 Cr revenue exceeding expectation by 14.0%.",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_SBIFUN_REV_01 -> Resolution#EV_SBIFUN_REV_01"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_SBIFUN"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_SBIFUN"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-04-10",
+      "source": "REGULATORY_FILING",
+      "headline": "AUM Crosses Milestone ₹10 Lakh Crore",
+      "verified": true,
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_SBIFUN_LEVERAGE",
+      "symbol": "SBIFUN",
+      "name": "Asset Management Debt Incurrence Limit",
+      "type": "QUANTITATIVE",
+      "thresholdValue": 0.5,
+      "comparisonOperator": "GREATER_THAN",
+      "severity": "CRITICAL",
+      "description": "Debt / Equity ratio exceeding 0.5x triggers hard veto.",
+      "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+      "status": "UNRESOLVED"
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "LOW",
+    "directSourcesCount": 1,
+    "corroboratedCount": 1,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"India's largest asset manager leveraging State Bank of India's 22,000+ branch distribution network to capture domestic SIP inflows.\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

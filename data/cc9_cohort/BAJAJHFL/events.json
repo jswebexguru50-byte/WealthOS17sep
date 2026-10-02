@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_BAJAJHFL_01",
+    "issuerNseSymbol": "BAJAJHFL",
+    "issuerBseCode": "544252",
+    "eventDate": "2024-06-06",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Filing of DRHP for Landmark ₹6,560 Cr IPO",
+    "description": "Filed draft red herring prospectus with SEBI for landmark initial public offering to comply with RBI Upper Layer NBFC regulations.",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_BHFL_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

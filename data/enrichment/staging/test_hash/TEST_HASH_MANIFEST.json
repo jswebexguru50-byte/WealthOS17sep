@@ -1,0 +1,10 @@
+{
+  "agentId": "B1",
+  "runId": "r1",
+  "datasetId": "TEST_HASH",
+  "status": "ACQUIRING",
+  "source": "TEST",
+  "provider": "TEST",
+  "rawSha256": "d7439bee24773bcbfa2d0a97947ee36227b10d1022b1a55847e928965bb6bfde",
+  "canonicalSha256": "f157c33db67fde1faefe67bb97681e9a0674c5b208656c5e21bf8b2393f63feb"
+}

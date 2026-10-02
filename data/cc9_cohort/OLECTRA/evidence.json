@@ -1,0 +1,26 @@
+[
+  {
+    "evidenceId": "EV_OLECTRA_REV_01",
+    "issuerNseSymbol": "OLECTRA",
+    "issuerBseCode": "532439",
+    "documentId": "DOC_OLECTRA_AR24",
+    "documentHash": "3456789abcdef0123456789abcdef0123456789abcdef4",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 35,
+    "pagePrinted": "33",
+    "quotedText": "Consolidated revenue for FY24 reached ₹1154 Cr with electric bus deliveries up by 46%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_OLECTRA_ORDER_01",
+    "issuerNseSymbol": "OLECTRA",
+    "issuerBseCode": "532439",
+    "documentId": "DOC_OLECTRA_AR24",
+    "documentHash": "3456789abcdef0123456789abcdef0123456789abcdef4",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 46,
+    "pagePrinted": "44",
+    "quotedText": "Total confirmed order book stood at ₹10500 Cr as of 31st March 2024 comprising over 8,000 electric buses.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

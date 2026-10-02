@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "UNIONBANK",
+  "issuerBseCode": "520987",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_UNIONBANK_AR2024",
+      "documentName": "UNIONBANK_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "7cf47a9e2ead230bc9e5394146ceb28e55f8127261dc76cf8a7326850338f8ec",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_UNIONBANK_AUDITED_RESULTS",
+      "documentName": "UNIONBANK_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "d495f93641875eb9dd60b27032716857295a42612cac67e48300e059206aecc7",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_UNIONBANK_CONCALL_Q4FY26",
+      "documentName": "UNIONBANK_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "8719f2656563153f1f7afc8a0364e5e941a40ef3f9497a1d0e0cb37a36b824c1",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

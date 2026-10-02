@@ -1,0 +1,7 @@
+tunnel: b4105e6e-0798-4184-be39-2a61663369d7
+credentials-file: C:\Users\gopal\.cloudflared\b4105e6e-0798-4184-be39-2a61663369d7.json
+
+ingress:
+  - hostname: api.wealthos.win
+    service: http://127.0.0.1:3000
+  - service: http_status:404

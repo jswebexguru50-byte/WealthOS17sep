@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "TBOTEK",
+  "issuerBseCode": "514167",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_TBOTEK_AR2024",
+      "documentName": "TBOTEK_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "894f45c17604430e2c8f6942809a3ce6b8f947352149030b5d450d2215497168",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_TBOTEK_AUDITED_RESULTS",
+      "documentName": "TBOTEK_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "47a0901326fe2848685ee5c2cc84616f8669ef164d4077431edee5610ba48c55",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_TBOTEK_CONCALL_Q4FY26",
+      "documentName": "TBOTEK_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "ec7d0da94323cdaf5506449d346341995546396f4e196679e992339a036e99a5",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

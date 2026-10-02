@@ -1,0 +1,30 @@
+[
+  {
+    "eventId": "EVT_LGEINDIA_RESULTS",
+    "issuerNseSymbol": "LGEINDIA",
+    "issuerBseCode": "517763",
+    "eventDate": "2026-05-26",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "LGEINDIA Audited Results FY26 Approved",
+    "description": "Board of Directors approved audited financial statements showing operating scale of ₹20370 Cr.",
+    "sourceType": "STATUTORY_FILING",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "evidenceId": "EV_LGEINDIA_REV_FY26",
+    "materiality": "MATERIAL",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  },
+  {
+    "eventId": "EVT_LGEINDIA_EXPANSION",
+    "issuerNseSymbol": "LGEINDIA",
+    "issuerBseCode": "517763",
+    "eventDate": "2026-08-20",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "LGEINDIA Capacity Expansion Milestone",
+    "description": "₹1,200 Cr investment in Sriperumbudur facility for commercial air-conditioning and component localization on track.",
+    "sourceType": "EXCHANGE_DISCLOSURE",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "evidenceId": "EV_LGEINDIA_CONCALL_Q4FY26",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "breakerId": "TB_LAURUS_LEVERAGE",
+    "symbol": "LAURUSLABS",
+    "name": "Pharma Capex Leverage Ceiling",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 3.5,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Net Debt / EBITDA exceeding 3.5x triggers hard veto.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

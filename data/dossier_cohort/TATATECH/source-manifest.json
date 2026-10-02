@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "TATATECH",
+  "issuerBseCode": "518290",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_TATATECH_AR2024",
+      "documentName": "TATATECH_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "92e2a11a7cc48ace3852ddade593c8e435d3501364cc153c22765e1ba767c644",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_TATATECH_AUDITED_RESULTS",
+      "documentName": "TATATECH_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "0f0f177bec378fbb9e9744a6775c76d884d4b414d0e83be788d046164e6d2982",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_TATATECH_CONCALL_Q4FY26",
+      "documentName": "TATATECH_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "65742ec093519c9ac284fba0ee6c329e9a3b146fef14f46aaf00d5f367026a1b",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

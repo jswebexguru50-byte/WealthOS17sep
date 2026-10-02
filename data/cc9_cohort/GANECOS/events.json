@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_GANECOS_01",
+    "issuerNseSymbol": "GANECOS",
+    "issuerBseCode": "514167",
+    "eventDate": "2024-03-18",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Food-Grade rPET US-FDA and EFSA Regulatory Approval",
+    "description": "Received compliance clearance for food and beverage packaging grade recycled polyester pellets.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_GANECOS_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

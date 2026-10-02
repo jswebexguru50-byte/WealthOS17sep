@@ -1,0 +1,318 @@
+{
+  "timestamp": "2026-10-01T03:30:34.640Z",
+  "targetEndpoint": "http://127.0.0.1:8787",
+  "protocolVersion": "2024-11-05",
+  "summary": {
+    "total": 33,
+    "passed": 33,
+    "failed": 0,
+    "overallStatus": "PASS"
+  },
+  "sections": {
+    "protocolAndInspector": [
+      {
+        "id": "T-PROT-01",
+        "category": "PROTOCOL",
+        "description": "initialize lifecycle handshake",
+        "status": "PASS",
+        "expected": "protocolVersion 2024-11-05 and Mcp-Session-Id",
+        "actual": "status=200, version=2024-11-05, sessionHeader=true",
+        "durationMs": 71
+      },
+      {
+        "id": "T-PROT-02",
+        "category": "PROTOCOL",
+        "description": "notifications/initialized lifecycle step",
+        "status": "PASS",
+        "expected": "HTTP 202 Accepted",
+        "actual": "status=202",
+        "durationMs": 8
+      },
+      {
+        "id": "T-PROT-03",
+        "category": "PROTOCOL",
+        "description": "tools/list returns schemas and readOnly annotations",
+        "status": "PASS",
+        "expected": "tools array with >= 40 tools",
+        "actual": "toolsCount=40, firstToolSchema=true",
+        "durationMs": 5
+      },
+      {
+        "id": "T-PROT-04",
+        "category": "PROTOCOL",
+        "description": "tools/call executes registered tool and returns content",
+        "status": "PASS",
+        "expected": "valid response envelope",
+        "actual": "status=200, contentFound=true",
+        "durationMs": 116
+      },
+      {
+        "id": "T-PROT-05",
+        "category": "PROTOCOL",
+        "description": "resources/list returns advertised system resources",
+        "status": "PASS",
+        "expected": ">= 2 resources with URI and mimeType",
+        "actual": "resourceCount=2, hasRequirementsUri=true",
+        "durationMs": 4
+      },
+      {
+        "id": "T-PROT-06",
+        "category": "PROTOCOL",
+        "description": "resources/read retrieves resource payload",
+        "status": "PASS",
+        "expected": "contents array with JSON payload",
+        "actual": "contentsReturned=true, hasReqData=true",
+        "durationMs": 5
+      },
+      {
+        "id": "T-PROT-07",
+        "category": "PROTOCOL",
+        "description": "session handling preserves session header",
+        "status": "PASS",
+        "expected": "HTTP 200 with matching session",
+        "actual": "status=200",
+        "durationMs": 6
+      },
+      {
+        "id": "T-PROT-08",
+        "category": "PROTOCOL",
+        "description": "invalid auth rejected with 401",
+        "status": "PASS",
+        "expected": "HTTP 401 or JSON-RPC -32001",
+        "actual": "status=401, error=INVALID_CREDENTIALS",
+        "durationMs": 3
+      },
+      {
+        "id": "T-PROT-09",
+        "category": "PROTOCOL",
+        "description": "wrong plane credential rejected with 403",
+        "status": "PASS",
+        "expected": "HTTP 403 INSUFFICIENT_PRIVILEGES",
+        "actual": "status=403, error=INSUFFICIENT_PRIVILEGES_FOR_DEV_PLANE: Review/Product credential cannot access Development plane",
+        "durationMs": 5
+      },
+      {
+        "id": "T-PROT-10",
+        "category": "PROTOCOL",
+        "description": "malformed JSON rejected with -32700 Parse error",
+        "status": "PASS",
+        "expected": "HTTP 400 and code -32700",
+        "actual": "status=400, code=-32700",
+        "durationMs": 7
+      },
+      {
+        "id": "T-PROT-11",
+        "category": "PROTOCOL",
+        "description": "concurrent calls executed without deadlocks",
+        "status": "PASS",
+        "expected": "5 concurrent requests all return 200",
+        "actual": "allSuccessful=true, responseStatuses=200,200,200,200,200",
+        "durationMs": 41
+      }
+    ],
+    "securityAdversarial": [
+      {
+        "id": "T-SEC-01",
+        "category": "SECURITY",
+        "description": "Arbitrary shell execution attempt",
+        "status": "PASS",
+        "expected": "REJECTED with -32601 or failure",
+        "actual": "rejected=true, msg=Tool 'run_command' not found on plane 'DEVELOPMENT'.",
+        "durationMs": 4
+      },
+      {
+        "id": "T-SEC-02",
+        "category": "SECURITY",
+        "description": "Arbitrary SQL execution attempt",
+        "status": "PASS",
+        "expected": "REJECTED with -32601",
+        "actual": "rejected=true, msg=Tool 'execute_sql' not found on plane 'DEVELOPMENT'.",
+        "durationMs": 3
+      },
+      {
+        "id": "T-SEC-03",
+        "category": "SECURITY",
+        "description": "Arbitrary filesystem traversal outside repo",
+        "status": "PASS",
+        "expected": "REJECTED with SECURITY_VIOLATION",
+        "actual": "traversalBlocked=true",
+        "durationMs": 3
+      },
+      {
+        "id": "T-SEC-04",
+        "category": "SECURITY",
+        "description": ".env direct file access attempt",
+        "status": "PASS",
+        "expected": "REJECTED with SECURITY_VIOLATION",
+        "actual": "envAccessBlocked=true",
+        "durationMs": 2
+      },
+      {
+        "id": "T-SEC-05",
+        "category": "SECURITY",
+        "description": "Credentials file access attempt",
+        "status": "PASS",
+        "expected": "REJECTED with SECURITY_VIOLATION",
+        "actual": "credentialBlocked=true",
+        "durationMs": 3
+      },
+      {
+        "id": "T-SEC-06",
+        "category": "SECURITY",
+        "description": "Private key access attempt (.pem / .key)",
+        "status": "PASS",
+        "expected": "REJECTED with SECURITY_VIOLATION",
+        "actual": "keyBlocked=true",
+        "durationMs": 4
+      },
+      {
+        "id": "T-SEC-07",
+        "category": "SECURITY",
+        "description": "Raw SQLite portfolio.db access attempt",
+        "status": "PASS",
+        "expected": "REJECTED with SECURITY_VIOLATION",
+        "actual": "dbDownloadBlocked=true",
+        "durationMs": 5
+      },
+      {
+        "id": "T-SEC-08",
+        "category": "SECURITY",
+        "description": "Raw Parquet file access attempt",
+        "status": "PASS",
+        "expected": "REJECTED with SECURITY_VIOLATION",
+        "actual": "parquetBlocked=true",
+        "durationMs": 3
+      },
+      {
+        "id": "T-SEC-09",
+        "category": "SECURITY",
+        "description": "Git force push attempt",
+        "status": "PASS",
+        "expected": "REJECTED with -32601 Tool not found",
+        "actual": "rejected=true",
+        "durationMs": 2
+      },
+      {
+        "id": "T-SEC-10",
+        "category": "SECURITY",
+        "description": "Git history rewrite attempt",
+        "status": "PASS",
+        "expected": "REJECTED with -32601 Tool not found",
+        "actual": "rejected=true",
+        "durationMs": 3
+      },
+      {
+        "id": "T-SEC-11",
+        "category": "SECURITY",
+        "description": "Arbitrary file deletion attempt",
+        "status": "PASS",
+        "expected": "REJECTED with -32601 Tool not found",
+        "actual": "rejected=true",
+        "durationMs": 3
+      },
+      {
+        "id": "T-SEC-12",
+        "category": "SECURITY",
+        "description": "Evidence gate disabling attempt",
+        "status": "PASS",
+        "expected": "REJECTED with -32601 Tool not found",
+        "actual": "rejected=true",
+        "durationMs": 4
+      },
+      {
+        "id": "T-SEC-13",
+        "category": "SECURITY",
+        "description": "Strategy configuration mutation attempt",
+        "status": "PASS",
+        "expected": "REJECTED with -32601 Tool not found",
+        "actual": "rejected=true",
+        "durationMs": 3
+      },
+      {
+        "id": "T-SEC-14",
+        "category": "SECURITY",
+        "description": "Canonical facts direct mutation attempt",
+        "status": "PASS",
+        "expected": "REJECTED with -32601 Tool not found",
+        "actual": "rejected=true",
+        "durationMs": 2
+      }
+    ],
+    "reviewWritePath": [
+      {
+        "id": "T-REV-01",
+        "category": "REVIEW_WRITE",
+        "description": "Reviewer creates dedicated test review run",
+        "status": "PASS",
+        "expected": "run created in calibration storage",
+        "actual": "runCreated=true",
+        "durationMs": 13
+      },
+      {
+        "id": "T-REV-02",
+        "category": "REVIEW_WRITE",
+        "description": "Reviewer writes structured review finding",
+        "status": "PASS",
+        "expected": "finding recorded with all required fields",
+        "actual": "recorded=true",
+        "durationMs": 10
+      },
+      {
+        "id": "T-REV-03",
+        "category": "REVIEW_WRITE",
+        "description": "Review write CANNOT modify company_facts or MasterTickers",
+        "status": "PASS",
+        "expected": "exact count match before and after",
+        "actual": "factsBefore=18007, factsAfter=18007, tickersBefore=3654, tickersAfter=3654",
+        "durationMs": 27
+      }
+    ],
+    "developerTaskPath": [
+      {
+        "id": "T-DEV-01",
+        "category": "DEVELOPER_TASK",
+        "description": "Create dedicated test session",
+        "status": "PASS",
+        "expected": "status BASELINED",
+        "actual": "sessionId=DEV-20261001-013",
+        "durationMs": 1637
+      },
+      {
+        "id": "T-DEV-02",
+        "category": "DEVELOPER_TASK",
+        "description": "Reviewer creates remediation task -> QUEUED",
+        "status": "PASS",
+        "expected": "task enqueued in status QUEUED",
+        "actual": "taskId=TASK-DEV-20261001-013-001, text={\"jsonrpc\":\"2.0\",\"id\":402,\"result\":{\"content\":[{\"type\":\"text\",\"text\":\"{\\n  \\\"status\\\": \\\"OK\\\",\\n  \\\"",
+        "durationMs": 2571
+      },
+      {
+        "id": "T-DEV-03",
+        "category": "DEVELOPER_TASK",
+        "description": "Developer consumer claims task -> CLAIMED",
+        "status": "PASS",
+        "expected": "status CLAIMED",
+        "actual": "taskStatus=CLAIMED, claimedBy=antigravity-dev-worker",
+        "durationMs": 47
+      },
+      {
+        "id": "T-DEV-04",
+        "category": "DEVELOPER_TASK",
+        "description": "Developer produces result -> COMPLETE",
+        "status": "PASS",
+        "expected": "status COMPLETE (NOT PASS)",
+        "actual": "taskStatus=COMPLETE (Verified: Developer COMPLETE != PASS)",
+        "durationMs": 12
+      },
+      {
+        "id": "T-DEV-05",
+        "category": "DEVELOPER_TASK",
+        "description": "Reviewer independently changes session to PASS",
+        "status": "PASS",
+        "expected": "status PASS",
+        "actual": "taskStatus=PASS, sessionStatus=PASS",
+        "durationMs": 2466
+      }
+    ]
+  }
+}

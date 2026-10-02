@@ -1,0 +1,433 @@
+{
+  "symbol": "TATAMOTORS",
+  "companyName": "Tata Motors Limited",
+  "marketCapTier": "LARGECAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-16T08:30:41.670Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "LOW",
+    "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+    "allocationRecommendation": "CAPPED_ALLOCATION",
+    "portfolioPolicy": {
+      "directive": "CAPPED_ALLOCATION",
+      "targetSizingCapRatio": 0.5,
+      "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+    },
+    "provenance": {
+      "quantDerivation": "ITAS-Score-95 -> Threshold(>=75:STRONG, 50-74:MODERATE, 25-49:WEAK, <25:NONE) -> STRONG",
+      "riskDerivation": "BreakersActive:0, Contradictions:0, Unknowns:0 -> Risk: LOW",
+      "credibilityDerivation": "ClaimsEvaluated:1 -> CredibilityGrade: INSUFFICIENT_HISTORY",
+      "breakerDerivation": "TB_TAMO_LEVERAGE(UNRESOLVED)",
+      "thesisDerivation": "Matrix(STRONG, LOW) -> Thesis: SUPPORTED",
+      "allocationDerivation": "Precedence(SUPPORTED, LOW, INSUFFICIENT_HISTORY) -> Directive: CAPPED_ALLOCATION (Cap: 50%)",
+      "auditTrail": [
+        "ITAS-Engine#TATAMOTORS",
+        null
+      ]
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_TATAMOTORS",
+      "nodes": [
+        {
+          "id": "DEC_TATAMOTORS",
+          "type": "DECISION",
+          "refId": "TATAMOTORS",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_TATAMOTORS",
+          "type": "ALLOCATION",
+          "refId": "CAPPED_ALLOCATION",
+          "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+        },
+        {
+          "id": "THESIS_TATAMOTORS",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_TATAMOTORS",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 95/100)"
+        },
+        {
+          "id": "RISK_TATAMOTORS",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_TATAMOTORS",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_TAMO_LEVERAGE",
+          "type": "RULE",
+          "refId": "TB_TAMO_LEVERAGE",
+          "version": "2026.09",
+          "label": "Breaker TB_TAMO_LEVERAGE: UNRESOLVED (Observed: undefined)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_TATAMOTORS",
+          "to": "DEC_TATAMOTORS",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_TATAMOTORS",
+          "to": "DEC_TATAMOTORS",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_TATAMOTORS",
+          "to": "THESIS_TATAMOTORS",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_TATAMOTORS",
+          "to": "THESIS_TATAMOTORS",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_TATAMOTORS",
+          "to": "ALLOC_TATAMOTORS",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_TAMO_LEVERAGE",
+          "to": "RISK_TATAMOTORS",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_TATAMOTORS_e886f1c1d109",
+      "decisionId": "DECISION_TATAMOTORS",
+      "issuerSymbol": "TATAMOTORS",
+      "evaluatedAt": "2026-09-16T11:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2.1",
+      "ontologyVersion": "1.3",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawQuantInput": {
+        "symbol": "TATAMOTORS",
+        "strategyAgreementCount": 19,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 95,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY",
+        "decisionDate": "2024-06-30"
+      },
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_TAMO_LEVERAGE",
+          "symbol": "TATAMOTORS",
+          "name": "Auto Net Debt Ceiling",
+          "type": "QUANTITATIVE",
+          "thresholdValue": 2,
+          "comparisonOperator": "GREATER_THAN",
+          "severity": "CRITICAL",
+          "description": "Auto Net Debt / EBITDA exceeding 2.0x triggers hard veto.",
+          "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+          "status": "UNRESOLVED"
+        }
+      ],
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "LOW",
+        "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+        "allocationRecommendation": "CAPPED_ALLOCATION"
+      },
+      "portfolioPolicy": {
+        "directive": "CAPPED_ALLOCATION",
+        "targetSizingCapRatio": 0.5,
+        "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_TATAMOTORS",
+        "nodes": [
+          {
+            "id": "DEC_TATAMOTORS",
+            "type": "DECISION",
+            "refId": "TATAMOTORS",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_TATAMOTORS",
+            "type": "ALLOCATION",
+            "refId": "CAPPED_ALLOCATION",
+            "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+          },
+          {
+            "id": "THESIS_TATAMOTORS",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_TATAMOTORS",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 95/100)"
+          },
+          {
+            "id": "RISK_TATAMOTORS",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_TATAMOTORS",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_TAMO_LEVERAGE",
+            "type": "RULE",
+            "refId": "TB_TAMO_LEVERAGE",
+            "version": "2026.09",
+            "label": "Breaker TB_TAMO_LEVERAGE: UNRESOLVED (Observed: undefined)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_TATAMOTORS",
+            "to": "DEC_TATAMOTORS",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_TATAMOTORS",
+            "to": "DEC_TATAMOTORS",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_TATAMOTORS",
+            "to": "THESIS_TATAMOTORS",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_TATAMOTORS",
+            "to": "THESIS_TATAMOTORS",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_TATAMOTORS",
+            "to": "ALLOC_TATAMOTORS",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_TAMO_LEVERAGE",
+            "to": "RISK_TATAMOTORS",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "e886f1c1d10982039c167cbc639fa582e2523673d9ae18f04071fc8233f2bcbe",
+      "canonicalStateHash": "e886f1c1d10982039c167cbc639fa582e2523673d9ae18f04071fc8233f2bcbe",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_TAMO_01",
+          "issuerSymbol": "TATAMOTORS",
+          "metric": "REVENUE",
+          "metricId": "REVENUE",
+          "metricFamily": "REVENUE",
+          "value": 437928,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_TAMO_REV_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_TAMO_REV_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_TAMO_REV_01",
+          "sourceQuotedText": "Consolidated revenue for FY24 reached ₹437928 Cr with Jaguar Land Rover record free cash flows.",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_TATAMOTORS_01",
+          "issuerNseSymbol": "TATAMOTORS",
+          "issuerBseCode": "500570",
+          "period": "FY24",
+          "category": "GROWTH",
+          "statement": "Scale consolidated automotive revenue past ₹400,000 Cr while achieving net automotive debt free status by FY25.",
+          "targetMetric": "revenue_cr",
+          "baselineValue": 345967,
+          "expectedValue": 400000,
+          "expectedOutcome": "Revenue >= ₹400,000 Cr",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_TAMO_REV_01",
+          "claimDate": "2023-08-11",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 437928,
+          "actualOutcomeDescription": "Delivered ₹437,928 Cr revenue beating guidance by 9.5%.",
+          "evaluationEvidenceId": "EV_TAMO_REV_01",
+          "evaluationDate": "2024-05-10",
+          "evaluationBasis": "BSE Audited Financial Accounts Release",
+          "publicationDate": "2023-08-11",
+          "publicationDateType": "MANAGEMENT_COMMENT",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_TAMO_01"
+        }
+      ],
+      "rawInputContradictions": [],
+      "rawInputHash": "5e22d2144905d367a71298f58cc4d03e92958bba965f4844f09627ea26395ed2"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "LOW",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap)."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 19/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 95/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#TATAMOTORS",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Scale consolidated automotive revenue past ₹400,000 Cr while achieving net automotive debt free status by FY25.",
+      "detail": "Disclosed actual outcome: Delivered ₹437,928 Cr revenue beating guidance by 9.5%.",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_TAMO_REV_01 -> Resolution#EV_TAMO_REV_01",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "TATAMOTORS",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 1,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_TATAMOTORS_01",
+        "statement": "Scale consolidated automotive revenue past ₹400,000 Cr while achieving net automotive debt free status by FY25.",
+        "period": "FY24",
+        "expected": "Revenue >= ₹400,000 Cr",
+        "actual": "Delivered ₹437,928 Cr revenue beating guidance by 9.5%.",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_TAMO_REV_01 -> Resolution#EV_TAMO_REV_01"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_TATAMOTORS"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_TATAMOTORS"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-03-04",
+      "source": "REGULATORY_FILING",
+      "headline": "Approval for Demerger into Two Distinct Listed Entities",
+      "verified": true,
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_TAMO_LEVERAGE",
+      "symbol": "TATAMOTORS",
+      "name": "Auto Net Debt Ceiling",
+      "type": "QUANTITATIVE",
+      "thresholdValue": 2,
+      "comparisonOperator": "GREATER_THAN",
+      "severity": "CRITICAL",
+      "description": "Auto Net Debt / EBITDA exceeding 2.0x triggers hard veto.",
+      "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+      "status": "UNRESOLVED"
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "LOW",
+    "directSourcesCount": 1,
+    "corroboratedCount": 1,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Massive automotive turnaround story unlocking value via imminent demerger into commercial vehicles leader and high-margin luxury EV innovator (JLR & Tata Passenger EV).\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

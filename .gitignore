@@ -72,3 +72,11 @@ Thumbs.db
 *.sha256
   
  
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite3-wal
+*.sqlite3-shm
+*.pyc
+__pycache__/
+.playwright-mcp/
+changed_files.diff

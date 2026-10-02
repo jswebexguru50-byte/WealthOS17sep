@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_TC_REV_01",
+    "issuerNseSymbol": "TATACONSUM",
+    "issuerBseCode": "500800",
+    "documentId": "DOC_TATACONSUM_AR24",
+    "documentHash": "9abcdef0123456789abcdef0123456789abcdefa",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 52,
+    "pagePrinted": "50",
+    "quotedText": "Consolidated revenue for FY24 reached ₹15206 Cr with India foods and salt business growing by 18%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

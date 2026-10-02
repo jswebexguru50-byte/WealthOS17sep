@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_POLYCAB_01",
+    "issuerNseSymbol": "POLYCAB",
+    "issuerBseCode": "542652",
+    "eventDate": "2024-01-15",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Clarification on IT Department Search Operations",
+    "description": "Issued formal regulatory clarification confirming full operational continuity and zero ongoing business disruption.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_POLYCAB_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

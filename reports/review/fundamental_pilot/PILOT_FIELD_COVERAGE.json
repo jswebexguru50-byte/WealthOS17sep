@@ -1,0 +1,323 @@
+{
+  "generatedAt": "2026-10-01T15:12:37.528Z",
+  "cohortSize": 200,
+  "canonicalFieldCatalog": [
+    "symbol",
+    "isin",
+    "company_name",
+    "sector",
+    "industry",
+    "market_cap_cr",
+    "market_cap_bucket",
+    "revenue",
+    "operating_profit_ebitda",
+    "operating_margin",
+    "pat",
+    "net_margin",
+    "eps",
+    "roe",
+    "roce",
+    "roa",
+    "roic",
+    "pe_ratio",
+    "pb_ratio",
+    "ev_to_ebitda",
+    "book_value_per_share",
+    "debt_to_equity",
+    "cfo",
+    "cfo_to_pat",
+    "capex",
+    "fcf",
+    "promoter_holding",
+    "fii_holding",
+    "dii_holding",
+    "promoter_pledge",
+    "insider_sast_deals",
+    "corporate_events",
+    "business_description",
+    "operating_kpis",
+    "risks",
+    "catalysts",
+    "qglp_composite"
+  ],
+  "fieldGlobalStats": {
+    "symbol": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "isin": {
+      "verified": 200,
+      "partial": 0,
+      "unavailable": 0,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "company_name": {
+      "verified": 200,
+      "partial": 0,
+      "unavailable": 0,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "sector": {
+      "verified": 200,
+      "partial": 0,
+      "unavailable": 0,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "industry": {
+      "verified": 200,
+      "partial": 0,
+      "unavailable": 0,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "market_cap_cr": {
+      "verified": 200,
+      "partial": 0,
+      "unavailable": 0,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "market_cap_bucket": {
+      "verified": 200,
+      "partial": 0,
+      "unavailable": 0,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "revenue": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "operating_profit_ebitda": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "operating_margin": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "pat": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "net_margin": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "eps": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "roe": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "roce": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "roa": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "roic": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "pe_ratio": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "pb_ratio": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "ev_to_ebitda": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "book_value_per_share": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "debt_to_equity": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "cfo": {
+      "verified": 0,
+      "partial": 172,
+      "unavailable": 28,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "cfo_to_pat": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "capex": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "fcf": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "promoter_holding": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "fii_holding": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "dii_holding": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "promoter_pledge": {
+      "verified": 0,
+      "partial": 200,
+      "unavailable": 0,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "insider_sast_deals": {
+      "verified": 8,
+      "partial": 192,
+      "unavailable": 0,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "corporate_events": {
+      "verified": 57,
+      "partial": 143,
+      "unavailable": 0,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "business_description": {
+      "verified": 0,
+      "partial": 200,
+      "unavailable": 0,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "operating_kpis": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "risks": {
+      "verified": 0,
+      "partial": 200,
+      "unavailable": 0,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "catalysts": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    },
+    "qglp_composite": {
+      "verified": 0,
+      "partial": 0,
+      "unavailable": 200,
+      "conflicting": 0,
+      "stale": 0
+    }
+  },
+  "providerStats": {
+    "MasterTickers": 600,
+    "MasterTickers/Profile": 400,
+    "UpstoxProfile/FERE": 200,
+    "ClassificationEngine": 200,
+    "UPSTOX_FUNDAMENTALS": 800,
+    "DERIVED_CALCULATED": 800,
+    "UPSTOX_KEY_RATIOS": 800,
+    "UPSTOX_VALUATION": 600,
+    "FundamentalSnapshots/FERE": 200,
+    "UPSTOX_CASH_FLOW": 200,
+    "UPSTOX_SHAREHOLDINGS": 600,
+    "FundamentalSnapshots": 200,
+    "InstitutionalDeals": 200,
+    "CorporateActions": 200,
+    "UPSTOX_PROFILE": 200,
+    "QglpModuleAdapter": 400
+  },
+  "notes": "Preserves missingness; no fields defaulted or converted to zero."
+}

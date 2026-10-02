@@ -1,0 +1,45 @@
+{
+  "requestId": "CAL_020_REMEDIATION_001",
+  "reviewId": "FUNDAMENTAL_CAL_020",
+  "iteration": 1,
+  "status": "AWAITING_CODEX_VERIFICATION",
+  "baselineBranch": "ai-review",
+  "baselineHead": "a82dc89e8abd907f9709424fb7ba61e86702350e",
+  "completionHead": "a82dc89e8abd907f9709424fb7ba61e86702350e",
+  "workingTreeBefore": "DIRTY_UNTRACKED_EXISTING",
+  "workingTreeAfter": "DIRTY_UNTRACKED_EXISTING_PRESERVED",
+  "filesCreated": [
+    "tests/unit/cal_020_remediation.test.ts",
+    "scripts/review/run_cal_020_remediation_capture.ts",
+    "reports/review/control/CAL_020_REMEDIATION_EVALUATION.json"
+  ],
+  "filesModified": [
+    "src/server/services/intelligence/domain/BusinessModelClassifier.ts",
+    "src/server/services/intelligence/modules/FundamentalModuleAdapter.ts",
+    "src/server/services/intelligence/modules/QglpModuleAdapter.ts",
+    "src/server/services/intelligence/valuation/ValuationIntelligenceEngine.ts"
+  ],
+  "productionFilesModified": [
+    "src/server/services/intelligence/domain/BusinessModelClassifier.ts",
+    "src/server/services/intelligence/modules/FundamentalModuleAdapter.ts",
+    "src/server/services/intelligence/modules/QglpModuleAdapter.ts",
+    "src/server/services/intelligence/valuation/ValuationIntelligenceEngine.ts"
+  ],
+  "implementationSummary": "Remediated all 4 P1 generalized defects identified in CAL_020_REMEDIATION_001: (1) Valuation metric-level coverage gating: buildHistoricalContext now evaluates dated observations per metric. If valid observations < 2, returns null median/range/percentile and coverage INSUFFICIENT. Valuation dataCompleteness is derived from metric-level coverage (MINIMAL when metrics lack qualifying history; never FULL without multi-observation dense history). (2) QGLP Risk FERE gating: NO_RED_FLAG_DETECTED is emitted only when FERE is WORKING and backed by indexed filings evidence, citing FERE evidence directly. When FERE is DATA_INSUFFICIENT or lacks filings, risk emits DATA_INSUFFICIENT (never citing Upstox competitor snapshots). (3) Model-aware QGLP leverage: BANK and NBFC receive model-appropriate NOT_APPLICABLE status citing prudential and ALM norms. Non-financials gate on actual debtTrajectory status (DELEVERAGING -> SUPPORTED, STABLE -> PARTIAL, absent/insufficient -> DATA_INSUFFICIENT). (4) Business model classification & fail-closed routing: BusinessModelClassifier classifies legal company names containing financial terms as NBFC when sector/industry are missing. FundamentalModuleAdapter withholds model-dependent margin, debt, and return interpretations for UNKNOWN business models. QGLP withholds working capital and leverage conclusions for UNKNOWN models.",
+  "testsAdded": [
+    "tests/unit/cal_020_remediation.test.ts",
+    "scripts/review/run_cal_020_remediation_capture.ts"
+  ],
+  "testsRun": [
+    "npx vitest run tests/unit/cal_020_remediation.test.ts",
+    "npx tsx scripts/review/run_cal_020_remediation_capture.ts"
+  ],
+  "testResults": "PASS",
+  "zeroProductionWritesVerified": true,
+  "productionDbSha256Before": "a77bca867eab45e598b8bf01ee4f2214c66704aaf6620500175ae55a91588c69",
+  "productionDbSha256After": "a77bca867eab45e598b8bf01ee4f2214c66704aaf6620500175ae55a91588c69",
+  "historicalArtifactsPreserved": true,
+  "knownLimitations": [],
+  "developerConcerns": [],
+  "timestamp": "2026-10-01T05:44:00.000Z"
+}

@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "LTF",
+  "issuerBseCode": "507130",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_LTF_AR2024",
+      "documentName": "LTF_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "6f2d013faf68bee148f3a6d961d55e82c9ab5895dab1cde5b118201e31640847",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_LTF_AUDITED_RESULTS",
+      "documentName": "LTF_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "9598f78b07f013c58aca9840c118966b3478d39ad267dd750edb8fcb0e221f65",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_LTF_CONCALL_Q4FY26",
+      "documentName": "LTF_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "3ddb4992c8e063b44803f1baeaf6bc8b6b4aeca09f18c9a898e765f18a0f188e",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

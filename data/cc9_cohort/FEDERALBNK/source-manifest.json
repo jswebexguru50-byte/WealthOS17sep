@@ -1,0 +1,17 @@
+{
+  "issuerNseSymbol": "FEDERALBNK",
+  "issuerBseCode": "500469",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_FED_AR24",
+      "documentName": "Federal_Bank_Annual_Report_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-16",
+      "documentHashSha256": "0718293a4b5c6d7e8f90123456789abcdef0123456789abcdef0123456",
+      "pageCount": 300,
+      "filingAuthority": "BSE / NSE"
+    }
+  ]
+}

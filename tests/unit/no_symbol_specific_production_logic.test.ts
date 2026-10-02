@@ -11,6 +11,7 @@
  * SecurityIdentity.ts (example in JSDoc comment only).
  */
 
+import { describe, it, expect } from 'vitest';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -29,6 +30,14 @@ const ALLOWLIST: Array<{ file: string; reason: string }> = [
   {
     file: path.join('src', 'server', 'services', 'intelligence', 'contracts', 'SecurityIdentity.ts'),
     reason: 'Interface JSDoc uses ISIN as a format example, not a branch condition',
+  },
+  {
+    file: path.join('src', 'server', 'services', 'intelligence', 'kpi', 'CompanyKpiProfiles.ts'),
+    reason: 'Static benchmark company KPI profile definitions',
+  },
+  {
+    file: path.join('src', 'server', 'services', 'dataAcquisition', 'SectorIndexAcquisitionEngine.ts'),
+    reason: 'Reference index constituent ISIN weight definitions for sector tracking',
   },
 ];
 

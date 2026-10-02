@@ -1,0 +1,9 @@
+{
+  "symbol": "PAYTM",
+  "strategyAgreementCount": 12,
+  "totalStrategiesEvaluated": 20,
+  "signalStrength": 60,
+  "marketRegime": "BEARISH",
+  "quantDirective": "NEUTRAL",
+  "decisionDate": "2024-06-30"
+}

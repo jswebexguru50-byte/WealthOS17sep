@@ -1,0 +1,510 @@
+{
+  "registry": "WEALTHOS_CAPABILITY_REGISTRY",
+  "version": "1.0.0",
+  "lastUpdated": "2026-10-01T08:44:00.000Z",
+  "totalCapabilities": 23,
+  "statusCounts": {
+    "IMPLEMENTED": 21,
+    "DOCUMENTED": 2,
+    "PROPOSED": 0,
+    "UNPROVEN": 0,
+    "DEPRECATED": 0
+  },
+  "capabilities": [
+    {
+      "capabilityId": "CAP_DATA_TRUTH",
+      "domain": "DATA_INTEGRITY",
+      "name": "Canonical Market Data & OHLCV Store",
+      "status": "IMPLEMENTED",
+      "description": "Multi-tier storage of daily/intraday adjusted OHLCV across DuckDB, SQLite (portfolio.db), and Parquet caches with corporate action adjustment and split/bonus handling.",
+      "productionFiles": [
+        "src/server/services/DuckDbAdjustedOhlcvService.ts",
+        "src/server/services/MarketDataIngestorService.ts",
+        "src/server/services/NseBhavcopyService.ts",
+        "src/server/services/DualSourceReconciliationEngine.ts",
+        "src/server/services/UniversalDataIntegrityGate.ts",
+        "src/server/routes/infra.ts"
+      ],
+      "associatedTools": [
+        "get_system_health",
+        "resolve_security"
+      ],
+      "testCoverage": [
+        "tests/unit/market_data_certification.test.ts"
+      ],
+      "reviewPrograms": ["PROGRAM_02_DATA_TRUTH_INTEGRITY"]
+    },
+    {
+      "capabilityId": "CAP_SECURITY_IDENTITY",
+      "domain": "SECURITY_MASTER",
+      "name": "Master Tickers & Security Master Resolution",
+      "status": "IMPLEMENTED",
+      "description": "Unified resolution of NSE symbols, BSE scrip codes, ISINs, company names, and listing platforms with alias collision protection.",
+      "productionFiles": [
+        "src/server/services/MasterTickerService.ts",
+        "src/server/services/AssetScripMappingService.ts",
+        "src/server/services/ListingPlatformClassifier.ts",
+        "src/server/routes/shared.ts"
+      ],
+      "associatedTools": [
+        "search_securities",
+        "resolve_security"
+      ],
+      "testCoverage": [
+        "tests/unit/security_resolution.test.ts"
+      ],
+      "reviewPrograms": ["PROGRAM_03_SECURITY_IDENTITY_UNIVERSE"]
+    },
+    {
+      "capabilityId": "CAP_UNIVERSE_DISCOVERY",
+      "domain": "UNIVERSE_MANAGEMENT",
+      "name": "Universe Filtering & Multibagger Discovery",
+      "status": "IMPLEMENTED",
+      "description": "Management of Master Indian Universe (active ~2000 stocks), Sunrise Industrial Universe, and multi-stage opportunity screening engines.",
+      "productionFiles": [
+        "src/server/services/MasterIndianUniverseService.ts",
+        "src/server/services/MasterQuantUniverseService.ts",
+        "src/server/services/SunriseIndustrialUniverseService.ts",
+        "src/server/services/MultibaggerDiscoveryEngine.ts",
+        "src/server/services/OpportunityScannerEngine.ts",
+        "src/server/services/ConsolidatedOpportunityEngine.ts"
+      ],
+      "associatedTools": [
+        "search_securities"
+      ],
+      "testCoverage": [
+        "tests/unit/universe_management.test.ts"
+      ],
+      "reviewPrograms": ["PROGRAM_03_SECURITY_IDENTITY_UNIVERSE"]
+    },
+    {
+      "capabilityId": "CAP_FUNDAMENTAL_ANALYSIS",
+      "domain": "FUNDAMENTAL_INTELLIGENCE",
+      "name": "Fundamental Fact Ingestion & Intelligence Interpretation",
+      "status": "IMPLEMENTED",
+      "description": "Ingestion of company financial statements, balance sheet ratios, DuPont decomposition, business-model classification, and interpretation generation.",
+      "productionFiles": [
+        "src/server/services/FundamentalDataService.ts",
+        "src/server/services/FundamentalAlphaEngine.ts",
+        "src/server/services/FinancialHistoryService.ts",
+        "src/server/services/FinancialMetricRegistry.ts",
+        "src/server/services/QglpScoringService.ts",
+        "src/server/services/ScripIntelligenceDossierService.ts",
+        "src/server/services/intelligence/modules/FundamentalModuleAdapter.ts",
+        "src/server/services/intelligence/domain/BusinessModelClassifier.ts"
+      ],
+      "associatedTools": [
+        "verify_financial_metric",
+        "get_fundamental_review_inputs",
+        "get_fundamental_review_findings"
+      ],
+      "testCoverage": [
+        "tests/unit/fundamental_quarantine.test.ts"
+      ],
+      "reviewPrograms": ["PROGRAM_01_FUNDAMENTAL_CALIBRATION"]
+    },
+    {
+      "capabilityId": "CAP_FORENSIC_INTELLIGENCE",
+      "domain": "FORENSIC_ACCOUNTING",
+      "name": "Forensic Accounting, Quality Scoring & Red Flag Detection",
+      "status": "IMPLEMENTED",
+      "description": "Evaluation of earnings quality, Beneish M-Score, cash-conversion discrepancies, promoter pledge risk, and statutory audit footnote analysis.",
+      "productionFiles": [
+        "src/server/services/ForensicIntelligenceService.ts",
+        "src/server/services/ForensicScoringService.ts",
+        "src/server/services/ForensicQualityAuditService.ts",
+        "src/server/services/ForensicTestSuiteRunner.ts",
+        "src/server/services/FereEvidenceService.ts",
+        "src/server/services/XbrlIngestionService.ts",
+        "src/server/routes/forensicRoutes.ts"
+      ],
+      "associatedTools": [
+        "verify_financial_metric",
+        "get_fundamental_review_findings"
+      ],
+      "testCoverage": [
+        "tests/unit/forensic_scoring.test.ts"
+      ],
+      "reviewPrograms": ["PROGRAM_01_FUNDAMENTAL_CALIBRATION"]
+    },
+    {
+      "capabilityId": "CAP_VALUATION_GOVERNANCE",
+      "domain": "VALUATION",
+      "name": "Forensic Valuation & Multiple Modeling",
+      "status": "IMPLEMENTED",
+      "description": "Historical valuation percentile bands (PE, PB, EV/EBITDA, P/S), FCF yield modeling, and cross-cycle multiple comparison.",
+      "productionFiles": [
+        "src/server/services/UnifiedValuationService.ts",
+        "src/server/services/ForensicValuationService.ts",
+        "src/server/routes/forensicRoutes.ts"
+      ],
+      "associatedTools": [
+        "verify_financial_metric"
+      ],
+      "testCoverage": [
+        "tests/unit/valuation_service.test.ts"
+      ],
+      "reviewPrograms": ["PROGRAM_04_VALUATION_GOVERNANCE"]
+    },
+    {
+      "capabilityId": "CAP_MANAGEMENT_WTT",
+      "domain": "GOVERNANCE_AND_TRACK_RECORD",
+      "name": "Walk-The-Talk Management Guidance Verification",
+      "status": "IMPLEMENTED",
+      "description": "Extraction and audit of management conference call commitments vs actual subsequent quarterly performance, concall micro-RAG, and guidance tracking.",
+      "productionFiles": [
+        "src/server/services/ConcallFailsafeHarvester.ts",
+        "src/server/services/TranscriptRetrievalService.ts",
+        "src/server/services/TranscriptOptimizer.ts",
+        "src/server/services/TranscriptMicroRagOptimizer.ts"
+      ],
+      "associatedTools": [
+        "verify_financial_metric"
+      ],
+      "testCoverage": [
+        "tests/unit/concall_harvester.test.ts"
+      ],
+      "reviewPrograms": ["PROGRAM_01_FUNDAMENTAL_CALIBRATION"]
+    },
+    {
+      "capabilityId": "CAP_TECHNICAL_ANALYSIS",
+      "domain": "TECHNICAL_INDICATORS",
+      "name": "Indicator Plugin Registry & Technical Mathematics",
+      "status": "IMPLEMENTED",
+      "description": "Calculation of technical indicators (SMA, EMA, RSI, MACD, Bollinger Bands, ATR, ADX, Supertrend) via pluggable modular engines.",
+      "productionFiles": [
+        "src/server/services/TechnicalAnalysisEngine.ts",
+        "src/server/services/TechnicalMomentumEngine.ts",
+        "src/server/services/SupportResistanceEngine.ts",
+        "src/server/services/IndicatorPluginRegistry.ts"
+      ],
+      "associatedTools": [
+        "verify_technical_indicator"
+      ],
+      "testCoverage": [
+        "tests/unit/technical_indicators.test.ts"
+      ],
+      "reviewPrograms": ["PROGRAM_05_TECHNICAL_STRATEGY"]
+    },
+    {
+      "capabilityId": "CAP_STRATEGY_S1_S10",
+      "domain": "TRADING_STRATEGIES",
+      "name": "Ten Canonical Trading Strategies (S1-S10)",
+      "status": "IMPLEMENTED",
+      "description": "Execution of canonical strategy rules: S1a/S1b (VPA Swing & Trough Reversal), S2a (FVG / Consequent Encroachment), S3a, S4a, S4b, S5a (Minervini), and multi-strategy candidate ranking.",
+      "productionFiles": [
+        "src/server/services/PureTechnicalStrategiesEngine.ts",
+        "src/server/services/NewTechnicalStrategiesEngine.ts",
+        "src/server/services/MomentumVpaEngine.ts",
+        "src/server/services/SmartMoneyConceptsEngine.ts",
+        "src/server/services/S3aStrategy.ts",
+        "src/server/services/S4aGapRunningStrategy.ts",
+        "src/server/services/S5aMinerviniStrategy.ts",
+        "src/server/services/SevenStrategiesCandidatesService.ts",
+        "src/server/services/StrategyParameterConfig.ts",
+        "src/server/routes/strategies.ts"
+      ],
+      "associatedTools": [
+        "verify_technical_indicator"
+      ],
+      "testCoverage": [
+        "tests/unit/strategy_rules.test.ts"
+      ],
+      "reviewPrograms": ["PROGRAM_05_TECHNICAL_STRATEGY"]
+    },
+    {
+      "capabilityId": "CAP_MARKET_DATA_STREAMING",
+      "domain": "DATA_PIPELINE",
+      "name": "Live Streaming & Broker Ingestion Feed",
+      "status": "IMPLEMENTED",
+      "description": "Live WebSocket streaming from Kite Connect, Upstox intraday polling, bhavcopy archive downloads, and derivative (F&O) open interest ingestion.",
+      "productionFiles": [
+        "src/server/services/LiveMarketStreamService.ts",
+        "src/server/services/UpstoxIntradayIngestor.ts",
+        "src/server/services/FnOBhavcopyIngestorService.ts",
+        "src/server/services/FnOIntelligenceService.ts",
+        "src/server/services/StooqDataService.ts",
+        "src/server/routes/kite.ts",
+        "src/server/routes/zerodha.ts"
+      ],
+      "associatedTools": [
+        "get_system_health"
+      ],
+      "testCoverage": [
+        "tests/unit/live_market_stream.test.ts"
+      ],
+      "reviewPrograms": ["PROGRAM_02_DATA_TRUTH_INTEGRITY"]
+    },
+    {
+      "capabilityId": "CAP_PORTFOLIO_ACCOUNTING",
+      "domain": "PORTFOLIO_MANAGEMENT",
+      "name": "Multi-Broker Portfolio Accounting & Reconciliation",
+      "status": "IMPLEMENTED",
+      "description": "Holding aggregation, multi-broker tradebook reconciliation (Zerodha, Upstox, CAMS mutual funds, Bank FDs), lot tracking, corporate action adjustment, and cash tracking.",
+      "productionFiles": [
+        "src/server/services/ZerodhaTradebookService.ts",
+        "src/server/services/MultiBrokerReconService.ts",
+        "src/server/services/CorporateActionsEngine.ts",
+        "src/server/services/BankAndFDService.ts",
+        "src/server/services/RebalancingEngine.ts",
+        "src/server/routes/portfolios.ts",
+        "src/server/routes/bankFds.ts"
+      ],
+      "associatedTools": [
+        "verify_xirr"
+      ],
+      "testCoverage": [
+        "tests/unit/portfolio_accounting.test.ts"
+      ],
+      "reviewPrograms": ["PROGRAM_06_PORTFOLIO_ACCOUNTING"]
+    },
+    {
+      "capabilityId": "CAP_TRANSACTION_IMPORT",
+      "domain": "TRANSACTIONS",
+      "name": "Transaction Ingestion & Deduplication Hub",
+      "status": "IMPLEMENTED",
+      "description": "Parsing and idempotent ingestion of tradebook statements (CSV/Excel/CAS), transaction deduplication, trade identity tracking, and manual transaction entry.",
+      "productionFiles": [
+        "src/server/services/TransactionDeduplicationService.ts",
+        "src/server/services/ImportParserService.ts",
+        "src/server/services/ZerodhaConsoleDownloader.ts",
+        "src/server/routes/transactions.ts",
+        "src/server/routes/imports.ts"
+      ],
+      "associatedTools": [
+        "verify_xirr"
+      ],
+      "testCoverage": [
+        "tests/unit/transaction_dedup.test.ts"
+      ],
+      "reviewPrograms": ["PROGRAM_06_PORTFOLIO_ACCOUNTING"]
+    },
+    {
+      "capabilityId": "CAP_PERFORMANCE_XIRR",
+      "domain": "PERFORMANCE_MEASUREMENT",
+      "name": "Post-Tax XIRR & Benchmark Alpha Engine",
+      "status": "IMPLEMENTED",
+      "description": "Exact cash-flow internal rate of return (XIRR) calculation with daily cash-flow precision, family benchmark comparison, and alpha attribution.",
+      "productionFiles": [
+        "src/server/services/PostTaxXirrService.ts",
+        "src/server/services/FamilyBenchmarkService.ts",
+        "src/server/routes/reports.ts"
+      ],
+      "associatedTools": [
+        "verify_xirr"
+      ],
+      "testCoverage": [
+        "tests/unit/xirr_calculation.test.ts"
+      ],
+      "reviewPrograms": ["PROGRAM_06_PORTFOLIO_ACCOUNTING"]
+    },
+    {
+      "capabilityId": "CAP_TAX_HARVESTING",
+      "domain": "TAX_OPTIMIZATION",
+      "name": "Schedule 112A Capital Gains & Tax Loss Harvesting",
+      "status": "IMPLEMENTED",
+      "description": "Indian Income Tax Section 112A capital gains computation (LTCG / STCG), grandfathering as of 31-Jan-2018, tax loss harvesting recommendations, and NRI repatriation rules.",
+      "productionFiles": [
+        "src/server/services/TaxHarvestingEngine.ts",
+        "src/server/services/NriWealthService.ts",
+        "src/server/routes/nri.ts"
+      ],
+      "associatedTools": [
+        "verify_xirr"
+      ],
+      "testCoverage": [
+        "tests/unit/tax_harvesting.test.ts"
+      ],
+      "reviewPrograms": ["PROGRAM_06_PORTFOLIO_ACCOUNTING"]
+    },
+    {
+      "capabilityId": "CAP_REPORTING_EXPORT",
+      "domain": "REPORTING",
+      "name": "Commercial Excel & Institutional Dossier Report Generation",
+      "status": "IMPLEMENTED",
+      "description": "Generation of institutional XLSX/PDF research dossiers, portfolio audit packages, multi-sheet strategy execution workbooks, and email dispatchers.",
+      "productionFiles": [
+        "src/server/services/ReportsService.ts",
+        "src/server/services/CommercialExcelReportService.ts",
+        "src/server/services/InstitutionalDossierReportGenerator.ts",
+        "src/server/services/ExcelExportService.ts",
+        "src/server/services/DossierEmailDispatcher.ts",
+        "src/server/routes/reports.ts"
+      ],
+      "associatedTools": [
+        "get_scrip_lifecycle_report"
+      ],
+      "testCoverage": [
+        "tests/unit/report_generation.test.ts"
+      ],
+      "reviewPrograms": ["PROGRAM_06_PORTFOLIO_ACCOUNTING"]
+    },
+    {
+      "capabilityId": "CAP_HTTP_REST_API",
+      "domain": "API_TRANSPORT",
+      "name": "Express REST Application Server",
+      "status": "IMPLEMENTED",
+      "description": "Comprehensive REST API layer serving frontend workspaces, command center, portfolio services, strategy calculations, and system administration.",
+      "productionFiles": [
+        "src/server/routes/commandCenter.ts",
+        "src/server/routes/forensicRoutes.ts",
+        "src/server/routes/portfolios.ts",
+        "src/server/routes/strategies.ts",
+        "src/server/routes/infra.ts",
+        "src/server/routes/system.ts"
+      ],
+      "associatedTools": [
+        "get_system_health"
+      ],
+      "testCoverage": [
+        "tests/unit/api_routes.test.ts"
+      ],
+      "reviewPrograms": ["PROGRAM_08_UNIVERSAL_API_MCP"]
+    },
+    {
+      "capabilityId": "CAP_UNIVERSAL_MCP",
+      "domain": "MCP_PLATFORM",
+      "name": "Model Context Protocol Dual-Plane Gateway",
+      "status": "IMPLEMENTED",
+      "description": "Streamable HTTP and SSE Model Context Protocol server exposing 66 registered tools with strict bearer-token authentication and plane isolation (Product vs Review plane).",
+      "productionFiles": [
+        "src/mcp/transports/http.ts",
+        "src/mcp/registry/toolRegistry.ts",
+        "src/server/routes/mcpRouter.ts"
+      ],
+      "associatedTools": [
+        "inspect_source",
+        "inspect_source_file",
+        "run_tests",
+        "run_build_and_typecheck",
+        "get_repository_status"
+      ],
+      "testCoverage": [
+        "tests/unit/wealthos_universal_mcp.test.ts"
+      ],
+      "reviewPrograms": ["PROGRAM_08_UNIVERSAL_API_MCP"]
+    },
+    {
+      "capabilityId": "CAP_UI_WORKSPACES",
+      "domain": "UI_FRONTEND",
+      "name": "React Workspaces & Interactive Dashboards",
+      "status": "IMPLEMENTED",
+      "description": "Multi-workspace interactive UI (Analyze, Discover, Audit, Research), Command Center, Opportunities Hub, Institutional Analytics, and Forensic Dossier inspection.",
+      "productionFiles": [
+        "src/App.tsx",
+        "src/components/DashboardView.tsx",
+        "src/components/OpportunityEngineMasterView.tsx",
+        "src/components/InstitutionalAnalyticsHub.tsx",
+        "src/components/FamilyOfficeCommandCenter.tsx",
+        "src/components/forensic/ForensicIntelligenceMasterView.tsx"
+      ],
+      "associatedTools": [
+        "run_browser_journey"
+      ],
+      "testCoverage": [
+        "tests/unit/ui_components.test.ts"
+      ],
+      "reviewPrograms": ["PROGRAM_09_UI_BROWSER_JOURNEYS"]
+    },
+    {
+      "capabilityId": "CAP_PIT_FRESHNESS",
+      "domain": "TEMPORAL_INTEGRITY",
+      "name": "Point-in-Time Timeline & As-Of Date Enforcement",
+      "status": "IMPLEMENTED",
+      "description": "Strict survivorship and forward-looking bias prevention ensuring all metrics, statements, and market prices reflect only information available on the query date.",
+      "productionFiles": [
+        "src/server/services/HistoricalPITUniverseProvider.ts",
+        "src/server/services/HistoricalReplayBacktestEngine.ts",
+        "src/server/services/UniversalDataIntegrityGate.ts"
+      ],
+      "associatedTools": [
+        "verify_financial_metric"
+      ],
+      "testCoverage": [
+        "tests/unit/pit_universe.test.ts"
+      ],
+      "reviewPrograms": ["PROGRAM_07_EVIDENCE_PROVENANCE_PIT"]
+    },
+    {
+      "capabilityId": "CAP_EVIDENCE_PROVENANCE",
+      "domain": "DATA_PROVENANCE",
+      "name": "Evidence Spine & Citation Integrity Gate",
+      "status": "IMPLEMENTED",
+      "description": "Immutable source tracing for financial metrics linking statements to MCA/BSE/NSE filings, XBRL tags, and statutory auditor footnotes with synthetic quarantine.",
+      "productionFiles": [
+        "src/server/services/FereEvidenceService.ts",
+        "src/server/services/StatutoryLineageService.ts",
+        "src/server/services/UniversalKnowledgeCompiler.ts",
+        "src/server/services/QuarantineQueueService.ts"
+      ],
+      "associatedTools": [
+        "verify_financial_metric"
+      ],
+      "testCoverage": [
+        "tests/unit/fundamental_quarantine.test.ts"
+      ],
+      "reviewPrograms": ["PROGRAM_07_EVIDENCE_PROVENANCE_PIT"]
+    },
+    {
+      "capabilityId": "CAP_AUTONOMOUS_CALIBRATION",
+      "domain": "SELF_LEARNING",
+      "name": "Autonomous Calibration & Self-Learning Proposal Engine",
+      "status": "DOCUMENTED",
+      "description": "Automated parameter sensitivity tuning and continuous self-learning proposal generator; documented in architecture specs but marked experimental in production.",
+      "productionFiles": [
+        "src/server/services/AutoCalibrationProposalService.ts",
+        "src/server/services/AutonomousSelfLearningService.ts",
+        "src/server/services/SelfLearningEngine.ts"
+      ],
+      "associatedTools": [],
+      "testCoverage": [],
+      "reviewPrograms": ["PROGRAM_05_TECHNICAL_STRATEGY"]
+    },
+    {
+      "capabilityId": "CAP_RESEARCH_KNOWLEDGE_INTELLIGENCE",
+      "domain": "RESEARCH_INTELLIGENCE",
+      "name": "Research Knowledge Synthesis & Media Intelligence",
+      "status": "IMPLEMENTED",
+      "description": "Multi-channel research aggregation (YouTube topic expansion, concall transcript extraction, Google NotebookLM synthesis, news sentiment, and broker research report indexing).",
+      "productionFiles": [
+        "src/server/routes/knowledgeIntelligence.ts",
+        "src/server/services/YouTubeResearchIntelligenceEngine.ts",
+        "src/server/services/UniversalKnowledgeCompiler.ts",
+        "src/server/services/NewsSentimentService.ts",
+        "src/server/services/BrokerResearchIntelligenceService.ts",
+        "src/components/KnowledgeLabView.tsx",
+        "src/components/ResearchWorkspace.tsx"
+      ],
+      "associatedTools": [
+        "get_company_profile",
+        "get_company_facts"
+      ],
+      "testCoverage": [
+        "tests/unit/concall_harvester.test.ts"
+      ],
+      "reviewPrograms": ["PROGRAM_01_FUNDAMENTAL_CALIBRATION"]
+    },
+    {
+      "capabilityId": "CAP_INSTITUTIONAL_SMART_MONEY",
+      "domain": "INSTITUTIONAL_INTELLIGENCE",
+      "name": "Institutional Flow & Smart Money Sentinel",
+      "status": "IMPLEMENTED",
+      "description": "Real-time monitoring of FII/DII net flows, futures long/short open interest, institutional bulk/block deals, smart-money absorption wall detection, and autonomous sentinel triggers.",
+      "productionFiles": [
+        "src/server/services/InstitutionalFlowService.ts",
+        "src/server/services/SmartMoneyFlowEngine.ts",
+        "src/server/services/AutonomousSmartMoneyAgent.ts",
+        "src/server/services/InstitutionalBuyersService.ts",
+        "src/components/SmartMoneyMomentumVpaView.tsx",
+        "src/components/AutonomousSmartMoneySentinelView.tsx"
+      ],
+      "associatedTools": [
+        "verify_financial_metric"
+      ],
+      "testCoverage": [
+        "tests/unit/strategy_rules.test.ts"
+      ],
+      "reviewPrograms": ["PROGRAM_05_TECHNICAL_STRATEGY"]
+    }
+  ]
+}

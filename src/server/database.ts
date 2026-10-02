@@ -19,7 +19,10 @@ export async function runInDbLock<T>(fn: () => Promise<T>): Promise<T> {
   }
 }
 
-const DB_FILE = process.env.DATABASE_URL || path.join(process.cwd(), 'portfolio.db');
+export function getEffectiveDbPath(): string {
+  return process.env.DATABASE_URL || path.join(process.cwd(), 'portfolio.db');
+}
+const getDbFile = getEffectiveDbPath;
 const PERSISTENT_BACKUP_PATH = path.join(process.cwd(), 'portfolio_persistent_backup.db');
 
 let lastBackupTime = 0;
@@ -131,7 +134,7 @@ export function getDB(): sqlite3.Database {
     restorePersistentBackupIfNeeded();
   }
   if (dbInstance && dbInstance.isOpen) return dbInstance;
-  const db = new sqlite3.Database(DB_FILE) as sqlite3.Database & { isOpen?: boolean };
+  const db = new sqlite3.Database(getDbFile()) as sqlite3.Database & { isOpen?: boolean };
   db.isOpen = true;
   dbInstance = db;
   db.on('error', (err) => {

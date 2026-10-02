@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_JINDALSTEL_REV_FY26",
+    "issuerNseSymbol": "JINDALSTEL",
+    "issuerBseCode": "523126",
+    "documentHash": "08d305992b27788700196f52f711b8b170ee3a69729171369824d5dd800d07b5",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹13688 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_JINDALSTEL_PAT_FY26",
+    "issuerNseSymbol": "JINDALSTEL",
+    "issuerBseCode": "523126",
+    "documentHash": "08d305992b27788700196f52f711b8b170ee3a69729171369824d5dd800d07b5",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹1643 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_JINDALSTEL_DEBT_FY26",
+    "issuerNseSymbol": "JINDALSTEL",
+    "issuerBseCode": "523126",
+    "documentHash": "c33993a637c01626fb0207d66afcf6a418bece75938e4ddbba74fc2469cf2f95",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_JINDALSTEL_CONCALL_Q4FY26",
+    "issuerNseSymbol": "JINDALSTEL",
+    "issuerBseCode": "523126",
+    "documentHash": "aa5e3923f553932d96c314df7d201f995688cb688a438918a55f88f19f6e968b",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

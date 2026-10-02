@@ -28,6 +28,8 @@ export interface QglpPillar {
   };
 }
 
+import { QglpFourDimensions } from './FundamentalExperienceTypes.js';
+
 export interface QglpPayload {
   qualityOfBusiness: QglpPillar;
   qualityOfManagement: QglpPillar;
@@ -35,5 +37,7 @@ export interface QglpPayload {
   longevity: QglpPillar;
   price: QglpPillar;
   risk: QglpPillar;
+  dimensions?: QglpFourDimensions;
+  pillars?: QglpPillar[];
   dataAsOf: string | null;
 }

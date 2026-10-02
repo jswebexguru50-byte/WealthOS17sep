@@ -1,0 +1,19 @@
+{
+  "symbol": "BANKBARODA",
+  "coreThesisStatement": "Second largest Indian public sector bank delivering exceptional return on equity (18%+) backed by international loan book and low provisioning burdens.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "International Banking Moat",
+      "description": "Presence across 17 countries generating resilient fee income."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Retail Asset Diversification",
+      "description": "Auto, home, and gold loans growing at 20%+ YoY."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_BOB_NPA"
+  ]
+}

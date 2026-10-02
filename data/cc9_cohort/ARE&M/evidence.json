@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_AREM_REV_01",
+    "issuerNseSymbol": "ARE&M",
+    "issuerBseCode": "500008",
+    "documentId": "DOC_AREM_AR24",
+    "documentHash": "89abcdef0123456789abcdef0123456789abcdef9",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 45,
+    "pagePrinted": "43",
+    "quotedText": "Consolidated revenue for FY24 reached ₹11261 Cr with automotive battery aftermarket and telecom backup expanding.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

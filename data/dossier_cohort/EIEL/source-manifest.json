@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "EIEL",
+  "issuerBseCode": "508897",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_EIEL_AR2024",
+      "documentName": "EIEL_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "4b3de8a0aad6dfb49662a82f44ad78db926a53472a03b739d765ada9934989c5",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_EIEL_AUDITED_RESULTS",
+      "documentName": "EIEL_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "7fcabe90e4d1058dc33fd721037e5736968fb7bc5810a4a392c5c2f77606ad67",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_EIEL_CONCALL_Q4FY26",
+      "documentName": "EIEL_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "dde7adf003adba8de86df26618e203bf6a1a22da4c8d63bfb9da08b30b86ead4",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

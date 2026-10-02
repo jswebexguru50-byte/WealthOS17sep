@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_ETERNAL_01",
+    "issuerNseSymbol": "ETERNAL",
+    "issuerBseCode": "543320",
+    "eventDate": "2024-05-13",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Blinkit Dark Store Network Expansion to 1,000 Locations",
+    "description": "Announced strategic plan to double dark store footprint across top 15 Indian metropolitan cities.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_ETERNAL_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

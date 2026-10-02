@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "SHANTIGOLD",
+  "issuerBseCode": "523219",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_SHANTIGOLD_AR2024",
+      "documentName": "SHANTIGOLD_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "b8f6c96b7293007099bae43e135f09aef9bdde2060bd5238f42d56e1994f08e1",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_SHANTIGOLD_AUDITED_RESULTS",
+      "documentName": "SHANTIGOLD_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "2ba2bff3717e5d6fb7f1398f52821b42b93fefca8d180c85801413678ed9a663",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_SHANTIGOLD_CONCALL_Q4FY26",
+      "documentName": "SHANTIGOLD_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "baf85b58e968716296715b4ee575cd7e2327afabbc9028b53e44e6bb29ce3032",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

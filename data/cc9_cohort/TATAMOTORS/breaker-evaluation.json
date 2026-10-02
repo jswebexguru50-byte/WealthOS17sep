@@ -1,0 +1,14 @@
+[
+  {
+    "breakerId": "TB_TAMO_LEVERAGE",
+    "symbol": "TATAMOTORS",
+    "name": "Auto Net Debt Ceiling",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 2,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Auto Net Debt / EBITDA exceeding 2.0x triggers hard veto.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "issuerNseSymbol": "TATACONSUM",
+  "issuerBseCode": "500800",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_TATACONSUM_AR24",
+      "documentName": "Tata_Consumer_Products_Annual_Report_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-18",
+      "documentHashSha256": "9abcdef0123456789abcdef0123456789abcdefa",
+      "pageCount": 320,
+      "filingAuthority": "BSE / NSE"
+    }
+  ]
+}

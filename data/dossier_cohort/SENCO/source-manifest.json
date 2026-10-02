@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "SENCO",
+  "issuerBseCode": "511656",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_SENCO_AR2024",
+      "documentName": "SENCO_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "3c04655652046c0e642c29be5413035f5c86874afe8ffe92bff8d9618d13c538",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_SENCO_AUDITED_RESULTS",
+      "documentName": "SENCO_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "8928ad65bab7100f89cb8451bdade8c1b983b4fbca4925982d396ef59289f4c7",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_SENCO_CONCALL_Q4FY26",
+      "documentName": "SENCO_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "9a230d2d764cef579b7dbe4a5bd53624143259f660cd10ca888ca0f8e9a0123c",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

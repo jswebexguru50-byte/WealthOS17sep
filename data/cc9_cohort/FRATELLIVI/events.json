@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_FRATELLI_01",
+    "issuerNseSymbol": "FRATELLIVI",
+    "issuerBseCode": "539745",
+    "eventDate": "2024-03-22",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "Acquisition and Expansion of Estate Vineyards in Maharashtra",
+    "description": "Expanded estate viticulture acreage in Solapur and Nashik to meet growing domestic demand for premium varietal wines.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_FRAT_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

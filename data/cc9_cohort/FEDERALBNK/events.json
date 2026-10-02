@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_FEDERALBNK_01",
+    "issuerNseSymbol": "FEDERALBNK",
+    "issuerBseCode": "500469",
+    "eventDate": "2024-05-02",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Leadership Transition and MD & CEO Succession",
+    "description": "Board recommended executive successor to RBI ensuring seamless governance continuity.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_FED_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

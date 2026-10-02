@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_BHARTI_01",
+    "issuerNseSymbol": "BHARTIARTL",
+    "issuerBseCode": "532454",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Expand consolidated telecom top line past ₹140,000 Cr in FY24 driven by 4G/5G upgrade momentum.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 139145,
+    "expectedValue": 140000,
+    "expectedOutcome": "Revenue >= ₹140,000 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_BHARTI_REV_01",
+    "claimDate": "2023-08-16",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 149982,
+    "actualOutcomeDescription": "Delivered ₹149,982 Cr revenue beating expectation by 7.1%.",
+    "evaluationEvidenceId": "EV_BHARTI_REV_01",
+    "evaluationDate": "2024-05-14",
+    "evaluationBasis": "Audited Annual Results Release",
+    "publicationDate": "2023-08-16",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_BHARTI_01"
+  }
+]

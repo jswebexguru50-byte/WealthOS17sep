@@ -1,0 +1,8 @@
+{
+  "timestamp": "2026-09-17T13:40:44.676Z",
+  "status": "PASS",
+  "windowsEvaluated": 0,
+  "promotionMetricsPopulation": "OOS_ONLY",
+  "trainOosOverlap": false,
+  "futureWindowContamination": false
+}

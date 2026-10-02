@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_EPL_01",
+    "issuerNseSymbol": "EPL",
+    "issuerBseCode": "500135",
+    "eventDate": "2024-04-12",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "Commercial Scale-Up of 100% Recyclable Platina Tubes",
+    "description": "Successfully converted over 50% of oral care global product portfolio to fully recyclable Platina mono-material tubes.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_EPL_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

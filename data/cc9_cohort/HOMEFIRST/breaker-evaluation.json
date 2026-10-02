@@ -1,0 +1,14 @@
+[
+  {
+    "breakerId": "TB_HOME_NPA",
+    "symbol": "HOMEFIRST",
+    "name": "Affordable Housing GNPA Ceiling",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 2.5,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Gross NPA exceeding 2.5% triggers hard veto.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

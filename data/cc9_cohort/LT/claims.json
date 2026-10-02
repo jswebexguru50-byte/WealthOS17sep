@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_LT_01",
+    "issuerNseSymbol": "LT",
+    "issuerBseCode": "500510",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Expand consolidated group revenue past ₹200,000 Cr in FY24 with 15% order inflow growth.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 183341,
+    "expectedValue": 200000,
+    "expectedOutcome": "Revenue >= ₹200,000 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_LT_REV_01",
+    "claimDate": "2023-08-11",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 221113,
+    "actualOutcomeDescription": "Delivered ₹221,113 Cr revenue exceeding target by 10.6%.",
+    "evaluationEvidenceId": "EV_LT_REV_01",
+    "evaluationDate": "2024-05-08",
+    "evaluationBasis": "BSE Audited Financial Accounts Release",
+    "publicationDate": "2023-08-11",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_LT_01"
+  }
+]

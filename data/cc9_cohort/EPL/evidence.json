@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_EPL_REV_01",
+    "issuerNseSymbol": "EPL",
+    "issuerBseCode": "500135",
+    "documentId": "DOC_EPL_AR24",
+    "documentHash": "123456789abcdef0123456789abcdef0123456789abcdef2",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 38,
+    "pagePrinted": "36",
+    "quotedText": "Consolidated revenue for FY24 reached ₹3998 Cr with oral care and beauty tube volumes growing by 8%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "HINDCOPPER",
+  "issuerBseCode": "523188",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_HINDCOPPER_AR2024",
+      "documentName": "HINDCOPPER_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "0db65bcd450d2c362b66b3c653c7f558a72528b0161dedc36a5bd0b60f672179",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_HINDCOPPER_AUDITED_RESULTS",
+      "documentName": "HINDCOPPER_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "dddfdee97a2c48aaaa7d8a598b6df319593d2b5a7aff52156340d270a545681f",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_HINDCOPPER_CONCALL_Q4FY26",
+      "documentName": "HINDCOPPER_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "556d4b269fca8d01aecb5ceed8e4f534e5e05d92cd716f1f93c8a3fbcd599ceb",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

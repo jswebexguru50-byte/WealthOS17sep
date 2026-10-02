@@ -1,0 +1,32 @@
+{
+  "generatedAt": "2026-10-02T05:13:58.355Z",
+  "mode": "APPLIED",
+  "policy": "Promotes only already-downloaded FERE verified_xbrl_fact rows. No network calls. No inferred missing metrics. INR values are deterministically converted to INR crore.",
+  "portfolioPath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\portfolio.db",
+  "ferePath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\data\\fere\\verified_filings\\fere_evidence.db",
+  "manifest": "ALL_MATCHED_FERE_SYMBOLS",
+  "requestedSymbols": "ALL",
+  "fereRowsConsidered": 249414,
+  "factsPrepared": 249414,
+  "factsWritten": 249414,
+  "matchedSymbols": 2270,
+  "unmatchedSymbols": [],
+  "metricTotals": {
+    "depreciation": 29282,
+    "equity_capital": 29813,
+    "finance_costs": 29352,
+    "materials_cost": 29352,
+    "pat": 29282,
+    "pbt": 29352,
+    "revenue": 29352,
+    "total_expenses": 29379,
+    "cfo": 14250
+  },
+  "periodTypeTotals": {
+    "QUARTERLY": 207003,
+    "ANNUAL": 33202,
+    "HALF_YEARLY": 5278,
+    "NINE_MONTHS": 3923,
+    "PERIOD": 8
+  }
+}

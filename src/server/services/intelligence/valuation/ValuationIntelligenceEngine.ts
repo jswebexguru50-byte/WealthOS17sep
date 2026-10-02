@@ -112,13 +112,11 @@ export class ValuationIntelligenceEngine {
     const historicalContext: ValuationHistoricalContext[] = [];
     const preferredMetrics = this.getPreferredMetrics(businessModel);
 
-    if (audit.density !== 'INSUFFICIENT') {
-      for (const metric of preferredMetrics) {
+    for (const metric of preferredMetrics) {
+      if (audit.density !== 'INSUFFICIENT') {
         const ctx = await this.buildHistoricalContext(symbol, isin, metric, audit, asOfDate);
         historicalContext.push(ctx);
-      }
-    } else {
-      for (const metric of preferredMetrics) {
+      } else {
         const currentMetricObj = currentMetrics.find(m => m.metric === metric);
         historicalContext.push({
           metric,
@@ -138,9 +136,17 @@ export class ValuationIntelligenceEngine {
       }
     }
 
-    const completeness = audit.density === 'DENSE' ? 'FULL'
-      : audit.density === 'SPARSE' ? 'PARTIAL'
-      : 'MINIMAL';
+    const denseMetrics = historicalContext.filter(c => c.coverage === 'DENSE').length;
+    const usableMetrics = historicalContext.filter(c => c.coverage === 'DENSE' || c.coverage === 'SPARSE').length;
+
+    let completeness: 'FULL' | 'PARTIAL' | 'MINIMAL' = 'MINIMAL';
+    if (audit.density === 'DENSE' && denseMetrics >= Math.ceil(preferredMetrics.length / 2)) {
+      completeness = 'FULL';
+    } else if (audit.density !== 'INSUFFICIENT' && usableMetrics > 0) {
+      completeness = 'PARTIAL';
+    } else {
+      completeness = 'MINIMAL';
+    }
 
     return {
       securityId,
@@ -298,9 +304,14 @@ export class ValuationIntelligenceEngine {
         'ALLOW_INFERRED'
       );
 
-      const validValues = facts
-        .map(f => (typeof f.value === 'number' ? f.value : parseFloat(String(f.value))))
-        .filter(v => !isNaN(v) && v > 0);
+      const validFacts = facts.filter(f => {
+        const v = typeof f.value === 'number' ? f.value : parseFloat(String(f.value));
+        return !isNaN(v) && v > 0;
+      });
+
+      const validValues = validFacts.map(f =>
+        typeof f.value === 'number' ? f.value : parseFloat(String(f.value))
+      );
 
       if (validValues.length === 0) {
         return {
@@ -309,6 +320,41 @@ export class ValuationIntelligenceEngine {
           min1Y: null, max1Y: null, contextNote: null,
           coverage: 'INSUFFICIENT', limitation: 'No valid historical numeric values found',
         };
+      }
+
+      if (validValues.length === 1) {
+        const currentValue = validValues[0];
+        return {
+          metric,
+          currentValue,
+          current1YPercentile: null,
+          median1Y: null,
+          median3Y: null,
+          median5Y: null,
+          min1Y: null,
+          max1Y: null,
+          contextNote: `Observed ${metric} is ${currentValue}x; single observation — insufficient historical periods for distribution.`,
+          coverage: 'INSUFFICIENT',
+          limitation: 'Single observation available — minimum 2 dated historical observations required for distribution calculation.',
+        };
+      }
+
+      const validDates = validFacts
+        .map(f => f.periodEnd || f.availableAt || f.publishedAt)
+        .filter((d): d is string => Boolean(d))
+        .sort();
+      let metricSpanDays = 0;
+      if (validDates.length >= 2) {
+        metricSpanDays = Math.floor(
+          (new Date(validDates[validDates.length - 1]).getTime() - new Date(validDates[0]).getTime()) / (86400 * 1000)
+        );
+      }
+
+      let metricDensity: HistoricalDensity = 'INSUFFICIENT';
+      if (validValues.length >= 8 && metricSpanDays >= 365) {
+        metricDensity = 'DENSE';
+      } else if (validValues.length >= 2) {
+        metricDensity = 'SPARSE';
       }
 
       const currentValue = validValues[validValues.length - 1];
@@ -324,20 +370,24 @@ export class ValuationIntelligenceEngine {
 
       const note = percentile !== null
         ? `Observed ${metric} is ${currentValue}x against multi-period median of ${median}x (${percentile}th percentile)`
-        : `Observed ${metric} is ${currentValue}x`;
+        : `Observed ${metric} is ${currentValue}x against multi-period median of ${median}x`;
+
+      const metricLimitation = metricDensity === 'DENSE'
+        ? null
+        : `${validValues.length} historical observations over ${metricSpanDays} days — multi-year distribution requires further historical filings.`;
 
       return {
         metric,
         currentValue,
         current1YPercentile: percentile,
         median1Y: median,
-        median3Y: validValues.length >= 6 ? median : null,
-        median5Y: validValues.length >= 10 ? median : null,
+        median3Y: validValues.length >= 6 && metricSpanDays >= 700 ? median : null,
+        median5Y: validValues.length >= 10 && metricSpanDays >= 1400 ? median : null,
         min1Y: min,
         max1Y: max,
         contextNote: note,
-        coverage: audit.density,
-        limitation: audit.limitation,
+        coverage: metricDensity,
+        limitation: metricLimitation,
       };
     } catch {
       return {

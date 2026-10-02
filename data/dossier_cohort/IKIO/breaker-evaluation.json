@@ -1,0 +1,26 @@
+[
+  {
+    "breakerId": "TB_IKIO_LEVERAGE",
+    "symbol": "IKIO",
+    "name": "Excessive Leverage Expansion",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 2.5,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Net Debt / Equity exceeding 2.5x breaks capital preservation shield.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  },
+  {
+    "breakerId": "TB_IKIO_STRUCTURAL_STOP",
+    "symbol": "IKIO",
+    "name": "Structural Stop Loss Violation",
+    "type": "PRICE_ACTION",
+    "thresholdValue": 199.45,
+    "comparisonOperator": "LESS_THAN",
+    "severity": "CRITICAL",
+    "description": "Confirmed daily close below ₹199.45 invalidates technical thesis.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

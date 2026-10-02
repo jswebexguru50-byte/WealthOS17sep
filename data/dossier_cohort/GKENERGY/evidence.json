@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_GKENERGY_REV_FY26",
+    "issuerNseSymbol": "GKENERGY",
+    "issuerBseCode": "518724",
+    "documentHash": "7090da0757d037779125c10263a0d60bf4473c3d574c7035f54756f85d76dab3",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹1545 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_GKENERGY_PAT_FY26",
+    "issuerNseSymbol": "GKENERGY",
+    "issuerBseCode": "518724",
+    "documentHash": "7090da0757d037779125c10263a0d60bf4473c3d574c7035f54756f85d76dab3",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹185 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_GKENERGY_DEBT_FY26",
+    "issuerNseSymbol": "GKENERGY",
+    "issuerBseCode": "518724",
+    "documentHash": "2295f11ba141eed20d64c5a8e654e9e9c33db3cbefba8bad1c718f6bf67f2fae",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_GKENERGY_CONCALL_Q4FY26",
+    "issuerNseSymbol": "GKENERGY",
+    "issuerBseCode": "518724",
+    "documentHash": "9e95570fc64df216e3b7ffe6d60d10431e0e352cf80d705650449c8cd544094d",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

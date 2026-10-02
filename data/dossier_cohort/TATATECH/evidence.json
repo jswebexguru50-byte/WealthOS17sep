@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_TATATECH_REV_FY26",
+    "issuerNseSymbol": "TATATECH",
+    "issuerBseCode": "518290",
+    "documentHash": "0f0f177bec378fbb9e9744a6775c76d884d4b414d0e83be788d046164e6d2982",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹9491 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_TATATECH_PAT_FY26",
+    "issuerNseSymbol": "TATATECH",
+    "issuerBseCode": "518290",
+    "documentHash": "0f0f177bec378fbb9e9744a6775c76d884d4b414d0e83be788d046164e6d2982",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹1139 Cr with operating margin of 20.1%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_TATATECH_DEBT_FY26",
+    "issuerNseSymbol": "TATATECH",
+    "issuerBseCode": "518290",
+    "documentHash": "92e2a11a7cc48ace3852ddade593c8e435d3501364cc153c22765e1ba767c644",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.05x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_TATATECH_CONCALL_Q4FY26",
+    "issuerNseSymbol": "TATATECH",
+    "issuerBseCode": "518290",
+    "documentHash": "65742ec093519c9ac284fba0ee6c329e9a3b146fef14f46aaf00d5f367026a1b",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for diversification into aerospace (Airbus strategic partner status) and non-auto verticals; aerospace pipeline grew 35%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

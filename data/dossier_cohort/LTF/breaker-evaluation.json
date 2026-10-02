@@ -1,0 +1,26 @@
+[
+  {
+    "breakerId": "TB_LTF_LEVERAGE",
+    "symbol": "LTF",
+    "name": "Excessive Leverage Expansion",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 2.5,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Net Debt / Equity exceeding 2.5x breaks capital preservation shield.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  },
+  {
+    "breakerId": "TB_LTF_STRUCTURAL_STOP",
+    "symbol": "LTF",
+    "name": "Structural Stop Loss Violation",
+    "type": "PRICE_ACTION",
+    "thresholdValue": 280.48,
+    "comparisonOperator": "LESS_THAN",
+    "severity": "CRITICAL",
+    "description": "Confirmed daily close below ₹280.48 invalidates technical thesis.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

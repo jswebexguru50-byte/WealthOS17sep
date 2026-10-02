@@ -235,9 +235,10 @@ export class CanonicalFactService {
   public async augmentWithOperatingKpis(
     facts: AnalyticalFacts,
     identityOrSymbol: SecurityIdentity | { symbol: string; isin?: string | null; nseSymbol?: string | null; securityId?: string } | string,
-    asOfDate?: string | null
+    asOfDate?: string | null,
+    overrideDb?: any
   ): Promise<AnalyticalFacts> {
-    const db = getDB();
+    const db = overrideDb || getDB();
     if (!db) return facts;
 
     const identity = typeof identityOrSymbol === 'string'
@@ -281,7 +282,9 @@ export class CanonicalFactService {
           ORDER BY availableAt DESC, periodEnd DESC
           LIMIT 4
         `;
-        const rows = await dbAll<any>(db, sql, [isin, symbol, metric, effectiveAsOf, effectiveAsOf]);
+        const rows = typeof db.all === 'function'
+          ? await dbAll<any>(db, sql, [isin, symbol, metric, effectiveAsOf, effectiveAsOf])
+          : (db.prepare ? db.prepare(sql).all(isin, symbol, metric, effectiveAsOf, effectiveAsOf) : []);
 
         if (rows && rows.length > 0) {
           operatingKpis[metric] = rows.map((r: any) => ({
@@ -346,9 +349,10 @@ export class CanonicalFactService {
   public async augmentWithQuarterlyFacts(
     facts: AnalyticalFacts,
     identityOrSymbol: SecurityIdentity | { symbol: string; isin?: string | null; nseSymbol?: string | null; securityId?: string } | string,
-    asOfDate?: string | null
+    asOfDate?: string | null,
+    overrideDb?: any
   ): Promise<AnalyticalFacts> {
-    const db = getDB();
+    const db = overrideDb || getDB();
     if (!db) return facts;
 
     const identity = typeof identityOrSymbol === 'string'
@@ -375,7 +379,9 @@ export class CanonicalFactService {
           ORDER BY availableAt DESC, periodEnd DESC
           LIMIT 2
         `;
-        const rows = await dbAll<any>(db, sql, [isin, symbol, metric, effectiveAsOf, effectiveAsOf]);
+        const rows = typeof db.all === 'function'
+          ? await dbAll<any>(db, sql, [isin, symbol, metric, effectiveAsOf, effectiveAsOf])
+          : (db.prepare ? db.prepare(sql).all(isin, symbol, metric, effectiveAsOf, effectiveAsOf) : []);
 
         // rows[1] = prior quarter (rows[0] = latest quarter)
         if (rows && rows.length >= 2 && !priorQuarter[metric]) {

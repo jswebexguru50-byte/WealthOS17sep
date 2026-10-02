@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_ADISOFT_REV_FY26",
+    "issuerNseSymbol": "ADISOFT",
+    "issuerBseCode": "516182",
+    "documentHash": "66f5c5f81b4ae1bcf5a2af77037e652350fd6e6c8aec3fd3dc7df3e1a4e6bf62",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹3070 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_ADISOFT_PAT_FY26",
+    "issuerNseSymbol": "ADISOFT",
+    "issuerBseCode": "516182",
+    "documentHash": "66f5c5f81b4ae1bcf5a2af77037e652350fd6e6c8aec3fd3dc7df3e1a4e6bf62",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹368 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_ADISOFT_DEBT_FY26",
+    "issuerNseSymbol": "ADISOFT",
+    "issuerBseCode": "516182",
+    "documentHash": "eb765f8ad89c157b50936414b2b3a3d6d3775e31f10c5c6228e4433a4b04a335",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_ADISOFT_CONCALL_Q4FY26",
+    "issuerNseSymbol": "ADISOFT",
+    "issuerBseCode": "516182",
+    "documentHash": "41bfed1fb6f793fa1b09bed35e34b0ffa821c30ef3e49fb5d07f0eca8b507d82",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

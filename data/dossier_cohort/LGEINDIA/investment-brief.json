@@ -1,0 +1,686 @@
+{
+  "symbol": "LGEINDIA",
+  "companyName": "LG ELECTRONICS INDIA LIMITED",
+  "marketCapTier": "LARGECAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-16T11:21:57.420Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "STRONG",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence, verified management track record, and zero active thesis breakers. Portfolio directive: FULL_TARGET_SIZING.",
+    "allocationRecommendation": "FULL_TARGET_SIZING",
+    "portfolioPolicy": {
+      "directive": "FULL_TARGET_SIZING",
+      "targetSizingCapRatio": 1,
+      "policyRationale": "Full target capital allocation: supported thesis backed by proven management credibility track record (>=80% delivered)."
+    },
+    "provenance": {
+      "quantDerivation": "ITAS-Score-88 -> Threshold(>=75:STRONG, 50-74:MODERATE, 25-49:WEAK, <25:NONE) -> STRONG",
+      "riskDerivation": "BreakersActive:0, Contradictions:0, Unknowns:0 -> Risk: LOW",
+      "credibilityDerivation": "ClaimsEvaluated:3 -> CredibilityGrade: STRONG",
+      "breakerDerivation": "TB_LGEINDIA_LEVERAGE(UNRESOLVED), TB_LGEINDIA_STRUCTURAL_STOP(UNRESOLVED)",
+      "thesisDerivation": "Matrix(STRONG, LOW) -> Thesis: SUPPORTED",
+      "allocationDerivation": "Precedence(SUPPORTED, LOW, STRONG) -> Directive: FULL_TARGET_SIZING (Cap: 100%)",
+      "auditTrail": [
+        "ITAS-Engine#LGEINDIA",
+        null,
+        null
+      ]
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_LGEINDIA",
+      "nodes": [
+        {
+          "id": "DEC_LGEINDIA",
+          "type": "DECISION",
+          "refId": "LGEINDIA",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_LGEINDIA",
+          "type": "ALLOCATION",
+          "refId": "FULL_TARGET_SIZING",
+          "label": "Allocation Policy: FULL_TARGET_SIZING (100%)"
+        },
+        {
+          "id": "THESIS_LGEINDIA",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_LGEINDIA",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 88/100)"
+        },
+        {
+          "id": "RISK_LGEINDIA",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_LGEINDIA",
+          "type": "FACT",
+          "refId": "STRONG",
+          "label": "Credibility Track Record: STRONG (Claims: 3)"
+        },
+        {
+          "id": "BRK_TB_LGEINDIA_LEVERAGE",
+          "type": "RULE",
+          "refId": "TB_LGEINDIA_LEVERAGE",
+          "version": "2026.09",
+          "label": "Breaker TB_LGEINDIA_LEVERAGE: UNRESOLVED (Observed: undefined)"
+        },
+        {
+          "id": "BRK_TB_LGEINDIA_STRUCTURAL_STOP",
+          "type": "RULE",
+          "refId": "TB_LGEINDIA_STRUCTURAL_STOP",
+          "version": "2026.09",
+          "label": "Breaker TB_LGEINDIA_STRUCTURAL_STOP: UNRESOLVED (Observed: undefined)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_LGEINDIA",
+          "to": "DEC_LGEINDIA",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_LGEINDIA",
+          "to": "DEC_LGEINDIA",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_LGEINDIA",
+          "to": "THESIS_LGEINDIA",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_LGEINDIA",
+          "to": "THESIS_LGEINDIA",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_LGEINDIA",
+          "to": "ALLOC_LGEINDIA",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_LGEINDIA_LEVERAGE",
+          "to": "RISK_LGEINDIA",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "BRK_TB_LGEINDIA_STRUCTURAL_STOP",
+          "to": "RISK_LGEINDIA",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_LGEINDIA_42f5bb72423a",
+      "decisionId": "DECISION_LGEINDIA",
+      "issuerSymbol": "LGEINDIA",
+      "evaluatedAt": "2026-09-16T11:00:00.000Z",
+      "decisionDate": "2026-09-15",
+      "schemaVersion": "3.2.1",
+      "ontologyVersion": "1.3",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawQuantInput": {
+        "symbol": "LGEINDIA",
+        "strategyAgreementCount": 4,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 88,
+        "marketRegime": "BULLISH",
+        "quantDirective": "BUY",
+        "decisionDate": "2026-09-15",
+        "evaluatedAt": "2026-09-16T11:00:00.000Z"
+      },
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_LGEINDIA_LEVERAGE",
+          "symbol": "LGEINDIA",
+          "name": "Excessive Leverage Expansion",
+          "type": "QUANTITATIVE",
+          "thresholdValue": 2.5,
+          "comparisonOperator": "GREATER_THAN",
+          "severity": "CRITICAL",
+          "description": "Net Debt / Equity exceeding 2.5x breaks capital preservation shield.",
+          "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+          "status": "UNRESOLVED"
+        },
+        {
+          "breakerId": "TB_LGEINDIA_STRUCTURAL_STOP",
+          "symbol": "LGEINDIA",
+          "name": "Structural Stop Loss Violation",
+          "type": "PRICE_ACTION",
+          "thresholdValue": 1539.97,
+          "comparisonOperator": "LESS_THAN",
+          "severity": "CRITICAL",
+          "description": "Confirmed daily close below ₹1539.97 invalidates technical thesis.",
+          "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+          "status": "UNRESOLVED"
+        }
+      ],
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "STRONG",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence, verified management track record, and zero active thesis breakers. Portfolio directive: FULL_TARGET_SIZING.",
+        "allocationRecommendation": "FULL_TARGET_SIZING"
+      },
+      "portfolioPolicy": {
+        "directive": "FULL_TARGET_SIZING",
+        "targetSizingCapRatio": 1,
+        "policyRationale": "Full target capital allocation: supported thesis backed by proven management credibility track record (>=80% delivered)."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_LGEINDIA",
+        "nodes": [
+          {
+            "id": "DEC_LGEINDIA",
+            "type": "DECISION",
+            "refId": "LGEINDIA",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_LGEINDIA",
+            "type": "ALLOCATION",
+            "refId": "FULL_TARGET_SIZING",
+            "label": "Allocation Policy: FULL_TARGET_SIZING (100%)"
+          },
+          {
+            "id": "THESIS_LGEINDIA",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_LGEINDIA",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 88/100)"
+          },
+          {
+            "id": "RISK_LGEINDIA",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_LGEINDIA",
+            "type": "FACT",
+            "refId": "STRONG",
+            "label": "Credibility Track Record: STRONG (Claims: 3)"
+          },
+          {
+            "id": "BRK_TB_LGEINDIA_LEVERAGE",
+            "type": "RULE",
+            "refId": "TB_LGEINDIA_LEVERAGE",
+            "version": "2026.09",
+            "label": "Breaker TB_LGEINDIA_LEVERAGE: UNRESOLVED (Observed: undefined)"
+          },
+          {
+            "id": "BRK_TB_LGEINDIA_STRUCTURAL_STOP",
+            "type": "RULE",
+            "refId": "TB_LGEINDIA_STRUCTURAL_STOP",
+            "version": "2026.09",
+            "label": "Breaker TB_LGEINDIA_STRUCTURAL_STOP: UNRESOLVED (Observed: undefined)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_LGEINDIA",
+            "to": "DEC_LGEINDIA",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_LGEINDIA",
+            "to": "DEC_LGEINDIA",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_LGEINDIA",
+            "to": "THESIS_LGEINDIA",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_LGEINDIA",
+            "to": "THESIS_LGEINDIA",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_LGEINDIA",
+            "to": "ALLOC_LGEINDIA",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_LGEINDIA_LEVERAGE",
+            "to": "RISK_LGEINDIA",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "BRK_TB_LGEINDIA_STRUCTURAL_STOP",
+            "to": "RISK_LGEINDIA",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "42f5bb72423aed838a706656a0129df39d1078ebe4e9b6aaa23ab1e7b1f34831",
+      "canonicalStateHash": "42f5bb72423aed838a706656a0129df39d1078ebe4e9b6aaa23ab1e7b1f34831",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_LGEINDIA_01",
+          "issuerSymbol": "LGEINDIA",
+          "metric": "REVENUE",
+          "metricFamily": "REVENUE",
+          "value": 20370,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "asOfDate": "2026-03-31",
+          "currency": "INR",
+          "accountingMethodology": "REPORTED",
+          "accountingStandard": "IND_AS",
+          "filingAuthority": "NSE_CORPORATE_ANNOUNCEMENT",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2026-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "S.R. Batliboi & Co. LLP (EY Network)",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_LGEINDIA_REV_FY26",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2026-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_LGEINDIA_REV_FY26",
+          "sourceQuotedText": "Consolidated revenue from operations for the fiscal period reached ₹20370 Cr, reflecting continuous operating scale.",
+          "publicationDate": "2026-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_LGEINDIA_02",
+          "issuerSymbol": "LGEINDIA",
+          "metric": "EBITDA_MARGIN",
+          "metricFamily": "MARGIN",
+          "value": 24.3,
+          "unit": "%",
+          "scope": "CONSOLIDATED",
+          "measurementType": "RATIO",
+          "asOfDate": "2026-03-31",
+          "currency": "INR",
+          "accountingMethodology": "REPORTED",
+          "accountingStandard": "IND_AS",
+          "filingAuthority": "NSE_CORPORATE_ANNOUNCEMENT",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2026-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "S.R. Batliboi & Co. LLP (EY Network)",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_LGEINDIA_PAT_FY26",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2026-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_LGEINDIA_PAT_FY26",
+          "sourceQuotedText": "Consolidated profit after tax stood at ₹2444 Cr with operating margin of 24.3%.",
+          "publicationDate": "2026-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_LGEINDIA_03",
+          "issuerSymbol": "LGEINDIA",
+          "metric": "NET_DEBT_TO_EQUITY",
+          "metricFamily": "LEVERAGE",
+          "value": 0.12,
+          "unit": "MULTIPLE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "RATIO",
+          "asOfDate": "2026-03-31",
+          "currency": "INR",
+          "accountingMethodology": "REPORTED",
+          "accountingStandard": "IND_AS",
+          "filingAuthority": "NSE_CORPORATE_ANNOUNCEMENT",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2026-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "S.R. Batliboi & Co. LLP (EY Network)",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_LGEINDIA_DEBT_FY26",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2026-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_LGEINDIA_DEBT_FY26",
+          "sourceQuotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.12x.",
+          "publicationDate": "2026-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_LGEINDIA_01",
+          "issuerNseSymbol": "LGEINDIA",
+          "issuerBseCode": "517763",
+          "period": "FY23",
+          "category": "GROWTH",
+          "statement": "Targeted double-digit premiumization growth; premium segment grew 22% YoY.",
+          "targetMetric": "revenue_cr",
+          "baselineValue": 16296,
+          "expectedValue": 20370,
+          "expectedOutcome": "Achieve projected scale",
+          "expectedTimeframe": "FY23",
+          "evidenceId": "EV_LGEINDIA_CONCALL_Q4FY26",
+          "claimDate": "2022-09-15",
+          "expectedPeriodStart": "2022-04-01",
+          "expectedPeriodEnd": "2023-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 20370,
+          "actualOutcomeDescription": "Delivered target revenue expansion on schedule.",
+          "evaluationEvidenceId": "EV_LGEINDIA_REV_FY26",
+          "evaluationDate": "2023-05-25",
+          "evaluationBasis": "Audited Financial Results FY23",
+          "publicationDate": "2022-09-15",
+          "publicationDateType": "MANAGEMENT_COMMENT",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_LGEINDIA_01"
+        },
+        {
+          "claimId": "CLM_LGEINDIA_02",
+          "issuerNseSymbol": "LGEINDIA",
+          "issuerBseCode": "517763",
+          "period": "FY24",
+          "category": "MARGIN",
+          "statement": "Targeted 100 bps expansion in EBITDA margins despite raw material inflation; delivered 80 bps expansion via localized compressor manufacturing.",
+          "targetMetric": "ebitda_margin_pct",
+          "baselineValue": 23.3,
+          "expectedValue": 24.3,
+          "expectedOutcome": "EBITDA Margin >= 24.3%",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_LGEINDIA_CONCALL_Q4FY26",
+          "claimDate": "2023-09-15",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 24.3,
+          "actualOutcomeDescription": "Preserved operating margin across commodity cycles.",
+          "evaluationEvidenceId": "EV_LGEINDIA_PAT_FY26",
+          "evaluationDate": "2024-05-28",
+          "evaluationBasis": "Audited Financial Results FY24",
+          "publicationDate": "2023-09-15",
+          "publicationDateType": "MANAGEMENT_COMMENT",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_LGEINDIA_02"
+        },
+        {
+          "claimId": "CLM_LGEINDIA_03",
+          "issuerNseSymbol": "LGEINDIA",
+          "issuerBseCode": "517763",
+          "period": "FY25",
+          "category": "CAPITAL_ALLOCATION",
+          "statement": "Guided for 15% revenue expansion driven by festive and wedding season demand; met targets.",
+          "targetMetric": "debt_equity",
+          "baselineValue": 0.22,
+          "expectedValue": 0.12,
+          "expectedOutcome": "Net D/E <= 0.12x",
+          "expectedTimeframe": "FY25",
+          "evidenceId": "EV_LGEINDIA_DEBT_FY26",
+          "claimDate": "2024-09-15",
+          "expectedPeriodStart": "2024-04-01",
+          "expectedPeriodEnd": "2025-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 0.12,
+          "actualOutcomeDescription": "Maintained balance sheet solvency within conservative boundaries.",
+          "evaluationEvidenceId": "EV_LGEINDIA_DEBT_FY26",
+          "evaluationDate": "2025-05-27",
+          "evaluationBasis": "Audited Financial Results FY25",
+          "publicationDate": "2024-09-15",
+          "publicationDateType": "MANAGEMENT_COMMENT",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_LGEINDIA_03"
+        }
+      ],
+      "rawInputContradictions": [],
+      "rawInputHash": "2892b0b19112e2b5d50d27745b329ce1e29f3b650e3dc22c4e993fe196f2f340"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "MEDIUM",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity supported by clean qualitative intelligence, verified management track record, and zero active thesis breakers. Portfolio directive: FULL_TARGET_SIZING."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 4/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 88/100 with active directive BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#LGEINDIA",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Targeted double-digit premiumization growth; premium segment grew 22% YoY.",
+      "detail": "Disclosed actual outcome: Delivered target revenue expansion on schedule.",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_LGEINDIA_CONCALL_Q4FY26 -> Resolution#EV_LGEINDIA_REV_FY26",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Targeted 100 bps expansion in EBITDA margins despite raw material inflation; delivered 80 bps expansion via localized compressor manufacturing.",
+      "detail": "Disclosed actual outcome: Preserved operating margin across commodity cycles.",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_LGEINDIA_CONCALL_Q4FY26 -> Resolution#EV_LGEINDIA_PAT_FY26",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Guided for 15% revenue expansion driven by festive and wedding season demand; met targets.",
+      "detail": "Disclosed actual outcome: Maintained balance sheet solvency within conservative boundaries.",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_LGEINDIA_DEBT_FY26 -> Resolution#EV_LGEINDIA_DEBT_FY26",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "LGEINDIA",
+    "grade": "STRONG",
+    "totalClaims": 3,
+    "achievedCount": 3,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_LGEINDIA_01",
+        "statement": "Targeted double-digit premiumization growth; premium segment grew 22% YoY.",
+        "period": "FY23",
+        "expected": "Achieve projected scale",
+        "actual": "Delivered target revenue expansion on schedule.",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_LGEINDIA_CONCALL_Q4FY26 -> Resolution#EV_LGEINDIA_REV_FY26"
+      },
+      {
+        "claimId": "CLM_LGEINDIA_02",
+        "statement": "Targeted 100 bps expansion in EBITDA margins despite raw material inflation; delivered 80 bps expansion via localized compressor manufacturing.",
+        "period": "FY24",
+        "expected": "EBITDA Margin >= 24.3%",
+        "actual": "Preserved operating margin across commodity cycles.",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_LGEINDIA_CONCALL_Q4FY26 -> Resolution#EV_LGEINDIA_PAT_FY26"
+      },
+      {
+        "claimId": "CLM_LGEINDIA_03",
+        "statement": "Guided for 15% revenue expansion driven by festive and wedding season demand; met targets.",
+        "period": "FY25",
+        "expected": "Net D/E <= 0.12x",
+        "actual": "Maintained balance sheet solvency within conservative boundaries.",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_LGEINDIA_DEBT_FY26 -> Resolution#EV_LGEINDIA_DEBT_FY26"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_LGEINDIA"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_LGEINDIA"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2026-05-26",
+      "source": "STATUTORY_FILING",
+      "headline": "LGEINDIA Audited Results FY26 Approved",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    },
+    {
+      "date": "2026-08-20",
+      "source": "EXCHANGE_DISCLOSURE",
+      "headline": "LGEINDIA Capacity Expansion Milestone",
+      "verified": true,
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_LGEINDIA_LEVERAGE",
+      "symbol": "LGEINDIA",
+      "name": "Excessive Leverage Expansion",
+      "type": "QUANTITATIVE",
+      "thresholdValue": 2.5,
+      "comparisonOperator": "GREATER_THAN",
+      "severity": "CRITICAL",
+      "description": "Net Debt / Equity exceeding 2.5x breaks capital preservation shield.",
+      "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+      "status": "UNRESOLVED"
+    },
+    {
+      "breakerId": "TB_LGEINDIA_STRUCTURAL_STOP",
+      "symbol": "LGEINDIA",
+      "name": "Structural Stop Loss Violation",
+      "type": "PRICE_ACTION",
+      "thresholdValue": 1539.97,
+      "comparisonOperator": "LESS_THAN",
+      "severity": "CRITICAL",
+      "description": "Confirmed daily close below ₹1539.97 invalidates technical thesis.",
+      "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+      "status": "UNRESOLVED"
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "MEDIUM",
+    "directSourcesCount": 4,
+    "corroboratedCount": 3,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Undisputed consumer durables titan with industry-leading ROCE (32%), high local value addition, and mega IPO catalyst unlocking value.\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

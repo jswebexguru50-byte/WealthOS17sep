@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_APLAPOLLO_01",
+    "issuerNseSymbol": "APLAPOLLO",
+    "issuerBseCode": "533758",
+    "eventDate": "2024-04-10",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "Raipur Mega Plant Ramp-Up to Full Capacity",
+    "description": "Fully ramped up new 1.2 million ton mega manufacturing unit in Raipur producing heavy structural hollow sections.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_APL_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "symbol": "DIVISLAB",
+  "coreThesisStatement": "World's most cost-efficient chemical synthesis engine supplying major global big-pharma innovators with clean regulatory history.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Custom Synthesis Revival",
+      "description": "Multinational pharma restocking cycle and GLP-1 active ingredient demand."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Greenfield Capacity Scale",
+      "description": "Kakinada Unit-III doubling productive volume capacity."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_DIVIS_LEVERAGE"
+  ]
+}

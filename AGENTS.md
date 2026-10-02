@@ -1,3 +1,10 @@
+# Agent Instructions
+
+<!-- Shared hard rules from steipete/agent-scripts (loaded first) -->
+READ vendor/agent-scripts/AGENTS.MD BEFORE ANYTHING (skip if missing).
+
+---
+
 # Repository strategy memory
 
 - S1a / S1A refers to the user's Volume Price Alignment (VPA) 3-leg swing setup in `docs/strategies/S1A/S1A.original.txt`.

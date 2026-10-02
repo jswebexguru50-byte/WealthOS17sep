@@ -9,6 +9,7 @@
  *   used as a fallback for documentDate or availableAt fields.
  */
 
+import { describe, it, expect } from 'vitest';
 import * as fs from 'fs';
 import * as path from 'path';
 

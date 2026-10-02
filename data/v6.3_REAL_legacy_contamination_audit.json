@@ -1,0 +1,68 @@
+{
+  "canonicalRunId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+  "runId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+  "dataMode": "REAL_HISTORICAL",
+  "totalFilesScanned": 84,
+  "legacyReferencesFound": 8,
+  "unlabeledLegacyReferences": 0,
+  "findings": [
+    {
+      "filePath": "data\\REVIEWER_CONTEXT.md",
+      "term": "RUN-V63-REAL-1789627995643",
+      "lineNumber": 35,
+      "lineSnippet": "Previous result (PF 1.209, Run ID `RUN-V63-REAL-1789627995643`) is tagged as `LEGACY_INVALID_EXECUTION_MODEL` and discarded from promotion consideration.",
+      "classification": "LEGACY_INVALID_EXECUTION_MODEL"
+    },
+    {
+      "filePath": "data\\REVIEWER_CONTEXT.md",
+      "term": "1.209",
+      "lineNumber": 35,
+      "lineSnippet": "Previous result (PF 1.209, Run ID `RUN-V63-REAL-1789627995643`) is tagged as `LEGACY_INVALID_EXECUTION_MODEL` and discarded from promotion consideration.",
+      "classification": "LEGACY_INVALID_EXECUTION_MODEL"
+    },
+    {
+      "filePath": "data\\v6.3_REAL_CANONICAL_RUN.json",
+      "term": "RUN-V63-REAL-1789627995643",
+      "lineNumber": 46,
+      "lineSnippet": "\"legacyRunId\": \"RUN-V63-REAL-1789627995643\",",
+      "classification": "LEGACY_INVALID_EXECUTION_MODEL"
+    },
+    {
+      "filePath": "data\\v6.3_REAL_CANONICAL_RUN.json",
+      "term": "1.209",
+      "lineNumber": 48,
+      "lineSnippet": "\"legacyProfitFactor\": 1.209,",
+      "classification": "LEGACY_INVALID_EXECUTION_MODEL"
+    },
+    {
+      "filePath": "data\\v6.3_REAL_VALIDATION_STATUS.json",
+      "term": "RUN-V63-REAL-1789627995643",
+      "lineNumber": 19,
+      "lineSnippet": "\"LEGACY_QUARANTINE_NOTE\": \"Legacy run RUN-V63-REAL-1789627995643 (PF 1.209, 17,468 signals) tagged as LEGACY_INVALID_EXECUTION_MODEL and discarded\",",
+      "classification": "LEGACY_INVALID_EXECUTION_MODEL"
+    },
+    {
+      "filePath": "data\\v6.3_REAL_VALIDATION_STATUS.json",
+      "term": "1.209",
+      "lineNumber": 19,
+      "lineSnippet": "\"LEGACY_QUARANTINE_NOTE\": \"Legacy run RUN-V63-REAL-1789627995643 (PF 1.209, 17,468 signals) tagged as LEGACY_INVALID_EXECUTION_MODEL and discarded\",",
+      "classification": "LEGACY_INVALID_EXECUTION_MODEL"
+    },
+    {
+      "filePath": "data\\V63_FINAL_STATUS.json",
+      "term": "RUN-V63-REAL-1789627995643",
+      "lineNumber": 22,
+      "lineSnippet": "\"quarantinedLegacyRunId\": \"RUN-V63-REAL-1789627995643\"",
+      "classification": "LEGACY_INVALID_EXECUTION_MODEL"
+    },
+    {
+      "filePath": "docs\\V63_FINAL_INVESTMENT_AUDIT.md",
+      "term": "RUN-V63-REAL-1789627995643",
+      "lineNumber": 28,
+      "lineSnippet": "- **Quarantined Legacy Run ID**: RUN-V63-REAL-1789627995643 (LEGACY_INVALID_EXECUTION_MODEL)",
+      "classification": "LEGACY_INVALID_EXECUTION_MODEL"
+    }
+  ],
+  "status": "PASS",
+  "auditedAt": "2026-09-17T14:47:11.490Z"
+}

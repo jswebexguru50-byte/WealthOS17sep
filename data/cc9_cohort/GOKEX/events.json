@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_GOKEX_01",
+    "issuerNseSymbol": "GOKEX",
+    "issuerBseCode": "532630",
+    "eventDate": "2024-03-05",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "Closing of Atraco Group Dubai Acquisition",
+    "description": "Completed acquisition of Dubai-based apparel producer Atraco expanding duty-free manufacturing presence in Kenya.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_GOKEX_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

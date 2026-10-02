@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "INDNIPPON",
+  "issuerBseCode": "521297",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_INDNIPPON_AR2024",
+      "documentName": "INDNIPPON_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "d5ce138a8255eb3187b0ebc7ae55ca3c32d2d01f52be52d43ac0d3b8248f6f18",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_INDNIPPON_AUDITED_RESULTS",
+      "documentName": "INDNIPPON_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "9d0b321056c7603adc05f368101033e4734d627e31f688b6388f4999f9d2e012",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_INDNIPPON_CONCALL_Q4FY26",
+      "documentName": "INDNIPPON_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "fea12bbc477a66abe33366c1469d8fea6e5e5f8fc1b8d2104bc7b99b14c3aef7",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

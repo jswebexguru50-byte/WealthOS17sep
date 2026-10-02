@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_EPIGRAL_REV_FY26",
+    "issuerNseSymbol": "EPIGRAL",
+    "issuerBseCode": "515996",
+    "documentHash": "fc8aea73a3cb620daeb483842ec04246c8197f57906cfdcb141e2ac133af8019",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹13653 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_EPIGRAL_PAT_FY26",
+    "issuerNseSymbol": "EPIGRAL",
+    "issuerBseCode": "515996",
+    "documentHash": "fc8aea73a3cb620daeb483842ec04246c8197f57906cfdcb141e2ac133af8019",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹1638 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_EPIGRAL_DEBT_FY26",
+    "issuerNseSymbol": "EPIGRAL",
+    "issuerBseCode": "515996",
+    "documentHash": "be7b518b119fb137f1a9dff3670730d4a4a97edf851a12b4f5ca077fa6c49d4a",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_EPIGRAL_CONCALL_Q4FY26",
+    "issuerNseSymbol": "EPIGRAL",
+    "issuerBseCode": "515996",
+    "documentHash": "e304cd0f2eb17a1336436f7b5f2fe487c2232761d6be3345b722726f8c100c3e",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

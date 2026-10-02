@@ -1,0 +1,14 @@
+[
+  {
+    "breakerId": "TB_HDFC_NPA",
+    "symbol": "HDFCBANK",
+    "name": "Asset Quality GNPA Ceiling",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 2,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Gross NPA exceeding 2.0% triggers hard veto.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

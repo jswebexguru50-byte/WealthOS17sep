@@ -1,0 +1,34 @@
+{
+  "status": "CONTRADICTIONS_DETECTED",
+  "issuerNseSymbol": "NOVARTIND",
+  "activeContradictionCount": 1,
+  "contradictions": [
+    {
+      "contradictionId": "DIV_NOVARTIND_SUPPLY_CHAIN",
+      "issuerNseSymbol": "NOVARTIND",
+      "issuerBseCode": "521483",
+      "severity": "LOW",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_NOVARTIND_02",
+      "eventId": null,
+      "description": "Supply chain fragility check: import exposure (68%) and client concentration (34%) introduce quarterly gross margin lag against management guidance.",
+      "divergenceDetails": {
+        "whatManagementClaimed": "Full margin defense",
+        "whatActuallyHappened": "Quarterly margin lag due to input cost volatility",
+        "deltaMetric": "80-120 bps"
+      },
+      "leftEvidenceId": "EV_NOVARTIND_PAT_FY26",
+      "rightEvidenceId": "EV_NOVARTIND_CONCALL_Q4FY26",
+      "supportingEvidenceIds": [
+        "EV_NOVARTIND_PAT_FY26",
+        "EV_NOVARTIND_CONCALL_Q4FY26"
+      ],
+      "status": "OPEN",
+      "materiality": "LOW",
+      "detectedAt": "2026-09-16T11:00:00.000Z",
+      "createdAt": "2026-09-16 11:21:57",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ]
+}

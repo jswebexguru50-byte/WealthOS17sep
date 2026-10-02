@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_AZAD_01",
+    "issuerNseSymbol": "AZAD",
+    "issuerBseCode": "544061",
+    "eventDate": "2024-02-05",
+    "category": "ORDER_BOOK",
+    "headline": "Long-Term Strategic Agreement Signed with Rolls-Royce",
+    "description": "Entered into strategic multi-year agreement with Rolls-Royce for supply of critical rotating engine parts for defense aircraft engines.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_AZAD_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_ARVSMART_REV_FY26",
+    "issuerNseSymbol": "ARVSMART",
+    "issuerBseCode": "519344",
+    "documentHash": "492810a5397734303699074720741286e6371343f14408a0877edcffff5fea5d",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹7052 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_ARVSMART_PAT_FY26",
+    "issuerNseSymbol": "ARVSMART",
+    "issuerBseCode": "519344",
+    "documentHash": "492810a5397734303699074720741286e6371343f14408a0877edcffff5fea5d",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹846 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_ARVSMART_DEBT_FY26",
+    "issuerNseSymbol": "ARVSMART",
+    "issuerBseCode": "519344",
+    "documentHash": "8c649351ab2db8cce645c6ed6b01949714375df79da8413cabe4e66784cb4a38",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_ARVSMART_CONCALL_Q4FY26",
+    "issuerNseSymbol": "ARVSMART",
+    "issuerBseCode": "519344",
+    "documentHash": "a8d73010638c77ee68001042193389c2ccab4af46a90f8eb0d0b3df08249be08",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

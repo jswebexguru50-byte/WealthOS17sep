@@ -117,40 +117,7 @@ const LazyFallback = () => (
 
 type TabType = 'OVERVIEW' | 'DISCOVER' | 'ANALYZE' | 'PORTFOLIO' | 'RESEARCH' | 'AUDIT';
 
-// Intercept window.fetch to automatically inject APP_PASSWORD authorization header
-if (typeof window !== 'undefined' && typeof window.fetch === 'function' && !(window.fetch as any).__isPatched) {
-  try {
-    const originalFetch = window.fetch.bind(window);
-    const patchedFetch = function (input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
-      const savedPassword =
-        sessionStorage.getItem('app-session-token') ||
-        sessionStorage.getItem('app-password') ||
-        localStorage.getItem('app-session-token') ||
-        localStorage.getItem('app-password');
-      if (!savedPassword) {
-        return originalFetch(input, init);
-      }
-      const newInit: RequestInit = { ...init };
-      const headers = new Headers(init?.headers || {});
-      headers.set('x-app-password', savedPassword);
-      newInit.headers = headers;
-      return originalFetch(input, newInit);
-    };
-
-    (patchedFetch as any).__isPatched = true;
-    try {
-      window.fetch = patchedFetch;
-    } catch {
-      Object.defineProperty(window, 'fetch', {
-        value: patchedFetch,
-        configurable: true,
-        writable: true,
-      });
-    }
-  } catch (err) {
-    console.warn('[App] Could not intercept window.fetch:', err);
-  }
-}
+// window.fetch interception removed for AI Studio remote mode stability.
 
 export default function App() {
   const directFereSymbol = typeof window !== 'undefined'
@@ -2429,3 +2396,4 @@ function ScripSearchBar({ onAnalyze }: { onAnalyze: (symbol: string) => void }) 
     </div>
   );
 }
+

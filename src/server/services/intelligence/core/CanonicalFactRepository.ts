@@ -185,9 +185,10 @@ export class CanonicalFactRepository {
 
   public async getFactsForSecurity(
     identity: SecurityIdentity,
-    options: FactQueryOptions = {}
+    options: FactQueryOptions = {},
+    overrideDb?: any
   ): Promise<CanonicalFact[]> {
-    const db = getDB();
+    const db = overrideDb || getDB();
     if (!db) return [];
 
     const effectiveAsOf = options.asOfDate || new Date().toISOString().split('T')[0];
@@ -208,7 +209,9 @@ export class CanonicalFactRepository {
     sql += ` ORDER BY periodEnd DESC, availableAt DESC`;
 
     try {
-      const rows = await dbAll<any>(db, sql, params);
+      const rows = typeof db.all === 'function'
+        ? await dbAll<any>(db, sql, params)
+        : (db.prepare ? db.prepare(sql).all(...params) : []);
       return rows.map(r => this.mapRowToFact(r));
     } catch (err) {
       console.error(`[CanonicalFactRepository] Failed to fetch facts for ${identity.isin}:`, err);

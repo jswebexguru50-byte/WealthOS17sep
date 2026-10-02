@@ -1,0 +1,19 @@
+{
+  "symbol": "HIRECT",
+  "coreThesisStatement": "Prime beneficiary of Indian Railways electrification, Vande Bharat power electronic systems, and modern freight locomotives.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Railways Electrification",
+      "description": "Established vendor for high-voltage rectifiers and static converters."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Semiconductor Manufacturing",
+      "description": "Indigenous silicon power semiconductor fab capabilities."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_HIRECT_LEVERAGE"
+  ]
+}

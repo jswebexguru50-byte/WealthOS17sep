@@ -1,0 +1,433 @@
+{
+  "symbol": "HIRECT",
+  "companyName": "Hind Rectifiers Limited",
+  "marketCapTier": "SMALLCAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-16T08:30:40.389Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "LOW",
+    "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+    "allocationRecommendation": "CAPPED_ALLOCATION",
+    "portfolioPolicy": {
+      "directive": "CAPPED_ALLOCATION",
+      "targetSizingCapRatio": 0.5,
+      "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+    },
+    "provenance": {
+      "quantDerivation": "ITAS-Score-86 -> Threshold(>=75:STRONG, 50-74:MODERATE, 25-49:WEAK, <25:NONE) -> STRONG",
+      "riskDerivation": "BreakersActive:0, Contradictions:0, Unknowns:0 -> Risk: LOW",
+      "credibilityDerivation": "ClaimsEvaluated:1 -> CredibilityGrade: INSUFFICIENT_HISTORY",
+      "breakerDerivation": "TB_HIRECT_LEVERAGE(UNRESOLVED)",
+      "thesisDerivation": "Matrix(STRONG, LOW) -> Thesis: SUPPORTED",
+      "allocationDerivation": "Precedence(SUPPORTED, LOW, INSUFFICIENT_HISTORY) -> Directive: CAPPED_ALLOCATION (Cap: 50%)",
+      "auditTrail": [
+        "ITAS-Engine#HIRECT",
+        null
+      ]
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_HIRECT",
+      "nodes": [
+        {
+          "id": "DEC_HIRECT",
+          "type": "DECISION",
+          "refId": "HIRECT",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_HIRECT",
+          "type": "ALLOCATION",
+          "refId": "CAPPED_ALLOCATION",
+          "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+        },
+        {
+          "id": "THESIS_HIRECT",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_HIRECT",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 86/100)"
+        },
+        {
+          "id": "RISK_HIRECT",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_HIRECT",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_HIRECT_LEVERAGE",
+          "type": "RULE",
+          "refId": "TB_HIRECT_LEVERAGE",
+          "version": "2026.09",
+          "label": "Breaker TB_HIRECT_LEVERAGE: UNRESOLVED (Observed: undefined)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_HIRECT",
+          "to": "DEC_HIRECT",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_HIRECT",
+          "to": "DEC_HIRECT",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_HIRECT",
+          "to": "THESIS_HIRECT",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_HIRECT",
+          "to": "THESIS_HIRECT",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_HIRECT",
+          "to": "ALLOC_HIRECT",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_HIRECT_LEVERAGE",
+          "to": "RISK_HIRECT",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_HIRECT_2aa46c81fc18",
+      "decisionId": "DECISION_HIRECT",
+      "issuerSymbol": "HIRECT",
+      "evaluatedAt": "2026-09-16T11:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2.1",
+      "ontologyVersion": "1.3",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawQuantInput": {
+        "symbol": "HIRECT",
+        "strategyAgreementCount": 17,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 86,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY",
+        "decisionDate": "2024-06-30"
+      },
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_HIRECT_LEVERAGE",
+          "symbol": "HIRECT",
+          "name": "Working Capital Debt Ceilings",
+          "type": "QUANTITATIVE",
+          "thresholdValue": 3,
+          "comparisonOperator": "GREATER_THAN",
+          "severity": "CRITICAL",
+          "description": "Total Debt / EBITDA exceeding 3.0x triggers hard veto.",
+          "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+          "status": "UNRESOLVED"
+        }
+      ],
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "LOW",
+        "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+        "allocationRecommendation": "CAPPED_ALLOCATION"
+      },
+      "portfolioPolicy": {
+        "directive": "CAPPED_ALLOCATION",
+        "targetSizingCapRatio": 0.5,
+        "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_HIRECT",
+        "nodes": [
+          {
+            "id": "DEC_HIRECT",
+            "type": "DECISION",
+            "refId": "HIRECT",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_HIRECT",
+            "type": "ALLOCATION",
+            "refId": "CAPPED_ALLOCATION",
+            "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+          },
+          {
+            "id": "THESIS_HIRECT",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_HIRECT",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 86/100)"
+          },
+          {
+            "id": "RISK_HIRECT",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_HIRECT",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_HIRECT_LEVERAGE",
+            "type": "RULE",
+            "refId": "TB_HIRECT_LEVERAGE",
+            "version": "2026.09",
+            "label": "Breaker TB_HIRECT_LEVERAGE: UNRESOLVED (Observed: undefined)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_HIRECT",
+            "to": "DEC_HIRECT",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_HIRECT",
+            "to": "DEC_HIRECT",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_HIRECT",
+            "to": "THESIS_HIRECT",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_HIRECT",
+            "to": "THESIS_HIRECT",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_HIRECT",
+            "to": "ALLOC_HIRECT",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_HIRECT_LEVERAGE",
+            "to": "RISK_HIRECT",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "2aa46c81fc18406985a4b92377ab031fbf941449274db9c317da82eee946384a",
+      "canonicalStateHash": "2aa46c81fc18406985a4b92377ab031fbf941449274db9c317da82eee946384a",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_HIRECT_01",
+          "issuerSymbol": "HIRECT",
+          "metric": "REVENUE",
+          "metricId": "REVENUE",
+          "metricFamily": "REVENUE",
+          "value": 522,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_HIRECT_REV_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_HIRECT_REV_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_HIRECT_REV_01",
+          "sourceQuotedText": "Consolidated revenue for FY24 reached ₹522 Cr supported by Indian Railways locomotive equipment demand.",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_HIRECT_01",
+          "issuerNseSymbol": "HIRECT",
+          "issuerBseCode": "504080",
+          "period": "FY24",
+          "category": "GROWTH",
+          "statement": "Scale railway propulsion power electronics to deliver above ₹450 Cr revenue in FY24.",
+          "targetMetric": "revenue_cr",
+          "baselineValue": 360,
+          "expectedValue": 450,
+          "expectedOutcome": "Revenue >= ₹450 Cr",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_HIRECT_REV_01",
+          "claimDate": "2023-08-25",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 522,
+          "actualOutcomeDescription": "Delivered ₹522 Cr revenue exceeding guidance by 16.0%.",
+          "evaluationEvidenceId": "EV_HIRECT_REV_01",
+          "evaluationDate": "2024-05-22",
+          "evaluationBasis": "NSE Audited Accounts",
+          "publicationDate": "2023-08-25",
+          "publicationDateType": "MANAGEMENT_COMMENT",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_HIRECT_01"
+        }
+      ],
+      "rawInputContradictions": [],
+      "rawInputHash": "72af9826b1dacde3eeef581a3cc02f9c1015dddee2b3230a20b18c0a56a877da"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "LOW",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap)."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 17/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 86/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#HIRECT",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Scale railway propulsion power electronics to deliver above ₹450 Cr revenue in FY24.",
+      "detail": "Disclosed actual outcome: Delivered ₹522 Cr revenue exceeding guidance by 16.0%.",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_HIRECT_REV_01 -> Resolution#EV_HIRECT_REV_01",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "HIRECT",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 1,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_HIRECT_01",
+        "statement": "Scale railway propulsion power electronics to deliver above ₹450 Cr revenue in FY24.",
+        "period": "FY24",
+        "expected": "Revenue >= ₹450 Cr",
+        "actual": "Delivered ₹522 Cr revenue exceeding guidance by 16.0%.",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_HIRECT_REV_01 -> Resolution#EV_HIRECT_REV_01"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_HIRECT"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_HIRECT"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-03-15",
+      "source": "REGULATORY_FILING",
+      "headline": "Locomotive Converter Supply Contract Awarded",
+      "verified": true,
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_HIRECT_LEVERAGE",
+      "symbol": "HIRECT",
+      "name": "Working Capital Debt Ceilings",
+      "type": "QUANTITATIVE",
+      "thresholdValue": 3,
+      "comparisonOperator": "GREATER_THAN",
+      "severity": "CRITICAL",
+      "description": "Total Debt / EBITDA exceeding 3.0x triggers hard veto.",
+      "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+      "status": "UNRESOLVED"
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "LOW",
+    "directSourcesCount": 1,
+    "corroboratedCount": 1,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Prime beneficiary of Indian Railways electrification, Vande Bharat power electronic systems, and modern freight locomotives.\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

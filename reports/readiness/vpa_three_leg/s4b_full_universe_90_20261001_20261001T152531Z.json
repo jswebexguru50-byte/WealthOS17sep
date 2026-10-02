@@ -1,0 +1,53 @@
+{
+  "strategy": "S4B",
+  "generated_at_utc": "2026-10-01T15:25:31.581Z",
+  "source": "KITE_ADJUSTED_PARQUET",
+  "timeframe": "1D",
+  "scan_mode": "ROLLING_WALK_FORWARD",
+  "signal_start_date": "2026-09-30",
+  "as_of_date_requested": "2026-10-01",
+  "config": {
+    "priceFloor": 50,
+    "gapUpMinPct": 2,
+    "rsiPeriod": 14,
+    "rsiSupportLevels": [
+      30,
+      40,
+      50
+    ],
+    "rsiTolerance": 3.5,
+    "marubozuMinBodyRatio": 0.9,
+    "marubozuMinBodyAtrMultiple": 1,
+    "excludeDoji": true
+  },
+  "symbols_requested": 2927,
+  "symbols_covered": 2927,
+  "symbols_with_period_candles": 2602,
+  "coverage_gaps": [],
+  "matches": [
+    {
+      "Signal_Date": "2026-09-30",
+      "Symbol": "COMSYN",
+      "Signal_Price": 272.1,
+      "Gap_Up_Pct": 2.175987783928224,
+      "RSI14": 33.23716099249857,
+      "RSI_Support_Level": 30,
+      "Candle_Pattern": "HARAMI",
+      "Stop_Loss": 52.450199999999995,
+      "Rule_Checks": [
+        {
+          "id": "S4B_NO_DOJI_BULLISH_RSI",
+          "name": "Bullish non-doji candle at RSI support",
+          "passed": true,
+          "actualValue": "HARAMI; RSI 33.24",
+          "benchmarkRule": "RSI(14) within ±3.5 of 30, 40, or 50; permitted bullish pattern",
+          "explanation": "S4B removes S4A broad-market and pullback/volume gates."
+        }
+      ],
+      "Data_Last_Date": "2026-10-01"
+    }
+  ],
+  "limitations": [
+    "S4B intentionally excludes S4A broad-market and pullback/volume gates."
+  ]
+}

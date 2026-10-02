@@ -1,0 +1,10 @@
+{
+  "dataMode": "REAL_HISTORICAL",
+  "canonicalRunId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+  "runId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+  "databaseFile": "portfolio.db",
+  "tableVerified": "DailyOHLCV",
+  "rowCounts": 4130313,
+  "symbolCount": 3540,
+  "provenanceHash": "444b1581d2bea00bf5cad86d811f2f05f81aa1635ea46a1ab43902f7da534ffd"
+}

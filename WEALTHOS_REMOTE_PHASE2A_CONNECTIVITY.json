@@ -1,0 +1,13 @@
+﻿{
+    "phase":  "2A",
+    "status":  "PASS",
+    "local_health":  "PASS",
+    "external_health_http_status":  "200",
+    "missing_key_rejected":  true,
+    "exposed_key_rejected":  "HISTORICAL_EVIDENCE_ONLY",
+    "current_key_accepted":  true,
+    "active_portfolio_database_hash_match":  true,
+    "data_portfolio_database_hash_match":  true,
+    "node_port_3000_listener_count":  1,
+    "cloudflared_process_count":  1
+}

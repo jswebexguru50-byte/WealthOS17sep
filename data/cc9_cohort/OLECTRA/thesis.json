@@ -1,0 +1,19 @@
+{
+  "symbol": "OLECTRA",
+  "coreThesisStatement": "Pioneer and leader in electric bus manufacturing in India with technical collaboration from BYD and over 8,000 buses in confirmed backlog.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "State Transport Undertaking Backlog",
+      "description": "Massive order inflows from MSRTC and BEST Mumbai electrifying municipal transit."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Seetharampur Capacity",
+      "description": "New 5,000 bus facility solving production bottleneck."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_OLECTRA_LEVERAGE"
+  ]
+}

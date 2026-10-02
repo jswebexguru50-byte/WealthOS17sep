@@ -1,0 +1,10 @@
+{
+  "active": false,
+  "escalatedBy": null,
+  "timestamp": null,
+  "topic": null,
+  "reason": null,
+  "impactAnalysis": null,
+  "options": [],
+  "decision": null
+}

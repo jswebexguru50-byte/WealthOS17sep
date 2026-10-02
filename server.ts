@@ -143,6 +143,7 @@ import { readFereEvidence } from './src/server/services/FereEvidenceService.js';
 import kiteRouter from './src/server/routes/kite.js';
 import { stockscansRouter } from './src/server/routes/stockscansRoutes.js';
 import { remoteBridgeRouter } from './src/server/routes/remoteBridgeRouter.js';
+import { aiStudioProxyRouter } from './src/server/routes/aiStudioProxyRouter.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -185,6 +186,7 @@ app.use('/api/auth/kite', kiteRouter);
 // StockScans Clean-Room Parity Endpoints
 app.use('/api/stockscans', stockscansRouter);
 app.use('/api/remote', remoteBridgeRouter);
+app.use('/api/ai-studio-proxy', (req, res, next) => { if (process.env.APP_PASSWORD && req.headers['x-app-password'] !== process.env.APP_PASSWORD) return res.status(401).json({ error: 'Unauthorized local session' }); next(); }, aiStudioProxyRouter);
 
 // Permanent adjusted daily candles live outside SQLite in the DuckDB/Parquet
 // market store. This read-only route delegates entirely to DuckDbAdjustedOhlcvService,
@@ -17206,3 +17208,5 @@ export { app };
 if (process.env.NODE_ENV !== 'test') {
   startServer().catch(console.error);
 }
+
+

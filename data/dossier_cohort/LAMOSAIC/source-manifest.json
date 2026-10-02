@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "LAMOSAIC",
+  "issuerBseCode": "518135",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_LAMOSAIC_AR2024",
+      "documentName": "LAMOSAIC_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "f535ddd7de21dd28de7a616abd61ffc54ac003899d324554399f6221dc484ce8",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_LAMOSAIC_AUDITED_RESULTS",
+      "documentName": "LAMOSAIC_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "5ea1f769306da36f35fcd9328dfb60c3798a156da92937dd11d1e8b00567bf60",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_LAMOSAIC_CONCALL_Q4FY26",
+      "documentName": "LAMOSAIC_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "dbe01b4d0b1da7139a8c705333d15e1095109272e30e615a188c9baaecab7921",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

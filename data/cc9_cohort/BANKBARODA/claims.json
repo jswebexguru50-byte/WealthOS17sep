@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_BOB_01",
+    "issuerNseSymbol": "BANKBARODA",
+    "issuerBseCode": "532134",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Scale annual consolidated banking turnover past ₹115,000 Cr in FY24.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 110777,
+    "expectedValue": 115000,
+    "expectedOutcome": "Revenue >= ₹115,000 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_BOB_REV_01",
+    "claimDate": "2023-08-14",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 127101,
+    "actualOutcomeDescription": "Delivered ₹127,101 Cr revenue beating guidance by 10.5%.",
+    "evaluationEvidenceId": "EV_BOB_REV_01",
+    "evaluationDate": "2024-05-10",
+    "evaluationBasis": "Audited Financial Results BSE",
+    "publicationDate": "2023-08-14",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_BOB_01"
+  }
+]

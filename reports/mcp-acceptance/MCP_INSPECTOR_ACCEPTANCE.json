@@ -1,0 +1,191 @@
+{
+  "testRunId": "MCP_INSPECTOR_2026-10-01T03_02_41_556Z",
+  "target": "http://127.0.0.1:8787",
+  "timestamp": "2026-10-01T03:02:41.557Z",
+  "overall": "FAIL",
+  "totalTests": 20,
+  "passed": 5,
+  "failed": 15,
+  "tests": [
+    {
+      "id": "T01",
+      "category": "HEALTH",
+      "description": "Health endpoint responds 200",
+      "status": "PASS",
+      "expected": "PASS",
+      "actual": "PASS",
+      "durationMs": 28
+    },
+    {
+      "id": "T02",
+      "category": "LIFECYCLE",
+      "description": "initialize returns protocolVersion 2024-11-05",
+      "status": "FAIL",
+      "expected": "PASS",
+      "actual": "FAIL body={\"jsonrpc\":\"2.0\",\"id\":null,\"error\":{\"code\":-32001,\"message\":\"SECURITY_FAIL_CLOSED: WEALTHOS_PRODUCT_KEY is not configured in server environment\"}}",
+      "durationMs": 5
+    },
+    {
+      "id": "T03",
+      "category": "LIFECYCLE",
+      "description": "initialize returns Mcp-Session-Id capability",
+      "status": "FAIL",
+      "expected": "PASS",
+      "actual": "FAIL: no result",
+      "durationMs": 3
+    },
+    {
+      "id": "T04",
+      "category": "LIFECYCLE",
+      "description": "notifications/initialized returns 202 accepted",
+      "status": "FAIL",
+      "expected": "PASS",
+      "actual": "FAIL status=401",
+      "durationMs": 2
+    },
+    {
+      "id": "T05",
+      "category": "TOOLS",
+      "description": "tools/list returns ≥20 tools on product plane",
+      "status": "FAIL",
+      "expected": "PASS",
+      "actual": "FAIL only 0 tools",
+      "durationMs": 1
+    },
+    {
+      "id": "T06",
+      "category": "TOOLS",
+      "description": "tools/list on dev plane returns ≥ product plane",
+      "status": "PASS",
+      "expected": "PASS",
+      "actual": "PASS (prod=0, dev=0)",
+      "durationMs": 3
+    },
+    {
+      "id": "T07",
+      "category": "TOOLS",
+      "description": "tools/call search_securities returns result envelope",
+      "status": "FAIL",
+      "expected": "PASS",
+      "actual": "FAIL {\"jsonrpc\":\"2.0\",\"id\":null,\"error\":{\"code\":-32001,\"message\":\"SECURITY_FAIL_CLOSED: WEALTHOS_PRODUCT_KEY is not configured in server environment\"}}",
+      "durationMs": 2
+    },
+    {
+      "id": "T08",
+      "category": "TOOLS",
+      "description": "tools/call unknown tool returns error -32601",
+      "status": "FAIL",
+      "expected": "PASS",
+      "actual": "FAIL body={\"jsonrpc\":\"2.0\",\"id\":null,\"error\":{\"code\":-32001,\"message\":\"SECURITY_FAIL_CLOSED: WEALTHOS_PRODUCT_KEY is not configured in server environment\"}}",
+      "durationMs": 3
+    },
+    {
+      "id": "T09",
+      "category": "RESOURCES",
+      "description": "resources/list returns at least 1 resource",
+      "status": "FAIL",
+      "expected": "PASS",
+      "actual": "FAIL count=0",
+      "durationMs": 3
+    },
+    {
+      "id": "T10",
+      "category": "RESOURCES",
+      "description": "resources/read wealthos://requirements returns JSON",
+      "status": "FAIL",
+      "expected": "PASS",
+      "actual": "FAIL body={\"jsonrpc\":\"2.0\",\"id\":null,\"error\":{\"code\":-32001,\"message\":\"SECURITY_FAIL_CLOSED: WEALTHOS_PRODUCT_KEY is not configured in server environment\"}}",
+      "durationMs": 3
+    },
+    {
+      "id": "T11",
+      "category": "LIFECYCLE",
+      "description": "ping returns empty result",
+      "status": "FAIL",
+      "expected": "PASS",
+      "actual": "FAIL body={\"jsonrpc\":\"2.0\",\"id\":null,\"error\":{\"code\":-32001,\"message\":\"SECURITY_FAIL_CLOSED: WEALTHOS_PRODUCT_KEY is not configured in server environment\"}}",
+      "durationMs": 1
+    },
+    {
+      "id": "T12",
+      "category": "PROTOCOL",
+      "description": "malformed JSON body returns parse error -32700",
+      "status": "FAIL",
+      "expected": "PASS",
+      "actual": "FAIL {\"jsonrpc\":\"2.0\",\"id\":null,\"error\":{\"code\":-32001,\"message\":\"SECURITY_FAIL_CLOSED: WEALTHOS_PRODUCT_KEY is not configured in server environment\"}}",
+      "durationMs": 1
+    },
+    {
+      "id": "T13",
+      "category": "SECURITY",
+      "description": "missing Authorization header returns 401",
+      "status": "PASS",
+      "expected": "PASS",
+      "actual": "PASS",
+      "durationMs": 2
+    },
+    {
+      "id": "T14",
+      "category": "SECURITY",
+      "description": "invalid token returns 401",
+      "status": "PASS",
+      "expected": "PASS",
+      "actual": "PASS",
+      "durationMs": 1
+    },
+    {
+      "id": "T15",
+      "category": "SECURITY",
+      "description": "product key on /mcp/dev returns 403",
+      "status": "FAIL",
+      "expected": "PASS",
+      "actual": "FAIL status=401 body={\"jsonrpc\":\"2.0\",\"id\":null,\"error\":{\"code\":-32001,\"message\":\"SECURITY_FAIL_CLOSED: WEALTHOS_DEV_KEY ",
+      "durationMs": 1
+    },
+    {
+      "id": "T16",
+      "category": "SECURITY",
+      "description": ".env read via read_file returns SECURITY_VIOLATION",
+      "status": "FAIL",
+      "expected": "PASS",
+      "actual": "FAIL: .env access not blocked: {\"jsonrpc\":\"2.0\",\"id\":null,\"error\":{\"code\":-32001,\"message\":\"SECURITY_FAIL_CLOSED: WEALTHOS_DEV_KEY is not configured in server environment\"}}",
+      "durationMs": 1
+    },
+    {
+      "id": "T17",
+      "category": "SECURITY",
+      "description": "../../../etc/passwd path traversal returns SECURITY_VIOLATION",
+      "status": "PASS",
+      "expected": "PASS",
+      "actual": "PASS",
+      "durationMs": 1
+    },
+    {
+      "id": "T18",
+      "category": "SECURITY",
+      "description": "portfolio.db access returns SECURITY_VIOLATION",
+      "status": "FAIL",
+      "expected": "PASS",
+      "actual": "FAIL: db access not blocked: {\"jsonrpc\":\"2.0\",\"id\":null,\"error\":{\"code\":-32001,\"message\":\"SECURITY_FAIL_CLOSED: WEALTHOS_DEV_KEY is not configured in server environment\"}}",
+      "durationMs": 3
+    },
+    {
+      "id": "T19",
+      "category": "CONCURRENCY",
+      "description": "5 concurrent tools/list calls all return 200",
+      "status": "FAIL",
+      "expected": "PASS",
+      "actual": "FAIL: 401,401,401,401,401",
+      "durationMs": 10
+    },
+    {
+      "id": "T20",
+      "category": "PROTOCOL",
+      "description": "unknown method returns -32601",
+      "status": "FAIL",
+      "expected": "PASS",
+      "actual": "FAIL body={\"jsonrpc\":\"2.0\",\"id\":null,\"error\":{\"code\":-32001,\"message\":\"SECURITY_FAIL_CLOSED: WEALTHOS_PRODUCT_KEY is not configured in server environment\"}}",
+      "durationMs": 1
+    }
+  ]
+}

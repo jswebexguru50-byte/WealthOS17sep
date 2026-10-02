@@ -1,0 +1,433 @@
+{
+  "symbol": "TATAPOWER",
+  "companyName": "The Tata Power Company Limited",
+  "marketCapTier": "LARGECAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-16T08:30:41.616Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "LOW",
+    "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+    "allocationRecommendation": "CAPPED_ALLOCATION",
+    "portfolioPolicy": {
+      "directive": "CAPPED_ALLOCATION",
+      "targetSizingCapRatio": 0.5,
+      "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+    },
+    "provenance": {
+      "quantDerivation": "ITAS-Score-91 -> Threshold(>=75:STRONG, 50-74:MODERATE, 25-49:WEAK, <25:NONE) -> STRONG",
+      "riskDerivation": "BreakersActive:0, Contradictions:0, Unknowns:0 -> Risk: LOW",
+      "credibilityDerivation": "ClaimsEvaluated:1 -> CredibilityGrade: INSUFFICIENT_HISTORY",
+      "breakerDerivation": "TB_TP_LEVERAGE(UNRESOLVED)",
+      "thesisDerivation": "Matrix(STRONG, LOW) -> Thesis: SUPPORTED",
+      "allocationDerivation": "Precedence(SUPPORTED, LOW, INSUFFICIENT_HISTORY) -> Directive: CAPPED_ALLOCATION (Cap: 50%)",
+      "auditTrail": [
+        "ITAS-Engine#TATAPOWER",
+        null
+      ]
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_TATAPOWER",
+      "nodes": [
+        {
+          "id": "DEC_TATAPOWER",
+          "type": "DECISION",
+          "refId": "TATAPOWER",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_TATAPOWER",
+          "type": "ALLOCATION",
+          "refId": "CAPPED_ALLOCATION",
+          "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+        },
+        {
+          "id": "THESIS_TATAPOWER",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_TATAPOWER",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 91/100)"
+        },
+        {
+          "id": "RISK_TATAPOWER",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_TATAPOWER",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_TP_LEVERAGE",
+          "type": "RULE",
+          "refId": "TB_TP_LEVERAGE",
+          "version": "2026.09",
+          "label": "Breaker TB_TP_LEVERAGE: UNRESOLVED (Observed: undefined)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_TATAPOWER",
+          "to": "DEC_TATAPOWER",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_TATAPOWER",
+          "to": "DEC_TATAPOWER",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_TATAPOWER",
+          "to": "THESIS_TATAPOWER",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_TATAPOWER",
+          "to": "THESIS_TATAPOWER",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_TATAPOWER",
+          "to": "ALLOC_TATAPOWER",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_TP_LEVERAGE",
+          "to": "RISK_TATAPOWER",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_TATAPOWER_836c062535d0",
+      "decisionId": "DECISION_TATAPOWER",
+      "issuerSymbol": "TATAPOWER",
+      "evaluatedAt": "2026-09-16T11:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2.1",
+      "ontologyVersion": "1.3",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawQuantInput": {
+        "symbol": "TATAPOWER",
+        "strategyAgreementCount": 18,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 91,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY",
+        "decisionDate": "2024-06-30"
+      },
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_TP_LEVERAGE",
+          "symbol": "TATAPOWER",
+          "name": "Power Utility Leverage Ceiling",
+          "type": "QUANTITATIVE",
+          "thresholdValue": 3.5,
+          "comparisonOperator": "GREATER_THAN",
+          "severity": "CRITICAL",
+          "description": "Net Debt / EBITDA exceeding 3.5x triggers hard veto.",
+          "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+          "status": "UNRESOLVED"
+        }
+      ],
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "LOW",
+        "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+        "allocationRecommendation": "CAPPED_ALLOCATION"
+      },
+      "portfolioPolicy": {
+        "directive": "CAPPED_ALLOCATION",
+        "targetSizingCapRatio": 0.5,
+        "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_TATAPOWER",
+        "nodes": [
+          {
+            "id": "DEC_TATAPOWER",
+            "type": "DECISION",
+            "refId": "TATAPOWER",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_TATAPOWER",
+            "type": "ALLOCATION",
+            "refId": "CAPPED_ALLOCATION",
+            "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+          },
+          {
+            "id": "THESIS_TATAPOWER",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_TATAPOWER",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 91/100)"
+          },
+          {
+            "id": "RISK_TATAPOWER",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_TATAPOWER",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_TP_LEVERAGE",
+            "type": "RULE",
+            "refId": "TB_TP_LEVERAGE",
+            "version": "2026.09",
+            "label": "Breaker TB_TP_LEVERAGE: UNRESOLVED (Observed: undefined)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_TATAPOWER",
+            "to": "DEC_TATAPOWER",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_TATAPOWER",
+            "to": "DEC_TATAPOWER",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_TATAPOWER",
+            "to": "THESIS_TATAPOWER",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_TATAPOWER",
+            "to": "THESIS_TATAPOWER",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_TATAPOWER",
+            "to": "ALLOC_TATAPOWER",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_TP_LEVERAGE",
+            "to": "RISK_TATAPOWER",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "836c062535d0ad2b6b98cede1148ba128e0e6538f077edbb883f822b2376238e",
+      "canonicalStateHash": "836c062535d0ad2b6b98cede1148ba128e0e6538f077edbb883f822b2376238e",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_TP_01",
+          "issuerSymbol": "TATAPOWER",
+          "metric": "REVENUE",
+          "metricId": "REVENUE",
+          "metricFamily": "REVENUE",
+          "value": 61449,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_TP_REV_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_TP_REV_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_TP_REV_01",
+          "sourceQuotedText": "Consolidated revenue for FY24 reached ₹61449 Cr with solar rooftop and generation utility dispatches accelerating.",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_TATAPOWER_01",
+          "issuerNseSymbol": "TATAPOWER",
+          "issuerBseCode": "500400",
+          "period": "FY24",
+          "category": "GROWTH",
+          "statement": "Scale integrated power generation and distribution revenue past ₹58,000 Cr in FY24.",
+          "targetMetric": "revenue_cr",
+          "baselineValue": 55109,
+          "expectedValue": 58000,
+          "expectedOutcome": "Revenue >= ₹58,000 Cr",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_TP_REV_01",
+          "claimDate": "2023-08-11",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 61449,
+          "actualOutcomeDescription": "Delivered ₹61,449 Cr revenue beating target by 5.9%.",
+          "evaluationEvidenceId": "EV_TP_REV_01",
+          "evaluationDate": "2024-05-08",
+          "evaluationBasis": "BSE Audited Financial Accounts Release",
+          "publicationDate": "2023-08-11",
+          "publicationDateType": "MANAGEMENT_COMMENT",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_TP_01"
+        }
+      ],
+      "rawInputContradictions": [],
+      "rawInputHash": "2538c230525794ccbe60daf2152b09583d3bf2f723838fe08c9a4fad6f0f1e97"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "LOW",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap)."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 18/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 91/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#TATAPOWER",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Scale integrated power generation and distribution revenue past ₹58,000 Cr in FY24.",
+      "detail": "Disclosed actual outcome: Delivered ₹61,449 Cr revenue beating target by 5.9%.",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_TP_REV_01 -> Resolution#EV_TP_REV_01",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "TATAPOWER",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 1,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_TATAPOWER_01",
+        "statement": "Scale integrated power generation and distribution revenue past ₹58,000 Cr in FY24.",
+        "period": "FY24",
+        "expected": "Revenue >= ₹58,000 Cr",
+        "actual": "Delivered ₹61,449 Cr revenue beating target by 5.9%.",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_TP_REV_01 -> Resolution#EV_TP_REV_01"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_TATAPOWER"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_TATAPOWER"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-04-15",
+      "source": "REGULATORY_FILING",
+      "headline": "Commissioning of 4.3 GW Solar Cell and Module Manufacturing Facility",
+      "verified": true,
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_TP_LEVERAGE",
+      "symbol": "TATAPOWER",
+      "name": "Power Utility Leverage Ceiling",
+      "type": "QUANTITATIVE",
+      "thresholdValue": 3.5,
+      "comparisonOperator": "GREATER_THAN",
+      "severity": "CRITICAL",
+      "description": "Net Debt / EBITDA exceeding 3.5x triggers hard veto.",
+      "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+      "status": "UNRESOLVED"
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "LOW",
+    "directSourcesCount": 1,
+    "corroboratedCount": 1,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Integrated green power utility powerhouse with end-to-end presence across solar cell manufacturing, rooftop solar EPC, EV charging networks, and transmission grids.\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

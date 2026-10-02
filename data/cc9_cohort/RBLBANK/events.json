@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_RBL_01",
+    "issuerNseSymbol": "RBLBANK",
+    "issuerBseCode": "540065",
+    "eventDate": "2024-04-27",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Credit Card Credit Cost Surge Disclosure",
+    "description": "Disclosed elevated provisioning requirements across co-branded credit card and rural business loans.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_RBL_RESULT_01",
+    "materiality": "HIGH",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

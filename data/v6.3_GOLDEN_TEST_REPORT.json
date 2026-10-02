@@ -1,0 +1,116 @@
+{
+  "reportId": "GTR-V63-20260917",
+  "timestamp": "2026-09-17T10:19:00.000Z",
+  "testSuite": "tests/unit/reconciled_execution_simulator.test.ts",
+  "runner": "vitest v5.0.0",
+  "executionSummary": {
+    "totalTests": 10,
+    "passed": 10,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 20580,
+    "status": "ALL_PASSED"
+  },
+  "invariantsVerified": [
+    {
+      "testNumber": 1,
+      "name": "1. Strictly prevents same-bar execution (signal generated at t cannot fill on t)",
+      "invariant": "signal.timestamp < executionBar.timestamp",
+      "actionTested": "Attempt to fill signal on same bar timestamp as decision",
+      "expectedBehavior": "Throws SAME_BAR_EXECUTION error",
+      "status": "PASS",
+      "exercisesRealImplementation": true
+    },
+    {
+      "testNumber": 2,
+      "name": "2. Fills strictly on NEXT_TRADABLE_BAR_OPEN, skipping non-tradable holidays",
+      "invariant": "Execution occurs at next tradable bar open price, holidays skipped",
+      "actionTested": "Signal generated on Friday, Monday is holiday (tradable: false), Tuesday is normal",
+      "expectedBehavior": "Fill timestamp is Tuesday, fillPrice is Tuesday open",
+      "status": "PASS",
+      "exercisesRealImplementation": true
+    },
+    {
+      "testNumber": 3,
+      "name": "3. Executes stop loss on the NEXT tradable bar open after condition triggered",
+      "invariant": "Stop trigger on bar T schedules exit for T+1 open (no lookahead execution on T)",
+      "actionTested": "Position enters @ 100 with stop @ 95. Bar T drops to low 92. Next bar T+1 opens @ 91",
+      "expectedBehavior": "Exit executed at T+1 open @ 91.0 with exitReason STOP_LOSS",
+      "status": "PASS",
+      "exercisesRealImplementation": true
+    },
+    {
+      "testNumber": 4,
+      "name": "4. Resolves intrabar ambiguity to STOP_LOSS when both stop and target touched in same bar",
+      "invariant": "CONSERVATIVE_STOP_FIRST policy mandates stop loss priority over target",
+      "actionTested": "Bar touches both stop (580 < 590) and target (660 > 650) in same session",
+      "expectedBehavior": "Recorded exitReason is STOP_LOSS",
+      "status": "PASS",
+      "exercisesRealImplementation": true
+    },
+    {
+      "testNumber": 5,
+      "name": "5. Computes continuous MTM synchronously across ALL open multi-asset positions",
+      "invariant": "Equity(T) = Cash(T) + sum(quantity_i * mark_i,T)",
+      "actionTested": "Concurrent open positions in INFY (qty 50 @ 1500) and TCS (qty 20 @ 3800)",
+      "expectedBehavior": "Equity at each step accounts for all open symbols simultaneously",
+      "status": "PASS",
+      "exercisesRealImplementation": true
+    },
+    {
+      "testNumber": 6,
+      "name": "6. Rejects execution when required margin + statutory costs exceed available cash",
+      "invariant": "Cash solvency: cash >= grossValue + statutoryCosts",
+      "actionTested": "Available cash is 10,000, requested trade requires notional 100,000",
+      "expectedBehavior": "Signal skipped, zero positions opened, cash unchanged",
+      "status": "PASS",
+      "exercisesRealImplementation": true
+    },
+    {
+      "testNumber": 7,
+      "name": "7. Produces bitwise identical trades and equity curve across multiple runs",
+      "invariant": "Deterministic replay guarantee: run1 === run2 across all fields",
+      "actionTested": "Run simulation twice on identical dataset and compare output",
+      "expectedBehavior": "JSON equality across trades, fills, and equity curve",
+      "status": "PASS",
+      "exercisesRealImplementation": true
+    },
+    {
+      "testNumber": 8,
+      "name": "8. Throws PIT_VIOLATION when bar availableAt is later than decision timestamp",
+      "invariant": "Point-in-Time causality: availableAt <= decisionTimestamp",
+      "actionTested": "Bar timestamp is 15:35, availableAt is 16:00 (future lookahead)",
+      "expectedBehavior": "Throws PIT_VIOLATION error immediately",
+      "status": "PASS",
+      "exercisesRealImplementation": true
+    },
+    {
+      "testNumber": 9,
+      "name": "9. Matches TransactionCostEngine.estimate statutory breakdown exactly",
+      "invariant": "Statutory cost reconciliation: Brokerage, STT, Exchange, Stamp, GST",
+      "actionTested": "Compare trade ledger recorded costs with TransactionCostEngine.estimate()",
+      "expectedBehavior": "All cost components match to 2 decimal places",
+      "status": "PASS",
+      "exercisesRealImplementation": true
+    },
+    {
+      "testNumber": 10,
+      "name": "10. Successfully loads research_golden_bars.json and research_golden_signals.json fixtures",
+      "invariant": "Golden test fixture end-to-end multi-asset integration",
+      "actionTested": "Load golden JSON fixtures and execute complete event loop",
+      "expectedBehavior": "3 multi-asset BUY fills at next open, STOP_LOSS exits on breaches, continuous MTM curve",
+      "status": "PASS",
+      "exercisesRealImplementation": true
+    }
+  ],
+  "bitwiseDeterminismVerification": {
+    "runsExecuted": 3,
+    "tradesMatch": true,
+    "quantitiesMatch": true,
+    "timestampsMatch": true,
+    "pricesMatch": true,
+    "costsMatch": true,
+    "equityCurveMatches": true,
+    "hashComparison": "IDENTICAL_BITWISE_REPRODUCIBILITY"
+  }
+}

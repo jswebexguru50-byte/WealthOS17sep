@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_HIRECT_01",
+    "issuerNseSymbol": "HIRECT",
+    "issuerBseCode": "504080",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Scale railway propulsion power electronics to deliver above ₹450 Cr revenue in FY24.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 360,
+    "expectedValue": 450,
+    "expectedOutcome": "Revenue >= ₹450 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_HIRECT_REV_01",
+    "claimDate": "2023-08-25",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 522,
+    "actualOutcomeDescription": "Delivered ₹522 Cr revenue exceeding guidance by 16.0%.",
+    "evaluationEvidenceId": "EV_HIRECT_REV_01",
+    "evaluationDate": "2024-05-22",
+    "evaluationBasis": "NSE Audited Accounts",
+    "publicationDate": "2023-08-25",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_HIRECT_01"
+  }
+]

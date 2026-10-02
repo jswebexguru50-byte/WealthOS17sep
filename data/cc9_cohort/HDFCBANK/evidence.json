@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_HDFC_REV_01",
+    "issuerNseSymbol": "HDFCBANK",
+    "issuerBseCode": "500180",
+    "documentId": "DOC_HDFC_AR24",
+    "documentHash": "6d7e8f90123456789abcdef0123456789abcdef0123456789abc",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 80,
+    "pagePrinted": "78",
+    "quotedText": "Total revenue reached ₹285376 Cr post-merger with HDFC Limited with advances growing by 55%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

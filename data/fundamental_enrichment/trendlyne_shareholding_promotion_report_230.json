@@ -1,0 +1,1162 @@
+{
+  "generatedAt": "2026-10-01T20:41:21.452Z",
+  "mode": "APPLIED",
+  "dbPath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\portfolio.db",
+  "requested": 230,
+  "symbolsWithEvidence": 217,
+  "factsPrepared": 9602,
+  "factsWritten": 9602,
+  "policy": "Only explicit Trendlyne quarter-labelled shareholding data is promoted. Relative financial history is untouched.",
+  "symbols": [
+    {
+      "symbol": "AKIKO",
+      "endpoint": "shareholding",
+      "factsPrepared": 24
+    },
+    {
+      "symbol": "ALPEXSOLAR",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ANLON",
+      "endpoint": "shareholding",
+      "factsPrepared": 24
+    },
+    {
+      "symbol": "ANNU",
+      "endpoint": "shareholding",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "APLAPOLLO",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "APOLLO",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ARE&M",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AZAD",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BAJAJHFL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BAJFINANCE",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BANKBARODA",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BEL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BHARTIARTL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BLS",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BLUEJET",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BLUEWATER",
+      "endpoint": "shareholding",
+      "factsPrepared": 40
+    },
+    {
+      "symbol": "CDSL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CGPOWER",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "COSMICCRF",
+      "endpoint": "shareholding",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "DESCO",
+      "endpoint": "shareholding",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "DIVISLAB",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "DIXON",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "EPL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ETERNAL",
+      "endpoint": "shareholding",
+      "factsPrepared": 42
+    },
+    {
+      "symbol": "FEDERALBNK",
+      "endpoint": "shareholding",
+      "factsPrepared": 42
+    },
+    {
+      "symbol": "FRATELLIVI",
+      "endpoint": "shareholding",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "GANECOS",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "GOKEX",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "GPECO",
+      "endpoint": "shareholding",
+      "factsPrepared": 24
+    },
+    {
+      "symbol": "GROWW",
+      "endpoint": "shareholding",
+      "factsPrepared": 24
+    },
+    {
+      "symbol": "HAL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "HDFCBANK",
+      "endpoint": "shareholding",
+      "factsPrepared": 42
+    },
+    {
+      "symbol": "HIRECT",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "HOMEFIRST",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "INVICTA",
+      "endpoint": "shareholding",
+      "factsPrepared": 8
+    },
+    {
+      "symbol": "JGCHEM",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "KPITTECH",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "LAURUSLABS",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "LT",
+      "endpoint": "shareholding",
+      "factsPrepared": 42
+    },
+    {
+      "symbol": "M&M",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "MAZDOCK",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "MEESHO",
+      "endpoint": "shareholding",
+      "factsPrepared": 24
+    },
+    {
+      "symbol": "MRP",
+      "endpoint": "shareholding",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "MUFIN",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "NH",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "OBSCP",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "OLECTRA",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ORIANA",
+      "endpoint": "shareholding",
+      "factsPrepared": 24
+    },
+    {
+      "symbol": "PAYTM",
+      "endpoint": "shareholding",
+      "factsPrepared": 42
+    },
+    {
+      "symbol": "PIDILITIND",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "POLYCAB",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "RAJRATAN",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "RBLBANK",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "RELIANCE",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "SBIFUN",
+      "endpoint": "shareholding",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "SBIN",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "SJLOGISTIC",
+      "endpoint": "shareholding",
+      "factsPrepared": 40
+    },
+    {
+      "symbol": "SMARTHORIZON",
+      "endpoint": "shareholding",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "SOLARINDS",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "SONUINFRA",
+      "endpoint": "shareholding",
+      "factsPrepared": 24
+    },
+    {
+      "symbol": "TATACONSUM",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "TATAMOTORS",
+      "endpoint": "shareholding",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "TATAPOWER",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "TEMBO",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "TINNARUBR",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "TRANSRAILL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "UL -HINDON",
+      "endpoint": null,
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "UL-DELTA GALAXY",
+      "endpoint": null,
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "UNOMINDA",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ZENTEC",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "360ONE",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "3IINFOLTD",
+      "endpoint": "shareholding",
+      "factsPrepared": 42
+    },
+    {
+      "symbol": "63MOONS",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AARADHYA",
+      "endpoint": "shareholding",
+      "factsPrepared": 16
+    },
+    {
+      "symbol": "AAREYDRUGS",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AARTECH",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AARTIDRUGS",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AARTISURF",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ABBOTINDIA",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ABSLAMC",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ABSMARINE",
+      "endpoint": "shareholding",
+      "factsPrepared": 24
+    },
+    {
+      "symbol": "ACCENTMIC",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ACCORD",
+      "endpoint": "shareholding",
+      "factsPrepared": 32
+    },
+    {
+      "symbol": "ACETEC",
+      "endpoint": "shareholding",
+      "factsPrepared": 8
+    },
+    {
+      "symbol": "ACMESOLAR",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ADANIPORTS",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ADFFOODS",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ADVANCE",
+      "endpoint": "shareholding",
+      "factsPrepared": 24
+    },
+    {
+      "symbol": "ADVENZYMES",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AEGISLOG",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AEGISVOPAK",
+      "endpoint": "shareholding",
+      "factsPrepared": 40
+    },
+    {
+      "symbol": "AEPL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AFFLE",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AGARWALEYE",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AGARWALTUF",
+      "endpoint": "shareholding",
+      "factsPrepared": 32
+    },
+    {
+      "symbol": "AGI",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AGL",
+      "endpoint": "shareholding",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AHCL",
+      "endpoint": "shareholding",
+      "factsPrepared": 32
+    },
+    {
+      "symbol": "AIIL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AIRAN",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AJAXENGG",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AKANKSHA",
+      "endpoint": "shareholding",
+      "factsPrepared": 24
+    },
+    {
+      "symbol": "AKSHARCHEM",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AKUMS",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ALBERTDAVD",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ALEMBICLTD",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ALGOQUANT",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ALICON",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ALKEM",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ALLCARGO",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ALPHAGEO",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AMANTA",
+      "endpoint": "shareholding",
+      "factsPrepared": 32
+    },
+    {
+      "symbol": "AMDIND",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AMEYA",
+      "endpoint": "shareholding",
+      "factsPrepared": 24
+    },
+    {
+      "symbol": "ANANTRAJ",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ANDHRAPAP",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ANDHRSUGAR",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ANGELONE",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ANMOL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ANSALAPI",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ANTELOPUS",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ANUHPHR",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "APCOTEXIND",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "APLLTD",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ARABIAN",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ARCHIDPLY",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ARHAM",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ARIES",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ARIHANTCAP",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ARROWGREEN",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ARTEMISMED",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ASAHIINDIA",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ASAHISONG",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ASHOKAMET",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ASHOKLEY",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ASIANHOTNR",
+      "endpoint": "shareholding",
+      "factsPrepared": 42
+    },
+    {
+      "symbol": "ASIANTILES",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ASKAUTOLTD",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ASTEC",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "ATGL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AURIONPRO",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AUTOIND",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AVALON",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AVIENCE",
+      "endpoint": "shareholding",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AVL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AVTNPL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AWFIS",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AXISCADES",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BAFNAPH",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BAHETI",
+      "endpoint": "shareholding",
+      "factsPrepared": 24
+    },
+    {
+      "symbol": "BAJAJ-AUTO",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BAJAJCON",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BAJAJHCARE",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BAJAJHIND",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BAJAJHLDNG",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BALAJITELE",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BALKRISIND",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BALPHARMA",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BANARBEADS",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BANDHANBNK",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BANKINDIA",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BANSALWIRE",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BBOX",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BBTCL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BCG",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BDL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BECTORFOOD",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BEML",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BEPL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BESTAGRO",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BFUTILITIE",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BHADORA",
+      "endpoint": "shareholding",
+      "factsPrepared": 32
+    },
+    {
+      "symbol": "BHAGERIA",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BHAGYANGR",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BHARATSE",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BHARTIHEXA",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BI",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BIKEWO",
+      "endpoint": "shareholding",
+      "factsPrepared": 24
+    },
+    {
+      "symbol": "BIL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BIRLACABLE",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BIRLANU",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BIRLAPREC",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BLACKBUCK",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BLACKROSE",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BLISSGVS",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BLUESTARCO",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BLUESTONE",
+      "endpoint": "shareholding",
+      "factsPrepared": 32
+    },
+    {
+      "symbol": "BMLL",
+      "endpoint": "shareholding",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "BODALCHEM",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BOHRAIND",
+      "endpoint": "shareholding",
+      "factsPrepared": 40
+    },
+    {
+      "symbol": "BOROLTD",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BORORENEW",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BOSCH-HCIL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BOSCHLTD",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BOSS",
+      "endpoint": "shareholding",
+      "factsPrepared": 24
+    },
+    {
+      "symbol": "BPCL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BRIGADE",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BUILDPRO",
+      "endpoint": "shareholding",
+      "factsPrepared": 16
+    },
+    {
+      "symbol": "BULKCORP",
+      "endpoint": "shareholding",
+      "factsPrepared": 24
+    },
+    {
+      "symbol": "CANHLIFE",
+      "endpoint": "shareholding",
+      "factsPrepared": 24
+    },
+    {
+      "symbol": "CANTABIL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CAPILLARY",
+      "endpoint": "shareholding",
+      "factsPrepared": 24
+    },
+    {
+      "symbol": "CAPTRUST",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CARBORUNIV",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CARERATING",
+      "endpoint": "shareholding",
+      "factsPrepared": 42
+    },
+    {
+      "symbol": "CARRARO",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CARTRADE",
+      "endpoint": "shareholding",
+      "factsPrepared": 42
+    },
+    {
+      "symbol": "CASTROLIND",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CBAZAAR",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CEATLTD",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CEIGALL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CEMPRO",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CENTENKA",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CENTRALBK",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CENTUM",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CEWATER",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CGCL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CHALET",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CHEMBOND",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CHEMPLASTS",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CHENNPETRO",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CHOICEIN",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CINELINE",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CKKRETAIL",
+      "endpoint": "shareholding",
+      "factsPrepared": 8
+    },
+    {
+      "symbol": "CLEAN",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CLSEL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CMRGREEN",
+      "endpoint": "shareholding",
+      "factsPrepared": 8
+    },
+    {
+      "symbol": "CNL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "COALINDIA",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "COFFEEDAY",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    }
+  ]
+}

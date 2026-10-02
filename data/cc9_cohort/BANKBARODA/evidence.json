@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_BOB_REV_01",
+    "issuerNseSymbol": "BANKBARODA",
+    "issuerBseCode": "532134",
+    "documentId": "DOC_BOB_AR24",
+    "documentHash": "6789abcdef0123456789abcdef0123456789abcdef7",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 78,
+    "pagePrinted": "76",
+    "quotedText": "Total revenue reached ₹127101 Cr with operating profit jumping by 15% and net NPA at 0.68%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

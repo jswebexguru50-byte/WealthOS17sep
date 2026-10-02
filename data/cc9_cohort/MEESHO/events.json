@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_MEESHO_01",
+    "issuerNseSymbol": "MEESHO",
+    "issuerBseCode": "MEESHO",
+    "eventDate": "2024-05-10",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Closing of $275M Pre-IPO Funding Round",
+    "description": "Successfully raised $275M growth capital from global institutional investors ahead of domestic IPO.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_MEESHO_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

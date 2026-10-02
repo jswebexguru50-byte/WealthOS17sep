@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_DIVIS_01",
+    "issuerNseSymbol": "DIVISLAB",
+    "issuerBseCode": "532488",
+    "eventDate": "2024-04-18",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "Unit-III Kakinada Manufacturing Plant Commissioning",
+    "description": "Successfully commenced commercial validation runs at the 500-acre greenfield Kakinada manufacturing hub.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_DIVIS_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

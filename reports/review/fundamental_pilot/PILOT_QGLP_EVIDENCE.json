@@ -1,0 +1,234 @@
+{
+  "generatedAt": "2026-10-01T15:12:38.237Z",
+  "totalEvaluated": 200,
+  "qglpEligible": 0,
+  "qglpDataInsufficient": 200,
+  "corePrincipleEnforced": "No evidence = no conclusion. QGLP is blocked with exact reasons when any required input lacks source backing.",
+  "commonMissingRequirements": [
+    "Verified multi-year capex cash outflow series absent from provider snapshots",
+    "Free cash flow (FCF) audited series absent from provider snapshots",
+    "Full statutory filing disclosures for accounting red flag clearance"
+  ],
+  "sampleBlockedCompanies": [
+    {
+      "symbol": "534563",
+      "businessModel": "UNKNOWN",
+      "status": "DATA_INSUFFICIENT",
+      "missingRequirements": [],
+      "exactMissingInputs": [
+        "Capex cash outflows verified series",
+        "Free cash flow (FCF) audited series",
+        "Full statutory filing disclosures for accounting red flag clearance"
+      ]
+    },
+    {
+      "symbol": "534839",
+      "businessModel": "UNKNOWN",
+      "status": "DATA_INSUFFICIENT",
+      "missingRequirements": [],
+      "exactMissingInputs": [
+        "Capex cash outflows verified series",
+        "Free cash flow (FCF) audited series",
+        "Full statutory filing disclosures for accounting red flag clearance"
+      ]
+    },
+    {
+      "symbol": "539680",
+      "businessModel": "UNKNOWN",
+      "status": "DATA_INSUFFICIENT",
+      "missingRequirements": [],
+      "exactMissingInputs": [
+        "Capex cash outflows verified series",
+        "Free cash flow (FCF) audited series",
+        "Full statutory filing disclosures for accounting red flag clearance"
+      ]
+    },
+    {
+      "symbol": "COROMANDEL",
+      "businessModel": "UNKNOWN",
+      "status": "DATA_INSUFFICIENT",
+      "missingRequirements": [],
+      "exactMissingInputs": [
+        "Capex cash outflows verified series",
+        "Free cash flow (FCF) audited series",
+        "Full statutory filing disclosures for accounting red flag clearance"
+      ]
+    },
+    {
+      "symbol": "ASHOKLEY",
+      "businessModel": "UNKNOWN",
+      "status": "DATA_INSUFFICIENT",
+      "missingRequirements": [],
+      "exactMissingInputs": [
+        "Capex cash outflows verified series",
+        "Free cash flow (FCF) audited series",
+        "Full statutory filing disclosures for accounting red flag clearance"
+      ]
+    },
+    {
+      "symbol": "M&M",
+      "businessModel": "UNKNOWN",
+      "status": "DATA_INSUFFICIENT",
+      "missingRequirements": [],
+      "exactMissingInputs": [
+        "Capex cash outflows verified series",
+        "Free cash flow (FCF) audited series",
+        "Full statutory filing disclosures for accounting red flag clearance"
+      ]
+    },
+    {
+      "symbol": "SANSERA",
+      "businessModel": "UNKNOWN",
+      "status": "DATA_INSUFFICIENT",
+      "missingRequirements": [],
+      "exactMissingInputs": [
+        "Capex cash outflows verified series",
+        "Free cash flow (FCF) audited series",
+        "Full statutory filing disclosures for accounting red flag clearance"
+      ]
+    },
+    {
+      "symbol": "TATAMOTORS",
+      "businessModel": "UNKNOWN",
+      "status": "DATA_INSUFFICIENT",
+      "missingRequirements": [],
+      "exactMissingInputs": [
+        "Capex cash outflows verified series",
+        "Free cash flow (FCF) audited series",
+        "Full statutory filing disclosures for accounting red flag clearance"
+      ]
+    },
+    {
+      "symbol": "UNOMINDA",
+      "businessModel": "UNKNOWN",
+      "status": "DATA_INSUFFICIENT",
+      "missingRequirements": [],
+      "exactMissingInputs": [
+        "Capex cash outflows verified series",
+        "Free cash flow (FCF) audited series",
+        "Full statutory filing disclosures for accounting red flag clearance"
+      ]
+    },
+    {
+      "symbol": "360ONE",
+      "businessModel": "UNKNOWN",
+      "status": "DATA_INSUFFICIENT",
+      "missingRequirements": [],
+      "exactMissingInputs": [
+        "Capex cash outflows verified series",
+        "Free cash flow (FCF) audited series",
+        "Full statutory filing disclosures for accounting red flag clearance"
+      ]
+    },
+    {
+      "symbol": "ABCAPITAL",
+      "businessModel": "UNKNOWN",
+      "status": "DATA_INSUFFICIENT",
+      "missingRequirements": [],
+      "exactMissingInputs": [
+        "Capex cash outflows verified series",
+        "Free cash flow (FCF) audited series",
+        "Full statutory filing disclosures for accounting red flag clearance"
+      ]
+    },
+    {
+      "symbol": "ABSLAMC",
+      "businessModel": "UNKNOWN",
+      "status": "DATA_INSUFFICIENT",
+      "missingRequirements": [],
+      "exactMissingInputs": [
+        "Capex cash outflows verified series",
+        "Free cash flow (FCF) audited series",
+        "Full statutory filing disclosures for accounting red flag clearance"
+      ]
+    },
+    {
+      "symbol": "ANGELONE",
+      "businessModel": "UNKNOWN",
+      "status": "DATA_INSUFFICIENT",
+      "missingRequirements": [],
+      "exactMissingInputs": [
+        "Capex cash outflows verified series",
+        "Free cash flow (FCF) audited series",
+        "Full statutory filing disclosures for accounting red flag clearance"
+      ]
+    },
+    {
+      "symbol": "BAJAJHFL",
+      "businessModel": "UNKNOWN",
+      "status": "DATA_INSUFFICIENT",
+      "missingRequirements": [],
+      "exactMissingInputs": [
+        "Capex cash outflows verified series",
+        "Free cash flow (FCF) audited series",
+        "Full statutory filing disclosures for accounting red flag clearance"
+      ]
+    },
+    {
+      "symbol": "BAJFINANCE",
+      "businessModel": "NBFC",
+      "status": "DATA_INSUFFICIENT",
+      "missingRequirements": [],
+      "exactMissingInputs": [
+        "Capex cash outflows verified series",
+        "Free cash flow (FCF) audited series",
+        "Full statutory filing disclosures for accounting red flag clearance"
+      ]
+    },
+    {
+      "symbol": "BANKBARODA",
+      "businessModel": "BANK",
+      "status": "DATA_INSUFFICIENT",
+      "missingRequirements": [],
+      "exactMissingInputs": [
+        "Capex cash outflows verified series",
+        "Free cash flow (FCF) audited series",
+        "Full statutory filing disclosures for accounting red flag clearance"
+      ]
+    },
+    {
+      "symbol": "CDSL",
+      "businessModel": "UNKNOWN",
+      "status": "DATA_INSUFFICIENT",
+      "missingRequirements": [],
+      "exactMissingInputs": [
+        "Capex cash outflows verified series",
+        "Free cash flow (FCF) audited series",
+        "Full statutory filing disclosures for accounting red flag clearance"
+      ]
+    },
+    {
+      "symbol": "FEDERALBNK",
+      "businessModel": "UNKNOWN",
+      "status": "DATA_INSUFFICIENT",
+      "missingRequirements": [],
+      "exactMissingInputs": [
+        "Capex cash outflows verified series",
+        "Free cash flow (FCF) audited series",
+        "Full statutory filing disclosures for accounting red flag clearance"
+      ]
+    },
+    {
+      "symbol": "GROWW",
+      "businessModel": "UNKNOWN",
+      "status": "DATA_INSUFFICIENT",
+      "missingRequirements": [],
+      "exactMissingInputs": [
+        "Capex cash outflows verified series",
+        "Free cash flow (FCF) audited series",
+        "Full statutory filing disclosures for accounting red flag clearance"
+      ]
+    },
+    {
+      "symbol": "HDFCBANK",
+      "businessModel": "BANK",
+      "status": "DATA_INSUFFICIENT",
+      "missingRequirements": [],
+      "exactMissingInputs": [
+        "Capex cash outflows verified series",
+        "Free cash flow (FCF) audited series",
+        "Full statutory filing disclosures for accounting red flag clearance"
+      ]
+    }
+  ]
+}

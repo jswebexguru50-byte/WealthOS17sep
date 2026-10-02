@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_CDSL_01",
+    "issuerNseSymbol": "CDSL",
+    "issuerBseCode": "540615",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Scale annual depository operating revenue past ₹800 Cr driven by retail market participation.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 621,
+    "expectedValue": 800,
+    "expectedOutcome": "Revenue >= ₹800 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_CDSL_REV_01",
+    "claimDate": "2023-08-22",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 907,
+    "actualOutcomeDescription": "Delivered ₹907 Cr revenue exceeding guidance by 13.4%.",
+    "evaluationEvidenceId": "EV_CDSL_REV_01",
+    "evaluationDate": "2024-05-04",
+    "evaluationBasis": "NSE Audited Accounts",
+    "publicationDate": "2023-08-22",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_CDSL_01"
+  }
+]

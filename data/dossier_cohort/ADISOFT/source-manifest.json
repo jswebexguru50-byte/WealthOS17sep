@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "ADISOFT",
+  "issuerBseCode": "516182",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_ADISOFT_AR2024",
+      "documentName": "ADISOFT_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "eb765f8ad89c157b50936414b2b3a3d6d3775e31f10c5c6228e4433a4b04a335",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_ADISOFT_AUDITED_RESULTS",
+      "documentName": "ADISOFT_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "66f5c5f81b4ae1bcf5a2af77037e652350fd6e6c8aec3fd3dc7df3e1a4e6bf62",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_ADISOFT_CONCALL_Q4FY26",
+      "documentName": "ADISOFT_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "41bfed1fb6f793fa1b09bed35e34b0ffa821c30ef3e49fb5d07f0eca8b507d82",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

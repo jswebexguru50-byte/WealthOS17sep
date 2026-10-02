@@ -1,0 +1,8 @@
+{
+  "reviewId": "FUNDAMENTAL_CAL_020",
+  "clusters": [
+    {"clusterId": "CLUSTER_METRIC_LEVEL_EVIDENCE_GATING", "findings": ["CAL020_VALUATION_COVERAGE_001", "CAL020_QGLP_FORENSIC_NEGATIVE_002", "CAL020_QGLP_LEVERAGE_DEFAULT_003"], "rootCause": "Coverage and evidence status are inferred from broad object existence or aggregate fact volume rather than from the exact metric/claim inputs."},
+    {"clusterId": "CLUSTER_MODEL_AWARE_ROUTING", "findings": ["CAL020_BUSINESS_MODEL_MISROUTING_004", "CAL020_QGLP_LEVERAGE_DEFAULT_003"], "rootCause": "Business-model-specific rules do not fail closed for UNKNOWN and only distinguish BANK in several QGLP branches."}
+  ],
+  "clusteredAfterFindingsFrozen": true
+}

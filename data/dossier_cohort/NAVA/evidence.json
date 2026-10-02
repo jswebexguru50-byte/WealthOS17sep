@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_NAVA_REV_FY26",
+    "issuerNseSymbol": "NAVA",
+    "issuerBseCode": "509114",
+    "documentHash": "3a60845f03787f432a4089420a65c6df896a149b240153cf30c9c44d08b4a7db",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹6712 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_NAVA_PAT_FY26",
+    "issuerNseSymbol": "NAVA",
+    "issuerBseCode": "509114",
+    "documentHash": "3a60845f03787f432a4089420a65c6df896a149b240153cf30c9c44d08b4a7db",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹805 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_NAVA_DEBT_FY26",
+    "issuerNseSymbol": "NAVA",
+    "issuerBseCode": "509114",
+    "documentHash": "a882fa230ce3e5b77cdfa311cc9f6405b6169809213325f8fb5136c0aa7ac877",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_NAVA_CONCALL_Q4FY26",
+    "issuerNseSymbol": "NAVA",
+    "issuerBseCode": "509114",
+    "documentHash": "4479eb09622ae1ff6130e91aa512543dde02866433e62741684adacc2c7962d1",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

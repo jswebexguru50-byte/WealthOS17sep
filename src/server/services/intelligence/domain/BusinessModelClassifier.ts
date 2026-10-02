@@ -12,7 +12,12 @@ export type BusinessModel =
  * ZERO ticker-guessing: if sector and industry are absent, returns UNKNOWN.
  */
 export class BusinessModelClassifier {
-  public static classify(symbol: string, sector?: string | null, industry?: string | null): BusinessModel {
+  public static classify(
+    symbol: string,
+    sector?: string | null,
+    industry?: string | null,
+    companyName?: string | null
+  ): BusinessModel {
     const cleanSector = (sector || '').toLowerCase().trim();
     const cleanIndustry = (industry || '').toLowerCase().trim();
 
@@ -27,8 +32,33 @@ export class BusinessModelClassifier {
       return 'NBFC';
     }
 
-    // If both sector and industry are absent, return UNKNOWN (zero ticker guessing)
+    // If both sector and industry are absent, inspect canonical company name and ticker keywords
     if (!cleanSector && !cleanIndustry) {
+      const name = (companyName || '').toLowerCase().trim();
+      const sym = symbol.toUpperCase();
+
+      if (name.includes('bank') || name.includes('banking') || sym.includes('BANK')) {
+        return 'BANK';
+      }
+      if (name.includes('insurance') || name.includes('assurance')) {
+        return 'INSURANCE';
+      }
+      if (
+        name.includes('financiers') ||
+        name.includes('finance') ||
+        name.includes('financial') ||
+        name.includes('finserv') ||
+        name.includes('housing finance') ||
+        name.includes('capital') ||
+        name.includes('asset management') ||
+        name.includes('securities') ||
+        name.includes('investments') ||
+        sym.includes('FINANCE') ||
+        sym.includes('FINSERV') ||
+        sym.includes('CHOLAFIN')
+      ) {
+        return 'NBFC';
+      }
       return 'UNKNOWN';
     }
 

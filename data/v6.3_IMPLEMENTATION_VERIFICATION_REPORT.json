@@ -1,0 +1,112 @@
+{
+  "reportId": "IVR-V63-20260917",
+  "timestamp": "2026-09-17T10:20:00.000Z",
+  "title": "WealthOS / ITAS v6.3: Independent Implementation Verification Report",
+  "overallHarnessReadiness": "PHASES_0_TO_4_VERIFIED_IMPLEMENTATION_AUTHENTIC",
+  "promotionStatus": "PROMOTION_BLOCKED_PENDING_FULL_PIT_DATA_ACQUISITION",
+  "verificationMatrix": {
+    "1_productionFreeze": {
+      "status": "PASS",
+      "checkedAt": "2026-09-17T10:15:34Z",
+      "filesChecked": 6,
+      "violations": 0,
+      "hashVerification": "ALL_6_SHA256_MATCH_AUTHORITATIVE_BASELINE"
+    },
+    "2_authenticStrategyReplay": {
+      "status": "PASS",
+      "callChain": "ResearchBar -> FrozenSignalAdapter -> PureTechnicalStrategiesEngine -> evaluateStrategy1..11 -> ResearchSignal",
+      "s1_to_s11": "VERIFIED_CALLING_FROZEN_PRODUCTION_ENGINE",
+      "s12_to_s20": "MISSING_FROZEN_STRATEGY_IMPLEMENTATION",
+      "mockSubstitutesCreated": false
+    },
+    "3_syntheticFallbacksAudit": {
+      "status": "PASS",
+      "scannedFiles": 16,
+      "syntheticPriceFound": false,
+      "syntheticStopFound": false,
+      "syntheticTargetFound": false,
+      "arbitraryQuantityFound": false,
+      "arbitraryModuloFiltersFound": false,
+      "failClosedRule": "Missing stop/target/turnover/delivery throws DATA_INSUFFICIENT"
+    },
+    "4_positionSizingPolicy": {
+      "status": "PASS",
+      "sizingMechanism": "calculateAdaptivePositionSize (CapitalProtectionEngine) / institutional 1.5% risk policy",
+      "arbitrary100ShareDefault": false,
+      "failClosedRule": "Non-positive riskPerShare or zero computed quantity throws DATA_INSUFFICIENT: POSITION_SIZING_UNDEFINED"
+    },
+    "5_eventDrivenSimulator": {
+      "status": "PASS",
+      "loopType": "Chronological multi-asset discrete event loop (ExecutionSimulator.simulate)",
+      "ordering": "BAR(T) -> PIT validation -> pending exits -> eligible entries -> position evaluation -> pending exit scheduling -> continuous MTM -> equity snapshot",
+      "sameBarExecutionCheck": "signal.timestamp >= bar.timestamp throws SAME_BAR_EXECUTION (verified in Test 1)",
+      "exercisesRealImplementation": true
+    },
+    "6_exitStateMachine": {
+      "status": "PASS",
+      "executionRule": "OPEN POSITION -> STOP TRIGGERED AT T -> PENDING EXIT SCHEDULED -> NEXT TRADABLE BAR T+1 OPEN EXECUTION -> CLOSED",
+      "intrabarAmbiguityPolicy": "CONSERVATIVE_STOP_FIRST (verified in Test 4)",
+      "exercisesRealImplementation": true
+    },
+    "7_multiAssetMtm": {
+      "status": "PASS",
+      "mtmFormula": "Equity(T) = Cash(T) + sum_all_open_positions(quantity_i * mark_i,T)",
+      "synchronousAcrossSymbols": true,
+      "exercisesRealImplementation": true
+    },
+    "8_transactionCostReconciliation": {
+      "status": "PASS",
+      "statutoryBreakdown": "Brokerage, STT, Exchange Txn, Stamp Duty, GST, Slippage, Impact",
+      "engineUsed": "TransactionCostEngine",
+      "exactMatchWithEstimate": true,
+      "exercisesRealImplementation": true
+    },
+    "9_experimentalAblation": {
+      "armA_Raw": {
+        "status": "PASS",
+        "description": "Raw S1-S11 unconstrained signals -> ExecutionSimulator"
+      },
+      "armB_Overlay": {
+        "status": "PASS",
+        "description": "Raw S1-S11 filtered by frozen SignalQualityOverlay -> ExecutionSimulator"
+      },
+      "armC_CapitalProtection": {
+        "status": "PASS",
+        "description": "Raw S1-S11 sized with adaptive liquidity/gap guardrails -> ExecutionSimulator"
+      },
+      "armD_Unexposed": {
+        "status": "API_NOT_EXPOSED",
+        "reason": "NOT_PERFORMANCE_COMPARABLE",
+        "description": "Live L2 order flow and microstructure layers require streaming real-time feed; not exposed as offline historical filters"
+      }
+    },
+    "10_goldenTests": {
+      "status": "PASS",
+      "testSuite": "tests/unit/reconciled_execution_simulator.test.ts",
+      "totalTests": 10,
+      "passed": 10,
+      "failed": 0,
+      "bitwiseDeterminismVerified": true,
+      "exercisesRealImplementation": true
+    },
+    "11_incompleteDataGate": {
+      "status": "DATA_INSUFFICIENT",
+      "targetDatabase": "data/portfolio_v6.3_research_subset.db",
+      "deliveryCompleteness": "814/105243",
+      "turnoverCompleteness": "814/105243",
+      "syntheticFallbacksUsed": false,
+      "productionCodeModified": false,
+      "auditReportGenerated": "data/v6.3_REAL_DATA_INSUFFICIENT.json"
+    }
+  },
+  "stopConditionsEncountered": [],
+  "handoverDirectiveReadiness": {
+    "reconcileCode": "COMPLETE",
+    "implementRealReplay": "COMPLETE",
+    "implementRealEventLoop": "COMPLETE",
+    "implementRealAblation": "COMPLETE",
+    "goldenTests": "COMPLETE_10_OF_10_PASS",
+    "dataBackfill": "READY_TO_PROCEED_ON_APPROVAL",
+    "statistics": "BLOCKED_UNTIL_DATA_BACKFILLED"
+  }
+}

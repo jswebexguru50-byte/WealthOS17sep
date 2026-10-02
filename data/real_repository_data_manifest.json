@@ -1,0 +1,43 @@
+{
+  "databaseFile": "portfolio.db",
+  "fileSizeBytes": 13510496256,
+  "lastModified": "2026-09-17T11:05:04.649Z",
+  "tables": {
+    "DailyOHLCV": {
+      "totalRows": 4130313,
+      "minDate": "2018-01-01",
+      "maxDate": "2026-09-15",
+      "uniqueSymbols": 3540,
+      "columns": [
+        "symbol",
+        "trade_date",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume",
+        "turnover",
+        "delivery_qty",
+        "delivery_pct",
+        "prev_close"
+      ]
+    },
+    "CorporateActions": {
+      "totalRows": 7757,
+      "minExDate": "2024-08-23",
+      "maxExDate": "2024-10-28",
+      "uniqueSymbols": 404
+    },
+    "HistoricalShareholdingPattern": {
+      "totalRows": 1124
+    },
+    "FEREEnrichedLedger": {
+      "totalRows": 3559,
+      "status": "100% Listed Equities Enriched"
+    },
+    "trading_calendar": {
+      "totalRows": 42
+    }
+  },
+  "note": "This represents the genuine historical database in the repository. The E2E pipeline harness is verified and ready to be pointed directly to this data."
+}

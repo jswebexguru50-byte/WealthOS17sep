@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "SSDL",
+  "issuerBseCode": "509610",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_SSDL_AR2024",
+      "documentName": "SSDL_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "53fdd2d5591cea600e16e182a8a9a34fb4f8c55d7ee6318e25a91044af78bad0",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_SSDL_AUDITED_RESULTS",
+      "documentName": "SSDL_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "d2cc191c6dd35c7d7f07c13a651d8c0cdc08c30baa52777c00ee9c80ef31b983",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_SSDL_CONCALL_Q4FY26",
+      "documentName": "SSDL_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "6f5f7d8e627736f44b326439db0620d69dcebaccd97df50092c65eb6ecc3e810",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

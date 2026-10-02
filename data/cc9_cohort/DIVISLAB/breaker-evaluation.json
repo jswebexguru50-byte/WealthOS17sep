@@ -1,0 +1,14 @@
+[
+  {
+    "breakerId": "TB_DIVIS_LEVERAGE",
+    "symbol": "DIVISLAB",
+    "name": "Pharma Zero-Debt Balance Sheet Rule",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 0.5,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Debt / Equity ratio exceeding 0.5x triggers hard veto.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

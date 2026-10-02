@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_BHARTI_01",
+    "issuerNseSymbol": "BHARTIARTL",
+    "issuerBseCode": "532454",
+    "eventDate": "2024-06-28",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Headline Mobile Tariff Revision Announcement",
+    "description": "Announced 15-20% tariff hikes across prepaid and postpaid mobile plans to lift industry ROCE.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_BHARTI_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

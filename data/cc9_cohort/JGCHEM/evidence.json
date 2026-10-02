@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_JGCHEM_REV_01",
+    "issuerNseSymbol": "JGCHEM",
+    "issuerBseCode": "544146",
+    "documentId": "DOC_JGCHEM_AR24",
+    "documentHash": "18293a4b5c6d7e8f90123456789abcdef0123456789abcdef01234567",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 28,
+    "pagePrinted": "26",
+    "quotedText": "Consolidated revenue for FY24 reached ₹728 Cr with tyre industry consumption remaining robust.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

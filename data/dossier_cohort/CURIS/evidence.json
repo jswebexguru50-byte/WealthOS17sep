@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_CURIS_REV_FY26",
+    "issuerNseSymbol": "CURIS",
+    "issuerBseCode": "512090",
+    "documentHash": "d6dff85335bd2e127331adf799d66065099aed11c7c2aed7ca206d4be42cf4e0",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹2733 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_CURIS_PAT_FY26",
+    "issuerNseSymbol": "CURIS",
+    "issuerBseCode": "512090",
+    "documentHash": "d6dff85335bd2e127331adf799d66065099aed11c7c2aed7ca206d4be42cf4e0",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹328 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_CURIS_DEBT_FY26",
+    "issuerNseSymbol": "CURIS",
+    "issuerBseCode": "512090",
+    "documentHash": "afee6f276509852dd75d98a8e4f9cbc1d32aaafe15de91ab65b5c90a97f76c1c",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_CURIS_CONCALL_Q4FY26",
+    "issuerNseSymbol": "CURIS",
+    "issuerBseCode": "512090",
+    "documentHash": "d20ce4a6eceda4f2149766adf640d5777301b8d65b87f06c6bed70926f245684",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_BEL_01",
+    "issuerNseSymbol": "BEL",
+    "issuerBseCode": "500049",
+    "eventDate": "2024-03-28",
+    "category": "ORDER_BOOK",
+    "headline": "Mega Air Defense Akash Missile Electronics Order Inflow",
+    "description": "Secured major contract for supply of Akash Prime radar and electronic combat guidance systems worth ₹2,900 Cr.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_BEL_ORDER_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

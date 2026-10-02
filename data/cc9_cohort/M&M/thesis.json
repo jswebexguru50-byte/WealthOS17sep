@@ -1,0 +1,19 @@
+{
+  "symbol": "M&M",
+  "coreThesisStatement": "Dominant Indian SUV and tractor maker firing on all cylinders with blockbuster vehicle launches (Scorpio-N, Thar, XUV700) and capital allocation discipline.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "SUV Leadership",
+      "description": "Number 1 in Indian SUV revenue market share exceeding 20%."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Tractor Monopolist",
+      "description": "Over 40% domestic tractor market share generating high free cash flows."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_MM_LEVERAGE"
+  ]
+}

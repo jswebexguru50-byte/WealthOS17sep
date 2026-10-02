@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_PIDILITE_REV_01",
+    "issuerNseSymbol": "PIDILITIND",
+    "issuerBseCode": "500331",
+    "documentId": "DOC_PIDILITE_AR24",
+    "documentHash": "56789abcdef0123456789abcdef0123456789abcdef012345",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 46,
+    "pagePrinted": "44",
+    "quotedText": "Consolidated revenue for FY24 reached ₹12383 Cr with consumer adhesive volumes expanding by 9.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

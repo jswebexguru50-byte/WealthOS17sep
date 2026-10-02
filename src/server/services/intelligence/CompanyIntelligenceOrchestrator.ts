@@ -58,6 +58,8 @@ import { EvidenceRepository } from './core/EvidenceRepository.js';
 import { FreshnessEngine } from './freshness/FreshnessEngine.js';
 import { CompanyBusinessProfileEngine } from './business/CompanyBusinessProfile.js';
 import { SinceLastReviewEngine } from './changes/SinceLastReview.js';
+import { FundamentalExperienceBuilder } from './modules/FundamentalExperienceBuilder.js';
+import { RecentAccumulationEngine } from './modules/RecentAccumulationEngine.js';
 
 export interface SimpleModuleTelemetry {
   symbol: string;
@@ -220,7 +222,7 @@ export class CompanyIntelligenceOrchestrator {
       // Non-fatal
     }
 
-    const businessModel: BusinessModel = BusinessModelClassifier.classify(cleanSym, sector, industry);
+    const businessModel: BusinessModel = BusinessModelClassifier.classify(cleanSym, sector, industry, companyName);
     const securityId = resolution.status === 'VERIFIED' ? resolution.securityId : (isin || cleanSym);
 
     const identity: SecurityIdentity = {
@@ -859,6 +861,79 @@ export class CompanyIntelligenceOrchestrator {
         engineVersion: 'CompanyTimelineEngine-v2.0',
       };
     }
+ 
+    // 4m2. Wave 4: Fundamental Experience Expansion 001 & Recent Accumulation Engine
+    let fundamentalExperienceData: any = null;
+    try {
+      fundamentalExperienceData = await FundamentalExperienceBuilder.getInstance().buildExperience(cleanSym);
+      const evalTs = new Date().toISOString();
+      modulesResult.fundamentalExperience = {
+        moduleId: 'FUNDAMENTAL_EXPERIENCE' as any,
+        status: fundamentalExperienceData.dataConfidence === 'DATA_INSUFFICIENT' ? 'DATA_INSUFFICIENT' : 'WORKING',
+        dataStatus: fundamentalExperienceData.dataConfidence === 'HIGH' ? 'VERIFIED' : 'PARTIAL',
+        result: fundamentalExperienceData,
+        evidenceRefs: [],
+        missingRequirements: [],
+        warnings: fundamentalExperienceData.unresolvedConflicts.map((c: any) => `Conflict in ${c.field}: ${c.reason}`),
+        evaluationTimestamp: evalTs,
+        dataAsOf: fundamentalExperienceData.asOfDate,
+        configVersion: '1.0.0',
+        engineVersion: 'FundamentalExperienceBuilder-v1.0',
+      };
+      // Derive recentAccumulation dataStatus accurately from actual evidence requirements
+      const acc = fundamentalExperienceData.recentAccumulation;
+      let accDataStatus: 'DATA_INSUFFICIENT' | 'PARTIAL' | 'VERIFIED' | 'STALE' = 'VERIFIED';
+      if (!acc.latestOwnershipDate || !acc.analysisStartDate) {
+        accDataStatus = 'DATA_INSUFFICIENT';
+      } else if (acc.totalSessions < 10) {
+        accDataStatus = 'PARTIAL';
+      } else if (acc.deliveryEvidence.trend === 'DATA_INSUFFICIENT') {
+        accDataStatus = 'PARTIAL';
+      }
+
+      modulesResult.recentAccumulation = {
+        moduleId: 'RECENT_ACCUMULATION' as any,
+        status: accDataStatus === 'DATA_INSUFFICIENT' ? 'DATA_INSUFFICIENT' : (acc.classification === 'NO_CONFIRMATION' ? 'PARTIAL' : 'WORKING'),
+        dataStatus: accDataStatus,
+        result: acc,
+        evidenceRefs: [],
+        missingRequirements: acc.limitations,
+        warnings: [],
+        evaluationTimestamp: evalTs,
+        dataAsOf: acc.analysisEndDate || null,
+        configVersion: '1.0.0',
+        engineVersion: 'RecentAccumulationEngine-v1.0',
+      };
+    } catch (e: any) {
+      console.error('[CompanyIntelligenceOrchestrator] FundamentalExperienceBuilder failed:', e);
+      const evalTs = new Date().toISOString();
+      modulesResult.fundamentalExperience = {
+        moduleId: 'FUNDAMENTAL_EXPERIENCE' as any,
+        status: 'ERROR',
+        dataStatus: 'DATA_INSUFFICIENT',
+        result: null,
+        evidenceRefs: [],
+        missingRequirements: ['FUNDAMENTAL_EXPERIENCE_UNAVAILABLE'],
+        warnings: ['FUNDAMENTAL_EXPERIENCE_UNAVAILABLE'],
+        evaluationTimestamp: evalTs,
+        dataAsOf: null,
+        configVersion: '1.0.0',
+        engineVersion: 'FundamentalExperienceBuilder-v1.0',
+      };
+      modulesResult.recentAccumulation = {
+        moduleId: 'RECENT_ACCUMULATION' as any,
+        status: 'ERROR',
+        dataStatus: 'DATA_INSUFFICIENT',
+        result: null,
+        evidenceRefs: [],
+        missingRequirements: ['RECENT_ACCUMULATION_UNAVAILABLE'],
+        warnings: ['RECENT_ACCUMULATION_UNAVAILABLE'],
+        evaluationTimestamp: evalTs,
+        dataAsOf: null,
+        configVersion: '1.0.0',
+        engineVersion: 'RecentAccumulationEngine-v1.0',
+      };
+    }
 
     // 4n. Query PriceSeriesRepository for technical freshness & state
     let marketPriceState: any = null;
@@ -1365,6 +1440,7 @@ export class CompanyIntelligenceOrchestrator {
         sinceLastReview,
       },
       modules: modulesResult,
+      fundamentalExperience: fundamentalExperienceData,
       timeline: modulesResult.timeline?.result || null,
       delta: modulesResult.delta?.result || null,
       attention: modulesResult.attention?.result || null,

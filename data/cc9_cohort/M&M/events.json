@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_MM_01",
+    "issuerNseSymbol": "M&M",
+    "issuerBseCode": "500520",
+    "eventDate": "2024-04-29",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Launch of XUV 3XO SUV with Record Bookings",
+    "description": "Unveiled compact SUV XUV 3XO clocking over 50,000 bookings within 60 minutes of opening.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_MM_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

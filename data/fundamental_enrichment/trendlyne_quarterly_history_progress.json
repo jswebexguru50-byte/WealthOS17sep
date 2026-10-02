@@ -1,0 +1,31 @@
+{
+  "status": "COMPLETED",
+  "provider": "TRENDLYNE_MCP",
+  "universe": "latest_30_day_strategy_manifest",
+  "requested": 179,
+  "completed": 179,
+  "skippedFresh": 0,
+  "failed": 0,
+  "pending": 0,
+  "phase": "QUARTERLY_PROFIT_HISTORY",
+  "profileRefreshDays": {
+    "parameters": 15,
+    "overview": 15,
+    "corporate_events": 15,
+    "shareholding": 15,
+    "documents": 30
+  },
+  "requestedParameterCodes": [
+    "npq",
+    "npqmq1",
+    "npqmq2",
+    "npqmq3",
+    "npqmy1",
+    "npqmq5",
+    "npqmq6",
+    "npqmq7"
+  ],
+  "llmCalls": 0,
+  "updatedAt": "2026-09-27T11:51:22.711Z",
+  "lastSymbol": "CUMMINSIND"
+}

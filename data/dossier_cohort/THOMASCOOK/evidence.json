@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_THOMASCOOK_REV_FY26",
+    "issuerNseSymbol": "THOMASCOOK",
+    "issuerBseCode": "523560",
+    "documentHash": "e039247c59437c4532f7f27945cc8b4a32cffaefafbec94ad84aa5071a9fd21d",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹1292 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_THOMASCOOK_PAT_FY26",
+    "issuerNseSymbol": "THOMASCOOK",
+    "issuerBseCode": "523560",
+    "documentHash": "e039247c59437c4532f7f27945cc8b4a32cffaefafbec94ad84aa5071a9fd21d",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹155 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_THOMASCOOK_DEBT_FY26",
+    "issuerNseSymbol": "THOMASCOOK",
+    "issuerBseCode": "523560",
+    "documentHash": "c6d7553e3548ab139d90a3cf685a36e72e0236d4ab3eaaae12c29d82907f2a51",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_THOMASCOOK_CONCALL_Q4FY26",
+    "issuerNseSymbol": "THOMASCOOK",
+    "issuerBseCode": "523560",
+    "documentHash": "4afefc4083a6db9cacc862378af172770a00fc052c92b0a7cb1366524342251e",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

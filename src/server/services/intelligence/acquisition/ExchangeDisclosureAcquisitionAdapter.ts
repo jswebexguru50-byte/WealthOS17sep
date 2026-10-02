@@ -106,7 +106,7 @@ export class ExchangeDisclosureAcquisitionAdapter {
       title: announcement.title,
       sourceUrl: announcement.sourceUrl || null,
       publishedAt: announcement.publishedAt,
-      availableAt: announcement.availableAt || new Date().toISOString(),
+      availableAt: announcement.availableAt || null,
       rawContent: announcement.body,
       financialMetrics: mappedMetrics,
       forwardLookingStatements: mappedStatements,

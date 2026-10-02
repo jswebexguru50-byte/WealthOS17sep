@@ -1,0 +1,30 @@
+[
+  {
+    "eventId": "EVT_STLNETWORK_RESULTS",
+    "issuerNseSymbol": "STLNETWORK",
+    "issuerBseCode": "524707",
+    "eventDate": "2026-05-26",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "STLNETWORK Audited Results FY26 Approved",
+    "description": "Board of Directors approved audited financial statements showing operating scale of ₹465 Cr.",
+    "sourceType": "STATUTORY_FILING",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "evidenceId": "EV_STLNETWORK_REV_FY26",
+    "materiality": "MATERIAL",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  },
+  {
+    "eventId": "EVT_STLNETWORK_EXPANSION",
+    "issuerNseSymbol": "STLNETWORK",
+    "issuerBseCode": "524707",
+    "eventDate": "2026-08-20",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "STLNETWORK Capacity Expansion Milestone",
+    "description": "Brownfield expansion in Silvassa and US manufacturing facility commissioned in FY24; capex tapering to maintenance levels.",
+    "sourceType": "EXCHANGE_DISCLOSURE",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "evidenceId": "EV_STLNETWORK_CONCALL_Q4FY26",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

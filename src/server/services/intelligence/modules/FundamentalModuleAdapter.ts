@@ -1,20 +1,21 @@
 /**
  * FundamentalModuleAdapter.ts
  *
- * Agent B Deliverable:
- * Adapts existing canonical company_facts and fundamental_endpoint_snapshots
- * into the canonical ModuleResult<FundamentalPayload>.
+ * WealthOS — Canonical Fundamental Module Adapter (Remediation 002).
+ * Exclusively queries verified canonical facts from company_facts.
+ * Zero production parsing of raw fundamental_endpoint_snapshots for analytical outputs.
+ * Full disposable database override propagation for hermetic testing.
  *
  * Invariants:
- * - Distinguishes business model: NON_FINANCIAL vs BANK vs NBFC vs INSURANCE
- * - Never applies industrial CFO/working-capital/EBITDA metrics to banks
- * - Does not silently mix Standalone/Consolidated or Annual/Quarterly
- * - Transparent trajectory derivations (YoY acceleration, margin delta in bps)
- * - Returns DATA_INSUFFICIENT when missing; NO fabricated values
+ * - True canonical path: company_facts is the single analytical fact source.
+ * - Rejects ambiguous or rejected fact mappings.
+ * - Adheres to verified business model classification.
+ * - Transparent trajectory derivations (YoY acceleration, margin delta in bps).
+ * - Preserves stored fact timestamps; no synthetic current timestamps as dataAsOf.
+ * - Missing data returns DATA_INSUFFICIENT; no fabricated fallback values.
  */
 
 import { ModuleResult, ModuleStatus, EvidenceReference } from '../contracts/index.js';
-import { evidenceSourceTypeForProvider } from '../contracts/Provenance.js';
 import {
   FundamentalPayload,
   FundamentalSeries,
@@ -23,6 +24,29 @@ import {
 } from '../types/FundamentalPayload.js';
 import { BusinessModelClassifier, BusinessModel } from '../domain/BusinessModelClassifier.js';
 import { getDB, dbAll, dbGet } from '../../../database.js';
+import { eligibilityWhereClause, assessFactEligibility } from './CanonicalFactSelector.js';
+
+async function queryAll<T = any>(db: any, sql: string, params: any[] = []): Promise<T[]> {
+  if (!db) return [];
+  if (typeof db.all === 'function') {
+    return dbAll<T>(db, sql, params);
+  }
+  if (typeof db.prepare === 'function') {
+    return db.prepare(sql).all(...params) as T[];
+  }
+  return [];
+}
+
+async function queryGet<T = any>(db: any, sql: string, params: any[] = []): Promise<T | null> {
+  if (!db) return null;
+  if (typeof db.get === 'function') {
+    return dbGet<T>(db, sql, params);
+  }
+  if (typeof db.prepare === 'function') {
+    return (db.prepare(sql).get(...params) as T) || null;
+  }
+  return null;
+}
 
 export class FundamentalModuleAdapter {
   private static instance: FundamentalModuleAdapter;
@@ -36,12 +60,12 @@ export class FundamentalModuleAdapter {
     return FundamentalModuleAdapter.instance;
   }
 
-  public async run(identifier: string): Promise<ModuleResult<FundamentalPayload>> {
+  public async run(identifier: string, overrideDb?: any, pointInTime?: string | null): Promise<ModuleResult<FundamentalPayload>> {
     const evaluationTimestamp = new Date().toISOString();
     const cleanSym = identifier.trim().toUpperCase().replace(/\.NS$/, '').replace(/\.BO$/, '');
     const evidenceRefs: EvidenceReference[] = [];
 
-    const db = getDB();
+    const db = overrideDb || getDB();
     if (!db) {
       return {
         moduleId: 'FUNDAMENTAL',
@@ -49,12 +73,12 @@ export class FundamentalModuleAdapter {
         dataStatus: 'SOURCE_UNAVAILABLE',
         result: null,
         evidenceRefs: [],
-        missingRequirements: ['Database connection unavailable'],
-        warnings: ['Could not open portfolio.db'],
+        missingRequirements: ['Database connection unavailable', 'Could not open portfolio.db'],
+        warnings: ['Database connection unavailable', 'Could not open portfolio.db'],
         evaluationTimestamp,
         dataAsOf: null,
-        configVersion: '1.0.0',
-        engineVersion: 'FundamentalModuleAdapter-v1.0',
+        configVersion: '2.0.0',
+        engineVersion: 'FundamentalModuleAdapter-v2.0',
       };
     }
 
@@ -63,9 +87,13 @@ export class FundamentalModuleAdapter {
     let industry: string | null = null;
     let companyName: string | null = null;
     try {
-      const ticker = await dbGet<any>(
+      const ticker = await queryGet<any>(
         db,
         `SELECT name, sector, industry FROM MasterTickers WHERE UPPER(symbol) = ? LIMIT 1`,
+        [cleanSym]
+      ) || await queryGet<any>(
+        db,
+        `SELECT name, sector, industry FROM master_tickers WHERE UPPER(symbol) = ? LIMIT 1`,
         [cleanSym]
       );
       if (ticker) {
@@ -77,131 +105,147 @@ export class FundamentalModuleAdapter {
       // Non-fatal if MasterTickers is unavailable
     }
 
-    const businessModel: BusinessModel = BusinessModelClassifier.classify(cleanSym, sector, industry);
+    const businessModel: BusinessModel = BusinessModelClassifier.classify(cleanSym, sector, industry, companyName);
 
-    // 2. Query fundamental endpoint snapshots
-    const snapshots = await dbAll<any>(
-      db,
-      `SELECT endpoint, provider, fetched_at, response_json
-       FROM fundamental_endpoint_snapshots
-       WHERE UPPER(symbol) = ?
-       ORDER BY fetched_at DESC`,
-      [cleanSym]
-    );
+    // 2. Query verified canonical facts from company_facts exclusively
+    // Raw fundamental_endpoint_snapshots are NOT parsed for analytical outputs
+    let canonicalRows: any[] = [];
+    try {
+      canonicalRows = await queryAll<any>(
+        db,
+        `SELECT factId, metric, value, unit, periodType, periodEnd, scope, provider,
+                sourceType, verificationStatus, sourceDocumentId, fetchedAt, availableAt, reportedAt, asOfDate
+         FROM company_facts
+         WHERE UPPER(symbol) = ?
+           AND ${eligibilityWhereClause()}
+         ORDER BY periodEnd DESC, availableAt DESC`,
+        [cleanSym]
+      );
+    } catch {
+      canonicalRows = [];
+    }
 
-    if (!snapshots || snapshots.length === 0) {
+    if (!canonicalRows || canonicalRows.length === 0) {
+      const emptyTrajectory: FundamentalTrajectory = {
+        revenueGrowthYoY: { status: 'DATA_INSUFFICIENT', latestGrowthPct: null, priorGrowthPct: null, periodsCompared: null },
+        marginTrajectory: { status: 'DATA_INSUFFICIENT', bpsChange: null, metricUsed: businessModel === 'UNKNOWN' ? 'UNKNOWN' : businessModel === 'BANK' || businessModel === 'NBFC' ? 'NIM' : 'EBITDA_MARGIN' },
+        debtTrajectory: { status: businessModel === 'BANK' || businessModel === 'NBFC' ? 'NOT_APPLICABLE' : 'DATA_INSUFFICIENT', changePct: null },
+        returnProfile: { metric: businessModel === 'UNKNOWN' ? 'UNKNOWN' : businessModel === 'BANK' || businessModel === 'NBFC' ? 'ROE' : 'ROCE', latestValue: null, status: 'DATA_INSUFFICIENT' },
+      };
       return {
         moduleId: 'FUNDAMENTAL',
         status: 'DATA_INSUFFICIENT',
         dataStatus: 'DATA_INSUFFICIENT',
-        result: null,
+        result: {
+          businessModel,
+          historicalSeries: {},
+          trajectory: emptyTrajectory,
+          dataAsOf: null,
+        },
         evidenceRefs: [],
-        missingRequirements: [`No fundamental endpoint snapshots registered for ${cleanSym}`],
-        warnings: [`Fundamental facts absent for ${cleanSym}`],
+        missingRequirements: [`No canonical company_facts records registered for ${cleanSym}`],
+        warnings: businessModel === 'UNKNOWN'
+          ? [`Fundamental facts absent for ${cleanSym}`, 'UNKNOWN_BUSINESS_MODEL: Model-dependent financial interpretation withheld until verified classification exists']
+          : [`Fundamental facts absent for ${cleanSym}`],
         evaluationTimestamp,
         dataAsOf: null,
-        configVersion: '1.0.0',
-        engineVersion: 'FundamentalModuleAdapter-v1.0',
+        configVersion: '2.0.0',
+        engineVersion: 'FundamentalModuleAdapter-v2.0',
       };
     }
 
-    const snapMap: Record<string, any> = {};
-    let latestFetchedAt: string | null = null;
-    for (const s of snapshots) {
-      if (!snapMap[s.endpoint]) {
-        try {
-          snapMap[s.endpoint] = JSON.parse(s.response_json);
-          if (!latestFetchedAt || s.fetched_at > latestFetchedAt) {
-            latestFetchedAt = s.fetched_at;
-          }
-          evidenceRefs.push({
-            evidenceId: `SNAP_${s.provider}_${s.endpoint}_${cleanSym}`,
-            sourceType: evidenceSourceTypeForProvider(s.provider),
-            sourceId: `${s.provider}:${s.endpoint}:${cleanSym}`,
-            timestamp: s.fetched_at,
-            notes: `Endpoint ${s.endpoint} from ${s.provider}`,
-          });
-        } catch {
-          // Ignore malformed snapshot
-        }
-      }
-    }
 
     const series: FundamentalSeries = {};
-    const incData = snapMap['income-statement']?.data;
-    const ratioData = snapMap['key-ratios']?.data;
-    const cfData = snapMap['cash-flow']?.data;
-    const bsData = snapMap['balance-sheet']?.data;
+    let latestDataTimestamp: string | null = null;
 
-    const scope: 'CONSOLIDATED' | 'STANDALONE' =
-      incData?.type?.toLowerCase() === 'standalone' ? 'STANDALONE' : 'CONSOLIDATED';
-
-    // Helper to add series metrics
-    const addSeriesItems = (metricKey: string, historyItems: Array<{ period: string; value: number }>, unit: string) => {
-      if (!Array.isArray(historyItems)) return;
-      series[metricKey] = historyItems.map(h => ({
-        period: h.period,
-        value: typeof h.value === 'number' ? h.value : Number(h.value) || null,
-        unit,
-        scope,
-        status: 'PARTIAL',
-        provenance: evidenceRefs.slice(0, 1),
-      }));
+    const METRIC_MAP: Record<string, string> = {
+      'revenue_cr': 'Revenue',
+      'revenue': 'Revenue',
+      'ebitda_cr': 'EBITDA',
+      'ebitda': 'EBITDA',
+      'operating_profit_cr': 'OperatingProfit',
+      'operating_profit': 'OperatingProfit',
+      'pat_cr': 'PAT',
+      'pat': 'PAT',
+      'net_profit_cr': 'PAT',
+      'net_profit': 'PAT',
+      'cfo_cr': 'CFO',
+      'cfo': 'CFO',
+      'roce_pct': 'ROCE',
+      'roce': 'ROCE',
+      'roce_reported': 'ROCE',
+      'roe_pct': 'ROE',
+      'roe': 'ROE',
+      'roa_pct': 'ROA',
+      'roa': 'ROA',
+      'nim_pct': 'NIM',
+      'nim': 'NIM',
+      'net_npa_pct': 'NetNPA',
+      'nnpa_pct': 'NetNPA',
+      'gnpa_pct': 'NetNPA',
+      'casa_ratio_pct': 'CASA',
+      'casa_ratio': 'CASA',
+      'debt_to_equity': 'DebtToEquity',
+      'debt_to_equity_reported': 'DebtToEquity',
+      'de_ratio': 'DebtToEquity',
+      'interest_coverage': 'InterestCoverage',
+      'icr': 'InterestCoverage',
+      'pe': 'PE',
+      'pe_ratio': 'PE',
+      'pb': 'PB',
+      'pb_ratio': 'PB',
     };
 
-    // Extract income statement series (Revenue, EBITDA / Operating Profit, PAT / Net Profit)
-    if (incData?.income_statement && Array.isArray(incData.income_statement)) {
-      for (const cat of incData.income_statement) {
-        if (cat.category === 'revenue') {
-          addSeriesItems('Revenue', cat.history || [], 'INR_CR');
-        } else if (cat.category === 'operating_profit') {
-          addSeriesItems(businessModel === 'BANK' ? 'OperatingProfit' : 'EBITDA', cat.history || [], 'INR_CR');
-        } else if (cat.category === 'net_profit') {
-          addSeriesItems('PAT', cat.history || [], 'INR_CR');
-        }
+    const effectivePointInTime = pointInTime ?? evaluationTimestamp;
+
+    for (const r of canonicalRows) {
+      const assessed = assessFactEligibility(r, { pointInTime: effectivePointInTime });
+      if (assessed.eligibilityStatus !== 'ELIGIBLE') {
+        continue;
       }
-    }
+      const metricLower = String(r.metric || '').toLowerCase();
+      let targetSeriesKey = METRIC_MAP[metricLower];
+      if (!targetSeriesKey) continue;
 
-    // Extract cash flow (CFO) for non-financial
-    if (businessModel === 'NON_FINANCIAL' && cfData?.operating?.history) {
-      addSeriesItems('CFO', cfData.operating.history, 'INR_CR');
-    }
-
-    // Extract key ratios
-    let latestRoe: number | null = null;
-    let latestRoce: number | null = null;
-    let latestRoa: number | null = null;
-    let latestNim: number | null = null;
-    let latestNpa: number | null = null;
-    let latestCasa: number | null = null;
-
-    if (Array.isArray(ratioData)) {
-      for (const r of ratioData) {
-        const valStr = String(r.company_value || '').replace('%', '').trim();
-        const numVal = parseFloat(valStr);
-        if (isNaN(numVal)) continue;
-
-        const name = String(r.name || '').trim().toUpperCase();
-        if (name === 'ROE') {
-          latestRoe = numVal;
-          series['ROE'] = [{ period: 'LATEST', value: numVal, unit: 'PERCENT', scope, status: 'PARTIAL', provenance: evidenceRefs.slice(0, 1) }];
-        } else if (name === 'ROCE') {
-          latestRoce = numVal;
-          series['ROCE'] = [{ period: 'LATEST', value: numVal, unit: 'PERCENT', scope, status: 'PARTIAL', provenance: evidenceRefs.slice(0, 1) }];
-        } else if (name === 'ROA') {
-          latestRoa = numVal;
-          series['ROA'] = [{ period: 'LATEST', value: numVal, unit: 'PERCENT', scope, status: 'PARTIAL', provenance: evidenceRefs.slice(0, 1) }];
-        } else if (name === 'NIM') {
-          latestNim = numVal;
-          series['NIM'] = [{ period: 'LATEST', value: numVal, unit: 'PERCENT', scope, status: 'PARTIAL', provenance: evidenceRefs.slice(0, 1) }];
-        } else if (name.includes('NPA') || name === 'NET NPA') {
-          latestNpa = numVal;
-          series['NetNPA'] = [{ period: 'LATEST', value: numVal, unit: 'PERCENT', scope, status: 'PARTIAL', provenance: evidenceRefs.slice(0, 1) }];
-        } else if (name === 'CASA') {
-          latestCasa = numVal;
-          series['CASA'] = [{ period: 'LATEST', value: numVal, unit: 'PERCENT', scope, status: 'PARTIAL', provenance: evidenceRefs.slice(0, 1) }];
-        }
+      if (businessModel === 'BANK' && targetSeriesKey === 'EBITDA') {
+        targetSeriesKey = 'OperatingProfit';
       }
+
+      if (!series[targetSeriesKey]) {
+        series[targetSeriesKey] = [];
+      }
+
+      const numVal = typeof r.value === 'number' ? r.value : parseFloat(r.value);
+      if (isNaN(numVal)) continue;
+
+      const factTimestamp = r.availableAt || r.reportedAt || r.asOfDate || r.fetchedAt || null;
+      if (factTimestamp && (!latestDataTimestamp || factTimestamp > latestDataTimestamp)) {
+        latestDataTimestamp = factTimestamp;
+      }
+
+      // If no persisted timestamp exists, fact must never be marked VERIFIED
+      const effectiveVerificationStatus = (!factTimestamp || r.verificationStatus !== 'VERIFIED') ? 'VERIFIED_PARTIAL' : 'VERIFIED';
+
+      const prov: EvidenceReference = {
+        evidenceId: r.factId || `FACT_${cleanSym}_${r.metric}_${r.periodEnd}`,
+        sourceType: 'CANONICAL_FACT',
+        sourceId: r.sourceDocumentId || r.provider || 'company_facts',
+        timestamp: factTimestamp,
+        notes: `${r.metric} from ${r.provider || 'company_facts'} (${effectiveVerificationStatus})`,
+      };
+
+      evidenceRefs.push(prov);
+
+      const seriesStatus = (!factTimestamp || r.verificationStatus !== 'VERIFIED') ? 'PARTIAL' : 'VERIFIED';
+
+      series[targetSeriesKey].push({
+        period: r.periodEnd || r.asOfDate || 'LATEST',
+        value: numVal,
+        unit: r.unit || (metricLower.endsWith('_pct') ? 'PERCENT' : metricLower.endsWith('_cr') ? 'INR_CR' : 'RATIO'),
+        scope: r.scope === 'STANDALONE' ? 'STANDALONE' : 'CONSOLIDATED',
+        status: seriesStatus,
+        provenance: [prov],
+      });
     }
 
     // 3. Derive Transparent Trajectory
@@ -213,9 +257,9 @@ export class FundamentalModuleAdapter {
     let periodsCompared: string | null = null;
 
     if (revSeries.length >= 3) {
-      const v0 = revSeries[0]?.value; // Latest (e.g. Mar 2026)
-      const v1 = revSeries[1]?.value; // Prior (e.g. Mar 2025)
-      const v2 = revSeries[2]?.value; // Two years prior (e.g. Mar 2024)
+      const v0 = revSeries[0]?.value;
+      const v1 = revSeries[1]?.value;
+      const v2 = revSeries[2]?.value;
 
       if (v0 && v1 && v2 && v1 > 0 && v2 > 0) {
         latestGrowth = Number((((v0 - v1) / v1) * 100).toFixed(2));
@@ -236,7 +280,6 @@ export class FundamentalModuleAdapter {
       if (v0 && v1 && v1 > 0) {
         latestGrowth = Number((((v0 - v1) / v1) * 100).toFixed(2));
         periodsCompared = `${revSeries[0].period} vs ${revSeries[1].period}`;
-        // Invariant: One interval cannot be labeled STABLE or ACCELERATING. It is simply GROWING or DECLINING.
         revGrowthStatus = latestGrowth >= 0 ? 'GROWING' : 'DECLINING';
       }
     }
@@ -244,9 +287,13 @@ export class FundamentalModuleAdapter {
     // Margin Trajectory
     let marginStatus: 'EXPANDING' | 'CONTRACTING' | 'STABLE' | 'DATA_INSUFFICIENT' = 'DATA_INSUFFICIENT';
     let bpsDelta: number | null = null;
-    let marginMetricUsed = businessModel === 'BANK' ? 'NIM' : 'EBITDA_MARGIN';
+    const isFinancial = businessModel === 'BANK' || businessModel === 'NBFC';
+    const isUnknown = businessModel === 'UNKNOWN';
+    let marginMetricUsed = isFinancial ? 'NIM' : isUnknown ? 'UNKNOWN' : 'EBITDA_MARGIN';
 
-    if (businessModel === 'BANK') {
+    if (isUnknown) {
+      marginStatus = 'DATA_INSUFFICIENT';
+    } else if (isFinancial) {
       const nimSeries = series['NIM'] || [];
       if (nimSeries.length >= 2 && nimSeries[0]?.value !== null && nimSeries[1]?.value !== null) {
         bpsDelta = Math.round(((nimSeries[0].value! - nimSeries[1].value!) * 100));
@@ -258,11 +305,10 @@ export class FundamentalModuleAdapter {
           marginStatus = 'STABLE';
         }
       } else {
-        // Invariant: Level is not trajectory. High absolute NIM does not mean expansion without prior period.
         marginStatus = 'DATA_INSUFFICIENT';
       }
     } else {
-      const ebitdaSeries = series['EBITDA'] || [];
+      const ebitdaSeries = series['EBITDA'] || series['OperatingProfit'] || [];
       if (revSeries.length >= 2 && ebitdaSeries.length >= 2) {
         const r0 = revSeries[0]?.value;
         const r1 = revSeries[1]?.value;
@@ -274,9 +320,11 @@ export class FundamentalModuleAdapter {
           const m1 = (e1 / r1) * 100;
           bpsDelta = Math.round((m0 - m1) * 100);
 
-          if (bpsDelta >= 50) {
+          const thresholdBps = Math.max(40, Math.min(200, Math.round(Math.abs(m1) * 5)));
+
+          if (bpsDelta >= thresholdBps) {
             marginStatus = 'EXPANDING';
-          } else if (bpsDelta <= -50) {
+          } else if (bpsDelta <= -thresholdBps) {
             marginStatus = 'CONTRACTING';
           } else {
             marginStatus = 'STABLE';
@@ -287,19 +335,41 @@ export class FundamentalModuleAdapter {
 
     // Debt Trajectory
     let debtStatus: 'DELEVERAGING' | 'LEVERAGING' | 'STABLE' | 'DATA_INSUFFICIENT' | 'NOT_APPLICABLE' =
-      businessModel === 'BANK' || businessModel === 'NBFC' ? 'NOT_APPLICABLE' : 'DATA_INSUFFICIENT';
+      isFinancial ? 'NOT_APPLICABLE' : 'DATA_INSUFFICIENT';
     let debtChangePct: number | null = null;
 
     // Return Profile
-    let returnMetric = businessModel === 'BANK' ? 'ROE' : 'ROCE';
-    let returnVal = businessModel === 'BANK' ? (latestRoe ?? latestRoa) : (latestRoce ?? latestRoe);
+    const latestRoce = series['ROCE']?.[0]?.value ?? null;
+    const latestRoe = series['ROE']?.[0]?.value ?? null;
+    const latestRoa = series['ROA']?.[0]?.value ?? null;
+
+    let returnMetric = isUnknown ? 'UNKNOWN' : isFinancial ? 'ROE' : 'ROCE';
+    let returnVal = isUnknown ? null : isFinancial ? (latestRoe ?? latestRoa) : (latestRoce ?? latestRoe);
     let returnStatus: 'HIGH_QUALITY' | 'MODERATE' | 'LOW' | 'DATA_INSUFFICIENT' = 'DATA_INSUFFICIENT';
 
-    if (returnVal !== null) {
-      if (businessModel === 'BANK') {
+    if (!isUnknown && returnVal !== null) {
+      if (isFinancial) {
         returnStatus = returnVal >= 15 ? 'HIGH_QUALITY' : returnVal >= 10 ? 'MODERATE' : 'LOW';
       } else {
-        returnStatus = returnVal >= 18 ? 'HIGH_QUALITY' : returnVal >= 12 ? 'MODERATE' : 'LOW';
+        const cSec = (sector || '').toLowerCase();
+        const cInd = (industry || '').toLowerCase();
+        const isCapitalIntensive = 
+          cSec.includes('power') || cInd.includes('power') ||
+          cSec.includes('util') || cInd.includes('util') ||
+          cSec.includes('infra') || cInd.includes('infra') ||
+          cSec.includes('energy') || cInd.includes('energy') ||
+          cSec.includes('oil') || cInd.includes('oil') ||
+          cSec.includes('gas') || cInd.includes('gas') ||
+          cSec.includes('telecom') || cInd.includes('telecom') ||
+          cSec.includes('metal') || cInd.includes('metal') ||
+          cSec.includes('steel') || cInd.includes('steel') ||
+          cSec.includes('cement') || cInd.includes('cement');
+
+        if (isCapitalIntensive) {
+          returnStatus = returnVal >= 14 ? 'HIGH_QUALITY' : returnVal >= 10 ? 'MODERATE' : 'LOW';
+        } else {
+          returnStatus = returnVal >= 18 ? 'HIGH_QUALITY' : returnVal >= 12 ? 'MODERATE' : 'LOW';
+        }
       }
     }
 
@@ -332,21 +402,20 @@ export class FundamentalModuleAdapter {
     return {
       moduleId: 'FUNDAMENTAL',
       status: moduleStatus,
-      // Parsed snapshot data without independent canonical verification is PARTIAL, not VERIFIED
       dataStatus: hasData ? 'PARTIAL' : 'DATA_INSUFFICIENT',
-      result: {
+      result: hasData ? {
         businessModel,
         historicalSeries: series,
         trajectory,
-        dataAsOf: latestFetchedAt,
-      },
+        dataAsOf: latestDataTimestamp,
+      } : null,
       evidenceRefs,
-      missingRequirements: hasData ? [] : ['No fundamental series metrics could be extracted'],
-      warnings: [],
+      missingRequirements: hasData ? [] : ['No fundamental series metrics could be extracted from canonical facts'],
+      warnings: isUnknown ? ['UNKNOWN_BUSINESS_MODEL: Model-dependent financial interpretation withheld until verified classification exists'] : [],
       evaluationTimestamp,
-      dataAsOf: latestFetchedAt,
-      configVersion: '1.0.0',
-      engineVersion: 'FundamentalModuleAdapter-v1.0',
+      dataAsOf: latestDataTimestamp,
+      configVersion: '2.0.0',
+      engineVersion: 'FundamentalModuleAdapter-v2.0',
     };
   }
 }

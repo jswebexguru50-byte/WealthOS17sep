@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_PURVA_REV_FY26",
+    "issuerNseSymbol": "PURVA",
+    "issuerBseCode": "512338",
+    "documentHash": "aa863bf33ff6038d0ddc0592e4a114c2c2bf5faa9842d4d8e00a9d1a4b8240ba",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹2570 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_PURVA_PAT_FY26",
+    "issuerNseSymbol": "PURVA",
+    "issuerBseCode": "512338",
+    "documentHash": "aa863bf33ff6038d0ddc0592e4a114c2c2bf5faa9842d4d8e00a9d1a4b8240ba",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹308 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_PURVA_DEBT_FY26",
+    "issuerNseSymbol": "PURVA",
+    "issuerBseCode": "512338",
+    "documentHash": "82327985b854f150a7944d73f4697cb3e213d26ff51e5e989745cb0c1aa03f4c",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_PURVA_CONCALL_Q4FY26",
+    "issuerNseSymbol": "PURVA",
+    "issuerBseCode": "512338",
+    "documentHash": "09fe4febb32acbc1992c51918da93ae97990b786a5614ed3ca894eb6445bf0f5",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

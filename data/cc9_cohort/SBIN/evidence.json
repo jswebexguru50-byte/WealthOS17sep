@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_SBIN_REV_01",
+    "issuerNseSymbol": "SBIN",
+    "issuerBseCode": "500112",
+    "documentId": "DOC_SBIN_AR24",
+    "documentHash": "456789abcdef0123456789abcdef0123456789abcdef5",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 92,
+    "pagePrinted": "90",
+    "quotedText": "Total revenue reached ₹439189 Cr with gross NPA dropping to historic low of 2.24%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "symbol": "AZAD",
+  "coreThesisStatement": "Tier-1 manufacturer of mission-critical rotating parts for global aerospace and defense leaders (Rolls-Royce, Boeing, GE Aviation).",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "High Entry Moat",
+      "description": "Exacting airworthiness clearances requiring years of qualification."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Long-Term Order Contracts",
+      "description": "Long-term master service agreements guaranteeing multi-year volume commitments."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_AZAD_LEVERAGE"
+  ]
+}

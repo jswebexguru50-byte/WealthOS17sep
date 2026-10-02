@@ -1,0 +1,116 @@
+{
+  "manifestId": "REP-MAN-V63-1789640365024",
+  "timestamp": "2026-09-17T10:19:25.024Z",
+  "environment": {
+    "nodeVersion": "v24.18.0",
+    "platform": "win32",
+    "arch": "x64",
+    "vitestVersion": "v5.0.0"
+  },
+  "productionFreezeBaselines": {
+    "PureTechnicalStrategiesEngine.ts": {
+      "path": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "sha256": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3",
+      "authoritativeExpected": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3",
+      "status": "VERIFIED_FROZEN"
+    },
+    "NewTechnicalStrategiesEngine.ts": {
+      "path": "src/server/services/NewTechnicalStrategiesEngine.ts",
+      "sha256": "78415ba3c74ca6a9cc2fcc96d2e54ba871e9bca73fc6e078570c412781b1d354",
+      "authoritativeExpected": "78415ba3c74ca6a9cc2fcc96d2e54ba871e9bca73fc6e078570c412781b1d354",
+      "status": "VERIFIED_FROZEN"
+    },
+    "SignalQualityOverlay.ts": {
+      "path": "src/server/services/SignalQualityOverlay.ts",
+      "sha256": "c41cddb152c150bea932a8b9bd8fcc6ea01a03a2ba030a723789aaada5c17452",
+      "authoritativeExpected": "c41cddb152c150bea932a8b9bd8fcc6ea01a03a2ba030a723789aaada5c17452",
+      "status": "VERIFIED_FROZEN"
+    },
+    "CapitalProtectionEngine.ts": {
+      "path": "src/server/services/CapitalProtectionEngine.ts",
+      "sha256": "63b8317889f5a60e9462f883e89acb57fe99e819935ec8f7b30036ecfe4ed753",
+      "authoritativeExpected": "63b8317889f5a60e9462f883e89acb57fe99e819935ec8f7b30036ecfe4ed753",
+      "status": "VERIFIED_FROZEN"
+    },
+    "StrategyParameterConfig.ts": {
+      "path": "src/server/services/StrategyParameterConfig.ts",
+      "sha256": "901ca7a27b2eb4e09183426c9e0dfd7b812aeebf84472b49b9f829661fe7194b",
+      "authoritativeExpected": "901ca7a27b2eb4e09183426c9e0dfd7b812aeebf84472b49b9f829661fe7194b",
+      "status": "VERIFIED_FROZEN"
+    },
+    "UpstoxIntradayIngestor.ts": {
+      "path": "src/server/services/UpstoxIntradayIngestor.ts",
+      "sha256": "0f1c96d0e0c704672517f378990e17facdced7bfbf359daf9c6f37333be1b151",
+      "authoritativeExpected": "0f1c96d0e0c704672517f378990e17facdced7bfbf359daf9c6f37333be1b151",
+      "status": "VERIFIED_FROZEN"
+    }
+  },
+  "researchComponents": {
+    "types.ts": {
+      "path": "src/server/services/research/types.ts",
+      "sha256": "5b1a116d6aeaaecba0a39ce70bd0ee3dfb712037c9b1a7d72298eab215afb4de"
+    },
+    "ExecutionSimulator.ts": {
+      "path": "src/server/services/research/ExecutionSimulator.ts",
+      "sha256": "ae5bb0dfeb6d5a065f934241a6f553daeda60d564831264524ec4c260bed4051"
+    },
+    "FrozenSignalAdapter.ts": {
+      "path": "src/server/services/research/FrozenSignalAdapter.ts",
+      "sha256": "2a0a88194e7d568efece9c824612e4567e1fddb427d2d877ca949e073260f628"
+    },
+    "FrozenOverlayAdapter.ts": {
+      "path": "src/server/services/research/FrozenOverlayAdapter.ts",
+      "sha256": "9fd48babbbae849f9bbe1269d2c9e3988d33197d57d3229eb55b7274f3c67b7d"
+    },
+    "AblationEngine.ts": {
+      "path": "src/server/services/research/AblationEngine.ts",
+      "sha256": "1836928e4776bf1ebfb23b4b426c0df9dc0228f3f5d50411be7ad3555c9f51d3"
+    },
+    "TransactionCostEngine.ts": {
+      "path": "src/server/services/research/TransactionCostEngine.ts",
+      "sha256": "4b12e265080aa5bd362623e3191e8bf58c1eee52b0971ce87b2e25941a83b10d"
+    }
+  },
+  "testFixturesAndSuites": {
+    "research_golden_bars.json": {
+      "path": "tests/fixtures/research_golden_bars.json",
+      "sha256": "ed902322c37e1af5806ef1df9f2d0b9e10d851051ed9c4f8f395fb85d40cce83"
+    },
+    "research_golden_signals.json": {
+      "path": "tests/fixtures/research_golden_signals.json",
+      "sha256": "71d0c9f54f6cb44a90d45385c275b9b25234c2357978bcb7c6c3d1d8529c7a90"
+    },
+    "reconciled_execution_simulator.test.ts": {
+      "path": "tests/unit/reconciled_execution_simulator.test.ts",
+      "sha256": "ee3d52c1978a6cada7d579968f65d311a68e41918a1da0f493f2165a6e48b4da"
+    }
+  },
+  "auditArtifacts": {
+    "v6.3_RECONCILIATION_REPORT.json": {
+      "path": "data/v6.3_RECONCILIATION_REPORT.json",
+      "sha256": "1b11647e2fe595c247152fe4658eb4646062d57b47ef6ee2631730b2ffe73969"
+    },
+    "v6.3_EXECUTION_TRACE.json": {
+      "path": "data/v6.3_EXECUTION_TRACE.json",
+      "sha256": "f943184ee5c83a9d89b7fa1da10d31053af099fff285c28c45b5f82b8412866d"
+    },
+    "v6.3_GOLDEN_TEST_REPORT.json": {
+      "path": "data/v6.3_GOLDEN_TEST_REPORT.json",
+      "sha256": "804fa22c84d474d115512dcde7d7e3ac9d6b136750c60647a82b52b382e4c328"
+    },
+    "v6.3_DATA_CONTRACT.json": {
+      "path": "data/v6.3_DATA_CONTRACT.json",
+      "sha256": "c2d2934886e93727b53a69b6de740f0ad5a7f8ae22868537a723219fec8f8b3b"
+    },
+    "v6.3_REAL_DATA_INSUFFICIENT.json": {
+      "path": "data/v6.3_REAL_DATA_INSUFFICIENT.json",
+      "sha256": "03dda260eaed37e04909fc78f523cd14bce8d7a9c214d22cdfc7465bc34a4592"
+    }
+  },
+  "reproductionCommands": [
+    "npm run build",
+    "npx vitest run tests/unit/reconciled_execution_simulator.test.ts",
+    "npx vitest run tests/unit",
+    "npx tsx scripts/run_real_historical_v6.3_pipeline.ts data/portfolio_v6.3_research_subset.db"
+  ]
+}

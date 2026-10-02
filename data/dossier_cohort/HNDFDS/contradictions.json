@@ -1,0 +1,34 @@
+{
+  "status": "CONTRADICTIONS_DETECTED",
+  "issuerNseSymbol": "HNDFDS",
+  "activeContradictionCount": 1,
+  "contradictions": [
+    {
+      "contradictionId": "DIV_HNDFDS_SUPPLY_CHAIN",
+      "issuerNseSymbol": "HNDFDS",
+      "issuerBseCode": "513609",
+      "severity": "LOW",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_HNDFDS_02",
+      "eventId": null,
+      "description": "Supply chain fragility check: import exposure (25%) and client concentration (48%) introduce quarterly gross margin lag against management guidance.",
+      "divergenceDetails": {
+        "whatManagementClaimed": "Full margin defense",
+        "whatActuallyHappened": "Quarterly margin lag due to input cost volatility",
+        "deltaMetric": "80-120 bps"
+      },
+      "leftEvidenceId": "EV_HNDFDS_PAT_FY26",
+      "rightEvidenceId": "EV_HNDFDS_CONCALL_Q4FY26",
+      "supportingEvidenceIds": [
+        "EV_HNDFDS_PAT_FY26",
+        "EV_HNDFDS_CONCALL_Q4FY26"
+      ],
+      "status": "OPEN",
+      "materiality": "LOW",
+      "detectedAt": "2026-09-16T11:00:00.000Z",
+      "createdAt": "2026-09-16 11:22:01",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "symbol": "CDSL",
+  "coreThesisStatement": "Pure tollbooth on Indian financialization capturing transaction fees, annual issuer fees, and insurance depository volumes.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Financialization Moat",
+      "description": "Duopoly depository structure with over 75% market share in demat accounts."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Operating Leverage",
+      "description": "Software platform dynamics delivering 60%+ operating profit margins."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_CDSL_LEVERAGE"
+  ]
+}

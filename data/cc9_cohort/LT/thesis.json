@@ -1,0 +1,19 @@
+{
+  "symbol": "LT",
+  "coreThesisStatement": "Indisputable proxy for Indian and Middle Eastern infrastructure capex with an unprecedented ₹4.75 lakh crore order backlog.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Record Order Backlog",
+      "description": "Provides revenue visibility exceeding 2.5 years of annual turnover."
+    },
+    {
+      "pillarId": "P2",
+      "title": "High-Margin Tech Services",
+      "description": "Substantial equity value in LTIMindtree and L&T Technology Services."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_LT_LEVERAGE"
+  ]
+}

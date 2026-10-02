@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "MAHSCOOTER",
+  "issuerBseCode": "523467",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_MAHSCOOTER_AR2024",
+      "documentName": "MAHSCOOTER_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "154c0a73eaa002af4468b1135b1db2a99660ba4744b93d20bce9fca9165922e0",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_MAHSCOOTER_AUDITED_RESULTS",
+      "documentName": "MAHSCOOTER_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "b47390afa2ff98dde42c38cf2b265a09386f4fd59c5260d22cfa9ab79cd85434",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_MAHSCOOTER_CONCALL_Q4FY26",
+      "documentName": "MAHSCOOTER_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "2ad99327aba8c777fc234423532a934c488c8443785174214988cea74b5778c2",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

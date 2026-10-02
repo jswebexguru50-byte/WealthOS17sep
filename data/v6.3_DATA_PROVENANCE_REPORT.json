@@ -1,0 +1,29 @@
+{
+  "reportType": "DATA_PROVENANCE_AND_RECONCILIATION_REPORT",
+  "milestone": "v6.3-PHASE2-PILOT",
+  "generatedAt": "2026-09-17T10:43:23.569Z",
+  "sourceDatabase": {
+    "path": "portfolio.db",
+    "sourceTable": "DailyOHLCV",
+    "sourceRecordCount": 645,
+    "sourceDataSha256": "af0e924faf850a78a72ce3f551414e8e753f85ccd00d5c683d5c44a96b937779"
+  },
+  "normalization": {
+    "transformationVersion": "2.0.0-STRICT-PIT",
+    "schemaVersion": "012_phase2_pit_research_schema",
+    "normalizedRowCount": 645,
+    "rejectedRowCount": 0,
+    "rejectedReasons": [],
+    "normalizedDataSha256": "66beae8f30349f84e6a9c3ea0293cf3dd9e1d70a9449355e0e61db016c23446f"
+  },
+  "researchDatabase": {
+    "path": "data/portfolio_v6.3_pilot_research.db",
+    "sizeBytes": 4096,
+    "sizeMb": "0.00",
+    "fileSha256": "0ab48b25cba617ed3a4acca0161813b314c095ef63544bb4af60769eb1012977",
+    "integrityCheck": "ok",
+    "foreignKeyErrors": 0
+  },
+  "reconciliationRule": "RAW_SOURCE -> RAW_HASH -> NORMALIZATION -> NORMALIZED_HASH -> VALIDATION -> RESEARCH_DB",
+  "unexplainedRowChange": 0
+}

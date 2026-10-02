@@ -1,0 +1,70 @@
+{
+  "disagreements": 8,
+  "agreementRate": 95.65217391304348,
+  "disagreementLog": [
+    {
+      "claimId": "CLAIM_BAJFINANCE_MARGIN_02",
+      "symbol": "BAJFINANCE",
+      "dimension": "MARGIN_TRAJECTORY",
+      "run1Status": "SUPPORTED",
+      "run2Status": "QUESTIONABLE",
+      "reason": "The evidence supports a margin change, but applying EBITDA margin to a banking business model is economically invalid. Banks do not have traditional COGS; NIM (Net Interest Margin) or Cost-to-Income must be used."
+    },
+    {
+      "claimId": "CLAIM_BAJFINANCE_RETURN_03",
+      "symbol": "BAJFINANCE",
+      "dimension": "RETURN_PROFILE",
+      "run1Status": "SUPPORTED",
+      "run2Status": "QUESTIONABLE",
+      "reason": "ROCE is heavily distorted for banks because leverage is inherent to their operations. ROE or ROA are the appropriate measures of capital efficiency for financial institutions."
+    },
+    {
+      "claimId": "CLAIM_DYCL_GROWTH_01",
+      "symbol": "DYCL",
+      "dimension": "REVENUE_GROWTH",
+      "run1Status": "INSUFFICIENT_EVIDENCE",
+      "run2Status": "SUPPORTED",
+      "reason": "Appropriately concluded insufficient data due to lack of historical comparative periods in the snapshot."
+    },
+    {
+      "claimId": "CLAIM_HDFCBANK_DEBT_04",
+      "symbol": "HDFCBANK",
+      "dimension": "DEBT_TRAJECTORY",
+      "run1Status": "QUESTIONABLE",
+      "run2Status": "SUPPORTED",
+      "reason": "The interpretation 'DATA_INSUFFICIENT' is a fair and mathematically grounded representation of the supplied canonical evidence without overreach."
+    },
+    {
+      "claimId": "CLAIM_INFY_MARGIN_02",
+      "symbol": "INFY",
+      "dimension": "MARGIN_TRAJECTORY",
+      "run1Status": "SUPPORTED",
+      "run2Status": "QUESTIONABLE",
+      "reason": "A small absolute change of -72 bps is labeled as CONTRACTING. Without considering the baseline margin (e.g. 3% vs 30%), an absolute 50 bps threshold could overstate the economic significance for a high-margin business or understate it for a thin-margin one."
+    },
+    {
+      "claimId": "CLAIM_RELIANCE_MARGIN_02",
+      "symbol": "RELIANCE",
+      "dimension": "MARGIN_TRAJECTORY",
+      "run1Status": "SUPPORTED",
+      "run2Status": "QUESTIONABLE",
+      "reason": "A small absolute change of 55 bps is labeled as EXPANDING. Without considering the baseline margin (e.g. 3% vs 30%), an absolute 50 bps threshold could overstate the economic significance for a high-margin business or understate it for a thin-margin one."
+    },
+    {
+      "claimId": "CLAIM_SUNPHARMA_GROWTH_01",
+      "symbol": "SUNPHARMA",
+      "dimension": "REVENUE_GROWTH",
+      "run1Status": "REASONABLE",
+      "run2Status": "SUPPORTED",
+      "reason": "The interpretation 'STABLE' is a fair and mathematically grounded representation of the supplied canonical evidence without overreach."
+    },
+    {
+      "claimId": "CLAIM_TCS_GROWTH_01",
+      "symbol": "TCS",
+      "dimension": "REVENUE_GROWTH",
+      "run1Status": "REASONABLE",
+      "run2Status": "SUPPORTED",
+      "reason": "The interpretation 'STABLE' is a fair and mathematically grounded representation of the supplied canonical evidence without overreach."
+    }
+  ]
+}

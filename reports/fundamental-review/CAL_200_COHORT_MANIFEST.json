@@ -1,0 +1,2059 @@
+{
+  "generatedAt": "2026-10-01T19:32:58.223Z",
+  "cohortSize": 200,
+  "selectionMethodology": "Deterministic multi-strata stratified sampling across market capitalization, core NSE industrial sectors, business models (Bank, NBFC, Insurance, Non-Financial), data coverage tiers (High, Sparse, Zero), promoter pledge, leverage, and multi-provider conflicting facts.",
+  "strataBreakdown": {
+    "FINANCIAL_BANKS": 14,
+    "FINANCIAL_NBFC": 12,
+    "FINANCIAL_INSURANCE": 7,
+    "IT_SERVICES": 15,
+    "PHARMA_HEALTHCARE": 15,
+    "CAPITAL_GOODS_INDUSTRIALS": 15,
+    "AUTO_AUTO_ANCILLARY": 15,
+    "METALS_MINING": 12,
+    "CHEMICALS": 11,
+    "ENERGY_UTILITIES": 12,
+    "CONSUMER_FMCG": 9,
+    "CONSUMER_RETAIL": 9,
+    "TELECOM_MEDIA": 9,
+    "REAL_ESTATE_INFRA": 11,
+    "CONFLICTING_CANONICAL_FACTS": 15,
+    "HIGH_CANONICAL_DATA_COVERAGE": 19
+  },
+  "sectorBreakdown": {
+    "UNKNOWN": 42,
+    "Financial Services": 22,
+    "Technology": 12,
+    "Healthcare": 16,
+    "Pharmaceuticals & Biotechnology": 2,
+    "Industrials": 16,
+    "General Industrials": 2,
+    "Consumer Cyclical": 20,
+    "Basic Materials": 23,
+    "Energy": 6,
+    "Utilities": 7,
+    "Consumer Defensive": 10,
+    "Communication Services": 8,
+    "Real Estate": 7,
+    "Commercial Services & Supplies": 1,
+    "Consumer Durables": 2,
+    "Transportation": 3,
+    "Textiles Apparels & Accessories": 1
+  },
+  "marketCapBreakdown": {
+    "LARGE": 28,
+    "UNKNOWN": 124,
+    "MICRO": 42,
+    "MID": 5,
+    "SMALL": 1
+  },
+  "businessModelBreakdown": {
+    "BANK": 6,
+    "NBFC": 25,
+    "INSURANCE": 3,
+    "UNKNOWN": 30,
+    "NON_FINANCIAL": 136
+  },
+  "symbols": [
+    {
+      "symbol": "HDFCBANK",
+      "companyName": "HDFC Bank Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "BANK",
+      "selectionStratum": "FINANCIAL_BANKS",
+      "reasonIncluded": "Large-cap private sector bellwether bank with high institutional ownership"
+    },
+    {
+      "symbol": "SBIN",
+      "companyName": "State Bank of India",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "BANK",
+      "selectionStratum": "FINANCIAL_BANKS",
+      "reasonIncluded": "Large-cap public sector benchmark bank"
+    },
+    {
+      "symbol": "ICICIBANK",
+      "companyName": "ICICI Bank Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "BANK",
+      "selectionStratum": "FINANCIAL_BANKS",
+      "reasonIncluded": "Large-cap private sector major bank"
+    },
+    {
+      "symbol": "KOTAKBANK",
+      "companyName": "Kotak Mahindra Bank Limited",
+      "sector": "Financial Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_BANKS",
+      "reasonIncluded": "Large-cap private bank with high capital adequacy"
+    },
+    {
+      "symbol": "AXISBANK",
+      "companyName": "Axis Bank Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "BANK",
+      "selectionStratum": "FINANCIAL_BANKS",
+      "reasonIncluded": "Large-cap private bank turnaround and retail expansion"
+    },
+    {
+      "symbol": "BANKBARODA",
+      "companyName": "Bank of Baroda",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "BANK",
+      "selectionStratum": "FINANCIAL_BANKS",
+      "reasonIncluded": "Mid/Large PSU bank with extensive branch network"
+    },
+    {
+      "symbol": "PNB",
+      "companyName": "Punjab National Bank",
+      "sector": "Financial Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_BANKS",
+      "reasonIncluded": "Large PSU bank with recovery and asset quality resolution"
+    },
+    {
+      "symbol": "CANBK",
+      "companyName": "Canara Bank",
+      "sector": "Financial Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_BANKS",
+      "reasonIncluded": "PSU bank with high credit growth in southern region"
+    },
+    {
+      "symbol": "FEDERALBNK",
+      "companyName": "The Federal Bank  Limited",
+      "sector": "Financial Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_BANKS",
+      "reasonIncluded": "Mid-cap private commercial bank"
+    },
+    {
+      "symbol": "IDFCFIRSTB",
+      "companyName": "IDFC First Bank Limited",
+      "sector": "Financial Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_BANKS",
+      "reasonIncluded": "Mid-cap fast growing retail bank"
+    },
+    {
+      "symbol": "INDUSINDBK",
+      "companyName": "IndusInd Bank Limited",
+      "sector": "Financial Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_BANKS",
+      "reasonIncluded": "Mid/Large private bank with commercial vehicle book"
+    },
+    {
+      "symbol": "AUBANK",
+      "companyName": "AU Small Finance Bank Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "BANK",
+      "selectionStratum": "FINANCIAL_BANKS",
+      "reasonIncluded": "Small finance bank transitioning to universal bank"
+    },
+    {
+      "symbol": "BANDHANBNK",
+      "companyName": "Bandhan Bank Limited",
+      "sector": "Financial Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_BANKS",
+      "reasonIncluded": "Microfinance-oriented private bank"
+    },
+    {
+      "symbol": "RBLBANK",
+      "companyName": "RBL Bank Limited",
+      "sector": "Financial Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_BANKS",
+      "reasonIncluded": "Mid-cap private bank undergoing portfolio turnaround"
+    },
+    {
+      "symbol": "BAJFINANCE",
+      "companyName": "Bajaj Finance Limited",
+      "sector": "Financial Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_NBFC",
+      "reasonIncluded": "Large-cap dominant consumer/SME lending NBFC"
+    },
+    {
+      "symbol": "BAJAJFINSV",
+      "companyName": "Bajaj Finserv Limited",
+      "sector": "Financial Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_NBFC",
+      "reasonIncluded": "Large-cap financial services holding parent"
+    },
+    {
+      "symbol": "CHOLAFIN",
+      "companyName": "Cholamandalam Investment and Finance Company Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_NBFC",
+      "reasonIncluded": "Large-cap vehicle and home equity financier"
+    },
+    {
+      "symbol": "MUTHOOTFIN",
+      "companyName": "Muthoot Finance Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_NBFC",
+      "reasonIncluded": "Large-cap specialized gold loan NBFC"
+    },
+    {
+      "symbol": "SHRIRAMFIN",
+      "companyName": "Shriram Finance Limited",
+      "sector": "Financial Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_NBFC",
+      "reasonIncluded": "Large-cap commercial vehicle and retail financier"
+    },
+    {
+      "symbol": "MANAPPURAM",
+      "companyName": "Manappuram Finance Limited",
+      "sector": "Financial Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_NBFC",
+      "reasonIncluded": "Mid-cap gold and microfinance NBFC"
+    },
+    {
+      "symbol": "POONAWALLA",
+      "companyName": "Poonawalla Fincorp Limited",
+      "sector": "Financial Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_NBFC",
+      "reasonIncluded": "Mid-cap tech-led consumer retail NBFC"
+    },
+    {
+      "symbol": "M&MFIN",
+      "companyName": "Mahindra & Mahindra Financial Services Limited",
+      "sector": "Financial Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_NBFC",
+      "reasonIncluded": "Mid-cap rural vehicle and tractor financier"
+    },
+    {
+      "symbol": "SUNDARMFIN",
+      "companyName": "Sundaram Finance Limited",
+      "sector": "Financial Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_NBFC",
+      "reasonIncluded": "High-quality commercial vehicle financier"
+    },
+    {
+      "symbol": "LICHSGFIN",
+      "companyName": "LIC Housing Finance Limited",
+      "sector": "Financial Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_NBFC",
+      "reasonIncluded": "Large housing finance company"
+    },
+    {
+      "symbol": "PNBHOUSING",
+      "companyName": "PNB Housing Finance Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_NBFC",
+      "reasonIncluded": "Mid-cap housing finance institution"
+    },
+    {
+      "symbol": "CANFINHOME",
+      "companyName": "Can Fin Homes Limited",
+      "sector": "Financial Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_NBFC",
+      "reasonIncluded": "Mid-cap affordable housing financier"
+    },
+    {
+      "symbol": "HDFCLIFE",
+      "companyName": "HDFC Life Insurance Company Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "INSURANCE",
+      "selectionStratum": "FINANCIAL_INSURANCE",
+      "reasonIncluded": "Large-cap private life insurance company"
+    },
+    {
+      "symbol": "SBILIFE",
+      "companyName": "SBI Life Insurance Company Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "INSURANCE",
+      "selectionStratum": "FINANCIAL_INSURANCE",
+      "reasonIncluded": "Large-cap bancassurance life insurer"
+    },
+    {
+      "symbol": "ICICIPRULI",
+      "companyName": "ICICI Prudential Life Insurance Company Limited",
+      "sector": "Financial Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_INSURANCE",
+      "reasonIncluded": "Large-cap private life insurance provider"
+    },
+    {
+      "symbol": "ICICIGI",
+      "companyName": "ICICI Lombard General Insurance Company Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "INSURANCE",
+      "selectionStratum": "FINANCIAL_INSURANCE",
+      "reasonIncluded": "Large-cap non-life general insurance leader"
+    },
+    {
+      "symbol": "GICRE",
+      "companyName": "General Insurance Corporation of India",
+      "sector": "Financial Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_INSURANCE",
+      "reasonIncluded": "National public sector reinsurance company"
+    },
+    {
+      "symbol": "NIACL",
+      "companyName": "The New India Assurance Company Limited",
+      "sector": "Financial Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_INSURANCE",
+      "reasonIncluded": "Public sector general insurance company"
+    },
+    {
+      "symbol": "STARHEALTH",
+      "companyName": "Star Health and Allied Insurance Company Limited",
+      "sector": "Financial Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "FINANCIAL_INSURANCE",
+      "reasonIncluded": "Standalone retail health insurance specialist"
+    },
+    {
+      "symbol": "TCS",
+      "companyName": "Tata Consultancy Services Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "IT_SERVICES",
+      "reasonIncluded": "Tier-1 IT services market leader with global scale"
+    },
+    {
+      "symbol": "INFY",
+      "companyName": "Infosys Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "IT_SERVICES",
+      "reasonIncluded": "Tier-1 global digital consulting and software leader"
+    },
+    {
+      "symbol": "HCLTECH",
+      "companyName": "HCL Technologies Limited",
+      "sector": "Technology",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "IT_SERVICES",
+      "reasonIncluded": "Tier-1 IT services leader with engineering/R&D focus"
+    },
+    {
+      "symbol": "WIPRO",
+      "companyName": "Wipro Limited",
+      "sector": "Technology",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "IT_SERVICES",
+      "reasonIncluded": "Tier-1 diversified global IT services corporation"
+    },
+    {
+      "symbol": "TECHM",
+      "companyName": "Tech Mahindra Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "IT_SERVICES",
+      "reasonIncluded": "Tier-1 telecom and enterprise digital transformation provider"
+    },
+    {
+      "symbol": "LTIM",
+      "companyName": "LTIMindtree Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "IT_SERVICES",
+      "reasonIncluded": "Tier-1 merged IT services and technology solutions giant"
+    },
+    {
+      "symbol": "PERSISTENT",
+      "companyName": "Persistent Systems Limited",
+      "sector": "Technology",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "IT_SERVICES",
+      "reasonIncluded": "Mid-cap high-growth digital product engineering specialist"
+    },
+    {
+      "symbol": "COFORGE",
+      "companyName": "Coforge Limited",
+      "sector": "Technology",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "IT_SERVICES",
+      "reasonIncluded": "Mid-cap financial services, travel, and insurance IT specialist"
+    },
+    {
+      "symbol": "KPITTECH",
+      "companyName": "KPIT Technologies Limited",
+      "sector": "Technology",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "IT_SERVICES",
+      "reasonIncluded": "Automotive software and embedded engineering leader"
+    },
+    {
+      "symbol": "TATAELXSI",
+      "companyName": "Tata Elxsi Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "IT_SERVICES",
+      "reasonIncluded": "Design-led technology and specialized ER&D provider"
+    },
+    {
+      "symbol": "CYIENT",
+      "companyName": "Cyient Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "IT_SERVICES",
+      "reasonIncluded": "Engineering services and aerospace/industrial tech"
+    },
+    {
+      "symbol": "ZENSARTECH",
+      "companyName": "Zensar Technologies Limited",
+      "sector": "Technology",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "IT_SERVICES",
+      "reasonIncluded": "Mid-cap digital transformation and IT solutions firm"
+    },
+    {
+      "symbol": "MPHASIS",
+      "companyName": "MphasiS Limited",
+      "sector": "Technology",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "IT_SERVICES",
+      "reasonIncluded": "Banking and capital markets technology provider"
+    },
+    {
+      "symbol": "SONATSOFTW",
+      "companyName": "Sonata Software Limited",
+      "sector": "Technology",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "IT_SERVICES",
+      "reasonIncluded": "Mid-cap modern enterprise software and cloud provider"
+    },
+    {
+      "symbol": "MASTEK",
+      "companyName": "Mastek Limited",
+      "sector": "Technology",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "IT_SERVICES",
+      "reasonIncluded": "Digital commerce and public sector digital services"
+    },
+    {
+      "symbol": "SUNPHARMA",
+      "companyName": "Sun Pharmaceutical Industries Limited",
+      "sector": "Healthcare",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "PHARMA_HEALTHCARE",
+      "reasonIncluded": "Largest Indian pharmaceutical company with global specialty portfolio"
+    },
+    {
+      "symbol": "DRREDDY",
+      "companyName": "Dr. Reddy's Laboratories Limited",
+      "sector": "Healthcare",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "PHARMA_HEALTHCARE",
+      "reasonIncluded": "Global generics and biosimilars manufacturer"
+    },
+    {
+      "symbol": "CIPLA",
+      "companyName": "Cipla Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "PHARMA_HEALTHCARE",
+      "reasonIncluded": "Respiratory and domestic branded formulations champion"
+    },
+    {
+      "symbol": "DIVISLAB",
+      "companyName": "Divi's Laboratories Limited",
+      "sector": "Healthcare",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "PHARMA_HEALTHCARE",
+      "reasonIncluded": "Global API and custom synthesis contract manufacturer"
+    },
+    {
+      "symbol": "APOLLOHOSP",
+      "companyName": "Apollo Hospitals Enterprise Limited",
+      "sector": "Healthcare",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "PHARMA_HEALTHCARE",
+      "reasonIncluded": "Integrated healthcare and multi-specialty hospital chain"
+    },
+    {
+      "symbol": "LUPIN",
+      "companyName": "Lupin Limited",
+      "sector": "Healthcare",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "PHARMA_HEALTHCARE",
+      "reasonIncluded": "Formulations and complex generics pharma company"
+    },
+    {
+      "symbol": "AUROPHARMA",
+      "companyName": "Aurobindo Pharma Limited",
+      "sector": "Healthcare",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "PHARMA_HEALTHCARE",
+      "reasonIncluded": "High-volume oral solids and injectable generics provider"
+    },
+    {
+      "symbol": "TORNTPHARM",
+      "companyName": "Torrent Pharmaceuticals Limited",
+      "sector": "Healthcare",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "PHARMA_HEALTHCARE",
+      "reasonIncluded": "Branded formulations and chronic therapies leader"
+    },
+    {
+      "symbol": "ALKEM",
+      "companyName": "Alkem Laboratories Limited",
+      "sector": "Healthcare",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "PHARMA_HEALTHCARE",
+      "reasonIncluded": "Domestic acute and chronic formulations powerhouse"
+    },
+    {
+      "symbol": "BIOCON",
+      "companyName": "Biocon Limited",
+      "sector": "Healthcare",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "PHARMA_HEALTHCARE",
+      "reasonIncluded": "Global biopharmaceuticals and biosimilars developer"
+    },
+    {
+      "symbol": "MAXHEALTH",
+      "companyName": "Max Healthcare Institute Limited",
+      "sector": "Healthcare",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "PHARMA_HEALTHCARE",
+      "reasonIncluded": "Leading metropolitan multi-specialty tertiary care hospitals"
+    },
+    {
+      "symbol": "FORTIS",
+      "companyName": "Fortis Healthcare Limited",
+      "sector": "Healthcare",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "PHARMA_HEALTHCARE",
+      "reasonIncluded": "Pan-India integrated hospital and diagnostics network"
+    },
+    {
+      "symbol": "LAURUSLABS",
+      "companyName": "Laurus Labs Limited",
+      "sector": "Healthcare",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "PHARMA_HEALTHCARE",
+      "reasonIncluded": "API, formulation, and CDMO biotechnology player"
+    },
+    {
+      "symbol": "GLAND",
+      "companyName": "Gland Pharma Limited",
+      "sector": "Healthcare",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "PHARMA_HEALTHCARE",
+      "reasonIncluded": "Specialized sterile injectables B2B manufacturer"
+    },
+    {
+      "symbol": "IPCALAB",
+      "companyName": "IPCA Laboratories Limited",
+      "sector": "Pharmaceuticals & Biotechnology",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "PHARMA_HEALTHCARE",
+      "reasonIncluded": "Formulations and active ingredients pharma company"
+    },
+    {
+      "symbol": "LT",
+      "companyName": "Larsen & Toubro Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "CAPITAL_GOODS_INDUSTRIALS",
+      "reasonIncluded": "Infrastructure engineering and manufacturing conglomerate"
+    },
+    {
+      "symbol": "SIEMENS",
+      "companyName": "Siemens Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "CAPITAL_GOODS_INDUSTRIALS",
+      "reasonIncluded": "Industrial automation, energy, and electrification MNC"
+    },
+    {
+      "symbol": "ABB",
+      "companyName": "ABB India Limited",
+      "sector": "Industrials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CAPITAL_GOODS_INDUSTRIALS",
+      "reasonIncluded": "Robotics, motion, and grid automation manufacturer"
+    },
+    {
+      "symbol": "BHEL",
+      "companyName": "Bharat Heavy Electricals Limited",
+      "sector": "Industrials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CAPITAL_GOODS_INDUSTRIALS",
+      "reasonIncluded": "Heavy electrical and power generation equipment PSU"
+    },
+    {
+      "symbol": "BEL",
+      "companyName": "Bharat Electronics Ltd",
+      "sector": "Industrials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MID",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CAPITAL_GOODS_INDUSTRIALS",
+      "reasonIncluded": "Defense electronics and aerospace equipment leader"
+    },
+    {
+      "symbol": "HAL",
+      "companyName": "Hindustan Aeronautics Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "CAPITAL_GOODS_INDUSTRIALS",
+      "reasonIncluded": "Defense aerospace, jet engine, and helicopter manufacturer"
+    },
+    {
+      "symbol": "THERMAX",
+      "companyName": "Thermax Limited",
+      "sector": "Industrials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CAPITAL_GOODS_INDUSTRIALS",
+      "reasonIncluded": "Energy transition, boiler, and green utility equipment"
+    },
+    {
+      "symbol": "CUMMINSIND",
+      "companyName": "Cummins India Limited",
+      "sector": "General Industrials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CAPITAL_GOODS_INDUSTRIALS",
+      "reasonIncluded": "Heavy diesel engines and power generation solutions"
+    },
+    {
+      "symbol": "POLYCAB",
+      "companyName": "Polycab India Limited",
+      "sector": "Industrials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CAPITAL_GOODS_INDUSTRIALS",
+      "reasonIncluded": "Wires, cables, and fast-moving electrical goods market leader"
+    },
+    {
+      "symbol": "KEI",
+      "companyName": "KEI Industries Limited",
+      "sector": "Industrials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CAPITAL_GOODS_INDUSTRIALS",
+      "reasonIncluded": "High-tension power cables and EPC contractor"
+    },
+    {
+      "symbol": "ASTRAL",
+      "companyName": "Astral Limited",
+      "sector": "Industrials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CAPITAL_GOODS_INDUSTRIALS",
+      "reasonIncluded": "Building materials, CPVC plumbing, and adhesives producer"
+    },
+    {
+      "symbol": "VOLTAS",
+      "companyName": "Voltas Limited",
+      "sector": "Consumer Cyclical",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CAPITAL_GOODS_INDUSTRIALS",
+      "reasonIncluded": "Air conditioning and engineering projects company"
+    },
+    {
+      "symbol": "HAVELLS",
+      "companyName": "Havells India Limited",
+      "sector": "Industrials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CAPITAL_GOODS_INDUSTRIALS",
+      "reasonIncluded": "Electrical equipment, lighting, and consumer appliances"
+    },
+    {
+      "symbol": "CROMPTON",
+      "companyName": "Crompton Greaves Consumer Electricals Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "CAPITAL_GOODS_INDUSTRIALS",
+      "reasonIncluded": "Consumer electricals, fans, and lighting manufacturer"
+    },
+    {
+      "symbol": "DIXON",
+      "companyName": "Dixon Technologies (India) Limited",
+      "sector": "Technology",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CAPITAL_GOODS_INDUSTRIALS",
+      "reasonIncluded": "Electronic manufacturing services (EMS) scale leader"
+    },
+    {
+      "symbol": "MARUTI",
+      "companyName": "Maruti Suzuki India Limited",
+      "sector": "Consumer Cyclical",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "AUTO_AUTO_ANCILLARY",
+      "reasonIncluded": "Passenger vehicle market share leader"
+    },
+    {
+      "symbol": "TATAMOTORS",
+      "companyName": "Tata Motors Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "AUTO_AUTO_ANCILLARY",
+      "reasonIncluded": "Commercial vehicle leader and EV pioneer with JLR"
+    },
+    {
+      "symbol": "M&M",
+      "companyName": "Mahindra & Mahindra Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "AUTO_AUTO_ANCILLARY",
+      "reasonIncluded": "SUV and tractor manufacturing powerhouse"
+    },
+    {
+      "symbol": "BAJAJ-AUTO",
+      "companyName": "Bajaj Auto Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "AUTO_AUTO_ANCILLARY",
+      "reasonIncluded": "Two-wheeler and three-wheeler exporter and OEM"
+    },
+    {
+      "symbol": "HEROMOTOCO",
+      "companyName": "Hero MotoCorp Limited",
+      "sector": "Consumer Cyclical",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "AUTO_AUTO_ANCILLARY",
+      "reasonIncluded": "Largest two-wheeler motorcycle volume OEM"
+    },
+    {
+      "symbol": "TVSMOTOR",
+      "companyName": "TVS Motor Company Limited",
+      "sector": "Consumer Cyclical",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "AUTO_AUTO_ANCILLARY",
+      "reasonIncluded": "Two-wheeler and three-wheeler premium OEM"
+    },
+    {
+      "symbol": "EICHERMOT",
+      "companyName": "Eicher Motors Limited",
+      "sector": "Consumer Cyclical",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "AUTO_AUTO_ANCILLARY",
+      "reasonIncluded": "Mid-weight leisure motorcycle (Royal Enfield) and VECV"
+    },
+    {
+      "symbol": "BHARATFORG",
+      "companyName": "Bharat Forge Limited",
+      "sector": "Consumer Cyclical",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "AUTO_AUTO_ANCILLARY",
+      "reasonIncluded": "Global automotive and industrial precision forging OEM"
+    },
+    {
+      "symbol": "MOTHERSON",
+      "companyName": "Samvardhana Motherson International Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "AUTO_AUTO_ANCILLARY",
+      "reasonIncluded": "Global automotive wiring harness and component supplier"
+    },
+    {
+      "symbol": "BOSCHLTD",
+      "companyName": "Bosch Limited",
+      "sector": "Consumer Cyclical",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "AUTO_AUTO_ANCILLARY",
+      "reasonIncluded": "Automotive powertrain, braking, and mobility technology"
+    },
+    {
+      "symbol": "BALKRISIND",
+      "companyName": "Balkrishna Industries Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "AUTO_AUTO_ANCILLARY",
+      "reasonIncluded": "Off-highway and agricultural tire global specialist"
+    },
+    {
+      "symbol": "MRF",
+      "companyName": "MRF Limited",
+      "sector": "Consumer Cyclical",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "AUTO_AUTO_ANCILLARY",
+      "reasonIncluded": "Domestic tire manufacturing brand leader"
+    },
+    {
+      "symbol": "APOLLOTYRE",
+      "companyName": "Apollo Tyres Limited",
+      "sector": "Consumer Cyclical",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "AUTO_AUTO_ANCILLARY",
+      "reasonIncluded": "Commercial and passenger tire manufacturer with EU operations"
+    },
+    {
+      "symbol": "SONACOMS",
+      "companyName": "Sona BLW Precision Forgings Limited",
+      "sector": "Consumer Cyclical",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "AUTO_AUTO_ANCILLARY",
+      "reasonIncluded": "Precision automotive EV differential gear assemblies"
+    },
+    {
+      "symbol": "ENDURANCE",
+      "companyName": "Endurance Technologies Limited",
+      "sector": "Consumer Cyclical",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "AUTO_AUTO_ANCILLARY",
+      "reasonIncluded": "Two-wheeler suspension and die-casting ancillary"
+    },
+    {
+      "symbol": "TATASTEEL",
+      "companyName": "Tata Steel Limited",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "SMALL",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "METALS_MINING",
+      "reasonIncluded": "Integrated global steel manufacturer"
+    },
+    {
+      "symbol": "JSWSTEEL",
+      "companyName": "JSW Steel Limited",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "METALS_MINING",
+      "reasonIncluded": "India largest private steel manufacturer by capacity"
+    },
+    {
+      "symbol": "HINDALCO",
+      "companyName": "Hindalco Industries Limited",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "METALS_MINING",
+      "reasonIncluded": "Global aluminum and copper producer with Novelis"
+    },
+    {
+      "symbol": "VEDL",
+      "companyName": "Vedanta Limited",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "METALS_MINING",
+      "reasonIncluded": "Diversified natural resources, metals, and mining group"
+    },
+    {
+      "symbol": "COALINDIA",
+      "companyName": "Coal India Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "METALS_MINING",
+      "reasonIncluded": "Monopoly national coal extraction and mining company"
+    },
+    {
+      "symbol": "NMDC",
+      "companyName": "NMDC Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "METALS_MINING",
+      "reasonIncluded": "State-owned iron ore mining exploration enterprise"
+    },
+    {
+      "symbol": "JINDALSTEL",
+      "companyName": "JINDAL STEEL LIMITED",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "METALS_MINING",
+      "reasonIncluded": "Steel, power, and structural manufacturing company"
+    },
+    {
+      "symbol": "SAIL",
+      "companyName": "Steel Authority of India Limited",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "METALS_MINING",
+      "reasonIncluded": "Public sector integrated steel manufacturing plant"
+    },
+    {
+      "symbol": "NATIONALUM",
+      "companyName": "National Aluminium Company Limited",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MID",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "METALS_MINING",
+      "reasonIncluded": "Integrated bauxite mining and aluminum smelting PSU"
+    },
+    {
+      "symbol": "HINDZINC",
+      "companyName": "Hindustan Zinc Limited",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "METALS_MINING",
+      "reasonIncluded": "Integrated zinc, lead, and silver producer"
+    },
+    {
+      "symbol": "RATNAMANI",
+      "companyName": "Ratnamani Metals & Tubes Limited",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "METALS_MINING",
+      "reasonIncluded": "Stainless steel and carbon steel industrial piping"
+    },
+    {
+      "symbol": "APLAPOLLO",
+      "companyName": "APL Apollo Tubes Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "METALS_MINING",
+      "reasonIncluded": "Structural steel tubes and pre-galvanized pipe leader"
+    },
+    {
+      "symbol": "PIDILITIND",
+      "companyName": "Pidilite Industries Limited",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CHEMICALS",
+      "reasonIncluded": "Consumer adhesives (Fevicol) and specialty construction chemicals"
+    },
+    {
+      "symbol": "SRF",
+      "companyName": "SRF Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "CHEMICALS",
+      "reasonIncluded": "Fluorochemicals, specialty chemical intermediates, and packaging films"
+    },
+    {
+      "symbol": "DEEPAKNTR",
+      "companyName": "Deepak Nitrite Limited",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CHEMICALS",
+      "reasonIncluded": "Basic intermediates, phenolics, and specialty chemical player"
+    },
+    {
+      "symbol": "TATACHEM",
+      "companyName": "Tata Chemicals Limited",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CHEMICALS",
+      "reasonIncluded": "Global soda ash, sodium bicarbonate, and specialty chemistry"
+    },
+    {
+      "symbol": "AARTIIND",
+      "companyName": "Aarti Industries Limited",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CHEMICALS",
+      "reasonIncluded": "Benzene-based specialty chemicals and pharmaceuticals"
+    },
+    {
+      "symbol": "ATUL",
+      "companyName": "Atul Limited",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CHEMICALS",
+      "reasonIncluded": "Integrated specialty chemicals, aromatics, and bulk polymers"
+    },
+    {
+      "symbol": "NAVINFLUOR",
+      "companyName": "Navin Fluorine International Limited",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CHEMICALS",
+      "reasonIncluded": "Specialty fluorochemicals and CDMO contract synthesis"
+    },
+    {
+      "symbol": "PIIND",
+      "companyName": "PI Industries Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "CHEMICALS",
+      "reasonIncluded": "Agrochem complex synthesis and custom synthesis exports"
+    },
+    {
+      "symbol": "FLUOROCHEM",
+      "companyName": "Gujarat Fluorochemicals Limited",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CHEMICALS",
+      "reasonIncluded": "Fluoropolymers, fluoro-specialties, and battery chemicals"
+    },
+    {
+      "symbol": "CLEAN",
+      "companyName": "Clean Science and Technology Limited",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CHEMICALS",
+      "reasonIncluded": "Eco-friendly green catalytic specialty chemical technology"
+    },
+    {
+      "symbol": "FINEORG",
+      "companyName": "Fine Organic Industries Limited",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CHEMICALS",
+      "reasonIncluded": "Oleochemical-based specialty additives for polymers/food"
+    },
+    {
+      "symbol": "RELIANCE",
+      "companyName": "Reliance Industries Limited",
+      "sector": "Energy",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "ENERGY_UTILITIES",
+      "reasonIncluded": "Energy refining, petrochemicals, retail, and digital telecom giant"
+    },
+    {
+      "symbol": "NTPC",
+      "companyName": "NTPC Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "ENERGY_UTILITIES",
+      "reasonIncluded": "National thermal and renewable power generation leader"
+    },
+    {
+      "symbol": "POWERGRID",
+      "companyName": "Power Grid Corporation of India Limited",
+      "sector": "Utilities",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "ENERGY_UTILITIES",
+      "reasonIncluded": "National electric transmission grid monopoly utility"
+    },
+    {
+      "symbol": "ONGC",
+      "companyName": "Oil & Natural Gas Corporation Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "ENERGY_UTILITIES",
+      "reasonIncluded": "Upstream oil and natural gas exploration and production PSU"
+    },
+    {
+      "symbol": "IOC",
+      "companyName": "Indian Oil Corporation Limited",
+      "sector": "Energy",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "ENERGY_UTILITIES",
+      "reasonIncluded": "Downstream oil refining and fuel marketing corporation"
+    },
+    {
+      "symbol": "BPCL",
+      "companyName": "Bharat Petroleum Corporation Limited",
+      "sector": "Energy",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "ENERGY_UTILITIES",
+      "reasonIncluded": "Oil refining, fuel retailing, and petroleum products"
+    },
+    {
+      "symbol": "ADANIGREEN",
+      "companyName": "Adani Green Energy Limited",
+      "sector": "Utilities",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "ENERGY_UTILITIES",
+      "reasonIncluded": "Renewable solar and wind generation developer"
+    },
+    {
+      "symbol": "TATAPOWER",
+      "companyName": "Tata Power Company Limited",
+      "sector": "Utilities",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "ENERGY_UTILITIES",
+      "reasonIncluded": "Integrated power utility across generation, T&D, and solar"
+    },
+    {
+      "symbol": "GAIL",
+      "companyName": "GAIL (India) Limited",
+      "sector": "Utilities",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "ENERGY_UTILITIES",
+      "reasonIncluded": "Natural gas transmission, processing, and petrochemicals"
+    },
+    {
+      "symbol": "TORNTPOWER",
+      "companyName": "Torrent Power Limited",
+      "sector": "Utilities",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "ENERGY_UTILITIES",
+      "reasonIncluded": "Power generation and urban distribution licensee"
+    },
+    {
+      "symbol": "NHPC",
+      "companyName": "NHPC Limited",
+      "sector": "Utilities",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "ENERGY_UTILITIES",
+      "reasonIncluded": "Hydroelectric power generation and utility PSU"
+    },
+    {
+      "symbol": "IEX",
+      "companyName": "Indian Energy Exchange Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "ENERGY_UTILITIES",
+      "reasonIncluded": "Nationwide electronic power and energy contracts exchange"
+    },
+    {
+      "symbol": "HINDUNILVR",
+      "companyName": "Hindustan Unilever Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "CONSUMER_FMCG",
+      "reasonIncluded": "FMCG personal care, home care, and food brand leader"
+    },
+    {
+      "symbol": "ITC",
+      "companyName": "ITC Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "CONSUMER_FMCG",
+      "reasonIncluded": "FMCG, paperboards, hotels, agribusiness, and cigarettes conglomerate"
+    },
+    {
+      "symbol": "NESTLEIND",
+      "companyName": "Nestle India Limited",
+      "sector": "Consumer Defensive",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONSUMER_FMCG",
+      "reasonIncluded": "Packaged foods, beverages, infant nutrition, and dairy MNC"
+    },
+    {
+      "symbol": "BRITANNIA",
+      "companyName": "Britannia Industries Limited",
+      "sector": "Consumer Defensive",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONSUMER_FMCG",
+      "reasonIncluded": "Bakery, biscuits, and dairy products consumer brand"
+    },
+    {
+      "symbol": "TITAN",
+      "companyName": "Titan Company Limited",
+      "sector": "Consumer Cyclical",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONSUMER_RETAIL",
+      "reasonIncluded": "Jewellery (Tanishq), watches, and eyewear consumer lifestyle leader"
+    },
+    {
+      "symbol": "TRENT",
+      "companyName": "Trent Limited",
+      "sector": "Consumer Cyclical",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONSUMER_RETAIL",
+      "reasonIncluded": "Fast-fashion retail chain (Westside, Zudio) operator"
+    },
+    {
+      "symbol": "DMART",
+      "companyName": "Avenue Supermarts Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "CONSUMER_RETAIL",
+      "reasonIncluded": "Value grocery supermarket hypermarket retail chain"
+    },
+    {
+      "symbol": "ASIANPAINT",
+      "companyName": "Asian Paints Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "CONSUMER_RETAIL",
+      "reasonIncluded": "Architectural decorative paints and coatings champion"
+    },
+    {
+      "symbol": "BERGEPAINT",
+      "companyName": "Berger Paints (I) Limited",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONSUMER_RETAIL",
+      "reasonIncluded": "Decorative and industrial coatings manufacturer"
+    },
+    {
+      "symbol": "DABUR",
+      "companyName": "Dabur India Limited",
+      "sector": "Consumer Defensive",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONSUMER_FMCG",
+      "reasonIncluded": "Ayurvedic health care, personal care, and juice products"
+    },
+    {
+      "symbol": "MARICO",
+      "companyName": "Marico Limited",
+      "sector": "Consumer Defensive",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONSUMER_FMCG",
+      "reasonIncluded": "Consumer hair oils, edible oils, and male grooming"
+    },
+    {
+      "symbol": "GODREJCP",
+      "companyName": "Godrej Consumer Products Limited",
+      "sector": "Consumer Defensive",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONSUMER_FMCG",
+      "reasonIncluded": "Personal wash, home care, and hair color household products"
+    },
+    {
+      "symbol": "TATACONSUM",
+      "companyName": "TATA CONSUMER PRODUCTS LIMITED",
+      "sector": "Consumer Defensive",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONSUMER_FMCG",
+      "reasonIncluded": "Packaged beverages, salt, pulses, and pantry essentials"
+    },
+    {
+      "symbol": "VBL",
+      "companyName": "Varun Beverages Limited",
+      "sector": "Consumer Defensive",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONSUMER_FMCG",
+      "reasonIncluded": "Key beverage bottler and distributor for PepsiCo"
+    },
+    {
+      "symbol": "DEVYANI",
+      "companyName": "Devyani International Limited",
+      "sector": "Consumer Cyclical",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONSUMER_RETAIL",
+      "reasonIncluded": "QSR restaurant franchisee operator for KFC, Pizza Hut, Costa Coffee"
+    },
+    {
+      "symbol": "METROBRAND",
+      "companyName": "Metro Brands Limited",
+      "sector": "Consumer Cyclical",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONSUMER_RETAIL",
+      "reasonIncluded": "Specialty footwear retailer across premium and casual brands"
+    },
+    {
+      "symbol": "PAGEIND",
+      "companyName": "Page Industries Limited",
+      "sector": "Consumer Cyclical",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONSUMER_RETAIL",
+      "reasonIncluded": "Exclusive licensee for Jockey innerwear and athleisure"
+    },
+    {
+      "symbol": "BATAINDIA",
+      "companyName": "Bata India Limited",
+      "sector": "Consumer Cyclical",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONSUMER_RETAIL",
+      "reasonIncluded": "Footwear design, manufacturing, and store network"
+    },
+    {
+      "symbol": "BHARTIARTL",
+      "companyName": "Bharti Airtel Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "TELECOM_MEDIA",
+      "reasonIncluded": "Global telecom carrier and Indian digital connectivity leader"
+    },
+    {
+      "symbol": "TATACOMM",
+      "companyName": "Tata Communications Limited",
+      "sector": "Communication Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "TELECOM_MEDIA",
+      "reasonIncluded": "Enterprise digital network infrastructure and cloud communications"
+    },
+    {
+      "symbol": "SUNTV",
+      "companyName": "Sun TV Network Limited",
+      "sector": "Communication Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "TELECOM_MEDIA",
+      "reasonIncluded": "Regional broadcasting television and content producer"
+    },
+    {
+      "symbol": "ZEEL",
+      "companyName": "Zee Entertainment Enterprises Limited",
+      "sector": "Communication Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "TELECOM_MEDIA",
+      "reasonIncluded": "Broadcasting entertainment channels and streaming platform"
+    },
+    {
+      "symbol": "PVRINOX",
+      "companyName": "PVR INOX Limited",
+      "sector": "Communication Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "TELECOM_MEDIA",
+      "reasonIncluded": "Largest multiplex cinema exhibition chain in India"
+    },
+    {
+      "symbol": "NAUKRI",
+      "companyName": "Info Edge (India) Limited",
+      "sector": "Communication Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "TELECOM_MEDIA",
+      "reasonIncluded": "Internet classifieds, recruitment (Naukri), real estate (99acres)"
+    },
+    {
+      "symbol": "SAREGAMA",
+      "companyName": "Saregama India Limited",
+      "sector": "Communication Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "TELECOM_MEDIA",
+      "reasonIncluded": "Music publishing catalogue, film production, and retail audio"
+    },
+    {
+      "symbol": "TV18BRDCST",
+      "companyName": "TV18 Broadcast Limited",
+      "sector": "UNKNOWN",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "UNKNOWN",
+      "selectionStratum": "TELECOM_MEDIA",
+      "reasonIncluded": "Television news, entertainment broadcasting, and digital media"
+    },
+    {
+      "symbol": "NETWORK18",
+      "companyName": "Network18 Media & Investments Limited",
+      "sector": "Communication Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "TELECOM_MEDIA",
+      "reasonIncluded": "Media and entertainment conglomerate across TV and digital platforms"
+    },
+    {
+      "symbol": "DLF",
+      "companyName": "DLF Limited",
+      "sector": "Real Estate",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "REAL_ESTATE_INFRA",
+      "reasonIncluded": "Largest listed residential and commercial real estate developer"
+    },
+    {
+      "symbol": "GODREJPROP",
+      "companyName": "Godrej Properties Limited",
+      "sector": "Real Estate",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "REAL_ESTATE_INFRA",
+      "reasonIncluded": "National urban residential real estate development brand"
+    },
+    {
+      "symbol": "OBEROIRLTY",
+      "companyName": "Oberoi Realty Limited",
+      "sector": "Real Estate",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "REAL_ESTATE_INFRA",
+      "reasonIncluded": "Premium luxury residential and commercial real estate"
+    },
+    {
+      "symbol": "PRESTIGE",
+      "companyName": "Prestige Estates Projects Limited",
+      "sector": "Real Estate",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "REAL_ESTATE_INFRA",
+      "reasonIncluded": "South and pan-India real estate, office parks, and malls"
+    },
+    {
+      "symbol": "BRIGADE",
+      "companyName": "Brigade Enterprises Limited",
+      "sector": "Real Estate",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "REAL_ESTATE_INFRA",
+      "reasonIncluded": "Integrated residential, commercial, and hospitality developer"
+    },
+    {
+      "symbol": "SOBHA",
+      "companyName": "Sobha Limited",
+      "sector": "Real Estate",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "REAL_ESTATE_INFRA",
+      "reasonIncluded": "Backward-integrated luxury residential constructor"
+    },
+    {
+      "symbol": "PHOENIXLTD",
+      "companyName": "The Phoenix Mills Limited",
+      "sector": "Real Estate",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "REAL_ESTATE_INFRA",
+      "reasonIncluded": "Destination retail mall operator and mixed-use commercial developer"
+    },
+    {
+      "symbol": "ADANIPORTS",
+      "companyName": "Adani Ports and Special Economic Zone Limited",
+      "sector": "Industrials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "REAL_ESTATE_INFRA",
+      "reasonIncluded": "India largest commercial port developer and logistics operator"
+    },
+    {
+      "symbol": "IRB",
+      "companyName": "IRB Infrastructure Developers Limited",
+      "sector": "Industrials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "REAL_ESTATE_INFRA",
+      "reasonIncluded": "Highway road construction, tollways, and TOT concessionaire"
+    },
+    {
+      "symbol": "NBCC",
+      "companyName": "NBCC (India) Limited",
+      "sector": "Industrials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "REAL_ESTATE_INFRA",
+      "reasonIncluded": "Public sector civil engineering and project management consultancy"
+    },
+    {
+      "symbol": "PNCINFRA",
+      "companyName": "PNC Infratech Limited",
+      "sector": "Industrials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "UNKNOWN",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "REAL_ESTATE_INFRA",
+      "reasonIncluded": "Highways, bridges, airport runways, and industrial EPC contractor"
+    },
+    {
+      "symbol": "ACCENTMIC",
+      "companyName": "Accent Microcell Limited",
+      "sector": "Pharmaceuticals & Biotechnology",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONFLICTING_CANONICAL_FACTS",
+      "reasonIncluded": "Surfaces 25 potential multiple-provider fact collisions for identical metric and period"
+    },
+    {
+      "symbol": "ACUTAAS",
+      "companyName": "Acutaas Chemicals Limited",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONFLICTING_CANONICAL_FACTS",
+      "reasonIncluded": "Surfaces 4 potential multiple-provider fact collisions for identical metric and period"
+    },
+    {
+      "symbol": "ADANIENSOL",
+      "companyName": "Adani Energy Solutions Limited",
+      "sector": "Utilities",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONFLICTING_CANONICAL_FACTS",
+      "reasonIncluded": "Surfaces 4 potential multiple-provider fact collisions for identical metric and period"
+    },
+    {
+      "symbol": "AEGISLOG",
+      "companyName": "Aegis Logistics Limited",
+      "sector": "Energy",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONFLICTING_CANONICAL_FACTS",
+      "reasonIncluded": "Surfaces 4 potential multiple-provider fact collisions for identical metric and period"
+    },
+    {
+      "symbol": "AEROFLEX",
+      "companyName": "Aeroflex Industries Limited",
+      "sector": "Industrials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONFLICTING_CANONICAL_FACTS",
+      "reasonIncluded": "Surfaces 4 potential multiple-provider fact collisions for identical metric and period"
+    },
+    {
+      "symbol": "AERONEU",
+      "companyName": "Aeroflex Neu Limited",
+      "sector": "Consumer Cyclical",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONFLICTING_CANONICAL_FACTS",
+      "reasonIncluded": "Surfaces 4 potential multiple-provider fact collisions for identical metric and period"
+    },
+    {
+      "symbol": "AETHER",
+      "companyName": "Aether Industries Limited",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONFLICTING_CANONICAL_FACTS",
+      "reasonIncluded": "Surfaces 4 potential multiple-provider fact collisions for identical metric and period"
+    },
+    {
+      "symbol": "AIMTRON",
+      "companyName": "Aimtron Electronics Limited",
+      "sector": "Commercial Services & Supplies",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONFLICTING_CANONICAL_FACTS",
+      "reasonIncluded": "Surfaces 4 potential multiple-provider fact collisions for identical metric and period"
+    },
+    {
+      "symbol": "AMEYA",
+      "companyName": "Ameya Precision Engineers Limited",
+      "sector": "General Industrials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONFLICTING_CANONICAL_FACTS",
+      "reasonIncluded": "Surfaces 4 potential multiple-provider fact collisions for identical metric and period"
+    },
+    {
+      "symbol": "ANTELOPUS",
+      "companyName": "Antelopus Selan Energy Limited",
+      "sector": "Energy",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONFLICTING_CANONICAL_FACTS",
+      "reasonIncluded": "Surfaces 4 potential multiple-provider fact collisions for identical metric and period"
+    },
+    {
+      "symbol": "APARINDS",
+      "companyName": "Apar Industries Limited",
+      "sector": "Industrials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONFLICTING_CANONICAL_FACTS",
+      "reasonIncluded": "Surfaces 4 potential multiple-provider fact collisions for identical metric and period"
+    },
+    {
+      "symbol": "APEX",
+      "companyName": "Apex Frozen Foods Limited",
+      "sector": "Consumer Defensive",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MID",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONFLICTING_CANONICAL_FACTS",
+      "reasonIncluded": "Surfaces 4 potential multiple-provider fact collisions for identical metric and period"
+    },
+    {
+      "symbol": "ARHAM",
+      "companyName": "Arham Technologies Limited",
+      "sector": "Consumer Durables",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONFLICTING_CANONICAL_FACTS",
+      "reasonIncluded": "Surfaces 4 potential multiple-provider fact collisions for identical metric and period"
+    },
+    {
+      "symbol": "ARVINDPORT",
+      "companyName": "ARVIND PORT AND INFRA LIMITED",
+      "sector": "Transportation",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONFLICTING_CANONICAL_FACTS",
+      "reasonIncluded": "Surfaces 4 potential multiple-provider fact collisions for identical metric and period"
+    },
+    {
+      "symbol": "BAFNAPH",
+      "companyName": "Bafna Pharmaceuticals Limited",
+      "sector": "Healthcare",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "CONFLICTING_CANONICAL_FACTS",
+      "reasonIncluded": "Surfaces 4 potential multiple-provider fact collisions for identical metric and period"
+    },
+    {
+      "symbol": "BAJAJCON",
+      "companyName": "Bajaj Consumer Care Limited",
+      "sector": "Consumer Defensive",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "HIGH_CANONICAL_DATA_COVERAGE",
+      "reasonIncluded": "High canonical fact volume (41 facts, 0 verified) for comprehensive multi-period analysis"
+    },
+    {
+      "symbol": "BHAGYANGR",
+      "companyName": "Bhagyanagar India Limited",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "HIGH_CANONICAL_DATA_COVERAGE",
+      "reasonIncluded": "High canonical fact volume (41 facts, 0 verified) for comprehensive multi-period analysis"
+    },
+    {
+      "symbol": "BIOFILCHEM",
+      "companyName": "Biofil Chemicals & Pharmaceuticals Limited",
+      "sector": "Healthcare",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "HIGH_CANONICAL_DATA_COVERAGE",
+      "reasonIncluded": "High canonical fact volume (41 facts, 0 verified) for comprehensive multi-period analysis"
+    },
+    {
+      "symbol": "BIRLAMONEY",
+      "companyName": "Aditya Birla Money Limited",
+      "sector": "Financial Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NBFC",
+      "selectionStratum": "HIGH_CANONICAL_DATA_COVERAGE",
+      "reasonIncluded": "High canonical fact volume (41 facts, 0 verified) for comprehensive multi-period analysis"
+    },
+    {
+      "symbol": "BLISSGVS",
+      "companyName": "Bliss GVS Pharma Limited",
+      "sector": "Healthcare",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "HIGH_CANONICAL_DATA_COVERAGE",
+      "reasonIncluded": "High canonical fact volume (77 facts, 0 verified) for comprehensive multi-period analysis"
+    },
+    {
+      "symbol": "BLUEWATER",
+      "companyName": "Blue Water Logistics Limited",
+      "sector": "Transportation",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MID",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "HIGH_CANONICAL_DATA_COVERAGE",
+      "reasonIncluded": "High canonical fact volume (41 facts, 0 verified) for comprehensive multi-period analysis"
+    },
+    {
+      "symbol": "BTML",
+      "companyName": "Bodhi Tree Multimedia Limited",
+      "sector": "Communication Services",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "HIGH_CANONICAL_DATA_COVERAGE",
+      "reasonIncluded": "High canonical fact volume (29 facts, 0 verified) for comprehensive multi-period analysis"
+    },
+    {
+      "symbol": "CAPILLARY",
+      "companyName": "Capillary Technologies India Limited",
+      "sector": "Technology",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "HIGH_CANONICAL_DATA_COVERAGE",
+      "reasonIncluded": "High canonical fact volume (29 facts, 0 verified) for comprehensive multi-period analysis"
+    },
+    {
+      "symbol": "CENTUM",
+      "companyName": "Centum Electronics Limited",
+      "sector": "Technology",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "HIGH_CANONICAL_DATA_COVERAGE",
+      "reasonIncluded": "High canonical fact volume (41 facts, 0 verified) for comprehensive multi-period analysis"
+    },
+    {
+      "symbol": "CHEMBONDCH",
+      "companyName": "Chembond Chemicals Limited",
+      "sector": "Basic Materials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "HIGH_CANONICAL_DATA_COVERAGE",
+      "reasonIncluded": "High canonical fact volume (29 facts, 0 verified) for comprehensive multi-period analysis"
+    },
+    {
+      "symbol": "CHENNPETRO",
+      "companyName": "Chennai Petroleum Corporation Limited",
+      "sector": "Energy",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "LARGE",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "HIGH_CANONICAL_DATA_COVERAGE",
+      "reasonIncluded": "High canonical fact volume (41 facts, 0 verified) for comprehensive multi-period analysis"
+    },
+    {
+      "symbol": "COMMITTED",
+      "companyName": "Committed Cargo Care Limited",
+      "sector": "Transportation",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "HIGH_CANONICAL_DATA_COVERAGE",
+      "reasonIncluded": "High canonical fact volume (29 facts, 0 verified) for comprehensive multi-period analysis"
+    },
+    {
+      "symbol": "COMSYN",
+      "companyName": "Commercial Syn Bags Limited",
+      "sector": "Consumer Cyclical",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "HIGH_CANONICAL_DATA_COVERAGE",
+      "reasonIncluded": "High canonical fact volume (29 facts, 0 verified) for comprehensive multi-period analysis"
+    },
+    {
+      "symbol": "CONTROLPR",
+      "companyName": "Control Print Limited",
+      "sector": "Industrials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MID",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "HIGH_CANONICAL_DATA_COVERAGE",
+      "reasonIncluded": "High canonical fact volume (41 facts, 0 verified) for comprehensive multi-period analysis"
+    },
+    {
+      "symbol": "CUPID",
+      "companyName": "Cupid Limited",
+      "sector": "Consumer Defensive",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "HIGH_CANONICAL_DATA_COVERAGE",
+      "reasonIncluded": "High canonical fact volume (41 facts, 0 verified) for comprehensive multi-period analysis"
+    },
+    {
+      "symbol": "DATAPATTNS",
+      "companyName": "Data Patterns (India) Limited",
+      "sector": "Industrials",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "HIGH_CANONICAL_DATA_COVERAGE",
+      "reasonIncluded": "High canonical fact volume (41 facts, 0 verified) for comprehensive multi-period analysis"
+    },
+    {
+      "symbol": "DIVGIITTS",
+      "companyName": "Divgi Torqtransfer Systems Limited",
+      "sector": "Consumer Cyclical",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "HIGH_CANONICAL_DATA_COVERAGE",
+      "reasonIncluded": "High canonical fact volume (29 facts, 0 verified) for comprehensive multi-period analysis"
+    },
+    {
+      "symbol": "DIVYADHAN",
+      "companyName": "Divyadhan Recycling Industries Limited",
+      "sector": "Textiles Apparels & Accessories",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "HIGH_CANONICAL_DATA_COVERAGE",
+      "reasonIncluded": "High canonical fact volume (29 facts, 0 verified) for comprehensive multi-period analysis"
+    },
+    {
+      "symbol": "DPEL",
+      "companyName": "Divine Power Energy Limited",
+      "sector": "Consumer Durables",
+      "industry": "UNKNOWN",
+      "marketCapBucket": "MICRO",
+      "businessModelClass": "NON_FINANCIAL",
+      "selectionStratum": "HIGH_CANONICAL_DATA_COVERAGE",
+      "reasonIncluded": "High canonical fact volume (65 facts, 0 verified) for comprehensive multi-period analysis"
+    }
+  ]
+}

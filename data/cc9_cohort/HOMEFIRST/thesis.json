@@ -1,0 +1,19 @@
+{
+  "symbol": "HOMEFIRST",
+  "coreThesisStatement": "Fastest-growing affordable housing finance NBFC combining digital app-based underwriting with on-ground collateral verification.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Tech Underwriting Moat",
+      "description": "Underwriting informal income borrowers with industry-low turnaround times."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Pristine Asset Quality",
+      "description": "Credit costs consistently below 40 bps."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_HOME_NPA"
+  ]
+}

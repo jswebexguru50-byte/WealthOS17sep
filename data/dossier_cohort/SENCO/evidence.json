@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_SENCO_REV_FY26",
+    "issuerNseSymbol": "SENCO",
+    "issuerBseCode": "511656",
+    "documentHash": "8928ad65bab7100f89cb8451bdade8c1b983b4fbca4925982d396ef59289f4c7",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹4205 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_SENCO_PAT_FY26",
+    "issuerNseSymbol": "SENCO",
+    "issuerBseCode": "511656",
+    "documentHash": "8928ad65bab7100f89cb8451bdade8c1b983b4fbca4925982d396ef59289f4c7",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹505 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_SENCO_DEBT_FY26",
+    "issuerNseSymbol": "SENCO",
+    "issuerBseCode": "511656",
+    "documentHash": "3c04655652046c0e642c29be5413035f5c86874afe8ffe92bff8d9618d13c538",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_SENCO_CONCALL_Q4FY26",
+    "issuerNseSymbol": "SENCO",
+    "issuerBseCode": "511656",
+    "documentHash": "9a230d2d764cef579b7dbe4a5bd53624143259f660cd10ca888ca0f8e9a0123c",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

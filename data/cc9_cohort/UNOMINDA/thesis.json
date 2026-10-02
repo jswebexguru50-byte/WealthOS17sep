@@ -1,0 +1,19 @@
+{
+  "symbol": "UNOMINDA",
+  "coreThesisStatement": "Leading Tier-1 auto components player multiplying kit value per vehicle via EV transition, ADAS sensors, and smart lighting.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Content Per Vehicle",
+      "description": "Increasing kit value by 3x in 2W/4W electric vehicles."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Global Technology JVs",
+      "description": "Strategic partnerships with global leaders in acoustic, lighting, and sensor tech."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_UNOMINDA_LEVERAGE"
+  ]
+}

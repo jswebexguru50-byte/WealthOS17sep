@@ -1,0 +1,660 @@
+{
+  "reviewId": "FUNDAMENTAL_CAL_020",
+  "remediationId": "CAL_020_REMEDIATION_001",
+  "captureMode": "DISPOSABLE_DB_COPY_EVALUATION",
+  "evaluatedAt": "2026-10-01T06:05:45.212Z",
+  "beforeProductionDbSha256": "a77bca867eab45e598b8bf01ee4f2214c66704aaf6620500175ae55a91588c69",
+  "cohort": [
+    "AAVAS",
+    "ASTRAL",
+    "BAJFINANCE",
+    "CLEAN",
+    "DEEPAKNTR",
+    "DYCL",
+    "HDFCBANK",
+    "INFY",
+    "LTIM",
+    "LT",
+    "PIDILITIND",
+    "POLYCAB",
+    "RAMCOIND",
+    "RELIANCE",
+    "STYL",
+    "SUNPHARMA",
+    "TATAMOTORS",
+    "TATASTEEL",
+    "TCS",
+    "TITAN"
+  ],
+  "cohortSummary": {
+    "total": 20,
+    "valuationFullCoverageAnomalyCount": 0,
+    "qglpForensicNegativeFalseClearanceCount": 0,
+    "qglpLeverageDefaultUnsupportedCount": 0,
+    "unknownBusinessModelIndustrialMisroutingCount": 0
+  },
+  "companies": {
+    "AAVAS": {
+      "businessModel": "UNKNOWN",
+      "valuation": {
+        "metricsEvaluated": []
+      },
+      "fere": {
+        "status": "WORKING",
+        "evidenceCount": 19
+      },
+      "qglp": {
+        "riskAccountingRedFlags": {
+          "status": "NO_RED_FLAG_DETECTED",
+          "observation": "No forensic accounting red flags detected in indexed filings",
+          "evidenceCount": 2
+        },
+        "longevitySolvency": {
+          "status": "DATA_INSUFFICIENT",
+          "observation": "Leverage interpretation withheld pending verified business model classification",
+          "evidenceCount": 0
+        },
+        "workingCapital": {
+          "status": "DATA_INSUFFICIENT"
+        }
+      },
+      "auditChecks": {
+        "valuationCoveragePass": true,
+        "qglpRiskEvidencePass": true,
+        "qglpLeverageEvidencePass": true,
+        "businessModelRoutingPass": true
+      }
+    },
+    "ASTRAL": {
+      "businessModel": "UNKNOWN",
+      "valuation": {
+        "metricsEvaluated": []
+      },
+      "fere": {
+        "status": "WORKING",
+        "evidenceCount": 19
+      },
+      "qglp": {
+        "riskAccountingRedFlags": {
+          "status": "NO_RED_FLAG_DETECTED",
+          "observation": "No forensic accounting red flags detected in indexed filings",
+          "evidenceCount": 2
+        },
+        "longevitySolvency": {
+          "status": "DATA_INSUFFICIENT",
+          "observation": "Leverage interpretation withheld pending verified business model classification",
+          "evidenceCount": 0
+        },
+        "workingCapital": {
+          "status": "DATA_INSUFFICIENT"
+        }
+      },
+      "auditChecks": {
+        "valuationCoveragePass": true,
+        "qglpRiskEvidencePass": true,
+        "qglpLeverageEvidencePass": true,
+        "businessModelRoutingPass": true
+      }
+    },
+    "BAJFINANCE": {
+      "businessModel": "NBFC",
+      "valuation": {
+        "metricsEvaluated": []
+      },
+      "fere": {
+        "status": "DATA_INSUFFICIENT",
+        "evidenceCount": 0
+      },
+      "qglp": {
+        "riskAccountingRedFlags": {
+          "status": "DATA_INSUFFICIENT",
+          "observation": "Forensic risk evidence not available or insufficient for red flag clearance",
+          "evidenceCount": 0
+        },
+        "longevitySolvency": {
+          "status": "NOT_APPLICABLE",
+          "observation": "Asset-liability maturity & borrowing structure assessed under NBFC prudential norms",
+          "evidenceCount": 0
+        },
+        "workingCapital": {
+          "status": "NOT_APPLICABLE"
+        }
+      },
+      "auditChecks": {
+        "valuationCoveragePass": true,
+        "qglpRiskEvidencePass": true,
+        "qglpLeverageEvidencePass": true,
+        "businessModelRoutingPass": true
+      }
+    },
+    "CLEAN": {
+      "businessModel": "UNKNOWN",
+      "valuation": {
+        "metricsEvaluated": []
+      },
+      "fere": {
+        "status": "WORKING",
+        "evidenceCount": 19
+      },
+      "qglp": {
+        "riskAccountingRedFlags": {
+          "status": "NO_RED_FLAG_DETECTED",
+          "observation": "No forensic accounting red flags detected in indexed filings",
+          "evidenceCount": 2
+        },
+        "longevitySolvency": {
+          "status": "DATA_INSUFFICIENT",
+          "observation": "Leverage interpretation withheld pending verified business model classification",
+          "evidenceCount": 0
+        },
+        "workingCapital": {
+          "status": "DATA_INSUFFICIENT"
+        }
+      },
+      "auditChecks": {
+        "valuationCoveragePass": true,
+        "qglpRiskEvidencePass": true,
+        "qglpLeverageEvidencePass": true,
+        "businessModelRoutingPass": true
+      }
+    },
+    "DEEPAKNTR": {
+      "businessModel": "UNKNOWN",
+      "valuation": {
+        "metricsEvaluated": []
+      },
+      "fere": {
+        "status": "WORKING",
+        "evidenceCount": 1
+      },
+      "qglp": {
+        "riskAccountingRedFlags": {
+          "status": "NO_RED_FLAG_DETECTED",
+          "observation": "No forensic accounting red flags detected in indexed filings",
+          "evidenceCount": 1
+        },
+        "longevitySolvency": {
+          "status": "DATA_INSUFFICIENT",
+          "observation": "Leverage interpretation withheld pending verified business model classification",
+          "evidenceCount": 0
+        },
+        "workingCapital": {
+          "status": "DATA_INSUFFICIENT"
+        }
+      },
+      "auditChecks": {
+        "valuationCoveragePass": true,
+        "qglpRiskEvidencePass": true,
+        "qglpLeverageEvidencePass": true,
+        "businessModelRoutingPass": true
+      }
+    },
+    "DYCL": {
+      "businessModel": "UNKNOWN",
+      "valuation": {
+        "metricsEvaluated": []
+      },
+      "fere": {
+        "status": "WORKING",
+        "evidenceCount": 1
+      },
+      "qglp": {
+        "riskAccountingRedFlags": {
+          "status": "NO_RED_FLAG_DETECTED",
+          "observation": "No forensic accounting red flags detected in indexed filings",
+          "evidenceCount": 1
+        },
+        "longevitySolvency": {
+          "status": "DATA_INSUFFICIENT",
+          "observation": "Leverage interpretation withheld pending verified business model classification",
+          "evidenceCount": 0
+        },
+        "workingCapital": {
+          "status": "DATA_INSUFFICIENT"
+        }
+      },
+      "auditChecks": {
+        "valuationCoveragePass": true,
+        "qglpRiskEvidencePass": true,
+        "qglpLeverageEvidencePass": true,
+        "businessModelRoutingPass": true
+      }
+    },
+    "HDFCBANK": {
+      "businessModel": "BANK",
+      "valuation": {
+        "metricsEvaluated": []
+      },
+      "fere": {
+        "status": "WORKING",
+        "evidenceCount": 5
+      },
+      "qglp": {
+        "riskAccountingRedFlags": {
+          "status": "NO_RED_FLAG_DETECTED",
+          "observation": "No forensic accounting red flags detected in indexed filings",
+          "evidenceCount": 2
+        },
+        "longevitySolvency": {
+          "status": "NOT_APPLICABLE",
+          "observation": "Capital adequacy assessed under banking prudential norms",
+          "evidenceCount": 0
+        },
+        "workingCapital": {
+          "status": "NOT_APPLICABLE"
+        }
+      },
+      "auditChecks": {
+        "valuationCoveragePass": true,
+        "qglpRiskEvidencePass": true,
+        "qglpLeverageEvidencePass": true,
+        "businessModelRoutingPass": true
+      }
+    },
+    "INFY": {
+      "businessModel": "UNKNOWN",
+      "valuation": {
+        "metricsEvaluated": []
+      },
+      "fere": {
+        "status": "WORKING",
+        "evidenceCount": 19
+      },
+      "qglp": {
+        "riskAccountingRedFlags": {
+          "status": "NO_RED_FLAG_DETECTED",
+          "observation": "No forensic accounting red flags detected in indexed filings",
+          "evidenceCount": 2
+        },
+        "longevitySolvency": {
+          "status": "DATA_INSUFFICIENT",
+          "observation": "Leverage interpretation withheld pending verified business model classification",
+          "evidenceCount": 0
+        },
+        "workingCapital": {
+          "status": "DATA_INSUFFICIENT"
+        }
+      },
+      "auditChecks": {
+        "valuationCoveragePass": true,
+        "qglpRiskEvidencePass": true,
+        "qglpLeverageEvidencePass": true,
+        "businessModelRoutingPass": true
+      }
+    },
+    "LTIM": {
+      "businessModel": "UNKNOWN",
+      "valuation": {
+        "metricsEvaluated": []
+      },
+      "fere": {
+        "status": "DATA_INSUFFICIENT",
+        "evidenceCount": 0
+      },
+      "qglp": {
+        "riskAccountingRedFlags": {
+          "status": "DATA_INSUFFICIENT",
+          "observation": "Forensic risk evidence not available or insufficient for red flag clearance",
+          "evidenceCount": 0
+        },
+        "longevitySolvency": {
+          "status": "DATA_INSUFFICIENT",
+          "observation": "Leverage interpretation withheld pending verified business model classification",
+          "evidenceCount": 0
+        },
+        "workingCapital": {
+          "status": "DATA_INSUFFICIENT"
+        }
+      },
+      "auditChecks": {
+        "valuationCoveragePass": true,
+        "qglpRiskEvidencePass": true,
+        "qglpLeverageEvidencePass": true,
+        "businessModelRoutingPass": true
+      }
+    },
+    "LT": {
+      "businessModel": "UNKNOWN",
+      "valuation": {
+        "metricsEvaluated": []
+      },
+      "fere": {
+        "status": "WORKING",
+        "evidenceCount": 1
+      },
+      "qglp": {
+        "riskAccountingRedFlags": {
+          "status": "NO_RED_FLAG_DETECTED",
+          "observation": "No forensic accounting red flags detected in indexed filings",
+          "evidenceCount": 1
+        },
+        "longevitySolvency": {
+          "status": "DATA_INSUFFICIENT",
+          "observation": "Leverage interpretation withheld pending verified business model classification",
+          "evidenceCount": 0
+        },
+        "workingCapital": {
+          "status": "DATA_INSUFFICIENT"
+        }
+      },
+      "auditChecks": {
+        "valuationCoveragePass": true,
+        "qglpRiskEvidencePass": true,
+        "qglpLeverageEvidencePass": true,
+        "businessModelRoutingPass": true
+      }
+    },
+    "PIDILITIND": {
+      "businessModel": "UNKNOWN",
+      "valuation": {
+        "metricsEvaluated": []
+      },
+      "fere": {
+        "status": "WORKING",
+        "evidenceCount": 19
+      },
+      "qglp": {
+        "riskAccountingRedFlags": {
+          "status": "NO_RED_FLAG_DETECTED",
+          "observation": "No forensic accounting red flags detected in indexed filings",
+          "evidenceCount": 2
+        },
+        "longevitySolvency": {
+          "status": "DATA_INSUFFICIENT",
+          "observation": "Leverage interpretation withheld pending verified business model classification",
+          "evidenceCount": 0
+        },
+        "workingCapital": {
+          "status": "DATA_INSUFFICIENT"
+        }
+      },
+      "auditChecks": {
+        "valuationCoveragePass": true,
+        "qglpRiskEvidencePass": true,
+        "qglpLeverageEvidencePass": true,
+        "businessModelRoutingPass": true
+      }
+    },
+    "POLYCAB": {
+      "businessModel": "UNKNOWN",
+      "valuation": {
+        "metricsEvaluated": []
+      },
+      "fere": {
+        "status": "WORKING",
+        "evidenceCount": 19
+      },
+      "qglp": {
+        "riskAccountingRedFlags": {
+          "status": "NO_RED_FLAG_DETECTED",
+          "observation": "No forensic accounting red flags detected in indexed filings",
+          "evidenceCount": 2
+        },
+        "longevitySolvency": {
+          "status": "DATA_INSUFFICIENT",
+          "observation": "Leverage interpretation withheld pending verified business model classification",
+          "evidenceCount": 0
+        },
+        "workingCapital": {
+          "status": "DATA_INSUFFICIENT"
+        }
+      },
+      "auditChecks": {
+        "valuationCoveragePass": true,
+        "qglpRiskEvidencePass": true,
+        "qglpLeverageEvidencePass": true,
+        "businessModelRoutingPass": true
+      }
+    },
+    "RAMCOIND": {
+      "businessModel": "UNKNOWN",
+      "valuation": {
+        "metricsEvaluated": []
+      },
+      "fere": {
+        "status": "WORKING",
+        "evidenceCount": 19
+      },
+      "qglp": {
+        "riskAccountingRedFlags": {
+          "status": "NO_RED_FLAG_DETECTED",
+          "observation": "No forensic accounting red flags detected in indexed filings",
+          "evidenceCount": 2
+        },
+        "longevitySolvency": {
+          "status": "DATA_INSUFFICIENT",
+          "observation": "Leverage interpretation withheld pending verified business model classification",
+          "evidenceCount": 0
+        },
+        "workingCapital": {
+          "status": "DATA_INSUFFICIENT"
+        }
+      },
+      "auditChecks": {
+        "valuationCoveragePass": true,
+        "qglpRiskEvidencePass": true,
+        "qglpLeverageEvidencePass": true,
+        "businessModelRoutingPass": true
+      }
+    },
+    "RELIANCE": {
+      "businessModel": "UNKNOWN",
+      "valuation": {
+        "metricsEvaluated": []
+      },
+      "fere": {
+        "status": "WORKING",
+        "evidenceCount": 19
+      },
+      "qglp": {
+        "riskAccountingRedFlags": {
+          "status": "NO_RED_FLAG_DETECTED",
+          "observation": "No forensic accounting red flags detected in indexed filings",
+          "evidenceCount": 2
+        },
+        "longevitySolvency": {
+          "status": "DATA_INSUFFICIENT",
+          "observation": "Leverage interpretation withheld pending verified business model classification",
+          "evidenceCount": 0
+        },
+        "workingCapital": {
+          "status": "DATA_INSUFFICIENT"
+        }
+      },
+      "auditChecks": {
+        "valuationCoveragePass": true,
+        "qglpRiskEvidencePass": true,
+        "qglpLeverageEvidencePass": true,
+        "businessModelRoutingPass": true
+      }
+    },
+    "STYL": {
+      "businessModel": "UNKNOWN",
+      "valuation": {
+        "metricsEvaluated": []
+      },
+      "fere": {
+        "status": "WORKING",
+        "evidenceCount": 1
+      },
+      "qglp": {
+        "riskAccountingRedFlags": {
+          "status": "NO_RED_FLAG_DETECTED",
+          "observation": "No forensic accounting red flags detected in indexed filings",
+          "evidenceCount": 1
+        },
+        "longevitySolvency": {
+          "status": "DATA_INSUFFICIENT",
+          "observation": "Leverage interpretation withheld pending verified business model classification",
+          "evidenceCount": 0
+        },
+        "workingCapital": {
+          "status": "DATA_INSUFFICIENT"
+        }
+      },
+      "auditChecks": {
+        "valuationCoveragePass": true,
+        "qglpRiskEvidencePass": true,
+        "qglpLeverageEvidencePass": true,
+        "businessModelRoutingPass": true
+      }
+    },
+    "SUNPHARMA": {
+      "businessModel": "UNKNOWN",
+      "valuation": {
+        "metricsEvaluated": []
+      },
+      "fere": {
+        "status": "WORKING",
+        "evidenceCount": 19
+      },
+      "qglp": {
+        "riskAccountingRedFlags": {
+          "status": "NO_RED_FLAG_DETECTED",
+          "observation": "No forensic accounting red flags detected in indexed filings",
+          "evidenceCount": 2
+        },
+        "longevitySolvency": {
+          "status": "DATA_INSUFFICIENT",
+          "observation": "Leverage interpretation withheld pending verified business model classification",
+          "evidenceCount": 0
+        },
+        "workingCapital": {
+          "status": "DATA_INSUFFICIENT"
+        }
+      },
+      "auditChecks": {
+        "valuationCoveragePass": true,
+        "qglpRiskEvidencePass": true,
+        "qglpLeverageEvidencePass": true,
+        "businessModelRoutingPass": true
+      }
+    },
+    "TATAMOTORS": {
+      "businessModel": "UNKNOWN",
+      "valuation": {
+        "metricsEvaluated": []
+      },
+      "fere": {
+        "status": "DATA_INSUFFICIENT",
+        "evidenceCount": 0
+      },
+      "qglp": {
+        "riskAccountingRedFlags": {
+          "status": "DATA_INSUFFICIENT",
+          "observation": "Forensic risk evidence not available or insufficient for red flag clearance",
+          "evidenceCount": 0
+        },
+        "longevitySolvency": {
+          "status": "DATA_INSUFFICIENT",
+          "observation": "Leverage interpretation withheld pending verified business model classification",
+          "evidenceCount": 0
+        },
+        "workingCapital": {
+          "status": "DATA_INSUFFICIENT"
+        }
+      },
+      "auditChecks": {
+        "valuationCoveragePass": true,
+        "qglpRiskEvidencePass": true,
+        "qglpLeverageEvidencePass": true,
+        "businessModelRoutingPass": true
+      }
+    },
+    "TATASTEEL": {
+      "businessModel": "UNKNOWN",
+      "valuation": {
+        "metricsEvaluated": []
+      },
+      "fere": {
+        "status": "WORKING",
+        "evidenceCount": 1
+      },
+      "qglp": {
+        "riskAccountingRedFlags": {
+          "status": "NO_RED_FLAG_DETECTED",
+          "observation": "No forensic accounting red flags detected in indexed filings",
+          "evidenceCount": 1
+        },
+        "longevitySolvency": {
+          "status": "DATA_INSUFFICIENT",
+          "observation": "Leverage interpretation withheld pending verified business model classification",
+          "evidenceCount": 0
+        },
+        "workingCapital": {
+          "status": "DATA_INSUFFICIENT"
+        }
+      },
+      "auditChecks": {
+        "valuationCoveragePass": true,
+        "qglpRiskEvidencePass": true,
+        "qglpLeverageEvidencePass": true,
+        "businessModelRoutingPass": true
+      }
+    },
+    "TCS": {
+      "businessModel": "UNKNOWN",
+      "valuation": {
+        "metricsEvaluated": []
+      },
+      "fere": {
+        "status": "WORKING",
+        "evidenceCount": 19
+      },
+      "qglp": {
+        "riskAccountingRedFlags": {
+          "status": "NO_RED_FLAG_DETECTED",
+          "observation": "No forensic accounting red flags detected in indexed filings",
+          "evidenceCount": 2
+        },
+        "longevitySolvency": {
+          "status": "DATA_INSUFFICIENT",
+          "observation": "Leverage interpretation withheld pending verified business model classification",
+          "evidenceCount": 0
+        },
+        "workingCapital": {
+          "status": "DATA_INSUFFICIENT"
+        }
+      },
+      "auditChecks": {
+        "valuationCoveragePass": true,
+        "qglpRiskEvidencePass": true,
+        "qglpLeverageEvidencePass": true,
+        "businessModelRoutingPass": true
+      }
+    },
+    "TITAN": {
+      "businessModel": "UNKNOWN",
+      "valuation": {
+        "metricsEvaluated": []
+      },
+      "fere": {
+        "status": "WORKING",
+        "evidenceCount": 19
+      },
+      "qglp": {
+        "riskAccountingRedFlags": {
+          "status": "NO_RED_FLAG_DETECTED",
+          "observation": "No forensic accounting red flags detected in indexed filings",
+          "evidenceCount": 2
+        },
+        "longevitySolvency": {
+          "status": "DATA_INSUFFICIENT",
+          "observation": "Leverage interpretation withheld pending verified business model classification",
+          "evidenceCount": 0
+        },
+        "workingCapital": {
+          "status": "DATA_INSUFFICIENT"
+        }
+      },
+      "auditChecks": {
+        "valuationCoveragePass": true,
+        "qglpRiskEvidencePass": true,
+        "qglpLeverageEvidencePass": true,
+        "businessModelRoutingPass": true
+      }
+    }
+  },
+  "afterProductionDbSha256": "a77bca867eab45e598b8bf01ee4f2214c66704aaf6620500175ae55a91588c69",
+  "zeroProductionWritesVerified": true
+}
