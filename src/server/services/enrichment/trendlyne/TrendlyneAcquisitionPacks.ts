@@ -1,6 +1,17 @@
 import { TrendlyneMetricDefinition } from './TrendlyneContracts.js';
 import { TrendlyneMetricCatalog } from './TrendlyneMetricCatalog.js';
 
+export type AcquisitionPackStatus = 'CANDIDATE_NOT_FINAL' | 'FINAL_EXPLICIT_PROVIDER_TOKENS';
+
+export interface TrendlynePackValidation {
+  status: AcquisitionPackStatus;
+  packName: string;
+  metricCount: number;
+  maxMetricCount: number;
+  duplicateTokens: string[];
+  note: string;
+}
+
 export class TrendlyneAcquisitionPacks {
   public static validatePackSize(pack: TrendlyneMetricDefinition[], packName: string): void {
     if (pack.length > 50) {
@@ -8,9 +19,23 @@ export class TrendlyneAcquisitionPacks {
     }
   }
 
+  public static describePack(pack: TrendlyneMetricDefinition[], packName: string): TrendlynePackValidation {
+    const tokens = pack.map((m: any) => String(m.providerMetricId || m.token || m.id || m.canonicalMetric || 'UNKNOWN'));
+    const duplicates = tokens.filter((t, i) => tokens.indexOf(t) !== i);
+
+    return {
+      status: 'CANDIDATE_NOT_FINAL',
+      packName,
+      metricCount: pack.length,
+      maxMetricCount: 50,
+      duplicateTokens: [...new Set(duplicates)],
+      note: 'Catalog-derived candidate pack. Final acquisition must use explicit verified provider-token packs from run_trendlyne_mcp_enrichment.ts.',
+    };
+  }
+
   /**
-   * Pack 1: Snapshot / Valuation / Ownership / Governance
-   * Fetches latest state, valuation ratios, and ownership details.
+   * Candidate Pack 1: Snapshot / Valuation / Ownership / Governance
+   * Not final deterministic acquisition pack. Fetches latest state, valuation ratios, and ownership details.
    */
   public static getPack1Metrics(catalog: TrendlyneMetricCatalog): TrendlyneMetricDefinition[] {
     const requiredCanonical = [
@@ -30,8 +55,8 @@ export class TrendlyneAcquisitionPacks {
   }
 
   /**
-   * Pack 2: Dated Statement History
-   * Fetches trailing history for financial statements.
+   * Candidate Pack 2: Dated Statement History
+   * Not final deterministic acquisition pack. Fetches trailing history for financial statements.
    */
   public static getPack2Metrics(catalog: TrendlyneMetricCatalog): TrendlyneMetricDefinition[] {
     const requiredCanonical = [
@@ -56,8 +81,8 @@ export class TrendlyneAcquisitionPacks {
   }
 
   /**
-   * Pack 3: Qualitative / Events / Documents
-   * Fetches qualitative data endpoints.
+   * Candidate Pack 3: Qualitative / Events / Documents
+   * Not final deterministic acquisition pack. Fetches qualitative data endpoints.
    */
   public static getPack3Endpoints(): string[] {
     return [

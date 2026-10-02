@@ -336,8 +336,7 @@ export class WealthOSProductionAdapter {
   // ── 8. Technical Strategies (S1–S10) ──────────────────────────────────────────
   static async evaluateStrategies(symbol: string, strategies?: string[]) {
     try {
-      const ohlcvResp = await this.getAdjustedOhlcv(symbol, 600);
-      const candles = ohlcvResp.data || [];
+
       const engine = PureTechnicalStrategiesEngine.getInstance();
       const onDemandResult = await engine.evaluateScripOnDemand(symbol);
       
@@ -349,11 +348,11 @@ export class WealthOSProductionAdapter {
         return {
           strategyId: stratId,
           matched: resultObj.qualified || false,
-          score: typeof resultObj.score === 'number' ? resultObj.score : null,
-          entryPrice: resultObj.entryPrice || resultObj.cmp || null,
-          stopLoss: resultObj.stopLoss || null,
-          targetPrice: resultObj.target1 || resultObj.targetPrice || null,
-          explanation: resultObj.explanation || 'No setup pattern identified on bar close'
+          score: resultObj.score ?? null,
+          entryPrice: resultObj.entryPrice ?? resultObj.cmp ?? null,
+          stopLoss: resultObj.stopLoss ?? null,
+          targetPrice: resultObj.target1 ?? resultObj.targetPrice ?? null,
+          explanation: resultObj.explanation ?? 'DATA_INSUFFICIENT_OR_NO_PATTERN'
         };
       };
       
@@ -375,7 +374,7 @@ export class WealthOSProductionAdapter {
       
       return {
         symbol: symbol.toUpperCase(),
-        candlesAnalyzed: candles.length,
+        candlesAnalyzed: Array.isArray((onDemandResult as any)?.candles) ? (onDemandResult as any).candles.length : null,
         evaluatedStrategies: availableStrategies.length,
         results
       };

@@ -32,15 +32,17 @@ export interface SecurityDossier {
   marketCapCategory: 'SMALL_CAP' | 'MID_CAP' | 'LARGE_CAP' | 'UNAVAILABLE';
   generatedAt: string;
   isHeld: boolean;
-  isComplete?: boolean;
-  missingData?: string[];
-  qglpScore?: any;
-  evidenceState?: 'COMPLETE' | 'PARTIAL' | 'INSUFFICIENT';
   missingCriticalInputs?: string[];
-  sourceCoverage?: string[];
-  keyStrengths?: string[];
-  keyRisks?: string[];
-  watchNext?: string[];
+  sourceCoverage?: any;
+  qglp?: any;
+  fundamentalAnalysis?: any;
+  qualitativeSignals?: any;
+  keyStrengths?: any[];
+  keyRisks?: any[];
+  watchNext?: any[];
+  fundamentalDecisionStatus?: string;
+  technicalDecisionStatus?: string;
+  combinedDecisionStatus?: string;
   holdingContext?: {
     quantity: number;
     averagePrice: number;
@@ -772,7 +774,7 @@ function detectSectorCategory(sectorStr: string, industryStr: string, companyNam
       { criterion: 'Debt-to-Equity < 0.5 (Clean Balance Sheet)', passed: rawDebtToEquity < 0.5, metricValue: `${rawDebtToEquity}x` },
       { criterion: 'Piotroski F-Score ≥ 6 (Quality Operations)', passed: piotroskiScore >= 6, metricValue: `${piotroskiScore}/9` },
       { criterion: 'Altman Z-Score in Safe Zone (> 1.8)', passed: altmanZScore !== null && altmanZScore >= 1.8, metricValue: altmanZScore !== null ? `${altmanZScore}` : 'N/A' },
-      { criterion: 'Positive Price Momentum vs Nifty 500', passed: rsi14 >= 50, metricValue: `RSI ${rsi14.toFixed(1)}` },
+      { criterion: 'Positive Price Momentum vs Nifty 500', passed: rsi14 !== null && rsi14 >= 50, metricValue: rsi14 !== null ? `RSI ${rsi14.toFixed(1)}` : 'N/A' },
       { 
         criterion: 'Institutional Footprint (FII/DII Stake)', 
         passed: (rawFiiPct + rawDiiPct) >= 12, 
@@ -780,8 +782,8 @@ function detectSectorCategory(sectorStr: string, industryStr: string, companyNam
       },
       { 
         criterion: 'Clean Governance (Low Promoter Pledge)', 
-        passed: promoterPledgePct < 5, 
-        metricValue: promoterPledgePct === 0 ? 'Zero Pledge' : `Pledge ${promoterPledgePct.toFixed(1)}%` 
+        passed: promoterPledgePct !== null && promoterPledgePct < 5, 
+        metricValue: promoterPledgePct === null ? 'N/A' : (promoterPledgePct === 0 ? 'Zero Pledge' : `Pledge ${promoterPledgePct.toFixed(1)}%`) 
       }
     ];
     const mbPassedCount = mbChecks.filter(c => c.passed).length;
@@ -828,10 +830,17 @@ function detectSectorCategory(sectorStr: string, industryStr: string, companyNam
     let expectedUpsidePctResult: number | null = Number((((targetPriceResult - cmp) / cmp) * 100).toFixed(1));
     let riskRewardResult: number | null = Number((expectedUpsidePctResult / 7.0).toFixed(1));
 
-    // Wire the guard: If critical data is missing, fail closed and block decision.
-    if (!trendlyneReport || !screenerData || fundamentalDossier?.qglpScore?.overallRating === 'INSUFFICIENT_DATA') {
+    let fundamentalDecisionStatus: 'AVAILABLE' | 'DATA_INSUFFICIENT' = fundamentalDossier?.qglpScore?.overallRating === 'INSUFFICIENT_DATA' ? 'DATA_INSUFFICIENT' : 'AVAILABLE';
+    let technicalDecisionStatus: 'AVAILABLE' | 'DATA_INSUFFICIENT' = (!screenerData || compositeScore === 0) ? 'DATA_INSUFFICIENT' : 'AVAILABLE';
+    let combinedDecisionStatus: 'AVAILABLE' | 'BLOCKED' = 'AVAILABLE';
+
+    let halfKellyAllocationPctResult: number | null = calibratedProbResult === null ? null : Number(Math.min(8.5, Math.max(2.5, (calibratedProbResult - 50) * 0.2)).toFixed(1));
+    let suggestedInvestmentAmountResult: number | null = calibratedProbResult === null ? null : 50000;
+
+    if (fundamentalDecisionStatus === 'DATA_INSUFFICIENT') {
+      combinedDecisionStatus = 'BLOCKED';
       verdict = null;
-      verdictDesc = 'Critical evidence is unavailable; no investment decision was computed.';
+      verdictDesc = 'Combined fundamental+technical decision blocked because QGLP/fundamental evidence is incomplete.';
       compositeScoreResult = null;
       calibratedProbResult = null;
       probLowerResult = null;
@@ -840,6 +849,8 @@ function detectSectorCategory(sectorStr: string, industryStr: string, companyNam
       stopLossPriceResult = null;
       expectedUpsidePctResult = null;
       riskRewardResult = null;
+      halfKellyAllocationPctResult = null;
+      suggestedInvestmentAmountResult = null;
     } else if (calibratedProb >= 82 && mbPassedCount >= 6) {
       verdict = 'STRONG_BUY';
       verdictDesc = 'High-conviction alignment across fundamentals, technical momentum, and smart money flows.';
@@ -983,15 +994,17 @@ function detectSectorCategory(sectorStr: string, industryStr: string, companyNam
       generatedAt: new Date().toISOString(),
       isHeld,
       holdingContext,
-      isComplete: fundamentalDossier?.isComplete,
-      missingData: fundamentalDossier?.missingData,
-      qglpScore: fundamentalDossier?.qglpScore,
-      evidenceState: fundamentalDossier?.qglpScore?.overallRating === 'INSUFFICIENT_DATA' ? 'PARTIAL' : 'COMPLETE',
       missingCriticalInputs: fundamentalDossier?.qglpScore?.missingCriticalInputs || [],
       sourceCoverage: fundamentalDossier?.qglpScore?.sourceCoverage,
+      qglp: fundamentalDossier?.qglpScore,
+      fundamentalAnalysis: fundamentalDossier?.analysis,
+      qualitativeSignals: fundamentalDossier?.analysis?.sections?.qualitative?.evidence || [],
       keyStrengths: fundamentalDossier?.qglpScore?.keyStrengths || [],
       keyRisks: fundamentalDossier?.qglpScore?.keyRisks || [],
       watchNext: fundamentalDossier?.qglpScore?.whatToWatchNext || [],
+      fundamentalDecisionStatus,
+      technicalDecisionStatus,
+      combinedDecisionStatus,
       outlook: {
         verdict,
         verdictDescription: verdictDesc,
@@ -1003,8 +1016,8 @@ function detectSectorCategory(sectorStr: string, industryStr: string, companyNam
         stopLossPrice: stopLossPriceResult,
         horizonDays: calibratedProbResult === null ? null : 90,
         riskRewardRatio: riskRewardResult,
-        halfKellyAllocationPct: calibratedProbResult === null ? null : Number(Math.min(8.5, Math.max(2.5, (calibratedProbResult - 50) * 0.2)).toFixed(1)),
-        suggestedInvestmentAmount: calibratedProbResult === null ? null : 50000
+        halfKellyAllocationPct: halfKellyAllocationPctResult,
+        suggestedInvestmentAmount: suggestedInvestmentAmountResult
       },
       catalysts: {
         bullCase,

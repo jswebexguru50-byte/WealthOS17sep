@@ -1,60 +1,51 @@
 import { CanonicalFactRepository } from '../core/CanonicalFactRepository.js';
 import { SecurityIdentity } from '../contracts/SecurityIdentity.js';
 import { CanonicalFact } from '../contracts/CanonicalFact.js';
+import { QualitativeEvidenceExtractor } from '../qualitative/QualitativeEvidenceExtractor.js';
+import { QualitativeSignalClassifier, QualitativeSignal } from '../qualitative/QualitativeSignalClassifier.js';
+import { QglpScoringRules } from './QglpScoringRules.js';
 
-export interface EvidenceDriver {
+export type EvidenceDriver = {
   metric: string;
-  value: number | string | null;
+  value: number | string | boolean | null;
   description: string;
-}
-
-export interface SourceCoverageSummary {
-  ferePct: number;
-  trendlynePct: number;
-  appDbPct: number;
-}
-
-export type QglpQuality = {
-  score: number | null;
-  rating: 'EXCELLENT' | 'GOOD' | 'MIXED' | 'WEAK' | 'INSUFFICIENT_DATA';
-  quantitativeDrivers: EvidenceDriver[];
-  qualitativeDrivers: EvidenceDriver[];
-  concerns: EvidenceDriver[];
-  missingInputs: string[];
+  status: 'SUPPORTIVE' | 'NEGATIVE' | 'MIXED' | 'MISSING';
+  sourceFactId?: string | null;
+  sourceEventId?: string | null;
+  sourceDocumentId?: string | null;
+  provider?: string | null;
+  evidenceDate?: string | null;
 };
 
-export type QglpGrowth = {
+export type QglpPillar = {
   score: number | null;
-  rating: 'HIGH_GROWTH' | 'STEADY_GROWTH' | 'CYCLICAL' | 'DECLINING' | 'INSUFFICIENT_DATA';
-  drivers: EvidenceDriver[];
+  maxScore: number;
+  rating: string;
+  quantitativeDrivers: EvidenceDriver[];
+  qualitativeDrivers: EvidenceDriver[];
   risks: EvidenceDriver[];
   missingInputs: string[];
 };
 
-export type QglpLongevity = {
-  score: number | null;
-  rating: 'DURABLE' | 'MODERATE' | 'CYCLICAL' | 'FRAGILE' | 'INSUFFICIENT_DATA';
-  moatEvidence: EvidenceDriver[];
-  fragilityEvidence: EvidenceDriver[];
-  missingInputs: string[];
-};
-
-export type QglpPrice = {
-  score: number | null;
-  rating: 'ATTRACTIVE' | 'FAIR' | 'EXPENSIVE' | 'AVOID_ON_VALUATION' | 'INSUFFICIENT_DATA';
-  valuationEvidence: EvidenceDriver[];
-  peerContext: EvidenceDriver[];
-  missingInputs: string[];
+export type SourceCoverageSummary = {
+  status: 'AVAILABLE' | 'PARTIAL' | 'NOT_COMPUTED';
+  fereFactsUsed: number;
+  trendlyneFactsUsed: number;
+  appDbFactsUsed: number;
+  qualitativeEventsUsed: number;
+  documentsUsed: number;
+  totalEvidenceItemsUsed: number;
+  missingEvidenceTypes: string[];
 };
 
 export type QglpAssessment = {
   symbol: string;
   asOf: string;
 
-  quality: QglpQuality;
-  growth: QglpGrowth;
-  longevity: QglpLongevity;
-  price: QglpPrice;
+  quality: QglpPillar;
+  growth: QglpPillar;
+  longevity: QglpPillar;
+  price: QglpPillar;
 
   overallScore: number | null;
   overallRating:
@@ -82,9 +73,17 @@ export type QglpAssessment = {
 export class QglpEngine {
   private static instance: QglpEngine;
   private factRepo: CanonicalFactRepository;
+  private qualExtractor: QualitativeEvidenceExtractor;
+  private qualClassifier: QualitativeSignalClassifier;
 
-  private constructor(factRepo = CanonicalFactRepository.getInstance()) {
+  private constructor(
+    factRepo = CanonicalFactRepository.getInstance(),
+    qualExtractor = QualitativeEvidenceExtractor.getInstance(),
+    qualClassifier = new QualitativeSignalClassifier()
+  ) {
     this.factRepo = factRepo;
+    this.qualExtractor = qualExtractor;
+    this.qualClassifier = qualClassifier;
   }
 
   public static getInstance(): QglpEngine {
@@ -92,14 +91,6 @@ export class QglpEngine {
       QglpEngine.instance = new QglpEngine();
     }
     return QglpEngine.instance;
-  }
-  
-  private numberValue(fact: CanonicalFact | undefined | null): number | null {
-    if (!fact) return null;
-    if (typeof fact.value === 'number' && Number.isFinite(fact.value)) {
-      return fact.value;
-    }
-    return null;
   }
 
   private getFact(facts: Record<string, CanonicalFact>, aliases: string[]): CanonicalFact | undefined {
@@ -111,196 +102,115 @@ export class QglpEngine {
 
   public async evaluate(identity: SecurityIdentity, asOfDate?: string): Promise<QglpAssessment> {
     const latestFacts = await this.factRepo.getLatestFactsByMetric(identity, asOfDate);
-    const missingCriticalInputs: string[] = [];
-    const strengths: EvidenceDriver[] = [];
-    const risks: EvidenceDriver[] = [];
-    const watchNext: EvidenceDriver[] = [];
+    const qualBundle = await this.qualExtractor.extract(identity, asOfDate);
 
-    // QUALITY
-    const quality: QglpQuality = {
-      score: null, rating: 'INSUFFICIENT_DATA', quantitativeDrivers: [], qualitativeDrivers: [], concerns: [], missingInputs: []
-    };
-    const roe = this.numberValue(this.getFact(latestFacts, ['roe', 'roe_reported', 'roe_pct']));
-    const deFact = this.getFact(latestFacts, ['debt_to_equity', 'debt_to_equity_reported']);
-    const de = this.numberValue(deFact);
-    const cfo_pat = this.numberValue(this.getFact(latestFacts, ['cfo_pat_ratio']));
-    
-    let qPoints = 0;
-    if (roe !== null) {
-      quality.quantitativeDrivers.push({ metric: 'roe', value: roe, description: 'Return on Equity' });
-      if (roe > 20) qPoints += 10;
-      else if (roe > 15) qPoints += 7;
-      else if (roe > 10) qPoints += 4;
-    } else {
-      quality.missingInputs.push('roe');
+    const governanceSignals: QualitativeSignal[] = [];
+    for (const ev of qualBundle.governanceEvents) {
+      const sig = this.qualClassifier.classify(ev);
+      if (sig) governanceSignals.push(sig);
+    }
+    for (const ev of qualBundle.insiderDealEvents) {
+      const sig = this.qualClassifier.classify(ev);
+      if (sig) governanceSignals.push(sig);
     }
 
-    if (de !== null) {
-      quality.quantitativeDrivers.push({ metric: 'debt_to_equity', value: de, description: 'Debt to Equity' });
-      if (de < 0.2) qPoints += 10;
-      else if (de < 0.5) qPoints += 7;
-      else if (de < 1.0) qPoints += 4;
-      else quality.concerns.push({ metric: 'debt_to_equity', value: de, description: 'High debt to equity ratio' });
-    } else {
-      quality.missingInputs.push('debt_to_equity');
+    const sectorSignals: QualitativeSignal[] = [];
+    if (qualBundle.sectorContext) {
+      const sig = this.qualClassifier.classify(qualBundle.sectorContext);
+      if (sig) sectorSignals.push(sig);
     }
 
-    if (cfo_pat !== null) {
-      quality.quantitativeDrivers.push({ metric: 'cfo_pat_ratio', value: cfo_pat, description: 'Cash Flow to PAT' });
-      if (cfo_pat > 1.0) qPoints += 10;
-      else if (cfo_pat > 0.8) qPoints += 7;
-      else if (cfo_pat > 0.5) qPoints += 4;
-    } else {
-      quality.missingInputs.push('cfo_pat_ratio');
+    const bizDescSignals: QualitativeSignal[] = [];
+    if (qualBundle.businessDescription) {
+      const sig = this.qualClassifier.classify(qualBundle.businessDescription);
+      if (sig) bizDescSignals.push(sig);
     }
 
-    if (roe !== null && de !== null && cfo_pat !== null) {
-      quality.score = qPoints;
-      if (qPoints >= 25) quality.rating = 'EXCELLENT';
-      else if (qPoints >= 18) quality.rating = 'GOOD';
-      else if (qPoints >= 10) quality.rating = 'MIXED';
-      else quality.rating = 'WEAK';
+    const mgtSignals: QualitativeSignal[] = [];
+    for (const ev of qualBundle.managementEvents) {
+      const sig = this.qualClassifier.classify(ev);
+      if (sig) mgtSignals.push(sig);
     }
 
-    // GROWTH
-    const growth: QglpGrowth = {
-      score: null, rating: 'INSUFFICIENT_DATA', drivers: [], risks: [], missingInputs: []
-    };
+    const debtSignals: QualitativeSignal[] = [];
+    for (const ev of qualBundle.creditDebtEvents) {
+      const sig = this.qualClassifier.classify(ev);
+      if (sig) debtSignals.push(sig);
+    }
+
+    const pledgeFact = this.getFact(latestFacts, ['promoter_pledge', 'promoter_pledge_pct']);
+    const pledgeSignals: QualitativeSignal[] = [];
+    if (pledgeFact && typeof pledgeFact.value === 'number') {
+      pledgeSignals.push(this.qualClassifier.classifyPromoterPledge(pledgeFact.value, {
+        id: pledgeFact.factId,
+        category: 'GOVERNANCE_EVENT',
+        text: `Promoter pledge is ${pledgeFact.value}%`,
+        eventDate: pledgeFact.periodEnd || pledgeFact.publishedAt || null,
+        provider: pledgeFact.sourceId || 'UNKNOWN',
+        sourceDocumentId: pledgeFact.sourceId || null
+      }));
+    }
+
+    // Build Pillars
+    const quality = QglpScoringRules.calculateQuality(
+      this.getFact(latestFacts, ['roe', 'roe_reported', 'roe_pct']),
+      this.getFact(latestFacts, ['cfo_pat_ratio']),
+      this.getFact(latestFacts, ['debt_to_equity', 'debt_to_equity_reported']),
+      this.getFact(latestFacts, ['fcf_pat_ratio', 'fcf_margin']),
+      governanceSignals
+    );
+
     const revHistory = await this.factRepo.getHistoricalSeries(identity, 'revenue', asOfDate);
     const patHistory = await this.factRepo.getHistoricalSeries(identity, 'pat', asOfDate);
-    
-    let gPoints = 0;
+
+    let revGrFact: CanonicalFact | undefined;
     if (revHistory.length >= 2) {
-      const latest = this.numberValue(revHistory[revHistory.length - 1]);
-      const prev = this.numberValue(revHistory[revHistory.length - 2]);
-      if (latest !== null && prev !== null && prev > 0) {
-        const gr = ((latest - prev) / prev) * 100;
-        growth.drivers.push({ metric: 'revenue_growth', value: gr, description: 'Revenue Growth' });
-        if (gr > 15) gPoints += 10;
-        else if (gr > 10) gPoints += 7;
-        else if (gr > 5) gPoints += 4;
-        else if (gr < 0) growth.risks.push({ metric: 'revenue_growth', value: gr, description: 'Negative revenue growth' });
+      const latest = revHistory[revHistory.length - 1];
+      const prev = revHistory[revHistory.length - 2];
+      if (typeof latest.value === 'number' && typeof prev.value === 'number' && prev.value > 0) {
+        revGrFact = { ...latest, value: ((latest.value - prev.value) / prev.value) * 100 };
       }
-    } else {
-      growth.missingInputs.push('revenue_history');
     }
 
+    let patGrFact: CanonicalFact | undefined;
     if (patHistory.length >= 2) {
-      const latest = this.numberValue(patHistory[patHistory.length - 1]);
-      const prev = this.numberValue(patHistory[patHistory.length - 2]);
-      if (latest !== null && prev !== null && prev > 0) {
-        const gr = ((latest - prev) / prev) * 100;
-        growth.drivers.push({ metric: 'pat_growth', value: gr, description: 'PAT Growth' });
-        if (gr > 20) gPoints += 20;
-        else if (gr > 15) gPoints += 15;
-        else if (gr > 10) gPoints += 10;
-        else if (gr > 5) gPoints += 5;
-        else if (gr < 0) growth.risks.push({ metric: 'pat_growth', value: gr, description: 'Negative PAT growth' });
+      const latest = patHistory[patHistory.length - 1];
+      const prev = patHistory[patHistory.length - 2];
+      if (typeof latest.value === 'number' && typeof prev.value === 'number' && prev.value > 0) {
+        patGrFact = { ...latest, value: ((latest.value - prev.value) / prev.value) * 100 };
       }
-    } else {
-      growth.missingInputs.push('pat_history');
     }
 
-    if (revHistory.length >= 2 && patHistory.length >= 2) {
-      growth.score = gPoints;
-      if (gPoints >= 25) growth.rating = 'HIGH_GROWTH';
-      else if (gPoints >= 15) growth.rating = 'STEADY_GROWTH';
-      else if (gPoints > 0) growth.rating = 'CYCLICAL';
-      else growth.rating = 'DECLINING';
-    }
+    const growth = QglpScoringRules.calculateGrowth(
+      revGrFact,
+      patGrFact,
+      this.getFact(latestFacts, ['margin_expansion']),
+      sectorSignals,
+      this.getFact(latestFacts, ['capex'])
+    );
 
-    // LONGEVITY
-    const longevity: QglpLongevity = {
-      score: null, rating: 'INSUFFICIENT_DATA', moatEvidence: [], fragilityEvidence: [], missingInputs: []
-    };
-    let lPoints = 0;
-    const pledgeFact = this.getFact(latestFacts, ['promoter_pledge', 'promoter_pledge_pct']);
-    const pledge = this.numberValue(pledgeFact);
-    
-    if (pledge !== null) {
-      longevity.moatEvidence.push({ metric: 'promoter_pledge', value: pledge, description: 'Promoter Pledge' });
-      if (pledge === 0) lPoints += 5;
-      else if (pledge < 5) lPoints += 3;
-      else if (pledge < 15) lPoints += 1;
-      else longevity.fragilityEvidence.push({ metric: 'promoter_pledge', value: pledge, description: 'High promoter pledge' });
-    } else {
-      longevity.missingInputs.push('promoter_pledge');
-    }
-    
-    const mgtChanges = this.getFact(latestFacts, ['management_changes']);
-    const creditDebt = this.getFact(latestFacts, ['credit_debt_events']);
-    const bizDesc = this.getFact(latestFacts, ['business_description']);
+    const longevity = QglpScoringRules.calculateLongevity(
+      [], 
+      bizDescSignals,
+      mgtSignals,
+      debtSignals,
+      pledgeSignals
+    );
 
-    if (mgtChanges && typeof mgtChanges.value === 'string' && mgtChanges.value.trim() !== '') {
-      longevity.fragilityEvidence.push({ metric: 'management_changes', value: mgtChanges.value, description: 'Management Changes' });
-    } else if (!mgtChanges) {
-      longevity.missingInputs.push('management_changes');
-    }
+    const price = QglpScoringRules.calculatePrice(
+      this.getFact(latestFacts, ['pe', 'pe_ratio', 'pe_ttm']),
+      this.getFact(latestFacts, ['peg', 'peg_ratio']),
+      this.getFact(latestFacts, ['pb', 'pb_ratio']),
+      this.getFact(latestFacts, ['fcf_yield']),
+      (latestFacts['market_cap_category']?.value as string) || undefined
+    );
 
-    if (creditDebt && typeof creditDebt.value === 'string' && creditDebt.value.trim() !== '') {
-      longevity.fragilityEvidence.push({ metric: 'credit_debt_events', value: creditDebt.value, description: 'Credit/Debt Events' });
-    } else if (!creditDebt) {
-      longevity.missingInputs.push('credit_debt_events');
-    }
-
-    if (bizDesc && typeof bizDesc.value === 'string' && bizDesc.value.trim() !== '') {
-      longevity.moatEvidence.push({ metric: 'business_description', value: bizDesc.value, description: 'Business Description' });
-    } else if (!bizDesc) {
-      longevity.missingInputs.push('business_description');
-    }
-
-    if (pledge !== null) {
-       if (longevity.missingInputs.includes('management_changes') || longevity.missingInputs.includes('credit_debt_events') || longevity.missingInputs.includes('business_description')) {
-         longevity.rating = 'INSUFFICIENT_DATA';
-         longevity.score = null;
-       } else {
-         // Qualitative scoring requires proper semantic review; leaving score null if missing qualitative rules
-         longevity.score = lPoints; 
-         if (longevity.score >= 18) longevity.rating = 'DURABLE';
-         else if (longevity.score >= 12) longevity.rating = 'MODERATE';
-         else if (longevity.score >= 5) longevity.rating = 'CYCLICAL';
-         else longevity.rating = 'FRAGILE';
-       }
-    }
-
-    // PRICE
-    const price: QglpPrice = {
-      score: null, rating: 'INSUFFICIENT_DATA', valuationEvidence: [], peerContext: [], missingInputs: []
-    };
-    let pPoints = 0;
-    const peFact = this.getFact(latestFacts, ['pe', 'pe_ratio', 'pe_ttm']);
-    const pe = this.numberValue(peFact);
-    const pegFact = this.getFact(latestFacts, ['peg', 'peg_ratio']);
-    const peg = this.numberValue(pegFact);
-
-    if (pe !== null) {
-      price.valuationEvidence.push({ metric: 'pe', value: pe, description: 'P/E Ratio' });
-      if (pe > 0 && pe < 15) pPoints += 10;
-      else if (pe >= 15 && pe < 25) pPoints += 7;
-      else if (pe >= 25 && pe < 40) pPoints += 4;
-    } else {
-      price.missingInputs.push('pe');
-    }
-
-    if (peg !== null) {
-      price.valuationEvidence.push({ metric: 'peg', value: peg, description: 'PEG Ratio' });
-      if (peg > 0 && peg < 1) pPoints += 10;
-      else if (peg >= 1 && peg < 1.5) pPoints += 7;
-      else if (peg >= 1.5 && peg < 2.5) pPoints += 4;
-    } else {
-      price.missingInputs.push('peg');
-    }
-
-    if (pe !== null && peg !== null) {
-      price.score = pPoints;
-      if (pPoints >= 18) price.rating = 'ATTRACTIVE';
-      else if (pPoints >= 10) price.rating = 'FAIR';
-      else if (pPoints >= 4) price.rating = 'EXPENSIVE';
-      else price.rating = 'AVOID_ON_VALUATION';
-    }
-
-    // OVERALL
-    missingCriticalInputs.push(...quality.missingInputs, ...growth.missingInputs, ...longevity.missingInputs, ...price.missingInputs);
+    const missingCriticalInputs = [
+      ...quality.missingInputs,
+      ...growth.missingInputs,
+      ...longevity.missingInputs,
+      ...price.missingInputs
+    ];
 
     let overallScore: number | null = null;
     let overallRating: QglpAssessment['overallRating'] = 'INSUFFICIENT_DATA';
@@ -326,6 +236,43 @@ export class QglpEngine {
         decisionUse = 'INSUFFICIENT_DATA';
     }
 
+    const allDrivers = [
+      ...quality.quantitativeDrivers, ...quality.qualitativeDrivers, ...quality.risks,
+      ...growth.quantitativeDrivers, ...growth.qualitativeDrivers, ...growth.risks,
+      ...longevity.quantitativeDrivers, ...longevity.qualitativeDrivers, ...longevity.risks,
+      ...price.quantitativeDrivers, ...price.qualitativeDrivers, ...price.risks
+    ];
+
+    const keyStrengths = allDrivers.filter(d => d.status === 'SUPPORTIVE');
+    const keyRisks = allDrivers.filter(d => d.status === 'NEGATIVE');
+    const whatToWatchNext = allDrivers.filter(d => d.status === 'MIXED');
+
+    const usedDrivers = allDrivers.filter(d => d.status !== 'MISSING');
+    let fereFactsUsed = 0;
+    let trendlyneFactsUsed = 0;
+    let appDbFactsUsed = 0;
+    let qualitativeEventsUsed = 0;
+    let documentsUsed = qualBundle.documentEvidence.length;
+
+    for (const d of usedDrivers) {
+      const p = String(d.provider || '').toUpperCase();
+      if (p.includes('FERE')) fereFactsUsed++;
+      else if (p.includes('TRENDLYNE')) trendlyneFactsUsed++;
+      else if (p.includes('APP_DB')) appDbFactsUsed++;
+      if (d.sourceEventId) qualitativeEventsUsed++;
+    }
+
+    const sourceCoverage: SourceCoverageSummary = {
+      status: usedDrivers.length >= 6 ? 'AVAILABLE' : (usedDrivers.length > 0 ? 'PARTIAL' : 'NOT_COMPUTED'),
+      fereFactsUsed,
+      trendlyneFactsUsed,
+      appDbFactsUsed,
+      qualitativeEventsUsed,
+      documentsUsed,
+      totalEvidenceItemsUsed: usedDrivers.length,
+      missingEvidenceTypes: missingCriticalInputs,
+    };
+
     return {
       symbol: identity.nseSymbol || identity.securityId,
       asOf: asOfDate || new Date().toISOString(),
@@ -336,15 +283,11 @@ export class QglpEngine {
       overallScore,
       overallRating,
       decisionUse,
-      keyStrengths: strengths,
-      keyRisks: risks,
-      whatToWatchNext: watchNext,
+      keyStrengths,
+      keyRisks,
+      whatToWatchNext,
       missingCriticalInputs,
-      sourceCoverage: {
-        ferePct: 0,
-        trendlynePct: 0,
-        appDbPct: 0,
-      }
+      sourceCoverage
     };
   }
 }

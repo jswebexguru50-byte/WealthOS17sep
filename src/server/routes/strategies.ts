@@ -902,9 +902,33 @@ router.get('/seven-strategies-candidates', async (req, res) => {
     const force = req.query.refresh === 'true';
     const service = SevenStrategiesCandidatesService.getInstance();
     const payload = await service.getCandidatesPayload(force);
-    const candidates = Object.values(payload.strategies)
+    let candidates = Object.values(payload.strategies)
       .flatMap(strategy => strategy.candidates);
-    res.json({ ...payload, candidates });
+    
+    const filtersApplied: any = {};
+    const unsupportedFilters: string[] = [];
+
+    if (req.query.sector) {
+      const s = String(req.query.sector).toUpperCase();
+      candidates = candidates.filter(c => c.sector?.toUpperCase() === s);
+      filtersApplied.sector = s;
+    }
+    if (req.query.marketCapCategory) {
+      const mc = String(req.query.marketCapCategory).toUpperCase();
+      candidates = candidates.filter(c => c.marketCapCategory === mc);
+      filtersApplied.marketCapCategory = mc;
+    }
+    if (req.query.strategies) {
+      const st = String(req.query.strategies).split(',').map(x => x.trim().toUpperCase());
+      candidates = candidates.filter(c => st.includes(c.strategyId));
+      filtersApplied.strategies = st;
+    }
+
+    ['days', 'from', 'to', 'qglpStatus', 'minMissingCriticalDataCount', 'maxMissingCriticalDataCount', 'doubleMomentum', 'limit'].forEach(k => {
+      if (req.query[k] !== undefined) unsupportedFilters.push(k);
+    });
+
+    res.json({ ...payload, candidates, filtersApplied, unsupportedFilters });
   } catch (err: any) {
     console.error('[SevenStrategiesEndpoint] Error:', err);
     res.status(500).json({ success: false, error: err.message });

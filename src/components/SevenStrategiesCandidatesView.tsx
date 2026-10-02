@@ -75,8 +75,24 @@ interface CandidateResult {
     fwd10b?: number | null;
     fwd20b?: number | null;
   };
-  fereStatus: 'VERIFIED_PARTIAL' | 'DATA_INSUFFICIENT' | 'NO_CARD';
+  fereStatus: string | null;
   hasFereEvidence: boolean;
+  
+  // IDs
+  candidateId?: string;
+  candidateIdStatus?: string;
+  lifecycleStatus?: string;
+  signalId?: string;
+  signalIdStatus?: string;
+  signalFingerprintSource?: string;
+
+
+  // Enriched fields
+  sector?: string | null;
+  industry?: string | null;
+  marketCapCategory?: string | null;
+  qglpStatus?: string | null;
+  missingCriticalDataCount?: number;
 }
 
 interface ConvergenceStock {
@@ -93,8 +109,21 @@ interface ConvergenceStock {
   distinctStrategies?: string[];
   latestDate: string;
   cmp: number;
-  fereStatus: 'VERIFIED_PARTIAL' | 'DATA_INSUFFICIENT' | 'NO_CARD';
+  fereStatus: string | null;
   candidates: CandidateResult[];
+  
+  // IDs
+  candidateId?: string;
+  candidateIdStatus?: string;
+  signalIds?: string[];
+  lifecycleStatus?: string;
+
+  // Enriched fields
+  sector?: string | null;
+  industry?: string | null;
+  marketCapCategory?: string | null;
+  qglpStatus?: string | null;
+  missingCriticalDataCount?: number;
 }
 
 interface ScanData {
@@ -626,6 +655,11 @@ export const SevenStrategiesCandidatesView: React.FC<SevenStrategiesCandidatesVi
                         <div className="text-xs font-mono text-slate-400 mt-0.5">
                           Signal CMP: <span className="font-bold text-white">₹{item.cmp.toFixed(2)}</span>
                         </div>
+                        {item.candidateId && (
+                          <div className="text-[9px] font-mono text-slate-500 mt-0.5" title="Stable Deterministic Candidate ID">
+                            ID: <span className="text-slate-400 cursor-copy" onClick={() => navigator.clipboard.writeText(item.candidateId!)}>{item.candidateId}</span>
+                          </div>
+                        )}
                       </div>
                       {getFereBadge(item.fereStatus)}
                     </div>
@@ -662,6 +696,35 @@ export const SevenStrategiesCandidatesView: React.FC<SevenStrategiesCandidatesVi
                         </div>
                       ))}
                     </div>
+
+                    {/* Enrichment Badges */}
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                      {item.marketCapCategory && item.marketCapCategory !== 'UNAVAILABLE' && (
+                        <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                          {item.marketCapCategory.replace('_', ' ')}
+                        </span>
+                      )}
+                      {item.sector && (
+                        <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20 truncate max-w-[120px]" title={item.sector}>
+                          {item.sector}
+                        </span>
+                      )}
+                      {(item as any).stockMomentumStatus && (item as any).stockMomentumStatus !== 'DATA_INSUFFICIENT' && (
+                        <span className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold border ${(item as any).stockMomentumStatus === 'BULLISH' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-slate-500/10 text-slate-400 border-slate-500/20'}`} title="Stock Momentum">
+                          STK: {(item as any).stockMomentumStatus}
+                        </span>
+                      )}
+                      {(item as any).sectorMomentumStatus && (item as any).sectorMomentumStatus !== 'DATA_INSUFFICIENT' && (
+                        <span className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold border ${(item as any).sectorMomentumStatus.includes('BULLISH') ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-slate-500/10 text-slate-400 border-slate-500/20'}`} title="Sector Momentum">
+                          SEC: {(item as any).sectorMomentumStatus}
+                        </span>
+                      )}
+                      {(item as any).qglpStatus && (
+                        <span className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold border ${(item as any).qglpStatus === 'AVAILABLE' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : (item as any).qglpStatus === 'PARTIAL' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : 'bg-red-500/10 text-red-400 border-red-500/20'}`}>
+                          QGLP: {(item as any).qglpStatus} {item.missingCriticalDataCount ? `(-${item.missingCriticalDataCount})` : ''}
+                        </span>
+                      )}
+                    </div>
                   </div>
 
                   {/* Actions Bar: FERE 360° & Dossier */}
@@ -675,13 +738,42 @@ export const SevenStrategiesCandidatesView: React.FC<SevenStrategiesCandidatesVi
                       FERE 360° Deep Dive
                     </button>
                     {onSelectStock && (
-                      <button
-                        onClick={() => onSelectStock(item.symbol)}
-                        className="p-1.5 rounded-lg text-slate-400 hover:text-white bg-slate-800/60 hover:bg-slate-700/60 border border-slate-700/50 transition cursor-pointer"
-                        title="Open Quant Dossier"
-                      >
-                        <ArrowUpRight className="w-4 h-4" />
-                      </button>
+                      <div className="flex items-center gap-1">
+                        <button
+                          disabled={!(item as any).canBacktest}
+                          className={`p-1.5 rounded-lg border transition ${
+                            (item as any).canBacktest 
+                              ? 'text-indigo-400 hover:text-white bg-indigo-500/10 hover:bg-indigo-500/20 border-indigo-500/30 cursor-pointer'
+                              : 'text-slate-600 bg-slate-800/30 border-slate-700/30 cursor-not-allowed'
+                          }`}
+                          title={(item as any).canBacktest ? "Run Backtest" : "Backtest Blocker: Missing Technical OHLCV History"}
+                        >
+                          <Activity className="w-4 h-4" />
+                        </button>
+                        <button
+                          disabled={!(item as any).canPaperTrade}
+                          className={`p-1.5 rounded-lg border transition ${
+                            (item as any).canPaperTrade
+                              ? 'text-emerald-400 hover:text-white bg-emerald-500/10 hover:bg-emerald-500/20 border-emerald-500/30 cursor-pointer'
+                              : 'text-slate-600 bg-slate-800/30 border-slate-700/30 cursor-not-allowed'
+                          }`}
+                          title={(item as any).canPaperTrade ? "Add to Paper Trade" : "Paper Trade Blocker: Missing Latest CMP"}
+                        >
+                          <Target className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => onSelectStock(item.symbol)}
+                          disabled={!(item as any).canAnalyze}
+                          className={`p-1.5 rounded-lg border transition ${
+                            (item as any).canAnalyze
+                              ? 'text-slate-400 hover:text-white bg-slate-800/60 hover:bg-slate-700/60 border-slate-700/50 cursor-pointer'
+                              : 'text-slate-600 bg-slate-800/30 border-slate-700/30 cursor-not-allowed'
+                          }`}
+                          title={(item as any).canAnalyze ? "Open Quant Dossier" : "Analyze Blocker: Unknown Symbol Identity"}
+                        >
+                          <ArrowUpRight className="w-4 h-4" />
+                        </button>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -739,6 +831,11 @@ export const SevenStrategiesCandidatesView: React.FC<SevenStrategiesCandidatesVi
                         <div className="text-xs font-mono text-slate-400 mt-0.5">
                           Signal Date: <span className="text-slate-300">{c.signalDate}</span> | CMP: <span className="font-bold text-white">₹{c.cmp.toFixed(2)}</span>
                         </div>
+                        {c.signalId && (
+                          <div className="text-[9px] font-mono text-slate-500 mt-0.5" title="Stable Deterministic Signal ID">
+                            ID: <span className="text-slate-400 cursor-copy" onClick={() => navigator.clipboard.writeText(c.signalId!)}>{c.signalId}</span>
+                          </div>
+                        )}
                       </div>
                       {getFereBadge(c.fereStatus)}
                     </div>
@@ -853,7 +950,14 @@ export const SevenStrategiesCandidatesView: React.FC<SevenStrategiesCandidatesVi
                 <tbody className="divide-y divide-slate-800/60 font-mono">
                   {filteredCandidates.map((c, idx) => (
                     <tr key={`${c.strategyId}_${c.symbol}_${idx}`} className="hover:bg-slate-800/30 transition">
-                      <td className="py-2.5 px-3 font-bold text-white">{c.symbol}</td>
+                      <td className="py-2.5 px-3">
+                        <div className="font-bold text-white">{c.symbol}</div>
+                        {c.signalId && (
+                          <div className="text-[8px] text-slate-500 truncate max-w-[100px]" title="Copy Signal ID" onClick={() => navigator.clipboard.writeText(c.signalId!)}>
+                            {c.signalId.split('-').pop()}
+                          </div>
+                        )}
+                      </td>
                       <td className="py-2.5 px-3">
                         <span
                           className="px-2 py-0.5 rounded text-[10px] font-bold border"

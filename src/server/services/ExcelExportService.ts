@@ -168,7 +168,7 @@ export class ExcelExportService {
       const capCategory = marketCapCr == null ? 'UNAVAILABLE' : marketCapCr <= 5000 ? 'SMALL_CAP' : marketCapCr <= 20000 ? 'MID_CAP' : 'LARGE_CAP';
       const momentum: SectorMomentumSnapshot = momentumBySector.get(String(source.sector || '')) || {
         sectorName: source.sector || null, indexSymbol: null, asOf: null, status: 'UNAVAILABLE', aboveEma20: null, aboveSma20: null,
-        close: null, ema20: null, sma20: null, return20dPct: null, source: 'UNAVAILABLE'
+        aboveSma50: null, aboveSma200: null, close: null, ema20: null, sma20: null, sma50: null, sma200: null, rsi14: null, return5dPct: null, return20dPct: null, source: 'UNAVAILABLE'
       };
       const flow: SectorFlowSnapshot | undefined = flowBySector.get(String(source.sector || ''));
       return {

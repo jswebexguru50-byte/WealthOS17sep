@@ -96,6 +96,9 @@ export const STRATEGY_METAS: Record<StrategyKey, StrategyMetaInfo> = {
   },
 };
 
+import { SevenStrategiesCandidateEnrichmentService, EnrichedCandidateFields } from './SevenStrategiesCandidateEnrichmentService.js';
+import { CandidateLifecycleIdService, IdStatus, LifecycleStatus } from './CandidateLifecycleIdService.js';
+
 export interface NormalizedRuleCheck {
   name: string;
   passed: boolean;
@@ -104,7 +107,7 @@ export interface NormalizedRuleCheck {
   explanation?: string;
 }
 
-export interface CandidateResult {
+export interface CandidateResult extends Partial<EnrichedCandidateFields> {
   symbol: string;
   strategyId: StrategyKey;
   strategyName: string;
@@ -125,11 +128,26 @@ export interface CandidateResult {
     fwd10b?: number | null;
     fwd20b?: number | null;
   };
-  fereStatus: 'VERIFIED_PARTIAL' | 'DATA_INSUFFICIENT' | 'NO_CARD';
+  fereStatus: string | null;
   hasFereEvidence: boolean;
+  
+  // IDs
+  candidateId?: string;
+  candidateIdStatus?: IdStatus;
+  lifecycleStatus?: LifecycleStatus;
+  signalId?: string;
+  signalIdStatus?: IdStatus;
+  signalFingerprintSource?: string;
+
+  // Recommended Dates
+  recommendedDate?: string | null;
+  recommendedDateStatus?: 'VALID' | 'DATA_INSUFFICIENT';
+  recommendedAt?: string;
+  recommendationSource?: string | null;
+  recommendationRunId?: string | null;
 }
 
-export interface ConvergenceStock {
+export interface ConvergenceStock extends Partial<EnrichedCandidateFields> {
   symbol: string;
   strategies: Array<{
     strategyId: StrategyKey;
@@ -141,14 +159,23 @@ export interface ConvergenceStock {
   convergenceCount: number;
   latestDate: string;
   cmp: number;
-  fereStatus: 'VERIFIED_PARTIAL' | 'DATA_INSUFFICIENT' | 'NO_CARD';
+  fereStatus: string | null;
   candidates: CandidateResult[];
+  
+  // IDs
+  candidateId?: string;
+  candidateIdStatus?: IdStatus;
+  signalIds?: string[];
+  lifecycleStatus?: LifecycleStatus;
 }
 
 export interface SevenStrategiesScanPayload {
   success: boolean;
   generatedAt: string;
   reportFiles: Record<StrategyKey, string | null>;
+  filtersApplied?: any[];
+  unsupportedFilters?: any[];
+  enrichmentSummary?: any;
   summary: {
     totalSignalsAcrossAll: number;
     uniqueCandidatesCount: number;
@@ -188,7 +215,7 @@ export class SevenStrategiesCandidatesService {
       return this.cache;
     }
 
-    const payload = this.buildPayload();
+    const payload = await this.buildPayload();
     this.cache = payload;
     this.lastLoadTimestamp = now;
     return payload;
@@ -237,7 +264,7 @@ export class SevenStrategiesCandidatesService {
     }
   }
 
-  private buildPayload(): SevenStrategiesScanPayload {
+  private async buildPayload(): Promise<SevenStrategiesScanPayload> {
     const fereStatusMap = this.getFereStatusMap();
     const strategyKeys: StrategyKey[] = ['S1a', 'S1b', 'S2a', 'S3a', 'S4a', 'S4b', 'S5a'];
     const reportFiles: Record<StrategyKey, string | null> = {
@@ -255,6 +282,8 @@ export class SevenStrategiesCandidatesService {
     };
 
     const allCandidatesBySymbol = new Map<string, CandidateResult[]>();
+    const allSymbols = new Set<string>();
+    const bulkEnrichParams: import('./SevenStrategiesCandidateEnrichmentService.js').CandidateEnrichmentParams[] = [];
 
     for (const key of strategyKeys) {
       const meta = STRATEGY_METAS[key];
@@ -270,12 +299,41 @@ export class SevenStrategiesCandidatesService {
       for (const m of data.matches) {
         const symbol = String(m.symbol || m.Symbol || '').trim().toUpperCase();
         if (!symbol) continue;
+        
+        allSymbols.add(symbol);
 
         const fereStatus = fereStatusMap.get(symbol) || 'NO_CARD';
         const hasFereEvidence = fereStatus !== 'NO_CARD';
 
-        const candidate = this.normalizeCandidate(key, m, symbol, fereStatus, hasFereEvidence);
+        const candidate = this.normalizeCandidate(key, m, symbol, fereStatus, hasFereEvidence, filePath);
+        
+        // Ensure single strategies also get a Candidate ID
+        const singleCanRes = CandidateLifecycleIdService.generateCandidateId({
+          symbol,
+          primarySignalDate: candidate.signalDate,
+          strategyIds: [candidate.strategyId],
+          sourceScanDate: candidate.signalDate // Can fallback to signalDate
+        });
+        candidate.candidateId = singleCanRes.candidateId;
+        candidate.candidateIdStatus = singleCanRes.candidateIdStatus;
+        candidate.lifecycleStatus = singleCanRes.lifecycleStatus;
+
+        let matchDate = String(m.signal_date || m.as_of_date || m.Signal_Date || '').slice(0, 10);
+        let matchReportFilename = path.basename(filePath);
+        
+        candidate.recommendedDate = matchDate || null;
+        candidate.recommendedDateStatus = candidate.recommendedDate ? 'VALID' : 'DATA_INSUFFICIENT';
+        candidate.recommendedAt = new Date().toISOString();
+        candidate.recommendationSource = matchReportFilename || null;
+        candidate.recommendationRunId = null;
+
         normalizedList.push(candidate);
+        
+        // Pass to bulk enrichment params
+        bulkEnrichParams.push({
+          symbol,
+          cmp: candidate.cmp
+        });
 
         const existing = allCandidatesBySymbol.get(symbol) || [];
         existing.push(candidate);
@@ -284,6 +342,20 @@ export class SevenStrategiesCandidatesService {
 
       strategiesOutput[key].candidates = normalizedList;
       strategiesOutput[key].count = normalizedList.length;
+    }
+    
+    // Bulk Enrich
+    const enrichmentService = SevenStrategiesCandidateEnrichmentService.getInstance();
+    const enrichedMap = await enrichmentService.bulkEnrich(bulkEnrichParams);
+
+    // Apply Enrichment to single strategies
+    for (const key of strategyKeys) {
+      for (const candidate of strategiesOutput[key].candidates) {
+        const enrichment = enrichedMap.get(candidate.symbol);
+        if (enrichment) {
+          Object.assign(candidate, enrichment);
+        }
+      }
     }
 
     // Build multi-strategy convergence list
@@ -300,8 +372,27 @@ export class SevenStrategiesCandidatesService {
         }));
 
         const distinctStrategies = Array.from(new Set(list.map(c => c.strategyId)));
+        
+        // Generate Candidate ID without using runtime dates
+        const maxSignalDate = list.reduce((max, c) => c.signalDate > max ? c.signalDate : max, list[0].signalDate);
+        
+        let bestRecDate: string | null = null;
+        let recSource: string | null = null;
+        for (const c of list) {
+          if (c.recommendedDate && (!bestRecDate || c.recommendedDate > bestRecDate)) {
+            bestRecDate = c.recommendedDate;
+            recSource = c.recommendationSource || null;
+          }
+        }
 
-        convergence.push({
+        const candidateIdRes = CandidateLifecycleIdService.generateCandidateId({
+          symbol,
+          primarySignalDate: maxSignalDate,
+          strategyIds: distinctStrategies,
+          sourceScanDate: maxSignalDate
+        });
+
+        const cv: ConvergenceStock = {
           symbol,
           strategies: strategiesSummary,
           convergenceCount: list.length,
@@ -311,7 +402,21 @@ export class SevenStrategiesCandidatesService {
           cmp: sorted[0].cmp,
           fereStatus: sorted[0].fereStatus,
           candidates: list,
-        } as any);
+          candidateId: candidateIdRes.candidateId,
+          candidateIdStatus: candidateIdRes.candidateIdStatus,
+          signalIds: list.map(c => c.signalId!).filter(Boolean),
+          lifecycleStatus: candidateIdRes.lifecycleStatus,
+          recommendedDate: bestRecDate,
+          recommendedDateStatus: bestRecDate ? 'VALID' : 'DATA_INSUFFICIENT',
+          recommendedAt: new Date().toISOString(),
+          recommendationSource: recSource,
+          recommendationRunId: null
+        } as any;
+        
+        const enrichment = enrichedMap.get(symbol);
+        if (enrichment) Object.assign(cv, enrichment);
+        
+        convergence.push(cv);
       }
     }
 
@@ -335,10 +440,36 @@ export class SevenStrategiesCandidatesService {
       S5a: strategiesOutput.S5a.count,
     };
 
+    const enrichmentSummary = {
+      totalCandidates: allCandidatesBySymbol.size,
+      technicalAvailableCount: 0,
+      sectorMappedCount: 0,
+      qglpAvailableCount: 0,
+      qglpPartialCount: 0,
+      dataInsufficientCount: 0,
+      backtestReadyCount: 0,
+      paperTradeReadyCount: 0,
+      alertReadyCount: 0
+    };
+
+    for (const en of enrichedMap.values()) {
+      if (en.ohlcvStatus === 'AVAILABLE') enrichmentSummary.technicalAvailableCount++;
+      if (en.sectorMappingStatus === 'MAPPED') enrichmentSummary.sectorMappedCount++;
+      if (en.qglpStatus === 'AVAILABLE') enrichmentSummary.qglpAvailableCount++;
+      if (en.qglpStatus === 'PARTIAL') enrichmentSummary.qglpPartialCount++;
+      if (en.dataCompletenessStatus === 'DATA_INSUFFICIENT') enrichmentSummary.dataInsufficientCount++;
+      if (en.canBacktest) enrichmentSummary.backtestReadyCount++;
+      if (en.canPaperTrade) enrichmentSummary.paperTradeReadyCount++;
+      if (en.canCreateAlert) enrichmentSummary.alertReadyCount++;
+    }
+
     return {
       success: true,
       generatedAt: new Date().toISOString(),
       reportFiles,
+      filtersApplied: [],
+      unsupportedFilters: [],
+      enrichmentSummary,
       summary: {
         totalSignalsAcrossAll,
         uniqueCandidatesCount: allCandidatesBySymbol.size,
@@ -354,8 +485,9 @@ export class SevenStrategiesCandidatesService {
     strategyId: StrategyKey,
     m: any,
     symbol: string,
-    fereStatus: 'VERIFIED_PARTIAL' | 'DATA_INSUFFICIENT' | 'NO_CARD',
-    hasFereEvidence: boolean
+    fereStatus: string,
+    hasFereEvidence: boolean,
+    filePath: string
   ): CandidateResult {
     const meta = STRATEGY_METAS[strategyId];
     let signalDate = String(m.signal_date || m.as_of_date || m.Signal_Date || '').slice(0, 10);
@@ -543,6 +675,15 @@ export class SevenStrategiesCandidatesService {
         break;
     }
 
+    const sigRes = CandidateLifecycleIdService.generateSignalId({
+      symbol,
+      strategyId,
+      signalDate,
+      cmp,
+      sourceReportFilename: path.basename(filePath),
+      strategyRuleSummary: JSON.stringify(ruleChecks)
+    });
+
     return {
       symbol,
       strategyId,
@@ -562,6 +703,9 @@ export class SevenStrategiesCandidatesService {
       forwardReturns,
       fereStatus,
       hasFereEvidence,
+      signalId: sigRes.signalId,
+      signalIdStatus: sigRes.signalIdStatus,
+      signalFingerprintSource: sigRes.signalFingerprintSource
     };
   }
 }
