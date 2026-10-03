@@ -70,7 +70,7 @@ const SUB_TABS: Array<{ id: DiscoverSubTab; label: string; sub: string; icon: Re
 interface DiscoverWorkspaceProps {
   // initialSubTab allows deep-link compat: e.g. ?sub=multibagger
   initialSubTab?: DiscoverSubTab;
-  onSelectStock?: (symbol: string) => void;
+  onSelectStock?: (symbol: string, context?: { candidateId?: string; signalIds?: string[]; recommendedDate?: string; strategyIds?: string[] }) => void;
   selectedPortfolio?: string;
 }
 

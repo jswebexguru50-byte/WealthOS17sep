@@ -1,0 +1,9 @@
+{
+  "jobName": "shareholding_history_backfill",
+  "status": "SUCCESS",
+  "startTime": "2026-10-03T12:32:11.641Z",
+  "completedTime": "2026-10-03T12:32:11.665Z",
+  "totalSymbols": 0,
+  "recordsSynced": 0,
+  "error": null
+}

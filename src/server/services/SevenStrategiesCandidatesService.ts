@@ -96,7 +96,9 @@ export const STRATEGY_METAS: Record<StrategyKey, StrategyMetaInfo> = {
   },
 };
 
-import { SevenStrategiesCandidateEnrichmentService, EnrichedCandidateFields } from './SevenStrategiesCandidateEnrichmentService.js';
+import { SevenStrategiesCandidateEnrichmentService, EnrichedCandidateFields, CandidateEnrichmentParams, CandidateEnrichmentOptions } from './SevenStrategiesCandidateEnrichmentService.js';
+import { getDB, dbAll } from '../database.js';
+import { SECTOR_INDEX_MAP } from './SectorMomentumService.js';
 import { CandidateLifecycleIdService, IdStatus, LifecycleStatus } from './CandidateLifecycleIdService.js';
 
 export interface NormalizedRuleCheck {
@@ -169,6 +171,21 @@ export interface ConvergenceStock extends Partial<EnrichedCandidateFields> {
   lifecycleStatus?: LifecycleStatus;
 }
 
+export interface CandidateScanOptions {
+  forceRefresh?: boolean;
+  limit?: number;
+  offset?: number;
+  includeTechnicals?: boolean;
+  includeSectorMomentum?: boolean;
+  includeConvergence?: boolean;
+  includeActionReadiness?: boolean;
+}
+
+interface CacheEntry {
+  payload: SevenStrategiesScanPayload;
+  timestamp: number;
+}
+
 export interface SevenStrategiesScanPayload {
   success: boolean;
   generatedAt: string;
@@ -192,8 +209,9 @@ export interface SevenStrategiesScanPayload {
 
 export class SevenStrategiesCandidatesService {
   private static instance: SevenStrategiesCandidatesService;
-  private cache: SevenStrategiesScanPayload | null = null;
-  private lastLoadTimestamp = 0;
+  private baseCache: SevenStrategiesScanPayload | null = null;
+  private baseCacheTimestamp = 0;
+  private payloadCache = new Map<string, CacheEntry>();
   private readonly reportsDir = path.resolve('reports', 'readiness', 'vpa_three_leg');
   private readonly fereDbPath = path.resolve('data', 'fere', 'verified_filings', 'fere_evidence.db');
 
@@ -205,20 +223,474 @@ export class SevenStrategiesCandidatesService {
   }
 
   public invalidateCache(): void {
-    this.cache = null;
-    this.lastLoadTimestamp = 0;
+    this.baseCache = null;
+    this.baseCacheTimestamp = 0;
+    this.payloadCache.clear();
   }
 
-  public async getCandidatesPayload(forceRefresh = false): Promise<SevenStrategiesScanPayload> {
+  public async getCandidatesPayload(options?: CandidateScanOptions | boolean): Promise<SevenStrategiesScanPayload> {
+    const opts: CandidateScanOptions = typeof options === 'boolean'
+      ? { forceRefresh: options }
+      : (options || {});
+    
+    const forceRefresh = !!opts.forceRefresh;
+    const limit = typeof opts.limit === 'number' && opts.limit > 0 ? opts.limit : undefined;
+    const offset = typeof opts.offset === 'number' && opts.offset >= 0 ? opts.offset : 0;
+    const includeTechnicals = opts.includeTechnicals !== false;
+    const includeSectorMomentum = opts.includeSectorMomentum !== false;
+    const includeConvergence = opts.includeConvergence !== false;
+    const includeActionReadiness = opts.includeActionReadiness !== false;
+
+    const cacheKey = JSON.stringify({
+      limit,
+      offset,
+      includeTechnicals,
+      includeSectorMomentum,
+      includeConvergence,
+      includeActionReadiness
+    });
+
     const now = Date.now();
-    if (!forceRefresh && this.cache && (now - this.lastLoadTimestamp < 60000)) {
-      return this.cache;
+    const cached = this.payloadCache.get(cacheKey);
+    if (!forceRefresh && cached && (now - cached.timestamp < 60000)) {
+      return cached.payload;
     }
 
-    const payload = await this.buildPayload();
-    this.cache = payload;
-    this.lastLoadTimestamp = now;
-    return payload;
+    const t0 = performance.now();
+    const basePayload = await this.getBasePayload(forceRefresh);
+    const cloned = this.clonePayload(basePayload);
+
+    if (!includeTechnicals && !includeSectorMomentum) {
+      this.payloadCache.set(cacheKey, { payload: cloned, timestamp: now });
+      return cloned;
+    }
+
+    const targetSymbols = new Set<string>();
+    if (limit !== undefined) {
+      if (includeConvergence) {
+        cloned.convergence.slice(offset, offset + limit).forEach(cv => targetSymbols.add(cv.symbol));
+      }
+      for (const key of Object.keys(cloned.strategies) as StrategyKey[]) {
+        cloned.strategies[key].candidates.slice(offset, offset + limit).forEach(c => targetSymbols.add(c.symbol));
+      }
+    } else {
+      if (includeConvergence) {
+        cloned.convergence.forEach(cv => targetSymbols.add(cv.symbol));
+      }
+      for (const key of Object.keys(cloned.strategies) as StrategyKey[]) {
+        cloned.strategies[key].candidates.forEach(c => targetSymbols.add(c.symbol));
+      }
+    }
+
+    const enrichParams: CandidateEnrichmentParams[] = [];
+    for (const sym of targetSymbols) {
+      let cmp: number | null = null;
+      for (const key of Object.keys(cloned.strategies) as StrategyKey[]) {
+        const found = cloned.strategies[key].candidates.find(c => c.symbol === sym);
+        if (found && found.cmp) {
+          cmp = found.cmp;
+          break;
+        }
+      }
+      enrichParams.push({ symbol: sym, cmp });
+    }
+
+    const enrichmentService = SevenStrategiesCandidateEnrichmentService.getInstance();
+    const enrichedMap = await enrichmentService.bulkEnrich(enrichParams, {
+      includeTechnicals,
+      includeSectorMomentum,
+      includeActionReadiness
+    });
+
+    for (const key of Object.keys(cloned.strategies) as StrategyKey[]) {
+      for (const candidate of cloned.strategies[key].candidates) {
+        const en = enrichedMap.get(candidate.symbol);
+        if (en) Object.assign(candidate, en);
+      }
+    }
+
+    for (const cv of cloned.convergence) {
+      const en = enrichedMap.get(cv.symbol);
+      if (en) Object.assign(cv, en);
+      for (const c of cv.candidates) {
+        const cEn = enrichedMap.get(c.symbol);
+        if (cEn) Object.assign(c, cEn);
+      }
+    }
+
+    const enrichmentSummary = {
+      totalCandidates: cloned.summary.uniqueCandidatesCount,
+      enrichedSymbolsCount: enrichedMap.size,
+      technicalAvailableCount: 0,
+      sectorMappedCount: 0,
+      qglpAvailableCount: 0,
+      qglpPartialCount: 0,
+      dataInsufficientCount: 0,
+      backtestReadyCount: 0,
+      paperTradeReadyCount: 0,
+      alertReadyCount: 0
+    };
+
+    for (const en of enrichedMap.values()) {
+      if (en.ohlcvStatus === 'AVAILABLE') enrichmentSummary.technicalAvailableCount++;
+      if (en.sectorMappingStatus === 'MAPPED') enrichmentSummary.sectorMappedCount++;
+      if (en.qglpStatus === 'AVAILABLE') enrichmentSummary.qglpAvailableCount++;
+      if (en.qglpStatus === 'PARTIAL') enrichmentSummary.qglpPartialCount++;
+      if (en.dataCompletenessStatus === 'DATA_INSUFFICIENT') enrichmentSummary.dataInsufficientCount++;
+      if (en.canBacktest) enrichmentSummary.backtestReadyCount++;
+      if (en.canPaperTrade) enrichmentSummary.paperTradeReadyCount++;
+      if (en.canCreateAlert) enrichmentSummary.alertReadyCount++;
+    }
+    cloned.enrichmentSummary = enrichmentSummary;
+
+    const tTotal = performance.now() - t0;
+    if (process.env.NODE_ENV !== 'test') {
+      console.log(`[SevenStrategiesTiming] total=${tTotal.toFixed(1)}ms (symbolsEnriched=${enrichedMap.size}, limit=${limit ?? 'ALL'}, includeTechnicals=${includeTechnicals})`);
+    }
+
+    this.payloadCache.set(cacheKey, { payload: cloned, timestamp: now });
+    return cloned;
+  }
+
+  public async getBasePayload(forceRefresh = false): Promise<SevenStrategiesScanPayload> {
+    const now = Date.now();
+    if (!forceRefresh && this.baseCache && (now - this.baseCacheTimestamp < 60000)) {
+      return this.baseCache;
+    }
+
+    const fereStatusMap = this.getFereStatusMap();
+    const strategyKeys: StrategyKey[] = ['S1a', 'S1b', 'S2a', 'S3a', 'S4a', 'S4b', 'S5a'];
+    const reportFiles: Record<StrategyKey, string | null> = {
+      S1a: null, S1b: null, S2a: null, S3a: null, S4a: null, S4b: null, S5a: null
+    };
+
+    const strategiesOutput: Record<StrategyKey, { meta: StrategyMetaInfo; count: number; candidates: CandidateResult[] }> = {
+      S1a: { meta: STRATEGY_METAS.S1a, count: 0, candidates: [] },
+      S1b: { meta: STRATEGY_METAS.S1b, count: 0, candidates: [] },
+      S2a: { meta: STRATEGY_METAS.S2a, count: 0, candidates: [] },
+      S3a: { meta: STRATEGY_METAS.S3a, count: 0, candidates: [] },
+      S4a: { meta: STRATEGY_METAS.S4a, count: 0, candidates: [] },
+      S4b: { meta: STRATEGY_METAS.S4b, count: 0, candidates: [] },
+      S5a: { meta: STRATEGY_METAS.S5a, count: 0, candidates: [] },
+    };
+
+    const allCandidatesBySymbol = new Map<string, CandidateResult[]>();
+    const allSymbols = new Set<string>();
+
+    for (const key of strategyKeys) {
+      const meta = STRATEGY_METAS[key];
+      const filePath = this.findLatestReport(meta.reportPrefix);
+      reportFiles[key] = filePath ? path.basename(filePath) : null;
+
+      if (!filePath) continue;
+      const data = this.readJsonSafe(filePath);
+      if (!data || !Array.isArray(data.matches)) continue;
+
+      const normalizedList: CandidateResult[] = [];
+
+      for (const m of data.matches) {
+        const symbol = String(m.symbol || m.Symbol || '').trim().toUpperCase();
+        if (!symbol) continue;
+        
+        allSymbols.add(symbol);
+
+        const fereStatus = fereStatusMap.get(symbol) || 'NO_CARD';
+        const hasFereEvidence = fereStatus !== 'NO_CARD';
+
+        const candidate = this.normalizeCandidate(key, m, symbol, fereStatus, hasFereEvidence, filePath);
+        
+        const singleCanRes = CandidateLifecycleIdService.generateCandidateId({
+          symbol,
+          primarySignalDate: candidate.signalDate,
+          strategyIds: [candidate.strategyId],
+          sourceScanDate: candidate.signalDate
+        });
+        candidate.candidateId = singleCanRes.candidateId;
+        candidate.candidateIdStatus = singleCanRes.candidateIdStatus;
+        candidate.lifecycleStatus = singleCanRes.lifecycleStatus;
+
+        let matchDate = String(m.signal_date || m.as_of_date || m.Signal_Date || '').slice(0, 10);
+        let matchReportFilename = path.basename(filePath);
+        
+        candidate.recommendedDate = matchDate || null;
+        candidate.recommendedDateStatus = candidate.recommendedDate ? 'VALID' : 'DATA_INSUFFICIENT';
+        candidate.recommendedAt = new Date().toISOString();
+        candidate.recommendationSource = matchReportFilename || null;
+        candidate.recommendationRunId = null;
+
+        normalizedList.push(candidate);
+
+        const existing = allCandidatesBySymbol.get(symbol) || [];
+        existing.push(candidate);
+        allCandidatesBySymbol.set(symbol, existing);
+      }
+
+      strategiesOutput[key].candidates = normalizedList;
+      strategiesOutput[key].count = normalizedList.length;
+    }
+
+    // Build multi-strategy convergence list
+    const convergence: ConvergenceStock[] = [];
+    for (const [symbol, list] of allCandidatesBySymbol.entries()) {
+      if (list.length > 1) {
+        const sorted = [...list].sort((a, b) => b.signalDate.localeCompare(a.signalDate));
+        const strategiesSummary = list.map(c => ({
+          strategyId: c.strategyId,
+          strategyName: c.strategyName,
+          strategyColor: c.strategyColor,
+          signalDate: c.signalDate,
+          cmp: c.cmp
+        }));
+
+        const distinctStrategies = Array.from(new Set(list.map(c => c.strategyId)));
+        const maxSignalDate = list.reduce((max, c) => c.signalDate > max ? c.signalDate : max, list[0].signalDate);
+        
+        let bestRecDate: string | null = null;
+        let recSource: string | null = null;
+        for (const c of list) {
+          if (c.recommendedDate && (!bestRecDate || c.recommendedDate > bestRecDate)) {
+            bestRecDate = c.recommendedDate;
+            recSource = c.recommendationSource || null;
+          }
+        }
+
+        const candidateIdRes = CandidateLifecycleIdService.generateCandidateId({
+          symbol,
+          primarySignalDate: maxSignalDate,
+          strategyIds: distinctStrategies,
+          sourceScanDate: maxSignalDate
+        });
+
+        const cv: ConvergenceStock = {
+          symbol,
+          strategies: strategiesSummary,
+          convergenceCount: list.length,
+          distinctStrategyCount: distinctStrategies.length,
+          distinctStrategies,
+          latestDate: sorted[0].signalDate,
+          cmp: sorted[0].cmp,
+          fereStatus: sorted[0].fereStatus,
+          candidates: list,
+          candidateId: candidateIdRes.candidateId,
+          candidateIdStatus: candidateIdRes.candidateIdStatus,
+          signalIds: list.map(c => c.signalId!).filter(Boolean),
+          lifecycleStatus: candidateIdRes.lifecycleStatus,
+          recommendedDate: bestRecDate,
+          recommendedDateStatus: bestRecDate ? 'VALID' : 'DATA_INSUFFICIENT',
+          recommendedAt: new Date().toISOString(),
+          recommendationSource: recSource,
+          recommendationRunId: null
+        } as any;
+        
+        convergence.push(cv);
+      }
+    }
+
+    convergence.sort((a, b) => {
+      const aDistinct = (a as any).distinctStrategyCount || 0;
+      const bDistinct = (b as any).distinctStrategyCount || 0;
+      if (bDistinct !== aDistinct) return bDistinct - aDistinct;
+      if (b.convergenceCount !== a.convergenceCount) return b.convergenceCount - a.convergenceCount;
+      return b.latestDate.localeCompare(a.latestDate);
+    });
+
+    // Batch query MasterTickers SQLite in memory
+    const uniqueSymbols = Array.from(allSymbols);
+    let masterRows: any[] = [];
+    if (uniqueSymbols.length > 0) {
+      try {
+        const db = getDB();
+        const placeholders = uniqueSymbols.map(() => '?').join(',');
+        masterRows = await dbAll(
+          db,
+          `SELECT m.symbol, 
+                  COALESCE(m.company_name, m.name) as company_name, 
+                  m.sector,
+                  d.industry,
+                  d.market_cap_cr
+           FROM MasterTickers m
+           LEFT JOIN DataQualityAuditLedger d ON m.symbol = d.symbol
+           WHERE m.symbol IN (${placeholders})`,
+          uniqueSymbols
+        ) as any[];
+      } catch (e) {
+        console.warn('[SevenStrategiesCandidatesService] Master query failed:', e);
+      }
+    }
+
+    const masterMap = new Map<string, any>(masterRows.map(r => [r.symbol, r]));
+
+    // Apply baseline metadata to candidates and convergence
+    const unEnrichedDefaults: Partial<EnrichedCandidateFields> = {
+      latestOhlcvDate: null,
+      ohlcvStatus: 'NOT_CHECKED',
+      aboveEma20: null,
+      aboveSma20: null,
+      aboveSma50: null,
+      aboveSma200: null,
+      ema20: null,
+      sma20: null,
+      sma50: null,
+      sma200: null,
+      rsi14: null,
+      atrPct: null,
+      latestClose: null,
+      latestVolume: null,
+      stockReturn5D: null,
+      stockReturn20D: null,
+      volumeSignal: null,
+      stockMomentumStatus: 'DATA_INSUFFICIENT',
+      sectorLatestDate: null,
+      sectorReturn5D: null,
+      sectorReturn20D: null,
+      sectorAboveEma20: null,
+      sectorAboveSma20: null,
+      sectorAboveSma50: null,
+      sectorAboveSma200: null,
+      sectorRsi14: null,
+      sectorMomentumStatus: 'DATA_INSUFFICIENT',
+      doubleMomentumStatus: 'DATA_INSUFFICIENT',
+      sectorMappingStatus: 'DATA_INSUFFICIENT',
+      qglpStatus: 'DATA_INSUFFICIENT',
+      qglpOverallRating: null,
+      fundamentalEvidenceState: 'DATA_INSUFFICIENT',
+      missingCriticalDataCount: 0,
+      missingCriticalFields: [],
+      trendlyneFreshnessStatus: 'NOT_CHECKED',
+      technicalFreshnessStatus: 'NOT_CHECKED',
+      dataCompletenessStatus: 'PARTIAL_BUT_ANALYZABLE',
+      canAnalyze: true,
+      canBacktest: false,
+      canPaperTrade: false,
+      canCreateAlert: false
+    };
+
+    for (const key of strategyKeys) {
+      for (const candidate of strategiesOutput[key].candidates) {
+        const master = masterMap.get(candidate.symbol);
+        const mcap = master?.market_cap_cr ? Number(master.market_cap_cr) : null;
+        let mcapCategory: EnrichedCandidateFields['marketCapCategory'] = 'UNAVAILABLE';
+        if (mcap !== null) {
+          if (mcap >= 20000) mcapCategory = 'LARGE_CAP';
+          else if (mcap >= 5000) mcapCategory = 'MID_CAP';
+          else mcapCategory = 'SMALL_CAP';
+        }
+
+        const sector = master?.sector || null;
+        const normSector = sector?.trim().toUpperCase() || null;
+        const mappedIndex = normSector ? SECTOR_INDEX_MAP[normSector] || null : null;
+
+        Object.assign(candidate, unEnrichedDefaults, {
+          companyName: master?.company_name || null,
+          sector,
+          industry: master?.industry || null,
+          sectorIndex: mappedIndex,
+          sectorMappingStatus: mappedIndex ? 'MAPPED' : 'UNMAPPED',
+          marketCapCr: mcap,
+          marketCapCategory: mcapCategory,
+          fereStatus: candidate.fereStatus,
+          signalCmp: candidate.cmp
+        });
+      }
+    }
+
+    for (const cv of convergence) {
+      const master = masterMap.get(cv.symbol);
+      const mcap = master?.market_cap_cr ? Number(master.market_cap_cr) : null;
+      let mcapCategory: EnrichedCandidateFields['marketCapCategory'] = 'UNAVAILABLE';
+      if (mcap !== null) {
+        if (mcap >= 20000) mcapCategory = 'LARGE_CAP';
+        else if (mcap >= 5000) mcapCategory = 'MID_CAP';
+        else mcapCategory = 'SMALL_CAP';
+      }
+      const sector = master?.sector || null;
+      const normSector = sector?.trim().toUpperCase() || null;
+      const mappedIndex = normSector ? SECTOR_INDEX_MAP[normSector] || null : null;
+
+      Object.assign(cv, unEnrichedDefaults, {
+        companyName: master?.company_name || null,
+        sector,
+        industry: master?.industry || null,
+        sectorIndex: mappedIndex,
+        sectorMappingStatus: mappedIndex ? 'MAPPED' : 'UNMAPPED',
+        marketCapCr: mcap,
+        marketCapCategory: mcapCategory,
+        fereStatus: cv.fereStatus,
+        signalCmp: cv.cmp
+      });
+    }
+
+    const totalSignalsAcrossAll = strategyKeys.reduce((acc, k) => acc + strategiesOutput[k].count, 0);
+    const strategyCounts: Record<StrategyKey, number> = {
+      S1a: strategiesOutput.S1a.count,
+      S1b: strategiesOutput.S1b.count,
+      S2a: strategiesOutput.S2a.count,
+      S3a: strategiesOutput.S3a.count,
+      S4a: strategiesOutput.S4a.count,
+      S4b: strategiesOutput.S4b.count,
+      S5a: strategiesOutput.S5a.count,
+    };
+
+    const basePayload: SevenStrategiesScanPayload = {
+      success: true,
+      generatedAt: new Date().toISOString(),
+      reportFiles,
+      filtersApplied: [],
+      unsupportedFilters: [],
+      enrichmentSummary: {
+        totalCandidates: allCandidatesBySymbol.size,
+        enrichedSymbolsCount: 0,
+        technicalAvailableCount: 0,
+        sectorMappedCount: 0,
+        qglpAvailableCount: 0,
+        qglpPartialCount: 0,
+        dataInsufficientCount: 0,
+        backtestReadyCount: 0,
+        paperTradeReadyCount: 0,
+        alertReadyCount: 0
+      },
+      summary: {
+        totalSignalsAcrossAll,
+        uniqueCandidatesCount: allCandidatesBySymbol.size,
+        convergenceCount: convergence.length,
+        strategyCounts,
+      },
+      convergence,
+      strategies: strategiesOutput,
+    };
+
+    this.baseCache = basePayload;
+    this.baseCacheTimestamp = now;
+    return basePayload;
+  }
+
+  private clonePayload(base: SevenStrategiesScanPayload): SevenStrategiesScanPayload {
+    return {
+      success: base.success,
+      generatedAt: new Date().toISOString(),
+      reportFiles: { ...base.reportFiles },
+      filtersApplied: [],
+      unsupportedFilters: [],
+      enrichmentSummary: { ...base.enrichmentSummary },
+      summary: {
+        ...base.summary,
+        strategyCounts: { ...base.summary.strategyCounts }
+      },
+      convergence: base.convergence.map(cv => ({
+        ...cv,
+        strategies: cv.strategies.map(s => ({ ...s })),
+        candidates: cv.candidates.map(c => ({ ...c, keyParameters: { ...c.keyParameters }, ruleChecks: [...c.ruleChecks] }))
+      })),
+      strategies: {
+        S1a: { ...base.strategies.S1a, candidates: base.strategies.S1a.candidates.map(c => ({ ...c, keyParameters: { ...c.keyParameters }, ruleChecks: [...c.ruleChecks] })) },
+        S1b: { ...base.strategies.S1b, candidates: base.strategies.S1b.candidates.map(c => ({ ...c, keyParameters: { ...c.keyParameters }, ruleChecks: [...c.ruleChecks] })) },
+        S2a: { ...base.strategies.S2a, candidates: base.strategies.S2a.candidates.map(c => ({ ...c, keyParameters: { ...c.keyParameters }, ruleChecks: [...c.ruleChecks] })) },
+        S3a: { ...base.strategies.S3a, candidates: base.strategies.S3a.candidates.map(c => ({ ...c, keyParameters: { ...c.keyParameters }, ruleChecks: [...c.ruleChecks] })) },
+        S4a: { ...base.strategies.S4a, candidates: base.strategies.S4a.candidates.map(c => ({ ...c, keyParameters: { ...c.keyParameters }, ruleChecks: [...c.ruleChecks] })) },
+        S4b: { ...base.strategies.S4b, candidates: base.strategies.S4b.candidates.map(c => ({ ...c, keyParameters: { ...c.keyParameters }, ruleChecks: [...c.ruleChecks] })) },
+        S5a: { ...base.strategies.S5a, candidates: base.strategies.S5a.candidates.map(c => ({ ...c, keyParameters: { ...c.keyParameters }, ruleChecks: [...c.ruleChecks] })) },
+      }
+    };
   }
 
   private getFereStatusMap(): Map<string, 'VERIFIED_PARTIAL' | 'DATA_INSUFFICIENT'> {
@@ -262,223 +734,6 @@ export class SevenStrategiesCandidatesService {
       console.error(`[SevenStrategiesCandidatesService] Failed to read ${filePath}:`, e);
       return null;
     }
-  }
-
-  private async buildPayload(): Promise<SevenStrategiesScanPayload> {
-    const fereStatusMap = this.getFereStatusMap();
-    const strategyKeys: StrategyKey[] = ['S1a', 'S1b', 'S2a', 'S3a', 'S4a', 'S4b', 'S5a'];
-    const reportFiles: Record<StrategyKey, string | null> = {
-      S1a: null, S1b: null, S2a: null, S3a: null, S4a: null, S4b: null, S5a: null
-    };
-
-    const strategiesOutput: Record<StrategyKey, { meta: StrategyMetaInfo; count: number; candidates: CandidateResult[] }> = {
-      S1a: { meta: STRATEGY_METAS.S1a, count: 0, candidates: [] },
-      S1b: { meta: STRATEGY_METAS.S1b, count: 0, candidates: [] },
-      S2a: { meta: STRATEGY_METAS.S2a, count: 0, candidates: [] },
-      S3a: { meta: STRATEGY_METAS.S3a, count: 0, candidates: [] },
-      S4a: { meta: STRATEGY_METAS.S4a, count: 0, candidates: [] },
-      S4b: { meta: STRATEGY_METAS.S4b, count: 0, candidates: [] },
-      S5a: { meta: STRATEGY_METAS.S5a, count: 0, candidates: [] },
-    };
-
-    const allCandidatesBySymbol = new Map<string, CandidateResult[]>();
-    const allSymbols = new Set<string>();
-    const bulkEnrichParams: import('./SevenStrategiesCandidateEnrichmentService.js').CandidateEnrichmentParams[] = [];
-
-    for (const key of strategyKeys) {
-      const meta = STRATEGY_METAS[key];
-      const filePath = this.findLatestReport(meta.reportPrefix);
-      reportFiles[key] = filePath ? path.basename(filePath) : null;
-
-      if (!filePath) continue;
-      const data = this.readJsonSafe(filePath);
-      if (!data || !Array.isArray(data.matches)) continue;
-
-      const normalizedList: CandidateResult[] = [];
-
-      for (const m of data.matches) {
-        const symbol = String(m.symbol || m.Symbol || '').trim().toUpperCase();
-        if (!symbol) continue;
-        
-        allSymbols.add(symbol);
-
-        const fereStatus = fereStatusMap.get(symbol) || 'NO_CARD';
-        const hasFereEvidence = fereStatus !== 'NO_CARD';
-
-        const candidate = this.normalizeCandidate(key, m, symbol, fereStatus, hasFereEvidence, filePath);
-        
-        // Ensure single strategies also get a Candidate ID
-        const singleCanRes = CandidateLifecycleIdService.generateCandidateId({
-          symbol,
-          primarySignalDate: candidate.signalDate,
-          strategyIds: [candidate.strategyId],
-          sourceScanDate: candidate.signalDate // Can fallback to signalDate
-        });
-        candidate.candidateId = singleCanRes.candidateId;
-        candidate.candidateIdStatus = singleCanRes.candidateIdStatus;
-        candidate.lifecycleStatus = singleCanRes.lifecycleStatus;
-
-        let matchDate = String(m.signal_date || m.as_of_date || m.Signal_Date || '').slice(0, 10);
-        let matchReportFilename = path.basename(filePath);
-        
-        candidate.recommendedDate = matchDate || null;
-        candidate.recommendedDateStatus = candidate.recommendedDate ? 'VALID' : 'DATA_INSUFFICIENT';
-        candidate.recommendedAt = new Date().toISOString();
-        candidate.recommendationSource = matchReportFilename || null;
-        candidate.recommendationRunId = null;
-
-        normalizedList.push(candidate);
-        
-        // Pass to bulk enrichment params
-        bulkEnrichParams.push({
-          symbol,
-          cmp: candidate.cmp
-        });
-
-        const existing = allCandidatesBySymbol.get(symbol) || [];
-        existing.push(candidate);
-        allCandidatesBySymbol.set(symbol, existing);
-      }
-
-      strategiesOutput[key].candidates = normalizedList;
-      strategiesOutput[key].count = normalizedList.length;
-    }
-    
-    // Bulk Enrich
-    const enrichmentService = SevenStrategiesCandidateEnrichmentService.getInstance();
-    const enrichedMap = await enrichmentService.bulkEnrich(bulkEnrichParams);
-
-    // Apply Enrichment to single strategies
-    for (const key of strategyKeys) {
-      for (const candidate of strategiesOutput[key].candidates) {
-        const enrichment = enrichedMap.get(candidate.symbol);
-        if (enrichment) {
-          Object.assign(candidate, enrichment);
-        }
-      }
-    }
-
-    // Build multi-strategy convergence list
-    const convergence: ConvergenceStock[] = [];
-    for (const [symbol, list] of allCandidatesBySymbol.entries()) {
-      if (list.length > 1) {
-        const sorted = [...list].sort((a, b) => b.signalDate.localeCompare(a.signalDate));
-        const strategiesSummary = list.map(c => ({
-          strategyId: c.strategyId,
-          strategyName: c.strategyName,
-          strategyColor: c.strategyColor,
-          signalDate: c.signalDate,
-          cmp: c.cmp
-        }));
-
-        const distinctStrategies = Array.from(new Set(list.map(c => c.strategyId)));
-        
-        // Generate Candidate ID without using runtime dates
-        const maxSignalDate = list.reduce((max, c) => c.signalDate > max ? c.signalDate : max, list[0].signalDate);
-        
-        let bestRecDate: string | null = null;
-        let recSource: string | null = null;
-        for (const c of list) {
-          if (c.recommendedDate && (!bestRecDate || c.recommendedDate > bestRecDate)) {
-            bestRecDate = c.recommendedDate;
-            recSource = c.recommendationSource || null;
-          }
-        }
-
-        const candidateIdRes = CandidateLifecycleIdService.generateCandidateId({
-          symbol,
-          primarySignalDate: maxSignalDate,
-          strategyIds: distinctStrategies,
-          sourceScanDate: maxSignalDate
-        });
-
-        const cv: ConvergenceStock = {
-          symbol,
-          strategies: strategiesSummary,
-          convergenceCount: list.length,
-          distinctStrategyCount: distinctStrategies.length,
-          distinctStrategies,
-          latestDate: sorted[0].signalDate,
-          cmp: sorted[0].cmp,
-          fereStatus: sorted[0].fereStatus,
-          candidates: list,
-          candidateId: candidateIdRes.candidateId,
-          candidateIdStatus: candidateIdRes.candidateIdStatus,
-          signalIds: list.map(c => c.signalId!).filter(Boolean),
-          lifecycleStatus: candidateIdRes.lifecycleStatus,
-          recommendedDate: bestRecDate,
-          recommendedDateStatus: bestRecDate ? 'VALID' : 'DATA_INSUFFICIENT',
-          recommendedAt: new Date().toISOString(),
-          recommendationSource: recSource,
-          recommendationRunId: null
-        } as any;
-        
-        const enrichment = enrichedMap.get(symbol);
-        if (enrichment) Object.assign(cv, enrichment);
-        
-        convergence.push(cv);
-      }
-    }
-
-    // Sort convergence by distinct strategy count first (cross-strategy), then total signals, then latest date
-    convergence.sort((a, b) => {
-      const aDistinct = (a as any).distinctStrategyCount || 0;
-      const bDistinct = (b as any).distinctStrategyCount || 0;
-      if (bDistinct !== aDistinct) return bDistinct - aDistinct;
-      if (b.convergenceCount !== a.convergenceCount) return b.convergenceCount - a.convergenceCount;
-      return b.latestDate.localeCompare(a.latestDate);
-    });
-
-    const totalSignalsAcrossAll = strategyKeys.reduce((acc, k) => acc + strategiesOutput[k].count, 0);
-    const strategyCounts: Record<StrategyKey, number> = {
-      S1a: strategiesOutput.S1a.count,
-      S1b: strategiesOutput.S1b.count,
-      S2a: strategiesOutput.S2a.count,
-      S3a: strategiesOutput.S3a.count,
-      S4a: strategiesOutput.S4a.count,
-      S4b: strategiesOutput.S4b.count,
-      S5a: strategiesOutput.S5a.count,
-    };
-
-    const enrichmentSummary = {
-      totalCandidates: allCandidatesBySymbol.size,
-      technicalAvailableCount: 0,
-      sectorMappedCount: 0,
-      qglpAvailableCount: 0,
-      qglpPartialCount: 0,
-      dataInsufficientCount: 0,
-      backtestReadyCount: 0,
-      paperTradeReadyCount: 0,
-      alertReadyCount: 0
-    };
-
-    for (const en of enrichedMap.values()) {
-      if (en.ohlcvStatus === 'AVAILABLE') enrichmentSummary.technicalAvailableCount++;
-      if (en.sectorMappingStatus === 'MAPPED') enrichmentSummary.sectorMappedCount++;
-      if (en.qglpStatus === 'AVAILABLE') enrichmentSummary.qglpAvailableCount++;
-      if (en.qglpStatus === 'PARTIAL') enrichmentSummary.qglpPartialCount++;
-      if (en.dataCompletenessStatus === 'DATA_INSUFFICIENT') enrichmentSummary.dataInsufficientCount++;
-      if (en.canBacktest) enrichmentSummary.backtestReadyCount++;
-      if (en.canPaperTrade) enrichmentSummary.paperTradeReadyCount++;
-      if (en.canCreateAlert) enrichmentSummary.alertReadyCount++;
-    }
-
-    return {
-      success: true,
-      generatedAt: new Date().toISOString(),
-      reportFiles,
-      filtersApplied: [],
-      unsupportedFilters: [],
-      enrichmentSummary,
-      summary: {
-        totalSignalsAcrossAll,
-        uniqueCandidatesCount: allCandidatesBySymbol.size,
-        convergenceCount: convergence.length,
-        strategyCounts,
-      },
-      convergence,
-      strategies: strategiesOutput,
-    };
   }
 
   private normalizeCandidate(

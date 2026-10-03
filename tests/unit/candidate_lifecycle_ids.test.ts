@@ -142,8 +142,8 @@ describe('Candidate Lifecycle & Enrichment Integration', () => {
     // action readiness
     expect(enrichment.canAnalyze).toBe(false);
     expect(enrichment.canBacktest).toBe(false); // OHLCV not checked
-    expect(enrichment.canPaperTrade).toBe(true); // CMP provided
-    expect(enrichment.canCreateAlert).toBe(true); // Alert source not validated but symbol and cmp are present
+    expect(enrichment.canPaperTrade).toBe(false); // Tech missing
+    expect(enrichment.canCreateAlert).toBe(false); // Tech missing
   });
 
   it('9. canPaperTrade is false when latest price is missing', async () => {
@@ -182,7 +182,7 @@ describe('Candidate Lifecycle & Enrichment Integration', () => {
 
     const enrichment = enrichedMap.get('FAKE_SYM_NOT_IN_DB')!;
     expect(enrichment.dataCompletenessStatus).toBe('DATA_INSUFFICIENT');
-    expect(enrichment.marketCapSource).toBe('SOURCE_UNAVAILABLE');
+    expect(enrichment.marketCapSource).toBe(null);
   });
 
   it('12. same symbol with two different signal dates keeps different recommendedDate values per candidate, and enrichment does not overwrite', async () => {

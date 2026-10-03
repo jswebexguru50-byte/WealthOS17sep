@@ -167,9 +167,20 @@ export default function App() {
 
   const [activeTab, setActiveTabState] = useState<TabType>(getInitialTab);
   const [selectedIntelligenceSymbolState, setSelectedIntelligenceSymbolState] = useState<string | null>(analyzeMatch);
+  
+  const [selectedAnalyzeContext, setSelectedAnalyzeContext] = useState<{
+    candidateId?: string;
+    signalIds?: string[];
+    recommendedDate?: string;
+    strategyIds?: string[];
+  } | undefined>();
 
-  const setSelectedIntelligenceSymbol = (symbol: string | null) => {
+  const setSelectedIntelligenceSymbol = (
+    symbol: string | null, 
+    context?: { candidateId?: string; signalIds?: string[]; recommendedDate?: string; strategyIds?: string[] }
+  ) => {
     setSelectedIntelligenceSymbolState(symbol);
+    setSelectedAnalyzeContext(context);
     if (symbol) {
       setActiveTab('ANALYZE', symbol);
     }
@@ -1796,7 +1807,7 @@ export default function App() {
                 <Suspense fallback={<LazyFallback />}>
                   <DiscoverWorkspace
                     initialSubTab="SEVEN_STRATEGIES"
-                    onSelectStock={(sym) => setSelectedIntelligenceSymbol(sym)}
+                    onSelectStock={(sym, ctx) => setSelectedIntelligenceSymbol(sym, ctx)}
                     selectedPortfolio={selectedPortfolio}
                   />
                 </Suspense>
@@ -1808,9 +1819,14 @@ export default function App() {
                     {selectedIntelligenceSymbolState ? (
                       <StockIntelligenceView
                         symbol={selectedIntelligenceSymbolState}
+                        candidateId={selectedAnalyzeContext?.candidateId}
+                        signalIds={selectedAnalyzeContext?.signalIds}
+                        recommendedDate={selectedAnalyzeContext?.recommendedDate}
+                        strategyIds={selectedAnalyzeContext?.strategyIds}
                         isOpen={true}
                         onClose={() => {
                           setSelectedIntelligenceSymbolState(null);
+                          setSelectedAnalyzeContext(undefined);
                           setActiveTab('DISCOVER');
                         }}
                         formatCurrency={formatCurrency}

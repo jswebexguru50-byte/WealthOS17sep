@@ -7,7 +7,7 @@ export interface EnrichedCandidateFields {
 
   // Technical
   latestOhlcvDate: string | null;
-  ohlcvStatus: 'AVAILABLE' | 'STALE' | 'NOT_CHECKED' | 'DATA_INSUFFICIENT';
+  ohlcvStatus: 'AVAILABLE' | 'STALE' | 'NOT_CHECKED' | 'DATA_INSUFFICIENT' | 'SOURCE_UNAVAILABLE';
   aboveEma20: boolean | null;
   aboveSma20: boolean | null;
   aboveSma50: boolean | null;
@@ -19,6 +19,7 @@ export interface EnrichedCandidateFields {
   rsi14: number | null;
   atrPct: number | null;
   latestClose: number | null;
+  signalCmp: number | null;
   latestVolume: number | null;
   stockReturn5D: number | null;
   stockReturn20D: number | null;
@@ -72,6 +73,12 @@ export interface CandidateEnrichmentParams {
   cmp?: number | null;
 }
 
+export interface CandidateEnrichmentOptions {
+  includeTechnicals?: boolean;
+  includeSectorMomentum?: boolean;
+  includeActionReadiness?: boolean;
+}
+
 export class SevenStrategiesCandidateEnrichmentService {
   private static instance: SevenStrategiesCandidateEnrichmentService;
 
@@ -82,9 +89,16 @@ export class SevenStrategiesCandidateEnrichmentService {
     return SevenStrategiesCandidateEnrichmentService.instance;
   }
 
-  public async bulkEnrich(paramsList: CandidateEnrichmentParams[]): Promise<Map<string, EnrichedCandidateFields>> {
+  public async bulkEnrich(
+    paramsList: CandidateEnrichmentParams[],
+    options?: CandidateEnrichmentOptions
+  ): Promise<Map<string, EnrichedCandidateFields>> {
     const result = new Map<string, EnrichedCandidateFields>();
     if (paramsList.length === 0) return result;
+
+    const includeTechnicals = options?.includeTechnicals !== false;
+    const includeSectorMomentum = options?.includeSectorMomentum !== false;
+    const includeActionReadiness = options?.includeActionReadiness !== false;
 
     // Remove duplicates by symbol
     const uniqueParams = Array.from(new Map(paramsList.map(p => [p.symbol, p])).values());
@@ -124,44 +138,49 @@ export class SevenStrategiesCandidateEnrichmentService {
         console.warn('[BulkEnrichment] Master/Fundamental query failed:', e);
       }
 
-      // 2. Load Latest Technical Data via DuckDB
+      // 2. Load Latest Technical Data via DuckDB (conditional)
       let technicalBarsBySymbol = new Map<string, AdjustedOhlcvBar[]>();
-      try {
-        const symbolList = chunk.map(p => p.symbol);
-        const res = await DuckDbAdjustedOhlcvService.getDailyBarsForSymbols(symbolList, 250);
-        technicalBarsBySymbol = res.bars;
-      } catch (e) {
-        console.warn('[BulkEnrichment] Technical query failed:', e);
+      let duckDbError = false;
+      if (includeTechnicals) {
+        try {
+          const symbolList = chunk.map(p => p.symbol);
+          const res = await DuckDbAdjustedOhlcvService.getDailyBarsForSymbols(symbolList, 250);
+          technicalBarsBySymbol = res.bars;
+        } catch (e) {
+          console.warn('[BulkEnrichment] Technical query failed:', e);
+          duckDbError = true;
+        }
       }
 
-      // 3. Load Sector Momentum Data
-      // Determine unique sectors for this chunk to fetch indices
-      const sectorNames = Array.from(new Set(masterRows.map(r => r.sector).filter(Boolean)));
-      const requiredIndices = Array.from(new Set(sectorNames.map(s => SECTOR_INDEX_MAP[s.trim().toUpperCase()]).filter(Boolean)));
-      
+      // 3. Load Sector Momentum Data (conditional)
       let indexBarsBySymbol: Record<string, any[]> = {};
-      if (requiredIndices.length > 0) {
-        try {
-          const idxPlaceholders = requiredIndices.map(() => '?').join(',');
-          const indexRows = await dbAll(
-            db,
-            `SELECT index_symbol, trade_date, close
-             FROM IndexOHLCV
-             WHERE index_symbol IN (${idxPlaceholders})
-             ORDER BY trade_date ASC`,
-            requiredIndices
-          ) as any[];
+      if (includeSectorMomentum) {
+        const sectorNames = Array.from(new Set(masterRows.map(r => r.sector).filter(Boolean)));
+        const requiredIndices = Array.from(new Set(sectorNames.map(s => SECTOR_INDEX_MAP[s.trim().toUpperCase()]).filter(Boolean)));
+        
+        if (requiredIndices.length > 0) {
+          try {
+            const idxPlaceholders = requiredIndices.map(() => '?').join(',');
+            const indexRows = await dbAll(
+              db,
+              `SELECT index_symbol, trade_date, close
+               FROM IndexOHLCV
+               WHERE index_symbol IN (${idxPlaceholders})
+               ORDER BY trade_date ASC`,
+              requiredIndices
+            ) as any[];
 
-          for (const row of indexRows) {
-            if (!indexBarsBySymbol[row.index_symbol]) indexBarsBySymbol[row.index_symbol] = [];
-            // SectorMomentumService expects AdjustedOhlcvBar format
-            indexBarsBySymbol[row.index_symbol].push({
-              trade_date: row.trade_date,
-              close_adjusted: row.close
-            });
+            for (const row of indexRows) {
+              if (!indexBarsBySymbol[row.index_symbol]) indexBarsBySymbol[row.index_symbol] = [];
+              // SectorMomentumService expects AdjustedOhlcvBar format
+              indexBarsBySymbol[row.index_symbol].push({
+                trade_date: row.trade_date,
+                close_adjusted: row.close
+              });
+            }
+          } catch (e) {
+            console.warn('[BulkEnrichment] Sector Index query failed:', e);
           }
-        } catch (e) {
-          console.warn('[BulkEnrichment] Sector Index query failed:', e);
         }
       }
 
@@ -199,7 +218,17 @@ export class SevenStrategiesCandidateEnrichmentService {
           if (bars.length > 0) {
             const sm = classifySectorMomentum(sector, bars as any);
             sectorLatestDate = sm.asOf;
-            sectorMomentumStatus = sm.status as any;
+            if (sm.status === 'BULLISH') {
+              sectorMomentumStatus = 'BULLISH';
+            } else if (sm.status === 'NOT_BULLISH') {
+              if (sm.aboveEma20 === false && sm.aboveSma20 === false && sm.aboveSma50 === false) {
+                sectorMomentumStatus = 'WEAK';
+              } else {
+                sectorMomentumStatus = 'NEUTRAL';
+              }
+            } else {
+              sectorMomentumStatus = 'DATA_INSUFFICIENT';
+            }
             sectorReturn5D = sm.return5dPct;
             sectorReturn20D = sm.return20dPct;
             sectorAboveEma20 = sm.aboveEma20;
@@ -216,7 +245,9 @@ export class SevenStrategiesCandidateEnrichmentService {
         const values = stockBars.map(b => Number(b.close_adjusted));
         
         const hasTech = stockBars.length > 0;
-        const cmp = param.cmp ?? (hasTech ? values[values.length - 1] : null);
+        const signalCmp = param.cmp ?? null;
+        const cmp = signalCmp;
+        const latestClose = hasTech ? values[values.length - 1] : null;
         const latestOhlcvDate = hasTech ? stockBars[stockBars.length - 1].trade_date : null;
         const latestVolume = hasTech ? stockBars[stockBars.length - 1].volume_raw : null;
 
@@ -228,15 +259,15 @@ export class SevenStrategiesCandidateEnrichmentService {
         const atrPct = calculateAtrPct(stockBars as any, 14);
         
         const prev5 = values.length >= 6 ? values[values.length - 6] : null;
-        const stockReturn5D = cmp !== null && prev5 !== null && prev5 !== 0 ? ((cmp / prev5) - 1) * 100 : null;
+        const stockReturn5D = latestClose !== null && prev5 !== null && prev5 !== 0 ? ((latestClose / prev5) - 1) * 100 : null;
         
         const prev20 = values.length >= 21 ? values[values.length - 21] : null;
-        const stockReturn20D = cmp !== null && prev20 !== null && prev20 !== 0 ? ((cmp / prev20) - 1) * 100 : null;
+        const stockReturn20D = latestClose !== null && prev20 !== null && prev20 !== 0 ? ((latestClose / prev20) - 1) * 100 : null;
         
-        const aboveEma20 = cmp !== null && ema20 !== null ? cmp > ema20 : null;
-        const aboveSma20 = cmp !== null && sma20 !== null ? cmp > sma20 : null;
-        const aboveSma50 = cmp !== null && sma50 !== null ? cmp > sma50 : null;
-        const aboveSma200 = cmp !== null && sma200 !== null ? cmp > sma200 : null;
+        const aboveEma20 = latestClose !== null && ema20 !== null ? latestClose > ema20 : null;
+        const aboveSma20 = latestClose !== null && sma20 !== null ? latestClose > sma20 : null;
+        const aboveSma50 = latestClose !== null && sma50 !== null ? latestClose > sma50 : null;
+        const aboveSma200 = latestClose !== null && sma200 !== null ? latestClose > sma200 : null;
         
         let stockMomentumStatus: EnrichedCandidateFields['stockMomentumStatus'] = 'DATA_INSUFFICIENT';
         if (hasTech && ema20 !== null && sma20 !== null && sma50 !== null) {
@@ -245,15 +276,17 @@ export class SevenStrategiesCandidateEnrichmentService {
           else stockMomentumStatus = 'NEUTRAL';
         }
         
-        let ohlcvStatus: EnrichedCandidateFields['ohlcvStatus'] = hasTech ? 'AVAILABLE' : 'DATA_INSUFFICIENT';
-        if (hasTech) {
+        let ohlcvStatus: EnrichedCandidateFields['ohlcvStatus'] = includeTechnicals 
+          ? (duckDbError ? 'SOURCE_UNAVAILABLE' : (hasTech ? 'AVAILABLE' : 'DATA_INSUFFICIENT'))
+          : 'NOT_CHECKED';
+        if (includeTechnicals && hasTech && !duckDbError) {
            const isStale = (new Date().getTime() - new Date(latestOhlcvDate!).getTime()) > (7 * 24 * 60 * 60 * 1000);
            if (isStale) ohlcvStatus = 'STALE';
         }
 
         // Double momentum
         let doubleMomentumStatus: EnrichedCandidateFields['doubleMomentumStatus'] = 'DATA_INSUFFICIENT';
-        if (stockMomentumStatus === 'BULLISH' && (sectorMomentumStatus === 'BULLISH' || sectorMomentumStatus === 'STRONG_BULLISH')) {
+        if (stockMomentumStatus === 'BULLISH' && sectorMomentumStatus === 'BULLISH') {
           doubleMomentumStatus = 'YES';
         } else if (stockMomentumStatus !== 'DATA_INSUFFICIENT' && sectorMomentumStatus !== 'DATA_INSUFFICIENT') {
           doubleMomentumStatus = 'NO';
@@ -270,17 +303,12 @@ export class SevenStrategiesCandidateEnrichmentService {
         if (master.pe_ratio == null) missingFields.push('PE');
 
         let qglpStatus: EnrichedCandidateFields['qglpStatus'] = 'DATA_INSUFFICIENT';
-        if (missingFields.length === 0) {
-          qglpStatus = 'AVAILABLE';
-        } else if (missingFields.length <= 2) {
-          qglpStatus = 'PARTIAL';
-        }
 
         // --- Action Readiness ---
         const canAnalyze = !!master.symbol;
-        const canBacktest = hasTech;
-        const canPaperTrade = cmp != null;
-        const canCreateAlert = cmp != null;
+        const canBacktest = includeActionReadiness && includeTechnicals && !!master.symbol && stockBars.length >= 200 && ohlcvStatus === 'AVAILABLE';
+        const canPaperTrade = includeActionReadiness && includeTechnicals && !!master.symbol && latestClose !== null && ohlcvStatus === 'AVAILABLE';
+        const canCreateAlert = includeActionReadiness && includeTechnicals && !!master.symbol && latestClose !== null && ohlcvStatus === 'AVAILABLE';
 
         const enrichment: EnrichedCandidateFields = {
           companyName: master.company_name || null,
@@ -297,7 +325,8 @@ export class SevenStrategiesCandidateEnrichmentService {
           sma200,
           rsi14,
           atrPct,
-          latestClose: cmp,
+          latestClose,
+          signalCmp,
           latestVolume,
           stockReturn5D,
           stockReturn20D,
@@ -321,18 +350,18 @@ export class SevenStrategiesCandidateEnrichmentService {
 
           marketCapCr: mcap,
           marketCapCategory: mcapCategory,
-          marketCapSource: mcap ? 'LOCAL_DB' : 'SOURCE_UNAVAILABLE',
-          marketCapFetchedAt: mcap ? new Date().toISOString() : null,
+          marketCapSource: null,
+          marketCapFetchedAt: null,
 
           qglpStatus,
           qglpOverallRating: null,
-          fundamentalEvidenceState: qglpStatus === 'AVAILABLE' ? 'MIXED_WATCH' : 'DATA_INSUFFICIENT',
+          fundamentalEvidenceState: 'DATA_INSUFFICIENT',
           missingCriticalDataCount: missingFields.length,
           missingCriticalFields: missingFields,
 
           trendlyneFreshnessStatus: 'NOT_CHECKED',
           fereStatus: null,
-          technicalFreshnessStatus: hasTech ? 'VALID' : 'NOT_CHECKED',
+          technicalFreshnessStatus: ohlcvStatus === 'AVAILABLE' ? 'VALID' : (ohlcvStatus === 'STALE' ? 'STALE' : 'DATA_INSUFFICIENT'),
           dataCompletenessStatus: !master.symbol ? 'DATA_INSUFFICIENT' : 'PARTIAL_BUT_ANALYZABLE',
 
           canAnalyze,

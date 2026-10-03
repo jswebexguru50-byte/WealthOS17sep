@@ -38,6 +38,12 @@ function generateId(prefix: string): string {
 
 const router = Router();
 
+function isValidCalendarDate(dateStr: string): boolean {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return false;
+  const d = new Date(dateStr);
+  return !isNaN(d.getTime()) && d.toISOString().startsWith(dateStr);
+}
+
 /**
  * GET /strategies/library
  * Returns combined list of built-in presets + custom strategies
@@ -900,35 +906,200 @@ router.get('/seven-strategies-candidates', async (req, res) => {
   try {
     const { SevenStrategiesCandidatesService } = await import('../services/SevenStrategiesCandidatesService.js');
     const force = req.query.refresh === 'true';
-    const service = SevenStrategiesCandidatesService.getInstance();
-    const payload = await service.getCandidatesPayload(force);
-    let candidates = Object.values(payload.strategies)
-      .flatMap(strategy => strategy.candidates);
-    
-    const filtersApplied: any = {};
+    const filtersApplied: Record<string, any> = {};
     const unsupportedFilters: string[] = [];
 
-    if (req.query.sector) {
-      const s = String(req.query.sector).toUpperCase();
-      candidates = candidates.filter(c => c.sector?.toUpperCase() === s);
-      filtersApplied.sector = s;
-    }
-    if (req.query.marketCapCategory) {
-      const mc = String(req.query.marketCapCategory).toUpperCase();
-      candidates = candidates.filter(c => c.marketCapCategory === mc);
-      filtersApplied.marketCapCategory = mc;
-    }
-    if (req.query.strategies) {
-      const st = String(req.query.strategies).split(',').map(x => x.trim().toUpperCase());
-      candidates = candidates.filter(c => st.includes(c.strategyId));
-      filtersApplied.strategies = st;
+    const allowedParams = new Set([
+      'sector', 'marketCapCategory', 'strategies', 'days', 'from', 'to',
+      'qglpStatus', 'minMissingCriticalDataCount', 'maxMissingCriticalDataCount',
+      'doubleMomentum', 'limit', 'offset', 'refresh',
+      'includeTechnicals', 'includeSectorMomentum', 'includeConvergence', 'includeActionReadiness'
+    ]);
+    
+    for (const key of Object.keys(req.query)) {
+      if (!allowedParams.has(key)) {
+        unsupportedFilters.push(key);
+      }
     }
 
-    ['days', 'from', 'to', 'qglpStatus', 'minMissingCriticalDataCount', 'maxMissingCriticalDataCount', 'doubleMomentum', 'limit'].forEach(k => {
-      if (req.query[k] !== undefined) unsupportedFilters.push(k);
+    let limit: number | undefined = undefined;
+    if (req.query.limit) {
+      const l = parseInt(String(req.query.limit), 10);
+      if (isNaN(l) || l <= 0) return res.status(400).json({ success: false, error: 'Malformed limit filter' });
+      limit = l;
+      filtersApplied.limit = l;
+    }
+
+    let offset: number | undefined = undefined;
+    if (req.query.offset) {
+      const o = parseInt(String(req.query.offset), 10);
+      if (isNaN(o) || o < 0) return res.status(400).json({ success: false, error: 'Malformed offset filter' });
+      offset = o;
+      filtersApplied.offset = o;
+    }
+
+    const includeTechnicals = req.query.includeTechnicals !== undefined ? req.query.includeTechnicals === 'true' : true;
+    if (req.query.includeTechnicals !== undefined) filtersApplied.includeTechnicals = includeTechnicals;
+
+    const includeSectorMomentum = req.query.includeSectorMomentum !== undefined ? req.query.includeSectorMomentum === 'true' : true;
+    if (req.query.includeSectorMomentum !== undefined) filtersApplied.includeSectorMomentum = includeSectorMomentum;
+
+    const includeConvergence = req.query.includeConvergence !== undefined ? req.query.includeConvergence === 'true' : true;
+    if (req.query.includeConvergence !== undefined) filtersApplied.includeConvergence = includeConvergence;
+
+    const includeActionReadiness = req.query.includeActionReadiness !== undefined ? req.query.includeActionReadiness === 'true' : true;
+    if (req.query.includeActionReadiness !== undefined) filtersApplied.includeActionReadiness = includeActionReadiness;
+
+    const service = SevenStrategiesCandidatesService.getInstance();
+    const payload = await service.getCandidatesPayload({
+      forceRefresh: force,
+      limit,
+      offset,
+      includeTechnicals,
+      includeSectorMomentum,
+      includeConvergence,
+      includeActionReadiness
     });
 
-    res.json({ ...payload, candidates, filtersApplied, unsupportedFilters });
+    if (req.query.days) {
+      const d = parseInt(String(req.query.days), 10);
+      if (isNaN(d) || d < 0) return res.status(400).json({ success: false, error: 'Malformed days filter' });
+      filtersApplied.days = d;
+    }
+    if (req.query.from) {
+      const fromStr = String(req.query.from);
+      if (!isValidCalendarDate(fromStr)) {
+        return res.status(400).json({ success: false, error: 'Malformed from filter' });
+      }
+      filtersApplied.from = fromStr;
+    }
+    if (req.query.to) {
+      const toStr = String(req.query.to);
+      if (!isValidCalendarDate(toStr)) {
+        return res.status(400).json({ success: false, error: 'Malformed to filter' });
+      }
+      filtersApplied.to = toStr;
+    }
+    if (req.query.sector) filtersApplied.sector = String(req.query.sector).toUpperCase();
+    if (req.query.marketCapCategory) filtersApplied.marketCapCategory = String(req.query.marketCapCategory).toUpperCase();
+    if (req.query.strategies) filtersApplied.strategies = String(req.query.strategies).split(',').map(x => x.trim().toUpperCase());
+    if (req.query.qglpStatus) filtersApplied.qglpStatus = String(req.query.qglpStatus).toUpperCase();
+    
+    if (req.query.minMissingCriticalDataCount) {
+      const m = parseInt(String(req.query.minMissingCriticalDataCount), 10);
+      if (isNaN(m) || m < 0) return res.status(400).json({ success: false, error: 'Malformed minMissingCriticalDataCount filter' });
+      filtersApplied.minMissingCriticalDataCount = m;
+    }
+    if (req.query.maxMissingCriticalDataCount) {
+      const m = parseInt(String(req.query.maxMissingCriticalDataCount), 10);
+      if (isNaN(m) || m < 0) return res.status(400).json({ success: false, error: 'Malformed maxMissingCriticalDataCount filter' });
+      filtersApplied.maxMissingCriticalDataCount = m;
+    }
+    if (req.query.doubleMomentum) {
+      const dm = String(req.query.doubleMomentum).toUpperCase();
+      if (!['YES', 'NO', 'DATA_INSUFFICIENT'].includes(dm)) return res.status(400).json({ success: false, error: 'Malformed doubleMomentum filter' });
+      filtersApplied.doubleMomentum = dm;
+    }
+// limit already parsed and validated early
+
+    const passFilters = (c: any) => {
+      if (filtersApplied.sector && c.sector?.toUpperCase() !== filtersApplied.sector) return false;
+      if (filtersApplied.marketCapCategory && c.marketCapCategory !== filtersApplied.marketCapCategory) return false;
+      if (filtersApplied.strategies && !filtersApplied.strategies.includes(c.strategyId)) return false;
+      if (filtersApplied.days !== undefined) {
+        const cutoff = new Date();
+        cutoff.setDate(cutoff.getDate() - filtersApplied.days);
+        if (c.signalDate < cutoff.toISOString().substring(0, 10)) return false;
+      }
+      if (filtersApplied.from && c.signalDate < filtersApplied.from) return false;
+      if (filtersApplied.to && c.signalDate > filtersApplied.to) return false;
+      if (filtersApplied.qglpStatus && c.qglpStatus !== filtersApplied.qglpStatus) return false;
+      if (filtersApplied.minMissingCriticalDataCount !== undefined && (c.missingCriticalDataCount ?? 0) < filtersApplied.minMissingCriticalDataCount) return false;
+      if (filtersApplied.maxMissingCriticalDataCount !== undefined && (c.missingCriticalDataCount ?? 0) > filtersApplied.maxMissingCriticalDataCount) return false;
+      if (filtersApplied.doubleMomentum && c.doubleMomentumStatus !== filtersApplied.doubleMomentum) return false;
+      return true;
+    };
+
+    const filteredStrategies: Record<string, any> = {};
+    let totalSignalsAcrossAll = 0;
+    const strategyCounts: Record<string, number> = {};
+    const uniqueSymbols = new Set<string>();
+
+    for (const [key, strat] of Object.entries(payload.strategies)) {
+      const typedStrat = strat as { candidates: any[] };
+      const filteredCands = typedStrat.candidates.filter(passFilters);
+      
+      filteredStrategies[key] = {
+        ...typedStrat,
+        count: filteredCands.length,
+        candidates: filteredCands
+      };
+      
+      strategyCounts[key] = filteredCands.length;
+      totalSignalsAcrossAll += filteredCands.length;
+      filteredCands.forEach(c => uniqueSymbols.add(c.symbol));
+    }
+
+    const filteredConvergence = payload.convergence
+      .map(cv => {
+        const validCands = cv.candidates.filter(passFilters);
+        if (validCands.length <= 1) return null;
+        const distinctStrats = Array.from(new Set(validCands.map(c => c.strategyId)));
+        if (distinctStrats.length <= 1) return null;
+        
+        return {
+          ...cv,
+          candidates: validCands,
+          strategies: cv.strategies.filter((s: any) => validCands.some(c => c.strategyId === s.strategyId)),
+          convergenceCount: validCands.length,
+          distinctStrategyCount: distinctStrats.length,
+          distinctStrategies: distinctStrats
+        };
+      })
+      .filter(Boolean) as typeof payload.convergence;
+
+    let candidates = Object.values(filteredStrategies).flatMap(s => s.candidates);
+
+    if (filtersApplied.limit) {
+      const l = filtersApplied.limit;
+      candidates = candidates.slice(0, l);
+      
+      let allocated = 0;
+      for (const key of Object.keys(filteredStrategies)) {
+        const strat = filteredStrategies[key];
+        if (allocated >= l) {
+          strat.candidates = [];
+          strat.count = 0;
+          strategyCounts[key] = 0;
+        } else if (allocated + strat.candidates.length > l) {
+          const allowed = l - allocated;
+          strat.candidates = strat.candidates.slice(0, allowed);
+          strat.count = allowed;
+          strategyCounts[key] = allowed;
+          allocated += allowed;
+        } else {
+          allocated += strat.candidates.length;
+        }
+      }
+      
+      if (filteredConvergence.length > l) {
+        filteredConvergence.splice(l);
+      }
+      
+      uniqueSymbols.clear();
+      candidates.forEach(c => uniqueSymbols.add(c.symbol));
+      totalSignalsAcrossAll = candidates.length;
+    }
+
+    const summary = {
+      ...payload.summary,
+      totalSignalsAcrossAll,
+      uniqueCandidatesCount: uniqueSymbols.size,
+      convergenceCount: filteredConvergence.length,
+      strategyCounts
+    };
+
+    res.json({ ...payload, summary, strategies: filteredStrategies, convergence: filteredConvergence, candidates, filtersApplied, unsupportedFilters });
   } catch (err: any) {
     console.error('[SevenStrategiesEndpoint] Error:', err);
     res.status(500).json({ success: false, error: err.message });

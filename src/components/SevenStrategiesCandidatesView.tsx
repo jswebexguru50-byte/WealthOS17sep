@@ -152,7 +152,7 @@ interface ScanData {
 }
 
 interface SevenStrategiesCandidatesViewProps {
-  onSelectStock?: (symbol: string, context?: { candidateId?: string, signalIds?: string[] }) => void;
+  onSelectStock?: (symbol: string, context?: { candidateId?: string, signalIds?: string[], recommendedDate?: string, strategyIds?: string[] }) => void;
   selectedPortfolio?: string;
 }
 
@@ -168,16 +168,20 @@ export const SevenStrategiesCandidatesView: React.FC<SevenStrategiesCandidatesVi
   const [filterFereOnly, setFilterFereOnly] = useState<boolean>(false);
   const [filterMinRR, setFilterMinRR] = useState<number>(0);
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
+  const [limit, setLimit] = useState<number | null>(25);
 
   // FERE Forensic Modal State
   const [fereModalSymbol, setFereModalSymbol] = useState<string | null>(null);
   const [isFereModalOpen, setIsFereModalOpen] = useState<boolean>(false);
 
-  const fetchData = async (refresh = false) => {
+  const fetchData = async (refresh = false, newLimit = limit) => {
     try {
       setLoading(true);
       setError(null);
-      const url = `/api/strategies/seven-strategies-candidates${refresh ? '?refresh=true' : ''}`;
+      const params = new URLSearchParams();
+      if (refresh) params.set('refresh', 'true');
+      if (newLimit !== null) params.set('limit', String(newLimit));
+      const url = `/api/strategies/seven-strategies-candidates${params.toString() ? `?${params.toString()}` : ''}`;
       const res = await fetch(url);
       const json = await res.json();
       if (json.success) {
@@ -239,20 +243,26 @@ export const SevenStrategiesCandidatesView: React.FC<SevenStrategiesCandidatesVi
   const handleExportCsv = () => {
     if (!data) return;
     if (activeTab === 'CONVERGENCE') {
-      const headers = ['Symbol', 'Convergence Count', 'Strategies', 'CMP (₹)', 'Latest Signal Date', 'FERE Status'];
+      const headers = ['Symbol', 'Candidate ID', 'Convergence Count', 'Strategies', 'CMP (₹)', 'Latest Signal Date', 'Sector', 'Market Cap', 'QGLP Status', 'FERE Status'];
       const rows = filteredConvergence.map(c => [
         c.symbol,
+        c.candidateId ?? '',
         c.convergenceCount,
         c.strategies.map(s => s.strategyId).join(', '),
         c.cmp,
         c.latestDate,
-        c.fereStatus,
+        c.sector ?? '',
+        c.marketCapCategory ?? '',
+        c.qglpStatus ?? '',
+        c.fereStatus ?? '',
       ]);
       downloadCsv(`7_Strategies_Convergence_${new Date().toISOString().slice(0, 10)}.csv`, headers, rows);
     } else {
-      const headers = ['Symbol', 'Strategy', 'Strategy Name', 'Signal Date', 'CMP (₹)', 'Entry (₹)', 'Stop Loss (₹)', 'Target 1 (₹)', 'Target 2 (₹)', 'R:R', 'FERE Status'];
+      const headers = ['Symbol', 'Candidate ID', 'Signal ID', 'Strategy', 'Strategy Name', 'Signal Date', 'CMP (₹)', 'Entry (₹)', 'Stop Loss (₹)', 'Target 1 (₹)', 'Target 2 (₹)', 'R:R', 'Sector', 'Market Cap', 'QGLP Status', 'FERE Status'];
       const rows = filteredCandidates.map(c => [
         c.symbol,
+        c.candidateId ?? '',
+        c.signalId ?? '',
         c.strategyId,
         c.strategyName,
         c.signalDate,
@@ -262,7 +272,10 @@ export const SevenStrategiesCandidatesView: React.FC<SevenStrategiesCandidatesVi
         c.target1 ?? '',
         c.target2 ?? '',
         c.riskReward ?? '',
-        c.fereStatus
+        c.sector ?? '',
+        c.marketCapCategory ?? '',
+        c.qglpStatus ?? '',
+        c.fereStatus ?? ''
       ]);
       downloadCsv(`Strategy_${activeTab}_Candidates_${new Date().toISOString().slice(0, 10)}.csv`, headers, rows);
     }
@@ -320,6 +333,26 @@ export const SevenStrategiesCandidatesView: React.FC<SevenStrategiesCandidatesVi
           </div>
 
           <div className="flex items-center gap-2.5 shrink-0">
+            <div className="flex items-center rounded-xl bg-slate-800/80 border border-slate-700/60 p-0.5 text-xs font-semibold">
+              <button
+                onClick={() => { setLimit(25); fetchData(false, 25); }}
+                className={`px-2.5 py-1 rounded-lg transition ${limit === 25 ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'}`}
+              >
+                Top 25
+              </button>
+              <button
+                onClick={() => { setLimit(50); fetchData(false, 50); }}
+                className={`px-2.5 py-1 rounded-lg transition ${limit === 50 ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'}`}
+              >
+                Top 50
+              </button>
+              <button
+                onClick={() => { setLimit(null); fetchData(false, null); }}
+                className={`px-2.5 py-1 rounded-lg transition ${limit === null ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'}`}
+              >
+                All
+              </button>
+            </div>
             <button
               onClick={() => fetchData(true)}
               disabled={loading}
@@ -645,7 +678,13 @@ export const SevenStrategiesCandidatesView: React.FC<SevenStrategiesCandidatesVi
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="text-base font-bold text-white tracking-wide">{item.symbol}</span>
+                          <span
+                            onClick={() => onSelectStock && onSelectStock(item.symbol, { candidateId: item.candidateId, signalIds: item.signalIds || (item.signalId ? [item.signalId] : []), recommendedDate: item.signalDate || item.recommendedDate, strategyIds: item.distinctStrategies || item.strategies?.map(s => s.strategyId) || [] })}
+                            className="text-base font-bold text-white tracking-wide hover:text-indigo-400 hover:underline cursor-pointer"
+                            title="Analyze candidate in 360° view"
+                          >
+                            {item.symbol}
+                          </span>
                           {isMultiDistinct && (
                             <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 border border-amber-500/40 text-amber-300">
                               {item.distinctStrategyCount} Strategies
@@ -762,7 +801,7 @@ export const SevenStrategiesCandidatesView: React.FC<SevenStrategiesCandidatesVi
                           <Target className="w-4 h-4" />
                         </button>
                         <button
-                          onClick={() => onSelectStock(item.symbol, { candidateId: item.candidateId, signalIds: item.signals?.map(s => s.signalId).filter(Boolean) as string[] })}
+                          onClick={() => onSelectStock(item.symbol, { candidateId: item.candidateId, signalIds: item.signalIds || (item.signalId ? [item.signalId] : []), recommendedDate: item.signalDate || item.recommendedDate, strategyIds: item.distinctStrategies || item.strategies?.map(s => s.strategyId) || (item.strategyId ? [item.strategyId] : []) })}
                           disabled={!(item as any).canAnalyze}
                           className={`p-1.5 rounded-lg border transition ${
                             (item as any).canAnalyze
@@ -816,7 +855,13 @@ export const SevenStrategiesCandidatesView: React.FC<SevenStrategiesCandidatesVi
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="text-base font-bold text-white tracking-wide">{c.symbol}</span>
+                          <span
+                            onClick={() => onSelectStock && onSelectStock(c.symbol, { candidateId: c.candidateId, signalIds: c.signalIds || (c.signalId ? [c.signalId] : []), recommendedDate: c.signalDate || c.recommendedDate, strategyIds: [c.strategyId] })}
+                            className="text-base font-bold text-white tracking-wide hover:text-indigo-400 hover:underline cursor-pointer"
+                            title="Analyze candidate in 360° view"
+                          >
+                            {c.symbol}
+                          </span>
                           <span
                             className="px-2 py-0.5 rounded text-[10px] font-mono font-bold border"
                             style={{
@@ -918,7 +963,7 @@ export const SevenStrategiesCandidatesView: React.FC<SevenStrategiesCandidatesVi
                     </button>
                     {onSelectStock && (
                       <button
-                        onClick={() => onSelectStock(c.symbol, { candidateId: c.candidateId, signalIds: c.signals?.map(s => s.signalId).filter(Boolean) as string[] })}
+                        onClick={() => onSelectStock(c.symbol, { candidateId: c.candidateId, signalIds: c.signalIds || (c.signalId ? [c.signalId] : []), recommendedDate: c.latestDate || c.recommendedDate, strategyIds: c.strategies?.map(s => s.strategyId) || [] })}
                         className="p-1.5 rounded-lg text-slate-400 hover:text-white bg-slate-800/60 hover:bg-slate-700/60 border border-slate-700/50 transition cursor-pointer"
                         title="Open Quant Dossier"
                       >
@@ -951,7 +996,13 @@ export const SevenStrategiesCandidatesView: React.FC<SevenStrategiesCandidatesVi
                   {filteredCandidates.map((c, idx) => (
                     <tr key={`${c.strategyId}_${c.symbol}_${idx}`} className="hover:bg-slate-800/30 transition">
                       <td className="py-2.5 px-3">
-                        <div className="font-bold text-white">{c.symbol}</div>
+                        <div
+                          onClick={() => onSelectStock && onSelectStock(c.symbol, { candidateId: c.candidateId, signalIds: c.signalIds || (c.signalId ? [c.signalId] : []), recommendedDate: c.signalDate || c.recommendedDate, strategyIds: [c.strategyId] })}
+                          className="font-bold text-white hover:text-indigo-400 hover:underline cursor-pointer"
+                          title="Analyze candidate in 360° view"
+                        >
+                          {c.symbol}
+                        </div>
                         {c.signalId && (
                           <div className="text-[8px] text-slate-500 truncate max-w-[100px]" title="Copy Signal ID" onClick={() => navigator.clipboard.writeText(c.signalId!)}>
                             {c.signalId.split('-').pop()}

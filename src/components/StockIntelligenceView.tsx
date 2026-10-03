@@ -38,6 +38,10 @@ interface StockIntelligenceViewProps {
   isOpen: boolean;
   onClose: () => void;
   formatCurrency?: (val: number) => string;
+  candidateId?: string;
+  signalIds?: string[];
+  recommendedDate?: string;
+  strategyIds?: string[];
 }
 
 const TABS = [
@@ -57,17 +61,26 @@ const TABS = [
 ];
 
 import { useStockIntelligence } from '../hooks/useStockIntelligence.js';
+import { Analyze360View } from './Analyze360View.js';
 
 export function StockIntelligenceView({
   symbol,
   isOpen,
   onClose,
-  formatCurrency = (v) => formatINR(v)
+  formatCurrency = (v) => formatINR(v),
+  candidateId,
+  signalIds,
+  recommendedDate,
+  strategyIds
 }: StockIntelligenceViewProps) {
   const [activeTab, setActiveTab] = useState('OVERVIEW');
   const [selectedEvidence, setSelectedEvidence] = useState<EvidenceDrawerItem | null>(null);
 
-  const { data, loading, error, status } = useStockIntelligence(symbol, isOpen);
+  const { data, loading, error, status } = useStockIntelligence(symbol, isOpen, candidateId, signalIds);
+
+  if (candidateId) {
+    return <Analyze360View symbol={symbol} candidateId={candidateId} signalIds={signalIds} recommendedDate={recommendedDate} strategyIds={strategyIds} onClose={onClose} />;
+  }
 
   if (!isOpen) return null;
 

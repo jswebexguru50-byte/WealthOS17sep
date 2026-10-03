@@ -8,7 +8,7 @@ export interface StockIntelligenceState {
   status: 'AVAILABLE' | 'DATA_INSUFFICIENT' | 'SOURCE_UNAVAILABLE' | 'REMOTE_MISSING' | 'UNAUTHORIZED' | null;
 }
 
-export function useStockIntelligence(symbol: string, isOpen: boolean) {
+export function useStockIntelligence(symbol: string, isOpen: boolean, candidateId?: string, signalIds?: string[]) {
   const [state, setState] = useState<StockIntelligenceState>({
     data: null,
     loading: true,
@@ -18,6 +18,7 @@ export function useStockIntelligence(symbol: string, isOpen: boolean) {
 
   useEffect(() => {
     if (!isOpen || !symbol) return;
+    if (candidateId) return; // Managed by Analyze360View separately
     
     let isMounted = true;
     setState(prev => ({ ...prev, loading: true, error: null, status: null }));

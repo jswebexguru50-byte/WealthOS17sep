@@ -3652,6 +3652,25 @@ const handleDataCoverageGet = async (req: Request, res: Response) => {
   }
 };
 
+const handleAnalyze360Get = async (req: Request, res: Response) => {
+  try {
+    const { symbol } = req.params;
+    const candidateId = req.query.candidateId as string | undefined;
+    const signalIdsParam = req.query.signalIds as string | undefined;
+    const signalIds = signalIdsParam ? signalIdsParam.split(',') : undefined;
+    const recommendedDate = req.query.recommendedDate as string | undefined;
+    const strategyIdsParam = req.query.strategyIds as string | undefined;
+    const strategyIds = strategyIdsParam ? strategyIdsParam.split(',') : undefined;
+
+    const { Analyze360Service } = await import('../services/Analyze360Service.js');
+    const analyzeView = await Analyze360Service.getInstance().getAnalyze360View(symbol, candidateId, signalIds, recommendedDate, strategyIds);
+    return res.json(analyzeView);
+  } catch (err: any) {
+    console.error('[infra.ts] Analyze360 route error:', err);
+    return res.status(500).json({ error: err.message || 'Internal error' });
+  }
+};
+
 const handleEnrichmentStatusGet = async (_req: Request, res: Response) => {
   try {
     const { TrendlyneHealthService } = await import('../services/enrichment/trendlyne/TrendlyneHealthService.js');
@@ -3668,7 +3687,271 @@ router.post('/v2/company-intelligence/:symbol/refresh', handleCompanyIntelligenc
 router.get('/v2/intelligence-inbox', handleIntelligenceInbox);
 router.get('/v2/data-coverage/:symbol', handleDataCoverageGet);
 router.get('/v2/enrichment/status', handleEnrichmentStatusGet);
+const handleAnalyze360Backtest = async (req: Request, res: Response) => {
+  const { symbol } = req.params;
+  const candidateId = req.body.candidateId || null;
+  
+  const baseResponse = {
+    success: false,
+    status: 'BLOCKED',
+    action: 'BACKTEST',
+    symbol,
+    candidateId,
+    result: null,
+    blockers: [] as any[],
+    sources: [] as any[]
+  };
+
+  try {
+    const { DuckDbAdjustedOhlcvService } = await import('../services/DuckDbAdjustedOhlcvService.js');
+    const { PriceActionBacktestEngine } = await import('../services/PriceActionBacktestEngine.js');
+    
+    const barsResult = await DuckDbAdjustedOhlcvService.getDailyBarsForSymbols([symbol], 300);
+    const bars = barsResult.bars.get(symbol);
+    
+    if (!bars || bars.length < 60) {
+      baseResponse.status = 'DATA_INSUFFICIENT';
+      baseResponse.blockers.push({ field: 'ohlcv', reason: `Insufficient OHLCV data (${bars?.length || 0} < 60 days)`, severity: 'HIGH' });
+      return res.status(400).json(baseResponse);
+    }
+    
+    const ohlcv = bars.map(b => ({
+      date: b.trade_date,
+      open: b.open_adjusted,
+      high: b.high_adjusted,
+      low: b.low_adjusted,
+      close: b.close_adjusted,
+      volume: b.volume_raw
+    }));
+    
+    const engine = PriceActionBacktestEngine.getInstance();
+    const report = engine.analyzeAndBacktest(symbol, ohlcv);
+    
+    if (!report) {
+      baseResponse.status = 'BLOCKED';
+      baseResponse.blockers.push({ field: 'engine', reason: 'Backtest engine returned null', severity: 'HIGH' });
+      return res.status(400).json(baseResponse);
+    }
+    
+    // Read-only preview response
+    return res.json({
+      ...baseResponse,
+      success: true,
+      status: 'PREVIEW',
+      result: {
+        testedPeriod: `${bars[0].trade_date} to ${bars[bars.length - 1].trade_date}`,
+        barsUsed: bars.length,
+        entryContext: report.prediction?.laymanPredictionSummary || 'No prediction context',
+        totalReturnPct: report.bestStrategy?.totalReturnPct || null,
+        maxDrawdownPct: report.bestStrategy?.maxDrawdownPct || null,
+        winRate: report.bestStrategy?.winRatePct || null
+      },
+      sources: [{ source: 'DuckDbAdjustedOhlcvService' }, { source: 'PriceActionBacktestEngine' }]
+    });
+  } catch (err: any) {
+    console.error('[infra.ts] Analyze360 Backtest error:', err);
+    baseResponse.blockers.push({ field: 'system', reason: err.message, severity: 'HIGH' });
+    return res.status(500).json(baseResponse);
+  }
+};
+
+const handleAnalyze360PaperTrade = async (req: Request, res: Response) => {
+  const { symbol } = req.params;
+  const { candidateId = null, signalIds, strategyIds } = req.body;
+  const mode = req.body.mode || 'preview';
+  
+  const baseResponse = {
+    success: false,
+    status: 'BLOCKED',
+    action: 'PAPER_TRADE',
+    symbol,
+    candidateId,
+    result: null,
+    blockers: [] as any[],
+    sources: [] as any[]
+  };
+
+  try {
+    const { DuckDbAdjustedOhlcvService } = await import('../services/DuckDbAdjustedOhlcvService.js');
+    const barsResult = await DuckDbAdjustedOhlcvService.getDailyBarsForSymbols([symbol], 1);
+    const bars = barsResult.bars.get(symbol);
+    
+    if (!bars || bars.length === 0) {
+      baseResponse.status = 'DATA_INSUFFICIENT';
+      baseResponse.blockers.push({ field: 'ohlcv', reason: 'No latest price available', severity: 'HIGH' });
+      return res.status(400).json(baseResponse);
+    }
+    
+    const latestBar = bars[bars.length - 1];
+    const latestPrice = latestBar.close_adjusted;
+    
+    // Freshness check
+    const isStale = (new Date().getTime() - new Date(latestBar.trade_date).getTime()) > (7 * 24 * 60 * 60 * 1000);
+    if (isStale) {
+      baseResponse.status = 'DATA_INSUFFICIENT';
+      baseResponse.blockers.push({ field: 'ohlcv', reason: `Price is stale (last date: ${latestBar.trade_date})`, severity: 'HIGH' });
+      return res.status(400).json(baseResponse);
+    }
+    
+    baseResponse.sources.push({ source: 'DuckDbAdjustedOhlcvService', note: `Latest price ${latestPrice} on ${latestBar.trade_date}` });
+    
+    if (mode === 'preview') {
+      return res.json({
+        ...baseResponse,
+        success: true,
+        status: 'PREVIEW',
+        result: { simulatedEntryPrice: latestPrice, readyToCreate: true }
+      });
+    }
+    
+    if (mode === 'create') {
+      const { PaperTradingPotService } = await import('../services/PaperTradingPotService.js');
+      const potService = PaperTradingPotService.getInstance();
+      await potService.ensurePotsInitialized();
+      
+      const potId = 'pot_conservative';
+      const strategyId = strategyIds?.[0] || 'Analyze360_Manual';
+      
+      const posResult = await potService.openPosition({
+        potId,
+        symbol,
+        entryPrice: latestPrice,
+        strategyId,
+        candidateId
+      });
+      
+      if (!posResult) {
+        baseResponse.blockers.push({ field: 'PaperTradingPotService', reason: 'Position blocked by pot limits or already open', severity: 'MEDIUM' });
+        return res.status(400).json(baseResponse);
+      }
+      
+      return res.json({
+        ...baseResponse,
+        success: true,
+        status: 'CREATED',
+        result: {
+          simulatedEntryPrice: latestPrice,
+          positionId: posResult.id,
+          signalIds
+        }
+      });
+    }
+    
+    baseResponse.blockers.push({ field: 'mode', reason: 'Invalid mode', severity: 'HIGH' });
+    return res.status(400).json(baseResponse);
+  } catch (err: any) {
+    console.error('[infra.ts] Analyze360 PaperTrade error:', err);
+    baseResponse.blockers.push({ field: 'system', reason: err.message, severity: 'HIGH' });
+    return res.status(500).json(baseResponse);
+  }
+};
+
+const handleAnalyze360Alert = async (req: Request, res: Response) => {
+  const { symbol } = req.params;
+  const { params, candidateId = null } = req.body;
+  const mode = req.body.mode || 'preview';
+  
+  const baseResponse = {
+    success: false,
+    status: 'BLOCKED',
+    action: 'ALERT',
+    symbol,
+    candidateId,
+    result: null,
+    blockers: [] as any[],
+    sources: [] as any[]
+  };
+
+  try {
+    const { DuckDbAdjustedOhlcvService } = await import('../services/DuckDbAdjustedOhlcvService.js');
+    const barsResult = await DuckDbAdjustedOhlcvService.getDailyBarsForSymbols([symbol], 1);
+    const bars = barsResult.bars.get(symbol);
+    
+    if (!bars || bars.length === 0) {
+      baseResponse.status = 'DATA_INSUFFICIENT';
+      baseResponse.blockers.push({ field: 'ohlcv', reason: 'No latest price available', severity: 'HIGH' });
+      return res.status(400).json(baseResponse);
+    }
+    
+    const latestBar = bars[bars.length - 1];
+    const latestPrice = latestBar.close_adjusted;
+    
+    // Freshness check
+    const isStale = (new Date().getTime() - new Date(latestBar.trade_date).getTime()) > (7 * 24 * 60 * 60 * 1000);
+    if (isStale) {
+      baseResponse.status = 'DATA_INSUFFICIENT';
+      baseResponse.blockers.push({ field: 'ohlcv', reason: `Price is stale (last date: ${latestBar.trade_date})`, severity: 'HIGH' });
+      return res.status(400).json(baseResponse);
+    }
+    
+    baseResponse.sources.push({ source: 'DuckDbAdjustedOhlcvService', note: `Latest price ${latestPrice} on ${latestBar.trade_date}` });
+    
+    if (mode === 'preview') {
+      return res.json({
+        ...baseResponse,
+        success: true,
+        status: 'PREVIEW',
+        result: {
+          latestPrice,
+          availableTypes: ['PRICE_ABOVE', 'PRICE_BELOW'],
+          readyToCreate: true
+        }
+      });
+    }
+    
+    if (mode === 'create') {
+      if (!params || !params.targetPrice || typeof params.targetPrice !== 'number' || params.targetPrice <= 0) {
+        baseResponse.blockers.push({ field: 'targetPrice', reason: 'Invalid or missing targetPrice', severity: 'HIGH' });
+        return res.status(400).json(baseResponse);
+      }
+      
+      const alertType = params.type || (params.targetPrice > latestPrice ? 'PRICE_ABOVE' : 'PRICE_BELOW');
+      if (alertType !== 'PRICE_ABOVE' && alertType !== 'PRICE_BELOW') {
+        baseResponse.blockers.push({ field: 'type', reason: 'Alert type must be PRICE_ABOVE or PRICE_BELOW', severity: 'HIGH' });
+        return res.status(400).json(baseResponse);
+      }
+      
+      const { dbRun, getDB } = await import('../database.js');
+      const db = getDB();
+      const { randomUUID } = await import('crypto');
+      const id = `alrt_${randomUUID()}`;
+      const title = `${symbol} Alert`;
+      const message = `Price condition met: ${alertType} around ${params.targetPrice}`;
+      
+      // Justification: Existing AlertEngine doesn't have a simple synchronous createAlert method;
+      // it is a scanner daemon. Directly inserting into AlertLog is the endorsed pattern for user alerts.
+      await dbRun(db, `
+        INSERT INTO AlertLog (
+          id, alert_code, category, priority, symbol, title, message,
+          payload_json, state, timestamp, acknowledged
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `, [
+        id, 'USER_CUSTOM', 'PRICE_ACTION', 'HIGH', symbol, title, message,
+        JSON.stringify(params), 'NEW', new Date().toISOString(), 0
+      ]);
+      
+      return res.json({
+        ...baseResponse,
+        success: true,
+        status: 'CREATED',
+        result: { alertId: id, alertType, targetPrice: params.targetPrice }
+      });
+    }
+    
+    baseResponse.blockers.push({ field: 'mode', reason: 'Invalid mode', severity: 'HIGH' });
+    return res.status(400).json(baseResponse);
+  } catch (err: any) {
+    console.error('[infra.ts] Analyze360 Alert error:', err);
+    baseResponse.blockers.push({ field: 'system', reason: err.message, severity: 'HIGH' });
+    return res.status(500).json(baseResponse);
+  }
+};
+
 router.get('/company-intelligence/:symbol', handleCompanyIntelligenceGet);
+router.get('/analyze360/:symbol', handleAnalyze360Get);
+router.post('/analyze360/:symbol/backtest', handleAnalyze360Backtest);
+router.post('/analyze360/:symbol/paper-trade', handleAnalyze360PaperTrade);
+router.post('/analyze360/:symbol/alert', handleAnalyze360Alert);
 
 export default router;
 
