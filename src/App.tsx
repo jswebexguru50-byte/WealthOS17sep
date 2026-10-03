@@ -66,6 +66,7 @@ import {
 import { CommandCenterRightDrawer } from './components/CommandCenterRightDrawer';
 import { PreferencesModal } from './components/PreferencesModal';
 import { FereForensicDeepDiveModal } from './components/FereForensicDeepDiveModal';
+import { ScripSearchAutocomplete } from './components/ScripSearchAutocomplete';
 
 // ── Lazily loaded (heavy views — only parsed when first navigated to) ─────────
 const PortfolioHubView           = React.lazy(() => import('./components/PortfolioHubView').then(m => ({ default: m.PortfolioHubView })));
@@ -2307,17 +2308,7 @@ export default function App() {
 
 // ─── Scrip Search Bar Component ────────────────────────────────────────────────
 function ScripSearchBar({ onAnalyze }: { onAnalyze: (symbol: string) => void }) {
-  const [query, setQuery] = React.useState('');
-
-  const handleSubmit = () => {
-    const sym = query.trim().toUpperCase().replace(/\s+/g, '');
-    if (sym) {
-      onAnalyze(sym);
-      setQuery('');
-    }
-  };
-
-  const suggestions = ['RELIANCE', 'HDFCBANK', 'TCS', 'INFY', 'SBIN', 'ICICIBANK', 'BAJFINANCE', 'NIFTY 50', 'SENSEX'];
+  const suggestions = ['RELIANCE', 'HDFCBANK', 'TCS', 'INFY', 'SBIN', 'ICICIBANK', 'BAJFINANCE', 'BHARTIARTL', 'ITC', 'LT'];
 
   return (
     <div
@@ -2328,58 +2319,23 @@ function ScripSearchBar({ onAnalyze }: { onAnalyze: (symbol: string) => void }) 
         padding: '2rem',
       }}
     >
-      <div style={{ marginBottom: '1rem' }}>
+      <div style={{ marginBottom: '1.25rem' }}>
         <h2 style={{ color: 'var(--text-primary, #f1f5f9)', fontWeight: 800, fontSize: '1.25rem', margin: 0 }}>
           🔍 Analyze Any Scrip
         </h2>
         <p style={{ color: 'var(--text-muted, #94a3b8)', fontSize: '0.85rem', marginTop: '0.25rem' }}>
-          Enter any NSE symbol to run full AI intelligence — technicals, fundamentals &amp; sentiment
+          Select or search any security from MasterTickers for instant technical, fundamental, and QGLP evidence
         </p>
       </div>
 
-      <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-        <input
-          type="text"
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && handleSubmit()}
-          placeholder="e.g. RELIANCE, HDFCBANK, TCS, INFY..."
-          style={{
-            flex: 1,
-            background: 'rgba(15,23,42,0.7)',
-            border: '1px solid rgba(99,102,241,0.35)',
-            borderRadius: '0.75rem',
-            padding: '0.75rem 1rem',
-            color: '#f1f5f9',
-            fontSize: '1rem',
-            fontWeight: 600,
-            outline: 'none',
-            letterSpacing: '0.05em',
-          }}
-        />
-        <button
-          onClick={handleSubmit}
-          disabled={!query.trim()}
-          style={{
-            background: query.trim() ? 'linear-gradient(135deg,#6366f1,#4f46e5)' : 'rgba(99,102,241,0.2)',
-            border: 'none',
-            borderRadius: '0.75rem',
-            padding: '0.75rem 1.75rem',
-            color: query.trim() ? '#fff' : '#6366f1',
-            fontWeight: 700,
-            fontSize: '0.9rem',
-            cursor: query.trim() ? 'pointer' : 'not-allowed',
-            whiteSpace: 'nowrap',
-            boxShadow: query.trim() ? '0 4px 20px rgba(99,102,241,0.35)' : 'none',
-            transition: 'all 0.2s',
-          }}
-        >
-          Analyze →
-        </button>
-      </div>
+      <ScripSearchAutocomplete
+        onSelectScrip={onAnalyze}
+        placeholder="Search NSE/BSE symbol, company name, ISIN, sector..."
+        autoFocus
+      />
 
       {/* Quick suggestion chips */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '1rem' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '1.25rem' }}>
         <span style={{ fontSize: '0.75rem', color: '#64748b', alignSelf: 'center', marginRight: '0.25rem' }}>Quick:</span>
         {suggestions.map(s => (
           <button

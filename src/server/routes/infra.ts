@@ -3947,6 +3947,96 @@ const handleAnalyze360Alert = async (req: Request, res: Response) => {
   }
 };
 
+export interface ScripSearchResult {
+  symbol: string;
+  companyName: string | null;
+  isin: string | null;
+  sector: string | null;
+  industry: string | null;
+  exchange: string | null;
+  marketCapCr?: number | null;
+}
+
+const handleScripsSearch = async (req: Request, res: Response) => {
+  try {
+    const q = ((req.query.q as string) || (req.query.query as string) || '').trim();
+    const rawLimit = parseInt((req.query.limit as string) || '20', 10);
+    const limit = Math.min(Math.max(1, isNaN(rawLimit) ? 20 : rawLimit), 50);
+
+    const db = getDB();
+    let rows: any[];
+
+    if (!q) {
+      rows = await dbAll(db, `
+        SELECT 
+          m.symbol,
+          COALESCE(m.company_name, m.name, s.company_name) AS companyName,
+          m.isin,
+          COALESCE(m.sector, s.sector) AS sector,
+          COALESCE(m.industry, s.industry) AS industry,
+          m.exchange,
+          s.market_cap_cr AS marketCapCr
+        FROM MasterTickers m
+        LEFT JOIN SecurityDossierSnapshots s ON s.symbol = m.symbol
+        WHERE m.symbol IS NOT NULL AND TRIM(m.symbol) != ''
+        ORDER BY s.market_cap_cr DESC NULLS LAST, m.symbol ASC
+        LIMIT ?
+      `, [limit]);
+    } else {
+      const like = `%${q}%`;
+      rows = await dbAll(db, `
+        SELECT 
+          m.symbol,
+          COALESCE(m.company_name, m.name, s.company_name) AS companyName,
+          m.isin,
+          COALESCE(m.sector, s.sector) AS sector,
+          COALESCE(m.industry, s.industry) AS industry,
+          m.exchange,
+          s.market_cap_cr AS marketCapCr
+        FROM MasterTickers m
+        LEFT JOIN SecurityDossierSnapshots s ON s.symbol = m.symbol
+        WHERE 
+          m.symbol LIKE ? OR 
+          m.company_name LIKE ? OR 
+          m.name LIKE ? OR 
+          m.isin LIKE ? OR 
+          m.sector LIKE ? OR
+          s.sector LIKE ? OR
+          s.company_name LIKE ?
+        ORDER BY 
+          CASE 
+            WHEN UPPER(m.symbol) = UPPER(?) THEN 1
+            WHEN UPPER(m.symbol) LIKE UPPER(?) || '%' THEN 2
+            WHEN UPPER(COALESCE(m.company_name, m.name, '')) LIKE UPPER(?) || '%' THEN 3
+            ELSE 4 
+          END,
+          s.market_cap_cr DESC NULLS LAST,
+          m.symbol ASC
+        LIMIT ?
+      `, [like, like, like, like, like, like, like, q, q, q, limit]);
+    }
+
+    const results: ScripSearchResult[] = rows.map((r: any) => ({
+      symbol: r.symbol,
+      companyName: r.companyName ?? null,
+      isin: r.isin ?? null,
+      sector: r.sector ?? null,
+      industry: r.industry ?? null,
+      exchange: r.exchange ?? null,
+      marketCapCr: typeof r.marketCapCr === 'number' ? r.marketCapCr : (r.marketCapCr ? Number(r.marketCapCr) : null)
+    }));
+
+    if (req.query.envelope === 'true' || req.query.wrapped === 'true') {
+      return res.json({ success: true, count: results.length, data: results });
+    }
+    return res.json(results);
+  } catch (err: any) {
+    console.error('[infra.ts] Scrips search error:', err);
+    return res.status(500).json({ error: err.message || 'Internal error' });
+  }
+};
+
+router.get('/scrips/search', handleScripsSearch);
 router.get('/company-intelligence/:symbol', handleCompanyIntelligenceGet);
 router.get('/analyze360/:symbol', handleAnalyze360Get);
 router.post('/analyze360/:symbol/backtest', handleAnalyze360Backtest);

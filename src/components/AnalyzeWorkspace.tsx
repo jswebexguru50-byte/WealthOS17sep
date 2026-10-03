@@ -7,7 +7,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { StockIntelligenceView } from './StockIntelligenceView.js';
-import { Search } from 'lucide-react';
+import { ScripSearchAutocomplete } from './ScripSearchAutocomplete.js';
 
 export interface AnalyzeWorkspaceProps {
   initialSymbol?: string;
@@ -22,8 +22,6 @@ export const AnalyzeWorkspace: React.FC<AnalyzeWorkspaceProps> = ({
     const clean = initialSymbol ? initialSymbol.toUpperCase().replace('.NS', '').replace('.BO', '').trim() : '';
     return clean;
   });
-
-  const [inputVal, setInputVal] = useState('');
 
   useEffect(() => {
     if (initialSymbol) {
@@ -69,21 +67,11 @@ export const AnalyzeWorkspace: React.FC<AnalyzeWorkspaceProps> = ({
         <p className="text-xs text-slate-400">Search any security to inspect verified technical, fundamental, FERE and QGLP intelligence.</p>
       </div>
 
-      <div className="relative">
-        <Search className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-500" />
-        <input
-          type="text"
-          value={inputVal}
-          onChange={(e) => setInputVal(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && inputVal.trim()) {
-              handleSelect(inputVal.trim());
-            }
-          }}
-          placeholder="Enter NSE/BSE symbol (e.g. RELIANCE, TCS, INFY)..."
-          className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 font-mono"
-        />
-      </div>
+      <ScripSearchAutocomplete
+        onSelectScrip={handleSelect}
+        placeholder="Search NSE/BSE symbol, company name, or sector..."
+        autoFocus
+      />
 
       <div className="flex flex-wrap gap-2 justify-center">
         {['RELIANCE', 'TCS', 'INFY', 'HDFCBANK', 'ICICIBANK', 'BHARTIARTL'].map((s) => (

@@ -76,11 +76,20 @@ export function StockIntelligenceView({
   const [activeTab, setActiveTab] = useState('OVERVIEW');
   const [selectedEvidence, setSelectedEvidence] = useState<EvidenceDrawerItem | null>(null);
 
-  const { data, loading, error, status } = useStockIntelligence(symbol, isOpen, candidateId, signalIds);
-
-  if (candidateId) {
-    return <Analyze360View symbol={symbol} candidateId={candidateId} signalIds={signalIds} recommendedDate={recommendedDate} strategyIds={strategyIds} onClose={onClose} />;
+  if (isOpen) {
+    return (
+      <Analyze360View
+        symbol={symbol}
+        candidateId={candidateId}
+        signalIds={signalIds}
+        recommendedDate={recommendedDate}
+        strategyIds={strategyIds}
+        onClose={onClose}
+      />
+    );
   }
+
+  const { data, loading, error, status } = useStockIntelligence(symbol, false, candidateId, signalIds);
 
   if (!isOpen) return null;
 

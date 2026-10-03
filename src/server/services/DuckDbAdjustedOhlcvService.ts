@@ -70,8 +70,13 @@ export class DuckDbAdjustedOhlcvService {
   private static restartPromise: Promise<void> | null = null;
   private static lastStderr = '';
   public static workerStarts = 0;
+  private static resolvedPythonPath: string | null = null;
 
   private static async resolvePython(): Promise<string> {
+    if (this.resolvedPythonPath) {
+      return this.resolvedPythonPath;
+    }
+
     const candidates = [
       process.env.PYTHON_BIN,
       this.localPython,
@@ -87,10 +92,21 @@ export class DuckDbAdjustedOhlcvService {
           p.on('exit', code => resolve(code === 0));
           p.on('error', () => resolve(false));
         });
-        if (result) return bin;
+        if (result) {
+          this.resolvedPythonPath = bin;
+          return bin;
+        }
       } catch (e) {}
     }
     throw new Error('No valid python executable with duckdb found');
+  }
+
+  public static async warmup(): Promise<void> {
+    try {
+      await this.ensureWorker();
+    } catch (e) {
+      console.warn('[DuckDB Service] Background warmup failed:', e);
+    }
   }
 
   private static async ensureWorker(): Promise<void> {
