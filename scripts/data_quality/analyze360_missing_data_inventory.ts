@@ -352,6 +352,7 @@ async function runInventory() {
   fs.writeFileSync(mdPath, mdLines.join('\n'), 'utf8');
   console.log(`Markdown inventory written to: ${mdPath}`);
   console.log('Missing data inventory complete.');
+  process.exit(0);
 }
 
 runInventory().catch(err => {

@@ -33,9 +33,13 @@ function log(msg: string) {
 
 async function runPythonSync(): Promise<number> {
   return new Promise((resolve, reject) => {
-    const proc = spawn('python', [pythonSyncScript]);
+    const proc = spawn('python', [pythonSyncScript], {
+      cwd: root,
+      shell: false
+    });
     proc.stdout.on('data', (d) => log(d.toString().trim()));
     proc.stderr.on('data', (d) => log(`[STDERR] ${d.toString().trim()}`));
+    proc.on('error', (err) => reject(err));
     proc.on('close', (code) => {
       if (code === 0) resolve(code);
       else reject(new Error(`Sync process failed with code ${code}`));

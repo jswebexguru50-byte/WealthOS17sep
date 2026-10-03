@@ -1,0 +1,13 @@
+{
+  "jobName": "ohlcv_daily_audit",
+  "jobType": "AUDIT",
+  "status": "AUDIT_ONLY",
+  "startTime": "2026-10-03T14:36:06.324Z",
+  "completedTime": "2026-10-03T14:36:16.817Z",
+  "universe": 2980,
+  "clean10yCount": 1225,
+  "clean10yPct": 41.11,
+  "latestTradeDate": "2026-09-18",
+  "sourceScript": "scripts/market_data/audit_adjusted_ohlcv_coverage.py",
+  "error": null
+}

@@ -63,7 +63,7 @@ async function main() {
     const exitCode = await new Promise<number>((resolve, reject) => {
       const child = spawn('python', [auditScriptPath], {
         cwd: root,
-        shell: process.platform === 'win32'
+        shell: false
       });
 
       child.stdout.on('data', (d) => {

@@ -129,7 +129,7 @@ export function classifySectorMomentum(sectorName: string | null, bars: Adjusted
   
   let status: SectorMomentumStatus = 'UNAVAILABLE';
   if (available) {
-    if (aboveEma20 && aboveSma20 && aboveSma50) status = 'BULLISH';
+    if (aboveEma20 && aboveSma20) status = 'BULLISH';
     else status = 'NOT_BULLISH';
   }
 

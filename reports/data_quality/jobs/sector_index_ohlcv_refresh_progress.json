@@ -1,0 +1,10 @@
+{
+  "jobName": "sector_index_ohlcv_refresh",
+  "jobType": "REFRESH",
+  "status": "SUCCESS",
+  "startTime": "2026-10-03T14:36:53.009Z",
+  "completedTime": "2026-10-03T14:37:00.186Z",
+  "totalIndices": 15,
+  "rowsInserted": 37217,
+  "error": null
+}

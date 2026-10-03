@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-03T12:09:21.180Z",
+  "generatedAt": "2026-10-03T14:38:11.784Z",
   "totalSymbolsChecked": 41,
   "fieldSummary": {
     "technicalOhlcv": {
@@ -8,14 +8,14 @@
       "pctAvailable": 95.1
     },
     "sectorMomentum": {
-      "available": 0,
-      "missing": 41,
-      "pctAvailable": 0
+      "available": 39,
+      "missing": 2,
+      "pctAvailable": 95.1
     },
     "revenueGrowth3Y": {
-      "available": 0,
-      "missing": 41,
-      "pctAvailable": 0
+      "available": 30,
+      "missing": 11,
+      "pctAvailable": 73.2
     },
     "revenueGrowth5Y": {
       "available": 0,
@@ -33,14 +33,14 @@
       "pctAvailable": 43.9
     },
     "marginTrend": {
-      "available": 8,
-      "missing": 33,
-      "pctAvailable": 19.5
+      "available": 28,
+      "missing": 13,
+      "pctAvailable": 68.3
     },
     "debtToEquity": {
-      "available": 0,
-      "missing": 41,
-      "pctAvailable": 0
+      "available": 34,
+      "missing": 7,
+      "pctAvailable": 82.9
     },
     "totalBorrowings": {
       "available": 0,
@@ -58,9 +58,9 @@
       "pctAvailable": 78
     },
     "cfoToOperatingProfit": {
-      "available": 16,
-      "missing": 25,
-      "pctAvailable": 39
+      "available": 34,
+      "missing": 7,
+      "pctAvailable": 82.9
     },
     "freeCashFlow": {
       "available": 31,
@@ -68,9 +68,9 @@
       "pctAvailable": 75.6
     },
     "fcfYield": {
-      "available": 16,
-      "missing": 25,
-      "pctAvailable": 39
+      "available": 31,
+      "missing": 10,
+      "pctAvailable": 75.6
     },
     "workingCapital": {
       "available": 39,
@@ -108,19 +108,19 @@
       "pctAvailable": 53.7
     },
     "roe": {
-      "available": 30,
-      "missing": 11,
-      "pctAvailable": 73.2
+      "available": 39,
+      "missing": 2,
+      "pctAvailable": 95.1
     },
     "roce": {
-      "available": 0,
-      "missing": 41,
-      "pctAvailable": 0
-    },
-    "pe": {
       "available": 34,
       "missing": 7,
       "pctAvailable": 82.9
+    },
+    "pe": {
+      "available": 39,
+      "missing": 2,
+      "pctAvailable": 95.1
     },
     "peg": {
       "available": 0,
@@ -155,32 +155,12 @@
   },
   "topMissingFields": [
     {
-      "field": "sectorMomentum",
-      "missingCount": 41,
-      "pctMissing": 100
-    },
-    {
-      "field": "revenueGrowth3Y",
-      "missingCount": 41,
-      "pctMissing": 100
-    },
-    {
       "field": "revenueGrowth5Y",
       "missingCount": 41,
       "pctMissing": 100
     },
     {
-      "field": "debtToEquity",
-      "missingCount": 41,
-      "pctMissing": 100
-    },
-    {
       "field": "totalBorrowings",
-      "missingCount": 41,
-      "pctMissing": 100
-    },
-    {
-      "field": "roce",
       "missingCount": 41,
       "pctMissing": 100
     },
@@ -195,27 +175,12 @@
       "pctMissing": 100
     },
     {
-      "field": "marginTrend",
-      "missingCount": 33,
-      "pctMissing": 80.5
-    },
-    {
       "field": "cfo",
       "missingCount": 33,
       "pctMissing": 80.5
     },
     {
       "field": "operatingProfit",
-      "missingCount": 25,
-      "pctMissing": 61
-    },
-    {
-      "field": "cfoToOperatingProfit",
-      "missingCount": 25,
-      "pctMissing": 61
-    },
-    {
-      "field": "fcfYield",
       "missingCount": 25,
       "pctMissing": 61
     },
@@ -245,7 +210,12 @@
       "pctMissing": 43.9
     },
     {
-      "field": "roe",
+      "field": "marginTrend",
+      "missingCount": 13,
+      "pctMissing": 31.7
+    },
+    {
+      "field": "revenueGrowth3Y",
       "missingCount": 11,
       "pctMissing": 26.8
     },
@@ -255,17 +225,37 @@
       "pctMissing": 24.4
     },
     {
+      "field": "fcfYield",
+      "missingCount": 10,
+      "pctMissing": 24.4
+    },
+    {
       "field": "cfoToPat",
       "missingCount": 9,
       "pctMissing": 22
     },
     {
-      "field": "pe",
+      "field": "debtToEquity",
+      "missingCount": 7,
+      "pctMissing": 17.1
+    },
+    {
+      "field": "cfoToOperatingProfit",
+      "missingCount": 7,
+      "pctMissing": 17.1
+    },
+    {
+      "field": "roce",
       "missingCount": 7,
       "pctMissing": 17.1
     },
     {
       "field": "technicalOhlcv",
+      "missingCount": 2,
+      "pctMissing": 4.9
+    },
+    {
+      "field": "sectorMomentum",
       "missingCount": 2,
       "pctMissing": 4.9
     },
@@ -295,6 +285,16 @@
       "pctMissing": 4.9
     },
     {
+      "field": "roe",
+      "missingCount": 2,
+      "pctMissing": 4.9
+    },
+    {
+      "field": "pe",
+      "missingCount": 2,
+      "pctMissing": 4.9
+    },
+    {
       "field": "peerContext",
       "missingCount": 2,
       "pctMissing": 4.9
@@ -307,23 +307,11 @@
   ],
   "topMissingReasons": [
     {
-      "reason": "NO_TRUE_3Y_CAGR_AVAILABLE",
-      "count": 41
-    },
-    {
       "reason": "NO_SALES_GROWTH_5Y",
       "count": 41
     },
     {
-      "reason": "NO_DEBT_RATIO",
-      "count": 41
-    },
-    {
       "reason": "NO_BORROWINGS_DATA",
-      "count": 41
-    },
-    {
-      "reason": "NO_ROCE",
       "count": 41
     },
     {
@@ -335,24 +323,12 @@
       "count": 41
     },
     {
-      "reason": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-      "count": 33
-    },
-    {
       "reason": "NO_CFO_DATA",
       "count": 33
     },
     {
       "reason": "NO_OP_PROFIT",
       "count": 25
-    },
-    {
-      "reason": "NO_MATCHED_PERIOD_CFO_AND_OP_PROFIT",
-      "count": 25
-    },
-    {
-      "reason": "SECTOR_INDEX_OHLCV_MISSING",
-      "count": 24
     },
     {
       "reason": "NO_PAT",
@@ -379,15 +355,11 @@
       "count": 18
     },
     {
-      "reason": "SECTOR_UNMAPPED",
-      "count": 17
+      "reason": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
+      "count": 13
     },
     {
-      "reason": "NO_MARKET_CAP_FOR_FCF_YIELD",
-      "count": 15
-    },
-    {
-      "reason": "NO_ROE",
+      "reason": "NO_TRUE_3Y_CAGR_AVAILABLE",
       "count": 11
     },
     {
@@ -395,11 +367,23 @@
       "count": 9
     },
     {
-      "reason": "NO_PE",
+      "reason": "NO_DEBT_RATIO",
+      "count": 7
+    },
+    {
+      "reason": "NO_MATCHED_PERIOD_CFO_AND_OP_PROFIT",
+      "count": 7
+    },
+    {
+      "reason": "NO_ROCE",
       "count": 7
     },
     {
       "reason": "NO_OHLCV",
+      "count": 2
+    },
+    {
+      "reason": "SECTOR_UNMAPPED",
       "count": 2
     },
     {
@@ -423,6 +407,14 @@
       "count": 2
     },
     {
+      "reason": "NO_ROE",
+      "count": 2
+    },
+    {
+      "reason": "NO_PE",
+      "count": 2
+    },
+    {
       "reason": "NO_PEER_CONTEXT_EVIDENCE",
       "count": 2
     },
@@ -433,10 +425,10 @@
   ],
   "classificationRollup": {
     "A_mapping_missing": 0,
-    "B_source_not_ingested": 253,
+    "B_source_not_ingested": 156,
     "C_provider_unlikely": 0,
-    "D_requires_xbrl_filings": 325,
-    "E_requires_sector_ohlcv": 41
+    "D_requires_xbrl_filings": 257,
+    "E_requires_sector_ohlcv": 2
   },
   "symbols": [
     {
@@ -446,44 +438,23 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
-        "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
-        "fcfYield",
-        "roce",
-        "pe",
         "peg",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
-        "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
-        "fcfYield": "NO_MARKET_CAP_FOR_FCF_YIELD",
-        "roce": "NO_ROCE",
-        "pe": "NO_PE",
         "peg": "NO_PEG_DATA",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
-        "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
-        "fcfYield": "B",
-        "roce": "B",
-        "pe": "B",
         "peg": "B",
         "qglpVerdict": "D"
       }
@@ -495,41 +466,23 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
-        "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
-        "fcfYield",
-        "roce",
         "peg",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
-        "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
-        "fcfYield": "NO_MARKET_CAP_FOR_FCF_YIELD",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
-        "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
-        "fcfYield": "B",
-        "roce": "B",
         "peg": "B",
         "qglpVerdict": "D"
       }
@@ -541,56 +494,41 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
         "pat",
         "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
         "cfoToPat",
         "freeCashFlow",
         "fcfYield",
-        "roce",
-        "pe",
         "peg",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_UNMAPPED",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
         "pat": "NO_PAT",
         "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
         "cfoToPat": "NO_MATCHED_PERIOD_CFO_AND_PAT",
         "freeCashFlow": "NO_MATCHED_CFO_AND_CAPEX",
         "fcfYield": "NO_MATCHED_CFO_AND_CAPEX",
-        "roce": "NO_ROCE",
-        "pe": "NO_PE",
         "peg": "NO_PEG_DATA",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",
         "pat": "D",
         "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
         "cfoToPat": "D",
         "freeCashFlow": "D",
         "fcfYield": "B",
-        "roce": "B",
-        "pe": "B",
         "peg": "B",
         "qglpVerdict": "D"
       }
@@ -602,41 +540,23 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
-        "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
-        "fcfYield",
-        "roce",
         "peg",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_UNMAPPED",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
-        "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
-        "fcfYield": "NO_MARKET_CAP_FOR_FCF_YIELD",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
-        "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
-        "fcfYield": "B",
-        "roce": "B",
         "peg": "B",
         "qglpVerdict": "D"
       }
@@ -648,44 +568,23 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
-        "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
-        "fcfYield",
-        "roce",
-        "pe",
         "peg",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
-        "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
-        "fcfYield": "NO_MARKET_CAP_FOR_FCF_YIELD",
-        "roce": "NO_ROCE",
-        "pe": "NO_PE",
         "peg": "NO_PEG_DATA",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
-        "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
-        "fcfYield": "B",
-        "roce": "B",
-        "pe": "B",
         "peg": "B",
         "qglpVerdict": "D"
       }
@@ -697,53 +596,41 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
         "pat",
         "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
         "cfoToPat",
         "freeCashFlow",
         "fcfYield",
-        "roce",
         "peg",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_UNMAPPED",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
         "pat": "NO_PAT",
         "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
         "cfoToPat": "NO_MATCHED_PERIOD_CFO_AND_PAT",
         "freeCashFlow": "NO_MATCHED_CFO_AND_CAPEX",
         "fcfYield": "NO_MATCHED_CFO_AND_CAPEX",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",
         "pat": "D",
         "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
         "cfoToPat": "D",
         "freeCashFlow": "D",
         "fcfYield": "B",
-        "roce": "B",
         "peg": "B",
         "qglpVerdict": "D"
       }
@@ -755,45 +642,27 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
-        "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
-        "fcfYield",
-        "roce",
         "peg",
         "demandOutlook",
         "whatToWatchNext",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
-        "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
-        "fcfYield": "NO_MARKET_CAP_FOR_FCF_YIELD",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "demandOutlook": "NO_DEMAND_OUTLOOK_EVIDENCE",
         "whatToWatchNext": "NO_WATCH_EVIDENCE",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
-        "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
-        "fcfYield": "B",
-        "roce": "B",
         "peg": "B",
         "demandOutlook": "D",
         "whatToWatchNext": "D",
@@ -807,53 +676,41 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
         "pat",
         "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
         "cfoToPat",
         "freeCashFlow",
         "fcfYield",
-        "roce",
         "peg",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_UNMAPPED",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
         "pat": "NO_PAT",
         "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
         "cfoToPat": "NO_MATCHED_PERIOD_CFO_AND_PAT",
         "freeCashFlow": "NO_MATCHED_CFO_AND_CAPEX",
         "fcfYield": "NO_MATCHED_CFO_AND_CAPEX",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",
         "pat": "D",
         "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
         "cfoToPat": "D",
         "freeCashFlow": "D",
         "fcfYield": "B",
-        "roce": "B",
         "peg": "B",
         "qglpVerdict": "D"
       }
@@ -865,56 +722,41 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
         "pat",
         "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
         "cfoToPat",
         "freeCashFlow",
         "fcfYield",
-        "roce",
-        "pe",
         "peg",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_UNMAPPED",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
         "pat": "NO_PAT",
         "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
         "cfoToPat": "NO_MATCHED_PERIOD_CFO_AND_PAT",
         "freeCashFlow": "NO_MATCHED_CFO_AND_CAPEX",
         "fcfYield": "NO_MATCHED_CFO_AND_CAPEX",
-        "roce": "NO_ROCE",
-        "pe": "NO_PE",
         "peg": "NO_PEG_DATA",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",
         "pat": "D",
         "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
         "cfoToPat": "D",
         "freeCashFlow": "D",
         "fcfYield": "B",
-        "roce": "B",
-        "pe": "B",
         "peg": "B",
         "qglpVerdict": "D"
       }
@@ -926,41 +768,23 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
-        "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
-        "fcfYield",
-        "roce",
         "peg",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
-        "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
-        "fcfYield": "NO_MARKET_CAP_FOR_FCF_YIELD",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
-        "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
-        "fcfYield": "B",
-        "roce": "B",
         "peg": "B",
         "qglpVerdict": "D"
       }
@@ -968,69 +792,51 @@
     {
       "symbol": "VISHNUINFR",
       "companyName": "Vishnusurya Projects and Infra Limited",
-      "sector": null,
+      "sector": "Industrial & Specialty Growth",
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
         "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
         "pat",
-        "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
         "cfoToPat",
-        "cfoToOperatingProfit",
         "freeCashFlow",
         "fcfYield",
         "fiiTrend",
         "diiTrend",
-        "roe",
-        "roce",
         "peg",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_UNMAPPED",
         "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
         "pat": "NO_PAT",
-        "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
         "cfoToPat": "NO_MATCHED_PERIOD_CFO_AND_PAT",
-        "cfoToOperatingProfit": "NO_MATCHED_PERIOD_CFO_AND_OP_PROFIT",
         "freeCashFlow": "NO_MATCHED_CFO_AND_CAPEX",
         "fcfYield": "NO_MATCHED_CFO_AND_CAPEX",
         "fiiTrend": "NO_FII_HOLDING_TREND",
         "diiTrend": "NO_DII_HOLDING_TREND",
-        "roe": "NO_ROE",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
         "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",
         "pat": "D",
-        "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
         "cfoToPat": "D",
-        "cfoToOperatingProfit": "D",
         "freeCashFlow": "D",
         "fcfYield": "B",
         "fiiTrend": "B",
         "diiTrend": "B",
-        "roe": "B",
-        "roce": "B",
         "peg": "B",
         "qglpVerdict": "D"
       }
@@ -1145,59 +951,35 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
         "pat",
-        "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
-        "cfoToOperatingProfit",
-        "fcfYield",
         "fiiTrend",
         "diiTrend",
-        "roe",
-        "roce",
         "peg",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
         "pat": "NO_PAT",
-        "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
-        "cfoToOperatingProfit": "NO_MATCHED_PERIOD_CFO_AND_OP_PROFIT",
-        "fcfYield": "NO_MARKET_CAP_FOR_FCF_YIELD",
         "fiiTrend": "NO_FII_HOLDING_TREND",
         "diiTrend": "NO_DII_HOLDING_TREND",
-        "roe": "NO_ROE",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",
         "pat": "D",
-        "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
-        "cfoToOperatingProfit": "D",
-        "fcfYield": "B",
         "fiiTrend": "B",
         "diiTrend": "B",
-        "roe": "B",
-        "roce": "B",
         "peg": "B",
         "qglpVerdict": "D"
       }
@@ -1205,52 +987,34 @@
     {
       "symbol": "INFY",
       "companyName": "Infosys Limited",
-      "sector": null,
+      "sector": "Information Technology",
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
-        "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
-        "cfoToOperatingProfit",
-        "roce",
         "peg",
         "demandOutlook",
         "whatToWatchNext",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_UNMAPPED",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
-        "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
-        "cfoToOperatingProfit": "NO_MATCHED_PERIOD_CFO_AND_OP_PROFIT",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "demandOutlook": "NO_DEMAND_OUTLOOK_EVIDENCE",
         "whatToWatchNext": "NO_WATCH_EVIDENCE",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",
-        "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
-        "cfoToOperatingProfit": "D",
-        "roce": "B",
         "peg": "B",
         "demandOutlook": "D",
         "whatToWatchNext": "D",
@@ -1260,55 +1024,40 @@
     {
       "symbol": "TCS",
       "companyName": "Tata Consultancy Services Limited",
-      "sector": null,
+      "sector": "Information Technology",
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
-        "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
         "fiiTrend",
         "diiTrend",
-        "roce",
         "peg",
         "demandOutlook",
         "whatToWatchNext",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_UNMAPPED",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
-        "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
         "fiiTrend": "NO_FII_HOLDING_TREND",
         "diiTrend": "NO_DII_HOLDING_TREND",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "demandOutlook": "NO_DEMAND_OUTLOOK_EVIDENCE",
         "whatToWatchNext": "NO_WATCH_EVIDENCE",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",
-        "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
         "fiiTrend": "B",
         "diiTrend": "B",
-        "roce": "B",
         "peg": "B",
         "demandOutlook": "D",
         "whatToWatchNext": "D",
@@ -1322,39 +1071,24 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
-        "debtToEquity",
         "totalBorrowings",
-        "cfoToOperatingProfit",
-        "roce",
         "peg",
         "demandOutlook",
         "whatToWatchNext",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
-        "cfoToOperatingProfit": "NO_MATCHED_PERIOD_CFO_AND_OP_PROFIT",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "demandOutlook": "NO_DEMAND_OUTLOOK_EVIDENCE",
         "whatToWatchNext": "NO_WATCH_EVIDENCE",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
-        "cfoToOperatingProfit": "D",
-        "roce": "B",
         "peg": "B",
         "demandOutlook": "D",
         "whatToWatchNext": "D",
@@ -1364,61 +1098,52 @@
     {
       "symbol": "HDFCBANK",
       "companyName": "HDFC Bank Limited",
-      "sector": null,
+      "sector": "Financial Services",
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
         "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
         "pat",
         "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
         "cfoToPat",
         "freeCashFlow",
         "fcfYield",
-        "roce",
         "peg",
         "demandOutlook",
         "whatToWatchNext",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_UNMAPPED",
         "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
         "pat": "NO_PAT",
         "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
         "cfoToPat": "NO_MATCHED_PERIOD_CFO_AND_PAT",
         "freeCashFlow": "NO_MATCHED_CFO_AND_CAPEX",
         "fcfYield": "NO_MATCHED_CFO_AND_CAPEX",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "demandOutlook": "NO_DEMAND_OUTLOOK_EVIDENCE",
         "whatToWatchNext": "NO_WATCH_EVIDENCE",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
         "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",
         "pat": "D",
         "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
         "cfoToPat": "D",
         "freeCashFlow": "D",
         "fcfYield": "B",
-        "roce": "B",
         "peg": "B",
         "demandOutlook": "D",
         "whatToWatchNext": "D",
@@ -1428,11 +1153,10 @@
     {
       "symbol": "ICICIBANK",
       "companyName": "ICICI Bank Limited",
-      "sector": null,
+      "sector": "Financial Services",
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
         "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
@@ -1454,7 +1178,6 @@
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_UNMAPPED",
         "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
@@ -1476,7 +1199,6 @@
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
         "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",
@@ -1505,35 +1227,20 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
-        "debtToEquity",
         "totalBorrowings",
-        "cfoToOperatingProfit",
-        "roce",
         "peg",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
-        "cfoToOperatingProfit": "NO_MATCHED_PERIOD_CFO_AND_OP_PROFIT",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
-        "cfoToOperatingProfit": "D",
-        "roce": "B",
         "peg": "B",
         "qglpVerdict": "D"
       }
@@ -1545,38 +1252,23 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
         "revenueGrowth3Y",
         "revenueGrowth5Y",
-        "debtToEquity",
         "totalBorrowings",
-        "cfoToOperatingProfit",
-        "roce",
-        "pe",
         "peg",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
         "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
-        "cfoToOperatingProfit": "NO_MATCHED_PERIOD_CFO_AND_OP_PROFIT",
-        "roce": "NO_ROCE",
-        "pe": "NO_PE",
         "peg": "NO_PEG_DATA",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
         "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
-        "cfoToOperatingProfit": "D",
-        "roce": "B",
-        "pe": "B",
         "peg": "B",
         "qglpVerdict": "D"
       }
@@ -1588,35 +1280,20 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
-        "debtToEquity",
         "totalBorrowings",
-        "cfoToOperatingProfit",
-        "roce",
         "peg",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
-        "cfoToOperatingProfit": "NO_MATCHED_PERIOD_CFO_AND_OP_PROFIT",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
-        "cfoToOperatingProfit": "D",
-        "roce": "B",
         "peg": "B",
         "qglpVerdict": "D"
       }
@@ -1624,45 +1301,30 @@
     {
       "symbol": "3BBLACKBIO",
       "companyName": "3B Blackbio Dx Limited",
-      "sector": null,
+      "sector": "Industrial & Specialty Growth",
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
-        "debtToEquity",
         "totalBorrowings",
-        "cfoToOperatingProfit",
         "freeCashFlow",
         "fcfYield",
-        "roce",
         "peg",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_UNMAPPED",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
-        "cfoToOperatingProfit": "NO_MATCHED_PERIOD_CFO_AND_OP_PROFIT",
         "freeCashFlow": "NO_MATCHED_CFO_AND_CAPEX",
         "fcfYield": "NO_MATCHED_CFO_AND_CAPEX",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
-        "cfoToOperatingProfit": "D",
         "freeCashFlow": "D",
         "fcfYield": "B",
-        "roce": "B",
         "peg": "B",
         "qglpVerdict": "D"
       }
@@ -1674,35 +1336,20 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
-        "debtToEquity",
         "totalBorrowings",
-        "cfoToOperatingProfit",
-        "roce",
         "peg",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_UNMAPPED",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
-        "cfoToOperatingProfit": "NO_MATCHED_PERIOD_CFO_AND_OP_PROFIT",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
-        "cfoToOperatingProfit": "D",
-        "roce": "B",
         "peg": "B",
         "qglpVerdict": "D"
       }
@@ -1714,35 +1361,20 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
-        "debtToEquity",
         "totalBorrowings",
-        "cfoToOperatingProfit",
-        "roce",
         "peg",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
-        "cfoToOperatingProfit": "NO_MATCHED_PERIOD_CFO_AND_OP_PROFIT",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
-        "cfoToOperatingProfit": "D",
-        "roce": "B",
         "peg": "B",
         "qglpVerdict": "D"
       }
@@ -1754,35 +1386,20 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
-        "debtToEquity",
         "totalBorrowings",
-        "cfoToOperatingProfit",
-        "roce",
         "peg",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
-        "cfoToOperatingProfit": "NO_MATCHED_PERIOD_CFO_AND_OP_PROFIT",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
-        "cfoToOperatingProfit": "D",
-        "roce": "B",
         "peg": "B",
         "qglpVerdict": "D"
       }
@@ -1794,38 +1411,23 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
-        "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
-        "roce",
         "peg",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
-        "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
-        "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
-        "roce": "B",
         "peg": "B",
         "qglpVerdict": "D"
       }
@@ -1837,38 +1439,23 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
-        "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
-        "roce",
         "peg",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
-        "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
-        "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
-        "roce": "B",
         "peg": "B",
         "qglpVerdict": "D"
       }
@@ -1880,59 +1467,35 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
         "pat",
-        "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
-        "cfoToOperatingProfit",
-        "fcfYield",
         "fiiTrend",
         "diiTrend",
-        "roe",
-        "roce",
         "peg",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_UNMAPPED",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
         "pat": "NO_PAT",
-        "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
-        "cfoToOperatingProfit": "NO_MATCHED_PERIOD_CFO_AND_OP_PROFIT",
-        "fcfYield": "NO_MARKET_CAP_FOR_FCF_YIELD",
         "fiiTrend": "NO_FII_HOLDING_TREND",
         "diiTrend": "NO_DII_HOLDING_TREND",
-        "roe": "NO_ROE",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",
         "pat": "D",
-        "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
-        "cfoToOperatingProfit": "D",
-        "fcfYield": "B",
         "fiiTrend": "B",
         "diiTrend": "B",
-        "roe": "B",
-        "roce": "B",
         "peg": "B",
         "qglpVerdict": "D"
       }
@@ -1944,57 +1507,39 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
         "pat",
-        "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
-        "fcfYield",
         "fiiTrend",
         "diiTrend",
-        "roce",
         "peg",
         "demandOutlook",
         "whatToWatchNext",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_UNMAPPED",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
         "pat": "NO_PAT",
-        "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
-        "fcfYield": "NO_MARKET_CAP_FOR_FCF_YIELD",
         "fiiTrend": "NO_FII_HOLDING_TREND",
         "diiTrend": "NO_DII_HOLDING_TREND",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "demandOutlook": "NO_DEMAND_OUTLOOK_EVIDENCE",
         "whatToWatchNext": "NO_WATCH_EVIDENCE",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",
         "pat": "D",
-        "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
-        "fcfYield": "B",
         "fiiTrend": "B",
         "diiTrend": "B",
-        "roce": "B",
         "peg": "B",
         "demandOutlook": "D",
         "whatToWatchNext": "D",
@@ -2008,63 +1553,39 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
         "pat",
-        "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
-        "cfoToOperatingProfit",
-        "fcfYield",
         "fiiTrend",
         "diiTrend",
-        "roe",
-        "roce",
         "peg",
         "demandOutlook",
         "whatToWatchNext",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
         "pat": "NO_PAT",
-        "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
-        "cfoToOperatingProfit": "NO_MATCHED_PERIOD_CFO_AND_OP_PROFIT",
-        "fcfYield": "NO_MARKET_CAP_FOR_FCF_YIELD",
         "fiiTrend": "NO_FII_HOLDING_TREND",
         "diiTrend": "NO_DII_HOLDING_TREND",
-        "roe": "NO_ROE",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "demandOutlook": "NO_DEMAND_OUTLOOK_EVIDENCE",
         "whatToWatchNext": "NO_WATCH_EVIDENCE",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",
         "pat": "D",
-        "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
-        "cfoToOperatingProfit": "D",
-        "fcfYield": "B",
         "fiiTrend": "B",
         "diiTrend": "B",
-        "roe": "B",
-        "roce": "B",
         "peg": "B",
         "demandOutlook": "D",
         "whatToWatchNext": "D",
@@ -2078,59 +1599,35 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
         "pat",
-        "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
-        "cfoToOperatingProfit",
-        "fcfYield",
         "fiiTrend",
         "diiTrend",
-        "roe",
-        "roce",
         "peg",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
         "pat": "NO_PAT",
-        "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
-        "cfoToOperatingProfit": "NO_MATCHED_PERIOD_CFO_AND_OP_PROFIT",
-        "fcfYield": "NO_MARKET_CAP_FOR_FCF_YIELD",
         "fiiTrend": "NO_FII_HOLDING_TREND",
         "diiTrend": "NO_DII_HOLDING_TREND",
-        "roe": "NO_ROE",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",
         "pat": "D",
-        "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
-        "cfoToOperatingProfit": "D",
-        "fcfYield": "B",
         "fiiTrend": "B",
         "diiTrend": "B",
-        "roe": "B",
-        "roce": "B",
         "peg": "B",
         "qglpVerdict": "D"
       }
@@ -2142,63 +1639,39 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
         "pat",
-        "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
-        "cfoToOperatingProfit",
-        "fcfYield",
         "fiiTrend",
         "diiTrend",
-        "roe",
-        "roce",
         "peg",
         "demandOutlook",
         "whatToWatchNext",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
         "pat": "NO_PAT",
-        "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
-        "cfoToOperatingProfit": "NO_MATCHED_PERIOD_CFO_AND_OP_PROFIT",
-        "fcfYield": "NO_MARKET_CAP_FOR_FCF_YIELD",
         "fiiTrend": "NO_FII_HOLDING_TREND",
         "diiTrend": "NO_DII_HOLDING_TREND",
-        "roe": "NO_ROE",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "demandOutlook": "NO_DEMAND_OUTLOOK_EVIDENCE",
         "whatToWatchNext": "NO_WATCH_EVIDENCE",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",
         "pat": "D",
-        "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
-        "cfoToOperatingProfit": "D",
-        "fcfYield": "B",
         "fiiTrend": "B",
         "diiTrend": "B",
-        "roe": "B",
-        "roce": "B",
         "peg": "B",
         "demandOutlook": "D",
         "whatToWatchNext": "D",
@@ -2212,63 +1685,39 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
         "pat",
-        "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
-        "cfoToOperatingProfit",
-        "fcfYield",
         "fiiTrend",
         "diiTrend",
-        "roe",
-        "roce",
         "peg",
         "demandOutlook",
         "whatToWatchNext",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
         "pat": "NO_PAT",
-        "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
-        "cfoToOperatingProfit": "NO_MATCHED_PERIOD_CFO_AND_OP_PROFIT",
-        "fcfYield": "NO_MARKET_CAP_FOR_FCF_YIELD",
         "fiiTrend": "NO_FII_HOLDING_TREND",
         "diiTrend": "NO_DII_HOLDING_TREND",
-        "roe": "NO_ROE",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "demandOutlook": "NO_DEMAND_OUTLOOK_EVIDENCE",
         "whatToWatchNext": "NO_WATCH_EVIDENCE",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",
         "pat": "D",
-        "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
-        "cfoToOperatingProfit": "D",
-        "fcfYield": "B",
         "fiiTrend": "B",
         "diiTrend": "B",
-        "roe": "B",
-        "roce": "B",
         "peg": "B",
         "demandOutlook": "D",
         "whatToWatchNext": "D",
@@ -2278,67 +1727,43 @@
     {
       "symbol": "TATATECH",
       "companyName": "Tata Technologies Limited",
-      "sector": null,
+      "sector": "Information Technology",
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
         "pat",
-        "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
-        "cfoToOperatingProfit",
-        "fcfYield",
         "fiiTrend",
         "diiTrend",
-        "roe",
-        "roce",
         "peg",
         "demandOutlook",
         "whatToWatchNext",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_UNMAPPED",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
         "pat": "NO_PAT",
-        "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
-        "cfoToOperatingProfit": "NO_MATCHED_PERIOD_CFO_AND_OP_PROFIT",
-        "fcfYield": "NO_MARKET_CAP_FOR_FCF_YIELD",
         "fiiTrend": "NO_FII_HOLDING_TREND",
         "diiTrend": "NO_DII_HOLDING_TREND",
-        "roe": "NO_ROE",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "demandOutlook": "NO_DEMAND_OUTLOOK_EVIDENCE",
         "whatToWatchNext": "NO_WATCH_EVIDENCE",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",
         "pat": "D",
-        "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
-        "cfoToOperatingProfit": "D",
-        "fcfYield": "B",
         "fiiTrend": "B",
         "diiTrend": "B",
-        "roe": "B",
-        "roce": "B",
         "peg": "B",
         "demandOutlook": "D",
         "whatToWatchNext": "D",
@@ -2455,63 +1880,39 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
-        "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
         "pat",
-        "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
-        "cfoToOperatingProfit",
-        "fcfYield",
         "fiiTrend",
         "diiTrend",
-        "roe",
-        "roce",
         "peg",
         "demandOutlook",
         "whatToWatchNext",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
-        "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
         "pat": "NO_PAT",
-        "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
-        "cfoToOperatingProfit": "NO_MATCHED_PERIOD_CFO_AND_OP_PROFIT",
-        "fcfYield": "NO_MARKET_CAP_FOR_FCF_YIELD",
         "fiiTrend": "NO_FII_HOLDING_TREND",
         "diiTrend": "NO_DII_HOLDING_TREND",
-        "roe": "NO_ROE",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "demandOutlook": "NO_DEMAND_OUTLOOK_EVIDENCE",
         "whatToWatchNext": "NO_WATCH_EVIDENCE",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
-        "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",
         "pat": "D",
-        "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
-        "cfoToOperatingProfit": "D",
-        "fcfYield": "B",
         "fiiTrend": "B",
         "diiTrend": "B",
-        "roe": "B",
-        "roce": "B",
         "peg": "B",
         "demandOutlook": "D",
         "whatToWatchNext": "D",
@@ -2525,7 +1926,6 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
         "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
@@ -2544,7 +1944,6 @@
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
         "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
@@ -2563,7 +1962,6 @@
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
         "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",
@@ -2589,7 +1987,6 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
         "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
@@ -2608,7 +2005,6 @@
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
         "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
@@ -2627,7 +2023,6 @@
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
         "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",
@@ -2653,7 +2048,6 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
         "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
@@ -2672,7 +2066,6 @@
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
         "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
@@ -2691,7 +2084,6 @@
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
         "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",
@@ -2717,54 +2109,45 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
         "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
         "pat",
         "marginTrend",
-        "debtToEquity",
         "totalBorrowings",
         "cfo",
         "fiiTrend",
         "diiTrend",
-        "roce",
         "peg",
         "demandOutlook",
         "whatToWatchNext",
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
         "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
         "pat": "NO_PAT",
         "marginTrend": "NO_SEQUENTIAL_QUARTERLY_MARGINS",
-        "debtToEquity": "NO_DEBT_RATIO",
         "totalBorrowings": "NO_BORROWINGS_DATA",
         "cfo": "NO_CFO_DATA",
         "fiiTrend": "NO_FII_HOLDING_TREND",
         "diiTrend": "NO_DII_HOLDING_TREND",
-        "roce": "NO_ROCE",
         "peg": "NO_PEG_DATA",
         "demandOutlook": "NO_DEMAND_OUTLOOK_EVIDENCE",
         "whatToWatchNext": "NO_WATCH_EVIDENCE",
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
         "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",
         "pat": "D",
         "marginTrend": "D",
-        "debtToEquity": "B",
         "totalBorrowings": "D",
         "cfo": "D",
         "fiiTrend": "B",
         "diiTrend": "B",
-        "roce": "B",
         "peg": "B",
         "demandOutlook": "D",
         "whatToWatchNext": "D",
@@ -2778,7 +2161,6 @@
       "industry": null,
       "marketCapCr": null,
       "missingFields": [
-        "sectorMomentum",
         "revenueGrowth3Y",
         "revenueGrowth5Y",
         "operatingProfit",
@@ -2795,7 +2177,6 @@
         "qglpVerdict"
       ],
       "reasons": {
-        "sectorMomentum": "SECTOR_INDEX_OHLCV_MISSING",
         "revenueGrowth3Y": "NO_TRUE_3Y_CAGR_AVAILABLE",
         "revenueGrowth5Y": "NO_SALES_GROWTH_5Y",
         "operatingProfit": "NO_OP_PROFIT",
@@ -2812,7 +2193,6 @@
         "qglpVerdict": "QGLP_PILLARS_INCOMPLETE"
       },
       "categoryClassification": {
-        "sectorMomentum": "E",
         "revenueGrowth3Y": "D",
         "revenueGrowth5Y": "B",
         "operatingProfit": "D",

@@ -1,0 +1,8 @@
+{
+  "jobName": "corporate_events_deals_refresh",
+  "jobType": "REFRESH",
+  "status": "SCRIPT_MISSING",
+  "startTime": "2026-10-03T14:36:42.471Z",
+  "completedTime": "2026-10-03T14:36:42.471Z",
+  "error": "SCRIPT_MISSING: No implementation script available"
+}

@@ -372,13 +372,23 @@ export async function executeJob(
   fs.appendFileSync(logFilePath, `\n=== ORCHESTRATOR EXECUTION START: ${startTimeIso} ===\nCommand: ${cmdLineDisplay}\n`);
 
   try {
-    const isWin = process.platform === 'win32';
-    const resolvedCmd = isWin && spawnCmd === 'npx' ? 'npx.cmd' : spawnCmd;
+    let execBinary = spawnCmd;
+    let execArgs = spawnArgs;
+    let useShell = false;
+
+    const tsxDistCli = path.join(root, 'node_modules', 'tsx', 'dist', 'cli.mjs');
+    if (spawnCmd === 'npx' && spawnArgs[0] === 'tsx' && fs.existsSync(tsxDistCli)) {
+      execBinary = process.execPath;
+      execArgs = [tsxDistCli, ...spawnArgs.slice(1)];
+      useShell = false;
+    } else if (process.platform === 'win32' && (spawnCmd.endsWith('.cmd') || spawnCmd.endsWith('.bat') || spawnCmd === 'npx')) {
+      useShell = true;
+    }
 
     const exitCode = await new Promise<number>((resolve, reject) => {
-      const child = spawn(resolvedCmd, spawnArgs, {
+      const child = spawn(execBinary, execArgs, {
         cwd: root,
-        shell: false,
+        shell: useShell,
         env: { ...process.env }
       });
 
