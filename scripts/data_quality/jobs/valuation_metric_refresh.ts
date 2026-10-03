@@ -4,12 +4,15 @@
  *
  * Phase 3 Job E — Valuation Metric Refresh
  *
- * THIN WRAPPER around existing canonical Trendlyne metric planner:
- * scripts/fundamental/trendlyne_metric_pack_planner.ts
+ * Rationale:
+ * Convenience wrapper around scripts/fundamental/trendlyne_metric_pack_planner.ts --execute
+ * providing structured CLI argument pass-through (--max-symbols, --batch-size) and
+ * job-level progress tracking under reports/data_quality/jobs/valuation_metric_refresh_progress.json.
  *
  * Invariants:
- * - Refreshes market cap, PE, PB, and core valuation metrics via existing planner.
+ * - Refreshes market cap, PE, PB, and core valuation metrics via existing canonical planner.
  * - Does NOT use hardcoded LIMIT 100; accepts --max-symbols and --batch-size from CLI.
+ * - Does NOT reintroduce shell quoting risks; uses structured args array.
  * - Logs start/end, passes safe args, records progress JSON, fails if child fails.
  */
 
@@ -66,10 +69,23 @@ async function main() {
   }
 
   try {
+    const tsxDistCli = path.join(root, 'node_modules', 'tsx', 'dist', 'cli.mjs');
+    let execBinary = 'npx';
+    let execArgs = args;
+    let useShell = false;
+
+    if (args[0] === 'tsx' && fs.existsSync(tsxDistCli)) {
+      execBinary = process.execPath;
+      execArgs = [tsxDistCli, ...args.slice(1)];
+      useShell = false;
+    } else if (process.platform === 'win32') {
+      useShell = true;
+    }
+
     const exitCode = await new Promise<number>((resolve, reject) => {
-      const child = spawn('npx', args, {
+      const child = spawn(execBinary, execArgs, {
         cwd: root,
-        shell: process.platform === 'win32'
+        shell: useShell
       });
 
       child.stdout.on('data', (d) => {

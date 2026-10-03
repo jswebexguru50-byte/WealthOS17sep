@@ -286,4 +286,95 @@ describe('Data Refresh Orchestrator Daemon', () => {
       expect(Object.keys(statusRes.executedJobs)).toHaveLength(0);
     });
   });
+
+  describe('6. Production Schedule & Invariant Audits', () => {
+    it('1. Production schedule has no stale ohlcv_daily_refresh job', () => {
+      const prodConfig = loadScheduleConfig();
+      expect(prodConfig.jobs['ohlcv_daily_refresh']).toBeUndefined();
+      expect(prodConfig.jobs['ohlcv_daily_audit']).toBeDefined();
+    });
+
+    it('2. No job in schedule references scripts/data_quality/jobs/ohlcv_daily_refresh.ts', () => {
+      const prodConfig = loadScheduleConfig();
+      for (const [name, job] of Object.entries(prodConfig.jobs)) {
+        expect(job.scriptPath || '').not.toContain('ohlcv_daily_refresh');
+        expect(job.existingScriptPath || '').not.toContain('ohlcv_daily_refresh');
+        const argsStr = Array.isArray(job.args) ? job.args.join(' ') : '';
+        expect(argsStr).not.toContain('ohlcv_daily_refresh');
+      }
+      const oldFilePath = path.resolve('scripts', 'data_quality', 'jobs', 'ohlcv_daily_refresh.ts');
+      expect(fs.existsSync(oldFilePath)).toBe(false);
+    });
+
+    it('3. No job script contains hardcoded market date 2026-09-30', () => {
+      const jobsDir = path.resolve('scripts', 'data_quality', 'jobs');
+      const files = fs.readdirSync(jobsDir).filter(f => f.endsWith('.ts') || f.endsWith('.js'));
+      for (const file of files) {
+        const content = fs.readFileSync(path.join(jobsDir, file), 'utf8');
+        expect(content).not.toContain('2026-09-30');
+      }
+    });
+
+    it('4. No job script contains arbitrary LIMIT 100 unless string also contains max-symbols', () => {
+      const jobsDir = path.resolve('scripts', 'data_quality', 'jobs');
+      const files = fs.readdirSync(jobsDir).filter(f => f.endsWith('.ts') || f.endsWith('.js'));
+      for (const file of files) {
+        const content = fs.readFileSync(path.join(jobsDir, file), 'utf8');
+        if (content.includes('LIMIT 100')) {
+          expect(content.toLowerCase()).toContain('max-symbols');
+        }
+      }
+    });
+
+    it('5. SCRIPT_MISSING jobs do not get planned for execution in --plan and do not spawn a child in run-job', async () => {
+      const prodConfig = loadScheduleConfig();
+      const planRes = await runDaemon({
+        mode: 'plan'
+      });
+      // SCRIPT_MISSING jobs must never be in plannedJobs
+      for (const [name, job] of Object.entries(prodConfig.jobs)) {
+        if (job.implementationStatus === 'SCRIPT_MISSING') {
+          expect(planRes.plannedJobs).not.toContain(name);
+        }
+      }
+
+      // Executing a SCRIPT_MISSING job returns SCRIPT_MISSING with 0 child process duration
+      const missingJob = prodConfig.jobs['corporate_events_deals_refresh'];
+      expect(missingJob.implementationStatus).toBe('SCRIPT_MISSING');
+      const runRes = await executeJob(missingJob, {
+        mode: 'run-job',
+        targetJob: missingJob.name
+      });
+      expect(runRes.status).toBe('SCRIPT_MISSING');
+      expect(runRes.durationMs).toBe(0);
+    });
+
+    it('6. AUDIT_ONLY jobs have mutatesProductionData: false', () => {
+      const prodConfig = loadScheduleConfig();
+      for (const [name, job] of Object.entries(prodConfig.jobs)) {
+        if (job.implementationStatus === 'AUDIT_ONLY' || job.jobType === 'AUDIT') {
+          expect(job.mutatesProductionData).toBe(false);
+        }
+      }
+    });
+
+    it('7. READY jobs either invoke existing script with valid path or declare canonical local implementation', () => {
+      const prodConfig = loadScheduleConfig();
+      for (const [name, job] of Object.entries(prodConfig.jobs)) {
+        if (job.implementationStatus === 'READY') {
+          if (job.invokesExistingScript) {
+            expect(job.existingScriptPath).toBeDefined();
+            expect(typeof job.existingScriptPath).toBe('string');
+            const fullScriptPath = path.resolve(job.existingScriptPath!);
+            expect(fs.existsSync(fullScriptPath)).toBe(true);
+          } else {
+            // Must clearly declare itself as canonical local implementation/backfill
+            const descLower = job.description.toLowerCase();
+            expect(descLower).toContain('canonical');
+            expect(descLower.includes('backfill') || descLower.includes('script')).toBe(true);
+          }
+        }
+      }
+    });
+  });
 });

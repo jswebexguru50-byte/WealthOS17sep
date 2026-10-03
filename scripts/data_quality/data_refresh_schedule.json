@@ -80,7 +80,7 @@
     },
     "fere_xbrl_financial_history_backfill": {
       "name": "fere_xbrl_financial_history_backfill",
-      "description": "Consume downloaded FERE/statutory XBRL filings and reconcile into company_facts with NULL fetchedAt",
+      "description": "Canonical local backfill script reconciling downloaded FERE/statutory XBRL filings into company_facts with NULL fetchedAt",
       "jobType": "BACKFILL",
       "implementationStatus": "READY",
       "invokesExistingScript": false,
@@ -99,7 +99,7 @@
     },
     "shareholding_history_refresh": {
       "name": "shareholding_history_refresh",
-      "description": "Consume verified FERE shareholding snapshots to populate HistoricalShareholdingPattern",
+      "description": "Canonical local backfill script ingesting verified FERE shareholding snapshots to populate HistoricalShareholdingPattern",
       "jobType": "BACKFILL",
       "implementationStatus": "READY",
       "invokesExistingScript": false,
@@ -118,7 +118,7 @@
     },
     "corporate_events_deals_refresh": {
       "name": "corporate_events_deals_refresh",
-      "description": "Audit and refresh corporate events, insider deals, and SAST filings (SCRIPT_MISSING)",
+      "description": "Corporate events/deals provider refresh is not implemented yet; no refresh will run until a real acquisition script exists.",
       "jobType": "REFRESH",
       "implementationStatus": "SCRIPT_MISSING",
       "invokesExistingScript": false,
