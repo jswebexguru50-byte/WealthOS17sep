@@ -262,6 +262,74 @@ describe('Data Refresh Orchestrator Daemon', () => {
       expect(progress.completedTime).toBeDefined();
       expect(progress.error).toBeNull();
     });
+
+    it('records DATA_INSUFFICIENT when child progress indicates DATA_INSUFFICIENT or PARTIAL_BATCH_NOT_EXECUTED', async () => {
+      // Create a test job that writes child progress as DATA_INSUFFICIENT and exits 0
+      const partialBatchJob: RefreshJobConfig = {
+        ...mockJob,
+        name: 'partial_batch_job',
+        command: 'node',
+        args: [
+          '-e',
+          `const fs = require('fs'); fs.writeFileSync('${testProgressPath.replace(/\\/g, '\\\\')}', JSON.stringify({ status: 'DATA_INSUFFICIENT', error: 'Partial batch not executed' })); process.exit(0);`
+        ]
+      };
+
+      const result = await executeJob(partialBatchJob, {
+        mode: 'run-job',
+        targetJob: partialBatchJob.name
+      });
+
+      expect(result.status).toBe('DATA_INSUFFICIENT');
+      const progress = readJobProgress(partialBatchJob);
+      expect(progress.status).toBe('DATA_INSUFFICIENT');
+    });
+
+    it('records DATA_INSUFFICIENT when child progress indicates SUCCESS_WITH_NO_FACTS and never leaves RUNNING', async () => {
+      const zeroFactsJob: RefreshJobConfig = {
+        ...mockJob,
+        name: 'zero_facts_job',
+        command: 'node',
+        args: [
+          '-e',
+          `const fs = require('fs'); fs.writeFileSync('${testProgressPath.replace(/\\/g, '\\\\')}', JSON.stringify({ status: 'SUCCESS_WITH_NO_FACTS', executedCalls: 1, factsPersisted: 0, error: 'Provider returned no usable facts' })); process.exit(0);`
+        ]
+      };
+
+      const result = await executeJob(zeroFactsJob, {
+        mode: 'run-job',
+        targetJob: zeroFactsJob.name
+      });
+
+      expect(result.status).toBe('DATA_INSUFFICIENT');
+      const progress = readJobProgress(zeroFactsJob);
+      expect(progress.status).toBe('DATA_INSUFFICIENT');
+      expect(progress.status).not.toBe('SUCCESS');
+      expect(progress.status).not.toBe('RUNNING');
+      expect(progress.completedAt).toBeDefined();
+    });
+
+    it('passes --allow-partial-final-batch through to child job arguments when enabled', async () => {
+      // Child script asserts that --allow-partial-final-batch is present in process.argv
+      const flagCheckJob: RefreshJobConfig = {
+        ...mockJob,
+        name: 'flag_check_job',
+        command: 'node',
+        args: [
+          '-e',
+          `if (!process.argv.includes('--allow-partial-final-batch')) process.exit(1); else process.exit(0);`,
+          '--'
+        ]
+      };
+
+      const result = await executeJob(flagCheckJob, {
+        mode: 'run-job',
+        targetJob: flagCheckJob.name,
+        allowPartialFinalBatch: true
+      });
+
+      expect(result.status).toBe('SUCCESS');
+    });
   });
 
   describe('5. Orchestrator Plan & Run Modes', () => {

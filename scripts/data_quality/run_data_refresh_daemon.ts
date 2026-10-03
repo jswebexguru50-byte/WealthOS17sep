@@ -35,6 +35,7 @@ export type JobRunStatus =
   | 'PENDING'
   | 'RUNNING'
   | 'SUCCESS'
+  | 'SUCCESS_WITH_NO_FACTS'
   | 'DRY_RUN'
   | 'SCRIPT_MISSING'
   | 'AUDIT_ONLY'
@@ -77,6 +78,7 @@ export interface DaemonOptions {
   dryRun?: boolean;
   maxSymbols?: number;
   batchSize?: number;
+  allowPartialFinalBatch?: boolean;
   configPath?: string;
 }
 
@@ -301,13 +303,17 @@ export function updateJobProgress(
   try {
     fs.mkdirSync(path.dirname(fullPath), { recursive: true });
     const existing = readJobProgress(job) || {};
+    const effectiveStart = startTime || existing.startTime || existing.startedAt || new Date().toISOString();
+    const effectiveCompleted = completedTime || (status === 'RUNNING' ? null : new Date().toISOString());
     const updated = {
       ...existing,
       jobName: job.name,
       jobType: job.jobType,
       status,
-      startTime: startTime || existing.startTime || new Date().toISOString(),
-      completedTime: completedTime || (status === 'RUNNING' ? null : new Date().toISOString()),
+      startedAt: effectiveStart,
+      completedAt: effectiveCompleted,
+      startTime: effectiveStart,
+      completedTime: effectiveCompleted,
       error: error || null
     };
     fs.writeFileSync(fullPath, JSON.stringify(updated, null, 2));
@@ -363,6 +369,9 @@ export async function executeJob(
   if (options.batchSize && !spawnArgs.includes('--batch-size')) {
     spawnArgs.push('--batch-size', String(options.batchSize));
   }
+  if (options.allowPartialFinalBatch && !spawnArgs.includes('--allow-partial-final-batch')) {
+    spawnArgs.push('--allow-partial-final-batch');
+  }
 
   const cmdLineDisplay = `${spawnCmd} ${spawnArgs.join(' ')}`.trim();
   logDaemon(`[>] Running job '${job.name}' (${cmdLineDisplay})...`);
@@ -413,7 +422,9 @@ export async function executeJob(
 
     if (exitCode === 0) {
       const finalStatus: JobRunStatus =
-        childStatus === 'DATA_INSUFFICIENT'
+        childStatus === 'DATA_INSUFFICIENT' ||
+        childStatus === 'PARTIAL_BATCH_NOT_EXECUTED' ||
+        childStatus === 'SUCCESS_WITH_NO_FACTS'
           ? 'DATA_INSUFFICIENT'
           : childStatus === 'BLOCKED_AUTH'
           ? 'BLOCKED_AUTH'
@@ -426,7 +437,9 @@ export async function executeJob(
       return { status: finalStatus, durationMs };
     } else {
       const finalStatus: JobRunStatus =
-        childStatus === 'DATA_INSUFFICIENT'
+        childStatus === 'DATA_INSUFFICIENT' ||
+        childStatus === 'PARTIAL_BATCH_NOT_EXECUTED' ||
+        childStatus === 'SUCCESS_WITH_NO_FACTS'
           ? 'DATA_INSUFFICIENT'
           : childStatus === 'BLOCKED_AUTH'
           ? 'BLOCKED_AUTH'
@@ -588,6 +601,7 @@ async function main() {
   let dryRun = false;
   let maxSymbols: number | undefined;
   let batchSize: number | undefined;
+  let allowPartialFinalBatch = false;
 
   for (let i = 0; i < args.length; i++) {
     const a = args[i];
@@ -605,6 +619,8 @@ async function main() {
     } else if (a === '--batch-size') {
       batchSize = Number(args[i + 1]);
       i++;
+    } else if (a === '--allow-partial-final-batch') {
+      allowPartialFinalBatch = true;
     }
   }
 
@@ -614,7 +630,8 @@ async function main() {
       targetJob,
       dryRun,
       maxSymbols,
-      batchSize
+      batchSize,
+      allowPartialFinalBatch
     });
 
     const failedCount = Object.values(res.executedJobs).filter((s) => s === 'FAILED').length;

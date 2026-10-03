@@ -37,11 +37,14 @@ function log(msg: string) {
 async function main() {
   log('Starting Job: Valuation Metric Refresh (Invoking trendlyne_metric_pack_planner.ts --execute)');
 
+  const startTimeIso = new Date().toISOString();
   const progress: Record<string, any> = {
     jobName: 'valuation_metric_refresh',
     jobType: 'REFRESH',
     status: 'RUNNING',
-    startTime: new Date().toISOString(),
+    startedAt: startTimeIso,
+    startTime: startTimeIso,
+    completedAt: null,
     completedTime: null,
     sourceScript: 'scripts/fundamental/trendlyne_metric_pack_planner.ts',
     error: null
@@ -49,15 +52,17 @@ async function main() {
   fs.writeFileSync(progressPath, JSON.stringify(progress, null, 2));
 
   if (!fs.existsSync(plannerScriptPath)) {
+    const nowIso = new Date().toISOString();
     progress.status = 'SCRIPT_MISSING';
     progress.error = `Underlying planner script not found: ${plannerScriptPath}`;
-    progress.completedTime = new Date().toISOString();
+    progress.completedAt = nowIso;
+    progress.completedTime = nowIso;
     fs.writeFileSync(progressPath, JSON.stringify(progress, null, 2));
     log(`[ERROR] ${progress.error}`);
     process.exit(1);
   }
 
-  // Pass through safe args: --execute, and --max-symbols / --batch-size if present
+  // Pass through safe args: --execute, and --max-symbols / --batch-size / --allow-partial-final-batch if present
   const args = ['tsx', plannerScriptPath, '--execute'];
   const maxIdx = process.argv.indexOf('--max-symbols');
   if (maxIdx >= 0 && process.argv[maxIdx + 1]) {
@@ -66,6 +71,9 @@ async function main() {
   const batchIdx = process.argv.indexOf('--batch-size');
   if (batchIdx >= 0 && process.argv[batchIdx + 1]) {
     args.push('--batch-size', process.argv[batchIdx + 1]);
+  }
+  if (process.argv.includes('--allow-partial-final-batch')) {
+    args.push('--allow-partial-final-batch');
   }
 
   try {
@@ -104,14 +112,39 @@ async function main() {
       throw new Error(`Child planner script exited with code ${exitCode}`);
     }
 
-    progress.status = 'SUCCESS';
-    progress.completedTime = new Date().toISOString();
+    let childStatus = 'SUCCESS';
+    let childError: string | null = null;
+    try {
+      if (fs.existsSync(progressPath)) {
+        const existing = JSON.parse(fs.readFileSync(progressPath, 'utf8'));
+        if (existing.status) childStatus = existing.status;
+        if (existing.error) childError = existing.error;
+      }
+    } catch {}
+
+    const nowIso = new Date().toISOString();
+    if (
+      childStatus === 'DATA_INSUFFICIENT' ||
+      childStatus === 'PARTIAL_BATCH_NOT_EXECUTED' ||
+      childStatus === 'SUCCESS_WITH_NO_FACTS'
+    ) {
+      progress.status = 'DATA_INSUFFICIENT';
+    } else if (childStatus === 'SUCCESS') {
+      progress.status = 'SUCCESS';
+    } else {
+      progress.status = childStatus || 'SUCCESS';
+    }
+    progress.completedAt = nowIso;
+    progress.completedTime = nowIso;
+    if (childError) progress.error = childError;
     fs.writeFileSync(progressPath, JSON.stringify(progress, null, 2));
 
-    log('Job completed successfully (Valuation metrics refreshed via planner).');
+    log(`Job completed with status: ${progress.status} (Valuation metrics refresh handler).`);
   } catch (err: any) {
+    const nowIso = new Date().toISOString();
     progress.status = 'FAILED';
-    progress.completedTime = new Date().toISOString();
+    progress.completedAt = nowIso;
+    progress.completedTime = nowIso;
     progress.error = err?.message || String(err);
     fs.writeFileSync(progressPath, JSON.stringify(progress, null, 2));
     log(`Job failed: ${progress.error}`);
