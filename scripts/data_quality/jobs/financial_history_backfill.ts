@@ -38,6 +38,7 @@ async function main() {
 
   const progress = {
     jobName: 'financial_history_backfill',
+    jobType: 'BACKFILL',
     status: 'RUNNING',
     startTime: new Date().toISOString(),
     completedTime: null as string | null,

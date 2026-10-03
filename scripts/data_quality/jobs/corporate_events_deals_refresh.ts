@@ -3,19 +3,19 @@
  * scripts/data_quality/jobs/corporate_events_deals_refresh.ts
  *
  * Phase 3 Job F — Corporate Events & Deals Refresh
- * Synchronizes insider disclosures, SAST filings, bulk deals, and corporate actions.
  *
+ * Status: SCRIPT_MISSING
  * Invariants:
- * - Deterministic, non-synthetic facts only.
- * - Progress tracking, batch size, resume support, duplicate prevention.
+ * - Does NOT pretend a refresh happened when only performing a count audit.
+ * - Marks status as SCRIPT_MISSING because no dedicated live corporate events /
+ *   insider deals provider acquisition script currently exists in the repository.
+ * - Logs start/end, records progress JSON with SCRIPT_MISSING status.
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
-import sqlite3 from 'sqlite3';
 
 const root = path.resolve(process.cwd());
-const dbPath = (process.env.DATABASE_URL || path.join(root, 'portfolio.db')).replace(/^sqlite:\/\//, '');
 const progressDir = path.join(root, 'reports', 'data_quality', 'jobs');
 const progressPath = path.join(progressDir, 'corporate_events_deals_refresh_progress.json');
 const logPath = path.join(progressDir, 'corporate_events_deals_refresh.log');
@@ -29,59 +29,21 @@ function log(msg: string) {
 }
 
 async function main() {
-  log('Starting Job F: Corporate Events & Deals Refresh');
+  log('Starting Job: Corporate Events & Deals Refresh');
 
-  const progress = {
+  const progress: Record<string, any> = {
     jobName: 'corporate_events_deals_refresh',
-    status: 'RUNNING',
+    jobType: 'REFRESH',
+    status: 'SCRIPT_MISSING',
     startTime: new Date().toISOString(),
-    completedTime: null as string | null,
-    totalSymbols: 0,
-    dealsAudited: 0,
-    eventsAudited: 0,
-    error: null as string | null
+    completedTime: new Date().toISOString(),
+    error: 'SCRIPT_MISSING: No dedicated corporate events/deals acquisition script found in WealthOS repository.'
   };
+
   fs.writeFileSync(progressPath, JSON.stringify(progress, null, 2));
 
-  const db = new sqlite3.Database(dbPath);
-
-  try {
-    // Check InstitutionalDeals / company_events if present
-    const dealCount = await new Promise<number>((resolve) => {
-      db.get("SELECT count(*) as c FROM sqlite_master WHERE type='table' AND name='InstitutionalDeals'", (err, row: any) => {
-        if (!row?.c) resolve(0);
-        else {
-          db.get("SELECT count(*) as c FROM InstitutionalDeals", (e, r: any) => resolve(r?.c || 0));
-        }
-      });
-    });
-
-    const eventCount = await new Promise<number>((resolve) => {
-      db.get("SELECT count(*) as c FROM sqlite_master WHERE type='table' AND name='company_events'", (err, row: any) => {
-        if (!row?.c) resolve(0);
-        else {
-          db.get("SELECT count(*) as c FROM company_events", (e, r: any) => resolve(r?.c || 0));
-        }
-      });
-    });
-
-    progress.dealsAudited = dealCount;
-    progress.eventsAudited = eventCount;
-    progress.status = 'SUCCESS';
-    progress.completedTime = new Date().toISOString();
-    fs.writeFileSync(progressPath, JSON.stringify(progress, null, 2));
-
-    log(`Job F completed successfully. Deals in DB: ${dealCount}, Events in DB: ${eventCount}.`);
-  } catch (err: any) {
-    progress.status = 'FAILED';
-    progress.completedTime = new Date().toISOString();
-    progress.error = err?.message || String(err);
-    fs.writeFileSync(progressPath, JSON.stringify(progress, null, 2));
-    log(`Job F failed: ${progress.error}`);
-    process.exit(1);
-  } finally {
-    db.close();
-  }
+  log('[-] SCRIPT_MISSING: No dedicated Trendlyne/FERE/NSE/BSE corporate events/deals acquisition script exists in repository.');
+  log('[-] Job cannot execute real refresh without live provider acquisition script. Marking SCRIPT_MISSING.');
 }
 
 main().catch(console.error);

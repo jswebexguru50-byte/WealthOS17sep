@@ -4,8 +4,15 @@
  *
  * WealthOS — Simple Deterministic Data Refresh Orchestrator
  *
- * Wrapper/scheduler layer that reuses existing WealthOS acquisition, ingestion,
+ * Thin wrapper/scheduler layer that reuses existing WealthOS acquisition, ingestion,
  * and audit scripts based on data_refresh_schedule.json.
+ *
+ * Invariants:
+ * - Does NOT duplicate fetching, ingestion, or audit logic.
+ * - Distinguishes between REFRESH, INGEST, AUDIT, and BACKFILL.
+ * - Marks SCRIPT_MISSING jobs transparently instead of pretending refresh occurred.
+ * - Dry-run returns DRY_RUN (never returns SUCCESS).
+ * - Safe command execution via structured command + args array.
  *
  * Modes:
  *   --plan                 Show what jobs are due/fresh without executing or mutating data
@@ -21,27 +28,38 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 
+export type JobType = 'REFRESH' | 'INGEST' | 'AUDIT' | 'BACKFILL';
+export type ImplementationStatus = 'READY' | 'SCRIPT_MISSING' | 'AUDIT_ONLY';
+
 export type JobRunStatus =
   | 'PENDING'
   | 'RUNNING'
   | 'SUCCESS'
-  | 'FAILED'
+  | 'DRY_RUN'
+  | 'SCRIPT_MISSING'
+  | 'AUDIT_ONLY'
   | 'SKIPPED_FRESH'
   | 'SKIPPED_LOCKED'
+  | 'FAILED'
+  | 'DATA_INSUFFICIENT'
   | 'BLOCKED_AUTH'
-  | 'BLOCKED_NETWORK'
-  | 'DATA_INSUFFICIENT';
+  | 'BLOCKED_NETWORK';
 
 export interface RefreshJobConfig {
   name: string;
   description: string;
   command: string;
-  scriptPath: string;
+  args?: string[];
+  scriptPath?: string;
   frequencyHours: number;
   staleThresholdHours: number;
   lockFile: string;
   progressFile: string;
   logFile: string;
+  jobType: JobType;
+  implementationStatus: ImplementationStatus;
+  invokesExistingScript: boolean;
+  existingScriptPath: string | null;
   mutatesProductionData: boolean;
   requiresNetwork: boolean;
   category: string;
@@ -111,13 +129,19 @@ export function validateScheduleConfig(config: DataRefreshScheduleConfig): { val
     'name',
     'description',
     'command',
-    'scriptPath',
     'frequencyHours',
     'staleThresholdHours',
     'lockFile',
     'progressFile',
-    'logFile'
+    'logFile',
+    'jobType',
+    'implementationStatus',
+    'invokesExistingScript',
+    'mutatesProductionData'
   ];
+
+  const validJobTypes: JobType[] = ['REFRESH', 'INGEST', 'AUDIT', 'BACKFILL'];
+  const validImplStatuses: ImplementationStatus[] = ['READY', 'SCRIPT_MISSING', 'AUDIT_ONLY'];
 
   for (const [key, job] of Object.entries(config.jobs)) {
     if (!job.name) errors.push(`Job ${key} is missing name`);
@@ -125,6 +149,18 @@ export function validateScheduleConfig(config: DataRefreshScheduleConfig): { val
       if (job[f] === undefined || job[f] === null || job[f] === '') {
         errors.push(`Job ${key} is missing required field: ${String(f)}`);
       }
+    }
+
+    if (job.jobType && !validJobTypes.includes(job.jobType)) {
+      errors.push(`Job ${key} has invalid jobType: '${job.jobType}'. Allowed: ${validJobTypes.join(', ')}`);
+    }
+
+    if (job.implementationStatus && !validImplStatuses.includes(job.implementationStatus)) {
+      errors.push(`Job ${key} has invalid implementationStatus: '${job.implementationStatus}'. Allowed: ${validImplStatuses.join(', ')}`);
+    }
+
+    if ((job.jobType === 'AUDIT' || job.implementationStatus === 'AUDIT_ONLY') && job.mutatesProductionData) {
+      errors.push(`Job ${key} is marked AUDIT / AUDIT_ONLY but has mutatesProductionData=true`);
     }
   }
 
@@ -268,6 +304,7 @@ export function updateJobProgress(
     const updated = {
       ...existing,
       jobName: job.name,
+      jobType: job.jobType,
       status,
       startTime: startTime || existing.startTime || new Date().toISOString(),
       completedTime: completedTime || (status === 'RUNNING' ? null : new Date().toISOString()),
@@ -286,9 +323,18 @@ export async function executeJob(
   const start = Date.now();
   const startTimeIso = new Date().toISOString();
 
+  // If job is SCRIPT_MISSING, do not spawn child process
+  if (job.implementationStatus === 'SCRIPT_MISSING') {
+    logDaemon(`[-] Job '${job.name}' is marked SCRIPT_MISSING. No child process spawned.`);
+    updateJobProgress(job, 'SCRIPT_MISSING', startTimeIso, startTimeIso, 'SCRIPT_MISSING: No implementation script available');
+    return { status: 'SCRIPT_MISSING', durationMs: 0, error: 'SCRIPT_MISSING: No implementation script available' };
+  }
+
+  // Dry-run mode: do not spawn child process, return DRY_RUN
   if (options.dryRun) {
-    logDaemon(`[DRY_RUN] Would execute job '${job.name}': ${job.command}`);
-    return { status: 'SUCCESS', durationMs: 0 };
+    const cmdDisplay = job.args && Array.isArray(job.args) ? `${job.command} ${job.args.join(' ')}` : job.command;
+    logDaemon(`[DRY_RUN] Would execute job '${job.name}': ${cmdDisplay}`);
+    return { status: 'DRY_RUN', durationMs: 0 };
   }
 
   const locked = !acquireLock(job);
@@ -298,26 +344,41 @@ export async function executeJob(
   }
 
   updateJobProgress(job, 'RUNNING', startTimeIso);
-  logDaemon(`[>] Running job '${job.name}' (${job.command})...`);
 
-  // Build command and arguments
-  let cmdLine = job.command;
-  if (options.maxSymbols && !cmdLine.includes('--max-symbols')) {
-    cmdLine += ` --max-symbols ${options.maxSymbols}`;
+  // Build command execution args safely
+  let spawnCmd = job.command;
+  let spawnArgs: string[] = [];
+
+  if (job.args && Array.isArray(job.args)) {
+    spawnArgs = [...job.args];
+  } else if (typeof job.command === 'string' && job.command.includes(' ')) {
+    const parts = job.command.split(' ');
+    spawnCmd = parts[0];
+    spawnArgs = parts.slice(1);
   }
-  if (options.batchSize && !cmdLine.includes('--batch-size')) {
-    cmdLine += ` --batch-size ${options.batchSize}`;
+
+  if (options.maxSymbols && !spawnArgs.includes('--max-symbols')) {
+    spawnArgs.push('--max-symbols', String(options.maxSymbols));
   }
+  if (options.batchSize && !spawnArgs.includes('--batch-size')) {
+    spawnArgs.push('--batch-size', String(options.batchSize));
+  }
+
+  const cmdLineDisplay = `${spawnCmd} ${spawnArgs.join(' ')}`.trim();
+  logDaemon(`[>] Running job '${job.name}' (${cmdLineDisplay})...`);
 
   const logFilePath = path.isAbsolute(job.logFile) ? job.logFile : path.join(root, job.logFile);
   fs.mkdirSync(path.dirname(logFilePath), { recursive: true });
-  fs.appendFileSync(logFilePath, `\n=== ORCHESTRATOR EXECUTION START: ${startTimeIso} ===\nCommand: ${cmdLine}\n`);
+  fs.appendFileSync(logFilePath, `\n=== ORCHESTRATOR EXECUTION START: ${startTimeIso} ===\nCommand: ${cmdLineDisplay}\n`);
 
   try {
+    const isWin = process.platform === 'win32';
+    const resolvedCmd = isWin && spawnCmd === 'npx' ? 'npx.cmd' : spawnCmd;
+
     const exitCode = await new Promise<number>((resolve, reject) => {
-      const child = spawn(cmdLine, {
+      const child = spawn(resolvedCmd, spawnArgs, {
         cwd: root,
-        shell: true,
+        shell: false,
         env: { ...process.env }
       });
 
@@ -336,15 +397,35 @@ export async function executeJob(
     const durationMs = Date.now() - start;
     const completedIso = new Date().toISOString();
 
+    // Inspect child progress file if available
+    const childProg = readJobProgress(job);
+    const childStatus = childProg?.status;
+
     if (exitCode === 0) {
-      logDaemon(`[+] Job '${job.name}' completed successfully in ${(durationMs / 1000).toFixed(1)}s.`);
-      updateJobProgress(job, 'SUCCESS', startTimeIso, completedIso);
-      return { status: 'SUCCESS', durationMs };
+      const finalStatus: JobRunStatus =
+        childStatus === 'DATA_INSUFFICIENT'
+          ? 'DATA_INSUFFICIENT'
+          : childStatus === 'BLOCKED_AUTH'
+          ? 'BLOCKED_AUTH'
+          : childStatus === 'AUDIT_ONLY' || job.implementationStatus === 'AUDIT_ONLY'
+          ? 'AUDIT_ONLY'
+          : 'SUCCESS';
+
+      logDaemon(`[+] Job '${job.name}' completed with status ${finalStatus} in ${(durationMs / 1000).toFixed(1)}s.`);
+      updateJobProgress(job, finalStatus, startTimeIso, completedIso);
+      return { status: finalStatus, durationMs };
     } else {
-      const err = `Child process exited with code ${exitCode}`;
-      logDaemon(`[x] Job '${job.name}' failed with code ${exitCode} after ${(durationMs / 1000).toFixed(1)}s.`);
-      updateJobProgress(job, 'FAILED', startTimeIso, completedIso, err);
-      return { status: 'FAILED', durationMs, error: err };
+      const finalStatus: JobRunStatus =
+        childStatus === 'DATA_INSUFFICIENT'
+          ? 'DATA_INSUFFICIENT'
+          : childStatus === 'BLOCKED_AUTH'
+          ? 'BLOCKED_AUTH'
+          : 'FAILED';
+
+      const err = childProg?.error || `Child process exited with code ${exitCode}`;
+      logDaemon(`[x] Job '${job.name}' failed with status ${finalStatus} (code ${exitCode}) after ${(durationMs / 1000).toFixed(1)}s.`);
+      updateJobProgress(job, finalStatus, startTimeIso, completedIso, err);
+      return { status: finalStatus, durationMs, error: err };
     }
   } catch (err: any) {
     const durationMs = Date.now() - start;
@@ -382,23 +463,23 @@ export async function runDaemon(options: DaemonOptions): Promise<{
   if (options.mode === 'status') {
     console.log(`\n--- REFRESH SCHEDULE STATUS OVERVIEW ---`);
     console.log(
-      `${'Job Name'.padEnd(40)} ${'Status'.padEnd(16)} ${'Frequency'.padEnd(12)} ${'Last Run'.padEnd(24)} ${'Locked'}`
+      `${'Job Name'.padEnd(38)} ${'Type'.padEnd(10)} ${'Impl'.padEnd(14)} ${'Status'.padEnd(16)} ${'Frequency'.padEnd(10)} ${'Last Run'.padEnd(20)} ${'Locked'}`
     );
-    console.log('-'.repeat(105));
+    console.log('-'.repeat(120));
 
     for (const job of jobs) {
       const prog = readJobProgress(job);
       const dueCheck = isJobDue(job);
       const lockCheck = isJobLocked(job);
       const lastRun = prog?.completedTime ? prog.completedTime.replace('T', ' ').slice(0, 19) : 'NEVER';
-      const status = prog?.status || 'NOT_STARTED';
+      const status = prog?.status || (job.implementationStatus === 'SCRIPT_MISSING' ? 'SCRIPT_MISSING' : 'NOT_STARTED');
       const lockedStr = lockCheck.locked ? `YES (PID: ${lockCheck.pid})` : 'NO';
 
       console.log(
-        `${job.name.padEnd(40)} ${status.padEnd(16)} ${(job.frequencyHours + 'h').padEnd(12)} ${lastRun.padEnd(24)} ${lockedStr}`
+        `${job.name.padEnd(38)} ${job.jobType.padEnd(10)} ${job.implementationStatus.padEnd(14)} ${status.padEnd(16)} ${(job.frequencyHours + 'h').padEnd(10)} ${lastRun.padEnd(20)} ${lockedStr}`
       );
     }
-    console.log('-'.repeat(105) + '\n');
+    console.log('-'.repeat(120) + '\n');
     return { plannedJobs, executedJobs, summary: 'STATUS_DISPLAYED' };
   }
 
@@ -406,25 +487,29 @@ export async function runDaemon(options: DaemonOptions): Promise<{
   if (options.mode === 'plan') {
     console.log(`\n--- REFRESH SCHEDULE EXECUTION PLAN ---`);
     console.log(
-      `${'Job Name'.padEnd(40)} ${'Action Plan'.padEnd(16)} ${'Frequency'.padEnd(12)} ${'Due Reason'.padEnd(36)}`
+      `${'Job Name'.padEnd(38)} ${'Type'.padEnd(10)} ${'Impl'.padEnd(14)} ${'Action Plan'.padEnd(18)} ${'Frequency'.padEnd(10)} ${'Due Reason'.padEnd(30)}`
     );
-    console.log('-'.repeat(108));
+    console.log('-'.repeat(126));
 
     for (const job of jobs) {
       const dueCheck = isJobDue(job);
       const lockCheck = isJobLocked(job);
       let planState = 'SKIP (FRESH)';
-      if (lockCheck.locked) planState = 'SKIP (LOCKED)';
-      else if (dueCheck.isDue) {
-        planState = 'RUN (DUE)';
+
+      if (job.implementationStatus === 'SCRIPT_MISSING') {
+        planState = 'SKIP (SCRIPT_MISSING)';
+      } else if (lockCheck.locked) {
+        planState = 'SKIP (LOCKED)';
+      } else if (dueCheck.isDue) {
+        planState = job.implementationStatus === 'AUDIT_ONLY' ? 'RUN AUDIT (DUE)' : 'RUN (DUE)';
         plannedJobs.push(job.name);
       }
 
       console.log(
-        `${job.name.padEnd(40)} ${planState.padEnd(16)} ${(job.frequencyHours + 'h').padEnd(12)} ${dueCheck.reason.padEnd(36)}`
+        `${job.name.padEnd(38)} ${job.jobType.padEnd(10)} ${job.implementationStatus.padEnd(14)} ${planState.padEnd(18)} ${(job.frequencyHours + 'h').padEnd(10)} ${dueCheck.reason.padEnd(30)}`
       );
     }
-    console.log('-'.repeat(108));
+    console.log('-'.repeat(126));
     console.log(`Total Due Jobs to Run: ${plannedJobs.length} / ${jobs.length}\n`);
     return { plannedJobs, executedJobs, summary: `PLAN: ${plannedJobs.length} jobs due` };
   }
@@ -448,6 +533,12 @@ export async function runDaemon(options: DaemonOptions): Promise<{
   // MODE: RUN-DUE
   if (options.mode === 'run-due') {
     for (const job of jobs) {
+      if (job.implementationStatus === 'SCRIPT_MISSING') {
+        logDaemon(`Job '${job.name}' is marked SCRIPT_MISSING. Skipping.`);
+        executedJobs[job.name] = 'SCRIPT_MISSING';
+        continue;
+      }
+
       const dueCheck = isJobDue(job);
       if (!dueCheck.isDue) {
         logDaemon(`Job '${job.name}' is FRESH (${dueCheck.reason}). Skipping.`);
@@ -467,12 +558,12 @@ export async function runDaemon(options: DaemonOptions): Promise<{
       executedJobs[job.name] = res.status;
     }
 
-    const successful = Object.values(executedJobs).filter((s) => s === 'SUCCESS').length;
+    const successful = Object.values(executedJobs).filter((s) => s === 'SUCCESS' || s === 'AUDIT_ONLY').length;
     const failed = Object.values(executedJobs).filter((s) => s === 'FAILED').length;
     return {
       plannedJobs,
       executedJobs,
-      summary: `RUN-DUE: ${successful} succeeded, ${failed} failed, ${jobs.length - plannedJobs.length} skipped`
+      summary: `RUN-DUE: ${successful} succeeded/audited, ${failed} failed, ${jobs.length - plannedJobs.length} skipped`
     };
   }
 

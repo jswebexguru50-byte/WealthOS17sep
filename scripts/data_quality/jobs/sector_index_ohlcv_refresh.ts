@@ -48,6 +48,7 @@ async function main() {
 
   const progress = {
     jobName: 'sector_index_ohlcv_refresh',
+    jobType: 'REFRESH',
     status: 'RUNNING',
     startTime: new Date().toISOString(),
     completedTime: null as string | null,

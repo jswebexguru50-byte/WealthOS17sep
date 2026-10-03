@@ -26,20 +26,25 @@ describe('Data Refresh Orchestrator Daemon', () => {
   const mockJob: RefreshJobConfig = {
     name: 'test_job',
     description: 'Test job for orchestrator unit tests',
-    command: 'node -e "process.exit(0)"',
+    command: 'node',
+    args: ['-e', 'process.exit(0)'],
     scriptPath: 'scripts/mock/test.ts',
     frequencyHours: 24,
     staleThresholdHours: 24,
     lockFile: path.relative(process.cwd(), testLockPath),
     progressFile: path.relative(process.cwd(), testProgressPath),
     logFile: path.relative(process.cwd(), testLogPath),
+    jobType: 'REFRESH',
+    implementationStatus: 'READY',
+    invokesExistingScript: false,
+    existingScriptPath: null,
     mutatesProductionData: false,
     requiresNetwork: false,
     category: 'TEST'
   };
 
   const mockSchedule: DataRefreshScheduleConfig = {
-    version: '1.0.0',
+    version: '1.1.0',
     updatedAt: new Date().toISOString(),
     jobs: {
       test_job: mockJob
@@ -170,23 +175,64 @@ describe('Data Refresh Orchestrator Daemon', () => {
   });
 
   describe('4. Execution & Status Tracking', () => {
-    it('dry-run simulates execution without spawning child process', async () => {
+    it('dry-run returns DRY_RUN without spawning child process', async () => {
       const result = await executeJob(mockJob, {
         mode: 'run-job',
         targetJob: mockJob.name,
         dryRun: true
       });
 
-      expect(result.status).toBe('SUCCESS');
+      expect(result.status).toBe('DRY_RUN');
       expect(result.durationMs).toBe(0);
       expect(fs.existsSync(testLockPath)).toBe(false);
+    });
+
+    it('marks SCRIPT_MISSING without spawning process', async () => {
+      const missingJob: RefreshJobConfig = {
+        ...mockJob,
+        name: 'missing_job',
+        implementationStatus: 'SCRIPT_MISSING'
+      };
+
+      const result = await executeJob(missingJob, {
+        mode: 'run-job',
+        targetJob: missingJob.name
+      });
+
+      expect(result.status).toBe('SCRIPT_MISSING');
+      expect(result.durationMs).toBe(0);
+      expect(result.error).toContain('SCRIPT_MISSING');
+
+      const progress = readJobProgress(missingJob);
+      expect(progress.status).toBe('SCRIPT_MISSING');
+    });
+
+    it('records AUDIT_ONLY status when audit job succeeds', async () => {
+      const auditJob: RefreshJobConfig = {
+        ...mockJob,
+        name: 'audit_job',
+        jobType: 'AUDIT',
+        implementationStatus: 'AUDIT_ONLY',
+        mutatesProductionData: false
+      };
+
+      const result = await executeJob(auditJob, {
+        mode: 'run-job',
+        targetJob: auditJob.name
+      });
+
+      expect(result.status).toBe('AUDIT_ONLY');
+
+      const progress = readJobProgress(auditJob);
+      expect(progress.status).toBe('AUDIT_ONLY');
     });
 
     it('records FAILED status and error message when child process fails', async () => {
       const failingJob: RefreshJobConfig = {
         ...mockJob,
         name: 'failing_job',
-        command: 'node -e "process.exit(2)"'
+        command: 'node',
+        args: ['-e', 'process.exit(2)']
       };
 
       const result = await executeJob(failingJob, {

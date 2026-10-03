@@ -406,32 +406,35 @@ sequenceDiagram
 ### 5.1 Architecture & Design Principles
 Implemented in [`scripts/data_quality/run_data_refresh_daemon.ts`](file:///c:/Users/gopal/OneDrive/Desktop/tesr/webapp_portable_release/scripts/data_quality/run_data_refresh_daemon.ts) and configured via [`scripts/data_quality/data_refresh_schedule.json`](file:///c:/Users/gopal/OneDrive/Desktop/tesr/webapp_portable_release/scripts/data_quality/data_refresh_schedule.json):
 1. **Zero Pipeline Redesign**: Reuses existing standalone acquisition, ingestion, and audit scripts.
-2. **Zero Duplicate Fetchers**: Delegates execution to established workers.
-3. **Deterministic State Machine**:
+2. **Zero Duplicate Fetchers**: Thin wrappers log start/end, pass safe arguments, and fail closed if the underlying script fails.
+3. **Deterministic State Machine & Status Contract**:
    - `PENDING` $\rightarrow$ `RUNNING` $\rightarrow$ `SUCCESS` | `FAILED`.
-   - Conditional skips: `SKIPPED_FRESH` (staleness threshold not breached), `SKIPPED_LOCKED` (active concurrent worker).
+   - Dedicated statuses: `DRY_RUN`, `SCRIPT_MISSING`, `AUDIT_ONLY`, `SKIPPED_FRESH`, `SKIPPED_LOCKED`, `DATA_INSUFFICIENT`, `BLOCKED_AUTH`, `BLOCKED_NETWORK`.
+   - Dry-run mode strictly returns `DRY_RUN` (never falsely returns `SUCCESS`).
+   - Missing scripts are transparently marked `SCRIPT_MISSING` and skipped without pretending work took place.
 4. **PID Locking & Deadlock Breaking**: Per-job atomic `.lock` file storing PID and timestamp. Dead processes or locks $> 2$ hours are automatically cleared.
-5. **Zero-Mutation Plan Guarantee**: `--plan` inspects progress files and SQLite table timestamps with zero writes.
+5. **Zero-Mutation Plan Guarantee**: `--plan` inspects progress files and table timestamps with zero database writes.
+6. **Structured Command Spawning**: Commands are stored and spawned as `{ command: string, args: string[] }` with `shell: false` on native binaries.
 
 ### 5.2 Registered Jobs Registry
 
-| Job Key | Execution Command | Target Script | Frequency | Mutates DB | Purpose |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| `ohlcv_daily_refresh` | `npx tsx scripts/data_quality/jobs/ohlcv_daily_refresh.ts` | `ohlcv_daily_refresh.ts` | 24h | No (Audit) | Verify universe adjusted DuckDB OHLCV partitions |
-| `sector_index_ohlcv_refresh` | `npx tsx scripts/data_quality/jobs/sector_index_ohlcv_refresh.ts` | `sync_sector_indices_to_sqlite.py` | 24h | Yes | Sync Parquet sector candles into SQLite `IndexOHLCV` |
-| `trendlyne_long_term_fundamental_refresh` | `npx tsx scripts/fundamental/trendlyne_metric_pack_planner.ts --execute` | `trendlyne_metric_pack_planner.ts` | 360h (15d) | Yes | Batch fetch 30 canonical metrics per call (10 symbols) |
-| `canonical_fact_ingestion` | `npx tsx scripts/fundamental/canonical_fact_ingestion.ts` | `canonical_fact_ingestion.ts` | 24h | Yes | Promote raw snapshot payloads to `company_facts` |
-| `fere_xbrl_financial_history_backfill` | `npx tsx scripts/data_quality/jobs/financial_history_backfill.ts` | `financial_history_backfill.ts` | 168h (7d) | Yes | Ingest downloaded XBRL into facts with `fetchedAt = NULL` |
-| `shareholding_history_refresh` | `npx tsx scripts/data_quality/jobs/shareholding_history_backfill.ts` | `shareholding_history_backfill.ts` | 168h (7d) | Yes | Ingest quarterly shareholding patterns for 2-period trend |
-| `corporate_events_deals_refresh` | `npx tsx scripts/data_quality/jobs/corporate_events_deals_refresh.ts` | `corporate_events_deals_refresh.ts` | 24h | No (Audit) | Audit insider deals, SAST filings, and corporate events |
-| `analyze360_data_completeness_audit` | `npx tsx scripts/data_quality/analyze360_missing_data_inventory.ts` | `analyze360_missing_data_inventory.ts` | 24h | No (Audit) | Generate data completeness audit reports |
+| Job Key | Job Type | Impl Status | Invokes Existing | Command | Mutates DB | Purpose |
+| :--- | :--- | :--- | :---: | :--- | :---: | :--- |
+| `ohlcv_daily_audit` | `AUDIT` | `AUDIT_ONLY` | Yes | `npx tsx scripts/data_quality/jobs/ohlcv_daily_audit.ts` | No | Daily audit of local adjusted DuckDB OHLCV store (`audit_adjusted_ohlcv_coverage.py`) |
+| `sector_index_ohlcv_refresh` | `REFRESH` | `READY` | Yes | `npx tsx scripts/data_quality/jobs/sector_index_ohlcv_refresh.ts` | Yes | Sync Parquet sector candles into SQLite `IndexOHLCV` (`sync_sector_indices_to_sqlite.py`) |
+| `trendlyne_long_term_fundamental_refresh` | `REFRESH` | `READY` | Yes | `npx tsx scripts/fundamental/trendlyne_metric_pack_planner.ts --execute` | Yes | Batch fetch 30 canonical metrics per call (10 symbols) via Trendlyne MCP |
+| `canonical_fact_ingestion` | `INGEST` | `READY` | Yes | `npx tsx scripts/fundamental/canonical_fact_ingestion.ts` | Yes | Promote raw snapshot payloads to canonical `company_facts` |
+| `fere_xbrl_financial_history_backfill` | `BACKFILL` | `READY` | Yes | `npx tsx scripts/data_quality/jobs/financial_history_backfill.ts` | Yes | Ingest downloaded XBRL into facts with `fetchedAt = NULL` |
+| `shareholding_history_refresh` | `BACKFILL` | `READY` | Yes | `npx tsx scripts/data_quality/jobs/shareholding_history_backfill.ts` | Yes | Ingest quarterly shareholding patterns; fails with `DATA_INSUFFICIENT` if source table empty |
+| `corporate_events_deals_refresh` | `REFRESH` | `SCRIPT_MISSING` | No | `npx tsx scripts/data_quality/jobs/corporate_events_deals_refresh.ts` | No | Marked `SCRIPT_MISSING`: No provider acquisition script exists; count-only audit is not claimed as refresh |
+| `analyze360_data_completeness_audit` | `AUDIT` | `AUDIT_ONLY` | Yes | `npx tsx scripts/data_quality/analyze360_missing_data_inventory.ts` | No | Generate data completeness audit reports |
 
 ---
 
 ## 6. Verification Ledger & Test Coverage
 
 ### 6.1 Test Execution Matrix
-All 57 unit tests across candidate lifecycle, enrichment, Analyze360 resolver, actions, and data refresh daemon pass deterministically:
+All 59 unit tests across candidate lifecycle, enrichment, Analyze360 resolver, actions, and data refresh daemon pass deterministically:
 
 ```bash
 npx vitest run tests/unit/candidate_lifecycle_ids.test.ts \
@@ -452,8 +455,8 @@ npx vitest run tests/unit/candidate_lifecycle_ids.test.ts \
   - Verifies preview mode does not mutate DB, create mode validates freshness, stale OHLCV blocks trading/alerts, and short OHLCV blocks backtests.
 - **Analyze360 Phase 6 Data Completeness (`tests/unit/analyze360_phase6_data_completeness.test.ts`)**: 16/16 passed.
   - Verifies strict rejection of period substitution, 4 consecutive annual filings requirement, 2-period institutional trend rule, and real Capex FCF derivation.
-- **Data Refresh Daemon (`tests/unit/data_refresh_daemon.test.ts`)**: 14/14 passed.
-  - Verifies schedule config validation, due-job determination, fresh job skipping, active locking, dead-lock breaking, and failure capture.
+- **Data Refresh Daemon (`tests/unit/data_refresh_daemon.test.ts`)**: 16/16 passed.
+  - Verifies schedule config validation, due-job determination, fresh job skipping, active locking, dead-lock breaking, `DRY_RUN` status, `SCRIPT_MISSING` bypass, `AUDIT_ONLY` tracking, and failure capture.
 
 ---
 

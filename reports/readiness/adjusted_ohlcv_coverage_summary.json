@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-09-30T04:09:56.088998+00:00",
+  "generated_at": "2026-10-03T14:17:09.872784+00:00",
   "universe": 2980,
   "required_start": "2016-09-22",
   "required_latest": "2026-09-18",
   "counts": {
     "CLEAN_FULL_10Y": 1225,
-    "CURRENT_KITE_SHORTER_THAN_10Y": 1673,
-    "STALE_OR_PARTIAL": 54,
+    "CURRENT_KITE_SHORTER_THAN_10Y": 1676,
+    "STALE_OR_PARTIAL": 51,
     "NEEDS_SOURCE_KITE_UNAVAILABLE": 24,
     "NEEDS_SOURCE": 4
   },

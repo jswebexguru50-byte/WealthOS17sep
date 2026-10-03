@@ -4,12 +4,13 @@
  *
  * Phase 3 Job D — Shareholding History Backfill
  * Ingests historical shareholding patterns (promoter, FII, DII, public)
- * from FERE shareholding snapshots and official filings to compute institutional trends.
+ * from verified FERE shareholding snapshots to compute institutional trends.
  *
  * Invariants:
  * - Deterministic facts only.
- * - Strict 2-period verification for trend direction.
- * - Progress tracking, batch size, resume support, duplicate prevention.
+ * - Strict verification that source database and table exist.
+ * - If source table is missing or empty, returns DATA_INSUFFICIENT (never falsely reports SUCCESS).
+ * - Preserves null/unavailable values; NEVER derives synthetic free float.
  */
 
 import fs from 'node:fs';
@@ -32,76 +33,124 @@ function log(msg: string) {
 }
 
 async function main() {
-  log('Starting Job D: Shareholding History Backfill');
+  log('Starting Job: Shareholding History Backfill');
 
-  const progress = {
+  const progress: Record<string, any> = {
     jobName: 'shareholding_history_backfill',
+    jobType: 'BACKFILL',
     status: 'RUNNING',
     startTime: new Date().toISOString(),
-    completedTime: null as string | null,
+    completedTime: null,
     totalSymbols: 0,
     recordsSynced: 0,
-    error: null as string | null
+    error: null
   };
   fs.writeFileSync(progressPath, JSON.stringify(progress, null, 2));
 
+  // 1. Confirm source DB exists
+  if (!fs.existsSync(fereDbPath)) {
+    progress.status = 'DATA_INSUFFICIENT';
+    progress.completedTime = new Date().toISOString();
+    progress.error = `DATA_INSUFFICIENT: Source database not found: ${fereDbPath}`;
+    fs.writeFileSync(progressPath, JSON.stringify(progress, null, 2));
+    log(`[ERROR] ${progress.error}`);
+    process.exit(1);
+  }
+
+  const fereDb = new sqlite3.Database(fereDbPath);
   const db = new sqlite3.Database(dbPath);
 
   try {
-    let synced = 0;
+    // 2. Confirm source table exists in FERE evidence DB
+    const tableCheck = await new Promise<boolean>((resolve) => {
+      fereDb.get(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='shareholding_snapshot'",
+        (err, row: any) => {
+          if (err || !row) resolve(false);
+          else resolve(true);
+        }
+      );
+    });
 
-    // Check if fere_evidence.db exists and has shareholding_snapshot
-    if (fs.existsSync(fereDbPath)) {
-      const fereDb = new sqlite3.Database(fereDbPath);
-      const shRows = await new Promise<any[]>((resolve) => {
-        fereDb.all(`
-          SELECT symbol, isin, period_end, promoter_pct, fii_pct, dii_pct, public_pct, promoter_pledge, available_at
-          FROM shareholding_snapshot
-          ORDER BY symbol, period_end DESC
-        `, (err, rows) => {
-          if (err) resolve([]);
-          else resolve(rows || []);
-        });
-      });
+    if (!tableCheck) {
+      progress.status = 'DATA_INSUFFICIENT';
+      progress.completedTime = new Date().toISOString();
+      progress.error = 'DATA_INSUFFICIENT: Source table shareholding_snapshot does not exist in FERE database.';
+      fs.writeFileSync(progressPath, JSON.stringify(progress, null, 2));
+      log(`[ERROR] ${progress.error}`);
       fereDb.close();
+      db.close();
+      process.exit(1);
+    }
 
-      log(`Found ${shRows.length} shareholding snapshot rows in FERE evidence DB.`);
+    // 3. Query source rows
+    const shRows = await new Promise<any[]>((resolve, reject) => {
+      fereDb.all(
+        `SELECT symbol, isin, period_end, promoter_pct, fii_pct, dii_pct, public_pct, promoter_pledge, available_at
+         FROM shareholding_snapshot
+         ORDER BY symbol, period_end DESC`,
+        (err, rows) => {
+          if (err) reject(err);
+          else resolve(rows || []);
+        }
+      );
+    });
+    fereDb.close();
 
-      for (const sh of shRows) {
-        if (!sh.symbol || !sh.period_end) continue;
-        const qLabel = sh.period_end;
-        await new Promise<void>((resolve) => {
-          db.run(`
-            INSERT OR REPLACE INTO HistoricalShareholdingPattern
-            (symbol, isin, quarter_label, as_of_date, promoter_pct, fii_pct, dii_pct, public_pct)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-          `, [
+    if (shRows.length === 0) {
+      progress.status = 'DATA_INSUFFICIENT';
+      progress.completedTime = new Date().toISOString();
+      progress.error = 'DATA_INSUFFICIENT: Source table shareholding_snapshot is empty (0 records).';
+      fs.writeFileSync(progressPath, JSON.stringify(progress, null, 2));
+      log(`[ERROR] ${progress.error}`);
+      db.close();
+      process.exit(1);
+    }
+
+    log(`Found ${shRows.length} verified shareholding snapshot rows in FERE evidence DB.`);
+
+    let synced = 0;
+    const uniqueSymbols = new Set<string>();
+
+    for (const sh of shRows) {
+      if (!sh.symbol || !sh.period_end) continue;
+      uniqueSymbols.add(sh.symbol);
+      const qLabel = sh.period_end;
+
+      await new Promise<void>((resolve, reject) => {
+        db.run(
+          `INSERT OR REPLACE INTO HistoricalShareholdingPattern
+           (symbol, isin, quarter_label, as_of_date, promoter_pct, fii_pct, dii_pct, public_pct)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+          [
             sh.symbol,
             sh.isin || null,
             qLabel,
             sh.period_end,
-            sh.promoter_pct != null ? Number(sh.promoter_pct) : null,
-            sh.fii_pct != null ? Number(sh.fii_pct) : null,
-            sh.dii_pct != null ? Number(sh.dii_pct) : null,
-            sh.public_pct != null ? Number(sh.public_pct) : null
-          ], () => resolve());
-        });
-        synced++;
-      }
+            sh.promoter_pct != null && !isNaN(Number(sh.promoter_pct)) ? Number(sh.promoter_pct) : null,
+            sh.fii_pct != null && !isNaN(Number(sh.fii_pct)) ? Number(sh.fii_pct) : null,
+            sh.dii_pct != null && !isNaN(Number(sh.dii_pct)) ? Number(sh.dii_pct) : null,
+            sh.public_pct != null && !isNaN(Number(sh.public_pct)) ? Number(sh.public_pct) : null
+          ],
+          (err) => (err ? reject(err) : resolve())
+        );
+      });
+      synced++;
     }
 
+    progress.totalSymbols = uniqueSymbols.size;
     progress.recordsSynced = synced;
     progress.status = 'SUCCESS';
     progress.completedTime = new Date().toISOString();
     fs.writeFileSync(progressPath, JSON.stringify(progress, null, 2));
 
-    log(`Job D completed successfully. Synced ${synced} shareholding records.`);
+    log(`Job completed successfully. Synced ${synced} shareholding records across ${uniqueSymbols.size} symbols.`);
   } catch (err: any) {
     progress.status = 'FAILED';
     progress.completedTime = new Date().toISOString();
     progress.error = err?.message || String(err);
     fs.writeFileSync(progressPath, JSON.stringify(progress, null, 2));
-    log(`Job D failed: ${progress.error}`);
+    log(`Job failed: ${progress.error}`);
     process.exit(1);
   } finally {
     db.close();
