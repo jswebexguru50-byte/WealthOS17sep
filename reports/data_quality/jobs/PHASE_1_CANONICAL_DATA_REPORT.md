@@ -5,103 +5,103 @@ This report verifies the execution of Phase 1: Canonical Fact Ingestion.
 **PHASE_1_STATUS = COMPLETED**
 
 ## AETHER
-- **REPORTED_AVAILABLE:** 30
-- **REPORTED_MISSING:** 7
+- **REPORTED_AVAILABLE:** 45
+- **REPORTED_MISSING:** 19
 - **Provenance Preserved:** YES (sourceDocumentId populated)
 
 ## AZAD
-- **REPORTED_AVAILABLE:** 21
-- **REPORTED_MISSING:** 6
+- **REPORTED_AVAILABLE:** 37
+- **REPORTED_MISSING:** 17
 - **Provenance Preserved:** YES (sourceDocumentId populated)
 
 ## BLISSGVS
-- **REPORTED_AVAILABLE:** 39
-- **REPORTED_MISSING:** 6
+- **REPORTED_AVAILABLE:** 53
+- **REPORTED_MISSING:** 18
 - **Provenance Preserved:** YES (sourceDocumentId populated)
 
 ## CAPILLARY
-- **REPORTED_AVAILABLE:** 30
-- **REPORTED_MISSING:** 7
+- **REPORTED_AVAILABLE:** 45
+- **REPORTED_MISSING:** 19
 - **Provenance Preserved:** YES (sourceDocumentId populated)
 
 ## COMSYN
-- **REPORTED_AVAILABLE:** 31
-- **REPORTED_MISSING:** 6
+- **REPORTED_AVAILABLE:** 46
+- **REPORTED_MISSING:** 18
 - **Provenance Preserved:** YES (sourceDocumentId populated)
 
 ## GLOBALPET
-- **REPORTED_AVAILABLE:** 14
-- **REPORTED_MISSING:** 13
+- **REPORTED_AVAILABLE:** 24
+- **REPORTED_MISSING:** 30
 - **Provenance Preserved:** YES (sourceDocumentId populated)
 
 ## GUJRAFFIA
-- **REPORTED_AVAILABLE:** 30
-- **REPORTED_MISSING:** 7
+- **REPORTED_AVAILABLE:** 46
+- **REPORTED_MISSING:** 18
 - **Provenance Preserved:** YES (sourceDocumentId populated)
 
 ## KAPSTON
-- **REPORTED_AVAILABLE:** 31
-- **REPORTED_MISSING:** 6
+- **REPORTED_AVAILABLE:** 44
+- **REPORTED_MISSING:** 20
 - **Provenance Preserved:** YES (sourceDocumentId populated)
 
 ## MAWANASUG
-- **REPORTED_AVAILABLE:** 29
-- **REPORTED_MISSING:** 6
+- **REPORTED_AVAILABLE:** 45
+- **REPORTED_MISSING:** 17
 - **Provenance Preserved:** YES (sourceDocumentId populated)
 
 ## MBAPL
-- **REPORTED_AVAILABLE:** 31
-- **REPORTED_MISSING:** 6
+- **REPORTED_AVAILABLE:** 47
+- **REPORTED_MISSING:** 17
 - **Provenance Preserved:** YES (sourceDocumentId populated)
 
 ## MTARTECH
-- **REPORTED_AVAILABLE:** 30
-- **REPORTED_MISSING:** 7
+- **REPORTED_AVAILABLE:** 45
+- **REPORTED_MISSING:** 19
 - **Provenance Preserved:** YES (sourceDocumentId populated)
 
 ## NGLFINE
-- **REPORTED_AVAILABLE:** 30
-- **REPORTED_MISSING:** 7
+- **REPORTED_AVAILABLE:** 45
+- **REPORTED_MISSING:** 19
 - **Provenance Preserved:** YES (sourceDocumentId populated)
 
 ## PRECWIRE
-- **REPORTED_AVAILABLE:** 29
-- **REPORTED_MISSING:** 6
+- **REPORTED_AVAILABLE:** 46
+- **REPORTED_MISSING:** 16
 - **Provenance Preserved:** YES (sourceDocumentId populated)
 
 ## RAMRAT
-- **REPORTED_AVAILABLE:** 31
-- **REPORTED_MISSING:** 6
+- **REPORTED_AVAILABLE:** 46
+- **REPORTED_MISSING:** 18
 - **Provenance Preserved:** YES (sourceDocumentId populated)
 
 ## RATNAVEER
-- **REPORTED_AVAILABLE:** 17
-- **REPORTED_MISSING:** 10
+- **REPORTED_AVAILABLE:** 26
+- **REPORTED_MISSING:** 28
 - **Provenance Preserved:** YES (sourceDocumentId populated)
 
 ## RRKABEL
-- **REPORTED_AVAILABLE:** 31
-- **REPORTED_MISSING:** 6
+- **REPORTED_AVAILABLE:** 46
+- **REPORTED_MISSING:** 18
 - **Provenance Preserved:** YES (sourceDocumentId populated)
 
 ## SIGMAADV
-- **REPORTED_AVAILABLE:** 31
-- **REPORTED_MISSING:** 6
+- **REPORTED_AVAILABLE:** 46
+- **REPORTED_MISSING:** 18
 - **Provenance Preserved:** YES (sourceDocumentId populated)
 
 ## WELINV
-- **REPORTED_AVAILABLE:** 31
-- **REPORTED_MISSING:** 6
+- **REPORTED_AVAILABLE:** 47
+- **REPORTED_MISSING:** 17
 - **Provenance Preserved:** YES (sourceDocumentId populated)
 
 ## XELPMOC
-- **REPORTED_AVAILABLE:** 14
-- **REPORTED_MISSING:** 13
+- **REPORTED_AVAILABLE:** 27
+- **REPORTED_MISSING:** 27
 - **Provenance Preserved:** YES (sourceDocumentId populated)
 
 ## Global Summary
-- **REPORTED_AVAILABLE:** 530
-- **REPORTED_MISSING:** 137
+- **REPORTED_AVAILABLE:** 806
+- **REPORTED_MISSING:** 373
 - **Total Ambiguous / Rejected:** 0 (Filtered by VERIFIED mapping_status)
 - **Duplicate / Conflict Handling:** Active (using REPLACE/IGNORE and verificationStatus = CONFLICTING support)
 - **Consolidated vs Standalone:** Fully specified per fact (scope field)

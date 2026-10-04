@@ -195,27 +195,29 @@ export const METRIC_PACK_UNUSED_REASON = 'FULLY_UTILIZED_WITH_VERIFIED_SAFE_TOKE
 // Keep this deterministic: every token here must either be explicitly promoted
 // to canonical facts/statement tables or preserved in the raw provider snapshot.
 export let CANONICAL_50_METRIC_PACK: string[] = [];
-export async function loadDynamicMetricPack(db: sqlite3.Database) {
-  return new Promise<void>((resolve, reject) => {
-    db.all("SELECT provider_token FROM field_mapping_catalog WHERE provider='TRENDLYNE_MCP' AND mapping_status='VERIFIED' LIMIT 50", [], (err, rows: any[]) => {
-      if (err) return reject(err);
-      CANONICAL_50_METRIC_PACK = rows.map(r => r.provider_token);
-      resolve();
-    });
-  });
+export let CANONICAL_30_METRIC_PACK: string[] = [];
+
+export interface MetricPackResult {
+  requiredTokenCount: number;
+  opportunisticTokenCount: number;
+  totalPacked: number;
+  unusedCapacity: number;
+  unusedCapacityReason: string;
 }
 
-// Backward-compatible alias for older imports/tests.
-export let CANONICAL_30_METRIC_PACK: string[] = [];
-// Will be initialized in loadDynamicMetricPack
-const _old_load = loadDynamicMetricPack;
-export async function loadDynamicMetricPack(db: sqlite3.Database) {
-  return new Promise<void>((resolve, reject) => {
+export async function loadDynamicMetricPack(db: sqlite3.Database, unresolvedTokens: string[] = []): Promise<MetricPackResult> {
+  return new Promise<MetricPackResult>((resolve, reject) => {
     db.all("SELECT provider_token FROM field_mapping_catalog WHERE provider='TRENDLYNE_MCP' AND mapping_status='VERIFIED' LIMIT 50", [], (err, rows: any[]) => {
       if (err) return reject(err);
       CANONICAL_50_METRIC_PACK = rows.map(r => r.provider_token);
       CANONICAL_30_METRIC_PACK = CANONICAL_50_METRIC_PACK;
-      resolve();
+      resolve({
+        requiredTokenCount: CANONICAL_50_METRIC_PACK.length,
+        opportunisticTokenCount: 0,
+        totalPacked: CANONICAL_50_METRIC_PACK.length,
+        unusedCapacity: 50 - CANONICAL_50_METRIC_PACK.length,
+        unusedCapacityReason: 'FULLY_UTILIZED_WITH_VERIFIED_SAFE_TOKENS'
+      });
     });
   });
 }

@@ -155,7 +155,12 @@ const manifestRows = [{
   'Candidate Count': run.candidateCount,
   'Signal Count': run.signalCount,
   'Included Universe': run.universe || 'ALL',
-  'Data Completeness Ratio': '100%',
+  // TODO: Calculate true values from Gap Analysis instead of hardcoding 100%
+  'P0 Requirements Available': 'TBD',
+  'P1 Requirements Available': 'TBD',
+  'Critical Unresolved': 'TBD',
+  'Noncritical Unresolved': 'TBD',
+  'Not Applicable': 'TBD',
   'Quality Mode': 'Production',
 }];
 addRowsSheet(workbook, 'Dossier_Manifest', manifestRows);
