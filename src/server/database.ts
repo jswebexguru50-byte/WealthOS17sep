@@ -512,6 +512,93 @@ const SCHEMA_MIGRATIONS: Array<{ version: number; name: string; sqls: string[] }
       'CREATE INDEX IF NOT EXISTS idx_cand_stage ON InvestmentCandidates(pipelineStage)'
     ],
   },
+  {
+    version: 14,
+    name: 'create_dossier_lifecycle_tables',
+    sqls: [
+      // LAYER 3: Dossier Run (one per scan request)
+      `CREATE TABLE IF NOT EXISTS dossier_runs (
+        dossierRunId TEXT PRIMARY KEY,
+        requestMode TEXT NOT NULL,
+        requestedTradingSessions INTEGER,
+        requestedFrom TEXT,
+        requestedTo TEXT,
+        actualTradingDates TEXT NOT NULL,
+        scanAsOf TEXT NOT NULL,
+        createdAt TEXT NOT NULL,
+        status TEXT NOT NULL DEFAULT 'CREATED',
+        strategiesConfig TEXT,
+        ohlcvAsOf TEXT,
+        completedAt TEXT,
+        failureState TEXT,
+        signalCount INTEGER,
+        candidateCount INTEGER,
+        convergenceCount INTEGER
+      )`,
+      // LAYER 3: Dossier Candidates (one per unique symbol per run)
+      `CREATE TABLE IF NOT EXISTS dossier_candidates (
+        candidateId TEXT PRIMARY KEY,
+        dossierRunId TEXT NOT NULL,
+        symbol TEXT NOT NULL,
+        convergenceCount INTEGER NOT NULL DEFAULT 0,
+        lifecycleStatus TEXT NOT NULL DEFAULT 'DISCOVERED',
+        createdAt TEXT NOT NULL,
+        FOREIGN KEY(dossierRunId) REFERENCES dossier_runs(dossierRunId)
+      )`,
+      `CREATE INDEX IF NOT EXISTS idx_dc_runid ON dossier_candidates(dossierRunId)`,
+      `CREATE INDEX IF NOT EXISTS idx_dc_symbol ON dossier_candidates(symbol)`,
+      // LAYER 3: Dossier Signals (one per strategy occurrence per symbol)
+      `CREATE TABLE IF NOT EXISTS dossier_signals (
+        signalId TEXT PRIMARY KEY,
+        candidateId TEXT NOT NULL,
+        dossierRunId TEXT NOT NULL,
+        symbol TEXT NOT NULL,
+        strategyId TEXT NOT NULL,
+        strategyName TEXT NOT NULL,
+        signalDate TEXT NOT NULL,
+        signalPrice REAL,
+        technicalEvidence TEXT,
+        createdAt TEXT NOT NULL,
+        FOREIGN KEY(candidateId) REFERENCES dossier_candidates(candidateId),
+        FOREIGN KEY(dossierRunId) REFERENCES dossier_runs(dossierRunId)
+      )`,
+      `CREATE INDEX IF NOT EXISTS idx_ds_candidateid ON dossier_signals(candidateId)`,
+      `CREATE INDEX IF NOT EXISTS idx_ds_runid ON dossier_signals(dossierRunId)`,
+      // LAYER 2: Analysis Snapshots (per candidate per analysis type)
+      `CREATE TABLE IF NOT EXISTS dossier_analysis_snapshots (
+        analysisSnapshotId TEXT PRIMARY KEY,
+        dossierRunId TEXT NOT NULL,
+        candidateId TEXT NOT NULL,
+        symbol TEXT NOT NULL,
+        analysisType TEXT NOT NULL,
+        asOf TEXT NOT NULL,
+        content TEXT NOT NULL,
+        analysisVersion TEXT NOT NULL DEFAULT '1.0',
+        generatedAt TEXT NOT NULL,
+        FOREIGN KEY(candidateId) REFERENCES dossier_candidates(candidateId)
+      )`,
+      `CREATE INDEX IF NOT EXISTS idx_das_candidateid ON dossier_analysis_snapshots(candidateId)`,
+      `CREATE INDEX IF NOT EXISTS idx_das_type ON dossier_analysis_snapshots(candidateId, analysisType)`,
+      // LAYER 3: Artifact registration (filesystem path + hash, no blob)
+      `CREATE TABLE IF NOT EXISTS dossier_artifacts (
+        dossierArtifactId TEXT PRIMARY KEY,
+        dossierRunId TEXT NOT NULL,
+        artifactType TEXT NOT NULL,
+        fileName TEXT NOT NULL,
+        storageLocation TEXT NOT NULL,
+        contentHash TEXT NOT NULL,
+        fileSize INTEGER,
+        generatedAt TEXT NOT NULL,
+        generatorVersion TEXT NOT NULL DEFAULT '1.0',
+        status TEXT NOT NULL DEFAULT 'AVAILABLE',
+        FOREIGN KEY(dossierRunId) REFERENCES dossier_runs(dossierRunId)
+      )`,
+      // Extend InvestmentCandidates with dossierRunId linkage
+      `ALTER TABLE InvestmentCandidates ADD COLUMN dossierRunId TEXT`,
+      // Extend strategy_scan_metadata with dossierRunId linkage
+      `ALTER TABLE strategy_scan_metadata ADD COLUMN dossierRunId TEXT`,
+    ],
+  },
 ];
 
 export async function runMigrations(db: Database): Promise<void> {

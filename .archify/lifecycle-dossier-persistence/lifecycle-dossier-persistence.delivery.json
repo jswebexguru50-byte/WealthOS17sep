@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "961ff145-3327-461f-9729-a29385a921c3",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\.archify\\lifecycle-dossier-persistence\\candidate.json",
+  "output": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\.archify\\lifecycle-dossier-persistence\\lifecycle-dossier-persistence.html",
+  "specification": {
+    "sha256": "468295104d3a29d29b850f2339d2760572ef5995f87d2e0db419ba5885545f09",
+    "bytes": 5131
+  },
+  "artifact": {
+    "sha256": "760de4f92d6743b8904865977285a89e7fdb2b54f8539891b3a907edd4b2f173",
+    "bytes": 774432
+  }
+}

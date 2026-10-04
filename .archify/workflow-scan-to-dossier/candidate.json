@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "WealthOS — Scan to Dossier Lifecycle",
+    "output": "docs/architecture/wealthos-scan-to-dossier-lifecycle.html",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    { "id": "api", "label": "User / API" },
+    { "id": "discovery", "label": "Technical Discovery" },
+    { "id": "evidence", "label": "Evidence Layer" },
+    { "id": "analysis", "label": "Analysis Pipeline" },
+    { "id": "persist", "label": "Persistence / Export", "variant": "exception" }
+  ],
+  "phases": [
+    { "id": "init", "label": "Initiation", "fromCol": 0, "toCol": 1 },
+    { "id": "scan", "label": "Scan & Freeze", "fromCol": 2, "toCol": 3, "variant": "emphasis" },
+    { "id": "export", "label": "Enrich & Analyse & Export", "fromCol": 4, "toCol": 5, "variant": "dashed" }
+  ],
+  "mainPath": ["user_req", "session_resolve", "tech_strategies", "signal_gen", "cohort_freeze", "evidence_lookup", "analysis_node", "snapshot_node", "excel_node"],
+  "nodes": [
+    { "id": "user_req", "lane": "api", "col": 0, "type": "external", "label": "User Request", "sublabel": "POST /api/dossier-runs", "width": 152 },
+    { "id": "session_resolve", "lane": "discovery", "col": 1, "type": "backend", "label": "Session Resolution", "sublabel": "NseCalendarService", "width": 152 },
+    { "id": "tech_strategies", "lane": "discovery", "col": 2, "type": "backend", "label": "Technical Strategies", "sublabel": "S1A · S2A · S4B · S5A", "width": 152, "tag": "IMPLEMENTED" },
+    { "id": "signal_gen", "lane": "discovery", "col": 3, "type": "backend", "label": "Signal Generation", "sublabel": "25 signalIds frozen", "width": 152 },
+    { "id": "cohort_freeze", "lane": "persist", "col": 3, "type": "database", "label": "Cohort Frozen", "sublabel": "19 candidates persisted", "width": 152, "tag": "PERSISTENCE" },
+    { "id": "evidence_lookup", "lane": "evidence", "col": 3, "type": "backend", "label": "Evidence Lookup", "sublabel": "company_facts · FERE", "width": 152 },
+    { "id": "enrich_node", "lane": "evidence", "col": 4, "type": "cloud", "label": "Selective Enrichment", "sublabel": "Trendlyne MCP if MISSING", "tag": "EXTERNAL", "width": 152 },
+    { "id": "analysis_node", "lane": "analysis", "col": 4, "type": "backend", "label": "Full Analysis Suite", "sublabel": "Tech · Fund · QGLP · Risk", "width": 152 },
+    { "id": "snapshot_node", "lane": "persist", "col": 5, "type": "database", "label": "Snapshots Persisted", "sublabel": "7 types × 19 = 133 rows", "width": 152, "tag": "PERSISTENCE" },
+    { "id": "excel_node", "lane": "api", "col": 5, "type": "frontend", "label": "Excel + Retrieval", "sublabel": "GET /api/dossier-runs/:runId", "width": 152, "tag": "PERSISTENCE" }
+  ],
+  "edges": [
+    { "id": "e1", "from": "user_req", "to": "session_resolve", "label": "trigger" },
+    { "id": "e2", "from": "session_resolve", "to": "tech_strategies" },
+    { "id": "e3", "from": "tech_strategies", "to": "signal_gen", "label": "signals" },
+    { "id": "e4", "from": "signal_gen", "to": "cohort_freeze" },
+    { "id": "e5", "from": "cohort_freeze", "to": "evidence_lookup", "label": "19 candidates" },
+    { "id": "e6", "from": "evidence_lookup", "to": "enrich_node", "label": "if MISSING", "variant": "dashed", "role": "branch" },
+    { "id": "e7", "from": "evidence_lookup", "to": "analysis_node", "label": "if AVAILABLE" },
+    { "id": "e8", "from": "enrich_node", "to": "analysis_node" },
+    { "id": "e9", "from": "analysis_node", "to": "snapshot_node", "label": "all analyses" },
+    { "id": "e10", "from": "snapshot_node", "to": "excel_node" }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Identity Chain",
+      "items": [
+        "1 dossierRunId → 19 candidateIds → 25 signalIds",
+        "CandidateLifecycleIdService: deterministic IDs",
+        "Cohort is frozen at scan time — immutable"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Local-First Evidence",
+      "items": [
+        "company_facts checked before any external call",
+        "Trendlyne MCP only called when MISSING or STALE",
+        "All reads after COMPLETED = zero provider calls"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Persistence Invariants",
+      "items": [
+        "133 snapshots: 7 analysis types × 19 candidates",
+        "Excel artifact SHA-256 in dossier_artifacts",
+        "Historical dossier is never silently overwritten"
+      ]
+    }
+  ]
+}

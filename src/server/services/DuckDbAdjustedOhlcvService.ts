@@ -17,7 +17,7 @@ export interface AdjustedOhlcvBar {
   data_source: string;
 }
 
-export type OhlcvReadSource = 'DUCKDB_ADJUSTED' | 'SQLITE_LEGACY_FALLBACK' | 'UNAVAILABLE';
+export type OhlcvReadSource = 'DUCKDB_ADJUSTED' | 'UNAVAILABLE';
 export interface OhlcvReadResult {
   bars: AdjustedOhlcvBar[];
   source: OhlcvReadSource;
@@ -335,28 +335,7 @@ export class DuckDbAdjustedOhlcvService {
   }
 
   static async getDailyBarsWithLegacyFallback(symbol: string, limit: number): Promise<OhlcvReadResult> {
-    const primary = await this.getDailyBarsWithSource(symbol, limit);
-    if (primary.bars.length) return primary;
-    const clean = symbol.trim().toUpperCase().replace(/\.(NS|BO)$/, '');
-    try {
-      const rows: any[] = await dbAll(getDB(), `
-        SELECT trade_date, symbol, open, high, low, close, volume, data_source
-          FROM DailyOHLCV
-         WHERE upper(symbol) IN (?, ?, ?)
-         ORDER BY trade_date DESC LIMIT ?`,
-        [clean, `${clean}.NS`, `${clean}.BO`, Math.min(Math.max(limit, 1), 10_000)]
-      );
-      const bars = (rows || []).filter(r => Number(r.close) > 0).map(r => ({
-        trade_date: String(r.trade_date), symbol: clean,
-        open_adjusted: Number(r.open || r.close), high_adjusted: Number(r.high || r.close),
-        low_adjusted: Number(r.low || r.close), close_adjusted: Number(r.close),
-        volume_raw: Number(r.volume || 0),
-        data_source: `SQLITE_LEGACY_FALLBACK:${r.data_source || 'UNKNOWN'}`
-      }));
-      return bars.length ? { bars, source: 'SQLITE_LEGACY_FALLBACK' } : primary;
-    } catch {
-      return primary;
-    }
+    return this.getDailyBarsWithSource(symbol, limit);
   }
 
   static async readinessCheck(symbol = 'TCS'): Promise<DuckDbReadinessResult> {

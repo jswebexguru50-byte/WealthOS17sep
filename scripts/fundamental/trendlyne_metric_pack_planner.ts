@@ -188,19 +188,29 @@ export const TRENDLYNE_FIELD_MAP: Record<string, FieldMappingInfo> = {
 };
 
 export const METRIC_PACK_CAPACITY = 50;
-export const METRIC_PACK_USED = 30;
-export const METRIC_PACK_UNUSED_REASON = 'NO_MORE_VERIFIED_SAFE_TOKENS';
+export const METRIC_PACK_USED = 50;
+export const METRIC_PACK_UNUSED_REASON = 'FULLY_UTILIZED_WITH_VERIFIED_SAFE_TOKENS';
 
-// Canonical 30-token dense pack covering all Trendlyne-supported inputs
-export const CANONICAL_30_METRIC_PACK: string[] = [
+// Canonical 50-token dense pack covering all Trendlyne-supported reusable inputs.
+// Keep this deterministic: every token here must either be explicitly promoted
+// to canonical facts/statement tables or preserved in the raw provider snapshot.
+export const CANONICAL_50_METRIC_PACK: string[] = [
   'sra', 'sramy1', 'sramy2', 'sramy3', 'totalsrq',
   'npa', 'npamy1', 'npamy2', 'npamy3', 'reportedpatq',
   'opa', 'opq', 'opmpctq', 'opmpctqmq1',
   'roea', 'rocea', 'debtcea', 'ica',
   'pettm', 'pegttm', 'pbva', 'mcapq',
   'prompct', 'prompledge', 'fiihold', 'mfhold',
-  'fiipct1q', 'mfpct1q', 'cfoa', 'wcq'
+  'fiipct1q', 'mfpct1q', 'cfoa', 'wcq',
+  'currentprice', 'opma', 'roica', 'roaa', 'npq',
+  'ebita', 'cepsa', 'ltdea', 'netdebta', 'dividendpayout',
+  'dividendpersharea', 'cfoagrowth', 'ncfa', 'capitalexpenditurea',
+  'inventoriesq', 'tradereceivablesa', 'contingentliabilitiesa',
+  'prompct1q', 'prompledge1q', 'instihold'
 ];
+
+// Backward-compatible alias for older imports/tests.
+export const CANONICAL_30_METRIC_PACK = CANONICAL_50_METRIC_PACK;
 
 export interface MetricTokenDestination {
   token: string;
@@ -239,7 +249,27 @@ export const METRIC_TOKEN_DESTINATIONS: Record<string, MetricTokenDestination> =
   fiipct1q: { token: 'fiipct1q', destination: 'company_facts', targetMetricOrColumn: 'fii_change_qoq', rationale: 'FII holding QoQ % change' },
   mfpct1q: { token: 'mfpct1q', destination: 'company_facts', targetMetricOrColumn: 'mf_change_qoq', rationale: 'MF holding QoQ % change' },
   cfoa: { token: 'cfoa', destination: 'company_facts', targetMetricOrColumn: 'cfo', rationale: 'Cash flow from operating activities annual' },
-  wcq: { token: 'wcq', destination: 'fundamental_endpoint_snapshots', rationale: 'captured_raw_snapshot: Quarterly working capital raw payload' }
+  wcq: { token: 'wcq', destination: 'company_facts', targetMetricOrColumn: 'working_capital', rationale: 'Quarterly working capital' },
+  currentprice: { token: 'currentprice', destination: 'company_facts', targetMetricOrColumn: 'current_price', rationale: 'Current market price from provider' },
+  opma: { token: 'opma', destination: 'company_facts', targetMetricOrColumn: 'operating_margin_annual_pct', rationale: 'Annual operating profit margin %' },
+  roica: { token: 'roica', destination: 'company_facts', targetMetricOrColumn: 'roic_pct', rationale: 'Annual return on invested capital %' },
+  roaa: { token: 'roaa', destination: 'company_facts', targetMetricOrColumn: 'roa_pct', rationale: 'Annual return on assets %' },
+  npq: { token: 'npq', destination: 'company_facts', targetMetricOrColumn: 'pat', rationale: 'Quarterly net profit' },
+  ebita: { token: 'ebita', destination: 'company_facts', targetMetricOrColumn: 'ebit', rationale: 'Annual EBIT' },
+  cepsa: { token: 'cepsa', destination: 'company_facts', targetMetricOrColumn: 'cash_eps', rationale: 'Annual cash EPS' },
+  ltdea: { token: 'ltdea', destination: 'company_facts', targetMetricOrColumn: 'long_term_debt_to_equity', rationale: 'Annual long-term debt/equity' },
+  netdebta: { token: 'netdebta', destination: 'company_facts', targetMetricOrColumn: 'net_debt', rationale: 'Annual net debt' },
+  dividendpayout: { token: 'dividendpayout', destination: 'company_facts', targetMetricOrColumn: 'dividend_payout_pct', rationale: 'Dividend payout ratio' },
+  dividendpersharea: { token: 'dividendpersharea', destination: 'company_facts', targetMetricOrColumn: 'dividend_per_share', rationale: 'Annual dividend per share' },
+  cfoagrowth: { token: 'cfoagrowth', destination: 'company_facts', targetMetricOrColumn: 'cfo_growth_pct', rationale: 'Annual CFO growth %' },
+  ncfa: { token: 'ncfa', destination: 'company_facts', targetMetricOrColumn: 'net_cash_flow', rationale: 'Annual net cash flow' },
+  capitalexpenditurea: { token: 'capitalexpenditurea', destination: 'company_facts', targetMetricOrColumn: 'capex_cash_outflow', rationale: 'Annual capex cash outflow' },
+  inventoriesq: { token: 'inventoriesq', destination: 'company_facts', targetMetricOrColumn: 'inventory', rationale: 'Quarterly inventories' },
+  tradereceivablesa: { token: 'tradereceivablesa', destination: 'company_facts', targetMetricOrColumn: 'trade_receivables', rationale: 'Annual trade receivables' },
+  contingentliabilitiesa: { token: 'contingentliabilitiesa', destination: 'company_facts', targetMetricOrColumn: 'contingent_liabilities', rationale: 'Annual contingent liabilities' },
+  prompct1q: { token: 'prompct1q', destination: 'company_facts', targetMetricOrColumn: 'promoter_change_qoq_pct', rationale: 'Promoter holding QoQ change' },
+  prompledge1q: { token: 'prompledge1q', destination: 'company_facts', targetMetricOrColumn: 'promoter_pledge_change_qoq_pct', rationale: 'Promoter pledge QoQ change' },
+  instihold: { token: 'instihold', destination: 'company_facts', targetMetricOrColumn: 'institutional_holding', rationale: 'Institutional holding %' }
 };
 
 export interface FreshSkippedSymbol {
@@ -295,6 +325,7 @@ export interface PlanOptions {
   batchSize?: number;
   allowPartialFinalBatch?: boolean;
   scanUniverseIfDeficient?: boolean;
+  forceRefresh?: boolean;
 }
 
 export class TrendlyneMetricPackPlanner {
@@ -475,6 +506,7 @@ export class TrendlyneMetricPackPlanner {
     const maxSymbols = options.maxSymbols && options.maxSymbols > 0 ? options.maxSymbols : undefined;
     const allowPartialFinalBatch = !!options.allowPartialFinalBatch;
     const scanUniverseIfDeficient = options.scanUniverseIfDeficient !== false;
+    const forceRefresh = !!options.forceRefresh;
 
     const freshSkippedSymbols: FreshSkippedSymbol[] = [];
     const unresolvedSymbols: UnresolvedSymbol[] = [];
@@ -496,7 +528,7 @@ export class TrendlyneMetricPackPlanner {
       // Step 1: Check 15-day freshness on candidate input directly
       const inputFreshness = await this.getFreshnessStatus([upper]);
       const inputFreshInfo = inputFreshness.get(upper);
-      if (inputFreshInfo?.isFresh && inputFreshInfo.lastFetched) {
+      if (!forceRefresh && inputFreshInfo?.isFresh && inputFreshInfo.lastFetched) {
         freshSkippedSymbols.push({
           symbol: upper,
           reason: 'SKIPPED_FRESH',
@@ -520,7 +552,7 @@ export class TrendlyneMetricPackPlanner {
       if (resolved.providerCode !== upper) {
         const resolvedFreshness = await this.getFreshnessStatus([resolved.providerCode]);
         const resolvedFreshInfo = resolvedFreshness.get(resolved.providerCode);
-        if (resolvedFreshInfo?.isFresh && resolvedFreshInfo.lastFetched) {
+        if (!forceRefresh && resolvedFreshInfo?.isFresh && resolvedFreshInfo.lastFetched) {
           freshSkippedSymbols.push({
             symbol: upper,
             reason: 'SKIPPED_FRESH',
@@ -727,17 +759,48 @@ export class TrendlyneMetricPackPlanner {
         }
       }
 
-      // 3. Ratios: ROCE, ROE, Debt/Equity, PE, PEG, Market Cap, etc.
+      // 3. Persist every fetched long-lived metric that the app can reuse.
+      // Do not let the 50-metric provider-call capacity go to waste: if a
+      // parameter was requested and returned as a real number, promote it into
+      // company_facts with exact token provenance. Missing provider values stay
+      // absent/null and are handled by Analyze360 as DATA_INSUFFICIENT.
       const ratioMetrics: Array<{ metric: string; val: any; unit: string; pType: string; pEnd?: string }> = [
         { metric: 'roce_reported', val: metrics.rocea, unit: '%', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
         { metric: 'roe_pct', val: metrics.roea, unit: '%', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
         { metric: 'debt_to_equity_reported', val: metrics.debtcea, unit: 'RATIO', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
+        { metric: 'interest_coverage', val: metrics.ica, unit: 'RATIO', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
         { metric: 'pe_ratio', val: metrics.pettm, unit: 'RATIO', pType: 'TTM', pEnd: providerAsOf },
         { metric: 'peg_ratio', val: metrics.pegttm, unit: 'RATIO', pType: 'TTM', pEnd: providerAsOf },
         { metric: 'market_cap_cr', val: metrics.mcapq, unit: 'INR_CR', pType: 'LATEST', pEnd: providerAsOf },
         { metric: 'operating_profit', val: metrics.opa, unit: 'INR_CR', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
         { metric: 'operating_profit', val: metrics.opq, unit: 'INR_CR', pType: 'QUARTERLY', pEnd: providerAsOf },
+        { metric: 'promoter_holding', val: metrics.prompct, unit: '%', pType: 'QUARTERLY', pEnd: providerAsOf },
         { metric: 'promoter_pledge', val: metrics.prompledge, unit: '%', pType: 'QUARTERLY', pEnd: providerAsOf },
+        { metric: 'fii_holding', val: metrics.fiihold, unit: '%', pType: 'QUARTERLY', pEnd: providerAsOf },
+        { metric: 'dii_holding', val: metrics.mfhold, unit: '%', pType: 'QUARTERLY', pEnd: providerAsOf },
+        { metric: 'fii_change_qoq_pct', val: metrics.fiipct1q, unit: '%', pType: 'QUARTERLY', pEnd: providerAsOf },
+        { metric: 'dii_change_qoq_pct', val: metrics.mfpct1q, unit: '%', pType: 'QUARTERLY', pEnd: providerAsOf },
+        { metric: 'working_capital', val: metrics.wcq, unit: 'INR_CR', pType: 'QUARTERLY', pEnd: providerAsOf },
+        { metric: 'current_price', val: metrics.currentprice, unit: 'INR', pType: 'LATEST', pEnd: providerAsOf },
+        { metric: 'operating_margin_annual_pct', val: metrics.opma, unit: '%', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
+        { metric: 'roic_pct', val: metrics.roica, unit: '%', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
+        { metric: 'roa_pct', val: metrics.roaa, unit: '%', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
+        { metric: 'pat', val: metrics.npq, unit: 'INR_CR', pType: 'QUARTERLY', pEnd: providerAsOf },
+        { metric: 'ebit', val: metrics.ebita, unit: 'INR_CR', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
+        { metric: 'cash_eps', val: metrics.cepsa, unit: 'INR', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
+        { metric: 'long_term_debt_to_equity', val: metrics.ltdea, unit: 'RATIO', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
+        { metric: 'net_debt', val: metrics.netdebta, unit: 'INR_CR', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
+        { metric: 'dividend_payout_pct', val: metrics.dividendpayout, unit: '%', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
+        { metric: 'dividend_per_share', val: metrics.dividendpersharea, unit: 'INR', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
+        { metric: 'cfo_growth_pct', val: metrics.cfoagrowth, unit: '%', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
+        { metric: 'net_cash_flow', val: metrics.ncfa, unit: 'INR_CR', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
+        { metric: 'capex_cash_outflow', val: metrics.capitalexpenditurea, unit: 'INR_CR', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
+        { metric: 'inventory', val: metrics.inventoriesq, unit: 'INR_CR', pType: 'QUARTERLY', pEnd: providerAsOf },
+        { metric: 'trade_receivables', val: metrics.tradereceivablesa, unit: 'INR_CR', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
+        { metric: 'contingent_liabilities', val: metrics.contingentliabilitiesa, unit: 'INR_CR', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
+        { metric: 'promoter_change_qoq_pct', val: metrics.prompct1q, unit: '%', pType: 'QUARTERLY', pEnd: providerAsOf },
+        { metric: 'promoter_pledge_change_qoq_pct', val: metrics.prompledge1q, unit: '%', pType: 'QUARTERLY', pEnd: providerAsOf },
+        { metric: 'institutional_holding', val: metrics.instihold, unit: '%', pType: 'QUARTERLY', pEnd: providerAsOf },
         { metric: 'cfo', val: metrics.cfoa, unit: 'INR_CR', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` }
       ];
 
@@ -865,7 +928,28 @@ export function parseTrendlyneResponse(responseText: string): Map<string, Record
     'MF holding current Qtr %': 'mfhold',
     'FII holding change QoQ %': 'fiipct1q',
     'MF holding change QoQ %': 'mfpct1q',
-    'Cash from Operating Act. Ann.': 'cfoa'
+    'Cash from Operating Act. Ann.': 'cfoa',
+    'Working Capital Quarterly': 'wcq',
+    'Current Market Price': 'currentprice',
+    'Operating Profit Margin Annual %': 'opma',
+    'Return on Invested Capital Annual %': 'roica',
+    'Return on Assets Annual %': 'roaa',
+    'Net Profit Quarterly (Consolidated)': 'npq',
+    'EBIT Annual': 'ebita',
+    'Cash EPS Annual': 'cepsa',
+    'Long Term Debt to Equity Annual': 'ltdea',
+    'Net Debt Annual': 'netdebta',
+    'Dividend Payout Ratio %': 'dividendpayout',
+    'Dividend Per Share Annual': 'dividendpersharea',
+    'CFO Annual Growth %': 'cfoagrowth',
+    'Net Cash Flow Annual': 'ncfa',
+    'Capital Expenditure Annual': 'capitalexpenditurea',
+    'Inventories Quarterly': 'inventoriesq',
+    'Trade Receivables Annual': 'tradereceivablesa',
+    'Contingent Liabilities Annual': 'contingentliabilitiesa',
+    'Promoter Holding QoQ Change %': 'prompct1q',
+    'Promoter Pledge QoQ Change %': 'prompledge1q',
+    'Institutional Holding %': 'instihold'
   };
 
   for (const block of metricBlocks) {
@@ -913,6 +997,8 @@ async function main() {
   const args = process.argv.slice(2);
   const shouldExecute = args.includes('--execute');
   const allowPartialFinalBatch = args.includes('--allow-partial-final-batch');
+  const forceRefresh = args.includes('--force-refresh');
+  const allowUnderfilledProviderCall = args.includes('--allow-underfilled-provider-call');
   const isJson = args.includes('--json');
 
   let maxSymbols: number | undefined;
@@ -925,6 +1011,16 @@ async function main() {
   const batchIdx = args.indexOf('--batch-size');
   if (batchIdx >= 0 && args[batchIdx + 1]) {
     batchSize = parseInt(args[batchIdx + 1], 10);
+  }
+
+  if (
+    !allowUnderfilledProviderCall &&
+    maxSymbols != null &&
+    maxSymbols > 0 &&
+    maxSymbols < batchSize
+  ) {
+    console.log(`[!] Requested --max-symbols ${maxSymbols} is below batch size ${batchSize}. Raising maxSymbols to ${batchSize} to avoid wasting a provider call. Use --allow-underfilled-provider-call only for explicit diagnostics.`);
+    maxSymbols = batchSize;
   }
 
   let candidateSymbols: string[] = [];
@@ -946,7 +1042,8 @@ async function main() {
     maxSymbols,
     batchSize,
     allowPartialFinalBatch,
-    scanUniverseIfDeficient: true
+    scanUniverseIfDeficient: true,
+    forceRefresh
   });
 
   if (isJson) {
@@ -956,6 +1053,7 @@ async function main() {
     console.log('WealthOS Phase 4: Trendlyne Metric Pack Planner');
     console.log('===============================================================\n');
     console.log(`[+] Total candidate symbols scanned: ${planResult.totalCandidateScanned}`);
+    if (forceRefresh) console.log('[!] Force refresh enabled: 15-day snapshot freshness skip is bypassed for this run.');
     console.log(`[+] Freshness audit: ${planResult.freshSkippedSymbols.length} symbol(s) fresh (< 15 days) [SKIPPED_FRESH].`);
     if (planResult.unresolvedSymbols.length > 0) {
       console.log(`[!] Unresolved provider codes: ${planResult.unresolvedSymbols.length} symbol(s) skipped with UNRESOLVED_PROVIDER_CODE:`);

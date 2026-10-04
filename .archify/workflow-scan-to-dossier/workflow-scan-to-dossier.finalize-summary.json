@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "finalize",
+  "status": "fail",
+  "type": "workflow",
+  "quality": "showcase",
+  "specification": {
+    "path": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\.archify\\workflow-scan-to-dossier\\candidate.json",
+    "sha256": "bf80a98f46f852f30acb1b56c129cc46c72a977a37c655fe213eaff2f9d9a2e0",
+    "bytes": 4454
+  },
+  "artifact": {
+    "path": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\.archify\\workflow-scan-to-dossier\\workflow-scan-to-dossier.html"
+  },
+  "gates": {
+    "validate": "fail",
+    "deliver": "not-run",
+    "check": "not-run",
+    "browser-check": "not-run"
+  },
+  "failedStage": "validate",
+  "diagnostics": [
+    {
+      "code": "composition/ambiguous-corridor",
+      "severity": "error",
+      "message": "[composition/ambiguous-corridor] showcase workflow edges[4] id \"e4\" \"signal_gen\" -> \"cohort_freeze\" shares a 52px corridor with edges[6] id \"e6\" \"evidence_lookup\" -> \"enrich_node\" at [719.6, 320] -> [719.6, 372] (segments 1 and 1; minimum 8px) — adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge.",
+      "subject": {
+        "diagramType": "workflow",
+        "collection": "edges",
+        "index": 4,
+        "id": "e4",
+        "from": "signal_gen",
+        "to": "cohort_freeze"
+      },
+      "evidence": {
+        "otherRelationship": {
+          "diagramType": "workflow",
+          "collection": "edges",
+          "index": 6,
+          "id": "e6",
+          "from": "evidence_lookup",
+          "to": "enrich_node"
+        },
+        "overlapLengthPx": 52,
+        "minimumPx": 8,
+        "from": [
+          719.6,
+          320
+        ],
+        "to": [
+          719.6,
+          372
+        ],
+        "segmentIndex": 1,
+        "otherSegmentIndex": 1
+      },
+      "supportedFixes": [
+        "adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge"
+      ]
+    },
+    {
+      "code": "composition/ambiguous-corridor",
+      "severity": "error",
+      "message": "[composition/ambiguous-corridor] showcase workflow edges[6] id \"e6\" \"evidence_lookup\" -> \"enrich_node\" shares a 52px corridor with edges[7] id \"e7\" \"evidence_lookup\" -> \"analysis_node\" at [719.6, 320] -> [719.6, 372] (segments 1 and 1; minimum 8px) — adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge.",
+      "subject": {
+        "diagramType": "workflow",
+        "collection": "edges",
+        "index": 6,
+        "id": "e6",
+        "from": "evidence_lookup",
+        "to": "enrich_node"
+      },
+      "evidence": {
+        "otherRelationship": {
+          "diagramType": "workflow",
+          "collection": "edges",
+          "index": 7,
+          "id": "e7",
+          "from": "evidence_lookup",
+          "to": "analysis_node"
+        },
+        "overlapLengthPx": 52,
+        "minimumPx": 8,
+        "from": [
+          719.6,
+          320
+        ],
+        "to": [
+          719.6,
+          372
+        ],
+        "segmentIndex": 1,
+        "otherSegmentIndex": 1
+      },
+      "supportedFixes": [
+        "adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge"
+      ]
+    },
+    {
+      "code": "composition/ambiguous-corridor",
+      "severity": "error",
+      "message": "[composition/ambiguous-corridor] showcase workflow edges[4] id \"e4\" \"signal_gen\" -> \"cohort_freeze\" shares a 84px corridor with edges[7] id \"e7\" \"evidence_lookup\" -> \"analysis_node\" at [719.6, 288] -> [719.6, 372] (segments 1 and 1; minimum 8px) — adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge.",
+      "subject": {
+        "diagramType": "workflow",
+        "collection": "edges",
+        "index": 4,
+        "id": "e4",
+        "from": "signal_gen",
+        "to": "cohort_freeze"
+      },
+      "evidence": {
+        "otherRelationship": {
+          "diagramType": "workflow",
+          "collection": "edges",
+          "index": 7,
+          "id": "e7",
+          "from": "evidence_lookup",
+          "to": "analysis_node"
+        },
+        "overlapLengthPx": 84,
+        "minimumPx": 8,
+        "from": [
+          719.6,
+          288
+        ],
+        "to": [
+          719.6,
+          372
+        ],
+        "segmentIndex": 1,
+        "otherSegmentIndex": 1
+      },
+      "supportedFixes": [
+        "adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge"
+      ]
+    }
+  ],
+  "diagnosticSummary": {
+    "total": 3,
+    "shown": 3,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\.archify\\workflow-scan-to-dossier\\workflow-scan-to-dossier.finalize.json",
+    "summaryReceipt": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\.archify\\workflow-scan-to-dossier\\workflow-scan-to-dossier.finalize-summary.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.0.1",
+    "availableVersion": "3.0.1",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-04T04:09:58.893Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 4133,
+  "nextAction": {
+    "action": "edit-in-place",
+    "candidate": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\.archify\\workflow-scan-to-dossier\\candidate.json",
+    "constraint": "Preserve unaffected semantics and geometry; do not replace the whole candidate.",
+    "then": "finalize-once"
+  }
+}

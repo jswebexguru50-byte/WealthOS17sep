@@ -14,10 +14,27 @@ export class Analyze360Service {
     return Analyze360Service.instance;
   }
 
-  public async getAnalyze360View(symbol: string, candidateId?: string, signalIds?: string[], recommendedDate?: string, strategyIds?: string[]) {
+  public async getAnalyze360View(
+    symbol: string,
+    candidateId?: string,
+    signalIds?: string[],
+    recommendedDate?: string,
+    strategyIds?: string[],
+    options?: { includeTechnicals?: boolean; includeSectorMomentum?: boolean }
+  ) {
+    const includeTechnicals = options?.includeTechnicals === true;
+    const includeSectorMomentum = options?.includeSectorMomentum === true;
+
     // 1. Get base enrichment (Technical, Sector, basic momentum)
     const enrichmentService = SevenStrategiesCandidateEnrichmentService.getInstance();
-    const enrichmentMap = await enrichmentService.bulkEnrich([{ symbol, cmp: null }]);
+    const enrichmentMap = await enrichmentService.bulkEnrich(
+      [{ symbol, cmp: null }],
+      {
+        includeTechnicals,
+        includeSectorMomentum,
+        includeActionReadiness: includeTechnicals
+      }
+    );
     const base = enrichmentMap.get(symbol);
 
     if (!base) {
@@ -71,7 +88,7 @@ export class Analyze360Service {
     const fundamental = {
       revenueGrowth: {
         ...resolved.salesCagr3yPct,
-        fiveYearCagr: buildField(masterRow?.sales_growth_5y_pct, 'NO_SALES_GROWTH_5Y', '5-Year CAGR')
+        fiveYearCagr: resolved.salesGrowth5y
       },
       profitability: {
         operatingProfit: resolved.operatingProfit,
@@ -84,17 +101,17 @@ export class Analyze360Service {
       },
       cashFlow: {
         cfoToPat: resolved.cfoToPatPct,
-        cfo: buildField(masterRow?.cfo_cr, 'NO_CFO_DATA'),
+        cfo: resolved.cfo,
         cfoToOperatingProfit: resolved.cfoToOperatingProfitPct,
         workingCapital: resolved.workingCapital,
         freeCashFlow: resolved.freeCashFlow,
         fcfYield: resolved.fcfYield
       },
       holdings: {
-        promoterHolding: buildField(masterRow?.promoter_pct, 'NO_PROMOTER_HOLDING'),
+        promoterHolding: resolved.promoterHolding,
         promoterPledge: resolved.promoterPledgePct,
-        fiiHolding: buildField(masterRow?.fii_pct, 'NO_FII_DATA'),
-        diiHolding: buildField(masterRow?.dii_pct, 'NO_DII_DATA'),
+        fiiHolding: resolved.fiiHolding,
+        diiHolding: resolved.diiHolding,
         fiiTrend: resolved.fiiTrend,
         diiTrend: resolved.diiTrend
       },
@@ -188,11 +205,18 @@ export class Analyze360Service {
     };
 
     const missingDataChecklist: Array<{ group: string, field: string, reason: string, severity: 'HIGH' | 'MEDIUM' | 'LOW' }> = [];
+    const missingKeys = new Set<string>();
+    const addMissing = (group: string, field: string, reason: string, severity: 'HIGH' | 'MEDIUM' | 'LOW') => {
+      const key = `${group}|${field}|${reason}`;
+      if (missingKeys.has(key)) return;
+      missingKeys.add(key);
+      missingDataChecklist.push({ group, field, reason, severity });
+    };
     const checkMissing = (obj: any, group: string, severity: 'HIGH' | 'MEDIUM' | 'LOW' = 'MEDIUM', prefix = '') => {
       for (const key in obj) {
         if (obj[key] && typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
           if (obj[key].status === 'MISSING') {
-            missingDataChecklist.push({ group, field: prefix + key, reason: obj[key].missingReason || 'Unknown', severity });
+            addMissing(group, prefix + key, obj[key].missingReason || 'Unknown', severity);
           } else if (!obj[key].status) {
             checkMissing(obj[key], group, severity, prefix + key + '.');
           }
@@ -205,15 +229,34 @@ export class Analyze360Service {
       const p = (qglp as any)[pillar];
       if (p && p.status !== 'PASS') {
         (p.missingFields || []).forEach((mf: string) => {
-          missingDataChecklist.push({ group: 'QGLP', field: `${pillar}.${mf}`, reason: `Missing required ${pillar} metric`, severity: 'HIGH' });
+          addMissing('QGLP', `${pillar}.${mf}`, `Missing required ${pillar} metric`, 'HIGH');
         });
       }
     });
     if (sectorMomentum.status === 'DATA_INSUFFICIENT') {
-      missingDataChecklist.push({ group: 'sector', field: 'sectorMomentum', reason: sectorMomentum.missingReason || 'Missing', severity: 'MEDIUM' });
+      addMissing('sector', 'sectorMomentum', sectorMomentum.missingReason || 'Missing', 'MEDIUM');
     }
+    const equivalentFereAvailability: Record<string, boolean> = {
+      debt: fundamental.debtAndService.debtToEquity.status === 'AVAILABLE' || fundamental.debtAndService.totalBorrowings.status === 'AVAILABLE',
+      borrowings: fundamental.debtAndService.totalBorrowings.status === 'AVAILABLE',
+      total_borrowings: fundamental.debtAndService.totalBorrowings.status === 'AVAILABLE',
+      cash: fundamental.cashFlow.cfo.status === 'AVAILABLE' || fundamental.cashFlow.freeCashFlow.status === 'AVAILABLE',
+      receivables: fundamental.cashFlow.workingCapital.status === 'AVAILABLE',
+      trade_receivables: fundamental.cashFlow.workingCapital.status === 'AVAILABLE',
+      inventory: fundamental.cashFlow.workingCapital.status === 'AVAILABLE',
+      inventories: fundamental.cashFlow.workingCapital.status === 'AVAILABLE',
+      promoter_pledge: fundamental.holdings.promoterPledge.status === 'AVAILABLE',
+      promoter_holding: fundamental.holdings.promoterHolding.status === 'AVAILABLE',
+      fii: fundamental.holdings.fiiHolding.status === 'AVAILABLE' || fundamental.holdings.fiiTrend.status === 'AVAILABLE',
+      dii: fundamental.holdings.diiHolding.status === 'AVAILABLE' || fundamental.holdings.diiTrend.status === 'AVAILABLE',
+      free_float: fundamental.holdings.promoterHolding.status === 'AVAILABLE'
+    };
     (fereSummary.missingFields || []).forEach((mf: any) => {
-      missingDataChecklist.push({ group: 'FERE', field: mf, reason: 'No FERE evidence extracted', severity: 'MEDIUM' });
+      const normalized = String(mf || '').toLowerCase();
+      const hasAlternateVerifiedSource = Object.entries(equivalentFereAvailability)
+        .some(([needle, available]) => available && normalized.includes(needle));
+      if (hasAlternateVerifiedSource) return;
+      addMissing('FERE', String(mf), 'No FERE evidence extracted from local downloaded filings; no alternate verified local source found', 'LOW');
     });
 
     const sum = [];

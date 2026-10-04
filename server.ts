@@ -144,6 +144,7 @@ import kiteRouter from './src/server/routes/kite.js';
 import { stockscansRouter } from './src/server/routes/stockscansRoutes.js';
 import { remoteBridgeRouter } from './src/server/routes/remoteBridgeRouter.js';
 import { aiStudioProxyRouter } from './src/server/routes/aiStudioProxyRouter.js';
+import { dossierRouter } from './src/server/routes/dossierRoutes.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -187,6 +188,7 @@ app.use('/api/auth/kite', kiteRouter);
 app.use('/api/stockscans', stockscansRouter);
 app.use('/api/remote', remoteBridgeRouter);
 app.use('/api/ai-studio-proxy', (req, res, next) => { if (process.env.APP_PASSWORD && req.headers['x-app-password'] !== process.env.APP_PASSWORD) return res.status(401).json({ error: 'Unauthorized local session' }); next(); }, aiStudioProxyRouter);
+app.use('/api/dossier-runs', dossierRouter);
 
 // Permanent adjusted daily candles live outside SQLite in the DuckDB/Parquet
 // market store. This read-only route delegates entirely to DuckDbAdjustedOhlcvService,
@@ -16851,6 +16853,11 @@ async function startServer() {
   // ── STEP 2: Bind port — server is IMMEDIATELY usable ──────────────────────
   const server = app.listen(PORT, BIND_HOST, () => {
     console.log(`✅ Server READY — accepting requests at http://localhost:${PORT}`);
+    if (process.env.ENABLE_DUCKDB_WARMUP !== 'false') {
+      setTimeout(() => {
+        DuckDbAdjustedOhlcvService.warmup().catch(() => {});
+      }, 1000);
+    }
   });
 
   // Attach Live Market WebSocket streaming server
@@ -16998,14 +17005,17 @@ async function startServer() {
     }
   }, 120000);
 
-  // Pre-cache is disabled for disposable read-only runtime smoke tests.
-  if (process.env.READ_ONLY_RUNTIME !== 'true') {
+  // Pre-cache is intentionally disabled for normal interactive startup.
+  // It performs multi-year market/growth-history work and can delay unrelated
+  // lightweight API calls such as scrip search when it runs inside the web
+  // server process. Run it only in an explicit background-scheduler session.
+  if (process.env.ENABLE_BACKGROUND_SCHEDULERS === 'true' && process.env.READ_ONLY_RUNTIME !== 'true') {
     setTimeout(() => {
       fetchTickerData('^NSEI', 365 * 5).catch(console.error);
       generateImmediateGrowthHistory(getDB(), null).catch(console.error);
     }, 120000);
   } else {
-    console.log('[ReadOnlyRuntime] Skipping market-data and growth-history pre-cache.');
+    console.log('[StartupPreCache] Skipping market-data and growth-history pre-cache. Set ENABLE_BACKGROUND_SCHEDULERS=true to run it.');
   }
 
   // Pre-warm dashboard payload caches after 150s — deferred so server can serve user
@@ -17070,14 +17080,16 @@ async function startServer() {
   }
 
 
-  // Trigger initial background FX rates sync asynchronously (deferred by 60s)
-  if (process.env.READ_ONLY_RUNTIME !== 'true') {
+  // Trigger initial background FX rates sync only in explicit scheduler mode.
+  // Normal research/discovery sessions should not start network/background work
+  // that can make lightweight UI routes feel slow.
+  if (process.env.ENABLE_BACKGROUND_SCHEDULERS === 'true' && process.env.READ_ONLY_RUNTIME !== 'true') {
     setTimeout(() => {
       console.log('[FX Sync] Performing initial FX rates fetch...');
       BankAndFDService.getInstance().fetchLiveXERates().catch(console.error);
     }, 60000);
   } else {
-    console.log('[ReadOnlyRuntime] Skipping initial FX sync.');
+    console.log('[FX Sync] Skipping startup FX sync. Set ENABLE_BACKGROUND_SCHEDULERS=true to run it.');
   }
 
   // Daily snapshot write — gated: only when startup mutations enabled

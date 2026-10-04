@@ -1,8 +1,8 @@
 {
   "schemaVersion": "2.1",
-  "repositorySha": "dc74d6138f17fc85fd6099d2e57ad7ff0304b015",
+  "repositorySha": "b8acba784ba7e6e1a6323ac3a78e21acf89f8dfc",
   "repositoryRef": "ai-review",
-  "parentSha": "d1bcb37598f2373578bee4df382d11fef9ec19d8",
+  "parentSha": "2e77e7f8eb1115f682bdf8cc3e174a2be407bb7a",
   "generatedFromCleanWorkingTree": true,
   "deliveryDecision": "FAILED",
   "canonicalEvidenceHash": "d64f2285a1c93739f0b3b9e3b34d35fbcf0c1216ab940c511a064230bdf62fb6",
@@ -51,7 +51,7 @@
   },
   "decision": "FAILED",
   "operationalMetadata": {
-    "executedAt": "2026-09-29T18:33:33.044Z",
+    "executedAt": "2026-10-03T16:19:01.096Z",
     "nodeVersion": "v24.18.0"
   }
 }

@@ -1,0 +1,992 @@
+{
+  "symbol": "TCS",
+  "candidateId": null,
+  "signalIds": [],
+  "recommendedDate": null,
+  "strategyIds": [],
+  "companyName": "Tata Consultancy Services Limited",
+  "sector": "Information Technology",
+  "industry": null,
+  "summarySnapshot": {
+    "revenueGrowth": {
+      "value": null,
+      "status": "MISSING",
+      "missingReason": "NO_SALES_GROWTH_5Y",
+      "provider": null,
+      "sourceTable": null,
+      "sourceFactId": null,
+      "availableAt": null,
+      "fetchedAt": null,
+      "periodType": null,
+      "periodEnd": null,
+      "note": null
+    },
+    "operatingProfit": {
+      "value": null,
+      "status": "MISSING",
+      "missingReason": "NO_OP_PROFIT",
+      "provider": null,
+      "sourceTable": null,
+      "sourceFactId": null,
+      "periodType": null,
+      "periodEnd": null,
+      "availableAt": null,
+      "fetchedAt": null,
+      "note": null,
+      "derivationFormula": null
+    },
+    "pat": {
+      "value": 13784,
+      "status": "AVAILABLE",
+      "missingReason": null,
+      "provider": "STATUTORY_EXCHANGE_RESULTS",
+      "sourceTable": "HistoricalFinancialStatements",
+      "sourceFactId": null,
+      "periodType": "Mar 2026",
+      "periodEnd": null,
+      "availableAt": null,
+      "fetchedAt": null,
+      "note": "Profit After Tax: ₹13784 Cr",
+      "derivationFormula": null
+    },
+    "demandOutlook": {
+      "value": null,
+      "status": "MISSING",
+      "missingReason": "NO_DEMAND_OUTLOOK_EVIDENCE",
+      "provider": null,
+      "sourceTable": null,
+      "sourceFactId": null,
+      "periodType": null,
+      "periodEnd": null,
+      "availableAt": null,
+      "fetchedAt": null,
+      "note": null,
+      "derivationFormula": null
+    },
+    "competitivePosition": {
+      "value": "Leading participant in Information Technology (IT - Software).",
+      "status": "AVAILABLE",
+      "missingReason": null,
+      "provider": "SECURITY_DOSSIER_SNAPSHOT",
+      "sourceTable": "SecurityDossierSnapshots",
+      "sourceFactId": null,
+      "periodType": "POINT_IN_TIME",
+      "periodEnd": null,
+      "availableAt": null,
+      "fetchedAt": null,
+      "note": "Market positioning and peer context",
+      "derivationFormula": null
+    },
+    "capacityCapability": {
+      "value": null,
+      "status": "MISSING",
+      "missingReason": "NO_CAPACITY_EVIDENCE",
+      "provider": null,
+      "sourceTable": null,
+      "sourceFactId": null,
+      "availableAt": null,
+      "fetchedAt": null,
+      "periodType": null,
+      "periodEnd": null,
+      "note": null
+    },
+    "rawMaterialRisks": {
+      "value": null,
+      "status": "MISSING",
+      "missingReason": "NO_RAW_MATERIAL_EVIDENCE",
+      "provider": null,
+      "sourceTable": null,
+      "sourceFactId": null,
+      "availableAt": null,
+      "fetchedAt": null,
+      "periodType": null,
+      "periodEnd": null,
+      "note": null
+    },
+    "debtAndServicing": {
+      "value": 0,
+      "status": "AVAILABLE",
+      "missingReason": null,
+      "provider": "TRENDLYNE_MCP",
+      "sourceTable": "company_facts",
+      "sourceFactId": null,
+      "periodType": "LATEST (ANNUAL)",
+      "periodEnd": null,
+      "availableAt": null,
+      "fetchedAt": null,
+      "note": "Debt to Equity Ratio: 0",
+      "derivationFormula": null
+    },
+    "cashFlowAndWorkingCapital": {
+      "value": null,
+      "status": "MISSING",
+      "missingReason": "NO_CFO_DATA",
+      "provider": null,
+      "sourceTable": null,
+      "sourceFactId": null,
+      "availableAt": null,
+      "fetchedAt": null,
+      "periodType": null,
+      "periodEnd": null,
+      "note": null
+    },
+    "promoterHolding": {
+      "value": 71.77,
+      "status": "AVAILABLE",
+      "missingReason": null,
+      "provider": "DataQualityAuditLedger",
+      "sourceTable": "DataQualityAuditLedger",
+      "sourceFactId": null,
+      "availableAt": "2026-09-13 18:31:43",
+      "fetchedAt": null,
+      "periodType": "Latest Quarter/LTM",
+      "periodEnd": null,
+      "note": null
+    },
+    "institutionalTrends": {
+      "value": 0,
+      "status": "AVAILABLE",
+      "missingReason": null,
+      "provider": "DataQualityAuditLedger",
+      "sourceTable": "DataQualityAuditLedger",
+      "sourceFactId": null,
+      "availableAt": "2026-09-13 18:31:43",
+      "fetchedAt": null,
+      "periodType": "Latest Quarter/LTM",
+      "periodEnd": null,
+      "note": null
+    },
+    "roeRoce": {
+      "value": 45.88,
+      "status": "AVAILABLE",
+      "missingReason": null,
+      "provider": "TRENDLYNE_MCP",
+      "sourceTable": "company_facts",
+      "sourceFactId": null,
+      "periodType": "2026-10-01 (ANNUAL)",
+      "periodEnd": null,
+      "availableAt": null,
+      "fetchedAt": null,
+      "note": "Return on Equity: 45.88%",
+      "derivationFormula": null
+    },
+    "valuation": {
+      "value": 16,
+      "status": "AVAILABLE",
+      "missingReason": null,
+      "provider": "DATA_QUALITY_AUDIT_LEDGER",
+      "sourceTable": "DataQualityAuditLedger",
+      "sourceFactId": null,
+      "periodType": "30-JUN-2026",
+      "periodEnd": null,
+      "availableAt": null,
+      "fetchedAt": null,
+      "note": "Price to Earnings: 16",
+      "derivationFormula": null
+    },
+    "keyRisks": {
+      "value": "Potential input cost inflation or cyclical macro slowdown.",
+      "status": "AVAILABLE",
+      "missingReason": null,
+      "provider": "SECURITY_DOSSIER_SNAPSHOT",
+      "sourceTable": "SecurityDossierSnapshots",
+      "sourceFactId": null,
+      "periodType": "POINT_IN_TIME",
+      "periodEnd": null,
+      "availableAt": null,
+      "fetchedAt": null,
+      "note": "Operating & cyclical risk factors",
+      "derivationFormula": null
+    },
+    "whatToWatchNext": {
+      "value": null,
+      "status": "MISSING",
+      "missingReason": "NO_WATCH_EVIDENCE",
+      "provider": null,
+      "sourceTable": null,
+      "sourceFactId": null,
+      "periodType": null,
+      "periodEnd": null,
+      "availableAt": null,
+      "fetchedAt": null,
+      "note": null,
+      "derivationFormula": null
+    },
+    "evidenceState": "DATA_INSUFFICIENT",
+    "summaryText": "For TCS, revenue growth is missing and operating profit is missing. Debt/Equity stands at 0 with CFO of missing. ROE is reported as 45.88% while ROCE is 58.65%. Promoter holding is 71.77% and PE ratio is 16. Technical freshness is VALID while sector momentum is WEAK. Key missing data includes: profitability.operatingProfit, debtAndService.totalBorrowings, cashFlow.cfo. This limits holistic analysis. Final fundamental evidence state is DATA_INSUFFICIENT."
+  },
+  "qglp": {
+    "status": "PARTIAL",
+    "score": null,
+    "quality": {
+      "score": 81.45,
+      "status": "PASS",
+      "missingFields": [],
+      "evidenceIds": [
+        "tl:TCS:revenue:2026-03-31",
+        "tl:TCS:revenue:2023-03-31",
+        "tl:TCS:pat:2026-03-31",
+        "tl:TCS:pat:2023-03-31",
+        "fere_xbrl_92730_INE467B01029_cfo_2026_03_31_CONSOLIDATED_ANNUAL",
+        "fere_xbrl_92728_INE467B01029_pat_2026_03_31_CONSOLIDATED_ANNUAL",
+        "21409_cfo_LATEST_ANNUAL_UNKNOWN_REPORTED",
+        "21409_operating_profit_LATEST_ANNUAL_UNKNOWN_REPORTED",
+        "fere_xbrl_92730_INE467B01029_cfo_2026_03_31_CONSOLIDATED_ANNUAL",
+        "fere_xbrl_v2_INE467B01029_capex_cash_outflow_20260331_CONSOLIDATED_ANNUAL"
+      ]
+    },
+    "growth": {
+      "score": 14.359333333333334,
+      "status": "FAIL",
+      "missingFields": [],
+      "evidenceIds": [
+        "tl:TCS:revenue:2026-03-31",
+        "tl:TCS:revenue:2023-03-31",
+        "tl:TCS:pat:2026-03-31",
+        "tl:TCS:pat:2023-03-31",
+        "fere_xbrl_92730_INE467B01029_cfo_2026_03_31_CONSOLIDATED_ANNUAL",
+        "fere_xbrl_92728_INE467B01029_pat_2026_03_31_CONSOLIDATED_ANNUAL",
+        "21409_cfo_LATEST_ANNUAL_UNKNOWN_REPORTED",
+        "21409_operating_profit_LATEST_ANNUAL_UNKNOWN_REPORTED",
+        "fere_xbrl_92730_INE467B01029_cfo_2026_03_31_CONSOLIDATED_ANNUAL",
+        "fere_xbrl_v2_INE467B01029_capex_cash_outflow_20260331_CONSOLIDATED_ANNUAL"
+      ]
+    },
+    "longevity": {
+      "score": null,
+      "status": "DATA_INSUFFICIENT",
+      "missingFields": [
+        "roceConsistencyPct",
+        "marginStabilityPct"
+      ],
+      "evidenceIds": [
+        "tl:TCS:revenue:2026-03-31",
+        "tl:TCS:revenue:2023-03-31",
+        "tl:TCS:pat:2026-03-31",
+        "tl:TCS:pat:2023-03-31",
+        "fere_xbrl_92730_INE467B01029_cfo_2026_03_31_CONSOLIDATED_ANNUAL",
+        "fere_xbrl_92728_INE467B01029_pat_2026_03_31_CONSOLIDATED_ANNUAL",
+        "21409_cfo_LATEST_ANNUAL_UNKNOWN_REPORTED",
+        "21409_operating_profit_LATEST_ANNUAL_UNKNOWN_REPORTED",
+        "fere_xbrl_92730_INE467B01029_cfo_2026_03_31_CONSOLIDATED_ANNUAL",
+        "fere_xbrl_v2_INE467B01029_capex_cash_outflow_20260331_CONSOLIDATED_ANNUAL"
+      ]
+    },
+    "price": {
+      "score": null,
+      "status": "DATA_INSUFFICIENT",
+      "missingFields": [
+        "peVsHistoryPct",
+        "peVsSectorPct"
+      ],
+      "evidenceIds": [
+        "tl:TCS:revenue:2026-03-31",
+        "tl:TCS:revenue:2023-03-31",
+        "tl:TCS:pat:2026-03-31",
+        "tl:TCS:pat:2023-03-31",
+        "fere_xbrl_92730_INE467B01029_cfo_2026_03_31_CONSOLIDATED_ANNUAL",
+        "fere_xbrl_92728_INE467B01029_pat_2026_03_31_CONSOLIDATED_ANNUAL",
+        "21409_cfo_LATEST_ANNUAL_UNKNOWN_REPORTED",
+        "21409_operating_profit_LATEST_ANNUAL_UNKNOWN_REPORTED",
+        "fere_xbrl_92730_INE467B01029_cfo_2026_03_31_CONSOLIDATED_ANNUAL",
+        "fere_xbrl_v2_INE467B01029_capex_cash_outflow_20260331_CONSOLIDATED_ANNUAL"
+      ]
+    },
+    "evidenceCompletenessPct": 50,
+    "reason": "At least one QGLP pillar lacks required dated evidence; score withheld."
+  },
+  "fundamental": {
+    "revenueGrowth": {
+      "value": 5.84,
+      "status": "AVAILABLE",
+      "missingReason": null,
+      "provider": "TRENDLYNE_MCP",
+      "sourceTable": "company_facts",
+      "sourceFactId": "tl:TCS:revenue:2023-03-31+tl:TCS:revenue:2026-03-31",
+      "periodType": "ANNUAL (3Y)",
+      "periodEnd": "2023-03-31 to 2026-03-31",
+      "availableAt": "2026-10-01",
+      "fetchedAt": null,
+      "note": "Calculated from 4 consecutive audited annual filings (2023-2026)",
+      "derivationFormula": "((Metric_2026 / Metric_2023) ** (1/3) - 1) * 100",
+      "fiveYearCagr": {
+        "value": null,
+        "status": "MISSING",
+        "missingReason": "NO_SALES_GROWTH_5Y",
+        "provider": null,
+        "sourceTable": null,
+        "sourceFactId": null,
+        "availableAt": null,
+        "fetchedAt": null,
+        "periodType": null,
+        "periodEnd": null,
+        "note": null
+      }
+    },
+    "profitability": {
+      "operatingProfit": {
+        "value": null,
+        "status": "MISSING",
+        "missingReason": "NO_OP_PROFIT",
+        "provider": null,
+        "sourceTable": null,
+        "sourceFactId": null,
+        "periodType": null,
+        "periodEnd": null,
+        "availableAt": null,
+        "fetchedAt": null,
+        "note": null,
+        "derivationFormula": null
+      },
+      "pat": {
+        "value": 13784,
+        "status": "AVAILABLE",
+        "missingReason": null,
+        "provider": "STATUTORY_EXCHANGE_RESULTS",
+        "sourceTable": "HistoricalFinancialStatements",
+        "sourceFactId": null,
+        "periodType": "Mar 2026",
+        "periodEnd": null,
+        "availableAt": null,
+        "fetchedAt": null,
+        "note": "Profit After Tax: ₹13784 Cr",
+        "derivationFormula": null
+      },
+      "marginTrend": {
+        "value": "EXPANDING",
+        "status": "AVAILABLE",
+        "missingReason": null,
+        "provider": "TRENDLYNE_MCP",
+        "sourceTable": "HistoricalFinancialStatements",
+        "sourceFactId": null,
+        "periodType": "QUARTERLY",
+        "periodEnd": "2026-10-01 (Latest Qtr) -> 1Q Ago (27.27% vs 25.67%)",
+        "availableAt": null,
+        "fetchedAt": null,
+        "note": "Sequential quarterly operating margin direction: EXPANDING",
+        "derivationFormula": null
+      }
+    },
+    "debtAndService": {
+      "debtToEquity": {
+        "value": 0,
+        "status": "AVAILABLE",
+        "missingReason": null,
+        "provider": "TRENDLYNE_MCP",
+        "sourceTable": "company_facts",
+        "sourceFactId": null,
+        "periodType": "LATEST (ANNUAL)",
+        "periodEnd": null,
+        "availableAt": null,
+        "fetchedAt": null,
+        "note": "Debt to Equity Ratio: 0",
+        "derivationFormula": null
+      },
+      "totalBorrowings": {
+        "value": null,
+        "status": "MISSING",
+        "missingReason": "NO_BORROWINGS_DATA",
+        "provider": null,
+        "sourceTable": null,
+        "sourceFactId": null,
+        "periodType": null,
+        "periodEnd": null,
+        "availableAt": null,
+        "fetchedAt": null,
+        "note": null,
+        "derivationFormula": null
+      }
+    },
+    "cashFlow": {
+      "cfoToPat": {
+        "value": 105.3,
+        "status": "AVAILABLE",
+        "missingReason": null,
+        "provider": "FERE_NSE_XBRL",
+        "sourceTable": "company_facts",
+        "sourceFactId": "fere_xbrl_92730_INE467B01029_cfo_2026_03_31_CONSOLIDATED_ANNUAL+fere_xbrl_92728_INE467B01029_pat_2026_03_31_CONSOLIDATED_ANNUAL",
+        "periodType": "ANNUAL / TTM",
+        "periodEnd": "2026-03-31 (ANNUAL)",
+        "availableAt": "2026-04-09T18:12:16+00:00",
+        "fetchedAt": null,
+        "note": "Cash Flow Conversion of Net Profit",
+        "derivationFormula": "(CFO / PAT) * 100"
+      },
+      "cfo": {
+        "value": null,
+        "status": "MISSING",
+        "missingReason": "NO_CFO_DATA",
+        "provider": null,
+        "sourceTable": null,
+        "sourceFactId": null,
+        "availableAt": null,
+        "fetchedAt": null,
+        "periodType": null,
+        "periodEnd": null,
+        "note": null
+      },
+      "cfoToOperatingProfit": {
+        "value": 72,
+        "status": "AVAILABLE",
+        "missingReason": null,
+        "provider": "TRENDLYNE_MCP",
+        "sourceTable": "company_facts",
+        "sourceFactId": "21409_cfo_LATEST_ANNUAL_UNKNOWN_REPORTED+21409_operating_profit_LATEST_ANNUAL_UNKNOWN_REPORTED",
+        "periodType": "ANNUAL / TTM",
+        "periodEnd": "LATEST (ANNUAL)",
+        "availableAt": "2026-10-03 12:52:28",
+        "fetchedAt": null,
+        "note": "CFO to Operating Cash Conversion",
+        "derivationFormula": "(CFO / Operating Profit) * 100"
+      },
+      "workingCapital": {
+        "value": 71,
+        "status": "AVAILABLE",
+        "missingReason": null,
+        "provider": "FERE_ENRICHED_LEDGER",
+        "sourceTable": "FEREEnrichedLedger",
+        "sourceFactId": null,
+        "periodType": "ANNUAL",
+        "periodEnd": null,
+        "availableAt": null,
+        "fetchedAt": null,
+        "note": "Cash Conversion Cycle: 71 days (DSO: 56, DIO: 72, DPO: 57)",
+        "derivationFormula": null
+      },
+      "freeCashFlow": {
+        "value": 48424,
+        "status": "AVAILABLE",
+        "missingReason": null,
+        "provider": "FERE_NSE_XBRL",
+        "sourceTable": "company_facts",
+        "sourceFactId": "fere_xbrl_92730_INE467B01029_cfo_2026_03_31_CONSOLIDATED_ANNUAL+fere_xbrl_v2_INE467B01029_capex_cash_outflow_20260331_CONSOLIDATED_ANNUAL",
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "availableAt": "2026-04-09T18:12:16+00:00",
+        "fetchedAt": null,
+        "note": "Free Cash Flow: ₹48424 Cr (CFO - Capex Outflow)",
+        "derivationFormula": "cfo - Math.abs(capex_cash_outflow)"
+      },
+      "fcfYield": {
+        "value": 6.53,
+        "status": "AVAILABLE",
+        "missingReason": null,
+        "provider": "FERE_NSE_XBRL",
+        "sourceTable": "company_facts",
+        "sourceFactId": "fere_xbrl_92730_INE467B01029_cfo_2026_03_31_CONSOLIDATED_ANNUAL+fere_xbrl_v2_INE467B01029_capex_cash_outflow_20260331_CONSOLIDATED_ANNUAL",
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "availableAt": "2026-04-09T18:12:16+00:00",
+        "fetchedAt": null,
+        "note": "FCF Yield: 6.53% on Market Cap ₹741925.02 Cr",
+        "derivationFormula": "(freeCashFlow / marketCap) * 100"
+      }
+    },
+    "holdings": {
+      "promoterHolding": {
+        "value": 71.77,
+        "status": "AVAILABLE",
+        "missingReason": null,
+        "provider": "DataQualityAuditLedger",
+        "sourceTable": "DataQualityAuditLedger",
+        "sourceFactId": null,
+        "availableAt": "2026-09-13 18:31:43",
+        "fetchedAt": null,
+        "periodType": "Latest Quarter/LTM",
+        "periodEnd": null,
+        "note": null
+      },
+      "promoterPledge": {
+        "value": 0,
+        "status": "AVAILABLE",
+        "missingReason": null,
+        "provider": "FERE_ENRICHED_LEDGER",
+        "sourceTable": "FEREEnrichedLedger",
+        "sourceFactId": null,
+        "periodType": "QUARTERLY",
+        "periodEnd": "Latest Audit",
+        "availableAt": null,
+        "fetchedAt": null,
+        "note": "Promoter shares pledged: 0%",
+        "derivationFormula": null
+      },
+      "fiiHolding": {
+        "value": 0,
+        "status": "AVAILABLE",
+        "missingReason": null,
+        "provider": "DataQualityAuditLedger",
+        "sourceTable": "DataQualityAuditLedger",
+        "sourceFactId": null,
+        "availableAt": "2026-09-13 18:31:43",
+        "fetchedAt": null,
+        "periodType": "Latest Quarter/LTM",
+        "periodEnd": null,
+        "note": null
+      },
+      "diiHolding": {
+        "value": 0,
+        "status": "AVAILABLE",
+        "missingReason": null,
+        "provider": "DataQualityAuditLedger",
+        "sourceTable": "DataQualityAuditLedger",
+        "sourceFactId": null,
+        "availableAt": "2026-09-13 18:31:43",
+        "fetchedAt": null,
+        "periodType": "Latest Quarter/LTM",
+        "periodEnd": null,
+        "note": null
+      },
+      "fiiTrend": {
+        "value": null,
+        "status": "MISSING",
+        "missingReason": "NO_FII_HOLDING_TREND",
+        "provider": null,
+        "sourceTable": null,
+        "sourceFactId": null,
+        "periodType": null,
+        "periodEnd": null,
+        "availableAt": null,
+        "fetchedAt": null,
+        "note": null,
+        "derivationFormula": null
+      },
+      "diiTrend": {
+        "value": null,
+        "status": "MISSING",
+        "missingReason": "NO_DII_HOLDING_TREND",
+        "provider": null,
+        "sourceTable": null,
+        "sourceFactId": null,
+        "periodType": null,
+        "periodEnd": null,
+        "availableAt": null,
+        "fetchedAt": null,
+        "note": null,
+        "derivationFormula": null
+      }
+    },
+    "efficiency": {
+      "roe": {
+        "value": 45.88,
+        "status": "AVAILABLE",
+        "missingReason": null,
+        "provider": "TRENDLYNE_MCP",
+        "sourceTable": "company_facts",
+        "sourceFactId": null,
+        "periodType": "2026-10-01 (ANNUAL)",
+        "periodEnd": null,
+        "availableAt": null,
+        "fetchedAt": null,
+        "note": "Return on Equity: 45.88%",
+        "derivationFormula": null
+      },
+      "roce": {
+        "value": 58.65,
+        "status": "AVAILABLE",
+        "missingReason": null,
+        "provider": "TRENDLYNE_MCP",
+        "sourceTable": "company_facts",
+        "sourceFactId": null,
+        "periodType": "LATEST (ANNUAL)",
+        "periodEnd": null,
+        "availableAt": null,
+        "fetchedAt": null,
+        "note": "Return on Capital Employed: 58.65%",
+        "derivationFormula": null
+      }
+    },
+    "valuation": {
+      "peg": {
+        "value": 13.96,
+        "status": "AVAILABLE",
+        "missingReason": null,
+        "provider": "TRENDLYNE_MCP",
+        "sourceTable": "company_facts",
+        "sourceFactId": "21409_peg_ratio_LATEST_TTM_UNKNOWN_REPORTED",
+        "periodType": "TTM",
+        "periodEnd": null,
+        "availableAt": "2026-10-03 12:52:28",
+        "fetchedAt": null,
+        "note": "Price/Earnings to Growth Ratio: 13.96",
+        "derivationFormula": null
+      },
+      "pe": {
+        "value": 16,
+        "status": "AVAILABLE",
+        "missingReason": null,
+        "provider": "DATA_QUALITY_AUDIT_LEDGER",
+        "sourceTable": "DataQualityAuditLedger",
+        "sourceFactId": null,
+        "periodType": "30-JUN-2026",
+        "periodEnd": null,
+        "availableAt": null,
+        "fetchedAt": null,
+        "note": "Price to Earnings: 16",
+        "derivationFormula": null
+      }
+    },
+    "outlook": {
+      "demandOutlook": {
+        "value": null,
+        "status": "MISSING",
+        "missingReason": "NO_DEMAND_OUTLOOK_EVIDENCE",
+        "provider": null,
+        "sourceTable": null,
+        "sourceFactId": null,
+        "periodType": null,
+        "periodEnd": null,
+        "availableAt": null,
+        "fetchedAt": null,
+        "note": null,
+        "derivationFormula": null
+      },
+      "peerContext": {
+        "value": "Leading participant in Information Technology (IT - Software).",
+        "status": "AVAILABLE",
+        "missingReason": null,
+        "provider": "SECURITY_DOSSIER_SNAPSHOT",
+        "sourceTable": "SecurityDossierSnapshots",
+        "sourceFactId": null,
+        "periodType": "POINT_IN_TIME",
+        "periodEnd": null,
+        "availableAt": null,
+        "fetchedAt": null,
+        "note": "Market positioning and peer context",
+        "derivationFormula": null
+      },
+      "capacityRisks": {
+        "value": null,
+        "status": "MISSING",
+        "missingReason": "NO_CAPACITY_EVIDENCE",
+        "provider": null,
+        "sourceTable": null,
+        "sourceFactId": null,
+        "availableAt": null,
+        "fetchedAt": null,
+        "periodType": null,
+        "periodEnd": null,
+        "note": null
+      }
+    },
+    "keyRisks": {
+      "value": "Potential input cost inflation or cyclical macro slowdown.",
+      "status": "AVAILABLE",
+      "missingReason": null,
+      "provider": "SECURITY_DOSSIER_SNAPSHOT",
+      "sourceTable": "SecurityDossierSnapshots",
+      "sourceFactId": null,
+      "periodType": "POINT_IN_TIME",
+      "periodEnd": null,
+      "availableAt": null,
+      "fetchedAt": null,
+      "note": "Operating & cyclical risk factors",
+      "derivationFormula": null
+    },
+    "whatToWatchNext": {
+      "value": null,
+      "status": "MISSING",
+      "missingReason": "NO_WATCH_EVIDENCE",
+      "provider": null,
+      "sourceTable": null,
+      "sourceFactId": null,
+      "periodType": null,
+      "periodEnd": null,
+      "availableAt": null,
+      "fetchedAt": null,
+      "note": null,
+      "derivationFormula": null
+    },
+    "evidenceState": "DATA_INSUFFICIENT"
+  },
+  "technical": {
+    "latestClose": {
+      "value": 2075.9,
+      "status": "AVAILABLE",
+      "missingReason": null,
+      "provider": null,
+      "sourceTable": null,
+      "sourceFactId": null,
+      "availableAt": "2026-09-13 18:31:43",
+      "fetchedAt": null,
+      "periodType": "Technical",
+      "periodEnd": null,
+      "note": "Local from OHLCV"
+    },
+    "latestOhlcvDate": {
+      "value": "2026-10-01",
+      "status": "AVAILABLE",
+      "missingReason": null,
+      "provider": null,
+      "sourceTable": null,
+      "sourceFactId": null,
+      "availableAt": "2026-09-13 18:31:43",
+      "fetchedAt": null,
+      "periodType": "Technical",
+      "periodEnd": null,
+      "note": "Local from OHLCV"
+    },
+    "freshnessStatus": "VALID",
+    "ema20": {
+      "value": 2148.3036624423735,
+      "status": "AVAILABLE",
+      "missingReason": null,
+      "provider": null,
+      "sourceTable": null,
+      "sourceFactId": null,
+      "availableAt": "2026-09-13 18:31:43",
+      "fetchedAt": null,
+      "periodType": "Technical",
+      "periodEnd": null,
+      "note": "Local from OHLCV"
+    },
+    "sma20": {
+      "value": 2161.8950000000004,
+      "status": "AVAILABLE",
+      "missingReason": null,
+      "provider": null,
+      "sourceTable": null,
+      "sourceFactId": null,
+      "availableAt": "2026-09-13 18:31:43",
+      "fetchedAt": null,
+      "periodType": "Technical",
+      "periodEnd": null,
+      "note": "Local from OHLCV"
+    },
+    "sma50": {
+      "value": 2276.828,
+      "status": "AVAILABLE",
+      "missingReason": null,
+      "provider": null,
+      "sourceTable": null,
+      "sourceFactId": null,
+      "availableAt": "2026-09-13 18:31:43",
+      "fetchedAt": null,
+      "periodType": "Technical",
+      "periodEnd": null,
+      "note": "Local from OHLCV"
+    },
+    "sma200": {
+      "value": 2518.2085,
+      "status": "AVAILABLE",
+      "missingReason": null,
+      "provider": null,
+      "sourceTable": null,
+      "sourceFactId": null,
+      "availableAt": "2026-09-13 18:31:43",
+      "fetchedAt": null,
+      "periodType": "Technical",
+      "periodEnd": null,
+      "note": "Local from OHLCV"
+    },
+    "rsi14": {
+      "value": 36.95529869952733,
+      "status": "AVAILABLE",
+      "missingReason": null,
+      "provider": null,
+      "sourceTable": null,
+      "sourceFactId": null,
+      "availableAt": "2026-09-13 18:31:43",
+      "fetchedAt": null,
+      "periodType": "Technical",
+      "periodEnd": null,
+      "note": "Local from OHLCV"
+    },
+    "atrPct": {
+      "value": 2.778408808450199,
+      "status": "AVAILABLE",
+      "missingReason": null,
+      "provider": null,
+      "sourceTable": null,
+      "sourceFactId": null,
+      "availableAt": "2026-09-13 18:31:43",
+      "fetchedAt": null,
+      "periodType": "Technical",
+      "periodEnd": null,
+      "note": "Local from OHLCV"
+    },
+    "stockReturn5D": {
+      "value": 0.11091820987654266,
+      "status": "AVAILABLE",
+      "missingReason": null,
+      "provider": null,
+      "sourceTable": null,
+      "sourceFactId": null,
+      "availableAt": "2026-09-13 18:31:43",
+      "fetchedAt": null,
+      "periodType": "Technical",
+      "periodEnd": null,
+      "note": "Local from OHLCV"
+    },
+    "stockReturn20D": {
+      "value": -11.588586030664395,
+      "status": "AVAILABLE",
+      "missingReason": null,
+      "provider": null,
+      "sourceTable": null,
+      "sourceFactId": null,
+      "availableAt": "2026-09-13 18:31:43",
+      "fetchedAt": null,
+      "periodType": "Technical",
+      "periodEnd": null,
+      "note": "Local from OHLCV"
+    },
+    "stockMomentumStatus": "WEAK",
+    "gapSignalToClose": {
+      "value": null,
+      "status": "MISSING",
+      "missingReason": "NO_SIGNAL_OR_OHLCV",
+      "provider": null,
+      "sourceTable": null,
+      "sourceFactId": null,
+      "availableAt": null,
+      "fetchedAt": null,
+      "periodType": null,
+      "periodEnd": null,
+      "note": null
+    }
+  },
+  "sectorMomentum": {
+    "sector": "Information Technology",
+    "sectorIndex": "NIFTY IT",
+    "mappingStatus": "MAPPED",
+    "status": "WEAK",
+    "missingReason": null
+  },
+  "fere": {
+    "status": "VERIFIED_PARTIAL",
+    "evidenceCount": 29,
+    "documentCount": 19,
+    "missingFields": [
+      "debt",
+      "cash",
+      "receivables",
+      "inventory",
+      "promoter_pledge"
+    ],
+    "topEvidenceLabels": [
+      "DOCUMENT"
+    ],
+    "evidenceLabelStatus": "AVAILABLE"
+  },
+  "missingDataChecklist": [
+    {
+      "group": "fundamentals",
+      "field": "profitability.operatingProfit",
+      "reason": "NO_OP_PROFIT",
+      "severity": "HIGH"
+    },
+    {
+      "group": "fundamentals",
+      "field": "debtAndService.totalBorrowings",
+      "reason": "NO_BORROWINGS_DATA",
+      "severity": "HIGH"
+    },
+    {
+      "group": "fundamentals",
+      "field": "cashFlow.cfo",
+      "reason": "NO_CFO_DATA",
+      "severity": "HIGH"
+    },
+    {
+      "group": "fundamentals",
+      "field": "holdings.fiiTrend",
+      "reason": "NO_FII_HOLDING_TREND",
+      "severity": "HIGH"
+    },
+    {
+      "group": "fundamentals",
+      "field": "holdings.diiTrend",
+      "reason": "NO_DII_HOLDING_TREND",
+      "severity": "HIGH"
+    },
+    {
+      "group": "fundamentals",
+      "field": "outlook.demandOutlook",
+      "reason": "NO_DEMAND_OUTLOOK_EVIDENCE",
+      "severity": "HIGH"
+    },
+    {
+      "group": "fundamentals",
+      "field": "outlook.capacityRisks",
+      "reason": "NO_CAPACITY_EVIDENCE",
+      "severity": "HIGH"
+    },
+    {
+      "group": "fundamentals",
+      "field": "whatToWatchNext",
+      "reason": "NO_WATCH_EVIDENCE",
+      "severity": "HIGH"
+    },
+    {
+      "group": "technicals",
+      "field": "gapSignalToClose",
+      "reason": "NO_SIGNAL_OR_OHLCV",
+      "severity": "MEDIUM"
+    },
+    {
+      "group": "QGLP",
+      "field": "longevity.roceConsistencyPct",
+      "reason": "Missing required longevity metric",
+      "severity": "HIGH"
+    },
+    {
+      "group": "QGLP",
+      "field": "longevity.marginStabilityPct",
+      "reason": "Missing required longevity metric",
+      "severity": "HIGH"
+    },
+    {
+      "group": "QGLP",
+      "field": "price.peVsHistoryPct",
+      "reason": "Missing required price metric",
+      "severity": "HIGH"
+    },
+    {
+      "group": "QGLP",
+      "field": "price.peVsSectorPct",
+      "reason": "Missing required price metric",
+      "severity": "HIGH"
+    },
+    {
+      "group": "FERE",
+      "field": "debt",
+      "reason": "No FERE evidence extracted",
+      "severity": "MEDIUM"
+    },
+    {
+      "group": "FERE",
+      "field": "cash",
+      "reason": "No FERE evidence extracted",
+      "severity": "MEDIUM"
+    },
+    {
+      "group": "FERE",
+      "field": "receivables",
+      "reason": "No FERE evidence extracted",
+      "severity": "MEDIUM"
+    },
+    {
+      "group": "FERE",
+      "field": "inventory",
+      "reason": "No FERE evidence extracted",
+      "severity": "MEDIUM"
+    },
+    {
+      "group": "FERE",
+      "field": "promoter_pledge",
+      "reason": "No FERE evidence extracted",
+      "severity": "MEDIUM"
+    }
+  ],
+  "actionReadiness": {
+    "canBacktest": {
+      "enabled": true
+    },
+    "canPaperTrade": {
+      "enabled": true
+    },
+    "canCreateAlert": {
+      "enabled": true
+    }
+  }
+}

@@ -32,7 +32,8 @@ const manifestPath = manifestIndex >= 0
 const maxSymbols = maxIndex >= 0 ? Math.max(0, Number(process.argv[maxIndex + 1])) : 230;
 const apply = process.argv.includes('--apply');
 const dbPath = (process.env.DATABASE_URL || path.join(root, 'portfolio.db')).replace(/^sqlite:\/\//, '');
-const reportPath = path.join(dataDir, 'trendlyne_statement_history_promotion_report_230.json');
+const manifestSlug = path.basename(manifestPath).replace(/[^a-zA-Z0-9_-]+/g, '_').replace(/_json$/i, '');
+const reportPath = path.join(dataDir, `trendlyne_statement_history_promotion_report_${manifestSlug}.json`);
 
 type MetricMapping = {
   label: string;

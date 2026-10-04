@@ -16,6 +16,8 @@ export function Analyze360View({ symbol, candidateId, signalIds, recommendedDate
   const [data, setData] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [includeTechnicals, setIncludeTechnicals] = useState(false);
+  const [refreshResult, setRefreshResult] = useState<any | null>(null);
 
   const [actionResults, setActionResults] = useState<any>({});
   const [actionLoading, setActionLoading] = useState<Record<string, boolean>>({});
@@ -40,6 +42,10 @@ export function Analyze360View({ symbol, candidateId, signalIds, recommendedDate
         if (signalIds && signalIds.length) params.append('signalIds', signalIds.join(','));
         if (recommendedDate) params.append('recommendedDate', recommendedDate);
         if (strategyIds && strategyIds.length) params.append('strategyIds', strategyIds.join(','));
+        if (includeTechnicals) {
+          params.append('includeTechnicals', 'true');
+          params.append('includeSectorMomentum', 'true');
+        }
         if (params.toString()) url += `?${params.toString()}`;
 
         const response: RemoteResponse = await WealthOSApiClient.request(url);
@@ -59,7 +65,7 @@ export function Analyze360View({ symbol, candidateId, signalIds, recommendedDate
     }
     fetchData();
     return () => { isMounted = false; };
-  }, [symbol, candidateId, signalIds, recommendedDate, strategyIds]);
+  }, [symbol, candidateId, signalIds, recommendedDate, strategyIds, includeTechnicals]);
 
   if (loading) {
     return (
@@ -113,6 +119,46 @@ export function Analyze360View({ symbol, candidateId, signalIds, recommendedDate
       setActionResults(prev => ({...prev, [actionKey]: { success: false, status: 'BLOCKED', blockers: [{ reason: e.message }] }}));
     } finally {
       setActionLoading(prev => ({...prev, [actionKey]: false}));
+    }
+  };
+
+  const refreshStoredData = async () => {
+    try {
+      setActionLoading(prev => ({ ...prev, refreshData: true }));
+      setRefreshResult(null);
+      const res = await fetch(`/api/analyze360/${encodeURIComponent(symbol)}/refresh-data`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ candidateId, signalIds, strategyIds })
+      });
+      const resultData = await res.json();
+      setRefreshResult(resultData);
+      if (resultData?.success) {
+        setLoading(true);
+        setError(null);
+        setData(null);
+        const params = new URLSearchParams();
+        if (candidateId) params.append('candidateId', candidateId);
+        if (signalIds && signalIds.length) params.append('signalIds', signalIds.join(','));
+        if (recommendedDate) params.append('recommendedDate', recommendedDate);
+        if (strategyIds && strategyIds.length) params.append('strategyIds', strategyIds.join(','));
+        if (includeTechnicals) {
+          params.append('includeTechnicals', 'true');
+          params.append('includeSectorMomentum', 'true');
+        }
+        const url = `/api/analyze360/${encodeURIComponent(symbol)}${params.toString() ? `?${params.toString()}` : ''}`;
+        const response: RemoteResponse = await WealthOSApiClient.request(url);
+        if (response.data && !response.error) {
+          setData(response.data);
+        } else {
+          setError(response.error || 'Failed to reload Analyze 360 data');
+        }
+      }
+    } catch (e: any) {
+      setRefreshResult({ success: false, status: 'FAILED', blockers: [{ reason: e.message || 'Refresh failed' }] });
+    } finally {
+      setLoading(false);
+      setActionLoading(prev => ({ ...prev, refreshData: false }));
     }
   };
 
@@ -175,12 +221,40 @@ export function Analyze360View({ symbol, candidateId, signalIds, recommendedDate
             </div>
           </div>
           <div className="flex items-center gap-3">
+             <button
+               onClick={refreshStoredData}
+               disabled={!!actionLoading.refreshData}
+               className="px-3 py-2 rounded-xl bg-emerald-600/90 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-bold border border-emerald-400/40"
+               title="Rebuild canonical facts for this scrip from already stored provider snapshots. This does not spend a live Trendlyne call."
+             >
+               {actionLoading.refreshData ? 'Updating...' : 'Fetch / Update Scrip'}
+             </button>
+             <button
+               onClick={() => {
+                 setLoading(true);
+                 setIncludeTechnicals(v => !v);
+               }}
+               className={`px-3 py-2 rounded-xl text-xs font-bold border ${includeTechnicals ? 'bg-cyan-600/90 border-cyan-400/40 text-white' : 'bg-slate-800 border-slate-700 text-slate-300 hover:text-white'}`}
+               title="Load technical OHLCV and sector momentum. This can be slower if DuckDB/Python is unavailable."
+             >
+               {includeTechnicals ? 'Technical: ON' : 'Load Technicals'}
+             </button>
              <button onClick={onClose} className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800"><X className="w-5 h-5" /></button>
           </div>
         </div>
 
         {/* Content */}
         <div className="p-6 overflow-y-auto flex-1 space-y-6">
+          {refreshResult && (
+            <div className={`p-3 rounded-xl border text-xs ${refreshResult.success ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-200' : 'bg-amber-500/10 border-amber-500/30 text-amber-200'}`}>
+              <div className="font-bold">Update status: {refreshResult.status}</div>
+              {refreshResult.result?.factsInserted !== undefined && (
+                <div>Canonical facts inserted/updated: {refreshResult.result.factsInserted}</div>
+              )}
+              {refreshResult.result?.nextStep && <div>{refreshResult.result.nextStep}</div>}
+              {refreshResult.blockers?.[0]?.reason && <div className="mt-1">Note: {refreshResult.blockers[0].reason}</div>}
+            </div>
+          )}
           
           {/* Metadata context */}
           <div className="p-4 rounded-xl bg-slate-800/40 border border-slate-700 grid grid-cols-2 md:grid-cols-6 gap-4">

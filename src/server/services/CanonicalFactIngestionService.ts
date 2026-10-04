@@ -40,9 +40,11 @@ export class CanonicalFactIngestionService {
     const mappings = await this.loadMappings('TRENDLYNE_MCP');
     if (mappings.length === 0) return 0;
 
-    const rows = await this.all<{ fetched_at: string, response_json: string }>(
-      `SELECT fetched_at, response_json FROM fundamental_endpoint_snapshots 
-       WHERE provider='TRENDLYNE_MCP' AND symbol=? AND endpoint='parameters'`,
+    const rows = await this.all<{ fetched_at: string, response_json: string, endpoint: string }>(
+      `SELECT fetched_at, response_json, endpoint FROM fundamental_endpoint_snapshots 
+       WHERE provider='TRENDLYNE_MCP'
+         AND symbol=?
+         AND endpoint IN ('parameters', 'get_stock_parameter_values', 'statement_history_parameters', 'quarterly_profit_history')`,
       [symbol]
     );
 
@@ -57,97 +59,131 @@ export class CanonicalFactIngestionService {
 
     let factsInserted = 0;
 
-    // Latest snapshot
-    const latest = rows.sort((a, b) => new Date(b.fetched_at).getTime() - new Date(a.fetched_at).getTime())[0];
-    const payload = JSON.parse(latest.response_json);
-    
-    let textContent = '';
-    try {
-        const parsedText = JSON.parse(payload.content[0].text);
-        textContent = parsedText.data || '';
-    } catch {
-        textContent = typeof payload.content?.[0]?.text === 'string' ? payload.content[0].text : '';
-    }
-    const blocks = textContent.split('\n---\n');
-
-    // Trendlyne's parameter payload begins with a provider observation line
-    // ending in YYYY-MM-DD.  This is an as-of observation date, not a claimed
-    // statutory period end.  Preserve it separately and leave periodEnd as
-    // LATEST so annual/quarterly history is never fabricated from a snapshot.
-    const firstLine = textContent.split(/\r?\n/).find((line: string) => line.trim()) || '';
-    const observationDate = firstLine.match(/\b(\d{4}-\d{2}-\d{2})\b/)?.[1] || null;
-    const availableAt = latest.fetched_at;
-    const normalizedPeriodType = (periodType: string) => {
-      if (periodType === 'QUARTER') return 'QUARTERLY';
-      if (periodType === 'INSTANT') return 'POINT_IN_TIME';
-      return periodType;
-    };
-    
-    const extractedValues: Record<string, { status: string, value: number | null, exactLabel?: string }> = {};
-
-    for (const block of blocks) {
-      const lines = block.trim().split('\n');
-      if (lines.length < 2) continue;
-      const title = lines[0].trim(); 
-      
-      for (let i = 1; i < lines.length; i++) {
-        const parts = lines[i].split(':');
-        if (parts.length === 2) {
-           const parsedSymbol = parts[0].trim();
-           if (parsedSymbol === symbol) {
-             const valueStr = parts[1].trim();
-             const match = mappings.find(m => title === m.provider_label.trim());
-             
-             if (match) {
-                 if (valueStr.toLowerCase() === 'none' || valueStr === '-' || valueStr === 'n/a') {
-                     extractedValues[match.provider_token] = { status: 'UNAVAILABLE_FROM_PROVIDER', value: null };
-                 } else {
-                     const val = parseFloat(valueStr);
-                     if (!isNaN(val)) {
-                         let finalVal = val;
-                         extractedValues[match.provider_token] = { status: 'AVAILABLE', value: finalVal, exactLabel: title };
-                     } else {
-                         extractedValues[match.provider_token] = { status: 'UNAVAILABLE_FROM_PROVIDER', value: null };
-                     }
-                 }
-             }
-           }
-        }
+    // Group by endpoint and get the latest for each
+    const latestPerEndpoint = new Map<string, typeof rows[0]>();
+    for (const row of rows) {
+      const existing = latestPerEndpoint.get(row.endpoint);
+      if (!existing || new Date(row.fetched_at).getTime() > new Date(existing.fetched_at).getTime()) {
+        latestPerEndpoint.set(row.endpoint, row);
       }
     }
 
-    for (const mapping of mappings) {
-      const extracted = extractedValues[mapping.provider_token];
-      const periodType = normalizedPeriodType(mapping.period_type);
-      const factId = `${companyId}_${mapping.canonical_metric}_LATEST_${periodType}_${mapping.consolidated_or_standalone}_REPORTED`;
+    for (const latest of latestPerEndpoint.values()) {
+      const payload = JSON.parse(latest.response_json);
+      const directMetricPayload =
+        payload && typeof payload === 'object' && !Array.isArray(payload) && !payload.content
+          ? payload as Record<string, unknown>
+          : null;
       
-      const isMissing = !extracted;
-      const factType = isMissing || extracted.value === null ? 'MISSING' : 'REPORTED';
-      const availabilityStatus = isMissing ? 'REQUESTED_NOT_RETURNED' : extracted.status;
-      const finalValue = isMissing ? null : extracted.value;
-      
-      const exactLabel = isMissing ? null : (extracted as any).exactLabel;
-      const sourceDocumentId = `TRENDLYNE_MCP:parameters:${symbol}:${latest.fetched_at}`;
+      let textContent = '';
+      try {
+          const parsedText = JSON.parse(payload.content[0].text);
+          textContent = parsedText.data || '';
+      } catch {
+          textContent = typeof payload.content?.[0]?.text === 'string' ? payload.content[0].text : '';
+      }
+      const blocks = textContent.split('\n---\n');
 
-      await this.run(`
-        INSERT OR REPLACE INTO company_facts (
-          factId, companyId, symbol, isin, metric, value, unit, currency,
-          periodType, periodEnd, asOfDate, factType, sourceType, scope,
-          provider, verificationStatus, fetchedAt, availableAt, availabilityStatus,
-          sourceDocumentId, providerToken, exactProviderLabel
-        ) VALUES (
-          ?, ?, ?, ?, ?, ?, ?, ?,
-          ?, ?, ?, ?, ?,
-          ?, ?, ?, ?, ?, ?,
-          ?, ?, ?
-        )
-      `, [
-        factId, companyId, symbol, isin, mapping.canonical_metric, finalValue, mapping.unit, mapping.currency,
-        periodType, 'LATEST', observationDate || latest.fetched_at.slice(0, 10), factType, 'STRUCTURED_SECONDARY', mapping.consolidated_or_standalone,
-        mapping.provider, 'VERIFIED_PARTIAL', latest.fetched_at, availableAt, availabilityStatus,
-        sourceDocumentId, mapping.provider_token, exactLabel || null
-      ]);
-      factsInserted++;
+      const firstLine = textContent.split(/\r?\n/).find((line: string) => line.trim()) || '';
+      const directAsOf =
+        typeof directMetricPayload?.asOfDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(directMetricPayload.asOfDate)
+          ? directMetricPayload.asOfDate
+          : null;
+      const observationDate = directAsOf || firstLine.match(/\b(\d{4}-\d{2}-\d{2})\b/)?.[1] || null;
+      const availableAt = latest.fetched_at;
+      const normalizedPeriodType = (periodType: string) => {
+        if (periodType === 'QUARTER') return 'QUARTERLY';
+        if (periodType === 'INSTANT') return 'POINT_IN_TIME';
+        return periodType;
+      };
+      
+      const extractedValues: Record<string, { status: string, value: number | null, exactLabel?: string }> = {};
+
+      if (directMetricPayload) {
+        for (const mapping of mappings) {
+          const rawValue = directMetricPayload[mapping.provider_token];
+          if (rawValue === null || rawValue === undefined || String(rawValue).toLowerCase() === 'none') {
+            extractedValues[mapping.provider_token] = { status: 'UNAVAILABLE_FROM_PROVIDER', value: null };
+            continue;
+          }
+          const val = Number(rawValue);
+          extractedValues[mapping.provider_token] = Number.isFinite(val)
+            ? { status: 'AVAILABLE', value: val, exactLabel: mapping.provider_label }
+            : { status: 'UNAVAILABLE_FROM_PROVIDER', value: null };
+        }
+      } else {
+        for (const block of blocks) {
+          const lines = block.trim().split('\n');
+          if (lines.length < 2) continue;
+          const title = lines[0].trim(); 
+          
+          for (let i = 1; i < lines.length; i++) {
+            const parts = lines[i].split(':');
+            if (parts.length === 2) {
+               const parsedSymbol = parts[0].trim();
+               if (parsedSymbol === symbol) {
+                 const valueStr = parts[1].trim();
+                 const match = mappings.find(m => title === m.provider_label.trim());
+                 
+                 if (match) {
+                     if (valueStr.toLowerCase() === 'none' || valueStr === '-' || valueStr === 'n/a') {
+                         extractedValues[match.provider_token] = { status: 'UNAVAILABLE_FROM_PROVIDER', value: null };
+                     } else {
+                         const val = parseFloat(valueStr);
+                         if (!isNaN(val)) {
+                             let finalVal = val;
+                             extractedValues[match.provider_token] = { status: 'AVAILABLE', value: finalVal, exactLabel: title };
+                         } else {
+                             extractedValues[match.provider_token] = { status: 'UNAVAILABLE_FROM_PROVIDER', value: null };
+                         }
+                     }
+                 }
+               }
+            }
+          }
+        }
+      }
+
+      for (const mapping of mappings) {
+        const extracted = extractedValues[mapping.provider_token];
+        // If not extracted in this snapshot, skip and let other snapshots provide it if they can.
+        if (!extracted && mapping.provider_token && !directMetricPayload) {
+            // Wait, we don't want to insert a MISSING if it just wasn't in this endpoint but could be in another.
+            // If the provider_token wasn't found at all, we just don't insert a record for this specific mapping from THIS snapshot.
+            continue; 
+        }
+        
+        const periodType = normalizedPeriodType(mapping.period_type);
+        const factId = `${companyId}_${mapping.canonical_metric}_LATEST_${periodType}_${mapping.consolidated_or_standalone}_REPORTED`;
+        
+        const isMissing = !extracted;
+        const factType = isMissing || extracted.value === null ? 'MISSING' : 'REPORTED';
+        const availabilityStatus = isMissing ? 'REQUESTED_NOT_RETURNED' : extracted.status;
+        const finalValue = isMissing ? null : extracted.value;
+        
+        const exactLabel = isMissing ? null : (extracted as any).exactLabel;
+        const sourceDocumentId = `TRENDLYNE_MCP:${latest.endpoint}:${symbol}:${latest.fetched_at}`;
+
+        await this.run(`
+          INSERT OR REPLACE INTO company_facts (
+            factId, companyId, symbol, isin, metric, value, unit, currency,
+            periodType, periodEnd, asOfDate, factType, sourceType, scope,
+            provider, verificationStatus, fetchedAt, availableAt, availabilityStatus,
+            sourceDocumentId, providerToken, exactProviderLabel
+          ) VALUES (
+            ?, ?, ?, ?, ?, ?, ?, ?,
+            ?, ?, ?, ?, ?,
+            ?, ?, ?, ?, ?, ?,
+            ?, ?, ?
+          )
+        `, [
+          factId, companyId, symbol, isin, mapping.canonical_metric, finalValue, mapping.unit, mapping.currency,
+          periodType, 'LATEST', observationDate || latest.fetched_at.slice(0, 10), factType, 'STRUCTURED_SECONDARY', mapping.consolidated_or_standalone,
+          mapping.provider, 'VERIFIED_PARTIAL', latest.fetched_at, availableAt, availabilityStatus,
+          sourceDocumentId, mapping.provider_token, exactLabel || null
+        ]);
+        factsInserted++;
+      }
     }
 
     return factsInserted;

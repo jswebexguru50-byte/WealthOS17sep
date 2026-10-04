@@ -1,0 +1,407 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\.archify\\architecture-wealthos-current\\candidate.json",
+    "sha256": "edc483cb36fe6106d089325376e3fc6d0991cf8bc4a93d84e5060a0f2ae6178d",
+    "bytes": 7707
+  },
+  "artifact": {
+    "path": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\.archify\\architecture-wealthos-current\\architecture-wealthos-current.html",
+    "sha256": "645689dff645fd120ee57daf078810328bbbecea0cd38075f486e9c801134a87",
+    "bytes": 798005
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\.archify\\architecture-wealthos-current\\architecture-wealthos-current.finalize.json",
+    "summaryReceipt": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\.archify\\architecture-wealthos-current\\architecture-wealthos-current.finalize-summary.json",
+    "browserCheckReceipt": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\.archify\\architecture-wealthos-current\\architecture-wealthos-current.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.0.1",
+    "availableVersion": "3.0.1",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-04T04:09:58.893Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 20486,
+  "visualReviewRecommendation": {
+    "action": "inspect-route-readability",
+    "signals": {
+      "resolvedCrossovers": 11,
+      "routesOverSuggestedBends": 9,
+      "routesOverSuggestedStretch": 2
+    },
+    "reason": "Automated gates passed, but crossings or detours still need perceptual review before claiming visual quality.",
+    "affectedRoutes": {
+      "crossings": [
+        {
+          "left": {
+            "id": "dossier-routes-svc",
+            "from": "dossier_routes",
+            "to": "dossier_run_svc",
+            "label": "read",
+            "collectionIndex": 7,
+            "artifactIndex": 8
+          },
+          "right": {
+            "id": "orchestrator-analyze360",
+            "from": "scan_orchestrator",
+            "to": "analyze360_svc",
+            "label": "",
+            "collectionIndex": 12,
+            "artifactIndex": 13
+          },
+          "point": [
+            887,
+            228
+          ]
+        },
+        {
+          "left": {
+            "id": "dossier-routes-svc",
+            "from": "dossier_routes",
+            "to": "dossier_run_svc",
+            "label": "read",
+            "collectionIndex": 7,
+            "artifactIndex": 8
+          },
+          "right": {
+            "id": "orchestrator-qglp",
+            "from": "scan_orchestrator",
+            "to": "qglp_svc",
+            "label": "",
+            "collectionIndex": 13,
+            "artifactIndex": 14
+          },
+          "point": [
+            887,
+            328
+          ]
+        },
+        {
+          "left": {
+            "id": "dossier-routes-svc",
+            "from": "dossier_routes",
+            "to": "dossier_run_svc",
+            "label": "read",
+            "collectionIndex": 7,
+            "artifactIndex": 8
+          },
+          "right": {
+            "id": "orchestrator-sector",
+            "from": "scan_orchestrator",
+            "to": "sector_svc",
+            "label": "",
+            "collectionIndex": 14,
+            "artifactIndex": 15
+          },
+          "point": [
+            887,
+            418
+          ]
+        },
+        {
+          "left": {
+            "id": "orchestrator-pure-tech",
+            "from": "scan_orchestrator",
+            "to": "pure_tech_engine",
+            "label": "",
+            "collectionIndex": 9,
+            "artifactIndex": 10
+          },
+          "right": {
+            "id": "orchestrator-analyze360",
+            "from": "scan_orchestrator",
+            "to": "analyze360_svc",
+            "label": "",
+            "collectionIndex": 12,
+            "artifactIndex": 13
+          },
+          "point": [
+            737.5,
+            286
+          ],
+          "sharedNode": "scan_orchestrator"
+        },
+        {
+          "left": {
+            "id": "orchestrator-dossier-svc",
+            "from": "scan_orchestrator",
+            "to": "dossier_run_svc",
+            "label": "persist",
+            "collectionIndex": 11,
+            "artifactIndex": 12
+          },
+          "right": {
+            "id": "orchestrator-analyze360",
+            "from": "scan_orchestrator",
+            "to": "analyze360_svc",
+            "label": "",
+            "collectionIndex": 12,
+            "artifactIndex": 13
+          },
+          "point": [
+            839,
+            286
+          ],
+          "sharedNode": "scan_orchestrator"
+        },
+        {
+          "left": {
+            "id": "orchestrator-qglp",
+            "from": "scan_orchestrator",
+            "to": "qglp_svc",
+            "label": "",
+            "collectionIndex": 13,
+            "artifactIndex": 14
+          },
+          "right": {
+            "id": "orchestrator-sector",
+            "from": "scan_orchestrator",
+            "to": "sector_svc",
+            "label": "",
+            "collectionIndex": 14,
+            "artifactIndex": 15
+          },
+          "point": [
+            852.5,
+            390
+          ],
+          "sharedNode": "scan_orchestrator"
+        },
+        {
+          "left": {
+            "id": "analyze360-duckdb",
+            "from": "analyze360_svc",
+            "to": "duckdb_svc",
+            "label": "OHLCV",
+            "collectionIndex": 15,
+            "artifactIndex": 16
+          },
+          "right": {
+            "id": "dossier-svc-sqlite",
+            "from": "dossier_run_svc",
+            "to": "sqlite_db",
+            "label": "SQL",
+            "collectionIndex": 18,
+            "artifactIndex": 19
+          },
+          "point": [
+            1085.9333333333334,
+            135
+          ]
+        },
+        {
+          "left": {
+            "id": "duckdb-parquet",
+            "from": "duckdb_svc",
+            "to": "parquet_store",
+            "label": "query",
+            "collectionIndex": 16,
+            "artifactIndex": 17
+          },
+          "right": {
+            "id": "dossier-svc-sqlite",
+            "from": "dossier_run_svc",
+            "to": "sqlite_db",
+            "label": "SQL",
+            "collectionIndex": 18,
+            "artifactIndex": 19
+          },
+          "point": [
+            1107,
+            228
+          ]
+        }
+      ],
+      "detours": [
+        {
+          "relationship": {
+            "id": "dossier-routes-svc",
+            "from": "dossier_routes",
+            "to": "dossier_run_svc",
+            "label": "read",
+            "collectionIndex": 7,
+            "artifactIndex": 8
+          },
+          "bends": 4,
+          "stretch": 1.064
+        },
+        {
+          "relationship": {
+            "id": "orchestrator-pure-tech",
+            "from": "scan_orchestrator",
+            "to": "pure_tech_engine",
+            "label": "",
+            "collectionIndex": 9,
+            "artifactIndex": 10
+          },
+          "bends": 4,
+          "stretch": 2.045,
+          "directCorridorBlockers": [
+            {
+              "id": "nse_calendar",
+              "label": "NseCalendarService",
+              "box": [
+                660,
+                200,
+                155,
+                56
+              ]
+            }
+          ]
+        },
+        {
+          "relationship": {
+            "id": "orchestrator-analyze360",
+            "from": "scan_orchestrator",
+            "to": "analyze360_svc",
+            "label": "",
+            "collectionIndex": 12,
+            "artifactIndex": 13
+          },
+          "bends": 3,
+          "stretch": 1
+        },
+        {
+          "relationship": {
+            "id": "orchestrator-qglp",
+            "from": "scan_orchestrator",
+            "to": "qglp_svc",
+            "label": "",
+            "collectionIndex": 13,
+            "artifactIndex": 14
+          },
+          "bends": 3,
+          "stretch": 1.272
+        },
+        {
+          "relationship": {
+            "id": "duckdb-parquet",
+            "from": "duckdb_svc",
+            "to": "parquet_store",
+            "label": "query",
+            "collectionIndex": 16,
+            "artifactIndex": 17
+          },
+          "bends": 4,
+          "stretch": 1.557,
+          "directCorridorBlockers": [
+            {
+              "id": "sqlite_db",
+              "label": "SQLite portfolio.db",
+              "box": [
+                1110,
+                200,
+                130,
+                56
+              ]
+            },
+            {
+              "id": "excel_export",
+              "label": "Excel Export",
+              "box": [
+                1110,
+                300,
+                130,
+                56
+              ]
+            }
+          ]
+        },
+        {
+          "relationship": {
+            "id": "pure-tech-duckdb",
+            "from": "pure_tech_engine",
+            "to": "duckdb_svc",
+            "label": "",
+            "collectionIndex": 17,
+            "artifactIndex": 18
+          },
+          "bends": 3,
+          "stretch": 1.124,
+          "directCorridorBlockers": [
+            {
+              "id": "dossier_run_svc",
+              "label": "DossierRunService",
+              "box": [
+                890,
+                100,
+                145,
+                56
+              ]
+            }
+          ]
+        },
+        {
+          "relationship": {
+            "id": "canonical-sqlite",
+            "from": "canonical_svc",
+            "to": "sqlite_db",
+            "label": "",
+            "collectionIndex": 19,
+            "artifactIndex": 20
+          },
+          "bends": 5,
+          "stretch": 1.089
+        },
+        {
+          "relationship": {
+            "id": "excel-artifacts",
+            "from": "excel_export",
+            "to": "file_artifacts",
+            "label": "",
+            "collectionIndex": 20,
+            "artifactIndex": 21
+          },
+          "bends": 3,
+          "stretch": 1.203,
+          "directCorridorBlockers": [
+            {
+              "id": "parquet_store",
+              "label": "DuckDB + Parquet",
+              "box": [
+                1110,
+                400,
+                130,
+                56
+              ]
+            }
+          ]
+        }
+      ],
+      "truncated": true
+    },
+    "hints": [
+      "scan_orchestrator has 4 relationships facing its right side, which fits 2 ports: make that side at least 74px, or move some of those neighbours so they face another side of scan_orchestrator.",
+      "dossier_routes → dossier_run_svc crosses scan_orchestrator → analyze360_svc: move the node of whichever is a branch, return, or second entrance to the other side of the main path, so that relationship runs through an empty corridor.",
+      "dossier_routes → dossier_run_svc crosses scan_orchestrator → qglp_svc: move the node of whichever is a branch, return, or second entrance to the other side of the main path, so that relationship runs through an empty corridor.",
+      "dossier_routes → dossier_run_svc crosses scan_orchestrator → sector_svc: move the node of whichever is a branch, return, or second entrance to the other side of the main path, so that relationship runs through an empty corridor.",
+      "scan_orchestrator → pure_tech_engine and scan_orchestrator → analyze360_svc cross next to scan_orchestrator: move node pure_tech_engine or analyze360_svc so the two reach scan_orchestrator from different sides (for example one level with it, one directly above or below it).",
+      "scan_orchestrator → dossier_run_svc and scan_orchestrator → analyze360_svc cross next to scan_orchestrator: move node dossier_run_svc or analyze360_svc so the two reach scan_orchestrator from different sides (for example one level with it, one directly above or below it).",
+      "scan_orchestrator → qglp_svc and scan_orchestrator → sector_svc cross next to scan_orchestrator: move node qglp_svc or sector_svc so the two reach scan_orchestrator from different sides (for example one level with it, one directly above or below it).",
+      "analyze360_svc → duckdb_svc crosses dossier_run_svc → sqlite_db: move the node of whichever is a branch, return, or second entrance to the other side of the main path, so that relationship runs through an empty corridor."
+    ],
+    "repair": "Trace these relationships at the desktop viewport. For Architecture, use references/architecture-layout-repair.md: reflow a blocked main path or tangled connected scene, and repair an isolated defect locally only when the surrounding composition is accepted. Preserve all semantic content and user-fixed geometry. Rerun finalize once after the edit."
+  }
+}

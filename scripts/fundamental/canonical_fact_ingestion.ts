@@ -1,7 +1,7 @@
 import sqlite3 from 'sqlite3';
 import path from 'path';
 import { CanonicalFactIngestionService } from '../../src/server/services/CanonicalFactIngestionService.js';
-import { readFileSync, writeFileSync } from 'fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'fs';
 
 const dbPath = process.env.DATABASE_URL?.replace(/^sqlite:\/\//, '') || path.join(process.cwd(), 'portfolio.db');
 
@@ -111,8 +111,11 @@ async function main() {
   report += `9. Conflicts surfaced: **NO (Requires actual source comparison)**\n`;
   report += `10. Every canonical fact can trace back to source: **YES (sourceDocumentId populated)**\n`;
 
-  writeFileSync('PHASE_1_CANONICAL_DATA_REPORT.md', report);
-  console.log("Ingestion complete. Report written to PHASE_1_CANONICAL_DATA_REPORT.md");
+  const reportDir = path.join(process.cwd(), 'reports', 'data_quality', 'jobs');
+  mkdirSync(reportDir, { recursive: true });
+  const reportPath = path.join(reportDir, 'PHASE_1_CANONICAL_DATA_REPORT.md');
+  writeFileSync(reportPath, report);
+  console.log(`Ingestion complete. Report written to ${reportPath}`);
 
   db.close();
 }

@@ -1,0 +1,10 @@
+{
+  "jobName": "canonical_fact_ingestion",
+  "jobType": "INGEST",
+  "status": "SUCCESS",
+  "startedAt": "2026-10-03T16:42:46.541Z",
+  "completedAt": "2026-10-03T16:44:35.686Z",
+  "startTime": "2026-10-03T16:42:46.541Z",
+  "completedTime": "2026-10-03T16:44:35.686Z",
+  "error": null
+}

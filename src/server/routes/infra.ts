@@ -3661,13 +3661,82 @@ const handleAnalyze360Get = async (req: Request, res: Response) => {
     const recommendedDate = req.query.recommendedDate as string | undefined;
     const strategyIdsParam = req.query.strategyIds as string | undefined;
     const strategyIds = strategyIdsParam ? strategyIdsParam.split(',') : undefined;
+    const includeTechnicals = req.query.includeTechnicals !== 'false';
+    const includeSectorMomentum = req.query.includeSectorMomentum !== 'false';
 
     const { Analyze360Service } = await import('../services/Analyze360Service.js');
-    const analyzeView = await Analyze360Service.getInstance().getAnalyze360View(symbol, candidateId, signalIds, recommendedDate, strategyIds);
+    const analyzeView = await Analyze360Service.getInstance().getAnalyze360View(
+      symbol,
+      candidateId,
+      signalIds,
+      recommendedDate,
+      strategyIds,
+      { includeTechnicals, includeSectorMomentum }
+    );
     return res.json(analyzeView);
   } catch (err: any) {
     console.error('[infra.ts] Analyze360 route error:', err);
     return res.status(500).json({ error: err.message || 'Internal error' });
+  }
+};
+
+const handleAnalyze360RefreshData = async (req: Request, res: Response) => {
+  const { symbol } = req.params;
+  const normalized = String(symbol || '').trim().toUpperCase();
+
+  if (!normalized) {
+    return res.status(400).json({
+      success: false,
+      status: 'BLOCKED',
+      action: 'REFRESH_DATA',
+      symbol,
+      result: null,
+      blockers: [{ field: 'symbol', reason: 'Missing required symbol', severity: 'HIGH' }],
+      sources: []
+    });
+  }
+
+  try {
+    const { getDB } = await import('../database.js');
+    const { CanonicalFactIngestionService } = await import('../services/CanonicalFactIngestionService.js');
+    const db = getDB();
+    const ingestion = new CanonicalFactIngestionService(db);
+    const factsInserted = await ingestion.ingestForSymbol(normalized);
+
+    const status = factsInserted > 0 ? 'UPDATED_FROM_STORED_SNAPSHOT' : 'NO_STORED_PROVIDER_SNAPSHOT';
+    return res.json({
+      success: factsInserted > 0,
+      status,
+      action: 'REFRESH_DATA',
+      symbol: normalized,
+      result: {
+        factsInserted,
+        nextStep:
+          factsInserted > 0
+            ? 'Reload Analyze360 to use refreshed canonical facts.'
+            : 'Run Trendlyne refresh for this symbol through the deterministic batch planner; no live provider call was made from the UI request.'
+      },
+      blockers:
+        factsInserted > 0
+          ? []
+          : [{
+              field: 'trendlyne_snapshot',
+              reason: 'No stored Trendlyne MCP parameter snapshot exists for this symbol.',
+              severity: 'MEDIUM'
+            }],
+      sources: [{ source: 'CanonicalFactIngestionService', mode: 'stored_snapshot_only' }]
+    });
+  } catch (err: any) {
+    console.error('[infra.ts] Analyze360 refresh-data error:', err);
+    return res.status(500).json({
+      success: false,
+      status: 'FAILED',
+      action: 'REFRESH_DATA',
+      symbol: normalized,
+      result: null,
+      blockers: [{ field: 'system', reason: err.message || 'Internal error', severity: 'HIGH' }],
+      sources: [{ source: 'CanonicalFactIngestionService', mode: 'stored_snapshot_only' }]
+    });
   }
 };
 
@@ -3968,52 +4037,103 @@ const handleScripsSearch = async (req: Request, res: Response) => {
 
     if (!q) {
       rows = await dbAll(db, `
-        SELECT 
-          m.symbol,
-          COALESCE(m.company_name, m.name, s.company_name) AS companyName,
-          m.isin,
-          COALESCE(m.sector, s.sector) AS sector,
-          COALESCE(m.industry, s.industry) AS industry,
-          m.exchange,
-          s.market_cap_cr AS marketCapCr
-        FROM MasterTickers m
-        LEFT JOIN SecurityDossierSnapshots s ON s.symbol = m.symbol
-        WHERE m.symbol IS NOT NULL AND TRIM(m.symbol) != ''
-        ORDER BY s.market_cap_cr DESC NULLS LAST, m.symbol ASC
-        LIMIT ?
+        WITH top_scrips AS (
+          SELECT
+            m.symbol,
+            m.company_name,
+            m.name,
+            m.isin,
+            m.sector,
+            m.industry,
+            m.exchange,
+            s.company_name AS dossierCompanyName,
+            s.sector AS dossierSector,
+            s.industry AS dossierIndustry,
+            s.market_cap_cr AS marketCapCr
+          FROM MasterTickers m
+          LEFT JOIN SecurityDossierSnapshots s ON s.symbol = m.symbol
+          WHERE m.symbol IS NOT NULL AND TRIM(m.symbol) != ''
+          ORDER BY s.market_cap_cr DESC NULLS LAST, m.symbol ASC
+          LIMIT ?
+        )
+        SELECT
+          symbol,
+          COALESCE(company_name, name, dossierCompanyName) AS companyName,
+          isin,
+          COALESCE(sector, dossierSector) AS sector,
+          COALESCE(industry, dossierIndustry) AS industry,
+          exchange,
+          marketCapCr
+        FROM top_scrips
+        ORDER BY marketCapCr DESC NULLS LAST, symbol ASC
       `, [limit]);
     } else {
-      const like = `%${q}%`;
+      const symbolPrefix = `${q}%`;
+      const contains = `%${q}%`;
       rows = await dbAll(db, `
-        SELECT 
-          m.symbol,
-          COALESCE(m.company_name, m.name, s.company_name) AS companyName,
-          m.isin,
-          COALESCE(m.sector, s.sector) AS sector,
-          COALESCE(m.industry, s.industry) AS industry,
-          m.exchange,
+        WITH ranked_master AS (
+          SELECT
+            m.symbol,
+            m.company_name,
+            m.name,
+            m.isin,
+            m.sector,
+            m.industry,
+            m.exchange,
+            CASE
+              WHEN UPPER(m.symbol) = UPPER(?) THEN 1
+              WHEN UPPER(m.symbol) LIKE UPPER(?) THEN 2
+              WHEN UPPER(COALESCE(m.company_name, m.name, '')) LIKE UPPER(?) THEN 3
+              WHEN UPPER(COALESCE(m.isin, '')) = UPPER(?) THEN 4
+              WHEN UPPER(COALESCE(m.isin, '')) LIKE UPPER(?) THEN 5
+              WHEN UPPER(COALESCE(m.sector, '')) LIKE UPPER(?) THEN 6
+              ELSE 7
+            END AS searchRank
+          FROM MasterTickers m
+          WHERE m.symbol IS NOT NULL
+            AND TRIM(m.symbol) != ''
+            AND (
+              m.symbol LIKE ? OR
+              m.company_name LIKE ? OR
+              m.name LIKE ? OR
+              m.isin LIKE ? OR
+              m.sector LIKE ? OR
+              m.industry LIKE ?
+            )
+          ORDER BY searchRank ASC, m.symbol ASC
+          LIMIT ?
+        )
+        SELECT
+          r.symbol,
+          COALESCE(r.company_name, r.name, s.company_name) AS companyName,
+          r.isin,
+          COALESCE(r.sector, s.sector) AS sector,
+          COALESCE(r.industry, s.industry) AS industry,
+          r.exchange,
           s.market_cap_cr AS marketCapCr
-        FROM MasterTickers m
-        LEFT JOIN SecurityDossierSnapshots s ON s.symbol = m.symbol
-        WHERE 
-          m.symbol LIKE ? OR 
-          m.company_name LIKE ? OR 
-          m.name LIKE ? OR 
-          m.isin LIKE ? OR 
-          m.sector LIKE ? OR
-          s.sector LIKE ? OR
-          s.company_name LIKE ?
-        ORDER BY 
-          CASE 
-            WHEN UPPER(m.symbol) = UPPER(?) THEN 1
-            WHEN UPPER(m.symbol) LIKE UPPER(?) || '%' THEN 2
-            WHEN UPPER(COALESCE(m.company_name, m.name, '')) LIKE UPPER(?) || '%' THEN 3
-            ELSE 4 
-          END,
+        FROM ranked_master r
+        LEFT JOIN SecurityDossierSnapshots s ON s.symbol = r.symbol
+        ORDER BY
+          r.searchRank ASC,
           s.market_cap_cr DESC NULLS LAST,
-          m.symbol ASC
+          r.symbol ASC
         LIMIT ?
-      `, [like, like, like, like, like, like, like, q, q, q, limit]);
+      `, [
+        q,
+        symbolPrefix,
+        symbolPrefix,
+        q,
+        symbolPrefix,
+        symbolPrefix,
+        contains,
+        contains,
+        contains,
+        contains,
+        contains,
+        contains,
+        Math.max(limit * 4, 50),
+        limit
+      ]);
     }
 
     const results: ScripSearchResult[] = rows.map((r: any) => ({
@@ -4039,9 +4159,9 @@ const handleScripsSearch = async (req: Request, res: Response) => {
 router.get('/scrips/search', handleScripsSearch);
 router.get('/company-intelligence/:symbol', handleCompanyIntelligenceGet);
 router.get('/analyze360/:symbol', handleAnalyze360Get);
+router.post('/analyze360/:symbol/refresh-data', handleAnalyze360RefreshData);
 router.post('/analyze360/:symbol/backtest', handleAnalyze360Backtest);
 router.post('/analyze360/:symbol/paper-trade', handleAnalyze360PaperTrade);
 router.post('/analyze360/:symbol/alert', handleAnalyze360Alert);
 
 export default router;
-

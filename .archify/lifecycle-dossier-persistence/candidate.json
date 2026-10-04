@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "WealthOS — Dossier Identity & Persistence",
+    "output": "docs/architecture/wealthos-dossier-persistence.html",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    { "id": "run_id", "type": "backend", "label": "dossierRunId", "sublabel": "DR-20261001-7D-B0A8466C", "pos": [420, 60], "size": [220, 60], "tag": "Primary Key" },
+
+    { "id": "cand1", "type": "backend", "label": "candidateId (×19)", "sublabel": "CAN-YYYYMMDD-SYMBOL-HASH", "pos": [200, 200], "size": [200, 60] },
+    { "id": "sig1", "type": "backend", "label": "signalId (×25)", "sublabel": "SIG-YYYYMMDD-STRATEGY-HASH", "pos": [40, 330], "size": [190, 60] },
+    { "id": "snap1", "type": "database", "label": "Analysis Snapshots", "sublabel": "7 types per candidate", "pos": [250, 330], "size": [200, 70] },
+
+    { "id": "run_row", "type": "database", "label": "dossier_runs", "sublabel": "status=COMPLETED\n19 candidates · 25 signals", "pos": [680, 60], "size": [190, 70], "tag": "Layer 3" },
+    { "id": "dossier_artifact", "type": "database", "label": "dossier_artifacts", "sublabel": "EXCEL_DOSSIER\nJSON_MANIFEST · SHA-256", "pos": [680, 180], "size": [190, 70], "tag": "Layer 3" },
+
+    { "id": "layer1_facts", "type": "database", "label": "Layer 1 — Canonical Evidence", "sublabel": "company_facts · FERE filings\nTrendlyne · shareholding", "pos": [40, 480], "size": [290, 70], "tag": "Source-backed reusable" },
+    { "id": "layer2_snaps", "type": "database", "label": "Layer 2 — Analysis Snapshots", "sublabel": "dossier_analysis_snapshots\n133 rows = 7 types × 19 candidates", "pos": [40, 600], "size": [290, 70], "tag": "Point-in-time" },
+    { "id": "layer3_run", "type": "database", "label": "Layer 3 — Dossier Run Record", "sublabel": "dossier_runs + candidates + signals\ndossier_artifacts (Excel + JSON)", "pos": [40, 720], "size": [290, 70], "tag": "Immutable historical" },
+
+    { "id": "frontend_api", "type": "backend", "label": "dossierRoutes API", "sublabel": "GET /api/dossier-runs/:runId", "pos": [680, 480], "size": [190, 70] },
+    { "id": "stock_page", "type": "frontend", "label": "Stock Page Reuse", "sublabel": "GET /company/:symbol\nZero provider calls", "pos": [680, 600], "size": [190, 60] },
+    { "id": "excel_file", "type": "database", "label": "Excel Artifact", "sublabel": "outputs/dossier_runs/\nWealthOS_Dossier_DR-*.xlsx", "pos": [680, 710], "size": [190, 60] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Identity Hierarchy (1 Run → 19 Candidates → 25 Signals)", "wraps": ["run_id", "cand1", "sig1", "snap1"] },
+    { "kind": "region", "label": "Layer 3 — Dossier Run Record", "wraps": ["run_row", "dossier_artifact"] },
+    { "kind": "region", "label": "Layer 1 — Canonical Evidence (Reusable)", "wraps": ["layer1_facts"] },
+    { "kind": "region", "label": "Layer 2 — Analysis Snapshots", "wraps": ["layer2_snaps"] },
+    { "kind": "region", "label": "Immutable Historical Record", "wraps": ["layer3_run"] },
+    { "kind": "region", "label": "API Read Path (zero provider calls on read)", "wraps": ["frontend_api", "stock_page", "excel_file"] }
+  ],
+  "connections": [
+    { "id": "run-cand", "from": "run_id", "to": "cand1", "label": "1 → 19", "variant": "emphasis" },
+    { "id": "run-row", "from": "run_id", "to": "run_row", "fromSide": "right", "toSide": "left" },
+    { "id": "run-artifact", "from": "run_id", "to": "dossier_artifact", "fromSide": "right", "toSide": "left", "variant": "dashed" },
+    { "id": "cand-sig", "from": "cand1", "to": "sig1", "label": "1 → many" },
+    { "id": "cand-snap", "from": "cand1", "to": "snap1", "label": "1 → 7 types" },
+    { "id": "snap-layer2", "from": "snap1", "to": "layer2_snaps", "variant": "dashed" },
+    { "id": "sig-layer3", "from": "sig1", "to": "layer3_run", "variant": "dashed" },
+    { "id": "layer1-snap", "from": "layer1_facts", "to": "layer2_snaps", "variant": "dashed" },
+    { "id": "layer2-layer3", "from": "layer2_snaps", "to": "layer3_run", "variant": "dashed" },
+    { "id": "api-run-row", "from": "frontend_api", "to": "run_row" },
+    { "id": "api-layer2", "from": "frontend_api", "to": "layer2_snaps" },
+    { "id": "api-artifact", "from": "frontend_api", "to": "dossier_artifact" },
+    { "id": "api-excel", "from": "frontend_api", "to": "excel_file", "label": "download" },
+    { "id": "stock-layer2", "from": "stock_page", "to": "layer2_snaps", "label": "latest" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "Layer 1 — Canonical Evidence", "items": ["company_facts sourced from Trendlyne / FERE / XBRL", "Reusable across multiple dossier runs", "Source-url and filing-hash traceability"] },
+    { "dot": "emerald", "title": "Layer 2 — Analysis Snapshots", "items": ["133 rows: 7 types × 19 candidates", "Point-in-time: frozen at run time", "Zero external calls on historical reads"] },
+    { "dot": "rose", "title": "Layer 3 — Dossier Run Record", "items": ["Immutable: later refreshes do not overwrite", "dossierArtifactId with SHA-256 + file size", "Excel artifact downloadable via API"] }
+  ]
+}

@@ -1,0 +1,242 @@
+{
+  "dossierRunId": "DR-20261001-7D-B0A8466C",
+  "generatedAt": "2026-10-03T20:25:13.584Z",
+  "artifactType": "JSON_MANIFEST",
+  "tradingWindow": {
+    "mode": "LAST_N",
+    "requestedN": 7,
+    "resolvedDates": [
+      "2026-09-23",
+      "2026-09-24",
+      "2026-09-25",
+      "2026-09-28",
+      "2026-09-29",
+      "2026-09-30",
+      "2026-10-01"
+    ],
+    "ohlcvAsOf": "2026-10-01",
+    "coverageStatus": "FULL",
+    "coverageNote": "Resolved 7 trading sessions ending 2026-10-01."
+  },
+  "candidateCount": 19,
+  "signalCount": 25,
+  "analyzedCount": 19,
+  "candidates": [
+    {
+      "symbol": "AETHER",
+      "candidateId": "CAN-20260925-AETHER-F5654677",
+      "signalIds": [
+        "SIG-20260925-S5A-AETHER-403E21AD"
+      ],
+      "recommendedDate": "2026-09-25",
+      "strategyIds": [
+        "S5a"
+      ]
+    },
+    {
+      "symbol": "AZAD",
+      "candidateId": "CAN-20260930-AZAD-26CF0B21",
+      "signalIds": [
+        "SIG-20260930-S5A-AZAD-38A043DC",
+        "SIG-20260929-S5A-AZAD-B007CCAD"
+      ],
+      "recommendedDate": "2026-09-30",
+      "strategyIds": [
+        "S5a"
+      ]
+    },
+    {
+      "symbol": "BLISSGVS",
+      "candidateId": "CAN-20260928-BLISSGVS-3C1D1D50",
+      "signalIds": [
+        "SIG-20260928-S5A-BLISSGVS-C264B5B5"
+      ],
+      "recommendedDate": "2026-09-28",
+      "strategyIds": [
+        "S5a"
+      ]
+    },
+    {
+      "symbol": "CAPILLARY",
+      "candidateId": "CAN-20260924-CAPILLARY-F9576D5E",
+      "signalIds": [
+        "SIG-20260924-S2A-CAPILLARY-4B7878D5"
+      ],
+      "recommendedDate": "2026-09-24",
+      "strategyIds": [
+        "S2a"
+      ]
+    },
+    {
+      "symbol": "COMSYN",
+      "candidateId": "CAN-20260930-COMSYN-5EFAB367",
+      "signalIds": [
+        "SIG-20260930-S4B-COMSYN-2EDD3135"
+      ],
+      "recommendedDate": "2026-09-30",
+      "strategyIds": [
+        "S4b"
+      ]
+    },
+    {
+      "symbol": "GLOBALPET",
+      "candidateId": "CAN-20261001-GLOBALPET-DD2681C3",
+      "signalIds": [
+        "SIG-20261001-S5A-GLOBALPET-C9D83DD8"
+      ],
+      "recommendedDate": "2026-10-01",
+      "strategyIds": [
+        "S5a"
+      ]
+    },
+    {
+      "symbol": "GUJRAFFIA",
+      "candidateId": "CAN-20260923-GUJRAFFIA-7ADDA955",
+      "signalIds": [
+        "SIG-20260923-S1A-GUJRAFFIA-4F05FE12"
+      ],
+      "recommendedDate": "2026-09-23",
+      "strategyIds": [
+        "S1a"
+      ]
+    },
+    {
+      "symbol": "KAPSTON",
+      "candidateId": "CAN-20260925-KAPSTON-3627E4DE",
+      "signalIds": [
+        "SIG-20260925-S5A-KAPSTON-77861AB9"
+      ],
+      "recommendedDate": "2026-09-25",
+      "strategyIds": [
+        "S5a"
+      ]
+    },
+    {
+      "symbol": "MAWANASUG",
+      "candidateId": "CAN-20260925-MAWANASUG-1AD03165",
+      "signalIds": [
+        "SIG-20260925-S5A-MAWANASUG-0AF4EB34"
+      ],
+      "recommendedDate": "2026-09-25",
+      "strategyIds": [
+        "S5a"
+      ]
+    },
+    {
+      "symbol": "MBAPL",
+      "candidateId": "CAN-20261001-MBAPL-514294B0",
+      "signalIds": [
+        "SIG-20261001-S5A-MBAPL-89135DC2"
+      ],
+      "recommendedDate": "2026-10-01",
+      "strategyIds": [
+        "S5a"
+      ]
+    },
+    {
+      "symbol": "MTARTECH",
+      "candidateId": "CAN-20261001-MTARTECH-D7D3FB08",
+      "signalIds": [
+        "SIG-20261001-S5A-MTARTECH-82C3DDB5"
+      ],
+      "recommendedDate": "2026-10-01",
+      "strategyIds": [
+        "S5a"
+      ]
+    },
+    {
+      "symbol": "NGLFINE",
+      "candidateId": "CAN-20260925-NGLFINE-F647A72E",
+      "signalIds": [
+        "SIG-20260925-S5A-NGLFINE-3AF7E677"
+      ],
+      "recommendedDate": "2026-09-25",
+      "strategyIds": [
+        "S5a"
+      ]
+    },
+    {
+      "symbol": "PRECWIRE",
+      "candidateId": "CAN-20260929-PRECWIRE-1EDB5E11",
+      "signalIds": [
+        "SIG-20260929-S5A-PRECWIRE-934F5EE9",
+        "SIG-20260925-S5A-PRECWIRE-A6481EAC"
+      ],
+      "recommendedDate": "2026-09-29",
+      "strategyIds": [
+        "S5a"
+      ]
+    },
+    {
+      "symbol": "RAMRAT",
+      "candidateId": "CAN-20261001-RAMRAT-EEA2A354",
+      "signalIds": [
+        "SIG-20261001-S5A-RAMRAT-4C127794",
+        "SIG-20260930-S5A-RAMRAT-8878008C",
+        "SIG-20260929-S5A-RAMRAT-D88CBE37",
+        "SIG-20260928-S5A-RAMRAT-73E36896"
+      ],
+      "recommendedDate": "2026-10-01",
+      "strategyIds": [
+        "S5a"
+      ]
+    },
+    {
+      "symbol": "RATNAVEER",
+      "candidateId": "CAN-20261001-RATNAVEER-E1FAE050",
+      "signalIds": [
+        "SIG-20261001-S5A-RATNAVEER-38764425",
+        "SIG-20260930-S5A-RATNAVEER-4B2B5CC0"
+      ],
+      "recommendedDate": "2026-10-01",
+      "strategyIds": [
+        "S5a"
+      ]
+    },
+    {
+      "symbol": "RRKABEL",
+      "candidateId": "CAN-20261001-RRKABEL-3C95CA3E",
+      "signalIds": [
+        "SIG-20261001-S5A-RRKABEL-F71AD38E"
+      ],
+      "recommendedDate": "2026-10-01",
+      "strategyIds": [
+        "S5a"
+      ]
+    },
+    {
+      "symbol": "SIGMAADV",
+      "candidateId": "CAN-20260930-SIGMAADV-C234AE7E",
+      "signalIds": [
+        "SIG-20260930-S5A-SIGMAADV-A83FD6B6"
+      ],
+      "recommendedDate": "2026-09-30",
+      "strategyIds": [
+        "S5a"
+      ]
+    },
+    {
+      "symbol": "WELINV",
+      "candidateId": "CAN-20260925-WELINV-677B347A",
+      "signalIds": [
+        "SIG-20260925-S5A-WELINV-ABA09FA9"
+      ],
+      "recommendedDate": "2026-09-25",
+      "strategyIds": [
+        "S5a"
+      ]
+    },
+    {
+      "symbol": "XELPMOC",
+      "candidateId": "CAN-20261001-XELPMOC-9EC0BDFE",
+      "signalIds": [
+        "SIG-20261001-S2A-XELPMOC-1AEBE158"
+      ],
+      "recommendedDate": "2026-10-01",
+      "strategyIds": [
+        "S2a"
+      ]
+    }
+  ],
+  "contentHashNote": "Hash is registered in dossier_artifacts."
+}

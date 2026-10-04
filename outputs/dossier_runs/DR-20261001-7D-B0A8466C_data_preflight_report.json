@@ -1,0 +1,678 @@
+{
+  "success": true,
+  "runId": "DR-20261001-7D-B0A8466C",
+  "generatedAt": "2026-10-04T03:16:46.465Z",
+  "symbols": [
+    "AETHER",
+    "AZAD",
+    "BLISSGVS",
+    "CAPILLARY",
+    "COMSYN",
+    "GLOBALPET",
+    "GUJRAFFIA",
+    "KAPSTON",
+    "MAWANASUG",
+    "MBAPL",
+    "MTARTECH",
+    "NGLFINE",
+    "PRECWIRE",
+    "RAMRAT",
+    "RATNAVEER",
+    "RRKABEL",
+    "SIGMAADV",
+    "WELINV",
+    "XELPMOC"
+  ],
+  "roundedTrendlyneTarget": 20,
+  "manifestPath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\outputs\\dossier_runs\\DR-20261001-7D-B0A8466C_data_refresh_manifest.json",
+  "steps": [
+    {
+      "name": "financial_history_backfill",
+      "command": "npx tsx scripts/data_quality/jobs/financial_history_backfill.ts",
+      "exitCode": 0,
+      "signal": null,
+      "startedAt": "2026-10-04T03:14:23.777Z",
+      "completedAt": "2026-10-04T03:14:26.541Z",
+      "success": true
+    },
+    {
+      "name": "shareholding_history_backfill",
+      "command": "npx tsx scripts/data_quality/jobs/shareholding_history_backfill.ts",
+      "exitCode": 0,
+      "signal": null,
+      "startedAt": "2026-10-04T03:14:26.541Z",
+      "completedAt": "2026-10-04T03:14:28.824Z",
+      "success": true
+    },
+    {
+      "name": "promote_trendlyne_statement_history_parameters_before_refresh",
+      "command": "npx tsx scripts/fundamental/promote_trendlyne_statement_history_parameters.ts --manifest outputs\\dossier_runs\\DR-20261001-7D-B0A8466C_data_refresh_manifest.json --apply",
+      "exitCode": 0,
+      "signal": null,
+      "startedAt": "2026-10-04T03:14:28.825Z",
+      "completedAt": "2026-10-04T03:15:13.981Z",
+      "success": true
+    },
+    {
+      "name": "promote_trendlyne_shareholding_history_before_refresh",
+      "command": "npx tsx scripts/fundamental/promote_trendlyne_shareholding_history.ts --manifest outputs\\dossier_runs\\DR-20261001-7D-B0A8466C_data_refresh_manifest.json --apply",
+      "exitCode": 0,
+      "signal": null,
+      "startedAt": "2026-10-04T03:15:13.981Z",
+      "completedAt": "2026-10-04T03:15:17.241Z",
+      "success": true
+    },
+    {
+      "name": "canonical_fact_ingestion",
+      "command": "npx tsx scripts/fundamental/canonical_fact_ingestion.ts --manifest outputs\\dossier_runs\\DR-20261001-7D-B0A8466C_data_refresh_manifest.json",
+      "exitCode": 0,
+      "signal": null,
+      "startedAt": "2026-10-04T03:15:17.241Z",
+      "completedAt": "2026-10-04T03:15:19.809Z",
+      "success": true
+    },
+    {
+      "name": "promote_trendlyne_statement_history_parameters_after_refresh",
+      "command": "npx tsx scripts/fundamental/promote_trendlyne_statement_history_parameters.ts --manifest outputs\\dossier_runs\\DR-20261001-7D-B0A8466C_data_refresh_manifest.json --apply",
+      "exitCode": 0,
+      "signal": null,
+      "startedAt": "2026-10-04T03:15:19.809Z",
+      "completedAt": "2026-10-04T03:15:44.747Z",
+      "success": true
+    },
+    {
+      "name": "promote_trendlyne_shareholding_history_after_refresh",
+      "command": "npx tsx scripts/fundamental/promote_trendlyne_shareholding_history.ts --manifest outputs\\dossier_runs\\DR-20261001-7D-B0A8466C_data_refresh_manifest.json --apply",
+      "exitCode": 0,
+      "signal": null,
+      "startedAt": "2026-10-04T03:15:44.747Z",
+      "completedAt": "2026-10-04T03:15:47.322Z",
+      "success": true
+    },
+    {
+      "name": "recompute_dossier_run_analysis",
+      "command": "npx tsx scripts/recompute_dossier_run_analysis.ts DR-20261001-7D-B0A8466C",
+      "exitCode": 0,
+      "signal": null,
+      "startedAt": "2026-10-04T03:15:47.322Z",
+      "completedAt": "2026-10-04T03:16:46.322Z",
+      "success": true
+    }
+  ],
+  "before": [
+    {
+      "symbol": "AETHER",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 32
+    },
+    {
+      "symbol": "AZAD",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 38
+    },
+    {
+      "symbol": "BLISSGVS",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 28
+    },
+    {
+      "symbol": "CAPILLARY",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 38
+    },
+    {
+      "symbol": "COMSYN",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 24
+    },
+    {
+      "symbol": "GLOBALPET",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 56
+    },
+    {
+      "symbol": "GUJRAFFIA",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 24
+    },
+    {
+      "symbol": "KAPSTON",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 30
+    },
+    {
+      "symbol": "MAWANASUG",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 36
+    },
+    {
+      "symbol": "MBAPL",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 32
+    },
+    {
+      "symbol": "MTARTECH",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 28
+    },
+    {
+      "symbol": "NGLFINE",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 24
+    },
+    {
+      "symbol": "PRECWIRE",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 32
+    },
+    {
+      "symbol": "RAMRAT",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 28
+    },
+    {
+      "symbol": "RATNAVEER",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 50
+    },
+    {
+      "symbol": "RRKABEL",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 32
+    },
+    {
+      "symbol": "SIGMAADV",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 34
+    },
+    {
+      "symbol": "WELINV",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 28
+    },
+    {
+      "symbol": "XELPMOC",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 42
+    }
+  ],
+  "after": [
+    {
+      "symbol": "AETHER",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 32
+    },
+    {
+      "symbol": "AZAD",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 38
+    },
+    {
+      "symbol": "BLISSGVS",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 28
+    },
+    {
+      "symbol": "CAPILLARY",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 38
+    },
+    {
+      "symbol": "COMSYN",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 24
+    },
+    {
+      "symbol": "GLOBALPET",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 56
+    },
+    {
+      "symbol": "GUJRAFFIA",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 24
+    },
+    {
+      "symbol": "KAPSTON",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 30
+    },
+    {
+      "symbol": "MAWANASUG",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 36
+    },
+    {
+      "symbol": "MBAPL",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 32
+    },
+    {
+      "symbol": "MTARTECH",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 28
+    },
+    {
+      "symbol": "NGLFINE",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 24
+    },
+    {
+      "symbol": "PRECWIRE",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 32
+    },
+    {
+      "symbol": "RAMRAT",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 28
+    },
+    {
+      "symbol": "RATNAVEER",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 50
+    },
+    {
+      "symbol": "RRKABEL",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 32
+    },
+    {
+      "symbol": "SIGMAADV",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 34
+    },
+    {
+      "symbol": "WELINV",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 28
+    },
+    {
+      "symbol": "XELPMOC",
+      "snapshotTypes": [
+        "FUNDAMENTAL",
+        "FUNDAMENTAL_EXECUTIVE_SUMMARY",
+        "ONE_PAGE_COMPANY_SUMMARY",
+        "QGLP",
+        "RISK",
+        "SECTOR",
+        "TECHNICAL"
+      ],
+      "missingItems": 42
+    }
+  ],
+  "factCounts": [
+    {
+      "symbol": "AETHER",
+      "facts": 601
+    },
+    {
+      "symbol": "AZAD",
+      "facts": 611
+    },
+    {
+      "symbol": "BLISSGVS",
+      "facts": 762
+    },
+    {
+      "symbol": "CAPILLARY",
+      "facts": 215
+    },
+    {
+      "symbol": "COMSYN",
+      "facts": 610
+    },
+    {
+      "symbol": "GLOBALPET",
+      "facts": 48
+    },
+    {
+      "symbol": "GUJRAFFIA",
+      "facts": 768
+    },
+    {
+      "symbol": "KAPSTON",
+      "facts": 654
+    },
+    {
+      "symbol": "MAWANASUG",
+      "facts": 660
+    },
+    {
+      "symbol": "MBAPL",
+      "facts": 772
+    },
+    {
+      "symbol": "MTARTECH",
+      "facts": 664
+    },
+    {
+      "symbol": "NGLFINE",
+      "facts": 667
+    },
+    {
+      "symbol": "PRECWIRE",
+      "facts": 764
+    },
+    {
+      "symbol": "RAMRAT",
+      "facts": 690
+    },
+    {
+      "symbol": "RATNAVEER",
+      "facts": 400
+    },
+    {
+      "symbol": "RRKABEL",
+      "facts": 533
+    },
+    {
+      "symbol": "SIGMAADV",
+      "facts": 241
+    },
+    {
+      "symbol": "WELINV",
+      "facts": 776
+    },
+    {
+      "symbol": "XELPMOC",
+      "facts": 530
+    }
+  ]
+}

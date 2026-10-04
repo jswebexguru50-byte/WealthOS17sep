@@ -1,0 +1,44 @@
+{
+  "runId": "DR-20261001-7D-B0A8466C",
+  "symbols": [
+    "AETHER",
+    "AZAD",
+    "BLISSGVS",
+    "CAPILLARY",
+    "COMSYN",
+    "GLOBALPET",
+    "GUJRAFFIA",
+    "KAPSTON",
+    "MAWANASUG",
+    "MBAPL",
+    "MTARTECH",
+    "NGLFINE",
+    "PRECWIRE",
+    "RAMRAT",
+    "RATNAVEER",
+    "RRKABEL",
+    "SIGMAADV",
+    "WELINV",
+    "XELPMOC"
+  ],
+  "checkpoints": {
+    "checkpoint_1_archify_ready": true,
+    "checkpoint_2_run_reconciled": true,
+    "checkpoint_3_pipeline_mapped": true,
+    "checkpoint_4_gaps_loaded": true,
+    "checkpoint_5_zero_network_recovery": false,
+    "checkpoint_6_network_recovery": false,
+    "checkpoint_7_db_reconciled": false,
+    "checkpoint_8_qglp_verified": false,
+    "checkpoint_9_dossier_analysis": false,
+    "checkpoint_10_excel_dry_run": false,
+    "checkpoint_11_dossier_db_verified": false,
+    "checkpoint_12_frontend_verified": false
+  },
+  "gaps": {
+    "initial": 2979,
+    "remaining": 2979,
+    "zero_network_fixed": 0,
+    "network_fixed": 0
+  }
+}

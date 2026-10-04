@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "command": "deliver",
+  "status": "pending",
+  "receiptId": "013e9dd6-5009-4c2b-af3d-866d71db5a73",
+  "input": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\.archify\\workflow-scan-to-dossier\\candidate.json",
+  "output": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\docs\\architecture\\wealthos-scan-to-dossier-lifecycle.html"
+}

@@ -486,6 +486,16 @@ export class Analyze360FieldResolver {
       };
     };
 
+    const latestNumericFact = (metricNames: string[], periodTypes?: string[]): any | null => {
+      for (const metricName of metricNames) {
+        const candidates = (factsByMetric.get(metricName) || [])
+          .filter(f => f.value != null && !isNaN(Number(f.value)))
+          .filter(f => !periodTypes || periodTypes.includes(String(f.periodType || '').toUpperCase()));
+        if (candidates.length > 0) return candidates[0];
+      }
+      return null;
+    };
+
     /**
      * Helper to compute true 3Y CAGR over exactly 4 consecutive annual filings (latestYear - startYear == 3)
      */
@@ -791,6 +801,17 @@ export class Analyze360FieldResolver {
     let fiiTrend: { direction: string; latestPct: number; previousPct: number; deltaPct: number } | null = null;
     let diiTrend: { direction: string; latestPct: number; previousPct: number; deltaPct: number } | null = null;
 
+    let fiiTrendSource: string | null = null;
+    let fiiTrendProvider: string | null = null;
+    let fiiTrendPeriod: string | null = null;
+    let fiiTrendFactId: string | null = null;
+    let fiiTrendAvailableAt: string | null = null;
+    let diiTrendSource: string | null = null;
+    let diiTrendProvider: string | null = null;
+    let diiTrendPeriod: string | null = null;
+    let diiTrendFactId: string | null = null;
+    let diiTrendAvailableAt: string | null = null;
+
     if (hspRows.length >= 2) {
       const latest = hspRows[0];
       const prev = hspRows[1];
@@ -808,32 +829,79 @@ export class Analyze360FieldResolver {
         deltaPct: diiDelta,
         direction: diiDelta > 0.05 ? 'INCREASING' : (diiDelta < -0.05 ? 'DECREASING' : 'STABLE')
       };
+      fiiTrendSource = 'HistoricalShareholdingPattern';
+      fiiTrendProvider = 'HISTORICAL_SHAREHOLDING';
+      fiiTrendPeriod = `${hspRows[1]?.quarter_label || ''} to ${hspRows[0]?.quarter_label || ''}`.trim();
+      diiTrendSource = 'HistoricalShareholdingPattern';
+      diiTrendProvider = 'HISTORICAL_SHAREHOLDING';
+      diiTrendPeriod = fiiTrendPeriod;
+    } else {
+      const fiiChangeFact = latestNumericFact(['fii_change_qoq_pct', 'fii_change_qoq'], ['QUARTERLY']);
+      const diiChangeFact = latestNumericFact(['dii_change_qoq_pct', 'dii_change_qoq', 'mf_change_qoq_pct'], ['QUARTERLY']);
+      const fiiHoldingFact = latestNumericFact(['fii_holding', 'fii_pct'], ['QUARTERLY', 'POINT_IN_TIME']);
+      const diiHoldingFact = latestNumericFact(['dii_holding', 'dii_pct', 'mf_holding'], ['QUARTERLY', 'POINT_IN_TIME']);
+
+      if (fiiChangeFact) {
+        const delta = Number(fiiChangeFact.value);
+        const latestPct = fiiHoldingFact?.value != null ? Number(fiiHoldingFact.value) : null;
+        fiiTrend = {
+          latestPct: latestPct ?? delta,
+          previousPct: latestPct != null ? Number((latestPct - delta).toFixed(2)) : 0,
+          deltaPct: Number(delta.toFixed(2)),
+          direction: delta > 0.05 ? 'INCREASING' : (delta < -0.05 ? 'DECREASING' : 'STABLE')
+        };
+        fiiTrendSource = 'company_facts';
+        fiiTrendProvider = fiiChangeFact.provider || 'company_facts';
+        fiiTrendPeriod = fiiChangeFact.periodEnd ? `${fiiChangeFact.periodEnd} (${fiiChangeFact.periodType || 'QUARTERLY'})` : 'Latest quarter';
+        fiiTrendFactId = fiiChangeFact.factId || null;
+        fiiTrendAvailableAt = fiiChangeFact.availableAt || null;
+      }
+
+      if (diiChangeFact) {
+        const delta = Number(diiChangeFact.value);
+        const latestPct = diiHoldingFact?.value != null ? Number(diiHoldingFact.value) : null;
+        diiTrend = {
+          latestPct: latestPct ?? delta,
+          previousPct: latestPct != null ? Number((latestPct - delta).toFixed(2)) : 0,
+          deltaPct: Number(delta.toFixed(2)),
+          direction: delta > 0.05 ? 'INCREASING' : (delta < -0.05 ? 'DECREASING' : 'STABLE')
+        };
+        diiTrendSource = 'company_facts';
+        diiTrendProvider = diiChangeFact.provider || 'company_facts';
+        diiTrendPeriod = diiChangeFact.periodEnd ? `${diiChangeFact.periodEnd} (${diiChangeFact.periodType || 'QUARTERLY'})` : 'Latest quarter';
+        diiTrendFactId = diiChangeFact.factId || null;
+        diiTrendAvailableAt = diiChangeFact.availableAt || null;
+      }
     }
 
     fields.fiiTrend = build(
       fiiTrend?.direction ?? null,
       'NO_FII_HOLDING_TREND',
       'QUARTERLY',
-      hspRows.length >= 2 ? `${hspRows[1]?.quarter_label || ''} to ${hspRows[0]?.quarter_label || ''}`.trim() : null,
-      hspRows.length >= 2 ? 'HistoricalShareholdingPattern' : null,
-      hspRows.length >= 2 ? 'HISTORICAL_SHAREHOLDING' : null,
-      null,
-      null,
-      fiiTrend ? `FII shifted from ${fiiTrend.previousPct}% to ${fiiTrend.latestPct}% (${fiiTrend.deltaPct >= 0 ? '+' : ''}${fiiTrend.deltaPct}%)` : null,
-      fiiTrend ? 'latest_fii_pct - prev_fii_pct' : null
+      fiiTrendPeriod,
+      fiiTrendSource,
+      fiiTrendProvider,
+      fiiTrendFactId,
+      fiiTrendAvailableAt,
+      fiiTrend ? (fiiTrendSource === 'company_facts'
+        ? `FII QoQ change: ${fiiTrend.deltaPct >= 0 ? '+' : ''}${fiiTrend.deltaPct}%${fiiTrend.latestPct != null ? `; latest holding ${fiiTrend.latestPct}%` : ''}`
+        : `FII shifted from ${fiiTrend.previousPct}% to ${fiiTrend.latestPct}% (${fiiTrend.deltaPct >= 0 ? '+' : ''}${fiiTrend.deltaPct}%)`) : null,
+      fiiTrend ? (fiiTrendSource === 'company_facts' ? 'provider_reported_fii_qoq_change' : 'latest_fii_pct - prev_fii_pct') : null
     );
 
     fields.diiTrend = build(
       diiTrend?.direction ?? null,
       'NO_DII_HOLDING_TREND',
       'QUARTERLY',
-      hspRows.length >= 2 ? `${hspRows[1]?.quarter_label || ''} to ${hspRows[0]?.quarter_label || ''}`.trim() : null,
-      hspRows.length >= 2 ? 'HistoricalShareholdingPattern' : null,
-      hspRows.length >= 2 ? 'HISTORICAL_SHAREHOLDING' : null,
-      null,
-      null,
-      diiTrend ? `DII shifted from ${diiTrend.previousPct}% to ${diiTrend.latestPct}% (${diiTrend.deltaPct >= 0 ? '+' : ''}${diiTrend.deltaPct}%)` : null,
-      diiTrend ? 'latest_dii_pct - prev_dii_pct' : null
+      diiTrendPeriod,
+      diiTrendSource,
+      diiTrendProvider,
+      diiTrendFactId,
+      diiTrendAvailableAt,
+      diiTrend ? (diiTrendSource === 'company_facts'
+        ? `DII/MF QoQ change: ${diiTrend.deltaPct >= 0 ? '+' : ''}${diiTrend.deltaPct}%${diiTrend.latestPct != null ? `; latest holding ${diiTrend.latestPct}%` : ''}`
+        : `DII shifted from ${diiTrend.previousPct}% to ${diiTrend.latestPct}% (${diiTrend.deltaPct >= 0 ? '+' : ''}${diiTrend.deltaPct}%)`) : null,
+      diiTrend ? (diiTrendSource === 'company_facts' ? 'provider_reported_dii_qoq_change' : 'latest_dii_pct - prev_dii_pct') : null
     );
 
     // --- H. Profitable Quarters Count ---
@@ -897,20 +965,23 @@ export class Analyze360FieldResolver {
     );
 
     // --- J. Working Capital & Cash Conversion Cycle (Item 8: NO zero default for DSO/DIO/DPO) ---
+    const wcFact = latestNumericFact(['working_capital', 'working_capital_cr'], ['QUARTERLY', 'ANNUAL', 'TTM']);
     let ccc = fereLedger?.cash_conversion_cycle != null ? Number(fereLedger.cash_conversion_cycle) : null;
     const dsoStr = fereLedger?.dso != null ? `DSO: ${fereLedger.dso}` : 'DSO: N/A';
     const dioStr = fereLedger?.dio != null ? `DIO: ${fereLedger.dio}` : 'DIO: N/A';
     const dpoStr = fereLedger?.dpo != null ? `DPO: ${fereLedger.dpo}` : 'DPO: N/A';
     fields.workingCapital = build(
-      ccc,
+      wcFact?.value != null ? Number(wcFact.value) : ccc,
       'NO_WORKING_CAPITAL_DATA',
-      'ANNUAL',
-      null,
-      ccc != null ? 'FEREEnrichedLedger' : null,
-      ccc != null ? 'FERE_ENRICHED_LEDGER' : null,
-      null,
-      null,
-      ccc != null ? `Cash Conversion Cycle: ${ccc} days (${dsoStr}, ${dioStr}, ${dpoStr})` : null
+      wcFact?.periodType || 'ANNUAL',
+      wcFact?.periodEnd || null,
+      wcFact ? 'company_facts' : (ccc != null ? 'FEREEnrichedLedger' : null),
+      wcFact ? (wcFact.provider || 'company_facts') : (ccc != null ? 'FERE_ENRICHED_LEDGER' : null),
+      wcFact?.factId || null,
+      wcFact?.availableAt || null,
+      wcFact
+        ? `Working Capital: ₹${Number(wcFact.value)} Cr${ccc != null ? `; CCC also available: ${ccc} days (${dsoStr}, ${dioStr}, ${dpoStr})` : ''}`
+        : (ccc != null ? `Cash Conversion Cycle: ${ccc} days (${dsoStr}, ${dioStr}, ${dpoStr})` : null)
     );
 
     // --- K. Qualitative Outlook & Moat from Dossier ---
@@ -1168,6 +1239,15 @@ export class Analyze360FieldResolver {
         opProfitPeriod = latestH.period_label || latestH.period_date || null;
       }
     }
+    if (opProfitVal == null) {
+      const opFact = latestNumericFact(['operating_profit', 'operating_profit_cr'], ['QUARTERLY', 'ANNUAL', 'TTM']);
+      if (opFact) {
+        opProfitVal = Number(opFact.value);
+        opProfitSource = 'company_facts';
+        opProfitProvider = opFact.provider || 'company_facts';
+        opProfitPeriod = opFact.periodEnd ? `${opFact.periodEnd} (${opFact.periodType || 'LATEST'})` : null;
+      }
+    }
     fields.operatingProfit = build(
       opProfitVal,
       'NO_OP_PROFIT',
@@ -1193,6 +1273,15 @@ export class Analyze360FieldResolver {
         patSource = 'HistoricalFinancialStatements';
         patProvider = latestH.primary_source || 'HISTORICAL_FINANCIAL_STATEMENTS';
         patPeriod = latestH.period_label || latestH.period_date || null;
+      }
+    }
+    if (patVal == null) {
+      const patFact = latestNumericFact(['pat', 'net_profit', 'reported_pat'], ['QUARTERLY', 'ANNUAL', 'TTM']);
+      if (patFact) {
+        patVal = Number(patFact.value);
+        patSource = 'company_facts';
+        patProvider = patFact.provider || 'company_facts';
+        patPeriod = patFact.periodEnd ? `${patFact.periodEnd} (${patFact.periodType || 'LATEST'})` : null;
       }
     }
     fields.pat = build(
@@ -1267,13 +1356,12 @@ export class Analyze360FieldResolver {
     let tbProvider = tbVal != null ? 'DATA_QUALITY_AUDIT_LEDGER' : null;
     let tbPeriod = masterRow?.as_of_quarter ? `${masterRow.as_of_quarter} ${masterRow.as_of_year || ''}`.trim() : null;
     if (tbVal == null) {
-      const tbFacts = (factsByMetric.get('total_debt') || factsByMetric.get('borrowings') || factsByMetric.get('borrowingsa') || [])
-        .filter(f => f.value != null && !isNaN(Number(f.value)));
-      if (tbFacts.length > 0) {
-        tbVal = Number(tbFacts[0].value);
+      const tbFact = latestNumericFact(['total_debt', 'borrowings', 'borrowingsa', 'net_debt', 'total_borrowings_cr'], ['ANNUAL', 'QUARTERLY', 'TTM']);
+      if (tbFact) {
+        tbVal = Number(tbFact.value);
         tbSource = 'company_facts';
-        tbProvider = tbFacts[0].provider || 'company_facts';
-        tbPeriod = tbFacts[0].periodEnd ? `${tbFacts[0].periodEnd} (${tbFacts[0].periodType || 'ANNUAL'})` : null;
+        tbProvider = tbFact.provider || 'company_facts';
+        tbPeriod = tbFact.periodEnd ? `${tbFact.periodEnd} (${tbFact.periodType || 'ANNUAL'})` : null;
       }
     }
     fields.totalBorrowings = build(
@@ -1314,6 +1402,43 @@ export class Analyze360FieldResolver {
       null,
       peVal != null ? `Price to Earnings: ${peVal}` : null
     );
+
+    // --- V. Additional Basic Facts (CFO, Promoter, FII, DII, 5Y CAGR) ---
+    const getScalarFact = (keys: string[], masterVal: any) => {
+      let val = masterVal ?? null;
+      let source = val != null ? 'DataQualityAuditLedger' : null;
+      let provider = val != null ? 'DATA_QUALITY_AUDIT_LEDGER' : null;
+      let period = masterRow?.as_of_quarter ? `${masterRow.as_of_quarter} ${masterRow.as_of_year || ''}`.trim() : null;
+      if (val == null) {
+        for (const k of keys) {
+          const f = (factsByMetric.get(k) || []).filter((x: any) => x.value != null && !isNaN(Number(x.value)));
+          if (f.length > 0) {
+            val = Number(f[0].value);
+            source = 'company_facts';
+            provider = f[0].provider || 'company_facts';
+            period = f[0].periodEnd ? `${f[0].periodEnd} (${f[0].periodType || 'TTM'})` : null;
+            break;
+          }
+        }
+      }
+      return { val, source, provider, period };
+    };
+
+    const cfoData = getScalarFact(['cfo', 'cfo_cr'], masterRow?.cfo_cr);
+    fields.cfo = build(cfoData.val, 'NO_CFO_DATA', cfoData.period, null, cfoData.source, cfoData.provider, null, null, cfoData.val != null ? `CFO: ₹${cfoData.val} Cr` : null);
+
+    const promData = getScalarFact(['promoter_holding', 'promoter_pct'], masterRow?.promoter_pct);
+    fields.promoterHolding = build(promData.val, 'NO_PROMOTER_HOLDING', promData.period, null, promData.source, promData.provider, null, null, promData.val != null ? `Promoter Holding: ${promData.val}%` : null);
+
+    const fiiData = getScalarFact(['fii_holding', 'fii_pct'], masterRow?.fii_pct);
+    fields.fiiHolding = build(fiiData.val, 'NO_FII_DATA', fiiData.period, null, fiiData.source, fiiData.provider, null, null, fiiData.val != null ? `FII Holding: ${fiiData.val}%` : null);
+
+    const diiData = getScalarFact(['dii_holding', 'dii_pct'], masterRow?.dii_pct);
+    fields.diiHolding = build(diiData.val, 'NO_DII_DATA', diiData.period, null, diiData.source, diiData.provider, null, null, diiData.val != null ? `DII Holding: ${diiData.val}%` : null);
+
+    const cagr5yData = getScalarFact(['sales_growth_5y', 'sales_growth_5y_pct'], masterRow?.sales_growth_5y_pct);
+    fields.salesGrowth5y = build(cagr5yData.val, 'NO_SALES_GROWTH_5Y', '5-Year CAGR', cagr5yData.period || null, cagr5yData.source, cagr5yData.provider, null, null, cagr5yData.val != null ? `5-Year CAGR: ${cagr5yData.val}%` : null);
+
 
     // Build QGLP inputs (Item 7: strict absence of proxy values)
     const qglpInputs = {

@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "WealthOS — Current Architecture",
+    "output": "docs/architecture/wealthos-current-architecture.html",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    { "id": "user_browser", "type": "external", "label": "User Browser", "sublabel": "React SPA", "pos": [40, 320], "size": [120, 60] },
+
+    { "id": "react_discover", "type": "frontend", "label": "Seven Strategies", "sublabel": "Discover view", "pos": [220, 200], "size": [140, 56] },
+    { "id": "react_analyze360", "type": "frontend", "label": "Analyze360", "sublabel": "React view", "pos": [220, 300], "size": [140, 56] },
+    { "id": "react_dossier", "type": "frontend", "label": "Historical Dossier", "sublabel": "list + detail view", "pos": [220, 400], "size": [140, 56] },
+
+    { "id": "main_server", "type": "backend", "label": "Main Server", "sublabel": "server.ts · Express", "pos": [440, 200], "size": [140, 56] },
+    { "id": "research_server", "type": "backend", "label": "Research Server", "sublabel": "server.research.ts", "pos": [440, 300], "size": [140, 56] },
+    { "id": "dossier_routes", "type": "backend", "label": "Dossier Routes", "sublabel": "/api/dossier-runs", "pos": [440, 400], "size": [140, 56], "tag": "IMPLEMENTED" },
+
+    { "id": "pure_tech_engine", "type": "backend", "label": "PureTechnicalEngine", "sublabel": "S1A S2A S4B S5A", "pos": [660, 100], "size": [155, 56], "tag": "IMPLEMENTED" },
+    { "id": "nse_calendar", "type": "backend", "label": "NseCalendarService", "sublabel": "session resolver", "pos": [660, 200], "size": [155, 56], "tag": "IMPLEMENTED" },
+    { "id": "scan_orchestrator", "type": "backend", "label": "ScanToDossierOrch.", "sublabel": "lifecycle orchestrator", "pos": [660, 310], "size": [155, 56], "tag": "IMPLEMENTED" },
+    { "id": "candidate_id_svc", "type": "backend", "label": "CandidateIdService", "sublabel": "deterministic IDs", "pos": [660, 410], "size": [155, 56], "tag": "IMPLEMENTED" },
+
+    { "id": "dossier_run_svc", "type": "backend", "label": "DossierRunService", "sublabel": "CRUD + snapshots", "pos": [890, 100], "size": [145, 56], "tag": "IMPLEMENTED" },
+    { "id": "analyze360_svc", "type": "backend", "label": "Analyze360Service", "sublabel": "technical enrichment", "pos": [890, 200], "size": [145, 56], "tag": "IMPLEMENTED" },
+    { "id": "qglp_svc", "type": "backend", "label": "QglpScoringService", "sublabel": "QGLP pillars", "pos": [890, 300], "size": [145, 56], "tag": "IMPLEMENTED" },
+    { "id": "sector_svc", "type": "backend", "label": "SectorMomentumSvc", "sublabel": "double momentum", "pos": [890, 390], "size": [145, 56], "tag": "IMPLEMENTED" },
+    { "id": "canonical_svc", "type": "backend", "label": "CanonicalIngestion", "sublabel": "company_facts write", "pos": [890, 480], "size": [145, 56], "tag": "IMPLEMENTED" },
+
+    { "id": "duckdb_svc", "type": "database", "label": "DuckDbOhlcvService", "sublabel": "OHLCV reads", "pos": [1110, 100], "size": [130, 56], "tag": "IMPLEMENTED" },
+    { "id": "sqlite_db", "type": "database", "label": "SQLite portfolio.db", "sublabel": "facts + dossier tables", "pos": [1110, 200], "size": [130, 56], "tag": "PERSISTENCE" },
+    { "id": "excel_export", "type": "backend", "label": "Excel Export", "sublabel": "dossier xlsx script", "pos": [1110, 300], "size": [130, 56], "tag": "IMPLEMENTED" },
+    { "id": "parquet_store", "type": "database", "label": "DuckDB + Parquet", "sublabel": "adjusted OHLCV", "pos": [1110, 400], "size": [130, 56], "tag": "PERSISTENCE" },
+    { "id": "file_artifacts", "type": "database", "label": "File Artifacts", "sublabel": "outputs/dossier_runs/", "pos": [1110, 500], "size": [130, 56], "tag": "PERSISTENCE" },
+
+    { "id": "trendlyne", "type": "external", "label": "Trendlyne", "sublabel": "MCP provider", "pos": [1300, 100], "size": [120, 56] },
+    { "id": "fere_nse", "type": "external", "label": "FERE / NSE", "sublabel": "XBRL + bhavcopy", "pos": [1300, 200], "size": [120, 56] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Front End (React SPA)", "wraps": ["react_discover", "react_analyze360", "react_dossier"] },
+    { "kind": "region", "label": "API Layer", "wraps": ["main_server", "research_server", "dossier_routes"] },
+    { "kind": "region", "label": "Technical Discovery", "wraps": ["pure_tech_engine", "nse_calendar", "candidate_id_svc"] },
+    { "kind": "region", "label": "Analysis Services", "wraps": ["analyze360_svc", "qglp_svc", "sector_svc", "scan_orchestrator"] },
+    { "kind": "region", "label": "Persistence Layer", "wraps": ["sqlite_db", "parquet_store", "file_artifacts", "excel_export"] },
+    { "kind": "region", "label": "Evidence Providers", "wraps": ["trendlyne", "fere_nse"] }
+  ],
+  "connections": [
+    { "id": "browser-discover", "from": "user_browser", "to": "react_discover" },
+    { "id": "browser-analyze", "from": "user_browser", "to": "react_analyze360" },
+    { "id": "browser-dossier", "from": "user_browser", "to": "react_dossier" },
+    { "id": "discover-main", "from": "react_discover", "to": "main_server", "label": "REST" },
+    { "id": "analyze-research", "from": "react_analyze360", "to": "research_server", "label": "REST" },
+    { "id": "dossier-routes-conn", "from": "react_dossier", "to": "dossier_routes", "label": "GET/POST" },
+    { "id": "main-pure-tech", "from": "main_server", "to": "pure_tech_engine", "label": "scan" },
+    { "id": "dossier-routes-svc", "from": "dossier_routes", "to": "dossier_run_svc", "label": "read" },
+    { "id": "dossier-orchestrator", "from": "dossier_routes", "to": "scan_orchestrator", "label": "POST" },
+    { "id": "orchestrator-pure-tech", "from": "scan_orchestrator", "to": "pure_tech_engine" },
+    { "id": "orchestrator-candidate", "from": "scan_orchestrator", "to": "candidate_id_svc" },
+    { "id": "orchestrator-dossier-svc", "from": "scan_orchestrator", "to": "dossier_run_svc", "label": "persist" },
+    { "id": "orchestrator-analyze360", "from": "scan_orchestrator", "to": "analyze360_svc" },
+    { "id": "orchestrator-qglp", "from": "scan_orchestrator", "to": "qglp_svc" },
+    { "id": "orchestrator-sector", "from": "scan_orchestrator", "to": "sector_svc" },
+    { "id": "analyze360-duckdb", "from": "analyze360_svc", "to": "duckdb_svc", "label": "OHLCV" },
+    { "id": "duckdb-parquet", "from": "duckdb_svc", "to": "parquet_store", "label": "query" },
+    { "id": "pure-tech-duckdb", "from": "pure_tech_engine", "to": "duckdb_svc" },
+    { "id": "dossier-svc-sqlite", "from": "dossier_run_svc", "to": "sqlite_db", "label": "SQL" },
+    { "id": "canonical-sqlite", "from": "canonical_svc", "to": "sqlite_db" },
+    { "id": "excel-artifacts", "from": "excel_export", "to": "file_artifacts", "variant": "dashed" },
+    { "id": "excel-sqlite", "from": "excel_export", "to": "sqlite_db", "label": "register" },
+    { "id": "trendlyne-canonical", "from": "trendlyne", "to": "canonical_svc", "variant": "dashed" },
+    { "id": "fere-canonical", "from": "fere_nse", "to": "canonical_svc", "variant": "dashed" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "Services (IMPLEMENTED)", "items": ["DossierRunService: runs/candidates/signals/snapshots/artifacts", "PureTechnicalStrategiesEngine: S1A S2A S4B S5A", "Analyze360Service: OHLCV-backed technical enrichment"] },
+    { "dot": "emerald", "title": "Persistence", "items": ["SQLite portfolio.db: canonical facts + dossier tables", "Parquet/DuckDB: adjusted OHLCV store", "outputs/dossier_runs/: file artifacts + manifests"] },
+    { "dot": "amber", "title": "Evidence Providers", "items": ["Trendlyne via MCP: fundamentals + shareholding", "FERE: XBRL verified filings", "NSE/BSE: bhavcopy + exchange filings"] }
+  ]
+}

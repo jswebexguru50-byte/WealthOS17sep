@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-09-27T16:21:12.071Z",
+  "generatedAt": "2026-10-03T18:37:22.193Z",
   "manifest": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\data\\fundamental_enrichment\\excel_strategy_manifest.json",
   "strategyWorkbook": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\outputs\\01a0c502-921f-7491-9a42-361d54d7bea0\\Six_Strategies_90_Sessions_2026-09-25.xlsx",
   "outputWorkbook": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\outputs\\fundamental_dossiers\\Fundamental_Dossier_179_20260925.xlsx",
   "symbols": 179,
   "rawRequiredComplete": 0,
-  "verifiedEvidenceRows": 3275,
+  "verifiedEvidenceRows": 5588,
   "fullyCompliant": 0,
   "partialOrFailed": 179,
   "ignoredEndpoint": "competitors",

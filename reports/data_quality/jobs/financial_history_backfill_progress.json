@@ -1,10 +1,11 @@
 {
   "jobName": "financial_history_backfill",
-  "status": "SUCCESS",
-  "startTime": "2026-10-03T12:47:53.342Z",
-  "completedTime": "2026-10-03T12:47:58.335Z",
+  "jobType": "BACKFILL",
+  "status": "RUNNING",
+  "startTime": "2026-10-04T04:47:49.550Z",
+  "completedTime": null,
   "totalSymbols": 0,
-  "hfsStatementsReconciled": 346,
-  "companyFactsCreated": 668,
+  "hfsStatementsReconciled": 0,
+  "companyFactsCreated": 0,
   "error": null
 }

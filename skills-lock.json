@@ -79,6 +79,12 @@
       "skillPath": "skills/arboreto/SKILL.md",
       "computedHash": "0607904770de804330099109f4728b6d422d27bc9a034d7c09fd630070ee7898"
     },
+    "archify": {
+      "source": "tt-a1i/archify",
+      "sourceType": "github",
+      "skillPath": "archify/SKILL.md",
+      "computedHash": "db99ef1fdb3cec313f89e5ec19bcfdc8f867b3039925c02609fa3b7e43ea4edc"
+    },
     "astropy": {
       "source": "K-Dense-AI/scientific-agent-skills",
       "sourceType": "github",

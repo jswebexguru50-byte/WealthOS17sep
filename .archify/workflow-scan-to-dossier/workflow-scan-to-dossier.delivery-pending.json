@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "command": "deliver",
+  "status": "pending",
+  "receiptId": "776f27f9-2783-4118-9001-52402ba3e943",
+  "input": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\.archify\\workflow-scan-to-dossier\\candidate.json",
+  "output": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\.archify\\workflow-scan-to-dossier\\workflow-scan-to-dossier.html"
+}
