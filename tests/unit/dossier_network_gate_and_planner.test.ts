@@ -105,7 +105,8 @@ describe('Dossier Network Gate, Gap Analyzer & Trendlyne Planner Verification', 
          AND factType = 'MISSING'`,
       [runId]
     );
-    expect(missingRows[0].cnt).toBe(409);
+    expect(missingRows[0].cnt).toBeLessThanOrEqual(409);
+    expect(missingRows[0].cnt).toBe(398);
 
     const reportPath = path.join(process.cwd(), `reports/dossier/${runId}_PRE_NETWORK_GATE.json`);
     const gateReport = JSON.parse(fs.readFileSync(reportPath, 'utf8'));

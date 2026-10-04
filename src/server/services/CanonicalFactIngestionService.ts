@@ -101,6 +101,9 @@ export class CanonicalFactIngestionService {
 
       if (directMetricPayload) {
         for (const mapping of mappings) {
+          if (!(mapping.provider_token in directMetricPayload)) {
+            continue;
+          }
           const rawValue = directMetricPayload[mapping.provider_token];
           if (rawValue === null || rawValue === undefined || String(rawValue).toLowerCase() === 'none') {
             extractedValues[mapping.provider_token] = { status: 'UNAVAILABLE_FROM_PROVIDER', value: null };
@@ -147,9 +150,7 @@ export class CanonicalFactIngestionService {
       for (const mapping of mappings) {
         const extracted = extractedValues[mapping.provider_token];
         // If not extracted in this snapshot, skip and let other snapshots provide it if they can.
-        if (!extracted && mapping.provider_token && !directMetricPayload) {
-            // Wait, we don't want to insert a MISSING if it just wasn't in this endpoint but could be in another.
-            // If the provider_token wasn't found at all, we just don't insert a record for this specific mapping from THIS snapshot.
+        if (!extracted) {
             continue; 
         }
         
