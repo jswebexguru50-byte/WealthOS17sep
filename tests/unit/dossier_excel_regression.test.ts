@@ -79,6 +79,9 @@ describe('Restored 8-Sheet Dossier Programmatic Verification (DR-20261001-7D-B0A
 
       const walkTheTalk = String(ws.getCell(`P${r}`).value || '');
       expect(['DELIVERED', 'PARTIALLY_DELIVERED', 'PENDING', 'MISSED', 'NOT_VERIFIABLE']).toContain(walkTheTalk);
+
+      const businessRisk = String(ws.getCell(`Q${r}`).value || '');
+      expect(businessRisk).toBe('NOT_ASSESSED');
     }
   });
 
@@ -252,11 +255,5 @@ describe('Restored 8-Sheet Dossier Programmatic Verification (DR-20261001-7D-B0A
     const hash = crypto.createHash('sha256').update(fileBuffer).digest('hex');
     expect(row.contentHash).toBe(hash);
     expect(row.fileSize).toBe(fileBuffer.length);
-
-    // Historical zero-refetch guarantee:
-    // When an artifact is retrieved by artifactId or runId from storageLocation,
-    // exactly 0 network/provider calls are required.
-    const networkCalls = 0;
-    expect(networkCalls).toBe(0);
   });
 });

@@ -1,0 +1,175 @@
+{
+  "symbol": "GLOBALPET",
+  "auditedAt": "2026-10-04T07:30:42.298Z",
+  "totalPeriodsAudited": 4,
+  "totalCellsAudited": 20,
+  "verifiedCells": 20,
+  "unsupportedCells": 0,
+  "missingNotZeroCells": 0,
+  "cells": [
+    {
+      "period": "Mar 2026",
+      "field": "promoter_pct",
+      "storedValue": 60.13,
+      "rawProviderValue": 60.13,
+      "sourceSnapshotId": "UPSTOX_FUNDAMENTALS:share-holdings:2026-09-26T09:30:55.731Z",
+      "verdict": "VERIFIED"
+    },
+    {
+      "period": "Mar 2026",
+      "field": "fii_pct",
+      "storedValue": 6.79,
+      "rawProviderValue": 6.79,
+      "sourceSnapshotId": "UPSTOX_FUNDAMENTALS:share-holdings:2026-09-26T09:30:55.731Z",
+      "verdict": "VERIFIED"
+    },
+    {
+      "period": "Mar 2026",
+      "field": "dii_pct",
+      "storedValue": 3.98,
+      "rawProviderValue": 3.98,
+      "sourceSnapshotId": "UPSTOX_FUNDAMENTALS:share-holdings:2026-09-26T09:30:55.731Z",
+      "verdict": "VERIFIED",
+      "notes": "Raw components: mutual_funds=0, other_dii=3.98"
+    },
+    {
+      "period": "Mar 2026",
+      "field": "public_pct",
+      "storedValue": 29.1,
+      "rawProviderValue": 29.1,
+      "sourceSnapshotId": "UPSTOX_FUNDAMENTALS:share-holdings:2026-09-26T09:30:55.731Z",
+      "verdict": "VERIFIED"
+    },
+    {
+      "period": "Mar 2026",
+      "field": "as_of_date",
+      "storedValue": "2026-03-31",
+      "rawProviderValue": "2026-03-31",
+      "sourceSnapshotId": "UPSTOX_FUNDAMENTALS:share-holdings:2026-09-26T09:30:55.731Z",
+      "verdict": "VERIFIED"
+    },
+    {
+      "period": "Sep 2025",
+      "field": "promoter_pct",
+      "storedValue": 60.13,
+      "rawProviderValue": 60.13,
+      "sourceSnapshotId": "UPSTOX_FUNDAMENTALS:share-holdings:2026-09-26T09:30:55.731Z",
+      "verdict": "VERIFIED"
+    },
+    {
+      "period": "Sep 2025",
+      "field": "fii_pct",
+      "storedValue": 6.79,
+      "rawProviderValue": 6.79,
+      "sourceSnapshotId": "UPSTOX_FUNDAMENTALS:share-holdings:2026-09-26T09:30:55.731Z",
+      "verdict": "VERIFIED"
+    },
+    {
+      "period": "Sep 2025",
+      "field": "dii_pct",
+      "storedValue": 0,
+      "rawProviderValue": 0,
+      "sourceSnapshotId": "UPSTOX_FUNDAMENTALS:share-holdings:2026-09-26T09:30:55.731Z",
+      "verdict": "VERIFIED",
+      "notes": "Raw components: mutual_funds=0, other_dii=0"
+    },
+    {
+      "period": "Sep 2025",
+      "field": "public_pct",
+      "storedValue": 33.09,
+      "rawProviderValue": 33.09,
+      "sourceSnapshotId": "UPSTOX_FUNDAMENTALS:share-holdings:2026-09-26T09:30:55.731Z",
+      "verdict": "VERIFIED"
+    },
+    {
+      "period": "Sep 2025",
+      "field": "as_of_date",
+      "storedValue": "2025-09-30",
+      "rawProviderValue": "2025-09-30",
+      "sourceSnapshotId": "UPSTOX_FUNDAMENTALS:share-holdings:2026-09-26T09:30:55.731Z",
+      "verdict": "VERIFIED"
+    },
+    {
+      "period": "Mar 2025",
+      "field": "promoter_pct",
+      "storedValue": 60.13,
+      "rawProviderValue": 60.13,
+      "sourceSnapshotId": "UPSTOX_FUNDAMENTALS:share-holdings:2026-09-26T09:30:55.731Z",
+      "verdict": "VERIFIED"
+    },
+    {
+      "period": "Mar 2025",
+      "field": "fii_pct",
+      "storedValue": 6.79,
+      "rawProviderValue": 6.79,
+      "sourceSnapshotId": "UPSTOX_FUNDAMENTALS:share-holdings:2026-09-26T09:30:55.731Z",
+      "verdict": "VERIFIED"
+    },
+    {
+      "period": "Mar 2025",
+      "field": "dii_pct",
+      "storedValue": 0,
+      "rawProviderValue": 0,
+      "sourceSnapshotId": "UPSTOX_FUNDAMENTALS:share-holdings:2026-09-26T09:30:55.731Z",
+      "verdict": "VERIFIED",
+      "notes": "Raw components: mutual_funds=0, other_dii=0"
+    },
+    {
+      "period": "Mar 2025",
+      "field": "public_pct",
+      "storedValue": 33.09,
+      "rawProviderValue": 33.09,
+      "sourceSnapshotId": "UPSTOX_FUNDAMENTALS:share-holdings:2026-09-26T09:30:55.731Z",
+      "verdict": "VERIFIED"
+    },
+    {
+      "period": "Mar 2025",
+      "field": "as_of_date",
+      "storedValue": "2025-03-31",
+      "rawProviderValue": "2025-03-31",
+      "sourceSnapshotId": "UPSTOX_FUNDAMENTALS:share-holdings:2026-09-26T09:30:55.731Z",
+      "verdict": "VERIFIED"
+    },
+    {
+      "period": "Nov 2024",
+      "field": "promoter_pct",
+      "storedValue": 60.13,
+      "rawProviderValue": 60.13,
+      "sourceSnapshotId": "UPSTOX_FUNDAMENTALS:share-holdings:2026-09-26T09:30:55.731Z",
+      "verdict": "VERIFIED"
+    },
+    {
+      "period": "Nov 2024",
+      "field": "fii_pct",
+      "storedValue": 6.79,
+      "rawProviderValue": 6.79,
+      "sourceSnapshotId": "UPSTOX_FUNDAMENTALS:share-holdings:2026-09-26T09:30:55.731Z",
+      "verdict": "VERIFIED"
+    },
+    {
+      "period": "Nov 2024",
+      "field": "dii_pct",
+      "storedValue": 0,
+      "rawProviderValue": 0,
+      "sourceSnapshotId": "UPSTOX_FUNDAMENTALS:share-holdings:2026-09-26T09:30:55.731Z",
+      "verdict": "VERIFIED",
+      "notes": "Raw components: mutual_funds=0, other_dii=0"
+    },
+    {
+      "period": "Nov 2024",
+      "field": "public_pct",
+      "storedValue": 33.09,
+      "rawProviderValue": 33.09,
+      "sourceSnapshotId": "UPSTOX_FUNDAMENTALS:share-holdings:2026-09-26T09:30:55.731Z",
+      "verdict": "VERIFIED"
+    },
+    {
+      "period": "Nov 2024",
+      "field": "as_of_date",
+      "storedValue": "2024-11-30",
+      "rawProviderValue": "2024-11-30",
+      "sourceSnapshotId": "UPSTOX_FUNDAMENTALS:share-holdings:2026-09-26T09:30:55.731Z",
+      "verdict": "VERIFIED"
+    }
+  ]
+}

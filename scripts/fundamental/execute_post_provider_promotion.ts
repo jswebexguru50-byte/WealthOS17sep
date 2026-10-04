@@ -443,8 +443,12 @@ async function main() {
 
   const verificationRows: any[] = [];
 
-  for (const symbol of ['CAPILLARY', 'GLOBALPET']) {
-    const metrics = symbol === 'CAPILLARY' ? CAPILLARY_METRICS : GLOBALPET_METRICS;
+  const symbolMetrics: Record<string, Record<string, any>> = {
+    CAPILLARY: CAPILLARY_METRICS,
+    GLOBALPET: GLOBALPET_METRICS
+  };
+
+  for (const [symbol, metrics] of Object.entries(symbolMetrics)) {
     for (const token of TRUSTED_37_TOKENS) {
       const mapping = mappingMap.get(token);
       const canonicalMetric = mapping ? mapping.canonical_metric : 'UNMAPPED';
