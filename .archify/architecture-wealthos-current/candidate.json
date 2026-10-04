@@ -19,23 +19,23 @@
 
     { "id": "pure_tech_engine", "type": "backend", "label": "PureTechnicalEngine", "sublabel": "S1A S2A S4B S5A", "pos": [660, 100], "size": [155, 56], "tag": "IMPLEMENTED" },
     { "id": "nse_calendar", "type": "backend", "label": "NseCalendarService", "sublabel": "session resolver", "pos": [660, 200], "size": [155, 56], "tag": "IMPLEMENTED" },
-    { "id": "scan_orchestrator", "type": "backend", "label": "ScanToDossierOrch.", "sublabel": "lifecycle orchestrator", "pos": [660, 310], "size": [155, 56], "tag": "IMPLEMENTED" },
-    { "id": "candidate_id_svc", "type": "backend", "label": "CandidateIdService", "sublabel": "deterministic IDs", "pos": [660, 410], "size": [155, 56], "tag": "IMPLEMENTED" },
+    { "id": "scan_orchestrator", "type": "backend", "label": "ScanToDossierOrch.", "sublabel": "lifecycle orchestrator", "pos": [660, 400], "size": [155, 56], "tag": "IMPLEMENTED" },
+    { "id": "candidate_id_svc", "type": "backend", "label": "CandidateIdService", "sublabel": "deterministic IDs", "pos": [660, 500], "size": [155, 56], "tag": "IMPLEMENTED" },
 
-    { "id": "dossier_run_svc", "type": "backend", "label": "DossierRunService", "sublabel": "CRUD + snapshots", "pos": [890, 100], "size": [145, 56], "tag": "IMPLEMENTED" },
+    { "id": "sector_svc", "type": "backend", "label": "SectorMomentumSvc", "sublabel": "double momentum", "pos": [890, 100], "size": [145, 56], "tag": "IMPLEMENTED" },
     { "id": "analyze360_svc", "type": "backend", "label": "Analyze360Service", "sublabel": "technical enrichment", "pos": [890, 200], "size": [145, 56], "tag": "IMPLEMENTED" },
     { "id": "qglp_svc", "type": "backend", "label": "QglpScoringService", "sublabel": "QGLP pillars", "pos": [890, 300], "size": [145, 56], "tag": "IMPLEMENTED" },
-    { "id": "sector_svc", "type": "backend", "label": "SectorMomentumSvc", "sublabel": "double momentum", "pos": [890, 390], "size": [145, 56], "tag": "IMPLEMENTED" },
-    { "id": "canonical_svc", "type": "backend", "label": "CanonicalIngestion", "sublabel": "company_facts write", "pos": [890, 480], "size": [145, 56], "tag": "IMPLEMENTED" },
+    { "id": "dossier_run_svc", "type": "backend", "label": "DossierRunService", "sublabel": "CRUD + snapshots", "pos": [890, 400], "size": [145, 56], "tag": "IMPLEMENTED" },
+    { "id": "canonical_svc", "type": "backend", "label": "CanonicalIngestion", "sublabel": "company_facts write", "pos": [890, 500], "size": [145, 56], "tag": "IMPLEMENTED" },
 
-    { "id": "duckdb_svc", "type": "database", "label": "DuckDbOhlcvService", "sublabel": "OHLCV reads", "pos": [1110, 100], "size": [130, 56], "tag": "IMPLEMENTED" },
-    { "id": "sqlite_db", "type": "database", "label": "SQLite portfolio.db", "sublabel": "facts + dossier tables", "pos": [1110, 200], "size": [130, 56], "tag": "PERSISTENCE" },
-    { "id": "excel_export", "type": "backend", "label": "Excel Export", "sublabel": "dossier xlsx script", "pos": [1110, 300], "size": [130, 56], "tag": "IMPLEMENTED" },
-    { "id": "parquet_store", "type": "database", "label": "DuckDB + Parquet", "sublabel": "adjusted OHLCV", "pos": [1110, 400], "size": [130, 56], "tag": "PERSISTENCE" },
-    { "id": "file_artifacts", "type": "database", "label": "File Artifacts", "sublabel": "outputs/dossier_runs/", "pos": [1110, 500], "size": [130, 56], "tag": "PERSISTENCE" },
+    { "id": "duckdb_svc", "type": "database", "label": "DuckDbOhlcvService", "sublabel": "OHLCV reads", "pos": [1110, 200], "size": [130, 56], "tag": "IMPLEMENTED" },
+    { "id": "parquet_store", "type": "database", "label": "DuckDB + Parquet", "sublabel": "adjusted OHLCV", "pos": [1110, 300], "size": [130, 56], "tag": "PERSISTENCE" },
+    { "id": "sqlite_db", "type": "database", "label": "SQLite portfolio.db", "sublabel": "facts + dossier tables", "pos": [1110, 400], "size": [130, 56], "tag": "PERSISTENCE" },
+    { "id": "excel_export", "type": "backend", "label": "Excel Export", "sublabel": "dossier xlsx script", "pos": [1110, 500], "size": [130, 56], "tag": "IMPLEMENTED" },
+    { "id": "file_artifacts", "type": "database", "label": "File Artifacts", "sublabel": "outputs/dossier_runs/", "pos": [1110, 600], "size": [130, 56], "tag": "PERSISTENCE" },
 
-    { "id": "trendlyne", "type": "external", "label": "Trendlyne", "sublabel": "MCP provider", "pos": [1300, 100], "size": [120, 56] },
-    { "id": "fere_nse", "type": "external", "label": "FERE / NSE", "sublabel": "XBRL + bhavcopy", "pos": [1300, 200], "size": [120, 56] }
+    { "id": "trendlyne", "type": "external", "label": "Trendlyne", "sublabel": "MCP provider", "pos": [1300, 400], "size": [120, 56] },
+    { "id": "fere_nse", "type": "external", "label": "FERE / NSE", "sublabel": "XBRL + bhavcopy", "pos": [1300, 500], "size": [120, 56] }
   ],
   "boundaries": [
     { "kind": "region", "label": "Front End (React SPA)", "wraps": ["react_discover", "react_analyze360", "react_dossier"] },

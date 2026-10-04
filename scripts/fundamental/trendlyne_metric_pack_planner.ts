@@ -194,23 +194,31 @@ export const METRIC_PACK_UNUSED_REASON = 'FULLY_UTILIZED_WITH_VERIFIED_SAFE_TOKE
 // Canonical 50-token dense pack covering all Trendlyne-supported reusable inputs.
 // Keep this deterministic: every token here must either be explicitly promoted
 // to canonical facts/statement tables or preserved in the raw provider snapshot.
-export const CANONICAL_50_METRIC_PACK: string[] = [
-  'sra', 'sramy1', 'sramy2', 'sramy3', 'totalsrq',
-  'npa', 'npamy1', 'npamy2', 'npamy3', 'reportedpatq',
-  'opa', 'opq', 'opmpctq', 'opmpctqmq1',
-  'roea', 'rocea', 'debtcea', 'ica',
-  'pettm', 'pegttm', 'pbva', 'mcapq',
-  'prompct', 'prompledge', 'fiihold', 'mfhold',
-  'fiipct1q', 'mfpct1q', 'cfoa', 'wcq',
-  'currentprice', 'opma', 'roica', 'roaa', 'npq',
-  'ebita', 'cepsa', 'ltdea', 'netdebta', 'dividendpayout',
-  'dividendpersharea', 'cfoagrowth', 'ncfa', 'capitalexpenditurea',
-  'inventoriesq', 'tradereceivablesa', 'contingentliabilitiesa',
-  'prompct1q', 'prompledge1q', 'instihold'
-];
+export let CANONICAL_50_METRIC_PACK: string[] = [];
+export async function loadDynamicMetricPack(db: sqlite3.Database) {
+  return new Promise<void>((resolve, reject) => {
+    db.all("SELECT provider_token FROM field_mapping_catalog WHERE provider='TRENDLYNE_MCP' AND mapping_status='VERIFIED' LIMIT 50", [], (err, rows: any[]) => {
+      if (err) return reject(err);
+      CANONICAL_50_METRIC_PACK = rows.map(r => r.provider_token);
+      resolve();
+    });
+  });
+}
 
 // Backward-compatible alias for older imports/tests.
-export const CANONICAL_30_METRIC_PACK = CANONICAL_50_METRIC_PACK;
+export let CANONICAL_30_METRIC_PACK: string[] = [];
+// Will be initialized in loadDynamicMetricPack
+const _old_load = loadDynamicMetricPack;
+export async function loadDynamicMetricPack(db: sqlite3.Database) {
+  return new Promise<void>((resolve, reject) => {
+    db.all("SELECT provider_token FROM field_mapping_catalog WHERE provider='TRENDLYNE_MCP' AND mapping_status='VERIFIED' LIMIT 50", [], (err, rows: any[]) => {
+      if (err) return reject(err);
+      CANONICAL_50_METRIC_PACK = rows.map(r => r.provider_token);
+      CANONICAL_30_METRIC_PACK = CANONICAL_50_METRIC_PACK;
+      resolve();
+    });
+  });
+}
 
 export interface MetricTokenDestination {
   token: string;
@@ -360,6 +368,13 @@ export class TrendlyneMetricPackPlanner {
     `, symbols.map(s => s.toUpperCase()));
 
     const fifteenDaysAgo = Date.now() - 15 * 86_400_000;
+    
+    let missingInventory: any = { missingBySymbol: {} };
+    try {
+      const invPath = require('path').join(process.cwd(), 'reports', 'data_quality', 'analyze360_missing_data_inventory.json');
+      missingInventory = JSON.parse(require('fs').readFileSync(invPath, 'utf8'));
+    } catch(e) {}
+    
     const fetchMap = new Map<string, string>();
     for (const r of rows) {
       if (r.symbol && r.last_fetched) fetchMap.set(r.symbol, r.last_fetched);
@@ -370,7 +385,10 @@ export class TrendlyneMetricPackPlanner {
       const last = fetchMap.get(upper);
       if (last) {
         const ts = new Date(last).getTime();
-        map.set(upper, { isFresh: ts > fifteenDaysAgo, lastFetched: last });
+        
+        const hasGaps = missingInventory.missingBySymbol[upper] && missingInventory.missingBySymbol[upper].length > 0;
+        map.set(upper, { isFresh: (ts > fifteenDaysAgo && !hasGaps), lastFetched: last });
+  
       } else {
         map.set(upper, { isFresh: false, lastFetched: null });
       }
@@ -502,6 +520,7 @@ export class TrendlyneMetricPackPlanner {
    * - Full batch rule: batches of 10 symbols, no partial batch unless allowPartialFinalBatch is true
    */
   public async planBatchRun(options: PlanOptions = {}): Promise<PlanResult> {
+    await loadDynamicMetricPack(this.db);
     const targetBatchSize = options.batchSize && options.batchSize > 0 ? options.batchSize : 10;
     const maxSymbols = options.maxSymbols && options.maxSymbols > 0 ? options.maxSymbols : undefined;
     const allowPartialFinalBatch = !!options.allowPartialFinalBatch;
@@ -675,325 +694,21 @@ export class TrendlyneMetricPackPlanner {
    * - If provider asOfDate is missing/invalid, skips annual/quarterly periodEnd facts.
    * - Local fetch timestamp is strictly stored as fetchedAt/datetime('now').
    */
-  public async ingestParsedMetrics(
-    parsedData: Map<string, Record<string, number | string | null>>
-  ): Promise<{ factsPersisted: number; skippedUnanchoredCount: number }> {
-    let factsPersisted = 0;
-    let skippedUnanchoredCount = 0;
-
-    for (const [symbol, metrics] of parsedData) {
-      const rawAsOf = typeof metrics.asOfDate === 'string' ? metrics.asOfDate.trim() : '';
-      const hasValidProviderDate = /^\d{4}-\d{2}-\d{2}$/.test(rawAsOf);
-      const providerAsOf = hasValidProviderDate ? rawAsOf : null;
-      const asOfYear = providerAsOf ? parseInt(providerAsOf.substring(0, 4), 10) : null;
-
-      // Always persist raw snapshot to preserve freshness and auditability
-      await new Promise<void>((resolve, reject) => {
-        this.db.run(
-          `
-          INSERT OR REPLACE INTO fundamental_endpoint_snapshots
-          (symbol, provider, endpoint, authority, source_url, fetched_at, status, response_json)
-          VALUES (?, 'TRENDLYNE_MCP', 'get_stock_parameter_values', 'LICENSED_PROVIDER', 'mcp://trendlyne/parameters', datetime('now'), 'SUCCESS', ?)
-        `,
-          [symbol, JSON.stringify(metrics)],
-          (err) => (err ? reject(err) : resolve())
-        );
-      });
-
-      if (!providerAsOf || !asOfYear) {
-        skippedUnanchoredCount++;
-        // Notice: do NOT invent annual/quarterly periodEnd or asOfDate from local clock!
-        // Skip dated statement facts when provider did not supply verified reporting date anchor.
-        continue;
-      }
-
-      // 1. Annual Revenue Series (4 consecutive annual points)
-      const revPoints = [
-        { yr: asOfYear, val: metrics.sra },
-        { yr: asOfYear - 1, val: metrics.sramy1 },
-        { yr: asOfYear - 2, val: metrics.sramy2 },
-        { yr: asOfYear - 3, val: metrics.sramy3 }
-      ];
-      for (const pt of revPoints) {
-        if (pt.val != null && Number(pt.val) > 0) {
-          const periodEnd = `${pt.yr}-03-31`;
-          const factId = `tl:${symbol}:revenue:${periodEnd}`;
-          await new Promise<void>((resolve, reject) => {
-            this.db.run(
-              `
-              INSERT OR REPLACE INTO company_facts
-              (factId, companyId, symbol, metric, periodType, periodEnd, asOfDate, factType, sourceType, scope, verificationStatus, fetchedAt, value, unit, provider, availableAt)
-              VALUES (?, ?, ?, 'revenue', 'ANNUAL', ?, ?, 'REPORTED', 'STRUCTURED_SECONDARY', 'CONSOLIDATED', 'SECONDARY_VERIFIED', datetime('now'), ?, 'INR_CR', 'TRENDLYNE_MCP', ?)
-            `,
-              [factId, symbol, symbol, periodEnd, providerAsOf, String(pt.val), providerAsOf],
-              (err) => (err ? reject(err) : resolve())
-            );
-          });
-          factsPersisted++;
-        }
-      }
-
-      // 2. Annual Net Profit / PAT Series (4 consecutive annual points)
-      const patPoints = [
-        { yr: asOfYear, val: metrics.npa },
-        { yr: asOfYear - 1, val: metrics.npamy1 },
-        { yr: asOfYear - 2, val: metrics.npamy2 },
-        { yr: asOfYear - 3, val: metrics.npamy3 }
-      ];
-      for (const pt of patPoints) {
-        if (pt.val != null && !isNaN(Number(pt.val))) {
-          const periodEnd = `${pt.yr}-03-31`;
-          const factId = `tl:${symbol}:pat:${periodEnd}`;
-          await new Promise<void>((resolve, reject) => {
-            this.db.run(
-              `
-              INSERT OR REPLACE INTO company_facts
-              (factId, companyId, symbol, metric, periodType, periodEnd, asOfDate, factType, sourceType, scope, verificationStatus, fetchedAt, value, unit, provider, availableAt)
-              VALUES (?, ?, ?, 'pat', 'ANNUAL', ?, ?, 'REPORTED', 'STRUCTURED_SECONDARY', 'CONSOLIDATED', 'SECONDARY_VERIFIED', datetime('now'), ?, 'INR_CR', 'TRENDLYNE_MCP', ?)
-            `,
-              [factId, symbol, symbol, periodEnd, providerAsOf, String(pt.val), providerAsOf],
-              (err) => (err ? reject(err) : resolve())
-            );
-          });
-          factsPersisted++;
-        }
-      }
-
-      // 3. Persist every fetched long-lived metric that the app can reuse.
-      // Do not let the 50-metric provider-call capacity go to waste: if a
-      // parameter was requested and returned as a real number, promote it into
-      // company_facts with exact token provenance. Missing provider values stay
-      // absent/null and are handled by Analyze360 as DATA_INSUFFICIENT.
-      const ratioMetrics: Array<{ metric: string; val: any; unit: string; pType: string; pEnd?: string }> = [
-        { metric: 'roce_reported', val: metrics.rocea, unit: '%', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
-        { metric: 'roe_pct', val: metrics.roea, unit: '%', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
-        { metric: 'debt_to_equity_reported', val: metrics.debtcea, unit: 'RATIO', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
-        { metric: 'interest_coverage', val: metrics.ica, unit: 'RATIO', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
-        { metric: 'pe_ratio', val: metrics.pettm, unit: 'RATIO', pType: 'TTM', pEnd: providerAsOf },
-        { metric: 'peg_ratio', val: metrics.pegttm, unit: 'RATIO', pType: 'TTM', pEnd: providerAsOf },
-        { metric: 'market_cap_cr', val: metrics.mcapq, unit: 'INR_CR', pType: 'LATEST', pEnd: providerAsOf },
-        { metric: 'operating_profit', val: metrics.opa, unit: 'INR_CR', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
-        { metric: 'operating_profit', val: metrics.opq, unit: 'INR_CR', pType: 'QUARTERLY', pEnd: providerAsOf },
-        { metric: 'promoter_holding', val: metrics.prompct, unit: '%', pType: 'QUARTERLY', pEnd: providerAsOf },
-        { metric: 'promoter_pledge', val: metrics.prompledge, unit: '%', pType: 'QUARTERLY', pEnd: providerAsOf },
-        { metric: 'fii_holding', val: metrics.fiihold, unit: '%', pType: 'QUARTERLY', pEnd: providerAsOf },
-        { metric: 'dii_holding', val: metrics.mfhold, unit: '%', pType: 'QUARTERLY', pEnd: providerAsOf },
-        { metric: 'fii_change_qoq_pct', val: metrics.fiipct1q, unit: '%', pType: 'QUARTERLY', pEnd: providerAsOf },
-        { metric: 'dii_change_qoq_pct', val: metrics.mfpct1q, unit: '%', pType: 'QUARTERLY', pEnd: providerAsOf },
-        { metric: 'working_capital', val: metrics.wcq, unit: 'INR_CR', pType: 'QUARTERLY', pEnd: providerAsOf },
-        { metric: 'current_price', val: metrics.currentprice, unit: 'INR', pType: 'LATEST', pEnd: providerAsOf },
-        { metric: 'operating_margin_annual_pct', val: metrics.opma, unit: '%', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
-        { metric: 'roic_pct', val: metrics.roica, unit: '%', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
-        { metric: 'roa_pct', val: metrics.roaa, unit: '%', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
-        { metric: 'pat', val: metrics.npq, unit: 'INR_CR', pType: 'QUARTERLY', pEnd: providerAsOf },
-        { metric: 'ebit', val: metrics.ebita, unit: 'INR_CR', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
-        { metric: 'cash_eps', val: metrics.cepsa, unit: 'INR', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
-        { metric: 'long_term_debt_to_equity', val: metrics.ltdea, unit: 'RATIO', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
-        { metric: 'net_debt', val: metrics.netdebta, unit: 'INR_CR', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
-        { metric: 'dividend_payout_pct', val: metrics.dividendpayout, unit: '%', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
-        { metric: 'dividend_per_share', val: metrics.dividendpersharea, unit: 'INR', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
-        { metric: 'cfo_growth_pct', val: metrics.cfoagrowth, unit: '%', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
-        { metric: 'net_cash_flow', val: metrics.ncfa, unit: 'INR_CR', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
-        { metric: 'capex_cash_outflow', val: metrics.capitalexpenditurea, unit: 'INR_CR', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
-        { metric: 'inventory', val: metrics.inventoriesq, unit: 'INR_CR', pType: 'QUARTERLY', pEnd: providerAsOf },
-        { metric: 'trade_receivables', val: metrics.tradereceivablesa, unit: 'INR_CR', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
-        { metric: 'contingent_liabilities', val: metrics.contingentliabilitiesa, unit: 'INR_CR', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` },
-        { metric: 'promoter_change_qoq_pct', val: metrics.prompct1q, unit: '%', pType: 'QUARTERLY', pEnd: providerAsOf },
-        { metric: 'promoter_pledge_change_qoq_pct', val: metrics.prompledge1q, unit: '%', pType: 'QUARTERLY', pEnd: providerAsOf },
-        { metric: 'institutional_holding', val: metrics.instihold, unit: '%', pType: 'QUARTERLY', pEnd: providerAsOf },
-        { metric: 'cfo', val: metrics.cfoa, unit: 'INR_CR', pType: 'ANNUAL', pEnd: `${asOfYear}-03-31` }
-      ];
-
-      for (const rm of ratioMetrics) {
-        if (rm.val != null && !isNaN(Number(rm.val))) {
-          const factId = `tl:${symbol}:${rm.metric}:${rm.pType}`;
-          const periodEnd = rm.pEnd || providerAsOf;
-          await new Promise<void>((resolve, reject) => {
-            this.db.run(
-              `
-              INSERT OR REPLACE INTO company_facts
-              (factId, companyId, symbol, metric, periodType, periodEnd, asOfDate, factType, sourceType, scope, verificationStatus, fetchedAt, value, unit, provider, availableAt)
-              VALUES (?, ?, ?, ?, ?, ?, ?, 'REPORTED', 'STRUCTURED_SECONDARY', 'CONSOLIDATED', 'SECONDARY_VERIFIED', datetime('now'), ?, ?, 'TRENDLYNE_MCP', ?)
-            `,
-              [factId, symbol, symbol, rm.metric, rm.pType, periodEnd, providerAsOf, String(rm.val), rm.unit, providerAsOf],
-              (err) => (err ? reject(err) : resolve())
-            );
-          });
-          factsPersisted++;
-        }
-      }
-
-      // Also update HistoricalFinancialStatements with sequential quarterly margins
-      if (metrics.opmpctq != null) {
-        const qLabel = `${providerAsOf} (Latest Qtr)`;
-        await new Promise<void>((resolve) => {
-          this.db.run(
-            `
-            INSERT OR REPLACE INTO HistoricalFinancialStatements
-            (symbol, statement_type, period_label, period_date, opm_pct, primary_source)
-            VALUES (?, 'QUARTERLY_PL', ?, ?, ?, 'TRENDLYNE_MCP')
-          `,
-            [symbol, qLabel, providerAsOf, Number(metrics.opmpctq)],
-            () => resolve()
-          );
-        });
-      }
-      if (metrics.opmpctqmq1 != null) {
-        const prevQLabel = `1Q Ago`;
-        await new Promise<void>((resolve) => {
-          this.db.run(
-            `
-            INSERT OR REPLACE INTO HistoricalFinancialStatements
-            (symbol, statement_type, period_label, period_date, opm_pct, primary_source)
-            VALUES (?, 'QUARTERLY_PL', ?, NULL, ?, 'TRENDLYNE_MCP')
-          `,
-            [symbol, prevQLabel, Number(metrics.opmpctqmq1)],
-            () => resolve()
-          );
-        });
-      }
-    }
-
-    return { factsPersisted, skippedUnanchoredCount };
-  }
-}
-
-function endpointUrl(): string | undefined {
-  const env = process.env.TRENDLYNE_MCP_URL?.trim();
-  if (env && !env.includes('\x16')) return env;
-  for (const configPath of [
-    path.join(root, '.agents', 'mcp_config.json'),
-    path.join(process.env.USERPROFILE || '', '.gemini', 'config', 'mcp_config.json')
-  ]) {
-    try {
-      const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-      const url = config.mcpServers?.trendlyne?.url || config.mcpServers?.trendlyne?.serverUrl;
-      if (typeof url === 'string' && url.trim() && !url.includes('\x16')) return url.trim();
-    } catch {}
-  }
-  return undefined;
-}
-
-export function parseTrendlyneResponse(responseText: string): Map<string, Record<string, number | string | null>> {
-  const results = new Map<string, Record<string, number | string | null>>();
-  if (!responseText) return results;
-
-  const blocks = responseText.split('\n\n---\n\n');
-  const headerBlock = blocks[0] || '';
-  const metricBlocks = blocks.slice(1);
-
-  // Parse header lines: e.g. 630|Infosys|INFY|500209|2026-10-01
-  const headerLines = headerBlock.trim().split('\n').filter(Boolean);
-  const metadataBySymbol = new Map<string, { asOfDate: string; companyName: string }>();
-
-  for (const line of headerLines) {
-    const parts = line.split('|');
-    if (parts.length >= 5) {
-      const sym = parts[2].trim().toUpperCase();
-      metadataBySymbol.set(sym, {
-        companyName: parts[1].trim(),
-        asOfDate: parts[4].trim()
-      });
-      results.set(sym, { asOfDate: parts[4].trim(), companyName: parts[1].trim() });
-    }
+  public async persistRawSnapshot(symbol: string, payload: any): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.db.run(
+        `
+        INSERT OR REPLACE INTO fundamental_endpoint_snapshots
+        (symbol, provider, endpoint, authority, source_url, fetched_at, status, response_json)
+        VALUES (?, 'TRENDLYNE_MCP', 'get_stock_parameter_values', 'LICENSED_PROVIDER', 'mcp://trendlyne/parameters', datetime('now'), 'SUCCESS', ?)
+      `,
+        [symbol, JSON.stringify(payload)],
+        (err) => (err ? reject(err) : resolve())
+      );
+    });
   }
 
-  // Label to token mapping
-  const labelMap: Record<string, string> = {
-    'Total Rev. Ann.': 'sra',
-    'Total Rev. Ann. 1Y Ago': 'sramy1',
-    'Rev. Ann. 2Y ago': 'sramy2',
-    'Rev. Ann. 3Y ago': 'sramy3',
-    'Total Rev. Qtr': 'totalsrq',
-    'Net Profit Ann.': 'npa',
-    'Net Profit Ann. 1Y Ago': 'npamy1',
-    'Net Profit Ann. 2Y ago': 'npamy2',
-    'Net Profit Ann. 3Y Ago': 'npamy3',
-    'Reported PAT Qtr': 'reportedpatq',
-    'Operating Profit Ann.': 'opa',
-    'Operating Profit Qtr': 'opq',
-    'Operating Profit Margin Qtr %': 'opmpctq',
-    'OPM 1Q ago %': 'opmpctqmq1',
-    'ROE Ann. %': 'roea',
-    'ROCE Ann. %': 'rocea',
-    'Total Debt to Total Equity Ann.': 'debtcea',
-    'Interest Coverage Ratio Ann.': 'ica',
-    'PE TTM': 'pettm',
-    'PEG TTM': 'pegttm',
-    'PBV Adjusted': 'pbva',
-    'Market Cap': 'mcapq',
-    'Promoter holding latest %': 'prompct',
-    'Promoter holding pledge percentage % Qtr': 'prompledge',
-    'FII holding current Qtr %': 'fiihold',
-    'MF holding current Qtr %': 'mfhold',
-    'FII holding change QoQ %': 'fiipct1q',
-    'MF holding change QoQ %': 'mfpct1q',
-    'Cash from Operating Act. Ann.': 'cfoa',
-    'Working Capital Quarterly': 'wcq',
-    'Current Market Price': 'currentprice',
-    'Operating Profit Margin Annual %': 'opma',
-    'Return on Invested Capital Annual %': 'roica',
-    'Return on Assets Annual %': 'roaa',
-    'Net Profit Quarterly (Consolidated)': 'npq',
-    'EBIT Annual': 'ebita',
-    'Cash EPS Annual': 'cepsa',
-    'Long Term Debt to Equity Annual': 'ltdea',
-    'Net Debt Annual': 'netdebta',
-    'Dividend Payout Ratio %': 'dividendpayout',
-    'Dividend Per Share Annual': 'dividendpersharea',
-    'CFO Annual Growth %': 'cfoagrowth',
-    'Net Cash Flow Annual': 'ncfa',
-    'Capital Expenditure Annual': 'capitalexpenditurea',
-    'Inventories Quarterly': 'inventoriesq',
-    'Trade Receivables Annual': 'tradereceivablesa',
-    'Contingent Liabilities Annual': 'contingentliabilitiesa',
-    'Promoter Holding QoQ Change %': 'prompct1q',
-    'Promoter Pledge QoQ Change %': 'prompledge1q',
-    'Institutional Holding %': 'instihold'
-  };
-
-  for (const block of metricBlocks) {
-    const lines = block.trim().split('\n').filter(Boolean);
-    if (!lines.length) continue;
-    const label = lines[0].trim();
-    const token = labelMap[label];
-
-    for (let i = 1; i < lines.length; i++) {
-      const line = lines[i];
-      const colonIdx = line.indexOf(':');
-      if (colonIdx === -1) continue;
-      const sym = line.substring(0, colonIdx).trim().toUpperCase();
-      const valStr = line.substring(colonIdx + 1).trim();
-
-      if (!results.has(sym)) results.set(sym, {});
-      const record = results.get(sym)!;
-
-      if (valStr === 'None' || valStr === '' || valStr.toLowerCase() === 'null') {
-        if (token) record[token] = null;
-      } else {
-        const num = Number(valStr);
-        if (token) record[token] = isNaN(num) ? valStr : num;
-      }
-    }
-  }
-
-  return results;
-}
-
-export function writeProgressFiles(progressData: Record<string, any>) {
-  const targets = [
-    path.join(root, 'reports', 'data_quality', 'jobs', 'trendlyne_fundamental_refresh_progress.json'),
-    path.join(root, 'reports', 'data_quality', 'jobs', 'valuation_metric_refresh_progress.json')
-  ];
-  for (const p of targets) {
-    try {
-      fs.mkdirSync(path.dirname(p), { recursive: true });
-      fs.writeFileSync(p, JSON.stringify(progressData, null, 2));
-    } catch {}
-  }
-}
-
-async function main() {
+  async function main() {
   const args = process.argv.slice(2);
   const shouldExecute = args.includes('--execute');
   const allowPartialFinalBatch = args.includes('--allow-partial-final-batch');
@@ -1259,7 +974,11 @@ async function main() {
     }
 
     // Ingest into SQLite company_facts and fundamental_endpoint_snapshots via deterministic method
-    const { factsPersisted: batchFacts } = await planner.ingestParsedMetrics(parsedData);
+    const { factsPersisted: batchFacts } = for (const [sym, payload] of parsedData.entries()) {
+      await planner.persistRawSnapshot(sym, payload);
+      const canonicalService = new CanonicalFactIngestionService(db);
+      await canonicalService.ingestForSymbol(sym);
+    }
     factsPersisted += batchFacts;
     console.log(`  [✓] Batch ingestion complete: ${batchFacts} facts persisted for batch ${batch.batchIndex}`);
 

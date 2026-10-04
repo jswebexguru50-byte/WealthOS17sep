@@ -2,7 +2,7 @@
   "jobName": "financial_history_backfill",
   "jobType": "BACKFILL",
   "status": "RUNNING",
-  "startTime": "2026-10-04T04:47:49.550Z",
+  "startTime": "2026-10-04T05:24:57.804Z",
   "completedTime": null,
   "totalSymbols": 0,
   "hfsStatementsReconciled": 0,

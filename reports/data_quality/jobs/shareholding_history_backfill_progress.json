@@ -2,8 +2,8 @@
   "jobName": "shareholding_history_backfill",
   "jobType": "BACKFILL",
   "status": "DATA_INSUFFICIENT",
-  "startTime": "2026-10-04T04:47:54.414Z",
-  "completedTime": "2026-10-04T04:47:54.457Z",
+  "startTime": "2026-10-04T05:25:05.346Z",
+  "completedTime": "2026-10-04T05:25:05.367Z",
   "totalSymbols": 0,
   "recordsSynced": 0,
   "error": "DATA_INSUFFICIENT: FERE shareholding_snapshot lacks fii_pct/dii_pct required by HistoricalShareholdingPattern; no synthetic zeros written."

@@ -154,7 +154,16 @@ export class CanonicalFactIngestionService {
         }
         
         const periodType = normalizedPeriodType(mapping.period_type);
-        const factId = `${companyId}_${mapping.canonical_metric}_LATEST_${periodType}_${mapping.consolidated_or_standalone}_REPORTED`;
+        let relativePeriod = 'LATEST';
+        if (mapping.provider_token.match(/my\d$/)) {
+            relativePeriod = 'LATEST_MY' + mapping.provider_token.slice(-1);
+        } else if (mapping.provider_token.match(/mq\d$/)) {
+            relativePeriod = 'LATEST_MQ' + mapping.provider_token.slice(-1);
+        } else if (mapping.provider_token.match(/1q$/)) {
+            relativePeriod = 'LATEST_1Q';
+        }
+        
+        const factId = `${companyId}_${mapping.canonical_metric}_${relativePeriod}_${periodType}_${mapping.consolidated_or_standalone}_REPORTED`;
         
         const isMissing = !extracted;
         const factType = isMissing || extracted.value === null ? 'MISSING' : 'REPORTED';
@@ -178,7 +187,7 @@ export class CanonicalFactIngestionService {
           )
         `, [
           factId, companyId, symbol, isin, mapping.canonical_metric, finalValue, mapping.unit, mapping.currency,
-          periodType, 'LATEST', observationDate || latest.fetched_at.slice(0, 10), factType, 'STRUCTURED_SECONDARY', mapping.consolidated_or_standalone,
+          periodType, relativePeriod, observationDate || latest.fetched_at.slice(0, 10), factType, 'STRUCTURED_SECONDARY', mapping.consolidated_or_standalone,
           mapping.provider, 'VERIFIED_PARTIAL', latest.fetched_at, availableAt, availabilityStatus,
           sourceDocumentId, mapping.provider_token, exactLabel || null
         ]);
