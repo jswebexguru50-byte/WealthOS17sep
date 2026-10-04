@@ -1,0 +1,165 @@
+{
+  "dossierRunId": "DR-20261001-7D-B0A8466C",
+  "generatedAt": "2026-10-04T10:30:00.000Z",
+  "baselineImplementationFiles": [
+    "src/server/services/CommercialExcelReportService.ts",
+    "src/server/services/ExcelExportService.ts",
+    "scripts/fundamental/build_selected_fundamental_dossier.mjs"
+  ],
+  "baselineSheetStructure": {
+    "totalSheets": 8,
+    "sheetOrder": [
+      "1. Executive Summary & Consensus",
+      "2. Company Dossiers",
+      "3. Smart Money Sentinel",
+      "4. Technical & VPA Matrix",
+      "5. QGLP & Fundamental Quality",
+      "6. 10-Point Checklist Audit",
+      "7. Fact Provenance & Lineage",
+      "8. Data Gaps & Integrity"
+    ],
+    "sheetDetails": {
+      "1. Executive Summary & Consensus": {
+        "purpose": "Consolidated cohort overview across 19 technically selected candidates",
+        "freezePane": { "row": 3, "col": 3 },
+        "autoFilter": true,
+        "columns": [
+          "Rank", "Symbol", "Company Name", "Sector", "Signal Count", "Primary Strategy",
+          "CMP (₹)", "Market Cap (₹ Cr)", "PE TTM", "PEG TTM", "ROE %", "ROCE %",
+          "P0 Completeness", "P1 Completeness", "Smart Money Classification", "Walk-the-Talk Verdict", "Risk Rating"
+        ]
+      },
+      "2. Company Dossiers": {
+        "purpose": "Institutional one-page dossiers per candidate with 7 standardized sections",
+        "freezePane": { "row": 4, "col": 2 },
+        "autoFilter": false,
+        "sectionOrder": [
+          "HEADER: Company Identity & Technical Trigger",
+          "SECTION 1: Fundamental Snapshot (100-150 words: Revenue Trajectory, Margins, PAT, Leverage, CFO, Working Capital, Valuation)",
+          "SECTION 2: Technical Snapshot (Strategy Signals, EMA20, EMA50, SMA200, RSI14, ATR%, 52W Range, Support/Resistance, Volume/Delivery)",
+          "SECTION 3: QGLP Deep-Dive (Quality, Growth, Longevity, Price — 4 separate qualitative/quantitative pillars, NO composite stock score)",
+          "SECTION 4: Recent Accumulation / Smart Money (VERIFIED_NAMED_ACCUMULATION / SUPPORTIVE_MARKET_ACTIVITY / NO_VERIFIED_RECENT_ACCUMULATION_EVIDENCE / DATA_INSUFFICIENT)",
+          "SECTION 5: Management Walk-the-Talk (DELIVERED / PARTIALLY_DELIVERED / PENDING / MISSED / NOT_VERIFIABLE)",
+          "SECTION 6: Evidence-Backed Risks & What to Watch Next",
+          "SECTION 7: Data Integrity & Provenance Footer (P0/P1 Available, Missing, Traceability Hash)"
+        ]
+      },
+      "3. Smart Money Sentinel": {
+        "purpose": "Institutional ownership changes, bulk/block deal analysis, promoter pledge shifts",
+        "freezePane": { "row": 2, "col": 2 },
+        "autoFilter": true,
+        "columns": [
+          "Symbol", "Promoter %", "Promoter Pledge %", "FII %", "FII QoQ Change", "DII %", "DII QoQ Change",
+          "Recent Block/Bulk Deals", "Identified Buyers", "Accumulation Status", "Volume Context"
+        ]
+      },
+      "4. Technical & VPA Matrix": {
+        "purpose": "Multi-session technical parameters across 7 trading sessions",
+        "freezePane": { "row": 2, "col": 2 },
+        "autoFilter": true,
+        "columns": [
+          "Symbol", "Signal Date", "Strategy", "Entry Price (₹)", "Stop Loss (₹)", "Target 1 (₹)", "R:R Ratio",
+          "EMA20", "EMA50", "SMA200", "Trend Alignment", "RSI14", "ATR%", "52W High", "52W Low", "52W Position %"
+        ]
+      },
+      "5. QGLP & Fundamental Quality": {
+        "purpose": "Rigorous fundamental metrics history and QGLP evaluation",
+        "freezePane": { "row": 2, "col": 2 },
+        "autoFilter": true,
+        "columns": [
+          "Symbol", "Sales 3Y CAGR %", "Profit 3Y CAGR %", "OPM Latest %", "OPM 1Q Ago %",
+          "ROE %", "ROCE %", "ROCE Consistency %", "Debt to Equity", "Interest Coverage",
+          "CFO (₹ Cr)", "Capex (₹ Cr)", "Free Cash Flow (₹ Cr)", "Working Capital (₹ Cr)",
+          "Quality Assessment", "Growth Assessment", "Longevity Assessment", "Price Assessment"
+        ]
+      },
+      "6. 10-Point Checklist Audit": {
+        "purpose": "10-Point master institutional checklist per WealthOS specification",
+        "freezePane": { "row": 2, "col": 2 },
+        "autoFilter": true,
+        "columns": [
+          "Symbol", "Score /10", "1. Clean Governance", "2. ROCE > 15%", "3. Low Debt", "4. Sales Growth",
+          "5. CFO Positive", "6. Working Capital Discipline", "7. Institutional Backing", "8. Technical Alignment",
+          "9. Reasonable Valuation", "10. Catalysts Identifiable"
+        ]
+      },
+      "7. Fact Provenance & Lineage": {
+        "purpose": "Strict audit trail of every fact: table, source URL/filing, provider, fetched timestamp",
+        "freezePane": { "row": 2, "col": 2 },
+        "autoFilter": true,
+        "columns": [
+          "Symbol", "Domain", "Metric", "Value", "Unit", "Period End", "As Of Date", "Scope",
+          "Verification Status", "Provider", "Source Type", "Source Table", "Fact ID", "Fetched At"
+        ]
+      },
+      "8. Data Gaps & Integrity": {
+        "purpose": "Transparent inventory of missing or insufficient items with precise resolution",
+        "freezePane": { "row": 2, "col": 2 },
+        "autoFilter": true,
+        "columns": [
+          "Symbol", "Group", "Field", "Priority", "Status (AVAILABLE / DATA_INSUFFICIENT / NOT_VERIFIABLE / NO_VERIFIED_EVIDENCE / NOT_APPLICABLE)",
+          "Resolution Strategy", "Provider Source", "Alternative Source"
+        ]
+      }
+    }
+  },
+  "formattingAndDesignContract": {
+    "palette": {
+      "navyHeader": "#0F172A",
+      "subHeader": "#1E293B",
+      "accentCyan": "#0891B2",
+      "accentEmerald": "#059669",
+      "borderLight": "#CBD5E1",
+      "zebraLight": "#F8FAFC",
+      "passFill": "#D1FAE5",
+      "passText": "#065F46",
+      "failFill": "#FEE2E2",
+      "failText": "#991B1B",
+      "warnFill": "#FEF3C7",
+      "warnText": "#92400E",
+      "infoFill": "#E0F2FE",
+      "infoText": "#075985"
+    },
+    "typography": "Aptos / Segoe UI / Calibri, 10pt regular, 11pt bold headers",
+    "numberFormats": {
+      "currency": "₹#,##0.00",
+      "currencyCrores": "₹#,##0.0 \"Cr\"",
+      "percentage": "0.0%",
+      "ratio": "0.00\"x\"",
+      "date": "YYYY-MM-DD"
+    },
+    "hyperlinks": "Hyperlinked Symbol on Summary sheet jumping to exact Company Dossier row"
+  },
+  "comparisonWithCurrentExporter": {
+    "currentExporterScript": "scripts/export_dossier_run_excel.mjs",
+    "currentSheetCount": 14,
+    "currentSheets": [
+      "Run_Overview", "Candidates", "Signals", "Technical_Evidence", "Fundamental_Metrics",
+      "QGLP_Scorecard", "Sector_Momentum", "Risk_Parameters", "Execution_Plan",
+      "Fact_Provenance", "Ownership_Evidence", "Data_Gaps", "Exceptions", "Raw_JSON"
+    ],
+    "MISSING_FROM_CURRENT": [
+      "One-page formatted executive company dossier sheets with 7 standardized sections (Fundamental Snapshot, Technical Snapshot, QGLP, Smart Money, Walk-the-Talk, Risks, Provenance).",
+      "Executive Summary & Consensus overview with signal counts, primary strategy, CMP, Market Cap, valuation multiples, and completeness metrics.",
+      "Smart Money Sentinel dedicated sheet for block/bulk deals, promoter pledge shifts, and accumulation status.",
+      "10-Point Checklist Audit sheet with institutional governance, profitability, debt, and catalyst scores.",
+      "Internal cell navigation and hyperlinks between Summary sheet and Company Dossier sections.",
+      "Institutional styling: palette (#0F172A, #0891B2, #059669), Aptos/Segoe typography, freeze panes, number formats, auto-filters."
+    ],
+    "CHANGED_FROM_BASELINE": [
+      "Sheet count increased from 8 institutional sheets to 14 fragmented raw database dumps.",
+      "Sheet 14 (Raw_JSON) dumps unformatted strings up to 32KB per cell instead of structured audited tables.",
+      "Replaced 7-section structured dossier cards with flat unstyled table dumps without section hierarchy.",
+      "Company data is split arbitrarily across 10 unlinked tables rather than organized by candidate.",
+      "Checklist completeness contains placeholder TBD values instead of deterministic requirement-layer counters."
+    ],
+    "ADDITIONS_REQUIRED": [
+      "Restore 8 authoritative sheet layout defined in CommercialExcelReportService and ExcelExportService.",
+      "Implement the 7-section institutional Company Dossier layout in Sheet 2 with compact 100-150 word snapshot cards.",
+      "Connect completeness metrics directly to the shared 28-requirement catalog (P0/P1 Available, Data Insufficient, Not Applicable, Missing).",
+      "Format all numeric columns with standard formats (₹#,##0.00, 0.0%, 0.00x).",
+      "Preserve frozen technical cohort: exactly 19 candidates, 25 signals, 7 trading sessions."
+    ],
+    "RESTORATION_READY": "YES"
+  }
+}

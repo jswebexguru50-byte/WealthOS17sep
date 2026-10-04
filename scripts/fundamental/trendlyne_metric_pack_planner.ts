@@ -188,8 +188,8 @@ export const TRENDLYNE_FIELD_MAP: Record<string, FieldMappingInfo> = {
 };
 
 export const METRIC_PACK_CAPACITY = 50;
-export const METRIC_PACK_USED = 50;
-export const METRIC_PACK_UNUSED_REASON = 'FULLY_UTILIZED_WITH_VERIFIED_SAFE_TOKENS';
+export const METRIC_PACK_USED = 30;
+export const METRIC_PACK_UNUSED_REASON = 'NO_MORE_VERIFIED_SAFE_TOKENS';
 
 // Canonical 50-token dense pack covering all Trendlyne-supported reusable inputs.
 // Keep this deterministic: every token here must either be explicitly promoted
@@ -198,6 +198,9 @@ export let CANONICAL_50_METRIC_PACK: string[] = [];
 export let CANONICAL_30_METRIC_PACK: string[] = [];
 
 export interface MetricPackResult {
+  requiredTokens: string[];
+  opportunisticTokens: string[];
+  allPackedTokens: string[];
   requiredTokenCount: number;
   opportunisticTokenCount: number;
   totalPacked: number;
@@ -205,22 +208,111 @@ export interface MetricPackResult {
   unusedCapacityReason: string;
 }
 
-export async function loadDynamicMetricPack(db: sqlite3.Database, unresolvedTokens: string[] = []): Promise<MetricPackResult> {
+// Whitelist of trusted tokens established by provenance audit
+// (35 pre-existing before 0871dbe + 2 observed in successful provider responses)
+export const TRUSTED_TRENDLYNE_TOKENS = new Set<string>([
+  'sra', 'totalsrq', 'opa', 'opq', 'pata', 'npq', 'epsttm', 'cepsa',
+  'debtcea', 'netdebta', 'bvsha', 'cratioa', 'cfoa', 'ncfa', 'capitalexpenditurea',
+  'dividendpayoutnpa', 'rocea', 'roea', 'roica', 'prompct', 'prompledge',
+  'fiihold', 'instihold', 'mcapq', 'pettm', 'pbva', 'pegttm',
+  'sramy1', 'sramy2', 'sramy3', 'npamy1', 'npamy2', 'npamy3', 'opmpctq', 'opmpctqmq1',
+  'fiipct1q', 'mfpct1q'
+]);
+
+/**
+ * Build the Trendlyne metric pack deterministically.
+ *
+ * Priority order (per WealthOS governance):
+ *   1. Unresolved P0 required tokens (from unresolvedTokens parameter, TRUSTED only)
+ *   2. Unresolved P1 required tokens (from unresolvedTokens parameter, TRUSTED only)
+ *   3. Verified Analyze360/QGLP opportunistic tokens (TRUSTED only)
+ *   4. Remaining trusted tokens useful for dossier
+ *
+ * Invariants:
+ *   - Only TRUSTED tokens from field_mapping_catalog are included (excluding unverified mappings).
+ *   - Maximum 50 tokens.
+ *   - Deterministic: same db + same unresolvedTokens → same pack.
+ *   - unresolvedTokens parameter MUST drive required vs opportunistic split.
+ *   - No unordered LIMIT 50.
+ */
+export async function loadDynamicMetricPack(
+  db: sqlite3.Database,
+  unresolvedTokens: string[] = []
+): Promise<MetricPackResult> {
   return new Promise<MetricPackResult>((resolve, reject) => {
-    db.all("SELECT provider_token FROM field_mapping_catalog WHERE provider='TRENDLYNE_MCP' AND mapping_status='VERIFIED' LIMIT 50", [], (err, rows: any[]) => {
-      if (err) return reject(err);
-      CANONICAL_50_METRIC_PACK = rows.map(r => r.provider_token);
-      CANONICAL_30_METRIC_PACK = CANONICAL_50_METRIC_PACK;
-      resolve({
-        requiredTokenCount: CANONICAL_50_METRIC_PACK.length,
-        opportunisticTokenCount: 0,
-        totalPacked: CANONICAL_50_METRIC_PACK.length,
-        unusedCapacity: 50 - CANONICAL_50_METRIC_PACK.length,
-        unusedCapacityReason: 'FULLY_UTILIZED_WITH_VERIFIED_SAFE_TOKENS'
-      });
-    });
+    // Fetch all VERIFIED tokens in deterministic alphabetical order
+    db.all(
+      "SELECT provider_token FROM field_mapping_catalog WHERE provider='TRENDLYNE_MCP' AND mapping_status='VERIFIED' ORDER BY provider_token ASC",
+      [],
+      (err, rows: any[]) => {
+        let verifiedTokens: string[] = [];
+        if (err || !rows || rows.length === 0) {
+          verifiedTokens = Object.values(TRENDLYNE_FIELD_MAP)
+            .filter(d => d.sourceCategory === 'TRENDLYNE_AVAILABLE' && d.trendlyneToken && TRUSTED_TRENDLYNE_TOKENS.has(d.trendlyneToken))
+            .map(d => d.trendlyneToken as string);
+        } else {
+          verifiedTokens = rows
+            .map((r: any) => r.provider_token)
+            .filter((t: string) => TRUSTED_TRENDLYNE_TOKENS.has(t));
+        }
+
+        const verifiedSet = new Set<string>(verifiedTokens);
+        const unresolvedSet = new Set<string>(unresolvedTokens.filter(t => verifiedSet.has(t)));
+
+        // Analyze360 + QGLP opportunistic (ordered priority list of trusted tokens)
+        const OPPORTUNISTIC_PRIORITY: string[] = [
+          'sra', 'sramy1', 'sramy2', 'sramy3',
+          'npa', 'npamy1', 'npamy2', 'npamy3',
+          'opa', 'opmpctq', 'opmpctqmq1', 'opq',
+          'rocea', 'roea', 'roica',
+          'cfoa', 'ncfa',
+          'prompct', 'prompledge',
+          'fiihold', 'fiipct1q', 'mfhold', 'mfpct1q', 'instihold',
+          'pettm', 'pbva', 'pegttm', 'mcapq',
+          'debtcea', 'netdebta', 'ica',
+          'pata', 'npq', 'epsttm', 'cepsa',
+          'capitalexpenditurea', 'dividendpayoutnpa', 'bvsha', 'cratioa',
+          'totalsrq'
+        ].filter(t => verifiedSet.has(t) && !unresolvedSet.has(t));
+
+        const packed = new Set<string>();
+        const addToken = (t: string) => { if (packed.size < 50) packed.add(t); };
+
+        // Priority 1 & 2: required unresolved (in deterministic sorted order)
+        const sortedUnresolved = [...unresolvedSet].sort();
+        for (const t of sortedUnresolved) addToken(t);
+
+        // Priority 3+: opportunistic in ordered priority list
+        for (const t of OPPORTUNISTIC_PRIORITY) addToken(t);
+
+        // Priority 4: any remaining trusted tokens not yet included
+        for (const t of [...verifiedSet].sort()) addToken(t);
+
+        const allPackedTokens = [...packed];
+        const requiredTokens = allPackedTokens.filter(t => unresolvedSet.has(t));
+        const opportunisticTokens = allPackedTokens.filter(t => !unresolvedSet.has(t));
+
+        // Update module-level exports for backward compatibility
+        CANONICAL_50_METRIC_PACK = allPackedTokens;
+        CANONICAL_30_METRIC_PACK = allPackedTokens;
+
+        resolve({
+          requiredTokens,
+          opportunisticTokens,
+          allPackedTokens,
+          requiredTokenCount: requiredTokens.length,
+          opportunisticTokenCount: opportunisticTokens.length,
+          totalPacked: allPackedTokens.length,
+          unusedCapacity: 50 - allPackedTokens.length,
+          unusedCapacityReason: allPackedTokens.length >= 50
+            ? 'FULLY_UTILIZED'
+            : 'ONLY_USEFUL_VERIFIED_TOKENS_INCLUDED',
+        });
+      }
+    );
   });
 }
+
 
 export interface MetricTokenDestination {
   token: string;
@@ -373,8 +465,9 @@ export class TrendlyneMetricPackPlanner {
     
     let missingInventory: any = { missingBySymbol: {} };
     try {
-      const invPath = require('path').join(process.cwd(), 'reports', 'data_quality', 'analyze360_missing_data_inventory.json');
-      missingInventory = JSON.parse(require('fs').readFileSync(invPath, 'utf8'));
+      if (fs.existsSync(inventoryPath)) {
+        missingInventory = JSON.parse(fs.readFileSync(inventoryPath, 'utf8'));
+      }
     } catch(e) {}
     
     const fetchMap = new Map<string, string>();
@@ -388,7 +481,7 @@ export class TrendlyneMetricPackPlanner {
       if (last) {
         const ts = new Date(last).getTime();
         
-        const hasGaps = missingInventory.missingBySymbol[upper] && missingInventory.missingBySymbol[upper].length > 0;
+        const hasGaps = missingInventory?.missingBySymbol?.[upper] && missingInventory.missingBySymbol[upper].length > 0;
         map.set(upper, { isFresh: (ts > fifteenDaysAgo && !hasGaps), lastFetched: last });
   
       } else {
@@ -710,7 +803,112 @@ export class TrendlyneMetricPackPlanner {
     });
   }
 
-  async function main() {
+  public async ingestParsedMetrics(parsedData: Map<string, Record<string, number | string | null>>): Promise<{ factsPersisted: number; skippedUnanchoredCount: number }> {
+    let factsPersisted = 0;
+    let skippedUnanchoredCount = 0;
+
+    for (const [symbol, metrics] of parsedData.entries()) {
+      await this.persistRawSnapshot(symbol, metrics);
+
+      const asOf = metrics.asOfDate as string | undefined;
+      const isValidDate = asOf && /^\d{4}-\d{2}-\d{2}$/.test(asOf);
+
+      if (!isValidDate) {
+        skippedUnanchoredCount++;
+        continue;
+      }
+
+      const asOfYear = parseInt(asOf.split('-')[0], 10);
+
+      const revPoints = [
+        { yr: asOfYear, val: metrics.sra },
+        { yr: asOfYear - 1, val: metrics.sramy1 },
+        { yr: asOfYear - 2, val: metrics.sramy2 },
+        { yr: asOfYear - 3, val: metrics.sramy3 }
+      ];
+      for (const pt of revPoints) {
+        if (pt.val != null && Number(pt.val) > 0) {
+          const periodEnd = `${pt.yr}-03-31`;
+          const factId = `tl:${symbol}:revenue:${periodEnd}`;
+          await new Promise<void>((resolve, reject) => {
+            this.db.run(`
+              INSERT OR REPLACE INTO company_facts
+              (factId, companyId, symbol, metric, periodType, periodEnd, asOfDate, factType, sourceType, scope, verificationStatus, fetchedAt, value, unit, provider, availableAt)
+              VALUES (?, ?, ?, 'revenue', 'ANNUAL', ?, ?, 'REPORTED', 'STRUCTURED_SECONDARY', 'CONSOLIDATED', 'SECONDARY_VERIFIED', datetime('now'), ?, 'INR_CR', 'TRENDLYNE_MCP', ?)
+            `, [factId, symbol, symbol, periodEnd, asOf, String(pt.val), asOf], (err) => err ? reject(err) : resolve());
+          });
+          factsPersisted++;
+        }
+      }
+
+      const patPoints = [
+        { yr: asOfYear, val: metrics.npa },
+        { yr: asOfYear - 1, val: metrics.npamy1 },
+        { yr: asOfYear - 2, val: metrics.npamy2 },
+        { yr: asOfYear - 3, val: metrics.npamy3 }
+      ];
+      for (const pt of patPoints) {
+        if (pt.val != null && !isNaN(Number(pt.val))) {
+          const periodEnd = `${pt.yr}-03-31`;
+          const factId = `tl:${symbol}:pat:${periodEnd}`;
+          await new Promise<void>((resolve, reject) => {
+            this.db.run(`
+              INSERT OR REPLACE INTO company_facts
+              (factId, companyId, symbol, metric, periodType, periodEnd, asOfDate, factType, sourceType, scope, verificationStatus, fetchedAt, value, unit, provider, availableAt)
+              VALUES (?, ?, ?, 'pat', 'ANNUAL', ?, ?, 'REPORTED', 'STRUCTURED_SECONDARY', 'CONSOLIDATED', 'SECONDARY_VERIFIED', datetime('now'), ?, 'INR_CR', 'TRENDLYNE_MCP', ?)
+            `, [factId, symbol, symbol, periodEnd, asOf, String(pt.val), asOf], (err) => err ? reject(err) : resolve());
+          });
+          factsPersisted++;
+        }
+      }
+
+      const ratioMetrics: Array<{ metric: string; val: any; unit: string; pType: string }> = [
+        { metric: 'roce_reported', val: metrics.rocea, unit: '%', pType: 'ANNUAL' },
+        { metric: 'roe_pct', val: metrics.roea, unit: '%', pType: 'ANNUAL' },
+        { metric: 'debt_to_equity_reported', val: metrics.debtcea, unit: 'RATIO', pType: 'ANNUAL' },
+        { metric: 'pe_ratio', val: metrics.pettm, unit: 'RATIO', pType: 'TTM' },
+        { metric: 'peg_ratio', val: metrics.pegttm, unit: 'RATIO', pType: 'TTM' },
+        { metric: 'market_cap_cr', val: metrics.mcapq, unit: 'INR_CR', pType: 'LATEST' },
+        { metric: 'operating_profit', val: metrics.opa, unit: 'INR_CR', pType: 'ANNUAL' },
+        { metric: 'operating_profit', val: metrics.opq, unit: 'INR_CR', pType: 'QUARTERLY' },
+        { metric: 'promoter_pledge', val: metrics.prompledge, unit: '%', pType: 'QUARTERLY' },
+        { metric: 'cfo', val: metrics.cfoa, unit: 'INR_CR', pType: 'ANNUAL' }
+      ];
+
+      for (const rm of ratioMetrics) {
+        if (rm.val != null && !isNaN(Number(rm.val))) {
+          const factId = `tl:${symbol}:${rm.metric}:${rm.pType}`;
+          const periodEnd = rm.pType === 'ANNUAL' ? `${asOfYear}-03-31` : asOf;
+          await new Promise<void>((resolve, reject) => {
+            this.db.run(`
+              INSERT OR REPLACE INTO company_facts
+              (factId, companyId, symbol, metric, periodType, periodEnd, asOfDate, factType, sourceType, scope, verificationStatus, fetchedAt, value, unit, provider, availableAt)
+              VALUES (?, ?, ?, ?, ?, ?, ?, 'REPORTED', 'STRUCTURED_SECONDARY', 'CONSOLIDATED', 'SECONDARY_VERIFIED', datetime('now'), ?, ?, 'TRENDLYNE_MCP', ?)
+            `, [factId, symbol, symbol, rm.metric, rm.pType, periodEnd, asOf, String(rm.val), rm.unit, asOf], (err) => err ? reject(err) : resolve());
+          });
+          factsPersisted++;
+        }
+      }
+    }
+
+    return { factsPersisted, skippedUnanchoredCount };
+  }
+}
+
+export function writeProgressFiles(progressData: Record<string, any>) {
+  const targets = [
+    path.join(root, 'reports', 'data_quality', 'jobs', 'trendlyne_fundamental_refresh_progress.json'),
+    path.join(root, 'reports', 'data_quality', 'jobs', 'valuation_metric_refresh_progress.json')
+  ];
+  for (const p of targets) {
+    try {
+      fs.mkdirSync(path.dirname(p), { recursive: true });
+      fs.writeFileSync(p, JSON.stringify(progressData, null, 2));
+    } catch {}
+  }
+}
+
+async function main() {
   const args = process.argv.slice(2);
   const shouldExecute = args.includes('--execute');
   const allowPartialFinalBatch = args.includes('--allow-partial-final-batch');
@@ -976,10 +1174,12 @@ export class TrendlyneMetricPackPlanner {
     }
 
     // Ingest into SQLite company_facts and fundamental_endpoint_snapshots via deterministic method
-    const { factsPersisted: batchFacts } = for (const [sym, payload] of parsedData.entries()) {
+    let batchFacts = 0;
+    for (const [sym, payload] of parsedData.entries()) {
       await planner.persistRawSnapshot(sym, payload);
       const canonicalService = new CanonicalFactIngestionService(db);
-      await canonicalService.ingestForSymbol(sym);
+      const res = await canonicalService.ingestForSymbol(sym);
+      batchFacts += (res as any)?.factsPersisted || (res as any)?.inserted || 0;
     }
     factsPersisted += batchFacts;
     console.log(`  [✓] Batch ingestion complete: ${batchFacts} facts persisted for batch ${batch.batchIndex}`);

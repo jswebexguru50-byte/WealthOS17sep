@@ -1,79 +1,16 @@
 {
   "jobName": "trendlyne_long_term_fundamental_refresh",
-  "status": "SUCCESS",
-  "startedAt": "2026-10-04T03:12:12.737Z",
-  "completedAt": "2026-10-04T03:12:14.981Z",
-  "startTime": "2026-10-04T03:12:12.737Z",
-  "completedTime": "2026-10-04T03:12:14.981Z",
-  "totalCandidateScanned": 2,
-  "freshSkippedCount": 0,
-  "unresolvedCount": 0,
-  "eligibleResolvedCount": 2,
-  "plannedBatchCount": 1,
+  "status": "SUCCESS_WITH_NO_FACTS",
+  "startedAt": "2026-10-04T06:41:42.115Z",
+  "completedAt": "2026-10-04T06:41:42.115Z",
+  "startTime": "2026-10-04T06:41:42.115Z",
+  "completedTime": "2026-10-04T06:41:42.115Z",
   "executedCalls": 1,
-  "factsPersisted": 43,
-  "freshSkippedSymbols": [],
-  "unresolvedSymbols": [],
-  "eligibleResolvedSymbols": [
-    {
-      "symbol": "CAPILLARY",
-      "providerCode": "CAPILLARY",
-      "isin": "INE0ILV01024",
-      "name": "Capillary Technologies India Limited"
-    },
-    {
-      "symbol": "GLOBALPET",
-      "providerCode": "GLOBALPET",
-      "isin": "INE0PS501019",
-      "name": "Global Pet Industries Limited"
-    }
-  ],
-  "plannedBatches": [
-    {
-      "batchIndex": 1,
-      "symbols": [
-        "CAPILLARY",
-        "GLOBALPET"
-      ],
-      "parameterTokens": [
-        "sra",
-        "sramy1",
-        "sramy2",
-        "sramy3",
-        "totalsrq",
-        "npa",
-        "npamy1",
-        "npamy2",
-        "npamy3",
-        "reportedpatq",
-        "opa",
-        "opq",
-        "opmpctq",
-        "opmpctqmq1",
-        "roea",
-        "rocea",
-        "debtcea",
-        "ica",
-        "pettm",
-        "pegttm",
-        "pbva",
-        "mcapq",
-        "prompct",
-        "prompledge",
-        "fiihold",
-        "mfhold",
-        "fiipct1q",
-        "mfpct1q",
-        "cfoa",
-        "wcq"
-      ],
-      "metricsPacked": 30
-    }
-  ],
+  "factsPersisted": 0,
   "metricPackUsed": 30,
   "metricPackCapacity": 50,
   "metricPackUnusedReason": "NO_MORE_VERIFIED_SAFE_TOKENS",
-  "allowPartialFinalBatch": true,
-  "message": "Completed refresh: 1 calls executed, 43 facts persisted.",
-  "error": null
+  "allowPartialFinalBatch": false,
+  "message": "Executed 1 call(s) but provider returned no usable facts (SUCCESS_WITH_NO_FACTS).",
+  "error": "Provider returned no usable facts"
 }
