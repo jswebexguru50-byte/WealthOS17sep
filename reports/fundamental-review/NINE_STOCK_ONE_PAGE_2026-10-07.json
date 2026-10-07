@@ -1,0 +1,1834 @@
+{
+  "runId": "DR-TRENDLYNE-20261007-6fc8aabb",
+  "generatedAt": "2026-10-07T14:31:50.418Z",
+  "reviewState": "AWAITING_INDEPENDENT_REVIEW",
+  "rows": [
+    {
+      "symbol": "VMART",
+      "companyName": "VMART",
+      "summaryText": "VMART — evidence-bounded fundamental snapshot as of 2026-10-07. Trendlyne MCP returned 8 of 11 configured summary metrics. Current valuation/price fields are reported as provider values; profitability, growth, leverage, cash conversion and ownership fields are shown only where directly returned. No rating or price target is inferred. Review state: AWAITING_INDEPENDENT_REVIEW.",
+      "asOf": "2026-10-07",
+      "source": "TRENDLYNE_MCP",
+      "reviewState": "AWAITING_INDEPENDENT_REVIEW",
+      "filters": {
+        "marketCap": {
+          "value": 5997.6,
+          "providerLabel": "Market Cap",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "revenueGrowth": null,
+        "profitGrowth": null,
+        "roe": {
+          "value": 13.03,
+          "providerLabel": "ROE Ann. %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "roce": {
+          "value": 14.61,
+          "providerLabel": "ROCE Ann. %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "debtEquity": {
+          "value": 0,
+          "providerLabel": "LT Debt To Equity Ann.",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "cfoPat": null,
+        "promoterHolding": {
+          "value": 44.15,
+          "providerLabel": "Promoter holding latest %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "fiiHolding": {
+          "value": 16.47,
+          "providerLabel": "FII holding current Qtr %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "pe": {
+          "value": 43.58,
+          "providerLabel": "PE TTM",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        }
+      },
+      "evidence": {
+        "provider": "TRENDLYNE_MCP",
+        "asOf": "2026-10-07",
+        "sourceEndpoints": [
+          {
+            "endpoint": "pack:F01_QUARTERLY",
+            "fetchedAt": "2026-10-07T14:10:30.759Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk1",
+            "fetchedAt": "2026-10-07T14:17:55.292Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk2",
+            "fetchedAt": "2026-10-07T14:17:56.204Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk3",
+            "fetchedAt": "2026-10-07T14:17:56.665Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL",
+            "fetchedAt": "2026-10-07T14:10:31.509Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL:chunk1",
+            "fetchedAt": "2026-10-07T14:17:57.271Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL:chunk2",
+            "fetchedAt": "2026-10-07T14:17:57.834Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET",
+            "fetchedAt": "2026-10-07T14:10:32.534Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET:chunk1",
+            "fetchedAt": "2026-10-07T14:17:58.301Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET:chunk2",
+            "fetchedAt": "2026-10-07T14:17:58.837Z"
+          },
+          {
+            "endpoint": "pack:F04_CASH_CAPITAL",
+            "fetchedAt": "2026-10-07T14:10:33.297Z"
+          },
+          {
+            "endpoint": "pack:F04_CASH_CAPITAL:chunk1",
+            "fetchedAt": "2026-10-07T14:17:59.995Z"
+          },
+          {
+            "endpoint": "pack:F05_RETURNS_QUALITY",
+            "fetchedAt": "2026-10-07T14:10:34.374Z"
+          },
+          {
+            "endpoint": "pack:F05_RETURNS_QUALITY:chunk1",
+            "fetchedAt": "2026-10-07T14:18:01.476Z"
+          },
+          {
+            "endpoint": "pack:F06_VALUATION",
+            "fetchedAt": "2026-10-07T14:10:35.082Z"
+          },
+          {
+            "endpoint": "pack:F06_VALUATION:chunk1",
+            "fetchedAt": "2026-10-07T14:18:01.939Z"
+          },
+          {
+            "endpoint": "pack:F07_OWNERSHIP",
+            "fetchedAt": "2026-10-07T14:10:35.653Z"
+          },
+          {
+            "endpoint": "pack:F07_OWNERSHIP:chunk1",
+            "fetchedAt": "2026-10-07T14:18:02.453Z"
+          },
+          {
+            "endpoint": "pack:F08_OVERVIEW",
+            "fetchedAt": "2026-10-07T14:10:37.526Z"
+          },
+          {
+            "endpoint": "pack:F08_OVERVIEW:chunk1",
+            "fetchedAt": "2026-10-07T14:18:03.528Z"
+          }
+        ],
+        "metrics": {
+          "marketCap": {
+            "value": 5997.6,
+            "providerLabel": "Market Cap",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "ltp": {
+            "value": 793,
+            "providerLabel": "LTP",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "pe": {
+            "value": 43.58,
+            "providerLabel": "PE TTM",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "revenueGrowth": null,
+          "profitGrowth": null,
+          "roe": {
+            "value": 13.03,
+            "providerLabel": "ROE Ann. %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "roce": {
+            "value": 14.61,
+            "providerLabel": "ROCE Ann. %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "debtEquity": {
+            "value": 0,
+            "providerLabel": "LT Debt To Equity Ann.",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "cfoPat": null,
+          "promoterHolding": {
+            "value": 44.15,
+            "providerLabel": "Promoter holding latest %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "fiiHolding": {
+            "value": 16.47,
+            "providerLabel": "FII holding current Qtr %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          }
+        },
+        "coverage": {
+          "available": 8,
+          "total": 11
+        }
+      },
+      "missingDataChecklist": [
+        "revenueGrowth",
+        "profitGrowth",
+        "cfoPat"
+      ]
+    },
+    {
+      "symbol": "RADICO",
+      "companyName": "RADICO",
+      "summaryText": "RADICO — evidence-bounded fundamental snapshot as of 2026-10-07. Trendlyne MCP returned 8 of 11 configured summary metrics. Current valuation/price fields are reported as provider values; profitability, growth, leverage, cash conversion and ownership fields are shown only where directly returned. No rating or price target is inferred. Review state: AWAITING_INDEPENDENT_REVIEW.",
+      "asOf": "2026-10-07",
+      "source": "TRENDLYNE_MCP",
+      "reviewState": "AWAITING_INDEPENDENT_REVIEW",
+      "filters": {
+        "marketCap": {
+          "value": 59760.48,
+          "providerLabel": "Market Cap",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "revenueGrowth": null,
+        "profitGrowth": null,
+        "roe": {
+          "value": 18.23,
+          "providerLabel": "ROE Ann. %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "roce": {
+          "value": 24.3,
+          "providerLabel": "ROCE Ann. %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "debtEquity": {
+          "value": 0.01,
+          "providerLabel": "LT Debt To Equity Ann.",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "cfoPat": null,
+        "promoterHolding": {
+          "value": 40.19,
+          "providerLabel": "Promoter holding latest %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "fiiHolding": {
+          "value": 18.2,
+          "providerLabel": "FII holding current Qtr %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "pe": {
+          "value": 84.94,
+          "providerLabel": "PE TTM",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        }
+      },
+      "evidence": {
+        "provider": "TRENDLYNE_MCP",
+        "asOf": "2026-10-07",
+        "sourceEndpoints": [
+          {
+            "endpoint": "pack:F01_QUARTERLY",
+            "fetchedAt": "2026-10-07T14:10:30.797Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk1",
+            "fetchedAt": "2026-10-07T14:17:55.328Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk2",
+            "fetchedAt": "2026-10-07T14:17:56.206Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk3",
+            "fetchedAt": "2026-10-07T14:17:56.666Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL",
+            "fetchedAt": "2026-10-07T14:10:31.513Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL:chunk1",
+            "fetchedAt": "2026-10-07T14:17:57.274Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL:chunk2",
+            "fetchedAt": "2026-10-07T14:17:57.839Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET",
+            "fetchedAt": "2026-10-07T14:10:32.537Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET:chunk1",
+            "fetchedAt": "2026-10-07T14:17:58.302Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET:chunk2",
+            "fetchedAt": "2026-10-07T14:17:58.869Z"
+          },
+          {
+            "endpoint": "pack:F04_CASH_CAPITAL",
+            "fetchedAt": "2026-10-07T14:10:33.301Z"
+          },
+          {
+            "endpoint": "pack:F04_CASH_CAPITAL:chunk1",
+            "fetchedAt": "2026-10-07T14:17:59.996Z"
+          },
+          {
+            "endpoint": "pack:F05_RETURNS_QUALITY",
+            "fetchedAt": "2026-10-07T14:10:34.374Z"
+          },
+          {
+            "endpoint": "pack:F05_RETURNS_QUALITY:chunk1",
+            "fetchedAt": "2026-10-07T14:18:01.477Z"
+          },
+          {
+            "endpoint": "pack:F06_VALUATION",
+            "fetchedAt": "2026-10-07T14:10:35.082Z"
+          },
+          {
+            "endpoint": "pack:F06_VALUATION:chunk1",
+            "fetchedAt": "2026-10-07T14:18:01.940Z"
+          },
+          {
+            "endpoint": "pack:F07_OWNERSHIP",
+            "fetchedAt": "2026-10-07T14:10:35.654Z"
+          },
+          {
+            "endpoint": "pack:F07_OWNERSHIP:chunk1",
+            "fetchedAt": "2026-10-07T14:18:02.455Z"
+          },
+          {
+            "endpoint": "pack:F08_OVERVIEW",
+            "fetchedAt": "2026-10-07T14:10:39.094Z"
+          },
+          {
+            "endpoint": "pack:F08_OVERVIEW:chunk1",
+            "fetchedAt": "2026-10-07T14:18:04.817Z"
+          }
+        ],
+        "metrics": {
+          "marketCap": {
+            "value": 59760.48,
+            "providerLabel": "Market Cap",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "ltp": {
+            "value": 4460.1,
+            "providerLabel": "LTP",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "pe": {
+            "value": 84.94,
+            "providerLabel": "PE TTM",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "revenueGrowth": null,
+          "profitGrowth": null,
+          "roe": {
+            "value": 18.23,
+            "providerLabel": "ROE Ann. %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "roce": {
+            "value": 24.3,
+            "providerLabel": "ROCE Ann. %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "debtEquity": {
+            "value": 0.01,
+            "providerLabel": "LT Debt To Equity Ann.",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "cfoPat": null,
+          "promoterHolding": {
+            "value": 40.19,
+            "providerLabel": "Promoter holding latest %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "fiiHolding": {
+            "value": 18.2,
+            "providerLabel": "FII holding current Qtr %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          }
+        },
+        "coverage": {
+          "available": 8,
+          "total": 11
+        }
+      },
+      "missingDataChecklist": [
+        "revenueGrowth",
+        "profitGrowth",
+        "cfoPat"
+      ]
+    },
+    {
+      "symbol": "KRYSTAL",
+      "companyName": "KRYSTAL",
+      "summaryText": "KRYSTAL — evidence-bounded fundamental snapshot as of 2026-10-07. Trendlyne MCP returned 8 of 11 configured summary metrics. Current valuation/price fields are reported as provider values; profitability, growth, leverage, cash conversion and ownership fields are shown only where directly returned. No rating or price target is inferred. Review state: AWAITING_INDEPENDENT_REVIEW.",
+      "asOf": "2026-10-07",
+      "source": "TRENDLYNE_MCP",
+      "reviewState": "AWAITING_INDEPENDENT_REVIEW",
+      "filters": {
+        "marketCap": {
+          "value": 874.93,
+          "providerLabel": "Market Cap",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "revenueGrowth": null,
+        "profitGrowth": null,
+        "roe": {
+          "value": 12.89,
+          "providerLabel": "ROE Ann. %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "roce": {
+          "value": 17.62,
+          "providerLabel": "ROCE Ann. %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "debtEquity": {
+          "value": 0.01,
+          "providerLabel": "LT Debt To Equity Ann.",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "cfoPat": null,
+        "promoterHolding": {
+          "value": 69.96,
+          "providerLabel": "Promoter holding latest %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "fiiHolding": {
+          "value": 1.77,
+          "providerLabel": "FII holding current Qtr %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "pe": {
+          "value": 14.26,
+          "providerLabel": "PE TTM",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        }
+      },
+      "evidence": {
+        "provider": "TRENDLYNE_MCP",
+        "asOf": "2026-10-07",
+        "sourceEndpoints": [
+          {
+            "endpoint": "pack:F01_QUARTERLY",
+            "fetchedAt": "2026-10-07T14:10:30.800Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk1",
+            "fetchedAt": "2026-10-07T14:17:55.330Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk2",
+            "fetchedAt": "2026-10-07T14:17:56.208Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk3",
+            "fetchedAt": "2026-10-07T14:17:56.670Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL",
+            "fetchedAt": "2026-10-07T14:10:31.516Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL:chunk1",
+            "fetchedAt": "2026-10-07T14:17:57.275Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL:chunk2",
+            "fetchedAt": "2026-10-07T14:17:57.841Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET",
+            "fetchedAt": "2026-10-07T14:10:32.538Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET:chunk1",
+            "fetchedAt": "2026-10-07T14:17:58.303Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET:chunk2",
+            "fetchedAt": "2026-10-07T14:17:58.869Z"
+          },
+          {
+            "endpoint": "pack:F04_CASH_CAPITAL",
+            "fetchedAt": "2026-10-07T14:10:33.303Z"
+          },
+          {
+            "endpoint": "pack:F04_CASH_CAPITAL:chunk1",
+            "fetchedAt": "2026-10-07T14:17:59.996Z"
+          },
+          {
+            "endpoint": "pack:F05_RETURNS_QUALITY",
+            "fetchedAt": "2026-10-07T14:10:34.375Z"
+          },
+          {
+            "endpoint": "pack:F05_RETURNS_QUALITY:chunk1",
+            "fetchedAt": "2026-10-07T14:18:01.477Z"
+          },
+          {
+            "endpoint": "pack:F06_VALUATION",
+            "fetchedAt": "2026-10-07T14:10:35.085Z"
+          },
+          {
+            "endpoint": "pack:F06_VALUATION:chunk1",
+            "fetchedAt": "2026-10-07T14:18:01.941Z"
+          },
+          {
+            "endpoint": "pack:F07_OWNERSHIP",
+            "fetchedAt": "2026-10-07T14:10:35.655Z"
+          },
+          {
+            "endpoint": "pack:F07_OWNERSHIP:chunk1",
+            "fetchedAt": "2026-10-07T14:18:02.456Z"
+          },
+          {
+            "endpoint": "pack:F08_OVERVIEW",
+            "fetchedAt": "2026-10-07T14:10:41.179Z"
+          },
+          {
+            "endpoint": "pack:F08_OVERVIEW:chunk1",
+            "fetchedAt": "2026-10-07T14:18:08.027Z"
+          }
+        ],
+        "metrics": {
+          "marketCap": {
+            "value": 874.93,
+            "providerLabel": "Market Cap",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "ltp": {
+            "value": 656.65,
+            "providerLabel": "LTP",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "pe": {
+            "value": 14.26,
+            "providerLabel": "PE TTM",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "revenueGrowth": null,
+          "profitGrowth": null,
+          "roe": {
+            "value": 12.89,
+            "providerLabel": "ROE Ann. %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "roce": {
+            "value": 17.62,
+            "providerLabel": "ROCE Ann. %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "debtEquity": {
+            "value": 0.01,
+            "providerLabel": "LT Debt To Equity Ann.",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "cfoPat": null,
+          "promoterHolding": {
+            "value": 69.96,
+            "providerLabel": "Promoter holding latest %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "fiiHolding": {
+            "value": 1.77,
+            "providerLabel": "FII holding current Qtr %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          }
+        },
+        "coverage": {
+          "available": 8,
+          "total": 11
+        }
+      },
+      "missingDataChecklist": [
+        "revenueGrowth",
+        "profitGrowth",
+        "cfoPat"
+      ]
+    },
+    {
+      "symbol": "PROTEAN",
+      "companyName": "PROTEAN",
+      "summaryText": "PROTEAN — evidence-bounded fundamental snapshot as of 2026-10-07. Trendlyne MCP returned 8 of 11 configured summary metrics. Current valuation/price fields are reported as provider values; profitability, growth, leverage, cash conversion and ownership fields are shown only where directly returned. No rating or price target is inferred. Review state: AWAITING_INDEPENDENT_REVIEW.",
+      "asOf": "2026-10-07",
+      "source": "TRENDLYNE_MCP",
+      "reviewState": "AWAITING_INDEPENDENT_REVIEW",
+      "filters": {
+        "marketCap": {
+          "value": 2688.57,
+          "providerLabel": "Market Cap",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "revenueGrowth": null,
+        "profitGrowth": null,
+        "roe": {
+          "value": 9.33,
+          "providerLabel": "ROE Ann. %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "roce": {
+          "value": 12.12,
+          "providerLabel": "ROCE Ann. %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "debtEquity": {
+          "value": 0,
+          "providerLabel": "LT Debt To Equity Ann.",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "cfoPat": null,
+        "promoterHolding": {
+          "value": 0,
+          "providerLabel": "Promoter holding latest %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "fiiHolding": {
+          "value": 6.01,
+          "providerLabel": "FII holding current Qtr %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "pe": {
+          "value": 32.55,
+          "providerLabel": "PE TTM",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        }
+      },
+      "evidence": {
+        "provider": "TRENDLYNE_MCP",
+        "asOf": "2026-10-07",
+        "sourceEndpoints": [
+          {
+            "endpoint": "pack:F01_QUARTERLY",
+            "fetchedAt": "2026-10-07T14:10:30.803Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk1",
+            "fetchedAt": "2026-10-07T14:17:55.332Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk2",
+            "fetchedAt": "2026-10-07T14:17:56.209Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk3",
+            "fetchedAt": "2026-10-07T14:17:56.672Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL",
+            "fetchedAt": "2026-10-07T14:10:31.518Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL:chunk1",
+            "fetchedAt": "2026-10-07T14:17:57.278Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL:chunk2",
+            "fetchedAt": "2026-10-07T14:17:57.842Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET",
+            "fetchedAt": "2026-10-07T14:10:32.540Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET:chunk1",
+            "fetchedAt": "2026-10-07T14:17:58.304Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET:chunk2",
+            "fetchedAt": "2026-10-07T14:17:58.870Z"
+          },
+          {
+            "endpoint": "pack:F04_CASH_CAPITAL",
+            "fetchedAt": "2026-10-07T14:10:33.304Z"
+          },
+          {
+            "endpoint": "pack:F04_CASH_CAPITAL:chunk1",
+            "fetchedAt": "2026-10-07T14:17:59.997Z"
+          },
+          {
+            "endpoint": "pack:F05_RETURNS_QUALITY",
+            "fetchedAt": "2026-10-07T14:10:34.376Z"
+          },
+          {
+            "endpoint": "pack:F05_RETURNS_QUALITY:chunk1",
+            "fetchedAt": "2026-10-07T14:18:01.478Z"
+          },
+          {
+            "endpoint": "pack:F06_VALUATION",
+            "fetchedAt": "2026-10-07T14:10:35.086Z"
+          },
+          {
+            "endpoint": "pack:F06_VALUATION:chunk1",
+            "fetchedAt": "2026-10-07T14:18:01.942Z"
+          },
+          {
+            "endpoint": "pack:F07_OWNERSHIP",
+            "fetchedAt": "2026-10-07T14:10:35.655Z"
+          },
+          {
+            "endpoint": "pack:F07_OWNERSHIP:chunk1",
+            "fetchedAt": "2026-10-07T14:18:02.457Z"
+          },
+          {
+            "endpoint": "pack:F08_OVERVIEW",
+            "fetchedAt": "2026-10-07T14:10:44.621Z"
+          },
+          {
+            "endpoint": "pack:F08_OVERVIEW:chunk1",
+            "fetchedAt": "2026-10-07T14:18:12.015Z"
+          }
+        ],
+        "metrics": {
+          "marketCap": {
+            "value": 2688.57,
+            "providerLabel": "Market Cap",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "ltp": {
+            "value": 689.25,
+            "providerLabel": "LTP",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "pe": {
+            "value": 32.55,
+            "providerLabel": "PE TTM",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "revenueGrowth": null,
+          "profitGrowth": null,
+          "roe": {
+            "value": 9.33,
+            "providerLabel": "ROE Ann. %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "roce": {
+            "value": 12.12,
+            "providerLabel": "ROCE Ann. %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "debtEquity": {
+            "value": 0,
+            "providerLabel": "LT Debt To Equity Ann.",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "cfoPat": null,
+          "promoterHolding": {
+            "value": 0,
+            "providerLabel": "Promoter holding latest %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "fiiHolding": {
+            "value": 6.01,
+            "providerLabel": "FII holding current Qtr %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          }
+        },
+        "coverage": {
+          "available": 8,
+          "total": 11
+        }
+      },
+      "missingDataChecklist": [
+        "revenueGrowth",
+        "profitGrowth",
+        "cfoPat"
+      ]
+    },
+    {
+      "symbol": "JUSTDIAL",
+      "companyName": "JUSTDIAL",
+      "summaryText": "JUSTDIAL — evidence-bounded fundamental snapshot as of 2026-10-07. Trendlyne MCP returned 8 of 11 configured summary metrics. Current valuation/price fields are reported as provider values; profitability, growth, leverage, cash conversion and ownership fields are shown only where directly returned. No rating or price target is inferred. Review state: AWAITING_INDEPENDENT_REVIEW.",
+      "asOf": "2026-10-07",
+      "source": "TRENDLYNE_MCP",
+      "reviewState": "AWAITING_INDEPENDENT_REVIEW",
+      "filters": {
+        "marketCap": {
+          "value": 5665.54,
+          "providerLabel": "Market Cap",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "revenueGrowth": null,
+        "profitGrowth": null,
+        "roe": {
+          "value": 9.73,
+          "providerLabel": "ROE Ann. %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "roce": {
+          "value": 12.02,
+          "providerLabel": "ROCE Ann. %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "debtEquity": {
+          "value": 0,
+          "providerLabel": "LT Debt To Equity Ann.",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "cfoPat": null,
+        "promoterHolding": {
+          "value": 74.14,
+          "providerLabel": "Promoter holding latest %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "fiiHolding": {
+          "value": 3.21,
+          "providerLabel": "FII holding current Qtr %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "pe": {
+          "value": 11.25,
+          "providerLabel": "PE TTM",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        }
+      },
+      "evidence": {
+        "provider": "TRENDLYNE_MCP",
+        "asOf": "2026-10-07",
+        "sourceEndpoints": [
+          {
+            "endpoint": "pack:F01_QUARTERLY",
+            "fetchedAt": "2026-10-07T14:10:30.806Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk1",
+            "fetchedAt": "2026-10-07T14:17:55.334Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk2",
+            "fetchedAt": "2026-10-07T14:17:56.210Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk3",
+            "fetchedAt": "2026-10-07T14:17:56.673Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL",
+            "fetchedAt": "2026-10-07T14:10:31.520Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL:chunk1",
+            "fetchedAt": "2026-10-07T14:17:57.282Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL:chunk2",
+            "fetchedAt": "2026-10-07T14:17:57.843Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET",
+            "fetchedAt": "2026-10-07T14:10:32.541Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET:chunk1",
+            "fetchedAt": "2026-10-07T14:17:58.305Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET:chunk2",
+            "fetchedAt": "2026-10-07T14:17:58.871Z"
+          },
+          {
+            "endpoint": "pack:F04_CASH_CAPITAL",
+            "fetchedAt": "2026-10-07T14:10:33.305Z"
+          },
+          {
+            "endpoint": "pack:F04_CASH_CAPITAL:chunk1",
+            "fetchedAt": "2026-10-07T14:17:59.997Z"
+          },
+          {
+            "endpoint": "pack:F05_RETURNS_QUALITY",
+            "fetchedAt": "2026-10-07T14:10:34.376Z"
+          },
+          {
+            "endpoint": "pack:F05_RETURNS_QUALITY:chunk1",
+            "fetchedAt": "2026-10-07T14:18:01.478Z"
+          },
+          {
+            "endpoint": "pack:F06_VALUATION",
+            "fetchedAt": "2026-10-07T14:10:35.087Z"
+          },
+          {
+            "endpoint": "pack:F06_VALUATION:chunk1",
+            "fetchedAt": "2026-10-07T14:18:01.943Z"
+          },
+          {
+            "endpoint": "pack:F07_OWNERSHIP",
+            "fetchedAt": "2026-10-07T14:10:35.656Z"
+          },
+          {
+            "endpoint": "pack:F07_OWNERSHIP:chunk1",
+            "fetchedAt": "2026-10-07T14:18:02.459Z"
+          },
+          {
+            "endpoint": "pack:F08_OVERVIEW",
+            "fetchedAt": "2026-10-07T14:10:46.010Z"
+          },
+          {
+            "endpoint": "pack:F08_OVERVIEW:chunk1",
+            "fetchedAt": "2026-10-07T14:18:14.585Z"
+          }
+        ],
+        "metrics": {
+          "marketCap": {
+            "value": 5665.54,
+            "providerLabel": "Market Cap",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "ltp": {
+            "value": 658.95,
+            "providerLabel": "LTP",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "pe": {
+            "value": 11.25,
+            "providerLabel": "PE TTM",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "revenueGrowth": null,
+          "profitGrowth": null,
+          "roe": {
+            "value": 9.73,
+            "providerLabel": "ROE Ann. %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "roce": {
+            "value": 12.02,
+            "providerLabel": "ROCE Ann. %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "debtEquity": {
+            "value": 0,
+            "providerLabel": "LT Debt To Equity Ann.",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "cfoPat": null,
+          "promoterHolding": {
+            "value": 74.14,
+            "providerLabel": "Promoter holding latest %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "fiiHolding": {
+            "value": 3.21,
+            "providerLabel": "FII holding current Qtr %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          }
+        },
+        "coverage": {
+          "available": 8,
+          "total": 11
+        }
+      },
+      "missingDataChecklist": [
+        "revenueGrowth",
+        "profitGrowth",
+        "cfoPat"
+      ]
+    },
+    {
+      "symbol": "DBOL",
+      "companyName": "DBOL",
+      "summaryText": "DBOL — evidence-bounded fundamental snapshot as of 2026-10-07. Trendlyne MCP returned 8 of 11 configured summary metrics. Current valuation/price fields are reported as provider values; profitability, growth, leverage, cash conversion and ownership fields are shown only where directly returned. No rating or price target is inferred. Review state: AWAITING_INDEPENDENT_REVIEW.",
+      "asOf": "2026-10-07",
+      "source": "TRENDLYNE_MCP",
+      "reviewState": "AWAITING_INDEPENDENT_REVIEW",
+      "filters": {
+        "marketCap": {
+          "value": 837.15,
+          "providerLabel": "Market Cap",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "revenueGrowth": null,
+        "profitGrowth": null,
+        "roe": {
+          "value": 2.45,
+          "providerLabel": "ROE Ann. %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "roce": {
+          "value": 7.93,
+          "providerLabel": "ROCE Ann. %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "debtEquity": {
+          "value": 0.2,
+          "providerLabel": "LT Debt To Equity Ann.",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "cfoPat": null,
+        "promoterHolding": {
+          "value": 50.78,
+          "providerLabel": "Promoter holding latest %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "fiiHolding": {
+          "value": 0.29,
+          "providerLabel": "FII holding current Qtr %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "pe": {
+          "value": 9.97,
+          "providerLabel": "PE TTM",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        }
+      },
+      "evidence": {
+        "provider": "TRENDLYNE_MCP",
+        "asOf": "2026-10-07",
+        "sourceEndpoints": [
+          {
+            "endpoint": "pack:F01_QUARTERLY",
+            "fetchedAt": "2026-10-07T14:10:30.808Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk1",
+            "fetchedAt": "2026-10-07T14:17:55.335Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk2",
+            "fetchedAt": "2026-10-07T14:17:56.212Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk3",
+            "fetchedAt": "2026-10-07T14:17:56.674Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL",
+            "fetchedAt": "2026-10-07T14:10:31.521Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL:chunk1",
+            "fetchedAt": "2026-10-07T14:17:57.284Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL:chunk2",
+            "fetchedAt": "2026-10-07T14:17:57.844Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET",
+            "fetchedAt": "2026-10-07T14:10:32.542Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET:chunk1",
+            "fetchedAt": "2026-10-07T14:17:58.305Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET:chunk2",
+            "fetchedAt": "2026-10-07T14:17:58.872Z"
+          },
+          {
+            "endpoint": "pack:F04_CASH_CAPITAL",
+            "fetchedAt": "2026-10-07T14:10:33.307Z"
+          },
+          {
+            "endpoint": "pack:F04_CASH_CAPITAL:chunk1",
+            "fetchedAt": "2026-10-07T14:17:59.998Z"
+          },
+          {
+            "endpoint": "pack:F05_RETURNS_QUALITY",
+            "fetchedAt": "2026-10-07T14:10:34.377Z"
+          },
+          {
+            "endpoint": "pack:F05_RETURNS_QUALITY:chunk1",
+            "fetchedAt": "2026-10-07T14:18:01.479Z"
+          },
+          {
+            "endpoint": "pack:F06_VALUATION",
+            "fetchedAt": "2026-10-07T14:10:35.088Z"
+          },
+          {
+            "endpoint": "pack:F06_VALUATION:chunk1",
+            "fetchedAt": "2026-10-07T14:18:01.943Z"
+          },
+          {
+            "endpoint": "pack:F07_OWNERSHIP",
+            "fetchedAt": "2026-10-07T14:10:35.657Z"
+          },
+          {
+            "endpoint": "pack:F07_OWNERSHIP:chunk1",
+            "fetchedAt": "2026-10-07T14:18:02.460Z"
+          },
+          {
+            "endpoint": "pack:F08_OVERVIEW",
+            "fetchedAt": "2026-10-07T14:10:47.269Z"
+          },
+          {
+            "endpoint": "pack:F08_OVERVIEW:chunk1",
+            "fetchedAt": "2026-10-07T14:18:16.131Z"
+          }
+        ],
+        "metrics": {
+          "marketCap": {
+            "value": 837.15,
+            "providerLabel": "Market Cap",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "ltp": {
+            "value": 137.9,
+            "providerLabel": "LTP",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "pe": {
+            "value": 9.97,
+            "providerLabel": "PE TTM",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "revenueGrowth": null,
+          "profitGrowth": null,
+          "roe": {
+            "value": 2.45,
+            "providerLabel": "ROE Ann. %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "roce": {
+            "value": 7.93,
+            "providerLabel": "ROCE Ann. %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "debtEquity": {
+            "value": 0.2,
+            "providerLabel": "LT Debt To Equity Ann.",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "cfoPat": null,
+          "promoterHolding": {
+            "value": 50.78,
+            "providerLabel": "Promoter holding latest %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "fiiHolding": {
+            "value": 0.29,
+            "providerLabel": "FII holding current Qtr %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          }
+        },
+        "coverage": {
+          "available": 8,
+          "total": 11
+        }
+      },
+      "missingDataChecklist": [
+        "revenueGrowth",
+        "profitGrowth",
+        "cfoPat"
+      ]
+    },
+    {
+      "symbol": "LUMAXTECH",
+      "companyName": "LUMAXTECH",
+      "summaryText": "LUMAXTECH — evidence-bounded fundamental snapshot as of 2026-10-07. Trendlyne MCP returned 8 of 11 configured summary metrics. Current valuation/price fields are reported as provider values; profitability, growth, leverage, cash conversion and ownership fields are shown only where directly returned. No rating or price target is inferred. Review state: AWAITING_INDEPENDENT_REVIEW.",
+      "asOf": "2026-10-07",
+      "source": "TRENDLYNE_MCP",
+      "reviewState": "AWAITING_INDEPENDENT_REVIEW",
+      "filters": {
+        "marketCap": {
+          "value": 14154.31,
+          "providerLabel": "Market Cap",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "revenueGrowth": null,
+        "profitGrowth": null,
+        "roe": {
+          "value": 23.04,
+          "providerLabel": "ROE Ann. %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "roce": {
+          "value": 25.37,
+          "providerLabel": "ROCE Ann. %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "debtEquity": {
+          "value": 0.31,
+          "providerLabel": "LT Debt To Equity Ann.",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "cfoPat": null,
+        "promoterHolding": {
+          "value": 55.98,
+          "providerLabel": "Promoter holding latest %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "fiiHolding": {
+          "value": 8.7,
+          "providerLabel": "FII holding current Qtr %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "pe": {
+          "value": 43.68,
+          "providerLabel": "PE TTM",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        }
+      },
+      "evidence": {
+        "provider": "TRENDLYNE_MCP",
+        "asOf": "2026-10-07",
+        "sourceEndpoints": [
+          {
+            "endpoint": "pack:F01_QUARTERLY",
+            "fetchedAt": "2026-10-07T14:10:30.810Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk1",
+            "fetchedAt": "2026-10-07T14:17:55.337Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk2",
+            "fetchedAt": "2026-10-07T14:17:56.212Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk3",
+            "fetchedAt": "2026-10-07T14:17:56.677Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL",
+            "fetchedAt": "2026-10-07T14:10:31.523Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL:chunk1",
+            "fetchedAt": "2026-10-07T14:17:57.286Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL:chunk2",
+            "fetchedAt": "2026-10-07T14:17:57.846Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET",
+            "fetchedAt": "2026-10-07T14:10:32.543Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET:chunk1",
+            "fetchedAt": "2026-10-07T14:17:58.306Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET:chunk2",
+            "fetchedAt": "2026-10-07T14:17:58.872Z"
+          },
+          {
+            "endpoint": "pack:F04_CASH_CAPITAL",
+            "fetchedAt": "2026-10-07T14:10:33.308Z"
+          },
+          {
+            "endpoint": "pack:F04_CASH_CAPITAL:chunk1",
+            "fetchedAt": "2026-10-07T14:17:59.998Z"
+          },
+          {
+            "endpoint": "pack:F05_RETURNS_QUALITY",
+            "fetchedAt": "2026-10-07T14:10:34.377Z"
+          },
+          {
+            "endpoint": "pack:F05_RETURNS_QUALITY:chunk1",
+            "fetchedAt": "2026-10-07T14:18:01.479Z"
+          },
+          {
+            "endpoint": "pack:F06_VALUATION",
+            "fetchedAt": "2026-10-07T14:10:35.089Z"
+          },
+          {
+            "endpoint": "pack:F06_VALUATION:chunk1",
+            "fetchedAt": "2026-10-07T14:18:01.944Z"
+          },
+          {
+            "endpoint": "pack:F07_OWNERSHIP",
+            "fetchedAt": "2026-10-07T14:10:35.657Z"
+          },
+          {
+            "endpoint": "pack:F07_OWNERSHIP:chunk1",
+            "fetchedAt": "2026-10-07T14:18:02.460Z"
+          },
+          {
+            "endpoint": "pack:F08_OVERVIEW",
+            "fetchedAt": "2026-10-07T14:10:49.762Z"
+          },
+          {
+            "endpoint": "pack:F08_OVERVIEW:chunk1",
+            "fetchedAt": "2026-10-07T14:18:19.394Z"
+          }
+        ],
+        "metrics": {
+          "marketCap": {
+            "value": 14154.31,
+            "providerLabel": "Market Cap",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "ltp": {
+            "value": 1856.9,
+            "providerLabel": "LTP",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "pe": {
+            "value": 43.68,
+            "providerLabel": "PE TTM",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "revenueGrowth": null,
+          "profitGrowth": null,
+          "roe": {
+            "value": 23.04,
+            "providerLabel": "ROE Ann. %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "roce": {
+            "value": 25.37,
+            "providerLabel": "ROCE Ann. %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "debtEquity": {
+            "value": 0.31,
+            "providerLabel": "LT Debt To Equity Ann.",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "cfoPat": null,
+          "promoterHolding": {
+            "value": 55.98,
+            "providerLabel": "Promoter holding latest %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "fiiHolding": {
+            "value": 8.7,
+            "providerLabel": "FII holding current Qtr %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          }
+        },
+        "coverage": {
+          "available": 8,
+          "total": 11
+        }
+      },
+      "missingDataChecklist": [
+        "revenueGrowth",
+        "profitGrowth",
+        "cfoPat"
+      ]
+    },
+    {
+      "symbol": "SONACOMS",
+      "companyName": "SONACOMS",
+      "summaryText": "SONACOMS — evidence-bounded fundamental snapshot as of 2026-10-07. Trendlyne MCP returned 8 of 11 configured summary metrics. Current valuation/price fields are reported as provider values; profitability, growth, leverage, cash conversion and ownership fields are shown only where directly returned. No rating or price target is inferred. Review state: AWAITING_INDEPENDENT_REVIEW.",
+      "asOf": "2026-10-07",
+      "source": "TRENDLYNE_MCP",
+      "reviewState": "AWAITING_INDEPENDENT_REVIEW",
+      "filters": {
+        "marketCap": {
+          "value": 51802.66,
+          "providerLabel": "Market Cap",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "revenueGrowth": null,
+        "profitGrowth": null,
+        "roe": {
+          "value": 10.7,
+          "providerLabel": "ROE Ann. %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "roce": {
+          "value": 14.04,
+          "providerLabel": "ROCE Ann. %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "debtEquity": {
+          "value": 0,
+          "providerLabel": "LT Debt To Equity Ann.",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "cfoPat": null,
+        "promoterHolding": {
+          "value": 28.01,
+          "providerLabel": "Promoter holding latest %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "fiiHolding": {
+          "value": 23.61,
+          "providerLabel": "FII holding current Qtr %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "pe": {
+          "value": 74.44,
+          "providerLabel": "PE TTM",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        }
+      },
+      "evidence": {
+        "provider": "TRENDLYNE_MCP",
+        "asOf": "2026-10-07",
+        "sourceEndpoints": [
+          {
+            "endpoint": "pack:F01_QUARTERLY",
+            "fetchedAt": "2026-10-07T14:10:30.813Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk1",
+            "fetchedAt": "2026-10-07T14:17:55.338Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk2",
+            "fetchedAt": "2026-10-07T14:17:56.214Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk3",
+            "fetchedAt": "2026-10-07T14:17:56.678Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL",
+            "fetchedAt": "2026-10-07T14:10:31.525Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL:chunk1",
+            "fetchedAt": "2026-10-07T14:17:57.287Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL:chunk2",
+            "fetchedAt": "2026-10-07T14:17:57.847Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET",
+            "fetchedAt": "2026-10-07T14:10:32.544Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET:chunk1",
+            "fetchedAt": "2026-10-07T14:17:58.309Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET:chunk2",
+            "fetchedAt": "2026-10-07T14:17:58.873Z"
+          },
+          {
+            "endpoint": "pack:F04_CASH_CAPITAL",
+            "fetchedAt": "2026-10-07T14:10:33.310Z"
+          },
+          {
+            "endpoint": "pack:F04_CASH_CAPITAL:chunk1",
+            "fetchedAt": "2026-10-07T14:17:59.999Z"
+          },
+          {
+            "endpoint": "pack:F05_RETURNS_QUALITY",
+            "fetchedAt": "2026-10-07T14:10:34.378Z"
+          },
+          {
+            "endpoint": "pack:F05_RETURNS_QUALITY:chunk1",
+            "fetchedAt": "2026-10-07T14:18:01.479Z"
+          },
+          {
+            "endpoint": "pack:F06_VALUATION",
+            "fetchedAt": "2026-10-07T14:10:35.089Z"
+          },
+          {
+            "endpoint": "pack:F06_VALUATION:chunk1",
+            "fetchedAt": "2026-10-07T14:18:01.944Z"
+          },
+          {
+            "endpoint": "pack:F07_OWNERSHIP",
+            "fetchedAt": "2026-10-07T14:10:35.657Z"
+          },
+          {
+            "endpoint": "pack:F07_OWNERSHIP:chunk1",
+            "fetchedAt": "2026-10-07T14:18:02.462Z"
+          },
+          {
+            "endpoint": "pack:F08_OVERVIEW",
+            "fetchedAt": "2026-10-07T14:10:51.902Z"
+          },
+          {
+            "endpoint": "pack:F08_OVERVIEW:chunk1",
+            "fetchedAt": "2026-10-07T14:18:22.727Z"
+          }
+        ],
+        "metrics": {
+          "marketCap": {
+            "value": 51802.66,
+            "providerLabel": "Market Cap",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "ltp": {
+            "value": 820,
+            "providerLabel": "LTP",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "pe": {
+            "value": 74.44,
+            "providerLabel": "PE TTM",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "revenueGrowth": null,
+          "profitGrowth": null,
+          "roe": {
+            "value": 10.7,
+            "providerLabel": "ROE Ann. %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "roce": {
+            "value": 14.04,
+            "providerLabel": "ROCE Ann. %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "debtEquity": {
+            "value": 0,
+            "providerLabel": "LT Debt To Equity Ann.",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "cfoPat": null,
+          "promoterHolding": {
+            "value": 28.01,
+            "providerLabel": "Promoter holding latest %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "fiiHolding": {
+            "value": 23.61,
+            "providerLabel": "FII holding current Qtr %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          }
+        },
+        "coverage": {
+          "available": 8,
+          "total": 11
+        }
+      },
+      "missingDataChecklist": [
+        "revenueGrowth",
+        "profitGrowth",
+        "cfoPat"
+      ]
+    },
+    {
+      "symbol": "TARSONS",
+      "companyName": "TARSONS",
+      "summaryText": "TARSONS — evidence-bounded fundamental snapshot as of 2026-10-07. Trendlyne MCP returned 8 of 11 configured summary metrics. Current valuation/price fields are reported as provider values; profitability, growth, leverage, cash conversion and ownership fields are shown only where directly returned. No rating or price target is inferred. Review state: AWAITING_INDEPENDENT_REVIEW.",
+      "asOf": "2026-10-07",
+      "source": "TRENDLYNE_MCP",
+      "reviewState": "AWAITING_INDEPENDENT_REVIEW",
+      "filters": {
+        "marketCap": {
+          "value": 1704.2,
+          "providerLabel": "Market Cap",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "revenueGrowth": null,
+        "profitGrowth": null,
+        "roe": {
+          "value": 2.25,
+          "providerLabel": "ROE Ann. %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "roce": {
+          "value": 4.94,
+          "providerLabel": "ROCE Ann. %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "debtEquity": {
+          "value": 0.33,
+          "providerLabel": "LT Debt To Equity Ann.",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "cfoPat": null,
+        "promoterHolding": {
+          "value": 47.3,
+          "providerLabel": "Promoter holding latest %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "fiiHolding": {
+          "value": 0.15,
+          "providerLabel": "FII holding current Qtr %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "pe": {
+          "value": 153.6,
+          "providerLabel": "PE TTM",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        }
+      },
+      "evidence": {
+        "provider": "TRENDLYNE_MCP",
+        "asOf": "2026-10-07",
+        "sourceEndpoints": [
+          {
+            "endpoint": "pack:F01_QUARTERLY",
+            "fetchedAt": "2026-10-07T14:10:30.814Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk1",
+            "fetchedAt": "2026-10-07T14:17:55.340Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk2",
+            "fetchedAt": "2026-10-07T14:17:56.215Z"
+          },
+          {
+            "endpoint": "pack:F01_QUARTERLY:chunk3",
+            "fetchedAt": "2026-10-07T14:17:56.680Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL",
+            "fetchedAt": "2026-10-07T14:10:31.527Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL:chunk1",
+            "fetchedAt": "2026-10-07T14:17:57.291Z"
+          },
+          {
+            "endpoint": "pack:F02_ANNUAL:chunk2",
+            "fetchedAt": "2026-10-07T14:17:57.848Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET",
+            "fetchedAt": "2026-10-07T14:10:32.546Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET:chunk1",
+            "fetchedAt": "2026-10-07T14:17:58.310Z"
+          },
+          {
+            "endpoint": "pack:F03_BALANCE_SHEET:chunk2",
+            "fetchedAt": "2026-10-07T14:17:58.873Z"
+          },
+          {
+            "endpoint": "pack:F04_CASH_CAPITAL",
+            "fetchedAt": "2026-10-07T14:10:33.311Z"
+          },
+          {
+            "endpoint": "pack:F04_CASH_CAPITAL:chunk1",
+            "fetchedAt": "2026-10-07T14:18:00.000Z"
+          },
+          {
+            "endpoint": "pack:F05_RETURNS_QUALITY",
+            "fetchedAt": "2026-10-07T14:10:34.379Z"
+          },
+          {
+            "endpoint": "pack:F05_RETURNS_QUALITY:chunk1",
+            "fetchedAt": "2026-10-07T14:18:01.480Z"
+          },
+          {
+            "endpoint": "pack:F06_VALUATION",
+            "fetchedAt": "2026-10-07T14:10:35.090Z"
+          },
+          {
+            "endpoint": "pack:F06_VALUATION:chunk1",
+            "fetchedAt": "2026-10-07T14:18:01.945Z"
+          },
+          {
+            "endpoint": "pack:F07_OWNERSHIP",
+            "fetchedAt": "2026-10-07T14:10:35.658Z"
+          },
+          {
+            "endpoint": "pack:F07_OWNERSHIP:chunk1",
+            "fetchedAt": "2026-10-07T14:18:02.463Z"
+          },
+          {
+            "endpoint": "pack:F08_OVERVIEW",
+            "fetchedAt": "2026-10-07T14:10:52.974Z"
+          },
+          {
+            "endpoint": "pack:F08_OVERVIEW:chunk1",
+            "fetchedAt": "2026-10-07T14:18:23.735Z"
+          }
+        ],
+        "metrics": {
+          "marketCap": {
+            "value": 1704.2,
+            "providerLabel": "Market Cap",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "ltp": {
+            "value": 331.65,
+            "providerLabel": "LTP",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "pe": {
+            "value": 153.6,
+            "providerLabel": "PE TTM",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "revenueGrowth": null,
+          "profitGrowth": null,
+          "roe": {
+            "value": 2.25,
+            "providerLabel": "ROE Ann. %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "roce": {
+            "value": 4.94,
+            "providerLabel": "ROCE Ann. %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "debtEquity": {
+            "value": 0.33,
+            "providerLabel": "LT Debt To Equity Ann.",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "cfoPat": null,
+          "promoterHolding": {
+            "value": 47.3,
+            "providerLabel": "Promoter holding latest %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          },
+          "fiiHolding": {
+            "value": 0.15,
+            "providerLabel": "FII holding current Qtr %",
+            "source": "TRENDLYNE_MCP",
+            "asOf": "2026-10-07"
+          }
+        },
+        "coverage": {
+          "available": 8,
+          "total": 11
+        }
+      },
+      "missingDataChecklist": [
+        "revenueGrowth",
+        "profitGrowth",
+        "cfoPat"
+      ]
+    }
+  ]
+}
