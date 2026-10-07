@@ -1,0 +1,810 @@
+{
+  "generatedAt": "2026-10-07T15:38:06.991Z",
+  "reviewState": "CODEx_REVIEWED_EVIDENCE_DRAFT",
+  "rows": [
+    {
+      "symbol": "VMART",
+      "summary": "VMART is evaluated using audited/XBRL facts plus Trendlyne market data. Latest stored annual facts show revenue 3789.36 INR_CR, operating profit 513.46 INR, PAT 124 INR_CR, CFO 500.54 INR_CR, debt/equity 0.11 RATIO, ROE 13.03 PERCENTAGE and ROCE 14.61 PERCENTAGE. The investment case is driven by the combination of earnings quality, cash conversion, balance-sheet risk and the price paid; no target price is invented. Current preliminary conclusion: WATCHLIST — REQUIRE PRICE AND EXECUTION CONFIRMATION.",
+      "metrics": {
+        "revenue": {
+          "value": "3789.36",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1664682_07052026091920_WEB.xml"
+        },
+        "operatingProfit": {
+          "value": "513.46",
+          "unit": "INR",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "pat": {
+          "value": "124",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1664682_07052026091920_WEB.xml"
+        },
+        "cfo": {
+          "value": "500.54",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1664682_07052026091920_WEB.xml"
+        },
+        "debtEquity": {
+          "value": "0.11",
+          "unit": "RATIO",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "roe": {
+          "value": "13.03",
+          "unit": "PERCENTAGE",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "roce": {
+          "value": "14.61",
+          "unit": "PERCENTAGE",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "eps": {
+          "value": "11.79",
+          "unit": "INR_PER_SHARE",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1664682_07052026091920_WEB.xml"
+        },
+        "marketCap": {
+          "value": 5997.6,
+          "providerLabel": "Market Cap",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "pe": {
+          "value": 43.58,
+          "providerLabel": "PE TTM",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "promoterHolding": {
+          "value": 44.15,
+          "providerLabel": "Promoter holding latest %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "fiiHolding": {
+          "value": 16.47,
+          "providerLabel": "FII holding current Qtr %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        }
+      },
+      "quarterly": {
+        "revenue": "2025-09-30: 806.87 INR_CR | 2025-09-30: 806.87 INR_CR | 2025-12-31: 1126.38 INR_CR | 2025-12-31: 1126.38 INR_CR | 2026-03-31: 970.89 INR_CR | 2026-03-31: 970.89 INR_CR | 2026-06-30: 1088.81 INR_CR | 2026-06-30: 1088.81 INR_CR",
+        "pat": "2025-09-30: -8.87 INR_CR | 2025-09-30: -8.87 INR_CR | 2025-12-31: 87.99 INR_CR | 2025-12-31: 87.99 INR_CR | 2026-03-31: 11.28 INR_CR | 2026-03-31: 11.28 INR_CR | 2026-06-30: 47.21 INR_CR | 2026-06-30: 47.21 INR_CR"
+      },
+      "source": "https://vmart.co.in/wp-content/uploads/Vmart-IR-presentation-Q4-Fy25.pdf",
+      "conclusion": "WATCHLIST — REQUIRE PRICE AND EXECUTION CONFIRMATION"
+    },
+    {
+      "symbol": "RADICO",
+      "summary": "RADICO is evaluated using audited/XBRL facts plus Trendlyne market data. Latest stored annual facts show revenue 20976.3856 INR_CR, operating profit NOT REPORTED, PAT 604.4786 INR_CR, CFO 742.6353 INR_CR, debt/equity NOT REPORTED, ROE NOT REPORTED and ROCE NOT REPORTED. The investment case is driven by the combination of earnings quality, cash conversion, balance-sheet risk and the price paid; no target price is invented. Current preliminary conclusion: WATCHLIST — REQUIRE PRICE AND EXECUTION CONFIRMATION.",
+      "metrics": {
+        "revenue": {
+          "value": "20976.3856",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1664175_06052026071736_WEB.xml"
+        },
+        "operatingProfit": null,
+        "pat": {
+          "value": "604.4786",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1664175_06052026071736_WEB.xml"
+        },
+        "cfo": {
+          "value": "742.6353",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1664175_06052026071736_WEB.xml"
+        },
+        "debtEquity": null,
+        "roe": null,
+        "roce": null,
+        "eps": {
+          "value": "45.16",
+          "unit": "INR_PER_SHARE",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1664175_06052026071736_WEB.xml"
+        },
+        "marketCap": {
+          "value": 59760.48,
+          "providerLabel": "Market Cap",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "pe": {
+          "value": 84.94,
+          "providerLabel": "PE TTM",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "promoterHolding": {
+          "value": 40.19,
+          "providerLabel": "Promoter holding latest %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "fiiHolding": {
+          "value": 18.2,
+          "providerLabel": "FII holding current Qtr %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        }
+      },
+      "quarterly": {
+        "revenue": "2024-12-31: 12613.1103 INR_CR | 2024-12-31: 12613.1103 INR_CR | 2024-12-31: 12613.1103 INR_CR | 2024-12-31: 12613.1103 INR_CR | 2026-03-31: 5182.3078 INR_CR | 2026-03-31: 5182.3078 INR_CR | 2026-06-30: 5867.693 INR_CR | 2026-06-30: 5867.693 INR_CR",
+        "pat": "2024-12-31: 253.5364 INR_CR | 2024-12-31: 253.5364 INR_CR | 2024-12-31: 254.4782 INR_CR | 2024-12-31: 254.4782 INR_CR | 2026-03-31: 179.4643 INR_CR | 2026-03-31: 179.4643 INR_CR | 2026-06-30: 229.6014 INR_CR | 2026-06-30: 229.6014 INR_CR"
+      },
+      "source": "https://radicokhaitan.com/wp-content/uploads/2025/06/Annual-Report-for-FY-2024-25.pdf",
+      "conclusion": "WATCHLIST — REQUIRE PRICE AND EXECUTION CONFIRMATION"
+    },
+    {
+      "symbol": "KRYSTAL",
+      "summary": "KRYSTAL is evaluated using audited/XBRL facts plus Trendlyne market data. Latest stored annual facts show revenue 1277.275 INR_CR, operating profit 83.53 INR, PAT 64.351 INR_CR, CFO 26.46 INR_CR, debt/equity 0.22 RATIO, ROE 12.89 PERCENTAGE and ROCE 17.62 PERCENTAGE. The investment case is driven by the combination of earnings quality, cash conversion, balance-sheet risk and the price paid; no target price is invented. Current preliminary conclusion: WATCHLIST — REQUIRE PRICE AND EXECUTION CONFIRMATION.",
+      "metrics": {
+        "revenue": {
+          "value": "1277.275",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1664536_07052026062511_WEB.xml"
+        },
+        "operatingProfit": {
+          "value": "83.53",
+          "unit": "INR",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "pat": {
+          "value": "64.351",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1664536_07052026062511_WEB.xml"
+        },
+        "cfo": {
+          "value": "26.46",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1664536_07052026062511_WEB.xml"
+        },
+        "debtEquity": {
+          "value": "0.22",
+          "unit": "RATIO",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "roe": {
+          "value": "12.89",
+          "unit": "PERCENTAGE",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "roce": {
+          "value": "17.62",
+          "unit": "PERCENTAGE",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "eps": {
+          "value": "45.94",
+          "unit": "INR_PER_SHARE",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1664536_07052026062511_WEB.xml"
+        },
+        "marketCap": {
+          "value": 874.93,
+          "providerLabel": "Market Cap",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "pe": {
+          "value": 14.26,
+          "providerLabel": "PE TTM",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "promoterHolding": {
+          "value": 69.96,
+          "providerLabel": "Promoter holding latest %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "fiiHolding": {
+          "value": 1.77,
+          "providerLabel": "FII holding current Qtr %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        }
+      },
+      "quarterly": {
+        "revenue": "2024-12-31: 799.6826 INR_CR | 2024-12-31: 799.6826 INR_CR | 2025-03-31: 413.102 INR_CR | 2025-03-31: 413.102 INR_CR | 2026-03-31: 364.938 INR_CR | 2026-03-31: 364.938 INR_CR | 2026-06-30: 360.71 INR_CR | 2026-06-30: 360.71 INR_CR",
+        "pat": "2024-12-31: 45.5824 INR_CR | 2024-12-31: 45.5824 INR_CR | 2025-03-31: 16.933 INR_CR | 2025-03-31: 16.933 INR_CR | 2026-03-31: 18.85 INR_CR | 2026-03-31: 18.85 INR_CR | 2026-06-30: 17.409 INR_CR | 2026-06-30: 17.409 INR_CR"
+      },
+      "source": "https://krystal-group.com/wp-content/uploads/2025/08/AR-FY-2024-25.pdf",
+      "conclusion": "WATCHLIST — REQUIRE PRICE AND EXECUTION CONFIRMATION"
+    },
+    {
+      "symbol": "PROTEAN",
+      "summary": "PROTEAN is evaluated using audited/XBRL facts plus Trendlyne market data. Latest stored annual facts show revenue 997.75 INR_CR, operating profit 115.52 INR, PAT 100.59 INR_CR, CFO 78.47 INR_CR, debt/equity 0 RATIO, ROE 9.33 PERCENTAGE and ROCE 12.12 PERCENTAGE. The investment case is driven by the combination of earnings quality, cash conversion, balance-sheet risk and the price paid; no target price is invented. Current preliminary conclusion: WATCHLIST — REQUIRE PRICE AND EXECUTION CONFIRMATION.",
+      "metrics": {
+        "revenue": {
+          "value": "997.75",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1670236_20052026083514_WEB.xml"
+        },
+        "operatingProfit": {
+          "value": "115.52",
+          "unit": "INR",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "pat": {
+          "value": "100.59",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1670236_20052026083514_WEB.xml"
+        },
+        "cfo": {
+          "value": "78.47",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1670236_20052026083514_WEB.xml"
+        },
+        "debtEquity": {
+          "value": "0.0",
+          "unit": "RATIO",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "roe": {
+          "value": "9.33",
+          "unit": "PERCENTAGE",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "roce": {
+          "value": "12.12",
+          "unit": "PERCENTAGE",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "eps": {
+          "value": "24.79",
+          "unit": "INR_PER_SHARE",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1670236_20052026083514_WEB.xml"
+        },
+        "marketCap": {
+          "value": 2688.57,
+          "providerLabel": "Market Cap",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "pe": {
+          "value": 32.55,
+          "providerLabel": "PE TTM",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "promoterHolding": {
+          "value": 0,
+          "providerLabel": "Promoter holding latest %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "fiiHolding": {
+          "value": 6.01,
+          "providerLabel": "FII holding current Qtr %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        }
+      },
+      "quarterly": {
+        "revenue": "LATEST: 266.36 INR | 2025-03-31: 222.15 INR_CR | 2025-03-31: 222.15 INR_CR | 2026-03-31: 307.54 INR_CR | 2026-03-31: 307.54 INR_CR | 2026-06-30: 250.96 INR_CR | 2026-06-30: 250.96 INR_CR",
+        "pat": "LATEST: 5.86 INR | 2025-03-31: 20.4 INR_CR | 2025-03-31: 20.4 INR_CR | 2026-03-31: 30.38 INR_CR | 2026-03-31: 30.38 INR_CR | 2026-06-30: 5.86 INR_CR | 2026-06-30: 5.86 INR_CR"
+      },
+      "source": "https://cms.proteantech.in/sites/default/files/2025-08/Integrated%20Annual%20Report%20-%20FY24-25_0.pdf",
+      "conclusion": "WATCHLIST — REQUIRE PRICE AND EXECUTION CONFIRMATION"
+    },
+    {
+      "symbol": "JUSTDIAL",
+      "summary": "JUSTDIAL is evaluated using audited/XBRL facts plus Trendlyne market data. Latest stored annual facts show revenue 1213.86 INR_CR, operating profit 357.52 INR, PAT 497.02 INR_CR, CFO 268.7 INR_CR, debt/equity 0 RATIO, ROE 9.73 PERCENTAGE and ROCE 12.02 PERCENTAGE. The investment case is driven by the combination of earnings quality, cash conversion, balance-sheet risk and the price paid; no target price is invented. Current preliminary conclusion: WATCHLIST — REQUIRE PRICE AND EXECUTION CONFIRMATION.",
+      "metrics": {
+        "revenue": {
+          "value": "1213.86",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1650270_13042026114116_WEB.xml"
+        },
+        "operatingProfit": {
+          "value": "357.52",
+          "unit": "INR",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "pat": {
+          "value": "497.02",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1650270_13042026114116_WEB.xml"
+        },
+        "cfo": {
+          "value": "268.7",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1650270_13042026114116_WEB.xml"
+        },
+        "debtEquity": {
+          "value": "0.0",
+          "unit": "RATIO",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "roe": {
+          "value": "9.73",
+          "unit": "PERCENTAGE",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "roce": {
+          "value": "12.02",
+          "unit": "PERCENTAGE",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "eps": {
+          "value": "58.44",
+          "unit": "INR_PER_SHARE",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1650270_13042026114116_WEB.xml"
+        },
+        "marketCap": {
+          "value": 5665.54,
+          "providerLabel": "Market Cap",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "pe": {
+          "value": 11.25,
+          "providerLabel": "PE TTM",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "promoterHolding": {
+          "value": 74.14,
+          "providerLabel": "Promoter holding latest %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "fiiHolding": {
+          "value": 3.21,
+          "providerLabel": "FII holding current Qtr %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        }
+      },
+      "quarterly": {
+        "revenue": "2025-09-30: 303.07 INR_CR | 2025-09-30: 303.07 INR_CR | 2025-12-31: 305.69 INR_CR | 2025-12-31: 305.69 INR_CR | 2026-03-31: 307.24 INR_CR | 2026-03-31: 307.24 INR_CR | 2026-06-30: 327.47 INR_CR | 2026-06-30: 327.47 INR_CR",
+        "pat": "2025-09-30: 119.44 INR_CR | 2025-09-30: 119.44 INR_CR | 2025-12-31: 117.93 INR_CR | 2025-12-31: 117.93 INR_CR | 2026-03-31: 100 INR_CR | 2026-03-31: 100 INR_CR | 2026-06-30: 166.22 INR_CR | 2026-06-30: 166.22 INR_CR"
+      },
+      "source": "https://www.justdial.com/cms/investor-relations/online_reports",
+      "conclusion": "WATCHLIST — REQUIRE PRICE AND EXECUTION CONFIRMATION"
+    },
+    {
+      "symbol": "DBOL",
+      "summary": "DBOL is evaluated using audited/XBRL facts plus Trendlyne market data. Latest stored annual facts show revenue 3133.41 INR_CR, operating profit 130.86 INR, PAT 25.18 INR_CR, CFO 219.86 INR_CR, debt/equity 1.03 RATIO, ROE 2.45 PERCENTAGE and ROCE 7.93 PERCENTAGE. The investment case is driven by the combination of earnings quality, cash conversion, balance-sheet risk and the price paid; no target price is invented. Current preliminary conclusion: WATCHLIST — REQUIRE PRICE AND EXECUTION CONFIRMATION.",
+      "metrics": {
+        "revenue": {
+          "value": "3133.41",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1677817_30052026072324_WEB.xml"
+        },
+        "operatingProfit": {
+          "value": "130.86",
+          "unit": "INR",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "pat": {
+          "value": "25.18",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1677817_30052026072324_WEB.xml"
+        },
+        "cfo": {
+          "value": "219.86",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1677817_30052026072324_WEB.xml"
+        },
+        "debtEquity": {
+          "value": "1.03",
+          "unit": "RATIO",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "roe": {
+          "value": "2.45",
+          "unit": "PERCENTAGE",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "roce": {
+          "value": "7.93",
+          "unit": "PERCENTAGE",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "eps": {
+          "value": "3.81",
+          "unit": "INR_PER_SHARE",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1677817_30052026072324_WEB.xml"
+        },
+        "marketCap": {
+          "value": 837.15,
+          "providerLabel": "Market Cap",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "pe": {
+          "value": 9.97,
+          "providerLabel": "PE TTM",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "promoterHolding": {
+          "value": 50.78,
+          "providerLabel": "Promoter holding latest %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "fiiHolding": {
+          "value": 0.29,
+          "providerLabel": "FII holding current Qtr %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        }
+      },
+      "quarterly": {
+        "revenue": "2024-12-31: 2011.92 INR_CR | 2024-12-31: 2011.92 INR_CR | 2025-03-31: 702.74 INR_CR | 2025-03-31: 702.74 INR_CR | 2026-03-31: 773.59 INR_CR | 2026-03-31: 773.59 INR_CR | 2026-06-30: 918.56 INR_CR | 2026-06-30: 918.56 INR_CR",
+        "pat": "2024-12-31: -27.56 INR_CR | 2024-12-31: -27.56 INR_CR | 2025-03-31: 44.8 INR_CR | 2025-03-31: 44.8 INR_CR | 2026-03-31: 46.27 INR_CR | 2026-03-31: 46.27 INR_CR | 2026-06-30: 36.79 INR_CR | 2026-06-30: 36.79 INR_CR"
+      },
+      "source": "https://www.dhampur.com/financials/annual-report-2024-25/",
+      "conclusion": "WATCHLIST — REQUIRE PRICE AND EXECUTION CONFIRMATION"
+    },
+    {
+      "symbol": "LUMAXTECH",
+      "summary": "LUMAXTECH is evaluated using audited/XBRL facts plus Trendlyne market data. Latest stored annual facts show revenue 4870.3303 INR_CR, operating profit 658.5 INR, PAT 337.1459 INR_CR, CFO 460.1583 INR_CR, debt/equity 0.83 RATIO, ROE 23.04 PERCENTAGE and ROCE 25.37 PERCENTAGE. The investment case is driven by the combination of earnings quality, cash conversion, balance-sheet risk and the price paid; no target price is invented. Current preliminary conclusion: WATCHLIST — REQUIRE PRICE AND EXECUTION CONFIRMATION.",
+      "metrics": {
+        "revenue": {
+          "value": "4870.3303",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1676928_29052026094627_WEB.xml"
+        },
+        "operatingProfit": {
+          "value": "658.5",
+          "unit": "INR",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "pat": {
+          "value": "337.1459",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1676928_29052026094627_WEB.xml"
+        },
+        "cfo": {
+          "value": "460.1583",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1676928_29052026094627_WEB.xml"
+        },
+        "debtEquity": {
+          "value": "0.83",
+          "unit": "RATIO",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "roe": {
+          "value": "23.04",
+          "unit": "PERCENTAGE",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "roce": {
+          "value": "25.37",
+          "unit": "PERCENTAGE",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "eps": {
+          "value": "40.91",
+          "unit": "INR_PER_SHARE",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1676928_29052026094627_WEB.xml"
+        },
+        "marketCap": {
+          "value": 14154.31,
+          "providerLabel": "Market Cap",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "pe": {
+          "value": 43.68,
+          "providerLabel": "PE TTM",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "promoterHolding": {
+          "value": 55.98,
+          "providerLabel": "Promoter holding latest %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "fiiHolding": {
+          "value": 8.7,
+          "providerLabel": "FII holding current Qtr %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        }
+      },
+      "quarterly": {
+        "revenue": "2024-12-31: 1093.7971 INR_CR | 2024-12-31: 1093.7971 INR_CR | 2025-03-31: 1132.8842 INR_CR | 2025-03-31: 1132.8842 INR_CR | 2026-03-31: 1416.9328 INR_CR | 2026-03-31: 1416.9328 INR_CR | 2026-06-30: 1363.6157 INR_CR | 2026-06-30: 1363.6157 INR_CR",
+        "pat": "2024-12-31: 61.5757 INR_CR | 2024-12-31: 61.5757 INR_CR | 2025-03-31: 79.6727 INR_CR | 2025-03-31: 79.6727 INR_CR | 2026-03-31: 97.5316 INR_CR | 2026-03-31: 97.5316 INR_CR | 2026-06-30: 98.6365 INR_CR | 2026-06-30: 98.6365 INR_CR"
+      },
+      "source": "https://www.lumaxworld.in/lumaxautotech/downloads/LATLAR202425.pdf",
+      "conclusion": "WATCHLIST — REQUIRE PRICE AND EXECUTION CONFIRMATION"
+    },
+    {
+      "symbol": "SONACOMS",
+      "summary": "SONACOMS is evaluated using audited/XBRL facts plus Trendlyne market data. Latest stored annual facts show revenue 4475.148 INR_CR, operating profit 1081.17 INR_CR, PAT 629.19 INR_CR, CFO 659.06 INR_CR, debt/equity 0.04 RATIO, ROE 10.7 PERCENTAGE and ROCE 14.04 PERCENTAGE. The investment case is driven by the combination of earnings quality, cash conversion, balance-sheet risk and the price paid; no target price is invented. Current preliminary conclusion: WATCHLIST — REQUIRE PRICE AND EXECUTION CONFIRMATION.",
+      "metrics": {
+        "revenue": {
+          "value": "4475.148",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1662372_30042026062634_WEB.xml"
+        },
+        "operatingProfit": {
+          "value": "1081.17",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-10-01",
+          "sourceUrl": null
+        },
+        "pat": {
+          "value": "629.19",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1662372_30042026062634_WEB.xml"
+        },
+        "cfo": {
+          "value": "659.06",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-10-01",
+          "sourceUrl": null
+        },
+        "debtEquity": {
+          "value": "0.04",
+          "unit": "RATIO",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "roe": {
+          "value": "10.7",
+          "unit": "PERCENTAGE",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "roce": {
+          "value": "14.04",
+          "unit": "PERCENTAGE",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "eps": {
+          "value": "10.3",
+          "unit": "INR_PER_SHARE",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1662372_30042026062634_WEB.xml"
+        },
+        "marketCap": {
+          "value": 51802.66,
+          "providerLabel": "Market Cap",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "pe": {
+          "value": 74.44,
+          "providerLabel": "PE TTM",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "promoterHolding": {
+          "value": 28.01,
+          "providerLabel": "Promoter holding latest %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "fiiHolding": {
+          "value": 23.61,
+          "providerLabel": "FII holding current Qtr %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        }
+      },
+      "quarterly": {
+        "revenue": "2024-12-31: 2459.4413 INR_CR | 2024-12-31: 2459.4413 INR_CR | 2024-12-31: 2686.1079 INR_CR | 2024-12-31: 2686.1079 INR_CR | 2026-03-31: 1272.277 INR_CR | 2026-03-31: 1272.277 INR_CR | 2026-06-30: 1310.37 INR_CR | 2026-06-30: 1310.37 INR_CR",
+        "pat": "2024-12-31: 427.8426 INR_CR | 2024-12-31: 427.8426 INR_CR | 2024-12-31: 435.9997 INR_CR | 2024-12-31: 435.9997 INR_CR | 2026-03-31: 186.857 INR_CR | 2026-03-31: 186.857 INR_CR | 2026-06-30: 178.513 INR_CR | 2026-06-30: 178.513 INR_CR"
+      },
+      "source": "https://sonacomstar.com/annual-report-24-25/index.html",
+      "conclusion": "WATCHLIST — REQUIRE PRICE AND EXECUTION CONFIRMATION"
+    },
+    {
+      "symbol": "TARSONS",
+      "summary": "TARSONS is evaluated using audited/XBRL facts plus Trendlyne market data. Latest stored annual facts show revenue 422.513 INR_CR, operating profit 117.93 INR, PAT 14.322 INR_CR, CFO 118.478 INR_CR, debt/equity 0.6 RATIO, ROE 2.25 PERCENTAGE and ROCE 4.94 PERCENTAGE. The investment case is driven by the combination of earnings quality, cash conversion, balance-sheet risk and the price paid; no target price is invented. Current preliminary conclusion: WATCHLIST — REQUIRE PRICE AND EXECUTION CONFIRMATION.",
+      "metrics": {
+        "revenue": {
+          "value": "422.513",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1671821_22052026105059_WEB.xml"
+        },
+        "operatingProfit": {
+          "value": "117.93",
+          "unit": "INR",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "pat": {
+          "value": "14.322",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1671821_22052026105059_WEB.xml"
+        },
+        "cfo": {
+          "value": "118.478",
+          "unit": "INR_CR",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1671821_22052026105059_WEB.xml"
+        },
+        "debtEquity": {
+          "value": "0.6",
+          "unit": "RATIO",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "roe": {
+          "value": "2.25",
+          "unit": "PERCENTAGE",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "roce": {
+          "value": "4.94",
+          "unit": "PERCENTAGE",
+          "periodType": "ANNUAL",
+          "periodEnd": "LATEST",
+          "sourceUrl": null
+        },
+        "eps": {
+          "value": "2.69",
+          "unit": "INR_PER_SHARE",
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "sourceUrl": "https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1671821_22052026105059_WEB.xml"
+        },
+        "marketCap": {
+          "value": 1704.2,
+          "providerLabel": "Market Cap",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "pe": {
+          "value": 153.6,
+          "providerLabel": "PE TTM",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "promoterHolding": {
+          "value": 47.3,
+          "providerLabel": "Promoter holding latest %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        },
+        "fiiHolding": {
+          "value": 0.15,
+          "providerLabel": "FII holding current Qtr %",
+          "source": "TRENDLYNE_MCP",
+          "asOf": "2026-10-07"
+        }
+      },
+      "quarterly": {
+        "revenue": "2024-12-31: 221.133 INR_CR | 2024-12-31: 221.133 INR_CR | 2024-12-31: 279.723 INR_CR | 2024-12-31: 279.723 INR_CR | 2026-03-31: 120.927 INR_CR | 2026-03-31: 120.927 INR_CR | 2026-06-30: 110.242 INR_CR | 2026-06-30: 110.242 INR_CR",
+        "pat": "2024-12-31: 27.002 INR_CR | 2024-12-31: 27.002 INR_CR | 2024-12-31: 19.567 INR_CR | 2024-12-31: 19.567 INR_CR | 2026-03-31: 4.181 INR_CR | 2026-03-31: 4.181 INR_CR | 2026-06-30: -1.444 INR_CR | 2026-06-30: -1.444 INR_CR"
+      },
+      "source": "https://www.tarsons.com/financial-reports/",
+      "conclusion": "WATCHLIST — REQUIRE PRICE AND EXECUTION CONFIRMATION"
+    }
+  ]
+}
