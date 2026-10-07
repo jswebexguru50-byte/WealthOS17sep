@@ -1,0 +1,883 @@
+{
+  "generatedAt": "2026-10-07T14:17:53.812Z",
+  "symbols": [
+    "VMART",
+    "RADICO",
+    "KRYSTAL",
+    "PROTEAN",
+    "JUSTDIAL",
+    "DBOL",
+    "LUMAXTECH",
+    "SONACOMS",
+    "TARSONS"
+  ],
+  "packCount": 8,
+  "providerSymbolLimit": 10,
+  "providerParameterLimit": 10,
+  "results": [
+    {
+      "symbol": "VMART",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "06c503e2982269b2aa22a5d5970dae22981afb1f579ff74ebc6d517e99207633",
+      "error": null
+    },
+    {
+      "symbol": "RADICO",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "06c503e2982269b2aa22a5d5970dae22981afb1f579ff74ebc6d517e99207633",
+      "error": null
+    },
+    {
+      "symbol": "KRYSTAL",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "06c503e2982269b2aa22a5d5970dae22981afb1f579ff74ebc6d517e99207633",
+      "error": null
+    },
+    {
+      "symbol": "PROTEAN",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "06c503e2982269b2aa22a5d5970dae22981afb1f579ff74ebc6d517e99207633",
+      "error": null
+    },
+    {
+      "symbol": "JUSTDIAL",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "06c503e2982269b2aa22a5d5970dae22981afb1f579ff74ebc6d517e99207633",
+      "error": null
+    },
+    {
+      "symbol": "DBOL",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "06c503e2982269b2aa22a5d5970dae22981afb1f579ff74ebc6d517e99207633",
+      "error": null
+    },
+    {
+      "symbol": "LUMAXTECH",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "06c503e2982269b2aa22a5d5970dae22981afb1f579ff74ebc6d517e99207633",
+      "error": null
+    },
+    {
+      "symbol": "SONACOMS",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "06c503e2982269b2aa22a5d5970dae22981afb1f579ff74ebc6d517e99207633",
+      "error": null
+    },
+    {
+      "symbol": "TARSONS",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "06c503e2982269b2aa22a5d5970dae22981afb1f579ff74ebc6d517e99207633",
+      "error": null
+    },
+    {
+      "symbol": "VMART",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "4c585f8291aa5a8e40948f1b823a0944f3091af1448be4fd9b57f9393ec0dea5",
+      "error": null
+    },
+    {
+      "symbol": "RADICO",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "4c585f8291aa5a8e40948f1b823a0944f3091af1448be4fd9b57f9393ec0dea5",
+      "error": null
+    },
+    {
+      "symbol": "KRYSTAL",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "4c585f8291aa5a8e40948f1b823a0944f3091af1448be4fd9b57f9393ec0dea5",
+      "error": null
+    },
+    {
+      "symbol": "PROTEAN",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "4c585f8291aa5a8e40948f1b823a0944f3091af1448be4fd9b57f9393ec0dea5",
+      "error": null
+    },
+    {
+      "symbol": "JUSTDIAL",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "4c585f8291aa5a8e40948f1b823a0944f3091af1448be4fd9b57f9393ec0dea5",
+      "error": null
+    },
+    {
+      "symbol": "DBOL",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "4c585f8291aa5a8e40948f1b823a0944f3091af1448be4fd9b57f9393ec0dea5",
+      "error": null
+    },
+    {
+      "symbol": "LUMAXTECH",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "4c585f8291aa5a8e40948f1b823a0944f3091af1448be4fd9b57f9393ec0dea5",
+      "error": null
+    },
+    {
+      "symbol": "SONACOMS",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "4c585f8291aa5a8e40948f1b823a0944f3091af1448be4fd9b57f9393ec0dea5",
+      "error": null
+    },
+    {
+      "symbol": "TARSONS",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "4c585f8291aa5a8e40948f1b823a0944f3091af1448be4fd9b57f9393ec0dea5",
+      "error": null
+    },
+    {
+      "symbol": "VMART",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 5,
+      "status": "SUCCESS",
+      "responseHash": "fc439878192a8d7d273c920663a5052efcccd205e82b45163ba428ea82a925e8",
+      "error": null
+    },
+    {
+      "symbol": "RADICO",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 5,
+      "status": "SUCCESS",
+      "responseHash": "fc439878192a8d7d273c920663a5052efcccd205e82b45163ba428ea82a925e8",
+      "error": null
+    },
+    {
+      "symbol": "KRYSTAL",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 5,
+      "status": "SUCCESS",
+      "responseHash": "fc439878192a8d7d273c920663a5052efcccd205e82b45163ba428ea82a925e8",
+      "error": null
+    },
+    {
+      "symbol": "PROTEAN",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 5,
+      "status": "SUCCESS",
+      "responseHash": "fc439878192a8d7d273c920663a5052efcccd205e82b45163ba428ea82a925e8",
+      "error": null
+    },
+    {
+      "symbol": "JUSTDIAL",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 5,
+      "status": "SUCCESS",
+      "responseHash": "fc439878192a8d7d273c920663a5052efcccd205e82b45163ba428ea82a925e8",
+      "error": null
+    },
+    {
+      "symbol": "DBOL",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 5,
+      "status": "SUCCESS",
+      "responseHash": "fc439878192a8d7d273c920663a5052efcccd205e82b45163ba428ea82a925e8",
+      "error": null
+    },
+    {
+      "symbol": "LUMAXTECH",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 5,
+      "status": "SUCCESS",
+      "responseHash": "fc439878192a8d7d273c920663a5052efcccd205e82b45163ba428ea82a925e8",
+      "error": null
+    },
+    {
+      "symbol": "SONACOMS",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 5,
+      "status": "SUCCESS",
+      "responseHash": "fc439878192a8d7d273c920663a5052efcccd205e82b45163ba428ea82a925e8",
+      "error": null
+    },
+    {
+      "symbol": "TARSONS",
+      "packId": "F01_QUARTERLY",
+      "tokenCount": 5,
+      "status": "SUCCESS",
+      "responseHash": "fc439878192a8d7d273c920663a5052efcccd205e82b45163ba428ea82a925e8",
+      "error": null
+    },
+    {
+      "symbol": "VMART",
+      "packId": "F02_ANNUAL",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "b3d2e7a75570195705007cdf96b1c099a5ca2de2659f174a5d0313ba3541637f",
+      "error": null
+    },
+    {
+      "symbol": "RADICO",
+      "packId": "F02_ANNUAL",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "b3d2e7a75570195705007cdf96b1c099a5ca2de2659f174a5d0313ba3541637f",
+      "error": null
+    },
+    {
+      "symbol": "KRYSTAL",
+      "packId": "F02_ANNUAL",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "b3d2e7a75570195705007cdf96b1c099a5ca2de2659f174a5d0313ba3541637f",
+      "error": null
+    },
+    {
+      "symbol": "PROTEAN",
+      "packId": "F02_ANNUAL",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "b3d2e7a75570195705007cdf96b1c099a5ca2de2659f174a5d0313ba3541637f",
+      "error": null
+    },
+    {
+      "symbol": "JUSTDIAL",
+      "packId": "F02_ANNUAL",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "b3d2e7a75570195705007cdf96b1c099a5ca2de2659f174a5d0313ba3541637f",
+      "error": null
+    },
+    {
+      "symbol": "DBOL",
+      "packId": "F02_ANNUAL",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "b3d2e7a75570195705007cdf96b1c099a5ca2de2659f174a5d0313ba3541637f",
+      "error": null
+    },
+    {
+      "symbol": "LUMAXTECH",
+      "packId": "F02_ANNUAL",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "b3d2e7a75570195705007cdf96b1c099a5ca2de2659f174a5d0313ba3541637f",
+      "error": null
+    },
+    {
+      "symbol": "SONACOMS",
+      "packId": "F02_ANNUAL",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "b3d2e7a75570195705007cdf96b1c099a5ca2de2659f174a5d0313ba3541637f",
+      "error": null
+    },
+    {
+      "symbol": "TARSONS",
+      "packId": "F02_ANNUAL",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "b3d2e7a75570195705007cdf96b1c099a5ca2de2659f174a5d0313ba3541637f",
+      "error": null
+    },
+    {
+      "symbol": "VMART",
+      "packId": "F02_ANNUAL",
+      "tokenCount": 5,
+      "status": "SUCCESS",
+      "responseHash": "75bcb99700198bcf50fe83d6060a996c0cabad6b142394213d1b183ccb8eae18",
+      "error": null
+    },
+    {
+      "symbol": "RADICO",
+      "packId": "F02_ANNUAL",
+      "tokenCount": 5,
+      "status": "SUCCESS",
+      "responseHash": "75bcb99700198bcf50fe83d6060a996c0cabad6b142394213d1b183ccb8eae18",
+      "error": null
+    },
+    {
+      "symbol": "KRYSTAL",
+      "packId": "F02_ANNUAL",
+      "tokenCount": 5,
+      "status": "SUCCESS",
+      "responseHash": "75bcb99700198bcf50fe83d6060a996c0cabad6b142394213d1b183ccb8eae18",
+      "error": null
+    },
+    {
+      "symbol": "PROTEAN",
+      "packId": "F02_ANNUAL",
+      "tokenCount": 5,
+      "status": "SUCCESS",
+      "responseHash": "75bcb99700198bcf50fe83d6060a996c0cabad6b142394213d1b183ccb8eae18",
+      "error": null
+    },
+    {
+      "symbol": "JUSTDIAL",
+      "packId": "F02_ANNUAL",
+      "tokenCount": 5,
+      "status": "SUCCESS",
+      "responseHash": "75bcb99700198bcf50fe83d6060a996c0cabad6b142394213d1b183ccb8eae18",
+      "error": null
+    },
+    {
+      "symbol": "DBOL",
+      "packId": "F02_ANNUAL",
+      "tokenCount": 5,
+      "status": "SUCCESS",
+      "responseHash": "75bcb99700198bcf50fe83d6060a996c0cabad6b142394213d1b183ccb8eae18",
+      "error": null
+    },
+    {
+      "symbol": "LUMAXTECH",
+      "packId": "F02_ANNUAL",
+      "tokenCount": 5,
+      "status": "SUCCESS",
+      "responseHash": "75bcb99700198bcf50fe83d6060a996c0cabad6b142394213d1b183ccb8eae18",
+      "error": null
+    },
+    {
+      "symbol": "SONACOMS",
+      "packId": "F02_ANNUAL",
+      "tokenCount": 5,
+      "status": "SUCCESS",
+      "responseHash": "75bcb99700198bcf50fe83d6060a996c0cabad6b142394213d1b183ccb8eae18",
+      "error": null
+    },
+    {
+      "symbol": "TARSONS",
+      "packId": "F02_ANNUAL",
+      "tokenCount": 5,
+      "status": "SUCCESS",
+      "responseHash": "75bcb99700198bcf50fe83d6060a996c0cabad6b142394213d1b183ccb8eae18",
+      "error": null
+    },
+    {
+      "symbol": "VMART",
+      "packId": "F03_BALANCE_SHEET",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "38e427d3a09b7a4f235859609930465d413dabdbd07a53a5d6bbcf2758407009",
+      "error": null
+    },
+    {
+      "symbol": "RADICO",
+      "packId": "F03_BALANCE_SHEET",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "38e427d3a09b7a4f235859609930465d413dabdbd07a53a5d6bbcf2758407009",
+      "error": null
+    },
+    {
+      "symbol": "KRYSTAL",
+      "packId": "F03_BALANCE_SHEET",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "38e427d3a09b7a4f235859609930465d413dabdbd07a53a5d6bbcf2758407009",
+      "error": null
+    },
+    {
+      "symbol": "PROTEAN",
+      "packId": "F03_BALANCE_SHEET",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "38e427d3a09b7a4f235859609930465d413dabdbd07a53a5d6bbcf2758407009",
+      "error": null
+    },
+    {
+      "symbol": "JUSTDIAL",
+      "packId": "F03_BALANCE_SHEET",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "38e427d3a09b7a4f235859609930465d413dabdbd07a53a5d6bbcf2758407009",
+      "error": null
+    },
+    {
+      "symbol": "DBOL",
+      "packId": "F03_BALANCE_SHEET",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "38e427d3a09b7a4f235859609930465d413dabdbd07a53a5d6bbcf2758407009",
+      "error": null
+    },
+    {
+      "symbol": "LUMAXTECH",
+      "packId": "F03_BALANCE_SHEET",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "38e427d3a09b7a4f235859609930465d413dabdbd07a53a5d6bbcf2758407009",
+      "error": null
+    },
+    {
+      "symbol": "SONACOMS",
+      "packId": "F03_BALANCE_SHEET",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "38e427d3a09b7a4f235859609930465d413dabdbd07a53a5d6bbcf2758407009",
+      "error": null
+    },
+    {
+      "symbol": "TARSONS",
+      "packId": "F03_BALANCE_SHEET",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "38e427d3a09b7a4f235859609930465d413dabdbd07a53a5d6bbcf2758407009",
+      "error": null
+    },
+    {
+      "symbol": "VMART",
+      "packId": "F03_BALANCE_SHEET",
+      "tokenCount": 1,
+      "status": "SUCCESS",
+      "responseHash": "7f615cb6f83c752c31277ada268b62108fdb1c95c6983ea84884e697d015ea24",
+      "error": null
+    },
+    {
+      "symbol": "RADICO",
+      "packId": "F03_BALANCE_SHEET",
+      "tokenCount": 1,
+      "status": "SUCCESS",
+      "responseHash": "7f615cb6f83c752c31277ada268b62108fdb1c95c6983ea84884e697d015ea24",
+      "error": null
+    },
+    {
+      "symbol": "KRYSTAL",
+      "packId": "F03_BALANCE_SHEET",
+      "tokenCount": 1,
+      "status": "SUCCESS",
+      "responseHash": "7f615cb6f83c752c31277ada268b62108fdb1c95c6983ea84884e697d015ea24",
+      "error": null
+    },
+    {
+      "symbol": "PROTEAN",
+      "packId": "F03_BALANCE_SHEET",
+      "tokenCount": 1,
+      "status": "SUCCESS",
+      "responseHash": "7f615cb6f83c752c31277ada268b62108fdb1c95c6983ea84884e697d015ea24",
+      "error": null
+    },
+    {
+      "symbol": "JUSTDIAL",
+      "packId": "F03_BALANCE_SHEET",
+      "tokenCount": 1,
+      "status": "SUCCESS",
+      "responseHash": "7f615cb6f83c752c31277ada268b62108fdb1c95c6983ea84884e697d015ea24",
+      "error": null
+    },
+    {
+      "symbol": "DBOL",
+      "packId": "F03_BALANCE_SHEET",
+      "tokenCount": 1,
+      "status": "SUCCESS",
+      "responseHash": "7f615cb6f83c752c31277ada268b62108fdb1c95c6983ea84884e697d015ea24",
+      "error": null
+    },
+    {
+      "symbol": "LUMAXTECH",
+      "packId": "F03_BALANCE_SHEET",
+      "tokenCount": 1,
+      "status": "SUCCESS",
+      "responseHash": "7f615cb6f83c752c31277ada268b62108fdb1c95c6983ea84884e697d015ea24",
+      "error": null
+    },
+    {
+      "symbol": "SONACOMS",
+      "packId": "F03_BALANCE_SHEET",
+      "tokenCount": 1,
+      "status": "SUCCESS",
+      "responseHash": "7f615cb6f83c752c31277ada268b62108fdb1c95c6983ea84884e697d015ea24",
+      "error": null
+    },
+    {
+      "symbol": "TARSONS",
+      "packId": "F03_BALANCE_SHEET",
+      "tokenCount": 1,
+      "status": "SUCCESS",
+      "responseHash": "7f615cb6f83c752c31277ada268b62108fdb1c95c6983ea84884e697d015ea24",
+      "error": null
+    },
+    {
+      "symbol": "VMART",
+      "packId": "F04_CASH_CAPITAL",
+      "tokenCount": 6,
+      "status": "SUCCESS",
+      "responseHash": "62dd85c2378130c1712519e3d618e2db94b7f5e95a2b33e1acd7b8224ceebdfc",
+      "error": null
+    },
+    {
+      "symbol": "RADICO",
+      "packId": "F04_CASH_CAPITAL",
+      "tokenCount": 6,
+      "status": "SUCCESS",
+      "responseHash": "62dd85c2378130c1712519e3d618e2db94b7f5e95a2b33e1acd7b8224ceebdfc",
+      "error": null
+    },
+    {
+      "symbol": "KRYSTAL",
+      "packId": "F04_CASH_CAPITAL",
+      "tokenCount": 6,
+      "status": "SUCCESS",
+      "responseHash": "62dd85c2378130c1712519e3d618e2db94b7f5e95a2b33e1acd7b8224ceebdfc",
+      "error": null
+    },
+    {
+      "symbol": "PROTEAN",
+      "packId": "F04_CASH_CAPITAL",
+      "tokenCount": 6,
+      "status": "SUCCESS",
+      "responseHash": "62dd85c2378130c1712519e3d618e2db94b7f5e95a2b33e1acd7b8224ceebdfc",
+      "error": null
+    },
+    {
+      "symbol": "JUSTDIAL",
+      "packId": "F04_CASH_CAPITAL",
+      "tokenCount": 6,
+      "status": "SUCCESS",
+      "responseHash": "62dd85c2378130c1712519e3d618e2db94b7f5e95a2b33e1acd7b8224ceebdfc",
+      "error": null
+    },
+    {
+      "symbol": "DBOL",
+      "packId": "F04_CASH_CAPITAL",
+      "tokenCount": 6,
+      "status": "SUCCESS",
+      "responseHash": "62dd85c2378130c1712519e3d618e2db94b7f5e95a2b33e1acd7b8224ceebdfc",
+      "error": null
+    },
+    {
+      "symbol": "LUMAXTECH",
+      "packId": "F04_CASH_CAPITAL",
+      "tokenCount": 6,
+      "status": "SUCCESS",
+      "responseHash": "62dd85c2378130c1712519e3d618e2db94b7f5e95a2b33e1acd7b8224ceebdfc",
+      "error": null
+    },
+    {
+      "symbol": "SONACOMS",
+      "packId": "F04_CASH_CAPITAL",
+      "tokenCount": 6,
+      "status": "SUCCESS",
+      "responseHash": "62dd85c2378130c1712519e3d618e2db94b7f5e95a2b33e1acd7b8224ceebdfc",
+      "error": null
+    },
+    {
+      "symbol": "TARSONS",
+      "packId": "F04_CASH_CAPITAL",
+      "tokenCount": 6,
+      "status": "SUCCESS",
+      "responseHash": "62dd85c2378130c1712519e3d618e2db94b7f5e95a2b33e1acd7b8224ceebdfc",
+      "error": null
+    },
+    {
+      "symbol": "VMART",
+      "packId": "F05_RETURNS_QUALITY",
+      "tokenCount": 7,
+      "status": "SUCCESS",
+      "responseHash": "9c6ca18f70c63668a11d417d8033f0350acb9addf42442ed1cb62a4de7d27b0a",
+      "error": null
+    },
+    {
+      "symbol": "RADICO",
+      "packId": "F05_RETURNS_QUALITY",
+      "tokenCount": 7,
+      "status": "SUCCESS",
+      "responseHash": "9c6ca18f70c63668a11d417d8033f0350acb9addf42442ed1cb62a4de7d27b0a",
+      "error": null
+    },
+    {
+      "symbol": "KRYSTAL",
+      "packId": "F05_RETURNS_QUALITY",
+      "tokenCount": 7,
+      "status": "SUCCESS",
+      "responseHash": "9c6ca18f70c63668a11d417d8033f0350acb9addf42442ed1cb62a4de7d27b0a",
+      "error": null
+    },
+    {
+      "symbol": "PROTEAN",
+      "packId": "F05_RETURNS_QUALITY",
+      "tokenCount": 7,
+      "status": "SUCCESS",
+      "responseHash": "9c6ca18f70c63668a11d417d8033f0350acb9addf42442ed1cb62a4de7d27b0a",
+      "error": null
+    },
+    {
+      "symbol": "JUSTDIAL",
+      "packId": "F05_RETURNS_QUALITY",
+      "tokenCount": 7,
+      "status": "SUCCESS",
+      "responseHash": "9c6ca18f70c63668a11d417d8033f0350acb9addf42442ed1cb62a4de7d27b0a",
+      "error": null
+    },
+    {
+      "symbol": "DBOL",
+      "packId": "F05_RETURNS_QUALITY",
+      "tokenCount": 7,
+      "status": "SUCCESS",
+      "responseHash": "9c6ca18f70c63668a11d417d8033f0350acb9addf42442ed1cb62a4de7d27b0a",
+      "error": null
+    },
+    {
+      "symbol": "LUMAXTECH",
+      "packId": "F05_RETURNS_QUALITY",
+      "tokenCount": 7,
+      "status": "SUCCESS",
+      "responseHash": "9c6ca18f70c63668a11d417d8033f0350acb9addf42442ed1cb62a4de7d27b0a",
+      "error": null
+    },
+    {
+      "symbol": "SONACOMS",
+      "packId": "F05_RETURNS_QUALITY",
+      "tokenCount": 7,
+      "status": "SUCCESS",
+      "responseHash": "9c6ca18f70c63668a11d417d8033f0350acb9addf42442ed1cb62a4de7d27b0a",
+      "error": null
+    },
+    {
+      "symbol": "TARSONS",
+      "packId": "F05_RETURNS_QUALITY",
+      "tokenCount": 7,
+      "status": "SUCCESS",
+      "responseHash": "9c6ca18f70c63668a11d417d8033f0350acb9addf42442ed1cb62a4de7d27b0a",
+      "error": null
+    },
+    {
+      "symbol": "VMART",
+      "packId": "F06_VALUATION",
+      "tokenCount": 7,
+      "status": "SUCCESS",
+      "responseHash": "92326c572a89da2fde117f2921aa8b7436e1de280cd982297961fed733335ea1",
+      "error": null
+    },
+    {
+      "symbol": "RADICO",
+      "packId": "F06_VALUATION",
+      "tokenCount": 7,
+      "status": "SUCCESS",
+      "responseHash": "92326c572a89da2fde117f2921aa8b7436e1de280cd982297961fed733335ea1",
+      "error": null
+    },
+    {
+      "symbol": "KRYSTAL",
+      "packId": "F06_VALUATION",
+      "tokenCount": 7,
+      "status": "SUCCESS",
+      "responseHash": "92326c572a89da2fde117f2921aa8b7436e1de280cd982297961fed733335ea1",
+      "error": null
+    },
+    {
+      "symbol": "PROTEAN",
+      "packId": "F06_VALUATION",
+      "tokenCount": 7,
+      "status": "SUCCESS",
+      "responseHash": "92326c572a89da2fde117f2921aa8b7436e1de280cd982297961fed733335ea1",
+      "error": null
+    },
+    {
+      "symbol": "JUSTDIAL",
+      "packId": "F06_VALUATION",
+      "tokenCount": 7,
+      "status": "SUCCESS",
+      "responseHash": "92326c572a89da2fde117f2921aa8b7436e1de280cd982297961fed733335ea1",
+      "error": null
+    },
+    {
+      "symbol": "DBOL",
+      "packId": "F06_VALUATION",
+      "tokenCount": 7,
+      "status": "SUCCESS",
+      "responseHash": "92326c572a89da2fde117f2921aa8b7436e1de280cd982297961fed733335ea1",
+      "error": null
+    },
+    {
+      "symbol": "LUMAXTECH",
+      "packId": "F06_VALUATION",
+      "tokenCount": 7,
+      "status": "SUCCESS",
+      "responseHash": "92326c572a89da2fde117f2921aa8b7436e1de280cd982297961fed733335ea1",
+      "error": null
+    },
+    {
+      "symbol": "SONACOMS",
+      "packId": "F06_VALUATION",
+      "tokenCount": 7,
+      "status": "SUCCESS",
+      "responseHash": "92326c572a89da2fde117f2921aa8b7436e1de280cd982297961fed733335ea1",
+      "error": null
+    },
+    {
+      "symbol": "TARSONS",
+      "packId": "F06_VALUATION",
+      "tokenCount": 7,
+      "status": "SUCCESS",
+      "responseHash": "92326c572a89da2fde117f2921aa8b7436e1de280cd982297961fed733335ea1",
+      "error": null
+    },
+    {
+      "symbol": "VMART",
+      "packId": "F07_OWNERSHIP",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "de10dfdb97e66753689195c0cd4f0aa0aeb68d48e571e15daf0863114006d691",
+      "error": null
+    },
+    {
+      "symbol": "RADICO",
+      "packId": "F07_OWNERSHIP",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "de10dfdb97e66753689195c0cd4f0aa0aeb68d48e571e15daf0863114006d691",
+      "error": null
+    },
+    {
+      "symbol": "KRYSTAL",
+      "packId": "F07_OWNERSHIP",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "de10dfdb97e66753689195c0cd4f0aa0aeb68d48e571e15daf0863114006d691",
+      "error": null
+    },
+    {
+      "symbol": "PROTEAN",
+      "packId": "F07_OWNERSHIP",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "de10dfdb97e66753689195c0cd4f0aa0aeb68d48e571e15daf0863114006d691",
+      "error": null
+    },
+    {
+      "symbol": "JUSTDIAL",
+      "packId": "F07_OWNERSHIP",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "de10dfdb97e66753689195c0cd4f0aa0aeb68d48e571e15daf0863114006d691",
+      "error": null
+    },
+    {
+      "symbol": "DBOL",
+      "packId": "F07_OWNERSHIP",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "de10dfdb97e66753689195c0cd4f0aa0aeb68d48e571e15daf0863114006d691",
+      "error": null
+    },
+    {
+      "symbol": "LUMAXTECH",
+      "packId": "F07_OWNERSHIP",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "de10dfdb97e66753689195c0cd4f0aa0aeb68d48e571e15daf0863114006d691",
+      "error": null
+    },
+    {
+      "symbol": "SONACOMS",
+      "packId": "F07_OWNERSHIP",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "de10dfdb97e66753689195c0cd4f0aa0aeb68d48e571e15daf0863114006d691",
+      "error": null
+    },
+    {
+      "symbol": "TARSONS",
+      "packId": "F07_OWNERSHIP",
+      "tokenCount": 10,
+      "status": "SUCCESS",
+      "responseHash": "de10dfdb97e66753689195c0cd4f0aa0aeb68d48e571e15daf0863114006d691",
+      "error": null
+    },
+    {
+      "symbol": "VMART",
+      "packId": "F08_OVERVIEW",
+      "tokenCount": 1,
+      "status": "SUCCESS",
+      "responseHash": "95d7434c936de7c9f33e0904f5d61ee6d47faeacc968e03b562a57cd77a6462a",
+      "error": null
+    },
+    {
+      "symbol": "RADICO",
+      "packId": "F08_OVERVIEW",
+      "tokenCount": 1,
+      "status": "SUCCESS",
+      "responseHash": "65f77396c9c20356fa879fc6cfa7e10b7200026d5b4b231340d677d9d0904ad4",
+      "error": null
+    },
+    {
+      "symbol": "KRYSTAL",
+      "packId": "F08_OVERVIEW",
+      "tokenCount": 1,
+      "status": "SUCCESS",
+      "responseHash": "f48f6957a41c5bd1dff31f7ee2ce451211e9284f176e7f4dc3e7feca3d309f4e",
+      "error": null
+    },
+    {
+      "symbol": "PROTEAN",
+      "packId": "F08_OVERVIEW",
+      "tokenCount": 1,
+      "status": "SUCCESS",
+      "responseHash": "f2d344a467f4f645f333d1b31b8722c0122f9a46b5ad631f02a3911593fafcd5",
+      "error": null
+    },
+    {
+      "symbol": "JUSTDIAL",
+      "packId": "F08_OVERVIEW",
+      "tokenCount": 1,
+      "status": "SUCCESS",
+      "responseHash": "d3470821166130a9f417ac64013743367ee861a95e23bb40fc999e04a7a56482",
+      "error": null
+    },
+    {
+      "symbol": "DBOL",
+      "packId": "F08_OVERVIEW",
+      "tokenCount": 1,
+      "status": "SUCCESS",
+      "responseHash": "214de3603f1950d22f7f1d17e8e5908da8cf8dcf92533e836706361e2eb1c1b1",
+      "error": null
+    },
+    {
+      "symbol": "LUMAXTECH",
+      "packId": "F08_OVERVIEW",
+      "tokenCount": 1,
+      "status": "SUCCESS",
+      "responseHash": "7f60d0e086963713fdada5ad5d467a4349eee2375ba6a7dc47d9c1e0a20e10ad",
+      "error": null
+    },
+    {
+      "symbol": "SONACOMS",
+      "packId": "F08_OVERVIEW",
+      "tokenCount": 1,
+      "status": "SUCCESS",
+      "responseHash": "350ab629a08d7533d5c5c7d7f777ebdf033a2a30473ede89487bd339a6928386",
+      "error": null
+    },
+    {
+      "symbol": "TARSONS",
+      "packId": "F08_OVERVIEW",
+      "tokenCount": 1,
+      "status": "SUCCESS",
+      "responseHash": "c849947cda7f890c1f665c11e07964819208c06033c1d979dcef18e676c0d38d",
+      "error": null
+    }
+  ]
+}
