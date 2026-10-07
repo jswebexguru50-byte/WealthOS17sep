@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import ExcelJS from 'exceljs';
+const root=process.cwd(), dir=path.join(root,'outputs/fundamental_dossiers/pilot_25');
+const payload=JSON.parse(fs.readFileSync(path.join(dir,'Full_Fundamental_Analysis_25_data.json'),'utf8'));
+const wb=new ExcelJS.Workbook(); const ws=wb.addWorksheet('Full Analysis');
+ws.columns=[{header:'Symbol',key:'symbol',width:16},{header:'Executive Summary',key:'summary',width:100},{header:'Business & Model',key:'biz',width:55},{header:'Detailed Fundamentals',key:'fund',width:65},{header:'QGLP',key:'qglp',width:55},{header:'Technical Context',key:'tech',width:55},{header:'Risk Management',key:'risk',width:55},{header:'Data Gaps / Decision',key:'gaps',width:55}];
+for(const r of payload.rows)ws.addRow({symbol:r.symbol,summary:r.summary,biz:r.sections['Company & Business Model'],fund:r.sections['Detailed Fundamentals'],qglp:r.sections.QGLP,tech:r.sections['Technical Context'],risk:r.sections['Risk Management'],gaps:r.sections['Data Gaps & Decision Status']});
+const one=wb.addWorksheet('One Page Summary'); one.columns=[{header:'Symbol',key:'symbol',width:14},{header:'Executive Summary',key:'summary',width:105},{header:'Business / Financial View',key:'view',width:70},{header:'QGLP / Technical / Risk',key:'risk',width:70},{header:'Evidence State',key:'state',width:22},{header:'Key Gaps / What to Watch',key:'watch',width:65}];
+for(const r of payload.rows){const state=r.summary.includes('DATA_INSUFFICIENT')?'MISSING/CONFLICTING':'MIXED-WATCH';one.addRow({symbol:r.symbol,summary:r.summary,view:`Business model: ${r.sections['Company & Business Model']}\nFundamentals: ${r.sections['Detailed Fundamentals']}`,risk:`QGLP: ${r.sections.QGLP}\nTechnical: ${r.sections['Technical Context']}\nRisk: ${r.sections['Risk Management']}`,state,watch:r.sections['Data Gaps & Decision Status']});}
+for(const sheet of [ws,one]){sheet.getRow(1).font={bold:true,color:{argb:'FFFFFFFF'},size:12};sheet.getRow(1).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF0F766E'}};sheet.views=[{state:'frozen',ySplit:1}]; for(let i=2;i<=sheet.rowCount;i++){sheet.getRow(i).height=120;for(let j=1;j<=sheet.columnCount;j++)sheet.getRow(i).getCell(j).alignment={wrapText:true,vertical:'top'};}}
+await wb.xlsx.writeFile(path.join(dir,'Full_Fundamental_Analysis_25_v2.xlsx')); console.log(path.join(dir,'Full_Fundamental_Analysis_25_v2.xlsx'));

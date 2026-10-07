@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-28T19:03:49.473Z",
+  "timestamp": "2026-10-04T09:43:39.863Z",
   "results": [
     {
       "id": "TS14-12",
@@ -146,11 +146,11 @@
       "status": "INFO",
       "message": "Environment variables used via process.env (correct)",
       "matches": [
-        "src\\scripts\\swarm\\agent_b1_nifty50.ts:42: const requestedStart = process.env.ACQUISITION_START;",
-        "src\\scripts\\swarm\\agent_b1_nifty50.ts:43: const requestedEnd = process.env.ACQUISITION_END;",
-        "src\\scripts\\swarm\\agent_b2_nifty500.ts:42: const requestedStart = process.env.ACQUISITION_START;",
-        "src\\scripts\\swarm\\agent_b2_nifty500.ts:43: const requestedEnd = process.env.ACQUISITION_END;",
-        "src\\scripts\\swarm\\agent_b3_sectors.ts:46: const requestedStart = process.env.ACQUISITION_START;"
+        "src\\lib\\apiClient.ts:13: (typeof process !== 'undefined' && process.env.VITE_WEALTHOS_REMOTE_MODE === 'true') ||",
+        "src\\mcp\\security.ts:128: const productKey = process.env.WEALTHOS_PRODUCT_KEY;",
+        "src\\mcp\\security.ts:129: const reviewKey = process.env.WEALTHOS_REVIEW_KEY;",
+        "src\\mcp\\security.ts:130: const devKey = process.env.WEALTHOS_DEV_KEY;",
+        "src\\mcp\\transports\\http.ts:66: if (host === '0.0.0.0' && process.env.ALLOW_REMOTE_MCP !== 'true') {"
       ]
     }
   ],

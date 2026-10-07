@@ -914,6 +914,7 @@ async function main() {
   const allowPartialFinalBatch = args.includes('--allow-partial-final-batch');
   const forceRefresh = args.includes('--force-refresh');
   const allowUnderfilledProviderCall = args.includes('--allow-underfilled-provider-call');
+  const noUniverseScan = args.includes('--no-universe-scan');
   const isJson = args.includes('--json');
 
   let maxSymbols: number | undefined;
@@ -957,7 +958,7 @@ async function main() {
     maxSymbols,
     batchSize,
     allowPartialFinalBatch,
-    scanUniverseIfDeficient: true,
+    scanUniverseIfDeficient: !noUniverseScan,
     forceRefresh
   });
 

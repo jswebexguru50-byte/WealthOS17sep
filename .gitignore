@@ -50,6 +50,8 @@ cloudflared.exe
 tools/ai-review-server/.runtime/
 node_modules/
 .tools/
+.venvs/
+.omniroute-data/
 dist/
 build/
 coverage/
