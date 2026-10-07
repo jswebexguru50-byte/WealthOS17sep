@@ -1,6 +1,6 @@
 
 import sqlite3 from 'sqlite3';
-import { dbAll, dbRun, dbGet, getDB, runInDbLock } from './database.js';
+import { dbAll, dbRun, dbGet, getDB, runInDbLock, withTx } from './database.js';
 import { formatDate, parseDate, runFIFO } from './fifoEngine.js';
 import { persistRefreshStamp } from './refreshState.js';
 import { DuckDbAdjustedOhlcvService } from './services/DuckDbAdjustedOhlcvService.js';
@@ -261,19 +261,21 @@ async function saveHistoricalPricesToDB(symbol: string, closePrices: Array<{ dat
     const valid = closePrices.filter(cp => cp.date && !isNaN(cp.close) && cp.close > 0);
     if (valid.length === 0) return;
 
-    // Batch INSERT â€” 500 rows per statement instead of one-at-a-time
+    // Batch INSERT — 500 rows per statement instead of one-at-a-time
     const CHUNK = 500;
-    for (let i = 0; i < valid.length; i += CHUNK) {
-      const slice = valid.slice(i, i + CHUNK);
-      const placeholders = slice.map(() => '(?, ?, ?, ?, CURRENT_TIMESTAMP)').join(',');
-      const values: any[] = [];
-      for (const cp of slice) values.push(symbol, cp.date, cp.close, dataSource);
-      await dbRun(
-        db,
-        `INSERT OR REPLACE INTO HistoricalPrices (symbol, date, close_price, data_source, updated_at) VALUES ${placeholders}`,
-        values
-      ).catch(() => {});
-    }
+    await withTx(db, async () => {
+      for (let i = 0; i < valid.length; i += CHUNK) {
+        const slice = valid.slice(i, i + CHUNK);
+        const placeholders = slice.map(() => '(?, ?, ?, ?, CURRENT_TIMESTAMP)').join(',');
+        const values: any[] = [];
+        for (const cp of slice) values.push(symbol, cp.date, cp.close, dataSource);
+        await dbRun(
+          db,
+          `INSERT OR REPLACE INTO HistoricalPrices (symbol, date, close_price, data_source, updated_at) VALUES ${placeholders}`,
+          values
+        ).catch(() => {});
+      }
+    });
   } catch (err) {
     console.error('Failed to save historical prices:', err);
   }
@@ -1260,79 +1262,81 @@ export async function autoFetchMarketData(db: sqlite3.Database, portfolioFilter?
              AND (price_authority IS NULL OR price_authority = 'LIVE_FEED')`,
           [isin || symbol, symbol]
         );
-        for (const mh of matchingHoldings) {
-          const isUsAsset = mh.portfolio === 'US - IBKR' || (mh.isin && mh.isin.startsWith('US'));
-          const rateToInr = isUsAsset ? usdRate : 1.0;
+        await withTx(db, async () => {
+          for (const mh of matchingHoldings) {
+            const isUsAsset = mh.portfolio === 'US - IBKR' || (mh.isin && mh.isin.startsWith('US'));
+            const rateToInr = isUsAsset ? usdRate : 1.0;
 
-          const itemLtp = liveTick;
-          const itemPrevClose = (officialClose > 0 && officialClose !== itemLtp) ? officialClose : (chartPrevClose || itemLtp);
+            const itemLtp = liveTick;
+            const itemPrevClose = (officialClose > 0 && officialClose !== itemLtp) ? officialClose : (chartPrevClose || itemLtp);
 
-          const nativeLtp = itemLtp;
-          const convertedLtp = itemLtp * rateToInr;
-          const nativePrevClose = itemPrevClose;
-          const convertedPrevClose = itemPrevClose * rateToInr;
+            const nativeLtp = itemLtp;
+            const convertedLtp = itemLtp * rateToInr;
+            const nativePrevClose = itemPrevClose;
+            const convertedPrevClose = itemPrevClose * rateToInr;
 
-          const currentVal = mh.quantity * convertedLtp;
-          const nativeCurrentVal = mh.quantity * nativeLtp;
-          const holdingDayChg = (nativeLtp - nativePrevClose) * mh.quantity * rateToInr;
-          const dayChgPct = nativePrevClose > 0 ? ((nativeLtp - nativePrevClose) / nativePrevClose) * 100 : 0;
+            const currentVal = mh.quantity * convertedLtp;
+            const nativeCurrentVal = mh.quantity * nativeLtp;
+            const holdingDayChg = (nativeLtp - nativePrevClose) * mh.quantity * rateToInr;
+            const dayChgPct = nativePrevClose > 0 ? ((nativeLtp - nativePrevClose) / nativePrevClose) * 100 : 0;
 
-          const unrealizedGain = currentVal - mh.total_cost;
-          const unrealizedGainPct = mh.total_cost > 0 ? (unrealizedGain / mh.total_cost) * 100 : 0;
-          const nativeUnrealizedGain = nativeCurrentVal - mh.native_total_cost;
+            const unrealizedGain = currentVal - mh.total_cost;
+            const unrealizedGainPct = mh.total_cost > 0 ? (unrealizedGain / mh.total_cost) * 100 : 0;
+            const nativeUnrealizedGain = nativeCurrentVal - mh.native_total_cost;
 
-          const isUnlistedAsset = symbol.toUpperCase().startsWith('UL') || 
-                                symbol.toUpperCase().includes('UNLISTED') || 
-                                symbol.toUpperCase().includes('SOLITARIO') || 
-                                (isin && isin.toUpperCase().startsWith('CUSTOM_'));
+            const isUnlistedAsset = symbol.toUpperCase().startsWith('UL') || 
+                                  symbol.toUpperCase().includes('UNLISTED') || 
+                                  symbol.toUpperCase().includes('SOLITARIO') || 
+                                  (isin && isin.toUpperCase().startsWith('CUSTOM_'));
 
-          let dataSrc = 'Master Ticker / Manual';
-          let dataStatus = 'STALE';
+            let dataSrc = 'Master Ticker / Manual';
+            let dataStatus = 'STALE';
 
-          if (upMatch?.ltp) {
-            dataSrc = 'Upstox API';
-            dataStatus = 'LIVE';
-          } else if (tickerInfo && (yahooMarketPrice || chartPrevClose)) {
-            dataSrc = 'Yahoo Finance';
-            dataStatus = 'LIVE';
-          } else if (isUnlistedAsset) {
-            dataSrc = 'Unlisted Valuation';
-            dataStatus = 'LIVE';
-          } else if (liveTick > 0) {
-            dataSrc = 'Master Ticker / Manual';
-            dataStatus = 'LIVE';
-          } else {
-            dataSrc = 'Upstox/Yahoo (Failed)';
-            dataStatus = 'FAILED';
-            if (!failedSymbols.includes(symbol)) {
-              failedSymbols.push(symbol);
+            if (upMatch?.ltp) {
+              dataSrc = 'Upstox API';
+              dataStatus = 'LIVE';
+            } else if (tickerInfo && (yahooMarketPrice || chartPrevClose)) {
+              dataSrc = 'Yahoo Finance';
+              dataStatus = 'LIVE';
+            } else if (isUnlistedAsset) {
+              dataSrc = 'Unlisted Valuation';
+              dataStatus = 'LIVE';
+            } else if (liveTick > 0) {
+              dataSrc = 'Master Ticker / Manual';
+              dataStatus = 'LIVE';
+            } else {
+              dataSrc = 'Upstox/Yahoo (Failed)';
+              dataStatus = 'FAILED';
+              if (!failedSymbols.includes(symbol)) {
+                failedSymbols.push(symbol);
+              }
             }
-          }
 
-          try {
-            await dbRun(
-              db,
-              `UPDATE Holdings
-               SET ltp = ?, prev_close = ?, day_change = ?, day_change_pct = ?,
-                   current_value = ?, unrealized_pnl = ?, unrealized_pct = ?,
-                   native_ltp = ?, native_prev_close = ?, native_current_value = ?,
-                   native_unrealized_pnl = ?,
-                   data_source = ?, data_status = ?,
-                   last_update = ?, updated_at = CURRENT_TIMESTAMP
-               WHERE rowid = ?`,
-              [
-                convertedLtp, convertedPrevClose, holdingDayChg, dayChgPct,
-                currentVal, unrealizedGain, unrealizedGainPct,
-                nativeLtp, nativePrevClose, nativeCurrentVal,
-                nativeUnrealizedGain,
-                dataSrc, dataStatus,
-                syncTimeStr,
-                mh.rowid
-              ]
-            );
-            pricesUpdated++;
-          } catch (e) {}
-        }
+            try {
+              await dbRun(
+                db,
+                `UPDATE Holdings
+                 SET ltp = ?, prev_close = ?, day_change = ?, day_change_pct = ?,
+                     current_value = ?, unrealized_pnl = ?, unrealized_pct = ?,
+                     native_ltp = ?, native_prev_close = ?, native_current_value = ?,
+                     native_unrealized_pnl = ?,
+                     data_source = ?, data_status = ?,
+                     last_update = ?, updated_at = CURRENT_TIMESTAMP
+                 WHERE rowid = ?`,
+                [
+                  convertedLtp, convertedPrevClose, holdingDayChg, dayChgPct,
+                  currentVal, unrealizedGain, unrealizedGainPct,
+                  nativeLtp, nativePrevClose, nativeCurrentVal,
+                  nativeUnrealizedGain,
+                  dataSrc, dataStatus,
+                  syncTimeStr,
+                  mh.rowid
+                ]
+              );
+              pricesUpdated++;
+            } catch (e) {}
+          }
+        });
 
         try {
           // For unlisted assets (no live feed), preserve manually-entered manual_ltp â€” do NOT overwrite it.
@@ -1407,26 +1411,28 @@ export async function autoFetchMarketData(db: sqlite3.Database, portfolioFilter?
                    AND (price_authority IS NULL OR price_authority = 'LIVE_FEED')`;
             const matchingMFHoldings = await dbAll(db, queryHoldings, [isin || symbol]);
 
-            for (const mh of matchingMFHoldings) {
-              if (portfolioFilter && portfolioFilter !== 'Combined' && mh.portfolio !== portfolioFilter) continue;
+            await withTx(db, async () => {
+              for (const mh of matchingMFHoldings) {
+                if (portfolioFilter && portfolioFilter !== 'Combined' && mh.portfolio !== portfolioFilter) continue;
 
-              const cv = mh.quantity * nav;
-              const pnl = cv - mh.total_cost;
-              const pct = mh.total_cost > 0 ? (pnl / mh.total_cost) * 100 : 0;
-              const effectivePrevClose = prevNav || mh.prev_close || nav;
-              const dayChg = nav - effectivePrevClose;
-              const dayChgPct = effectivePrevClose > 0 ? (dayChg / effectivePrevClose) * 100 : 0;
-              const dayChgVal = mh.quantity * dayChg;
+                const cv = mh.quantity * nav;
+                const pnl = cv - mh.total_cost;
+                const pct = mh.total_cost > 0 ? (pnl / mh.total_cost) * 100 : 0;
+                const effectivePrevClose = prevNav || mh.prev_close || nav;
+                const dayChg = nav - effectivePrevClose;
+                const dayChgPct = effectivePrevClose > 0 ? (dayChg / effectivePrevClose) * 100 : 0;
+                const dayChgVal = mh.quantity * dayChg;
 
-              await dbRun(db, `
-                UPDATE Holdings
-                SET ltp = ?, prev_close = ?, day_change = ?, day_change_pct = ?,
-                    current_value = ?, unrealized_pnl = ?, unrealized_pct = ?,
-                    last_update = ?, data_status = 'LIVE', data_source = ?
-                WHERE rowid = ?
-              `, [nav, effectivePrevClose, dayChgVal, dayChgPct, cv, pnl, pct, syncTimeStr, source, mh.rowid]).catch(() => {});
-              pricesUpdated++;
-            }
+                await dbRun(db, `
+                  UPDATE Holdings
+                  SET ltp = ?, prev_close = ?, day_change = ?, day_change_pct = ?,
+                      current_value = ?, unrealized_pnl = ?, unrealized_pct = ?,
+                      last_update = ?, data_status = 'LIVE', data_source = ?
+                  WHERE rowid = ?
+                `, [nav, effectivePrevClose, dayChgVal, dayChgPct, cv, pnl, pct, syncTimeStr, source, mh.rowid]).catch(() => {});
+                pricesUpdated++;
+              }
+            });
           }
         }));
         }
@@ -1450,42 +1456,44 @@ export async function autoFetchMarketData(db: sqlite3.Database, portfolioFilter?
 
     if (unlistedHoldings.length > 0) {
       console.log(`[Unlisted] Processing ${unlistedHoldings.length} unlisted/custom asset(s) from manual_ltp...`);
-      for (const h of unlistedHoldings) {
-        try {
-          const mtRow = await dbGet(
-            db,
-            'SELECT manual_ltp, manual_ltp_date FROM MasterTickers WHERE symbol = ? OR isin = ?',
-            [h.symbol, h.isin || h.symbol]
-          );
-          if (!mtRow?.manual_ltp || mtRow.manual_ltp <= 0) {
-            console.log(`[Unlisted] No manual_ltp set for ${h.symbol} â€” skipping.`);
-            continue;
+      await withTx(db, async () => {
+        for (const h of unlistedHoldings) {
+          try {
+            const mtRow = await dbGet(
+              db,
+              'SELECT manual_ltp, manual_ltp_date FROM MasterTickers WHERE symbol = ? OR isin = ?',
+              [h.symbol, h.isin || h.symbol]
+            );
+            if (!mtRow?.manual_ltp || mtRow.manual_ltp <= 0) {
+              console.log(`[Unlisted] No manual_ltp set for ${h.symbol} — skipping.`);
+              continue;
+            }
+            const manualLtp = mtRow.manual_ltp;
+            const matchingRows = await dbAll(
+              db,
+              'SELECT rowid, portfolio, quantity, total_cost FROM Holdings WHERE (symbol = ? OR isin = ?) AND quantity > 0',
+              [h.symbol, h.isin || h.symbol]
+            );
+            for (const mh of matchingRows) {
+              const cv = mh.quantity * manualLtp;
+              const pnl = cv - mh.total_cost;
+              const pct = mh.total_cost > 0 ? (pnl / mh.total_cost) * 100 : 0;
+              await dbRun(db, `
+                UPDATE Holdings
+                SET ltp = ?, current_value = ?, unrealized_pnl = ?, unrealized_pct = ?,
+                    native_ltp = ?, native_current_value = ?, native_unrealized_pnl = ?,
+                    data_source = 'Manual Entry', data_status = 'LIVE',
+                    last_update = ?, updated_at = CURRENT_TIMESTAMP
+                WHERE rowid = ?
+              `, [manualLtp, cv, pnl, pct, manualLtp, cv, pnl, syncTimeStr, mh.rowid]);
+              pricesUpdated++;
+            }
+            console.log(`[Unlisted] Applied manual LTP ₹${manualLtp} to ${h.symbol} across ${matchingRows.length} holding row(s).`);
+          } catch (ue) {
+            console.error(`[Unlisted] Error updating ${h.symbol}:`, ue);
           }
-          const manualLtp = mtRow.manual_ltp;
-          const matchingRows = await dbAll(
-            db,
-            'SELECT rowid, portfolio, quantity, total_cost FROM Holdings WHERE (symbol = ? OR isin = ?) AND quantity > 0',
-            [h.symbol, h.isin || h.symbol]
-          );
-          for (const mh of matchingRows) {
-            const cv = mh.quantity * manualLtp;
-            const pnl = cv - mh.total_cost;
-            const pct = mh.total_cost > 0 ? (pnl / mh.total_cost) * 100 : 0;
-            await dbRun(db, `
-              UPDATE Holdings
-              SET ltp = ?, current_value = ?, unrealized_pnl = ?, unrealized_pct = ?,
-                  native_ltp = ?, native_current_value = ?, native_unrealized_pnl = ?,
-                  data_source = 'Manual Entry', data_status = 'LIVE',
-                  last_update = ?, updated_at = CURRENT_TIMESTAMP
-              WHERE rowid = ?
-            `, [manualLtp, cv, pnl, pct, manualLtp, cv, pnl, syncTimeStr, mh.rowid]);
-            pricesUpdated++;
-          }
-          console.log(`[Unlisted] Applied manual LTP â‚¹${manualLtp} to ${h.symbol} across ${matchingRows.length} holding row(s).`);
-        } catch (ue) {
-          console.error(`[Unlisted] Error updating ${h.symbol}:`, ue);
         }
-      }
+      });
     }
 
   } catch (err) {

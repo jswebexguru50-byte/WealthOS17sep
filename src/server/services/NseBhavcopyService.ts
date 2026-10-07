@@ -1,4 +1,4 @@
-﻿/**
+/**
  * NseBhavcopyService.ts
  * 
  * Official National Stock Exchange (NSE) & AMFI Data Ingestor for NRI WealthOS.
@@ -12,7 +12,7 @@
  * 5. Yahoo Finance FX Spot Rates (USDINR, AEDINR, EURINR, GBPINR)
  */
 
-import { getDB, dbRun, dbAll, dbGet } from '../database.js';
+import { getDB, dbRun, dbAll, dbGet, withTx } from '../database.js';
 
 export interface NseBhavcopyRecord {
   symbol: string;
@@ -304,27 +304,29 @@ export class NseBhavcopyService {
         const text = await res.text();
         const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0 && !l.includes('NO RECORDS'));
         if (lines.length > 1) {
-          for (let i = 1; i < lines.length; i++) {
-            const cols = lines[i].split(',').map(c => c.replace(/^"|"$/g, '').trim());
-            if (cols.length >= 7 && cols[1]) {
-              const dealDate = cols[0];
-              const symbol = cols[1];
-              const secName = cols[2];
-              const clientName = cols[3];
-              const dealType = cols[4]?.toUpperCase().includes('BUY') ? 'BUY' : 'SELL';
-              const qty = parseInt(cols[5], 10) || 0;
-              const price = parseFloat(cols[6]) || 0;
+          await withTx(db, async () => {
+            for (let i = 1; i < lines.length; i++) {
+              const cols = lines[i].split(',').map(c => c.replace(/^"|"$/g, '').trim());
+              if (cols.length >= 7 && cols[1]) {
+                const dealDate = cols[0];
+                const symbol = cols[1];
+                const secName = cols[2];
+                const clientName = cols[3];
+                const dealType = cols[4]?.toUpperCase().includes('BUY') ? 'BUY' : 'SELL';
+                const qty = parseInt(cols[5], 10) || 0;
+                const price = parseFloat(cols[6]) || 0;
 
-              if (qty > 0 && price > 0) {
-                await dbRun(db, `
-                  INSERT OR IGNORE INTO InstitutionalDeals (
-                    deal_date, symbol, security_name, client_name, deal_type, quantity, trade_price, deal_category, remarks
-                  ) VALUES (?, ?, ?, ?, ?, ?, ?, 'BLOCK_DEAL', 'NSE Block Deal')
-                `, [dealDate, symbol, secName, clientName, dealType, qty, price]);
-                blockIngested++;
+                if (qty > 0 && price > 0) {
+                  await dbRun(db, `
+                    INSERT OR IGNORE INTO InstitutionalDeals (
+                      deal_date, symbol, security_name, client_name, deal_type, quantity, trade_price, deal_category, remarks
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, 'BLOCK_DEAL', 'NSE Block Deal')
+                  `, [dealDate, symbol, secName, clientName, dealType, qty, price]);
+                  blockIngested++;
+                }
               }
             }
-          }
+          });
         }
       }
     } catch (err: any) {

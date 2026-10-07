@@ -11,7 +11,7 @@ const router = Router();
 
 // GET /api/healthcheck
 router.get('/healthcheck', (_req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  res.json({ status: 'ok', app: 'NRI WealthOS', timestamp: new Date().toISOString() });
 });
 
 // GET /api/server-info
@@ -85,7 +85,7 @@ router.get('/action-history', async (_req, res) => {
   try {
     const db = getDB();
     const rows = await dbAll(db, `SELECT * FROM ActionHistory ORDER BY timestamp DESC LIMIT 200`);
-    res.json({ success: true, rows });
+    res.json({ success: true, history: rows, rows });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
   }

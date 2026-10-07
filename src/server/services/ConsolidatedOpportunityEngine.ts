@@ -24,7 +24,7 @@ import { InstitutionalFlowService } from './InstitutionalFlowService.js';
  *  - Daily outcome auditing & self-healing feedback loop
  */
 
-import { getDB, dbAll, dbGet, dbRun } from '../database.js';
+import { getDB, dbAll, dbGet, dbRun, withTx } from '../database.js';
 import { fetchTickerData } from '../yahooFinance.js';
 import { ScreenerService, ScreenerData } from './screenerService.js';
 import { PaperTradingPotService } from './PaperTradingPotService.js';
@@ -1106,42 +1106,44 @@ export class ConsolidatedOpportunityEngine {
   public async saveScripEvaluationsToDatabase(opportunities: ConsolidatedOpportunity[], scanId: string = 'DEFAULT_SCAN', origin: string = 'SCAN'): Promise<void> {
     try {
       const db = getDB();
-      for (const opp of opportunities) {
-        await dbRun(
-          db,
-          `INSERT INTO OpportunityScripEvaluations (
-             symbol, company_name, sector, market_cap_category, convergence_score, actionable_now, multibagger_tier, evaluation_json, last_updated_at, provenance_tag, confidence_interval_str, scan_id, origin
-           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-           ON CONFLICT(symbol) DO UPDATE SET
-             company_name = excluded.company_name,
-             sector = excluded.sector,
-             market_cap_category = excluded.market_cap_category,
-             convergence_score = excluded.convergence_score,
-             actionable_now = excluded.actionable_now,
-             multibagger_tier = excluded.multibagger_tier,
-             evaluation_json = excluded.evaluation_json,
-             last_updated_at = excluded.last_updated_at,
-             provenance_tag = excluded.provenance_tag,
-             confidence_interval_str = excluded.confidence_interval_str,
-             scan_id = excluded.scan_id,
-             origin = excluded.origin`,
-          [
-            opp.symbol,
-            opp.companyName,
-            opp.sector,
-            opp.marketCapCategory,
-            opp.convergenceScore,
-            opp.actionableNow ? 1 : 0,
-            opp.multibaggerTier,
-            JSON.stringify(opp),
-            Date.now(),
-            opp.dataProvenance?.sourceType || 'SOURCED',
-            opp.dataProvenance?.confidenceIntervalStr || '±2.1%',
-            scanId,
-            origin
-          ]
-        );
-      }
+      await withTx(db, async () => {
+        for (const opp of opportunities) {
+          await dbRun(
+            db,
+            `INSERT INTO OpportunityScripEvaluations (
+               symbol, company_name, sector, market_cap_category, convergence_score, actionable_now, multibagger_tier, evaluation_json, last_updated_at, provenance_tag, confidence_interval_str, scan_id, origin
+             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+             ON CONFLICT(symbol) DO UPDATE SET
+               company_name = excluded.company_name,
+               sector = excluded.sector,
+               market_cap_category = excluded.market_cap_category,
+               convergence_score = excluded.convergence_score,
+               actionable_now = excluded.actionable_now,
+               multibagger_tier = excluded.multibagger_tier,
+               evaluation_json = excluded.evaluation_json,
+               last_updated_at = excluded.last_updated_at,
+               provenance_tag = excluded.provenance_tag,
+               confidence_interval_str = excluded.confidence_interval_str,
+               scan_id = excluded.scan_id,
+               origin = excluded.origin`,
+            [
+              opp.symbol,
+              opp.companyName,
+              opp.sector,
+              opp.marketCapCategory,
+              opp.convergenceScore,
+              opp.actionableNow ? 1 : 0,
+              opp.multibaggerTier,
+              JSON.stringify(opp),
+              Date.now(),
+              opp.dataProvenance?.sourceType || 'SOURCED',
+              opp.dataProvenance?.confidenceIntervalStr || '±2.1%',
+              scanId,
+              origin
+            ]
+          );
+        }
+      });
     } catch (err) {
       console.error('[COE] Error saving scrip evaluations to SQLite:', err);
     }
@@ -1480,16 +1482,18 @@ export class ConsolidatedOpportunityEngine {
       try {
         const db = getDB();
         const today = new Date().toISOString().split('T')[0];
-        for (const item of curationLogs) {
-          await dbRun(db, `
-            INSERT INTO TopNCurationLog
-              (curation_date, tier, symbol, convergence_score, consensus_pass_count, sector, rank, inclusion_status, exclusion_reason)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-          `, [
-            today, item.tier, item.symbol, item.score, item.passCount, item.sector,
-            item.rank || null, item.status, item.reason || null
-          ]);
-        }
+        await withTx(db, async () => {
+          for (const item of curationLogs) {
+            await dbRun(db, `
+              INSERT INTO TopNCurationLog
+                (curation_date, tier, symbol, convergence_score, consensus_pass_count, sector, rank, inclusion_status, exclusion_reason)
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            `, [
+              today, item.tier, item.symbol, item.score, item.passCount, item.sector,
+              item.rank || null, item.status, item.reason || null
+            ]);
+          }
+        });
       } catch {}
     })();
 
@@ -1582,18 +1586,20 @@ export class ConsolidatedOpportunityEngine {
     try {
       const db = getDB();
       const nowStr = new Date().toISOString();
-      for (const o of top5) {
-        await dbRun(db, `
-          INSERT INTO tier_membership_history (id, tier, symbol, event_type, score, consecutive_cycles, recorded_at)
-          VALUES (?, 'TOP_5', ?, 'MAINTAINED', ?, 1, ?)
-        `, [`t5_${o.symbol}_${Date.now()}`, o.symbol, o.convergenceScore, nowStr]);
-      }
-      for (const o of top10) {
-        await dbRun(db, `
-          INSERT INTO tier_membership_history (id, tier, symbol, event_type, score, consecutive_cycles, recorded_at)
-          VALUES (?, 'TOP_10', ?, 'MAINTAINED', ?, 1, ?)
-        `, [`t10_${o.symbol}_${Date.now()}`, o.symbol, o.convergenceScore, nowStr]);
-      }
+      await withTx(db, async () => {
+        for (const o of top5) {
+          await dbRun(db, `
+            INSERT INTO tier_membership_history (id, tier, symbol, event_type, score, consecutive_cycles, recorded_at)
+            VALUES (?, 'TOP_5', ?, 'MAINTAINED', ?, 1, ?)
+          `, [`t5_${o.symbol}_${Date.now()}`, o.symbol, o.convergenceScore, nowStr]);
+        }
+        for (const o of top10) {
+          await dbRun(db, `
+            INSERT INTO tier_membership_history (id, tier, symbol, event_type, score, consecutive_cycles, recorded_at)
+            VALUES (?, 'TOP_10', ?, 'MAINTAINED', ?, 1, ?)
+          `, [`t10_${o.symbol}_${Date.now()}`, o.symbol, o.convergenceScore, nowStr]);
+        }
+      });
     } catch (e) {}
   }
 

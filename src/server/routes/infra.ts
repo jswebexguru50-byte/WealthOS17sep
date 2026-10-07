@@ -37,6 +37,7 @@ import {
   getUpcomingCorporateActions,
   getDividendSummary,
   applyCorporateActionWithVerification,
+  applyAllPendingCorporateActions,
   processRightsSubscription,
   getHoldingsWithYieldOnCost
 } from '../services/CorporateActionsEngine.js';
@@ -89,7 +90,7 @@ import { FlexibleTelemetryPipelineService, PipelineStageId } from '../services/F
 import { SunriseIndustrialUniverseService } from '../services/SunriseIndustrialUniverseService.js';
 import fs from 'fs';
 import path from 'path';
-import { dbAll, dbGet, dbRun, getDB } from '../database.js';
+import { dbAll, dbGet, dbRun, getDB, withTx } from '../database.js';
 
 const router = express.Router();
 
@@ -283,22 +284,21 @@ router.get('/corporate-actions/dividend-summary', async (req: Request, res: Resp
 });
 
 // CA-3: Apply Corporate Action with Runtime Cost-Basis Invariant Verification
-router.post('/corporate-actions/apply', async (req: Request, res: Response) => {
+router.post(['/corporate-actions/apply', '/corporate-actions/apply-verified'], async (req: Request, res: Response) => {
   try {
-    const { action_id, symbol, action_type, ratio_num, ratio_den, ex_date } = req.body;
-    if (!symbol || !action_type || !ratio_num || !ratio_den || !ex_date) {
-      return res.status(400).json({
-        success: false,
-        error: 'Missing required parameters: symbol, action_type, ratio_num, ratio_den, ex_date'
-      });
+    const { action_id, symbol } = req.body || {};
+    if (action_id && symbol) {
+      const report = await applyCorporateActionWithVerification(
+        Number(action_id),
+        req.body.portfolio || 'cc9'
+      );
+      return res.json({ success: true, report });
     }
-    const report = await applyCorporateActionWithVerification(
-      Number(action_id),
-      req.body.portfolio || 'cc9'
-    );
-    res.json({ success: true, report });
+
+    const result = await applyAllPendingCorporateActions();
+    return res.json(result);
   } catch (err: any) {
-    res.status(400).json({ success: false, error: err.message });
+    return res.status(500).json({ success: false, error: err.message, message: err.message });
   }
 });
 
@@ -962,8 +962,8 @@ Strategy: NRI WealthOS Spec v1.1 6-Component Confluence Momentum Engine
   }
 });
 
-// GET /metrics - Prometheus Telemetry Metrics Endpoint
-router.get('/metrics', (req: Request, res: Response) => {
+// GET /telemetry/metrics, /prometheus/metrics - Prometheus Telemetry Metrics Endpoint
+router.get(['/telemetry/metrics', '/prometheus/metrics'], (req: Request, res: Response) => {
   try {
     const cacheMetrics = MarketDataCache.getInstance().getMetrics();
     const wsMetrics = LiveMarketStreamService.getInstance().getMetrics();
@@ -1661,7 +1661,11 @@ router.post('/momentum-vpa/orders/:id/update-price', updateOrderPriceHandler);
 // GET /api/v1/consensus/executive-summary & /api/consensus/executive-summary
 const getExecutiveConsensusHandler = async (req: Request, res: Response) => {
   try {
-    const report = await ExecutiveConsensusService.getInstance().getExecutiveConsensusReport();
+    const portfolio = (req.query.portfolio as string) || 'ALL';
+    const svc = ExecutiveConsensusService.getInstance();
+    const report = typeof svc.generateExecutiveConsensusReport === 'function'
+      ? await svc.generateExecutiveConsensusReport(portfolio)
+      : await svc.getExecutiveConsensusReport();
     res.json({
       success: true,
       schemaVersion: 'v1',
@@ -1678,8 +1682,12 @@ router.get('/consensus/executive-summary', getExecutiveConsensusHandler);
 // GET /api/v1/consensus/scrip/:symbol & /api/consensus/scrip/:symbol
 const getScripConsensusDetailHandler = async (req: Request, res: Response) => {
   try {
-    const symbol = req.params.symbol;
-    const detail = await ExecutiveConsensusService.getInstance().getScripConsensusDetail(symbol);
+    const symbol = req.params.symbol?.toUpperCase();
+    const portfolio = (req.query.portfolio as string) || 'ALL';
+    const svc = ExecutiveConsensusService.getInstance();
+    const detail = typeof svc.evaluateScripConsensus === 'function'
+      ? await svc.evaluateScripConsensus(symbol, portfolio)
+      : await svc.getScripConsensusDetail(symbol);
     if (!detail) {
       return res.status(404).json({ success: false, error: `No consensus record found for ${symbol}` });
     }
@@ -1955,45 +1963,7 @@ const simulateRebalanceSwitchHandler = async (req: Request, res: Response) => {
 router.post('/v1/greenfield/simulate-rebalance-switch', simulateRebalanceSwitchHandler);
 router.post('/greenfield/simulate-rebalance-switch', simulateRebalanceSwitchHandler);
 
-// ─── EXECUTIVE CONSENSUS & MULTI-PERSPECTIVE SYNTHESIS ENDPOINTS ────────
 
-// GET /api/v1/consensus/executive-summary & /api/consensus/executive-summary
-const getExecutiveConsensusSummaryHandler = async (req: Request, res: Response) => {
-  try {
-    const portfolio = (req.query.portfolio as string) || 'ALL';
-    const report = await ExecutiveConsensusService.getInstance().generateExecutiveConsensusReport(portfolio);
-    res.json({
-      success: true,
-      schemaVersion: 'v1',
-      data: report
-    });
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-};
-router.get('/v1/consensus/executive-summary', getExecutiveConsensusSummaryHandler);
-router.get('/consensus/executive-summary', getExecutiveConsensusSummaryHandler);
-
-// GET /api/v1/consensus/scrip/:symbol & /api/consensus/scrip/:symbol
-const getScripConsensusHandler = async (req: Request, res: Response) => {
-  try {
-    const symbol = req.params.symbol?.toUpperCase();
-    const portfolio = (req.query.portfolio as string) || 'ALL';
-    const scripRecord = await ExecutiveConsensusService.getInstance().evaluateScripConsensus(symbol, portfolio);
-    if (!scripRecord) {
-      return res.status(404).json({ success: false, error: `Scrip ${symbol} not found in consensus matrix` });
-    }
-    res.json({
-      success: true,
-      schemaVersion: 'v1',
-      data: scripRecord
-    });
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-};
-router.get('/v1/consensus/scrip/:symbol', getScripConsensusHandler);
-router.get('/consensus/scrip/:symbol', getScripConsensusHandler);
 
 // GET /api/v1/consensus/export-excel & /api/consensus/export-excel
 const exportConsensusExcelHandler = async (req: Request, res: Response) => {
@@ -2399,58 +2369,7 @@ router.get('/technical-strategies/evaluate/:symbol', async (req: Request, res: R
   }
 });
 
-// GET /api/technical-strategies/universe-count
-// Returns the total count of all ever-traded stocks in the database
-router.get('/technical-strategies/universe-count', async (_req: Request, res: Response) => {
-  try {
-    const db = getDB();
-    const rows = await dbAll<{ count: number }>(
-      db,
-      'SELECT COUNT(DISTINCT symbol) as count FROM HistoricalPrices WHERE symbol IS NOT NULL'
-    );
-    const count = rows?.[0]?.count || 0;
-    res.json({ success: true, data: { count } });
-  } catch (err: any) {
-    console.error('[API] /api/technical-strategies/universe-count error:', err);
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
 
-// POST /api/technical-strategies/scan-multi
-// Runs multiple strategies in parallel and returns combined results with convergence matrix
-router.post('/technical-strategies/scan-multi', async (req: Request, res: Response) => {
-  try {
-    const { strategyIds, filter52wLow } = req.body;
-
-    if (!strategyIds || !Array.isArray(strategyIds) || strategyIds.length === 0) {
-      return res.status(400).json({
-        success: false,
-        error: 'strategyIds array required (non-empty)'
-      });
-    }
-
-    // For now, run the standard scan (all 10 strategies) and return as-is
-    // Future: filter by selected strategyIds and return per-strategy results
-    const report = await PureTechnicalStrategiesEngine.getInstance().scanUniverse(undefined, false, {
-      filterPreceding52wLow: filter52wLow === true || filter52wLow === 'true'
-    });
-
-    res.json({
-      success: true,
-      data: {
-        runId: `run_${Date.now()}`,
-        strategies: report,
-        comparisonMatrix: report.multiConvergenceMatches || [],
-        convergenceMatches: report.multiConvergenceMatches || [],
-        universeCount: report.totalUniverseScanned || 0,
-        generatedAt: new Date().toISOString()
-      }
-    });
-  } catch (err: any) {
-    console.error('[API] /api/technical-strategies/scan-multi error:', err);
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
 
 // ── DATA PIPELINE: Bhavcopy Historical Backfill ──
 
@@ -2498,20 +2417,7 @@ router.get('/data-pipeline/daily-ohlcv/:symbol', async (req: Request, res: Respo
   }
 });
 
-// POST /api/data-pipeline/run-daily
-router.post('/data-pipeline/run-daily', async (req: Request, res: Response) => {
-  try {
-    const { DailyEODPipelineService } = await import('../services/DailyEODPipelineService.js');
-    const { targetDate } = req.body || {};
-    const pipeline = DailyEODPipelineService.getInstance();
-    res.json({ success: true, message: `Daily EOD pipeline started for ${targetDate || 'today'}` });
-    pipeline.runDailyPipeline(targetDate).catch(err =>
-      console.error('[EOD Pipeline] Background error:', err)
-    );
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
+
 
 // GET /api/data-pipeline/pipeline-status
 router.get('/data-pipeline/pipeline-status', async (_req: Request, res: Response) => {
@@ -3218,54 +3124,56 @@ router.post('/strategies/custom/run-all-backtests', async (_req: Request, res: R
 
     const results: Array<{ id: string; name: string; totalSignals: number; winRatePct: string }> = [];
 
-    for (const strat of strategies as any[]) {
-      try {
-        const config = JSON.parse(strat.parameters_json);
-        const evalNum = templateToEvaluator[strat.base_template_id] || 1;
-        const options = { config };
+    await withTx(db, async () => {
+      for (const strat of strategies as any[]) {
+        try {
+          const config = JSON.parse(strat.parameters_json);
+          const evalNum = templateToEvaluator[strat.base_template_id] || 1;
+          const options = { config };
 
-        let signals = 0, wins = 0, totalReturn = 0;
-        for (const { symbol } of symbols as any[]) {
-          const candles = await dbAll(db,
-            "SELECT date, open, high, low, close, volume FROM DailyOHLCV WHERE symbol = ? ORDER BY date ASC",
-            [symbol]
-          );
-          if (!candles || candles.length < 60) continue;
-          let result: any = null;
-          if (evalNum === 1) result = engine.evaluateStrategy1(candles, symbol, '', options);
-          else if (evalNum === 2) result = engine.evaluateStrategy2(candles, symbol, '', options);
-          else if (evalNum === 3) result = engine.evaluateStrategy3(candles, symbol, '', options);
-          else if (evalNum === 31) result = engine.evaluateStrategy3a(candles, symbol, '', options);
-          else if (evalNum === 4) result = engine.evaluateStrategy4(candles, symbol, '', options);
-          else if (evalNum === 5) result = engine.evaluateStrategy5(candles, symbol, '', options);
-          else if (evalNum === 6) result = engine.evaluateStrategy6(candles, symbol, '', options);
-          else if (evalNum === 7) result = engine.evaluateStrategy7(candles, symbol, '', options);
-          else if (evalNum === 8) result = engine.evaluateStrategy8(candles, symbol, '', options);
-          else if (evalNum === 9) result = engine.evaluateStrategy9(candles, symbol, '', options);
-          else if (evalNum === 10) result = engine.evaluateStrategy10(candles, symbol, '', options);
-          else result = engine.evaluateStrategy1(candles, symbol, '', options);
-          if (result?.qualified) {
-            signals++;
-            const gain = result.target1 && result.cmp ? ((result.target1 - result.cmp) / result.cmp) * 100 : 0;
-            if (gain > 0) wins++;
-            totalReturn += gain;
+          let signals = 0, wins = 0, totalReturn = 0;
+          for (const { symbol } of symbols as any[]) {
+            const candles = await dbAll(db,
+              "SELECT date, open, high, low, close, volume FROM DailyOHLCV WHERE symbol = ? ORDER BY date ASC",
+              [symbol]
+            );
+            if (!candles || candles.length < 60) continue;
+            let result: any = null;
+            if (evalNum === 1) result = engine.evaluateStrategy1(candles, symbol, '', options);
+            else if (evalNum === 2) result = engine.evaluateStrategy2(candles, symbol, '', options);
+            else if (evalNum === 3) result = engine.evaluateStrategy3(candles, symbol, '', options);
+            else if (evalNum === 31) result = engine.evaluateStrategy3a(candles, symbol, '', options);
+            else if (evalNum === 4) result = engine.evaluateStrategy4(candles, symbol, '', options);
+            else if (evalNum === 5) result = engine.evaluateStrategy5(candles, symbol, '', options);
+            else if (evalNum === 6) result = engine.evaluateStrategy6(candles, symbol, '', options);
+            else if (evalNum === 7) result = engine.evaluateStrategy7(candles, symbol, '', options);
+            else if (evalNum === 8) result = engine.evaluateStrategy8(candles, symbol, '', options);
+            else if (evalNum === 9) result = engine.evaluateStrategy9(candles, symbol, '', options);
+            else if (evalNum === 10) result = engine.evaluateStrategy10(candles, symbol, '', options);
+            else result = engine.evaluateStrategy1(candles, symbol, '', options);
+            if (result?.qualified) {
+              signals++;
+              const gain = result.target1 && result.cmp ? ((result.target1 - result.cmp) / result.cmp) * 100 : 0;
+              if (gain > 0) wins++;
+              totalReturn += gain;
+            }
           }
+
+          const winRate = signals > 0 ? (wins / signals) * 100 : 0;
+          const avgReturn = signals > 0 ? totalReturn / signals : 0;
+          const sharpe = signals > 0 ? (avgReturn / (totalReturn > 0 ? Math.sqrt(totalReturn / signals) : 1)) : 0;
+
+          await dbRun(db,
+            'UPDATE CustomStrategies SET backtest_win_rate = ?, backtest_sharpe = ?, backtest_total_signals = ?, last_backtest_at = CURRENT_TIMESTAMP WHERE id = ?',
+            [winRate, sharpe, signals, strat.id]
+          );
+          results.push({ id: strat.id, name: strat.name, totalSignals: signals, winRatePct: winRate.toFixed(1) });
+        } catch (err: any) {
+          console.error(`[RunAllBacktests] Strategy ${strat.name} failed:`, err.message);
+          results.push({ id: strat.id, name: strat.name, totalSignals: 0, winRatePct: '0.0' });
         }
-
-        const winRate = signals > 0 ? (wins / signals) * 100 : 0;
-        const avgReturn = signals > 0 ? totalReturn / signals : 0;
-        const sharpe = signals > 0 ? (avgReturn / (totalReturn > 0 ? Math.sqrt(totalReturn / signals) : 1)) : 0;
-
-        await dbRun(db,
-          'UPDATE CustomStrategies SET backtest_win_rate = ?, backtest_sharpe = ?, backtest_total_signals = ?, last_backtest_at = CURRENT_TIMESTAMP WHERE id = ?',
-          [winRate, sharpe, signals, strat.id]
-        );
-        results.push({ id: strat.id, name: strat.name, totalSignals: signals, winRatePct: winRate.toFixed(1) });
-      } catch (err: any) {
-        console.error(`[RunAllBacktests] Strategy ${strat.name} failed:`, err.message);
-        results.push({ id: strat.id, name: strat.name, totalSignals: 0, winRatePct: '0.0' });
       }
-    }
+    });
 
     res.json({ success: true, data: { ran: results.length, results } });
   } catch (err: any) {

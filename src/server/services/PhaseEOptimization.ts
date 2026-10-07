@@ -12,7 +12,7 @@
  */
 
 import { Database } from 'sqlite3';
-import { getDB, dbAll, dbGet, dbRun } from '../database.js';
+import { getDB, dbAll, dbGet, dbRun, withTx } from '../database.js';
 
 interface IndexInfo {
   seqno: number;
@@ -118,21 +118,23 @@ export class PhaseEOptimization {
       ];
 
       // Verify and create indexes
-      for (const index of criticalIndexes) {
-        const columnSpec = index.columns.join(', ');
-        const createSql = `CREATE INDEX IF NOT EXISTS ${index.name} ON ${index.table}(${columnSpec})`;
+      await withTx(db, async () => {
+        for (const index of criticalIndexes) {
+          const columnSpec = index.columns.join(', ');
+          const createSql = `CREATE INDEX IF NOT EXISTS ${index.name} ON ${index.table}(${columnSpec})`;
 
-        await new Promise<void>((resolve) => {
-          db.run(createSql, (err) => {
-            if (!err) {
-              indexesAdded++;
-            }
-            resolve();
+          await new Promise<void>((resolve) => {
+            db.run(createSql, (err) => {
+              if (!err) {
+                indexesAdded++;
+              }
+              resolve();
+            });
           });
-        });
 
-        indexesVerified++;
-      }
+          indexesVerified++;
+        }
+      });
 
       // Run ANALYZE to update statistics
       await new Promise<void>((resolve) => {

@@ -4,7 +4,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import App from './App.tsx';
 import { ErrorBoundary } from './components/ErrorBoundary.tsx';
 import './index.css';
-import { applyTheme, getActiveThemeId } from './components/ThemeSelectorModal.js';
+import { applyTheme, getActiveThemeId } from './lib/theme.ts';
 
 // Apply stored theme before first paint to prevent flash-of-wrong-theme
 applyTheme(getActiveThemeId());

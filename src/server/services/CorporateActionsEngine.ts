@@ -3,7 +3,7 @@
  * Spec: dev_spec_opportunity_engine.md Section 5 (Phase 1)
  */
 
-import { dbAll, dbGet, dbRun, getDB } from '../database.js';
+import { dbAll, dbGet, dbRun, getDB, withTx } from '../database.js';
 import {
   todayIST,
   isTradingDay,
@@ -463,4 +463,195 @@ export async function getHoldingsWithYieldOnCost(portfolio?: string): Promise<an
       current_market_yield_pct: currentYieldPct
     };
   }).sort((a, b) => b.yield_on_cost_pct - a.yield_on_cost_pct);
+}
+
+export async function getHoldingQtyOnDate(db: any, isin: string | null | undefined, symbol: string | null | undefined, date: string): Promise<number> {
+  let txns: any[] = [];
+  const cleanIsin = isin ? String(isin).trim() : '';
+  const cleanSymbol = symbol ? String(symbol).toUpperCase().trim() : '';
+  
+  if (cleanIsin !== '') {
+    txns = await dbAll(db, `
+      SELECT portfolio, type, quantity, price 
+      FROM Transactions 
+      WHERE (isin = ? OR (symbol = ? AND (isin IS NULL OR isin = ''))) AND date <= ? 
+      ORDER BY date ASC, id ASC
+    `, [cleanIsin, cleanSymbol, date]);
+  } else if (cleanSymbol !== '') {
+    txns = await dbAll(db, `
+      SELECT portfolio, type, quantity, price 
+      FROM Transactions 
+      WHERE symbol = ? AND date <= ? 
+      ORDER BY date ASC, id ASC
+    `, [cleanSymbol, date]);
+  } else {
+    return 0;
+  }
+  
+  const portfolioQty: Record<string, number> = {};
+
+  for (const t of txns) {
+    const port = t.portfolio;
+    const type = String(t.type).toUpperCase();
+    const qty = t.quantity || 0;
+    
+    if (!portfolioQty[port]) portfolioQty[port] = 0;
+
+    if (type.includes('BUY') || type.includes('PURCHASE') || type.includes('IPO') || type.includes('ALLOTMENT') || type.includes('TRANSFER IN') || type.includes('SECURITY IN')) {
+      portfolioQty[port] += qty;
+    } else if (type.includes('SELL') || type.includes('SALE') || type.includes('MERGE') || type.includes('ROUNDING') || type.includes('TRANSFER OUT') || type.includes('SECURITY OUT')) {
+      portfolioQty[port] -= qty;
+    } else if (type === 'BONUS') {
+      portfolioQty[port] += qty;
+    } else if (type === 'SPLIT') {
+      const ratio = t.price || 1;
+      portfolioQty[port] *= ratio;
+    }
+  }
+
+  let totalHeld = 0;
+  for (const qty of Object.values(portfolioQty)) {
+    if (qty > 0) totalHeld += qty;
+  }
+  return totalHeld;
+}
+
+export async function applyAllPendingCorporateActions(): Promise<{ success: boolean; appliedCount: number; skippedCount: number; message: string }> {
+  const db = getDB();
+  const pendingCAs = await dbAll(db, 'SELECT * FROM CorporateActions WHERE applied = 0 OR applied IS NULL');
+  if (pendingCAs.length === 0) {
+    return { success: true, appliedCount: 0, skippedCount: 0, message: 'No pending actions to apply.' };
+  }
+
+  const batchId = `CA-${Date.now()}`;
+  await dbRun(db, `
+    INSERT INTO ActionHistory (timestamp, action_type, description, batch_id)
+    VALUES (CURRENT_TIMESTAMP, 'System-CA-Apply', 'Applying pending corporate actions', ?)
+  `, [batchId]);
+
+  let appliedCount = 0;
+  let skippedCount = 0;
+
+  await withTx(db, async () => {
+    for (const ca of pendingCAs) {
+    const isin = ca.isin;
+    const symbol = ca.symbol;
+    const recordDate = ca.record_date;
+    const actionType = String(ca.action_type).toUpperCase();
+
+    const totalHolding = await getHoldingQtyOnDate(db, isin, symbol, recordDate);
+    if (totalHolding <= 0.001) {
+      const newDetails = (ca.details || '') + ' [Skipped: No eligible stock inventory held on record date]';
+      await dbRun(db, `
+        UPDATE CorporateActions 
+        SET applied = 1, applied_date = CURRENT_TIMESTAMP, applied_batch_id = ?, details = ?
+        WHERE id = ?
+      `, [batchId, newDetails, ca.id]);
+      skippedCount++;
+      continue;
+    }
+
+    let txns: any[] = [];
+    if (isin && isin.trim() !== '') {
+      txns = await dbAll(db, `
+        SELECT portfolio, type, quantity, price, net_amount 
+        FROM Transactions 
+        WHERE (isin = ? OR (symbol = ? AND (isin IS NULL OR isin = ''))) AND date <= ? 
+        ORDER BY date ASC, id ASC
+      `, [isin, symbol, recordDate]);
+    } else {
+      txns = await dbAll(db, `
+        SELECT portfolio, type, quantity, price, net_amount 
+        FROM Transactions 
+        WHERE symbol = ? AND date <= ? 
+        ORDER BY date ASC, id ASC
+      `, [symbol, recordDate]);
+    }
+
+    const portfolioQty: Record<string, number> = {};
+
+    for (const t of txns) {
+      const port = t.portfolio;
+      const type = String(t.type).toUpperCase();
+      const qty = t.quantity || 0;
+      
+      if (!portfolioQty[port]) portfolioQty[port] = 0;
+
+      if (type.includes('BUY') || type.includes('PURCHASE') || type.includes('IPO') || type.includes('ALLOTMENT') || type.includes('TRANSFER IN') || type.includes('SECURITY IN')) {
+        portfolioQty[port] += qty;
+      } else if (type.includes('SELL') || type.includes('SALE') || type.includes('MERGE') || type.includes('ROUNDING') || type.includes('TRANSFER OUT') || type.includes('SECURITY OUT')) {
+        portfolioQty[port] -= qty;
+      } else if (type === 'BONUS') {
+        portfolioQty[port] += qty;
+      } else if (type === 'SPLIT') {
+        const ratio = t.price || 1;
+        portfolioQty[port] *= ratio;
+      }
+    }
+
+    for (const [port, qtyHeld] of Object.entries(portfolioQty)) {
+      if (qtyHeld <= 0.001) continue;
+
+      let qtyToInsert = 0;
+      let priceToInsert = 0;
+      let netAmount = 0;
+
+      if (actionType === 'SPLIT') {
+        const ratio = (ca.numerator || 1) / (ca.denominator || 1);
+        qtyToInsert = 0;
+        priceToInsert = ratio;
+      } else if (actionType === 'BONUS') {
+        const ratio = (ca.numerator || 0) / (ca.denominator || 1);
+        qtyToInsert = qtyHeld * ratio;
+        priceToInsert = 0;
+      } else if (actionType === 'DIVIDEND') {
+        const dps = ca.dividend_per_share || 0;
+        qtyToInsert = 0;
+        priceToInsert = dps;
+        netAmount = qtyHeld * dps;
+      }
+
+      const hasUploadOrPms = await dbGet(db, "SELECT id FROM Transactions WHERE portfolio = ? AND source IN ('Upload', 'PMS') LIMIT 1", [port]);
+      if (actionType === 'DIVIDEND' && hasUploadOrPms) {
+        continue;
+      }
+
+      const dupCheck = await dbGet(db, `
+        SELECT id FROM Transactions 
+        WHERE isin = ? 
+          AND UPPER(type) LIKE '%' || ? || '%' 
+          AND portfolio = ?
+          AND date >= date(?, '-15 days') 
+          AND date <= date(?, '+45 days')
+      `, [isin, actionType, port, recordDate, recordDate]);
+
+      if (!dupCheck) {
+        await dbRun(db, `
+          INSERT INTO Transactions (date, portfolio, type, isin, symbol, quantity, price, net_amount, source, batch_id, is_cash_flow)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'System-CA', ?, ?)
+        `, [recordDate, port, actionType, isin, symbol, qtyToInsert, priceToInsert, netAmount, batchId, actionType === 'DIVIDEND' ? 1 : 0]);
+      }
+    }
+
+      await dbRun(db, 'UPDATE CorporateActions SET applied = 1, applied_date = CURRENT_TIMESTAMP, applied_batch_id = ? WHERE id = ?', [batchId, ca.id]);
+      appliedCount++;
+    }
+  });
+
+  const description = `Applied ${appliedCount} actions, skipped ${skippedCount} actions with no eligible holdings.`;
+  await dbRun(db, 'UPDATE ActionHistory SET description = ? WHERE batch_id = ?', [description, batchId]);
+
+  try {
+    const { runFIFO } = await import('../fifoEngine.js');
+    await runFIFO(db as any);
+  } catch (fifoErr) {
+    console.warn('[applyAllPendingCorporateActions] runFIFO notice:', fifoErr);
+  }
+
+  return {
+    success: true,
+    appliedCount,
+    skippedCount,
+    message: `Successfully processed: applied ${appliedCount} and skipped ${skippedCount} due to zero holdings.`
+  };
 }

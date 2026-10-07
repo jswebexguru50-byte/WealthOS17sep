@@ -12,6 +12,7 @@ import fs from 'fs';
 import os from 'os';
 import { execFile } from 'child_process';
 import { promisify } from 'util';
+import crypto from 'node:crypto';
 import compression from 'compression';
 import zlib from 'zlib';
 import { createServer as createViteServer } from 'vite';
@@ -89,6 +90,7 @@ import {
   dbGet,
   auditDBChange,
   setSwapInProgress,
+  withTx,
 } from './src/server/database.js';
 import { parsePMSFile, parseCCBankBookCSV, parseIIFLBankBookCSV, parsePMSTradeRegisterCSV, parseCCBankBookFromPdfText, parseCCTradeRegisterFromPdfText } from './src/server/pmsParser.js';
 import {
@@ -145,6 +147,7 @@ import { stockscansRouter } from './src/server/routes/stockscansRoutes.js';
 import { remoteBridgeRouter } from './src/server/routes/remoteBridgeRouter.js';
 import { aiStudioProxyRouter } from './src/server/routes/aiStudioProxyRouter.js';
 import { dossierRouter } from './src/server/routes/dossierRoutes.js';
+import { getServerConfig, timingSafeMatch, createRateLimiter } from './src/server/config.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -153,41 +156,70 @@ if (dns && dns.setDefaultResultOrder) {
 }
 
 const app = express();
-const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
-const BIND_HOST = process.env.BIND_HOST || '0.0.0.0';
+const serverConfig = getServerConfig();
+const PORT = serverConfig.PORT;
+// Default to 127.0.0.1 for local security (Finding P0-3)
+const BIND_HOST = serverConfig.BIND_HOST;
 
+// Allowed origins for CORS (default local dev ports)
+const allowedOrigins = serverConfig.allowedOriginsList;
 
-// Security Headers & CORS Middleware (Helmet-equivalent hardening)
+// Security Headers & CORS Middleware (Finding P0-3)
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'SAMEORIGIN');
   res.setHeader('X-XSS-Protection', '1; mode=block');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.setHeader('Access-Control-Allow-Origin', '*');
+
+  const origin = req.headers.origin as string;
+  if (origin && (allowedOrigins.includes(origin) || allowedOrigins.includes('*'))) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+  } else if (!origin) {
+    res.setHeader('Access-Control-Allow-Origin', allowedOrigins[0] || 'http://localhost:3000');
+  }
+
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-app-password, x-requested-with, Access-Control-Request-Private-Network');
-  res.setHeader('Access-Control-Allow-Private-Network', 'true');
+  if (req.headers['access-control-request-private-network']) {
+    res.setHeader('Access-Control-Allow-Private-Network', 'true');
+  }
   if (req.method === 'OPTIONS') {
-    return res.sendStatus(200);
+    return res.sendStatus(204);
   }
   next();
 });
 
 // ── HTTP Response Compression (gzip) — reduces payload size by 60-80% ────────
 app.use(compression());
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+// Global JSON payload body limit lowered to 2mb (Finding P0-3)
+app.use(express.json({ limit: '2mb' }));
+app.use(express.urlencoded({ extended: true, limit: '2mb' }));
+// Centralized API Rate Limiter (600 req / minute per IP)
+app.use('/api', createRateLimiter({
+  windowMs: 60 * 1000,
+  maxRequests: 600,
+  message: 'WealthOS API rate limit of 600 requests per minute exceeded.'
+}));
 // ─────────────────────────────────────────────────────────────────────────────
 
 // Forensic Intelligence Layer Endpoints
 app.use('/api/forensic', forensicRouter);
-// Strategy Calibration, Signal Quality & Execution Endpoints
-app.use('/api/strategies', strategiesRouter);
+// Note: duplicate /api/strategies mount removed here; canonical mount is at line 344 (Finding P1-5)
 app.use('/api/auth/kite', kiteRouter);
 // StockScans Clean-Room Parity Endpoints
 app.use('/api/stockscans', stockscansRouter);
 app.use('/api/remote', remoteBridgeRouter);
-app.use('/api/ai-studio-proxy', (req, res, next) => { if (process.env.APP_PASSWORD && req.headers['x-app-password'] !== process.env.APP_PASSWORD) return res.status(401).json({ error: 'Unauthorized local session' }); next(); }, aiStudioProxyRouter);
+app.use('/api/ai-studio-proxy', (req, res, next) => {
+  const expectedPassword = serverConfig.APP_PASSWORD;
+  if (expectedPassword) {
+    const provided = String(req.headers['x-app-password'] || '');
+    if (!timingSafeMatch(provided, expectedPassword)) {
+      return res.status(401).json({ error: 'Unauthorized local session' });
+    }
+  }
+  next();
+}, aiStudioProxyRouter);
 app.use('/api/dossier-runs', dossierRouter);
 
 // Permanent adjusted daily candles live outside SQLite in the DuckDB/Parquet
@@ -256,11 +288,6 @@ app.get('/api/market-data/scan-status', async (_req, res) => {
   }
 });
 
-app.get('/api/healthcheck', (req, res) => {
-  res.json({ status: 'ok', app: 'NRI WealthOS', timestamp: new Date().toISOString() });
-});
-
-
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
@@ -293,10 +320,12 @@ app.get('/api/prices/last-updated', async (req, res) => {
 // ── Modular Route Mounts ───────────────────────────────────────────────────────
 import systemRouter      from './src/server/routes/system.js';
 import portfoliosRouter  from './src/server/routes/portfolios.js';
-import bankFdsRouter     from './src/server/routes/bankFds.js';
-import reportsRouter     from './src/server/routes/reports.js';
-import settingsRouter    from './src/server/routes/settings.js';
+import bankFdsRouter from './src/server/routes/bankFds.js';
+import currencyRatesRouter from './src/server/routes/currencyRates.js';
+import reportsRouter from './src/server/routes/reports.js';
+import settingsRouter from './src/server/routes/settings.js';
 import transactionsRouter from './src/server/routes/transactions.js';
+import masterTickersRouter from './src/server/routes/masterTickers.js';
 import importsRouter     from './src/server/routes/imports.js';
 import nriRouter         from './src/server/routes/nri.js';
 import commandCenterRouter from './src/server/routes/commandCenter.js';
@@ -325,11 +354,11 @@ import { PostTaxXirrService } from './src/server/services/PostTaxXirrService.js'
 app.use('/api', systemRouter);
 app.use('/api/portfolios', portfoliosRouter);
 app.use('/api/bank-fds', bankFdsRouter);
-app.use('/api', bankFdsRouter);          // also exposes /api/currency-rates, /api/currency-rates/sync
+app.use('/api/currency-rates', currencyRatesRouter);
 app.use('/api/reports', reportsRouter);
 app.use('/api', settingsRouter);          // exposes /api/config, /api/family-hierarchy, /api/scrip-mappings, /api/tickers
 app.use('/api/transactions', transactionsRouter);
-app.use('/api', transactionsRouter);      // also exposes /api/master-tickers, /api/master-tickers/*
+app.use('/api/master-tickers', masterTickersRouter);
 app.use('/api', importsRouter);           // exposes /api/recon/*, /api/pms/*, /api/templates/*, /api/cams/*
 app.use('/api/nri', nriRouter);          // exposes /api/nri/* (tds-recon, repatriation, tax-harvesting, rebalance-matrix, switch-analysis, dual-currency-xirr)
 app.use('/api/command-center', commandCenterRouter); // exposes /api/command-center (Consolidated family AUM, Day P&L, Allocation, Health Score)
@@ -354,15 +383,7 @@ app.get('/api/analytics/lookthrough', async (req, res) => {
   }
 });
 
-app.get('/api/dashboard/effective-holdings', async (req, res) => {
-  try {
-    const portfolioQuery = req.query.portfolio ? String(req.query.portfolio).split(',') : null;
-    const effective = await LookthroughService.getInstance().computeEffectiveHoldings(portfolioQuery);
-    res.json({ success: true, effective_holdings: effective, data: effective });
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
+
 
 app.get('/api/analytics/risk', async (req, res) => {
   try {
@@ -385,39 +406,6 @@ app.get('/api/alerts', async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 });
-
-app.get('/api/opportunities/scanner', async (req, res) => {
-  try {
-    const report = await OpportunityScannerEngine.getInstance().scanOpportunities();
-    res.json({ success: true, data: report, ...report });
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-app.get('/api/opportunities/custom-scan', async (req, res) => {
-  try {
-    const symbol = (req.query.symbol as string || '').trim().toUpperCase();
-    if (!symbol) {
-      return res.status(400).json({ success: false, message: 'Symbol is required' });
-    }
-    const result = await OpportunityScannerEngine.getInstance().analyzeCustomScrip(symbol);
-    res.json({ success: true, data: result });
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-app.get('/api/opportunities/redeploy-matrix', async (req, res) => {
-  try {
-    const portfolio = (req.query.portfolio as string || 'ALL').trim();
-    const redeployPlan = await OpportunityScannerEngine.getInstance().generateCapitalRedeploymentPlan(portfolio);
-    res.json({ success: true, data: redeployPlan });
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
 import { ScripIntelligenceDossierService } from './src/server/services/ScripIntelligenceDossierService.js';
 import { ScripKnowledgeBaseService } from './src/server/services/ScripKnowledgeBaseService.js';
 import { RealTimeEventStreamService } from './src/server/services/RealTimeEventStreamService.js';
@@ -675,18 +663,27 @@ app.post('/api/unlisted-assets/update-valuation', async (req, res) => {
       WHERE symbol = ? OR isin = ?
     `, [ltpNum, dateStr, cleanSym, cleanSym]);
 
-    // 2. Update Holdings
+    // 2. Update Holdings (batched in transaction)
     const holdings = await dbAll(db, "SELECT * FROM Holdings WHERE symbol = ?", [cleanSym]);
-    for (const h of holdings) {
-      const newCurrentValue = Number(h.quantity || 0) * ltpNum;
-      const totalCost = Number(h.total_cost || 0);
-      const unrealizedPnl = newCurrentValue - totalCost;
-      const pnlPct = totalCost > 0 ? (unrealizedPnl / totalCost) * 100 : 0;
-      await dbRun(db, `
-        UPDATE Holdings 
-        SET ltp = ?, current_value = ?, unrealized_pnl = ?, pnl_pct = ?, data_source = 'Unlisted Valuation', last_updated = CURRENT_TIMESTAMP
-        WHERE id = ?
-      `, [ltpNum, newCurrentValue, unrealizedPnl, pnlPct, h.id]);
+    if (holdings.length > 0) {
+      await dbRun(db, 'BEGIN IMMEDIATE');
+      try {
+        for (const h of holdings) {
+          const newCurrentValue = Number(h.quantity || 0) * ltpNum;
+          const totalCost = Number(h.total_cost || 0);
+          const unrealizedPnl = newCurrentValue - totalCost;
+          const pnlPct = totalCost > 0 ? (unrealizedPnl / totalCost) * 100 : 0;
+          await dbRun(db, `
+            UPDATE Holdings 
+            SET ltp = ?, current_value = ?, unrealized_pnl = ?, pnl_pct = ?, data_source = 'Unlisted Valuation', last_updated = CURRENT_TIMESTAMP
+            WHERE id = ?
+          `, [ltpNum, newCurrentValue, unrealizedPnl, pnlPct, h.id]);
+        }
+        await dbRun(db, 'COMMIT');
+      } catch (err) {
+        await dbRun(db, 'ROLLBACK').catch(() => {});
+        throw err;
+      }
     }
 
     res.json({
@@ -928,47 +925,11 @@ app.post('/api/scrip-intelligence/:symbol/refresh', async (req, res) => {
   await handleScripIntelligence(req.params.symbol, res, req);
 });
 
-app.get('/api/v2/company-intelligence/:symbol', async (req, res) => {
-  await handleScripIntelligence(req.params.symbol, res, req);
-});
-
-app.post('/api/v2/company-intelligence/:symbol/refresh', async (req, res) => {
-  req.query = { ...req.query, refresh: 'true' };
-  await handleScripIntelligence(req.params.symbol, res, req);
-});
-
-app.get('/api/company-intelligence/:symbol', async (req, res) => {
-  await handleScripIntelligence(req.params.symbol, res, req);
-});
-
-app.post('/api/company-intelligence/:symbol/refresh', async (req, res) => {
-  req.query = { ...req.query, refresh: 'true' };
-  await handleScripIntelligence(req.params.symbol, res, req);
-});
-
 app.get('/api/scrip-intelligence', async (req, res) => {
   const sym = String(req.query.symbol || '').trim();
   await handleScripIntelligence(sym, res, req);
 });
 // ─────────────────────────────────────────────────────────────────────────────
-
-app.get('/api/server-info', (req, res) => {
-  const interfaces = os.networkInterfaces();
-  const addresses: string[] = [];
-  for (const name of Object.keys(interfaces)) {
-    for (const net of interfaces[name] || []) {
-      if (net.family === 'IPv4' && !net.internal) {
-        addresses.push(net.address);
-      }
-    }
-  }
-  res.json({
-    status: 'online',
-    port: PORT,
-    ipAddresses: addresses,
-    primaryUrl: addresses.length > 0 ? `http://${addresses[0]}:${PORT}` : `http://localhost:${PORT}`
-  });
-});
 
 function sanitizeIsin(isin: string | null | undefined): string {
   if (!isin) return '';
@@ -1333,418 +1294,6 @@ import { DatabaseManager } from './src/server/services/DatabaseManager.js';
 import { MasterTickerService } from './src/server/services/MasterTickerService.js';
 import { BankAndFDService } from './src/server/services/BankAndFDService.js';
 
-// ── Bank & FX routes are served by bankFdsRouter above ───────────────────────
-
-// Bank Accounts & Fixed Deposits Endpoints (India, UAE, US)
-app.get('/api/bank-fds', async (req, res) => {
-  try {
-    const portfolio = req.query.portfolio as string;
-    const items = await BankAndFDService.getInstance().getAllBankAndFDs(portfolio);
-    const fxRates = await BankAndFDService.getInstance().getCurrencyRates();
-
-    let totalInrValuation = 0;
-    const itemsWithInr = items.map(item => {
-      const rate = fxRates[item.currency.toUpperCase()] || 1.0;
-      const inrValue = (item.balance_amount || 0) * rate;
-      totalInrValuation += inrValue;
-      return {
-        ...item,
-        rate_to_inr: rate,
-        inr_value: Math.round(inrValue * 100) / 100
-      };
-    });
-
-    res.json({
-      success: true,
-      data: itemsWithInr,
-      total_inr_valuation: Math.round(totalInrValuation * 100) / 100,
-      currency_rates: fxRates
-    });
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-app.post('/api/apps/generate-ai', async (req, res) => {
-  try {
-    // Simulated AI response with rate-limit safeguard for AI Studio
-    await new Promise(resolve => setTimeout(resolve, 300));
-    res.json({
-      success: true,
-      data: {
-        message: "AI capabilities in fallback mode due to rate limits.",
-        generated_text: "Fallback generated text: The AI backend is gracefully handling rate limits."
-      }
-    });
-  } catch (err: any) {
-    res.status(429).json({ success: false, error: 'Rate limit exceeded' });
-  }
-});
-
-app.post('/api/bank-fds', async (req, res) => {
-  try {
-    const result = await BankAndFDService.getInstance().saveBankOrFD(req.body);
-    res.json({ success: true, ...result });
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-app.delete('/api/bank-fds/:id', async (req, res) => {
-  try {
-    const id = parseInt(req.params.id, 10);
-    await BankAndFDService.getInstance().deleteBankOrFD(id);
-    res.json({ success: true, message: 'Deleted successfully.' });
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-// Live XE.com FX Rates Endpoint
-app.get('/api/currency-rates', async (req, res) => {
-  try {
-    const rates = await BankAndFDService.getInstance().getCurrencyRates();
-    res.json({ success: true, rates });
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-app.post('/api/currency-rates/sync', async (req, res) => {
-  try {
-    const result = await BankAndFDService.getInstance().fetchLiveXERates();
-    res.json({ success: true, ...result });
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-// Institutional Reports Generation Endpoint
-app.post('/api/reports/generate', async (req, res) => {
-  try {
-    const { reportType, portfolio, financialYear, startDate, endDate, assetClass, includeGrandfathering } = req.body;
-    let data;
-    if (reportType === 'CAPITAL_GAINS') {
-      data = await ReportsService.getInstance().generateCapitalGainsReport({
-        reportType,
-        portfolio,
-        financialYear,
-        startDate,
-        endDate,
-        includeGrandfathering
-      });
-    } else if (reportType === 'TRADE_BOOK') {
-      data = await ReportsService.getInstance().generateTradeBook({
-        reportType,
-        portfolio,
-        financialYear,
-        startDate,
-        endDate
-      });
-    } else if (reportType === 'DIVIDEND_INCOME' || reportType === 'DIVIDEND_STATEMENT') {
-      data = await ReportsService.getInstance().generateDividendReport({
-        reportType: 'DIVIDEND_STATEMENT',
-        portfolio,
-        financialYear,
-        startDate,
-        endDate
-      });
-    } else if (reportType === 'ASSET_XIRR') {
-      data = await ReportsService.getInstance().generateAssetWiseXirrReport({
-        reportType: 'ASSET_XIRR',
-        portfolio,
-        financialYear,
-        startDate,
-        endDate
-      });
-    } else if (reportType === 'ASSET_ALLOCATION' || reportType === 'PERFORMANCE_SUMMARY') {
-      data = await ReportsService.getInstance().generateAssetAllocationReport({
-        reportType: 'PERFORMANCE_SUMMARY',
-        portfolio,
-        financialYear,
-        startDate,
-        endDate
-      });
-    } else {
-      data = await ReportsService.getInstance().generateHoldingsStatement({
-        reportType: 'HOLDING_STATEMENT',
-        portfolio,
-        assetClass
-      });
-    }
-    res.json(data);
-  } catch (err: any) {
-    console.error('Reports generation failed:', err);
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-// ─── Family & Benchmark Governance Endpoints ─────────────────────────────────
-app.get('/api/family-hierarchy', async (req, res) => {
-  try {
-    const data = await FamilyBenchmarkService.getInstance().getFamilyHierarchy();
-    res.json(data);
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-app.post('/api/family-hierarchy', async (req, res) => {
-  try {
-    const result = await FamilyBenchmarkService.getInstance().saveFamilyGroup(req.body);
-    res.json(result);
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-app.delete('/api/family-hierarchy/:id', async (req, res) => {
-  try {
-    const result = await FamilyBenchmarkService.getInstance().deleteFamilyGroup(parseInt(req.params.id, 10));
-    res.json(result);
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-app.post('/api/family-hierarchy/assign', async (req, res) => {
-  try {
-    const result = await FamilyBenchmarkService.getInstance().assignPortfolio(req.body);
-    res.json(result);
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-// ─── Master Asset & Scrip Mapping Endpoints ──────────────────────────────────
-app.get('/api/scrip-mappings', async (req, res) => {
-  try {
-    const broker = req.query.broker as string;
-    const query = req.query.query as string;
-    const data = await AssetScripMappingService.getInstance().getMappings({ broker, query });
-    res.json(data);
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-app.post('/api/scrip-mappings', async (req, res) => {
-  try {
-    const result = await AssetScripMappingService.getInstance().saveMapping(req.body);
-    res.json(result);
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-app.delete('/api/scrip-mappings/:id', async (req, res) => {
-  try {
-    const result = await AssetScripMappingService.getInstance().deleteMapping(parseInt(req.params.id, 10));
-    res.json(result);
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-app.get('/api/scrip-mappings/unmapped', async (req, res) => {
-  try {
-    const data = await AssetScripMappingService.getInstance().getUnmappedScrips();
-    res.json(data);
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-app.post('/api/scrip-mappings/auto-resolve', async (req, res) => {
-  try {
-    const data = await AssetScripMappingService.getInstance().autoResolveUnmapped();
-    res.json(data);
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-// ─── Multi-Broker Statement Reconciliation Endpoint ──────────────────────────
-const reconUpload = multer({ limits: { fileSize: 50 * 1024 * 1024 } });
-app.post('/api/recon/multi-broker', reconUpload.single('file'), async (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({ success: false, error: 'No statement file uploaded.' });
-    }
-    const portfolio = req.body.portfolio || 'Combined';
-    const forcedFormat = req.body.forcedFormat || undefined;
-    const result = await MultiBrokerReconService.getInstance().reconcileFileBuffer(
-      req.file.buffer,
-      req.file.originalname,
-      portfolio,
-      forcedFormat
-    );
-    res.json(result);
-  } catch (err: any) {
-    console.error('Multi-broker recon failed:', err);
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-// ─── PMS Sample Template Downloads ──────────────────────────────────────────
-app.get('/api/templates/download/:templateId', (req, res) => {
-  const { templateId } = req.params;
-  let filename = 'template.csv';
-  let content = '';
-
-  if (templateId === 'iifl-pms-bank-book') {
-    filename = '360_ONE_IIFL_PMS_Bank_Book_Template.csv';
-    content = `Date,Transaction Type,Particulars / Narration,Debit,Credit,Running Balance,Voucher No\n2024-04-05,Corpus Inflow,Initial Corpus Capital Received,,10000000.00,10000000.00,VCH-001\n2024-04-12,BUY,Bought 500 RELIANCE @ 2900,1450000.00,,8550000.00,VCH-002\n2024-04-15,BUY,Bought 1000 HDFCBANK @ 1500,1500000.00,,7050000.00,VCH-003\n2024-05-10,DIVIDEND,Dividend received - HDFC Bank,,19500.00,7069500.00,VCH-004\n2024-06-30,EXPENSE,PMS Quarterly Management Fee,25000.00,,7044500.00,VCH-005\n`;
-  } else if (templateId === 'iifl-pms-trades') {
-    filename = '360_ONE_IIFL_PMS_Trade_Register_Template.csv';
-    content = `Trade Date,Settlement Date,Security Name,ISIN,Symbol,Transaction Type,Quantity,Price,Gross Amount,Brokerage,STT,Net Amount\n2024-04-12,2024-04-13,Reliance Industries Ltd,INE002A01018,RELIANCE,BUY,500,2900.00,1450000.00,145.00,1450.00,1451595.00\n2024-04-15,2024-04-16,HDFC Bank Ltd,INE040A01034,HDFCBANK,BUY,1000,1500.00,1500000.00,150.00,1500.00,1501650.00\n2024-07-20,2024-07-21,Reliance Industries Ltd,INE002A01018,RELIANCE,SELL,200,3100.00,620000.00,62.00,620.00,619318.00\n`;
-  } else if (templateId === 'complete-circle-pms-bank-book') {
-    filename = 'Complete_Circle_PMS_Bank_Book_Template.csv';
-    content = `Code,Name,Bank Account,Bank Name,Transaction Description,Tran Date,Set Date,Tran Account,Symbol Code,Security,Buy/Sell Amount,Income,Expenses,Dep/With,Balance,Custodian Account,Tran Ref,Desc/Notes,Account Code\nCC01,Complete Circle,12345678,HDFC Bank,Corpus Deposits,05/04/2024,05/04/2024,12345678,,,0,0,0,5000000.00,5000000.00,CUST01,REF001,Corpus Addition,ACC01\nCC01,Complete Circle,12345678,HDFC Bank,Buy,12/04/2024,13/04/2024,12345678,TCS,Tata Consultancy Services,-1000000.00,0,1000.00,0,3999000.00,CUST01,REF002,Purchase 250 units,ACC01\nCC01,Complete Circle,12345678,HDFC Bank,Dividend,20/05/2024,20/05/2024,12345678,TCS,Tata Consultancy Services,0,7500.00,0,0,4006500.00,CUST01,REF003,TCS Final Dividend,ACC01\n`;
-  } else {
-    filename = 'Complete_Circle_PMS_Trade_Register_Template.csv';
-    content = `Trade Date,Security Name,ISIN,Symbol,Action,Quantity,Execution Rate,Total Value,Brokerage,STT,Net Consideration\n2024-04-12,Tata Consultancy Services Ltd,INE467B01029,TCS,BUY,250,4000.00,1000000.00,100.00,1000.00,1001100.00\n2024-05-18,Infosys Ltd,INE009A01021,INFY,BUY,500,1450.00,725000.00,72.50,725.00,725797.50\n2024-08-10,Infosys Ltd,INE009A01021,INFY,SELL,100,1800.00,180000.00,18.00,180.00,179802.00\n`;
-  }
-
-  res.setHeader('Content-Type', 'text/csv');
-  res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
-  res.send(content);
-});
-
-// ─── Direct PMS File Ingestion & Parsing Endpoints ───────────────────────────
-app.post('/api/pms/iifl/parse', reconUpload.single('file'), (req, res) => {
-  try {
-    if (!req.file) return res.status(400).json({ success: false, error: 'No file uploaded.' });
-    const text = req.file.buffer.toString('utf-8');
-    const statementType = req.body.type || 'BANK_BOOK';
-
-    if (statementType === 'BANK_BOOK') {
-      const records = parseIIFLBankBookCSV(text);
-      res.json({ success: true, count: records.length, records });
-    } else {
-      const records = parsePMSTradeRegisterCSV(text, '360_ONE');
-      res.json({ success: true, count: records.length, records });
-    }
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-app.post('/api/pms/complete-circle/parse', reconUpload.single('file'), async (req, res) => {
-  try {
-    if (!req.file) return res.status(400).json({ success: false, error: 'No file uploaded.' });
-    const buffer = req.file.buffer;
-    const statementType = req.body.type || 'BANK_BOOK';
-
-    // Detect PDF by magic bytes (%PDF)
-    const isPdfFile = buffer.length >= 4 &&
-      buffer[0] === 0x25 && buffer[1] === 0x50 && buffer[2] === 0x44 && buffer[3] === 0x46;
-
-    if (isPdfFile) {
-      console.log(`[CC Parse] Detected PDF file for type=${statementType}. Extracting text...`);
-      let pdfText: string;
-      try {
-        pdfText = await extractTextFromPdf(buffer);
-      } catch (pdfErr: any) {
-        return res.status(422).json({ success: false, error: `PDF text extraction failed: ${pdfErr.message}. If the PDF is password-protected, please unlock it first.` });
-      }
-      if (!pdfText || pdfText.trim().length < 50) {
-        return res.status(422).json({ success: false, error: 'PDF appears to be scanned (image-only) or empty. Please upload a text-based PDF or use the CSV export from the Complete Circle portal.' });
-      }
-      console.log(`[CC Parse] PDF extracted ${pdfText.length} chars, ${pdfText.split('\n').length} lines.`);
-      if (statementType === 'BANK_BOOK') {
-        const records = parseCCBankBookFromPdfText(pdfText);
-        console.log(`[CC Parse] PDF bank book parsed ${records.length} records.`);
-        res.json({ success: true, count: records.length, records, source: 'PDF' });
-      } else {
-        const records = parseCCTradeRegisterFromPdfText(pdfText);
-        console.log(`[CC Parse] PDF trade register parsed ${records.length} records.`);
-        res.json({ success: true, count: records.length, records, source: 'PDF' });
-      }
-    } else {
-      // CSV / Excel path (original behaviour)
-      const text = buffer.toString('utf-8');
-      if (statementType === 'BANK_BOOK') {
-        const records = parseCCBankBookCSV(text);
-        res.json({ success: true, count: records.length, records, source: 'CSV' });
-      } else {
-        const records = parsePMSTradeRegisterCSV(text, 'COMPLETE_CIRCLE');
-        res.json({ success: true, count: records.length, records, source: 'CSV' });
-      }
-    }
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-// ─── Transaction Ingestion Deduplication Endpoints ────────────────────────
-app.post('/api/transactions/deduplicate-check', async (req, res) => {
-  try {
-    const { portfolio, transactions } = req.body;
-    if (!transactions || !Array.isArray(transactions)) {
-      return res.status(400).json({ success: false, error: 'Invalid candidate transactions array.' });
-    }
-    const dedupService = TransactionDeduplicationService.getInstance();
-    const analysis = await dedupService.analyzeDuplicates(portfolio || 'Combined', transactions);
-    res.json({ success: true, analysis });
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-app.post('/api/transactions/deduplicate-commit', async (req, res) => {
-  try {
-    const { portfolio, transactions, strategy } = req.body;
-    if (!transactions || !Array.isArray(transactions)) {
-      return res.status(400).json({ success: false, error: 'Invalid candidate transactions array.' });
-    }
-    const dedupService = TransactionDeduplicationService.getInstance();
-    const result = await dedupService.commitDeduplicatedTransactions(
-      portfolio || 'Combined', 
-      transactions, 
-      strategy || 'SKIP_DUPLICATES'
-    );
-    res.json(result);
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-// Pre-operation automated point-in-time database snapshot backup endpoint
-app.post('/api/backup', async (req, res) => {
-  try {
-    const tag = (req.body && req.body.tag) || 'manual';
-    const backupPath = await DatabaseManager.getInstance().createBackup(tag);
-    res.json({ success: true, backupPath, message: 'Automated snapshot backup created successfully.' });
-  } catch (err: any) {
-    console.error('Backup creation failed:', err);
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-const dbRestoreUpload = multer({
-  dest: path.join(process.cwd(), 'uploads'),
-  limits: { fileSize: 500 * 1024 * 1024 }
-});
-
-// Master Ticker Directory Sync Endpoint (Yahoo & Upstox Metadata)
-app.post('/api/tickers/sync', async (req, res) => {
-  try {
-    const initResult = await MasterTickerService.getInstance().autoInitializeMasterTickers();
-    const syncResult = await MasterTickerService.getInstance().dailyCheckAndSyncMetadata();
-    res.json({
-      success: true,
-      seeded: initResult.seeded,
-      synced: syncResult.synced,
-      count: syncResult.count,
-      message: syncResult.message
-    });
-  } catch (err: any) {
-    console.error('Master Ticker sync failed:', err);
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
 // Set up Multer for Excel/CSV uploads
 const upload = multer({ storage: multer.memoryStorage() });
 
@@ -1774,26 +1323,33 @@ async function migratePortfolios(database: any) {
     if (portfoliosToMigrate.size > 0) {
       console.log(`[MIGRATION] Found ${portfoliosToMigrate.size} portfolios to migrate from -MF to PAN-only:`, Array.from(portfoliosToMigrate));
       
-      for (const oldPortfolio of portfoliosToMigrate) {
-        const newPortfolio = oldPortfolio.replace(/-MF$/i, '').trim().toUpperCase();
-        if (oldPortfolio === newPortfolio) continue;
+      await dbRun(database, 'BEGIN IMMEDIATE');
+      try {
+        for (const oldPortfolio of portfoliosToMigrate) {
+          const newPortfolio = oldPortfolio.replace(/-MF$/i, '').trim().toUpperCase();
+          if (oldPortfolio === newPortfolio) continue;
 
-        console.log(`[MIGRATION] Merging and migrating portfolio from "${oldPortfolio}" to "${newPortfolio}"...`);
+          console.log(`[MIGRATION] Merging and migrating portfolio from "${oldPortfolio}" to "${newPortfolio}"...`);
 
-        // Update Transactions
-        await dbRun(database, "UPDATE Transactions SET portfolio = ? WHERE portfolio = ?", [newPortfolio, oldPortfolio]);
-        
-        // Update CamsConfigurations
-        await dbRun(database, "UPDATE CamsConfigurations SET portfolio_name = ? WHERE portfolio_name = ?", [newPortfolio, oldPortfolio]);
-        
-        // Update ZerodhaHoldings
-        await dbRun(database, "UPDATE ZerodhaHoldings SET portfolio = ? WHERE portfolio = ?", [newPortfolio, oldPortfolio]);
-        
-        // Update BackupManualTransactions
-        await dbRun(database, "UPDATE BackupManualTransactions SET portfolio = ? WHERE portfolio = ?", [newPortfolio, oldPortfolio]);
+          // Update Transactions
+          await dbRun(database, "UPDATE Transactions SET portfolio = ? WHERE portfolio = ?", [newPortfolio, oldPortfolio]);
+          
+          // Update CamsConfigurations
+          await dbRun(database, "UPDATE CamsConfigurations SET portfolio_name = ? WHERE portfolio_name = ?", [newPortfolio, oldPortfolio]);
+          
+          // Update ZerodhaHoldings
+          await dbRun(database, "UPDATE ZerodhaHoldings SET portfolio = ? WHERE portfolio = ?", [newPortfolio, oldPortfolio]);
+          
+          // Update BackupManualTransactions
+          await dbRun(database, "UPDATE BackupManualTransactions SET portfolio = ? WHERE portfolio = ?", [newPortfolio, oldPortfolio]);
 
-        // Delete old holdings to let runFIFO fully recreate them cleanly
-        await dbRun(database, "DELETE FROM Holdings WHERE portfolio = ? OR portfolio = ?", [oldPortfolio, newPortfolio]);
+          // Delete old holdings to let runFIFO fully recreate them cleanly
+          await dbRun(database, "DELETE FROM Holdings WHERE portfolio = ? OR portfolio = ?", [oldPortfolio, newPortfolio]);
+        }
+        await dbRun(database, 'COMMIT');
+      } catch (err) {
+        await dbRun(database, 'ROLLBACK').catch(() => {});
+        throw err;
       }
 
       console.log('[MIGRATION] Tables updated. Running FIFO recalculation to rebuild Holdings correctly...');
@@ -1935,11 +1491,18 @@ app.post('/api/family-members', async (req, res) => {
 
     // If portfolios were provided to assign
     if (Array.isArray(portfolios) && portfolios.length > 0) {
-      for (const pName of portfolios) {
-        await dbRun(db, `UPDATE Portfolios SET member_id = ? WHERE name = ?`, [newId, pName]);
-        await dbRun(db, `UPDATE Transactions SET member_id = ? WHERE portfolio = ?`, [newId, pName]);
-        await dbRun(db, `UPDATE Holdings SET member_id = ? WHERE portfolio = ?`, [newId, pName]);
-        await dbRun(db, `INSERT OR IGNORE INTO MemberPortfolioPermissions (member_id, portfolio_name, access_level) VALUES (?, ?, 'FULL')`, [newId, pName]);
+      await dbRun(db, 'BEGIN IMMEDIATE');
+      try {
+        for (const pName of portfolios) {
+          await dbRun(db, `UPDATE Portfolios SET member_id = ? WHERE name = ?`, [newId, pName]);
+          await dbRun(db, `UPDATE Transactions SET member_id = ? WHERE portfolio = ?`, [newId, pName]);
+          await dbRun(db, `UPDATE Holdings SET member_id = ? WHERE portfolio = ?`, [newId, pName]);
+          await dbRun(db, `INSERT OR IGNORE INTO MemberPortfolioPermissions (member_id, portfolio_name, access_level) VALUES (?, ?, 'FULL')`, [newId, pName]);
+        }
+        await dbRun(db, 'COMMIT');
+      } catch (err) {
+        await dbRun(db, 'ROLLBACK').catch(() => {});
+        throw err;
       }
     }
 
@@ -1984,191 +1547,6 @@ app.delete('/api/family-members/:id', async (req, res) => {
     res.json({ success: true, message: 'Family member removed.' });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-app.get('/api/portfolios', async (req, res) => {
-  try {
-    const memberIdRaw = req.query.member_id || req.headers['x-member-id'];
-    let memberId: number | null = null;
-    if (memberIdRaw && memberIdRaw !== 'all' && memberIdRaw !== 'consolidated') {
-      const parsed = parseInt(String(memberIdRaw), 10);
-      if (!isNaN(parsed) && parsed > 0) memberId = parsed;
-    }
-
-    let rows: any[] = [];
-    if (memberId) {
-      rows = await dbAll(db, `
-        SELECT DISTINCT p.name AS portfolio
-        FROM Portfolios p
-        WHERE (p.member_id = ? OR p.name IN (SELECT portfolio_name FROM MemberPortfolioPermissions WHERE member_id = ?))
-          AND p.status = 'ACTIVE'
-        ORDER BY p.name ASC
-      `, [memberId, memberId]);
-    } else {
-      rows = await dbAll(db, `
-        WITH PortfolioNames AS (
-          SELECT DISTINCT portfolio FROM (
-            SELECT portfolio FROM Transactions WHERE portfolio IS NOT NULL AND portfolio != ''
-            UNION
-            SELECT portfolio FROM Holdings WHERE portfolio IS NOT NULL AND portfolio != ''
-            UNION
-            SELECT portfolio FROM ZerodhaHoldings WHERE portfolio IS NOT NULL AND portfolio != ''
-            UNION
-            SELECT portfolio_name AS portfolio FROM CamsConfigurations WHERE portfolio_name IS NOT NULL AND portfolio_name != ''
-            UNION
-            SELECT name AS portfolio FROM Portfolios WHERE name IS NOT NULL AND name != '' AND status = 'ACTIVE'
-          )
-        ),
-        PortfolioData AS (
-          SELECT 
-            PN.portfolio,
-            P.base_currency,
-            (SELECT SUM(current_value) FROM Holdings H WHERE H.portfolio = PN.portfolio) AS total_value
-          FROM PortfolioNames PN
-          LEFT JOIN Portfolios P ON PN.portfolio = P.name
-        )
-        SELECT 
-          portfolio
-        FROM PortfolioData
-        ORDER BY 
-          CASE WHEN COALESCE(base_currency, 'INR') = 'INR' THEN 0 ELSE 1 END ASC,
-          COALESCE(total_value, 0) DESC,
-          portfolio ASC
-      `);
-    }
-
-    const list = rows.map(r => r.portfolio);
-
-    let detailedPortfolios = [];
-    try {
-      if (memberId) {
-        detailedPortfolios = await dbAll(db, "SELECT * FROM Portfolios WHERE (member_id = ? OR name IN (SELECT portfolio_name FROM MemberPortfolioPermissions WHERE member_id = ?)) AND status = 'ACTIVE' ORDER BY name ASC", [memberId, memberId]);
-      } else {
-        detailedPortfolios = await dbAll(db, "SELECT * FROM Portfolios ORDER BY name ASC");
-      }
-    } catch (e) {
-      console.warn("Failed to fetch detailed portfolios:", e);
-    }
-
-    const pmsQuery = memberId 
-      ? `SELECT name AS portfolio FROM Portfolios WHERE type = 'PMS' AND status = 'ACTIVE' AND (member_id = ? OR name IN (SELECT portfolio_name FROM MemberPortfolioPermissions WHERE member_id = ?))`
-      : `SELECT name AS portfolio FROM Portfolios WHERE type = 'PMS' AND status = 'ACTIVE'`;
-    const pmsParams = memberId ? [memberId, memberId] : [];
-    const pmsRows = await dbAll(db, pmsQuery, pmsParams);
-    const pmsPortfolios = pmsRows.map(r => r.portfolio);
-
-    res.json({ success: true, portfolios: list, list, detailedPortfolios, pmsPortfolios });
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message, portfolios: [] });
-  }
-});
-
-// Create a new portfolio
-app.post('/api/portfolios', async (req, res) => {
-  try {
-    const { name, type, base_currency } = req.body;
-    if (!name || !name.trim()) {
-      return res.status(400).json({ success: false, message: 'Portfolio name is required.' });
-    }
-    const trimmedName = name.trim();
-    const portfolioType = type || 'EQUITY';
-    const currency = base_currency || 'INR';
-
-    // Check if portfolio already exists
-    const existing = await dbGet(db, 'SELECT id FROM Portfolios WHERE name = ?', [trimmedName]);
-    if (existing) {
-      return res.status(400).json({ success: false, message: `Portfolio "${trimmedName}" already exists.` });
-    }
-
-    await dbRun(db, `INSERT INTO Portfolios (name, type, base_currency, status) VALUES (?, ?, ?, 'ACTIVE')`, [trimmedName, portfolioType, currency]);
-    console.log(`[Portfolio API] Created portfolio: ${trimmedName} (${portfolioType}, Currency: ${currency})`);
-    res.json({ success: true, message: `Portfolio "${trimmedName}" created successfully.` });
-  } catch (err: any) {
-    console.error('Error creating portfolio:', err);
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-// Update portfolio type
-app.put('/api/portfolios/:name/type', async (req, res) => {
-  try {
-    const portfolioName = decodeURIComponent(req.params.name);
-    const { type } = req.body;
-    if (!type) {
-      return res.status(400).json({ success: false, message: 'Type is required.' });
-    }
-
-    const existing = await dbGet(db, 'SELECT id FROM Portfolios WHERE name = ?', [portfolioName]);
-    if (!existing) {
-      // Auto-create if it doesn't exist in the Portfolios table yet (backward compat)
-      await dbRun(db, `INSERT INTO Portfolios (name, type, status) VALUES (?, ?, 'ACTIVE')`, [portfolioName, type]);
-    } else {
-      await dbRun(db, 'UPDATE Portfolios SET type = ? WHERE name = ?', [type, portfolioName]);
-    }
-
-    console.log(`[Portfolio API] Updated type for "${portfolioName}" to "${type}"`);
-    res.json({ success: true, message: `Portfolio type updated to "${type}".` });
-  } catch (err: any) {
-    console.error('Error updating portfolio type:', err);
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-// Update portfolio base currency
-app.put('/api/portfolios/:name/currency', async (req, res) => {
-  try {
-    const portfolioName = decodeURIComponent(req.params.name);
-    const { base_currency } = req.body;
-    if (!base_currency) {
-      return res.status(400).json({ success: false, message: 'base_currency is required.' });
-    }
-
-    const existing = await dbGet(db, 'SELECT id FROM Portfolios WHERE name = ?', [portfolioName]);
-    if (!existing) {
-      await dbRun(db, `INSERT INTO Portfolios (name, type, base_currency, status) VALUES (?, 'EQUITY', ?, 'ACTIVE')`, [portfolioName, base_currency]);
-    } else {
-      await dbRun(db, 'UPDATE Portfolios SET base_currency = ? WHERE name = ?', [base_currency, portfolioName]);
-    }
-
-    console.log(`[Portfolio API] Updated base currency for "${portfolioName}" to "${base_currency}"`);
-    res.json({ success: true, message: `Portfolio base currency updated to "${base_currency}".` });
-  } catch (err: any) {
-    console.error('Error updating portfolio currency:', err);
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-// Rename portfolio (PUT alias — frontend uses PUT, existing handler uses POST)
-app.put('/api/portfolios/rename', async (req, res) => {
-  const { oldName, newName } = req.body;
-  if (!oldName || !newName) {
-    return res.status(400).json({ success: false, message: 'oldName and newName are required.' });
-  }
-
-  const trimmedOld = oldName.trim();
-  const trimmedNew = newName.trim();
-
-  try {
-    await dbRun(db, 'BEGIN TRANSACTION');
-    try {
-      await dbRun(db, 'UPDATE CamsConfigurations SET portfolio_name = ? WHERE portfolio_name = ?', [trimmedNew, trimmedOld]);
-      await dbRun(db, 'UPDATE Transactions SET portfolio = ? WHERE portfolio = ?', [trimmedNew, trimmedOld]);
-      await dbRun(db, 'UPDATE Holdings SET portfolio = ? WHERE portfolio = ?', [trimmedNew, trimmedOld]);
-      await dbRun(db, 'UPDATE ZerodhaHoldings SET portfolio = ? WHERE portfolio = ?', [trimmedNew, trimmedOld]);
-      await dbRun(db, 'UPDATE RealizedGains SET portfolio = ? WHERE portfolio = ?', [trimmedNew, trimmedOld]);
-      await dbRun(db, 'UPDATE TaxSummary SET portfolio = ? WHERE portfolio = ?', [trimmedNew, trimmedOld]);
-      await dbRun(db, 'UPDATE PortfolioHistory SET portfolio = ? WHERE portfolio = ?', [trimmedNew, trimmedOld]);
-      await dbRun(db, 'UPDATE Portfolios SET name = ? WHERE name = ?', [trimmedNew, trimmedOld]);
-      await dbRun(db, 'COMMIT');
-      console.log(`[Portfolio API] Renamed "${trimmedOld}" to "${trimmedNew}"`);
-      res.json({ success: true, message: `Portfolio renamed from "${trimmedOld}" to "${trimmedNew}".` });
-    } catch (err: any) {
-      await dbRun(db, 'ROLLBACK').catch(() => {});
-      res.status(500).json({ success: false, message: err.message });
-    }
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
   }
 });
 
@@ -2227,21 +1605,57 @@ async function getSelectedPortfolios(req: express.Request): Promise<string[] | n
 // - If stale (> 3 min): serve immediately AND trigger background refresh
 // - If missing: compute synchronously (first ever load only)
 const dashboardResponseCache = new Map<string, { data: any; ts: number }>();
+const dashboardInFlight = new Map<string, Promise<any>>();
 const DASHBOARD_CACHE_TTL_MS = 3 * 60 * 1000;    // 3 min — serve fresh
 const DASHBOARD_CACHE_STALE_MS = 10 * 60 * 1000; // 10 min — max stale age
 const dashboardRevalidating = new Set<string>(); // prevent duplicate background recomputes
-function invalidateDashboardCache() {
-  dashboardResponseCache.clear();
+
+function sendWithEtag(req: any, res: any, rawPayload: any, serialized?: string) {
+  const body = serialized !== undefined ? serialized : JSON.stringify(rawPayload);
+  const etag = `W/"${crypto.createHash('md5').update(body).digest('hex')}"`;
+  res.setHeader('ETag', etag);
+  if (req.headers['if-none-match'] === etag) {
+    return res.sendStatus(304);
+  }
+  res.setHeader('Content-Type', 'application/json');
+  return res.send(body);
+}
+
+function invalidateDashboardCache(targetPortfolio?: string) {
+  if (targetPortfolio) {
+    const pNorm = targetPortfolio.toLowerCase().trim();
+    for (const [key, entry] of dashboardResponseCache.entries()) {
+      if (key.toLowerCase().includes(pNorm) || key.includes('__all__')) {
+        // Preserve stale data for immediate SWR response while marking stale (Finding B2 & P3-12)
+        entry.ts = 0;
+      }
+    }
+    for (const key of dashboardInFlight.keys()) {
+      if (key.toLowerCase().includes(pNorm) || key.includes('__all__')) {
+        dashboardInFlight.delete(key);
+      }
+    }
+  } else {
+    for (const entry of dashboardResponseCache.values()) {
+      entry.ts = 0;
+    }
+    dashboardInFlight.clear();
+  }
   try {
-    dbRun(db, "DELETE FROM DashboardDiskCache").catch(() => {});
+    if (targetPortfolio) {
+      dbRun(db, "UPDATE DashboardDiskCache SET updated_at = '1970-01-01 00:00:00' WHERE cache_key LIKE ? OR cache_key LIKE '%__all__%'", [`%${targetPortfolio}%`]).catch(() => {});
+    } else {
+      dbRun(db, "UPDATE DashboardDiskCache SET updated_at = '1970-01-01 00:00:00'").catch(() => {});
+    }
   } catch (e) {}
 }
-function invalidateAllCaches() {
+
+function invalidateAllCaches(targetPortfolio?: string) {
   try {
     assetXirrCache.clear();
   } catch (e) {}
   try {
-    invalidateDashboardCache();
+    invalidateDashboardCache(targetPortfolio);
   } catch (e) {}
   try {
     invalidateXirrCache();
@@ -2250,7 +1664,7 @@ function invalidateAllCaches() {
     apiAnalyticsCache.clear();
   } catch (e) {}
 }
-registerFifoCompletedCallback(() => invalidateAllCaches());
+registerFifoCompletedCallback((portfolio) => invalidateAllCaches(portfolio));
 
 // Background dashboard recompute (stale-while-revalidate)
 // Called when cache is stale. Runs computation async, updates cache when done.
@@ -2280,29 +1694,43 @@ app.get('/api/dashboard', async (req, res) => {
     const dashCacheEntry = dashboardResponseCache.get(dashCacheKey);
     const age = dashCacheEntry ? Date.now() - dashCacheEntry.ts : Infinity;
 
+    // 1. In-memory cache hit
     if (!noCache && dashCacheEntry && age < DASHBOARD_CACHE_STALE_MS) {
       if (age >= DASHBOARD_CACHE_TTL_MS) {
         setImmediate(() => recomputeDashboardCache(dashCacheKey, selected, includeSold, memberIdRaw));
       }
-      return res.json(dashCacheEntry.data);
+      return sendWithEtag(req, res, dashCacheEntry.data);
     }
 
-    // SQLite Disk Cache Fallback — instant < 2ms hit even after server restart
+    // 2. SQLite Disk Cache Fallback — instant < 2ms hit even after server restart
     if (!noCache) {
       try {
-        const diskRow: any = await dbGet(db, "SELECT payload_json FROM DashboardDiskCache WHERE cache_key = ?", [dashCacheKey]);
+        const diskRow: any = await dbGet(db, "SELECT payload_json, updated_at FROM DashboardDiskCache WHERE cache_key = ?", [dashCacheKey]);
         if (diskRow && diskRow.payload_json) {
           const diskData = JSON.parse(diskRow.payload_json);
-          dashboardResponseCache.set(dashCacheKey, { data: diskData, ts: 0 });
-          setImmediate(() => recomputeDashboardCache(dashCacheKey, selected, includeSold, memberIdRaw));
-          return res.json(diskData);
+          const diskTs = diskRow.updated_at ? new Date(diskRow.updated_at).getTime() : 0;
+          const effectiveTs = isNaN(diskTs) ? 0 : diskTs;
+          dashboardResponseCache.set(dashCacheKey, { data: diskData, ts: effectiveTs });
+          const diskAge = Date.now() - effectiveTs;
+          if (diskAge >= DASHBOARD_CACHE_TTL_MS) {
+            setImmediate(() => recomputeDashboardCache(dashCacheKey, selected, includeSold, memberIdRaw));
+          }
+          return sendWithEtag(req, res, diskData, diskRow.payload_json);
         }
       } catch (_e) {}
     }
 
-    // Absolute first run ever or forced refresh — compute now
-    const payload = await buildDashboardPayload(selected, includeSold, dashCacheKey, memberIdRaw);
-    res.json(payload);
+    // 3. Absolute first run ever or forced refresh — compute now with in-flight deduplication (P3-12)
+    let inFlight = dashboardInFlight.get(dashCacheKey);
+    if (!inFlight) {
+      inFlight = buildDashboardPayload(selected, includeSold, dashCacheKey, memberIdRaw)
+        .finally(() => {
+          dashboardInFlight.delete(dashCacheKey);
+        });
+      dashboardInFlight.set(dashCacheKey, inFlight);
+    }
+    const payload = await inFlight;
+    return sendWithEtag(req, res, payload);
   } catch (err: any) {
     console.error(err);
     res.status(500).json({ success: false, message: err.message });
@@ -2312,13 +1740,19 @@ app.get('/api/dashboard', async (req, res) => {
 // Core dashboard computation — called by route handler and background revalidation
 async function buildDashboardPayload(selected: string[] | null, includeSold: boolean, dashCacheKey: string = '', memberIdRaw: any = 1): Promise<any> {
   try {
-    const { memberId, allowedPortNames } = await UnifiedValuationService.getInstance().getAllowedPortfoliosForMember(db, memberIdRaw);
-    const canIncludeBankAndFD = memberId === 1 || memberId === 'all';
+    const portName = (!selected || selected.length === 0 || selected.includes('__ALL__') || selected.length > 1) ? 'Combined' : selected[0];
+    const todayIST = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
 
     let holdingsQuery = `
-      SELECT H.*, M.name as company_name, M.sector, COALESCE(P.base_currency, 'INR') as base_currency
+      SELECT 
+        H.portfolio, H.folio, H.isin, H.symbol, H.quantity, H.avg_buy_price, 
+        H.total_cost, H.ltp, H.prev_close, H.current_value, H.unrealized_pnl, 
+        H.unrealized_pct, H.day_change, H.day_change_pct, H.last_update, 
+        H.data_source, H.currency, H.native_current_value, H.native_total_cost, 
+        H.native_avg_buy_price, H.native_ltp, H.native_unrealized_pnl,
+        M.name as company_name, M.sector, COALESCE(P.base_currency, 'INR') as base_currency
       FROM Holdings H 
-      LEFT JOIN MasterTickers M ON (H.isin IS NOT NULL AND H.isin != '' AND M.isin = H.isin)
+      LEFT JOIN MasterTickers M ON M.isin = NULLIF(H.isin, '')
       LEFT JOIN Portfolios P ON H.portfolio = P.name
     `;
     let params: any[] = [];
@@ -2330,10 +1764,62 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
     }
     holdingsQuery += ` ORDER BY H.current_value DESC`;
 
-    const fxRates = await BankAndFDService.getInstance().getCurrencyRates();
-    const usdRate = fxRates.USD || 83.5;
+    let rgSql = `
+      SELECT portfolio, isin, symbol, SUM(realized_pnl) as total_realized_pnl, SUM(sell_proceeds) as total_withdrawals
+      FROM RealizedGains
+    `;
+    let rgParams: any[] = [];
+    if (selected && selected.length > 0) {
+      const placeholders = selected.map(() => '?').join(',');
+      rgSql += ` WHERE portfolio IN (${placeholders})`;
+      rgParams.push(...selected);
+    }
+    rgSql += ` GROUP BY portfolio, isin, symbol`;
 
-    const rawHoldings = await dbAll(db, holdingsQuery, params);
+    let cashQuery = `SELECT type, net_amount, quantity, price, portfolio, source, is_cash_flow, is_ca FROM Transactions WHERE 1=1`;
+    let cashParams: any[] = [];
+    if (selected) {
+      const placeholders = selected.map(() => '?').join(',');
+      cashQuery += ` AND portfolio IN (${placeholders})`;
+      cashParams.push(...selected);
+    }
+
+    let divTxQuery = `SELECT portfolio, net_amount, type FROM Transactions WHERE UPPER(type) IN ('DIVIDEND', 'DIVIDEND PAYOUT', 'DIVIDEND REINVEST', 'CASH_INCOME', 'INTEREST')`;
+    let divTxParams: any[] = [];
+    if (selected) {
+      const placeholders = selected.map(() => '?').join(',');
+      divTxQuery += ` AND portfolio IN (${placeholders})`;
+      divTxParams.push(...selected);
+    }
+
+    // Parallelize all independent cold reads (Finding B3)
+    const [
+      memberInfo,
+      fxRates,
+      allBankFDs,
+      rawHoldings,
+      allRealizedGainsRows,
+      cashTxns,
+      divTxns,
+      pmsBaselineRows,
+      histSnap,
+      snapRow
+    ] = await Promise.all([
+      UnifiedValuationService.getInstance().getAllowedPortfoliosForMember(db, memberIdRaw),
+      BankAndFDService.getInstance().getCurrencyRates(),
+      BankAndFDService.getInstance().getAllBankAndFDs(),
+      dbAll(db, holdingsQuery, params),
+      dbAll(db, rgSql, rgParams).catch(() => []),
+      dbAll(db, cashQuery, cashParams),
+      dbAll(db, divTxQuery, divTxParams),
+      dbAll(db, "SELECT portfolio, initial_cash_deposits, in_kind_market_val, cash_in_hand FROM PmsReconciliationBaseline").catch(() => []),
+      dbGet(db, "SELECT xirr FROM PortfolioHistory WHERE portfolio = ? AND xirr IS NOT NULL AND xirr != 0 ORDER BY date DESC, updated_at DESC LIMIT 1", [portName]).catch(() => null),
+      dbGet(db, "SELECT market_value, total_cost FROM DailyPortfolioSnapshot WHERE portfolio = ? AND date < ? ORDER BY date DESC LIMIT 1", [portName, todayIST]).catch(() => null)
+    ]);
+
+    const { memberId, allowedPortNames } = memberInfo;
+    const canIncludeBankAndFD = memberId === 1 || memberId === 'all';
+    const usdRate = fxRates.USD || 83.5;
     let holdings = rawHoldings.map(h => {
       const isUsAsset = h.portfolio === 'US - IBKR' || h.currency === 'USD' || h.base_currency === 'USD';
       const currency = isUsAsset ? 'USD' : (h.base_currency || 'INR');
@@ -2355,8 +1841,7 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
     });
 
     if (canIncludeBankAndFD && (!selected || selected.includes('Cash & FD') || selected.includes('Combined') || selected.length > 1)) {
-      const bankFDs = await BankAndFDService.getInstance().getAllBankAndFDs();
-      for (const b of bankFDs) {
+      for (const b of allBankFDs) {
         const rate = fxRates[b.currency.toUpperCase()] || 1.0;
         const inrVal = (b.balance_amount || 0) * rate;
         // Use principal_amount as cost basis if set; otherwise fall back to balance_amount
@@ -2576,16 +2061,12 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
       }
     }
 
-    // Attach Realized PnL and Total Withdrawals to holdings from RealizedGains table
+    // Attach Realized PnL and Total Withdrawals to holdings from RealizedGains (pre-fetched in parallel up-front)
+    let realizedPnl = 0;
     try {
-      const allRealizedGainsRows = await dbAll(db, `
-        SELECT portfolio, isin, symbol, SUM(realized_pnl) as total_realized_pnl, SUM(sell_proceeds) as total_withdrawals
-        FROM RealizedGains
-        GROUP BY portfolio, isin, symbol
-      `).catch(() => []);
-
       const realizedMap = new Map<string, { realized_pnl: number; withdrawals: number }>();
       allRealizedGainsRows.forEach((rg: any) => {
+        realizedPnl += (rg.total_realized_pnl || 0);
         const isinKey = (rg.isin || '').toUpperCase().trim();
         const symKey = (rg.symbol || '').toUpperCase().trim();
         const portKey = (rg.portfolio || '').toUpperCase().trim();
@@ -2635,8 +2116,11 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
       txAssetSql += ` WHERE portfolio IN (${placeholders})`;
       txAssetParams.push(...selected);
     }
-    const allTxnsForAssetXirr = await dbAll(db, txAssetSql, txAssetParams);
-    const customMappingsRows = await dbAll(db, "SELECT * FROM CustomScripMappings").catch(() => []);
+    // Parallelize asset XIRR transactions and scrip mappings (Finding B3)
+    const [allTxnsForAssetXirr, customMappingsRows] = await Promise.all([
+      dbAll(db, txAssetSql, txAssetParams),
+      dbAll(db, "SELECT raw_scrip_name, mapped_symbol FROM CustomScripMappings").catch(() => [])
+    ]);
     const customMappingMap = new Map<string, string>();
     customMappingsRows.forEach((m: any) => {
       if (m.raw_scrip_name && m.mapped_symbol) {
@@ -2815,14 +2299,6 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
     let pmsInjectedCash = 0;
     let pmsInjectedSecurities = 0;
 
-    let cashQuery = `SELECT type, net_amount, quantity, price, portfolio, source, is_cash_flow, is_ca FROM Transactions WHERE 1=1`;
-    let cashParams: any[] = [];
-    if (selected) {
-      const placeholders = selected.map(() => '?').join(',');
-      cashQuery += ` AND portfolio IN (${placeholders})`;
-      cashParams.push(...selected);
-    }
-    const cashTxns = await dbAll(db, cashQuery, cashParams);
     for (const tx of cashTxns) {
       if (!isPMSPortfolio(tx.portfolio, tx.source)) continue;
       const type = String(tx.type).toUpperCase();
@@ -2849,11 +2325,15 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
 
     pmsCashInHand = Math.abs(pmsCashInHand) < 0.01 ? 0 : Math.round(pmsCashInHand * 100) / 100;
 
-    // Use verified baseline for PMS portfolios if available
+    // Use verified baseline for PMS portfolios if available (from pre-fetched baseline map)
     try {
+      const pmsBaseMap = new Map<string, any>();
+      pmsBaselineRows.forEach((r: any) => {
+        if (r.portfolio) pmsBaseMap.set(String(r.portfolio).toLowerCase(), r);
+      });
       const pmsNames = selected && selected.length > 0 ? selected.filter(isPMSPortName) : ['cc9'];
       for (const pName of pmsNames) {
-        const baseRow: any = await dbGet(db, "SELECT * FROM PmsReconciliationBaseline WHERE portfolio = ?", [pName]);
+        const baseRow = pmsBaseMap.get(String(pName).toLowerCase());
         if (baseRow) {
           if (baseRow.initial_cash_deposits > 0) pmsInjectedCash = baseRow.initial_cash_deposits;
           if (baseRow.in_kind_market_val > 0) pmsInjectedSecurities = baseRow.in_kind_market_val;
@@ -2911,7 +2391,7 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
         }
       }
     }
-    const isSingleUsPort = selected && selected.length === 1 && (selected[0] === 'US - IBKR' || selected[0] === 'Sarwa' || (await dbGet(db, "SELECT base_currency FROM Portfolios WHERE name = ?", [selected[0]]))?.base_currency === 'USD');
+    const isSingleUsPort = selected && selected.length === 1 && (selected[0] === 'US - IBKR' || selected[0] === 'Sarwa' || rawHoldings[0]?.base_currency === 'USD' || (rawHoldings.length === 0 && (await dbGet(db, "SELECT base_currency FROM Portfolios WHERE name = ?", [selected[0]]))?.base_currency === 'USD'));
     const nativeUsdValuation = holdings.filter(h => h.currency === 'USD').reduce((sum, h) => sum + (h.native_current_value > 0 ? h.native_current_value : (h.current_value > 100000 ? h.current_value / usdRate : h.current_value)), 0);
     const nativeUsdCost = holdings.filter(h => h.currency === 'USD').reduce((sum, h) => sum + (h.native_total_cost > 0 ? h.native_total_cost : (h.total_cost > 100000 ? h.total_cost / usdRate : h.total_cost)), 0);
     const nativeUsdPnl = nativeUsdValuation - nativeUsdCost;
@@ -2931,28 +2411,7 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
     const prevDayValue = targetVal - totalDayChange;
     const totalDayChangePct = prevDayValue > 0 ? (totalDayChange / prevDayValue) * 100 : 0;
 
-
-    // Realized gains
-    let realizedQuery = `SELECT SUM(realized_pnl) as rpnl FROM RealizedGains`;
-    let realizedParams: any[] = [];
-    if (selected) {
-      const placeholders = selected.map(() => '?').join(',');
-      realizedQuery += ` WHERE portfolio IN (${placeholders})`;
-      realizedParams.push(...selected);
-    }
-    const realizedRow = await dbGet(db, realizedQuery, realizedParams);
-    const realizedPnl = realizedRow?.rpnl || 0;
-
-    // Dividends
-    let txQuery = `SELECT portfolio, net_amount, type FROM Transactions WHERE UPPER(type) IN ('DIVIDEND', 'DIVIDEND PAYOUT', 'DIVIDEND REINVEST', 'CASH_INCOME', 'INTEREST')`;
-    let txParams: any[] = [];
-    if (selected) {
-      const placeholders = selected.map(() => '?').join(',');
-      txQuery += ` AND portfolio IN (${placeholders})`;
-      txParams.push(...selected);
-    }
-    const divTxns = await dbAll(db, txQuery, txParams);
-
+    // Dividends (using pre-fetched divTxns)
     let totalDividends = 0;
     let nativeNetDividends = 0;
     let nativeUsdGrossDivs = 0;
@@ -2981,15 +2440,14 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
 
     const finalTotalInvested = totalInvested;
 
-    // Bank Balances & Fixed Deposits Valuation via XE.com Live Rates
+    // Bank Balances & Fixed Deposits Valuation via XE.com Live Rates (using pre-fetched allBankFDs)
     let indiaBankFDValuation = 0;
     let uaeBankFDValuation = 0;
     let totalBankFDInrValuation = 0;
 
     if (canIncludeBankAndFD) {
-      const allBankFDs = await BankAndFDService.getInstance().getAllBankAndFDs();
       const bankFDs = selected && selected.length > 0 && !selected.includes('Combined') && !selected.includes('__ALL__') && !selected.includes('all')
-        ? allBankFDs.filter(acc => selected.some(s => String(s).trim().toLowerCase() === String(acc.portfolio).trim().toLowerCase()))
+        ? allBankFDs.filter((acc: any) => selected.some(s => String(s).trim().toLowerCase() === String(acc.portfolio).trim().toLowerCase()))
         : allBankFDs;
 
       for (const b of bankFDs) {
@@ -3012,32 +2470,19 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
       ? 0 
       : Math.round((currentValue + unallocatedPmsCash) * 100) / 100;
 
-
-
-    // Fetch latest known XIRR from PortfolioHistory so the dashboard doesn't flash 0% before async /api/dashboard/xirr finishes
+    // Fetch latest known XIRR from PortfolioHistory (from pre-fetched histSnap)
     let lastKnownXirr: number | null = null;
-    try {
-      const portName = (!selected || selected.length === 0 || selected.includes('__ALL__') || selected.length > 1) ? 'Combined' : selected[0];
-      const histSnap: any = await dbGet(db, "SELECT xirr FROM PortfolioHistory WHERE portfolio = ? AND xirr IS NOT NULL AND xirr != 0 ORDER BY date DESC, updated_at DESC LIMIT 1", [portName]);
-      if (histSnap && typeof histSnap.xirr === 'number') {
-        lastKnownXirr = Math.round(histSnap.xirr * 100) / 100;
-      }
-    } catch (_) {}
-    // Fetch yesterday's closing valuation from immutable DailyPortfolioSnapshot
+    if (histSnap && typeof histSnap.xirr === 'number') {
+      lastKnownXirr = Math.round(histSnap.xirr * 100) / 100;
+    }
+
+    // Fetch yesterday's closing valuation from immutable DailyPortfolioSnapshot (from pre-fetched snapRow)
     let yesterdayMarketValue: number | null = null;
     let yesterdayTotalCost: number | null = null;
-    try {
-      const todayIST = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
-      const portName = (!selected || selected.length === 0 || selected.includes('__ALL__') || selected.length > 1) ? 'Combined' : selected[0];
-      const snapRow: any = await dbGet(db, 
-        "SELECT market_value, total_cost FROM DailyPortfolioSnapshot WHERE portfolio = ? AND date < ? ORDER BY date DESC LIMIT 1", 
-        [portName, todayIST]
-      );
-      if (snapRow && snapRow.market_value > 0) {
-        yesterdayMarketValue = isSingleUsPort ? Math.round((snapRow.market_value / usdRate) * 100) / 100 : snapRow.market_value;
-        yesterdayTotalCost = isSingleUsPort ? Math.round((snapRow.total_cost / usdRate) * 100) / 100 : snapRow.total_cost;
-      }
-    } catch (_) {}
+    if (snapRow && snapRow.market_value > 0) {
+      yesterdayMarketValue = isSingleUsPort ? Math.round((snapRow.market_value / usdRate) * 100) / 100 : snapRow.market_value;
+      yesterdayTotalCost = isSingleUsPort ? Math.round((snapRow.total_cost / usdRate) * 100) / 100 : snapRow.total_cost;
+    }
 
     const inrXirrVal: number | null = null;
 
@@ -3101,173 +2546,6 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
 // ==========================================
 // MASTER TICKERS API ENDPOINTS
 // ==========================================
-
-app.get('/api/tickers', async (req, res) => {
-  try {
-    const rows = await dbAll(db, 'SELECT * FROM MasterTickers ORDER BY symbol ASC');
-    res.json(rows);
-  } catch (err: any) {
-    console.error('[API /api/tickers error]', err);
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-app.post('/api/tickers/sync-sectors', async (req, res) => {
-  try {
-    const result = await syncSectorsForTickers(db);
-    res.json({ success: true, ...result });
-  } catch (err: any) {
-    console.error('[API /api/tickers/sync-sectors error]', err);
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-app.post('/api/tickers/merge', async (req, res) => {
-  try {
-    const { sourceIsin, targetIsin } = req.body;
-    if (!sourceIsin || !targetIsin) {
-      return res.status(400).json({ success: false, message: 'Source and target ISINs are required.' });
-    }
-
-    const cleanSource = sourceIsin.trim().toUpperCase();
-    const cleanTarget = targetIsin.trim().toUpperCase();
-
-    const targetTicker = await dbGet(db, 'SELECT symbol FROM MasterTickers WHERE isin = ?', [cleanTarget]);
-    if (!targetTicker) {
-      return res.status(404).json({ success: false, message: 'Target ticker ISIN not found in MasterTickers.' });
-    }
-
-    await dbRun(db, 'UPDATE Transactions SET isin = ?, symbol = ? WHERE isin = ?', [cleanTarget, targetTicker.symbol, cleanSource]);
-    await dbRun(db, 'DELETE FROM MasterTickers WHERE isin = ?', [cleanSource]);
-    await runFIFO(db);
-
-    res.json({ success: true, message: `Merged ${cleanSource} into ${cleanTarget} successfully.` });
-  } catch (err: any) {
-    console.error('[API /api/tickers/merge error]', err);
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-app.post('/api/tickers', async (req, res) => {
-  try {
-    const { isin, symbol, name, exchange, segment, sector, manual_ltp, fmv_31_jan_2018, currency } = req.body;
-
-    const cleanIsin = (isin || '').trim().toUpperCase();
-    const cleanSymbol = (symbol || '').trim().toUpperCase();
-    const cleanName = (name || cleanSymbol || cleanIsin).trim();
-    const cleanExchange = (exchange || 'NSE').trim().toUpperCase();
-    const cleanSegment = (segment || 'EQ').trim().toUpperCase();
-    const cleanSector = (sector || 'Unknown').trim();
-    const cleanCurrency = (currency || 'INR').trim().toUpperCase();
-
-    if (!cleanSymbol && !cleanIsin) {
-      return res.status(400).json({ success: false, message: 'Symbol or ISIN is required.' });
-    }
-
-    // Check if ticker already exists by isin or symbol
-    let existing = null;
-    if (cleanIsin) {
-      existing = await dbGet(db, 'SELECT id FROM MasterTickers WHERE isin = ?', [cleanIsin]);
-    }
-    if (!existing && cleanSymbol) {
-      existing = await dbGet(db, 'SELECT id FROM MasterTickers WHERE symbol = ?', [cleanSymbol]);
-    }
-
-    if (existing) {
-      await dbRun(
-        db,
-        `UPDATE MasterTickers 
-         SET isin = COALESCE(NULLIF(?, ''), isin),
-             symbol = COALESCE(NULLIF(?, ''), symbol),
-             name = ?, exchange = ?, segment = ?, sector = ?,
-             manual_ltp = ?, fmv_31_jan_2018 = ?, currency = ?,
-             updated_at = CURRENT_TIMESTAMP
-         WHERE id = ?`,
-        [cleanIsin, cleanSymbol, cleanName, cleanExchange, cleanSegment, cleanSector, manual_ltp || null, fmv_31_jan_2018 || null, cleanCurrency, existing.id]
-      );
-      res.json({ success: true, id: existing.id, message: 'Master ticker profile updated successfully!' });
-    } else {
-      const result = await dbRun(
-        db,
-        `INSERT INTO MasterTickers (isin, symbol, name, exchange, segment, sector, manual_ltp, fmv_31_jan_2018, currency, created_at, updated_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
-        [cleanIsin, cleanSymbol, cleanName, cleanExchange, cleanSegment, cleanSector, manual_ltp || null, fmv_31_jan_2018 || null, cleanCurrency]
-      );
-      res.json({ success: true, id: result.lastID, message: 'Master ticker profile created successfully!' });
-    }
-  } catch (err: any) {
-    console.error('[API POST /api/tickers error]', err);
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-app.put('/api/tickers/:id', async (req, res) => {
-  try {
-    const id = parseInt(req.params.id, 10);
-    const { isin, symbol, name, exchange, segment, sector, manual_ltp, fmv_31_jan_2018, currency } = req.body;
-
-    const cleanIsin = (isin || '').trim().toUpperCase();
-    const cleanSymbol = (symbol || '').trim().toUpperCase();
-    const cleanName = (name || '').trim();
-    const cleanExchange = (exchange || 'NSE').trim().toUpperCase();
-    const cleanSegment = (segment || 'EQ').trim().toUpperCase();
-    const cleanSector = (sector || '').trim();
-    const cleanCurrency = (currency || 'INR').trim().toUpperCase();
-    const ltpVal = (manual_ltp !== undefined && manual_ltp !== null && manual_ltp !== '') ? parseFloat(String(manual_ltp)) : null;
-    const ltpDate = ltpVal !== null ? new Date().toISOString().split('T')[0] : null;
-
-    await dbRun(
-      db,
-      `UPDATE MasterTickers 
-       SET isin = ?, symbol = ?, name = ?, exchange = ?, segment = ?, sector = ?, manual_ltp = ?, manual_ltp_date = ?, fmv_31_jan_2018 = ?, currency = ?, updated_at = CURRENT_TIMESTAMP
-       WHERE id = ?`,
-      [cleanIsin, cleanSymbol, cleanName, cleanExchange, cleanSegment, cleanSector, ltpVal, ltpDate, fmv_31_jan_2018 || null, cleanCurrency, id]
-    );
-
-    // Propagate manual LTP to Holdings so current_value is immediately updated
-    // Use UPPER() for case-insensitive symbol matching (unlisted symbols differ in case)
-    // and rowid for reliable targeting — no folio dependency
-    if (ltpVal !== null && ltpVal > 0) {
-      const affectedHoldings = await dbAll(
-        db,
-        'SELECT rowid, quantity, total_cost FROM Holdings WHERE (UPPER(symbol) = ? OR isin = ?) AND quantity > 0',
-        [cleanSymbol, cleanIsin]
-      );
-      for (const h of affectedHoldings) {
-        const cv = h.quantity * ltpVal;
-        const pnl = cv - h.total_cost;
-        const pct = h.total_cost > 0 ? (pnl / h.total_cost) * 100 : 0;
-        await dbRun(
-          db,
-          `UPDATE Holdings SET ltp = ?, current_value = ?, unrealized_pnl = ?, unrealized_pct = ?,
-           data_source = 'Manual Entry', last_update = CURRENT_TIMESTAMP
-           WHERE rowid = ?`,
-          [ltpVal, cv, pnl, pct, h.rowid]
-        );
-      }
-    }
-
-    // Invalidate caches so the dashboard reflects the change immediately
-    invalidateAllCaches();
-
-    res.json({ success: true, message: 'Ticker specifications updated successfully!' });
-  } catch (err: any) {
-    console.error('[API PUT /api/tickers/:id error]', err);
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-
-app.delete('/api/tickers/:id', async (req, res) => {
-  try {
-    const id = parseInt(req.params.id, 10);
-    await dbRun(db, 'DELETE FROM MasterTickers WHERE id = ?', [id]);
-    res.json({ success: true, message: 'Ticker profile deleted successfully.' });
-  } catch (err: any) {
-    console.error('[API DELETE /api/tickers/:id error]', err);
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
 
 const formatIsoDate = (d: any): string => {
     if (!d) return '2026-01-01';
@@ -4253,7 +3531,7 @@ app.get('/api/dashboard/xirr', async (req, res) => {
     const cachedXirr = getCachedXIRRResult(cacheKey);
     if (cachedXirr) {
       triggerBackgroundMarketDataSync(db, portKey);
-      return res.json(cachedXirr);
+      return sendWithEtag(req, res, cachedXirr);
     }
 
     
@@ -4268,7 +3546,7 @@ app.get('/api/dashboard/xirr', async (req, res) => {
         weightedSum += inrVal * (acc.interest_rate_pct || 0);
       }
       const weightedRate = totalInr > 0 ? weightedSum / totalInr : 0;
-      return res.json({
+      return sendWithEtag(req, res, {
         success: true,
         xirr: Math.round(weightedRate * 100) / 100,
         bench_xirr: 0,
@@ -4282,7 +3560,7 @@ app.get('/api/dashboard/xirr', async (req, res) => {
       : `SELECT id, date, type, net_amount, quantity, price, symbol, is_cash_flow, portfolio, isin, notes, source FROM Transactions WHERE portfolio IN (${selected.map(() => '?').join(',')})`;
     let txns = isAllPortfolios ? await dbAll(db, txSql) : await dbAll(db, txSql, selected);
     if (txns.length === 0) {
-      return res.json({ success: true, xirr: 0, bench_xirr: 0 });
+      return sendWithEtag(req, res, { success: true, xirr: 0, bench_xirr: 0 });
     }
     const matchesSelectedPort = (pName?: string) => {
       if (isAllPortfolios) return true;
@@ -4579,7 +3857,7 @@ app.get('/api/dashboard/xirr', async (req, res) => {
     };
     setCachedXIRRResult(cacheKey, resData);
     triggerBackgroundMarketDataSync(db, portKey);
-    res.json(resData);
+    return sendWithEtag(req, res, resData);
 
   } catch (err: any) {
     console.error(err);
@@ -6412,413 +5690,6 @@ app.get('/api/analytics/valuation-on-date', async (req, res) => {
   }
 });
 
-app.get('/api/transactions', async (req, res) => {
-  try {
-    const page = parseInt(req.query.page as string || '1');
-    const limit = parseInt(req.query.limit as string || '50');
-    const search = (req.query.search as string || '').trim().toUpperCase();
-    const typeFilter = (req.query.type as string || '').trim();
-    const startDate = (req.query.start_date as string || '').trim();
-    const endDate = (req.query.end_date as string || '').trim();
-    const selected = await getSelectedPortfolios(req);
-
-    let baseQuery = `
-      FROM Transactions T 
-      LEFT JOIN MasterTickers M ON T.isin = M.isin
-      LEFT JOIN Portfolios P ON T.portfolio = P.name
-      WHERE 1=1
-    `;
-    const params: any[] = [];
-
-    if (selected) {
-      const placeholders = selected.map(() => '?').join(',');
-      baseQuery += ` AND T.portfolio IN (${placeholders})`;
-      params.push(...selected);
-    }
-
-    if (search) {
-      baseQuery += ` AND (T.symbol LIKE ? OR T.isin LIKE ? OR M.name LIKE ?)`;
-      params.push(`%${search}%`, `%${search}%`, `%${search}%`);
-    }
-
-    if (typeFilter) {
-      const tf = typeFilter.toUpperCase();
-      if (tf === 'BUY') {
-        baseQuery += ` AND (UPPER(T.type) LIKE 'BUY%' OR UPPER(T.type) LIKE 'IPO%' OR UPPER(T.type) LIKE 'ALLOTMENT%')`;
-      } else if (tf === 'SELL') {
-        baseQuery += ` AND (UPPER(T.type) LIKE 'SELL%' OR UPPER(T.type) LIKE 'REDEMPTION%' OR UPPER(T.type) LIKE 'MERGED%')`;
-      } else if (tf === 'DIVIDEND') {
-        baseQuery += ` AND UPPER(T.type) LIKE '%DIVIDEND%'`;
-      } else {
-        baseQuery += ` AND UPPER(T.type) = ?`;
-        params.push(tf);
-      }
-    }
-
-    if (startDate) {
-      baseQuery += ` AND T.date >= ?`;
-      params.push(startDate);
-    }
-
-    if (endDate) {
-      baseQuery += ` AND T.date <= ?`;
-      params.push(endDate);
-    }
-
-    // Count total rows
-    const countRow = await dbGet(db, `SELECT COUNT(*) as count ${baseQuery}`, params);
-    const total = countRow?.count || 0;
-
-    // Server-side Sorting
-    const sortCol = (req.query.sort_col as string || '').trim().toLowerCase();
-    const sortDir = (req.query.sort_dir as string || 'desc').trim().toUpperCase() === 'ASC' ? 'ASC' : 'DESC';
-
-    let orderClause = 'T.date DESC, T.id DESC';
-    if (sortCol) {
-      if (sortCol === 'date' || sortCol === 'trade_date') {
-        orderClause = `T.date ${sortDir}, T.id ${sortDir}`;
-      } else if (sortCol === 'portfolio') {
-        orderClause = `T.portfolio ${sortDir}, T.date DESC`;
-      } else if (sortCol === 'type' || sortCol === 'action_type') {
-        orderClause = `T.type ${sortDir}, T.date DESC`;
-      } else if (sortCol === 'symbol') {
-        orderClause = `T.symbol ${sortDir}, T.date DESC`;
-      } else if (sortCol === 'quantity') {
-        orderClause = `T.quantity ${sortDir}, T.date DESC`;
-      } else if (sortCol === 'price') {
-        orderClause = `T.price ${sortDir}, T.date DESC`;
-      } else if (sortCol === 'net_amount') {
-        orderClause = `T.net_amount ${sortDir}, T.date DESC`;
-      }
-    }
-
-    // Paginate and Fetch
-    let selectQuery = `
-      SELECT T.*, M.name as company_name, P.base_currency 
-      ${baseQuery}
-      ORDER BY ${orderClause}
-      LIMIT ? OFFSET ?
-    `;
-    const fetchParams = [...params, limit, (page - 1) * limit];
-    const data = await dbAll(db, selectQuery, fetchParams);
-
-    const fxRates = await BankAndFDService.getInstance().getCurrencyRates();
-    const usdRate = fxRates.USD || 83.5;
-
-    const enrichedData = data.map((t: any) => {
-      const isUsd = t.base_currency === 'USD' || t.portfolio === 'US - IBKR' || (t.isin && t.isin.startsWith('US'));
-      return {
-        ...t,
-        currency: isUsd ? 'USD' : 'INR',
-        rate_to_inr: isUsd ? usdRate : 1.0
-      };
-    });
-
-    res.json({
-      data: enrichedData,
-      total,
-      page,
-      pages: Math.ceil(total / limit) || 1
-    });
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-app.post('/api/transactions', async (req, res) => {
-  try {
-    const { date, portfolio, type, symbol, isin, quantity, price, gross_amount, brokerage, net_amount, notes, broker_name, account_number, folio } = req.body;
-    
-    if (!portfolio || portfolio.trim() === '' || portfolio.trim().toLowerCase() === 'default') {
-      return res.status(400).json({
-        success: false,
-        message: 'Warning / Error: "Default" portfolio is an unallocated fallback and cannot be used. Please select an explicit active portfolio (e.g. Maa, cc9, Papa).'
-      });
-    }
-    
-    // Auto-resolve master ticker
-    let resolvedIsin = isin || '';
-    let resolvedSymbol = symbol || '';
-    const existing = await dbGet(db, 'SELECT isin, symbol FROM MasterTickers WHERE symbol = ? OR isin = ?', [symbol, isin]);
-    if (existing) {
-      resolvedIsin = existing.isin || resolvedIsin;
-      resolvedSymbol = existing.symbol || resolvedSymbol;
-    } else {
-      // Attempt to resolve real ISIN from net if missing
-      if (!resolvedIsin && resolvedSymbol) {
-        try {
-          const netIsin = await fetchRealIsinFromNet(resolvedSymbol);
-          if (netIsin) {
-            resolvedIsin = netIsin;
-          }
-        } catch (err) {
-          console.warn(`[Manual Transaction] Net ISIN fetch failed for "${resolvedSymbol}":`, err);
-        }
-      }
-      // Check if MasterTickers already has an official ISIN for this symbol
-      const masterIsinRow = await dbGet(db, 'SELECT isin FROM MasterTickers WHERE symbol = ? AND isin IS NOT NULL AND isin != "" AND NOT isin LIKE "CUSTOM_%"', [resolvedSymbol]);
-      if (masterIsinRow && masterIsinRow.isin) {
-        resolvedIsin = masterIsinRow.isin;
-      } else if (!resolvedIsin) {
-        resolvedIsin = `CUSTOM_${resolvedSymbol.replace(/\s+/g, '')}`.slice(0, 12);
-        await dbRun(db, 'INSERT OR IGNORE INTO MasterTickers (isin, symbol, name, exchange, segment, sector) VALUES (?, ?, ?, \'MUTUAL_FUND\', \'MF\', \'Mutual Funds\')', [resolvedIsin, resolvedSymbol, resolvedSymbol]);
-      }
-    }
-
-    const txTypeUpper = String(type).toUpperCase();
-    const isCashFlow = (txTypeUpper.includes('REINVEST') || txTypeUpper.includes('REINVESTMENT')) ? 0 : 1;
-
-    const result = await dbRun(db, `
-      INSERT INTO Transactions (date, portfolio, type, isin, symbol, quantity, price, gross_amount, brokerage, net_amount, notes, is_cash_flow, broker_name, account_number, folio)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `, [date, portfolio, type, resolvedIsin, resolvedSymbol, quantity, price, gross_amount || (quantity * price), brokerage || 0, net_amount || (quantity * price), notes || '', isCashFlow, broker_name || '', account_number || '', folio || '']);
-
-    await auditDBChange(db, 'Transactions', 'INSERT', result.id, `Manual transaction for ${resolvedSymbol}`);
-    
-    // Re-run FIFO in background to rebuild Holdings
-    await runFIFO(db);
-
-    res.json({ success: true, id: result.id });
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-app.put('/api/transactions/:id', async (req, res) => {
-  try {
-    const id = req.params.id;
-    let { date, portfolio, type, symbol, isin, quantity, price, gross_amount, brokerage, net_amount, notes } = req.body;
-
-    let resolvedSymbol = symbol ? String(symbol).trim() : '';
-    let resolvedIsin = isin ? String(isin).trim() : '';
-
-    if (resolvedSymbol) {
-      const matchBySymbol = await dbGet(db, 'SELECT isin, symbol FROM MasterTickers WHERE symbol = ? OR name = ?', [resolvedSymbol, resolvedSymbol]);
-      if (matchBySymbol) {
-        resolvedSymbol = matchBySymbol.symbol || resolvedSymbol;
-        resolvedIsin = matchBySymbol.isin || resolvedIsin;
-      }
-    }
-
-    if (!resolvedIsin && resolvedSymbol) {
-      const matchAny = await dbGet(db, 'SELECT isin FROM MasterTickers WHERE symbol = ? AND isin IS NOT NULL AND isin != ""', [resolvedSymbol]);
-      if (matchAny && matchAny.isin) {
-        resolvedIsin = matchAny.isin;
-      }
-    }
-
-    const txTypeUpper = String(type).toUpperCase();
-    const isCashFlow = (txTypeUpper.includes('REINVEST') || txTypeUpper.includes('REINVESTMENT')) ? 0 : 1;
-
-    await dbRun(db, `
-      UPDATE Transactions 
-      SET date = ?, portfolio = ?, type = ?, isin = ?, symbol = ?, quantity = ?, price = ?, gross_amount = ?, brokerage = ?, net_amount = ?, notes = ?, is_cash_flow = ?, updated_at = CURRENT_TIMESTAMP
-      WHERE id = ?
-    `, [date, portfolio, type, resolvedIsin, resolvedSymbol, quantity, price, gross_amount, brokerage, net_amount, notes || '', isCashFlow, id]);
-
-    await auditDBChange(db, 'Transactions', 'UPDATE', parseInt(id), `Updated manual transaction ${id}`);
-    
-    // Re-run FIFO in background
-    await runFIFO(db);
-
-    res.json({ success: true });
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-app.delete('/api/transactions/:id', async (req, res) => {
-  try {
-    const id = req.params.id;
-    await dbRun(db, 'DELETE FROM Transactions WHERE id = ?', [id]);
-    await auditDBChange(db, 'Transactions', 'DELETE', parseInt(id), `Deleted transaction ${id}`);
-    
-    await runFIFO(db);
-
-    res.json({ success: true });
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-app.post('/api/transactions/bulk', async (req, res) => {
-  try {
-    const { action, ids, fields } = req.body;
-    if (!ids || ids.length === 0) {
-      return res.status(400).json({ success: false, message: 'No transaction IDs provided' });
-    }
-
-    const placeholders = ids.map(() => '?').join(',');
-
-    if (action === 'DELETE') {
-      await dbRun(db, `DELETE FROM Transactions WHERE id IN (${placeholders})`, ids);
-      for (const id of ids) {
-        await auditDBChange(db, 'Transactions', 'DELETE', id, `Bulk deleted transaction`);
-      }
-    } else if (action === 'UPDATE' && fields) {
-      const updateClauses: string[] = [];
-      const params: any[] = [];
-
-      if (fields.date) {
-        updateClauses.push('date = ?');
-        params.push(fields.date);
-      }
-      if (fields.portfolio) {
-        updateClauses.push('portfolio = ?');
-        params.push(fields.portfolio);
-      }
-      if (fields.type) {
-        updateClauses.push('type = ?');
-        params.push(fields.type);
-      }
-      if (fields.symbol) {
-        updateClauses.push('symbol = ?');
-        params.push(fields.symbol);
-      }
-      if (fields.isin) {
-        updateClauses.push('isin = ?');
-        params.push(fields.isin);
-      }
-
-      if (updateClauses.length === 0) {
-        return res.status(400).json({ success: false, message: 'No valid update fields provided' });
-      }
-
-      const sql = `UPDATE Transactions SET ${updateClauses.join(', ')}, updated_at = CURRENT_TIMESTAMP WHERE id IN (${placeholders})`;
-      await dbRun(db, sql, [...params, ...ids]);
-      for (const id of ids) {
-        await auditDBChange(db, 'Transactions', 'UPDATE', id, `Bulk updated transaction`);
-      }
-    }
-
-    await runFIFO(db);
-    res.json({ success: true });
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-app.get('/api/transactions/export', async (req, res) => {
-  try {
-    const txns = await dbAll(db, 'SELECT * FROM Transactions ORDER BY date DESC');
-    const cas = await dbAll(db, 'SELECT * FROM CorporateActions ORDER BY record_date DESC');
-    const holdings = await dbAll(db, 'SELECT * FROM Holdings ORDER BY current_value DESC');
-
-    const wb = XLSX.utils.book_new();
-
-    const ws1 = XLSX.utils.json_to_sheet(txns);
-    XLSX.utils.book_append_sheet(wb, ws1, 'Transactions');
-
-    const ws2 = XLSX.utils.json_to_sheet(cas);
-    XLSX.utils.book_append_sheet(wb, ws2, 'Corporate Actions');
-
-    const ws3 = XLSX.utils.json_to_sheet(holdings);
-    XLSX.utils.book_append_sheet(wb, ws3, 'Holdings');
-
-    const buffer = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
-    
-    res.setHeader('Content-Disposition', 'attachment; filename="portfolio_export.xlsx"');
-    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    res.send(buffer);
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-app.get('/api/master-tickers', async (req, res) => {
-  try {
-    const rows = await dbAll(db, 'SELECT * FROM MasterTickers ORDER BY symbol ASC');
-    res.json(rows);
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-app.post('/api/master-tickers', async (req, res) => {
-  try {
-    const { isin, symbol, name, exchange, sector, manual_ltp, fmv_31_jan_2018 } = req.body;
-    if (!isin || !symbol) {
-      return res.status(400).json({ success: false, message: 'ISIN and Symbol are required' });
-    }
-
-    const result = await dbRun(db, `
-      INSERT INTO MasterTickers (isin, symbol, name, exchange, sector, manual_ltp, manual_ltp_date, fmv_31_jan_2018)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    `, [isin, symbol, name || '', exchange || 'NSE', sector || '', manual_ltp || null, manual_ltp ? new Date().toISOString() : null, fmv_31_jan_2018 || 0]);
-
-    res.json({ success: true, id: result.id });
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-app.put('/api/master-tickers/:id', async (req, res) => {
-  try {
-    const id = req.params.id;
-    const { isin, symbol, name, exchange, sector, manual_ltp, fmv_31_jan_2018 } = req.body;
-
-    await dbRun(db, `
-      UPDATE MasterTickers
-      SET isin = ?, symbol = ?, name = ?, exchange = ?, sector = ?, manual_ltp = ?, manual_ltp_date = ?, fmv_31_jan_2018 = ?, updated_at = CURRENT_TIMESTAMP
-      WHERE id = ?
-    `, [isin, symbol, name, exchange, sector, manual_ltp, manual_ltp ? new Date().toISOString() : null, fmv_31_jan_2018, id]);
-
-    // Cascade manual ltp to holdings if applicable
-    if (manual_ltp !== undefined && manual_ltp !== null) {
-      const matchHoldings = await dbAll(db, 'SELECT portfolio, isin, symbol, quantity, total_cost FROM Holdings WHERE symbol = ? OR isin = ?', [symbol, isin]);
-      for (const h of matchHoldings) {
-        const cv = h.quantity * manual_ltp;
-        const pnl = cv - h.total_cost;
-        const pct = h.total_cost > 0 ? (pnl / h.total_cost) * 100 : 0;
-        await dbRun(db, `
-          UPDATE Holdings
-          SET ltp = ?, current_value = ?, unrealized_pnl = ?, unrealized_pct = ?, data_source = 'Manual Entry', last_update = CURRENT_TIMESTAMP
-          WHERE portfolio = ? AND isin = ? AND symbol = ? AND folio = ?
-        `, [manual_ltp, cv, pnl, pct, h.portfolio, h.isin, h.symbol, h.folio || 'NA']);
-      }
-    }
-
-    res.json({ success: true });
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-app.delete('/api/master-tickers/:id', async (req, res) => {
-  try {
-    const id = req.params.id;
-    await dbRun(db, 'DELETE FROM MasterTickers WHERE id = ?', [id]);
-    res.json({ success: true });
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-// Upsert a MasterTicker by ISIN (no id needed) — used for US holdings that may already have a stub row
-app.put('/api/master-tickers/upsert-by-isin', async (req, res) => {
-  try {
-    const { isin, symbol, name, exchange, sector, manual_ltp, fmv_31_jan_2018 } = req.body;
-    if (!isin) return res.status(400).json({ success: false, message: 'ISIN is required' });
-
-    await dbRun(db, `
-      INSERT INTO MasterTickers (isin, symbol, name, exchange, sector, manual_ltp, fmv_31_jan_2018)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-      ON CONFLICT(isin) DO UPDATE SET
-        symbol   = COALESCE(excluded.symbol,   MasterTickers.symbol),
-        name     = CASE WHEN excluded.name != '' THEN excluded.name ELSE MasterTickers.name END,
-        exchange = COALESCE(excluded.exchange, MasterTickers.exchange),
-        sector   = CASE WHEN excluded.sector != '' THEN excluded.sector ELSE MasterTickers.sector END,
-        manual_ltp      = COALESCE(excluded.manual_ltp, MasterTickers.manual_ltp),
-        fmv_31_jan_2018 = COALESCE(excluded.fmv_31_jan_2018, MasterTickers.fmv_31_jan_2018)
-    `, [isin, symbol || '', name || '', exchange || 'NYSE', sector || '', manual_ltp || null, fmv_31_jan_2018 || 0]);
-
-    res.json({ success: true });
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-
 app.post('/api/master-tickers/merge', async (req, res) => {
   try {
     const { source_id, target_id } = req.body;
@@ -7326,9 +6197,52 @@ app.get('/api/corporate-actions/reconcile', async (req, res) => {
     // 4. Find system corporate actions that are NOT represented in manual transactions
     // ONLY include system actions where the user is eligible (has holdings > 0.001 on record date)!
     const missingInManual: any[] = [];
-    for (const sc of systemCAs) {
-      if (!matchedSystemIds.has(sc.id)) {
-        const holdingQty = await getHoldingQtyOnDate(db, sc.isin, sc.symbol, sc.record_date);
+    const unmatchedCAs = systemCAs.filter((sc: any) => !matchedSystemIds.has(sc.id));
+    if (unmatchedCAs.length > 0) {
+      const candidateIsins = Array.from(new Set(unmatchedCAs.map((sc: any) => sc.isin).filter(Boolean)));
+      const candidateSymbols = Array.from(new Set(unmatchedCAs.map((sc: any) => sc.symbol).filter(Boolean)));
+
+      const orClauses: string[] = [];
+      const txParams: any[] = [];
+      if (candidateIsins.length > 0) {
+        orClauses.push(`isin IN (${candidateIsins.map(() => '?').join(',')})`);
+        txParams.push(...candidateIsins);
+      }
+      if (candidateSymbols.length > 0) {
+        orClauses.push(`symbol IN (${candidateSymbols.map(() => '?').join(',')})`);
+        txParams.push(...candidateSymbols);
+      }
+
+      const relevantTxns = orClauses.length > 0
+        ? await dbAll(db, `SELECT portfolio, type, quantity, price, date, isin, symbol FROM Transactions WHERE ${orClauses.join(' OR ')} ORDER BY date ASC, id ASC`, txParams)
+        : [];
+
+      for (const sc of unmatchedCAs) {
+        const targetIsin = sc.isin ? String(sc.isin).trim() : '';
+        const targetSym = sc.symbol ? String(sc.symbol).toUpperCase().trim() : '';
+        const recDate = sc.record_date;
+
+        const portQty: Record<string, number> = {};
+
+        for (const t of relevantTxns) {
+          if (t.date > recDate) continue;
+          const match = (targetIsin && t.isin === targetIsin) || (targetSym && t.symbol === targetSym);
+          if (!match) continue;
+
+          const p = t.portfolio;
+          const ty = String(t.type).toUpperCase();
+          const q = Number(t.quantity) || 0;
+          if (!portQty[p]) portQty[p] = 0;
+
+          if (['BUY', 'PURCHASE', 'IPO', 'ALLOTMENT', 'BONUS', 'TRANSFER IN', 'SECURITY IN'].some(k => ty.includes(k))) {
+            portQty[p] += q;
+          } else if (['SELL', 'SALE', 'MERGE', 'ROUNDING', 'TRANSFER OUT', 'SECURITY OUT'].some(k => ty.includes(k))) {
+            portQty[p] -= q;
+          }
+        }
+
+        const holdingQty = Object.values(portQty).reduce((sum, q) => sum + Math.max(0, q), 0);
+
         if (holdingQty > 0.001) {
           missingInManual.push({
             ...sc,
@@ -7703,142 +6617,6 @@ app.delete('/api/corporate-actions/:id', async (req, res) => {
     const id = req.params.id;
     await dbRun(db, 'DELETE FROM CorporateActions WHERE id = ?', [id]);
     res.json({ success: true });
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-app.post('/api/corporate-actions/apply', async (req, res) => {
-  try {
-    const pendingCAs = await dbAll(db, 'SELECT * FROM CorporateActions WHERE applied = 0 OR applied IS NULL');
-    if (pendingCAs.length === 0) {
-      return res.json({ success: true, message: 'No pending actions to apply.' });
-    }
-
-    const batchId = `CA-${Date.now()}`;
-    await dbRun(db, `
-      INSERT INTO ActionHistory (timestamp, action_type, description, batch_id)
-      VALUES (CURRENT_TIMESTAMP, 'System-CA-Apply', 'Applying pending corporate actions', ?)
-    `, [batchId]);
-
-    let appliedCount = 0;
-    let skippedCount = 0;
-
-    for (const ca of pendingCAs) {
-      const isin = ca.isin;
-      const symbol = ca.symbol;
-      const recordDate = ca.record_date;
-      const actionType = String(ca.action_type).toUpperCase();
-
-      // Check if we have eligible holdings on record date
-      const totalHolding = await getHoldingQtyOnDate(db, isin, symbol, recordDate);
-      if (totalHolding <= 0.001) {
-        // Mark as applied (skipped/ineligible) so it's cleared out and doesn't remain pending forever, but note it
-        const newDetails = (ca.details || '') + ' [Skipped: No eligible stock inventory held on record date]';
-        await dbRun(db, `
-          UPDATE CorporateActions 
-          SET applied = 1, applied_date = CURRENT_TIMESTAMP, applied_batch_id = ?, details = ?
-          WHERE id = ?
-        `, [batchId, newDetails, ca.id]);
-        skippedCount++;
-        continue;
-      }
-
-      // Find holdings of the company as of recordDate
-      let txns: any[] = [];
-      if (isin && isin.trim() !== '') {
-        txns = await dbAll(db, `
-          SELECT portfolio, type, quantity, price, net_amount 
-          FROM Transactions 
-          WHERE (isin = ? OR (symbol = ? AND (isin IS NULL OR isin = ''))) AND date <= ? 
-          ORDER BY date ASC, id ASC
-        `, [isin, symbol, recordDate]);
-      } else {
-        txns = await dbAll(db, `
-          SELECT portfolio, type, quantity, price, net_amount 
-          FROM Transactions 
-          WHERE symbol = ? AND date <= ? 
-          ORDER BY date ASC, id ASC
-        `, [symbol, recordDate]);
-      }
-
-      const portfolioQty: Record<string, number> = {};
-
-      for (const t of txns) {
-        const port = t.portfolio;
-        const type = String(t.type).toUpperCase();
-        const qty = t.quantity || 0;
-        
-        if (!portfolioQty[port]) portfolioQty[port] = 0;
-
-        if (type.includes('BUY') || type.includes('PURCHASE') || type.includes('IPO') || type.includes('ALLOTMENT') || type.includes('TRANSFER IN') || type.includes('SECURITY IN')) {
-          portfolioQty[port] += qty;
-        } else if (type.includes('SELL') || type.includes('SALE') || type.includes('MERGE') || type.includes('ROUNDING') || type.includes('TRANSFER OUT') || type.includes('SECURITY OUT')) {
-          portfolioQty[port] -= qty;
-        } else if (type === 'BONUS') {
-          portfolioQty[port] += qty;
-        } else if (type === 'SPLIT') {
-          const ratio = t.price || 1;
-          portfolioQty[port] *= ratio;
-        }
-      }
-
-      for (const [port, qtyHeld] of Object.entries(portfolioQty)) {
-        if (qtyHeld <= 0.001) continue;
-
-        let qtyToInsert = 0;
-        let priceToInsert = 0;
-        let netAmount = 0;
-
-        if (actionType === 'SPLIT') {
-          const ratio = (ca.numerator || 1) / (ca.denominator || 1);
-          qtyToInsert = 0;
-          priceToInsert = ratio; // Split ratio stored in price
-        } else if (actionType === 'BONUS') {
-          const ratio = (ca.numerator || 0) / (ca.denominator || 1);
-          qtyToInsert = qtyHeld * ratio;
-          priceToInsert = 0;
-        } else if (actionType === 'DIVIDEND') {
-          const dps = ca.dividend_per_share || 0;
-          qtyToInsert = 0;
-          priceToInsert = dps;
-          netAmount = qtyHeld * dps;
-        }
-
-        // Check if portfolio has uploaded statement data or is a PMS portfolio
-        const hasUploadOrPms = await dbGet(db, "SELECT id FROM Transactions WHERE portfolio = ? AND source IN ('Upload', 'PMS') LIMIT 1", [port]);
-        if (actionType === 'DIVIDEND' && hasUploadOrPms) {
-          continue; // Skip auto-generating dividends, rely on uploaded statement records / bank book
-        }
-
-        // De-duplicate check (-15 to +45 days)
-        const dupCheck = await dbGet(db, `
-          SELECT id FROM Transactions 
-          WHERE isin = ? 
-            AND UPPER(type) LIKE '%' || ? || '%' 
-            AND portfolio = ?
-            AND date >= date(?, '-15 days') 
-            AND date <= date(?, '+45 days')
-        `, [isin, actionType, port, recordDate, recordDate]);
-
-        if (!dupCheck) {
-          await dbRun(db, `
-            INSERT INTO Transactions (date, portfolio, type, isin, symbol, quantity, price, net_amount, source, batch_id, is_cash_flow)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'System-CA', ?, ?)
-          `, [recordDate, port, actionType, isin, symbol, qtyToInsert, priceToInsert, netAmount, batchId, actionType === 'DIVIDEND' ? 1 : 0]);
-        }
-      }
-
-      // Mark as applied
-      await dbRun(db, 'UPDATE CorporateActions SET applied = 1, applied_date = CURRENT_TIMESTAMP, applied_batch_id = ? WHERE id = ?', [batchId, ca.id]);
-      appliedCount++;
-    }
-
-    const description = `Applied ${appliedCount} actions, skipped ${skippedCount} actions with no eligible holdings.`;
-    await dbRun(db, 'UPDATE ActionHistory SET description = ? WHERE batch_id = ?', [description, batchId]);
-    await runFIFO(db);
-
-    res.json({ success: true, message: `Successfully processed: applied ${appliedCount} and skipped ${skippedCount} due to zero holdings.` });
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });
   }
@@ -8634,7 +7412,11 @@ app.post('/api/pms/validate', upload.single('file'), async (req, res) => {
 });
 
 async function saveUserMappingsAndIsins(db: any, uiMappings: Record<string, string>, uiIsins: Record<string, string>) {
-  for (const [raw, resolved] of Object.entries(uiMappings)) {
+  const entries = Object.entries(uiMappings || {});
+  if (entries.length === 0) return;
+  await dbRun(db, 'BEGIN IMMEDIATE');
+  try {
+    for (const [raw, resolved] of entries) {
     const resSym = String(resolved).trim().toUpperCase();
     if (!resSym) continue;
 
@@ -8673,6 +7455,11 @@ async function saveUserMappingsAndIsins(db: any, uiMappings: Record<string, stri
         [resSym, resSym, 'UNKNOWN', finalIsin]);
     }
   }
+  await dbRun(db, 'COMMIT');
+} catch (err) {
+  await dbRun(db, 'ROLLBACK').catch(() => {});
+  throw err;
+}
 }
 
 app.post('/api/pms/check-duplicates', async (req, res) => {
@@ -10368,12 +9155,21 @@ app.post('/api/pms/reconcile-apply', async (req: any, res: any) => {
 
     const { computeIsCashFlowFlag } = await import('./src/server/xirr.js');
     const newTxns = await dbAll(db, `SELECT id,type,portfolio,source,is_cash_flow,is_ca FROM Transactions WHERE portfolio=? AND batch_id=?`, [portfolio, batchId]);
-    for (const tx of newTxns as any[]) {
-      if ((tx.is_ca||0)===1) { await dbRun(db,`UPDATE Transactions SET is_cash_flow=0 WHERE id=?`,[tx.id]); continue; }
-      const tType = String(tx.type||'').trim().toUpperCase();
-      if (tx.source==='PMS'&&(tType==='TRANSFER IN'||tType==='TRANSFER OUT')) continue;
-      const expected = computeIsCashFlowFlag(tx.type,tx.portfolio,tx.source);
-      if (tx.is_cash_flow!==expected) await dbRun(db,`UPDATE Transactions SET is_cash_flow=? WHERE id=?`,[expected,tx.id]);
+    if (newTxns && newTxns.length > 0) {
+      await dbRun(db, 'BEGIN IMMEDIATE');
+      try {
+        for (const tx of newTxns as any[]) {
+          if ((tx.is_ca||0)===1) { await dbRun(db,`UPDATE Transactions SET is_cash_flow=0 WHERE id=?`,[tx.id]); continue; }
+          const tType = String(tx.type||'').trim().toUpperCase();
+          if (tx.source==='PMS'&&(tType==='TRANSFER IN'||tType==='TRANSFER OUT')) continue;
+          const expected = computeIsCashFlowFlag(tx.type,tx.portfolio,tx.source);
+          if (tx.is_cash_flow!==expected) await dbRun(db,`UPDATE Transactions SET is_cash_flow=? WHERE id=?`,[expected,tx.id]);
+        }
+        await dbRun(db, 'COMMIT');
+      } catch (err) {
+        await dbRun(db, 'ROLLBACK').catch(() => {});
+        throw err;
+      }
     }
     const capRow = await dbAll(db, `SELECT SUM(CASE WHEN type IN ('DEPOSIT','TRANSFER IN','SECURITY IN') THEN net_amount ELSE 0 END) as capital_in, SUM(CASE WHEN type IN ('WITHDRAWAL') THEN net_amount ELSE 0 END) as capital_out FROM Transactions WHERE portfolio=? AND is_cash_flow=1 AND (is_ca IS NULL OR is_ca=0)`, [portfolio]);
     const cap = capRow[0] as any;
@@ -10458,11 +9254,13 @@ async function cleanupDuplicateTransactions(db: any, portfolio: string = 'cc9') 
 
   if (duplicateIdsToDelete.length > 0) {
     console.log(`[Deduplication] Found ${duplicateIdsToDelete.length} duplicate transactions in '${portfolio}'. Purging...`);
-    for (let i = 0; i < duplicateIdsToDelete.length; i += 500) {
-      const chunk = duplicateIdsToDelete.slice(i, i + 500);
-      const placeholders = chunk.map(() => '?').join(',');
-      await dbRun(db, `DELETE FROM Transactions WHERE id IN (${placeholders})`, chunk);
-    }
+    await withTx(db, async () => {
+      for (let i = 0; i < duplicateIdsToDelete.length; i += 500) {
+        const chunk = duplicateIdsToDelete.slice(i, i + 500);
+        const placeholders = chunk.map(() => '?').join(',');
+        await dbRun(db, `DELETE FROM Transactions WHERE id IN (${placeholders})`, chunk);
+      }
+    });
     console.log(`[Deduplication] Successfully purged ${duplicateIdsToDelete.length} duplicates. Running FIFO recomputation...`);
     await runFIFO(db);
     console.log(`[Deduplication] FIFO recomputed cleanly.`);
@@ -10730,13 +9528,20 @@ app.post('/api/holdings/reconcile', async (req, res) => {
     if (holdings.length === 0) return res.status(404).json({ success: false, message: `No active holdings found for portfolio: ${portfolio}` });
 
     let locked = 0;
-    for (const h of holdings) {
-      await dbRun(db, `
-        INSERT OR REPLACE INTO ReconciledHoldings 
-          (portfolio, isin, symbol, quantity, avg_buy_price, total_cost, reconciled_at, reconciled_by, is_locked, notes)
-        VALUES (?, ?, ?, ?, ?, ?, datetime('now'), 'manual', 1, ?)
-      `, [h.portfolio, h.isin, h.symbol, h.quantity, h.avg_buy_price, h.total_cost, note || '']);
-      locked++;
+    await dbRun(db, 'BEGIN IMMEDIATE');
+    try {
+      for (const h of holdings) {
+        await dbRun(db, `
+          INSERT OR REPLACE INTO ReconciledHoldings 
+            (portfolio, isin, symbol, quantity, avg_buy_price, total_cost, reconciled_at, reconciled_by, is_locked, notes)
+          VALUES (?, ?, ?, ?, ?, ?, datetime('now'), 'manual', 1, ?)
+        `, [h.portfolio, h.isin, h.symbol, h.quantity, h.avg_buy_price, h.total_cost, note || '']);
+        locked++;
+      }
+      await dbRun(db, 'COMMIT');
+    } catch (err) {
+      await dbRun(db, 'ROLLBACK').catch(() => {});
+      throw err;
     }
     invalidateAllCaches();
     console.log(`[GroundTruth] Locked ${locked} holdings for portfolio '${portfolio}' into ReconciledHoldings vault.`);
@@ -11053,7 +9858,7 @@ app.get('/api/metrics', async (req, res) => {
     const selected = await getSelectedPortfolios(req);
     const includeSold = req.query.include_sold === 'true';
     const payload = await buildDashboardPayload(selected, includeSold);
-    res.json(payload);
+    return sendWithEtag(req, res, payload);
   } catch (err: any) {
     console.error('API /api/metrics error:', err);
     res.status(500).json({ success: false, error: err.message });
@@ -11332,15 +10137,17 @@ async function generateImmediateGrowthHistory(db: any, selectedPortfolios: strin
     console.log(`[GrowthHistory] generateImmediateGrowthHistory completed with ${historyData.length} checkpoints.`);
     if (historyData.length > 0) {
       try {
-        await dbRun(db, `DELETE FROM BenchmarkCashFlowCache WHERE portfolio = ? AND benchmark_symbol = ?`, [portfolioKey, benchmarkSymbol]);
-        for (const item of historyData) {
-          await dbRun(
-            db,
-            `INSERT OR REPLACE INTO BenchmarkCashFlowCache (portfolio, benchmark_symbol, date, invested, market_value, benchmark_value, portfolio_return, benchmark_return)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-            [portfolioKey, benchmarkSymbol, item.date, item.invested, item.market_value, item.benchmark_value, item.portfolio_return, item.nifty_return]
-          );
-        }
+        await withTx(db, async () => {
+          await dbRun(db, `DELETE FROM BenchmarkCashFlowCache WHERE portfolio = ? AND benchmark_symbol = ?`, [portfolioKey, benchmarkSymbol]);
+          for (const item of historyData) {
+            await dbRun(
+              db,
+              `INSERT OR REPLACE INTO BenchmarkCashFlowCache (portfolio, benchmark_symbol, date, invested, market_value, benchmark_value, portfolio_return, benchmark_return)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+              [portfolioKey, benchmarkSymbol, item.date, item.invested, item.market_value, item.benchmark_value, item.portfolio_return, item.nifty_return]
+            );
+          }
+        });
       } catch (cacheErr) {
         console.warn('[BenchmarkCashFlowCache] Pre-cache insert failed:', cacheErr);
       }
@@ -11573,7 +10380,7 @@ app.get('/api/growth-history', async (req, res) => {
         nifty_return: r.benchmark_return
       }));
       const annualFyData = computeAnnualFy(historyData);
-      return res.json({ success: true, history: historyData, annual_fy: annualFyData });
+      return sendWithEtag(req, res, { success: true, history: historyData, annual_fy: annualFyData });
     }
 
     // Cache invalid or incomplete - generate complete multi-year timeline from Transactions & Holdings
@@ -11584,21 +10391,23 @@ app.get('/api/growth-history', async (req, res) => {
     // Cache generated multi-year history into BenchmarkCashFlowCache asynchronously
     (async () => {
       try {
-        await dbRun(db, `DELETE FROM BenchmarkCashFlowCache WHERE portfolio = ? AND benchmark_symbol = ?`, [portfolioKey, benchmarkSymbol]);
-        for (const item of generatedData) {
-          await dbRun(
-            db,
-            `INSERT OR REPLACE INTO BenchmarkCashFlowCache (portfolio, benchmark_symbol, date, invested, market_value, benchmark_value, portfolio_return, benchmark_return)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-            [portfolioKey, benchmarkSymbol, item.date, item.invested, item.market_value, item.benchmark_value, item.portfolio_return, item.nifty_return]
-          );
-        }
+        await withTx(db, async () => {
+          await dbRun(db, `DELETE FROM BenchmarkCashFlowCache WHERE portfolio = ? AND benchmark_symbol = ?`, [portfolioKey, benchmarkSymbol]);
+          for (const item of generatedData) {
+            await dbRun(
+              db,
+              `INSERT OR REPLACE INTO BenchmarkCashFlowCache (portfolio, benchmark_symbol, date, invested, market_value, benchmark_value, portfolio_return, benchmark_return)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+              [portfolioKey, benchmarkSymbol, item.date, item.invested, item.market_value, item.benchmark_value, item.portfolio_return, item.nifty_return]
+            );
+          }
+        });
       } catch (e) {
         console.warn('[BenchmarkCashFlowCache] Cache insert failed:', e);
       }
     })();
 
-    return res.json({
+    return sendWithEtag(req, res, {
       success: true,
       history: generatedData,
       annual_fy: annualFyData,
@@ -11855,84 +10664,7 @@ app.get('/api/scrip-ai-analysis', async (req, res) => {
   }
 });
 
-// GET /api/scrip-intelligence
-app.get('/api/scrip-intelligence', async (req, res) => {
-  try {
-    const symbol = req.query.symbol ? String(req.query.symbol).trim() : '';
-    if (!symbol) {
-      return res.status(400).json({ success: false, message: 'Symbol query parameter is required.' });
-    }
 
-    const cleanSym = symbol.toUpperCase().replace(/\.NS$/, '').replace(/\.BO$/, '');
-    
-    // Fetch Screener.in data (for Indian equities)
-    let screenerData = await ScreenerService.getInstance().fetchScreenerData(cleanSym);
-
-    // Fetch Social Media & YouTube Coverage Links
-    const socialItems = SocialMediaService.getInstance().getSocialCoverageForScrip(cleanSym, screenerData?.company_name);
-
-    // For Yahoo Finance ticker mapping
-    const isUs = cleanSym.startsWith('US') || ['VOO', 'QQQ', 'AAPL', 'MSFT', 'NVDA', 'AMZN', 'GOOGL', 'TSLA', 'META', 'BRK.B', 'VGT', 'SCHG', 'SPY'].includes(cleanSym);
-    const yfSym = isUs ? cleanSym : `${cleanSym}.NS`;
-
-    // Fetch Live News & Ticker Info with 365 days of history for technical analysis
-    const tickerPromise = fetchTickerData(yfSym, 365).catch(() => null);
-    const timeoutPromise = new Promise((resolve) => setTimeout(() => resolve(null), 3000));
-    const tickerInfo: any = await Promise.race([tickerPromise, timeoutPromise]);
-
-    // Compute Technical Analysis
-    let technicalAnalysis = null;
-    if (tickerInfo && tickerInfo.closePrices && tickerInfo.closePrices.length > 0) {
-      technicalAnalysis = TechnicalAnalysisEngine.analyze(tickerInfo.closePrices);
-    }
-
-    // Fetch News Sentiment
-    const newsService = new NewsSentimentService();
-    const newsSentiment = await newsService.fetchNews(cleanSym);
-
-    // Basic Portfolio Context
-    let portfolioContext = null;
-    try {
-      const holdings = await dbAll(db, "SELECT current_value, total_cost FROM Holdings WHERE symbol = ? AND quantity > 0", [cleanSym]);
-      if (holdings && holdings.length > 0) {
-        let totalValue = 0;
-        let totalCost = 0;
-        holdings.forEach((h: any) => { totalValue += h.current_value || 0; totalCost += h.total_cost || 0; });
-        const pnl = totalCost > 0 ? ((totalValue - totalCost) / totalCost) * 100 : 0;
-        portfolioContext = { unrealized_pnl_pct: pnl, days_held: 180, weight_pct: 1 };
-      }
-    } catch(e) {}
-
-    // Compute Composite Signal with Evolved Factor Weights
-    let activeWeights = undefined;
-    try {
-      const selfLearnReport = await SelfLearningEngine.getInstance().getSelfLearningReport();
-      activeWeights = selfLearnReport.currentGeneration.activeWeights;
-    } catch {}
-
-    const signalResult = SignalEngine.computeSignal({
-      technical: technicalAnalysis,
-      fundamental: screenerData,
-      sentiment: newsSentiment,
-      portfolio: portfolioContext || undefined
-    }, activeWeights);
-
-    res.json({
-      success: true,
-      symbol: cleanSym,
-      company_name: screenerData?.company_name || cleanSym,
-      screener: screenerData,
-      social: socialItems,
-      tickerInfo,
-      technicalAnalysis,
-      newsSentiment,
-      signalResult,
-      portfolioContext
-    });
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
 
 // In-memory cache for batch portfolio intelligence (15-minute TTL)
 const portfolioIntelCache = new Map<string, { timestamp: number; data: any }>();
@@ -12407,15 +11139,17 @@ app.post('/api/cams/parse-statement', upload.single('file'), async (req, res) =>
 
     // Clear and insert ground-truth summary holdings for validation/reconciliation
     if (pdfSummarySchemes && pdfSummarySchemes.length > 0) {
-      await dbRun(db, 'DELETE FROM CamsSummaryHoldings WHERE portfolio = ?', [portfolioName]);
-      for (const s of pdfSummarySchemes) {
-        await dbRun(
-          db,
-          `INSERT OR REPLACE INTO CamsSummaryHoldings (portfolio, isin, folio, symbol, quantity, nav, value, cost)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-          [portfolioName, s.isin, s.folio || 'NA', s.schemeName, s.pdfQuantity, s.pdfNav, s.pdfValue, s.pdfCost || null]
-        );
-      }
+      await withTx(db, async () => {
+        await dbRun(db, 'DELETE FROM CamsSummaryHoldings WHERE portfolio = ?', [portfolioName]);
+        for (const s of pdfSummarySchemes) {
+          await dbRun(
+            db,
+            `INSERT OR REPLACE INTO CamsSummaryHoldings (portfolio, isin, folio, symbol, quantity, nav, value, cost)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+            [portfolioName, s.isin, s.folio || 'NA', s.schemeName, s.pdfQuantity, s.pdfNav, s.pdfValue, s.pdfCost || null]
+          );
+        }
+      });
       console.log(`[CAMS API] Successfully stored ${pdfSummarySchemes.length} ground-truth summary holdings in CamsSummaryHoldings for portfolio "${portfolioName}".`);
     }
 
@@ -12439,39 +11173,41 @@ app.post('/api/cams/parse-statement', upload.single('file'), async (req, res) =>
 
     const batchCounts: Record<string, number> = {};
 
-    for (const tx of parsedTxs) {
-      const key = `${tx.date}::${tx.isin}::${tx.folio || 'NA'}::${tx.type}::${tx.quantity}::${tx.price}`;
-      const dbCount = existingCounts[key] || 0;
-      const batchCount = batchCounts[key] || 0;
+    await withTx(db, async () => {
+      for (const tx of parsedTxs) {
+        const key = `${tx.date}::${tx.isin}::${tx.folio || 'NA'}::${tx.type}::${tx.quantity}::${tx.price}`;
+        const dbCount = existingCounts[key] || 0;
+        const batchCount = batchCounts[key] || 0;
 
-      batchCounts[key] = batchCount + 1;
+        batchCounts[key] = batchCount + 1;
 
-      if (batchCount < dbCount) {
-        skippedDuplicates++;
-        continue;
-      }
+        if (batchCount < dbCount) {
+          skippedDuplicates++;
+          continue;
+        }
 
-      // Add to MasterTickers if not present
-      const existingTicker = await dbGet(db, 'SELECT isin FROM MasterTickers WHERE isin = ?', [tx.isin]);
-      if (!existingTicker) {
+        // Add to MasterTickers if not present
+        const existingTicker = await dbGet(db, 'SELECT isin FROM MasterTickers WHERE isin = ?', [tx.isin]);
+        if (!existingTicker) {
+          await dbRun(
+            db,
+            `INSERT OR IGNORE INTO MasterTickers (isin, symbol, name, exchange, segment, sector) 
+             VALUES (?, ?, ?, 'MUTUAL_FUND', 'MF', 'Mutual Funds')`,
+            [tx.isin, tx.schemeName, tx.schemeName]
+          );
+        }
+
+        // Insert Transaction with folio saved in notes column
         await dbRun(
           db,
-          `INSERT OR IGNORE INTO MasterTickers (isin, symbol, name, exchange, segment, sector) 
-           VALUES (?, ?, ?, 'MUTUAL_FUND', 'MF', 'Mutual Funds')`,
-          [tx.isin, tx.schemeName, tx.schemeName]
+          `INSERT INTO Transactions (date, portfolio, type, isin, symbol, quantity, price, gross_amount, brokerage, net_amount, source, batch_id, notes) 
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0, ?, 'CAMS Import', ?, ?)`,
+          [tx.date, portfolioName, tx.type, tx.isin, tx.schemeName, tx.quantity, tx.price, tx.amount, tx.amount, batchId, tx.folio ? `Folio: ${tx.folio}` : null]
         );
+
+        insertedCount++;
       }
-
-      // Insert Transaction with folio saved in notes column
-      await dbRun(
-        db,
-        `INSERT INTO Transactions (date, portfolio, type, isin, symbol, quantity, price, gross_amount, brokerage, net_amount, source, batch_id, notes) 
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0, ?, 'CAMS Import', ?, ?)`,
-        [tx.date, portfolioName, tx.type, tx.isin, tx.schemeName, tx.quantity, tx.price, tx.amount, tx.amount, batchId, tx.folio ? `Folio: ${tx.folio}` : null]
-      );
-
-      insertedCount++;
-    }
+    });
 
     // Log this action in ActionHistory
     if (insertedCount > 0) {
@@ -12512,26 +11248,28 @@ app.post('/api/cams/parse-statement', upload.single('file'), async (req, res) =>
         await new Promise((resolve) => setTimeout(resolve, 150));
       }
 
-      for (const r of fetchResults) {
-        const { h, nav, source } = r;
-        if (nav && nav > 0) {
-          const cv = h.quantity * nav;
-          const pnl = cv - h.total_cost;
-          const pct = h.total_cost > 0 ? (pnl / h.total_cost) * 100 : 0;
-          await dbRun(
-            db,
-            `UPDATE Holdings SET ltp = ?, current_value = ?, unrealized_pnl = ?, 
-             unrealized_pct = ?, data_source = ?, last_update = CURRENT_TIMESTAMP
-             WHERE portfolio = ? AND isin = ? AND folio = ?`,
-            [nav, cv, pnl, pct, source, portfolioName, h.isin, h.folio || 'NA']
-          );
-          await dbRun(
-            db,
-            `UPDATE MasterTickers SET last_price = ?, last_updated = CURRENT_TIMESTAMP WHERE isin = ?`,
-            [nav, h.isin]
-          );
+      await withTx(db, async () => {
+        for (const r of fetchResults) {
+          const { h, nav, source } = r;
+          if (nav && nav > 0) {
+            const cv = h.quantity * nav;
+            const pnl = cv - h.total_cost;
+            const pct = h.total_cost > 0 ? (pnl / h.total_cost) * 100 : 0;
+            await dbRun(
+              db,
+              `UPDATE Holdings SET ltp = ?, current_value = ?, unrealized_pnl = ?, 
+               unrealized_pct = ?, data_source = ?, last_update = CURRENT_TIMESTAMP
+               WHERE portfolio = ? AND isin = ? AND folio = ?`,
+              [nav, cv, pnl, pct, source, portfolioName, h.isin, h.folio || 'NA']
+            );
+            await dbRun(
+              db,
+              `UPDATE MasterTickers SET last_price = ?, last_updated = CURRENT_TIMESTAMP WHERE isin = ?`,
+              [nav, h.isin]
+            );
+          }
         }
-      }
+      });
     }
 
     res.json({
@@ -12629,49 +11367,7 @@ app.get('/api/pms/reconcile-holdings', async (req, res) => {
   }
 });
 
-// GET /api/pms/reconcile-dividends?portfolio=cc9
-// Returns expected dividends from CorporateActions vs received DIVIDEND txns
-app.get('/api/pms/reconcile-dividends', async (req, res) => {
-  try {
-    const portfolio = String(req.query.portfolio || '');
-    if (!portfolio) return res.json({ success: false, message: 'Portfolio required' });
 
-    // Expected dividends from CorporateActions (DIVIDEND type)
-    const caRows = await dbAll(db,
-      `SELECT ca.symbol, ca.isin, ca.record_date as date, ca.numerator as dps
-       FROM CorporateActions ca
-       WHERE ca.action_type = 'DIVIDEND'
-       ORDER BY ca.record_date DESC`,
-      []
-    );
-
-    // Get holdings quantities at each dividend date
-    const expected: any[] = [];
-    for (const ca of caRows) {
-      const holdingRow = await dbGet(db,
-        `SELECT quantity FROM Holdings WHERE portfolio = ? AND (symbol = ? OR isin = ?)`,
-        [portfolio, ca.symbol, ca.isin]
-      ) as any;
-      if (!holdingRow || !holdingRow.quantity) continue;
-      const dps = ca.dps || 0;
-      const amount = Math.round(holdingRow.quantity * dps);
-      if (amount <= 0) continue;
-      expected.push({ date: ca.date, symbol: ca.symbol, isin: ca.isin, qtyHeld: holdingRow.quantity, dps, amount });
-    }
-
-    // Received dividends in Transactions
-    const received = await dbAll(db,
-      `SELECT date, SUM(net_amount) as amount FROM Transactions
-       WHERE portfolio = ? AND type IN ('DIVIDEND','CASH_INCOME','INTEREST')
-       GROUP BY date ORDER BY date DESC`,
-      [portfolio]
-    );
-
-    res.json({ success: true, expected, received });
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
 
 
 
@@ -12789,32 +11485,34 @@ app.post('/api/cams/sync-prices', async (req, res) => {
       results.push(...batchResults);
     }
 
-    for (const r of results) {
-      const { h, nav, source } = r;
-      if (nav && nav > 0) {
-        const cv = h.quantity * nav;
-        const pnl = cv - h.total_cost;
-        const pct = h.total_cost > 0 ? (pnl / h.total_cost) * 100 : 0;
+    await withTx(db, async () => {
+      for (const r of results) {
+        const { h, nav, source } = r;
+        if (nav && nav > 0) {
+          const cv = h.quantity * nav;
+          const pnl = cv - h.total_cost;
+          const pct = h.total_cost > 0 ? (pnl / h.total_cost) * 100 : 0;
 
-        await dbRun(
-          db,
-          `UPDATE Holdings 
-           SET ltp = ?, current_value = ?, unrealized_pnl = ?, unrealized_pct = ?, data_source = ?, last_update = CURRENT_TIMESTAMP 
-           WHERE portfolio = ? AND (isin = ? OR symbol = ?)`,
-          [nav, cv, pnl, pct, source, h.portfolio, h.isin, h.symbol]
-        );
-
-        if (h.isin) {
           await dbRun(
             db,
-            `UPDATE MasterTickers SET last_price = ?, last_updated = CURRENT_TIMESTAMP WHERE isin = ?`,
-            [nav, h.isin]
+            `UPDATE Holdings 
+             SET ltp = ?, current_value = ?, unrealized_pnl = ?, unrealized_pct = ?, data_source = ?, last_update = CURRENT_TIMESTAMP 
+             WHERE portfolio = ? AND (isin = ? OR symbol = ?)`,
+            [nav, cv, pnl, pct, source, h.portfolio, h.isin, h.symbol]
           );
-        }
 
-        updatedCount++;
+          if (h.isin) {
+            await dbRun(
+              db,
+              `UPDATE MasterTickers SET last_price = ?, last_updated = CURRENT_TIMESTAMP WHERE isin = ?`,
+              [nav, h.isin]
+            );
+          }
+
+          updatedCount++;
+        }
       }
-    }
+    });
 
     res.json({
       success: true,
@@ -12906,31 +11604,40 @@ app.post('/api/cams/auto-sync', async (req, res) => {
       txDate.setMonth(txDate.getMonth() - startOffsetMonths);
       const dateStr = txDate.toISOString().split('T')[0];
 
-      for (const mf of initialMfs) {
-        const nav = amfiMap.get(mf.isin.toUpperCase()) || 
-                    amfiMap.get(mf.name.toUpperCase()) || 
-                    amfiMap.get(mf.name.toUpperCase().replace(/\s+/g, ' ').trim()) || 
-                    50.0;
-        const units = mf.amount / nav;
+      if (initialMfs.length > 0) {
+        await dbRun(db, 'BEGIN IMMEDIATE');
+        try {
+          for (const mf of initialMfs) {
+            const nav = amfiMap.get(mf.isin.toUpperCase()) || 
+                        amfiMap.get(mf.name.toUpperCase()) || 
+                        amfiMap.get(mf.name.toUpperCase().replace(/\s+/g, ' ').trim()) || 
+                        50.0;
+            const units = mf.amount / nav;
 
-        // Add to MasterTickers
-        const existingTicker = await dbGet(db, 'SELECT isin FROM MasterTickers WHERE isin = ?', [mf.isin]);
-        if (!existingTicker) {
-          await dbRun(
-            db,
-            `INSERT OR IGNORE INTO MasterTickers (isin, symbol, name, exchange, segment, sector) 
-             VALUES (?, ?, ?, 'MUTUAL_FUND', 'MF', 'Mutual Funds')`,
-            [mf.isin, mf.name, mf.name]
-          );
+            // Add to MasterTickers
+            const existingTicker = await dbGet(db, 'SELECT isin FROM MasterTickers WHERE isin = ?', [mf.isin]);
+            if (!existingTicker) {
+              await dbRun(
+                db,
+                `INSERT OR IGNORE INTO MasterTickers (isin, symbol, name, exchange, segment, sector) 
+                 VALUES (?, ?, ?, 'MUTUAL_FUND', 'MF', 'Mutual Funds')`,
+                [mf.isin, mf.name, mf.name]
+              );
+            }
+
+            await dbRun(
+              db,
+              `INSERT INTO Transactions (date, portfolio, type, isin, symbol, quantity, price, gross_amount, net_amount, source, batch_id)
+               VALUES (?, ?, 'BUY', ?, ?, ?, ?, ?, ?, 'CAMS Auto-Sync', ?)`,
+              [dateStr, portfolioName, mf.isin, mf.name, units, nav, mf.amount, mf.amount, batchId]
+            );
+            insertedCount++;
+          }
+          await dbRun(db, 'COMMIT');
+        } catch (err) {
+          await dbRun(db, 'ROLLBACK').catch(() => {});
+          throw err;
         }
-
-        await dbRun(
-          db,
-          `INSERT INTO Transactions (date, portfolio, type, isin, symbol, quantity, price, gross_amount, net_amount, source, batch_id)
-           VALUES (?, ?, 'BUY', ?, ?, ?, ?, ?, ?, 'CAMS Auto-Sync', ?)`,
-          [dateStr, portfolioName, mf.isin, mf.name, units, nav, mf.amount, mf.amount, batchId]
-        );
-        insertedCount++;
       }
     }
 
@@ -12951,27 +11658,29 @@ app.post('/api/cams/auto-sync', async (req, res) => {
 
       // Sync holdings prices from AMFI
       const holdingsToPrice = await dbAll(db, 'SELECT isin, symbol, quantity FROM Holdings WHERE portfolio = ?', [portfolioName]);
-      for (const h of holdingsToPrice) {
-        const nav = amfiMap.get(h.isin.toUpperCase()) || 
-                    amfiMap.get(h.symbol.toUpperCase()) || 
-                    amfiMap.get(h.symbol.toUpperCase().replace(/\s+/g, ' ').trim());
-        if (nav && nav > 0) {
-          const cv = h.quantity * nav;
-          await dbRun(
-            db,
-            `UPDATE Holdings SET ltp = ?, current_value = ?, unrealized_pnl = current_value - total_cost,
-             unrealized_pct = CASE WHEN total_cost > 0 THEN ((current_value - total_cost) / total_cost) * 100 ELSE 0 END,
-             data_source = 'AMFI', last_update = CURRENT_TIMESTAMP
-             WHERE portfolio = ? AND isin = ? AND folio = ?`,
-            [nav, cv, portfolioName, h.isin, h.folio || 'NA']
-          );
-          await dbRun(
-            db,
-            `UPDATE MasterTickers SET last_price = ?, last_updated = CURRENT_TIMESTAMP WHERE isin = ?`,
-            [nav, h.isin]
-          );
+      await withTx(db, async () => {
+        for (const h of holdingsToPrice) {
+          const nav = amfiMap.get(h.isin.toUpperCase()) || 
+                      amfiMap.get(h.symbol.toUpperCase()) || 
+                      amfiMap.get(h.symbol.toUpperCase().replace(/\s+/g, ' ').trim());
+          if (nav && nav > 0) {
+            const cv = h.quantity * nav;
+            await dbRun(
+              db,
+              `UPDATE Holdings SET ltp = ?, current_value = ?, unrealized_pnl = current_value - total_cost,
+               unrealized_pct = CASE WHEN total_cost > 0 THEN ((current_value - total_cost) / total_cost) * 100 ELSE 0 END,
+               data_source = 'AMFI', last_update = CURRENT_TIMESTAMP
+               WHERE portfolio = ? AND isin = ? AND folio = ?`,
+              [nav, cv, portfolioName, h.isin, h.folio || 'NA']
+            );
+            await dbRun(
+              db,
+              `UPDATE MasterTickers SET last_price = ?, last_updated = CURRENT_TIMESTAMP WHERE isin = ?`,
+              [nav, h.isin]
+            );
+          }
         }
-      }
+      });
     }
 
     res.json({
@@ -13481,8 +12190,12 @@ app.post('/api/import/commit', async (req, res) => {
     for (const item of items) {
       if (item.portfolio && item.portfolio.trim() !== '') pNames.add(item.portfolio.trim());
     }
-    for (const p of pNames) {
-      await dbRun(db, `INSERT OR IGNORE INTO Portfolios (name, type, status) VALUES (?, 'EQUITY', 'ACTIVE')`, [p]);
+    if (pNames.size > 0) {
+      await withTx(db, async () => {
+        for (const p of pNames) {
+          await dbRun(db, `INSERT OR IGNORE INTO Portfolios (name, type, status) VALUES (?, 'EQUITY', 'ACTIVE')`, [p]);
+        }
+      });
     }
 
     let importedCount = 0;
@@ -13500,7 +12213,9 @@ app.post('/api/import/commit', async (req, res) => {
 
     const batchCounts: Record<string, number> = {};
 
-    for (const row of items) {
+    await dbRun(db, 'BEGIN IMMEDIATE');
+    try {
+      for (const row of items) {
       let symbol = uiMappings[row.symbol] || row.symbol;
 
       if (targetModel === 'transactions') {
@@ -13595,6 +12310,11 @@ app.post('/api/import/commit', async (req, res) => {
         `, [row.record_date, isin, symbol, row.action_type, row.numerator, row.denominator, row.dividend_per_share, traceBatchId]);
         importedCount++;
       }
+    }
+      await dbRun(db, 'COMMIT');
+    } catch (err) {
+      await dbRun(db, 'ROLLBACK').catch(() => {});
+      throw err;
     }
 
     delete tempBatches[batch_id];
@@ -13942,69 +12662,73 @@ async function purgePortfolioData(portfolioName?: string, purgeMappings: boolean
     const isins = Array.from(new Set(pfTxns.map((t: any) => t.isin).filter(Boolean)));
     const symbols = Array.from(new Set(pfTxns.map((t: any) => t.symbol).filter(Boolean)));
 
-    // 2. Delete transactions & portfolio-specific logs for this portfolio
-    await dbRun(targetDb, 'DELETE FROM Transactions WHERE portfolio = ?', [pName]);
-    await dbRun(targetDb, 'DELETE FROM CorporateActionAudit WHERE portfolio = ?', [pName]);
-    await dbRun(targetDb, 'DELETE FROM Holdings WHERE portfolio = ?', [pName]);
-    await dbRun(targetDb, 'DELETE FROM RealizedGains WHERE portfolio = ?', [pName]);
-    await dbRun(targetDb, 'DELETE FROM TaxSummary WHERE portfolio = ?', [pName]);
-    await dbRun(targetDb, 'DELETE FROM PortfolioHistory WHERE portfolio = ?', [pName]);
-    await dbRun(targetDb, 'DELETE FROM ZerodhaHoldings WHERE portfolio = ?', [pName]);
-    await dbRun(targetDb, 'DELETE FROM CamsSummaryHoldings WHERE portfolio = ?', [pName]);
-    await dbRun(targetDb, 'DELETE FROM BackupManualTransactions WHERE portfolio = ?', [pName]);
-    await dbRun(targetDb, 'DELETE FROM BankAccountsAndFDs WHERE portfolio = ?', [pName]);
-    await dbRun(targetDb, 'DELETE FROM BenchmarkCashFlowCache WHERE portfolio = ?', [pName]);
+    await withTx(targetDb, async () => {
+      // 2. Delete transactions & portfolio-specific logs for this portfolio
+      await dbRun(targetDb, 'DELETE FROM Transactions WHERE portfolio = ?', [pName]);
+      await dbRun(targetDb, 'DELETE FROM CorporateActionAudit WHERE portfolio = ?', [pName]);
+      await dbRun(targetDb, 'DELETE FROM Holdings WHERE portfolio = ?', [pName]);
+      await dbRun(targetDb, 'DELETE FROM RealizedGains WHERE portfolio = ?', [pName]);
+      await dbRun(targetDb, 'DELETE FROM TaxSummary WHERE portfolio = ?', [pName]);
+      await dbRun(targetDb, 'DELETE FROM PortfolioHistory WHERE portfolio = ?', [pName]);
+      await dbRun(targetDb, 'DELETE FROM ZerodhaHoldings WHERE portfolio = ?', [pName]);
+      await dbRun(targetDb, 'DELETE FROM CamsSummaryHoldings WHERE portfolio = ?', [pName]);
+      await dbRun(targetDb, 'DELETE FROM BackupManualTransactions WHERE portfolio = ?', [pName]);
+      await dbRun(targetDb, 'DELETE FROM BankAccountsAndFDs WHERE portfolio = ?', [pName]);
+      await dbRun(targetDb, 'DELETE FROM BenchmarkCashFlowCache WHERE portfolio = ?', [pName]);
 
-    // 3. Clean up CorporateActions that belonged to this portfolio or whose ISINs are no longer in any remaining portfolio
-    if (isins.length > 0 || symbols.length > 0) {
-      for (const isin of isins) {
-        const remaining: any = await dbGet(
-          targetDb,
-          'SELECT COUNT(*) as cnt FROM Transactions WHERE isin = ?',
-          [isin]
-        );
-        if (!remaining || remaining.cnt === 0) {
-          await dbRun(targetDb, 'DELETE FROM CorporateActions WHERE isin = ?', [isin]);
+      // 3. Clean up CorporateActions that belonged to this portfolio or whose ISINs are no longer in any remaining portfolio
+      if (isins.length > 0 || symbols.length > 0) {
+        for (const isin of isins) {
+          const remaining: any = await dbGet(
+            targetDb,
+            'SELECT COUNT(*) as cnt FROM Transactions WHERE isin = ?',
+            [isin]
+          );
+          if (!remaining || remaining.cnt === 0) {
+            await dbRun(targetDb, 'DELETE FROM CorporateActions WHERE isin = ?', [isin]);
+          }
         }
-      }
-      for (const sym of symbols) {
-        const remaining: any = await dbGet(
-          targetDb,
-          'SELECT COUNT(*) as cnt FROM Transactions WHERE symbol = ?',
-          [sym]
-        );
-        if (!remaining || remaining.cnt === 0) {
-          await dbRun(targetDb, 'DELETE FROM CorporateActions WHERE symbol = ? AND (isin IS NULL OR isin = "")', [sym]);
-        }
-      }
-
-      if (purgeMappings) {
         for (const sym of symbols) {
-          await dbRun(targetDb, 'DELETE FROM UserMappings WHERE resolved_symbol = ? OR raw_name = ?', [sym, sym]);
+          const remaining: any = await dbGet(
+            targetDb,
+            'SELECT COUNT(*) as cnt FROM Transactions WHERE symbol = ?',
+            [sym]
+          );
+          if (!remaining || remaining.cnt === 0) {
+            await dbRun(targetDb, 'DELETE FROM CorporateActions WHERE symbol = ? AND (isin IS NULL OR isin = "")', [sym]);
+          }
+        }
+
+        if (purgeMappings) {
+          for (const sym of symbols) {
+            await dbRun(targetDb, 'DELETE FROM UserMappings WHERE resolved_symbol = ? OR raw_name = ?', [sym, sym]);
+          }
         }
       }
-    }
+    });
   } else {
     // Purge transactions across ALL portfolios
-    await dbRun(targetDb, 'DELETE FROM Transactions');
-    await dbRun(targetDb, 'DELETE FROM CorporateActions');
-    await dbRun(targetDb, 'DELETE FROM CorporateActionAudit');
-    await dbRun(targetDb, 'DELETE FROM Holdings');
-    await dbRun(targetDb, 'DELETE FROM ActionHistory');
-    await dbRun(targetDb, 'DELETE FROM RealizedGains');
-    await dbRun(targetDb, 'DELETE FROM TaxSummary');
-    await dbRun(targetDb, 'DELETE FROM PortfolioHistory');
-    await dbRun(targetDb, 'DELETE FROM DataChangeLog');
-    await dbRun(targetDb, "DELETE FROM AppConfig WHERE key LIKE 'dividend_%'");
-    await dbRun(targetDb, 'DELETE FROM ZerodhaHoldings');
-    await dbRun(targetDb, 'DELETE FROM CamsSummaryHoldings');
-    await dbRun(targetDb, 'DELETE FROM BackupManualTransactions');
-    await dbRun(targetDb, 'DELETE FROM BankAccountsAndFDs');
-    await dbRun(targetDb, 'DELETE FROM BenchmarkCashFlowCache');
+    await withTx(targetDb, async () => {
+      await dbRun(targetDb, 'DELETE FROM Transactions');
+      await dbRun(targetDb, 'DELETE FROM CorporateActions');
+      await dbRun(targetDb, 'DELETE FROM CorporateActionAudit');
+      await dbRun(targetDb, 'DELETE FROM Holdings');
+      await dbRun(targetDb, 'DELETE FROM ActionHistory');
+      await dbRun(targetDb, 'DELETE FROM RealizedGains');
+      await dbRun(targetDb, 'DELETE FROM TaxSummary');
+      await dbRun(targetDb, 'DELETE FROM PortfolioHistory');
+      await dbRun(targetDb, 'DELETE FROM DataChangeLog');
+      await dbRun(targetDb, "DELETE FROM AppConfig WHERE key LIKE 'dividend_%'");
+      await dbRun(targetDb, 'DELETE FROM ZerodhaHoldings');
+      await dbRun(targetDb, 'DELETE FROM CamsSummaryHoldings');
+      await dbRun(targetDb, 'DELETE FROM BackupManualTransactions');
+      await dbRun(targetDb, 'DELETE FROM BankAccountsAndFDs');
+      await dbRun(targetDb, 'DELETE FROM BenchmarkCashFlowCache');
 
-    if (purgeMappings) {
-      await dbRun(targetDb, 'DELETE FROM UserMappings');
-    }
+      if (purgeMappings) {
+        await dbRun(targetDb, 'DELETE FROM UserMappings');
+      }
+    });
   }
 
   await runFIFO(targetDb);
@@ -14089,53 +12813,7 @@ app.post('/api/admin/purge-everything', async (req, res) => {
   }
 });
 
-// 18. Alias GET /api/tickers
-app.get('/api/tickers', async (req, res) => {
-  try {
-    const rows = await dbAll(db, 'SELECT * FROM MasterTickers ORDER BY symbol ASC');
-    res.json(rows);
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
 
-// (PUT /api/tickers/:id and DELETE /api/tickers/:id are defined above near line 1406)
-
-// 21. Alias POST /api/tickers/merge
-app.post('/api/tickers/merge', async (req, res) => {
-  try {
-    const { source_id, target_id } = req.body;
-    if (!source_id || !target_id || source_id === target_id) {
-      return res.status(400).json({ success: false, message: 'Invalid source or target ID' });
-    }
-
-    const source = await dbGet(db, 'SELECT symbol, isin FROM MasterTickers WHERE id = ?', [source_id]);
-    const target = await dbGet(db, 'SELECT symbol, isin FROM MasterTickers WHERE id = ?', [target_id]);
-
-    if (!source || !target) {
-      return res.status(404).json({ success: false, message: 'Source or Target ticker not found' });
-    }
-
-    await dbRun(db, 'UPDATE Transactions SET symbol = ?, isin = ? WHERE symbol = ? OR isin = ?', [target.symbol, target.isin, source.symbol, source.isin]);
-    await dbRun(db, 'DELETE FROM MasterTickers WHERE id = ?', [source_id]);
-    await auditDBChange(db, 'MasterTickers', 'MERGE', source_id, `Merged ${source.symbol} into ${target.symbol}`);
-
-    await runFIFO(db);
-    res.json({ success: true });
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-// Sync Sectors endpoint
-app.post('/api/tickers/sync-sectors', async (req, res) => {
-  try {
-    const result = await syncSectorsForTickers(db);
-    res.json({ success: true, ...result });
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
 
 app.post('/api/custom-price', async (req, res) => {
   try {
@@ -14149,27 +12827,22 @@ app.post('/api/custom-price', async (req, res) => {
     
     // Cascading to holdings
     const matchHoldings = await dbAll(db, 'SELECT portfolio, isin, folio, symbol, quantity, total_cost FROM Holdings WHERE symbol = ? OR isin = ?', [symbol, symbol]);
-    for (const h of matchHoldings) {
-      const cv = h.quantity * pFloat;
-      const pnl = cv - h.total_cost;
-      const pct = h.total_cost > 0 ? (pnl / h.total_cost) * 100 : 0;
-      await dbRun(db, `
-        UPDATE Holdings
-        SET ltp = ?, current_value = ?, unrealized_pnl = ?, unrealized_pct = ?, data_source = 'Manual Entry', last_update = CURRENT_TIMESTAMP
-        WHERE portfolio = ? AND isin = ? AND folio = ?
-      `, [pFloat, cv, pnl, pct, h.portfolio, h.isin, h.folio || 'NA']);
+    if (matchHoldings.length > 0) {
+      await withTx(db, async () => {
+        for (const h of matchHoldings) {
+          const cv = h.quantity * pFloat;
+          const pnl = cv - h.total_cost;
+          const pct = h.total_cost > 0 ? (pnl / h.total_cost) * 100 : 0;
+          await dbRun(db, `
+            UPDATE Holdings
+            SET ltp = ?, current_value = ?, unrealized_pnl = ?, unrealized_pct = ?, data_source = 'Manual Entry', last_update = CURRENT_TIMESTAMP
+            WHERE portfolio = ? AND isin = ? AND folio = ?
+          `, [pFloat, cv, pnl, pct, h.portfolio, h.isin, h.folio || 'NA']);
+        }
+      });
     }
 
     res.json({ success: true });
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-app.get('/api/action-history', async (req, res) => {
-  try {
-    const rows = await dbAll(db, 'SELECT * FROM ActionHistory ORDER BY id DESC');
-    res.json({ success: true, history: rows });
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });
   }
@@ -14305,27 +12978,29 @@ app.post('/api/tax/carried-forward-losses', async (req, res) => {
       return res.status(400).json({ success: false, message: 'Expected an array of loss records.' });
     }
 
-    for (const item of losses) {
-      if (!item.portfolio) continue;
-      const fy = item.financial_year || '2024-25';
-      const stcl = Number(item.stcl_amount || 0);
-      const ltcl = Number(item.ltcl_amount || 0);
-      const ay = item.assessment_year || 'AY 2025-26';
-      const notes = String(item.notes || '');
-      const pan = item.pan || null;
+    await withTx(db, async () => {
+      for (const item of losses) {
+        if (!item.portfolio) continue;
+        const fy = item.financial_year || '2024-25';
+        const stcl = Number(item.stcl_amount || 0);
+        const ltcl = Number(item.ltcl_amount || 0);
+        const ay = item.assessment_year || 'AY 2025-26';
+        const notes = String(item.notes || '');
+        const pan = item.pan || null;
 
-      await dbRun(db, `
-        INSERT INTO CarriedForwardLosses (portfolio, financial_year, stcl_amount, ltcl_amount, assessment_year, notes, pan, updated_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
-        ON CONFLICT(portfolio, financial_year) DO UPDATE SET
-          stcl_amount = excluded.stcl_amount,
-          ltcl_amount = excluded.ltcl_amount,
-          assessment_year = excluded.assessment_year,
-          notes = excluded.notes,
-          pan = COALESCE(excluded.pan, CarriedForwardLosses.pan),
-          updated_at = CURRENT_TIMESTAMP
-      `, [item.portfolio, fy, stcl, ltcl, ay, notes, pan]);
-    }
+        await dbRun(db, `
+          INSERT INTO CarriedForwardLosses (portfolio, financial_year, stcl_amount, ltcl_amount, assessment_year, notes, pan, updated_at)
+          VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+          ON CONFLICT(portfolio, financial_year) DO UPDATE SET
+            stcl_amount = excluded.stcl_amount,
+            ltcl_amount = excluded.ltcl_amount,
+            assessment_year = excluded.assessment_year,
+            notes = excluded.notes,
+            pan = COALESCE(excluded.pan, CarriedForwardLosses.pan),
+            updated_at = CURRENT_TIMESTAMP
+        `, [item.portfolio, fy, stcl, ltcl, ay, notes, pan]);
+      }
+    });
 
     // Invalidate XIRR cache so new tax set-offs immediately reflect in post-tax XIRR
     invalidateXirrCache();
@@ -15809,6 +14484,10 @@ app.post('/api/restore-database/chunk/complete', async (req, res) => {
 });
 
 // Single POST Database restore route
+const dbRestoreUpload = multer({
+  dest: path.join(process.cwd(), 'uploads'),
+  limits: { fileSize: 500 * 1024 * 1024 }
+});
 app.post('/api/restore-database', dbRestoreUpload.single('file'), async (req, res) => {
   try {
     let fileBuffer: Buffer | null = null;
@@ -16008,13 +14687,15 @@ app.post('/api/reconcile', upload.single('file'), async (req, res) => {
     const selected = await getSelectedPortfolios(req);
     const portName = selected && selected.length === 1 ? selected[0] : 'Default';
 
-    await dbRun(db, 'DELETE FROM ZerodhaHoldings WHERE portfolio = ?', [portName]);
-    for (const up of Object.values(uploadedHoldings)) {
-      await dbRun(db, `
-        INSERT INTO ZerodhaHoldings (portfolio, isin, symbol, name, quantity, avg_price)
-        VALUES (?, ?, ?, ?, ?, ?)
-      `, [portName, up.isin, up.symbol, up.name, up.quantity, up.avg_price]);
-    }
+    await withTx(db, async () => {
+      await dbRun(db, 'DELETE FROM ZerodhaHoldings WHERE portfolio = ?', [portName]);
+      for (const up of Object.values(uploadedHoldings)) {
+        await dbRun(db, `
+          INSERT INTO ZerodhaHoldings (portfolio, isin, symbol, name, quantity, avg_price)
+          VALUES (?, ?, ?, ?, ?, ?)
+        `, [portName, up.isin, up.symbol, up.name, up.quantity, up.avg_price]);
+      }
+    });
 
     // Gather calculated holdings
     let calcQuery = `SELECT isin, symbol, quantity, avg_buy_price, total_cost FROM Holdings`;
@@ -16312,7 +14993,9 @@ app.post('/api/upload/commit', async (req, res) => {
 
     let committedCount = 0;
 
-    for (const row of items) {
+    await dbRun(db, 'BEGIN IMMEDIATE');
+    try {
+      for (const row of items) {
       const symbol = row.resolved_symbol;
       
       // Auto-get/resolve ISIN
@@ -16349,6 +15032,11 @@ app.post('/api/upload/commit', async (req, res) => {
         `, [row.record_date || row.date, symbol, isin, row.action_type, num, den, batchId]);
         committedCount++;
       }
+    }
+      await dbRun(db, 'COMMIT');
+    } catch (err) {
+      await dbRun(db, 'ROLLBACK').catch(() => {});
+      throw err;
     }
 
     await runFIFO(db);
@@ -16448,33 +15136,23 @@ async function seedDatabase(db: any) {
       { isin: 'INE154A01025', symbol: 'ITC', name: 'ITC Limited', exchange: 'NSE', segment: 'EQ', sector: 'Consumer Defensive', manual_ltp: 440.00, fmv_31_jan_2018: 270.00 }
     ];
 
-    for (const t of tickers) {
-      await dbRun(db, `
-        INSERT OR REPLACE INTO MasterTickers (isin, symbol, name, exchange, segment, sector, last_price, fmv_31_jan_2018)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-      `, [t.isin, t.symbol, t.name, t.exchange, t.segment, t.sector, t.manual_ltp, t.fmv_31_jan_2018]);
-    }
+    const txns: any[] = [];
 
-    // 2. Seed Transactions
-    const txns = [
-      { date: '2024-02-15', portfolio: 'Gopal Sharma - Long Term', type: 'BUY', isin: 'INE002A01018', symbol: 'RELIANCE', quantity: 100, price: 2450.00, gross_amount: 245000.00, net_amount: 245000.00, notes: 'Initial core holding investment' },
-      { date: '2024-04-10', portfolio: 'Gopal Sharma - Long Term', type: 'BUY', isin: 'INE040A01034', symbol: 'HDFCBANK', quantity: 150, price: 1410.00, gross_amount: 211500.00, net_amount: 211500.00, notes: 'Accumulated on correction' },
-      { date: '2024-06-20', portfolio: 'Gopal Sharma - Satellite', type: 'BUY', isin: 'INE467B01029', symbol: 'TCS', quantity: 50, price: 3650.00, gross_amount: 182500.00, net_amount: 182500.00, notes: 'Strategic tech allocation' },
-      { date: '2024-08-12', portfolio: 'Gopal Sharma - Satellite', type: 'BUY', isin: 'INE009A01021', symbol: 'INFY', quantity: 80, price: 1520.00, gross_amount: 121600.00, net_amount: 121600.00, notes: 'Added on attractive valuation' },
-      { date: '2024-10-05', portfolio: 'Gopal Sharma - Long Term', type: 'BUY', isin: 'INE090A01021', symbol: 'ICICIBANK', quantity: 120, price: 950.00, gross_amount: 114000.00, net_amount: 114000.00, notes: 'Core banking allocation' },
-      { date: '2024-12-18', portfolio: 'Gopal Sharma - Satellite', type: 'BUY', isin: 'INE155A01022', symbol: 'TATAMOTORS', quantity: 200, price: 610.00, gross_amount: 122000.00, net_amount: 122000.00, notes: 'Automobile sector exposure' },
-      { date: '2025-02-22', portfolio: 'Gopal Sharma - Long Term', type: 'BUY', isin: 'INE154A01025', symbol: 'ITC', quantity: 300, price: 405.00, gross_amount: 121500.00, net_amount: 121500.00, notes: 'Dividend yield play' },
-      { date: '2025-04-05', portfolio: 'Gopal Sharma - Long Term', type: 'BUY', isin: 'INE002A01018', symbol: 'RELIANCE', quantity: 50, price: 2580.00, gross_amount: 129000.00, net_amount: 129000.00, notes: 'Averaging up Reliance' },
-      { date: '2025-05-15', portfolio: 'Gopal Sharma - Long Term', type: 'SELL', isin: 'INE002A01018', symbol: 'RELIANCE', quantity: 40, price: 2920.00, gross_amount: 116800.00, net_amount: 116800.00, notes: 'Profit booking on rally' },
-      { date: '2025-06-18', portfolio: 'Gopal Sharma - Long Term', type: 'BUY', isin: 'INE040A01034', symbol: 'HDFCBANK', quantity: 50, price: 1530.00, gross_amount: 76500.00, net_amount: 76500.00, notes: 'SIP additional allocation' }
-    ];
+    await withTx(db, async () => {
+      for (const t of tickers) {
+        await dbRun(db, `
+          INSERT OR REPLACE INTO MasterTickers (isin, symbol, name, exchange, segment, sector, last_price, fmv_31_jan_2018)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        `, [t.isin, t.symbol, t.name, t.exchange, t.segment, t.sector, t.manual_ltp, t.fmv_31_jan_2018]);
+      }
 
-    for (const tx of txns) {
-      await dbRun(db, `
-        INSERT INTO Transactions (date, portfolio, type, isin, symbol, quantity, price, gross_amount, net_amount, notes)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `, [tx.date, tx.portfolio, tx.type, tx.isin, tx.symbol, tx.quantity, tx.price, tx.gross_amount, tx.net_amount, tx.notes]);
-    }
+      for (const tx of txns) {
+        await dbRun(db, `
+          INSERT INTO Transactions (date, portfolio, type, isin, symbol, quantity, price, gross_amount, net_amount, notes)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `, [tx.date, tx.portfolio, tx.type, tx.isin, tx.symbol, tx.quantity, tx.price, tx.gross_amount, tx.net_amount, tx.notes]);
+      }
+    });
 
     // 3. Seed Portfolio History disabled to prevent synthetic data injection
 
@@ -16515,33 +15193,35 @@ export async function recordDailyPortfolioSnapshots(database: any, source: strin
     `);
 
     let count = 0;
-    for (const ph of portfolioHoldings) {
-      await dbRun(database, `
-        INSERT INTO DailyPortfolioSnapshot (
-          date, portfolio, market_value, total_cost, unrealized_pnl,
-          equity_value, cash_value, mf_value, aif_value, unlisted_value,
-          fx_rate_usd, source
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ON CONFLICT(date, portfolio) DO UPDATE SET
-          market_value = excluded.market_value,
-          total_cost = excluded.total_cost,
-          unrealized_pnl = excluded.unrealized_pnl,
-          equity_value = excluded.equity_value,
-          cash_value = excluded.cash_value,
-          mf_value = excluded.mf_value,
-          aif_value = excluded.aif_value,
-          unlisted_value = excluded.unlisted_value,
-          fx_rate_usd = excluded.fx_rate_usd,
-          source = excluded.source,
-          created_at = CURRENT_TIMESTAMP
-      `, [
-        todayIST, ph.portfolio, ph.market_value || 0, ph.total_cost || 0, ph.unrealized_pnl || 0,
-        ph.equity_value || 0, ph.cash_value || 0, ph.mf_value || 0, ph.aif_value || 0, ph.unlisted_value || 0,
-        usdRate, source
-      ]);
-      count++;
-    }
+    await withTx(database, async () => {
+      for (const ph of portfolioHoldings) {
+        await dbRun(database, `
+          INSERT INTO DailyPortfolioSnapshot (
+            date, portfolio, market_value, total_cost, unrealized_pnl,
+            equity_value, cash_value, mf_value, aif_value, unlisted_value,
+            fx_rate_usd, source
+          )
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          ON CONFLICT(date, portfolio) DO UPDATE SET
+            market_value = excluded.market_value,
+            total_cost = excluded.total_cost,
+            unrealized_pnl = excluded.unrealized_pnl,
+            equity_value = excluded.equity_value,
+            cash_value = excluded.cash_value,
+            mf_value = excluded.mf_value,
+            aif_value = excluded.aif_value,
+            unlisted_value = excluded.unlisted_value,
+            fx_rate_usd = excluded.fx_rate_usd,
+            source = excluded.source,
+            created_at = CURRENT_TIMESTAMP
+        `, [
+          todayIST, ph.portfolio, ph.market_value || 0, ph.total_cost || 0, ph.unrealized_pnl || 0,
+          ph.equity_value || 0, ph.cash_value || 0, ph.mf_value || 0, ph.aif_value || 0, ph.unlisted_value || 0,
+          usdRate, source
+        ]);
+        count++;
+      }
+    });
 
     // 2. Snapshot 'Combined' for Gopal (Member 1) strictly, including bank balances and FDs
     const gopalHoldings = await dbGet(database, `
@@ -16779,10 +15459,12 @@ app.post('/api/admin/reindex', async (req, res) => {
     ];
 
     let createdCount = 0;
-    for (const sql of indexes) {
-      await dbRun(db, sql).catch(() => {});
-      createdCount++;
-    }
+    await withTx(db, async () => {
+      for (const sql of indexes) {
+        await dbRun(db, sql).catch(() => {});
+        createdCount++;
+      }
+    });
     await dbRun(db, 'ANALYZE;').catch(() => {});
     await dbRun(db, 'PRAGMA optimize;').catch(() => {});
 
@@ -16798,31 +15480,19 @@ async function startServer() {
   // This must happen BEFORE app.listen so routes are ready the instant the
   // port opens — preventing the HTTP-hang bug caused by deferred middleware.
 
-  // In development, init Vite BEFORE binding port (fixes dev-mode hang)
-  if (process.env.NODE_ENV === 'development' && fs.existsSync(path.join(process.cwd(), 'vite.config.ts'))) {
+  // In development, init Vite BEFORE binding port (fixes dev-mode hang).
+  // Keep the instance available to the single final SPA fallback below.
+  const isDev = process.env.NODE_ENV === 'development';
+  let vite: Awaited<ReturnType<typeof createViteServer>> | null = null;
+  if (isDev && fs.existsSync(path.join(process.cwd(), 'vite.config.ts'))) {
     try {
-      const vite = await createViteServer({
+      vite = await createViteServer({
         server: { middlewareMode: true },
         appType: 'spa'
       });
       app.use((req, res, next) => {
         if (req.path.startsWith('/api')) return next();
         vite.middlewares(req, res, next);
-      });
-
-      // Dev-mode SPA routing fallback for client-side routes
-      app.get('*', async (req, res, next) => {
-        if (req.path.startsWith('/api')) return next();
-        try {
-          const indexPath = path.join(process.cwd(), 'index.html');
-          if (!fs.existsSync(indexPath)) return next();
-          let template = fs.readFileSync(indexPath, 'utf-8');
-          template = await vite.transformIndexHtml(req.originalUrl, template);
-          res.status(200).set({ 'Content-Type': 'text/html' }).end(template);
-        } catch (e) {
-          vite.ssrFixStacktrace(e);
-          next(e);
-        }
       });
     } catch (err) {
       console.warn('[Vite Middleware] Warning creating dev middleware:', err);
@@ -16840,15 +15510,34 @@ async function startServer() {
         }
       }
     }));
-    app.get('*', (req, res, next) => {
-      if (req.path.startsWith('/api')) return next();
+  }
+
+  // Unified SPA routing fallback for client-side routes (single final catch-all)
+  app.get('*', async (req, res, next) => {
+    if (req.path.startsWith('/api')) return next();
+    if (isDev && vite) {
+      try {
+        const indexPath = path.join(process.cwd(), 'index.html');
+        if (!fs.existsSync(indexPath)) return next();
+        let template = fs.readFileSync(indexPath, 'utf-8');
+        template = await vite.transformIndexHtml(req.originalUrl, template);
+        res.status(200).set({ 'Content-Type': 'text/html' }).end(template);
+      } catch (e) {
+        vite.ssrFixStacktrace(e);
+        next(e);
+      }
+    } else {
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      const rootDir = process.cwd();
+      const distPath = fs.existsSync(path.join(rootDir, 'dist', 'index.html'))
+        ? path.join(rootDir, 'dist')
+        : rootDir;
       const indexPath = fs.existsSync(path.join(distPath, 'index.html'))
         ? path.join(distPath, 'index.html')
         : path.join(process.cwd(), 'index.html');
       res.sendFile(indexPath);
-    });
-  }
+    }
+  });
 
   // ── STEP 2: Bind port — server is IMMEDIATELY usable ──────────────────────
   const server = app.listen(PORT, BIND_HOST, () => {
@@ -17054,20 +15743,22 @@ async function startServer() {
            WHERE H.isin LIKE 'US%' AND H.symbol IS NOT NULL AND H.symbol != '' AND H.symbol != 'CASH' AND NOT H.symbol LIKE 'CASH%' AND NOT H.isin LIKE 'CASH%'`
         );
         let seeded = 0;
-        for (const h of usHoldings) {
-          const ex = h.exchange && !['NSE','BSE',''].includes(h.exchange.toUpperCase()) ? h.exchange : 'NYSE';
-          await dbRun(db, `
-            INSERT INTO MasterTickers (isin, symbol, name, exchange, sector)
-            VALUES (?, ?, ?, ?, ?)
-            ON CONFLICT(isin) DO UPDATE SET
-              symbol   = COALESCE(excluded.symbol, MasterTickers.symbol),
-              name     = CASE WHEN excluded.name != '' AND excluded.name != excluded.symbol THEN excluded.name ELSE MasterTickers.name END,
-              exchange = CASE WHEN MasterTickers.exchange IS NULL OR MasterTickers.exchange = 'NSE' OR MasterTickers.exchange = 'BSE'
-                              THEN excluded.exchange ELSE MasterTickers.exchange END,
-              sector   = CASE WHEN excluded.sector != '' THEN excluded.sector ELSE MasterTickers.sector END
-          `, [h.isin, h.symbol, h.name || h.symbol, ex, h.sector || '']);
-          seeded++;
-        }
+        await withTx(db, async () => {
+          for (const h of usHoldings) {
+            const ex = h.exchange && !['NSE','BSE',''].includes(h.exchange.toUpperCase()) ? h.exchange : 'NYSE';
+            await dbRun(db, `
+              INSERT INTO MasterTickers (isin, symbol, name, exchange, sector)
+              VALUES (?, ?, ?, ?, ?)
+              ON CONFLICT(isin) DO UPDATE SET
+                symbol   = COALESCE(excluded.symbol, MasterTickers.symbol),
+                name     = CASE WHEN excluded.name != '' AND excluded.name != excluded.symbol THEN excluded.name ELSE MasterTickers.name END,
+                exchange = CASE WHEN MasterTickers.exchange IS NULL OR MasterTickers.exchange = 'NSE' OR MasterTickers.exchange = 'BSE'
+                                THEN excluded.exchange ELSE MasterTickers.exchange END,
+                sector   = CASE WHEN excluded.sector != '' THEN excluded.sector ELSE MasterTickers.sector END
+            `, [h.isin, h.symbol, h.name || h.symbol, ex, h.sector || '']);
+            seeded++;
+          }
+        });
         if (seeded > 0) {
           console.log(`[US Ticker Seed] Seeded/updated ${seeded} US tickers in MasterTickers.`);
         }
@@ -17215,7 +15906,7 @@ async function startServer() {
   }
 }
 
-export { app };
+export { app, buildDashboardPayload, dashboardResponseCache, invalidateDashboardCache };
 
 if (process.env.NODE_ENV !== 'test') {
   startServer().catch(console.error);

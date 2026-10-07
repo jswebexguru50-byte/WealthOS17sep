@@ -12,7 +12,7 @@
 
 import { SMA, EMA, RSI, ATR, BollingerBands } from 'technicalindicators';
 import { fetchTickerData } from '../yahooFinance.js';
-import { getDB, dbAll, dbGet, dbRun } from '../database.js';
+import { getDB, dbAll, dbGet, dbRun, withTx } from '../database.js';
 import { StrategyParameterConfig, getDefaultsForStrategy } from './StrategyParameterConfig.js';
 import { DuckDbAdjustedOhlcvService } from './DuckDbAdjustedOhlcvService.js';
 import { evaluateS3a, type S3aResult } from './S3aStrategy.js';
@@ -3099,12 +3099,14 @@ export class PureTechnicalStrategiesEngine {
 
       // Opportunistically store fetched data into DailyOHLCV for next time
       try {
-        for (const c of candles) {
-          await dbRun(db, `
-            INSERT OR IGNORE INTO DailyOHLCV (symbol, trade_date, open, high, low, close, volume, data_source)
-            VALUES (?, ?, ?, ?, ?, ?, ?, 'YAHOO')
-          `, [symbol, c.date, c.open, c.high, c.low, c.close, c.volume]);
-        }
+        await withTx(db, async () => {
+          for (const c of candles) {
+            await dbRun(db, `
+              INSERT OR IGNORE INTO DailyOHLCV (symbol, trade_date, open, high, low, close, volume, data_source)
+              VALUES (?, ?, ?, ?, ?, ?, ?, 'YAHOO')
+            `, [symbol, c.date, c.open, c.high, c.low, c.close, c.volume]);
+          }
+        });
       } catch {}
 
       return candles;

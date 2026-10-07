@@ -1,5 +1,5 @@
-﻿import type { Database } from 'sqlite3';
-import { dbAll, dbGet, dbRun } from './database.js';
+import type { Database } from 'sqlite3';
+import { dbAll, dbGet, dbRun, withTx } from './database.js';
 import { clearTickerCache } from './yahooFinance.js';
 
 const fetch = (...args: any[]) => import('node-fetch').then(({ default: fetch }: any) => fetch(...args)).catch(() => (globalThis as any).fetch(...args));
@@ -80,33 +80,35 @@ export async function matchWebPrices(db: Database, portfolioFilter?: string): Pr
       // Update Holdings table for this ticker
       const matchingHoldings = await dbAll(db, 'SELECT rowid, portfolio, quantity, total_cost FROM Holdings WHERE (symbol = ? OR isin = ?) AND quantity > 0', [symbol, isin || symbol]);
       
-      for (const mh of matchingHoldings) {
-        if (ports.length > 0 && !ports.includes(mh.portfolio)) continue;
+      await withTx(db, async () => {
+        for (const mh of matchingHoldings) {
+          if (ports.length > 0 && !ports.includes(mh.portfolio)) continue;
 
-        const cv = mh.quantity * latestClose;
-        const pnl = cv - mh.total_cost;
-        const pct = mh.total_cost > 0 ? (pnl / mh.total_cost) * 100 : 0;
-        const dayChg = (latestClose - prevClose) * mh.quantity;
-        const dayChgPct = prevClose > 0 ? ((latestClose - prevClose) / prevClose) * 100 : 0;
+          const cv = mh.quantity * latestClose;
+          const pnl = cv - mh.total_cost;
+          const pct = mh.total_cost > 0 ? (pnl / mh.total_cost) * 100 : 0;
+          const dayChg = (latestClose - prevClose) * mh.quantity;
+          const dayChgPct = prevClose > 0 ? ((latestClose - prevClose) / prevClose) * 100 : 0;
 
-        await dbRun(
-          db,
-          `UPDATE Holdings
-           SET ltp = ?, prev_close = ?, current_value = ?, unrealized_pnl = ?, unrealized_pct = ?,
-               day_change = ?, day_change_pct = ?, native_ltp = ?, native_prev_close = ?,
-               native_current_value = ?, native_unrealized_pnl = ?,
-               data_source = 'Web Matcher (Exchange)', data_status = 'LIVE', last_update = CURRENT_TIMESTAMP
-           WHERE rowid = ?`,
-          [latestClose, prevClose, cv, pnl, pct, dayChg, dayChgPct, latestClose, prevClose, cv, pnl, mh.rowid]
-        );
+          await dbRun(
+            db,
+            `UPDATE Holdings
+             SET ltp = ?, prev_close = ?, current_value = ?, unrealized_pnl = ?, unrealized_pct = ?,
+                 day_change = ?, day_change_pct = ?, native_ltp = ?, native_prev_close = ?,
+                 native_current_value = ?, native_unrealized_pnl = ?,
+                 data_source = 'Web Matcher (Exchange)', data_status = 'LIVE', last_update = CURRENT_TIMESTAMP
+             WHERE rowid = ?`,
+            [latestClose, prevClose, cv, pnl, pct, dayChg, dayChgPct, latestClose, prevClose, cv, pnl, mh.rowid]
+          );
 
-        // Also update MasterTickers last_price (never touch manual_ltp!)
-        await dbRun(
-          db,
-          `UPDATE MasterTickers SET last_price = ?, previous_close = ?, last_updated = CURRENT_TIMESTAMP WHERE symbol = ? OR isin = ?`,
-          [latestClose, prevClose, symbol, isin || symbol]
-        ).catch(() => {});
-      }
+          // Also update MasterTickers last_price (never touch manual_ltp!)
+          await dbRun(
+            db,
+            `UPDATE MasterTickers SET last_price = ?, previous_close = ?, last_updated = CURRENT_TIMESTAMP WHERE symbol = ? OR isin = ?`,
+            [latestClose, prevClose, symbol, isin || symbol]
+          ).catch(() => {});
+        }
+      });
 
       updatedCount++;
       updatedSymbols.push(symbol);

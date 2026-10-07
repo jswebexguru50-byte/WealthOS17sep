@@ -1,4 +1,4 @@
-import { getDB, dbRun, dbAll, dbGet } from '../database.js';
+import { getDB, dbRun, dbAll, dbGet, withTx } from '../database.js';
 
 interface PipelineRunSummary {
   runDate: string;
@@ -204,15 +204,17 @@ export class DailyEODPipelineService {
         try {
           const data = await fetchTickerData(symbols[i], 5, false);
           if (data?.closePrices?.length > 0) {
-            for (const cp of data.closePrices) {
-              if (cp.close > 0 && cp.volume > 0) {
-                await dbRun(db, `
-                  INSERT OR IGNORE INTO DailyOHLCV (symbol, trade_date, open, high, low, close, volume, data_source)
-                  VALUES (?, ?, ?, ?, ?, ?, ?, 'YAHOO')
-                `, [symbols[i], cp.date, cp.open ?? cp.close, cp.high ?? cp.close, cp.low ?? cp.close, cp.close, cp.volume]);
-                filled++;
+            await withTx(db, async () => {
+              for (const cp of data.closePrices) {
+                if (cp.close > 0 && cp.volume > 0) {
+                  await dbRun(db, `
+                    INSERT OR IGNORE INTO DailyOHLCV (symbol, trade_date, open, high, low, close, volume, data_source)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, 'YAHOO')
+                  `, [symbols[i], cp.date, cp.open ?? cp.close, cp.high ?? cp.close, cp.low ?? cp.close, cp.close, cp.volume]);
+                  filled++;
+                }
               }
-            }
+            });
           }
         } catch {}
         if (i % 10 === 9) await new Promise(r => setTimeout(r, 200));

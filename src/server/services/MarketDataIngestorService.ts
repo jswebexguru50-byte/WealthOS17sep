@@ -1,4 +1,4 @@
-﻿import { getDB, dbRun, dbAll, dbGet } from '../database.js';
+import { getDB, dbRun, dbAll, dbGet, withTx } from '../database.js';
 import { BollingerBands, RSI, EMA, SMA, ATR, MACD } from 'technicalindicators';
 
 export interface MarketSnapshot {
@@ -487,29 +487,31 @@ export class MarketDataIngestorService {
       let stored = 0;
       const dataSource = candles[0]?.dataSource || 'UPSTOX_API_V2';
 
-      for (const snap of snapshots) {
-        try {
-          await dbRun(db, `
-            INSERT OR REPLACE INTO MarketSnapshots
-              (symbol, snapshot_date, open, high, low, close, volume, open_interest, data_source,
-               sma20, ema50, rsi14, macd_line, macd_signal, macd_histogram,
-               bb_upper, bb_middle, bb_lower, bb_bandwidth, bb_percent_b,
-               atr14, vwap, volume_5d_avg, relative_volume)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-          `, [
-            symbol, snap.snapshotDate,
-            snap.open, snap.high, snap.low, snap.close, snap.volume,
-            snap.openInterest ?? null, dataSource,
-            snap.sma20 ?? null, snap.ema50 ?? null, snap.rsi14 ?? null,
-            snap.macdLine ?? null, snap.macdSignal ?? null, snap.macdHistogram ?? null,
-            snap.bbUpper ?? null, snap.bbMiddle ?? null, snap.bbLower ?? null,
-            snap.bbBandwidth ?? null, snap.bbPercentB ?? null,
-            snap.atr14 ?? null, snap.vwap ?? null, snap.volume5DayAvg ?? null,
-            snap.relativeVolume ?? null
-          ]);
-          stored++;
-        } catch { /* skip duplicates */ }
-      }
+      await withTx(db, async () => {
+        for (const snap of snapshots) {
+          try {
+            await dbRun(db, `
+              INSERT OR REPLACE INTO MarketSnapshots
+                (symbol, snapshot_date, open, high, low, close, volume, open_interest, data_source,
+                 sma20, ema50, rsi14, macd_line, macd_signal, macd_histogram,
+                 bb_upper, bb_middle, bb_lower, bb_bandwidth, bb_percent_b,
+                 atr14, vwap, volume_5d_avg, relative_volume)
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            `, [
+              symbol, snap.snapshotDate,
+              snap.open, snap.high, snap.low, snap.close, snap.volume,
+              snap.openInterest ?? null, dataSource,
+              snap.sma20 ?? null, snap.ema50 ?? null, snap.rsi14 ?? null,
+              snap.macdLine ?? null, snap.macdSignal ?? null, snap.macdHistogram ?? null,
+              snap.bbUpper ?? null, snap.bbMiddle ?? null, snap.bbLower ?? null,
+              snap.bbBandwidth ?? null, snap.bbPercentB ?? null,
+              snap.atr14 ?? null, snap.vwap ?? null, snap.volume5DayAvg ?? null,
+              snap.relativeVolume ?? null
+            ]);
+            stored++;
+          } catch { /* skip duplicates */ }
+        }
+      });
 
       const latestClose = candles[candles.length - 1]?.close;
       return { symbol, success: true, snapshotsStored: stored, latestClose, dataSource };
@@ -907,23 +909,25 @@ export class MarketDataIngestorService {
             const rawCandles = json?.data?.candles;
             if (!Array.isArray(rawCandles) || rawCandles.length === 0) continue;
 
-            for (const c of rawCandles) {
-              const tradeDate = String(c[0]).split('T')[0];
-              const open = Number(c[1]) || 0;
-              const high = Number(c[2]) || 0;
-              const low = Number(c[3]) || 0;
-              const close = Number(c[4]) || 0;
-              const volume = Number(c[5]) || 0;
-              if (close <= 0 || open <= 0) continue;
+            await withTx(db, async () => {
+              for (const c of rawCandles) {
+                const tradeDate = String(c[0]).split('T')[0];
+                const open = Number(c[1]) || 0;
+                const high = Number(c[2]) || 0;
+                const low = Number(c[3]) || 0;
+                const close = Number(c[4]) || 0;
+                const volume = Number(c[5]) || 0;
+                if (close <= 0 || open <= 0) continue;
 
-              try {
-                await dbRun(db, `
-                  INSERT OR REPLACE INTO DailyOHLCV (symbol, trade_date, open, high, low, close, volume, data_source)
-                  VALUES (?, ?, ?, ?, ?, ?, ?, 'UPSTOX')
-                `, [sym, tradeDate, open, high, low, close, volume]);
-                symStored++;
-              } catch {}
-            }
+                try {
+                  await dbRun(db, `
+                    INSERT OR REPLACE INTO DailyOHLCV (symbol, trade_date, open, high, low, close, volume, data_source)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, 'UPSTOX')
+                  `, [sym, tradeDate, open, high, low, close, volume]);
+                  symStored++;
+                } catch {}
+              }
+            });
             // Brief pause between chunk requests for the same symbol
             if (dateChunks.length > 1) await this.sleepMs(80);
           }
@@ -1035,23 +1039,25 @@ export class MarketDataIngestorService {
             const rawCandles = json?.data?.candles;
             if (!Array.isArray(rawCandles) || rawCandles.length === 0) continue;
 
-            for (const c of rawCandles) {
-              const candleTime = String(c[0]);
-              const open = Number(c[1]) || 0;
-              const high = Number(c[2]) || 0;
-              const low = Number(c[3]) || 0;
-              const close = Number(c[4]) || 0;
-              const volume = Number(c[5]) || 0;
-              if (close <= 0) continue;
+            await withTx(db, async () => {
+              for (const c of rawCandles) {
+                const candleTime = String(c[0]);
+                const open = Number(c[1]) || 0;
+                const high = Number(c[2]) || 0;
+                const low = Number(c[3]) || 0;
+                const close = Number(c[4]) || 0;
+                const volume = Number(c[5]) || 0;
+                if (close <= 0) continue;
 
-              try {
-                await dbRun(db, `
-                  INSERT OR REPLACE INTO IntradayCandles (symbol, candle_time, interval, open, high, low, close, volume, data_source)
-                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'UPSTOX')
-                `, [sym, candleTime, interval, open, high, low, close, volume]);
-                symStored++;
-              } catch {}
-            }
+                try {
+                  await dbRun(db, `
+                    INSERT OR REPLACE INTO IntradayCandles (symbol, candle_time, interval, open, high, low, close, volume, data_source)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'UPSTOX')
+                  `, [sym, candleTime, interval, open, high, low, close, volume]);
+                  symStored++;
+                } catch {}
+              }
+            });
             if (monthChunks.length > 1) await this.sleepMs(100);
           }
 
@@ -1136,23 +1142,25 @@ export class MarketDataIngestorService {
       const db = getDB();
       let stored = 0;
 
-      for (const c of rawCandles) {
-        const candleTime = String(c[0]);
-        const open = Number(c[1]) || 0;
-        const high = Number(c[2]) || 0;
-        const low = Number(c[3]) || 0;
-        const close = Number(c[4]) || 0;
-        const volume = Number(c[5]) || 0;
-        if (close <= 0) continue;
+      await withTx(db, async () => {
+        for (const c of rawCandles) {
+          const candleTime = String(c[0]);
+          const open = Number(c[1]) || 0;
+          const high = Number(c[2]) || 0;
+          const low = Number(c[3]) || 0;
+          const close = Number(c[4]) || 0;
+          const volume = Number(c[5]) || 0;
+          if (close <= 0) continue;
 
-        try {
-          await dbRun(db, `
-            INSERT OR REPLACE INTO IntradayCandles (symbol, candle_time, interval, open, high, low, close, volume, data_source)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'UPSTOX')
-          `, [symbol, candleTime, interval, open, high, low, close, volume]);
-          stored++;
-        } catch {}
-      }
+          try {
+            await dbRun(db, `
+              INSERT OR REPLACE INTO IntradayCandles (symbol, candle_time, interval, open, high, low, close, volume, data_source)
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'UPSTOX')
+            `, [symbol, candleTime, interval, open, high, low, close, volume]);
+            stored++;
+          } catch {}
+        }
+      });
 
       return { symbol, interval, stored };
     } catch (err: any) {

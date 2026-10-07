@@ -170,23 +170,25 @@ export class WorkspaceService {
     `);
 
     // Add safe schema migrations for existing tables
+    const existingColumns = new Set((db.pragma('table_info(stockscans_scan_runs)') as any[]).map(c => c.name));
     const migrations = [
-      'ALTER TABLE stockscans_scan_runs ADD COLUMN formula_version TEXT',
-      'ALTER TABLE stockscans_scan_runs ADD COLUMN data_revision TEXT',
-      'ALTER TABLE stockscans_scan_runs ADD COLUMN universe_revision TEXT',
-      'ALTER TABLE stockscans_scan_runs ADD COLUMN source_system TEXT',
-      'ALTER TABLE stockscans_scan_runs ADD COLUMN coverage_json TEXT',
-      'ALTER TABLE stockscans_scan_runs ADD COLUMN status TEXT',
-      'ALTER TABLE stockscans_scan_runs ADD COLUMN no_data_reason TEXT',
-      'ALTER TABLE stockscans_scan_runs ADD COLUMN results_hash TEXT'
+      { name: 'formula_version', type: 'TEXT' },
+      { name: 'data_revision', type: 'TEXT' },
+      { name: 'universe_revision', type: 'TEXT' },
+      { name: 'source_system', type: 'TEXT' },
+      { name: 'coverage_json', type: 'TEXT' },
+      { name: 'status', type: 'TEXT' },
+      { name: 'no_data_reason', type: 'TEXT' },
+      { name: 'results_hash', type: 'TEXT' }
     ];
-    for (const sql of migrations) {
-      try {
-        db.exec(sql);
-      } catch {
-        // Ignored if column already exists
+    const applyMigrations = db.transaction(() => {
+      for (const col of migrations) {
+        if (!existingColumns.has(col.name)) {
+          db.exec(`ALTER TABLE stockscans_scan_runs ADD COLUMN ${col.name} ${col.type}`);
+        }
       }
-    }
+    });
+    applyMigrations();
   }
 
   /**

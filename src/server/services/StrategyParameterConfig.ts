@@ -985,7 +985,7 @@ export interface StrategyPresetRow {
 
 export async function seedBuiltInPresets(db: any): Promise<void> {
   // Import dynamically to avoid circular deps at module load time
-  const { dbAll, dbRun } = await import('../database.js');
+  const { dbAll, dbRun, withTx } = await import('../database.js');
 
   const presets: StrategyPresetRow[] = STRATEGY_CATALOG.map((catalog, idx) => ({
     id: catalog.id,
@@ -1002,31 +1002,33 @@ export async function seedBuiltInPresets(db: any): Promise<void> {
   }));
 
   // INSERT OR IGNORE preserves existing user-edited presets while adding new variants.
-  for (const preset of presets) {
-    try {
-      await dbRun(
-        db,
-        `INSERT OR IGNORE INTO CustomStrategies
-         (id, name, short_name, description, category, is_preset, preset_order, color_accent, parameters_json, base_template_id, is_active)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [
-          preset.id,
-          preset.name,
-          preset.short_name,
-          preset.description,
-          preset.category,
-          preset.is_preset,
-          preset.preset_order,
-          preset.color_accent,
-          preset.parameters_json,
-          preset.base_template_id,
-          preset.is_active,
-        ]
-      );
-    } catch (err: any) {
-      console.warn(`[StrategyPresetSeeding] Failed to seed preset ${preset.id}:`, err.message);
+  await withTx(db, async () => {
+    for (const preset of presets) {
+      try {
+        await dbRun(
+          db,
+          `INSERT OR IGNORE INTO CustomStrategies
+           (id, name, short_name, description, category, is_preset, preset_order, color_accent, parameters_json, base_template_id, is_active)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          [
+            preset.id,
+            preset.name,
+            preset.short_name,
+            preset.description,
+            preset.category,
+            preset.is_preset,
+            preset.preset_order,
+            preset.color_accent,
+            preset.parameters_json,
+            preset.base_template_id,
+            preset.is_active,
+          ]
+        );
+      } catch (err: any) {
+        console.warn(`[StrategyPresetSeeding] Failed to seed preset ${preset.id}:`, err.message);
+      }
     }
-  }
+  });
 
   console.log(`[StrategyPresetSeeding] Seeded ${presets.length} built-in strategy presets`);
 }

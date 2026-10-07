@@ -13,6 +13,28 @@ export default defineConfig(() => {
     },
     build: {
       emptyOutDir: true,
+      target: 'es2022',
+      chunkSizeWarningLimit: 800,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (id.includes('react') || id.includes('react-dom') || id.includes('motion')) {
+                return 'vendor-framework';
+              }
+              if (id.includes('recharts')) {
+                return 'vendor-charts';
+              }
+              if (id.includes('xlsx') || id.includes('exceljs')) {
+                return 'vendor-excel';
+              }
+              if (id.includes('lucide-react')) {
+                return 'vendor-lucide';
+              }
+            }
+          },
+        },
+      },
     },
     server: {
       allowedHosts: true as const,

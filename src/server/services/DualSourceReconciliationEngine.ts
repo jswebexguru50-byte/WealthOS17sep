@@ -9,7 +9,7 @@
  * Persists all drift discrepancies and consensus scores into DataSyncDriftLedger in portfolio.db.
  */
 
-import { getDB, dbRun, dbAll, dbGet } from '../database.js';
+import { getDB, dbRun, dbAll, dbGet, withTx } from '../database.js';
 import { XbrlIngestionService, XbrlShareholdingData } from './XbrlIngestionService.js';
 import { ScreenerService, ScreenerData } from './screenerService.js';
 import { UniversalDataIntegrityGate } from './UniversalDataIntegrityGate.js';
@@ -227,6 +227,7 @@ export class DualSourceReconciliationEngine {
     // ── 3. Reconcile Current & Historical Financial Results (Annual P&L & Quarters) ────
     if (secondaryData) {
       const db = getDB();
+      await withTx(db, async () => {
 
       // 3A. Historical Quarterly P&L Statements
       if (secondaryData.quarterlySeries && secondaryData.quarterlySeries.length > 0) {
@@ -429,6 +430,7 @@ export class DualSourceReconciliationEngine {
           });
         }
       }
+      });
     }
 
     // ── 1B. Persist Primary Official Shareholding Pattern into HistoricalShareholdingPattern ──
@@ -488,7 +490,8 @@ function withTimeout<T>(promise: Promise<T>, ms: number, fallback: T): Promise<T
         );
 
         if (Array.isArray(yfTs) && yfTs.length > 0) {
-          for (const item of yfTs) {
+          await withTx(db, async () => {
+            for (const item of yfTs) {
             if (!item.date) continue;
             const d = new Date(item.date);
             const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -532,9 +535,10 @@ function withTimeout<T>(promise: Promise<T>, ms: number, fallback: T): Promise<T
               `, [cleanSym, qLabel, cfoCr, cfiCr, cffCr]).catch(() => {});
             }
           }
-        }
+        });
       }
-    } catch {}
+    }
+  } catch {}
 
     // 4. Compute Aggregates & Ledger Persistence
     const totalCompared = fields.length;
@@ -672,9 +676,10 @@ function withTimeout<T>(promise: Promise<T>, ms: number, fallback: T): Promise<T
     try {
       await this.ensureLedgerTable();
       const db = getDB();
-      await dbRun(db, 'DELETE FROM DataSyncDriftLedger WHERE symbol = ?', [summary.symbol]);
+      await withTx(db, async () => {
+        await dbRun(db, 'DELETE FROM DataSyncDriftLedger WHERE symbol = ?', [summary.symbol]);
 
-      for (const f of summary.fields) {
+        for (const f of summary.fields) {
         await dbRun(db, `
           INSERT INTO DataSyncDriftLedger (
             symbol, as_of_period, statement_type, metric_name,
@@ -696,6 +701,7 @@ function withTimeout<T>(promise: Promise<T>, ms: number, fallback: T): Promise<T
           f.note || null
         ]);
       }
+    });
     } catch (e: any) {
       console.error(`[DualSourceRecon] DB persistence error for ${summary.symbol}:`, e.message);
     }

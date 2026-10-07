@@ -1,4 +1,4 @@
-import { getDB, dbAll, dbRun, dbGet } from '../database.js';
+import { getDB, dbAll, dbRun, dbGet, withTx } from '../database.js';
 
 export interface UniverseStock {
   symbol: string;
@@ -37,15 +37,20 @@ export class UniverseManagerService {
 
   public async ensureColumns(): Promise<void> {
     const db = getDB();
+    const cols = new Set(((await dbAll(db, 'PRAGMA table_info(MasterTickers)')) as any[]).map(c => c.name));
     const migrations = [
-      'ALTER TABLE MasterTickers ADD COLUMN market_cap_cr REAL',
-      'ALTER TABLE MasterTickers ADD COLUMN tier TEXT',
-      'ALTER TABLE MasterTickers ADD COLUMN company_name TEXT',
-      'ALTER TABLE MasterTickers ADD COLUMN currency TEXT DEFAULT \'INR\'',
+      { name: 'market_cap_cr', type: 'REAL' },
+      { name: 'tier', type: 'TEXT' },
+      { name: 'company_name', type: 'TEXT' },
+      { name: 'currency', type: "TEXT DEFAULT 'INR'" },
     ];
-    for (const sql of migrations) {
-      try { await dbRun(db, sql); } catch (_e: any) { /* duplicate column — safe */ }
-    }
+    await withTx(db, async () => {
+      for (const col of migrations) {
+        if (!cols.has(col.name)) {
+          await dbRun(db, `ALTER TABLE MasterTickers ADD COLUMN ${col.name} ${col.type}`);
+        }
+      }
+    });
   }
 
   public async refreshFullUniverse(): Promise<{ inserted: number; updated: number; total: number }> {

@@ -2,7 +2,7 @@ import dns from 'node:dns';
 dns.setDefaultResultOrder('ipv4first');
 import Parser from 'rss-parser';
 import crypto from 'node:crypto';
-import { getDB, dbRun, dbAll } from '../database.js';
+import { getDB, dbRun, dbAll, withTx } from '../database.js';
 
 export interface NewsArticle {
   title: string;
@@ -484,31 +484,35 @@ export class NewsSentimentService {
           await new Promise(r => setTimeout(r, 300)); // 300ms rate limit for NSE
           const nseAnnouncements = await this.fetchNseAnnouncements(sym);
 
-          for (const ann of nseAnnouncements) {
-            if (ann.isAdverse) adverseFound++;
-            // Check dedup by source_id
-            const existing = await dbAll(db,
-              `SELECT event_id FROM EventIntelligenceLog WHERE source_id = ? LIMIT 1`,
-              [ann.sourceId]
-            ).catch(() => []);
-            if ((existing as any[]).length > 0) continue;
+          if (nseAnnouncements.length > 0) {
+            await withTx(db, async () => {
+              for (const ann of nseAnnouncements) {
+                if (ann.isAdverse) adverseFound++;
+                // Check dedup by source_id
+                const existing = await dbAll(db,
+                  `SELECT event_id FROM EventIntelligenceLog WHERE source_id = ? LIMIT 1`,
+                  [ann.sourceId]
+                ).catch(() => []);
+                if ((existing as any[]).length > 0) continue;
 
-            const eventId = crypto.randomUUID();
-            await dbRun(db, `
-              INSERT OR IGNORE INTO EventIntelligenceLog
-                (event_id, symbol, event_type, headline, sentiment_score, materiality_score,
-                 is_adverse, source_url, published_at, source_id, data_source)
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            `, [
-              eventId, sym.toUpperCase(),
-              ann.isAdverse ? 'ADVERSE' : 'NSE_ANNOUNCEMENT',
-              ann.headline, 0,
-              ann.isAdverse ? 85 : 20,
-              ann.isAdverse ? 1 : 0,
-              `https://www.nseindia.com/companies-listing/corporate-filings-announcements`,
-              ann.date, ann.sourceId, 'NSE_ANNOUNCEMENTS'
-            ]).catch(() => {});
-            newEvents++;
+                const eventId = crypto.randomUUID();
+                await dbRun(db, `
+                  INSERT OR IGNORE INTO EventIntelligenceLog
+                    (event_id, symbol, event_type, headline, sentiment_score, materiality_score,
+                     is_adverse, source_url, published_at, source_id, data_source)
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                `, [
+                  eventId, sym.toUpperCase(),
+                  ann.isAdverse ? 'ADVERSE' : 'NSE_ANNOUNCEMENT',
+                  ann.headline, 0,
+                  ann.isAdverse ? 85 : 20,
+                  ann.isAdverse ? 1 : 0,
+                  `https://www.nseindia.com/companies-listing/corporate-filings-announcements`,
+                  ann.date, ann.sourceId, 'NSE_ANNOUNCEMENTS'
+                ]).catch(() => {});
+                newEvents++;
+              }
+            });
           }
         } catch {
           // per-symbol errors are non-fatal

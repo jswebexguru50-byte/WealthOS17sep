@@ -11,7 +11,7 @@
  * 6. Small-cap or Mid-cap (Market Cap ₹1,000 Cr to ₹45,000 Cr) with multiple re-rating headroom (PEG <= 1.5)
  */
 
-import { getDB, dbAll, dbRun, dbGet } from '../database.js';
+import { getDB, dbAll, dbRun, dbGet, withTx } from '../database.js';
 
 export interface IndustrialGroup {
   groupId: string;
@@ -204,13 +204,15 @@ export class SunriseIndustrialUniverseService {
       { groupId: 'DEFENCE_ESDM_PIONEERS', groupName: 'Veteran Engineering & Tech Houses', foundingYear: 1985, vintageYears: 41, promoterFamilyOrigin: 'First-Gen Engineering Pioneers', headquarters: 'Various', governanceRating: 'AA_INSTITUTIONAL', notes: '30-40+ year seasoned engineering institutions (Data Patterns, Kaynes, Dixon, Syrma).' }
     ];
 
-    for (const g of groups) {
-      await dbRun(db, `
-        INSERT OR REPLACE INTO industrial_group_registry
-        (group_id, group_name, founding_year, vintage_years, promoter_family_origin, headquarters, governance_rating, notes)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?);
-      `, [g.groupId, g.groupName, g.foundingYear, g.vintageYears, g.promoterFamilyOrigin, g.headquarters, g.governanceRating, g.notes]);
-    }
+    await withTx(db, async () => {
+      for (const g of groups) {
+        await dbRun(db, `
+          INSERT OR REPLACE INTO industrial_group_registry
+          (group_id, group_name, founding_year, vintage_years, promoter_family_origin, headquarters, governance_rating, notes)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+        `, [g.groupId, g.groupName, g.foundingYear, g.vintageYears, g.promoterFamilyOrigin, g.headquarters, g.governanceRating, g.notes]);
+      }
+    });
   }
 
   private async seedPliSectors(): Promise<void> {
@@ -229,13 +231,15 @@ export class SunriseIndustrialUniverseService {
       { schemeId: 'PLI_SPEC_STEEL', schemeName: 'Specialty Steel PLI Scheme', verticalCode: 'SUN_SPEC_STEEL', nodalMinistry: 'Ministry of Steel', notifiedOutlayCr: 6322, targetYear: 2029, status: 'ACTIVE' }
     ];
 
-    for (const s of sectors) {
-      await dbRun(db, `
-        INSERT OR REPLACE INTO pli_sector_registry
-        (scheme_id, scheme_name, vertical_code, nodal_ministry, notified_outlay_cr, target_year, status)
-        VALUES (?, ?, ?, ?, ?, ?, ?);
-      `, [s.schemeId, s.schemeName, s.verticalCode, s.nodalMinistry, s.notifiedOutlayCr, s.targetYear, s.status]);
-    }
+    await withTx(db, async () => {
+      for (const s of sectors) {
+        await dbRun(db, `
+          INSERT OR REPLACE INTO pli_sector_registry
+          (scheme_id, scheme_name, vertical_code, nodal_ministry, notified_outlay_cr, target_year, status)
+          VALUES (?, ?, ?, ?, ?, ?, ?);
+        `, [s.schemeId, s.schemeName, s.verticalCode, s.nodalMinistry, s.notifiedOutlayCr, s.targetYear, s.status]);
+      }
+    });
   }
 
   private async seedUniverseScrips(): Promise<void> {
@@ -738,27 +742,29 @@ export class SunriseIndustrialUniverseService {
       }
     ];
 
-    for (const s of scrips) {
-      await dbRun(db, `
-        INSERT OR REPLACE INTO sunrise_industrial_universe
-        (symbol, company_name, isin, vertical_code, vertical_name, pli_scheme_id, pli_tier,
-         industrial_group_id, industrial_group_name, group_vintage_years, backing_modality,
-         market_cap_cr, market_cap_tier, current_price, turnover_cagr_3y_pct, ebitda_cagr_3y_pct,
-         operating_leverage_ratio, cfo_to_ebitda_ratio, promoter_holding_pct, fii_holding_pct,
-         dii_holding_pct, free_retail_float_pct, promoter_pledge_pct, peg_ratio, roce_pct,
-         order_book_cr, order_book_multiple, composite_shg_score, conviction_tier,
-         catalysts_summary, is_active, last_evaluated_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?);
-      `, [
-        s.symbol, s.companyName, s.isin, s.verticalCode, s.verticalName, s.pliSchemeId, s.pliTier,
-        s.industrialGroupId, s.industrialGroupName, s.groupVintageYears, s.backingModality,
-        s.marketCapCr, s.marketCapTier, s.currentPrice, s.turnoverCagr3yPct, s.ebitdaCagr3yPct,
-        s.operatingLeverageRatio, s.cfoToEbitdaRatio, s.promoterHoldingPct, s.fiiHoldingPct,
-        s.diiHoldingPct, s.freeRetailFloatPct, s.promoterPledgePct, s.pegRatio, s.rocePct,
-        s.orderBookCr, s.orderBookMultiple, s.compositeShgScore, s.convictionTier,
-        s.catalystsSummary, s.lastEvaluatedAt
-      ]);
-    }
+    await withTx(db, async () => {
+      for (const s of scrips) {
+        await dbRun(db, `
+          INSERT OR REPLACE INTO sunrise_industrial_universe
+          (symbol, company_name, isin, vertical_code, vertical_name, pli_scheme_id, pli_tier,
+           industrial_group_id, industrial_group_name, group_vintage_years, backing_modality,
+           market_cap_cr, market_cap_tier, current_price, turnover_cagr_3y_pct, ebitda_cagr_3y_pct,
+           operating_leverage_ratio, cfo_to_ebitda_ratio, promoter_holding_pct, fii_holding_pct,
+           dii_holding_pct, free_retail_float_pct, promoter_pledge_pct, peg_ratio, roce_pct,
+           order_book_cr, order_book_multiple, composite_shg_score, conviction_tier,
+           catalysts_summary, is_active, last_evaluated_at)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?);
+        `, [
+          s.symbol, s.companyName, s.isin, s.verticalCode, s.verticalName, s.pliSchemeId, s.pliTier,
+          s.industrialGroupId, s.industrialGroupName, s.groupVintageYears, s.backingModality,
+          s.marketCapCr, s.marketCapTier, s.currentPrice, s.turnoverCagr3yPct, s.ebitdaCagr3yPct,
+          s.operatingLeverageRatio, s.cfoToEbitdaRatio, s.promoterHoldingPct, s.fiiHoldingPct,
+          s.diiHoldingPct, s.freeRetailFloatPct, s.promoterPledgePct, s.pegRatio, s.rocePct,
+          s.orderBookCr, s.orderBookMultiple, s.compositeShgScore, s.convictionTier,
+          s.catalystsSummary, s.lastEvaluatedAt
+        ]);
+      }
+    });
   }
 
   public async getAllScrips(): Promise<SunriseIndustrialScrip[]> {

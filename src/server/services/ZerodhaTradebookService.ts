@@ -10,7 +10,7 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 import crypto from 'crypto';
-import { getDB, dbAll, dbRun, dbGet } from '../database.js';
+import { getDB, dbAll, dbRun, dbGet, withTx } from '../database.js';
 import { runFIFO } from '../fifoEngine.js';
 
 export interface ParsedTradeItem {
@@ -632,83 +632,85 @@ export class ZerodhaTradebookService {
     let insertedCount = 0;
     let skippedCount = 0;
 
-    for (const t of batch.trades) {
-      if (t.isDuplicate) {
-        skippedCount++;
-        continue;
+    await withTx(db, async () => {
+      for (const t of batch.trades) {
+        if (t.isDuplicate) {
+          skippedCount++;
+          continue;
+        }
+
+        const gross = t.quantity * t.price;
+        const net = gross;
+        const notes = `Zerodha Console Tradebook${batch.detectedClientId ? ` [${batch.detectedClientId}]` : ''}${t.tradeId ? ` | Trade ID: ${t.tradeId}` : ''}`;
+        const safeIsin = t.isin || `IN_ZERODHA_${t.symbol}`;
+
+        // 1. Seed MasterTickers FIRST to satisfy foreign key constraint
+        await dbRun(db, `
+          INSERT INTO MasterTickers (isin, symbol, name, last_price)
+          VALUES (?, ?, ?, ?)
+          ON CONFLICT(isin) DO UPDATE SET
+            symbol = COALESCE(MasterTickers.symbol, excluded.symbol)
+        `, [safeIsin, t.symbol, t.symbol, t.price]).catch(() => {});
+
+        // 2. Insert into Transactions
+        await dbRun(db, `
+          INSERT INTO Transactions (
+            date, portfolio, type, isin, symbol, quantity, price, gross_amount, net_amount,
+            brokerage, stt, stamp_duty, gst, exchange_charges, sebi_charges, total_taxes,
+            source, notes, batch_id, is_cash_flow, account_number, broker_name
+          ) VALUES (
+            ?, ?, ?, ?, ?, ?, ?, ?, ?,
+            0, 0, 0, 0, 0, 0, 0,
+            'ZERODHA_TRADEBOOK', ?, ?, 1, ?, 'ZERODHA'
+          )
+        `, [
+          t.tradeDate,
+          targetPortfolio,
+          t.tradeType,
+          safeIsin,
+          t.symbol,
+          t.quantity,
+          t.price,
+          gross,
+          net,
+          notes,
+          batchId,
+          batch.detectedClientId || ''
+        ]);
+
+        // 3. Register fill in fill_registry for deterministic multi-broker idempotence
+        const fillHash = t.fillHash || computeDeterministicFillHash(
+          t.tradeId,
+          safeIsin,
+          t.tradeDate,
+          t.tradeType,
+          t.quantity,
+          t.price,
+          t.segment || t.settlementType || 'DELIVERY',
+          'ZERODHA'
+        );
+        await dbRun(db, `
+          INSERT OR IGNORE INTO fill_registry (
+            order_id, trade_id, isin, trade_date, trade_time, trade_type,
+            quantity, price, broker_code, settlement_type, fill_hash, batch_id
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'ZERODHA', ?, ?, ?)
+        `, [
+          t.orderId || '',
+          t.tradeId || '',
+          safeIsin,
+          t.tradeDate,
+          t.orderExecutionTime || '',
+          t.tradeType,
+          t.quantity,
+          t.price,
+          t.segment || t.settlementType || 'DELIVERY',
+          fillHash,
+          batchId
+        ]).catch(() => {});
+
+        insertedCount++;
       }
-
-      const gross = t.quantity * t.price;
-      const net = gross;
-      const notes = `Zerodha Console Tradebook${batch.detectedClientId ? ` [${batch.detectedClientId}]` : ''}${t.tradeId ? ` | Trade ID: ${t.tradeId}` : ''}`;
-      const safeIsin = t.isin || `IN_ZERODHA_${t.symbol}`;
-
-      // 1. Seed MasterTickers FIRST to satisfy foreign key constraint
-      await dbRun(db, `
-        INSERT INTO MasterTickers (isin, symbol, name, last_price)
-        VALUES (?, ?, ?, ?)
-        ON CONFLICT(isin) DO UPDATE SET
-          symbol = COALESCE(MasterTickers.symbol, excluded.symbol)
-      `, [safeIsin, t.symbol, t.symbol, t.price]).catch(() => {});
-
-      // 2. Insert into Transactions
-      await dbRun(db, `
-        INSERT INTO Transactions (
-          date, portfolio, type, isin, symbol, quantity, price, gross_amount, net_amount,
-          brokerage, stt, stamp_duty, gst, exchange_charges, sebi_charges, total_taxes,
-          source, notes, batch_id, is_cash_flow, account_number, broker_name
-        ) VALUES (
-          ?, ?, ?, ?, ?, ?, ?, ?, ?,
-          0, 0, 0, 0, 0, 0, 0,
-          'ZERODHA_TRADEBOOK', ?, ?, 1, ?, 'ZERODHA'
-        )
-      `, [
-        t.tradeDate,
-        targetPortfolio,
-        t.tradeType,
-        safeIsin,
-        t.symbol,
-        t.quantity,
-        t.price,
-        gross,
-        net,
-        notes,
-        batchId,
-        batch.detectedClientId || ''
-      ]);
-
-      // 3. Register fill in fill_registry for deterministic multi-broker idempotence
-      const fillHash = t.fillHash || computeDeterministicFillHash(
-        t.tradeId,
-        safeIsin,
-        t.tradeDate,
-        t.tradeType,
-        t.quantity,
-        t.price,
-        t.segment || t.settlementType || 'DELIVERY',
-        'ZERODHA'
-      );
-      await dbRun(db, `
-        INSERT OR IGNORE INTO fill_registry (
-          order_id, trade_id, isin, trade_date, trade_time, trade_type,
-          quantity, price, broker_code, settlement_type, fill_hash, batch_id
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'ZERODHA', ?, ?, ?)
-      `, [
-        t.orderId || '',
-        t.tradeId || '',
-        safeIsin,
-        t.tradeDate,
-        t.orderExecutionTime || '',
-        t.tradeType,
-        t.quantity,
-        t.price,
-        t.segment || t.settlementType || 'DELIVERY',
-        fillHash,
-        batchId
-      ]).catch(() => {});
-
-      insertedCount++;
-    }
+    });
 
     // Log in ActionHistory
     await dbRun(db, `
@@ -954,71 +956,73 @@ export class ZerodhaTradebookService {
       let accNewCount = 0;
       let accDupCount = 0;
 
-      for (const t of allClientTrades) {
-        if (t.isDuplicate) {
-          accDupCount++;
-          continue;
+      await withTx(db, async () => {
+        for (const t of allClientTrades) {
+          if (t.isDuplicate) {
+            accDupCount++;
+            continue;
+          }
+
+          const gross = t.quantity * t.price;
+          const notes = `Zerodha Console Tradebook [${clientId}]${t.tradeId ? ` | Trade ID: ${t.tradeId}` : ''}`;
+          const safeIsin = t.isin || `IN_ZERODHA_${t.symbol}`;
+
+          if (!previewOnly) {
+            // 1. Seed MasterTickers FIRST to satisfy foreign key constraint
+            await dbRun(db, `
+              INSERT INTO MasterTickers (isin, symbol, name, last_price)
+              VALUES (?, ?, ?, ?)
+              ON CONFLICT(isin) DO UPDATE SET
+                symbol = COALESCE(MasterTickers.symbol, excluded.symbol)
+            `, [safeIsin, t.symbol, t.symbol, t.price]).catch(() => {});
+
+            // 2. Insert into Transactions
+            await dbRun(db, `
+              INSERT INTO Transactions (
+                date, portfolio, type, isin, symbol, quantity, price, gross_amount, net_amount,
+                brokerage, stt, stamp_duty, gst, exchange_charges, sebi_charges, total_taxes,
+                source, notes, batch_id, is_cash_flow, account_number, broker_name
+              ) VALUES (
+                ?, ?, ?, ?, ?, ?, ?, ?, ?,
+                0, 0, 0, 0, 0, 0, 0,
+                'ZERODHA_TRADEBOOK_SCAN', ?, ?, 1, ?, 'ZERODHA'
+              )
+            `, [
+              t.tradeDate,
+              targetPortfolio,
+              t.tradeType,
+              safeIsin,
+              t.symbol,
+              t.quantity,
+              t.price,
+              gross,
+              gross,
+              notes,
+              batchTraceId,
+              clientId
+            ]);
+
+            // Register inserted trade to avoid intra-batch duplication
+            existingTradeIds.add(t.tradeId);
+            existingExactKeys.add(`${t.tradeDate}::${safeIsin}::${t.tradeType}::${t.quantity}::${t.price.toFixed(2)}`);
+          }
+
+          accNewCount++;
+          allMissedTrades.push({
+            portfolio: targetPortfolio,
+            clientId,
+            tradeDate: t.tradeDate,
+            symbol: t.symbol,
+            isin: safeIsin,
+            tradeType: t.tradeType,
+            quantity: t.quantity,
+            price: t.price,
+            amount: gross,
+            tradeId: t.tradeId,
+            orderId: t.orderId
+          });
         }
-
-        const gross = t.quantity * t.price;
-        const notes = `Zerodha Console Tradebook [${clientId}]${t.tradeId ? ` | Trade ID: ${t.tradeId}` : ''}`;
-        const safeIsin = t.isin || `IN_ZERODHA_${t.symbol}`;
-
-        if (!previewOnly) {
-          // 1. Seed MasterTickers FIRST to satisfy foreign key constraint
-          await dbRun(db, `
-            INSERT INTO MasterTickers (isin, symbol, name, last_price)
-            VALUES (?, ?, ?, ?)
-            ON CONFLICT(isin) DO UPDATE SET
-              symbol = COALESCE(MasterTickers.symbol, excluded.symbol)
-          `, [safeIsin, t.symbol, t.symbol, t.price]).catch(() => {});
-
-          // 2. Insert into Transactions
-          await dbRun(db, `
-            INSERT INTO Transactions (
-              date, portfolio, type, isin, symbol, quantity, price, gross_amount, net_amount,
-              brokerage, stt, stamp_duty, gst, exchange_charges, sebi_charges, total_taxes,
-              source, notes, batch_id, is_cash_flow, account_number, broker_name
-            ) VALUES (
-              ?, ?, ?, ?, ?, ?, ?, ?, ?,
-              0, 0, 0, 0, 0, 0, 0,
-              'ZERODHA_TRADEBOOK_SCAN', ?, ?, 1, ?, 'ZERODHA'
-            )
-          `, [
-            t.tradeDate,
-            targetPortfolio,
-            t.tradeType,
-            safeIsin,
-            t.symbol,
-            t.quantity,
-            t.price,
-            gross,
-            gross,
-            notes,
-            batchTraceId,
-            clientId
-          ]);
-
-          // Register inserted trade to avoid intra-batch duplication
-          existingTradeIds.add(t.tradeId);
-          existingExactKeys.add(`${t.tradeDate}::${safeIsin}::${t.tradeType}::${t.quantity}::${t.price.toFixed(2)}`);
-        }
-
-        accNewCount++;
-        allMissedTrades.push({
-          portfolio: targetPortfolio,
-          clientId,
-          tradeDate: t.tradeDate,
-          symbol: t.symbol,
-          isin: safeIsin,
-          tradeType: t.tradeType,
-          quantity: t.quantity,
-          price: t.price,
-          amount: gross,
-          tradeId: t.tradeId,
-          orderId: t.orderId
-        });
-      }
+      });
 
       globalNewTrades += accNewCount;
       globalDuplicates += accDupCount;

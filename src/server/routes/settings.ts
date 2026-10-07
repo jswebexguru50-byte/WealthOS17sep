@@ -3,7 +3,7 @@
  * App config, family benchmark, scrip mappings, master tickers, preferences
  */
 import { Router } from 'express';
-import { getDB, dbAll, dbGet, dbRun } from '../database.js';
+import { getDB, dbAll, dbGet, dbRun, withTx } from '../database.js';
 import { FamilyBenchmarkService } from '../services/FamilyBenchmarkService.js';
 import { AssetScripMappingService } from '../services/AssetScripMappingService.js';
 import { MasterTickerService } from '../services/MasterTickerService.js';
@@ -44,9 +44,11 @@ router.post('/config/bulk', async (req, res) => {
     const db = getDB();
     const { config } = req.body;
     if (!config || typeof config !== 'object') return res.status(400).json({ success: false, error: 'config object required.' });
-    for (const [key, value] of Object.entries(config)) {
-      await dbRun(db, 'INSERT OR REPLACE INTO AppConfig (key, value) VALUES (?, ?)', [key, String(value ?? '')]);
-    }
+    await withTx(db, async () => {
+      for (const [key, value] of Object.entries(config)) {
+        await dbRun(db, 'INSERT OR REPLACE INTO AppConfig (key, value) VALUES (?, ?)', [key, String(value ?? '')]);
+      }
+    });
     res.json({ success: true, message: `Saved ${Object.keys(config).length} config entries.` });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });

@@ -1,5 +1,5 @@
 import sqlite3 from 'sqlite3';
-import { dbAll, dbRun, dbGet, auditDBChange, runInDbLock } from './database.js';
+import { dbAll, dbRun, dbGet, auditDBChange, runInDbLock, withTx } from './database.js';
 
 export function getFolioFromNotes(notes: string | null, isin?: string | null): string {
   if (isin && !isin.toUpperCase().startsWith("INF")) return "";
@@ -92,12 +92,12 @@ interface BuyLot {
   totalCostPerUnit: number;
 }
 
-let onFifoCompletedCallback: (() => void) | null = null;
-export function registerFifoCompletedCallback(cb: () => void) {
+let onFifoCompletedCallback: ((portfolio?: string) => void) | null = null;
+export function registerFifoCompletedCallback(cb: (portfolio?: string) => void) {
   onFifoCompletedCallback = cb;
 }
 
-export async function runFIFO(db: sqlite3.Database): Promise<any> {
+export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): Promise<any> {
   return runInDbLock(async () => {
     await dbRun(db, 'BEGIN TRANSACTION');
 
@@ -1398,9 +1398,13 @@ export async function runFIFO(db: sqlite3.Database): Promise<any> {
     await calculateTaxSummary(db);
 
     // Purge stale DashboardDiskCache so all frontend views immediately reflect latest FIFO valuations
-    await dbRun(db, 'DELETE FROM DashboardDiskCache').catch(() => {});
+    if (portfolioFilter) {
+      await dbRun(db, "DELETE FROM DashboardDiskCache WHERE cache_key LIKE ? OR cache_key LIKE '%__all__%'", [`%${portfolioFilter}%`]).catch(() => {});
+    } else {
+      await dbRun(db, 'DELETE FROM DashboardDiskCache').catch(() => {});
+    }
     if (onFifoCompletedCallback) {
-      try { onFifoCompletedCallback(); } catch (_) {}
+      try { onFifoCompletedCallback(portfolioFilter); } catch (_) {}
     }
 
     // Rebuild CorporateActionAudit
@@ -1523,8 +1527,6 @@ export async function runFIFO(db: sqlite3.Database): Promise<any> {
 }
 
 export async function calculateTaxSummary(db: sqlite3.Database): Promise<void> {
-  await dbRun(db, 'DELETE FROM TaxSummary');
-
   const summary: Record<string, {
     stcg_old: number; stcg_new: number;
     ltcg_old: number; ltcg_new: number;
@@ -1585,86 +1587,90 @@ export async function calculateTaxSummary(db: sqlite3.Database): Promise<void> {
     entry.dividends += d.net_amount || 0;
   }
 
-  // 3. Compute Tax rates & Insert into TaxSummary
-  for (const [key, data] of Object.entries(summary)) {
-    const [port, fy] = key.split('::');
+  // 3. Atomically wipe and rebuild TaxSummary inside a transaction
+  await withTx(db, async () => {
+    await dbRun(db, 'DELETE FROM TaxSummary');
 
-    const stcgGains = data.stcg_old + data.stcg_new;
-    const ltcgGains = data.ltcg_old + data.ltcg_new;
-    const dividends = data.dividends;
-    const totalRealized = data.total_realized_pnl;
+    for (const [key, data] of Object.entries(summary)) {
+      const [port, fy] = key.split('::');
 
-    // LTCG Exemption limit under 112A: 
-    // Increased to 1.25 Lakh (1,25,000) for FY 24-25 onwards. Previous was 1 Lakh (1,00,000).
-    let exemption = 100000;
-    try {
-      const startYear = parseInt(fy.split('-')[0]);
-      if (startYear >= 2024) {
-        exemption = 125000;
+      const stcgGains = data.stcg_old + data.stcg_new;
+      const ltcgGains = data.ltcg_old + data.ltcg_new;
+      const dividends = data.dividends;
+      const totalRealized = data.total_realized_pnl;
+
+      // LTCG Exemption limit under 112A: 
+      // Increased to 1.25 Lakh (1,25,000) for FY 24-25 onwards. Previous was 1 Lakh (1,00,000).
+      let exemption = 100000;
+      try {
+        const startYear = parseInt(fy.split('-')[0]);
+        if (startYear >= 2024) {
+          exemption = 125000;
+        }
+      } catch (_) {}
+
+      // Calculate STCG Tax with proper loss set-off
+      let stcgTax = 0;
+      if (stcgGains > 0) {
+        let remOld = data.stcg_old;
+        let remNew = data.stcg_new;
+
+        // If one bucket is in loss, set it off against the profitable bucket
+        if (remOld < 0) {
+          remNew += remOld; // Reduces new regime gains
+          remOld = 0;
+        } else if (remNew < 0) {
+          remOld += remNew; // Reduces old regime gains
+          remNew = 0;
+        }
+
+        const taxedOld = Math.max(0, remOld);
+        const taxedNew = Math.max(0, remNew);
+        stcgTax = (taxedOld * 0.15) + (taxedNew * 0.20);
       }
-    } catch (_) {}
 
-    // Calculate STCG Tax with proper loss set-off
-    let stcgTax = 0;
-    if (stcgGains > 0) {
-      let remOld = data.stcg_old;
-      let remNew = data.stcg_new;
+      // Calculate LTCG Tax
+      let ltcgTaxable = 0;
+      let ltcgTax = 0;
+      if (ltcgGains > exemption) {
+        ltcgTaxable = ltcgGains - exemption;
+        
+        // Pro-rata allocate exemption after loss set-off
+        let remNew = data.ltcg_new;
+        let remOld = data.ltcg_old;
+        
+        if (remOld < 0) {
+          remNew += remOld;
+          remOld = 0;
+        } else if (remNew < 0) {
+          remOld += remNew;
+          remNew = 0;
+        }
 
-      // If one bucket is in loss, set it off against the profitable bucket
-      if (remOld < 0) {
-        remNew += remOld; // Reduces new regime gains
-        remOld = 0;
-      } else if (remNew < 0) {
-        remOld += remNew; // Reduces old regime gains
-        remNew = 0;
+        let remExemption = exemption;
+        // Deduct exemption prioritizing new regime (12.5%) or old regime (10%)
+        if (remNew > 0) {
+          const deduct = Math.min(remNew, remExemption);
+          remNew -= deduct;
+          remExemption -= deduct;
+        }
+        if (remOld > 0 && remExemption > 0) {
+          const deduct = Math.min(remOld, remExemption);
+          remOld -= deduct;
+          remExemption -= deduct;
+        }
+
+        ltcgTax = (Math.max(0, remOld) * 0.10) + (Math.max(0, remNew) * 0.125);
       }
 
-      const taxedOld = Math.max(0, remOld);
-      const taxedNew = Math.max(0, remNew);
-      stcgTax = (taxedOld * 0.15) + (taxedNew * 0.20);
+      const totalTax = stcgTax + ltcgTax;
+
+      await dbRun(db, `
+        INSERT INTO TaxSummary (financial_year, portfolio, intraday_gains, stcg_gains, stcg_tax, ltcg_gains, ltcg_exemption, ltcg_taxable, ltcg_tax, total_tax, dividends, total_realized_pnl)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `, [fy, port, data.intraday, stcgGains, stcgTax, ltcgGains, exemption, ltcgTaxable, ltcgTax, totalTax, dividends, totalRealized]);
     }
-
-    // Calculate LTCG Tax
-    let ltcgTaxable = 0;
-    let ltcgTax = 0;
-    if (ltcgGains > exemption) {
-      ltcgTaxable = ltcgGains - exemption;
-      
-      // Pro-rata allocate exemption after loss set-off
-      let remNew = data.ltcg_new;
-      let remOld = data.ltcg_old;
-      
-      if (remOld < 0) {
-        remNew += remOld;
-        remOld = 0;
-      } else if (remNew < 0) {
-        remOld += remNew;
-        remNew = 0;
-      }
-
-      let remExemption = exemption;
-      // Deduct exemption prioritizing new regime (12.5%) or old regime (10%)
-      if (remNew > 0) {
-        const deduct = Math.min(remNew, remExemption);
-        remNew -= deduct;
-        remExemption -= deduct;
-      }
-      if (remOld > 0 && remExemption > 0) {
-        const deduct = Math.min(remOld, remExemption);
-        remOld -= deduct;
-        remExemption -= deduct;
-      }
-
-      ltcgTax = (Math.max(0, remOld) * 0.10) + (Math.max(0, remNew) * 0.125);
-    }
-
-    const totalTax = stcgTax + ltcgTax;
-
-    await dbRun(db, `
-      INSERT INTO TaxSummary (financial_year, portfolio, intraday_gains, stcg_gains, stcg_tax, ltcg_gains, ltcg_exemption, ltcg_taxable, ltcg_tax, total_tax, dividends, total_realized_pnl)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `, [fy, port, data.intraday, stcgGains, stcgTax, ltcgGains, exemption, ltcgTaxable, ltcgTax, totalTax, dividends, totalRealized]);
-  }
+  });
 }
 
 export function getHoldingsAsOfDate(
@@ -1966,23 +1972,25 @@ export async function syncDualCostBasis(db: sqlite3.Database): Promise<void> {
   };
 
   const cc9Holdings = await dbAll(db, "SELECT symbol, quantity, avg_buy_price, total_cost FROM Holdings WHERE portfolio='cc9'");
-  for (const h of cc9Holdings) {
-    const sym = h.symbol;
-    let matchedCostPerSh: number | null = null;
-    for (const [name, data] of Object.entries(capitalRegisterCosts)) {
-      if (data.symbol === sym || sym.includes(data.symbol)) {
-        matchedCostPerSh = data.postBonusCostPerSh || data.costPerSh;
-        break;
+  await withTx(db, async () => {
+    for (const h of cc9Holdings) {
+      const sym = h.symbol;
+      let matchedCostPerSh: number | null = null;
+      for (const [name, data] of Object.entries(capitalRegisterCosts)) {
+        if (data.symbol === sym || sym.includes(data.symbol)) {
+          matchedCostPerSh = data.postBonusCostPerSh || data.costPerSh;
+          break;
+        }
+      }
+
+      if (matchedCostPerSh) {
+        const taxCost = matchedCostPerSh * Number(h.quantity);
+        await dbRun(db, "UPDATE Holdings SET tax_avg_price=?, tax_cost_basis=? WHERE portfolio='cc9' AND symbol=?", [matchedCostPerSh, taxCost, sym]);
+      } else {
+        await dbRun(db, "UPDATE Holdings SET tax_avg_price=avg_buy_price, tax_cost_basis=total_cost WHERE portfolio='cc9' AND symbol=? AND tax_cost_basis IS NULL", [sym]);
       }
     }
 
-    if (matchedCostPerSh) {
-      const taxCost = matchedCostPerSh * Number(h.quantity);
-      await dbRun(db, "UPDATE Holdings SET tax_avg_price=?, tax_cost_basis=? WHERE portfolio='cc9' AND symbol=?", [matchedCostPerSh, taxCost, sym]);
-    } else {
-      await dbRun(db, "UPDATE Holdings SET tax_avg_price=avg_buy_price, tax_cost_basis=total_cost WHERE portfolio='cc9' AND symbol=? AND tax_cost_basis IS NULL", [sym]);
-    }
-  }
-
-  await dbRun(db, "UPDATE Holdings SET tax_avg_price=avg_buy_price, tax_cost_basis=total_cost WHERE portfolio != 'cc9' AND tax_cost_basis IS NULL");
+    await dbRun(db, "UPDATE Holdings SET tax_avg_price=avg_buy_price, tax_cost_basis=total_cost WHERE portfolio != 'cc9' AND tax_cost_basis IS NULL");
+  });
 }

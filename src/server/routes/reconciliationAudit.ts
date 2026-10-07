@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getDB, dbAll, dbGet, dbRun } from '../database.js';
+import { getDB, dbAll, dbGet, dbRun, withTx } from '../database.js';
 
 const router = Router();
 
@@ -94,17 +94,19 @@ export async function ensureAuditTables(db: any) {
       }
     ];
 
-    for (const b of baselines) {
-      await dbRun(db, `
-        INSERT INTO ReconciliationAuditSnapshots (
-          statement_date, portfolio, statement_filename, baseline_holdings_count,
-          baseline_cost, baseline_valuation, baseline_cash, currency, notes
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `, [
-        b.statement_date, b.portfolio, b.statement_filename, b.baseline_holdings_count,
-        b.baseline_cost, b.baseline_valuation, b.baseline_cash, b.currency, b.notes
-      ]);
-    }
+    await withTx(db, async () => {
+      for (const b of baselines) {
+        await dbRun(db, `
+          INSERT INTO ReconciliationAuditSnapshots (
+            statement_date, portfolio, statement_filename, baseline_holdings_count,
+            baseline_cost, baseline_valuation, baseline_cash, currency, notes
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `, [
+          b.statement_date, b.portfolio, b.statement_filename, b.baseline_holdings_count,
+          b.baseline_cost, b.baseline_valuation, b.baseline_cash, b.currency, b.notes
+        ]);
+      }
+    });
   }
 }
 

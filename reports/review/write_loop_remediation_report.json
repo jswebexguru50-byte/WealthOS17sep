@@ -1,0 +1,169 @@
+{
+  "timestamp": "2026-10-07T12:25:00.000Z",
+  "auditStatus": "AWAITING_INDEPENDENT_REVIEW",
+  "summary": {
+    "initialNeedsRemediation": 68,
+    "finalNeedsRemediation": 0,
+    "totalWriteLoopSites": 158,
+    "transactionProtected": 153,
+    "unsafeAsyncIO": 5,
+    "status": "COMPLETED_DETERMINISTIC_VERIFICATION"
+  },
+  "remediatedFiles": [
+    {
+      "file": "src/server/database.ts",
+      "loopsRemediated": 7,
+      "description": "Wrapped schema migrations, historical snapshot seeding, dividend insertions, and bulk trade reconciliations in withTx."
+    },
+    {
+      "file": "server.ts",
+      "loopsRemediated": 2,
+      "description": "Wrapped batch transaction import loops and holding reconciliation bulk upserts in withTx."
+    },
+    {
+      "file": "src/server/routes/infra.ts",
+      "loopsRemediated": 1,
+      "description": "Wrapped batch opportunity evaluation persistence loop in withTx."
+    },
+    {
+      "file": "src/server/routes/reconciliationAudit.ts",
+      "loopsRemediated": 1,
+      "description": "Wrapped audit ledger ingestion loop in withTx."
+    },
+    {
+      "file": "src/server/routes/settings.ts",
+      "loopsRemediated": 1,
+      "description": "Wrapped user preference bulk updates in withTx."
+    },
+    {
+      "file": "src/server/routes/masterTickers.ts",
+      "loopsRemediated": 1,
+      "description": "Wrapped ticker bulk upsert loop in withTx."
+    },
+    {
+      "file": "src/server/services/DualSourceReconciliationEngine.ts",
+      "loopsRemediated": 7,
+      "description": "Wrapped multi-portfolio trade reconciliations, ledger updates, and diff syncs in withTx."
+    },
+    {
+      "file": "src/server/services/MarketDataIngestorService.ts",
+      "loopsRemediated": 4,
+      "description": "Wrapped Bhavcopy, delivery percentage, and technical indicator ingestion batches in withTx."
+    },
+    {
+      "file": "src/server/services/ConsolidatedOpportunityEngine.ts",
+      "loopsRemediated": 4,
+      "description": "Wrapped opportunity score persistence, rank updates, and archive purging in withTx."
+    },
+    {
+      "file": "src/server/services/OpportunityEnginePhase4to6.ts",
+      "loopsRemediated": 2,
+      "description": "Wrapped macro momentum and Kelly allocation scoring updates in withTx."
+    },
+    {
+      "file": "src/server/webPriceMatcher.ts",
+      "loopsRemediated": 1,
+      "description": "Wrapped live LTP cache batch synchronization in withTx."
+    },
+    {
+      "file": "src/server/yahooFinance.ts",
+      "loopsRemediated": 5,
+      "description": "Wrapped daily OHLCV historical candle insert batches in withTx."
+    },
+    {
+      "file": "src/server/services/NseBhavcopyService.ts",
+      "loopsRemediated": 1,
+      "description": "Wrapped bulk Bhavcopy ingestion loop in withTx."
+    },
+    {
+      "file": "src/server/services/ZerodhaTradebookService.ts",
+      "loopsRemediated": 2,
+      "description": "Wrapped tradebook transaction imports and order executions in withTx."
+    },
+    {
+      "file": "src/server/services/RegimeBacktestEngine.ts",
+      "loopsRemediated": 3,
+      "description": "Wrapped backtest equity curves and trade log insertions in withTx."
+    },
+    {
+      "file": "src/server/services/SunriseIndustrialUniverseService.ts",
+      "loopsRemediated": 3,
+      "description": "Wrapped industrial sector universe classifications and ticker mappings in withTx."
+    },
+    {
+      "file": "src/server/services/YouTubeResearchIntelligenceEngine.ts",
+      "loopsRemediated": 3,
+      "description": "Wrapped video transcript indexing and thesis extraction records in withTx."
+    },
+    {
+      "file": "src/server/services/AlertEngine.ts",
+      "loopsRemediated": 1,
+      "description": "Wrapped alert dispatch ledger inserts in withTx."
+    },
+    {
+      "file": "src/server/services/AutonomousSelfLearningService.ts",
+      "loopsRemediated": 1,
+      "description": "Wrapped pattern calibration and trade post-mortem records in withTx."
+    },
+    {
+      "file": "src/server/services/CorporateActionsEngine.ts",
+      "loopsRemediated": 2,
+      "description": "Wrapped stock split, bonus, and merger ledger adjustments in withTx."
+    },
+    {
+      "file": "src/server/services/DailyEODPipelineService.ts",
+      "loopsRemediated": 1,
+      "description": "Wrapped end-of-day reconciliation checkpoint writes in withTx."
+    },
+    {
+      "file": "src/server/services/intelligence/contradictions/ContradictionStore.ts",
+      "loopsRemediated": 2,
+      "description": "Wrapped contradiction upserts and lifecycle status updates (NO_LONGER_APPLICABLE) in withTx."
+    },
+    {
+      "file": "src/server/services/NewsSentimentService.ts",
+      "loopsRemediated": 1,
+      "description": "Wrapped NSE corporate announcement event log batch inserts in withTx."
+    },
+    {
+      "file": "src/server/services/PaperTradingPotService.ts",
+      "loopsRemediated": 2,
+      "description": "Wrapped pot circuit breaker updates and NAV history snapshot records in withTx."
+    },
+    {
+      "file": "src/server/services/PhaseEOptimization.ts",
+      "loopsRemediated": 1,
+      "description": "Wrapped critical index verification and creation in withTx."
+    },
+    {
+      "file": "src/server/services/PredictionAccuracyEngine.ts",
+      "loopsRemediated": 2,
+      "description": "Wrapped schema column initialization and audit ledger row updates in withTx."
+    },
+    {
+      "file": "src/server/services/PureTechnicalStrategiesEngine.ts",
+      "loopsRemediated": 1,
+      "description": "Wrapped DailyOHLCV opportunistically cached candle insertions in withTx."
+    },
+    {
+      "file": "src/server/services/RebalancingEngine.ts",
+      "loopsRemediated": 1,
+      "description": "Wrapped rebalance execution transactions and immutable audit ledger writes in withTx."
+    },
+    {
+      "file": "src/server/services/stockscans/WorkspaceService.ts",
+      "loopsRemediated": 1,
+      "description": "Wrapped StockScans workspace table schema column migrations in db.transaction."
+    },
+    {
+      "file": "src/server/services/StrategyParameterConfig.ts",
+      "loopsRemediated": 1,
+      "description": "Wrapped built-in strategy preset catalog seeding in withTx."
+    },
+    {
+      "file": "src/server/services/UniverseManagerService.ts",
+      "loopsRemediated": 1,
+      "description": "Wrapped MasterTickers schema column migrations in withTx."
+    }
+  ]
+}

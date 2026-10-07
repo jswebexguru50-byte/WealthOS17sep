@@ -11,7 +11,7 @@ import { spawn, exec } from 'child_process';
 import path from 'path';
 import fs from 'fs';
 import { Database } from 'sqlite3';
-import { runInDbLock } from '../database.js';
+import { runInDbLock, withTx } from '../database.js';
 
 export interface YRikSession {
   id: string;
@@ -320,44 +320,45 @@ export class YouTubeResearchIntelligenceEngine {
 
     const synthesis = await this.synthesizeTranscripts(transcribedRecords);
 
-    // Save debate pairs into SQLite
-    for (const d of (synthesis.debate_matrix || [])) {
-      db.run(`
-        INSERT OR REPLACE INTO yt_knowledge_debates
-        (id, session_id, topic_aspect, thesis_claim, thesis_channel, thesis_video_id, antithesis_claim, antithesis_channel, antithesis_video_id, neutrality_guidance)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `, [
-        `deb_${sessionId}_${d.debate_id}`,
-        sessionId,
-        d.topic_aspect,
-        d.thesis?.claim || '',
-        d.thesis?.channel || '',
-        d.thesis?.video_id || '',
-        d.antithesis?.claim || '',
-        d.antithesis?.channel || '',
-        d.antithesis?.video_id || '',
-        d.neutrality_guidance || ''
-      ]);
-    }
+    // Save debate pairs and feature proposals into SQLite atomically
+    await withTx(db, async () => {
+      for (const d of (synthesis.debate_matrix || [])) {
+        db.run(`
+          INSERT OR REPLACE INTO yt_knowledge_debates
+          (id, session_id, topic_aspect, thesis_claim, thesis_channel, thesis_video_id, antithesis_claim, antithesis_channel, antithesis_video_id, neutrality_guidance)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `, [
+          `deb_${sessionId}_${d.debate_id}`,
+          sessionId,
+          d.topic_aspect,
+          d.thesis?.claim || '',
+          d.thesis?.channel || '',
+          d.thesis?.video_id || '',
+          d.antithesis?.claim || '',
+          d.antithesis?.channel || '',
+          d.antithesis?.video_id || '',
+          d.neutrality_guidance || ''
+        ]);
+      }
 
-    // Save feature proposals into SQLite
-    for (const f of (synthesis.app_feature_proposals || [])) {
-      db.run(`
-        INSERT OR REPLACE INTO yt_knowledge_feature_proposals
-        (id, session_id, feature_name, category, derived_from, source_channel, source_video_id, implementation_blueprint, status)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `, [
-        `prop_${sessionId}_${f.feature_id}`,
-        sessionId,
-        f.feature_name,
-        f.category,
-        f.derived_from,
-        f.source_channel,
-        f.source_video_id,
-        f.implementation_blueprint,
-        'PROPOSED'
-      ]);
-    }
+      for (const f of (synthesis.app_feature_proposals || [])) {
+        db.run(`
+          INSERT OR REPLACE INTO yt_knowledge_feature_proposals
+          (id, session_id, feature_name, category, derived_from, source_channel, source_video_id, implementation_blueprint, status)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `, [
+          `prop_${sessionId}_${f.feature_id}`,
+          sessionId,
+          f.feature_name,
+          f.category,
+          f.derived_from,
+          f.source_channel,
+          f.source_video_id,
+          f.implementation_blueprint,
+          'PROPOSED'
+        ]);
+      }
+    });
 
     // Finalize session
     db.run(`

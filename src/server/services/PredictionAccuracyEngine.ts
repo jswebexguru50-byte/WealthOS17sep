@@ -1,4 +1,4 @@
-import { getDB, dbAll, dbRun, dbGet } from '../database.js';
+import { getDB, dbAll, dbRun, dbGet, withTx } from '../database.js';
 import { SelfLearningEngine } from './SelfLearningEngine.js';
 
 export interface PredictionRecord {
@@ -143,11 +143,14 @@ export class PredictionAccuracyEngine {
       { name: 'is_seed', type: 'INTEGER DEFAULT 0' }
     ];
 
-    for (const col of forensicColumns) {
-      try {
-        await dbRun(db, `ALTER TABLE PredictionAuditLedger ADD COLUMN ${col.name} ${col.type}`);
-      } catch { /* Column already exists — safe to skip */ }
-    }
+    const existingCols = new Set(((await dbAll(db, `PRAGMA table_info(PredictionAuditLedger)`)) as any[]).map(c => c.name));
+    await withTx(db, async () => {
+      for (const col of forensicColumns) {
+        if (!existingCols.has(col.name)) {
+          await dbRun(db, `ALTER TABLE PredictionAuditLedger ADD COLUMN ${col.name} ${col.type}`);
+        }
+      }
+    });
 
     // Mark any pre-existing records as seed data to exclude from real accuracy metrics
     await dbRun(db, `UPDATE PredictionAuditLedger SET is_seed = 1 WHERE is_seed IS NULL OR is_seed = 0`);
@@ -181,155 +184,157 @@ export class PredictionAccuracyEngine {
     let targetHitCount = 0;
     let realResolvedCount = 0; // count of non-seed resolved predictions
 
-    for (const r of rows) {
-      let currentPrice = r.current_price;
-      if (ltpMap.has(r.symbol.toUpperCase())) {
-        currentPrice = ltpMap.get(r.symbol.toUpperCase())!;
-      }
-
-      // Use intraday high from MarketSnapshots for target validation
-      // This avoids missing targets hit intraday but closed below target
-      let maxPrice = Math.max(r.max_price_reached || currentPrice, currentPrice);
-      try {
-        const highRow = await dbGet(db, `
-          SELECT MAX(high) as maxHigh FROM MarketSnapshots
-          WHERE UPPER(symbol) = UPPER(?)
-          AND snapshot_date >= ?
-        `, [r.symbol, r.recommendation_date]);
-        if (highRow?.maxHigh && highRow.maxHigh > maxPrice) {
-          maxPrice = highRow.maxHigh;
+    await withTx(db, async () => {
+      for (const r of rows) {
+        let currentPrice = r.current_price;
+        if (ltpMap.has(r.symbol.toUpperCase())) {
+          currentPrice = ltpMap.get(r.symbol.toUpperCase())!;
         }
-      } catch { /* MarketSnapshots may not have this symbol yet */ }
 
-      let pnlPct = r.entry_price > 0 ? Number((((currentPrice - r.entry_price) / r.entry_price) * 100).toFixed(2)) : 0;
+        // Use intraday high from MarketSnapshots for target validation
+        // This avoids missing targets hit intraday but closed below target
+        let maxPrice = Math.max(r.max_price_reached || currentPrice, currentPrice);
+        try {
+          const highRow = await dbGet(db, `
+            SELECT MAX(high) as maxHigh FROM MarketSnapshots
+            WHERE UPPER(symbol) = UPPER(?)
+            AND snapshot_date >= ?
+          `, [r.symbol, r.recommendation_date]);
+          if (highRow?.maxHigh && highRow.maxHigh > maxPrice) {
+            maxPrice = highRow.maxHigh;
+          }
+        } catch { /* MarketSnapshots may not have this symbol yet */ }
 
-      // Compute real days active from recommendation date
-      const recDate = new Date(r.recommendation_date);
-      const now = new Date();
-      const daysActive = Math.max(1, Math.ceil((now.getTime() - recDate.getTime()) / 86400000));
+        let pnlPct = r.entry_price > 0 ? Number((((currentPrice - r.entry_price) / r.entry_price) * 100).toFixed(2)) : 0;
 
-      // Track peak and trough P&L over the prediction's lifetime
-      const peakPnl = Math.max(r.peak_pnl_pct || 0, pnlPct);
-      const troughPnl = Math.min(r.trough_pnl_pct || 0, pnlPct);
+        // Compute real days active from recommendation date
+        const recDate = new Date(r.recommendation_date);
+        const now = new Date();
+        const daysActive = Math.max(1, Math.ceil((now.getTime() - recDate.getTime()) / 86400000));
 
-      let status: PredictionRecord['status'] = r.status as any;
+        // Track peak and trough P&L over the prediction's lifetime
+        const peakPnl = Math.max(r.peak_pnl_pct || 0, pnlPct);
+        const troughPnl = Math.min(r.trough_pnl_pct || 0, pnlPct);
 
-      // Re-evaluate live status (but don't overwrite already-resolved predictions)
-      const isAlreadyResolved = r.resolved_at && (r.status === 'HIT_TARGET' || r.status === 'STOP_LOSS_HIT');
-      if (!isAlreadyResolved) {
-        const isTrimOrExit = r.recommended_action === 'TRIM_EXIT' || r.target_price < r.entry_price;
-        if (isTrimOrExit) {
-          if (currentPrice <= r.target_price) {
-            status = 'HIT_TARGET';
-          } else if (r.stop_loss_price > r.entry_price && currentPrice >= r.stop_loss_price) {
-            status = 'STOP_LOSS_HIT';
-          } else if (currentPrice < r.entry_price) {
-            status = 'IN_PROFIT';
-          } else if (daysActive > r.horizon_days * 1.5) {
-            status = 'EXPIRED_NEUTRAL';
+        let status: PredictionRecord['status'] = r.status as any;
+
+        // Re-evaluate live status (but don't overwrite already-resolved predictions)
+        const isAlreadyResolved = r.resolved_at && (r.status === 'HIT_TARGET' || r.status === 'STOP_LOSS_HIT');
+        if (!isAlreadyResolved) {
+          const isTrimOrExit = r.recommended_action === 'TRIM_EXIT' || r.target_price < r.entry_price;
+          if (isTrimOrExit) {
+            if (currentPrice <= r.target_price) {
+              status = 'HIT_TARGET';
+            } else if (r.stop_loss_price > r.entry_price && currentPrice >= r.stop_loss_price) {
+              status = 'STOP_LOSS_HIT';
+            } else if (currentPrice < r.entry_price) {
+              status = 'IN_PROFIT';
+            } else if (daysActive > r.horizon_days * 1.5) {
+              status = 'EXPIRED_NEUTRAL';
+            } else {
+              status = 'OPEN_TRACKING';
+            }
           } else {
-            status = 'OPEN_TRACKING';
+            if (maxPrice >= r.target_price) {
+              status = 'HIT_TARGET';
+            } else if (currentPrice <= r.stop_loss_price) {
+              status = 'STOP_LOSS_HIT';
+            } else if (daysActive > r.horizon_days * 1.5) {
+              status = pnlPct > 0 ? 'IN_PROFIT' : 'EXPIRED_NEUTRAL';
+            } else if (pnlPct > 0) {
+              status = 'IN_PROFIT';
+            } else {
+              status = 'OPEN_TRACKING';
+            }
+          }
+        }
+
+        // Persist updated values back to the ledger for forensic audit trail
+        try {
+          const isNowResolved = status === 'HIT_TARGET' || status === 'STOP_LOSS_HIT';
+          await dbRun(db, `
+            UPDATE PredictionAuditLedger 
+            SET current_price = ?, max_price_reached = ?, status = ?, 
+                pnl_pct = ?, days_active = ?, peak_pnl_pct = ?, trough_pnl_pct = ?,
+                resolved_at = CASE WHEN ? = 1 AND resolved_at IS NULL 
+                              THEN CURRENT_TIMESTAMP ELSE resolved_at END
+            WHERE id = ?
+          `, [currentPrice, maxPrice, status, pnlPct, daysActive, peakPnl, troughPnl,
+              isNowResolved ? 1 : 0, r.id]);
+        } catch { /* non-critical write-back failure */ }
+
+        // Classify outcome for accuracy metrics — ONLY count real (non-seed) records
+        const isSeed = r.is_seed === 1;
+        if (!isSeed) {
+          if (status === 'HIT_TARGET' || (status === 'IN_PROFIT' && pnlPct >= 5.0)) {
+            wins++;
+            totalWinPnl += Math.max(0, pnlPct);
+            if (status === 'HIT_TARGET') {
+              targetHitCount++;
+              totalDaysToTarget += daysActive;
+            }
+            realResolvedCount++;
+          } else if (status === 'STOP_LOSS_HIT' || pnlPct < -5.0) {
+            losses++;
+            totalLossPnl += Math.abs(Math.min(0, pnlPct));
+            realResolvedCount++;
+
+            // Trigger autonomous self-learning post-mortem feedback loop
+            if (status === 'STOP_LOSS_HIT' && !isAlreadyResolved) {
+              SelfLearningEngine.getInstance().recordTradeOutcomePostMortem({
+                symbol: r.symbol,
+                recommendationDate: r.recommendation_date,
+                entryPrice: r.entry_price,
+                targetPrice: r.target_price,
+                stopLossPrice: r.stop_loss_price,
+                exitPrice: currentPrice,
+                pnlPct
+              }).catch((err) => console.error(`[Self-Learning Auto-Audit] Error recording post-mortem for ${r.symbol}:`, err));
+            }
+          } else if (status === 'EXPIRED_NEUTRAL') {
+            expiredCount++;
+          } else {
+            openCount++;
           }
         } else {
-          if (maxPrice >= r.target_price) {
-            status = 'HIT_TARGET';
-          } else if (currentPrice <= r.stop_loss_price) {
-            status = 'STOP_LOSS_HIT';
-          } else if (daysActive > r.horizon_days * 1.5) {
-            status = pnlPct > 0 ? 'IN_PROFIT' : 'EXPIRED_NEUTRAL';
-          } else if (pnlPct > 0) {
-            status = 'IN_PROFIT';
-          } else {
-            status = 'OPEN_TRACKING';
-          }
+          // Seed records: only count as open for display purposes
+          if (status === 'OPEN_TRACKING' || status === 'IN_PROFIT') openCount++;
         }
+
+        records.push({
+          id: r.id,
+          symbol: r.symbol,
+          companyName: r.company_name,
+          recommendationDate: r.recommendation_date,
+          recommendedAction: r.recommended_action,
+          entryPrice: r.entry_price,
+          targetPrice: r.target_price,
+          stopLossPrice: r.stop_loss_price,
+          currentPrice,
+          maxPriceReached: maxPrice,
+          predictedProbabilityPct: r.predicted_probability_pct,
+          confidenceLevel: r.confidence_level,
+          status,
+          pnlPct,
+          horizonDays: r.horizon_days,
+          daysActive,
+          category: r.category,
+          laymanThesis: r.layman_thesis,
+          peakPnlPct: peakPnl,
+          troughPnlPct: troughPnl,
+          entryRsi14: r.entry_rsi14,
+          entryBbBandwidth: r.entry_bb_bandwidth,
+          entryRelativeVolume: r.entry_relative_volume,
+          entryDeliverySurge: r.entry_delivery_surge,
+          entrySectorZScore: r.entry_sector_z_score,
+          entryRsNifty: r.entry_rs_nifty,
+          entryKellyFraction: r.entry_kelly_fraction,
+          entryRegime: r.entry_regime,
+          entryCompositeScore: r.entry_composite_score,
+          resolvedAt: r.resolved_at
+        });
       }
-
-      // Persist updated values back to the ledger for forensic audit trail
-      try {
-        const isNowResolved = status === 'HIT_TARGET' || status === 'STOP_LOSS_HIT';
-        await dbRun(db, `
-          UPDATE PredictionAuditLedger 
-          SET current_price = ?, max_price_reached = ?, status = ?, 
-              pnl_pct = ?, days_active = ?, peak_pnl_pct = ?, trough_pnl_pct = ?,
-              resolved_at = CASE WHEN ? = 1 AND resolved_at IS NULL 
-                            THEN CURRENT_TIMESTAMP ELSE resolved_at END
-          WHERE id = ?
-        `, [currentPrice, maxPrice, status, pnlPct, daysActive, peakPnl, troughPnl,
-            isNowResolved ? 1 : 0, r.id]);
-      } catch { /* non-critical write-back failure */ }
-
-      // Classify outcome for accuracy metrics — ONLY count real (non-seed) records
-      const isSeed = r.is_seed === 1;
-      if (!isSeed) {
-        if (status === 'HIT_TARGET' || (status === 'IN_PROFIT' && pnlPct >= 5.0)) {
-          wins++;
-          totalWinPnl += Math.max(0, pnlPct);
-          if (status === 'HIT_TARGET') {
-            targetHitCount++;
-            totalDaysToTarget += daysActive;
-          }
-          realResolvedCount++;
-        } else if (status === 'STOP_LOSS_HIT' || pnlPct < -5.0) {
-          losses++;
-          totalLossPnl += Math.abs(Math.min(0, pnlPct));
-          realResolvedCount++;
-
-          // Trigger autonomous self-learning post-mortem feedback loop
-          if (status === 'STOP_LOSS_HIT' && !isAlreadyResolved) {
-            SelfLearningEngine.getInstance().recordTradeOutcomePostMortem({
-              symbol: r.symbol,
-              recommendationDate: r.recommendation_date,
-              entryPrice: r.entry_price,
-              targetPrice: r.target_price,
-              stopLossPrice: r.stop_loss_price,
-              exitPrice: currentPrice,
-              pnlPct
-            }).catch((err) => console.error(`[Self-Learning Auto-Audit] Error recording post-mortem for ${r.symbol}:`, err));
-          }
-        } else if (status === 'EXPIRED_NEUTRAL') {
-          expiredCount++;
-        } else {
-          openCount++;
-        }
-      } else {
-        // Seed records: only count as open for display purposes
-        if (status === 'OPEN_TRACKING' || status === 'IN_PROFIT') openCount++;
-      }
-
-      records.push({
-        id: r.id,
-        symbol: r.symbol,
-        companyName: r.company_name,
-        recommendationDate: r.recommendation_date,
-        recommendedAction: r.recommended_action,
-        entryPrice: r.entry_price,
-        targetPrice: r.target_price,
-        stopLossPrice: r.stop_loss_price,
-        currentPrice,
-        maxPriceReached: maxPrice,
-        predictedProbabilityPct: r.predicted_probability_pct,
-        confidenceLevel: r.confidence_level,
-        status,
-        pnlPct,
-        horizonDays: r.horizon_days,
-        daysActive,
-        category: r.category,
-        laymanThesis: r.layman_thesis,
-        peakPnlPct: peakPnl,
-        troughPnlPct: troughPnl,
-        entryRsi14: r.entry_rsi14,
-        entryBbBandwidth: r.entry_bb_bandwidth,
-        entryRelativeVolume: r.entry_relative_volume,
-        entryDeliverySurge: r.entry_delivery_surge,
-        entrySectorZScore: r.entry_sector_z_score,
-        entryRsNifty: r.entry_rs_nifty,
-        entryKellyFraction: r.entry_kelly_fraction,
-        entryRegime: r.entry_regime,
-        entryCompositeScore: r.entry_composite_score,
-        resolvedAt: r.resolved_at
-      });
-    }
+    });
 
     const resolvedCount = wins + losses;
     const isSignificant = resolvedCount >= this.MIN_SAMPLE;

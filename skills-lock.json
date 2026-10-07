@@ -67,6 +67,12 @@
       "skillPath": "skills/anndata/SKILL.md",
       "computedHash": "31eb54967f0de7272accf2e354dc6b8788b08e5fdf682cf292780234dc3af2ea"
     },
+    "api-and-interface-design": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/api-and-interface-design/SKILL.md",
+      "computedHash": "8bdbf1fca81bef9258d7e0d9726f933f25677ec8537792e084a3fb7c54acf2ba"
+    },
     "arbor": {
       "source": "K-Dense-AI/scientific-agent-skills",
       "sourceType": "github",
@@ -127,6 +133,12 @@
       "skillPath": "skills/bioservices/SKILL.md",
       "computedHash": "9f4eafa0a6182fd0c9bf437e74495dea858a1011c7f1bebbd5b8f03c948eb423"
     },
+    "browser-testing-with-devtools": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/browser-testing-with-devtools/SKILL.md",
+      "computedHash": "639950ea71851d9c4919608cba8b6276cd1ba30cd82acdc4949c701537eed661"
+    },
     "browser-use": {
       "source": "browser-use/browser-use",
       "sourceType": "github",
@@ -145,6 +157,12 @@
       "skillPath": "skills/cellxgene-census/SKILL.md",
       "computedHash": "2263e8e974d6f6e96269daeaaf949bfee995d3d80d8b89e5847992528c7e68d4"
     },
+    "ci-cd-and-automation": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/ci-cd-and-automation/SKILL.md",
+      "computedHash": "578b098a7d2352ccdac8b8abdc40eb6803538e81cf8382f138da6188a655087c"
+    },
     "cirq": {
       "source": "K-Dense-AI/scientific-agent-skills",
       "sourceType": "github",
@@ -156,6 +174,132 @@
       "sourceType": "github",
       "skillPath": "skills/citation-management/SKILL.md",
       "computedHash": "0c2aac095756aca614071de10b98c5cd2808120beca754ba48c9e236ca090094"
+    },
+    "cli-a2a": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/cli-a2a/SKILL.md",
+      "computedHash": "a851821ee261509f07cf1aaac4e39183aaaf0a0b76c0af8157fe60163e1c4f44"
+    },
+    "cli-backup-sync": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/cli-backup-sync/SKILL.md",
+      "computedHash": "0c368c7b51977668b2d6d8b99d403c95daf65b724b8b34eba3368f6afc225526"
+    },
+    "cli-batches": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/cli-batches/SKILL.md",
+      "computedHash": "65ad0f3a72ff3abc1b0ece92556c7e5e6698236af37efd6ffc7849bc2f9817a3"
+    },
+    "cli-chat": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/cli-chat/SKILL.md",
+      "computedHash": "abbcc9fa4f95cb4baac4bece689dc1f4e3a0768a0ae91a384fb081504457f166"
+    },
+    "cli-compression": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/cli-compression/SKILL.md",
+      "computedHash": "7ea4609ff3b258f73c7dda307ce9c2b13f53a4da378ddc1bfaac2f3c8fd3285d"
+    },
+    "cli-contexts": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/cli-contexts/SKILL.md",
+      "computedHash": "8a4b69a67da5c96ab883f439f474b86ac4b32df5595abfe22d9c9cbe98fa3732"
+    },
+    "cli-cost-usage": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/cli-cost-usage/SKILL.md",
+      "computedHash": "4f7a677150de011c3c6ab3d3d571dceb2e96d354fcfc90160e8fdcd0797bcd42"
+    },
+    "cli-eval": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/cli-eval/SKILL.md",
+      "computedHash": "d822219c836c4ecdce4a5f9061be4da96e99022fe82694b6e5dd22fa75169f5e"
+    },
+    "cli-health": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/cli-health/SKILL.md",
+      "computedHash": "a67bd339a3d91671c03ddaea7d8a72dc5d815d26b6d9d54429fcefd38b9b2eae"
+    },
+    "cli-keys": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/cli-keys/SKILL.md",
+      "computedHash": "799e073d2879b1f0c99c18d78239e8789c0fa6026072a86aa1c2ad8cd2fd0e3c"
+    },
+    "cli-mcp": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/cli-mcp/SKILL.md",
+      "computedHash": "68de2262058bddf1a8f0ada04e100498b5b0d1fe91cbe8055510edb2ab25883b"
+    },
+    "cli-models": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/cli-models/SKILL.md",
+      "computedHash": "208105766a2b532fbc9a63445a7accbe224bd3e236561b55ed2e6dbc979282a6"
+    },
+    "cli-plugins-skills": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/cli-plugins-skills/SKILL.md",
+      "computedHash": "c302e502563b5b71fcb31274498b8b062a684093aaf2bd2f5ebb1a0c1eea9ba0"
+    },
+    "cli-policy-audit": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/cli-policy-audit/SKILL.md",
+      "computedHash": "d6c83b885020b2bf9858bac5bc0255fc4c49d0bbfa8a51af1050ac9e379d3da3"
+    },
+    "cli-providers": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/cli-providers/SKILL.md",
+      "computedHash": "e4c6549edb0637c0916c39ad64903a5a4fbe673b1bf2728b0c43c78c990831f5"
+    },
+    "cli-resilience": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/cli-resilience/SKILL.md",
+      "computedHash": "e91d1012ba95aa46331d67e015475b986ab2e4986ceba1a200b61ba09abac9f9"
+    },
+    "cli-routing": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/cli-routing/SKILL.md",
+      "computedHash": "04975b0153966a0fb28bc424291d00bde4054dcb41cbbe8c1ed9dedcc5f95907"
+    },
+    "cli-serve": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/cli-serve/SKILL.md",
+      "computedHash": "cd9b6d4107eb6441682fcf4bc695f71db5b6d4d95af75564ff913051be1e0885"
+    },
+    "cli-setup": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/cli-setup/SKILL.md",
+      "computedHash": "e38d0afff5e743cf42b861f044f692c5b8fc7fa6ee42ab3965712d1bd144e2c7"
+    },
+    "cli-skill-collector": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/cli-skill-collector/SKILL.md",
+      "computedHash": "7b5e4d67c378e2ed2671344b5b0ab5d482ea44bcd7615e76524fa8565be6c6e4"
+    },
+    "cli-tunnel": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/cli-tunnel/SKILL.md",
+      "computedHash": "061c0f8b949cd82e2dbe6554af7974eab45f9f1b7d18427d84b273cba372485f"
     },
     "clinical-decision-support": {
       "source": "K-Dense-AI/scientific-agent-skills",
@@ -181,6 +325,18 @@
       "skillPath": "skills/cobrapy/SKILL.md",
       "computedHash": "4edd2f7e0e79ea774299374dbc510a3498c33935a6cd5e0aeaae858cd9915a93"
     },
+    "code-review-and-quality": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/code-review-and-quality/SKILL.md",
+      "computedHash": "0667c7af98996c0bec4fb0eb444680bdbf1da1d6a3cfdf5dbe8cbd350d9d2752"
+    },
+    "code-simplification": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/code-simplification/SKILL.md",
+      "computedHash": "7973e746e8e2ea5004d520da970c15a106824b8d6be1bcff48908aec021f3677"
+    },
     "commit-context": {
       "source": "rohitg00/agentmemory",
       "sourceType": "github",
@@ -193,11 +349,29 @@
       "skillPath": "plugin/skills/commit-history/SKILL.md",
       "computedHash": "cf337496577dc9d7229b9f5d371c2dc0a837e4cc94ae39073eac1ab361fd0acf"
     },
+    "config-codex-cli": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/config-codex-cli/SKILL.md",
+      "computedHash": "465077ee69b9128a03f02a1619c4d1837b134478f7b933abf1fcffe1f44d25bc"
+    },
     "consciousness-council": {
       "source": "K-Dense-AI/scientific-agent-skills",
       "sourceType": "github",
       "skillPath": "skills/consciousness-council/SKILL.md",
       "computedHash": "fa39fb001d370d1bce44331ca2e7a5e24a2bdf1a7f9ee4cc1ae5bc2e43e3218a"
+    },
+    "constraint-driven-development": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/constraint-driven-development/SKILL.md",
+      "computedHash": "7cdf20ff7d27eb3103b206033a1d87af7afe4a648162f09cd382fc8e3cb9a42b"
+    },
+    "context-engineering": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/context-engineering/SKILL.md",
+      "computedHash": "807434a4b178635a5539a1da241815ba7228f00b71f8e3ccd529472ce3bcaf80"
     },
     "dask": {
       "source": "K-Dense-AI/scientific-agent-skills",
@@ -223,6 +397,12 @@
       "skillPath": "skills/datamol/SKILL.md",
       "computedHash": "13e1edff6d0abe4362305aec47fa05efaa60e1d68751c4d07e7a5812739c6845"
     },
+    "debugging-and-error-recovery": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/debugging-and-error-recovery/SKILL.md",
+      "computedHash": "6f437bc609eb8d0dc7f4768c17c9aeb85c9c7632bc36703af9f1367ffb47237a"
+    },
     "deepchem": {
       "source": "K-Dense-AI/scientific-agent-skills",
       "sourceType": "github",
@@ -246,6 +426,12 @@
       "sourceType": "github",
       "skillPath": "skills/depmap/SKILL.md",
       "computedHash": "c5066d9c47d7f5c28c79ef94dae5f91b6de777d4c5c04d9247d65d7ee0f8a11b"
+    },
+    "deprecation-and-migration": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/deprecation-and-migration/SKILL.md",
+      "computedHash": "0d7b2002e250c02a260f6bc502d7a798ab8e8ca0c020c54d7b0f16053935c72c"
     },
     "dhdna-profiler": {
       "source": "K-Dense-AI/scientific-agent-skills",
@@ -271,11 +457,23 @@
       "skillPath": "skills/dnanexus-integration/SKILL.md",
       "computedHash": "10ecf0a0d18da05aee55898f3e64c5417f6331df235f6b16ec04445b87a52c22"
     },
+    "documentation-and-adrs": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/documentation-and-adrs/SKILL.md",
+      "computedHash": "2ed98ee303c23d228c76c7bfe6a5f0e5c0571df81670e5eb099f14929eac47e9"
+    },
     "docx": {
       "source": "K-Dense-AI/scientific-agent-skills",
       "sourceType": "github",
       "skillPath": "skills/docx/SKILL.md",
       "computedHash": "206fa9f03999b0032455566b35bbbdac549466c9be49c3424e1883a037872bad"
+    },
+    "doubt-driven-development": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/doubt-driven-development/SKILL.md",
+      "computedHash": "b13f18a68abf2a1fd0c30adeac9bec0ee551adec9f2a1dc2700f1a6e3eb48092"
     },
     "esm": {
       "source": "K-Dense-AI/scientific-agent-skills",
@@ -331,6 +529,12 @@
       "skillPath": "plugin/skills/forget/SKILL.md",
       "computedHash": "16c27fda6f9b25250c25196558d7d3001c587cbbce704caaa5572511aeb3edcd"
     },
+    "frontend-ui-engineering": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/frontend-ui-engineering/SKILL.md",
+      "computedHash": "caada020b47fb51c68ba91f9bf390745e18f9d6c17e4c251b046ba74e43343d7"
+    },
     "generate-image": {
       "source": "K-Dense-AI/scientific-agent-skills",
       "sourceType": "github",
@@ -385,11 +589,29 @@
       "skillPath": "skills/ginkgo-cloud-lab/SKILL.md",
       "computedHash": "a3e643845c21332483a6286e64aae9f21d157c5394bc2899371e82a40886e46b"
     },
+    "git-workflow-and-versioning": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/git-workflow-and-versioning/SKILL.md",
+      "computedHash": "e8e0d1cc98c0a6b81d2979442ae92addae32cd5194fb5c4eac4ac5228b408770"
+    },
     "glycoengineering": {
       "source": "K-Dense-AI/scientific-agent-skills",
       "sourceType": "github",
       "skillPath": "skills/glycoengineering/SKILL.md",
       "computedHash": "9e80642a9bb15d56f53609579003b2aa4745602ccb431ea66401b663cb342ebf"
+    },
+    "graphify": {
+      "source": "Graphify-Labs/graphify",
+      "sourceType": "github",
+      "skillPath": "graphify/SKILL.md",
+      "computedHash": "03d8c00457e9e3a48658d3bffdd32a6643751f60b81ee10b7758fe8c2fc629ea"
+    },
+    "green-prs": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "config/quality/skill-templates/green-prs/SKILL.md",
+      "computedHash": "c871afac40a7434068accfc72d680328e975c6abe9ddc502264aa69bd3df11a4"
     },
     "gtars": {
       "source": "K-Dense-AI/scientific-agent-skills",
@@ -427,17 +649,35 @@
       "skillPath": "skills/hypothesis-generation/SKILL.md",
       "computedHash": "1caeea72a7f9e3674e4c1789570d302d548e84f900bac92c212459f82733b3ac"
     },
+    "idea-refine": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/idea-refine/SKILL.md",
+      "computedHash": "9fc0ae5d8a074872a636d22f9c6fe71e041b86cddc9fe5af90ef654f5032ec5d"
+    },
     "imaging-data-commons": {
       "source": "K-Dense-AI/scientific-agent-skills",
       "sourceType": "github",
       "skillPath": "skills/imaging-data-commons/SKILL.md",
       "computedHash": "af03436bc1fc014012d3e1a09679db377d93858589696d9ebd04f58e9b772418"
     },
+    "incremental-implementation": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/incremental-implementation/SKILL.md",
+      "computedHash": "bb1198705f46dc9ff75fb5685a7a872de5924d743b44eb202135f5046750ab7e"
+    },
     "infographics": {
       "source": "K-Dense-AI/scientific-agent-skills",
       "sourceType": "github",
       "skillPath": "skills/infographics/SKILL.md",
       "computedHash": "1783e41c8be44354ae4a6ddba5416768d76322a7bb9f7bd3eb81605b5b86fdf6"
+    },
+    "interview-me": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/interview-me/SKILL.md",
+      "computedHash": "4229002dd862e6e037c8a01c3e31d9af097465c58b2c3611912edb2af005f303"
     },
     "iso-standards-readiness": {
       "source": "K-Dense-AI/scientific-agent-skills",
@@ -541,6 +781,12 @@
       "skillPath": "plugin/skills/memory-discipline/SKILL.md",
       "computedHash": "0c36702fb03bffacd03727361e053fea893f4e84f397759a35890f53ebc21846"
     },
+    "merge-prs": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "config/quality/skill-templates/merge-prs/SKILL.md",
+      "computedHash": "e2893a2961d04477623258dafb3e9d08b090d2c0804b13c2a105ea8f3b7a2ff7"
+    },
     "modal": {
       "source": "K-Dense-AI/scientific-agent-skills",
       "sourceType": "github",
@@ -589,11 +835,155 @@
       "skillPath": "skills/nextflow/SKILL.md",
       "computedHash": "8c480c04b6b4a2bee660a91dbe0eb654cd98cebae9f6bf5e6c3935d7c85b469d"
     },
+    "observability-and-instrumentation": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/observability-and-instrumentation/SKILL.md",
+      "computedHash": "e5eba32f952a29d20c0383728a9505d0ca2a90f1d8d075603e53804b441b2dd2"
+    },
     "omero-integration": {
       "source": "K-Dense-AI/scientific-agent-skills",
       "sourceType": "github",
       "skillPath": "skills/omero-integration/SKILL.md",
       "computedHash": "5b1590480c2a4cf90abc4fef5be9c181f465215cd911629bcb7e9091af0f4a7b"
+    },
+    "omni-agents-a2a": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-agents-a2a/SKILL.md",
+      "computedHash": "175955a89f497f8f6026a1ba2ecf3eb3cc16fce622bfa385a8056b3d1d0b76c2"
+    },
+    "omni-api-keys": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-api-keys/SKILL.md",
+      "computedHash": "dbf4b16ba371c76a06a0e3033e2326936f2ff5bd16fa324bb7331a1610d61805"
+    },
+    "omni-auth": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-auth/SKILL.md",
+      "computedHash": "b37da8d70c44f3e4a2e8650b3ce48a462b7c756962ac0915354bcf519b1f6407"
+    },
+    "omni-budget": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-budget/SKILL.md",
+      "computedHash": "7c613b0cd0f2a057177b7f1534d11f08c0177b7ca04766666fc68cbff2631a63"
+    },
+    "omni-cache": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-cache/SKILL.md",
+      "computedHash": "5f2ee8d07ce99359a6681a94fa442824e601abbedb145cffd8b65b29c3009e83"
+    },
+    "omni-cli-tools": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-cli-tools/SKILL.md",
+      "computedHash": "56a491df98f4df1401d9c33e1e1ad53383a43d13af1e0e207465124577f25013"
+    },
+    "omni-combos-routing": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-combos-routing/SKILL.md",
+      "computedHash": "691a91ee1cba00b1e5f3f0540dbd95d10c4d204095519ba79f7bc6e254b3c357"
+    },
+    "omni-compression": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-compression/SKILL.md",
+      "computedHash": "bcc976cc3a3f7ed052c3741cda40c2f520f730dd03e02bf844c3e1ca49974a63"
+    },
+    "omni-context-rtk": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-context-rtk/SKILL.md",
+      "computedHash": "961ffb71fd599c9ec4ab147a8a70020e4d6e1c7fa0648fd9c997f0f150ff8dd0"
+    },
+    "omni-db-backups": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-db-backups/SKILL.md",
+      "computedHash": "b5a9ecd59e82eba9a1f312d88a894d088e92daa3497926c30bad7f618cbfc900"
+    },
+    "omni-github-skills": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-github-skills/SKILL.md",
+      "computedHash": "7410819bca14b7b2d2e51ab5232adf2ccb1baab0bca7ff209d1f10ca44900421"
+    },
+    "omni-inference": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-inference/SKILL.md",
+      "computedHash": "0c45f0093e11164c9bb5fb204f8cf61e0ec4a1649b75f4d100cd8994d575f60b"
+    },
+    "omni-mcp": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-mcp/SKILL.md",
+      "computedHash": "9cbc933d12992173500f5ba8e040dd6ee38d5e8a8e19ed52f4b79c8bb54ae3b2"
+    },
+    "omni-models": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-models/SKILL.md",
+      "computedHash": "043b7d714d711e327cd369a4ae5db7600a2f982cb9e6a5c34dd3f499533fb279"
+    },
+    "omni-providers": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-providers/SKILL.md",
+      "computedHash": "27af80c8a023455c4fb611f49e8dbb6cf85edae5b212d0ee539bff9e8470ec79"
+    },
+    "omni-proxies": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-proxies/SKILL.md",
+      "computedHash": "0b0adb7ac488c16863b7e056f0c79216e56471adc8e1b81e376d7ea5bcab8c0e"
+    },
+    "omni-resilience": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-resilience/SKILL.md",
+      "computedHash": "803300dbf6a9b151d2c67456022c5daa66ce04271e15af310045411827d1d0e3"
+    },
+    "omni-settings": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-settings/SKILL.md",
+      "computedHash": "d1837c1a36f4481fd8f2499b25bb9bc5ad884f14ad3227ed208d7318c875d7eb"
+    },
+    "omni-sync-cloud": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-sync-cloud/SKILL.md",
+      "computedHash": "2982b3e8c484feee9456fbce5ff0f35062691569de0663127cb5f3771657f5a7"
+    },
+    "omni-tunnels": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-tunnels/SKILL.md",
+      "computedHash": "5ff7305e8c12eb6bbf2e2ebc68e5389e93aede817a0f2e7a8d4d4d59151c48e3"
+    },
+    "omni-usage-logs": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-usage-logs/SKILL.md",
+      "computedHash": "11a237b73124fbf2e972ffaf2bbf4b61d80e19a8eb7e03fdde6783ce4c085044"
+    },
+    "omni-version-manager": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-version-manager/SKILL.md",
+      "computedHash": "e0ce19dbb917f04df053f1543a769e9774b31ae9d0512c01f4a95c73d18f0261"
+    },
+    "omni-webhooks": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/omni-webhooks/SKILL.md",
+      "computedHash": "7d4940fa455e444dacd0aa5df818fb48080de6583ba8a4fcd72e23e27fef3084"
     },
     "onekgpd": {
       "source": "K-Dense-AI/scientific-agent-skills",
@@ -703,6 +1093,12 @@
       "skillPath": "skills/pennylane/SKILL.md",
       "computedHash": "161ae9e6f6516bea221f7083f7cdbfb849d0d7f3d19dcda4cbe8bda4b6af39b2"
     },
+    "performance-optimization": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/performance-optimization/SKILL.md",
+      "computedHash": "c88cbe0824ce94b4bc2d2d43519dc717afc529db1672388c2a5c7d695faccb8c"
+    },
     "phylogenetics": {
       "source": "K-Dense-AI/scientific-agent-skills",
       "sourceType": "github",
@@ -721,6 +1117,12 @@
       "skillPath": "skills/pkpd-modeling/SKILL.md",
       "computedHash": "fc375fdc139402e269cf8de5a1b013b3c4c4adfbe9ff49809bc8b81ed99f6772"
     },
+    "planning-and-task-breakdown": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/planning-and-task-breakdown/SKILL.md",
+      "computedHash": "0dc14a1402cdabd376f2d81d2225fcb4a18ee63d58b945ff83affeb024285b8f"
+    },
     "polars": {
       "source": "K-Dense-AI/scientific-agent-skills",
       "sourceType": "github",
@@ -732,6 +1134,42 @@
       "sourceType": "github",
       "skillPath": "skills/polars-bio/SKILL.md",
       "computedHash": "5396c11a7b4e34f24302a7b5c76517e4500414a4171c5e5c566fa8b1907778d4"
+    },
+    "ponytail": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "skills/ponytail/SKILL.md",
+      "computedHash": "499981ad5058f08ca23413c9ed696df5d04cba12ccfe88728fdc758dd505a75e"
+    },
+    "ponytail-audit": {
+      "source": "DietrichGebert/ponytail",
+      "sourceType": "github",
+      "skillPath": "skills/ponytail-audit/SKILL.md",
+      "computedHash": "a3ff3aaabeebbaa142bd0213e9e4bc6d340c4fa31295aec06daf219b05a38291"
+    },
+    "ponytail-debt": {
+      "source": "DietrichGebert/ponytail",
+      "sourceType": "github",
+      "skillPath": "skills/ponytail-debt/SKILL.md",
+      "computedHash": "487f2ab5af3be259eac3c5d0f5463b3c810b7bd30874666f164e63af900f1138"
+    },
+    "ponytail-gain": {
+      "source": "DietrichGebert/ponytail",
+      "sourceType": "github",
+      "skillPath": "skills/ponytail-gain/SKILL.md",
+      "computedHash": "88b962b5a1af59f7a663c4f219763bbdc9ac1983ff428186d0e69d43fe8e3753"
+    },
+    "ponytail-help": {
+      "source": "DietrichGebert/ponytail",
+      "sourceType": "github",
+      "skillPath": "skills/ponytail-help/SKILL.md",
+      "computedHash": "4d7890cba8776e9f08f73204c2b6008cbe843145cc350f19796f5ebaf3cf08b0"
+    },
+    "ponytail-review": {
+      "source": "DietrichGebert/ponytail",
+      "sourceType": "github",
+      "skillPath": "skills/ponytail-review/SKILL.md",
+      "computedHash": "8f94283bb70331807f6b49d2d210729c8c90022d5ee9c99dc714a07535e7bc7d"
     },
     "pptx": {
       "source": "K-Dense-AI/scientific-agent-skills",
@@ -846,6 +1284,12 @@
       "sourceType": "github",
       "skillPath": "skills/qiskit/SKILL.md",
       "computedHash": "18fcb2de43eee0dd62c3140ab87de8bb95b07144c8950424354b503d55f15748"
+    },
+    "quality-scan": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "config/quality/skill-templates/quality-scan/SKILL.md",
+      "computedHash": "c699bb81ba45e66b706b23e9ef71360d9a8357dbcf991e8a922fe7e55e9d6144"
     },
     "qutip": {
       "source": "K-Dense-AI/scientific-agent-skills",
@@ -991,6 +1435,12 @@
       "skillPath": "skills/seaborn/SKILL.md",
       "computedHash": "52f17bf20a11f1e50e4a3304a8e3c153c72938b41b3972d0ede72ab8219ca03e"
     },
+    "security-and-hardening": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/security-and-hardening/SKILL.md",
+      "computedHash": "1e0cd727cccd3c8c0834ce7722a8a2851e2e849f1352ee972f39311437b021d3"
+    },
     "session-history": {
       "source": "rohitg00/agentmemory",
       "sourceType": "github",
@@ -1003,11 +1453,29 @@
       "skillPath": "skills/shap/SKILL.md",
       "computedHash": "b50328c951dab24716e90c3a1a75f2621aaad238c2cf79726e99cf4ec3f6a5eb"
     },
+    "shipping-and-launch": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/shipping-and-launch/SKILL.md",
+      "computedHash": "d1997f520c069fcd351427a0e116b668ceba7b95facbc97c9ac75363d9febcfd"
+    },
     "simpy": {
       "source": "K-Dense-AI/scientific-agent-skills",
       "sourceType": "github",
       "skillPath": "skills/simpy/SKILL.md",
       "computedHash": "57e9d1c962359f79c5ed309b8e36a6f80425b61f49909cb82b79cb0b0434dd1d"
+    },
+    "source-driven-development": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/source-driven-development/SKILL.md",
+      "computedHash": "d1923bb807f7db157a794f07a590ca639b3789b2f1a5eabef993f8df24791e2a"
+    },
+    "spec-driven-development": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/spec-driven-development/SKILL.md",
+      "computedHash": "90a53ee823e49fd1518a01e6cf64968d4848bce3fc0b0115b1c19b7e5a87a5ca"
     },
     "stable-baselines3": {
       "source": "K-Dense-AI/scientific-agent-skills",
@@ -1033,6 +1501,12 @@
       "skillPath": "skills/statsmodels/SKILL.md",
       "computedHash": "ef4d7e87a4c7cda4d63e47241cb75c57feadbcdcd53c20036a22a130514cb79e"
     },
+    "sweep-reds": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "config/quality/skill-templates/sweep-reds/SKILL.md",
+      "computedHash": "ae199c37b76fed7445f1c81de097cd301a0b3509a524982e3e5a3658b8955823"
+    },
     "sympy": {
       "source": "K-Dense-AI/scientific-agent-skills",
       "sourceType": "github",
@@ -1044,6 +1518,12 @@
       "sourceType": "github",
       "skillPath": "skills/tamarind/SKILL.md",
       "computedHash": "f1759887c70c394e3b5e7009aedf676f7d8befe565005a1aff8a63d28a02f814"
+    },
+    "test-driven-development": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/test-driven-development/SKILL.md",
+      "computedHash": "efb654aa37612ab1e7470e547b06a322c5e1837b6879525e32aa432d1281692b"
     },
     "tiledbvcf": {
       "source": "K-Dense-AI/scientific-agent-skills",
@@ -1099,11 +1579,23 @@
       "skillPath": "skills/usfiscaldata/SKILL.md",
       "computedHash": "4fd22dd48ee32f80a925b1548b6a714104f0a10105bc10765ed56f35b2f5081a"
     },
+    "using-agent-skills": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/using-agent-skills/SKILL.md",
+      "computedHash": "4221dc84c943696829025a42c7961b257afdb8f1ba20af42463434a0d9c03812"
+    },
     "vaex": {
       "source": "K-Dense-AI/scientific-agent-skills",
       "sourceType": "github",
       "skillPath": "skills/vaex/SKILL.md",
       "computedHash": "41c9564d5e1d56c54fcc11e7f1e9d41ace76668505421bc5b12b906aaa78cb97"
+    },
+    "validate-release-green": {
+      "source": "diegosouzapw/OmniRoute",
+      "sourceType": "github",
+      "skillPath": "config/quality/skill-templates/validate-release-green/SKILL.md",
+      "computedHash": "575ed0c45ba61feaae95999f6875b348eb2d4c837904c9d39968b2b6b13e26b7"
     },
     "venue-templates": {
       "source": "K-Dense-AI/scientific-agent-skills",

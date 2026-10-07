@@ -11,7 +11,7 @@
  */
 
 import crypto from 'crypto';
-import { getDB, dbRun, dbAll } from '../../../database.js';
+import { getDB, dbRun, dbAll, withTx } from '../../../database.js';
 import {
   Contradiction,
   ContradictionPatternId,
@@ -82,45 +82,47 @@ export class ContradictionStore {
       const priorIds = new Set(priorOpen.map(r => r.contradiction_id));
       const newIds = new Set(withStableIds.map(c => c.contradictionId));
 
-      // 3. Upsert new contradictions
-      for (const c of withStableIds) {
-        const isNew = !priorIds.has(c.contradictionId);
-        const priorRecord = priorOpen.find(r => r.contradiction_id === c.contradictionId);
-        const status: ContradictionStatus = priorRecord?.status as ContradictionStatus ?? 'OPEN';
+      await withTx(db, async () => {
+        // 3. Upsert new contradictions
+        for (const c of withStableIds) {
+          const isNew = !priorIds.has(c.contradictionId);
+          const priorRecord = priorOpen.find(r => r.contradiction_id === c.contradictionId);
+          const status: ContradictionStatus = priorRecord?.status as ContradictionStatus ?? 'OPEN';
 
-        await dbRun(db, `
-          INSERT OR REPLACE INTO company_contradiction
-            (contradiction_id, security_id, symbol, pattern_id, status, severity,
-             observation_a, observation_b, explanation, possible_interpretations,
-             evidence_json, first_detected_at, last_observed_at)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `, [
-          c.contradictionId,
-          securityId,
-          symbol,
-          c.patternId,
-          status,
-          c.severity,
-          c.observationA,
-          c.observationB,
-          c.explanation,
-          JSON.stringify(c.possibleInterpretations),
-          JSON.stringify(c.evidence),
-          isNew ? now : (priorRecord?.first_detected_at ?? now),
-          now,
-        ]);
-      }
-
-      // 4. Mark NO_LONGER_APPLICABLE for prior open contradictions not in current run
-      for (const prior of priorOpen) {
-        if (!newIds.has(prior.contradiction_id) && prior.status === 'OPEN') {
           await dbRun(db, `
-            UPDATE company_contradiction
-            SET status = 'NO_LONGER_APPLICABLE', resolved_at = ?
-            WHERE contradiction_id = ?
-          `, [now, prior.contradiction_id]);
+            INSERT OR REPLACE INTO company_contradiction
+              (contradiction_id, security_id, symbol, pattern_id, status, severity,
+               observation_a, observation_b, explanation, possible_interpretations,
+               evidence_json, first_detected_at, last_observed_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          `, [
+            c.contradictionId,
+            securityId,
+            symbol,
+            c.patternId,
+            status,
+            c.severity,
+            c.observationA,
+            c.observationB,
+            c.explanation,
+            JSON.stringify(c.possibleInterpretations),
+            JSON.stringify(c.evidence),
+            isNew ? now : (priorRecord?.first_detected_at ?? now),
+            now,
+          ]);
         }
-      }
+
+        // 4. Mark NO_LONGER_APPLICABLE for prior open contradictions not in current run
+        for (const prior of priorOpen) {
+          if (!newIds.has(prior.contradiction_id) && prior.status === 'OPEN') {
+            await dbRun(db, `
+              UPDATE company_contradiction
+              SET status = 'NO_LONGER_APPLICABLE', resolved_at = ?
+              WHERE contradiction_id = ?
+            `, [now, prior.contradiction_id]);
+          }
+        }
+      });
 
       // 5. Return with lifecycle-correct status and stable IDs
       return withStableIds.map(c => {

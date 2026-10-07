@@ -13,7 +13,7 @@
  * - Stratification across Daily (1–3D), Weekly (Swing), and Monthly (Positional)
  */
 
-import { dbAll, dbGet, dbRun, getDB } from '../database.js';
+import { dbAll, dbGet, dbRun, getDB, withTx } from '../database.js';
 import { LiveMarketStreamService } from './LiveMarketStreamService.js';
 
 export interface PotOverview {
@@ -438,36 +438,38 @@ export class PaperTradingPotService {
   private async evaluatePotCircuitBreakers(): Promise<void> {
     try {
       const pots = await dbAll<any>(`SELECT * FROM PaperTradingPots`);
-      for (const pot of pots) {
-        // Calculate total NAV = Cash + sum(open_position_quantity * current_price)
-        const openPos = await dbAll<any>(`
-          SELECT SUM(quantity * current_price) as investedValue 
-          FROM PaperTradingPositions 
-          WHERE pot_id = ? AND status = 'OPEN'
-        `, [pot.id]);
+      await withTx(getDB(), async () => {
+        for (const pot of pots) {
+          // Calculate total NAV = Cash + sum(open_position_quantity * current_price)
+          const openPos = await dbAll<any>(`
+            SELECT SUM(quantity * current_price) as investedValue 
+            FROM PaperTradingPositions 
+            WHERE pot_id = ? AND status = 'OPEN'
+          `, [pot.id]);
 
-        const invested = openPos && openPos[0] && openPos[0].investedValue ? openPos[0].investedValue : 0;
-        const currentNav = +(pot.cash_balance + invested).toFixed(2);
-        
-        let peakNav = Math.max(pot.peak_nav || pot.initial_capital, currentNav);
-        const drawdownPct = +(((peakNav - currentNav) / peakNav) * 100).toFixed(2);
+          const invested = openPos && openPos[0] && openPos[0].investedValue ? openPos[0].investedValue : 0;
+          const currentNav = +(pot.cash_balance + invested).toFixed(2);
+          
+          let peakNav = Math.max(pot.peak_nav || pot.initial_capital, currentNav);
+          const drawdownPct = +(((peakNav - currentNav) / peakNav) * 100).toFixed(2);
 
-        let tripBreaker = 0;
-        let breakerReason = '';
+          let tripBreaker = 0;
+          let breakerReason = '';
 
-        // Circuit Breaker 1: 20% Max Drawdown
-        if (drawdownPct >= 20.0) {
-          tripBreaker = 1;
-          breakerReason = `Max Drawdown Circuit Breaker Tripped (Drawdown: ${drawdownPct}% exceeds 20% threshold). Paper entries paused.`;
+          // Circuit Breaker 1: 20% Max Drawdown
+          if (drawdownPct >= 20.0) {
+            tripBreaker = 1;
+            breakerReason = `Max Drawdown Circuit Breaker Tripped (Drawdown: ${drawdownPct}% exceeds 20% threshold). Paper entries paused.`;
+          }
+
+          await dbRun(`
+            UPDATE PaperTradingPots
+            SET current_portfolio_nav = ?, peak_nav = ?, max_drawdown_pct = ?,
+                is_circuit_breaker_tripped = ?, circuit_breaker_reason = ?, updated_at = CURRENT_TIMESTAMP
+            WHERE id = ?
+          `, [currentNav, peakNav, drawdownPct, tripBreaker, breakerReason, pot.id]);
         }
-
-        await dbRun(`
-          UPDATE PaperTradingPots
-          SET current_portfolio_nav = ?, peak_nav = ?, max_drawdown_pct = ?,
-              is_circuit_breaker_tripped = ?, circuit_breaker_reason = ?, updated_at = CURRENT_TIMESTAMP
-          WHERE id = ?
-        `, [currentNav, peakNav, drawdownPct, tripBreaker, breakerReason, pot.id]);
-      }
+      });
     } catch (err) {
       console.error('[PaperTradingPotService] evaluatePotCircuitBreakers error:', err);
     }
@@ -481,39 +483,41 @@ export class PaperTradingPotService {
       const pots = await dbAll<any>(`SELECT * FROM PaperTradingPots`);
       const nowIso = new Date().toISOString();
 
-      for (const pot of pots) {
-        const openPos = await dbGet<any>(`
-          SELECT SUM(quantity * current_price) as investedValue 
-          FROM PaperTradingPositions 
-          WHERE pot_id = ? AND status = 'OPEN'
-        `, [pot.id]);
+      await withTx(getDB(), async () => {
+        for (const pot of pots) {
+          const openPos = await dbGet<any>(`
+            SELECT SUM(quantity * current_price) as investedValue 
+            FROM PaperTradingPositions 
+            WHERE pot_id = ? AND status = 'OPEN'
+          `, [pot.id]);
 
-        const invested = openPos && openPos.investedValue ? openPos.investedValue : 0;
-        const nav = +(pot.cash_balance + invested).toFixed(2);
+          const invested = openPos && openPos.investedValue ? openPos.investedValue : 0;
+          const nav = +(pot.cash_balance + invested).toFixed(2);
 
-        // Daily P&L calculation vs previous snapshot
-        const lastSnapshot = await dbGet<any>(`
-          SELECT nav, benchmark_nifty_nav FROM PaperTradingNAVHistory 
-          WHERE pot_id = ? ORDER BY timestamp DESC LIMIT 1
-        `, [pot.id]);
+          // Daily P&L calculation vs previous snapshot
+          const lastSnapshot = await dbGet<any>(`
+            SELECT nav, benchmark_nifty_nav FROM PaperTradingNAVHistory 
+            WHERE pot_id = ? ORDER BY timestamp DESC LIMIT 1
+          `, [pot.id]);
 
-        const prevNav = lastSnapshot ? lastSnapshot.nav : pot.initial_capital;
-        const dailyPnl = +(nav - prevNav).toFixed(2);
-        const dailyReturnPct = prevNav > 0 ? +((dailyPnl / prevNav) * 100).toFixed(2) : 0;
+          const prevNav = lastSnapshot ? lastSnapshot.nav : pot.initial_capital;
+          const dailyPnl = +(nav - prevNav).toFixed(2);
+          const dailyReturnPct = prevNav > 0 ? +((dailyPnl / prevNav) * 100).toFixed(2) : 0;
 
-        // Simulated benchmark (Nifty 50 growing at baseline ~12.5% p.a. equivalent)
-        const benchmarkPrev = lastSnapshot ? lastSnapshot.benchmark_nifty_nav : 1000000.0;
-        const benchmarkNiftyNav = +(benchmarkPrev * (1 + 0.00035)).toFixed(2); // ~0.035% daily benchmark drift
-        const potTotalReturnPct = +(((nav - pot.initial_capital) / pot.initial_capital) * 100).toFixed(2);
-        const benchmarkReturnPct = +(((benchmarkNiftyNav - 1000000.0) / 1000000.0) * 100).toFixed(2);
-        const alphaVsBenchmarkPct = +(potTotalReturnPct - benchmarkReturnPct).toFixed(2);
+          // Simulated benchmark (Nifty 50 growing at baseline ~12.5% p.a. equivalent)
+          const benchmarkPrev = lastSnapshot ? lastSnapshot.benchmark_nifty_nav : 1000000.0;
+          const benchmarkNiftyNav = +(benchmarkPrev * (1 + 0.00035)).toFixed(2); // ~0.035% daily benchmark drift
+          const potTotalReturnPct = +(((nav - pot.initial_capital) / pot.initial_capital) * 100).toFixed(2);
+          const benchmarkReturnPct = +(((benchmarkNiftyNav - 1000000.0) / 1000000.0) * 100).toFixed(2);
+          const alphaVsBenchmarkPct = +(potTotalReturnPct - benchmarkReturnPct).toFixed(2);
 
-        await dbRun(`
-          INSERT INTO PaperTradingNAVHistory
-          (pot_id, nav, cash, invested, daily_pnl, daily_return_pct, benchmark_nifty_nav, alpha_vs_benchmark_pct, timestamp)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `, [pot.id, nav, pot.cash_balance, invested, dailyPnl, dailyReturnPct, benchmarkNiftyNav, alphaVsBenchmarkPct, nowIso]);
-      }
+          await dbRun(`
+            INSERT INTO PaperTradingNAVHistory
+            (pot_id, nav, cash, invested, daily_pnl, daily_return_pct, benchmark_nifty_nav, alpha_vs_benchmark_pct, timestamp)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+          `, [pot.id, nav, pot.cash_balance, invested, dailyPnl, dailyReturnPct, benchmarkNiftyNav, alphaVsBenchmarkPct, nowIso]);
+        }
+      });
     } catch (err) {
       console.error('[PaperTradingPotService] recordNAVHistorySnapshots error:', err);
     }

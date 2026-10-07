@@ -1,0 +1,42 @@
+# OmniRoute fallback policy template. No credentials belong in this file.
+version: 1
+enabled: true
+catalog: vendor/awesome-freellm-apis
+
+activation:
+  reasons:
+    - quota_exhausted
+    - rate_limited
+    - provider_unavailable
+    - circuit_open
+    - timeout
+  status_codes: [402, 429, 500, 502, 503, 504]
+
+selection:
+  require_configured_credentials: true
+  require_health_check: true
+  prefer_openai_compatible: true
+  prefer_zero_cost: true
+  preserve_required_capabilities: true
+  allow_silent_quality_downgrade: false
+
+safety:
+  allow_live_trading: false
+  allow_broker_mutations: false
+  allow_secret_logging: false
+  allow_confidential_data_on_unapproved_providers: false
+  require_pit_and_source_traceability: true
+  semantic_reviewer: codex
+
+# Add provider entries only after verifying current official terms and setting the
+# named environment variable outside source control.
+providers: []
+
+# Example only:
+# providers:
+#   - id: example-provider
+#     base_url: https://api.example.com/v1
+#     api_key_env: EXAMPLE_PROVIDER_API_KEY
+#     models: [example-model]
+#     capabilities: [text]
+#     priority: 100

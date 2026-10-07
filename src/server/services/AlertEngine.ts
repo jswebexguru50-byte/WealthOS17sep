@@ -1,4 +1,4 @@
-import { getDB, dbAll, dbRun } from '../database.js';
+import { getDB, dbAll, dbRun, withTx } from '../database.js';
 
 export interface SmartAlert {
   id: string;
@@ -286,18 +286,20 @@ export class AlertEngine {
     });
 
     // Update in-memory cache and persist to DB
-    alerts.forEach(a => {
-      this.alertCache.set(a.id, a);
-      dbRun(db, `
-        INSERT OR REPLACE INTO AlertLog (
-          id, alert_code, category, priority, symbol, portfolio, title, message,
-          payload_json, state, timestamp, cooldown_until, acknowledged, recommendation
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `, [
-        a.id, a.alertCode, a.category, a.priority, a.symbol, a.portfolio || null,
-        a.title, a.message, JSON.stringify(a.payload), a.state, a.timestamp,
-        a.cooldownUntil, a.acknowledged ? 1 : 0, a.actionableRecommendation
-      ]).catch(() => {});
+    await withTx(db, async () => {
+      alerts.forEach(a => {
+        this.alertCache.set(a.id, a);
+        dbRun(db, `
+          INSERT OR REPLACE INTO AlertLog (
+            id, alert_code, category, priority, symbol, portfolio, title, message,
+            payload_json, state, timestamp, cooldown_until, acknowledged, recommendation
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `, [
+          a.id, a.alertCode, a.category, a.priority, a.symbol, a.portfolio || null,
+          a.title, a.message, JSON.stringify(a.payload), a.state, a.timestamp,
+          a.cooldownUntil, a.acknowledged ? 1 : 0, a.actionableRecommendation
+        ]).catch(() => {});
+      });
     });
 
     this.lastScanTime = now.getTime();

@@ -1,4 +1,4 @@
-import { getDB, dbAll, dbGet, dbRun } from '../database.js';
+import { getDB, dbAll, dbGet, dbRun, withTx } from '../database.js';
 import { getCalibrationStats, wilsonInterval, getFeedStatus, writeAuditEntry } from '../../lib/infraServices.js';
 import { isTradingDay, todayIST } from '../../lib/tradingCalendar.js';
 import { roundINR } from '../../lib/decimalUtils.js';
@@ -210,18 +210,20 @@ export async function initPhase4to6Tables(): Promise<void> {
       { name: 'OPTIONS_PCR_OI_BUILDUP', key: 'NIFTY50', val: 1.28, unit: 'PCR Ratio', src: 'UPSTOX_OPTIONS_CHAIN', status: 'LIVE', lag: 3, corr: 0.58, pval: 0.0004 }
     ];
 
-    for (const ind of sampleIndicators) {
-      const id = `IND-${ind.name}-${ind.key}`;
-      await dbRun(db, `
-        INSERT OR REPLACE INTO leading_indicator_series (id, indicator_name, entity_key, as_of_date, value, unit, source, data_feed_status)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-      `, [id, ind.name, ind.key, todayIST(), ind.val, ind.unit, ind.src, ind.status]);
+    await withTx(db, async () => {
+      for (const ind of sampleIndicators) {
+        const id = `IND-${ind.name}-${ind.key}`;
+        await dbRun(db, `
+          INSERT OR REPLACE INTO leading_indicator_series (id, indicator_name, entity_key, as_of_date, value, unit, source, data_feed_status)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        `, [id, ind.name, ind.key, todayIST(), ind.val, ind.unit, ind.src, ind.status]);
 
-      await dbRun(db, `
-        INSERT OR REPLACE INTO indicator_validation_results (id, indicator_name, category, best_lag_days, correlation_at_lag, p_value, validated_on_window, status)
-        VALUES (?, ?, 'EQUITY_DERIVATIVES', ?, ?, ?, ?, 'VALIDATED')
-      `, [`VAL-${ind.name}`, ind.name, ind.lag, ind.corr, ind.pval, '2023Q1-2024Q2']);
-    }
+        await dbRun(db, `
+          INSERT OR REPLACE INTO indicator_validation_results (id, indicator_name, category, best_lag_days, correlation_at_lag, p_value, validated_on_window, status)
+          VALUES (?, ?, 'EQUITY_DERIVATIVES', ?, ?, ?, ?, 'VALIDATED')
+        `, [`VAL-${ind.name}`, ind.name, ind.lag, ind.corr, ind.pval, '2023Q1-2024Q2']);
+      }
+    });
   }
 }
 
@@ -507,31 +509,33 @@ export async function checkStopLossBreaches(): Promise<StopLossAlert[]> {
 
   const alerts: StopLossAlert[] = [];
 
-  for (const h of holdings) {
-    const ltp = h.quantity > 0 ? h.current_value / h.quantity : h.avg_buy_price;
-    const stopPrice = roundINR(h.avg_buy_price * 0.92, 2);
-    if (ltp < stopPrice) {
-      const alertId = `SLA-${h.symbol}-${h.portfolio}`;
+  await withTx(db, async () => {
+    for (const h of holdings) {
+      const ltp = h.quantity > 0 ? h.current_value / h.quantity : h.avg_buy_price;
+      const stopPrice = roundINR(h.avg_buy_price * 0.92, 2);
+      if (ltp < stopPrice) {
+        const alertId = `SLA-${h.symbol}-${h.portfolio}`;
 
-      const existing = await dbGet(db, 'SELECT id, status FROM stop_loss_alerts WHERE id = ?', [alertId]);
-      if (!existing || existing.status === 'ACTIVE') {
-        await dbRun(db, `
-          INSERT OR REPLACE INTO stop_loss_alerts (id, symbol, portfolio, stop_loss_price, ltp_at_breach, breached_at, status)
-          VALUES (?, ?, ?, ?, ?, ?, 'ACTIVE')
-        `, [alertId, h.symbol, h.portfolio, stopPrice, ltp, new Date().toISOString()]);
+        const existing = await dbGet(db, 'SELECT id, status FROM stop_loss_alerts WHERE id = ?', [alertId]);
+        if (!existing || existing.status === 'ACTIVE') {
+          await dbRun(db, `
+            INSERT OR REPLACE INTO stop_loss_alerts (id, symbol, portfolio, stop_loss_price, ltp_at_breach, breached_at, status)
+            VALUES (?, ?, ?, ?, ?, ?, 'ACTIVE')
+          `, [alertId, h.symbol, h.portfolio, stopPrice, ltp, new Date().toISOString()]);
 
-        alerts.push({
-          id: alertId,
-          symbol: h.symbol,
-          portfolio: h.portfolio,
-          stop_loss_price: stopPrice,
-          ltp_at_breach: ltp,
-          breached_at: new Date().toISOString(),
-          status: 'ACTIVE'
-        });
+          alerts.push({
+            id: alertId,
+            symbol: h.symbol,
+            portfolio: h.portfolio,
+            stop_loss_price: stopPrice,
+            ltp_at_breach: ltp,
+            breached_at: new Date().toISOString(),
+            status: 'ACTIVE'
+          });
+        }
       }
     }
-  }
+  });
 
   return alerts;
 }

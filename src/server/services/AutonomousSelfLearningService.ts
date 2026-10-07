@@ -8,7 +8,7 @@
  * - Dynamic parameter injection into AutonomousSmartMoneyAgent scanning logic
  */
 
-import { dbAll, dbGet, dbRun, getDB } from '../database.js';
+import { dbAll, dbGet, dbRun, getDB, withTx } from '../database.js';
 
 export interface FailureObservation {
   category: string;
@@ -116,13 +116,15 @@ export class AutonomousSelfLearningService {
         }
       ];
 
-      for (const r of baselineRules) {
-        await dbRun(`
-          INSERT OR IGNORE INTO AutonomousSelfLearningRules 
-          (rule_name, rule_category, baseline_threshold, current_threshold, condition_expression, action_penalty, status)
-          VALUES (?, ?, ?, ?, ?, ?, 'ACTIVE')
-        `, [r.name, r.category, r.baseline, r.current, r.condition, r.penalty]);
-      }
+      await withTx(getDB(), async () => {
+        for (const r of baselineRules) {
+          await dbRun(`
+            INSERT OR IGNORE INTO AutonomousSelfLearningRules 
+            (rule_name, rule_category, baseline_threshold, current_threshold, condition_expression, action_penalty, status)
+            VALUES (?, ?, ?, ?, ?, ?, 'ACTIVE')
+          `, [r.name, r.category, r.baseline, r.current, r.condition, r.penalty]);
+        }
+      });
     } catch (err) {
       console.error('[AutonomousSelfLearningService] initializeBaselineRules error:', err);
     }

@@ -23,7 +23,7 @@
  */
 
 import { Database } from 'sqlite3';
-import { getDB, dbAll, dbGet, dbRun } from '../database.js';
+import { getDB, dbAll, dbGet, dbRun, withTx } from '../database.js';
 import { PureTechnicalStrategiesEngine, Candle } from './PureTechnicalStrategiesEngine.js';
 import { FundamentalAlphaEngine } from './FundamentalAlphaEngine.js';
 import { SmartMoneyEngine } from './SmartMoneyEngine.js';
@@ -892,45 +892,47 @@ export class RegimeBacktestEngine {
 
   private async persistResultsToDb(trades: RegimeTradeRecord[], summaries: RegimeSummaryRecord[], db: Database): Promise<void> {
     await this.initTables(db);
-    // 1. Insert or replace summaries
-    for (const s of summaries) {
-      await dbRun(db, `
-        INSERT OR REPLACE INTO regime_backtest_summaries (
-          regime, strategy_id, strategy_name, period_start, period_end,
-          scrip_count, total_signals, win_rate_pct, profit_factor, avg_gain_pct,
-          avg_loss_pct, total_return_pct, period_cagr_pct, max_drawdown_pct,
-          sharpe_ratio, brier_score, avg_holding_days, best_scrip,
-          best_scrip_return_pct, worst_scrip, worst_scrip_return_pct, re_entries_total
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `, [
-        s.regime, s.strategyId, s.strategyName, s.periodStart, s.periodEnd,
-        s.scripCount, s.totalSignals, s.winRatePct, s.profitFactor, s.avgGainPct,
-        s.avgLossPct, s.totalReturnPct, s.periodCagrPct, s.maxDrawdownPct,
-        s.sharpeRatio, s.brierScore, s.avgHoldingDays, s.bestScrip,
-        s.bestScripReturnPct, s.worstScrip, s.worstScripReturnPct, s.reEntriesTotal
-      ]);
-    }
+    await withTx(db, async () => {
+      // 1. Insert or replace summaries
+      for (const s of summaries) {
+        await dbRun(db, `
+          INSERT OR REPLACE INTO regime_backtest_summaries (
+            regime, strategy_id, strategy_name, period_start, period_end,
+            scrip_count, total_signals, win_rate_pct, profit_factor, avg_gain_pct,
+            avg_loss_pct, total_return_pct, period_cagr_pct, max_drawdown_pct,
+            sharpe_ratio, brier_score, avg_holding_days, best_scrip,
+            best_scrip_return_pct, worst_scrip, worst_scrip_return_pct, re_entries_total
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `, [
+          s.regime, s.strategyId, s.strategyName, s.periodStart, s.periodEnd,
+          s.scripCount, s.totalSignals, s.winRatePct, s.profitFactor, s.avgGainPct,
+          s.avgLossPct, s.totalReturnPct, s.periodCagrPct, s.maxDrawdownPct,
+          s.sharpeRatio, s.brierScore, s.avgHoldingDays, s.bestScrip,
+          s.bestScripReturnPct, s.worstScrip, s.worstScripReturnPct, s.reEntriesTotal
+        ]);
+      }
 
-    // 2. Insert or replace trades
-    for (const t of trades) {
-      await dbRun(db, `
-        INSERT OR REPLACE INTO regime_backtest_trades (
-          id, symbol, company_name, tier, is_fno, regime, strategy_id,
-          strategy_name, signal_date, initial_entry_date, initial_entry_price,
-          stop_loss, target_price, re_entries_count, re_entries_log_json,
-          period_close_date, period_close_price, final_exit_date, final_exit_price,
-          trade_status, gross_return_pct, net_return_pct, holding_days,
-          mfe_pct, mae_pct, rules_passed_summary
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `, [
-        t.id, t.symbol, t.companyName, t.tier, t.isFno ? 1 : 0, t.regime, t.strategyId,
-        t.strategyName, t.signalDate, t.initialEntryDate, t.initialEntryPrice,
-        t.stopLoss, t.targetPrice, t.reEntriesCount, JSON.stringify(t.reEntriesLog),
-        t.periodCloseDate, t.periodClosePrice, t.finalExitDate, t.finalExitPrice,
-        t.tradeStatus, t.grossReturnPct, t.netReturnPct, t.holdingDays,
-        t.mfePct, t.maePct, t.rulesPassedSummary
-      ]);
-    }
+      // 2. Insert or replace trades
+      for (const t of trades) {
+        await dbRun(db, `
+          INSERT OR REPLACE INTO regime_backtest_trades (
+            id, symbol, company_name, tier, is_fno, regime, strategy_id,
+            strategy_name, signal_date, initial_entry_date, initial_entry_price,
+            stop_loss, target_price, re_entries_count, re_entries_log_json,
+            period_close_date, period_close_price, final_exit_date, final_exit_price,
+            trade_status, gross_return_pct, net_return_pct, holding_days,
+            mfe_pct, mae_pct, rules_passed_summary
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `, [
+          t.id, t.symbol, t.companyName, t.tier, t.isFno ? 1 : 0, t.regime, t.strategyId,
+          t.strategyName, t.signalDate, t.initialEntryDate, t.initialEntryPrice,
+          t.stopLoss, t.targetPrice, t.reEntriesCount, JSON.stringify(t.reEntriesLog),
+          t.periodCloseDate, t.periodClosePrice, t.finalExitDate, t.finalExitPrice,
+          t.tradeStatus, t.grossReturnPct, t.netReturnPct, t.holdingDays,
+          t.mfePct, t.maePct, t.rulesPassedSummary
+        ]);
+      }
+    });
 
     console.log(`[RegimeBacktestEngine] Persisted ${trades.length} trades and ${summaries.length} summaries.`);
   }
@@ -1093,22 +1095,24 @@ export class RegimeBacktestEngine {
     try {
       const cols = await dbAll(db, `PRAGMA table_info(backtest_regime_ledger)`);
       const colNames = (cols || []).map((c: any) => c.name);
-      for (let i = 4; i <= 11; i++) {
-        const prefix = `s${i}`;
-        if (!colNames.includes(`${prefix}_status`)) {
-          await dbRun(db, `ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_status TEXT NOT NULL DEFAULT 'INSUFFICIENT_DATA'`);
-          await dbRun(db, `ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_signal_date TEXT`);
-          await dbRun(db, `ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_entry_price REAL`);
-          await dbRun(db, `ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_stop_loss REAL`);
-          await dbRun(db, `ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_target_price REAL`);
-          await dbRun(db, `ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_exit_price REAL`);
-          await dbRun(db, `ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_exit_date TEXT`);
-          await dbRun(db, `ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_trade_outcome TEXT DEFAULT 'N/A'`);
-          await dbRun(db, `ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_net_return_pct REAL NOT NULL DEFAULT 0.0`);
-          await dbRun(db, `ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_reentries_count INTEGER NOT NULL DEFAULT 0`);
-          await dbRun(db, `ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_holding_days INTEGER`);
+      await withTx(db, async () => {
+        for (let i = 4; i <= 11; i++) {
+          const prefix = `s${i}`;
+          if (!colNames.includes(`${prefix}_status`)) {
+            await dbRun(db, `ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_status TEXT NOT NULL DEFAULT 'INSUFFICIENT_DATA'`);
+            await dbRun(db, `ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_signal_date TEXT`);
+            await dbRun(db, `ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_entry_price REAL`);
+            await dbRun(db, `ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_stop_loss REAL`);
+            await dbRun(db, `ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_target_price REAL`);
+            await dbRun(db, `ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_exit_price REAL`);
+            await dbRun(db, `ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_exit_date TEXT`);
+            await dbRun(db, `ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_trade_outcome TEXT DEFAULT 'N/A'`);
+            await dbRun(db, `ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_net_return_pct REAL NOT NULL DEFAULT 0.0`);
+            await dbRun(db, `ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_reentries_count INTEGER NOT NULL DEFAULT 0`);
+            await dbRun(db, `ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_holding_days INTEGER`);
+          }
         }
-      }
+      });
     } catch (migErr) {
       console.warn('[RegimeBacktestEngine] Ledger table migration notice:', migErr);
     }

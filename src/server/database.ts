@@ -1,9 +1,13 @@
 import sqlite3 from 'sqlite3';
 import { Database } from 'sqlite3';
+import BetterSqlite3 from 'better-sqlite3';
+import { EventEmitter } from 'events';
 import path from 'path';
 import fs from 'fs';
 import { MasterTickerService } from './services/MasterTickerService.js';
 import { computeIsCashFlowFlag } from './xirr.js';
+import { Migrator } from './db/migrator.js';
+import { canonicalMigrations } from './db/migrations/index.js';
 
 
 export let isTransactionActive = false;
@@ -122,35 +126,132 @@ export function restorePersistentBackupIfNeeded() {
   }
 }
 
-let dbInstance: (sqlite3.Database & { isOpen?: boolean }) | null = null;
+const stmtCache = new WeakMap<BetterSqlite3.Database, Map<string, BetterSqlite3.Statement>>();
+function getCachedStmt(db: BetterSqlite3.Database, sql: string): BetterSqlite3.Statement {
+  let m = stmtCache.get(db);
+  if (!m) {
+    m = new Map();
+    stmtCache.set(db, m);
+  }
+  if (m.size > 500) m.clear();
+  let s = m.get(sql);
+  if (!s) {
+    s = db.prepare(sql);
+    m.set(sql, s);
+  }
+  return s;
+}
+
+function patchDbCompatibility(db: BetterSqlite3.Database): any {
+  Object.assign(db, EventEmitter.prototype);
+  EventEmitter.call(db);
+
+  const origClose = db.close.bind(db);
+  (db as any).isOpen = true;
+
+  (db as any).run = function (sql: string, ...args: any[]) {
+    let cb = typeof args[args.length - 1] === 'function' ? args.pop() : null;
+    let params = args.length > 0 ? (Array.isArray(args[0]) ? args[0] : args) : [];
+    const cleanParams = params.map((p: any) => p === undefined ? null : p);
+    try {
+      let info: BetterSqlite3.RunResult;
+      try {
+        const stmt = getCachedStmt(db, sql);
+        info = cleanParams.length > 0 ? stmt.run(cleanParams) : stmt.run();
+      } catch (e: any) {
+        if (e.message && e.message.includes('more than one statement')) {
+          db.exec(sql);
+          info = { changes: 0, lastInsertRowid: 0 };
+        } else {
+          throw e;
+        }
+      }
+      const ctx = { lastID: Number(info.lastInsertRowid), changes: info.changes };
+      if (cb) cb.call(ctx, null, ctx);
+      return ctx;
+    } catch (e) {
+      if (cb) cb(e);
+      else throw e;
+    }
+  };
+
+  (db as any).all = function (sql: string, ...args: any[]) {
+    let cb = typeof args[args.length - 1] === 'function' ? args.pop() : null;
+    let params = args.length > 0 ? (Array.isArray(args[0]) ? args[0] : args) : [];
+    const cleanParams = params.map((p: any) => p === undefined ? null : p);
+    try {
+      const stmt = getCachedStmt(db, sql);
+      const rows = cleanParams.length > 0 ? stmt.all(cleanParams) : stmt.all();
+      if (cb) cb(null, rows);
+      return rows;
+    } catch (e) {
+      if (cb) cb(e);
+      else throw e;
+    }
+  };
+
+  (db as any).get = function (sql: string, ...args: any[]) {
+    let cb = typeof args[args.length - 1] === 'function' ? args.pop() : null;
+    let params = args.length > 0 ? (Array.isArray(args[0]) ? args[0] : args) : [];
+    const cleanParams = params.map((p: any) => p === undefined ? null : p);
+    try {
+      const stmt = getCachedStmt(db, sql);
+      const row = cleanParams.length > 0 ? stmt.get(cleanParams) : stmt.get();
+      if (cb) cb(null, row);
+      return row;
+    } catch (e) {
+      if (cb) cb(e);
+      else throw e;
+    }
+  };
+
+  (db as any).serialize = function (fn?: () => void) {
+    if (fn) fn();
+  };
+
+  (db as any).parallelize = function (fn?: () => void) {
+    if (fn) fn();
+  };
+
+  (db as any).close = function (cb?: (err: Error | null) => void) {
+    try {
+      (db as any).isOpen = false;
+      origClose();
+      if (cb) cb(null);
+    } catch (e: any) {
+      if (cb) cb(e);
+      else throw e;
+    }
+  };
+
+  return db;
+}
+
+let dbInstance: any = null;
 let isSwapInProgress = false;
 
 export function setSwapInProgress(val: boolean) {
   isSwapInProgress = val;
 }
 
-export function getDB(): sqlite3.Database {
+export function getDB(): any {
   if (isSwapInProgress) throw new Error("Database update in progress.");
   if (!dbInstance || !dbInstance.isOpen) {
     restorePersistentBackupIfNeeded();
   }
   if (dbInstance && dbInstance.isOpen) return dbInstance;
-  const db = new sqlite3.Database(getDbFile()) as sqlite3.Database & { isOpen?: boolean };
-  db.isOpen = true;
+
+  const rawDb = new BetterSqlite3(getDbFile(), { timeout: 30000 });
+  rawDb.pragma('journal_mode = WAL');
+  rawDb.pragma('synchronous = NORMAL');
+  rawDb.pragma('temp_store = MEMORY');
+  rawDb.pragma('cache_size = -64000');
+  rawDb.pragma('mmap_size = 268435456');
+  rawDb.pragma('wal_autocheckpoint = 4000');
+  rawDb.pragma('optimize = 0x10002');
+
+  const db = patchDbCompatibility(rawDb);
   dbInstance = db;
-  db.on('error', (err) => {
-    console.error('Database connection error event:', err);
-  });
-  // Enable WAL mode, a 10-second busy timeout, and NORMAL synchronous mode to prevent 'database is locked' errors.
-  // No db.serialize() wrapper — the sqlite3 driver queues these sequentially on a single connection already.
-  // Enable a 30-second busy timeout.
-  db.run("PRAGMA journal_mode=WAL;");
-  db.run("PRAGMA synchronous=NORMAL;");
-  db.run("PRAGMA busy_timeout=30000;", (err) => {
-    if (err) console.error("PRAGMA busy_timeout failed:", err.message);
-  });
-  db.run("PRAGMA temp_store=MEMORY;");
-  db.run("PRAGMA cache_size=-64000;");
   return db;
 }
 
@@ -160,12 +261,15 @@ export function closeDB(): Promise<void> {
       resolve();
       return;
     }
-    dbInstance.isOpen = false;
-    dbInstance.close((err) => {
+    try {
+      dbInstance.isOpen = false;
+      dbInstance.close();
       dbInstance = null;
-      if (err) reject(err);
-      else resolve();
-    });
+      resolve();
+    } catch (err) {
+      dbInstance = null;
+      reject(err);
+    }
   });
 }
 
@@ -614,17 +718,19 @@ export async function runMigrations(db: Database): Promise<void> {
 
     for (const migration of SCHEMA_MIGRATIONS) {
       if (migration.version <= currentVersion) continue;
-      for (const sql of migration.sqls) {
-        try {
-          await dbRun(db, sql);
-        } catch (e: any) {
-          // Column/index already exists is OK; other errors are logged but not fatal
-          if (!e.message?.includes('duplicate column') && !e.message?.includes('already exists')) {
-            console.warn(`[Migration v${migration.version}] Warning running "${sql.slice(0, 60)}...": ${e.message}`);
+      await withTx(db, async () => {
+        for (const sql of migration.sqls) {
+          try {
+            await dbRun(db, sql);
+          } catch (e: any) {
+            // Column/index already exists is OK; other errors are logged but not fatal
+            if (!e.message?.includes('duplicate column') && !e.message?.includes('already exists')) {
+              console.warn(`[Migration v${migration.version}] Warning running "${sql.slice(0, 60)}...": ${e.message}`);
+            }
           }
         }
-      }
-      await dbRun(db, 'INSERT OR IGNORE INTO db_migrations (version, name) VALUES (?, ?)', [migration.version, migration.name]);
+        await dbRun(db, 'INSERT OR IGNORE INTO db_migrations (version, name) VALUES (?, ?)', [migration.version, migration.name]);
+      });
       console.log(`[Migration] Applied v${migration.version}: ${migration.name}`);
     }
 
@@ -792,18 +898,45 @@ async function migrateDatasetPromotionManifests(db: Database): Promise<void> {
 }
 // ─────────────────────────────────────────────────────────────────────────────
 
+export async function runDatabaseMigrations(
+  db: BetterSqlite3.Database
+): Promise<{ applied: number; currentVersion: number }> {
+  const migrator = new Migrator(canonicalMigrations);
+  return migrator.runPending(db);
+}
+
+async function initializeProductionDatabase(db: BetterSqlite3.Database): Promise<void> {
+  const activeDb = (typeof (db as any).run === 'function') ? db : patchDbCompatibility(db as any);
+  await runSchemaInitialization(activeDb as any);
+  await runDatabaseMigrations(activeDb);
+}
+
 export function initializeDatabase(db: Database, skipIntegrityCheck = false): Promise<void> {
-  const proceed = () => runSchemaInitialization(db)
-    .then(() => runMigrations(db))
-    .catch(e => console.error('[Migration] Non-fatal migration error:', e));
+  const activeDb = (typeof (db as any).run === 'function') ? db : patchDbCompatibility(db as any);
+  const proceed = () => initializeProductionDatabase(activeDb as any);
 
   if (skipIntegrityCheck) {
     return proceed();
   }
 
+  // P1-6: Run quick_check only after unclean shutdown (dirty WAL) or when explicitly requested
+  let shouldCheck = process.env.CHECK_INTEGRITY === 'true';
+  if (!shouldCheck) {
+    try {
+      const walPath = `${getEffectiveDbPath()}-wal`;
+      if (fs.existsSync(walPath) && fs.statSync(walPath).size > 0) {
+        shouldCheck = true;
+      }
+    } catch (_) {}
+  }
+
+  if (!shouldCheck) {
+    return proceed();
+  }
+
   return new Promise((resolve, reject) => {
     // Use quick_check (fast) instead of full integrity_check (reads entire DB, very slow on large files)
-    db.all('PRAGMA quick_check;', async (err, rows: any) => {
+    activeDb.all('PRAGMA quick_check;', async (err: any, rows: any) => {
       const isCorrupt = err || !rows || rows.some((r: any) => {
         const result = r.quick_check ?? r.integrity_check;
         return result && result !== 'ok';
@@ -822,6 +955,7 @@ export function initializeDatabase(db: Database, skipIntegrityCheck = false): Pr
 }
 
 function runSchemaInitialization(db: Database): Promise<void> {
+  const activeDb = (typeof (db as any).run === 'function') ? db : patchDbCompatibility(db as any);
   return new Promise((resolve, reject) => {
     let finished = false;
     const errorHandler = (err: Error) => {
@@ -830,12 +964,16 @@ function runSchemaInitialization(db: Database): Promise<void> {
         reject(err);
       }
     };
-    db.on('error', errorHandler);
+    if (typeof (activeDb as any).on === 'function') {
+      (activeDb as any).on('error', errorHandler);
+    }
 
     const cleanupAndResolve = () => {
       if (!finished) {
         finished = true;
-        db.removeListener('error', errorHandler);
+        if (typeof (activeDb as any).removeListener === 'function') {
+          (activeDb as any).removeListener('error', errorHandler);
+        }
 
         // Ensure all high-performance indexes exist across all core and auxiliary tables
         const indexes = [
@@ -849,7 +987,8 @@ function runSchemaInitialization(db: Database): Promise<void> {
           'CREATE INDEX IF NOT EXISTS idx_tx_is_cash_flow ON Transactions(is_cash_flow)',
           'CREATE INDEX IF NOT EXISTS idx_tx_batch_id ON Transactions(batch_id)',
           'CREATE INDEX IF NOT EXISTS idx_tx_port_sym_date ON Transactions(portfolio, symbol, date)',
-          'CREATE INDEX IF NOT EXISTS idx_txns_port_isin_date ON Transactions(portfolio, isin, date)',
+          'CREATE INDEX IF NOT EXISTS idx_tx_symbol_date_cover ON Transactions(symbol, date, portfolio, type, net_amount)',
+          'CREATE INDEX IF NOT EXISTS idx_tx_cashflow_port_date ON Transactions(portfolio, date) WHERE is_cash_flow = 1',
           'CREATE INDEX IF NOT EXISTS idx_tx_source ON Transactions(source)',
 
           // Holdings
@@ -881,10 +1020,10 @@ function runSchemaInitialization(db: Database): Promise<void> {
           'CREATE INDEX IF NOT EXISTS idx_family_members_role ON FamilyMembers(role)',
 
           // CorporateActions & Audit
-          'CREATE INDEX IF NOT EXISTS idx_ca_isin_recdate ON CorporateActions(isin, record_date)',
           'CREATE INDEX IF NOT EXISTS idx_ca_sym_date ON CorporateActions(symbol, record_date)',
           'CREATE INDEX IF NOT EXISTS idx_ca_symbol ON CorporateActions(symbol)',
           'CREATE INDEX IF NOT EXISTS idx_ca_applied ON CorporateActions(applied)',
+          'CREATE INDEX IF NOT EXISTS idx_ca_unapplied ON CorporateActions(symbol, record_date) WHERE applied = 0',
           'CREATE INDEX IF NOT EXISTS idx_ca_action_type ON CorporateActions(action_type)',
           'CREATE INDEX IF NOT EXISTS idx_ca_audit_id ON CorporateActionAudit(action_id)',
           'CREATE INDEX IF NOT EXISTS idx_ca_audit_sym ON CorporateActionAudit(symbol)',
@@ -895,9 +1034,9 @@ function runSchemaInitialization(db: Database): Promise<void> {
           'CREATE INDEX IF NOT EXISTS idx_hist_prices_date ON HistoricalPrices(date)',
 
           // RealizedGains & Tax
+          'CREATE INDEX IF NOT EXISTS idx_rg_cover ON RealizedGains(portfolio, isin, symbol, realized_pnl, sell_proceeds)',
           'CREATE INDEX IF NOT EXISTS idx_rg_port_fy ON RealizedGains(portfolio, financial_year)',
           'CREATE INDEX IF NOT EXISTS idx_rg_port_sell_date ON RealizedGains(portfolio, sell_date)',
-          'CREATE INDEX IF NOT EXISTS idx_rg_isin ON RealizedGains(isin)',
           'CREATE INDEX IF NOT EXISTS idx_rg_symbol ON RealizedGains(symbol)',
           'CREATE INDEX IF NOT EXISTS idx_rg_sell_date ON RealizedGains(sell_date)',
           'CREATE INDEX IF NOT EXISTS idx_rg_fy ON RealizedGains(financial_year)',
@@ -951,9 +1090,11 @@ function runSchemaInitialization(db: Database): Promise<void> {
         ];
 
         db.serialize(() => {
+          db.run('BEGIN IMMEDIATE');
           for (const idx of indexes) {
             db.run(idx, () => {});
           }
+          db.run('COMMIT');
           resolve();
         });
       }
@@ -1183,9 +1324,11 @@ function runSchemaInitialization(db: Database): Promise<void> {
               ['Balanced NRI Growth', 'TAX_FREE_NRE_FD', 15.0, 5.0],
               ['Balanced NRI Growth', 'GOLD_AND_CASH', 5.0, 2.5]
             ];
+            db.run('BEGIN IMMEDIATE');
             for (const t of defaultTargets) {
               db.run("INSERT OR IGNORE INTO TargetAllocations (model_name, asset_class, target_pct, rebalance_tolerance_pct) VALUES (?, ?, ?, ?)", t);
             }
+            db.run('COMMIT');
           }
         });
       });
@@ -1214,6 +1357,7 @@ function runSchemaInitialization(db: Database): Promise<void> {
         `ALTER TABLE Portfolios ADD COLUMN family_group TEXT DEFAULT 'Primary Family Office'`,
         `ALTER TABLE Portfolios ADD COLUMN benchmark_symbol TEXT DEFAULT '^NSEI'`
       ];
+      db.run('BEGIN IMMEDIATE');
       for (const sql of portfolioMigrations) {
         db.run(sql, (err: any) => {
           if (err && !err.message.includes('duplicate column')) {
@@ -1221,6 +1365,7 @@ function runSchemaInitialization(db: Database): Promise<void> {
           }
         });
       }
+      db.run('COMMIT');
 
       // Create MasterTickers
       db.run(`
@@ -1251,6 +1396,7 @@ function runSchemaInitialization(db: Database): Promise<void> {
         `ALTER TABLE MasterTickers ADD COLUMN previous_close REAL`,
         `ALTER TABLE MasterTickers ADD COLUMN last_updated TEXT`,
       ];
+      db.run('BEGIN IMMEDIATE');
       for (const sql of masterTickerMigrations) {
         db.run(sql, (err: any) => {
           // Ignore 'duplicate column name' errors — column already exists
@@ -1259,6 +1405,7 @@ function runSchemaInitialization(db: Database): Promise<void> {
           }
         });
       }
+      db.run('COMMIT');
 
       // Create Transactions
       db.run(`
@@ -1647,22 +1794,6 @@ function runSchemaInitialization(db: Database): Promise<void> {
         db.run(`INSERT OR IGNORE INTO CurrencyRates (currency, rate_to_inr, source) VALUES ('EUR', 90.8, 'XE.com Live Spot Rate')`);
         db.run(`INSERT OR IGNORE INTO CurrencyRates (currency, rate_to_inr, source) VALUES ('GBP', 106.5, 'XE.com Live Spot Rate')`);
 
-        // Migration: Ensure MasterTickers has 'currency' column
-        db.all("PRAGMA table_info(MasterTickers)", (mtErr, mtRows) => {
-          const hasCurrency = mtRows ? mtRows.some((r: any) => r.name === 'currency') : false;
-          if (!hasCurrency) {
-            db.run("ALTER TABLE MasterTickers ADD COLUMN currency TEXT DEFAULT 'INR'");
-          }
-        });
-
-        // Migration: Ensure Portfolios has 'base_currency' column
-        db.all("PRAGMA table_info(Portfolios)", (pErr, pRows) => {
-          const hasBaseCurrency = pRows ? pRows.some((r: any) => r.name === 'base_currency') : false;
-          if (!hasBaseCurrency) {
-            db.run("ALTER TABLE Portfolios ADD COLUMN base_currency TEXT DEFAULT 'INR'");
-          }
-        });
-
         // Create DashboardDiskCache table for instant zero-wait first page loads
         db.run(`
           CREATE TABLE IF NOT EXISTS DashboardDiskCache (
@@ -1866,44 +1997,6 @@ function runSchemaInitialization(db: Database): Promise<void> {
             origin TEXT DEFAULT 'SCAN'
           )
         `);
-        db.all("PRAGMA table_info(OpportunityScripEvaluations)", (oeErr, oeRows) => {
-          if (oeRows) {
-            if (!oeRows.some((r: any) => r.name === 'provenance_tag')) db.run("ALTER TABLE OpportunityScripEvaluations ADD COLUMN provenance_tag TEXT DEFAULT 'SOURCED: NSE_PRIMARY'");
-            if (!oeRows.some((r: any) => r.name === 'confidence_interval_str')) db.run("ALTER TABLE OpportunityScripEvaluations ADD COLUMN confidence_interval_str TEXT DEFAULT '±2.5%'");
-            if (!oeRows.some((r: any) => r.name === 'scan_id')) db.run("ALTER TABLE OpportunityScripEvaluations ADD COLUMN scan_id TEXT");
-            if (!oeRows.some((r: any) => r.name === 'origin')) db.run("ALTER TABLE OpportunityScripEvaluations ADD COLUMN origin TEXT DEFAULT 'SCAN'");
-          }
-        });
-
-
-        db.all("PRAGMA table_info(Holdings)", (hErr, hRows) => {
-          if (hRows) {
-            if (!hRows.some((r: any) => r.name === 'currency')) db.run("ALTER TABLE Holdings ADD COLUMN currency TEXT DEFAULT 'INR'");
-            if (!hRows.some((r: any) => r.name === 'native_ltp')) db.run("ALTER TABLE Holdings ADD COLUMN native_ltp REAL DEFAULT 0");
-            if (!hRows.some((r: any) => r.name === 'native_current_value')) db.run("ALTER TABLE Holdings ADD COLUMN native_current_value REAL DEFAULT 0");
-            if (!hRows.some((r: any) => r.name === 'native_total_cost')) db.run("ALTER TABLE Holdings ADD COLUMN native_total_cost REAL DEFAULT 0");
-            if (!hRows.some((r: any) => r.name === 'native_avg_buy_price')) db.run("ALTER TABLE Holdings ADD COLUMN native_avg_buy_price REAL DEFAULT 0");
-            if (!hRows.some((r: any) => r.name === 'native_unrealized_pnl')) db.run("ALTER TABLE Holdings ADD COLUMN native_unrealized_pnl REAL DEFAULT 0");
-            if (!hRows.some((r: any) => r.name === 'price_authority')) db.run("ALTER TABLE Holdings ADD COLUMN price_authority TEXT");
-            if (!hRows.some((r: any) => r.name === 'acquisition_fx_rate')) db.run("ALTER TABLE Holdings ADD COLUMN acquisition_fx_rate REAL DEFAULT 1.0");
-            db.run("UPDATE Holdings SET price_authority = 'LIVE_FEED' WHERE portfolio = 'cc9' AND symbol != 'CASH' AND price_authority = 'PMS_STATEMENT'");
-
-            // Migration: Add holding_type column for canonical asset classification
-            if (!hRows.some((r: any) => r.name === 'holding_type')) {
-              db.run("ALTER TABLE Holdings ADD COLUMN holding_type TEXT DEFAULT 'EQUITY'", (alterErr) => {
-                if (!alterErr) {
-                  console.log('[DB Migration] Added holding_type column to Holdings');
-                  db.run("UPDATE Holdings SET holding_type = 'EQUITY'");
-                  db.run("UPDATE Holdings SET holding_type = 'CASH' WHERE UPPER(symbol) = 'CASH' OR UPPER(isin) LIKE 'CASH%'");
-                  db.run("UPDATE Holdings SET holding_type = 'MUTUAL_FUND' WHERE isin LIKE 'INF%' OR portfolio LIKE '%MF%'");
-                  db.run("UPDATE Holdings SET holding_type = 'AIF' WHERE UPPER(symbol) LIKE '%SMART%' OR UPPER(symbol) LIKE '%HORIZON%' OR UPPER(isin) LIKE '%HORIZON%'");
-                  db.run("UPDATE Holdings SET holding_type = 'UNLISTED' WHERE (portfolio = 'Unlisted' OR UPPER(symbol) LIKE 'UL%' OR UPPER(symbol) LIKE '%UNLISTED%' OR isin LIKE 'CUSTOM_%') AND holding_type != 'AIF' AND holding_type != 'CASH'");
-                  console.log('[DB Migration] Backfilled holding_type (CASH, MUTUAL_FUND, AIF, UNLISTED, EQUITY)');
-                }
-              });
-            }
-          }
-        });
 
         // Migration: Create ValuationSnapshots table for drift detection
         db.run(`
@@ -1923,14 +2016,7 @@ function runSchemaInitialization(db: Database): Promise<void> {
             drift_alert TEXT,
             created_at TEXT DEFAULT CURRENT_TIMESTAMP
           )
-        `, () => {
-          db.all("PRAGMA table_info(ValuationSnapshots)", (vsErr, vsRows) => {
-            if (vsRows) {
-              if (!vsRows.some((r: any) => r.name === 'aif_value')) db.run("ALTER TABLE ValuationSnapshots ADD COLUMN aif_value REAL NOT NULL DEFAULT 0");
-              if (!vsRows.some((r: any) => r.name === 'unlisted_value')) db.run("ALTER TABLE ValuationSnapshots ADD COLUMN unlisted_value REAL NOT NULL DEFAULT 0");
-            }
-          });
-        });
+        `);
 
         // Migration: Create DailyPortfolioSnapshot table for immutable daily closing ledger
         db.run(`
@@ -2070,12 +2156,14 @@ function runSchemaInitialization(db: Database): Promise<void> {
           // Auto-seed default rows for existing active portfolios if none exist
           db.all("SELECT DISTINCT name FROM Portfolios WHERE status != 'ARCHIVED'", (pErr, pRows: any[]) => {
             if (!pErr && pRows && pRows.length > 0) {
+              db.run('BEGIN IMMEDIATE');
               pRows.forEach((p) => {
                 db.run(`
                   INSERT OR IGNORE INTO CarriedForwardLosses (portfolio, financial_year, stcl_amount, ltcl_amount, assessment_year, notes)
                   VALUES (?, '2024-25', 0, 0, 'AY 2025-26', '')
                 `, [p.name]);
               });
+              db.run('COMMIT');
             }
           });
         });
@@ -2287,45 +2375,6 @@ function runSchemaInitialization(db: Database): Promise<void> {
           }
         });
 
-        // Defensive migrations for existing tables
-        db.all("PRAGMA table_info(PaperTradingPositions)", (err, cols: any[]) => {
-          if (cols && cols.length > 0) {
-            const names = new Set(cols.map(c => c.name));
-            if (!names.has('pot_id')) db.run("ALTER TABLE PaperTradingPositions ADD COLUMN pot_id TEXT DEFAULT 'pot_conservative'");
-            if (!names.has('sector')) db.run("ALTER TABLE PaperTradingPositions ADD COLUMN sector TEXT");
-            if (!names.has('initial_quantity')) db.run("ALTER TABLE PaperTradingPositions ADD COLUMN initial_quantity INTEGER");
-            if (!names.has('trailing_stop_loss')) db.run("ALTER TABLE PaperTradingPositions ADD COLUMN trailing_stop_loss REAL");
-            if (!names.has('partial_exit_done')) db.run("ALTER TABLE PaperTradingPositions ADD COLUMN partial_exit_done INTEGER DEFAULT 0");
-            if (!names.has('partial_exit_price')) db.run("ALTER TABLE PaperTradingPositions ADD COLUMN partial_exit_price REAL");
-            if (!names.has('partial_exit_pnl')) db.run("ALTER TABLE PaperTradingPositions ADD COLUMN partial_exit_pnl REAL DEFAULT 0.0");
-            if (!names.has('exit_confirmation_type')) db.run("ALTER TABLE PaperTradingPositions ADD COLUMN exit_confirmation_type TEXT DEFAULT 'CANDLE_CLOSE'");
-            if (!names.has('friction_costs')) db.run("ALTER TABLE PaperTradingPositions ADD COLUMN friction_costs REAL DEFAULT 0.0");
-          }
-        });
-
-        db.all("PRAGMA table_info(AutonomousPostMortems)", (err, cols: any[]) => {
-          if (cols && cols.length > 0) {
-            const names = new Set(cols.map(c => c.name));
-            if (!names.has('primary_failure_category')) db.run("ALTER TABLE AutonomousPostMortems ADD COLUMN primary_failure_category TEXT");
-            if (!names.has('compound_causes_json')) db.run("ALTER TABLE AutonomousPostMortems ADD COLUMN compound_causes_json TEXT");
-            if (!names.has('causal_confidence_pct')) db.run("ALTER TABLE AutonomousPostMortems ADD COLUMN causal_confidence_pct REAL DEFAULT 85.0");
-            if (!names.has('temporal_context_json')) db.run("ALTER TABLE AutonomousPostMortems ADD COLUMN temporal_context_json TEXT");
-            if (!names.has('counterfactual_action')) db.run("ALTER TABLE AutonomousPostMortems ADD COLUMN counterfactual_action TEXT");
-          }
-        });
-
-        db.all("PRAGMA table_info(AutonomousSelfLearningRules)", (err, cols: any[]) => {
-          if (cols && cols.length > 0) {
-            const names = new Set(cols.map(c => c.name));
-            if (!names.has('baseline_threshold')) db.run("ALTER TABLE AutonomousSelfLearningRules ADD COLUMN baseline_threshold REAL DEFAULT 1.0");
-            if (!names.has('current_threshold')) db.run("ALTER TABLE AutonomousSelfLearningRules ADD COLUMN current_threshold REAL DEFAULT 1.0");
-            if (!names.has('status')) db.run("ALTER TABLE AutonomousSelfLearningRules ADD COLUMN status TEXT DEFAULT 'ACTIVE'");
-            if (!names.has('canary_signals_evaluated')) db.run("ALTER TABLE AutonomousSelfLearningRules ADD COLUMN canary_signals_evaluated INTEGER DEFAULT 0");
-            if (!names.has('canary_win_rate_pct')) db.run("ALTER TABLE AutonomousSelfLearningRules ADD COLUMN canary_win_rate_pct REAL DEFAULT 0.0");
-            if (!names.has('updated_at')) db.run("ALTER TABLE AutonomousSelfLearningRules ADD COLUMN updated_at DATETIME DEFAULT CURRENT_TIMESTAMP");
-          }
-        });
-
         // Prices table for live and historical pricing lookup
         db.run(`
           CREATE TABLE IF NOT EXISTS Prices (
@@ -2478,12 +2527,6 @@ function runSchemaInitialization(db: Database): Promise<void> {
         `, (err) => {
           if (err) console.warn('[Database] tier_calibration_ledger table create notice:', err.message);
           else {
-            db.all("PRAGMA table_info(tier_calibration_ledger)", (tcErr, tcCols: any[]) => {
-              if (tcCols && !tcCols.some(c => c.name === 'regime')) {
-                db.run("ALTER TABLE tier_calibration_ledger ADD COLUMN regime TEXT DEFAULT 'ALL_REGIMES'");
-              }
-            });
-
             // Seed default validated calibration presets if empty
             db.get(`SELECT COUNT(*) as cnt FROM tier_calibration_ledger`, (cErr, row: any) => {
               if (!cErr && row && row.cnt === 0) {
@@ -2557,6 +2600,7 @@ function runSchemaInitialization(db: Database): Promise<void> {
                   }
                 ];
 
+                db.run('BEGIN IMMEDIATE');
                 for (const p of seedPresets) {
                   db.run(`
                     INSERT INTO tier_calibration_ledger (
@@ -2568,6 +2612,7 @@ function runSchemaInitialization(db: Database): Promise<void> {
                     p.n_signals, p.hit_rate, p.hit_rate_ci_low, p.hit_rate_ci_high, p.validated_out_of_sample, p.last_recalibrated
                   ]);
                 }
+                db.run('COMMIT');
               }
             });
           }
@@ -2924,39 +2969,6 @@ function runSchemaInitialization(db: Database): Promise<void> {
           )
         `);
 
-        db.all("PRAGMA table_info(AutonomousRecommendationsLedger)", (err, cols: any[]) => {
-          if (cols && cols.length > 0) {
-            const names = new Set(cols.map(c => c.name));
-            if (!names.has('catalyst')) db.run("ALTER TABLE AutonomousRecommendationsLedger ADD COLUMN catalyst TEXT");
-          }
-        });
-
-        // Migration: EventIntelligenceLog — add dedup + source fields
-        db.all("PRAGMA table_info(EventIntelligenceLog)", (_err, cols: any[]) => {
-          if (cols && cols.length > 0) {
-            const names = new Set(cols.map(c => c.name));
-            if (!names.has('source_id')) db.run("ALTER TABLE EventIntelligenceLog ADD COLUMN source_id TEXT");
-            if (!names.has('dedup_cluster_id')) db.run("ALTER TABLE EventIntelligenceLog ADD COLUMN dedup_cluster_id TEXT");
-            if (!names.has('data_source')) db.run("ALTER TABLE EventIntelligenceLog ADD COLUMN data_source TEXT DEFAULT 'RSS'");
-          }
-        });
-
-        // Migration: CustomStrategies — add Phase 1 Data Layer columns
-        db.all("PRAGMA table_info(CustomStrategies)", (_err, cols: any[]) => {
-          if (cols && cols.length > 0) {
-            const names = new Set(cols.map(c => c.name));
-            if (!names.has('backtest_win_rate')) db.run("ALTER TABLE CustomStrategies ADD COLUMN backtest_win_rate REAL");
-            if (!names.has('backtest_sharpe')) db.run("ALTER TABLE CustomStrategies ADD COLUMN backtest_sharpe REAL");
-            if (!names.has('backtest_total_signals')) db.run("ALTER TABLE CustomStrategies ADD COLUMN backtest_total_signals INTEGER");
-            if (!names.has('last_backtest_at')) db.run("ALTER TABLE CustomStrategies ADD COLUMN last_backtest_at TEXT");
-            if (!names.has('is_preset')) db.run("ALTER TABLE CustomStrategies ADD COLUMN is_preset INTEGER DEFAULT 0");
-            if (!names.has('preset_order')) db.run("ALTER TABLE CustomStrategies ADD COLUMN preset_order INTEGER");
-            if (!names.has('category')) db.run("ALTER TABLE CustomStrategies ADD COLUMN category TEXT");
-            if (!names.has('short_name')) db.run("ALTER TABLE CustomStrategies ADD COLUMN short_name TEXT");
-            if (!names.has('color_accent')) db.run("ALTER TABLE CustomStrategies ADD COLUMN color_accent TEXT");
-          }
-        });
-
         // Strategy Run Results table (stores execution outcomes)
         db.run(`
           CREATE TABLE IF NOT EXISTS strategy_run_results (
@@ -3044,411 +3056,9 @@ function runSchemaInitialization(db: Database): Promise<void> {
             updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
           )
         `);
-
-        // Migration: Ensure Portfolios has 'pan' and 'owner_name' columns and seed family PAN assignments
-        db.all("PRAGMA table_info(Portfolios)", (pErr: any, pCols: any) => {
-          if (pCols) {
-            const hasPan = pCols.some((r: any) => r.name === 'pan');
-            const hasOwner = pCols.some((r: any) => r.name === 'owner_name');
-
-            const runPortfolioPanUpdates = () => {
-              // 1. Maa (Mother - Senior Citizen) PAN: BBFPS1002P
-              // User explicit mapping: All portfolios having 'maa', plus cc9, unlisted and iifl are with Maa
-              db.run(`
-                UPDATE Portfolios
-                SET pan = 'BBFPS1002P', owner_name = 'Maa (Mother)'
-                WHERE UPPER(name) LIKE '%MAA%' OR name IN ('cc9', 'Unlisted', 'IIFL360')
-              `);
-
-              // 2. Papa (Father - Senior Citizen) PAN: ALRSP9041D
-              // User explicit mapping: All portfolios with 'papa'
-              db.run(`
-                UPDATE Portfolios
-                SET pan = 'ALRSP9041D', owner_name = 'Papa (Father)'
-                WHERE UPPER(name) LIKE '%PAPA%'
-              `);
-
-              // 3. Gopal (Self) PAN: AQCPS7204G
-              // User explicit mapping: All portfolios with Self, Sarwa, IBKR, FD and DBFS
-              db.run(`
-                UPDATE Portfolios
-                SET pan = 'AQCPS7204G', owner_name = 'Gopal Sharma (Self)'
-                WHERE UPPER(name) LIKE '%SELF%' OR name IN ('US - IBKR', 'Sarwa', 'Cash & FD', 'DBFS')
-              `);
-
-              // 4. Pankaj (Brother) PAN: DFYPS6605R
-              // User explicit mapping: Brother portfolios
-              db.run(`
-                UPDATE Portfolios
-                SET pan = 'DFYPS6605R', owner_name = 'Pankaj Sharma (Brother)'
-                WHERE UPPER(name) LIKE '%BROTHER%' OR UPPER(name) LIKE '%PANKAJ%'
-              `);
-
-              // 5. Pooja (Brother's Wife) PAN: POOJA_PAN_PENDING
-              // User explicit mapping: Pooja MF
-              db.run(`
-                UPDATE Portfolios
-                SET pan = 'POOJA_PAN_PENDING', owner_name = 'Pooja Sharma'
-                WHERE UPPER(name) LIKE '%POOJA%'
-              `);
-
-              db.run(`CREATE INDEX IF NOT EXISTS idx_portfolios_pan ON Portfolios(pan);`);
-            };
-
-            if (!hasPan && !hasOwner) {
-              db.run("ALTER TABLE Portfolios ADD COLUMN pan TEXT", () => {
-                db.run("ALTER TABLE Portfolios ADD COLUMN owner_name TEXT", () => {
-                  runPortfolioPanUpdates();
-                });
-              });
-            } else if (!hasPan) {
-              db.run("ALTER TABLE Portfolios ADD COLUMN pan TEXT", () => {
-                runPortfolioPanUpdates();
-              });
-            } else if (!hasOwner) {
-              db.run("ALTER TABLE Portfolios ADD COLUMN owner_name TEXT", () => {
-                runPortfolioPanUpdates();
-              });
-            } else {
-              runPortfolioPanUpdates();
-            }
-          }
-        });
-
-        // Migration: Ensure FamilyMembers has 'is_senior_citizen' and initialize family PAN accounts
-        db.all("PRAGMA table_info(FamilyMembers)", (fmErr, fmCols) => {
-          if (fmCols && fmCols.length > 0) {
-            const hasSenior = fmCols.some((r: any) => r.name === 'is_senior_citizen');
-
-            const runFamilyMemberUpdates = () => {
-              // Update Gopal
-              db.run(`
-                UPDATE FamilyMembers 
-                SET pan_number = 'AQCPS7204G', role = 'FAMILY_HEAD', is_senior_citizen = 0, tax_residency = 'NRI'
-                WHERE id = 1
-              `);
-
-              // Update Pankaj (Brother)
-              db.run(`
-                UPDATE FamilyMembers 
-                SET pan_number = 'DFYPS6605R', role = 'MEMBER', is_senior_citizen = 0, tax_residency = 'RESIDENT'
-                WHERE id = 2
-              `);
-
-              // Seed Maa (Mother - Senior Citizen)
-              db.run(`
-                INSERT OR IGNORE INTO FamilyMembers (id, uuid, name, email, role, pan_number, tax_residency, avatar_color, is_senior_citizen)
-                VALUES (3, 'usr_maa_003', 'Maa (Mother)', 'maa@family.internal', 'FAMILY_MEMBER', 'BBFPS1002P', 'RESIDENT', '#ec4899', 1)
-              `);
-              db.run(`UPDATE FamilyMembers SET pan_number = 'BBFPS1002P', is_senior_citizen = 1 WHERE id = 3 OR pan_number = 'BBFPS1002P'`);
-
-              // Seed Papa (Father - Senior Citizen)
-              db.run(`
-                INSERT OR IGNORE INTO FamilyMembers (id, uuid, name, email, role, pan_number, tax_residency, avatar_color, is_senior_citizen)
-                VALUES (4, 'usr_papa_004', 'Papa (Father)', 'papa@family.internal', 'FAMILY_MEMBER', 'ALRSP9041D', 'RESIDENT', '#3b82f6', 1)
-              `);
-              db.run(`UPDATE FamilyMembers SET pan_number = 'ALRSP9041D', is_senior_citizen = 1 WHERE id = 4 OR pan_number = 'ALRSP9041D'`);
-
-              // Seed Pooja Sharma (Brother's Wife)
-              db.run(`
-                INSERT OR IGNORE INTO FamilyMembers (id, uuid, name, email, role, pan_number, tax_residency, avatar_color, is_senior_citizen)
-                VALUES (5, 'usr_pooja_005', 'Pooja Sharma', 'pooja@family.internal', 'FAMILY_MEMBER', 'POOJA_PAN_PENDING', 'RESIDENT', '#a855f7', 0)
-              `);
-              db.run(`UPDATE FamilyMembers SET pan_number = 'POOJA_PAN_PENDING', is_senior_citizen = 0 WHERE id = 5 OR name LIKE '%Pooja%'`);
-            };
-
-            if (!hasSenior) {
-              db.run("ALTER TABLE FamilyMembers ADD COLUMN is_senior_citizen INTEGER DEFAULT 0", () => {
-                runFamilyMemberUpdates();
-              });
-            } else {
-              runFamilyMemberUpdates();
-            }
-          }
-        });
-
-        // Migration: Ensure CarriedForwardLosses has 'pan' column
-        db.all("PRAGMA table_info(CarriedForwardLosses)", (cflErr, cflCols) => {
-          if (cflCols) {
-            const hasPan = cflCols.some((r: any) => r.name === 'pan');
-
-            const runCflPanUpdates = () => {
-              db.run(`
-                UPDATE CarriedForwardLosses 
-                SET pan = (SELECT pan FROM Portfolios WHERE Portfolios.name = CarriedForwardLosses.portfolio)
-                WHERE pan IS NULL OR pan = ''
-              `);
-              db.run(`CREATE INDEX IF NOT EXISTS idx_cfl_pan_fy ON CarriedForwardLosses(pan, financial_year);`);
-            };
-
-            if (!hasPan) {
-              db.run("ALTER TABLE CarriedForwardLosses ADD COLUMN pan TEXT", () => {
-                runCflPanUpdates();
-              });
-            } else {
-              runCflPanUpdates();
-            }
-          }
-        });
-
-        // Migration: Ensure BankAccountsAndFDs has bank_name, account_number, ifsc_swift, folio
-        db.all("PRAGMA table_info(BankAccountsAndFDs)", (bfErr, bfRows) => {
-          if (bfRows) {
-            if (!bfRows.some((r: any) => r.name === 'bank_name')) db.run("ALTER TABLE BankAccountsAndFDs ADD COLUMN bank_name TEXT");
-            if (!bfRows.some((r: any) => r.name === 'account_number')) db.run("ALTER TABLE BankAccountsAndFDs ADD COLUMN account_number TEXT");
-            if (!bfRows.some((r: any) => r.name === 'ifsc_swift')) db.run("ALTER TABLE BankAccountsAndFDs ADD COLUMN ifsc_swift TEXT");
-            if (!bfRows.some((r: any) => r.name === 'folio')) db.run("ALTER TABLE BankAccountsAndFDs ADD COLUMN folio TEXT");
-          }
-        });
-
-        // Migration: Ensure Transactions has broker_name, account_number, folio
-        db.all("PRAGMA table_info(Transactions)", (txErr, txRows) => {
-          if (txRows) {
-            if (!txRows.some((r: any) => r.name === 'broker_name')) db.run("ALTER TABLE Transactions ADD COLUMN broker_name TEXT");
-            if (!txRows.some((r: any) => r.name === 'account_number')) db.run("ALTER TABLE Transactions ADD COLUMN account_number TEXT");
-            if (!txRows.some((r: any) => r.name === 'folio')) db.run("ALTER TABLE Transactions ADD COLUMN folio TEXT");
-          }
-        });
-
-        // Run migrations sequentially to dynamically upgrade the tables
-        db.all("PRAGMA table_info(Holdings)", (pragmaErr, rows) => {
-          if (pragmaErr) {
-            cleanupAndReject(pragmaErr);
-            return;
-          }
-          const hasPrevClose = rows ? rows.some((r: any) => r.name === 'prev_close') : false;
-          
-          const runTxMigration = () => {
-            db.all("PRAGMA table_info(Transactions)", (txPragmaErr, txRows) => {
-              if (txPragmaErr) {
-                cleanupAndReject(txPragmaErr);
-                return;
-              }
-              const hasIsCashFlow = txRows ? txRows.some((r: any) => r.name === 'is_cash_flow') : false;
-              const hasIsCa = txRows ? txRows.some((r: any) => r.name === 'is_ca') : false;
-              const runHoldingsFolioMigration = () => {
-                db.all("PRAGMA table_info(Holdings)", (err, rows: any) => {
-                  if (err) {
-                     cleanupAndReject(err);
-                     return;
-                  }
-                  const hasFolio = rows && rows.some((r: any) => r.name === 'folio');
-                  if (rows && rows.length > 0 && !hasFolio) {
-                    db.serialize(() => {
-                      db.run(`CREATE TABLE Holdings_new (
-                        portfolio TEXT NOT NULL,
-                        isin TEXT NOT NULL,
-                        folio TEXT DEFAULT 'NA',
-                        symbol TEXT NOT NULL,
-                        quantity REAL NOT NULL,
-                        avg_buy_price REAL NOT NULL,
-                        total_cost REAL NOT NULL,
-                        ltp REAL DEFAULT 0,
-                        prev_close REAL DEFAULT 0,
-                        current_value REAL DEFAULT 0,
-                        unrealized_pnl REAL DEFAULT 0,
-                        unrealized_pct REAL DEFAULT 0,
-                        day_change REAL DEFAULT 0,
-                        day_change_pct REAL DEFAULT 0,
-                        data_source TEXT,
-                        last_update TEXT,
-                        data_status TEXT DEFAULT 'LIVE',
-                        created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-                        updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
-                        PRIMARY KEY (portfolio, isin, folio)
-                      )`);
-                      db.run("INSERT INTO Holdings_new (portfolio, isin, symbol, quantity, avg_buy_price, total_cost, ltp, prev_close, current_value, unrealized_pnl, unrealized_pct, day_change, day_change_pct, data_source, last_update, data_status, created_at, updated_at) SELECT portfolio, isin, symbol, quantity, avg_buy_price, total_cost, ltp, prev_close, current_value, unrealized_pnl, unrealized_pct, day_change, day_change_pct, data_source, last_update, data_status, created_at, updated_at FROM Holdings");
-                      db.run("DROP TABLE Holdings");
-                      db.run("ALTER TABLE Holdings_new RENAME TO Holdings", (err) => {
-                        if (err) cleanupAndReject(err);
-                        else runCamsMigration();
-                      });
-                    });
-                  } else {
-                    runCamsMigration();
-                  }
-                });
-              };
-              
-              const runCamsMigration = () => {
-                db.all("PRAGMA table_info(CamsSummaryHoldings)", (camsPragmaErr, camsRows: any) => {
-                  if (camsPragmaErr) {
-                    cleanupAndReject(camsPragmaErr);
-                    return;
-                  }
-                  const hasFolio = camsRows ? camsRows.some((r: any) => r.name === 'folio') : false;
-                  if (camsRows && camsRows.length > 0 && !hasFolio) {
-                    db.serialize(() => {
-                      db.run("CREATE TABLE CamsSummaryHoldings_new (portfolio TEXT NOT NULL, isin TEXT NOT NULL, folio TEXT DEFAULT 'NA', symbol TEXT NOT NULL, quantity REAL NOT NULL, nav REAL NOT NULL, value REAL NOT NULL, cost REAL, created_at TEXT DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (portfolio, isin, folio))");
-                      db.run("INSERT INTO CamsSummaryHoldings_new (portfolio, isin, symbol, quantity, nav, value, cost, created_at) SELECT portfolio, isin, symbol, quantity, nav, value, cost, created_at FROM CamsSummaryHoldings");
-                      db.run("DROP TABLE CamsSummaryHoldings");
-                      db.run("ALTER TABLE CamsSummaryHoldings_new RENAME TO CamsSummaryHoldings", (err) => {
-                        if (err) cleanupAndReject(err);
-                        else runTaxSummaryMigration();
-                      });
-                    });
-                  } else {
-                    runTaxSummaryMigration();
-                  }
-                });
-              };
-
-              const runIsinCleanupAndEkiExchangeFix = () => {
-                db.serialize(() => {
-                  db.run(`
-                    UPDATE Transactions 
-                    SET isin = SUBSTR(isin, 1, 12) 
-                    WHERE isin LIKE '%[%'
-                  `);
-                  db.run(`
-                    UPDATE Holdings 
-                    SET isin = SUBSTR(isin, 1, 12) 
-                    WHERE isin LIKE '%[%'
-                  `);
-                  db.run(`
-                    UPDATE MasterTickers 
-                    SET isin = SUBSTR(isin, 1, 12) 
-                    WHERE isin LIKE '%[%'
-                  `);
-                  db.run(`UPDATE Holdings SET symbol = 'FEDERALBNK', isin = 'INE171A01029' WHERE symbol = 'FEDERAL BANK LTD' OR symbol = 'FEDERAL BANK' OR isin = 'CUSTOM_FEDER'`);
-                  db.run(`UPDATE Transactions SET symbol = 'FEDERALBNK', isin = 'INE171A01029' WHERE symbol = 'FEDERAL BANK LTD' OR symbol = 'FEDERAL BANK' OR isin = 'CUSTOM_FEDER'`);
-                  db.run(`UPDATE Holdings SET symbol = 'LT', isin = 'INE018A01030' WHERE symbol = 'LARSEN and TOUBRO LTD' OR symbol = 'LARSEN & TOUBRO LTD' OR isin = 'CUSTOM_LARSE'`);
-                  db.run(`UPDATE Transactions SET symbol = 'LT', isin = 'INE018A01030' WHERE symbol = 'LARSEN and TOUBRO LTD' OR symbol = 'LARSEN & TOUBRO LTD' OR isin = 'CUSTOM_LARSE'`);
-                  db.run(`UPDATE Holdings SET symbol = 'M&M', isin = 'INE101A01026' WHERE symbol = 'MAHINDRA and MAHINDRA LTD' OR symbol = 'MAHINDRA & MAHINDRA LTD' OR isin = 'CUSTOM_MAHIN'`);
-                  db.run(`UPDATE Transactions SET symbol = 'M&M', isin = 'INE101A01026' WHERE symbol = 'MAHINDRA and MAHINDRA LTD' OR symbol = 'MAHINDRA & MAHINDRA LTD' OR isin = 'CUSTOM_MAHIN'`);
-                  db.run(`UPDATE Holdings SET symbol = 'TATAPOWER', isin = 'INE245A01021' WHERE symbol = 'TATA POWER CO LTD' OR symbol = 'TATA POWER COMPANY LTD' OR isin = 'CUSTOM_TATAP'`);
-                  db.run(`UPDATE Transactions SET symbol = 'TATAPOWER', isin = 'INE245A01021' WHERE symbol = 'TATA POWER CO LTD' OR symbol = 'TATA POWER COMPANY LTD' OR isin = 'CUSTOM_TATAP'`);
-                  db.run(`
-                    UPDATE MasterTickers 
-                    SET exchange = 'BSE' 
-                    WHERE symbol = 'EKI' OR isin = 'INE0CPR01018'
-                  `, (err) => {
-                    if (err) console.warn("EKI exchange update failed:", err);
-                    // Backfill/sync is_cash_flow for all transactions based on PMS vs Non-PMS rules.
-                    // IMPORTANT GUARDS:
-                    //  1. Corporate action rows (is_ca=1) are NEVER cash flow events — always 0.
-                    //  2. PMS TRANSFER IN / TRANSFER OUT rows must NOT be overridden here because
-                    //     the import script explicitly sets the correct flag:
-                    //       - Initial capital in-kind (Security In at inception) → is_cash_flow=1
-                    //       - Internal reorganisations (DVR conversion etc.)     → is_cash_flow=0
-                    //     Overriding these would corrupt the XIRR calculation.
-                    //  3. All other rows: sync to the rule defined in computeIsCashFlowFlag.
-                    db.all("SELECT id, type, portfolio, source, is_cash_flow, is_ca FROM Transactions", (txErr, txns: any[]) => {
-                      if (!txErr && txns && txns.length > 0) {
-                        db.serialize(() => {
-                          db.run("BEGIN TRANSACTION");
-                          for (const tx of txns) {
-                            // Guard 1: CA rows are never cash flow events
-                            if ((tx.is_ca || 0) === 1) {
-                              if (tx.is_cash_flow !== 0) {
-                                db.run("UPDATE Transactions SET is_cash_flow = 0 WHERE id = ?", [tx.id]);
-                              }
-                              continue;
-                            }
-                            // Guard 2: PMS TRANSFER IN/OUT flags are set by the import and must not be overridden
-                            const isPms = tx.source === 'PMS' || (tx.portfolio && String(tx.portfolio).toLowerCase().includes('cc9'));
-                            const tType = String(tx.type || '').trim().toUpperCase();
-                            if (isPms && (tType === 'TRANSFER IN' || tType === 'TRANSFER OUT')) {
-                              // Trust the import-time flag; do not override
-                              continue;
-                            }
-                            // All other rows: sync to rule
-                            const expectedFlag = computeIsCashFlowFlag(tx.type, tx.portfolio, tx.source);
-                            if (tx.is_cash_flow !== expectedFlag) {
-                              db.run("UPDATE Transactions SET is_cash_flow = ? WHERE id = ?", [expectedFlag, tx.id]);
-                            }
-                          }
-                          db.run("COMMIT", () => {
-                            db.run("SELECT 1", () => cleanupAndResolve());
-                          });
-                        });
-                      } else {
-                        db.run("SELECT 1", () => cleanupAndResolve());
-                      }
-                    });
-                  });
-                });
-              };
-
-
-              const runPortfolioBackfillMigration = () => {
-                db.run(`
-                  INSERT INTO Portfolios (name, type, status)
-                  SELECT DISTINCT portfolio, 'EQUITY', 'ACTIVE'
-                  FROM Transactions
-                  WHERE portfolio IS NOT NULL 
-                    AND portfolio != ''
-                    AND portfolio NOT IN (SELECT name FROM Portfolios)
-                `, (err) => {
-                  if (err) console.warn("Portfolio backfill failed:", err);
-                  runIsinCleanupAndEkiExchangeFix();
-                });
-              };
-
-              const runTaxSummaryMigration = () => {
-                db.all("PRAGMA table_info(TaxSummary)", (taxPragmaErr, taxRows: any) => {
-                  if (taxPragmaErr) {
-                    cleanupAndReject(taxPragmaErr);
-                    return;
-                  }
-                  const hasIntraday = taxRows ? taxRows.some((r: any) => r.name === 'intraday_gains') : false;
-                  const hasDividends = taxRows ? taxRows.some((r: any) => r.name === 'dividends') : false;
-
-                  const step2 = () => {
-                    if (!hasDividends) {
-                      db.run("ALTER TABLE TaxSummary ADD COLUMN dividends REAL DEFAULT 0", (err) => {
-                        if (err) cleanupAndReject(err);
-                        else runPortfolioBackfillMigration();
-                      });
-                    } else {
-                      runPortfolioBackfillMigration();
-                    }
-                  };
-
-                  if (!hasIntraday) {
-                    db.run("ALTER TABLE TaxSummary ADD COLUMN intraday_gains REAL DEFAULT 0", (err) => {
-                      if (err) cleanupAndReject(err);
-                      else step2();
-                    });
-                  } else {
-                    step2();
-                  }
-                });
-              };
-              
-              const proceedIsCa = () => {
-                if (!hasIsCa) {
-                  db.run("ALTER TABLE Transactions ADD COLUMN is_ca INTEGER DEFAULT 0", (txAlterErr) => {
-                    if (txAlterErr) cleanupAndReject(txAlterErr);
-                    else runHoldingsFolioMigration();
-                  });
-                } else {
-                  runHoldingsFolioMigration();
-                }
-              };
-
-              if (!hasIsCashFlow) {
-                db.run("ALTER TABLE Transactions ADD COLUMN is_cash_flow INTEGER DEFAULT 1", (txAlterErr) => {
-                  if (txAlterErr) cleanupAndReject(txAlterErr);
-                  else proceedIsCa();
-                });
-              } else {
-                proceedIsCa();
-              }
-            });
-          };
-
-          if (!hasPrevClose) {
-            db.run("ALTER TABLE Holdings ADD COLUMN prev_close REAL DEFAULT 0", (alterErr) => {
-              if (alterErr) {
-                cleanupAndReject(alterErr);
-              } else {
-                runTxMigration();
-              }
-            });
-          } else {
-            runTxMigration();
-          }
+        db.run("SELECT 1", (err) => {
+          if (err) cleanupAndReject(err);
+          else cleanupAndResolve();
         });
       });
     });
@@ -3511,6 +3121,16 @@ export function setDbMockHooks(hooks: typeof mockHooks = {}) {
   mockHooks = hooks;
 }
 
+export type QueryProfileEvent = {
+  type: 'all' | 'get' | 'run';
+  sql: string;
+  durationMs: number;
+};
+let queryProfiler: ((event: QueryProfileEvent) => void) | null = null;
+export function setQueryProfiler(profiler: ((event: QueryProfileEvent) => void) | null) {
+  queryProfiler = profiler;
+}
+
 export async function dbRun(dbOrSql: any, sqlOrParams?: any, maybeParams: any[] = [], retryCount: number = 0): Promise<any> {
   let db: any;
   let sql: string;
@@ -3532,6 +3152,7 @@ export async function dbRun(dbOrSql: any, sqlOrParams?: any, maybeParams: any[] 
     return mockHooks.dbRun(sql, cleanParams);
   }
 
+  const qStart = queryProfiler ? performance.now() : 0;
   return new Promise((resolve, reject) => {
     try {
       const activeDb = getActiveDB(db);
@@ -3550,7 +3171,7 @@ export async function dbRun(dbOrSql: any, sqlOrParams?: any, maybeParams: any[] 
           }
           reject(err);
         } else {
-          createPersistentBackup();
+          if (queryProfiler) queryProfiler({ type: 'run', sql, durationMs: performance.now() - qStart });
           resolve({ id: this.lastID, lastID: this.lastID, changes: this.changes });
         }
       });
@@ -3570,6 +3191,51 @@ export async function dbRun(dbOrSql: any, sqlOrParams?: any, maybeParams: any[] 
       }
     }
   });
+}
+
+/**
+ * Execute a callback within an explicit SQLite transaction (BEGIN IMMEDIATE ... COMMIT).
+ * Rolls back automatically on error. Prevents per-row fsync overhead during batch writes.
+ * Supports re-entrancy and nested transactions safely via SQLite SAVEPOINTs.
+ */
+export async function withTx<T>(db: any, fn: () => Promise<T>): Promise<T> {
+  const targetDb = db || getDB();
+  const rawDb = targetDb?.db || targetDb;
+  const isNested = Boolean(rawDb && rawDb.inTransaction);
+  let savepointName: string | null = null;
+
+  if (isNested) {
+    savepointName = `sp_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+    await dbRun(targetDb, `SAVEPOINT ${savepointName}`);
+  } else {
+    await dbRun(targetDb, 'BEGIN IMMEDIATE');
+  }
+
+  try {
+    const result = await fn();
+    if (savepointName) {
+      await dbRun(targetDb, `RELEASE SAVEPOINT ${savepointName}`);
+    } else {
+      await dbRun(targetDb, 'COMMIT');
+    }
+    return result;
+  } catch (err) {
+    if (savepointName) {
+      try {
+        await dbRun(targetDb, `ROLLBACK TO SAVEPOINT ${savepointName}`);
+        await dbRun(targetDb, `RELEASE SAVEPOINT ${savepointName}`);
+      } catch {
+        // ignore failure if savepoint was already invalidated
+      }
+    } else {
+      try {
+        await dbRun(targetDb, 'ROLLBACK');
+      } catch {
+        // ignore rollback failure if transaction already aborted
+      }
+    }
+    throw err;
+  }
 }
 
 export async function dbAll<T = any>(dbOrSql: any, sqlOrParams?: any, maybeParams: any[] = [], retryCount: number = 0): Promise<T[]> {
@@ -3593,6 +3259,7 @@ export async function dbAll<T = any>(dbOrSql: any, sqlOrParams?: any, maybeParam
     return mockHooks.dbAll(sql, cleanParams);
   }
 
+  const qStart = queryProfiler ? performance.now() : 0;
   return new Promise((resolve, reject) => {
     try {
       const activeDb = getActiveDB(db);
@@ -3611,6 +3278,7 @@ export async function dbAll<T = any>(dbOrSql: any, sqlOrParams?: any, maybeParam
           }
           reject(err);
         } else {
+          if (queryProfiler) queryProfiler({ type: 'all', sql, durationMs: performance.now() - qStart });
           resolve((rows || []) as T[]);
         }
       });
@@ -3653,6 +3321,7 @@ export async function dbGet<T = any>(dbOrSql: any, sqlOrParams?: any, maybeParam
     return mockHooks.dbGet(sql, cleanParams);
   }
 
+  const qStart = queryProfiler ? performance.now() : 0;
   return new Promise((resolve, reject) => {
     try {
       const activeDb = getActiveDB(db);
@@ -3671,6 +3340,7 @@ export async function dbGet<T = any>(dbOrSql: any, sqlOrParams?: any, maybeParam
           }
           reject(err);
         } else {
+          if (queryProfiler) queryProfiler({ type: 'get', sql, durationMs: performance.now() - qStart });
           resolve(row as T);
         }
       });

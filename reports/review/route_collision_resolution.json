@@ -1,0 +1,475 @@
+{
+  "timestamp": "2026-10-07T11:29:13.529Z",
+  "totalHistoricalCollisions": 66,
+  "unresolvedCollisions": 0,
+  "status": "RESOLVED",
+  "summary": {
+    "removedShadowedDuplicates": 62,
+    "mergedOrConsolidated": 4,
+    "deliberateAliasesPreserved": 0
+  },
+  "resolutions": [
+    {
+      "id": 1,
+      "method": "GET",
+      "path": "/api",
+      "action": "REMOVED",
+      "resolution": "Eliminated bare /api mount collision by creating dedicated /api/bank-fds and /api/transactions sub-routers."
+    },
+    {
+      "id": 2,
+      "method": "POST",
+      "path": "/api",
+      "action": "REMOVED",
+      "resolution": "Eliminated bare /api mount collision by creating dedicated /api/bank-fds and /api/transactions sub-routers."
+    },
+    {
+      "id": 3,
+      "method": "DELETE",
+      "path": "/api/:id",
+      "action": "REMOVED",
+      "resolution": "Eliminated bare /api mount collision by creating dedicated /api/bank-fds and /api/transactions sub-routers."
+    },
+    {
+      "id": 4,
+      "method": "GET",
+      "path": "/api/currency-rates",
+      "action": "REMOVED",
+      "resolution": "Created modular src/server/routes/currencyRates.ts mounted at /api/currency-rates."
+    },
+    {
+      "id": 5,
+      "method": "POST",
+      "path": "/api/currency-rates/sync",
+      "action": "REMOVED",
+      "resolution": "Created modular src/server/routes/currencyRates.ts mounted at /api/currency-rates."
+    },
+    {
+      "id": 6,
+      "method": "GET",
+      "path": "/api/master-tickers",
+      "action": "REMOVED",
+      "resolution": "Created modular src/server/routes/masterTickers.ts mounted at /api/master-tickers."
+    },
+    {
+      "id": 7,
+      "method": "PUT",
+      "path": "/api/master-tickers/:id",
+      "action": "REMOVED",
+      "resolution": "Created modular src/server/routes/masterTickers.ts mounted at /api/master-tickers."
+    },
+    {
+      "id": 8,
+      "method": "PUT",
+      "path": "/api/master-tickers/upsert-by-isin",
+      "action": "REMOVED",
+      "resolution": "Created modular src/server/routes/masterTickers.ts mounted at /api/master-tickers."
+    },
+    {
+      "id": 9,
+      "method": "GET",
+      "path": "*",
+      "action": "MERGED",
+      "resolution": "Unified dev and production SPA catch-all handlers in server.ts into a single handler."
+    },
+    {
+      "id": 10,
+      "method": "GET",
+      "path": "/api/consensus/executive",
+      "action": "MERGED",
+      "resolution": "Consolidated duplicate executive consensus handlers in infra.ts into getExecutiveConsensusHandler."
+    },
+    {
+      "id": 11,
+      "method": "GET",
+      "path": "/api/consensus/scrip/:symbol",
+      "action": "MERGED",
+      "resolution": "Consolidated duplicate scrip consensus handlers in infra.ts into getScripConsensusDetailHandler."
+    },
+    {
+      "id": 12,
+      "method": "GET",
+      "path": "/api/technical-strategies/universe-count",
+      "action": "REMOVED",
+      "resolution": "Removed duplicate from infra.ts; canonical owner is src/server/routes/strategies.ts."
+    },
+    {
+      "id": 13,
+      "method": "POST",
+      "path": "/api/technical-strategies/scan-multi",
+      "action": "REMOVED",
+      "resolution": "Removed duplicate from infra.ts; canonical owner is src/server/routes/strategies.ts."
+    },
+    {
+      "id": 14,
+      "method": "POST",
+      "path": "/api/data-pipeline/run-daily",
+      "action": "REMOVED",
+      "resolution": "Removed earlier duplicate from infra.ts; canonical owner is DailyPipelineService at line 2876."
+    },
+    {
+      "id": 15,
+      "method": "GET",
+      "path": "/api/healthcheck",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in system.ts."
+    },
+    {
+      "id": 16,
+      "method": "GET",
+      "path": "/api/opportunities/scanner",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in infra.ts."
+    },
+    {
+      "id": 17,
+      "method": "GET",
+      "path": "/api/opportunities/custom-scan",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in infra.ts."
+    },
+    {
+      "id": 18,
+      "method": "GET",
+      "path": "/api/opportunities/redeploy-matrix",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in infra.ts."
+    },
+    {
+      "id": 19,
+      "method": "GET",
+      "path": "/api/v2/company-intelligence/:symbol",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in infra.ts."
+    },
+    {
+      "id": 20,
+      "method": "POST",
+      "path": "/api/v2/company-intelligence/:symbol/refresh",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in infra.ts."
+    },
+    {
+      "id": 21,
+      "method": "GET",
+      "path": "/api/company-intelligence/:symbol",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in infra.ts."
+    },
+    {
+      "id": 22,
+      "method": "POST",
+      "path": "/api/company-intelligence/:symbol/refresh",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in infra.ts."
+    },
+    {
+      "id": 23,
+      "method": "GET",
+      "path": "/api/server-info",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in system.ts."
+    },
+    {
+      "id": 24,
+      "method": "GET",
+      "path": "/api/bank-fds",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in bankFds.ts."
+    },
+    {
+      "id": 25,
+      "method": "POST",
+      "path": "/api/apps/generate-ai",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in system.ts."
+    },
+    {
+      "id": 26,
+      "method": "POST",
+      "path": "/api/bank-fds",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in bankFds.ts."
+    },
+    {
+      "id": 27,
+      "method": "DELETE",
+      "path": "/api/bank-fds/:id",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in bankFds.ts."
+    },
+    {
+      "id": 28,
+      "method": "GET",
+      "path": "/api/currency-rates",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in currencyRates.ts."
+    },
+    {
+      "id": 29,
+      "method": "POST",
+      "path": "/api/currency-rates/sync",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in currencyRates.ts."
+    },
+    {
+      "id": 30,
+      "method": "POST",
+      "path": "/api/reports/generate",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in reports.ts."
+    },
+    {
+      "id": 31,
+      "method": "GET",
+      "path": "/api/family-hierarchy",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in settings.ts."
+    },
+    {
+      "id": 32,
+      "method": "POST",
+      "path": "/api/family-hierarchy",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in settings.ts."
+    },
+    {
+      "id": 33,
+      "method": "DELETE",
+      "path": "/api/family-hierarchy/:id",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in settings.ts."
+    },
+    {
+      "id": 34,
+      "method": "POST",
+      "path": "/api/family-hierarchy/assign",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in settings.ts."
+    },
+    {
+      "id": 35,
+      "method": "GET",
+      "path": "/api/scrip-mappings",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in settings.ts."
+    },
+    {
+      "id": 36,
+      "method": "POST",
+      "path": "/api/scrip-mappings",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in settings.ts."
+    },
+    {
+      "id": 37,
+      "method": "DELETE",
+      "path": "/api/scrip-mappings/:id",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in settings.ts."
+    },
+    {
+      "id": 38,
+      "method": "GET",
+      "path": "/api/scrip-mappings/unmapped",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in settings.ts."
+    },
+    {
+      "id": 39,
+      "method": "POST",
+      "path": "/api/scrip-mappings/auto-resolve",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in settings.ts."
+    },
+    {
+      "id": 40,
+      "method": "POST",
+      "path": "/api/recon/multi-broker",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in imports.ts."
+    },
+    {
+      "id": 41,
+      "method": "GET",
+      "path": "/api/templates/download/:templateId",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in imports.ts."
+    },
+    {
+      "id": 42,
+      "method": "POST",
+      "path": "/api/pms/iifl/parse",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in imports.ts."
+    },
+    {
+      "id": 43,
+      "method": "POST",
+      "path": "/api/pms/complete-circle/parse",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in imports.ts."
+    },
+    {
+      "id": 44,
+      "method": "POST",
+      "path": "/api/transactions/deduplicate-check",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in imports.ts."
+    },
+    {
+      "id": 45,
+      "method": "POST",
+      "path": "/api/transactions/deduplicate-commit",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in imports.ts."
+    },
+    {
+      "id": 46,
+      "method": "POST",
+      "path": "/api/backup",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in system.ts."
+    },
+    {
+      "id": 47,
+      "method": "POST",
+      "path": "/api/tickers/sync",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in settings.ts."
+    },
+    {
+      "id": 48,
+      "method": "GET",
+      "path": "/api/portfolios",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in portfolios.ts."
+    },
+    {
+      "id": 49,
+      "method": "POST",
+      "path": "/api/portfolios",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in portfolios.ts."
+    },
+    {
+      "id": 50,
+      "method": "PUT",
+      "path": "/api/portfolios/:name/type",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in portfolios.ts."
+    },
+    {
+      "id": 51,
+      "method": "PUT",
+      "path": "/api/portfolios/:name/currency",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in portfolios.ts."
+    },
+    {
+      "id": 52,
+      "method": "PUT",
+      "path": "/api/portfolios/rename",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in portfolios.ts."
+    },
+    {
+      "id": 53,
+      "method": "GET",
+      "path": "/api/tickers",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in settings.ts."
+    },
+    {
+      "id": 54,
+      "method": "POST",
+      "path": "/api/tickers/sync-sectors",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in settings.ts."
+    },
+    {
+      "id": 55,
+      "method": "POST",
+      "path": "/api/tickers/merge",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in settings.ts."
+    },
+    {
+      "id": 56,
+      "method": "POST",
+      "path": "/api/tickers",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in settings.ts."
+    },
+    {
+      "id": 57,
+      "method": "PUT",
+      "path": "/api/tickers/:id",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in settings.ts."
+    },
+    {
+      "id": 58,
+      "method": "DELETE",
+      "path": "/api/tickers/:id",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in settings.ts."
+    },
+    {
+      "id": 59,
+      "method": "GET",
+      "path": "/api/transactions",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in transactions.ts."
+    },
+    {
+      "id": 60,
+      "method": "POST",
+      "path": "/api/transactions",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in transactions.ts."
+    },
+    {
+      "id": 61,
+      "method": "PUT",
+      "path": "/api/transactions/:id",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in transactions.ts."
+    },
+    {
+      "id": 62,
+      "method": "DELETE",
+      "path": "/api/transactions/:id",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in transactions.ts."
+    },
+    {
+      "id": 63,
+      "method": "POST",
+      "path": "/api/transactions/bulk",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in transactions.ts."
+    },
+    {
+      "id": 64,
+      "method": "GET",
+      "path": "/api/transactions/export",
+      "action": "REMOVED",
+      "resolution": "Removed shadowed inline handler from server.ts; canonical in transactions.ts."
+    },
+    {
+      "id": 65,
+      "method": "POST",
+      "path": "/api/corporate-actions/apply",
+      "action": "MERGED",
+      "resolution": "Unified single-action verification and batch apply under canonical infra.ts handler with /corporate-actions/apply-verified alias."
+    },
+    {
+      "id": 66,
+      "method": "GET",
+      "path": "/api/metrics",
+      "action": "MERGED",
+      "resolution": "Prometheus metrics mounted at /telemetry/metrics and /prometheus/metrics; canonical dashboard payload preserved at /api/metrics."
+    }
+  ]
+}

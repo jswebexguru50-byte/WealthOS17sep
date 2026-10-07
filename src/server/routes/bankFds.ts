@@ -55,24 +55,5 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-// GET /api/currency-rates
-router.get('/currency-rates', async (_req, res) => {
-  try {
-    const rates = await BankAndFDService.getInstance().getCurrencyRates();
-    res.json({ success: true, rates });
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-// POST /api/currency-rates/sync
-router.post('/currency-rates/sync', async (_req, res) => {
-  try {
-    const result = await BankAndFDService.getInstance().fetchLiveXERates();
-    res.json({ success: true, ...result });
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
 export default router;
+

@@ -1,0 +1,57 @@
+{
+  "timestamp": "2026-10-07T12:27:15.923Z",
+  "auditStatus": "AWAITING_INDEPENDENT_REVIEW",
+  "environment": {
+    "nodeVersion": "v24.18.0",
+    "platform": "win32",
+    "readOnlyRuntime": true
+  },
+  "database": {
+    "path": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\portfolio.db",
+    "sizeBytes": 3440357720,
+    "sizeHuman": "3.20 GB"
+  },
+  "benchmark": {
+    "coldCache": {
+      "latencyMs": 1995.95,
+      "queryCount": 27,
+      "slowestQueries": [
+        {
+          "sql": "SELECT portfolio, net_amount, type FROM Transactions WHERE UPPER(type) IN ('DIVIDEND', 'DIVIDEND PAYOUT', 'DIVIDEND REIN",
+          "type": "all",
+          "durationMs": 33.91
+        },
+        {
+          "sql": "SELECT portfolio, isin, symbol, notes, type, date, net_amount, quantity, price, source, is_ca, is_cash_flow FROM Transac",
+          "type": "all",
+          "durationMs": 22.97
+        },
+        {
+          "sql": "SELECT type, net_amount, quantity, price, portfolio, source, is_cash_flow, is_ca FROM Transactions WHERE 1=1",
+          "type": "all",
+          "durationMs": 22.42
+        },
+        {
+          "sql": "SELECT portfolio, symbol, date, type, net_amount FROM Transactions WHERE net_amount != 0 AND symbol IN (?,?,?,?,?,?,?,?,",
+          "type": "all",
+          "durationMs": 10.43
+        },
+        {
+          "sql": "SELECT portfolio, isin, symbol, SUM(realized_pnl) as total_realized_pnl, SUM(sell_proceeds) as total_withdrawals FROM Re",
+          "type": "all",
+          "durationMs": 7.77
+        }
+      ]
+    },
+    "warmCache": {
+      "latencyMs": 0.01,
+      "queryCount": 0
+    },
+    "payloadSummary": {
+      "success": true,
+      "totalHoldings": 124,
+      "netWorth": 468170997.41,
+      "totalInvested": 384941466.03848916
+    }
+  }
+}

@@ -1,0 +1,2727 @@
+[
+  {
+    "file": "server.ts",
+    "line": 671,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "Holdings"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " UPDATE Holdings SET ltp = ?, current_value = ?, unrealized_pnl = ?, pnl_pc"
+  },
+  {
+    "file": "server.ts",
+    "line": 1328,
+    "loopType": "for...of",
+    "writeCallsCount": 5,
+    "operationType": "UPDATE, DELETE FROM",
+    "tablesAffected": [
+      "Transactions",
+      "CamsConfigurations",
+      "ZerodhaHoldings",
+      "BackupManualTransactions",
+      "Holdings"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "UPDATE Transactions SET portfolio = ? WHERE portfolio = ?"
+  },
+  {
+    "file": "server.ts",
+    "line": 1496,
+    "loopType": "for...of",
+    "writeCallsCount": 4,
+    "operationType": "UPDATE, INSERT OR IGNORE INTO",
+    "tablesAffected": [
+      "Portfolios",
+      "Transactions",
+      "Holdings",
+      "MemberPortfolioPermissions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "UPDATE Portfolios SET member_id = ? WHERE name = ?"
+  },
+  {
+    "file": "server.ts",
+    "line": 5781,
+    "loopType": "for...of",
+    "writeCallsCount": 2,
+    "operationType": "INSERT OR IGNORE INTO, INSERT INTO",
+    "tablesAffected": [
+      "MasterTickers",
+      "Transactions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT OR IGNORE INTO MasterTickers (isin, symbol) VALUES (?, ?)"
+  },
+  {
+    "file": "server.ts",
+    "line": 6292,
+    "loopType": "for...of",
+    "writeCallsCount": 4,
+    "operationType": "INSERT INTO, DELETE FROM, UPDATE",
+    "tablesAffected": [
+      "BackupManualTransactions",
+      "Transactions",
+      "CorporateActions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT INTO BackupManualTransactions ( original_id, date, portfolio, "
+  },
+  {
+    "file": "server.ts",
+    "line": 6358,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "Transactions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT INTO Transactions (date, portfolio, type, isin, symbol, quantity, price, n"
+  },
+  {
+    "file": "server.ts",
+    "line": 6441,
+    "loopType": "for...of",
+    "writeCallsCount": 2,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "Transactions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT INTO Transactions (date, portfolio, type, isin, symbol, quantity, price, gross_a"
+  },
+  {
+    "file": "server.ts",
+    "line": 7419,
+    "loopType": "for...of",
+    "writeCallsCount": 3,
+    "operationType": "INSERT INTO, UPDATE, INSERT OR IGNORE INTO",
+    "tablesAffected": [
+      "UserMappings",
+      "MasterTickers"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT INTO UserMappings (raw_name, resolved_symbol, updated_at) VALUES (?, ?,"
+  },
+  {
+    "file": "server.ts",
+    "line": 8076,
+    "loopType": "for...of",
+    "writeCallsCount": 7,
+    "operationType": "INSERT INTO, DELETE FROM",
+    "tablesAffected": [
+      "Transactions",
+      "ZerodhaHoldings"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT INTO Transactions (date, portfolio, type, symbol, isin, quantity, price, net_amount, source, "
+  },
+  {
+    "file": "server.ts",
+    "line": 8078,
+    "loopType": "for...of",
+    "writeCallsCount": 2,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "Transactions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT INTO Transactions (date, portfolio, type, symbol, isin, quantity, price, net_amount, source, "
+  },
+  {
+    "file": "server.ts",
+    "line": 8168,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "Transactions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT INTO Transactions (date, portfolio, type, symbol, isin, quantity, price, net_amount, source, "
+  },
+  {
+    "file": "server.ts",
+    "line": 8203,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "Transactions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT INTO Transactions (date, portfolio, type, symbol, isin, quantity, price, net_amount, source, "
+  },
+  {
+    "file": "server.ts",
+    "line": 8260,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "Transactions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT INTO Transactions (date, portfolio, type, symbol, isin, quantity, price, net_amount, is_cash_"
+  },
+  {
+    "file": "server.ts",
+    "line": 8388,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "ZerodhaHoldings"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT INTO ZerodhaHoldings (portfolio, isin, symbol, name, quantity, avg_price) "
+  },
+  {
+    "file": "server.ts",
+    "line": 9107,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "Transactions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT INTO Transactions (date,portfolio,type,isin,symbol,quantity,price,gross_amount,brokerage,stt,"
+  },
+  {
+    "file": "server.ts",
+    "line": 9161,
+    "loopType": "for...of",
+    "writeCallsCount": 2,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "Transactions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "UPDATE Transactions SET is_cash_flow=0 WHERE id=?"
+  },
+  {
+    "file": "server.ts",
+    "line": 9258,
+    "loopType": "for",
+    "writeCallsCount": 1,
+    "operationType": "DELETE FROM",
+    "tablesAffected": [
+      "Transactions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "`DELETE FROM Transactions WHERE id IN (${placeholders})`"
+  },
+  {
+    "file": "server.ts",
+    "line": 9533,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "ReconciledHoldings"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO ReconciledHoldings (portfolio, isin, symbol, quantity"
+  },
+  {
+    "file": "server.ts",
+    "line": 10142,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "BenchmarkCashFlowCache"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT OR REPLACE INTO BenchmarkCashFlowCache (portfolio, benchmark_symbol, date, invested, market_v"
+  },
+  {
+    "file": "server.ts",
+    "line": 10396,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "BenchmarkCashFlowCache"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT OR REPLACE INTO BenchmarkCashFlowCache (portfolio, benchmark_symbol, date, invested, market_v"
+  },
+  {
+    "file": "server.ts",
+    "line": 11144,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "CamsSummaryHoldings"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT OR REPLACE INTO CamsSummaryHoldings (portfolio, isin, folio, symbol, quantity, nav, value, co"
+  },
+  {
+    "file": "server.ts",
+    "line": 11177,
+    "loopType": "for...of",
+    "writeCallsCount": 2,
+    "operationType": "INSERT OR IGNORE INTO, INSERT INTO",
+    "tablesAffected": [
+      "MasterTickers",
+      "Transactions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT OR IGNORE INTO MasterTickers (isin, symbol, name, exchange, segment, sector) VA"
+  },
+  {
+    "file": "server.ts",
+    "line": 11252,
+    "loopType": "for...of",
+    "writeCallsCount": 2,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "Holdings",
+      "MasterTickers"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "UPDATE Holdings SET ltp = ?, current_value = ?, unrealized_pnl = ?, unrealized_pct ="
+  },
+  {
+    "file": "server.ts",
+    "line": 11489,
+    "loopType": "for...of",
+    "writeCallsCount": 2,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "Holdings",
+      "MasterTickers"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "UPDATE Holdings SET ltp = ?, current_value = ?, unrealized_pnl = ?, unrealized_pct = ?"
+  },
+  {
+    "file": "server.ts",
+    "line": 11572,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "Transactions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT INTO Transactions (date, portfolio, type, isin, symbol, quantity, price, gross_amount, net_am"
+  },
+  {
+    "file": "server.ts",
+    "line": 11610,
+    "loopType": "for...of",
+    "writeCallsCount": 2,
+    "operationType": "INSERT OR IGNORE INTO, INSERT INTO",
+    "tablesAffected": [
+      "MasterTickers",
+      "Transactions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT OR IGNORE INTO MasterTickers (isin, symbol, name, exchange, segment, sector) "
+  },
+  {
+    "file": "server.ts",
+    "line": 11662,
+    "loopType": "for...of",
+    "writeCallsCount": 2,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "Holdings",
+      "MasterTickers"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "UPDATE Holdings SET ltp = ?, current_value = ?, unrealized_pnl = current_value - total_cost, "
+  },
+  {
+    "file": "server.ts",
+    "line": 12195,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR IGNORE INTO",
+    "tablesAffected": [
+      "Portfolios"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT OR IGNORE INTO Portfolios (name, type, status) VALUES (?, 'EQUITY', 'ACTIVE')"
+  },
+  {
+    "file": "server.ts",
+    "line": 12218,
+    "loopType": "for...of",
+    "writeCallsCount": 5,
+    "operationType": "INSERT OR IGNORE INTO, INSERT INTO",
+    "tablesAffected": [
+      "MasterTickers",
+      "Transactions",
+      "CorporateActions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT OR IGNORE INTO MasterTickers (isin, symbol, name, exchange, segment, sector) VALUES (?, ?, ?,"
+  },
+  {
+    "file": "server.ts",
+    "line": 12681,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "DELETE FROM",
+    "tablesAffected": [
+      "CorporateActions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "DELETE FROM CorporateActions WHERE isin = ?"
+  },
+  {
+    "file": "server.ts",
+    "line": 12691,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "DELETE FROM",
+    "tablesAffected": [
+      "CorporateActions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "DELETE FROM CorporateActions WHERE symbol = ? AND (isin IS NULL OR isin = \"\")"
+  },
+  {
+    "file": "server.ts",
+    "line": 12703,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "DELETE FROM",
+    "tablesAffected": [
+      "UserMappings"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "DELETE FROM UserMappings WHERE resolved_symbol = ? OR raw_name = ?"
+  },
+  {
+    "file": "server.ts",
+    "line": 12832,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "Holdings"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " UPDATE Holdings SET ltp = ?, current_value = ?, unrealized_pnl = ?, unreali"
+  },
+  {
+    "file": "server.ts",
+    "line": 12982,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "CarriedForwardLosses"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT INTO CarriedForwardLosses (portfolio, financial_year, stcl_amount, ltcl_amount, as"
+  },
+  {
+    "file": "server.ts",
+    "line": 14688,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "ZerodhaHoldings"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT INTO ZerodhaHoldings (portfolio, isin, symbol, name, quantity, avg_price) "
+  },
+  {
+    "file": "server.ts",
+    "line": 14994,
+    "loopType": "for...of",
+    "writeCallsCount": 3,
+    "operationType": "INSERT OR IGNORE INTO, INSERT INTO",
+    "tablesAffected": [
+      "MasterTickers",
+      "Transactions",
+      "CorporateActions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT OR IGNORE INTO MasterTickers (isin, symbol) VALUES (?, ?)"
+  },
+  {
+    "file": "server.ts",
+    "line": 15138,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "MasterTickers"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO MasterTickers (isin, symbol, name, exchange, segment, sector, last"
+  },
+  {
+    "file": "server.ts",
+    "line": 15145,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "Transactions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT INTO Transactions (date, portfolio, type, isin, symbol, quantity, price, gross_amo"
+  },
+  {
+    "file": "server.ts",
+    "line": 15193,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "DailyPortfolioSnapshot"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT INTO DailyPortfolioSnapshot ( date, portfolio, market_value, total_cos"
+  },
+  {
+    "file": "server.ts",
+    "line": 15459,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": ""
+  },
+  {
+    "file": "server.ts",
+    "line": 15628,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": ""
+  },
+  {
+    "file": "server.ts",
+    "line": 15740,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "MasterTickers"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT INTO MasterTickers (isin, symbol, name, exchange, sector) VALUES"
+  },
+  {
+    "file": "src/server/database.ts",
+    "line": 719,
+    "loopType": "for...of",
+    "writeCallsCount": 2,
+    "operationType": "UNKNOWN, INSERT OR IGNORE INTO",
+    "tablesAffected": [
+      "db_migrations"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": ""
+  },
+  {
+    "file": "src/server/database.ts",
+    "line": 722,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": ""
+  },
+  {
+    "file": "src/server/database.ts",
+    "line": 791,
+    "loopType": "for...of",
+    "writeCallsCount": 2,
+    "operationType": "INSERT OR REPLACE INTO, DELETE FROM",
+    "tablesAffected": [
+      "DatasetPromotionManifests_Quarantine",
+      "DatasetPromotionManifests"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO DatasetPromotionManifests_Quarantine ( dataset_id, raw"
+  },
+  {
+    "file": "src/server/database.ts",
+    "line": 1094,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": ""
+  },
+  {
+    "file": "src/server/database.ts",
+    "line": 1328,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR IGNORE INTO",
+    "tablesAffected": [
+      "TargetAllocations"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT OR IGNORE INTO TargetAllocations (model_name, asset_class, target_pct, rebalance_tolerance_pc"
+  },
+  {
+    "file": "src/server/database.ts",
+    "line": 1361,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": ""
+  },
+  {
+    "file": "src/server/database.ts",
+    "line": 1400,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": ""
+  },
+  {
+    "file": "src/server/database.ts",
+    "line": 2160,
+    "loopType": ".forEach",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR IGNORE INTO",
+    "tablesAffected": [
+      "CarriedForwardLosses"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR IGNORE INTO CarriedForwardLosses (portfolio, financial_year, stcl_amoun"
+  },
+  {
+    "file": "src/server/database.ts",
+    "line": 2604,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "tier_calibration_ledger"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT INTO tier_calibration_ledger ( id, tier_or_preset_"
+  },
+  {
+    "file": "src/server/db/migrator.ts",
+    "line": 120,
+    "loopType": "for...of",
+    "writeCallsCount": 8,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "BEGIN IMMEDIATE"
+  },
+  {
+    "file": "src/server/fifoEngine.ts",
+    "line": 391,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "StrippingDisallowances"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT INTO StrippingDisallowances ( portfolio, symbol, isin, sec"
+  },
+  {
+    "file": "src/server/fifoEngine.ts",
+    "line": 546,
+    "loopType": "while",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "StrippingDisallowances"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT INTO StrippingDisallowances ( portfolio, symbol, isin, sec"
+  },
+  {
+    "file": "src/server/fifoEngine.ts",
+    "line": 1393,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "AppConfig"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT OR REPLACE INTO AppConfig (key, value) VALUES (?, ?)"
+  },
+  {
+    "file": "src/server/fifoEngine.ts",
+    "line": 1594,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "TaxSummary"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT INTO TaxSummary (financial_year, portfolio, intraday_gains, stcg_gains, stcg_tax, lt"
+  },
+  {
+    "file": "src/server/fifoEngine.ts",
+    "line": 1976,
+    "loopType": "for...of",
+    "writeCallsCount": 2,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "Holdings"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "UPDATE Holdings SET tax_avg_price=?, tax_cost_basis=? WHERE portfolio='cc9' AND symbol=?"
+  },
+  {
+    "file": "src/server/routes/infra.ts",
+    "line": 2701,
+    "loopType": "for",
+    "writeCallsCount": 1,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": ""
+  },
+  {
+    "file": "src/server/routes/infra.ts",
+    "line": 2792,
+    "loopType": "for",
+    "writeCallsCount": 4,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "BEGIN TRANSACTION"
+  },
+  {
+    "file": "src/server/routes/infra.ts",
+    "line": 2794,
+    "loopType": ".map",
+    "writeCallsCount": 4,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "BEGIN TRANSACTION"
+  },
+  {
+    "file": "src/server/routes/infra.ts",
+    "line": 2816,
+    "loopType": "for",
+    "writeCallsCount": 1,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": ""
+  },
+  {
+    "file": "src/server/routes/infra.ts",
+    "line": 3128,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "CustomStrategies"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "UPDATE CustomStrategies SET backtest_win_rate = ?, backtest_sharpe = ?, backtest_total_signals = ?, "
+  },
+  {
+    "file": "src/server/routes/masterTickers.ts",
+    "line": 33,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "Holdings"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "UPDATE Holdings SET ltp=?, current_value=?, unrealized_pnl=?, unrealized_pct=?, data_source='Manual "
+  },
+  {
+    "file": "src/server/routes/portfolios.ts",
+    "line": 173,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "`UPDATE ${table} SET ${col} = ? WHERE ${col} = ?`"
+  },
+  {
+    "file": "src/server/routes/reconciliationAudit.ts",
+    "line": 98,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "ReconciliationAuditSnapshots"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT INTO ReconciliationAuditSnapshots ( statement_date, portfolio, stateme"
+  },
+  {
+    "file": "src/server/routes/settings.ts",
+    "line": 48,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "AppConfig"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT OR REPLACE INTO AppConfig (key, value) VALUES (?, ?)"
+  },
+  {
+    "file": "src/server/services/AlertEngine.ts",
+    "line": 290,
+    "loopType": ".forEach",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "AlertLog"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO AlertLog ( id, alert_code, category, priority, symbol,"
+  },
+  {
+    "file": "src/server/services/AutonomousSelfLearningService.ts",
+    "line": 120,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR IGNORE INTO",
+    "tablesAffected": [
+      "AutonomousSelfLearningRules"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR IGNORE INTO AutonomousSelfLearningRules (rule_name, rule_categor"
+  },
+  {
+    "file": "src/server/services/ConsolidatedOpportunityEngine.ts",
+    "line": 1110,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "OpportunityScripEvaluations"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT INTO OpportunityScripEvaluations ( symbol, company_name, sector, market_cap_ca"
+  },
+  {
+    "file": "src/server/services/ConsolidatedOpportunityEngine.ts",
+    "line": 1486,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "TopNCurationLog"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT INTO TopNCurationLog (curation_date, tier, symbol, convergence"
+  },
+  {
+    "file": "src/server/services/ConsolidatedOpportunityEngine.ts",
+    "line": 1590,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "tier_membership_history"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT INTO tier_membership_history (id, tier, symbol, event_type, score, consecutive_c"
+  },
+  {
+    "file": "src/server/services/ConsolidatedOpportunityEngine.ts",
+    "line": 1596,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "tier_membership_history"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT INTO tier_membership_history (id, tier, symbol, event_type, score, consecutive_c"
+  },
+  {
+    "file": "src/server/services/CorporateActionsEngine.ts",
+    "line": 536,
+    "loopType": "for...of",
+    "writeCallsCount": 3,
+    "operationType": "UPDATE, INSERT INTO",
+    "tablesAffected": [
+      "CorporateActions",
+      "Transactions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " UPDATE CorporateActions SET applied = 1, applied_date = CURRENT_TIMESTAMP, applied"
+  },
+  {
+    "file": "src/server/services/CorporateActionsEngine.ts",
+    "line": 592,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "Transactions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT INTO Transactions (date, portfolio, type, isin, symbol, quantity, price, net_amoun"
+  },
+  {
+    "file": "src/server/services/DailyEODPipelineService.ts",
+    "line": 203,
+    "loopType": "for",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR IGNORE INTO",
+    "tablesAffected": [
+      "DailyOHLCV"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR IGNORE INTO DailyOHLCV (symbol, trade_date, open, high, low, close, v"
+  },
+  {
+    "file": "src/server/services/DailyEODPipelineService.ts",
+    "line": 208,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR IGNORE INTO",
+    "tablesAffected": [
+      "DailyOHLCV"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR IGNORE INTO DailyOHLCV (symbol, trade_date, open, high, low, close, v"
+  },
+  {
+    "file": "src/server/services/DailyPipelineService.ts",
+    "line": 237,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "DailyOHLCV"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO DailyOHLCV ( symbol, trade_date, open, high, low, clos"
+  },
+  {
+    "file": "src/server/services/DualSourceReconciliationEngine.ts",
+    "line": 234,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "HistoricalFinancialStatements"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO HistoricalFinancialStatements ( symbol, statem"
+  },
+  {
+    "file": "src/server/services/DualSourceReconciliationEngine.ts",
+    "line": 301,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "HistoricalFinancialStatements"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO HistoricalFinancialStatements ( symbol, statem"
+  },
+  {
+    "file": "src/server/services/DualSourceReconciliationEngine.ts",
+    "line": 352,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "HistoricalFinancialStatements"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO HistoricalFinancialStatements ( symbol, statement_"
+  },
+  {
+    "file": "src/server/services/DualSourceReconciliationEngine.ts",
+    "line": 379,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "HistoricalFinancialStatements"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO HistoricalFinancialStatements ( symbol, statement_"
+  },
+  {
+    "file": "src/server/services/DualSourceReconciliationEngine.ts",
+    "line": 398,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "HistoricalShareholdingPattern"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO HistoricalShareholdingPattern ( symbol, quarter_la"
+  },
+  {
+    "file": "src/server/services/DualSourceReconciliationEngine.ts",
+    "line": 494,
+    "loopType": "for...of",
+    "writeCallsCount": 3,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "HistoricalFinancialStatements"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO HistoricalFinancialStatements ( symbol, st"
+  },
+  {
+    "file": "src/server/services/DualSourceReconciliationEngine.ts",
+    "line": 681,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "DataSyncDriftLedger"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT INTO DataSyncDriftLedger ( symbol, as_of_period, statement_type, metri"
+  },
+  {
+    "file": "src/server/services/FnOBhavcopyIngestorService.ts",
+    "line": 97,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "options_chain_snapshot"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO options_chain_snapshot (symbol, expiry, strike, opti"
+  },
+  {
+    "file": "src/server/services/intelligence/contradictions/ContradictionStore.ts",
+    "line": 87,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "company_contradiction"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO company_contradiction (contradiction_id, security_"
+  },
+  {
+    "file": "src/server/services/intelligence/contradictions/ContradictionStore.ts",
+    "line": 116,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "company_contradiction"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " UPDATE company_contradiction SET status = 'NO_LONGER_APPLICABLE', resol"
+  },
+  {
+    "file": "src/server/services/MarketDataIngestorService.ts",
+    "line": 491,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "MarketSnapshots"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO MarketSnapshots (symbol, snapshot_date, open, "
+  },
+  {
+    "file": "src/server/services/MarketDataIngestorService.ts",
+    "line": 888,
+    "loopType": "for",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "DailyOHLCV"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO DailyOHLCV (symbol, trade_date, open, high, low, close, "
+  },
+  {
+    "file": "src/server/services/MarketDataIngestorService.ts",
+    "line": 891,
+    "loopType": ".map",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "DailyOHLCV"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO DailyOHLCV (symbol, trade_date, open, high, low, close, "
+  },
+  {
+    "file": "src/server/services/MarketDataIngestorService.ts",
+    "line": 900,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "DailyOHLCV"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO DailyOHLCV (symbol, trade_date, open, high, low, close, "
+  },
+  {
+    "file": "src/server/services/MarketDataIngestorService.ts",
+    "line": 913,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "DailyOHLCV"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO DailyOHLCV (symbol, trade_date, open, high, low, close, "
+  },
+  {
+    "file": "src/server/services/MarketDataIngestorService.ts",
+    "line": 1025,
+    "loopType": "for",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "IntradayCandles"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO IntradayCandles (symbol, candle_time, interval, open, hi"
+  },
+  {
+    "file": "src/server/services/MarketDataIngestorService.ts",
+    "line": 1028,
+    "loopType": ".map",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "IntradayCandles"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO IntradayCandles (symbol, candle_time, interval, open, hi"
+  },
+  {
+    "file": "src/server/services/MarketDataIngestorService.ts",
+    "line": 1034,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "IntradayCandles"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO IntradayCandles (symbol, candle_time, interval, open, hi"
+  },
+  {
+    "file": "src/server/services/MarketDataIngestorService.ts",
+    "line": 1043,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "IntradayCandles"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO IntradayCandles (symbol, candle_time, interval, open, hi"
+  },
+  {
+    "file": "src/server/services/MarketDataIngestorService.ts",
+    "line": 1146,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "IntradayCandles"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO IntradayCandles (symbol, candle_time, interval, open, high, lo"
+  },
+  {
+    "file": "src/server/services/NewsSentimentService.ts",
+    "line": 474,
+    "loopType": "for",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR IGNORE INTO",
+    "tablesAffected": [
+      "EventIntelligenceLog"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR IGNORE INTO EventIntelligenceLog (event_id, symbol,"
+  },
+  {
+    "file": "src/server/services/NewsSentimentService.ts",
+    "line": 477,
+    "loopType": ".map",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR IGNORE INTO",
+    "tablesAffected": [
+      "EventIntelligenceLog"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR IGNORE INTO EventIntelligenceLog (event_id, symbol,"
+  },
+  {
+    "file": "src/server/services/NewsSentimentService.ts",
+    "line": 489,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR IGNORE INTO",
+    "tablesAffected": [
+      "EventIntelligenceLog"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR IGNORE INTO EventIntelligenceLog (event_id, symbol,"
+  },
+  {
+    "file": "src/server/services/NseBhavcopyService.ts",
+    "line": 168,
+    "loopType": "for...of",
+    "writeCallsCount": 4,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "BEGIN TRANSACTION"
+  },
+  {
+    "file": "src/server/services/NseBhavcopyService.ts",
+    "line": 205,
+    "loopType": "for",
+    "writeCallsCount": 1,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": ""
+  },
+  {
+    "file": "src/server/services/NseBhavcopyService.ts",
+    "line": 268,
+    "loopType": "for",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR IGNORE INTO",
+    "tablesAffected": [
+      "InstitutionalDeals"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR IGNORE INTO InstitutionalDeals ( deal_date, symbol,"
+  },
+  {
+    "file": "src/server/services/NseBhavcopyService.ts",
+    "line": 308,
+    "loopType": "for",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR IGNORE INTO",
+    "tablesAffected": [
+      "InstitutionalDeals"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR IGNORE INTO InstitutionalDeals ( deal_date, sym"
+  },
+  {
+    "file": "src/server/services/NseBhavcopyService.ts",
+    "line": 369,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "MfNavHistory"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO MfNavHistory (scheme_code, isin, scheme_name, nav, nav_date)"
+  },
+  {
+    "file": "src/server/services/NseBhavcopyService.ts",
+    "line": 412,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "ForexRates"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO ForexRates (currency_pair, rate, updated_at) VAL"
+  },
+  {
+    "file": "src/server/services/NseBhavcopyService.ts",
+    "line": 623,
+    "loopType": "for",
+    "writeCallsCount": 1,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": ""
+  },
+  {
+    "file": "src/server/services/NseBhavcopyService.ts",
+    "line": 630,
+    "loopType": "for",
+    "writeCallsCount": 3,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "BEGIN TRANSACTION"
+  },
+  {
+    "file": "src/server/services/NseBhavcopyService.ts",
+    "line": 647,
+    "loopType": "for...of",
+    "writeCallsCount": 3,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "BEGIN TRANSACTION"
+  },
+  {
+    "file": "src/server/services/OpportunityEnginePhase4to6.ts",
+    "line": 214,
+    "loopType": "for...of",
+    "writeCallsCount": 2,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "leading_indicator_series",
+      "indicator_validation_results"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO leading_indicator_series (id, indicator_name, entity_key, as_of_da"
+  },
+  {
+    "file": "src/server/services/OpportunityEnginePhase4to6.ts",
+    "line": 513,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "stop_loss_alerts"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO stop_loss_alerts (id, symbol, portfolio, stop_loss_price, ltp_at"
+  },
+  {
+    "file": "src/server/services/PaperTradingPotService.ts",
+    "line": 297,
+    "loopType": "for...of",
+    "writeCallsCount": 5,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "PaperTradingPositions",
+      "PaperTradingPots"
+    ],
+    "transactionProtected": false,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "UNSAFE_DUE_TO_ASYNC_IO",
+    "details": " UPDATE PaperTradingPositions SET quantity = ?, partial_exit_done = 1, p"
+  },
+  {
+    "file": "src/server/services/PaperTradingPotService.ts",
+    "line": 442,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "PaperTradingPots"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " UPDATE PaperTradingPots SET current_portfolio_nav = ?, peak_nav = ?, max_dr"
+  },
+  {
+    "file": "src/server/services/PaperTradingPotService.ts",
+    "line": 487,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "PaperTradingNAVHistory"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT INTO PaperTradingNAVHistory (pot_id, nav, cash, invested, daily_pnl,"
+  },
+  {
+    "file": "src/server/services/phase2fasttrack/MissingDataRecoveryEngine.ts",
+    "line": 31,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR IGNORE INTO",
+    "tablesAffected": [
+      "HistoricalPrices"
+    ],
+    "transactionProtected": false,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "UNSAFE_DUE_TO_ASYNC_IO",
+    "details": "INSERT OR IGNORE INTO HistoricalPrices (symbol, date, open_price, high_price, low"
+  },
+  {
+    "file": "src/server/services/PhaseEOptimization.ts",
+    "line": 122,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": ""
+  },
+  {
+    "file": "src/server/services/PredictionAccuracyEngine.ts",
+    "line": 148,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "`ALTER TABLE PredictionAuditLedger ADD COLUMN ${col.name} ${col.type}`"
+  },
+  {
+    "file": "src/server/services/PredictionAccuracyEngine.ts",
+    "line": 188,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "PredictionAuditLedger"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " UPDATE PredictionAuditLedger SET current_price = ?, max_price_reached = ?,"
+  },
+  {
+    "file": "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "line": 3103,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR IGNORE INTO",
+    "tablesAffected": [
+      "DailyOHLCV"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR IGNORE INTO DailyOHLCV (symbol, trade_date, open, high, low, close, volume,"
+  },
+  {
+    "file": "src/server/services/RebalancingEngine.ts",
+    "line": 393,
+    "loopType": "for...of",
+    "writeCallsCount": 2,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "Transactions",
+      "audit_ledger"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT INTO Transactions (date, portfolio, type, isin, symbol, quantity, price, gross_amount, net_am"
+  },
+  {
+    "file": "src/server/services/RecommendationOutcomeAuditor.ts",
+    "line": 81,
+    "loopType": "for...of",
+    "writeCallsCount": 2,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "AutonomousRecommendationsLedger"
+    ],
+    "transactionProtected": false,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "UNSAFE_DUE_TO_ASYNC_IO",
+    "details": " UPDATE AutonomousRecommendationsLedger SET status = ?, current_price = ?, s"
+  },
+  {
+    "file": "src/server/services/RegimeBacktestEngine.ts",
+    "line": 897,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "regime_backtest_summaries"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO regime_backtest_summaries ( regime, strategy_id, strat"
+  },
+  {
+    "file": "src/server/services/RegimeBacktestEngine.ts",
+    "line": 916,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "regime_backtest_trades"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO regime_backtest_trades ( id, symbol, company_name, tie"
+  },
+  {
+    "file": "src/server/services/RegimeBacktestEngine.ts",
+    "line": 1099,
+    "loopType": "for",
+    "writeCallsCount": 11,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "`ALTER TABLE backtest_regime_ledger ADD COLUMN ${prefix}_status TEXT NOT NULL DEFAULT 'INSUFFICIENT_"
+  },
+  {
+    "file": "src/server/services/RegimeBacktestEngine.ts",
+    "line": 1673,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "regime_backtest_trades"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO regime_backtest_trades ( id, symbol, company_name, tie"
+  },
+  {
+    "file": "src/server/services/RegimeBacktestEngine.ts",
+    "line": 1685,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "backtest_regime_ledger"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO backtest_regime_ledger ( symbol, company_name, tier, r"
+  },
+  {
+    "file": "src/server/services/SmartMoneyFlowEngine.ts",
+    "line": 720,
+    "loopType": "for...of",
+    "writeCallsCount": 2,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "SmartMoneySectorCache",
+      "DataProvenanceLog"
+    ],
+    "transactionProtected": false,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "UNSAFE_DUE_TO_ASYNC_IO",
+    "details": "INSERT OR REPLACE INTO SmartMoneySectorCache ( sector, timeframe, net_flow_cr, average_s"
+  },
+  {
+    "file": "src/server/services/stockscans/WorkspaceService.ts",
+    "line": 185,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "`ALTER TABLE stockscans_scan_runs ADD COLUMN ${col.name} ${col.type}`"
+  },
+  {
+    "file": "src/server/services/StooqDataService.ts",
+    "line": 158,
+    "loopType": "for",
+    "writeCallsCount": 4,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "BEGIN TRANSACTION"
+  },
+  {
+    "file": "src/server/services/StooqDataService.ts",
+    "line": 166,
+    "loopType": "for...of",
+    "writeCallsCount": 4,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "BEGIN TRANSACTION"
+  },
+  {
+    "file": "src/server/services/StooqDataService.ts",
+    "line": 178,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": ""
+  },
+  {
+    "file": "src/server/services/StrategyParameterConfig.ts",
+    "line": 1006,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR IGNORE INTO",
+    "tablesAffected": [
+      "CustomStrategies"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT OR IGNORE INTO CustomStrategies (id, name, short_name, description, category, is_p"
+  },
+  {
+    "file": "src/server/services/StrategyPreCalculationService.ts",
+    "line": 203,
+    "loopType": "for",
+    "writeCallsCount": 3,
+    "operationType": "UNKNOWN, INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "strategy_scan_cache"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "BEGIN TRANSACTION"
+  },
+  {
+    "file": "src/server/services/StrategyPreCalculationService.ts",
+    "line": 209,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "strategy_scan_cache"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT OR REPLACE INTO strategy_scan_cache (id, scan_id, strategy_id, symbol, quali"
+  },
+  {
+    "file": "src/server/services/SunriseIndustrialUniverseService.ts",
+    "line": 208,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "industrial_group_registry"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO industrial_group_registry (group_id, group_name, foundin"
+  },
+  {
+    "file": "src/server/services/SunriseIndustrialUniverseService.ts",
+    "line": 235,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "pli_sector_registry"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO pli_sector_registry (scheme_id, scheme_name, vertical_co"
+  },
+  {
+    "file": "src/server/services/SunriseIndustrialUniverseService.ts",
+    "line": 746,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "sunrise_industrial_universe"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO sunrise_industrial_universe (symbol, company_name, isin,"
+  },
+  {
+    "file": "src/server/services/UniverseManagerService.ts",
+    "line": 48,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UNKNOWN",
+    "tablesAffected": [
+      "UNKNOWN"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "`ALTER TABLE MasterTickers ADD COLUMN ${col.name} ${col.type}`"
+  },
+  {
+    "file": "src/server/services/UniverseManagerService.ts",
+    "line": 81,
+    "loopType": "for...of",
+    "writeCallsCount": 2,
+    "operationType": "UPDATE, INSERT INTO",
+    "tablesAffected": [
+      "MasterTickers"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "UPDATE MasterTickers SET company_name = COALESCE(company_name, ?), name = COALESCE(name, ?), exchang"
+  },
+  {
+    "file": "src/server/services/UpstoxIntradayIngestor.ts",
+    "line": 137,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "IntradayOHLCV"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO IntradayOHLCV ( symbol, timeframe, timestamp, open, hi"
+  },
+  {
+    "file": "src/server/services/YouTubeResearchIntelligenceEngine.ts",
+    "line": 265,
+    "loopType": "for",
+    "writeCallsCount": 2,
+    "operationType": "INSERT OR REPLACE INTO, UPDATE",
+    "tablesAffected": [
+      "yt_knowledge_videos",
+      "yt_knowledge_sessions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO yt_knowledge_videos (id, session_id, video_id, title, c"
+  },
+  {
+    "file": "src/server/services/YouTubeResearchIntelligenceEngine.ts",
+    "line": 325,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "yt_knowledge_debates"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO yt_knowledge_debates (id, session_id, topic_aspect, thes"
+  },
+  {
+    "file": "src/server/services/YouTubeResearchIntelligenceEngine.ts",
+    "line": 344,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "yt_knowledge_feature_proposals"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT OR REPLACE INTO yt_knowledge_feature_proposals (id, session_id, feature_"
+  },
+  {
+    "file": "src/server/services/ZerodhaTradebookService.ts",
+    "line": 636,
+    "loopType": "for...of",
+    "writeCallsCount": 3,
+    "operationType": "INSERT INTO, INSERT OR IGNORE INTO",
+    "tablesAffected": [
+      "MasterTickers",
+      "Transactions",
+      "fill_registry"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT INTO MasterTickers (isin, symbol, name, last_price) VALUES (?, ?, ?, ?) "
+  },
+  {
+    "file": "src/server/services/ZerodhaTradebookService.ts",
+    "line": 851,
+    "loopType": "for...of",
+    "writeCallsCount": 3,
+    "operationType": "INSERT OR IGNORE INTO, INSERT INTO",
+    "tablesAffected": [
+      "Portfolios",
+      "MasterTickers",
+      "Transactions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "INSERT OR IGNORE INTO Portfolios (name, type, status) VALUES (?, 'EQUITY', 'ACTIVE')"
+  },
+  {
+    "file": "src/server/services/ZerodhaTradebookService.ts",
+    "line": 960,
+    "loopType": "for...of",
+    "writeCallsCount": 2,
+    "operationType": "INSERT INTO",
+    "tablesAffected": [
+      "MasterTickers",
+      "Transactions"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " INSERT INTO MasterTickers (isin, symbol, name, last_price) VALUES (?, ?"
+  },
+  {
+    "file": "src/server/webPriceMatcher.ts",
+    "line": 46,
+    "loopType": "for...of",
+    "writeCallsCount": 2,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "Holdings",
+      "MasterTickers"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "UPDATE Holdings SET ltp = ?, prev_close = ?, current_value = ?, unrealized_pnl = ?, unr"
+  },
+  {
+    "file": "src/server/webPriceMatcher.ts",
+    "line": 84,
+    "loopType": "for...of",
+    "writeCallsCount": 2,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "Holdings",
+      "MasterTickers"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "UPDATE Holdings SET ltp = ?, prev_close = ?, current_value = ?, unrealized_pnl = ?, unr"
+  },
+  {
+    "file": "src/server/yahooFinance.ts",
+    "line": 267,
+    "loopType": "for",
+    "writeCallsCount": 1,
+    "operationType": "INSERT OR REPLACE INTO",
+    "tablesAffected": [
+      "HistoricalPrices"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "`INSERT OR REPLACE INTO HistoricalPrices (symbol, date, close_price, data_source, updated_at) VALUES"
+  },
+  {
+    "file": "src/server/yahooFinance.ts",
+    "line": 1185,
+    "loopType": "for",
+    "writeCallsCount": 3,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "Holdings",
+      "MasterTickers"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "UPDATE Holdings SET ltp = ?, prev_close = ?, day_change = ?, day_change_pct = ?, "
+  },
+  {
+    "file": "src/server/yahooFinance.ts",
+    "line": 1187,
+    "loopType": ".map",
+    "writeCallsCount": 3,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "Holdings",
+      "MasterTickers"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "UPDATE Holdings SET ltp = ?, prev_close = ?, day_change = ?, day_change_pct = ?, "
+  },
+  {
+    "file": "src/server/yahooFinance.ts",
+    "line": 1266,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "Holdings"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "UPDATE Holdings SET ltp = ?, prev_close = ?, day_change = ?, day_change_pct = ?, "
+  },
+  {
+    "file": "src/server/yahooFinance.ts",
+    "line": 1373,
+    "loopType": "for",
+    "writeCallsCount": 2,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "MasterTickers",
+      "Holdings"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "UPDATE MasterTickers SET last_price = ?, previous_close = COALESCE(previous_close, ?), last_updated "
+  },
+  {
+    "file": "src/server/yahooFinance.ts",
+    "line": 1374,
+    "loopType": ".map",
+    "writeCallsCount": 2,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "MasterTickers",
+      "Holdings"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "TRANSACTION_PROTECTED",
+    "details": "UPDATE MasterTickers SET last_price = ?, previous_close = COALESCE(previous_close, ?), last_updated "
+  },
+  {
+    "file": "src/server/yahooFinance.ts",
+    "line": 1415,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "Holdings"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " UPDATE Holdings SET ltp = ?, prev_close = ?, day_change = ?, da"
+  },
+  {
+    "file": "src/server/yahooFinance.ts",
+    "line": 1460,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "Holdings"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " UPDATE Holdings SET ltp = ?, current_value = ?, unrealized_pnl = ?,"
+  },
+  {
+    "file": "src/server/yahooFinance.ts",
+    "line": 1477,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "Holdings"
+    ],
+    "transactionProtected": true,
+    "safeToBatch": true,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": false,
+    "status": "TRANSACTION_PROTECTED",
+    "details": " UPDATE Holdings SET ltp = ?, current_value = ?, unrealized_pnl = ?,"
+  },
+  {
+    "file": "src/server/yahooFinance.ts",
+    "line": 1622,
+    "loopType": "for...of",
+    "writeCallsCount": 1,
+    "operationType": "UPDATE",
+    "tablesAffected": [
+      "MasterTickers"
+    ],
+    "transactionProtected": false,
+    "safeToBatch": false,
+    "batchSize": 1000,
+    "needsRemediation": false,
+    "containsAsyncIO": true,
+    "status": "UNSAFE_DUE_TO_ASYNC_IO",
+    "details": "UPDATE MasterTickers SET sector = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?"
+  }
+]

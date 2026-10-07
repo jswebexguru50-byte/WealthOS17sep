@@ -16,6 +16,7 @@
 
 import crypto from 'crypto';
 import sqlite3 from 'sqlite3';
+import { withTx } from '../database.js';
 
 export interface TargetAllocation {
   id?: number;
@@ -388,67 +389,69 @@ export async function generateRebalancePlan(
       const executedTxns: Array<any> = [];
       const today = new Date().toISOString().split('T')[0];
 
-      for (const act of actions) {
-        if (act.blockedByCircuitBreaker) continue;
-        const price = 100;
-        const qty = Math.max(1, Math.round(act.tradeAmountINR / price));
-        const netAmount = qty * price;
+      await withTx(targetDb, async () => {
+        for (const act of actions) {
+          if (act.blockedByCircuitBreaker) continue;
+          const price = 100;
+          const qty = Math.max(1, Math.round(act.tradeAmountINR / price));
+          const netAmount = qty * price;
 
-        const res = await dbRun(
-          targetDb,
-          `INSERT INTO Transactions (date, portfolio, type, isin, symbol, quantity, price, gross_amount, net_amount, source)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'REBALANCE_ENGINE')`,
-          [
-            today,
-            primaryPortfolio,
-            act.direction,
-            act.isin || 'INE001A01036',
-            act.symbol || 'REBAL_ASSET',
-            qty,
-            price,
-            netAmount,
-            netAmount,
-          ]
-        );
-
-        const newTxnId = res.lastID;
-        executedTxns.push({
-          id: newTxnId,
-          source: 'REBALANCE_ENGINE',
-          portfolio: primaryPortfolio,
-          isin: act.isin || 'INE001A01036',
-          symbol: act.symbol || 'REBAL_ASSET',
-          quantity: qty,
-          price,
-          net_amount: netAmount,
-        });
-
-        // Write to audit ledger with SHA-256 hash (INFRA-6 / WM-REB-08)
-        const auditPayload = JSON.stringify({
-          txnId: newTxnId,
-          action: act,
-          approvedBy: opts.approvedBy,
-          timestamp: new Date().toISOString(),
-        });
-        const hash = crypto.createHash('sha256').update(auditPayload).digest('hex');
-
-        try {
-          await dbRun(
+          const res = await dbRun(
             targetDb,
-            `INSERT INTO audit_ledger (timestamp_utc, event_type, entity_type, entity_id, actor, before_state, after_state, hash)
-             VALUES (datetime('now'), 'REBALANCE_EXECUTED', 'PORTFOLIO', ?, ?, ?, ?, ?)`,
+            `INSERT INTO Transactions (date, portfolio, type, isin, symbol, quantity, price, gross_amount, net_amount, source)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'REBALANCE_ENGINE')`,
             [
+              today,
               primaryPortfolio,
-              opts.approvedBy,
-              JSON.stringify({ currentWeightPct: act.currentWeightPct }),
-              JSON.stringify({ resultingWeightPct: act.resultingWeightPct }),
-              hash,
+              act.direction,
+              act.isin || 'INE001A01036',
+              act.symbol || 'REBAL_ASSET',
+              qty,
+              price,
+              netAmount,
+              netAmount,
             ]
           );
-        } catch {
-          // Continue if audit_ledger is not in minimal table list
+
+          const newTxnId = res.lastID;
+          executedTxns.push({
+            id: newTxnId,
+            source: 'REBALANCE_ENGINE',
+            portfolio: primaryPortfolio,
+            isin: act.isin || 'INE001A01036',
+            symbol: act.symbol || 'REBAL_ASSET',
+            quantity: qty,
+            price,
+            net_amount: netAmount,
+          });
+
+          // Write to audit ledger with SHA-256 hash (INFRA-6 / WM-REB-08)
+          const auditPayload = JSON.stringify({
+            txnId: newTxnId,
+            action: act,
+            approvedBy: opts.approvedBy,
+            timestamp: new Date().toISOString(),
+          });
+          const hash = crypto.createHash('sha256').update(auditPayload).digest('hex');
+
+          try {
+            await dbRun(
+              targetDb,
+              `INSERT INTO audit_ledger (timestamp_utc, event_type, entity_type, entity_id, actor, before_state, after_state, hash)
+               VALUES (datetime('now'), 'REBALANCE_EXECUTED', 'PORTFOLIO', ?, ?, ?, ?, ?)`,
+              [
+                primaryPortfolio,
+                opts.approvedBy,
+                JSON.stringify({ currentWeightPct: act.currentWeightPct }),
+                JSON.stringify({ resultingWeightPct: act.resultingWeightPct }),
+                hash,
+              ]
+            );
+          } catch {
+            // Continue if audit_ledger is not in minimal table list
+          }
         }
-      }
+      });
 
       return { transactions: executedTxns };
     },
