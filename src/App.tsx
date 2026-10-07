@@ -1627,7 +1627,6 @@ export default function App() {
                   {activeTab === 'PORTFOLIO' && '4. Portfolio Risk & Ledger'}
                   {activeTab === 'RESEARCH' && '5. Research & Strategy Factory'}
                   {activeTab === 'AUDIT' && '6. Audit, Provenance & Settings'}
-                  {(activeTab === 'AUDIT' || activeTab === 'AUDIT' || activeTab === 'AUDIT' || activeTab === 'PORTFOLIO') && '6. Audit, Provenance & Settings'}
                                                                                                                                                                 </h2>
                 <span className="hidden md:inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 whitespace-nowrap">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -1665,13 +1664,13 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => setShowAlertsModal(true)}
-                  className="relative inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-amber-300 font-bold text-xs transition-all cursor-pointer shadow-sm hover:border-amber-500/40"
+                  className="relative inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-transparent hover:bg-[var(--brand-tint)] border border-[var(--border-card)] text-[var(--text-secondary)] font-semibold text-xs transition-colors cursor-pointer"
                   title="View Smart Portfolio Alerts & Breakouts"
                 >
                   <Bell className="w-3.5 h-3.5 text-amber-400" />
                   <span>Alerts</span>
                   {alertsCount > 0 && (
-                    <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping absolute top-1 right-1" />
+                    <span className="w-2 h-2 rounded-full bg-amber-400 absolute top-1 right-1" />
                   )}
                 </button>
 
@@ -1701,7 +1700,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => setShowReportsModal(true)}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-amber-400 font-bold text-xs transition-all cursor-pointer shadow-sm hover:border-amber-500/40"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-transparent hover:bg-[var(--brand-tint)] border border-[var(--border-card)] text-[var(--text-secondary)] font-semibold text-xs transition-colors cursor-pointer"
                   title="Open Institutional Reports Center"
                 >
                   <FileSpreadsheet className="w-3.5 h-3.5 text-amber-400" />
@@ -1713,7 +1712,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => setShowLayoutDropdown(!showLayoutDropdown)}
-                    className="inline-flex items-center gap-1 px-2 py-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-cyan-300 font-bold text-xs transition-all cursor-pointer shadow-sm hover:border-cyan-500/40"
+                    className="inline-flex items-center gap-1 px-2 py-1.5 rounded-lg bg-transparent hover:bg-[var(--brand-tint)] border border-[var(--border-card)] text-[var(--text-secondary)] font-semibold text-xs transition-colors cursor-pointer"
                     title="Switch Widescreen Layout"
                   >
                     <Columns className="w-3.5 h-3.5 text-cyan-400" />
@@ -1765,7 +1764,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => setShowThemeModal(true)}
-                  className="inline-flex items-center justify-center p-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-emerald-400 transition-all cursor-pointer shadow-sm hover:border-emerald-500/40"
+                className="inline-flex items-center justify-center p-1.5 rounded-lg bg-transparent hover:bg-[var(--brand-tint)] border border-[var(--border-card)] text-[var(--accent-green)] transition-colors cursor-pointer"
                   title="Change UI Design System Theme & Colors"
                 >
                   <Palette className="w-3.5 h-3.5" />
@@ -1775,7 +1774,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => setShowPreferencesModal(true)}
-                  className="inline-flex items-center justify-center p-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-slate-300 transition-all cursor-pointer shadow-sm hover:border-slate-500/40"
+                className="inline-flex items-center justify-center p-1.5 rounded-lg bg-transparent hover:bg-[var(--brand-tint)] border border-[var(--border-card)] text-[var(--text-secondary)] transition-colors cursor-pointer"
                   title="Configure Preferences (Lakhs/Millions, Sort, Decimals)"
                 >
                   <SlidersHorizontal className="w-3.5 h-3.5" />
