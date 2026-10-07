@@ -1,6 +1,5 @@
 {
-  "generatedAt": "2026-10-07T15:45:15.479Z",
-  "reviewState": "CODEx_REVIEWED_EVIDENCE_DRAFT",
+  "generatedAt": "2026-10-07T15:45:15.590Z",
   "rows": [
     {
       "symbol": "VMART",
@@ -94,7 +93,23 @@
       "source": "https://vmart.co.in/wp-content/uploads/Vmart-IR-presentation-Q4-Fy25.pdf",
       "conclusion": "WATCHLIST — WAIT FOR EARNINGS CONFIRMATION",
       "why": "Balance-sheet risk is contained and cash flow is positive, but returns and valuation do not yet create a clear margin of safety.",
-      "whatWouldChange": "PAT recovery, same-store/revenue growth and valuation compression."
+      "whatWouldChange": "PAT recovery, same-store/revenue growth and valuation compression.",
+      "story": {
+        "business": "Value-fashion retailer serving mass and aspirational consumers through a store-led format.",
+        "growth": "Growth depends on store productivity, like-for-like sales, private-label mix and disciplined expansion.",
+        "longevity": "The format can compound if inventory turns and margins remain controlled; retail execution and working capital are the key durability tests.",
+        "risks": "Fashion inventory markdowns, weak same-store sales, regional competition and margin pressure.",
+        "catalyst": "Sustained same-store growth, improving margins and profitable store additions."
+      },
+      "qglp": {
+        "quality": 13,
+        "growth": 15,
+        "longevity": 24,
+        "price": 11,
+        "total": 63,
+        "cashConversion": 4.036612903225807
+      },
+      "decision": "WATCHLIST / BUY ONLY AFTER CONFIRMATION"
     },
     {
       "symbol": "RADICO",
@@ -164,7 +179,23 @@
       "source": "https://radicokhaitan.com/wp-content/uploads/2025/06/Annual-Report-for-FY-2024-25.pdf",
       "conclusion": "HOLD / BUY ONLY ON MATERIAL CORRECTION",
       "why": "The operating profile is stronger, but the current PE leaves limited room for execution or cycle disappointment.",
-      "whatWouldChange": "Earnings growth catching up with valuation and sustained cash conversion."
+      "whatWouldChange": "Earnings growth catching up with valuation and sustained cash conversion.",
+      "story": {
+        "business": "Branded Indian-made foreign liquor producer with a portfolio spanning mass, premium and super-premium brands.",
+        "growth": "Premiumisation, brand investment and higher-value mix are the principal growth levers.",
+        "longevity": "Brand strength and distribution create durability, but excise policy, grain/ENA costs and discretionary demand remain material.",
+        "risks": "Regulatory changes, input-cost inflation, advertising restrictions and valuation compression.",
+        "catalyst": "Premium mix expansion and continued EBITDA/PAT growth."
+      },
+      "qglp": {
+        "quality": 5,
+        "growth": 15,
+        "longevity": 10,
+        "price": 5,
+        "total": 35,
+        "cashConversion": 1.228555154806142
+      },
+      "decision": "AVOID OR WAIT FOR A MATERIAL RESET"
     },
     {
       "symbol": "KRYSTAL",
@@ -258,7 +289,23 @@
       "source": "https://krystal-group.com/wp-content/uploads/2025/08/AR-FY-2024-25.pdf",
       "conclusion": "SELECTIVE BUY / WATCHLIST",
       "why": "ROCE and leverage are reasonable and valuation is less demanding, but cash conversion and return on equity need improvement.",
-      "whatWouldChange": "CFO recovery, margin stability and contract wins."
+      "whatWouldChange": "CFO recovery, margin stability and contract wins.",
+      "story": {
+        "business": "Integrated facilities-management provider across healthcare, education, government, airports, rail/metro, staffing, security, catering and waste services.",
+        "growth": "Growth is contract-led and depends on new wins, renewal rates, geographic scale and execution.",
+        "longevity": "Recurring service contracts support visibility, but labour intensity and working-capital collection determine quality.",
+        "risks": "Low margins, receivable delays, wage inflation and contract concentration.",
+        "catalyst": "Large contract wins with stable margins and stronger cash conversion."
+      },
+      "qglp": {
+        "quality": 14,
+        "growth": 15,
+        "longevity": 22,
+        "price": 23,
+        "total": 74,
+        "cashConversion": 0.41118242140759276
+      },
+      "decision": "BUY / ACCUMULATE WITH VALUATION DISCIPLINE"
     },
     {
       "symbol": "PROTEAN",
@@ -352,7 +399,23 @@
       "source": "https://cms.proteantech.in/sites/default/files/2025-08/Integrated%20Annual%20Report%20-%20FY24-25_0.pdf",
       "conclusion": "WATCHLIST — NOT A FRESH BUY YET",
       "why": "Debt-free balance sheet and positive cash generation help, but returns are moderate and valuation still requires growth delivery.",
-      "whatWouldChange": "Revenue/PAT acceleration and ROE improvement."
+      "whatWouldChange": "Revenue/PAT acceleration and ROE improvement.",
+      "story": {
+        "business": "Digital public-infrastructure and e-governance services provider operating in regulated, mission-critical citizen and financial-data ecosystems.",
+        "growth": "Growth depends on new government/digital mandates, adjacent platforms and monetisation of existing infrastructure.",
+        "longevity": "Regulatory credentials and embedded platforms are durable, but growth can be lumpy and policy-dependent.",
+        "risks": "Government concentration, tender timing, pricing pressure and technology/compliance risk.",
+        "catalyst": "New mandates and sustained revenue/PAT acceleration without margin dilution."
+      },
+      "qglp": {
+        "quality": 10,
+        "growth": 15,
+        "longevity": 25,
+        "price": 11,
+        "total": 61,
+        "cashConversion": 0.7800974251913708
+      },
+      "decision": "WATCHLIST / BUY ONLY AFTER CONFIRMATION"
     },
     {
       "symbol": "JUSTDIAL",
@@ -446,7 +509,23 @@
       "source": "https://www.justdial.com/cms/investor-relations/online_reports",
       "conclusion": "VALUE WATCHLIST",
       "why": "Low leverage and a low PE are positives, but ROE is modest and CFO is materially below PAT, so earnings quality needs confirmation.",
-      "whatWouldChange": "CFO/PAT moving toward 1.0 and durable revenue growth."
+      "whatWouldChange": "CFO/PAT moving toward 1.0 and durable revenue growth.",
+      "story": {
+        "business": "Local-search and business-discovery marketplace monetising listings, paid campaigns and digital merchant services.",
+        "growth": "The main levers are paid-campaign penetration, traffic monetisation, SME digitisation and product engagement.",
+        "longevity": "The balance sheet is resilient, but long-term durability depends on defending user traffic and improving monetisation.",
+        "risks": "Competition from search/social platforms, weak merchant spending and CFO lagging reported profit.",
+        "catalyst": "Consistent revenue growth with CFO converging toward PAT."
+      },
+      "qglp": {
+        "quality": 10,
+        "growth": 15,
+        "longevity": 25,
+        "price": 23,
+        "total": 73,
+        "cashConversion": 0.540622107762263
+      },
+      "decision": "BUY / ACCUMULATE WITH VALUATION DISCIPLINE"
     },
     {
       "symbol": "DBOL",
@@ -540,7 +619,23 @@
       "source": "https://www.dhampur.com/financials/annual-report-2024-25/",
       "conclusion": "AVOID FOR NOW",
       "why": "Low reported ROE/ROCE combined with leverage or very high valuation does not provide an adequate margin of safety.",
-      "whatWouldChange": "Improvement in return ratios, debt reduction and sustained PAT growth."
+      "whatWouldChange": "Improvement in return ratios, debt reduction and sustained PAT growth.",
+      "story": {
+        "business": "Integrated sugar, distillery, ethanol and power business exposed to agricultural and commodity cycles.",
+        "growth": "Growth is driven by capacity utilisation, ethanol policy, sugar realisations and co-product economics.",
+        "longevity": "The cycle can create upside, but high leverage and low returns reduce resilience through downcycles.",
+        "risks": "Cane availability, sugar/ethanol policy, commodity prices, leverage and working capital.",
+        "catalyst": "Debt reduction and sustained improvement in ROE/ROCE."
+      },
+      "qglp": {
+        "quality": 4,
+        "growth": 15,
+        "longevity": 13,
+        "price": 23,
+        "total": 55,
+        "cashConversion": 8.731532962668785
+      },
+      "decision": "WATCHLIST / BUY ONLY AFTER CONFIRMATION"
     },
     {
       "symbol": "LUMAXTECH",
@@ -634,7 +729,23 @@
       "source": "https://www.lumaxworld.in/lumaxautotech/downloads/LATLAR202425.pdf",
       "conclusion": "QUALITY BUSINESS — BUY ONLY ON CORRECTION",
       "why": "ROE/ROCE are strong and cash generation is positive, but leverage and valuation reduce the margin of safety.",
-      "whatWouldChange": "Debt reduction, order growth and a lower entry multiple."
+      "whatWouldChange": "Debt reduction, order growth and a lower entry multiple.",
+      "story": {
+        "business": "Automotive-component supplier serving vehicle manufacturers and platform programmes.",
+        "growth": "Growth depends on vehicle volumes, content per vehicle, new programme wins and the shift toward higher-value electronics and systems.",
+        "longevity": "OEM relationships and engineering capability support durability, but customer concentration and auto cyclicality matter.",
+        "risks": "OEM concentration, raw-material pass-through, capex intensity, leverage and EV transition execution.",
+        "catalyst": "Order-book conversion, margin expansion and debt reduction."
+      },
+      "qglp": {
+        "quality": 22,
+        "growth": 15,
+        "longevity": 15,
+        "price": 11,
+        "total": 63,
+        "cashConversion": 1.3648639950834343
+      },
+      "decision": "WATCHLIST / BUY ONLY AFTER CONFIRMATION"
     },
     {
       "symbol": "SONACOMS",
@@ -728,7 +839,23 @@
       "source": "https://sonacomstar.com/annual-report-24-25/index.html",
       "conclusion": "HOLD / BUY ONLY ON MATERIAL CORRECTION",
       "why": "The operating profile is stronger, but the current PE leaves limited room for execution or cycle disappointment.",
-      "whatWouldChange": "Earnings growth catching up with valuation and sustained cash conversion."
+      "whatWouldChange": "Earnings growth catching up with valuation and sustained cash conversion.",
+      "story": {
+        "business": "Global mobility-technology and precision-component supplier focused on engineered systems for automotive OEMs, including EV programmes.",
+        "growth": "Growth is linked to content per vehicle, global OEM wins and expansion of EV and precision-technology programmes.",
+        "longevity": "Mission-critical components and engineering capability create switching costs, but the valuation discounts substantial future execution.",
+        "risks": "High valuation, auto-cycle weakness, customer concentration and programme execution.",
+        "catalyst": "EV programme ramp-up and earnings growth that catches up with the multiple."
+      },
+      "qglp": {
+        "quality": 11,
+        "growth": 15,
+        "longevity": 25,
+        "price": 5,
+        "total": 56,
+        "cashConversion": 1.047473736073364
+      },
+      "decision": "WATCHLIST / BUY ONLY AFTER CONFIRMATION"
     },
     {
       "symbol": "TARSONS",
@@ -822,7 +949,23 @@
       "source": "https://www.tarsons.com/financial-reports/",
       "conclusion": "AVOID FOR NOW",
       "why": "Low reported ROE/ROCE combined with leverage or very high valuation does not provide an adequate margin of safety.",
-      "whatWouldChange": "Improvement in return ratios, debt reduction and sustained PAT growth."
+      "whatWouldChange": "Improvement in return ratios, debt reduction and sustained PAT growth.",
+      "story": {
+        "business": "Life-science and laboratory consumables manufacturer serving research, diagnostics and related laboratory applications.",
+        "growth": "Growth depends on capacity utilisation, product introductions, exports and customer adoption.",
+        "longevity": "The sector has structural demand, but the current return profile requires proof of scale economics.",
+        "risks": "Low ROE/ROCE, high valuation, execution risk, competition and delayed capacity payback.",
+        "catalyst": "Material improvement in utilisation, margins and return ratios."
+      },
+      "qglp": {
+        "quality": 3,
+        "growth": 15,
+        "longevity": 18,
+        "price": 5,
+        "total": 41,
+        "cashConversion": 8.272447982125401
+      },
+      "decision": "AVOID OR WAIT FOR A MATERIAL RESET"
     }
   ]
 }
