@@ -562,6 +562,7 @@ import familyGovernanceRouter from './src/server/routes/familyGovernance.js';
 import riskPoliciesRouter from './src/server/routes/riskPolicies.js';
 import documentVaultRouter from './src/server/routes/documentVault.js';
 import nriWorkflowRouter from './src/server/routes/nriWorkflow.js';
+import brokerIntegrationsRouter from './src/server/routes/brokerIntegrations.js';
 
 app.use('/api', systemRouter);
 app.use('/api/portfolios', portfoliosRouter);
@@ -587,6 +588,7 @@ app.use('/api/family-governance', familyGovernanceRouter);
 app.use('/api/risk', riskPoliciesRouter);
 app.use('/api/family-office', documentVaultRouter);
 app.use('/api/nri/workflow', nriWorkflowRouter);
+app.use('/api/broker-integrations', brokerIntegrationsRouter);
 app.use('/api/technical-strategies', strategiesRouter);   // Strategy Library alias for ITAS
 
 app.get('/api/analytics/lookthrough', async (req, res) => {
@@ -996,9 +998,9 @@ app.get('/api/engine/run-history', async (req, res) => {
   try {
     const limit = parseInt(req.query.limit as string) || 20;
     const history = await QuantitativeBacktestScheduler.getInstance().getRunHistory(limit);
+
     const status = QuantitativeBacktestScheduler.getInstance().getStatus();
     res.json({ success: true, data: { history, status } });
-
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });
   }
@@ -1997,9 +1999,9 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
     if (selected) {
       const placeholders = selected.map(() => '?').join(',');
       holdingsQuery += ` WHERE H.portfolio IN (${placeholders})`;
+
       params.push(...selected);
     }
-
     holdingsQuery += ` ORDER BY H.current_value DESC`;
 
     let rgSql = `
@@ -2998,9 +3000,9 @@ async function getCashFlowLedger(rawPort: string = 'Combined'): Promise<{
   // Include Corporate Action Dividends if not already in transactions
   for (const ca of corporateActions) {
     if (ca.action_type === 'DIVIDEND' && (ca.dividend_per_share || 0) > 0) {
+
       const caDateStr = formatIsoDate(ca.record_date);
       const alreadyExists = (ca.symbol && dividendTxnKeys.has(`${caDateStr}_${ca.symbol}`)) || 
-
                             (ca.isin && dividendTxnKeys.has(`${caDateStr}_${ca.isin}`));
       
       if (!alreadyExists) {
@@ -3999,9 +4001,9 @@ app.get('/api/dashboard/xirr', async (req, res) => {
 
       if (!hasEndFlow && benchmarkShares > 0) {
         const endPrice = niftyInfo.regularMarketPrice || (niftyInfo.closePrices && niftyInfo.closePrices.length > 0 ? niftyInfo.closePrices[niftyInfo.closePrices.length - 1].close : 24500);
+
         benchmarkFlows.push({ date: new Date(), amount: benchmarkShares * endPrice, type: 'end' });
       }
-
 
       benchXirr = calculateXIRR(benchmarkFlows);
     }
@@ -5000,9 +5002,9 @@ app.get('/api/analytics', async (req, res) => {
               startFlow.amount = -sVal;
             } else {
               tFlows.unshift({ date: dStart, amount: -sVal, type: 'start' });
+
             }
           }
-
         } catch (_) {}
       }
 
@@ -6001,9 +6003,9 @@ app.post('/api/corporate-actions/import-manual', upload.single('file'), async (r
     for (const m of masterRows) {
       const symUpper = String(m.symbol).toUpperCase().trim();
       const isinUpper = String(m.isin || '').toUpperCase().trim();
+
       if (isinUpper) {
         symbolToIsin[symUpper] = isinUpper;
-
         isinToSymbol[isinUpper] = m.symbol;
       }
     }
@@ -7002,9 +7004,9 @@ function findHoldingsColumnIndices(rows: any[][]) {
     const hasSec = row.some(v => v.includes('security') || v.includes('name') || v.includes('company') || v.includes('scrip') || v.includes('stock') || v.includes('symbol') || v.includes('ticker') || v.includes('description') || v.includes('asset') || v.includes('particulars'));
     const hasQty = row.some(v => v.includes('qty') || v.includes('quantity') || v.includes('shares') || v.includes('units') || v.includes('holding') || v.includes('balance'));
     if (hasSec && hasQty) {
+
       // Count leading empty cells in the header row
       for (let k = 0; k < rows[i].length; k++) {
-
         if (String(rows[i][k] || '').trim() === '') {
           headerRowLeadingEmpties++;
         } else {
@@ -8003,9 +8005,9 @@ app.post('/api/pms/check-duplicates', async (req, res) => {
         for (const record of section.data) {
           const rawType = record[0] || record[3] || 'EXPENSE';
           const txnType = normalizeTxnType(rawType);
+
           const dateStr = toSqlDate(record[1]);
           const setDateStr = toSqlDate(record[2]) || dateStr;
-
           const rawSym = record[3] || record[4] || '';
           const sym = resolveSymbol(rawSym) || rawSym || txnType;
           const amt = Math.abs(parseCleanFloat(record[9])) || Math.abs(parseCleanFloat(record[5])) || 0;
@@ -9004,9 +9006,9 @@ app.post('/api/pms/reconcile-upload', upload.fields([
     const parseTxnCsv = (buf: Buffer) => {
       const SKIP = new Set(['transaction description','current period transactions','current period settled  transactions','shares - listed','bank total','grand total','closing balance','opening balance','trf to tds a/c','tds trf to capital a/c','']);
       return buf.toString('utf8').split(/\r?\n/).flatMap(line => {
+
         if (!line.trim()) return [];
         const cols = splitCsvLine(line);
-
         const desc = cols[0]?.replace(/"/g,'').trim() || ''; const descL = desc.toLowerCase();
         if (SKIP.has(descL) || !desc) return [];
         const dateStr = parseDateStr(cols[1]);
@@ -10005,9 +10007,9 @@ app.get('/api/holdings', async (req, res) => {
         const prevVal = item.current_value - item.day_change;
         item.day_change_pct = prevVal > 0 ? (item.day_change / prevVal) * 100 : 0;
 
+
         // Calculate metrics and XIRR for each sub-holding in portfolio_breakdown
         if (Array.isArray(item.portfolio_breakdown)) {
-
           for (const sub of item.portfolio_breakdown) {
             sub.unrealized_pnl = sub.current_value - sub.total_cost;
             sub.unrealized_pct = sub.total_cost > 0 ? (sub.unrealized_pnl / sub.total_cost) * 100 : 0;
@@ -11006,9 +11008,9 @@ app.get('/api/portfolio-intelligence', async (req, res) => {
   }
 });
 
+
 // GET /api/dashboard/effective-holdings
 app.get('/api/dashboard/effective-holdings', async (req, res) => {
-
   try {
     const selected = await getSelectedPortfolios(req);
     const effectiveHoldings = await LookthroughService.getInstance().computeEffectiveHoldings(selected);
@@ -12007,9 +12009,9 @@ app.get('/api/import/template', (req, res) => {
           "Sector": "Technology",
           "Exchange": "NSE",
           "Price": 26.0769
+
         }
       ];
-
       const ws = XLSX.utils.json_to_sheet(sampleTickers);
       XLSX.utils.book_append_sheet(wb, ws, 'Sample Tickers');
     } else {
@@ -13008,9 +13010,9 @@ app.post('/api/admin/purge-transactions', requireAdminPassword, destructiveLimit
   try {
     const { portfolio, purge_mappings = false } = req.body || {};
     const backupPath = await preDestructiveBackup('purge_transactions');
+
     await purgePortfolioData(portfolio, purge_mappings);
     await recordDestructiveAudit('PURGE_TRANSACTIONS', backupPath, { portfolio: portfolio || 'ALL', actor: (req as any).auth });
-
     res.json({
       success: true,
       message: portfolio && portfolio !== 'ALL'
@@ -14009,9 +14011,9 @@ app.post('/api/admin/purge-cache', async (req, res) => {
       message: summary,
       sizeBeforeMB: Number(sizeBeforeMB.toFixed(2)),
       sizeAfterMB: Number(sizeAfterMB.toFixed(2)),
+
       spaceSavedMB
     });
-
   } catch (err: any) {
     console.error('Error purging database cache:', err);
     return res.status(500).json({ success: false, message: err?.message || 'Failed to purge database cache' });
@@ -15010,9 +15012,9 @@ app.post('/api/reconcile', upload.single('file'), async (req, res) => {
         status = 'QUANTITY_MISMATCH';
         if (diffQty > 0) {
           reason = `Tracker quantity (${dbQty}) exceeds ${typeLabel} quantity (${zerodhaQty}). Likely a missing SELL trade.`;
+
           action = 'SELL';
         } else {
-
           const ratio = zerodhaQty / dbQty;
           if (Math.abs(ratio - 2.0) < 0.1) {
             reason = `${typeLabel} quantity is double. Missing a 1:1 Bonus or 1:2 Split corporate action.`;
@@ -16011,9 +16013,9 @@ async function startServer() {
         if (seeded > 0) {
           console.log(`[US Ticker Seed] Seeded/updated ${seeded} US tickers in MasterTickers.`);
         }
+
       } catch (err) {
         console.error('[US Ticker Seed] Error:', err);
-
       }
     }, 1000);
   } else {
