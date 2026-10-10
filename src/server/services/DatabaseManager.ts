@@ -49,6 +49,13 @@ export class DatabaseManager {
     } finally {
       verify.close();
     }
+    const retained = fs.readdirSync(backupDir)
+      .filter((name) => name.startsWith('portfolio_backup_') && name.endsWith('.db'))
+      .map((name) => ({ name, path: path.join(backupDir, name), mtime: fs.statSync(path.join(backupDir, name)).mtimeMs }))
+      .sort((a, b) => b.mtime - a.mtime);
+    for (const old of retained.slice(10)) {
+      try { fs.unlinkSync(old.path); } catch (error) { console.warn('[DatabaseManager] backup retention cleanup failed:', old.name, error); }
+    }
     console.log(`[DatabaseManager] Created verified online snapshot backup: ${backupFileName}`);
     return backupFilePath;
   }
@@ -65,4 +72,5 @@ export class DatabaseManager {
     return await dbRun(getDB(), sql, params);
   }
 }
+
 
