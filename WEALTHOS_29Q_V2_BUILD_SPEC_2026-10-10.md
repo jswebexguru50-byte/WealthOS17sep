@@ -1,3 +1,64 @@
+# AMENDMENT 1 (2026-10-10) — overrides any conflicting text below
+
+Owner decisions and review corrections. Where this amendment and the body of this specification differ, **this amendment wins**.
+
+## A. Owner decisions (chat, 2026-10-10)
+1. The documentation branches are **merged into `ai-review`**. After the merge, every slice branches from the latest `origin/ai-review` (it now contains the specs, the plan, the golden values and the audit).
+2. **New ACTIVE phase approved:** "WEALTHOS_29Q_V2 — fundamental analysis only". The owner/integrator adds the phase entry and moves the ACTIVE marker in `IMPLEMENTATION_PLAN.md`; **the bot never moves that marker** (constitution). The bot adds only the sign-off line: `WEALTHOS_29Q_V2 schema: User Approved, 2026-10-10 (chat)`. Slice S1 may start immediately (pure code, no database).
+3. **Trendlyne keys already exist** in the project's configuration. Read them from the existing configuration/environment; never print, log, commit, or copy them into new files, tests or fixtures.
+4. **No separate LLM key is expected.** The developer bot and the reviewer use their own host LLM. See B (agent layer) for the consequences.
+5. **Scope is fundamental analysis only** (see C).
+6. Still open (do not block S1–S5): promoter threshold 66.6 vs 66.67; institutional participation threshold (informational until set); Optimus Finance identity (remains an unresolved configuration entry that fails clearly if requested).
+
+## B. Agent layer: host-agent mode (replaces §11.1 and the S8 credential assumptions)
+- The routine must run **without any LLM API key**. The default provider is `HostAgentProvider`: the pipeline writes a task file (bundle + prompt + JSON schema) and reads the host agent's structured response from a file/stdin. The **host agent** (the LLM session executing the routine) drafts; it then spawns a **separate reviewer sub-agent** (its own LLM, separate prompt and context) whose findings are submitted the same way. All verification is deterministic code (claim validator, completeness gate, leakage check).
+- API adapters (Claude, OpenAI, Gemini, Bedrock, local) are **optional**, disabled unless keys are configured, and never required for tests or for S10. Keys only from environment, never from request bodies or the database.
+- Spend caps apply only to API adapters; in host mode record the token usage the host reports, if any.
+- **Parity test** uses **recorded provider outputs** (fixtures), not live calls; it passes without credentials.
+- The routine pack (prompts, schemas, validator, routine file) stays provider-neutral, so the finished routine can later be handed to ChatGPT or any other agent unchanged.
+
+## C. Scope: fundamental analysis only (overrides spec §7 technical/liquidity items and the OHLCV/DuckDB assumptions)
+- **Out of scope / deferred:** technical indicators, price-action and liquidity analysis, OHLCV/DuckDB adapters and any package installation for them. Contract questions **Q1** (short-term price action), **Q28** (ADTV and exit days) and **Q29** (technical support) are kept in the contract numbering but their sub-questions resolve to `NOT_APPLICABLE` with the reason "Out of scope: fundamental analysis only (deferred)"; the gate accepts that state for them only. If the owner meant a different boundary, they will say so; the bot must not guess.
+- **In scope:** everything derived from financial statements, ownership/shareholding, governance, filings, documents, valuation multiples (using a priced date supplied by statutory/provider data such as market cap or last price with its date — no OHLCV series), and the seven-filter scorecard.
+- Q23 (watchlist) lists fundamental variables only. Q17 valuation uses the priced-date input; own-history percentile only if a dated multiple series is available from provider data, else `INSUFFICIENT_DATA`.
+- S5 therefore **drops** the technical and liquidity calculator groups; related-party materiality stays.
+
+## D. Boundaries (replaces the path list in §0 and in the plan)
+Allowed new/changed paths only:
+- `src/server/research_v2/**`
+- `src/server/routes/researchV2.ts`
+- `src/server/db/migrations/research_v2_schema.sql` and the migration module `src/server/db/migrations/research_v2_migration.ts`
+- `tests/research_v2/**`
+- `scripts/research_v2/**` (S3 backfill tool and its committed report artifact under `docs/research_v2/artifacts/`)
+- `src/components/research/**` (S9 only)
+- `IMPLEMENTATION_PLAN.md` (sign-off line only)
+Everything else is read-only for the bot: existing routes, components, migrations 001–014, `migrations/index.ts`, `server.ts`, `database.ts`, `fifoEngine.ts`, and all real databases.
+
+## E. Migration wiring and tables (resolves the S2 ambiguity)
+- **One** schema file creates **all nine** tables from §14 in S2 (additive, idempotent). No per-slice migrations.
+- The migration module exports one constant `RESEARCH_V2_MIGRATION_VERSION` (placeholder; the number is assigned at merge as highest existing + 1). **The bot does not edit `migrations/index.ts`**; the integrator registers it.
+- The additive `quarantined` column on `company_facts` and the quarantine UPDATE run only if the column/table exist; never delete rows; never run against `portfolio.db`.
+- Tests apply the SQL to an in-memory database using the repository's existing SQLite binding.
+
+## F. Slice-specific additions
+- **S1 exit gate adds:** Indian fiscal-year and quarter mapping tests; reconciliation checks (Σ four discrete quarters ≈ annual within max(0.05 Cr, 0.1%); YTD_6M = Q1+Q2; discrete ≤ YTD) with `PERIOD_RECON_FAIL` excluding the fact from calculators; point-in-time treatment for balance-sheet metrics; percent vs fraction.
+- **S4/S5 add:** `ebitda_derived` is **before exceptional items** (`pbt_before_exceptional + finance_cost + depreciation_amortisation − other_income`). Golden: TATATECH FY26 EBITDA 852.95 and CFO/EBITDA 775.7/852.95 = 0.909 (the earlier 745.22 wrongly deducted the −107.73 exceptional item).
+- **S6:** use real Trendlyne access through existing configuration; tests use recorded responses; honour quota error 1002 with backoff/resume; actual catalogue size recorded in the run report.
+- **S7 adds:** a `ResearchFetcher` interface and a **host-agent import adapter** (the host agent gathers items with its own web tools and imports them as JSON that must satisfy the research-item schema). No crawler.
+- **S9:** new routes must use the **same admin authentication** as other admin routes and must not expose any unauthenticated mutating endpoint; UI limited to `src/components/research/**`.
+- **S10:** executed by the host agent (drafter) with a spawned reviewer sub-agent, on a database copy; independent research items imported via the S7 adapter; real Trendlyne calls within the call cap; no production database writes.
+
+## G. Tooling and environment
+- **Test runner:** Node's built-in `node:test` executed through the repository's `tsx` (`node_modules/.bin/tsx`), consistent with the other work stream. State the exact commands in every PR. `npm run lint` and the project test command must also be run where available; if the project script cannot run in the Codex runtime, say so in the PR and show the equivalent commands.
+- **Runtime:** Node/Python are not on PATH on the owner's machine; a runtime exists at `C:\Users\GopalSharma\.cache\codex-runtimes\codex-primary-runtime\dependencies\{node\bin\node.exe,python\python.exe}`. Never hard-code paths in application code.
+- **Windows long paths:** `git worktree add` failed on this repository with "Filename too long". Run `git config core.longpaths true` and/or use a **sparse or partial clone** (only `src/server`, `src/components/research`, `scripts`, `tests`, `docs`, root `*.md`) for the work area.
+- No package installation without owner approval (DuckDB is no longer needed).
+
+## H. Review process
+The reviewing assistant reviews each PR against §16 of this specification plus this amendment. The bot waits for findings, fixes them, and only then starts the next slice.
+
+---
+
 # WealthOS 29-Question Research Program V2 — Build Specification for the Developer Bot (2026-10-10)
 
 **Audience:** developer bot (builder). **Reviewer:** the reviewing assistant (Claude session), who will check each pull request against §16.
