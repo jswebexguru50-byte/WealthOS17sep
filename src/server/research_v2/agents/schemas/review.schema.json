@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ResearchV2 reviewer output",
+  "description": "Findings only. The reviewer cannot add facts, claims or answers; any extra property is rejected.",
+  "type": "object",
+  "required": ["verdict", "findings"],
+  "additionalProperties": false,
+  "properties": {
+    "verdict": { "type": "string", "enum": ["PASS", "REVISE"] },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["subQuestionId", "severity", "defect", "evidence", "requiredFix"],
+        "additionalProperties": false,
+        "properties": {
+          "subQuestionId": { "type": "string", "minLength": 1 },
+          "severity": { "type": "string", "enum": ["BLOCKING", "WARNING", "INFO"] },
+          "defect": { "type": "string", "minLength": 1 },
+          "evidence": { "type": "string" },
+          "requiredFix": { "type": "string" }
+        }
+      }
+    }
+  }
+}

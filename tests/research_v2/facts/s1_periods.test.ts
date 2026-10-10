@@ -80,5 +80,5 @@ test('flags a magnitude anomaly and restatement vintage', () => {
   const rows = [raw('OneD','2025-03-31',13000000000000,'equity_capital'), raw('OneD','2025-03-31',136000000,'equity_capital','2025-01-01')];
   const facts = normalizeXbrlFacts(rows).facts;
   assert.equal(facts.at(-1)?.vintage, 2);
-  assert.ok(facts.at(-1)?.qualityFlags.includes('UNIT_SUSPECT'));
+  assert.ok(facts.at(-1)?.qualityFlags.includes('RESTATEMENT_MAGNITUDE_JUMP'));
 });

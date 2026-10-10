@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "wealthos/research_v2/researchItem.schema.json",
+  "title": "Research items imported by the host agent",
+  "description": "Envelope of items the host agent gathered with its own web tools. status is advisory: the protocol recomputes it. A bare array of items is accepted by the adapter and wrapped into this envelope.",
+  "type": "object",
+  "required": ["items"],
+  "additionalProperties": false,
+  "properties": {
+    "gatheredBy": { "type": "string", "maxLength": 200 },
+    "gatheredAt": { "type": "string", "format": "date-time" },
+    "effort": {
+      "type": "object",
+      "description": "Web effort the host agent spent, keyed by symbol; enforced against the per-scrip caps.",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "searches": { "type": "integer", "minimum": 0 },
+          "fetches": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "items": { "type": "array", "maxItems": 200, "items": { "$ref": "#/$defs/item" } }
+  },
+  "$defs": {
+    "item": {
+      "type": "object",
+      "required": ["symbol", "tier", "url", "retrievedAt", "excerpt"],
+      "additionalProperties": false,
+      "properties": {
+        "symbol": { "type": "string", "pattern": "^[A-Za-z0-9&._-]{1,24}$" },
+        "tier": { "type": "string", "enum": ["PRIMARY", "SECONDARY"] },
+        "url": { "type": "string", "minLength": 8, "maxLength": 2048 },
+        "title": { "type": "string", "maxLength": 500 },
+        "publisher": { "type": "string", "maxLength": 200 },
+        "publishedAt": { "type": ["string", "null"], "format": "date-time" },
+        "retrievedAt": { "type": "string", "format": "date-time" },
+        "excerpt": { "type": "string", "minLength": 1, "maxLength": 20000 },
+        "subQuestionIds": {
+          "type": "array",
+          "maxItems": 40,
+          "items": { "type": "string", "pattern": "^Q([1-9]|1[0-9]|2[0-9])(\\.[A-Za-z0-9]+)?$" }
+        },
+        "documentKind": {
+          "type": "string",
+          "enum": [
+            "ANNUAL_REPORT", "FILING", "EXCHANGE_ANNOUNCEMENT", "REGULATOR", "CONCALL_TRANSCRIPT",
+            "INVESTOR_PRESENTATION", "NEWS", "BROKER_NOTE", "OTHER"
+          ]
+        },
+        "tracedTo": { "type": ["string", "null"], "maxLength": 2048 },
+        "status": { "type": "string", "enum": ["VERIFIED", "UNVERIFIED_LEAD", "REJECTED", "MANAGEMENT_CLAIM"] }
+      }
+    }
+  }
+}

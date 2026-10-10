@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ResearchV2 drafter output",
+  "description": "SubAnswer[] for every sub-question of the contract, wrapped in an object (a bare array is also accepted by the pipeline).",
+  "type": "object",
+  "required": ["answers"],
+  "additionalProperties": false,
+  "properties": {
+    "answers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["subQuestionId", "state", "claims", "narrative"],
+        "additionalProperties": false,
+        "properties": {
+          "subQuestionId": { "type": "string", "minLength": 1 },
+          "state": { "type": "string", "enum": ["ANSWERED", "PARTIAL", "NOT_DISCLOSED", "NOT_APPLICABLE"] },
+          "narrative": { "type": "string" },
+          "gap": { "type": "string" },
+          "nextAction": { "type": "string" },
+          "sourcesSearched": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+          "premiseCheck": {
+            "type": "object",
+            "required": ["holds", "note"],
+            "additionalProperties": false,
+            "properties": { "holds": { "type": "boolean" }, "note": { "type": "string" } }
+          },
+          "claims": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["claimId", "text", "refs", "kind"],
+              "additionalProperties": false,
+              "properties": {
+                "claimId": { "type": "string", "minLength": 1 },
+                "text": { "type": "string", "minLength": 1 },
+                "value": { "type": "number" },
+                "unit": { "type": "string" },
+                "period": { "type": "string" },
+                "scope": { "type": "string", "enum": ["CONSOLIDATED", "STANDALONE"] },
+                "refs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+                "kind": { "type": "string", "enum": ["FACT", "CALC", "RESEARCH", "INFERENCE"] }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

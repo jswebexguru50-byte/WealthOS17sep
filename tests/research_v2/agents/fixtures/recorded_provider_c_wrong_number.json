@@ -1,0 +1,75 @@
+{
+  "answers": [
+    {
+      "subQuestionId": "Q1.a",
+      "state": "NOT_APPLICABLE",
+      "claims": [],
+      "narrative": "Out of scope: fundamental analysis only (deferred).",
+      "premiseCheck": {
+        "holds": false,
+        "note": "Out of scope: fundamental analysis only (deferred)"
+      }
+    },
+    {
+      "subQuestionId": "Q2.a",
+      "state": "ANSWERED",
+      "narrative": "Consolidated EBITDA was ₹925.95 Cr in FY26 and operating cash flow was 775.7 Cr, a cash conversion of 0.909x.",
+      "claims": [
+        {
+          "claimId": "c1",
+          "text": "EBITDA FY26 consolidated",
+          "value": 925.95,
+          "unit": "INR_CR",
+          "period": "FY26",
+          "scope": "CONSOLIDATED",
+          "refs": [
+            "F_EBITDA"
+          ],
+          "kind": "FACT"
+        },
+        {
+          "claimId": "c2",
+          "text": "Operating cash flow FY26",
+          "value": 775.7,
+          "unit": "Cr",
+          "period": "FY2026",
+          "scope": "CONSOLIDATED",
+          "refs": [
+            "F_CFO"
+          ],
+          "kind": "FACT"
+        },
+        {
+          "claimId": "c3",
+          "text": "CFO to EBITDA",
+          "value": 0.909,
+          "unit": "x",
+          "period": "FY26",
+          "scope": "CONSOLIDATED",
+          "refs": [
+            "cfo_to_ebitda|FY26|CONSOLIDATED"
+          ],
+          "kind": "CALC"
+        }
+      ]
+    },
+    {
+      "subQuestionId": "Q3.a",
+      "state": "PARTIAL",
+      "claims": [],
+      "narrative": "Peer comparison is limited; BETA Industries is the closest listed peer.",
+      "gap": "Peer multiples are missing from the bundle",
+      "nextAction": "Fetch peer shareholding and filings"
+    },
+    {
+      "subQuestionId": "Q5.a",
+      "state": "NOT_APPLICABLE",
+      "claims": [],
+      "narrative": "The company reports no order book, so conversion cannot be assessed.",
+      "premiseCheck": {
+        "holds": false,
+        "note": "No order book disclosed in the filings searched"
+      }
+    }
+  ]
+}
