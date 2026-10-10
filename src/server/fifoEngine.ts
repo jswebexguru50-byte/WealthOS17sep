@@ -1,5 +1,6 @@
 import sqlite3 from 'sqlite3';
 import { dbAll, dbRun, dbGet, auditDBChange, runInDbLock, withTx } from './database.js';
+import { getFinancialYearFromDate } from './financialYear.js';
 
 // sqlite3 Statement#run rejects JavaScript undefined; spreadsheet/derived
 // holding fields are legitimately absent and must bind as SQL NULL.
@@ -75,13 +76,7 @@ export function getFYFromDate(dateStr: string): string {
   try {
     const parsed = parseDate(dateStr);
     if (parsed) {
-      const year = parsed.getUTCFullYear();
-      const month = parsed.getUTCMonth() + 1;
-      if (month >= 4) {
-        return `${year}-${year + 1}`;
-      } else {
-        return `${year - 1}-${year}`;
-      }
+      return getFinancialYearFromDate(parsed);
     }
     throw new Error(`INVALID_TRADE_DATE: ${String(dateStr)}`);
   } catch (err) {
@@ -1125,13 +1120,14 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
         }
         ds = existing.data_source;
         dataStatus = existing.data_status || 'LIVE';
-        // Use the existing last_update if it's within the last 24 hours; otherwise stamp with now
-        // so the UI always shows a meaningful "last updated" time rather than a very stale date.
+        // Preserve the original timestamp. A stale price must remain attributable to
+        // its source/date; replacing it with "now" would falsely imply a fresh quote.
         const existingLuMs = existing.last_update ? new Date(existing.last_update.includes(' ') ? existing.last_update.replace(' ', 'T') + 'Z' : existing.last_update).getTime() : 0;
         const oneDayMs = 24 * 60 * 60 * 1000;
-        lu = (existingLuMs > 0 && (Date.now() - existingLuMs) < oneDayMs)
-          ? existing.last_update
-          : null;
+        lu = existing.last_update || null;
+        if (existingLuMs > 0 && Date.now() - existingLuMs >= oneDayMs && dataStatus === 'LIVE') {
+          dataStatus = 'STALE';
+        }
       }
 
       // 2. Fallback 1: Check HistoricalPrices table (latest recorded close price)
