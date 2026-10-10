@@ -559,6 +559,8 @@ import { AlertEngine } from './src/server/services/AlertEngine.js';
 import { PriceActionBacktestEngine } from './src/server/services/PriceActionBacktestEngine.js';
 import { PostTaxXirrService } from './src/server/services/PostTaxXirrService.js';
 import familyGovernanceRouter from './src/server/routes/familyGovernance.js';
+import riskPoliciesRouter from './src/server/routes/riskPolicies.js';
+import documentVaultRouter from './src/server/routes/documentVault.js';
 
 app.use('/api', systemRouter);
 app.use('/api/portfolios', portfoliosRouter);
@@ -581,6 +583,8 @@ app.use('/api/v1/quant', quantRouter);                 // Institutional Quant & 
 app.use('/api/bedrock', bedrockRouter);                   // AWS Bedrock Claude Sonnet — direct to your AWS account
 app.use('/api/strategies', strategiesRouter);             // Strategy Library & Management (Phase 1: Data Layer)
 app.use('/api/family-governance', familyGovernanceRouter);
+app.use('/api/risk', riskPoliciesRouter);
+app.use('/api/family-office', documentVaultRouter);
 app.use('/api/technical-strategies', strategiesRouter);   // Strategy Library alias for ITAS
 
 app.get('/api/analytics/lookthrough', async (req, res) => {
@@ -994,11 +998,11 @@ app.get('/api/engine/run-history', async (req, res) => {
     res.json({ success: true, data: { history, status } });
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });
+
   }
 });
 
 // GET /api/engine/status — Current engine status
-
 app.get('/api/engine/status', async (req, res) => {
   try {
     const status = QuantitativeBacktestScheduler.getInstance().getStatus();
@@ -1995,11 +1999,11 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
     }
     holdingsQuery += ` ORDER BY H.current_value DESC`;
 
+
     let rgSql = `
       SELECT portfolio, isin, symbol, SUM(realized_pnl) as total_realized_pnl, SUM(sell_proceeds) as total_withdrawals
       FROM RealizedGains
     `;
-
     let rgParams: any[] = [];
     if (selected && selected.length > 0) {
       const placeholders = selected.map(() => '?').join(',');
@@ -2996,11 +3000,11 @@ async function getCashFlowLedger(rawPort: string = 'Combined'): Promise<{
       const alreadyExists = (ca.symbol && dividendTxnKeys.has(`${caDateStr}_${ca.symbol}`)) || 
                             (ca.isin && dividendTxnKeys.has(`${caDateStr}_${ca.isin}`));
       
+
       if (!alreadyExists) {
         const ledgerKey = ca.symbol || ca.isin;
         let qty = 0;
         if (ledgerKey && qtyLedger[ledgerKey]) {
-
           const entries = qtyLedger[ledgerKey];
           for (let i = entries.length - 1; i >= 0; i--) {
             if (entries[i].date <= caDateStr) {
@@ -3997,11 +4001,11 @@ app.get('/api/dashboard/xirr', async (req, res) => {
       }
 
       benchXirr = calculateXIRR(benchmarkFlows);
+
     }
 
     // Gold benchmark cash-flow matched XIRR
     let goldXirr: number | null = null;
-
     try {
       let goldShares = 0;
       const goldFlows: CashFlow[] = [];
@@ -4999,10 +5003,10 @@ app.get('/api/analytics', async (req, res) => {
         } catch (_) {}
       }
 
+
       const absGain = eVal - sVal + netTx;
       const capitalBase = sVal + (netTx < 0 ? Math.abs(netTx) : 0);
       const absPct = capitalBase > 0 ? (absGain / capitalBase) * 100 : (name === 'Since Inception' ? customAbsolutePct : 0);
-
       const rawXirr = name === 'Since Inception' ? customXirr : calculateXIRR(tFlows);
       const annXirr = rawXirr !== null && !isNaN(rawXirr) && isFinite(rawXirr) ? rawXirr : (() => {
         const years = Math.max(0.01, days / 365.25);
@@ -5999,11 +6003,11 @@ app.post('/api/corporate-actions/import-manual', upload.single('file'), async (r
         symbolToIsin[symUpper] = isinUpper;
         isinToSymbol[isinUpper] = m.symbol;
       }
+
     }
 
     let importedCount = 0;
     let duplicateCount = 0;
-
     let ignoredCount = 0;
 
     const batchId = `Manual-CA-${Date.now()}`;
@@ -7000,11 +7004,11 @@ function findHoldingsColumnIndices(rows: any[][]) {
       for (let k = 0; k < rows[i].length; k++) {
         if (String(rows[i][k] || '').trim() === '') {
           headerRowLeadingEmpties++;
+
         } else {
           break;
         }
       }
-
       // Found the header row!
       for (let j = 0; j < row.length; j++) {
         const val = row[j];
@@ -8001,11 +8005,11 @@ app.post('/api/pms/check-duplicates', async (req, res) => {
           const setDateStr = toSqlDate(record[2]) || dateStr;
           const rawSym = record[3] || record[4] || '';
           const sym = resolveSymbol(rawSym) || rawSym || txnType;
+
           const amt = Math.abs(parseCleanFloat(record[9])) || Math.abs(parseCleanFloat(record[5])) || 0;
           const notes = record[10] || '';
           const tranRef = (record[11] || '').trim();
           if (amt <= 0) continue;
-
 
           // Unique match key: incorporate Tran Ref. when present
           const matchKey = tranRef && tranRef.length >= 3
@@ -9002,11 +9006,11 @@ app.post('/api/pms/reconcile-upload', upload.fields([
         const cols = splitCsvLine(line);
         const desc = cols[0]?.replace(/"/g,'').trim() || ''; const descL = desc.toLowerCase();
         if (SKIP.has(descL) || !desc) return [];
+
         const dateStr = parseDateStr(cols[1]);
         if (!dateStr) return [];
         const security = cols[3]?.replace(/"/g,'').trim() || '';
         const qty = parseNum(cols[5]); const price = parseNum(cols[6]);
-
         const brkg = parseNum(cols[7]); const stt = parseNum(cols[8]);
         const settAmt = Math.abs(parseNum(cols[9]));
         let dbType: string;
@@ -10003,10 +10007,10 @@ app.get('/api/holdings', async (req, res) => {
         if (Array.isArray(item.portfolio_breakdown)) {
           for (const sub of item.portfolio_breakdown) {
             sub.unrealized_pnl = sub.current_value - sub.total_cost;
+
             sub.unrealized_pct = sub.total_cost > 0 ? (sub.unrealized_pnl / sub.total_cost) * 100 : 0;
             const subPrevVal = sub.current_value - sub.day_change;
             sub.day_change_pct = subPrevVal > 0 ? (sub.day_change / subPrevVal) * 100 : 0;
-
 
             try {
               const txs = await dbAll(db, `SELECT date, type, net_amount FROM Transactions WHERE symbol = ? AND portfolio = ?`, [sub.symbol, sub.portfolio]);
@@ -11004,11 +11008,11 @@ app.get('/api/portfolio-intelligence', async (req, res) => {
 app.get('/api/dashboard/effective-holdings', async (req, res) => {
   try {
     const selected = await getSelectedPortfolios(req);
+
     const effectiveHoldings = await LookthroughService.getInstance().computeEffectiveHoldings(selected);
     res.json({ success: true, effective_holdings: effectiveHoldings });
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });
-
   }
 });
 
@@ -12005,11 +12009,11 @@ app.get('/api/import/template', (req, res) => {
       ];
       const ws = XLSX.utils.json_to_sheet(sampleTickers);
       XLSX.utils.book_append_sheet(wb, ws, 'Sample Tickers');
+
     } else {
       const sampleCAs = [
         {
           "Record Date": "2023-03-03",
-
           "ISIN": "INF179K01974",
           "Symbol": "HDFC Large Cap Fund - IDCW Option - Direct Plan",
           "Action Type": "DIVIDEND",
@@ -13006,11 +13010,11 @@ app.post('/api/admin/purge-transactions', requireAdminPassword, destructiveLimit
     await recordDestructiveAudit('PURGE_TRANSACTIONS', backupPath, { portfolio: portfolio || 'ALL', actor: req.auth });
     res.json({
       success: true,
+
       message: portfolio && portfolio !== 'ALL'
         ? `All transactions and corporate actions for portfolio "${portfolio}" purged successfully${purge_mappings ? ' (including scrip mappings)' : ''}.`
         : `Transactional data purged across all portfolios successfully${purge_mappings ? ' (including scrip mappings)' : ''}.`
     });
-
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });
   }
@@ -14007,10 +14011,10 @@ app.post('/api/admin/purge-cache', async (req, res) => {
     });
   } catch (err: any) {
     console.error('Error purging database cache:', err);
+
     return res.status(500).json({ success: false, message: err?.message || 'Failed to purge database cache' });
   }
 });
-
 
 // POST Vacuum Database to Reclaim Disk Space
 app.post('/api/admin/vacuum-database', async (req, res) => {
@@ -15008,11 +15012,11 @@ app.post('/api/reconcile', upload.single('file'), async (req, res) => {
         } else {
           const ratio = zerodhaQty / dbQty;
           if (Math.abs(ratio - 2.0) < 0.1) {
+
             reason = `${typeLabel} quantity is double. Missing a 1:1 Bonus or 1:2 Split corporate action.`;
             action = 'SPLIT';
           } else if (Math.abs(ratio - 10.0) < 0.1) {
             reason = `${typeLabel} quantity is 10x. Missing a 1:10 Split corporate action.`;
-
             action = 'SPLIT';
           } else {
             reason = `Tracker quantity (${dbQty}) is less than ${typeLabel} (${zerodhaQty}). Likely a missing BUY or corporate action.`;
@@ -16009,10 +16013,10 @@ async function startServer() {
         console.error('[US Ticker Seed] Error:', err);
       }
     }, 1000);
+
   } else {
     console.log('[US Ticker Seed] Skipped — ENABLE_STARTUP_DB_MUTATIONS not set.');
   }
-
 
 
   // Trigger initial background FX rates sync only in explicit scheduler mode.
