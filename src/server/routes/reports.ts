@@ -128,3 +128,47 @@ router.post('/schedules/:id/run', auth(true), async (req: any, res) => {
   res.status(202).json({success:true,status:'QUEUED_NO_EXTERNAL_DELIVERY',message:'Report generation is queued; external email delivery is disabled by policy.'});
 });
 
+const REVIEW_SECTIONS = ['EXECUTIVE_SUMMARY','PERFORMANCE','ALLOCATION_AND_RISK','CASH_AND_LIQUIDITY','TAX_AND_COMPLIANCE','GOVERNANCE_AND_ACTIONS'] as const;
+const quarter = (start: unknown, end: unknown) => {
+  if (typeof start !== 'string' || typeof end !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(start) || !/^\d{4}-\d{2}-\d{2}$/.test(end)) return null;
+  const s = new Date(`${start}T00:00:00Z`), e = new Date(`${end}T00:00:00Z`);
+  if (Number.isNaN(s.getTime()) || Number.isNaN(e.getTime()) || s >= e) return null;
+  const endMonth = e.getUTCMonth() + 1;
+  if (![3,6,9,12].includes(endMonth) || e.getUTCDate() !== new Date(Date.UTC(e.getUTCFullYear(), endMonth, 0)).getUTCDate()) return null;
+  const expectedStart = new Date(Date.UTC(e.getUTCFullYear(), endMonth - 3, 1));
+  if (s.getTime() !== expectedStart.getTime()) return null;
+  return `Q${Math.floor((endMonth - 1) / 3)}-${e.getUTCFullYear()}`;
+};
+const packAuth = auth(false);
+const packWriteAuth = auth(true);
+router.post('/review-packs', packWriteAuth, async (req: any, res) => {
+  const b = req.body || {}; const q = quarter(b.periodStart, b.periodEnd);
+  const sections = Array.isArray(b.sections) ? b.sections.map((s: unknown) => String(s).toUpperCase()).filter((s: string) => (REVIEW_SECTIONS as readonly string[]).includes(s)) : [...REVIEW_SECTIONS];
+  if (!String(b.portfolio || '').trim() || !q || sections.length === 0) return res.status(400).json({ success:false, error:'INVALID_REVIEW_PACK_PERIOD_OR_SECTIONS' });
+  const packKey = crypto.randomUUID();
+  const result: any = await dbRun(getDB(), 'INSERT INTO family_review_packs (pack_key,portfolio,period_start,period_end,quarter_label,sections_json,created_by) VALUES (?,?,?,?,?,?,?)', [packKey,String(b.portfolio).trim(),b.periodStart,b.periodEnd,q,JSON.stringify([...new Set(sections)]),req.familyPrincipal.userId]);
+  await dbRun(getDB(), 'INSERT INTO family_review_pack_audit (pack_id,action,actor,payload_json) VALUES (?,?,?,?)', [result.lastID,'CREATE',req.familyPrincipal.userId,JSON.stringify({periodStart:b.periodStart,periodEnd:b.periodEnd})]);
+  res.status(201).json({success:true,id:result.lastID,packKey,status:'DRAFT',quarterLabel:q,sections:[...new Set(sections)]});
+});
+router.get('/review-packs', packAuth, async (req: any, res) => {
+  const rows = await dbAll(getDB(), 'SELECT * FROM family_review_packs WHERE portfolio = ? ORDER BY period_end DESC', [String(req.query.portfolio || '')]);
+  res.json({success:true,packs:rows.map((r:any)=>({...r,sections:JSON.parse(r.sections_json || '[]'),preview:r.preview_json ? JSON.parse(r.preview_json) : null}))});
+});
+router.post('/review-packs/:id/preview', packWriteAuth, async (req: any, res) => {
+  const id = Number(req.params.id); const row:any = await (await import('../database.js')).dbGet(getDB(),'SELECT * FROM family_review_packs WHERE id=?',[id]);
+  if (!row) return res.status(404).json({success:false,error:'NOT_FOUND'}); if (row.status === 'FINALIZED') return res.status(409).json({success:false,error:'ALREADY_FINALIZED'});
+  const sections = JSON.parse(row.sections_json || '[]');
+  const preview = { generatedAt:new Date().toISOString(), dataPolicy:'EVIDENCE_ONLY', calculations:{available:false,reason:'Preview contains metadata only; financial calculations require authenticated report sources.'}, sections:sections.map((name:string)=>({name,status:'PENDING_SOURCE_EVIDENCE'})) };
+  await dbRun(getDB(),'UPDATE family_review_packs SET status=?,preview_json=?,updated_at=CURRENT_TIMESTAMP WHERE id=?',['PREVIEWED',JSON.stringify(preview),id]);
+  await dbRun(getDB(),'INSERT INTO family_review_pack_audit (pack_id,action,actor,payload_json) VALUES (?,?,?,?)',[id,'PREVIEW',req.familyPrincipal.userId,JSON.stringify({sections})]);
+  res.json({success:true,id,status:'PREVIEWED',preview});
+});
+router.post('/review-packs/:id/finalize', packWriteAuth, async (req: any, res) => {
+  if (!roleAllows(req.familyPrincipal,'admin')) return res.status(403).json({success:false,error:'ROLE_FORBIDDEN'});
+  const id=Number(req.params.id); const row:any=await (await import('../database.js')).dbGet(getDB(),'SELECT * FROM family_review_packs WHERE id=?',[id]);
+  if(!row)return res.status(404).json({success:false,error:'NOT_FOUND'}); if(row.status!=='PREVIEWED')return res.status(409).json({success:false,error:'PREVIEW_REQUIRED'});
+  await dbRun(getDB(),'UPDATE family_review_packs SET status=?,finalized_by=?,finalized_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE id=?',['FINALIZED',req.familyPrincipal.userId,id]);
+  await dbRun(getDB(),'INSERT INTO family_review_pack_audit (pack_id,action,actor,payload_json) VALUES (?,?,?,?)',[id,'FINALIZE',req.familyPrincipal.userId,'{}']);
+  res.json({success:true,id,status:'FINALIZED',message:'Review pack finalized with evidence metadata only; no unverified financial values were created.'});
+});
+
