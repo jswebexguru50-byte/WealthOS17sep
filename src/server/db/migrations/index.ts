@@ -1,1 +1,26 @@
-LyoqDQogKiBzcmMvc2VydmVyL2RiL21pZ3JhdGlvbnMvaW5kZXgudHMNCiAqDQogKiBSZWdpc3RyeSBvZiBhbGwgY2Fub25pY2FsIGRhdGFiYXNlIG1pZ3JhdGlvbnMgZm9yIFdlYWx0aE9TLg0KICovDQoNCmltcG9ydCB0eXBlIERhdGFiYXNlIGZyb20gJ2JldHRlci1zcWxpdGUzJzsNCmltcG9ydCB7IE1pZ3JhdG9yLCBNaWdyYXRpb24gfSBmcm9tICcuLi9taWdyYXRvci5qcyc7DQppbXBvcnQgeyBtaWdyYXRpb24wMDEgfSBmcm9tICcuLzAwMV9iYXNlbGluZV9zY2hlbWEuanMnOw0KaW1wb3J0IHsgbWlncmF0aW9uMDAyIH0gZnJvbSAnLi8wMDJfbGVnYWN5X3NjaGVtYV9jb25zb2xpZGF0aW9uLmpzJzsKaW1wb3J0IHsgbWlncmF0aW9uMDAzIH0gZnJvbSAnLi8wMDNfcmVjb25jaWxpYXRpb25fZXhjZXB0aW9ucy5qcyc7Cg0KZXhwb3J0IGNvbnN0IGNhbm9uaWNhbE1pZ3JhdGlvbnM6IE1pZ3JhdGlvbltdID0gWw0KICBtaWdyYXRpb24wMDEsDQogIG1pZ3JhdGlvbjAwMiwKICBtaWdyYXRpb24wMDMKXTsKDQpleHBvcnQgY29uc3QgY2Fub25pY2FsTWlncmF0b3IgPSBuZXcgTWlncmF0b3IoY2Fub25pY2FsTWlncmF0aW9ucyk7DQoNCmV4cG9ydCBhc3luYyBmdW5jdGlvbiBydW5EYXRhYmFzZU1pZ3JhdGlvbnMoDQogIGRiOiBhbnkNCik6IFByb21pc2U8eyBhcHBsaWVkOiBudW1iZXI7IGN1cnJlbnRWZXJzaW9uOiBudW1iZXIgfT4gew0KICBjb25zdCBtaWdyYXRvciA9IG5ldyBNaWdyYXRvcihjYW5vbmljYWxNaWdyYXRpb25zKTsNCiAgcmV0dXJuIG1pZ3JhdG9yLnJ1blBlbmRpbmcoZGIpOw0KfQ0K
+/**
+ * src/server/db/migrations/index.ts
+ *
+ * Registry of all canonical database migrations for WealthOS.
+ */
+
+import type Database from 'better-sqlite3';
+import { Migrator, Migration } from '../migrator.js';
+import { migration001 } from './001_baseline_schema.js';
+import { migration002 } from './002_legacy_schema_consolidation.js';
+import { migration003 } from './003_reconciliation_exceptions.js';
+
+export const canonicalMigrations: Migration[] = [
+  migration001,
+  migration002,
+  migration003
+];
+
+export const canonicalMigrator = new Migrator(canonicalMigrations);
+
+export async function runDatabaseMigrations(
+  db: any
+): Promise<{ applied: number; currentVersion: number }> {
+  const migrator = new Migrator(canonicalMigrations);
+  return migrator.runPending(db);
+}
