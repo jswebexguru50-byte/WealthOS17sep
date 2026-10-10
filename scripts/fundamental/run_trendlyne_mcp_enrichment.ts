@@ -451,6 +451,16 @@ async function main() {
         return;
       }
       for (const symbol of symbols) {
+        if (parametersOnly) {
+          const rows = await all(db, "SELECT status FROM fundamental_endpoint_snapshots WHERE provider='TRENDLYNE_MCP' AND symbol=? AND endpoint=? ORDER BY fetched_at DESC LIMIT 1", [symbol, parameterEndpoint]);
+          if (rows[0]?.status === 'SUCCESS') progress.completed = Number(progress.completed) + 1;
+          else progress.failed = Number(progress.failed) + 1;
+          progress.pending = symbols.length - Number(progress.completed) - Number(progress.failed);
+          progress.lastSymbol = symbol;
+          progress.updatedAt = now();
+          writeProgress(progress);
+          continue;
+        }
         let failed = false;
         let madeCall = false;
         for (const profile of (parametersOnly ? [] : profiles.slice(1))) {
