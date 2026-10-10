@@ -1,1 +1,73 @@
-dHlwZSBDb25maXJtUmVxdWVzdCA9IHsgcGhyYXNlOiBzdHJpbmc7IHBhdGg6IHN0cmluZzsgc2lnbmFsPzogQWJvcnRTaWduYWwgfTsKdHlwZSBDcmVkZW50aWFsUHJvbXB0ID0gKCkgPT4gdm9pZDsKdHlwZSBDb25maXJtUHJvbXB0ID0gKHJlcXVlc3Q6IENvbmZpcm1SZXF1ZXN0KSA9PiBQcm9taXNlPHN0cmluZyB8IG51bGw+OwpsZXQgY3JlZGVudGlhbCA9ICcnOwpsZXQgYXV0aFByb21wdDogQ3JlZGVudGlhbFByb21wdCA9ICgpID0+IHt9OwpsZXQgY29uZmlybVByb21wdDogQ29uZmlybVByb21wdCA9IGFzeW5jICgpID0+IG51bGw7CmNvbnN0IG5hdGl2ZUZldGNoID0gZ2xvYmFsVGhpcy5mZXRjaC5iaW5kKGdsb2JhbFRoaXMpOwoKZXhwb3J0IGNvbnN0IEFETUlOX0NPTkZJUk1BVElPTlM6IFJlY29yZDxzdHJpbmcsIHN0cmluZz4gPSB7CiAgJy9hcGkvcG1zL3B1cmdlLWJhbmstYm9vayc6ICdQVVJHRV9CQU5LX0JPT0snLAogICcvYXBpL2FkbWluL3B1cmdlLXRyYW5zYWN0aW9ucyc6ICdQVVJHRV9UUkFOU0FDVElPTlMnLAogICcvYXBpL2FkbWluL3B1cmdlLWV2ZXJ5dGhpbmcnOiAnUFVSR0VfRVZFUllUSElORycsCiAgJy9hcGkvcHVyZ2UtZGF0YSc6ICdQVVJHRV9EQVRBJywKICAnL2FwaS9wdXJnZS1tYXN0ZXItdGlja2Vycyc6ICdQVVJHRV9NQVNURVJfVElDS0VSUycsCiAgJy9hcGkvcmVzdG9yZS1kYXRhYmFzZSc6ICdSRVNUT1JFX0RBVEFCQVNFJywKICAnL2FwaS9yZXN0b3JlLWRhdGFiYXNlL2NodW5rL2NvbXBsZXRlJzogJ1JFU1RPUkVfREFUQUJBU0UnLAp9OwpleHBvcnQgZnVuY3Rpb24gY29uZmlybWF0aW9uRm9yKHBhdGg6IHN0cmluZywgbWV0aG9kOiBzdHJpbmcpOiBzdHJpbmcgfCB1bmRlZmluZWQgewogIGlmIChtZXRob2QgPT09ICdERUxFVEUnICYmIC9eXC9hcGlcL3BvcnRmb2xpb3NcL1teL10rJC8udGVzdChwYXRoKSkgcmV0dXJuICdERUxFVEVfUE9SVEZPTElPJzsKICByZXR1cm4gbWV0aG9kID09PSAnUE9TVCcgPyBBRE1JTl9DT05GSVJNQVRJT05TW3BhdGhdIDogdW5kZWZpbmVkOwp9CmV4cG9ydCBmdW5jdGlvbiBzZXRBcGlDcmVkZW50aWFsKHZhbHVlOiBzdHJpbmcpIHsKICBjcmVkZW50aWFsID0gdmFsdWU7CiAgaWYgKHR5cGVvZiBzZXNzaW9uU3RvcmFnZSAhPT0gJ3VuZGVmaW5lZCcpIHsKICAgIHRyeSB7IGlmICh2YWx1ZSkgc2Vzc2lvblN0b3JhZ2Uuc2V0SXRlbSgnYXBwLXNlc3Npb24tdG9rZW4nLCB2YWx1ZSk7IGVsc2UgeyBzZXNzaW9uU3RvcmFnZS5yZW1vdmVJdGVtKCdhcHAtc2Vzc2lvbi10b2tlbicpOyBzZXNzaW9uU3RvcmFnZS5yZW1vdmVJdGVtKCdhcHAtcGFzc3dvcmQnKTsgfSB9IGNhdGNoIHsgLyogbWVtb3J5LW9ubHkgc2Vzc2lvbiAqLyB9CiAgfQp9CmV4cG9ydCBmdW5jdGlvbiBnZXRBcGlDcmVkZW50aWFsKCk6IHN0cmluZyB7CiAgaWYgKGNyZWRlbnRpYWwpIHJldHVybiBjcmVkZW50aWFsOwogIHRyeSB7IHJldHVybiB0eXBlb2Ygc2Vzc2lvblN0b3JhZ2UgIT09ICd1bmRlZmluZWQnID8gc2Vzc2lvblN0b3JhZ2UuZ2V0SXRlbSgnYXBwLXNlc3Npb24tdG9rZW4nKSB8fCBzZXNzaW9uU3RvcmFnZS5nZXRJdGVtKCdhcHAtcGFzc3dvcmQnKSB8fCAnJyA6ICcnOyB9CiAgY2F0Y2ggeyByZXR1cm4gJyc7IH0KfQpleHBvcnQgZnVuY3Rpb24gcmVnaXN0ZXJBcGlQcm9tcHRzKGF1dGg6IENyZWRlbnRpYWxQcm9tcHQsIGNvbmZpcm06IENvbmZpcm1Qcm9tcHQpOiAoKSA9PiB2b2lkIHsKICBhdXRoUHJvbXB0ID0gYXV0aDsgY29uZmlybVByb21wdCA9IGNvbmZpcm07CiAgcmV0dXJuICgpID0+IHsgYXV0aFByb21wdCA9ICgpID0+IHt9OyBjb25maXJtUHJvbXB0ID0gYXN5bmMgKCkgPT4gbnVsbDsgfTsKfQoKZXhwb3J0IGZ1bmN0aW9uIGNyZWF0ZUFwaVRyYW5zcG9ydCgKICBmZXRjaGVyOiB0eXBlb2YgZmV0Y2gsIG9yaWdpbjogKCkgPT4gc3RyaW5nLCBwYXNzd29yZDogKCkgPT4gc3RyaW5nLAogIHVuYXV0aG9yaXplZDogQ3JlZGVudGlhbFByb21wdCwgY29uZmlybTogQ29uZmlybVByb21wdCwKKTogdHlwZW9mIGZldGNoIHsKICByZXR1cm4gYXN5bmMgKGlucHV0LCBpbml0KSA9PiB7CiAgICBjb25zdCB1cmwgPSBuZXcgVVJMKHR5cGVvZiBpbnB1dCA9PT0gJ3N0cmluZycgPyBpbnB1dCA6IGlucHV0IGluc3RhbmNlb2YgVVJMID8gaW5wdXQuaHJlZiA6IGlucHV0LnVybCwgb3JpZ2luKCkpOwogICAgY29uc3QgcmVxdWVzdCA9IG5ldyBSZXF1ZXN0KGlucHV0IGluc3RhbmNlb2YgUmVxdWVzdCA/IGlucHV0IDogdXJsLCBpbml0KTsKICAgIGNvbnN0IGlzQXBpID0gdXJsLm9yaWdpbiA9PT0gb3JpZ2luKCkgJiYgL15cL2FwaSg/OlwvfCQpLy50ZXN0KHVybC5wYXRobmFtZSk7CiAgICBpZiAoIWlzQXBpKSByZXR1cm4gZmV0Y2hlcihpbnB1dCwgaW5pdCk7IC8vIE5ldmVyIGF0dGFjaCBjcmVkZW50aWFscyB0byBhbm90aGVyIG9yaWdpbi4KICAgIGNvbnN0IGhlYWRlcnMgPSBuZXcgSGVhZGVycyhyZXF1ZXN0LmhlYWRlcnMpOwogICAgY29uc3Qgc2VjcmV0ID0gcGFzc3dvcmQoKTsgaWYgKHNlY3JldCkgaGVhZGVycy5zZXQoJ3gtYXBwLXBhc3N3b3JkJywgc2VjcmV0KTsKICAgIGNvbnN0IHBocmFzZSA9IGNvbmZpcm1hdGlvbkZvcih1cmwucGF0aG5hbWUsIHJlcXVlc3QubWV0aG9kKTsKICAgIGxldCBib2R5OiBCb2R5SW5pdCB8IHVuZGVmaW5lZDsKICAgIGlmIChwaHJhc2UpIHsKICAgICAgY29uc3QgZW50ZXJlZCA9IGF3YWl0IGNvbmZpcm0oeyBwaHJhc2UsIHBhdGg6IHVybC5wYXRobmFtZSwgc2lnbmFsOiByZXF1ZXN0LnNpZ25hbCB9KTsKICAgICAgaWYgKGVudGVyZWQgIT09IHBocmFzZSB8fCByZXF1ZXN0LnNpZ25hbC5hYm9ydGVkKSByZXR1cm4gbmV3IFJlc3BvbnNlKEpTT04uc3RyaW5naWZ5KHsgc3VjY2VzczogZmFsc2UsIG1lc3NhZ2U6ICdBY3Rpb24gY2FuY2VsbGVkLicgfSksIHsgc3RhdHVzOiA0MDAsIGhlYWRlcnM6IHsgJ0NvbnRlbnQtVHlwZSc6ICdhcHBsaWNhdGlvbi9qc29uJyB9IH0pOwogICAgICBpZiAoaGVhZGVycy5nZXQoJ0NvbnRlbnQtVHlwZScpPy5pbmNsdWRlcygnbXVsdGlwYXJ0L2Zvcm0tZGF0YScpKSB7CiAgICAgICAgY29uc3QgZm9ybSA9IGF3YWl0IHJlcXVlc3QuZm9ybURhdGEoKTsgZm9ybS5zZXQoJ2NvbmZpcm1QaHJhc2UnLCBlbnRlcmVkKTsgYm9keSA9IGZvcm07IGhlYWRlcnMuZGVsZXRlKCdDb250ZW50LVR5cGUnKTsKICAgICAgfSBlbHNlIHsKICAgICAgICBjb25zdCB0ZXh0ID0gYXdhaXQgcmVxdWVzdC5jbG9uZSgpLnRleHQoKTsKICAgICAgICBjb25zdCBkYXRhOiB1bmtub3duID0gdGV4dCA/IEpTT04ucGFyc2UodGV4dCkgOiB7fTsKICAgICAgICBpZiAoIWRhdGEgfHwgdHlwZW9mIGRhdGEgIT09ICdvYmplY3QnIHx8IEFycmF5LmlzQXJyYXkoZGF0YSkpIHRocm93IG5ldyBFcnJvcignSW52YWxpZCBhZG1pbiByZXF1ZXN0IGJvZHkuJyk7CiAgICAgICAgYm9keSA9IEpTT04uc3RyaW5naWZ5KHsgLi4uZGF0YSwgY29uZmlybVBocmFzZTogZW50ZXJlZCB9KTsgaGVhZGVycy5zZXQoJ0NvbnRlbnQtVHlwZScsICdhcHBsaWNhdGlvbi9qc29uJyk7CiAgICAgIH0KICAgIH0KICAgIGNvbnN0IHJlc3BvbnNlID0gYXdhaXQgZmV0Y2hlcihuZXcgUmVxdWVzdChyZXF1ZXN0LCB7IGhlYWRlcnMsIC4uLihib2R5ID8geyBib2R5IH0gOiB7fSkgfSkpOwogICAgaWYgKHJlc3BvbnNlLnN0YXR1cyA9PT0gNDAxKSB1bmF1dGhvcml6ZWQoKTsKICAgIHJldHVybiByZXNwb25zZTsgLy8gTmV2ZXIgYXV0b21hdGljYWxseSByZXBsYXkgYSBtdXRhdGlvbiBhZnRlciBhIHBhc3N3b3JkIHByb21wdC4KICB9Owp9CmV4cG9ydCBjb25zdCBhcGlGZXRjaCA9IGNyZWF0ZUFwaVRyYW5zcG9ydChuYXRpdmVGZXRjaCwKICAoKSA9PiB0eXBlb2Ygd2luZG93ID09PSAndW5kZWZpbmVkJyA/ICdodHRwOi8vbG9jYWxob3N0JyA6IHdpbmRvdy5sb2NhdGlvbi5vcmlnaW4sCiAgZ2V0QXBpQ3JlZGVudGlhbCwgKCkgPT4geyBzZXRBcGlDcmVkZW50aWFsKCcnKTsgYXV0aFByb21wdCgpOyB9LCByZXF1ZXN0ID0+IGNvbmZpcm1Qcm9tcHQocmVxdWVzdCkpOwoKLyoqIENvbXBhdGliaWxpdHkgYm91bmRhcnkgZm9yIGV4aXN0aW5nIGNhbGxzIHdoaWxlIGNvbXBvbmVudHMgbWlncmF0ZSB0byBhcGlGZXRjaC4gKi8KZXhwb3J0IGZ1bmN0aW9uIGluc3RhbGxBcGlUcmFuc3BvcnQoKSB7IGlmICh0eXBlb2Ygd2luZG93ICE9PSAndW5kZWZpbmVkJykgd2luZG93LmZldGNoID0gYXBpRmV0Y2g7IH0K
+type ConfirmRequest = { phrase: string; path: string; signal?: AbortSignal };
+type CredentialPrompt = () => void;
+type ConfirmPrompt = (request: ConfirmRequest) => Promise<string | null>;
+let credential = '';
+let authPrompt: CredentialPrompt = () => {};
+let confirmPrompt: ConfirmPrompt = async () => null;
+const nativeFetch = globalThis.fetch.bind(globalThis);
+
+export const ADMIN_CONFIRMATIONS: Record<string, string> = {
+  '/api/pms/purge-bank-book': 'PURGE_BANK_BOOK',
+  '/api/admin/purge-transactions': 'PURGE_TRANSACTIONS',
+  '/api/admin/purge-everything': 'PURGE_EVERYTHING',
+  '/api/purge-data': 'PURGE_DATA',
+  '/api/purge-master-tickers': 'PURGE_MASTER_TICKERS',
+  '/api/restore-database': 'RESTORE_DATABASE',
+  '/api/restore-database/chunk/complete': 'RESTORE_DATABASE',
+};
+export function confirmationFor(path: string, method: string): string | undefined {
+  if (method === 'DELETE' && /^\/api\/portfolios\/[^/]+$/.test(path)) return 'DELETE_PORTFOLIO';
+  return method === 'POST' ? ADMIN_CONFIRMATIONS[path] : undefined;
+}
+export function setApiCredential(value: string) {
+  credential = value;
+  if (typeof sessionStorage !== 'undefined') {
+    try { if (value) sessionStorage.setItem('app-session-token', value); else { sessionStorage.removeItem('app-session-token'); sessionStorage.removeItem('app-password'); } } catch { /* memory-only session */ }
+  }
+}
+export function getApiCredential(): string {
+  if (credential) return credential;
+  try { return typeof sessionStorage !== 'undefined' ? sessionStorage.getItem('app-session-token') || sessionStorage.getItem('app-password') || '' : ''; }
+  catch { return ''; }
+}
+export function registerApiPrompts(auth: CredentialPrompt, confirm: ConfirmPrompt): () => void {
+  authPrompt = auth; confirmPrompt = confirm;
+  return () => { authPrompt = () => {}; confirmPrompt = async () => null; };
+}
+
+export function createApiTransport(
+  fetcher: typeof fetch, origin: () => string, password: () => string,
+  unauthorized: CredentialPrompt, confirm: ConfirmPrompt,
+): typeof fetch {
+  return async (input, init) => {
+    const url = new URL(typeof input === 'string' ? input : input instanceof URL ? input.href : input.url, origin());
+    const request = new Request(input instanceof Request ? input : url, init);
+    const isApi = url.origin === origin() && /^\/api(?:\/|$)/.test(url.pathname);
+    if (!isApi) return fetcher(input, init); // Never attach credentials to another origin.
+    const headers = new Headers(request.headers);
+    const secret = password(); if (secret) headers.set('x-app-password', secret);
+    const phrase = confirmationFor(url.pathname, request.method);
+    let body: BodyInit | undefined;
+    if (phrase) {
+      const entered = await confirm({ phrase, path: url.pathname, signal: request.signal });
+      if (entered !== phrase || request.signal.aborted) return new Response(JSON.stringify({ success: false, message: 'Action cancelled.' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+      if (headers.get('Content-Type')?.includes('multipart/form-data')) {
+        const form = await request.formData(); form.set('confirmPhrase', entered); body = form; headers.delete('Content-Type');
+      } else {
+        const text = await request.clone().text();
+        const data: unknown = text ? JSON.parse(text) : {};
+        if (!data || typeof data !== 'object' || Array.isArray(data)) throw new Error('Invalid admin request body.');
+        body = JSON.stringify({ ...data, confirmPhrase: entered }); headers.set('Content-Type', 'application/json');
+      }
+    }
+    const response = await fetcher(new Request(request, { headers, ...(body ? { body } : {}) }));
+    if (response.status === 401) unauthorized();
+    return response; // Never automatically replay a mutation after a password prompt.
+  };
+}
+export const apiFetch = createApiTransport(nativeFetch,
+  () => typeof window === 'undefined' ? 'http://localhost' : window.location.origin,
+  getApiCredential, () => { setApiCredential(''); authPrompt(); }, request => confirmPrompt(request));
+
+/** Compatibility boundary for existing calls while components migrate to apiFetch. */
+export function installApiTransport() { if (typeof window !== 'undefined') window.fetch = apiFetch; }
