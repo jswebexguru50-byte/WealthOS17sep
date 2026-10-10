@@ -1,1 +1,96 @@
-aW1wb3J0IHsgYXBpRmV0Y2ggfSBmcm9tICcuL2FwaVRyYW5zcG9ydCc7DQpleHBvcnQgdHlwZSBSZW1vdGVTdGF0dXMgPSAnQVZBSUxBQkxFJyB8ICdEQVRBX0lOU1VGRklDSUVOVCcgfCAnU09VUkNFX1VOQVZBSUxBQkxFJyB8ICdSRU1PVEVfTUlTU0lORycgfCAnVU5BVVRIT1JJWkVEJzsNCg0KZXhwb3J0IGludGVyZmFjZSBSZW1vdGVSZXNwb25zZTxUID0gYW55PiB7DQogICAgc3RhdHVzOiBSZW1vdGVTdGF0dXM7DQogICAgZGF0YT86IFQ7DQogICAgZXJyb3I/OiBzdHJpbmc7DQp9DQoNCmV4cG9ydCBjbGFzcyBXZWFsdGhPU0FwaUNsaWVudCB7DQogICAgc3RhdGljIGdldEJhc2VVcmwoKTogc3RyaW5nIHsNCiAgICAgICAgY29uc3QgaXNSZW1vdGVNb2RlID0gDQogICAgICAgICAgICAodHlwZW9mIHdpbmRvdyAhPT0gJ3VuZGVmaW5lZCcgJiYgKHdpbmRvdyBhcyBhbnkpLldFQUxUSE9TX1JFTU9URV9NT0RFKSB8fA0KICAgICAgICAgICAgKHR5cGVvZiBwcm9jZXNzICE9PSAndW5kZWZpbmVkJyAmJiBwcm9jZXNzLmVudi5WSVRFX1dFQUxUSE9TX1JFTU9URV9NT0RFID09PSAndHJ1ZScpIHx8DQogICAgICAgICAgICAodHlwZW9mIChpbXBvcnQubWV0YSBhcyBhbnkpICE9PSAndW5kZWZpbmVkJyAmJiAoaW1wb3J0Lm1ldGEgYXMgYW55KS5lbnYgJiYgKGltcG9ydC5tZXRhIGFzIGFueSkuZW52LlZJVEVfV0VBTFRIT1NfUkVNT1RFX01PREUgPT09ICd0cnVlJyk7DQogICAgICAgIHJldHVybiBpc1JlbW90ZU1vZGUgPyAnL2FwaS9haS1zdHVkaW8tcHJveHknIDogJy9hcGknOw0KICAgIH0NCg0KICAgIHN0YXRpYyBhc3luYyByZXF1ZXN0PFQgPSBhbnk+KGVuZHBvaW50OiBzdHJpbmcsIG9wdGlvbnM6IFJlcXVlc3RJbml0ID0ge30pOiBQcm9taXNlPFJlbW90ZVJlc3BvbnNlPFQ+PiB7DQogICAgICAgIGNvbnN0IGJhc2VVcmwgPSB0aGlzLmdldEJhc2VVcmwoKTsNCiAgICAgICAgY29uc3QgaXNSZW1vdGVNb2RlID0gYmFzZVVybC5pbmNsdWRlcygnL2FwaS9haS1zdHVkaW8tcHJveHknKTsNCiAgICAgICAgDQogICAgICAgIGxldCBwYXRoID0gZW5kcG9pbnQ7DQogICAgICAgIGlmIChwYXRoLnN0YXJ0c1dpdGgoJy9hcGknKSkgcGF0aCA9IHBhdGguc3Vic3RyaW5nKDQpOw0KICAgICAgICBpZiAoIXBhdGguc3RhcnRzV2l0aCgnLycpKSBwYXRoID0gJy8nICsgcGF0aDsNCg0KICAgICAgICBjb25zdCB1cmxQYXJ0cyA9IHBhdGguc3BsaXQoJz8nKTsNCiAgICAgICAgY29uc3QgYmFzZVBhdGggPSB1cmxQYXJ0c1swXTsNCiAgICAgICAgY29uc3QgcXVlcnlQYXJhbXMgPSB1cmxQYXJ0cy5sZW5ndGggPiAxID8gJz8nICsgdXJsUGFydHNbMV0gOiAnJzsNCg0KICAgICAgICAvLyAtLS0gUkVNT1RFIENBUEFCSUxJVFkgTUFQUElORyAtLS0NCiAgICAgICAgaWYgKGlzUmVtb3RlTW9kZSkgew0KICAgICAgICAgICAgbGV0IG1hcHBlZFBhdGggPSBudWxsOw0KICAgICAgICAgICAgaWYgKGJhc2VQYXRoLm1hdGNoKC9eXC9zY3JpcC1kb3NzaWVyXC8oW15cL10rKSQvKSB8fCBiYXNlUGF0aC5tYXRjaCgvXlwvdjJcL2NvbXBhbnktaW50ZWxsaWdlbmNlXC8oW15cL10rKSQvKSkgew0KICAgICAgICAgICAgICAgIGNvbnN0IHBhcnRzID0gYmFzZVBhdGguc3BsaXQoJy8nKTsNCiAgICAgICAgICAgICAgICBjb25zdCBzeW1ib2wgPSBwYXJ0c1twYXJ0cy5sZW5ndGggLSAxXTsNCiAgICAgICAgICAgICAgICBtYXBwZWRQYXRoID0gJy9jb21wYW55LycgKyBzeW1ib2wgKyAnL2ludGVsbGlnZW5jZSc7DQogICAgICAgICAgICB9DQogICAgICAgICAgICAvLyAyLiBGdW5kYW1lbnRhbHMgLT4gbWFwcGVkIHRvIHJlbW90ZSBmdW5kYW1lbnRhbHMNCiAgICAgICAgICAgIGVsc2UgaWYgKGJhc2VQYXRoLm1hdGNoKC9eXC9zY3JpcC1kb3NzaWVyXC8oW15cL10rKVwvZnVuZGFtZW50YWxzJC8pKSB7DQogICAgICAgICAgICAgICAgY29uc3Qgc3ltYm9sID0gYmFzZVBhdGguc3BsaXQoJy8nKVsyXTsNCiAgICAgICAgICAgICAgICBtYXBwZWRQYXRoID0gJy9jb21wYW55LycgKyBzeW1ib2wgKyAnL2Z1bmRhbWVudGFscyc7DQogICAgICAgICAgICB9DQogICAgICAgICAgICAvLyAzLiBUZWNobmljYWwgLT4gbWFwcGVkIHRvIHJlbW90ZSB0ZWNobmljYWwNCiAgICAgICAgICAgIGVsc2UgaWYgKGJhc2VQYXRoLm1hdGNoKC9eXC9tYXJrZXQtZGF0YVwvYWRqdXN0ZWQtb2hsY3ZcLyhbXlwvXSspJC8pKSB7DQogICAgICAgICAgICAgICAgY29uc3Qgc3ltYm9sID0gYmFzZVBhdGguc3BsaXQoJy8nKVszXTsNCiAgICAgICAgICAgICAgICBtYXBwZWRQYXRoID0gJy9jb21wYW55LycgKyBzeW1ib2wgKyAnL3RlY2huaWNhbCc7DQogICAgICAgICAgICB9DQogICAgICAgICAgICAvLyA0LiBQb3J0Zm9saW8gLT4gbWFwcGVkIHRvIHJlbW90ZSBwb3J0Zm9saW8NCiAgICAgICAgICAgIGVsc2UgaWYgKGJhc2VQYXRoID09PSAnL3BvcnRmb2xpb3MnKSB7DQogICAgICAgICAgICAgICAgbWFwcGVkUGF0aCA9ICcvcG9ydGZvbGlvJzsNCiAgICAgICAgICAgIH0NCiAgICAgICAgICAgIGVsc2UgaWYgKGJhc2VQYXRoLm1hdGNoKC9eXC9wb3J0Zm9saW9zXC8oW15cL10rKSQvKSkgew0KICAgICAgICAgICAgICAgIGNvbnN0IGlkID0gYmFzZVBhdGguc3BsaXQoJy8nKVsyXTsNCiAgICAgICAgICAgICAgICBtYXBwZWRQYXRoID0gJy9wb3J0Zm9saW8vJyArIGlkOw0KICAgICAgICAgICAgfQ0KICAgICAgICAgICAgDQogICAgICAgICAgICAvLyA1LiBNaXNzaW5nIENhcGFiaWxpdGllcyAtPiBJbnRlcmNlcHQgYW5kIHJldHVybiBSRU1PVEVfTUlTU0lORw0KICAgICAgICAgICAgaWYgKCFtYXBwZWRQYXRoKSB7DQogICAgICAgICAgICAgICAgcmV0dXJuIHsNCiAgICAgICAgICAgICAgICAgICAgc3RhdHVzOiAnUkVNT1RFX01JU1NJTkcnLA0KICAgICAgICAgICAgICAgICAgICBlcnJvcjogJ1JlbW90ZSBXZWFsdGhPUyBjYXBhYmlsaXR5IG5vdCB5ZXQgY29ubmVjdGVkLicNCiAgICAgICAgICAgICAgICB9Ow0KICAgICAgICAgICAgfQ0KICAgICAgICAgICAgcGF0aCA9IG1hcHBlZFBhdGggKyBxdWVyeVBhcmFtczsNCiAgICAgICAgfQ0KICAgICAgICAvLyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCg0KICAgICAgICBjb25zdCB1cmwgPSBiYXNlVXJsICsgcGF0aDsNCiAgICAgICAgY29uc3QgaGVhZGVycyA9IG5ldyBIZWFkZXJzKG9wdGlvbnMuaGVhZGVycyB8fCB7fSk7DQogICAgICAgIA0KICAgICAgICBjb25zdCBuZXdJbml0OiBSZXF1ZXN0SW5pdCA9IHsgLi4ub3B0aW9ucywgaGVhZGVycyB9Ow0KICAgICAgICB0cnkgew0KICAgICAgICAgICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBhcGlGZXRjaCh1cmwsIG5ld0luaXQpOw0KICAgICAgICAgICAgaWYgKHJlc3BvbnNlLnN0YXR1cyA9PT0gNDAxKSByZXR1cm4geyBzdGF0dXM6ICdVTkFVVEhPUklaRUQnIH07DQogICAgICAgICAgICBpZiAocmVzcG9uc2Uuc3RhdHVzID09PSA0MDQpIHJldHVybiB7IHN0YXR1czogJ1JFTU9URV9NSVNTSU5HJyB9Ow0KICAgICAgICAgICAgaWYgKHJlc3BvbnNlLnN0YXR1cyA+PSA1MDApIHJldHVybiB7IHN0YXR1czogJ1NPVVJDRV9VTkFWQUlMQUJMRScgfTsNCg0KICAgICAgICAgICAgY29uc3QgZGF0YSA9IGF3YWl0IHJlc3BvbnNlLmpzb24oKTsNCiAgICAgICAgICAgIA0KICAgICAgICAgICAgaWYgKHJlc3BvbnNlLnN0YXR1cyA+PSA0MDApIHsNCiAgICAgICAgICAgICAgICByZXR1cm4geyBzdGF0dXM6ICdEQVRBX0lOU1VGRklDSUVOVCcsIGVycm9yOiBkYXRhLmVycm9yIHx8IGRhdGEubWVzc2FnZSB8fCAnVW5rbm93biBlcnJvcicgfTsNCiAgICAgICAgICAgIH0NCg0KICAgICAgICAgICAgcmV0dXJuIHsNCiAgICAgICAgICAgICAgICBzdGF0dXM6ICdBVkFJTEFCTEUnLA0KICAgICAgICAgICAgICAgIGRhdGE6IGRhdGENCiAgICAgICAgICAgIH07DQogICAgICAgIH0gY2F0Y2ggKGU6IGFueSkgew0KICAgICAgICAgICAgcmV0dXJuIHsNCiAgICAgICAgICAgICAgICBzdGF0dXM6ICdTT1VSQ0VfVU5BVkFJTEFCTEUnLA0KICAgICAgICAgICAgICAgIGVycm9yOiBlLm1lc3NhZ2UNCiAgICAgICAgICAgIH07DQogICAgICAgIH0NCiAgICB9DQp9DQo=
+import { apiFetch } from './apiTransport';
+export type RemoteStatus = 'AVAILABLE' | 'DATA_INSUFFICIENT' | 'SOURCE_UNAVAILABLE' | 'REMOTE_MISSING' | 'UNAUTHORIZED';
+
+export interface RemoteResponse<T = any> {
+    status: RemoteStatus;
+    data?: T;
+    error?: string;
+}
+
+export class WealthOSApiClient {
+    static getBaseUrl(): string {
+        const isRemoteMode = 
+            (typeof window !== 'undefined' && (window as any).WEALTHOS_REMOTE_MODE) ||
+            (typeof process !== 'undefined' && process.env.VITE_WEALTHOS_REMOTE_MODE === 'true') ||
+            (typeof (import.meta as any) !== 'undefined' && (import.meta as any).env && (import.meta as any).env.VITE_WEALTHOS_REMOTE_MODE === 'true');
+        return isRemoteMode ? '/api/ai-studio-proxy' : '/api';
+    }
+
+    static async request<T = any>(endpoint: string, options: RequestInit = {}): Promise<RemoteResponse<T>> {
+        const baseUrl = this.getBaseUrl();
+        const isRemoteMode = baseUrl.includes('/api/ai-studio-proxy');
+        
+        let path = endpoint;
+        if (path.startsWith('/api')) path = path.substring(4);
+        if (!path.startsWith('/')) path = '/' + path;
+
+        const urlParts = path.split('?');
+        const basePath = urlParts[0];
+        const queryParams = urlParts.length > 1 ? '?' + urlParts[1] : '';
+
+        // --- REMOTE CAPABILITY MAPPING ---
+        if (isRemoteMode) {
+            let mappedPath = null;
+            if (basePath.match(/^\/scrip-dossier\/([^\/]+)$/) || basePath.match(/^\/v2\/company-intelligence\/([^\/]+)$/)) {
+                const parts = basePath.split('/');
+                const symbol = parts[parts.length - 1];
+                mappedPath = '/company/' + symbol + '/intelligence';
+            }
+            // 2. Fundamentals -> mapped to remote fundamentals
+            else if (basePath.match(/^\/scrip-dossier\/([^\/]+)\/fundamentals$/)) {
+                const symbol = basePath.split('/')[2];
+                mappedPath = '/company/' + symbol + '/fundamentals';
+            }
+            // 3. Technical -> mapped to remote technical
+            else if (basePath.match(/^\/market-data\/adjusted-ohlcv\/([^\/]+)$/)) {
+                const symbol = basePath.split('/')[3];
+                mappedPath = '/company/' + symbol + '/technical';
+            }
+            // 4. Portfolio -> mapped to remote portfolio
+            else if (basePath === '/portfolios') {
+                mappedPath = '/portfolio';
+            }
+            else if (basePath.match(/^\/portfolios\/([^\/]+)$/)) {
+                const id = basePath.split('/')[2];
+                mappedPath = '/portfolio/' + id;
+            }
+            
+            // 5. Missing Capabilities -> Intercept and return REMOTE_MISSING
+            if (!mappedPath) {
+                return {
+                    status: 'REMOTE_MISSING',
+                    error: 'Remote WealthOS capability not yet connected.'
+                };
+            }
+            path = mappedPath + queryParams;
+        }
+        // ---------------------------------
+
+        const url = baseUrl + path;
+        const headers = new Headers(options.headers || {});
+        
+        const newInit: RequestInit = { ...options, headers };
+        try {
+            const response = await apiFetch(url, newInit);
+            if (response.status === 401) return { status: 'UNAUTHORIZED' };
+            if (response.status === 404) return { status: 'REMOTE_MISSING' };
+            if (response.status >= 500) return { status: 'SOURCE_UNAVAILABLE' };
+
+            const data = await response.json();
+            
+            if (response.status >= 400) {
+                return { status: 'DATA_INSUFFICIENT', error: data.error || data.message || 'Unknown error' };
+            }
+
+            return {
+                status: 'AVAILABLE',
+                data: data
+            };
+        } catch (e: any) {
+            return {
+                status: 'SOURCE_UNAVAILABLE',
+                error: e.message
+            };
+        }
+    }
+}
