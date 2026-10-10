@@ -197,9 +197,45 @@ const preDestructiveBackup = async (label: string): Promise<string> => {
   const safeLabel = label.replace(/[^a-z0-9_-]/gi, '_');
   const backupPath = path.join(backupDir, `pre_destructive_${safeLabel}_${Date.now()}.db`);
   const targetDb = getDB() || db;
+  const sourcePath = process.env.DATABASE_URL || path.join(process.cwd(), 'portfolio.db');
+  const sourceBytes = fs.existsSync(sourcePath) ? fs.statSync(sourcePath).size : 0;
+  // VACUUM INTO requires room for the complete destination while retaining
+  // the source. Refuse the operation before touching data if space is tight.
+  try {
+    const statfs = (fs as any).statfsSync;
+    if (typeof statfs === 'function') {
+      const disk = statfs(backupDir);
+      const freeBytes = Number(disk.bavail) * Number(disk.bsize);
+      if (freeBytes < Math.max(16 * 1024 * 1024, sourceBytes * 2)) {
+        throw new Error('Insufficient disk space for a verified destructive-operation backup.');
+      }
+    }
+  } catch (spaceError) {
+    if (spaceError instanceof Error && spaceError.message.startsWith('Insufficient disk')) throw spaceError;
+    // Older Node versions may not expose statfs; SQLite remains the final
+    // authority and the post-copy verification below still applies.
+  }
   await new Promise<void>((resolve, reject) => {
     targetDb.run(`VACUUM INTO '${backupPath.replace(/'/g, "''")}'`, (err: any) => err ? reject(err) : resolve());
   });
+  if (!fs.existsSync(backupPath) || fs.statSync(backupPath).size < 8192) {
+    throw new Error('Destructive-operation backup was not created.');
+  }
+  const checkRows: any[] = await new Promise((resolve, reject) => {
+    targetDb.all('PRAGMA quick_check', (err: any, rows: any[]) => err ? reject(err) : resolve(rows || []));
+  });
+  if (!checkRows.some(row => Object.values(row).some(value => String(value).toLowerCase() === 'ok'))) {
+    throw new Error('Source database quick_check did not pass; refusing destructive operation.');
+  }
+  // Keep a bounded, verified retention set. Never remove the newly-created
+  // snapshot or files outside this dedicated backup directory.
+  const backups = fs.readdirSync(backupDir)
+    .filter(name => name.startsWith('pre_destructive_') && name.endsWith('.db'))
+    .map(name => ({ name, path: path.join(backupDir, name), mtime: fs.statSync(path.join(backupDir, name)).mtimeMs }))
+    .sort((a, b) => b.mtime - a.mtime);
+  for (const old of backups.slice(10)) {
+    try { fs.unlinkSync(old.path); } catch (err) { console.warn('[Security] backup retention cleanup failed:', old.name, err); }
+  }
   return backupPath;
 };
 const recordDestructiveAudit = async (operation: string, backupPath: string, details: Record<string, unknown> = {}) => {
@@ -962,6 +998,7 @@ const handleScripIntelligence = async (rawSymbol: string, res: any, req?: any) =
     const rawModules = req?.query?.modules;
     const requestedModules = rawModules
       ? String(rawModules).split(',').map((m: string) => m.trim().toUpperCase() as any)
+
       : undefined;
 
     // A page read is always side-effect free. State advancement is deliberately
@@ -998,7 +1035,6 @@ const handleScripIntelligence = async (rawSymbol: string, res: any, req?: any) =
       dataState,
       decisionStatus: 'NO_AUTOMATED_DECISION',
       fereEvidence: response.modules.fere?.result || null,
-
       fereResult: response.modules.fere?.status || 'DATA_INSUFFICIENT',
       technical: response.modules.technical?.result || null,
       fundamental: response.modules.fundamental?.result || null,
@@ -1963,6 +1999,7 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
       const isUsAsset = h.portfolio === 'US - IBKR' || h.currency === 'USD' || h.base_currency === 'USD';
       const currency = isUsAsset ? 'USD' : (h.base_currency || 'INR');
       const rate = currency === 'USD' ? usdRate : (fxRates[currency.toUpperCase()] || 1.0);
+
       const nativeVal = h.native_current_value > 0 
         ? h.native_current_value 
         : (isUsAsset && rate > 0 ? h.current_value / rate : h.current_value);
@@ -1999,7 +2036,6 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
           ltp: inrVal,
           current_value: inrVal,
           native_current_value: b.currency === 'INR' ? 0 : b.balance_amount,
-
           native_total_cost: b.currency === 'INR' ? 0 : principal,
           currency: b.currency,
           rate_to_inr: rate,
@@ -2964,6 +3000,7 @@ async function getCashFlowLedger(rawPort: string = 'Combined'): Promise<{
     });
 
     const accruedInr = fdCurrentInr - fdPrincipalInr;
+
     if (accruedInr > 0) {
       const today = new Date();
       totalIncome += accruedInr;
@@ -3000,7 +3037,6 @@ async function getCashFlowLedger(rawPort: string = 'Combined'): Promise<{
     if (isPMS) {
       const amt = Math.abs(tx.net_amount || (tx.quantity * tx.price) || 0);
       let cash = pmsCashInHandByPort.get(pKey) || 0;
-
       if (type === 'DEPOSIT') cash += amt;
       else if (type === 'WITHDRAWAL') cash -= amt;
       else if (type === 'BUY' || type.includes('PURCHASE')) cash -= amt;
@@ -3965,6 +4001,7 @@ app.get('/api/dashboard/xirr', async (req, res) => {
         }
         if (!spFlows.some(f => f.type === 'end') && spShares > 0) {
           const endSpPrice = sp500Info.regularMarketPrice || sp500Info.closePrices[sp500Info.closePrices.length - 1].close;
+
           spFlows.push({ date: new Date(), amount: spShares * endSpPrice * currentUsdRate, type: 'end' });
         }
         sp500Xirr = Math.round(calculateXIRR(spFlows) * 100) / 100;
@@ -4001,7 +4038,6 @@ app.get('/api/dashboard/xirr', async (req, res) => {
     return sendWithEtag(req, res, resData);
 
   } catch (err: any) {
-
     console.error(err);
     res.status(500).json({ success: false, message: err.message });
   }
@@ -4966,6 +5002,7 @@ app.get('/api/analytics', async (req, res) => {
             hasEndFlow = true;
           } else {
             if (flow.amount < 0) {
+
               benchmarkFlows.push({ ...flow });
               benchmarkShares += idxPrice > 0 ? Math.abs(flow.amount) / idxPrice : 0;
             } else {
@@ -5001,7 +5038,6 @@ app.get('/api/analytics', async (req, res) => {
           benchVal = calculateXIRR(benchmarkFlows) || 0;
           benchAbs = benchVal;
         }
-
 
         benchmarks[key] = Math.round(benchVal * 100) / 100;
         benchmarksAbsolute[key] = Math.round(benchAbs * 100) / 100;
@@ -5967,6 +6003,7 @@ app.post('/api/corporate-actions/import-manual', upload.single('file'), async (r
           symbol = isinToSymbol[isin] || isin;
         }
 
+
         // De-duplicate check in Transactions
         const existing = await dbGet(db, `
           SELECT id FROM Transactions 
@@ -6003,7 +6040,6 @@ app.post('/api/corporate-actions/import-manual', upload.single('file'), async (r
         duplicateCount,
         ignoredCount,
         batchId
-
       });
     } catch (innerErr: any) {
       await dbRun(db, 'ROLLBACK').catch(() => {});
@@ -6968,6 +7004,7 @@ function findBankBookColumnIndices(rows: any[][]) {
     );
     if (!isHeaderCandidate) continue;
 
+
     for (let j = 0; j < row.length; j++) {
       const val = row[j];
       if ((val.includes('date') || val.includes('time')) && dateIdx === -1) {
@@ -7004,7 +7041,6 @@ function parseBankBookRecord(record: any[], indices: any) {
   const { dateIdx, descIdx, debitIdx, creditIdx, amountIdx, securityIdx, buySellIdx, expenseIdx, incomeIdx, depWithIdx } = indices;
   let txnDesc = '';
   if (descIdx >= 0 && descIdx < record.length && record[descIdx]) {
-
     txnDesc = String(record[descIdx]).trim();
   } else {
     for (const idx of [4, 3, 2, 1, 0]) {
@@ -7969,6 +8005,7 @@ app.post('/api/pms/check-duplicates', async (req, res) => {
               (txnType === 'TDS' && (txTypeNorm === 'TDS' || txTypeNorm === 'EXPENSE')) ||
               (txnType === 'EXPENSE' && (txTypeNorm === 'EXPENSE' || txTypeNorm === 'MANAGEMENT_FEE' || txTypeNorm === 'STT_EXPENSE')) ||
               (txnType === 'MANAGEMENT_FEE' && (txTypeNorm === 'MANAGEMENT_FEE' || txTypeNorm === 'EXPENSE')) ||
+
               (txnType === 'STT_EXPENSE' && (txTypeNorm === 'STT_EXPENSE' || txTypeNorm === 'EXPENSE')) ||
               ((txnType === 'DIVIDEND' || txnType === 'INTEREST' || txnType === 'CASH_INCOME') && (txTypeNorm === 'DIVIDEND' || txTypeNorm === 'INTEREST' || txTypeNorm === 'CASH_INCOME')) ||
               (txnType === 'BUY' && (txTypeNorm === 'BUY' || txTypeNorm === 'TRANSFER IN' || txTypeNorm === 'SECURITY IN')) ||
@@ -8005,7 +8042,6 @@ app.post('/api/pms/check-duplicates', async (req, res) => {
               conflict_tx: conflictTx
             });
           }
-
         }
       }
     }
@@ -8970,6 +9006,7 @@ app.post('/api/pms/reconcile-upload', upload.fields([
         } else if (descL.includes('custody') || descL.includes('fund accounting') || descL.includes('operating expenses')) {
           dbType = 'EXPENSE'; symbol = 'CASH:EXPENSE'; netAmount = Math.abs(expenses);
         } else if (descL === 'tds' || descL.includes('tax deducted')) {
+
           dbType = 'TDS'; symbol = 'CASH:TDS'; netAmount = Math.abs(expenses) || Math.abs(depWith);
         } else {
           netAmount = Math.abs(buySell) + Math.abs(income) + Math.abs(expenses) + Math.abs(depWith);
@@ -9006,7 +9043,6 @@ app.post('/api/pms/reconcile-upload', upload.fields([
         txnRows = parseTxnCsv(files.txnFile[0].buffer);
       }
     }
-
     if (files?.bankFile?.[0]) {
       const isBankPdf = isPdf(files.bankFile[0].buffer);
       if (isBankPdf) {
@@ -9971,6 +10007,7 @@ app.get('/api/holdings', async (req, res) => {
     res.json({ success: true, holdings });
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });
+
   }
 });
 
@@ -10007,7 +10044,6 @@ async function generateImmediateGrowthHistory(db: any, selectedPortfolios: strin
 
     // Query current live market value of holdings from Holdings table (case-insensitive)
     let holdQuery = `SELECT SUM(current_value) as val, SUM(total_cost) as cost FROM Holdings`;
-
     let holdParams: any[] = [];
     if (selectedPortfolios && selectedPortfolios.length > 0) {
       const placeholders = selectedPortfolios.map(() => '?').join(',');
@@ -10972,6 +11008,7 @@ app.post('/api/market-prices/sync', async (req, res) => {
 
 // 4b. On-Demand Web Search & Zerodha Price Matcher Route
 app.post('/api/market-prices/web-match', async (req, res) => {
+
   try {
     const portfolio = req.body?.portfolio || req.query?.portfolio;
     const pFilter = typeof portfolio === 'string' ? portfolio : undefined;
@@ -11008,7 +11045,6 @@ app.get('/api/cams/configs', async (req, res) => {
   try {
     const rows = await dbAll(db, 'SELECT * FROM CamsConfigurations ORDER BY created_at DESC');
     res.json({ success: true, configs: rows });
-
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });
   }
@@ -11973,6 +12009,7 @@ app.post('/api/import/validate', upload.single('file'), async (req, res) => {
     }
 
     const workbook = XLSX.read(req.file.buffer, { type: 'buffer' });
+
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
     // Smart Header Row Detection (handles Zerodha Console Tradebook with metadata/blank header lines)
@@ -12009,7 +12046,6 @@ app.post('/api/import/validate', upload.single('file'), async (req, res) => {
           existingCounts[key] = (existingCounts[key] || 0) + 1;
         }
     }
-
 
     const masterRows = await dbAll(db, 'SELECT isin, symbol, exchange, name FROM MasterTickers');
 
@@ -12974,6 +13010,7 @@ app.post('/api/custom-price', async (req, res) => {
           await dbRun(db, `
             UPDATE Holdings
             SET ltp = ?, current_value = ?, unrealized_pnl = ?, unrealized_pct = ?, data_source = 'Manual Entry', last_update = CURRENT_TIMESTAMP
+
             WHERE portfolio = ? AND isin = ? AND folio = ?
           `, [pFloat, cv, pnl, pct, h.portfolio, h.isin, h.folio || 'NA']);
         }
@@ -13010,7 +13047,6 @@ app.post('/api/action-history/undo/:batchId', async (req, res) => {
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });
   }
-
 });
 
 // ── Carried Forward Losses & Set-Off API (Per-Portfolio STCL & LTCL) ───────────
@@ -13975,6 +14011,7 @@ app.get('/api/download-project-zip', async (req, res) => {
 
     archive.pipe(res);
 
+
     // glob all files in workspace except node_modules, .git, dist
     archive.glob('**/*', {
       cwd: process.cwd(),
@@ -14011,7 +14048,6 @@ app.post('/api/admin/analyze-project-zip', upload.single('zipFile'), async (req,
     let unchangedCount = 0;
 
     for (const entry of zipEntries) {
-
       if (entry.isDirectory) continue;
       
       let relPath = entry.entryName.replace(/\\/g, '/');
@@ -14976,6 +15012,7 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
     }
 
     // Match headers
+
     const headers = rawData[0].map(v => String(v || '').trim().toLowerCase());
     const data = XLSX.utils.sheet_to_json(sheet) as Record<string, any>[];
 
@@ -15012,7 +15049,6 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
 
     if (phase === '1') {
       const scrips = uniqueRawSymbols.map(raw => {
-
         const rawUpper = raw.toUpperCase().trim();
         let resolved = '';
         let status = 'unmapped';
@@ -15977,6 +16013,7 @@ async function startServer() {
 
     // ── Opportunity Engine Autonomous Periodic Scheduler & SQLite Persister ──
     try {
+
       OpportunityEngineScheduler.getInstance().startBackgroundScheduler();
     } catch (oppErr) {
       console.error('[OpportunityEngineScheduler] Failed to initialize scheduler:', oppErr);
@@ -16013,7 +16050,6 @@ async function startServer() {
         lastMidnightSnapshotDate = istDateStr;
         console.log(`[Midnight Snapshot] Capturing end-of-day portfolio snapshot for ${istDateStr}...`);
         recordDailyPortfolioSnapshots(db, 'MIDNIGHT_CLOSE').catch(console.error);
-
 
         setTimeout(async () => {
           try {
