@@ -310,7 +310,11 @@ function providerPayload(payload: any): any | null {
 function providerErrorMessage(payload: any): string | null {
   if (payload?.isError) return 'MCP_TOOL_RETURNED_ERROR';
   const parsed = providerPayload(payload);
-  if (parsed?.status === 'error') return typeof parsed.message === 'string' ? parsed.message : 'PROVIDER_STATUS_ERROR';
+  const structured = payload?.structuredContent?.result;
+  let structuredParsed: any = null;
+  if (typeof structured === 'string') { try { structuredParsed = JSON.parse(structured); } catch { /* handled below */ } }
+  const error = parsed?.status === 'error' ? parsed : structuredParsed?.status === 'error' ? structuredParsed : null;
+  if (error) return typeof error.message === 'string' ? error.message : 'PROVIDER_STATUS_ERROR';
   return null;
 }
 function chunks<T>(items: T[], size: number): T[][] { return Array.from({ length: Math.ceil(items.length / size) }, (_, index) => items.slice(index * size, (index + 1) * size)); }
