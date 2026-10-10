@@ -37,7 +37,8 @@ export function createSqliteFactSource(
     const conflicted = options.loadOpenConflicts || options.requireResolvedConflicts
       ? openConflictIds(db)
       : options.conflictedFactIds;
-    const policy = { ...options, conflictedFactIds: conflicted };
+    const policy = { ...options, conflictedFactIds: conflicted,
+      requireResolvedConflicts: options.requireResolvedConflicts || options.loadOpenConflicts };
     return { result: applyReadPolicy(candidates, query, policy), candidates };
   };
   return {

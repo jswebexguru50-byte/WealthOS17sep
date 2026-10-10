@@ -26,7 +26,7 @@ export function readSchemaSql(): string {
 
 /** sha256 of the schema SQL; changing the SQL changes the checksum (drift protection). */
 export function schemaChecksum(sql: string = readSchemaSql()): string {
-  return crypto.createHash('sha256').update(sql.trim()).digest('hex');
+  return crypto.createHash('sha256').update(sql.replace(/\r/g, '').trim()).digest('hex');
 }
 
 export interface QuarantineReport {

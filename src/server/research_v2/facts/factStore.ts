@@ -78,14 +78,21 @@ export function selectVintages(db: Database.Database, query: FactQuery): Fact[] 
   return rows.map(rowToFact).filter((fact) => matchesQuery(fact, query));
 }
 
+function validDate(value: string): boolean {
+  if (!ISO_DATE.test(value)) return false;
+  const d = new Date(`${value}T00:00:00Z`);
+  return Number.isFinite(d.getTime()) && d.toISOString().slice(0, 10) === value;
+}
 function invalidReason(fact: Fact): string | null {
   if (!fact.factId || !fact.isin || !fact.symbol || !fact.metric || !fact.source) return 'missing identity field';
   if (!SCOPES.includes(fact.scope)) return `invalid scope ${String(fact.scope)}`;
   if (!PERIOD_TYPES.includes(fact.periodType)) return `invalid period type ${String(fact.periodType)}`;
   if (!UNITS.includes(fact.unit)) return `invalid unit ${String(fact.unit)}`;
   if (TIER_RANK[fact.sourceTier] === undefined) return `invalid tier ${String(fact.sourceTier)}`;
-  if (!ISO_DATE.test(fact.periodStart) || !ISO_DATE.test(fact.periodEnd)) return 'period dates must be YYYY-MM-DD';
+  if (!validDate(fact.periodStart) || !validDate(fact.periodEnd)) return 'period dates must be valid YYYY-MM-DD';
   if (fact.periodEnd < fact.periodStart) return 'periodEnd before periodStart';
+  const spanMonths = (Date.parse(`${fact.periodEnd}T00:00:00Z`) - Date.parse(`${fact.periodStart}T00:00:00Z`)) / (86400000 * 30.4375);
+  if (fact.periodType === 'DISCRETE_Q' && (spanMonths < 2.5 || spanMonths > 4)) return 'DISCRETE_Q must span one quarter';
   if (Number.isNaN(parseInstant(fact.availableAt))) return 'availableAt is not a valid instant';
   return null;
 }
@@ -124,11 +131,11 @@ export class FactStore {
   }
 
   /** All vintages of a fact key, oldest first. */
-  listVintages(key: Pick<Fact, 'isin' | 'scope' | 'metric' | 'periodType' | 'periodStart' | 'periodEnd'>): Fact[] {
+  listVintages(key: Pick<Fact, 'isin' | 'scope' | 'metric' | 'periodType' | 'periodStart' | 'periodEnd' | 'unit'>): Fact[] {
     const rows = this.db.prepare(
       `SELECT * FROM ${FACTS_TABLE} WHERE isin = ? AND scope = ? AND metric = ? AND period_type = ?
-         AND period_start = ? AND period_end = ? ORDER BY vintage ASC`,
-    ).all(key.isin, key.scope, key.metric, key.periodType, key.periodStart, key.periodEnd) as FactRow[];
+         AND period_start = ? AND period_end = ? AND unit = ? ORDER BY vintage ASC`,
+    ).all(key.isin, key.scope, key.metric, key.periodType, key.periodStart, key.periodEnd, key.unit) as FactRow[];
     return rows.map(rowToFact);
   }
 
@@ -148,7 +155,7 @@ export class FactStore {
       return { status: 'REJECTED', reason: 'MISSING_VALUE', conflictsRecorded: 0 };
     }
     const vintages = this.listVintages(fact);
-    const duplicate = vintages.find((old) => this.isIdentical(old, fact));
+    const duplicate = vintages.at(-1) && this.isIdentical(vintages.at(-1)!, fact);
     if (duplicate) return { status: 'UNCHANGED', fact: duplicate, conflictsRecorded: 0 };
     const previous = vintages[vintages.length - 1];
     const stored = this.store(fact, previous);
@@ -159,7 +166,8 @@ export class FactStore {
   private isIdentical(old: Fact, next: Fact): boolean {
     return old.source === next.source && old.sourceTier === next.sourceTier &&
       old.sourceRef === next.sourceRef && old.availableAt === next.availableAt &&
-      old.valueCr === next.valueCr;
+      old.valueCr === next.valueCr && old.quarantined === next.quarantined &&
+      JSON.stringify(old.qualityFlags) === JSON.stringify(next.qualityFlags);
   }
 
   private store(fact: Fact, previous: Fact | undefined): Fact {

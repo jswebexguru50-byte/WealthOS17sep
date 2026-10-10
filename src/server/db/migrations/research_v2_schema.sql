@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS research_canonical_period_facts (
   quarantined INTEGER NOT NULL DEFAULT 0 CHECK (quarantined IN (0, 1)),
   created_at TEXT DEFAULT CURRENT_TIMESTAMP,
   CHECK (period_end >= period_start),
-  UNIQUE (isin, scope, metric, period_type, period_start, period_end, vintage)
+  UNIQUE (isin, scope, metric, period_type, period_start, period_end, unit, vintage)
 );
 CREATE INDEX IF NOT EXISTS idx_rcpf_lookup
   ON research_canonical_period_facts (isin, metric, scope, period_type, period_end DESC);

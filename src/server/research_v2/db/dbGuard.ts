@@ -104,6 +104,7 @@ export function isProductionPath(dbPath: string, productionPaths: string[] = [])
   if (!dbPath || dbPath === MEMORY_PATH) return false;
   const target = comparable(dbPath);
   if (path.basename(target).toLowerCase() === PRODUCTION_DB_BASENAME) return true;
+  if (target.toLowerCase().replace(/\\/g, '/').includes('/fere/verified_filings/fere_evidence.db')) return true;
   return configuredProductionPaths(productionPaths).some(
     (candidate) => comparable(candidate) === target || sameInode(candidate, dbPath),
   );
