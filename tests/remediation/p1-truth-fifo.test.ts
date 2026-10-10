@@ -1,1 +1,17 @@
-aW1wb3J0IHRlc3QgZnJvbSAnbm9kZTp0ZXN0JzsKaW1wb3J0IGFzc2VydCBmcm9tICdub2RlOmFzc2VydC9zdHJpY3QnOwppbXBvcnQgeyByZWFkRmlsZSB9IGZyb20gJ25vZGU6ZnMvcHJvbWlzZXMnOwoKdGVzdCgnUDEgRlkgaGVscGVyIHJlamVjdHMgaW52YWxpZCBkYXRlcyBpbnN0ZWFkIG9mIGludmVudGluZyBhIHJlcG9ydGluZyB5ZWFyJywgYXN5bmMgKCkgPT4gewogIGNvbnN0IHNvdXJjZSA9IGF3YWl0IHJlYWRGaWxlKG5ldyBVUkwoJy4uLy4uL3NyYy9zZXJ2ZXIvZmlmb0VuZ2luZS50cycsIGltcG9ydC5tZXRhLnVybCksICd1dGY4Jyk7CiAgYXNzZXJ0Lm1hdGNoKHNvdXJjZSwgL0lOVkFMSURfVFJBREVfREFURS8pOwogIGFzc2VydC5tYXRjaChzb3VyY2UsIC9nZXRGWUZyb21EYXRlLyk7CiAgYXNzZXJ0Lm1hdGNoKHNvdXJjZSwgL2lzTmFOXChwYXJzZWRcLmdldFRpbWVcKFwpXCkvKTsKfSk7Cgp0ZXN0KCdQMSBjYW5vbmljYWwgbWlncmF0aW9uIG93bnMgcmVjb25jaWxpYXRpb24gZXhjZXB0aW9uIGxlZGdlcicsIGFzeW5jICgpID0+IHsKICBjb25zdCB7IG1pZ3JhdGlvbjAwMyB9ID0gYXdhaXQgaW1wb3J0KCcuLi8uLi9zcmMvc2VydmVyL2RiL21pZ3JhdGlvbnMvMDAzX3JlY29uY2lsaWF0aW9uX2V4Y2VwdGlvbnMuanMnKTsKICBhc3NlcnQuZXF1YWwobWlncmF0aW9uMDAzLmlkLCAzKTsKICBhc3NlcnQuZXF1YWwobWlncmF0aW9uMDAzLm5hbWUsICcwMDNfcmVjb25jaWxpYXRpb25fZXhjZXB0aW9ucycpOwogIGFzc2VydC5tYXRjaChtaWdyYXRpb24wMDMuY2hlY2tzdW0sIC9eW2EtZjAtOV17NjR9JC8pOwp9KTsK
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+
+test('P1 FY helper rejects invalid dates instead of inventing a reporting year', async () => {
+  const source = await readFile(new URL('../../src/server/fifoEngine.ts', import.meta.url), 'utf8');
+  assert.match(source, /INVALID_TRADE_DATE/);
+  assert.match(source, /getFYFromDate/);
+  assert.match(source, /isNaN\(parsed\.getTime\(\)\)/);
+});
+
+test('P1 canonical migration owns reconciliation exception ledger', async () => {
+  const { migration003 } = await import('../../src/server/db/migrations/003_reconciliation_exceptions.js');
+  assert.equal(migration003.id, 3);
+  assert.equal(migration003.name, '003_reconciliation_exceptions');
+  assert.match(migration003.checksum, /^[a-f0-9]{64}$/);
+});
