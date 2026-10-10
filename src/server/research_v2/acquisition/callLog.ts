@@ -200,18 +200,19 @@ export class CallRecorder {
   record(input: RecordInput): void {
     this.write(db => {
       const ok = input.outcome.ok;
+      const failure = ok ? null : input.outcome;
       const ref = saveRawSnapshots(db, {
         symbols: input.symbols, isinBySymbol: input.isinBySymbol, endpoint: input.endpoint, tool: input.tool,
         status: ok ? 'SUCCESS' : 'SOURCE_UNAVAILABLE',
-        error: input.outcome.ok ? null : `${input.outcome.errorCode}: ${input.outcome.message}`,
+        error: failure ? `${failure.errorCode}: ${failure.message}` : null,
         payload: input.outcome.raw ?? null, fetchedAt: input.fetchedAt,
       });
       appendCallLog(db, {
         runId: this.runId, purpose: input.purpose, endpoint: input.endpoint, symbols: input.symbols,
         tokens: input.tokens, requestHash: input.requestHash,
-        status: input.outcome.ok ? 'SUCCESS' : input.outcome.quotaExhausted ? 'QUOTA_EXHAUSTED' : 'ERROR',
-        errorCode: input.outcome.ok ? undefined : input.outcome.errorCode,
-        errorMessage: input.outcome.ok ? undefined : input.outcome.message,
+        status: failure ? (failure.quotaExhausted ? 'QUOTA_EXHAUSTED' : 'ERROR') : 'SUCCESS',
+        errorCode: failure?.errorCode,
+        errorMessage: failure?.message,
         weightedCost: input.weightedCost, responseRef: ref ?? undefined, calledAt: input.fetchedAt,
       });
     });

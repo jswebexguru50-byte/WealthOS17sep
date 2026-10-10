@@ -36,7 +36,7 @@ export function literal(value: number, note: string): Measure {
 
 /** Combine measures with `fn`. Missing parts win over undefined parts; notes and ids are merged. */
 export function combine(parts: Measure[], fn: (values: number[]) => number, extraNotes: string[] = []): Measure {
-  const missing = parts.flatMap(part => (!part.ok && part.kind === 'MISSING' ? part.items : []));
+  const missing = parts.flatMap(part => part.ok ? [] : part.kind === 'MISSING' ? part.items : []);
   if (missing.length) return { ok: false, kind: 'MISSING', items: missing };
   const undefinedPart = parts.find(part => !part.ok);
   if (undefinedPart && !undefinedPart.ok) return undefinedPart;

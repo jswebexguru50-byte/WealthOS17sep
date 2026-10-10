@@ -64,11 +64,17 @@ const TIER_STRENGTH: SourceTier[] = [...VALID_TIERS];
 export function classifyPeriod(raw: RawXbrlFact): PeriodType {
   const definition = metricDefinition(raw.metric);
   if (!definition) throw new Error(`METRIC_UNMAPPED:${raw.metric}`);
-  if (definition.periodBasis === 'POINT_IN_TIME') return 'POINT_IN_TIME';
+  if (definition.periodBasis === 'POINT_IN_TIME') {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(raw.periodEnd) || !isQuarterEnd(raw.periodEnd)) {
+      throw new Error(`PERIOD_END_UNSUPPORTED:${raw.periodEnd}`);
+    }
+    return 'POINT_IN_TIME';
+  }
   if (raw.contextRef !== 'OneD' && raw.contextRef !== 'FourD') {
     throw new Error(`XBRL_CONTEXT_UNSUPPORTED:${raw.contextRef}`);
   }
   if (!isQuarterEnd(raw.periodEnd)) throw new Error(`PERIOD_END_UNSUPPORTED:${raw.periodEnd}`);
+  if (raw.contextRef === 'FourD' && raw.periodEnd.endsWith('-03-31')) return 'ANNUAL';
   return raw.contextRef === 'OneD' ? 'DISCRETE_Q' : YTD_TYPES[quarterFor(raw.periodEnd) - 1];
 }
 
@@ -93,6 +99,8 @@ interface AcceptedRow {
 
 /** Validates one raw row; every failure is thrown as an Error whose message is the rejection reason. */
 function acceptRow(raw: RawXbrlFact): AcceptedRow {
+  if (!raw.isin || !['CONSOLIDATED', 'STANDALONE'].includes(String(raw.scope))) throw new Error('IDENTITY_INVALID');
+  if (!Number.isFinite(Date.parse(raw.availableAt))) throw new Error('AVAILABLE_AT_INVALID');
   const period = classifyPeriod(raw);
   if (period === 'DISCRETE_Q' && dayCount(raw.periodStart, raw.periodEnd) > MAX_DISCRETE_QUARTER_DAYS) {
     throw new Error('CONTEXT_DURATION_MISMATCH:OneD');
@@ -100,8 +108,8 @@ function acceptRow(raw: RawXbrlFact): AcceptedRow {
   const tierProblem = validateSourceTier(raw);
   if (tierProblem) throw new Error(tierProblem);
   const definition = metricDefinition(raw.metric) as MetricDefinition;
-  const providerCrore = /TRENDLYNE/i.test(raw.source);
-  const converted = alignToMetricUnit(convertUnit(raw.value, raw.unit, providerCrore), definition.unit);
+  // Unit semantics come from the raw unit/catalogue contract, never from a source-name heuristic.
+  const converted = alignToMetricUnit(convertUnit(raw.value, raw.unit, false), definition.unit);
   return { raw, period, definition, converted };
 }
 
@@ -134,6 +142,9 @@ function buildFact(row: AcceptedRow, vintage: number): Fact {
   if (converted.flag) addFlag(fact, converted.flag);
   if (converted.derivation) fact.derivation = { formula: converted.derivation, inputs: [raw.factId] };
   if (definition.nonNegative && converted.value < 0) addFlag(fact, 'SIGN_UNUSUAL');
+  if (definition.periodBasis === 'RATIO' || definition.unit === 'PCT') {
+    if (converted.value < 0 || converted.value > 100) addFlag(fact, 'PERCENT_RANGE_INVALID');
+  }
   return fact;
 }
 
@@ -148,12 +159,14 @@ const addRejection = (report: Map<string, RejectedFact>, rawMetric: string, reas
  * preserving input order.
  */
 export function latestVintages(facts: Fact[]): Fact[] {
-  const newest = new Map<string, number>();
+  const newest = new Map<string, Fact>();
   for (const fact of facts) {
     const key = seriesKey(fact);
-    newest.set(key, Math.max(newest.get(key) ?? 0, fact.vintage));
+    const prior = newest.get(key);
+    if (!prior || fact.vintage > prior.vintage ||
+      (fact.vintage === prior.vintage && TIER_STRENGTH.indexOf(fact.sourceTier) < TIER_STRENGTH.indexOf(prior.sourceTier))) newest.set(key, fact);
   }
-  return facts.filter(fact => fact.vintage === newest.get(seriesKey(fact)));
+  return facts.filter(fact => newest.get(seriesKey(fact)) === fact);
 }
 
 /** True when a fact may feed calculators: it failed no reconciliation, is not a suspected unit error. */
@@ -218,6 +231,7 @@ function cumulativeBefore(group: Fact[], quarter: number): Cumulative | undefine
 function buildDerivedQuarter(current: Fact, prior: Cumulative | undefined, quarter: number): Fact {
   const inputs = prior ? [...prior.inputs, current] : [current];
   const flags = new Set(inputs.flatMap(f => f.qualityFlags.filter(flag => INHERITED_FLAGS.includes(flag))));
+  if (inputs.some(f => f.qualityFlags.includes('PERIOD_RECON_FAIL'))) flags.add('PERIOD_RECON_FAIL');
   const value = (current.valueCr as number) - (prior?.valueCr ?? 0);
   return {
     ...current,
@@ -272,7 +286,7 @@ export function normalizeXbrlFacts(rows: RawXbrlFact[]): NormalizedFacts {
   const all: Fact[] = [];
   const rejected = new Map<string, RejectedFact>();
   const ordered = [...rows].sort(
-    (a, b) => a.periodEnd.localeCompare(b.periodEnd) || a.availableAt.localeCompare(b.availableAt),
+    (a, b) => a.periodEnd.localeCompare(b.periodEnd) || Date.parse(a.availableAt) - Date.parse(b.availableAt),
   );
   for (const raw of ordered) {
     let accepted: AcceptedRow;

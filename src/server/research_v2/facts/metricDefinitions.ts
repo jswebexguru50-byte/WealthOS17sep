@@ -27,6 +27,8 @@ const percent = (metric: string, definition: string, aliases: string[]): MetricD
 
 /** Canonical metrics the research program uses. Money is INR crore; ownership is percent. */
 export const METRIC_DEFINITIONS: readonly MetricDefinition[] = [
+  percent('roe_pct', 'Return on equity percentage', ['roe']),
+  percent('roce_pct', 'Return on capital employed percentage', ['roce']),
   flow('revenue_from_operations', 'Revenue from operations excluding other income',
     { aliases: ['revenue', 'revenue_cr'], nonNegative: true }),
   flow('other_income', 'Other income reported for the same period', { aliases: ['other_income_cr'] }),
