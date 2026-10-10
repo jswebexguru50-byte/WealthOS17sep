@@ -1,1 +1,68 @@
-aW1wb3J0IHNxbGl0ZTMgZnJvbSAnc3FsaXRlMyc7DQppbXBvcnQgZnMgZnJvbSAnZnMnOwppbXBvcnQgcGF0aCBmcm9tICdwYXRoJzsNCmltcG9ydCB7IGdldERCLCBkYkFsbCwgZGJHZXQsIGRiUnVuLCBnZXRFZmZlY3RpdmVEYlBhdGggfSBmcm9tICcuLi9kYXRhYmFzZS5qcyc7Cg0KZXhwb3J0IGNsYXNzIERhdGFiYXNlTWFuYWdlciB7DQogIHByaXZhdGUgc3RhdGljIGluc3RhbmNlOiBEYXRhYmFzZU1hbmFnZXI7DQogIHByaXZhdGUgZGJQYXRoOiBzdHJpbmc7DQoNCiAgcHJpdmF0ZSBjb25zdHJ1Y3RvcigpIHsNCiAgICB0aGlzLmRiUGF0aCA9IGdldEVmZmVjdGl2ZURiUGF0aCgpOwogIH0NCg0KICBwdWJsaWMgc3RhdGljIGdldEluc3RhbmNlKCk6IERhdGFiYXNlTWFuYWdlciB7DQogICAgaWYgKCFEYXRhYmFzZU1hbmFnZXIuaW5zdGFuY2UpIHsNCiAgICAgIERhdGFiYXNlTWFuYWdlci5pbnN0YW5jZSA9IG5ldyBEYXRhYmFzZU1hbmFnZXIoKTsNCiAgICB9DQogICAgcmV0dXJuIERhdGFiYXNlTWFuYWdlci5pbnN0YW5jZTsNCiAgfQ0KDQogIHB1YmxpYyBnZXREYigpOiBzcWxpdGUzLkRhdGFiYXNlIHsNCiAgICByZXR1cm4gZ2V0REIoKTsNCiAgfQ0KDQogIC8qKg0KICAgKiBDcmVhdGUgYW4gYXV0b21hdGVkIHBvaW50LWluLXRpbWUgYmFja3VwIG9mIHRoZSBkYXRhYmFzZSBiZWZvcmUgZGVzdHJ1Y3RpdmUgb3BzIG9yIGJ1bGsgaW1wb3J0cy4NCiAgICovDQogIHB1YmxpYyBhc3luYyBjcmVhdGVCYWNrdXAodGFnOiBzdHJpbmcgPSAnYXV0bycpOiBQcm9taXNlPHN0cmluZz4gew0KICAgIGNvbnN0IGJhY2t1cERpciA9IHBhdGguam9pbihwcm9jZXNzLmN3ZCgpLCAnYmFja3VwcycpOw0KICAgIGlmICghZnMuZXhpc3RzU3luYyhiYWNrdXBEaXIpKSB7DQogICAgICBmcy5ta2RpclN5bmMoYmFja3VwRGlyLCB7IHJlY3Vyc2l2ZTogdHJ1ZSB9KTsNCiAgICB9DQoNCiAgICBjb25zdCB0aW1lc3RhbXAgPSBuZXcgRGF0ZSgpLnRvSVNPU3RyaW5nKCkucmVwbGFjZSgvWzouXS9nLCAnLScpOw0KICAgIGNvbnN0IGJhY2t1cEZpbGVOYW1lID0gYHBvcnRmb2xpb19iYWNrdXBfJHt0YWd9XyR7dGltZXN0YW1wfS5kYmA7DQogICAgY29uc3QgYmFja3VwRmlsZVBhdGggPSBwYXRoLmpvaW4oYmFja3VwRGlyLCBiYWNrdXBGaWxlTmFtZSk7DQoNCiAgICBjb25zdCBzb3VyY2UgPSBnZXREQigpIGFzIGFueTsKICAgIGlmICh0eXBlb2Ygc291cmNlLmJhY2t1cCAhPT0gJ2Z1bmN0aW9uJykgewogICAgICB0aHJvdyBuZXcgRXJyb3IoJ1NRTElURV9CQUNLVVBfQVBJX1VOQVZBSUxBQkxFJyk7CiAgICB9CiAgICAvLyBiZXR0ZXItc3FsaXRlMyBjb3BpZXMgcGFnZXMgaW4gYm91bmRlZCBhc3luY2hyb25vdXMgYmF0Y2hlcy4gVGhpcyBrZWVwcwogICAgLy8gV0FMIHN0YXRlIGNvbnNpc3RlbnQgd2l0aG91dCBjb3B5aW5nIGEgbGl2ZSBkYXRhYmFzZSBmaWxlIGJ5IGhhbmQuCiAgICBhd2FpdCBzb3VyY2UuYmFja3VwKGJhY2t1cEZpbGVQYXRoLCB7IGF0dGFjaGVkOiAnbWFpbicsIGZpbGVuYW1lOiBiYWNrdXBGaWxlUGF0aCB9KTsKICAgIGNvbnN0IHZlcmlmeSA9IG5ldyAoYXdhaXQgaW1wb3J0KCdiZXR0ZXItc3FsaXRlMycpKS5kZWZhdWx0KGJhY2t1cEZpbGVQYXRoLCB7IHJlYWRvbmx5OiB0cnVlIH0pOwogICAgdHJ5IHsKICAgICAgY29uc3QgcmVzdWx0ID0gdmVyaWZ5LnByYWdtYSgncXVpY2tfY2hlY2snLCB7IHNpbXBsZTogdHJ1ZSB9KTsKICAgICAgaWYgKHJlc3VsdCAhPT0gJ29rJykgdGhyb3cgbmV3IEVycm9yKGBTUUxJVEVfQkFDS1VQX1FVSUNLX0NIRUNLX0ZBSUxFRDoke1N0cmluZyhyZXN1bHQpfWApOwogICAgfSBmaW5hbGx5IHsKICAgICAgdmVyaWZ5LmNsb3NlKCk7CiAgICB9CiAgICBjb25zb2xlLmxvZyhgW0RhdGFiYXNlTWFuYWdlcl0gQ3JlYXRlZCB2ZXJpZmllZCBvbmxpbmUgc25hcHNob3QgYmFja3VwOiAke2JhY2t1cEZpbGVOYW1lfWApOwogICAgcmV0dXJuIGJhY2t1cEZpbGVQYXRoOwogIH0NCg0KICBwdWJsaWMgYXN5bmMgcXVlcnk8VCA9IGFueT4oc3FsOiBzdHJpbmcsIHBhcmFtczogYW55W10gPSBbXSk6IFByb21pc2U8VFtdPiB7DQogICAgcmV0dXJuIChhd2FpdCBkYkFsbChnZXREQigpLCBzcWwsIHBhcmFtcykpIGFzIFRbXTsNCiAgfQ0KDQogIHB1YmxpYyBhc3luYyBnZXQ8VCA9IGFueT4oc3FsOiBzdHJpbmcsIHBhcmFtczogYW55W10gPSBbXSk6IFByb21pc2U8VCB8IHVuZGVmaW5lZD4gew0KICAgIHJldHVybiAoYXdhaXQgZGJHZXQoZ2V0REIoKSwgc3FsLCBwYXJhbXMpKSBhcyBUIHwgdW5kZWZpbmVkOw0KICB9DQoNCiAgcHVibGljIGFzeW5jIGV4ZWN1dGUoc3FsOiBzdHJpbmcsIHBhcmFtczogYW55W10gPSBbXSk6IFByb21pc2U8eyBsYXN0SUQ6IG51bWJlcjsgY2hhbmdlczogbnVtYmVyIH0+IHsNCiAgICByZXR1cm4gYXdhaXQgZGJSdW4oZ2V0REIoKSwgc3FsLCBwYXJhbXMpOw0KICB9DQp9DQoNCg==
+import sqlite3 from 'sqlite3';
+import fs from 'fs';
+import path from 'path';
+import { getDB, dbAll, dbGet, dbRun, getEffectiveDbPath } from '../database.js';
+
+export class DatabaseManager {
+  private static instance: DatabaseManager;
+  private dbPath: string;
+
+  private constructor() {
+    this.dbPath = getEffectiveDbPath();
+  }
+
+  public static getInstance(): DatabaseManager {
+    if (!DatabaseManager.instance) {
+      DatabaseManager.instance = new DatabaseManager();
+    }
+    return DatabaseManager.instance;
+  }
+
+  public getDb(): sqlite3.Database {
+    return getDB();
+  }
+
+  /**
+   * Create an automated point-in-time backup of the database before destructive ops or bulk imports.
+   */
+  public async createBackup(tag: string = 'auto'): Promise<string> {
+    const backupDir = path.join(process.cwd(), 'backups');
+    if (!fs.existsSync(backupDir)) {
+      fs.mkdirSync(backupDir, { recursive: true });
+    }
+
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const backupFileName = `portfolio_backup_${tag}_${timestamp}.db`;
+    const backupFilePath = path.join(backupDir, backupFileName);
+
+    const source = getDB() as any;
+    if (typeof source.backup !== 'function') {
+      throw new Error('SQLITE_BACKUP_API_UNAVAILABLE');
+    }
+    // better-sqlite3 copies pages in bounded asynchronous batches. This keeps
+    // WAL state consistent without copying a live database file by hand.
+    await source.backup(backupFilePath, { attached: 'main', filename: backupFilePath });
+    const verify = new (await import('better-sqlite3')).default(backupFilePath, { readonly: true });
+    try {
+      const result = verify.pragma('quick_check', { simple: true });
+      if (result !== 'ok') throw new Error(`SQLITE_BACKUP_QUICK_CHECK_FAILED:${String(result)}`);
+    } finally {
+      verify.close();
+    }
+    console.log(`[DatabaseManager] Created verified online snapshot backup: ${backupFileName}`);
+    return backupFilePath;
+  }
+
+  public async query<T = any>(sql: string, params: any[] = []): Promise<T[]> {
+    return (await dbAll(getDB(), sql, params)) as T[];
+  }
+
+  public async get<T = any>(sql: string, params: any[] = []): Promise<T | undefined> {
+    return (await dbGet(getDB(), sql, params)) as T | undefined;
+  }
+
+  public async execute(sql: string, params: any[] = []): Promise<{ lastID: number; changes: number }> {
+    return await dbRun(getDB(), sql, params);
+  }
+}
+
