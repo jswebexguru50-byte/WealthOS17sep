@@ -4,6 +4,7 @@ import { dbAll, dbRun, dbGet, getDB, runInDbLock, withTx } from './database.js';
 import { formatDate, parseDate, runFIFO } from './fifoEngine.js';
 import { persistRefreshStamp } from './refreshState.js';
 import { DuckDbAdjustedOhlcvService } from './services/DuckDbAdjustedOhlcvService.js';
+import { MarketDataCache } from './services/MarketDataCache.js';
 
 export async function safeJsonFromResponse<T = any>(res: Response): Promise<T | null> {
   try {
@@ -281,7 +282,12 @@ async function saveHistoricalPricesToDB(symbol: string, closePrices: Array<{ dat
   }
 }
 
-export async function fetchTickerData(symbol: string, daysBack: number = 365 * 5, forceRefresh: boolean = true): Promise<any> {
+/**
+ * Provider implementation. Keep this separate from the public gateway below so
+ * every caller (including force refresh callers) benefits from single-flight
+ * request coalescing without recursively entering the gateway.
+ */
+async function fetchTickerDataFromProviders(symbol: string, daysBack: number = 365 * 5, forceRefresh: boolean = true): Promise<any> {
   const db = getDB();
   let exchange = 'NSE';
   let isin = '';
@@ -497,6 +503,27 @@ export async function fetchTickerData(symbol: string, daysBack: number = 365 * 5
   } catch (err) {}
 
   return null;
+}
+
+/**
+ * Canonical market-data gateway. A dashboard refresh can fan out to many
+ * engines for the same symbol; coalesce those requests before they reach
+ * Yahoo/Alpaca/DuckDB. Normal reads use the shared TTL cache, while an explicit
+ * refresh skips stale cached values but still shares the in-flight provider
+ * request with concurrent callers.
+ */
+export async function fetchTickerData(symbol: string, daysBack: number = 365 * 5, forceRefresh: boolean = true): Promise<any> {
+  const normalized = String(symbol || '').trim().toUpperCase();
+  if (!normalized || !Number.isFinite(daysBack) || daysBack < 1 || daysBack > 3650) return null;
+  const key = `market-data:${normalized}:${Math.floor(daysBack)}`;
+  const cache = MarketDataCache.getInstance();
+  if (!forceRefresh) {
+    return cache.getOrSetSingleFlight(key, () => fetchTickerDataFromProviders(normalized, Math.floor(daysBack), false), 15 * 60 * 1000);
+  }
+  // Force refresh deliberately bypasses TTL values, but remains single-flight.
+  // A short cache write keeps a concurrent non-refresh reader from immediately
+  // issuing a second provider request after this refresh completes.
+  return cache.getOrSetSingleFlight(`${key}:refresh`, () => fetchTickerDataFromProviders(normalized, Math.floor(daysBack), true), 30 * 1000);
 }
 
 export async function fetchHistoricalYahooEvents(symbol: string, exchange: string = 'NSE', daysBack: number = 365 * 20): Promise<{ dividends: any[], splits: any[] }> {
@@ -971,6 +998,7 @@ async function fetchUpstoxLTPBatch(
 
             const itemRes = { ltp: effectiveLtp, prevClose };
             results[key] = itemRes;
+
             results[key.replace(':', '|')] = itemRes;
             results[key.replace('|', ':')] = itemRes;
             if (val.instrument_token) {
@@ -1783,5 +1811,7 @@ export function triggerBackgroundMarketDataSync(db: sqlite3.Database, portfolioF
       .catch(err => console.error('[Background Market Sync Error]:', err));
   });
 }
+
+
 
 
