@@ -19,18 +19,43 @@ import { WorkspaceService } from '../services/stockscans/WorkspaceService.js';
 import { UniverseId, MissingConstituentPolicy, DataStatus } from '../../types/stockscans.js';
 import { SectorMomentumService } from '../services/SectorMomentumService.js';
 import { SectorFlowService } from '../services/SectorFlowService.js';
+import { getServerConfig, timingSafeMatch } from '../config.js';
 
 export const stockscansRouter = express.Router();
 
 type OhlcvJob = { jobId: string; status: 'RUNNING' | 'COMPLETE' | 'FAILED'; startedAt: string; finishedAt?: string; fromDate?: string; toDate: string; output: string[]; error?: string };
 const ohlcvJobs = new Map<string, OhlcvJob>();
+const MAX_OHLCV_OUTPUT_LINES = 200;
+const MAX_OHLCV_OUTPUT_CHARS = 2_000;
+const OHLCV_TIMEOUT_MS = 15 * 60 * 1000;
 
-stockscansRouter.post('/ohlcv/refresh', async (req: Request, res: Response) => {
+const requireRefreshAdmin = (req: Request, res: Response, next: express.NextFunction) => {
+  const config = getServerConfig();
+  const expected = config.APP_PASSWORD;
+  if (!expected) {
+    if (config.NODE_ENV === 'production' || config.BIND_HOST !== '127.0.0.1') {
+      return res.status(503).json({ success: false, error: 'APP_PASSWORD_REQUIRED' });
+    }
+    return next();
+  }
+  if (!timingSafeMatch(String(req.headers['x-app-password'] || ''), expected)) {
+    return res.status(401).json({ success: false, error: 'UNAUTHORIZED' });
+  }
+  next();
+};
+
+stockscansRouter.post('/ohlcv/refresh', requireRefreshAdmin, async (req: Request, res: Response) => {
   const { accessToken, toDate } = req.body || {};
+  if (accessToken !== undefined) {
+    return res.status(400).json({ success: false, error: 'ACCESS_TOKEN_MUST_BE_SERVER_SIDE' });
+  }
   const stored = await dbGet<{ value: string }>(getDB(), "SELECT value FROM AppConfig WHERE key='Kite_Access_Token'");
   const effectiveToken = typeof accessToken === 'string' && accessToken.trim().length >= 20 ? accessToken.trim() : stored?.value;
   if (!effectiveToken) return res.status(422).json({ success: false, error: 'Kite is not linked. Complete Kite login first.' });
   const target = toDate || new Date().toISOString().slice(0, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(target)) || Number.isNaN(Date.parse(`${target}T00:00:00Z`))) {
+    return res.status(400).json({ success: false, error: 'INVALID_TO_DATE' });
+  }
   const active = [...ohlcvJobs.values()].find(j => j.status === 'RUNNING');
   if (active) return res.status(409).json({ success: false, error: 'An OHLCV refresh is already running.', job: active });
   await dbRun(getDB(), "INSERT OR REPLACE INTO AppConfig (key,value) VALUES ('Kite_Access_Token',?)", [effectiveToken]);
@@ -39,10 +64,16 @@ stockscansRouter.post('/ohlcv/refresh', async (req: Request, res: Response) => {
   ohlcvJobs.set(jobId, job);
   const script = path.resolve(process.cwd(), 'scripts/market_data/update_ohlcv_duckdb_today.py');
   const child = spawn(process.env.PYTHON || 'python', [script, '--to-date', target], { cwd: process.cwd(), windowsHide: true, env: { ...process.env, KITE_ACCESS_TOKEN: effectiveToken } });
-  child.stdout.on('data', b => { job.output.push(String(b).replace(/token[^\n]*/ig, 'token [redacted]')); if (job.output.length > 200) job.output.shift(); });
-  child.stderr.on('data', b => { job.output.push(String(b)); if (job.output.length > 200) job.output.shift(); });
+  const appendOutput = (b: Buffer) => {
+    const text = String(b).replace(/(access[_ -]?token|api[_ -]?key|secret|password)\s*[:=]\s*[^\s,;]+/ig, '$1=[redacted]').slice(0, MAX_OHLCV_OUTPUT_CHARS);
+    job.output.push(text);
+    if (job.output.length > MAX_OHLCV_OUTPUT_LINES) job.output.shift();
+  };
+  child.stdout.on('data', appendOutput);
+  child.stderr.on('data', appendOutput);
+  const timeout = setTimeout(() => { child.kill(); job.status = 'FAILED'; job.error = 'Updater timed out'; job.finishedAt = new Date().toISOString(); }, OHLCV_TIMEOUT_MS);
   child.on('error', e => { job.status = 'FAILED'; job.error = e.message; job.finishedAt = new Date().toISOString(); });
-  child.on('close', code => { job.status = code === 0 ? 'COMPLETE' : 'FAILED'; job.error = code === 0 ? undefined : `Updater exited with code ${code}`; job.finishedAt = new Date().toISOString(); });
+  child.on('close', code => { clearTimeout(timeout); if (job.status === 'RUNNING') { job.status = code === 0 ? 'COMPLETE' : 'FAILED'; job.error = code === 0 ? undefined : `Updater exited with code ${code}`; job.finishedAt = new Date().toISOString(); } });
   return res.status(202).json({ success: true, job: { jobId, status: job.status, startedAt: job.startedAt, toDate: target } });
 });
 
