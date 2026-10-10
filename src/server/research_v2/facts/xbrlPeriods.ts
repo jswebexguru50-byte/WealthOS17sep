@@ -382,5 +382,9 @@ export function reconcileDiscreteFacts(facts: Fact[], absolute = 0.05, relative 
     for (const members of outcome.failures) members.forEach(fact => addFlag(fact, 'PERIOD_RECON_FAIL'));
     if (!outcome.ran) group.forEach(fact => addFlag(fact, 'RECON_UNVERIFIED'));
   }
+  const failedIds = new Set(out.filter(f => f.qualityFlags.includes('PERIOD_RECON_FAIL')).map(f => f.factId));
+  for (const fact of out) {
+    if (fact.derivation?.inputs.some(id => failedIds.has(id))) addFlag(fact, 'PERIOD_RECON_FAIL');
+  }
   return out;
 }
