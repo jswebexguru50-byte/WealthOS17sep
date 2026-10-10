@@ -1,1 +1,43 @@
-aW1wb3J0IFJlYWN0LCB7IHVzZUxheW91dEVmZmVjdCwgdXNlU3RhdGUgfSBmcm9tICdyZWFjdCc7DQppbXBvcnQgeyBhcGlGZXRjaCwgcmVnaXN0ZXJBcGlQcm9tcHRzLCBzZXRBcGlDcmVkZW50aWFsIH0gZnJvbSAnLi4vbGliL2FwaVRyYW5zcG9ydCc7DQoNCmV4cG9ydCBmdW5jdGlvbiBBcGlQcm9tcHRzKCkgew0KICBjb25zdCBbbmVlZHNQYXNzd29yZCwgc2V0TmVlZHNQYXNzd29yZF0gPSB1c2VTdGF0ZShmYWxzZSk7DQogIGNvbnN0IFtwYXNzd29yZCwgc2V0UGFzc3dvcmRdID0gdXNlU3RhdGUoJycpOw0KICBjb25zdCBbZXJyb3IsIHNldEVycm9yXSA9IHVzZVN0YXRlKCcnKTsNCiAgY29uc3QgW2J1c3ksIHNldEJ1c3ldID0gdXNlU3RhdGUoZmFsc2UpOw0KICBjb25zdCBbdHlwZWQsIHNldFR5cGVkXSA9IHVzZVN0YXRlKCcnKTsNCiAgY29uc3QgW2NvbmZpcm1hdGlvbiwgc2V0Q29uZmlybWF0aW9uXSA9IHVzZVN0YXRlPHsgcGhyYXNlOiBzdHJpbmc7IHBhdGg6IHN0cmluZzsgcmVzb2x2ZTogKHZhbHVlOiBzdHJpbmcgfCBudWxsKSA9PiB2b2lkIH0gfCBudWxsPihudWxsKTsNCiAgdXNlTGF5b3V0RWZmZWN0KCgpID0+IHsNCiAgICBsZXQgcGVuZGluZzogKCh2YWx1ZTogc3RyaW5nIHwgbnVsbCkgPT4gdm9pZCkgfCBudWxsID0gbnVsbDsNCiAgICBjb25zdCB1bnJlZ2lzdGVyID0gcmVnaXN0ZXJBcGlQcm9tcHRzKCgpID0+IHNldE5lZWRzUGFzc3dvcmQodHJ1ZSksIHJlcXVlc3QgPT4gbmV3IFByb21pc2UocmVzb2x2ZSA9PiB7DQogICAgICBpZiAocGVuZGluZyB8fCByZXF1ZXN0LnNpZ25hbD8uYWJvcnRlZCkgcmV0dXJuIHJlc29sdmUobnVsbCk7DQogICAgICBjb25zdCBmaW5pc2ggPSAodmFsdWU6IHN0cmluZyB8IG51bGwpID0+IHsgcmVxdWVzdC5zaWduYWw/LnJlbW92ZUV2ZW50TGlzdGVuZXIoJ2Fib3J0JywgYWJvcnQpOyBwZW5kaW5nID0gbnVsbDsgc2V0Q29uZmlybWF0aW9uKG51bGwpOyByZXNvbHZlKHZhbHVlKTsgfTsNCiAgICAgIGNvbnN0IGFib3J0ID0gKCkgPT4gZmluaXNoKG51bGwpOw0KICAgICAgcGVuZGluZyA9IGZpbmlzaDsgcmVxdWVzdC5zaWduYWw/LmFkZEV2ZW50TGlzdGVuZXIoJ2Fib3J0JywgYWJvcnQsIHsgb25jZTogdHJ1ZSB9KTsNCiAgICAgIHNldFR5cGVkKCcnKTsgc2V0Q29uZmlybWF0aW9uKHsgcGhyYXNlOiByZXF1ZXN0LnBocmFzZSwgcGF0aDogcmVxdWVzdC5wYXRoLCByZXNvbHZlOiBmaW5pc2ggfSk7DQogICAgfSkpOw0KICAgIHJldHVybiAoKSA9PiB7IHBlbmRpbmc/LihudWxsKTsgdW5yZWdpc3RlcigpOyB9Ow0KICB9LCBbXSk7DQogIGlmICghbmVlZHNQYXNzd29yZCAmJiAhY29uZmlybWF0aW9uKSByZXR1cm4gbnVsbDsNCiAgcmV0dXJuIDxkaXYgY2xhc3NOYW1lPSJmaXhlZCBpbnNldC0wIGZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyIHAtNCIgc3R5bGU9e3sgekluZGV4OiAxMDAwMCwgYmFja2dyb3VuZDogJ3ZhcigtLWJnLWFwcCknLCBjb2xvcjogJ3ZhcigtLXRleHQtcHJpbWFyeSknIH19Pg0KICAgIDxmb3JtIHJvbGU9ImRpYWxvZyIgYXJpYS1tb2RhbD0idHJ1ZSIgYXJpYS1sYWJlbGxlZGJ5PSJhcGktcHJvbXB0LXRpdGxlIiBjbGFzc05hbWU9Im1heC13LW1kIHctZnVsbCByb3VuZGVkLXhsIHAtNiB0ZXh0LXNtIHNwYWNlLXktNCIgc3R5bGU9e3sgYmFja2dyb3VuZDogJ3ZhcigtLWJnLWNhcmQpJywgYm9yZGVyOiAnMXB4IHNvbGlkIHZhcigtLWJvcmRlci1jYXJkKScgfX0gb25TdWJtaXQ9e2FzeW5jIGV2ZW50ID0+IHsNCiAgICAgIGV2ZW50LnByZXZlbnREZWZhdWx0KCk7IHNldEVycm9yKCcnKTsNCiAgICAgIGlmICghbmVlZHNQYXNzd29yZCkgeyBpZiAodHlwZWQgPT09IGNvbmZpcm1hdGlvbj8ucGhyYXNlKSBjb25maXJtYXRpb24ucmVzb2x2ZSh0eXBlZCk7IHJldHVybjsgfQ0KICAgICAgc2V0QnVzeSh0cnVlKTsgc2V0QXBpQ3JlZGVudGlhbChwYXNzd29yZCk7DQogICAgICB0cnkgew0KICAgICAgICBjb25zdCByZXNwb25zZSA9IGF3YWl0IGFwaUZldGNoKCcvYXBpL2F1dGgvcGFzc3dvcmQtY2hlY2snLCB7IG1ldGhvZDogJ0hFQUQnIH0pOw0KICAgICAgICBpZiAoIXJlc3BvbnNlLm9rKSB0aHJvdyBuZXcgRXJyb3IocmVzcG9uc2Uuc3RhdHVzID09PSA0MDEgPyAnSW5jb3JyZWN0IGFwcGxpY2F0aW9uIHBhc3N3b3JkLicgOiAnVW5hYmxlIHRvIHZlcmlmeSBhY2Nlc3MuJyk7DQogICAgICAgIHNldFBhc3N3b3JkKCcnKTsgc2V0TmVlZHNQYXNzd29yZChmYWxzZSk7DQogICAgICAgIC8vIFJlYWQtb25seSBzY3JlZW5zIHJlbG9hZCB3aXRoIGNyZWRlbnRpYWxzOyBjYW5jZWxsZWQgd3JpdGVzIGFyZSBuZXZlciByZXBsYXllZC4NCiAgICAgICAgd2luZG93LmxvY2F0aW9uLnJlbG9hZCgpOw0KICAgICAgfSBjYXRjaCAoZmFpbHVyZSkgeyBzZXRBcGlDcmVkZW50aWFsKCcnKTsgc2V0RXJyb3IoZmFpbHVyZSBpbnN0YW5jZW9mIEVycm9yID8gZmFpbHVyZS5tZXNzYWdlIDogJ1NpZ24taW4gZmFpbGVkLicpOyB9DQogICAgICBmaW5hbGx5IHsgc2V0QnVzeShmYWxzZSk7IH0NCiAgICB9fT4NCiAgICAgIDxoMiBpZD0iYXBpLXByb21wdC10aXRsZSIgY2xhc3NOYW1lPSJ0ZXh0LXhsIGZvbnQtc2VtaWJvbGQiPntuZWVkc1Bhc3N3b3JkID8gJ0FwcGxpY2F0aW9uIHBhc3N3b3JkIHJlcXVpcmVkJyA6ICdDb25maXJtIGRlc3RydWN0aXZlIGFjdGlvbid9PC9oMj4NCiAgICAgIHtuZWVkc1Bhc3N3b3JkID8gPD48cD5Zb3VyIEFQSSBzZXNzaW9uIG5lZWRzIHRoZSBjb25maWd1cmVkIGFwcGxpY2F0aW9uIHBhc3N3b3JkLjwvcD48bGFiZWwgY2xhc3NOYW1lPSJibG9jayI+UGFzc3dvcmQ8aW5wdXQgYXV0b0ZvY3VzIHR5cGU9InBhc3N3b3JkIiBhdXRvQ29tcGxldGU9ImN1cnJlbnQtcGFzc3dvcmQiIGNsYXNzTmFtZT0iYmxvY2sgdy1mdWxsIHAtMyBtdC0xIHJvdW5kZWQgYm9yZGVyIiB2YWx1ZT17cGFzc3dvcmR9IG9uQ2hhbmdlPXtldmVudCA9PiBzZXRQYXNzd29yZChldmVudC50YXJnZXQudmFsdWUpfSAvPjwvbGFiZWw+PC8+IDogPD48cD5UaGlzIGFjdGlvbiBjaGFuZ2VzIGZpbmFuY2lhbCBkYXRhLiBUaGUgc2VydmVyIG11c3QgY29tcGxldGUgaXRzIGJhY2t1cCBiZWZvcmUgcHJvY2VlZGluZy48L3A+PHAgY2xhc3NOYW1lPSJicmVhay1hbGwiPntjb25maXJtYXRpb24/LnBhdGh9PC9wPjxsYWJlbCBjbGFzc05hbWU9ImJsb2NrIj5UeXBlIHtjb25maXJtYXRpb24/LnBocmFzZX08aW5wdXQgYXV0b0ZvY3VzIGF1dG9Db21wbGV0ZT0ib2ZmIiBjbGFzc05hbWU9ImJsb2NrIHctZnVsbCBwLTMgbXQtMSByb3VuZGVkIGJvcmRlciIgdmFsdWU9e3R5cGVkfSBvbkNoYW5nZT17ZXZlbnQgPT4gc2V0VHlwZWQoZXZlbnQudGFyZ2V0LnZhbHVlKX0gLz48L2xhYmVsPjwvPn0NCiAgICAgIHtlcnJvciAmJiA8cCByb2xlPSJhbGVydCI+e2Vycm9yfTwvcD59DQogICAgICA8ZGl2IGNsYXNzTmFtZT0iZmxleCBnYXAtNCI+eyFuZWVkc1Bhc3N3b3JkICYmIDxidXR0b24gdHlwZT0iYnV0dG9uIiBvbkNsaWNrPXsoKSA9PiBjb25maXJtYXRpb24/LnJlc29sdmUobnVsbCl9PkNhbmNlbDwvYnV0dG9uPn08YnV0dG9uIGRpc2FibGVkPXtidXN5IHx8IChuZWVkc1Bhc3N3b3JkID8gIXBhc3N3b3JkIDogdHlwZWQgIT09IGNvbmZpcm1hdGlvbj8ucGhyYXNlKX0+e25lZWRzUGFzc3dvcmQgPyAnU2lnbiBpbicgOiAnQ29uZmlybSBhY3Rpb24nfTwvYnV0dG9uPjwvZGl2Pg0KICAgIDwvZm9ybT4NCiAgPC9kaXY+Ow0KfQ0K
+import React, { useLayoutEffect, useState } from 'react';
+import { apiFetch, registerApiPrompts, setApiCredential } from '../lib/apiTransport';
+
+export function ApiPrompts() {
+  const [needsPassword, setNeedsPassword] = useState(false);
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [typed, setTyped] = useState('');
+  const [confirmation, setConfirmation] = useState<{ phrase: string; path: string; resolve: (value: string | null) => void } | null>(null);
+  useLayoutEffect(() => {
+    let pending: ((value: string | null) => void) | null = null;
+    const unregister = registerApiPrompts(() => setNeedsPassword(true), request => new Promise(resolve => {
+      if (pending || request.signal?.aborted) return resolve(null);
+      const finish = (value: string | null) => { request.signal?.removeEventListener('abort', abort); pending = null; setConfirmation(null); resolve(value); };
+      const abort = () => finish(null);
+      pending = finish; request.signal?.addEventListener('abort', abort, { once: true });
+      setTyped(''); setConfirmation({ phrase: request.phrase, path: request.path, resolve: finish });
+    }));
+    return () => { pending?.(null); unregister(); };
+  }, []);
+  if (!needsPassword && !confirmation) return null;
+  return <div className="fixed inset-0 flex items-center justify-center p-4" style={{ zIndex: 10000, background: 'var(--bg-app)', color: 'var(--text-primary)' }}>
+    <form role="dialog" aria-modal="true" aria-labelledby="api-prompt-title" className="max-w-md w-full rounded-xl p-6 text-sm space-y-4" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-card)' }} onSubmit={async event => {
+      event.preventDefault(); setError('');
+      if (!needsPassword) { if (typed === confirmation?.phrase) confirmation.resolve(typed); return; }
+      setBusy(true); setApiCredential(password);
+      try {
+        const response = await apiFetch('/api/auth/password-check', { method: 'HEAD' });
+        if (!response.ok) throw new Error(response.status === 401 ? 'Incorrect application password.' : 'Unable to verify access.');
+        setPassword(''); setNeedsPassword(false);
+        // Read-only screens reload with credentials; cancelled writes are never replayed.
+        window.location.reload();
+      } catch (failure) { setApiCredential(''); setError(failure instanceof Error ? failure.message : 'Sign-in failed.'); }
+      finally { setBusy(false); }
+    }}>
+      <h2 id="api-prompt-title" className="text-xl font-semibold">{needsPassword ? 'Application password required' : 'Confirm destructive action'}</h2>
+      {needsPassword ? <><p>Your API session needs the configured application password.</p><label className="block">Password<input autoFocus type="password" autoComplete="current-password" className="block w-full p-3 mt-1 rounded border" value={password} onChange={event => setPassword(event.target.value)} /></label></> : <><p>This action changes financial data. The server must complete its backup before proceeding.</p><p className="break-all">{confirmation?.path}</p><label className="block">Type {confirmation?.phrase}<input autoFocus autoComplete="off" className="block w-full p-3 mt-1 rounded border" value={typed} onChange={event => setTyped(event.target.value)} /></label></>}
+      {error && <p role="alert">{error}</p>}
+      <div className="flex gap-4">{!needsPassword && <button type="button" onClick={() => confirmation?.resolve(null)}>Cancel</button>}<button disabled={busy || (needsPassword ? !password : typed !== confirmation?.phrase)}>{needsPassword ? 'Sign in' : 'Confirm action'}</button></div>
+    </form>
+  </div>;
+}
