@@ -1,6 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { buildSixScripBundle, buildSixScripBundles, SIX_SCRIP_SYMBOLS, IdentityResolutionError } from '../../../src/server/research_v2/program/sixScrip.js';
+import { writeSixScripReportBundle } from '../../../src/server/research_v2/program/runSixScrip.js';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 
 const isin = (i: number) => `INE${String(i).padStart(8, '0')}1`;
 const inventory = SIX_SCRIP_SYMBOLS.map((symbol, i) => ({ identity: { symbol, isin: isin(i + 1), exchange: 'NSE' as const }, asOf: '2026-10-10T00:00:00Z' }));
@@ -31,3 +35,20 @@ test('does not manufacture facts when inventory is incomplete', () => {
   assert.equal(b.scorecard.length, 0);
 });
 
+test('writes a six-scrip report manifest and only publishes ready reports', () => {
+  const bundles = buildSixScripBundles(inventory);
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'research-v2-reports-'));
+  const results = Object.fromEntries(SIX_SCRIP_SYMBOLS.map(symbol => [symbol, {
+    runId: symbol, status: 'ESCALATED_HUMAN', answers: [], loops: 0, iterations: [],
+    validator: { ok: false, defects: [] }, gate: { ok: false, defects: [] }, leakage: { ok: true, defects: [] },
+    spendUsd: 0, usage: { inTok: 0, outTok: 0 },
+  }])) as any;
+  const report = { json: { symbol: 'YUKEN', isin: bundles.YUKEN.isin, asOf: bundles.YUKEN.asOf,
+    routineVersion: bundles.YUKEN.routineVersion, answers: [], readiness: bundles.YUKEN.readiness,
+    gaps: [], bundleHash: bundles.YUKEN.bundleHash }, markdown: '# YUKEN' };
+  const manifest = writeSixScripReportBundle({ results, reports: { YUKEN: report } }, dir);
+  assert.equal(manifest.reports.YUKEN.json, `YUKEN_${bundles.YUKEN.bundleHash.slice(0, 12)}.json`);
+  assert.equal(manifest.reports.VMART.json, undefined);
+  assert.equal(fs.existsSync(path.join(dir, 'manifest.json')), true);
+  assert.equal(fs.existsSync(path.join(dir, manifest.reports.YUKEN.markdown!)), true);
+});
