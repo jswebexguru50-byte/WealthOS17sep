@@ -126,7 +126,7 @@ const PRIMARY_NAV_ITEMS: ReadonlyArray<{ id: TabType; label: string; sub: string
   { id: 'DISCOVER', label: 'Ideas', sub: 'Qualified opportunities' },
   { id: 'ANALYZE', label: 'Stock Research', sub: 'Evidence-led intelligence' },
   { id: 'PORTFOLIO', label: 'Portfolio', sub: 'Risk, ledger and watchlist' },
-  { id: 'RESEARCH', label: 'Research', sub: 'Themes and strategy tools' },
+  { id: 'RESEARCH', label: 'Strategy Lab', sub: 'Themes and strategy tools' },
   { id: 'AUDIT', label: 'Data & Settings', sub: 'Provenance and preferences' },
 ];
 
@@ -1345,7 +1345,7 @@ export default function App() {
         onSelectSymbol={(sym) => setSelectedIntelligenceSymbol(sym)}
       />
 
-      <div className="flex-1 flex flex-col lg:flex-row pb-20 lg:pb-0 w-full">
+      <div className="flex-1 flex flex-col lg:flex-row pb-20 lg:pb-0 w-full min-w-0 overflow-x-hidden">
         {/* Mobile Topbar — Dynamic Theme & Notch Safe */}
         <div className="lg:hidden sticky top-0 z-40 px-3 py-2 flex items-center justify-between border-b backdrop-blur-xl mobile-topbar-compact safe-area-top" style={{backgroundColor:'var(--bg-sidebar)',borderColor:'var(--border-card)'}}>
           <div className="flex items-center gap-2">
@@ -1439,7 +1439,7 @@ export default function App() {
                     { id: 'DISCOVER', label: 'Ideas', sub: 'Qualified opportunities', icon: Search, color: 'text-amber-400' },
                     { id: 'ANALYZE', label: 'Stock Research', sub: 'Evidence-led intelligence', icon: FileSpreadsheet, color: 'text-emerald-400' },
                     { id: 'PORTFOLIO', label: 'Portfolio', sub: 'Risk, ledger and watchlist', icon: LayoutDashboard },
-                    { id: 'RESEARCH', label: 'Research', sub: 'Themes and strategy tools', icon: PieChartIcon },
+                    { id: 'RESEARCH', label: 'Strategy Lab', sub: 'Themes and strategy tools', icon: PieChartIcon },
                     { id: 'AUDIT', label: 'Data & Settings', sub: 'Provenance and preferences', icon: Wrench },
                   ].map(tab => {
                     const IconComp = tab.icon;
@@ -1516,7 +1516,7 @@ export default function App() {
                 { id: 'DISCOVER', label: 'Ideas', sub: 'Qualified opportunities', icon: Search, color: 'text-amber-400' },
                 { id: 'ANALYZE', label: 'Stock Research', sub: 'Evidence-led intelligence', icon: FileSpreadsheet, color: 'text-emerald-400' },
                 { id: 'PORTFOLIO', label: 'Portfolio', sub: 'Risk, ledger and watchlist', icon: LayoutDashboard },
-                { id: 'RESEARCH', label: 'Research', sub: 'Themes and strategy tools', icon: PieChartIcon },
+                { id: 'RESEARCH', label: 'Strategy Lab', sub: 'Themes and strategy tools', icon: PieChartIcon },
                 { id: 'AUDIT', label: 'Data & Settings', sub: 'Provenance and preferences', icon: Wrench },
               ].map((tab) => {
                 const IconComp = tab.icon;
@@ -1948,10 +1948,10 @@ export default function App() {
               ? 'text-cyan-400 font-bold bg-cyan-500/15 border border-cyan-500/30'
               : 'text-slate-400 hover:text-slate-200'
           }`}
-          aria-label="Command Center"
+          aria-label="Home"
         >
           <Zap className="w-4 h-4" />
-          <span className="text-[9px] tracking-tight font-semibold">Command</span>
+          <span className="text-[9px] tracking-tight font-semibold">Home</span>
         </button>
 
         <button
@@ -1974,10 +1974,10 @@ export default function App() {
               ? 'text-cyan-400 font-bold bg-cyan-500/15 border border-cyan-500/30'
               : 'text-slate-400 hover:text-slate-200'
           }`}
-          aria-label="Opportunity Engine"
+          aria-label="Ideas"
         >
           <Sparkles className="w-4 h-4" />
-          <span className="text-[9px] tracking-tight font-semibold">Engine</span>
+          <span className="text-[9px] tracking-tight font-semibold">Ideas</span>
         </button>
 
         <button
@@ -1987,10 +1987,10 @@ export default function App() {
               ? 'text-amber-400 font-bold bg-amber-500/15 border border-amber-500/30'
               : 'text-slate-400 hover:text-slate-200'
           }`}
-          aria-label="Tax and Repatriation"
+          aria-label="Data and Settings"
         >
           <ShieldCheck className="w-4 h-4" />
-          <span className="text-[9px] tracking-tight font-semibold">Tax/FEMA</span>
+          <span className="text-[9px] tracking-tight font-semibold">Data</span>
         </button>
 
         <button
@@ -2062,8 +2062,8 @@ export default function App() {
                   }`}
                 >
                   <Sparkles className="w-4 h-4 text-cyan-400" />
-                  <span className="text-xs font-semibold">Opportunity Engine</span>
-                  <span className="text-[10px] text-slate-400">Convergence, Sentinel & 10X</span>
+                  <span className="text-xs font-semibold">Ideas</span>
+                  <span className="text-[10px] text-slate-400">Qualified opportunities</span>
                 </button>
 
                 <button
