@@ -64,6 +64,10 @@
     "mcp:stdio": "cross-env NODE_OPTIONS=--require=./scripts/node_userinfo_fallback.cjs tsx src/mcp/transports/stdio.ts",
     "mcp:http": "cross-env NODE_OPTIONS=--require=./scripts/node_userinfo_fallback.cjs tsx src/mcp/transports/http.ts",
     "mcp:test": "vitest run tests/unit/wealthos_universal_mcp.test.ts"
+    ,"research:v2:validate": "tsx scripts/research_v2/cli.ts validate"
+    ,"research:v2:gate": "tsx scripts/research_v2/cli.ts gate"
+    ,"research:v2:render": "tsx scripts/research_v2/cli.ts render"
+    ,"research:v2:persist": "tsx scripts/research_v2/cli.ts persist"
   },
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.1128.0",
