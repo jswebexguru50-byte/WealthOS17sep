@@ -17,13 +17,16 @@ import { migration008 } from './008_reports_nri_tracking.js';
 import { migration009 } from './009_document_vault_compliance.js';
 import { migration010 } from './010_report_schedules.js';
 import { migration011 } from './011_nri_repatriation_workflow.js';
+import { migration012 } from './012_family_review_packs.js';
+import { migration013 } from './013_broker_import_contracts.js';
+import { migration014 } from './014_document_storage_lifecycle.js';
 
 export const canonicalMigrations: Migration[] = [
   migration001,
   migration002,
   migration003,
   migration004,
-  migration005, migration006, migration007, migration008, migration009, migration010, migration011
+  migration005, migration006, migration007, migration008, migration009, migration010, migration011, migration012, migration013, migration014
 ];
 
 export const canonicalMigrator = new Migrator(canonicalMigrations);
@@ -34,5 +37,6 @@ export async function runDatabaseMigrations(
   const migrator = new Migrator(canonicalMigrations);
   return migrator.runPending(db);
 }
+
 
 
