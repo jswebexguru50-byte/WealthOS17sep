@@ -25,7 +25,7 @@ import { StatutoryLineageService } from '../services/StatutoryLineageService.js'
 import { getDB, dbGet, dbAll } from '../database.js';
 import { DossierEmailDispatcher } from '../services/DossierEmailDispatcher.js';
 import { createFereRefreshJob, decideFereClaim, listFereClaimCandidates,
-         readFereEvidence, readFereRefreshJob } from '../services/FereEvidenceService.js';
+         readFereEvidence, readFereRefreshJob, readTargetedFereStatus } from '../services/FereEvidenceService.js';
 
 function requireFereReviewer(req: Request, res: Response, next: NextFunction) {
   const expected = process.env.FERE_REVIEW_TOKEN;
@@ -693,6 +693,18 @@ forensicRouter.post('/fere-stock/:symbol/refresh', requireFereReviewer, async (r
 forensicRouter.get('/fere-refresh/:jobId', async (req: Request, res: Response) => {
   const job = await readFereRefreshJob(String(req.params.jobId || ''));
   return job ? res.json({ success: true, data: job }) : res.status(404).json({ success: false, error: 'Refresh job not found.' });
+});
+
+/**
+ * Read-only progress endpoint for the six-symbol targeted runner. The runner
+ * writes the snapshot; this route only exposes it when FERE_TARGETED_STATUS_FILE
+ * is explicitly configured. No filesystem path is accepted from the client.
+ */
+forensicRouter.get('/fere-targeted-status', (_req: Request, res: Response) => {
+  const status = readTargetedFereStatus();
+  return status
+    ? res.json({ success: true, data: status })
+    : res.status(404).json({ success: false, error: 'Targeted FERE status is not configured or unavailable.' });
 });
 
 forensicRouter.get('/fere-stock/:symbol/claim-candidates', async (req: Request, res: Response) => {

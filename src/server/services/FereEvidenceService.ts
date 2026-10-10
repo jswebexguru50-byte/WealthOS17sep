@@ -21,6 +21,26 @@ export interface FereEvidenceSummary {
 
 const evidencePath = path.resolve('data', 'fere', 'verified_filings', 'fere_evidence.db');
 
+/**
+ * Read the optional observable targeted-run snapshot.  The path is supplied by
+ * the process environment so the web app never guesses at, or writes to, a
+ * user's Downloads folder.  Invalid or missing snapshots are reported as null
+ * and must not make the evidence API fail.
+ */
+export function readTargetedFereStatus(): Record<string, unknown> | null {
+  const configured = String(process.env.FERE_TARGETED_STATUS_FILE || '').trim();
+  if (!configured) return null;
+  try {
+    if (!fs.existsSync(configured)) return null;
+    const parsed: unknown = JSON.parse(fs.readFileSync(configured, 'utf8'));
+    return parsed && typeof parsed === 'object' && !Array.isArray(parsed)
+      ? parsed as Record<string, unknown>
+      : null;
+  } catch {
+    return null;
+  }
+}
+
 // Persistent read-only Better-SQLite3 instance for ultra-fast (sub-millisecond) card queries
 let readDbInstance: Database.Database | null = null;
 function getReadDb(): Database.Database | null {
