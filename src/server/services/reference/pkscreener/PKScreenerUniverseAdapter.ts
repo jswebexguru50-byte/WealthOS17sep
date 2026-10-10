@@ -1,1 +1,27 @@
-LyoqDQogKiBXZWFsdGhPUyB2Ni424oCTdjYuNyAtIFBLU2NyZWVuZXIgVW5pdmVyc2UgQWRhcHRlcg0KICogRXh0ZXJuYWwgUmVmZXJlbmNlIEFjY2VsZXJhdGlvbiBMYXllcg0KICogDQogKiBTUEVDIE1BTkRBVEU6DQogKiAtIE1hcHMgUEtTY3JlZW5lciB0YXJnZXQgdGlja2VycyB0byBjYW5vbmljYWwgV2VhbHRoT1Mgc2VjdXJpdHlJZHMuDQogKiAtIFByZXZlbnRzIHN1cnZpdm9yc2hpcCBiaWFzIGFuZCB1bm1hcHBlZCBzeW1ib2wgZHJpZnQuDQogKiAtIFByb2hpYml0cyBleHRlcm5hbCBsaXZlIGRhdGEgZG93bmxvYWRzIGZyb20gcG9sbHV0aW5nIGhpc3RvcmljYWwgdW5pdmVyc2UuDQogKi8NCg0KaW1wb3J0IHsgU2VjdXJpdHlJZGVudGl0eVJlZ2lzdHJ5IH0gZnJvbSAnLi4vLi4vZGF0YUFjcXVpc2l0aW9uL1NlY3VyaXR5SWRlbnRpdHlSZWdpc3RyeS5qcyc7DQoNCmV4cG9ydCBjbGFzcyBQS1NjcmVlbmVyVW5pdmVyc2VBZGFwdGVyIHsNCiAgcHJpdmF0ZSBpZGVudGl0eVJlZ2lzdHJ5ID0gU2VjdXJpdHlJZGVudGl0eVJlZ2lzdHJ5LmdldEluc3RhbmNlKCk7DQoNCiAgcHVibGljIHJlc29sdmVVbml2ZXJzZShyYXdTeW1ib2xzOiBzdHJpbmdbXSk6IEFycmF5PHsgc3ltYm9sOiBzdHJpbmc7IHNlY3VyaXR5SWQ6IHN0cmluZzsgdmFsaWQ6IGJvb2xlYW4gfT4gew0KICAgIHJldHVybiByYXdTeW1ib2xzLm1hcChzeW0gPT4gew0KICAgICAgY29uc3QgY2xlYW4gPSBzeW0udG9VcHBlckNhc2UoKS50cmltKCk7DQogICAgICBjb25zdCBpZGVudGl0eSA9IHRoaXMuaWRlbnRpdHlSZWdpc3RyeS5yZXNvbHZlQnlTeW1ib2woY2xlYW4pOw0KICAgICAgcmV0dXJuIHsNCiAgICAgICAgc3ltYm9sOiBjbGVhbiwNCiAgICAgICAgc2VjdXJpdHlJZDogaWRlbnRpdHkgPyBpZGVudGl0eS5zZWN1cml0eUlkIDogYFVOUkVTT0xWRURfJHtjbGVhbn1gLA0KICAgICAgICB2YWxpZDogaWRlbnRpdHkgIT09IHVuZGVmaW5lZA0KICAgICAgfTsNCiAgICB9KTsNCiAgfQ0KfQ0K
+/**
+ * WealthOS v6.6–v6.7 - PKScreener Universe Adapter
+ * External Reference Acceleration Layer
+ * 
+ * SPEC MANDATE:
+ * - Maps PKScreener target tickers to canonical WealthOS securityIds.
+ * - Prevents survivorship bias and unmapped symbol drift.
+ * - Prohibits external live data downloads from polluting historical universe.
+ */
+
+import { SecurityIdentityRegistry } from '../../dataAcquisition/SecurityIdentityRegistry.js';
+
+export class PKScreenerUniverseAdapter {
+  private identityRegistry = SecurityIdentityRegistry.getInstance();
+
+  public resolveUniverse(rawSymbols: string[]): Array<{ symbol: string; securityId: string; valid: boolean }> {
+    return rawSymbols.map(sym => {
+      const clean = sym.toUpperCase().trim();
+      const identity = this.identityRegistry.resolveBySymbol(clean);
+      return {
+        symbol: clean,
+        securityId: identity ? identity.securityId : `UNRESOLVED_${clean}`,
+        valid: identity !== undefined
+      };
+    });
+  }
+}
