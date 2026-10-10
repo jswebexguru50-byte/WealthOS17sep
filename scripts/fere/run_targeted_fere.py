@@ -23,8 +23,28 @@ def db_counts(db: Path, symbols: tuple[str, ...]) -> list[dict]:
             if not has(table) or not isins: return 0
             marks=','.join('?'*len(isins))
             return int(con.execute(f"SELECT COUNT(*) FROM [{table}] WHERE isin IN ({marks})", isins).fetchone()[0])
+        # Facts are keyed by ISIN, but retain the symbol reported by the filing.
+        # Never silently rewrite an ISIN: expose a reviewable alias when a filing
+        # uses the same symbol with a different identity.
+        aliases = []
+        if has('verified_xbrl_fact'):
+            marks = ','.join('?' * len(isins)) or "''"
+            params = [symbol, *isins]
+            rows_alias = con.execute(
+                f"SELECT DISTINCT isin FROM verified_xbrl_fact "
+                f"WHERE UPPER(symbol)=? AND isin NOT IN ({marks}) ORDER BY isin", params
+            ).fetchall() if isins else con.execute(
+                "SELECT DISTINCT isin FROM verified_xbrl_fact WHERE UPPER(symbol)=? ORDER BY isin", (symbol,)
+            ).fetchall()
+            aliases = [r[0] for r in rows_alias if r[0]]
         out.append({'symbol':symbol,'isins':isins,'lineage_facts':count('verified_xbrl_fact'),
-                    'verified_metrics':count('verified_metric'),'metric_cards':count('company_check_result')})
+                    'verified_metrics':count('verified_metric'),'metric_cards':count('company_check_result'),
+                    'identity_resolution': {
+                        'status': 'CANONICAL' if not aliases else 'REVIEW_REQUIRED',
+                        'canonical_isins': isins,
+                        'observed_alias_isins': aliases,
+                        'policy': 'no automatic ISIN substitution; refresh or approve mapping explicitly'
+                    }})
     con.close(); return out
 
 def main() -> int:

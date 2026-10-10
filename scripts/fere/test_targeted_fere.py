@@ -19,3 +19,17 @@ def test_rejects_portfolio_name(tmp_path):
     script=Path(__file__).parents[2]/'scripts'/'fere'/'run_targeted_fere.py'
     r=subprocess.run([sys.executable,str(script),'--db',str(db)],capture_output=True,text=True)
     assert r.returncode != 0 and 'portfolio' in (r.stderr+r.stdout).lower()
+
+def test_reports_symbol_alias_without_substituting_isin(tmp_path):
+    db=tmp_path/'fere.db'; c=sqlite3.connect(db)
+    c.execute('create table universe (isin text, symbol text)')
+    c.execute('create table verified_xbrl_fact (isin text, symbol text)')
+    c.execute('insert into universe values (?,?)',('INE495P01020','BECTORFOOD'))
+    c.execute('insert into verified_xbrl_fact values (?,?)',('INE495P01012','BECTORFOOD'))
+    c.commit(); c.close()
+    script=Path(__file__).parent/'run_targeted_fere.py'
+    r=subprocess.run([sys.executable,str(script),'--db',str(db)],capture_output=True,text=True,check=True)
+    row=next(x for x in json.loads(r.stdout)['before'] if x['symbol']=='BECTORFOOD')
+    assert row['identity_resolution']['status']=='REVIEW_REQUIRED'
+    assert row['identity_resolution']['canonical_isins']==['INE495P01020']
+    assert row['identity_resolution']['observed_alias_isins']==['INE495P01012']
