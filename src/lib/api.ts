@@ -1,1 +1,124 @@
-aW1wb3J0IHsgYXBpRmV0Y2ggfSBmcm9tICcuL2FwaVRyYW5zcG9ydCc7DQovKioNCiAqIEhlbHBlciB0byBzYWZlbHkgcGVyZm9ybSBmZXRjaCBhbmQgcGFyc2UgSlNPTiB3aXRoIGF1dG9tYXRpYyByZXRyeSBvbiByYXRlIGxpbWl0cyAoNDI5IC8gIlJhdGUgZXhjZWVkZWQuIikNCiAqLw0KZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIHNhZmVGZXRjaEpzb248VCA9IGFueT4oDQogIHVybDogc3RyaW5nLA0KICBvcHRpb25zPzogUmVxdWVzdEluaXQsDQogIHJldHJpZXMgPSAzLA0KICBiYWNrb2ZmTXMgPSA4MDANCik6IFByb21pc2U8eyBvazogYm9vbGVhbjsgc3RhdHVzOiBudW1iZXI7IGRhdGE6IFQgfCBudWxsOyBlcnJvcj86IHN0cmluZyB9PiB7DQogIGNvbnN0IGNhblJldHJ5ID0gIW9wdGlvbnM/Lm1ldGhvZCB8fCBbJ0dFVCcsICdIRUFEJ10uaW5jbHVkZXMob3B0aW9ucy5tZXRob2QudG9VcHBlckNhc2UoKSk7DQogIGZvciAobGV0IGF0dGVtcHQgPSAwOyBhdHRlbXB0IDw9IHJldHJpZXM7IGF0dGVtcHQrKykgew0KICAgIHRyeSB7DQogICAgICBjb25zdCByZXMgPSBhd2FpdCBhcGlGZXRjaCh1cmwsIG9wdGlvbnMpOw0KICAgICAgY29uc3QgdGV4dCA9IGF3YWl0IHJlcy50ZXh0KCk7DQoNCiAgICAgIC8vIEhhbmRsZSA0MjkgUmF0ZSBFeGNlZWRlZCBvciBwbGFpbiB0ZXh0IHJhdGUgbGltaXQgcmVzcG9uc2VzDQogICAgICBjb25zdCBpc1JhdGVMaW1pdGVkID0NCiAgICAgICAgcmVzLnN0YXR1cyA9PT0gNDI5IHx8DQogICAgICAgIHRleHQuaW5jbHVkZXMoJ1JhdGUgZXhjZWVkZWQnKSB8fA0KICAgICAgICB0ZXh0LmluY2x1ZGVzKCdUb28gTWFueSBSZXF1ZXN0cycpOw0KDQogICAgICBpZiAoaXNSYXRlTGltaXRlZCkgew0KICAgICAgICBpZiAoYXR0ZW1wdCA8IHJldHJpZXMgJiYgY2FuUmV0cnkgJiYgIW9wdGlvbnM/LnNpZ25hbD8uYWJvcnRlZCkgew0KICAgICAgICAgIC8vIEFkZCByYW5kb21pemVkIGppdHRlciAoMjAwbXMgLSA1MDBtcykgdG8gc3RhZ2dlciByZXRyaWVzIGFuZCBhdm9pZCB0aHVuZGVyaW5nIGhlcmQgcmF0ZSBsaW1pdCBjb2xsaXNpb25zDQogICAgICAgICAgY29uc3Qgaml0dGVyID0gMjAwICsgTWF0aC5mbG9vcihNYXRoLnJhbmRvbSgpICogMzAwKTsNCiAgICAgICAgICBjb25zdCBkZWxheSA9IGJhY2tvZmZNcyAqIE1hdGgucG93KDIsIGF0dGVtcHQpICsgaml0dGVyOw0KICAgICAgICAgIGF3YWl0IG5ldyBQcm9taXNlKChyZXNvbHZlKSA9PiBzZXRUaW1lb3V0KHJlc29sdmUsIGRlbGF5KSk7DQogICAgICAgICAgY29udGludWU7DQogICAgICAgIH0NCiAgICAgICAgcmV0dXJuIHsNCiAgICAgICAgICBvazogZmFsc2UsDQogICAgICAgICAgc3RhdHVzOiByZXMuc3RhdHVzIHx8IDQyOSwNCiAgICAgICAgICBkYXRhOiBudWxsLA0KICAgICAgICAgIGVycm9yOiAnUmF0ZSBsaW1pdCBleGNlZWRlZC4gUGxlYXNlIHRyeSBhZ2FpbiBzaG9ydGx5LicNCiAgICAgICAgfTsNCiAgICAgIH0NCg0KICAgICAgbGV0IHBhcnNlZDogVCB8IG51bGwgPSBudWxsOw0KICAgICAgaWYgKHRleHQgJiYgdGV4dC50cmltKCkubGVuZ3RoID4gMCkgew0KICAgICAgICB0cnkgew0KICAgICAgICAgIHBhcnNlZCA9IEpTT04ucGFyc2UodGV4dCkgYXMgVDsNCiAgICAgICAgfSBjYXRjaCB7DQogICAgICAgICAgaWYgKGF0dGVtcHQgPCByZXRyaWVzICYmIGNhblJldHJ5ICYmICFvcHRpb25zPy5zaWduYWw/LmFib3J0ZWQgJiYgIXJlcy5vaykgew0KICAgICAgICAgICAgYXdhaXQgbmV3IFByb21pc2UoKHJlc29sdmUpID0+IHNldFRpbWVvdXQocmVzb2x2ZSwgYmFja29mZk1zICogTWF0aC5wb3coMiwgYXR0ZW1wdCkpKTsNCiAgICAgICAgICAgIGNvbnRpbnVlOw0KICAgICAgICAgIH0NCiAgICAgICAgICByZXR1cm4gew0KICAgICAgICAgICAgb2s6IGZhbHNlLA0KICAgICAgICAgICAgc3RhdHVzOiByZXMuc3RhdHVzLA0KICAgICAgICAgICAgZGF0YTogbnVsbCwNCiAgICAgICAgICAgIGVycm9yOiBgU2VydmVyIHJlc3BvbnNlIHdhcyBub3QgdmFsaWQgSlNPTjogJHt0ZXh0LnNsaWNlKDAsIDEwMCl9YA0KICAgICAgICAgIH07DQogICAgICAgIH0NCiAgICAgIH0NCg0KICAgICAgaWYgKCFyZXMub2spIHsNCiAgICAgICAgcmV0dXJuIHsNCiAgICAgICAgICBvazogZmFsc2UsDQogICAgICAgICAgc3RhdHVzOiByZXMuc3RhdHVzLA0KICAgICAgICAgIGRhdGE6IHBhcnNlZCwNCiAgICAgICAgICBlcnJvcjogKHBhcnNlZCBhcyBhbnkpPy5tZXNzYWdlIHx8IChwYXJzZWQgYXMgYW55KT8uZXJyb3IgfHwgYEhUVFAgJHtyZXMuc3RhdHVzfWANCiAgICAgICAgfTsNCiAgICAgIH0NCg0KICAgICAgcmV0dXJuIHsNCiAgICAgICAgb2s6IHRydWUsDQogICAgICAgIHN0YXR1czogcmVzLnN0YXR1cywNCiAgICAgICAgZGF0YTogcGFyc2VkDQogICAgICB9Ow0KICAgIH0gY2F0Y2ggKGVycjogYW55KSB7DQogICAgICBpZiAoYXR0ZW1wdCA8IHJldHJpZXMgJiYgY2FuUmV0cnkgJiYgIW9wdGlvbnM/LnNpZ25hbD8uYWJvcnRlZCkgew0KICAgICAgICBhd2FpdCBuZXcgUHJvbWlzZSgocmVzb2x2ZSkgPT4gc2V0VGltZW91dChyZXNvbHZlLCBiYWNrb2ZmTXMgKiBNYXRoLnBvdygyLCBhdHRlbXB0KSkpOw0KICAgICAgICBjb250aW51ZTsNCiAgICAgIH0NCiAgICAgIHJldHVybiB7DQogICAgICAgIG9rOiBmYWxzZSwNCiAgICAgICAgc3RhdHVzOiAwLA0KICAgICAgICBkYXRhOiBudWxsLA0KICAgICAgICBlcnJvcjogZXJyLm1lc3NhZ2UgfHwgJ05ldHdvcmsgcmVxdWVzdCBmYWlsZWQnDQogICAgICB9Ow0KICAgIH0NCiAgfQ0KDQogIHJldHVybiB7DQogICAgb2s6IGZhbHNlLA0KICAgIHN0YXR1czogMCwNCiAgICBkYXRhOiBudWxsLA0KICAgIGVycm9yOiAnTWF4aW11bSByZXRyeSBhdHRlbXB0cyByZWFjaGVkJw0KICB9Ow0KfQ0KDQpleHBvcnQgYXN5bmMgZnVuY3Rpb24gZG93bmxvYWRYaXJyQXVkaXRFeGNlbChwb3J0Zm9saW9OYW1lOiBzdHJpbmcgfCBzdHJpbmdbXSkgew0KICB0cnkgew0KICAgIGNvbnN0IHRvZGF5U3RyID0gbmV3IERhdGUoKS50b0lTT1N0cmluZygpLnNwbGl0KCdUJylbMF07DQogICAgY29uc3QgcG9ydFN0ciA9IEFycmF5LmlzQXJyYXkocG9ydGZvbGlvTmFtZSkgPyBwb3J0Zm9saW9OYW1lLmpvaW4oJywnKSA6IChwb3J0Zm9saW9OYW1lIHx8ICdDb21iaW5lZCcpOw0KICAgIGNvbnN0IHNhZmVQb3J0ID0gcG9ydFN0ci5yZXBsYWNlKC9bXmEtekEtWjAtOV8tXS9nLCAnXycpOw0KICAgIGNvbnN0IHVybCA9IGAvYXBpL3BvcnRmb2xpby94aXJyLWF1ZGl0LWV4Y2VsP3BvcnRmb2xpbz0ke2VuY29kZVVSSUNvbXBvbmVudChwb3J0U3RyKX1gOw0KICAgIA0KICAgIGNvbnN0IHJlc3BvbnNlID0gYXdhaXQgYXBpRmV0Y2godXJsKTsNCiAgICBpZiAoIXJlc3BvbnNlLm9rKSB7DQogICAgICBsZXQgZXJyb3JNc2cgPSAnRmFpbGVkIHRvIGdlbmVyYXRlIFhJUlIgYXVkaXQgRXhjZWwgcmVwb3J0Lic7DQogICAgICB0cnkgew0KICAgICAgICBjb25zdCBlcnJKc29uID0gYXdhaXQgcmVzcG9uc2UuanNvbigpOw0KICAgICAgICBpZiAoZXJySnNvbiAmJiBlcnJKc29uLm1lc3NhZ2UpIGVycm9yTXNnID0gZXJySnNvbi5tZXNzYWdlOw0KICAgICAgfSBjYXRjaCB7fQ0KICAgICAgdGhyb3cgbmV3IEVycm9yKGVycm9yTXNnKTsNCiAgICB9DQoNCiAgICBjb25zdCBibG9iID0gYXdhaXQgcmVzcG9uc2UuYmxvYigpOw0KICAgIGNvbnN0IGRvd25sb2FkVXJsID0gd2luZG93LlVSTC5jcmVhdGVPYmplY3RVUkwoYmxvYik7DQogICAgY29uc3QgbGluayA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2EnKTsNCiAgICBsaW5rLmhyZWYgPSBkb3dubG9hZFVybDsNCiAgICBsaW5rLnNldEF0dHJpYnV0ZSgnZG93bmxvYWQnLCBgWElSUl9BdWRpdF8ke3NhZmVQb3J0fV8ke3RvZGF5U3RyfS54bHN4YCk7DQogICAgZG9jdW1lbnQuYm9keS5hcHBlbmRDaGlsZChsaW5rKTsNCiAgICBsaW5rLmNsaWNrKCk7DQogICAgZG9jdW1lbnQuYm9keS5yZW1vdmVDaGlsZChsaW5rKTsNCiAgICB3aW5kb3cuVVJMLnJldm9rZU9iamVjdFVSTChkb3dubG9hZFVybCk7DQogIH0gY2F0Y2ggKGVycjogYW55KSB7DQogICAgY29uc29sZS5lcnJvcignWElSUiBFeGNlbCBEb3dubG9hZCBFcnJvcjonLCBlcnIpOw0KICAgIGFsZXJ0KGBGYWlsZWQgdG8gZG93bmxvYWQgWElSUiBhdWRpdCBFeGNlbDogJHtlcnIubWVzc2FnZSB8fCAnVW5rbm93biBlcnJvcid9YCk7DQogIH0NCn0NCg0K
+import { apiFetch } from './apiTransport';
+/**
+ * Helper to safely perform fetch and parse JSON with automatic retry on rate limits (429 / "Rate exceeded.")
+ */
+export async function safeFetchJson<T = any>(
+  url: string,
+  options?: RequestInit,
+  retries = 3,
+  backoffMs = 800
+): Promise<{ ok: boolean; status: number; data: T | null; error?: string }> {
+  const canRetry = !options?.method || ['GET', 'HEAD'].includes(options.method.toUpperCase());
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const res = await apiFetch(url, options);
+      const text = await res.text();
+
+      // Handle 429 Rate Exceeded or plain text rate limit responses
+      const isRateLimited =
+        res.status === 429 ||
+        text.includes('Rate exceeded') ||
+        text.includes('Too Many Requests');
+
+      if (isRateLimited) {
+        if (attempt < retries && canRetry && !options?.signal?.aborted) {
+          // Add randomized jitter (200ms - 500ms) to stagger retries and avoid thundering herd rate limit collisions
+          const jitter = 200 + Math.floor(Math.random() * 300);
+          const delay = backoffMs * Math.pow(2, attempt) + jitter;
+          await new Promise((resolve) => setTimeout(resolve, delay));
+          continue;
+        }
+        return {
+          ok: false,
+          status: res.status || 429,
+          data: null,
+          error: 'Rate limit exceeded. Please try again shortly.'
+        };
+      }
+
+      let parsed: T | null = null;
+      if (text && text.trim().length > 0) {
+        try {
+          parsed = JSON.parse(text) as T;
+        } catch {
+          if (attempt < retries && canRetry && !options?.signal?.aborted && !res.ok) {
+            await new Promise((resolve) => setTimeout(resolve, backoffMs * Math.pow(2, attempt)));
+            continue;
+          }
+          return {
+            ok: false,
+            status: res.status,
+            data: null,
+            error: `Server response was not valid JSON: ${text.slice(0, 100)}`
+          };
+        }
+      }
+
+      if (!res.ok) {
+        return {
+          ok: false,
+          status: res.status,
+          data: parsed,
+          error: (parsed as any)?.message || (parsed as any)?.error || `HTTP ${res.status}`
+        };
+      }
+
+      return {
+        ok: true,
+        status: res.status,
+        data: parsed
+      };
+    } catch (err: any) {
+      if (attempt < retries && canRetry && !options?.signal?.aborted) {
+        await new Promise((resolve) => setTimeout(resolve, backoffMs * Math.pow(2, attempt)));
+        continue;
+      }
+      return {
+        ok: false,
+        status: 0,
+        data: null,
+        error: err.message || 'Network request failed'
+      };
+    }
+  }
+
+  return {
+    ok: false,
+    status: 0,
+    data: null,
+    error: 'Maximum retry attempts reached'
+  };
+}
+
+export async function downloadXirrAuditExcel(portfolioName: string | string[]) {
+  try {
+    const todayStr = new Date().toISOString().split('T')[0];
+    const portStr = Array.isArray(portfolioName) ? portfolioName.join(',') : (portfolioName || 'Combined');
+    const safePort = portStr.replace(/[^a-zA-Z0-9_-]/g, '_');
+    const url = `/api/portfolio/xirr-audit-excel?portfolio=${encodeURIComponent(portStr)}`;
+    
+    const response = await apiFetch(url);
+    if (!response.ok) {
+      let errorMsg = 'Failed to generate XIRR audit Excel report.';
+      try {
+        const errJson = await response.json();
+        if (errJson && errJson.message) errorMsg = errJson.message;
+      } catch {}
+      throw new Error(errorMsg);
+    }
+
+    const blob = await response.blob();
+    const downloadUrl = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.setAttribute('download', `XIRR_Audit_${safePort}_${todayStr}.xlsx`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(downloadUrl);
+  } catch (err: any) {
+    console.error('XIRR Excel Download Error:', err);
+    alert(`Failed to download XIRR audit Excel: ${err.message || 'Unknown error'}`);
+  }
+}
+
