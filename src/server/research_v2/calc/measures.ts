@@ -12,6 +12,8 @@ export type Measure =
 
 /** The successful arm of a Measure. */
 export type OkMeasure = Extract<Measure, { ok: true }>;
+type FailedMeasure = Extract<Measure, { ok: false }>;
+const isFailedMeasure = (measure: Measure): measure is FailedMeasure => !measure.ok;
 
 /** Measure for one fact; a missing fact becomes a MISSING measure named by `label`. */
 export function factMeasure(fact: Fact | undefined, label: string): Measure {
@@ -36,7 +38,7 @@ export function literal(value: number, note: string): Measure {
 
 /** Combine measures with `fn`. Missing parts win over undefined parts; notes and ids are merged. */
 export function combine(parts: Measure[], fn: (values: number[]) => number, extraNotes: string[] = []): Measure {
-  const missing = parts.flatMap(part => part.ok ? [] : part.kind === 'MISSING' ? part.items : []);
+  const missing = parts.flatMap(part => isFailedMeasure(part) && part.kind === 'MISSING' ? part.items : []);
   if (missing.length) return { ok: false, kind: 'MISSING', items: missing };
   const undefinedPart = parts.find(part => !part.ok);
   if (undefinedPart && !undefinedPart.ok) return undefinedPart;
@@ -105,7 +107,7 @@ export function effectiveTaxRate(env: CalcEnv, spec: PeriodSpec): Measure {
   const tax = flow(env, spec, 'tax_expense');
   const pbt = flow(env, spec, 'pbt');
   const rate = combine([tax, pbt], v => (v[1] > 0 ? v[0] / v[1] : Number.NaN));
-  if (!rate.ok) return rate.kind === 'UNDEFINED' ? undefinedMeasure('pbt is not positive; tax rate not evidenced') : rate;
+  if (isFailedMeasure(rate)) return rate.kind === 'UNDEFINED' ? undefinedMeasure('pbt is not positive; tax rate not evidenced') : rate;
   if (rate.value < 0 || rate.value > 1) return undefinedMeasure(`tax rate ${fmt(rate.value)} outside 0..1`);
   return rate;
 }
@@ -192,7 +194,7 @@ export function ratioResult(env: CalcEnv, spec: RatioSpec): CalcResult {
   const label = `${spec.numeratorLabel} / ${spec.denominatorLabel}${suffix}`;
   // Sum is only used to validate presence and merge provenance; the ratio is computed below.
   const present = combine([numerator, denominator], v => v[0] + v[1]);
-  if (!present.ok) {
+  if (isFailedMeasure(present)) {
     if (present.kind === 'MISSING') return insufficient(env, key, name, period, unit, present.items, label);
     return notApplicable(env, key, name, period, unit, [], label, present.items.join('; '));
   }
@@ -220,8 +222,8 @@ export function measureResult(
     const notes = [note, ...measure.notes].filter(Boolean).join('; ');
     return okResult(env, key, name, period, unit, measure.value, measure.ids, formula, notes);
   }
-  if (measure.kind === 'MISSING') return insufficient(env, key, name, period, unit, measure.items, formula);
-  return notApplicable(env, key, name, period, unit, [], formula, measure.items.join('; '));
+  if (isFailedMeasure(measure) && measure.kind === 'MISSING') return insufficient(env, key, name, period, unit, measure.items, formula);
+  if (isFailedMeasure(measure)) return notApplicable(env, key, name, period, unit, [], formula, measure.items.join('; '));
 }
 
 /** Insufficient-data result for a calculator whose target period cannot even be determined. */

@@ -155,9 +155,9 @@ export class FactStore {
       return { status: 'REJECTED', reason: 'MISSING_VALUE', conflictsRecorded: 0 };
     }
     const vintages = this.listVintages(fact);
-    const duplicate = vintages.at(-1) && this.isIdentical(vintages.at(-1)!, fact);
-    if (duplicate) return { status: 'UNCHANGED', fact: duplicate, conflictsRecorded: 0 };
     const previous = vintages[vintages.length - 1];
+    const duplicate = previous ? this.isIdentical(previous, fact) : false;
+    if (duplicate) return { status: 'UNCHANGED', fact: previous, conflictsRecorded: 0 };
     const stored = this.store(fact, previous);
     return { status: 'INSERTED', fact: stored, conflictsRecorded: this.recordConflicts(stored, vintages) };
   }

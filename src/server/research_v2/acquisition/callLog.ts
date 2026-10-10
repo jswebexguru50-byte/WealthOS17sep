@@ -200,7 +200,7 @@ export class CallRecorder {
   record(input: RecordInput): void {
     this.write(db => {
       const ok = input.outcome.ok;
-      const failure = ok ? null : input.outcome;
+      const failure = input.outcome.ok ? null : input.outcome as Extract<typeof input.outcome, { ok: false }>;
       const ref = saveRawSnapshots(db, {
         symbols: input.symbols, isinBySymbol: input.isinBySymbol, endpoint: input.endpoint, tool: input.tool,
         status: ok ? 'SUCCESS' : 'SOURCE_UNAVAILABLE',

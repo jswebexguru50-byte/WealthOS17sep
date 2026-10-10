@@ -100,7 +100,7 @@ export class TrendlyneClient {
       );
     }
     const result = await this.invoke('get_stock_parameter_values', { stock_codes: symbols, parameters: tokens });
-    if (!result.ok) return result;
+    if (!result.ok) return result as CallResult<ParameterCallData>;
     let table: ParsedParameterTable;
     try {
       table = parseParameterData(result.envelope.data);
@@ -142,7 +142,7 @@ export class TrendlyneClient {
   async searchParameters(query: string, page?: number): Promise<CallResult<CatalogueSearchData>> {
     const args: Record<string, unknown> = page === undefined ? { query } : { query, page };
     const result = await this.invoke('search_financial_parameters', args);
-    if (!result.ok) return result;
+    if (!result.ok) return result as CallResult<CatalogueSearchData>;
     const raw = result.envelope.data as any;
     const list: unknown = Array.isArray(raw) ? raw : raw?.items;
     if (!Array.isArray(list)) return failure('RESPONSE_UNPARSEABLE', 'parameter search returned no list', result.raw);
@@ -198,7 +198,7 @@ export async function probeParameterLimits(
   const base = { maxSymbols: sample.symbols.length, maxTokens: sample.tokens.length, probedAt: now() };
   const record: ProbeRecord = result.ok
     ? { verified: true, ...base }
-    : { verified: false, ...base, errorCode: result.errorCode, message: result.message };
+    : { verified: false, ...base, errorCode: (result as CallFailed).errorCode, message: (result as CallFailed).message };
   store.write(record);
   return record;
 }

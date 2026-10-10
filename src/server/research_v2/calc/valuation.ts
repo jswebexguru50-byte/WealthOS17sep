@@ -155,9 +155,10 @@ function reverseDcf(env: CalcEnv, spec: PeriodSpec): CalcResult {
   if (problem) return notApplicable(env, key, name, period, 'PCT', [], 'n/a', problem);
   const inputs = combine([marketCapMeasure(env), fcfMeasure(env, spec)], v => v[0] + v[1]);
   if (!inputs.ok) {
-    const missing = inputs.kind === 'MISSING' ? inputs.items : [];
+    const failed = inputs as Extract<typeof inputs, { ok: false }>;
+    const missing = failed.kind === 'MISSING' ? failed.items : [];
     return missing.length ? insufficient(env, key, name, period, 'PCT', missing)
-      : notApplicable(env, key, name, period, 'PCT', [], 'n/a', inputs.items.join('; '));
+      : notApplicable(env, key, name, period, 'PCT', [], 'n/a', failed.items.join('; '));
   }
   const cap = marketCapMeasure(env);
   const fcf = fcfMeasure(env, spec);

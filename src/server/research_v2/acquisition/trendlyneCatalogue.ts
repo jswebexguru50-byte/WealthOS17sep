@@ -153,8 +153,9 @@ export async function discoverCatalogue(options: DiscoveryOptions): Promise<Disc
       const result = await options.search(query, page);
       pagesFetched++;
       if (!result.ok) {
-        errors.push({ query, errorCode: result.errorCode });
-        if (result.quotaExhausted) { stoppedBecause = 'QUOTA_EXHAUSTED'; break outer; }
+        const failure = result as Extract<SearchPage, { ok: false }>;
+        errors.push({ query, errorCode: failure.errorCode });
+        if (failure.quotaExhausted) { stoppedBecause = 'QUOTA_EXHAUSTED'; break outer; }
         break;
       }
       let added = 0;
