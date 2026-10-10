@@ -14,7 +14,6 @@ import {
 } from '@aws-sdk/client-bedrock-runtime';
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -69,11 +68,13 @@ const DEFAULT_MODEL = 'us.anthropic.claude-sonnet-4-6';
 const INITIAL_CREDIT_USD = 100; // Your known starting credit
 
 // ─── Ledger path ─────────────────────────────────────────────────────────────
-// Works in both ESM (tsx/dev) and CJS (esbuild bundle)
-const _bedrockDir = typeof __dirname !== 'undefined'
-  ? __dirname
-  : path.dirname(fileURLToPath(import.meta.url));
-const LEDGER_PATH = path.join(_bedrockDir, '../../bedrock_ledger.json');
+// Works in both ESM (tsx/dev) and CJS (esbuild bundle). The ledger is an
+// application-level artifact, so resolve it from the process working root in
+// ESM and from the bundled server directory in CJS without import.meta.
+const _bedrockDir = typeof __dirname !== 'undefined' ? __dirname : process.cwd();
+const LEDGER_PATH = typeof __dirname !== 'undefined'
+  ? path.join(_bedrockDir, '../../bedrock_ledger.json')
+  : path.join(_bedrockDir, 'bedrock_ledger.json');
 
 // ─── BedrockService ──────────────────────────────────────────────────────────
 

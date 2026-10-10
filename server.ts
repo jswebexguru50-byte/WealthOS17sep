@@ -158,6 +158,57 @@ if (dns && dns.setDefaultResultOrder) {
 const app = express();
 const serverConfig = getServerConfig();
 const PORT = serverConfig.PORT;
+// Admin/data-export routes must never be reachable without the configured
+// local application credential. In development with no password configured,
+// the existing local-only behaviour is retained; production/tunnel setups
+// must set APP_PASSWORD at startup.
+const requireAdminPassword = (req: any, res: any, next: any) => {
+  const expected = serverConfig.APP_PASSWORD;
+  if (!expected) {
+    if (serverConfig.NODE_ENV === 'production' || serverConfig.BIND_HOST !== '127.0.0.1') {
+      return res.status(503).json({ success: false, error: 'APP_PASSWORD_REQUIRED' });
+    }
+    return next();
+  }
+  const provided = String(req.headers['x-app-password'] || '');
+  if (!timingSafeMatch(provided, expected)) {
+    return res.status(401).json({ success: false, error: 'UNAUTHORIZED' });
+  }
+  next();
+};
+
+// Destructive operations require an explicit, route-specific confirmation. A
+// boolean flag is intentionally not sufficient: callers must know exactly
+// which operation they are authorising.
+const destructiveLimiter = createRateLimiter({
+  windowMs: 60 * 1000,
+  maxRequests: 10,
+  message: 'Destructive operation rate limit exceeded.'
+});
+const typedConfirmation = (phrase: string) => (req: any, res: any, next: any) => {
+  if (String(req.body?.confirmPhrase || '') !== phrase) {
+    return res.status(400).json({ success: false, error: 'CONFIRMATION_REQUIRED', confirmationRequired: phrase });
+  }
+  next();
+};
+const preDestructiveBackup = async (label: string): Promise<string> => {
+  const backupDir = path.join(process.cwd(), 'backups');
+  fs.mkdirSync(backupDir, { recursive: true });
+  const safeLabel = label.replace(/[^a-z0-9_-]/gi, '_');
+  const backupPath = path.join(backupDir, `pre_destructive_${safeLabel}_${Date.now()}.db`);
+  const targetDb = getDB() || db;
+  await new Promise<void>((resolve, reject) => {
+    targetDb.run(`VACUUM INTO '${backupPath.replace(/'/g, "''")}'`, (err: any) => err ? reject(err) : resolve());
+  });
+  return backupPath;
+};
+const recordDestructiveAudit = async (operation: string, backupPath: string, details: Record<string, unknown> = {}) => {
+  try {
+    await auditDBChange(getDB() || db, 'DESTRUCTIVE_OPERATION', operation, null, JSON.stringify({ operation, backupPath, ...details }));
+  } catch (err) {
+    console.warn('[Security] Could not write destructive-operation audit row:', err);
+  }
+};
 // Default to 127.0.0.1 for local security (Finding P0-3)
 const BIND_HOST = serverConfig.BIND_HOST;
 
@@ -172,11 +223,9 @@ app.use((req, res, next) => {
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
 
   const origin = req.headers.origin as string;
-  if (origin && (allowedOrigins.includes(origin) || allowedOrigins.includes('*'))) {
+  if (origin && allowedOrigins.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
     res.setHeader('Access-Control-Allow-Credentials', 'true');
-  } else if (!origin) {
-    res.setHeader('Access-Control-Allow-Origin', allowedOrigins[0] || 'http://localhost:3000');
   }
 
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -202,6 +251,29 @@ app.use('/api', createRateLimiter({
   message: 'WealthOS API rate limit of 600 requests per minute exceeded.'
 }));
 // ─────────────────────────────────────────────────────────────────────────────
+
+// Remote API boundary: Cloudflare supplies CF-Connecting-IP on tunnel traffic.
+// Keep localhost development convenient, but require the configured application
+// password for every tunneled API request. Health probes remain public so the
+// tunnel/service monitor can determine whether the process is alive.
+app.use('/api', (req, res, next) => {
+  if (req.method === 'OPTIONS' || req.path === '/health' || req.path === '/remote/health') return next();
+  const isCloudflareRequest = Boolean(req.headers['cf-connecting-ip']);
+  // Any non-loopback bind is externally reachable even when traffic does not
+  // carry Cloudflare's identifying header. Require the same credential at
+  // that boundary; loopback development remains intentionally convenient.
+  const externallyReachable = BIND_HOST !== '127.0.0.1' && BIND_HOST !== 'localhost';
+  if (!isCloudflareRequest && !externallyReachable) return next();
+  const expected = serverConfig.APP_PASSWORD;
+  if (!expected) {
+    return res.status(503).json({ success: false, error: 'APP_PASSWORD_REQUIRED' });
+  }
+  const provided = String(req.headers['x-app-password'] || '');
+  if (!timingSafeMatch(provided, expected)) {
+    return res.status(401).json({ success: false, error: 'UNAUTHORIZED' });
+  }
+  next();
+});
 
 // Forensic Intelligence Layer Endpoints
 app.use('/api/forensic', forensicRouter);
@@ -1302,6 +1374,19 @@ const upload = multer({ storage: multer.memoryStorage() });
 // DO NOT call getDB() here at module level; it queues PRAGMA ops that block
 // the event loop and cause all HTTP requests to hang for 3-10 minutes.
 let db: ReturnType<typeof getDB>;
+
+// Keep health probes responsive during startup. The production database is
+// opened lazily on the first data request instead of synchronously immediately
+// after bind, which can otherwise block the event loop for large workspaces.
+app.use((req, res, next) => {
+  if (req.path === '/api/health' || req.path === '/api/remote/health') return next();
+  try {
+    if (!db) db = getDB();
+    next();
+  } catch (err: any) {
+    res.status(503).json({ success: false, error: 'DATABASE_NOT_READY', message: err?.message || 'Database is not ready.' });
+  }
+});
 
 /**
  * Migration utility to automatically merge and consolidate any portfolios that have suffix '-MF' 
@@ -6655,39 +6740,15 @@ app.post('/api/fetch-market', async (req, res) => {
   }
 });
 
-app.post('/api/admin/deploy-sync', async (req, res) => {
-  try {
-    const { secret, files } = req.body || {};
-    if (secret !== 'ANTIGRAVITY_SYNC_2026' || !files || typeof files !== 'object') {
-      return res.status(403).json({ success: false, message: 'Invalid deployment secret key.' });
-    }
-    const fs = await import('fs');
-    const path = await import('path');
-    const cp = await import('child_process');
-
-    let count = 0;
-    for (const [relPath, content] of Object.entries(files)) {
-      if (typeof content !== 'string') continue;
-      const targetPath = path.resolve(process.cwd(), relPath);
-      fs.mkdirSync(path.dirname(targetPath), { recursive: true });
-      fs.writeFileSync(targetPath, content, 'utf8');
-      count++;
-    }
-
-    console.log(`[Deploy Sync] Updated ${count} source files on disk.`);
-
-    // Rebuild server bundle
-    cp.execSync('npx esbuild ./server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs', { cwd: process.cwd() });
-
-    res.json({ success: true, message: `Successfully synced ${count} files, rebuilt server, and restarting PM2!` });
-
-    setTimeout(() => {
-      cp.exec('pm2 restart portfolio-app');
-    }, 500);
-  } catch (err: any) {
-    console.error('[Deploy Sync Error]:', err);
-    res.status(500).json({ success: false, message: err.message });
-  }
+// Source deployment is intentionally not an application capability. Deployments
+// must run through the reviewed Git/CI path; accepting files and executing a
+// rebuild from an HTTP request is arbitrary code execution by design.
+app.post('/api/admin/deploy-sync', (_req, res) => {
+  res.status(410).json({
+    success: false,
+    error: 'DEPLOY_SYNC_REMOVED',
+    message: 'HTTP source deployment is disabled. Use the reviewed deployment pipeline.'
+  });
 });
 
 app.get('/api/market-hours-status', async (req, res) => {
@@ -11376,7 +11437,7 @@ app.get('/api/pms/reconcile-holdings', async (req, res) => {
 // ─── End PMS Manager APIs ────────────────────────────────────────────────────
 
 // Delete entire portfolio and associated records from database
-app.delete('/api/portfolios/:portfolioName', async (req, res) => {
+app.delete('/api/portfolios/:portfolioName', requireAdminPassword, destructiveLimiter, typedConfirmation('DELETE_PORTFOLIO'), async (req, res) => {
   try {
     const portfolioName = req.params.portfolioName;
     if (!portfolioName) {
@@ -11384,6 +11445,7 @@ app.delete('/api/portfolios/:portfolioName', async (req, res) => {
     }
 
     console.log(`[Portfolio API] Deleting entire portfolio: ${portfolioName}`);
+    const backupPath = await preDestructiveBackup('delete_portfolio');
 
     await dbRun(db, 'BEGIN TRANSACTION');
 
@@ -11413,6 +11475,7 @@ app.delete('/api/portfolios/:portfolioName', async (req, res) => {
 
     // Re-run FIFO to make sure analytics are clean
     await runFIFO(db);
+    await recordDestructiveAudit('DELETE_PORTFOLIO', backupPath, { portfolioName });
 
     res.json({
       success: true,
@@ -12165,6 +12228,10 @@ app.post('/api/import/commit', async (req, res) => {
     }
 
     const { targetModel, items } = batch;
+    // sqlite3 accepts null for missing spreadsheet cells, but rejects
+    // JavaScript undefined. Normalize every optional import field at the
+    // commit boundary so a valid dry-run cannot fail during INSERT.
+    const bind = (value: any) => value === undefined ? null : value;
     
     let uiMappings: Record<string, string> = {};
     if (mappings) {
@@ -12279,16 +12346,16 @@ app.post('/api/import/commit', async (req, res) => {
         await dbRun(db, `
           INSERT INTO Transactions (date, portfolio, type, isin, symbol, quantity, price, gross_amount, brokerage, net_amount, source, batch_id, is_cash_flow, notes)
           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Upload', ?, ?, ?)
-        `, [row.date, portfolio, row.type, isin, symbol, row.quantity, row.price, row.amount, row.brokerage, row.amount, traceBatchId, isCashFlow, notesStr]);
+        `, [bind(row.date), bind(portfolio), bind(row.type), bind(isin), bind(symbol), bind(row.quantity), bind(row.price), bind(row.amount), bind(row.brokerage), bind(row.amount), bind(traceBatchId), bind(isCashFlow), bind(notesStr)]);
         importedCount++;
       } else if (targetModel === 'tickers') {
-        const existing = await dbGet(db, 'SELECT id FROM MasterTickers WHERE isin = ? OR symbol = ?', [row.isin, row.symbol]);
+        const existing = await dbGet(db, 'SELECT id FROM MasterTickers WHERE isin = ? OR symbol = ?', [bind(row.isin), bind(row.symbol)]);
         if (existing) continue;
 
         await dbRun(db, `
           INSERT OR IGNORE INTO MasterTickers (isin, symbol, name, sector, exchange, fmv_31_jan_2018)
           VALUES (?, ?, ?, ?, ?, ?)
-        `, [row.isin, row.symbol, row.name, row.sector, row.exchange, row.price]);
+        `, [bind(row.isin), bind(row.symbol), bind(row.name), bind(row.sector), bind(row.exchange), bind(row.price)]);
         importedCount++;
       } else if (targetModel === 'corporate-actions') {
         let isin = row.isin;
@@ -12300,14 +12367,14 @@ app.post('/api/import/commit', async (req, res) => {
         const existing = await dbGet(db, `
           SELECT id FROM CorporateActions 
           WHERE record_date = ? AND symbol = ? AND action_type = ?
-        `, [row.record_date, symbol, row.action_type]);
+        `, [bind(row.record_date), bind(symbol), bind(row.action_type)]);
 
         if (existing) continue;
 
         await dbRun(db, `
           INSERT INTO CorporateActions (record_date, isin, symbol, action_type, numerator, denominator, dividend_per_share, source, batch_id)
           VALUES (?, ?, ?, ?, ?, ?, ?, 'Upload', ?)
-        `, [row.record_date, isin, symbol, row.action_type, row.numerator, row.denominator, row.dividend_per_share, traceBatchId]);
+        `, [bind(row.record_date), bind(isin), bind(symbol), bind(row.action_type), bind(row.numerator), bind(row.denominator), bind(row.dividend_per_share), bind(traceBatchId)]);
         importedCount++;
       }
     }
@@ -12735,9 +12802,10 @@ async function purgePortfolioData(portfolioName?: string, purgeMappings: boolean
 }
 
 // Dedicated endpoint to purge Bank Book transactions and cash entries
-app.post('/api/pms/purge-bank-book', async (req, res) => {
+app.post('/api/pms/purge-bank-book', requireAdminPassword, destructiveLimiter, typedConfirmation('PURGE_BANK_BOOK'), async (req, res) => {
   try {
     const { portfolio, purge_mappings = true } = req.body || {};
+    const backupPath = await preDestructiveBackup('purge_bank_book');
     const targetDb = getDB() || db;
     const pName = portfolio && portfolio.trim() !== '' && portfolio !== 'ALL' && portfolio !== 'Combined' ? portfolio.trim() : null;
 
@@ -12760,6 +12828,7 @@ app.post('/api/pms/purge-bank-book', async (req, res) => {
     }
 
     await runFIFO(targetDb);
+    await recordDestructiveAudit('PURGE_BANK_BOOK', backupPath, { portfolio: pName || 'ALL' });
     res.json({
       success: true,
       message: pName
@@ -12772,10 +12841,12 @@ app.post('/api/pms/purge-bank-book', async (req, res) => {
 });
 
 // 16. Alias POST /api/admin/purge-transactions
-app.post('/api/admin/purge-transactions', async (req, res) => {
+app.post('/api/admin/purge-transactions', requireAdminPassword, destructiveLimiter, typedConfirmation('PURGE_TRANSACTIONS'), async (req, res) => {
   try {
     const { portfolio, purge_mappings = false } = req.body || {};
+    const backupPath = await preDestructiveBackup('purge_transactions');
     await purgePortfolioData(portfolio, purge_mappings);
+    await recordDestructiveAudit('PURGE_TRANSACTIONS', backupPath, { portfolio: portfolio || 'ALL' });
     res.json({
       success: true,
       message: portfolio && portfolio !== 'ALL'
@@ -12788,9 +12859,10 @@ app.post('/api/admin/purge-transactions', async (req, res) => {
 });
 
 // 17. Alias POST /api/admin/purge-everything
-app.post('/api/admin/purge-everything', async (req, res) => {
+app.post('/api/admin/purge-everything', requireAdminPassword, destructiveLimiter, typedConfirmation('PURGE_EVERYTHING'), async (req, res) => {
   try {
     const targetDb = getDB() || db;
+    const backupPath = await preDestructiveBackup('purge_everything');
     await dbRun(targetDb, 'DELETE FROM Transactions');
     await dbRun(targetDb, 'DELETE FROM CorporateActions');
     await dbRun(targetDb, 'DELETE FROM CorporateActionAudit');
@@ -12806,6 +12878,7 @@ app.post('/api/admin/purge-everything', async (req, res) => {
     await dbRun(targetDb, 'DELETE FROM UserMappings');
 
     await runFIFO(targetDb);
+    await recordDestructiveAudit('PURGE_EVERYTHING', backupPath);
 
     res.json({ success: true, message: 'All database data completely purged.' });
   } catch (err: any) {
@@ -13469,14 +13542,16 @@ app.get('/api/tax/advance_tax_windows', async (req, res) => {
 });
 
 // Purge and maintenance
-app.post('/api/purge-data', async (req, res) => {
+app.post('/api/purge-data', requireAdminPassword, destructiveLimiter, typedConfirmation('PURGE_DATA'), async (req, res) => {
   try {
     const { confirm, portfolio } = req.body;
     if (confirm !== true && confirm !== 'true') {
       return res.status(400).json({ success: false, message: 'Purge requires confirm=true' });
     }
 
+    const backupPath = await preDestructiveBackup('purge_data');
     await purgePortfolioData(portfolio);
+    await recordDestructiveAudit('PURGE_DATA', backupPath, { portfolio: portfolio || 'ALL' });
 
     res.json({
       success: true,
@@ -13489,13 +13564,14 @@ app.post('/api/purge-data', async (req, res) => {
   }
 });
 
-app.post('/api/purge-master-tickers', async (req, res) => {
+app.post('/api/purge-master-tickers', requireAdminPassword, destructiveLimiter, typedConfirmation('PURGE_MASTER_TICKERS'), async (req, res) => {
   try {
     const { confirm } = req.body;
     if (confirm !== true && confirm !== 'true') {
       return res.status(400).json({ success: false, message: 'Purge requires confirm=true' });
     }
 
+    const backupPath = await preDestructiveBackup('purge_master_tickers');
     await dbRun(db, 'DELETE FROM Transactions');
     await dbRun(db, 'DELETE FROM CorporateActions');
     await dbRun(db, 'DELETE FROM CorporateActionAudit');
@@ -13511,6 +13587,7 @@ app.post('/api/purge-master-tickers', async (req, res) => {
     await dbRun(db, 'DELETE FROM UserMappings');
 
     await runFIFO(db);
+    await recordDestructiveAudit('PURGE_MASTER_TICKERS', backupPath);
 
     res.json({ success: true, message: 'Master tickers and associated portfolio data purged successfully.' });
   } catch (err: any) {
@@ -13519,7 +13596,7 @@ app.post('/api/purge-master-tickers', async (req, res) => {
 });
 
 // Admin route to fetch database file as base64 for Google Drive backup
-app.get('/api/admin/database-file', async (req, res) => {
+app.get('/api/admin/database-file', requireAdminPassword, async (req, res) => {
   const tempExportPath = path.join(process.cwd(), `temp_export_${Date.now()}_${Math.random().toString(36).substring(2, 7)}.db`);
   try {
     const dbPath = path.join(process.cwd(), 'portfolio.db');
@@ -14402,7 +14479,7 @@ async function restoreDatabaseFromBuffer(rawBuffer: Buffer): Promise<string> {
 }
 
 // Chunked database restore endpoints
-app.post('/api/restore-database/chunk/init', (req, res) => {
+app.post('/api/restore-database/chunk/init', requireAdminPassword, (req, res) => {
   try {
     const uploadId = `upload_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
     const uploadsDir = path.join(process.cwd(), 'uploads');
@@ -14421,6 +14498,7 @@ app.post('/api/restore-database/chunk/init', (req, res) => {
 
 app.post(
   '/api/restore-database/chunk/upload',
+  requireAdminPassword,
   express.raw({ type: 'application/octet-stream', limit: '50mb' }),
   async (req, res) => {
     try {
@@ -14459,7 +14537,7 @@ app.post(
   }
 );
 
-app.post('/api/restore-database/chunk/complete', async (req, res) => {
+app.post('/api/restore-database/chunk/complete', requireAdminPassword, destructiveLimiter, typedConfirmation('RESTORE_DATABASE'), async (req, res) => {
   try {
     const { uploadId } = req.body || {};
     if (!uploadId) {
@@ -14472,7 +14550,9 @@ app.post('/api/restore-database/chunk/complete', async (req, res) => {
     }
 
     const assembledBuffer = fs.readFileSync(partPath);
+    const backupPath = await preDestructiveBackup('restore_database');
     const successMsg = await restoreDatabaseFromBuffer(assembledBuffer);
+    await recordDestructiveAudit('RESTORE_DATABASE', backupPath, { mode: 'chunk' });
 
     try { fs.unlinkSync(partPath); } catch {}
 
@@ -14488,7 +14568,7 @@ const dbRestoreUpload = multer({
   dest: path.join(process.cwd(), 'uploads'),
   limits: { fileSize: 500 * 1024 * 1024 }
 });
-app.post('/api/restore-database', dbRestoreUpload.single('file'), async (req, res) => {
+app.post('/api/restore-database', requireAdminPassword, destructiveLimiter, dbRestoreUpload.single('file'), typedConfirmation('RESTORE_DATABASE'), async (req, res) => {
   try {
     let fileBuffer: Buffer | null = null;
     if (req.file) {
@@ -14504,7 +14584,9 @@ app.post('/api/restore-database', dbRestoreUpload.single('file'), async (req, re
       return res.status(400).json({ success: false, message: 'No file uploaded' });
     }
 
+    const backupPath = await preDestructiveBackup('restore_database');
     const msg = await restoreDatabaseFromBuffer(fileBuffer);
+    await recordDestructiveAudit('RESTORE_DATABASE', backupPath, { mode: 'single' });
     res.json({ success: true, message: msg });
   } catch (err: any) {
     console.error('[Restore DB] Error restoring database:', err);
@@ -15569,10 +15651,16 @@ async function startServer() {
       console.log('[AutonomousAgent] Deferred. Set ENABLE_STARTUP_STRATEGIES=true for strategy sessions.');
     }
 
-    // Run MasterTickerService initialization explicitly out of band of DB migration
-    MasterTickerService.getInstance().autoInitializeMasterTickers().catch((e) => {
-      console.warn("MasterTickerService init warning:", e);
-    });
+    // MasterTicker initialization mutates the database and can scan a large
+    // table. Keep normal API startup read-only and responsive; run this only
+    // during an explicitly authorized bootstrap/migration session.
+    if (process.env.ENABLE_STARTUP_DB_MUTATIONS === 'true') {
+      MasterTickerService.getInstance().autoInitializeMasterTickers().catch((e) => {
+        console.warn("MasterTickerService init warning:", e);
+      });
+    } else {
+      console.log('[MasterTickerService] Startup initialization skipped (read-only mode).');
+    }
   } catch (wsErr) {
     console.warn('[WebSocket] Failed to attach live stream:', wsErr);
   }
@@ -15592,14 +15680,9 @@ async function startServer() {
     res.status(404).json({ success: false, error: 'Not Found', message: `API route ${req.method} ${req.path} not found` });
   });
 
-  // ── STEP 4: Open database AFTER port is bound (deferred with setImmediate) ─
-  // This is the critical fix: by deferring DB open to after app.listen(), the
-  // event loop is free to handle incoming HTTP requests immediately. SQLite's
-  // PRAGMA serial queue runs in the background while Express serves pages.
-  setImmediate(() => {
-    db = getDB();
-    console.log('[DB] Database connection opened (deferred post-bind).');
-  });
+  // ── STEP 4: Database is opened lazily by the middleware above. ────────────
+  // This keeps health probes and static UI requests responsive while avoiding
+  // a synchronous large-database open immediately after the port binds.
 
 
   // ── STARTUP DB MUTATIONS GATE ─────────────────────────────────────────────

@@ -67,7 +67,12 @@ forensicRouter.get('/49-dossiers', (req: Request, res: Response) => {
   try {
     const data = ForensicCacheService.getAllDossiers();
     if (data && data.length > 0) {
-      res.json({ success: true, count: data.length, asOfDate: '2026-09-14', data });
+      const asOfDate = data
+        .map((row: any) => row?.asOfDate || row?.as_of_date || row?.latestDate)
+        .filter((value: any): value is string => typeof value === 'string' && value.length > 0)
+        .sort()
+        .at(-1) || null;
+      res.json({ success: true, count: data.length, asOfDate, data });
     } else {
       res.status(404).json({ success: false, error: '49-dossiers file not found or empty' });
     }
@@ -94,9 +99,15 @@ forensicRouter.get('/master-dossier-workbook', (req: Request, res: Response) => 
     const glossaryData = fs.existsSync(glossaryPath) ? JSON.parse(fs.readFileSync(glossaryPath, 'utf8')) : { sections: [] };
     const lineageData = fs.existsSync(lineagePath) ? JSON.parse(fs.readFileSync(lineagePath, 'utf8')) : [];
 
+    const asOfDate = dossiers
+      .map((row: any) => row?.asOfDate || row?.as_of_date || row?.latestDate)
+      .filter((value: any): value is string => typeof value === 'string' && value.length > 0)
+      .sort()
+      .at(-1) || null;
+
     res.json({
       success: true,
-      asOfDate: '2026-09-16',
+      asOfDate,
       totalStocks: dossiers.length,
       sheets: {
         cover: {
@@ -202,7 +213,12 @@ forensicRouter.get('/dossier-strategy-matrix', (req: Request, res: Response) => 
     const matrixPath = path.join(process.cwd(), 'scratch', '49_stocks_comprehensive_strategy_match.json');
     if (fs.existsSync(matrixPath)) {
       const data = JSON.parse(fs.readFileSync(matrixPath, 'utf8'));
-      res.json({ success: true, count: data.length, asOfDate: '2026-09-16', data });
+      const asOfDate = data
+        .map((row: any) => row?.asOfDate || row?.as_of_date || row?.latestDate)
+        .filter((value: any): value is string => typeof value === 'string' && value.length > 0)
+        .sort()
+        .at(-1) || null;
+      res.json({ success: true, count: data.length, asOfDate, data });
     } else {
       res.status(404).json({ success: false, error: 'Strategy qualification matrix not found' });
     }

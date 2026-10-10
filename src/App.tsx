@@ -118,6 +118,17 @@ const LazyFallback = () => (
 
 type TabType = 'OVERVIEW' | 'DISCOVER' | 'ANALYZE' | 'PORTFOLIO' | 'RESEARCH' | 'AUDIT';
 
+// Single source of truth for user-facing primary navigation labels.  Individual
+// navigation surfaces may add icons, but must not redefine copy or ordering.
+const PRIMARY_NAV_ITEMS: ReadonlyArray<{ id: TabType; label: string; sub: string }> = [
+  { id: 'OVERVIEW', label: 'Home', sub: 'System status and context' },
+  { id: 'DISCOVER', label: 'Ideas', sub: 'Qualified opportunities' },
+  { id: 'ANALYZE', label: 'Stock Research', sub: 'Evidence-led intelligence' },
+  { id: 'PORTFOLIO', label: 'Portfolio', sub: 'Risk, ledger and watchlist' },
+  { id: 'RESEARCH', label: 'Research', sub: 'Themes and strategy tools' },
+  { id: 'AUDIT', label: 'Data & Settings', sub: 'Provenance and preferences' },
+];
+
 // window.fetch interception removed for AI Studio remote mode stability.
 
 export default function App() {
@@ -405,8 +416,6 @@ export default function App() {
     setCurrentMemberId(targetId);
     localStorage.setItem('app-family-member', String(targetId));
     setSelectedPortfolio('Combined');
-    fetchPortfoliosList(targetId);
-    refreshAllCoreData('Combined', targetId);
   };
 
   const fetchDashboardMetrics = async (currentPortfolio = selectedPortfolio, mId = currentMemberId) => {
@@ -503,7 +512,6 @@ export default function App() {
     // If selecting Combined / All, keep active member and show their Combined portfolio
     if (!p || p === 'Combined' || p === 'all') {
       setSelectedPortfolio('Combined');
-      refreshAllCoreData('Combined', currentMemberId);
       return;
     }
 
@@ -514,10 +522,8 @@ export default function App() {
       if (currentMemberId !== 2) {
         setCurrentMemberId(2);
         localStorage.setItem('app-family-member', '2');
-        fetchPortfoliosList(2);
       }
       setSelectedPortfolio(p);
-      refreshAllCoreData(p, 2);
       if (activeTab === 'OVERVIEW' && p !== 'none') {
         setActiveTab('PORTFOLIO');
       }
@@ -531,10 +537,8 @@ export default function App() {
       if (currentMemberId !== 1) {
         setCurrentMemberId(1);
         localStorage.setItem('app-family-member', '1');
-        fetchPortfoliosList(1);
       }
       setSelectedPortfolio(p);
-      refreshAllCoreData(p, 1);
       if (activeTab === 'OVERVIEW' && p !== 'none') {
         setActiveTab('PORTFOLIO');
       }
@@ -542,7 +546,6 @@ export default function App() {
     }
 
     setSelectedPortfolio(p);
-    refreshAllCoreData(p, currentMemberId);
     if (activeTab === 'OVERVIEW' && p !== 'none') {
       setActiveTab('PORTFOLIO');
     }
@@ -674,6 +677,7 @@ export default function App() {
     let lastSeenTimestamp: string | null = null;
 
     const pollPriceTimestamp = async () => {
+      if (document.visibilityState === 'hidden') return;
       try {
         const res = await safeFetchJson('/api/prices/last-updated');
         if (res.ok && res.data?.last_updated) {
@@ -1333,12 +1337,7 @@ export default function App() {
         isOpen={showCmdK}
         onClose={() => setShowCmdK(false)}
         tabs={[
-          { id: 'OVERVIEW', label: '1. Overview', sub: 'System Status & Context' },
-          { id: 'DISCOVER', label: '2. Discover', sub: 'Qualified Opportunities' },
-          { id: 'ANALYZE', label: '3. Analyze', sub: 'Stock Intelligence View' },
-          { id: 'PORTFOLIO', label: '4. Portfolio', sub: 'Risk, Ledger & Watchlist' },
-          { id: 'RESEARCH', label: '5. Research', sub: 'Thematic & Strategy' },
-          { id: 'AUDIT', label: '6. Audit & System', sub: 'Provenance & Settings' },
+          ...PRIMARY_NAV_ITEMS,
         ]}
         symbols={holdings.map(h => h.symbol).filter(Boolean)}
         onSelectTab={(tabId) => setActiveTab(tabId as any)}
@@ -1366,7 +1365,7 @@ export default function App() {
                 NRI WealthOS
                 <span className="text-[8px] px-1 py-0.2 rounded bg-cyan-500/20 text-cyan-300 font-mono">v3.0</span>
               </h2>
-              <span className="text-[8.5px] font-mono tracking-wider block text-cyan-400/90 uppercase leading-tight">Samsung S24 Ultra</span>
+              <span className="sr-only">WealthOS portfolio workspace</span>
             </div>
           </div>
 
@@ -1435,12 +1434,12 @@ export default function App() {
                 {/* Mobile Navigation List */}
                 <nav className="space-y-1 font-mono text-xs">
                   {[
-                    { id: 'OVERVIEW', label: '1. Overview', sub: 'System Status & Context', icon: Zap, color: 'text-cyan-400' },
-                    { id: 'DISCOVER', label: '2. Discover', sub: 'Qualified Opportunities', icon: Search, color: 'text-amber-400' },
-                    { id: 'ANALYZE', label: '3. Analyze', sub: 'Stock Intelligence View', icon: FileSpreadsheet, color: 'text-emerald-400' },
-                    { id: 'PORTFOLIO', label: '4. Portfolio', sub: 'Risk, Ledger & Watchlist', icon: LayoutDashboard },
-                    { id: 'RESEARCH', label: '5. Research', sub: 'Thematic & Strategy', icon: PieChartIcon },
-                    { id: 'AUDIT', label: '6. Audit & System', sub: 'Provenance & Settings', icon: Wrench },
+                    { id: 'OVERVIEW', label: 'Home', sub: 'System status and context', icon: Zap, color: 'text-cyan-400' },
+                    { id: 'DISCOVER', label: 'Ideas', sub: 'Qualified opportunities', icon: Search, color: 'text-amber-400' },
+                    { id: 'ANALYZE', label: 'Stock Research', sub: 'Evidence-led intelligence', icon: FileSpreadsheet, color: 'text-emerald-400' },
+                    { id: 'PORTFOLIO', label: 'Portfolio', sub: 'Risk, ledger and watchlist', icon: LayoutDashboard },
+                    { id: 'RESEARCH', label: 'Research', sub: 'Themes and strategy tools', icon: PieChartIcon },
+                    { id: 'AUDIT', label: 'Data & Settings', sub: 'Provenance and preferences', icon: Wrench },
                   ].map(tab => {
                     const IconComp = tab.icon;
                     const isActive = activeTab === tab.id;
@@ -1512,12 +1511,12 @@ export default function App() {
             {/* Sidebar Navigation */}
             <nav className="space-y-1 w-full font-mono text-xs">
               {[
-                { id: 'OVERVIEW', label: '1. Overview', sub: 'System Status & Context', icon: Zap, color: 'text-cyan-400' },
-                { id: 'DISCOVER', label: '2. Discover', sub: 'Qualified Opportunities', icon: Search, color: 'text-amber-400' },
-                { id: 'ANALYZE', label: '3. Analyze', sub: 'Stock Intelligence View', icon: FileSpreadsheet, color: 'text-emerald-400' },
-                { id: 'PORTFOLIO', label: '4. Portfolio', sub: 'Risk, Ledger & Watchlist', icon: LayoutDashboard },
-                { id: 'RESEARCH', label: '5. Research', sub: 'Thematic & Strategy', icon: PieChartIcon },
-                { id: 'AUDIT', label: '6. Audit & System', sub: 'Provenance & Settings', icon: Wrench },
+                { id: 'OVERVIEW', label: 'Home', sub: 'System status and context', icon: Zap, color: 'text-cyan-400' },
+                { id: 'DISCOVER', label: 'Ideas', sub: 'Qualified opportunities', icon: Search, color: 'text-amber-400' },
+                { id: 'ANALYZE', label: 'Stock Research', sub: 'Evidence-led intelligence', icon: FileSpreadsheet, color: 'text-emerald-400' },
+                { id: 'PORTFOLIO', label: 'Portfolio', sub: 'Risk, ledger and watchlist', icon: LayoutDashboard },
+                { id: 'RESEARCH', label: 'Research', sub: 'Themes and strategy tools', icon: PieChartIcon },
+                { id: 'AUDIT', label: 'Data & Settings', sub: 'Provenance and preferences', icon: Wrench },
               ].map((tab) => {
                 const IconComp = tab.icon;
                 const isActive = activeTab === tab.id;
@@ -1601,7 +1600,7 @@ export default function App() {
                   Open App in New Window
                 </a>
                 <div className="flex items-center gap-2 px-1 text-[10px] font-mono" style={{color:'#475569'}}>
-                  <span className="w-2 h-2 rounded-full animate-pulse shrink-0" style={{backgroundColor:'#059669'}}></span>
+                  <span className="w-2 h-2 rounded-full shrink-0" style={{backgroundColor:'#059669'}}></span>
                   SQLite ENGINE: SECURE
                 </div>
               </div>
@@ -1620,16 +1619,11 @@ export default function App() {
               <div className="flex items-center gap-2 min-w-0">
                 <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-400 font-bold whitespace-nowrap">NRI WealthOS</span>
                 <span className="text-slate-500 font-mono">/</span>
-                <h2 className="text-xs sm:text-sm font-bold font-display uppercase tracking-tight text-white whitespace-nowrap truncate" style={{color:'var(--text-primary)'}}>
-                  {activeTab === 'OVERVIEW' && '1. Overview & System Status'}
-                  {activeTab === 'DISCOVER' && '2. Discover & Opportunity Generation'}
-                  {activeTab === 'ANALYZE' && '3. Analyze & Stock Intelligence'}
-                  {activeTab === 'PORTFOLIO' && '4. Portfolio Risk & Ledger'}
-                  {activeTab === 'RESEARCH' && '5. Research & Strategy Factory'}
-                  {activeTab === 'AUDIT' && '6. Audit, Provenance & Settings'}
-                                                                                                                                                                </h2>
+                <h2 className="text-xs sm:text-sm font-bold font-display tracking-tight whitespace-nowrap truncate" style={{color:'var(--text-primary)'}}>
+                  {PRIMARY_NAV_ITEMS.find((item) => item.id === activeTab)?.label}
+                </h2>
                 <span className="hidden md:inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 whitespace-nowrap">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                   LIVE
                 </span>
               </div>
@@ -1913,12 +1907,7 @@ export default function App() {
                   <NotFoundRecoveryView
                     unknownRoute={activeTab}
                     availableWorkspaces={[
-                      { id: 'OVERVIEW', label: '1. Overview', sub: 'System Status & Context' },
-                      { id: 'DISCOVER', label: '2. Discover', sub: 'Qualified Opportunities' },
-                      { id: 'ANALYZE', label: '3. Analyze', sub: 'Stock Intelligence View' },
-                      { id: 'PORTFOLIO', label: '4. Portfolio', sub: 'Risk, Ledger & Watchlist' },
-                      { id: 'RESEARCH', label: '5. Research', sub: 'Thematic & Strategy' },
-                      { id: 'AUDIT', label: '6. Audit & System', sub: 'Provenance & Settings' },
+                      ...PRIMARY_NAV_ITEMS,
                     ]}
                     onNavigate={(id) => setActiveTab(id as any)}
                   />

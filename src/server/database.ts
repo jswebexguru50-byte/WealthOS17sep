@@ -11,6 +11,7 @@ import { canonicalMigrations } from './db/migrations/index.js';
 
 
 export let isTransactionActive = false;
+const transactionDepth = new WeakMap<object, number>();
 export async function runInDbLock<T>(fn: () => Promise<T>): Promise<T> {
   while (isTransactionActive) {
     await new Promise(r => setTimeout(r, 100));
@@ -152,7 +153,7 @@ function patchDbCompatibility(db: BetterSqlite3.Database): any {
   (db as any).run = function (sql: string, ...args: any[]) {
     let cb = typeof args[args.length - 1] === 'function' ? args.pop() : null;
     let params = args.length > 0 ? (Array.isArray(args[0]) ? args[0] : args) : [];
-    const cleanParams = params.map((p: any) => p === undefined ? null : p);
+    const cleanParams = normalizeSqliteParams(params);
     try {
       let info: BetterSqlite3.RunResult;
       try {
@@ -178,7 +179,7 @@ function patchDbCompatibility(db: BetterSqlite3.Database): any {
   (db as any).all = function (sql: string, ...args: any[]) {
     let cb = typeof args[args.length - 1] === 'function' ? args.pop() : null;
     let params = args.length > 0 ? (Array.isArray(args[0]) ? args[0] : args) : [];
-    const cleanParams = params.map((p: any) => p === undefined ? null : p);
+    const cleanParams = normalizeSqliteParams(params);
     try {
       const stmt = getCachedStmt(db, sql);
       const rows = cleanParams.length > 0 ? stmt.all(cleanParams) : stmt.all();
@@ -193,7 +194,7 @@ function patchDbCompatibility(db: BetterSqlite3.Database): any {
   (db as any).get = function (sql: string, ...args: any[]) {
     let cb = typeof args[args.length - 1] === 'function' ? args.pop() : null;
     let params = args.length > 0 ? (Array.isArray(args[0]) ? args[0] : args) : [];
-    const cleanParams = params.map((p: any) => p === undefined ? null : p);
+    const cleanParams = normalizeSqliteParams(params);
     try {
       const stmt = getCachedStmt(db, sql);
       const row = cleanParams.length > 0 ? stmt.get(cleanParams) : stmt.get();
@@ -3099,6 +3100,16 @@ function getActiveDB(dbParam?: any): Database {
   return getDB();
 }
 
+function normalizeSqliteParams(params: any[] = []): any[] {
+  return params.map(value => {
+    if (value === undefined || value === null) return null;
+    if (value instanceof Date) return Number.isNaN(value.getTime()) ? null : value.toISOString();
+    if (typeof value === 'number') return Number.isFinite(value) ? value : null;
+    if (typeof value === 'string' || typeof value === 'bigint' || Buffer.isBuffer(value)) return value;
+    return String(value);
+  });
+}
+
 function isCorruptionError(err: any): boolean {
   if (!err) return false;
   const msg = (err.message || String(err)).toLowerCase();
@@ -3146,7 +3157,7 @@ export async function dbRun(dbOrSql: any, sqlOrParams?: any, maybeParams: any[] 
     params = Array.isArray(maybeParams) ? maybeParams : [];
   }
 
-  const cleanParams = (params || []).map(p => p === undefined ? null : p);
+  const cleanParams = normalizeSqliteParams(params || []);
 
   if (mockHooks.dbRun) {
     return mockHooks.dbRun(sql, cleanParams);
@@ -3201,7 +3212,9 @@ export async function dbRun(dbOrSql: any, sqlOrParams?: any, maybeParams: any[] 
 export async function withTx<T>(db: any, fn: () => Promise<T>): Promise<T> {
   const targetDb = db || getDB();
   const rawDb = targetDb?.db || targetDb;
-  const isNested = Boolean(rawDb && rawDb.inTransaction);
+  const transactionKey = rawDb && typeof rawDb === 'object' ? rawDb : targetDb;
+  const depth = transactionKey && typeof transactionKey === 'object' ? (transactionDepth.get(transactionKey) || 0) : 0;
+  const isNested = depth > 0;
   let savepointName: string | null = null;
 
   if (isNested) {
@@ -3210,6 +3223,7 @@ export async function withTx<T>(db: any, fn: () => Promise<T>): Promise<T> {
   } else {
     await dbRun(targetDb, 'BEGIN IMMEDIATE');
   }
+  if (transactionKey && typeof transactionKey === 'object') transactionDepth.set(transactionKey, depth + 1);
 
   try {
     const result = await fn();
@@ -3235,6 +3249,11 @@ export async function withTx<T>(db: any, fn: () => Promise<T>): Promise<T> {
       }
     }
     throw err;
+  } finally {
+    if (transactionKey && typeof transactionKey === 'object') {
+      if (depth === 0) transactionDepth.delete(transactionKey);
+      else transactionDepth.set(transactionKey, depth);
+    }
   }
 }
 
@@ -3253,7 +3272,7 @@ export async function dbAll<T = any>(dbOrSql: any, sqlOrParams?: any, maybeParam
     params = Array.isArray(maybeParams) ? maybeParams : [];
   }
 
-  const cleanParams = (params || []).map(p => p === undefined ? null : p);
+  const cleanParams = normalizeSqliteParams(params || []);
 
   if (mockHooks.dbAll) {
     return mockHooks.dbAll(sql, cleanParams);
@@ -3315,7 +3334,7 @@ export async function dbGet<T = any>(dbOrSql: any, sqlOrParams?: any, maybeParam
     params = Array.isArray(maybeParams) ? maybeParams : [];
   }
 
-  const cleanParams = (params || []).map(p => p === undefined ? null : p);
+  const cleanParams = normalizeSqliteParams(params || []);
 
   if (mockHooks.dbGet) {
     return mockHooks.dbGet(sql, cleanParams);

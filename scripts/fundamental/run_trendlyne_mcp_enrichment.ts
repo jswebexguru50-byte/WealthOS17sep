@@ -6,6 +6,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
+import crypto from 'node:crypto';
 import sqlite3 from 'sqlite3';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
@@ -249,6 +250,25 @@ async function save(db: sqlite3.Database, symbol: string, endpoint: string, stat
   await run(db, `INSERT INTO fundamental_source_snapshots
     (symbol,isin,provider,authority,source_url,fetched_at,status,error,response_json)
     VALUES (?,NULL,'TRENDLYNE_MCP','LICENSED_PROVIDER',?,?,?,?,?)`, [symbol, `mcp://trendlyne/${endpoint}`, fetchedAt, status, error, raw]);
+  // Preserve the same provider response in the generic Trendlyne mirror layer.
+  // This is deliberately additive: the endpoint cache remains the operational
+  // read path, while the mirror tables retain immutable raw evidence for
+  // reconciliation and future parser improvements.
+  if (raw !== null) {
+    const responseHash = crypto.createHash('sha256').update(raw).digest('hex');
+    const requestJson = JSON.stringify({ symbol, endpoint });
+    const requestHash = crypto.createHash('sha256').update(requestJson).digest('hex');
+    await run(db, `INSERT OR IGNORE INTO trendlyne_raw_response
+      (response_id,request_hash,tool_name,request_json,response_json,response_hash,retrieved_at,provider_version)
+      VALUES (?,?,?,?,?,?,?,?)`,
+      [`tl_raw_${responseHash.slice(0,24)}`, requestHash, endpoint, requestJson, raw, responseHash, fetchedAt, '1.0.0']);
+    const snapshotId = `tlm_${responseHash.slice(0,24)}`;
+    await run(db, `INSERT OR IGNORE INTO trendlyne_mirror_raw_snapshots
+      (snapshotId,provider,endpoint,packId,packVersion,symbolsJson,tokensJson,requestedCells,responseHash,responseJson,providerStatus,requestedAt,receivedAt)
+      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      [snapshotId, 'TRENDLYNE_MCP', endpoint, `WEALTHOS_${endpoint.toUpperCase()}`, 1,
+        JSON.stringify([symbol]), JSON.stringify([]), 0, responseHash, raw, status, fetchedAt, fetchedAt]);
+  }
 }
 function props(tool: any): Record<string, unknown> { return tool?.inputSchema?.properties || tool?.input_schema?.properties || {}; }
 function identifierArgs(tool: any, symbol: string, type?: string): Record<string, unknown> | null {

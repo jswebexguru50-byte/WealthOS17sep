@@ -370,10 +370,10 @@ export function AnalyticsView({
                 <div className="min-w-0 text-center sm:text-left border-b sm:border-b-0 sm:border-r border-slate-700/80 pb-3 sm:pb-0 pr-0 sm:pr-4 overflow-hidden">
                   <span className="text-[11px] uppercase font-bold tracking-wider text-emerald-300 font-mono block truncate">Portfolio XIRR</span>
                   <h2
-                    title={customAnalytics && customAnalytics.portfolio !== null && customAnalytics.portfolio !== undefined ? formatPct(customAnalytics.portfolio, true) : '0.00%'}
+                    title={customAnalytics && customAnalytics.portfolio !== null && customAnalytics.portfolio !== undefined ? formatPct(customAnalytics.portfolio, true) : 'Unavailable'}
                     className="text-lg sm:text-xl xl:text-2xl font-extrabold font-display text-white tracking-tight mt-1 truncate"
                   >
-                    {customAnalytics && customAnalytics.portfolio !== null && customAnalytics.portfolio !== undefined ? formatPct(customAnalytics.portfolio, true) : '0.00%'}
+                    {customAnalytics && customAnalytics.portfolio !== null && customAnalytics.portfolio !== undefined ? formatPct(customAnalytics.portfolio, true) : '—'}
                   </h2>
                   <p className="text-[11px] text-white/90 mt-1 uppercase font-semibold tracking-wide truncate">Annualised rate of return</p>
                 </div>
@@ -389,7 +389,7 @@ export function AnalyticsView({
                       {customAnalytics.absolute_gain >= 0 ? `+${formatCurrency(customAnalytics.absolute_gain)}` : formatCurrency(customAnalytics.absolute_gain)}
                     </h2>
                   ) : (
-                    <h2 className="text-lg sm:text-xl xl:text-2xl font-extrabold font-display text-white tracking-tight mt-1 truncate">₹0</h2>
+                    <h2 className="text-lg sm:text-xl xl:text-2xl font-extrabold font-display text-white tracking-tight mt-1 truncate">—</h2>
                   )}
                   <p className="text-[11px] text-white/90 mt-1 uppercase font-semibold tracking-wide truncate">Net profit/loss in period</p>
                 </div>
@@ -405,7 +405,7 @@ export function AnalyticsView({
                       {formatPct(customAnalytics.absolute_gain_pct, true)}
                     </h2>
                   ) : (
-                    <h2 className="text-lg sm:text-xl xl:text-2xl font-extrabold font-display text-white tracking-tight mt-1 truncate">0.00%</h2>
+                    <h2 className="text-lg sm:text-xl xl:text-2xl font-extrabold font-display text-white tracking-tight mt-1 truncate">—</h2>
                   )}
                   <p className="text-[11px] text-white/90 mt-1 uppercase font-semibold tracking-wide truncate">Simple return on capital</p>
                 </div>

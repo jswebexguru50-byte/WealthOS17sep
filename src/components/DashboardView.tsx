@@ -1006,8 +1006,8 @@ export function DashboardView({
                   <span>{getGainLossIcon(metrics.unrealized_pct)}</span>
                   <span>{metrics.unrealized_pct !== undefined ? `${formatPct(metrics.unrealized_pct, true)} Return` : 'Cycle Returns'}</span>
                 </div>
-                <div className={`text-[11px] font-semibold text-wrap ${getGainLossColorClass(metrics.unrealized_pnl)}`}>
-                  PnL: {metrics.unrealized_pnl >= 0 ? '+' : ''}{formatCrore2Dec(metrics.unrealized_pnl || 0)}
+                  <div className={`text-[11px] font-semibold text-wrap ${getGainLossColorClass(metrics.unrealized_pnl)}`}>
+                  PnL: {metrics.unrealized_pnl == null || !Number.isFinite(Number(metrics.unrealized_pnl)) ? 'Unavailable' : `${Number(metrics.unrealized_pnl) >= 0 ? '+' : ''}${formatCrore2Dec(Number(metrics.unrealized_pnl))}`}
                 </div>
                 <div className="text-[10px] text-wrap" style={{color:'var(--text-muted)'}}>
                   Attributed to current holdings
@@ -1019,7 +1019,9 @@ export function DashboardView({
                 <span className="text-[11px] font-bold uppercase tracking-wider block" style={{color:'var(--accent-blue)'}}>Module 3: Dynamic Risk Ratios</span>
                 <div className="text-base font-bold font-mono text-wrap" style={{color:'var(--text-primary)'}}>
                   {(() => {
-                    let rawRet = metrics.xirr ?? metrics.unrealized_pct ?? 15.0;
+                    const rawInput = metrics.xirr ?? metrics.unrealized_pct;
+                    if (rawInput == null || !Number.isFinite(Number(rawInput))) return 'Unavailable';
+                    let rawRet = Number(rawInput);
                     if (Math.abs(rawRet) <= 5) rawRet = rawRet * 100;
                     rawRet = Math.max(-100, Math.min(rawRet, 300));
                     const rf = 6.5;
@@ -1038,19 +1040,21 @@ export function DashboardView({
                 <span className="text-[11px] font-bold uppercase tracking-wider block" style={{color:'var(--accent-gold)'}}>Module 4: Cash Flow &amp; Yield</span>
                 <div className="text-base font-bold font-mono text-wrap" style={{color:'var(--text-primary)'}}>
                   {(() => {
-                    const divs = metrics.dividends || 0;
+                    const divs = metrics.dividends;
+                    if (divs == null || !Number.isFinite(Number(divs))) return 'Unavailable';
                     const activeHoldings = safeHoldings.filter(h => h && !h.is_sold);
                     const derivedTotal = activeHoldings.reduce((sum, h) => sum + (h.current_value || 0), 0);
-                    const totalVal = derivedTotal > 0 ? derivedTotal : (totalCurrentVal > 0 ? totalCurrentVal : 1);
+                    const totalVal = derivedTotal > 0 ? derivedTotal : (totalCurrentVal > 0 ? totalCurrentVal : null);
+                    if (totalVal == null) return 'Unavailable';
                     const yieldPct = Math.min((divs / totalVal) * 100, 50);
                     return `${formatPct(yieldPct)} Dividend Yield`;
                   })()}
                 </div>
-                <div className="text-[11px] font-semibold text-wrap" style={{color:'var(--accent-gold)'}}>
-                  Div Income: {formatCrore2Dec(metrics.dividends || 0)}
+                  <div className="text-[11px] font-semibold text-wrap" style={{color:'var(--accent-gold)'}}>
+                  Div Income: {metrics.dividends == null || !Number.isFinite(Number(metrics.dividends)) ? 'Unavailable' : formatCrore2Dec(Number(metrics.dividends))}
                 </div>
-                <div className={`text-[10px] text-wrap font-semibold ${getGainLossColorClass(metrics.realized_pnl)}`}>
-                  Realized Gains: {metrics.realized_pnl >= 0 ? '+' : ''}{formatCrore2Dec(metrics.realized_pnl || 0)}
+                  <div className={`text-[10px] text-wrap font-semibold ${getGainLossColorClass(metrics.realized_pnl)}`}>
+                  Realized Gains: {metrics.realized_pnl == null || !Number.isFinite(Number(metrics.realized_pnl)) ? 'Unavailable' : `${Number(metrics.realized_pnl) >= 0 ? '+' : ''}${formatCrore2Dec(Number(metrics.realized_pnl))}`}
                 </div>
               </div>
             </div>

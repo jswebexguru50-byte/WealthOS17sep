@@ -57,7 +57,7 @@ const SUB_TABS: Array<{ id: AuditSubTab; label: string; sub: string; icon: React
   { id: 'MAPPINGS', label: 'Scrip Mappings', sub: 'Asset & scrip mapping master', icon: Link2 },
   { id: 'TAX', label: 'Tax & Repatriation', sub: 'NRI tax hub, LTCG, DTAA', icon: Receipt },
   { id: 'FAMILY', label: 'Family Governance', sub: 'Members, benchmarks, portfolios', icon: Users },
-  { id: 'PROVENANCE', label: 'Provenance Logs', sub: 'Data verification & audit trail', icon: FileSearch },
+  { id: 'PROVENANCE', label: 'Data Audit Trail', sub: 'Verification and source history', icon: FileSearch },
 ];
 
 interface AuditWorkspaceProps {

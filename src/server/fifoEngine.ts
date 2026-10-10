@@ -1,6 +1,16 @@
 import sqlite3 from 'sqlite3';
 import { dbAll, dbRun, dbGet, auditDBChange, runInDbLock, withTx } from './database.js';
 
+// sqlite3 Statement#run rejects JavaScript undefined; spreadsheet/derived
+// holding fields are legitimately absent and must bind as SQL NULL.
+const sqliteParams = (values: any[]) => values.map(value => {
+  if (value === undefined || value === null) return null;
+  if (value instanceof Date) return Number.isNaN(value.getTime()) ? null : value.toISOString();
+  if (typeof value === 'number') return Number.isFinite(value) ? value : null;
+  if (typeof value === 'string' || typeof value === 'bigint' || Buffer.isBuffer(value)) return value;
+  return String(value);
+});
+
 export function getFolioFromNotes(notes: string | null, isin?: string | null): string {
   if (isin && !isin.toUpperCase().startsWith("INF")) return "";
   if (!notes) return '';
@@ -99,9 +109,8 @@ export function registerFifoCompletedCallback(cb: (portfolio?: string) => void) 
 
 export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): Promise<any> {
   return runInDbLock(async () => {
-    await dbRun(db, 'BEGIN TRANSACTION');
-
-  try {
+    return withTx(db, async () => {
+      try {
     // 0. Pre-normalize Transactions table
     // Fix negative quantity, gross_amount, net_amount
     await dbRun(db, `
@@ -170,6 +179,12 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
       if (sym === 'TATAPOWER' || sym === 'TATA POWER' || sym === 'TATA POWER CO LTD' || isin === 'INE245A01021') {
         return { canonicalIsin: 'INE245A01021', canonicalSymbol: 'TATAPOWER' };
       }
+      // Broker/registrar ISIN aliases: the same security was reported under
+      // legacy identifiers in older tradebooks. Keep the FIFO queue together
+      // without inventing opening lots.
+      if (sym === 'TEMBO' || isin === 'INE869Y01010') return { canonicalIsin: 'INE869Y01028', canonicalSymbol: 'TEMBO' };
+      if (sym === 'APOLLO' || isin === 'INE713T01010') return { canonicalIsin: 'INE713T01028', canonicalSymbol: 'APOLLO' };
+      if (sym === 'ORIANA' || isin === 'IN_ORIANA' || isin === 'INE0OUT01019') return { canonicalIsin: 'INE0OUT01027', canonicalSymbol: 'ORIANA' };
 
       // Valid standard ISIN (12 chars, not CUSTOM_)
       if (isin && isin.length === 12 && !isin.startsWith('CUSTOM_')) {
@@ -201,8 +216,14 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
       const { canonicalIsin, canonicalSymbol } = resolveCanonical(r.isin, r.symbol, r.notes);
       const tType = String(r.type).toUpperCase().trim();
       let resolvedType = tType;
+      // Holdings-statement reconciliation movements are snapshot corrections,
+      // not executable market sells/buys; exclude them from FIFO lot matching.
+      const reconciliationMovement = String(r.source || '').includes('PSI722_') && /TRANSFER (IN|OUT)/i.test(tType);
+      if (reconciliationMovement) resolvedType = 'RECONCILIATION';
 
-      if (tType.includes('DEMERGER')) {
+      if (reconciliationMovement) {
+        // handled above
+      } else if (tType.includes('DEMERGER')) {
         if (tType.includes('(NEW)')) {
           resolvedType = 'BUY';
         } else {
@@ -308,6 +329,12 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
     `).catch(() => {});
     await dbRun(db, `CREATE INDEX IF NOT EXISTS idx_sd_pan_fy ON StrippingDisallowances(portfolio, trigger_sell_date)`).catch(() => {});
     await dbRun(db, `DELETE FROM StrippingDisallowances`).catch(() => {});
+    await dbRun(db, `CREATE TABLE IF NOT EXISTS ReconciliationExceptions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT, portfolio TEXT NOT NULL, scrip_or_trade_id TEXT NOT NULL,
+      exception_type TEXT NOT NULL, discrepancy_detail TEXT NOT NULL, reason_category TEXT NOT NULL,
+      reason_notes TEXT, approved_by TEXT DEFAULT 'User', approved_at TEXT DEFAULT CURRENT_TIMESTAMP,
+      status TEXT DEFAULT 'OPEN')`).catch(() => {});
+    await dbRun(db, `DELETE FROM ReconciliationExceptions WHERE reason_category='FIFO_UNMATCHED_SELL'`).catch(() => {});
 
     // Pre-index dividend and bonus transactions for statutory stripping checks
     const dividendRecords = await dbAll(db, `
@@ -666,6 +693,11 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
 
         if (sellQty > 0.0001) {
           console.warn(`[FIFO Engine] Unmatched sell quantity for ${txn.portfolio} ${txn.symbol || txn.isin} on ${txn.dateStr}: ${sellQty} units remaining after exhausting buy queue.`);
+          await dbRun(db, `INSERT INTO ReconciliationExceptions (portfolio, scrip_or_trade_id, exception_type, discrepancy_detail, reason_category, reason_notes, status) VALUES (?, ?, ?, ?, ?, ?, ?)`, [
+            txn.portfolio, `${txn.id}:${txn.dateStr}:${txn.isin}`, 'FIFO_UNMATCHED_SELL',
+            `Unmatched sell quantity ${sellQty} after exhausting available buy lots`, 'FIFO_UNMATCHED_SELL',
+            'Source ledger lacks sufficient prior buy-lot evidence; no synthetic lot was created.', 'OPEN'
+          ]).catch(() => {});
         }
       }
     }
@@ -1242,8 +1274,7 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
     }
 
     await dbRun(db, 'DELETE FROM Holdings');
-    await new Promise<void>((resolve, reject) => {
-      const stmt = db.prepare(`
+    const holdingInsertSql = `
         INSERT INTO Holdings (
           portfolio, isin, folio, symbol, quantity, 
           avg_buy_price, total_cost, ltp, prev_close, day_change, day_change_pct, current_value, unrealized_pnl, unrealized_pct, 
@@ -1252,8 +1283,8 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
           holding_type, price_authority, acquisition_fx_rate
         )
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `);
-      for (const h of Object.values(holdings)) {
+      `;
+    for (const h of Object.values(holdings)) {
         const ext = h as any;
         // Classify holding type based on ISIN/symbol
         let holdingType = 'EQUITY';
@@ -1269,17 +1300,16 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
         if (holdingType === 'CASH') pAuth = 'CASH';
         else if (holdingType === 'UNLISTED') pAuth = 'MANUAL';
 
-        stmt.run([
+        const holdingParams = sqliteParams([
           h.portfolio, h.isin, h.folio || 'NA', h.symbol, h.quantity, 
           ext.inrAvgBuyPrice, ext.inrTotalCost, ext.inrLtp, ext.prevClose * (ext.currency === 'USD' ? dbUsdRate : 1.0), ext.inrDayChg, ext.dayChgPct, ext.inrCurrentValue, ext.inrUnrealizedPnl, ext.pct, 
           ext.ds, ext.dataStatus || 'LIVE', ext.lu, ext.currency,
           ext.nativeLtp, ext.nativeCurrentValue, ext.nativeTotalCost, ext.nativeAvgBuyPrice, ext.nativeUnrealizedPnl,
           holdingType, pAuth, ext.acquisitionFxRate || 1.0
-        ], (err: any) => { if (err) reject(err); });
-      }
-      stmt.finalize(async (err: any) => {
-        if (err) reject(err); else {
-          try {
+        ]);
+        await dbRun(db, holdingInsertSql, holdingParams);
+    }
+    try {
             await syncDualCostBasis(db);
 
             // === FIX B: CC9 Cash — loaded dynamically from PmsReconciliationBaseline, not hardcoded ===
@@ -1361,29 +1391,16 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
               console.log(`[FIFO] US - IBKR CASH restored from AppConfig: $${ibkrCashUsd.toFixed(2)} = ₹${ibkrCashInr.toFixed(2)}`);
             }
 
-            resolve();
-          } catch(e) {
-            console.warn('[FIFO] syncDualCostBasis warning:', e);
-            resolve();
-          }
-        }
-      });
-    });
+    } catch(e) {
+      // Supplementary cash restoration must not invalidate an otherwise complete FIFO rebuild.
+      console.warn('[FIFO] syncDualCostBasis warning:', e);
+    }
 
     // Clear and insert RealizedGains
     await dbRun(db, 'DELETE FROM RealizedGains');
-    await new Promise<void>((resolve, reject) => {
-      const stmt = db.prepare(`
-        INSERT INTO RealizedGains (match_id, portfolio, isin, symbol, buy_date, buy_price, matched_qty, sell_date, sell_price, buy_cost, sell_proceeds, realized_pnl, holding_days, tax_category, fmv_31_jan_2018, grandfathered_cost, taxable_pnl)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `);
-      for (const g of realizedGains) {
-        stmt.run([g.match_id, g.portfolio, g.isin, g.symbol, g.buy_date, g.buy_price, g.matched_qty, g.sell_date, g.sell_price, g.buy_cost, g.sell_proceeds, g.realized_pnl, g.holding_days, g.tax_category, g.fmv_31_jan_2018, g.grandfathered_cost, g.taxable_pnl], (err: any) => { if (err) reject(err); });
-      }
-      stmt.finalize((err: any) => {
-        if (err) reject(err); else resolve();
-      });
-    });
+    for (const g of realizedGains) {
+      await dbRun(db, `INSERT INTO RealizedGains (match_id, portfolio, isin, symbol, buy_date, buy_price, matched_qty, sell_date, sell_price, buy_cost, sell_proceeds, realized_pnl, holding_days, tax_category, fmv_31_jan_2018, grandfathered_cost, taxable_pnl) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, sqliteParams([g.match_id, g.portfolio, g.isin, g.symbol, g.buy_date, g.buy_price, g.matched_qty, g.sell_date, g.sell_price, g.buy_cost, g.sell_proceeds, g.realized_pnl, g.holding_days, g.tax_category, g.fmv_31_jan_2018, g.grandfathered_cost, g.taxable_pnl]));
+    }
 
     // NOTE: Dividends are sourced ONLY from actual DIVIDEND/DIVIDEND PAYOUT/DIVIDEND REINVEST
     // transactions in the Transactions table. CorporateActions-based theoretical dividend
@@ -1409,18 +1426,9 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
 
     // Rebuild CorporateActionAudit
     await dbRun(db, 'DELETE FROM CorporateActionAudit');
-    await new Promise<void>((resolve, reject) => {
-      const stmt = db.prepare(`
-        INSERT INTO CorporateActionAudit (portfolio, date, isin, symbol, action_type, original_qty, new_qty, original_cost, new_cost, message)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `);
-      for (const ev of auditEvents) {
-        stmt.run([ev.portfolio, ev.date, ev.isin, ev.symbol, ev.action_type, ev.original_qty, ev.new_qty, ev.original_cost, ev.new_cost, ev.message], (err: any) => { if (err) reject(err); });
-      }
-      stmt.finalize((err: any) => {
-        if (err) reject(err); else resolve();
-      });
-    });
+    for (const ev of auditEvents) {
+      await dbRun(db, `INSERT INTO CorporateActionAudit (portfolio, date, isin, symbol, action_type, original_qty, new_qty, original_cost, new_cost, message) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, sqliteParams([ev.portfolio, ev.date, ev.isin, ev.symbol, ev.action_type, ev.original_qty, ev.new_qty, ev.original_cost, ev.new_cost, ev.message]));
+    }
 
     // === INSTITUTIONAL BALANCE-SHEET PARITY & DRIFT AUDIT ===
     const activeHoldingsList = Object.values(holdings);
@@ -1510,7 +1518,6 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
       console.warn('[Valuation Snapshot] Failed to record snapshot:', snapErr);
     }
 
-    await dbRun(db, 'COMMIT');
     return {
       success: true,
       holdings: Object.keys(holdings).length,
@@ -1518,11 +1525,11 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
       audit_events: auditEvents.length
     };
 
-  } catch (err: any) {
-    console.error('runFIFO crashed:', err);
-    try { await dbRun(db, 'ROLLBACK'); } catch (e) {}
-    throw err;
-  }
+      } catch (err: any) {
+        console.error('runFIFO crashed:', err);
+        throw err;
+      }
+    });
   });
 }
 

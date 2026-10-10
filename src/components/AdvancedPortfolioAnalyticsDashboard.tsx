@@ -54,6 +54,10 @@ export const AdvancedPortfolioAnalyticsDashboard: React.FC = () => {
   const m2 = data.module2_rolling_alpha;
   const m3 = data.module3_risk_adjusted;
   const m4 = data.module4_allocation_drift;
+  const metricText = (value: unknown, suffix = '') =>
+    typeof value === 'number' && Number.isFinite(value) ? `${value}${suffix}` : 'Unavailable';
+  const currencyCrText = (value: unknown) =>
+    typeof value === 'number' && Number.isFinite(value) ? `₹${(value / 10000000).toFixed(2)} Cr` : 'Unavailable';
 
   return (
     <div className="space-y-6">
@@ -145,20 +149,20 @@ export const AdvancedPortfolioAnalyticsDashboard: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div className="bg-emerald-950/20 border border-emerald-500/30 p-5 rounded-2xl space-y-2">
               <span className="text-xs font-semibold text-emerald-400 uppercase tracking-wider block">Portfolio Absolute XIRR</span>
-              <span className="text-3xl font-bold text-emerald-300 font-mono">{m1.portfolio_xirr}%</span>
-              <span className="text-xs text-emerald-400/80 block">Current Valuation: ₹{((m1?.portfolio_valuation || 0) / 10000000).toFixed(2)} Cr</span>
+              <span className="text-3xl font-bold text-emerald-300 font-mono">{metricText(m1?.portfolio_xirr, '%')}</span>
+              <span className="text-xs text-emerald-400/80 block">Current Valuation: {currencyCrText(m1?.portfolio_valuation)}</span>
             </div>
 
             <div className="bg-blue-950/20 border border-blue-500/30 p-5 rounded-2xl space-y-2">
               <span className="text-xs font-semibold text-blue-400 uppercase tracking-wider block">Dynamic Benchmark XIRR</span>
-              <span className="text-3xl font-bold text-blue-300 font-mono">{m1?.benchmark_xirr || 0}%</span>
-              <span className="text-xs text-blue-400/80 block">Simulated Valuation: ₹{((m1?.benchmark_valuation || 0) / 10000000).toFixed(2)} Cr</span>
+              <span className="text-3xl font-bold text-blue-300 font-mono">{metricText(m1?.benchmark_xirr, '%')}</span>
+              <span className="text-xs text-blue-400/80 block">Simulated Valuation: {currencyCrText(m1?.benchmark_valuation)}</span>
             </div>
 
             <div className="bg-teal-950/30 border border-teal-500/40 p-5 rounded-2xl space-y-2">
               <span className="text-xs font-semibold text-teal-300 uppercase tracking-wider block">Money-Weighted Alpha</span>
-              <span className="text-3xl font-bold text-teal-200 font-mono">+{m1?.xirr_alpha || 0}%</span>
-              <span className="text-xs text-teal-400 block">+₹{((m1?.wealth_alpha_inr || 0) / 10000000).toFixed(2)} Cr Excess Wealth (+{m1?.wealth_alpha_pct || 0}%)</span>
+              <span className="text-3xl font-bold text-teal-200 font-mono">{metricText(m1?.xirr_alpha, '%')}</span>
+              <span className="text-xs text-teal-400 block">Excess Wealth: {currencyCrText(m1?.wealth_alpha_inr)} ({metricText(m1?.wealth_alpha_pct, '%')})</span>
             </div>
           </div>
         </div>

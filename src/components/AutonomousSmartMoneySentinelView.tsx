@@ -267,6 +267,7 @@ export function AutonomousSmartMoneySentinelView() {
     fetchSmcRadarData();
 
     const interval = setInterval(() => {
+      if (document.visibilityState === 'hidden') return;
       if (activeTab === 'SCANNER') fetchScannerData();
       else if (activeTab === 'SMC_RADAR') fetchSmcRadarData();
       else if (activeTab === 'QUALITY_AUDIT') fetchAuditData();

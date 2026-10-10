@@ -15,6 +15,12 @@ import {
 } from 'lucide-react';
 import { formatINR } from '../lib/formatters.js';
 
+const currentIndianFinancialYear = (): string => {
+  const now = new Date();
+  const year = now.getMonth() >= 3 ? now.getFullYear() : now.getFullYear() - 1;
+  return `${year}-${year + 1}`;
+};
+
 interface Schedule112AReportModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -29,10 +35,11 @@ export function Schedule112AReportModal({
   portfolios
 }: Schedule112AReportModalProps) {
   const [assetClass, setAssetClass] = useState<'STOCKS' | 'MUTUAL_FUNDS' | 'ALL'>('STOCKS');
-  const [financialYear, setFinancialYear] = useState('2024-2025');
+  const [financialYear, setFinancialYear] = useState(currentIndianFinancialYear());
   const [portfolio, setPortfolio] = useState(selectedPortfolio || 'Combined');
   const [loading, setLoading] = useState(false);
   const [reportData, setReportData] = useState<any | null>(null);
+  const [reportError, setReportError] = useState<string | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -42,6 +49,7 @@ export function Schedule112AReportModal({
 
   const fetchReport = async () => {
     setLoading(true);
+    setReportError(null);
     try {
       const res = await fetch('/api/reports/generate', {
         method: 'POST',
@@ -55,11 +63,13 @@ export function Schedule112AReportModal({
         })
       });
       const data = await res.json();
-      if (data.success) {
-        setReportData(data);
+      if (!res.ok || data?.success === false) {
+        throw new Error(String(data?.error || data?.message || `Report request failed (${res.status})`));
       }
+      setReportData(data);
     } catch (e) {
       console.error('Failed to generate Schedule 112A report:', e);
+      setReportError(e instanceof Error ? e.message : 'Unable to generate Schedule 112A report.');
     } finally {
       setLoading(false);
     }
@@ -196,7 +206,12 @@ export function Schedule112AReportModal({
 
         {/* Report Content Table */}
         <div className="p-6 overflow-y-auto flex-1 space-y-5 text-xs font-mono">
-          {loading ? (
+          {reportError ? (
+            <div className="py-20 flex flex-col items-center justify-center space-y-3" role="alert">
+              <p className="text-rose-300 font-sans font-semibold">Report unavailable</p>
+              <p className="text-slate-400 font-sans text-center">{reportError}</p>
+            </div>
+          ) : loading ? (
             <div className="py-20 flex flex-col items-center justify-center space-y-3">
               <div className="w-8 h-8 border-3 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
               <p className="text-slate-400 font-sans">Computing Section 112A Grandfathering & LTCG...</p>

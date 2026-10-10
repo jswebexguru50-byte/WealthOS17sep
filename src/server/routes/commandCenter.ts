@@ -241,10 +241,16 @@ router.get('/', async (req, res) => {
       `, [cp]).catch(() => []);
 
       const stat = realStats[0] || {};
-      const cost = Number(stat.cost) || (cp === 'IIFL360' ? 4000000 : 0);
-      const sales = Number(stat.sales) || (cp === 'IIFL360' ? 10340953.69 : 0);
-      const pnl = Number(stat.pnl) || (sales - cost);
-      const roiPct = cost > 0 ? Math.round(((sales - cost) / cost) * 10000) / 100 : 0;
+      const hasCost = stat.cost !== null && stat.cost !== undefined && Number.isFinite(Number(stat.cost));
+      const hasSales = stat.sales !== null && stat.sales !== undefined && Number.isFinite(Number(stat.sales));
+      const cost = hasCost ? Number(stat.cost) : null;
+      const sales = hasSales ? Number(stat.sales) : null;
+      const pnl = Number.isFinite(Number(stat.pnl))
+        ? Number(stat.pnl)
+        : (cost !== null && sales !== null ? sales - cost : null);
+      const roiPct = cost !== null && cost > 0 && sales !== null
+        ? Math.round(((sales - cost) / cost) * 10000) / 100
+        : null;
 
       closedPortfoliosData.push({
         name: cp,
@@ -254,9 +260,9 @@ router.get('/', async (req, res) => {
         realizedProceeds: sales,
         realizedGain: pnl,
         gainPct: roiPct,
-        ltdXirr: ltdXirr !== null ? ltdXirr : 0,
-        startDate: stat.start_date || '2019-06-25',
-        endDate: stat.end_date || '2024-08-30'
+        ltdXirr: ltdXirr !== null ? ltdXirr : null,
+        startDate: stat.start_date || null,
+        endDate: stat.end_date || null
       });
     }
 

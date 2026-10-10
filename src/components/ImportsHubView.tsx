@@ -378,6 +378,7 @@ export function ImportsHubView({
         });
         let attempts = 0;
         const interval = setInterval(async () => {
+          if (document.visibilityState === 'hidden') return;
           attempts++;
           const detected = await handleAutoDetectZerodha(true);
           if (detected || attempts > 30) {

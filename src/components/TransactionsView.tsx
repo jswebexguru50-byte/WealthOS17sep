@@ -93,14 +93,14 @@ export function TransactionsView({
   const [bulkDate, setBulkDate] = useState('');
   const [bulkType, setBulkType] = useState('');
 
-  const fetchTransactions = async () => {
+  const fetchTransactions = async (signal?: AbortSignal) => {
     let url = `/api/transactions?page=${page}&limit=50&search=${encodeURIComponent(search)}&type=${typeFilter}&start_date=${startDate}&end_date=${endDate}&sort_col=${sortCol}&sort_dir=${sortDir}`;
     if (selectedPortfolio !== 'Combined') {
       url += `&portfolios=${encodeURIComponent(selectedPortfolio)}`;
     }
     
     try {
-      const res = await fetch(url);
+      const res = await fetch(url, signal ? { signal } : undefined);
       const resData = await res.json();
       if (resData.data) {
         setTransactions(resData.data);
@@ -172,8 +172,17 @@ export function TransactionsView({
   };
 
   useEffect(() => {
-    fetchTransactions();
+    const controller = new AbortController();
+    const timer = window.setTimeout(() => {
+      fetchTransactions(controller.signal).catch((error) => {
+        if (error?.name !== 'AbortError') console.error(error);
+      });
+    }, search ? 300 : 0);
     setSelectedIds([]);
+    return () => {
+      window.clearTimeout(timer);
+      controller.abort();
+    };
   }, [page, search, typeFilter, startDate, endDate, selectedPortfolio, sortCol, sortDir]);
 
   const handleSelectRow = (id: number) => {

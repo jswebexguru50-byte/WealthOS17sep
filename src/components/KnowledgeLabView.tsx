@@ -249,6 +249,7 @@ export const KnowledgeLabView: React.FC = () => {
     if (!activeSessionId) return;
 
     const interval = setInterval(async () => {
+      if (document.visibilityState === 'hidden') return;
       try {
         const res = await fetch(`/api/v1/yriks/session/${activeSessionId}`);
         const json = await res.json();

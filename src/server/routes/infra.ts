@@ -464,11 +464,15 @@ router.post('/opportunities/position-size', async (req: Request, res: Response) 
   try {
     const { symbol, portfolio_id, available_cash, total_portfolio_value, single_stock_cap_pct } = req.body;
     if (!symbol) return res.status(400).json({ success: false, error: 'symbol is required' });
+    const availableCash = Number(available_cash);
+    if (!Number.isFinite(availableCash) || availableCash < 0) {
+      return res.status(400).json({ success: false, error: 'available_cash must be provided as a non-negative number' });
+    }
 
     const recommendation = await computePositionSize({
       symbol,
       portfolio_id: portfolio_id || 'ALL',
-      available_cash: Number(available_cash) || 100000,
+      available_cash: availableCash,
       total_portfolio_value: total_portfolio_value ? Number(total_portfolio_value) : undefined,
       single_stock_cap_pct: single_stock_cap_pct ? Number(single_stock_cap_pct) : undefined
     });
@@ -3648,6 +3652,145 @@ const handleAnalyze360RefreshData = async (req: Request, res: Response) => {
   }
 };
 
+const handleResearchAnalysesList = async (req: Request, res: Response) => {
+  try {
+    const { ResearchAnalysisArchiveService } = await import('../services/ResearchAnalysisArchiveService.js');
+    const records = await ResearchAnalysisArchiveService.getInstance().list(req.params.symbol, Number(req.query.limit) || 20);
+    return res.json({ success: true, symbol: String(req.params.symbol).toUpperCase(), count: records.length, records });
+  } catch (err: any) {
+    const status = String(err?.message || '').startsWith('INVALID_') ? 400 : 500;
+    return res.status(status).json({ success: false, error: err.message || 'Unable to load saved research analyses' });
+  }
+};
+
+const handleResearchAnalysisLatest = async (req: Request, res: Response) => {
+  try {
+    const { ResearchAnalysisArchiveService } = await import('../services/ResearchAnalysisArchiveService.js');
+    const record = await ResearchAnalysisArchiveService.getInstance().getLatest(req.params.symbol, req.query.includeEvidenceBundles === 'true');
+    if (!record) return res.status(404).json({ success: false, error: 'NO_SAVED_ANALYSIS' });
+    return res.json({ success: true, record });
+  } catch (err: any) {
+    const status = String(err?.message || '').startsWith('INVALID_') ? 400 : 500;
+    return res.status(status).json({ success: false, error: err.message || 'Unable to load saved research analysis' });
+  }
+};
+
+const handleResearchAnalysisGet = async (req: Request, res: Response) => {
+  try {
+    const { ResearchAnalysisArchiveService } = await import('../services/ResearchAnalysisArchiveService.js');
+    const record = await ResearchAnalysisArchiveService.getInstance().getById(req.params.analysisId);
+    if (!record || record.symbol !== String(req.params.symbol).trim().toUpperCase().replace(/^NSE:/, '')) {
+      return res.status(404).json({ success: false, error: 'ANALYSIS_NOT_FOUND' });
+    }
+    return res.json({ success: true, record });
+  } catch (err: any) {
+    return res.status(500).json({ success: false, error: err.message || 'Unable to load saved research analysis' });
+  }
+};
+
+const handleResearchAnalysisSave = async (req: Request, res: Response) => {
+  try {
+    const kind = String(req.body?.kind || '').toUpperCase();
+    if (!['EVIDENCE_BUNDLE', 'DETERMINISTIC_ANALYSIS', 'LLM_ANALYSIS'].includes(kind)) {
+      return res.status(400).json({ success: false, error: 'INVALID_ANALYSIS_KIND' });
+    }
+    if (kind === 'LLM_ANALYSIS' && (!req.body?.modelProvider || !req.body?.modelName)) {
+      return res.status(400).json({ success: false, error: 'LLM_MODEL_PROVENANCE_REQUIRED' });
+    }
+    if (kind === 'LLM_ANALYSIS' && !req.body?.evidenceBundle && !req.body?.parentAnalysisId) {
+      return res.status(400).json({ success: false, error: 'LLM_EVIDENCE_REFERENCE_REQUIRED' });
+    }
+    const { ResearchAnalysisArchiveService } = await import('../services/ResearchAnalysisArchiveService.js');
+    const saved = await ResearchAnalysisArchiveService.getInstance().save({
+      symbol: req.params.symbol,
+      kind: kind as any,
+      title: req.body?.title,
+      asOfDate: req.body?.asOfDate,
+      analysisMarkdown: req.body?.analysisMarkdown,
+      analysisJson: req.body?.analysisJson,
+      evidenceBundle: req.body?.evidenceBundle,
+      citations: req.body?.citations,
+      modelProvider: req.body?.modelProvider,
+      modelName: req.body?.modelName,
+      promptVersion: req.body?.promptVersion,
+      contractVersion: req.body?.contractVersion,
+      evidencePolicyVersion: req.body?.evidencePolicyVersion,
+      validationStatus: kind === 'EVIDENCE_BUNDLE' ? 'EVIDENCE_READY' : 'UNVALIDATED',
+      sourceJob: req.body?.sourceJob,
+      metadata: req.body?.metadata,
+      parentAnalysisId: req.body?.parentAnalysisId,
+    });
+    return res.status(saved.created ? 201 : 200).json({ success: true, created: saved.created, record: saved.record });
+  } catch (err: any) {
+    const message = err.message || 'Unable to persist research analysis';
+    const status = /^(INVALID_|ANALYSIS_|EVIDENCE_)/.test(message) ? 400 : 500;
+    return res.status(status).json({ success: false, error: message });
+  }
+};
+
+const handleResearchJobsList = async (req: Request, res: Response) => {
+  try {
+    const { ResearchAnalysisJobService } = await import('../services/ResearchAnalysisJobService.js');
+    const jobs = await ResearchAnalysisJobService.getInstance().list(Number(req.query.limit) || 20);
+    return res.json({ success: true, count: jobs.length, jobs });
+  } catch (err: any) {
+    return res.status(500).json({ success: false, error: err.message || 'Unable to load research jobs' });
+  }
+};
+
+const handleResearchJobGet = async (req: Request, res: Response) => {
+  try {
+    const { ResearchAnalysisJobService } = await import('../services/ResearchAnalysisJobService.js');
+    const job = await ResearchAnalysisJobService.getInstance().get(req.params.jobId);
+    if (!job) return res.status(404).json({ success: false, error: 'RESEARCH_JOB_NOT_FOUND' });
+    return res.json({ success: true, job });
+  } catch (err: any) {
+    return res.status(500).json({ success: false, error: err.message || 'Unable to load research job' });
+  }
+};
+
+const handleResearchJobCreate = async (req: Request, res: Response) => {
+  try {
+    const symbols = Array.isArray(req.body?.symbols) ? req.body.symbols : req.body?.symbol ? [req.body.symbol] : [];
+    const asOfDate = String(req.body?.asOfDate || new Date().toISOString().slice(0, 10));
+    const mode = String(req.body?.mode || 'LLM_IF_AVAILABLE').toUpperCase();
+    const { ResearchAnalysisJobService } = await import('../services/ResearchAnalysisJobService.js');
+    const job = await ResearchAnalysisJobService.getInstance().create(symbols, asOfDate, mode as any, req.body?.symbolMetadata || {});
+    return res.status(202).json({ success: true, job });
+  } catch (err: any) {
+    const message = err.message || 'Unable to create research job';
+    const status = message.startsWith('INVALID_') ? 400 : 500;
+    return res.status(status).json({ success: false, error: message });
+  }
+};
+
+const handleOnHandResearchCohort = async (req: Request, res: Response) => {
+  try {
+    const asOfDate = String(req.query.asOfDate || new Date().toISOString().slice(0, 10));
+    const { OnHandResearchCohortService } = await import('../services/OnHandResearchCohortService.js');
+    const { Institutional29SynthesisService } = await import('../services/Institutional29SynthesisService.js');
+    const cohort = await OnHandResearchCohortService.getInstance().build(asOfDate);
+    return res.json({ success: true, cohort, llmConfigured: Institutional29SynthesisService.getInstance().isConfigured() });
+  } catch (err: any) {
+    const message = err.message || 'Unable to build on-hand research cohort';
+    return res.status(message.startsWith('INVALID_') ? 400 : 500).json({ success: false, error: message });
+  }
+};
+
+const handleOnHandResearchStart = async (req: Request, res: Response) => {
+  try {
+    const asOfDate = String(req.body?.asOfDate || new Date().toISOString().slice(0, 10));
+    const mode = String(req.body?.mode || 'LLM_IF_AVAILABLE').toUpperCase();
+    const { OnHandResearchCohortService } = await import('../services/OnHandResearchCohortService.js');
+    const result = await OnHandResearchCohortService.getInstance().start(asOfDate, mode as any);
+    return res.status(202).json({ success: true, ...result });
+  } catch (err: any) {
+    const message = err.message || 'Unable to start on-hand research';
+    const status = message.startsWith('INVALID_') || message.startsWith('NO_ELIGIBLE_') ? 400 : 500;
+    return res.status(status).json({ success: false, error: message });
+  }
+};
+
 const handleEnrichmentStatusGet = async (_req: Request, res: Response) => {
   try {
     const { TrendlyneHealthService } = await import('../services/enrichment/trendlyne/TrendlyneHealthService.js');
@@ -4068,6 +4211,15 @@ router.get('/scrips/search', handleScripsSearch);
 router.get('/company-intelligence/:symbol', handleCompanyIntelligenceGet);
 router.get('/analyze360/:symbol', handleAnalyze360Get);
 router.post('/analyze360/:symbol/refresh-data', handleAnalyze360RefreshData);
+router.get('/analyze360/:symbol/research-analyses', handleResearchAnalysesList);
+router.get('/analyze360/:symbol/research-analyses/latest', handleResearchAnalysisLatest);
+router.get('/analyze360/:symbol/research-analyses/:analysisId', handleResearchAnalysisGet);
+router.post('/analyze360/:symbol/research-analyses', handleResearchAnalysisSave);
+router.get('/research-analysis/jobs', handleResearchJobsList);
+router.get('/research-analysis/jobs/:jobId', handleResearchJobGet);
+router.post('/research-analysis/jobs', handleResearchJobCreate);
+router.get('/research-analysis/on-hand-cohort', handleOnHandResearchCohort);
+router.post('/research-analysis/on-hand-jobs', handleOnHandResearchStart);
 router.post('/analyze360/:symbol/backtest', handleAnalyze360Backtest);
 router.post('/analyze360/:symbol/paper-trade', handleAnalyze360PaperTrade);
 router.post('/analyze360/:symbol/alert', handleAnalyze360Alert);

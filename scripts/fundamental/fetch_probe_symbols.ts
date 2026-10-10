@@ -11,13 +11,33 @@ import path from 'node:path';
 import sqlite3 from 'sqlite3';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
-import { CANONICAL_30_METRIC_PACK, parseTrendlyneResponse } from './trendlyne_metric_pack_planner.js';
+import { CANONICAL_30_METRIC_PACK } from './trendlyne_metric_pack_planner.js';
+
+// Trendlyne MCP responses are YAML-like text rather than JSON. Keep the
+// acquisition conservative: promote only scalar stockData fields that are
+// explicitly returned by the provider, preserving nulls and never deriving
+// synthetic values.
+function parseTrendlyneResponse(input: unknown): Map<string, Record<string, any>> {
+  const text = String(input ?? '');
+  const out = new Map<string, Record<string, any>>();
+  const block = text.match(/stockData:\s*([\s\S]*?)(?:\n(?:bonus|financials|insights|tableData|$):|$)/i)?.[1] || text;
+  const metrics: Record<string, any> = {};
+  for (const line of block.split(/\r?\n/)) {
+    const m = line.match(/^\s*([A-Za-z0-9_]+):\s*(.*?)\s*$/);
+    if (!m) continue;
+    const key = m[1]; const raw = m[2];
+    if (/^(none|null|nan)$/i.test(raw)) metrics[key] = null;
+    else if (/^-?\d+(?:\.\d+)?$/.test(raw)) metrics[key] = Number(raw);
+    else metrics[key] = raw;
+  }
+  const symbol = String(metrics.NSEcode || '').trim().toUpperCase();
+  if (symbol) out.set(symbol, metrics);
+  return out;
+}
 
 const TARGET_SYMBOLS = [
-  'EMAMIREAL', 'MOTISONS', 'DIVYADHAN', 'GUJRAFFIA', 'JITFINFRA', 'K2INFRA',
-  'PRAJIND', 'KONSTELEC', 'VLINFRA', 'SUDARCOLOR', 'INFY',
-  'TCS', 'RELIANCE', '360ONE', '3IINFOLTD', 'AETHER',
-  'DATAPATTNS', 'KPITTECH', 'MAZDOCK', 'SONACOMS', 'TATATECH'
+  'VMART', 'RADICO', 'KRYSTAL', 'PROTEAN', 'JUSTDIAL', 'DBOL',
+  'LUMAXTECH', 'SONACOMS', 'TARSONS'
 ];
 
 const dbPath = path.resolve('portfolio.db');
@@ -33,6 +53,19 @@ function getMcpUrl(): string {
 
 async function main() {
   console.log(`Starting Trendlyne probe symbols fetch for ${TARGET_SYMBOLS.length} symbols...`);
+
+  // The planner initializes its exported pack only when run as a CLI. For
+  // this bounded acquisition runner, use the same verified token set
+  // explicitly so importing the planner cannot silently produce an empty call.
+  if (CANONICAL_30_METRIC_PACK.length === 0) {
+    CANONICAL_30_METRIC_PACK.push(
+      'sra','sramy1','sramy2','sramy3','npa','npamy1','npamy2','npamy3',
+      'opa','opmpctq','opmpctqmq1','opq','rocea','roea','roica','cfoa','ncfa',
+      'prompct','prompledge','fiihold','fiipct1q','mfhold','mfpct1q','instihold',
+      'pettm','pbva','pegttm','mcapq','debtcea','netdebta','ica','pata','npq',
+      'epsttm','cepsa','capitalexpenditurea','dividendpayoutnpa','bvsha','cratioa','totalsrq'
+    );
+  }
 
   const url = getMcpUrl();
   if (!url) {
@@ -68,6 +101,7 @@ async function main() {
           console.warn('[-] Empty content received.');
           break;
         }
+        console.log(`[Trendlyne] response preview: ${String(content).slice(0, 240).replace(/\s+/g, ' ')}`);
 
         let textToParse = content;
         try {
@@ -86,6 +120,7 @@ async function main() {
             }
           }
           if (parsedJson?.data) textToParse = parsedJson.data;
+          else if (Array.isArray(parsedJson?.content)) textToParse = parsedJson.content.map((x: any) => x?.text || '').join('\n');
         } catch {}
 
         parsedData = parseTrendlyneResponse(textToParse);

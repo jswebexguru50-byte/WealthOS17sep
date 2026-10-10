@@ -30,6 +30,9 @@ REQUEST_DELAY_SECONDS = 0.38
 
 
 def token() -> str:
+    supplied = os.environ.get("KITE_ACCESS_TOKEN")
+    if supplied:
+        return supplied
     with sqlite3.connect(f"file:{ROOT / 'portfolio.db'}?mode=ro", uri=True) as db:
         row = db.execute("SELECT value FROM AppConfig WHERE key='Kite_Access_Token'").fetchone()
     if not row or not row[0]: raise RuntimeError("Kite access token unavailable; complete daily Kite login first.")

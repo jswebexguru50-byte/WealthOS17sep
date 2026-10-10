@@ -22,8 +22,36 @@ function value(rawText, label, symbol) {
   const n = Number(v.replace(/,/g, '')); return Number.isFinite(n) ? n : v;
 }
 function firstMetric(rawText, labels, symbol) { for (const l of labels) { const v = value(rawText, l, symbol); if (v != null) return v; } return null; }
+// Canonical facts are authoritative for publication. Provider response text is
+// retained only as evidence and is never parsed by display-label position.
+const factStmt = db.prepare(`SELECT value, fetchedAt, availableAt, periodEnd, periodType, provider FROM company_facts WHERE symbol=? AND metric=? AND value IS NOT NULL ORDER BY CASE WHEN availableAt IS NOT NULL THEN 0 ELSE 1 END, COALESCE(availableAt, fetchedAt) DESC, COALESCE(periodEnd, '') DESC LIMIT 1`);
+function getFact(symbol, metrics) { for (const metric of metrics) { const row = factStmt.get(symbol, metric); if (row) return { ...row, metric }; } return null; }
+function factValue(symbol, metrics) { return getFact(symbol, metrics)?.value ?? null; }
+function factDate(symbol, metrics) { const f = getFact(symbol, metrics); return f?.availableAt ?? f?.fetchedAt ?? null; }
+function distinctValues(symbol, metrics) { const marks = metrics.map(() => '?').join(','); return db.prepare(`SELECT DISTINCT value FROM company_facts WHERE symbol=? AND metric IN (${marks}) AND value IS NOT NULL`).all(symbol, ...metrics).map(r => Number(r.value)).filter(Number.isFinite); }
 function fmt(v, suffix='') { return v == null ? 'not available' : `${typeof v === 'number' ? Number(v.toFixed(2)) : v}${suffix}`; }
 function summary(symbol) {
+  const revenue = factValue(symbol, ['revenue']);
+  const pat = factValue(symbol, ['pat']);
+  const cfo = factValue(symbol, ['cfo']);
+  const op = factValue(symbol, ['operating_profit']);
+  const capex = factValue(symbol, ['capex_cash_outflow', 'capex']);
+  const roe = factValue(symbol, ['roe_pct', 'roe']);
+  const roce = factValue(symbol, ['roce_reported']);
+  const de = factValue(symbol, ['debt_to_equity_reported', 'debt_to_equity']);
+  const pe = factValue(symbol, ['pe_ttm', 'pe_ratio']);
+  const mcap = factValue(symbol, ['market_cap_cr', 'market_cap']);
+  const promoter = factValue(symbol, ['promoter_holding']);
+  const fII = factValue(symbol, ['fii_holding']);
+  const missing = [];
+  for (const [name, v] of [['revenue', revenue], ['PAT', pat], ['CFO', cfo], ['operating profit', op], ['ROE', roe], ['ROCE', roce], ['debt/equity', de], ['valuation', pe]]) if (v == null) missing.push(name);
+  const conflicts = [['market cap', ['market_cap_cr', 'market_cap']], ['P/E', ['pe_ttm', 'pe_ratio']]].filter(([, ms]) => distinctValues(symbol, ms).length > 1).map(([name]) => name);
+  if (conflicts.length) missing.push(`conflicting ${conflicts.join(' and ')} values require period/provider review`);
+  const evidence = missing.length ? '🟠 Mixed-Watch' : '🟢 Supportive';
+  const summaryText = `${symbol} has a recorded market-capitalisation of ${fmt(mcap,' Cr')} and a trailing P/E of ${fmt(pe)}. The latest canonical financial facts show revenue of ${fmt(revenue,' Cr')}, operating profit of ${fmt(op,' Cr')}, PAT of ${fmt(pat,' Cr')}, operating cash flow of ${fmt(cfo,' Cr')}, and capex of ${fmt(capex,' Cr')}. Reported returns are ROE ${fmt(roe,'%')} and ROCE ${fmt(roce,'%')}; debt-to-equity is ${fmt(de)}. Promoter ownership is ${fmt(promoter,'%')}, while FII holding is ${fmt(fII,'%')}. The assessment should focus on cash conversion, reinvestment discipline, leverage, return consistency and valuation rather than any single ratio. Key risks to verify are ${missing.length ? `missing or conflicting ${missing.join(', ')}` : 'working-capital quality, competitive pressure and valuation sensitivity'}. Technical OHLCV, QGLP and event evidence must be read alongside this snapshot. Evidence state: ${evidence}. What to watch next: the next filing, cash-flow trend, margin direction, ownership change and material corporate events.`;
+  const dates = [['revenue'], ['pat'], ['cfo'], ['operating_profit'], ['market_cap_cr', 'market_cap']].map(m => factDate(symbol, m)).filter(Boolean).sort();
+  return { symbol, executiveSummary: summaryText, missing: missing.join(', ') || 'none', fetchedAt: dates.at(-1) ?? null, metrics: { revenue, op, pat, cfo, capex, roe, roce, de, pe, mcap, promoter, fII } };
+/*
   const p = latest(symbol, 'parameters'); const pt = text(p?.response_json);
   const revenue = firstMetric(pt, ['Operating Rev. Ann.', 'Total Rev. Ann.'], symbol);
   const pat = firstMetric(pt, ['Net Profit Ann.'], symbol);
@@ -41,6 +69,7 @@ function summary(symbol) {
   const evidence = missing.length ? '🟠 Mixed-Watch' : '🟢 Supportive';
   const summaryText = `${symbol} has a recorded market-capitalisation of ${fmt(mcap,' Cr')} and a trailing P/E of ${fmt(pe)}. The latest available operating data shows revenue of ${fmt(revenue,' Cr')}, operating profit of ${fmt(op,' Cr')}, PAT of ${fmt(pat,' Cr')}, and operating cash flow of ${fmt(cfo,' Cr')}. Reported returns are ROE ${fmt(roe,'%')} and ROCE ${fmt(roce,'%')}; debt-to-equity is ${fmt(de)}. Promoter ownership is ${fmt(promoter,'%')}, while the latest FII holding/change evidence is ${fmt(fII,'%')}. These figures suggest the company should be assessed primarily on cash conversion, return consistency, leverage discipline and the price paid rather than on a single ratio. Key risks to verify are ${missing.length ? `missing or unanchored ${missing.join(', ')}` : 'working-capital and capex quality, competitive pressure, and valuation sensitivity'}. Technical OHLCV, QGLP and event evidence must be read alongside this snapshot. Evidence state: ${evidence}. What to watch next: the next filing, cash-flow trend, margin direction, ownership change and any material corporate event.`;
   return { symbol, executiveSummary: summaryText, missing: missing.join(', ') || 'none', fetchedAt: p?.fetched_at ?? null, metrics: { revenue, op, pat, cfo, roe, roce, de, pe, mcap, promoter, fII } };
+*/
 }
 
 const rows = manifest.symbols.map(summary);

@@ -32,10 +32,13 @@ export class ReportsService {
 
     if (options.financialYear && options.financialYear !== 'ALL_TIME') {
       const parts = options.financialYear.split('-');
-      if (parts.length === 2) {
-        clause += ` AND date(${dateColumn}) >= date(?) AND date(${dateColumn}) <= date(?)`;
-        params.push(`${parts[0]}-04-01`, `${parts[1]}-03-31`);
+      const startYear = parts.length === 2 ? Number(parts[0]) : NaN;
+      const endYear = parts.length === 2 ? Number(parts[1]) : NaN;
+      if (!Number.isInteger(startYear) || !Number.isInteger(endYear) || endYear !== startYear + 1) {
+        throw new Error(`INVALID_FINANCIAL_YEAR: ${String(options.financialYear)}`);
       }
+      clause += ` AND date(${dateColumn}) >= date(?) AND date(${dateColumn}) <= date(?)`;
+      params.push(`${startYear}-04-01`, `${endYear}-03-31`);
     } else if (options.startDate && options.endDate) {
       clause += ` AND date(${dateColumn}) >= date(?) AND date(${dateColumn}) <= date(?)`;
       params.push(options.startDate, options.endDate);
@@ -62,6 +65,18 @@ export class ReportsService {
       sellQuery += ` AND t.portfolio = ?`;
       sellParams.push(options.portfolio);
     }
+    // Apply the requested asset-class filter at the authoritative security
+    // master. Transactions do not carry a reliable asset-class column.
+    if (options.assetClass && options.assetClass !== 'ALL') {
+      const requestedClass = String(options.assetClass).toUpperCase();
+      const classAliases = requestedClass === 'STOCKS'
+        ? ['EQUITY', 'STOCKS', 'LISTED EQUITY']
+        : requestedClass === 'MUTUAL_FUNDS'
+          ? ['MUTUAL FUNDS', 'MUTUAL_FUND']
+          : [requestedClass];
+      sellQuery += ` AND UPPER(COALESCE(m.asset_class, '')) IN (${classAliases.map(() => '?').join(',')})`;
+      sellParams.push(...classAliases);
+    }
 
     const { clause: dateClause, params: dateParams } = this.buildDateFilter(options, 't.date');
     sellQuery += dateClause;
@@ -81,6 +96,16 @@ export class ReportsService {
     if (options.portfolio && options.portfolio !== 'Combined' && options.portfolio !== 'all' && options.portfolio !== 'ALL') {
       buyQuery += ` AND t.portfolio = ?`;
       buyParams.push(options.portfolio);
+    }
+    if (options.assetClass && options.assetClass !== 'ALL') {
+      const requestedClass = String(options.assetClass).toUpperCase();
+      const classAliases = requestedClass === 'STOCKS'
+        ? ['EQUITY', 'STOCKS', 'LISTED EQUITY']
+        : requestedClass === 'MUTUAL_FUNDS'
+          ? ['MUTUAL FUNDS', 'MUTUAL_FUND']
+          : [requestedClass];
+      buyQuery += ` AND UPPER(COALESCE(m.asset_class, '')) IN (${classAliases.map(() => '?').join(',')})`;
+      buyParams.push(...classAliases);
     }
     buyQuery += ` ORDER BY t.date ASC`;
     const buyTxns = await db.query<any>(buyQuery, buyParams);
@@ -572,4 +597,3 @@ export class ReportsService {
     };
   }
 }
-

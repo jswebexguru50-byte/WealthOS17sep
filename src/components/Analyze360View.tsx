@@ -18,6 +18,10 @@ export function Analyze360View({ symbol, candidateId, signalIds, recommendedDate
   const [error, setError] = useState<string | null>(null);
   const [includeTechnicals, setIncludeTechnicals] = useState(false);
   const [refreshResult, setRefreshResult] = useState<any | null>(null);
+  const [savedAnalyses, setSavedAnalyses] = useState<any[]>([]);
+  const [selectedAnalysis, setSelectedAnalysis] = useState<any | null>(null);
+  const [researchJob, setResearchJob] = useState<any | null>(null);
+  const [researchError, setResearchError] = useState<string | null>(null);
 
   const [actionResults, setActionResults] = useState<any>({});
   const [actionLoading, setActionLoading] = useState<Record<string, boolean>>({});
@@ -66,6 +70,46 @@ export function Analyze360View({ symbol, candidateId, signalIds, recommendedDate
     fetchData();
     return () => { isMounted = false; };
   }, [symbol, candidateId, signalIds, recommendedDate, strategyIds, includeTechnicals]);
+
+  const loadSavedAnalyses = async () => {
+    const response: RemoteResponse<any> = await WealthOSApiClient.request(`/api/analyze360/${encodeURIComponent(symbol)}/research-analyses?limit=25`);
+    if (response.data?.records) {
+      setSavedAnalyses(response.data.records);
+      const latestNarrative = response.data.records.find((record: any) => record.analysisMarkdown);
+      setSelectedAnalysis((current: any) => current || latestNarrative || response.data.records[0] || null);
+    }
+  };
+
+  useEffect(() => {
+    loadSavedAnalyses().catch(() => {});
+  }, [symbol]);
+
+  const startResearchUpdate = async () => {
+    setResearchError(null);
+    setActionLoading(prev => ({ ...prev, researchUpdate: true }));
+    const response: RemoteResponse<any> = await WealthOSApiClient.request('/api/research-analysis/jobs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ symbols: [symbol], asOfDate: new Date().toISOString().slice(0, 10), mode: 'LLM_IF_AVAILABLE' })
+    });
+    if (!response.data?.job) {
+      setResearchError(response.error || 'Could not start research update');
+      setActionLoading(prev => ({ ...prev, researchUpdate: false }));
+      return;
+    }
+    let job = response.data.job;
+    setResearchJob(job);
+    for (let attempt = 0; attempt < 180 && ['QUEUED', 'RUNNING'].includes(job.status); attempt++) {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      const poll: RemoteResponse<any> = await WealthOSApiClient.request(`/api/research-analysis/jobs/${encodeURIComponent(job.jobId)}`);
+      if (!poll.data?.job) break;
+      job = poll.data.job;
+      setResearchJob(job);
+    }
+    if (job.status === 'FAILED') setResearchError(job.errors?.map((item: any) => `${item.symbol}: ${item.error}`).join('; ') || 'Research update failed');
+    await loadSavedAnalyses();
+    setActionLoading(prev => ({ ...prev, researchUpdate: false }));
+  };
 
   if (loading) {
     return (
@@ -222,6 +266,14 @@ export function Analyze360View({ symbol, candidateId, signalIds, recommendedDate
           </div>
           <div className="flex items-center gap-3">
              <button
+               onClick={startResearchUpdate}
+               disabled={!!actionLoading.researchUpdate}
+               className="px-3 py-2 rounded-xl bg-violet-600/90 hover:bg-violet-500 disabled:opacity-50 text-white text-xs font-bold border border-violet-400/40"
+               title="Rebuild the Institutional-29 evidence bundle, optionally synthesize it with the configured server-side LLM, and save a versioned result in WealthOS."
+             >
+               {actionLoading.researchUpdate ? 'Research Running...' : 'Update Research'}
+             </button>
+             <button
                onClick={refreshStoredData}
                disabled={!!actionLoading.refreshData}
                className="px-3 py-2 rounded-xl bg-emerald-600/90 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-bold border border-emerald-400/40"
@@ -253,6 +305,13 @@ export function Analyze360View({ symbol, candidateId, signalIds, recommendedDate
               )}
               {refreshResult.result?.nextStep && <div>{refreshResult.result.nextStep}</div>}
               {refreshResult.blockers?.[0]?.reason && <div className="mt-1">Note: {refreshResult.blockers[0].reason}</div>}
+            </div>
+          )}
+          {(researchJob || researchError) && (
+            <div className={`p-3 rounded-xl border text-xs ${researchError ? 'bg-rose-500/10 border-rose-500/30 text-rose-200' : 'bg-violet-500/10 border-violet-500/30 text-violet-100'}`}>
+              {researchJob && <div className="font-bold">Research job {researchJob.jobId}: {researchJob.status} — {researchJob.completed}/{researchJob.total} completed{researchJob.currentSymbol ? `; processing ${researchJob.currentSymbol}` : ''}</div>}
+              {researchError && <div>{researchError}</div>}
+              {researchJob?.results?.some((item: any) => item.llmStatus === 'NOT_CONFIGURED') && <div className="mt-1">Evidence bundle was saved. No server-side LLM key was configured, so narrative synthesis was skipped.</div>}
             </div>
           )}
           
@@ -295,6 +354,36 @@ export function Analyze360View({ symbol, candidateId, signalIds, recommendedDate
                 <FundamentalFieldDisplay label="Watch Next" field={data.summarySnapshot.whatToWatchNext} />
                 <div className="space-y-1 bg-slate-800/30 p-2 rounded border border-slate-700/50"><span className="text-slate-400 block mb-1">Overall Evidence State</span><div className="font-bold text-white text-sm">{data.summarySnapshot.evidenceState || 'MISSING_CONFLICTING'}</div></div>
               </div>
+            </div>
+
+            {/* Persisted Institutional Research */}
+            <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-3 col-span-1 lg:col-span-2">
+              <div className="flex items-center justify-between gap-3 border-b border-slate-800 pb-2">
+                <div className="flex items-center gap-2"><Bookmark className="w-4 h-4 text-violet-400"/><h3 className="font-bold">Saved Research History</h3></div>
+                <span className="text-[10px] text-slate-500">Versioned in WealthOS DB · newest first</span>
+              </div>
+              {savedAnalyses.length === 0 ? (
+                <div className="text-xs text-slate-500">No saved Institutional-29 analysis yet. Use Update Research to create the first evidence snapshot.</div>
+              ) : (
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
+                  <div className="space-y-2 max-h-72 overflow-y-auto">
+                    {savedAnalyses.map((record: any) => (
+                      <button key={record.analysisId} onClick={() => setSelectedAnalysis(record)} className={`w-full text-left p-2 rounded-lg border ${selectedAnalysis?.analysisId === record.analysisId ? 'border-violet-400 bg-violet-500/10' : 'border-slate-700 bg-slate-800/40'} hover:border-violet-400/60`}>
+                        <div className="text-xs font-bold text-white truncate">{record.title}</div>
+                        <div className="text-[10px] text-slate-400">{record.kind} · {record.asOfDate}</div>
+                        <div className="text-[10px] text-slate-500">{record.validationStatus}{record.modelName ? ` · ${record.modelName}` : ''}</div>
+                      </button>
+                    ))}
+                  </div>
+                  <div className="lg:col-span-3 rounded-lg border border-slate-700 bg-slate-950/60 p-4 max-h-96 overflow-y-auto">
+                    {selectedAnalysis?.analysisMarkdown ? (
+                      <div className="whitespace-pre-wrap text-xs leading-relaxed text-slate-300">{selectedAnalysis.analysisMarkdown}</div>
+                    ) : selectedAnalysis ? (
+                      <div className="text-xs text-slate-400">Evidence bundle saved as <span className="font-mono text-cyan-300">{selectedAnalysis.analysisId}</span>. Narrative synthesis has not yet been created for this version.</div>
+                    ) : null}
+                  </div>
+                </div>
+              )}
             </div>
             
             {/* Technical */}

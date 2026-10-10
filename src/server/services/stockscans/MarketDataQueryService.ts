@@ -601,7 +601,16 @@ export class MarketDataQueryService {
     );
     const universe = snapshot.symbols;
 
-    const { bars: barMap } = await DuckDbAdjustedOhlcvService.getDailyBarsForSymbols(universe, 520);
+    const { bars: rawBarMap } = await DuckDbAdjustedOhlcvService.getDailyBarsForSymbols(universe, 520);
+    // Date-bounded scan: evaluate the latest available candle within the
+    // requested window (the OHLCV store itself remains fully up to date).
+    const fromDate = typeof customParams.fromDate === 'string' ? customParams.fromDate : undefined;
+    const toDate = typeof customParams.toDate === 'string' ? customParams.toDate : undefined;
+    const barMap = new Map<string, typeof rawBarMap extends Map<any, infer V> ? V : never>();
+    for (const [symbol, rows] of rawBarMap.entries()) {
+      const filtered = rows.filter((row: any) => (!fromDate || row.trade_date >= fromDate) && (!toDate || row.trade_date <= toDate));
+      barMap.set(symbol, filtered as any);
+    }
 
     const matches: ScanMatchItem[] = [];
     const gaps: string[] = [];

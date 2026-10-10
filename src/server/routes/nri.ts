@@ -5,13 +5,19 @@ import { getDB } from '../database.js';
 const router = Router();
 const nriService = NriWealthService.getInstance();
 
+const currentIndianFinancialYear = (): string => {
+  const now = new Date();
+  const year = now.getMonth() >= 3 ? now.getFullYear() : now.getFullYear() - 1;
+  return `${year}-${year + 1}`;
+};
+
 /**
  * GET /api/nri/tds-recon
  * Capital Gains & Section 195 TDS Reconciliation
  */
 router.get('/tds-recon', async (req: Request, res: Response) => {
   try {
-    const fy = (req.query.financial_year as string) || (req.query.fy as string) || '2024-2025';
+    const fy = (req.query.financial_year as string) || (req.query.fy as string) || currentIndianFinancialYear();
     const portfolio = req.query.portfolio as string;
     const result = await nriService.getTdsReconciliation(fy, portfolio);
     res.json({ success: true, ...result });
@@ -26,7 +32,7 @@ router.get('/tds-recon', async (req: Request, res: Response) => {
  */
 router.get('/repatriation', async (req: Request, res: Response) => {
   try {
-    const fy = (req.query.financial_year as string) || (req.query.fy as string) || '2024-2025';
+    const fy = (req.query.financial_year as string) || (req.query.fy as string) || currentIndianFinancialYear();
     const portfolio = req.query.portfolio as string;
     const result = await nriService.getFemaRepatriationStatus(fy, portfolio);
     res.json({ success: true, ...result });
@@ -62,7 +68,7 @@ router.post('/repatriation/record', async (req: Request, res: Response) => {
        (financial_year, remittance_date, portfolio, source_account_nro, destination_country, remitted_amount_inr, fx_rate_usd_inr, remitted_amount_usd, form_15ca_ack_no, form_15cb_cert_no, ca_membership_no, purpose_code)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
-        financial_year || '2024-2025',
+        financial_year || currentIndianFinancialYear(),
         remittance_date || new Date().toISOString().split('T')[0],
         portfolio || 'Default',
         source_account_nro || 'NRO Savings',

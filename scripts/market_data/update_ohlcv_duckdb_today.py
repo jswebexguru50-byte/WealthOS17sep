@@ -30,8 +30,26 @@ CATALOG = STORE / "ohlcv.duckdb"
 
 TARGET_DATE = dt.date.today()
 TARGET_DATE_STR = str(TARGET_DATE)
+FROM_DATE_OVERRIDE: dt.date | None = None
+
+def parse_cli() -> None:
+    global TARGET_DATE, TARGET_DATE_STR, FROM_DATE_OVERRIDE
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--from-date', dest='from_date')
+    parser.add_argument('--to-date', dest='to_date')
+    args, _ = parser.parse_known_args()
+    if args.to_date:
+        TARGET_DATE = dt.date.fromisoformat(args.to_date)
+        TARGET_DATE_STR = str(TARGET_DATE)
+    if args.from_date:
+        FROM_DATE_OVERRIDE = dt.date.fromisoformat(args.from_date)
+
+parse_cli()
 
 def get_token() -> str:
+    supplied = os.environ.get("KITE_ACCESS_TOKEN")
+    if supplied:
+        return supplied
     with sqlite3.connect(f"file:{ROOT / 'portfolio.db'}?mode=ro", uri=True) as db:
         row = db.execute("SELECT value FROM AppConfig WHERE key='Kite_Access_Token'").fetchone()
     if not row or not row[0]:
@@ -86,6 +104,11 @@ class RateLimitedKiteSession:
 
             try:
                 resp = self.session.get(url, params=params, timeout=20)
+                # Authentication/entitlement failures are permanent for this
+                # instrument during the current run; retry only transient
+                # rate-limit/server failures.
+                if resp.status_code in (401, 403):
+                    resp.raise_for_status()
                 if resp.status_code == 429:
                     backoff = 2.0 * (attempt + 1)
                     print(f"  [429 Rate Limit] Backing off {backoff:.1f}s (attempt {attempt+1}/{max_retries})...")
@@ -96,6 +119,12 @@ class RateLimitedKiteSession:
                     continue
                 resp.raise_for_status()
                 return resp.json()
+            except requests.HTTPError as e:
+                if e.response is not None and e.response.status_code in (401, 403):
+                    raise
+                if attempt == max_retries - 1:
+                    raise
+                time.sleep(1.0 * (attempt + 1))
             except Exception as e:
                 if attempt == max_retries - 1:
                     raise e
@@ -140,7 +169,7 @@ def update_stocks(kite_session: RateLimitedKiteSession) -> tuple[int, int, list[
                 errors.append(f"{symbol}: parquet file missing")
             return
 
-        from_date = dt.datetime.strptime(max_d, "%Y-%m-%d").date() + dt.timedelta(days=1)
+        from_date = FROM_DATE_OVERRIDE or (dt.datetime.strptime(max_d, "%Y-%m-%d").date() + dt.timedelta(days=1))
         if from_date > TARGET_DATE:
             return
 
@@ -244,7 +273,7 @@ def update_indices(kite_session: RateLimitedKiteSession) -> tuple[int, int, list
                 errors.append(f"{identity}: parquet file missing at {file_path}")
             return
 
-        from_date = dt.datetime.strptime(last_d, "%Y-%m-%d").date() + dt.timedelta(days=1)
+        from_date = FROM_DATE_OVERRIDE or (dt.datetime.strptime(last_d, "%Y-%m-%d").date() + dt.timedelta(days=1))
         if from_date > TARGET_DATE:
             return
 
@@ -377,13 +406,19 @@ def verify_duckdb() -> None:
         con.close()
 
 def main():
-    global TARGET_DATE, TARGET_DATE_STR
+    global TARGET_DATE, TARGET_DATE_STR, FROM_DATE_OVERRIDE
     parser = argparse.ArgumentParser(description="Incrementally refresh the local Kite daily OHLCV catalog.")
-    parser.add_argument("--target-date", type=dt.date.fromisoformat, default=dt.date.today(),
+    parser.add_argument("--target-date", type=dt.date.fromisoformat, default=None,
+                        help="Legacy alias for --to-date.")
+    parser.add_argument("--to-date", type=dt.date.fromisoformat, default=None,
                         help="Trading date to reconcile (YYYY-MM-DD; defaults to today).")
+    parser.add_argument("--from-date", type=dt.date.fromisoformat, default=None,
+                        help="Optional lower bound for the refresh window.")
     args = parser.parse_args()
-    TARGET_DATE = args.target_date
+    TARGET_DATE = args.to_date or args.target_date or dt.date.today()
     TARGET_DATE_STR = str(TARGET_DATE)
+    if args.from_date:
+        FROM_DATE_OVERRIDE = args.from_date
     load_local_env()
     api_key = os.environ.get("KITE_API_KEY", "")
     if not api_key:
@@ -393,12 +428,8 @@ def main():
     
     kite_session = RateLimitedKiteSession(api_key, access_token, min_interval=0.22)
     
-    # Verify profile
-    profile = kite_session.get("https://api.kite.trade/user/profile")
-    if not profile or profile.get("status") != "success":
-        raise RuntimeError("Failed to authenticate with Kite API")
-    user_name = profile.get("data", {}).get("user_name", "Unknown")
-    print(f"Authenticated Kite user: {user_name}")
+    # Do not spend single-use tokens on a separate profile probe. The first
+    # instrument-history request is the authentication check for this job.
 
     t0 = time.time()
     stock_up, stock_skip, stock_err = update_stocks(kite_session)

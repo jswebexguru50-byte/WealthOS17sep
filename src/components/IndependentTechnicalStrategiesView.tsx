@@ -485,6 +485,7 @@ export const IndependentTechnicalStrategiesView: React.FC<IndependentTechnicalSt
   useEffect(() => {
     if (!loading || scanProgress.length === 0) return;
     const iv = setInterval(async () => {
+      if (document.visibilityState === 'hidden') return;
       try {
         const r = await fetch('/api/technical-strategies/scan-progress');
         const j = await r.json();
@@ -497,7 +498,10 @@ export const IndependentTechnicalStrategiesView: React.FC<IndependentTechnicalSt
   // Poll progress while refreshing cached results
   useEffect(() => {
     if (!isRefreshing) return;
+    let progressRequestInFlight = false;
     const checkProgress = async () => {
+      if (document.visibilityState === 'hidden' || progressRequestInFlight) return;
+      progressRequestInFlight = true;
       try {
         const progressRes = await fetch('/api/strategies/progress');
         const pData = await progressRes.json();
@@ -551,6 +555,7 @@ export const IndependentTechnicalStrategiesView: React.FC<IndependentTechnicalSt
           setIsRefreshing(false);
         }
       } catch { /* silent */ }
+      finally { progressRequestInFlight = false; }
     };
     
     const progressInterval = setInterval(checkProgress, 1000);

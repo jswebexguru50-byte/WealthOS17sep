@@ -18,6 +18,12 @@ import {
   Building
 } from 'lucide-react';
 import { Schedule112AReportModal } from './Schedule112AReportModal.js';
+
+const currentIndianFinancialYear = (): string => {
+  const now = new Date();
+  const year = now.getMonth() >= 3 ? now.getFullYear() : now.getFullYear() - 1;
+  return `${year}-${year + 1}`;
+};
 import { getGainLossColorClass, getGainLossBgClass } from '../lib/formatters.js';
 
 interface ReportsEngineModalProps {
@@ -184,7 +190,7 @@ export function ReportsEngineModal({
   // Filter states
   const [filterPortfolio, setFilterPortfolio] = useState<string>(selectedPortfolio || 'Combined');
   const [dateMode, setDateMode] = useState<'FY' | 'CUSTOM' | 'ALL_TIME'>('FY');
-  const [financialYear, setFinancialYear] = useState<string>('2024-2025');
+  const [financialYear, setFinancialYear] = useState<string>(currentIndianFinancialYear());
   const [startDate, setStartDate] = useState<string>('2023-04-01');
   const [endDate, setEndDate] = useState<string>(new Date().toISOString().split('T')[0]);
   const [includeGrandfathering, setIncludeGrandfathering] = useState<boolean>(true);
@@ -192,6 +198,7 @@ export function ReportsEngineModal({
   // Generated Report states
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [reportData, setReportData] = useState<any | null>(null);
+  const [reportError, setReportError] = useState<string | null>(null);
   const [show112AModal, setShow112AModal] = useState<boolean>(false);
 
   useEffect(() => {
@@ -203,6 +210,7 @@ export function ReportsEngineModal({
   const handleGenerateReport = async () => {
     setIsGenerating(true);
     setReportData(null);
+    setReportError(null);
     try {
       const payload: any = {
         reportType: selectedReport.endpointType,
@@ -225,9 +233,13 @@ export function ReportsEngineModal({
         body: JSON.stringify(payload)
       });
       const data = await res.json();
+      if (!res.ok || data?.success === false) {
+        throw new Error(String(data?.error || data?.message || `Report request failed (${res.status})`));
+      }
       setReportData(data);
     } catch (e) {
       console.error('Error generating report:', e);
+      setReportError(e instanceof Error ? e.message : 'Unable to generate report.');
     } finally {
       setIsGenerating(false);
     }
@@ -649,6 +661,11 @@ export function ReportsEngineModal({
         </div>
 
         {/* Report Output Preview Drawer */}
+        {reportError && (
+          <div className="mx-6 mt-4 rounded-lg border border-rose-500/40 bg-rose-500/10 px-4 py-3 text-sm text-rose-200" role="alert">
+            Report unavailable: {reportError}
+          </div>
+        )}
         {reportData && (
           <div className="border-t border-slate-800 p-5 bg-slate-950 max-h-80 overflow-y-auto space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-3">

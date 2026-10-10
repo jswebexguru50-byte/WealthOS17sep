@@ -163,7 +163,9 @@ export const SmartMoneyMomentumVpaView: React.FC<SmartMoneyMomentumVpaViewProps>
 
   useEffect(() => {
     fetchData();
-    const interval = setInterval(fetchData, 45000); // 45s refresh
+    const interval = setInterval(() => {
+      if (document.visibilityState !== 'hidden') fetchData();
+    }, 45000); // 45s refresh while visible
     return () => clearInterval(interval);
   }, []);
 

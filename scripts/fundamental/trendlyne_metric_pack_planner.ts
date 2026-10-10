@@ -25,6 +25,22 @@ const root = path.resolve(process.cwd());
 const inventoryPath = path.join(root, 'reports', 'data_quality', 'analyze360_missing_data_inventory.json');
 const dbPath = (process.env.DATABASE_URL || path.join(root, 'portfolio.db')).replace(/^sqlite:\/\//, '');
 
+function endpointUrl(): string | undefined {
+  const env = process.env.TRENDLYNE_MCP_URL?.trim();
+  if (env && !env.includes('\x16')) return env;
+  for (const configPath of [
+    path.join(root, '.agents', 'mcp_config.json'),
+    path.join(process.env.USERPROFILE || '', '.gemini', 'config', 'mcp_config.json')
+  ]) {
+    try {
+      const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+      const url = config.mcpServers?.trendlyne?.url || config.mcpServers?.trendlyne?.serverUrl;
+      if (typeof url === 'string' && url.trim() && !url.includes('\x16')) return url.trim();
+    } catch { /* configuration is optional */ }
+  }
+  return undefined;
+}
+
 export interface FieldMappingInfo {
   appField: string;
   trendlyneToken: string | null;
@@ -190,6 +206,39 @@ export const TRENDLYNE_FIELD_MAP: Record<string, FieldMappingInfo> = {
 export const METRIC_PACK_CAPACITY = 50;
 export const METRIC_PACK_USED = 30;
 export const METRIC_PACK_UNUSED_REASON = 'NO_MORE_VERIFIED_SAFE_TOKENS';
+
+// Trendlyne MCP may return YAML-like stockData text rather than JSON. Parse
+// only explicitly returned scalar fields; preserve nulls and never derive data.
+function parseTrendlyneResponse(input: unknown): Map<string, Record<string, any>> {
+  const text = String(input ?? '');
+  const out = new Map<string, Record<string, any>>();
+  try {
+    const parsed = typeof input === 'string' ? JSON.parse(input) : input;
+    const result = (parsed as any)?.result || (parsed as any)?.data;
+    if (result && typeof result === 'object' && !Array.isArray(result)) {
+      for (const [symbol, payload] of Object.entries(result as Record<string, unknown>)) {
+        if (payload && typeof payload === 'object' && !Array.isArray(payload)) {
+          out.set(String(symbol).trim().toUpperCase(), payload as Record<string, any>);
+        }
+      }
+      if (out.size > 0) return out;
+    }
+  } catch { /* provider may return YAML-like text */ }
+  const block = text.match(/stockData:\s*([\s\S]*?)(?:\n(?:bonus|financials|insights|tableData|$):|$)/i)?.[1] || text;
+  const metrics: Record<string, any> = {};
+  for (const line of block.split(/\r?\n/)) {
+    const m = line.match(/^\s*([A-Za-z0-9_]+):\s*(.*?)\s*$/);
+    if (!m) continue;
+    const key = m[1];
+    const raw = m[2];
+    if (/^(none|null|nan)$/i.test(raw)) metrics[key] = null;
+    else if (/^-?\d+(?:\.\d+)?$/.test(raw)) metrics[key] = Number(raw);
+    else metrics[key] = raw;
+  }
+  const symbol = String(metrics.NSEcode || '').trim().toUpperCase();
+  if (symbol) out.set(symbol, metrics);
+  return out;
+}
 
 // Canonical 50-token dense pack covering all Trendlyne-supported reusable inputs.
 // Keep this deterministic: every token here must either be explicitly promoted
@@ -1180,7 +1229,11 @@ async function main() {
       await planner.persistRawSnapshot(sym, payload);
       const canonicalService = new CanonicalFactIngestionService(db);
       const res = await canonicalService.ingestForSymbol(sym);
-      batchFacts += (res as any)?.factsPersisted || (res as any)?.inserted || 0;
+      // CanonicalFactIngestionService returns a numeric insertion count.
+      // Preserve compatibility with older object-shaped callers as well.
+      batchFacts += typeof res === 'number'
+        ? res
+        : Number((res as any)?.factsPersisted ?? (res as any)?.inserted ?? 0);
     }
     factsPersisted += batchFacts;
     console.log(`  [✓] Batch ingestion complete: ${batchFacts} facts persisted for batch ${batch.batchIndex}`);

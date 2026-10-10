@@ -125,6 +125,29 @@ export function StockScansWorkspace({ onSelectStock, selectedPortfolio }: StockS
   const [customMinChange, setCustomMinChange] = useState('2');
   const [customMinVolRatio, setCustomMinVolRatio] = useState('1.5');
   const [customReqEma50, setCustomReqEma50] = useState(true);
+  const [scanFromDate, setScanFromDate] = useState('');
+  const [scanToDate, setScanToDate] = useState('');
+  const [kiteToken, setKiteToken] = useState('');
+  const [ohlcvJob, setOhlcvJob] = useState<any | null>(null);
+
+  const startOhlcvRefresh = async () => {
+    setErrorMsg(null);
+    const res = await safeFetchJson<any>('/api/stockscans/ohlcv/refresh', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(kiteToken.trim() ? { accessToken: kiteToken.trim() } : {}) });
+    if (res?.ok && res.data?.success) {
+      setKiteToken('');
+      setOhlcvJob(res.data.job);
+    } else setErrorMsg(res?.error || res?.data?.error || 'Could not start OHLCV refresh.');
+  };
+
+  useEffect(() => {
+    if (!ohlcvJob?.jobId || ohlcvJob.status !== 'RUNNING') return;
+    const timer = window.setInterval(async () => {
+      if (document.visibilityState === 'hidden') return;
+      const res = await safeFetchJson<any>(`/api/stockscans/ohlcv/refresh/${ohlcvJob.jobId}`);
+      if (res?.ok && res.data?.job) setOhlcvJob(res.data.job);
+    }, 3000);
+    return () => window.clearInterval(timer);
+  }, [ohlcvJob?.jobId, ohlcvJob?.status]);
 
   // 3. Scan Match state
   const [scanRuns, setScanRuns] = useState<any[]>([]);
@@ -210,6 +233,8 @@ export function StockScansWorkspace({ onSelectStock, selectedPortfolio }: StockS
         params.minVolumeRatio = parseFloat(customMinVolRatio) || 0;
         params.requireAboveEma50 = customReqEma50;
       }
+      if (scanFromDate) params.fromDate = scanFromDate;
+      if (scanToDate) params.toDate = scanToDate;
       const res = await safeFetchJson<any>('/api/stockscans/scan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -506,20 +531,22 @@ export function StockScansWorkspace({ onSelectStock, selectedPortfolio }: StockS
           <div className="px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700/60 flex items-center gap-2">
             <Clock className="w-3.5 h-3.5 text-cyan-400" />
             <span className="text-slate-400 font-mono text-[11px]">As Of:</span>
-            <span className="text-white font-semibold font-mono text-[11px]">{breadth?.asOf || '2026-09-24'}</span>
+            <span className="text-white font-semibold font-mono text-[11px]">{breadth?.asOf || 'Unavailable'}</span>
           </div>
 
           <div className="px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700/60 flex items-center gap-2">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
             <span className="text-slate-400 font-mono text-[11px]">Data Source:</span>
-            <span className="text-emerald-300 font-semibold font-mono text-[11px]">DuckDB Adjusted OHLCV + FERE</span>
+            <span className="text-emerald-300 font-semibold font-mono text-[11px]">{breadth?.dataSource || 'Unavailable'}</span>
           </div>
 
           <div className="px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700/60 flex items-center gap-2">
             <Layers className="w-3.5 h-3.5 text-blue-400" />
             <span className="text-slate-400 font-mono text-[11px]">Coverage:</span>
             <span className="text-white font-semibold font-mono text-[11px]">
-              {breadth?.coverage?.matched ?? breadth?.coverage?.eligible ?? 0} / {breadth?.universe?.requested ?? breadth?.coverage?.requested ?? breadth?.coverage?.eligible ?? 100} covered ({breadth?.universe?.id || 'NIFTY_100'})
+              {breadth
+                ? `${breadth.coverage?.matched ?? breadth.coverage?.eligible ?? 0} / ${breadth.universe?.requested ?? breadth.coverage?.requested ?? breadth.coverage?.eligible ?? 0} covered (${breadth.universe?.id || 'Unknown universe'})`
+                : 'Unavailable'}
             </span>
           </div>
 
@@ -769,6 +796,12 @@ export function StockScansWorkspace({ onSelectStock, selectedPortfolio }: StockS
       {subTab === 'SCANS' && (
         <div className="space-y-4">
           <div className="p-4 rounded-2xl border bg-slate-900/70 border-slate-800 flex flex-wrap items-center justify-between gap-4">
+            <div className="w-full flex flex-wrap items-center gap-2 border-b border-slate-800 pb-3">
+              <span className="text-xs font-mono text-slate-400">REFRESH OHLCV TO TODAY:</span>
+              <input aria-label="Optional Kite access token" type="password" value={kiteToken} onChange={e => setKiteToken(e.target.value)} placeholder="Optional override — uses linked Kite session by default" className="min-w-64 flex-1 px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-xs" autoComplete="off" />
+              <button onClick={startOhlcvRefresh} disabled={ohlcvJob?.status === 'RUNNING'} className="px-3 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs disabled:opacity-50">{ohlcvJob?.status === 'RUNNING' ? 'Refreshing…' : 'Refresh to today'}</button>
+              {ohlcvJob && <span role="status" className="text-[11px] text-slate-400">{ohlcvJob.status}{ohlcvJob.error ? ` — ${ohlcvJob.error}` : ''}</span>}
+            </div>
             <div className="flex items-center gap-2">
               <span className="text-xs font-mono text-slate-400">SELECT SCAN:</span>
               <select
@@ -827,6 +860,12 @@ export function StockScansWorkspace({ onSelectStock, selectedPortfolio }: StockS
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
               Run Scan
             </button>
+            <div className="flex items-center gap-2 text-xs text-slate-400" role="group" aria-label="Scan date range">
+              <label htmlFor="scan-from-date">From</label>
+              <input id="scan-from-date" type="date" value={scanFromDate} onChange={e => setScanFromDate(e.target.value)} className="px-2 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-white" />
+              <label htmlFor="scan-to-date">To</label>
+              <input id="scan-to-date" type="date" value={scanToDate} onChange={e => setScanToDate(e.target.value)} className="px-2 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-white" />
+            </div>
           </div>
 
           {/* Scan Result Table */}
@@ -2005,4 +2044,3 @@ export function StockScansWorkspace({ onSelectStock, selectedPortfolio }: StockS
     </div>
   );
 }
-

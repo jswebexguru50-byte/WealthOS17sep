@@ -566,9 +566,13 @@ export function ThemeSelectorModal({ isOpen, onClose, onThemeChanged, onLayoutCh
     setCustomPalette({});
   };
 
-  const darkThemes = THEME_OPTIONS.filter(t => t.category === 'dark');
-  const tradingThemes = THEME_OPTIONS.filter(t => t.category === 'trading');
-  const lightThemes = THEME_OPTIONS.filter(t => t.category === 'light');
+  // Keep the normal user surface intentionally small: one light and one dark
+  // theme. Legacy theme IDs remain in THEME_OPTIONS so saved preferences and
+  // old links continue to resolve, but the experimental/neon variants are not
+  // exposed in the main appearance picker.
+  const darkThemes = THEME_OPTIONS.filter(t => t.id === 'obsidian-noir');
+  const tradingThemes: ThemeOption[] = [];
+  const lightThemes = THEME_OPTIONS.filter(t => t.id === 'institutional-light');
 
   const renderThemeCard = (theme: ThemeOption) => {
     const isSelected = activeTheme === theme.id;

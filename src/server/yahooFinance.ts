@@ -1188,7 +1188,6 @@ export async function autoFetchMarketData(db: sqlite3.Database, portfolioFilter?
         const symbol = h.symbol;
         const isin = h.isin;
         const exchange = (h.exchange || 'NSE').trim().toUpperCase();
-        const fetchSymbol = getYahooSymbol(symbol, exchange, isin);
         const instKey = isin && isValidISIN(isin) ? `${exchange === 'BSE' ? 'BSE' : 'NSE'}_EQ|${isin.trim().toUpperCase()}` : '';
 
         // Upstox Live Match
@@ -1205,33 +1204,19 @@ export async function autoFetchMarketData(db: sqlite3.Database, portfolioFilter?
                         (symbol && upstoxLTPs[`BSE_EQ:${symbol}`]) ||
                         (symbol && upstoxLTPs[`BSE_EQ|${symbol}`]);
 
-        // Only query Yahoo Finance Chart API if Upstox batch price was not found
-        let tickerInfo: any = null;
-        if (!upMatch || !upMatch.ltp || upMatch.ltp <= 0) {
-          try {
-            tickerInfo = await fetchTickerData(fetchSymbol, 5, true);
-          } catch (err) {}
-
-          if ((!tickerInfo || !tickerInfo.chartPreviousClose) && !fetchSymbol.endsWith('.BO') && !fetchSymbol.endsWith('.NS')) {
-            try {
-              tickerInfo = await fetchTickerData(`${fetchSymbol}.BO`, 5, true);
-            } catch (err) {}
-          }
-        }
-
-        const chartPrevClose = (tickerInfo?.chartPreviousClose && tickerInfo.chartPreviousClose > 0) ? tickerInfo.chartPreviousClose : null;
-        const yahooMarketPrice = (tickerInfo?.regularMarketPrice && tickerInfo.regularMarketPrice > 0) ? tickerInfo.regularMarketPrice : null;
-
-        const marketOpen = isIndianMarketHours();
-
-        // Price resolution priority: Upstox LTP > Yahoo live price > Yahoo close > manual_ltp (MasterTickers fallback for unlisted)
+        // Live equity valuations are Upstox-authoritative. Do not silently replace
+        // an unavailable/expired Upstox quote with Yahoo: that masks authentication,
+        // instrument-mapping, and coverage failures and breaks source traceability.
         const upstoxLtp = upMatch?.ltp && upMatch.ltp > 0 ? upMatch.ltp : null;
         const upstoxPrevClose = upMatch?.prevClose && upMatch.prevClose > 0 ? upMatch.prevClose : null;
+        if (!upstoxLtp) {
+          if (!failedSymbols.includes(symbol)) failedSymbols.push(symbol);
+          console.warn(`[Market Sync] Upstox quote unavailable for ${symbol}; leaving existing price unchanged.`);
+          return;
+        }
 
-        // Live tick: best available current price
-        let liveTick = upstoxLtp || yahooMarketPrice || chartPrevClose || 0;
-        // Previous close: for day change calculation
-        let officialClose = upstoxPrevClose || chartPrevClose || yahooMarketPrice || liveTick;
+        let liveTick = upstoxLtp;
+        let officialClose = upstoxPrevClose || liveTick;
 
         // === UNLISTED ASSET FALLBACK: use manual_ltp from MasterTickers ===
         // When neither Upstox nor Yahoo returns a price (expected for unlisted/pre-IPO assets),
@@ -1252,7 +1237,7 @@ export async function autoFetchMarketData(db: sqlite3.Database, portfolioFilter?
         }
 
         const targetLtp = liveTick;
-        const targetPrevClose = (officialClose > 0 && officialClose !== targetLtp) ? officialClose : (chartPrevClose || targetLtp);
+        const targetPrevClose = (officialClose > 0 && officialClose !== targetLtp) ? officialClose : targetLtp;
 
         const matchingHoldings = await dbAll(
           db,
@@ -1268,7 +1253,7 @@ export async function autoFetchMarketData(db: sqlite3.Database, portfolioFilter?
             const rateToInr = isUsAsset ? usdRate : 1.0;
 
             const itemLtp = liveTick;
-            const itemPrevClose = (officialClose > 0 && officialClose !== itemLtp) ? officialClose : (chartPrevClose || itemLtp);
+            const itemPrevClose = (officialClose > 0 && officialClose !== itemLtp) ? officialClose : itemLtp;
 
             const nativeLtp = itemLtp;
             const convertedLtp = itemLtp * rateToInr;
@@ -1295,9 +1280,6 @@ export async function autoFetchMarketData(db: sqlite3.Database, portfolioFilter?
             if (upMatch?.ltp) {
               dataSrc = 'Upstox API';
               dataStatus = 'LIVE';
-            } else if (tickerInfo && (yahooMarketPrice || chartPrevClose)) {
-              dataSrc = 'Yahoo Finance';
-              dataStatus = 'LIVE';
             } else if (isUnlistedAsset) {
               dataSrc = 'Unlisted Valuation';
               dataStatus = 'LIVE';
@@ -1305,7 +1287,7 @@ export async function autoFetchMarketData(db: sqlite3.Database, portfolioFilter?
               dataSrc = 'Master Ticker / Manual';
               dataStatus = 'LIVE';
             } else {
-              dataSrc = 'Upstox/Yahoo (Failed)';
+              dataSrc = 'Upstox API (Failed)';
               dataStatus = 'FAILED';
               if (!failedSymbols.includes(symbol)) {
                 failedSymbols.push(symbol);

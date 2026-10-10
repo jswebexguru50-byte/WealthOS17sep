@@ -47,11 +47,11 @@ type ResearchSubTab =
   | 'KNOWLEDGE';
 
 const SUB_TABS: Array<{ id: ResearchSubTab; label: string; sub: string; icon: React.ElementType }> = [
-  { id: 'QUANT_STUDIO', label: 'Quant Studio', sub: 'S1–S26 scanner & evidence', icon: Sparkles },
-  { id: 'TECHNICAL', label: 'Technical Strategies', sub: 'Independent technical analysis', icon: BarChart2 },
-  { id: 'REPORTS', label: 'Report Studio', sub: 'Institutional report generation', icon: FileSpreadsheet },
-  { id: 'BACKTEST', label: 'Regime Backtest', sub: 'Strategy comparison across regimes', icon: GitBranch },
-  { id: 'KNOWLEDGE', label: 'Knowledge Lab', sub: 'Research & documentation', icon: BookOpen },
+  { id: 'QUANT_STUDIO', label: 'Strategy Lab', sub: 'Strategy scans and evidence', icon: Sparkles },
+  { id: 'TECHNICAL', label: 'Technical Analysis', sub: 'Independent technical research', icon: BarChart2 },
+  { id: 'REPORTS', label: 'Reports', sub: 'Institutional report generation', icon: FileSpreadsheet },
+  { id: 'BACKTEST', label: 'Backtesting', sub: 'Compare strategies across regimes', icon: GitBranch },
+  { id: 'KNOWLEDGE', label: 'Research Library', sub: 'Research and documentation', icon: BookOpen },
 ];
 
 interface ResearchWorkspaceProps {

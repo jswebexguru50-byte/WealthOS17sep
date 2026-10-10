@@ -58,13 +58,13 @@ type DiscoverSubTab =
   | 'GREENFIELD';
 
 const SUB_TABS: Array<{ id: DiscoverSubTab; label: string; sub: string; icon: React.ElementType; color: string }> = [
-  { id: 'STOCKSCANS', label: 'StockScans Parity', sub: 'Market breadth, prebuilt scans, scan match, FERE evidence', icon: Zap, color: 'text-cyan-400' },
-  { id: 'SEVEN_STRATEGIES', label: '7 Strategies (90D)', sub: 'S1a, S1b, S2a, S3a, S4a, S4b, S5a + FERE Deep Dive', icon: Sparkles, color: 'text-amber-400' },
-  { id: 'OPPORTUNITY_ENGINE', label: 'Opportunity Engine', sub: 'ITAS S1–S10 scored signals', icon: Zap, color: 'text-amber-400' },
+  { id: 'STOCKSCANS', label: 'Market Scans', sub: 'Breadth, filters and evidence', icon: Zap, color: 'text-cyan-400' },
+  { id: 'SEVEN_STRATEGIES', label: 'Strategy Picks', sub: 'Multi-strategy candidates and evidence', icon: Sparkles, color: 'text-amber-400' },
+  { id: 'OPPORTUNITY_ENGINE', label: 'Scored Opportunities', sub: 'Ranked signals and actions', icon: Zap, color: 'text-amber-400' },
   { id: 'MULTIBAGGER', label: 'Multibagger Screener', sub: 'Quality & growth filter', icon: TrendingUp, color: 'text-emerald-400' },
-  { id: 'SENTINEL', label: 'Smart Money Sentinel', sub: 'Institutional flow & breakouts', icon: Eye, color: 'text-cyan-400' },
+  { id: 'SENTINEL', label: 'Institutional Activity', sub: 'Smart-money flow and breakouts', icon: Eye, color: 'text-cyan-400' },
   { id: 'MOMENTUM_VPA', label: 'Momentum & VPA', sub: 'Volume-price action', icon: Activity, color: 'text-purple-400' },
-  { id: 'GREENFIELD', label: 'Greenfield Portal', sub: 'Early-stage & sunrise sectors', icon: Compass, color: 'text-teal-400' },
+  { id: 'GREENFIELD', label: 'Early-stage Themes', sub: 'Sunrise sectors and opportunities', icon: Compass, color: 'text-teal-400' },
 ];
 
 interface DiscoverWorkspaceProps {

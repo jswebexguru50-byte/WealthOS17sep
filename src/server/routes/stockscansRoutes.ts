@@ -10,6 +10,9 @@
  */
 
 import express, { Request, Response } from 'express';
+import { spawn } from 'node:child_process';
+import path from 'node:path';
+import { getDB, dbGet, dbRun } from '../database.js';
 import { MarketDataQueryService } from '../services/stockscans/MarketDataQueryService.js';
 import { EvidenceQueryService } from '../services/stockscans/EvidenceQueryService.js';
 import { WorkspaceService } from '../services/stockscans/WorkspaceService.js';
@@ -18,6 +21,36 @@ import { SectorMomentumService } from '../services/SectorMomentumService.js';
 import { SectorFlowService } from '../services/SectorFlowService.js';
 
 export const stockscansRouter = express.Router();
+
+type OhlcvJob = { jobId: string; status: 'RUNNING' | 'COMPLETE' | 'FAILED'; startedAt: string; finishedAt?: string; fromDate?: string; toDate: string; output: string[]; error?: string };
+const ohlcvJobs = new Map<string, OhlcvJob>();
+
+stockscansRouter.post('/ohlcv/refresh', async (req: Request, res: Response) => {
+  const { accessToken, toDate } = req.body || {};
+  const stored = await dbGet<{ value: string }>(getDB(), "SELECT value FROM AppConfig WHERE key='Kite_Access_Token'");
+  const effectiveToken = typeof accessToken === 'string' && accessToken.trim().length >= 20 ? accessToken.trim() : stored?.value;
+  if (!effectiveToken) return res.status(422).json({ success: false, error: 'Kite is not linked. Complete Kite login first.' });
+  const target = toDate || new Date().toISOString().slice(0, 10);
+  const active = [...ohlcvJobs.values()].find(j => j.status === 'RUNNING');
+  if (active) return res.status(409).json({ success: false, error: 'An OHLCV refresh is already running.', job: active });
+  await dbRun(getDB(), "INSERT OR REPLACE INTO AppConfig (key,value) VALUES ('Kite_Access_Token',?)", [effectiveToken]);
+  const jobId = `ohlcv-${Date.now()}`;
+  const job: OhlcvJob = { jobId, status: 'RUNNING', startedAt: new Date().toISOString(), toDate: target, output: [] };
+  ohlcvJobs.set(jobId, job);
+  const script = path.resolve(process.cwd(), 'scripts/market_data/update_ohlcv_duckdb_today.py');
+  const child = spawn(process.env.PYTHON || 'python', [script, '--to-date', target], { cwd: process.cwd(), windowsHide: true, env: { ...process.env, KITE_ACCESS_TOKEN: effectiveToken } });
+  child.stdout.on('data', b => { job.output.push(String(b).replace(/token[^\n]*/ig, 'token [redacted]')); if (job.output.length > 200) job.output.shift(); });
+  child.stderr.on('data', b => { job.output.push(String(b)); if (job.output.length > 200) job.output.shift(); });
+  child.on('error', e => { job.status = 'FAILED'; job.error = e.message; job.finishedAt = new Date().toISOString(); });
+  child.on('close', code => { job.status = code === 0 ? 'COMPLETE' : 'FAILED'; job.error = code === 0 ? undefined : `Updater exited with code ${code}`; job.finishedAt = new Date().toISOString(); });
+  return res.status(202).json({ success: true, job: { jobId, status: job.status, startedAt: job.startedAt, toDate: target } });
+});
+
+stockscansRouter.get('/ohlcv/refresh/:jobId', (req, res) => {
+  const job = ohlcvJobs.get(req.params.jobId);
+  if (!job) return res.status(404).json({ success: false, error: 'OHLCV job not found.' });
+  return res.json({ success: true, job: { ...job, output: job.output.slice(-30) } });
+});
 
 // ── 0. Read-only sector momentum matrix ─────────────────────────────────────
 // Uses only persisted adjusted sector-index OHLCV. Missing index history stays unavailable.
