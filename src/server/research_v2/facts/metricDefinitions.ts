@@ -13,7 +13,13 @@ export const METRIC_DEFINITIONS: readonly MetricDefinition[] = [
   { metric: 'finance_cost', definition: 'Finance costs', unit: 'INR_CR', periodBasis: 'FLOW', aliases: ['interest'] },
   { metric: 'depreciation_amortisation', definition: 'Depreciation and amortisation', unit: 'INR_CR', periodBasis: 'FLOW', aliases: ['depreciation'] },
   { metric: 'ebitda_derived', definition: 'PBT before exceptional + finance cost + depreciation/amortisation − other income', unit: 'INR_CR', periodBasis: 'FLOW', aliases: ['ebitda'] },
-  { metric: 'cfo', definition: 'Cash flow from operations', unit: 'INR_CR', periodBasis: 'FLOW', aliases: ['cfo_cr'] },
+  { metric: 'cfo', definition: 'Cash flow from operations', unit: 'INR_CR', periodBasis: 'FLOW', aliases: ['cfo_cr', 'cash_flow_from_operating_activities'] },
+  { metric: 'capex_cash_outflow', definition: 'Capital expenditure cash outflow', unit: 'INR_CR', periodBasis: 'FLOW', aliases: ['capex', 'capital_expenditure'] },
+  { metric: 'lease_liabilities', definition: 'Lease liabilities at period end', unit: 'INR_CR', periodBasis: 'POINT_IN_TIME', aliases: ['lease_liability'] },
+  { metric: 'trade_payables', definition: 'Trade payables at period end', unit: 'INR_CR', periodBasis: 'POINT_IN_TIME', aliases: ['payables'] },
+  { metric: 'total_assets', definition: 'Total assets at period end', unit: 'INR_CR', periodBasis: 'POINT_IN_TIME', aliases: ['assets'] },
+  { metric: 'equity_capital', definition: 'Paid-up equity capital', unit: 'INR_CR', periodBasis: 'POINT_IN_TIME', aliases: ['paid_up_capital'] },
+  { metric: 'reserves', definition: 'Reserves and surplus', unit: 'INR_CR', periodBasis: 'POINT_IN_TIME', aliases: ['reserves_surplus'] },
   { metric: 'equity_total', definition: 'Total equity at period end', unit: 'INR_CR', periodBasis: 'POINT_IN_TIME', aliases: ['equity'] },
   { metric: 'borrowings_total', definition: 'Total borrowings at period end', unit: 'INR_CR', periodBasis: 'POINT_IN_TIME', aliases: ['debt', 'total_debt'] },
   { metric: 'cash_and_equivalents', definition: 'Cash and cash equivalents at period end', unit: 'INR_CR', periodBasis: 'POINT_IN_TIME', aliases: ['cash'] },
@@ -24,7 +30,9 @@ export const METRIC_DEFINITIONS: readonly MetricDefinition[] = [
   { metric: 'fii_pct', definition: 'Foreign institutional ownership percentage', unit: 'PCT', periodBasis: 'POINT_IN_TIME', aliases: ['fiipct'] },
   { metric: 'dii_other_pct', definition: 'Domestic institutional ownership percentage excluding mutual funds', unit: 'PCT', periodBasis: 'POINT_IN_TIME', aliases: ['diipct'] },
   { metric: 'mutual_funds_pct', definition: 'Mutual fund ownership percentage', unit: 'PCT', periodBasis: 'POINT_IN_TIME', aliases: ['mfhold'] },
+  { metric: 'public_pct', definition: 'Public ownership percentage', unit: 'PCT', periodBasis: 'POINT_IN_TIME', aliases: ['pubpct'] },
 ];
 
 const ALIASES = new Map(METRIC_DEFINITIONS.flatMap(d => d.aliases.map(alias => [alias, d.metric] as const)));
 export function canonicalMetric(metric: string): string { return ALIASES.get(metric.trim().toLowerCase().replace(/\s+/g, ' ')) || metric.trim().toLowerCase(); }
+export function metricDefinition(metric: string): MetricDefinition | undefined { const key = canonicalMetric(metric); return METRIC_DEFINITIONS.find(d => d.metric === key); }

@@ -4,9 +4,10 @@ export function convertUnit(value: number, unit: string, moneyAlreadyCrore = fal
   if (!Number.isFinite(value)) throw new Error('UNIT_VALUE_NOT_FINITE');
   const normalized = String(unit).trim().toUpperCase();
   if (moneyAlreadyCrore && normalized === 'INR') return { value, unit: 'INR_CR', derivation: 'provider INR token is explicitly catalogued as crore' };
+  if (['INR_CR','CRORE','CR'].includes(normalized)) return { value, unit: 'INR_CR', derivation: 'value explicitly labelled crore' };
   if (normalized === 'INR') return { value: value / 1e7, unit: 'INR_CR', derivation: 'INR / 10,000,000 = INR crore' };
   if (normalized === 'LAKH' || normalized === 'INR_LAKH') return { value: value / 1e5, unit: 'INR_CR', derivation: 'lakh / 100,000 = INR crore' };
-  if (normalized === 'PERCENT' || normalized === '%') return { value, unit: 'PCT' };
+  if (normalized === 'PERCENT' || normalized === 'PERCENTAGE' || normalized === '%') return { value, unit: 'PCT' };
   if (normalized === 'FRACTION' || normalized === 'DECIMAL') return { value, unit: 'RATIO' };
   if (normalized === 'SHARES') return { value, unit: 'SHARES' };
   if (normalized === 'DAYS') return { value, unit: 'DAYS' };
@@ -15,5 +16,5 @@ export function convertUnit(value: number, unit: string, moneyAlreadyCrore = fal
 }
 
 export function flagMagnitudeSuspect(value: number, adjacent: number | null, factor = 1000): boolean {
-  return adjacent !== null && Number.isFinite(adjacent) && Math.abs(adjacent) > 0 && Math.abs(value / adjacent) > factor;
+  return adjacent !== null && Number.isFinite(adjacent) && Math.abs(adjacent) > 0 && Math.abs(value) > 0 && Math.max(Math.abs(value), Math.abs(adjacent)) / Math.min(Math.abs(value), Math.abs(adjacent)) > factor;
 }
