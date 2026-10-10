@@ -4,6 +4,9 @@
  */
 import { Router } from 'express';
 import { ReportsService } from '../services/ReportsService.js';
+import { authenticateFamily, roleAllows } from '../auth/familyRoleAuth.js';
+import { getServerConfig } from '../config.js';
+import { dbAll, dbRun, getDB } from '../database.js';
 
 const router = Router();
 
@@ -13,13 +16,24 @@ const REPORT_TYPES = new Set([
 ]);
 const isIsoDate = (value: unknown): boolean => value == null || value === '' ||
   (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value));
+const auth = (write = false) => (req: any, res: any, next: any) => {
+  const principal = authenticateFamily(req.headers, getServerConfig().APP_PASSWORD);
+  if (!principal) return res.status(401).json({ success: false, error: 'UNAUTHORIZED' });
+  if (write && !roleAllows(principal, 'editor')) return res.status(403).json({ success: false, error: 'ROLE_FORBIDDEN' });
+  req.familyPrincipal = principal; next();
+};
 
-router.get('/catalog', (_req, res) => {
+router.get('/catalog', auth(), (_req, res) => {
   res.json({ success: true, reports: Array.from(REPORT_TYPES).map(reportType => ({ reportType })) });
+});
+router.get('/history', auth(), async (req: any, res) => {
+  const limit = Math.min(Math.max(Number(req.query.limit) || 25, 1), 100);
+  const rows = await dbAll(getDB(), 'SELECT id,report_type,portfolio,financial_year,start_date,end_date,status,created_by,created_at FROM report_runs ORDER BY id DESC LIMIT ?', [limit]);
+  res.json({ success: true, reports: rows });
 });
 
 // POST /api/reports/generate
-router.post('/generate', async (req, res) => {
+router.post('/generate', auth(true), async (req: any, res) => {
   try {
     const { reportType, portfolio, financialYear, startDate, endDate, assetClass, includeGrandfathering } = req.body;
     const normalizedType = String(reportType || 'HOLDING_STATEMENT').toUpperCase();
@@ -54,6 +68,7 @@ router.post('/generate', async (req, res) => {
         data = await svc.generateHoldingsStatement({ reportType: 'HOLDING_STATEMENT', portfolio, assetClass });
     }
 
+    await dbRun(getDB(), 'INSERT INTO report_runs (report_type,portfolio,financial_year,start_date,end_date,request_json,created_by) VALUES (?,?,?,?,?,?,?)', [normalizedType, portfolio || null, financialYear || null, startDate || null, endDate || null, JSON.stringify({ reportType: normalizedType, assetClass: assetClass || null }), req.familyPrincipal.userId]);
     res.json(data);
   } catch (err: any) {
     console.error('Reports generation failed:', err);
