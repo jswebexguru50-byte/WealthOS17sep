@@ -109,7 +109,7 @@ function acceptRow(raw: RawXbrlFact): AcceptedRow {
   if (tierProblem) throw new Error(tierProblem);
   const definition = metricDefinition(raw.metric) as MetricDefinition;
   // Unit semantics come from the raw unit/catalogue contract, never from a source-name heuristic.
-  const converted = alignToMetricUnit(convertUnit(raw.value, raw.unit, false), definition.unit);
+  const converted = alignToMetricUnit(convertUnit(raw.value, raw.unit, raw.moneyAlreadyCrore === true), definition.unit);
   return { raw, period, definition, converted };
 }
 

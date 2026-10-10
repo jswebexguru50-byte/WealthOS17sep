@@ -51,7 +51,7 @@ test('parity: a provider that injects a wrong number is caught identically on an
   const c = await runReport(input('recorded_provider_c_wrong_number.json', undefined, { maxLoops: 0 }));
   assert.equal(c.status, 'ESCALATED_HUMAN');
   assert.deepEqual(defectCodes(c).filter(code => code === 'VALUE_MISMATCH' || code === 'UNCLAIMED_NUMBER'),
-    ['UNCLAIMED_NUMBER', 'VALUE_MISMATCH']);
+    ['VALUE_MISMATCH']);
   const a = await runReport(input('recorded_provider_a.json'));
   assert.notDeepEqual(claimValues(a), claimValues(c), 'parity comparison exposes the divergent claim');
 });

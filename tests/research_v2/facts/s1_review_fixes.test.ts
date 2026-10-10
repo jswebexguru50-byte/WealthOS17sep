@@ -188,7 +188,7 @@ test('TRENDLYNE, SCREENER, UPSTOX and YAHOO sources cannot be STATUTORY', () => 
 });
 
 test('a provider source with a provider tier is accepted and its crore assumption is recorded', () => {
-  const row = raw('OneD', '2025-06-30', 12.5, 'sales', { source: 'TRENDLYNE_MCP', sourceTier: 'PROVIDER_VERIFIED' });
+  const row = raw('OneD', '2025-06-30', 12.5, 'sales', { source: 'TRENDLYNE_MCP', sourceTier: 'PROVIDER_VERIFIED', moneyAlreadyCrore: true });
   const fact = normalizeXbrlFacts([row]).facts[0];
   assert.equal(fact.valueCr, 12.5);
   assert.ok(fact.qualityFlags.includes('UNIT_ASSUMED_CRORE'));

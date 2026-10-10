@@ -28,5 +28,7 @@ export interface Fact {
 export interface RawXbrlFact {
   factId: string; isin: string; symbol: string; scope: Scope; metric: string;
   value: number; unit: string; contextRef: string; periodStart: string; periodEnd: string; sourceTier?: SourceTier;
+  /** Explicit provider catalogue assertion; never inferred from a source name. */
+  moneyAlreadyCrore?: boolean;
   source: string; sourceRef: string; availableAt: string; vintage?: number;
 }
