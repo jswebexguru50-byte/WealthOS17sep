@@ -298,9 +298,10 @@ export function normalizeXbrlFacts(rows: RawXbrlFact[]): NormalizedFacts {
     const key = seriesKey(candidate);
     const history = vintages.get(key) ?? [];
     const previous = history.at(-1);
-    if (previous && previous.valueCr === candidate.valueCr) continue;
+    const strongerIncoming = previous && TIER_STRENGTH.indexOf(candidate.sourceTier) < TIER_STRENGTH.indexOf(previous.sourceTier);
+    if (previous && previous.valueCr === candidate.valueCr && !strongerIncoming) continue;
     const fact = previous ? buildFact(accepted, history.length + 1) : candidate;
-    if (previous) {
+    if (previous && !(previous.sourceTier === 'STATUTORY' && candidate.sourceTier !== 'STATUTORY')) {
       fact.supersedesId = previous.factId;
       addFlag(fact, 'RESTATED');
       if (flagMagnitudeSuspect(fact.valueCr ?? 0, previous.valueCr)) addFlag(fact, 'RESTATEMENT_MAGNITUDE_JUMP');
