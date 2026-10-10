@@ -26,6 +26,7 @@ export class MarketDataCache {
   private misses: number = 0;
   private sets: number = 0;
   private evictions: number = 0;
+  private inFlight: Map<string, Promise<unknown>> = new Map();
 
   private constructor() {
     // Periodically sweep expired entries every 5 minutes
@@ -68,6 +69,26 @@ export class MarketDataCache {
       lastAccessed: Date.now()
     });
     this.sets++;
+  }
+
+  /**
+   * Single-flight cache read used by the market-data gateway. Concurrent
+   * requests for the same stale symbol share one upstream request instead of
+   * multiplying provider calls during a dashboard refresh.
+   */
+  public async getOrSetSingleFlight<T>(key: string, loader: () => Promise<T>, ttlMs = 15 * 60 * 1000): Promise<T> {
+    const cached = this.get<T>(key);
+    if (cached !== null) return cached;
+    const existing = this.inFlight.get(key) as Promise<T> | undefined;
+    if (existing) return existing;
+    const request = Promise.resolve().then(loader).then((value) => {
+      this.set(key, value, ttlMs);
+      return value;
+    }).finally(() => {
+      this.inFlight.delete(key);
+    });
+    this.inFlight.set(key, request);
+    return request;
   }
 
   public has(key: string): boolean {
@@ -115,6 +136,7 @@ export class MarketDataCache {
 
   public clear(): void {
     this.cache.clear();
+    this.inFlight.clear();
   }
 
   private evictOldest(): void {
@@ -156,3 +178,4 @@ export class MarketDataCache {
     };
   }
 }
+
