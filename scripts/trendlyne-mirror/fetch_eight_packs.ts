@@ -1,16 +1,22 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import Database from 'better-sqlite3';
+import process from 'node:process';
+import { DatabaseSync } from 'node:sqlite';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 import { TRENDLYNE_PACKS_V1 } from '../../src/server/services/trendlyne-mirror/TrendlyneMirrorService.js';
 
 const root = process.cwd();
-const symbols = ['VMART','RADICO','KRYSTAL','PROTEAN','JUSTDIAL','DBOL','LUMAXTECH','SONACOMS','TARSONS'];
-const db = new Database(path.join(root, 'portfolio.db'));
+const manifestIndex = process.argv.indexOf('--manifest');
+const manifestPath = manifestIndex >= 0 ? path.resolve(root, process.argv[manifestIndex + 1]) : null;
+const symbols = manifestPath
+  ? [...new Set((JSON.parse(fs.readFileSync(manifestPath, 'utf8')).symbols || []).map((x: unknown) => String(x).trim().toUpperCase()))]
+  : ['VMART','RADICO','KRYSTAL','PROTEAN','JUSTDIAL','DBOL','LUMAXTECH','SONACOMS','TARSONS'];
+const dbPath = (process.env.DATABASE_URL || path.join(root, 'portfolio.db')).replace(/^sqlite:\/\//, '');
+const db = new DatabaseSync(dbPath);
 const config = JSON.parse(fs.readFileSync(path.join(root, '.agents', 'mcp_config.json'), 'utf8'));
-const url = config?.mcpServers?.trendlyne?.serverUrl || config?.mcpServers?.trendlyne?.url;
+const url = process.env.TRENDLYNE_MCP_URL || config?.mcpServers?.trendlyne?.serverUrl || config?.mcpServers?.trendlyne?.url;
 if (!url) throw new Error('Trendlyne MCP URL is not configured.');
 const now = new Date().toISOString();
 const chunks = <T>(a: T[], n: number) => Array.from({length: Math.ceil(a.length / n)}, (_, i) => a.slice(i*n, i*n+n));
