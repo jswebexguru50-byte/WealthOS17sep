@@ -1,1 +1,24 @@
-aW1wb3J0IGNyeXB0byBmcm9tICdub2RlOmNyeXB0byc7CmltcG9ydCB0eXBlIERhdGFiYXNlIGZyb20gJ2JldHRlci1zcWxpdGUzJzsKaW1wb3J0IHR5cGUgeyBNaWdyYXRpb24gfSBmcm9tICcuLi9taWdyYXRvci5qcyc7Cgpjb25zdCBNSUdSQVRJT05fTkFNRSA9ICcwMDNfcmVjb25jaWxpYXRpb25fZXhjZXB0aW9ucyc7CmNvbnN0IGNoZWNrc3VtID0gY3J5cHRvLmNyZWF0ZUhhc2goJ3NoYTI1NicpLnVwZGF0ZShNSUdSQVRJT05fTkFNRSkuZGlnZXN0KCdoZXgnKTsKCmV4cG9ydCBjb25zdCBtaWdyYXRpb24wMDM6IE1pZ3JhdGlvbiA9IHsKICBpZDogMywKICBuYW1lOiBNSUdSQVRJT05fTkFNRSwKICBjaGVja3N1bSwKICB1cDogKGRiOiBEYXRhYmFzZS5EYXRhYmFzZSkgPT4gewogICAgZGIuZXhlYyhgQ1JFQVRFIFRBQkxFIElGIE5PVCBFWElTVFMgUmVjb25jaWxpYXRpb25FeGNlcHRpb25zICgKICAgICAgaWQgSU5URUdFUiBQUklNQVJZIEtFWSBBVVRPSU5DUkVNRU5ULCBwb3J0Zm9saW8gVEVYVCBOT1QgTlVMTCwKICAgICAgc2NyaXBfb3JfdHJhZGVfaWQgVEVYVCBOT1QgTlVMTCwgZXhjZXB0aW9uX3R5cGUgVEVYVCBOT1QgTlVMTCwKICAgICAgZGlzY3JlcGFuY3lfZGV0YWlsIFRFWFQgTk9UIE5VTEwsIHJlYXNvbl9jYXRlZ29yeSBURVhUIE5PVCBOVUxMLAogICAgICByZWFzb25fbm90ZXMgVEVYVCwgYXBwcm92ZWRfYnkgVEVYVCwgYXBwcm92ZWRfYXQgVEVYVCwKICAgICAgc3RhdHVzIFRFWFQgTk9UIE5VTEwgREVGQVVMVCAnT1BFTicpOwogICAgICBDUkVBVEUgSU5ERVggSUYgTk9UIEVYSVNUUyBpZHhfcmVjb25fZXhjZXB0aW9uc19zdGF0dXMKICAgICAgICBPTiBSZWNvbmNpbGlhdGlvbkV4Y2VwdGlvbnMoc3RhdHVzLCByZWFzb25fY2F0ZWdvcnkpOwogICAgICBDUkVBVEUgSU5ERVggSUYgTk9UIEVYSVNUUyBpZHhfcmVjb25fZXhjZXB0aW9uc190cmFkZQogICAgICAgIE9OIFJlY29uY2lsaWF0aW9uRXhjZXB0aW9ucyhwb3J0Zm9saW8sIHNjcmlwX29yX3RyYWRlX2lkKTtgKTsKICB9Cn07Cg==
+import crypto from 'node:crypto';
+import type Database from 'better-sqlite3';
+import type { Migration } from '../migrator.js';
+
+const MIGRATION_NAME = '003_reconciliation_exceptions';
+const checksum = crypto.createHash('sha256').update(MIGRATION_NAME).digest('hex');
+
+export const migration003: Migration = {
+  id: 3,
+  name: MIGRATION_NAME,
+  checksum,
+  up: (db: Database.Database) => {
+    db.exec(`CREATE TABLE IF NOT EXISTS ReconciliationExceptions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT, portfolio TEXT NOT NULL,
+      scrip_or_trade_id TEXT NOT NULL, exception_type TEXT NOT NULL,
+      discrepancy_detail TEXT NOT NULL, reason_category TEXT NOT NULL,
+      reason_notes TEXT, approved_by TEXT, approved_at TEXT,
+      status TEXT NOT NULL DEFAULT 'OPEN');
+      CREATE INDEX IF NOT EXISTS idx_recon_exceptions_status
+        ON ReconciliationExceptions(status, reason_category);
+      CREATE INDEX IF NOT EXISTS idx_recon_exceptions_trade
+        ON ReconciliationExceptions(portfolio, scrip_or_trade_id);`);
+  }
+};
