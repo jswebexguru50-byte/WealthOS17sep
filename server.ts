@@ -182,6 +182,7 @@ const requireAdminPassword = (req: any, res: any, next: any) => {
   if (!timingSafeMatch(provided, expected)) {
     return res.status(401).json({ success: false, error: 'UNAUTHORIZED' });
   }
+  req.auth = { userId: String(req.headers['x-app-user'] || 'app-password-owner'), role: 'owner', authMethod: 'app-password' };
   next();
 };
 
@@ -287,7 +288,7 @@ const enforceWriteOrigin = (req: any, res: any, next: any) => {
   } else if (!allowedOriginHosts.has(host)) {
     return res.status(403).json({ success: false, error: 'HOST_NOT_ALLOWLISTED' });
   }
-  req.auth = { userId: String(req.headers['x-app-user'] || 'app-password-owner'), role: 'owner', authMethod: 'app-password' };
+  if (!req.auth) req.auth = { userId: String(req.headers['x-app-user'] || 'app-password-owner'), role: 'owner', authMethod: 'app-password' };
   next();
 };
 
@@ -997,8 +998,8 @@ app.get('/api/engine/run-history', async (req, res) => {
 // GET /api/engine/status — Current engine status
 app.get('/api/engine/status', async (req, res) => {
   try {
-    const status = QuantitativeBacktestScheduler.getInstance().getStatus();
 
+    const status = QuantitativeBacktestScheduler.getInstance().getStatus();
     const regime = await MacroRegimeClassifierService.getInstance().getCurrentRegime();
     const learningReport = await SelfLearningEngine.getInstance().getSelfLearningReport();
     res.json({
@@ -1998,8 +1999,8 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
     `;
     let rgParams: any[] = [];
     if (selected && selected.length > 0) {
-      const placeholders = selected.map(() => '?').join(',');
 
+      const placeholders = selected.map(() => '?').join(',');
       rgSql += ` WHERE portfolio IN (${placeholders})`;
       rgParams.push(...selected);
     }
@@ -2999,8 +3000,8 @@ async function getCashFlowLedger(rawPort: string = 'Combined'): Promise<{
         if (ledgerKey && qtyLedger[ledgerKey]) {
           const entries = qtyLedger[ledgerKey];
           for (let i = entries.length - 1; i >= 0; i--) {
-            if (entries[i].date <= caDateStr) {
 
+            if (entries[i].date <= caDateStr) {
               qty = entries[i].qty;
               break;
             }
@@ -4000,8 +4001,8 @@ app.get('/api/dashboard/xirr', async (req, res) => {
     let goldXirr: number | null = null;
     try {
       let goldShares = 0;
-      const goldFlows: CashFlow[] = [];
 
+      const goldFlows: CashFlow[] = [];
       const currentGoldPrice10g = getHistoricalGoldInrRate(formatDate(new Date()));
       const currentGoldPriceGram = currentGoldPrice10g / 10;
       for (const flow of flows) {
@@ -5001,8 +5002,8 @@ app.get('/api/analytics', async (req, res) => {
       const absPct = capitalBase > 0 ? (absGain / capitalBase) * 100 : (name === 'Since Inception' ? customAbsolutePct : 0);
       const rawXirr = name === 'Since Inception' ? customXirr : calculateXIRR(tFlows);
       const annXirr = rawXirr !== null && !isNaN(rawXirr) && isFinite(rawXirr) ? rawXirr : (() => {
-        const years = Math.max(0.01, days / 365.25);
 
+        const years = Math.max(0.01, days / 365.25);
         const factor = 1 + (absPct / 100);
         return factor > 0 ? (Math.pow(factor, 1 / years) - 1) * 100 : absPct;
       })();
@@ -6002,8 +6003,8 @@ app.post('/api/corporate-actions/import-manual', upload.single('file'), async (r
     let duplicateCount = 0;
     let ignoredCount = 0;
 
-    const batchId = `Manual-CA-${Date.now()}`;
 
+    const batchId = `Manual-CA-${Date.now()}`;
 
     
 
@@ -7003,8 +7004,8 @@ function findHoldingsColumnIndices(rows: any[][]) {
       }
       // Found the header row!
       for (let j = 0; j < row.length; j++) {
-        const val = row[j];
 
+        const val = row[j];
         if (val.includes('code') || val.includes('symbol') || val.includes('ticker') || val.includes('scrip code') || val.includes('scrip_code')) {
           securityIdx = j;
         } else if (val.includes('name') || val.includes('description') || val.includes('company') || val.includes('particulars') || val.includes('asset') || val.includes('scrip name') || val.includes('scrip_name')) {
@@ -8004,8 +8005,8 @@ app.post('/api/pms/check-duplicates', async (req, res) => {
           if (amt <= 0) continue;
 
           // Unique match key: incorporate Tran Ref. when present
-          const matchKey = tranRef && tranRef.length >= 3
 
+          const matchKey = tranRef && tranRef.length >= 3
             ? `CASH_${dateStr}_${txnType}_${tranRef}`
             : `CASH_${normalizeDuplicateKey(sym)}_${dateStr}_${amt.toFixed(2)}_${txnType}`;
           let conflictTx: any = null;
@@ -9005,8 +9006,8 @@ app.post('/api/pms/reconcile-upload', upload.fields([
         const qty = parseNum(cols[5]); const price = parseNum(cols[6]);
         const brkg = parseNum(cols[7]); const stt = parseNum(cols[8]);
         const settAmt = Math.abs(parseNum(cols[9]));
-        let dbType: string;
 
+        let dbType: string;
         if (descL === 'buy') dbType = 'BUY';
         else if (descL === 'sell') dbType = 'SELL';
         else if (descL === 'security in') dbType = 'TRANSFER IN';
@@ -10006,8 +10007,8 @@ app.get('/api/holdings', async (req, res) => {
 
             try {
               const txs = await dbAll(db, `SELECT date, type, net_amount FROM Transactions WHERE symbol = ? AND portfolio = ?`, [sub.symbol, sub.portfolio]);
-              const flows: any[] = [];
 
+              const flows: any[] = [];
               txs.forEach((t: any) => {
                 const type = String(t.type || '').toUpperCase().trim();
                 if (type.includes('BUY') || type.includes('TRANSFER IN') || type.includes('RIGHTS') || type.includes('REINVEST') || type.includes('BONUS') || type.includes('SECURITY IN')) {
@@ -12008,8 +12009,8 @@ app.get('/api/import/template', (req, res) => {
           "Record Date": "2023-03-03",
           "ISIN": "INF179K01974",
           "Symbol": "HDFC Large Cap Fund - IDCW Option - Direct Plan",
-          "Action Type": "DIVIDEND",
 
+          "Action Type": "DIVIDEND",
           "Numerator": 1,
           "Denominator": 1,
           "Price": 5.0846
@@ -13009,8 +13010,8 @@ app.post('/api/admin/purge-transactions', requireAdminPassword, destructiveLimit
     });
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });
-  }
 
+  }
 });
 
 // 17. Alias POST /api/admin/purge-everything
@@ -14010,8 +14011,8 @@ app.post('/api/admin/purge-cache', async (req, res) => {
 
 // POST Vacuum Database to Reclaim Disk Space
 app.post('/api/admin/vacuum-database', async (req, res) => {
-  try {
 
+  try {
     const targetDb = getDB() || db;
     const dbPath = path.join(process.cwd(), 'portfolio.db');
 
@@ -15011,8 +15012,8 @@ app.post('/api/reconcile', upload.single('file'), async (req, res) => {
             reason = `${typeLabel} quantity is 10x. Missing a 1:10 Split corporate action.`;
             action = 'SPLIT';
           } else {
-            reason = `Tracker quantity (${dbQty}) is less than ${typeLabel} (${zerodhaQty}). Likely a missing BUY or corporate action.`;
 
+            reason = `Tracker quantity (${dbQty}) is less than ${typeLabel} (${zerodhaQty}). Likely a missing BUY or corporate action.`;
             action = 'BUY';
           }
         }
@@ -16012,8 +16013,8 @@ async function startServer() {
 
 
   // Trigger initial background FX rates sync only in explicit scheduler mode.
-  // Normal research/discovery sessions should not start network/background work
 
+  // Normal research/discovery sessions should not start network/background work
   // that can make lightweight UI routes feel slow.
   if (process.env.ENABLE_BACKGROUND_SCHEDULERS === 'true' && process.env.READ_ONLY_RUNTIME !== 'true') {
     setTimeout(() => {
