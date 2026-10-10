@@ -308,6 +308,12 @@ export function normalizeXbrlFacts(rows: RawXbrlFact[]): NormalizedFacts {
     }
     vintages.set(key, [...history, fact]);
     all.push(fact);
+    // Preserve the legacy YTD_12M view alongside the explicit annual classification.
+    if (fact.periodType === 'ANNUAL') {
+      const ytd = { ...fact, periodType: 'YTD_12M' as PeriodType,
+        factId: `${fact.factId}|ytd12m`, qualityFlags: [...fact.qualityFlags] };
+      all.push(ytd);
+    }
   }
   const latest = latestVintages(all);
   flagAdjacentMagnitudes(latest);
