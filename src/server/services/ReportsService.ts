@@ -1,5 +1,6 @@
 import { DatabaseManager } from './DatabaseManager.js';
 import { calculateXIRR, CashFlow } from '../xirr.js';
+import { parseFinancialYear } from '../financialYear.js';
 
 export interface ReportFilterOptions {
   reportType: 'CAPITAL_GAINS' | 'HOLDING_STATEMENT' | 'TRADE_BOOK' | 'PERFORMANCE_SUMMARY' | 'DIVIDEND_STATEMENT' | 'ASSET_XIRR' | 'ADVANCED_REVIEW';
@@ -31,12 +32,7 @@ export class ReportsService {
     const params: any[] = [];
 
     if (options.financialYear && options.financialYear !== 'ALL_TIME') {
-      const parts = options.financialYear.split('-');
-      const startYear = parts.length === 2 ? Number(parts[0]) : NaN;
-      const endYear = parts.length === 2 ? Number(parts[1]) : NaN;
-      if (!Number.isInteger(startYear) || !Number.isInteger(endYear) || endYear !== startYear + 1) {
-        throw new Error(`INVALID_FINANCIAL_YEAR: ${String(options.financialYear)}`);
-      }
+      const { startYear, endYear } = parseFinancialYear(options.financialYear);
       clause += ` AND date(${dateColumn}) >= date(?) AND date(${dateColumn}) <= date(?)`;
       params.push(`${startYear}-04-01`, `${endYear}-03-31`);
     } else if (options.startDate && options.endDate) {
@@ -54,7 +50,7 @@ export class ReportsService {
     
     // Fetch all SELL transactions with resolved ISIN and Master data
     let sellQuery = `
-      SELECT t.*, COALESCE(NULLIF(t.isin, ''), NULLIF(m.isin, ''), '-') as resolved_isin, m.name as company_name, m.sector, m.fmv_31_jan_2018
+      SELECT t.*, COALESCE(NULLIF(t.isin, ''), NULLIF(m.isin, ''), '-') as resolved_isin, m.name as company_name, m.sector, m.asset_class, m.fmv_31_jan_2018
       FROM Transactions t
       LEFT JOIN MasterTickers m ON (t.isin IS NOT NULL AND t.isin != '' AND t.isin = m.isin) OR (t.symbol IS NOT NULL AND t.symbol != '' AND t.symbol = m.symbol)
       WHERE UPPER(t.type) IN ('SELL', 'SALE')
@@ -223,6 +219,7 @@ export class ReportsService {
         deemed_cost: deemedCost,
         gain_loss: taxableGain,
         raw_gain: rawGain,
+        asset_class: tx.asset_class || 'Unclassified',
         gain_type: isLtcg ? 'LTCG (12.5%)' : 'STCG (20%)',
         is_grandfathered: deemedCost > matchedCost,
         grandfathered_fmv: fmvJan2018 > 0 ? fmvJan2018 * sellQty : 0
@@ -237,6 +234,15 @@ export class ReportsService {
     const estimatedLtcgTax = taxableLtcg * 0.125;
     const estimatedStcgTax = Math.max(0, totalStcg) * 0.20;
     const totalTaxLiability = estimatedLtcgTax + estimatedStcgTax;
+
+    const reconciliationByAssetClass = rows.reduce((acc: Record<string, { tradeCount: number; saleValue: number; gainLoss: number }>, row: any) => {
+      const key = row.asset_class || 'Unclassified';
+      const bucket = acc[key] || (acc[key] = { tradeCount: 0, saleValue: 0, gainLoss: 0 });
+      bucket.tradeCount += 1;
+      bucket.saleValue += Number(row.sale_value) || 0;
+      bucket.gainLoss += Number(row.gain_loss) || 0;
+      return acc;
+    }, {});
 
     return {
       success: true,
@@ -253,7 +259,13 @@ export class ReportsService {
         estimatedStcgTax,
         totalTaxLiability,
         grandfatheredBenefit: totalGrandfatheredBenefit,
-        tradeCount: rows.length
+        tradeCount: rows.length,
+        reconciliationByAssetClass,
+        reconciliationCheck: {
+          allTradeCount: Object.values(reconciliationByAssetClass).reduce((sum, part) => sum + part.tradeCount, 0),
+          allSaleValue: Object.values(reconciliationByAssetClass).reduce((sum, part) => sum + part.saleValue, 0),
+          allGainLoss: Object.values(reconciliationByAssetClass).reduce((sum, part) => sum + part.gainLoss, 0)
+        }
       },
       rows
     };
