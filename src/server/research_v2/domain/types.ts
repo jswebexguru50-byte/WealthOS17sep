@@ -1,6 +1,6 @@
 export type Scope = 'CONSOLIDATED' | 'STANDALONE';
 export type PeriodType = 'DISCRETE_Q' | 'YTD_3M' | 'YTD_6M' | 'YTD_9M' | 'YTD_12M' | 'ANNUAL' | 'TTM' | 'POINT_IN_TIME';
-export type FactUnit = 'INR_CR' | 'PCT' | 'RATIO' | 'SHARES' | 'INR' | 'DAYS' | 'X';
+export type FactUnit = 'INR_CR' | 'PCT' | 'RATIO' | 'SHARES' | 'INR' | 'INR_PER_SHARE' | 'DAYS' | 'X';
 export type SourceTier = 'STATUTORY' | 'PROVIDER_VERIFIED' | 'PROVIDER_LATEST' | 'SECONDARY_LEAD' | 'SIMULATED';
 
 export interface Fact {

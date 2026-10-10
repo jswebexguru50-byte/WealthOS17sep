@@ -10,6 +10,7 @@ export function convertUnit(value: number, unit: string, moneyAlreadyCrore = fal
   if (normalized === 'PERCENT' || normalized === 'PERCENTAGE' || normalized === '%') return { value, unit: 'PCT' };
   if (normalized === 'FRACTION' || normalized === 'DECIMAL') return { value, unit: 'RATIO' };
   if (normalized === 'SHARES') return { value, unit: 'SHARES' };
+  if (normalized === 'INRPER SHARE' || normalized === 'INR_PER_SHARE') return { value, unit: 'INR_PER_SHARE' };
   if (normalized === 'DAYS') return { value, unit: 'DAYS' };
   if (normalized === 'X' || normalized === 'TIMES') return { value, unit: 'X' };
   throw new Error(`UNIT_UNSUPPORTED:${unit}`);
