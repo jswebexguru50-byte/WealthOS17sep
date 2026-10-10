@@ -126,6 +126,14 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
     const symbolByIsin = new Map<string, string>();
     const isinByName = new Map<string, string>();
     const masterFMV: Record<string, number> = {};
+    const identityAliases = await dbAll(db, 'SELECT alias_kind, alias_value, canonical_symbol, canonical_isin FROM SecurityIdentityAliases').catch(() => []);
+    const aliasByKey = new Map<string, { canonicalIsin: string; canonicalSymbol: string }>();
+    for (const alias of identityAliases) {
+      aliasByKey.set(`${String(alias.alias_kind).toUpperCase()}:${String(alias.alias_value).toUpperCase().trim()}`, {
+        canonicalIsin: String(alias.canonical_isin).toUpperCase(),
+        canonicalSymbol: String(alias.canonical_symbol).toUpperCase()
+      });
+    }
 
     for (const mt of masterTickersRows) {
       const isin = (mt.isin || '').toUpperCase().trim();
@@ -147,6 +155,9 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
       let isin = (rawIsin || '').toUpperCase().trim();
       let sym = (rawSymbol || '').toUpperCase().trim();
 
+      const tableAlias = aliasByKey.get(`ISIN:${isin}`) || aliasByKey.get(`SYMBOL:${sym}`);
+      if (tableAlias) return tableAlias;
+
       // Known corporate restructurings / SME-to-Mainboard migrations
       if (sym === 'GSM' || sym === 'GSMFOILS' || isin === 'INE0T1501013' || isin === 'INE0SQY01018') {
         return { canonicalIsin: 'INE0SQY01018', canonicalSymbol: 'GSMFOILS' };
@@ -166,16 +177,12 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
       if (sym === 'M&M' || sym === 'MAHINDRA & MAHINDRA' || sym === 'MAHINDRA AND MAHINDRA' || isin === 'INE101A01026') {
         return { canonicalIsin: 'INE101A01026', canonicalSymbol: 'M&M' };
       }
-      if (sym === 'TATAPOWER' || sym === 'TATA POWER' || sym === 'TATA POWER CO LTD' || isin === 'INE245A01021') {
+      if (sym === 'TATA POWER' || sym === 'TATA POWER CO LTD') {
         return { canonicalIsin: 'INE245A01021', canonicalSymbol: 'TATAPOWER' };
       }
       // Broker/registrar ISIN aliases: the same security was reported under
       // legacy identifiers in older tradebooks. Keep the FIFO queue together
       // without inventing opening lots.
-      if (sym === 'TEMBO' || isin === 'INE869Y01010') return { canonicalIsin: 'INE869Y01028', canonicalSymbol: 'TEMBO' };
-      if (sym === 'APOLLO' || isin === 'INE713T01010') return { canonicalIsin: 'INE713T01028', canonicalSymbol: 'APOLLO' };
-      if (sym === 'ORIANA' || isin === 'IN_ORIANA' || isin === 'INE0OUT01019') return { canonicalIsin: 'INE0OUT01027', canonicalSymbol: 'ORIANA' };
-
       // Valid standard ISIN (12 chars, not CUSTOM_)
       if (isin && isin.length === 12 && !isin.startsWith('CUSTOM_')) {
         const canonicalSym = symbolByIsin.get(isin) || sym || isin;
