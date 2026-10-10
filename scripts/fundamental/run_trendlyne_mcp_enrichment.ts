@@ -7,7 +7,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import crypto from 'node:crypto';
-import sqlite3 from 'sqlite3';
+import { createRequire } from 'node:module';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 
@@ -173,9 +173,21 @@ function endpointUrl(): string | undefined {
   }
   return undefined;
 }
-const all = (db: sqlite3.Database, sql: string, params: unknown[] = []) => new Promise<Row[]>((resolve, reject) => db.all(sql, params, (err, rows) => err ? reject(err) : resolve((rows || []) as Row[])));
-const run = (db: sqlite3.Database, sql: string, params: unknown[] = []) => new Promise<void>((resolve, reject) => db.run(sql, params, err => err ? reject(err) : resolve()));
-const close = (db: sqlite3.Database) => new Promise<void>(resolve => db.close(() => resolve()));
+/**
+ * Node 24's built-in SQLite driver avoids the native sqlite3 addon, which is
+ * frequently unavailable when this script is run from a clean Windows
+ * checkout. Keep this adapter deliberately tiny so acquisition semantics stay
+ * identical: all SQL remains parameterised and writes are explicit.
+ */
+type SyncDatabase = {
+  prepare(sql: string): { all(...params: unknown[]): Row[]; run(...params: unknown[]): unknown };
+  close(): void;
+};
+const runtimeRequire = createRequire(import.meta.url);
+const { DatabaseSync } = runtimeRequire('node:sqlite') as { DatabaseSync: new (file: string) => SyncDatabase };
+const all = (db: SyncDatabase, sql: string, params: unknown[] = []) => db.prepare(sql).all(...params);
+const run = (db: SyncDatabase, sql: string, params: unknown[] = []) => { db.prepare(sql).run(...params); };
+const close = (db: SyncDatabase) => { db.close(); };
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 const now = () => new Date().toISOString();
 
@@ -227,20 +239,20 @@ function writeStatementHistoryAcquisitionContract() {
   });
 }
 
-async function requireEvidenceTables(db: sqlite3.Database) {
+async function requireEvidenceTables(db: SyncDatabase) {
   const rows = await all(db, "SELECT name FROM sqlite_master WHERE type='table' AND name IN ('fundamental_endpoint_snapshots','fundamental_source_snapshots')");
   const names = new Set(rows.map(row => String(row.name)));
   const missing = ['fundamental_endpoint_snapshots', 'fundamental_source_snapshots'].filter(name => !names.has(name));
   if (missing.length) throw new Error(`Required evidence table(s) missing: ${missing.join(', ')}. No schema change was made.`);
 }
-async function isFresh(db: sqlite3.Database, symbol: string, endpoint: string, ttlDays: number) {
+async function isFresh(db: SyncDatabase, symbol: string, endpoint: string, ttlDays: number) {
   if (force) return false;
   const rows = await all(db, "SELECT fetched_at,status FROM fundamental_endpoint_snapshots WHERE provider='TRENDLYNE_MCP' AND symbol=? AND endpoint=? LIMIT 1", [symbol, endpoint]);
   const row = rows[0];
   const timestamp = typeof row?.fetched_at === 'string' ? Date.parse(row.fetched_at) : NaN;
   return row?.status === 'SUCCESS' && Number.isFinite(timestamp) && Date.now() - timestamp < ttlDays * 86_400_000;
 }
-async function save(db: sqlite3.Database, symbol: string, endpoint: string, status: SnapshotStatus, response: unknown, error: string | null) {
+async function save(db: SyncDatabase, symbol: string, endpoint: string, status: SnapshotStatus, response: unknown, error: string | null) {
   const fetchedAt = now();
   const raw = response === undefined ? null : JSON.stringify(response);
   await run(db, `INSERT OR REPLACE INTO fundamental_endpoint_snapshots
@@ -363,7 +375,7 @@ async function main() {
     const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
     let symbols = [...new Set((manifest.symbols || []).map((item: unknown) => String(item).trim().toUpperCase()))].filter((symbol: string) => /^[A-Z0-9&.-]+$/.test(symbol));
     if (maxSymbols > 0) symbols = symbols.slice(0, maxSymbols);
-    const db = new sqlite3.Database(dbPath);
+    const db = new DatabaseSync(dbPath);
     const parameterEndpoint = quarterlyHistoryOnly
       ? 'quarterly_profit_history'
       : statementHistoryPack
