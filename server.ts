@@ -168,21 +168,21 @@ const requireAdminPassword = (req: any, res: any, next: any) => {
   const principal = authenticateFamily(req.headers, expected);
   if (principal) {
     if (!roleAllows(principal, 'admin')) return res.status(403).json({ success: false, error: 'ROLE_FORBIDDEN' });
-    req.auth = principal;
+    (req as any).auth = principal;
     return next();
   }
   if (!expected) {
     if (serverConfig.NODE_ENV === 'production' || serverConfig.BIND_HOST !== '127.0.0.1') {
       return res.status(503).json({ success: false, error: 'APP_PASSWORD_REQUIRED' });
     }
-    req.auth = { userId: 'local-development', role: 'owner', authMethod: 'app-password' };
+    (req as any).auth = { userId: 'local-development', role: 'owner', authMethod: 'app-password' };
     return next();
   }
   const provided = String(req.headers['x-app-password'] || '');
   if (!timingSafeMatch(provided, expected)) {
     return res.status(401).json({ success: false, error: 'UNAUTHORIZED' });
   }
-  req.auth = { userId: String(req.headers['x-app-user'] || 'app-password-owner'), role: 'owner', authMethod: 'app-password' };
+  (req as any).auth = { userId: String(req.headers['x-app-user'] || 'app-password-owner'), role: 'owner', authMethod: 'app-password' };
   next();
 };
 
@@ -288,7 +288,7 @@ const enforceWriteOrigin = (req: any, res: any, next: any) => {
   } else if (!allowedOriginHosts.has(host)) {
     return res.status(403).json({ success: false, error: 'HOST_NOT_ALLOWLISTED' });
   }
-  if (!req.auth) req.auth = { userId: String(req.headers['x-app-user'] || 'app-password-owner'), role: 'owner', authMethod: 'app-password' };
+  if (!(req as any).auth) (req as any).auth = { userId: String(req.headers['x-app-user'] || 'app-password-owner'), role: 'owner', authMethod: 'app-password' };
   next();
 };
 
@@ -405,7 +405,7 @@ app.get('/api/auth/password-check', requireAdminPassword, (_req, res) => {
 app.delete('/api/portfolios/:name', requireAdminPassword, destructiveLimiter, typedConfirmation('DELETE_PORTFOLIO'), async (req, res, next) => {
   try {
     const backupPath = await preDestructiveBackup('delete_portfolio');
-    await recordDestructiveAudit('DELETE_PORTFOLIO', backupPath, { portfolio: req.params.name, actor: req.auth });
+    await recordDestructiveAudit('DELETE_PORTFOLIO', backupPath, { portfolio: req.params.name, actor: (req as any).auth });
     req.body.confirm = true;
     next();
   } catch { res.status(503).json({ success: false, message: 'Required portfolio backup failed.' }); }
@@ -11637,7 +11637,7 @@ app.delete('/api/portfolios/:portfolioName', requireAdminPassword, destructiveLi
 
     // Re-run FIFO to make sure analytics are clean
     await runFIFO(db);
-    await recordDestructiveAudit('DELETE_PORTFOLIO', backupPath, { portfolioName, actor: req.auth });
+    await recordDestructiveAudit('DELETE_PORTFOLIO', backupPath, { portfolioName, actor: (req as any).auth });
 
     res.json({
       success: true,
@@ -12991,7 +12991,7 @@ app.post('/api/pms/purge-bank-book', requireAdminPassword, destructiveLimiter, t
     }
 
     await runFIFO(targetDb);
-    await recordDestructiveAudit('PURGE_BANK_BOOK', backupPath, { portfolio: pName || 'ALL', actor: req.auth });
+    await recordDestructiveAudit('PURGE_BANK_BOOK', backupPath, { portfolio: pName || 'ALL', actor: (req as any).auth });
     res.json({
       success: true,
       message: pName
@@ -13009,7 +13009,7 @@ app.post('/api/admin/purge-transactions', requireAdminPassword, destructiveLimit
     const { portfolio, purge_mappings = false } = req.body || {};
     const backupPath = await preDestructiveBackup('purge_transactions');
     await purgePortfolioData(portfolio, purge_mappings);
-    await recordDestructiveAudit('PURGE_TRANSACTIONS', backupPath, { portfolio: portfolio || 'ALL', actor: req.auth });
+    await recordDestructiveAudit('PURGE_TRANSACTIONS', backupPath, { portfolio: portfolio || 'ALL', actor: (req as any).auth });
 
     res.json({
       success: true,
@@ -13042,7 +13042,7 @@ app.post('/api/admin/purge-everything', requireAdminPassword, destructiveLimiter
     await dbRun(targetDb, 'DELETE FROM UserMappings');
 
     await runFIFO(targetDb);
-    await recordDestructiveAudit('PURGE_EVERYTHING', backupPath, { actor: req.auth });
+    await recordDestructiveAudit('PURGE_EVERYTHING', backupPath, { actor: (req as any).auth });
 
     res.json({ success: true, message: 'All database data completely purged.' });
   } catch (err: any) {
@@ -13715,7 +13715,7 @@ app.post('/api/purge-data', requireAdminPassword, destructiveLimiter, typedConfi
 
     const backupPath = await preDestructiveBackup('purge_data');
     await purgePortfolioData(portfolio);
-    await recordDestructiveAudit('PURGE_DATA', backupPath, { portfolio: portfolio || 'ALL', actor: req.auth });
+    await recordDestructiveAudit('PURGE_DATA', backupPath, { portfolio: portfolio || 'ALL', actor: (req as any).auth });
 
     res.json({
       success: true,
@@ -13751,7 +13751,7 @@ app.post('/api/purge-master-tickers', requireAdminPassword, destructiveLimiter, 
     await dbRun(db, 'DELETE FROM UserMappings');
 
     await runFIFO(db);
-    await recordDestructiveAudit('PURGE_MASTER_TICKERS', backupPath, { actor: req.auth });
+    await recordDestructiveAudit('PURGE_MASTER_TICKERS', backupPath, { actor: (req as any).auth });
 
     res.json({ success: true, message: 'Master tickers and associated portfolio data purged successfully.' });
   } catch (err: any) {
