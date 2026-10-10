@@ -998,6 +998,7 @@ const handleScripIntelligence = async (rawSymbol: string, res: any, req?: any) =
       dataState,
       decisionStatus: 'NO_AUTOMATED_DECISION',
       fereEvidence: response.modules.fere?.result || null,
+
       fereResult: response.modules.fere?.status || 'DATA_INSUFFICIENT',
       technical: response.modules.technical?.result || null,
       fundamental: response.modules.fundamental?.result || null,
@@ -1879,7 +1880,14 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
         H.portfolio, H.folio, H.isin, H.symbol, H.quantity, H.avg_buy_price, 
         H.total_cost, H.ltp, H.prev_close, H.current_value, H.unrealized_pnl, 
         H.unrealized_pct, H.day_change, H.day_change_pct, H.last_update, 
-        H.data_source, H.currency, H.native_current_value, H.native_total_cost, 
+        H.data_source, H.data_source AS price_source, H.last_update AS price_asof,
+        CASE
+          WHEN H.data_status = 'FAILED' THEN 'FAILED'
+          WHEN H.ltp > 0 AND H.last_update IS NOT NULL
+            AND datetime(H.last_update) < datetime('now', '-1 day') THEN 'STALE'
+          ELSE COALESCE(H.data_status, 'LIVE')
+        END AS data_status,
+        H.currency, H.native_current_value, H.native_total_cost,
         H.native_avg_buy_price, H.native_ltp, H.native_unrealized_pnl,
         M.name as company_name, M.sector, COALESCE(P.base_currency, 'INR') as base_currency
       FROM Holdings H 
@@ -1991,6 +1999,7 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
           ltp: inrVal,
           current_value: inrVal,
           native_current_value: b.currency === 'INR' ? 0 : b.balance_amount,
+
           native_total_cost: b.currency === 'INR' ? 0 : principal,
           currency: b.currency,
           rate_to_inr: rate,
@@ -2991,6 +3000,7 @@ async function getCashFlowLedger(rawPort: string = 'Combined'): Promise<{
     if (isPMS) {
       const amt = Math.abs(tx.net_amount || (tx.quantity * tx.price) || 0);
       let cash = pmsCashInHandByPort.get(pKey) || 0;
+
       if (type === 'DEPOSIT') cash += amt;
       else if (type === 'WITHDRAWAL') cash -= amt;
       else if (type === 'BUY' || type.includes('PURCHASE')) cash -= amt;
@@ -3991,6 +4001,7 @@ app.get('/api/dashboard/xirr', async (req, res) => {
     return sendWithEtag(req, res, resData);
 
   } catch (err: any) {
+
     console.error(err);
     res.status(500).json({ success: false, message: err.message });
   }
@@ -4990,6 +5001,7 @@ app.get('/api/analytics', async (req, res) => {
           benchVal = calculateXIRR(benchmarkFlows) || 0;
           benchAbs = benchVal;
         }
+
 
         benchmarks[key] = Math.round(benchVal * 100) / 100;
         benchmarksAbsolute[key] = Math.round(benchAbs * 100) / 100;
@@ -5991,6 +6003,7 @@ app.post('/api/corporate-actions/import-manual', upload.single('file'), async (r
         duplicateCount,
         ignoredCount,
         batchId
+
       });
     } catch (innerErr: any) {
       await dbRun(db, 'ROLLBACK').catch(() => {});
@@ -6991,6 +7004,7 @@ function parseBankBookRecord(record: any[], indices: any) {
   const { dateIdx, descIdx, debitIdx, creditIdx, amountIdx, securityIdx, buySellIdx, expenseIdx, incomeIdx, depWithIdx } = indices;
   let txnDesc = '';
   if (descIdx >= 0 && descIdx < record.length && record[descIdx]) {
+
     txnDesc = String(record[descIdx]).trim();
   } else {
     for (const idx of [4, 3, 2, 1, 0]) {
@@ -7991,6 +8005,7 @@ app.post('/api/pms/check-duplicates', async (req, res) => {
               conflict_tx: conflictTx
             });
           }
+
         }
       }
     }
@@ -8991,6 +9006,7 @@ app.post('/api/pms/reconcile-upload', upload.fields([
         txnRows = parseTxnCsv(files.txnFile[0].buffer);
       }
     }
+
     if (files?.bankFile?.[0]) {
       const isBankPdf = isPdf(files.bankFile[0].buffer);
       if (isBankPdf) {
@@ -9991,6 +10007,7 @@ async function generateImmediateGrowthHistory(db: any, selectedPortfolios: strin
 
     // Query current live market value of holdings from Holdings table (case-insensitive)
     let holdQuery = `SELECT SUM(current_value) as val, SUM(total_cost) as cost FROM Holdings`;
+
     let holdParams: any[] = [];
     if (selectedPortfolios && selectedPortfolios.length > 0) {
       const placeholders = selectedPortfolios.map(() => '?').join(',');
@@ -10991,6 +11008,7 @@ app.get('/api/cams/configs', async (req, res) => {
   try {
     const rows = await dbAll(db, 'SELECT * FROM CamsConfigurations ORDER BY created_at DESC');
     res.json({ success: true, configs: rows });
+
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });
   }
@@ -11992,6 +12010,7 @@ app.post('/api/import/validate', upload.single('file'), async (req, res) => {
         }
     }
 
+
     const masterRows = await dbAll(db, 'SELECT isin, symbol, exchange, name FROM MasterTickers');
 
     const symbolToIsin: Record<string, string> = {};
@@ -12991,6 +13010,7 @@ app.post('/api/action-history/undo/:batchId', async (req, res) => {
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });
   }
+
 });
 
 // ── Carried Forward Losses & Set-Off API (Per-Portfolio STCL & LTCL) ───────────
@@ -13991,6 +14011,7 @@ app.post('/api/admin/analyze-project-zip', upload.single('zipFile'), async (req,
     let unchangedCount = 0;
 
     for (const entry of zipEntries) {
+
       if (entry.isDirectory) continue;
       
       let relPath = entry.entryName.replace(/\\/g, '/');
@@ -14991,6 +15012,7 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
 
     if (phase === '1') {
       const scrips = uniqueRawSymbols.map(raw => {
+
         const rawUpper = raw.toUpperCase().trim();
         let resolved = '';
         let status = 'unmapped';
@@ -15992,6 +16014,7 @@ async function startServer() {
         console.log(`[Midnight Snapshot] Capturing end-of-day portfolio snapshot for ${istDateStr}...`);
         recordDailyPortfolioSnapshots(db, 'MIDNIGHT_CLOSE').catch(console.error);
 
+
         setTimeout(async () => {
           try {
             await dbRun(db, `DELETE FROM HistoricalPrices WHERE date < date('now', '-5 years')`);
@@ -16040,5 +16063,6 @@ export { app, buildDashboardPayload, dashboardResponseCache, invalidateDashboard
 if (process.env.NODE_ENV !== 'test') {
   startServer().catch(console.error);
 }
+
 
 
