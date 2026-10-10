@@ -558,6 +558,7 @@ import { RiskAnalyticsEngine } from './src/server/services/RiskAnalyticsEngine.j
 import { AlertEngine } from './src/server/services/AlertEngine.js';
 import { PriceActionBacktestEngine } from './src/server/services/PriceActionBacktestEngine.js';
 import { PostTaxXirrService } from './src/server/services/PostTaxXirrService.js';
+import familyGovernanceRouter from './src/server/routes/familyGovernance.js';
 
 app.use('/api', systemRouter);
 app.use('/api/portfolios', portfoliosRouter);
@@ -579,6 +580,7 @@ app.use('/api/v1/regime-backtest', regimeBacktestRouter); // Full-Universe Dynam
 app.use('/api/v1/quant', quantRouter);                 // Institutional Quant & Macro Engine v5.0
 app.use('/api/bedrock', bedrockRouter);                   // AWS Bedrock Claude Sonnet — direct to your AWS account
 app.use('/api/strategies', strategiesRouter);             // Strategy Library & Management (Phase 1: Data Layer)
+app.use('/api/family-governance', familyGovernanceRouter);
 app.use('/api/technical-strategies', strategiesRouter);   // Strategy Library alias for ITAS
 
 app.get('/api/analytics/lookthrough', async (req, res) => {
@@ -996,9 +998,9 @@ app.get('/api/engine/run-history', async (req, res) => {
 });
 
 // GET /api/engine/status — Current engine status
+
 app.get('/api/engine/status', async (req, res) => {
   try {
-
     const status = QuantitativeBacktestScheduler.getInstance().getStatus();
     const regime = await MacroRegimeClassifierService.getInstance().getCurrentRegime();
     const learningReport = await SelfLearningEngine.getInstance().getSelfLearningReport();
@@ -1997,9 +1999,9 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
       SELECT portfolio, isin, symbol, SUM(realized_pnl) as total_realized_pnl, SUM(sell_proceeds) as total_withdrawals
       FROM RealizedGains
     `;
+
     let rgParams: any[] = [];
     if (selected && selected.length > 0) {
-
       const placeholders = selected.map(() => '?').join(',');
       rgSql += ` WHERE portfolio IN (${placeholders})`;
       rgParams.push(...selected);
@@ -2998,9 +3000,9 @@ async function getCashFlowLedger(rawPort: string = 'Combined'): Promise<{
         const ledgerKey = ca.symbol || ca.isin;
         let qty = 0;
         if (ledgerKey && qtyLedger[ledgerKey]) {
+
           const entries = qtyLedger[ledgerKey];
           for (let i = entries.length - 1; i >= 0; i--) {
-
             if (entries[i].date <= caDateStr) {
               qty = entries[i].qty;
               break;
@@ -3999,9 +4001,9 @@ app.get('/api/dashboard/xirr', async (req, res) => {
 
     // Gold benchmark cash-flow matched XIRR
     let goldXirr: number | null = null;
+
     try {
       let goldShares = 0;
-
       const goldFlows: CashFlow[] = [];
       const currentGoldPrice10g = getHistoricalGoldInrRate(formatDate(new Date()));
       const currentGoldPriceGram = currentGoldPrice10g / 10;
@@ -5000,9 +5002,9 @@ app.get('/api/analytics', async (req, res) => {
       const absGain = eVal - sVal + netTx;
       const capitalBase = sVal + (netTx < 0 ? Math.abs(netTx) : 0);
       const absPct = capitalBase > 0 ? (absGain / capitalBase) * 100 : (name === 'Since Inception' ? customAbsolutePct : 0);
+
       const rawXirr = name === 'Since Inception' ? customXirr : calculateXIRR(tFlows);
       const annXirr = rawXirr !== null && !isNaN(rawXirr) && isFinite(rawXirr) ? rawXirr : (() => {
-
         const years = Math.max(0.01, days / 365.25);
         const factor = 1 + (absPct / 100);
         return factor > 0 ? (Math.pow(factor, 1 / years) - 1) * 100 : absPct;
@@ -6001,8 +6003,8 @@ app.post('/api/corporate-actions/import-manual', upload.single('file'), async (r
 
     let importedCount = 0;
     let duplicateCount = 0;
-    let ignoredCount = 0;
 
+    let ignoredCount = 0;
 
     const batchId = `Manual-CA-${Date.now()}`;
 
@@ -7002,9 +7004,9 @@ function findHoldingsColumnIndices(rows: any[][]) {
           break;
         }
       }
+
       // Found the header row!
       for (let j = 0; j < row.length; j++) {
-
         const val = row[j];
         if (val.includes('code') || val.includes('symbol') || val.includes('ticker') || val.includes('scrip code') || val.includes('scrip_code')) {
           securityIdx = j;
@@ -8004,8 +8006,8 @@ app.post('/api/pms/check-duplicates', async (req, res) => {
           const tranRef = (record[11] || '').trim();
           if (amt <= 0) continue;
 
-          // Unique match key: incorporate Tran Ref. when present
 
+          // Unique match key: incorporate Tran Ref. when present
           const matchKey = tranRef && tranRef.length >= 3
             ? `CASH_${dateStr}_${txnType}_${tranRef}`
             : `CASH_${normalizeDuplicateKey(sym)}_${dateStr}_${amt.toFixed(2)}_${txnType}`;
@@ -9004,9 +9006,9 @@ app.post('/api/pms/reconcile-upload', upload.fields([
         if (!dateStr) return [];
         const security = cols[3]?.replace(/"/g,'').trim() || '';
         const qty = parseNum(cols[5]); const price = parseNum(cols[6]);
+
         const brkg = parseNum(cols[7]); const stt = parseNum(cols[8]);
         const settAmt = Math.abs(parseNum(cols[9]));
-
         let dbType: string;
         if (descL === 'buy') dbType = 'BUY';
         else if (descL === 'sell') dbType = 'SELL';
@@ -10005,9 +10007,9 @@ app.get('/api/holdings', async (req, res) => {
             const subPrevVal = sub.current_value - sub.day_change;
             sub.day_change_pct = subPrevVal > 0 ? (sub.day_change / subPrevVal) * 100 : 0;
 
+
             try {
               const txs = await dbAll(db, `SELECT date, type, net_amount FROM Transactions WHERE symbol = ? AND portfolio = ?`, [sub.symbol, sub.portfolio]);
-
               const flows: any[] = [];
               txs.forEach((t: any) => {
                 const type = String(t.type || '').toUpperCase().trim();
@@ -11006,9 +11008,9 @@ app.get('/api/dashboard/effective-holdings', async (req, res) => {
     res.json({ success: true, effective_holdings: effectiveHoldings });
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });
+
   }
 });
-
 
 // 4. Alias POST /api/market-prices/sync
 app.post('/api/market-prices/sync', async (req, res) => {
@@ -12007,9 +12009,9 @@ app.get('/api/import/template', (req, res) => {
       const sampleCAs = [
         {
           "Record Date": "2023-03-03",
+
           "ISIN": "INF179K01974",
           "Symbol": "HDFC Large Cap Fund - IDCW Option - Direct Plan",
-
           "Action Type": "DIVIDEND",
           "Numerator": 1,
           "Denominator": 1,
@@ -13008,9 +13010,9 @@ app.post('/api/admin/purge-transactions', requireAdminPassword, destructiveLimit
         ? `All transactions and corporate actions for portfolio "${portfolio}" purged successfully${purge_mappings ? ' (including scrip mappings)' : ''}.`
         : `Transactional data purged across all portfolios successfully${purge_mappings ? ' (including scrip mappings)' : ''}.`
     });
+
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });
-
   }
 });
 
@@ -14009,9 +14011,9 @@ app.post('/api/admin/purge-cache', async (req, res) => {
   }
 });
 
+
 // POST Vacuum Database to Reclaim Disk Space
 app.post('/api/admin/vacuum-database', async (req, res) => {
-
   try {
     const targetDb = getDB() || db;
     const dbPath = path.join(process.cwd(), 'portfolio.db');
@@ -15010,9 +15012,9 @@ app.post('/api/reconcile', upload.single('file'), async (req, res) => {
             action = 'SPLIT';
           } else if (Math.abs(ratio - 10.0) < 0.1) {
             reason = `${typeLabel} quantity is 10x. Missing a 1:10 Split corporate action.`;
+
             action = 'SPLIT';
           } else {
-
             reason = `Tracker quantity (${dbQty}) is less than ${typeLabel} (${zerodhaQty}). Likely a missing BUY or corporate action.`;
             action = 'BUY';
           }
@@ -16012,8 +16014,8 @@ async function startServer() {
   }
 
 
-  // Trigger initial background FX rates sync only in explicit scheduler mode.
 
+  // Trigger initial background FX rates sync only in explicit scheduler mode.
   // Normal research/discovery sessions should not start network/background work
   // that can make lightweight UI routes feel slow.
   if (process.env.ENABLE_BACKGROUND_SCHEDULERS === 'true' && process.env.READ_ONLY_RUNTIME !== 'true') {
