@@ -249,7 +249,7 @@ const preDestructiveBackup = async (label: string): Promise<string> => {
 };
 const recordDestructiveAudit = async (operation: string, backupPath: string, details: Record<string, unknown> = {}) => {
   try {
-    await auditDBChange(getDB() || db, 'DESTRUCTIVE_OPERATION', operation, null, JSON.stringify({ operation, backupPath, ...details }));
+    await auditDBChange(getDB() || db, 'DESTRUCTIVE_OPERATION', operation, null, JSON.stringify({ operation, backupPath, actor: details.actor || null, ...details }));
   } catch (err) {
     console.warn('[Security] Could not write destructive-operation audit row:', err);
   }
@@ -405,7 +405,7 @@ app.get('/api/auth/password-check', requireAdminPassword, (_req, res) => {
 app.delete('/api/portfolios/:name', requireAdminPassword, destructiveLimiter, typedConfirmation('DELETE_PORTFOLIO'), async (req, res, next) => {
   try {
     const backupPath = await preDestructiveBackup('delete_portfolio');
-    await recordDestructiveAudit('DELETE_PORTFOLIO', backupPath, { portfolio: req.params.name });
+    await recordDestructiveAudit('DELETE_PORTFOLIO', backupPath, { portfolio: req.params.name, actor: req.auth });
     req.body.confirm = true;
     next();
   } catch { res.status(503).json({ success: false, message: 'Required portfolio backup failed.' }); }
@@ -11629,7 +11629,7 @@ app.delete('/api/portfolios/:portfolioName', requireAdminPassword, destructiveLi
 
     // Re-run FIFO to make sure analytics are clean
     await runFIFO(db);
-    await recordDestructiveAudit('DELETE_PORTFOLIO', backupPath, { portfolioName });
+    await recordDestructiveAudit('DELETE_PORTFOLIO', backupPath, { portfolioName, actor: req.auth });
 
     res.json({
       success: true,
@@ -12983,7 +12983,7 @@ app.post('/api/pms/purge-bank-book', requireAdminPassword, destructiveLimiter, t
     }
 
     await runFIFO(targetDb);
-    await recordDestructiveAudit('PURGE_BANK_BOOK', backupPath, { portfolio: pName || 'ALL' });
+    await recordDestructiveAudit('PURGE_BANK_BOOK', backupPath, { portfolio: pName || 'ALL', actor: req.auth });
     res.json({
       success: true,
       message: pName
@@ -13001,7 +13001,7 @@ app.post('/api/admin/purge-transactions', requireAdminPassword, destructiveLimit
     const { portfolio, purge_mappings = false } = req.body || {};
     const backupPath = await preDestructiveBackup('purge_transactions');
     await purgePortfolioData(portfolio, purge_mappings);
-    await recordDestructiveAudit('PURGE_TRANSACTIONS', backupPath, { portfolio: portfolio || 'ALL' });
+    await recordDestructiveAudit('PURGE_TRANSACTIONS', backupPath, { portfolio: portfolio || 'ALL', actor: req.auth });
     res.json({
       success: true,
       message: portfolio && portfolio !== 'ALL'
@@ -13034,7 +13034,7 @@ app.post('/api/admin/purge-everything', requireAdminPassword, destructiveLimiter
     await dbRun(targetDb, 'DELETE FROM UserMappings');
 
     await runFIFO(targetDb);
-    await recordDestructiveAudit('PURGE_EVERYTHING', backupPath);
+    await recordDestructiveAudit('PURGE_EVERYTHING', backupPath, { actor: req.auth });
 
     res.json({ success: true, message: 'All database data completely purged.' });
   } catch (err: any) {
@@ -13707,7 +13707,7 @@ app.post('/api/purge-data', requireAdminPassword, destructiveLimiter, typedConfi
 
     const backupPath = await preDestructiveBackup('purge_data');
     await purgePortfolioData(portfolio);
-    await recordDestructiveAudit('PURGE_DATA', backupPath, { portfolio: portfolio || 'ALL' });
+    await recordDestructiveAudit('PURGE_DATA', backupPath, { portfolio: portfolio || 'ALL', actor: req.auth });
 
     res.json({
       success: true,
@@ -13743,7 +13743,7 @@ app.post('/api/purge-master-tickers', requireAdminPassword, destructiveLimiter, 
     await dbRun(db, 'DELETE FROM UserMappings');
 
     await runFIFO(db);
-    await recordDestructiveAudit('PURGE_MASTER_TICKERS', backupPath);
+    await recordDestructiveAudit('PURGE_MASTER_TICKERS', backupPath, { actor: req.auth });
 
     res.json({ success: true, message: 'Master tickers and associated portfolio data purged successfully.' });
   } catch (err: any) {
