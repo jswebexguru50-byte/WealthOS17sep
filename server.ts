@@ -148,6 +148,7 @@ import { remoteBridgeRouter } from './src/server/routes/remoteBridgeRouter.js';
 import { aiStudioProxyRouter } from './src/server/routes/aiStudioProxyRouter.js';
 import { dossierRouter } from './src/server/routes/dossierRoutes.js';
 import { getServerConfig, timingSafeMatch, createRateLimiter } from './src/server/config.js';
+import { authenticateFamily, roleAllows } from './src/server/auth/familyRoleAuth.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -164,10 +165,17 @@ const PORT = serverConfig.PORT;
 // must set APP_PASSWORD at startup.
 const requireAdminPassword = (req: any, res: any, next: any) => {
   const expected = serverConfig.APP_PASSWORD;
+  const principal = authenticateFamily(req.headers, expected);
+  if (principal) {
+    if (!roleAllows(principal, 'admin')) return res.status(403).json({ success: false, error: 'ROLE_FORBIDDEN' });
+    req.auth = principal;
+    return next();
+  }
   if (!expected) {
     if (serverConfig.NODE_ENV === 'production' || serverConfig.BIND_HOST !== '127.0.0.1') {
       return res.status(503).json({ success: false, error: 'APP_PASSWORD_REQUIRED' });
     }
+    req.auth = { userId: 'local-development', role: 'owner', authMethod: 'app-password' };
     return next();
   }
   const provided = String(req.headers['x-app-password'] || '');
@@ -279,7 +287,36 @@ const enforceWriteOrigin = (req: any, res: any, next: any) => {
   } else if (!allowedOriginHosts.has(host)) {
     return res.status(403).json({ success: false, error: 'HOST_NOT_ALLOWLISTED' });
   }
+  req.auth = { userId: String(req.headers['x-app-user'] || 'app-password-owner'), role: 'owner', authMethod: 'app-password' };
   next();
+};
+
+// Online backups can take longer than a browser request timeout. Keep their
+// lifecycle explicit so callers never mistake an accepted job for a verified
+// snapshot. Jobs are process-local and bounded; the resulting file remains in
+// the bounded backup retention set maintained by DatabaseManager.
+type BackupJob = { jobId: string; status: 'RUNNING' | 'COMPLETE' | 'FAILED'; startedAt: string; finishedAt?: string; path?: string; error?: string };
+const backupJobs = new Map<string, BackupJob>();
+const startBackupJob = (tag: string): BackupJob => {
+  const jobId = `backup-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  const job: BackupJob = { jobId, status: 'RUNNING', startedAt: new Date().toISOString() };
+  backupJobs.set(jobId, job);
+  void DatabaseManager.getInstance().createBackup(tag.replace(/[^a-z0-9_-]/gi, '_')).then((backupPath) => {
+    job.status = 'COMPLETE';
+    job.path = backupPath;
+    job.finishedAt = new Date().toISOString();
+  }).catch((error: any) => {
+    job.status = 'FAILED';
+    job.error = String(error?.message || 'Backup failed').slice(0, 240);
+    job.finishedAt = new Date().toISOString();
+  }).finally(() => {
+    while (backupJobs.size > 20) {
+      const oldest = backupJobs.keys().next().value;
+      if (!oldest) break;
+      backupJobs.delete(oldest);
+    }
+  });
+  return job;
 };
 
 // Security Headers & CORS Middleware (Finding P0-3)
@@ -341,6 +378,22 @@ app.use('/api', (req, res, next) => {
     return res.status(401).json({ success: false, error: 'UNAUTHORIZED' });
   }
   next();
+});
+
+// Long-running verified database snapshots use an explicit 202/poll contract.
+// The password middleware is applied to both creation and status reads so a
+// job identifier cannot disclose backup paths or failure details publicly.
+app.post('/api/admin/database-backups', requireAdminPassword, (req, res) => {
+  const rawTag = String(req.body?.tag || 'manual');
+  const tag = rawTag.slice(0, 48);
+  const job = startBackupJob(tag);
+  return res.status(202).json({ success: true, job: { jobId: job.jobId, status: job.status, startedAt: job.startedAt }, poll: `/api/admin/database-backups/${encodeURIComponent(job.jobId)}` });
+});
+app.get('/api/admin/database-backups/:jobId', requireAdminPassword, (req, res) => {
+  const job = backupJobs.get(String(req.params.jobId || ''));
+  if (!job) return res.status(404).json({ success: false, error: 'BACKUP_JOB_NOT_FOUND' });
+  const safeJob = { jobId: job.jobId, status: job.status, startedAt: job.startedAt, finishedAt: job.finishedAt, error: job.status === 'FAILED' ? job.error : undefined };
+  return res.json({ success: job.status !== 'FAILED', job: safeJob });
 });
 
 app.get('/api/auth/password-check', requireAdminPassword, (_req, res) => {
@@ -945,6 +998,7 @@ app.get('/api/engine/run-history', async (req, res) => {
 app.get('/api/engine/status', async (req, res) => {
   try {
     const status = QuantitativeBacktestScheduler.getInstance().getStatus();
+
     const regime = await MacroRegimeClassifierService.getInstance().getCurrentRegime();
     const learningReport = await SelfLearningEngine.getInstance().getSelfLearningReport();
     res.json({
@@ -998,7 +1052,6 @@ const handleScripIntelligence = async (rawSymbol: string, res: any, req?: any) =
     const rawModules = req?.query?.modules;
     const requestedModules = rawModules
       ? String(rawModules).split(',').map((m: string) => m.trim().toUpperCase() as any)
-
       : undefined;
 
     // A page read is always side-effect free. State advancement is deliberately
@@ -1946,6 +1999,7 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
     let rgParams: any[] = [];
     if (selected && selected.length > 0) {
       const placeholders = selected.map(() => '?').join(',');
+
       rgSql += ` WHERE portfolio IN (${placeholders})`;
       rgParams.push(...selected);
     }
@@ -1999,7 +2053,6 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
       const isUsAsset = h.portfolio === 'US - IBKR' || h.currency === 'USD' || h.base_currency === 'USD';
       const currency = isUsAsset ? 'USD' : (h.base_currency || 'INR');
       const rate = currency === 'USD' ? usdRate : (fxRates[currency.toUpperCase()] || 1.0);
-
       const nativeVal = h.native_current_value > 0 
         ? h.native_current_value 
         : (isUsAsset && rate > 0 ? h.current_value / rate : h.current_value);
@@ -2947,6 +3000,7 @@ async function getCashFlowLedger(rawPort: string = 'Combined'): Promise<{
           const entries = qtyLedger[ledgerKey];
           for (let i = entries.length - 1; i >= 0; i--) {
             if (entries[i].date <= caDateStr) {
+
               qty = entries[i].qty;
               break;
             }
@@ -3000,7 +3054,6 @@ async function getCashFlowLedger(rawPort: string = 'Combined'): Promise<{
     });
 
     const accruedInr = fdCurrentInr - fdPrincipalInr;
-
     if (accruedInr > 0) {
       const today = new Date();
       totalIncome += accruedInr;
@@ -3948,6 +4001,7 @@ app.get('/api/dashboard/xirr', async (req, res) => {
     try {
       let goldShares = 0;
       const goldFlows: CashFlow[] = [];
+
       const currentGoldPrice10g = getHistoricalGoldInrRate(formatDate(new Date()));
       const currentGoldPriceGram = currentGoldPrice10g / 10;
       for (const flow of flows) {
@@ -4001,7 +4055,6 @@ app.get('/api/dashboard/xirr', async (req, res) => {
         }
         if (!spFlows.some(f => f.type === 'end') && spShares > 0) {
           const endSpPrice = sp500Info.regularMarketPrice || sp500Info.closePrices[sp500Info.closePrices.length - 1].close;
-
           spFlows.push({ date: new Date(), amount: spShares * endSpPrice * currentUsdRate, type: 'end' });
         }
         sp500Xirr = Math.round(calculateXIRR(spFlows) * 100) / 100;
@@ -4949,6 +5002,7 @@ app.get('/api/analytics', async (req, res) => {
       const rawXirr = name === 'Since Inception' ? customXirr : calculateXIRR(tFlows);
       const annXirr = rawXirr !== null && !isNaN(rawXirr) && isFinite(rawXirr) ? rawXirr : (() => {
         const years = Math.max(0.01, days / 365.25);
+
         const factor = 1 + (absPct / 100);
         return factor > 0 ? (Math.pow(factor, 1 / years) - 1) * 100 : absPct;
       })();
@@ -5002,7 +5056,6 @@ app.get('/api/analytics', async (req, res) => {
             hasEndFlow = true;
           } else {
             if (flow.amount < 0) {
-
               benchmarkFlows.push({ ...flow });
               benchmarkShares += idxPrice > 0 ? Math.abs(flow.amount) / idxPrice : 0;
             } else {
@@ -5951,6 +6004,7 @@ app.post('/api/corporate-actions/import-manual', upload.single('file'), async (r
 
     const batchId = `Manual-CA-${Date.now()}`;
 
+
     
 
 
@@ -6002,7 +6056,6 @@ app.post('/api/corporate-actions/import-manual', upload.single('file'), async (r
         } else if (!symbol && isin) {
           symbol = isinToSymbol[isin] || isin;
         }
-
 
         // De-duplicate check in Transactions
         const existing = await dbGet(db, `
@@ -6951,6 +7004,7 @@ function findHoldingsColumnIndices(rows: any[][]) {
       // Found the header row!
       for (let j = 0; j < row.length; j++) {
         const val = row[j];
+
         if (val.includes('code') || val.includes('symbol') || val.includes('ticker') || val.includes('scrip code') || val.includes('scrip_code')) {
           securityIdx = j;
         } else if (val.includes('name') || val.includes('description') || val.includes('company') || val.includes('particulars') || val.includes('asset') || val.includes('scrip name') || val.includes('scrip_name')) {
@@ -7003,7 +7057,6 @@ function findBankBookColumnIndices(rows: any[][]) {
       v.includes('buy/sell') || v.includes('expense') || v.includes('income') || v.includes('dep / with') || v.includes('security')
     );
     if (!isHeaderCandidate) continue;
-
 
     for (let j = 0; j < row.length; j++) {
       const val = row[j];
@@ -7952,6 +8005,7 @@ app.post('/api/pms/check-duplicates', async (req, res) => {
 
           // Unique match key: incorporate Tran Ref. when present
           const matchKey = tranRef && tranRef.length >= 3
+
             ? `CASH_${dateStr}_${txnType}_${tranRef}`
             : `CASH_${normalizeDuplicateKey(sym)}_${dateStr}_${amt.toFixed(2)}_${txnType}`;
           let conflictTx: any = null;
@@ -8005,7 +8059,6 @@ app.post('/api/pms/check-duplicates', async (req, res) => {
               (txnType === 'TDS' && (txTypeNorm === 'TDS' || txTypeNorm === 'EXPENSE')) ||
               (txnType === 'EXPENSE' && (txTypeNorm === 'EXPENSE' || txTypeNorm === 'MANAGEMENT_FEE' || txTypeNorm === 'STT_EXPENSE')) ||
               (txnType === 'MANAGEMENT_FEE' && (txTypeNorm === 'MANAGEMENT_FEE' || txTypeNorm === 'EXPENSE')) ||
-
               (txnType === 'STT_EXPENSE' && (txTypeNorm === 'STT_EXPENSE' || txTypeNorm === 'EXPENSE')) ||
               ((txnType === 'DIVIDEND' || txnType === 'INTEREST' || txnType === 'CASH_INCOME') && (txTypeNorm === 'DIVIDEND' || txTypeNorm === 'INTEREST' || txTypeNorm === 'CASH_INCOME')) ||
               (txnType === 'BUY' && (txTypeNorm === 'BUY' || txTypeNorm === 'TRANSFER IN' || txTypeNorm === 'SECURITY IN')) ||
@@ -8953,6 +9006,7 @@ app.post('/api/pms/reconcile-upload', upload.fields([
         const brkg = parseNum(cols[7]); const stt = parseNum(cols[8]);
         const settAmt = Math.abs(parseNum(cols[9]));
         let dbType: string;
+
         if (descL === 'buy') dbType = 'BUY';
         else if (descL === 'sell') dbType = 'SELL';
         else if (descL === 'security in') dbType = 'TRANSFER IN';
@@ -9006,7 +9060,6 @@ app.post('/api/pms/reconcile-upload', upload.fields([
         } else if (descL.includes('custody') || descL.includes('fund accounting') || descL.includes('operating expenses')) {
           dbType = 'EXPENSE'; symbol = 'CASH:EXPENSE'; netAmount = Math.abs(expenses);
         } else if (descL === 'tds' || descL.includes('tax deducted')) {
-
           dbType = 'TDS'; symbol = 'CASH:TDS'; netAmount = Math.abs(expenses) || Math.abs(depWith);
         } else {
           netAmount = Math.abs(buySell) + Math.abs(income) + Math.abs(expenses) + Math.abs(depWith);
@@ -9954,6 +10007,7 @@ app.get('/api/holdings', async (req, res) => {
             try {
               const txs = await dbAll(db, `SELECT date, type, net_amount FROM Transactions WHERE symbol = ? AND portfolio = ?`, [sub.symbol, sub.portfolio]);
               const flows: any[] = [];
+
               txs.forEach((t: any) => {
                 const type = String(t.type || '').toUpperCase().trim();
                 if (type.includes('BUY') || type.includes('TRANSFER IN') || type.includes('RIGHTS') || type.includes('REINVEST') || type.includes('BONUS') || type.includes('SECURITY IN')) {
@@ -10007,7 +10061,6 @@ app.get('/api/holdings', async (req, res) => {
     res.json({ success: true, holdings });
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });
-
   }
 });
 
@@ -10955,6 +11008,7 @@ app.get('/api/dashboard/effective-holdings', async (req, res) => {
   }
 });
 
+
 // 4. Alias POST /api/market-prices/sync
 app.post('/api/market-prices/sync', async (req, res) => {
   try {
@@ -11008,7 +11062,6 @@ app.post('/api/market-prices/sync', async (req, res) => {
 
 // 4b. On-Demand Web Search & Zerodha Price Matcher Route
 app.post('/api/market-prices/web-match', async (req, res) => {
-
   try {
     const portfolio = req.body?.portfolio || req.query?.portfolio;
     const pFilter = typeof portfolio === 'string' ? portfolio : undefined;
@@ -11956,6 +12009,7 @@ app.get('/api/import/template', (req, res) => {
           "ISIN": "INF179K01974",
           "Symbol": "HDFC Large Cap Fund - IDCW Option - Direct Plan",
           "Action Type": "DIVIDEND",
+
           "Numerator": 1,
           "Denominator": 1,
           "Price": 5.0846
@@ -12009,7 +12063,6 @@ app.post('/api/import/validate', upload.single('file'), async (req, res) => {
     }
 
     const workbook = XLSX.read(req.file.buffer, { type: 'buffer' });
-
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
     // Smart Header Row Detection (handles Zerodha Console Tradebook with metadata/blank header lines)
@@ -12957,6 +13010,7 @@ app.post('/api/admin/purge-transactions', requireAdminPassword, destructiveLimit
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });
   }
+
 });
 
 // 17. Alias POST /api/admin/purge-everything
@@ -13010,7 +13064,6 @@ app.post('/api/custom-price', async (req, res) => {
           await dbRun(db, `
             UPDATE Holdings
             SET ltp = ?, current_value = ?, unrealized_pnl = ?, unrealized_pct = ?, data_source = 'Manual Entry', last_update = CURRENT_TIMESTAMP
-
             WHERE portfolio = ? AND isin = ? AND folio = ?
           `, [pFloat, cv, pnl, pct, h.portfolio, h.isin, h.folio || 'NA']);
         }
@@ -13958,6 +14011,7 @@ app.post('/api/admin/purge-cache', async (req, res) => {
 // POST Vacuum Database to Reclaim Disk Space
 app.post('/api/admin/vacuum-database', async (req, res) => {
   try {
+
     const targetDb = getDB() || db;
     const dbPath = path.join(process.cwd(), 'portfolio.db');
 
@@ -14010,7 +14064,6 @@ app.get('/api/download-project-zip', async (req, res) => {
     });
 
     archive.pipe(res);
-
 
     // glob all files in workspace except node_modules, .git, dist
     archive.glob('**/*', {
@@ -14959,6 +15012,7 @@ app.post('/api/reconcile', upload.single('file'), async (req, res) => {
             action = 'SPLIT';
           } else {
             reason = `Tracker quantity (${dbQty}) is less than ${typeLabel} (${zerodhaQty}). Likely a missing BUY or corporate action.`;
+
             action = 'BUY';
           }
         }
@@ -15012,7 +15066,6 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
     }
 
     // Match headers
-
     const headers = rawData[0].map(v => String(v || '').trim().toLowerCase());
     const data = XLSX.utils.sheet_to_json(sheet) as Record<string, any>[];
 
@@ -15960,6 +16013,7 @@ async function startServer() {
 
   // Trigger initial background FX rates sync only in explicit scheduler mode.
   // Normal research/discovery sessions should not start network/background work
+
   // that can make lightweight UI routes feel slow.
   if (process.env.ENABLE_BACKGROUND_SCHEDULERS === 'true' && process.env.READ_ONLY_RUNTIME !== 'true') {
     setTimeout(() => {
@@ -16013,7 +16067,6 @@ async function startServer() {
 
     // ── Opportunity Engine Autonomous Periodic Scheduler & SQLite Persister ──
     try {
-
       OpportunityEngineScheduler.getInstance().startBackgroundScheduler();
     } catch (oppErr) {
       console.error('[OpportunityEngineScheduler] Failed to initialize scheduler:', oppErr);
