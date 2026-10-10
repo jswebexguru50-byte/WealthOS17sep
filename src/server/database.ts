@@ -3100,13 +3100,44 @@ function getActiveDB(dbParam?: any): Database {
   return getDB();
 }
 
+let sqliteParameterCoercionCount = 0;
+let lastSqliteCoercionLogAt = 0;
+export function getSqliteParameterCoercionCount(): number {
+  return sqliteParameterCoercionCount;
+}
+
+function recordSqliteParameterCoercion(value: unknown, replacement: unknown): void {
+  sqliteParameterCoercionCount += 1;
+  const now = Date.now();
+  // Keep the signal visible without logging every row in a large import.
+  if (now - lastSqliteCoercionLogAt >= 60_000) {
+    lastSqliteCoercionLogAt = now;
+    console.warn('[SQLite] coerced unsupported bound parameter', {
+      count: sqliteParameterCoercionCount,
+      inputType: value === null ? 'null' : typeof value,
+      replacementType: replacement === null ? 'null' : typeof replacement
+    });
+  }
+}
+
 function normalizeSqliteParams(params: any[] = []): any[] {
   return params.map(value => {
-    if (value === undefined || value === null) return null;
-    if (value instanceof Date) return Number.isNaN(value.getTime()) ? null : value.toISOString();
-    if (typeof value === 'number') return Number.isFinite(value) ? value : null;
+    if (value === undefined) { recordSqliteParameterCoercion(value, null); return null; }
+    if (value === null) return null;
+    if (value instanceof Date) {
+      const replacement = Number.isNaN(value.getTime()) ? null : value.toISOString();
+      if (replacement === null) recordSqliteParameterCoercion(value, replacement);
+      return replacement;
+    }
+    if (typeof value === 'number') {
+      const replacement = Number.isFinite(value) ? value : null;
+      if (replacement === null) recordSqliteParameterCoercion(value, replacement);
+      return replacement;
+    }
     if (typeof value === 'string' || typeof value === 'bigint' || Buffer.isBuffer(value)) return value;
-    return String(value);
+    const replacement = String(value);
+    recordSqliteParameterCoercion(value, replacement);
+    return replacement;
   });
 }
 
