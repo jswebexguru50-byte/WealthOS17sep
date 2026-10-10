@@ -1,1 +1,58 @@
-LyoqDQogKiBXZWFsdGhPUyB2Ni42IC0gUElUIENvbnRleHQgJiBSZXNlYXJjaCBDbG9jaw0KICogQWdlbnQgRSBEZWxpdmVyYWJsZQ0KICogDQogKiBTUEVDIE1BTkRBVEU6DQogKiAtIE1hcmtldFNlc3Npb25Db250ZXh0IGF3YXJlbmVzcyBmb3IgQXNpYS9Lb2xrYXRhLg0KICogLSBEZXRlcm1pbmlzdGljIFJlc2VhcmNoQ2xvY2s6IGZvcmJpZHMgbGl2ZSBzeXN0ZW0gY2xvY2sgbGVha2FnZSBkdXJpbmcgcmVwbGF5Lg0KICovDQoNCmltcG9ydCBjcnlwdG8gZnJvbSAnY3J5cHRvJzsNCg0KZXhwb3J0IGNsYXNzIFBJVENvbnRleHQgew0KICBwdWJsaWMgcmVhZG9ubHkgZGVjaXNpb25EYXRlOiBzdHJpbmc7IC8vIFlZWVktTU0tREQNCiAgcHVibGljIHJlYWRvbmx5IGRlY2lzaW9uVGltZXN0YW1wOiBzdHJpbmc7IC8vIElTTyBBc2lhL0tvbGthdGENCiAgcHVibGljIHJlYWRvbmx5IGNvbnRleHRIYXNoOiBzdHJpbmc7DQoNCiAgY29uc3RydWN0b3IoZGVjaXNpb25EYXRlOiBzdHJpbmcsIGRhdGFzZXQgPSAnRGFpbHlPSExDVicpIHsNCiAgICB0aGlzLmRlY2lzaW9uRGF0ZSA9IGRlY2lzaW9uRGF0ZTsNCiAgICB0aHJvdyBuZXcgRXJyb3IoJ0RBVEFfSU5TVUZGSUNJRU5UOiBNYXJrZXRTZXNzaW9uQ29udGV4dCBpcyB1bmF2YWlsYWJsZTsgZGV0ZXJtaW5pc3RpYyBkZWNpc2lvbiB0aW1lc3RhbXBzIGNhbm5vdCBiZSB2ZXJpZmllZC4nKTsNCiAgICB0aGlzLmNvbnRleHRIYXNoID0gY3J5cHRvDQogICAgICAuY3JlYXRlSGFzaCgnc2hhMjU2JykNCiAgICAgIC51cGRhdGUoYCR7dGhpcy5kZWNpc2lvbkRhdGV9fCR7dGhpcy5kZWNpc2lvblRpbWVzdGFtcH1gKQ0KICAgICAgLmRpZ2VzdCgnaGV4Jyk7DQogIH0NCg0KICBwdWJsaWMgc3RhdGljIGNyZWF0ZUZvckRhdGUoZGVjaXNpb25EYXRlOiBzdHJpbmcsIGRhdGFzZXQgPSAnRGFpbHlPSExDVicpOiBQSVRDb250ZXh0IHsNCiAgICByZXR1cm4gbmV3IFBJVENvbnRleHQoZGVjaXNpb25EYXRlLCBkYXRhc2V0KTsNCiAgfQ0KDQogIC8qKg0KICAgKiBEZXRlcm1pbmlzdGljIGNsb2NrIGZvciBlY29ub21pYyByZXBsYXkgZW5naW5lcy4NCiAgICogUHJvaGliaXRzIG5ldyBEYXRlKCkgb3IgRGF0ZS5ub3coKSBpbiByZXBsYXkgbG9naWMuDQogICAqLw0KICBwdWJsaWMgZ2V0Q2xvY2soKTogUmVzZWFyY2hDbG9jayB7DQogICAgcmV0dXJuIG5ldyBSZXNlYXJjaENsb2NrKHRoaXMpOw0KICB9DQp9DQoNCmV4cG9ydCBjbGFzcyBSZXNlYXJjaENsb2NrIHsNCiAgY29uc3RydWN0b3IocHJpdmF0ZSByZWFkb25seSBwaXRDb250ZXh0OiBQSVRDb250ZXh0KSB7fQ0KDQogIHB1YmxpYyBnZXQgZGVjaXNpb25EYXRlKCk6IHN0cmluZyB7DQogICAgcmV0dXJuIHRoaXMucGl0Q29udGV4dC5kZWNpc2lvbkRhdGU7DQogIH0NCg0KICBwdWJsaWMgZ2V0IGRlY2lzaW9uVGltZXN0YW1wKCk6IHN0cmluZyB7DQogICAgcmV0dXJuIHRoaXMucGl0Q29udGV4dC5kZWNpc2lvblRpbWVzdGFtcDsNCiAgfQ0KDQogIC8qKg0KICAgKiBQcm9oaWJpdHMgbGl2ZSBzeXN0ZW0gY2xvY2sgdXNhZ2UNCiAgICovDQogIHB1YmxpYyBub3coKTogbmV2ZXIgew0KICAgIHRocm93IG5ldyBFcnJvcigNCiAgICAgICdGT1JCSURERU46IExpdmUgc3lzdGVtIGNsb2NrIGFjY2VzcyBkZXRlY3RlZCBpbiBkZXRlcm1pbmlzdGljIHJlc2VhcmNoIHJlcGxheS4gVXNlIGRlY2lzaW9uVGltZXN0YW1wIGluc3RlYWQuJw0KICAgICk7DQogIH0NCn0NCg==
+/**
+ * WealthOS v6.6 - PIT Context & Research Clock
+ * Agent E Deliverable
+ * 
+ * SPEC MANDATE:
+ * - MarketSessionContext awareness for Asia/Kolkata.
+ * - Deterministic ResearchClock: forbids live system clock leakage during replay.
+ */
+
+import crypto from 'crypto';
+
+export class PITContext {
+  public readonly decisionDate: string; // YYYY-MM-DD
+  public readonly decisionTimestamp: string; // ISO Asia/Kolkata
+  public readonly contextHash: string;
+
+  constructor(decisionDate: string, dataset = 'DailyOHLCV') {
+    this.decisionDate = decisionDate;
+    throw new Error('DATA_INSUFFICIENT: MarketSessionContext is unavailable; deterministic decision timestamps cannot be verified.');
+    this.contextHash = crypto
+      .createHash('sha256')
+      .update(`${this.decisionDate}|${this.decisionTimestamp}`)
+      .digest('hex');
+  }
+
+  public static createForDate(decisionDate: string, dataset = 'DailyOHLCV'): PITContext {
+    return new PITContext(decisionDate, dataset);
+  }
+
+  /**
+   * Deterministic clock for economic replay engines.
+   * Prohibits new Date() or Date.now() in replay logic.
+   */
+  public getClock(): ResearchClock {
+    return new ResearchClock(this);
+  }
+}
+
+export class ResearchClock {
+  constructor(private readonly pitContext: PITContext) {}
+
+  public get decisionDate(): string {
+    return this.pitContext.decisionDate;
+  }
+
+  public get decisionTimestamp(): string {
+    return this.pitContext.decisionTimestamp;
+  }
+
+  /**
+   * Prohibits live system clock usage
+   */
+  public now(): never {
+    throw new Error(
+      'FORBIDDEN: Live system clock access detected in deterministic research replay. Use decisionTimestamp instead.'
+    );
+  }
+}
