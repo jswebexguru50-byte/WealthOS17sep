@@ -39,7 +39,9 @@ router.post('/generate', async (req, res) => {
     res.json(data);
   } catch (err: any) {
     console.error('Reports generation failed:', err);
-    res.status(500).json({ success: false, error: err.message });
+    const status = String(err?.message || '').startsWith('INVALID_FINANCIAL_YEAR') ||
+      String(err?.message || '').startsWith('INVALID_TRADE_DATE') ? 400 : 500;
+    res.status(status).json({ success: false, error: err.message });
   }
 });
 
