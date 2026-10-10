@@ -26,7 +26,12 @@ export interface SixScripRunResult {
 
 export interface SixScripReportManifest {
   generatedAt: string;
-  reports: Record<SixScripSymbol, { status: RunResult['status']; bundleHash: string; markdown?: string; json?: string }>;
+  reports: Record<SixScripSymbol, {
+    status: RunResult['status']; bundleHash: string; markdown?: string; json?: string;
+    /** Publication state is separate from the orchestration status. Missing evidence is never a published report. */
+    dataState: 'VERIFIED' | 'INSUFFICIENT_DATA' | 'UNVERIFIABLE';
+    gapCount: number;
+  }>;
 }
 
 /**
@@ -41,6 +46,8 @@ export function writeSixScripReportBundle(result: SixScripRunResult, outputDir: 
     const report = result.reports[symbol];
     const entry: SixScripReportManifest['reports'][SixScripSymbol] = {
       status: run.status, bundleHash: report?.json.bundleHash ?? '',
+      dataState: report ? 'VERIFIED' : (run.validator.ok ? 'UNVERIFIABLE' : 'INSUFFICIENT_DATA'),
+      gapCount: report?.json.gaps.length ?? run.validator.defects.length + run.gate.defects.length,
     };
     if (report) {
       const stem = `${symbol}_${report.json.bundleHash.slice(0, 12)}`;

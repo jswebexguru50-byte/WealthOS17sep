@@ -49,6 +49,9 @@ test('writes a six-scrip report manifest and only publishes ready reports', () =
   const manifest = writeSixScripReportBundle({ results, reports: { YUKEN: report } }, dir);
   assert.equal(manifest.reports.YUKEN.json, `YUKEN_${bundles.YUKEN.bundleHash.slice(0, 12)}.json`);
   assert.equal(manifest.reports.VMART.json, undefined);
+  assert.equal(manifest.reports.VMART.dataState, 'INSUFFICIENT_DATA');
+  assert.ok(manifest.reports.VMART.gapCount >= 0);
+  assert.equal(manifest.reports.YUKEN.dataState, 'VERIFIED');
   assert.equal(fs.existsSync(path.join(dir, 'manifest.json')), true);
   assert.equal(fs.existsSync(path.join(dir, manifest.reports.YUKEN.markdown!)), true);
 });
