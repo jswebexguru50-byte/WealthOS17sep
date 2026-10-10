@@ -28,14 +28,28 @@ function main(): void {
     const format = flag('--format') ?? 'markdown'; write(format === 'json' ? rendered.json : rendered.markdown, flag('--out')); return;
   }
   const dbPath = flag('--db'); if (!dbPath) { console.error('persist requires --db; use --dry-run for validation only'); process.exit(2); }
+  // Persistence is the terminal side effect of the pipeline.  Do not allow a
+  // bundle that has not passed both independent gates to reach the database.
+  const validation = validateClaims(input.bundle, input.answers);
+  const completeness = completenessGate(input.answers, allSubQuestions(), input.bundle);
+  const checks = { validation: verdict(validation), completeness: verdict(completeness) };
+  if (!validation.ok || !completeness.ok) {
+    if (has('--dry-run') || !has('--write')) {
+      write({ mode: 'REHEARSAL_REJECTED', dbPath: path.resolve(dbPath), checks }, flag('--out'));
+      return;
+    }
+    write({ mode: 'PERSIST_REJECTED', dbPath: path.resolve(dbPath), checks }, flag('--out'));
+    process.exitCode = 1;
+    return;
+  }
   const payload = JSON.stringify(input.bundle);
   const hash = crypto.createHash('sha256').update(payload).digest('hex');
   const decision = assertSafeWrite({ dbPath, allowProduction: has('--allow-production'), backupPath: flag('--backup'), quickCheckBackup: has('--quick-check') });
-  if (has('--dry-run') || !has('--write')) { write({ mode: 'REHEARSAL', dbPath: decision.dbPath, production: decision.production, bundleHash: hash, bytes: Buffer.byteLength(payload) }, flag('--out')); return; }
+  if (has('--dry-run') || !has('--write')) { write({ mode: 'REHEARSAL', dbPath: decision.dbPath, production: decision.production, bundleHash: hash, bytes: Buffer.byteLength(payload), checks }, flag('--out')); return; }
   openForWrite({ dbPath, allowProduction: has('--allow-production'), backupPath: flag('--backup'), quickCheckBackup: has('--quick-check') }, db => {
     db.exec('CREATE TABLE IF NOT EXISTS research_v2_bundles (bundle_hash TEXT PRIMARY KEY, symbol TEXT NOT NULL, isin TEXT NOT NULL, as_of TEXT NOT NULL, payload_json TEXT NOT NULL, created_at TEXT NOT NULL)');
     db.prepare('INSERT OR REPLACE INTO research_v2_bundles VALUES (?, ?, ?, ?, ?, ?)').run(hash, input.bundle.symbol, input.bundle.isin, input.bundle.asOf, payload, new Date().toISOString());
   });
-  write({ mode: 'PERSISTED', dbPath: decision.dbPath, production: decision.production, bundleHash: hash }, flag('--out'));
+  write({ mode: 'PERSISTED', dbPath: decision.dbPath, production: decision.production, bundleHash: hash, checks }, flag('--out'));
 }
 main();
