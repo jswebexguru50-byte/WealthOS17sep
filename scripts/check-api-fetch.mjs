@@ -1,1 +1,32 @@
-aW1wb3J0IGZzIGZyb20gJ25vZGU6ZnMnOwppbXBvcnQgcGF0aCBmcm9tICdub2RlOnBhdGgnOwppbXBvcnQgdHMgZnJvbSAndHlwZXNjcmlwdCc7Cgpjb25zdCBiYXNlbGluZVBhdGggPSAnY29uZmlnL3Jhdy1mZXRjaC1iYXNlbGluZS5qc29uJzsKY29uc3QgY291bnRzID0ge307CmZ1bmN0aW9uIHNjYW4oZGlyKSB7CiAgZm9yIChjb25zdCBlbnRyeSBvZiBmcy5yZWFkZGlyU3luYyhkaXIsIHsgd2l0aEZpbGVUeXBlczogdHJ1ZSB9KSkgewogICAgY29uc3QgZmlsZSA9IHBhdGguam9pbihkaXIsIGVudHJ5Lm5hbWUpLnJlcGxhY2VBbGwoJ1xcJywgJy8nKTsKICAgIGlmIChlbnRyeS5pc0RpcmVjdG9yeSgpKSB7IGlmICghWydzZXJ2ZXInLCAnbWNwJ10uaW5jbHVkZXMoZW50cnkubmFtZSkpIHNjYW4oZmlsZSk7IGNvbnRpbnVlOyB9CiAgICBpZiAoIS9cLnRzeD8kLy50ZXN0KGZpbGUpIHx8IGZpbGUgPT09ICdzcmMvbGliL2FwaVRyYW5zcG9ydC50cycpIGNvbnRpbnVlOwogICAgY29uc3Qgc291cmNlID0gdHMuY3JlYXRlU291cmNlRmlsZShmaWxlLCBmcy5yZWFkRmlsZVN5bmMoZmlsZSwgJ3V0ZjgnKSwgdHMuU2NyaXB0VGFyZ2V0LkxhdGVzdCwgdHJ1ZSk7CiAgICBsZXQgY291bnQgPSAwOwogICAgY29uc3QgdmlzaXQgPSBub2RlID0+IHsKICAgICAgaWYgKHRzLmlzQ2FsbEV4cHJlc3Npb24obm9kZSkgJiYgKHRzLmlzSWRlbnRpZmllcihub2RlLmV4cHJlc3Npb24pICYmIG5vZGUuZXhwcmVzc2lvbi50ZXh0ID09PSAnZmV0Y2gnIHx8CiAgICAgICAgdHMuaXNQcm9wZXJ0eUFjY2Vzc0V4cHJlc3Npb24obm9kZS5leHByZXNzaW9uKSAmJiBub2RlLmV4cHJlc3Npb24ubmFtZS50ZXh0ID09PSAnZmV0Y2gnKSkgY291bnQrKzsKICAgICAgdHMuZm9yRWFjaENoaWxkKG5vZGUsIHZpc2l0KTsKICAgIH07CiAgICB2aXNpdChzb3VyY2UpOyBpZiAoY291bnQpIGNvdW50c1tmaWxlXSA9IGNvdW50OwogIH0KfQpzY2FuKCdzcmMnKTsKaWYgKHByb2Nlc3MuYXJndi5pbmNsdWRlcygnLS13cml0ZS1iYXNlbGluZScpKSB7CiAgZnMud3JpdGVGaWxlU3luYyhiYXNlbGluZVBhdGgsIEpTT04uc3RyaW5naWZ5KGNvdW50cywgbnVsbCwgMikgKyAnXG4nKTsKfSBlbHNlIHsKICBjb25zdCBiYXNlbGluZSA9IEpTT04ucGFyc2UoZnMucmVhZEZpbGVTeW5jKGJhc2VsaW5lUGF0aCwgJ3V0ZjgnKSk7CiAgY29uc3QgcmVncmVzc2lvbnMgPSBPYmplY3QuZW50cmllcyhjb3VudHMpLmZpbHRlcigoW2ZpbGUsIGNvdW50XSkgPT4gY291bnQgPiAoYmFzZWxpbmVbZmlsZV0gfHwgMCkpOwogIGlmIChyZWdyZXNzaW9ucy5sZW5ndGgpIHsKICAgIGZvciAoY29uc3QgW2ZpbGUsIGNvdW50XSBvZiByZWdyZXNzaW9ucykgY29uc29sZS5lcnJvcihgJHtmaWxlfTogJHtjb3VudH0gcmF3IGZldGNoIGNhbGxzOyB1c2UgYXBpRmV0Y2ggZnJvbSBhcGlUcmFuc3BvcnQuYCk7CiAgICBwcm9jZXNzLmV4aXRDb2RlID0gMTsKICB9IGVsc2UgY29uc29sZS5sb2coJ0FQSSB0cmFuc3BvcnQgbGludCBwYXNzZWQ6IG5vIG5ldyByYXcgZmV0Y2ggY2FsbHMuIExlZ2FjeSBjYWxscyByZW1haW4gYmVoaW5kIHRoZSBjcmVkZW50aWFsIHRyYW5zcG9ydC4nKTsKfQo=
+import fs from 'node:fs';
+import path from 'node:path';
+import ts from 'typescript';
+
+const baselinePath = 'config/raw-fetch-baseline.json';
+const counts = {};
+function scan(dir) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const file = path.join(dir, entry.name).replaceAll('\\', '/');
+    if (entry.isDirectory()) { if (!['server', 'mcp'].includes(entry.name)) scan(file); continue; }
+    if (!/\.tsx?$/.test(file) || file === 'src/lib/apiTransport.ts') continue;
+    const source = ts.createSourceFile(file, fs.readFileSync(file, 'utf8'), ts.ScriptTarget.Latest, true);
+    let count = 0;
+    const visit = node => {
+      if (ts.isCallExpression(node) && (ts.isIdentifier(node.expression) && node.expression.text === 'fetch' ||
+        ts.isPropertyAccessExpression(node.expression) && node.expression.name.text === 'fetch')) count++;
+      ts.forEachChild(node, visit);
+    };
+    visit(source); if (count) counts[file] = count;
+  }
+}
+scan('src');
+if (process.argv.includes('--write-baseline')) {
+  fs.writeFileSync(baselinePath, JSON.stringify(counts, null, 2) + '\n');
+} else {
+  const baseline = JSON.parse(fs.readFileSync(baselinePath, 'utf8'));
+  const regressions = Object.entries(counts).filter(([file, count]) => count > (baseline[file] || 0));
+  if (regressions.length) {
+    for (const [file, count] of regressions) console.error(`${file}: ${count} raw fetch calls; use apiFetch from apiTransport.`);
+    process.exitCode = 1;
+  } else console.log('API transport lint passed: no new raw fetch calls. Legacy calls remain behind the credential transport.');
+}
