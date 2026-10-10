@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/apiTransport';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useGoogleLogin } from '@react-oauth/google';
@@ -86,7 +87,7 @@ export function SettingsView({
   const [portfoliosList, setPortfoliosList] = useState<string[]>([]);
 
   useEffect(() => {
-    fetch('/api/portfolios')
+    apiFetch('/api/portfolios')
       .then(res => res.json())
       .then(data => {
         const rawList = Array.isArray(data)
@@ -104,7 +105,7 @@ export function SettingsView({
     setRestoreMessage(null);
 
     try {
-      const res = await fetch('/api/download-database?format=gz');
+      const res = await apiFetch('/api/download-database?format=gz');
       if (!res.ok) {
         throw new Error(`Server returned HTTP ${res.status}: ${res.statusText}`);
       }
@@ -133,7 +134,7 @@ export function SettingsView({
     setRestoreMessage(null);
 
     try {
-      const res = await fetch('/api/download-project-zip');
+      const res = await apiFetch('/api/download-project-zip');
       if (!res.ok) {
         throw new Error(`Server returned HTTP ${res.status}: ${res.statusText}`);
       }
@@ -192,7 +193,7 @@ export function SettingsView({
   };
 
   const uploadInChunks = async (blob: Blob): Promise<any> => {
-    const initRes = await fetch('/api/restore-database/chunk/init', { method: 'POST' });
+    const initRes = await apiFetch('/api/restore-database/chunk/init', { method: 'POST' });
     if (!initRes.ok) throw new Error(`Failed to initialize chunked upload: status ${initRes.status}`);
     const initData = await initRes.json();
     if (!initData.success) throw new Error(initData.message || 'Chunk init failed');
@@ -213,7 +214,7 @@ export function SettingsView({
       
       // Attempt 1: Raw binary octet-stream
       try {
-        const rawRes = await fetch(`/api/restore-database/chunk/upload?uploadId=${uploadId}`, {
+        const rawRes = await apiFetch(`/api/restore-database/chunk/upload?uploadId=${uploadId}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/octet-stream',
@@ -233,7 +234,7 @@ export function SettingsView({
       // Attempt 2: Base64 JSON fallback
       if (!chunkUploaded) {
         const base64Str = await blobToBase64(chunk);
-        const jsonRes = await fetch('/api/restore-database/chunk/upload', {
+        const jsonRes = await apiFetch('/api/restore-database/chunk/upload', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ uploadId, chunkBase64: base64Str }),
@@ -252,7 +253,7 @@ export function SettingsView({
     }
 
     setRestoreMessage({ type: 'success', text: 'Finalizing database restore & verifying ledger...' });
-    const completeRes = await fetch('/api/restore-database/chunk/complete', {
+    const completeRes = await apiFetch('/api/restore-database/chunk/complete', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ uploadId }),
@@ -281,7 +282,7 @@ export function SettingsView({
         formData.append('file', compressedBlob, selectedRestoreFile.name);
         formData.append('confirm', 'true');
 
-        const res = await fetch('/api/restore-database', {
+        const res = await apiFetch('/api/restore-database', {
           method: 'POST',
           body: formData,
         });
@@ -360,7 +361,7 @@ export function SettingsView({
 
   const fetchUpstoxConfig = async () => {
     try {
-      const res = await fetch('/api/settings/upstox');
+      const res = await apiFetch('/api/settings/upstox');
       const data = await res.json();
       if (data.config) {
         setUpstoxKey(data.config.client_id || '');
@@ -368,7 +369,7 @@ export function SettingsView({
         setUpstoxRedirect(data.config.redirect_uri || '');
       }
 
-      const tokenRes = await fetch('/api/settings');
+      const tokenRes = await apiFetch('/api/settings');
       const tokenData = await tokenRes.json();
       if (tokenData) {
         setUpstoxToken(tokenData.upstox_token ? tokenData.upstox_token.trim() : '');
@@ -381,10 +382,10 @@ export function SettingsView({
   const fetchDiagnostics = async () => {
     setIsLoadingDiagnostics(true);
     try {
-      const statsRes = await fetch('/api/diagnostics/stats');
+      const statsRes = await apiFetch('/api/diagnostics/stats');
       const statsData = await statsRes.json();
       
-      const unpricedRes = await fetch('/api/diagnostics/unpriced');
+      const unpricedRes = await apiFetch('/api/diagnostics/unpriced');
       const unpricedData = await unpricedRes.json();
 
       setStats(statsData);
@@ -398,7 +399,7 @@ export function SettingsView({
 
   const fetchAlpacaConfig = async () => {
     try {
-      const res = await fetch('/api/settings/alpaca');
+      const res = await apiFetch('/api/settings/alpaca');
       const data = await res.json();
       if (data.config) {
         setAlpacaKey(data.config.alpaca_key || '');
@@ -413,7 +414,7 @@ export function SettingsView({
     e.preventDefault();
     setIsSavingAlpaca(true);
     try {
-      const res = await fetch('/api/settings/alpaca', {
+      const res = await apiFetch('/api/settings/alpaca', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -453,7 +454,7 @@ export function SettingsView({
     e.preventDefault();
     setIsSavingUpstox(true);
     try {
-      const res1 = await fetch('/api/settings/upstox', {
+      const res1 = await apiFetch('/api/settings/upstox', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -464,7 +465,7 @@ export function SettingsView({
       });
       const data1 = await res1.json();
 
-      const res2 = await fetch('/api/settings', {
+      const res2 = await apiFetch('/api/settings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

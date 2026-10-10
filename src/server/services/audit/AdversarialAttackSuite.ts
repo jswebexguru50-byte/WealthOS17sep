@@ -24,7 +24,6 @@ import os from 'node:os';
 import { LookaheadDetector } from '../research/LookaheadDetector.js';
 import { PITEvidenceValidator } from './PITEvidenceValidator.js';
 import { ExperimentRegistry } from '../research/ExperimentRegistry.js';
-import { DataGapAuditLedger } from '../data/DataGapAuditLedger.js';
 import { ModuleDependencyAnalyzer } from './ModuleDependencyAnalyzer.js';
 import { ExecutionGateway } from '../execution/ExecutionGateway.js';
 import { ExecutionPolicy } from '../execution/ExecutionPolicy.js';
@@ -141,39 +140,12 @@ export class AdversarialAttackSuite {
    * Injects corrupted payload into cryptographic ledger chain.
    */
   public attackD_LedgerMutation(): AdversarialAttackResult {
-    const ledger = new DataGapAuditLedger();
-    const ev1 = {
-      eventType: 'DATA_GAP_REGISTERED' as const,
-      gapId: 'GAP_001',
-      engineId: 'ENGINE_001',
-      dataset: 'NSE_EOD',
-      coverageModel: 'SESSION' as const,
-      requiredFrom: '2022-01-01',
-      requiredTo: '2022-01-10',
-      detectedAt: new Date().toISOString(),
-      reason: 'Authentic baseline event',
-      sourceCandidates: ['NSE'],
-      status: 'OPEN' as const,
-      previousHash: '0000000000000000000000000000000000000000000000000000000000000000',
-      eventHash: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'
-    };
-
-    const tamperedEvent = {
-      ...ev1,
-      reason: 'MALICIOUS_TAMPERED_PAYLOAD'
-    };
-
-    const check = ledger.validateChain([tamperedEvent]);
-    const defended = check.tamperDetected;
-
     return {
-      attackId: 'ATTACK_D',
-      name: 'Ledger Mutation Attack',
-      attackDescription: 'Attempts bit-level tampering with an immutable cryptographic ledger entry.',
-      expectedOutcome: 'TAMPER_DETECTED',
-      actualOutcome: defended ? 'TAMPER_DETECTED' : 'UNNOTICED',
-      attackDefended: defended,
-      tamperEvidence: check
+      attackId: 'ATTACK_D', name: 'Ledger Mutation Attack',
+      attackDescription: 'Ledger tamper validation cannot run without its implementation.',
+      expectedOutcome: 'A real ledger detects a modified event.',
+      actualOutcome: 'DATA_INSUFFICIENT: DataGapAuditLedger is absent from the repository.',
+      attackDefended: false,
     };
   }
 

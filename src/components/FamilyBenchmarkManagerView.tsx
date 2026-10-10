@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/apiTransport';
 import React, { useState, useEffect } from 'react';
 import { 
   Building2, 
@@ -48,7 +49,7 @@ export function FamilyBenchmarkManagerView({
   const fetchHierarchy = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/family-hierarchy');
+      const res = await apiFetch('/api/family-hierarchy');
       const data = await res.json();
       if (data.families) {
         setFamilies(data.families);
@@ -63,7 +64,7 @@ export function FamilyBenchmarkManagerView({
   const handleSaveFamily = async () => {
     if (!editingFamily.name.trim()) return;
     try {
-      await fetch('/api/family-hierarchy', {
+      await apiFetch('/api/family-hierarchy', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(editingFamily)
@@ -78,7 +79,7 @@ export function FamilyBenchmarkManagerView({
   const handleDeleteFamily = async (id: number) => {
     if (!confirm('Are you sure you want to delete this family group? Member portfolios will be reassigned to Primary Family Office.')) return;
     try {
-      await fetch(`/api/family-hierarchy/${id}`, { method: 'DELETE' });
+      await apiFetch(`/api/family-hierarchy/${id}`, { method: 'DELETE' });
       fetchHierarchy();
     } catch (e) {
       console.error('Failed to delete family group:', e);
@@ -88,7 +89,7 @@ export function FamilyBenchmarkManagerView({
   const handleAssignPortfolio = async () => {
     if (!assignModal) return;
     try {
-      await fetch('/api/family-hierarchy/assign', {
+      await apiFetch('/api/family-hierarchy/assign', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -48,7 +48,6 @@ import { NarrativeChangeEngine } from './management/NarrativeChangeEngine.js';
 // Constitution Gatekeepers
 import { ClaimSafetyGate } from './safety/ClaimSafetyGate.js';
 import { CrossModuleConsistencyValidator } from './validation/CrossModuleConsistencyValidator.js';
-import { DataCoverageEngine } from './coverage/DataCoverageEngine.js';
 // Core Repositories (Checkpoint 1)
 import { CompanyEventRepository } from './core/CompanyEventRepository.js';
 import { ManagementCommitmentRepository } from './core/ManagementCommitmentRepository.js';
@@ -1361,25 +1360,9 @@ export class CompanyIntelligenceOrchestrator {
       console.warn('[CompanyIntelligenceOrchestrator] CrossModuleConsistencyValidator audit error:', e);
     }
 
-    // Field-level Data Coverage
-    let dataCoverage = undefined;
-    try {
-      const coverageEngine = DataCoverageEngine.getInstance();
-      dataCoverage = coverageEngine.evaluateCoverage(
-        securityId,
-        isin || securityId,
-        {
-          incomeStatement: analyticalState.facts?.latest as any,
-          keyRatios: analyticalState.facts?.latest as any,
-          prices: (modulesResult.technical?.result as any)?.prices || [],
-          managementClaims: modulesResult.management?.result?.commitments,
-          canonicalFacts: analyticalState.facts?.latest as any,
-        },
-        generatedAt
-      );
-    } catch (e: any) {
-      console.warn('[CompanyIntelligenceOrchestrator] DataCoverageEngine evaluation error:', e);
-    }
+    // Coverage is unavailable: the referenced coverage implementation is absent
+    // from the committed repository. Never invent coverage scores to unblock a build.
+    const dataCoverage = undefined;
 
     // Invariant: Scope is derived from canonical fundamental facts/evidence, never hardcoded per symbol
     let resolvedScope: 'STANDALONE' | 'CONSOLIDATED' = 'CONSOLIDATED';

@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/apiTransport';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
@@ -130,7 +131,7 @@ export function CamsMutualFundsView({
     if (!reconPortfolio) return;
     setIsFetchingRecon(true);
     try {
-      const res = await fetch(`/api/cams/reconciliation-report?portfolio=${encodeURIComponent(reconPortfolio)}`);
+      const res = await apiFetch(`/api/cams/reconciliation-report?portfolio=${encodeURIComponent(reconPortfolio)}`);
       const data = await res.json();
       if (data.success) {
         setReconReport(data.report);
@@ -148,7 +149,7 @@ export function CamsMutualFundsView({
 
   const fetchConfigs = async () => {
     try {
-      const res = await fetch('/api/cams/configs');
+      const res = await apiFetch('/api/cams/configs');
       const data = await res.json();
       if (data.success) {
         setConfigs(data.configs);
@@ -165,7 +166,7 @@ export function CamsMutualFundsView({
     setIsLoadingPortfolios(true);
     try {
       // 1. Get raw list of portfolios
-      const pRes = await fetch('/api/portfolios');
+      const pRes = await apiFetch('/api/portfolios');
       const pData = await pRes.json();
       if (!pData.success) throw new Error(pData.message);
 
@@ -175,9 +176,9 @@ export function CamsMutualFundsView({
       // 2. Fetch metrics & XIRR for each portfolio sequentially
       for (const pName of list) {
         try {
-          const mRes = await fetch(`/api/metrics?portfolios=${encodeURIComponent(pName)}`);
+          const mRes = await apiFetch(`/api/metrics?portfolios=${encodeURIComponent(pName)}`);
           const mData = await mRes.json();
-          const xRes = await fetch(`/api/dashboard/xirr?portfolios=${encodeURIComponent(pName)}`);
+          const xRes = await apiFetch(`/api/dashboard/xirr?portfolios=${encodeURIComponent(pName)}`);
           const xData = await xRes.json();
 
           if (mData.success) {
@@ -233,7 +234,7 @@ export function CamsMutualFundsView({
     setErrorMsg('');
     setSuccessMsg('');
     try {
-      const res = await fetch('/api/cams/configs', {
+      const res = await apiFetch('/api/cams/configs', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -267,7 +268,7 @@ export function CamsMutualFundsView({
     setErrorMsg('');
     setSuccessMsg('');
     try {
-      const res = await fetch(`/api/cams/configs/${encodeURIComponent(pan)}`, {
+      const res = await apiFetch(`/api/cams/configs/${encodeURIComponent(pan)}`, {
         method: 'DELETE'
       });
       const data = await res.json();
@@ -288,7 +289,7 @@ export function CamsMutualFundsView({
     setErrorMsg('');
     setSyncStatus(prev => ({ ...prev, [pan]: 'Requesting CAS...' }));
     try {
-      const res = await fetch('/api/cams/trigger-request', {
+      const res = await apiFetch('/api/cams/trigger-request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pan, email })
@@ -312,7 +313,7 @@ export function CamsMutualFundsView({
     setErrorMsg('');
     setSyncStatus(prev => ({ ...prev, [pan]: 'Checking CAMS statements...' }));
     try {
-      const res = await fetch('/api/cams/auto-sync', {
+      const res = await apiFetch('/api/cams/auto-sync', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pan })
@@ -338,7 +339,7 @@ export function CamsMutualFundsView({
     setErrorMsg('');
     setSuccessMsg('');
     try {
-      const res = await fetch('/api/cams/sync-prices', {
+      const res = await apiFetch('/api/cams/sync-prices', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -423,7 +424,7 @@ export function CamsMutualFundsView({
     }
 
     try {
-      const res = await fetch('/api/cams/parse-statement', {
+      const res = await apiFetch('/api/cams/parse-statement', {
         method: 'POST',
         body: formData
       });
@@ -473,7 +474,7 @@ export function CamsMutualFundsView({
     setErrorMsg('');
     setSuccessMsg('');
     try {
-      const res = await fetch(`/api/portfolios/${encodeURIComponent(portfolioToDelete)}?confirm=true`, {
+      const res = await apiFetch(`/api/portfolios/${encodeURIComponent(portfolioToDelete)}?confirm=true`, {
         method: 'DELETE'
       });
       const data = await res.json();
@@ -503,7 +504,7 @@ export function CamsMutualFundsView({
       if (selectedPortfolios.length > 0) {
         url += `?portfolios=${selectedPortfolios.map(p => encodeURIComponent(p)).join(',')}`;
       }
-      const res = await fetch(url);
+      const res = await apiFetch(url);
       const data = await res.json();
       if (data.success) {
         setConsolidatedXirr(data.xirr);

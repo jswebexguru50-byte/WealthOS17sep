@@ -151,4 +151,7 @@ Before modifying backend services for the `candidateId` lifecycle across the app
 - **Workflow**: Discover -> Analyze -> Synthesis -> Research (Thesis) -> Position Plan -> Portfolio -> Risk/Performance/Tax -> Postmortem loop is fully navigable without re-entering symbols or dropping context.
 - **E2E Continuity Invariant (Security & Candidate)**: 
   - For any security opened from any route: same `SecurityId`, same `ISIN`, same identity record, same provider mapping.
-  - For `Discover → Candidate → Analyze → Research → Portfolio`: the same `candidateId` must survive the entire journey. This requires an E2E test.
+- For `Discover → Candidate → Analyze → Research → Portfolio`: the same `candidateId` must survive the entire journey. This requires an E2E test.
+
+### 2026-10-10 Remediation Authorization
+The product owner explicitly authorized implementation of the latest ai-review remediation for the next two hours in chat, including the P0 family-role authentication policy and the named API transport, confirmation, compile-failure, backup, origin, reporting, FIFO, and research-route work. Production data and unrelated working-tree changes remain out of scope. New persistence or service work must remain fail-closed and be recorded with its migration and acceptance evidence.

@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/apiTransport';
 import React, { useState, useEffect } from 'react';
 import { Upload, FileCode, AlertTriangle, CheckCircle2, RefreshCw, Layers, ShieldAlert, History, PlusCircle, Check, RotateCcw, Camera, ShieldCheck } from 'lucide-react';
 import { safeFetchJson } from '../lib/api';
@@ -166,7 +167,7 @@ export const ZipUpdateManager: React.FC<{
     formData.append('zipFile', selectedZipFile);
 
     try {
-      const res = await fetch('/api/admin/analyze-project-zip', {
+      const res = await apiFetch('/api/admin/analyze-project-zip', {
         method: 'POST',
         body: formData,
       });
@@ -245,7 +246,7 @@ export const ZipUpdateManager: React.FC<{
     formData.append('summary', editableSummary.trim());
 
     try {
-      const res = await fetch('/api/admin/apply-project-zip', {
+      const res = await apiFetch('/api/admin/apply-project-zip', {
         method: 'POST',
         body: formData,
       });
@@ -286,7 +287,7 @@ export const ZipUpdateManager: React.FC<{
     if (!newLogSummary.trim()) return;
     setIsAddingLog(true);
     try {
-      const res = await fetch('/api/admin/add-changelog', {
+      const res = await apiFetch('/api/admin/add-changelog', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ summary: newLogSummary.trim() }),

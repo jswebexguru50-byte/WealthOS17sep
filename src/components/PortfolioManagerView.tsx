@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/apiTransport';
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Trash2, Edit2, GitMerge, Settings, FolderPlus, FileSpreadsheet } from 'lucide-react';
@@ -29,7 +30,7 @@ export function PortfolioManagerView({
 
   const fetchPortfolios = async () => {
     try {
-      const res = await fetch('/api/portfolios');
+      const res = await apiFetch('/api/portfolios');
       const data = await res.json();
       if (data.success && data.detailedPortfolios) {
         setPortfolios(data.detailedPortfolios);
@@ -47,7 +48,7 @@ export function PortfolioManagerView({
     if (!newPortName) return;
     triggerLoader(true, 'Creating Portfolio...');
     try {
-      const res = await fetch('/api/portfolios', {
+      const res = await apiFetch('/api/portfolios', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: newPortName, type: newPortType, base_currency: newPortCurrency })
@@ -70,7 +71,7 @@ export function PortfolioManagerView({
     if (!window.confirm(`Are you sure you want to archive the portfolio '${name}'?`)) return;
     triggerLoader(true, 'Archiving Portfolio...');
     try {
-      const res = await fetch(`/api/portfolios/${encodeURIComponent(name)}`, { method: 'DELETE' });
+      const res = await apiFetch(`/api/portfolios/${encodeURIComponent(name)}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
         showToast('Portfolio archived', 'success');
@@ -87,7 +88,7 @@ export function PortfolioManagerView({
   const updateType = async (name: string, type: string) => {
     triggerLoader(true, 'Updating Type...');
     try {
-      const res = await fetch(`/api/portfolios/${encodeURIComponent(name)}/type`, {
+      const res = await apiFetch(`/api/portfolios/${encodeURIComponent(name)}/type`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type })
@@ -108,7 +109,7 @@ export function PortfolioManagerView({
   const updateCurrency = async (name: string, base_currency: string) => {
     triggerLoader(true, 'Updating Base Currency...');
     try {
-      const res = await fetch(`/api/portfolios/${encodeURIComponent(name)}/currency`, {
+      const res = await apiFetch(`/api/portfolios/${encodeURIComponent(name)}/currency`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ base_currency })
@@ -133,7 +134,7 @@ export function PortfolioManagerView({
     }
     triggerLoader(true, 'Renaming Portfolio and Migrating Data...');
     try {
-      const res = await fetch('/api/portfolios/rename', {
+      const res = await apiFetch('/api/portfolios/rename', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ oldName, newName: editValue })

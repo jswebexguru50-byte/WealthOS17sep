@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/apiTransport';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
@@ -115,7 +116,7 @@ export function ReconciliationView({
     setIsAuditingPms(true);
     setErrorMsg('');
     try {
-      const res = await fetch(`/api/reconciliation/pms-audit?portfolio=${encodeURIComponent(targetPortfolio)}&initialCash=${initialCashInput}&settlementDays=${settlementDaysInput}`);
+      const res = await apiFetch(`/api/reconciliation/pms-audit?portfolio=${encodeURIComponent(targetPortfolio)}&initialCash=${initialCashInput}&settlementDays=${settlementDaysInput}`);
       const data = await res.json();
       if (data.success && data.report) {
         setPmsAuditReport(data.report);
@@ -350,7 +351,7 @@ export function ReconciliationView({
         portfolios: targetPortfolio,
         limit: '100'
       });
-      const res = await fetch(`/api/transactions?${queryParams.toString()}`);
+      const res = await apiFetch(`/api/transactions?${queryParams.toString()}`);
       const data = await res.json();
       if (data && data.data) {
         // filter down strictly to correct symbol
@@ -414,7 +415,7 @@ export function ReconciliationView({
 
     try {
       // 1. Create manual Corporate Action
-      const caRes = await fetch('/api/corporate-actions', {
+      const caRes = await apiFetch('/api/corporate-actions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -431,7 +432,7 @@ export function ReconciliationView({
 
       if (caData.success) {
         // 2. Apply it immediately to trigger ledger processing
-        const applyRes = await fetch('/api/corporate-actions/apply', {
+        const applyRes = await apiFetch('/api/corporate-actions/apply', {
           method: 'POST'
         });
         const applyData = await applyRes.json();
@@ -467,7 +468,7 @@ export function ReconciliationView({
     setLoadingHistory(true);
     try {
       const netAmount = editTxQty * editTxPrice;
-      const res = await fetch(`/api/transactions/${txId}`, {
+      const res = await apiFetch(`/api/transactions/${txId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -508,7 +509,7 @@ export function ReconciliationView({
     if (!window.confirm('Are you sure you want to delete this trade record? This will instantly trigger recalculations.')) return;
     setLoadingHistory(true);
     try {
-      const res = await fetch(`/api/transactions/${txId}`, {
+      const res = await apiFetch(`/api/transactions/${txId}`, {
         method: 'DELETE'
       });
       const data = await res.json();

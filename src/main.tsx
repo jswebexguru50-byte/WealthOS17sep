@@ -1,3 +1,5 @@
+import { installApiTransport } from './lib/apiTransport';
+import { ApiPrompts } from './components/ApiPrompts';
 import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 import { GoogleOAuthProvider } from '@react-oauth/google';
@@ -5,6 +7,8 @@ import App from './App.tsx';
 import { ErrorBoundary } from './components/ErrorBoundary.tsx';
 import './index.css';
 import { applyTheme, getActiveThemeId } from './lib/theme.ts';
+
+installApiTransport();
 
 // Apply stored theme before first paint to prevent flash-of-wrong-theme
 applyTheme(getActiveThemeId());
@@ -41,6 +45,7 @@ createRoot(document.getElementById('root')!).render(
     <ErrorBoundary>
       {/* @ts-ignore */}
       <GoogleOAuthProvider clientId={import.meta.env?.VITE_GOOGLE_CLIENT_ID || '1234567890-dummy.apps.googleusercontent.com'}>
+        <ApiPrompts />
         <App />
       </GoogleOAuthProvider>
     </ErrorBoundary>

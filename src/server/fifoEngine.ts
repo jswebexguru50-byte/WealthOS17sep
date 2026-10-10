@@ -1,5 +1,6 @@
 import sqlite3 from 'sqlite3';
 import { dbAll, dbRun, dbGet, auditDBChange, runInDbLock, withTx } from './database.js';
+import { getFinancialYearFromDate } from './financialYear.js';
 
 // sqlite3 Statement#run rejects JavaScript undefined; spreadsheet/derived
 // holding fields are legitimately absent and must bind as SQL NULL.
@@ -35,7 +36,8 @@ export function parseDate(val: any): Date | null {
     const m = parseInt(ymdMatch[2], 10) - 1;
     const d = parseInt(ymdMatch[3], 10);
     if (y >= 1990 && y <= 2050 && m >= 0 && m <= 11 && d >= 1 && d <= 31) {
-      return new Date(Date.UTC(y, m, d));
+      const candidate = new Date(Date.UTC(y, m, d));
+      if (candidate.getUTCFullYear() === y && candidate.getUTCMonth() === m && candidate.getUTCDate() === d) return candidate;
     }
   }
 
@@ -46,7 +48,8 @@ export function parseDate(val: any): Date | null {
     const m = parseInt(dmyMatch[2], 10) - 1;
     const y = parseInt(dmyMatch[3], 10);
     if (y >= 1990 && y <= 2050 && m >= 0 && m <= 11 && d >= 1 && d <= 31) {
-      return new Date(Date.UTC(y, m, d));
+      const candidate = new Date(Date.UTC(y, m, d));
+      if (candidate.getUTCFullYear() === y && candidate.getUTCMonth() === m && candidate.getUTCDate() === d) return candidate;
     }
   }
 
@@ -73,25 +76,12 @@ export function getFYFromDate(dateStr: string): string {
   try {
     const parsed = parseDate(dateStr);
     if (parsed) {
-      const year = parsed.getUTCFullYear();
-      const month = parsed.getUTCMonth() + 1;
-      if (month >= 4) {
-        return `${year}-${year + 1}`;
-      } else {
-        return `${year - 1}-${year}`;
-      }
+      return getFinancialYearFromDate(parsed);
     }
-    // Fallback attempt with regex
-    const dmy = String(dateStr).match(/(\d{4})/);
-    if (dmy) {
-      const y = parseInt(dmy[1], 10);
-      if (y >= 1990 && y <= 2050) {
-        return `${y}-${y + 1}`;
-      }
-    }
-    return '2024-2025';
+    throw new Error(`INVALID_TRADE_DATE: ${String(dateStr)}`);
   } catch (err) {
-    return '2024-2025';
+    if (err instanceof Error && err.message.startsWith('INVALID_TRADE_DATE')) throw err;
+    throw new Error(`INVALID_TRADE_DATE: ${String(dateStr)}`);
   }
 }
 
@@ -136,6 +126,14 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
     const symbolByIsin = new Map<string, string>();
     const isinByName = new Map<string, string>();
     const masterFMV: Record<string, number> = {};
+    const identityAliases = await dbAll(db, 'SELECT alias_kind, alias_value, canonical_symbol, canonical_isin FROM SecurityIdentityAliases').catch(() => []);
+    const aliasByKey = new Map<string, { canonicalIsin: string; canonicalSymbol: string }>();
+    for (const alias of identityAliases) {
+      aliasByKey.set(`${String(alias.alias_kind).toUpperCase()}:${String(alias.alias_value).toUpperCase().trim()}`, {
+        canonicalIsin: String(alias.canonical_isin).toUpperCase(),
+        canonicalSymbol: String(alias.canonical_symbol).toUpperCase()
+      });
+    }
 
     for (const mt of masterTickersRows) {
       const isin = (mt.isin || '').toUpperCase().trim();
@@ -157,6 +155,9 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
       let isin = (rawIsin || '').toUpperCase().trim();
       let sym = (rawSymbol || '').toUpperCase().trim();
 
+      const tableAlias = aliasByKey.get(`ISIN:${isin}`) || aliasByKey.get(`SYMBOL:${sym}`);
+      if (tableAlias) return tableAlias;
+
       // Known corporate restructurings / SME-to-Mainboard migrations
       if (sym === 'GSM' || sym === 'GSMFOILS' || isin === 'INE0T1501013' || isin === 'INE0SQY01018') {
         return { canonicalIsin: 'INE0SQY01018', canonicalSymbol: 'GSMFOILS' };
@@ -176,16 +177,12 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
       if (sym === 'M&M' || sym === 'MAHINDRA & MAHINDRA' || sym === 'MAHINDRA AND MAHINDRA' || isin === 'INE101A01026') {
         return { canonicalIsin: 'INE101A01026', canonicalSymbol: 'M&M' };
       }
-      if (sym === 'TATAPOWER' || sym === 'TATA POWER' || sym === 'TATA POWER CO LTD' || isin === 'INE245A01021') {
+      if (sym === 'TATA POWER' || sym === 'TATA POWER CO LTD') {
         return { canonicalIsin: 'INE245A01021', canonicalSymbol: 'TATAPOWER' };
       }
       // Broker/registrar ISIN aliases: the same security was reported under
       // legacy identifiers in older tradebooks. Keep the FIFO queue together
       // without inventing opening lots.
-      if (sym === 'TEMBO' || isin === 'INE869Y01010') return { canonicalIsin: 'INE869Y01028', canonicalSymbol: 'TEMBO' };
-      if (sym === 'APOLLO' || isin === 'INE713T01010') return { canonicalIsin: 'INE713T01028', canonicalSymbol: 'APOLLO' };
-      if (sym === 'ORIANA' || isin === 'IN_ORIANA' || isin === 'INE0OUT01019') return { canonicalIsin: 'INE0OUT01027', canonicalSymbol: 'ORIANA' };
-
       // Valid standard ISIN (12 chars, not CUSTOM_)
       if (isin && isin.length === 12 && !isin.startsWith('CUSTOM_')) {
         const canonicalSym = symbolByIsin.get(isin) || sym || isin;
@@ -329,12 +326,9 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
     `).catch(() => {});
     await dbRun(db, `CREATE INDEX IF NOT EXISTS idx_sd_pan_fy ON StrippingDisallowances(portfolio, trigger_sell_date)`).catch(() => {});
     await dbRun(db, `DELETE FROM StrippingDisallowances`).catch(() => {});
-    await dbRun(db, `CREATE TABLE IF NOT EXISTS ReconciliationExceptions (
-      id INTEGER PRIMARY KEY AUTOINCREMENT, portfolio TEXT NOT NULL, scrip_or_trade_id TEXT NOT NULL,
-      exception_type TEXT NOT NULL, discrepancy_detail TEXT NOT NULL, reason_category TEXT NOT NULL,
-      reason_notes TEXT, approved_by TEXT DEFAULT 'User', approved_at TEXT DEFAULT CURRENT_TIMESTAMP,
-      status TEXT DEFAULT 'OPEN')`).catch(() => {});
-    await dbRun(db, `DELETE FROM ReconciliationExceptions WHERE reason_category='FIFO_UNMATCHED_SELL'`).catch(() => {});
+    // ReconciliationExceptions is created by canonical migration 003. Do not
+    // silently create an audit ledger from a request path.
+    await dbRun(db, `DELETE FROM ReconciliationExceptions WHERE reason_category='FIFO_UNMATCHED_SELL'`);
 
     // Pre-index dividend and bonus transactions for statutory stripping checks
     const dividendRecords = await dbAll(db, `
@@ -1133,13 +1127,14 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
         }
         ds = existing.data_source;
         dataStatus = existing.data_status || 'LIVE';
-        // Use the existing last_update if it's within the last 24 hours; otherwise stamp with now
-        // so the UI always shows a meaningful "last updated" time rather than a very stale date.
+        // Preserve the original timestamp. A stale price must remain attributable to
+        // its source/date; replacing it with "now" would falsely imply a fresh quote.
         const existingLuMs = existing.last_update ? new Date(existing.last_update.includes(' ') ? existing.last_update.replace(' ', 'T') + 'Z' : existing.last_update).getTime() : 0;
         const oneDayMs = 24 * 60 * 60 * 1000;
-        lu = (existingLuMs > 0 && (Date.now() - existingLuMs) < oneDayMs)
-          ? existing.last_update
-          : null;
+        lu = existing.last_update || null;
+        if (existingLuMs > 0 && Date.now() - existingLuMs >= oneDayMs && dataStatus === 'LIVE') {
+          dataStatus = 'STALE';
+        }
       }
 
       // 2. Fallback 1: Check HistoricalPrices table (latest recorded close price)

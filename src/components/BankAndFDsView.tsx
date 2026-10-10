@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/apiTransport';
 import React, { useState, useEffect } from 'react';
 import { Building2, Landmark, Plus, Trash2, Edit3, RefreshCw, DollarSign, Globe, CheckCircle2, AlertCircle, Calendar, Percent } from 'lucide-react';
 
@@ -48,7 +49,7 @@ export const BankAndFDsView: React.FC<BankAndFDsViewProps> = ({
     setIsLoading(true);
     try {
       const pParam = selectedPortfolio ? encodeURIComponent(selectedPortfolio) : '';
-      const res = await fetch(`/api/bank-fds?portfolio=${pParam}`);
+      const res = await apiFetch(`/api/bank-fds?portfolio=${pParam}`);
       const data = await res.json();
       if (data.success) {
         setItems(data.data || []);
@@ -69,7 +70,7 @@ export const BankAndFDsView: React.FC<BankAndFDsViewProps> = ({
   const handleSyncFxRates = async () => {
     setIsSyncingFx(true);
     try {
-      const res = await fetch('/api/currency-rates/sync', { method: 'POST' });
+      const res = await apiFetch('/api/currency-rates/sync', { method: 'POST' });
       const data = await res.json();
       if (data.success) {
         alert(data.message);
@@ -86,7 +87,7 @@ export const BankAndFDsView: React.FC<BankAndFDsViewProps> = ({
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/bank-fds', {
+      const res = await apiFetch('/api/bank-fds', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(editingItem)
@@ -107,7 +108,7 @@ export const BankAndFDsView: React.FC<BankAndFDsViewProps> = ({
   const handleDelete = async (id: number) => {
     if (!confirm('Are you sure you want to delete this bank account / FD record?')) return;
     try {
-      const res = await fetch(`/api/bank-fds/${id}`, { method: 'DELETE' });
+      const res = await apiFetch(`/api/bank-fds/${id}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
         fetchBankData();

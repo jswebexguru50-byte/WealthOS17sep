@@ -1,3 +1,4 @@
+import { apiFetch } from './apiTransport';
 export type RemoteStatus = 'AVAILABLE' | 'DATA_INSUFFICIENT' | 'SOURCE_UNAVAILABLE' | 'REMOTE_MISSING' | 'UNAUTHORIZED';
 
 export interface RemoteResponse<T = any> {
@@ -68,17 +69,9 @@ export class WealthOSApiClient {
         const url = baseUrl + path;
         const headers = new Headers(options.headers || {});
         
-        // Always attach local session password, even in remote mode, because the local proxy expects it
-        if (typeof window !== 'undefined') {
-            const savedPassword = sessionStorage.getItem('app-session-token') || localStorage.getItem('app-session-token') || sessionStorage.getItem('app-password') || localStorage.getItem('app-password');
-            if (savedPassword) headers.set('x-app-password', savedPassword);
-        }
-
         const newInit: RequestInit = { ...options, headers };
-        const nativeFetch = typeof window !== 'undefined' ? window.fetch : fetch;
-            
         try {
-            const response = await nativeFetch(url, newInit);
+            const response = await apiFetch(url, newInit);
             if (response.status === 401) return { status: 'UNAUTHORIZED' };
             if (response.status === 404) return { status: 'REMOTE_MISSING' };
             if (response.status >= 500) return { status: 'SOURCE_UNAVAILABLE' };

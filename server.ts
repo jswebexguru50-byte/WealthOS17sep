@@ -148,6 +148,7 @@ import { remoteBridgeRouter } from './src/server/routes/remoteBridgeRouter.js';
 import { aiStudioProxyRouter } from './src/server/routes/aiStudioProxyRouter.js';
 import { dossierRouter } from './src/server/routes/dossierRoutes.js';
 import { getServerConfig, timingSafeMatch, createRateLimiter } from './src/server/config.js';
+import { authenticateFamily, roleAllows } from './src/server/auth/familyRoleAuth.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -164,16 +165,24 @@ const PORT = serverConfig.PORT;
 // must set APP_PASSWORD at startup.
 const requireAdminPassword = (req: any, res: any, next: any) => {
   const expected = serverConfig.APP_PASSWORD;
+  const principal = authenticateFamily(req.headers, expected);
+  if (principal) {
+    if (!roleAllows(principal, 'admin')) return res.status(403).json({ success: false, error: 'ROLE_FORBIDDEN' });
+    (req as any).auth = principal;
+    return next();
+  }
   if (!expected) {
     if (serverConfig.NODE_ENV === 'production' || serverConfig.BIND_HOST !== '127.0.0.1') {
       return res.status(503).json({ success: false, error: 'APP_PASSWORD_REQUIRED' });
     }
+    (req as any).auth = { userId: 'local-development', role: 'owner', authMethod: 'app-password' };
     return next();
   }
   const provided = String(req.headers['x-app-password'] || '');
   if (!timingSafeMatch(provided, expected)) {
     return res.status(401).json({ success: false, error: 'UNAUTHORIZED' });
   }
+  (req as any).auth = { userId: String(req.headers['x-app-user'] || 'app-password-owner'), role: 'owner', authMethod: 'app-password' };
   next();
 };
 
@@ -197,14 +206,50 @@ const preDestructiveBackup = async (label: string): Promise<string> => {
   const safeLabel = label.replace(/[^a-z0-9_-]/gi, '_');
   const backupPath = path.join(backupDir, `pre_destructive_${safeLabel}_${Date.now()}.db`);
   const targetDb = getDB() || db;
+  const sourcePath = process.env.DATABASE_URL || path.join(process.cwd(), 'portfolio.db');
+  const sourceBytes = fs.existsSync(sourcePath) ? fs.statSync(sourcePath).size : 0;
+  // VACUUM INTO requires room for the complete destination while retaining
+  // the source. Refuse the operation before touching data if space is tight.
+  try {
+    const statfs = (fs as any).statfsSync;
+    if (typeof statfs === 'function') {
+      const disk = statfs(backupDir);
+      const freeBytes = Number(disk.bavail) * Number(disk.bsize);
+      if (freeBytes < Math.max(16 * 1024 * 1024, sourceBytes * 2)) {
+        throw new Error('Insufficient disk space for a verified destructive-operation backup.');
+      }
+    }
+  } catch (spaceError) {
+    if (spaceError instanceof Error && spaceError.message.startsWith('Insufficient disk')) throw spaceError;
+    // Older Node versions may not expose statfs; SQLite remains the final
+    // authority and the post-copy verification below still applies.
+  }
   await new Promise<void>((resolve, reject) => {
     targetDb.run(`VACUUM INTO '${backupPath.replace(/'/g, "''")}'`, (err: any) => err ? reject(err) : resolve());
   });
+  if (!fs.existsSync(backupPath) || fs.statSync(backupPath).size < 8192) {
+    throw new Error('Destructive-operation backup was not created.');
+  }
+  const checkRows: any[] = await new Promise((resolve, reject) => {
+    targetDb.all('PRAGMA quick_check', (err: any, rows: any[]) => err ? reject(err) : resolve(rows || []));
+  });
+  if (!checkRows.some(row => Object.values(row).some(value => String(value).toLowerCase() === 'ok'))) {
+    throw new Error('Source database quick_check did not pass; refusing destructive operation.');
+  }
+  // Keep a bounded, verified retention set. Never remove the newly-created
+  // snapshot or files outside this dedicated backup directory.
+  const backups = fs.readdirSync(backupDir)
+    .filter(name => name.startsWith('pre_destructive_') && name.endsWith('.db'))
+    .map(name => ({ name, path: path.join(backupDir, name), mtime: fs.statSync(path.join(backupDir, name)).mtimeMs }))
+    .sort((a, b) => b.mtime - a.mtime);
+  for (const old of backups.slice(10)) {
+    try { fs.unlinkSync(old.path); } catch (err) { console.warn('[Security] backup retention cleanup failed:', old.name, err); }
+  }
   return backupPath;
 };
 const recordDestructiveAudit = async (operation: string, backupPath: string, details: Record<string, unknown> = {}) => {
   try {
-    await auditDBChange(getDB() || db, 'DESTRUCTIVE_OPERATION', operation, null, JSON.stringify({ operation, backupPath, ...details }));
+    await auditDBChange(getDB() || db, 'DESTRUCTIVE_OPERATION', operation, null, JSON.stringify({ operation, backupPath, actor: details.actor || null, ...details }));
   } catch (err) {
     console.warn('[Security] Could not write destructive-operation audit row:', err);
   }
@@ -214,6 +259,66 @@ const BIND_HOST = serverConfig.BIND_HOST;
 
 // Allowed origins for CORS (default local dev ports)
 const allowedOrigins = serverConfig.allowedOriginsList;
+
+// Browser write requests must prove both their declared origin and the host
+// they reached. This blocks cross-site POST/PUT/PATCH/DELETE requests even
+// when an attacker can make the browser attach ambient credentials.
+const allowedOriginHosts = new Set(allowedOrigins.flatMap((value) => {
+  try { return [new URL(value).host]; } catch { return []; }
+}));
+const enforceWriteOrigin = (req: any, res: any, next: any) => {
+  if (!['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method)) return next();
+  const host = String(req.headers.host || '').toLowerCase();
+  const originHeader = req.headers.origin;
+  if (!host || host.includes('@') || host.includes('\\') || host.includes('..')) {
+    return res.status(403).json({ success: false, error: 'HOST_NOT_ALLOWLISTED' });
+  }
+  if (originHeader) {
+    const origin = String(originHeader);
+    if (!serverConfig.isOriginAllowed(origin)) {
+      return res.status(403).json({ success: false, error: 'ORIGIN_NOT_ALLOWLISTED' });
+    }
+    try {
+      if (new URL(origin).host.toLowerCase() !== host) {
+        return res.status(403).json({ success: false, error: 'HOST_ORIGIN_MISMATCH' });
+      }
+    } catch {
+      return res.status(403).json({ success: false, error: 'ORIGIN_INVALID' });
+    }
+  } else if (!allowedOriginHosts.has(host)) {
+    return res.status(403).json({ success: false, error: 'HOST_NOT_ALLOWLISTED' });
+  }
+  if (!(req as any).auth) (req as any).auth = { userId: String(req.headers['x-app-user'] || 'app-password-owner'), role: 'owner', authMethod: 'app-password' };
+  next();
+};
+
+// Online backups can take longer than a browser request timeout. Keep their
+// lifecycle explicit so callers never mistake an accepted job for a verified
+// snapshot. Jobs are process-local and bounded; the resulting file remains in
+// the bounded backup retention set maintained by DatabaseManager.
+type BackupJob = { jobId: string; status: 'RUNNING' | 'COMPLETE' | 'FAILED'; startedAt: string; finishedAt?: string; path?: string; error?: string };
+const backupJobs = new Map<string, BackupJob>();
+const startBackupJob = (tag: string): BackupJob => {
+  const jobId = `backup-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  const job: BackupJob = { jobId, status: 'RUNNING', startedAt: new Date().toISOString() };
+  backupJobs.set(jobId, job);
+  void DatabaseManager.getInstance().createBackup(tag.replace(/[^a-z0-9_-]/gi, '_')).then((backupPath) => {
+    job.status = 'COMPLETE';
+    job.path = backupPath;
+    job.finishedAt = new Date().toISOString();
+  }).catch((error: any) => {
+    job.status = 'FAILED';
+    job.error = String(error?.message || 'Backup failed').slice(0, 240);
+    job.finishedAt = new Date().toISOString();
+  }).finally(() => {
+    while (backupJobs.size > 20) {
+      const oldest = backupJobs.keys().next().value;
+      if (!oldest) break;
+      backupJobs.delete(oldest);
+    }
+  });
+  return job;
+};
 
 // Security Headers & CORS Middleware (Finding P0-3)
 app.use((req, res, next) => {
@@ -244,6 +349,7 @@ app.use(compression());
 // Global JSON payload body limit lowered to 2mb (Finding P0-3)
 app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: true, limit: '2mb' }));
+app.use('/api', enforceWriteOrigin);
 // Centralized API Rate Limiter (600 req / minute per IP)
 app.use('/api', createRateLimiter({
   windowMs: 60 * 1000,
@@ -273,6 +379,36 @@ app.use('/api', (req, res, next) => {
     return res.status(401).json({ success: false, error: 'UNAUTHORIZED' });
   }
   next();
+});
+
+// Long-running verified database snapshots use an explicit 202/poll contract.
+// The password middleware is applied to both creation and status reads so a
+// job identifier cannot disclose backup paths or failure details publicly.
+app.post('/api/admin/database-backups', requireAdminPassword, (req, res) => {
+  const rawTag = String(req.body?.tag || 'manual');
+  const tag = rawTag.slice(0, 48);
+  const job = startBackupJob(tag);
+  return res.status(202).json({ success: true, job: { jobId: job.jobId, status: job.status, startedAt: job.startedAt }, poll: `/api/admin/database-backups/${encodeURIComponent(job.jobId)}` });
+});
+app.get('/api/admin/database-backups/:jobId', requireAdminPassword, (req, res) => {
+  const job = backupJobs.get(String(req.params.jobId || ''));
+  if (!job) return res.status(404).json({ success: false, error: 'BACKUP_JOB_NOT_FOUND' });
+  const safeJob = { jobId: job.jobId, status: job.status, startedAt: job.startedAt, finishedAt: job.finishedAt, error: job.status === 'FAILED' ? job.error : undefined };
+  return res.json({ success: job.status !== 'FAILED', job: safeJob });
+});
+
+app.get('/api/auth/password-check', requireAdminPassword, (_req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
+  res.json({ success: true, message: 'Application credential accepted.' });
+});
+
+app.delete('/api/portfolios/:name', requireAdminPassword, destructiveLimiter, typedConfirmation('DELETE_PORTFOLIO'), async (req, res, next) => {
+  try {
+    const backupPath = await preDestructiveBackup('delete_portfolio');
+    await recordDestructiveAudit('DELETE_PORTFOLIO', backupPath, { portfolio: req.params.name, actor: (req as any).auth });
+    req.body.confirm = true;
+    next();
+  } catch { res.status(503).json({ success: false, message: 'Required portfolio backup failed.' }); }
 });
 
 // Forensic Intelligence Layer Endpoints
@@ -422,6 +558,11 @@ import { RiskAnalyticsEngine } from './src/server/services/RiskAnalyticsEngine.j
 import { AlertEngine } from './src/server/services/AlertEngine.js';
 import { PriceActionBacktestEngine } from './src/server/services/PriceActionBacktestEngine.js';
 import { PostTaxXirrService } from './src/server/services/PostTaxXirrService.js';
+import familyGovernanceRouter from './src/server/routes/familyGovernance.js';
+import riskPoliciesRouter from './src/server/routes/riskPolicies.js';
+import documentVaultRouter from './src/server/routes/documentVault.js';
+import nriWorkflowRouter from './src/server/routes/nriWorkflow.js';
+import brokerIntegrationsRouter from './src/server/routes/brokerIntegrations.js';
 
 app.use('/api', systemRouter);
 app.use('/api/portfolios', portfoliosRouter);
@@ -443,6 +584,11 @@ app.use('/api/v1/regime-backtest', regimeBacktestRouter); // Full-Universe Dynam
 app.use('/api/v1/quant', quantRouter);                 // Institutional Quant & Macro Engine v5.0
 app.use('/api/bedrock', bedrockRouter);                   // AWS Bedrock Claude Sonnet — direct to your AWS account
 app.use('/api/strategies', strategiesRouter);             // Strategy Library & Management (Phase 1: Data Layer)
+app.use('/api/family-governance', familyGovernanceRouter);
+app.use('/api/risk', riskPoliciesRouter);
+app.use('/api/family-office', documentVaultRouter);
+app.use('/api/nri/workflow', nriWorkflowRouter);
+app.use('/api/broker-integrations', brokerIntegrationsRouter);
 app.use('/api/technical-strategies', strategiesRouter);   // Strategy Library alias for ITAS
 
 app.get('/api/analytics/lookthrough', async (req, res) => {
@@ -852,6 +998,7 @@ app.get('/api/engine/run-history', async (req, res) => {
   try {
     const limit = parseInt(req.query.limit as string) || 20;
     const history = await QuantitativeBacktestScheduler.getInstance().getRunHistory(limit);
+
     const status = QuantitativeBacktestScheduler.getInstance().getStatus();
     res.json({ success: true, data: { history, status } });
   } catch (err: any) {
@@ -1833,7 +1980,14 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
         H.portfolio, H.folio, H.isin, H.symbol, H.quantity, H.avg_buy_price, 
         H.total_cost, H.ltp, H.prev_close, H.current_value, H.unrealized_pnl, 
         H.unrealized_pct, H.day_change, H.day_change_pct, H.last_update, 
-        H.data_source, H.currency, H.native_current_value, H.native_total_cost, 
+        H.data_source, H.data_source AS price_source, H.last_update AS price_asof,
+        CASE
+          WHEN H.data_status = 'FAILED' THEN 'FAILED'
+          WHEN H.ltp > 0 AND H.last_update IS NOT NULL
+            AND datetime(H.last_update) < datetime('now', '-1 day') THEN 'STALE'
+          ELSE COALESCE(H.data_status, 'LIVE')
+        END AS data_status,
+        H.currency, H.native_current_value, H.native_total_cost,
         H.native_avg_buy_price, H.native_ltp, H.native_unrealized_pnl,
         M.name as company_name, M.sector, COALESCE(P.base_currency, 'INR') as base_currency
       FROM Holdings H 
@@ -1845,6 +1999,7 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
     if (selected) {
       const placeholders = selected.map(() => '?').join(',');
       holdingsQuery += ` WHERE H.portfolio IN (${placeholders})`;
+
       params.push(...selected);
     }
     holdingsQuery += ` ORDER BY H.current_value DESC`;
@@ -2845,6 +3000,7 @@ async function getCashFlowLedger(rawPort: string = 'Combined'): Promise<{
   // Include Corporate Action Dividends if not already in transactions
   for (const ca of corporateActions) {
     if (ca.action_type === 'DIVIDEND' && (ca.dividend_per_share || 0) > 0) {
+
       const caDateStr = formatIsoDate(ca.record_date);
       const alreadyExists = (ca.symbol && dividendTxnKeys.has(`${caDateStr}_${ca.symbol}`)) || 
                             (ca.isin && dividendTxnKeys.has(`${caDateStr}_${ca.isin}`));
@@ -3845,6 +4001,7 @@ app.get('/api/dashboard/xirr', async (req, res) => {
 
       if (!hasEndFlow && benchmarkShares > 0) {
         const endPrice = niftyInfo.regularMarketPrice || (niftyInfo.closePrices && niftyInfo.closePrices.length > 0 ? niftyInfo.closePrices[niftyInfo.closePrices.length - 1].close : 24500);
+
         benchmarkFlows.push({ date: new Date(), amount: benchmarkShares * endPrice, type: 'end' });
       }
 
@@ -4845,6 +5002,7 @@ app.get('/api/analytics', async (req, res) => {
               startFlow.amount = -sVal;
             } else {
               tFlows.unshift({ date: dStart, amount: -sVal, type: 'start' });
+
             }
           }
         } catch (_) {}
@@ -5845,6 +6003,7 @@ app.post('/api/corporate-actions/import-manual', upload.single('file'), async (r
     for (const m of masterRows) {
       const symUpper = String(m.symbol).toUpperCase().trim();
       const isinUpper = String(m.isin || '').toUpperCase().trim();
+
       if (isinUpper) {
         symbolToIsin[symUpper] = isinUpper;
         isinToSymbol[isinUpper] = m.symbol;
@@ -6845,6 +7004,7 @@ function findHoldingsColumnIndices(rows: any[][]) {
     const hasSec = row.some(v => v.includes('security') || v.includes('name') || v.includes('company') || v.includes('scrip') || v.includes('stock') || v.includes('symbol') || v.includes('ticker') || v.includes('description') || v.includes('asset') || v.includes('particulars'));
     const hasQty = row.some(v => v.includes('qty') || v.includes('quantity') || v.includes('shares') || v.includes('units') || v.includes('holding') || v.includes('balance'));
     if (hasSec && hasQty) {
+
       // Count leading empty cells in the header row
       for (let k = 0; k < rows[i].length; k++) {
         if (String(rows[i][k] || '').trim() === '') {
@@ -7845,6 +8005,7 @@ app.post('/api/pms/check-duplicates', async (req, res) => {
         for (const record of section.data) {
           const rawType = record[0] || record[3] || 'EXPENSE';
           const txnType = normalizeTxnType(rawType);
+
           const dateStr = toSqlDate(record[1]);
           const setDateStr = toSqlDate(record[2]) || dateStr;
           const rawSym = record[3] || record[4] || '';
@@ -8845,6 +9006,7 @@ app.post('/api/pms/reconcile-upload', upload.fields([
     const parseTxnCsv = (buf: Buffer) => {
       const SKIP = new Set(['transaction description','current period transactions','current period settled  transactions','shares - listed','bank total','grand total','closing balance','opening balance','trf to tds a/c','tds trf to capital a/c','']);
       return buf.toString('utf8').split(/\r?\n/).flatMap(line => {
+
         if (!line.trim()) return [];
         const cols = splitCsvLine(line);
         const desc = cols[0]?.replace(/"/g,'').trim() || ''; const descL = desc.toLowerCase();
@@ -9844,6 +10006,7 @@ app.get('/api/holdings', async (req, res) => {
         item.unrealized_pct = item.total_cost > 0 ? (item.unrealized_pnl / item.total_cost) * 100 : 0;
         const prevVal = item.current_value - item.day_change;
         item.day_change_pct = prevVal > 0 ? (item.day_change / prevVal) * 100 : 0;
+
 
         // Calculate metrics and XIRR for each sub-holding in portfolio_breakdown
         if (Array.isArray(item.portfolio_breakdown)) {
@@ -10845,6 +11008,7 @@ app.get('/api/portfolio-intelligence', async (req, res) => {
   }
 });
 
+
 // GET /api/dashboard/effective-holdings
 app.get('/api/dashboard/effective-holdings', async (req, res) => {
   try {
@@ -11475,7 +11639,7 @@ app.delete('/api/portfolios/:portfolioName', requireAdminPassword, destructiveLi
 
     // Re-run FIFO to make sure analytics are clean
     await runFIFO(db);
-    await recordDestructiveAudit('DELETE_PORTFOLIO', backupPath, { portfolioName });
+    await recordDestructiveAudit('DELETE_PORTFOLIO', backupPath, { portfolioName, actor: (req as any).auth });
 
     res.json({
       success: true,
@@ -11845,6 +12009,7 @@ app.get('/api/import/template', (req, res) => {
           "Sector": "Technology",
           "Exchange": "NSE",
           "Price": 26.0769
+
         }
       ];
       const ws = XLSX.utils.json_to_sheet(sampleTickers);
@@ -12828,7 +12993,7 @@ app.post('/api/pms/purge-bank-book', requireAdminPassword, destructiveLimiter, t
     }
 
     await runFIFO(targetDb);
-    await recordDestructiveAudit('PURGE_BANK_BOOK', backupPath, { portfolio: pName || 'ALL' });
+    await recordDestructiveAudit('PURGE_BANK_BOOK', backupPath, { portfolio: pName || 'ALL', actor: (req as any).auth });
     res.json({
       success: true,
       message: pName
@@ -12845,8 +13010,9 @@ app.post('/api/admin/purge-transactions', requireAdminPassword, destructiveLimit
   try {
     const { portfolio, purge_mappings = false } = req.body || {};
     const backupPath = await preDestructiveBackup('purge_transactions');
+
     await purgePortfolioData(portfolio, purge_mappings);
-    await recordDestructiveAudit('PURGE_TRANSACTIONS', backupPath, { portfolio: portfolio || 'ALL' });
+    await recordDestructiveAudit('PURGE_TRANSACTIONS', backupPath, { portfolio: portfolio || 'ALL', actor: (req as any).auth });
     res.json({
       success: true,
       message: portfolio && portfolio !== 'ALL'
@@ -12878,7 +13044,7 @@ app.post('/api/admin/purge-everything', requireAdminPassword, destructiveLimiter
     await dbRun(targetDb, 'DELETE FROM UserMappings');
 
     await runFIFO(targetDb);
-    await recordDestructiveAudit('PURGE_EVERYTHING', backupPath);
+    await recordDestructiveAudit('PURGE_EVERYTHING', backupPath, { actor: (req as any).auth });
 
     res.json({ success: true, message: 'All database data completely purged.' });
   } catch (err: any) {
@@ -13551,7 +13717,7 @@ app.post('/api/purge-data', requireAdminPassword, destructiveLimiter, typedConfi
 
     const backupPath = await preDestructiveBackup('purge_data');
     await purgePortfolioData(portfolio);
-    await recordDestructiveAudit('PURGE_DATA', backupPath, { portfolio: portfolio || 'ALL' });
+    await recordDestructiveAudit('PURGE_DATA', backupPath, { portfolio: portfolio || 'ALL', actor: (req as any).auth });
 
     res.json({
       success: true,
@@ -13587,7 +13753,7 @@ app.post('/api/purge-master-tickers', requireAdminPassword, destructiveLimiter, 
     await dbRun(db, 'DELETE FROM UserMappings');
 
     await runFIFO(db);
-    await recordDestructiveAudit('PURGE_MASTER_TICKERS', backupPath);
+    await recordDestructiveAudit('PURGE_MASTER_TICKERS', backupPath, { actor: (req as any).auth });
 
     res.json({ success: true, message: 'Master tickers and associated portfolio data purged successfully.' });
   } catch (err: any) {
@@ -13845,6 +14011,7 @@ app.post('/api/admin/purge-cache', async (req, res) => {
       message: summary,
       sizeBeforeMB: Number(sizeBeforeMB.toFixed(2)),
       sizeAfterMB: Number(sizeAfterMB.toFixed(2)),
+
       spaceSavedMB
     });
   } catch (err: any) {
@@ -14845,6 +15012,7 @@ app.post('/api/reconcile', upload.single('file'), async (req, res) => {
         status = 'QUANTITY_MISMATCH';
         if (diffQty > 0) {
           reason = `Tracker quantity (${dbQty}) exceeds ${typeLabel} quantity (${zerodhaQty}). Likely a missing SELL trade.`;
+
           action = 'SELL';
         } else {
           const ratio = zerodhaQty / dbQty;
@@ -15845,6 +16013,7 @@ async function startServer() {
         if (seeded > 0) {
           console.log(`[US Ticker Seed] Seeded/updated ${seeded} US tickers in MasterTickers.`);
         }
+
       } catch (err) {
         console.error('[US Ticker Seed] Error:', err);
       }
@@ -15994,5 +16163,6 @@ export { app, buildDashboardPayload, dashboardResponseCache, invalidateDashboard
 if (process.env.NODE_ENV !== 'test') {
   startServer().catch(console.error);
 }
+
 
 

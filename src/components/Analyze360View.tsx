@@ -308,7 +308,7 @@ export function Analyze360View({ symbol, candidateId, signalIds, recommendedDate
             </div>
           )}
           {(researchJob || researchError) && (
-            <div className={`p-3 rounded-xl border text-xs ${researchError ? 'bg-rose-500/10 border-rose-500/30 text-rose-200' : 'bg-violet-500/10 border-violet-500/30 text-violet-100'}`}>
+            <div role={researchError ? 'alert' : undefined} className={`ui-status-banner p-3 rounded-xl border text-xs ${researchError ? 'ui-status-error' : 'ui-status-info'}`}>
               {researchJob && <div className="font-bold">Research job {researchJob.jobId}: {researchJob.status} — {researchJob.completed}/{researchJob.total} completed{researchJob.currentSymbol ? `; processing ${researchJob.currentSymbol}` : ''}</div>}
               {researchError && <div>{researchError}</div>}
               {researchJob?.results?.some((item: any) => item.llmStatus === 'NOT_CONFIGURED') && <div className="mt-1">Evidence bundle was saved. No server-side LLM key was configured, so narrative synthesis was skipped.</div>}

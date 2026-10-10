@@ -8,17 +8,15 @@
  */
 
 import crypto from 'crypto';
-import { MarketSessionContext } from '../data/PITDataValidator.js';
 
 export class PITContext {
-  private readonly sessionContext = new MarketSessionContext();
   public readonly decisionDate: string; // YYYY-MM-DD
   public readonly decisionTimestamp: string; // ISO Asia/Kolkata
   public readonly contextHash: string;
 
   constructor(decisionDate: string, dataset = 'DailyOHLCV') {
     this.decisionDate = decisionDate;
-    this.decisionTimestamp = this.sessionContext.getDecisionTimestamp(decisionDate, dataset);
+    throw new Error('DATA_INSUFFICIENT: MarketSessionContext is unavailable; deterministic decision timestamps cannot be verified.');
     this.contextHash = crypto
       .createHash('sha256')
       .update(`${this.decisionDate}|${this.decisionTimestamp}`)

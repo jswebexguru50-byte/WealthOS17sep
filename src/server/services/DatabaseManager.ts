@@ -1,14 +1,14 @@
 import sqlite3 from 'sqlite3';
 import fs from 'fs';
 import path from 'path';
-import { getDB, dbAll, dbGet, dbRun } from '../database.js';
+import { getDB, dbAll, dbGet, dbRun, getEffectiveDbPath } from '../database.js';
 
 export class DatabaseManager {
   private static instance: DatabaseManager;
   private dbPath: string;
 
   private constructor() {
-    this.dbPath = path.join(process.cwd(), 'portfolio.db');
+    this.dbPath = getEffectiveDbPath();
   }
 
   public static getInstance(): DatabaseManager {
@@ -35,14 +35,29 @@ export class DatabaseManager {
     const backupFileName = `portfolio_backup_${tag}_${timestamp}.db`;
     const backupFilePath = path.join(backupDir, backupFileName);
 
-    return new Promise((resolve, reject) => {
-      // Use SQLite backup API if available, else copy file safely
-      fs.copyFile(this.dbPath, backupFilePath, (err) => {
-        if (err) return reject(err);
-        console.log(`[DatabaseManager] Created automatic snapshot backup: ${backupFileName}`);
-        resolve(backupFilePath);
-      });
-    });
+    const source = getDB() as any;
+    if (typeof source.backup !== 'function') {
+      throw new Error('SQLITE_BACKUP_API_UNAVAILABLE');
+    }
+    // better-sqlite3 copies pages in bounded asynchronous batches. This keeps
+    // WAL state consistent without copying a live database file by hand.
+    await source.backup(backupFilePath, { attached: 'main', filename: backupFilePath });
+    const verify = new (await import('better-sqlite3')).default(backupFilePath, { readonly: true });
+    try {
+      const result = verify.pragma('quick_check', { simple: true });
+      if (result !== 'ok') throw new Error(`SQLITE_BACKUP_QUICK_CHECK_FAILED:${String(result)}`);
+    } finally {
+      verify.close();
+    }
+    const retained = fs.readdirSync(backupDir)
+      .filter((name) => name.startsWith('portfolio_backup_') && name.endsWith('.db'))
+      .map((name) => ({ name, path: path.join(backupDir, name), mtime: fs.statSync(path.join(backupDir, name)).mtimeMs }))
+      .sort((a, b) => b.mtime - a.mtime);
+    for (const old of retained.slice(10)) {
+      try { fs.unlinkSync(old.path); } catch (error) { console.warn('[DatabaseManager] backup retention cleanup failed:', old.name, error); }
+    }
+    console.log(`[DatabaseManager] Created verified online snapshot backup: ${backupFileName}`);
+    return backupFilePath;
   }
 
   public async query<T = any>(sql: string, params: any[] = []): Promise<T[]> {
@@ -57,4 +72,5 @@ export class DatabaseManager {
     return await dbRun(getDB(), sql, params);
   }
 }
+
 

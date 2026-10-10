@@ -1,3 +1,4 @@
+import { apiFetch } from './apiTransport';
 /**
  * Helper to safely perform fetch and parse JSON with automatic retry on rate limits (429 / "Rate exceeded.")
  */
@@ -7,9 +8,10 @@ export async function safeFetchJson<T = any>(
   retries = 3,
   backoffMs = 800
 ): Promise<{ ok: boolean; status: number; data: T | null; error?: string }> {
+  const canRetry = !options?.method || ['GET', 'HEAD'].includes(options.method.toUpperCase());
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
-      const res = await fetch(url, options);
+      const res = await apiFetch(url, options);
       const text = await res.text();
 
       // Handle 429 Rate Exceeded or plain text rate limit responses
@@ -19,7 +21,7 @@ export async function safeFetchJson<T = any>(
         text.includes('Too Many Requests');
 
       if (isRateLimited) {
-        if (attempt < retries) {
+        if (attempt < retries && canRetry && !options?.signal?.aborted) {
           // Add randomized jitter (200ms - 500ms) to stagger retries and avoid thundering herd rate limit collisions
           const jitter = 200 + Math.floor(Math.random() * 300);
           const delay = backoffMs * Math.pow(2, attempt) + jitter;
@@ -39,7 +41,7 @@ export async function safeFetchJson<T = any>(
         try {
           parsed = JSON.parse(text) as T;
         } catch {
-          if (attempt < retries && !res.ok) {
+          if (attempt < retries && canRetry && !options?.signal?.aborted && !res.ok) {
             await new Promise((resolve) => setTimeout(resolve, backoffMs * Math.pow(2, attempt)));
             continue;
           }
@@ -67,7 +69,7 @@ export async function safeFetchJson<T = any>(
         data: parsed
       };
     } catch (err: any) {
-      if (attempt < retries) {
+      if (attempt < retries && canRetry && !options?.signal?.aborted) {
         await new Promise((resolve) => setTimeout(resolve, backoffMs * Math.pow(2, attempt)));
         continue;
       }
@@ -95,7 +97,7 @@ export async function downloadXirrAuditExcel(portfolioName: string | string[]) {
     const safePort = portStr.replace(/[^a-zA-Z0-9_-]/g, '_');
     const url = `/api/portfolio/xirr-audit-excel?portfolio=${encodeURIComponent(portStr)}`;
     
-    const response = await fetch(url);
+    const response = await apiFetch(url);
     if (!response.ok) {
       let errorMsg = 'Failed to generate XIRR audit Excel report.';
       try {

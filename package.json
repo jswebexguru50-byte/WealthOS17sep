@@ -21,7 +21,7 @@
     "electron:start": "npm run build && electron .",
     "electron:build": "npm run build && electron-builder --win",
     "clean": "rm -rf dist server.js dist_electron",
-    "lint": "tsc --noEmit",
+    "lint": "tsc --noEmit && node scripts/check-api-fetch.mjs",
     "wealthos:test": "node tests/run-all-tests.mjs",
     "wealthos:test:unit": "npx vitest run tests/unit --reporter=verbose",
     "wealthos:test:integration": "npx vitest run tests/integration --reporter=verbose",
@@ -63,7 +63,8 @@
     "intelligence:acceptance": "vitest run tests/unit/master_acceptance_suite.test.ts",
     "mcp:stdio": "cross-env NODE_OPTIONS=--require=./scripts/node_userinfo_fallback.cjs tsx src/mcp/transports/stdio.ts",
     "mcp:http": "cross-env NODE_OPTIONS=--require=./scripts/node_userinfo_fallback.cjs tsx src/mcp/transports/http.ts",
-    "mcp:test": "vitest run tests/unit/wealthos_universal_mcp.test.ts"
+    "mcp:test": "vitest run tests/unit/wealthos_universal_mcp.test.ts",
+    "test:remediation": "node --import tsx --test tests/remediation/*.test.ts"
   },
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.1128.0",

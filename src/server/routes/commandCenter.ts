@@ -364,6 +364,21 @@ router.get('/', async (req, res) => {
     });
   } catch (err: any) {
     console.error("Command Center API Error:", err);
+    // A fresh local checkout can start before its optional data schema has
+    // been initialized. Return an explicit empty-state payload so the UI can
+    // render zero accounts with a data-quality notice instead of a transport
+    // failure. Production data errors still surface as 500 responses.
+    if (String(err?.message || '').includes('no such table')) {
+      const names = ['Indian Direct Equity', 'PMS & Institutional', 'Mutual Funds', 'AIF (Smart Horizon)', 'Unlisted Securities', 'US Equities & ETFs', 'Cash & Fixed Deposits'];
+      return res.json({
+        success: true,
+        dataQuality: { status: 'UNAVAILABLE', reason: 'LOCAL_SCHEMA_NOT_INITIALIZED' },
+        summary: { totalNetWorthINR: 0, totalPortfolioValINR: 0, totalBankAndFdVal: 0, totalCostBasisINR: 0, totalTaxCostBasisINR: 0, totalUnrealizedGainINR: 0, totalUnrealizedGainPct: 0, totalDayChangeINR: 0, totalDayChangePct: 0, usdRate: null, holdingsCount: 0, portfoliosCount: 0, bankAccountsCount: 0, compositeHealthScore: null, top10ConcentrationPct: null },
+        valuationIntegrity: { isStable: false, driftAlerts: [], recentSnapshotsCount: 0 },
+        assetClassBreakdown: names.map(name => ({ name, value: 0, cost: 0, count: 0, allocationPct: 0 })),
+        portfolioBreakdown: [], closedPortfolios: [], topMovers: { gainers: [], losers: [] }, topHoldings: []
+      });
+    }
     res.status(500).json({ success: false, message: err.message });
   }
 });
@@ -386,3 +401,4 @@ router.post('/dismiss-drift', async (req, res) => {
 });
 
 export default router;
+

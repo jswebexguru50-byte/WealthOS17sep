@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import { getServerConfig, timingSafeMatch } from '../config.js';
 import {
   isTradingDay,
   addTradingDays,
@@ -93,6 +94,29 @@ import path from 'path';
 import { dbAll, dbGet, dbRun, getDB, withTx } from '../database.js';
 
 const router = express.Router();
+const researchCreateWindow: number[] = [];
+let researchDay = new Date().toISOString().slice(0, 10);
+let researchDayCount = 0;
+const researchIdempotency = new Map<string, { expiresAt: number; body: unknown }>();
+const requireResearchAdmin = (req: Request, res: Response, next: express.NextFunction) => {
+  const config = getServerConfig();
+  if (!config.APP_PASSWORD && (config.NODE_ENV === 'production' || config.BIND_HOST !== '127.0.0.1')) {
+    return res.status(503).json({ success: false, error: 'APP_PASSWORD_REQUIRED' });
+  }
+  if (config.APP_PASSWORD && !timingSafeMatch(String(req.headers['x-app-password'] || ''), config.APP_PASSWORD)) {
+    return res.status(401).json({ success: false, error: 'UNAUTHORIZED' });
+  }
+  if (req.method === 'POST') {
+    const now = Date.now();
+    while (researchCreateWindow.length && researchCreateWindow[0] <= now - 60 * 60 * 1000) researchCreateWindow.shift();
+    if (researchCreateWindow.length >= 5) return res.status(429).json({ success: false, error: 'RESEARCH_RATE_LIMITED' });
+    const day = new Date().toISOString().slice(0, 10);
+    if (day !== researchDay) { researchDay = day; researchDayCount = 0; }
+    if (researchDayCount >= 20) return res.status(429).json({ success: false, error: 'RESEARCH_DAILY_CAP_REACHED' });
+    researchCreateWindow.push(now); researchDayCount += 1;
+  }
+  next();
+};
 
 // Initialize tables on startup
 initPhase4to6Tables().catch(err => console.error('Failed to init Phase 4-6 tables:', err));
@@ -3751,12 +3775,24 @@ const handleResearchJobGet = async (req: Request, res: Response) => {
 
 const handleResearchJobCreate = async (req: Request, res: Response) => {
   try {
+    const idempotencyKey = String(req.headers['idempotency-key'] || '').trim();
+    if (idempotencyKey) {
+      const cached = researchIdempotency.get(idempotencyKey);
+      if (cached && cached.expiresAt > Date.now()) return res.status(202).json(cached.body);
+      researchIdempotency.delete(idempotencyKey);
+    }
     const symbols = Array.isArray(req.body?.symbols) ? req.body.symbols : req.body?.symbol ? [req.body.symbol] : [];
     const asOfDate = String(req.body?.asOfDate || new Date().toISOString().slice(0, 10));
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(asOfDate) || Number.isNaN(Date.parse(`${asOfDate}T00:00:00Z`))) {
+      return res.status(400).json({ success: false, error: 'INVALID_AS_OF_DATE' });
+    }
+    if (!symbols.length || symbols.length > 50) return res.status(400).json({ success: false, error: 'INVALID_SYMBOLS' });
     const mode = String(req.body?.mode || 'LLM_IF_AVAILABLE').toUpperCase();
     const { ResearchAnalysisJobService } = await import('../services/ResearchAnalysisJobService.js');
     const job = await ResearchAnalysisJobService.getInstance().create(symbols, asOfDate, mode as any, req.body?.symbolMetadata || {});
-    return res.status(202).json({ success: true, job });
+    const body = { success: true, job };
+    if (idempotencyKey) researchIdempotency.set(idempotencyKey, { expiresAt: Date.now() + 24 * 60 * 60 * 1000, body });
+    return res.status(202).json(body);
   } catch (err: any) {
     const message = err.message || 'Unable to create research job';
     const status = message.startsWith('INVALID_') ? 400 : 500;
@@ -4215,9 +4251,9 @@ router.get('/analyze360/:symbol/research-analyses', handleResearchAnalysesList);
 router.get('/analyze360/:symbol/research-analyses/latest', handleResearchAnalysisLatest);
 router.get('/analyze360/:symbol/research-analyses/:analysisId', handleResearchAnalysisGet);
 router.post('/analyze360/:symbol/research-analyses', handleResearchAnalysisSave);
-router.get('/research-analysis/jobs', handleResearchJobsList);
-router.get('/research-analysis/jobs/:jobId', handleResearchJobGet);
-router.post('/research-analysis/jobs', handleResearchJobCreate);
+router.get('/research-analysis/jobs', requireResearchAdmin, handleResearchJobsList);
+router.get('/research-analysis/jobs/:jobId', requireResearchAdmin, handleResearchJobGet);
+router.post('/research-analysis/jobs', requireResearchAdmin, handleResearchJobCreate);
 router.get('/research-analysis/on-hand-cohort', handleOnHandResearchCohort);
 router.post('/research-analysis/on-hand-jobs', handleOnHandResearchStart);
 router.post('/analyze360/:symbol/backtest', handleAnalyze360Backtest);

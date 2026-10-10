@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/apiTransport';
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   Settings, Save, Copy, Trash2, RefreshCw, ChevronDown, ChevronUp,
@@ -237,7 +238,7 @@ export const StrategyParameterEditorView: React.FC = () => {
   const fetchSaved = useCallback(async () => {
     setLoadingList(true);
     try {
-      const res = await fetch('/api/strategies/custom');
+      const res = await apiFetch('/api/strategies/custom');
       const json = await res.json();
       if (json.success) setSavedStrategies(json.data || []);
     } catch { /* silent */ } finally { setLoadingList(false); }
@@ -248,7 +249,7 @@ export const StrategyParameterEditorView: React.FC = () => {
   const fetchSchema = useCallback(async () => {
     setSchemaLoading(true);
     try {
-      const res = await fetch('/api/strategies/custom/schema');
+      const res = await apiFetch('/api/strategies/custom/schema');
       const json = await res.json();
       if (json.success) setSchemaColumns(json.data.columns || []);
       else showToast(json.error || 'Could not load schema', 'error');
@@ -261,7 +262,7 @@ export const StrategyParameterEditorView: React.FC = () => {
     if (!name) { showToast('Enter a valid column name (letters, numbers, underscore)', 'error'); return; }
     setSchemaActionLoading(true);
     try {
-      const res = await fetch('/api/strategies/custom/schema/columns', {
+      const res = await apiFetch('/api/strategies/custom/schema/columns', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ columnName: name, columnType: newColType }),
@@ -283,7 +284,7 @@ export const StrategyParameterEditorView: React.FC = () => {
     if (!confirm(`Drop column "${colName}" from CustomStrategies? All existing data in that column will be lost.`)) return;
     setSchemaActionLoading(true);
     try {
-      const res = await fetch(`/api/strategies/custom/schema/columns/${encodeURIComponent(colName)}`, { method: 'DELETE' });
+      const res = await apiFetch(`/api/strategies/custom/schema/columns/${encodeURIComponent(colName)}`, { method: 'DELETE' });
       const json = await res.json();
       if (json.success) {
         showToast(`Column "${colName}" deleted`, 'success');
@@ -321,7 +322,7 @@ export const StrategyParameterEditorView: React.FC = () => {
     if (!name) { showToast('Please enter a strategy name', 'error'); return; }
     setSaving(true);
     try {
-      const res = await fetch('/api/strategies/custom', {
+      const res = await apiFetch('/api/strategies/custom', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -356,7 +357,7 @@ export const StrategyParameterEditorView: React.FC = () => {
   const handleDelete = async (id: string, name: string) => {
     if (!confirm(`Delete strategy "${name}"?`)) return;
     try {
-      const res = await fetch(`/api/strategies/custom/${id}`, { method: 'DELETE' });
+      const res = await apiFetch(`/api/strategies/custom/${id}`, { method: 'DELETE' });
       const json = await res.json();
       if (json.success) { showToast('Deleted', 'success'); fetchSaved(); }
       else showToast(json.error || 'Delete failed', 'error');
@@ -378,7 +379,7 @@ export const StrategyParameterEditorView: React.FC = () => {
     if (!confirm(`Run backtest for all ${savedStrategies.length} saved strategies? This may take a few minutes.`)) return;
     setRunningAllBacktests(true);
     try {
-      const res = await fetch('/api/strategies/custom/run-all-backtests', { method: 'POST' });
+      const res = await apiFetch('/api/strategies/custom/run-all-backtests', { method: 'POST' });
       const json = await res.json();
       if (json.success) {
         showToast(`All backtests done: ${json.data.ran} strategies processed`, 'success');
@@ -399,7 +400,7 @@ export const StrategyParameterEditorView: React.FC = () => {
     setBacktesting(true);
     setBacktestResult(null);
     try {
-      const res = await fetch(`/api/strategies/custom/${stratId}/run-backtest`, { method: 'POST' });
+      const res = await apiFetch(`/api/strategies/custom/${stratId}/run-backtest`, { method: 'POST' });
       const json = await res.json();
       if (json.success) {
         setBacktestResult(json.data);

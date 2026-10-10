@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/apiTransport';
 import React, { useState, useEffect } from 'react';
 import { Database, HardDrive, Trash2, RefreshCw, AlertTriangle, FileArchive, CheckCircle2, ShieldCheck, Zap, Layers } from 'lucide-react';
 import { safeFetchJson } from '../lib/api';
@@ -53,7 +54,7 @@ export const DatabaseSizeInspector: React.FC<{
     setIsPurging(true);
     setShowPurgeModal(false);
     try {
-      const res = await fetch('/api/admin/purge-cache', {
+      const res = await apiFetch('/api/admin/purge-cache', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -78,7 +79,7 @@ export const DatabaseSizeInspector: React.FC<{
   const handleVacuumDatabase = async () => {
     setIsVacuuming(true);
     try {
-      const res = await fetch('/api/admin/vacuum-database', {
+      const res = await apiFetch('/api/admin/vacuum-database', {
         method: 'POST'
       });
       const data = await res.json();
@@ -102,7 +103,7 @@ export const DatabaseSizeInspector: React.FC<{
     const url = `/api/download-database?format=${format}`;
     
     try {
-      const res = await fetch(url);
+      const res = await apiFetch(url);
       if (!res.ok) {
         throw new Error(`Server returned HTTP ${res.status}: ${res.statusText}`);
       }

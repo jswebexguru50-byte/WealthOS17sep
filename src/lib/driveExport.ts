@@ -1,3 +1,4 @@
+import { apiFetch } from './apiTransport';
 
 // Initialize Firebase lazily and safely
 
@@ -22,7 +23,7 @@ export async function exportDatabaseToGoogleDrive(
       totalCount: 1
     });
 
-    const res = await fetch('/api/admin/database-file');
+    const res = await apiFetch('/api/admin/database-file');
     const data = await res.json();
     if (!data.success) {
       throw new Error(data.message || 'Failed to fetch database file from backend.');
@@ -75,7 +76,7 @@ export async function exportToGoogleDrive(
       totalCount: 0
     });
     
-    const res = await fetch('/api/admin/project-files');
+    const res = await apiFetch('/api/admin/project-files');
     const data = await res.json();
     if (!data.success) {
       throw new Error(data.error || 'Failed to fetch project files from backend.');
@@ -164,7 +165,7 @@ async function createFolder(accessToken: string, name: string, parentId: string)
     metadata.parents = [parentId];
   }
   
-  const res = await fetch('https://www.googleapis.com/drive/v3/files', {
+  const res = await apiFetch('https://www.googleapis.com/drive/v3/files', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -213,7 +214,7 @@ async function uploadFile(
     );
     formData.append('file', blob);
     
-    const res = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+    const res = await apiFetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`
@@ -234,7 +235,7 @@ async function uploadFile(
     
     const bodyStr = `${metaPart}${mediaPart}${closePart}`;
     
-    const res = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+    const res = await apiFetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`,

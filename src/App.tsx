@@ -1,3 +1,4 @@
+import { apiFetch } from './lib/apiTransport';
 import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
@@ -125,7 +126,7 @@ const PRIMARY_NAV_ITEMS: ReadonlyArray<{ id: TabType; label: string; sub: string
   { id: 'DISCOVER', label: 'Ideas', sub: 'Qualified opportunities' },
   { id: 'ANALYZE', label: 'Stock Research', sub: 'Evidence-led intelligence' },
   { id: 'PORTFOLIO', label: 'Portfolio', sub: 'Risk, ledger and watchlist' },
-  { id: 'RESEARCH', label: 'Research', sub: 'Themes and strategy tools' },
+  { id: 'RESEARCH', label: 'Strategy Lab', sub: 'Themes and strategy tools' },
   { id: 'AUDIT', label: 'Data & Settings', sub: 'Provenance and preferences' },
 ];
 
@@ -320,7 +321,7 @@ export default function App() {
     };
     window.addEventListener('layoutChanged', onLayoutChange);
 
-    fetch('/api/alerts')
+    apiFetch('/api/alerts')
       .then(r => r.json())
       .then(d => { if (d.success) setAlertsCount(d.count || d.alerts?.length || 0); })
       .catch(() => {});
@@ -704,7 +705,7 @@ export default function App() {
       'Retrieving the latest live ticker price feeds from Yahoo Finance and compiling portfolio valuation metrics...'
     );
     try {
-      const res = await fetch('/api/market-prices/sync', {
+      const res = await apiFetch('/api/market-prices/sync', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -767,7 +768,7 @@ export default function App() {
       'Cross-referencing active holdings against Google Search & official exchange quotes to verify exact session closes...'
     );
     try {
-      const res = await fetch('/api/market-prices/web-match', {
+      const res = await apiFetch('/api/market-prices/web-match', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -798,7 +799,7 @@ export default function App() {
       'The FIFO engine is re-matching trade acquisitions, applying splits, and calculating short-term vs long-term capital gains tax lists...'
     );
     try {
-      const res = await fetch('/api/fifo/recalculate', { method: 'POST' });
+      const res = await apiFetch('/api/fifo/recalculate', { method: 'POST' });
       const data = await res.json();
       if (data.success) {
         showToast('Successfully recalculated FIFO matches, corporate splits, and realized capital gains summaries!', 'success');
@@ -821,7 +822,7 @@ export default function App() {
       'Adjusting trade ledger records, re-routing proportional quantities for bonus lot emissions, and executing stock split modifications...'
     );
     try {
-      const res = await fetch('/api/corporate-actions/apply', { method: 'POST' });
+      const res = await apiFetch('/api/corporate-actions/apply', { method: 'POST' });
       const contentType = res.headers.get('content-type') || '';
       if (!res.ok || !contentType.includes('application/json')) {
         const text = await res.text();
@@ -849,7 +850,7 @@ export default function App() {
   const handleAddTransaction = async (txn: Partial<Transaction>) => {
     triggerLoader(true, 'Saving Trade Record...', 'Injecting trade event row to portfolio ledger tables...');
     try {
-      const res = await fetch('/api/transactions', {
+      const res = await apiFetch('/api/transactions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(txn)
@@ -874,7 +875,7 @@ export default function App() {
   const handleEditTransaction = async (id: number, txn: Partial<Transaction>) => {
     triggerLoader(true, 'Updating Trade...', 'Modifying database entry and recalculating FIFO lot schedules...');
     try {
-      const res = await fetch(`/api/transactions/${id}`, {
+      const res = await apiFetch(`/api/transactions/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(txn)
@@ -899,7 +900,7 @@ export default function App() {
   const handleDeleteTransaction = async (id: number) => {
     triggerLoader(true, 'Purging Trade...', 'Deleting trade row and adjusting acquisition allocations...');
     try {
-      const res = await fetch(`/api/transactions/${id}`, { method: 'DELETE' });
+      const res = await apiFetch(`/api/transactions/${id}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
         showToast('Transaction trade log deleted permanently!', 'success');
@@ -920,7 +921,7 @@ export default function App() {
   const handleBulkAction = async (action: 'DELETE' | 'UPDATE', ids: number[], fields?: Partial<Transaction>) => {
     triggerLoader(true, 'Executing Bulk Update...', 'Applying changes across the specified portfolio records...');
     try {
-      const res = await fetch('/api/transactions/bulk', {
+      const res = await apiFetch('/api/transactions/bulk', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action, ids, fields })
@@ -946,7 +947,7 @@ export default function App() {
   const handleAddTicker = async (ticker: Partial<MasterTicker>) => {
     triggerLoader(true, 'Adding Ticker Profile...', 'Saving new scrip specifications in Master Directory...');
     try {
-      const res = await fetch('/api/tickers', {
+      const res = await apiFetch('/api/tickers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(ticker)
@@ -971,7 +972,7 @@ export default function App() {
   const handleEditTicker = async (id: number, ticker: Partial<MasterTicker>) => {
     triggerLoader(true, 'Modifying Specifications...', 'Applying manual pricing overrides and ISIN adjustments...');
     try {
-      const res = await fetch(`/api/tickers/${id}`, {
+      const res = await apiFetch(`/api/tickers/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(ticker)
@@ -996,7 +997,7 @@ export default function App() {
   const handleDeleteTicker = async (id: number) => {
     triggerLoader(true, 'Purging Ticker Profile...', 'Deleting ticker profile specifications...');
     try {
-      const res = await fetch(`/api/tickers/${id}`, { method: 'DELETE' });
+      const res = await apiFetch(`/api/tickers/${id}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
         showToast('Master Ticker profile deleted permanently!', 'success');
@@ -1017,7 +1018,7 @@ export default function App() {
   const handleMergeTickers = async (sourceIsin: string, targetIsin: string) => {
     triggerLoader(true, 'Merging Tickers...', 'Re-routing legacy trade records and merging corporate event histories...');
     try {
-      const res = await fetch('/api/tickers/merge', {
+      const res = await apiFetch('/api/tickers/merge', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ source_isin: sourceIsin, target_isin: targetIsin })
@@ -1043,7 +1044,7 @@ export default function App() {
   const handleAddCorporateAction = async (ca: Partial<CorporateAction>) => {
     triggerLoader(true, 'Scheduling Action...', 'Saving corporate action parameters...');
     try {
-      const res = await fetch('/api/corporate-actions', {
+      const res = await apiFetch('/api/corporate-actions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(ca)
@@ -1067,7 +1068,7 @@ export default function App() {
   const handleEditCorporateAction = async (id: number, ca: Partial<CorporateAction>) => {
     triggerLoader(true, 'Updating Event...', 'Modifying corporate action parameters...');
     try {
-      const res = await fetch(`/api/corporate-actions/${id}`, {
+      const res = await apiFetch(`/api/corporate-actions/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(ca)
@@ -1091,7 +1092,7 @@ export default function App() {
   const handleDeleteCorporateAction = async (id: number) => {
     triggerLoader(true, 'Purging Event...', 'Deleting scheduled corporate actions...');
     try {
-      const res = await fetch(`/api/corporate-actions/${id}`, { method: 'DELETE' });
+      const res = await apiFetch(`/api/corporate-actions/${id}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
         showToast('Corporate event schedule deleted successfully!', 'success');
@@ -1122,7 +1123,7 @@ export default function App() {
     }
 
     try {
-      const res = await fetch('/api/reconcile', {
+      const res = await apiFetch('/api/reconcile', {
         method: 'POST',
         body: formData
       });
@@ -1157,7 +1158,7 @@ export default function App() {
     }
 
     try {
-      const res = await fetch('/api/import/validate', {
+      const res = await apiFetch('/api/import/validate', {
         method: 'POST',
         body: formData
       });
@@ -1180,7 +1181,7 @@ export default function App() {
   ) => {
     triggerLoader(true, 'Committing Import Batch...', 'Writing clean trade records to SQLite database...');
     try {
-      const res = await fetch('/api/import/commit', {
+      const res = await apiFetch('/api/import/commit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -1208,7 +1209,7 @@ export default function App() {
   const handleUndoBatchRollback = async (batchId: string) => {
     triggerLoader(true, 'Reversing Bulk Batch...', 'Removing trade rows matching import batch ID...');
     try {
-      const res = await fetch('/api/import/undo', {
+      const res = await apiFetch('/api/import/undo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ batch_id: batchId })
@@ -1241,7 +1242,7 @@ export default function App() {
     const isSpecific = portfolio && portfolio !== 'ALL';
     triggerLoader(true, isSpecific ? `Purging Bank Book for ${portfolio}...` : 'Purging Bank Books...', 'Purging cash transactions & bank book entries...');
     try {
-      const res = await fetch('/api/pms/purge-bank-book', {
+      const res = await apiFetch('/api/pms/purge-bank-book', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ portfolio: portfolio || 'ALL', purge_mappings: purgeMappings })
@@ -1267,7 +1268,7 @@ export default function App() {
     const isSpecific = portfolio && portfolio !== 'ALL';
     triggerLoader(true, isSpecific ? `Purging ${portfolio}...` : 'Wiping Database...', 'Purging transactional logs & corporate actions...');
     try {
-      const res = await fetch('/api/admin/purge-transactions', {
+      const res = await apiFetch('/api/admin/purge-transactions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ confirm: 'true', portfolio: portfolio || 'ALL', purge_mappings: purgeMappings })
@@ -1292,7 +1293,7 @@ export default function App() {
   const handlePurgeEverythingFull = async () => {
     triggerLoader(true, 'Purging Database WIPE...', 'Recreating blank SQLite tables...');
     try {
-      const res = await fetch('/api/admin/purge-everything', {
+      const res = await apiFetch('/api/admin/purge-everything', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ confirm: 'true' })
@@ -1344,7 +1345,7 @@ export default function App() {
         onSelectSymbol={(sym) => setSelectedIntelligenceSymbol(sym)}
       />
 
-      <div className="flex-1 flex flex-col lg:flex-row pb-20 lg:pb-0 w-full">
+      <div className="flex-1 flex flex-col lg:flex-row pb-20 lg:pb-0 w-full min-w-0 overflow-x-hidden">
         {/* Mobile Topbar — Dynamic Theme & Notch Safe */}
         <div className="lg:hidden sticky top-0 z-40 px-3 py-2 flex items-center justify-between border-b backdrop-blur-xl mobile-topbar-compact safe-area-top" style={{backgroundColor:'var(--bg-sidebar)',borderColor:'var(--border-card)'}}>
           <div className="flex items-center gap-2">
@@ -1438,7 +1439,7 @@ export default function App() {
                     { id: 'DISCOVER', label: 'Ideas', sub: 'Qualified opportunities', icon: Search, color: 'text-amber-400' },
                     { id: 'ANALYZE', label: 'Stock Research', sub: 'Evidence-led intelligence', icon: FileSpreadsheet, color: 'text-emerald-400' },
                     { id: 'PORTFOLIO', label: 'Portfolio', sub: 'Risk, ledger and watchlist', icon: LayoutDashboard },
-                    { id: 'RESEARCH', label: 'Research', sub: 'Themes and strategy tools', icon: PieChartIcon },
+                    { id: 'RESEARCH', label: 'Strategy Lab', sub: 'Themes and strategy tools', icon: PieChartIcon },
                     { id: 'AUDIT', label: 'Data & Settings', sub: 'Provenance and preferences', icon: Wrench },
                   ].map(tab => {
                     const IconComp = tab.icon;
@@ -1515,7 +1516,7 @@ export default function App() {
                 { id: 'DISCOVER', label: 'Ideas', sub: 'Qualified opportunities', icon: Search, color: 'text-amber-400' },
                 { id: 'ANALYZE', label: 'Stock Research', sub: 'Evidence-led intelligence', icon: FileSpreadsheet, color: 'text-emerald-400' },
                 { id: 'PORTFOLIO', label: 'Portfolio', sub: 'Risk, ledger and watchlist', icon: LayoutDashboard },
-                { id: 'RESEARCH', label: 'Research', sub: 'Themes and strategy tools', icon: PieChartIcon },
+                { id: 'RESEARCH', label: 'Strategy Lab', sub: 'Themes and strategy tools', icon: PieChartIcon },
                 { id: 'AUDIT', label: 'Data & Settings', sub: 'Provenance and preferences', icon: Wrench },
               ].map((tab) => {
                 const IconComp = tab.icon;
@@ -1947,10 +1948,10 @@ export default function App() {
               ? 'text-cyan-400 font-bold bg-cyan-500/15 border border-cyan-500/30'
               : 'text-slate-400 hover:text-slate-200'
           }`}
-          aria-label="Command Center"
+          aria-label="Home"
         >
           <Zap className="w-4 h-4" />
-          <span className="text-[9px] tracking-tight font-semibold">Command</span>
+          <span className="text-[9px] tracking-tight font-semibold">Home</span>
         </button>
 
         <button
@@ -1973,10 +1974,10 @@ export default function App() {
               ? 'text-cyan-400 font-bold bg-cyan-500/15 border border-cyan-500/30'
               : 'text-slate-400 hover:text-slate-200'
           }`}
-          aria-label="Opportunity Engine"
+          aria-label="Ideas"
         >
           <Sparkles className="w-4 h-4" />
-          <span className="text-[9px] tracking-tight font-semibold">Engine</span>
+          <span className="text-[9px] tracking-tight font-semibold">Ideas</span>
         </button>
 
         <button
@@ -1986,10 +1987,10 @@ export default function App() {
               ? 'text-amber-400 font-bold bg-amber-500/15 border border-amber-500/30'
               : 'text-slate-400 hover:text-slate-200'
           }`}
-          aria-label="Tax and Repatriation"
+          aria-label="Data and Settings"
         >
           <ShieldCheck className="w-4 h-4" />
-          <span className="text-[9px] tracking-tight font-semibold">Tax/FEMA</span>
+          <span className="text-[9px] tracking-tight font-semibold">Data</span>
         </button>
 
         <button
@@ -2061,8 +2062,8 @@ export default function App() {
                   }`}
                 >
                   <Sparkles className="w-4 h-4 text-cyan-400" />
-                  <span className="text-xs font-semibold">Opportunity Engine</span>
-                  <span className="text-[10px] text-slate-400">Convergence, Sentinel & 10X</span>
+                  <span className="text-xs font-semibold">Ideas</span>
+                  <span className="text-[10px] text-slate-400">Qualified opportunities</span>
                 </button>
 
                 <button

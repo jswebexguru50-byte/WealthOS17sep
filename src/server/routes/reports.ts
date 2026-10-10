@@ -4,22 +4,54 @@
  */
 import { Router } from 'express';
 import { ReportsService } from '../services/ReportsService.js';
+import { authenticateFamily, roleAllows } from '../auth/familyRoleAuth.js';
+import { getServerConfig } from '../config.js';
+import { dbAll, dbRun, getDB } from '../database.js';
 
 const router = Router();
 
+const REPORT_TYPES = new Set([
+  'CAPITAL_GAINS', 'TRADE_BOOK', 'DIVIDEND_INCOME', 'DIVIDEND_STATEMENT',
+  'ASSET_XIRR', 'ASSET_ALLOCATION', 'PERFORMANCE_SUMMARY', 'HOLDING_STATEMENT'
+]);
+const isIsoDate = (value: unknown): boolean => value == null || value === '' ||
+  (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value));
+const auth = (write = false) => (req: any, res: any, next: any) => {
+  const principal = authenticateFamily(req.headers, getServerConfig().APP_PASSWORD);
+  if (!principal) return res.status(401).json({ success: false, error: 'UNAUTHORIZED' });
+  if (write && !roleAllows(principal, 'editor')) return res.status(403).json({ success: false, error: 'ROLE_FORBIDDEN' });
+  req.familyPrincipal = principal; next();
+};
+
+router.get('/catalog', auth(), (_req, res) => {
+  res.json({ success: true, reports: Array.from(REPORT_TYPES).map(reportType => ({ reportType })) });
+});
+router.get('/history', auth(), async (req: any, res) => {
+  const limit = Math.min(Math.max(Number(req.query.limit) || 25, 1), 100);
+  const rows = await dbAll(getDB(), 'SELECT id,report_type,portfolio,financial_year,start_date,end_date,status,created_by,created_at FROM report_runs ORDER BY id DESC LIMIT ?', [limit]);
+  res.json({ success: true, reports: rows });
+});
+
 // POST /api/reports/generate
-router.post('/generate', async (req, res) => {
+router.post('/generate', auth(true), async (req: any, res) => {
   try {
     const { reportType, portfolio, financialYear, startDate, endDate, assetClass, includeGrandfathering } = req.body;
+    const normalizedType = String(reportType || 'HOLDING_STATEMENT').toUpperCase();
+    if (!REPORT_TYPES.has(normalizedType)) {
+      return res.status(400).json({ success: false, error: 'INVALID_REPORT_TYPE' });
+    }
+    if (!isIsoDate(startDate) || !isIsoDate(endDate)) {
+      return res.status(400).json({ success: false, error: 'INVALID_TRADE_DATE' });
+    }
     const svc = ReportsService.getInstance();
     let data: any;
 
-    switch (reportType) {
+    switch (normalizedType) {
       case 'CAPITAL_GAINS':
-        data = await svc.generateCapitalGainsReport({ reportType, portfolio, financialYear, startDate, endDate, includeGrandfathering });
+        data = await svc.generateCapitalGainsReport({ reportType: normalizedType, portfolio, financialYear, startDate, endDate, includeGrandfathering });
         break;
       case 'TRADE_BOOK':
-        data = await svc.generateTradeBook({ reportType, portfolio, financialYear, startDate, endDate });
+        data = await svc.generateTradeBook({ reportType: normalizedType, portfolio, financialYear, startDate, endDate });
         break;
       case 'DIVIDEND_INCOME':
       case 'DIVIDEND_STATEMENT':
@@ -36,11 +68,107 @@ router.post('/generate', async (req, res) => {
         data = await svc.generateHoldingsStatement({ reportType: 'HOLDING_STATEMENT', portfolio, assetClass });
     }
 
+    await dbRun(getDB(), 'INSERT INTO report_runs (report_type,portfolio,financial_year,start_date,end_date,request_json,created_by) VALUES (?,?,?,?,?,?,?)', [normalizedType, portfolio || null, financialYear || null, startDate || null, endDate || null, JSON.stringify({ reportType: normalizedType, assetClass: assetClass || null }), req.familyPrincipal.userId]);
     res.json(data);
   } catch (err: any) {
     console.error('Reports generation failed:', err);
-    res.status(500).json({ success: false, error: err.message });
+    const status = String(err?.message || '').startsWith('INVALID_FINANCIAL_YEAR') ||
+      String(err?.message || '').startsWith('INVALID_TRADE_DATE') ? 400 : 500;
+    res.status(status).json({ success: false, error: err.message });
   }
 });
 
 export default router;
+
+const FREQUENCIES = new Set(['DAILY', 'WEEKLY', 'MONTHLY']);
+const DELIVERY_MODES = new Set(['DOWNLOAD_ONLY', 'EMAIL_PENDING']);
+const scheduleIso = (v: unknown): boolean => typeof v === 'string' && !Number.isNaN(Date.parse(v));
+function scheduleBody(body: any) {
+  const reportType = String(body?.reportType || '').toUpperCase();
+  const frequency = String(body?.frequency || '').toUpperCase();
+  const deliveryMode = String(body?.deliveryMode || 'DOWNLOAD_ONLY').toUpperCase();
+  const nextRunAt = body?.nextRunAt;
+  if (!REPORT_TYPES.has(reportType)) return { error: 'INVALID_REPORT_TYPE' };
+  if (!FREQUENCIES.has(frequency)) return { error: 'INVALID_FREQUENCY' };
+  if (!DELIVERY_MODES.has(deliveryMode)) return { error: 'INVALID_DELIVERY_MODE' };
+  if (!scheduleIso(nextRunAt)) return { error: 'INVALID_NEXT_RUN_AT' };
+  if (deliveryMode === 'EMAIL_PENDING' && (!body?.recipientRef || String(body.recipientRef).length > 200)) return { error: 'INVALID_RECIPIENT_REFERENCE' };
+  return { value: { reportType, frequency, deliveryMode, nextRunAt: new Date(nextRunAt).toISOString(), portfolio: body?.portfolio ? String(body.portfolio).slice(0, 200) : null, timezone: String(body?.timezone || 'UTC').slice(0, 64), recipientRef: body?.recipientRef ? String(body.recipientRef).slice(0, 200) : null } };
+}
+router.get('/schedules', auth(), async (req: any, res) => {
+  const rows = await dbAll(getDB(), 'SELECT * FROM report_schedules WHERE created_by = ? OR ? >= 2 ORDER BY next_run_at ASC', [req.familyPrincipal.userId, req.familyPrincipal.role === 'admin' || req.familyPrincipal.role === 'owner' ? 2 : 0]);
+  res.json({ success: true, schedules: rows.map((r: any) => ({ ...r, due: r.status === 'ACTIVE' && Date.parse(r.next_run_at) <= Date.now() })) });
+});
+router.post('/schedules', auth(true), async (req: any, res) => {
+  if (!roleAllows(req.familyPrincipal, 'admin')) return res.status(403).json({ success: false, error: 'ROLE_FORBIDDEN' });
+  const parsed = scheduleBody(req.body); if (parsed.error) return res.status(400).json({ success: false, error: parsed.error });
+  const v = parsed.value!;
+  const result: any = await dbRun(getDB(), 'INSERT INTO report_schedules (report_type,portfolio,frequency,timezone,next_run_at,delivery_mode,recipient_ref,created_by) VALUES (?,?,?,?,?,?,?,?)', [v.reportType,v.portfolio,v.frequency,v.timezone,v.nextRunAt,v.deliveryMode,v.recipientRef,req.familyPrincipal.userId]);
+  res.status(201).json({ success: true, id: result.lastID });
+});
+router.patch('/schedules/:id', auth(true), async (req: any, res) => {
+  if (!roleAllows(req.familyPrincipal, 'admin')) return res.status(403).json({ success: false, error: 'ROLE_FORBIDDEN' });
+  const id = Number(req.params.id); if (!Number.isInteger(id)) return res.status(400).json({ success: false, error: 'INVALID_ID' });
+  const current: any = await (await import('../database.js')).dbGet(getDB(), 'SELECT * FROM report_schedules WHERE id = ?', [id]);
+  if (!current) return res.status(404).json({ success: false, error: 'NOT_FOUND' });
+  const merged = { ...current, ...req.body, reportType: req.body.reportType || current.report_type, frequency: req.body.frequency || current.frequency, nextRunAt: req.body.nextRunAt || current.next_run_at, deliveryMode: req.body.deliveryMode || current.delivery_mode, recipientRef: req.body.recipientRef ?? current.recipient_ref, portfolio: req.body.portfolio ?? current.portfolio, timezone: req.body.timezone || current.timezone };
+  const parsed = scheduleBody(merged); if (parsed.error) return res.status(400).json({ success: false, error: parsed.error }); const v=parsed.value!;
+  const status = req.body.status ? String(req.body.status).toUpperCase() : current.status; if (!['ACTIVE','PAUSED'].includes(status)) return res.status(400).json({success:false,error:'INVALID_STATUS'});
+  await dbRun(getDB(), 'UPDATE report_schedules SET report_type=?,portfolio=?,frequency=?,timezone=?,next_run_at=?,delivery_mode=?,recipient_ref=?,status=?,updated_at=CURRENT_TIMESTAMP WHERE id=?', [v.reportType,v.portfolio,v.frequency,v.timezone,v.nextRunAt,v.deliveryMode,v.recipientRef,status,id]);
+  res.json({ success: true });
+});
+router.delete('/schedules/:id', auth(true), async (req: any, res) => {
+  if (!roleAllows(req.familyPrincipal, 'admin')) return res.status(403).json({ success: false, error: 'ROLE_FORBIDDEN' });
+  const id=Number(req.params.id); const result:any=await dbRun(getDB(),'DELETE FROM report_schedules WHERE id=?',[id]); if(!result.changes)return res.status(404).json({success:false,error:'NOT_FOUND'}); res.json({success:true});
+});
+router.post('/schedules/:id/run', auth(true), async (req: any, res) => {
+  if (!roleAllows(req.familyPrincipal, 'admin')) return res.status(403).json({ success: false, error: 'ROLE_FORBIDDEN' });
+  const id=Number(req.params.id); const row:any=await (await import('../database.js')).dbGet(getDB(),'SELECT * FROM report_schedules WHERE id=?',[id]); if(!row)return res.status(404).json({success:false,error:'NOT_FOUND'}); if(row.status!=='ACTIVE')return res.status(409).json({success:false,error:'SCHEDULE_PAUSED'});
+  await dbRun(getDB(),'UPDATE report_schedules SET last_run_at=CURRENT_TIMESTAMP,last_status=?,updated_at=CURRENT_TIMESTAMP WHERE id=?',['QUEUED_NO_EXTERNAL_DELIVERY',id]);
+  res.status(202).json({success:true,status:'QUEUED_NO_EXTERNAL_DELIVERY',message:'Report generation is queued; external email delivery is disabled by policy.'});
+});
+
+const REVIEW_SECTIONS = ['EXECUTIVE_SUMMARY','PERFORMANCE','ALLOCATION_AND_RISK','CASH_AND_LIQUIDITY','TAX_AND_COMPLIANCE','GOVERNANCE_AND_ACTIONS'] as const;
+const quarter = (start: unknown, end: unknown) => {
+  if (typeof start !== 'string' || typeof end !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(start) || !/^\d{4}-\d{2}-\d{2}$/.test(end)) return null;
+  const s = new Date(`${start}T00:00:00Z`), e = new Date(`${end}T00:00:00Z`);
+  if (Number.isNaN(s.getTime()) || Number.isNaN(e.getTime()) || s >= e) return null;
+  const endMonth = e.getUTCMonth() + 1;
+  if (![3,6,9,12].includes(endMonth) || e.getUTCDate() !== new Date(Date.UTC(e.getUTCFullYear(), endMonth, 0)).getUTCDate()) return null;
+  const expectedStart = new Date(Date.UTC(e.getUTCFullYear(), endMonth - 3, 1));
+  if (s.getTime() !== expectedStart.getTime()) return null;
+  return `Q${Math.floor((endMonth - 1) / 3)}-${e.getUTCFullYear()}`;
+};
+const packAuth = auth(false);
+const packWriteAuth = auth(true);
+router.post('/review-packs', packWriteAuth, async (req: any, res) => {
+  const b = req.body || {}; const q = quarter(b.periodStart, b.periodEnd);
+  const sections = Array.isArray(b.sections) ? b.sections.map((s: unknown) => String(s).toUpperCase()).filter((s: string) => (REVIEW_SECTIONS as readonly string[]).includes(s)) : [...REVIEW_SECTIONS];
+  if (!String(b.portfolio || '').trim() || !q || sections.length === 0) return res.status(400).json({ success:false, error:'INVALID_REVIEW_PACK_PERIOD_OR_SECTIONS' });
+  const packKey = crypto.randomUUID();
+  const result: any = await dbRun(getDB(), 'INSERT INTO family_review_packs (pack_key,portfolio,period_start,period_end,quarter_label,sections_json,created_by) VALUES (?,?,?,?,?,?,?)', [packKey,String(b.portfolio).trim(),b.periodStart,b.periodEnd,q,JSON.stringify([...new Set(sections)]),req.familyPrincipal.userId]);
+  await dbRun(getDB(), 'INSERT INTO family_review_pack_audit (pack_id,action,actor,payload_json) VALUES (?,?,?,?)', [result.lastID,'CREATE',req.familyPrincipal.userId,JSON.stringify({periodStart:b.periodStart,periodEnd:b.periodEnd})]);
+  res.status(201).json({success:true,id:result.lastID,packKey,status:'DRAFT',quarterLabel:q,sections:[...new Set(sections)]});
+});
+router.get('/review-packs', packAuth, async (req: any, res) => {
+  const rows = await dbAll(getDB(), 'SELECT * FROM family_review_packs WHERE portfolio = ? ORDER BY period_end DESC', [String(req.query.portfolio || '')]);
+  res.json({success:true,packs:rows.map((r:any)=>({...r,sections:JSON.parse(r.sections_json || '[]'),preview:r.preview_json ? JSON.parse(r.preview_json) : null}))});
+});
+router.post('/review-packs/:id/preview', packWriteAuth, async (req: any, res) => {
+  const id = Number(req.params.id); const row:any = await (await import('../database.js')).dbGet(getDB(),'SELECT * FROM family_review_packs WHERE id=?',[id]);
+  if (!row) return res.status(404).json({success:false,error:'NOT_FOUND'}); if (row.status === 'FINALIZED') return res.status(409).json({success:false,error:'ALREADY_FINALIZED'});
+  const sections = JSON.parse(row.sections_json || '[]');
+  const preview = { generatedAt:new Date().toISOString(), dataPolicy:'EVIDENCE_ONLY', calculations:{available:false,reason:'Preview contains metadata only; financial calculations require authenticated report sources.'}, sections:sections.map((name:string)=>({name,status:'PENDING_SOURCE_EVIDENCE'})) };
+  await dbRun(getDB(),'UPDATE family_review_packs SET status=?,preview_json=?,updated_at=CURRENT_TIMESTAMP WHERE id=?',['PREVIEWED',JSON.stringify(preview),id]);
+  await dbRun(getDB(),'INSERT INTO family_review_pack_audit (pack_id,action,actor,payload_json) VALUES (?,?,?,?)',[id,'PREVIEW',req.familyPrincipal.userId,JSON.stringify({sections})]);
+  res.json({success:true,id,status:'PREVIEWED',preview});
+});
+router.post('/review-packs/:id/finalize', packWriteAuth, async (req: any, res) => {
+  if (!roleAllows(req.familyPrincipal,'admin')) return res.status(403).json({success:false,error:'ROLE_FORBIDDEN'});
+  const id=Number(req.params.id); const row:any=await (await import('../database.js')).dbGet(getDB(),'SELECT * FROM family_review_packs WHERE id=?',[id]);
+  if(!row)return res.status(404).json({success:false,error:'NOT_FOUND'}); if(row.status!=='PREVIEWED')return res.status(409).json({success:false,error:'PREVIEW_REQUIRED'});
+  await dbRun(getDB(),'UPDATE family_review_packs SET status=?,finalized_by=?,finalized_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE id=?',['FINALIZED',req.familyPrincipal.userId,id]);
+  await dbRun(getDB(),'INSERT INTO family_review_pack_audit (pack_id,action,actor,payload_json) VALUES (?,?,?,?)',[id,'FINALIZE',req.familyPrincipal.userId,'{}']);
+  res.json({success:true,id,status:'FINALIZED',message:'Review pack finalized with evidence metadata only; no unverified financial values were created.'});
+});
+

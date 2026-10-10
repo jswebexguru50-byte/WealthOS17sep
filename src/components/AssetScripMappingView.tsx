@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/apiTransport';
 import React, { useState, useEffect } from 'react';
 import { 
   Tag, 
@@ -41,7 +42,7 @@ export function AssetScripMappingView() {
       if (selectedBroker !== 'ALL') params.append('broker', selectedBroker);
       if (searchQuery.trim()) params.append('query', searchQuery.trim());
 
-      const res = await fetch(`/api/scrip-mappings?${params.toString()}`);
+      const res = await apiFetch(`/api/scrip-mappings?${params.toString()}`);
       const data = await res.json();
       if (Array.isArray(data)) setMappings(data);
       else if (data && Array.isArray(data.mappings)) setMappings(data.mappings);
@@ -56,7 +57,7 @@ export function AssetScripMappingView() {
 
   const fetchUnmapped = async () => {
     try {
-      const res = await fetch('/api/scrip-mappings/unmapped');
+      const res = await apiFetch('/api/scrip-mappings/unmapped');
       const data = await res.json();
       if (Array.isArray(data)) setUnmapped(data);
       else if (data && Array.isArray(data.unmapped)) setUnmapped(data.unmapped);
@@ -74,7 +75,7 @@ export function AssetScripMappingView() {
     setAutoResolving(true);
     setResolveFeedback(null);
     try {
-      const res = await fetch('/api/scrip-mappings/auto-resolve', { method: 'POST' });
+      const res = await apiFetch('/api/scrip-mappings/auto-resolve', { method: 'POST' });
       const data = await res.json();
       if (data.success) {
         setResolveFeedback(`Successfully auto-resolved and mapped ${data.resolvedCount} scrips!`);
@@ -93,7 +94,7 @@ export function AssetScripMappingView() {
   const handleSaveMapping = async () => {
     if (!editModal || !editModal.data.raw_scrip_name.trim() || !editModal.data.symbol.trim()) return;
     try {
-      await fetch('/api/scrip-mappings', {
+      await apiFetch('/api/scrip-mappings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(editModal.data)
@@ -110,7 +111,7 @@ export function AssetScripMappingView() {
     if (!id) return;
     if (!confirm('Are you sure you want to delete this mapping alias?')) return;
     try {
-      await fetch(`/api/scrip-mappings/${id}`, { method: 'DELETE' });
+      await apiFetch(`/api/scrip-mappings/${id}`, { method: 'DELETE' });
       fetchMappings();
     } catch (e) {
       console.error('Failed to delete mapping:', e);

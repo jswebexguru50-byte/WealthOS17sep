@@ -14,6 +14,10 @@ export interface Holding {
   day_change: number;
   day_change_pct: number;
   data_source: string;
+  /** Source of the price currently used for valuation (preserved separately for API consumers). */
+  price_source?: string;
+  /** Timestamp/date of the price used for valuation. */
+  price_asof?: string | null;
   data_status?: string;
   last_update: string | null;
   is_sold: boolean;

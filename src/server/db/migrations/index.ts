@@ -8,10 +8,25 @@ import type Database from 'better-sqlite3';
 import { Migrator, Migration } from '../migrator.js';
 import { migration001 } from './001_baseline_schema.js';
 import { migration002 } from './002_legacy_schema_consolidation.js';
+import { migration003 } from './003_reconciliation_exceptions.js';
+import { migration004 } from './004_security_identity_aliases.js';
+import { migration005 } from './005_fix_stripping_index.js';
+import { migration006 } from './006_family_governance_register.js';
+import { migration007 } from './007_risk_policies_alerts.js';
+import { migration008 } from './008_reports_nri_tracking.js';
+import { migration009 } from './009_document_vault_compliance.js';
+import { migration010 } from './010_report_schedules.js';
+import { migration011 } from './011_nri_repatriation_workflow.js';
+import { migration012 } from './012_family_review_packs.js';
+import { migration013 } from './013_broker_import_contracts.js';
+import { migration014 } from './014_document_storage_lifecycle.js';
 
 export const canonicalMigrations: Migration[] = [
   migration001,
-  migration002
+  migration002,
+  migration003,
+  migration004,
+  migration005, migration006, migration007, migration008, migration009, migration010, migration011, migration012, migration013, migration014
 ];
 
 export const canonicalMigrator = new Migrator(canonicalMigrations);
@@ -22,3 +37,6 @@ export async function runDatabaseMigrations(
   const migrator = new Migrator(canonicalMigrations);
   return migrator.runPending(db);
 }
+
+
+

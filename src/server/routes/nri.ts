@@ -1,9 +1,13 @@
 import { Router, Request, Response } from 'express';
 import { NriWealthService } from '../services/NriWealthService.js';
 import { getDB } from '../database.js';
+import { dbAll, dbRun } from '../database.js';
+import { authenticateFamily, roleAllows } from '../auth/familyRoleAuth.js';
+import { getServerConfig } from '../config.js';
 
 const router = Router();
 const nriService = NriWealthService.getInstance();
+const auth = (write = false) => (req: any, res: any, next: any) => { const principal = authenticateFamily(req.headers, getServerConfig().APP_PASSWORD); if (!principal) return res.status(401).json({ success:false,error:'UNAUTHORIZED' }); if (write && !roleAllows(principal,'editor')) return res.status(403).json({success:false,error:'ROLE_FORBIDDEN'}); req.familyPrincipal=principal; next(); };
 
 const currentIndianFinancialYear = (): string => {
   const now = new Date();
@@ -24,6 +28,20 @@ router.get('/tds-recon', async (req: Request, res: Response) => {
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
   }
+});
+
+router.get('/tracker', auth(), async (req: any, res) => {
+  const portfolio = String(req.query.portfolio || '').trim();
+  const rows = await dbAll(getDB(), portfolio ? 'SELECT * FROM nri_tracker WHERE portfolio = ? ORDER BY updated_at DESC' : 'SELECT * FROM nri_tracker ORDER BY updated_at DESC', portfolio ? [portfolio] : []);
+  res.json({ success:true, trackers:rows });
+});
+router.post('/tracker', auth(true), async (req: any, res) => {
+  const b=req.body||{}; if (!String(b.portfolio||'').trim()) return res.status(400).json({success:false,error:'PORTFOLIO_REQUIRED'});
+  const allowed=['portfolio','account_profile','tax_residency_status','residency_effective_date','treaty_reference','advisor_reference','review_due_date','evidence_reference','notes','status'];
+  const vals=allowed.map(k=>b[k] == null ? null : String(b[k]).trim());
+  if (vals[9] && !['ACTIVE','REVIEW','CLOSED'].includes(vals[9])) return res.status(400).json({success:false,error:'INVALID_STATUS'});
+  const r:any=await dbRun(getDB(), `INSERT INTO nri_tracker (${allowed.join(',')},created_by) VALUES (${allowed.map(()=>'?').join(',')},?)`, [...vals, req.familyPrincipal.userId]);
+  res.status(201).json({success:true,id:r.lastID});
 });
 
 /**
@@ -215,3 +233,4 @@ router.post('/account-profiles', (req: Request, res: Response) => {
 });
 
 export default router;
+

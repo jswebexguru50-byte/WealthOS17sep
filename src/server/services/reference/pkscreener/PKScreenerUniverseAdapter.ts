@@ -8,7 +8,7 @@
  * - Prohibits external live data downloads from polluting historical universe.
  */
 
-import { SecurityIdentityRegistry } from '../../data/SecurityIdentityRegistry.js';
+import { SecurityIdentityRegistry } from '../../dataAcquisition/SecurityIdentityRegistry.js';
 
 export class PKScreenerUniverseAdapter {
   private identityRegistry = SecurityIdentityRegistry.getInstance();
