@@ -49,3 +49,13 @@ def test_status_file_is_atomic_and_readable_by_ui(tmp_path):
     row=next(x for x in payload['symbols'] if x['symbol']=='YUKEN')
     assert row['state']=='completed'
     assert not (tmp_path/'status.json.tmp').exists()
+
+def test_missing_database_emits_failed_status_snapshot(tmp_path):
+    missing=tmp_path/'missing.db'; status=tmp_path/'status.json'; script=Path(__file__).parent/'run_targeted_fere.py'
+    r=subprocess.run([sys.executable,str(script),'--db',str(missing),'--status-file',str(status)],capture_output=True,text=True)
+    assert r.returncode==2
+    payload=json.loads(status.read_text())
+    assert payload['job_state']=='failed'
+    assert payload['error_type']=='FileNotFoundError'
+    assert all(row['state']=='failed' for row in payload['symbol_status'])
+    assert json.loads(r.stdout)['error']==payload['error']
