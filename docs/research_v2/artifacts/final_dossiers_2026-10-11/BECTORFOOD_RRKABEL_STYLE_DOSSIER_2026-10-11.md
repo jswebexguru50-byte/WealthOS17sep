@@ -5,6 +5,10 @@
 **Supplementary provider snapshot:** Trendlyne snapshot dated 9 October 2026  
 **Scope:** Fundamental analysis only. This is an evidence-led research dossier, not an investment recommendation. No comparison with the other selected companies is made.
 
+## Latest Trendlyne snapshot
+
+**Retrieved:** 9 October 2026. **Role:** current supplementary provider evidence, pending statutory period/scope reconciliation. Latest provider quarter: revenue ₹548.75 crore, operating profit ₹72.10 crore, PAT ₹38.76 crore and OPM 13.14%. Provider annual/TTM fields: revenue ₹2,074.68 crore, operating profit ₹257.66 crore, PAT ₹140.88 crore and CFO ₹217.80 crore. Quality and balance-sheet fields: ROCE 13.93%, ROE 11.08%, ROIC 10.05%, debt/equity 0.10 and interest coverage 24.68x. Valuation/ownership fields: LTP ₹205.64, market capitalisation ₹6,312.95 crore, P/E 42.44x, promoter holding 49.04%, pledge 0%, FII 8.07%, MF 24.35% and institutional holding 34.03%. [T1]
+
 ## Executive assessment
 
 Mrs. Bectors Food Specialities is reported in the FY25 statutory filing as a single-segment Food Products company. Its FY25 audited standalone result was approved on 29 May 2025. The 9 October provider snapshot reports annual revenue of ₹2,074.68 crore, operating profit of ₹257.66 crore, CFO of ₹217.80 crore, ROCE of 13.93%, ROE of 11.08%, debt/equity of 0.10 and P/E of 42.44x. Those snapshot figures are useful acquisition leads but must be reconciled to statutory scope, period and units before they can be treated as final evidence. [B1][T1]

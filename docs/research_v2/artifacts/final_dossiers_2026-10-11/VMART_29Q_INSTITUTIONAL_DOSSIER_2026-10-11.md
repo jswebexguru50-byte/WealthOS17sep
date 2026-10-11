@@ -4,6 +4,10 @@
 **Provider snapshot:** 9 October 2026 · **Primary-source cut-off:** 11 October 2026  
 **Scope:** Fundamental analysis only. This is an evidence dossier, not personalised investment advice, a rating, a price target, or a recommendation. Amounts are ₹ crore unless noted. Provider fields are supplementary and are not promoted as statutory facts until reconciled with filed statements.
 
+## Latest Trendlyne snapshot
+
+**Retrieved:** 9 October 2026. **Role:** current supplementary provider evidence, pending statutory period/scope reconciliation. Latest provider quarter: revenue ₹1,088.81 crore, operating profit ₹160.64 crore, PAT ₹47.21 crore and OPM 14.75%. Provider annual/TTM fields: revenue ₹3,804.40 crore, operating profit ₹513.46 crore, PAT ₹124.00 crore and CFO ₹500.54 crore. Quality and balance-sheet fields: ROCE 14.61%, ROE 13.03%, ROIC 11.80%, debt/equity 0.11 and interest coverage 7.00x. Valuation/ownership fields: LTP ₹811.15, market capitalisation ₹6,454.76 crore, P/E 46.91x, promoter holding 44.15%, pledge 0%, FII 16.47%, MF 30.12% and institutional holding 47.37%. [T1]
+
 ## Executive assessment
 
 V-Mart’s disclosed business is an omni-channel value retailer aimed at aspirational middle-class consumers in tier II–IV Indian cities, selling family-fashion categories alongside footwear, home furnishings, general merchandise and kirana. The official site reports 600+ stores across 338+ cities and 29 states/UTs. The FY2025-26 annual-report extraction describes revenue of ₹3,789 crore, 13.6% EBITDA margin, ₹124 crore PAT and 897 lakh+ customer visits. It also describes weather disruption, festival-calendar shifts, competitive intensity and input-cost volatility.

@@ -4,6 +4,10 @@
 **Primary-source cut-off:** 11 October 2026 · **Provider snapshot:** Trendlyne, 9 October 2026  
 **Scope:** Fundamental analysis only. This is an evidence dossier, not investment advice or a recommendation.
 
+## Latest Trendlyne snapshot
+
+**Retrieved:** 9 October 2026. **Role:** current supplementary provider evidence, pending statutory period/scope reconciliation. Latest provider quarter: revenue ₹87.84 crore, operating profit ₹35.93 crore, PAT ₹27.38 crore and OPM 40.90%. Provider annual/TTM fields: revenue ₹209.04 crore, operating profit ₹64.58 crore, PAT ₹47.35 crore and CFO ₹43.05 crore. Quality and balance-sheet fields: ROCE 27.07%, ROE 20.20%, ROIC 20.20%, debt/equity 0.00 and interest coverage 192.39x. Valuation/ownership fields: LTP ₹847.45, market capitalisation ₹1,278.62 crore, P/E 20.03x, promoter holding 65.65%, pledge 0%, FII 0.20%, MF 0.00% and institutional holding 1.19%. [T1]
+
 ## Executive assessment
 
 Arrow Greentech’s issuer disclosures identify a specialised green-packaging and anti-counterfeit product portfolio. The issuer’s Q1 FY26 release/presentation reports revenue of ₹416m, EBITDA of ₹142m and PAT of ₹109m, with better sequential margins but materially lower revenue and earnings than both Q4 FY25 and Q1 FY25. The Trendlyne snapshot reports annual CFO ₹43.05 crore, ROCE 27.07%, ROE 20.20%, zero debt/equity and zero promoter pledge; these provider figures remain subject to statutory period/scope reconciliation.

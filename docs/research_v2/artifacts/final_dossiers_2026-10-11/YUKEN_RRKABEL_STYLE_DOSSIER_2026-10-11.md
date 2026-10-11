@@ -5,6 +5,10 @@
 **Supplementary provider snapshot:** Trendlyne snapshot dated 9 October 2026  
 **Scope:** Fundamental analysis only. This is an evidence-led research dossier, not an investment recommendation. No comparison with the other selected companies is made.
 
+## Latest Trendlyne snapshot
+
+**Retrieved:** 9 October 2026. **Role:** current supplementary provider evidence, pending statutory period/scope reconciliation. Latest provider quarter: revenue ₹134.33 crore, operating profit ₹15.09 crore, PAT ₹5.22 crore and OPM 11.24%. Provider annual/TTM fields: revenue ₹466.18 crore, operating profit ₹50.52 crore, PAT ₹14.47 crore and CFO ₹41.29 crore. Quality and balance-sheet fields: ROCE 7.76%, ROE 3.87%, ROIC 3.04%, debt/equity 0.28 and interest coverage 5.07x. Valuation/ownership fields: LTP ₹1,135.30, market capitalisation ₹1,542.19 crore, P/E 98.63x, promoter holding 58.04%, pledge 0%, FII 0.02%, MF 0.01% and institutional holding 0.70%. [T1]
+
 ## Executive assessment
 
 Yuken India is an Indian hydraulics manufacturer serving machine-tool, infrastructure and construction applications through manufacturing locations in Karnataka, Maharashtra and Haryana. Its FY25 consolidated income was ₹461.09 crore, up 7.83% year on year, while consolidated PAT rose to ₹24.60 crore from ₹18.79 crore. Audited operating cash flow was ₹49.34 crore, but reported investment in PPE/intangibles including advances was ₹54.74 crore; interpretation of the resulting funding/return profile needs a fuller multi-year capex and balance-sheet extraction. [S1]

@@ -4,6 +4,10 @@
 **Provider snapshot:** 9 October 2026 · **Primary-source cut-off:** 11 October 2026  
 **Scope:** Fundamental analysis only. This is an evidence dossier, not personalised investment advice, a rating, a price target, or a recommendation. Amounts are ₹ crore unless stated otherwise. Provider observations are supplementary until reconciled with statutory filings.
 
+## Latest Trendlyne snapshot
+
+**Retrieved:** 9 October 2026. **Role:** current supplementary provider evidence, pending statutory period/scope reconciliation. Latest provider quarter: revenue ₹1,664.63 crore, operating profit ₹267.44 crore, PAT ₹180.75 crore and OPM 16.07%. Provider annual/TTM fields: revenue ₹5,680.12 crore, operating profit ₹852.95 crore, PAT ₹546.59 crore and CFO ₹775.70 crore. Quality and balance-sheet fields: ROCE 17.09%, ROE 13.93%, ROIC 11.91%, debt/equity 0.17 and interest coverage 30.11x. Valuation/ownership fields: LTP ₹694.65, market capitalisation ₹28,206.39 crore, P/E 50.63x, promoter holding 55.17%, pledge 0%, FII 6.30%, MF 2.15% and institutional holding 10.78%. [T1]
+
 ## Executive assessment
 
 Tata Technologies describes its role as engineering and digital transformation across customers’ product lifecycle, with Automotive, Industrial Heavy Machinery and Aerospace verticals. The latest captured FY2025-26 annual-report extraction states revenue from operations of ₹5,505.57 crore (+6.5% YoY) and says Services and Technology Solutions grew. It also records gross margin of 26.6% and operating EBITDA margin of 15.5%, down from 18.1% in FY25, citing employee cost, acquisition integration and temporary headwinds at selected large programmes. Management describes Q4 sequential constant-currency organic growth and margin improvement, but this is management commentary rather than independently verified guidance.

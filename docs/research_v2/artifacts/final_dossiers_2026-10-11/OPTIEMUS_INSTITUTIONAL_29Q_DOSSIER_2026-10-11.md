@@ -4,6 +4,10 @@
 **Primary-source cut-off:** 11 October 2026 · **Provider snapshot:** Trendlyne, 9 October 2026  
 **Scope:** Fundamental analysis only. This is an evidence dossier, not investment advice or a recommendation.
 
+## Latest Trendlyne snapshot
+
+**Retrieved:** 9 October 2026. **Role:** current supplementary provider evidence, pending statutory period/scope reconciliation. Latest provider quarter: revenue ₹882.99 crore, operating profit ₹30.41 crore, PAT ₹21.18 crore and OPM 3.44%. Provider annual/TTM fields: revenue ₹1,794.56 crore, operating profit ₹97.70 crore, PAT ₹66.01 crore and CFO **negative ₹12.15 crore**. Quality and balance-sheet fields: ROCE 9.06%, ROE 8.49%, ROIC 6.09%, debt/equity 0.39 and interest coverage 5.36x. Valuation/ownership fields: LTP ₹816.85, market capitalisation ₹7,365.24 crore, P/E 101.36x, promoter holding 71.40%, pledge 2.56%, FII 3.31%, MF 2.28% and institutional holding 5.71%. [T1]
+
 ## Executive assessment
 
 The available statutory record identifies the issuer, its FY25 reporting basis and the standalone telecom-products segment. The issuer’s Q2 FY26 presentation extract describes a strong standalone revenue increase driven by production volumes and customer wins. Trendlyne’s retained provider snapshot reports positive revenue/profit metrics but negative annual CFO, a 0.39x debt/equity ratio, 71.40% promoter holding and 2.56% pledge. Those provider values are useful leads; they have not yet been period/scope reconciled to the audited financial statements.
