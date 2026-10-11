@@ -137,6 +137,18 @@ def seed_universe(con: sqlite3.Connection) -> int:
     return len(rows)
 
 
+def seed_single_symbol(con: sqlite3.Connection, isin: str, symbol: str,
+                       exchange: str = 'NSE') -> None:
+    """Seed an isolated pilot without opening the production portfolio database."""
+    con.execute('''INSERT INTO universe(isin,symbol,exchange,status,listing_date,source)
+                   VALUES(?,?,?,?,NULL,'pilot:explicit-identity')
+                   ON CONFLICT(isin) DO UPDATE SET symbol=excluded.symbol,
+                     exchange=excluded.exchange,status=excluded.status,
+                     source=excluded.source''',
+                (isin.strip().upper(), symbol.strip().upper(), exchange.strip().upper(), 'ACTIVE'))
+    con.commit()
+
+
 def refresh_index_priority(con: sqlite3.Connection) -> int:
     session = requests.Session()
     session.mount('https://', WindowsTrustAdapter())
@@ -352,9 +364,17 @@ def main() -> int:
     parser.add_argument('--max-documents', type=int, default=8)
     parser.add_argument('--symbols', help='Comma-separated symbols to refresh; omitted means the selected universe.')
     parser.add_argument('--refresh-priority', action='store_true')
+    parser.add_argument('--seed-isin', help='Seed one explicit ISIN for an isolated pilot.')
+    parser.add_argument('--seed-symbol', help='Symbol paired with --seed-isin.')
+    parser.add_argument('--seed-exchange', default='NSE', help='Exchange for --seed-isin (default: NSE).')
     args = parser.parse_args()
     con = connect()
-    if args.init or args.collect or args.refresh_priority:
+    if bool(args.seed_isin) != bool(args.seed_symbol):
+        parser.error('--seed-isin and --seed-symbol must be supplied together')
+    if args.seed_isin:
+        seed_single_symbol(con, args.seed_isin, args.seed_symbol, args.seed_exchange)
+        print(f'seeded isolated pilot identity {args.seed_symbol.upper()} {args.seed_isin.upper()}', flush=True)
+    elif args.init or args.collect or args.refresh_priority:
         print(f'seeded {seed_universe(con)} ISIN identities', flush=True)
     if args.refresh_priority:
         print(f'prioritized {refresh_index_priority(con)} matching NIFTY 500 ISINs', flush=True)

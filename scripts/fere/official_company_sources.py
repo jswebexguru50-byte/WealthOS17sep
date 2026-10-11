@@ -6,6 +6,7 @@ import hashlib
 import json
 import re
 import sqlite3
+import argparse
 import xml.etree.ElementTree as ET
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -328,3 +329,20 @@ def refresh_official_sources(symbols: list[str], include_attachments: bool = Fal
     result = collect_shareholding(con, session, selected)
     for key, value in collect_announcements(con, session, selected, include_attachments).items(): result[key] = value
     con.close(); return result
+
+
+def main() -> int:
+    """Run the official ownership/event layer independently of a full FERE refresh."""
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--symbols', required=True,
+                        help='Comma-separated exchange symbols to collect.')
+    parser.add_argument('--deep-evidence', action='store_true',
+                        help='Archive bounded, relevant announcement attachments.')
+    args = parser.parse_args()
+    symbols = [value.strip().upper() for value in args.symbols.split(',') if value.strip()]
+    print(json.dumps(refresh_official_sources(symbols, args.deep_evidence), indent=2), flush=True)
+    return 0
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())
