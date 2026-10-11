@@ -6,6 +6,10 @@ For YUKEN, BECTORFOOD, VMART, TATATECH, OPTIEMUS and ARROWGREEN, render one **in
 
 The report may compare a company only with its direct peers, and only in Q3 and Q17. It must never borrow another selected company's data or narrative.
 
+## Report-time boundary
+
+The 29-question report is a render of a previously frozen issuer evidence packet, not an acquisition workflow.  Its service-level objective is four minutes and its hard ceiling is five minutes.  Broad source discovery, provider catalogue calls, PDF downloads and regulatory searches run asynchronously before the report request.  See `FOUR_MINUTE_REPORT_SLA.md` for the budget, refresh cadence and the permitted incomplete-evidence states.
+
 ## Mandatory evidence ladder
 
 For each sub-question, retain the raw item, URL or provider-response hash, retrieval time, period, scope, unit and source tier before synthesis:
