@@ -1,0 +1,219 @@
+{
+  "_meta": {
+    "name": "29Q Research Framework — Machine Config",
+    "version": "1.0",
+    "created": "2026-10-17",
+    "description": "Machine-readable config for the 29Q institutional dossier system. Used by fetch scripts and dossier generators.",
+    "docs": "docs/RESEARCH_FRAMEWORK_29Q.md"
+  },
+
+  "f_filters": {
+    "F1": {
+      "label": "Promoter holding",
+      "threshold": 66.67,
+      "operator": ">=",
+      "unit": "%",
+      "tokens": ["prompct"],
+      "alert_token": "prompct1q",
+      "alert_rule": "Flag if prompct1q < -1.0 (promoter sold >1pp in one quarter)"
+    },
+    "F2": {
+      "label": "8Q PAT all positive",
+      "threshold": 0,
+      "operator": ">",
+      "unit": "Cr",
+      "source": "WealthOS SQLite DB",
+      "sql": "SELECT quarter_label, pat_cr FROM quarterly_pat WHERE symbol=? ORDER BY quarter_date DESC LIMIT 8",
+      "pass_rule": "All 8 values must be > 0"
+    },
+    "F3": {
+      "label": "ROCE",
+      "threshold": 35,
+      "operator": ">=",
+      "unit": "%",
+      "tokens": ["rocea"],
+      "note": "Annual token; TTM may differ. Flag discrepancy if Annual < 35% but historical TTM > 35%.",
+      "methodology_note": "Trendlyne Annual ROCE != TTM ROCE. Always specify which is used."
+    },
+    "F4": {
+      "label": "ROE",
+      "threshold": 25,
+      "operator": ">=",
+      "unit": "%",
+      "tokens": ["roea"],
+      "note": "Annual token; same methodology caveat as F3."
+    },
+    "F5": {
+      "label": "Promoter pledge",
+      "threshold": 0.01,
+      "operator": "<=",
+      "unit": "%",
+      "tokens": ["prompledge"]
+    },
+    "F6": {
+      "label": "Institutional holding",
+      "threshold_abs": 5.0,
+      "threshold_qoq": 0.10,
+      "operator_abs": ">=",
+      "operator_qoq": ">=",
+      "unit": "%",
+      "tokens": ["instihold", "fiihold", "instipct1q", "mfpct1q"],
+      "pass_rule": "(instihold OR fiihold) >= 5.0 AND instipct1q >= 0.10",
+      "note": "FII 5.52% with QoQ -0.28pp = borderline; flag as WARN not PASS"
+    },
+    "F7": {
+      "label": "Cash flow quality (CFO/EBITDA)",
+      "threshold": 0.5,
+      "operator": ">=",
+      "unit": "ratio",
+      "tokens": ["cfoa", "sra", "pbditmargina"],
+      "derivation": "ebitda_derived = sra * (pbditmargina / 100); ratio = cfoa / ebitda_derived",
+      "note": "ebitdaa token returns None for some stocks; always derive EBITDA from sra × pbditmargina"
+    }
+  },
+
+  "mcp_tokens": {
+    "confirmed_valid": {
+      "ownership": ["prompct", "prompct1q", "prompct4q", "prompledge", "fiihold", "fiipct1q", "fiipct4q", "instihold", "instipct1q", "mfpct1q"],
+      "quality": ["pitroskif", "altmanzscore"],
+      "returns": ["roea", "rocea", "roica"],
+      "cash_flow": ["cfoa", "cfoagrowth", "ncfa", "cfoamy1"],
+      "income": ["pata", "opma", "epsa"],
+      "revenue_ebitda": ["sra", "pbditmargina"],
+      "balance_sheet": ["debtcea", "ltdea", "capitalexpenditurea", "contingentliabilitiesa"],
+      "valuation": ["pettm", "mcapq", "currentprice"],
+      "technical": ["rsi", "delivery6mavg"],
+      "governance": ["insiderpinvokedyesterday"]
+    },
+    "confirmed_invalid": {
+      "do_not_use": [
+        "mfpct", "revenuea", "revenuegrowtha", "patagrowtha", "debtequityq",
+        "currentratioq", "netdebtebitdaa", "pea", "pbq", "evebidtaa",
+        "rawmaterialpctsales", "orderbookcr", "revenueq", "taxratea",
+        "rsi14d", "return1year", "return3year",
+        "pbttm", "rocettm", "roettm", "patttm", "eps", "ebidta"
+      ],
+      "note": "These tokens caused Trendlyne error code 1012 (invalid token). Entire batch fails if ANY invalid token included."
+    },
+    "status_unknown": [],
+    "batch_rules": {
+      "max_stocks_per_call": 10,
+      "max_tokens_per_call": 50,
+      "envelope": "10 × 50 = 500 cells per get_stock_parameter_values call",
+      "failure_mode": "Entire batch fails if ANY single token is invalid",
+      "ttl_days": 15
+    }
+  },
+
+  "mcp_tools": {
+    "gspv": {
+      "name": "get_stock_parameter_values",
+      "args": {"stock_codes": "[list of 10 symbols]", "parameters": "[list of tokens]"},
+      "response_format": "JSON wrapper {status, data} where data is pipe-delimited text with \\n\\n---\\n\\n section separators",
+      "parse_logic": "sections = data.split('\\n\\n---\\n\\n'); first line = metric name; subsequent lines = SYMBOL:value"
+    },
+    "shareholding": {
+      "name": "get_ownership_deals_insider_sast",
+      "args": {"stock_code": "SYMBOL", "type": "shareholding"},
+      "response_format": "JSON text with summaryData and chartData"
+    },
+    "overview": {
+      "name": "get_overview_news_corp_events",
+      "args": {"stock_code": "SYMBOL", "type": "overview"},
+      "contains": ["RSI", "SMA200", "MFI", "indicator rows"]
+    },
+    "technical": {
+      "name": "get_overview_news_corp_events",
+      "args": {"stock_code": "SYMBOL", "type": "technical"},
+      "contains": ["DVM scores", "stockData row with D/V/M values"]
+    },
+    "news": {
+      "name": "get_overview_news_corp_events",
+      "args": {"stock_code": "SYMBOL", "type": "news"}
+    },
+    "events": {
+      "name": "get_overview_news_corp_events",
+      "args": {"stock_code": "SYMBOL", "type": "events"}
+    },
+    "search": {
+      "name": "search_financial_parameters",
+      "args": {"query": "natural language query"},
+      "use_case": "Validate a token before adding to batch — avoids code 1012 batch failures"
+    }
+  },
+
+  "recommended_packs": {
+    "pack_A": {
+      "description": "Core F-filter + ownership + quality metrics (all confirmed valid)",
+      "tokens": [
+        "prompct", "prompct1q", "prompct4q", "prompledge",
+        "fiihold", "fiipct1q", "fiipct4q",
+        "instihold", "instipct1q", "mfpct1q",
+        "pitroskif", "roea", "rocea", "roica",
+        "cfoa", "cfoagrowth", "ncfa",
+        "pata", "opma", "epsa",
+        "capitalexpenditurea", "contingentliabilitiesa",
+        "delivery6mavg", "currentprice", "mcapq",
+        "insiderpinvokedyesterday"
+      ]
+    },
+    "pack_B": {
+      "description": "Valuation + leverage + EBITDA derivation + Altman (all confirmed valid)",
+      "tokens": [
+        "cfoa", "cfoamy1", "pitroskif", "pettm",
+        "sra", "debtcea", "ltdea", "rsi",
+        "pbditmargina", "altmanzscore", "mcapq", "currentprice"
+      ]
+    },
+    "per_stock_calls": [
+      "get_ownership_deals_insider_sast (type=shareholding)",
+      "get_overview_news_corp_events (type=overview)",
+      "get_overview_news_corp_events (type=technical)",
+      "get_overview_news_corp_events (type=news)",
+      "get_overview_news_corp_events (type=events)"
+    ]
+  },
+
+  "output_templates": {
+    "html_dossier": {
+      "description": "Full HTML artifact with dark/light theme",
+      "components": [
+        "nav bar (stock anchors)",
+        "hero (cohort metadata)",
+        "executive summary cards (F-badges, KPI grid, alert box)",
+        "per-stock 29Q Q&A sections",
+        "cross-stock comparison table",
+        "key findings alert grid",
+        "footer with data provenance"
+      ],
+      "artifact_url_v6": "https://claude.ai/artifact/6yzXsrrDttGqjFZyDqC8nK",
+      "artifact_url_29q_v1": "https://claude.ai/artifact/G2HzNZuN3NnNdhuLXB3kJr"
+    }
+  },
+
+  "conviction_weights": {
+    "business_quality": 0.25,
+    "f_filter_score": 0.30,
+    "valuation": 0.20,
+    "earnings_momentum": 0.15,
+    "technical_setup": 0.10
+  },
+
+  "action_thresholds": {
+    "BUY":        {"f_score_min": 5, "conviction_min": 8},
+    "ACCUMULATE": {"f_score_min": 4, "conviction_min": 6},
+    "HOLD":       {"f_score_min": 3, "conviction_min": 5},
+    "MONITOR":    {"f_score_min": 3, "conviction_min": 3, "red_flags_present": true},
+    "AVOID":      {"f_score_max": 2, "or_conviction_max": 4, "or_altman_z_max": 2.99}
+  },
+
+  "universe_scheduler": {
+    "service": "TrendlyneUniverseScheduler",
+    "file": "src/server/services/enrichment/trendlyne/TrendlyneUniverseScheduler.ts",
+    "db_table": "trendlyne_universe_schedule",
+    "ttl_days": 15,
+    "batch_size": 10,
+    "tier1_always_include": true,
+    "filler_source": "Nifty 50 + Nifty 500 stocks sorted by staleness"
+  }
+}
