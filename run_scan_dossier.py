@@ -246,7 +246,7 @@ def run_fundamentals(scan_results, tv_universe):
     print(f"Financials: {len(fin_dict)} symbols in DB")
 
     def compute_f(sym, tv, sh, fin_q):
-        pats = [q['pat_cr'] for q in (fin_q or [])[:8] if q['pat_cr'] is not None]
+        pats = [q['pat_cr'] for q in (fin_q or [])[:8]]  # preserve None slots; engine needs 8-slot list to evaluate F2
         # Missing financial input => metric unknown (None); never substituted by 0.
         def _ebit(x):
             o, s_ = x.get('opm_pct'), x.get('sales_cr')

@@ -185,27 +185,86 @@ export class TrendlyneMcpClient {
   }
 
   /**
-   * Parse the plain-text response format returned by get_stock_parameter_values.
-   * The response is sectioned by '---', first section is stock header metadata,
-   * subsequent sections correspond to requested parameters in order.
+   * Trendlyne returns sections in its own canonical order, NOT the request order.
+   * Each section's first non-header line is a human-readable description that identifies
+   * the parameter. We match descriptions to requested tokens via keyword patterns.
+   *
+   * Section 0 contains the stock header (id|name|symbol|...) AND the first data section
+   * merged together; subsequent sections separated by '---' each contain one parameter.
    */
+  private static readonly DESCRIPTION_TOKEN_PATTERNS: Array<[RegExp, string]> = [
+    [/pledge.*change|change.*pledge/i, 'prompledge1q'],
+    [/pledge/i, 'prompledge'],
+    [/fii.*change|change.*fii/i, 'fiipct1q'],
+    [/fii.*4q|4q.*fii/i, 'fiipct4q'],
+    [/fii\s+(holding|%)/i, 'fiihold'],
+    [/mf.*change|change.*mf/i, 'mfpct1q'],
+    [/mutual\s+fund|mf\s+(holding|%)/i, 'mfhold'],
+    [/institutional.*change|change.*institutional/i, 'instipct1q'],
+    [/institutional\s+(holding|%)/i, 'instihold'],
+    [/promoter.*(latest|current)|promoter\s+holding\s*%/i, 'prompct'],
+    [/roce.*avg|roce.*3yr/i, 'roceaave3'],
+    [/roce/i, 'rocea'],
+    [/roe/i, 'roea'],
+    [/reported\s+pat|pat.*qtr|quarterly.*pat/i, 'reportedpatq'],
+    [/pat.*annual|annual.*pat/i, 'pata'],
+    [/market\s+cap/i, 'mcapq'],
+    [/pe\s+ttm|p\/e.*ttm/i, 'pettm'],
+    [/eps\s+ttm/i, 'epsttm'],
+    [/debt.*equity|d\/e\s+ratio/i, 'debtcea'],
+    [/price.*book|p\/b\s+ratio/i, 'pbq'],
+    [/net\s+debt/i, 'netdebta'],
+    [/ebitda.*(qtr|quarter)/i, 'ebitdaq'],
+    [/ebitda.*annual/i, 'ebitdaa'],
+    [/ebitda/i, 'ebitdaq'],
+    [/(cash\s+flow|cfo).*(qtr|quarter)/i, 'cfoq'],
+    [/(sales|revenue).*(qtr|quarter)/i, 'salesq'],
+    [/(sales|revenue).*annual/i, 'salesa'],
+    [/gross\s+profit\s+margin/i, 'gpma'],
+    [/operating.*margin|opm/i, 'opmq'],
+    [/sales\s+qtr|revenue\s+qtr/i, 'salesq'],
+  ];
+
+  private resolveTokenFromDescription(desc: string): string | null {
+    const d = desc.toLowerCase();
+    for (const [pattern, token] of TrendlyneMcpClient.DESCRIPTION_TOKEN_PATTERNS) {
+      if (pattern.test(d)) return token;
+    }
+    return null;
+  }
+
   private parseParameterText(
     text: string,
     tokens: string[],
     stockCodes: string[]
   ): Record<string, Record<string, any>> {
     const result: Record<string, Record<string, any>> = {};
+    const tokenSet = new Set(tokens);
     for (const sym of stockCodes) result[sym.toUpperCase()] = {};
 
-    // Normalize separators and split into sections
-    const sections = text.split(/\n\s*---\s*\n/);
-    // First section is the stock header (id|name|symbol|...), skip it
-    const dataSections = sections.slice(1).filter((s) => s.trim());
+    // Split on section separator; section 0 contains header + first data section merged
+    const rawSections = text.split(/\n---\n/);
+    const allSections: string[] = [];
 
-    for (let i = 0; i < Math.min(tokens.length, dataSections.length); i++) {
-      const token = tokens[i];
-      const lines = dataSections[i].split('\n').map((l) => l.trim()).filter(Boolean);
-      // First non-empty line is the parameter description heading — skip it
+    // Extract data from section 0: skip pipe-delimited header rows, keep the rest
+    const sec0Lines = rawSections[0].split('\n');
+    const sec0DataLines = sec0Lines.filter((l) => !l.includes('|') && l.trim());
+    if (sec0DataLines.length > 0) allSections.push(sec0DataLines.join('\n'));
+
+    // Remaining sections come as-is
+    for (const s of rawSections.slice(1)) {
+      if (s.trim()) allSections.push(s);
+    }
+
+    for (const section of allSections) {
+      const lines = section.split('\n').map((l) => l.trim()).filter(Boolean);
+      if (lines.length < 2) continue;
+
+      // First line is the parameter description
+      const descLine = lines[0];
+      const resolvedToken = this.resolveTokenFromDescription(descLine);
+      if (!resolvedToken || !tokenSet.has(resolvedToken)) continue; // skip if not requested
+
       for (const line of lines.slice(1)) {
         const colonIdx = line.indexOf(':');
         if (colonIdx === -1) continue;
@@ -213,10 +272,10 @@ export class TrendlyneMcpClient {
         const valStr = line.substring(colonIdx + 1).trim();
         if (!(sym in result)) continue;
         if (valStr === 'None' || valStr === '' || valStr === 'N/A') {
-          result[sym][token] = null;
+          result[sym][resolvedToken] = null;
         } else {
           const num = Number(valStr);
-          result[sym][token] = isNaN(num) ? valStr : num;
+          result[sym][resolvedToken] = isNaN(num) ? valStr : num;
         }
       }
     }
@@ -238,8 +297,13 @@ export class TrendlyneMcpClient {
     // invokeLive already tried JSON.parse; if it failed the raw text is returned
     let data: Record<string, Record<string, any>>;
     if (responseObj && typeof responseObj === 'object' && ('result' in responseObj || 'data' in responseObj)) {
-      // Already parsed JSON
-      data = responseObj.result || responseObj.data;
+      const inner = responseObj.result || responseObj.data;
+      if (typeof inner === 'string') {
+        // Trendlyne wraps plain-text in {"status":"success","data":"..."} — parse the inner text
+        data = this.parseParameterText(inner, parameters, stockCodes);
+      } else {
+        data = inner;
+      }
     } else if (typeof responseObj === 'string') {
       // Plain-text format — parse manually
       data = this.parseParameterText(responseObj, parameters, stockCodes);

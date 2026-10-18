@@ -8,11 +8,16 @@ For each symbol, assembles:
   • F-filter scorecard (F1–F7, from DB shareholding + DB financials + TV proxies)
   • TV market context (sector, peers, valuation, technical, percentile ranks)
 
+Source waterfall for shareholding fields (F1 promoter, F5 pledge, F6 institutional):
+  Layer 1 — HistoricalShareholdingPattern (primary; most recent row per symbol)
+  Layer 2 — canonical_fact_store (Trendlyne MCP conf=1.0, TV conf=0.9; automatic)
+  Layer 3 — Trendlyne MCP live fetch via --enrich (stores to CFS for all future runs)
+
 Reads from:
-  • portfolio.db            — shareholding, financials (same as sync_verified_fundamentals_package.py)
+  • portfolio.db            — shareholding, financials, canonical_fact_store
   • tv_universe.json        — TradingView universe (run fetch_tv_universe.py first)
   • tv_peers.json           — TV peer groups
-  • oct16_scan_results.json — optional; auto-detected if scanning the same session's data
+  • <scan>.json             — optional scan results (--from-scan)
 
 Output:
   • 29q_results_<date>.json    — structured per-symbol research output
@@ -22,7 +27,10 @@ Usage:
   python scripts/fundamental/run_29q_with_tv.py --symbols YUKEN TATATECH VMART
   python scripts/fundamental/run_29q_with_tv.py --from-scan oct16_scan_results.json --min-score 6
   python scripts/fundamental/run_29q_with_tv.py --from-scan oct16_scan_results.json --top 10
-  python scripts/fundamental/run_29q_with_tv.py --out /path/to/output/dir
+
+  # Auto-fetch missing shareholding data (requires WealthOS server on localhost:3000):
+  python scripts/fundamental/run_29q_with_tv.py --symbols YUKEN VMART --enrich
+  python scripts/fundamental/run_29q_with_tv.py --from-scan scan.json --enrich --server http://localhost:3000
 """
 import os
 import sys
@@ -46,8 +54,65 @@ from tv_context import load_tv_data, get_tv_context, format_for_29q, f_filter_fr
 
 # ── DB helpers ────────────────────────────────────────────────────────────────
 
+def _fetch_cfs_shareholding(conn, symbols):
+    """
+    Waterfall layer 2: read promoter/FII/DII/pledge from canonical_fact_store.
+    Used for any symbol not found in HistoricalShareholdingPattern (primary source).
+    Returns the same dict shape as fetch_shareholding so callers are source-agnostic.
+    """
+    has_cfs = conn.execute(
+        "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='canonical_fact_store'"
+    ).fetchone()[0]
+    if not has_cfs or not symbols:
+        return {}
+
+    fields = ('promoter_pct', 'fii_pct', 'dii_pct', 'pledge_pct', 'institutional_pct')
+    placeholders = ','.join(['?'] * len(symbols))
+    field_phs = ','.join([f"'{f}'" for f in fields])
+    rows = conn.execute(f"""
+        SELECT symbol, field, value, source
+        FROM canonical_fact_store
+        WHERE symbol IN ({placeholders})
+          AND field IN ({field_phs})
+    """, symbols).fetchall()
+
+    by_sym = {}
+    for sym, field, val_json, src in rows:
+        if sym not in by_sym:
+            by_sym[sym] = {'_sources': set()}
+        try:
+            by_sym[sym][field] = json.loads(val_json)
+            by_sym[sym]['_sources'].add(src)
+        except (ValueError, TypeError):
+            pass
+
+    result = {}
+    for sym, data in by_sym.items():
+        # Only useful if we have at least one ownership field
+        if not any(k in data for k in ('promoter_pct', 'fii_pct', 'institutional_pct')):
+            continue
+        sources = ','.join(sorted(data['_sources']))
+        result[sym] = {
+            'promoter_pct':   data.get('promoter_pct'),
+            'fii_pct':        data.get('fii_pct'),
+            'dii_pct':        data.get('dii_pct'),
+            'pledge_pct':     data.get('pledge_pct'),
+            'inst_total_pct': data.get('institutional_pct'),  # aggregate when FII+DII not split
+            'public_pct':     None,
+            'free_float_pct': None,
+            'sh_quarter':     f'canonical_fact_store ({sources})',
+            'sh_date':        None,
+        }
+    return result
+
+
 def fetch_shareholding(conn, symbols):
-    # Pledge unknown unless the column exists; never defaulted to 0.
+    """
+    Source waterfall for shareholding fields (F1/F5/F6):
+      1. HistoricalShareholdingPattern — most recent row per symbol (primary)
+      2. canonical_fact_store         — Trendlyne MCP (conf 1.0) or TV (0.9)
+    Never defaults unknown values to 0.
+    """
     sh_cols = {r[1] for r in conn.execute("PRAGMA table_info(HistoricalShareholdingPattern)")}
     pledge_sel = "h.pledge_pct" if 'pledge_pct' in sh_cols else "NULL"
     placeholders = ','.join(['?'] * len(symbols))
@@ -61,11 +126,21 @@ def fetch_shareholding(conn, symbols):
             GROUP BY symbol
         ) latest ON h.symbol = latest.symbol AND h.as_of_date = latest.max_date
     """, symbols).fetchall()
-    return {r[0]: {
+    sh_dict = {r[0]: {
         'promoter_pct': r[1], 'fii_pct': r[2], 'dii_pct': r[3],
         'public_pct': r[4], 'free_float_pct': r[5],
         'sh_quarter': r[6], 'sh_date': r[7], 'pledge_pct': r[8],
     } for r in rows}
+
+    # Waterfall layer 2: canonical_fact_store for any symbol not in SHP
+    missing = [s for s in symbols if s not in sh_dict]
+    if missing:
+        cfs = _fetch_cfs_shareholding(conn, missing)
+        if cfs:
+            print(f"[29Q] CFS fallback: {len(cfs)}/{len(missing)} missing symbols resolved from canonical_fact_store")
+        sh_dict.update(cfs)
+
+    return sh_dict
 
 
 def fetch_financials(conn, symbols):
@@ -92,6 +167,65 @@ def fetch_financials(conn, symbols):
     return fin
 
 
+def auto_enrich(conn, symbols, server='http://localhost:3000'):
+    """
+    Waterfall layer 3 (active): for symbols still missing F1/F5/F6 data after
+    SHP + CFS lookups, fetch from Trendlyne MCP via the WealthOS server and
+    persist to canonical_fact_store so all future runs benefit automatically.
+
+    Skips gracefully if:
+      • trendlyne_bridge module not found
+      • WealthOS server not running
+      • Trendlyne MCP not configured on the server
+
+    Called only when --enrich flag is set.
+    """
+    try:
+        import trendlyne_bridge as tb
+    except ImportError:
+        print("[29Q] --enrich: trendlyne_bridge not importable; skipping")
+        return
+
+    # Which symbols are still missing ALL shareholding data (SHP + CFS)?
+    SHP_FIELDS = ('promoter_pct', 'institutional_pct', 'fii_pct')
+    placeholders = ','.join(['?'] * len(symbols))
+    shp_present = {r[0] for r in conn.execute(
+        f"SELECT DISTINCT symbol FROM HistoricalShareholdingPattern WHERE symbol IN ({placeholders})",
+        symbols
+    ).fetchall()}
+
+    has_cfs = conn.execute(
+        "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='canonical_fact_store'"
+    ).fetchone()[0]
+    cfs_present = set()
+    if has_cfs:
+        fp = ','.join([f"'{f}'" for f in SHP_FIELDS])
+        cfs_present = {r[0] for r in conn.execute(
+            f"SELECT DISTINCT symbol FROM canonical_fact_store WHERE symbol IN ({placeholders}) AND field IN ({fp})",
+            symbols
+        ).fetchall()}
+
+    need = [s for s in symbols if s not in shp_present and s not in cfs_present]
+    if not need:
+        print(f"[29Q] --enrich: all {len(symbols)} symbols already have shareholding data; no fetch needed")
+        return
+
+    print(f"[29Q] --enrich: {len(need)} symbols missing shareholding data — fetching from Trendlyne: {need}")
+    fields = ['promoter_pct', 'pledge_pct', 'fii_pct', 'dii_pct', 'institutional_pct']
+    try:
+        result = tb.fetch_and_store(conn, need, fields, server=server)
+        fetched = sum(
+            1 for sym_data in result.values()
+            for k, v in sym_data.items()
+            if k != '_error' and v is not None
+        )
+        conn.commit()
+        print(f"[29Q] --enrich: stored {fetched} facts for {len(need)} symbols → now in canonical_fact_store")
+    except Exception as exc:
+        # Enrichment is best-effort; don't abort the whole report
+        print(f"[29Q] --enrich: could not fetch from Trendlyne ({exc}); proceeding with available data")
+
+
 # ── F-filter computation ─────────────────────────────────────────────────────
 
 def compute_f_filters(symbol, tv_universe, tv_peers, sh, fin_quarters):
@@ -103,13 +237,21 @@ def compute_f_filters(symbol, tv_universe, tv_peers, sh, fin_quarters):
     prom = sh.get('promoter_pct') if sh else None
     f['F1_promoter_pct'] = prom
     f['F1_pass'] = None if prom is None else prom >= 66.67
-    f['F1_source'] = 'DB shareholding' if prom is not None else 'MISSING'
+    sh_src = sh.get('sh_quarter', '') if sh else ''
+    _sh_label = 'canonical_fact_store' if sh and 'canonical' in sh_src else 'DB shareholding'
+    f['F1_source'] = _sh_label if prom is not None else 'MISSING'
 
-    # F2: Last 8 quarters PAT all positive
-    pats = [q['pat_cr'] for q in (fin_quarters or [])[:8] if q['pat_cr'] is not None]
-    f['F2_quarters_checked'] = len(pats)
-    f['F2_pats'] = [round(p, 1) for p in pats]
-    f['F2_pass'] = None if not pats else (False if any(p <= 0 for p in pats) else (True if len(pats) >= 8 else None))
+    # F2: Last 8 quarters PAT all positive — preserve None slots so engine logic applies correctly
+    pats = [q['pat_cr'] for q in (fin_quarters or [])[:8]]
+    known_pats = [p for p in pats if p is not None]
+    f['F2_quarters_checked'] = len(known_pats)
+    f['F2_pats'] = [round(p, 1) for p in known_pats]
+    # False if any known quarter is <= 0; True only if all 8 slots present and all known positive;
+    # None if < 8 slots or some slots unknown but none negative (matches f_filter_engine._f2)
+    f['F2_pass'] = (None if not pats else
+                    False if any(p is not None and p <= 0 for p in pats) else
+                    True if len(pats) >= 8 and all(p is not None for p in pats) else
+                    None)
     f['F2_source'] = 'DB quarterly PL'
 
     # F3: ROCE >= 35%  (missing opm/sales/total assets/borrowings => unknown, never 0)
@@ -124,15 +266,22 @@ def compute_f_filters(symbol, tv_universe, tv_peers, sh, fin_quarters):
             if ce > 0 and sales > 0:
                 roce = round(((opm / 100) * sales * 4) / ce * 100, 1)
                 roce_source = 'DB quarterly (annualised OPM×Sales/CE)'
-    if roce is None and tv.get('roa'):
+    # TV waterfall: prefer roce_fy (annual), then roa_fy×1.5, then roa×1.5
+    if roce is None and tv.get('roce_fy') is not None:
+        roce = round(tv['roce_fy'], 1)
+        roce_source = 'TV ROCE FY'
+    elif roce is None and tv.get('roa_fy') is not None:
+        roce = round(tv['roa_fy'] * 1.5, 1)
+        roce_source = 'TV ROA_FY × 1.5 proxy'
+    elif roce is None and tv.get('roa') is not None:
         roce = round(tv['roa'] * 1.5, 1)
         roce_source = 'TV ROA × 1.5 proxy'
     f['F3_roce'] = roce
     f['F3_pass'] = None if roce is None else roce >= 35
     f['F3_source'] = roce_source or 'MISSING'
 
-    # F4: ROE >= 25%
-    roe_tv = tv.get('roe')
+    # F4: ROE >= 25% — prefer roe_fy over roe (ttm can be null in TV)
+    roe_tv = tv.get('roe') if tv.get('roe') is not None else tv.get('roe_fy')
     roe_db = None
     if fin_quarters:
         q = fin_quarters[0]
@@ -148,15 +297,18 @@ def compute_f_filters(symbol, tv_universe, tv_peers, sh, fin_quarters):
     pledge = sh.get('pledge_pct') if sh else None
     f['F5_pledge_pct'] = pledge
     f['F5_pass'] = None if pledge is None else pledge <= 0.01
-    f['F5_source'] = 'DB shareholding (no pledge in TV screener)'
+    f['F5_source'] = f'{_sh_label} (no pledge in TV screener)' if pledge is not None else 'MISSING'
 
-    # F6: Institutional >= 5% (both FII and DII required)
+    # F6: Institutional >= 5%
+    # Prefer FII+DII separately; fall back to inst_total_pct if only aggregate available (from CFS)
     fii = sh.get('fii_pct') if sh else None
     dii = sh.get('dii_pct') if sh else None
-    inst = (fii + dii) if fii is not None and dii is not None else None
+    inst = (fii + dii) if (fii is not None and dii is not None) else sh.get('inst_total_pct') if sh else None
     f['F6_inst_pct'] = None if inst is None else round(inst, 2)
     f['F6_pass'] = None if inst is None else inst >= 5
-    f['F6_source'] = 'DB shareholding'
+    f['F6_source'] = ('DB shareholding' if sh and sh.get('sh_quarter', '').startswith('20')
+                      else 'canonical_fact_store' if sh and 'canonical' in sh.get('sh_quarter', '')
+                      else 'DB shareholding' if sh else 'MISSING')
 
     # F7: CFO/EBITDA >= 0.5 (needs 4 quarters with known cfo, opm, sales; partial sums are not TTM)
     cfo_ebitda = None
@@ -424,6 +576,13 @@ def main():
     parser.add_argument('--top', type=int, default=0, help='Limit to top N stocks by C-score (default: all qualifying)')
     parser.add_argument('--out', default=None, help='Output directory (default: project root)')
     parser.add_argument('--tv-root', default=None, help='Directory containing tv_universe.json (default: project root)')
+    # Source waterfall enrichment: auto-fetch missing shareholding data from Trendlyne MCP.
+    # When set, any symbol not in HistoricalShareholdingPattern or canonical_fact_store
+    # is fetched and stored before F-filters are computed — all future runs then hit the cache.
+    parser.add_argument('--enrich', action='store_true',
+                        help='Auto-fetch missing shareholding data from Trendlyne (requires WealthOS server running)')
+    parser.add_argument('--server', default='http://localhost:3000',
+                        help='WealthOS server URL for --enrich (default: http://localhost:3000)')
     args = parser.parse_args()
 
     out_dir = args.out or ROOT_DIR
@@ -469,10 +628,17 @@ def main():
         print("[29Q] No symbols to process.")
         return
 
-    # Fetch DB data
+    # Fetch DB data — source waterfall: SHP → canonical_fact_store → (Trendlyne if --enrich)
     conn = sqlite3.connect(PORTFOLIO_DB)
+    conn.execute("PRAGMA journal_mode=WAL")
+    conn.execute("PRAGMA busy_timeout=15000")
+
+    if args.enrich:
+        # Layer 3 (active): fetch + store before SHP/CFS lookups so waterfall below finds it
+        auto_enrich(conn, symbols, server=args.server)
+
     print(f"[29Q] Fetching DB data for {len(symbols)} symbols...")
-    sh_dict  = fetch_shareholding(conn, symbols)
+    sh_dict  = fetch_shareholding(conn, symbols)   # layers 1 + 2 applied inside
     fin_dict = fetch_financials(conn, symbols)
     conn.close()
     print(f"[29Q] Shareholding: {len(sh_dict)} | Financials: {len(fin_dict)}")
