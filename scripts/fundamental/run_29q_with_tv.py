@@ -458,9 +458,24 @@ def build_29q_record(symbol, scan_data, tv_universe, tv_peers, sh, fin_quarters,
     val  = tv_ctx['valuation']
     peers = tv_ctx['peers']
 
-    # Scan criteria (C1-C7) from scan_data
-    c_scores = scan_data.get('criteria', {}) if scan_data else {}
-    tech_score = scan_data.get('score', 0) if scan_data else 0
+    # C1-C7 from scan_data when available; otherwise derived from TV technicals so
+    # --symbols mode produces real scores, not zeroes.
+    if scan_data:
+        c_scores = scan_data.get('criteria', {})
+        tech_score = scan_data.get('score', 0)
+    else:
+        rsi = tech.get('rsi')
+        perf_w = tech.get('perf_w') or 0
+        c_scores = {
+            'C1': tech.get('above_sma20'),                       # close > SMA20
+            'C2': tech.get('above_sma200'),                      # close > SMA200
+            'C3': perf_w > 0,                                    # 7D return > 0
+            'C4': rsi is not None and 40 <= rsi <= 70,           # RSI in momentum zone
+            'C5': (tech.get('rel_vol') or 0) > 1.2,             # relative volume > 120%
+            'C6': perf_w > -3,                                   # price trajectory (no >3% drop in 7D)
+            'C7': perf_w >= -13,                                 # near 7D high (within ~13%)
+        }
+        tech_score = sum(1 for v in c_scores.values() if v is True)
 
     def yn(val): return 'UNKNOWN' if val is None else ('✓ PASS' if val else '✗ FAIL')
     def na(v, fmt='{}'): return fmt.format(v) if v is not None else 'N/A'
