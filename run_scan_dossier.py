@@ -18,7 +18,7 @@ Steps:
 import sys, json, os, sqlite3, math, argparse, shutil
 from datetime import datetime, timedelta, date
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'scripts', 'fundamental'))
-from f_filter_engine import evaluate_f_filters, roce_trailing_4q
+from f_filter_engine import compute_f_filters, roce_trailing_4q
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
@@ -36,6 +36,58 @@ def tv_data_is_fresh(max_age_hours=12):
     with open(TV_META_JSON) as f: meta = json.load(f)
     fetched = datetime.fromisoformat(meta.get('fetched_at', '2000-01-01'))
     return (datetime.now() - fetched).total_seconds() < max_age_hours * 3600
+
+
+def get_scan_universe(db):
+    """Return the active symbol universe, with a robust OHLCV fallback."""
+    try:
+        rows = db.execute("SELECT symbol FROM v_scan_universe_latest").fetchall()
+        if rows:
+            return [r[0] for r in rows]
+    except sqlite3.Error:
+        pass
+    return [r[0] for r in db.execute("SELECT DISTINCT symbol FROM DailyOHLCV").fetchall()]
+
+
+def fetch_ohlcv_batched(db, symbols, start_date, batch_size=200, end_date=None):
+    """Fetch OHLCV in bounded IN() batches without manufacturing rows."""
+    if batch_size > 500 or batch_size < 1:
+        raise ValueError("batch_size must be between 1 and 500")
+    rows = []
+    for i in range(0, len(symbols), batch_size):
+        batch = list(symbols[i:i + batch_size])
+        if not batch:
+            continue
+        ph = ','.join(['?'] * len(batch))
+        sql = f"""SELECT symbol, trade_date, open, high, low, close, volume
+                  FROM DailyOHLCV WHERE symbol IN ({ph}) AND trade_date >= ?"""
+        params = batch + [start_date]
+        if end_date is not None:
+            sql += " AND trade_date <= ?"
+            params.append(end_date)
+        sql += " ORDER BY symbol, trade_date"
+        rows.extend(db.execute(sql, params).fetchall())
+    return rows
+
+
+def _build_sh_dict(rows):
+    out = {}
+    for r in rows:
+        out[r[0]] = {'promoter_pct': r[1], 'fii_pct': r[2], 'dii_pct': r[3],
+                     'pledge_pct': r[4], 'sh_quarter': r[5], 'sh_date': r[6]}
+    return out
+
+
+def _build_fin_dict(rows):
+    out = {}
+    for r in rows:
+        out.setdefault(r[0], []).append({
+            'period_label': r[1], 'statement_type': r[2], 'pat_cr': r[3],
+            'sales_cr': r[4], 'opm_pct': r[5], 'cfo_cr': r[6],
+            'borrowings_cr': r[7], 'total_assets_cr': r[8],
+            'equity_capital_cr': r[9], 'reserves_cr': r[10], 'eps': r[11],
+        })
+    return out
 
 # ─────────────────────────────────────────────────────────
 # STEP 1: TV Universe + Peers
@@ -86,18 +138,14 @@ def run_scan(end_date, n_sessions=7, min_score=3):
     # Only symbols/dates in [cutoff, session_end] are needed; batch by symbol so
     # idx_daily_ohlcv_sym(symbol, trade_date) serves each range scan.
     from collections import defaultdict
-    symbols = [r[0] for r in con.execute(
-        "SELECT DISTINCT symbol FROM DailyOHLCV WHERE trade_date >= ? AND trade_date <= ? ORDER BY symbol",
-        (cutoff, session_end))]
+    symbols = get_scan_universe(con)
     BATCH = 500
 
     def _batches():
         for i in range(0, len(symbols), BATCH):
             chunk = symbols[i:i+BATCH]
-            rows = con.execute(
-                "SELECT symbol, trade_date, open, high, low, close, volume FROM DailyOHLCV "
-                f"WHERE symbol IN ({','.join('?'*len(chunk))}) AND trade_date >= ? AND trade_date <= ? "
-                "ORDER BY symbol, trade_date", (*chunk, cutoff, session_end)).fetchall()
+            rows = fetch_ohlcv_batched(con, chunk, cutoff, batch_size=BATCH,
+                                       end_date=session_end)
             sd = defaultdict(list)
             for r in rows:
                 sd[r[0]].append(r[1:])  # (date, o, h, l, c, vol)
@@ -174,6 +222,26 @@ def run_scan(end_date, n_sessions=7, min_score=3):
 # ─────────────────────────────────────────────────────────
 def run_fundamentals(scan_results, tv_universe):
     step_banner(3, "Fundamentals Merge (TV data + DB shareholding + DB financials)")
+    if isinstance(scan_results, sqlite3.Connection):
+        # Public filtered-query contract used by integration jobs. Keep the
+        # legacy (scan_results, tv_universe) signature below for compatibility.
+        db, qualifying_symbols = scan_results, list(tv_universe or [])
+        if not qualifying_symbols:
+            return {}, {}
+        ph = ','.join('?' * len(qualifying_symbols))
+        try:
+            sh = db.execute(f"""SELECT symbol, promoter_pct, fii_pct, dii_pct,
+                    pledge_pct, quarter_label, as_of_date FROM v_latest_shareholding
+                    WHERE symbol IN ({ph})""", qualifying_symbols).fetchall()
+        except sqlite3.Error:
+            sh = []
+        fin = db.execute(f"""SELECT symbol, period_label, statement_type,
+                    net_profit_pat_cr, sales_cr, opm_pct, cfo_cr, borrowings_cr,
+                    total_assets_cr, equity_capital_cr, reserves_cr, eps
+                    FROM HistoricalFinancialStatements WHERE symbol IN ({ph})
+                    AND (statement_type LIKE 'QUARTERLY%' OR statement_type LIKE 'Q%')
+                    ORDER BY symbol, period_label DESC""", qualifying_symbols).fetchall()
+        return _build_sh_dict(sh), _build_fin_dict(fin)
     qualifying_symbols = set(r['symbol'] for r in scan_results)
 
     # Build tv_dict from tv_universe (with compat aliases)
@@ -245,7 +313,7 @@ def run_fundamentals(scan_results, tv_universe):
     con.close()
     print(f"Financials: {len(fin_dict)} symbols in DB")
 
-    def compute_f(sym, tv, sh, fin_q):
+    def _legacy_compute_f(sym, tv, sh, fin_q):
         pats = [q['pat_cr'] for q in (fin_q or [])[:8]]  # preserve None slots; engine needs 8-slot list to evaluate F2
         # Missing financial input => metric unknown (None); never substituted by 0.
         def _ebit(x):
@@ -282,6 +350,9 @@ def run_fundamentals(scan_results, tv_universe):
         fii_, dii_ = sh.get('fii_pct'), sh.get('dii_pct')
         inst_now = (fii_+dii_) if fii_ is not None and dii_ is not None else None
         inst_chg = (inst_now - prev_inst[sym]) if inst_now is not None and sym in prev_inst else None
+        # Retained only as a reference while the database output contract
+        # migrates; production calls use ``compute_f`` below.
+        from f_filter_engine import evaluate_f_filters
         res = evaluate_f_filters({
             'inst_pct': inst_now, 'inst_change_pp': inst_chg,
             'pats': pats, 'promoter_pct': sh.get('promoter_pct'), 'pledge_pct': sh.get('pledge_pct'),
@@ -294,6 +365,14 @@ def run_fundamentals(scan_results, tv_universe):
                  F3_roce_method=roce_method, F6_inst_change_pp=None if inst_chg is None else round(inst_chg,3))
         f['f_score']=sum(1 for k in ('F1_pass','F2_pass','F3_pass','F4_pass','F5_pass','F6_pass','F7_pass') if f.get(k))
         return f
+
+    def compute_f(sym, tv, sh, fin_q):
+        sh_data = dict(sh or {})
+        if sym in prev_inst:
+            current_fii, current_dii = sh_data.get('fii_pct'), sh_data.get('dii_pct')
+            if current_fii is not None and current_dii is not None:
+                sh_data['inst_history'] = [current_fii + current_dii, prev_inst[sym]]
+        return compute_f_filters(sym, tv or {}, sh_data, fin_q or [])
 
     merged = []
     for r in scan_results:

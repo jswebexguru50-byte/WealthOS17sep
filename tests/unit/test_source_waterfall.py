@@ -94,8 +94,8 @@ class T(unittest.TestCase):
         st.put_many([f(1, 0.8)])
         st.put_many([f(2, 0.5, T0 + timedelta(seconds=10))])  # lower conf, stored fresh -> ignored
         self.assertEqual(st.get("A", "pe", T0)["value"], 1)
-        st.put_many([f(3, 0.8, T0 + timedelta(seconds=10))])  # equal -> overwrite
-        self.assertEqual(st.get("A", "pe", T0)["value"], 3)
+        st.put_many([f(3, 0.8, T0 + timedelta(seconds=10))])  # equal confidence keeps existing
+        self.assertEqual(st.get("A", "pe", T0)["value"], 1)
         st.put_many([f(4, 0.1, T0 + timedelta(seconds=500))])  # stored expired -> overwrite
         self.assertEqual(st.get("A", "pe", T0 + timedelta(seconds=501))["value"], 4)
         self.assertIsNone(st.get("A", "pe", T0 + timedelta(seconds=700)))

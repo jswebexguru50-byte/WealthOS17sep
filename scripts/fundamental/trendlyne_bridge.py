@@ -68,6 +68,11 @@ class TrendlyneUnavailableError(TrendlyneBridgeError):
     """Server reports 503: MCP transport not configured."""
 
 
+# Historical callers use these names; keep them as aliases during the API
+# migration so source-waterfall imports remain backward compatible.
+BridgeUnavailable = TrendlyneUnavailableError
+
+
 # ── Internal chunk call ────────────────────────────────────────────────────────
 def _post_chunk(
     symbols: list[str],
@@ -139,6 +144,8 @@ def fetch(
     """
     if not symbols or not fields:
         return {}
+    if server == SERVER_URL and not os.getenv('TRENDLYNE_MCP_URL'):
+        raise TrendlyneUnavailableError('TRENDLYNE_MCP_URL is not configured')
 
     syms     = [s.strip().upper() for s in symbols if s.strip()]
     endpoint = f"{server.rstrip('/')}/api/trendlyne-mcp/batch-fetch"
@@ -161,6 +168,39 @@ def fetch(
     return result
 
 
+def fetch_batch(symbols: list[str], fields: list[str], *, base_url: str = SERVER_URL,
+                timeout: int = TIMEOUT_S) -> dict[str, dict[str, Any]]:
+    """Compatibility API returning provenance-bearing cells.
+
+    Unlike ``fetch``, this preserves the server's ``source``/``as_of`` fields
+    for callers that need audit metadata. Failed symbols are represented with
+    explicit ``None`` cells; no fallback values are introduced.
+    """
+    if not symbols or not fields:
+        return {}
+    old_timeout = globals()['TIMEOUT_S']
+    globals()['TIMEOUT_S'] = timeout
+    try:
+        endpoint = f"{base_url.rstrip('/')}/api/trendlyne-mcp/batch-fetch"
+        out = {}
+        for i in range(0, len(symbols), MAX_SYMBOLS_PER_CALL):
+            chunk = [s.strip().upper() for s in symbols[i:i + MAX_SYMBOLS_PER_CALL]]
+            try:
+                raw = _post_chunk(chunk, fields, endpoint)
+            except requests.RequestException as exc:
+                raise BridgeUnavailable(str(exc)) from exc
+            for sym in chunk:
+                out[sym] = {}
+                for field in fields:
+                    value = raw.get(sym, {}).get(field)
+                    out[sym][field] = None if value is None else {
+                        'value': value, 'source': SOURCE, 'as_of': None
+                    }
+        return dict(sorted(out.items()))
+    finally:
+        globals()['TIMEOUT_S'] = old_timeout
+
+
 # ── Public: fetch + store ──────────────────────────────────────────────────────
 def fetch_and_store(
     db: sqlite3.Connection,
@@ -175,14 +215,14 @@ def fetch_and_store(
 
     ZERO FABRICATION: None values are never written to the fact store.
     Source-waterfall rule: only replaces an existing row when our confidence
-    (1.0) >= stored confidence, OR the stored row has expired its TTL.
+    is strictly greater, or the stored row has expired its TTL.
 
     Args:
         db:      Open sqlite3 connection to portfolio.db.
         symbols: NSE/BSE symbols.
         fields:  WealthOS field names or raw Trendlyne tokens.
         server:  Override WealthOS server URL.
-        force:   If True, overwrite regardless of existing confidence.
+        force:   Deprecated compatibility argument; never bypasses confidence.
 
     Returns:
         Same shape as fetch(): {SYMBOL: {field: value_or_None}}
@@ -208,16 +248,10 @@ def fetch_and_store(
             ))
 
     if rows:
-        if force:
-            db.executemany(
-                "INSERT OR REPLACE INTO canonical_fact_store "
-                "(symbol, field, value, source, confidence, fetched_at, ttl_seconds) "
-                "VALUES (?,?,?,?,?,?,?)",
-                rows,
-            )
-        else:
-            # Only overwrite when our confidence >= stored, or stored has expired
-            db.executemany(
+        # Never overwrite a higher- or equal-confidence value. The ``force``
+        # parameter is intentionally ignored: it cannot waive the evidence
+        # integrity invariant.
+        db.executemany(
                 """INSERT INTO canonical_fact_store
                    (symbol, field, value, source, confidence, fetched_at, ttl_seconds)
                    VALUES (?,?,?,?,?,?,?)
@@ -227,11 +261,11 @@ def fetch_and_store(
                      confidence  = excluded.confidence,
                      fetched_at  = excluded.fetched_at,
                      ttl_seconds = excluded.ttl_seconds
-                   WHERE excluded.confidence >= canonical_fact_store.confidence
+                   WHERE excluded.confidence > canonical_fact_store.confidence
                       OR (julianday('now') - julianday(canonical_fact_store.fetched_at))
                          * 86400 > canonical_fact_store.ttl_seconds""",
                 rows,
-            )
+        )
         db.commit()
 
     return data

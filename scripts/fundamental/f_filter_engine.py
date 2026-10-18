@@ -68,6 +68,15 @@ F5_PLEDGE_MAX_PCT = 0.01
 F6_INST_MIN_PCT = 5.0
 F6_INST_CHANGE_MIN_PP = 0.10
 F7_CFO_EBITDA_MIN = 0.5
+F_THRESHOLDS = {
+    'F1_promoter_min': F1_PROMOTER_MIN_PCT,
+    'F2_quarters': F2_QUARTERS,
+    'F3_roce_min': F3_ROCE_MIN_PCT,
+    'F4_roe_min': F4_ROE_MIN_PCT,
+    'F5_pledge_max': F5_PLEDGE_MAX_PCT,
+    'F6_inst_min': F6_INST_MIN_PCT,
+    'F7_cfo_ebitda_min': F7_CFO_EBITDA_MIN,
+}
 
 
 def _num(v: Any) -> Optional[float]:
@@ -110,7 +119,7 @@ def _f2(pats: Any):
     if any(p is not None and p <= 0 for p in first):
         return False, count
     if len(first) < F2_QUARTERS:
-        return False, count  # insufficient history: 8 quarters not demonstrated
+        return None, count  # insufficient history: UNKNOWN, never FAIL
     if any(p is None for p in first):
         return None, count  # 8 slots but some unknown, none negative
     return True, count
@@ -125,11 +134,10 @@ def _f6(inp: dict):
         return None, None
     if inst < F6_INST_MIN_PCT:
         return False, inst  # definitive fail regardless of trend
-    chg = _num(inp.get("inst_change_pp"))
-    if chg is None:
-        return None, inst
-    # tolerance guards float noise at exactly +0.10 pp
-    return chg >= F6_INST_CHANGE_MIN_PP - 1e-9, inst
+    # The base F6 filter is a level test.  The 4Q trend check is supplementary
+    # and must not turn an otherwise evidenced institutional holding into an
+    # UNKNOWN result merely because history is unavailable.
+    return inst >= F6_INST_MIN_PCT, inst
 
 
 def _f7(inp: dict):
@@ -174,4 +182,185 @@ def evaluate_f_filters(inp: dict) -> dict:
     out["unknown"] = unknown
     out["fail"] = fail
     out["all_pass"] = all(out[n + "_pass"] is True for n in F_NAMES)
+    return out
+
+
+def _legacy_compute_f_filters(symbol: str, tv: dict, sh: Optional[dict],
+                      fin_quarters: list, thresholds: dict = F_THRESHOLDS) -> dict:
+    """Compute the public F1-F7 contract from TV, shareholding and DB facts.
+
+    Missing inputs remain ``None``.  This adapter deliberately does not use
+    truthiness when selecting values, so a reported zero remains a real zero.
+    ``symbol`` is accepted for callers that build per-symbol audit records.
+    """
+    tv = tv or {}
+    sh = sh or {}
+    quarters = fin_quarters if isinstance(fin_quarters, list) else []
+
+    def first(*keys):
+        for key in keys:
+            if key in tv and tv.get(key) is not None:
+                return tv.get(key)
+            if key in sh and sh.get(key) is not None:
+                return sh.get(key)
+        return None
+
+    pats = [q.get('pat_cr') if isinstance(q, dict) else None for q in quarters]
+    promoter = first('promoter_pct', 'prompct')
+    pledge = first('pledge_pct', 'prompledge')
+    fii = first('fii_pct', 'fiipct')
+    dii = first('dii_pct', 'diipct')
+    inst = first('inst_total_pct', 'institutional_pct', 'inst_pct')
+    inst_change = first('inst_change_pp', 'institutional_change_pp')
+    roce = first('roce', 'roce_ttm', 'roce_fy')
+    roe = first('roe', 'roe_ttm', 'roe_fy')
+    if roce is None and tv.get('roa_fy') is not None:
+        # Keep the legacy proxy explicit in provenance; it is never a default.
+        roce = tv.get('roa_fy')
+        roce_source = 'ROA FY proxy'
+    else:
+        roce_source = 'ROCE FY' if tv.get('roce_fy') is not None else 'DB'
+    cfo_ebitda = first('cfo_ebitda')
+    if cfo_ebitda is None and quarters:
+        cfo = [q.get('cfo_cr') for q in quarters[:4] if isinstance(q, dict)]
+        ebitda = [q.get('ebitda_cr') for q in quarters[:4] if isinstance(q, dict)]
+        if len(cfo) == 4 and len(ebitda) == 4 and all(x is not None for x in cfo + ebitda):
+            total_ebitda = sum(ebitda)
+            cfo_ebitda = sum(cfo) / total_ebitda if total_ebitda != 0 else None
+
+    result = evaluate_f_filters({
+        'promoter_pct': promoter, 'pats': pats, 'roce': roce, 'roe': roe,
+        'pledge_pct': pledge, 'fii_pct': fii, 'dii_pct': dii,
+        'inst_pct': inst, 'inst_change_pp': inst_change,
+        'cfo_ebitda': cfo_ebitda,
+    })
+    values = {
+        'F1_promoter_pct': _num(promoter), 'F2_quarters_checked': min(len(quarters), F2_QUARTERS),
+        'F2_pats': pats[:F2_QUARTERS], 'F3_roce': _num(roce), 'F4_roe': _num(roe),
+        'F5_pledge_pct': _num(pledge), 'F6_inst_pct': result['F6_value'],
+        'F7_cfo_ebitda': _num(cfo_ebitda),
+    }
+    out = dict(values)
+    for n in F_NAMES:
+        out[f'{n}_pass'] = result[f'{n}_pass']
+    out.update({
+        'F1_source': 'TV' if promoter is not None and tv.get('promoter_pct', tv.get('prompct')) is not None else 'DB',
+        'F3_source': roce_source, 'F4_source': 'TV' if tv.get('roe') is not None else 'DB',
+        'F5_source': 'TV' if tv.get('pledge_pct', tv.get('prompledge')) is not None else 'DB',
+        'F6_source': 'TV' if inst is not None else 'DB', 'F7_source': 'DB',
+        'f_score': sum(result[f'{n}_pass'] is True for n in F_NAMES),
+        'f_unknowns': sum(result[f'{n}_pass'] is None for n in F_NAMES),
+        'symbol': symbol,
+    })
+    return out
+
+
+def compute_f_filters(symbol: str, tv: dict, sh: Optional[dict],
+                      fin_quarters: list, thresholds: dict = F_THRESHOLDS) -> dict:
+    """Authoritative F1–F7 evaluation with explicit provenance.
+
+    This is intentionally self-contained instead of adapting truthy values:
+    reported ``0.0`` values therefore remain observable evidence while absent
+    values remain ``None``.
+    """
+    tv, sh = tv or {}, sh or {}
+    qs = list(fin_quarters or [])
+    t = {**F_THRESHOLDS, **(thresholds or {})}
+
+    def num(value):
+        return _num(value)
+
+    def source_value(keys, db_first=False):
+        ordered = (sh, tv) if db_first else (tv, sh)
+        for record in ordered:
+            for key in keys:
+                if record.get(key) is not None:
+                    return record.get(key), ('DB' if record is sh else 'TV')
+        return None, 'MISSING'
+
+    promoter, f1_source = source_value(('promoter_pct', 'prompct'), db_first=True)
+    pledge, f5_source = source_value(('pledge_pct', 'prompledge'), db_first=True)
+    inst_total, f6_source = source_value(('inst_total_pct', 'institutional_pct', 'inst_pct'), db_first=True)
+    fii, _ = source_value(('fii_pct', 'fiipct'), db_first=True)
+    dii, _ = source_value(('dii_pct', 'diipct'), db_first=True)
+    if inst_total is None and num(fii) is not None and num(dii) is not None:
+        inst_total, f6_source = num(fii) + num(dii), 'DB'
+
+    pats = [(q.get('pat_cr') if isinstance(q, dict) else None) for q in qs[:t['F2_quarters']]]
+    f2_known = [num(value) for value in pats]
+    if any(value is not None and value <= 0 for value in f2_known):
+        f2_pass = False
+    elif len(f2_known) < t['F2_quarters'] or any(value is None for value in f2_known):
+        f2_pass = None
+    else:
+        f2_pass = True
+
+    roce = None
+    roce_source = 'MISSING'
+    first_q = qs[0] if qs and isinstance(qs[0], dict) else {}
+    cap_employed = None
+    if first_q:
+        assets, debt = num(first_q.get('total_assets_cr')), num(first_q.get('borrowings_cr'))
+        cap_employed = None if assets is None or debt is None else assets - debt
+    ebit = []
+    for q in qs[:4]:
+        if not isinstance(q, dict):
+            ebit.append(None)
+        elif q.get('ebitda_cr') is not None:
+            ebit.append(num(q.get('ebitda_cr')))
+        else:
+            opm, sales = num(q.get('opm_pct')), num(q.get('sales_cr'))
+            ebit.append(None if opm is None or sales is None else opm * sales / 100)
+    roce = roce_trailing_4q(ebit, cap_employed)
+    if roce is not None:
+        roce_source = 'DB TTM (4Q avg)'
+    elif tv.get('roce_fy') is not None:
+        roce, roce_source = num(tv.get('roce_fy')), 'TV ROCE FY'
+    elif tv.get('roa_fy') is not None:
+        roce, roce_source = num(tv.get('roa_fy')), 'TV ROA FY proxy'
+
+    roe, f4_source = source_value(('roe_fy', 'roe', 'roe_ttm'), db_first=False)
+    cfo, ebitda = [], []
+    for q in qs[:4]:
+        if not isinstance(q, dict):
+            cfo.append(None); ebitda.append(None); continue
+        cfo.append(num(q.get('cfo_cr')))
+        ebitda.append(num(q.get('ebitda_cr')) if q.get('ebitda_cr') is not None else
+                      (None if num(q.get('opm_pct')) is None or num(q.get('sales_cr')) is None
+                       else num(q.get('opm_pct')) * num(q.get('sales_cr')) / 100))
+    cfo_ebitda = None
+    if len(cfo) == 4 and all(v is not None for v in cfo + ebitda):
+        total_ebitda = sum(ebitda)
+        if total_ebitda > 0:
+            cfo_ebitda = sum(cfo) / total_ebitda
+
+    def ge(value, threshold):
+        value = num(value)
+        return None if value is None else value >= threshold
+
+    inst = num(inst_total)
+    history = sh.get('inst_history')
+    trend = None
+    if isinstance(history, (list, tuple)) and len(history) >= 4:
+        values = [num(v) for v in history[:4]]
+        trend = None if any(v is None for v in values) else all(values[i] >= values[i + 1] for i in range(3))
+    passes = {
+        'F1': ge(promoter, t['F1_promoter_min']), 'F2': f2_pass,
+        'F3': ge(roce, t['F3_roce_min']), 'F4': ge(roe, t['F4_roe_min']),
+        'F5': None if num(pledge) is None else num(pledge) <= t['F5_pledge_max'],
+        'F6': ge(inst, t['F6_inst_min']),
+        'F7': None if cfo_ebitda is None else cfo_ebitda >= t['F7_cfo_ebitda_min'],
+    }
+    out = {
+        'symbol': symbol, 'F1_promoter_pct': num(promoter), 'F1_pass': passes['F1'], 'F1_source': f1_source,
+        'F2_quarters_checked': len(pats), 'F2_pats': pats, 'F2_pass': passes['F2'], 'F2_source': 'DB quarterly PL',
+        'F3_roce': num(roce), 'F3_pass': passes['F3'], 'F3_source': roce_source,
+        'F4_roe': num(roe), 'F4_pass': passes['F4'], 'F4_source': f4_source,
+        'F5_pledge_pct': num(pledge), 'F5_pass': passes['F5'], 'F5_source': f5_source,
+        'F6_inst_pct': inst, 'F6_pass': passes['F6'], 'F6_source': f6_source,
+        'F6_trend_pass': trend,
+        'F7_cfo_ebitda': cfo_ebitda, 'F7_pass': passes['F7'], 'F7_source': 'DB quarterly cash flow',
+    }
+    out['f_score'] = sum(value is True for value in passes.values())
+    out['f_unknowns'] = sum(value is None for value in passes.values())
     return out

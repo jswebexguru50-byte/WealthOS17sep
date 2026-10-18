@@ -83,7 +83,7 @@ class FactStore:
 
     def put_many(self, facts: Iterable[Dict[str, Any]]) -> int:
         """Upsert in one transaction. A fact replaces the stored row only if its
-        confidence >= stored confidence, or the stored row is expired as of the
+        confidence > stored confidence, or the stored row is expired as of the
         new fact's fetched_at. Returns the number of rows written."""
         facts = list(facts)
         if not facts:
@@ -101,7 +101,7 @@ class FactStore:
             fetched = iso(f["fetched_at"])
             cur = existing.get(k)
             if cur is not None and not _expired(cur, to_dt(fetched)) \
-                    and float(f["confidence"]) < float(cur["confidence"] or 0.0):
+                    and float(f["confidence"]) <= float(cur["confidence"] or 0.0):
                 continue
             new = {"symbol": k[0], "field": k[1], "value": f["value"], "source": f["source"],
                    "confidence": float(f["confidence"]), "fetched_at": fetched,

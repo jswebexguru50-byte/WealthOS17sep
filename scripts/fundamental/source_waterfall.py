@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 import os
+import sqlite3
 import sys
+from datetime import datetime, timezone
 from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple
 
 try:
@@ -25,6 +27,21 @@ DEFAULT_TTL_RULES = (
     (("sector", "industry", "isin", "name", "incorporat", "cin"), 90 * 86400),  # static
 )
 DEFAULT_TTL = 86400
+
+
+def detect_conflicts(symbol, field, val_a, src_a, val_b, src_b, threshold=0.20):
+    """Return an auditable conflict record, or ``None`` when not comparable."""
+    if val_a is None or val_b is None:
+        return None
+    try:
+        a, b = float(val_a), float(val_b)
+    except (TypeError, ValueError):
+        return None
+    diff = abs(a - b) / max(abs(a), abs(b), 1e-6)
+    if diff <= threshold:
+        return None
+    return {'symbol': symbol, 'field': field, 'conflict': True,
+            'diff_pct': round(diff * 100, 1), 'sources': [src_a, src_b]}
 
 
 def _is_num(x: Any) -> bool:
@@ -54,10 +71,17 @@ def trendlyne_adapter() -> Callable:
 
 
 class SourceWaterfallEngine:
-    def __init__(self, sources: Dict[str, Callable], store: FactStore, clock: Callable[[], Any],
+    def __init__(self, sources, store: Optional[FactStore] = None, clock: Optional[Callable[[], Any]] = None,
                  confidence: Optional[Dict[str, float]] = None, ttl_rules=DEFAULT_TTL_RULES,
                  default_ttl: int = DEFAULT_TTL, ttl_overrides: Optional[Dict[str, int]] = None,
-                 tolerance: float = 0.10, batch_size: int = 200):
+                 tolerance: float = 0.10, batch_size: int = 200, server: str = 'http://localhost:3000'):
+        self.db = sources if isinstance(sources, sqlite3.Connection) else None
+        if self.db is not None:
+            sources = {}
+            store = FactStore(self.db)
+            clock = lambda: datetime.now(timezone.utc)
+        if store is None or clock is None:
+            raise TypeError('store and clock are required unless the first argument is a sqlite connection')
         unknown = sorted(set(sources) - set(PRIORITY))
         if unknown:
             raise ValueError("unknown sources: %s" % unknown)
@@ -71,6 +95,85 @@ class SourceWaterfallEngine:
         self.ttl_overrides = dict(ttl_overrides or {})
         self.tolerance = tolerance
         self.batch_size = batch_size
+        self.server = server
+
+    def get_field(self, symbol: str, field: str) -> tuple:
+        """Return ``(value, source_name)`` for one field, or ``(None, None)``."""
+        if self.db is not None:
+            fact = self.store.get(symbol, field, self.clock())
+            return (fact['value'], fact['source']) if fact is not None else (None, None)
+        result = self.resolve([symbol], [field])
+        value = result.get('values', {}).get(symbol, {}).get(field)
+        meta = result.get('provenance', {}).get(symbol, {}).get(field) or {}
+        return value, meta.get('source')
+
+    def get_shareholding(self, symbols: list, enrich: bool = False) -> dict:
+        """Resolve the canonical shareholding fields without synthetic values."""
+        if self.db is not None:
+            fields = ('promoter_pct', 'fii_pct', 'dii_pct', 'pledge_pct', 'inst_total_pct')
+            result = {}
+            for i in range(0, len(symbols), min(self.batch_size, 500)):
+                batch = list(symbols[i:i + min(self.batch_size, 500)])
+                if not batch:
+                    continue
+                ph = ','.join('?' * len(batch))
+                try:
+                    rows = self.db.execute(f"""SELECT symbol, promoter_pct, fii_pct, dii_pct,
+                        pledge_pct, quarter_label, as_of_date FROM v_latest_shareholding
+                        WHERE symbol IN ({ph})""", batch).fetchall()
+                except sqlite3.Error:
+                    rows = []
+                for row in rows:
+                    result[row[0]] = {'promoter_pct': row[1], 'fii_pct': row[2], 'dii_pct': row[3],
+                                      'pledge_pct': row[4], 'sh_quarter': row[5], 'sh_date': row[6]}
+            missing = [s for s in symbols if s not in result]
+            cached = self.store.get_many(missing, fields, self.clock())
+            for symbol in missing:
+                values = {field: cached[(symbol, field)]['value']
+                          for field in fields if (symbol, field) in cached}
+                if values:
+                    values['sh_quarter'] = 'canonical_fact_store'
+                    result[symbol] = values
+            if enrich:
+                try:
+                    import trendlyne_bridge as bridge
+                    fetched = bridge.fetch_and_store(self.db, [s for s in symbols if s not in result], list(fields), server=self.server)
+                    for symbol, values in fetched.items():
+                        clean = {key: value for key, value in values.items() if key in fields and value is not None}
+                        if clean:
+                            clean['sh_quarter'] = 'trendlyne_mcp'
+                            result[symbol] = clean
+                except Exception:
+                    pass
+            return result
+        fields = ['promoter_pct', 'fii_pct', 'dii_pct', 'pledge_pct', 'inst_total_pct']
+        # ``enrich`` is intentionally a routing hint only; callers decide which
+        # live source is registered, keeping this class free of network I/O.
+        return self.resolve(symbols, fields).get('values', {})
+
+    def put_field(self, symbol, field, value, source, confidence, ttl_days=30):
+        """Persist one non-null fact through the confidence-guarded store."""
+        if value is None:
+            return False
+        self.store.put_many([{'symbol': symbol, 'field': field, 'value': value,
+                              'source': source, 'confidence': confidence,
+                              'fetched_at': self.clock(),
+                              'ttl_seconds': ttl_days * 86400}])
+        return True
+
+    def record_conflict(self, conflict: Optional[dict]):
+        """Persist a detected conflict when the v17 table is available."""
+        if conflict is None or self.db is None:
+            return False
+        exists = self.db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='data_conflicts'").fetchone()
+        if not exists:
+            raise RuntimeError('data_conflicts is unavailable; apply migration 17 before recording conflicts')
+        self.db.execute("""INSERT INTO data_conflicts
+            (symbol, field, source_a, source_b, diff_pct, detected_at) VALUES (?,?,?,?,?,?)""",
+            (conflict['symbol'], conflict['field'], conflict['sources'][0], conflict['sources'][1],
+             conflict['diff_pct'], iso(self.clock())))
+        self.db.commit()
+        return True
 
     def ttl_for(self, field: str) -> int:
         if field in self.ttl_overrides:

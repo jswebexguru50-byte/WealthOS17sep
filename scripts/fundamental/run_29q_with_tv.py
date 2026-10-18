@@ -39,6 +39,9 @@ import sqlite3
 import argparse
 from datetime import datetime, date
 
+from f_filter_engine import compute_f_filters as _compute_authoritative_f_filters
+from source_waterfall import SourceWaterfallEngine
+
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -106,7 +109,7 @@ def _fetch_cfs_shareholding(conn, symbols):
     return result
 
 
-def fetch_shareholding(conn, symbols):
+def _legacy_fetch_shareholding(conn, symbols):
     """
     Source waterfall for shareholding fields (F1/F5/F6):
       1. HistoricalShareholdingPattern — most recent row per symbol (primary)
@@ -141,6 +144,11 @@ def fetch_shareholding(conn, symbols):
         sh_dict.update(cfs)
 
     return sh_dict
+
+
+def fetch_shareholding(conn, symbols):
+    """Use the reusable DB → CFS source waterfall for F1/F5/F6 evidence."""
+    return SourceWaterfallEngine(conn).get_shareholding(symbols)
 
 
 def fetch_financials(conn, symbols):
@@ -228,7 +236,7 @@ def auto_enrich(conn, symbols, server='http://localhost:3000'):
 
 # ── F-filter computation ─────────────────────────────────────────────────────
 
-def compute_f_filters(symbol, tv_universe, tv_peers, sh, fin_quarters):
+def _legacy_compute_f_filters(symbol, tv_universe, tv_peers, sh, fin_quarters):
     """Compute F1–F7. TV proxies used where DB data missing."""
     tv = tv_universe.get(symbol, {})
     f = {}
@@ -324,6 +332,13 @@ def compute_f_filters(symbol, tv_universe, tv_peers, sh, fin_quarters):
 
     f['f_score'] = sum(1 for k in ('F1','F2','F3','F4','F5','F6','F7') if f[k + '_pass'] is True)
     return f
+
+
+def compute_f_filters(symbol, tv_universe, tv_peers, sh, fin_quarters):
+    """Delegate F1–F7 decisions to the single authoritative engine."""
+    return _compute_authoritative_f_filters(
+        symbol, (tv_universe or {}).get(symbol, {}), sh, fin_quarters or []
+    )
 
 
 # ── 29 Questions framework ────────────────────────────────────────────────────
