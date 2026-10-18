@@ -73,7 +73,7 @@ class TvSourceTest(unittest.TestCase):
         self.assertEqual([len(c[0]) for c in q.calls], [2, 1])
         self.assertEqual(r["X1"]["market_cap"]["value"], 500.0)
         self.assertEqual(r["X3"]["ema20"]["value"], 3.0)
-        self.assertIsNone(r["X1"]["ema20"]["as_of"])
+        self.assertRegex(r["X1"]["ema20"]["as_of"], r"^\d{4}-\d{2}-\d{2}T")  # live query time, UTC
 
     def test_fixed_backoff_then_success_and_final_failure_none(self):
         q = Q(fail_times=2, rows=[{"symbol": "X1", "EMA20": 1.5}])
@@ -104,8 +104,63 @@ class TvSourceTest(unittest.TestCase):
     def test_field_map_columns_are_in_fetch_universe(self):
         src = open(os.path.join(os.path.dirname(__file__), "..", "..", "fetch_tv_universe.py"), encoding="utf-8").read()
         for f, m in FIELD_MAP.items():
-            if m["cache"] is not None and f not in ("high_52w", "low_52w"):
+            if m["cache"] is not None:
                 self.assertIn("'%s'" % m["col"], src, f)
+
+    def test_no_known_null_columns(self):
+        # verified live 2026-10-18: these names are accepted by the API but always return null for India
+        bad = {"price_to_book_fq", "total_debt_to_equity_fq", "52 Week High", "52 Week Low", "total_debt_to_equity"}
+        self.assertFalse(bad & {m["col"] for m in FIELD_MAP.values()})
+
+    def test_roce_unmapped_roic_never_used(self):
+        self.assertNotIn("roce", FIELD_MAP)
+        self.assertFalse([f for f, m in FIELD_MAP.items() if "invested_capital" in m["col"]])
+        self.assertEqual(FIELD_MAP["roce_fy"]["col"], "return_on_capital_employed_fy")
+
+    def test_real_captured_row_shape_live(self):
+        # shape captured from tradingview-screener live (india scan); NaN/None mixes are real TV behaviour
+        nan = float("nan")
+        row = {"symbol": "REAL1", "name": "REAL1", "exchange": "NSE", "price_book_fq": nan, "debt_to_equity": nan,
+               "return_on_equity": nan, "price_52_week_high": 1611.2, "total_assets": 1.9078e12,
+               "EMA200": 1322.66, "sector": "Energy Minerals", "beta_1_year": 0.94, "Value.Traded": 2.08e10}
+        r = self.mk(Q(rows=[row]))(["REAL1"], ["pb", "de_ratio", "roe", "high_52w", "total_assets", "ema200",
+                                              "sector", "beta_1y", "value_traded_day", "rsi"])["REAL1"]
+        for f in ("pb", "de_ratio", "roe", "rsi"):
+            self.assertIsNone(r[f], f)  # NaN / absent column -> None, never 0
+        self.assertEqual(r["high_52w"]["value"], 1611.2)
+        self.assertAlmostEqual(r["total_assets"]["value"], 190780.0)  # INR -> crore
+        self.assertEqual(r["sector"]["value"], "Energy Minerals")
+
+    def test_alias_resolves_bse_scrip_code_via_cache(self):
+        json.dump({"500001": "AAA"}, open(os.path.join(self.d, "tv_symbol_aliases.json"), "w"))
+        r = self.mk(Q())(["500001"], ["pe"])
+        self.assertEqual(r["500001"]["pe"]["value"], 11.5)
+
+    def test_ta_exception_is_none(self):
+        def boom(s, e):
+            raise RuntimeError("Exchange or symbol not found.")
+        fn = tradingview_adapter(cache_path=self.cp, query_fn=Q(), ta_fn=boom, history_fn=boom)
+        r = fn(["AAA"], ["ta_recommendation", "ohlcv"])
+        self.assertIsNone(r["AAA"]["ta_recommendation"])
+        self.assertIsNone(r["AAA"]["ohlcv"])
+
+    def test_registry_aliases_identical_metric(self):
+        self.assertIs(FIELD_MAP["pe_ttm"], FIELD_MAP["pe"])
+        self.assertEqual(FIELD_MAP["market_cap_cr"]["div"], 1e7)
+
+    def test_stage_writer_nulls_omitted_with_provenance(self):
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
+        import fetch_tv_universe as F
+        uni = {"AAA": {"exchange": "NSE", "pe": 11.5, "roe": None, "mrq_epoch": 1790726400.0}}
+        path = os.path.join(self.d, "stage.jsonl")
+        n, fills = F.write_stage(uni, {"AAA": "AAA", "NOPE": "NOPE"}, ["AAA", "NOPE"], "2026-10-18T00:00:00+00:00", path)
+        rows = [json.loads(l) for l in open(path, encoding="utf-8")]
+        self.assertEqual(n, 1)
+        self.assertEqual(rows[0]["field"], "pe_ttm")
+        self.assertEqual(rows[0]["source"], "tradingview")
+        self.assertEqual(rows[0]["as_of"], "2026-10-18T00:00:00+00:00")
+        self.assertEqual(rows[0]["period_end"], "2026-09-30")
+        self.assertNotIn("roe", fills)
 
     def test_waterfall_factory(self):
         fn = source_waterfall.tradingview_adapter(cache_path=self.cp, allow_live=False)

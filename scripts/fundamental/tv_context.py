@@ -97,9 +97,9 @@ def get_tv_context(symbol: str, tv_universe: Dict, tv_peers: Dict) -> Dict[str, 
       top_peers        list  — [{sym, name, exchange, mkt_cap_cr, pe, roe, opm, perf_1m, rec}]
 
     f_filter_tv:
-      F3_roce_tv       float|None  — proxy: roa * 1.5
+      F3_roce_tv       float|None  — TV return_on_capital_employed_fy (FY basis); None if absent
       F4_roe_tv        float|None  — TV ROE
-      F5_pledge_tv     float       — 0 (TV screener doesn't carry pledge)
+      F5_pledge_tv     None        — TV screener doesn't carry pledge; always None
       F6_inst_tv       float|None  — not available from TV screener (use DB shareholding)
     """
     u = tv_universe.get(symbol, {})
@@ -200,9 +200,10 @@ def get_tv_context(symbol: str, tv_universe: Dict, tv_peers: Dict) -> Dict[str, 
         },
 
         'f_filter_tv': {
-            'F3_roce_tv':  round(u['roa'] * 1.5, 1) if u.get('roa') else None,
+            # TV's own ROCE column (FY); never a proxy such as 1.5*ROA. None when TV has no value.
+            'F3_roce_tv':  _safe(u.get('roce_fy'), 1),
             'F4_roe_tv':   _safe(u.get('roe'), 1),
-            'F5_pledge_tv': 0.0,  # TV screener doesn't carry pledge data
+            'F5_pledge_tv': None,  # TV screener doesn't carry pledge data; unknown stays None, never 0
             'F6_inst_tv':  None,  # Not in TV screener; use DB shareholding
         },
     }
@@ -307,7 +308,7 @@ def format_for_29q(symbol: str, tv_universe: Dict, tv_peers: Dict) -> str:
     # F-filter TV proxies
     ff = ctx['f_filter_tv']
     ff_parts = []
-    if ff['F3_roce_tv']: ff_parts.append(f"F3 ROCE proxy (1.5×ROA): {ff['F3_roce_tv']:.1f}%")
+    if ff['F3_roce_tv']: ff_parts.append(f"F3 ROCE (TV FY): {ff['F3_roce_tv']:.1f}%")
     if ff['F4_roe_tv']:  ff_parts.append(f"F4 ROE (TV): {ff['F4_roe_tv']:.1f}%")
     ff_parts.append("F5 Pledge: not in TV screener (use FERE/DB)")
     ff_parts.append("F6 Institutional: not in TV screener (use DB shareholding)")
