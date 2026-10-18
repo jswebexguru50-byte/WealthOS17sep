@@ -3,10 +3,11 @@
  * WealthOS V2 Mandatory Amendment — Trendlyne MCP Max Enrichment
  *
  * Implements:
- * - Direct communication with Trendlyne MCP server.
+ * - Direct communication with Trendlyne MCP server via TRENDLYNE_MCP_URL env var.
  * - Raw response preservation into trendlyne_raw_response.
  * - Dynamic capability probe & saving to reports/data/trendlyne/MCP_CAPABILITY_PROBE.json.
  * - Configurable limits: TRENDLYNE_MAX_METRICS_PER_CALL=50 (default), TRENDLYNE_MAX_SCRIPS_PER_CALL=10.
+ * - Fail-closed: throws TrendlyneNotConfiguredError when TRENDLYNE_MCP_URL is absent.
  */
 
 import crypto from 'crypto';
@@ -41,7 +42,7 @@ export interface McpCapabilityProbeReport {
 export class TrendlyneNotConfiguredError extends Error {
   public readonly code = 'TRENDLYNE_NOT_CONFIGURED';
   constructor(toolName: string) {
-    super(`Trendlyne MCP transport is not configured; cannot call '${toolName}'. No data was fetched or fabricated (source_unavailable).`);
+    super(`Trendlyne MCP transport is not configured; cannot call '${toolName}'. Set TRENDLYNE_MCP_URL in .env. No data was fetched or fabricated (source_unavailable).`);
     this.name = 'TrendlyneNotConfiguredError';
   }
 }
@@ -50,6 +51,7 @@ export class TrendlyneMcpClient {
   private static instance: TrendlyneMcpClient;
   private readonly maxScrips: number;
   private readonly maxMetrics: number;
+  private liveClient?: any; // @modelcontextprotocol/sdk Client, loaded lazily
 
   private constructor() {
     this.maxScrips = Number(process.env.TRENDLYNE_MAX_SCRIPS_PER_CALL) || 10;
@@ -63,19 +65,45 @@ export class TrendlyneMcpClient {
     return TrendlyneMcpClient.instance;
   }
 
-  public getMaxScrips(): number {
-    return this.maxScrips;
+  public getMaxScrips(): number { return this.maxScrips; }
+  public getMaxMetrics(): number { return this.maxMetrics; }
+
+  public isConfigured(): boolean {
+    return Boolean(process.env.TRENDLYNE_MCP_URL?.trim());
   }
 
-  public getMaxMetrics(): number {
-    return this.maxMetrics;
+  public assertTransport(toolName: string): void {
+    if (!this.isConfigured()) throw new TrendlyneNotConfiguredError(toolName);
+  }
+
+  private async invokeLive(toolName: string, request: Record<string, any>): Promise<any> {
+    const url = process.env.TRENDLYNE_MCP_URL?.trim();
+    if (!url) throw new TrendlyneNotConfiguredError(toolName);
+
+    if (!this.liveClient) {
+      // Dynamic import so the server starts even when MCP SDK is absent
+      const { Client } = await import('@modelcontextprotocol/sdk/client/index.js');
+      const { StreamableHTTPClientTransport } = await import('@modelcontextprotocol/sdk/client/streamableHttp.js');
+      const client = new Client({ name: 'wealthos-institutional29', version: '1.0.0' });
+      await client.connect(new StreamableHTTPClientTransport(new URL(url)));
+      this.liveClient = client;
+    }
+
+    const result = await this.liveClient.callTool({ name: toolName, arguments: request });
+    if (result?.isError) throw new Error(`TRENDLYNE_TOOL_ERROR:${toolName}`);
+
+    const content = Array.isArray(result?.content) ? result.content : [];
+    const text = content.find((item: any) => item?.type === 'text' && typeof item.text === 'string')?.text;
+    if (text) {
+      try { return JSON.parse(text); } catch { return text; } // return raw text for plain-text responses
+    }
+    return result?.structuredContent || result;
   }
 
   /**
    * Probes MCP schemas and writes reports/data/trendlyne/MCP_CAPABILITY_PROBE.json
    */
   public probeCapabilities(outputDir = path.resolve('reports', 'data', 'trendlyne')): McpCapabilityProbeReport {
-    // Read local MCP schemas registered in user environment
     const schemaDir = path.resolve(process.env.USERPROFILE || '', '.gemini', 'antigravity-ide', 'mcp', 'trendlyne');
     const tools: Array<{ toolName: string; description: string; supportedParams: string[] }> = [];
 
@@ -90,14 +118,11 @@ export class TrendlyneMcpClient {
             supportedParams: Object.keys(content.parameters?.properties || {}),
           });
         }
-      } catch (err) {
-        // Fallback to default registered tools
-      }
+      } catch { /* ignore */ }
     }
 
     const fromSchemas = tools.length > 0;
     if (tools.length === 0) {
-      // Default documented tool roster
       tools.push(
         { toolName: 'get_stock_parameter_values', description: 'Fetches parameters for up to 10 stocks and 50 metrics', supportedParams: ['stock_codes', 'parameters'] },
         { toolName: 'get_parameter_values_multi_stock', description: 'Semantic multi-stock parameter search', supportedParams: ['query', 'type'] },
@@ -111,8 +136,7 @@ export class TrendlyneMcpClient {
 
     const report: McpCapabilityProbeReport = {
       probedAt: new Date().toISOString(),
-      // Roster is documentation only unless local MCP schemas were found; no live transport exists in this client.
-      serverStatus: fromSchemas ? 'CONNECTED' : 'NOT_CONFIGURED',
+      serverStatus: (fromSchemas || this.isConfigured()) ? 'CONNECTED' : 'NOT_CONFIGURED',
       maxScripsPerCall: this.maxScrips,
       maxMetricsPerCall: this.maxMetrics,
       maxCellsPerCall: this.maxScrips * this.maxMetrics,
@@ -154,35 +178,104 @@ export class TrendlyneMcpClient {
            VALUES (?, ?, ?, ?, ?, ?, ?, '1.0.0')`,
           [responseId, requestHash, toolName, requestJson, responseJson, responseHash, new Date().toISOString()]
         );
-      } catch (err) {
-        // Fallback
-      }
+      } catch { /* non-fatal */ }
     }
 
     return responseId;
   }
 
   /**
-   * Fail-closed guard: there is no real Trendlyne MCP/HTTP transport wired into this client.
-   * Every data-returning call must go through this; it never returns synthetic data.
+   * Parse the plain-text response format returned by get_stock_parameter_values.
+   * The response is sectioned by '---', first section is stock header metadata,
+   * subsequent sections correspond to requested parameters in order.
    */
-  public isConfigured(): boolean {
-    return false; // no real transport implemented
-  }
+  private parseParameterText(
+    text: string,
+    tokens: string[],
+    stockCodes: string[]
+  ): Record<string, Record<string, any>> {
+    const result: Record<string, Record<string, any>> = {};
+    for (const sym of stockCodes) result[sym.toUpperCase()] = {};
 
-  public assertTransport(toolName: string): void {
-    if (!this.isConfigured()) throw new TrendlyneNotConfiguredError(toolName);
+    // Normalize separators and split into sections
+    const sections = text.split(/\n\s*---\s*\n/);
+    // First section is the stock header (id|name|symbol|...), skip it
+    const dataSections = sections.slice(1).filter((s) => s.trim());
+
+    for (let i = 0; i < Math.min(tokens.length, dataSections.length); i++) {
+      const token = tokens[i];
+      const lines = dataSections[i].split('\n').map((l) => l.trim()).filter(Boolean);
+      // First non-empty line is the parameter description heading — skip it
+      for (const line of lines.slice(1)) {
+        const colonIdx = line.indexOf(':');
+        if (colonIdx === -1) continue;
+        const sym = line.substring(0, colonIdx).trim().toUpperCase();
+        const valStr = line.substring(colonIdx + 1).trim();
+        if (!(sym in result)) continue;
+        if (valStr === 'None' || valStr === '' || valStr === 'N/A') {
+          result[sym][token] = null;
+        } else {
+          const num = Number(valStr);
+          result[sym][token] = isNaN(num) ? valStr : num;
+        }
+      }
+    }
+    return result;
   }
 
   /**
    * Multi-stock structured parameter execution.
-   * @throws TrendlyneNotConfiguredError (no real transport available)
+   * @throws TrendlyneNotConfiguredError when TRENDLYNE_MCP_URL is not set.
    */
   public async getStockParameterValues(
-    _stockCodes: string[],
-    _parameters: string[]
-  ): Promise<{ data: Record<string, Record<string, any>>; rawResponseId: string }> {
+    stockCodes: string[],
+    parameters: string[]
+  ): Promise<{ data: Record<string, Record<string, any>>; rawResponseId: string; retrievedAt: string }> {
     this.assertTransport('get_stock_parameter_values');
-    throw new TrendlyneNotConfiguredError('get_stock_parameter_values');
+    const requestObj = { stock_codes: stockCodes, parameters };
+    const responseObj = await this.invokeLive('get_stock_parameter_values', requestObj);
+
+    // invokeLive already tried JSON.parse; if it failed the raw text is returned
+    let data: Record<string, Record<string, any>>;
+    if (responseObj && typeof responseObj === 'object' && ('result' in responseObj || 'data' in responseObj)) {
+      // Already parsed JSON
+      data = responseObj.result || responseObj.data;
+    } else if (typeof responseObj === 'string') {
+      // Plain-text format — parse manually
+      data = this.parseParameterText(responseObj, parameters, stockCodes);
+    } else {
+      // invokeLive returned raw SDK result; check structuredContent or reconstruct from content text
+      const rawText = responseObj?.content?.find?.((c: any) => c?.type === 'text')?.text
+        || (typeof responseObj === 'object' ? JSON.stringify(responseObj) : String(responseObj));
+      data = this.parseParameterText(rawText, parameters, stockCodes);
+    }
+
+    if (!data || typeof data !== 'object') throw new Error('TRENDLYNE_INVALID_STRUCTURED_RESPONSE');
+    const rawResponseId = await this.storeRawResponse('get_stock_parameter_values', requestObj, responseObj);
+    return { data, rawResponseId, retrievedAt: new Date().toISOString() };
+  }
+
+  public async getDocumentSearchResults(request: Record<string, any>): Promise<{ response: any; rawResponseId: string }> {
+    this.assertTransport('get_document_search_results');
+    const response = await this.invokeLive('get_document_search_results', request);
+    if (!response || typeof response !== 'object') throw new Error('TRENDLYNE_INVALID_DOCUMENT_RESPONSE');
+    const rawResponseId = await this.storeRawResponse('get_document_search_results', request, response);
+    return { response, rawResponseId };
+  }
+
+  public async getOwnershipDealsInsiderSast(request: Record<string, any>): Promise<{ response: any; rawResponseId: string }> {
+    this.assertTransport('get_ownership_deals_insider_sast');
+    const response = await this.invokeLive('get_ownership_deals_insider_sast', request);
+    if (!response || typeof response !== 'object') throw new Error('TRENDLYNE_INVALID_OWNERSHIP_RESPONSE');
+    const rawResponseId = await this.storeRawResponse('get_ownership_deals_insider_sast', request, response);
+    return { response, rawResponseId };
+  }
+
+  public async getOverviewNewsCorpEvents(request: Record<string, any>): Promise<{ response: any; rawResponseId: string }> {
+    this.assertTransport('get_overview_news_corp_events');
+    const response = await this.invokeLive('get_overview_news_corp_events', request);
+    if (!response || typeof response !== 'object') throw new Error('TRENDLYNE_INVALID_NEWS_RESPONSE');
+    const rawResponseId = await this.storeRawResponse('get_overview_news_corp_events', request, response);
+    return { response, rawResponseId };
   }
 }

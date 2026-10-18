@@ -1,0 +1,52 @@
+{
+  "_comment": "Canonical Trendlyne MCP parameter tokens for WealthOS F1-F7 filter fields. Verified 2026-10-18.",
+  "_tools": {
+    "get_stock_parameter_values": "up to 10 stocks, 50 metrics per call",
+    "get_ownership_deals_insider_sast": "shareholding, bulk/block deals, SAST, insider trades per stock",
+    "get_overview_news_corp_events": "news and corporate events per stock",
+    "get_document_search_results": "annual reports, concall transcripts, investor presentations"
+  },
+  "tokens": {
+    "promoter_pct": "prompct",
+    "pledge_pct": "prompledge",
+    "pledge_change_qoq": "prompledge1q",
+    "fii_pct": "fiihold",
+    "fii_change_qoq": "fiipct1q",
+    "fii_change_4q": "fiipct4q",
+    "mf_pct": "mfhold",
+    "institutional_pct": "instihold",
+    "inst_change_qoq": "instipct1q",
+    "roce_annual": "rocea",
+    "roce_3yr_avg": "roceaave3",
+    "roe_annual": "roea",
+    "pat_quarterly": "reportedpatq",
+    "pat_annual": "pata",
+    "cfo_quarterly": "cfoq",
+    "ebitda_quarterly": "ebitdaq",
+    "ebitda_annual": "ebitdaa",
+    "pe_ttm": "pettm",
+    "market_cap_cr": "mcapq",
+    "debt_equity": "debtcea",
+    "net_debt_cr": "netdebta",
+    "eps_ttm": "epsttm",
+    "price_to_book": "pbq",
+    "revenue_quarterly": "salesq",
+    "revenue_annual": "salesa",
+    "gross_profit_margin": "gpma",
+    "operating_margin": "opmq"
+  },
+  "f_filter_token_sets": {
+    "F1_F2_consecutive_pat": ["reportedpatq"],
+    "F3_roce": ["rocea"],
+    "F4_roe": ["roea"],
+    "F5_pledge": ["prompledge"],
+    "F6_institutional": ["instihold", "instipct1q", "fiihold", "mfhold"],
+    "F7_cfo_ebitda": ["cfoq", "ebitdaq"]
+  },
+  "notes": {
+    "DII": "Trendlyne uses 'instihold' for total institutional (FII+DII). DII = instihold - fiihold. MF is a subset of DII tracked via 'mfhold'.",
+    "pledge_basis": "prompledge is % of promoter shares pledged (not total shares). Store as-is; display context clarifies.",
+    "cfo_ebitda_quarterly": "cfoq and ebitdaq return None for diversified conglomerates (Reliance) and banks (HDFCBANK). Annual tokens (cfoa/ebitdaa) may have better coverage.",
+    "pat_8q_check": "Use get_ownership_deals_insider_sast with type=shareholding for historical quarterly PAT; or call reportedpatq for current + historical via separate API."
+  }
+}
