@@ -1,0 +1,462 @@
+"""
+run_scan_dossier.py
+===================
+Integrated orchestrator: TV data fetch → alphanumeric scan → F-filters → peers → dossier.
+
+Usage:
+  python run_scan_dossier.py                         # 7 sessions ending today
+  python run_scan_dossier.py --end 2026-10-16        # specific end date
+  python run_scan_dossier.py --end 2026-10-16 --days 7 --min-score 3
+  python run_scan_dossier.py --skip-tv-fetch         # reuse existing tv_universe.json
+
+Steps:
+  1. fetch_tv_universe.py   → tv_universe.json, tv_peers.json   (skipped if fresh + --skip-tv-fetch)
+  2. alphanumeric scan      → scan_results.json                  (C1-C7 against DailyOHLCV)
+  3. fundamentals merge     → fundamentals.json                  (F1-F7, TV data, DB shareholding)
+  4. dossier generation     → dossier_<date>.html
+"""
+import sys, json, os, sqlite3, math, argparse, shutil
+from datetime import datetime, timedelta, date
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'scripts', 'fundamental'))
+from f_filter_engine import evaluate_f_filters
+
+sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(PROJECT_ROOT, 'portfolio.db')
+TV_UNIVERSE_JSON = os.path.join(PROJECT_ROOT, 'tv_universe.json')
+TV_PEERS_JSON    = os.path.join(PROJECT_ROOT, 'tv_peers.json')
+TV_META_JSON     = os.path.join(PROJECT_ROOT, 'tv_universe_meta.json')
+
+def step_banner(n, title):
+    print(f"\n{'='*60}\nSTEP {n}: {title}\n{'='*60}")
+
+def tv_data_is_fresh(max_age_hours=12):
+    if not os.path.exists(TV_META_JSON): return False
+    with open(TV_META_JSON) as f: meta = json.load(f)
+    fetched = datetime.fromisoformat(meta.get('fetched_at', '2000-01-01'))
+    return (datetime.now() - fetched).total_seconds() < max_age_hours * 3600
+
+# ─────────────────────────────────────────────────────────
+# STEP 1: TV Universe + Peers
+# ─────────────────────────────────────────────────────────
+def run_tv_fetch(skip_if_fresh=False):
+    step_banner(1, "TV Universe + Peer Fetch (NSE + BSE)")
+    if skip_if_fresh and tv_data_is_fresh():
+        print("tv_universe.json is fresh (<12h old) — skipping re-fetch.")
+        with open(TV_UNIVERSE_JSON) as f: return json.load(f)
+    script = os.path.join(PROJECT_ROOT, 'fetch_tv_universe.py')
+    if not os.path.exists(script):
+        raise FileNotFoundError(f"fetch_tv_universe.py not found in {PROJECT_ROOT}")
+    import subprocess
+    result = subprocess.run([sys.executable, '-I', script, '--out', PROJECT_ROOT],
+                           capture_output=False)
+    if result.returncode != 0:
+        raise RuntimeError("fetch_tv_universe.py failed")
+    with open(TV_UNIVERSE_JSON) as f: return json.load(f)
+
+# ─────────────────────────────────────────────────────────
+# STEP 2: Alphanumeric Scan (C1-C7)
+# ─────────────────────────────────────────────────────────
+def run_scan(end_date, n_sessions=7, min_score=3):
+    step_banner(2, f"Alphanumeric Scan C1-C7 (last {n_sessions} sessions ending {end_date})")
+    import numpy as np
+
+    con = sqlite3.connect(DB_PATH)
+
+    # Get last n_sessions trading dates up to end_date
+    dates = [r[0] for r in con.execute("""
+        SELECT DISTINCT trade_date FROM DailyOHLCV
+        WHERE trade_date <= ? ORDER BY trade_date DESC LIMIT ?
+    """, (end_date, n_sessions)).fetchall()]
+    if not dates:
+        raise RuntimeError(f"No DailyOHLCV data for dates up to {end_date}")
+    dates.reverse()
+    session_start, session_end = dates[0], dates[-1]
+    print(f"Sessions: {session_start} to {session_end} ({len(dates)} days)")
+
+    # Load 220 sessions per symbol for SMA200
+    all_dates = [r[0] for r in con.execute("""
+        SELECT DISTINCT trade_date FROM DailyOHLCV
+        WHERE trade_date <= ? ORDER BY trade_date DESC LIMIT 220
+    """, (end_date,)).fetchall()]
+    all_dates.reverse()
+    cutoff = all_dates[0]
+
+    # Only symbols/dates in [cutoff, session_end] are needed; batch by symbol so
+    # idx_daily_ohlcv_sym(symbol, trade_date) serves each range scan.
+    from collections import defaultdict
+    symbols = [r[0] for r in con.execute(
+        "SELECT DISTINCT symbol FROM DailyOHLCV WHERE trade_date >= ? AND trade_date <= ? ORDER BY symbol",
+        (cutoff, session_end))]
+    BATCH = 500
+
+    def _batches():
+        for i in range(0, len(symbols), BATCH):
+            chunk = symbols[i:i+BATCH]
+            rows = con.execute(
+                "SELECT symbol, trade_date, open, high, low, close, volume FROM DailyOHLCV "
+                f"WHERE symbol IN ({','.join('?'*len(chunk))}) AND trade_date >= ? AND trade_date <= ? "
+                "ORDER BY symbol, trade_date", (*chunk, cutoff, session_end)).fetchall()
+            sd = defaultdict(list)
+            for r in rows:
+                sd[r[0]].append(r[1:])  # (date, o, h, l, c, vol)
+            yield sd
+
+    results = []
+    for sym_data in _batches():
+     for sym, ohlcv in sym_data.items():
+            if len(ohlcv) < 20: continue
+            dates_s = [r[0] for r in ohlcv]
+            closes  = [r[4] for r in ohlcv]
+            volumes = [r[5] for r in ohlcv]
+
+            # Get indices for session window
+            sess_idx = [i for i, d in enumerate(dates_s) if d >= session_start]
+            if len(sess_idx) < n_sessions: continue
+            sess_idx = sess_idx[-n_sessions:]
+            if not sess_idx: continue
+
+            last_idx = sess_idx[-1]
+            last_close = closes[last_idx]
+            if not last_close or last_close <= 0: continue
+
+            # SMA20, SMA200
+            sma20  = np.mean(closes[max(0,last_idx-19):last_idx+1]) if last_idx >= 19 else None
+            sma200 = np.mean(closes[max(0,last_idx-199):last_idx+1]) if last_idx >= 199 else None
+
+            # RSI-14
+            delta = np.diff(closes[max(0,last_idx-14):last_idx+1])
+            gains = [max(d,0) for d in delta]; losses = [-min(d,0) for d in delta]
+            avg_g = np.mean(gains) if gains else 0; avg_l = np.mean(losses) if losses else 0
+            rsi = 100 - 100/(1 + avg_g/avg_l) if avg_l > 0 else (100 if avg_g > 0 else 50)
+
+            # 7-session window stats
+            sess_closes  = [closes[i] for i in sess_idx]
+            sess_volumes = [volumes[i] for i in sess_idx]
+            first_close = sess_closes[0] if sess_closes[0] else None
+            ret7 = (last_close/first_close - 1)*100 if first_close else 0
+            hi7  = max(sess_closes)
+
+            # Volume 20-day avg
+            vol20 = np.mean(volumes[max(0,last_idx-19):last_idx+1])
+            last_vol = volumes[last_idx]
+
+            # Criteria
+            C1 = sma20  is not None and last_close > sma20
+            C2 = sma200 is not None and last_close > sma200
+            C3 = ret7 > 0
+            C4 = 40 <= rsi <= 70
+            C5 = vol20 > 0 and last_vol > vol20 * 1.2
+            C6 = np.mean(sess_closes[-3:]) > np.mean(sess_closes[:3]) * 0.97 if len(sess_closes) >= 6 else False
+            C7 = hi7 > 0 and last_close >= hi7 * 0.87
+
+            score = sum([C1,C2,C3,C4,C5,C6,C7])
+            if score >= min_score:
+                results.append({
+                    'symbol': sym, 'score': score, 'ret7': round(ret7,2),
+                    'last_close': round(last_close,2), 'rsi': round(rsi,1),
+                    'sma20': round(sma20,2) if sma20 else None,
+                    'sma200': round(sma200,2) if sma200 else None,
+                    'hi7': round(hi7,2), 'last_vol': int(last_vol), 'vol20': round(vol20,1),
+                    'session_start': session_start, 'session_end': session_end,
+                    'C1':int(C1),'C2':int(C2),'C3':int(C3),'C4':int(C4),
+                    'C5':int(C5),'C6':int(C6),'C7':int(C7),
+                })
+
+    con.close()
+    results.sort(key=lambda x: (-x['score'], -x['ret7'], x['symbol']))
+    print(f"Qualifying stocks (≥{min_score}/7): {len(results)}")
+    return results
+
+# ─────────────────────────────────────────────────────────
+# STEP 3: Fundamentals merge (TV + DB shareholding/financials)
+# ─────────────────────────────────────────────────────────
+def run_fundamentals(scan_results, tv_universe):
+    step_banner(3, "Fundamentals Merge (TV data + DB shareholding + DB financials)")
+    qualifying_symbols = set(r['symbol'] for r in scan_results)
+
+    # Build tv_dict from tv_universe (with compat aliases)
+    tv_dict = {}
+    for sym, entry in tv_universe.items():
+        tv_dict[sym] = {**entry, 'rsi_tv': entry.get('rsi'),
+                        'sma20_tv': entry.get('sma20'), 'sma200_tv': entry.get('sma200')}
+    matched_tv = sum(1 for s in qualifying_symbols if s in tv_dict)
+    print(f"TV matched: {matched_tv}/{len(qualifying_symbols)}")
+
+    con = sqlite3.connect(DB_PATH)
+
+    syms = sorted(qualifying_symbols)
+    chunks = [syms[i:i+900] for i in range(0, len(syms), 900)]
+    sh_cols = {r[1] for r in con.execute("PRAGMA table_info(HistoricalShareholdingPattern)")}
+    pledge_sel = "h.pledge_pct" if 'pledge_pct' in sh_cols else "NULL"
+
+    # Shareholding (latest row per qualifying symbol)
+    sh_dict = {}
+    for ch in chunks:
+        ph = ','.join('?'*len(ch))
+        for r in con.execute(f"""
+            SELECT h.symbol, h.promoter_pct, h.fii_pct, h.dii_pct, h.public_pct,
+                   h.free_float_pct, h.quarter_label, h.as_of_date, {pledge_sel} as pledge_pct
+            FROM HistoricalShareholdingPattern h
+            INNER JOIN (SELECT symbol, MAX(as_of_date) md FROM HistoricalShareholdingPattern
+                        WHERE symbol IN ({ph}) GROUP BY symbol) l
+            ON h.symbol=l.symbol AND h.as_of_date=l.md
+            WHERE h.symbol IN ({ph})
+        """, (*ch, *ch)):
+            sh_dict[r[0]] = {'promoter_pct':r[1],'fii_pct':r[2],'dii_pct':r[3],
+                          'public_pct':r[4],'free_float_pct':r[5],'sh_quarter':r[6],
+                          'sh_date':r[7],'pledge_pct':r[8]}
+    print(f"Shareholding: {len(sh_dict)} symbols in DB")
+
+    # Financials (all quarters per qualifying symbol; F2 needs >=8)
+    fin_dict = {}
+    for ch in chunks:
+        ph = ','.join('?'*len(ch))
+        for row in con.execute(f"""
+            SELECT symbol, period_label, statement_type, net_profit_pat_cr, sales_cr,
+                   opm_pct, cfo_cr, borrowings_cr, total_assets_cr, equity_capital_cr,
+                   reserves_cr, eps
+            FROM HistoricalFinancialStatements
+            WHERE (statement_type LIKE 'QUARTERLY%' OR statement_type LIKE 'Q%')
+              AND symbol IN ({ph})
+            ORDER BY symbol, period_label DESC
+        """, ch):
+            fin_dict.setdefault(row[0], []).append({
+                'period':row[1],'pat_cr':row[3],'sales_cr':row[4],'opm_pct':row[5],
+                'cfo_cr':row[6],'borrowings_cr':row[7],'total_assets_cr':row[8],
+                'equity_cr':row[9],'reserves_cr':row[10],'eps':row[11],
+            })
+    con.close()
+    print(f"Financials: {len(fin_dict)} symbols in DB")
+
+    def compute_f(sym, tv, sh, fin_q):
+        pats = [q['pat_cr'] for q in (fin_q or [])[:8] if q['pat_cr'] is not None]
+        roce = None
+        if fin_q:
+            q=fin_q[0]; opm=q.get('opm_pct') or 0; sales=q.get('sales_cr') or 0
+            ta=q.get('total_assets_cr') or 0; borr=q.get('borrowings_cr') or 0
+            ce=ta-borr
+            if ce>0 and sales>0: roce=round((opm/100)*sales*4/ce*100,1)
+        if roce is None and tv and tv.get('roa'): roce=round(tv['roa']*1.5,1)
+        roe_tv=tv.get('roe') if tv else None
+        roe_db=None
+        if fin_q:
+            q=fin_q[0]; pat=q.get('pat_cr') or 0; eq=(q.get('equity_cr') or 0)+(q.get('reserves_cr') or 0)
+            if eq>0 and pat: roe_db=round(pat*4/eq*100,1)
+        roe=roe_tv or roe_db
+        cfoeb=None
+        if fin_q:
+            r4=fin_q[:4]; cfo_s=sum((q.get('cfo_cr') or 0) for q in r4)
+            eb_s=sum(((q.get('opm_pct') or 0)/100)*(q.get('sales_cr') or 0) for q in r4)
+            if eb_s>0 and cfo_s: cfoeb=round(cfo_s/eb_s,2)
+        sh = sh or {}
+        res = evaluate_f_filters({
+            'pats': pats, 'promoter_pct': sh.get('promoter_pct'), 'pledge_pct': sh.get('pledge_pct'),
+            'roce': roce, 'roe': roe, 'fii_pct': sh.get('fii_pct'), 'dii_pct': sh.get('dii_pct'),
+            'cfo_ebitda': cfoeb})
+        f = dict(res)
+        f.update(F1_promoter_pct=sh.get('promoter_pct'), F2_quarters_checked=len(pats),
+                 F2_pats=[round(p,1) for p in pats], F3_roce=roce, F4_roe=roe,
+                 F5_pledge_pct=sh.get('pledge_pct'), F7_cfo_ebitda=cfoeb)
+        f['f_score']=sum(1 for k in ('F1_pass','F2_pass','F3_pass','F4_pass','F5_pass','F6_pass','F7_pass') if f.get(k))
+        return f
+
+    merged = []
+    for r in scan_results:
+        sym=r['symbol']; tv=tv_dict.get(sym); sh=sh_dict.get(sym); fin_q=fin_dict.get(sym,[])
+        merged.append({**r,'tv':tv or {},'sh':sh or {},'fin_latest':fin_q[0] if fin_q else {},
+                        'fin_quarters':fin_q[:8],'f_filters':compute_f(sym,tv,sh,fin_q)})
+    print(f"Merged {len(merged)} stocks | TV:{matched_tv} | SH:{sum(1 for m in merged if m['sh'])} | FIN:{sum(1 for m in merged if m['fin_quarters'])}")
+    return merged
+
+# ─────────────────────────────────────────────────────────
+# STEP 4: Dossier HTML
+# ─────────────────────────────────────────────────────────
+def run_dossier(merged, peers_db, out_path):
+    step_banner(4, f"Generating Dossier → {out_path}")
+    import json as _json
+
+    data = sorted(merged, key=lambda x: (-x['score'], -x['ret7']))
+    total = len(data)
+    score_dist = {}
+    for r in data: score_dist[r['score']] = score_dist.get(r['score'],0)+1
+
+    def n(v,d=1):
+        if v is None or (isinstance(v,float) and (math.isnan(v) or math.isinf(v))): return None
+        try: return round(float(v),d)
+        except: return None
+
+    stock_js = []
+    for r in data:
+        sym=r['symbol']; tv=r.get('tv') or {}; f=r.get('f_filters') or {}; sh=r.get('sh') or {}
+        c=[1 if r.get(f'C{i+1}') else 0 for i in range(7)]
+        fv=[1 if f.get(f'F{i+1}_pass') else 0 for i in range(7)]
+        shi=(sh.get('fii_pct') or 0)+(sh.get('dii_pct') or 0)
+        stock_js.append([
+            sym,r['score'],n(r['ret7'],2),n(r['last_close'],2),n(r.get('rsi'),1),
+            n(tv.get('mkt_cap_cr'),0),n(tv.get('roe'),1),n(tv.get('opm'),1),n(tv.get('pe'),1),
+            tv.get('sector') or '',c,fv,f.get('f_score',0),n(f.get('F3_roce'),1),n(f.get('F4_roe'),1),
+            n(sh.get('promoter_pct'),1),n(shi,1),sh.get('sh_quarter') or '',
+            n(r.get('sma20'),2),n(r.get('sma200'),2),n(tv.get('rel_vol'),2),n(r.get('hi7'),2),
+            tv.get('tv_name') or sym,n(tv.get('pb'),2),n(tv.get('de_ratio'),2),
+            n(tv.get('eps'),2),n(tv.get('revenue_cr'),0),n(tv.get('net_income_cr'),0),
+            n(tv.get('div_yield'),1),n(tv.get('rec_all'),3),
+            n(tv.get('perf_w'),1),n(tv.get('perf_1m'),1),n(tv.get('perf_3m'),1),
+            n(tv.get('high_52w'),2),n(tv.get('low_52w'),2),n(tv.get('roa'),1),
+            f.get('F2_quarters_checked',0),n(f.get('F7_cfo_ebitda'),2),
+        ])
+
+    peer_js = {}
+    for r in data:
+        sym=r['symbol']; p=peers_db.get(sym)
+        if not p: continue
+        med=p.get('medians') or {}; pct=p.get('percentiles') or {}; top=(p.get('top_peers') or [])[:8]
+        peer_js[sym]={
+            's':p.get('sector',''),'i':p.get('industry') or '','pl':p.get('peer_pool',''),'n':p.get('n_peers',0),
+            'm':[n(med.get('pe'),1),n(med.get('roe'),1),n(med.get('opm'),1),n(med.get('pb'),2),n(med.get('de'),2)],
+            'p':[pct.get('roe_pct'),pct.get('opm_pct'),pct.get('pe_pct'),pct.get('mc_rank'),pct.get('mc_total')],
+            't':[[q.get('sym'),(q.get('name') or '')[:20],n(q.get('mkt_cap_cr'),0),n(q.get('pe'),1),
+                  n(q.get('roe'),1),n(q.get('opm'),1),n(q.get('perf_1m'),1),n(q.get('rec'),2)] for q in top],
+        }
+
+    score7 = ', '.join(r['symbol'] for r in data if r['score']==7)[:120]
+    end_date = data[0]['session_end'] if data else 'N/A'
+    start_date = data[0]['session_start'] if data else 'N/A'
+
+    # Minimal inline HTML with same JS engine as dossier_v3
+    stock_json = _json.dumps(stock_js, separators=(',',':'))
+    peer_json  = _json.dumps(peer_js,  separators=(',',':'))
+
+    # Read dossier v3 generator output as template base (reuse CSS+JS from gen_dossier_v3)
+    # Instead, embed directly here for portability
+    from gen_dossier_v3 import CSS, JS as JS_TEMPLATE  # type: ignore
+    # fallback if import fails
+    CSS_FALLBACK = "body{font-family:sans-serif;margin:16px}"
+    try:
+        from importlib.util import spec_from_file_location, module_from_spec
+        spec = spec_from_file_location("gen_v3",
+            os.path.join(os.path.dirname(__file__), 'gen_dossier_v3.py'))
+    except Exception:
+        CSS_FALLBACK = None
+
+    # Write dossier using same pattern as gen_dossier_v3.py (inline reuse)
+    import subprocess, tempfile
+    # Write data to temp files and call gen_dossier_v3 equivalent inline
+    # For simplicity, reuse the scratchpad gen script via subprocess if available
+    gen_v3 = os.path.join(os.path.dirname(__file__), 'gen_dossier_v3.py')
+    if not os.path.exists(gen_v3):
+        # Look in scratchpad
+        import glob
+        candidates = glob.glob(r'C:\Users\GOPALS~1\AppData\Local\Temp\claude\**\gen_dossier_v3.py', recursive=True)
+        if candidates: gen_v3 = candidates[0]
+
+    if os.path.exists(gen_v3):
+        # Write temp inputs pointing to our in-memory data via temp files
+        import tempfile, shutil as _sh
+        tmp_dir = tempfile.mkdtemp()
+        try:
+            fund_tmp = os.path.join(tmp_dir, 'fundamentals.json')
+            peer_tmp = os.path.join(tmp_dir, 'peers.json')
+            with open(fund_tmp,'w') as f: _json.dump(merged, f)
+            with open(peer_tmp,'w') as f: _json.dump(peers_db, f)
+            # Patch paths in a temp copy of gen_dossier_v3.py
+            with open(gen_v3) as f: src=f.read()
+            src = src.replace(
+                "r'C:\\Users\\GOPALS~1\\AppData\\Local\\Temp\\claude\\C--Users-GopalSharma-Downloads-WealthOS-04-Oct\\17b60ba3-2b72-4551-8569-e46cbe4af79c\\scratchpad\\fundamentals_oct16.json'",
+                repr(fund_tmp))
+            src = src.replace(
+                "r'C:\\Users\\GOPALS~1\\AppData\\Local\\Temp\\claude\\C--Users-GopalSharma-Downloads-WealthOS-04-Oct\\17b60ba3-2b72-4551-8569-e46cbe4af79c\\scratchpad\\peers_oct16.json'",
+                repr(peer_tmp))
+            src = src.replace(
+                "r'C:\\Users\\GOPALS~1\\AppData\\Local\\Temp\\claude\\C--Users-GopalSharma-Downloads-WealthOS-04-Oct\\17b60ba3-2b72-4551-8569-e46cbe4af79c\\scratchpad\\dossier_v3.html'",
+                repr(out_path))
+            patched = os.path.join(tmp_dir, 'gen_dossier_v3_run.py')
+            with open(patched,'w') as f: f.write(src)
+            result = subprocess.run([sys.executable, '-I', patched], capture_output=False)
+            if result.returncode == 0 and os.path.exists(out_path):
+                sz = os.path.getsize(out_path)
+                print(f"Dossier: {out_path} ({sz/1024/1024:.1f} MB)")
+                return out_path
+        finally:
+            _sh.rmtree(tmp_dir, ignore_errors=True)
+
+    print("WARNING: Could not run gen_dossier_v3.py; dossier not generated.")
+    return None
+
+# ─────────────────────────────────────────────────────────
+# MAIN
+# ─────────────────────────────────────────────────────────
+def main():
+    parser = argparse.ArgumentParser(description='Run full scan + dossier pipeline')
+    parser.add_argument('--end',  default=date.today().isoformat(), help='End date YYYY-MM-DD')
+    parser.add_argument('--days', type=int, default=7, help='Number of trading sessions')
+    parser.add_argument('--min-score', type=int, default=3, help='Minimum C score (1-7)')
+    parser.add_argument('--skip-tv-fetch', action='store_true', help='Reuse existing tv_universe.json if fresh')
+    parser.add_argument('--29q', dest='run_29q', action='store_true',
+                        help='Run 29Q research on high-score stocks (≥6/7 by default, or use --29q-min-score)')
+    parser.add_argument('--29q-min-score', dest='q29_min_score', type=int, default=6,
+                        help='Minimum C-score for 29Q research (default: 6)')
+    parser.add_argument('--29q-top', dest='q29_top', type=int, default=0,
+                        help='Limit 29Q to top N stocks; 0 = all qualifying (default: 0)')
+    args = parser.parse_args()
+
+    t0 = datetime.now()
+    print(f"\n{'#'*60}")
+    print(f"# WealthOS Scan + Dossier Pipeline")
+    print(f"# End date: {args.end} | Sessions: {args.days} | Min score: {args.min_score}")
+    if args.run_29q:
+        print(f"# 29Q research: ON (C≥{args.q29_min_score}" + (f", top {args.q29_top}" if args.q29_top else ", all qualifying") + ")")
+    print(f"{'#'*60}")
+
+    # Step 1: TV data
+    tv_universe = run_tv_fetch(skip_if_fresh=args.skip_tv_fetch)
+
+    # Load peers
+    peers_db = {}
+    if os.path.exists(TV_PEERS_JSON):
+        with open(TV_PEERS_JSON) as f: peers_db = json.load(f)
+        print(f"Peer data: {len(peers_db)} stocks")
+
+    # Step 2: Scan
+    scan_results = run_scan(args.end, n_sessions=args.days, min_score=args.min_score)
+    if not scan_results:
+        print("No qualifying stocks. Exiting."); return
+
+    # Step 3: Fundamentals
+    merged = run_fundamentals(scan_results, tv_universe)
+
+    # Step 4: Dossier
+    label = args.end.replace('-','')
+    out_path = os.path.join(PROJECT_ROOT, f'dossier_{label}.html')
+    run_dossier(merged, peers_db, out_path)
+
+    # Step 5 (optional): 29Q research on high-conviction stocks
+    if args.run_29q:
+        import subprocess as _sp
+        run_29q_script = os.path.join(PROJECT_ROOT, 'scripts', 'fundamental', 'run_29q_with_tv.py')
+        if not os.path.exists(run_29q_script):
+            print("[29Q] WARNING: run_29q_with_tv.py not found; skipping 29Q step.")
+        else:
+            # Save scan results to temp JSON for 29Q runner to consume
+            import tempfile
+            tmp_scan = os.path.join(tempfile.gettempdir(), f'scan_{label}_for_29q.json')
+            with open(tmp_scan, 'w') as f: json.dump(scan_results, f)
+            cmd = [sys.executable, '-I', run_29q_script,
+                   '--from-scan', tmp_scan,
+                   '--min-score', str(args.q29_min_score),
+                   '--out', PROJECT_ROOT]
+            if args.q29_top:
+                cmd += ['--top', str(args.q29_top)]
+            step_banner(5, f"29Q Research (C≥{args.q29_min_score})")
+            result = _sp.run(cmd, capture_output=False)
+            if result.returncode != 0:
+                print("[29Q] 29Q runner exited with errors.")
+            else:
+                print(f"[29Q] 29Q research complete. See 29q_results_{args.end}.json and 29q_summary_{args.end}.md")
+
+    elapsed = (datetime.now()-t0).total_seconds()
+    print(f"\n{'='*60}\nPipeline done in {elapsed:.0f}s | Output: {out_path}\n{'='*60}")
+
+if __name__ == '__main__':
+    main()
