@@ -18,7 +18,7 @@ Steps:
 import sys, json, os, sqlite3, math, argparse, shutil
 from datetime import datetime, timedelta, date
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'scripts', 'fundamental'))
-from f_filter_engine import evaluate_f_filters
+from f_filter_engine import evaluate_f_filters, roce_trailing_4q
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
@@ -184,30 +184,45 @@ def run_fundamentals(scan_results, tv_universe):
     matched_tv = sum(1 for s in qualifying_symbols if s in tv_dict)
     print(f"TV matched: {matched_tv}/{len(qualifying_symbols)}")
 
-    con = sqlite3.connect(DB_PATH)
+    con = sqlite3.connect('file:' + DB_PATH.replace(chr(92),'/') + '?mode=ro', uri=True)
 
     syms = sorted(qualifying_symbols)
     chunks = [syms[i:i+900] for i in range(0, len(syms), 900)]
     sh_cols = {r[1] for r in con.execute("PRAGMA table_info(HistoricalShareholdingPattern)")}
     pledge_sel = "h.pledge_pct" if 'pledge_pct' in sh_cols else "NULL"
 
-    # Shareholding (latest row per qualifying symbol)
-    sh_dict = {}
+    # Shareholding: latest + previous quarter per symbol. as_of_date is NULL for
+    # many rows, so order by as_of_date when present else by parsed quarter_label.
+    _MON = {m: i for i, m in enumerate(
+        ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'], 1)}
+    def _sh_key(as_of, label):
+        if as_of: return str(as_of)[:10]
+        try:
+            mon, yr = str(label).strip().split()[:2]
+            return f"{int(yr):04d}-{_MON[mon[:3].lower()]:02d}-28"
+        except Exception:
+            return ''
+    sh_rows = {}
     for ch in chunks:
         ph = ','.join('?'*len(ch))
         for r in con.execute(f"""
             SELECT h.symbol, h.promoter_pct, h.fii_pct, h.dii_pct, h.public_pct,
                    h.free_float_pct, h.quarter_label, h.as_of_date, {pledge_sel} as pledge_pct
             FROM HistoricalShareholdingPattern h
-            INNER JOIN (SELECT symbol, MAX(as_of_date) md FROM HistoricalShareholdingPattern
-                        WHERE symbol IN ({ph}) GROUP BY symbol) l
-            ON h.symbol=l.symbol AND h.as_of_date=l.md
-            WHERE h.symbol IN ({ph})
-        """, (*ch, *ch)):
-            sh_dict[r[0]] = {'promoter_pct':r[1],'fii_pct':r[2],'dii_pct':r[3],
-                          'public_pct':r[4],'free_float_pct':r[5],'sh_quarter':r[6],
-                          'sh_date':r[7],'pledge_pct':r[8]}
-    print(f"Shareholding: {len(sh_dict)} symbols in DB")
+            WHERE h.symbol IN ({ph})""", ch):
+            sh_rows.setdefault(r[0], []).append((_sh_key(r[7], r[6]), r))
+    sh_dict = {}; prev_inst = {}
+    for sym_, rows in sh_rows.items():
+        rows.sort(key=lambda x: x[0], reverse=True)
+        r = rows[0][1]
+        sh_dict[sym_] = {'promoter_pct':r[1],'fii_pct':r[2],'dii_pct':r[3],
+                         'public_pct':r[4],'free_float_pct':r[5],'sh_quarter':r[6],
+                         'sh_date':r[7],'pledge_pct':r[8]}
+        if len(rows) > 1 and rows[1][0]:
+            p_ = rows[1][1]
+            if p_[2] is not None and p_[3] is not None:
+                prev_inst[sym_] = p_[2] + p_[3]
+    print(f"Shareholding: {len(sh_dict)} symbols in DB; prev-quarter: {len(prev_inst)}")
 
     # Financials (all quarters per qualifying symbol; F2 needs >=8)
     fin_dict = {}
@@ -232,33 +247,51 @@ def run_fundamentals(scan_results, tv_universe):
 
     def compute_f(sym, tv, sh, fin_q):
         pats = [q['pat_cr'] for q in (fin_q or [])[:8] if q['pat_cr'] is not None]
-        roce = None
+        # Missing financial input => metric unknown (None); never substituted by 0.
+        def _ebit(x):
+            o, s_ = x.get('opm_pct'), x.get('sales_cr')
+            return None if o is None or s_ is None else (o/100)*s_
+        roce = None; roce_method = None
         if fin_q:
-            q=fin_q[0]; opm=q.get('opm_pct') or 0; sales=q.get('sales_cr') or 0
-            ta=q.get('total_assets_cr') or 0; borr=q.get('borrowings_cr') or 0
-            ce=ta-borr
-            if ce>0 and sales>0: roce=round((opm/100)*sales*4/ce*100,1)
-        if roce is None and tv and tv.get('roa'): roce=round(tv['roa']*1.5,1)
+            q=fin_q[0]; ta=q.get('total_assets_cr'); borr=q.get('borrowings_cr')
+            ce = None if ta is None or borr is None else ta-borr
+            if ce is not None and ce>0:
+                ebit4 = [_ebit(x) for x in fin_q[:4]]
+                r4 = roce_trailing_4q(ebit4, ce) if len(ebit4) == 4 else None
+                if r4 is not None:
+                    roce = round(r4,1); roce_method = 'trailing4q'
+                eb1 = _ebit(q)
+                if roce is None and eb1 is not None and q.get('sales_cr')>0:
+                    roce=round(eb1*4/ce*100,1); roce_method = 'single_q_x4'
+        if roce is None and tv and tv.get('roa'):
+            roce=round(tv['roa']*1.5,1); roce_method = 'tv_roa_fallback'
         roe_tv=tv.get('roe') if tv else None
         roe_db=None
         if fin_q:
-            q=fin_q[0]; pat=q.get('pat_cr') or 0; eq=(q.get('equity_cr') or 0)+(q.get('reserves_cr') or 0)
-            if eq>0 and pat: roe_db=round(pat*4/eq*100,1)
-        roe=roe_tv or roe_db
-        cfoeb=None
-        if fin_q:
-            r4=fin_q[:4]; cfo_s=sum((q.get('cfo_cr') or 0) for q in r4)
-            eb_s=sum(((q.get('opm_pct') or 0)/100)*(q.get('sales_cr') or 0) for q in r4)
-            if eb_s>0 and cfo_s: cfoeb=round(cfo_s/eb_s,2)
+            q=fin_q[0]; pat=q.get('pat_cr'); e_,r_=q.get('equity_cr'),q.get('reserves_cr')
+            eq = None if e_ is None or r_ is None else e_+r_
+            if pat is not None and eq is not None and eq>0: roe_db=round(pat*4/eq*100,1)
+        roe=roe_tv if roe_tv is not None else roe_db
+        cfoeb=None; cfo_s=None; eb_s=None
+        r4=(fin_q or [])[:4]
+        # Need all 4 quarters with known inputs; otherwise F7 is unknown (partial sum is not TTM).
+        if len(r4)==4 and all(q.get('cfo_cr') is not None for q in r4) and all(_ebit(q) is not None for q in r4):
+            cfo_s=sum(q['cfo_cr'] for q in r4); eb_s=sum(_ebit(q) for q in r4)
+            if eb_s>0: cfoeb=round(cfo_s/eb_s,2)
         sh = sh or {}
+        fii_, dii_ = sh.get('fii_pct'), sh.get('dii_pct')
+        inst_now = (fii_+dii_) if fii_ is not None and dii_ is not None else None
+        inst_chg = (inst_now - prev_inst[sym]) if inst_now is not None and sym in prev_inst else None
         res = evaluate_f_filters({
+            'inst_pct': inst_now, 'inst_change_pp': inst_chg,
             'pats': pats, 'promoter_pct': sh.get('promoter_pct'), 'pledge_pct': sh.get('pledge_pct'),
             'roce': roce, 'roe': roe, 'fii_pct': sh.get('fii_pct'), 'dii_pct': sh.get('dii_pct'),
-            'cfo_ebitda': cfoeb})
+            'cfo_ebitda': cfoeb, 'cfo': cfo_s, 'ebitda': eb_s})
         f = dict(res)
         f.update(F1_promoter_pct=sh.get('promoter_pct'), F2_quarters_checked=len(pats),
                  F2_pats=[round(p,1) for p in pats], F3_roce=roce, F4_roe=roe,
-                 F5_pledge_pct=sh.get('pledge_pct'), F7_cfo_ebitda=cfoeb)
+                 F5_pledge_pct=sh.get('pledge_pct'), F7_cfo_ebitda=cfoeb,
+                 F3_roce_method=roce_method, F6_inst_change_pp=None if inst_chg is None else round(inst_chg,3))
         f['f_score']=sum(1 for k in ('F1_pass','F2_pass','F3_pass','F4_pass','F5_pass','F6_pass','F7_pass') if f.get(k))
         return f
 
@@ -291,8 +324,8 @@ def run_dossier(merged, peers_db, out_path):
     for r in data:
         sym=r['symbol']; tv=r.get('tv') or {}; f=r.get('f_filters') or {}; sh=r.get('sh') or {}
         c=[1 if r.get(f'C{i+1}') else 0 for i in range(7)]
-        fv=[1 if f.get(f'F{i+1}_pass') else 0 for i in range(7)]
-        shi=(sh.get('fii_pct') or 0)+(sh.get('dii_pct') or 0)
+        fv=[None if f.get(f'F{i+1}_pass') is None else (1 if f.get(f'F{i+1}_pass') else 0) for i in range(7)]
+        shi=(sh['fii_pct']+sh['dii_pct']) if sh.get('fii_pct') is not None and sh.get('dii_pct') is not None else None
         stock_js.append([
             sym,r['score'],n(r['ret7'],2),n(r['last_close'],2),n(r.get('rsi'),1),
             n(tv.get('mkt_cap_cr'),0),n(tv.get('roe'),1),n(tv.get('opm'),1),n(tv.get('pe'),1),

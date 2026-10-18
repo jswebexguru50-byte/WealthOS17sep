@@ -1,0 +1,2102 @@
+{
+ "version": "1.0",
+ "generated": "2026-10-18",
+ "policy": "zero fabrication; unknown stays null; not_disclosed/not_applicable/none_disclosed are explicit states, never null",
+ "ttl_note": "ttl_days measured from period end (period-dated data) or fetch time (snapshot data)",
+ "universe": "MasterTickers status=ACTIVE, exchange in (NSE,BSE), series EQ, with a DailyOHLCV bar in the last 7 sessions (the run_scan_dossier scan population)",
+ "questions": {
+  "Q01": {
+   "title": "Business description",
+   "group": "P1 Business quality",
+   "fields": [
+    "business_description",
+    "doc_annual_report",
+    "news",
+    "sector_industry"
+   ]
+  },
+  "Q02": {
+   "title": "Revenue model",
+   "group": "P1 Business quality",
+   "fields": [
+    "business_description",
+    "doc_annual_report",
+    "doc_concall_transcript",
+    "doc_investor_presentation"
+   ]
+  },
+  "Q03": {
+   "title": "Competitive position",
+   "group": "P1 Business quality",
+   "fields": [
+    "doc_annual_report",
+    "doc_concall_transcript",
+    "doc_investor_presentation",
+    "peer_set",
+    "sector_industry"
+   ]
+  },
+  "Q04": {
+   "title": "Revenue growth trend",
+   "group": "P1 Business quality",
+   "fields": [
+    "doc_results_filing",
+    "pat_quarterly_latest",
+    "sales_annual_4y",
+    "sales_growth_5y",
+    "sales_quarterly"
+   ]
+  },
+  "Q05": {
+   "title": "Profitability",
+   "group": "P1 Business quality",
+   "fields": [
+    "ebitda_annual",
+    "ebitda_quarterly",
+    "equity_reserves",
+    "roce",
+    "roe",
+    "sales_quarterly"
+   ]
+  },
+  "Q06": {
+   "title": "8-quarter PAT quality",
+   "group": "P2 Earnings and balance sheet",
+   "fields": [
+    "doc_results_filing",
+    "pat_8q",
+    "pat_quarterly_latest",
+    "sales_quarterly"
+   ]
+  },
+  "Q07": {
+   "title": "Balance sheet health",
+   "group": "P2 Earnings and balance sheet",
+   "fields": [
+    "borrowings",
+    "debt_to_equity",
+    "equity_reserves",
+    "total_assets"
+   ]
+  },
+  "Q08": {
+   "title": "Cash flow quality",
+   "group": "P2 Earnings and balance sheet",
+   "fields": [
+    "cfo_annual",
+    "cfo_ebitda_ratio",
+    "doc_results_filing",
+    "ebitda_annual",
+    "ebitda_quarterly"
+   ]
+  },
+  "Q09": {
+   "title": "F-filter summary",
+   "group": "P2 Earnings and balance sheet",
+   "fields": [
+    "cfo_annual",
+    "cfo_ebitda_ratio",
+    "fii_pct",
+    "inst_qoq_change",
+    "pat_8q",
+    "promoter_pct",
+    "promoter_pledge_pct",
+    "roce",
+    "roe"
+   ]
+  },
+  "Q10": {
+   "title": "Promoter holding and trend",
+   "group": "P3 Governance and ownership",
+   "fields": [
+    "promoter_pct",
+    "promoter_trend_4q"
+   ]
+  },
+  "Q11": {
+   "title": "Pledge and insider activity",
+   "group": "P3 Governance and ownership",
+   "fields": [
+    "corporate_actions",
+    "doc_filings_announcements",
+    "promoter_pledge_pct",
+    "sast_insider_events"
+   ]
+  },
+  "Q12": {
+   "title": "Institutional holding",
+   "group": "P3 Governance and ownership",
+   "fields": [
+    "dii_pct",
+    "fii_pct",
+    "inst_qoq_change",
+    "mf_holding_pct"
+   ]
+  },
+  "Q13": {
+   "title": "Technical setup",
+   "group": "P4 Technicals and quant quality",
+   "fields": [
+    "ltp",
+    "technical_bars_200"
+   ]
+  },
+  "Q14": {
+   "title": "Piotroski deep-dive",
+   "group": "P4 Technicals and quant quality",
+   "fields": [
+    "piotroski_f"
+   ]
+  },
+  "Q15": {
+   "title": "Altman Z-score",
+   "group": "P4 Technicals and quant quality",
+   "fields": [
+    "altman_z",
+    "borrowings",
+    "debt_to_equity",
+    "total_assets"
+   ]
+  },
+  "Q16": {
+   "title": "Valuation",
+   "group": "P4 Technicals and quant quality",
+   "fields": [
+    "borrowings",
+    "corporate_actions",
+    "ltp",
+    "market_cap_cr",
+    "pe_ttm",
+    "peer_set",
+    "sales_annual_4y"
+   ]
+  },
+  "Q17": {
+   "title": "Operational risks",
+   "group": "P5 Risk",
+   "fields": [
+    "doc_annual_report",
+    "doc_concall_transcript",
+    "doc_filings_announcements",
+    "news",
+    "peer_set",
+    "risk_regulatory_text"
+   ]
+  },
+  "Q18": {
+   "title": "Regulatory/policy risk",
+   "group": "P5 Risk",
+   "fields": [
+    "doc_annual_report",
+    "doc_filings_announcements",
+    "news",
+    "risk_regulatory_text"
+   ]
+  },
+  "Q19": {
+   "title": "Liquidity and market-cap risk",
+   "group": "P5 Risk",
+   "fields": [
+    "delivery_pct",
+    "market_cap_cr",
+    "turnover_adtv"
+   ]
+  },
+  "Q20": {
+   "title": "Concentration risk",
+   "group": "P5 Risk",
+   "fields": [
+    "doc_annual_report",
+    "risk_regulatory_text"
+   ]
+  },
+  "Q21": {
+   "title": "Management and governance risk",
+   "group": "P5 Risk",
+   "fields": [
+    "doc_annual_report",
+    "doc_filings_announcements",
+    "promoter_pct",
+    "promoter_pledge_pct",
+    "sast_insider_events"
+   ]
+  },
+  "Q22": {
+   "title": "DVM interpretation",
+   "group": "P6 Investment case",
+   "fields": [
+    "dvm_score",
+    "market_cap_cr"
+   ]
+  },
+  "Q23": {
+   "title": "Sector dynamics",
+   "group": "P6 Investment case",
+   "fields": [
+    "doc_annual_report",
+    "doc_concall_transcript",
+    "doc_filings_announcements",
+    "doc_investor_presentation",
+    "news",
+    "sector_dynamics",
+    "sector_industry"
+   ]
+  },
+  "Q24": {
+   "title": "Bull case",
+   "group": "P6 Investment case",
+   "fields": [
+    "doc_concall_transcript",
+    "doc_investor_presentation",
+    "pat_quarterly_latest",
+    "pe_ttm",
+    "roce",
+    "sales_annual_4y"
+   ],
+   "note": "synthesis question: coverage = coverage of its evidence inputs (proxy)"
+  },
+  "Q25": {
+   "title": "Bear case",
+   "group": "P6 Investment case",
+   "fields": [
+    "altman_z",
+    "cfo_ebitda_ratio",
+    "doc_concall_transcript",
+    "pe_ttm",
+    "promoter_pledge_pct"
+   ],
+   "note": "synthesis question: coverage = coverage of its evidence inputs (proxy)"
+  },
+  "Q26": {
+   "title": "Piotroski+Altman composite",
+   "group": "P6 Investment case",
+   "fields": [
+    "altman_z",
+    "pat_8q",
+    "piotroski_f"
+   ]
+  },
+  "Q27": {
+   "title": "Thesis summary",
+   "group": "P7 Decision",
+   "fields": [
+    "cfo_ebitda_ratio",
+    "fii_pct",
+    "inst_qoq_change",
+    "pat_8q",
+    "promoter_pct",
+    "promoter_pledge_pct",
+    "roce",
+    "roe"
+   ],
+   "note": "synthesis question: coverage = coverage of its evidence inputs (proxy)"
+  },
+  "Q28": {
+   "title": "Conviction score",
+   "group": "P7 Decision",
+   "fields": [
+    "cfo_ebitda_ratio",
+    "fii_pct",
+    "inst_qoq_change",
+    "pat_8q",
+    "pe_ttm",
+    "promoter_pct",
+    "promoter_pledge_pct",
+    "roce",
+    "roe",
+    "technical_bars_200"
+   ],
+   "note": "synthesis question: coverage = coverage of its evidence inputs (proxy)"
+  },
+  "Q29": {
+   "title": "Action recommendation",
+   "group": "P7 Decision",
+   "fields": [
+    "altman_z",
+    "cfo_ebitda_ratio",
+    "fii_pct",
+    "inst_qoq_change",
+    "pat_8q",
+    "pe_ttm",
+    "promoter_pct",
+    "promoter_pledge_pct",
+    "roce",
+    "roe",
+    "technical_bars_200"
+   ],
+   "note": "synthesis question: coverage = coverage of its evidence inputs (proxy)"
+  }
+ },
+ "filters": {
+  "F1": [
+   "promoter_pct"
+  ],
+  "F2": [
+   "pat_8q"
+  ],
+  "F3": [
+   "roce"
+  ],
+  "F4": [
+   "roe"
+  ],
+  "F5": [
+   "promoter_pledge_pct"
+  ],
+  "F6": [
+   "fii_pct",
+   "dii_pct",
+   "inst_qoq_change"
+  ],
+  "F7": [
+   "cfo_ebitda_ratio"
+  ]
+ },
+ "fields": [
+  {
+   "id": "promoter_pct",
+   "description": "Promoter holding % (latest quarter)",
+   "needed_by": [
+    "F1",
+    "Q10",
+    "Q21",
+    "Q27-29"
+   ],
+   "probes": [
+    {
+     "kind": "col",
+     "table": "HistoricalShareholdingPattern",
+     "col": "promoter_pct",
+     "where": null,
+     "date": {
+      "label": "quarter_label"
+     },
+     "prov": {
+      "col": "primary_source"
+     },
+     "unit": "pct",
+     "range": [
+      0,
+      100
+     ],
+     "canonical": true
+    },
+    {
+     "kind": "col",
+     "table": "FundamentalSnapshots",
+     "col": "promoter_holding_pct",
+     "where": null,
+     "date": {
+      "col": "fetched_at"
+     },
+     "prov": {
+      "col": "source"
+     },
+     "unit": "pct",
+     "range": [
+      0,
+      100
+     ],
+     "canonical": false
+    }
+   ],
+   "ttl_days": 120,
+   "sources": [
+    "NSE/BSE Reg-31 shareholding-pattern XBRL (official, quarterly)",
+    "BSE shareholding API (official)",
+    "TradingView screener (derived-from-filings aggregator)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) token prompct",
+    "Screener.in (user-exported; ToS-limited)"
+   ],
+   "free_official_bulk": "yes: NSE/BSE shareholding XBRL archives",
+   "unit": "pct",
+   "never_100pct": {
+    "reason": "Newly listed (<1 quarter) companies have no Reg-31 filing yet",
+    "mark_as": "not_disclosed"
+   },
+   "tier": "statutory"
+  },
+  {
+   "id": "fii_pct",
+   "description": "FII/FPI holding % (latest)",
+   "needed_by": [
+    "F6",
+    "Q12"
+   ],
+   "probes": [
+    {
+     "kind": "col",
+     "table": "HistoricalShareholdingPattern",
+     "col": "fii_pct",
+     "where": null,
+     "date": {
+      "label": "quarter_label"
+     },
+     "prov": {
+      "col": "primary_source"
+     },
+     "unit": "pct",
+     "range": [
+      0,
+      100
+     ],
+     "canonical": true
+    },
+    {
+     "kind": "col",
+     "table": "FundamentalSnapshots",
+     "col": "fii_holding_pct",
+     "where": null,
+     "date": {
+      "col": "fetched_at"
+     },
+     "prov": {
+      "col": "source"
+     },
+     "unit": "pct",
+     "range": [
+      0,
+      100
+     ],
+     "canonical": false
+    }
+   ],
+   "ttl_days": 120,
+   "sources": [
+    "NSE/BSE Reg-31 shareholding-pattern XBRL (official, quarterly)",
+    "TradingView screener (derived-from-filings aggregator)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) tokens fiihold/fiipct1q",
+    "Screener.in (user-exported; ToS-limited)"
+   ],
+   "free_official_bulk": "yes: Reg-31 XBRL (category-wise)",
+   "unit": "pct",
+   "never_100pct": null,
+   "tier": "statutory"
+  },
+  {
+   "id": "dii_pct",
+   "description": "DII (MF+insurance+banks) holding % (latest)",
+   "needed_by": [
+    "F6",
+    "Q12"
+   ],
+   "probes": [
+    {
+     "kind": "col",
+     "table": "HistoricalShareholdingPattern",
+     "col": "dii_pct",
+     "where": null,
+     "date": {
+      "label": "quarter_label"
+     },
+     "prov": {
+      "col": "primary_source"
+     },
+     "unit": "pct",
+     "range": [
+      0,
+      100
+     ],
+     "canonical": true
+    },
+    {
+     "kind": "col",
+     "table": "FundamentalSnapshots",
+     "col": "dii_holding_pct",
+     "where": null,
+     "date": {
+      "col": "fetched_at"
+     },
+     "prov": {
+      "col": "source"
+     },
+     "unit": "pct",
+     "range": [
+      0,
+      100
+     ],
+     "canonical": false
+    }
+   ],
+   "ttl_days": 120,
+   "sources": [
+    "NSE/BSE Reg-31 shareholding-pattern XBRL (official, quarterly)",
+    "TradingView screener (derived-from-filings aggregator)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) token instihold",
+    "Screener.in (user-exported; ToS-limited)"
+   ],
+   "free_official_bulk": "yes: Reg-31 XBRL",
+   "unit": "pct",
+   "never_100pct": null,
+   "tier": "statutory"
+  },
+  {
+   "id": "inst_qoq_change",
+   "description": "Institutional holding QoQ change (needs >=2 quarters of fii)",
+   "needed_by": [
+    "F6",
+    "Q12"
+   ],
+   "probes": [
+    {
+     "kind": "count_ge",
+     "table": "HistoricalShareholdingPattern",
+     "col": "fii_pct",
+     "n": 2,
+     "label": "quarter_label",
+     "where": null,
+     "prov": {
+      "col": "primary_source"
+     },
+     "canonical": true
+    }
+   ],
+   "ttl_days": 120,
+   "sources": [
+    "NSE/BSE Reg-31 shareholding-pattern XBRL (official, quarterly) (two quarters)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) token instipct1q"
+   ],
+   "free_official_bulk": "yes",
+   "unit": "pp",
+   "never_100pct": {
+    "reason": "Companies listed < 2 quarters have no prior quarter",
+    "mark_as": "not_disclosed"
+   },
+   "tier": "statutory"
+  },
+  {
+   "id": "promoter_trend_4q",
+   "description": "Promoter holding trend (>=5 quarters)",
+   "needed_by": [
+    "Q10"
+   ],
+   "probes": [
+    {
+     "kind": "count_ge",
+     "table": "HistoricalShareholdingPattern",
+     "col": "promoter_pct",
+     "n": 5,
+     "label": "quarter_label",
+     "where": null,
+     "prov": {
+      "col": "primary_source"
+     },
+     "canonical": true
+    }
+   ],
+   "ttl_days": 120,
+   "sources": [
+    "NSE/BSE Reg-31 shareholding-pattern XBRL (official, quarterly)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) tokens prompct1q/prompct4q"
+   ],
+   "free_official_bulk": "yes",
+   "unit": "pp",
+   "never_100pct": {
+    "reason": "Listed < 5 quarters",
+    "mark_as": "not_disclosed"
+   },
+   "tier": "statutory"
+  },
+  {
+   "id": "promoter_pledge_pct",
+   "description": "Promoter pledged % (F5; unknown FAILS CLOSED)",
+   "needed_by": [
+    "F5",
+    "Q11",
+    "Q21",
+    "Q25"
+   ],
+   "probes": [
+    {
+     "kind": "absent",
+     "reason": "HistoricalShareholdingPattern has no pledge_pct column (run_scan_dossier detects this and falls back to NULL)"
+    },
+    {
+     "kind": "col",
+     "table": "FundamentalSnapshots",
+     "col": "pledged_pct",
+     "where": null,
+     "date": {
+      "col": "fetched_at"
+     },
+     "prov": {
+      "col": "source"
+     },
+     "unit": "pct",
+     "range": [
+      0,
+      100
+     ],
+     "canonical": false
+    },
+    {
+     "kind": "col",
+     "table": "FEREEnrichedLedger",
+     "col": "promoter_pledge_pct",
+     "where": null,
+     "date": {
+      "col": "enriched_at"
+     },
+     "prov": null,
+     "unit": "pct",
+     "range": [
+      0,
+      100
+     ],
+     "canonical": false
+    }
+   ],
+   "ttl_days": 120,
+   "sources": [
+    "NSE/BSE Reg-31(1)(b) encumbrance table (official)",
+    "SAST Reg-31 yearly encumbrance disclosure (official)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) token prompledge",
+    "Screener.in (user-exported; ToS-limited)",
+    "TradingView screener (derived-from-filings aggregator) (not exposed)"
+   ],
+   "free_official_bulk": "yes: Reg-31 XBRL contains encumbrance; needs parser",
+   "unit": "pct",
+   "never_100pct": {
+    "reason": "Zero-promoter (professionally managed) companies have no promoter to pledge",
+    "mark_as": "not_applicable"
+   },
+   "tier": "statutory"
+  },
+  {
+   "id": "mf_holding_pct",
+   "description": "Mutual-fund holding % and trend",
+   "needed_by": [
+    "Q12"
+   ],
+   "probes": [
+    {
+     "kind": "absent",
+     "reason": "no mf_pct column in HistoricalShareholdingPattern"
+    },
+    {
+     "kind": "tl_token",
+     "token": "mfpct1q",
+     "unit": "pct",
+     "range": [
+      0,
+      100
+     ],
+     "canonical": false
+    }
+   ],
+   "ttl_days": 120,
+   "sources": [
+    "NSE/BSE Reg-31 shareholding-pattern XBRL (official, quarterly) (MF sub-category)",
+    "AMFI monthly portfolio disclosures (official)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) token mfpct1q"
+   ],
+   "free_official_bulk": "yes: Reg-31 XBRL + AMFI portfolios",
+   "unit": "pct",
+   "never_100pct": null,
+   "tier": "statutory"
+  },
+  {
+   "id": "sast_insider_events",
+   "description": "SEBI SAST/PIT insider trades last 12m",
+   "needed_by": [
+    "Q11",
+    "Q21"
+   ],
+   "probes": [
+    {
+     "kind": "absent",
+     "reason": "no insider/SAST table in portfolio.db"
+    }
+   ],
+   "ttl_days": 30,
+   "sources": [
+    "NSE PIT Reg-7 and SAST Reg-29 disclosures (official, CSV/API)",
+    "BSE insider-trading disclosures (official)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) insider tab"
+   ],
+   "free_official_bulk": "yes: NSE/BSE PIT & SAST downloads",
+   "unit": "events",
+   "never_100pct": {
+    "reason": "'No transactions filed' is a valid state; store zero events with the query window, not null",
+    "mark_as": "none_disclosed"
+   },
+   "tier": "statutory"
+  },
+  {
+   "id": "pat_8q",
+   "description": "8 consecutive quarterly PAT values (F2/Q06)",
+   "needed_by": [
+    "F2",
+    "Q06",
+    "Q09",
+    "Q26"
+   ],
+   "probes": [
+    {
+     "kind": "count_ge",
+     "table": "HistoricalFinancialStatements",
+     "col": "net_profit_pat_cr",
+     "n": 8,
+     "label": "period_label",
+     "where": "statement_type='QUARTERLY_PL'",
+     "prov": {
+      "col": "primary_source"
+     },
+     "canonical": true
+    }
+   ],
+   "ttl_days": 120,
+   "sources": [
+    "NSE/BSE Reg-33 financial-results XBRL (official, quarterly/annual)",
+    "TradingView screener (derived-from-filings aggregator)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) tokens npq/npamy1..3",
+    "Screener.in (user-exported; ToS-limited)"
+   ],
+   "free_official_bulk": "yes: XBRL results bulk (NSE/BSE)",
+   "unit": "cr",
+   "never_100pct": {
+    "reason": "Companies listed < 2 years have < 8 reported quarters; F2 fails by construction -> mark 'insufficient history'",
+    "mark_as": "not_disclosed"
+   },
+   "tier": "statutory"
+  },
+  {
+   "id": "pat_quarterly_latest",
+   "description": "Latest quarterly PAT (Rs crore)",
+   "needed_by": [
+    "Q04",
+    "Q06",
+    "Q24"
+   ],
+   "probes": [
+    {
+     "kind": "col",
+     "table": "HistoricalFinancialStatements",
+     "col": "net_profit_pat_cr",
+     "where": "statement_type='QUARTERLY_PL'",
+     "date": {
+      "label": "period_label"
+     },
+     "prov": {
+      "col": "primary_source"
+     },
+     "unit": "cr",
+     "range": [
+      -100000.0,
+      100000.0
+     ],
+     "canonical": true
+    }
+   ],
+   "ttl_days": 120,
+   "sources": [
+    "NSE/BSE Reg-33 financial-results XBRL (official, quarterly/annual)",
+    "TradingView screener (derived-from-filings aggregator)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) token npq",
+    "Screener.in (user-exported; ToS-limited)"
+   ],
+   "free_official_bulk": "yes",
+   "unit": "cr",
+   "never_100pct": null,
+   "tier": "statutory"
+  },
+  {
+   "id": "sales_quarterly",
+   "description": "Latest quarterly sales/revenue (Rs crore)",
+   "needed_by": [
+    "Q04",
+    "Q05",
+    "Q06"
+   ],
+   "probes": [
+    {
+     "kind": "col",
+     "table": "HistoricalFinancialStatements",
+     "col": "sales_cr",
+     "where": "statement_type='QUARTERLY_PL'",
+     "date": {
+      "label": "period_label"
+     },
+     "prov": {
+      "col": "primary_source"
+     },
+     "unit": "cr",
+     "range": [
+      0,
+      1000000.0
+     ],
+     "canonical": true
+    }
+   ],
+   "ttl_days": 120,
+   "sources": [
+    "NSE/BSE Reg-33 financial-results XBRL (official, quarterly/annual)",
+    "TradingView screener (derived-from-filings aggregator)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited)",
+    "Screener.in (user-exported; ToS-limited)"
+   ],
+   "free_official_bulk": "yes",
+   "unit": "cr",
+   "never_100pct": null,
+   "tier": "statutory"
+  },
+  {
+   "id": "ebitda_quarterly",
+   "description": "Quarterly operating profit (EBITDA proxy, Rs crore)",
+   "needed_by": [
+    "Q05",
+    "Q08"
+   ],
+   "probes": [
+    {
+     "kind": "col",
+     "table": "HistoricalFinancialStatements",
+     "col": "operating_profit_cr",
+     "where": "statement_type='QUARTERLY_PL'",
+     "date": {
+      "label": "period_label"
+     },
+     "prov": {
+      "col": "primary_source"
+     },
+     "unit": "cr",
+     "range": [
+      -100000.0,
+      100000.0
+     ],
+     "canonical": true
+    }
+   ],
+   "ttl_days": 120,
+   "sources": [
+    "NSE/BSE Reg-33 financial-results XBRL (official, quarterly/annual)",
+    "TradingView screener (derived-from-filings aggregator)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) token opq",
+    "Screener.in (user-exported; ToS-limited)"
+   ],
+   "free_official_bulk": "yes",
+   "unit": "cr",
+   "never_100pct": {
+    "reason": "Banks/NBFC/insurers report no operating profit; use NII/PPOP",
+    "mark_as": "not_applicable"
+   },
+   "tier": "statutory"
+  },
+  {
+   "id": "sales_annual_4y",
+   "description": "4 annual sales points (3Y CAGR, Q04)",
+   "needed_by": [
+    "Q04",
+    "Q16",
+    "Q24"
+   ],
+   "probes": [
+    {
+     "kind": "count_ge",
+     "table": "HistoricalFinancialStatements",
+     "col": "sales_cr",
+     "n": 4,
+     "label": "period_label",
+     "where": "statement_type='ANNUAL_PL'",
+     "prov": {
+      "col": "primary_source"
+     },
+     "canonical": true
+    }
+   ],
+   "ttl_days": 400,
+   "sources": [
+    "NSE/BSE Reg-33 financial-results XBRL (official, quarterly/annual) annual",
+    "Annual report / BRSR filed on NSE/BSE (official)",
+    "TradingView screener (derived-from-filings aggregator)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) tokens sra/sramy1..3",
+    "Screener.in (user-exported; ToS-limited)"
+   ],
+   "free_official_bulk": "yes",
+   "unit": "cr",
+   "never_100pct": {
+    "reason": "Listed < 4 fiscal years",
+    "mark_as": "not_disclosed"
+   },
+   "tier": "statutory"
+  },
+  {
+   "id": "ebitda_annual",
+   "description": "Annual operating profit (Rs crore)",
+   "needed_by": [
+    "F7",
+    "Q05",
+    "Q08"
+   ],
+   "probes": [
+    {
+     "kind": "col",
+     "table": "HistoricalFinancialStatements",
+     "col": "operating_profit_cr",
+     "where": "statement_type='ANNUAL_PL'",
+     "date": {
+      "label": "period_label"
+     },
+     "prov": {
+      "col": "primary_source"
+     },
+     "unit": "cr",
+     "range": [
+      -100000.0,
+      100000.0
+     ],
+     "canonical": true
+    }
+   ],
+   "ttl_days": 400,
+   "sources": [
+    "NSE/BSE Reg-33 financial-results XBRL (official, quarterly/annual)",
+    "Annual report / BRSR filed on NSE/BSE (official)",
+    "TradingView screener (derived-from-filings aggregator)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) token opa",
+    "Screener.in (user-exported; ToS-limited)"
+   ],
+   "free_official_bulk": "yes",
+   "unit": "cr",
+   "never_100pct": {
+    "reason": "Financial-sector issuers: no operating profit",
+    "mark_as": "not_applicable"
+   },
+   "tier": "statutory"
+  },
+  {
+   "id": "cfo_annual",
+   "description": "Annual cash flow from operations (Rs crore)",
+   "needed_by": [
+    "F7",
+    "Q08",
+    "Q09"
+   ],
+   "probes": [
+    {
+     "kind": "col",
+     "table": "HistoricalFinancialStatements",
+     "col": "cfo_cr",
+     "where": "statement_type='CASH_FLOW'",
+     "date": {
+      "label": "period_label"
+     },
+     "prov": {
+      "col": "primary_source"
+     },
+     "unit": "cr",
+     "range": [
+      -100000.0,
+      100000.0
+     ],
+     "canonical": true
+    }
+   ],
+   "ttl_days": 400,
+   "sources": [
+    "NSE/BSE Reg-33 financial-results XBRL (official, quarterly/annual) (cash-flow statement)",
+    "Annual report / BRSR filed on NSE/BSE (official)",
+    "TradingView screener (derived-from-filings aggregator)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) token cfoa",
+    "Screener.in (user-exported; ToS-limited)"
+   ],
+   "free_official_bulk": "yes: XBRL results include cash-flow",
+   "unit": "cr",
+   "never_100pct": null,
+   "tier": "statutory"
+  },
+  {
+   "id": "cfo_ebitda_ratio",
+   "description": "CFO/EBITDA (F7): cfo and ebitda on the SAME period",
+   "needed_by": [
+    "F7",
+    "Q08",
+    "Q09"
+   ],
+   "probes": [
+    {
+     "kind": "derived",
+     "needs": [
+      "cfo_annual",
+      "ebitda_annual"
+     ],
+     "canonical": true
+    },
+    {
+     "kind": "col",
+     "table": "FEREEnrichedLedger",
+     "col": "cfo_to_ebitda_pct",
+     "where": null,
+     "date": {
+      "col": "enriched_at"
+     },
+     "prov": null,
+     "unit": "pct",
+     "range": null,
+     "canonical": false
+    }
+   ],
+   "ttl_days": 400,
+   "sources": [
+    "Derived from official CFO and operating profit"
+   ],
+   "free_official_bulk": "derived (no source of its own)",
+   "unit": "ratio",
+   "never_100pct": {
+    "reason": "Non-positive EBITDA / financial-sector issuers: ratio undefined; F7=FAIL or not_applicable, not null",
+    "mark_as": "not_applicable"
+   },
+   "tier": "statutory"
+  },
+  {
+   "id": "borrowings",
+   "description": "Total borrowings (Rs crore)",
+   "needed_by": [
+    "Q07",
+    "Q15",
+    "Q16"
+   ],
+   "probes": [
+    {
+     "kind": "col",
+     "table": "HistoricalFinancialStatements",
+     "col": "borrowings_cr",
+     "where": "statement_type='BALANCE_SHEET'",
+     "date": {
+      "label": "period_label"
+     },
+     "prov": {
+      "col": "primary_source"
+     },
+     "unit": "cr",
+     "range": [
+      0,
+      10000000.0
+     ],
+     "canonical": true
+    }
+   ],
+   "ttl_days": 400,
+   "sources": [
+    "NSE/BSE Reg-33 financial-results XBRL (official, quarterly/annual) (half-yearly balance sheet)",
+    "Annual report / BRSR filed on NSE/BSE (official)",
+    "TradingView screener (derived-from-filings aggregator)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited)",
+    "Screener.in (user-exported; ToS-limited)"
+   ],
+   "free_official_bulk": "yes",
+   "unit": "cr",
+   "never_100pct": null,
+   "tier": "statutory"
+  },
+  {
+   "id": "total_assets",
+   "description": "Total assets (Rs crore)",
+   "needed_by": [
+    "Q07",
+    "Q15",
+    "F3"
+   ],
+   "probes": [
+    {
+     "kind": "col",
+     "table": "HistoricalFinancialStatements",
+     "col": "total_assets_cr",
+     "where": "statement_type='BALANCE_SHEET'",
+     "date": {
+      "label": "period_label"
+     },
+     "prov": {
+      "col": "primary_source"
+     },
+     "unit": "cr",
+     "range": [
+      0,
+      100000000.0
+     ],
+     "canonical": true
+    }
+   ],
+   "ttl_days": 400,
+   "sources": [
+    "NSE/BSE Reg-33 financial-results XBRL (official, quarterly/annual)",
+    "Annual report / BRSR filed on NSE/BSE (official)",
+    "TradingView screener (derived-from-filings aggregator)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited)",
+    "Screener.in (user-exported; ToS-limited)"
+   ],
+   "free_official_bulk": "yes",
+   "unit": "cr",
+   "never_100pct": null,
+   "tier": "statutory"
+  },
+  {
+   "id": "equity_reserves",
+   "description": "Reserves (Rs crore) for ROE/ROCE/D-E",
+   "needed_by": [
+    "F3",
+    "F4",
+    "Q05",
+    "Q07"
+   ],
+   "probes": [
+    {
+     "kind": "col",
+     "table": "HistoricalFinancialStatements",
+     "col": "reserves_cr",
+     "where": "statement_type='BALANCE_SHEET'",
+     "date": {
+      "label": "period_label"
+     },
+     "prov": {
+      "col": "primary_source"
+     },
+     "unit": "cr",
+     "range": [
+      -10000000.0,
+      100000000.0
+     ],
+     "canonical": true
+    }
+   ],
+   "ttl_days": 400,
+   "sources": [
+    "NSE/BSE Reg-33 financial-results XBRL (official, quarterly/annual)",
+    "Annual report / BRSR filed on NSE/BSE (official)",
+    "TradingView screener (derived-from-filings aggregator)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited)",
+    "Screener.in (user-exported; ToS-limited)"
+   ],
+   "free_official_bulk": "yes",
+   "unit": "cr",
+   "never_100pct": null,
+   "tier": "statutory"
+  },
+  {
+   "id": "roce",
+   "description": "ROCE % (TTM preferred, annual acceptable)",
+   "needed_by": [
+    "F3",
+    "Q05",
+    "Q09"
+   ],
+   "probes": [
+    {
+     "kind": "col",
+     "table": "FundamentalSnapshots",
+     "col": "roce_pct",
+     "where": null,
+     "date": {
+      "col": "fetched_at"
+     },
+     "prov": {
+      "col": "source"
+     },
+     "unit": "pct",
+     "range": [
+      -200,
+      500
+     ],
+     "canonical": true
+    },
+    {
+     "kind": "col",
+     "table": "FEREEnrichedLedger",
+     "col": "roce_pct",
+     "where": null,
+     "date": {
+      "col": "enriched_at"
+     },
+     "prov": null,
+     "unit": "pct",
+     "range": [
+      -200,
+      500
+     ],
+     "canonical": false
+    },
+    {
+     "kind": "tl_token",
+     "token": "rocea",
+     "unit": "pct",
+     "range": [
+      -200,
+      500
+     ],
+     "canonical": false
+    }
+   ],
+   "ttl_days": 200,
+   "sources": [
+    "NSE/BSE Reg-33 financial-results XBRL (official, quarterly/annual) -> derive EBIT/(assets-current liabilities)",
+    "TradingView screener (derived-from-filings aggregator) (return on invested capital)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) token rocea",
+    "Screener.in (user-exported; ToS-limited)"
+   ],
+   "free_official_bulk": "derived from official financials",
+   "unit": "pct",
+   "never_100pct": null,
+   "tier": "statutory"
+  },
+  {
+   "id": "roe",
+   "description": "ROE %",
+   "needed_by": [
+    "F4",
+    "Q05",
+    "Q09"
+   ],
+   "probes": [
+    {
+     "kind": "col",
+     "table": "FundamentalSnapshots",
+     "col": "roe_pct",
+     "where": null,
+     "date": {
+      "col": "fetched_at"
+     },
+     "prov": {
+      "col": "source"
+     },
+     "unit": "pct",
+     "range": [
+      -200,
+      500
+     ],
+     "canonical": true
+    },
+    {
+     "kind": "tl_token",
+     "token": "roea",
+     "unit": "pct",
+     "range": [
+      -200,
+      500
+     ],
+     "canonical": false
+    }
+   ],
+   "ttl_days": 200,
+   "sources": [
+    "NSE/BSE Reg-33 financial-results XBRL (official, quarterly/annual) -> derive PAT/avg equity",
+    "TradingView screener (derived-from-filings aggregator) (return_on_equity)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) token roea",
+    "Screener.in (user-exported; ToS-limited)"
+   ],
+   "free_official_bulk": "derived from official financials",
+   "unit": "pct",
+   "never_100pct": null,
+   "tier": "statutory"
+  },
+  {
+   "id": "debt_to_equity",
+   "description": "Debt/Equity",
+   "needed_by": [
+    "Q07",
+    "Q15"
+   ],
+   "probes": [
+    {
+     "kind": "col",
+     "table": "FundamentalSnapshots",
+     "col": "debt_to_equity",
+     "where": null,
+     "date": {
+      "col": "fetched_at"
+     },
+     "prov": {
+      "col": "source"
+     },
+     "unit": "ratio",
+     "range": [
+      0,
+      100
+     ],
+     "canonical": true
+    },
+    {
+     "kind": "col",
+     "table": "FEREEnrichedLedger",
+     "col": "debt_to_equity",
+     "where": null,
+     "date": {
+      "col": "enriched_at"
+     },
+     "prov": null,
+     "unit": "ratio",
+     "range": [
+      0,
+      100
+     ],
+     "canonical": false
+    },
+    {
+     "kind": "tl_token",
+     "token": "debtcea",
+     "unit": "ratio",
+     "range": [
+      0,
+      100
+     ],
+     "canonical": false
+    }
+   ],
+   "ttl_days": 180,
+   "sources": [
+    "NSE/BSE Reg-33 financial-results XBRL (official, quarterly/annual)",
+    "TradingView screener (derived-from-filings aggregator)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) token debtcea",
+    "Screener.in (user-exported; ToS-limited)"
+   ],
+   "free_official_bulk": "derived",
+   "unit": "ratio",
+   "never_100pct": null,
+   "tier": "statutory"
+  },
+  {
+   "id": "sales_growth_5y",
+   "description": "5Y sales CAGR % (informational only; never substitutes 3Y)",
+   "needed_by": [
+    "Q04"
+   ],
+   "probes": [
+    {
+     "kind": "col",
+     "table": "FundamentalSnapshots",
+     "col": "sales_growth_5y_pct",
+     "where": null,
+     "date": {
+      "col": "fetched_at"
+     },
+     "prov": {
+      "col": "source"
+     },
+     "unit": "pct",
+     "range": [
+      -100,
+      1000
+     ],
+     "canonical": true
+    }
+   ],
+   "ttl_days": 400,
+   "sources": [
+    "NSE/BSE Reg-33 financial-results XBRL (official, quarterly/annual) (derive)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited)",
+    "Screener.in (user-exported; ToS-limited)"
+   ],
+   "free_official_bulk": "derived",
+   "unit": "pct",
+   "never_100pct": null,
+   "tier": "statutory"
+  },
+  {
+   "id": "pe_ttm",
+   "description": "P/E TTM",
+   "needed_by": [
+    "Q16",
+    "Q24"
+   ],
+   "probes": [
+    {
+     "kind": "col",
+     "table": "FundamentalSnapshots",
+     "col": "pe_ratio",
+     "where": null,
+     "date": {
+      "col": "fetched_at"
+     },
+     "prov": {
+      "col": "source"
+     },
+     "unit": "ratio",
+     "range": [
+      -1000,
+      5000
+     ],
+     "canonical": true
+    },
+    {
+     "kind": "col",
+     "table": "FEREEnrichedLedger",
+     "col": "pe_ratio",
+     "where": null,
+     "date": {
+      "col": "enriched_at"
+     },
+     "prov": null,
+     "unit": "ratio",
+     "range": [
+      -1000,
+      5000
+     ],
+     "canonical": false
+    },
+    {
+     "kind": "tl_token",
+     "token": "pettm",
+     "unit": "ratio",
+     "range": [
+      -1000,
+      5000
+     ],
+     "canonical": false
+    }
+   ],
+   "ttl_days": 7,
+   "sources": [
+    "Derive: official EPS TTM x NSE/BSE close",
+    "TradingView screener (derived-from-filings aggregator) (price_earnings_ttm)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) token pettm"
+   ],
+   "free_official_bulk": "derived: bhavcopy price / official EPS",
+   "unit": "ratio",
+   "never_100pct": {
+    "reason": "Loss-making issuers: P/E undefined",
+    "mark_as": "not_applicable"
+   },
+   "tier": "market"
+  },
+  {
+   "id": "piotroski_f",
+   "description": "Piotroski F-score (9 criteria)",
+   "needed_by": [
+    "Q14",
+    "Q26"
+   ],
+   "probes": [
+    {
+     "kind": "col",
+     "table": "FEREEnrichedLedger",
+     "col": "piotroski_f_score",
+     "where": null,
+     "date": {
+      "col": "enriched_at"
+     },
+     "prov": null,
+     "unit": "score",
+     "range": [
+      0,
+      9
+     ],
+     "canonical": false
+    },
+    {
+     "kind": "tl_token",
+     "token": "pitroskif",
+     "unit": "score",
+     "range": [
+      0,
+      9
+     ],
+     "canonical": false
+    }
+   ],
+   "ttl_days": 180,
+   "sources": [
+    "Derive from official financials (deterministic formula)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) token pitroskif",
+    "TradingView screener (derived-from-filings aggregator)"
+   ],
+   "free_official_bulk": "derived",
+   "unit": "score",
+   "never_100pct": {
+    "reason": "Needs 2 consecutive annual statements; not meaningful for financials",
+    "mark_as": "not_applicable"
+   },
+   "tier": "derived"
+  },
+  {
+   "id": "altman_z",
+   "description": "Altman Z-score and zone",
+   "needed_by": [
+    "Q15",
+    "Q26",
+    "Q25"
+   ],
+   "probes": [
+    {
+     "kind": "col",
+     "table": "FEREEnrichedLedger",
+     "col": "altman_z_score",
+     "where": null,
+     "date": {
+      "col": "enriched_at"
+     },
+     "prov": null,
+     "unit": "score",
+     "range": [
+      -50,
+      100
+     ],
+     "canonical": false
+    },
+    {
+     "kind": "tl_token",
+     "token": "altmanzscore",
+     "unit": "score",
+     "range": [
+      -50,
+      100
+     ],
+     "canonical": false
+    }
+   ],
+   "ttl_days": 180,
+   "sources": [
+    "Derive from official balance sheet + P&L",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) token altmanzscore"
+   ],
+   "free_official_bulk": "derived",
+   "unit": "score",
+   "never_100pct": {
+    "reason": "Not defined for banks/NBFC/insurers",
+    "mark_as": "not_applicable"
+   },
+   "tier": "derived"
+  },
+  {
+   "id": "market_cap_cr",
+   "description": "Market capitalisation (Rs crore)",
+   "needed_by": [
+    "Q16",
+    "Q19",
+    "Q22"
+   ],
+   "probes": [
+    {
+     "kind": "col",
+     "table": "FEREEnrichedLedger",
+     "col": "market_cap_cr",
+     "where": null,
+     "date": {
+      "col": "enriched_at"
+     },
+     "prov": null,
+     "unit": "cr",
+     "range": [
+      1,
+      30000000.0
+     ],
+     "canonical": false
+    },
+    {
+     "kind": "tl_token",
+     "token": "mcapq",
+     "unit": "cr",
+     "range": [
+      1,
+      30000000.0
+     ],
+     "canonical": false
+    }
+   ],
+   "ttl_days": 7,
+   "sources": [
+    "NSE/BSE close x official shares outstanding (Reg-31 total shares)",
+    "TradingView screener (derived-from-filings aggregator)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) token mcapq"
+   ],
+   "free_official_bulk": "derived: bhavcopy x Reg-31 share count",
+   "unit": "cr",
+   "never_100pct": null,
+   "tier": "market"
+  },
+  {
+   "id": "ltp",
+   "description": "Last traded price",
+   "needed_by": [
+    "Q13",
+    "Q16"
+   ],
+   "probes": [
+    {
+     "kind": "col",
+     "table": "MasterTickers",
+     "col": "last_price",
+     "where": null,
+     "date": {
+      "col": "last_updated"
+     },
+     "prov": null,
+     "unit": "price",
+     "range": [
+      0.01,
+      1000000.0
+     ],
+     "canonical": true
+    }
+   ],
+   "ttl_days": 5,
+   "sources": [
+    "NSE/BSE bhavcopy (official EOD)",
+    "Kite/Upstox"
+   ],
+   "free_official_bulk": "yes: bhavcopy",
+   "unit": "price",
+   "never_100pct": null,
+   "tier": "market"
+  },
+  {
+   "id": "sector_industry",
+   "description": "Sector / industry classification",
+   "needed_by": [
+    "Q01",
+    "Q03",
+    "Q23"
+   ],
+   "probes": [
+    {
+     "kind": "col",
+     "table": "MasterTickers",
+     "col": "sector",
+     "where": null,
+     "date": {
+      "col": "updated_at"
+     },
+     "prov": null,
+     "unit": "text",
+     "range": null,
+     "canonical": true
+    }
+   ],
+   "ttl_days": 365,
+   "sources": [
+    "NSE industry classification (official)",
+    "TradingView screener (derived-from-filings aggregator)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited)"
+   ],
+   "free_official_bulk": "yes: NSE index constituent / industry files",
+   "unit": "text",
+   "never_100pct": null,
+   "tier": "statutory"
+  },
+  {
+   "id": "technical_bars_200",
+   "description": "RSI / SMA200 need >=200 daily bars",
+   "needed_by": [
+    "Q13"
+   ],
+   "probes": [
+    {
+     "kind": "ohlcv_bars",
+     "min_bars": 200,
+     "canonical": true
+    }
+   ],
+   "ttl_days": 5,
+   "sources": [
+    "NSE/BSE bhavcopy history (official)",
+    "Kite adjusted candles (in use)",
+    "TradingView screener (derived-from-filings aggregator)"
+   ],
+   "free_official_bulk": "yes: bhavcopy",
+   "unit": "bars",
+   "never_100pct": {
+    "reason": "Listed < 200 sessions",
+    "mark_as": "not_disclosed"
+   },
+   "tier": "market"
+  },
+  {
+   "id": "turnover_adtv",
+   "description": "Daily turnover for ADTV (liquidity)",
+   "needed_by": [
+    "Q19"
+   ],
+   "probes": [
+    {
+     "kind": "ohlcv_col",
+     "col": "turnover",
+     "canonical": true
+    }
+   ],
+   "ttl_days": 5,
+   "sources": [
+    "NSE/BSE bhavcopy",
+    "Kite"
+   ],
+   "free_official_bulk": "yes: bhavcopy",
+   "unit": "rupees",
+   "never_100pct": null,
+   "tier": "market"
+  },
+  {
+   "id": "delivery_pct",
+   "description": "Delivery % (volume quality)",
+   "needed_by": [
+    "Q19"
+   ],
+   "probes": [
+    {
+     "kind": "ohlcv_col",
+     "col": "delivery_pct",
+     "canonical": true
+    }
+   ],
+   "ttl_days": 5,
+   "sources": [
+    "NSE security-wise delivery position file (official, daily)"
+   ],
+   "free_official_bulk": "yes: NSE sec_bhavdata_full",
+   "unit": "pct",
+   "never_100pct": null,
+   "tier": "market"
+  },
+  {
+   "id": "dvm_score",
+   "description": "Trendlyne DVM (Durability/Value/Momentum)",
+   "needed_by": [
+    "Q22"
+   ],
+   "probes": [
+    {
+     "kind": "absent",
+     "reason": "no DVM column anywhere; proprietary to Trendlyne"
+    }
+   ],
+   "ttl_days": 7,
+   "sources": [
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) overview (only source; proprietary)"
+   ],
+   "free_official_bulk": "no (proprietary)",
+   "unit": "score",
+   "never_100pct": {
+    "reason": "Proprietary Trendlyne score: no official source. Label 'not available from authentic official source' unless user exports it",
+    "mark_as": "not_disclosed"
+   },
+   "tier": "proprietary"
+  },
+  {
+   "id": "doc_annual_report",
+   "description": "Latest annual report (business, risks, governance text)",
+   "needed_by": [
+    "Q01",
+    "Q02",
+    "Q03",
+    "Q17",
+    "Q18",
+    "Q20",
+    "Q21",
+    "Q23"
+   ],
+   "probes": [
+    {
+     "kind": "docs",
+     "source_types": [
+      "ANNUAL_REPORT"
+     ],
+     "canonical": true
+    }
+   ],
+   "ttl_days": 400,
+   "sources": [
+    "Annual report / BRSR filed on NSE/BSE (official)",
+    "Company IR site",
+    "MCA21 (annual filings, charges, director data)"
+   ],
+   "free_official_bulk": "partial: NSE annual-report API gives PDF links",
+   "unit": "docs",
+   "never_100pct": {
+    "reason": "Newly listed issuers may not have filed one",
+    "mark_as": "not_disclosed"
+   },
+   "tier": "documents"
+  },
+  {
+   "id": "doc_concall_transcript",
+   "description": "Latest concall transcript (guidance, order book, demand)",
+   "needed_by": [
+    "Q02",
+    "Q03",
+    "Q17",
+    "Q23",
+    "Q24",
+    "Q25"
+   ],
+   "probes": [
+    {
+     "kind": "docs",
+     "source_types": [
+      "TRANSCRIPT"
+     ],
+     "canonical": true
+    }
+   ],
+   "ttl_days": 120,
+   "sources": [
+    "BSE/NSE Reg-30 transcript filings (official)",
+    "Company IR site",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited) concall tab"
+   ],
+   "free_official_bulk": "partial: announcements feed (category analyst/investor meet)",
+   "unit": "docs",
+   "never_100pct": {
+    "reason": "Many micro/small caps hold no earnings call; absence of a filing is itself the fact",
+    "mark_as": "not_disclosed"
+   },
+   "tier": "documents"
+  },
+  {
+   "id": "doc_investor_presentation",
+   "description": "Latest investor presentation",
+   "needed_by": [
+    "Q02",
+    "Q03",
+    "Q23",
+    "Q24"
+   ],
+   "probes": [
+    {
+     "kind": "docs",
+     "source_types": [
+      "INVESTOR_PRESENTATION"
+     ],
+     "canonical": true
+    }
+   ],
+   "ttl_days": 120,
+   "sources": [
+    "BSE/NSE Reg-30 filings (official)",
+    "Company IR site"
+   ],
+   "free_official_bulk": "partial: announcements feed",
+   "unit": "docs",
+   "never_100pct": {
+    "reason": "Voluntary for many issuers",
+    "mark_as": "not_disclosed"
+   },
+   "tier": "documents"
+  },
+  {
+   "id": "doc_filings_announcements",
+   "description": "Exchange announcements last 90d (Reg-30 events)",
+   "needed_by": [
+    "Q11",
+    "Q17",
+    "Q18",
+    "Q21",
+    "Q23"
+   ],
+   "probes": [
+    {
+     "kind": "docs",
+     "source_types": [
+      "EXCHANGE_ANNOUNCEMENT"
+     ],
+     "canonical": true
+    }
+   ],
+   "ttl_days": 30,
+   "sources": [
+    "NSE corporate announcements API / BSE announcements API (official)"
+   ],
+   "free_official_bulk": "yes: official announcement feeds",
+   "unit": "docs",
+   "never_100pct": null,
+   "tier": "documents"
+  },
+  {
+   "id": "doc_results_filing",
+   "description": "Latest financial-results filing (XBRL/PDF)",
+   "needed_by": [
+    "Q04",
+    "Q06",
+    "Q08"
+   ],
+   "probes": [
+    {
+     "kind": "docs",
+     "source_types": [
+      "FINANCIAL_RESULTS"
+     ],
+     "canonical": true
+    }
+   ],
+   "ttl_days": 120,
+   "sources": [
+    "NSE/BSE financial results feed (official)"
+   ],
+   "free_official_bulk": "yes",
+   "unit": "docs",
+   "never_100pct": null,
+   "tier": "documents"
+  },
+  {
+   "id": "news",
+   "description": "News flow last 30 days (entity-resolved)",
+   "needed_by": [
+    "Q01",
+    "Q17",
+    "Q18",
+    "Q23"
+   ],
+   "probes": [
+    {
+     "kind": "news",
+     "canonical": true
+    }
+   ],
+   "ttl_days": 30,
+   "sources": [
+    "Exchange announcements (official first)",
+    "Trendlyne news tab (user session)",
+    "Moneycontrol/ET/FT/CNBC-TV18 (leads only)"
+   ],
+   "free_official_bulk": "no (media)",
+   "unit": "items",
+   "never_100pct": {
+    "reason": "Many small caps have no news in a window; record 'no news found in window'",
+    "mark_as": "none_disclosed"
+   },
+   "tier": "news"
+  },
+  {
+   "id": "corporate_actions",
+   "description": "Corporate actions (split/bonus/dividend/rights)",
+   "needed_by": [
+    "Q11",
+    "Q16"
+   ],
+   "probes": [
+    {
+     "kind": "corp_actions",
+     "canonical": true
+    }
+   ],
+   "ttl_days": 90,
+   "sources": [
+    "NSE/BSE corporate-actions feed (official)"
+   ],
+   "free_official_bulk": "yes",
+   "unit": "events",
+   "never_100pct": {
+    "reason": "No action in window is a valid state",
+    "mark_as": "none_disclosed"
+   },
+   "tier": "documents"
+  },
+  {
+   "id": "peer_set",
+   "description": "Peer set / relative valuation inputs",
+   "needed_by": [
+    "Q03",
+    "Q17",
+    "Q16"
+   ],
+   "probes": [
+    {
+     "kind": "absent",
+     "reason": "no peer mapping table in portfolio.db (tv_peers.json is generated per run)"
+    }
+   ],
+   "ttl_days": 90,
+   "sources": [
+    "NSE industry classification (official) + same-industry peers from official financials",
+    "TradingView screener (derived-from-filings aggregator)",
+    "Trendlyne (user-exported CSV or logged-in browser session; MCP quota-limited)"
+   ],
+   "free_official_bulk": "derived",
+   "unit": "list",
+   "never_100pct": null,
+   "tier": "statutory"
+  },
+  {
+   "id": "business_description",
+   "description": "Business description / segments (text)",
+   "needed_by": [
+    "Q01",
+    "Q02"
+   ],
+   "probes": [
+    {
+     "kind": "absent",
+     "reason": "MasterTickers has no description column"
+    }
+   ],
+   "ttl_days": 365,
+   "sources": [
+    "Annual report / BRSR filed on NSE/BSE (official)",
+    "Company website About page",
+    "NSE/BSE company profile",
+    "MCA21 (annual filings, charges, director data)"
+   ],
+   "free_official_bulk": "partial: NSE company info API",
+   "unit": "text",
+   "never_100pct": null,
+   "tier": "documents"
+  },
+  {
+   "id": "risk_regulatory_text",
+   "description": "Risk factors, regulatory exposure, concentration disclosures",
+   "needed_by": [
+    "Q17",
+    "Q18",
+    "Q20"
+   ],
+   "probes": [
+    {
+     "kind": "absent",
+     "reason": "no structured store; requires extraction from annual report MD&A / BRSR / DRHP"
+    }
+   ],
+   "ttl_days": 365,
+   "sources": [
+    "Annual report / BRSR filed on NSE/BSE (official)",
+    "DRHP/RHP (SEBI)",
+    "Concall transcript"
+   ],
+   "free_official_bulk": "no (text extraction)",
+   "unit": "text",
+   "never_100pct": null,
+   "tier": "documents"
+  },
+  {
+   "id": "sector_dynamics",
+   "description": "Sector tailwinds/headwinds (12-24m)",
+   "needed_by": [
+    "Q23"
+   ],
+   "probes": [
+    {
+     "kind": "absent",
+     "reason": "no store; needs sector reports + concall guidance"
+    }
+   ],
+   "ttl_days": 90,
+   "sources": [
+    "Regulator/ministry publications (RBI, TRAI, CEA etc.)",
+    "Industry bodies (SIAM, IBEF)",
+    "Concall guidance"
+   ],
+   "free_official_bulk": "no",
+   "unit": "text",
+   "never_100pct": null,
+   "tier": "statutory"
+  },
+  {
+   "id": "filter_questions_8",
+   "description": "The 8 'filter questions' for dossier creation (user-defined)",
+   "needed_by": [
+    "top-summary"
+   ],
+   "probes": [
+    {
+     "kind": "absent",
+     "reason": "NOT SPECIFIED: the 8 questions are not in repo or docs; only F1-F7 exist. Blocked on user input"
+    }
+   ],
+   "ttl_days": 0,
+   "sources": [
+    "User to supply"
+   ],
+   "free_official_bulk": "n/a",
+   "unit": "n/a",
+   "never_100pct": {
+    "reason": "Spec missing - cannot be computed",
+    "mark_as": "blocked_on_user"
+   },
+   "tier": "spec"
+  }
+ ]
+}

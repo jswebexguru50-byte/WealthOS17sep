@@ -1,0 +1,10 @@
+{
+  "entries": [
+    {
+      "file": "scripts/fundamental/run_29q_with_tv.py",
+      "line": null,
+      "rule": "SYNTH_WORD",
+      "justification": "False positive: SQL 'placeholders' = '?' bind-parameter list for IN (...) clauses; no data is synthesized."
+    }
+  ]
+}

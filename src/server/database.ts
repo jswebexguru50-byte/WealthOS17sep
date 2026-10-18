@@ -411,34 +411,77 @@ export function MIGRATION_V16_SQLS(): string[] {
       symbol TEXT NOT NULL, field TEXT NOT NULL, value TEXT, source TEXT, confidence REAL,
       fetched_at TEXT, ttl_seconds INTEGER, PRIMARY KEY (symbol, field)
     )`,
+    // prev_inst_pct = FII+DII of the previous (older) quarter, for the F6 QoQ test; NULL unless both legs known in both quarters.
     `CREATE VIEW IF NOT EXISTS v_latest_shareholding AS
-      SELECT symbol, quarter_label, as_of_date, promoter_pct, fii_pct, dii_pct, public_pct, free_float_pct, pledge_pct
-      FROM (SELECT s.*, ROW_NUMBER() OVER (PARTITION BY symbol
-              ORDER BY (${qk('quarter_label')} IS NULL), ${qk('quarter_label')} DESC, as_of_date DESC, id DESC) AS rn
-            FROM HistoricalShareholdingPattern s)
+      SELECT symbol, quarter_label, as_of_date, promoter_pct, fii_pct, dii_pct, public_pct, free_float_pct, pledge_pct, prev_inst_pct
+      FROM (SELECT s.*,
+                   LEAD(s.fii_pct + s.dii_pct) OVER w AS prev_inst_pct,
+                   ROW_NUMBER() OVER w AS rn
+            FROM HistoricalShareholdingPattern s
+            WINDOW w AS (PARTITION BY symbol
+              ORDER BY (${qk('quarter_label')} IS NULL), ${qk('quarter_label')} DESC, as_of_date DESC, id DESC))
       WHERE rn = 1`,
-    // ROCE/ROE: quarterly EBIT (PBT+interest) / PAT x4 over latest balance sheet. NULL when reserves/denominator unknown.
+    // ROCE / ROE with a documented fallback chain (NULL only when every rung is unavailable).
+    // Source reality (portfolio.db): BALANCE_SHEET.reserves_cr is 100% NULL; Yahoo-sourced rows store TOTAL EQUITY in
+    // equity_capital_cr (equity + total_liabilities ~= total_assets for 98% of rows) alongside total_liabilities_cr/total_assets_cr.
+    //  Equity E  : 1) equity_capital_cr + reserves_cr (when reserves known)
+    //              2) total_assets_cr - total_liabilities_cr (balance-sheet identity; robust to equity_capital_cr being total equity)
+    //              3) equity_capital_cr as-is (assumed total equity), only if > 0
+    //  Capital employed CE = E + COALESCE(borrowings_cr, 0)
+    //  EBIT      : 1) latest quarter (PBT + interest) x 4   (roce_basis 'Q_ANNUALISED')
+    //              2) latest ANNUAL_PL (PBT + interest), no scaling (roce_basis 'ANNUAL')
+    //  PAT       : 1) latest quarter PAT x 4  2) latest ANNUAL_PL PAT (roe_basis 'Q_ANNUALISED' / 'ANNUAL')
     `CREATE VIEW IF NOT EXISTS v_latest_quarterly_fin AS
       WITH q AS (
         SELECT symbol, period_label, operating_profit_cr, pbt_cr, interest_cr, net_profit_pat_cr, sales_cr,
                ROW_NUMBER() OVER (PARTITION BY symbol ORDER BY ${qk('period_label')} DESC, id DESC) AS rn
         FROM HistoricalFinancialStatements
         WHERE statement_type LIKE 'QUARTERLY%' AND ${qk('period_label')} IS NOT NULL AND net_profit_pat_cr IS NOT NULL
-      ), b AS (
-        SELECT symbol, period_label AS bs_period, equity_capital_cr, reserves_cr, borrowings_cr,
+      ), a AS (
+        SELECT symbol, period_label AS annual_period,
+               CASE WHEN pbt_cr IS NOT NULL AND interest_cr IS NOT NULL THEN pbt_cr + interest_cr END AS ebit_annual,
+               net_profit_pat_cr AS pat_annual,
                ROW_NUMBER() OVER (PARTITION BY symbol ORDER BY ${qk('period_label')} DESC, id DESC) AS rn
         FROM HistoricalFinancialStatements
-        WHERE statement_type = 'BALANCE_SHEET' AND ${qk('period_label')} IS NOT NULL AND equity_capital_cr IS NOT NULL
+        WHERE statement_type = 'ANNUAL_PL' AND ${qk('period_label')} IS NOT NULL
+          AND (net_profit_pat_cr IS NOT NULL OR (pbt_cr IS NOT NULL AND interest_cr IS NOT NULL))
+      ), b0 AS (
+        SELECT symbol, period_label AS bs_period, equity_capital_cr, reserves_cr, borrowings_cr,
+               CASE WHEN reserves_cr IS NOT NULL AND equity_capital_cr IS NOT NULL AND equity_capital_cr + reserves_cr > 0
+                         THEN equity_capital_cr + reserves_cr
+                    WHEN total_assets_cr IS NOT NULL AND total_liabilities_cr IS NOT NULL AND total_assets_cr - total_liabilities_cr > 0
+                         THEN total_assets_cr - total_liabilities_cr
+                    WHEN equity_capital_cr > 0 THEN equity_capital_cr END AS equity_cr,
+               ROW_NUMBER() OVER (PARTITION BY symbol ORDER BY ${qk('period_label')} DESC, id DESC) AS rn
+        FROM HistoricalFinancialStatements
+        WHERE statement_type = 'BALANCE_SHEET' AND ${qk('period_label')} IS NOT NULL
+          AND (equity_capital_cr IS NOT NULL OR total_assets_cr IS NOT NULL)
+      ), b AS (
+        SELECT * FROM b0 WHERE rn = 1
+      ), syms AS (
+        -- anchor on every symbol with any usable statement so annual-only / balance-sheet-only names are not dropped
+        SELECT symbol FROM q WHERE rn = 1 UNION SELECT symbol FROM a WHERE rn = 1 UNION SELECT symbol FROM b
       )
-      SELECT q.symbol, q.period_label AS quarter_label, q.sales_cr, q.operating_profit_cr, q.pbt_cr, q.interest_cr,
-             q.net_profit_pat_cr, b.bs_period, b.equity_capital_cr, b.reserves_cr, b.borrowings_cr,
-             CASE WHEN q.pbt_cr IS NOT NULL AND q.interest_cr IS NOT NULL AND b.reserves_cr IS NOT NULL
-                       AND (b.equity_capital_cr + b.reserves_cr + COALESCE(b.borrowings_cr,0)) > 0
-                  THEN (q.pbt_cr + q.interest_cr) * 4.0 / (b.equity_capital_cr + b.reserves_cr + COALESCE(b.borrowings_cr,0)) * 100 END AS roce_pct_annualised,
-             CASE WHEN b.reserves_cr IS NOT NULL AND (b.equity_capital_cr + b.reserves_cr) > 0
-                  THEN q.net_profit_pat_cr * 4.0 / (b.equity_capital_cr + b.reserves_cr) * 100 END AS roe_pct_annualised
-      FROM q LEFT JOIN b ON b.symbol = q.symbol AND b.rn = 1
-      WHERE q.rn = 1`,
+      SELECT syms.symbol, q.period_label AS quarter_label, q.sales_cr, q.operating_profit_cr, q.pbt_cr, q.interest_cr,
+             q.net_profit_pat_cr, b.bs_period, b.equity_capital_cr, b.reserves_cr, b.borrowings_cr, b.equity_cr,
+             CASE WHEN b.equity_cr IS NOT NULL THEN b.equity_cr + COALESCE(b.borrowings_cr, 0) END AS capital_employed_cr,
+             CASE WHEN b.equity_cr IS NULL THEN NULL
+                  WHEN q.pbt_cr IS NOT NULL AND q.interest_cr IS NOT NULL THEN
+                       (q.pbt_cr + q.interest_cr) * 4.0 / (b.equity_cr + COALESCE(b.borrowings_cr, 0)) * 100
+                  WHEN a.ebit_annual IS NOT NULL THEN
+                       a.ebit_annual * 1.0 / (b.equity_cr + COALESCE(b.borrowings_cr, 0)) * 100 END AS roce_pct_annualised,
+             CASE WHEN b.equity_cr IS NULL THEN NULL
+                  WHEN q.pbt_cr IS NOT NULL AND q.interest_cr IS NOT NULL THEN 'Q_ANNUALISED'
+                  WHEN a.ebit_annual IS NOT NULL THEN 'ANNUAL' END AS roce_basis,
+             CASE WHEN b.equity_cr IS NULL THEN NULL
+                  WHEN q.net_profit_pat_cr IS NOT NULL THEN q.net_profit_pat_cr * 4.0 / b.equity_cr * 100
+                  WHEN a.pat_annual IS NOT NULL THEN a.pat_annual * 1.0 / b.equity_cr * 100 END AS roe_pct_annualised,
+             CASE WHEN b.equity_cr IS NULL THEN NULL
+                  WHEN q.net_profit_pat_cr IS NOT NULL THEN 'Q_ANNUALISED'
+                  WHEN a.pat_annual IS NOT NULL THEN 'ANNUAL' END AS roe_basis
+      FROM syms LEFT JOIN q ON q.symbol = syms.symbol AND q.rn = 1
+                LEFT JOIN b ON b.symbol = syms.symbol
+                LEFT JOIN a ON a.symbol = syms.symbol AND a.rn = 1`,
     `CREATE VIEW IF NOT EXISTS v_8q_pat_check AS
       WITH q AS (
         SELECT symbol, net_profit_pat_cr,
@@ -447,7 +490,9 @@ export function MIGRATION_V16_SQLS(): string[] {
         WHERE statement_type LIKE 'QUARTERLY%' AND ${qk('period_label')} IS NOT NULL
       ), agg AS (
         SELECT symbol, COUNT(*) AS quarters_considered,
-               SUM(CASE WHEN net_profit_pat_cr > 0 THEN 1 ELSE 0 END) AS pat_positive_count
+               SUM(CASE WHEN net_profit_pat_cr > 0 THEN 1 ELSE 0 END) AS pat_positive_count,
+               SUM(CASE WHEN net_profit_pat_cr <= 0 THEN 1 ELSE 0 END) AS pat_nonpositive_count,
+               SUM(CASE WHEN net_profit_pat_cr IS NULL THEN 1 ELSE 0 END) AS pat_unknown_count
         FROM q WHERE rn <= 8 GROUP BY symbol
       ), cf AS (
         SELECT symbol, period_label AS cfo_period, cfo_cr,
@@ -460,7 +505,7 @@ export function MIGRATION_V16_SQLS(): string[] {
         FROM HistoricalFinancialStatements
         WHERE statement_type = 'ANNUAL_PL' AND ${qk('period_label')} IS NOT NULL AND operating_profit_cr IS NOT NULL
       )
-      SELECT agg.symbol, agg.quarters_considered, agg.pat_positive_count,
+      SELECT agg.symbol, agg.quarters_considered, agg.pat_positive_count, agg.pat_nonpositive_count, agg.pat_unknown_count,
              CASE WHEN agg.quarters_considered = 8 AND agg.pat_positive_count = 8 THEN 1 ELSE 0 END AS has_8q,
              cf.cfo_period, cf.cfo_cr, ap.ebitda_period, ap.ebitda_cr,
              CASE WHEN ap.ebitda_cr > 0 THEN cf.cfo_cr / ap.ebitda_cr END AS cfo_to_ebitda
@@ -468,9 +513,10 @@ export function MIGRATION_V16_SQLS(): string[] {
                LEFT JOIN ap ON ap.symbol = agg.symbol AND ap.rn = 1`,
     `CREATE VIEW IF NOT EXISTS v_f_filter_inputs AS
       SELECT m.symbol, m.isin, m.name, m.sector,
-             s.quarter_label AS shp_quarter, s.promoter_pct, s.fii_pct, s.dii_pct, s.pledge_pct,
-             f.quarter_label AS fin_quarter, f.roce_pct_annualised, f.roe_pct_annualised, f.net_profit_pat_cr,
-             p.pat_positive_count, p.has_8q, p.cfo_to_ebitda
+             s.quarter_label AS shp_quarter, s.promoter_pct, s.fii_pct, s.dii_pct, s.pledge_pct, s.prev_inst_pct,
+             f.quarter_label AS fin_quarter, f.roce_pct_annualised, f.roe_pct_annualised, f.roce_basis, f.roe_basis, f.net_profit_pat_cr,
+             p.quarters_considered, p.pat_positive_count, p.pat_nonpositive_count, p.pat_unknown_count, p.has_8q,
+             p.cfo_cr, p.ebitda_cr, p.cfo_to_ebitda
       FROM (SELECT symbol, isin, name, sector, ROW_NUMBER() OVER (PARTITION BY symbol ORDER BY id) AS rn
             FROM MasterTickers WHERE symbol IS NOT NULL) m
       LEFT JOIN v_latest_shareholding s ON s.symbol = m.symbol
@@ -483,13 +529,41 @@ export function MIGRATION_V16_SQLS(): string[] {
       FROM (SELECT DISTINCT symbol FROM DailyOHLCV) s
       JOIN DailyOHLCV o ON o.symbol = s.symbol
        AND o.trade_date = (SELECT MAX(trade_date) FROM DailyOHLCV WHERE symbol = s.symbol)`,
-    // Raw inputs only: F1-F7 thresholds live in Python f_filter_engine.py (authority) and are not duplicated here.
+    // F1-F7 flags: 1 = pass, 0 = fail, NULL = unknown (never defaulted). Convenience mirror only: the Python engine
+    // scripts/fundamental/f_filter_engine.py is AUTHORITATIVE; on any disagreement the Python result wins.
+    // Rules mirror its docstring: F1 promoter>=66.67; F2 newest 8 quarters all PAT>0 (<8 quarters => fail, unknown PAT => NULL);
+    // F3 ROCE>=35; F4 ROE>=25; F5 pledge<=0.01 (NULL => NULL); F6 (FII+DII)>=5 AND QoQ>=+0.10pp (inst<5 => fail even if trend unknown);
+    // F7 CFO/EBITDA>=0.5 (EBITDA<=0 => fail). all_pass_sql = 1 only if all seven are 1, 0 if any is 0, else NULL.
     `CREATE VIEW IF NOT EXISTS v_stock_full_profile AS
-      SELECT i.symbol, i.isin, i.name, i.sector, u.trade_date AS last_trade_date, u.close AS last_close, u.volume AS last_volume,
-             i.shp_quarter, i.promoter_pct, i.fii_pct, i.dii_pct, i.pledge_pct,
-             i.fin_quarter, i.net_profit_pat_cr, i.roce_pct_annualised, i.roe_pct_annualised,
-             i.pat_positive_count, i.has_8q, i.cfo_to_ebitda
-      FROM v_f_filter_inputs i LEFT JOIN v_scan_universe_latest u ON u.symbol = i.symbol`,
+      WITH x AS (
+        SELECT i.symbol, i.isin, i.name, i.sector, u.trade_date AS last_trade_date, u.close AS last_close, u.volume AS last_volume,
+               i.shp_quarter, i.promoter_pct, i.fii_pct, i.dii_pct, i.pledge_pct,
+               i.fin_quarter, i.net_profit_pat_cr, i.roce_pct_annualised, i.roe_pct_annualised, i.roce_basis, i.roe_basis,
+               i.pat_positive_count, i.has_8q, i.cfo_to_ebitda,
+               i.fii_pct + i.dii_pct AS inst_pct,
+               i.fii_pct + i.dii_pct - i.prev_inst_pct AS inst_change_pp,
+               CASE WHEN i.promoter_pct IS NULL THEN NULL WHEN i.promoter_pct >= 66.67 THEN 1 ELSE 0 END AS f1_promoter,
+               CASE WHEN i.quarters_considered IS NULL THEN NULL
+                    WHEN i.pat_nonpositive_count > 0 THEN 0
+                    WHEN i.quarters_considered < 8 THEN 0
+                    WHEN i.pat_unknown_count > 0 THEN NULL ELSE 1 END AS f2_pat_8q,
+               CASE WHEN i.roce_pct_annualised IS NULL THEN NULL WHEN i.roce_pct_annualised >= 35 THEN 1 ELSE 0 END AS f3_roce,
+               CASE WHEN i.roe_pct_annualised IS NULL THEN NULL WHEN i.roe_pct_annualised >= 25 THEN 1 ELSE 0 END AS f4_roe,
+               CASE WHEN i.pledge_pct IS NULL THEN NULL WHEN i.pledge_pct <= 0.01 THEN 1 ELSE 0 END AS f5_pledge,
+               CASE WHEN i.fii_pct IS NULL OR i.dii_pct IS NULL THEN NULL
+                    WHEN i.fii_pct + i.dii_pct < 5 THEN 0
+                    WHEN i.prev_inst_pct IS NULL THEN NULL
+                    WHEN i.fii_pct + i.dii_pct - i.prev_inst_pct >= 0.10 - 1e-9 THEN 1 ELSE 0 END AS f6_institutional,
+               CASE WHEN i.cfo_cr IS NULL OR i.ebitda_cr IS NULL THEN NULL
+                    WHEN i.ebitda_cr <= 0 THEN 0
+                    WHEN i.cfo_cr / i.ebitda_cr >= 0.5 THEN 1 ELSE 0 END AS f7_cfo_ebitda
+        FROM v_f_filter_inputs i LEFT JOIN v_scan_universe_latest u ON u.symbol = i.symbol
+      )
+      SELECT x.*,
+             CASE WHEN f1_promoter = 0 OR f2_pat_8q = 0 OR f3_roce = 0 OR f4_roe = 0 OR f5_pledge = 0 OR f6_institutional = 0 OR f7_cfo_ebitda = 0 THEN 0
+                  WHEN f1_promoter IS NULL OR f2_pat_8q IS NULL OR f3_roce IS NULL OR f4_roe IS NULL OR f5_pledge IS NULL OR f6_institutional IS NULL OR f7_cfo_ebitda IS NULL THEN NULL
+                  ELSE 1 END AS all_pass_sql
+      FROM x`,
   ];
 }
 
