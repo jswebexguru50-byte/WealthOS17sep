@@ -668,7 +668,10 @@ def main():
         auto_enrich(conn, symbols, server=args.server)
 
     print(f"[29Q] Fetching DB data for {len(symbols)} symbols...")
-    sh_dict  = fetch_shareholding(conn, symbols)   # layers 1 + 2 applied inside
+    waterfall = SourceWaterfallEngine(conn)
+    sh_dict  = waterfall.get_shareholding(symbols)   # layers 1 + 2 applied inside
+    for symbol in symbols:
+        waterfall.record_external_conflicts(symbol, tv_universe.get(symbol, {}))
     fin_dict = fetch_financials(conn, symbols)
     conn.close()
     print(f"[29Q] Shareholding: {len(sh_dict)} | Financials: {len(fin_dict)}")

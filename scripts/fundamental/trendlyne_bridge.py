@@ -144,7 +144,7 @@ def fetch(
     """
     if not symbols or not fields:
         return {}
-    if server == SERVER_URL and not os.getenv('TRENDLYNE_MCP_URL'):
+    if not os.getenv('TRENDLYNE_MCP_URL'):
         raise TrendlyneUnavailableError('TRENDLYNE_MCP_URL is not configured')
 
     syms     = [s.strip().upper() for s in symbols if s.strip()]
@@ -178,6 +178,8 @@ def fetch_batch(symbols: list[str], fields: list[str], *, base_url: str = SERVER
     """
     if not symbols or not fields:
         return {}
+    if not os.getenv('TRENDLYNE_MCP_URL'):
+        raise TrendlyneUnavailableError('TRENDLYNE_MCP_URL is not configured')
     old_timeout = globals()['TIMEOUT_S']
     globals()['TIMEOUT_S'] = timeout
     try:
@@ -261,9 +263,7 @@ def fetch_and_store(
                      confidence  = excluded.confidence,
                      fetched_at  = excluded.fetched_at,
                      ttl_seconds = excluded.ttl_seconds
-                   WHERE excluded.confidence > canonical_fact_store.confidence
-                      OR (julianday('now') - julianday(canonical_fact_store.fetched_at))
-                         * 86400 > canonical_fact_store.ttl_seconds""",
+                   WHERE excluded.confidence > canonical_fact_store.confidence""",
                 rows,
         )
         db.commit()

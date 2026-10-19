@@ -19,6 +19,7 @@ import sys, json, os, sqlite3, math, argparse, shutil
 from datetime import datetime, timedelta, date
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'scripts', 'fundamental'))
 from f_filter_engine import compute_f_filters, roce_trailing_4q
+from source_waterfall import SourceWaterfallEngine
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
@@ -229,19 +230,13 @@ def run_fundamentals(scan_results, tv_universe):
         if not qualifying_symbols:
             return {}, {}
         ph = ','.join('?' * len(qualifying_symbols))
-        try:
-            sh = db.execute(f"""SELECT symbol, promoter_pct, fii_pct, dii_pct,
-                    pledge_pct, quarter_label, as_of_date FROM v_latest_shareholding
-                    WHERE symbol IN ({ph})""", qualifying_symbols).fetchall()
-        except sqlite3.Error:
-            sh = []
         fin = db.execute(f"""SELECT symbol, period_label, statement_type,
                     net_profit_pat_cr, sales_cr, opm_pct, cfo_cr, borrowings_cr,
                     total_assets_cr, equity_capital_cr, reserves_cr, eps
                     FROM HistoricalFinancialStatements WHERE symbol IN ({ph})
                     AND (statement_type LIKE 'QUARTERLY%' OR statement_type LIKE 'Q%')
                     ORDER BY symbol, period_label DESC""", qualifying_symbols).fetchall()
-        return _build_sh_dict(sh), _build_fin_dict(fin)
+        return SourceWaterfallEngine(db).get_shareholding(qualifying_symbols), _build_fin_dict(fin)
     qualifying_symbols = set(r['symbol'] for r in scan_results)
 
     # Build tv_dict from tv_universe (with compat aliases)
@@ -256,41 +251,18 @@ def run_fundamentals(scan_results, tv_universe):
 
     syms = sorted(qualifying_symbols)
     chunks = [syms[i:i+900] for i in range(0, len(syms), 900)]
-    sh_cols = {r[1] for r in con.execute("PRAGMA table_info(HistoricalShareholdingPattern)")}
-    pledge_sel = "h.pledge_pct" if 'pledge_pct' in sh_cols else "NULL"
-
-    # Shareholding: latest + previous quarter per symbol. as_of_date is NULL for
-    # many rows, so order by as_of_date when present else by parsed quarter_label.
-    _MON = {m: i for i, m in enumerate(
-        ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'], 1)}
-    def _sh_key(as_of, label):
-        if as_of: return str(as_of)[:10]
-        try:
-            mon, yr = str(label).strip().split()[:2]
-            return f"{int(yr):04d}-{_MON[mon[:3].lower()]:02d}-28"
-        except Exception:
-            return ''
-    sh_rows = {}
-    for ch in chunks:
-        ph = ','.join('?'*len(ch))
-        for r in con.execute(f"""
-            SELECT h.symbol, h.promoter_pct, h.fii_pct, h.dii_pct, h.public_pct,
-                   h.free_float_pct, h.quarter_label, h.as_of_date, {pledge_sel} as pledge_pct
-            FROM HistoricalShareholdingPattern h
-            WHERE h.symbol IN ({ph})""", ch):
-            sh_rows.setdefault(r[0], []).append((_sh_key(r[7], r[6]), r))
-    sh_dict = {}; prev_inst = {}
-    for sym_, rows in sh_rows.items():
-        rows.sort(key=lambda x: x[0], reverse=True)
-        r = rows[0][1]
-        sh_dict[sym_] = {'promoter_pct':r[1],'fii_pct':r[2],'dii_pct':r[3],
-                         'public_pct':r[4],'free_float_pct':r[5],'sh_quarter':r[6],
-                         'sh_date':r[7],'pledge_pct':r[8]}
-        if len(rows) > 1 and rows[1][0]:
-            p_ = rows[1][1]
-            if p_[2] is not None and p_[3] is not None:
-                prev_inst[sym_] = p_[2] + p_[3]
-    print(f"Shareholding: {len(sh_dict)} symbols in DB; prev-quarter: {len(prev_inst)}")
+    waterfall = SourceWaterfallEngine(con)
+    sh_dict = waterfall.get_shareholding(syms)
+    # The evidence read connection remains zero-write. Conflict observations
+    # use a short-lived, scoped audit connection to the v17 table instead.
+    conflict_con = sqlite3.connect(DB_PATH)
+    try:
+        conflict_engine = SourceWaterfallEngine(conflict_con)
+        for symbol in syms:
+            conflict_engine.record_external_conflicts(symbol, tv_dict.get(symbol, {}))
+    finally:
+        conflict_con.close()
+    print(f"Shareholding: {len(sh_dict)} symbols resolved through DB → CFS waterfall")
 
     # Financials (all quarters per qualifying symbol; F2 needs >=8)
     fin_dict = {}
@@ -367,12 +339,7 @@ def run_fundamentals(scan_results, tv_universe):
         return f
 
     def compute_f(sym, tv, sh, fin_q):
-        sh_data = dict(sh or {})
-        if sym in prev_inst:
-            current_fii, current_dii = sh_data.get('fii_pct'), sh_data.get('dii_pct')
-            if current_fii is not None and current_dii is not None:
-                sh_data['inst_history'] = [current_fii + current_dii, prev_inst[sym]]
-        return compute_f_filters(sym, tv or {}, sh_data, fin_q or [])
+        return compute_f_filters(sym, tv or {}, sh or {}, fin_q or [])
 
     merged = []
     for r in scan_results:

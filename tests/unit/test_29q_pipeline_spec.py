@@ -85,6 +85,11 @@ class PipelineSpecTests(unittest.TestCase):
         engine = SourceWaterfallEngine(self.db)
         self.assertTrue(engine.record_conflict(conflict))
         self.assertEqual(self.db.execute('SELECT count(*) FROM data_conflicts').fetchone()[0], 1)
+        engine.store.put_many([{'symbol': 'A', 'field': 'roce', 'value': 30,
+                                'source': 'trendlyne_mcp', 'confidence': 1.0,
+                                'fetched_at': datetime.now(timezone.utc), 'ttl_seconds': 3600}])
+        self.assertEqual(engine.record_external_conflicts('A', {'roce_fy': 50}), 1)
+        self.assertEqual(self.db.execute('SELECT count(*) FROM data_conflicts').fetchone()[0], 2)
         self.assertEqual(SourceWaterfallEngine(self.db).get_shareholding(['MISSING']), {})
 
     def test_db_shareholding_waterfall_and_batching(self):

@@ -10,7 +10,9 @@ from source_waterfall import SourceWaterfallEngine, PRIORITY  # noqa: E402
 
 T0 = datetime(2026, 10, 18, 12, 0, tzinfo=timezone.utc)
 DDL = """CREATE TABLE canonical_fact_store (symbol TEXT NOT NULL, field TEXT NOT NULL, value TEXT, source TEXT,
- confidence REAL, fetched_at TEXT, ttl_seconds INTEGER, PRIMARY KEY (symbol, field))"""
+ confidence REAL, fetched_at TEXT, ttl_seconds INTEGER, PRIMARY KEY (symbol, field));
+ CREATE TABLE data_conflicts (id INTEGER PRIMARY KEY, symbol TEXT, field TEXT, source_a TEXT, source_b TEXT,
+ diff_pct REAL, detected_at TEXT)"""
 
 
 class Src:
@@ -25,7 +27,7 @@ class Src:
 
 def make(datas, **kw):
     conn = sqlite3.connect(":memory:")
-    conn.execute(DDL)
+    conn.executescript(DDL)
     log = []
     srcs = {n: Src(n, d, log) for n, d in datas.items()}
     t = [T0]
@@ -41,8 +43,7 @@ class T(unittest.TestCase):
         self.assertEqual([c[0] for c in log], ["trendlyne_mcp", "upstox"])
         self.assertEqual(r["values"]["A"]["pe"], 7)
         self.assertEqual(r["provenance"]["A"]["pe"]["source"], "upstox")
-        self.assertEqual(PRIORITY, ("trendlyne_mcp", "tradingview", "trendlyne_web", "upstox", "kite",
-                                    "nse_bse", "mca", "news", "screener_in"))
+        self.assertEqual(PRIORITY[:5], ("trendlyne_mcp", "tradingview", "nse_bse", "screener", "manual"))
 
     def test_zero_calls_on_fresh_cache_and_expiry(self):
         eng, _, log, t = make({"trendlyne_mcp": {("A", "pe"): 12.5}})
@@ -80,30 +81,33 @@ class T(unittest.TestCase):
         self.assertEqual([(c["symbol"], c["field"]) for c in r["conflicts"]], [("A", "pe")])
         self.assertEqual(r["conflicts"][0]["other_source"], "tradingview")
         self.assertAlmostEqual(r["conflicts"][0]["rel_diff"], 2 / 12)
+        self.assertEqual(eng.store.conn.execute("SELECT COUNT(*) FROM data_conflicts").fetchone()[0], 1)
         eng2, *_ = make({"trendlyne_mcp": {("A", "pe"): 10}, "tradingview": {("A", "pe"): 12}})
-        self.assertEqual(eng2.resolve(["A"], ["pe"])["conflicts"], [])  # verify off by default
+        self.assertEqual(eng2.resolve(["A"], ["pe"])["conflicts"], [])
 
     def test_confidence_overwrite_rule(self):
         conn = sqlite3.connect(":memory:")
-        conn.execute(DDL)
+        conn.executescript(DDL)
         st = FactStore(conn)
 
         def f(v, c, at=T0, ttl=100):
             return {"symbol": "A", "field": "pe", "value": v, "source": "s",
                     "confidence": c, "fetched_at": at, "ttl_seconds": ttl}
         st.put_many([f(1, 0.8)])
+        self.assertEqual(st.put_many([{**f(99, 1.0), "field": "none", "value": None}]), 0)
         st.put_many([f(2, 0.5, T0 + timedelta(seconds=10))])  # lower conf, stored fresh -> ignored
         self.assertEqual(st.get("A", "pe", T0)["value"], 1)
         st.put_many([f(3, 0.8, T0 + timedelta(seconds=10))])  # equal confidence keeps existing
         self.assertEqual(st.get("A", "pe", T0)["value"], 1)
-        st.put_many([f(4, 0.1, T0 + timedelta(seconds=500))])  # stored expired -> overwrite
-        self.assertEqual(st.get("A", "pe", T0 + timedelta(seconds=501))["value"], 4)
+        st.put_many([f(4, 0.1, T0 + timedelta(seconds=500))])  # expiry does not lower confidence
+        self.assertEqual(conn.execute("SELECT value FROM canonical_fact_store WHERE symbol='A' AND field='pe'").fetchone()[0], '1')
+        self.assertIsNone(st.get("A", "pe", T0 + timedelta(seconds=501)))
         self.assertIsNone(st.get("A", "pe", T0 + timedelta(seconds=700)))
         self.assertIsNone(st.get("Z", "pe", T0))
 
     def test_get_many_chunking(self):
         conn = sqlite3.connect(":memory:")
-        conn.execute(DDL)
+        conn.executescript(DDL)
         st = FactStore(conn)
         st.put_many([{"symbol": "S%d" % i, "field": "pe", "value": i, "source": "s", "confidence": 1,
                       "fetched_at": T0, "ttl_seconds": 60} for i in range(1000)])

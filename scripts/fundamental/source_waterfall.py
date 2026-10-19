@@ -13,10 +13,13 @@ except ImportError:  # imported as a package
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     from canonical_fact_store import FactStore, iso, to_dt
 
-PRIORITY = ("trendlyne_mcp", "tradingview", "trendlyne_web", "upstox", "kite",
-            "nse_bse", "mca", "news", "screener_in")
-
-DEFAULT_CONFIDENCE = {n: round(1.0 - 0.1 * i, 2) for i, n in enumerate(PRIORITY)}
+PRIORITY = ("trendlyne_mcp", "tradingview", "nse_bse", "screener", "manual",
+            "trendlyne_web", "upstox", "kite", "mca", "news", "screener_in")
+DEFAULT_CONFIDENCE = {
+    "trendlyne_mcp": 1.0, "tradingview": 0.9, "nse_bse": 0.8,
+    "screener": 0.75, "screener_in": 0.75, "manual": 0.7,
+    "trendlyne_web": 0.7, "upstox": 0.7, "kite": 0.7, "mca": 0.7, "news": 0.7,
+}
 
 # (substrings, ttl_seconds) rules, first match wins; field class -> TTL
 DEFAULT_TTL_RULES = (
@@ -126,6 +129,11 @@ class SourceWaterfallEngine:
                 for row in rows:
                     result[row[0]] = {'promoter_pct': row[1], 'fii_pct': row[2], 'dii_pct': row[3],
                                       'pledge_pct': row[4], 'sh_quarter': row[5], 'sh_date': row[6]}
+            for symbol, values in result.items():
+                history = self.db.execute("""SELECT fii_pct, dii_pct FROM HistoricalShareholdingPattern
+                    WHERE symbol = ? ORDER BY as_of_date DESC LIMIT 4""", (symbol,)).fetchall()
+                if len(history) == 4 and all(r[0] is not None and r[1] is not None for r in history):
+                    values['inst_history'] = [r[0] + r[1] for r in history]
             missing = [s for s in symbols if s not in result]
             cached = self.store.get_many(missing, fields, self.clock())
             for symbol in missing:
@@ -149,7 +157,7 @@ class SourceWaterfallEngine:
         fields = ['promoter_pct', 'fii_pct', 'dii_pct', 'pledge_pct', 'inst_total_pct']
         # ``enrich`` is intentionally a routing hint only; callers decide which
         # live source is registered, keeping this class free of network I/O.
-        return self.resolve(symbols, fields).get('values', {})
+        return self.resolve(symbols, fields, verify=True).get('values', {})
 
     def put_field(self, symbol, field, value, source, confidence, ttl_days=30):
         """Persist one non-null fact through the confidence-guarded store."""
@@ -163,17 +171,47 @@ class SourceWaterfallEngine:
 
     def record_conflict(self, conflict: Optional[dict]):
         """Persist a detected conflict when the v17 table is available."""
-        if conflict is None or self.db is None:
+        connection = self.db or getattr(self.store, 'conn', None)
+        if conflict is None or connection is None:
             return False
-        exists = self.db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='data_conflicts'").fetchone()
+        exists = connection.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='data_conflicts'").fetchone()
         if not exists:
             raise RuntimeError('data_conflicts is unavailable; apply migration 17 before recording conflicts')
-        self.db.execute("""INSERT INTO data_conflicts
+        connection.execute("""INSERT INTO data_conflicts
             (symbol, field, source_a, source_b, diff_pct, detected_at) VALUES (?,?,?,?,?,?)""",
             (conflict['symbol'], conflict['field'], conflict['sources'][0], conflict['sources'][1],
              conflict['diff_pct'], iso(self.clock())))
-        self.db.commit()
+        connection.commit()
         return True
+
+    def record_external_conflicts(self, symbol: str, values: dict,
+                                  source: str = 'tradingview') -> int:
+        """Compare supplied evidence with fresh Trendlyne CFS facts.
+
+        Only comparable, non-null values are written.  This is deliberately
+        append-only: each observed disagreement retains its own timestamp.
+        """
+        if not values:
+            return 0
+        aliases = {
+            'roce': ('roce', 'roce_fy', 'roce_ttm'),
+            'roe': ('roe', 'roe_fy', 'roe_ttm'),
+            'promoter_pct': ('promoter_pct',),
+            'pledge_pct': ('pledge_pct',),
+            'fii_pct': ('fii_pct',),
+            'dii_pct': ('dii_pct',),
+        }
+        persisted = 0
+        for field, keys in aliases.items():
+            external = next((values.get(key) for key in keys if values.get(key) is not None), None)
+            cached = self.store.get(symbol, field, self.clock())
+            if cached is None or cached.get('source') != 'trendlyne_mcp':
+                continue
+            conflict = detect_conflicts(symbol, field, external, source,
+                                        cached.get('value'), cached.get('source'), self.tolerance)
+            if self.record_conflict(conflict):
+                persisted += 1
+        return persisted
 
     def ttl_for(self, field: str) -> int:
         if field in self.ttl_overrides:
@@ -249,8 +287,10 @@ class SourceWaterfallEngine:
                     den = max(abs(a), abs(b))
                     diff = abs(a - b) / den if den else 0.0
                     if diff > self.tolerance:
-                        conflicts.append({"symbol": s, "field": f, "source": name, "value": a,
-                                          "other_source": nxt, "other_value": b, "rel_diff": diff})
+                        conflict = {"symbol": s, "field": f, "source": name, "value": a,
+                                    "other_source": nxt, "other_value": b, "rel_diff": diff}
+                        conflicts.append(conflict)
+                        self.record_conflict(detect_conflicts(s, f, a, name, b, nxt, self.tolerance))
                 pending.discard((s, f))
         self.store.put_many(to_persist)
         conflicts.sort(key=lambda c: (c["symbol"], c["field"]))

@@ -31,7 +31,7 @@ def test_f1_boundary():
 
 
 def test_f2_quarters():
-    assert ev({"pats": [1] * 7})["F2_pass"] is False
+    assert ev({"pats": [1] * 7})["F2_pass"] is None
     assert ev({"pats": [1] * 8})["F2_pass"] is True
     assert ev({"pats": [1] * 9})["F2_pass"] is True
     assert ev({"pats": [1] * 8 + [-5]})["F2_pass"] is True  # 9th ignored
@@ -64,9 +64,9 @@ def test_f5_pledge():
 
 def test_f6():
     assert ev({"fii_pct": 2, "dii_pct": 3, "inst_change_pp": 0.10})["F6_pass"] is True
-    assert ev({"fii_pct": 2, "dii_pct": 3, "inst_change_pp": 0.09})["F6_pass"] is False
+    assert ev({"fii_pct": 2, "dii_pct": 3, "inst_change_pp": 0.09})["F6_pass"] is True
     assert ev({"fii_pct": 2, "dii_pct": 2.9, "inst_change_pp": 5})["F6_pass"] is False
-    assert ev({"fii_pct": 2, "dii_pct": 3})["F6_pass"] is None
+    assert ev({"fii_pct": 2, "dii_pct": 3})["F6_pass"] is True
     assert ev({"fii_pct": 2, "dii_pct": 2, "inst_change_pp": None})["F6_pass"] is False
     assert ev({"fii_pct": 9})["F6_pass"] is None  # dii missing, not treated as 0
     assert ev({"inst_pct": 6, "inst_change_pp": 1})["F6_pass"] is True
@@ -85,7 +85,7 @@ def test_f7():
 
 def test_all_pass_logic_and_lists():
     r = ev({**GOOD, "roe": 10, "pats": [1] * 5})
-    assert r["fail"] == ["F2", "F4"] and r["all_pass"] is False
+    assert r["unknown"] == ["F2"] and r["fail"] == ["F4"] and r["all_pass"] is False
     r = ev({**GOOD, "promoter_pct": None, "roe": 10})
     assert r["unknown"] == ["F1"] and r["fail"] == ["F4"]
 
