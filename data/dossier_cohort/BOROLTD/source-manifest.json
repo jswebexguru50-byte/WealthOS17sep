@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "BOROLTD",
+  "issuerBseCode": "516554",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_BOROLTD_AR2024",
+      "documentName": "BOROLTD_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "dfdecfa07cfb63a979460870192fdd6174ba1f5622a934d833c4bf30383e0e3c",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_BOROLTD_AUDITED_RESULTS",
+      "documentName": "BOROLTD_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "2b8b42b1edc60e8e2fda004fc11d31a3396ea4a25a9a6bb132c7fbd8c32cea73",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_BOROLTD_CONCALL_Q4FY26",
+      "documentName": "BOROLTD_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "8f91110dcc2f083fbe9ddcc9bbd166de3782606255355d471c72700ff7690252",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

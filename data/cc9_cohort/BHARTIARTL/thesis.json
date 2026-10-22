@@ -1,0 +1,19 @@
+{
+  "symbol": "BHARTIARTL",
+  "coreThesisStatement": "Duopolistic telecom market leader expanding premium postpaid subscribers, Airtel Business enterprise services, and Africa cash flows.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "ARPU Trajectory",
+      "description": "Leading industry ARPU expansion towards ₹250 threshold."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Enterprise & Cloud",
+      "description": "Fastest growing B2B connectivity and data center provider in India."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_BHARTI_LEVERAGE"
+  ]
+}

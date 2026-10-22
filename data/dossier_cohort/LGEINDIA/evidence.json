@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_LGEINDIA_REV_FY26",
+    "issuerNseSymbol": "LGEINDIA",
+    "issuerBseCode": "517763",
+    "documentHash": "3f2ebacf92b057fc6cb920beaddfc96a377e2f3d41b7df616d6ab77a24b7836e",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹20370 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_LGEINDIA_PAT_FY26",
+    "issuerNseSymbol": "LGEINDIA",
+    "issuerBseCode": "517763",
+    "documentHash": "3f2ebacf92b057fc6cb920beaddfc96a377e2f3d41b7df616d6ab77a24b7836e",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹2444 Cr with operating margin of 24.3%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_LGEINDIA_DEBT_FY26",
+    "issuerNseSymbol": "LGEINDIA",
+    "issuerBseCode": "517763",
+    "documentHash": "58b8f587ec79b04a9d405788b8d93e02bde4d4d94fe84d3bb3a81b034d66e770",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.12x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_LGEINDIA_CONCALL_Q4FY26",
+    "issuerNseSymbol": "LGEINDIA",
+    "issuerBseCode": "517763",
+    "documentHash": "45356f8292e8b11d5153bbded2db858d7de0861882d390c9cccdbc5c9d8230e6",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for 15% revenue expansion driven by festive and wedding season demand; met targets.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

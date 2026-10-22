@@ -1,0 +1,26 @@
+[
+  {
+    "evidenceId": "EV_SOLAR_REV_01",
+    "issuerNseSymbol": "SOLARINDS",
+    "issuerBseCode": "500405",
+    "documentId": "DOC_SOLAR_AR24",
+    "documentHash": "a1b2c3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef0",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 45,
+    "pagePrinted": "43",
+    "quotedText": "Consolidated revenue for FY24 reached ₹6043 Cr driven by high defense export dispatches.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_SOLAR_ORDER_01",
+    "issuerNseSymbol": "SOLARINDS",
+    "issuerBseCode": "500405",
+    "documentId": "DOC_SOLAR_AR24",
+    "documentHash": "a1b2c3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef0",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 52,
+    "pagePrinted": "50",
+    "quotedText": "Confirmed order book reached ₹4150 Cr as of 31st March 2024 across Pinaka and multi-mode hand grenades.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

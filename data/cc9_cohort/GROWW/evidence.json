@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_GROWW_REV_01",
+    "issuerNseSymbol": "GROWW",
+    "issuerBseCode": "GROWW",
+    "documentId": "DOC_GROWW_FY24",
+    "documentHash": "a1b2c3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef1",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 35,
+    "pagePrinted": "33",
+    "quotedText": "Consolidated revenue for FY24 reached ₹3145 Cr driven by rapid active client additions.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

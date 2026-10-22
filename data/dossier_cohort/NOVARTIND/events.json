@@ -1,0 +1,30 @@
+[
+  {
+    "eventId": "EVT_NOVARTIND_RESULTS",
+    "issuerNseSymbol": "NOVARTIND",
+    "issuerBseCode": "521483",
+    "eventDate": "2026-05-26",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "NOVARTIND Audited Results FY26 Approved",
+    "description": "Board of Directors approved audited financial statements showing operating scale of ₹27350 Cr.",
+    "sourceType": "STATUTORY_FILING",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "evidenceId": "EV_NOVARTIND_REV_FY26",
+    "materiality": "MATERIAL",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  },
+  {
+    "eventId": "EVT_NOVARTIND_EXPANSION",
+    "issuerNseSymbol": "NOVARTIND",
+    "issuerBseCode": "521483",
+    "eventDate": "2026-08-20",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "NOVARTIND Capacity Expansion Milestone",
+    "description": "Asset-light distribution and marketing model; capital expenditure limited to digital sales enablement and regulatory warehousing.",
+    "sourceType": "EXCHANGE_DISCLOSURE",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "evidenceId": "EV_NOVARTIND_CONCALL_Q4FY26",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

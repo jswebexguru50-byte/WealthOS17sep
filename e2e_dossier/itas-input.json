@@ -1,0 +1,19 @@
+{
+  "symbol": "SOLARINDS",
+  "dossierSource": "ITAS_MASTER_QUANT_DOSSIER_6.0",
+  "strategyAgreementCount": 7,
+  "totalStrategiesEvaluated": 20,
+  "signalStrength": 96,
+  "marketRegime": "BULLISH",
+  "quantDirective": "STRONG_BUY",
+  "activeStrategies": [
+    "S01_TREND_CONVERGENCE",
+    "S04_BREAKOUT_MOMENTUM",
+    "S07_VOLATILITY_EXPANSION",
+    "S09_RELATIVE_STRENGTH_INDEX",
+    "S12_ORDER_FLOW_IMBALANCE",
+    "S15_DYNAMIC_REGIME_FILTER",
+    "S18_MULTI_TIMEFRAME_ALIGNMENT"
+  ],
+  "evaluatedWinRateInSamplePct": 76.4
+}

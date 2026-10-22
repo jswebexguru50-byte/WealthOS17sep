@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "WINDMACHIN",
+  "issuerBseCode": "522878",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_WINDMACHIN_AR2024",
+      "documentName": "WINDMACHIN_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "dbe3462c08d51aa28722e19d6cd42d89e3f7d2ed0bffd2e218d4c42550986ab5",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_WINDMACHIN_AUDITED_RESULTS",
+      "documentName": "WINDMACHIN_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "06bc2a67e76d16e0a344812937458f66559a22a91d57db92df41bd5966d2a806",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_WINDMACHIN_CONCALL_Q4FY26",
+      "documentName": "WINDMACHIN_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "9a5c173dbb3daf3962737144c5079374969208f56a645f3514495da5cfbb92bf",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

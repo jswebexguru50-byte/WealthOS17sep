@@ -1,0 +1,164 @@
+```markdown
+Write a complete, production-ready, vectorized, and modular Python backtesting framework using pandas, numpy, and dataclasses to detect, record, and evaluate strategy S2a over historical daily OHLCV data[cite: 2].
+
+---
+
+### Strategy Identification
+- **Strategy ID**: `S2a`[cite: 2]
+- **Internal System Name**: `S2_INSTITUTIONAL_FVG_CE`[cite: 2]
+- **Classification Bucket**: `Bucket B: Volume & Absorption`[cite: 2]
+
+---
+
+### Core Quantitative Logic & Requirements
+
+1. **Zero Macro/Indicator Filters**:
+   - Do NOT include any All-Time High (ATH) discount filters.
+   - Do NOT include 200-day Simple Moving Average (SMA) proximity filters.
+   - Do NOT include Relative Strength Index (RSI) support filters.
+   - Strategy S2a is strictly driven by structural price displacement, Fair Value Gap (FVG) creation, liquidity absorption, and candlestick confirmation[cite: 2].
+
+2. **Fair Value Gap (FVG) Formation**:
+   - Institutional displacement creates a 3-candle imbalance:
+     `Low[bar_i] > High[bar_i - 2]`[cite: 2]
+   - The displacement bar (`bar_i - 1`) must show institutional volume:
+     `Volume[bar_i - 1] >= 1.50 * SMA(Volume, 20)[bar_i - 1]`[cite: 2]
+   - Imbalance height (`Low[bar_i] - High[bar_i - 2]`) must be economically significant:
+     `Gap_Height >= 0.015 * High[bar_i - 2]` OR `Gap_Height >= 0.50 * ATR(14)`[cite: 2]
+
+3. **Consequent Encroachment (CE) Retracement & Absorption**:
+   - Consequent Encroachment (CE) is the exact 50% midpoint of the imbalance:
+     `CE_Level = High[bar_i - 2] + 0.50 * (Low[bar_i] - High[bar_i - 2])`[cite: 2]
+   - Pullback must reach the CE zone within a maximum of 15 bars:
+     `abs(Low[trigger_bar] - CE_Level) / CE_Level <= 0.02` (within ±2% of CE)[cite: 2]
+   - Price must respect the base of the gap; close cannot penetrate below `High[bar_i - 2]` by more than 10%[cite: 2].
+   - Volume during the pullback must contract:
+     `mean(Volume[pullback_bars]) <= 0.75 * Volume[bar_i - 1]`[cite: 2]
+
+4. **Trigger Candle Gate (At CE Level)**:
+   - Evaluated directly on the reaction bar at the CE level[cite: 2].
+   - **Strict Doji Rejection**:
+     If `(High - Low) == 0` or `abs(Close - Open) / (High - Low) <= 0.10`, the bar is classified as a Doji and rejected immediately.
+   - **Bullish Reversal Confirmation**:
+     Must be a bullish close (`Close > Open`) and match at least one of the following patterns:
+     - **Bullish Marubozu**: `Body / Range >= 0.90` AND `(Close - Open) >= 1.0 * ATR(14)`.
+     - **Bullish Hammer**: Lower wick $\ge 2.0\times$ body length AND Upper wick $\le 15\%$ of range.
+     - **Bullish Engulfing**: Prior bar bearish (`Close[t-1] < Open[t-1]`), current candle engulfs prior real body (`Open <= Close[t-1]` and `Close >= Open[t-1]`).
+     - **Bullish Piercing Line**: Prior bar bearish, current opens $\le \text{Low}[t-1]$ (or Close$[t-1]$), and closes $\ge 50\%$ into prior real body.
+     - **Bullish Harami**: Prior bar bearish, current bullish body completely inside prior body (`Open > Close[t-1]` and `Close < Open[t-1]`).
+
+---
+
+### 1. Configuration Schema
+
+```python
+from dataclasses import dataclass
+from typing import Tuple
+
+@dataclass
+class S2aConfig:
+    strategy_id: str = "S2a"
+    strategy_name: str = "S2_INSTITUTIONAL_FVG_CE"
+    strategy_bucket: str = "Bucket B: Volume & Absorption"
+
+    # --- Displacement & Inflow Wave ---
+    inflow_lookback_bars: int = 20           # Window preceding evaluation to locate displacement
+    inflow_vol_mult: float = 1.50            # Displacement bar volume >= 1.50x SMA(Volume, 20)
+    
+    # --- Fair Value Gap (FVG) Formation Parameters ---
+    fvg_min_size_pct: float = 0.015          # FVG height >= 1.5% of price
+    fvg_min_size_atr: float = 0.50           # FVG height >= 0.50 * ATR(14)
+    atr_period: int = 14
+    vol_ma_period: int = 20
+    
+    # --- Consequent Encroachment (CE) & Pullback Absorption ---
+    ce_midpoint_ratio: float = 0.50          # CE is 50% midpoint of the gap
+    ce_touch_tolerance: float = 0.02         # Within +/- 2% of CE level
+    ce_max_violation_ratio: float = 0.10     # Close must not penetrate below FVG floor by > 10%
+    pullback_max_bars: int = 15              # Max bars price can spend returning to CE
+    
+    # --- Volume Absorption in Retracement ---
+    vol_pullback_max_mult: float = 0.75      # Avg volume in pullback <= 75% of displacement volume
+    vol_trigger_min_mult: float = 1.00       # Trigger bar volume >= 1.00x SMA(Volume, 20)
+    
+    # --- Candlestick Confirmation & Doji Gate (Trigger Candle at CE) ---
+    exclude_doji: bool = True
+    doji_max_body_ratio: float = 0.10        # Disqualify if real body <= 10% of full candle range
+    
+    require_bullish_candlestick: bool = True
+    allow_marubozu: bool = True
+    allow_hammer: bool = True
+    allow_piercing: bool = True
+    allow_harami: bool = True
+    allow_engulfing: bool = True
+    
+    # Calibrated Marubozu Thresholds
+    marubozu_min_body_ratio: float = 0.90    # Body / Range >= 0.90 (90%)
+    marubozu_min_atr_mult: float = 1.00      # (Close - Open) >= 1.0 * ATR(14)
+    
+    # Other Candlestick Thresholds
+    hammer_min_lower_wick_ratio: float = 2.0  # Lower wick >= 2x real body length
+    hammer_max_upper_wick_ratio: float = 0.15 # Upper wick <= 15% of candle range
+    piercing_min_penetration: float = 0.50   # Closes >= 50% into prior bearish body
+    
+    # --- Backtest & Forward Performance Evaluation ---
+    cooldown_bars: int = 5
+    forward_eval_bars: Tuple[int, ...] = (5, 10, 20)
+
+```
+
+---
+
+### 2. Architecture & Code Structure Requirements
+
+1. **Indicator Precomputation**:
+* Compute true `ATR(14)` and `SMA(Volume, 20)` rolling arrays prior to the scan loop.
+
+
+2. **Candlestick Gate Sub-routine**:
+* Implement `detect_candlestick_pattern(df, idx, atr_val, cfg)` returning `(is_valid: bool, pattern_name: str)`.
+* Ensure the Doji check rejects first before testing for individual patterns.
+
+
+3. **Walk-Forward Historical Engine**:
+* Iterate chronologically through the data without forward-looking bias.
+* For every triggered setup, compute forward returns across 5, 10, and 20 bars:
+`((Close[t + h] - Close[t]) / Close[t]) * 100`.
+
+
+4. **Output Schema**:
+Return a DataFrame with the following columns:
+* `Signal_Date`: Timestamp of trigger bar at CE
+
+
+* `Strategy_ID`: `"S2a"`
+
+* `Candle_Pattern`: Matched pattern name (`"Marubozu"`, `"Hammer"`, `"Engulfing"`, `"Piercing"`, or `"Harami"`)
+* `FVG_Displacement_Date`: Timestamp of bar forming the FVG
+
+
+* `FVG_Low_Bound`: Price level of `High[bar_i - 2]`
+
+* `FVG_High_Bound`: Price level of `Low[bar_i]`
+
+* `CE_Level`: Consequent Encroachment price level
+
+
+* `Signal_Price`: Close price on signal date
+* `FVG_Size_Pct`: `(Gap_Height / FVG_Low_Bound) * 100`
+
+* `Pullback_Duration_Bars`: Bars taken to reach CE
+
+
+* `Trigger_Vol_Ratio`: `Volume / SMA20` on trigger bar
+* `Fwd_Return_5B (%)`, `Fwd_Return_10B (%)`, `Fwd_Return_20B (%)`
+
+
+5. **Executable Verification**:
+* Include a synthetic OHLCV generator demonstrating at least one valid trigger event and printing the resulting setup trade log.
+
+
+
+```
+
+```

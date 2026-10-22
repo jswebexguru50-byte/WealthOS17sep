@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "BAJAJFINSV",
+  "issuerBseCode": "522754",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_BAJAJFINSV_AR2024",
+      "documentName": "BAJAJFINSV_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "cc5a980370c249dd690dcd33d8d1cb04e4fed7ece9b696100a1265725b45a7f0",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_BAJAJFINSV_AUDITED_RESULTS",
+      "documentName": "BAJAJFINSV_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "0383865ebaade212191972dbfaecbbca1f36446fab5f60954677ab247107ed2d",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_BAJAJFINSV_CONCALL_Q4FY26",
+      "documentName": "BAJAJFINSV_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "640a90a6a2f75eabdb9ef26f1607078b79d59b31b3d3c2052f398cab6b76d4fe",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

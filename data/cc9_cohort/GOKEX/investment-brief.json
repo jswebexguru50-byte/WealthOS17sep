@@ -1,0 +1,433 @@
+{
+  "symbol": "GOKEX",
+  "companyName": "Gokaldas Exports Limited",
+  "marketCapTier": "SMALLCAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-16T08:30:41.245Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "LOW",
+    "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+    "allocationRecommendation": "CAPPED_ALLOCATION",
+    "portfolioPolicy": {
+      "directive": "CAPPED_ALLOCATION",
+      "targetSizingCapRatio": 0.5,
+      "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+    },
+    "provenance": {
+      "quantDerivation": "ITAS-Score-83 -> Threshold(>=75:STRONG, 50-74:MODERATE, 25-49:WEAK, <25:NONE) -> STRONG",
+      "riskDerivation": "BreakersActive:0, Contradictions:0, Unknowns:0 -> Risk: LOW",
+      "credibilityDerivation": "ClaimsEvaluated:1 -> CredibilityGrade: INSUFFICIENT_HISTORY",
+      "breakerDerivation": "TB_GOKEX_LEVERAGE(UNRESOLVED)",
+      "thesisDerivation": "Matrix(STRONG, LOW) -> Thesis: SUPPORTED",
+      "allocationDerivation": "Precedence(SUPPORTED, LOW, INSUFFICIENT_HISTORY) -> Directive: CAPPED_ALLOCATION (Cap: 50%)",
+      "auditTrail": [
+        "ITAS-Engine#GOKEX",
+        null
+      ]
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_GOKEX",
+      "nodes": [
+        {
+          "id": "DEC_GOKEX",
+          "type": "DECISION",
+          "refId": "GOKEX",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_GOKEX",
+          "type": "ALLOCATION",
+          "refId": "CAPPED_ALLOCATION",
+          "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+        },
+        {
+          "id": "THESIS_GOKEX",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_GOKEX",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 83/100)"
+        },
+        {
+          "id": "RISK_GOKEX",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_GOKEX",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_GOKEX_LEVERAGE",
+          "type": "RULE",
+          "refId": "TB_GOKEX_LEVERAGE",
+          "version": "2026.09",
+          "label": "Breaker TB_GOKEX_LEVERAGE: UNRESOLVED (Observed: undefined)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_GOKEX",
+          "to": "DEC_GOKEX",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_GOKEX",
+          "to": "DEC_GOKEX",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_GOKEX",
+          "to": "THESIS_GOKEX",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_GOKEX",
+          "to": "THESIS_GOKEX",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_GOKEX",
+          "to": "ALLOC_GOKEX",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_GOKEX_LEVERAGE",
+          "to": "RISK_GOKEX",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_GOKEX_26f6fc0b5cc5",
+      "decisionId": "DECISION_GOKEX",
+      "issuerSymbol": "GOKEX",
+      "evaluatedAt": "2026-09-16T11:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2.1",
+      "ontologyVersion": "1.3",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawQuantInput": {
+        "symbol": "GOKEX",
+        "strategyAgreementCount": 16,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 83,
+        "marketRegime": "BULLISH",
+        "quantDirective": "BUY",
+        "decisionDate": "2024-06-30"
+      },
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_GOKEX_LEVERAGE",
+          "symbol": "GOKEX",
+          "name": "Apparel Export Leverage Limit",
+          "type": "QUANTITATIVE",
+          "thresholdValue": 2.2,
+          "comparisonOperator": "GREATER_THAN",
+          "severity": "CRITICAL",
+          "description": "Net Debt / EBITDA exceeding 2.2x triggers hard veto.",
+          "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+          "status": "UNRESOLVED"
+        }
+      ],
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "LOW",
+        "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+        "allocationRecommendation": "CAPPED_ALLOCATION"
+      },
+      "portfolioPolicy": {
+        "directive": "CAPPED_ALLOCATION",
+        "targetSizingCapRatio": 0.5,
+        "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_GOKEX",
+        "nodes": [
+          {
+            "id": "DEC_GOKEX",
+            "type": "DECISION",
+            "refId": "GOKEX",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_GOKEX",
+            "type": "ALLOCATION",
+            "refId": "CAPPED_ALLOCATION",
+            "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+          },
+          {
+            "id": "THESIS_GOKEX",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_GOKEX",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 83/100)"
+          },
+          {
+            "id": "RISK_GOKEX",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_GOKEX",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_GOKEX_LEVERAGE",
+            "type": "RULE",
+            "refId": "TB_GOKEX_LEVERAGE",
+            "version": "2026.09",
+            "label": "Breaker TB_GOKEX_LEVERAGE: UNRESOLVED (Observed: undefined)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_GOKEX",
+            "to": "DEC_GOKEX",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_GOKEX",
+            "to": "DEC_GOKEX",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_GOKEX",
+            "to": "THESIS_GOKEX",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_GOKEX",
+            "to": "THESIS_GOKEX",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_GOKEX",
+            "to": "ALLOC_GOKEX",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_GOKEX_LEVERAGE",
+            "to": "RISK_GOKEX",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "26f6fc0b5cc5d7e1139a75c396d6990a227b1e0512e54aebdad72f61b61966e7",
+      "canonicalStateHash": "26f6fc0b5cc5d7e1139a75c396d6990a227b1e0512e54aebdad72f61b61966e7",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_GOKEX_01",
+          "issuerSymbol": "GOKEX",
+          "metric": "REVENUE",
+          "metricId": "REVENUE",
+          "metricFamily": "REVENUE",
+          "value": 2401,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_GOKEX_REV_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_GOKEX_REV_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_GOKEX_REV_01",
+          "sourceQuotedText": "Consolidated revenue for FY24 reached ₹2401 Cr supported by Atraco Group international integration.",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_GOKEX_01",
+          "issuerNseSymbol": "GOKEX",
+          "issuerBseCode": "532630",
+          "period": "FY24",
+          "category": "GROWTH",
+          "statement": "Scale annual apparel export revenues to cross ₹2,200 Cr in FY24.",
+          "targetMetric": "revenue_cr",
+          "baselineValue": 2247,
+          "expectedValue": 2200,
+          "expectedOutcome": "Revenue >= ₹2,200 Cr",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_GOKEX_REV_01",
+          "claimDate": "2023-08-20",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 2401,
+          "actualOutcomeDescription": "Delivered ₹2,401 Cr revenue beating guidance by 9.1%.",
+          "evaluationEvidenceId": "EV_GOKEX_REV_01",
+          "evaluationDate": "2024-05-22",
+          "evaluationBasis": "BSE Audited Financial Accounts Release",
+          "publicationDate": "2023-08-20",
+          "publicationDateType": "MANAGEMENT_COMMENT",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_GOKEX_01"
+        }
+      ],
+      "rawInputContradictions": [],
+      "rawInputHash": "23f9ff22485a1f23c080ff87e1a65251453ccebb66205776637fd2a690683c6b"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "LOW",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap)."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 16/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 83/100 with active directive BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#GOKEX",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Scale annual apparel export revenues to cross ₹2,200 Cr in FY24.",
+      "detail": "Disclosed actual outcome: Delivered ₹2,401 Cr revenue beating guidance by 9.1%.",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_GOKEX_REV_01 -> Resolution#EV_GOKEX_REV_01",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "GOKEX",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 1,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_GOKEX_01",
+        "statement": "Scale annual apparel export revenues to cross ₹2,200 Cr in FY24.",
+        "period": "FY24",
+        "expected": "Revenue >= ₹2,200 Cr",
+        "actual": "Delivered ₹2,401 Cr revenue beating guidance by 9.1%.",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_GOKEX_REV_01 -> Resolution#EV_GOKEX_REV_01"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_GOKEX"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_GOKEX"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-03-05",
+      "source": "REGULATORY_FILING",
+      "headline": "Closing of Atraco Group Dubai Acquisition",
+      "verified": true,
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_GOKEX_LEVERAGE",
+      "symbol": "GOKEX",
+      "name": "Apparel Export Leverage Limit",
+      "type": "QUANTITATIVE",
+      "thresholdValue": 2.2,
+      "comparisonOperator": "GREATER_THAN",
+      "severity": "CRITICAL",
+      "description": "Net Debt / EBITDA exceeding 2.2x triggers hard veto.",
+      "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+      "status": "UNRESOLVED"
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "LOW",
+    "directSourcesCount": 1,
+    "corroboratedCount": 1,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Prime beneficiary of global textile \"China+1\" diversification with low-cost duty-free manufacturing hubs in Africa and India.\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

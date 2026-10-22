@@ -1,0 +1,26 @@
+[
+  {
+    "breakerId": "TB_BOROLTD_LEVERAGE",
+    "symbol": "BOROLTD",
+    "name": "Excessive Leverage Expansion",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 2.5,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Net Debt / Equity exceeding 2.5x breaks capital preservation shield.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  },
+  {
+    "breakerId": "TB_BOROLTD_STRUCTURAL_STOP",
+    "symbol": "BOROLTD",
+    "name": "Structural Stop Loss Violation",
+    "type": "PRICE_ACTION",
+    "thresholdValue": 234.67,
+    "comparisonOperator": "LESS_THAN",
+    "severity": "CRITICAL",
+    "description": "Confirmed daily close below ₹234.67 invalidates technical thesis.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

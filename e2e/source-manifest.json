@@ -1,0 +1,40 @@
+{
+  "issuerNseSymbol": "SOLARINDS",
+  "issuerBseCode": "500405",
+  "manifestGeneratedAt": "2026-09-15T15:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_SOLAR_AR2024",
+      "documentName": "Solar_Industries_Annual_Report_2023_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-18",
+      "documentHashSha256": "a68f237bc9910d8a55e1a2f641b7cd9348c6913eef4a09a56c52701a5e786b42",
+      "repositoryRelativePath": "data/disclosures/SOLARINDS/2024/Solar_Industries_Annual_Report_2023_2024.pdf",
+      "pageCount": 248,
+      "filingAuthority": "BSE / NSE"
+    },
+    {
+      "documentId": "DOC_SOLAR_BSE_Q4FY24",
+      "documentName": "BSE_Financial_Disclosures_Audited_Results_Q4FY24.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2024-05-15",
+      "documentHashSha256": "9f283c18b242e88a0b0739da4b69d4a37e54f738ac8537c35293da2764ba81f1",
+      "repositoryRelativePath": "data/disclosures/SOLARINDS/2024/BSE_Financial_Disclosures_Audited_Results_Q4FY24.pdf",
+      "pageCount": 42,
+      "filingAuthority": "BSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_SOLAR_ORDER_887CR",
+      "documentName": "Exchange_Disclosure_Defense_Export_Order_887Cr.pdf",
+      "documentType": "EXCHANGE_DISCLOSURE",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2024-11-20",
+      "documentHashSha256": "417de2b4e877fc04313f83d9d592f2324310557cc548234399e521b44b82bcda",
+      "repositoryRelativePath": "data/disclosures/SOLARINDS/2024/Exchange_Disclosure_Defense_Export_Order_887Cr.pdf",
+      "pageCount": 3,
+      "filingAuthority": "NSE / BSE Listing Compliance"
+    }
+  ]
+}

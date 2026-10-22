@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "finalize",
+  "status": "fail",
+  "type": "workflow",
+  "quality": "showcase",
+  "specification": {
+    "path": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\.archify\\workflow-scan-to-dossier\\candidate.json",
+    "sha256": "062be4e2283bc85ab205e74eeccaacd42f3fffad4e3d63458cf69dc5a41e9289",
+    "bytes": 4714
+  },
+  "artifact": {
+    "path": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\docs\\architecture\\wealthos-scan-to-dossier-lifecycle.html"
+  },
+  "gates": {
+    "validate": "fail",
+    "deliver": "not-run",
+    "check": "not-run",
+    "browser-check": "not-run"
+  },
+  "failedStage": "validate",
+  "diagnostics": [
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Edge \"snapshot_node\" -> \"excel_node\" is too short (28px; minimum 28px) — move the nodes farther apart or use a verified orthogonal route with readable clearance.",
+      "subject": {
+        "diagramType": "workflow"
+      }
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "mainPath step \"signal_gen\" -> \"cohort_freeze\" moves backward from col 3 to 2 — use a return edge outside mainPath for loops.",
+      "subject": {
+        "diagramType": "workflow"
+      }
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "mainPath step \"evidence_lookup\" -> \"snapshot_node\" has no matching edge — add the edge or remove the pair from mainPath.",
+      "subject": {
+        "diagramType": "workflow"
+      }
+    }
+  ],
+  "diagnosticSummary": {
+    "total": 3,
+    "shown": 3,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\docs\\architecture\\wealthos-scan-to-dossier-lifecycle.finalize.json",
+    "summaryReceipt": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\docs\\architecture\\wealthos-scan-to-dossier-lifecycle.finalize-summary.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.0.1",
+    "availableVersion": "3.0.1",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-04T04:09:58.893Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 3105,
+  "nextAction": {
+    "action": "edit-in-place",
+    "candidate": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\.archify\\workflow-scan-to-dossier\\candidate.json",
+    "constraint": "Preserve unaffected semantics and geometry; do not replace the whole candidate.",
+    "then": "finalize-once"
+  }
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_TINNARUBR_01",
+    "issuerNseSymbol": "TINNARUBR",
+    "issuerBseCode": "530475",
+    "eventDate": "2024-03-18",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "Oman Tyre Recycling Plant Commissioning",
+    "description": "Commissioned first overseas tyre recycling and crumb rubber modification plant in Sohar Port, Oman.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_TINNA_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

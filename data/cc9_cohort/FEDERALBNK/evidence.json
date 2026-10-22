@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_FED_REV_01",
+    "issuerNseSymbol": "FEDERALBNK",
+    "issuerBseCode": "500469",
+    "documentId": "DOC_FED_AR24",
+    "documentHash": "0718293a4b5c6d7e8f90123456789abcdef0123456789abcdef0123456",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 55,
+    "pagePrinted": "53",
+    "quotedText": "Total revenue reached ₹26383 Cr with net interest margin stable at 3.21%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

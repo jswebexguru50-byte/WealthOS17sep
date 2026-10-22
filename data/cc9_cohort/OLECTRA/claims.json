@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_OLECTRA_01",
+    "issuerNseSymbol": "OLECTRA",
+    "issuerBseCode": "532439",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Scale electric bus deliveries to surpass ₹1,000 Cr revenue in FY24.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 1091,
+    "expectedValue": 1000,
+    "expectedOutcome": "Revenue >= ₹1,000 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_OLECTRA_REV_01",
+    "claimDate": "2023-08-18",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 1154,
+    "actualOutcomeDescription": "Delivered ₹1,154 Cr revenue beating guidance by 15.4%.",
+    "evaluationEvidenceId": "EV_OLECTRA_REV_01",
+    "evaluationDate": "2024-05-18",
+    "evaluationBasis": "BSE Audited Financial Accounts Release",
+    "publicationDate": "2023-08-18",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_OLECTRA_01"
+  }
+]

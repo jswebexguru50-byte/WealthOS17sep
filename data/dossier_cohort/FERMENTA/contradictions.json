@@ -1,0 +1,34 @@
+{
+  "status": "CONTRADICTIONS_DETECTED",
+  "issuerNseSymbol": "FERMENTA",
+  "activeContradictionCount": 1,
+  "contradictions": [
+    {
+      "contradictionId": "DIV_FERMENTA_SUPPLY_CHAIN",
+      "issuerNseSymbol": "FERMENTA",
+      "issuerBseCode": "518414",
+      "severity": "LOW",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_FERMENTA_02",
+      "eventId": null,
+      "description": "Supply chain fragility check: import exposure (55%) and client concentration (48%) introduce quarterly gross margin lag against management guidance.",
+      "divergenceDetails": {
+        "whatManagementClaimed": "Full margin defense",
+        "whatActuallyHappened": "Quarterly margin lag due to input cost volatility",
+        "deltaMetric": "80-120 bps"
+      },
+      "leftEvidenceId": "EV_FERMENTA_PAT_FY26",
+      "rightEvidenceId": "EV_FERMENTA_CONCALL_Q4FY26",
+      "supportingEvidenceIds": [
+        "EV_FERMENTA_PAT_FY26",
+        "EV_FERMENTA_CONCALL_Q4FY26"
+      ],
+      "status": "OPEN",
+      "materiality": "LOW",
+      "detectedAt": "2026-09-16T11:00:00.000Z",
+      "createdAt": "2026-09-16 11:22:00",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_AREM_01",
+    "issuerNseSymbol": "ARE&M",
+    "issuerBseCode": "500008",
+    "eventDate": "2024-06-24",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "Licensing Agreement with Gotion-InoBat for Lithium-Ion Cells",
+    "description": "Signed technical licensing agreement with global battery leader Gotion High-Tech for manufacturing NMC and LFP battery cells.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_AREM_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

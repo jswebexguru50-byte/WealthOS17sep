@@ -1,0 +1,19 @@
+{
+  "symbol": "HAL",
+  "coreThesisStatement": "National defense aerospace champion monopolizing indigenous manufacturing of fighter jets, helicopters, and aero-engines for Indian armed forces.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Tejas Mk-1A & Mk-2 Fleet Orders",
+      "description": "Over ₹1.5 lakh crore pipeline across Tejas and combat helicopters."
+    },
+    {
+      "pillarId": "P2",
+      "title": "High-Margin MRO Business",
+      "description": "Aircraft maintenance and repair generating stable 25%+ operating margins."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_HAL_LEVERAGE"
+  ]
+}

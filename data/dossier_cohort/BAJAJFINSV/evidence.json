@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_BAJAJFINSV_REV_FY26",
+    "issuerNseSymbol": "BAJAJFINSV",
+    "issuerBseCode": "522754",
+    "documentHash": "0383865ebaade212191972dbfaecbbca1f36446fab5f60954677ab247107ed2d",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹23194 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_BAJAJFINSV_PAT_FY26",
+    "issuerNseSymbol": "BAJAJFINSV",
+    "issuerBseCode": "522754",
+    "documentHash": "0383865ebaade212191972dbfaecbbca1f36446fab5f60954677ab247107ed2d",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹2783 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_BAJAJFINSV_DEBT_FY26",
+    "issuerNseSymbol": "BAJAJFINSV",
+    "issuerBseCode": "522754",
+    "documentHash": "cc5a980370c249dd690dcd33d8d1cb04e4fed7ece9b696100a1265725b45a7f0",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_BAJAJFINSV_CONCALL_Q4FY26",
+    "issuerNseSymbol": "BAJAJFINSV",
+    "issuerBseCode": "522754",
+    "documentHash": "640a90a6a2f75eabdb9ef26f1607078b79d59b31b3d3c2052f398cab6b76d4fe",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

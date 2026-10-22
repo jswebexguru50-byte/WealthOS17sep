@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_CDSL_01",
+    "issuerNseSymbol": "CDSL",
+    "issuerBseCode": "540615",
+    "eventDate": "2024-03-20",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Milestone 110 Million Active Demat Accounts Registered",
+    "description": "Crossed 11 Crore active retail investor demat accounts maintaining 77% market share of incremental accounts.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_CDSL_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

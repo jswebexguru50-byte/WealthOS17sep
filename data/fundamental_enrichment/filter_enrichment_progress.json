@@ -1,0 +1,29 @@
+{
+  "status": "COMPLETED_WITH_GAPS",
+  "phase": "MANDATORY_FILTERS",
+  "source": "SQLITE_EXISTING_EVIDENCE",
+  "scanId": null,
+  "cohortSource": "ALL_ACTIVE_MASTER_TICKERS",
+  "requested": 3564,
+  "completed": 3564,
+  "pending": 0,
+  "failed": 0,
+  "fullyCompliant": 0,
+  "partial": 214,
+  "unavailable": 3350,
+  "coverage": {
+    "promoter": 409,
+    "profitable8q": 30,
+    "roce": 131,
+    "roe": 131,
+    "pledge": 0,
+    "institutional": 409,
+    "cashFlow": 32
+  },
+  "lastSymbol": "ZYDUSWELL",
+  "lastError": null,
+  "startedAt": "2026-09-26T09:00:07.462Z",
+  "updatedAt": "2026-09-26T09:00:42.547Z",
+  "heartbeatAt": "2026-09-26T09:00:42.547Z",
+  "nextPhase": "NON_FILTER_ENRICHMENT"
+}

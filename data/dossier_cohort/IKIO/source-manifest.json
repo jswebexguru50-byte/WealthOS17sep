@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "IKIO",
+  "issuerBseCode": "509300",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_IKIO_AR2024",
+      "documentName": "IKIO_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "2c2e41e71f9d566820622ced4a69429063d8cff39bf66822b33fdd464a786f6c",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_IKIO_AUDITED_RESULTS",
+      "documentName": "IKIO_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "a5244ba459fe70ef6be9593fec72e6e19f94ed0ca162ad72c3a2037f636397f2",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_IKIO_CONCALL_Q4FY26",
+      "documentName": "IKIO_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "1b340c237fed8013d23d4bc234e414fd11c1e569ee74e9f27f9094d2cca87c48",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

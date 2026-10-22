@@ -1,0 +1,488 @@
+{
+  "symbol": "ZENTEC",
+  "companyName": "Zen Technologies Limited",
+  "marketCapTier": "SMALLCAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-16T08:30:40.975Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+    "allocationRecommendation": "CAPPED_ALLOCATION",
+    "portfolioPolicy": {
+      "directive": "CAPPED_ALLOCATION",
+      "targetSizingCapRatio": 0.5,
+      "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+    },
+    "provenance": {
+      "quantDerivation": "ITAS-Score-96 -> Threshold(>=75:STRONG, 50-74:MODERATE, 25-49:WEAK, <25:NONE) -> STRONG",
+      "riskDerivation": "BreakersActive:0, Contradictions:0, Unknowns:0 -> Risk: LOW",
+      "credibilityDerivation": "ClaimsEvaluated:1 -> CredibilityGrade: INSUFFICIENT_HISTORY",
+      "breakerDerivation": "TB_ZENTEC_LEVERAGE(UNRESOLVED)",
+      "thesisDerivation": "Matrix(STRONG, LOW) -> Thesis: SUPPORTED",
+      "allocationDerivation": "Precedence(SUPPORTED, LOW, INSUFFICIENT_HISTORY) -> Directive: CAPPED_ALLOCATION (Cap: 50%)",
+      "auditTrail": [
+        "ITAS-Engine#ZENTEC",
+        null
+      ]
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_ZENTEC",
+      "nodes": [
+        {
+          "id": "DEC_ZENTEC",
+          "type": "DECISION",
+          "refId": "ZENTEC",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_ZENTEC",
+          "type": "ALLOCATION",
+          "refId": "CAPPED_ALLOCATION",
+          "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+        },
+        {
+          "id": "THESIS_ZENTEC",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_ZENTEC",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 96/100)"
+        },
+        {
+          "id": "RISK_ZENTEC",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_ZENTEC",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_ZENTEC_LEVERAGE",
+          "type": "RULE",
+          "refId": "TB_ZENTEC_LEVERAGE",
+          "version": "2026.09",
+          "label": "Breaker TB_ZENTEC_LEVERAGE: UNRESOLVED (Observed: undefined)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_ZENTEC",
+          "to": "DEC_ZENTEC",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_ZENTEC",
+          "to": "DEC_ZENTEC",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_ZENTEC",
+          "to": "THESIS_ZENTEC",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_ZENTEC",
+          "to": "THESIS_ZENTEC",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_ZENTEC",
+          "to": "ALLOC_ZENTEC",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_ZENTEC_LEVERAGE",
+          "to": "RISK_ZENTEC",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_ZENTEC_a951687bb94f",
+      "decisionId": "DECISION_ZENTEC",
+      "issuerSymbol": "ZENTEC",
+      "evaluatedAt": "2026-09-16T11:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2.1",
+      "ontologyVersion": "1.3",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawQuantInput": {
+        "symbol": "ZENTEC",
+        "strategyAgreementCount": 19,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 96,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY",
+        "decisionDate": "2024-06-30"
+      },
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_ZENTEC_LEVERAGE",
+          "symbol": "ZENTEC",
+          "name": "Defense Tech Debt Incurrence Limit",
+          "type": "QUANTITATIVE",
+          "thresholdValue": 1,
+          "comparisonOperator": "GREATER_THAN",
+          "severity": "CRITICAL",
+          "description": "Debt / Equity ratio exceeding 1.0x triggers hard veto.",
+          "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+          "status": "UNRESOLVED"
+        }
+      ],
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+        "allocationRecommendation": "CAPPED_ALLOCATION"
+      },
+      "portfolioPolicy": {
+        "directive": "CAPPED_ALLOCATION",
+        "targetSizingCapRatio": 0.5,
+        "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_ZENTEC",
+        "nodes": [
+          {
+            "id": "DEC_ZENTEC",
+            "type": "DECISION",
+            "refId": "ZENTEC",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_ZENTEC",
+            "type": "ALLOCATION",
+            "refId": "CAPPED_ALLOCATION",
+            "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+          },
+          {
+            "id": "THESIS_ZENTEC",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_ZENTEC",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 96/100)"
+          },
+          {
+            "id": "RISK_ZENTEC",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_ZENTEC",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_ZENTEC_LEVERAGE",
+            "type": "RULE",
+            "refId": "TB_ZENTEC_LEVERAGE",
+            "version": "2026.09",
+            "label": "Breaker TB_ZENTEC_LEVERAGE: UNRESOLVED (Observed: undefined)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_ZENTEC",
+            "to": "DEC_ZENTEC",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_ZENTEC",
+            "to": "DEC_ZENTEC",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_ZENTEC",
+            "to": "THESIS_ZENTEC",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_ZENTEC",
+            "to": "THESIS_ZENTEC",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_ZENTEC",
+            "to": "ALLOC_ZENTEC",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_ZENTEC_LEVERAGE",
+            "to": "RISK_ZENTEC",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "a951687bb94f7e60ee37ff4ecae749707109f3d3a921383fa08393ddfde9da40",
+      "canonicalStateHash": "a951687bb94f7e60ee37ff4ecae749707109f3d3a921383fa08393ddfde9da40",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_ZENTEC_01",
+          "issuerSymbol": "ZENTEC",
+          "metric": "REVENUE",
+          "metricId": "REVENUE",
+          "metricFamily": "REVENUE",
+          "value": 430,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_ZENTEC_REV_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_ZENTEC_REV_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_ZENTEC_REV_01",
+          "sourceQuotedText": "Consolidated revenue for FY24 reached ₹430 Cr with anti-drone system dispatches driving record profits.",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_ZENTEC_02",
+          "issuerSymbol": "ZENTEC",
+          "metric": "ORDER_BOOK",
+          "metricId": "ORDER_BOOK",
+          "metricFamily": "ORDER_BOOK",
+          "value": 1402,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "STOCK",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_ZENTEC_ORDER_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_ZENTEC_ORDER_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_ZENTEC_ORDER_01",
+          "sourceQuotedText": "Total confirmed order book stood at ₹1402 Cr as of 31st March 2024 across domestic armed forces and export orders.",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_ZENTEC_01",
+          "issuerNseSymbol": "ZENTEC",
+          "issuerBseCode": "533339",
+          "period": "FY24",
+          "category": "GROWTH",
+          "statement": "Scale annual defense combat training revenue to exceed ₹400 Cr in FY24.",
+          "targetMetric": "revenue_cr",
+          "baselineValue": 219,
+          "expectedValue": 400,
+          "expectedOutcome": "Revenue >= ₹400 Cr",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_ZENTEC_REV_01",
+          "claimDate": "2023-08-16",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 430,
+          "actualOutcomeDescription": "Delivered ₹430 Cr revenue beating target by 7.5%.",
+          "evaluationEvidenceId": "EV_ZENTEC_REV_01",
+          "evaluationDate": "2024-05-18",
+          "evaluationBasis": "BSE Audited Financial Results",
+          "publicationDate": "2023-08-16",
+          "publicationDateType": "MANAGEMENT_COMMENT",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_ZENTEC_01"
+        }
+      ],
+      "rawInputContradictions": [],
+      "rawInputHash": "f839d8f073b3b8bbc63f066f9cbcdd785f443886cb10ad1bef72f063ccfd3e7d"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "MEDIUM",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap)."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 19/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 96/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#ZENTEC",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Scale annual defense combat training revenue to exceed ₹400 Cr in FY24.",
+      "detail": "Disclosed actual outcome: Delivered ₹430 Cr revenue beating target by 7.5%.",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_ZENTEC_REV_01 -> Resolution#EV_ZENTEC_REV_01",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "ZENTEC",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 1,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_ZENTEC_01",
+        "statement": "Scale annual defense combat training revenue to exceed ₹400 Cr in FY24.",
+        "period": "FY24",
+        "expected": "Revenue >= ₹400 Cr",
+        "actual": "Delivered ₹430 Cr revenue beating target by 7.5%.",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_ZENTEC_REV_01 -> Resolution#EV_ZENTEC_REV_01"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_ZENTEC"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_ZENTEC"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-06-12",
+      "source": "REGULATORY_FILING",
+      "headline": "Export Order Win for Counter-Unmanned Aerial Systems (CUAS)",
+      "verified": true,
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_ZENTEC_LEVERAGE",
+      "symbol": "ZENTEC",
+      "name": "Defense Tech Debt Incurrence Limit",
+      "type": "QUANTITATIVE",
+      "thresholdValue": 1,
+      "comparisonOperator": "GREATER_THAN",
+      "severity": "CRITICAL",
+      "description": "Debt / Equity ratio exceeding 1.0x triggers hard veto.",
+      "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+      "status": "UNRESOLVED"
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "MEDIUM",
+    "directSourcesCount": 2,
+    "corroboratedCount": 1,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Pure-play defense technology leader possessing 100% indigenous intellectual property across live combat training simulators and anti-drone electronic warfare.\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

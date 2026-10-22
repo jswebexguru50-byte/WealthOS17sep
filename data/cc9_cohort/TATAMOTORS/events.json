@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_TATAMOTORS_01",
+    "issuerNseSymbol": "TATAMOTORS",
+    "issuerBseCode": "500570",
+    "eventDate": "2024-03-04",
+    "category": "GOVERNANCE",
+    "headline": "Approval for Demerger into Two Distinct Listed Entities",
+    "description": "Board of Directors approved demerger of Tata Motors into commercial vehicles (CV) and passenger electric vehicles (PV/JLR).",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_TAMO_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

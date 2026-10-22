@@ -1,0 +1,178 @@
+{
+  "totalChecks": 34,
+  "passedChecks": 34,
+  "failedChecks": 0,
+  "auditLog": [
+    {
+      "test": "Bhavcopy Total Volume",
+      "status": "PASS",
+      "details": "Found 5302 records (expected >= 2000)"
+    },
+    {
+      "test": "Bhavcopy Prices Valid & Positive",
+      "status": "PASS",
+      "details": "Violations: 0"
+    },
+    {
+      "test": "Bhavcopy High/Low/Close Invariants",
+      "status": "PASS",
+      "details": "Violations: 0"
+    },
+    {
+      "test": "Bhavcopy Delivery % Bound (0.0% to 100.0%)",
+      "status": "PASS",
+      "details": "Violations: 0"
+    },
+    {
+      "test": "Bhavcopy Delivery Quantity <= Total Volume",
+      "status": "PASS",
+      "details": "Violations: 0"
+    },
+    {
+      "test": "Bhavcopy Official Ratio Accuracy Math Match",
+      "status": "PASS",
+      "details": "Violations: 0"
+    },
+    {
+      "test": "Heavyweights Present in Bhavcopy",
+      "status": "PASS",
+      "details": "Found 10/10 scrips"
+    },
+    {
+      "test": "Institutional Deals Count",
+      "status": "PASS",
+      "details": "Found 390 transactions"
+    },
+    {
+      "test": "Deals Quantity and Trade Price Valid (>0)",
+      "status": "PASS",
+      "details": "Violations: 0"
+    },
+    {
+      "test": "Deals Action Categorized (BUY or SELL)",
+      "status": "PASS",
+      "details": "Violations: 0"
+    },
+    {
+      "test": "Deals Institution / Client Name Verified",
+      "status": "PASS",
+      "details": "Violations: 0"
+    },
+    {
+      "test": "AMFI Total Schemes Ingested",
+      "status": "PASS",
+      "details": "Found 14478 schemes (expected >= 10000)"
+    },
+    {
+      "test": "Mutual Fund NAVs Positive & Numeric",
+      "status": "PASS",
+      "details": "Violations in sample: 0"
+    },
+    {
+      "test": "AMFI Scheme Codes Valid",
+      "status": "PASS",
+      "details": "Violations in sample: 0"
+    },
+    {
+      "test": "AMFI NAV Dates Present",
+      "status": "PASS",
+      "details": "Violations in sample: 0"
+    },
+    {
+      "test": "Forex Rates Present",
+      "status": "PASS",
+      "details": "Found 4 pairs"
+    },
+    {
+      "test": "USD/INR Realistic Range (₹80 - ₹100)",
+      "status": "PASS",
+      "details": "USDINR = ₹94.808"
+    },
+    {
+      "test": "AED/INR Realistic Range (₹20 - ₹30)",
+      "status": "PASS",
+      "details": "AEDINR = ₹25.77"
+    },
+    {
+      "test": "EUR/INR Realistic Range (₹90 - ₹120)",
+      "status": "PASS",
+      "details": "EURINR = ₹110.29"
+    },
+    {
+      "test": "GBP/INR Realistic Range (₹110 - ₹140)",
+      "status": "PASS",
+      "details": "GBPINR = ₹128.45"
+    },
+    {
+      "test": "Screener Cached Scrips Available",
+      "status": "PASS",
+      "details": "Found 805 enriched companies"
+    },
+    {
+      "test": "Screener JSON Payload Well-Formed",
+      "status": "PASS",
+      "details": "Violations: 0"
+    },
+    {
+      "test": "Shareholding Pattern Additive Integrity (<=100%)",
+      "status": "PASS",
+      "details": "Violations: 0"
+    },
+    {
+      "test": "Zero Fake Modulo charCodeAt Hashes in Fundamentals",
+      "status": "PASS",
+      "details": "Violations: 0"
+    },
+    {
+      "test": "SOLAR Real ROCE Valid (~38%)",
+      "status": "PASS",
+      "details": "SOLAR ROCE: 38.1%"
+    },
+    {
+      "test": "Dashboard API Responding (HTTP 200)",
+      "status": "PASS",
+      "details": "Status: 200"
+    },
+    {
+      "test": "Dashboard API 4MB Payload Latency (<1200ms)",
+      "status": "PASS",
+      "details": "Cached Latency: 157ms"
+    },
+    {
+      "test": "Dashboard Opportunities Present",
+      "status": "PASS",
+      "details": "Found 698 opportunities"
+    },
+    {
+      "test": "Top Opportunity Real CMP (>0)",
+      "status": "PASS",
+      "details": "APARINDS CMP: ₹17421"
+    },
+    {
+      "test": "Top Opportunity Convergence Score Valid (0-100)",
+      "status": "PASS",
+      "details": "Score: 90"
+    },
+    {
+      "test": "Buyers API Responding (HTTP 200)",
+      "status": "PASS",
+      "details": "Status: 200"
+    },
+    {
+      "test": "Institutional Buyers Present",
+      "status": "PASS",
+      "details": "Found 20 buyers"
+    },
+    {
+      "test": "Smart Money Stocks API Responding (HTTP 200)",
+      "status": "PASS",
+      "details": "Status: 200"
+    },
+    {
+      "test": "Smart Accumulation Stocks Present",
+      "status": "PASS",
+      "details": "Found 25 stocks"
+    }
+  ],
+  "timestamp": "2026-09-08T15:54:22.433Z"
+}

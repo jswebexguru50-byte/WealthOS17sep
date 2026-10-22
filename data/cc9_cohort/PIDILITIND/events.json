@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_PIDILITIND_01",
+    "issuerNseSymbol": "PIDILITIND",
+    "issuerBseCode": "500331",
+    "eventDate": "2024-04-05",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "Expansion into Consumer Lending and Home Paints Ecosystem",
+    "description": "Announced pilot rollout of specialized decorative coatings and contractor financing initiatives.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_PIDILITE_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

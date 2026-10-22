@@ -1,0 +1,15 @@
+{
+  "wave": 0,
+  "gitCommit": "41575fb4c3a7b01ff3d6db130641de7ac9c7e999",
+  "branch": "ai-review",
+  "frozenControls": {
+    "src/server/services/dataenrichment/verifiers/PureTechnicalStrategiesEngine.ts": null,
+    "src/server/services/dataenrichment/verifiers/StrategyParameterConfig.ts": null,
+    "src/server/services/dataenrichment/verifiers/SignalQualityOverlay.ts": null,
+    "src/server/services/dataenrichment/verifiers/CapitalProtectionEngine.ts": null,
+    "src/server/services/dataenrichment/verifiers/NewTechnicalStrategiesEngine.ts": null,
+    "src/server/services/dataenrichment/verifiers/UpstoxIntradayIngestor.ts": null,
+    "data/v6.3_REAL_trade_identity_ledger.jsonl": "035D8867F1F8DBC65F9FE35EA45263F20F9FEE00A48D3D7F48807C24A2AFD485"
+  },
+  "timestamp": "2026-09-20T15:32:36.304Z"
+}

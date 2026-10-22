@@ -13,8 +13,8 @@ except ImportError:  # imported as a package
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     from canonical_fact_store import FactStore, iso, to_dt
 
-PRIORITY = ("trendlyne_mcp", "tradingview", "nse_bse", "screener", "manual",
-            "trendlyne_web", "upstox", "kite", "mca", "news", "screener_in")
+PRIORITY = ("tradingview", "trendlyne_web", "trendlyne_mcp", "nse_bse", "screener", "manual",
+            "upstox", "kite", "mca", "news", "screener_in")
 DEFAULT_CONFIDENCE = {
     "trendlyne_mcp": 1.0, "tradingview": 0.9, "nse_bse": 0.8,
     "screener": 0.75, "screener_in": 0.75, "manual": 0.7,

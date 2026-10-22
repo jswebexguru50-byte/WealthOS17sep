@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_GMDCLTD_REV_FY26",
+    "issuerNseSymbol": "GMDCLTD",
+    "issuerBseCode": "515841",
+    "documentHash": "e6a12aacd6d4915ae1ddc0fc5fd3b0cd90bec2cc2b427a432e6b7c01245306d9",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹6918 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_GMDCLTD_PAT_FY26",
+    "issuerNseSymbol": "GMDCLTD",
+    "issuerBseCode": "515841",
+    "documentHash": "e6a12aacd6d4915ae1ddc0fc5fd3b0cd90bec2cc2b427a432e6b7c01245306d9",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹830 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_GMDCLTD_DEBT_FY26",
+    "issuerNseSymbol": "GMDCLTD",
+    "issuerBseCode": "515841",
+    "documentHash": "ad9d20298aba55f8d9b3d73e6fc315e3a7f1a8e699bcda2a5be94ac5da9a32c1",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_GMDCLTD_CONCALL_Q4FY26",
+    "issuerNseSymbol": "GMDCLTD",
+    "issuerBseCode": "515841",
+    "documentHash": "747a64e14d48751aeaa1cbc8ff6b08c91a0b7e11465e059eab674b938377d757",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

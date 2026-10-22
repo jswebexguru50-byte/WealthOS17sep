@@ -1,0 +1,59 @@
+{
+  "metadata": {
+    "reportType": "V6.3_PILOT_REPLAY_REPORT",
+    "generatedAt": "2026-09-17T11:18:43.461Z",
+    "baselineTag": "v6.2.0-FROZEN",
+    "pilotUniverse": [
+      "BANKBARODA",
+      "CANBK",
+      "BAJAJFINSV",
+      "BAJFINANCE",
+      "5PAISA"
+    ],
+    "period": {
+      "startDate": "2025-10-01",
+      "endDate": "2026-03-31",
+      "totalTradingSessions": 129
+    },
+    "dataContractSatisfied": true,
+    "productionFreezeVerified": true
+  },
+  "datasetIntegrity": {
+    "totalBars": 645,
+    "missingSessions": 0,
+    "missingDeliveryRecords": 0,
+    "missingTurnoverRecords": 0,
+    "pitContaminationCount": 0,
+    "historicalUniverseProven": true
+  },
+  "strategyReplay": {
+    "strategiesEvaluated": [
+      "S1",
+      "S2",
+      "S3",
+      "S4",
+      "S5",
+      "S6",
+      "S7",
+      "S8",
+      "S9",
+      "S10",
+      "S11"
+    ],
+    "lookbackRequirement": "265 daily bars for 200-day moving average filter",
+    "pilotWindowBars": 129,
+    "signalsGenerated": 0,
+    "tradesExecuted": 0,
+    "directiveCCompliance": "Zero trades is legitimate output of frozen 200-day SMA lookback. No thresholds altered.",
+    "endingCapital": 10000000
+  },
+  "provenanceHashes": {
+    "researchDatabaseSha256": "0ab48b25cba617ed3a4acca0161813b314c095ef63544bb4af60769eb1012977",
+    "pureTechnicalStrategiesEngineSha256": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3",
+    "newTechnicalStrategiesEngineSha256": "78415ba3c74ca6a9cc2fcc96d2e54ba871e9bca73fc6e078570c412781b1d354",
+    "signalQualityOverlaySha256": "c41cddb152c150bea932a8b9bd8fcc6ea01a03a2ba030a723789aaada5c17452",
+    "capitalProtectionEngineSha256": "63b8317889f5a60e9462f883e89acb57fe99e819935ec8f7b30036ecfe4ed753",
+    "strategyParameterConfigSha256": "901ca7a27b2eb4e09183426c9e0dfd7b812aeebf84472b49b9f829661fe7194b",
+    "upstoxIntradayIngestorSha256": "0f1c96d0e0c704672517f378990e17facdced7bfbf359daf9c6f37333be1b151"
+  }
+}

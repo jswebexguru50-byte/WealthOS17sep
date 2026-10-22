@@ -1,0 +1,25 @@
+Trading breakouts with gaps- running stocks
+
+Prerequisites and Basics
+- Confirm pivot-5 on weekly chart
+- Remove penny stocks i.e below ₹50
+- Broad markets are bullish (nifty 500/nifty midcap/smallcap above sma/ema 20)
+- Consider large-caps /or high mkt-cap midcaps i.e 20K cr
+
+Trend Rule:
+- Price above 200 sma and 50 sma
+- New week or day starts with gap up (after weekly close)
+- New daily / weekly open with gap 2%+ previous week close
+
+Use VPA during contraction
+- Volume compression on pullback
+- Pullback >= 50% with low volatility
+
+Buy entry
+- when previous swing high breaks on daily
+- or hourly charts bullish candle on RSI support
+
+Win rate ~ 50% → Risk control is key- sustained buying at different stages is the key
+
+Stop Loss Rule
+- Stop 1% below lowest low on daily chart

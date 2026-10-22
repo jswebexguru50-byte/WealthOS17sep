@@ -1,0 +1,26 @@
+[
+  {
+    "evidenceId": "EV_HAL_REV_01",
+    "issuerNseSymbol": "HAL",
+    "issuerBseCode": "541154",
+    "documentId": "DOC_HAL_AR24",
+    "documentHash": "123456789abcdef0123456789abcdef0123456789abcdef012",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 48,
+    "pagePrinted": "46",
+    "quotedText": "Consolidated revenue for FY24 reached ₹30381 Cr with fighter jet overhauls and Tejas production accelerating.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_HAL_ORDER_01",
+    "issuerNseSymbol": "HAL",
+    "issuerBseCode": "541154",
+    "documentId": "DOC_HAL_AR24",
+    "documentHash": "123456789abcdef0123456789abcdef0123456789abcdef012",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 62,
+    "pagePrinted": "60",
+    "quotedText": "Total confirmed order book stood at ₹94000 Cr as of 31st March 2024.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

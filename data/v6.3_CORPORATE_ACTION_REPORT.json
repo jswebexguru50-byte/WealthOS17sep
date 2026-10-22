@@ -1,0 +1,34 @@
+{
+  "reportType": "CORPORATE_ACTION_RECONCILIATION_REPORT",
+  "milestone": "v6.3-PHASE2-PILOT",
+  "generatedAt": "2026-09-17T10:43:23.572Z",
+  "targetPeriod": {
+    "startDate": "2025-10-01",
+    "endDate": "2026-03-31"
+  },
+  "symbolsAudited": [
+    "BANKBARODA",
+    "CANBK",
+    "BAJAJFINSV",
+    "BAJFINANCE",
+    "5PAISA"
+  ],
+  "recordedActions": [
+    {
+      "symbol": "BAJFINANCE",
+      "actionType": "DIVIDEND",
+      "exDate": "2026-06-26",
+      "recordDate": "2026-06-27",
+      "ratioNum": null,
+      "ratioDenom": null,
+      "amount": 36,
+      "conv": "RAW",
+      "econTs": "2026-06-26T09:00:00+05:30",
+      "availAt": "2026-04-28T18:00:00+05:30",
+      "source": "NSE_CORP_FEED",
+      "recordId": "NSE_CA_2026_BAJFIN_DIV"
+    }
+  ],
+  "discrepanciesIdentified": [],
+  "reconciliationVerdict": "PASS (ALL_RECONCILED_WITH_AUTHORITATIVE_SOURCE)"
+}

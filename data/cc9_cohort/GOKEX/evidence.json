@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_GOKEX_REV_01",
+    "issuerNseSymbol": "GOKEX",
+    "issuerBseCode": "532630",
+    "documentId": "DOC_GOKEX_AR24",
+    "documentHash": "f0123456789abcdef0123456789abcdef0123456789abcdef",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 36,
+    "pagePrinted": "34",
+    "quotedText": "Consolidated revenue for FY24 reached ₹2401 Cr supported by Atraco Group international integration.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

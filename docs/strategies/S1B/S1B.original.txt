@@ -1,0 +1,90 @@
+Write a complete, highly optimized, and modular Python backtesting framework using pandas, numpy, and dataclasses to detect, record, and evaluate a Volume Price Alignment (VPA) swing setup over historical OHLCV data.
+
+### Core Objectives
+1. **Strategy Variant**: This strategy is **S1b** (a variant of S1a).
+2. **Key Adaptations vs S1a**:
+   - **No Leg 3 Condition**: Remove the requirement for Leg 3 upward expansion and the $\ge 80\%$ reclaim threshold of peak $a$. The setup evaluates right at the trough completion / reversal trigger bar (at pivot $b$ or immediately following it).
+   - **Deep Retracement Allowance**: The pullback limit for Leg 2 is relaxed from 50% up to **90% retracement** of Leg 1 (`l2_max_retrace_ratio = 0.90`), allowing deep dip-buying setups while preserving origin low integrity (`Low[b] > Low[O]`).
+3. **Zero Hardcoding**: All window offsets, durations, ratios, candlestick thresholds, RSI zones, SMA proximity buffers, and ATH discount levels are parameterized via a `VPAPatternConfig` dataclass for sensitivity sweeps.
+4. **Historical Backtest & Date Tracking**: Rolling historical scan recording timestamps (`Date_O`, `Date_a`, `Signal_Date_b`) with strictly zero lookahead bias.
+5. **Macro & Trend Regime Filters**:
+   - **ATH Discount**: Current evaluation price must be discounted $\ge 50\%$ from cumulative All-Time High (`Close[curr_idx] <= 0.50 * ATH_t`).
+   - **200 SMA Proximity**: Evaluation price must be within $\pm 2\%$ of the 200-period SMA:
+     `abs(Close[curr_idx] - SMA_200[curr_idx]) / SMA_200[curr_idx] <= 0.02`
+6. **Trigger Bar Candlestick Confirmation & Doji Gate**:
+   - Strictly **no Doji** on the trigger bar (`body_size / candle_range > 0.10`).
+   - Must match at least one bullish reversal pattern: **Bullish Marubozu**, **Bullish Hammer**, **Bullish Piercing Line**, **Bullish Harami**, or **Bullish Engulfing**.
+7. **RSI Support Alignment**: The trigger/trough bar must anchor at an RSI support zone (30, 40, 50, or 60 within configurable tolerances).
+
+---
+
+### 1. Configuration Schema (S1b)
+
+```python
+from dataclasses import dataclass
+from typing import Tuple
+
+@dataclass
+class VPAPatternConfig:
+    strategy_name: str = "S1b"
+
+    # --- Macro & Trend Regime Filters ---
+    enforce_ath_discount: bool = True
+    ath_min_discount_pct: float = 0.50     # Price <= (1 - 0.50) * cumulative ATH
+    
+    enforce_sma_proximity: bool = True
+    sma_period: int = 200                  # Benchmark moving average
+    sma_proximity_tolerance: float = 0.02   # Within +/- 2% of 200 SMA
+
+    # --- Time Window & Anchor Offsets (Relative to Signal Bar t = 0) ---
+    total_lookback_bars: int = 35          # Search window preceding evaluation bar
+    l1_end_target_offset: int = 20         # Target offset for Leg 1 peak 'a' relative to trough bar
+    l1_end_tolerance: int = 4             # Offset range: [target - tol, target + tol]
+    l2_end_target_offset: int = 0          # Target offset for Leg 2 trough 'b' (evaluated at current candle: 0 to 2 bars ago)
+    l2_end_tolerance: int = 2
+    
+    # --- Duration Constraints (in bars) ---
+    l1_min_bars: int = 1
+    l1_max_bars: int = 10
+    l2_min_bars: int = 2
+    l2_max_bars: int = 20
+    min_time_symmetry_ratio: float = 1.0   # (dt2 / dt1) >= min_time_symmetry_ratio
+    
+    # --- Price Movement Thresholds ---
+    l1_min_displacement_pct: float = 0.20  # Minimum +20% impulse: (High[a] - Low[O]) / Low[O]
+    l2_min_retrace_ratio: float = 0.10     # Retracement floor (10%)
+    l2_max_retrace_ratio: float = 0.90     # Relaxed to 90% maximum retracement (was 50% in S1a)
+    require_higher_low: bool = True        # Ensures Low[b] > Low[O] (strictly no breakdown below base)
+    
+    # --- RSI Support Parameters (At Trough / Signal Candle) ---
+    rsi_period: int = 14
+    rsi_support_levels: Tuple[float, ...] = (30.0, 40.0, 50.0, 60.0)
+    rsi_tolerance: float = 3.5             # +/- band around standard RSI targets (e.g. 50 +/- 3.5)
+    
+    # --- Volume Price Alignment (VPA) Thresholds ---
+    vol_ma_period: int = 20
+    vol_thrust_min_mult: float = 1.25      # Leg 1 avg vol / SMA(vol) >= 1.25
+    vol_short_thrust_spike_mult: float = 1.80 # If L1 <= 3 bars, max bar vol / SMA(vol) >= 1.80
+    vol_pullback_max_ratio: float = 0.75   # Leg 2 avg vol / Leg 1 avg vol <= 0.75
+    vol_trough_dryup_mult: float = 0.80    # min(Leg 2 vol) / SMA(vol) <= 0.80
+    vol_trigger_min_mult: float = 1.00     # Reversal candle vol / SMA(vol) >= 1.00
+    
+    # --- Candlestick Confirmation & Doji Gate (Trigger Candle b) ---
+    exclude_doji: bool = True
+    doji_max_body_ratio: float = 0.10      # Reject if abs(Close - Open) <= 10% of (High - Low)
+    
+    require_bullish_candlestick: bool = True
+    allow_marubozu: bool = True
+    allow_hammer: bool = True
+    allow_piercing: bool = True
+    allow_harami: bool = True
+    allow_engulfing: bool = True
+    
+    marubozu_min_body_ratio: float = 0.80   # Real body >= 80% of candle range
+    hammer_min_lower_wick_ratio: float = 2.0 # Lower wick >= 2x real body length
+    hammer_max_upper_wick_ratio: float = 0.15 # Upper wick <= 15% of candle range
+    piercing_min_penetration: float = 0.50  # Closes >= 50% into prior bearish real body
+    
+    # --- Backtest & Forward Evaluation ---
+    cooldown_bars: int = 5
+    forward_eval_bars: Tuple[int, ...] = (5, 10, 20)

@@ -1,0 +1,9 @@
+[
+  {
+    "status": "CONFIRMED_ZERO_ADVERSE_CONTRADICTIONS",
+    "issuerNseSymbol": "SOLARINDS",
+    "note": "All evaluated management claims (2/2) delivered without divergence; zero adverse contradictions identified between statutory filings and concall guidance.",
+    "activeContradictionCount": 0,
+    "verifiedContradictions": []
+  }
+]

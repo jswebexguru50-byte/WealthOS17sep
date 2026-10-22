@@ -1,0 +1,57 @@
+[
+  {
+    "factId": "FACT_BAJFINANCE_01",
+    "issuerSymbol": "BAJFINANCE",
+    "metric": "REVENUE",
+    "metricId": "REVENUE",
+    "metricFamily": "REVENUE",
+    "value": 54969,
+    "unit": "INR_CRORE",
+    "scope": "CONSOLIDATED",
+    "measurementType": "FLOW",
+    "asOfDate": "2024-03-31",
+    "measurementPeriod": "FY24",
+    "sourceEvidenceId": "EV_BAJFIN_REV_01",
+    "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+    "filingType": "ANNUAL_REPORT",
+    "filingDate": "2024-03-31",
+    "auditStatus": "AUDITED",
+    "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+    "sourceMetadata": {
+      "sourceEvidenceId": "EV_BAJFIN_REV_01",
+      "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+      "filingType": "ANNUAL_REPORT",
+      "filingDate": "2024-03-31",
+      "auditStatus": "AUDITED",
+      "hierarchyRank": 4
+    },
+    "extractionMethod": "RULE",
+    "verificationStatus": "SOURCE_SUPPORTED",
+    "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+    "gatePassedAt": "2026-09-16T11:00:00.000Z",
+    "verificationMetadata": {
+      "extractionMethod": "RULE",
+      "verificationStatus": "SOURCE_SUPPORTED",
+      "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+      "gatePassedAt": "2026-09-16T11:00:00.000Z",
+      "gateAChecks": {
+        "metricRegistered": true,
+        "unitConsistentWithFamily": true,
+        "issuerMatchesScope": true,
+        "datesChronologicallySound": true,
+        "quotePresent": true,
+        "numericalValuePresentInQuote": true,
+        "currencyConsistent": true,
+        "deterministicMetricContextBinding": true,
+        "sourceSpanAuthentic": true,
+        "scopeDeclared": true
+      }
+    },
+    "schemaVersion": "3.2.1",
+    "ontologyVersion": "1.3",
+    "notes": "Extracted fact linked to EV_BAJFIN_REV_01",
+    "sourceQuotedText": "Total revenue reached ₹54969 Cr with customer franchise expanding to 83.6 million clients.",
+    "publicationDate": "2024-03-31",
+    "publicationDateType": "FILING"
+  }
+]

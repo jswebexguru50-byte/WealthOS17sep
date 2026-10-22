@@ -1,0 +1,46 @@
+VITEST TEST EXECUTION OUTPUT — REPRODUCIBILITY AUDIT LOG
+Executed: npx vitest run tests/unit/rule5_runtime_enforcement.test.ts tests/unit/test_citation_semantics.test.ts tests/unit/test_claim_lifecycle.test.ts tests/unit/test_contradiction_engine.test.ts tests/unit/test_unknown_classification.test.ts tests/unit/constitution_invariants.test.ts tests/unit/test_itas_iice_e2e_integration.test.ts
+Exit Code: 0
+Server: Live on http://localhost:3000
+
+=== TEST SUITE RESULTS ===
+✓ tests/unit/constitution_invariants.test.ts (2 tests passed)
+  - proves no active code path mutates serving tables outside quality-gate.cjs
+  - proves no evidence lineage crosses issuer identity in portfolio.db
+✓ tests/unit/rule5_runtime_enforcement.test.ts (2 tests passed)
+  - proves valid evidence-grounded assertion successfully passes quality gate and updates serving tier
+  - strictly blocks invalid assertions at runtime, routes them to quarantine, and prevents serving table mutation
+✓ tests/unit/test_itas_iice_e2e_integration.test.ts (10 tests passed)
+  - A. Multi-Evidence Contradiction: requires both leftEvidenceId and rightEvidenceId from EvidenceInventory
+  - B. Temporal Lifecycle: rejects premature MISSED resolution before expectedPeriodEnd
+  - C. Thesis Breakers: machine-executable quantitative and qualitative evaluation
+  - D. Evidence Boundary: rejects cross-issuer contamination and verifies DB writes are blocked (0 serving rows)
+  - E. Tier 4 Restriction: prevents uncorroborated news from substantiating CRITICAL conclusions (0 serving rows written)
+  - F. ITAS / IICE Two-Axis Independence: ITAS STRONG + IICE HIGH RISK does NOT mutate ITAS result
+  - G. Unknown Preservation: ITAS STRONG + IICE Insufficient Evidence produces UNKNOWN risk, not LOW risk
+  - H. End-to-End Real Evidence Scenario: Solar Industries 360° Reconciled Brief Assembly
+  - I. Historical Immutability / Supersession: modifying candidate updates superseding record, never mutating original historical assertion
+  - J. Issuer Identity Propagation: rejects cross-issuer evidence when linking contradiction
+✓ tests/unit/test_claim_lifecycle.test.ts (5 tests passed)
+  - correctly records an open claim with evidence lineage and temporal bounds
+  - correctly transitions claim to ACHIEVED and computes STRONG credibility
+  - correctly flags MISSED claims and drops credibility to WEAK/MIXED
+  - enforces temporal constraint: rejects marking claim MISSED before expectedPeriodEnd
+  - returns INSUFFICIENT_HISTORY when claims evaluated are less than threshold
+✓ tests/unit/test_contradiction_engine.test.ts (5 tests passed)
+  - detects a CLAIM_VS_RESULT contradiction when management guidance is missed
+  - marks debt and governance contradictions with CRITICAL severity
+  - does NOT create a contradiction for ACHIEVED claims
+  - records and retrieves contradictions from the database with multi-evidence columns cleanly
+  - rejects saving contradiction if either leftEvidenceId or rightEvidenceId is missing
+✓ tests/unit/test_citation_semantics.test.ts (4 tests passed)
+  - proves headings and titles are identified as non-substantive boilerplate
+  - strictly rejects heading-only quotes as INSUFFICIENT_EVIDENCE for operational assertions
+  - strictly rejects section title "Outlook for 2024-25" as assertion evidence without substantive body text
+  - successfully validates genuine, substantive supporting operational spans
+✓ tests/unit/test_unknown_classification.test.ts (3 tests passed)
+  - generates baseline checklist with all items initialized to NOT_YET_CHECKED
+  - transitions state to CONFIRMED_ABSENT and excludes it from active blind spots
+  - keeps SEARCHED_AND_NOT_FOUND distinct from UNRESOLVED
+
+TOTAL: 7 Test Files Passed, 31 Tests Passed (100% Pass Rate).

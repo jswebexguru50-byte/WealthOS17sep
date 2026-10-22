@@ -1,0 +1,19 @@
+{
+  "symbol": "RELIANCE",
+  "coreThesisStatement": "India's largest corporate conglomerate transforming from traditional O2C refining to dominant digital consumer ecosystem (Jio, Retail, Green Energy).",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Consumer Ecosystem",
+      "description": "Retail and Jio now generate over 50% of consolidated operating EBITDA."
+    },
+    {
+      "pillarId": "P2",
+      "title": "New Energy Transition",
+      "description": "Building multi-gigawatt solar giga-factories and hydrogen electrolyzer hubs."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_RIL_LEVERAGE"
+  ]
+}

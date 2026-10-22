@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_PAYTM_01",
+    "issuerNseSymbol": "PAYTM",
+    "issuerBseCode": "543396",
+    "eventDate": "2024-01-31",
+    "category": "REGULATORY",
+    "headline": "RBI Supervisory Action under Section 35A on PPBL",
+    "description": "Reserve Bank of India ordered complete cessation of banking deposits, wallet top-ups, and fastag accounts at Paytm Payments Bank.",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "REGULATORY_ORDER",
+    "evidenceId": "EV_PAYTM_RBI_ORDER",
+    "materiality": "CRITICAL",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

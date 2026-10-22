@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_BAJFINANCE_01",
+    "issuerNseSymbol": "BAJFINANCE",
+    "issuerBseCode": "500034",
+    "eventDate": "2024-05-02",
+    "category": "REGULATORY",
+    "headline": "RBI Lifts Restrictions on eCOM and Insta EMI Card Products",
+    "description": "Reserve Bank of India officially revoked restrictions on onboarding new customers under eCOM and digital Insta EMI Card.",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "REGULATORY_ORDER",
+    "evidenceId": "EV_BAJFIN_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

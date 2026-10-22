@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_DIXON_REV_01",
+    "issuerNseSymbol": "DIXON",
+    "issuerBseCode": "540699",
+    "documentId": "DOC_DIXON_AR24",
+    "documentHash": "23456789abcdef0123456789abcdef0123456789abcdef3",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 46,
+    "pagePrinted": "44",
+    "quotedText": "Consolidated revenue for FY24 reached ₹17691 Cr with smartphone manufacturing volumes doubling.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

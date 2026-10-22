@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "UNOMINDA",
+  "issuerBseCode": "518693",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_UNOMINDA_AR2024",
+      "documentName": "UNOMINDA_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "86a7a72efa8a01842ea0628d2fc415ab6f4c0a58078ddc5b9601f67c75477d97",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_UNOMINDA_AUDITED_RESULTS",
+      "documentName": "UNOMINDA_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "d09bfe1ae8ebbb5690d59848af04c5c81e329997624beba905761db0a13e6c3f",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_UNOMINDA_CONCALL_Q4FY26",
+      "documentName": "UNOMINDA_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "fc4f38f5e71db4016337167e780e3b8c71aaa92b4c5142a2d04ba58fd9a1e32a",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

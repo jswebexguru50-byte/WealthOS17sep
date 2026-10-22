@@ -1,0 +1,19 @@
+{
+  "symbol": "SBIN",
+  "coreThesisStatement": "The bedrock of Indian financial system commanding 23% deposit market share, operating at peak profitability with cleanest asset quality in two decades.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Low-Cost CASA Monopoly",
+      "description": "Over ₹49 lakh crore in deposits powered by 22,500 branches."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Corporate Credit Pricing Power",
+      "description": "Unrivaled capability to syndicate mega infrastructure and energy transition loans."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_SBIN_NPA"
+  ]
+}

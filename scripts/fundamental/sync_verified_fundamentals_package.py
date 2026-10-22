@@ -85,13 +85,18 @@ def sync_package(manifest_path=None, tv_enrich=False):
         if s not in shp_by_sym:
             shp_by_sym[s] = r
 
-    # Pre-fetch FERE verified XBRL financial facts
+    # Pre-fetch FERE verified XBRL financial facts.  Older evidence stores may
+    # legitimately predate this optional lineage table; retain their verified
+    # shareholding and Upstox data rather than aborting the entire waterfall.
+    has_verified_xbrl = cur_fere.execute(
+        "SELECT 1 FROM sqlite_master WHERE type='table' AND name='verified_xbrl_fact'"
+    ).fetchone()
     fact_rows = cur_fere.execute(f"""
         SELECT symbol, period_end, metric, value, unit, source_url
         FROM verified_xbrl_fact
         WHERE symbol IN ({placeholders})
         ORDER BY period_end DESC
-    """, symbols).fetchall()
+    """, symbols).fetchall() if has_verified_xbrl else []
     
     facts_by_sym = {}
     for s, p, m, v, u, url in fact_rows:

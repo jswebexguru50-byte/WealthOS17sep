@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_LAURUS_01",
+    "issuerNseSymbol": "LAURUSLABS",
+    "issuerBseCode": "540222",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Stabilize consolidated revenue above ₹4,800 Cr supported by animal health commercial batches.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 6040,
+    "expectedValue": 4800,
+    "expectedOutcome": "Revenue >= ₹4,800 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_LAURUS_REV_01",
+    "claimDate": "2023-08-12",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 5041,
+    "actualOutcomeDescription": "Delivered ₹5,041 Cr revenue exceeding stabilization target by 5.0%.",
+    "evaluationEvidenceId": "EV_LAURUS_REV_01",
+    "evaluationDate": "2024-05-18",
+    "evaluationBasis": "Audited Financial Statements Review",
+    "publicationDate": "2023-08-12",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_LAURUS_01"
+  }
+]

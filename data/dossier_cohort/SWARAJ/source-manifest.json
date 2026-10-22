@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "SWARAJ",
+  "issuerBseCode": "514136",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_SWARAJ_AR2024",
+      "documentName": "SWARAJ_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "d9e0eb268ae0374f964ad90d9f45b42f72c3d830a699390b3c2aa22cade43cb2",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_SWARAJ_AUDITED_RESULTS",
+      "documentName": "SWARAJ_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "486917650928f63174b41fbd969e359a7953b9e9f7b28be9131e5a63f90d117c",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_SWARAJ_CONCALL_Q4FY26",
+      "documentName": "SWARAJ_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "4acf9f0a0f06a2b0b773a095de6875d96eaaedd68641afd52f26603eb37cbf25",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

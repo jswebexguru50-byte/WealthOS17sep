@@ -1,0 +1,98 @@
+{
+  "generatedAt": "2026-09-30T06:03:50.828Z",
+  "cutoffDate": "2026-09-28",
+  "fromDate": "2026-09-14",
+  "source": "LAST_15_DAYS_SEVEN_ALPHANUMERIC_STRATEGY_SCAN",
+  "strategyCodes": [
+    "S1a",
+    "S1b",
+    "S2a",
+    "S3a",
+    "S4a",
+    "S4b",
+    "S5a"
+  ],
+  "reportFiles": [
+    "reports\\readiness\\vpa_three_leg\\vpa_three_leg_full_universe_90_20260928_20260928T154548Z.json",
+    "reports\\readiness\\vpa_three_leg\\s1b_full_universe_90_20260928_20260928T155414Z.json",
+    "reports\\readiness\\vpa_three_leg\\s2a_full_universe_90_20260928_20260928T160040Z.json",
+    "reports\\readiness\\vpa_three_leg\\s3a_full_universe_90_20260928_20260928T160202Z.json",
+    "reports\\readiness\\vpa_three_leg\\s4a_full_universe_90_20260928_20260928T160325Z.json",
+    "reports\\readiness\\vpa_three_leg\\s4b_full_universe_90_20260928_20260928T160418Z.json",
+    "reports\\readiness\\vpa_three_leg\\s5a_full_universe_90_20260928_20260928T160510Z.json"
+  ],
+  "perStrategy": {
+    "S1a": {
+      "report": "reports\\readiness\\vpa_three_leg\\vpa_three_leg_full_universe_90_20260928_20260928T154548Z.json",
+      "matches": 2,
+      "uniqueSymbols": 2
+    },
+    "S1b": {
+      "report": "reports\\readiness\\vpa_three_leg\\s1b_full_universe_90_20260928_20260928T155414Z.json",
+      "matches": 1,
+      "uniqueSymbols": 1
+    },
+    "S2a": {
+      "report": "reports\\readiness\\vpa_three_leg\\s2a_full_universe_90_20260928_20260928T160040Z.json",
+      "matches": 3,
+      "uniqueSymbols": 3
+    },
+    "S3a": {
+      "report": "reports\\readiness\\vpa_three_leg\\s3a_full_universe_90_20260928_20260928T160202Z.json",
+      "matches": 0,
+      "uniqueSymbols": 0
+    },
+    "S4a": {
+      "report": "reports\\readiness\\vpa_three_leg\\s4a_full_universe_90_20260928_20260928T160325Z.json",
+      "matches": 0,
+      "uniqueSymbols": 0
+    },
+    "S4b": {
+      "report": "reports\\readiness\\vpa_three_leg\\s4b_full_universe_90_20260928_20260928T160418Z.json",
+      "matches": 7,
+      "uniqueSymbols": 7
+    },
+    "S5a": {
+      "report": "reports\\readiness\\vpa_three_leg\\s5a_full_universe_90_20260928_20260928T160510Z.json",
+      "matches": 45,
+      "uniqueSymbols": 20
+    }
+  },
+  "totalSymbols": 33,
+  "symbols": [
+    "AERONEU",
+    "AETHER",
+    "ARHAM",
+    "BLISSGVS",
+    "CAPILLARY",
+    "DUCOL",
+    "GUJRAFFIA",
+    "JAINIK",
+    "KAPSTON",
+    "KONSTELEC",
+    "LAMBODHARA",
+    "MACPOWER",
+    "MAHICKRA",
+    "MAWANASUG",
+    "NGLFINE",
+    "PAISALO",
+    "PRECWIRE",
+    "RAMRAT",
+    "RPTECH",
+    "SANSERA",
+    "SHEETAL",
+    "SHETHJI",
+    "SIGMAADV",
+    "SMARTEN",
+    "SMARTLINK",
+    "SOFTTECH",
+    "SPECIALITY",
+    "SUDARCOLOR",
+    "TALBROAUTO",
+    "TATAINVEST",
+    "UNIVPHOTO",
+    "WELINV",
+    "YATHARTH"
+  ],
+  "llmCalls": 0
+}

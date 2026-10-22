@@ -1,0 +1,19 @@
+{
+  "symbol": "HDFCBANK",
+  "coreThesisStatement": "Largest Indian private banking franchise compounding advances and building the premier national mortgage distribution platform.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Post-Merger Deposit Mobilization",
+      "description": "Over 8,500 branches driving industry-leading retail deposit capture."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Subsidiary Value Unlocking",
+      "description": "Imminent monetization of HDB Financial and HDFC AMC."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_HDFC_NPA"
+  ]
+}

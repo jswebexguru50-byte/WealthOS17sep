@@ -147,8 +147,55 @@ def _legacy_fetch_shareholding(conn, symbols):
 
 
 def fetch_shareholding(conn, symbols):
-    """Use the reusable DB → CFS source waterfall for F1/F5/F6 evidence."""
-    return SourceWaterfallEngine(conn).get_shareholding(symbols)
+    """Use DB/CFS first, then the verified Upstox projection for F1/F6.
+
+    ``sync_verified_fundamentals_package`` persists Upstox share-holding facts
+    in FundamentalSnapshots.  They are evidence-backed snapshots, not defaults,
+    and must be consulted before returning an UNKNOWN promoter or institutional
+    result.  Pledge is deliberately not inferred because that endpoint has no
+    pledge field.
+    """
+    result = SourceWaterfallEngine(conn).get_shareholding(symbols)
+    cols = {r[1] for r in conn.execute("PRAGMA table_info(FundamentalSnapshots)")}
+    required = {'symbol', 'promoter_holding_pct', 'fii_holding_pct', 'dii_holding_pct'}
+    if not required.issubset(cols):
+        return result
+    placeholders = ','.join('?' * len(symbols))
+    rows = conn.execute(f"""
+        SELECT symbol, promoter_holding_pct, fii_holding_pct, dii_holding_pct, fetched_at, source
+        FROM FundamentalSnapshots WHERE symbol IN ({placeholders})
+    """, symbols).fetchall()
+    for symbol, promoter, fii, dii, fetched_at, source in rows:
+        existing = result.setdefault(symbol, {})
+        if existing.get('promoter_pct') is None and promoter is not None:
+            existing['promoter_pct'] = promoter
+        if existing.get('fii_pct') is None and fii is not None:
+            existing['fii_pct'] = fii
+        if existing.get('dii_pct') is None and dii is not None:
+            existing['dii_pct'] = dii
+        if any(v is not None for v in (promoter, fii, dii)):
+            existing.setdefault('sh_quarter', 'upstox_fundamental_snapshot')
+            existing.setdefault('sh_date', fetched_at)
+            existing.setdefault('source_detail', source or 'VERIFIED_MULTI_SOURCE')
+    # SourceWaterfallEngine's shareholding fast path only consults CFS when a
+    # whole symbol is absent. Merge the canonical pledge field separately so a
+    # verified Trendlyne pledge can complement an existing Upstox/NSE record.
+    has_cfs = conn.execute(
+        "SELECT 1 FROM sqlite_master WHERE type='table' AND name='canonical_fact_store'"
+    ).fetchone()
+    if has_cfs:
+        pledge_rows = conn.execute(f"""
+            SELECT symbol, value FROM canonical_fact_store
+            WHERE field='pledge_pct' AND symbol IN ({placeholders})
+        """, symbols).fetchall()
+        for symbol, value in pledge_rows:
+            if result.setdefault(symbol, {}).get('pledge_pct') is None:
+                try:
+                    result[symbol]['pledge_pct'] = json.loads(value)
+                    result[symbol]['pledge_source'] = 'trendlyne_mcp'
+                except (TypeError, ValueError, json.JSONDecodeError):
+                    continue
+    return result
 
 
 def fetch_financials(conn, symbols):
@@ -669,7 +716,7 @@ def main():
 
     print(f"[29Q] Fetching DB data for {len(symbols)} symbols...")
     waterfall = SourceWaterfallEngine(conn)
-    sh_dict  = waterfall.get_shareholding(symbols)   # layers 1 + 2 applied inside
+    sh_dict  = fetch_shareholding(conn, symbols)     # DB/CFS plus verified Upstox fallback
     for symbol in symbols:
         waterfall.record_external_conflicts(symbol, tv_universe.get(symbol, {}))
     fin_dict = fetch_financials(conn, symbols)

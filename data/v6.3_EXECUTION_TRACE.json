@@ -1,0 +1,111 @@
+{
+  "traceId": "TRACE-V63-GOLDEN-1789648994720",
+  "timestamp": "2026-09-17T12:43:14.720Z",
+  "description": "Deterministic execution trace generated directly from golden fixtures and reconciled ExecutionSimulator.simulate()",
+  "executionConfig": {
+    "initialCapital": 10000000,
+    "intrabarPolicy": "CONSERVATIVE_STOP_FIRST",
+    "brokeragePerLeg": 20,
+    "sttRate": 0.001,
+    "stampDutyBuyRate": 0.00015,
+    "exchangeTxnRate": 0.0000345,
+    "gstRate": 0.18,
+    "slippageBps": 10,
+    "impactBps": 5
+  },
+  "portfolioSummary": {
+    "initialCapital": 10000000,
+    "finalCash": 9917509.161878627,
+    "endingCapital": 9917509.161878627,
+    "totalTrades": 2,
+    "totalFills": 5
+  },
+  "equityCurve": [
+    {
+      "timestamp": "2024-01-01T15:35:00+05:30",
+      "equity": 10000000
+    },
+    {
+      "timestamp": "2024-01-02T15:35:00+05:30",
+      "equity": 10001324.84
+    },
+    {
+      "timestamp": "2024-01-03T15:35:00+05:30",
+      "equity": 9995874.84
+    },
+    {
+      "timestamp": "2024-01-04T15:35:00+05:30",
+      "equity": 9995709.16
+    }
+  ],
+  "trades": [
+    {
+      "tradeId": "RUN-SIM-GOLDEN-SIG-INFY-001",
+      "symbol": "INFY",
+      "signalTimestamp": "2024-01-01T15:35:00+05:30",
+      "availableAt": "2024-01-01T15:35:00+05:30",
+      "strategy": "S1",
+      "direction": "LONG",
+      "entry": 1510,
+      "stop": 1470,
+      "target": 1600,
+      "quantity": 50,
+      "executionTimestamp": "2024-01-02T15:35:00+05:30",
+      "executionPrice": 1516.5171041666667,
+      "triggerTimestamp": "2024-01-03T15:35:00+05:30",
+      "exitTimestamp": "2024-01-04T15:35:00+05:30",
+      "exitPrice": 1458.5369583333334,
+      "exitReason": "STOP_LOSS",
+      "transactionCosts": {
+        "entryBrokerage": 20,
+        "entrySTT": 0,
+        "entryExchangeTxn": 2.62,
+        "entryStampDuty": 11.37,
+        "entryGST": 4.07,
+        "exitBrokerage": 20,
+        "exitSTT": 72.93,
+        "exitExchangeTxn": 2.52,
+        "exitStampDuty": 0,
+        "exitGST": 4.05,
+        "totalCosts": 137.56
+      },
+      "grossPnl": -2899.01,
+      "realizedPnl": -3036.56,
+      "portfolioEquityAfterExit": 9995709.16
+    },
+    {
+      "tradeId": "RUN-SIM-GOLDEN-SIG-SBIN-001",
+      "symbol": "SBIN",
+      "signalTimestamp": "2024-01-01T15:35:00+05:30",
+      "availableAt": "2024-01-01T15:35:00+05:30",
+      "strategy": "S5",
+      "direction": "LONG",
+      "entry": 605,
+      "stop": 590,
+      "target": 650,
+      "quantity": 100,
+      "executionTimestamp": "2024-01-02T15:35:00+05:30",
+      "executionPrice": 610.6109242424243,
+      "triggerTimestamp": "2024-01-03T15:35:00+05:30",
+      "exitTimestamp": "2024-01-04T15:35:00+05:30",
+      "exitPrice": 584.4139166666666,
+      "exitReason": "STOP_LOSS",
+      "transactionCosts": {
+        "entryBrokerage": 20,
+        "entrySTT": 0,
+        "entryExchangeTxn": 2.11,
+        "entryStampDuty": 9.16,
+        "entryGST": 3.98,
+        "exitBrokerage": 20,
+        "exitSTT": 58.44,
+        "exitExchangeTxn": 2.02,
+        "exitStampDuty": 0,
+        "exitGST": 3.96,
+        "totalCosts": 119.67
+      },
+      "grossPnl": -2619.7,
+      "realizedPnl": -2739.37,
+      "portfolioEquityAfterExit": 9995709.16
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "breakerId": "TB_BHFL_NPA",
+    "symbol": "BAJAJHFL",
+    "name": "Prime Housing GNPA Ceiling",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 1,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Gross NPA exceeding 1.0% triggers hard veto.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

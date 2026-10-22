@@ -1,0 +1,107 @@
+{
+  "generatedAt": "2026-10-04T03:06:50.512Z",
+  "mode": "APPLIED",
+  "dbPath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\portfolio.db",
+  "requested": 19,
+  "symbolsWithEvidence": 16,
+  "factsPrepared": 744,
+  "factsWritten": 744,
+  "policy": "Only explicit Trendlyne quarter-labelled shareholding data is promoted. Relative financial history is untouched.",
+  "symbols": [
+    {
+      "symbol": "AETHER",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "AZAD",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "BLISSGVS",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "CAPILLARY",
+      "endpoint": "shareholding",
+      "factsPrepared": 24
+    },
+    {
+      "symbol": "COMSYN",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "GLOBALPET",
+      "endpoint": null,
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "GUJRAFFIA",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "KAPSTON",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "MAWANASUG",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "MBAPL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "MTARTECH",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "NGLFINE",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "PRECWIRE",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "RAMRAT",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "RATNAVEER",
+      "endpoint": null,
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "RRKABEL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "SIGMAADV",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "WELINV",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "XELPMOC",
+      "endpoint": null,
+      "factsPrepared": 0
+    }
+  ]
+}

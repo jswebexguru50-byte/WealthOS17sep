@@ -1,0 +1,30 @@
+[
+  {
+    "eventId": "EVT_VGUARD_RESULTS",
+    "issuerNseSymbol": "VGUARD",
+    "issuerBseCode": "514167",
+    "eventDate": "2026-05-26",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "VGUARD Audited Results FY26 Approved",
+    "description": "Board of Directors approved audited financial statements showing operating scale of ₹4024 Cr.",
+    "sourceType": "STATUTORY_FILING",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "evidenceId": "EV_VGUARD_REV_FY26",
+    "materiality": "MATERIAL",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  },
+  {
+    "eventId": "EVT_VGUARD_EXPANSION",
+    "issuerNseSymbol": "VGUARD",
+    "issuerBseCode": "514167",
+    "eventDate": "2026-08-20",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "VGUARD Capacity Expansion Milestone",
+    "description": "Ongoing capacity expansion projects proceeding within sanctioned budgets and commissioning schedules.",
+    "sourceType": "EXCHANGE_DISCLOSURE",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "evidenceId": "EV_VGUARD_CONCALL_Q4FY26",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

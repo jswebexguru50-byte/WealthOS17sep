@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_BAJAJHLDNG_REV_FY26",
+    "issuerNseSymbol": "BAJAJHLDNG",
+    "issuerBseCode": "521979",
+    "documentHash": "921ccd0e469e268b5f7a1d81a3d78786378dd944dc13c0acc3e9cac20d4f302e",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹138750 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_BAJAJHLDNG_PAT_FY26",
+    "issuerNseSymbol": "BAJAJHLDNG",
+    "issuerBseCode": "521979",
+    "documentHash": "921ccd0e469e268b5f7a1d81a3d78786378dd944dc13c0acc3e9cac20d4f302e",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹16650 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_BAJAJHLDNG_DEBT_FY26",
+    "issuerNseSymbol": "BAJAJHLDNG",
+    "issuerBseCode": "521979",
+    "documentHash": "d46bf4bf71e1ceece936a8745c58be66eb95d2b6db8b01a470591b643e992f0b",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_BAJAJHLDNG_CONCALL_Q4FY26",
+    "issuerNseSymbol": "BAJAJHLDNG",
+    "issuerBseCode": "521979",
+    "documentHash": "057a160482bf77f8e0f82833433efadfd2d5d1fd5d246526ff9bc7ec13528e4a",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

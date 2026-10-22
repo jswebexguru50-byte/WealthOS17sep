@@ -1,0 +1,14 @@
+[
+  {
+    "breakerId": "TB_BAJFIN_NPA",
+    "symbol": "BAJFINANCE",
+    "name": "Retail NBFC GNPA Ceiling",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 2.2,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Gross NPA exceeding 2.2% triggers hard veto.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

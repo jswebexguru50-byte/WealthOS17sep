@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_TATACONSUM_01",
+    "issuerNseSymbol": "TATACONSUM",
+    "issuerBseCode": "500800",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Scale consolidated consumer top line past ₹14,500 Cr in FY24 through foods expansion.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 13783,
+    "expectedValue": 14500,
+    "expectedOutcome": "Revenue >= ₹14,500 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_TC_REV_01",
+    "claimDate": "2023-08-10",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 15206,
+    "actualOutcomeDescription": "Delivered ₹15,206 Cr revenue exceeding guidance by 4.9%.",
+    "evaluationEvidenceId": "EV_TC_REV_01",
+    "evaluationDate": "2024-04-23",
+    "evaluationBasis": "BSE Audited Financial Results Release",
+    "publicationDate": "2023-08-10",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_TC_01"
+  }
+]

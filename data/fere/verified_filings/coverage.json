@@ -1,0 +1,20 @@
+{
+  "generated_at": "2026-10-20T19:05:59.592500+00:00",
+  "universe": 3654,
+  "legacy_unverified": 3559,
+  "priority_tiers": {
+    "0": 107,
+    "2": 3547
+  },
+  "discovery": {
+    "ARCHIVED": 91,
+    "SOURCE_UNAVAILABLE": 2
+  },
+  "documents": {
+    "ARCHIVED_UNPARSED": 256
+  },
+  "verified_facts": 0,
+  "xbrl_facts_with_lineage": 0,
+  "identity_review_documents": 0,
+  "verified_metrics": 0
+}

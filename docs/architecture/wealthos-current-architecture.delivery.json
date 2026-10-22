@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "63c1fe26-890e-48dd-a538-6a7971b45a46",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\.archify\\architecture-wealthos-current\\candidate.json",
+  "output": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\docs\\architecture\\wealthos-current-architecture.html",
+  "specification": {
+    "sha256": "edc483cb36fe6106d089325376e3fc6d0991cf8bc4a93d84e5060a0f2ae6178d",
+    "bytes": 7707
+  },
+  "artifact": {
+    "sha256": "645689dff645fd120ee57daf078810328bbbecea0cd38075f486e9c801134a87",
+    "bytes": 798005
+  }
+}

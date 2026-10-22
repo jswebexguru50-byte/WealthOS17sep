@@ -1,0 +1,34 @@
+{
+  "gate": "UI_WAVE_GATE0",
+  "timestamp_start": "2026-09-20T18:06:39+04:00",
+  "timestamp_complete": "2026-09-20T18:14:12+04:00",
+  "commit": "cca54bf6a66b24a859b136b810ed7a3d5ca5edeb",
+  "frozenControls": {
+    "pre_implementation": "7/7 MATCH",
+    "post_implementation": "7/7 MATCH",
+    "status": "PASS"
+  },
+  "tsAudit": {
+    "pre_implementation": "0 errors",
+    "post_implementation": "0 errors",
+    "status": "PASS"
+  },
+  "backendFilesChanged": 0,
+  "strategyFilesChanged": 0,
+  "chartLibraryChanges": 0,
+  "evidenceSpineComputations": 0,
+  "frontendRankingIntroduced": false,
+  "routesMapped": 20,
+  "unknownRouteFallback": "NotFoundRecoveryView (explicit, not silent redirect)",
+  "gateStatus": "PASS",
+  "agents": {
+    "G0": "PASS - Gate 0 frozen controls 7/7",
+    "A": "COMPLETE - Architecture, compatibility layer, 20 routes mapped, NotFoundRecoveryView",
+    "B": "COMPLETE - EvidenceSpineHeader display-only",
+    "C": "COMPLETE - DiscoverWorkspace (5 sub-tabs, existing components)",
+    "D": "COMPLETE - PortfolioHubView retained unchanged",
+    "E": "COMPLETE - ResearchWorkspace (5 sub-tabs, existing components)",
+    "F": "COMPLETE - UISystemPrimitives (DataStateBadge, AnalystSummaryCard, CmdK)",
+    "G": "COMPLETE - AuditWorkspace (6 sub-tabs) + post-regression 7/7"
+  }
+}

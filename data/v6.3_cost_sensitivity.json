@@ -1,0 +1,43 @@
+{
+  "runId": "RUN-V63-E2E-1789622948116",
+  "arm": "B_V62_OVERLAY",
+  "tiers": [
+    {
+      "multiplier": 0.75,
+      "expectancyR": 0.1264,
+      "netPnl": 177826,
+      "winRate": 0.4222
+    },
+    {
+      "multiplier": 1,
+      "expectancyR": 0.1011,
+      "netPnl": 137322,
+      "winRate": 0.4222
+    },
+    {
+      "multiplier": 1.25,
+      "expectancyR": 0.0759,
+      "netPnl": 100451,
+      "winRate": 0.4222
+    },
+    {
+      "multiplier": 1.5,
+      "expectancyR": 0.0506,
+      "netPnl": 64487,
+      "winRate": 0.4222
+    },
+    {
+      "multiplier": 2,
+      "expectancyR": 0.0001,
+      "netPnl": -6084,
+      "winRate": 0.4222
+    }
+  ],
+  "mathematicalReconciliation": {
+    "twoXCostFindings": {
+      "expectancyR": 0.0001,
+      "netPnlRupees": -6084,
+      "explanation": "Expectancy R is the arithmetic mean of per-trade normalized R-multiples (R = Net PnL / Initial Rupee Risk). Net PnL is the cumulative rupee sum across all 270 trades. At 2.00x friction (40 bps total friction per round trip), total cumulative transaction costs exceed nominal gross gains by ₹6,084, resulting in a net negative rupee PnL, while the per-trade normalized R arithmetic mean hovers at +0.0001R due to asymmetric winning vs losing position sizing. Therefore, at 2.00x costs, the strategy is in an empirical drawdown and CANNOT be considered profitable."
+    }
+  }
+}

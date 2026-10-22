@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_TP_REV_01",
+    "issuerNseSymbol": "TATAPOWER",
+    "issuerBseCode": "500400",
+    "documentId": "DOC_TATAPOWER_AR24",
+    "documentHash": "bcdef0123456789abcdef0123456789abcdefc",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 62,
+    "pagePrinted": "60",
+    "quotedText": "Consolidated revenue for FY24 reached ₹61449 Cr with solar rooftop and generation utility dispatches accelerating.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

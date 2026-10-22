@@ -1,0 +1,19 @@
+{
+  "symbol": "LAURUSLABS",
+  "coreThesisStatement": "Transition from ARV commodity API provider to high-margin global CDMO and bio-division powerhouse.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "CDMO Multi-Year Contracts",
+      "description": "Partnership with top global innovators for dedicated manufacturing capacity."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Non-ARV Diversification",
+      "description": "Growing presence in cardio-vascular and oncology therapeutic categories."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_LAURUS_LEVERAGE"
+  ]
+}

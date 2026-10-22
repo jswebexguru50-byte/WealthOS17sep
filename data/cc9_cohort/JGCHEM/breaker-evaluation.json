@@ -1,0 +1,14 @@
+[
+  {
+    "breakerId": "TB_JGCHEM_LEVERAGE",
+    "symbol": "JGCHEM",
+    "name": "Chemicals Debt Incurrence Ceiling",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 2,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Debt / Equity ratio exceeding 2.0x triggers hard veto.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

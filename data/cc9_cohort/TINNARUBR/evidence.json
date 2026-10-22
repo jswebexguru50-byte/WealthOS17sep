@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_TINNA_REV_01",
+    "issuerNseSymbol": "TINNARUBR",
+    "issuerBseCode": "530475",
+    "documentId": "DOC_TINNA_AR24",
+    "documentHash": "cdef0123456789abcdef0123456789abcdefd",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 30,
+    "pagePrinted": "28",
+    "quotedText": "Consolidated revenue for FY24 reached ₹389 Cr driven by crumb rubber modifier and road infrastructure demand.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

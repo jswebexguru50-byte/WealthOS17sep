@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_JGCHEM_01",
+    "issuerNseSymbol": "JGCHEM",
+    "issuerBseCode": "544146",
+    "eventDate": "2024-03-13",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Successful Main Board Listing on NSE and BSE",
+    "description": "Successfully completed initial public offering and commenced trading on exchange main boards.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_JGCHEM_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

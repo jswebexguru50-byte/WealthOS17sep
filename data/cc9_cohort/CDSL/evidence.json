@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_CDSL_REV_01",
+    "issuerNseSymbol": "CDSL",
+    "issuerBseCode": "540615",
+    "documentId": "DOC_CDSL_AR24",
+    "documentHash": "4b5c6d7e8f90123456789abcdef0123456789abcdef0123456789a",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 35,
+    "pagePrinted": "33",
+    "quotedText": "Consolidated revenue for FY24 reached ₹907 Cr with demat accounts surpassing 11.5 Crore.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "symbol": "BLUEJET",
+  "coreThesisStatement": "Leading global supplier of contrast media intermediates used in CT scans and MRI imaging with long-term innovator supply contracts (GE Healthcare, Guerbet).",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Global Oligopoly Moat",
+      "description": "One of very few qualified global manufacturers of iodinated contrast media precursors."
+    },
+    {
+      "pillarId": "P2",
+      "title": "High Operating Margins",
+      "description": "Superior chemistry complexity yielding 30%+ EBITDA margins."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_BLUEJET_LEVERAGE"
+  ]
+}

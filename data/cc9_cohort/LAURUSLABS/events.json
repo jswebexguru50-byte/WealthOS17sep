@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_LAURUS_01",
+    "issuerNseSymbol": "LAURUSLABS",
+    "issuerBseCode": "540222",
+    "eventDate": "2024-05-10",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Commercial CDMO Animal Health Facility Commissioned",
+    "description": "Successfully operationalized specialized animal health active ingredient block in Vizag.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_LAURUS_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

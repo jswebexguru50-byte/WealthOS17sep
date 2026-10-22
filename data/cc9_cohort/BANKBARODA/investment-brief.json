@@ -1,0 +1,433 @@
+{
+  "symbol": "BANKBARODA",
+  "companyName": "Bank of Baroda",
+  "marketCapTier": "LARGECAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-16T08:30:41.468Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "LOW",
+    "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+    "allocationRecommendation": "CAPPED_ALLOCATION",
+    "portfolioPolicy": {
+      "directive": "CAPPED_ALLOCATION",
+      "targetSizingCapRatio": 0.5,
+      "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+    },
+    "provenance": {
+      "quantDerivation": "ITAS-Score-91 -> Threshold(>=75:STRONG, 50-74:MODERATE, 25-49:WEAK, <25:NONE) -> STRONG",
+      "riskDerivation": "BreakersActive:0, Contradictions:0, Unknowns:0 -> Risk: LOW",
+      "credibilityDerivation": "ClaimsEvaluated:1 -> CredibilityGrade: INSUFFICIENT_HISTORY",
+      "breakerDerivation": "TB_BOB_NPA(UNRESOLVED)",
+      "thesisDerivation": "Matrix(STRONG, LOW) -> Thesis: SUPPORTED",
+      "allocationDerivation": "Precedence(SUPPORTED, LOW, INSUFFICIENT_HISTORY) -> Directive: CAPPED_ALLOCATION (Cap: 50%)",
+      "auditTrail": [
+        "ITAS-Engine#BANKBARODA",
+        null
+      ]
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_BANKBARODA",
+      "nodes": [
+        {
+          "id": "DEC_BANKBARODA",
+          "type": "DECISION",
+          "refId": "BANKBARODA",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_BANKBARODA",
+          "type": "ALLOCATION",
+          "refId": "CAPPED_ALLOCATION",
+          "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+        },
+        {
+          "id": "THESIS_BANKBARODA",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_BANKBARODA",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 91/100)"
+        },
+        {
+          "id": "RISK_BANKBARODA",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_BANKBARODA",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_BOB_NPA",
+          "type": "RULE",
+          "refId": "TB_BOB_NPA",
+          "version": "2026.09",
+          "label": "Breaker TB_BOB_NPA: UNRESOLVED (Observed: undefined)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_BANKBARODA",
+          "to": "DEC_BANKBARODA",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_BANKBARODA",
+          "to": "DEC_BANKBARODA",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_BANKBARODA",
+          "to": "THESIS_BANKBARODA",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_BANKBARODA",
+          "to": "THESIS_BANKBARODA",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_BANKBARODA",
+          "to": "ALLOC_BANKBARODA",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_BOB_NPA",
+          "to": "RISK_BANKBARODA",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_BANKBARODA_d86d11f8880a",
+      "decisionId": "DECISION_BANKBARODA",
+      "issuerSymbol": "BANKBARODA",
+      "evaluatedAt": "2026-09-16T11:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2.1",
+      "ontologyVersion": "1.3",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawQuantInput": {
+        "symbol": "BANKBARODA",
+        "strategyAgreementCount": 18,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 91,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY",
+        "decisionDate": "2024-06-30"
+      },
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_BOB_NPA",
+          "symbol": "BANKBARODA",
+          "name": "Public Bank Asset Quality Ceiling",
+          "type": "QUANTITATIVE",
+          "thresholdValue": 4,
+          "comparisonOperator": "GREATER_THAN",
+          "severity": "CRITICAL",
+          "description": "Gross NPA exceeding 4.0% triggers hard veto.",
+          "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+          "status": "UNRESOLVED"
+        }
+      ],
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "LOW",
+        "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+        "allocationRecommendation": "CAPPED_ALLOCATION"
+      },
+      "portfolioPolicy": {
+        "directive": "CAPPED_ALLOCATION",
+        "targetSizingCapRatio": 0.5,
+        "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_BANKBARODA",
+        "nodes": [
+          {
+            "id": "DEC_BANKBARODA",
+            "type": "DECISION",
+            "refId": "BANKBARODA",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_BANKBARODA",
+            "type": "ALLOCATION",
+            "refId": "CAPPED_ALLOCATION",
+            "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+          },
+          {
+            "id": "THESIS_BANKBARODA",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_BANKBARODA",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 91/100)"
+          },
+          {
+            "id": "RISK_BANKBARODA",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_BANKBARODA",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_BOB_NPA",
+            "type": "RULE",
+            "refId": "TB_BOB_NPA",
+            "version": "2026.09",
+            "label": "Breaker TB_BOB_NPA: UNRESOLVED (Observed: undefined)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_BANKBARODA",
+            "to": "DEC_BANKBARODA",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_BANKBARODA",
+            "to": "DEC_BANKBARODA",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_BANKBARODA",
+            "to": "THESIS_BANKBARODA",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_BANKBARODA",
+            "to": "THESIS_BANKBARODA",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_BANKBARODA",
+            "to": "ALLOC_BANKBARODA",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_BOB_NPA",
+            "to": "RISK_BANKBARODA",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "d86d11f8880a42c5b7e051c5b5107c5c653d19dbca4a14b445fe1f750c91628c",
+      "canonicalStateHash": "d86d11f8880a42c5b7e051c5b5107c5c653d19dbca4a14b445fe1f750c91628c",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_BOB_01",
+          "issuerSymbol": "BANKBARODA",
+          "metric": "REVENUE",
+          "metricId": "REVENUE",
+          "metricFamily": "REVENUE",
+          "value": 127101,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_BOB_REV_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_BOB_REV_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_BOB_REV_01",
+          "sourceQuotedText": "Total revenue reached ₹127101 Cr with operating profit jumping by 15% and net NPA at 0.68%.",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_BOB_01",
+          "issuerNseSymbol": "BANKBARODA",
+          "issuerBseCode": "532134",
+          "period": "FY24",
+          "category": "GROWTH",
+          "statement": "Scale annual consolidated banking turnover past ₹115,000 Cr in FY24.",
+          "targetMetric": "revenue_cr",
+          "baselineValue": 110777,
+          "expectedValue": 115000,
+          "expectedOutcome": "Revenue >= ₹115,000 Cr",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_BOB_REV_01",
+          "claimDate": "2023-08-14",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 127101,
+          "actualOutcomeDescription": "Delivered ₹127,101 Cr revenue beating guidance by 10.5%.",
+          "evaluationEvidenceId": "EV_BOB_REV_01",
+          "evaluationDate": "2024-05-10",
+          "evaluationBasis": "Audited Financial Results BSE",
+          "publicationDate": "2023-08-14",
+          "publicationDateType": "MANAGEMENT_COMMENT",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_BOB_01"
+        }
+      ],
+      "rawInputContradictions": [],
+      "rawInputHash": "ce2b80abf24fc890a1bb69a26a8b9ea9c45408aabda48b7c8cc8c28e8c310cd6"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "LOW",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap)."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 18/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 91/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#BANKBARODA",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Scale annual consolidated banking turnover past ₹115,000 Cr in FY24.",
+      "detail": "Disclosed actual outcome: Delivered ₹127,101 Cr revenue beating guidance by 10.5%.",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_BOB_REV_01 -> Resolution#EV_BOB_REV_01",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "BANKBARODA",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 1,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_BOB_01",
+        "statement": "Scale annual consolidated banking turnover past ₹115,000 Cr in FY24.",
+        "period": "FY24",
+        "expected": "Revenue >= ₹115,000 Cr",
+        "actual": "Delivered ₹127,101 Cr revenue beating guidance by 10.5%.",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_BOB_REV_01 -> Resolution#EV_BOB_REV_01"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_BANKBARODA"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_BANKBARODA"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-05-08",
+      "source": "REGULATORY_ORDER",
+      "headline": "RBI Lifts Operational Restrictions on bob World Mobile App",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_BOB_NPA",
+      "symbol": "BANKBARODA",
+      "name": "Public Bank Asset Quality Ceiling",
+      "type": "QUANTITATIVE",
+      "thresholdValue": 4,
+      "comparisonOperator": "GREATER_THAN",
+      "severity": "CRITICAL",
+      "description": "Gross NPA exceeding 4.0% triggers hard veto.",
+      "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+      "status": "UNRESOLVED"
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "LOW",
+    "directSourcesCount": 1,
+    "corroboratedCount": 1,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Second largest Indian public sector bank delivering exceptional return on equity (18%+) backed by international loan book and low provisioning burdens.\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

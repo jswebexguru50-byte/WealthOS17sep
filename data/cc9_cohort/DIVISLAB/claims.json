@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_DIVIS_01",
+    "issuerNseSymbol": "DIVISLAB",
+    "issuerBseCode": "532488",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Surpass annual API and custom synthesis revenue of ₹7,500 Cr in FY24.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 7767,
+    "expectedValue": 7500,
+    "expectedOutcome": "Revenue >= ₹7,500 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_DIVIS_REV_01",
+    "claimDate": "2023-08-14",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 7845,
+    "actualOutcomeDescription": "Delivered ₹7,845 Cr revenue resuming top-line momentum.",
+    "evaluationEvidenceId": "EV_DIVIS_REV_01",
+    "evaluationDate": "2024-05-25",
+    "evaluationBasis": "Audited Financial Accounts BSE",
+    "publicationDate": "2023-08-14",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_DIVIS_01"
+  }
+]

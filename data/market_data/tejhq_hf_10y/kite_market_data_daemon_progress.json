@@ -1,0 +1,12 @@
+{
+  "status": "COMPLETE",
+  "mode": "instruments",
+  "trade_date": "2026-10-16",
+  "llm_calls": 0,
+  "updated_at": "2026-10-17T11:41:05.451423+00:00",
+  "instrument_mapping": {
+    "requested": 3566,
+    "verified": 3447,
+    "identity_review": 119
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "VGUARD",
+  "issuerBseCode": "514167",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_VGUARD_AR2024",
+      "documentName": "VGUARD_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "40936d6b05d10f6959152adc8bfc081a7efe31c108749ce27edbc76a1a93f7e9",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_VGUARD_AUDITED_RESULTS",
+      "documentName": "VGUARD_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "deb1d1e5b84b64fe22cbedc8dabc1719ce3172dba2db07807404b4bcaf1446ab",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_VGUARD_CONCALL_Q4FY26",
+      "documentName": "VGUARD_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "1fa3dabd302d84a2ec1b8927380a7a11d4ff22619a29186c3269140b45968273",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

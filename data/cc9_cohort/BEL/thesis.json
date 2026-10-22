@@ -1,0 +1,19 @@
+{
+  "symbol": "BEL",
+  "coreThesisStatement": "Indispensable electronic systems backbone of Indian armed forces (radars, sonar, electronic warfare, missile seekers) with ₹76,000 Cr order backlog.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Indigenization Monopoly",
+      "description": "Over 85% market share in defense electronic warfare suites."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Non-Defense Diversification",
+      "description": "Expanding into metro train control, smart meters, and EV chargers."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_BEL_LEVERAGE"
+  ]
+}

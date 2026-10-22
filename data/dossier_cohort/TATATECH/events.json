@@ -1,0 +1,30 @@
+[
+  {
+    "eventId": "EVT_TATATECH_RESULTS",
+    "issuerNseSymbol": "TATATECH",
+    "issuerBseCode": "518290",
+    "eventDate": "2026-05-26",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "TATATECH Audited Results FY26 Approved",
+    "description": "Board of Directors approved audited financial statements showing operating scale of ₹9491 Cr.",
+    "sourceType": "STATUTORY_FILING",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "evidenceId": "EV_TATATECH_REV_FY26",
+    "materiality": "MATERIAL",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  },
+  {
+    "eventId": "EVT_TATATECH_EXPANSION",
+    "issuerNseSymbol": "TATATECH",
+    "issuerBseCode": "518290",
+    "eventDate": "2026-08-20",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "TATATECH Capacity Expansion Milestone",
+    "description": "Capital light; investment concentrated in European offshore delivery centers and autonomous vehicle testing labs.",
+    "sourceType": "EXCHANGE_DISCLOSURE",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "evidenceId": "EV_TATATECH_CONCALL_Q4FY26",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

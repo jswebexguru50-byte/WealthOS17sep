@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_BLUEJET_01",
+    "issuerNseSymbol": "BLUEJET",
+    "issuerBseCode": "544009",
+    "eventDate": "2024-03-15",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "Unit-II Mahad Green Chemical Manufacturing Expansion",
+    "description": "Successfully operationalized new chemical synthesis blocks at Mahad facility for global innovator supply.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_BLUEJET_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

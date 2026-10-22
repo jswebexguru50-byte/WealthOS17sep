@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_UNOMINDA_01",
+    "issuerNseSymbol": "UNOMINDA",
+    "issuerBseCode": "532539",
+    "eventDate": "2024-04-20",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "EV Battery Management System Plant Inauguration",
+    "description": "Inaugurated dedicated EV electronics and high-voltage BMS production lines in Pune.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_UNOMINDA_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_GOKEX_01",
+    "issuerNseSymbol": "GOKEX",
+    "issuerBseCode": "532630",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Scale annual apparel export revenues to cross ₹2,200 Cr in FY24.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 2247,
+    "expectedValue": 2200,
+    "expectedOutcome": "Revenue >= ₹2,200 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_GOKEX_REV_01",
+    "claimDate": "2023-08-20",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 2401,
+    "actualOutcomeDescription": "Delivered ₹2,401 Cr revenue beating guidance by 9.1%.",
+    "evaluationEvidenceId": "EV_GOKEX_REV_01",
+    "evaluationDate": "2024-05-22",
+    "evaluationBasis": "BSE Audited Financial Accounts Release",
+    "publicationDate": "2023-08-20",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_GOKEX_01"
+  }
+]

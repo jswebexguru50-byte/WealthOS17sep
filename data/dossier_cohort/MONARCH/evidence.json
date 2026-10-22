@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_MONARCH_REV_FY26",
+    "issuerNseSymbol": "MONARCH",
+    "issuerBseCode": "516120",
+    "documentHash": "648388a8969ac0e9e2ad552a50138c40b4792a7255bac25ffd94b48da2ad162e",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹4581 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_MONARCH_PAT_FY26",
+    "issuerNseSymbol": "MONARCH",
+    "issuerBseCode": "516120",
+    "documentHash": "648388a8969ac0e9e2ad552a50138c40b4792a7255bac25ffd94b48da2ad162e",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹550 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_MONARCH_DEBT_FY26",
+    "issuerNseSymbol": "MONARCH",
+    "issuerBseCode": "516120",
+    "documentHash": "38afe8be5a16b6bed9d399871555baf95a8d583d5667cfc412a1948089d49dfb",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_MONARCH_CONCALL_Q4FY26",
+    "issuerNseSymbol": "MONARCH",
+    "issuerBseCode": "516120",
+    "documentHash": "c8fded7cb7461153a072f71952e14051e477536bdc3daecc03d0421e036aee20",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

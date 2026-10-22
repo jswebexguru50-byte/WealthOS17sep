@@ -1,0 +1,433 @@
+{
+  "symbol": "HDFCBANK",
+  "companyName": "HDFC Bank Limited",
+  "marketCapTier": "LARGECAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-16T08:30:40.671Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "LOW",
+    "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+    "allocationRecommendation": "CAPPED_ALLOCATION",
+    "portfolioPolicy": {
+      "directive": "CAPPED_ALLOCATION",
+      "targetSizingCapRatio": 0.5,
+      "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+    },
+    "provenance": {
+      "quantDerivation": "ITAS-Score-90 -> Threshold(>=75:STRONG, 50-74:MODERATE, 25-49:WEAK, <25:NONE) -> STRONG",
+      "riskDerivation": "BreakersActive:0, Contradictions:0, Unknowns:0 -> Risk: LOW",
+      "credibilityDerivation": "ClaimsEvaluated:1 -> CredibilityGrade: INSUFFICIENT_HISTORY",
+      "breakerDerivation": "TB_HDFC_NPA(UNRESOLVED)",
+      "thesisDerivation": "Matrix(STRONG, LOW) -> Thesis: SUPPORTED",
+      "allocationDerivation": "Precedence(SUPPORTED, LOW, INSUFFICIENT_HISTORY) -> Directive: CAPPED_ALLOCATION (Cap: 50%)",
+      "auditTrail": [
+        "ITAS-Engine#HDFCBANK",
+        null
+      ]
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_HDFCBANK",
+      "nodes": [
+        {
+          "id": "DEC_HDFCBANK",
+          "type": "DECISION",
+          "refId": "HDFCBANK",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_HDFCBANK",
+          "type": "ALLOCATION",
+          "refId": "CAPPED_ALLOCATION",
+          "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+        },
+        {
+          "id": "THESIS_HDFCBANK",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_HDFCBANK",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 90/100)"
+        },
+        {
+          "id": "RISK_HDFCBANK",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_HDFCBANK",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_HDFC_NPA",
+          "type": "RULE",
+          "refId": "TB_HDFC_NPA",
+          "version": "2026.09",
+          "label": "Breaker TB_HDFC_NPA: UNRESOLVED (Observed: undefined)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_HDFCBANK",
+          "to": "DEC_HDFCBANK",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_HDFCBANK",
+          "to": "DEC_HDFCBANK",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_HDFCBANK",
+          "to": "THESIS_HDFCBANK",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_HDFCBANK",
+          "to": "THESIS_HDFCBANK",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_HDFCBANK",
+          "to": "ALLOC_HDFCBANK",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_HDFC_NPA",
+          "to": "RISK_HDFCBANK",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_HDFCBANK_4b6ab2daf234",
+      "decisionId": "DECISION_HDFCBANK",
+      "issuerSymbol": "HDFCBANK",
+      "evaluatedAt": "2026-09-16T11:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2.1",
+      "ontologyVersion": "1.3",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawQuantInput": {
+        "symbol": "HDFCBANK",
+        "strategyAgreementCount": 18,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 90,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY",
+        "decisionDate": "2024-06-30"
+      },
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_HDFC_NPA",
+          "symbol": "HDFCBANK",
+          "name": "Asset Quality GNPA Ceiling",
+          "type": "QUANTITATIVE",
+          "thresholdValue": 2,
+          "comparisonOperator": "GREATER_THAN",
+          "severity": "CRITICAL",
+          "description": "Gross NPA exceeding 2.0% triggers hard veto.",
+          "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+          "status": "UNRESOLVED"
+        }
+      ],
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "LOW",
+        "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+        "allocationRecommendation": "CAPPED_ALLOCATION"
+      },
+      "portfolioPolicy": {
+        "directive": "CAPPED_ALLOCATION",
+        "targetSizingCapRatio": 0.5,
+        "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_HDFCBANK",
+        "nodes": [
+          {
+            "id": "DEC_HDFCBANK",
+            "type": "DECISION",
+            "refId": "HDFCBANK",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_HDFCBANK",
+            "type": "ALLOCATION",
+            "refId": "CAPPED_ALLOCATION",
+            "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+          },
+          {
+            "id": "THESIS_HDFCBANK",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_HDFCBANK",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 90/100)"
+          },
+          {
+            "id": "RISK_HDFCBANK",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_HDFCBANK",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_HDFC_NPA",
+            "type": "RULE",
+            "refId": "TB_HDFC_NPA",
+            "version": "2026.09",
+            "label": "Breaker TB_HDFC_NPA: UNRESOLVED (Observed: undefined)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_HDFCBANK",
+            "to": "DEC_HDFCBANK",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_HDFCBANK",
+            "to": "DEC_HDFCBANK",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_HDFCBANK",
+            "to": "THESIS_HDFCBANK",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_HDFCBANK",
+            "to": "THESIS_HDFCBANK",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_HDFCBANK",
+            "to": "ALLOC_HDFCBANK",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_HDFC_NPA",
+            "to": "RISK_HDFCBANK",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "4b6ab2daf234f96fdfa0164d496c2a53116d5ea3ed330a2113b1e93a800cd963",
+      "canonicalStateHash": "4b6ab2daf234f96fdfa0164d496c2a53116d5ea3ed330a2113b1e93a800cd963",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_HDFCBANK_01",
+          "issuerSymbol": "HDFCBANK",
+          "metric": "REVENUE",
+          "metricId": "REVENUE",
+          "metricFamily": "REVENUE",
+          "value": 285376,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_HDFC_REV_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_HDFC_REV_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_HDFC_REV_01",
+          "sourceQuotedText": "Total revenue reached ₹285376 Cr post-merger with HDFC Limited with advances growing by 55%.",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_HDFCBANK_01",
+          "issuerNseSymbol": "HDFCBANK",
+          "issuerBseCode": "500180",
+          "period": "FY24",
+          "category": "GROWTH",
+          "statement": "Successfully integrate HDFC Limited mortgage portfolio while sustaining total income above ₹250,000 Cr.",
+          "targetMetric": "revenue_cr",
+          "baselineValue": 192800,
+          "expectedValue": 250000,
+          "expectedOutcome": "Revenue >= ₹250,000 Cr",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_HDFC_REV_01",
+          "claimDate": "2023-08-16",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 285376,
+          "actualOutcomeDescription": "Delivered ₹285,376 Cr revenue completing structural merger integration.",
+          "evaluationEvidenceId": "EV_HDFC_REV_01",
+          "evaluationDate": "2024-04-20",
+          "evaluationBasis": "Audited Annual Results Release",
+          "publicationDate": "2023-08-16",
+          "publicationDateType": "MANAGEMENT_COMMENT",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_HDFCBANK_01"
+        }
+      ],
+      "rawInputContradictions": [],
+      "rawInputHash": "c54782a8da9d50f24969b94bc7bf099e113bf93fe39aea0573060e8a11bd38e8"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "LOW",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap)."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 18/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 90/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#HDFCBANK",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Successfully integrate HDFC Limited mortgage portfolio while sustaining total income above ₹250,000 Cr.",
+      "detail": "Disclosed actual outcome: Delivered ₹285,376 Cr revenue completing structural merger integration.",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_HDFC_REV_01 -> Resolution#EV_HDFC_REV_01",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "HDFCBANK",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 1,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_HDFCBANK_01",
+        "statement": "Successfully integrate HDFC Limited mortgage portfolio while sustaining total income above ₹250,000 Cr.",
+        "period": "FY24",
+        "expected": "Revenue >= ₹250,000 Cr",
+        "actual": "Delivered ₹285,376 Cr revenue completing structural merger integration.",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_HDFC_REV_01 -> Resolution#EV_HDFC_REV_01"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_HDFCBANK"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_HDFCBANK"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-04-20",
+      "source": "REGULATORY_FILING",
+      "headline": "Approval of Listing for HDB Financial Services IPO",
+      "verified": true,
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_HDFC_NPA",
+      "symbol": "HDFCBANK",
+      "name": "Asset Quality GNPA Ceiling",
+      "type": "QUANTITATIVE",
+      "thresholdValue": 2,
+      "comparisonOperator": "GREATER_THAN",
+      "severity": "CRITICAL",
+      "description": "Gross NPA exceeding 2.0% triggers hard veto.",
+      "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+      "status": "UNRESOLVED"
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "LOW",
+    "directSourcesCount": 1,
+    "corroboratedCount": 1,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Largest Indian private banking franchise compounding advances and building the premier national mortgage distribution platform.\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

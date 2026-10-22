@@ -1,0 +1,17 @@
+{
+  "issuerNseSymbol": "POLYCAB",
+  "issuerBseCode": "542652",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_POLYCAB_AR24",
+      "documentName": "Polycab_India_Annual_Report_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-22",
+      "documentHashSha256": "f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef012345",
+      "pageCount": 280,
+      "filingAuthority": "BSE / NSE"
+    }
+  ]
+}

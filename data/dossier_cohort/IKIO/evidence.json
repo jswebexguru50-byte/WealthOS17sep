@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_IKIO_REV_FY26",
+    "issuerNseSymbol": "IKIO",
+    "issuerBseCode": "509300",
+    "documentHash": "a5244ba459fe70ef6be9593fec72e6e19f94ed0ca162ad72c3a2037f636397f2",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹2638 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_IKIO_PAT_FY26",
+    "issuerNseSymbol": "IKIO",
+    "issuerBseCode": "509300",
+    "documentHash": "a5244ba459fe70ef6be9593fec72e6e19f94ed0ca162ad72c3a2037f636397f2",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹317 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_IKIO_DEBT_FY26",
+    "issuerNseSymbol": "IKIO",
+    "issuerBseCode": "509300",
+    "documentHash": "2c2e41e71f9d566820622ced4a69429063d8cff39bf66822b33fdd464a786f6c",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_IKIO_CONCALL_Q4FY26",
+    "issuerNseSymbol": "IKIO",
+    "issuerBseCode": "509300",
+    "documentHash": "1b340c237fed8013d23d4bc234e414fd11c1e569ee74e9f27f9094d2cca87c48",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

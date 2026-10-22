@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_RAJRATAN_01",
+    "issuerNseSymbol": "RAJRATAN",
+    "issuerBseCode": "517562",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Scale annual tyre bead wire revenue to surpass ₹800 Cr in FY24.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 897,
+    "expectedValue": 800,
+    "expectedOutcome": "Revenue >= ₹800 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_RAJRATAN_REV_01",
+    "claimDate": "2023-08-25",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 888,
+    "actualOutcomeDescription": "Delivered ₹888 Cr revenue exceeding guidance by 11.0%.",
+    "evaluationEvidenceId": "EV_RAJRATAN_REV_01",
+    "evaluationDate": "2024-05-18",
+    "evaluationBasis": "BSE Audited Financial Results",
+    "publicationDate": "2023-08-25",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_RAJRATAN_01"
+  }
+]

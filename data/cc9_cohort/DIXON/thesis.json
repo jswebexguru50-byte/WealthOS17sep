@@ -1,0 +1,19 @@
+{
+  "symbol": "DIXON",
+  "coreThesisStatement": "Undisputed champion of India's Electronics Manufacturing Services (EMS) revolution capturing mobile phones, IT hardware, telecom, and consumer electronics.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "PLI Beneficiary",
+      "description": "Selected across multiple government Production Linked Incentive schemes."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Component Backward Integration",
+      "description": "Expanding into high-margin camera modules, display assemblies, and precision sheet metal."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_DIXON_LEVERAGE"
+  ]
+}

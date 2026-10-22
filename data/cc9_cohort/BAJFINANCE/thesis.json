@@ -1,0 +1,19 @@
+{
+  "symbol": "BAJFINANCE",
+  "coreThesisStatement": "Omnichannel retail lending powerhouse possessing unparalleled proprietary customer franchise and cross-sell data moat across urban India.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Customer Franchise",
+      "description": "Over 83 million customers with 50+ million cross-sell qualified borrowers."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Unmatched ROA",
+      "description": "Consistently generating 4.5%+ return on assets across retail credit cycles."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_BAJFIN_NPA"
+  ]
+}

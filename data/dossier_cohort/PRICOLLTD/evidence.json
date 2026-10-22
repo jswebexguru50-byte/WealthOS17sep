@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_PRICOLLTD_REV_FY26",
+    "issuerNseSymbol": "PRICOLLTD",
+    "issuerBseCode": "521235",
+    "documentHash": "4a72df4082a3143d2d1445935d5b5d66fce5552e67695d451bb0c14349b96b22",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹9259 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_PRICOLLTD_PAT_FY26",
+    "issuerNseSymbol": "PRICOLLTD",
+    "issuerBseCode": "521235",
+    "documentHash": "4a72df4082a3143d2d1445935d5b5d66fce5552e67695d451bb0c14349b96b22",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹1111 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_PRICOLLTD_DEBT_FY26",
+    "issuerNseSymbol": "PRICOLLTD",
+    "issuerBseCode": "521235",
+    "documentHash": "ccf5e759d1ac9dd9dd0ebd3fe93834b5cca042451b9e0d4b941b6ddbdf4e0455",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_PRICOLLTD_CONCALL_Q4FY26",
+    "issuerNseSymbol": "PRICOLLTD",
+    "issuerBseCode": "521235",
+    "documentHash": "98c61a4a71e77b1f113b5286769220084bcbeb44ac25125405ad2c644bb7ea24",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

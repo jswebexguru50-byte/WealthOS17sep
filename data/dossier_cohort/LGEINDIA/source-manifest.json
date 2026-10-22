@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "LGEINDIA",
+  "issuerBseCode": "517763",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_LGEINDIA_AR2024",
+      "documentName": "LGEINDIA_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "58b8f587ec79b04a9d405788b8d93e02bde4d4d94fe84d3bb3a81b034d66e770",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_LGEINDIA_AUDITED_RESULTS",
+      "documentName": "LGEINDIA_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "3f2ebacf92b057fc6cb920beaddfc96a377e2f3d41b7df616d6ab77a24b7836e",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_LGEINDIA_CONCALL_Q4FY26",
+      "documentName": "LGEINDIA_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "45356f8292e8b11d5153bbded2db858d7de0861882d390c9cccdbc5c9d8230e6",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

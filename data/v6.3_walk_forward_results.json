@@ -1,0 +1,89 @@
+{
+  "runId": "RUN-V63-E2E-1789622948116",
+  "arm": "B_V62_OVERLAY",
+  "framework": "Rolling 6m Train / 2m Untouched OOS (3 Windows)",
+  "note": "Executed against deterministic benchmark fixture for walk-forward OOS pipeline verification.",
+  "windows": [
+    {
+      "window": {
+        "trainStart": "2023-01-02",
+        "trainEnd": "2023-07-02",
+        "oosStart": "2023-07-02",
+        "oosEnd": "2023-09-02"
+      },
+      "metrics": {
+        "trades": 36,
+        "netPnl": -30109.839999999993,
+        "expectancyR": -0.1653305555555556,
+        "profitFactor": 0.7807979753225692,
+        "maxDrawdownPct": 0,
+        "calmar": 0,
+        "sortino": 0,
+        "winRate": 0.3333333333333333,
+        "meanMAE": -0.04911944444444443,
+        "meanMFE": 0.03500000000000001
+      },
+      "bootstrap": {
+        "lower": -0.5805249999999998,
+        "median": -0.16533611111111104,
+        "upper": 0.33285833333333337,
+        "pPositive": 0.2842,
+        "pAbove020": 0.0554
+      }
+    },
+    {
+      "window": {
+        "trainStart": "2023-03-02",
+        "trainEnd": "2023-09-02",
+        "oosStart": "2023-09-02",
+        "oosEnd": "2023-11-02"
+      },
+      "metrics": {
+        "trades": 36,
+        "netPnl": 60477.13,
+        "expectancyR": 0.33334444444444444,
+        "profitFactor": 1.557013312771002,
+        "maxDrawdownPct": 0,
+        "calmar": 0,
+        "sortino": 0,
+        "winRate": 0.5,
+        "meanMAE": -0.04653888888888888,
+        "meanMFE": 0.04474444444444445
+      },
+      "bootstrap": {
+        "lower": -0.16485555555555556,
+        "median": 0.3333444444444444,
+        "upper": 0.8315444444444442,
+        "pPositive": 0.934,
+        "pAbove020": 0.6902
+      }
+    },
+    {
+      "window": {
+        "trainStart": "2023-05-02",
+        "trainEnd": "2023-11-02",
+        "oosStart": "2023-11-02",
+        "oosEnd": "2024-01-02"
+      },
+      "metrics": {
+        "trades": 36,
+        "netPnl": 60229.77000000001,
+        "expectancyR": 0.3333722222222224,
+        "profitFactor": 1.5553204754439174,
+        "maxDrawdownPct": 0,
+        "calmar": 0,
+        "sortino": 0,
+        "winRate": 0.5,
+        "meanMAE": -0.042380555555555546,
+        "meanMFE": 0.05251388888888888
+      },
+      "bootstrap": {
+        "lower": -0.16485277777777774,
+        "median": 0.3333666666666666,
+        "upper": 0.7507005555555252,
+        "pPositive": 0.9314,
+        "pAbove020": 0.6802
+      }
+    }
+  ]
+}

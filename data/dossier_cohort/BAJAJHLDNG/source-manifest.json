@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "BAJAJHLDNG",
+  "issuerBseCode": "521979",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_BAJAJHLDNG_AR2024",
+      "documentName": "BAJAJHLDNG_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "d46bf4bf71e1ceece936a8745c58be66eb95d2b6db8b01a470591b643e992f0b",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_BAJAJHLDNG_AUDITED_RESULTS",
+      "documentName": "BAJAJHLDNG_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "921ccd0e469e268b5f7a1d81a3d78786378dd944dc13c0acc3e9cac20d4f302e",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_BAJAJHLDNG_CONCALL_Q4FY26",
+      "documentName": "BAJAJHLDNG_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "057a160482bf77f8e0f82833433efadfd2d5d1fd5d246526ff9bc7ec13528e4a",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "reportType": "HISTORICAL_UNIVERSE_INTEGRITY_REPORT",
+  "milestone": "v6.3-PHASE2-PILOT",
+  "generatedAt": "2026-09-17T10:43:23.571Z",
+  "universeName": "NIFTY_RESEARCH_PILOT",
+  "selectionStandard": "AUTHENTIC_HISTORICAL_MEMBERSHIP (NO_SURVIVORSHIP_PROXY)",
+  "eligibleSecurities": [
+    {
+      "symbol": "BANKBARODA",
+      "universe": "NIFTY_RESEARCH_PILOT",
+      "effectiveFrom": "2025-08-15",
+      "effectiveTo": null,
+      "status": "ACTIVE",
+      "transitionReason": "INITIAL_INCLUSION",
+      "sourceCitation": "NSE_INDEX_CIRCULAR",
+      "sourceRecordId": "NSE_IND_RECON_20250815_BOB",
+      "availableAt": "2025-08-15T18:00:00+05:30"
+    },
+    {
+      "symbol": "CANBK",
+      "universe": "NIFTY_RESEARCH_PILOT",
+      "effectiveFrom": "2025-08-15",
+      "effectiveTo": null,
+      "status": "ACTIVE",
+      "transitionReason": "INITIAL_INCLUSION",
+      "sourceCitation": "NSE_INDEX_CIRCULAR",
+      "sourceRecordId": "NSE_IND_RECON_20250815_CANBK",
+      "availableAt": "2025-08-15T18:00:00+05:30"
+    },
+    {
+      "symbol": "BAJAJFINSV",
+      "universe": "NIFTY_RESEARCH_PILOT",
+      "effectiveFrom": "2025-08-15",
+      "effectiveTo": null,
+      "status": "ACTIVE",
+      "transitionReason": "INITIAL_INCLUSION",
+      "sourceCitation": "NSE_INDEX_CIRCULAR",
+      "sourceRecordId": "NSE_IND_RECON_20250815_BAJFSV",
+      "availableAt": "2025-08-15T18:00:00+05:30"
+    },
+    {
+      "symbol": "BAJFINANCE",
+      "universe": "NIFTY_RESEARCH_PILOT",
+      "effectiveFrom": "2025-08-15",
+      "effectiveTo": null,
+      "status": "ACTIVE",
+      "transitionReason": "INITIAL_INCLUSION",
+      "sourceCitation": "NSE_INDEX_CIRCULAR",
+      "sourceRecordId": "NSE_IND_RECON_20250815_BAJFIN",
+      "availableAt": "2025-08-15T18:00:00+05:30"
+    },
+    {
+      "symbol": "5PAISA",
+      "universe": "NIFTY_RESEARCH_PILOT",
+      "effectiveFrom": "2025-08-15",
+      "effectiveTo": null,
+      "status": "ACTIVE",
+      "transitionReason": "INITIAL_INCLUSION",
+      "sourceCitation": "NSE_INDEX_CIRCULAR",
+      "sourceRecordId": "NSE_IND_RECON_20250815_5PAISA",
+      "availableAt": "2025-08-15T18:00:00+05:30"
+    }
+  ],
+  "invariants": {
+    "survivorshipBiasExcluded": true,
+    "currentIndexConstituentsNotUsed": true,
+    "allDecisionPointsCovered": true
+  }
+}

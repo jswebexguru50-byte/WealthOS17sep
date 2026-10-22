@@ -1,0 +1,76 @@
+{
+  "generatedAt": "2026-09-12T10:22:53.206Z",
+  "totalMatrixScripsAnalyzed": 750,
+  "regimesCovered": [
+    "BULLISH_2023_2024",
+    "BEARISH_2024_2025",
+    "SIDEWAYS_2025"
+  ],
+  "versions": [
+    {
+      "version": "v4.2_BASELINE",
+      "totalTrades": 177,
+      "winRatePct": 33.3,
+      "payoffRatio": 1.79,
+      "grossReturnPct": -79.6,
+      "netReturnPct": -79.6,
+      "profitFactor": 0.89,
+      "maxDrawdownPct": 196.4,
+      "calmarRatio": -0.41,
+      "sharpeRatio": -0.14,
+      "regimeAlpha": {
+        "bullishExpansionNetPct": 385.8,
+        "bearishCorrectionNetPct": -210.7,
+        "sidewaysConsolidationNetPct": -254.6
+      }
+    },
+    {
+      "version": "v5.0_MACRO_KELLY",
+      "totalTrades": 164,
+      "winRatePct": 34.8,
+      "payoffRatio": 2.72,
+      "grossReturnPct": 209.8,
+      "netReturnPct": 209.8,
+      "profitFactor": 1.45,
+      "maxDrawdownPct": 133.9,
+      "calmarRatio": 1.57,
+      "sharpeRatio": 0.38,
+      "regimeAlpha": {
+        "bullishExpansionNetPct": 481.3,
+        "bearishCorrectionNetPct": -21.6,
+        "sidewaysConsolidationNetPct": -249.9
+      }
+    },
+    {
+      "version": "v6.0_INSTITUTIONAL_ENHANCED",
+      "totalTrades": 100,
+      "winRatePct": 70,
+      "payoffRatio": 1.79,
+      "grossReturnPct": 604,
+      "netReturnPct": 604,
+      "profitFactor": 4.18,
+      "maxDrawdownPct": 36.6,
+      "calmarRatio": 16.5,
+      "sharpeRatio": 1.49,
+      "regimeAlpha": {
+        "bullishExpansionNetPct": 612.1,
+        "bearishCorrectionNetPct": 18,
+        "sidewaysConsolidationNetPct": -26.1
+      }
+    }
+  ],
+  "enhancementDeltasV6vsV5": {
+    "netAlphaGainPct": 394.2,
+    "relativeImprovementPct": 187.9,
+    "drawdownReductionPct": 97.3,
+    "profitFactorBoost": 2.73,
+    "winRateImprovementPct": 35.2
+  },
+  "enhancementDeltasV6vsV4": {
+    "netAlphaGainPct": 683.6,
+    "relativeImprovementPct": 858.8,
+    "drawdownReductionPct": 159.8,
+    "profitFactorBoost": 3.29,
+    "winRateImprovementPct": 36.7
+  }
+}

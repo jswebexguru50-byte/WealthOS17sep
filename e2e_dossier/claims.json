@@ -1,0 +1,32 @@
+{
+  "symbol": "SOLARINDS",
+  "claims": [
+    {
+      "claimId": "CLM_SOLAR_DEFENSE_01",
+      "issuerNseSymbol": "SOLARINDS",
+      "issuerBseCode": "532725",
+      "period": "FY24",
+      "category": "GROWTH",
+      "statement": "Defense ammunition deliveries to begin ramp-up in FY25.",
+      "evidenceId": "EV_SOLAR_AR24_P42",
+      "targetMetric": "DEFENSE_DISPATCHES_INR_CR",
+      "expectedValue": 1000.0,
+      "expectedOutcome": "Quarterly dispatches > ₹1,000 Cr",
+      "expectedTimeframe": "Q4-FY25",
+      "claimDate": "2024-07-22",
+      "expectedPeriodStart": "2024-10-01",
+      "expectedPeriodEnd": "2025-03-31",
+      "status": "ACHIEVED",
+      "actualOutcomeMetric": 1250.0,
+      "actualOutcomeDescription": "Quarterly defense export dispatches reached ₹1,250 Cr",
+      "evaluationEvidenceId": "EV_SOLAR_DISCLOSURE_Q4",
+      "evaluationDate": "2025-05-15",
+      "evaluationBasis": "Q4 BSE Financial Disclosures review",
+      "qualityGateApproval": {
+        "approved": true,
+        "chokepoint": "IntelligenceQualityGate",
+        "verifiedAt": "2026-09-15T11:10:00.000Z"
+      }
+    }
+  ]
+}

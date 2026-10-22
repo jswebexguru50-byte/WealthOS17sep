@@ -1,0 +1,24 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import Database from 'better-sqlite3';
+
+const root=process.cwd(); const db=new Database(path.join(root,'portfolio.db'),{readonly:true});
+const symbols=process.argv.slice(2).length?process.argv.slice(2).map(s=>s.toUpperCase()):['AZAD','RRKABEL'];
+const rows=db.prepare(`SELECT metric,value,unit,periodEnd,periodType,provider,sourceDocumentId,availableAt,fetchedAt FROM company_facts WHERE symbol=? AND value IS NOT NULL ORDER BY periodEnd DESC, COALESCE(availableAt,fetchedAt) DESC`);
+function facts(s,m){return rows.all(s).filter(r=>m.includes(r.metric));}
+function latest(s,m){return facts(s,m)[0]??null}
+function n(r){const x=Number(r?.value);return Number.isFinite(x)?x:null}
+function fmt(x,u=''){return x==null?'DATA UNAVAILABLE':`${x.toFixed(2)}${u}`}
+function trend(s,metric){return facts(s,[metric]).filter(r=>r.periodEnd&&r.periodEnd!=='LATEST').slice(0,6).reverse()}
+function pct(a,b){return a!=null&&b!=null&&b!==0?(a/b-1)*100:null}
+function report(s){
+ const rev=trend(s,'revenue'), pat=trend(s,'pat'), cfo=latest(s,['cfo']), capex=latest(s,['capex_cash_outflow','capex']);
+ const op=latest(s,['operating_profit']), de=latest(s,['debt_to_equity_reported','debt_to_equity']), ic=latest(s,['interest_coverage']);
+ const roe=latest(s,['roe_pct','roe']), roce=latest(s,['roce_reported']), pe=latest(s,['pe_ttm','pe_ratio']), mcap=latest(s,['market_cap_cr','market_cap']);
+ const revGrowth=pct(n(rev.at(-1)),n(rev.at(-2))), patGrowth=pct(n(pat.at(-1)),n(pat.at(-2)),); const cfoPat=n(cfo)&&n(pat.at(-1))?n(cfo)/n(pat.at(-1))*100:null;
+ const lines=[]; lines.push(`# ${s} — Deep Fundamental Research Note`,'','## 1. Snapshot','',`Market capitalisation: **${fmt(n(mcap),' Cr')}** | P/E: **${fmt(n(pe))}** | ROE: **${fmt(n(roe),'%')}** | ROCE: **${fmt(n(roce),'%')}**`, '',`Latest revenue is **${fmt(n(rev.at(-1)),' Cr')}** and PAT is **${fmt(n(pat.at(-1)),' Cr')}**. Revenue year-on-year movement is **${fmt(revGrowth,'%')}** and PAT movement is **${fmt(patGrowth,'%')}**. These are reported-period comparisons, not forecasts.`,'','## 2. Business and competitive position','','Business description, customer concentration, supplier concentration, TAM and moat must be supported by company filings or provider documents. The report retains supplied qualitative context separately and does not invent unsupported business claims.','', '## 3. Growth and profitability','', '| Period | Revenue | PAT | Operating profit |','|---|---:|---:|---:|');
+ const allPeriods=[...new Set([...rev,...pat].map(x=>x.periodEnd).filter(Boolean))].slice(-6); for(const p of allPeriods){const r=rev.find(x=>x.periodEnd===p), q=pat.find(x=>x.periodEnd===p), o=facts(s,['operating_profit']).find(x=>x.periodEnd===p); lines.push(`| ${p} | ${fmt(n(r),' Cr')} | ${fmt(n(q),' Cr')} | ${fmt(n(o),' Cr')} |`)}
+ const promoter=latest(s,['promoter_holding']), fii=latest(s,['fii_holding']), dii=latest(s,['dii_holding']);
+ lines.push('','## 4. Cash flow and forensic quality','',`Operating cash flow is **${fmt(n(cfo),' Cr')}** versus latest PAT **${fmt(n(pat.at(-1)),' Cr')}**, giving CFO/PAT of **${fmt(cfoPat,'%')}**. Reported capex is **${fmt(n(capex),' Cr')}**. A negative or low conversion ratio requires working-capital and capex review; it is not automatically a fraud signal.`, '', '## 5. Balance sheet and returns','',`Debt/equity is **${fmt(n(de))}** and interest coverage is **${fmt(n(ic),'x')}**. ROE is **${fmt(n(roe),'%')}** and ROCE is **${fmt(n(roce),'%')}**. Interpretation must use dated history and business-cycle context.`, '', '## 6. Valuation lens','',`The current canonical P/E is **${fmt(n(pe))}** and market capitalisation is **${fmt(n(mcap),' Cr')}**. The applicable valuation lens (earnings, EV/EBITDA mid-cycle or P/B-on-ROE) must be selected from the sector classification; peer multiples are not substituted when unavailable.`, '', '## 7. Ownership, governance and risks','',`Promoter holding: **${fmt(n(promoter),'%')}**; FII holding: **${fmt(n(fii),'%')}**; DII holding: **${fmt(n(dii),'%')}**. Governance, audit, pledge, related-party and structural-risk conclusions require dated filing evidence.`, '', '## 8. Decision discipline','',`This note is evidence-bounded. Missing fields remain DATA UNAVAILABLE, single-source facts are identifiable from the source metadata, and no target price or buy/sell instruction is produced without the required verified inputs.`, '', '## Sources and lineage','', 'Every numeric field is read from `company_facts` with period, provider, availability and fetch metadata retained in the application database.'); return lines.join('\n');
+}
+const outDir=path.join(root,'outputs/fundamental_dossiers/deep'); fs.mkdirSync(outDir,{recursive:true}); for(const s of symbols) fs.writeFileSync(path.join(outDir,`${s}_deep_fundamental.md`),report(s)); console.log(JSON.stringify({symbols,outputDir:outDir},null,2)); db.close();

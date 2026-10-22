@@ -1,0 +1,37 @@
+{
+  "runId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+  "parentVersion": "v6.2.0",
+  "dataMode": "REAL_HISTORICAL",
+  "frozenBaselineHash": "fd7e0565760e6222bd4aaf996d0fd7e380e72d7c878521a998df650ab8d12eab",
+  "databaseFile": "portfolio.db",
+  "databaseSizeBytes": 16531456,
+  "databaseTotalDailyBars": 4130313,
+  "databaseTotalSymbols": 3540,
+  "reconstructedLiquidUniverse": 60,
+  "dateRange": {
+    "start": "2018-01-01",
+    "end": "2025-12-31"
+  },
+  "executionSettings": {
+    "initialCapital": 10000000,
+    "brokeragePerLeg": 20,
+    "sttRate": 0.001,
+    "stampDutyBuyRate": 0.00015,
+    "exchangeTxnRate": 0.0000345,
+    "gstRate": 0.18,
+    "slippageBps": 10,
+    "impactBps": 5,
+    "maxParticipationPct": 0.015,
+    "allowShortCash": false
+  },
+  "armsEvaluated": [
+    "A_RAW",
+    "B_V62_OVERLAY",
+    "C_CHALLENGERS",
+    "D_RISK_ORACLE"
+  ],
+  "walkForwardFramework": "Rolling 36-Month Train / 12-Month Untouched OOS (5 Windows)",
+  "executionTimestamp": "2026-09-17T06:56:38.695Z",
+  "canonicalRunId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+  "ledgerSha256": "035d8867f1f8dbc65f9fe35ea45263f20f9fee00a48d3d7f48807c24a2afd485"
+}

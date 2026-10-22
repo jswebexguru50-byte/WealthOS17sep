@@ -1,0 +1,69 @@
+{
+  "baselineTag": "v6.2.0-FROZEN",
+  "timestamp": "2026-09-17T06:28:54.258Z",
+  "environment": {
+    "nodeVersion": "v24.18.0",
+    "platform": "win32",
+    "arch": "x64"
+  },
+  "researchInvariant": {
+    "coreStrategiesFrozen": true,
+    "s1ToS20Untouched": true,
+    "overlayUntouched": true,
+    "challengersIsolated": true,
+    "unitTestsPassed": "36/36"
+  },
+  "files": {
+    "src/server/services/PureTechnicalStrategiesEngine.ts": {
+      "exists": true,
+      "sizeBytes": 181409,
+      "sha256": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3"
+    },
+    "src/server/services/StrategyParameterConfig.ts": {
+      "exists": true,
+      "sizeBytes": 41794,
+      "sha256": "901ca7a27b2eb4e09183426c9e0dfd7b812aeebf84472b49b9f829661fe7194b"
+    },
+    "src/server/services/SignalQualityOverlay.ts": {
+      "exists": true,
+      "sizeBytes": 27256,
+      "sha256": "c41cddb152c150bea932a8b9bd8fcc6ea01a03a2ba030a723789aaada5c17452"
+    },
+    "src/server/services/CapitalProtectionEngine.ts": {
+      "exists": true,
+      "sizeBytes": 38468,
+      "sha256": "63b8317889f5a60e9462f883e89acb57fe99e819935ec8f7b30036ecfe4ed753"
+    },
+    "src/server/services/NewTechnicalStrategiesEngine.ts": {
+      "exists": true,
+      "sizeBytes": 47098,
+      "sha256": "78415ba3c74ca6a9cc2fcc96d2e54ba871e9bca73fc6e078570c412781b1d354"
+    },
+    "src/server/services/UpstoxIntradayIngestor.ts": {
+      "exists": true,
+      "sizeBytes": 8275,
+      "sha256": "0f1c96d0e0c704672517f378990e17facdced7bfbf359daf9c6f37333be1b151"
+    },
+    "tests/unit/signal_quality_and_risk_guardrails.test.ts": {
+      "exists": true,
+      "sizeBytes": 29422,
+      "sha256": "18f0325f98d23970f5652cfdb3a5029f57db422ca8345074c426f623489d3133"
+    },
+    "tests/unit/new_technical_strategies.test.ts": {
+      "exists": true,
+      "sizeBytes": 17888,
+      "sha256": "e265aa2b3e49aed50d0b5604c7f78ed50558d6722785a7cd6d9b4f1b61d2bd2e"
+    },
+    "package.json": {
+      "exists": true,
+      "sizeBytes": 4227,
+      "sha256": "f78bc21c7120e9a2aa827cbc7f15dff63f76c3f13ffbff2b9c7271fa37935cb0"
+    },
+    "tsconfig.json": {
+      "exists": true,
+      "sizeBytes": 582,
+      "sha256": "4c27479cca701068549bdea323e529eed68041c02c4219e56bb2b555938ab947"
+    }
+  },
+  "compositeManifestSha256": "fd7e0565760e6222bd4aaf996d0fd7e380e72d7c878521a998df650ab8d12eab"
+}

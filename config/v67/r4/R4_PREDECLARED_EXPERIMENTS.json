@@ -1,0 +1,162 @@
+[
+  {
+    "experimentId": "EXP-R4-RS-01-FLT",
+    "hypothesisId": "H-RS-001",
+    "configurationId": "CFG-RS-120D-70",
+    "candidateFamily": "HF-RS",
+    "candidateType": "FILTER",
+    "mode": "MODE_A_FILTER",
+    "parameters": {
+      "lookbackDays": 120,
+      "threshold": 70
+    },
+    "status": "PREDECLARED"
+  },
+  {
+    "experimentId": "EXP-R4-RS-02-CONF",
+    "hypothesisId": "H-RS-001",
+    "configurationId": "CFG-RS-180D-75",
+    "candidateFamily": "HF-RS",
+    "candidateType": "FILTER",
+    "mode": "MODE_B_CONFIRMATION",
+    "parameters": {
+      "lookbackDays": 180,
+      "threshold": 75
+    },
+    "status": "PREDECLARED"
+  },
+  {
+    "experimentId": "EXP-R4-TREND-01-CONF",
+    "hypothesisId": "H-TREND-001",
+    "configurationId": "CFG-TREND-EMA-ALIGN",
+    "candidateFamily": "HF-TREND",
+    "candidateType": "CONFIRMATION",
+    "mode": "MODE_B_CONFIRMATION",
+    "parameters": {
+      "fast": 20,
+      "slow": 50,
+      "trend": 200
+    },
+    "status": "PREDECLARED"
+  },
+  {
+    "experimentId": "EXP-R4-VOL-01-FLT",
+    "hypothesisId": "H-VOL-001",
+    "configurationId": "CFG-VOL-ATR-CONTRACT",
+    "candidateFamily": "HF-VOL",
+    "candidateType": "FILTER",
+    "mode": "MODE_A_FILTER",
+    "parameters": {
+      "maxAtrPct": 5
+    },
+    "status": "PREDECLARED"
+  },
+  {
+    "experimentId": "EXP-R4-VCP-01-CONF",
+    "hypothesisId": "H-VCP-001",
+    "configurationId": "CFG-VCP-2CONT",
+    "candidateFamily": "HF-VCP",
+    "candidateType": "CONFIRMATION",
+    "mode": "MODE_B_CONFIRMATION",
+    "parameters": {
+      "minContractions": 2
+    },
+    "status": "PREDECLARED"
+  },
+  {
+    "experimentId": "EXP-R4-NR-01-FLT",
+    "hypothesisId": "H-NR-001",
+    "configurationId": "CFG-NR7-COMPRESS",
+    "candidateFamily": "HF-NR",
+    "candidateType": "FILTER",
+    "mode": "MODE_A_FILTER",
+    "parameters": {
+      "nrType": "NR7"
+    },
+    "status": "PREDECLARED"
+  },
+  {
+    "experimentId": "EXP-R4-RVOL-01-CONF",
+    "hypothesisId": "H-VOLSURGE-001",
+    "configurationId": "CFG-RVOL-15",
+    "candidateFamily": "HF-VOLSURGE",
+    "candidateType": "CONFIRMATION",
+    "mode": "MODE_B_CONFIRMATION",
+    "parameters": {
+      "rvolThreshold": 1.5
+    },
+    "status": "PREDECLARED"
+  },
+  {
+    "experimentId": "EXP-R4-QUAL-01-FLT",
+    "hypothesisId": "H-QUAL-001",
+    "configurationId": "CFG-FERE-PIOTROSKI-5",
+    "candidateFamily": "HF-QUAL",
+    "candidateType": "FILTER",
+    "mode": "MODE_A_FILTER",
+    "parameters": {
+      "minPiotroski": 5
+    },
+    "status": "PREDECLARED"
+  },
+  {
+    "experimentId": "EXP-R4-REGIME-01-FLT",
+    "hypothesisId": "H-REGIME-001",
+    "configurationId": "CFG-REGIME-BULL-ONLY",
+    "candidateFamily": "HF-REGIME",
+    "candidateType": "FILTER",
+    "mode": "MODE_A_FILTER",
+    "parameters": {
+      "mode": "BULL_ONLY"
+    },
+    "status": "PREDECLARED"
+  },
+  {
+    "experimentId": "EXP-R4-SECTOR-01-CONF",
+    "hypothesisId": "H-SECTOR-001",
+    "configurationId": "CFG-SECTOR-TOP50",
+    "candidateFamily": "HF-SECTOR",
+    "candidateType": "CONFIRMATION",
+    "mode": "MODE_B_CONFIRMATION",
+    "parameters": {
+      "topPct": 50
+    },
+    "status": "PREDECLARED"
+  },
+  {
+    "experimentId": "EXP-R4-EVENT-01-RISK",
+    "hypothesisId": "H-EVENT-001",
+    "configurationId": "CFG-EVENT-BLACKOUT-5D",
+    "candidateFamily": "HF-EVENT",
+    "candidateType": "RISK_CONTROL",
+    "mode": "MODE_A_FILTER",
+    "parameters": {
+      "blackoutDays": 5
+    },
+    "status": "PREDECLARED"
+  },
+  {
+    "experimentId": "EXP-R4-SCORE-01-SCORER",
+    "hypothesisId": "H-COMPOSITE-001",
+    "configurationId": "CFG-COMPOSITE-SCORE-70",
+    "candidateFamily": "HF-COMPOSITE",
+    "candidateType": "SCORER",
+    "mode": "MODE_C_SCORE",
+    "parameters": {
+      "minScore": 70
+    },
+    "status": "PREDECLARED"
+  },
+  {
+    "experimentId": "EXP-R4-SCORE-02-SCORER",
+    "hypothesisId": "H-COMPOSITE-001",
+    "configurationId": "CFG-COMPOSITE-SCORE-75",
+    "candidateFamily": "HF-COMPOSITE",
+    "candidateType": "SCORER",
+    "mode": "MODE_C_SCORE",
+    "parameters": {
+      "minScore": 75
+    },
+    "status": "PREDECLARED"
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "snapshotId": "SNP-R3-E08D3378468F3433",
+  "universeId": "NIFTY500_HISTORICAL_PIT_2020_2026",
+  "marketDataVersion": "NSE_EOD_HISTORICAL_V65_ED18F3B9A403",
+  "financialDataVersion": "XBRL_FINANCIALS_AUDITED_PIT_V65",
+  "corporateActionVersion": "NSE_BSE_CORP_ACTIONS_PIT_V65",
+  "identityVersion": "SECURITY_IDENTITY_ISIN_INTERVALS_V65",
+  "PITUniverseVersion": "NIFTY500_OFFICIAL_RECONSTRUCTED_V65",
+  "costModelVersion": "NSE_CASH_DELIVERY_SLAB_2020_2026_STT_EXCHANGE_GST_SEBI_STAMP",
+  "slippageModelVersion": "SQRT_IMPACT_PARTICIPATION_BPS_EMPIRICAL",
+  "configurationHash": "07a341aa2595a52c48aff1491929a40ca655213262f978d7bbb94753b1015b58",
+  "methodologyHash": "2733399d8993220f49d245cdeb6e18dff49056d88494e60a53fa430422547c53",
+  "generatedAt": "2026-09-18T13:00:00.000Z",
+  "immutable": true
+}

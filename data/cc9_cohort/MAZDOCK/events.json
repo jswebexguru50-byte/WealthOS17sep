@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_MAZDOCK_01",
+    "issuerNseSymbol": "MAZDOCK",
+    "issuerBseCode": "543237",
+    "eventDate": "2024-06-10",
+    "category": "ORDER_BOOK",
+    "headline": "Kalvari-Class Scorpene Submarine Contract Negotiations",
+    "description": "Advanced negotiations for 3 additional Scorpene submarines with indigenous AIP modules.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_MAZ_ORDER_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

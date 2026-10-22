@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_BLUEJET_01",
+    "issuerNseSymbol": "BLUEJET",
+    "issuerBseCode": "544009",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Scale contrast media intermediate sales to cross ₹700 Cr in FY24.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 721,
+    "expectedValue": 700,
+    "expectedOutcome": "Revenue >= ₹700 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_BLUEJET_REV_01",
+    "claimDate": "2023-09-08",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 743,
+    "actualOutcomeDescription": "Delivered ₹743 Cr revenue beating prospectus guidance by 6.1%.",
+    "evaluationEvidenceId": "EV_BLUEJET_REV_01",
+    "evaluationDate": "2024-05-24",
+    "evaluationBasis": "Audited Financial Results Release",
+    "publicationDate": "2023-09-08",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_BLUEJET_01"
+  }
+]

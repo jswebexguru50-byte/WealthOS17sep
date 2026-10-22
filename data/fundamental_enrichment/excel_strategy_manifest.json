@@ -1,0 +1,12 @@
+{
+  "sourceExcel": "Seven_Strategies_7_Days_Technical_20260930.csv",
+  "cutoffDate": "2026-09-30",
+  "totalSymbols": 3,
+  "convergenceSymbolsCount": 0,
+  "symbols": [
+    "CAPILLARY",
+    "GUJRAFFIA",
+    "SMARTEN"
+  ],
+  "details": {}
+}

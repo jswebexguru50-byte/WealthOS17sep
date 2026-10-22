@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_LAMOSAIC_REV_FY26",
+    "issuerNseSymbol": "LAMOSAIC",
+    "issuerBseCode": "518135",
+    "documentHash": "5ea1f769306da36f35fcd9328dfb60c3798a156da92937dd11d1e8b00567bf60",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹666 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_LAMOSAIC_PAT_FY26",
+    "issuerNseSymbol": "LAMOSAIC",
+    "issuerBseCode": "518135",
+    "documentHash": "5ea1f769306da36f35fcd9328dfb60c3798a156da92937dd11d1e8b00567bf60",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹80 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_LAMOSAIC_DEBT_FY26",
+    "issuerNseSymbol": "LAMOSAIC",
+    "issuerBseCode": "518135",
+    "documentHash": "f535ddd7de21dd28de7a616abd61ffc54ac003899d324554399f6221dc484ce8",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_LAMOSAIC_CONCALL_Q4FY26",
+    "issuerNseSymbol": "LAMOSAIC",
+    "issuerBseCode": "518135",
+    "documentHash": "dbe01b4d0b1da7139a8c705333d15e1095109272e30e615a188c9baaecab7921",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

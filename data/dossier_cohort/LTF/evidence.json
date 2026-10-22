@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_LTF_REV_FY26",
+    "issuerNseSymbol": "LTF",
+    "issuerBseCode": "507130",
+    "documentHash": "9598f78b07f013c58aca9840c118966b3478d39ad267dd750edb8fcb0e221f65",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹3710 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_LTF_PAT_FY26",
+    "issuerNseSymbol": "LTF",
+    "issuerBseCode": "507130",
+    "documentHash": "9598f78b07f013c58aca9840c118966b3478d39ad267dd750edb8fcb0e221f65",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹445 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_LTF_DEBT_FY26",
+    "issuerNseSymbol": "LTF",
+    "issuerBseCode": "507130",
+    "documentHash": "6f2d013faf68bee148f3a6d961d55e82c9ab5895dab1cde5b118201e31640847",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_LTF_CONCALL_Q4FY26",
+    "issuerNseSymbol": "LTF",
+    "issuerBseCode": "507130",
+    "documentHash": "3ddb4992c8e063b44803f1baeaf6bc8b6b4aeca09f18c9a898e765f18a0f188e",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

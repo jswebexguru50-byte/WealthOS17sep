@@ -1,0 +1,12 @@
+{
+  "symbol": "SOLARINDS",
+  "openContradictions": [],
+  "resolvedContradictions": [],
+  "evaluationSummary": {
+    "claimsEvaluated": 1,
+    "eventsEvaluated": 1,
+    "contradictionsFound": 0,
+    "criticalGovernanceAlerts": 0,
+    "status": "CLEAN"
+  }
+}

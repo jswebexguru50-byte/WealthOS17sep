@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_BAJFINANCE_01",
+    "issuerNseSymbol": "BAJFINANCE",
+    "issuerBseCode": "500034",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Scale annual consolidated NBFC income to cross ₹50,000 Cr in FY24.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 41406,
+    "expectedValue": 50000,
+    "expectedOutcome": "Revenue >= ₹50,000 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_BAJFIN_REV_01",
+    "claimDate": "2023-08-14",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 54969,
+    "actualOutcomeDescription": "Delivered ₹54,969 Cr revenue beating milestone by 9.9%.",
+    "evaluationEvidenceId": "EV_BAJFIN_REV_01",
+    "evaluationDate": "2024-04-25",
+    "evaluationBasis": "BSE Audited Financial Results Release",
+    "publicationDate": "2023-08-14",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_BAJFINANCE_01"
+  }
+]

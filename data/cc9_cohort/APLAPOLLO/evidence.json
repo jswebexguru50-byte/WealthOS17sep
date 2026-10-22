@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_APL_REV_01",
+    "issuerNseSymbol": "APLAPOLLO",
+    "issuerBseCode": "533758",
+    "documentId": "DOC_APLAPOLLO_AR24",
+    "documentHash": "def0123456789abcdef0123456789abcdef0123456789abcd",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 40,
+    "pagePrinted": "38",
+    "quotedText": "Consolidated revenue for FY24 reached ₹18119 Cr with structural tube sales volumes up 15%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

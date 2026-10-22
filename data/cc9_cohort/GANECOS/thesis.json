@@ -1,0 +1,19 @@
+{
+  "symbol": "GANECOS",
+  "coreThesisStatement": "Pioneer and market leader in PET plastic recycling transitioning from fiber into high-value bottle-to-bottle food packaging.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Mandatory EPR Mandates",
+      "description": "Government extended producer responsibility requiring 30% recycled content in packaging."
+    },
+    {
+      "pillarId": "P2",
+      "title": "FMCG Long-Term Offtakes",
+      "description": "Long-term contracts with global beverage and beverage container manufacturers."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_GANECOS_LEVERAGE"
+  ]
+}

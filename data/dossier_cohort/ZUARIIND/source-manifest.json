@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "ZUARIIND",
+  "issuerBseCode": "519034",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_ZUARIIND_AR2024",
+      "documentName": "ZUARIIND_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "701570cfe8d5fac6c562b26d306a25ae36c25639434a1a5f427eb702280a4085",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_ZUARIIND_AUDITED_RESULTS",
+      "documentName": "ZUARIIND_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "28755349b812a55eba10a66b4954733e215b4864e4d61297928bd4ec1872f46e",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_ZUARIIND_CONCALL_Q4FY26",
+      "documentName": "ZUARIIND_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "409b491933810a274a945da775d932df28a9a8d0cf910ab830943eb4589f3036",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

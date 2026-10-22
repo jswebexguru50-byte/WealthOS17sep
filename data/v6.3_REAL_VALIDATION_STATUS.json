@@ -1,0 +1,21 @@
+{
+  "canonicalRunId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+  "runId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+  "dataMode": "REAL_HISTORICAL",
+  "V62_FROZEN": "PASS (6 production strategy files verified 100% frozen)",
+  "R1_PIT": "PASS (14/14 tests)",
+  "REAL_DATABASE_VERIFIED": "PASS (portfolio_v6.3_research_subset.db verified)",
+  "REAL_HISTORICAL_REPLAY": "PASS (S1-S11 replayed; S12-S20 marked DATA_INSUFFICIENT)",
+  "REAL_EXECUTION": "PASS (19 trades with strict next-bar open execution & statutory friction)",
+  "DELIVERY_PIT_VERIFICATION": "PASS (18:00 IST delivery availability < 09:15 IST entry time enforced)",
+  "REAL_ABLATION": "PASS (ARM A vs ARM B evaluated under identical canonical run)",
+  "REAL_WALK_FORWARD": "PASS (5 non-overlapping walk-forward windows 2021-2025)",
+  "REAL_COST_SENSITIVITY": "PASS (0.75x to 2.00x statutory cost grid computed)",
+  "REAL_REGIME_ANALYSIS": "PASS (BULL, BEAR, SIDEWAYS, HIGH_VOL, LOW_VOL attributed)",
+  "REAL_STATISTICS": "PASS (Bootstrap 1000 iter, Seed 42, BH-FDR & Bonferroni applied)",
+  "SYNTHETIC_CONTAMINATION": "NONE (0 Synthetic Records)",
+  "ECONOMIC_VALIDATION": "DATA_INSUFFICIENT_FOR_PROMOTION (N=19 < 150 required by promotion gate)",
+  "PRODUCTION_PROMOTION": "NOT AUTHORIZED (Evaluation-Only / Risk Control Retention)",
+  "LEGACY_QUARANTINE_NOTE": "Legacy run RUN-V63-REAL-1789627995643 (PF 1.209, 17,468 signals) tagged as LEGACY_INVALID_EXECUTION_MODEL and discarded",
+  "OVERALL_STATUS": "PASS (ENGINEERING VALIDATION PASS; ECONOMIC STATUS DATA_INSUFFICIENT_FOR_PROMOTION)"
+}

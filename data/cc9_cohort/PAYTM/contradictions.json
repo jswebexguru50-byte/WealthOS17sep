@@ -1,0 +1,33 @@
+{
+  "status": "CONTRADICTIONS_DETECTED",
+  "issuerNseSymbol": "PAYTM",
+  "activeContradictionCount": 1,
+  "contradictions": [
+    {
+      "contradictionId": "CONTRA_PAYTM_RBI_01",
+      "issuerNseSymbol": "PAYTM",
+      "issuerBseCode": "543396",
+      "severity": "CRITICAL",
+      "type": "DISCLOSURE_INCONSISTENCY",
+      "claimId": "CLM_PAYTM_01",
+      "eventId": "EVT_PAYTM_01",
+      "description": "Management guided full compliance and seamless payments bank operations, but RBI issued sweeping statutory embargo under Section 35A halting core deposit operations.",
+      "divergenceDetails": {
+        "whatManagementClaimed": "Full regulatory compliance and banking continuity",
+        "whatActuallyHappened": "RBI banned all deposits, wallet top-ups, and credit operations at associate bank",
+        "deltaMetric": "regulatory_sanction_imposed"
+      },
+      "leftEvidenceId": "EV_PAYTM_PROMISE_01",
+      "rightEvidenceId": "EV_PAYTM_RBI_ORDER",
+      "supportingEvidenceIds": [
+        "EV_PAYTM_RBI_ORDER"
+      ],
+      "status": "OPEN",
+      "materiality": "CRITICAL",
+      "detectedAt": "2024-01-31T18:00:00.000Z",
+      "createdAt": "2026-09-16 08:30:40",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ]
+}

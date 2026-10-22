@@ -1,0 +1,21 @@
+{
+  "symbol": "SOLARINDS",
+  "coreThesisStatement": "Defense ammunition scaling and export runway drive multi-year earnings compounding with pristine solvency and state-level industrial moat.",
+  "investmentPillars": [
+    {
+      "pillarId": "PIL_01",
+      "title": "Global Defense Export Scaling",
+      "description": "Pinaka rocket systems, UAV warheads, and defense propellants expanding share of total EBITDA."
+    },
+    {
+      "pillarId": "PIL_02",
+      "title": "Conservative Balance Sheet & Low Leverage",
+      "description": "Net debt / EBITDA sustained below 1.0x provides balance sheet resilience against global macro cycles."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_SOLAR_LEVERAGE",
+    "TB_SOLAR_EXPORT_BAN",
+    "TB_SOLAR_REGULATORY_CANCELLATION"
+  ]
+}

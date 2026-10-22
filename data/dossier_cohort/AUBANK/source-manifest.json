@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "AUBANK",
+  "issuerBseCode": "513454",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_AUBANK_AR2024",
+      "documentName": "AUBANK_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "1e81b8e69b58c46c11308d2e4eac6488f85901249a77b9a143a5265246c91f02",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_AUBANK_AUDITED_RESULTS",
+      "documentName": "AUBANK_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "d587748e5e8bf7dd8aab9a1c2bc766342881d0496153c5cc6345b48d8f61e0e2",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_AUBANK_CONCALL_Q4FY26",
+      "documentName": "AUBANK_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "6e76a0ce9520d6bc21db1240b126dc44dfb1a73f328c457a5ca21722545a0570",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

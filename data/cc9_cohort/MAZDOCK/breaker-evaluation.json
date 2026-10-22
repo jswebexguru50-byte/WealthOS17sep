@@ -1,0 +1,14 @@
+[
+  {
+    "breakerId": "TB_MAZ_LEVERAGE",
+    "symbol": "MAZDOCK",
+    "name": "Defense Shipyard Leverage Limit",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 1,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Debt / Equity ratio exceeding 1.0x triggers hard veto.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

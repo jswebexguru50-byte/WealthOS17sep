@@ -1,0 +1,14 @@
+[
+  {
+    "breakerId": "TB_BHARTI_LEVERAGE",
+    "symbol": "BHARTIARTL",
+    "name": "Telecom Debt Burden Ceiling",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 3.8,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Net Debt / EBITDA exceeding 3.8x triggers hard veto.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

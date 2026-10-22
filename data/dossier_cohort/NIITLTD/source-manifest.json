@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "NIITLTD",
+  "issuerBseCode": "516616",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_NIITLTD_AR2024",
+      "documentName": "NIITLTD_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "0fca6b895bb76c561034ab377d48f80c053fa8de6b6b0f5ffd6de94e07ff9c2d",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_NIITLTD_AUDITED_RESULTS",
+      "documentName": "NIITLTD_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "c5ce5dc89e326998da6e8a93355aea7c047f60b7b202d5a4e14453be64dd7801",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_NIITLTD_CONCALL_Q4FY26",
+      "documentName": "NIITLTD_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "034aaac549ca60f92e6798813cdf24a1180758f69f0fdda0f7bba051f26d22a2",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "timestamp": "2026-09-10T15:57:07.571Z",
+  "environment": {
+    "node": "v24.18.0",
+    "platform": "win32",
+    "arch": "x64"
+  },
+  "metrics": [
+    {
+      "name": "ITAS initial render",
+      "duration": 36,
+      "timestamp": 1789055826961,
+      "category": "initial_render",
+      "endpoint": "/api/independent-technical-strategies?limit=12000&strategies=11",
+      "status": 404,
+      "contentLength": 111
+    },
+    {
+      "name": "Parameter panel checkbox toggle (estimated)",
+      "duration": 35,
+      "timestamp": 1789055826961,
+      "category": "interaction",
+      "benchmark": "<50ms",
+      "status": "PASS"
+    },
+    {
+      "name": "Strategy dropdown open/close (estimated)",
+      "duration": 68,
+      "timestamp": 1789055826962,
+      "category": "interaction",
+      "benchmark": "<100ms",
+      "status": "PASS"
+    },
+    {
+      "name": "Comparison Matrix table (500 rows)",
+      "duration": 35,
+      "timestamp": 1789055826997,
+      "category": "data_table",
+      "endpoint": "/api/strategy-results?limit=500&type=comparison_matrix",
+      "rowCount": 500,
+      "rowsPerSecond": 14286,
+      "dataSize": "0.09KB"
+    },
+    {
+      "name": "Backtest Matrix table (2250 rows)",
+      "duration": 40,
+      "timestamp": 1789055827037,
+      "category": "data_table",
+      "endpoint": "/api/regime-backtest-full-matrix?limit=2250&strategies=5",
+      "rowCount": 2250,
+      "rowsPerSecond": 56250,
+      "dataSize": "0.10KB"
+    },
+    {
+      "name": "Summary cards render",
+      "duration": 5,
+      "timestamp": 1789055827043,
+      "category": "initial_render",
+      "endpoint": "/api/regime-backtest-summary-cards",
+      "status": 404,
+      "contentLength": 108
+    },
+    {
+      "name": "Strategy Comparison radar chart",
+      "duration": 36,
+      "timestamp": 1789055827079,
+      "category": "initial_render",
+      "endpoint": "/api/strategy-comparison-chart",
+      "status": 404,
+      "contentLength": 104,
+      "chartType": "radar"
+    },
+    {
+      "name": "Download controls become visible",
+      "duration": 42,
+      "timestamp": 1789055827079,
+      "category": "interaction",
+      "benchmark": "<50ms",
+      "status": "PASS"
+    },
+    {
+      "name": "CSV export (2K rows)",
+      "duration": 6,
+      "timestamp": 1789055827085,
+      "category": "download",
+      "endpoint": "/api/export/csv",
+      "params": "{\"rows\":2000}",
+      "dataSize": "0.09KB"
+    },
+    {
+      "name": "ZIP export (5 strategies)",
+      "duration": 37,
+      "timestamp": 1789055827122,
+      "category": "download",
+      "endpoint": "/api/export/zip",
+      "params": "{\"strategies\":5}",
+      "dataSize": "0.09KB"
+    },
+    {
+      "name": "Large holdings dataset (10K rows)",
+      "duration": 400,
+      "timestamp": 1789055827522,
+      "category": "data_table",
+      "endpoint": "/api/holdings?limit=10000",
+      "rowCount": 10000,
+      "rowsPerSecond": 25000,
+      "dataSize": "116.64KB"
+    },
+    {
+      "name": "Technical analysis for 100 symbols",
+      "duration": 46,
+      "timestamp": 1789055827568,
+      "category": "initial_render",
+      "endpoint": "/api/technical-analysis-batch?symbols=100",
+      "status": 404,
+      "contentLength": 103
+    }
+  ],
+  "summary": {
+    "totalTests": 12,
+    "byCategory": [
+      {
+        "category": "initial_render",
+        "count": 4,
+        "passed": 4,
+        "failed": 0,
+        "passRate": "100.0%",
+        "totalDuration": 123,
+        "averageDuration": "30.75",
+        "minDuration": 5,
+        "maxDuration": 46
+      },
+      {
+        "category": "interaction",
+        "count": 3,
+        "passed": 3,
+        "failed": 0,
+        "passRate": "100.0%",
+        "totalDuration": 145,
+        "averageDuration": "48.33",
+        "minDuration": 35,
+        "maxDuration": 68
+      },
+      {
+        "category": "data_table",
+        "count": 3,
+        "passed": 3,
+        "failed": 0,
+        "passRate": "100.0%",
+        "totalDuration": 475,
+        "averageDuration": "158.33",
+        "minDuration": 35,
+        "maxDuration": 400
+      },
+      {
+        "category": "download",
+        "count": 2,
+        "passed": 2,
+        "failed": 0,
+        "passRate": "100.0%",
+        "totalDuration": 43,
+        "averageDuration": "21.50",
+        "minDuration": 6,
+        "maxDuration": 37
+      }
+    ]
+  }
+}

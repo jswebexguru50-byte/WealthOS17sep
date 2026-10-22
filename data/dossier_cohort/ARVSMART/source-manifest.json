@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "ARVSMART",
+  "issuerBseCode": "519344",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_ARVSMART_AR2024",
+      "documentName": "ARVSMART_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "8c649351ab2db8cce645c6ed6b01949714375df79da8413cabe4e66784cb4a38",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_ARVSMART_AUDITED_RESULTS",
+      "documentName": "ARVSMART_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "492810a5397734303699074720741286e6371343f14408a0877edcffff5fea5d",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_ARVSMART_CONCALL_Q4FY26",
+      "documentName": "ARVSMART_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "a8d73010638c77ee68001042193389c2ccab4af46a90f8eb0d0b3df08249be08",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

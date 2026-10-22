@@ -1,0 +1,30 @@
+{
+  "output": {
+    "filePath": ".reviews/context_dump.xml",
+    "style": "xml"
+  },
+  "include": [
+    "src/server/services/research/**",
+    "src/server/services/SignalQualityOverlay.ts",
+    "src/server/services/CapitalProtectionEngine.ts",
+    "src/server/services/PureTechnicalStrategiesEngine.ts",
+    "src/server/services/NewTechnicalStrategiesEngine.ts",
+    "src/server/services/StrategyParameterConfig.ts",
+    "scripts/run_real_historical_v6.3_pipeline.ts",
+    "tests/unit/empirical_integrity_invariants.test.ts",
+    "db/schema.sql",
+    "fixtures/sample_data.json"
+  ],
+  "ignore": {
+    "useGitignore": true,
+    "customPatterns": [
+      "node_modules/**",
+      "dist/**",
+      "*.log",
+      "*.zip",
+      "*.db",
+      "*.png",
+      ".git/**"
+    ]
+  }
+}

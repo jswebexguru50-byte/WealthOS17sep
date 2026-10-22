@@ -1,0 +1,489 @@
+{
+  "symbol": "PAYTM",
+  "companyName": "One97 Communications Limited (Paytm)",
+  "marketCapTier": "MIDCAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-16T08:30:40.888Z",
+  "decisionState": {
+    "quantOpportunity": "MODERATE",
+    "intelligenceRisk": "CRITICAL",
+    "thesisState": "BROKEN",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "MODERATE quantitative signal active, but critical governance/solvency contradiction invalidates the investment thesis. Portfolio directive: HARD_EXCLUSION_VETO.",
+    "allocationRecommendation": "HARD_EXCLUSION_VETO",
+    "portfolioPolicy": {
+      "directive": "HARD_EXCLUSION_VETO",
+      "targetSizingCapRatio": 0,
+      "policyRationale": "Active catastrophic thesis breaker or insolvency risk triggers immediate exclusion veto. Zero capital permitted."
+    },
+    "provenance": {
+      "quantDerivation": "ITAS-Score-60 -> Threshold(>=75:STRONG, 50-74:MODERATE, 25-49:WEAK, <25:NONE) -> MODERATE",
+      "riskDerivation": "BreakersActive:0, Contradictions:1, Unknowns:0 -> Risk: CRITICAL",
+      "credibilityDerivation": "ClaimsEvaluated:1 -> CredibilityGrade: INSUFFICIENT_HISTORY",
+      "breakerDerivation": "TB_PAYTM_REGULATORY(UNRESOLVED)",
+      "thesisDerivation": "Matrix(MODERATE, CRITICAL) -> Thesis: BROKEN",
+      "allocationDerivation": "Precedence(BROKEN, CRITICAL, INSUFFICIENT_HISTORY) -> Directive: HARD_EXCLUSION_VETO (Cap: 0%)",
+      "auditTrail": [
+        "ITAS-Engine#PAYTM",
+        null,
+        "Contradiction#CONTRA_PAYTM_RBI_01"
+      ]
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_PAYTM",
+      "nodes": [
+        {
+          "id": "DEC_PAYTM",
+          "type": "DECISION",
+          "refId": "PAYTM",
+          "label": "Final Investment Decision: BROKEN"
+        },
+        {
+          "id": "ALLOC_PAYTM",
+          "type": "ALLOCATION",
+          "refId": "HARD_EXCLUSION_VETO",
+          "label": "Allocation Policy: HARD_EXCLUSION_VETO (0%)"
+        },
+        {
+          "id": "THESIS_PAYTM",
+          "type": "THESIS",
+          "refId": "BROKEN",
+          "label": "Reconciled Thesis State: BROKEN"
+        },
+        {
+          "id": "QUANT_PAYTM",
+          "type": "RULE",
+          "refId": "MODERATE",
+          "version": "2026.09",
+          "label": "Quant Opportunity: MODERATE (Score: 60/100)"
+        },
+        {
+          "id": "RISK_PAYTM",
+          "type": "RULE",
+          "refId": "CRITICAL",
+          "version": "2026.09",
+          "label": "Intelligence Risk: CRITICAL"
+        },
+        {
+          "id": "CRED_PAYTM",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_PAYTM_REGULATORY",
+          "type": "RULE",
+          "refId": "TB_PAYTM_REGULATORY",
+          "version": "2026.09",
+          "label": "Breaker TB_PAYTM_REGULATORY: UNRESOLVED (Observed: undefined)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_PAYTM",
+          "to": "DEC_PAYTM",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_PAYTM",
+          "to": "DEC_PAYTM",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_PAYTM",
+          "to": "THESIS_PAYTM",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_PAYTM",
+          "to": "THESIS_PAYTM",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_PAYTM",
+          "to": "ALLOC_PAYTM",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_PAYTM_REGULATORY",
+          "to": "RISK_PAYTM",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_PAYTM_ce012d0623c2",
+      "decisionId": "DECISION_PAYTM",
+      "issuerSymbol": "PAYTM",
+      "evaluatedAt": "2026-09-16T11:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2.1",
+      "ontologyVersion": "1.3",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawQuantInput": {
+        "symbol": "PAYTM",
+        "strategyAgreementCount": 12,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 60,
+        "marketRegime": "BEARISH",
+        "quantDirective": "NEUTRAL",
+        "decisionDate": "2024-06-30"
+      },
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_PAYTM_REGULATORY",
+          "symbol": "PAYTM",
+          "name": "Critical Regulatory Embargo Breaker",
+          "type": "QUALITATIVE",
+          "thresholdValue": 1,
+          "comparisonOperator": "GREATER_THAN_OR_EQUAL",
+          "severity": "CRITICAL",
+          "description": "Imposition of central bank statutory restriction on core business operations triggers immediate hard veto.",
+          "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+          "status": "UNRESOLVED"
+        }
+      ],
+      "decisionState": {
+        "quantOpportunity": "MODERATE",
+        "intelligenceRisk": "CRITICAL",
+        "thesisState": "BROKEN",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "MODERATE quantitative signal active, but critical governance/solvency contradiction invalidates the investment thesis. Portfolio directive: HARD_EXCLUSION_VETO.",
+        "allocationRecommendation": "HARD_EXCLUSION_VETO"
+      },
+      "portfolioPolicy": {
+        "directive": "HARD_EXCLUSION_VETO",
+        "targetSizingCapRatio": 0,
+        "policyRationale": "Active catastrophic thesis breaker or insolvency risk triggers immediate exclusion veto. Zero capital permitted."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_PAYTM",
+        "nodes": [
+          {
+            "id": "DEC_PAYTM",
+            "type": "DECISION",
+            "refId": "PAYTM",
+            "label": "Final Investment Decision: BROKEN"
+          },
+          {
+            "id": "ALLOC_PAYTM",
+            "type": "ALLOCATION",
+            "refId": "HARD_EXCLUSION_VETO",
+            "label": "Allocation Policy: HARD_EXCLUSION_VETO (0%)"
+          },
+          {
+            "id": "THESIS_PAYTM",
+            "type": "THESIS",
+            "refId": "BROKEN",
+            "label": "Reconciled Thesis State: BROKEN"
+          },
+          {
+            "id": "QUANT_PAYTM",
+            "type": "RULE",
+            "refId": "MODERATE",
+            "version": "2026.09",
+            "label": "Quant Opportunity: MODERATE (Score: 60/100)"
+          },
+          {
+            "id": "RISK_PAYTM",
+            "type": "RULE",
+            "refId": "CRITICAL",
+            "version": "2026.09",
+            "label": "Intelligence Risk: CRITICAL"
+          },
+          {
+            "id": "CRED_PAYTM",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_PAYTM_REGULATORY",
+            "type": "RULE",
+            "refId": "TB_PAYTM_REGULATORY",
+            "version": "2026.09",
+            "label": "Breaker TB_PAYTM_REGULATORY: UNRESOLVED (Observed: undefined)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_PAYTM",
+            "to": "DEC_PAYTM",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_PAYTM",
+            "to": "DEC_PAYTM",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_PAYTM",
+            "to": "THESIS_PAYTM",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_PAYTM",
+            "to": "THESIS_PAYTM",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_PAYTM",
+            "to": "ALLOC_PAYTM",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_PAYTM_REGULATORY",
+            "to": "RISK_PAYTM",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "ce012d0623c27a795d4a036ec565f513a4765f44d2bb537bf22c79374cb73cb1",
+      "canonicalStateHash": "ce012d0623c27a795d4a036ec565f513a4765f44d2bb537bf22c79374cb73cb1",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_PAYTM_01",
+          "issuerSymbol": "PAYTM",
+          "metric": "REVENUE",
+          "metricId": "REVENUE",
+          "metricFamily": "REVENUE",
+          "value": 9978,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_PAYTM_REV_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_PAYTM_REV_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_PAYTM_REV_01",
+          "sourceQuotedText": "Consolidated revenue for FY24 reached ₹9978 Cr while regulatory actions triggered significant operational restructuring.",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_PAYTM_01",
+          "issuerNseSymbol": "PAYTM",
+          "issuerBseCode": "543396",
+          "period": "FY24",
+          "category": "GOVERNANCE",
+          "statement": "Ensure full regulatory compliance and seamless continuation of associate payments bank banking services.",
+          "targetMetric": "compliance_status",
+          "baselineValue": 1,
+          "expectedValue": 1,
+          "expectedOutcome": "Full Compliance Sustained",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_PAYTM_PROMISE_01",
+          "claimDate": "2023-09-01",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "REVERSED",
+          "actualOutcomeMetric": 0,
+          "actualOutcomeDescription": "RBI imposed Section 35A regulatory ban barring deposit acceptance and wallet operations.",
+          "evaluationEvidenceId": "EV_PAYTM_RBI_ORDER",
+          "evaluationDate": "2024-01-31",
+          "evaluationBasis": "RBI Official Directive under Section 35A",
+          "publicationDate": "2023-09-01",
+          "publicationDateType": "MANAGEMENT_COMMENT",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_PAYTM_01"
+        }
+      ],
+      "rawInputContradictions": [
+        {
+          "contradictionId": "CONTRA_PAYTM_RBI_01",
+          "issuerNseSymbol": "PAYTM",
+          "issuerBseCode": "543396",
+          "severity": "CRITICAL",
+          "type": "DISCLOSURE_INCONSISTENCY",
+          "claimId": "CLM_PAYTM_01",
+          "eventId": "EVT_PAYTM_01",
+          "description": "Management guided full compliance and seamless payments bank operations, but RBI issued sweeping statutory embargo under Section 35A halting core deposit operations.",
+          "divergenceDetails": {
+            "whatManagementClaimed": "Full regulatory compliance and banking continuity",
+            "whatActuallyHappened": "RBI banned all deposits, wallet top-ups, and credit operations at associate bank",
+            "deltaMetric": "regulatory_sanction_imposed"
+          },
+          "leftEvidenceId": "EV_PAYTM_PROMISE_01",
+          "rightEvidenceId": "EV_PAYTM_RBI_ORDER",
+          "supportingEvidenceIds": [
+            "EV_PAYTM_RBI_ORDER"
+          ],
+          "status": "OPEN",
+          "materiality": "CRITICAL",
+          "detectedAt": "2024-01-31T18:00:00.000Z",
+          "createdAt": "2026-09-16 08:30:40",
+          "resolvedAt": null,
+          "resolutionBasis": null
+        }
+      ],
+      "rawInputHash": "370c68dece5e9fc400812f9ea45517a724d4f861e9f63871a3cb5b109775aaec"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "NEGATIVE",
+    "confidence": "MEDIUM",
+    "decisionImplication": "CHALLENGES_THESIS",
+    "oneLineSummary": "MODERATE quantitative signal active, but critical governance/solvency contradiction invalidates the investment thesis. Portfolio directive: HARD_EXCLUSION_VETO."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 12/20 strategies aligned in BEARISH regime",
+      "detail": "ITAS Signal Strength: 60/100 with active directive NEUTRAL.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#PAYTM",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [
+    {
+      "headline": "Contradiction detected (CRITICAL severity): Management guided full compliance and seamless payments bank operations, but RBI issued sweeping statutory embargo under Section 35A halting core deposit operations.",
+      "detail": "Disclosed divergence between promise and observed financial reality.",
+      "sourceDocType": "CONTRADICTION_ENGINE",
+      "evidenceLineage": "LeftEvidence#EV_PAYTM_PROMISE_01 vs RightEvidence#EV_PAYTM_RBI_ORDER",
+      "significance": "HIGH"
+    }
+  ],
+  "walkTheTalk": {
+    "symbol": "PAYTM",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 0,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 1,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_PAYTM_01",
+        "statement": "Ensure full regulatory compliance and seamless continuation of associate payments bank banking services.",
+        "period": "FY24",
+        "expected": "Full Compliance Sustained",
+        "actual": "RBI imposed Section 35A regulatory ban barring deposit acceptance and wallet operations.",
+        "status": "REVERSED",
+        "evidenceLineage": "Evidence#EV_PAYTM_PROMISE_01 -> Resolution#EV_PAYTM_RBI_ORDER"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_PAYTM"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_PAYTM"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-01-31",
+      "source": "REGULATORY_ORDER",
+      "headline": "RBI Supervisory Action under Section 35A on PPBL",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    }
+  ],
+  "openContradictions": [
+    {
+      "contradictionId": "CONTRA_PAYTM_RBI_01",
+      "issuerNseSymbol": "PAYTM",
+      "issuerBseCode": "543396",
+      "severity": "CRITICAL",
+      "type": "DISCLOSURE_INCONSISTENCY",
+      "claimId": "CLM_PAYTM_01",
+      "eventId": "EVT_PAYTM_01",
+      "description": "Management guided full compliance and seamless payments bank operations, but RBI issued sweeping statutory embargo under Section 35A halting core deposit operations.",
+      "divergenceDetails": {
+        "whatManagementClaimed": "Full regulatory compliance and banking continuity",
+        "whatActuallyHappened": "RBI banned all deposits, wallet top-ups, and credit operations at associate bank",
+        "deltaMetric": "regulatory_sanction_imposed"
+      },
+      "leftEvidenceId": "EV_PAYTM_PROMISE_01",
+      "rightEvidenceId": "EV_PAYTM_RBI_ORDER",
+      "supportingEvidenceIds": [
+        "EV_PAYTM_RBI_ORDER"
+      ],
+      "status": "OPEN",
+      "materiality": "CRITICAL",
+      "detectedAt": "2024-01-31T18:00:00.000Z",
+      "createdAt": "2026-09-16 08:30:40",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_PAYTM_REGULATORY",
+      "symbol": "PAYTM",
+      "name": "Critical Regulatory Embargo Breaker",
+      "type": "QUALITATIVE",
+      "thresholdValue": 1,
+      "comparisonOperator": "GREATER_THAN_OR_EQUAL",
+      "severity": "CRITICAL",
+      "description": "Imposition of central bank statutory restriction on core business operations triggers immediate hard veto.",
+      "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+      "status": "UNRESOLVED"
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "MEDIUM",
+    "directSourcesCount": 3,
+    "corroboratedCount": 0,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Leading merchant QR payment processor facing severe regulatory disruptions following central bank restrictions on associate payments bank.\". Qualitative status: BROKEN. Review before trade authorization."
+}

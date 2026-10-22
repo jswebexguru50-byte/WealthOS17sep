@@ -1,0 +1,526 @@
+{
+  "provider": "TRENDLYNE_MCP",
+  "endpoint": "statement_history_parameters",
+  "generatedAt": "2026-10-02T04:36:56.837Z",
+  "maxSymbolsPerCall": 10,
+  "maxMetricsPerCall": 50,
+  "requestedMetricCount": 50,
+  "parameterCodes": [
+    "srq",
+    "srqmq1",
+    "srqmq2",
+    "srqmq3",
+    "srqmy1",
+    "srqmq5",
+    "srqmq6",
+    "srqmq7",
+    "opq",
+    "opqmq1",
+    "opqmq2",
+    "opqmq3",
+    "opqmy1",
+    "opqmq5",
+    "opqmq6",
+    "opqmq7",
+    "npq",
+    "npqmq1",
+    "npqmq2",
+    "npqmq3",
+    "npqmy1",
+    "npqmq5",
+    "npqmq6",
+    "npqmq7",
+    "sra",
+    "sramy1",
+    "sramy2",
+    "sramy3",
+    "opa",
+    "opamy1",
+    "opamy2",
+    "npamy1",
+    "npamy2",
+    "cfoa",
+    "cfoamy1",
+    "cfoamy2",
+    "cfia",
+    "cfiamy1",
+    "capitalexpenditurea",
+    "capitalexpenditureq",
+    "capitalworkinprogressa",
+    "borrowingsa",
+    "inta",
+    "mcapq",
+    "pettm",
+    "bvshq",
+    "debtcea",
+    "roea",
+    "rocea",
+    "roica"
+  ],
+  "fieldMappings": [
+    {
+      "token": "srq",
+      "providerLabel": "Operating Rev. Qtr",
+      "canonicalMetric": "revenue",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 0,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "srqmq1",
+      "providerLabel": "Operating Rev.1Q Ago",
+      "canonicalMetric": "revenue",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 1,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "srqmq2",
+      "providerLabel": "Operating Rev. 2Q ago",
+      "canonicalMetric": "revenue",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 2,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "srqmq3",
+      "providerLabel": "Operating Rev. 3Q ago",
+      "canonicalMetric": "revenue",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 3,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "srqmy1",
+      "providerLabel": "Operating Rev. 4Q ago",
+      "canonicalMetric": "revenue",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 4,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "srqmq5",
+      "providerLabel": "Operating Rev. 5Q ago",
+      "canonicalMetric": "revenue",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 5,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "srqmq6",
+      "providerLabel": "Operating Rev. 6Q ago",
+      "canonicalMetric": "revenue",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 6,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "srqmq7",
+      "providerLabel": "Operating Rev. 7Q ago",
+      "canonicalMetric": "revenue",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 7,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "opq",
+      "providerLabel": "Operating Profit Qtr",
+      "canonicalMetric": "operating_profit",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 0,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "opqmq1",
+      "providerLabel": "Operating Profit 1Q Ago",
+      "canonicalMetric": "operating_profit",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 1,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "opqmq2",
+      "providerLabel": "Operating Profit 2Q Ago",
+      "canonicalMetric": "operating_profit",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 2,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "opqmq3",
+      "providerLabel": "Operating Profit 3Q Ago",
+      "canonicalMetric": "operating_profit",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 3,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "opqmy1",
+      "providerLabel": "Operating Profit 4Q Ago",
+      "canonicalMetric": "operating_profit",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 4,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "opqmq5",
+      "providerLabel": "Operating Profit 5Qtr Ago",
+      "canonicalMetric": "operating_profit",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 5,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "opqmq6",
+      "providerLabel": "Operating Profit 6Qtr Ago",
+      "canonicalMetric": "operating_profit",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 6,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "opqmq7",
+      "providerLabel": "Operating Profit 7Qtr Ago",
+      "canonicalMetric": "operating_profit",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 7,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "npq",
+      "providerLabel": "Net Profit Qtr",
+      "canonicalMetric": "pat",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 0,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "npqmq1",
+      "providerLabel": "Net Profit 1Q Ago",
+      "canonicalMetric": "pat",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 1,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "npqmq2",
+      "providerLabel": "Net Profit 2Q Ago",
+      "canonicalMetric": "pat",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 2,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "npqmq3",
+      "providerLabel": "Net Profit 3Q Ago",
+      "canonicalMetric": "pat",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 3,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "npqmy1",
+      "providerLabel": "Net Profit 4Q Ago",
+      "canonicalMetric": "pat",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 4,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "npqmq5",
+      "providerLabel": "Net Profit 5Q Ago",
+      "canonicalMetric": "pat",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 5,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "npqmq6",
+      "providerLabel": "Net Profit 6Q Ago",
+      "canonicalMetric": "pat",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 6,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "npqmq7",
+      "providerLabel": "Net Profit 7Q Ago",
+      "canonicalMetric": "pat",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 7,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "sra",
+      "providerLabel": "Total Rev. Ann.",
+      "canonicalMetric": "revenue",
+      "periodType": "ANNUAL",
+      "relativeOffset": 0,
+      "unit": "INR_CR",
+      "promotionPolicy": "ANNUAL_FY_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "sramy1",
+      "providerLabel": "Total Rev. Ann. 1Y Ago",
+      "canonicalMetric": "revenue",
+      "periodType": "ANNUAL",
+      "relativeOffset": 1,
+      "unit": "INR_CR",
+      "promotionPolicy": "ANNUAL_FY_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "sramy2",
+      "providerLabel": "Rev. Ann. 2Y ago",
+      "canonicalMetric": "revenue",
+      "periodType": "ANNUAL",
+      "relativeOffset": 2,
+      "unit": "INR_CR",
+      "promotionPolicy": "ANNUAL_FY_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "sramy3",
+      "providerLabel": "Rev. Ann. 3Y ago",
+      "canonicalMetric": "revenue",
+      "periodType": "ANNUAL",
+      "relativeOffset": 3,
+      "unit": "INR_CR",
+      "promotionPolicy": "ANNUAL_FY_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "opa",
+      "providerLabel": "Operating Profit Ann.",
+      "canonicalMetric": "operating_profit",
+      "periodType": "ANNUAL",
+      "relativeOffset": 0,
+      "unit": "INR_CR",
+      "promotionPolicy": "ANNUAL_FY_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "opamy1",
+      "providerLabel": "Operating Profit Ann. 1Y Ago",
+      "canonicalMetric": "operating_profit",
+      "periodType": "ANNUAL",
+      "relativeOffset": 1,
+      "unit": "INR_CR",
+      "promotionPolicy": "ANNUAL_FY_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "opamy2",
+      "providerLabel": "Operating Profit Ann. 2Y ago",
+      "canonicalMetric": "operating_profit",
+      "periodType": "ANNUAL",
+      "relativeOffset": 2,
+      "unit": "INR_CR",
+      "promotionPolicy": "ANNUAL_FY_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "npamy1",
+      "providerLabel": "Net Profit Ann. 1Y Ago",
+      "canonicalMetric": "pat",
+      "periodType": "ANNUAL",
+      "relativeOffset": 1,
+      "unit": "INR_CR",
+      "promotionPolicy": "ANNUAL_FY_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "npamy2",
+      "providerLabel": "Net Profit Ann. 2Y ago",
+      "canonicalMetric": "pat",
+      "periodType": "ANNUAL",
+      "relativeOffset": 2,
+      "unit": "INR_CR",
+      "promotionPolicy": "ANNUAL_FY_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "cfoa",
+      "providerLabel": "Cash from Operating Act. Ann.",
+      "canonicalMetric": "cfo",
+      "periodType": "ANNUAL",
+      "relativeOffset": 0,
+      "unit": "INR_CR",
+      "promotionPolicy": "ANNUAL_FY_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "cfoamy1",
+      "providerLabel": "Cash from Operating Act. Ann. 1Y Ago",
+      "canonicalMetric": "cfo",
+      "periodType": "ANNUAL",
+      "relativeOffset": 1,
+      "unit": "INR_CR",
+      "promotionPolicy": "ANNUAL_FY_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "cfoamy2",
+      "providerLabel": "Cash from Operating Act. Ann. 2Y Ago",
+      "canonicalMetric": "cfo",
+      "periodType": "ANNUAL",
+      "relativeOffset": 2,
+      "unit": "INR_CR",
+      "promotionPolicy": "ANNUAL_FY_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "cfia",
+      "providerLabel": "Cash from Investing Act. Ann.",
+      "canonicalMetric": "cash_from_investing",
+      "periodType": "ANNUAL",
+      "relativeOffset": 0,
+      "unit": "INR_CR",
+      "promotionPolicy": "ANNUAL_FY_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "cfiamy1",
+      "providerLabel": "Cash from Investing Act. Ann. 1Y Ago",
+      "canonicalMetric": "cash_from_investing",
+      "periodType": "ANNUAL",
+      "relativeOffset": 1,
+      "unit": "INR_CR",
+      "promotionPolicy": "ANNUAL_FY_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "capitalexpenditurea",
+      "providerLabel": "Capex Ann.",
+      "canonicalMetric": "capex_cash_outflow",
+      "periodType": "ANNUAL",
+      "relativeOffset": 0,
+      "unit": "INR_CR",
+      "promotionPolicy": "ANNUAL_FY_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "capitalexpenditureq",
+      "providerLabel": "Capex Qtr",
+      "canonicalMetric": "capex_cash_outflow",
+      "periodType": "QUARTERLY",
+      "relativeOffset": 0,
+      "unit": "INR_CR",
+      "promotionPolicy": "EXPLICIT_QUARTER_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "capitalworkinprogressa",
+      "providerLabel": "Capital Work In Progress Ann.",
+      "canonicalMetric": "capital_work_in_progress",
+      "periodType": "ANNUAL",
+      "relativeOffset": 0,
+      "unit": "INR_CR",
+      "promotionPolicy": "ANNUAL_FY_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "borrowingsa",
+      "providerLabel": "Borrowings Ann.",
+      "canonicalMetric": "borrowings",
+      "periodType": "ANNUAL",
+      "relativeOffset": 0,
+      "unit": "INR_CR",
+      "promotionPolicy": "ANNUAL_FY_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "inta",
+      "providerLabel": "Interest Ann.",
+      "canonicalMetric": "interest_expense",
+      "periodType": "ANNUAL",
+      "relativeOffset": 0,
+      "unit": "INR_CR",
+      "promotionPolicy": "ANNUAL_FY_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "mcapq",
+      "providerLabel": "Market Cap",
+      "canonicalMetric": "market_cap",
+      "periodType": "LATEST",
+      "relativeOffset": null,
+      "unit": "INR_CR",
+      "promotionPolicy": "CURRENT_SNAPSHOT_ONLY"
+    },
+    {
+      "token": "pettm",
+      "providerLabel": "PE TTM",
+      "canonicalMetric": "pe_ratio",
+      "periodType": "LATEST",
+      "relativeOffset": null,
+      "unit": "RATIO",
+      "promotionPolicy": "CURRENT_SNAPSHOT_ONLY"
+    },
+    {
+      "token": "bvshq",
+      "providerLabel": "BVSH Latest",
+      "canonicalMetric": "book_value",
+      "periodType": "LATEST",
+      "relativeOffset": null,
+      "unit": "PRICE",
+      "promotionPolicy": "CURRENT_SNAPSHOT_ONLY"
+    },
+    {
+      "token": "debtcea",
+      "providerLabel": "Total Debt to Total Equity Ann.",
+      "canonicalMetric": "debt_to_equity_reported",
+      "periodType": "ANNUAL",
+      "relativeOffset": 0,
+      "unit": "RATIO",
+      "promotionPolicy": "ANNUAL_FY_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "roea",
+      "providerLabel": "ROE Ann. %",
+      "canonicalMetric": "roe",
+      "periodType": "ANNUAL",
+      "relativeOffset": 0,
+      "unit": "PERCENTAGE",
+      "promotionPolicy": "ANNUAL_FY_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "rocea",
+      "providerLabel": "ROCE Ann. %",
+      "canonicalMetric": "roce_reported",
+      "periodType": "ANNUAL",
+      "relativeOffset": 0,
+      "unit": "PERCENTAGE",
+      "promotionPolicy": "ANNUAL_FY_ANCHOR_REQUIRED"
+    },
+    {
+      "token": "roica",
+      "providerLabel": "ROIC Ann. %",
+      "canonicalMetric": "roic",
+      "periodType": "ANNUAL",
+      "relativeOffset": 0,
+      "unit": "PERCENTAGE",
+      "promotionPolicy": "ANNUAL_FY_ANCHOR_REQUIRED"
+    }
+  ],
+  "promotionRules": {
+    "EXPLICIT_QUARTER_ANCHOR_REQUIRED": [
+      "Provider relative quarter labels such as 1Q Ago / 2Q Ago are not promoted as dated company_facts unless the same symbol has explicit Trendlyne quarter-end labels from a verified shareholding/period anchor.",
+      "Values remain raw provider snapshots when no explicit anchor exists."
+    ],
+    "ANNUAL_FY_ANCHOR_REQUIRED": [
+      "Provider relative annual labels are anchored only from a same-symbol explicit latest quarter-end label.",
+      "Derived annual period ends use Indian March fiscal year-end and remain VERIFIED_PARTIAL until official filing evidence independently confirms the exact period."
+    ],
+    "CURRENT_SNAPSHOT_ONLY": [
+      "Latest point-in-time provider values are retained as current snapshots and are not treated as historical dated facts."
+    ]
+  },
+  "nonSyntheticPolicy": "No missing value is defaulted or inferred. Unavailable provider values remain unavailable."
+}

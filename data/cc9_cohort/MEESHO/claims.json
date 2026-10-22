@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_MEESHO_01",
+    "issuerNseSymbol": "MEESHO",
+    "issuerBseCode": "MEESHO",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Scale e-commerce marketplace revenue past ₹7,000 Cr while sustaining operating cash flow breakeven.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 5735,
+    "expectedValue": 7000,
+    "expectedOutcome": "Revenue >= ₹7,000 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_MEESHO_REV_01",
+    "claimDate": "2023-08-15",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 7615,
+    "actualOutcomeDescription": "Delivered ₹7,615 Cr revenue turning sustainably operating cash flow positive.",
+    "evaluationEvidenceId": "EV_MEESHO_REV_01",
+    "evaluationDate": "2024-06-20",
+    "evaluationBasis": "Statutory Financial Filings ROC",
+    "publicationDate": "2023-08-15",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_MEESHO_01"
+  }
+]

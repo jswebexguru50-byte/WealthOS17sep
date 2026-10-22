@@ -1,0 +1,19 @@
+{
+  "symbol": "GROWW",
+  "coreThesisStatement": "Market leader in Indian retail stock broking and mutual fund investments capturing the lion's share of first-time digital investors.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Active Client Moat",
+      "description": "Largest active client base on the National Stock Exchange."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Wealth Platform Expansion",
+      "description": "Rapidly cross-selling consumer credit, margin trade funding, and AMC products."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_GROWW_LEVERAGE"
+  ]
+}

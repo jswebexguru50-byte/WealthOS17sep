@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "r1:fingerprint": "node scripts/fingerprint_v6.2_baseline.mjs",
+    "r1:gate": "node scripts/run_r1_gate.mjs",
+    "r1:test": "vitest run tests/unit/point_in_time_data_integrity.test.ts tests/integration/r1_integrated_fixture.test.ts --reporter=verbose",
+    "v63:e2e": "node scripts/run_v6.3_e2e.mjs",
+    "v63:typecheck": "tsc --noEmit"
+  }
+}

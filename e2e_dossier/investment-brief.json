@@ -1,0 +1,109 @@
+{
+  "symbol": "SOLARINDS",
+  "companyName": "Solar Industries India Ltd",
+  "marketCapTier": "LARGECAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-15T14:40:00.000Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "STRONG",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "HIGH",
+    "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence, credible execution, and zero active thesis breakers."
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "HIGH",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity supported by clean qualitative intelligence, credible execution, and zero active thesis breakers."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 7/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 96/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#SOLARINDS",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Defense ammunition deliveries to begin ramp-up in FY25.",
+      "detail": "Disclosed actual outcome: Quarterly defense export dispatches reached ₹1,250 Cr",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_SOLAR_AR24_P42 -> Resolution#EV_SOLAR_DISCLOSURE_Q4",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "SOLARINDS",
+    "grade": "STRONG",
+    "totalClaims": 1,
+    "achievedCount": 1,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_SOLAR_DEFENSE_01",
+        "statement": "Defense ammunition deliveries to begin ramp-up in FY25.",
+        "period": "FY24",
+        "expected": "Quarterly dispatches > ₹1,000 Cr",
+        "actual": "Quarterly defense export dispatches reached ₹1,250 Cr",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_SOLAR_AR24_P42 -> Resolution#EV_SOLAR_DISCLOSURE_Q4"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_SOLARINDS"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_SOLARINDS"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-11-20",
+      "source": "BSE_DISCLOSURE",
+      "headline": "Solar Industries secures ₹887 Cr export order for pinaka rocket propellant",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_SOLAR_LEVERAGE",
+      "name": "Solvency Headroom Preservation",
+      "description": "Net Debt / EBITDA must not breach 2.5x",
+      "type": "QUANTITATIVE",
+      "evaluationMethod": "METRIC_THRESHOLD",
+      "conditionText": "Net Debt / EBITDA > 2.5",
+      "currentObservedValue": 0.35,
+      "status": "INACTIVE",
+      "severity": "HIGH",
+      "rationale": "Metric within safe boundaries: net_debt_to_ebitda (0.35) does not violate > 2.5."
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "HIGH",
+    "directSourcesCount": 4,
+    "corroboratedCount": 1,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: Defense ammunition scaling and multi-year export order backlog sustain compounding returns (>25% ROCE) with low balance sheet leverage. Qualitative status: SUPPORTED. Review before trade authorization."
+}

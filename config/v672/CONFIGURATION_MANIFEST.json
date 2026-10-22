@@ -1,0 +1,258 @@
+{
+  "manifestVersion": "1.0.0",
+  "generatedAt": "2026-09-18T10:30:51.992Z",
+  "configurations": [
+    {
+      "configurationId": "C01",
+      "configurationName": "C01_TECHNICAL_BASELINE",
+      "configurationHash": "d558c09f79c908729ed3e0d320accd016d5fce4e48902bf741de6c17a10d3748",
+      "createdAt": "2023-11-15T09:00:00.000Z",
+      "modifiedAt": "2023-12-15T18:00:00.000Z",
+      "strategyIds": [
+        "S1",
+        "S2",
+        "S3",
+        "S11"
+      ],
+      "engineIds": [
+        "AlphaEngine",
+        "RiskRemediationEngine"
+      ],
+      "parametersHash": "7c3b15c7ea078df0024bba26c003de593061e865922057f5181c7f6f09704a99",
+      "dataSnapshotHash": "48ef136ae2dc13540a3763e08c1772998164f5f3001dd76e2b8db705b809dd2e",
+      "oosLocked": true,
+      "oosStart": "2024-01-01"
+    },
+    {
+      "configurationId": "C02",
+      "configurationName": "C02_TECH_MOMENTUM_OVERLAY",
+      "configurationHash": "0090f9987b8c2acbe5e353f59a889a7842836e317424e74f3cceacc1c054dbb1",
+      "createdAt": "2023-11-15T09:00:00.000Z",
+      "modifiedAt": "2023-12-15T18:00:00.000Z",
+      "strategyIds": [
+        "S1",
+        "S2",
+        "S3",
+        "S11"
+      ],
+      "engineIds": [
+        "AlphaEngine",
+        "RiskRemediationEngine"
+      ],
+      "parametersHash": "fa212cb8298e17405bd236f9e9e4082fdfff1a094d49f213d7b071193c199325",
+      "dataSnapshotHash": "48ef136ae2dc13540a3763e08c1772998164f5f3001dd76e2b8db705b809dd2e",
+      "oosLocked": true,
+      "oosStart": "2024-01-01"
+    },
+    {
+      "configurationId": "C03",
+      "configurationName": "C03_TECH_MOM_BREAKOUT",
+      "configurationHash": "e50eb586adaaef8153654db428857f2657be4b520bfc25a64419462f2bab36e2",
+      "createdAt": "2023-11-15T09:00:00.000Z",
+      "modifiedAt": "2023-12-15T18:00:00.000Z",
+      "strategyIds": [
+        "S1",
+        "S2",
+        "S3",
+        "S11"
+      ],
+      "engineIds": [
+        "AlphaEngine",
+        "RiskRemediationEngine"
+      ],
+      "parametersHash": "ae9c75c136ad2e2494b54125d6ea659a4906022a80479ecc04c0a64f70c4fd49",
+      "dataSnapshotHash": "48ef136ae2dc13540a3763e08c1772998164f5f3001dd76e2b8db705b809dd2e",
+      "oosLocked": true,
+      "oosStart": "2024-01-01"
+    },
+    {
+      "configurationId": "C04",
+      "configurationName": "C04_FOUR_STRATEGY_CORE",
+      "configurationHash": "d017020614f0c7b8968737fff25784986ba2f37cd53cb34a1f3c261916411a39",
+      "createdAt": "2023-11-15T09:00:00.000Z",
+      "modifiedAt": "2023-12-15T18:00:00.000Z",
+      "strategyIds": [
+        "S1",
+        "S2",
+        "S3",
+        "S11"
+      ],
+      "engineIds": [
+        "AlphaEngine",
+        "RiskRemediationEngine"
+      ],
+      "parametersHash": "4fc1e0a39e7035ea3124c2308e789a09093adf4824c430cfca70dc7735a47c3c",
+      "dataSnapshotHash": "48ef136ae2dc13540a3763e08c1772998164f5f3001dd76e2b8db705b809dd2e",
+      "oosLocked": true,
+      "oosStart": "2024-01-01"
+    },
+    {
+      "configurationId": "C05",
+      "configurationName": "C05_CORE_PLUS_DRAWDOWN_THROTTLE",
+      "configurationHash": "45686d6d4eab1ccd8455a1982917e9b6be2fb723e0fd7194f5e7e2603513bea1",
+      "createdAt": "2023-11-15T09:00:00.000Z",
+      "modifiedAt": "2023-12-15T18:00:00.000Z",
+      "strategyIds": [
+        "S1",
+        "S2",
+        "S3",
+        "S11"
+      ],
+      "engineIds": [
+        "AlphaEngine",
+        "RiskRemediationEngine"
+      ],
+      "parametersHash": "d950bbea0bfe10d2bdb3a49cc3bc9e3cac844927c6c2bb23c335b8e87dc3854d",
+      "dataSnapshotHash": "48ef136ae2dc13540a3763e08c1772998164f5f3001dd76e2b8db705b809dd2e",
+      "oosLocked": true,
+      "oosStart": "2024-01-01"
+    },
+    {
+      "configurationId": "C06",
+      "configurationName": "C06_CORE_PLUS_ATR_POSITION_SIZING",
+      "configurationHash": "fbe0bd893298748526c880162e91941039d13348d263a85c66d82f3ec772f46a",
+      "createdAt": "2023-11-15T09:00:00.000Z",
+      "modifiedAt": "2023-12-15T18:00:00.000Z",
+      "strategyIds": [
+        "S1",
+        "S2",
+        "S3",
+        "S11"
+      ],
+      "engineIds": [
+        "AlphaEngine",
+        "RiskRemediationEngine"
+      ],
+      "parametersHash": "3fb94fe52b1d0735b7a867019dcf823ffc437f7dfb53e80f1532837c91858166",
+      "dataSnapshotHash": "48ef136ae2dc13540a3763e08c1772998164f5f3001dd76e2b8db705b809dd2e",
+      "oosLocked": true,
+      "oosStart": "2024-01-01"
+    },
+    {
+      "configurationId": "C07",
+      "configurationName": "C07_CORE_PLUS_VOLATILITY_BURST",
+      "configurationHash": "2199044cde71fbca9d5506112feedac66c2d68cd2aada5d11e264e4b2bc6528f",
+      "createdAt": "2023-11-15T09:00:00.000Z",
+      "modifiedAt": "2023-12-15T18:00:00.000Z",
+      "strategyIds": [
+        "S1",
+        "S2",
+        "S3",
+        "S11"
+      ],
+      "engineIds": [
+        "AlphaEngine",
+        "RiskRemediationEngine"
+      ],
+      "parametersHash": "13acdfc21989e088c38538ab8d7fdc1e302399e8d1f136ea0527c903f630ffb9",
+      "dataSnapshotHash": "48ef136ae2dc13540a3763e08c1772998164f5f3001dd76e2b8db705b809dd2e",
+      "oosLocked": true,
+      "oosStart": "2024-01-01"
+    },
+    {
+      "configurationId": "C08",
+      "configurationName": "C08_CORE_PLUS_CORRELATION_CAP",
+      "configurationHash": "722f0886c8edbdfd52c7064101b9a2bc0e30a2e10ab71d45d269aad3325ec205",
+      "createdAt": "2023-11-15T09:00:00.000Z",
+      "modifiedAt": "2023-12-15T18:00:00.000Z",
+      "strategyIds": [
+        "S1",
+        "S2",
+        "S3",
+        "S11"
+      ],
+      "engineIds": [
+        "AlphaEngine",
+        "RiskRemediationEngine"
+      ],
+      "parametersHash": "c27ae5515cbd0d96ea52d7681ff0062856a7163620df9befee52c0442b69de51",
+      "dataSnapshotHash": "48ef136ae2dc13540a3763e08c1772998164f5f3001dd76e2b8db705b809dd2e",
+      "oosLocked": true,
+      "oosStart": "2024-01-01"
+    },
+    {
+      "configurationId": "C09",
+      "configurationName": "C09_CORE_PLUS_CONCENTRATION_CAP",
+      "configurationHash": "ddc1accdbb81d0319c77f441129a7a6e982fd6172eb7686cee96e978d8aa2e02",
+      "createdAt": "2023-11-15T09:00:00.000Z",
+      "modifiedAt": "2023-12-15T18:00:00.000Z",
+      "strategyIds": [
+        "S1",
+        "S2",
+        "S3",
+        "S11"
+      ],
+      "engineIds": [
+        "AlphaEngine",
+        "RiskRemediationEngine"
+      ],
+      "parametersHash": "1c58fb11dae3ca2cb88e45a6c9624e338a7b5ce80259767bb63518b82145aa99",
+      "dataSnapshotHash": "48ef136ae2dc13540a3763e08c1772998164f5f3001dd76e2b8db705b809dd2e",
+      "oosLocked": true,
+      "oosStart": "2024-01-01"
+    },
+    {
+      "configurationId": "C10",
+      "configurationName": "C10_CORE_PLUS_LIQUIDITY_FILTER",
+      "configurationHash": "3cafa1d960a323c4124eae12d952e882074e274ede9bdcc639f83a6a5168c463",
+      "createdAt": "2023-11-15T09:00:00.000Z",
+      "modifiedAt": "2023-12-15T18:00:00.000Z",
+      "strategyIds": [
+        "S1",
+        "S2",
+        "S3",
+        "S11"
+      ],
+      "engineIds": [
+        "AlphaEngine",
+        "RiskRemediationEngine"
+      ],
+      "parametersHash": "f2d8b206d2e8a0f15058f6ef5870c7b914149a97efc20cb1d252e0e2edda8bef",
+      "dataSnapshotHash": "48ef136ae2dc13540a3763e08c1772998164f5f3001dd76e2b8db705b809dd2e",
+      "oosLocked": true,
+      "oosStart": "2024-01-01"
+    },
+    {
+      "configurationId": "C11",
+      "configurationName": "C11_PARTIAL_RISK_COMPOSITE",
+      "configurationHash": "fe1aafd9445b37439f20dbe5cf9c33cb77540aea7740fc743774961a5a699501",
+      "createdAt": "2023-11-15T09:00:00.000Z",
+      "modifiedAt": "2023-12-15T18:00:00.000Z",
+      "strategyIds": [
+        "S1",
+        "S2",
+        "S3",
+        "S11"
+      ],
+      "engineIds": [
+        "AlphaEngine",
+        "RiskRemediationEngine"
+      ],
+      "parametersHash": "886ad3d626b27d536ffa5883222d287c9ee8681fbecd67ab100871dcae144d18",
+      "dataSnapshotHash": "48ef136ae2dc13540a3763e08c1772998164f5f3001dd76e2b8db705b809dd2e",
+      "oosLocked": true,
+      "oosStart": "2024-01-01"
+    },
+    {
+      "configurationId": "C12",
+      "configurationName": "C12_FULL_ALPHA_RISK_COMPOSITE",
+      "configurationHash": "3c457bf080f3088392f4bde5a3c090d2166509e575ce4216feedc14d41f7b092",
+      "createdAt": "2023-11-15T09:00:00.000Z",
+      "modifiedAt": "2023-12-15T18:00:00.000Z",
+      "strategyIds": [
+        "S1",
+        "S2",
+        "S3",
+        "S11"
+      ],
+      "engineIds": [
+        "AlphaEngine",
+        "RiskRemediationEngine"
+      ],
+      "parametersHash": "2d550239bdb283006ab4482426af1a17d69e414afacfe8ad62f3c2522cbf7ad6",
+      "dataSnapshotHash": "48ef136ae2dc13540a3763e08c1772998164f5f3001dd76e2b8db705b809dd2e",
+      "oosLocked": true,
+      "oosStart": "2024-01-01"
+    }
+  ]
+}

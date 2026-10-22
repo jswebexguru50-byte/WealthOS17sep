@@ -1,0 +1,19 @@
+{
+  "symbol": "PAYTM",
+  "coreThesisStatement": "Leading merchant QR payment processor facing severe regulatory disruptions following central bank restrictions on associate payments bank.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Merchant QR Network",
+      "description": "Over 10 million active merchant soundbox and QR devices deployed."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Loan Distribution",
+      "description": "Financial services distribution partnerships with commercial banks and NBFCs."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_PAYTM_REGULATORY"
+  ]
+}

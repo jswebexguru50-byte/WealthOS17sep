@@ -1,0 +1,17 @@
+{
+  "issuerNseSymbol": "M&M",
+  "issuerBseCode": "500520",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_MM_AR24",
+      "documentName": "Mahindra_Annual_Report_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-22",
+      "documentHashSha256": "bcdef0123456789abcdef0123456789abcdef0123456789ab",
+      "pageCount": 360,
+      "filingAuthority": "BSE / NSE"
+    }
+  ]
+}

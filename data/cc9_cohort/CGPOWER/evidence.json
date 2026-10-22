@@ -1,0 +1,26 @@
+[
+  {
+    "evidenceId": "EV_CGPOWER_REV_01",
+    "issuerNseSymbol": "CGPOWER",
+    "issuerBseCode": "500093",
+    "documentId": "DOC_CGPOWER_AR24",
+    "documentHash": "ef0123456789abcdef0123456789abcdef0123456789abcde",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated revenue for FY24 reached ₹8046 Cr with industrial motors and rail systems operating at peak capacity.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_CGPOWER_ORDER_01",
+    "issuerNseSymbol": "CGPOWER",
+    "issuerBseCode": "500093",
+    "documentId": "DOC_CGPOWER_AR24",
+    "documentHash": "ef0123456789abcdef0123456789abcdef0123456789abcde",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 52,
+    "pagePrinted": "50",
+    "quotedText": "Total confirmed order book stood at ₹6276 Cr as of 31st March 2024.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

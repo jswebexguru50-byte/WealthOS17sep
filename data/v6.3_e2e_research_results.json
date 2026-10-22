@@ -1,0 +1,383 @@
+{
+  "runId": "RUN-V63-E2E-1789622948116",
+  "baselineTag": "v6.2.0-FROZEN",
+  "timestamp": "2026-09-17T05:29:08.305Z",
+  "arms": {
+    "armA_Raw": {
+      "metrics": {
+        "trades": 360,
+        "netPnl": 188079.46999999977,
+        "expectancyR": 0.10130666666666663,
+        "profitFactor": 1.1426292610517026,
+        "maxDrawdownPct": 0,
+        "calmar": 0,
+        "sortino": 0,
+        "winRate": 0.4222222222222222,
+        "meanMAE": -0.053909166666666834,
+        "meanMFE": 0.03277361111111109
+      },
+      "bootstrap": {
+        "lower": -0.03985815277777777,
+        "median": 0.10129083333333325,
+        "upper": 0.25099827083333337,
+        "pPositive": 0.905,
+        "pAbove020": 0.089
+      }
+    },
+    "armB_Overlay": {
+      "metrics": {
+        "trades": 270,
+        "netPnl": 137322.11000000013,
+        "expectancyR": 0.1011162962962964,
+        "profitFactor": 1.1419996068702225,
+        "maxDrawdownPct": 0,
+        "calmar": 0,
+        "sortino": 0,
+        "winRate": 0.4222222222222222,
+        "meanMAE": -0.047944074074074146,
+        "meanMFE": 0.0413537037037037
+      },
+      "bootstrap": {
+        "lower": -0.07603039814814824,
+        "median": 0.10111129629629621,
+        "upper": 0.2893244629629631,
+        "pPositive": 0.879,
+        "pAbove020": 0.156
+      },
+      "gateResult": "RETAIN AS RISK CONTROL"
+    },
+    "armC_Challengers": {
+      "metrics": {
+        "trades": 120,
+        "netPnl": 146548.12,
+        "expectancyR": 0.2339750000000003,
+        "profitFactor": 1.3692698995688894,
+        "maxDrawdownPct": 0,
+        "calmar": 0,
+        "sortino": 0,
+        "winRate": 0.4666666666666667,
+        "meanMAE": -0.039327499999999974,
+        "meanMFE": 0.0687791666666667
+      },
+      "bootstrap": {
+        "lower": -0.040039187500000024,
+        "median": 0.20912375,
+        "upper": 0.4831403125000002,
+        "pPositive": 0.957,
+        "pAbove020": 0.594
+      },
+      "gateResult": "REJECT/REVISE"
+    },
+    "armD_RiskOracle": {
+      "theoreticalTrades": 360,
+      "oracleNetRMultiple": 1039.7502225282062,
+      "selectionEfficiency": 2.8881950625783506,
+      "note": "Upper-bound diagnostic only; uses realized future path and is never an executable arm."
+    }
+  },
+  "tradeIdentityLedgerSummary": {
+    "totalTradesRecorded": 750,
+    "armATrades": 360,
+    "armBTrades": 270,
+    "armCTrades": 120,
+    "overlayRejectionCount": 90
+  },
+  "ablation": {
+    "cumulative": [
+      {
+        "layer": "RAW",
+        "metrics": {
+          "trades": 360,
+          "netPnl": 188079.46999999977,
+          "expectancyR": 0.10130666666666663,
+          "profitFactor": 1.1426292610517026,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0.4222222222222222,
+          "meanMAE": -0.053909166666666834,
+          "meanMFE": 0.03277361111111109
+        }
+      },
+      {
+        "layer": "RAW+SIGNAL_QUALITY",
+        "metrics": {
+          "trades": 288,
+          "netPnl": -5477.2099999999955,
+          "expectancyR": 0.0008729166666666484,
+          "profitFactor": 0.9946325045589373,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0.3888888888888889,
+          "meanMAE": -0.052550000000000104,
+          "meanMFE": 0.033955555555555544
+        }
+      },
+      {
+        "layer": "RAW+SIGNAL_QUALITY+RISK_SIZING",
+        "metrics": {
+          "trades": 288,
+          "netPnl": -5477.2099999999955,
+          "expectancyR": 0.0008729166666666484,
+          "profitFactor": 0.9946325045589373,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0.3888888888888889,
+          "meanMAE": -0.052550000000000104,
+          "meanMFE": 0.033955555555555544
+        }
+      },
+      {
+        "layer": "RAW+SIGNAL_QUALITY+RISK_SIZING+GAP_RISK",
+        "metrics": {
+          "trades": 259,
+          "netPnl": 29053.549999999956,
+          "expectancyR": 0.027380694980694897,
+          "profitFactor": 1.0313576055723932,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0.39768339768339767,
+          "meanMAE": -0.04997065637065647,
+          "meanMFE": 0.037950193050193044
+        }
+      },
+      {
+        "layer": "RAW+SIGNAL_QUALITY+RISK_SIZING+GAP_RISK+CAPITAL_PROTECTION",
+        "metrics": {
+          "trades": 259,
+          "netPnl": 29053.549999999956,
+          "expectancyR": 0.027380694980694897,
+          "profitFactor": 1.0313576055723932,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0.39768339768339767,
+          "meanMAE": -0.04997065637065647,
+          "meanMFE": 0.037950193050193044
+        }
+      },
+      {
+        "layer": "RAW+SIGNAL_QUALITY+RISK_SIZING+GAP_RISK+CAPITAL_PROTECTION+EXIT_FRAMEWORK",
+        "metrics": {
+          "trades": 259,
+          "netPnl": 29053.549999999956,
+          "expectancyR": 0.027380694980694897,
+          "profitFactor": 1.0313576055723932,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0.39768339768339767,
+          "meanMAE": -0.04997065637065647,
+          "meanMFE": 0.037950193050193044
+        }
+      }
+    ],
+    "leaveOneOut": [
+      {
+        "removedLayer": "SIGNAL_QUALITY",
+        "metrics": {
+          "trades": 324,
+          "netPnl": 87370.39000000003,
+          "expectancyR": 0.05669074074074062,
+          "profitFactor": 1.0746473909059144,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0.4074074074074074,
+          "meanMAE": -0.05330524691358036,
+          "meanMFE": 0.03329907407407405
+        }
+      },
+      {
+        "removedLayer": "RISK_SIZING",
+        "metrics": {
+          "trades": 259,
+          "netPnl": 29053.549999999956,
+          "expectancyR": 0.027380694980694897,
+          "profitFactor": 1.0313576055723932,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0.39768339768339767,
+          "meanMAE": -0.04997065637065647,
+          "meanMFE": 0.037950193050193044
+        }
+      },
+      {
+        "removedLayer": "GAP_RISK",
+        "metrics": {
+          "trades": 288,
+          "netPnl": -5477.2099999999955,
+          "expectancyR": 0.0008729166666666484,
+          "profitFactor": 0.9946325045589373,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0.3888888888888889,
+          "meanMAE": -0.052550000000000104,
+          "meanMFE": 0.033955555555555544
+        }
+      },
+      {
+        "removedLayer": "CAPITAL_PROTECTION",
+        "metrics": {
+          "trades": 259,
+          "netPnl": 29053.549999999956,
+          "expectancyR": 0.027380694980694897,
+          "profitFactor": 1.0313576055723932,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0.39768339768339767,
+          "meanMAE": -0.04997065637065647,
+          "meanMFE": 0.037950193050193044
+        }
+      },
+      {
+        "removedLayer": "EXIT_FRAMEWORK",
+        "metrics": {
+          "trades": 259,
+          "netPnl": 29053.549999999956,
+          "expectancyR": 0.027380694980694897,
+          "profitFactor": 1.0313576055723932,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0.39768339768339767,
+          "meanMAE": -0.04997065637065647,
+          "meanMFE": 0.037950193050193044
+        }
+      }
+    ]
+  },
+  "costSensitivity": [
+    {
+      "multiplier": 0.75,
+      "expectancyR": 0.1264,
+      "netPnl": 177826,
+      "winRate": 0.4222
+    },
+    {
+      "multiplier": 1,
+      "expectancyR": 0.1011,
+      "netPnl": 137322,
+      "winRate": 0.4222
+    },
+    {
+      "multiplier": 1.25,
+      "expectancyR": 0.0759,
+      "netPnl": 100451,
+      "winRate": 0.4222
+    },
+    {
+      "multiplier": 1.5,
+      "expectancyR": 0.0506,
+      "netPnl": 64487,
+      "winRate": 0.4222
+    },
+    {
+      "multiplier": 2,
+      "expectancyR": 0.0001,
+      "netPnl": -6084,
+      "winRate": 0.4222
+    }
+  ],
+  "walkForward": {
+    "arm": "B_V62_OVERLAY",
+    "windows": [
+      {
+        "window": {
+          "trainStart": "2023-01-02",
+          "trainEnd": "2023-07-02",
+          "oosStart": "2023-07-02",
+          "oosEnd": "2023-09-02"
+        },
+        "metrics": {
+          "trades": 36,
+          "netPnl": -30109.839999999993,
+          "expectancyR": -0.1653305555555556,
+          "profitFactor": 0.7807979753225692,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0.3333333333333333,
+          "meanMAE": -0.04911944444444443,
+          "meanMFE": 0.03500000000000001
+        },
+        "bootstrap": {
+          "lower": -0.5805249999999998,
+          "median": -0.16533611111111104,
+          "upper": 0.33285833333333337,
+          "pPositive": 0.2842,
+          "pAbove020": 0.0554
+        }
+      },
+      {
+        "window": {
+          "trainStart": "2023-03-02",
+          "trainEnd": "2023-09-02",
+          "oosStart": "2023-09-02",
+          "oosEnd": "2023-11-02"
+        },
+        "metrics": {
+          "trades": 36,
+          "netPnl": 60477.13,
+          "expectancyR": 0.33334444444444444,
+          "profitFactor": 1.557013312771002,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0.5,
+          "meanMAE": -0.04653888888888888,
+          "meanMFE": 0.04474444444444445
+        },
+        "bootstrap": {
+          "lower": -0.16485555555555556,
+          "median": 0.3333444444444444,
+          "upper": 0.8315444444444442,
+          "pPositive": 0.934,
+          "pAbove020": 0.6902
+        }
+      },
+      {
+        "window": {
+          "trainStart": "2023-05-02",
+          "trainEnd": "2023-11-02",
+          "oosStart": "2023-11-02",
+          "oosEnd": "2024-01-02"
+        },
+        "metrics": {
+          "trades": 36,
+          "netPnl": 60229.77000000001,
+          "expectancyR": 0.3333722222222224,
+          "profitFactor": 1.5553204754439174,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0.5,
+          "meanMAE": -0.042380555555555546,
+          "meanMFE": 0.05251388888888888
+        },
+        "bootstrap": {
+          "lower": -0.16485277777777774,
+          "median": 0.3333666666666666,
+          "upper": 0.7507005555555252,
+          "pPositive": 0.9314,
+          "pAbove020": 0.6802
+        }
+      }
+    ]
+  },
+  "promotionStatus": {
+    "armB_v62_Overlay": "RETAIN AS RISK CONTROL",
+    "challengers_S8B_S21_S26": "REJECT/REVISE"
+  },
+  "provenanceSignatures": {
+    "r1LockboxStatus": "PASSED",
+    "frozenBaselineHash": "76e9695320fb3549f9e18452f9326d1a64aef11e47d545b258fc31d2f7e10969",
+    "allTestsPassed": true
+  }
+}

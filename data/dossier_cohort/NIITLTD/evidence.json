@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_NIITLTD_REV_FY26",
+    "issuerNseSymbol": "NIITLTD",
+    "issuerBseCode": "516616",
+    "documentHash": "c5ce5dc89e326998da6e8a93355aea7c047f60b7b202d5a4e14453be64dd7801",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹1092 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_NIITLTD_PAT_FY26",
+    "issuerNseSymbol": "NIITLTD",
+    "issuerBseCode": "516616",
+    "documentHash": "c5ce5dc89e326998da6e8a93355aea7c047f60b7b202d5a4e14453be64dd7801",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹131 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_NIITLTD_DEBT_FY26",
+    "issuerNseSymbol": "NIITLTD",
+    "issuerBseCode": "516616",
+    "documentHash": "0fca6b895bb76c561034ab377d48f80c053fa8de6b6b0f5ffd6de94e07ff9c2d",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_NIITLTD_CONCALL_Q4FY26",
+    "issuerNseSymbol": "NIITLTD",
+    "issuerBseCode": "516616",
+    "documentHash": "034aaac549ca60f92e6798813cdf24a1180758f69f0fdda0f7bba051f26d22a2",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

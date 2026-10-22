@@ -1,0 +1,42 @@
+{
+  "symbol": "SOLARINDS",
+  "evaluatedBreakers": [
+    {
+      "breakerId": "TB_SOLAR_LEVERAGE",
+      "name": "Solvency Headroom Preservation",
+      "description: "Net Debt / EBITDA must not breach 2.5x",
+      "type": "QUANTITATIVE",
+      "evaluationMethod": "METRIC_THRESHOLD",
+      "conditionText": "Net Debt / EBITDA > 2.5",
+      "quantitativeCondition": {
+        "metric": "net_debt_to_ebitda",
+        "operator": ">",
+        "threshold": 2.5,
+        "evaluationPeriod": "annual",
+        "evidenceRequired": true
+      },
+      "currentObservedValue": 0.35,
+      "status": "INACTIVE",
+      "severity": "HIGH",
+      "rationale": "Metric within safe boundaries: net_debt_to_ebitda (0.35) does not violate > 2.5."
+    },
+    {
+      "breakerId": "TB_SOLAR_EXPORT_REGULATORY",
+      "name": "Defense Export Regulatory Sanctions",
+      "description": "Major regulatory sanction impairs core defense export licenses",
+      "type": "QUALITATIVE",
+      "evaluationMethod": "EVENT_MATCH",
+      "conditionText": "Major regulatory action of CRITICAL or HIGH materiality",
+      "qualitativeCondition": {
+        "eventCategory": "REGULATORY",
+        "materiality": "HIGH",
+        "requiresPrimaryEvidence": true
+      },
+      "currentObservedValue": null,
+      "status": "INACTIVE",
+      "severity": "CRITICAL",
+      "rationale": "No material adverse events observed matching category 'REGULATORY'."
+    }
+  ],
+  "activeBreakersCount": 0
+}

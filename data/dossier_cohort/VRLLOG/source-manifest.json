@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "VRLLOG",
+  "issuerBseCode": "514570",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_VRLLOG_AR2024",
+      "documentName": "VRLLOG_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "c04f980b754602d4b706117ca86436ddf0f900bcae393351021be84261c8c222",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_VRLLOG_AUDITED_RESULTS",
+      "documentName": "VRLLOG_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "9188a95fe755dcb13cba41765618544ba64a4f0302f2d16dc96b287ef4baf2ff",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_VRLLOG_CONCALL_Q4FY26",
+      "documentName": "VRLLOG_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "4fd85b21c780f68cc0144e770b2c7d84043e94ccdb4fd856a1f8347ee598597d",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

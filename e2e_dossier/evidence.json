@@ -1,0 +1,33 @@
+{
+  "symbol": "SOLARINDS",
+  "evidenceSpans": [
+    {
+      "evidenceId": "EV_SOLAR_AR24_P42",
+      "issuerNseSymbol": "SOLARINDS",
+      "issuerBseCode": "532725",
+      "documentId": "DOC_SOLAR_AR24",
+      "documentHash": "8fa3211b439c8123abcdef8901234567890abcdef1234567890abcdef1234567",
+      "documentType": "ANNUAL_REPORT",
+      "pagePhysical": 42,
+      "pagePrinted": 38,
+      "quotedText": "Defense export order backlog stands at ₹4,100 Cr with commercial execution commencing in Q4.",
+      "verificationStatus": "EXACT",
+      "citationClassification": "SUBSTANTIVE_BODY_TEXT",
+      "discoveredAt": "2026-09-15T11:00:00.000Z"
+    },
+    {
+      "evidenceId": "EV_SOLAR_DISCLOSURE_Q4",
+      "issuerNseSymbol": "SOLARINDS",
+      "issuerBseCode": "532725",
+      "documentId": "DOC_SOLAR_BSE_Q4_DISCLOSURE",
+      "documentHash": "3492fcfa0dfb8913303af9543e35a11bb58742884eb7058867a57a1b9c9f0b18",
+      "documentType": "EXCHANGE_FILING",
+      "pagePhysical": 5,
+      "pagePrinted": 5,
+      "quotedText": "Export defense deliveries reached ₹1,250 Cr for the quarter, matching guidance.",
+      "verificationStatus": "EXACT",
+      "citationClassification": "SUBSTANTIVE_BODY_TEXT",
+      "discoveredAt": "2026-09-15T11:05:00.000Z"
+    }
+  ]
+}

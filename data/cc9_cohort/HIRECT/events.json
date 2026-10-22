@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_HIRECT_01",
+    "issuerNseSymbol": "HIRECT",
+    "issuerBseCode": "504080",
+    "eventDate": "2024-03-15",
+    "category": "ORDER_BOOK",
+    "headline": "Locomotive Converter Supply Contract Awarded",
+    "description": "Secured high-value traction converter contract for Chittaranjan Locomotive Works.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_HIRECT_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

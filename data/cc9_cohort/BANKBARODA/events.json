@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_BOB_01",
+    "issuerNseSymbol": "BANKBARODA",
+    "issuerBseCode": "532134",
+    "eventDate": "2024-05-08",
+    "category": "REGULATORY",
+    "headline": "RBI Lifts Operational Restrictions on bob World Mobile App",
+    "description": "Reserve Bank of India officially revoked the supervisory restriction on onboarding new customers through the bob World application.",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "REGULATORY_ORDER",
+    "evidenceId": "EV_BOB_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

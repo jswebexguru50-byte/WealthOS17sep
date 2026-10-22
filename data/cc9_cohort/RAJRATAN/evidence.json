@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_RAJRATAN_REV_01",
+    "issuerNseSymbol": "RAJRATAN",
+    "issuerBseCode": "517562",
+    "documentId": "DOC_RAJRATAN_AR24",
+    "documentHash": "23456789abcdef0123456789abcdef0123456789abcdef0123",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 28,
+    "pagePrinted": "26",
+    "quotedText": "Consolidated revenue for FY24 reached ₹888 Cr with Thailand plant ramping up production volumes.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

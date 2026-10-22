@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_TATACONSUM_01",
+    "issuerNseSymbol": "TATACONSUM",
+    "issuerBseCode": "500800",
+    "eventDate": "2024-01-12",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "Acquisition of Capital Foods (Ching's Secret) and Organic India",
+    "description": "Completed acquisitions of Capital Foods for ₹5,100 Cr and Organic India for ₹1,900 Cr significantly expanding packaged pantry TAM.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_TC_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_HIRECT_REV_01",
+    "issuerNseSymbol": "HIRECT",
+    "issuerBseCode": "504080",
+    "documentId": "DOC_HIRECT_AR24",
+    "documentHash": "c3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef012",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 32,
+    "pagePrinted": "30",
+    "quotedText": "Consolidated revenue for FY24 reached ₹522 Cr supported by Indian Railways locomotive equipment demand.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

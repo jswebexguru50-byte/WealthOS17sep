@@ -1,0 +1,528 @@
+{
+  "generatedAt": "2026-09-27T16:20:13.517Z",
+  "applied": true,
+  "candidateEvidenceCount": 52,
+  "changes": [
+    {
+      "symbol": "SANSERA",
+      "beforeSector": null,
+      "afterSector": "Automobiles & Auto Components",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:04.204Z",
+      "providerIndustry": "Auto Parts & Equipment",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "DPEL",
+      "beforeSector": null,
+      "afterSector": "Consumer Durables",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:06.487Z",
+      "providerIndustry": "Other Electrical Equipment/Products",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "ACCENTMIC",
+      "beforeSector": null,
+      "afterSector": "Pharmaceuticals & Biotechnology",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:09.140Z",
+      "providerIndustry": "Pharmaceuticals",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "WELCORP",
+      "beforeSector": null,
+      "afterSector": "Metals & Mining",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:11.402Z",
+      "providerIndustry": "Iron & Steel Products",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "SHEETAL",
+      "beforeSector": null,
+      "afterSector": "Food, Beverages & Tobacco",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:13.236Z",
+      "providerIndustry": "Other Agricultural Products",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "MAHICKRA",
+      "beforeSector": null,
+      "afterSector": "Chemicals & Petrochemicals",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:14.826Z",
+      "providerIndustry": "Dyes & Pigments",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "PRIZOR",
+      "beforeSector": null,
+      "afterSector": "Consumer Durables",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:16.530Z",
+      "providerIndustry": "Consumer Electronics",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "HOACFOODS",
+      "beforeSector": null,
+      "afterSector": "FMCG",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:18.413Z",
+      "providerIndustry": "Packaged Foods",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "SILKFLEX",
+      "beforeSector": null,
+      "afterSector": "Diversified Consumer Services",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:20.096Z",
+      "providerIndustry": "Furniture-Furnishing",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "OBSCP",
+      "beforeSector": null,
+      "afterSector": "Automobiles & Auto Components",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:22.654Z",
+      "providerIndustry": "Auto Parts & Equipment",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "PARIN",
+      "beforeSector": null,
+      "afterSector": "Diversified Consumer Services",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:24.455Z",
+      "providerIndustry": "Furniture-Furnishing",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "FRESHARA",
+      "beforeSector": null,
+      "afterSector": "Food, Beverages & Tobacco",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:26.985Z",
+      "providerIndustry": "Other Food & Beverages",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "AIMTRON",
+      "beforeSector": null,
+      "afterSector": "Commercial Services & Supplies",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:28.640Z",
+      "providerIndustry": "Electronic Components",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "DIVYADHAN",
+      "beforeSector": null,
+      "afterSector": "Textiles Apparels & Accessories",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:32.479Z",
+      "providerIndustry": "Textiles",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "PRATHAM",
+      "beforeSector": null,
+      "afterSector": "Cement and Construction",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:34.718Z",
+      "providerIndustry": "Construction & Engineering",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "KONSTELEC",
+      "beforeSector": null,
+      "afterSector": "Cement and Construction",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:36.941Z",
+      "providerIndustry": "Construction & Engineering",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "ARVINDPORT",
+      "beforeSector": null,
+      "afterSector": "Transportation",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:38.672Z",
+      "providerIndustry": "Shipping",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "COMMITTED",
+      "beforeSector": null,
+      "afterSector": "Transportation",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:40.568Z",
+      "providerIndustry": "Warehousing & Logistics",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "VMARCIND",
+      "beforeSector": null,
+      "afterSector": "Consumer Durables",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:42.285Z",
+      "providerIndustry": "Wires & Cables",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "GUJRAFFIA",
+      "beforeSector": null,
+      "afterSector": "Commercial Services & Supplies",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:44.361Z",
+      "providerIndustry": "Containers & Packaging",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "FONEBOX",
+      "beforeSector": null,
+      "afterSector": "Retailing",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:46.084Z",
+      "providerIndustry": "Specialty Retail",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "K2INFRA",
+      "beforeSector": null,
+      "afterSector": "Cement and Construction",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:48.307Z",
+      "providerIndustry": "Construction & Engineering",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "VLINFRA",
+      "beforeSector": null,
+      "afterSector": "Cement and Construction",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:50.554Z",
+      "providerIndustry": "Construction & Engineering",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "SMARTEN",
+      "beforeSector": null,
+      "afterSector": "Consumer Durables",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:52.379Z",
+      "providerIndustry": "Other Electrical Equipment/Products",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "DUCOL",
+      "beforeSector": null,
+      "afterSector": "Chemicals & Petrochemicals",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:53.911Z",
+      "providerIndustry": "Dyes & Pigments",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "SHUBHSHREE",
+      "beforeSector": null,
+      "afterSector": "Utilities",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:55.520Z",
+      "providerIndustry": "Utilities:Non-Electrical",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "QLINE",
+      "beforeSector": null,
+      "afterSector": "Healthcare",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:57.017Z",
+      "providerIndustry": "Healthcare Supplies",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "SAVY",
+      "beforeSector": null,
+      "afterSector": "Cement and Construction",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:15:59.173Z",
+      "providerIndustry": "Construction & Engineering",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "AMEYA",
+      "beforeSector": null,
+      "afterSector": "General Industrials",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:01.015Z",
+      "providerIndustry": "Other Industrial Products",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "MEDIORG",
+      "beforeSector": null,
+      "afterSector": "Pharmaceuticals & Biotechnology",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:03.484Z",
+      "providerIndustry": "Pharmaceuticals",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "MEDISTEP",
+      "beforeSector": null,
+      "afterSector": "Pharmaceuticals & Biotechnology",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:06.267Z",
+      "providerIndustry": "Pharmaceuticals",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "TSC",
+      "beforeSector": null,
+      "afterSector": "Diversified Consumer Services",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:07.872Z",
+      "providerIndustry": "Travel Support Services",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "MICROPRO",
+      "beforeSector": null,
+      "afterSector": "Software & Services",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:10.067Z",
+      "providerIndustry": "IT Consulting & Software",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "IPCALAB",
+      "beforeSector": null,
+      "afterSector": "Pharmaceuticals & Biotechnology",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:13.196Z",
+      "providerIndustry": "Pharmaceuticals",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "SEIL",
+      "beforeSector": null,
+      "afterSector": "Diversified Consumer Services",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:14.839Z",
+      "providerIndustry": "Education",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "SHREEKARNI",
+      "beforeSector": null,
+      "afterSector": "Textiles Apparels & Accessories",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:17.812Z",
+      "providerIndustry": "Textiles",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "USHAFIN",
+      "beforeSector": null,
+      "afterSector": "Banking and Finance",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:20.798Z",
+      "providerIndustry": "Finance (including NBFCs)",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "ARHAM",
+      "beforeSector": null,
+      "afterSector": "Consumer Durables",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:22.497Z",
+      "providerIndustry": "Consumer Electronics",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "JAINIK",
+      "beforeSector": null,
+      "afterSector": "Metals & Mining",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:24.156Z",
+      "providerIndustry": "Aluminium and Aluminium Products",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "SHETHJI",
+      "beforeSector": null,
+      "afterSector": "Food, Beverages & Tobacco",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:25.899Z",
+      "providerIndustry": "Other Food & Beverages",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "BLUEWATER",
+      "beforeSector": null,
+      "afterSector": "Transportation",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:27.684Z",
+      "providerIndustry": "Warehousing & Logistics",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "MRIL",
+      "beforeSector": null,
+      "afterSector": "Cement and Construction",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:29.852Z",
+      "providerIndustry": "Construction & Engineering",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "NAMOEWASTE",
+      "beforeSector": null,
+      "afterSector": "Commercial Services & Supplies",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:32.316Z",
+      "providerIndustry": "Electronic Components",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "SHRIAHIMSA",
+      "beforeSector": null,
+      "afterSector": "Food, Beverages & Tobacco",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:34.077Z",
+      "providerIndustry": "Tea & Coffee",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "GRCL",
+      "beforeSector": null,
+      "afterSector": "Automobiles & Auto Components",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:35.882Z",
+      "providerIndustry": "Auto Tyres & Rubber Products",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "TEJASCARGO",
+      "beforeSector": null,
+      "afterSector": "Transportation",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:37.709Z",
+      "providerIndustry": "Warehousing & Logistics",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "IWARE",
+      "beforeSector": null,
+      "afterSector": "Transportation",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:39.718Z",
+      "providerIndustry": "Warehousing & Logistics",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "INFLUX",
+      "beforeSector": null,
+      "afterSector": "Pharmaceuticals & Biotechnology",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:42.399Z",
+      "providerIndustry": "Pharmaceuticals",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "SHIGAN",
+      "beforeSector": null,
+      "afterSector": "Automobiles & Auto Components",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:44.688Z",
+      "providerIndustry": "Auto Parts & Equipment",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "OLIL",
+      "beforeSector": null,
+      "afterSector": "Transportation",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:46.371Z",
+      "providerIndustry": "Transport Related Services",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "VIESL",
+      "beforeSector": null,
+      "afterSector": "Commercial Services & Supplies",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:48.423Z",
+      "providerIndustry": "Misc. Commercial Services",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "CUMMINSIND",
+      "beforeSector": null,
+      "afterSector": "General Industrials",
+      "provider": "TRENDLYNE_MCP",
+      "providerEndpoint": "get_overview_news_corp_events",
+      "providerFetchedAt": "2026-09-27T16:16:50.919Z",
+      "providerIndustry": "Industrial Machinery",
+      "mappingType": "DIRECT_PROVIDER_SECTOR_WITH_NSE_INDEX_PROXY"
+    }
+  ],
+  "skippedOrUnmappedCount": 0
+}

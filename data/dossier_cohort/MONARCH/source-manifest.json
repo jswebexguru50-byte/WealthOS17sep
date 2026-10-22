@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "MONARCH",
+  "issuerBseCode": "516120",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_MONARCH_AR2024",
+      "documentName": "MONARCH_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "38afe8be5a16b6bed9d399871555baf95a8d583d5667cfc412a1948089d49dfb",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_MONARCH_AUDITED_RESULTS",
+      "documentName": "MONARCH_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "648388a8969ac0e9e2ad552a50138c40b4792a7255bac25ffd94b48da2ad162e",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_MONARCH_CONCALL_Q4FY26",
+      "documentName": "MONARCH_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "c8fded7cb7461153a072f71952e14051e477536bdc3daecc03d0421e036aee20",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

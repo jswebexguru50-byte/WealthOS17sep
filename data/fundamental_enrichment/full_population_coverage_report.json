@@ -1,0 +1,617 @@
+{
+  "generatedAt": "2026-09-29T03:35:06.461087+00:00",
+  "totalPopulation": 3564,
+  "manifestSource": "data\\fundamental_enrichment\\full_population_manifest.json",
+  "databaseAudited": "portfolio.db (Read-Only)",
+  "summary": {
+    "fullyCoveredShareholdingSymbols": 413,
+    "profitabilityEvaluatedSymbols": 1049,
+    "roceAvailableSymbols": 398,
+    "roeAvailableSymbols": 407,
+    "cfoOperatingProfitSymbols": 0,
+    "fereEvidenceSymbols": 0,
+    "managementEvidenceSymbols": 12
+  },
+  "fields": {
+    "promoter_holding": {
+      "field": "promoter_holding",
+      "category": "shareholding",
+      "availableSymbols": 413,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3151,
+      "availabilityPct": 11.59,
+      "sourceBreakdown": {
+        "UPSTOX_FUNDAMENTALS": 413
+      },
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 3114,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "promoter_pledge": {
+      "field": "promoter_pledge",
+      "category": "shareholding",
+      "availableSymbols": 179,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3385,
+      "availabilityPct": 5.02,
+      "sourceBreakdown": {
+        "UPSTOX_FUNDAMENTALS": 179
+      },
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 3348,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "public_free_float": {
+      "field": "public_free_float",
+      "category": "shareholding",
+      "availableSymbols": 0,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3564,
+      "availabilityPct": 0.0,
+      "sourceBreakdown": {},
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 0,
+        "DATA_INSUFFICIENT": 3564,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "fii_holding": {
+      "field": "fii_holding",
+      "category": "shareholding",
+      "availableSymbols": 413,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3151,
+      "availabilityPct": 11.59,
+      "sourceBreakdown": {
+        "UPSTOX_FUNDAMENTALS": 413
+      },
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 3114,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "dii_holding": {
+      "field": "dii_holding",
+      "category": "shareholding",
+      "availableSymbols": 413,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3151,
+      "availabilityPct": 11.59,
+      "sourceBreakdown": {
+        "UPSTOX_FUNDAMENTALS": 413
+      },
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 3114,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "institutional_involvement": {
+      "field": "institutional_involvement",
+      "category": "shareholding",
+      "availableSymbols": 413,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3151,
+      "availabilityPct": 11.59,
+      "sourceBreakdown": {
+        "UPSTOX_FUNDAMENTALS": 413
+      },
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 3114,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "institutional_ownership_change": {
+      "field": "institutional_ownership_change",
+      "category": "shareholding",
+      "availableSymbols": 164,
+      "partialSymbols": 381,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3019,
+      "availabilityPct": 4.6,
+      "sourceBreakdown": {
+        "UPSTOX_HOLDING_DIFF": 381,
+        "NSE_INSTITUTIONAL_DEALS": 164
+      },
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 2982,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "revenue": {
+      "field": "revenue",
+      "category": "financials",
+      "availableSymbols": 181,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3383,
+      "availabilityPct": 5.08,
+      "sourceBreakdown": {
+        "COMPANY_FACTS": 181
+      },
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 3346,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "quarterly_revenue": {
+      "field": "quarterly_revenue",
+      "category": "financials",
+      "availableSymbols": 0,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3564,
+      "availabilityPct": 0.0,
+      "sourceBreakdown": {},
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 3527,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "operating_profit": {
+      "field": "operating_profit",
+      "category": "financials",
+      "availableSymbols": 181,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3383,
+      "availabilityPct": 5.08,
+      "sourceBreakdown": {
+        "COMPANY_FACTS": 181
+      },
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 3346,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "quarterly_operating_profit": {
+      "field": "quarterly_operating_profit",
+      "category": "financials",
+      "availableSymbols": 0,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3564,
+      "availabilityPct": 0.0,
+      "sourceBreakdown": {},
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 3527,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "pat": {
+      "field": "pat",
+      "category": "financials",
+      "availableSymbols": 181,
+      "partialSymbols": 868,
+      "staleSymbols": 0,
+      "unavailableSymbols": 2515,
+      "availabilityPct": 5.08,
+      "sourceBreakdown": {
+        "UPSTOX_FUNDAMENTALS": 868,
+        "COMPANY_FACTS": 181
+      },
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 2478,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "quarterly_pat": {
+      "field": "quarterly_pat",
+      "category": "financials",
+      "availableSymbols": 0,
+      "partialSymbols": 930,
+      "staleSymbols": 0,
+      "unavailableSymbols": 2634,
+      "availabilityPct": 0.0,
+      "sourceBreakdown": {
+        "UPSTOX_FUNDAMENTALS": 930
+      },
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 2597,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "cfo": {
+      "field": "cfo",
+      "category": "financials",
+      "availableSymbols": 258,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3306,
+      "availabilityPct": 7.24,
+      "sourceBreakdown": {
+        "COMPANY_FACTS": 180,
+        "UPSTOX_FUNDAMENTALS": 78
+      },
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 3269,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "cfo_to_operating_profit": {
+      "field": "cfo_to_operating_profit",
+      "category": "financials",
+      "availableSymbols": 0,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3564,
+      "availabilityPct": 0.0,
+      "sourceBreakdown": {},
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 3527,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "roe": {
+      "field": "roe",
+      "category": "valuation_quality",
+      "availableSymbols": 407,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3157,
+      "availabilityPct": 11.42,
+      "sourceBreakdown": {
+        "UPSTOX_FUNDAMENTALS": 405,
+        "COMPANY_FACTS": 2
+      },
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 3120,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "roce": {
+      "field": "roce",
+      "category": "valuation_quality",
+      "availableSymbols": 398,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3166,
+      "availabilityPct": 11.17,
+      "sourceBreakdown": {
+        "UPSTOX_FUNDAMENTALS": 398
+      },
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 3129,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "debt_to_equity": {
+      "field": "debt_to_equity",
+      "category": "valuation_quality",
+      "availableSymbols": 9,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3555,
+      "availabilityPct": 0.25,
+      "sourceBreakdown": {
+        "COMPANY_FACTS": 9
+      },
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 3518,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "book_value": {
+      "field": "book_value",
+      "category": "valuation_quality",
+      "availableSymbols": 0,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3564,
+      "availabilityPct": 0.0,
+      "sourceBreakdown": {},
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 3527,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "pe_ratio": {
+      "field": "pe_ratio",
+      "category": "valuation_quality",
+      "availableSymbols": 0,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3564,
+      "availabilityPct": 0.0,
+      "sourceBreakdown": {},
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 3527,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "market_cap": {
+      "field": "market_cap",
+      "category": "valuation_quality",
+      "availableSymbols": 0,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3564,
+      "availabilityPct": 0.0,
+      "sourceBreakdown": {},
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 3527,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "sector": {
+      "field": "sector",
+      "category": "classification",
+      "availableSymbols": 2311,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 1253,
+      "availabilityPct": 64.84,
+      "sourceBreakdown": {
+        "MASTER_TICKERS": 2311
+      },
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 17,
+        "DATA_INSUFFICIENT": 1236,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "industry": {
+      "field": "industry",
+      "category": "classification",
+      "availableSymbols": 0,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3564,
+      "availabilityPct": 0.0,
+      "sourceBreakdown": {},
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 3527,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "sector_index_mapping": {
+      "field": "sector_index_mapping",
+      "category": "classification",
+      "availableSymbols": 0,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3564,
+      "availabilityPct": 0.0,
+      "sourceBreakdown": {},
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 0,
+        "DATA_INSUFFICIENT": 3564,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "corporate_actions_events": {
+      "field": "corporate_actions_events",
+      "category": "engines",
+      "availableSymbols": 3527,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 37,
+      "availabilityPct": 98.96,
+      "sourceBreakdown": {
+        "UPSTOX_FUNDAMENTALS": 3527
+      },
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 0,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "fere_evidence": {
+      "field": "fere_evidence",
+      "category": "engines",
+      "availableSymbols": 0,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3564,
+      "availabilityPct": 0.0,
+      "sourceBreakdown": {},
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 3564,
+        "DATA_INSUFFICIENT": 0,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "qglp_eligibility": {
+      "field": "qglp_eligibility",
+      "category": "engines",
+      "availableSymbols": 0,
+      "partialSymbols": 405,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3159,
+      "availabilityPct": 0.0,
+      "sourceBreakdown": {
+        "PARTIAL_INPUTS": 405
+      },
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 3122,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "management_evidence_eligibility": {
+      "field": "management_evidence_eligibility",
+      "category": "engines",
+      "availableSymbols": 12,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3552,
+      "availabilityPct": 0.34,
+      "sourceBreakdown": {
+        "FERE_MANAGEMENT_CLAIMS": 12
+      },
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 3552,
+        "DATA_INSUFFICIENT": 0,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "stock_momentum_eligibility": {
+      "field": "stock_momentum_eligibility",
+      "category": "engines",
+      "availableSymbols": 0,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3564,
+      "availabilityPct": 0.0,
+      "sourceBreakdown": {},
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 37,
+        "DATA_INSUFFICIENT": 3527,
+        "IDENTITY_REVIEW": 0
+      }
+    },
+    "sector_momentum_eligibility": {
+      "field": "sector_momentum_eligibility",
+      "category": "engines",
+      "availableSymbols": 0,
+      "partialSymbols": 0,
+      "staleSymbols": 0,
+      "unavailableSymbols": 3564,
+      "availabilityPct": 0.0,
+      "sourceBreakdown": {},
+      "unavailableReasons": {
+        "NOT_REQUESTED": 0,
+        "SOURCE_UNAVAILABLE": 0,
+        "DATA_INSUFFICIENT": 3564,
+        "IDENTITY_REVIEW": 0
+      }
+    }
+  },
+  "acquisitionBacklogTopMissing": [
+    {
+      "field": "public_free_float",
+      "category": "shareholding",
+      "unavailableCount": 3564,
+      "pctUnavailable": 100.0
+    },
+    {
+      "field": "quarterly_revenue",
+      "category": "financials",
+      "unavailableCount": 3564,
+      "pctUnavailable": 100.0
+    },
+    {
+      "field": "quarterly_operating_profit",
+      "category": "financials",
+      "unavailableCount": 3564,
+      "pctUnavailable": 100.0
+    },
+    {
+      "field": "cfo_to_operating_profit",
+      "category": "financials",
+      "unavailableCount": 3564,
+      "pctUnavailable": 100.0
+    },
+    {
+      "field": "book_value",
+      "category": "valuation_quality",
+      "unavailableCount": 3564,
+      "pctUnavailable": 100.0
+    },
+    {
+      "field": "pe_ratio",
+      "category": "valuation_quality",
+      "unavailableCount": 3564,
+      "pctUnavailable": 100.0
+    },
+    {
+      "field": "market_cap",
+      "category": "valuation_quality",
+      "unavailableCount": 3564,
+      "pctUnavailable": 100.0
+    },
+    {
+      "field": "industry",
+      "category": "classification",
+      "unavailableCount": 3564,
+      "pctUnavailable": 100.0
+    },
+    {
+      "field": "sector_index_mapping",
+      "category": "classification",
+      "unavailableCount": 3564,
+      "pctUnavailable": 100.0
+    },
+    {
+      "field": "fere_evidence",
+      "category": "engines",
+      "unavailableCount": 3564,
+      "pctUnavailable": 100.0
+    },
+    {
+      "field": "stock_momentum_eligibility",
+      "category": "engines",
+      "unavailableCount": 3564,
+      "pctUnavailable": 100.0
+    },
+    {
+      "field": "sector_momentum_eligibility",
+      "category": "engines",
+      "unavailableCount": 3564,
+      "pctUnavailable": 100.0
+    }
+  ],
+  "criticalRuleAdherence": {
+    "noDoubleCountingPublicFloat": true,
+    "noDeriving100MinusPromoterFiiDii": true,
+    "exactSectorIndexRequired": true,
+    "synchronizationIsNotCompleteness": true
+  }
+}

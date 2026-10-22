@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_KROSS_REV_FY26",
+    "issuerNseSymbol": "KROSS",
+    "issuerBseCode": "512462",
+    "documentHash": "31e9557b4bfa4c44c72e9b377438bf75129c25d5edfd43f7c664921adea35bce",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹2861 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_KROSS_PAT_FY26",
+    "issuerNseSymbol": "KROSS",
+    "issuerBseCode": "512462",
+    "documentHash": "31e9557b4bfa4c44c72e9b377438bf75129c25d5edfd43f7c664921adea35bce",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹343 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_KROSS_DEBT_FY26",
+    "issuerNseSymbol": "KROSS",
+    "issuerBseCode": "512462",
+    "documentHash": "2d065f78c00150dfdfb976b3b65a6920387d8994ad0e6a6a259cee9a9e835ec9",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_KROSS_CONCALL_Q4FY26",
+    "issuerNseSymbol": "KROSS",
+    "issuerBseCode": "512462",
+    "documentHash": "f5c76b5f30cd652a910566c34715be3251ecbbae7cfa6f53e65508bcce1ec2cc",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

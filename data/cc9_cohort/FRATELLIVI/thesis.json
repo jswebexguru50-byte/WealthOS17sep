@@ -1,0 +1,19 @@
+{
+  "symbol": "FRATELLIVI",
+  "coreThesisStatement": "Second largest wine brand in India capitalizing on rapid premiumization of Indian alcoholic beverage consumption and wine tourism.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Premium Varietal Brand",
+      "description": "Fratelli Sette and J'NOON commanding premium price points."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Vineyard Terroir Moat",
+      "description": "Over 240 acres of estate-owned vineyards in Akluj, Maharashtra."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_FRAT_LEVERAGE"
+  ]
+}

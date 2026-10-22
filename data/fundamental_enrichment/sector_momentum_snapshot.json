@@ -1,0 +1,54 @@
+{
+  "generatedAt": "2026-10-03T22:59:40",
+  "source": "KITE_INDEX_PARQUET",
+  "rows": [
+    {
+      "symbol": "CAPILLARY",
+      "sector": "Technology",
+      "indexSymbol": "NIFTY IT",
+      "asOf": "2026-10-01",
+      "close": 28304.7,
+      "ema20": 28870.129088764355,
+      "sma20": 28952.74,
+      "return20dPct": -8.996588742528832,
+      "aboveEma20": false,
+      "aboveSma20": false,
+      "status": "NOT_BULLISH",
+      "availabilityReason": "Calculated from saved Kite NSE sector-index OHLCV.",
+      "source": "KITE_INDEX_PARQUET",
+      "indexMappingMethod": "MASTER_TICKER_SECTOR_TO_NSE_INDEX"
+    },
+    {
+      "symbol": "GUJRAFFIA",
+      "sector": "Commercial Services & Supplies",
+      "indexSymbol": "NIFTY SERV SECTOR",
+      "asOf": "2026-10-01",
+      "close": 28957.9,
+      "ema20": 29785.04530369218,
+      "sma20": 29831.0075,
+      "return20dPct": -5.134601682213901,
+      "aboveEma20": false,
+      "aboveSma20": false,
+      "status": "NOT_BULLISH",
+      "availabilityReason": "Calculated from saved Kite NSE sector-index OHLCV.",
+      "source": "KITE_INDEX_PARQUET",
+      "indexMappingMethod": "TRENDLYNE_SECTOR_TO_NSE_INDEX_PROXY"
+    },
+    {
+      "symbol": "SMARTEN",
+      "sector": "Consumer Durables",
+      "indexSymbol": "NIFTY CONSR DURBL",
+      "asOf": "2026-10-01",
+      "close": 35927.8,
+      "ema20": 38163.5591169938,
+      "sma20": 38272.832500000004,
+      "return20dPct": -9.596607086016807,
+      "aboveEma20": false,
+      "aboveSma20": false,
+      "status": "NOT_BULLISH",
+      "availabilityReason": "Calculated from saved Kite NSE sector-index OHLCV.",
+      "source": "KITE_INDEX_PARQUET",
+      "indexMappingMethod": "TRENDLYNE_SECTOR_TO_NSE_INDEX_PROXY"
+    }
+  ]
+}

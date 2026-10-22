@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_SBIFUN_01",
+    "issuerNseSymbol": "SBIFUN",
+    "issuerBseCode": "500112",
+    "eventDate": "2024-04-10",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "AUM Crosses Milestone ₹10 Lakh Crore",
+    "description": "Became the first asset management company in India to cross ₹10,00,000 Cr in average assets under management.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_SBIFUN_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

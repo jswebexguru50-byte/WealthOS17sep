@@ -1,0 +1,23 @@
+{
+  "symbol": "SOLARINDS",
+  "events": [
+    {
+      "eventId": "EVT_SOLAR_ORDER_01",
+      "issuerNseSymbol": "SOLARINDS",
+      "issuerBseCode": "532725",
+      "eventDate": "2024-11-20",
+      "category": "ORDER_BOOK",
+      "headline": "Solar Industries secures ₹887 Cr export order for pinaka rocket propellant",
+      "description": "Official BSE disclosure of international defense export contract",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "sourceType": "BSE_DISCLOSURE",
+      "evidenceId": "EV_SOLAR_AR24_P42",
+      "materiality": "MATERIAL",
+      "qualityGateApproval": {
+        "approved": true,
+        "chokepoint": "IntelligenceQualityGate",
+        "verifiedAt": "2026-09-15T11:12:00.000Z"
+      }
+    }
+  ]
+}

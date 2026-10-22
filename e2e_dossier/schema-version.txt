@@ -1,0 +1,6 @@
+IICE_SCHEMA_VERSION=1.1.0
+DATABASE_ENGINE=SQLite WAL
+TRUST_LAYER_SCHEMA=EvidenceInventory, SecurityDossierSnapshots, ForensicAssertions
+INTELLIGENCE_LAYER_SCHEMA=ManagementClaims, IntelligenceEvents, Contradictions, CompanyTheses
+MIGRATION_VERSION=scratch/apply_hardened_migration_v1_1.mjs
+COLUMNS_ADDED=claim_date, expected_period_start, expected_period_end, evaluation_date, evaluation_basis, evaluation_evidence_id, left_evidence_id, right_evidence_id, detected_at, source_tier

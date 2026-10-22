@@ -1,0 +1,21 @@
+{
+  "runId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+  "ledgerPath": "v6.3_REAL_trade_identity_ledger.jsonl",
+  "ledgerSha256": "035d8867f1f8dbc65f9fe35ea45263f20f9fee00a48d3d7f48807c24a2afd485",
+  "totalTrades": 19,
+  "auditedTrades": 19,
+  "sameSessionViolations": 0,
+  "nonNextSessionViolations": 0,
+  "rawEntryOpenMismatches": 0,
+  "invalidEntryPrices": 0,
+  "missingEntryBars": 0,
+  "duplicateTradeIds": 0,
+  "signalAfterEntryViolations": 0,
+  "missingSignalAvailability": 0,
+  "futureDataViolations": 0,
+  "validationStatus": "PASS",
+  "promotionStatus": "NOT_AUTHORIZED",
+  "firstTradeId": "RUN-V63-E2E-1789622948116-ARM-A-A_RAW-SIG-RELIANCE-2023-01-16",
+  "lastTradeId": "RUN-V63-E2E-1789622948116-ARM-C-C_CHALLENGERS-CHAL-BHARTIARTL-2023-03-06",
+  "auditedAt": "2026-09-17T14:25:37.390Z"
+}

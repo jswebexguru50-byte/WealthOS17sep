@@ -1,0 +1,11 @@
+{
+  "portfolio.db": {
+    "missing": true
+  },
+  "data/portfolio_v6.3_research_subset.db": {
+    "missing": true
+  },
+  "data/wealthos_market_data.sqlite": {
+    "missing": true
+  }
+}

@@ -1,0 +1,330 @@
+"""Archive and normalize official NSE shareholding and material-event feeds."""
+from __future__ import annotations
+
+import io
+import hashlib
+import json
+import re
+import sqlite3
+import xml.etree.ElementTree as ET
+from datetime import date, datetime, timedelta, timezone
+from pathlib import Path
+from urllib.parse import quote
+
+import requests
+
+from management_claims import detect_candidates, ensure_schema as ensure_claim_schema
+from verified_filing_pipeline import (NSE_HOME, ROOT, WindowsTrustAdapter, archive_bytes,
+                                      connect, now, official_url, request)
+
+SHAREHOLDING = f'{NSE_HOME}api/corporate-share-holdings-master?index=equities'
+ANNOUNCEMENTS = f'{NSE_HOME}api/corporate-announcements'
+
+
+def ensure_schema(con: sqlite3.Connection) -> None:
+    ensure_claim_schema(con)
+    con.executescript('''
+      CREATE TABLE IF NOT EXISTS official_source_snapshot (
+        id INTEGER PRIMARY KEY, source_type TEXT NOT NULL, source_url TEXT NOT NULL,
+        retrieved_at TEXT NOT NULL, sha256 TEXT NOT NULL, archive_path TEXT NOT NULL,
+        UNIQUE(source_type,sha256));
+      CREATE TABLE IF NOT EXISTS official_source_fetch_cache (
+        source_type TEXT NOT NULL, source_url TEXT NOT NULL,
+        retrieved_at TEXT NOT NULL, sha256 TEXT NOT NULL, archive_path TEXT NOT NULL,
+        PRIMARY KEY(source_type,source_url));
+      CREATE TABLE IF NOT EXISTS shareholding_snapshot (
+        id INTEGER PRIMARY KEY, isin TEXT NOT NULL, symbol TEXT NOT NULL,
+        period_end TEXT NOT NULL, promoter_holding REAL,
+        promoter_pledge REAL, public_holding REAL, employee_trusts REAL,
+        source_url TEXT NOT NULL, source_sha256 TEXT NOT NULL,
+        available_at TEXT NOT NULL, status TEXT NOT NULL,
+        UNIQUE(isin,period_end,source_sha256));
+      CREATE INDEX IF NOT EXISTS idx_shareholding_isin_period
+        ON shareholding_snapshot(isin,period_end DESC);
+      CREATE INDEX IF NOT EXISTS idx_official_source_url
+        ON official_source_snapshot(source_url,source_type);
+      CREATE INDEX IF NOT EXISTS idx_official_source_hash
+        ON official_source_snapshot(sha256);
+      CREATE TABLE IF NOT EXISTS company_material_event (
+        id INTEGER PRIMARY KEY, isin TEXT NOT NULL, symbol TEXT NOT NULL,
+        event_type TEXT NOT NULL, event_date TEXT NOT NULL, severity TEXT NOT NULL,
+        explanation TEXT NOT NULL, source_url TEXT NOT NULL, source_sha256 TEXT NOT NULL,
+        verified INTEGER NOT NULL CHECK(verified IN (0,1)),
+        UNIQUE(isin,event_type,event_date,source_sha256));
+      CREATE INDEX IF NOT EXISTS idx_material_event_symbol_date
+        ON company_material_event(symbol,event_date DESC);
+      CREATE INDEX IF NOT EXISTS idx_material_event_type
+        ON company_material_event(event_type,severity);
+    ''')
+    columns = {row[1] for row in con.execute('PRAGMA table_info(company_material_event)')}
+    if 'document_url' not in columns:
+        con.execute('ALTER TABLE company_material_event ADD COLUMN document_url TEXT')
+
+
+def as_float(value) -> float | None:
+    try:
+        return float(str(value).replace(',', '').replace('%', '').strip())
+    except (TypeError, ValueError):
+        return None
+
+
+def local_name(tag: str) -> str:
+    return tag.rsplit('}', 1)[-1].split(':')[-1]
+
+
+def iso_date(value: str) -> str | None:
+    cleaned = value.strip()
+    for fmt in ('%d-%b-%Y', '%d-%m-%Y', '%Y-%m-%d', '%d-%b-%Y %H:%M:%S'):
+        try: return datetime.strptime(cleaned.title(), fmt).date().isoformat()
+        except ValueError: pass
+    return None
+
+
+def parse_pledge_xml(payload: bytes) -> float | None:
+    try:
+        root = ET.fromstring(payload)
+    except ET.ParseError:
+        return None
+    exact = {
+        'SharesPledgedOrOtherwiseEncumberedAsAPercentageOfTotalSharesHeld',
+        'ShareholdingAsAPercentageOfTotalSharesHeldPledgedOrOtherwiseEncumbered',
+        'PercentageOfSharesPledgedOrOtherwiseEncumbered',
+    }
+    values = []
+    for element in root.iter():
+        if local_name(element.tag) in exact:
+            value = as_float(element.text)
+            if value is not None and 0 <= value <= 100:
+                values.append(value)
+    return max(values) if values else None
+
+
+def source_session() -> requests.Session:
+    session = requests.Session(); session.mount('https://', WindowsTrustAdapter())
+    return session
+
+
+def save_source(con: sqlite3.Connection, kind: str, url: str, payload: bytes, suffix: str) -> tuple[str, str]:
+    digest, path = archive_bytes(payload, suffix)
+    con.execute('INSERT OR IGNORE INTO official_source_snapshot(source_type,source_url,retrieved_at,sha256,archive_path) VALUES(?,?,?,?,?)',
+                (kind, url, now(), digest, path))
+    con.execute('''INSERT INTO official_source_fetch_cache VALUES(?,?,?,?,?)
+                   ON CONFLICT(source_type,source_url) DO UPDATE SET
+                   retrieved_at=excluded.retrieved_at,sha256=excluded.sha256,archive_path=excluded.archive_path''',
+                (kind, url, now(), digest, path))
+    return digest, path
+
+
+def cached_json_source(con: sqlite3.Connection, kind: str, url: str) -> tuple[object, str] | None:
+    """Reuse today's exact archived response only after checking persisted bytes."""
+    row = con.execute('''SELECT retrieved_at,sha256,archive_path FROM official_source_fetch_cache
+                         WHERE source_type=? AND source_url=?''', (kind, url)).fetchone()
+    if not row:
+        row = con.execute('''SELECT retrieved_at,sha256,archive_path FROM official_source_snapshot
+                             WHERE source_type=? AND source_url=? AND archive_path!='REMOTE_ONLY'
+                             ORDER BY id DESC LIMIT 1''', (kind, url)).fetchone()
+    if not row:
+        return None
+    try:
+        if datetime.fromisoformat(row[0]).astimezone(timezone.utc).date() != datetime.now(timezone.utc).date():
+            return None
+        target = (ROOT / row[2]).resolve()
+        if not target.is_relative_to((ROOT / 'data/fere/verified_filings/archive').resolve()):
+            return None
+        payload = target.read_bytes()
+        if not payload or hashlib.sha256(payload).hexdigest() != row[1]:
+            return None
+        return json.loads(payload), row[1]
+    except (OSError, ValueError, TypeError):
+        return None
+
+
+def save_remote_only_source(con: sqlite3.Connection, kind: str, url: str, payload: bytes) -> str:
+    digest = hashlib.sha256(payload).hexdigest()
+    con.execute('INSERT OR IGNORE INTO official_source_snapshot(source_type,source_url,retrieved_at,sha256,archive_path) VALUES(?,?,?,?,?)',
+                (kind, url, now(), digest, 'REMOTE_ONLY'))
+    return digest
+
+
+def collect_shareholding(con: sqlite3.Connection, session: requests.Session, symbols: set[str]) -> dict:
+    cached = cached_json_source(con, 'NSE_SHAREHOLDING_MASTER', SHAREHOLDING)
+    if cached:
+        payload, digest = cached
+    else:
+        response = request(session, SHAREHOLDING)
+        digest, _ = save_source(con, 'NSE_SHAREHOLDING_MASTER', SHAREHOLDING, response.content, '.json')
+        payload = response.json()
+    rows = payload if isinstance(payload, list) else payload.get('data', []) if isinstance(payload, dict) else []
+    identities = {row[1].upper(): (row[0], row[1]) for row in con.execute('SELECT isin,symbol FROM universe')}
+    counts = {'shareholding': 0, 'pledge': 0}
+    for item in rows:
+        symbol = str(item.get('symbol') or '').upper()
+        if symbol not in symbols or symbol not in identities:
+            continue
+        isin, canonical = identities[symbol]
+        period = iso_date(str(item.get('date') or item.get('asOnDate') or ''))
+        if not period:
+            continue
+        promoter = as_float(item.get('pr_and_prgrp'))
+        public = as_float(item.get('public_val'))
+        trusts = as_float(item.get('employeeTrusts'))
+        xbrl = official_url(str(item.get('xbrl') or '')) if item.get('xbrl') else None
+        pledge = None; source_url = SHAREHOLDING; source_hash = digest
+        if xbrl:
+            cached = con.execute('''SELECT promoter_pledge,source_sha256 FROM shareholding_snapshot
+                                    WHERE isin=? AND period_end=? AND source_url=? ORDER BY id DESC LIMIT 1''',
+                                 (isin, period, xbrl)).fetchone()
+            if cached:
+                pledge, source_hash, source_url = cached[0], cached[1], xbrl
+            else:
+                try:
+                    doc = request(session, xbrl)
+                    source_hash, _ = save_source(con, 'NSE_SHAREHOLDING_XBRL', xbrl, doc.content, '.xml')
+                    pledge = parse_pledge_xml(doc.content); source_url = xbrl
+                except Exception:
+                    pass
+        con.execute('''INSERT INTO shareholding_snapshot
+          (isin,symbol,period_end,promoter_holding,promoter_pledge,public_holding,employee_trusts,
+           source_url,source_sha256,available_at,status) VALUES(?,?,?,?,?,?,?,?,?,?,?)
+          ON CONFLICT(isin,period_end,source_sha256) DO UPDATE SET promoter_holding=excluded.promoter_holding,
+          promoter_pledge=excluded.promoter_pledge,public_holding=excluded.public_holding,
+          employee_trusts=excluded.employee_trusts,available_at=excluded.available_at,status=excluded.status''',
+          (isin,canonical,period,promoter,pledge,public,trusts,source_url,source_hash,
+           iso_date(str(item.get('submissionDate') or item.get('broadcastDate') or '')) or now(),'VERIFIED_OFFICIAL'))
+        counts['shareholding'] += 1; counts['pledge'] += pledge is not None
+    con.commit(); return counts
+
+
+EVENT_PATTERNS = [
+    ('AUDITOR_RESIGNATION', 'CRITICAL', re.compile(r'\bauditor\b.*\bresign|\bresign.*\bauditor\b', re.I)),
+    ('CFO_RESIGNATION', 'MATERIAL', re.compile(r'\bchief financial officer\b.*\bresign|\bcfo\b.*\bresign|\bresign.*\bcfo\b', re.I)),
+    ('CREDIT_RATING_DOWNGRADE', 'MATERIAL', re.compile(r'\bcredit rating\b.*\b(downgrade|lowered|negative|default)\b|\b(downgrade|lowered)\b.*\brating\b', re.I)),
+    ('DEFAULT_OR_PAYMENT_DELAY', 'CRITICAL', re.compile(r'\bdefault\b|\bpayment delay\b|\bdelay in payment\b', re.I)),
+    ('MATERIAL_DILUTION', 'MATERIAL', re.compile(r'\bpreferential issue\b|\bwarrants?\b|\bqualified institutions placement\b|\bqip\b', re.I)),
+    ('REGULATORY_ACTION', 'MATERIAL', re.compile(r'\bsebi\b.*\b(order|penalty|action)\b|\bregulatory action\b', re.I)),
+    ('GUIDANCE_CUT', 'MATERIAL', re.compile(r'\b(cut|reduce|withdraw|lower)\w*\b.*\bguidance\b', re.I)),
+    ('PROJECT_DELAY', 'WATCH', re.compile(r'\b(delay|defer|postpone)\w*\b.*\b(project|commission|plant|capex)\b', re.I)),
+]
+EVENT_REASONS = {
+    'AUDITOR_RESIGNATION': 'Matched the explicit auditor-resignation rule.',
+    'CFO_RESIGNATION': 'Matched the explicit CFO or Chief Financial Officer resignation rule.',
+    'CREDIT_RATING_DOWNGRADE': 'Matched credit-rating language containing downgrade, lowered, negative or default.',
+    'DEFAULT_OR_PAYMENT_DELAY': 'Matched explicit default or payment-delay language.',
+    'MATERIAL_DILUTION': 'Matched an explicit preferential issue, warrant, QIP or qualified placement term.',
+    'REGULATORY_ACTION': 'Matched explicit SEBI order, penalty, action or regulatory-action language.',
+    'GUIDANCE_CUT': 'Matched guidance together with cut, reduce, withdraw or lower language.',
+    'PROJECT_DELAY': 'Matched project, plant, capex or commissioning together with delay language.',
+}
+
+RELEVANT_ATTACHMENT_SUBJECT = re.compile(
+    r'\b(credit rating|rating action|resignation|auditor|chief financial officer|cfo|default|payment|'
+    r'preferential|warrant|qualified institutions placement|qip|regulatory|guidance|project|commission|'
+    r'investor|analyst|conference|concall|presentation)\b',
+    re.I,
+)
+CLAIM_SOURCE_SUBJECT = re.compile(r'\b(analyst|investor|conference|concall|presentation)\b', re.I)
+MAX_RELEVANT_ATTACHMENTS_PER_COMPANY = 5
+
+
+def announcement_rows(value) -> list[dict]:
+    if isinstance(value, list): return [v for v in value if isinstance(v, dict)]
+    if isinstance(value, dict):
+        for key in ('data', 'results', 'records'):
+            if isinstance(value.get(key), list): return [v for v in value[key] if isinstance(v, dict)]
+    return []
+
+
+def cached_attachment(con: sqlite3.Connection, url: str) -> tuple[bytes, str] | None:
+    row = con.execute('''SELECT archive_path,sha256 FROM official_source_snapshot
+                         WHERE source_type='NSE_ANNOUNCEMENT_ATTACHMENT' AND source_url=?
+                         ORDER BY id DESC LIMIT 1''', (url,)).fetchone()
+    if not row: return None
+    path = Path(row[0])
+    if not path.exists(): return None
+    return path.read_bytes(), row[1]
+
+
+def collect_announcements(con: sqlite3.Connection, session: requests.Session, symbols: set[str],
+                          include_attachments: bool = False) -> dict:
+    identities = {row[1].upper(): (row[0], row[1]) for row in con.execute('SELECT isin,symbol FROM universe')}
+    counts = {'events': 0, 'claim_candidates': 0}
+    end = date.today(); start = end - timedelta(days=550)
+    for symbol in sorted(symbols):
+        if symbol not in identities: continue
+        url = f'{ANNOUNCEMENTS}?index=equities&symbol={quote(symbol)}&from_date={start.strftime("%d-%m-%Y")}&to_date={end.strftime("%d-%m-%Y")}'
+        cached = cached_json_source(con, 'NSE_CORPORATE_ANNOUNCEMENTS', url)
+        if cached:
+            payload, digest = cached
+        else:
+            try:
+                response = request(session, url)
+                digest, _ = save_source(con, 'NSE_CORPORATE_ANNOUNCEMENTS', url, response.content, '.json')
+                payload = response.json()
+            except Exception:
+                continue
+        isin, canonical = identities[symbol]
+        relevant_downloads = 0
+        for item in announcement_rows(payload)[:100]:
+            subject = str(item.get('desc') or item.get('subject') or item.get('purpose') or '').strip()
+            subject_events = [(event_type, severity, pattern) for event_type, severity, pattern in EVENT_PATTERNS
+                              if pattern.search(subject)]
+            is_claim_source = bool(CLAIM_SOURCE_SUBJECT.search(subject))
+            if not subject_events and not RELEVANT_ATTACHMENT_SUBJECT.search(subject):
+                continue
+            event_date = str(item.get('an_dt') or item.get('broadcastDate') or item.get('date') or now())
+            attachment = official_url(str(item.get('attchmntFile') or item.get('attachment') or '')) if (item.get('attchmntFile') or item.get('attachment')) else None
+            source_url, source_hash = url, digest
+            body_text = ''
+            if include_attachments and attachment and relevant_downloads < MAX_RELEVANT_ATTACHMENTS_PER_COMPANY:
+                try:
+                    relevant_downloads += 1
+                    processed = con.execute('''SELECT sha256 FROM official_source_snapshot
+                                               WHERE source_type='NSE_ANNOUNCEMENT_ATTACHMENT'
+                                                 AND source_url=? AND archive_path='REMOTE_ONLY'
+                                               ORDER BY id DESC LIMIT 1''', (attachment,)).fetchone()
+                    cached = cached_attachment(con, attachment) if not processed else None
+                    if processed:
+                        source_hash, source_url = processed[0], attachment
+                    elif cached:
+                        content, source_hash = cached; suffix = '.pdf' if content.startswith(b'%PDF') else '.bin'
+                    else:
+                        doc = request(session, attachment); content = doc.content
+                        suffix = '.pdf' if 'pdf' in doc.headers.get('Content-Type','').lower() else '.bin'
+                        source_hash = save_remote_only_source(con, 'NSE_ANNOUNCEMENT_ATTACHMENT', attachment, content)
+                    if not processed: source_url = attachment
+                    if not processed and suffix == '.pdf':
+                        try:
+                            from pypdf import PdfReader
+                            body_text = '\n'.join(page.extract_text() or '' for page in PdfReader(io.BytesIO(content)).pages)
+                        except Exception:
+                            body_text = ''
+                except Exception:
+                    pass
+            combined = f'{subject} {body_text[:10000]}'
+            for event_type, severity, pattern in EVENT_PATTERNS:
+                if pattern.search(combined):
+                    reasoning = f"{EVENT_REASONS[event_type]} Evidence subject: {subject}"
+                    con.execute('''INSERT INTO company_material_event
+                      (isin,symbol,event_type,event_date,severity,explanation,source_url,source_sha256,verified,document_url)
+                      VALUES(?,?,?,?,?,?,?,?,1,?) ON CONFLICT(isin,event_type,event_date,source_sha256)
+                      DO UPDATE SET document_url=COALESCE(excluded.document_url,company_material_event.document_url),
+                                    explanation=excluded.explanation''',
+                      (isin,canonical,event_type,event_date,severity,reasoning,source_url,source_hash,attachment))
+                    counts['events'] += 1
+            if body_text and is_claim_source:
+                for candidate in detect_candidates(body_text):
+                    con.execute('''INSERT OR IGNORE INTO management_claim_candidate
+                      (isin,symbol,claim_date,source_url,source_sha256,evidence_text,detected_metric,
+                       detected_target,detected_unit,detected_deadline) VALUES(?,?,?,?,?,?,?,?,?,?)''',
+                      (isin,canonical,event_date,source_url,source_hash,candidate['evidence_text'],candidate['metric'],
+                       candidate['target'],candidate['unit'],candidate['deadline']))
+                    counts['claim_candidates'] += 1
+        con.commit()
+    return counts
+
+
+def refresh_official_sources(symbols: list[str], include_attachments: bool = False) -> dict:
+    selected = {s.upper() for s in symbols}; con = connect(); ensure_schema(con); session = source_session()
+    result = collect_shareholding(con, session, selected)
+    for key, value in collect_announcements(con, session, selected, include_attachments).items(): result[key] = value
+    con.close(); return result

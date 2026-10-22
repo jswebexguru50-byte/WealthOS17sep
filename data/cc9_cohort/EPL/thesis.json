@@ -1,0 +1,19 @@
+{
+  "symbol": "EPL",
+  "coreThesisStatement": "World's largest manufacturer of laminated tubes supplying 1 out of every 3 oral care tubes globally (Colgate, P&G, Unilever).",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Global Oligopoly",
+      "description": "Over 33% global oral care tube market share."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Sustainability Switch",
+      "description": "Patented Platina recyclable technology locking in global FMCG brand contracts."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_EPL_LEVERAGE"
+  ]
+}

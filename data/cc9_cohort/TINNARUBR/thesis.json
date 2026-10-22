@@ -1,0 +1,19 @@
+{
+  "symbol": "TINNARUBR",
+  "coreThesisStatement": "Pioneer and largest tyre recycler in India converting end-of-life tyres into crumb rubber modifier (CRM) for national highway construction and reclaim rubber for tyre makers.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Highway Bitumen Mandate",
+      "description": "MoRTH mandates crumb rubber modified bitumen in national highway projects."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Global Tire Brand Offtakes",
+      "description": "Long-term raw material supplier to Apollo, MRF, and Bridgestone."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_TINNA_LEVERAGE"
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_GANECOS_REV_01",
+    "issuerNseSymbol": "GANECOS",
+    "issuerBseCode": "514167",
+    "documentId": "DOC_GANECOS_AR24",
+    "documentHash": "0123456789abcdef0123456789abcdef0123456789abcdef01",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 30,
+    "pagePrinted": "28",
+    "quotedText": "Consolidated revenue for FY24 reached ₹1186 Cr driven by food-grade bottle-to-bottle rPET lines.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

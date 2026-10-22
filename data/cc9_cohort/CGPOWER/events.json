@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_CGPOWER_01",
+    "issuerNseSymbol": "CGPOWER",
+    "issuerBseCode": "500093",
+    "eventDate": "2024-02-29",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "Government Approval for ₹7,600 Cr Semiconductor OSAT JV",
+    "description": "Union Cabinet approved semiconductor outsourced assembly and testing (OSAT) plant in Sanand with Renesas Electronics.",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_CGPOWER_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

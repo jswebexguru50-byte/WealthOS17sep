@@ -1,0 +1,158 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ReasoningTraceSchema",
+  "version": "1.0.0",
+  "description": "Standardized schema for Autonomous Smart Money & Momentum Engine deterministic trade reasoning traces",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "traceId",
+    "symbol",
+    "timestamp",
+    "recommendation",
+    "ownershipBreakdown",
+    "technicalFactors",
+    "deterministicRuleFlags"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "enum": ["1.0.0", "v1"]
+    },
+    "traceId": {
+      "type": "string"
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "companyName": {
+      "type": "string"
+    },
+    "sector": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "recommendation": {
+      "type": "object",
+      "required": [
+        "action",
+        "entryPrice",
+        "stopLoss",
+        "target1",
+        "target2",
+        "riskRewardRatio",
+        "timeframe",
+        "probabilityPct",
+        "confidenceScore"
+      ],
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": [
+            "ENTER_LONG_BREAKOUT",
+            "ENTER_LONG_PULLBACK",
+            "SQUARE_OFF_PROFIT",
+            "SQUARE_OFF_STOP",
+            "TIGHTEN_TRAILING_STOP",
+            "HOLD"
+          ]
+        },
+        "entryPrice": { "type": "number" },
+        "currentPrice": { "type": "number" },
+        "stopLoss": { "type": "number" },
+        "stopLossPct": { "type": "number" },
+        "target1": { "type": "number" },
+        "target1GainPct": { "type": "number" },
+        "target2": { "type": "number" },
+        "target2GainPct": { "type": "number" },
+        "riskRewardRatio": { "type": "number" },
+        "timeframe": {
+          "type": "string",
+          "enum": ["1_TO_3_DAYS", "SWING_1_TO_2_WEEKS", "POSITIONAL_1_MONTH"]
+        },
+        "probabilityPct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "confidenceScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "executiveSummary": { "type": "string" }
+      }
+    },
+    "ownershipBreakdown": {
+      "type": "object",
+      "required": ["promoterPct", "fiiPct", "diiPct", "retailFloatPct", "floatSqueezeRatio", "floatRegime"],
+      "properties": {
+        "promoterPct": { "type": "number" },
+        "fiiPct": { "type": "number" },
+        "diiPct": { "type": "number" },
+        "retailFloatPct": { "type": "number" },
+        "floatSqueezeRatio": { "type": "number" },
+        "floatRegime": {
+          "type": "string",
+          "enum": [
+            "INSTITUTIONAL_LOCK_SQUEEZE",
+            "INSTITUTIONAL_ACCUMULATION",
+            "RETAIL_DOMINATED",
+            "BALANCED",
+            "DISTRIBUTION_PRESSURE"
+          ]
+        },
+        "fallbackUsed": { "type": "boolean" }
+      }
+    },
+    "technicalFactors": {
+      "type": "object",
+      "properties": {
+        "rsi": { "type": "number" },
+        "rsiDynamicThreshold": { "type": "number" },
+        "bollingerStatus": { "type": "string" },
+        "volumeSurgeRatio": { "type": "number" },
+        "smasConsensusScore": { "type": "number" },
+        "supportResistance": {
+          "type": "object",
+          "properties": {
+            "s1": { "type": "number" },
+            "s2": { "type": "number" },
+            "r1": { "type": "number" },
+            "r2": { "type": "number" },
+            "proximityModifier": { "type": "number" }
+          }
+        },
+        "volatilityRealized30d": { "type": "number" }
+      }
+    },
+    "fnoFactors": {
+      "type": "object",
+      "properties": {
+        "priceChangePct": { "type": "number" },
+        "oiChangePct": { "type": "number" },
+        "buildup": {
+          "type": "string",
+          "enum": ["LONG_BUILD_UP", "SHORT_COVERING", "SHORT_BUILD_UP", "LONG_UNWINDING", "NEUTRAL"]
+        },
+        "putCallRatio": { "type": "number" },
+        "gammaExposureStatus": { "type": "string" }
+      }
+    },
+    "deterministicRuleFlags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ruleId": { "type": "string" },
+          "description": { "type": "string" },
+          "passed": { "type": "boolean" },
+          "scoreDelta": { "type": "number" }
+        }
+      }
+    },
+    "supervisorMetadata": {
+      "type": "object",
+      "properties": {
+        "scanLatencyMs": { "type": "number" },
+        "modelParametersVersion": { "type": "string" },
+        "cached": { "type": "boolean" }
+      }
+    }
+  }
+}

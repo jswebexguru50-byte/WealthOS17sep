@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_OLECTRA_01",
+    "issuerNseSymbol": "OLECTRA",
+    "issuerBseCode": "532439",
+    "eventDate": "2024-03-25",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "Greenfield Seetharampur EV Bus Plant Operationalization",
+    "description": "Commenced commercial production at new 5,000 electric bus per annum capacity greenfield facility near Hyderabad.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_OLECTRA_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

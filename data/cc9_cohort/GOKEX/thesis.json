@@ -1,0 +1,19 @@
+{
+  "symbol": "GOKEX",
+  "coreThesisStatement": "Prime beneficiary of global textile \"China+1\" diversification with low-cost duty-free manufacturing hubs in Africa and India.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Duty-Free Trade Advantage",
+      "description": "Atraco Kenya manufacturing delivering duty-free export access to US market."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Global Brand Vendor",
+      "description": "Long-standing relationship with top global apparel brands (Gap, Banana Republic, Tommy Hilfiger)."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_GOKEX_LEVERAGE"
+  ]
+}

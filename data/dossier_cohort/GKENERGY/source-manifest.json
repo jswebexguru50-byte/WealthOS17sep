@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "GKENERGY",
+  "issuerBseCode": "518724",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_GKENERGY_AR2024",
+      "documentName": "GKENERGY_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "2295f11ba141eed20d64c5a8e654e9e9c33db3cbefba8bad1c718f6bf67f2fae",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_GKENERGY_AUDITED_RESULTS",
+      "documentName": "GKENERGY_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "7090da0757d037779125c10263a0d60bf4473c3d574c7035f54756f85d76dab3",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_GKENERGY_CONCALL_Q4FY26",
+      "documentName": "GKENERGY_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "9e95570fc64df216e3b7ffe6d60d10431e0e352cf80d705650449c8cd544094d",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

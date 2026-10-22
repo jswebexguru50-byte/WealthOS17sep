@@ -1,0 +1,23 @@
+{
+  "output": {
+    "filePath": ".reviews/context_dump.xml",
+    "style": "xml"
+  },
+  "include": [
+    "src/**",
+    "db/schema.sql",
+    "fixtures/sample_data.json"
+  ],
+  "ignore": {
+    "useGitignore": true,
+    "customPatterns": [
+      "node_modules/**",
+      "dist/**",
+      "*.log",
+      "*.zip",
+      "*.db",
+      "*.png",
+      ".git/**"
+    ]
+  }
+}

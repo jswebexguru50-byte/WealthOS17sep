@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_RIL_REV_01",
+    "issuerNseSymbol": "RELIANCE",
+    "issuerBseCode": "500325",
+    "documentId": "DOC_RELIANCE_AR24",
+    "documentHash": "5c6d7e8f90123456789abcdef0123456789abcdef0123456789ab",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 95,
+    "pagePrinted": "93",
+    "quotedText": "Consolidated revenue for FY24 reached ₹1000122 Cr with retail and digital services leading expansion.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

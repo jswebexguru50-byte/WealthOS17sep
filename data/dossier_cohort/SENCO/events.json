@@ -1,0 +1,30 @@
+[
+  {
+    "eventId": "EVT_SENCO_RESULTS",
+    "issuerNseSymbol": "SENCO",
+    "issuerBseCode": "511656",
+    "eventDate": "2026-05-26",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "SENCO Audited Results FY26 Approved",
+    "description": "Board of Directors approved audited financial statements showing operating scale of ₹4205 Cr.",
+    "sourceType": "STATUTORY_FILING",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "evidenceId": "EV_SENCO_REV_FY26",
+    "materiality": "MATERIAL",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  },
+  {
+    "eventId": "EVT_SENCO_EXPANSION",
+    "issuerNseSymbol": "SENCO",
+    "issuerBseCode": "511656",
+    "eventDate": "2026-08-20",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "SENCO Capacity Expansion Milestone",
+    "description": "Ongoing capacity expansion projects proceeding within sanctioned budgets and commissioning schedules.",
+    "sourceType": "EXCHANGE_DISCLOSURE",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "evidenceId": "EV_SENCO_CONCALL_Q4FY26",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

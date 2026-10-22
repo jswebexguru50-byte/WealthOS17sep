@@ -1,0 +1,34 @@
+{
+  "status": "CONTRADICTIONS_DETECTED",
+  "issuerNseSymbol": "EPIGRAL",
+  "activeContradictionCount": 1,
+  "contradictions": [
+    {
+      "contradictionId": "DIV_EPIGRAL_SUPPLY_CHAIN",
+      "issuerNseSymbol": "EPIGRAL",
+      "issuerBseCode": "515996",
+      "severity": "LOW",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_EPIGRAL_02",
+      "eventId": null,
+      "description": "Supply chain fragility check: import exposure (40%) and client concentration (48%) introduce quarterly gross margin lag against management guidance.",
+      "divergenceDetails": {
+        "whatManagementClaimed": "Full margin defense",
+        "whatActuallyHappened": "Quarterly margin lag due to input cost volatility",
+        "deltaMetric": "80-120 bps"
+      },
+      "leftEvidenceId": "EV_EPIGRAL_PAT_FY26",
+      "rightEvidenceId": "EV_EPIGRAL_CONCALL_Q4FY26",
+      "supportingEvidenceIds": [
+        "EV_EPIGRAL_PAT_FY26",
+        "EV_EPIGRAL_CONCALL_Q4FY26"
+      ],
+      "status": "OPEN",
+      "materiality": "LOW",
+      "detectedAt": "2026-09-16T11:00:00.000Z",
+      "createdAt": "2026-09-16 11:22:00",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ]
+}

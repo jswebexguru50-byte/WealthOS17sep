@@ -1,0 +1,19 @@
+{
+  "symbol": "RBLBANK",
+  "coreThesisStatement": "Turnaround story in private commercial banking facing cyclical headwinds in unsecured credit card and microfinance portfolios.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Credit Card Franchise",
+      "description": "Co-branded partnerships (Bajaj Finance, Zomato) driving card interchange fees."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Secured Asset Pivot",
+      "description": "Rebalancing loan book towards housing, auto, and wholesale advances."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_RBL_NPA"
+  ]
+}

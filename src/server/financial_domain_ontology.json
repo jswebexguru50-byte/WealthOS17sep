@@ -1,0 +1,111 @@
+{
+  "ontology_version": "1.0.0",
+  "nodes": [
+    {
+      "id": "nifty_50_etf",
+      "canonical": "Nifty 50 ETF",
+      "category": "INDEX_ETF",
+      "tickers": ["NIFTYBEES", "SETFNIF50", "ICICINIFTY", "HDFCNIFTY50", "KOTAKNIFTY", "UTINIFTETF"],
+      "synonyms": ["Nifty 50 ETF", "Nifty Bees", "Nifty 50 Index Fund", "Passive Indexing India", "NSE Index Tracker", "Bluechip Index Fund"],
+      "colloquial": ["nifty me invest", "best nifty etf", "index investing india", "etf vs mutual fund", "buy nifty bees"],
+      "multilingual": {
+        "hi": ["निफ्टी 50 ईटीएफ", "निफ्टी इंडेक्स फंड", "निफ्टी बीस"],
+        "ta": ["நிஃப்டி 50 இடிஎஃப்", "நிஃப்டி பீஸ்"],
+        "te": ["నిఫ్టీ 50 ఈటీఎఫ్", "నిఫ్టీ బీస్"],
+        "gu": ["નિફ્ટી 50 ઇટીએફ", "નિફ્ટી બીઝ"],
+        "mr": ["निफ्टी 50 ईटीएफ"]
+      },
+      "related_concepts": ["Sensex ETF", "Junior Nifty", "Bank Nifty", "Expense Ratio", "Tracking Error"]
+    },
+    {
+      "id": "defence_stocks_india",
+      "canonical": "Defence Stocks India",
+      "category": "SECTOR_THEMATIC",
+      "tickers": ["HAL", "BEL", "MAZDOCK", "COCHINSHIP", "BDL", "PARAS", "DATAPATTNS", "ZEN"],
+      "synonyms": ["Defense Sector India", "Make in India Defence", "PSU Defence Stocks", "Defence Indigenization", "Defence Order Book"],
+      "colloquial": ["defence shares to buy", "best defence share", "hal share target", "bel share analysis", "defence rally"],
+      "multilingual": {
+        "hi": ["डिफेंस शेयर", "रक्षा क्षेत्र के शेयर", "एचएएल शेयर विश्लेषण"],
+        "ta": ["பாதுகாப்பு துறை பங்குகள்"],
+        "te": ["రక్షణ రంగ షేర్లు"],
+        "gu": ["ડિફેન્સ શેર્સ"],
+        "mr": ["डिफेन्स शेअर्स"]
+      },
+      "related_concepts": ["Capital Expenditure", "DAP 2020", "Export Orders", "Order Inflow", "Margin Expansion"]
+    },
+    {
+      "id": "railway_stocks_india",
+      "canonical": "Railway Stocks India",
+      "category": "SECTOR_THEMATIC",
+      "tickers": ["RVNL", "IRFC", "IRCON", "RAILTEL", "TITAGARH", "JWL", "TEXRAIL"],
+      "synonyms": ["Indian Railway PSU", "Railway Infrastructure Stocks", "Rail Capex India", "Kavach System Stocks"],
+      "colloquial": ["railway shares to buy", "rvnl share news", "irfc share target", "railway capex rally"],
+      "multilingual": {
+        "hi": ["रेलवे शेयर", "आरवीएनएल शेयर", "आईआरएफसी शेयर लक्ष्य"],
+        "ta": ["ரயில்வே பங்குகள்"],
+        "te": ["రైల్వే షేర్లు"],
+        "gu": ["રેલ્વે શેર્સ"],
+        "mr": ["रेल्वे शेअर्स"]
+      },
+      "related_concepts": ["Vande Bharat", "Kavach Safety", "Dedicated Freight Corridor", "Railway Budget Capex"]
+    },
+    {
+      "id": "renewable_energy_india",
+      "canonical": "Renewable Energy Stocks India",
+      "category": "SECTOR_THEMATIC",
+      "tickers": ["IREDA", "SUZLON", "KPIGREEN", "WAAREE", "TATA_POWER", "JSWENERGY", "NHPC", "SJVN"],
+      "synonyms": ["Green Energy Stocks", "Solar Power Stocks", "Wind Energy India", "Clean Energy Capex", "PM Surya Ghar"],
+      "colloquial": ["green energy share", "suzlon share target", "ireda share analysis", "solar rooftop scheme shares"],
+      "multilingual": {
+        "hi": ["रिन्यूएबल एनर्जी शेयर", "ग्रीन एनर्जी स्टॉक्स", "सुजलॉन शेयर"],
+        "ta": ["புதுப்பிக்கத்தக்க ஆற்றல் பங்குகள்"],
+        "te": ["పునరుత్పాదక శక్తి షేర్లు"],
+        "gu": ["રિન્યુએબલ એનર્જી શેર્સ"],
+        "mr": ["ग्रीन एनर्जी शेअर्स"]
+      },
+      "related_concepts": ["Solar Module Manufacturing", "Wind Turbines", "Grid Connectivity", "500 GW Target 2030"]
+    },
+    {
+      "id": "fvg_smart_money_concept",
+      "canonical": "Fair Value Gap & Smart Money Concepts",
+      "category": "TECHNICAL_STRATEGY",
+      "tickers": ["NIFTY", "BANKNIFTY", "RELIANCE", "HDFCBANK"],
+      "synonyms": ["Smart Money Concepts", "SMC Trading", "Fair Value Gap", "Order Block", "Liquidity Sweep", "Consequent Encroachment"],
+      "colloquial": ["fvg trading strategy", "smc indicator", "institutional buying footprint", "order block trading"],
+      "multilingual": {
+        "hi": ["फेयर वैल्यू गैप", "स्मार्ट मनी कॉन्सेप्ट्स", "ऑर्डर ब्लॉक ट्रेडिंग"],
+        "ta": ["ஸ்மார்ட் மணி கான்செப்ட்"],
+        "te": ["స్మార్ట్ మనీ కాన్సెప్ట్స్"],
+        "gu": ["સ્માર્ટ મની કોન્સેપ્ટ્સ"],
+        "mr": ["स्मार्ट मनी स्ट्रॅटेजी"]
+      },
+      "related_concepts": ["Consequent Encroachment 50%", "Liquidity Grabs", "Break of Structure", "Change of Character", "Imbalance Fill"]
+    },
+    {
+      "id": "multibagger_smallcap_screener",
+      "canonical": "Multibagger Smallcap Screener",
+      "category": "FUNDAMENTAL_STRATEGY",
+      "tickers": ["KAYNES", "DATAPATTNS", "ELECON", "GRAVITA", "JYOTIRES", "APARINDS", "NEWGEN"],
+      "synonyms": ["Multibagger Stocks 2025", "High ROCE Smallcaps", "Debt Free Growth Stocks", "QGLP Framework", "Microcap Compounders"],
+      "colloquial": ["how to find multibaggers", "next 10x stock india", "smallcap gems 2025", "screener query multibagger"],
+      "multilingual": {
+        "hi": ["मल्टीबैगर स्टॉक कैसे चुनें", "10 गुना रिटर्न वाले शेयर", "स्मॉलकैप शेयर"],
+        "ta": ["மல்டிபேக்கர் பங்குகள்"],
+        "te": ["మల్టీబ్యాగర్ షేర్లు"],
+        "gu": ["મલ્ટીબેગર શેર્સ"],
+        "mr": ["मल्टीबॅगर शेअर्स"]
+      },
+      "related_concepts": ["Operating Leverage", "ROCE > 25%", "Promoter Holding Increase", "Negative Working Capital", "Capex Expansion"]
+    }
+  ],
+  "templates": {
+    "temporal": ["{topic} 2025", "{topic} analysis 2024", "{topic} latest update", "{topic} outlook"],
+    "comparative": ["best {topic}", "{topic} comparison", "{topic} review", "{topic} vs peers"],
+    "educational": ["{topic} explained", "{topic} for beginners", "{topic} complete strategy", "how to invest in {topic}"],
+    "critical": ["{topic} risks", "why avoid {topic}", "{topic} truth", "{topic} valuation bubble", "{topic} warning"]
+  },
+  "bias_triggers": [
+    "guaranteed", "100%", "never lose", "sure shot", "always buy", "10x return", 
+    "rocket share", "blindly buy", "crorepati formula", "secret indicator"
+  ]
+}

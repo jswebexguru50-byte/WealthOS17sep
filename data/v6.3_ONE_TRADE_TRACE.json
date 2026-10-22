@@ -1,0 +1,52 @@
+{
+  "metadata": {
+    "traceId": "V63-PHASE2-PILOT-TRACE-001",
+    "generatedAt": "2026-09-17T11:18:43.462Z",
+    "pilotWindow": {
+      "startDate": "2025-10-01",
+      "endDate": "2026-03-31"
+    },
+    "totalBarsEvaluated": 645,
+    "tradesExecuted": 0
+  },
+  "directiveCExplanation": {
+    "rule": "ZERO SIGNALS / ZERO TRADES IS NOT A DATA FAILURE",
+    "analysis": "PureTechnicalStrategiesEngine S1-S11 require 265 historical lookback bars (200-day SMA + 60 compaction bars). The 6-month pilot window spans 129 sessions. Frozen strategy logic was preserved without manufacturing trades.",
+    "syntheticProxiesUsed": false,
+    "thresholdsAltered": false
+  },
+  "sampleBarEvaluationTrace": {
+    "symbol": "CANBK",
+    "firstSession": {
+      "symbol": "CANBK",
+      "timestamp": "2025-10-01T15:35:00+05:30",
+      "date": "2025-10-01",
+      "open": 124.3,
+      "high": 124.5,
+      "low": 121.17,
+      "close": 123.76,
+      "volume": 38045288,
+      "deliveryVolume": 15052367,
+      "turnover": 4683425000,
+      "tradable": true,
+      "availableAt": "2025-10-01T15:35:00+05:30"
+    },
+    "lastSession": {
+      "symbol": "CANBK",
+      "timestamp": "2026-03-31T15:35:00+05:30",
+      "date": "2026-03-31",
+      "open": 127.91,
+      "high": 128.42,
+      "low": 123,
+      "close": 123.45,
+      "volume": 34665726,
+      "deliveryVolume": 16716944,
+      "turnover": 4342669000,
+      "tradable": true,
+      "availableAt": "2026-03-31T15:35:00+05:30"
+    },
+    "totalSessionsEvaluated": 129,
+    "evaluationStatus": "COMPLETE_ZERO_DEFECT_EVALUATION"
+  },
+  "trades": []
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "breakerId": "TB_BOB_NPA",
+    "symbol": "BANKBARODA",
+    "name": "Public Bank Asset Quality Ceiling",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 4,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Gross NPA exceeding 4.0% triggers hard veto.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

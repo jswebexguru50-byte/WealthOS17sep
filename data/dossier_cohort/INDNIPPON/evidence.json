@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_INDNIPPON_REV_FY26",
+    "issuerNseSymbol": "INDNIPPON",
+    "issuerBseCode": "521297",
+    "documentHash": "9d0b321056c7603adc05f368101033e4734d627e31f688b6388f4999f9d2e012",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹15988 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_INDNIPPON_PAT_FY26",
+    "issuerNseSymbol": "INDNIPPON",
+    "issuerBseCode": "521297",
+    "documentHash": "9d0b321056c7603adc05f368101033e4734d627e31f688b6388f4999f9d2e012",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹1919 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_INDNIPPON_DEBT_FY26",
+    "issuerNseSymbol": "INDNIPPON",
+    "issuerBseCode": "521297",
+    "documentHash": "d5ce138a8255eb3187b0ebc7ae55ca3c32d2d01f52be52d43ac0d3b8248f6f18",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_INDNIPPON_CONCALL_Q4FY26",
+    "issuerNseSymbol": "INDNIPPON",
+    "issuerBseCode": "521297",
+    "documentHash": "fea12bbc477a66abe33366c1469d8fea6e5e5f8fc1b8d2104bc7b99b14c3aef7",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

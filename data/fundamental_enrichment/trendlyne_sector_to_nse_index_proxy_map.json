@@ -1,0 +1,24 @@
+{
+  "mappingVersion": "2026-09-27",
+  "purpose": "Maps a Trendlyne provider sector to the closest saved NSE sector or thematic index for relative sector momentum only. This is a proxy mapping and never asserts index membership.",
+  "mappings": {
+    "Automobiles & Auto Components": "NIFTY AUTO",
+    "Banking and Finance": "NIFTY FIN SERVICE",
+    "Cement and Construction": "NIFTY INFRA",
+    "Chemicals & Petrochemicals": "NIFTY CHEMICALS",
+    "Commercial Services & Supplies": "NIFTY SERV SECTOR",
+    "Consumer Durables": "NIFTY CONSR DURBL",
+    "Diversified Consumer Services": "NIFTY SERV SECTOR",
+    "FMCG": "NIFTY FMCG",
+    "Food, Beverages & Tobacco": "NIFTY FMCG",
+    "General Industrials": "NIFTY INDIA MFG",
+    "Healthcare": "NIFTY HEALTHCARE",
+    "Metals & Mining": "NIFTY METAL",
+    "Pharmaceuticals & Biotechnology": "NIFTY PHARMA",
+    "Retailing": "NIFTY NEW CONSUMP",
+    "Software & Services": "NIFTY IT",
+    "Textiles Apparels & Accessories": "NIFTY INDIA MFG",
+    "Transportation": "NIFTY TRANS LOGIS",
+    "Utilities": "NIFTY ENERGY"
+  }
+}

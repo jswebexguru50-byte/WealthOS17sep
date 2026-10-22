@@ -329,10 +329,20 @@ def compute_f_filters(symbol: str, tv: dict, sh: Optional[dict],
                       (None if num(q.get('opm_pct')) is None or num(q.get('sales_cr')) is None
                        else num(q.get('opm_pct')) * num(q.get('sales_cr')) / 100))
     cfo_ebitda = None
+    f7_source = 'DB quarterly cash flow'
     if len(cfo) == 4 and all(v is not None for v in cfo + ebitda):
         total_ebitda = sum(ebitda)
         if total_ebitda > 0:
             cfo_ebitda = sum(cfo) / total_ebitda
+    # The TradingView bridge stores CFO and EBITDA on the same FY basis.  This
+    # is a valid fallback only as a pair; never mix FY CFO with TTM/quarterly
+    # EBITDA, and preserve UNKNOWN when either member is absent.
+    if cfo_ebitda is None:
+        cfo_fy = num(tv.get('cfo_fy_cr') if tv.get('cfo_fy_cr') is not None else tv.get('cfo_annual_fy'))
+        ebitda_fy = num(tv.get('ebitda_fy_cr') if tv.get('ebitda_fy_cr') is not None else tv.get('ebitda_annual'))
+        if cfo_fy is not None and ebitda_fy is not None and ebitda_fy > 0:
+            cfo_ebitda = cfo_fy / ebitda_fy
+            f7_source = 'TradingView FY CFO / EBITDA'
 
     def ge(value, threshold):
         value = num(value)
@@ -359,7 +369,7 @@ def compute_f_filters(symbol: str, tv: dict, sh: Optional[dict],
         'F5_pledge_pct': num(pledge), 'F5_pass': passes['F5'], 'F5_source': f5_source,
         'F6_inst_pct': inst, 'F6_pass': passes['F6'], 'F6_source': f6_source,
         'F6_trend_pass': trend,
-        'F7_cfo_ebitda': cfo_ebitda, 'F7_pass': passes['F7'], 'F7_source': 'DB quarterly cash flow',
+        'F7_cfo_ebitda': cfo_ebitda, 'F7_pass': passes['F7'], 'F7_source': f7_source,
     }
     out['f_score'] = sum(value is True for value in passes.values())
     out['f_unknowns'] = sum(value is None for value in passes.values())

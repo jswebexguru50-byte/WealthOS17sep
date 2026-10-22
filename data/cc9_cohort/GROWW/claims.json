@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_GROWW_01",
+    "issuerNseSymbol": "GROWW",
+    "issuerBseCode": "GROWW",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Scale active broking and mutual fund distribution client base to surpass ₹2,500 Cr revenue in FY24.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 1278,
+    "expectedValue": 2500,
+    "expectedOutcome": "Revenue >= ₹2,500 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_GROWW_REV_01",
+    "claimDate": "2023-08-15",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 3145,
+    "actualOutcomeDescription": "Delivered ₹3,145 Cr revenue surpassing guidance by 25.8%.",
+    "evaluationEvidenceId": "EV_GROWW_REV_01",
+    "evaluationDate": "2024-06-15",
+    "evaluationBasis": "Audited Financial Statements Filing with ROC",
+    "publicationDate": "2023-08-15",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_GROWW_01"
+  }
+]

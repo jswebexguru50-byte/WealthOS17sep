@@ -1,0 +1,14 @@
+[
+  {
+    "breakerId": "TB_HAL_LEVERAGE",
+    "symbol": "HAL",
+    "name": "Defense Aerospace Leverage Ceiling",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 1,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Debt / Equity ratio exceeding 1.0x triggers hard veto.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

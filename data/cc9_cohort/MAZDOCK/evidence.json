@@ -1,0 +1,26 @@
+[
+  {
+    "evidenceId": "EV_MAZ_REV_01",
+    "issuerNseSymbol": "MAZDOCK",
+    "issuerBseCode": "543237",
+    "documentId": "DOC_MAZDOCK_AR24",
+    "documentHash": "293a4b5c6d7e8f90123456789abcdef0123456789abcdef012345678",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 46,
+    "pagePrinted": "44",
+    "quotedText": "Consolidated revenue for FY24 reached ₹9466 Cr driven by Project 15B stealth destroyer milestones.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_MAZ_ORDER_01",
+    "issuerNseSymbol": "MAZDOCK",
+    "issuerBseCode": "543237",
+    "documentId": "DOC_MAZDOCK_AR24",
+    "documentHash": "293a4b5c6d7e8f90123456789abcdef0123456789abcdef012345678",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 58,
+    "pagePrinted": "56",
+    "quotedText": "Total confirmed order book stood at ₹38561 Cr as of 31st March 2024 providing multi-year visibility.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "symbol": "ZENTEC",
+  "coreThesisStatement": "Pure-play defense technology leader possessing 100% indigenous intellectual property across live combat training simulators and anti-drone electronic warfare.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Anti-Drone Moat",
+      "description": "Proprietary RF sensors, drone jammers, and hard-kill radar integration."
+    },
+    {
+      "pillarId": "P2",
+      "title": "High Export Profitability",
+      "description": "Export orders carrying 40%+ operating EBITDA margins."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_ZENTEC_LEVERAGE"
+  ]
+}

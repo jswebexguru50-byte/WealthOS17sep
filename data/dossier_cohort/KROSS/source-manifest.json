@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "KROSS",
+  "issuerBseCode": "512462",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_KROSS_AR2024",
+      "documentName": "KROSS_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "2d065f78c00150dfdfb976b3b65a6920387d8994ad0e6a6a259cee9a9e835ec9",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_KROSS_AUDITED_RESULTS",
+      "documentName": "KROSS_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "31e9557b4bfa4c44c72e9b377438bf75129c25d5edfd43f7c664921adea35bce",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_KROSS_CONCALL_Q4FY26",
+      "documentName": "KROSS_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "f5c76b5f30cd652a910566c34715be3251ecbbae7cfa6f53e65508bcce1ec2cc",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

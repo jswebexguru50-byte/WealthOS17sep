@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "1.1",
+  "canonicalRunId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+  "runId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+  "dataMode": "REAL_HISTORICAL",
+  "executionModel": "STRICT_NEXT_TRADABLE_SESSION_OPEN",
+  "ledgerSha256": "035d8867f1f8dbc65f9fe35ea45263f20f9fee00a48d3d7f48807c24a2afd485",
+  "syntheticRecords": 0,
+  "frozenProductionFiles": {
+    "PureTechnicalStrategiesEngine.ts": "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3",
+    "NewTechnicalStrategiesEngine.ts": "78415ba3c74ca6a9cc2fcc96d2e54ba871e9bca73fc6e078570c412781b1d354",
+    "SignalQualityOverlay.ts": "c41cddb152c150bea932a8b9bd8fcc6ea01a03a2ba030a723789aaada5c17452",
+    "CapitalProtectionEngine.ts": "63b8317889f5a60e9462f883e89acb57fe99e819935ec8f7b30036ecfe4ed753",
+    "StrategyParameterConfig.ts": "901ca7a27b2eb4e09183426c9e0dfd7b812aeebf84472b49b9f829661fe7194b",
+    "UpstoxIntradayIngestor.ts": "0f1c96d0e0c704672517f378990e17facdced7bfbf359daf9c6f37333be1b151"
+  },
+  "researchComponents": {
+    "ExecutionSimulator.ts": "9b8c05960f0188629570f442c038d699a958c5aaf9830e223821ab1788f9914c",
+    "FrozenSignalAdapter.ts": "9efa94c107cc7c541707da4b3e76a35dd100ae9f71cebce584374066c400cdbf",
+    "FrozenOverlayAdapter.ts": "9fd48babbbae849f9bbe1269d2c9e3988d33197d57d3229eb55b7274f3c67b7d",
+    "AblationEngine.ts": "1836928e4776bf1ebfb23b4b426c0df9dc0228f3f5d50411be7ad3555c9f51d3",
+    "TransactionCostEngine.ts": "4b12e265080aa5bd362623e3191e8bf58c1eee52b0971ce87b2e25941a83b10d"
+  },
+  "populationMetadata": {
+    "populationType": "VALIDATED_RESEARCH_SUBSET",
+    "populationSize": 19,
+    "armBSize": 7,
+    "subsetDatabase": "portfolio_v6.3_research_subset.db",
+    "coverageNote": "TECHNICALLY COMPLETE WITHIN SUBSET; NOT YET DEMONSTRATED AS ECONOMICALLY REPRESENTATIVE OF FULL INVESTMENT UNIVERSE"
+  },
+  "metricsSummary": {
+    "totalTrades": 19,
+    "armBTrades": 7,
+    "grossProfit": 6311181,
+    "grossLoss": 19920,
+    "netPnl": 6291261,
+    "profitFactor": 316.833,
+    "expectancyR": -14.8839,
+    "winRate": 0.143,
+    "maxDrawdownPct": 0.12,
+    "calmar": 515.16,
+    "sortino": 592.43
+  },
+  "legacyRuns": [
+    {
+      "legacyRunId": "RUN-V63-REAL-1789627995643",
+      "status": "LEGACY_INVALID_EXECUTION_MODEL",
+      "legacyProfitFactor": 1.209,
+      "promotionEligible": false,
+      "reason": "Contaminated by same-session T+0 execution and signal-close entry price bug"
+    }
+  ],
+  "executionInvariantStatus": "PASS",
+  "economicValidationStatus": "DATA_INSUFFICIENT_FOR_PROMOTION",
+  "promotionStatus": "NOT_AUTHORIZED"
+}

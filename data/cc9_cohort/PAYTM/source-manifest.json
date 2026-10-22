@@ -1,0 +1,27 @@
+{
+  "issuerNseSymbol": "PAYTM",
+  "issuerBseCode": "543396",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_PAYTM_AR24",
+      "documentName": "Paytm_Annual_Report_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-30",
+      "documentHashSha256": "3456789abcdef0123456789abcdef0123456789abcdef01234",
+      "pageCount": 310,
+      "filingAuthority": "BSE / NSE"
+    },
+    {
+      "documentId": "DOC_PAYTM_RBI_DIR",
+      "documentName": "RBI_Press_Release_PPBL_Section35A.pdf",
+      "documentType": "REGULATORY_ORDER",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2024-01-31",
+      "documentHashSha256": "456789abcdef0123456789abcdef0123456789abcdef012345",
+      "pageCount": 4,
+      "filingAuthority": "Reserve Bank of India"
+    }
+  ]
+}

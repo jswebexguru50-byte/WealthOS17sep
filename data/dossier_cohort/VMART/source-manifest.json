@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "VMART",
+  "issuerBseCode": "512214",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_VMART_AR2024",
+      "documentName": "VMART_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "c4c4a9bea92396c4be57ca03c0854f50f874b1c428d44409968155e202dc642a",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_VMART_AUDITED_RESULTS",
+      "documentName": "VMART_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "75dd5346f6a8eb96089bdf8cd96e716eeef12be0ea713f179ceed509fece2fd4",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_VMART_CONCALL_Q4FY26",
+      "documentName": "VMART_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "b9fe5f27ebde28321254f78a0938d761a0d388dbb07fe0c136daa1456fe62ebc",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

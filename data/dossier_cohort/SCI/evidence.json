@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_SCI_REV_FY26",
+    "issuerNseSymbol": "SCI",
+    "issuerBseCode": "506913",
+    "documentHash": "236b3a2e93dfae2280408cfe85d258f6f92dd0b6ab9f87c18750bd12a6eab39c",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹3363 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_SCI_PAT_FY26",
+    "issuerNseSymbol": "SCI",
+    "issuerBseCode": "506913",
+    "documentHash": "236b3a2e93dfae2280408cfe85d258f6f92dd0b6ab9f87c18750bd12a6eab39c",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹404 Cr with operating margin of 12.6%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_SCI_DEBT_FY26",
+    "issuerNseSymbol": "SCI",
+    "issuerBseCode": "506913",
+    "documentHash": "a810a081a4c8c792dc0dfc374cf5033a7400d670b11ec733cfdde88d11940fda",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.38x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_SCI_CONCALL_Q4FY26",
+    "issuerNseSymbol": "SCI",
+    "issuerBseCode": "506913",
+    "documentHash": "b924bac729741f1dc0fdbd7355896d33bf349d21a7f721bf007217673953b2f8",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for fleet modernization capex without taking on external debt; maintained net debt/equity at 0.38x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

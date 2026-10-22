@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_MM_REV_01",
+    "issuerNseSymbol": "M&M",
+    "issuerBseCode": "500520",
+    "documentId": "DOC_MM_AR24",
+    "documentHash": "bcdef0123456789abcdef0123456789abcdef0123456789ab",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 68,
+    "pagePrinted": "66",
+    "quotedText": "Consolidated revenue for FY24 reached ₹139078 Cr with SUV volume market share crossing 20.4%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

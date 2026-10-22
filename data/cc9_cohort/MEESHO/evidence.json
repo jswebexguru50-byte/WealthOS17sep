@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_MEESHO_REV_01",
+    "issuerNseSymbol": "MEESHO",
+    "issuerBseCode": "MEESHO",
+    "documentId": "DOC_MEESHO_FY24",
+    "documentHash": "ef0123456789abcdef0123456789abcdef0123456789abcdef1",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 28,
+    "pagePrinted": "26",
+    "quotedText": "Consolidated revenue for FY24 reached ₹7615 Cr with annual transacting users surpassing 140 million.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

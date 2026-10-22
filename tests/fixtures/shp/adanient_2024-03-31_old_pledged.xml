@@ -1,0 +1,19 @@
+<xbrli:xbrl xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:xbrldi="http://xbrl.org/2006/xbrldi" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:in="http://www.bseindia.com/xbrl/shp/in-bse-shp"><link:schemaRef xlink:href="in-bse-shp-2022-09-30.xsd" xlink:type="simple"/><xbrli:context id="ShareholdingOfPromoterAndPromoterGroupI"><xbrli:scenario><xbrldi:explicitMember dimension="in:CategoryOfShareholdersAxis">in:shareholdingofpromoterandpromotergroupmember</xbrldi:explicitMember></xbrli:scenario></xbrli:context><xbrli:context id="MutualFundsOrUtiI"><xbrli:scenario><xbrldi:explicitMember dimension="in:CategoryOfShareholdersAxis">in:mutualfundsorutimember</xbrldi:explicitMember></xbrli:scenario></xbrli:context><xbrli:context id="InstitutionsDomesticI"><xbrli:scenario><xbrldi:explicitMember dimension="in:CategoryOfShareholdersAxis">in:institutionsdomesticmember</xbrldi:explicitMember></xbrli:scenario></xbrli:context><xbrli:context id="InstitutionsForeignI"><xbrli:scenario><xbrldi:explicitMember dimension="in:CategoryOfShareholdersAxis">in:institutionsforeignmember</xbrldi:explicitMember></xbrli:scenario></xbrli:context><xbrli:context id="PublicShareholdingI"><xbrli:scenario><xbrldi:explicitMember dimension="in:CategoryOfShareholdersAxis">in:publicshareholdingmember</xbrldi:explicitMember></xbrli:scenario></xbrli:context><xbrli:context id="ShareholdingPatternI"><xbrli:scenario><xbrldi:explicitMember dimension="in:CategoryOfShareholdersAxis">in:shareholdingpatternmember</xbrldi:explicitMember></xbrli:scenario></xbrli:context>
+<in:WhetherAnySharesHeldByPromotersArePledgeOrOtherwiseEncumbered contextRef="Main">true</in:WhetherAnySharesHeldByPromotersArePledgeOrOtherwiseEncumbered>
+<in:NumberOfShares contextRef="ShareholdingOfPromoterAndPromoterGroupI">827750953</in:NumberOfShares>
+<in:ShareholdingAsAPercentageOfTotalNumberOfShares contextRef="ShareholdingOfPromoterAndPromoterGroupI">72.61</in:ShareholdingAsAPercentageOfTotalNumberOfShares>
+<in:PledgedOrEncumberedNumberOfShares contextRef="ShareholdingOfPromoterAndPromoterGroupI">671000</in:PledgedOrEncumberedNumberOfShares>
+<in:PledgedOrEncumberedSharesHeldAsPercentageOfTotalNumberOfShares contextRef="ShareholdingOfPromoterAndPromoterGroupI">0.08</in:PledgedOrEncumberedSharesHeldAsPercentageOfTotalNumberOfShares>
+<in:NumberOfShares contextRef="MutualFundsOrUtiI">19549148</in:NumberOfShares>
+<in:ShareholdingAsAPercentageOfTotalNumberOfShares contextRef="MutualFundsOrUtiI">1.71</in:ShareholdingAsAPercentageOfTotalNumberOfShares>
+<in:NumberOfShares contextRef="InstitutionsDomesticI">65758964</in:NumberOfShares>
+<in:ShareholdingAsAPercentageOfTotalNumberOfShares contextRef="InstitutionsDomesticI">5.77</in:ShareholdingAsAPercentageOfTotalNumberOfShares>
+<in:NumberOfShares contextRef="InstitutionsForeignI">164277002</in:NumberOfShares>
+<in:ShareholdingAsAPercentageOfTotalNumberOfShares contextRef="InstitutionsForeignI">14.41</in:ShareholdingAsAPercentageOfTotalNumberOfShares>
+<in:NumberOfShares contextRef="PublicShareholdingI">312250168</in:NumberOfShares>
+<in:ShareholdingAsAPercentageOfTotalNumberOfShares contextRef="PublicShareholdingI">27.39</in:ShareholdingAsAPercentageOfTotalNumberOfShares>
+<in:NumberOfShares contextRef="ShareholdingPatternI">1140001121</in:NumberOfShares>
+<in:ShareholdingAsAPercentageOfTotalNumberOfShares contextRef="ShareholdingPatternI">100</in:ShareholdingAsAPercentageOfTotalNumberOfShares>
+<in:PledgedOrEncumberedNumberOfShares contextRef="ShareholdingPatternI">671000</in:PledgedOrEncumberedNumberOfShares>
+<in:PledgedOrEncumberedSharesHeldAsPercentageOfTotalNumberOfShares contextRef="ShareholdingPatternI">0.06</in:PledgedOrEncumberedSharesHeldAsPercentageOfTotalNumberOfShares>
+</xbrli:xbrl>

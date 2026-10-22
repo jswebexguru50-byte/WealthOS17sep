@@ -38,12 +38,13 @@ def make(datas, **kw):
 class T(unittest.TestCase):
     def test_priority_order_and_stop_at_first_hit(self):
         eng, _, log, _ = make({"screener_in": {("A", "pe"): 9}, "kite": {("A", "pe"): 5},
-                               "trendlyne_mcp": {}, "upstox": {("A", "pe"): 7}})
+                               "trendlyne_mcp": {}, "trendlyne_web": {}, "tradingview": {},
+                               "upstox": {("A", "pe"): 7}})
         r = eng.resolve(["A"], ["pe"])
-        self.assertEqual([c[0] for c in log], ["trendlyne_mcp", "upstox"])
+        self.assertEqual([c[0] for c in log], ["tradingview", "trendlyne_web", "trendlyne_mcp", "upstox"])
         self.assertEqual(r["values"]["A"]["pe"], 7)
         self.assertEqual(r["provenance"]["A"]["pe"]["source"], "upstox")
-        self.assertEqual(PRIORITY[:5], ("trendlyne_mcp", "tradingview", "nse_bse", "screener", "manual"))
+        self.assertEqual(PRIORITY[:4], ("tradingview", "trendlyne_web", "trendlyne_mcp", "nse_bse"))
 
     def test_zero_calls_on_fresh_cache_and_expiry(self):
         eng, _, log, t = make({"trendlyne_mcp": {("A", "pe"): 12.5}})
@@ -64,9 +65,9 @@ class T(unittest.TestCase):
         log.clear()
         r = eng.resolve(["A", "B"], ["pe", "roe"])
         # A/pe cached; the first source is asked once, in one batch, for the 3 missing pairs
-        self.assertEqual(log[0], ("trendlyne_mcp", ["A", "B"], ["pe", "roe"]))
-        self.assertEqual([c[0] for c in log], ["trendlyne_mcp", "tradingview"])
-        self.assertEqual(log[1], ("tradingview", ["B"], ["roe"]))
+        self.assertEqual(log[0], ("tradingview", ["A", "B"], ["pe", "roe"]))
+        self.assertEqual([c[0] for c in log], ["tradingview", "trendlyne_mcp"])
+        self.assertEqual(log[1], ("trendlyne_mcp", ["A", "B"], ["pe", "roe"]))
         self.assertEqual(r["missing"], [])
         self.assertEqual(r["values"]["B"]["roe"], 4)
 
@@ -79,7 +80,7 @@ class T(unittest.TestCase):
                                "tradingview": {("A", "pe"): 12, ("B", "pe"): 10.5, ("B", "name"): "y"}})
         r = eng.resolve(["B", "A"], ["pe", "name"], verify=True)
         self.assertEqual([(c["symbol"], c["field"]) for c in r["conflicts"]], [("A", "pe")])
-        self.assertEqual(r["conflicts"][0]["other_source"], "tradingview")
+        self.assertEqual(r["conflicts"][0]["other_source"], "trendlyne_mcp")
         self.assertAlmostEqual(r["conflicts"][0]["rel_diff"], 2 / 12)
         self.assertEqual(eng.store.conn.execute("SELECT COUNT(*) FROM data_conflicts").fetchone()[0], 1)
         eng2, *_ = make({"trendlyne_mcp": {("A", "pe"): 10}, "tradingview": {("A", "pe"): 12}})
@@ -114,11 +115,11 @@ class T(unittest.TestCase):
         self.assertEqual(len(st.get_many(["S%d" % i for i in range(1000)], ["pe"], T0)), 1000)
 
     def test_failing_source_falls_through(self):
-        eng, _, log, _ = make({"tradingview": {("A", "pe"): 3}, "trendlyne_mcp": {}})
+        eng, _, log, _ = make({"tradingview": {}, "trendlyne_mcp": {("A", "pe"): 3}})
 
         def boom(s, f):
             raise RuntimeError("down")
-        eng.sources["trendlyne_mcp"] = boom
+        eng.sources["tradingview"] = boom
         r = eng.resolve(["A"], ["pe"])
         self.assertEqual(r["values"]["A"]["pe"], 3)
         self.assertIn("error", r["calls_made"]["log"][0])

@@ -1,0 +1,561 @@
+/**
+ * CompanyRefreshCoordinator.ts — Section 14 & 15 Dependency-Based Recomputation
+ *
+ * Operational spine of WealthOS:
+ * Disclosures / Price Updates → Ingest & Persist → Identify Affected Modules →
+ * Run Recomputation Pipeline → Assertions / Safety Gate → Snapshot & Delta →
+ * Evaluate Watch Rules → Return Updated Cockpit
+ */
+
+import crypto from 'crypto';
+import { SecurityIdentity } from '../contracts/SecurityIdentity.js';
+import { CompanyIntelligenceResponse } from '../types/CompanyIntelligenceResponse.js';
+import { CompanyIntelligenceOrchestrator } from '../CompanyIntelligenceOrchestrator.js';
+import { CompanySnapshotRepository } from '../core/CompanySnapshotRepository.js';
+import { CompanyDeltaEngine } from '../delta/CompanyDeltaEngine.js';
+import { ClaimSafetyGate } from '../safety/ClaimSafetyGate.js';
+import {
+  WatchRule,
+  WatchEvaluation,
+  WatchEvent,
+  WatchSubjectType,
+  WatchConditionOperator,
+} from '../contracts/WatchContracts.js';
+import { WatchRuleRepository } from '../core/WatchRuleRepository.js';
+import { CompanyEventRepository } from '../core/CompanyEventRepository.js';
+import { CanonicalFactRepository } from '../core/CanonicalFactRepository.js';
+import { AnalysisModule } from '../contracts/AnalysisModule.js';
+
+
+
+export type RefreshTrigger =
+  | 'PRICE_UPDATE'
+  | 'FINANCIAL_RESULTS'
+  | 'CORPORATE_ANNOUNCEMENT'
+  | 'EARNINGS_TRANSCRIPT'
+  | 'MANUAL_REFRESH';
+
+export interface IngestedFact {
+  metric: string;
+  value: number | string;
+  unit: string;
+  periodEnd: string;
+  periodType: 'ANNUAL' | 'QUARTERLY' | 'TTM';
+  publishedDate: string;
+  availableAt: string;
+  sourceDocumentId?: string;
+  sourceType?: string;
+  evidenceText?: string;
+}
+
+export interface IngestedCorporateEvent {
+  eventType: string;
+  headline: string;
+  eventDate: string;
+  description: string;
+  sourceUrl?: string;
+  impactScope?: string;
+}
+
+export interface IngestedDisclosurePayload {
+  sourceType: 'AUDITED_FINANCIAL_STATEMENT' | 'EXCHANGE_FILING' | 'EARNINGS_TRANSCRIPT' | 'ANNUAL_REPORT' | 'PRICE_TICK';
+  documentDate: string;
+  availableAt: string;
+  sourceName: string;
+  sourceUrl?: string;
+  facts?: IngestedFact[];
+  events?: IngestedCorporateEvent[];
+}
+
+export interface RefreshResult {
+  securityId: string;
+  symbol: string;
+  trigger: RefreshTrigger;
+  affectedModules: string[];
+  unaffectedModules: string[];
+  newFactsStored: number;
+  newEventsStored: number;
+  snapshotId: string;
+  deltaSummary: string[];
+  watchEvaluations: WatchEvaluation[];
+  triggeredWatches: WatchEvent[];
+  updatedResponse: CompanyIntelligenceResponse;
+}
+
+export class CompanyRefreshCoordinator {
+  private static instance: CompanyRefreshCoordinator;
+  private readonly watchRules: Map<string, WatchRule[]> = new Map();
+  /**
+   * Persists the most recent WatchEvaluation per watchId across invocations.
+   * Required for stateful transition detection (SATISFIED→TRIGGERED, TRIGGERED→SATISFIED).
+   */
+  private readonly lastEvaluations: Map<string, WatchEvaluation> = new Map();
+
+  private constructor() {
+    // No DYCL-specific or any symbol-specific watch rules here.
+    // Watch rules must be loaded via registerWatchRule() from a WatchRuleRepository or test fixtures.
+  }
+
+  public static getInstance(): CompanyRefreshCoordinator {
+    if (!CompanyRefreshCoordinator.instance) {
+      CompanyRefreshCoordinator.instance = new CompanyRefreshCoordinator();
+    }
+    return CompanyRefreshCoordinator.instance;
+  }
+
+  /**
+   * Registers a user or system watch rule for continuous monitoring.
+   */
+  public registerWatchRule(rule: WatchRule): void {
+    const list = this.watchRules.get(rule.securityId) || [];
+    list.push(rule);
+    this.watchRules.set(rule.securityId, list);
+    WatchRuleRepository.getInstance().saveRule(rule).catch(e => {
+      console.warn('[CompanyRefreshCoordinator] Failed to persist watch rule:', e);
+    });
+  }
+
+  public async registerWatchRuleAsync(rule: WatchRule): Promise<void> {
+    const list = this.watchRules.get(rule.securityId) || [];
+    list.push(rule);
+    this.watchRules.set(rule.securityId, list);
+    await WatchRuleRepository.getInstance().saveRule(rule);
+  }
+
+  public getWatchRules(securityId: string): WatchRule[] {
+    return this.watchRules.get(securityId) || [];
+  }
+
+  /**
+   * Primary entry point: Ingests new disclosure or trigger and runs selective recomputation pipeline.
+   */
+  public async refreshCompany(
+    identity: SecurityIdentity,
+    trigger: RefreshTrigger,
+    payload?: IngestedDisclosurePayload,
+    asOfDate?: string
+  ): Promise<RefreshResult> {
+    const isin = identity.isin;
+    const sym = identity.nseSymbol || identity.bseCode || '';
+    const now = new Date().toISOString();
+    const effectiveAsOf = asOfDate || now.split('T')[0];
+
+    // 1. Dependency-based determination of affected vs unaffected modules
+    const { affected, unaffected } = this.resolveAffectedModules(trigger);
+
+    // 2. Ingest and persist new facts/events if provided
+    let newFactsStored = 0;
+    let newEventsStored = 0;
+    if (payload?.facts && payload.facts.length > 0) {
+      newFactsStored = await this.persistIngestedFacts(identity, payload.facts, payload);
+    }
+    if (payload?.events && payload.events.length > 0) {
+      newEventsStored = await this.persistIngestedEvents(identity, payload.events, payload);
+    }
+
+    // 3. Query prior snapshot for delta generation
+    const snapshotRepo = CompanySnapshotRepository.getInstance();
+    const priorSnapshot = await snapshotRepo.getPreviousSnapshot(identity, effectiveAsOf);
+
+    // 4. Run dependency-selective orchestrator recomputation
+    const orchestrator = CompanyIntelligenceOrchestrator.getInstance();
+    const moduleMap: Record<string, AnalysisModule> = {
+      fundamental: 'FUNDAMENTAL',
+      technical: 'TECHNICAL',
+      valuation: 'VALUATION',
+      management: 'MANAGEMENT',
+      businessDrivers: 'BUSINESS_INFLECTION',
+      qglp: 'QGLP',
+      fere: 'FERE',
+      market: 'MARKET_CONTEXT',
+      catalysts: 'CATALYST',
+    };
+    const affectedModulesToRun: AnalysisModule[] | undefined = trigger === 'MANUAL_REFRESH'
+      ? undefined
+      : affected.map(m => moduleMap[m]).filter((m): m is AnalysisModule => !!m);
+
+    const updatedResponse = await orchestrator.getCompanyIntelligence(
+      sym || isin,
+      affectedModulesToRun && affectedModulesToRun.length > 0 ? affectedModulesToRun : undefined,
+      { asOfDate: effectiveAsOf, persist: true }
+    );
+
+    // 5. Run ClaimSafetyGate verification on all assertions in the response
+    const allAssertions = (updatedResponse as any)?.assertions || [];
+    if (allAssertions.length > 0) {
+      ClaimSafetyGate.getInstance().filterAssertions(allAssertions);
+    }
+
+    // 6. Compute Delta: NEW (updatedResponse) vs OLD (priorSnapshot)
+    //    CRITICAL: previousFacts = prior snapshot, currentFacts = newly computed state.
+    //    Never compare priorSnapshot to itself.
+    const deltaSummary: string[] = [];
+    if (priorSnapshot) {
+      // previousFacts: verified prior analytical state
+      const previousFacts: Record<string, any> = priorSnapshot.payloadSummary || {};
+      // currentFacts: the newly computed analytical state from updatedResponse
+      const currentFacts: Record<string, any> = (updatedResponse as any)?.modules?.fundamental?.facts
+        ?? (updatedResponse as any)?.fundamentals?.facts
+        ?? (updatedResponse as any)?.snapshot?.facts
+        ?? {};
+      const deltaItems = CompanyDeltaEngine.getInstance().compare(
+        currentFacts,
+        previousFacts,
+        'QOQ',
+        'FUNDAMENTALS'
+      );
+      for (const d of deltaItems) {
+        deltaSummary.push(`${d.category}: ${d.explanation}`);
+      }
+    }
+
+    // 7. Evaluate Watch Rules — pass events for EVENT-type watches with persistent evaluation
+    const events: any[] = (updatedResponse as any).timelineEvents || [];
+    const { evaluations, triggered } = await this.evaluateWatchRules(identity, updatedResponse, events, effectiveAsOf);
+
+    // Snapshot identity must be deterministic — fail explicitly if unavailable
+    const snapshotId = updatedResponse.snapshot?.snapshotId;
+    if (!snapshotId) {
+      console.error('[CompanyRefreshCoordinator] Snapshot ID missing — deterministic snapshot was not generated. Aborting snapshot reference.');
+    }
+
+    return {
+      securityId: isin,
+      symbol: sym,
+      trigger,
+      affectedModules: affected,
+      unaffectedModules: unaffected,
+      newFactsStored,
+      newEventsStored,
+      snapshotId: snapshotId || 'SNAPSHOT_GENERATION_FAILED',
+      deltaSummary: deltaSummary.length > 0 ? deltaSummary : ['No material changes detected'],
+      watchEvaluations: evaluations,
+      triggeredWatches: triggered,
+      updatedResponse,
+    };
+  }
+
+  /**
+   * Maps each trigger to its exact affected vs unaffected analytical modules.
+   */
+  public resolveAffectedModules(trigger: RefreshTrigger): { affected: string[]; unaffected: string[] } {
+    const allModules = [
+      'fundamental',
+      'businessDrivers',
+      'management',
+      'valuation',
+      'technical',
+      'contradictions',
+      'thesis',
+      'attention',
+      'questions',
+      'catalysts',
+      'timeline',
+      'delta',
+    ];
+
+    let affected: string[] = [];
+    switch (trigger) {
+      case 'PRICE_UPDATE':
+        affected = ['technical', 'valuation', 'delta'];
+        break;
+      case 'FINANCIAL_RESULTS':
+        affected = [
+          'fundamental',
+          'businessDrivers',
+          'management',
+          'valuation',
+          'contradictions',
+          'thesis',
+          'attention',
+          'questions',
+          'delta',
+        ];
+        break;
+      case 'EARNINGS_TRANSCRIPT':
+        affected = [
+          'management',
+          'businessDrivers',
+          'contradictions',
+          'thesis',
+          'questions',
+          'delta',
+        ];
+        break;
+      case 'CORPORATE_ANNOUNCEMENT':
+        affected = ['catalysts', 'timeline', 'contradictions', 'delta'];
+        break;
+      case 'MANUAL_REFRESH':
+      default:
+        affected = allModules;
+        break;
+    }
+
+    const unaffected = allModules.filter(m => !affected.includes(m));
+    return { affected, unaffected };
+  }
+
+  /**
+   * Persists ingested facts via the single write authority: CanonicalFactRepository.
+   * NO direct database access. Zero SQL statements in this method.
+   */
+  private async persistIngestedFacts(
+    identity: SecurityIdentity,
+    facts: IngestedFact[],
+    disclosure: IngestedDisclosurePayload
+  ): Promise<number> {
+    const factRepo = CanonicalFactRepository.getInstance();
+    let count = 0;
+    for (const f of facts) {
+      try {
+        await factRepo.persistIngestedFact(
+          identity,
+          f.metric,
+          f.value,
+          f.unit,
+          f.periodType,
+          f.periodEnd,
+          f.publishedDate,
+          f.availableAt,
+          f.sourceType || disclosure.sourceType,
+          f.sourceDocumentId || disclosure.sourceName,
+          f.evidenceText,
+        );
+        count++;
+      } catch (e) {
+        // Log explicitly — no silent swallowing
+        console.error('[CompanyRefreshCoordinator] Failed to persist fact via CanonicalFactRepository:', e);
+        throw e;
+      }
+    }
+    return count;
+  }
+
+  /**
+   * Persists ingested events via the single write authority: CompanyEventRepository.
+   * NO direct database access. Zero SQL statements in this method.
+   */
+  private async persistIngestedEvents(
+    identity: SecurityIdentity,
+    events: IngestedCorporateEvent[],
+    disclosure: IngestedDisclosurePayload
+  ): Promise<number> {
+    const eventRepo = CompanyEventRepository.getInstance();
+    let count = 0;
+    for (const ev of events) {
+      try {
+        await eventRepo.persistEvent({
+          isin: identity.isin,
+          symbol: identity.nseSymbol || identity.bseCode || '',
+          eventType: ev.eventType,
+          occurredAt: ev.eventDate,
+          availableAt: ev.eventDate,
+          materiality: ev.impactScope || 'MATERIAL',
+          title: ev.headline,
+          description: ev.description,
+          sourceUrl: ev.sourceUrl || disclosure.sourceUrl || null,
+          evidenceRefs: [{ evidenceId: `ev_source_${identity.isin}_${ev.eventType}`, sourceUrl: ev.sourceUrl || null }],
+          affectedDomains: ['FUNDAMENTALS', 'MANAGEMENT'],
+        });
+        count++;
+      } catch (e) {
+        console.error('[CompanyRefreshCoordinator] Failed to persist event via CompanyEventRepository:', e);
+        throw e;
+      }
+    }
+    return count;
+  }
+
+  public async evaluateWatchRules(
+    identity: SecurityIdentity,
+    response: CompanyIntelligenceResponse,
+    timelineEvents: any[] = [],
+    effectiveAsOf?: string
+  ): Promise<{ evaluations: WatchEvaluation[]; triggered: WatchEvent[] }> {
+    const evaluations: WatchEvaluation[] = [];
+    const triggered: WatchEvent[] = [];
+
+    const isin = identity.isin;
+    const watchRepo = WatchRuleRepository.getInstance();
+
+    // Load persistent rules and merge with in-memory rules
+    let repoRules: WatchRule[] = [];
+    try {
+      repoRules = await watchRepo.getRulesForSecurity(isin);
+    } catch (e) {
+      console.warn('[CompanyRefreshCoordinator] Failed to query watch rules from repo:', e);
+    }
+    const memRules = this.watchRules.get(isin) || [];
+    const allRuleMap = new Map<string, WatchRule>();
+    for (const r of repoRules) allRuleMap.set(r.watchId, r);
+    for (const r of memRules) allRuleMap.set(r.watchId, r);
+    const rules = Array.from(allRuleMap.values()).filter(r => r.status === 'ACTIVE');
+
+    const now = new Date().toISOString();
+
+    const snapshot = response.snapshot;
+    const facts = snapshot?.facts || {};
+
+    // For EVENT watches: query CompanyEventRepository if timelineEvents is empty
+    let activeTimelineEvents = timelineEvents;
+    if (!activeTimelineEvents || activeTimelineEvents.length === 0) {
+      try {
+        activeTimelineEvents = await CompanyEventRepository.getInstance().getEvents(identity, effectiveAsOf);
+      } catch (err) {
+        console.warn('[CompanyRefreshCoordinator] Failed to fetch events from CompanyEventRepository:', err);
+        activeTimelineEvents = [];
+      }
+    }
+
+    for (const rule of rules) {
+      let isTriggered = false;
+      let observedValue: any = null;
+      let triggerReason = '';
+      let triggeringEvidenceIds: string[] = [];
+
+      if (rule.subjectType === 'METRIC') {
+        const fact = facts[rule.subject];
+        if (fact && fact.value !== undefined) {
+          observedValue = fact.value;
+          const numObs = Number(observedValue);
+          const numThresh = Number(rule.threshold);
+
+          if (!isNaN(numObs) && !isNaN(numThresh)) {
+            if (rule.operator === 'BELOW_THRESHOLD' && numObs < numThresh) {
+              isTriggered = true;
+              triggerReason = `Metric ${rule.subject} observed at ${numObs} ${rule.unit || ''} (below threshold ${numThresh})`;
+            } else if (rule.operator === 'ABOVE_THRESHOLD' && numObs > numThresh) {
+              isTriggered = true;
+              triggerReason = `Metric ${rule.subject} observed at ${numObs} ${rule.unit || ''} (above threshold ${numThresh})`;
+            } else if (rule.operator === 'MAINTAIN_ABOVE' && numObs >= numThresh) {
+              isTriggered = true;
+              triggerReason = `Metric ${rule.subject} maintained at ${numObs} >= ${numThresh}`;
+            }
+            // Carry evidence IDs from the triggering fact
+            if (isTriggered && fact.evidenceRef?.evidenceId) {
+              triggeringEvidenceIds = [fact.evidenceRef.evidenceId];
+            }
+          }
+        }
+      } else if (rule.subjectType === 'EVENT') {
+        // EVENT watches inspect CompanyEventRepository events — NOT analytical Delta
+        const matchingEvent = activeTimelineEvents.find(
+          (ev: any) =>
+            ev.eventType === rule.subject ||
+            ev.title?.toLowerCase().includes(rule.subject.toLowerCase())
+        );
+        if (matchingEvent) {
+          isTriggered = true;
+          observedValue = matchingEvent.title || 'Event Occurred';
+          triggerReason = `Event watch triggered: ${observedValue}`;
+          // Carry evidence IDs from the triggering CompanyEvent
+          if (matchingEvent.evidenceRefs?.length > 0) {
+            triggeringEvidenceIds = matchingEvent.evidenceRefs
+              .map((r: any) => r.evidenceId)
+              .filter(Boolean);
+          }
+          if (triggeringEvidenceIds.length === 0) {
+            triggeringEvidenceIds = matchingEvent.eventId ? [matchingEvent.eventId] : [];
+          }
+        }
+      }
+
+      // Stateful transition: load persistent previous evaluation
+      let prevEval = this.lastEvaluations.get(rule.watchId);
+      if (!prevEval) {
+        try {
+          prevEval = (await watchRepo.getLatestEvaluation(rule.watchId)) || undefined;
+        } catch {
+          prevEval = undefined;
+        }
+      }
+      const previousState: WatchEvaluation['previousState'] =
+        prevEval ? prevEval.currentState : 'UNKNOWN';
+      const currentState: WatchEvaluation['currentState'] =
+        isTriggered ? 'TRIGGERED' : 'SATISFIED';
+
+      const evaluation: WatchEvaluation = {
+        watchId: rule.watchId,
+        securityId: rule.securityId,
+        symbol: rule.symbol,
+        evaluatedAt: now,
+        previousState,
+        currentState,
+        triggeringEvidenceIds,
+        explanation: isTriggered
+          ? triggerReason
+          : `Watch rule ${rule.watchId} evaluated — no threshold breach`,
+      };
+      evaluations.push(evaluation);
+      this.lastEvaluations.set(rule.watchId, evaluation);
+
+      // Persist evaluation
+      try {
+        await watchRepo.saveEvaluation(evaluation);
+      } catch (e) {
+        console.warn('[CompanyRefreshCoordinator] Failed to persist watch evaluation:', e);
+      }
+
+      // Only emit a WatchEvent when state TRANSITIONS (not on repeated identical state)
+      const isTransition = previousState !== currentState;
+      if (isTriggered && isTransition) {
+        // Deterministic watch event identity: hash watchId + triggeringSnapshot + evidenceIds
+        const watchIdentityPreimage = [
+          rule.watchId,
+          response.snapshot?.snapshotId || isin,
+          currentState,
+          triggeringEvidenceIds.join(','),
+        ].join('|');
+        const watchEventId = `we_${crypto.createHash('sha256').update(watchIdentityPreimage).digest('hex').substring(0, 16)}`;
+
+        const triggeredEvent: WatchEvent = {
+          eventId: watchEventId,
+          watchId: rule.watchId,
+          securityId: rule.securityId,
+          symbol: rule.symbol,
+          occurredAt: now,
+          summary: triggerReason,
+          severity: 'ALERT' as const,
+          evidenceIds: triggeringEvidenceIds,
+        };
+        triggered.push(triggeredEvent);
+
+        // Persist triggered event
+        try {
+          await watchRepo.saveWatchEvent(triggeredEvent);
+        } catch (e) {
+          console.warn('[CompanyRefreshCoordinator] Failed to persist watch event:', e);
+        }
+      } else if (!isTriggered && isTransition && previousState === 'TRIGGERED') {
+        // Resolution transition: breach cleared -> emit resolution WatchEvent
+        const resolutionIdentityPreimage = [
+          rule.watchId,
+          response.snapshot?.snapshotId || isin,
+          'RESOLVED',
+          now,
+        ].join('|');
+        const resolutionEventId = `we_${crypto.createHash('sha256').update(resolutionIdentityPreimage).digest('hex').substring(0, 16)}`;
+
+        const resolutionEvent: WatchEvent = {
+          eventId: resolutionEventId,
+          watchId: rule.watchId,
+          securityId: rule.securityId,
+          symbol: rule.symbol,
+          occurredAt: now,
+          summary: `Watch rule ${rule.watchId} resolved — condition cleared`,
+          severity: 'INFO' as const,
+          evidenceIds: triggeringEvidenceIds.length > 0 ? triggeringEvidenceIds : [`res_${rule.watchId}`],
+        };
+        triggered.push(resolutionEvent);
+
+        try {
+          await watchRepo.saveWatchEvent(resolutionEvent);
+        } catch (e) {
+          console.warn('[CompanyRefreshCoordinator] Failed to persist resolution watch event:', e);
+        }
+      }
+    }
+
+    return { evaluations, triggered };
+  }
+}

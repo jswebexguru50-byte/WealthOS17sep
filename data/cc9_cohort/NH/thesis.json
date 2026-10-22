@@ -1,0 +1,19 @@
+{
+  "symbol": "NH",
+  "coreThesisStatement": "World-renowned low-cost high-volume tertiary healthcare chain delivering superior return on capital employed with immense overseas dollar earnings in Cayman.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Cayman Offshore Asset",
+      "description": "Generates over 40% of operating EBITDA with 40%+ EBITDA margins in US dollars."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Domestic Bed Expansion",
+      "description": "Expanding high-ARPOB flagship hospitals in Bengaluru, Kolkata, and Delhi NCR."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_NH_LEVERAGE"
+  ]
+}

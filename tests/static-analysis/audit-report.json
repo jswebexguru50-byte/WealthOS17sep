@@ -1,0 +1,161 @@
+{
+  "timestamp": "2026-10-19T04:35:51.202Z",
+  "results": [
+    {
+      "id": "TS14-12",
+      "status": "PASS",
+      "message": "No synthetic fallbacks or mock data left in core services",
+      "matches": []
+    },
+    {
+      "id": "TS14-13",
+      "status": "PASS",
+      "message": "No hardcoded fallback stock arrays",
+      "matches": []
+    },
+    {
+      "id": "TS14-01",
+      "status": "PASS",
+      "message": "No hardcoded LTP/stock prices in production services",
+      "matches": []
+    },
+    {
+      "id": "TS14-02",
+      "status": "PASS",
+      "message": "Recommendations not statically hardcoded (must be computed)",
+      "matches": []
+    },
+    {
+      "id": "TS14-03",
+      "status": "PASS",
+      "message": "Conviction scores not statically hardcoded",
+      "matches": []
+    },
+    {
+      "id": "TS14-04",
+      "status": "WARN",
+      "message": "No hardcoded USD/INR exchange rates in source",
+      "matches": [
+        "src\\components\\BankAndFDsView.tsx:32: const [fxRates, setFxRates] = useState<Record<string, number>>({ INR: 1.0, USD: 83.5, AED: 22.7 });",
+        "src\\components\\InstitutionalAnalyticsHub.tsx:1408: ? `Effective Asset-Weighted Drag (USD: ${(analyticsData?.macroRealReturns?.usd?.usd_weight_pct ?? 17.0)}% | INR: ${(analyticsData?.macroRealReturns?.usd?.inr_weight_pct ?? 83.0)}%)`",
+        "src\\server\\services\\BankAndFDService.ts:108: const map: Record<string, number> = { INR: 1.0, USD: 83.5, AED: 22.7, EUR: 90.8, GBP: 106.5 };",
+        "src\\server\\services\\r422\\R422EconomicReconciliation.ts:47: { policyId: 'L5_COST_AWARE_EXPECTANCY', tradeCount: 4160, grossPnL: 5570138.58, costs: 5802887.42, netPnL: -232748.84, meanStrategyStopRiskR: 0.06644, frictionSavedINR: 1422023.28 }",
+        "src\\server\\services\\r422\\R422RightTailAudit.ts:25: { percentile: 'top 5%', l4IncrementalNetContributionINR: 9623880.00, l4IncrementalNetContributionPct: 84.00, l2IncrementalNetContributionINR: 6419608.00, l2IncrementalNetContributionPct: 82.00 },"
+      ]
+    },
+    {
+      "id": "TS14-05",
+      "status": "INFO",
+      "message": "Statutory tax rates in decimalUtils.ts (correct — statutory constants)",
+      "matches": [
+        "src\\lib\\decimalUtils.ts:52: export function stcgRate(sellDate: string): number { return sellDate >= CUTOVER_DATE ? 0.20 : 0.15; }",
+        "src\\lib\\decimalUtils.ts:53: export function ltcgRate(sellDate: string): number { return sellDate >= CUTOVER_DATE ? 0.125 : 0.10; }"
+      ]
+    },
+    {
+      "id": "TS14-05b",
+      "status": "PASS",
+      "message": "Tax rates not duplicated outside decimalUtils.ts",
+      "matches": []
+    },
+    {
+      "id": "TS14-06",
+      "status": "PASS",
+      "message": "No fake/demo company names in production server code",
+      "matches": []
+    },
+    {
+      "id": "TS14-07a",
+      "status": "INFO",
+      "message": "Finance Act cutover date in decimalUtils.ts",
+      "matches": [
+        "src\\lib\\decimalUtils.ts:49: const CUTOVER_DATE = '2024-07-23';"
+      ]
+    },
+    {
+      "id": "TS14-07b",
+      "status": "WARN",
+      "message": "Finance Act cutover date not duplicated outside decimalUtils.ts",
+      "matches": [
+        "src\\components\\TaxView.tsx:356: .reduce((acc, g) => acc + (g.taxable_pnl || 0) * stcgRate(g.sell_date || '2024-07-23'), 0);",
+        "src\\server\\fifoEngine.ts:1564: const isNewScheme = sellDate && sellDate.getTime() >= new Date('2024-07-23').getTime();",
+        "src\\server\\services\\NriWealthService.ts:94: const splitDate = '2024-07-23';"
+      ]
+    },
+    {
+      "id": "TS14-08",
+      "status": "WARN",
+      "message": "No raw hex colors bypassing CSS variables in component tsx files",
+      "matches": [
+        "src\\components\\AnalyticsView.tsx:477: <Bar dataKey=\"Portfolio\" fill=\"#10b981\" radius={[4, 4, 0, 0]} />",
+        "src\\components\\AnalyticsView.tsx:478: <Bar dataKey=\"Nifty 50\" fill=\"#3b82f6\" radius={[4, 4, 0, 0]} />",
+        "src\\components\\AnalyticsView.tsx:479: <Bar dataKey=\"Sensex\" fill=\"#ec4899\" radius={[4, 4, 0, 0]} />",
+        "src\\components\\AnalyticsView.tsx:480: <Bar dataKey=\"Midcap 100\" fill=\"#f59e0b\" radius={[4, 4, 0, 0]} />",
+        "src\\components\\AnalyticsView.tsx:481: <Bar dataKey=\"Smallcap 100\" fill=\"#8b5cf6\" radius={[4, 4, 0, 0]} />",
+        "src\\components\\AnalyticsView.tsx:482: <Bar dataKey=\"Microcap 250\" fill=\"#06b6d4\" radius={[4, 4, 0, 0]} />",
+        "src\\components\\AuditWorkspace.tsx:41: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '30vh', color: '#64748b', fontSize: 14 }}>",
+        "src\\components\\DashboardView.tsx:907: color: '#f87171'",
+        "src\\components\\DiscoverWorkspace.tsx:46: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '30vh', color: '#64748b', fontSize: 14 }}>",
+        "src\\components\\FamilyMembersManagerView.tsx:31: avatar_color: '#06b6d4',",
+        "src\\components\\FamilyMembersManagerView.tsx:142: avatar_color: m.avatar_color || '#06b6d4',",
+        "src\\components\\FamilyMembersManagerView.tsx:156: avatar_color: '#06b6d4',",
+        "src\\components\\FamilyMembersManagerView.tsx:207: style={{ backgroundColor: member.avatar_color || '#06b6d4' }}",
+        "src\\components\\FamilyMemberSwitcher.tsx:74: style={{ backgroundColor: activeMember ? activeMember.avatar_color : '#06b6d4' }}",
+        "src\\components\\FamilyMemberSwitcher.tsx:161: style={{ backgroundColor: member.avatar_color || '#06b6d4' }}",
+        "src\\components\\FamilyOfficeCommandCenter.tsx:397: <div key={item.name} style={{ width: `${Math.max(1.5, item.allocationPct ?? 0)}%`, backgroundColor: ASSET_COLORS[item.name] || '#94a3b8' }} className=\"h-full rounded-sm transition-all hover:opacity-80\" title={`${item.name}: ${formatCrore2Dec(item.value)} (${(item.allocationPct ?? 0).toFixed(1)}%)`} />",
+        "src\\components\\InstitutionalAnalyticsHub.tsx:558: color: capColors[name] || '#94A3B8'",
+        "src\\components\\InstitutionalAnalyticsHub.tsx:603: color: aColors[name] || '#64748B'",
+        "src\\components\\InstitutionalAnalyticsHub.tsx:907: <Cell key={`cell-${index}`} fill={entry.returnPct >= 0 ? '#10B981' : '#EF4444'} />",
+        "src\\components\\MomentumReasoningPanel.tsx:160: stroke=\"#1e293b\""
+      ]
+    },
+    {
+      "id": "TS14-09",
+      "status": "WARN",
+      "message": "CSS uses CSS variables (not raw hex) for semantic colors",
+      "matches": [
+        "src\\index.css:184: color: #fecaca;",
+        "src\\index.css:190: color: #ddd6fe;",
+        "src\\index.css:971: border-left-color: #059669 !important;",
+        "src\\index.css:1155: color: #FFFFFF !important;",
+        "src\\index.css:1199: color: #FFFFFF !important;",
+        "src\\index.css:1295: color: #A8B8CC !important;",
+        "src\\index.css:1302: color: #C0CDD8 !important;",
+        "src\\index.css:1309: color: #D8E2EC !important;",
+        "src\\index.css:1316: color: #EDF2F7 !important;",
+        "src\\index.css:1322: color: #F5F7FA !important;",
+        "src\\index.css:1376: color: #B0BEC5 !important;",
+        "src\\index.css:1383: color: #CBD5E1 !important;",
+        "src\\index.css:1481: .text-emerald-300 { color: #065F46 !important; }",
+        "src\\index.css:1482: .text-rose-300    { color: #9F1239 !important; }",
+        "src\\index.css:1483: .text-amber-300   { color: #92400E !important; }",
+        "src\\index.css:1485: .text-indigo-400  { color: #3730A3 !important; }",
+        "src\\index.css:1486: .text-cyan-300    { color: #0E7490 !important; }",
+        "src\\index.css:1488: .text-purple-400  { color: #6D28D9 !important; }",
+        "src\\index.css:2256: color: #FFFFFF;",
+        "src\\index.css:2290: color: #FFFFFF;",
+        "src\\index.css:2311: background-color: #FFFFFF;"
+      ]
+    },
+    {
+      "id": "TS14-10",
+      "status": "PASS",
+      "message": "No hardcoded API keys or secrets in source files",
+      "matches": []
+    },
+    {
+      "id": "TS14-11",
+      "status": "INFO",
+      "message": "Environment variables used via process.env (correct)",
+      "matches": [
+        "src\\lib\\apiClient.ts:14: (typeof process !== 'undefined' && process.env.VITE_WEALTHOS_REMOTE_MODE === 'true') ||",
+        "src\\mcp\\security.ts:128: const productKey = process.env.WEALTHOS_PRODUCT_KEY;",
+        "src\\mcp\\security.ts:129: const reviewKey = process.env.WEALTHOS_REVIEW_KEY;",
+        "src\\mcp\\security.ts:130: const devKey = process.env.WEALTHOS_DEV_KEY;",
+        "src\\mcp\\transports\\http.ts:66: if (host === '0.0.0.0' && process.env.ALLOW_REMOTE_MCP !== 'true') {"
+      ]
+    }
+  ],
+  "passCount": 8,
+  "failCount": 0
+}

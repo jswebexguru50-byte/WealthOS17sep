@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_FEDERALBNK_01",
+    "issuerNseSymbol": "FEDERALBNK",
+    "issuerBseCode": "500469",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Expand total banking top line past ₹24,000 Cr supported by retail and commercial advances.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 20248,
+    "expectedValue": 24000,
+    "expectedOutcome": "Revenue >= ₹24,000 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_FED_REV_01",
+    "claimDate": "2023-08-20",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 26383,
+    "actualOutcomeDescription": "Delivered ₹26,383 Cr revenue exceeding guidance by 9.9%.",
+    "evaluationEvidenceId": "EV_FED_REV_01",
+    "evaluationDate": "2024-05-02",
+    "evaluationBasis": "Audited Annual Financial Results Release",
+    "publicationDate": "2023-08-20",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_FEDERALBNK_01"
+  }
+]

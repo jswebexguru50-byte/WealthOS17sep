@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "FERMENTA",
+  "issuerBseCode": "518414",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_FERMENTA_AR2024",
+      "documentName": "FERMENTA_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "f379e838d0e29d574ac1b8c41eaad2744574e92fc91a804344565caffa183aae",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_FERMENTA_AUDITED_RESULTS",
+      "documentName": "FERMENTA_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "a88866edacc16a5f389f8cf161b7e28b2f5316e3743c9645b3b12514ee5b465e",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_FERMENTA_CONCALL_Q4FY26",
+      "documentName": "FERMENTA_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "347d43431954d8dbdc30942e500348fe458aadba89102b56a2636723e39ba59e",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

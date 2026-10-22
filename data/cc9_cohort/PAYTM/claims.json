@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_PAYTM_01",
+    "issuerNseSymbol": "PAYTM",
+    "issuerBseCode": "543396",
+    "period": "FY24",
+    "category": "GOVERNANCE",
+    "statement": "Ensure full regulatory compliance and seamless continuation of associate payments bank banking services.",
+    "targetMetric": "compliance_status",
+    "baselineValue": 1,
+    "expectedValue": 1,
+    "expectedOutcome": "Full Compliance Sustained",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_PAYTM_PROMISE_01",
+    "claimDate": "2023-09-01",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "REVERSED",
+    "actualOutcomeMetric": 0,
+    "actualOutcomeDescription": "RBI imposed Section 35A regulatory ban barring deposit acceptance and wallet operations.",
+    "evaluationEvidenceId": "EV_PAYTM_RBI_ORDER",
+    "evaluationDate": "2024-01-31",
+    "evaluationBasis": "RBI Official Directive under Section 35A",
+    "publicationDate": "2023-09-01",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_PAYTM_01"
+  }
+]

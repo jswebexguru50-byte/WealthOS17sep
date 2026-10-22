@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_TBOTEK_REV_FY26",
+    "issuerNseSymbol": "TBOTEK",
+    "issuerBseCode": "514167",
+    "documentHash": "47a0901326fe2848685ee5c2cc84616f8669ef164d4077431edee5610ba48c55",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹20701 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_TBOTEK_PAT_FY26",
+    "issuerNseSymbol": "TBOTEK",
+    "issuerBseCode": "514167",
+    "documentHash": "47a0901326fe2848685ee5c2cc84616f8669ef164d4077431edee5610ba48c55",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹2484 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_TBOTEK_DEBT_FY26",
+    "issuerNseSymbol": "TBOTEK",
+    "issuerBseCode": "514167",
+    "documentHash": "894f45c17604430e2c8f6942809a3ce6b8f947352149030b5d450d2215497168",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_TBOTEK_CONCALL_Q4FY26",
+    "issuerNseSymbol": "TBOTEK",
+    "issuerBseCode": "514167",
+    "documentHash": "ec7d0da94323cdaf5506449d346341995546396f4e196679e992339a036e99a5",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

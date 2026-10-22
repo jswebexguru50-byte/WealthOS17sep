@@ -1,0 +1,14 @@
+[
+  {
+    "breakerId": "TB_RAJRATAN_LEVERAGE",
+    "symbol": "RAJRATAN",
+    "name": "Automotive Wire Leverage Limit",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 2.2,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Debt / Equity ratio exceeding 2.2x triggers hard veto.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

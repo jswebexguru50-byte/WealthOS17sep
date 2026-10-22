@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "IRMENERGY",
+  "issuerBseCode": "521390",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_IRMENERGY_AR2024",
+      "documentName": "IRMENERGY_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "a78acd19c57cc7c90acbc7ccbd61e93254a285f7220ba285b30851a4d9c2e5a8",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_IRMENERGY_AUDITED_RESULTS",
+      "documentName": "IRMENERGY_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "552da2a4766b5962487480ce3f39d6986a22017300a18a5a8325ddd1593c7101",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_IRMENERGY_CONCALL_Q4FY26",
+      "documentName": "IRMENERGY_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "3112d5da579fc76d6ded9e33101ed4bd7ccc30069a4a8a31cbe96bd2d1f85c56",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

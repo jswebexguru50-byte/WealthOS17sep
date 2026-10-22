@@ -30,8 +30,13 @@ from pathlib import Path
 from typing import Any
 
 import requests
+from dotenv import load_dotenv
 
 # ── Configuration ──────────────────────────────────────────────────────────────
+# The deterministic CLI runners are launched directly (rather than through the
+# Node server), so load the repository configuration explicitly.  `override=False`
+# preserves a deliberately supplied process environment in scheduled jobs.
+load_dotenv(Path(__file__).resolve().parents[2] / ".env", override=False)
 _DEFAULT_SERVER = "http://localhost:3000"
 SERVER_URL = os.environ.get("WEALTHOS_SERVER", _DEFAULT_SERVER)
 _ENDPOINT  = f"{SERVER_URL}/api/trendlyne-mcp/batch-fetch"
@@ -41,6 +46,15 @@ MAX_SYMBOLS_PER_CALL = 50   # enforced by trendlyneMcp.ts:MAX_BATCH_SYMBOLS
 MAX_FIELDS_PER_CALL  = 50   # enforced by trendlyneMcp.ts:MAX_FIELDS
 SOURCE               = "trendlyne_mcp"
 CONFIDENCE           = 1.0  # highest in source waterfall
+# Raw provider tokens that are verified aliases for WealthOS canonical fields.
+# Persisting under the canonical name is essential: F-filter readers must not
+# need provider-specific token knowledge.
+CANONICAL_FIELD_ALIASES = {
+    "prompledge": "pledge_pct",
+    "prompct": "promoter_pct",
+    "fiihold": "fii_pct",
+    "diihold": "dii_pct",
+}
 
 # TTL rules (mirrors source_waterfall.py DEFAULT_TTL_RULES)
 _TTL_RULES: tuple[tuple[tuple[str, ...], int], ...] = (
@@ -239,14 +253,15 @@ def fetch_and_store(
                 continue
             if value is None:
                 continue   # unknown stays NULL — never store fabricated zero
+            canonical_field = CANONICAL_FIELD_ALIASES.get(field, field)
             rows.append((
                 sym,
-                field,
+                canonical_field,
                 json.dumps(value),
                 SOURCE,
                 CONFIDENCE,
                 now,
-                _ttl(field),
+                _ttl(canonical_field),
             ))
 
     if rows:

@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_SHANTIGOLD_REV_FY26",
+    "issuerNseSymbol": "SHANTIGOLD",
+    "issuerBseCode": "523219",
+    "documentHash": "2ba2bff3717e5d6fb7f1398f52821b42b93fefca8d180c85801413678ed9a663",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹3099 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_SHANTIGOLD_PAT_FY26",
+    "issuerNseSymbol": "SHANTIGOLD",
+    "issuerBseCode": "523219",
+    "documentHash": "2ba2bff3717e5d6fb7f1398f52821b42b93fefca8d180c85801413678ed9a663",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹372 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_SHANTIGOLD_DEBT_FY26",
+    "issuerNseSymbol": "SHANTIGOLD",
+    "issuerBseCode": "523219",
+    "documentHash": "b8f6c96b7293007099bae43e135f09aef9bdde2060bd5238f42d56e1994f08e1",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_SHANTIGOLD_CONCALL_Q4FY26",
+    "issuerNseSymbol": "SHANTIGOLD",
+    "issuerBseCode": "523219",
+    "documentHash": "baf85b58e968716296715b4ee575cd7e2327afabbc9028b53e44e6bb29ce3032",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

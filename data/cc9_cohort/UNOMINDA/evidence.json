@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_UNOMINDA_REV_01",
+    "issuerNseSymbol": "UNOMINDA",
+    "issuerBseCode": "532539",
+    "documentId": "DOC_UNOMINDA_AR24",
+    "documentHash": "d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef0123",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 48,
+    "pagePrinted": "46",
+    "quotedText": "Consolidated revenue for FY24 reached ₹14241 Cr with premium switchgear and lighting outperforming.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

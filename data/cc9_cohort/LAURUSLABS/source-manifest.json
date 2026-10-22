@@ -1,0 +1,17 @@
+{
+  "issuerNseSymbol": "LAURUSLABS",
+  "issuerBseCode": "540222",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_LAURUS_AR24",
+      "documentName": "Laurus_Labs_Annual_Report_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-20",
+      "documentHashSha256": "b2c3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef01",
+      "pageCount": 240,
+      "filingAuthority": "BSE / NSE"
+    }
+  ]
+}

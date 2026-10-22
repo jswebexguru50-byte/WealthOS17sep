@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_HOMEFIRST_01",
+    "issuerNseSymbol": "HOMEFIRST",
+    "issuerBseCode": "543259",
+    "eventDate": "2024-04-25",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "AUM Crosses Milestone ₹10,000 Crore",
+    "description": "Assets under management surpassed ₹10,000 Cr threshold with 35% YoY loan book compounding.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_HOME_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

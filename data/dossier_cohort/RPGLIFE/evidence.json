@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_RPGLIFE_REV_FY26",
+    "issuerNseSymbol": "RPGLIFE",
+    "issuerBseCode": "516151",
+    "documentHash": "5f81493742bfad237d84f6451d86cb1d97c3b33b5a68e8ecf2d7387d1d287c68",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹33985 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_RPGLIFE_PAT_FY26",
+    "issuerNseSymbol": "RPGLIFE",
+    "issuerBseCode": "516151",
+    "documentHash": "5f81493742bfad237d84f6451d86cb1d97c3b33b5a68e8ecf2d7387d1d287c68",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹4078 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_RPGLIFE_DEBT_FY26",
+    "issuerNseSymbol": "RPGLIFE",
+    "issuerBseCode": "516151",
+    "documentHash": "3a2dde241b03efed40172a9bd2647edef22ddbe0cb0172e01f49e2376d779180",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_RPGLIFE_CONCALL_Q4FY26",
+    "issuerNseSymbol": "RPGLIFE",
+    "issuerBseCode": "516151",
+    "documentHash": "4ea47d8d79f5caf93a82b1c388dbe16ec2b205e2cad7fc07f71ab93a126b2afd",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

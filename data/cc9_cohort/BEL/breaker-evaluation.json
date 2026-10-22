@@ -1,0 +1,14 @@
+[
+  {
+    "breakerId": "TB_BEL_LEVERAGE",
+    "symbol": "BEL",
+    "name": "Defense PSU Zero Debt Rule",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 0.5,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Debt / Equity ratio exceeding 0.5x triggers hard veto.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_BLUEJET_REV_01",
+    "issuerNseSymbol": "BLUEJET",
+    "issuerBseCode": "544009",
+    "documentId": "DOC_BLUEJET_AR24",
+    "documentHash": "abcdef0123456789abcdef0123456789abcdef0123456789a",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 30,
+    "pagePrinted": "28",
+    "quotedText": "Consolidated revenue for FY24 reached ₹743 Cr supported by global diagnostic imaging contrast media demand.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

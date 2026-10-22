@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "EPIGRAL",
+  "issuerBseCode": "515996",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_EPIGRAL_AR2024",
+      "documentName": "EPIGRAL_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "be7b518b119fb137f1a9dff3670730d4a4a97edf851a12b4f5ca077fa6c49d4a",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_EPIGRAL_AUDITED_RESULTS",
+      "documentName": "EPIGRAL_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "fc8aea73a3cb620daeb483842ec04246c8197f57906cfdcb141e2ac133af8019",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_EPIGRAL_CONCALL_Q4FY26",
+      "documentName": "EPIGRAL_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "e304cd0f2eb17a1336436f7b5f2fe487c2232761d6be3345b722726f8c100c3e",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

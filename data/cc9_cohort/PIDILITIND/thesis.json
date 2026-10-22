@@ -1,0 +1,19 @@
+{
+  "symbol": "PIDILITIND",
+  "coreThesisStatement": "Monopoly brand equity in consumer adhesives (Fevicol, Fevikwik, M-Seal) creating an insurmountable distribution moat across 500,000+ retail outlets.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Fevicol Brand Moat",
+      "description": "Over 70% market share in white glue and woodworking adhesives."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Waterproofing Growth",
+      "description": "Dr. Fixit capturing structural surge in real estate construction waterproofing."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_PIDILITE_LEVERAGE"
+  ]
+}

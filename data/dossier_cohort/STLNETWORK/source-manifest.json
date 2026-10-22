@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "STLNETWORK",
+  "issuerBseCode": "524707",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_STLNETWORK_AR2024",
+      "documentName": "STLNETWORK_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "2175f301c150840a194ddb56c5644ea8fbc5991b6d76aeb4d3041f0b21727993",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_STLNETWORK_AUDITED_RESULTS",
+      "documentName": "STLNETWORK_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "e2f03dd43fd5f98bcf3d3ae518ec8eb8b9a38581caa7ea8b8ac62895d5e09385",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_STLNETWORK_CONCALL_Q4FY26",
+      "documentName": "STLNETWORK_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "7675691c6e95106dc1ce3c6402dfd63d8a55b16fcdeee9a2a7b218e8f9135cc9",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

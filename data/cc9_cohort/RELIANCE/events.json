@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_RELIANCE_01",
+    "issuerNseSymbol": "RELIANCE",
+    "issuerBseCode": "500325",
+    "eventDate": "2024-02-28",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Strategic Media Joint Venture with The Walt Disney Company",
+    "description": "Formed combined media entertainment JV integrating Viacom18 and Star India with ₹70,352 Cr enterprise valuation.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_RIL_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "symbol": "TATACONSUM",
+  "coreThesisStatement": "Tata Group's primary FMCG vehicle transforming from commodity tea into integrated packaged foods and health & wellness giant (Tata Salt, Sampann, Ching's, Starbucks JV).",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Distribution Expansion",
+      "description": "Direct reach expanded to 4 million retail outlets across urban and rural India."
+    },
+    {
+      "pillarId": "P2",
+      "title": "High-Margin Foods Integration",
+      "description": "Ching's and Organic India accelerating margin expansion."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_TC_LEVERAGE"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "RPGLIFE",
+  "issuerBseCode": "516151",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_RPGLIFE_AR2024",
+      "documentName": "RPGLIFE_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "3a2dde241b03efed40172a9bd2647edef22ddbe0cb0172e01f49e2376d779180",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_RPGLIFE_AUDITED_RESULTS",
+      "documentName": "RPGLIFE_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "5f81493742bfad237d84f6451d86cb1d97c3b33b5a68e8ecf2d7387d1d287c68",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_RPGLIFE_CONCALL_Q4FY26",
+      "documentName": "RPGLIFE_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "4ea47d8d79f5caf93a82b1c388dbe16ec2b205e2cad7fc07f71ab93a126b2afd",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

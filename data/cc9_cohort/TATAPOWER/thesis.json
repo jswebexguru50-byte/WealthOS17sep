@@ -1,0 +1,19 @@
+{
+  "symbol": "TATAPOWER",
+  "coreThesisStatement": "Integrated green power utility powerhouse with end-to-end presence across solar cell manufacturing, rooftop solar EPC, EV charging networks, and transmission grids.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Rooftop Solar Leadership",
+      "description": "Over 37% market share in residential rooftop solar installations across India."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Giga-Manufacturing Moat",
+      "description": "4.3 GW domestic solar cell manufacturing shielding company from import duties."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_TP_LEVERAGE"
+  ]
+}

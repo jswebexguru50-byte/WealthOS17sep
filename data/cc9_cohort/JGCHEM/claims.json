@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_JGCHEM_01",
+    "issuerNseSymbol": "JGCHEM",
+    "issuerBseCode": "544146",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Maintain annual zinc oxide dispatches to surpass ₹680 Cr revenue in FY24.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 785,
+    "expectedValue": 680,
+    "expectedOutcome": "Revenue >= ₹680 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_JGCHEM_REV_01",
+    "claimDate": "2023-09-10",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 728,
+    "actualOutcomeDescription": "Delivered ₹728 Cr revenue beating target by 7.1%.",
+    "evaluationEvidenceId": "EV_JGCHEM_REV_01",
+    "evaluationDate": "2024-05-28",
+    "evaluationBasis": "BSE Audited Financial Results",
+    "publicationDate": "2023-09-10",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_JGCHEM_01"
+  }
+]

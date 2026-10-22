@@ -1,0 +1,20 @@
+{
+  "trend": {
+    "benchmark": "NIFTY_50",
+    "method": "SMA_CROSSOVER",
+    "parameters": {
+      "fast": 50,
+      "slow": 200,
+      "sidewaysThresholdPct": 2.0
+    }
+  },
+  "volatility": {
+    "benchmark": "NIFTY_50",
+    "method": "ATR_PERCENTILE",
+    "parameters": {
+      "period": 14,
+      "lowThreshold": 33.33,
+      "highThreshold": 66.67
+    }
+  }
+}

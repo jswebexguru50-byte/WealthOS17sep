@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "PURVA",
+  "issuerBseCode": "512338",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_PURVA_AR2024",
+      "documentName": "PURVA_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "82327985b854f150a7944d73f4697cb3e213d26ff51e5e989745cb0c1aa03f4c",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_PURVA_AUDITED_RESULTS",
+      "documentName": "PURVA_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "aa863bf33ff6038d0ddc0592e4a114c2c2bf5faa9842d4d8e00a9d1a4b8240ba",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_PURVA_CONCALL_Q4FY26",
+      "documentName": "PURVA_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "09fe4febb32acbc1992c51918da93ae97990b786a5614ed3ca894eb6445bf0f5",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

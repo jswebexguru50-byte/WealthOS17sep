@@ -1,0 +1,14 @@
+[
+  {
+    "breakerId": "TB_APL_LEVERAGE",
+    "symbol": "APLAPOLLO",
+    "name": "Steel Tubes Working Capital Leverage Limit",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 2,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Net Debt / EBITDA exceeding 2.0x triggers hard veto.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

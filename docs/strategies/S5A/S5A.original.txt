@@ -1,0 +1,48 @@
+Mark Minervini Setup –Winning Stocks
+
+Prerequisites and Basics
+ Stock price should be within 25% of its 52-week high
+ Price is 100%+ above 52-week low
+ Remove penny stocks i.e below ₹50
+Trend Rules:
+• 200 DMA rising for at least 3 months
+• 50 DMA above 200 DMA
+• Price above 200 DMA (preferably above 50 DMA too)
+
+Strength Rules:
+• Stock makes a 52-week high every 4–6 months
+
+Update list once a week (after weekly close)
+ Use Weekly Charts only
+ No need to hunt new stocks daily
+ Add to existing winners
+
+Volatility Contraction Pattern (VCP)-3-5 candles Test
+ Stock moves up on high volume
+ Pulls back on low volume → Healthy consolidation
+Use only Price & Volume
+ Ideally 3 VCPs
+ Each contraction = lower volatility
+ Time contraction more than 10 candles to ignore
+
+Buy entry when previous swing high breaks
+ Volatility Rule (Simple)
+ Swing Low ÷ Swing High − 1 = % contraction
+• 2 VCP is okay only if 2nd contraction >70%
+
+Entry & Breakout
+
+ Breakouts usually happen in 4–8 weeks
+ Use Daily chart only for entry timing
+ Win rate ~ 50% → Risk control is key- sustained buying at different stages is the key
+
+Stop Loss Rule
+ Plot 20-period ATR (Daily chart)
+ Stop = 2 × ATR
+ Max stop loss = 10%
+
+Post-Buy Monitoring
+ More green days than red
+ up volume > Down volume
+ “Tennis Ball Action” (quick bounce)
+ Shallow pullbacks are bullish

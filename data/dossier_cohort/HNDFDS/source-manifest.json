@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "HNDFDS",
+  "issuerBseCode": "513609",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_HNDFDS_AR2024",
+      "documentName": "HNDFDS_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "956d21a7af382bfed3871e4874f8d827531531c97c654380d273143068583619",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_HNDFDS_AUDITED_RESULTS",
+      "documentName": "HNDFDS_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "9081fb4da3e57297ba86d5cbc57ecd5d10f30c249e7f7e491f0f60ea9ed4a5c8",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_HNDFDS_CONCALL_Q4FY26",
+      "documentName": "HNDFDS_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "e62ef1fc3b473a0a02f9013cf68709d4e88325899a5e666c3289edd18b28e545",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

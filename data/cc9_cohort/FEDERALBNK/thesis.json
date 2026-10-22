@@ -1,0 +1,19 @@
+{
+  "symbol": "FEDERALBNK",
+  "coreThesisStatement": "High-quality mid-tier private bank scaling national footprint through fintech partnerships and granular retail liabilities.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Fintech Partnerships",
+      "description": "Leading co-branded credit card and neo-banking partner bank in India."
+    },
+    {
+      "pillarId": "P2",
+      "title": "NRI Liability Moat",
+      "description": "Dominant share of inward remittances to Kerala providing low-cost sticky deposits."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_FED_NPA"
+  ]
+}

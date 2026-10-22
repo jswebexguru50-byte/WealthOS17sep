@@ -1,0 +1,46 @@
+[
+  {
+    "evidenceId": "EV_SWARAJ_REV_FY26",
+    "issuerNseSymbol": "SWARAJ",
+    "issuerBseCode": "514136",
+    "documentHash": "486917650928f63174b41fbd969e359a7953b9e9f7b28be9131e5a63f90d117c",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for the fiscal period reached ₹4414 Cr, reflecting continuous operating scale.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_SWARAJ_PAT_FY26",
+    "issuerNseSymbol": "SWARAJ",
+    "issuerBseCode": "514136",
+    "documentHash": "486917650928f63174b41fbd969e359a7953b9e9f7b28be9131e5a63f90d117c",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax stood at ₹530 Cr with operating margin of 16.5%.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_SWARAJ_DEBT_FY26",
+    "issuerNseSymbol": "SWARAJ",
+    "issuerBseCode": "514136",
+    "documentHash": "d9e0eb268ae0374f964ad90d9f45b42f72c3d830a699390b3c2aa22cade43cb2",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": "40",
+    "quotedText": "Consolidated balance sheet leverage was managed with Net Debt to Equity maintained at 0.35x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_SWARAJ_CONCALL_Q4FY26",
+    "issuerNseSymbol": "SWARAJ",
+    "issuerBseCode": "514136",
+    "documentHash": "4acf9f0a0f06a2b0b773a095de6875d96eaaedd68641afd52f26603eb37cbf25",
+    "documentType": "EARNINGS_CALL_TRANSCRIPT",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Management confirmed forward delivery: Guided for strategic capacity additions and working capital discipline; on track.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

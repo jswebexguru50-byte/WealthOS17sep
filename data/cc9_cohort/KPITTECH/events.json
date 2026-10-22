@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_KPIT_01",
+    "issuerNseSymbol": "KPITTECH",
+    "issuerBseCode": "542651",
+    "eventDate": "2024-04-29",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Strategic Software-Defined Vehicle (SDV) Deal with Global European OEM",
+    "description": "Won landmark multi-year software architecture engagement exceeding $150M for next-generation electric vehicle platform.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_KPIT_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

@@ -1,0 +1,42 @@
+{
+  "totalRoutes": 23,
+  "pages": [
+    "CommandCenter",
+    "MasterDossier",
+    "QuantTechnicalStudio",
+    "Portfolio",
+    "Analytics",
+    "QuantV5",
+    "ForensicIntelligence",
+    "OpportunityEngine",
+    "TechnicalStrategies",
+    "StrategyEditor",
+    "Sentinel",
+    "MomentumVpa",
+    "GreenfieldPortal",
+    "Multibagger",
+    "ReportStudio",
+    "TaxRepatriation",
+    "Opportunities",
+    "Ledger",
+    "Imports",
+    "Family",
+    "Mappings",
+    "Intelligence",
+    "Settings"
+  ],
+  "componentsCount": 78,
+  "majorComponents": [
+    "AdvancedPortfolioAnalyticsDashboard",
+    "StockIntelligenceView",
+    "OpportunityEngineMasterView",
+    "AutonomousSmartMoneySentinelView",
+    "InstitutionalAnalyticsHub"
+  ],
+  "dataDependencies": [
+    "/api/portfolio",
+    "/api/strategies",
+    "/api/forensics",
+    "/api/market"
+  ]
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_RBL_01",
+    "issuerNseSymbol": "RBLBANK",
+    "issuerBseCode": "540065",
+    "period": "FY24",
+    "category": "GOVERNANCE",
+    "statement": "Contain unsecured credit card and MFI credit costs strictly under 2.5% of loan book.",
+    "targetMetric": "credit_cost_pct",
+    "baselineValue": 2.3,
+    "expectedValue": 2.5,
+    "expectedOutcome": "Credit costs <= 2.5%",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_RBL_PROMISE_01",
+    "claimDate": "2023-08-18",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "MISSED",
+    "actualOutcomeMetric": 4.1,
+    "actualOutcomeDescription": "Delivered 4.1% credit costs, missing target by 160 bps due to unsecured slippages.",
+    "evaluationEvidenceId": "EV_RBL_RESULT_01",
+    "evaluationDate": "2024-04-27",
+    "evaluationBasis": "BSE Audited Financial Accounts Release",
+    "publicationDate": "2023-08-18",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_RBL_01"
+  }
+]

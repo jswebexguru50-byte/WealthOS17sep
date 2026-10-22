@@ -1,0 +1,19 @@
+{
+  "symbol": "MEESHO",
+  "coreThesisStatement": "Dominant social commerce and zero-commission e-commerce marketplace capturing Tier-2/3 Indian consumers and unbranded sellers.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Zero Commission Moat",
+      "description": "Advertising and logistics monetization providing low-cost seller acquisition."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Tier-2+ Demographics",
+      "description": "Over 80% order volume originating from non-metro towns."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_MEESHO_LEVERAGE"
+  ]
+}

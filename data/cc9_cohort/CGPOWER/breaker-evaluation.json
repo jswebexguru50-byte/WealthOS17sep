@@ -1,0 +1,14 @@
+[
+  {
+    "breakerId": "TB_CGPOWER_LEVERAGE",
+    "symbol": "CGPOWER",
+    "name": "Murugappa Engineering Debt Limit",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 1.5,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Debt / Equity ratio exceeding 1.5x triggers hard veto.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

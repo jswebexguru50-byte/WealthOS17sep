@@ -1,0 +1,37 @@
+{
+  "issuerNseSymbol": "NOVARTIND",
+  "issuerBseCode": "521483",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_NOVARTIND_AR2024",
+      "documentName": "NOVARTIND_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "1fc20fdf163f813d76cbf7b3839c8a4f8564f955366e8510d327673379e57255",
+      "pageCount": 184,
+      "filingAuthority": "NSE/BSE Corporate Filings"
+    },
+    {
+      "documentId": "DOC_NOVARTIND_AUDITED_RESULTS",
+      "documentName": "NOVARTIND_Audited_Financial_Results_FY26.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2026-05-26",
+      "documentHashSha256": "6e59d62c08112b35e643711f6d822cfdcbdd7d1df6036c8de61c11f3699697f5",
+      "pageCount": 38,
+      "filingAuthority": "NSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_NOVARTIND_CONCALL_Q4FY26",
+      "documentName": "NOVARTIND_Concall_Transcript_Q4FY26.pdf",
+      "documentType": "EARNINGS_CALL_TRANSCRIPT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2026-05-28",
+      "documentHashSha256": "0ddb7fd71ed12935e3f130ab10e4fa3e1624b673f9dd446faa76964d663086df",
+      "pageCount": 22,
+      "filingAuthority": "NSE Corporate Disclosures"
+    }
+  ]
+}

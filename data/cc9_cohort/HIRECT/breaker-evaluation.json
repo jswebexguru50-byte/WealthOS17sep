@@ -1,0 +1,14 @@
+[
+  {
+    "breakerId": "TB_HIRECT_LEVERAGE",
+    "symbol": "HIRECT",
+    "name": "Working Capital Debt Ceilings",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 3,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Total Debt / EBITDA exceeding 3.0x triggers hard veto.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

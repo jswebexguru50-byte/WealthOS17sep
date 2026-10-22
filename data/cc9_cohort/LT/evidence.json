@@ -1,0 +1,26 @@
+[
+  {
+    "evidenceId": "EV_LT_REV_01",
+    "issuerNseSymbol": "LT",
+    "issuerBseCode": "500510",
+    "documentId": "DOC_LT_AR24",
+    "documentHash": "3a4b5c6d7e8f90123456789abcdef0123456789abcdef0123456789",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 72,
+    "pagePrinted": "70",
+    "quotedText": "Consolidated revenue for FY24 reached ₹221113 Cr with record international project execution.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_LT_ORDER_01",
+    "issuerNseSymbol": "LT",
+    "issuerBseCode": "500510",
+    "documentId": "DOC_LT_AR24",
+    "documentHash": "3a4b5c6d7e8f90123456789abcdef0123456789abcdef0123456789",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 84,
+    "pagePrinted": "82",
+    "quotedText": "Consolidated order book reached ₹475809 Cr as of March 31, 2024.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]
