@@ -3030,7 +3030,7 @@ function runSchemaInitialization(db: Database): Promise<void> {
             PRIMARY KEY (symbol, trade_date)
           )
         `, () => {
-          db.run(`CREATE INDEX IF NOT EXISTS idx_daily_ohlcv_symbol ON DailyOHLCV(symbol)`);
+          // The UNIQUE(symbol, trade_date) index already covers symbol lookups.
           db.run(`CREATE INDEX IF NOT EXISTS idx_daily_ohlcv_date ON DailyOHLCV(trade_date)`);
           db.run(`CREATE INDEX IF NOT EXISTS idx_daily_ohlcv_source ON DailyOHLCV(data_source)`);
         });

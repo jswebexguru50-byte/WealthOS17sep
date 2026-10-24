@@ -14,12 +14,10 @@ export function hashInstrumentEvidence(evidence: any): string {
   return crypto.createHash('sha256').update(JSON.stringify(evidence)).digest('hex');
 }
 
-import fs from 'node:fs';
-import path from 'node:path';
 import zlib from 'node:zlib';
 
 export async function resolveUpstoxInstrument(symbol: string): Promise<InstrumentIdentity | null> {
-  const url = 'https://assets.upstox.com/market-quote/instruments/exchange/NSE.csv.gz';
+  const url = 'https://assets.upstox.com/market-quote/instruments/exchange/NSE.json.gz';
   const retrievedAt = new Date().toISOString();
   let rawBytes: Buffer;
 
@@ -45,41 +43,12 @@ export async function resolveUpstoxInstrument(symbol: string): Promise<Instrumen
 
   const decompressedSha256 = crypto.createHash('sha256').update(decompressedString, 'utf8').digest('hex');
 
-  // The CSV format for Upstox NSE is roughly:
-  // instrument_key,exchange_token,tradingsymbol,name,last_price,expiry,strike,tick_size,lot_size,instrument_type,option_type,exchange
-  // Example: NSE_INDEX|Nifty 50,256265,NIFTY 50,NIFTY 50,22500,,,0,0,INDEX,,NSE
-  
-  const lines = decompressedString.split('\n');
-  const headers = lines[0].split(',');
-  const keyIdx = headers.findIndex(h => h === 'instrument_key');
-  const nameIdx = headers.findIndex(h => h === 'name');
-  const typeIdx = headers.findIndex(h => h === 'instrument_type');
-  const exchIdx = headers.findIndex(h => h === 'exchange');
+  const instrument = findUpstoxIndex(JSON.parse(decompressedString), symbol);
+  if (!instrument) return null;
+  const foundKey = instrument.instrument_key;
+  const foundType = instrument.instrument_type;
+  const foundExch = instrument.exchange;
 
-  if (keyIdx === -1 || nameIdx === -1 || typeIdx === -1 || exchIdx === -1) {
-    throw new Error('INSTRUMENT_RESOLUTION_UNAVAILABLE: Unrecognized CSV schema');
-  }
-
-  let foundKey: string | null = null;
-  let foundType: string | null = null;
-  let foundExch: string | null = null;
-
-  for (let i = 1; i < lines.length; i++) {
-    const row = lines[i].split(',');
-    if (row.length > Math.max(keyIdx, nameIdx, typeIdx, exchIdx)) {
-      if (row[nameIdx] === symbol && row[typeIdx] === 'INDEX' && row[exchIdx] === 'NSE') {
-        foundKey = row[keyIdx];
-        foundType = row[typeIdx];
-        foundExch = row[exchIdx];
-        break;
-      }
-    }
-  }
-
-  if (!foundKey) {
-    return null;
-  }
-  
   const resolvedAt = new Date().toISOString();
   
   return {
@@ -102,4 +71,18 @@ export async function resolveUpstoxInstrument(symbol: string): Promise<Instrumen
       exchange: foundExch
     })
   };
+}
+
+/** Match index identity using the documented JSON schema, never row positions. */
+export function findUpstoxIndex(rows: unknown, symbol: string): {
+  instrument_key: string; instrument_type: string; exchange: string;
+} | null {
+  if (!Array.isArray(rows)) throw new Error('INSTRUMENT_RESOLUTION_UNAVAILABLE: Unrecognized JSON schema');
+  const wanted = symbol.trim().toUpperCase();
+  const matches = rows.filter(row => row && row.segment === 'NSE_INDEX' &&
+    row.instrument_type === 'INDEX' && row.exchange === 'NSE' &&
+    typeof row.instrument_key === 'string' && row.instrument_key.startsWith('NSE_INDEX|') &&
+    [row.name, row.trading_symbol].some(value => typeof value === 'string' && value.trim().toUpperCase() === wanted));
+  if (matches.length > 1) throw new Error('INSTRUMENT_RESOLUTION_UNAVAILABLE: Ambiguous index identity');
+  return matches[0] || null;
 }
