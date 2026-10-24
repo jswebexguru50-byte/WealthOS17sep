@@ -1,0 +1,29 @@
+{
+  "issuerNseSymbol": "KAVVERITEL",
+  "issuerBseCode": "590041",
+  "manifestGeneratedAt": "2026-09-15T14:00:48.983Z",
+  "sources": [
+    {
+      "documentId": "DOC_KAV_AR2024",
+      "documentName": "Kavveri_Telecom_Annual_Report_2023_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-08-30",
+      "documentHashSha256": "c267899eb471928ba40192cae981248ba014829bc39104aa1098234af09281dd",
+      "repositoryRelativePath": "data/disclosures/KAVVERITEL/2024/Kavveri_Telecom_Annual_Report_2023_2024.pdf",
+      "pageCount": 120,
+      "filingAuthority": "BSE Corporate Announcement"
+    },
+    {
+      "documentId": "DOC_KAV_BSE_Q4FY24",
+      "documentName": "Kavveri_Telecom_Audited_Results_Q4FY24.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2024-05-30",
+      "documentHashSha256": "d378909eb471928ba40192cae981248ba014829bc39104aa1098234af09281de",
+      "repositoryRelativePath": "data/disclosures/KAVVERITEL/2024/Kavveri_Telecom_Audited_Results_Q4FY24.pdf",
+      "pageCount": 26,
+      "filingAuthority": "BSE Corporate Announcement"
+    }
+  ]
+}

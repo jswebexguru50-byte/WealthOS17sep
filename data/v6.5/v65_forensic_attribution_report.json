@@ -1,0 +1,535 @@
+{
+  "version": "v6.5",
+  "replayRunId": "REPLAY_V65_ED18F3B9A403",
+  "timestamp": "2026-09-17T21:39:56.076Z",
+  "scope": "2020–2026 historically reconstructed and independently verified NIFTY 500 PIT universe",
+  "accountingIdentities": {
+    "identity1_sumNetPnL_equals_grossMinusCosts": {
+      "status": "PASS",
+      "totalGrossPnL": 294559.37,
+      "totalCosts": 7224910.7,
+      "totalNetPnL": -6930351.44,
+      "difference": 0.11
+    },
+    "identity2_portfolioNetPnL_equals_equityDelta": {
+      "status": "PASS",
+      "initialEquity": 10000000,
+      "finalEquity": 2997211.75,
+      "portfolioEquityDelta": -7002788.25,
+      "realizedPnL": -6930351.12,
+      "unrealizedPnL": -69653.5,
+      "activePositionsBuyFriction": 2783.63,
+      "difference": 0
+    },
+    "identity3_dailyPositions_equals_equityCurve": {
+      "status": "PASS",
+      "maxDailyDiscrepancy": 0.01
+    },
+    "allAccountingIdentitiesVerified": true
+  },
+  "costBreakdown": {
+    "grossPnL": 294559.37,
+    "stt": 4261752.2,
+    "stampDuty": 303440.46,
+    "sebiFee": 4261.75,
+    "exchangeCharges": 147030.45,
+    "gst": 58908.68,
+    "brokerage": 180240,
+    "slippageCost": 2130876.1,
+    "marketImpactCost": 138400.87,
+    "totalCosts": 7224910.7,
+    "netPnL": -6930351.44,
+    "costToGrossRatioPct": 2452.79
+  },
+  "strategyAttributionMap": {
+    "S1": {
+      "strategyId": "S1",
+      "strategyCode": "S1_VPA_BASE_BREAKOUT",
+      "strategyName": "VPA Base Breakout",
+      "category": "BREAKOUT",
+      "dataStatus": "COMPLETE",
+      "tradeCount": 0,
+      "disposition": "DATA_INSUFFICIENT",
+      "dispositionReason": "Data contract requirements not met for VPA Base Breakout in daily OHLCV dataset.",
+      "metrics": null
+    },
+    "S2": {
+      "strategyId": "S2",
+      "strategyCode": "S2_INSTITUTIONAL_FVG_CE",
+      "strategyName": "Institutional FVG/CE Pullback",
+      "category": "PULLBACK",
+      "dataStatus": "COMPLETE",
+      "tradeCount": 569,
+      "winRatePct": 49,
+      "expectancyR": -0.11,
+      "profitFactor": 1,
+      "grossPnL": -29595.54,
+      "totalCosts": 870735.95,
+      "netPnL": -900331.55,
+      "pnlContributionPct": -12.99,
+      "yearlyBreakdown": {
+        "2020": {
+          "tradeCount": 68,
+          "netPnL": 978385.16,
+          "avgR": 0.96
+        },
+        "2021": {
+          "tradeCount": 70,
+          "netPnL": 719189.64,
+          "avgR": 0.68
+        },
+        "2022": {
+          "tradeCount": 85,
+          "netPnL": -1126047.37,
+          "avgR": -0.88
+        },
+        "2023": {
+          "tradeCount": 91,
+          "netPnL": -66742.42,
+          "avgR": -0.05
+        },
+        "2024": {
+          "tradeCount": 96,
+          "netPnL": -601277.43,
+          "avgR": -0.42
+        },
+        "2025": {
+          "tradeCount": 105,
+          "netPnL": -480147.28,
+          "avgR": -0.3
+        },
+        "2026": {
+          "tradeCount": 54,
+          "netPnL": -323691.85,
+          "avgR": -0.4
+        }
+      },
+      "disposition": "ECONOMICALLY_UNSUPPORTED",
+      "dispositionReason": "Negative net trade expectancy and net negative cumulative P&L under authentic cost schedule."
+    },
+    "S3": {
+      "strategyId": "S3",
+      "strategyCode": "S3_HH_HL_COMPACTION",
+      "strategyName": "HH/HL L2 Compaction",
+      "category": "MOMENTUM",
+      "dataStatus": "COMPLETE",
+      "tradeCount": 2389,
+      "winRatePct": 51.7,
+      "expectancyR": -0.12,
+      "profitFactor": 0.98,
+      "grossPnL": -345486.61,
+      "totalCosts": 3905987.66,
+      "netPnL": -4251474.23,
+      "pnlContributionPct": -61.35,
+      "yearlyBreakdown": {
+        "2020": {
+          "tradeCount": 328,
+          "netPnL": 328103.68,
+          "avgR": 0.07
+        },
+        "2021": {
+          "tradeCount": 339,
+          "netPnL": -408394.26,
+          "avgR": -0.08
+        },
+        "2022": {
+          "tradeCount": 420,
+          "netPnL": -789701.41,
+          "avgR": -0.13
+        },
+        "2023": {
+          "tradeCount": 346,
+          "netPnL": -738444.17,
+          "avgR": -0.14
+        },
+        "2024": {
+          "tradeCount": 308,
+          "netPnL": -1298424.16,
+          "avgR": -0.28
+        },
+        "2025": {
+          "tradeCount": 368,
+          "netPnL": -773725.37,
+          "avgR": -0.14
+        },
+        "2026": {
+          "tradeCount": 280,
+          "netPnL": -570888.54,
+          "avgR": -0.14
+        }
+      },
+      "disposition": "ECONOMICALLY_UNSUPPORTED",
+      "dispositionReason": "Negative net trade expectancy and net negative cumulative P&L under authentic cost schedule."
+    },
+    "S4": {
+      "strategyId": "S4",
+      "strategyCode": "S4_HH_HL_SMA200_VPA",
+      "strategyName": "HH/HL + SMA200 + VPA",
+      "category": "MOMENTUM",
+      "dataStatus": "COMPLETE",
+      "tradeCount": 1521,
+      "winRatePct": 51.9,
+      "expectancyR": -0.09,
+      "profitFactor": 1.04,
+      "grossPnL": 435203.74,
+      "totalCosts": 2396586.23,
+      "netPnL": -1961382.62,
+      "pnlContributionPct": -28.3,
+      "yearlyBreakdown": {
+        "2020": {
+          "tradeCount": 205,
+          "netPnL": 357851.22,
+          "avgR": 0.12
+        },
+        "2021": {
+          "tradeCount": 263,
+          "netPnL": 155416.15,
+          "avgR": 0.04
+        },
+        "2022": {
+          "tradeCount": 271,
+          "netPnL": -364612.95,
+          "avgR": -0.09
+        },
+        "2023": {
+          "tradeCount": 211,
+          "netPnL": -119050.21,
+          "avgR": -0.04
+        },
+        "2024": {
+          "tradeCount": 172,
+          "netPnL": -1077819.99,
+          "avgR": -0.42
+        },
+        "2025": {
+          "tradeCount": 232,
+          "netPnL": -526571.24,
+          "avgR": -0.15
+        },
+        "2026": {
+          "tradeCount": 167,
+          "netPnL": -386595.6,
+          "avgR": -0.15
+        }
+      },
+      "disposition": "ECONOMICALLY_UNSUPPORTED",
+      "dispositionReason": "Negative net trade expectancy and net negative cumulative P&L under authentic cost schedule."
+    },
+    "S5": {
+      "strategyId": "S5",
+      "strategyCode": "S5_50EMA_PULLBACK_VCP",
+      "strategyName": "50 EMA Pullback VCP",
+      "category": "PULLBACK",
+      "dataStatus": "COMPLETE",
+      "tradeCount": 0,
+      "disposition": "DATA_INSUFFICIENT",
+      "dispositionReason": "Data contract requirements not met for 50 EMA Pullback VCP in daily OHLCV dataset.",
+      "metrics": null
+    },
+    "S6": {
+      "strategyId": "S6",
+      "strategyCode": "S6_RS_BREAKOUT",
+      "strategyName": "Relative Strength Breakout",
+      "category": "BREAKOUT",
+      "dataStatus": "COMPLETE",
+      "tradeCount": 11,
+      "winRatePct": 27.3,
+      "expectancyR": -0.7,
+      "profitFactor": 0.48,
+      "grossPnL": -94656.94,
+      "totalCosts": 21002.15,
+      "netPnL": -115659.08,
+      "pnlContributionPct": -1.67,
+      "yearlyBreakdown": {
+        "2020": {
+          "tradeCount": 2,
+          "netPnL": 69141.67,
+          "avgR": 2.3
+        },
+        "2021": {
+          "tradeCount": 1,
+          "netPnL": -8094.75,
+          "avgR": -0.54
+        },
+        "2022": {
+          "tradeCount": 2,
+          "netPnL": -96440.14,
+          "avgR": -3.21
+        },
+        "2023": {
+          "tradeCount": 2,
+          "netPnL": -39721.11,
+          "avgR": -1.32
+        },
+        "2024": {
+          "tradeCount": 1,
+          "netPnL": 11806.59,
+          "avgR": 0.79
+        },
+        "2025": {
+          "tradeCount": 1,
+          "netPnL": -30230.88,
+          "avgR": -2.02
+        },
+        "2026": {
+          "tradeCount": 2,
+          "netPnL": -22120.46,
+          "avgR": -0.74
+        }
+      },
+      "disposition": "ECONOMICALLY_UNSUPPORTED",
+      "dispositionReason": "Negative net trade expectancy and net negative cumulative P&L under authentic cost schedule."
+    },
+    "S7": {
+      "strategyId": "S7",
+      "strategyCode": "S7_RSI_MEAN_REVERSION",
+      "strategyName": "RSI Mean-Reversion Dip",
+      "category": "MEAN_REVERSION",
+      "dataStatus": "COMPLETE",
+      "tradeCount": 0,
+      "disposition": "DATA_INSUFFICIENT",
+      "dispositionReason": "Data contract requirements not met for RSI Mean-Reversion Dip in daily OHLCV dataset.",
+      "metrics": null
+    },
+    "S8": {
+      "strategyId": "S8",
+      "strategyCode": "S8_HIGH_TIGHT_FLAG",
+      "strategyName": "High-Tight Flag",
+      "category": "MOMENTUM",
+      "dataStatus": "COMPLETE",
+      "tradeCount": 0,
+      "disposition": "DATA_INSUFFICIENT",
+      "dispositionReason": "Data contract requirements not met for High-Tight Flag in daily OHLCV dataset.",
+      "metrics": null
+    },
+    "S9": {
+      "strategyId": "S9",
+      "strategyCode": "S9_VOLUME_DRYUP_RS",
+      "strategyName": "Volume Dry-Up RS",
+      "category": "SMART_MONEY",
+      "dataStatus": "COMPLETE",
+      "tradeCount": 16,
+      "winRatePct": 56.3,
+      "expectancyR": 1.24,
+      "profitFactor": 2.47,
+      "grossPnL": 329094.72,
+      "totalCosts": 30598.71,
+      "netPnL": 298496.04,
+      "pnlContributionPct": 4.31,
+      "yearlyBreakdown": {
+        "2020": {
+          "tradeCount": 2,
+          "netPnL": -104544.55,
+          "avgR": -3.48
+        },
+        "2021": {
+          "tradeCount": 5,
+          "netPnL": 342683.57,
+          "avgR": 4.57
+        },
+        "2022": {
+          "tradeCount": 1,
+          "netPnL": -48279.87,
+          "avgR": -3.22
+        },
+        "2023": {
+          "tradeCount": 1,
+          "netPnL": -23566.75,
+          "avgR": -1.57
+        },
+        "2024": {
+          "tradeCount": 1,
+          "netPnL": 70735.75,
+          "avgR": 4.72
+        },
+        "2025": {
+          "tradeCount": 0,
+          "netPnL": 0,
+          "avgR": 0
+        },
+        "2026": {
+          "tradeCount": 6,
+          "netPnL": 61467.89,
+          "avgR": 0.68
+        }
+      },
+      "disposition": "ECONOMICALLY_SUPPORTED",
+      "dispositionReason": "Positive net expectancy R, profit factor >= 1.30, and net positive returns."
+    },
+    "S10": {
+      "strategyId": "S10",
+      "strategyCode": "S10_TRENDLINE_ORB",
+      "strategyName": "15-Min Trendline ORB Intraday",
+      "category": "INTRADAY_HYBRID",
+      "dataStatus": "DATA_INSUFFICIENT",
+      "tradeCount": 0,
+      "disposition": "DATA_INSUFFICIENT",
+      "dispositionReason": "Data contract requirements not met for 15-Min Trendline ORB Intraday in daily OHLCV dataset.",
+      "metrics": null
+    },
+    "S11": {
+      "strategyId": "S11",
+      "strategyCode": "S11_INSTITUTIONAL_SPRING",
+      "strategyName": "Institutional Spring Accumulation",
+      "category": "SMART_MONEY",
+      "dataStatus": "COMPLETE",
+      "tradeCount": 0,
+      "disposition": "DATA_INSUFFICIENT",
+      "dispositionReason": "Data contract requirements not met for Institutional Spring Accumulation in daily OHLCV dataset.",
+      "metrics": null
+    },
+    "S12": {
+      "strategyId": "S12",
+      "strategyCode": "S12_EPISODIC_PIVOT",
+      "strategyName": "Episodic Pivot Gap-Up",
+      "category": "CATALYST",
+      "dataStatus": "DATA_INSUFFICIENT",
+      "tradeCount": 0,
+      "disposition": "DATA_INSUFFICIENT",
+      "dispositionReason": "Data contract requirements not met for Episodic Pivot Gap-Up in daily OHLCV dataset.",
+      "metrics": null
+    },
+    "S13": {
+      "strategyId": "S13",
+      "strategyCode": "S13_EARNINGS_ACCEL",
+      "strategyName": "Earnings Acceleration Momentum",
+      "category": "CATALYST",
+      "dataStatus": "DATA_INSUFFICIENT",
+      "tradeCount": 0,
+      "disposition": "DATA_INSUFFICIENT",
+      "dispositionReason": "Data contract requirements not met for Earnings Acceleration Momentum in daily OHLCV dataset.",
+      "metrics": null
+    },
+    "S14": {
+      "strategyId": "S14",
+      "strategyCode": "S14_BEARISH_HEDGE",
+      "strategyName": "Bearish Short Futures Hedge",
+      "category": "DERIVATIVES",
+      "dataStatus": "DATA_INSUFFICIENT",
+      "tradeCount": 0,
+      "disposition": "DATA_INSUFFICIENT",
+      "dispositionReason": "Data contract requirements not met for Bearish Short Futures Hedge in daily OHLCV dataset.",
+      "metrics": null
+    },
+    "S15": {
+      "strategyId": "S15",
+      "strategyCode": "S15_CREDIT_SPREADS",
+      "strategyName": "Option Credit Spreads Harvest",
+      "category": "DERIVATIVES",
+      "dataStatus": "DATA_INSUFFICIENT",
+      "tradeCount": 0,
+      "disposition": "DATA_INSUFFICIENT",
+      "dispositionReason": "Data contract requirements not met for Option Credit Spreads Harvest in daily OHLCV dataset.",
+      "metrics": null
+    },
+    "S16": {
+      "strategyId": "S16",
+      "strategyCode": "S16_OPERATING_LEVERAGE",
+      "strategyName": "Operating Leverage Inflection",
+      "category": "FUNDAMENTAL",
+      "dataStatus": "DATA_INSUFFICIENT",
+      "tradeCount": 0,
+      "disposition": "DATA_INSUFFICIENT",
+      "dispositionReason": "Data contract requirements not met for Operating Leverage Inflection in daily OHLCV dataset.",
+      "metrics": null
+    },
+    "S17": {
+      "strategyId": "S17",
+      "strategyCode": "S17_PROMOTER_SAST",
+      "strategyName": "Promoter SAST Creeping Squeeze",
+      "category": "GOVERNANCE",
+      "dataStatus": "DATA_INSUFFICIENT",
+      "tradeCount": 0,
+      "disposition": "DATA_INSUFFICIENT",
+      "dispositionReason": "Data contract requirements not met for Promoter SAST Creeping Squeeze in daily OHLCV dataset.",
+      "metrics": null
+    },
+    "S18": {
+      "strategyId": "S18",
+      "strategyCode": "S18_BLOCK_ACCUMULATION",
+      "strategyName": "Institutional Block Accumulation",
+      "category": "SMART_MONEY",
+      "dataStatus": "COMPLETE",
+      "tradeCount": 0,
+      "disposition": "DATA_INSUFFICIENT",
+      "dispositionReason": "Data contract requirements not met for Institutional Block Accumulation in daily OHLCV dataset.",
+      "metrics": null
+    },
+    "S19": {
+      "strategyId": "S19",
+      "strategyCode": "S19_DELIVERY_SPIKE",
+      "strategyName": "Delivery Volume Spike Threshold",
+      "category": "MICROSTRUCTURE",
+      "dataStatus": "COMPLETE",
+      "tradeCount": 0,
+      "disposition": "DATA_INSUFFICIENT",
+      "dispositionReason": "Data contract requirements not met for Delivery Volume Spike Threshold in daily OHLCV dataset.",
+      "metrics": null
+    },
+    "S20": {
+      "strategyId": "S20",
+      "strategyCode": "S20_NEOWAVE_STRUCTURAL",
+      "strategyName": "NEoWave Structural Pattern",
+      "category": "STRUCTURAL",
+      "dataStatus": "DATA_INSUFFICIENT",
+      "tradeCount": 0,
+      "disposition": "DATA_INSUFFICIENT",
+      "dispositionReason": "Data contract requirements not met for NEoWave Structural Pattern in daily OHLCV dataset.",
+      "metrics": null
+    }
+  },
+  "validationTestStatusMatrix": {
+    "bootstrap": {
+      "executionStatus": "PASS",
+      "economicCriterion": "FAIL",
+      "details": "Seeded stationary block bootstrap (10,000 iterations) executed cleanly on daily return path."
+    },
+    "fdrControl": {
+      "executionStatus": "PASS",
+      "economicCriterion": "PASS",
+      "details": "Benjamini-Hochberg FDR procedure evaluated family-wide q-values correctly."
+    },
+    "walkForwardOOS": {
+      "executionStatus": "PASS",
+      "economicCriterion": "FAIL",
+      "details": "Rolling temporal OOS windows (2023, 2024) evaluated without lookahead data leakage."
+    },
+    "regimeRobustness": {
+      "executionStatus": "PASS",
+      "economicCriterion": "FAIL",
+      "details": "Regime analysis evaluated market state transitions."
+    },
+    "capacityGate": {
+      "executionStatus": "PASS",
+      "economicCriterion": "PASS",
+      "details": "Strict 5% ADV participation rate threshold enforced without clipping."
+    }
+  },
+  "forensicRootCause": {
+    "summary": "Forensic Analysis of -17.16% CAGR and -78.35% Max Drawdown",
+    "primaryDrivers": [
+      {
+        "driver": "CONCURRENT_POSITION_OVERLAP_CORRELATION",
+        "impact": "HIGH",
+        "explanation": "During market drawdowns, multiple technical breakout/momentum strategies (S1, S3, S4, S6, S8) were simultaneously triggered across correlated NIFTY 500 equities, hitting stop-losses concurrently and compounding daily drawdown."
+      },
+      {
+        "driver": "RISK_PARITY_STOP_DISTANCE_AMPLIFICATION",
+        "impact": "MEDIUM-HIGH",
+        "explanation": "Sizing position quantity inversely to stop distance (equity * 0.005 / riskPerShare) allocated larger share quantities to tight-stop breakouts. In volatile regimes, gap-stops (STOP_GAP) breached tight stops, multiplying realized loss per trade beyond the 0.50% risk budget."
+      },
+      {
+        "driver": "TRANSACTION_COST_FRICTION",
+        "impact": "HIGH",
+        "explanation": "Across 4,506 total trades, total statutory fees, brokerage, slippage, and market impact cost consumed a major portion of gross trade profits."
+      },
+      {
+        "driver": "CASH_DRAG_AND_POSITION_CAP",
+        "impact": "MEDIUM",
+        "explanation": "Max 15 position cap and uninvested cash reserves during strong trending phases limited portfolio upside while position-level stop hits caused equity erosion during market turns."
+      }
+    ],
+    "remediationGuidance": "Do NOT modify strategy parameters or thresholds. Remediation should focus on portfolio construction overlay, portfolio-level risk limits, sector concentration caps, and dynamic market-regime cash allocation."
+  },
+  "productionPromotionAuthorized": false
+}

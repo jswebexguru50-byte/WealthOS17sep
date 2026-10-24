@@ -1,0 +1,30 @@
+{
+  "status": "CONTRADICTIONS_DETECTED",
+  "issuerNseSymbol": "GMDCLTD",
+  "activeContradictionCount": 1,
+  "contradictions": [
+    {
+      "contradictionId": "CONTRA_GMDC_01",
+      "issuerNseSymbol": "GMDCLTD",
+      "issuerBseCode": "532181",
+      "severity": "HIGH",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_GMDC_01",
+      "eventId": "EVT_GMDC_01",
+      "description": "Management promised commercial coal extraction by Q4-FY24, but statutory clearances deferred operations",
+      "divergenceDetails": {
+        "targetQuarter": "Q4-FY24",
+        "clearanceStatus": "PENDING_MOEFCC"
+      },
+      "leftEvidenceId": "EV_GMDC_PROMISE_01",
+      "rightEvidenceId": "EV_GMDC_RESULT_01",
+      "supportingEvidenceIds": [],
+      "status": "OPEN",
+      "materiality": "HIGH",
+      "detectedAt": "2024-05-18T10:00:00.000Z",
+      "createdAt": "2026-09-30 20:15:28",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ]
+}

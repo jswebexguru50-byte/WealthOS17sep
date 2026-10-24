@@ -17,6 +17,21 @@ router.get('/', async (_req, res) => {
   }
 });
 
+// PUT /api/master-tickers/upsert-by-isin
+router.put('/upsert-by-isin', async (req, res) => {
+  try {
+    const db = getDB();
+    const { isin, symbol, name, exchange, sector, manual_ltp, fmv_31_jan_2018 } = req.body;
+    if (!isin) return res.status(400).json({ success: false, message: 'ISIN is required' });
+    await dbRun(db, `INSERT INTO MasterTickers (isin, symbol, name, exchange, sector, manual_ltp, fmv_31_jan_2018) VALUES (?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(isin) DO UPDATE SET symbol=COALESCE(excluded.symbol, MasterTickers.symbol), name=CASE WHEN excluded.name!='' THEN excluded.name ELSE MasterTickers.name END, exchange=COALESCE(excluded.exchange, MasterTickers.exchange), sector=CASE WHEN excluded.sector!='' THEN excluded.sector ELSE MasterTickers.sector END, manual_ltp=COALESCE(excluded.manual_ltp, MasterTickers.manual_ltp), fmv_31_jan_2018=COALESCE(excluded.fmv_31_jan_2018, MasterTickers.fmv_31_jan_2018)`,
+      [isin, symbol || '', name || '', exchange || 'NYSE', sector || '', manual_ltp || null, fmv_31_jan_2018 || 0]);
+    res.json({ success: true });
+  } catch (err: any) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 // PUT /api/master-tickers/:id (with holdings cascade)
 router.put('/:id', async (req, res) => {
   try {
@@ -39,21 +54,6 @@ router.put('/:id', async (req, res) => {
         }
       });
     }
-    res.json({ success: true });
-  } catch (err: any) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-// PUT /api/master-tickers/upsert-by-isin
-router.put('/upsert-by-isin', async (req, res) => {
-  try {
-    const db = getDB();
-    const { isin, symbol, name, exchange, sector, manual_ltp, fmv_31_jan_2018 } = req.body;
-    if (!isin) return res.status(400).json({ success: false, message: 'ISIN is required' });
-    await dbRun(db, `INSERT INTO MasterTickers (isin, symbol, name, exchange, sector, manual_ltp, fmv_31_jan_2018) VALUES (?, ?, ?, ?, ?, ?, ?)
-      ON CONFLICT(isin) DO UPDATE SET symbol=COALESCE(excluded.symbol, MasterTickers.symbol), name=CASE WHEN excluded.name!='' THEN excluded.name ELSE MasterTickers.name END, exchange=COALESCE(excluded.exchange, MasterTickers.exchange), sector=CASE WHEN excluded.sector!='' THEN excluded.sector ELSE MasterTickers.sector END, manual_ltp=COALESCE(excluded.manual_ltp, MasterTickers.manual_ltp), fmv_31_jan_2018=COALESCE(excluded.fmv_31_jan_2018, MasterTickers.fmv_31_jan_2018)`,
-      [isin, symbol || '', name || '', exchange || 'NYSE', sector || '', manual_ltp || null, fmv_31_jan_2018 || 0]);
     res.json({ success: true });
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });

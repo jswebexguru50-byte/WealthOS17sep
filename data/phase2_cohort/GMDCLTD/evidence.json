@@ -1,0 +1,28 @@
+[
+  {
+    "evidenceId": "EV_GMDC_PROMISE_01",
+    "issuerNseSymbol": "GMDCLTD",
+    "issuerBseCode": "532181",
+    "documentId": "DOC_GMDC_AR2023",
+    "documentHash": "0945169eb471928ba40192cae981248ba014829bc39104aa1098234af09281d1",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 26,
+    "pagePrinted": 24,
+    "quotedText": "Targeting operational commencement and commercial extraction at newly allotted commercial coal and lignite blocks in Odisha and Gujarat by Q4-FY24.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+  },
+  {
+    "evidenceId": "EV_GMDC_RESULT_01",
+    "issuerNseSymbol": "GMDCLTD",
+    "issuerBseCode": "532181",
+    "documentId": "DOC_GMDC_BSE_Q4FY24",
+    "documentHash": "1a56279eb471928ba40192cae981248ba014829bc39104aa1098234af09281d2",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 9,
+    "pagePrinted": 9,
+    "quotedText": "Commercial mining operations at Baitarani West coal block deferred pending statutory stage-1 forest clearance and MoEFCC environmental permissions.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  }
+]

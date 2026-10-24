@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-10-21T15:05:53.189095+00:00",
+  "generated_at": "2026-10-16T18:34:42.052267+00:00",
   "status": "READY",
-  "validated_kite_partitions": 2784,
-  "primary_rows": 4266089,
-  "primary_symbols": 2784,
-  "first_trade_date": "2016-09-22",
-  "last_trade_date": "2026-10-21",
-  "kite_primary_rows": 4266089,
+  "validated_kite_partitions": 2927,
+  "primary_rows": 5265843,
+  "primary_symbols": 4423,
+  "first_trade_date": "2016-09-21",
+  "last_trade_date": "2026-10-16",
+  "kite_primary_rows": 4458645,
   "invalid_rows_quarantined": 8,
   "catalog": "data\\market_data\\tejhq_hf_10y\\ohlcv.duckdb",
   "datasets": {
@@ -16,9 +16,8 @@
     "kite_upstox_mapping": "data\\market_data\\tejhq_hf_10y\\instrument_mapping\\kite_upstox_instrument_map.parquet"
   },
   "kite_import_statuses": {
-    "COMPLETE": 2784,
-    "NO_CURRENT_KITE_INSTRUMENT": 53,
-    "ERROR": 1
+    "COMPLETE": 2927,
+    "NO_CURRENT_KITE_INSTRUMENT": 53
   },
   "live_policy": "Upstox latest candle is overlaid on the current adjusted price basis; prior history is Kite-adjusted."
 }

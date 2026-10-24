@@ -1,0 +1,28 @@
+[
+  {
+    "evidenceId": "EV_TC_PROMISE_01",
+    "issuerNseSymbol": "THOMASCOOK",
+    "issuerBseCode": "500413",
+    "documentId": "DOC_TC_AR2024",
+    "documentHash": "8e23459eb471928ba40192cae981248ba014829bc39104aa1098234af09281d9",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 34,
+    "pagePrinted": 32,
+    "quotedText": "Targeting consolidated operational Profit Before Tax (PBT) to cross ₹250 Cr in FY24 driven by international leisure travel and corporate forex volume surge.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+  },
+  {
+    "evidenceId": "EV_TC_RESULT_01",
+    "issuerNseSymbol": "THOMASCOOK",
+    "issuerBseCode": "500413",
+    "documentId": "DOC_TC_BSE_Q4FY24",
+    "documentHash": "9f34569eb471928ba40192cae981248ba014829bc39104aa1098234af09281da",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 6,
+    "pagePrinted": 6,
+    "quotedText": "Delivered record consolidated operational PBT of ₹271 Cr in FY24 against loss in prior years while maintaining net cash surplus of ₹480 Cr.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  }
+]

@@ -1,0 +1,33 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "name": "Bonus",
+      "expiry_date": "08 Oct 2025",
+      "amount": 0.0,
+      "ratio": "2:1",
+      "event_details": [
+        {
+          "name": "Announcement date",
+          "value": "06 Sep 2025"
+        },
+        {
+          "name": "Ex Bonus date",
+          "value": "08 Oct 2025"
+        },
+        {
+          "name": "Record date",
+          "value": "08 Oct 2025"
+        },
+        {
+          "name": "Ratio",
+          "value": "2:1"
+        },
+        {
+          "name": "Details",
+          "value": "Bonus issue in the ratio of 2:1 of Rs. 10/-."
+        }
+      ]
+    }
+  ]
+}

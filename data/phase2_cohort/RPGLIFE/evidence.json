@@ -1,0 +1,28 @@
+[
+  {
+    "evidenceId": "EV_RPG_PROMISE_01",
+    "issuerNseSymbol": "RPGLIFE",
+    "issuerBseCode": "532983",
+    "documentId": "DOC_RPG_AR2024",
+    "documentHash": "a045679eb471928ba40192cae981248ba014829bc39104aa1098234af09281db",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 28,
+    "pagePrinted": 26,
+    "quotedText": "Domestic formulations business targeted to deliver double-digit growth above 15% with continued margin expansion while maintaining pristine regulatory track record.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+  },
+  {
+    "evidenceId": "EV_RPG_RESULT_01",
+    "issuerNseSymbol": "RPGLIFE",
+    "issuerBseCode": "532983",
+    "documentId": "DOC_RPG_BSE_Q4FY24",
+    "documentHash": "b156789eb471928ba40192cae981248ba014829bc39104aa1098234af09281dc",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 5,
+    "pagePrinted": 5,
+    "quotedText": "Domestic formulation sales expanded 16.2% YoY with zero critical regulatory observations reported across all manufacturing plants during statutory audits.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  }
+]

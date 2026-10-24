@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_DESCO_01",
+    "issuerNseSymbol": "DESCO",
+    "issuerBseCode": "544185",
+    "eventDate": "2024-05-24",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Audited Financial Results Approval",
+    "description": "Board declared strong annual results with 30.2% ROCE.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_DESCO_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

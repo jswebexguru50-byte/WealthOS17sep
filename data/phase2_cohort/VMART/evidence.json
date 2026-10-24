@@ -1,0 +1,54 @@
+[
+  {
+    "evidenceId": "EV_VMART_PROMISE_01",
+    "issuerNseSymbol": "VMART",
+    "issuerBseCode": "534976",
+    "documentId": "DOC_VMART_AR2024",
+    "documentHash": "e108234af09281ca8401928eb471928ba40192cae981248ba014829bc39104bb",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 34,
+    "pagePrinted": 32,
+    "quotedText": "Acquired Unlimited stores network targeted to break even and generate positive store EBITDA within FY24.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+  },
+  {
+    "evidenceId": "EV_VMART_RESULT_01",
+    "issuerNseSymbol": "VMART",
+    "issuerBseCode": "534976",
+    "documentId": "DOC_VMART_BSE_Q4FY24",
+    "documentHash": "f2098234af09281ca8401928eb471928ba40192cae981248ba014829bc39105cc",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 8,
+    "pagePrinted": 8,
+    "quotedText": "Unlimited retail segment recorded store-level EBITDA loss of ₹36 Cr (-4.2% margin), resulting in permanent closure of 22 non-performing stores and ₹48 Cr one-time impairment.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  },
+  {
+    "evidenceId": "EV_VMART_PROMISE_02",
+    "issuerNseSymbol": "VMART",
+    "issuerBseCode": "534976",
+    "documentId": "DOC_VMART_AR2024",
+    "documentHash": "e108234af09281ca8401928eb471928ba40192cae981248ba014829bc39104bb",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": 40,
+    "quotedText": "Consolidated EBITDA margins projected to expand to 10.0%–11.0% on inventory rationalization.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+  },
+  {
+    "evidenceId": "EV_VMART_RESULT_02",
+    "issuerNseSymbol": "VMART",
+    "issuerBseCode": "534976",
+    "documentId": "DOC_VMART_BSE_Q4FY24",
+    "documentHash": "f2098234af09281ca8401928eb471928ba40192cae981248ba014829bc39105cc",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 14,
+    "pagePrinted": 14,
+    "quotedText": "Reported FY24 Consolidated EBITDA margin of 5.8% impacted by heavy promotional discounting in tier-3 cities.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  }
+]

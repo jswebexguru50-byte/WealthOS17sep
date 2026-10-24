@@ -1,0 +1,30 @@
+[
+  {
+    "claimId": "CLM_TT_01",
+    "issuerNseSymbol": "TATATECH",
+    "issuerBseCode": "544028",
+    "period": "FY24",
+    "category": "MARGIN",
+    "statement": "Sustain operating EBITDA margins above 20% post-listing.",
+    "targetMetric": "ebitda_margin_pct",
+    "baselineValue": 21,
+    "expectedValue": 20,
+    "expectedOutcome": "EBITDA margin >= 20.0%",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_TT_PROMISE_01",
+    "claimDate": "2023-11-25",
+    "expectedPeriodStart": "2023-10-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "MISSED",
+    "actualOutcomeMetric": 18.4,
+    "actualOutcomeDescription": "Delivered 18.4% EBITDA margin (160 bps below guidance)",
+    "evaluationEvidenceId": "EV_TT_RESULT_01",
+    "evaluationDate": "2024-05-03",
+    "evaluationBasis": "BSE Audited Financial Accounts",
+    "createdAt": "2023-11-25T10:00:00.000Z",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_TATATECH_01",
+    "publicationDate": "2023-11-25",
+    "publicationDateType": "MANAGEMENT_COMMENT"
+  }
+]

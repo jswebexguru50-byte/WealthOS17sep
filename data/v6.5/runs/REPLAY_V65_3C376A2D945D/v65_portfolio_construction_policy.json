@@ -1,0 +1,17 @@
+{
+  "replayRunId": "REPLAY_V65_3C376A2D945D",
+  "policy": {
+    "initialCapital": 10000000,
+    "positionSizingMethod": "RISK_PARITY_STOP_DISTANCE",
+    "maximumSinglePositionPct": 10,
+    "maximumConcurrentPositions": 15,
+    "maximumGrossExposure": 100,
+    "strategyAllocation": "RISK_PARITY",
+    "signalCollisionPolicy": "DETERMINISTIC_RS_ORDER",
+    "sameDaySignalPolicy": "PRIORITIZE_HIGHER_RR",
+    "reentryPolicy": "MINIMUM_5_BAR_COOLDOWN",
+    "cashTreatment": "NON_INTEREST_BEARING_RESERVE",
+    "corporateActionTreatment": "EX_DATE_PRICE_ADJUSTED",
+    "roundingPolicy": "FLOOR_NEAREST_INT_SHARES"
+  }
+}

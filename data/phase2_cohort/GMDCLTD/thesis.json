@@ -1,0 +1,14 @@
+{
+  "symbol": "GMDCLTD",
+  "coreThesisStatement": "State-backed lignite supplier expanding into commercial coal mining and rare earth exploration.",
+  "investmentPillars": [
+    {
+      "pillarId": "PIL_GMDC_LIGNITE",
+      "title": "Lignite Price Realization",
+      "description": "Dominant merchant lignite provider in industrial Gujarat."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_GMDC_CLEARANCE"
+  ]
+}

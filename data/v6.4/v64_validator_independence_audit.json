@@ -1,0 +1,12 @@
+{
+  "version": "v6.4",
+  "validatorArchitecture": "INDEPENDENT_SECOND_PASS",
+  "manifestTrustPolicy": "DO_NOT_TRUST_GENERATED_SUMMARIES",
+  "derivedIndependently": [
+    "Expected OHLCV row counts derived from (PIT x Calendar x Validity)",
+    "Constituent set hashes computed directly from raw membership JSONL",
+    "Availability evidence fields checked against raw source definitions"
+  ],
+  "status": "PASS",
+  "timestamp": "2026-09-17T15:28:02.446Z"
+}

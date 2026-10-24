@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_GPECO_REV_01",
+    "issuerNseSymbol": "GPECO",
+    "issuerBseCode": "544195",
+    "documentId": "DOC_GPECO_AR24",
+    "documentHash": "6d7e8f90123456789abcdef0123456789abcdef56789abcdef890ab12c3d4e5f",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 30,
+    "pagePrinted": "28",
+    "quotedText": "Annual revenue reached ₹386 Cr in FY24 against ₹254 Cr in FY23, with net profit scaling to ₹29.4 Cr on rooftop solar EPC expansion.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

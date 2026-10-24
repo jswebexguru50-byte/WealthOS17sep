@@ -1,0 +1,14 @@
+{
+  "symbol": "SENCO",
+  "coreThesisStatement": "Formalization of unorganized jewelry market and rapid retail showroom expansion.",
+  "investmentPillars": [
+    {
+      "pillarId": "PIL_SENCO_STORES",
+      "title": "Store Network Scale",
+      "description": "Expanding footprint in tier-1 and tier-2 towns with asset-light franchise blend."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_SENCO_WC_UTIL"
+  ]
+}

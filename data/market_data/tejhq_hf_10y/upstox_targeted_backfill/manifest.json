@@ -1,0 +1,938 @@
+{
+  "source": "UPSTOX_V2",
+  "adjustment_status": "RAW_PENDING_CA_RECONCILIATION",
+  "symbols": {
+    "AARVEEDEN": {
+      "status": "ERROR",
+      "isin": "INE273D01019",
+      "upstox_key_nse": "NSE_EQ|INE273D01019",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "ACCORD": {
+      "status": "STAGED",
+      "isin": "INE113X01015",
+      "upstox_key_nse": "NSE_EQ|INE113X01015",
+      "rows": 744,
+      "first_trade_date": "2017-07-06",
+      "last_trade_date": "2026-09-04",
+      "path": "candles\\symbol=ACCORD\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=ACCORD.json"
+    },
+    "AGUL": {
+      "status": "STAGED",
+      "isin": "INE0O6N01012",
+      "upstox_key_nse": "NSE_EQ|INE0O6N01012",
+      "rows": 554,
+      "first_trade_date": "2023-04-24",
+      "last_trade_date": "2026-09-09",
+      "path": "candles\\symbol=AGUL\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=AGUL.json"
+    },
+    "AHIMSA": {
+      "status": "STAGED",
+      "isin": "INE136T01014",
+      "upstox_key_nse": "NSE_EQ|INE136T01014",
+      "rows": 229,
+      "first_trade_date": "2016-10-19",
+      "last_trade_date": "2026-09-04",
+      "path": "candles\\symbol=AHIMSA\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=AHIMSA.json"
+    },
+    "AIRTEL-RE": {
+      "status": "ERROR",
+      "isin": "IN8397D01014",
+      "upstox_key_nse": "NSE_EQ|IN8397D01014",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "AMBANIORGO": {
+      "status": "STAGED",
+      "isin": "INE00C501018",
+      "upstox_key_nse": "NSE_EQ|INE00C501018",
+      "rows": 593,
+      "first_trade_date": "2018-07-18",
+      "last_trade_date": "2026-09-17",
+      "path": "candles\\symbol=AMBANIORGO\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=AMBANIORGO.json"
+    },
+    "AMIRCHAND": {
+      "status": "STAGED",
+      "isin": "INE05TO01019",
+      "upstox_key_nse": "NSE_EQ|INE05TO01019",
+      "rows": 117,
+      "first_trade_date": "2026-04-02",
+      "last_trade_date": "2026-09-21",
+      "path": "candles\\symbol=AMIRCHAND\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=AMIRCHAND.json"
+    },
+    "APOLLOTRI": {
+      "status": "ERROR",
+      "isin": "INE931C01016",
+      "upstox_key_nse": "NSE_EQ|INE931C01016",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "ARISTO": {
+      "status": "STAGED",
+      "isin": "INE082101010",
+      "upstox_key_nse": "NSE_EQ|INE082101010",
+      "rows": 699,
+      "first_trade_date": "2023-01-30",
+      "last_trade_date": "2026-09-15",
+      "path": "candles\\symbol=ARISTO\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=ARISTO.json"
+    },
+    "ASCOM": {
+      "status": "STAGED",
+      "isin": "INE08KD01015",
+      "upstox_key_nse": "NSE_EQ|INE08KD01015",
+      "rows": 461,
+      "first_trade_date": "2019-12-06",
+      "last_trade_date": "2026-09-17",
+      "path": "candles\\symbol=ASCOM\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=ASCOM.json"
+    },
+    "ASHIKA": {
+      "status": "STAGED",
+      "isin": "INE094B01013",
+      "upstox_key_nse": "NSE_EQ|INE094B01013",
+      "rows": 107,
+      "first_trade_date": "2026-04-20",
+      "last_trade_date": "2026-09-21",
+      "path": "candles\\symbol=ASHIKA\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=ASHIKA.json"
+    },
+    "AURIGROW": {
+      "status": "ERROR",
+      "isin": "INE925Y01036",
+      "upstox_key_nse": "NSE_EQ|INE925Y01036",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "AVSL": {
+      "status": "STAGED",
+      "isin": "INE522V01011",
+      "upstox_key_nse": "NSE_EQ|INE522V01011",
+      "rows": 246,
+      "first_trade_date": "2016-10-06",
+      "last_trade_date": "2026-09-01",
+      "path": "candles\\symbol=AVSL\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=AVSL.json"
+    },
+    "BAGDIGITAL": {
+      "status": "STAGED",
+      "isin": "INE17CQ01015",
+      "upstox_key_nse": "NSE_EQ|INE17CQ01015",
+      "rows": 206,
+      "first_trade_date": "2025-10-08",
+      "last_trade_date": "2026-09-17",
+      "path": "candles\\symbol=BAGDIGITAL\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=BAGDIGITAL.json"
+    },
+    "BALCO": {
+      "status": "STAGED",
+      "isin": "INE0U0201016",
+      "upstox_key_nse": "NSE_EQ|INE0U0201016",
+      "rows": 371,
+      "first_trade_date": "2024-08-21",
+      "last_trade_date": "2026-09-16",
+      "path": "candles\\symbol=BALCO\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=BALCO.json"
+    },
+    "BEEZAASAN": {
+      "status": "ERROR",
+      "isin": "INE13VU01016",
+      "upstox_key_nse": "NSE_EQ|INE13VU01016",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "BIRDYS": {
+      "status": "STAGED",
+      "isin": "INE0PC901019",
+      "upstox_key_nse": "NSE_EQ|INE0PC901019",
+      "rows": 388,
+      "first_trade_date": "2024-04-23",
+      "last_trade_date": "2026-09-11",
+      "path": "candles\\symbol=BIRDYS\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=BIRDYS.json"
+    },
+    "BONDADA": {
+      "status": "ERROR",
+      "isin": "INE0Q8P01011",
+      "upstox_key_nse": "NSE_EQ|INE0Q8P01011",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "CADSYS": {
+      "status": "STAGED",
+      "isin": "INE090Y01013",
+      "upstox_key_nse": "NSE_EQ|INE090Y01013",
+      "rows": 1462,
+      "first_trade_date": "2017-10-04",
+      "last_trade_date": "2026-09-16",
+      "path": "candles\\symbol=CADSYS\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=CADSYS.json"
+    },
+    "COSMICCRF": {
+      "status": "ERROR",
+      "isin": "INE0ORA01015",
+      "upstox_key_nse": "NSE_EQ|INE0ORA01015",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "DESCO": {
+      "status": "ERROR",
+      "isin": "INE0TGG01014",
+      "upstox_key_nse": "NSE_EQ|INE0TGG01014",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "DESTINY": {
+      "status": "STAGED",
+      "isin": "INE0IGO01011",
+      "upstox_key_nse": "NSE_EQ|INE0IGO01011",
+      "rows": 783,
+      "first_trade_date": "2021-10-13",
+      "last_trade_date": "2026-08-11",
+      "path": "candles\\symbol=DESTINY\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=DESTINY.json"
+    },
+    "DIRL": {
+      "status": "STAGED",
+      "isin": "INE704V01015",
+      "upstox_key_nse": "NSE_EQ|INE704V01015",
+      "rows": 538,
+      "first_trade_date": "2016-10-18",
+      "last_trade_date": "2026-08-19",
+      "path": "candles\\symbol=DIRL\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=DIRL.json"
+    },
+    "DRSCARGO": {
+      "status": "STAGED",
+      "isin": "INE0QZM01018",
+      "upstox_key_nse": "NSE_EQ|INE0QZM01018",
+      "rows": 31,
+      "first_trade_date": "2025-07-10",
+      "last_trade_date": "2026-04-15",
+      "path": "candles\\symbol=DRSCARGO\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=DRSCARGO.json"
+    },
+    "DRSDILIP": {
+      "status": "STAGED",
+      "isin": "INE02CV01017",
+      "upstox_key_nse": "NSE_EQ|INE02CV01017",
+      "rows": 431,
+      "first_trade_date": "2019-02-22",
+      "last_trade_date": "2026-09-01",
+      "path": "candles\\symbol=DRSDILIP\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=DRSDILIP.json"
+    },
+    "EQUITAS": {
+      "status": "STAGED",
+      "isin": "INE618L01018",
+      "upstox_key_nse": "NSE_EQ|INE618L01018",
+      "rows": 2191,
+      "first_trade_date": "2017-11-16",
+      "last_trade_date": "2026-09-21",
+      "path": "candles\\symbol=EQUITAS\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=EQUITAS.json"
+    },
+    "EROSMEDIA": {
+      "status": "ERROR",
+      "isin": "INE416L01017",
+      "upstox_key_nse": "NSE_EQ|INE416L01017",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "FRATELLIVI": {
+      "status": "ERROR",
+      "isin": "INE082E01010",
+      "upstox_key_nse": "NSE_EQ|INE082E01010",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "GARGI": {
+      "status": "ERROR",
+      "isin": "INE0NT601018",
+      "upstox_key_nse": "NSE_EQ|INE0NT601018",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "GOLDKART": {
+      "status": "STAGED",
+      "isin": "INE06MH01016",
+      "upstox_key_nse": "NSE_EQ|INE06MH01016",
+      "rows": 298,
+      "first_trade_date": "2019-10-15",
+      "last_trade_date": "2026-09-11",
+      "path": "candles\\symbol=GOLDKART\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=GOLDKART.json"
+    },
+    "GOLDSHARE": {
+      "status": "ERROR",
+      "isin": "INF789F01059",
+      "upstox_key_nse": "NSE_EQ|INF789F01059",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "GRETEX": {
+      "status": "STAGED",
+      "isin": "INE985P01012",
+      "upstox_key_nse": "NSE_EQ|INE985P01012",
+      "rows": 463,
+      "first_trade_date": "2016-10-14",
+      "last_trade_date": "2026-09-15",
+      "path": "candles\\symbol=GRETEX\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=GRETEX.json"
+    },
+    "GSM-RE": {
+      "status": "ERROR",
+      "isin": "INE0SQY20018",
+      "upstox_key_nse": "NSE_EQ|INE0SQY20018",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "GSPL": {
+      "status": "ERROR",
+      "isin": "INE246F01010",
+      "upstox_key_nse": "NSE_EQ|INE246F01010",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "HDFC": {
+      "status": "ERROR",
+      "isin": "INE001A01036",
+      "upstox_key_nse": "NSE_EQ|INE001A01036",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "IBLFL": {
+      "status": "STAGED",
+      "isin": "INE0O7401018",
+      "upstox_key_nse": "NSE_EQ|INE0O7401018",
+      "rows": 581,
+      "first_trade_date": "2024-01-16",
+      "last_trade_date": "2026-09-17",
+      "path": "candles\\symbol=IBLFL\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=IBLFL.json"
+    },
+    "ICICINIFTY": {
+      "status": "STAGED",
+      "isin": "INF109K012R6",
+      "upstox_key_nse": "NSE_EQ|INF109K012R6",
+      "rows": 2475,
+      "first_trade_date": "2016-09-22",
+      "last_trade_date": "2026-09-21",
+      "path": "candles\\symbol=ICICINIFTY\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=ICICINIFTY.json"
+    },
+    "INDAG": {
+      "status": "ERROR",
+      "isin": "INE802D01023",
+      "upstox_key_nse": "NSE_EQ|INE802D01023",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "INDIFRA": {
+      "status": "STAGED",
+      "isin": "INE0PS301014",
+      "upstox_key_nse": "NSE_EQ|INE0PS301014",
+      "rows": 423,
+      "first_trade_date": "2023-12-29",
+      "last_trade_date": "2026-09-17",
+      "path": "candles\\symbol=INDIFRA\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=INDIFRA.json"
+    },
+    "INTEGRITY": {
+      "status": "STAGED",
+      "isin": "INE0YSH01017",
+      "upstox_key_nse": "NSE_EQ|INE0YSH01017",
+      "rows": 192,
+      "first_trade_date": "2025-05-20",
+      "last_trade_date": "2026-09-17",
+      "path": "candles\\symbol=INTEGRITY\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=INTEGRITY.json"
+    },
+    "IPSL": {
+      "status": "STAGED",
+      "isin": "INE02EE01019",
+      "upstox_key_nse": "NSE_EQ|INE02EE01019",
+      "rows": 523,
+      "first_trade_date": "2022-11-11",
+      "last_trade_date": "2026-09-04",
+      "path": "candles\\symbol=IPSL\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=IPSL.json"
+    },
+    "ISEC": {
+      "status": "ERROR",
+      "isin": "INE763G01038",
+      "upstox_key_nse": "NSE_EQ|INE763G01038",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "ISHAN": {
+      "status": "STAGED",
+      "isin": "INE0LCW01025",
+      "upstox_key_nse": "NSE_EQ|INE0LCW01025",
+      "rows": 918,
+      "first_trade_date": "2022-09-22",
+      "last_trade_date": "2026-09-17",
+      "path": "candles\\symbol=ISHAN\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=ISHAN.json"
+    },
+    "ITTL": {
+      "status": "STAGED",
+      "isin": "INE070Y01023",
+      "upstox_key_nse": "NSE_EQ|INE070Y01023",
+      "rows": 290,
+      "first_trade_date": "2024-12-30",
+      "last_trade_date": "2026-09-10",
+      "path": "candles\\symbol=ITTL\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=ITTL.json"
+    },
+    "JAKHARIA": {
+      "status": "STAGED",
+      "isin": "INE00N401018",
+      "upstox_key_nse": "NSE_EQ|INE00N401018",
+      "rows": 330,
+      "first_trade_date": "2018-07-11",
+      "last_trade_date": "2026-09-17",
+      "path": "candles\\symbol=JAKHARIA\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=JAKHARIA.json"
+    },
+    "JBCHEPHARM": {
+      "status": "ERROR",
+      "isin": "INE572A01036",
+      "upstox_key_nse": "NSE_EQ|INE572A01036",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "JETKNIT": {
+      "status": "STAGED",
+      "isin": "INE564T01017",
+      "upstox_key_nse": "NSE_EQ|INE564T01017",
+      "rows": 594,
+      "first_trade_date": "2016-10-07",
+      "last_trade_date": "2026-08-27",
+      "path": "candles\\symbol=JETKNIT\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=JETKNIT.json"
+    },
+    "KALYANI": {
+      "status": "STAGED",
+      "isin": "INE610E01010",
+      "upstox_key_nse": "NSE_EQ|INE610E01010",
+      "rows": 5,
+      "first_trade_date": "2022-03-02",
+      "last_trade_date": "2026-08-28",
+      "path": "candles\\symbol=KALYANI\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=KALYANI.json"
+    },
+    "KEL": {
+      "status": "STAGED",
+      "isin": "INE0OWX01025",
+      "upstox_key_nse": "NSE_EQ|INE0OWX01025",
+      "rows": 647,
+      "first_trade_date": "2023-09-26",
+      "last_trade_date": "2026-09-21",
+      "path": "candles\\symbol=KEL\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=KEL.json"
+    },
+    "LATIMMETAL": {
+      "status": "ERROR",
+      "isin": "INE501N01020",
+      "upstox_key_nse": "NSE_EQ|INE501N01020",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "LGLL": {
+      "status": "ERROR",
+      "isin": "INE12QA01010",
+      "upstox_key_nse": "NSE_EQ|INE12QA01010",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "LKPFIN": {
+      "status": "STAGED",
+      "isin": "INE724A01017",
+      "upstox_key_nse": "NSE_EQ|INE724A01017",
+      "rows": 51,
+      "first_trade_date": "2026-07-10",
+      "last_trade_date": "2026-09-21",
+      "path": "candles\\symbol=LKPFIN\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=LKPFIN.json"
+    },
+    "LOYAL": {
+      "status": "ERROR",
+      "isin": "INE876S01017",
+      "upstox_key_nse": "NSE_EQ|INE876S01017",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "LTIM": {
+      "status": "STAGED",
+      "isin": "INE214T01019",
+      "upstox_key_nse": "NSE_EQ|INE214T01019",
+      "rows": 2475,
+      "first_trade_date": "2016-09-22",
+      "last_trade_date": "2026-09-21",
+      "path": "candles\\symbol=LTIM\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=LTIM.json"
+    },
+    "LYPSAGEMS": {
+      "status": "STAGED",
+      "isin": "INE142K01011",
+      "upstox_key_nse": "NSE_EQ|INE142K01011",
+      "rows": 2449,
+      "first_trade_date": "2016-09-22",
+      "last_trade_date": "2026-09-21",
+      "path": "candles\\symbol=LYPSAGEMS\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=LYPSAGEMS.json"
+    },
+    "MAHICKRA": {
+      "status": "STAGED",
+      "isin": "INE961Y01015",
+      "upstox_key_nse": "NSE_EQ|INE961Y01015",
+      "rows": 1478,
+      "first_trade_date": "2018-04-26",
+      "last_trade_date": "2026-09-17",
+      "path": "candles\\symbol=MAHICKRA\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=MAHICKRA.json"
+    },
+    "MAKS": {
+      "status": "STAGED",
+      "isin": "INE0CDK01019",
+      "upstox_key_nse": "NSE_EQ|INE0CDK01019",
+      "rows": 580,
+      "first_trade_date": "2022-09-28",
+      "last_trade_date": "2026-09-15",
+      "path": "candles\\symbol=MAKS\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=MAKS.json"
+    },
+    "MANAV": {
+      "status": "STAGED",
+      "isin": "INE104Y01012",
+      "upstox_key_nse": "NSE_EQ|INE104Y01012",
+      "rows": 606,
+      "first_trade_date": "2017-09-18",
+      "last_trade_date": "2026-09-11",
+      "path": "candles\\symbol=MANAV\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=MANAV.json"
+    },
+    "MCDOWELL-N": {
+      "status": "STAGED",
+      "isin": "INE854D01024",
+      "upstox_key_nse": "NSE_EQ|INE854D01024",
+      "rows": 2474,
+      "first_trade_date": "2016-09-22",
+      "last_trade_date": "2026-09-21",
+      "path": "candles\\symbol=MCDOWELL-N\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=MCDOWELL-N.json"
+    },
+    "MEDISTEP": {
+      "status": "STAGED",
+      "isin": "INE0UOY01019",
+      "upstox_key_nse": "NSE_EQ|INE0UOY01019",
+      "rows": 207,
+      "first_trade_date": "2025-08-18",
+      "last_trade_date": "2026-09-16",
+      "path": "candles\\symbol=MEDISTEP\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=MEDISTEP.json"
+    },
+    "MILTON": {
+      "status": "STAGED",
+      "isin": "INE376Y01016",
+      "upstox_key_nse": "NSE_EQ|INE376Y01016",
+      "rows": 867,
+      "first_trade_date": "2017-10-16",
+      "last_trade_date": "2026-09-17",
+      "path": "candles\\symbol=MILTON\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=MILTON.json"
+    },
+    "MINDPOOL": {
+      "status": "STAGED",
+      "isin": "INE00RQ01019",
+      "upstox_key_nse": "NSE_EQ|INE00RQ01019",
+      "rows": 242,
+      "first_trade_date": "2019-02-28",
+      "last_trade_date": "2026-08-28",
+      "path": "candles\\symbol=MINDPOOL\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=MINDPOOL.json"
+    },
+    "MMEL": {
+      "status": "STAGED",
+      "isin": "INE0XM301010",
+      "upstox_key_nse": "NSE_EQ|INE0XM301010",
+      "rows": 254,
+      "first_trade_date": "2025-07-03",
+      "last_trade_date": "2026-09-16",
+      "path": "candles\\symbol=MMEL\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=MMEL.json"
+    },
+    "MPTODAY": {
+      "status": "STAGED",
+      "isin": "INE105Y01019",
+      "upstox_key_nse": "NSE_EQ|INE105Y01019",
+      "rows": 939,
+      "first_trade_date": "2017-09-29",
+      "last_trade_date": "2026-09-10",
+      "path": "candles\\symbol=MPTODAY\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=MPTODAY.json"
+    },
+    "MRP": {
+      "status": "ERROR",
+      "isin": "INE0D7801012",
+      "upstox_key_nse": "NSE_EQ|INE0D7801012",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "PARAMPARA": {
+      "status": "STAGED",
+      "isin": "INE749Y01014",
+      "upstox_key_nse": "NSE_EQ|INE749Y01014",
+      "rows": 214,
+      "first_trade_date": "2022-08-16",
+      "last_trade_date": "2026-07-28",
+      "path": "candles\\symbol=PARAMPARA\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=PARAMPARA.json"
+    },
+    "PATTECH": {
+      "status": "STAGED",
+      "isin": "INE0NZW01014",
+      "upstox_key_nse": "NSE_EQ|INE0NZW01014",
+      "rows": 461,
+      "first_trade_date": "2023-04-21",
+      "last_trade_date": "2026-06-09",
+      "path": "candles\\symbol=PATTECH\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=PATTECH.json"
+    },
+    "PLADAINFO": {
+      "status": "STAGED",
+      "isin": "INE0PXD01014",
+      "upstox_key_nse": "NSE_EQ|INE0PXD01014",
+      "rows": 449,
+      "first_trade_date": "2023-10-13",
+      "last_trade_date": "2026-09-17",
+      "path": "candles\\symbol=PLADAINFO\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=PLADAINFO.json"
+    },
+    "PRANIK": {
+      "status": "STAGED",
+      "isin": "INE0VJG01014",
+      "upstox_key_nse": "NSE_EQ|INE0VJG01014",
+      "rows": 365,
+      "first_trade_date": "2024-10-17",
+      "last_trade_date": "2026-09-11",
+      "path": "candles\\symbol=PRANIK\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=PRANIK.json"
+    },
+    "QFIL": {
+      "status": "STAGED",
+      "isin": "INE0O1M01015",
+      "upstox_key_nse": "NSE_EQ|INE0O1M01015",
+      "rows": 501,
+      "first_trade_date": "2023-03-24",
+      "last_trade_date": "2026-09-17",
+      "path": "candles\\symbol=QFIL\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=QFIL.json"
+    },
+    "REXPIPES": {
+      "status": "STAGED",
+      "isin": "INE00D001018",
+      "upstox_key_nse": "NSE_EQ|INE00D001018",
+      "rows": 923,
+      "first_trade_date": "2021-08-10",
+      "last_trade_date": "2026-08-24",
+      "path": "candles\\symbol=REXPIPES\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=REXPIPES.json"
+    },
+    "RICHA": {
+      "status": "STAGED",
+      "isin": "INE0J1P01015",
+      "upstox_key_nse": "NSE_EQ|INE0J1P01015",
+      "rows": 702,
+      "first_trade_date": "2022-02-21",
+      "last_trade_date": "2026-09-10",
+      "path": "candles\\symbol=RICHA\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=RICHA.json"
+    },
+    "ROYALARC": {
+      "status": "STAGED",
+      "isin": "INE0EO401019",
+      "upstox_key_nse": "NSE_EQ|INE0EO401019",
+      "rows": 259,
+      "first_trade_date": "2025-02-24",
+      "last_trade_date": "2026-09-16",
+      "path": "candles\\symbol=ROYALARC\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=ROYALARC.json"
+    },
+    "SABAR": {
+      "status": "STAGED",
+      "isin": "INE0DZ101013",
+      "upstox_key_nse": "NSE_EQ|INE0DZ101013",
+      "rows": 713,
+      "first_trade_date": "2022-09-21",
+      "last_trade_date": "2026-09-04",
+      "path": "candles\\symbol=SABAR\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=SABAR.json"
+    },
+    "SABEVENTS": {
+      "status": "ERROR",
+      "isin": "INE860T01019",
+      "upstox_key_nse": "NSE_EQ|INE860T01019",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "SBIFUN": {
+      "status": "ERROR",
+      "isin": "INE006B01013",
+      "upstox_key_nse": "NSE_EQ|INE006B01013",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "SHAIVAL": {
+      "status": "STAGED",
+      "isin": "INE262S01010",
+      "upstox_key_nse": "NSE_EQ|INE262S01010",
+      "rows": 55,
+      "first_trade_date": "2016-09-23",
+      "last_trade_date": "2026-09-17",
+      "path": "candles\\symbol=SHAIVAL\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=SHAIVAL.json"
+    },
+    "SHUBHLAXMI": {
+      "status": "STAGED",
+      "isin": "INE01Z401013",
+      "upstox_key_nse": "NSE_EQ|INE01Z401013",
+      "rows": 1641,
+      "first_trade_date": "2019-02-21",
+      "last_trade_date": "2026-09-15",
+      "path": "candles\\symbol=SHUBHLAXMI\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=SHUBHLAXMI.json"
+    },
+    "SILLYMONKS": {
+      "status": "STAGED",
+      "isin": "INE203Y01012",
+      "upstox_key_nse": "NSE_EQ|INE203Y01012",
+      "rows": 1827,
+      "first_trade_date": "2018-01-18",
+      "last_trade_date": "2026-09-21",
+      "path": "candles\\symbol=SILLYMONKS\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=SILLYMONKS.json"
+    },
+    "SMARTHORIZON": {
+      "status": "ERROR",
+      "isin": "INF162422150",
+      "upstox_key_nse": "NSE_EQ|INF162422150",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "SMVD": {
+      "status": "STAGED",
+      "isin": "INE702Y01013",
+      "upstox_key_nse": "NSE_EQ|INE702Y01013",
+      "rows": 946,
+      "first_trade_date": "2017-12-26",
+      "last_trade_date": "2026-09-16",
+      "path": "candles\\symbol=SMVD\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=SMVD.json"
+    },
+    "SOTAC": {
+      "status": "STAGED",
+      "isin": "INE0O2D01012",
+      "upstox_key_nse": "NSE_EQ|INE0O2D01012",
+      "rows": 458,
+      "first_trade_date": "2023-04-13",
+      "last_trade_date": "2026-08-20",
+      "path": "candles\\symbol=SOTAC\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=SOTAC.json"
+    },
+    "SPICEJET": {
+      "status": "ERROR",
+      "isin": "INE285B01017",
+      "upstox_key_nse": "NSE_EQ|INE285B01017",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "SPRL": {
+      "status": "STAGED",
+      "isin": "INE0JW501011",
+      "upstox_key_nse": "NSE_EQ|INE0JW501011",
+      "rows": 468,
+      "first_trade_date": "2022-03-22",
+      "last_trade_date": "2026-09-16",
+      "path": "candles\\symbol=SPRL\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=SPRL.json"
+    },
+    "SUMEET-RE": {
+      "status": "ERROR",
+      "isin": "INE235C20010",
+      "upstox_key_nse": "NSE_EQ|INE235C20010",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "SUNITA": {
+      "status": "ERROR",
+      "isin": "INE0PO201017",
+      "upstox_key_nse": "NSE_EQ|INE0PO201017",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "SUNITATOOL": {
+      "status": "ERROR",
+      "isin": "INE0Q1S01010",
+      "upstox_key_nse": "NSE_EQ|INE0Q1S01010",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "SUVENPHAR": {
+      "status": "ERROR",
+      "isin": "INE03SN01028",
+      "upstox_key_nse": "NSE_EQ|INE03SN01028",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "TATAMETALI": {
+      "status": "ERROR",
+      "isin": "TATAMETALI_UNKNOWN_1784693716852_940",
+      "upstox_key_nse": "NSE_EQ|TATAMETALI_UNKNOWN_1784693716852_940",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "TATAMOTORS": {
+      "status": "STAGED",
+      "isin": "INE155A01022",
+      "upstox_key_nse": "NSE_EQ|INE155A01022",
+      "rows": 2475,
+      "first_trade_date": "2016-09-22",
+      "last_trade_date": "2026-09-21",
+      "path": "candles\\symbol=TATAMOTORS\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=TATAMOTORS.json"
+    },
+    "TATAMTRDVR": {
+      "status": "ERROR",
+      "isin": "INE155A01014",
+      "upstox_key_nse": "NSE_EQ|INE155A01014",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "TELGE": {
+      "status": "ERROR",
+      "isin": "INE0SRP01014",
+      "upstox_key_nse": "NSE_EQ|INE0SRP01014",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "TRANSWIND": {
+      "status": "STAGED",
+      "isin": "INE792X01016",
+      "upstox_key_nse": "NSE_EQ|INE792X01016",
+      "rows": 1003,
+      "first_trade_date": "2017-07-12",
+      "last_trade_date": "2026-08-27",
+      "path": "candles\\symbol=TRANSWIND\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=TRANSWIND.json"
+    },
+    "TV18BRDCST": {
+      "status": "ERROR",
+      "isin": "INE886H01027",
+      "upstox_key_nse": "NSE_EQ|INE886H01027",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "UL -HINDON": {
+      "status": "ERROR",
+      "isin": "INE08GI01012",
+      "upstox_key_nse": "NSE_EQ|INE08GI01012",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "UL-DELTA GALAXY": {
+      "status": "ERROR",
+      "isin": "INE0T0H01020",
+      "upstox_key_nse": "NSE_EQ|INE0T0H01020",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "UL-SMART HORIZON 1": {
+      "status": "ERROR",
+      "isin": "INF162422101",
+      "upstox_key_nse": "NSE_EQ|INF162422101",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "UL-SMART HORIZON 2": {
+      "status": "ERROR",
+      "isin": "INF162422184",
+      "upstox_key_nse": "NSE_EQ|INF162422184",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "UL-SMART HORIZON 3": {
+      "status": "ERROR",
+      "isin": "INF162422218",
+      "upstox_key_nse": "NSE_EQ|INF162422218",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "UL-SMART HORIZON 4": {
+      "status": "ERROR",
+      "isin": "INF162422010S4",
+      "upstox_key_nse": "NSE_EQ|INF162422010S4",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "UMA": {
+      "status": "STAGED",
+      "isin": "INE067901012",
+      "upstox_key_nse": "NSE_EQ|INE067901012",
+      "rows": 792,
+      "first_trade_date": "2022-12-29",
+      "last_trade_date": "2026-09-17",
+      "path": "candles\\symbol=UMA\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=UMA.json"
+    },
+    "UNKNOWN": {
+      "status": "ERROR",
+      "isin": "UNKNOWN",
+      "upstox_key_nse": "NSE_EQ|UNKNOWN",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    },
+    "UWCSL": {
+      "status": "STAGED",
+      "isin": "INE00F301010",
+      "upstox_key_nse": "NSE_EQ|INE00F301010",
+      "rows": 404,
+      "first_trade_date": "2018-10-26",
+      "last_trade_date": "2026-09-11",
+      "path": "candles\\symbol=UWCSL\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=UWCSL.json"
+    },
+    "VASA": {
+      "status": "STAGED",
+      "isin": "INE068Z01016",
+      "upstox_key_nse": "NSE_EQ|INE068Z01016",
+      "rows": 735,
+      "first_trade_date": "2018-02-06",
+      "last_trade_date": "2026-09-09",
+      "path": "candles\\symbol=VASA\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=VASA.json"
+    },
+    "VELS": {
+      "status": "STAGED",
+      "isin": "INE0I3H01019",
+      "upstox_key_nse": "NSE_EQ|INE0I3H01019",
+      "rows": 570,
+      "first_trade_date": "2017-06-28",
+      "last_trade_date": "2026-07-15",
+      "path": "candles\\symbol=VELS\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=VELS.json"
+    },
+    "VERA": {
+      "status": "STAGED",
+      "isin": "INE709Z01015",
+      "upstox_key_nse": "NSE_EQ|INE709Z01015",
+      "rows": 332,
+      "first_trade_date": "2018-04-12",
+      "last_trade_date": "2026-08-18",
+      "path": "candles\\symbol=VERA\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=VERA.json"
+    },
+    "VERTEXPLUS": {
+      "status": "STAGED",
+      "isin": "INE0NLB01018",
+      "upstox_key_nse": "NSE_EQ|INE0NLB01018",
+      "rows": 517,
+      "first_trade_date": "2023-03-15",
+      "last_trade_date": "2026-09-15",
+      "path": "candles\\symbol=VERTEXPLUS\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=VERTEXPLUS.json"
+    },
+    "VIVO": {
+      "status": "STAGED",
+      "isin": "INE0IA701014",
+      "upstox_key_nse": "NSE_EQ|INE0IA701014",
+      "rows": 548,
+      "first_trade_date": "2021-12-31",
+      "last_trade_date": "2026-09-10",
+      "path": "candles\\symbol=VIVO\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=VIVO.json"
+    },
+    "VR": {
+      "status": "STAGED",
+      "isin": "INE0QQM01017",
+      "upstox_key_nse": "NSE_EQ|INE0QQM01017",
+      "rows": 451,
+      "first_trade_date": "2024-03-12",
+      "last_trade_date": "2026-09-15",
+      "path": "candles\\symbol=VR\\part-0.parquet",
+      "corporate_actions_path": "corporate_actions\\symbol=VR.json"
+    },
+    "WINSOME": {
+      "status": "ERROR",
+      "isin": "INE784B01035",
+      "upstox_key_nse": "NSE_EQ|INE784B01035",
+      "error": "HTTP 400: {\"status\":\"error\",\"errors\":[{\"errorCode\":\"UDAPI100011\",\"message\":\"Invalid Instrument key\",\"propertyPath\":null,\"invalidValue\":null,\"error_code\":\"UDAPI100011\",\"property_path\":null,\"invalid_value\":null}]}"
+    }
+  }
+}

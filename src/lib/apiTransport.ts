@@ -4,6 +4,7 @@ export class AuthorizationError extends Error {
   readonly status = 401;
   constructor() { super('Session expired. Sign in and retry your action.'); this.name = 'AuthorizationError'; }
 }
+const SAFE_RETRY_METHODS = new Set(['GET', 'HEAD', 'OPTIONS']);
 let credentialPromptPending: Promise<void> | null = null;
 function promptForCredential(): Promise<void> {
   if (!credentialPromptPending) {
@@ -83,7 +84,7 @@ export function createApiTransport(
     if (response.status === 401 && url.pathname === '/api/auth/password-check') return response;
     if (response.status === 401) {
       // A rejected mutation is finished; signing in must never replay it.
-      if (request.method !== 'GET') {
+      if (!SAFE_RETRY_METHODS.has(request.method.toUpperCase())) {
         void Promise.resolve(unauthorized()).catch(() => {});
         throw new AuthorizationError();
       }

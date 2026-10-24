@@ -1,0 +1,77 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "name": "Dividend",
+      "expiry_date": "11 Sep 2026",
+      "amount": 0.2,
+      "ratio": null,
+      "event_details": [
+        {
+          "name": "Announcement date",
+          "value": "24 Aug 2026"
+        },
+        {
+          "name": "Ex dividend date",
+          "value": "11 Sep 2026"
+        },
+        {
+          "name": "Record date",
+          "value": "11 Sep 2026"
+        },
+        {
+          "name": "Dividend type",
+          "value": "Final"
+        },
+        {
+          "name": "Amount",
+          "value": "0.2"
+        },
+        {
+          "name": "Dividend %",
+          "value": "2.0"
+        },
+        {
+          "name": "Details",
+          "value": "Recommended Final Dividend of Re. 0.20 per equity share."
+        }
+      ]
+    },
+    {
+      "name": "Dividend",
+      "expiry_date": "23 Sep 2025",
+      "amount": 0.1,
+      "ratio": null,
+      "event_details": [
+        {
+          "name": "Announcement date",
+          "value": "16 May 2025"
+        },
+        {
+          "name": "Ex dividend date",
+          "value": "23 Sep 2025"
+        },
+        {
+          "name": "Record date",
+          "value": "23 Sep 2025"
+        },
+        {
+          "name": "Dividend type",
+          "value": "Final"
+        },
+        {
+          "name": "Amount",
+          "value": "0.1"
+        },
+        {
+          "name": "Dividend %",
+          "value": "1.0"
+        },
+        {
+          "name": "Details",
+          "value": "Recommended Final Dividend of Rs. 0.10 per equity share."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "breakerId": "TB_TEMBO_PLEDGE",
+    "symbol": "TEMBO",
+    "name": "Excessive Promoter Share Pledge",
+    "type": "QUANTITATIVE",
+    "thresholdValue": 25,
+    "comparisonOperator": "GREATER_THAN",
+    "severity": "CRITICAL",
+    "description": "Promoter share pledge exceeding 25.0% triggers immediate hard exclusion veto.",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "status": "UNRESOLVED"
+  }
+]

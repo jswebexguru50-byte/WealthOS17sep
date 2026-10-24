@@ -147,6 +147,7 @@ export interface TrendlyneIntelligenceReport {
     status: string | null;
     note: string | null;
   };
+  trailingRocePct: number | null;
   cachedAt: string | null;
 }
 
@@ -289,6 +290,7 @@ export class TrendlyneIntelligenceService {
         status: null,
         note: null,
       },
+      trailingRocePct: numericValueFor(['rocea'], ['roce_pct']),
       cachedAt: newestTimestamp,
     };
   }

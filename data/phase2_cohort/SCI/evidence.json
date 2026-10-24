@@ -1,0 +1,28 @@
+[
+  {
+    "evidenceId": "EV_SCI_PROMISE_01",
+    "issuerNseSymbol": "SCI",
+    "issuerBseCode": "523598",
+    "documentId": "DOC_SCI_AR2023",
+    "documentHash": "e3098234af09281ca8401928eb471928ba40192cae981248ba014829bc39110bb",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 22,
+    "pagePrinted": 20,
+    "quotedText": "DIPAM strategic disinvestment and financial bidding process anticipated to conclude within FY24 following demerger of non-core real estate assets.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+  },
+  {
+    "evidenceId": "EV_SCI_RESULT_01",
+    "issuerNseSymbol": "SCI",
+    "issuerBseCode": "523598",
+    "documentId": "DOC_SCI_BSE_Q4FY24",
+    "documentHash": "f4098234af09281ca8401928eb471928ba40192cae981248ba014829bc39111cc",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 4,
+    "pagePrinted": 4,
+    "quotedText": "Strategic disinvestment process remains pending inter-ministerial clearances; no financial bids invited during FY24.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  }
+]

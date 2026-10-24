@@ -1,0 +1,17 @@
+{
+  "issuerNseSymbol": "DESCO",
+  "issuerBseCode": "544185",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_DESCO_AR24",
+      "documentName": "Desco_Infratech_Annual_Report_FY24.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-20",
+      "documentHashSha256": "5c6d7e8f90123456789abcdef0123456789abcdef56789abcdef890ab12c3d4e",
+      "pageCount": 135,
+      "filingAuthority": "NSE Emerge"
+    }
+  ]
+}

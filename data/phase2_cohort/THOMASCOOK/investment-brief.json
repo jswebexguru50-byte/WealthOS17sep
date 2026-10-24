@@ -1,0 +1,489 @@
+{
+  "symbol": "THOMASCOOK",
+  "companyName": "Thomas Cook (India) Limited",
+  "marketCapTier": "SMALLCAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-15T14:00:48.954Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Capital sizing should reflect this uncertainty.",
+    "allocationRecommendation": "CAPPED_ALLOCATION",
+    "portfolioPolicy": {
+      "directive": "CAPPED_ALLOCATION",
+      "targetSizingCapRatio": 0.5,
+      "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_THOMASCOOK",
+      "nodes": [
+        {
+          "id": "DEC_THOMASCOOK",
+          "type": "DECISION",
+          "refId": "THOMASCOOK",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_THOMASCOOK",
+          "type": "ALLOCATION",
+          "refId": "CAPPED_ALLOCATION",
+          "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+        },
+        {
+          "id": "THESIS_THOMASCOOK",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_THOMASCOOK",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 88/100)"
+        },
+        {
+          "id": "RISK_THOMASCOOK",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_THOMASCOOK",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_TC_LEVERAGE",
+          "type": "RULE",
+          "refId": "TB_TC_LEVERAGE",
+          "version": "2026.09",
+          "label": "Breaker TB_TC_LEVERAGE: INACTIVE (Observed: -0.42)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_THOMASCOOK",
+          "to": "DEC_THOMASCOOK",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_THOMASCOOK",
+          "to": "DEC_THOMASCOOK",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_THOMASCOOK",
+          "to": "THESIS_THOMASCOOK",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_THOMASCOOK",
+          "to": "THESIS_THOMASCOOK",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_THOMASCOOK",
+          "to": "ALLOC_THOMASCOOK",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_TC_LEVERAGE",
+          "to": "RISK_THOMASCOOK",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_THOMASCOOK_20260915",
+      "decisionId": "DECISION_THOMASCOOK",
+      "issuerSymbol": "THOMASCOOK",
+      "evaluatedAt": "2026-09-15T12:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2",
+      "ontologyVersion": "1.2",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_THOMASCOOK_01",
+          "issuerSymbol": "THOMASCOOK",
+          "metric": "FINANCIAL_METRIC",
+          "metricId": "FINANCIAL_METRIC",
+          "metricFamily": "REVENUE",
+          "value": 0,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_TC_PROMISE_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_TC_PROMISE_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_TC_PROMISE_01",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_THOMASCOOK_02",
+          "issuerSymbol": "THOMASCOOK",
+          "metric": "FINANCIAL_METRIC",
+          "metricId": "FINANCIAL_METRIC",
+          "metricFamily": "REVENUE",
+          "value": 0,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_TC_RESULT_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_TC_RESULT_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_TC_RESULT_01",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_TC_01",
+          "issuerNseSymbol": "THOMASCOOK",
+          "issuerBseCode": "500413",
+          "period": "FY24",
+          "category": "FINANCIAL_METRIC",
+          "statement": "Consolidated operational PBT targeted to cross ₹250 Cr in FY24.",
+          "targetMetric": "operational_pbt_inr_cr",
+          "baselineValue": 12,
+          "expectedValue": 250,
+          "expectedOutcome": "PBT >= ₹250 Cr",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_TC_PROMISE_01",
+          "claimDate": "2023-08-08",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 271,
+          "actualOutcomeDescription": "Delivered operational PBT of ₹271 Cr beating ₹250 Cr guidance",
+          "evaluationEvidenceId": "EV_TC_RESULT_01",
+          "evaluationDate": "2024-05-15",
+          "evaluationBasis": "BSE Audited Financial Accounts and Segmental Performance",
+          "createdAt": "2023-08-08T10:00:00.000Z",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_THOMASCOOK_01",
+          "publicationDate": "2023-08-08",
+          "publicationDateType": "MANAGEMENT_COMMENT"
+        }
+      ],
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_TC_LEVERAGE",
+          "name": "Solvency Preservation Breaker",
+          "description": "Net Debt / EBITDA must not breach 2.0x",
+          "type": "QUANTITATIVE",
+          "evaluationMethod": "METRIC_THRESHOLD",
+          "conditionText": "Net Debt / EBITDA > 2.0",
+          "quantitativeCondition": {
+            "metric": "net_debt_to_ebitda",
+            "operator": ">",
+            "threshold": 2,
+            "evaluationPeriod": "annual",
+            "evidenceRequired": true
+          },
+          "status": "INACTIVE",
+          "severity": "HIGH",
+          "rationale": "Metric within safe boundaries: net_debt_to_ebitda (-0.42) does not violate > 2.",
+          "evidenceIds": [
+            "EV_TC_RESULT_01"
+          ],
+          "currentObservedValue": -0.42
+        }
+      ],
+      "rawInputContradictions": [],
+      "rawQuantInput": {
+        "symbol": "THOMASCOOK",
+        "strategyAgreementCount": 6,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 88,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY"
+      },
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Capital sizing should reflect this uncertainty.",
+        "allocationRecommendation": "CAPPED_ALLOCATION"
+      },
+      "portfolioPolicy": {
+        "directive": "CAPPED_ALLOCATION",
+        "targetSizingCapRatio": 0.5,
+        "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_THOMASCOOK",
+        "nodes": [
+          {
+            "id": "DEC_THOMASCOOK",
+            "type": "DECISION",
+            "refId": "THOMASCOOK",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_THOMASCOOK",
+            "type": "ALLOCATION",
+            "refId": "CAPPED_ALLOCATION",
+            "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+          },
+          {
+            "id": "THESIS_THOMASCOOK",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_THOMASCOOK",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 88/100)"
+          },
+          {
+            "id": "RISK_THOMASCOOK",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_THOMASCOOK",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_TC_LEVERAGE",
+            "type": "RULE",
+            "refId": "TB_TC_LEVERAGE",
+            "version": "2026.09",
+            "label": "Breaker TB_TC_LEVERAGE: INACTIVE (Observed: -0.42)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_THOMASCOOK",
+            "to": "DEC_THOMASCOOK",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_THOMASCOOK",
+            "to": "DEC_THOMASCOOK",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_THOMASCOOK",
+            "to": "THESIS_THOMASCOOK",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_THOMASCOOK",
+            "to": "THESIS_THOMASCOOK",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_THOMASCOOK",
+            "to": "ALLOC_THOMASCOOK",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_TC_LEVERAGE",
+            "to": "RISK_THOMASCOOK",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "077e0d0af3021dd32bb70e4159c8d88495b461a8cada0187f8884c3a1f4c5a40",
+      "canonicalStateHash": "077e0d0af3021dd32bb70e4159c8d88495b461a8cada0187f8884c3a1f4c5a40"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "MEDIUM",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity supported by clean qualitative intelligence and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Capital sizing should reflect this uncertainty."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 6/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 88/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#THOMASCOOK",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Consolidated operational PBT targeted to cross ₹250 Cr in FY24.",
+      "detail": "Disclosed actual outcome: Delivered operational PBT of ₹271 Cr beating ₹250 Cr guidance",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_TC_PROMISE_01 -> Resolution#EV_TC_RESULT_01",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "THOMASCOOK",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 1,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_TC_01",
+        "statement": "Consolidated operational PBT targeted to cross ₹250 Cr in FY24.",
+        "period": "FY24",
+        "expected": "PBT >= ₹250 Cr",
+        "actual": "Delivered operational PBT of ₹271 Cr beating ₹250 Cr guidance",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_TC_PROMISE_01 -> Resolution#EV_TC_RESULT_01"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_THOMASCOOK"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_THOMASCOOK"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-05-15",
+      "source": "BSE_DISCLOSURE",
+      "headline": "Thomas Cook India posts historic turnaround PBT of ₹271 Cr with zero net debt",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_TC_LEVERAGE",
+      "name": "Solvency Preservation Breaker",
+      "description": "Net Debt / EBITDA must not breach 2.0x",
+      "type": "QUANTITATIVE",
+      "evaluationMethod": "METRIC_THRESHOLD",
+      "conditionText": "Net Debt / EBITDA > 2.0",
+      "quantitativeCondition": {
+        "metric": "net_debt_to_ebitda",
+        "operator": ">",
+        "threshold": 2,
+        "evaluationPeriod": "annual",
+        "evidenceRequired": true
+      },
+      "status": "INACTIVE",
+      "severity": "HIGH",
+      "rationale": "Metric within safe boundaries: net_debt_to_ebitda (-0.42) does not violate > 2.",
+      "evidenceIds": [
+        "EV_TC_RESULT_01"
+      ],
+      "currentObservedValue": -0.42
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "MEDIUM",
+    "directSourcesCount": 2,
+    "corroboratedCount": 1,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Omni-channel travel services turnaround player with dominant retail forex distribution franchise.\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

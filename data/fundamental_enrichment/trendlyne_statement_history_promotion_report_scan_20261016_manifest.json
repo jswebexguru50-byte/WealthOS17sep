@@ -1,0 +1,122 @@
+{
+  "generatedAt": "2026-10-16T19:12:26.376Z",
+  "mode": "APPLIED",
+  "dbPath": "C:\\Users\\GopalSharma\\Downloads\\WealthOS 04 Oct\\WealthOS04Oct\\portfolio.db",
+  "manifest": "data\\fundamental_enrichment\\scan_20261016_manifest.json",
+  "requested": 18,
+  "symbolsWithSnapshot": 10,
+  "symbolsWithAnchor": 7,
+  "skippedNoAnchor": 3,
+  "factsPrepared": 156,
+  "factsWritten": 156,
+  "missingValues": 61,
+  "metricTotals": {
+    "revenue": 40,
+    "operating_profit": 39,
+    "pat": 35,
+    "cfo": 21
+  },
+  "aliasMetricTotals": {
+    "cfo_cr": 21
+  },
+  "policy": "Quarterly statement values and selected annual CFO/capex values are promoted only when same-symbol explicit Trendlyne quarter anchors exist. Annual FY period is anchored to March year-end from the latest explicit quarter label and remains VERIFIED_PARTIAL.",
+  "symbols": [
+    {
+      "symbol": "BLUEWATER",
+      "status": "NO_STATEMENT_HISTORY_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "GLOBAL",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "KANORICHEM",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-09-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "MBAPL",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "MMP",
+      "status": "NO_STATEMENT_HISTORY_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "NEOGEN",
+      "status": "NO_STATEMENT_HISTORY_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "NITINSPIN",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-09-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "NRL",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "RUBYMILLS",
+      "status": "NO_STATEMENT_HISTORY_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "SAAKSHI",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 8
+    },
+    {
+      "symbol": "SHEETAL",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-03-31",
+      "factsPrepared": 8
+    },
+    {
+      "symbol": "SHERA",
+      "status": "NO_STATEMENT_HISTORY_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "SPORTKING",
+      "status": "NO_STATEMENT_HISTORY_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "SUNLITE",
+      "status": "NO_EXPLICIT_QUARTER_ANCHOR",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "SUNTV",
+      "status": "NO_STATEMENT_HISTORY_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "TRACXN",
+      "status": "NO_STATEMENT_HISTORY_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "VILINBIO",
+      "status": "NO_EXPLICIT_QUARTER_ANCHOR",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "WHEELS",
+      "status": "NO_EXPLICIT_QUARTER_ANCHOR",
+      "factsPrepared": 0
+    }
+  ]
+}

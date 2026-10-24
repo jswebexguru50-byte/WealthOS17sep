@@ -1,0 +1,24 @@
+{
+  "symbol": "SJLOGISTIC",
+  "coreThesisStatement": "End-to-end multimodal project logistics and freight forwarder with high return metrics.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Project Cargo Moat",
+      "description": "Specialized handling of heavy over-dimensional cargo (ODC)."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Asset-Light Structure",
+      "description": "Charter-based logistics model minimizing fixed asset capital expenditure."
+    },
+    {
+      "pillarId": "P3",
+      "title": "Strong Cash Flows",
+      "description": "Net Debt / EBITDA of 0.35x delivering 32.4% ROCE."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_SJ_LEVERAGE"
+  ]
+}

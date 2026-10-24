@@ -1,0 +1,2030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oct 16 2026 — 18-Symbol Dossier: F1-F7 + 7-Day Scan</title>
+<style>
+/* ── Tokens ── */
+:root {
+  --bg:#0f172a; --bg2:#1e293b; --bg3:#334155; --bg4:#475569;
+  --fg:#f1f5f9; --fg2:#cbd5e1; --fg3:#94a3b8;
+  --pass:#22c55e; --fail:#ef4444; --unver:#94a3b8; --na:#64748b;
+  --accent:#3b82f6; --accent2:#8b5cf6; --warn:#f59e0b;
+  --border:#334155; --radius:8px; --card-shadow:0 2px 12px rgba(0,0,0,.4);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font-family:'Segoe UI',system-ui,sans-serif;font-size:14px;line-height:1.5;padding:0 0 40px}
+a{color:var(--accent);text-decoration:none}
+
+/* ── Layout ── */
+.page-header{background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);
+  border-bottom:1px solid var(--border);padding:28px 32px;}
+.page-header h1{font-size:22px;font-weight:700;color:#f1f5f9}
+.page-header .subtitle{color:var(--fg3);font-size:13px;margin-top:6px}
+.page-header .meta-row{display:flex;gap:24px;margin-top:12px;flex-wrap:wrap}
+.meta-chip{background:var(--bg2);border:1px solid var(--border);border-radius:20px;
+  padding:4px 14px;font-size:12px;color:var(--fg2)}
+
+.section{padding:24px 32px}
+.section-title{font-size:17px;font-weight:700;color:var(--fg);margin-bottom:4px;
+  display:flex;align-items:center;gap:10px}
+.section-title::before{content:'';display:inline-block;width:4px;height:18px;
+  background:var(--accent);border-radius:2px}
+.section-subtitle{color:var(--fg3);font-size:12px;margin-bottom:16px}
+
+/* ── Tables ── */
+.table-scroll{overflow-x:auto;border-radius:var(--radius)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:var(--bg3);color:var(--fg2);font-weight:600;padding:10px 12px;
+  text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid #1e293b;vertical-align:middle}
+tr:hover td{background:rgba(59,130,246,.06)}
+.row-strong td{border-left:3px solid var(--pass)}
+.row-weak td{border-left:3px solid var(--fail)}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.sym-cell{font-weight:600;color:var(--fg)}
+.sym-cell small{font-weight:400;color:var(--fg3);display:block;font-size:11px}
+.na{color:var(--fg3)}
+.sl{color:#fca5a5}
+.tgt{color:#86efac}
+
+/* ── Badges ── */
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;
+  font-weight:700;letter-spacing:.4px;white-space:nowrap}
+.badge.pass{background:rgba(34,197,94,.18);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
+.badge.fail{background:rgba(239,68,68,.18);color:#f87171;border:1px solid rgba(239,68,68,.3)}
+.badge.unver{background:rgba(148,163,184,.15);color:#94a3b8;border:1px solid rgba(148,163,184,.2)}
+.badge.na{background:rgba(100,116,139,.12);color:#64748b;border:1px solid rgba(100,116,139,.2)}
+
+/* ── Score bar ── */
+.score-bar{position:relative;height:20px;background:var(--bg3);border-radius:10px;
+  overflow:hidden;min-width:100px}
+.score-fill{height:100%;border-radius:10px;transition:width .3s}
+.score-text{position:absolute;inset:0;display:flex;align-items:center;
+  justify-content:center;font-size:11px;font-weight:600;color:#fff}
+
+/* ── TOC / Nav ── */
+.toc{display:flex;gap:10px;flex-wrap:wrap;padding:16px 32px;
+  background:var(--bg2);border-bottom:1px solid var(--border)}
+.toc a{background:var(--bg3);color:var(--fg2);padding:6px 14px;border-radius:6px;
+  font-size:12px;font-weight:600;transition:background .2s}
+.toc a:hover{background:var(--accent);color:#fff}
+
+/* ── Scan cards ── */
+.scan-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);
+  margin-bottom:16px;overflow:hidden}
+.scan-card-header{display:flex;justify-content:space-between;align-items:center;
+  padding:12px 16px;background:var(--bg3);border-bottom:1px solid var(--border)}
+.scan-date{font-weight:700;color:var(--accent);font-size:14px}
+.scan-count{font-size:12px;color:var(--fg3)}
+.scan-table{width:100%;border-collapse:collapse;font-size:13px}
+.scan-table th{background:var(--bg3);padding:8px 10px}
+.scan-table td{padding:8px 10px;border-bottom:1px solid #1a2744}
+
+/* ── Strategy pills ── */
+.strat-pill{display:inline-block;background:rgba(139,92,246,.18);color:#c4b5fd;
+  border:1px solid rgba(139,92,246,.3);border-radius:4px;padding:2px 7px;
+  font-size:11px;font-weight:600;white-space:nowrap;margin:1px}
+.strat-pill.sm{font-size:10px;padding:1px 5px}
+
+/* ── Matrix table ── */
+.matrix-table th{white-space:nowrap}
+.matrix-table td{vertical-align:middle}
+
+/* ── Evidence cards ── */
+.ev-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);
+  margin-bottom:16px;overflow:hidden}
+.ev-card-header{display:flex;align-items:center;gap:12px;padding:12px 16px;
+  background:var(--bg3);border-bottom:1px solid var(--border);flex-wrap:wrap}
+.ev-sym{font-size:16px;font-weight:700;color:var(--fg)}
+.ev-name{color:var(--fg2);font-size:13px}
+.ev-sector{color:var(--fg3);font-size:12px;background:var(--bg4);padding:2px 8px;
+  border-radius:4px}
+.ev-score-badge{margin-left:auto;background:var(--accent);color:#fff;padding:3px 12px;
+  border-radius:6px;font-weight:700;font-size:13px}
+.ev-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+@media(max-width:700px){.ev-body{grid-template-columns:1fr}}
+.ev-filters-col{padding:14px 16px;border-right:1px solid var(--border)}
+.ev-extra-col{padding:14px 16px}
+.ev-table{width:100%;border-collapse:collapse;font-size:12px}
+.ev-table th{color:var(--fg3);font-size:11px;padding:5px 8px;border-bottom:1px solid var(--border)}
+.ev-table td{padding:6px 8px;border-bottom:1px solid #1a2744}
+.ev-val{text-align:right;color:var(--fg2);font-variant-numeric:tabular-nums}
+.ev-extra-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.ev-extra-grid>div{background:var(--bg3);border-radius:6px;padding:8px 10px}
+.ev-lbl{font-size:10px;color:var(--fg3);display:block;margin-bottom:2px;text-transform:uppercase;letter-spacing:.5px}
+.ev-val{font-size:13px;font-weight:600;color:var(--fg)}
+.scan-mini{background:var(--bg3);border-radius:6px;padding:10px 12px;border:1px solid rgba(139,92,246,.25)}
+.scan-mini-header{font-size:11px;font-weight:700;color:#c4b5fd;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.scan-mini-levels{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap}
+.scan-mini-levels span{font-size:12px;color:var(--fg3)}
+.no-data{color:var(--fg3);font-style:italic;padding:16px;text-align:center}
+
+/* ── Stats bar ── */
+.stats-bar{display:flex;gap:20px;flex-wrap:wrap;padding:16px 32px;
+  background:var(--bg2);border-bottom:1px solid var(--border)}
+.stat-item{text-align:center}
+.stat-val{font-size:22px;font-weight:700;color:var(--accent)}
+.stat-lbl{font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:.5px}
+
+/* ── Key findings table ── */
+.findings-table td{vertical-align:top;padding:10px 12px}
+.findings-table .pri-high{color:#f87171;font-weight:700}
+.findings-table .pri-med{color:var(--warn);font-weight:700}
+.findings-table .pri-low{color:var(--fg2);font-weight:600}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>NRI WealthOS — October 16, 2026 Intelligence Dossier</h1>
+  <div class="subtitle">18-Symbol Fundamental Scorecard (F1–F7) + Last 7 Days Strategy Scan Summary</div>
+  <div class="meta-row">
+    <span class="meta-chip">Generated: 16 Oct 2026 20:00 UTC</span>
+    <span class="meta-chip">18 Symbols</span>
+    <span class="meta-chip">Filters F1–F7 | Evidence-first</span>
+    <span class="meta-chip">Source: Trendlyne MCP + HistoricalShareholdingPattern</span>
+    <span class="meta-chip">Scan dates: 2026-08-14, 2026-08-17, 2026-09-01, 2026-09-03, 2026-09-08, 2026-09-10, 2026-09-11, 2026-09-15, 2026-09-16, 2026-09-21, 2026-09-25, 2026-10-01, 2026-10-05, 2026-10-07</span>
+  </div>
+</div>
+
+<nav class="toc">
+  <a href="#scorecard">F1-F7 Scorecard</a>
+  <a href="#scan7d">7-Day Scan Summary</a>
+  <a href="#matrix">Symbol-Strategy Matrix</a>
+  <a href="#oppsignals">Opportunity Signals</a>
+  <a href="#evidence">Per-Symbol Evidence</a>
+</nav>
+
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-val">18</div><div class="stat-lbl">Symbols Tracked</div></div>
+  <div class="stat-item"><div class="stat-val">16</div><div class="stat-lbl">Picked by Any Strategy</div></div>
+  <div class="stat-item"><div class="stat-val">65</div><div class="stat-lbl">Total Qualified Picks</div></div>
+  <div class="stat-item"><div class="stat-val">14</div><div class="stat-lbl">Distinct Scan Dates</div></div>
+  <div class="stat-item"><div class="stat-val">2</div><div class="stat-lbl">Active Opp. Signals</div></div>
+  <div class="stat-item"><div class="stat-val">8</div><div class="stat-lbl">High-Quality (≥4/7)</div></div>
+</div>
+
+<!-- ── SECTION 1: F1-F7 SCORECARD ─────────────────────────────────────────── -->
+<div class="section" id="scorecard">
+  <div class="section-title">F1–F7 Fundamental Scorecard</div>
+  <div class="section-subtitle">Evidence-first verdicts: PASS = MEETS_THRESHOLD | FAIL = BELOW_THRESHOLD | N/A = UNVERIFIABLE or NOT_APPLICABLE. Hover for evidence value.</div>
+  <div class="table-scroll">
+  <table>
+    <thead><tr>
+      <th>Symbol</th>
+      <th title="Promoter > 66.67%">F1<br>Promoter</th>
+      <th title="PAT > 0 in 8 quarters">F2<br>PAT 8Q</th>
+      <th title="ROCE ≥ 35%">F3<br>ROCE</th>
+      <th title="ROE ≥ 25%">F4<br>ROE</th>
+      <th title="Pledge ≤ 0%">F5<br>Pledge</th>
+      <th title="Institutional ≥ 5% + QoQ rising">F6<br>Inst.</th>
+      <th title="CFO/EBITDA ≥ 0.5">F7<br>CFO</th>
+      <th>Score</th>
+      <th>CMP</th>
+      <th>Mcap</th>
+      <th>PE</th>
+      <th>Pio.</th>
+    </tr></thead>
+    <tbody><tr class="row-strong">
+        <td class="sym-cell"><strong>BLUEWATER</strong><br><small>Blue Water Logistics L</small></td>
+        <td title="69.55%"><span class="badge pass">PASS</span></td>
+        <td title="only 7/8 quarters"><span class="badge unver">N/A</span></td>
+        <td title="36.1%"><span class="badge pass">PASS</span></td>
+        <td title="31.1%"><span class="badge pass">PASS</span></td>
+        <td title="0.0%"><span class="badge pass">PASS</span></td>
+        <td title="5.2% | trend -1.99pp"><span class="badge fail">FAIL</span></td>
+        <td title="-1.22x"><span class="badge fail">FAIL</span></td>
+        <td><div class="score-bar"><div class="score-fill" style="width:66%;background:#22c55e"></div><span class="score-text">4/6 (66%)</span></div></td>
+        <td class="num">₹511.0</td>
+        <td class="num">₹562.0 Cr</td>
+        <td class="num">22.3</td>
+        <td class="num">3.0</td>
+    </tr><tr class="">
+        <td class="sym-cell"><strong>GLOBAL</strong><br><small>Global Education Limit</small></td>
+        <td title="72.73%"><span class="badge pass">PASS</span></td>
+        <td title="8/8 positive"><span class="badge pass">PASS</span></td>
+        <td title="25.9%"><span class="badge fail">FAIL</span></td>
+        <td title="20.2%"><span class="badge fail">FAIL</span></td>
+        <td title="0.0%"><span class="badge pass">PASS</span></td>
+        <td title="0.1% | trend -0.36pp"><span class="badge fail">FAIL</span></td>
+        <td title="0.49x"><span class="badge fail">FAIL</span></td>
+        <td><div class="score-bar"><div class="score-fill" style="width:42%;background:#ef4444"></div><span class="score-text">3/7 (42%)</span></div></td>
+        <td class="num">₹144.0</td>
+        <td class="num">₹736.0 Cr</td>
+        <td class="num">28.2</td>
+        <td class="num">5.0</td>
+    </tr><tr class="">
+        <td class="sym-cell"><strong>KANORICHEM</strong><br><small>Kanoria Chemicals & In</small></td>
+        <td title="74.4%"><span class="badge pass">PASS</span></td>
+        <td title="4/8 positive"><span class="badge fail">FAIL</span></td>
+        <td title="7.2%"><span class="badge fail">FAIL</span></td>
+        <td title="21.1%"><span class="badge fail">FAIL</span></td>
+        <td title="29.57%"><span class="badge fail">FAIL</span></td>
+        <td title="0.1% | trend 0.02pp"><span class="badge fail">FAIL</span></td>
+        <td title="1.0x"><span class="badge pass">PASS</span></td>
+        <td><div class="score-bar"><div class="score-fill" style="width:28%;background:#ef4444"></div><span class="score-text">2/7 (28%)</span></div></td>
+        <td class="num">₹190.0</td>
+        <td class="num">₹830.0 Cr</td>
+        <td class="num">5.4</td>
+        <td class="num">6.0</td>
+    </tr><tr class="row-strong">
+        <td class="sym-cell"><strong>MBAPL</strong><br><small>Madhya Bharat Agro Pro</small></td>
+        <td title="74.76%"><span class="badge pass">PASS</span></td>
+        <td title="8/8 positive"><span class="badge pass">PASS</span></td>
+        <td title="19.7%"><span class="badge fail">FAIL</span></td>
+        <td title="27.3%"><span class="badge pass">PASS</span></td>
+        <td title="0.0%"><span class="badge pass">PASS</span></td>
+        <td title="1.1% | trend 0.64pp"><span class="badge fail">FAIL</span></td>
+        <td title="-0.56x"><span class="badge fail">FAIL</span></td>
+        <td><div class="score-bar"><div class="score-fill" style="width:57%;background:#22c55e"></div><span class="score-text">4/7 (57%)</span></div></td>
+        <td class="num">₹171.0</td>
+        <td class="num">₹7836.0 Cr</td>
+        <td class="num">50.6</td>
+        <td class="num">4.0</td>
+    </tr><tr class="">
+        <td class="sym-cell"><strong>MMP</strong><br><small>MMP Industries Limited</small></td>
+        <td title="74.48%"><span class="badge pass">PASS</span></td>
+        <td title="7/8 positive"><span class="badge fail">FAIL</span></td>
+        <td title="13.3%"><span class="badge fail">FAIL</span></td>
+        <td title="8.9%"><span class="badge fail">FAIL</span></td>
+        <td title="0.0%"><span class="badge pass">PASS</span></td>
+        <td title="0.6% | trend ?pp"><span class="badge fail">FAIL</span></td>
+        <td title="0.82x"><span class="badge pass">PASS</span></td>
+        <td><div class="score-bar"><div class="score-fill" style="width:42%;background:#ef4444"></div><span class="score-text">3/7 (42%)</span></div></td>
+        <td class="num">₹495.0</td>
+        <td class="num">₹1257.0 Cr</td>
+        <td class="num">25.1</td>
+        <td class="num">5.0</td>
+    </tr><tr class="">
+        <td class="sym-cell"><strong>NEOGEN</strong><br><small>Neogen Chemicals Limit</small></td>
+        <td title="53.01%"><span class="badge fail">FAIL</span></td>
+        <td title="8/8 positive"><span class="badge pass">PASS</span></td>
+        <td title="6.8%"><span class="badge fail">FAIL</span></td>
+        <td title="3.5%"><span class="badge fail">FAIL</span></td>
+        <td title="23.0%"><span class="badge fail">FAIL</span></td>
+        <td title="27.9% | trend 0.83pp"><span class="badge pass">PASS</span></td>
+        <td title="-1.69x"><span class="badge fail">FAIL</span></td>
+        <td><div class="score-bar"><div class="score-fill" style="width:28%;background:#ef4444"></div><span class="score-text">2/7 (28%)</span></div></td>
+        <td class="num">₹2508.0</td>
+        <td class="num">₹7533.0 Cr</td>
+        <td class="num">211.8</td>
+        <td class="num">1.0</td>
+    </tr><tr class="row-strong">
+        <td class="sym-cell"><strong>NITINSPIN</strong><br><small>Nitin Spinners Limited</small></td>
+        <td title="56.71%"><span class="badge fail">FAIL</span></td>
+        <td title="8/8 positive"><span class="badge pass">PASS</span></td>
+        <td title="14.3%"><span class="badge fail">FAIL</span></td>
+        <td title="12.1%"><span class="badge fail">FAIL</span></td>
+        <td title="0.0%"><span class="badge pass">PASS</span></td>
+        <td title="16.7% | trend 0.13pp"><span class="badge pass">PASS</span></td>
+        <td title="0.91x"><span class="badge pass">PASS</span></td>
+        <td><div class="score-bar"><div class="score-fill" style="width:57%;background:#22c55e"></div><span class="score-text">4/7 (57%)</span></div></td>
+        <td class="num">₹622.0</td>
+        <td class="num">₹3495.0 Cr</td>
+        <td class="num">16.5</td>
+        <td class="num">6.0</td>
+    </tr><tr class="row-strong">
+        <td class="sym-cell"><strong>NRL</strong><br><small>Nupur Recyclers Limite</small></td>
+        <td title="73.6%"><span class="badge pass">PASS</span></td>
+        <td title="8/8 positive"><span class="badge pass">PASS</span></td>
+        <td title="13.9%"><span class="badge fail">FAIL</span></td>
+        <td title="10.6%"><span class="badge fail">FAIL</span></td>
+        <td title="0.0%"><span class="badge pass">PASS</span></td>
+        <td title="0.4% | trend 0.41pp"><span class="badge fail">FAIL</span></td>
+        <td title="1.07x"><span class="badge pass">PASS</span></td>
+        <td><div class="score-bar"><div class="score-fill" style="width:57%;background:#22c55e"></div><span class="score-text">4/7 (57%)</span></div></td>
+        <td class="num">₹166.0</td>
+        <td class="num">₹1143.0 Cr</td>
+        <td class="num">80.4</td>
+        <td class="num">5.0</td>
+    </tr><tr class="row-strong">
+        <td class="sym-cell"><strong>RUBYMILLS</strong><br><small>The Ruby Mills Limited</small></td>
+        <td title="74.9%"><span class="badge pass">PASS</span></td>
+        <td title="8/8 positive"><span class="badge pass">PASS</span></td>
+        <td title="6.1%"><span class="badge fail">FAIL</span></td>
+        <td title="6.5%"><span class="badge fail">FAIL</span></td>
+        <td title="0.0%"><span class="badge pass">PASS</span></td>
+        <td title="0.1% | trend 0.12pp"><span class="badge fail">FAIL</span></td>
+        <td title="0.83x"><span class="badge pass">PASS</span></td>
+        <td><div class="score-bar"><div class="score-fill" style="width:57%;background:#22c55e"></div><span class="score-text">4/7 (57%)</span></div></td>
+        <td class="num">₹518.0</td>
+        <td class="num">₹1731.0 Cr</td>
+        <td class="num">39.9</td>
+        <td class="num">6.0</td>
+    </tr><tr class="">
+        <td class="sym-cell"><strong>SAAKSHI</strong><br><small>Saakshi Medtech and Pa</small></td>
+        <td title="74.82%"><span class="badge pass">PASS</span></td>
+        <td title="—"><span class="badge unver">N/A</span></td>
+        <td title="14.2%"><span class="badge fail">FAIL</span></td>
+        <td title="11.1%"><span class="badge fail">FAIL</span></td>
+        <td title="0.0%"><span class="badge pass">PASS</span></td>
+        <td title="0.3% | trend -0.03pp"><span class="badge fail">FAIL</span></td>
+        <td title="0.79x"><span class="badge pass">PASS</span></td>
+        <td><div class="score-bar"><div class="score-fill" style="width:50%;background:#f59e0b"></div><span class="score-text">3/6 (50%)</span></div></td>
+        <td class="num">₹377.0</td>
+        <td class="num">₹742.0 Cr</td>
+        <td class="num">60.4</td>
+        <td class="num">5.0</td>
+    </tr><tr class="row-weak">
+        <td class="sym-cell"><strong>SHEETAL</strong><br><small>Sheetal Universal Limi</small></td>
+        <td title="65.32%"><span class="badge fail">FAIL</span></td>
+        <td title="—"><span class="badge unver">N/A</span></td>
+        <td title="29.7%"><span class="badge fail">FAIL</span></td>
+        <td title="21.0%"><span class="badge fail">FAIL</span></td>
+        <td title="0.0%"><span class="badge pass">PASS</span></td>
+        <td title="1.9% | trend ?pp"><span class="badge fail">FAIL</span></td>
+        <td title="-0.7x"><span class="badge fail">FAIL</span></td>
+        <td><div class="score-bar"><div class="score-fill" style="width:16%;background:#ef4444"></div><span class="score-text">1/6 (16%)</span></div></td>
+        <td class="num">₹365.0</td>
+        <td class="num">₹437.0 Cr</td>
+        <td class="num">38.0</td>
+        <td class="num">3.0</td>
+    </tr><tr class="">
+        <td class="sym-cell"><strong>SHERA</strong><br><small>Shera Energy Limited</small></td>
+        <td title="62.35%"><span class="badge fail">FAIL</span></td>
+        <td title="8/8 positive"><span class="badge pass">PASS</span></td>
+        <td title="26.3%"><span class="badge fail">FAIL</span></td>
+        <td title="15.2%"><span class="badge fail">FAIL</span></td>
+        <td title="0.0%"><span class="badge pass">PASS</span></td>
+        <td title="0.9% | trend ?pp"><span class="badge fail">FAIL</span></td>
+        <td title="-0.06x"><span class="badge fail">FAIL</span></td>
+        <td><div class="score-bar"><div class="score-fill" style="width:28%;background:#ef4444"></div><span class="score-text">2/7 (28%)</span></div></td>
+        <td class="num">₹189.0</td>
+        <td class="num">₹463.0 Cr</td>
+        <td class="num">15.7</td>
+        <td class="num">4.0</td>
+    </tr><tr class="row-strong">
+        <td class="sym-cell"><strong>SPORTKING</strong><br><small>Sportking India Limite</small></td>
+        <td title="74.36%"><span class="badge pass">PASS</span></td>
+        <td title="8/8 positive"><span class="badge pass">PASS</span></td>
+        <td title="14.2%"><span class="badge fail">FAIL</span></td>
+        <td title="10.7%"><span class="badge fail">FAIL</span></td>
+        <td title="0.0%"><span class="badge pass">PASS</span></td>
+        <td title="0.9% | trend 0.52pp"><span class="badge fail">FAIL</span></td>
+        <td title="1.02x"><span class="badge pass">PASS</span></td>
+        <td><div class="score-bar"><div class="score-fill" style="width:57%;background:#22c55e"></div><span class="score-text">4/7 (57%)</span></div></td>
+        <td class="num">₹217.0</td>
+        <td class="num">₹2762.0 Cr</td>
+        <td class="num">17.1</td>
+        <td class="num">9.0</td>
+    </tr><tr class="">
+        <td class="sym-cell"><strong>SUNLITE</strong><br><small>Sunlite Recycling Indu</small></td>
+        <td title="74.47%"><span class="badge pass">PASS</span></td>
+        <td title="—"><span class="badge unver">N/A</span></td>
+        <td title="33.7%"><span class="badge fail">FAIL</span></td>
+        <td title="25.4%"><span class="badge pass">PASS</span></td>
+        <td title="0.0%"><span class="badge pass">PASS</span></td>
+        <td title="0.8% | trend 0.11pp"><span class="badge fail">FAIL</span></td>
+        <td title="-0.01x"><span class="badge fail">FAIL</span></td>
+        <td><div class="score-bar"><div class="score-fill" style="width:50%;background:#f59e0b"></div><span class="score-text">3/6 (50%)</span></div></td>
+        <td class="num">₹711.0</td>
+        <td class="num">₹981.0 Cr</td>
+        <td class="num">23.9</td>
+        <td class="num">1.0</td>
+    </tr><tr class="row-strong">
+        <td class="sym-cell"><strong>SUNTV</strong><br><small>Sun TV Network Limited</small></td>
+        <td title="75.0%"><span class="badge pass">PASS</span></td>
+        <td title="8/8 positive"><span class="badge pass">PASS</span></td>
+        <td title="16.1%"><span class="badge fail">FAIL</span></td>
+        <td title="11.4%"><span class="badge fail">FAIL</span></td>
+        <td title="0.0%"><span class="badge pass">PASS</span></td>
+        <td title="16.3% | trend -0.77pp"><span class="badge fail">FAIL</span></td>
+        <td title="0.81x"><span class="badge pass">PASS</span></td>
+        <td><div class="score-bar"><div class="score-fill" style="width:57%;background:#22c55e"></div><span class="score-text">4/7 (57%)</span></div></td>
+        <td class="num">₹629.0</td>
+        <td class="num">₹24794.0 Cr</td>
+        <td class="num">16.2</td>
+        <td class="num">6.0</td>
+    </tr><tr class="">
+        <td class="sym-cell"><strong>TRACXN</strong><br><small>Tracxn Technologies Li</small></td>
+        <td title="34.63%"><span class="badge fail">FAIL</span></td>
+        <td title="2/8 positive"><span class="badge fail">FAIL</span></td>
+        <td title="-1.0%"><span class="badge fail">FAIL</span></td>
+        <td title="-15.0%"><span class="badge fail">FAIL</span></td>
+        <td title="0.0%"><span class="badge pass">PASS</span></td>
+        <td title="4.2% | trend 0.19pp"><span class="badge fail">FAIL</span></td>
+        <td title="0.5x"><span class="badge pass">PASS</span></td>
+        <td><div class="score-bar"><div class="score-fill" style="width:28%;background:#ef4444"></div><span class="score-text">2/7 (28%)</span></div></td>
+        <td class="num">₹32.0</td>
+        <td class="num">₹341.0 Cr</td>
+        <td class="num">-28.3</td>
+        <td class="num">3.0</td>
+    </tr><tr class="row-weak">
+        <td class="sym-cell"><strong>VILINBIO</strong><br><small>Vilin Bio Med Limited</small></td>
+        <td title="56.65%"><span class="badge fail">FAIL</span></td>
+        <td title="—"><span class="badge unver">N/A</span></td>
+        <td title="10.2%"><span class="badge fail">FAIL</span></td>
+        <td title="6.8%"><span class="badge fail">FAIL</span></td>
+        <td title="0.0%"><span class="badge pass">PASS</span></td>
+        <td title="N/A% | trend ?pp"><span class="badge fail">FAIL</span></td>
+        <td title="0.22x"><span class="badge fail">FAIL</span></td>
+        <td><div class="score-bar"><div class="score-fill" style="width:16%;background:#ef4444"></div><span class="score-text">1/6 (16%)</span></div></td>
+        <td class="num">₹55.0</td>
+        <td class="num">₹83.0 Cr</td>
+        <td class="num">43.2</td>
+        <td class="num">6.0</td>
+    </tr><tr class="row-strong">
+        <td class="sym-cell"><strong>WHEELS</strong><br><small>Wheels India Limited</small></td>
+        <td title="56.86%"><span class="badge fail">FAIL</span></td>
+        <td title="8/8 positive"><span class="badge pass">PASS</span></td>
+        <td title="21.9%"><span class="badge fail">FAIL</span></td>
+        <td title="14.9%"><span class="badge fail">FAIL</span></td>
+        <td title="0.0%"><span class="badge pass">PASS</span></td>
+        <td title="9.8% | trend 1.44pp"><span class="badge pass">PASS</span></td>
+        <td title="1.16x"><span class="badge pass">PASS</span></td>
+        <td><div class="score-bar"><div class="score-fill" style="width:57%;background:#22c55e"></div><span class="score-text">4/7 (57%)</span></div></td>
+        <td class="num">₹2400.0</td>
+        <td class="num">₹5863.0 Cr</td>
+        <td class="num">35.9</td>
+        <td class="num">8.0</td>
+    </tr></tbody>
+  </table>
+  </div>
+  <p style="color:var(--fg3);font-size:11px;margin-top:8px">
+    F1 source: HistoricalShareholdingPattern (primary) → trendlyne_mirror_observations (fallback).
+    F2 source: trendlyne_mirror_observations npq tokens (8Q) → QuarterlyProfits.
+    F3/F4/F7 source: trendlyne_mirror_observations (rocea/roea/cfoa/opa).
+    F5 source: HistoricalShareholdingPattern pledged_pct → trendlyne_mirror_observations prompledge.
+    F6 source: combined. F7 EBITDA proxy = Operating Profit Ann. (opa) when EBIT Ann. is provider-null.
+  </p>
+</div>
+
+<!-- ── SECTION 2: 7-DAY SCAN SUMMARY ──────────────────────────────────────── -->
+<div class="section" id="scan7d">
+  <div class="section-title">Last 7 Days — Strategy Scan Summary</div>
+  <div class="section-subtitle">
+    Technical scan picks from 7-strategy alpha scan (S1A VPA 3-Leg Reclaim | S1B VPA Trough Reversal |
+    S2 Institutional FVG/CE | S3A HH/HL ATR Compression | S4A Gap Running | S4B Gap RSI Support | S5A Minervini VCP).
+    Ordered by scan date (most recent first). Only qualified=YES entries shown.
+  </div>
+  
+    <div class="scan-card">
+      <div class="scan-card-header">
+        <span class="scan-date">2026-10-07</span>
+        <span class="scan-count">3 picks qualified</span>
+      </div>
+      <div class="table-scroll">
+      <table class="scan-table">
+        <thead><tr>
+          <th>Symbol</th><th>Strategy</th>
+          <th>Entry</th><th>Stop Loss</th>
+          <th>Target 1</th><th>Target 2</th>
+          <th>R:R</th>
+        </tr></thead>
+        <tbody><tr>
+            <td class="sym-cell">MMP</td>
+            <td><span class="strat-pill">S5A Minervini VCP</span></td>
+            <td class="num">₹498.00</td>
+            <td class="num sl">₹448.92</td>
+            <td class="num tgt">—</td>
+            <td class="num tgt">—</td>
+            <td class="num">—</td>
+        </tr><tr>
+            <td class="sym-cell">RUBYMILLS</td>
+            <td><span class="strat-pill">S5A Minervini VCP</span></td>
+            <td class="num">₹522.00</td>
+            <td class="num sl">₹458.82</td>
+            <td class="num tgt">—</td>
+            <td class="num tgt">—</td>
+            <td class="num">—</td>
+        </tr><tr>
+            <td class="sym-cell">SHEETAL</td>
+            <td><span class="strat-pill">S4B Gap RSI Support</span></td>
+            <td class="num">₹357.90</td>
+            <td class="num sl">₹53.95</td>
+            <td class="num tgt">—</td>
+            <td class="num tgt">—</td>
+            <td class="num">—</td>
+        </tr></tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="scan-card">
+      <div class="scan-card-header">
+        <span class="scan-date">2026-10-05</span>
+        <span class="scan-count">2 picks qualified</span>
+      </div>
+      <div class="table-scroll">
+      <table class="scan-table">
+        <thead><tr>
+          <th>Symbol</th><th>Strategy</th>
+          <th>Entry</th><th>Stop Loss</th>
+          <th>Target 1</th><th>Target 2</th>
+          <th>R:R</th>
+        </tr></thead>
+        <tbody><tr>
+            <td class="sym-cell">MMP</td>
+            <td><span class="strat-pill">S4B Gap RSI Support</span></td>
+            <td class="num">₹468.05</td>
+            <td class="num sl">₹183.35</td>
+            <td class="num tgt">—</td>
+            <td class="num tgt">—</td>
+            <td class="num">—</td>
+        </tr><tr>
+            <td class="sym-cell">SUNLITE</td>
+            <td><span class="strat-pill">S5A Minervini VCP</span></td>
+            <td class="num">₹677.95</td>
+            <td class="num sl">₹590.58</td>
+            <td class="num tgt">—</td>
+            <td class="num tgt">—</td>
+            <td class="num">—</td>
+        </tr></tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="scan-card">
+      <div class="scan-card-header">
+        <span class="scan-date">2026-10-01</span>
+        <span class="scan-count">1 picks qualified</span>
+      </div>
+      <div class="table-scroll">
+      <table class="scan-table">
+        <thead><tr>
+          <th>Symbol</th><th>Strategy</th>
+          <th>Entry</th><th>Stop Loss</th>
+          <th>Target 1</th><th>Target 2</th>
+          <th>R:R</th>
+        </tr></thead>
+        <tbody><tr>
+            <td class="sym-cell">MBAPL</td>
+            <td><span class="strat-pill">S5A Minervini VCP</span></td>
+            <td class="num">₹170.50</td>
+            <td class="num sl">₹153.57</td>
+            <td class="num tgt">—</td>
+            <td class="num tgt">—</td>
+            <td class="num">—</td>
+        </tr></tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="scan-card">
+      <div class="scan-card-header">
+        <span class="scan-date">2026-09-25</span>
+        <span class="scan-count">12 picks qualified</span>
+      </div>
+      <div class="table-scroll">
+      <table class="scan-table">
+        <thead><tr>
+          <th>Symbol</th><th>Strategy</th>
+          <th>Entry</th><th>Stop Loss</th>
+          <th>Target 1</th><th>Target 2</th>
+          <th>R:R</th>
+        </tr></thead>
+        <tbody><tr>
+            <td class="sym-cell">BLUEWATER</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹378.15</td>
+            <td class="num sl">₹370.59</td>
+            <td class="num tgt">₹788.82</td>
+            <td class="num tgt">₹997.94</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">GLOBAL</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹81.60</td>
+            <td class="num sl">₹79.97</td>
+            <td class="num tgt">₹263.03</td>
+            <td class="num tgt">₹354.56</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">KANORICHEM</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹139.00</td>
+            <td class="num sl">₹136.22</td>
+            <td class="num tgt">₹300.56</td>
+            <td class="num tgt">₹382.73</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">MBAPL</td>
+            <td><span class="strat-pill">S2 Institutional FVG/CE</span></td>
+            <td class="num">₹152.16</td>
+            <td class="num sl">—</td>
+            <td class="num tgt">₹170.50</td>
+            <td class="num tgt">₹187.55</td>
+            <td class="num">1.38x</td>
+        </tr><tr>
+            <td class="sym-cell">NITINSPIN</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹525.55</td>
+            <td class="num sl">₹515.04</td>
+            <td class="num tgt">₹793.92</td>
+            <td class="num tgt">₹933.36</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">NITINSPIN</td>
+            <td><span class="strat-pill">S2 Institutional FVG/CE</span></td>
+            <td class="num">₹575.25</td>
+            <td class="num sl">—</td>
+            <td class="num tgt">₹665.50</td>
+            <td class="num tgt">₹732.05</td>
+            <td class="num">2.74x</td>
+        </tr><tr>
+            <td class="sym-cell">NRL</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹113.00</td>
+            <td class="num sl">₹110.74</td>
+            <td class="num tgt">₹273.52</td>
+            <td class="num tgt">₹354.91</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">SAAKSHI</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹266.00</td>
+            <td class="num sl">₹260.68</td>
+            <td class="num tgt">₹598.09</td>
+            <td class="num tgt">₹766.79</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">SHEETAL</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹295.50</td>
+            <td class="num sl">₹289.59</td>
+            <td class="num tgt">₹494.52</td>
+            <td class="num tgt">₹596.99</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">SUNLITE</td>
+            <td><span class="strat-pill">S2 Institutional FVG/CE</span></td>
+            <td class="num">₹476.60</td>
+            <td class="num sl">—</td>
+            <td class="num tgt">₹718.00</td>
+            <td class="num tgt">₹789.80</td>
+            <td class="num">2.28x</td>
+        </tr><tr>
+            <td class="sym-cell">VILINBIO</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹39.85</td>
+            <td class="num sl">₹39.05</td>
+            <td class="num tgt">₹78.80</td>
+            <td class="num tgt">₹98.67</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">WHEELS</td>
+            <td><span class="strat-pill">S2 Institutional FVG/CE</span></td>
+            <td class="num">₹1411.00</td>
+            <td class="num sl">—</td>
+            <td class="num tgt">₹2498.00</td>
+            <td class="num tgt">₹2747.80</td>
+            <td class="num">3.18x</td>
+        </tr></tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="scan-card">
+      <div class="scan-card-header">
+        <span class="scan-date">2026-09-21</span>
+        <span class="scan-count">11 picks qualified</span>
+      </div>
+      <div class="table-scroll">
+      <table class="scan-table">
+        <thead><tr>
+          <th>Symbol</th><th>Strategy</th>
+          <th>Entry</th><th>Stop Loss</th>
+          <th>Target 1</th><th>Target 2</th>
+          <th>R:R</th>
+        </tr></thead>
+        <tbody><tr>
+            <td class="sym-cell">GLOBAL</td>
+            <td><span class="strat-pill">S3 HH/HL Compaction</span></td>
+            <td class="num">₹81.60</td>
+            <td class="num sl">₹120.65</td>
+            <td class="num tgt">₹128.54</td>
+            <td class="num tgt">₹131.90</td>
+            <td class="num">0.41x</td>
+        </tr><tr>
+            <td class="sym-cell">GLOBAL</td>
+            <td><span class="strat-pill">S4 HH/HL SMA200 VPA</span></td>
+            <td class="num">₹81.60</td>
+            <td class="num sl">₹120.65</td>
+            <td class="num tgt">₹128.54</td>
+            <td class="num tgt">₹131.90</td>
+            <td class="num">0.41x</td>
+        </tr><tr>
+            <td class="sym-cell">KANORICHEM</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹136.03</td>
+            <td class="num sl">₹133.31</td>
+            <td class="num tgt">₹233.78</td>
+            <td class="num tgt">₹284.02</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">NITINSPIN</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹525.55</td>
+            <td class="num sl">₹515.04</td>
+            <td class="num tgt">₹899.37</td>
+            <td class="num tgt">₹1091.54</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">NITINSPIN</td>
+            <td><span class="strat-pill">S2 Institutional FVG/CE</span></td>
+            <td class="num">₹525.55</td>
+            <td class="num sl">—</td>
+            <td class="num tgt">₹665.50</td>
+            <td class="num tgt">₹732.05</td>
+            <td class="num">1.75x</td>
+        </tr><tr>
+            <td class="sym-cell">NRL</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹102.00</td>
+            <td class="num sl">₹99.96</td>
+            <td class="num tgt">₹188.58</td>
+            <td class="num tgt">₹232.89</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">RUBYMILLS</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹339.00</td>
+            <td class="num sl">₹332.22</td>
+            <td class="num tgt">₹632.76</td>
+            <td class="num tgt">₹783.03</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">RUBYMILLS</td>
+            <td><span class="strat-pill">S2 Institutional FVG/CE</span></td>
+            <td class="num">₹353.10</td>
+            <td class="num sl">—</td>
+            <td class="num tgt">₹499.05</td>
+            <td class="num tgt">₹548.96</td>
+            <td class="num">7.14x</td>
+        </tr><tr>
+            <td class="sym-cell">SHEETAL</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹285.00</td>
+            <td class="num sl">₹279.30</td>
+            <td class="num tgt">₹490.65</td>
+            <td class="num tgt">₹596.32</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">SUNLITE</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹425.05</td>
+            <td class="num sl">₹416.55</td>
+            <td class="num tgt">₹1133.55</td>
+            <td class="num tgt">₹1492.05</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">WHEELS</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹1342.00</td>
+            <td class="num sl">₹1315.16</td>
+            <td class="num tgt">₹3756.98</td>
+            <td class="num tgt">₹4977.89</td>
+            <td class="num">2.00x</td>
+        </tr></tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="scan-card">
+      <div class="scan-card-header">
+        <span class="scan-date">2026-09-16</span>
+        <span class="scan-count">1 picks qualified</span>
+      </div>
+      <div class="table-scroll">
+      <table class="scan-table">
+        <thead><tr>
+          <th>Symbol</th><th>Strategy</th>
+          <th>Entry</th><th>Stop Loss</th>
+          <th>Target 1</th><th>Target 2</th>
+          <th>R:R</th>
+        </tr></thead>
+        <tbody><tr>
+            <td class="sym-cell">SHEETAL</td>
+            <td><span class="strat-pill">S5A Minervini VCP</span></td>
+            <td class="num">₹352.00</td>
+            <td class="num sl">₹335.82</td>
+            <td class="num tgt">—</td>
+            <td class="num tgt">—</td>
+            <td class="num">—</td>
+        </tr></tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="scan-card">
+      <div class="scan-card-header">
+        <span class="scan-date">2026-09-15</span>
+        <span class="scan-count">1 picks qualified</span>
+      </div>
+      <div class="table-scroll">
+      <table class="scan-table">
+        <thead><tr>
+          <th>Symbol</th><th>Strategy</th>
+          <th>Entry</th><th>Stop Loss</th>
+          <th>Target 1</th><th>Target 2</th>
+          <th>R:R</th>
+        </tr></thead>
+        <tbody><tr>
+            <td class="sym-cell">SHEETAL</td>
+            <td><span class="strat-pill">S5A Minervini VCP</span></td>
+            <td class="num">₹352.00</td>
+            <td class="num sl">₹333.05</td>
+            <td class="num tgt">—</td>
+            <td class="num tgt">—</td>
+            <td class="num">—</td>
+        </tr></tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="scan-card">
+      <div class="scan-card-header">
+        <span class="scan-date">2026-09-11</span>
+        <span class="scan-count">1 picks qualified</span>
+      </div>
+      <div class="table-scroll">
+      <table class="scan-table">
+        <thead><tr>
+          <th>Symbol</th><th>Strategy</th>
+          <th>Entry</th><th>Stop Loss</th>
+          <th>Target 1</th><th>Target 2</th>
+          <th>R:R</th>
+        </tr></thead>
+        <tbody><tr>
+            <td class="sym-cell">SHEETAL</td>
+            <td><span class="strat-pill">S5A Minervini VCP</span></td>
+            <td class="num">₹352.00</td>
+            <td class="num sl">₹329.15</td>
+            <td class="num tgt">—</td>
+            <td class="num tgt">—</td>
+            <td class="num">—</td>
+        </tr></tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="scan-card">
+      <div class="scan-card-header">
+        <span class="scan-date">2026-09-10</span>
+        <span class="scan-count">2 picks qualified</span>
+      </div>
+      <div class="table-scroll">
+      <table class="scan-table">
+        <thead><tr>
+          <th>Symbol</th><th>Strategy</th>
+          <th>Entry</th><th>Stop Loss</th>
+          <th>Target 1</th><th>Target 2</th>
+          <th>R:R</th>
+        </tr></thead>
+        <tbody><tr>
+            <td class="sym-cell">NITINSPIN</td>
+            <td><span class="strat-pill">S5A Minervini VCP</span></td>
+            <td class="num">₹664.40</td>
+            <td class="num sl">₹599.41</td>
+            <td class="num tgt">—</td>
+            <td class="num tgt">—</td>
+            <td class="num">—</td>
+        </tr><tr>
+            <td class="sym-cell">SHEETAL</td>
+            <td><span class="strat-pill">S5A Minervini VCP</span></td>
+            <td class="num">₹352.00</td>
+            <td class="num sl">₹325.68</td>
+            <td class="num tgt">—</td>
+            <td class="num tgt">—</td>
+            <td class="num">—</td>
+        </tr></tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="scan-card">
+      <div class="scan-card-header">
+        <span class="scan-date">2026-09-08</span>
+        <span class="scan-count">1 picks qualified</span>
+      </div>
+      <div class="table-scroll">
+      <table class="scan-table">
+        <thead><tr>
+          <th>Symbol</th><th>Strategy</th>
+          <th>Entry</th><th>Stop Loss</th>
+          <th>Target 1</th><th>Target 2</th>
+          <th>R:R</th>
+        </tr></thead>
+        <tbody><tr>
+            <td class="sym-cell">NITINSPIN</td>
+            <td><span class="strat-pill">S5A Minervini VCP</span></td>
+            <td class="num">₹649.55</td>
+            <td class="num sl">₹604.51</td>
+            <td class="num tgt">—</td>
+            <td class="num tgt">—</td>
+            <td class="num">—</td>
+        </tr></tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="scan-card">
+      <div class="scan-card-header">
+        <span class="scan-date">2026-09-03</span>
+        <span class="scan-count">1 picks qualified</span>
+      </div>
+      <div class="table-scroll">
+      <table class="scan-table">
+        <thead><tr>
+          <th>Symbol</th><th>Strategy</th>
+          <th>Entry</th><th>Stop Loss</th>
+          <th>Target 1</th><th>Target 2</th>
+          <th>R:R</th>
+        </tr></thead>
+        <tbody><tr>
+            <td class="sym-cell">NITINSPIN</td>
+            <td><span class="strat-pill">S5A Minervini VCP</span></td>
+            <td class="num">₹647.85</td>
+            <td class="num sl">₹590.27</td>
+            <td class="num tgt">—</td>
+            <td class="num tgt">—</td>
+            <td class="num">—</td>
+        </tr></tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="scan-card">
+      <div class="scan-card-header">
+        <span class="scan-date">2026-09-01</span>
+        <span class="scan-count">1 picks qualified</span>
+      </div>
+      <div class="table-scroll">
+      <table class="scan-table">
+        <thead><tr>
+          <th>Symbol</th><th>Strategy</th>
+          <th>Entry</th><th>Stop Loss</th>
+          <th>Target 1</th><th>Target 2</th>
+          <th>R:R</th>
+        </tr></thead>
+        <tbody><tr>
+            <td class="sym-cell">SPORTKING</td>
+            <td><span class="strat-pill">S5A Minervini VCP</span></td>
+            <td class="num">₹231.59</td>
+            <td class="num sl">₹210.40</td>
+            <td class="num tgt">—</td>
+            <td class="num tgt">—</td>
+            <td class="num">—</td>
+        </tr></tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="scan-card">
+      <div class="scan-card-header">
+        <span class="scan-date">2026-08-17</span>
+        <span class="scan-count">14 picks qualified</span>
+      </div>
+      <div class="table-scroll">
+      <table class="scan-table">
+        <thead><tr>
+          <th>Symbol</th><th>Strategy</th>
+          <th>Entry</th><th>Stop Loss</th>
+          <th>Target 1</th><th>Target 2</th>
+          <th>R:R</th>
+        </tr></thead>
+        <tbody><tr>
+            <td class="sym-cell">BLUEWATER</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹320.05</td>
+            <td class="num sl">₹313.65</td>
+            <td class="num tgt">₹600.75</td>
+            <td class="num tgt">₹744.30</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">KANORICHEM</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹122.10</td>
+            <td class="num sl">₹119.66</td>
+            <td class="num tgt">₹214.58</td>
+            <td class="num tgt">₹262.04</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">MBAPL</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹109.75</td>
+            <td class="num sl">₹107.55</td>
+            <td class="num tgt">₹279.09</td>
+            <td class="num tgt">₹364.86</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">MMP</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹263.00</td>
+            <td class="num sl">₹257.74</td>
+            <td class="num tgt">₹534.52</td>
+            <td class="num tgt">₹672.91</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">NEOGEN</td>
+            <td><span class="strat-pill">S10 Trendline ORB</span></td>
+            <td class="num">—</td>
+            <td class="num sl">₹2247.40</td>
+            <td class="num tgt">₹2374.00</td>
+            <td class="num tgt">₹2475.74</td>
+            <td class="num">4.58x</td>
+        </tr><tr>
+            <td class="sym-cell">NITINSPIN</td>
+            <td><span class="strat-pill">S2 Institutional FVG/CE</span></td>
+            <td class="num">₹518.45</td>
+            <td class="num sl">—</td>
+            <td class="num tgt">₹599.00</td>
+            <td class="num tgt">₹658.90</td>
+            <td class="num">3.69x</td>
+        </tr><tr>
+            <td class="sym-cell">NRL</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹92.10</td>
+            <td class="num sl">₹90.26</td>
+            <td class="num tgt">₹167.48</td>
+            <td class="num tgt">₹206.09</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">NRL</td>
+            <td><span class="strat-pill">S3 HH/HL Compaction</span></td>
+            <td class="num">₹58.00</td>
+            <td class="num sl">₹110.25</td>
+            <td class="num tgt">₹114.00</td>
+            <td class="num tgt">₹114.93</td>
+            <td class="num">-0.35x</td>
+        </tr><tr>
+            <td class="sym-cell">NRL</td>
+            <td><span class="strat-pill">S4 HH/HL SMA200 VPA</span></td>
+            <td class="num">₹58.00</td>
+            <td class="num sl">₹110.25</td>
+            <td class="num tgt">₹114.00</td>
+            <td class="num tgt">₹114.93</td>
+            <td class="num">-0.35x</td>
+        </tr><tr>
+            <td class="sym-cell">RUBYMILLS</td>
+            <td><span class="strat-pill">S9 Volume Dry-Up RS</span></td>
+            <td class="num">—</td>
+            <td class="num sl">₹356.00</td>
+            <td class="num tgt">₹461.80</td>
+            <td class="num tgt">₹514.70</td>
+            <td class="num">3.00x</td>
+        </tr><tr>
+            <td class="sym-cell">SAAKSHI</td>
+            <td><span class="strat-pill">S4 HH/HL SMA200 VPA</span></td>
+            <td class="num">₹181.80</td>
+            <td class="num sl">₹284.20</td>
+            <td class="num tgt">₹305.35</td>
+            <td class="num tgt">₹314.84</td>
+            <td class="num">0.57x</td>
+        </tr><tr>
+            <td class="sym-cell">SHERA</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹143.00</td>
+            <td class="num sl">₹140.14</td>
+            <td class="num tgt">₹250.72</td>
+            <td class="num tgt">₹306.01</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">SHERA</td>
+            <td><span class="strat-pill">S3 HH/HL Compaction</span></td>
+            <td class="num">₹128.60</td>
+            <td class="num sl">₹167.58</td>
+            <td class="num tgt">₹175.00</td>
+            <td class="num tgt">₹177.47</td>
+            <td class="num">-0.21x</td>
+        </tr><tr>
+            <td class="sym-cell">SPORTKING</td>
+            <td><span class="strat-pill">S9 Volume Dry-Up RS</span></td>
+            <td class="num">—</td>
+            <td class="num sl">₹199.00</td>
+            <td class="num tgt">₹228.64</td>
+            <td class="num tgt">₹243.46</td>
+            <td class="num">3.00x</td>
+        </tr></tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="scan-card">
+      <div class="scan-card-header">
+        <span class="scan-date">2026-08-14</span>
+        <span class="scan-count">14 picks qualified</span>
+      </div>
+      <div class="table-scroll">
+      <table class="scan-table">
+        <thead><tr>
+          <th>Symbol</th><th>Strategy</th>
+          <th>Entry</th><th>Stop Loss</th>
+          <th>Target 1</th><th>Target 2</th>
+          <th>R:R</th>
+        </tr></thead>
+        <tbody><tr>
+            <td class="sym-cell">KANORICHEM</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹122.10</td>
+            <td class="num sl">₹119.66</td>
+            <td class="num tgt">₹217.55</td>
+            <td class="num tgt">₹266.50</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">MBAPL</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹109.75</td>
+            <td class="num sl">₹107.55</td>
+            <td class="num tgt">₹290.28</td>
+            <td class="num tgt">₹381.65</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">MMP</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹263.00</td>
+            <td class="num sl">₹257.74</td>
+            <td class="num tgt">₹497.02</td>
+            <td class="num tgt">₹616.66</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">MMP</td>
+            <td><span class="strat-pill">S4 HH/HL SMA200 VPA</span></td>
+            <td class="num">₹263.00</td>
+            <td class="num sl">₹324.92</td>
+            <td class="num tgt">₹361.60</td>
+            <td class="num tgt">₹380.17</td>
+            <td class="num">1.92x</td>
+        </tr><tr>
+            <td class="sym-cell">NRL</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹89.90</td>
+            <td class="num sl">₹88.10</td>
+            <td class="num tgt">₹174.80</td>
+            <td class="num tgt">₹218.15</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">NRL</td>
+            <td><span class="strat-pill">S3 HH/HL Compaction</span></td>
+            <td class="num">₹58.00</td>
+            <td class="num sl">₹110.25</td>
+            <td class="num tgt">₹114.00</td>
+            <td class="num tgt">₹114.93</td>
+            <td class="num">-0.44x</td>
+        </tr><tr>
+            <td class="sym-cell">NRL</td>
+            <td><span class="strat-pill">S4 HH/HL SMA200 VPA</span></td>
+            <td class="num">₹58.00</td>
+            <td class="num sl">₹110.25</td>
+            <td class="num tgt">₹114.00</td>
+            <td class="num tgt">₹114.93</td>
+            <td class="num">-0.44x</td>
+        </tr><tr>
+            <td class="sym-cell">RUBYMILLS</td>
+            <td><span class="strat-pill">S3 HH/HL Compaction</span></td>
+            <td class="num">₹222.36</td>
+            <td class="num sl">₹348.88</td>
+            <td class="num tgt">₹366.50</td>
+            <td class="num tgt">₹372.99</td>
+            <td class="num">0.15x</td>
+        </tr><tr>
+            <td class="sym-cell">RUBYMILLS</td>
+            <td><span class="strat-pill">S4 HH/HL SMA200 VPA</span></td>
+            <td class="num">₹222.36</td>
+            <td class="num sl">₹348.88</td>
+            <td class="num tgt">₹366.50</td>
+            <td class="num tgt">₹372.99</td>
+            <td class="num">0.15x</td>
+        </tr><tr>
+            <td class="sym-cell">SAAKSHI</td>
+            <td><span class="strat-pill">S4 HH/HL SMA200 VPA</span></td>
+            <td class="num">₹181.80</td>
+            <td class="num sl">₹284.20</td>
+            <td class="num tgt">₹305.35</td>
+            <td class="num tgt">₹314.84</td>
+            <td class="num">0.78x</td>
+        </tr><tr>
+            <td class="sym-cell">SHERA</td>
+            <td><span class="strat-pill">S1 VPA Base Breakout</span></td>
+            <td class="num">₹143.00</td>
+            <td class="num sl">₹140.14</td>
+            <td class="num tgt">₹231.37</td>
+            <td class="num tgt">₹276.99</td>
+            <td class="num">2.00x</td>
+        </tr><tr>
+            <td class="sym-cell">SHERA</td>
+            <td><span class="strat-pill">S3 HH/HL Compaction</span></td>
+            <td class="num">₹128.60</td>
+            <td class="num sl">₹165.62</td>
+            <td class="num tgt">₹175.00</td>
+            <td class="num tgt">₹178.71</td>
+            <td class="num">0.90x</td>
+        </tr><tr>
+            <td class="sym-cell">SHERA</td>
+            <td><span class="strat-pill">S4 HH/HL SMA200 VPA</span></td>
+            <td class="num">₹128.60</td>
+            <td class="num sl">₹165.62</td>
+            <td class="num tgt">₹175.00</td>
+            <td class="num tgt">₹178.71</td>
+            <td class="num">0.90x</td>
+        </tr><tr>
+            <td class="sym-cell">SUNLITE</td>
+            <td><span class="strat-pill">S9 Volume Dry-Up RS</span></td>
+            <td class="num">—</td>
+            <td class="num sl">₹446.00</td>
+            <td class="num tgt">₹519.00</td>
+            <td class="num tgt">₹555.50</td>
+            <td class="num">3.00x</td>
+        </tr></tbody>
+      </table>
+      </div>
+    </div>
+</div>
+
+<!-- ── SECTION 3: SYMBOL–STRATEGY MATRIX ──────────────────────────────────── -->
+<div class="section" id="matrix">
+  <div class="section-title">Symbol × Strategy Matrix (Last 7 Days)</div>
+  <div class="section-subtitle">Which strategies qualified each symbol, their first/last signal dates, and the latest entry/stop/target.</div>
+  <div class="table-scroll">
+  <table class="matrix-table">
+    <thead><tr>
+      <th>Symbol</th>
+      <th>Strategies Qualified</th>
+      <th>First Signal</th>
+      <th>Last Signal</th>
+      <th>Latest Entry</th>
+      <th>Stop Loss</th>
+      <th>Target 1</th>
+    </tr></thead>
+    <tbody><tr>
+        <td class="sym-cell">BLUEWATER</td>
+        <td><span class="strat-pill sm">S1</span><span class="strat-pill sm">S1</span></td>
+        <td class="num">2026-08-17</td>
+        <td class="num">2026-09-25</td>
+        <td class="num">₹378.15</td>
+        <td class="num sl">₹370.59</td>
+        <td class="num tgt">₹788.82</td>
+    </tr><tr>
+        <td class="sym-cell">GLOBAL</td>
+        <td><span class="strat-pill sm">S1</span><span class="strat-pill sm">S3</span><span class="strat-pill sm">S4</span></td>
+        <td class="num">2026-09-21</td>
+        <td class="num">2026-09-25</td>
+        <td class="num">₹81.60</td>
+        <td class="num sl">₹79.97</td>
+        <td class="num tgt">₹263.03</td>
+    </tr><tr>
+        <td class="sym-cell">KANORICHEM</td>
+        <td><span class="strat-pill sm">S1</span><span class="strat-pill sm">S1</span><span class="strat-pill sm">S1</span><span class="strat-pill sm">S1</span></td>
+        <td class="num">2026-08-14</td>
+        <td class="num">2026-09-25</td>
+        <td class="num">₹139.00</td>
+        <td class="num sl">₹136.22</td>
+        <td class="num tgt">₹300.56</td>
+    </tr><tr>
+        <td class="sym-cell">MBAPL</td>
+        <td><span class="strat-pill sm">S5A</span><span class="strat-pill sm">S2</span><span class="strat-pill sm">S1</span><span class="strat-pill sm">S1</span></td>
+        <td class="num">2026-08-14</td>
+        <td class="num">2026-10-01</td>
+        <td class="num">₹170.50</td>
+        <td class="num sl">₹153.57</td>
+        <td class="num tgt">—</td>
+    </tr><tr>
+        <td class="sym-cell">MMP</td>
+        <td><span class="strat-pill sm">S5A</span><span class="strat-pill sm">S4B</span><span class="strat-pill sm">S1</span><span class="strat-pill sm">S1</span><span class="strat-pill sm">S4</span></td>
+        <td class="num">2026-08-14</td>
+        <td class="num">2026-10-07</td>
+        <td class="num">₹498.00</td>
+        <td class="num sl">₹448.92</td>
+        <td class="num tgt">—</td>
+    </tr><tr>
+        <td class="sym-cell">NEOGEN</td>
+        <td><span class="strat-pill sm">S10</span></td>
+        <td class="num">2026-08-17</td>
+        <td class="num">—</td>
+        <td class="num">—</td>
+        <td class="num sl">₹2247.40</td>
+        <td class="num tgt">₹2374.00</td>
+    </tr><tr>
+        <td class="sym-cell">NITINSPIN</td>
+        <td><span class="strat-pill sm">S1</span><span class="strat-pill sm">S2</span><span class="strat-pill sm">S1</span><span class="strat-pill sm">S2</span><span class="strat-pill sm">S5A</span><span class="strat-pill sm">S5A</span><span class="strat-pill sm">S5A</span><span class="strat-pill sm">S2</span></td>
+        <td class="num">2026-08-17</td>
+        <td class="num">2026-09-25</td>
+        <td class="num">₹525.55</td>
+        <td class="num sl">₹515.04</td>
+        <td class="num tgt">₹793.92</td>
+    </tr><tr>
+        <td class="sym-cell">NRL</td>
+        <td><span class="strat-pill sm">S1</span><span class="strat-pill sm">S1</span><span class="strat-pill sm">S1</span><span class="strat-pill sm">S3</span><span class="strat-pill sm">S4</span><span class="strat-pill sm">S1</span><span class="strat-pill sm">S3</span><span class="strat-pill sm">S4</span></td>
+        <td class="num">2026-08-14</td>
+        <td class="num">2026-09-25</td>
+        <td class="num">₹113.00</td>
+        <td class="num sl">₹110.74</td>
+        <td class="num tgt">₹273.52</td>
+    </tr><tr>
+        <td class="sym-cell">RUBYMILLS</td>
+        <td><span class="strat-pill sm">S5A</span><span class="strat-pill sm">S1</span><span class="strat-pill sm">S2</span><span class="strat-pill sm">S9</span><span class="strat-pill sm">S3</span><span class="strat-pill sm">S4</span></td>
+        <td class="num">2026-08-14</td>
+        <td class="num">2026-10-07</td>
+        <td class="num">₹522.00</td>
+        <td class="num sl">₹458.82</td>
+        <td class="num tgt">—</td>
+    </tr><tr>
+        <td class="sym-cell">SAAKSHI</td>
+        <td><span class="strat-pill sm">S1</span><span class="strat-pill sm">S4</span><span class="strat-pill sm">S4</span></td>
+        <td class="num">2026-08-14</td>
+        <td class="num">2026-09-25</td>
+        <td class="num">₹266.00</td>
+        <td class="num sl">₹260.68</td>
+        <td class="num tgt">₹598.09</td>
+    </tr><tr>
+        <td class="sym-cell">SHEETAL</td>
+        <td><span class="strat-pill sm">S4B</span><span class="strat-pill sm">S1</span><span class="strat-pill sm">S1</span><span class="strat-pill sm">S5A</span><span class="strat-pill sm">S5A</span><span class="strat-pill sm">S5A</span><span class="strat-pill sm">S5A</span></td>
+        <td class="num">2026-09-10</td>
+        <td class="num">2026-10-07</td>
+        <td class="num">₹357.90</td>
+        <td class="num sl">₹53.95</td>
+        <td class="num tgt">—</td>
+    </tr><tr>
+        <td class="sym-cell">SHERA</td>
+        <td><span class="strat-pill sm">S1</span><span class="strat-pill sm">S3</span><span class="strat-pill sm">S1</span><span class="strat-pill sm">S3</span><span class="strat-pill sm">S4</span></td>
+        <td class="num">2026-08-14</td>
+        <td class="num">2026-08-17</td>
+        <td class="num">₹143.00</td>
+        <td class="num sl">₹140.14</td>
+        <td class="num tgt">₹250.72</td>
+    </tr><tr>
+        <td class="sym-cell">SPORTKING</td>
+        <td><span class="strat-pill sm">S5A</span><span class="strat-pill sm">S9</span></td>
+        <td class="num">2026-08-17</td>
+        <td class="num">2026-09-01</td>
+        <td class="num">₹231.59</td>
+        <td class="num sl">₹210.40</td>
+        <td class="num tgt">—</td>
+    </tr><tr>
+        <td class="sym-cell">SUNLITE</td>
+        <td><span class="strat-pill sm">S5A</span><span class="strat-pill sm">S2</span><span class="strat-pill sm">S1</span><span class="strat-pill sm">S9</span></td>
+        <td class="num">2026-08-14</td>
+        <td class="num">2026-10-05</td>
+        <td class="num">₹677.95</td>
+        <td class="num sl">₹590.58</td>
+        <td class="num tgt">—</td>
+    </tr><tr>
+        <td class="sym-cell">VILINBIO</td>
+        <td><span class="strat-pill sm">S1</span></td>
+        <td class="num">2026-09-25</td>
+        <td class="num">—</td>
+        <td class="num">₹39.85</td>
+        <td class="num sl">₹39.05</td>
+        <td class="num tgt">₹78.80</td>
+    </tr><tr>
+        <td class="sym-cell">WHEELS</td>
+        <td><span class="strat-pill sm">S2</span><span class="strat-pill sm">S1</span></td>
+        <td class="num">2026-09-21</td>
+        <td class="num">2026-09-25</td>
+        <td class="num">₹1411.00</td>
+        <td class="num sl">—</td>
+        <td class="num tgt">₹2498.00</td>
+    </tr></tbody>
+  </table>
+  </div>
+</div>
+
+<!-- ── SECTION 4: OPPORTUNITY SIGNALS ─────────────────────────────────────── -->
+<div class="section" id="oppsignals">
+  <div class="section-title">Autonomous Agent — Active Opportunity Signals</div>
+  <div class="section-subtitle">Signals from the WealthOS opportunity engine that are currently active for these 18 symbols.</div>
+  <div class="table-scroll">
+  <table>
+    <thead><tr>
+      <th>Symbol</th><th>Category</th><th>Action</th>
+      <th>First Detected</th><th>Last Scanned</th>
+      <th>Entry</th><th>Target</th><th>Stop Loss</th>
+      <th>Confidence</th><th>Days Active</th>
+    </tr></thead>
+    <tbody><tr>
+        <td class="sym-cell">BLUEWATER</td>
+        <td>OVERSOLD_REBOUND</td>
+        <td><span class="badge pass">HOLD</span></td>
+        <td class="num">2026-09-10</td>
+        <td class="num">2026-09-25</td>
+        <td class="num">₹430.0</td>
+        <td class="num tgt">₹567.63</td>
+        <td class="num sl">₹478.0</td>
+        <td>MODERATE</td>
+        <td class="num">15</td>
+    </tr><tr>
+        <td class="sym-cell">NEOGEN</td>
+        <td>MOMENTUM_BREAKOUT</td>
+        <td><span class="badge pass">SWING_BUY</span></td>
+        <td class="num">2026-08-31</td>
+        <td class="num">2026-09-22</td>
+        <td class="num">₹2116.8</td>
+        <td class="num tgt">₹2487.0</td>
+        <td class="num sl">₹1985.0</td>
+        <td>VERY_HIGH</td>
+        <td class="num">22</td>
+    </tr></tbody>
+  </table>
+  </div>
+</div>
+
+<!-- ── SECTION 5: PER-SYMBOL EVIDENCE CARDS ───────────────────────────────── -->
+<div class="section" id="evidence">
+  <div class="section-title">Per-Symbol Evidence Cards</div>
+  <div class="section-subtitle">Detailed F1–F7 evidence, market context, and scan pick levels for each symbol.</div>
+  
+    <div class="ev-card" id="sym-BLUEWATER">
+      <div class="ev-card-header">
+        <span class="ev-sym">BLUEWATER</span>
+        <span class="ev-name">Blue Water Logistics Limited</span>
+        <span class="ev-sector">Transportation</span>
+        <span class="ev-score-badge">4/6</span>
+      </div>
+      <div class="ev-body">
+        <div class="ev-filters-col">
+          <table class="ev-table"><thead><tr><th>Filter</th><th>Verdict</th><th>Evidence</th></tr></thead>
+          <tbody><tr><td>Promoter > 66.67%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>69.55%</td></tr><tr><td>PAT > 0 in 8 Qtrs</td><td><span class="badge unver">N/A</span></td><td class='ev-val'>only 7/8 quarters</td></tr><tr><td>ROCE ≥ 35%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>36.1%</td></tr><tr><td>ROE ≥ 25%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>31.1%</td></tr><tr><td>Pledge ≤ 0%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>0.0%</td></tr><tr><td>Inst ≥ 5% + QoQ rising</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>5.2% | trend -1.99pp</td></tr><tr><td>CFO/EBITDA ≥ 0.5</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>-1.22x</td></tr></tbody></table>
+        </div>
+        <div class="ev-extra-col">
+          <div class="ev-extra-grid">
+            <div><span class="ev-lbl">CMP</span><span class="ev-val">₹511.0</span></div>
+            <div><span class="ev-lbl">Mcap</span><span class="ev-val">₹562.0 Cr</span></div>
+            <div><span class="ev-lbl">PE (TTM)</span><span class="ev-val">22.3</span></div>
+            <div><span class="ev-lbl">Piotroski</span><span class="ev-val">3.0/9</span></div>
+            <div><span class="ev-lbl">OPM Ann.</span><span class="ev-val">—</span></div>
+            <div><span class="ev-lbl">Debt/Eq</span><span class="ev-val">1.33</span></div>
+            <div><span class="ev-lbl">Delivery Avg 6M</span><span class="ev-val">90.3%</span></div>
+          </div>
+          <div class="scan-mini">
+            <div class="scan-mini-header">Technical Scan Picks (Last 7 Days)</div>
+            <div><strong>Strategies:</strong> S1 VPA Base Breakout</div>
+            <div class="scan-mini-levels">
+              <span>Entry: <strong>₹378.15</strong></span>
+              <span>Stop: <strong class="sl">₹370.59</strong></span>
+              <span>Target 1: <strong class="tgt">₹788.82</strong></span>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="ev-card" id="sym-GLOBAL">
+      <div class="ev-card-header">
+        <span class="ev-sym">GLOBAL</span>
+        <span class="ev-name">Global Education Limited</span>
+        <span class="ev-sector">Consumer Defensive</span>
+        <span class="ev-score-badge">3/7</span>
+      </div>
+      <div class="ev-body">
+        <div class="ev-filters-col">
+          <table class="ev-table"><thead><tr><th>Filter</th><th>Verdict</th><th>Evidence</th></tr></thead>
+          <tbody><tr><td>Promoter > 66.67%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>72.73%</td></tr><tr><td>PAT > 0 in 8 Qtrs</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>8/8 positive</td></tr><tr><td>ROCE ≥ 35%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>25.9%</td></tr><tr><td>ROE ≥ 25%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>20.2%</td></tr><tr><td>Pledge ≤ 0%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>0.0%</td></tr><tr><td>Inst ≥ 5% + QoQ rising</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>0.1% | trend -0.36pp</td></tr><tr><td>CFO/EBITDA ≥ 0.5</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>0.49x</td></tr></tbody></table>
+        </div>
+        <div class="ev-extra-col">
+          <div class="ev-extra-grid">
+            <div><span class="ev-lbl">CMP</span><span class="ev-val">₹144.5</span></div>
+            <div><span class="ev-lbl">Mcap</span><span class="ev-val">₹736.0 Cr</span></div>
+            <div><span class="ev-lbl">PE (TTM)</span><span class="ev-val">28.2</span></div>
+            <div><span class="ev-lbl">Piotroski</span><span class="ev-val">5.0/9</span></div>
+            <div><span class="ev-lbl">OPM Ann.</span><span class="ev-val">—</span></div>
+            <div><span class="ev-lbl">Debt/Eq</span><span class="ev-val">—</span></div>
+            <div><span class="ev-lbl">Delivery Avg 6M</span><span class="ev-val">59.8%</span></div>
+          </div>
+          <div class="scan-mini">
+            <div class="scan-mini-header">Technical Scan Picks (Last 7 Days)</div>
+            <div><strong>Strategies:</strong> S1 VPA Base Breakout, S3 HH/HL Compaction, S4 HH/HL SMA200 VPA</div>
+            <div class="scan-mini-levels">
+              <span>Entry: <strong>₹81.60</strong></span>
+              <span>Stop: <strong class="sl">₹79.97</strong></span>
+              <span>Target 1: <strong class="tgt">₹263.03</strong></span>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="ev-card" id="sym-KANORICHEM">
+      <div class="ev-card-header">
+        <span class="ev-sym">KANORICHEM</span>
+        <span class="ev-name">Kanoria Chemicals & Industries Limited</span>
+        <span class="ev-sector">Basic Materials</span>
+        <span class="ev-score-badge">2/7</span>
+      </div>
+      <div class="ev-body">
+        <div class="ev-filters-col">
+          <table class="ev-table"><thead><tr><th>Filter</th><th>Verdict</th><th>Evidence</th></tr></thead>
+          <tbody><tr><td>Promoter > 66.67%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>74.4%</td></tr><tr><td>PAT > 0 in 8 Qtrs</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>4/8 positive</td></tr><tr><td>ROCE ≥ 35%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>7.2%</td></tr><tr><td>ROE ≥ 25%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>21.1%</td></tr><tr><td>Pledge ≤ 0%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>29.57%</td></tr><tr><td>Inst ≥ 5% + QoQ rising</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>0.1% | trend 0.02pp</td></tr><tr><td>CFO/EBITDA ≥ 0.5</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>1.0x</td></tr></tbody></table>
+        </div>
+        <div class="ev-extra-col">
+          <div class="ev-extra-grid">
+            <div><span class="ev-lbl">CMP</span><span class="ev-val">₹190.04</span></div>
+            <div><span class="ev-lbl">Mcap</span><span class="ev-val">₹830.0 Cr</span></div>
+            <div><span class="ev-lbl">PE (TTM)</span><span class="ev-val">5.4</span></div>
+            <div><span class="ev-lbl">Piotroski</span><span class="ev-val">6.0/9</span></div>
+            <div><span class="ev-lbl">OPM Ann.</span><span class="ev-val">—</span></div>
+            <div><span class="ev-lbl">Debt/Eq</span><span class="ev-val">0.51</span></div>
+            <div><span class="ev-lbl">Delivery Avg 6M</span><span class="ev-val">95.8%</span></div>
+          </div>
+          <div class="scan-mini">
+            <div class="scan-mini-header">Technical Scan Picks (Last 7 Days)</div>
+            <div><strong>Strategies:</strong> S1 VPA Base Breakout</div>
+            <div class="scan-mini-levels">
+              <span>Entry: <strong>₹139.00</strong></span>
+              <span>Stop: <strong class="sl">₹136.22</strong></span>
+              <span>Target 1: <strong class="tgt">₹300.56</strong></span>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="ev-card" id="sym-MBAPL">
+      <div class="ev-card-header">
+        <span class="ev-sym">MBAPL</span>
+        <span class="ev-name">Madhya Bharat Agro Products Limited</span>
+        <span class="ev-sector">Basic Materials</span>
+        <span class="ev-score-badge">4/7</span>
+      </div>
+      <div class="ev-body">
+        <div class="ev-filters-col">
+          <table class="ev-table"><thead><tr><th>Filter</th><th>Verdict</th><th>Evidence</th></tr></thead>
+          <tbody><tr><td>Promoter > 66.67%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>74.76%</td></tr><tr><td>PAT > 0 in 8 Qtrs</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>8/8 positive</td></tr><tr><td>ROCE ≥ 35%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>19.7%</td></tr><tr><td>ROE ≥ 25%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>27.3%</td></tr><tr><td>Pledge ≤ 0%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>0.0%</td></tr><tr><td>Inst ≥ 5% + QoQ rising</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>1.1% | trend 0.64pp</td></tr><tr><td>CFO/EBITDA ≥ 0.5</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>-0.56x</td></tr></tbody></table>
+        </div>
+        <div class="ev-extra-col">
+          <div class="ev-extra-grid">
+            <div><span class="ev-lbl">CMP</span><span class="ev-val">₹170.78</span></div>
+            <div><span class="ev-lbl">Mcap</span><span class="ev-val">₹7836.0 Cr</span></div>
+            <div><span class="ev-lbl">PE (TTM)</span><span class="ev-val">50.6</span></div>
+            <div><span class="ev-lbl">Piotroski</span><span class="ev-val">4.0/9</span></div>
+            <div><span class="ev-lbl">OPM Ann.</span><span class="ev-val">—</span></div>
+            <div><span class="ev-lbl">Debt/Eq</span><span class="ev-val">1.56</span></div>
+            <div><span class="ev-lbl">Delivery Avg 6M</span><span class="ev-val">51.6%</span></div>
+          </div>
+          <div class="scan-mini">
+            <div class="scan-mini-header">Technical Scan Picks (Last 7 Days)</div>
+            <div><strong>Strategies:</strong> S1 VPA Base Breakout, S2 Institutional FVG/CE, S5A Minervini VCP</div>
+            <div class="scan-mini-levels">
+              <span>Entry: <strong>₹170.50</strong></span>
+              <span>Stop: <strong class="sl">₹153.57</strong></span>
+              <span>Target 1: <strong class="tgt">—</strong></span>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="ev-card" id="sym-MMP">
+      <div class="ev-card-header">
+        <span class="ev-sym">MMP</span>
+        <span class="ev-name">MMP Industries Limited</span>
+        <span class="ev-sector">Basic Materials</span>
+        <span class="ev-score-badge">3/7</span>
+      </div>
+      <div class="ev-body">
+        <div class="ev-filters-col">
+          <table class="ev-table"><thead><tr><th>Filter</th><th>Verdict</th><th>Evidence</th></tr></thead>
+          <tbody><tr><td>Promoter > 66.67%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>74.48%</td></tr><tr><td>PAT > 0 in 8 Qtrs</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>7/8 positive</td></tr><tr><td>ROCE ≥ 35%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>13.3%</td></tr><tr><td>ROE ≥ 25%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>8.9%</td></tr><tr><td>Pledge ≤ 0%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>0.0%</td></tr><tr><td>Inst ≥ 5% + QoQ rising</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>0.6% | trend ?pp</td></tr><tr><td>CFO/EBITDA ≥ 0.5</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>0.82x</td></tr></tbody></table>
+        </div>
+        <div class="ev-extra-col">
+          <div class="ev-extra-grid">
+            <div><span class="ev-lbl">CMP</span><span class="ev-val">₹494.8</span></div>
+            <div><span class="ev-lbl">Mcap</span><span class="ev-val">₹1257.0 Cr</span></div>
+            <div><span class="ev-lbl">PE (TTM)</span><span class="ev-val">25.1</span></div>
+            <div><span class="ev-lbl">Piotroski</span><span class="ev-val">5.0/9</span></div>
+            <div><span class="ev-lbl">OPM Ann.</span><span class="ev-val">—</span></div>
+            <div><span class="ev-lbl">Debt/Eq</span><span class="ev-val">0.53</span></div>
+            <div><span class="ev-lbl">Delivery Avg 6M</span><span class="ev-val">49.0%</span></div>
+          </div>
+          <div class="scan-mini">
+            <div class="scan-mini-header">Technical Scan Picks (Last 7 Days)</div>
+            <div><strong>Strategies:</strong> S1 VPA Base Breakout, S4 HH/HL SMA200 VPA, S4B Gap RSI Support, S5A Minervini VCP</div>
+            <div class="scan-mini-levels">
+              <span>Entry: <strong>₹498.00</strong></span>
+              <span>Stop: <strong class="sl">₹448.92</strong></span>
+              <span>Target 1: <strong class="tgt">—</strong></span>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="ev-card" id="sym-NEOGEN">
+      <div class="ev-card-header">
+        <span class="ev-sym">NEOGEN</span>
+        <span class="ev-name">Neogen Chemicals Limited</span>
+        <span class="ev-sector">Basic Materials</span>
+        <span class="ev-score-badge">2/7</span>
+      </div>
+      <div class="ev-body">
+        <div class="ev-filters-col">
+          <table class="ev-table"><thead><tr><th>Filter</th><th>Verdict</th><th>Evidence</th></tr></thead>
+          <tbody><tr><td>Promoter > 66.67%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>53.01%</td></tr><tr><td>PAT > 0 in 8 Qtrs</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>8/8 positive</td></tr><tr><td>ROCE ≥ 35%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>6.8%</td></tr><tr><td>ROE ≥ 25%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>3.5%</td></tr><tr><td>Pledge ≤ 0%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>23.0%</td></tr><tr><td>Inst ≥ 5% + QoQ rising</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>27.9% | trend 0.83pp</td></tr><tr><td>CFO/EBITDA ≥ 0.5</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>-1.69x</td></tr></tbody></table>
+        </div>
+        <div class="ev-extra-col">
+          <div class="ev-extra-grid">
+            <div><span class="ev-lbl">CMP</span><span class="ev-val">₹2507.6</span></div>
+            <div><span class="ev-lbl">Mcap</span><span class="ev-val">₹7533.0 Cr</span></div>
+            <div><span class="ev-lbl">PE (TTM)</span><span class="ev-val">211.8</span></div>
+            <div><span class="ev-lbl">Piotroski</span><span class="ev-val">1.0/9</span></div>
+            <div><span class="ev-lbl">OPM Ann.</span><span class="ev-val">—</span></div>
+            <div><span class="ev-lbl">Debt/Eq</span><span class="ev-val">1.63</span></div>
+            <div><span class="ev-lbl">Delivery Avg 6M</span><span class="ev-val">38.3%</span></div>
+          </div>
+          <div class="scan-mini">
+            <div class="scan-mini-header">Technical Scan Picks (Last 7 Days)</div>
+            <div><strong>Strategies:</strong> S10 Trendline ORB</div>
+            <div class="scan-mini-levels">
+              <span>Entry: <strong>—</strong></span>
+              <span>Stop: <strong class="sl">₹2247.40</strong></span>
+              <span>Target 1: <strong class="tgt">₹2374.00</strong></span>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="ev-card" id="sym-NITINSPIN">
+      <div class="ev-card-header">
+        <span class="ev-sym">NITINSPIN</span>
+        <span class="ev-name">Nitin Spinners Limited</span>
+        <span class="ev-sector">Consumer Cyclical</span>
+        <span class="ev-score-badge">4/7</span>
+      </div>
+      <div class="ev-body">
+        <div class="ev-filters-col">
+          <table class="ev-table"><thead><tr><th>Filter</th><th>Verdict</th><th>Evidence</th></tr></thead>
+          <tbody><tr><td>Promoter > 66.67%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>56.71%</td></tr><tr><td>PAT > 0 in 8 Qtrs</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>8/8 positive</td></tr><tr><td>ROCE ≥ 35%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>14.3%</td></tr><tr><td>ROE ≥ 25%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>12.1%</td></tr><tr><td>Pledge ≤ 0%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>0.0%</td></tr><tr><td>Inst ≥ 5% + QoQ rising</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>16.7% | trend 0.13pp</td></tr><tr><td>CFO/EBITDA ≥ 0.5</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>0.91x</td></tr></tbody></table>
+        </div>
+        <div class="ev-extra-col">
+          <div class="ev-extra-grid">
+            <div><span class="ev-lbl">CMP</span><span class="ev-val">₹621.7</span></div>
+            <div><span class="ev-lbl">Mcap</span><span class="ev-val">₹3495.0 Cr</span></div>
+            <div><span class="ev-lbl">PE (TTM)</span><span class="ev-val">16.5</span></div>
+            <div><span class="ev-lbl">Piotroski</span><span class="ev-val">6.0/9</span></div>
+            <div><span class="ev-lbl">OPM Ann.</span><span class="ev-val">—</span></div>
+            <div><span class="ev-lbl">Debt/Eq</span><span class="ev-val">0.76</span></div>
+            <div><span class="ev-lbl">Delivery Avg 6M</span><span class="ev-val">38.6%</span></div>
+          </div>
+          <div class="scan-mini">
+            <div class="scan-mini-header">Technical Scan Picks (Last 7 Days)</div>
+            <div><strong>Strategies:</strong> S1 VPA Base Breakout, S2 Institutional FVG/CE, S5A Minervini VCP</div>
+            <div class="scan-mini-levels">
+              <span>Entry: <strong>₹525.55</strong></span>
+              <span>Stop: <strong class="sl">₹515.04</strong></span>
+              <span>Target 1: <strong class="tgt">₹793.92</strong></span>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="ev-card" id="sym-NRL">
+      <div class="ev-card-header">
+        <span class="ev-sym">NRL</span>
+        <span class="ev-name">Nupur Recyclers Limited</span>
+        <span class="ev-sector">Industrials</span>
+        <span class="ev-score-badge">4/7</span>
+      </div>
+      <div class="ev-body">
+        <div class="ev-filters-col">
+          <table class="ev-table"><thead><tr><th>Filter</th><th>Verdict</th><th>Evidence</th></tr></thead>
+          <tbody><tr><td>Promoter > 66.67%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>73.6%</td></tr><tr><td>PAT > 0 in 8 Qtrs</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>8/8 positive</td></tr><tr><td>ROCE ≥ 35%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>13.9%</td></tr><tr><td>ROE ≥ 25%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>10.6%</td></tr><tr><td>Pledge ≤ 0%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>0.0%</td></tr><tr><td>Inst ≥ 5% + QoQ rising</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>0.4% | trend 0.41pp</td></tr><tr><td>CFO/EBITDA ≥ 0.5</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>1.07x</td></tr></tbody></table>
+        </div>
+        <div class="ev-extra-col">
+          <div class="ev-extra-grid">
+            <div><span class="ev-lbl">CMP</span><span class="ev-val">₹165.54</span></div>
+            <div><span class="ev-lbl">Mcap</span><span class="ev-val">₹1143.0 Cr</span></div>
+            <div><span class="ev-lbl">PE (TTM)</span><span class="ev-val">80.4</span></div>
+            <div><span class="ev-lbl">Piotroski</span><span class="ev-val">5.0/9</span></div>
+            <div><span class="ev-lbl">OPM Ann.</span><span class="ev-val">—</span></div>
+            <div><span class="ev-lbl">Debt/Eq</span><span class="ev-val">0.25</span></div>
+            <div><span class="ev-lbl">Delivery Avg 6M</span><span class="ev-val">86.4%</span></div>
+          </div>
+          <div class="scan-mini">
+            <div class="scan-mini-header">Technical Scan Picks (Last 7 Days)</div>
+            <div><strong>Strategies:</strong> S1 VPA Base Breakout, S3 HH/HL Compaction, S4 HH/HL SMA200 VPA</div>
+            <div class="scan-mini-levels">
+              <span>Entry: <strong>₹113.00</strong></span>
+              <span>Stop: <strong class="sl">₹110.74</strong></span>
+              <span>Target 1: <strong class="tgt">₹273.52</strong></span>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="ev-card" id="sym-RUBYMILLS">
+      <div class="ev-card-header">
+        <span class="ev-sym">RUBYMILLS</span>
+        <span class="ev-name">The Ruby Mills Limited</span>
+        <span class="ev-sector">Consumer Cyclical</span>
+        <span class="ev-score-badge">4/7</span>
+      </div>
+      <div class="ev-body">
+        <div class="ev-filters-col">
+          <table class="ev-table"><thead><tr><th>Filter</th><th>Verdict</th><th>Evidence</th></tr></thead>
+          <tbody><tr><td>Promoter > 66.67%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>74.9%</td></tr><tr><td>PAT > 0 in 8 Qtrs</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>8/8 positive</td></tr><tr><td>ROCE ≥ 35%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>6.1%</td></tr><tr><td>ROE ≥ 25%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>6.5%</td></tr><tr><td>Pledge ≤ 0%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>0.0%</td></tr><tr><td>Inst ≥ 5% + QoQ rising</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>0.1% | trend 0.12pp</td></tr><tr><td>CFO/EBITDA ≥ 0.5</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>0.83x</td></tr></tbody></table>
+        </div>
+        <div class="ev-extra-col">
+          <div class="ev-extra-grid">
+            <div><span class="ev-lbl">CMP</span><span class="ev-val">₹517.7</span></div>
+            <div><span class="ev-lbl">Mcap</span><span class="ev-val">₹1731.0 Cr</span></div>
+            <div><span class="ev-lbl">PE (TTM)</span><span class="ev-val">39.9</span></div>
+            <div><span class="ev-lbl">Piotroski</span><span class="ev-val">6.0/9</span></div>
+            <div><span class="ev-lbl">OPM Ann.</span><span class="ev-val">—</span></div>
+            <div><span class="ev-lbl">Debt/Eq</span><span class="ev-val">0.55</span></div>
+            <div><span class="ev-lbl">Delivery Avg 6M</span><span class="ev-val">47.1%</span></div>
+          </div>
+          <div class="scan-mini">
+            <div class="scan-mini-header">Technical Scan Picks (Last 7 Days)</div>
+            <div><strong>Strategies:</strong> S1 VPA Base Breakout, S2 Institutional FVG/CE, S3 HH/HL Compaction, S4 HH/HL SMA200 VPA, S5A Minervini VCP, S9 Volume Dry-Up RS</div>
+            <div class="scan-mini-levels">
+              <span>Entry: <strong>₹522.00</strong></span>
+              <span>Stop: <strong class="sl">₹458.82</strong></span>
+              <span>Target 1: <strong class="tgt">—</strong></span>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="ev-card" id="sym-SAAKSHI">
+      <div class="ev-card-header">
+        <span class="ev-sym">SAAKSHI</span>
+        <span class="ev-name">Saakshi Medtech and Panels Limited</span>
+        <span class="ev-sector">Industrial & Specialty Growth</span>
+        <span class="ev-score-badge">3/6</span>
+      </div>
+      <div class="ev-body">
+        <div class="ev-filters-col">
+          <table class="ev-table"><thead><tr><th>Filter</th><th>Verdict</th><th>Evidence</th></tr></thead>
+          <tbody><tr><td>Promoter > 66.67%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>74.82%</td></tr><tr><td>PAT > 0 in 8 Qtrs</td><td><span class="badge unver">N/A</span></td><td class='ev-val'>—</td></tr><tr><td>ROCE ≥ 35%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>14.2%</td></tr><tr><td>ROE ≥ 25%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>11.1%</td></tr><tr><td>Pledge ≤ 0%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>0.0%</td></tr><tr><td>Inst ≥ 5% + QoQ rising</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>0.3% | trend -0.03pp</td></tr><tr><td>CFO/EBITDA ≥ 0.5</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>0.79x</td></tr></tbody></table>
+        </div>
+        <div class="ev-extra-col">
+          <div class="ev-extra-grid">
+            <div><span class="ev-lbl">CMP</span><span class="ev-val">₹377.4</span></div>
+            <div><span class="ev-lbl">Mcap</span><span class="ev-val">₹742.0 Cr</span></div>
+            <div><span class="ev-lbl">PE (TTM)</span><span class="ev-val">60.4</span></div>
+            <div><span class="ev-lbl">Piotroski</span><span class="ev-val">5.0/9</span></div>
+            <div><span class="ev-lbl">OPM Ann.</span><span class="ev-val">—</span></div>
+            <div><span class="ev-lbl">Debt/Eq</span><span class="ev-val">0.23</span></div>
+            <div><span class="ev-lbl">Delivery Avg 6M</span><span class="ev-val">84.6%</span></div>
+          </div>
+          <div class="scan-mini">
+            <div class="scan-mini-header">Technical Scan Picks (Last 7 Days)</div>
+            <div><strong>Strategies:</strong> S1 VPA Base Breakout, S4 HH/HL SMA200 VPA</div>
+            <div class="scan-mini-levels">
+              <span>Entry: <strong>₹266.00</strong></span>
+              <span>Stop: <strong class="sl">₹260.68</strong></span>
+              <span>Target 1: <strong class="tgt">₹598.09</strong></span>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="ev-card" id="sym-SHEETAL">
+      <div class="ev-card-header">
+        <span class="ev-sym">SHEETAL</span>
+        <span class="ev-name">Sheetal Universal Limited</span>
+        <span class="ev-sector">Food, Beverages & Tobacco</span>
+        <span class="ev-score-badge">1/6</span>
+      </div>
+      <div class="ev-body">
+        <div class="ev-filters-col">
+          <table class="ev-table"><thead><tr><th>Filter</th><th>Verdict</th><th>Evidence</th></tr></thead>
+          <tbody><tr><td>Promoter > 66.67%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>65.32%</td></tr><tr><td>PAT > 0 in 8 Qtrs</td><td><span class="badge unver">N/A</span></td><td class='ev-val'>—</td></tr><tr><td>ROCE ≥ 35%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>29.7%</td></tr><tr><td>ROE ≥ 25%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>21.0%</td></tr><tr><td>Pledge ≤ 0%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>0.0%</td></tr><tr><td>Inst ≥ 5% + QoQ rising</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>1.9% | trend ?pp</td></tr><tr><td>CFO/EBITDA ≥ 0.5</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>-0.7x</td></tr></tbody></table>
+        </div>
+        <div class="ev-extra-col">
+          <div class="ev-extra-grid">
+            <div><span class="ev-lbl">CMP</span><span class="ev-val">₹364.8</span></div>
+            <div><span class="ev-lbl">Mcap</span><span class="ev-val">₹437.0 Cr</span></div>
+            <div><span class="ev-lbl">PE (TTM)</span><span class="ev-val">38.0</span></div>
+            <div><span class="ev-lbl">Piotroski</span><span class="ev-val">3.0/9</span></div>
+            <div><span class="ev-lbl">OPM Ann.</span><span class="ev-val">—</span></div>
+            <div><span class="ev-lbl">Debt/Eq</span><span class="ev-val">0.7</span></div>
+            <div><span class="ev-lbl">Delivery Avg 6M</span><span class="ev-val">70.5%</span></div>
+          </div>
+          <div class="scan-mini">
+            <div class="scan-mini-header">Technical Scan Picks (Last 7 Days)</div>
+            <div><strong>Strategies:</strong> S1 VPA Base Breakout, S4B Gap RSI Support, S5A Minervini VCP</div>
+            <div class="scan-mini-levels">
+              <span>Entry: <strong>₹357.90</strong></span>
+              <span>Stop: <strong class="sl">₹53.95</strong></span>
+              <span>Target 1: <strong class="tgt">—</strong></span>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="ev-card" id="sym-SHERA">
+      <div class="ev-card-header">
+        <span class="ev-sym">SHERA</span>
+        <span class="ev-name">Shera Energy Limited</span>
+        <span class="ev-sector">Industrial & Specialty Growth</span>
+        <span class="ev-score-badge">2/7</span>
+      </div>
+      <div class="ev-body">
+        <div class="ev-filters-col">
+          <table class="ev-table"><thead><tr><th>Filter</th><th>Verdict</th><th>Evidence</th></tr></thead>
+          <tbody><tr><td>Promoter > 66.67%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>62.35%</td></tr><tr><td>PAT > 0 in 8 Qtrs</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>8/8 positive</td></tr><tr><td>ROCE ≥ 35%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>26.3%</td></tr><tr><td>ROE ≥ 25%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>15.2%</td></tr><tr><td>Pledge ≤ 0%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>0.0%</td></tr><tr><td>Inst ≥ 5% + QoQ rising</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>0.9% | trend ?pp</td></tr><tr><td>CFO/EBITDA ≥ 0.5</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>-0.06x</td></tr></tbody></table>
+        </div>
+        <div class="ev-extra-col">
+          <div class="ev-extra-grid">
+            <div><span class="ev-lbl">CMP</span><span class="ev-val">₹189.25</span></div>
+            <div><span class="ev-lbl">Mcap</span><span class="ev-val">₹463.0 Cr</span></div>
+            <div><span class="ev-lbl">PE (TTM)</span><span class="ev-val">15.7</span></div>
+            <div><span class="ev-lbl">Piotroski</span><span class="ev-val">4.0/9</span></div>
+            <div><span class="ev-lbl">OPM Ann.</span><span class="ev-val">—</span></div>
+            <div><span class="ev-lbl">Debt/Eq</span><span class="ev-val">1.35</span></div>
+            <div><span class="ev-lbl">Delivery Avg 6M</span><span class="ev-val">77.7%</span></div>
+          </div>
+          <div class="scan-mini">
+            <div class="scan-mini-header">Technical Scan Picks (Last 7 Days)</div>
+            <div><strong>Strategies:</strong> S1 VPA Base Breakout, S3 HH/HL Compaction, S4 HH/HL SMA200 VPA</div>
+            <div class="scan-mini-levels">
+              <span>Entry: <strong>₹143.00</strong></span>
+              <span>Stop: <strong class="sl">₹140.14</strong></span>
+              <span>Target 1: <strong class="tgt">₹250.72</strong></span>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="ev-card" id="sym-SPORTKING">
+      <div class="ev-card-header">
+        <span class="ev-sym">SPORTKING</span>
+        <span class="ev-name">Sportking India Limited</span>
+        <span class="ev-sector">Consumer Cyclical</span>
+        <span class="ev-score-badge">4/7</span>
+      </div>
+      <div class="ev-body">
+        <div class="ev-filters-col">
+          <table class="ev-table"><thead><tr><th>Filter</th><th>Verdict</th><th>Evidence</th></tr></thead>
+          <tbody><tr><td>Promoter > 66.67%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>74.36%</td></tr><tr><td>PAT > 0 in 8 Qtrs</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>8/8 positive</td></tr><tr><td>ROCE ≥ 35%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>14.2%</td></tr><tr><td>ROE ≥ 25%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>10.7%</td></tr><tr><td>Pledge ≤ 0%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>0.0%</td></tr><tr><td>Inst ≥ 5% + QoQ rising</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>0.9% | trend 0.52pp</td></tr><tr><td>CFO/EBITDA ≥ 0.5</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>1.02x</td></tr></tbody></table>
+        </div>
+        <div class="ev-extra-col">
+          <div class="ev-extra-grid">
+            <div><span class="ev-lbl">CMP</span><span class="ev-val">₹217.36</span></div>
+            <div><span class="ev-lbl">Mcap</span><span class="ev-val">₹2762.0 Cr</span></div>
+            <div><span class="ev-lbl">PE (TTM)</span><span class="ev-val">17.1</span></div>
+            <div><span class="ev-lbl">Piotroski</span><span class="ev-val">9.0/9</span></div>
+            <div><span class="ev-lbl">OPM Ann.</span><span class="ev-val">—</span></div>
+            <div><span class="ev-lbl">Debt/Eq</span><span class="ev-val">0.41</span></div>
+            <div><span class="ev-lbl">Delivery Avg 6M</span><span class="ev-val">38.0%</span></div>
+          </div>
+          <div class="scan-mini">
+            <div class="scan-mini-header">Technical Scan Picks (Last 7 Days)</div>
+            <div><strong>Strategies:</strong> S5A Minervini VCP, S9 Volume Dry-Up RS</div>
+            <div class="scan-mini-levels">
+              <span>Entry: <strong>₹231.59</strong></span>
+              <span>Stop: <strong class="sl">₹210.40</strong></span>
+              <span>Target 1: <strong class="tgt">—</strong></span>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="ev-card" id="sym-SUNLITE">
+      <div class="ev-card-header">
+        <span class="ev-sym">SUNLITE</span>
+        <span class="ev-name">Sunlite Recycling Industries Limited</span>
+        <span class="ev-sector">Industrial & Specialty Growth</span>
+        <span class="ev-score-badge">3/6</span>
+      </div>
+      <div class="ev-body">
+        <div class="ev-filters-col">
+          <table class="ev-table"><thead><tr><th>Filter</th><th>Verdict</th><th>Evidence</th></tr></thead>
+          <tbody><tr><td>Promoter > 66.67%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>74.47%</td></tr><tr><td>PAT > 0 in 8 Qtrs</td><td><span class="badge unver">N/A</span></td><td class='ev-val'>—</td></tr><tr><td>ROCE ≥ 35%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>33.7%</td></tr><tr><td>ROE ≥ 25%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>25.4%</td></tr><tr><td>Pledge ≤ 0%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>0.0%</td></tr><tr><td>Inst ≥ 5% + QoQ rising</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>0.8% | trend 0.11pp</td></tr><tr><td>CFO/EBITDA ≥ 0.5</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>-0.01x</td></tr></tbody></table>
+        </div>
+        <div class="ev-extra-col">
+          <div class="ev-extra-grid">
+            <div><span class="ev-lbl">CMP</span><span class="ev-val">₹710.75</span></div>
+            <div><span class="ev-lbl">Mcap</span><span class="ev-val">₹981.0 Cr</span></div>
+            <div><span class="ev-lbl">PE (TTM)</span><span class="ev-val">23.9</span></div>
+            <div><span class="ev-lbl">Piotroski</span><span class="ev-val">1.0/9</span></div>
+            <div><span class="ev-lbl">OPM Ann.</span><span class="ev-val">—</span></div>
+            <div><span class="ev-lbl">Debt/Eq</span><span class="ev-val">0.13</span></div>
+            <div><span class="ev-lbl">Delivery Avg 6M</span><span class="ev-val">74.3%</span></div>
+          </div>
+          <div class="scan-mini">
+            <div class="scan-mini-header">Technical Scan Picks (Last 7 Days)</div>
+            <div><strong>Strategies:</strong> S1 VPA Base Breakout, S2 Institutional FVG/CE, S5A Minervini VCP, S9 Volume Dry-Up RS</div>
+            <div class="scan-mini-levels">
+              <span>Entry: <strong>₹677.95</strong></span>
+              <span>Stop: <strong class="sl">₹590.58</strong></span>
+              <span>Target 1: <strong class="tgt">—</strong></span>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="ev-card" id="sym-SUNTV">
+      <div class="ev-card-header">
+        <span class="ev-sym">SUNTV</span>
+        <span class="ev-name">Sun TV Network Limited</span>
+        <span class="ev-sector">Communication Services</span>
+        <span class="ev-score-badge">4/7</span>
+      </div>
+      <div class="ev-body">
+        <div class="ev-filters-col">
+          <table class="ev-table"><thead><tr><th>Filter</th><th>Verdict</th><th>Evidence</th></tr></thead>
+          <tbody><tr><td>Promoter > 66.67%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>75.0%</td></tr><tr><td>PAT > 0 in 8 Qtrs</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>8/8 positive</td></tr><tr><td>ROCE ≥ 35%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>16.1%</td></tr><tr><td>ROE ≥ 25%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>11.4%</td></tr><tr><td>Pledge ≤ 0%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>0.0%</td></tr><tr><td>Inst ≥ 5% + QoQ rising</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>16.3% | trend -0.77pp</td></tr><tr><td>CFO/EBITDA ≥ 0.5</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>0.81x</td></tr></tbody></table>
+        </div>
+        <div class="ev-extra-col">
+          <div class="ev-extra-grid">
+            <div><span class="ev-lbl">CMP</span><span class="ev-val">₹629.15</span></div>
+            <div><span class="ev-lbl">Mcap</span><span class="ev-val">₹24794.0 Cr</span></div>
+            <div><span class="ev-lbl">PE (TTM)</span><span class="ev-val">16.2</span></div>
+            <div><span class="ev-lbl">Piotroski</span><span class="ev-val">6.0/9</span></div>
+            <div><span class="ev-lbl">OPM Ann.</span><span class="ev-val">—</span></div>
+            <div><span class="ev-lbl">Debt/Eq</span><span class="ev-val">—</span></div>
+            <div><span class="ev-lbl">Delivery Avg 6M</span><span class="ev-val">28.3%</span></div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <div class="ev-card" id="sym-TRACXN">
+      <div class="ev-card-header">
+        <span class="ev-sym">TRACXN</span>
+        <span class="ev-name">Tracxn Technologies Limited</span>
+        <span class="ev-sector">Technology</span>
+        <span class="ev-score-badge">2/7</span>
+      </div>
+      <div class="ev-body">
+        <div class="ev-filters-col">
+          <table class="ev-table"><thead><tr><th>Filter</th><th>Verdict</th><th>Evidence</th></tr></thead>
+          <tbody><tr><td>Promoter > 66.67%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>34.63%</td></tr><tr><td>PAT > 0 in 8 Qtrs</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>2/8 positive</td></tr><tr><td>ROCE ≥ 35%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>-1.0%</td></tr><tr><td>ROE ≥ 25%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>-15.0%</td></tr><tr><td>Pledge ≤ 0%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>0.0%</td></tr><tr><td>Inst ≥ 5% + QoQ rising</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>4.2% | trend 0.19pp</td></tr><tr><td>CFO/EBITDA ≥ 0.5</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>0.5x</td></tr></tbody></table>
+        </div>
+        <div class="ev-extra-col">
+          <div class="ev-extra-grid">
+            <div><span class="ev-lbl">CMP</span><span class="ev-val">₹31.84</span></div>
+            <div><span class="ev-lbl">Mcap</span><span class="ev-val">₹341.0 Cr</span></div>
+            <div><span class="ev-lbl">PE (TTM)</span><span class="ev-val">-28.3</span></div>
+            <div><span class="ev-lbl">Piotroski</span><span class="ev-val">3.0/9</span></div>
+            <div><span class="ev-lbl">OPM Ann.</span><span class="ev-val">—</span></div>
+            <div><span class="ev-lbl">Debt/Eq</span><span class="ev-val">—</span></div>
+            <div><span class="ev-lbl">Delivery Avg 6M</span><span class="ev-val">64.3%</span></div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <div class="ev-card" id="sym-VILINBIO">
+      <div class="ev-card-header">
+        <span class="ev-sym">VILINBIO</span>
+        <span class="ev-name">Vilin Bio Med Limited</span>
+        <span class="ev-sector">Industrial & Specialty Growth</span>
+        <span class="ev-score-badge">1/6</span>
+      </div>
+      <div class="ev-body">
+        <div class="ev-filters-col">
+          <table class="ev-table"><thead><tr><th>Filter</th><th>Verdict</th><th>Evidence</th></tr></thead>
+          <tbody><tr><td>Promoter > 66.67%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>56.65%</td></tr><tr><td>PAT > 0 in 8 Qtrs</td><td><span class="badge unver">N/A</span></td><td class='ev-val'>—</td></tr><tr><td>ROCE ≥ 35%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>10.2%</td></tr><tr><td>ROE ≥ 25%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>6.8%</td></tr><tr><td>Pledge ≤ 0%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>0.0%</td></tr><tr><td>Inst ≥ 5% + QoQ rising</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>N/A% | trend ?pp</td></tr><tr><td>CFO/EBITDA ≥ 0.5</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>0.22x</td></tr></tbody></table>
+        </div>
+        <div class="ev-extra-col">
+          <div class="ev-extra-grid">
+            <div><span class="ev-lbl">CMP</span><span class="ev-val">₹54.65</span></div>
+            <div><span class="ev-lbl">Mcap</span><span class="ev-val">₹83.0 Cr</span></div>
+            <div><span class="ev-lbl">PE (TTM)</span><span class="ev-val">43.2</span></div>
+            <div><span class="ev-lbl">Piotroski</span><span class="ev-val">6.0/9</span></div>
+            <div><span class="ev-lbl">OPM Ann.</span><span class="ev-val">—</span></div>
+            <div><span class="ev-lbl">Debt/Eq</span><span class="ev-val">0.01</span></div>
+            <div><span class="ev-lbl">Delivery Avg 6M</span><span class="ev-val">95.6%</span></div>
+          </div>
+          <div class="scan-mini">
+            <div class="scan-mini-header">Technical Scan Picks (Last 7 Days)</div>
+            <div><strong>Strategies:</strong> S1 VPA Base Breakout</div>
+            <div class="scan-mini-levels">
+              <span>Entry: <strong>₹39.85</strong></span>
+              <span>Stop: <strong class="sl">₹39.05</strong></span>
+              <span>Target 1: <strong class="tgt">₹78.80</strong></span>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="ev-card" id="sym-WHEELS">
+      <div class="ev-card-header">
+        <span class="ev-sym">WHEELS</span>
+        <span class="ev-name">Wheels India Limited</span>
+        <span class="ev-sector">Consumer Cyclical</span>
+        <span class="ev-score-badge">4/7</span>
+      </div>
+      <div class="ev-body">
+        <div class="ev-filters-col">
+          <table class="ev-table"><thead><tr><th>Filter</th><th>Verdict</th><th>Evidence</th></tr></thead>
+          <tbody><tr><td>Promoter > 66.67%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>56.86%</td></tr><tr><td>PAT > 0 in 8 Qtrs</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>8/8 positive</td></tr><tr><td>ROCE ≥ 35%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>21.9%</td></tr><tr><td>ROE ≥ 25%</td><td><span class="badge fail">FAIL</span></td><td class='ev-val'>14.9%</td></tr><tr><td>Pledge ≤ 0%</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>0.0%</td></tr><tr><td>Inst ≥ 5% + QoQ rising</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>9.8% | trend 1.44pp</td></tr><tr><td>CFO/EBITDA ≥ 0.5</td><td><span class="badge pass">PASS</span></td><td class='ev-val'>1.16x</td></tr></tbody></table>
+        </div>
+        <div class="ev-extra-col">
+          <div class="ev-extra-grid">
+            <div><span class="ev-lbl">CMP</span><span class="ev-val">₹2399.5</span></div>
+            <div><span class="ev-lbl">Mcap</span><span class="ev-val">₹5863.0 Cr</span></div>
+            <div><span class="ev-lbl">PE (TTM)</span><span class="ev-val">35.9</span></div>
+            <div><span class="ev-lbl">Piotroski</span><span class="ev-val">8.0/9</span></div>
+            <div><span class="ev-lbl">OPM Ann.</span><span class="ev-val">—</span></div>
+            <div><span class="ev-lbl">Debt/Eq</span><span class="ev-val">0.66</span></div>
+            <div><span class="ev-lbl">Delivery Avg 6M</span><span class="ev-val">28.4%</span></div>
+          </div>
+          <div class="scan-mini">
+            <div class="scan-mini-header">Technical Scan Picks (Last 7 Days)</div>
+            <div><strong>Strategies:</strong> S1 VPA Base Breakout, S2 Institutional FVG/CE</div>
+            <div class="scan-mini-levels">
+              <span>Entry: <strong>₹1411.00</strong></span>
+              <span>Stop: <strong class="sl">—</strong></span>
+              <span>Target 1: <strong class="tgt">₹2498.00</strong></span>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div style="text-align:center;color:var(--fg3);font-size:11px;padding:20px">
+  Generated by WealthOS AI · 16 Oct 2026 20:00 UTC · Evidence-first · No LLM output used for scores/flags/verdicts
+</div>
+</body>
+</html>

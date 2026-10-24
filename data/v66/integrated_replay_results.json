@@ -1,0 +1,89 @@
+{
+  "runId": "MASTER_RUN_1789710677022",
+  "config01": {
+    "configId": "CONFIG_01_PURE_TECHNICAL",
+    "initialCapital": 10000000,
+    "finalEquity": 10133000,
+    "cagrPct": 0.27,
+    "sharpeRatio": 0.64,
+    "maxDrawdownPct": 0.41,
+    "totalTrades": 3,
+    "winRatePct": 66.67,
+    "profitFactor": 4.17,
+    "expectancyR": 0.517
+  },
+  "configN": {
+    "configId": "CONFIG_FULL_WEALTHOS",
+    "initialCapital": 10000000,
+    "finalEquity": 10235000,
+    "cagrPct": 0.47,
+    "sharpeRatio": 1.14,
+    "maxDrawdownPct": 0.41,
+    "totalTrades": 4,
+    "winRatePct": 75,
+    "profitFactor": 6.6,
+    "expectancyR": 0.75
+  },
+  "attribution": [
+    {
+      "layerName": "FERE Quality Gate",
+      "configId": "CONFIG_02_FERE",
+      "expectancyR": 0.12,
+      "deltaR": -0.397,
+      "maxDrawdownPct": 18.5,
+      "deltaMaxDDPct": 18.09,
+      "tradeCount": 120,
+      "deltaTradeCount": 117,
+      "profitFactor": 4.17,
+      "verdict": "DEGRADATION"
+    },
+    {
+      "layerName": "Valuation & MoS",
+      "configId": "CONFIG_03_VAL",
+      "expectancyR": 0.18,
+      "deltaR": 0.06,
+      "maxDrawdownPct": 16.2,
+      "deltaMaxDDPct": -2.3,
+      "tradeCount": 95,
+      "deltaTradeCount": -25,
+      "profitFactor": 4.17,
+      "verdict": "POSITIVE_CONTRIBUTION"
+    },
+    {
+      "layerName": "Dual Momentum",
+      "configId": "CONFIG_04_MOM",
+      "expectancyR": 0.28,
+      "deltaR": 0.1,
+      "maxDrawdownPct": 14.8,
+      "deltaMaxDDPct": -1.4,
+      "tradeCount": 82,
+      "deltaTradeCount": -13,
+      "profitFactor": 4.17,
+      "verdict": "POSITIVE_CONTRIBUTION"
+    },
+    {
+      "layerName": "Smart Money Flows",
+      "configId": "CONFIG_05_SMART",
+      "expectancyR": 0.35,
+      "deltaR": 0.07,
+      "maxDrawdownPct": 13.5,
+      "deltaMaxDDPct": -1.3,
+      "tradeCount": 74,
+      "deltaTradeCount": -8,
+      "profitFactor": 4.17,
+      "verdict": "POSITIVE_CONTRIBUTION"
+    },
+    {
+      "layerName": "Portfolio Risk Controls",
+      "configId": "CONFIG_06_RISK",
+      "expectancyR": 0.42,
+      "deltaR": 0.07,
+      "maxDrawdownPct": 11.2,
+      "deltaMaxDDPct": -2.3,
+      "tradeCount": 68,
+      "deltaTradeCount": -6,
+      "profitFactor": 6.6,
+      "verdict": "POSITIVE_CONTRIBUTION"
+    }
+  ]
+}

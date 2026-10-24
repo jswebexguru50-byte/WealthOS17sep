@@ -19,6 +19,7 @@ import {
   buildFactIndex,
   buildTechnicalDiagnostics,
   detectFactConflicts,
+  generateEvidenceSummary,
   metricEvidence,
 } from './evidence_policy.mjs';
 import { buildSynthesisInstructions } from './synthesis_contract.mjs';
@@ -136,9 +137,11 @@ function buildQuestionStatus(question, factMap, domains, endpointMap, ohlcv) {
   const checks = [...metrics.map(item => item.available), ...views.map(item => item.available), ...local.map(item => item.available)];
   const available = checks.filter(Boolean).length;
   const status = !checks.length ? 'REVIEW_REQUIRED' : available === checks.length ? 'READY_FOR_ANALYSIS' : available ? 'PARTIAL' : 'DATA_INSUFFICIENT';
+  const evidenceSummary = generateEvidenceSummary({ ...question, status }, factMap, domains, ohlcv);
   return {
     ...question,
     status,
+    evidenceSummary,
     coverage: { available, required: checks.length, pct: checks.length ? Number((available * 100 / checks.length).toFixed(1)) : 0 },
     metricChecks: metrics,
     trendlyneViewChecks: views,
@@ -161,6 +164,7 @@ function markdownFor(bundle) {
   ];
   for (const item of bundle.questions) {
     lines.push(`## ${item.id}. ${item.topic}`, '', `**Question:** ${item.question}`, '', `**Evidence status:** ${item.status} (${item.coverage.available}/${item.coverage.required})`, '');
+    if (item.evidenceSummary) lines.push('', item.evidenceSummary, '');
     const evidence = item.metricChecks.flatMap(check => check.evidence).slice(0, 12);
     if (evidence.length) {
       lines.push('**Available canonical evidence:**', '');
@@ -234,6 +238,26 @@ for (const symbol of symbols) {
   fs.writeFileSync(path.join(symbolDir, 'gap_resolution_plan.json'), JSON.stringify(gapResolutionPlan, null, 2));
   fs.writeFileSync(path.join(symbolDir, 'report_working.md'), markdownFor(bundle));
   fs.writeFileSync(path.join(symbolDir, 'synthesis_instructions.md'), buildSynthesisInstructions(bundle));
+
+  // Step 7b: promote trendlyne_raw.json → trendlyne_mirror_observations + canonical_fact_store
+  const trendlyneRawPath = path.join(symbolDir, 'trendlyne_raw.json');
+  if (fs.existsSync(trendlyneRawPath)) {
+    const promoteScript = path.join(root, 'scripts', 'fundamental', 'institutional29', 'promote_trendlyne_raw.mjs');
+    const promoteResult = spawnSync(process.execPath, [promoteScript, symbol, '--as-of', asOf], {
+      cwd: root, encoding: 'utf8', timeout: 30_000, env: process.env,
+    });
+    if (promoteResult.status === 0) {
+      try {
+        const promoted = JSON.parse(promoteResult.stdout.trim().split('\n').at(-1));
+        process.stderr.write(`[build_bundle] promote: ${symbol} observations=${promoted.observations ?? 0} canonicalFacts=${promoted.canonicalFacts ?? 0} statements=${promoted.statements ?? 0}\n`);
+      } catch { /* non-JSON trailer — ignore */ }
+    } else {
+      process.stderr.write(`[build_bundle] promote_trendlyne_raw failed for ${symbol}:\n${(promoteResult.stderr || '').slice(0, 400)}\n`);
+    }
+  } else {
+    process.stderr.write(`[build_bundle] trendlyne_raw.json not found for ${symbol} — Trendlyne fetch step may not have run\n`);
+  }
+
   bundlesToPersist.push(bundle);
   index.push({ symbol, ...summary, gapActions: gapResolutionPlan.summary.totalActions, p0GapActions: gapResolutionPlan.summary.p0, canonicalFactRows: facts.length, ohlcvStatus: ohlcv.status, latestOhlcvDate: ohlcv.bars.at(-1)?.trade_date || null, output: path.relative(root, symbolDir) });
 }

@@ -1,0 +1,28 @@
+[
+  {
+    "evidenceId": "EV_STL_PROMISE_01",
+    "issuerNseSymbol": "STLNETWORK",
+    "issuerBseCode": "532374",
+    "documentId": "DOC_STL_AR2023",
+    "documentHash": "c501928eb471928ba40192cae981248ba014829bc39104aa1098234af09281cd",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 36,
+    "pagePrinted": 34,
+    "quotedText": "Committed to reduce consolidated net debt below ₹2,500 Cr by FY24 through working capital release and non-core asset divestments.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+  },
+  {
+    "evidenceId": "EV_STL_RESULT_01",
+    "issuerNseSymbol": "STLNETWORK",
+    "issuerBseCode": "532374",
+    "documentId": "DOC_STL_BSE_Q4FY24",
+    "documentHash": "d612039eb471928ba40192cae981248ba014829bc39104aa1098234af09281ce",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 14,
+    "pagePrinted": 14,
+    "quotedText": "Consolidated net debt stood elevated at ₹3,124 Cr at end of FY24 impacted by global optical fiber destocking and delayed North American carrier capex.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  }
+]

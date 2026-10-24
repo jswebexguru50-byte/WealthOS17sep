@@ -1,0 +1,16 @@
+[
+  {
+    "breakerId": "TB_GMDC_CLEARANCE",
+    "name": "Mining Clearance Dependency Breaker",
+    "description": "Major mining block must not suffer regulatory rejection or indefinite delay",
+    "type": "QUALITATIVE",
+    "evaluationMethod": "EVENT_MATCH",
+    "conditionText": "Forest clearance deferred beyond 12 months",
+    "status": "EVIDENCE_UNKNOWN",
+    "severity": "HIGH",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "evidenceIds": [
+      "EV_GMDC_RESULT_01"
+    ]
+  }
+]

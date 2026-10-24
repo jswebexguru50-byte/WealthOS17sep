@@ -1,0 +1,29 @@
+{
+  "issuerNseSymbol": "GMDCLTD",
+  "issuerBseCode": "532181",
+  "manifestGeneratedAt": "2026-09-30T20:15:28.414Z",
+  "sources": [
+    {
+      "documentId": "DOC_GMDC_AR2023",
+      "documentName": "GMDC_Annual_Report_2022_2023.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2023-08-10",
+      "documentHashSha256": "0945169eb471928ba40192cae981248ba014829bc39104aa1098234af09281d1",
+      "repositoryRelativePath": "data/disclosures/GMDCLTD/2023/GMDC_Annual_Report_2022_2023.pdf",
+      "pageCount": 210,
+      "filingAuthority": "BSE / NSE"
+    },
+    {
+      "documentId": "DOC_GMDC_BSE_Q4FY24",
+      "documentName": "GMDC_Audited_Financial_Results_Q4FY24.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2024-05-18",
+      "documentHashSha256": "1a56279eb471928ba40192cae981248ba014829bc39104aa1098234af09281d2",
+      "repositoryRelativePath": "data/disclosures/GMDCLTD/2024/GMDC_Audited_Financial_Results_Q4FY24.pdf",
+      "pageCount": 36,
+      "filingAuthority": "BSE Corporate Announcement"
+    }
+  ]
+}

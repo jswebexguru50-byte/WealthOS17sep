@@ -1,0 +1,14 @@
+{
+  "symbol": "360ONE",
+  "coreThesisStatement": "Dominant Indian private wealth franchise benefiting from financialization of domestic HNIs.",
+  "investmentPillars": [
+    {
+      "pillarId": "PIL_360ONE_AUM",
+      "title": "ARR AUM Compounding",
+      "description": "Net new inflows and high-margin alternative asset management scaling."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_360ONE_YIELD"
+  ]
+}

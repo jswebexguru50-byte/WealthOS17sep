@@ -1,0 +1,14 @@
+{
+  "symbol": "PURVA",
+  "coreThesisStatement": "Pre-sales volume momentum across south and west Indian residential redevelopment markets.",
+  "investmentPillars": [
+    {
+      "pillarId": "PIL_PURVA_PRESALES",
+      "title": "Residential Pre-sales Velocity",
+      "description": "Strong brand pull and 90% pre-sales growth in Bengaluru and Mumbai markets."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_PURVA_LEVERAGE"
+  ]
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "evidenceId": "EV_APOLLO_ORDER_01",
+    "issuerNseSymbol": "APOLLO",
+    "issuerBseCode": "540879",
+    "documentId": "DOC_APOLLO_ORDER_Q4",
+    "documentHash": "18293a4b5c6d7e8f90123456789abcdef0123456789abcdef56789abcdef890a",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 6,
+    "pagePrinted": "5",
+    "quotedText": "Consolidated confirmed defense order book as of 31st March 2024 reached ₹1120 Cr supported by missile homing systems and underwater decoy programs.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_APOLLO_REV_01",
+    "issuerNseSymbol": "APOLLO",
+    "issuerBseCode": "540879",
+    "documentId": "DOC_APOLLO_AR24",
+    "documentHash": "0718293a4b5c6d7e8f90123456789abcdef0123456789abcdef56789abcdef89",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 35,
+    "pagePrinted": "33",
+    "quotedText": "Revenue from operations rose to ₹372 Cr for FY24 as against ₹298 Cr in FY23, demonstrating robust indigenous execution.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

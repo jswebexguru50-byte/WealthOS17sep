@@ -1,0 +1,26 @@
+[
+  {
+    "evidenceId": "EV_ALPEX_CAPACITY_01",
+    "issuerNseSymbol": "ALPEXSOLAR",
+    "issuerBseCode": "544115",
+    "documentId": "DOC_ALPEX_CAPEX_EXP",
+    "documentHash": "d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef4",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 4,
+    "pagePrinted": "3",
+    "quotedText": "Successfully commissioned additional 750 MW solar module line, taking total operational PV module manufacturing capacity to 1200 MW ahead of schedule.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_ALPEX_REV_01",
+    "issuerNseSymbol": "ALPEXSOLAR",
+    "issuerBseCode": "544115",
+    "documentId": "DOC_ALPEX_AR24",
+    "documentHash": "c3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef3",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 32,
+    "pagePrinted": "30",
+    "quotedText": "FY24 revenue recorded at ₹404 Cr with consolidated PAT of ₹34.7 Cr driven by higher shipments of top-con bifacial solar modules.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

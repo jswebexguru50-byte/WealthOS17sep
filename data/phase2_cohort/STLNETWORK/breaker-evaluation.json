@@ -1,0 +1,24 @@
+[
+  {
+    "breakerId": "TB_STL_LEVERAGE",
+    "name": "Debt Service Incurrence Breaker",
+    "description": "Net Debt / EBITDA must not breach 3.5x",
+    "type": "QUANTITATIVE",
+    "evaluationMethod": "METRIC_THRESHOLD",
+    "conditionText": "Net Debt / EBITDA > 3.5",
+    "quantitativeCondition": {
+      "metric": "net_debt_to_ebitda",
+      "operator": ">",
+      "threshold": 3.5,
+      "evaluationPeriod": "annual",
+      "evidenceRequired": true
+    },
+    "status": "ACTIVE",
+    "severity": "HIGH",
+    "rationale": "Breaker triggered: net_debt_to_ebitda (4.2) > threshold (3.5).",
+    "evidenceIds": [
+      "EV_STL_RESULT_01"
+    ],
+    "currentObservedValue": 4.2
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "symbol": "BOROLTD",
+  "coreThesisStatement": "Dominant consumer and laboratory glassware brand with 60%+ market share benefiting from capacity ramp-up and domestic substitution.",
+  "investmentPillars": [
+    {
+      "pillarId": "PIL_BORO_01",
+      "title": "Consumer Brand Monopoly in Borosilicate Glass",
+      "description": "Household name recognition in microwaveable kitchenware and pharma laboratory glassware."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_BORO_LEVERAGE"
+  ]
+}

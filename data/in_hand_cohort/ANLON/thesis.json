@@ -1,0 +1,24 @@
+{
+  "symbol": "ANLON",
+  "coreThesisStatement": "Specialized airport infrastructure and high-barrier aviation engineering supplier.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Niche Dominance",
+      "description": "Sole authorized Indian partner for specialized aviation crash tenders."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Airports Expansion",
+      "description": "Beneficiary of UDAN scheme and 50+ new domestic airport developments."
+    },
+    {
+      "pillarId": "P3",
+      "title": "High Return Ratios",
+      "description": "Clean balance sheet generating steady >20% return on equity."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_ANLON_DEBT"
+  ]
+}

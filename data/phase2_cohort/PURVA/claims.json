@@ -1,0 +1,26 @@
+[
+  {
+    "claimId": "CLM_PURVA_01",
+    "issuerNseSymbol": "PURVA",
+    "issuerBseCode": "532891",
+    "period": "FY24",
+    "category": "FINANCIAL_METRIC",
+    "statement": "Net debt to equity targeted to remain below 1.0x.",
+    "targetMetric": "net_debt_to_equity",
+    "baselineValue": 0.92,
+    "expectedValue": 1,
+    "expectedOutcome": "Net Debt / Equity <= 1.0x",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_PURVA_PROMISE_01",
+    "claimDate": "2023-08-14",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "MISSED",
+    "actualOutcomeMetric": 1.16,
+    "actualOutcomeDescription": "Net Debt to Equity elevated to 1.16x on heavy land capex",
+    "evaluationEvidenceId": "EV_PURVA_RESULT_01",
+    "evaluationDate": "2024-05-27",
+    "evaluationBasis": "BSE Audited Financial Accounts and Leverage Notes",
+    "createdAt": "2023-08-14T10:00:00.000Z"
+  }
+]

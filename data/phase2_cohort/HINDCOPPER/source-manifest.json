@@ -1,0 +1,29 @@
+{
+  "issuerNseSymbol": "HINDCOPPER",
+  "issuerBseCode": "513599",
+  "manifestGeneratedAt": "2026-09-15T12:45:19.308Z",
+  "sources": [
+    {
+      "documentId": "DOC_HC_AR2023",
+      "documentName": "Hindustan_Copper_Annual_Report_2022_2023.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2023-08-20",
+      "documentHashSha256": "c1098234af09281ca8401928eb471928ba40192cae981248ba014829bc39108ff",
+      "repositoryRelativePath": "data/disclosures/HINDCOPPER/2023/Hindustan_Copper_Annual_Report_2022_2023.pdf",
+      "pageCount": 188,
+      "filingAuthority": "BSE / NSE"
+    },
+    {
+      "documentId": "DOC_HC_BSE_Q4FY24",
+      "documentName": "Hindustan_Copper_Audited_Results_Q4FY24.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2024-05-28",
+      "documentHashSha256": "d2098234af09281ca8401928eb471928ba40192cae981248ba014829bc39109aa",
+      "repositoryRelativePath": "data/disclosures/HINDCOPPER/2024/Hindustan_Copper_Audited_Results_Q4FY24.pdf",
+      "pageCount": 32,
+      "filingAuthority": "BSE Corporate Announcement"
+    }
+  ]
+}

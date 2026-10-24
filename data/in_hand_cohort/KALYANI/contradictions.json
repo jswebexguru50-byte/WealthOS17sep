@@ -1,0 +1,33 @@
+{
+  "status": "CONTRADICTIONS_DETECTED",
+  "issuerNseSymbol": "KALYANI",
+  "activeContradictionCount": 1,
+  "contradictions": [
+    {
+      "contradictionId": "CONTRA_CLM_KALYANI_01",
+      "issuerNseSymbol": "KALYANI",
+      "issuerBseCode": "544013",
+      "severity": "HIGH",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_KALYANI_01",
+      "eventId": null,
+      "description": "Management guided 8.0% EBITDA margin in prospectus, but delivered 4.8% in FY24 audited accounts.",
+      "divergenceDetails": {
+        "whatManagementClaimed": "EBITDA margin >= 8.0%",
+        "whatActuallyHappened": "Delivered 4.8% EBITDA margin (missed by 320 bps)",
+        "deltaMetric": "ebitda_margin_pct"
+      },
+      "leftEvidenceId": "EV_KALYANI_PROMISE_01",
+      "rightEvidenceId": "EV_KALYANI_RESULT_01",
+      "supportingEvidenceIds": [
+        "EV_KALYANI_RESULT_01"
+      ],
+      "status": "OPEN",
+      "materiality": "HIGH",
+      "detectedAt": "2024-05-30T10:00:00.000Z",
+      "createdAt": "2026-09-16 07:37:29",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ]
+}

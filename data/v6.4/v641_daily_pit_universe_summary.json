@@ -1,0 +1,12 @@
+{
+  "version": "v6.4.1",
+  "tradingSessionsAudited": 5,
+  "minimumExpected": 500,
+  "maximumExpected": 500,
+  "minimumObserved": 500,
+  "maximumObserved": 500,
+  "averageDailyCoverage": 1,
+  "derivationRule": "Expected membership derived from PIT intervals x trading calendar (not OHLCV)",
+  "status": "PASS_RELATIVE_TO_SUPPLIED_UNIVERSE",
+  "timestamp": "2026-09-17T15:52:31.176Z"
+}

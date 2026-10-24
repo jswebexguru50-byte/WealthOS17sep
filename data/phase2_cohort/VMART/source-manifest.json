@@ -1,0 +1,29 @@
+{
+  "issuerNseSymbol": "VMART",
+  "issuerBseCode": "534976",
+  "manifestGeneratedAt": "2026-09-15T12:45:19.249Z",
+  "sources": [
+    {
+      "documentId": "DOC_VMART_AR2024",
+      "documentName": "V_Mart_Retail_Annual_Report_2023_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-20",
+      "documentHashSha256": "e108234af09281ca8401928eb471928ba40192cae981248ba014829bc39104bb",
+      "repositoryRelativePath": "data/disclosures/VMART/2024/V_Mart_Retail_Annual_Report_2023_2024.pdf",
+      "pageCount": 220,
+      "filingAuthority": "BSE / NSE"
+    },
+    {
+      "documentId": "DOC_VMART_BSE_Q4FY24",
+      "documentName": "V_Mart_Audited_Financial_Results_Q4FY24.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2024-05-24",
+      "documentHashSha256": "f2098234af09281ca8401928eb471928ba40192cae981248ba014829bc39105e",
+      "repositoryRelativePath": "data/disclosures/VMART/2024/V_Mart_Audited_Financial_Results_Q4FY24.pdf",
+      "pageCount": 44,
+      "filingAuthority": "BSE Corporate Announcement"
+    }
+  ]
+}

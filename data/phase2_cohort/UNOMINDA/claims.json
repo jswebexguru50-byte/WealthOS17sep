@@ -1,0 +1,30 @@
+[
+  {
+    "claimId": "CLM_UNO_01",
+    "issuerNseSymbol": "UNOMINDA",
+    "issuerBseCode": "532539",
+    "period": "FY24",
+    "category": "TECHNOLOGY",
+    "statement": "EV kit value per 2W vehicle targeted to exceed ₹25,000.",
+    "targetMetric": "ev_kit_value_inr",
+    "baselineValue": 18000,
+    "expectedValue": 25000,
+    "expectedOutcome": "EV kit value >= ₹25,000",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_UNO_AR24_P56",
+    "claimDate": "2023-08-14",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 27800,
+    "actualOutcomeDescription": "Delivered ₹27,800 EV kit value on BMS and controller commercialization",
+    "evaluationEvidenceId": "EV_UNO_DISCLOSURE_Q4",
+    "evaluationDate": "2024-05-16",
+    "evaluationBasis": "BSE Investor Presentation and Audited Segmental Reports",
+    "createdAt": "2023-08-14T10:00:00.000Z",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_UNOMINDA_01",
+    "publicationDate": "2023-08-14",
+    "publicationDateType": "MANAGEMENT_COMMENT"
+  }
+]

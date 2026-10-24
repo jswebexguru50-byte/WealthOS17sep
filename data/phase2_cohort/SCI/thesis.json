@@ -1,0 +1,14 @@
+{
+  "symbol": "SCI",
+  "coreThesisStatement": "National flag marine carrier trading at significant discount to replacement asset net asset value, driven by cyclical tanker charter rate expansion.",
+  "investmentPillars": [
+    {
+      "pillarId": "PIL_SCI_01",
+      "title": "Crude & Product Tanker Fleet Moat",
+      "description": "Largest domestic fleet of crude and product tankers supplying Indian PSU refineries."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_SCI_FREIGHT_COLLAPSE"
+  ]
+}

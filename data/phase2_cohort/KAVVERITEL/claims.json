@@ -1,0 +1,30 @@
+[
+  {
+    "claimId": "CLM_KAV_01",
+    "issuerNseSymbol": "KAVVERITEL",
+    "issuerBseCode": "590041",
+    "period": "FY24",
+    "category": "DEBT_FINANCING",
+    "statement": "Debt restructuring scheme approval and operational resumption expected in FY24.",
+    "targetMetric": "operational_resumption",
+    "baselineValue": 0,
+    "expectedValue": 1,
+    "expectedOutcome": "Operations resumed under approved resolution",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_KAV_PROMISE_01",
+    "claimDate": "2023-09-15",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "MISSED",
+    "actualOutcomeMetric": 0,
+    "actualOutcomeDescription": "Operations non-functional, negative net worth ₹(182.4) Cr, ongoing DRT recovery",
+    "evaluationEvidenceId": "EV_KAV_RESULT_01",
+    "evaluationDate": "2024-05-30",
+    "evaluationBasis": "BSE Audited Financial Accounts and Auditor Going Concern Disclaimers",
+    "createdAt": "2023-09-15T10:00:00.000Z",
+    "targetTemporalSemantics": "DEADLINE",
+    "factId": "FACT_KAVVERITEL_01",
+    "publicationDate": "2023-09-15",
+    "publicationDateType": "MANAGEMENT_COMMENT"
+  }
+]

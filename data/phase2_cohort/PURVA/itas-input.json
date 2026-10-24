@@ -1,0 +1,10 @@
+{
+  "decisionDate": "2026-09-30",
+  "evaluatedAt": "2026-09-30T10:00:00Z",
+  "symbol": "PURVA",
+  "strategyAgreementCount": 7,
+  "totalStrategiesEvaluated": 20,
+  "signalStrength": 91,
+  "marketRegime": "BULLISH",
+  "quantDirective": "STRONG_BUY"
+}

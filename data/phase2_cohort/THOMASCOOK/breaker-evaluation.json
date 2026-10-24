@@ -1,0 +1,24 @@
+[
+  {
+    "breakerId": "TB_TC_LEVERAGE",
+    "name": "Solvency Preservation Breaker",
+    "description": "Net Debt / EBITDA must not breach 2.0x",
+    "type": "QUANTITATIVE",
+    "evaluationMethod": "METRIC_THRESHOLD",
+    "conditionText": "Net Debt / EBITDA > 2.0",
+    "quantitativeCondition": {
+      "metric": "net_debt_to_ebitda",
+      "operator": ">",
+      "threshold": 2,
+      "evaluationPeriod": "annual",
+      "evidenceRequired": true
+    },
+    "status": "INACTIVE",
+    "severity": "HIGH",
+    "rationale": "Metric within safe boundaries: net_debt_to_ebitda (-0.42) does not violate > 2.",
+    "evidenceIds": [
+      "EV_TC_RESULT_01"
+    ],
+    "currentObservedValue": -0.42
+  }
+]

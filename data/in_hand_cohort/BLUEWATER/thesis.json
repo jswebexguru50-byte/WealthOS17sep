@@ -1,0 +1,24 @@
+{
+  "symbol": "BLUEWATER",
+  "coreThesisStatement": "Regional multimodal freight and cold-chain supply chain provider expanding port-linked corridors.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Port Connectivity",
+      "description": "Direct freight handling across major Western Indian ports."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Cold-Chain Growth",
+      "description": "Expanding temperature-controlled pharma and perishables transport."
+    },
+    {
+      "pillarId": "P3",
+      "title": "Controlled Leverage",
+      "description": "Conservative balance sheet with Net Debt / EBITDA under 1.0x."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_BLUEWATER_LEVERAGE"
+  ]
+}

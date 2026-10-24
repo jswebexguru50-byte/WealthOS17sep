@@ -1,0 +1,26 @@
+[
+  {
+    "claimId": "CLM_GMDC_01",
+    "issuerNseSymbol": "GMDCLTD",
+    "issuerBseCode": "532181",
+    "period": "FY24",
+    "category": "CAPEX",
+    "statement": "Operational commencement of commercial coal blocks by Q4-FY24.",
+    "targetMetric": "mining_commencement",
+    "baselineValue": 0,
+    "expectedValue": 1,
+    "expectedOutcome": "Mining commenced by Q4-FY24",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_GMDC_PROMISE_01",
+    "claimDate": "2023-08-10",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "MISSED",
+    "actualOutcomeMetric": 0,
+    "actualOutcomeDescription": "Commercial extraction deferred due to pending MoEFCC environmental and forest clearances",
+    "evaluationEvidenceId": "EV_GMDC_RESULT_01",
+    "evaluationDate": "2024-05-18",
+    "evaluationBasis": "BSE Statutory Financial and Operational Review Disclosures",
+    "createdAt": "2023-08-10T10:00:00.000Z"
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_SENCO_01",
+    "issuerNseSymbol": "SENCO",
+    "issuerBseCode": "543936",
+    "eventDate": "2024-05-24",
+    "category": "WORKING_CAPITAL_CHANGE",
+    "headline": "Senco Gold working capital borrowing expands to ₹1,420 Cr on high gold prices",
+    "description": "Bank credit facility utilization reaches 82% to fund gold inventory across newly opened stores.",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "BSE_DISCLOSURE",
+    "evidenceId": "EV_SENCO_WC_Q4",
+    "materiality": "MEDIUM",
+    "createdAt": "2024-05-24T09:00:00.000Z"
+  }
+]

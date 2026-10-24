@@ -1,0 +1,30 @@
+[
+  {
+    "claimId": "CLM_NOV_01",
+    "issuerNseSymbol": "NOVARTIND",
+    "issuerBseCode": "500672",
+    "period": "FY24",
+    "category": "CAPITAL_ALLOCATION",
+    "statement": "Distribute substantial portion of free cash flows to shareholders while maintaining zero debt.",
+    "targetMetric": "dividend_payout_pct",
+    "baselineValue": 80,
+    "expectedValue": 85,
+    "expectedOutcome": "Dividend payout ratio >= 85%",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_NOV_AR24_P18",
+    "claimDate": "2023-08-05",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 92,
+    "actualOutcomeDescription": "Delivered ₹47.50/share total dividend, representing 92% earnings payout",
+    "evaluationEvidenceId": "EV_NOV_DISCLOSURE_DIV",
+    "evaluationDate": "2024-05-22",
+    "evaluationBasis": "BSE Dividend Announcement and Audited Accounts",
+    "createdAt": "2023-08-05T10:00:00.000Z",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_NOVARTIND_01",
+    "publicationDate": "2023-08-05",
+    "publicationDateType": "MANAGEMENT_COMMENT"
+  }
+]

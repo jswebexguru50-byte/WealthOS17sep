@@ -1,0 +1,17 @@
+{
+  "version": "v6.4.1",
+  "gitCommit": "v6.4.1_PARALLEL_PIT_RECONSTRUCTION_COMMIT",
+  "nodeVersion": "v24.18.0",
+  "packageLockHash": "949c52d2f37368e118aac1c553896c4a4c96b0752b47239bddcb0322aeaa1fc7",
+  "artifactHashes": {
+    "v63LedgerSha256": "035d8867f1f8dbc65f9fe35ea45263f20f9fee00a48d3d7f48807c24a2afd485",
+    "membershipSourceInventorySha256": "14f6e12c917fde02f2e42e443d084c1947d429b22c6118eec3cf78092788025b",
+    "historicalRebalancesSha256": "aedb9f15a0c932dbf9d5db262dd60b0e0b231fc2a5e965d117f56744e3488113",
+    "rebalanceAuditSha256": "810b62f4919a1a2929e123072279e815530c98be4c323d1c0d0cc2db983adf11",
+    "securityIdentityAuditSha256": "afc04356184d724c2edd6232e78d54583363c063cd84ee7138bd0fd5c8496398",
+    "dailyUniverseSummarySha256": "ce900faf8a7e99a421e72ec160bcdb76dc64ea11338a913796799062e2d00b35",
+    "priceCoverageSha256": "8825b95d8724cc8356abb595567281d696d0ef4a3fac5d702320fc335f18f017",
+    "strategyReadinessSha256": "72cf8ac6190df048ff00de3a0c70309fc504c4623000b250510e7745c1cd8668"
+  },
+  "timestamp": "2026-09-17T15:52:31.184Z"
+}

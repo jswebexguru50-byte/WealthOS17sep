@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_TT_01",
+    "issuerNseSymbol": "TATATECH",
+    "issuerBseCode": "544028",
+    "eventDate": "2024-05-03",
+    "category": "CUSTOMER_SUPPLIER",
+    "headline": "Tata Technologies completes major milestone transition for VinFast EV turnkey program",
+    "description": "Exchange filing confirms shift to support phase with lower quarter-on-quarter billing intensity",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "BSE_DISCLOSURE",
+    "evidenceId": "EV_TT_RESULT_01",
+    "materiality": "MEDIUM",
+    "createdAt": "2024-05-03T09:30:00.000Z"
+  }
+]

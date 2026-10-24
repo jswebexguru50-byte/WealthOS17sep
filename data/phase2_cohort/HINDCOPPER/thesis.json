@@ -1,0 +1,14 @@
+{
+  "symbol": "HINDCOPPER",
+  "coreThesisStatement": "Sovereign pure-play copper mining monopoly poised to benefit from domestic electrification and strategic critical mineral reserves.",
+  "investmentPillars": [
+    {
+      "pillarId": "PIL_HC_01",
+      "title": "Domestic Copper Monopoly",
+      "description": "Sole operating copper ore miner in India holding 100% of sovereign mining leases."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_HC_MINING_HALT"
+  ]
+}

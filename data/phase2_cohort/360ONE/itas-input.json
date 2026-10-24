@@ -1,0 +1,10 @@
+{
+  "decisionDate": "2026-09-30",
+  "evaluatedAt": "2026-09-30T10:00:00Z",
+  "symbol": "360ONE",
+  "strategyAgreementCount": 7,
+  "totalStrategiesEvaluated": 20,
+  "signalStrength": 89,
+  "marketRegime": "BULLISH",
+  "quantDirective": "STRONG_BUY"
+}

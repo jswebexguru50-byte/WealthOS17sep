@@ -1,0 +1,634 @@
+{
+  "symbol": "SOLARINDS",
+  "companyName": "Solar Industries India Limited",
+  "marketCapTier": "LARGECAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-15T12:27:21.042Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "STRONG",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence, credible execution, and zero active thesis breakers.",
+    "allocationRecommendation": "FULL_TARGET_SIZING",
+    "portfolioPolicy": {
+      "directive": "FULL_TARGET_SIZING",
+      "targetSizingCapRatio": 1,
+      "policyRationale": "Full target capital allocation: supported thesis backed by proven management credibility track record (>=80% delivered)."
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_SOLARINDS",
+      "nodes": [
+        {
+          "id": "DEC_SOLARINDS",
+          "type": "DECISION",
+          "refId": "SOLARINDS",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_SOLARINDS",
+          "type": "ALLOCATION",
+          "refId": "FULL_TARGET_SIZING",
+          "label": "Allocation Policy: FULL_TARGET_SIZING (100%)"
+        },
+        {
+          "id": "THESIS_SOLARINDS",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_SOLARINDS",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 96/100)"
+        },
+        {
+          "id": "RISK_SOLARINDS",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_SOLARINDS",
+          "type": "FACT",
+          "refId": "STRONG",
+          "label": "Credibility Track Record: STRONG (Claims: 2)"
+        },
+        {
+          "id": "BRK_TB_SOLAR_LEVERAGE",
+          "type": "RULE",
+          "refId": "TB_SOLAR_LEVERAGE",
+          "version": "2026.09",
+          "label": "Breaker TB_SOLAR_LEVERAGE: INACTIVE (Observed: 0.35)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_SOLARINDS",
+          "to": "DEC_SOLARINDS",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_SOLARINDS",
+          "to": "DEC_SOLARINDS",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_SOLARINDS",
+          "to": "THESIS_SOLARINDS",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_SOLARINDS",
+          "to": "THESIS_SOLARINDS",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_SOLARINDS",
+          "to": "ALLOC_SOLARINDS",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_SOLAR_LEVERAGE",
+          "to": "RISK_SOLARINDS",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_SOLARINDS_20260915",
+      "decisionId": "DECISION_SOLARINDS",
+      "issuerSymbol": "SOLARINDS",
+      "evaluatedAt": "2026-09-15T12:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2",
+      "ontologyVersion": "1.2",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_SOLARINDS_01",
+          "issuerSymbol": "SOLARINDS",
+          "metric": "DEFENSE_ORDER_BOOK",
+          "metricId": "DEFENSE_ORDER_BOOK",
+          "metricFamily": "ORDER_BOOK",
+          "value": 1250,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "STOCK",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_SOLAR_AR24_P42",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_SOLAR_AR24_P42",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_SOLAR_AR24_P42",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_SOLARINDS_02",
+          "issuerSymbol": "SOLARINDS",
+          "metric": "DEFENSE_ORDER_BOOK",
+          "metricId": "DEFENSE_ORDER_BOOK",
+          "metricFamily": "ORDER_BOOK",
+          "value": 1250,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "STOCK",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_SOLAR_DISCLOSURE_Q4",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_SOLAR_DISCLOSURE_Q4",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_SOLAR_DISCLOSURE_Q4",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_SOLARINDS_03",
+          "issuerSymbol": "SOLARINDS",
+          "metric": "FINANCIAL_METRIC",
+          "metricId": "FINANCIAL_METRIC",
+          "metricFamily": "REVENUE",
+          "value": 0,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_SOLAR_ORDER_P1",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_SOLAR_ORDER_P1",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_SOLAR_ORDER_P1",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_SOLARINDS_04",
+          "issuerSymbol": "SOLARINDS",
+          "metric": "NET_DEBT_TO_EBITDA",
+          "metricId": "NET_DEBT_TO_EBITDA",
+          "metricFamily": "LEVERAGE",
+          "value": 0.58,
+          "unit": "MULTIPLE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "RATIO",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_SOLAR_LEVERAGE_Q4",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_SOLAR_LEVERAGE_Q4",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_SOLAR_LEVERAGE_Q4",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_SOLAR_01",
+          "issuerNseSymbol": "SOLARINDS",
+          "issuerBseCode": "500405",
+          "period": "FY25",
+          "category": "ORDER_BOOK",
+          "statement": "Defense order book will scale above ₹1,000 Cr in FY25.",
+          "targetMetric": "defense_order_book_inr_cr",
+          "baselineValue": 650,
+          "expectedValue": 1000,
+          "expectedOutcome": "Order book exceeds ₹1,000 Cr",
+          "expectedTimeframe": "FY25",
+          "evidenceId": "EV_SOLAR_AR24_P42",
+          "claimDate": "2023-08-10",
+          "expectedPeriodStart": "2024-04-01",
+          "expectedPeriodEnd": "2025-03-31",
+          "status": "ACHIEVED_EARLY",
+          "actualOutcomeMetric": 1250,
+          "actualOutcomeDescription": "Cumulative defense order book as of 31 March 2024 stood at ₹1,250 Cr (early achievement of >= ₹1,000 Cr order book threshold ahead of FY25 horizon)",
+          "evaluationEvidenceId": "EV_SOLAR_DISCLOSURE_Q4",
+          "evaluationDate": "2025-05-15",
+          "evaluationBasis": "BSE Audited Financial Results and Segmental Disclosure",
+          "createdAt": "2023-08-10T10:00:00.000Z",
+          "targetTemporalSemantics": "DEADLINE",
+          "factId": "FACT_SOLARINDS_01",
+          "publicationDate": "2023-08-10",
+          "publicationDateType": "MANAGEMENT_COMMENT"
+        },
+        {
+          "claimId": "CLM_SOLAR_02",
+          "issuerNseSymbol": "SOLARINDS",
+          "issuerBseCode": "500405",
+          "period": "FY24",
+          "category": "MARGIN",
+          "statement": "Consolidated EBITDA margin expected to remain resilient above 22%.",
+          "targetMetric": "ebitda_margin_pct",
+          "baselineValue": 20.8,
+          "expectedValue": 22,
+          "expectedOutcome": "EBITDA margin >= 22%",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_SOLAR_AR24_P42",
+          "claimDate": "2023-08-10",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 23.4,
+          "actualOutcomeDescription": "Delivered FY24 EBITDA margin of 23.4% on favorable defense export mix",
+          "evaluationEvidenceId": "EV_SOLAR_DISCLOSURE_Q4",
+          "evaluationDate": "2024-05-15",
+          "evaluationBasis": "Q4 BSE Financial Disclosures review",
+          "createdAt": "2023-08-10T10:00:00.000Z",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_SOLARINDS_01",
+          "publicationDate": "2023-08-10",
+          "publicationDateType": "MANAGEMENT_COMMENT"
+        }
+      ],
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_SOLAR_LEVERAGE",
+          "name": "Solvency Preservation",
+          "description": "Net Debt / EBITDA must not breach 2.5x",
+          "type": "QUANTITATIVE",
+          "evaluationMethod": "METRIC_THRESHOLD",
+          "conditionText": "Net Debt / EBITDA > 2.5",
+          "quantitativeCondition": {
+            "metric": "net_debt_to_ebitda",
+            "operator": ">",
+            "threshold": 2.5,
+            "evaluationPeriod": "annual",
+            "evidenceRequired": true
+          },
+          "status": "INACTIVE",
+          "severity": "CRITICAL",
+          "rationale": "Metric within safe boundaries: net_debt_to_ebitda (0.35) does not violate > 2.5.",
+          "evidenceIds": [
+            "EV_SOLAR_LEVERAGE_Q4"
+          ],
+          "currentObservedValue": 0.35
+        }
+      ],
+      "rawInputContradictions": [],
+      "rawQuantInput": {
+        "symbol": "SOLARINDS",
+        "strategyAgreementCount": 7,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 96,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY"
+      },
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "STRONG",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence, credible execution, and zero active thesis breakers.",
+        "allocationRecommendation": "FULL_TARGET_SIZING"
+      },
+      "portfolioPolicy": {
+        "directive": "FULL_TARGET_SIZING",
+        "targetSizingCapRatio": 1,
+        "policyRationale": "Full target capital allocation: supported thesis backed by proven management credibility track record (>=80% delivered)."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_SOLARINDS",
+        "nodes": [
+          {
+            "id": "DEC_SOLARINDS",
+            "type": "DECISION",
+            "refId": "SOLARINDS",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_SOLARINDS",
+            "type": "ALLOCATION",
+            "refId": "FULL_TARGET_SIZING",
+            "label": "Allocation Policy: FULL_TARGET_SIZING (100%)"
+          },
+          {
+            "id": "THESIS_SOLARINDS",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_SOLARINDS",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 96/100)"
+          },
+          {
+            "id": "RISK_SOLARINDS",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_SOLARINDS",
+            "type": "FACT",
+            "refId": "STRONG",
+            "label": "Credibility Track Record: STRONG (Claims: 2)"
+          },
+          {
+            "id": "BRK_TB_SOLAR_LEVERAGE",
+            "type": "RULE",
+            "refId": "TB_SOLAR_LEVERAGE",
+            "version": "2026.09",
+            "label": "Breaker TB_SOLAR_LEVERAGE: INACTIVE (Observed: 0.35)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_SOLARINDS",
+            "to": "DEC_SOLARINDS",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_SOLARINDS",
+            "to": "DEC_SOLARINDS",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_SOLARINDS",
+            "to": "THESIS_SOLARINDS",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_SOLARINDS",
+            "to": "THESIS_SOLARINDS",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_SOLARINDS",
+            "to": "ALLOC_SOLARINDS",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_SOLAR_LEVERAGE",
+            "to": "RISK_SOLARINDS",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "b6963dfd18747e90e922af52c1dba366ef679de3c7949aed2cd5586615b0039a",
+      "canonicalStateHash": "b6963dfd18747e90e922af52c1dba366ef679de3c7949aed2cd5586615b0039a"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "MEDIUM",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity supported by clean qualitative intelligence, credible execution, and zero active thesis breakers."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 7/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 96/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#SOLARINDS",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Consolidated EBITDA margin expected to remain resilient above 22%.",
+      "detail": "Disclosed actual outcome: Delivered FY24 EBITDA margin of 23.4% on favorable defense export mix",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_SOLAR_AR24_P42 -> Resolution#EV_SOLAR_DISCLOSURE_Q4",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Defense order book will scale above ₹1,000 Cr in FY25.",
+      "detail": "Disclosed actual outcome: Quarterly defense export dispatches reached ₹1,250 Cr",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_SOLAR_AR24_P42 -> Resolution#EV_SOLAR_DISCLOSURE_Q4",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "SOLARINDS",
+    "grade": "STRONG",
+    "totalClaims": 2,
+    "achievedCount": 2,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_SOLAR_02",
+        "statement": "Consolidated EBITDA margin expected to remain resilient above 22%.",
+        "period": "FY24",
+        "expected": "EBITDA margin >= 22%",
+        "actual": "Delivered FY24 EBITDA margin of 23.4% on favorable defense export mix",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_SOLAR_AR24_P42 -> Resolution#EV_SOLAR_DISCLOSURE_Q4"
+      },
+      {
+        "claimId": "CLM_SOLAR_01",
+        "statement": "Defense order book will scale above ₹1,000 Cr in FY25.",
+        "period": "FY25",
+        "expected": "Order book exceeds ₹1,000 Cr",
+        "actual": "Quarterly defense export dispatches reached ₹1,250 Cr",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_SOLAR_AR24_P42 -> Resolution#EV_SOLAR_DISCLOSURE_Q4"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_SOLARINDS"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_SOLARINDS"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-11-20",
+      "source": "BSE_DISCLOSURE",
+      "headline": "Solar Industries bags ₹887 Cr export order for pinaka rocket propellant",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_SOLAR_LEVERAGE",
+      "name": "Solvency Preservation",
+      "description": "Net Debt / EBITDA must not breach 2.5x",
+      "type": "QUANTITATIVE",
+      "evaluationMethod": "METRIC_THRESHOLD",
+      "conditionText": "Net Debt / EBITDA > 2.5",
+      "quantitativeCondition": {
+        "metric": "net_debt_to_ebitda",
+        "operator": ">",
+        "threshold": 2.5,
+        "evaluationPeriod": "annual",
+        "evidenceRequired": true
+      },
+      "status": "INACTIVE",
+      "severity": "CRITICAL",
+      "rationale": "Metric within safe boundaries: net_debt_to_ebitda (0.35) does not violate > 2.5.",
+      "evidenceIds": [
+        "EV_SOLAR_LEVERAGE_Q4"
+      ],
+      "currentObservedValue": 0.35
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "MEDIUM",
+    "directSourcesCount": 4,
+    "corroboratedCount": 2,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Defense ammunition scaling and export runway drive multi-year earnings compounding with pristine solvency and state-level industrial moat.\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

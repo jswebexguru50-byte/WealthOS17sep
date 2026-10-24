@@ -1,0 +1,387 @@
+{
+  "symbol": "360ONE",
+  "companyName": "360 ONE WAM Limited",
+  "marketCapTier": "MIDCAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-30T20:15:28.739Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "MODERATE",
+    "thesisState": "MIXED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "STRONG quantitative setup paired with MODERATE intelligence risk. Partial delivery or margin headwinds warrant constrained sizing (-50%). Portfolio directive: CONSTRAINED_SIZING.",
+    "allocationRecommendation": "CONSTRAINED_SIZING",
+    "portfolioPolicy": {
+      "directive": "CONSTRAINED_SIZING",
+      "targetSizingCapRatio": 0.5,
+      "policyRationale": "Moderate execution slippage or margin compression requires constrained sizing (-50% target) with tight stops."
+    },
+    "provenance": {
+      "quantDerivation": "ITAS-Score-89 -> Threshold(>=75:STRONG, 50-74:MODERATE, 25-49:WEAK, <25:NONE) -> STRONG",
+      "riskDerivation": "BreakersActive:0, Contradictions:1, Unknowns:0 -> Risk: MODERATE",
+      "credibilityDerivation": "ClaimsEvaluated:1 -> CredibilityGrade: INSUFFICIENT_HISTORY",
+      "breakerDerivation": "TB_360ONE_YIELD(INACTIVE)",
+      "thesisDerivation": "Matrix(STRONG, MODERATE) -> Thesis: MIXED",
+      "allocationDerivation": "Precedence(MIXED, MODERATE, INSUFFICIENT_HISTORY) -> Directive: CONSTRAINED_SIZING (Cap: 50%)",
+      "auditTrail": [
+        "ITAS-Engine#360ONE",
+        "EV_360ONE_RESULT_01",
+        "Contradiction#CONTRA_360ONE_01"
+      ]
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_360ONE",
+      "nodes": [
+        {
+          "id": "DEC_360ONE",
+          "type": "DECISION",
+          "refId": "360ONE",
+          "label": "Final Investment Decision: MIXED"
+        },
+        {
+          "id": "ALLOC_360ONE",
+          "type": "ALLOCATION",
+          "refId": "CONSTRAINED_SIZING",
+          "label": "Allocation Policy: CONSTRAINED_SIZING (50%)"
+        },
+        {
+          "id": "THESIS_360ONE",
+          "type": "THESIS",
+          "refId": "MIXED",
+          "label": "Reconciled Thesis State: MIXED"
+        },
+        {
+          "id": "QUANT_360ONE",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 89/100)"
+        },
+        {
+          "id": "RISK_360ONE",
+          "type": "RULE",
+          "refId": "MODERATE",
+          "version": "2026.09",
+          "label": "Intelligence Risk: MODERATE"
+        },
+        {
+          "id": "CRED_360ONE",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_360ONE_YIELD",
+          "type": "RULE",
+          "refId": "TB_360ONE_YIELD",
+          "version": "2026.09",
+          "label": "Breaker TB_360ONE_YIELD: INACTIVE (Observed: 53)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_360ONE",
+          "to": "DEC_360ONE",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_360ONE",
+          "to": "DEC_360ONE",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_360ONE",
+          "to": "THESIS_360ONE",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_360ONE",
+          "to": "THESIS_360ONE",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_360ONE",
+          "to": "ALLOC_360ONE",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_360ONE_YIELD",
+          "to": "RISK_360ONE",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_360ONE_b62cfd5b7df0",
+      "decisionId": "DECISION_360ONE",
+      "issuerSymbol": "360ONE",
+      "evaluatedAt": "2026-09-30T10:00:00Z",
+      "decisionDate": "2026-09-30",
+      "schemaVersion": "3.2.1",
+      "ontologyVersion": "1.3",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawQuantInput": {
+        "decisionDate": "2026-09-30",
+        "evaluatedAt": "2026-09-30T10:00:00Z",
+        "symbol": "360ONE",
+        "strategyAgreementCount": 7,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 89,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY"
+      },
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_360ONE_YIELD",
+          "name": "ARR Yield Floor Breaker",
+          "description": "ARR Yield must not breach 45 bps floor",
+          "type": "QUANTITATIVE",
+          "evaluationMethod": "METRIC_THRESHOLD",
+          "conditionText": "ARR Yield < 45 bps",
+          "quantitativeCondition": {
+            "metric": "arr_yield_bps",
+            "operator": "<",
+            "threshold": 45,
+            "evaluationPeriod": "annual",
+            "evidenceRequired": true
+          },
+          "status": "INACTIVE",
+          "severity": "HIGH",
+          "rationale": "Metric within safe boundaries: arr_yield_bps (53) does not violate < 45.",
+          "evidenceIds": [
+            "EV_360ONE_RESULT_01"
+          ],
+          "currentObservedValue": 53
+        }
+      ],
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "MODERATE",
+        "thesisState": "MIXED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "STRONG quantitative setup paired with MODERATE intelligence risk. Partial delivery or margin headwinds warrant constrained sizing (-50%). Portfolio directive: CONSTRAINED_SIZING.",
+        "allocationRecommendation": "CONSTRAINED_SIZING"
+      },
+      "portfolioPolicy": {
+        "directive": "CONSTRAINED_SIZING",
+        "targetSizingCapRatio": 0.5,
+        "policyRationale": "Moderate execution slippage or margin compression requires constrained sizing (-50% target) with tight stops."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_360ONE",
+        "nodes": [
+          {
+            "id": "DEC_360ONE",
+            "type": "DECISION",
+            "refId": "360ONE",
+            "label": "Final Investment Decision: MIXED"
+          },
+          {
+            "id": "ALLOC_360ONE",
+            "type": "ALLOCATION",
+            "refId": "CONSTRAINED_SIZING",
+            "label": "Allocation Policy: CONSTRAINED_SIZING (50%)"
+          },
+          {
+            "id": "THESIS_360ONE",
+            "type": "THESIS",
+            "refId": "MIXED",
+            "label": "Reconciled Thesis State: MIXED"
+          },
+          {
+            "id": "QUANT_360ONE",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 89/100)"
+          },
+          {
+            "id": "RISK_360ONE",
+            "type": "RULE",
+            "refId": "MODERATE",
+            "version": "2026.09",
+            "label": "Intelligence Risk: MODERATE"
+          },
+          {
+            "id": "CRED_360ONE",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_360ONE_YIELD",
+            "type": "RULE",
+            "refId": "TB_360ONE_YIELD",
+            "version": "2026.09",
+            "label": "Breaker TB_360ONE_YIELD: INACTIVE (Observed: 53)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_360ONE",
+            "to": "DEC_360ONE",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_360ONE",
+            "to": "DEC_360ONE",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_360ONE",
+            "to": "THESIS_360ONE",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_360ONE",
+            "to": "THESIS_360ONE",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_360ONE",
+            "to": "ALLOC_360ONE",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_360ONE_YIELD",
+            "to": "RISK_360ONE",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "b62cfd5b7df02769977923b256b2d6acd8a492fc51c643d88c096eeb3d23d8dc",
+      "canonicalStateHash": "b62cfd5b7df02769977923b256b2d6acd8a492fc51c643d88c096eeb3d23d8dc"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "MIXED",
+    "confidence": "MEDIUM",
+    "decisionImplication": "NEUTRAL",
+    "oneLineSummary": "STRONG quantitative setup paired with MODERATE intelligence risk. Partial delivery or margin headwinds warrant constrained sizing (-50%). Portfolio directive: CONSTRAINED_SIZING."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 7/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 89/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#360ONE",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [
+    {
+      "headline": "Contradiction detected (MEDIUM severity): Management guided ARR yield >= 58 bps, but delivered 53 bps due to institutional fee compression",
+      "detail": "Disclosed divergence between promise and observed financial reality.",
+      "sourceDocType": "CONTRADICTION_ENGINE",
+      "evidenceLineage": "LeftEvidence#EV_360ONE_PROMISE_01 vs RightEvidence#EV_360ONE_RESULT_01",
+      "significance": "HIGH"
+    }
+  ],
+  "walkTheTalk": {
+    "symbol": "360ONE",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 0,
+    "partiallyAchievedCount": 1,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_360ONE_01",
+        "statement": "ARR earning assets yield guided to remain above 58 bps.",
+        "period": "FY24",
+        "expected": "ARR Yield >= 58 bps",
+        "actual": "Delivered ARR yield of 53 bps (compressed by 5 bps due to institutional mix)",
+        "status": "PARTIALLY_ACHIEVED",
+        "evidenceLineage": "Evidence#EV_360ONE_PROMISE_01 -> Resolution#EV_360ONE_RESULT_01"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_360ONE"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_360ONE"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-04-23",
+      "source": "BSE_DISCLOSURE",
+      "headline": "360 ONE ARR earning assets yield contracts 5 bps YoY to 53 bps on institutional mandates",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    }
+  ],
+  "openContradictions": [
+    {
+      "contradictionId": "CONTRA_360ONE_01",
+      "issuerNseSymbol": "360ONE",
+      "issuerBseCode": "542772",
+      "severity": "MEDIUM",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_360ONE_01",
+      "eventId": "EVT_360ONE_01",
+      "description": "Management guided ARR yield >= 58 bps, but delivered 53 bps due to institutional fee compression",
+      "divergenceDetails": {
+        "guidedBps": 58,
+        "deliveredBps": 53
+      },
+      "leftEvidenceId": "EV_360ONE_PROMISE_01",
+      "rightEvidenceId": "EV_360ONE_RESULT_01",
+      "supportingEvidenceIds": [
+        "EV_360ONE_AUM_Q4"
+      ],
+      "status": "OPEN",
+      "materiality": "MODERATE",
+      "detectedAt": "2024-04-23T10:00:00.000Z",
+      "createdAt": "2026-09-30 20:15:28",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_360ONE_YIELD",
+      "name": "ARR Yield Floor Breaker",
+      "description": "ARR Yield must not breach 45 bps floor",
+      "type": "QUANTITATIVE",
+      "evaluationMethod": "METRIC_THRESHOLD",
+      "conditionText": "ARR Yield < 45 bps",
+      "quantitativeCondition": {
+        "metric": "arr_yield_bps",
+        "operator": "<",
+        "threshold": 45,
+        "evaluationPeriod": "annual",
+        "evidenceRequired": true
+      },
+      "status": "INACTIVE",
+      "severity": "HIGH",
+      "rationale": "Metric within safe boundaries: arr_yield_bps (53) does not violate < 45.",
+      "evidenceIds": [
+        "EV_360ONE_RESULT_01"
+      ],
+      "currentObservedValue": 53
+    }
+  ],
+  "importantUnknowns": []
+}

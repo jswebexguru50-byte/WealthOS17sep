@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="265" failures="4" errors="0" time="9.043">
+  <testsuite name="Unit: Forensic Intelligence Layer v2.1 Test Suite" errors="0" failures="1" skipped="0" timestamp="2026-10-24T19:06:51" time="0.079" tests="7">
+    <testcase classname="Unit: Forensic Intelligence Layer v2.1 Test Suite executes all 11 forensic verification suites with zero failures" name="Unit: Forensic Intelligence Layer v2.1 Test Suite executes all 11 forensic verification suites with zero failures" time="0.004">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 11
+Received: 15
+    at Object.&lt;anonymous&gt; (/Users/gopalsharma/WealthOS/src/server/__tests__/unit/ForensicPhase1.test.ts:11:27)</failure>
+    </testcase>
+    <testcase classname="Unit: Forensic Intelligence Layer v2.1 Test Suite Deterministic Financial Forensics (Static API) FSS-01: calculates Beneish M-Score accurately" name="Unit: Forensic Intelligence Layer v2.1 Test Suite Deterministic Financial Forensics (Static API) FSS-01: calculates Beneish M-Score accurately" time="0">
+    </testcase>
+    <testcase classname="Unit: Forensic Intelligence Layer v2.1 Test Suite Deterministic Financial Forensics (Static API) FSS-02: categorizes Altman Z-Score in safe zone for solvent firm" name="Unit: Forensic Intelligence Layer v2.1 Test Suite Deterministic Financial Forensics (Static API) FSS-02: categorizes Altman Z-Score in safe zone for solvent firm" time="0">
+    </testcase>
+    <testcase classname="Unit: Forensic Intelligence Layer v2.1 Test Suite Deterministic Financial Forensics (Static API) FSS-03: scores Piotroski F-Score for high-quality firm" name="Unit: Forensic Intelligence Layer v2.1 Test Suite Deterministic Financial Forensics (Static API) FSS-03: scores Piotroski F-Score for high-quality firm" time="0.001">
+    </testcase>
+    <testcase classname="Unit: Forensic Intelligence Layer v2.1 Test Suite Deterministic Financial Forensics (Static API) FSS-04: evaluates trade viability with 6-rule rubric" name="Unit: Forensic Intelligence Layer v2.1 Test Suite Deterministic Financial Forensics (Static API) FSS-04: evaluates trade viability with 6-rule rubric" time="0">
+    </testcase>
+    <testcase classname="Unit: Forensic Intelligence Layer v2.1 Test Suite Cache Lineage &amp; Content Keying CS-01: generates deterministic sha256 cache keys" name="Unit: Forensic Intelligence Layer v2.1 Test Suite Cache Lineage &amp; Content Keying CS-01: generates deterministic sha256 cache keys" time="0">
+    </testcase>
+    <testcase classname="Unit: Forensic Intelligence Layer v2.1 Test Suite LLM Orchestration Tiers &amp; Cost Budget LLM-01: validates flash model cost ceiling" name="Unit: Forensic Intelligence Layer v2.1 Test Suite LLM Orchestration Tiers &amp; Cost Budget LLM-01: validates flash model cost ceiling" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="TTL Waterfall Feature - 29 Test Cases" errors="0" failures="1" skipped="0" timestamp="2026-10-24T19:06:51" time="0.06" tests="70">
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases TTL Enforcement Data fetched at T=0 is fresh when accessed at T &lt; TTL" name="TTL Waterfall Feature - 29 Test Cases TTL Enforcement Data fetched at T=0 is fresh when accessed at T &lt; TTL" time="0.001">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases TTL Enforcement Data is marked stale when accessed at T &gt;= TTL" name="TTL Waterfall Feature - 29 Test Cases TTL Enforcement Data is marked stale when accessed at T &gt;= TTL" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases TTL Enforcement Stale data is rejected by cache validation layer" name="TTL Waterfall Feature - 29 Test Cases TTL Enforcement Stale data is rejected by cache validation layer" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases TTL Enforcement TTL window respects per-metric configuration" name="TTL Waterfall Feature - 29 Test Cases TTL Enforcement TTL window respects per-metric configuration" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases TTL Enforcement TTL expiration triggers refetch from waterfall chain" name="TTL Waterfall Feature - 29 Test Cases TTL Enforcement TTL expiration triggers refetch from waterfall chain" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Primary Fetcher Success Path Primary fetcher (tier 0) is attempted first" name="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Primary Fetcher Success Path Primary fetcher (tier 0) is attempted first" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Primary Fetcher Success Path Response from primary is returned without checking secondary fetchers" name="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Primary Fetcher Success Path Response from primary is returned without checking secondary fetchers" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Primary Fetcher Success Path Waterfall chain is not invoked if primary succeeds within TTL" name="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Primary Fetcher Success Path Waterfall chain is not invoked if primary succeeds within TTL" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Primary Fetcher Success Path Response includes source metadata" name="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Primary Fetcher Success Path Response includes source metadata" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Primary Fetcher Success Path Timestamp in response matches fetch time" name="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Primary Fetcher Success Path Timestamp in response matches fetch time" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Primary fetcher timeout triggers secondary fetcher attempt" name="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Primary fetcher timeout triggers secondary fetcher attempt" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Secondary fetcher (tier 1) is invoked only if primary fails" name="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Secondary fetcher (tier 1) is invoked only if primary fails" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Secondary response is accepted if primary was unavailable" name="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Secondary response is accepted if primary was unavailable" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Tertiary fetcher (tier 2) is tried if both primary and secondary fail" name="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Tertiary fetcher (tier 2) is tried if both primary and secondary fail" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Fallback order is deterministic and matches configuration" name="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Fallback order is deterministic and matches configuration" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Stale Data Handling Fresh data from primary overrides any cached secondary/tertiary data" name="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Stale Data Handling Fresh data from primary overrides any cached secondary/tertiary data" time="0.001">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Stale Data Handling Stale data from primary is rejected in favor of fresh secondary data" name="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Stale Data Handling Stale data from primary is rejected in favor of fresh secondary data" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Stale Data Handling Waterfall respects freshness &gt; source priority when TTL differs by metric" name="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Stale Data Handling Waterfall respects freshness &gt; source priority when TTL differs by metric" time="0">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: false
+Received: true
+    at Object.&lt;anonymous&gt; (/Users/gopalsharma/WealthOS/tests/remediation/p2-ttl-waterfall.test.ts:442:23)
+    at Promise.finally.completed (/Users/gopalsharma/WealthOS/node_modules/jest-circus/build/jestAdapterInit.js:1834:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/Users/gopalsharma/WealthOS/node_modules/jest-circus/build/jestAdapterInit.js:1774:10)
+    at _callCircusTest (/Users/gopalsharma/WealthOS/node_modules/jest-circus/build/jestAdapterInit.js:1167:40)
+    at _runTestInContext (/Users/gopalsharma/WealthOS/node_modules/jest-circus/build/jestAdapterInit.js:1103:3)
+    at runTestWithContext (/Users/gopalsharma/WealthOS/node_modules/jest-circus/build/jestAdapterInit.js:996:5)
+    at _runTestsForDescribeBlockOnce (/Users/gopalsharma/WealthOS/node_modules/jest-circus/build/jestAdapterInit.js:1008:11)
+    at _runTestsForDescribeBlock (/Users/gopalsharma/WealthOS/node_modules/jest-circus/build/jestAdapterInit.js:824:5)
+    at _runTestsForDescribeBlockOnce (/Users/gopalsharma/WealthOS/node_modules/jest-circus/build/jestAdapterInit.js:1003:11)
+    at _runTestsForDescribeBlock (/Users/gopalsharma/WealthOS/node_modules/jest-circus/build/jestAdapterInit.js:824:5)
+    at _runTestsForDescribeBlockOnce (/Users/gopalsharma/WealthOS/node_modules/jest-circus/build/jestAdapterInit.js:1003:11)
+    at _runTestsForDescribeBlock (/Users/gopalsharma/WealthOS/node_modules/jest-circus/build/jestAdapterInit.js:824:5)
+    at run (/Users/gopalsharma/WealthOS/node_modules/jest-circus/build/jestAdapterInit.js:789:3)
+    at runAndTransformResultsToJestFormat (/Users/gopalsharma/WealthOS/node_modules/jest-circus/build/jestAdapterInit.js:2300:21)
+    at jestAdapter (/Users/gopalsharma/WealthOS/node_modules/jest-circus/build/runner.js:111:19)
+    at runTestInternal (/Users/gopalsharma/WealthOS/node_modules/jest-runner/build/index.js:247:16)
+    at runTest (/Users/gopalsharma/WealthOS/node_modules/jest-runner/build/index.js:315:7)</failure>
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Stale Data Handling Explicitly stale-marked data (TTL expired) never returned if fresher alt exists" name="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Stale Data Handling Explicitly stale-marked data (TTL expired) never returned if fresher alt exists" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Market Data: OHLC has shorter TTL (e.g., 1 minute for intraday)" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Market Data: OHLC has shorter TTL (e.g., 1 minute for intraday)" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Intraday OHLC stales at configured window independent of fundamentals TTL" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Intraday OHLC stales at configured window independent of fundamentals TTL" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Market data TTL is enforced per symbol/timeframe pair" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Market data TTL is enforced per symbol/timeframe pair" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration TTL config is applied consistently across all market data fetchers" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration TTL config is applied consistently across all market data fetchers" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Fundamentals data (earnings, balance sheet) has longer TTL (e.g., 24 hours)" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Fundamentals data (earnings, balance sheet) has longer TTL (e.g., 24 hours)" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Quarterly earnings data is cached longer than daily technical data" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Quarterly earnings data is cached longer than daily technical data" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Fundamentals TTL is per-metric-subtype (earnings vs ratios vs growth)" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Fundamentals TTL is per-metric-subtype (earnings vs ratios vs growth)" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration TTL config changes do not affect already-cached data mid-fetch" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration TTL config changes do not affect already-cached data mid-fetch" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration News data has medium TTL (e.g., 1–2 hours)" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration News data has medium TTL (e.g., 1–2 hours)" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Breaking news shortens TTL for related symbol (triggers aggressive refresh)" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Breaking news shortens TTL for related symbol (triggers aggressive refresh)" time="0.001">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration News TTL is independent of technical/fundamental TTLs" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration News TTL is independent of technical/fundamental TTLs" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration TTL config per news category (earnings alerts vs sector news)" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration TTL config per news category (earnings alerts vs sector news)" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Freshness Validation - Clock Skew Handling System tolerates +/- 2 second clock skew without marking data stale" name="TTL Waterfall Feature - 29 Test Cases Freshness Validation - Clock Skew Handling System tolerates +/- 2 second clock skew without marking data stale" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Freshness Validation - Clock Skew Handling Monotonic clock (steady_clock) is used for TTL calculations if available" name="TTL Waterfall Feature - 29 Test Cases Freshness Validation - Clock Skew Handling Monotonic clock (steady_clock) is used for TTL calculations if available" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Freshness Validation - Clock Skew Handling Wall-clock changes do not cause false positive stale markings" name="TTL Waterfall Feature - 29 Test Cases Freshness Validation - Clock Skew Handling Wall-clock changes do not cause false positive stale markings" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Freshness Validation - Clock Skew Handling TTL expiration is based on fetch time, not current wall-clock accuracy" name="TTL Waterfall Feature - 29 Test Cases Freshness Validation - Clock Skew Handling TTL expiration is based on fetch time, not current wall-clock accuracy" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Stale Data Rejection - Cache Bypass on TTL Expiry Cache lookup returns null if entry TTL has expired" name="TTL Waterfall Feature - 29 Test Cases Stale Data Rejection - Cache Bypass on TTL Expiry Cache lookup returns null if entry TTL has expired" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Stale Data Rejection - Cache Bypass on TTL Expiry Expired cache entry is not served even if waterfall chain would succeed" name="TTL Waterfall Feature - 29 Test Cases Stale Data Rejection - Cache Bypass on TTL Expiry Expired cache entry is not served even if waterfall chain would succeed" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Stale Data Rejection - Cache Bypass on TTL Expiry Cache entry is evicted when TTL expires (memory cleanup)" name="TTL Waterfall Feature - 29 Test Cases Stale Data Rejection - Cache Bypass on TTL Expiry Cache entry is evicted when TTL expires (memory cleanup)" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Stale Data Rejection - Cache Bypass on TTL Expiry Accessing expired cache does not block primary fetcher re-invocation" name="TTL Waterfall Feature - 29 Test Cases Stale Data Rejection - Cache Bypass on TTL Expiry Accessing expired cache does not block primary fetcher re-invocation" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Concurrent Request Handling Race conditions: Two concurrent requests for same metric only trigger one fetch (not N)" name="TTL Waterfall Feature - 29 Test Cases Concurrent Request Handling Race conditions: Two concurrent requests for same metric only trigger one fetch (not N)" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Concurrent Request Handling Second concurrent request waits for first fetch result, respects TTL" name="TTL Waterfall Feature - 29 Test Cases Concurrent Request Handling Second concurrent request waits for first fetch result, respects TTL" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Concurrent Request Handling TTL window is shared across concurrent callers (no separate TTLs per caller)" name="TTL Waterfall Feature - 29 Test Cases Concurrent Request Handling TTL window is shared across concurrent callers (no separate TTLs per caller)" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Concurrent Request Handling Waterfall logic is thread-safe under concurrent access" name="TTL Waterfall Feature - 29 Test Cases Concurrent Request Handling Waterfall logic is thread-safe under concurrent access" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion Error returned if primary + secondary + tertiary all fail" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion Error returned if primary + secondary + tertiary all fail" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion Error message indicates all tiers were exhausted" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion Error message indicates all tiers were exhausted" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion Failed state is not cached (retry on next request is permitted)" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion Failed state is not cached (retry on next request is permitted)" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion Individual tier error reasons are logged for debugging" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion Individual tier error reasons are logged for debugging" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: Timeout errors trigger next tier in chain" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: Timeout errors trigger next tier in chain" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: DNS resolution failures trigger next tier" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: DNS resolution failures trigger next tier" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: HTTP 5xx errors trigger next tier" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: HTTP 5xx errors trigger next tier" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: 4xx errors do not trigger fallback (short-circuit)" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: 4xx errors do not trigger fallback (short-circuit)" time="0.001">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: Connection refused errors are treated as tier failure" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: Connection refused errors are treated as tier failure" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Missing metric type TTL config: System defaults to safe TTL (shorter) if config key missing" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Missing metric type TTL config: System defaults to safe TTL (shorter) if config key missing" time="0.001">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Missing metric type TTL config: Warning logged when using default TTL" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Missing metric type TTL config: Warning logged when using default TTL" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Missing metric type TTL config: Fetch is not blocked due to missing config" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Missing metric type TTL config: Fetch is not blocked due to missing config" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Missing metric type TTL config: Default TTL is consistent across app restarts" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Missing metric type TTL config: Default TTL is consistent across app restarts" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: TTL = 0 means data is always treated as stale (no caching)" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: TTL = 0 means data is always treated as stale (no caching)" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: Each access triggers fresh fetch from waterfall" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: Each access triggers fresh fetch from waterfall" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: Performance impact is acceptable (load-shedding documented)" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: Performance impact is acceptable (load-shedding documented)" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: Zero TTL config is validated at startup, warning issued" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: Zero TTL config is validated at startup, warning issued" time="0.001">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Negative TTL values are rejected (schema validation fails)" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Negative TTL values are rejected (schema validation fails)" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Non-integer TTL values are rejected" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Non-integer TTL values are rejected" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Invalid config prevents app startup (early fail)" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Invalid config prevents app startup (early fail)" time="0.001">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Error message indicates config key that is invalid" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Error message indicates config key that is invalid" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Multi-Fetcher Coordination &amp; Error Propagation Multi-Fetcher: Market data TTL does not interfere with fundamentals TTL" name="TTL Waterfall Feature - 29 Test Cases Multi-Fetcher Coordination &amp; Error Propagation Multi-Fetcher: Market data TTL does not interfere with fundamentals TTL" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Multi-Fetcher Coordination &amp; Error Propagation Error Propagation: Primary fails with 500, secondary with 503" name="TTL Waterfall Feature - 29 Test Cases Multi-Fetcher Coordination &amp; Error Propagation Error Propagation: Primary fails with 500, secondary with 503" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases TTL Tracking &amp; Cache Invalidation TTL Tracking: Response includes fetchedAt, ttl, and expiresAt" name="TTL Waterfall Feature - 29 Test Cases TTL Tracking &amp; Cache Invalidation TTL Tracking: Response includes fetchedAt, ttl, and expiresAt" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases TTL Tracking &amp; Cache Invalidation Cache Invalidation: Manual invalidation forces refetch on next request" name="TTL Waterfall Feature - 29 Test Cases TTL Tracking &amp; Cache Invalidation Cache Invalidation: Manual invalidation forces refetch on next request" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Monitoring &amp; Integration Monitoring: System tracks cache evictions and metrics" name="TTL Waterfall Feature - 29 Test Cases Monitoring &amp; Integration Monitoring: System tracks cache evictions and metrics" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Monitoring &amp; Integration Integration: WebSocket stream data respects TTL" name="TTL Waterfall Feature - 29 Test Cases Monitoring &amp; Integration Integration: WebSocket stream data respects TTL" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="Unit: RecommendationOutcomeAuditor" errors="0" failures="1" skipped="0" timestamp="2026-10-24T19:06:51" time="0.053" tests="6">
+    <testcase classname="Unit: RecommendationOutcomeAuditor U-ROA-01: auditActiveRecommendations with empty ledger returns { audited: 0, updated: 0 } with no DB writes" name="Unit: RecommendationOutcomeAuditor U-ROA-01: auditActiveRecommendations with empty ledger returns { audited: 0, updated: 0 } with no DB writes" time="0.017">
+    </testcase>
+    <testcase classname="Unit: RecommendationOutcomeAuditor U-ROA-02: Single ACTIVE LONG recommendation where price &gt;= target_1 updates status to TARGET_1_HIT and stop_loss to entry_price" name="Unit: RecommendationOutcomeAuditor U-ROA-02: Single ACTIVE LONG recommendation where price &gt;= target_1 updates status to TARGET_1_HIT and stop_loss to entry_price" time="0.001">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: &quot;TARGET_1_HIT&quot;
+Received: &quot;HIGH_CONVICTION_GATE&quot;
+    at Object.&lt;anonymous&gt; (/Users/gopalsharma/WealthOS/src/server/__tests__/unit/RecommendationOutcomeAuditor.test.ts:63:36)</failure>
+    </testcase>
+    <testcase classname="Unit: RecommendationOutcomeAuditor U-ROA-03: STOP-LOSS breach triggers CausalPostMortemService.conductPostMortem exactly once with correct context" name="Unit: RecommendationOutcomeAuditor U-ROA-03: STOP-LOSS breach triggers CausalPostMortemService.conductPostMortem exactly once with correct context" time="0">
+    </testcase>
+    <testcase classname="Unit: RecommendationOutcomeAuditor U-ROA-04: Recommendation with missing price in Prices table uses fallback current_price and leaves status unchanged" name="Unit: RecommendationOutcomeAuditor U-ROA-04: Recommendation with missing price in Prices table uses fallback current_price and leaves status unchanged" time="0.001">
+    </testcase>
+    <testcase classname="Unit: RecommendationOutcomeAuditor U-ROA-05: Invalid action string (e.g. HOLD) is skipped without error and without DB mutation" name="Unit: RecommendationOutcomeAuditor U-ROA-05: Invalid action string (e.g. HOLD) is skipped without error and without DB mutation" time="0">
+    </testcase>
+    <testcase classname="Unit: RecommendationOutcomeAuditor U-ROA-06: Simulated DB error on dbAll is caught, logged with console.error, and returns { audited: 0, updated: 0 }" name="Unit: RecommendationOutcomeAuditor U-ROA-06: Simulated DB error on dbAll is caught, logged with console.error, and returns { audited: 0, updated: 0 }" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="Unit: AutonomousSelfLearningService" errors="0" failures="1" skipped="0" timestamp="2026-10-24T19:06:51" time="0.038" tests="5">
+    <testcase classname="Unit: AutonomousSelfLearningService U-SL-01: initializeBaselineRules is idempotent and calling twice does not duplicate rows" name="Unit: AutonomousSelfLearningService U-SL-01: initializeBaselineRules is idempotent and calling twice does not duplicate rows" time="0.015">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 5
+Received: 7
+    at Object.&lt;anonymous&gt; (/Users/gopalsharma/WealthOS/src/server/__tests__/unit/AutonomousSelfLearningService.test.ts:28:36)</failure>
+    </testcase>
+    <testcase classname="Unit: AutonomousSelfLearningService U-SL-02: Decay weight calculation for a 10-day event matches exp(-lambda * 10) ~= 0.59 within 0.01 tolerance" name="Unit: AutonomousSelfLearningService U-SL-02: Decay weight calculation for a 10-day event matches exp(-lambda * 10) ~= 0.59 within 0.01 tolerance" time="0.001">
+    </testcase>
+    <testcase classname="Unit: AutonomousSelfLearningService U-SL-03: MIN_SAMPLE_SIZE enforcement - less than 5 events results in no mutation logged" name="Unit: AutonomousSelfLearningService U-SL-03: MIN_SAMPLE_SIZE enforcement - less than 5 events results in no mutation logged" time="0">
+    </testcase>
+    <testcase classname="Unit: AutonomousSelfLearningService U-SL-04: Rule rollback API updates status to ROLLED_BACK and records updatedAt" name="Unit: AutonomousSelfLearningService U-SL-04: Rule rollback API updates status to ROLLED_BACK and records updatedAt" time="0">
+    </testcase>
+    <testcase classname="Unit: AutonomousSelfLearningService U-SL-05: Invalid rule ID for rollback returns false and does not modify DB" name="Unit: AutonomousSelfLearningService U-SL-05: Invalid rule ID for rollback returns false and does not modify DB" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="Unit: PaperTradingPotService" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:06:59" time="0.08" tests="12">
+    <testcase classname="Unit: PaperTradingPotService U-PT-01: Conviction gate rejects when probability_pct &lt; 70" name="Unit: PaperTradingPotService U-PT-01: Conviction gate rejects when probability_pct &lt; 70" time="0.017">
+    </testcase>
+    <testcase classname="Unit: PaperTradingPotService U-PT-02: Conviction gate rejects when confidence_score &lt; 65" name="Unit: PaperTradingPotService U-PT-02: Conviction gate rejects when confidence_score &lt; 65" time="0">
+    </testcase>
+    <testcase classname="Unit: PaperTradingPotService U-PT-03: Circuit breaker active (is_circuit_breaker_tripped = 1) blocks entry" name="Unit: PaperTradingPotService U-PT-03: Circuit breaker active (is_circuit_breaker_tripped = 1) blocks entry" time="0.002">
+    </testcase>
+    <testcase classname="Unit: PaperTradingPotService U-PT-04: Max open positions (8) reached blocks further entry" name="Unit: PaperTradingPotService U-PT-04: Max open positions (8) reached blocks further entry" time="0">
+    </testcase>
+    <testcase classname="Unit: PaperTradingPotService U-PT-05: Sector cap (3 positions or &gt; 30% NAV) blocks entry" name="Unit: PaperTradingPotService U-PT-05: Sector cap (3 positions or &gt; 30% NAV) blocks entry" time="0">
+    </testcase>
+    <testcase classname="Unit: PaperTradingPotService U-PT-06: Successful entry applies slippage (1.0005) and calculates friction (STT + Fixed fee)" name="Unit: PaperTradingPotService U-PT-06: Successful entry applies slippage (1.0005) and calculates friction (STT + Fixed fee)" time="0.008">
+    </testcase>
+    <testcase classname="Unit: PaperTradingPotService U-PT-07: Position sizing respects Half-Kelly bounds (2% - 8% of NAV)" name="Unit: PaperTradingPotService U-PT-07: Position sizing respects Half-Kelly bounds (2% - 8% of NAV)" time="0">
+    </testcase>
+    <testcase classname="Unit: PaperTradingPotService U-PT-08: Partial exit at T1 halves quantity, sets trailing SL to entry_price, and records friction" name="Unit: PaperTradingPotService U-PT-08: Partial exit at T1 halves quantity, sets trailing SL to entry_price, and records friction" time="0.003">
+    </testcase>
+    <testcase classname="Unit: PaperTradingPotService U-PT-09: Full close at T2 realizes full P&amp;L, sets status to CLOSED_PROFIT, and records exit STT + fee" name="Unit: PaperTradingPotService U-PT-09: Full close at T2 realizes full P&amp;L, sets status to CLOSED_PROFIT, and records exit STT + fee" time="0">
+    </testcase>
+    <testcase classname="Unit: PaperTradingPotService U-PT-10: Stop-loss breach after partial exit sets exitReason TRAILING_STOP_HIT and status CLOSED_LOSS" name="Unit: PaperTradingPotService U-PT-10: Stop-loss breach after partial exit sets exitReason TRAILING_STOP_HIT and status CLOSED_LOSS" time="0.001">
+    </testcase>
+    <testcase classname="Unit: PaperTradingPotService U-PT-11: Circuit breaker evaluation trips when drawdown &gt;= 20%" name="Unit: PaperTradingPotService U-PT-11: Circuit breaker evaluation trips when drawdown &gt;= 20%" time="0">
+    </testcase>
+    <testcase classname="Unit: PaperTradingPotService U-PT-12: DB failure during ensurePotsInitialized is caught, logged, and does not crash process" name="Unit: PaperTradingPotService U-PT-12: DB failure during ensurePotsInitialized is caught, logged, and does not crash process" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="Unit: CausalPostMortemService" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:06:59" time="0.061" tests="6">
+    <testcase classname="Unit: CausalPostMortemService U-CPM-01: Volume surge &lt; 1.35 includes VOLUME_EXHAUSTION_TRAP in compound causes" name="Unit: CausalPostMortemService U-CPM-01: Volume surge &lt; 1.35 includes VOLUME_EXHAUSTION_TRAP in compound causes" time="0.015">
+    </testcase>
+    <testcase classname="Unit: CausalPostMortemService U-CPM-02: temporalContext.isExpiryWeek true adds FNO_DERIVATIVES_UNWINDING" name="Unit: CausalPostMortemService U-CPM-02: temporalContext.isExpiryWeek true adds FNO_DERIVATIVES_UNWINDING" time="0.001">
+    </testcase>
+    <testcase classname="Unit: CausalPostMortemService U-CPM-03: Multiple failures ensure weights sum &lt;= 100 and primary is the highest weight" name="Unit: CausalPostMortemService U-CPM-03: Multiple failures ensure weights sum &lt;= 100 and primary is the highest weight" time="0">
+    </testcase>
+    <testcase classname="Unit: CausalPostMortemService U-CPM-04: Missing optional volumeSurgeRatio defaults to 1.15 and triggers low-volume rule" name="Unit: CausalPostMortemService U-CPM-04: Missing optional volumeSurgeRatio defaults to 1.15 and triggers low-volume rule" time="0">
+    </testcase>
+    <testcase classname="Unit: CausalPostMortemService U-CPM-05: DB insertion error is logged and re-thrown for higher-level handling" name="Unit: CausalPostMortemService U-CPM-05: DB insertion error is logged and re-thrown for higher-level handling" time="0.001">
+    </testcase>
+    <testcase classname="Unit: CausalPostMortemService U-CPM-06: conductPostMortem returns a fully-typed PostMortemReport with all mandatory fields present and correctly typed" name="Unit: CausalPostMortemService U-CPM-06: conductPostMortem returns a fully-typed PostMortemReport with all mandatory fields present and correctly typed" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="trendlyneMcp route helpers" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:06:59" time="0.078" tests="2">
+    <testcase classname="trendlyneMcp route helpers validates input" name="trendlyneMcp route helpers validates input" time="0.002">
+    </testcase>
+    <testcase classname="trendlyneMcp route helpers isolates per-symbol errors" name="trendlyneMcp route helpers isolates per-symbol errors" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="Architecture: Deterministic analytical identity" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:07:00" time="0.055" tests="115">
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/AutonomousAcquisitionManager.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/AutonomousAcquisitionManager.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/CommitmentExtractor.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/CommitmentExtractor.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/EventClassifier.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/EventClassifier.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/ExchangeDisclosureAcquisitionAdapter.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/ExchangeDisclosureAcquisitionAdapter.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/FinancialResultNormalizer.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/FinancialResultNormalizer.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/SourceDocumentIngestionPipeline.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/SourceDocumentIngestionPipeline.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/adapters/AnnualReportAdapter.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/adapters/AnnualReportAdapter.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/adapters/CorporateActionAdapter.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/adapters/CorporateActionAdapter.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/adapters/ExchangeAnnouncementAdapter.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/adapters/ExchangeAnnouncementAdapter.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/adapters/FinancialResultsAdapter.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/adapters/FinancialResultsAdapter.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/adapters/InvestorPresentationAdapter.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/adapters/InvestorPresentationAdapter.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/adapters/ShareholdingAdapter.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/adapters/ShareholdingAdapter.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/adapters/SourceAdapter.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/adapters/SourceAdapter.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/assembler/CanonicalFactService.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/assembler/CanonicalFactService.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/assembler/CompanyAnalyticalStateAssembler.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/assembler/CompanyAnalyticalStateAssembler.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/assembler/PeriodAlignmentService.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/assembler/PeriodAlignmentService.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/attention/AttentionEngine.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/attention/AttentionEngine.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/attention/QuestionEngine.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/attention/QuestionEngine.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/builders/FundamentalAnalysisBuilder.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/builders/FundamentalAnalysisBuilder.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/business/BusinessDriverEngine.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/business/BusinessDriverEngine.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/business/CompanyBusinessProfile.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/business/CompanyBusinessProfile.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/business/CompanyDriverRegistry.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/business/CompanyDriverRegistry.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/business/FundamentalIntelligenceEngine.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/business/FundamentalIntelligenceEngine.ts — no Date.now() or Math.random() in ID generation" time="0.001">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/business/SectorArchetypeRegistry.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/business/SectorArchetypeRegistry.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/catalysts/CatalystEngine.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/catalysts/CatalystEngine.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/changes/SinceLastReview.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/changes/SinceLastReview.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/AnalysisContext.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/AnalysisContext.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/AnalysisModule.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/AnalysisModule.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/AnalysisSession.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/AnalysisSession.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/AnalysisTelemetry.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/AnalysisTelemetry.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/AttentionContracts.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/AttentionContracts.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/BusinessDriverContracts.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/BusinessDriverContracts.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/CanonicalFact.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/CanonicalFact.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/CompanyEvent.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/CompanyEvent.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/CompanySnapshot.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/CompanySnapshot.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/ContradictionContracts.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/ContradictionContracts.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/CoverageContracts.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/CoverageContracts.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/DataStatus.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/DataStatus.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/DeltaContracts.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/DeltaContracts.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/EngineManifest.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/EngineManifest.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/EvidenceAssessment.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/EvidenceAssessment.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/EvidenceRef.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/EvidenceRef.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/IntelligenceAssertion.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/IntelligenceAssertion.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/IntelligenceFact.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/IntelligenceFact.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/IntelligenceResult.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/IntelligenceResult.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/ManagementContracts.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/ManagementContracts.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/ModuleResult.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/ModuleResult.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/Provenance.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/Provenance.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/SecurityIdentity.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/SecurityIdentity.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/SourceDocument.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/SourceDocument.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/ThesisContracts.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/ThesisContracts.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/WatchContracts.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/WatchContracts.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/index.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/index.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contradictions/ContradictionEngine.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contradictions/ContradictionEngine.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contradictions/ContradictionStore.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contradictions/ContradictionStore.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/coordinator/CompanyRefreshCoordinator.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/coordinator/CompanyRefreshCoordinator.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/core/CanonicalFactRepository.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/core/CanonicalFactRepository.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/core/CompanyEventRepository.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/core/CompanyEventRepository.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/core/CompanySnapshotRepository.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/core/CompanySnapshotRepository.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/core/EvidenceRepository.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/core/EvidenceRepository.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/core/ManagementCommitmentRepository.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/core/ManagementCommitmentRepository.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/core/PriceSeriesRepository.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/core/PriceSeriesRepository.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/core/SourceDocumentRepository.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/core/SourceDocumentRepository.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/core/WatchRuleRepository.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/core/WatchRuleRepository.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/delta/CompanyDeltaEngine.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/delta/CompanyDeltaEngine.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/domain/BusinessModelClassifier.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/domain/BusinessModelClassifier.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/domain/MasterFieldCatalog.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/domain/MasterFieldCatalog.ts — no Date.now() or Math.random() in ID generation" time="0.001">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/engines/QglpEngine.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/engines/QglpEngine.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/engines/QglpScoringRules.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/engines/QglpScoringRules.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/freshness/FreshnessEngine.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/freshness/FreshnessEngine.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/inbox/IntelligenceInboxService.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/inbox/IntelligenceInboxService.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/kpi/CompanyKpiProfiles.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/kpi/CompanyKpiProfiles.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/kpi/OperatingKpiRegistry.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/kpi/OperatingKpiRegistry.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/kpi/OperatingKpiService.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/kpi/OperatingKpiService.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/management/CommitmentMatcher.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/management/CommitmentMatcher.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/management/CommitmentSupersessionEngine.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/management/CommitmentSupersessionEngine.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/management/ManagementIntelligenceEngine.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/management/ManagementIntelligenceEngine.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/management/NarrativeChangeEngine.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/management/NarrativeChangeEngine.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/BusinessInflectionModule.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/BusinessInflectionModule.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/CanonicalFactSelector.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/CanonicalFactSelector.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/FereModuleAdapter.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/FereModuleAdapter.ts — no Date.now() or Math.random() in ID generation" time="0.001">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/FundamentalExperienceBuilder.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/FundamentalExperienceBuilder.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/FundamentalModuleAdapter.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/FundamentalModuleAdapter.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/ManagementModuleAdapter.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/ManagementModuleAdapter.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/MarketContextModuleAdapter.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/MarketContextModuleAdapter.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/QglpModuleAdapter.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/QglpModuleAdapter.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/RecentAccumulationEngine.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/RecentAccumulationEngine.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/TechnicalModuleAdapter.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/TechnicalModuleAdapter.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/ValuationModuleAdapter.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/ValuationModuleAdapter.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/index.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/index.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/qualitative/QualitativeEvidenceExtractor.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/qualitative/QualitativeEvidenceExtractor.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/qualitative/QualitativeSignalClassifier.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/qualitative/QualitativeSignalClassifier.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/risks/RiskEngine.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/risks/RiskEngine.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/safety/ClaimSafetyGate.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/safety/ClaimSafetyGate.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/thesis/ThesisEngine.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/thesis/ThesisEngine.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/thesis/ThesisRevisionStore.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/thesis/ThesisRevisionStore.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/timeline/CompanyTimelineEngine.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/timeline/CompanyTimelineEngine.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/types/AttentionPayload.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/types/AttentionPayload.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/types/BusinessDriverPayload.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/types/BusinessDriverPayload.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/types/BusinessInflectionPayload.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/types/BusinessInflectionPayload.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/types/CompanyIntelligenceResponse.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/types/CompanyIntelligenceResponse.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/types/ContradictionPayload.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/types/ContradictionPayload.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/types/DeltaPayload.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/types/DeltaPayload.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/types/FerePayload.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/types/FerePayload.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/types/FundamentalExperienceTypes.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/types/FundamentalExperienceTypes.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/types/FundamentalPayload.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/types/FundamentalPayload.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/types/ManagementPayload.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/types/ManagementPayload.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/types/MarketContextPayload.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/types/MarketContextPayload.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/types/QglpPayload.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/types/QglpPayload.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/types/TechnicalPayload.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/types/TechnicalPayload.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/types/ThesisPayload.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/types/ThesisPayload.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/types/ValuationPayload.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/types/ValuationPayload.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/types/index.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/types/index.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/validation/CrossModuleConsistencyValidator.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/validation/CrossModuleConsistencyValidator.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/valuation/ValuationIntelligenceEngine.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/valuation/ValuationIntelligenceEngine.ts — no Date.now() or Math.random() in ID generation" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="Architecture: V2 no legacy fallback" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:07:00" time="0.046" tests="37">
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/aiStudioProxyRouter.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/aiStudioProxyRouter.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/bankFds.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/bankFds.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/bedrock.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/bedrock.ts — no V1 data.* field access" time="0.001">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/brokerIntegrations.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/brokerIntegrations.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/commandCenter.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/commandCenter.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/currencyRates.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/currencyRates.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/documentVault.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/documentVault.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/dossierRoutes.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/dossierRoutes.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/entryPlanRoutes.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/entryPlanRoutes.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/evidenceRoutes.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/evidenceRoutes.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/familyGovernance.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/familyGovernance.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/forensicRoutes.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/forensicRoutes.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/imports.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/imports.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/infra.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/infra.ts — no V1 data.* field access" time="0.001">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/kite.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/kite.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/knowledgeIntelligence.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/knowledgeIntelligence.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/masterTickers.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/masterTickers.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/mcpRouter.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/mcpRouter.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/nri.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/nri.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/nriWorkflow.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/nriWorkflow.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/portfolios.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/portfolios.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/quantRoutes.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/quantRoutes.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/reconciliationAudit.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/reconciliationAudit.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/regimeBacktest.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/regimeBacktest.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/remoteBridgeRouter.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/remoteBridgeRouter.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/reports.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/reports.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/riskPolicies.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/riskPolicies.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/settings.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/settings.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/shared.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/shared.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/stockscansRoutes.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/stockscansRoutes.ts — no V1 data.* field access" time="0.003">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/strategies.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/strategies.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/system.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/system.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/transactions.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/transactions.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/trendlyneMcp.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/trendlyneMcp.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/zerodha.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/zerodha.ts — no V1 data.* field access" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback CompanySnapshotRepository: evidenceHash is independent of canonicalFactHash legacy rows are flagged with LEGACY_COMPAT prefix — not silently aliased" name="Architecture: V2 no legacy fallback CompanySnapshotRepository: evidenceHash is independent of canonicalFactHash legacy rows are flagged with LEGACY_COMPAT prefix — not silently aliased" time="0">
+    </testcase>
+    <testcase classname="Architecture: V2 no legacy fallback CompanySnapshotRepository: evidenceHash is independent of canonicalFactHash saveSnapshot writes analytical_hash and module_hashes as separate columns" name="Architecture: V2 no legacy fallback CompanySnapshotRepository: evidenceHash is independent of canonicalFactHash saveSnapshot writes analytical_hash and module_hashes as separate columns" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="PIT Contract — pitStatus mandatory" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:07:00" time="0.038" tests="5">
+    <testcase classname="PIT Contract — pitStatus mandatory EvidenceRef pitStatus is a required field (not optional)" name="PIT Contract — pitStatus mandatory EvidenceRef pitStatus is a required field (not optional)" time="0.001">
+    </testcase>
+    <testcase classname="PIT Contract — pitStatus mandatory PIT_UNKNOWN evidence must have null availableAt" name="PIT Contract — pitStatus mandatory PIT_UNKNOWN evidence must have null availableAt" time="0">
+    </testcase>
+    <testcase classname="PIT Contract — pitStatus mandatory documentDate is nullable — no fabricated today date" name="PIT Contract — pitStatus mandatory documentDate is nullable — no fabricated today date" time="0">
+    </testcase>
+    <testcase classname="PIT Contract — pitStatus mandatory historical replay rejects PIT_INFERRED evidence" name="PIT Contract — pitStatus mandatory historical replay rejects PIT_INFERRED evidence" time="0">
+    </testcase>
+    <testcase classname="PIT Contract — pitStatus mandatory PitMode type must have STRICT and ALLOW_INFERRED values" name="PIT Contract — pitStatus mandatory PitMode type must have STRICT and ALLOW_INFERRED values" time="0.001">
+    </testcase>
+  </testsuite>
+</testsuites>

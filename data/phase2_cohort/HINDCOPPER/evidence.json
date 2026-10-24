@@ -1,0 +1,28 @@
+[
+  {
+    "evidenceId": "EV_HC_PROMISE_01",
+    "issuerNseSymbol": "HINDCOPPER",
+    "issuerBseCode": "513599",
+    "documentId": "DOC_HC_AR2023",
+    "documentHash": "c1098234af09281ca8401928eb471928ba40192cae981248ba014829bc39108ff",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 26,
+    "pagePrinted": 24,
+    "quotedText": "Malanjkhand underground mine expansion scheduled to commission and ramp up to 5.0 MTPA ore production by Q4-FY24.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+  },
+  {
+    "evidenceId": "EV_HC_RESULT_01",
+    "issuerNseSymbol": "HINDCOPPER",
+    "issuerBseCode": "513599",
+    "documentId": "DOC_HC_BSE_Q4FY24",
+    "documentHash": "d2098234af09281ca8401928eb471928ba40192cae981248ba014829bc39109aa",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 5,
+    "pagePrinted": 5,
+    "quotedText": "Total ore production for FY24 stood at 3.35 MTPA (Malanjkhand delivered 2.2 MTPA) due to contractor contractual disputes and equipment delivery delays; revised 5.0 MTPA target deferred to FY26.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  }
+]

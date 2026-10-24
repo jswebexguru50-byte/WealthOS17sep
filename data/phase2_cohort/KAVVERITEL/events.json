@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_KAV_01",
+    "issuerNseSymbol": "KAVVERITEL",
+    "issuerBseCode": "590041",
+    "eventDate": "2024-05-30",
+    "category": "FINANCIAL_REPORTING",
+    "headline": "Kavveri Telecom net worth fully eroded at ₹(182.4) Cr with statutory auditor going concern disclaimer",
+    "description": "Secured creditors pursue DRT recovery; plant operations remain shut.",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "BSE_DISCLOSURE",
+    "evidenceId": "EV_KAV_RESULT_01",
+    "materiality": "CRITICAL",
+    "createdAt": "2024-05-30T09:00:00.000Z"
+  }
+]

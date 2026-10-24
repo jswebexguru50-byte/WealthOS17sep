@@ -1,0 +1,29 @@
+{
+  "issuerNseSymbol": "BAJAJHLDNG",
+  "issuerBseCode": "500490",
+  "manifestGeneratedAt": "2026-09-15T12:27:21.088Z",
+  "sources": [
+    {
+      "documentId": "DOC_BAJ_AR2024",
+      "documentName": "Bajaj_Holdings_Annual_Report_2023_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-10",
+      "documentHashSha256": "981240182ba014829be49102ca7281ef849201bd9840291ca8e47192bd840219",
+      "repositoryRelativePath": "data/disclosures/BAJAJHLDNG/2024/Bajaj_Holdings_Annual_Report_2023_2024.pdf",
+      "pageCount": 212,
+      "filingAuthority": "BSE / NSE"
+    },
+    {
+      "documentId": "DOC_BAJ_BSE_DIVIDEND",
+      "documentName": "Bajaj_Holdings_Consolidated_Financials_Q4FY24.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2024-04-26",
+      "documentHashSha256": "5819028eb471928ba40192cae981248ba014829bc39104aa1098234af09281ca",
+      "repositoryRelativePath": "data/disclosures/BAJAJHLDNG/2024/Bajaj_Holdings_Consolidated_Financials_Q4FY24.pdf",
+      "pageCount": 48,
+      "filingAuthority": "BSE Corporate Announcement"
+    }
+  ]
+}

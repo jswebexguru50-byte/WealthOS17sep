@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_VMART_01",
+    "issuerNseSymbol": "VMART",
+    "issuerBseCode": "534976",
+    "eventDate": "2024-05-24",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "V-Mart records ₹48 Cr impairment on closure of 22 South India stores",
+    "description": "Statutory filing details store rationalization drag following Unlimited acquisition",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "BSE_DISCLOSURE",
+    "evidenceId": "EV_VMART_RESULT_01",
+    "materiality": "HIGH",
+    "createdAt": "2024-05-24T09:00:00.000Z"
+  }
+]

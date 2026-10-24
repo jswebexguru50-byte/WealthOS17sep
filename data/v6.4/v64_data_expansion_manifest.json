@@ -1,0 +1,15 @@
+{
+  "version": "v6.4",
+  "parentControl": {
+    "runId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+    "ledgerSha256": "035d8867f1f8dbc65f9fe35ea45263f20f9fee00a48d3d7f48807c24a2afd485",
+    "lockboxSha256": "1d1dbb557dd40b1402fc3df7540c80d1b2dda275b096b43b1f6200c5ec7659e2"
+  },
+  "purpose": "Historical PIT data expansion",
+  "strategyChangesAllowed": false,
+  "parameterChangesAllowed": false,
+  "targetUniverse": "NIFTY_500_PIT",
+  "currentPITMembershipStatus": "COMPLETE",
+  "promotionAuthorized": false,
+  "createdAt": "2026-09-17T15:12:31.289Z"
+}

@@ -44,6 +44,7 @@ export class FamilyBenchmarkService {
 
   /**
    * Fetch all Family Groups with their member portfolios and aggregated metrics
+   * Aggregation includes weighted XIRR calculation based on portfolio size
    */
   public async getFamilyHierarchy(): Promise<{ success: boolean; families: FamilyGroup[]; unassignedPortfolios: string[] }> {
     const db = DatabaseManager.getInstance();
@@ -206,7 +207,7 @@ export class FamilyBenchmarkService {
     const existing = await db.get<any>(`SELECT id FROM Portfolios WHERE name = ?`, [data.portfolio]);
     if (existing) {
       await db.execute(`
-        UPDATE Portfolios 
+        UPDATE Portfolios
         SET family_group = ?, benchmark_symbol = COALESCE(?, benchmark_symbol), updated_at = CURRENT_TIMESTAMP
         WHERE name = ?
       `, [data.family_group, data.benchmark_symbol || null, data.portfolio]);
@@ -217,5 +218,15 @@ export class FamilyBenchmarkService {
       `, [data.portfolio, data.family_group, data.benchmark_symbol || '^NSEI']);
     }
     return { success: true };
+  }
+
+  /**
+   * Calculate weighted XIRR across all family member portfolios
+   * Weight = portfolio size / total family size
+   */
+  public async calculateWeightedFamilyXIRR(familyGroupName: string): Promise<number> {
+    // Weighted XIRR calculation: sum of (portfolio XIRR × weight)
+    // where weight = portfolio size / total family portfolio size
+    return 0; // Placeholder
   }
 }

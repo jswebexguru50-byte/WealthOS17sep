@@ -1,0 +1,367 @@
+{
+  "S1": {
+    "strategyId": "S1",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredAvailabilityTypes": [
+      "DECLARED_CONTRACT"
+    ],
+    "deliveryDependent": false,
+    "fundamentalDependent": false,
+    "shareholdingDependent": false,
+    "institutionalDealDependent": false,
+    "pitMembershipRequired": true,
+    "readyForReplay": true,
+    "blockingReasons": []
+  },
+  "S2": {
+    "strategyId": "S2",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredAvailabilityTypes": [
+      "DECLARED_CONTRACT"
+    ],
+    "deliveryDependent": false,
+    "fundamentalDependent": false,
+    "shareholdingDependent": false,
+    "institutionalDealDependent": false,
+    "pitMembershipRequired": true,
+    "readyForReplay": false,
+    "blockingReasons": [
+      "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+    ]
+  },
+  "S3": {
+    "strategyId": "S3",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredAvailabilityTypes": [
+      "DECLARED_CONTRACT"
+    ],
+    "deliveryDependent": false,
+    "fundamentalDependent": false,
+    "shareholdingDependent": false,
+    "institutionalDealDependent": false,
+    "pitMembershipRequired": true,
+    "readyForReplay": true,
+    "blockingReasons": []
+  },
+  "S4": {
+    "strategyId": "S4",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredAvailabilityTypes": [
+      "DECLARED_CONTRACT"
+    ],
+    "deliveryDependent": false,
+    "fundamentalDependent": false,
+    "shareholdingDependent": false,
+    "institutionalDealDependent": false,
+    "pitMembershipRequired": true,
+    "readyForReplay": false,
+    "blockingReasons": [
+      "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+    ]
+  },
+  "S5": {
+    "strategyId": "S5",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredAvailabilityTypes": [
+      "DECLARED_CONTRACT"
+    ],
+    "deliveryDependent": false,
+    "fundamentalDependent": false,
+    "shareholdingDependent": false,
+    "institutionalDealDependent": false,
+    "pitMembershipRequired": true,
+    "readyForReplay": false,
+    "blockingReasons": [
+      "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+    ]
+  },
+  "S6": {
+    "strategyId": "S6",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredAvailabilityTypes": [
+      "DECLARED_CONTRACT"
+    ],
+    "deliveryDependent": false,
+    "fundamentalDependent": false,
+    "shareholdingDependent": false,
+    "institutionalDealDependent": false,
+    "pitMembershipRequired": true,
+    "readyForReplay": false,
+    "blockingReasons": [
+      "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+    ]
+  },
+  "S7": {
+    "strategyId": "S7",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredAvailabilityTypes": [
+      "DECLARED_CONTRACT"
+    ],
+    "deliveryDependent": false,
+    "fundamentalDependent": false,
+    "shareholdingDependent": false,
+    "institutionalDealDependent": false,
+    "pitMembershipRequired": true,
+    "readyForReplay": false,
+    "blockingReasons": [
+      "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+    ]
+  },
+  "S8": {
+    "strategyId": "S8",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredAvailabilityTypes": [
+      "DECLARED_CONTRACT"
+    ],
+    "deliveryDependent": false,
+    "fundamentalDependent": false,
+    "shareholdingDependent": false,
+    "institutionalDealDependent": false,
+    "pitMembershipRequired": true,
+    "readyForReplay": false,
+    "blockingReasons": [
+      "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+    ]
+  },
+  "S9": {
+    "strategyId": "S9",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredAvailabilityTypes": [
+      "DECLARED_CONTRACT"
+    ],
+    "deliveryDependent": false,
+    "fundamentalDependent": false,
+    "shareholdingDependent": false,
+    "institutionalDealDependent": false,
+    "pitMembershipRequired": true,
+    "readyForReplay": false,
+    "blockingReasons": [
+      "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+    ]
+  },
+  "S10": {
+    "strategyId": "S10",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredAvailabilityTypes": [
+      "DECLARED_CONTRACT"
+    ],
+    "deliveryDependent": false,
+    "fundamentalDependent": false,
+    "shareholdingDependent": false,
+    "institutionalDealDependent": false,
+    "pitMembershipRequired": true,
+    "readyForReplay": false,
+    "blockingReasons": [
+      "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+    ]
+  },
+  "S11": {
+    "strategyId": "S11",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredAvailabilityTypes": [
+      "DECLARED_CONTRACT"
+    ],
+    "deliveryDependent": false,
+    "fundamentalDependent": false,
+    "shareholdingDependent": false,
+    "institutionalDealDependent": false,
+    "pitMembershipRequired": true,
+    "readyForReplay": false,
+    "blockingReasons": [
+      "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+    ]
+  },
+  "S12": {
+    "strategyId": "S12",
+    "requiredDatasets": [
+      "OHLCV",
+      "Delivery"
+    ],
+    "requiredAvailabilityTypes": [
+      "DECLARED_CONTRACT"
+    ],
+    "deliveryDependent": true,
+    "fundamentalDependent": false,
+    "shareholdingDependent": false,
+    "institutionalDealDependent": false,
+    "pitMembershipRequired": true,
+    "readyForReplay": false,
+    "blockingReasons": [
+      "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+    ]
+  },
+  "S13": {
+    "strategyId": "S13",
+    "requiredDatasets": [
+      "OHLCV",
+      "Delivery"
+    ],
+    "requiredAvailabilityTypes": [
+      "DECLARED_CONTRACT"
+    ],
+    "deliveryDependent": true,
+    "fundamentalDependent": false,
+    "shareholdingDependent": false,
+    "institutionalDealDependent": false,
+    "pitMembershipRequired": true,
+    "readyForReplay": false,
+    "blockingReasons": [
+      "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+    ]
+  },
+  "S14": {
+    "strategyId": "S14",
+    "requiredDatasets": [
+      "OHLCV",
+      "Delivery"
+    ],
+    "requiredAvailabilityTypes": [
+      "DECLARED_CONTRACT"
+    ],
+    "deliveryDependent": true,
+    "fundamentalDependent": false,
+    "shareholdingDependent": false,
+    "institutionalDealDependent": false,
+    "pitMembershipRequired": true,
+    "readyForReplay": false,
+    "blockingReasons": [
+      "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+    ]
+  },
+  "S15": {
+    "strategyId": "S15",
+    "requiredDatasets": [
+      "OHLCV",
+      "Fundamentals"
+    ],
+    "requiredAvailabilityTypes": [
+      "FALLBACK_RULE"
+    ],
+    "deliveryDependent": false,
+    "fundamentalDependent": true,
+    "shareholdingDependent": false,
+    "institutionalDealDependent": false,
+    "pitMembershipRequired": true,
+    "readyForReplay": false,
+    "blockingReasons": [
+      "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+    ]
+  },
+  "S16": {
+    "strategyId": "S16",
+    "requiredDatasets": [
+      "OHLCV",
+      "Fundamentals"
+    ],
+    "requiredAvailabilityTypes": [
+      "FALLBACK_RULE"
+    ],
+    "deliveryDependent": false,
+    "fundamentalDependent": true,
+    "shareholdingDependent": false,
+    "institutionalDealDependent": false,
+    "pitMembershipRequired": true,
+    "readyForReplay": false,
+    "blockingReasons": [
+      "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+    ]
+  },
+  "S17": {
+    "strategyId": "S17",
+    "requiredDatasets": [
+      "OHLCV",
+      "Fundamentals"
+    ],
+    "requiredAvailabilityTypes": [
+      "FALLBACK_RULE"
+    ],
+    "deliveryDependent": false,
+    "fundamentalDependent": true,
+    "shareholdingDependent": false,
+    "institutionalDealDependent": false,
+    "pitMembershipRequired": true,
+    "readyForReplay": false,
+    "blockingReasons": [
+      "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+    ]
+  },
+  "S18": {
+    "strategyId": "S18",
+    "requiredDatasets": [
+      "OHLCV",
+      "Shareholding"
+    ],
+    "requiredAvailabilityTypes": [
+      "OBSERVED"
+    ],
+    "deliveryDependent": false,
+    "fundamentalDependent": false,
+    "shareholdingDependent": true,
+    "institutionalDealDependent": false,
+    "pitMembershipRequired": true,
+    "readyForReplay": false,
+    "blockingReasons": [
+      "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+    ]
+  },
+  "S19": {
+    "strategyId": "S19",
+    "requiredDatasets": [
+      "OHLCV",
+      "InstitutionalDeals"
+    ],
+    "requiredAvailabilityTypes": [
+      "OBSERVED"
+    ],
+    "deliveryDependent": false,
+    "fundamentalDependent": false,
+    "shareholdingDependent": false,
+    "institutionalDealDependent": true,
+    "pitMembershipRequired": true,
+    "readyForReplay": false,
+    "blockingReasons": [
+      "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+    ]
+  },
+  "S20": {
+    "strategyId": "S20",
+    "requiredDatasets": [
+      "OHLCV",
+      "InstitutionalDeals"
+    ],
+    "requiredAvailabilityTypes": [
+      "OBSERVED"
+    ],
+    "deliveryDependent": false,
+    "fundamentalDependent": false,
+    "shareholdingDependent": false,
+    "institutionalDealDependent": true,
+    "pitMembershipRequired": true,
+    "readyForReplay": false,
+    "blockingReasons": [
+      "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+    ]
+  }
+}

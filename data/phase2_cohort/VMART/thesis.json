@@ -1,0 +1,14 @@
+{
+  "symbol": "VMART",
+  "coreThesisStatement": "Value retail turnaround driven by tier-2/3 store expansion and post-acquisition margin recovery.",
+  "investmentPillars": [
+    {
+      "pillarId": "PIL_VMART_01",
+      "title": "Tier-2/3 Value Retailing Moat",
+      "description": "Affordable fashion footprint across north and east India."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_VMART_LEVERAGE"
+  ]
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_BLS_01",
+    "issuerNseSymbol": "BLS",
+    "issuerBseCode": "540073",
+    "eventDate": "2024-05-18",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "FY24 Record Profit Announcement",
+    "description": "Reported record consolidated net profit of ₹325 Cr, up 61% YoY.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_BLS_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

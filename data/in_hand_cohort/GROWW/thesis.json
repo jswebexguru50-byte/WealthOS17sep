@@ -1,0 +1,24 @@
+{
+  "symbol": "GROWW",
+  "coreThesisStatement": "India's #1 retail investment gateway with dominant market share, zero debt, and massive network effects.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Market Leadership",
+      "description": "Over 25% incremental share of all new Indian demat account openings."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Operating Leverage",
+      "description": "46.5% net profit margin driven by digital-native low customer acquisition costs."
+    },
+    {
+      "pillarId": "P3",
+      "title": "Product Expansion",
+      "description": "Successful cross-sell into mutual funds, SIPs, personal credit, and wealth."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_GROWW_LEVERAGE"
+  ]
+}

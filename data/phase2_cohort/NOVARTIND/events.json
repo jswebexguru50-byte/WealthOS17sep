@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_NOV_01",
+    "issuerNseSymbol": "NOVARTIND",
+    "issuerBseCode": "500672",
+    "eventDate": "2024-05-22",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "Novartis India announces ₹47.50 per share dividend distribution",
+    "description": "Statutory filing confirms massive cash return to shareholders with zero debt",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "BSE_DISCLOSURE",
+    "evidenceId": "EV_NOV_DISCLOSURE_DIV",
+    "materiality": "MATERIAL",
+    "createdAt": "2024-05-22T08:45:00.000Z"
+  }
+]

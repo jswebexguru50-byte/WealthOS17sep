@@ -1,0 +1,12 @@
+{
+  "version": "v6.4",
+  "derivationFormula": "Expected = PIT_membership (500) x exchange_trading_calendar (1245) x security_validity",
+  "expectedRows": 622500,
+  "observedRows": 622500,
+  "missingRows": 0,
+  "unexpectedRows": 0,
+  "duplicateRows": 0,
+  "coverageRatio": 1,
+  "status": "PASS",
+  "timestamp": "2026-09-17T15:28:02.440Z"
+}

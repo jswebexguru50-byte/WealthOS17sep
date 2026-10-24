@@ -1,0 +1,25 @@
+{
+  "version": "v6.5",
+  "scope": "2020–2024 historically reconstructed and independently verified NIFTY 500 PIT universe",
+  "parentControls": {
+    "v63RunId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+    "v63LedgerSha256": "035d8867f1f8dbc65f9fe35ea45263f20f9fee00a48d3d7f48807c24a2afd485",
+    "v642StatusFlag": "V642_PIT_DATA_VALIDATION_CLOSED"
+  },
+  "generatedArtifacts": {
+    "economicReplayLedgerJsonl": "967ce7db71e083204b0aeb05a33f81fce8e1dce7e3ea8deb2ff17ef7e746a15f",
+    "strategyPerformanceMatrixJson": "9a9e2f7f23105acf6926024cb31a3eebacb6499964fb442601f8600a44879682",
+    "walkForwardOosResultsJson": "c03cb2b19942b22e152a38675c84e2d9e0c88d6ecfb54f490cfd3ab5ba1ba078",
+    "regimeRobustnessResultsJson": "2f1fbaafbdcc02bd80323fe563a52e1affa1e789cf77bf1ac9b3fb5ae86e871f",
+    "costSensitivityResultsJson": "0b24f93cb2c42e75cf92ed4b57853f006ff105257d5c72ba6f04049762324c0d",
+    "statisticalValidationResultsJson": "309f68155e5b7fd108fdd3f491d8cdca41ae85f6734fbe365de594bff2032b9f",
+    "signalFunnelJson": "53078fdcfff0763a9ee8c14bb27e32995e75f8f1ea92d4a1d3f2bb7b3d3e01e3",
+    "strategyExecutionContractsJson": "14b1a1de9890cb264d8ad8f26e84667bf4c7a77eabf781940976c36fbdfb5c16",
+    "transactionCostScheduleJson": "abf28706a284bcbbf6b6eb96fb30ca43f5933ddfeb7b8ea46f93ec7b594c1d86",
+    "portfolioConstructionPolicyJson": "6f6a1d7b2facad6d5c27bd7ea1d10ff4c59ba3a83e4afb30e692caa9858be025",
+    "capacityAnalysisJson": "8ed1713309e135d4e318adf2167440388bc84dbfe5082a9376a34297f61d6527",
+    "pitSnapshotAuditJsonl": "432ae6461330dafb9195d8099d0741d2a81664fb460902763945f08301ec5de0",
+    "statusFileJson": "4dd03d8f8a553c08540ec3b408e5385df790c2edb1112e323b1e8b4ecaddfae0"
+  },
+  "productionPromotionAuthorized": false
+}

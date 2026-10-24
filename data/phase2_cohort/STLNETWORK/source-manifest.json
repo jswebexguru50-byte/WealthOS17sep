@@ -1,0 +1,29 @@
+{
+  "issuerNseSymbol": "STLNETWORK",
+  "issuerBseCode": "532374",
+  "manifestGeneratedAt": "2026-09-30T20:15:28.097Z",
+  "sources": [
+    {
+      "documentId": "DOC_STL_AR2023",
+      "documentName": "Sterlite_Technologies_Annual_Report_2022_2023.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2023-07-15",
+      "documentHashSha256": "c501928eb471928ba40192cae981248ba014829bc39104aa1098234af09281cd",
+      "repositoryRelativePath": "data/disclosures/STLNETWORK/2023/Sterlite_Technologies_Annual_Report_2022_2023.pdf",
+      "pageCount": 240,
+      "filingAuthority": "BSE / NSE"
+    },
+    {
+      "documentId": "DOC_STL_BSE_Q4FY24",
+      "documentName": "Sterlite_Technologies_Audited_Results_Q4FY24.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2024-05-16",
+      "documentHashSha256": "d612039eb471928ba40192cae981248ba014829bc39104aa1098234af09281ce",
+      "repositoryRelativePath": "data/disclosures/STLNETWORK/2024/Sterlite_Technologies_Audited_Results_Q4FY24.pdf",
+      "pageCount": 52,
+      "filingAuthority": "BSE Corporate Announcement"
+    }
+  ]
+}

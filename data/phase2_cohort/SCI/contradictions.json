@@ -1,0 +1,30 @@
+{
+  "status": "CONTRADICTIONS_DETECTED",
+  "issuerNseSymbol": "SCI",
+  "activeContradictionCount": 1,
+  "contradictions": [
+    {
+      "contradictionId": "CONTRA_SCI_01",
+      "issuerNseSymbol": "SCI",
+      "issuerBseCode": "523598",
+      "severity": "HIGH",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_SCI_01",
+      "eventId": "EVT_SCI_01",
+      "description": "Privatization timeline repeated guidance unfulfilled as financial bids failed to open in FY24",
+      "divergenceDetails": {
+        "targetDeadline": "FY24",
+        "status": "DEFERRED_INTER_MINISTERIAL"
+      },
+      "leftEvidenceId": "EV_SCI_PROMISE_01",
+      "rightEvidenceId": "EV_SCI_RESULT_01",
+      "supportingEvidenceIds": [],
+      "status": "OPEN",
+      "materiality": "HIGH",
+      "detectedAt": "2024-05-17T10:00:00.000Z",
+      "createdAt": "2026-09-15 12:45:19",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ]
+}

@@ -6,6 +6,7 @@ import { promisify } from 'node:util';
 import { dbAll, dbGet, dbRun, getDB } from '../database.js';
 import { ResearchAnalysisArchiveService } from './ResearchAnalysisArchiveService.js';
 import { Institutional29SynthesisService } from './Institutional29SynthesisService.js';
+import { ensureUnifiedDataSchema } from './unifiedData/UnifiedDataSchemaService.js';
 
 const execFileAsync = promisify(execFile);
 type JobMode = 'DETERMINISTIC_ONLY' | 'LLM_IF_AVAILABLE' | 'LLM_REQUIRED';
@@ -52,6 +53,7 @@ export class ResearchAnalysisJobService {
 
   private async ensureSchema(): Promise<void> {
     if (this.schemaReady) return;
+    await ensureUnifiedDataSchema(getDB());
     await dbRun(getDB(), `CREATE TABLE IF NOT EXISTS ResearchAnalysisJobs (
       job_id TEXT PRIMARY KEY,
       symbols_json TEXT NOT NULL,

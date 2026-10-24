@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_ANLON_REV_01",
+    "issuerNseSymbol": "ANLON",
+    "issuerBseCode": "543745",
+    "documentId": "DOC_ANLON_AR24",
+    "documentHash": "e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef56789abcde",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 24,
+    "pagePrinted": "22",
+    "quotedText": "Total revenue from operations for FY24 grew to ₹54 Cr against ₹38 Cr in previous year, driven by delivery of airport fire rescue vehicles.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

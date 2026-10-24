@@ -1,0 +1,474 @@
+{
+  "symbol": "RPGLIFE",
+  "companyName": "RPG Life Sciences Limited",
+  "marketCapTier": "SMALLCAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-15T14:00:48.975Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Capital sizing should reflect this uncertainty.",
+    "allocationRecommendation": "CAPPED_ALLOCATION",
+    "portfolioPolicy": {
+      "directive": "CAPPED_ALLOCATION",
+      "targetSizingCapRatio": 0.5,
+      "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_RPGLIFE",
+      "nodes": [
+        {
+          "id": "DEC_RPGLIFE",
+          "type": "DECISION",
+          "refId": "RPGLIFE",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_RPGLIFE",
+          "type": "ALLOCATION",
+          "refId": "CAPPED_ALLOCATION",
+          "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+        },
+        {
+          "id": "THESIS_RPGLIFE",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_RPGLIFE",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 89/100)"
+        },
+        {
+          "id": "RISK_RPGLIFE",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_RPGLIFE",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_RPG_REGULATORY",
+          "type": "RULE",
+          "refId": "TB_RPG_REGULATORY",
+          "version": "2026.09",
+          "label": "Breaker TB_RPG_REGULATORY: EVALUATION_UNRESOLVED (Observed: N/A (event-based qualifier))"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_RPGLIFE",
+          "to": "DEC_RPGLIFE",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_RPGLIFE",
+          "to": "DEC_RPGLIFE",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_RPGLIFE",
+          "to": "THESIS_RPGLIFE",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_RPGLIFE",
+          "to": "THESIS_RPGLIFE",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_RPGLIFE",
+          "to": "ALLOC_RPGLIFE",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_RPG_REGULATORY",
+          "to": "RISK_RPGLIFE",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_RPGLIFE_20260915",
+      "decisionId": "DECISION_RPGLIFE",
+      "issuerSymbol": "RPGLIFE",
+      "evaluatedAt": "2026-09-15T12:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2",
+      "ontologyVersion": "1.2",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_RPGLIFE_01",
+          "issuerSymbol": "RPGLIFE",
+          "metric": "EBITDA_MARGIN",
+          "metricId": "EBITDA_MARGIN",
+          "metricFamily": "MARGIN",
+          "value": 23.4,
+          "unit": "PERCENT",
+          "scope": "CONSOLIDATED",
+          "measurementType": "RATIO",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_RPG_PROMISE_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_RPG_PROMISE_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_RPG_PROMISE_01",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_RPGLIFE_02",
+          "issuerSymbol": "RPGLIFE",
+          "metric": "FINANCIAL_METRIC",
+          "metricId": "FINANCIAL_METRIC",
+          "metricFamily": "REVENUE",
+          "value": 0,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_RPG_RESULT_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_RPG_RESULT_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_RPG_RESULT_01",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_RPG_01",
+          "issuerNseSymbol": "RPGLIFE",
+          "issuerBseCode": "532983",
+          "period": "FY24",
+          "category": "FINANCIAL_METRIC",
+          "statement": "Domestic formulations business targeted to deliver revenue growth above 15%.",
+          "targetMetric": "domestic_formulations_growth_pct",
+          "baselineValue": 12.4,
+          "expectedValue": 15,
+          "expectedOutcome": "Growth >= 15.0%",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_RPG_PROMISE_01",
+          "claimDate": "2023-07-28",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 16.2,
+          "actualOutcomeDescription": "Domestic formulations revenue grew 16.2% beating 15% guidance",
+          "evaluationEvidenceId": "EV_RPG_RESULT_01",
+          "evaluationDate": "2024-05-02",
+          "evaluationBasis": "BSE Audited Financial Results and Investor Disclosures",
+          "createdAt": "2023-07-28T10:00:00.000Z",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_RPGLIFE_01",
+          "publicationDate": "2023-07-28",
+          "publicationDateType": "MANAGEMENT_COMMENT"
+        }
+      ],
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_RPG_REGULATORY",
+          "name": "Regulatory Warning Letter Breaker",
+          "description": "Manufacturing facility must not receive FDA/CDSCO Warning Letter or Import Alert",
+          "type": "QUALITATIVE",
+          "evaluationMethod": "EVENT_MATCH",
+          "conditionText": "Warning Letter received",
+          "status": "EVALUATION_UNRESOLVED",
+          "severity": "CRITICAL",
+          "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+          "evidenceIds": [
+            "EV_RPG_RESULT_01"
+          ],
+          "currentObservedValue": "N/A (event-based qualifier)",
+          "observedValueType": "QUALITATIVE_EVENT"
+        }
+      ],
+      "rawInputContradictions": [],
+      "rawQuantInput": {
+        "symbol": "RPGLIFE",
+        "strategyAgreementCount": 7,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 89,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY"
+      },
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Capital sizing should reflect this uncertainty.",
+        "allocationRecommendation": "CAPPED_ALLOCATION"
+      },
+      "portfolioPolicy": {
+        "directive": "CAPPED_ALLOCATION",
+        "targetSizingCapRatio": 0.5,
+        "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_RPGLIFE",
+        "nodes": [
+          {
+            "id": "DEC_RPGLIFE",
+            "type": "DECISION",
+            "refId": "RPGLIFE",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_RPGLIFE",
+            "type": "ALLOCATION",
+            "refId": "CAPPED_ALLOCATION",
+            "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+          },
+          {
+            "id": "THESIS_RPGLIFE",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_RPGLIFE",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 89/100)"
+          },
+          {
+            "id": "RISK_RPGLIFE",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_RPGLIFE",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_RPG_REGULATORY",
+            "type": "RULE",
+            "refId": "TB_RPG_REGULATORY",
+            "version": "2026.09",
+            "label": "Breaker TB_RPG_REGULATORY: EVALUATION_UNRESOLVED (Observed: N/A (event-based qualifier))"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_RPGLIFE",
+            "to": "DEC_RPGLIFE",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_RPGLIFE",
+            "to": "DEC_RPGLIFE",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_RPGLIFE",
+            "to": "THESIS_RPGLIFE",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_RPGLIFE",
+            "to": "THESIS_RPGLIFE",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_RPGLIFE",
+            "to": "ALLOC_RPGLIFE",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_RPG_REGULATORY",
+            "to": "RISK_RPGLIFE",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "9967d04365c562942594a86d22ae77cb168033cf9e8d551307b212a7bb3002c5",
+      "canonicalStateHash": "9967d04365c562942594a86d22ae77cb168033cf9e8d551307b212a7bb3002c5"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "MEDIUM",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity supported by clean qualitative intelligence and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Capital sizing should reflect this uncertainty."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 7/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 89/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#RPGLIFE",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Domestic formulations business targeted to deliver revenue growth above 15%.",
+      "detail": "Disclosed actual outcome: Domestic formulations revenue grew 16.2% beating 15% guidance",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_RPG_PROMISE_01 -> Resolution#EV_RPG_RESULT_01",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "RPGLIFE",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 1,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_RPG_01",
+        "statement": "Domestic formulations business targeted to deliver revenue growth above 15%.",
+        "period": "FY24",
+        "expected": "Growth >= 15.0%",
+        "actual": "Domestic formulations revenue grew 16.2% beating 15% guidance",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_RPG_PROMISE_01 -> Resolution#EV_RPG_RESULT_01"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_RPGLIFE"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_RPGLIFE"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-05-02",
+      "source": "BSE_DISCLOSURE",
+      "headline": "RPG Life Sciences concludes regulatory audits with zero observations across Ankleshwar & Navi Mumbai",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_RPG_REGULATORY",
+      "name": "Regulatory Warning Letter Breaker",
+      "description": "Manufacturing facility must not receive FDA/CDSCO Warning Letter or Import Alert",
+      "type": "QUALITATIVE",
+      "evaluationMethod": "EVENT_MATCH",
+      "conditionText": "Warning Letter received",
+      "status": "EVALUATION_UNRESOLVED",
+      "severity": "CRITICAL",
+      "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+      "evidenceIds": [
+        "EV_RPG_RESULT_01"
+      ]
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "MEDIUM",
+    "directSourcesCount": 2,
+    "corroboratedCount": 1,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"High-RoCE domestic formulation pharma proxy with debt-free balance sheet and growing chronic therapy franchise.\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

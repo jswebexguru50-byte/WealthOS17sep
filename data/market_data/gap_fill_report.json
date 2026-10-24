@@ -1,0 +1,798 @@
+{
+  "run_at": "2026-10-23T12:48:50.167728+00:00",
+  "target_date": "2026-10-23",
+  "gaps_found": 142,
+  "updated": 0,
+  "skipped_no_instrument": 65,
+  "skipped_no_data": 77,
+  "errors": 0,
+  "details": [
+    {
+      "symbol": "AARVEEDEN",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "AIRTEL-RE",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "AMIRCHAND",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "APOLLOTRI",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "ASHIKA",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "AURIGROW",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "BEEZAASAN",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "BONDADA",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "COSMICCRF",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "DESCO",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "EQUITAS",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "EROSMEDIA",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "FRATELLIVI",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "GARGI",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "GARGI",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "GOLDSHARE",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "GSM-RE",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "GSPL",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "HDFC",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "ICICINIFTY",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "INDAG",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "ISEC",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "JBCHEPHARM",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "KEL",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "LATIMMETAL",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "LGLL",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "LKPFIN",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "LOYAL",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "LTIM",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "LYPSAGEMS",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "MCDOWELL-N",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "MRP",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "SABEVENTS",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "SBIFUN",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "SILLYMONKS",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "SMARTHORIZON",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "SPICEJET",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "SUMEET-RE",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "SUNITA",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "SUNITATOOL",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "SUVENPHAR",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "TATAMETALI",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "TATAMOTORS",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "TATAMTRDVR",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "TATAMTRDVR",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "TELGE",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "TV18BRDCST",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "UL -Hindon",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "UL-Delta Galaxy",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "UL-SMART HORIZON 3",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "UL-SMART HORIZON 3",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "UL-SMART HORIZON 4",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "UL-Smart Horizon 1",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "UL-Smart Horizon 1",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "UL-Smart Horizon 2",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "UL-Smart Horizon 2",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "UNKNOWN",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "WINSOME",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "NO_FILE"
+    },
+    {
+      "symbol": "VELS",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_100d",
+      "max_date": "2026-07-16"
+    },
+    {
+      "symbol": "VERA",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_66d",
+      "max_date": "2026-08-19"
+    },
+    {
+      "symbol": "REXPIPES",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_60d",
+      "max_date": "2026-08-25"
+    },
+    {
+      "symbol": "JETKNIT",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_57d",
+      "max_date": "2026-08-28"
+    },
+    {
+      "symbol": "KALYANI",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_56d",
+      "max_date": "2026-08-29"
+    },
+    {
+      "symbol": "KALYANI",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_56d",
+      "max_date": "2026-08-29"
+    },
+    {
+      "symbol": "MINDPOOL",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_56d",
+      "max_date": "2026-08-29"
+    },
+    {
+      "symbol": "AVSL",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_52d",
+      "max_date": "2026-09-02"
+    },
+    {
+      "symbol": "AHIMSA",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_49d",
+      "max_date": "2026-09-05"
+    },
+    {
+      "symbol": "MPTODAY",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_43d",
+      "max_date": "2026-09-11"
+    },
+    {
+      "symbol": "SHAIVAL",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_36d",
+      "max_date": "2026-09-18"
+    },
+    {
+      "symbol": "HEG",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "GAP_32d"
+    },
+    {
+      "symbol": "GRETEX",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_28d",
+      "max_date": "2026-09-26"
+    },
+    {
+      "symbol": "ORTEL",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "GAP_25d"
+    },
+    {
+      "symbol": "DKEGL",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_23d",
+      "max_date": "2026-10-01"
+    },
+    {
+      "symbol": "FOCE",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_23d",
+      "max_date": "2026-10-01"
+    },
+    {
+      "symbol": "ACTIVEINFR",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_18d",
+      "max_date": "2026-10-06"
+    },
+    {
+      "symbol": "CEREBRAINT",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "GAP_18d"
+    },
+    {
+      "symbol": "LASA",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "GAP_18d"
+    },
+    {
+      "symbol": "MANAV",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_18d",
+      "max_date": "2026-10-06"
+    },
+    {
+      "symbol": "SELMC",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "GAP_18d"
+    },
+    {
+      "symbol": "SPRL",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_18d",
+      "max_date": "2026-10-06"
+    },
+    {
+      "symbol": "PROLIFE",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_17d",
+      "max_date": "2026-10-07"
+    },
+    {
+      "symbol": "UCL",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_17d",
+      "max_date": "2026-10-07"
+    },
+    {
+      "symbol": "ARIHANTACA",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_16d",
+      "max_date": "2026-10-08"
+    },
+    {
+      "symbol": "DIRL",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_15d",
+      "max_date": "2026-10-09"
+    },
+    {
+      "symbol": "SMVD",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_15d",
+      "max_date": "2026-10-09"
+    },
+    {
+      "symbol": "QFIL",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_14d",
+      "max_date": "2026-10-10"
+    },
+    {
+      "symbol": "IPSL",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_11d",
+      "max_date": "2026-10-13"
+    },
+    {
+      "symbol": "PENTAGON",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_11d",
+      "max_date": "2026-10-13"
+    },
+    {
+      "symbol": "INM",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_10d",
+      "max_date": "2026-10-14"
+    },
+    {
+      "symbol": "PATTECH",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_10d",
+      "max_date": "2026-10-14"
+    },
+    {
+      "symbol": "VERITAAS",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_10d",
+      "max_date": "2026-10-14"
+    },
+    {
+      "symbol": "WALPAR",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_10d",
+      "max_date": "2026-10-14"
+    },
+    {
+      "symbol": "BIRDYS",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_9d",
+      "max_date": "2026-10-15"
+    },
+    {
+      "symbol": "QUADPRO",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_9d",
+      "max_date": "2026-10-15"
+    },
+    {
+      "symbol": "TRIDHYA",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_9d",
+      "max_date": "2026-10-15"
+    },
+    {
+      "symbol": "VERTEXPLUS",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_9d",
+      "max_date": "2026-10-15"
+    },
+    {
+      "symbol": "TAPIFRUIT",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_8d",
+      "max_date": "2026-10-16"
+    },
+    {
+      "symbol": "VASA",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_8d",
+      "max_date": "2026-10-16"
+    },
+    {
+      "symbol": "AMEYA",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_7d",
+      "max_date": "2026-10-17"
+    },
+    {
+      "symbol": "ASCOM",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_7d",
+      "max_date": "2026-10-17"
+    },
+    {
+      "symbol": "BABAFP",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_7d",
+      "max_date": "2026-10-17"
+    },
+    {
+      "symbol": "INDIFRA",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_7d",
+      "max_date": "2026-10-17"
+    },
+    {
+      "symbol": "MAKS",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_7d",
+      "max_date": "2026-10-17"
+    },
+    {
+      "symbol": "TRANSWIND",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_7d",
+      "max_date": "2026-10-17"
+    },
+    {
+      "symbol": "AGARWALFT",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_4d",
+      "max_date": "2026-10-20"
+    },
+    {
+      "symbol": "EXCELLENT",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_4d",
+      "max_date": "2026-10-20"
+    },
+    {
+      "symbol": "GAJANAND",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_4d",
+      "max_date": "2026-10-20"
+    },
+    {
+      "symbol": "HRHNEXT",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_4d",
+      "max_date": "2026-10-20"
+    },
+    {
+      "symbol": "ITALIANE",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_4d",
+      "max_date": "2026-10-20"
+    },
+    {
+      "symbol": "MAGSON",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_4d",
+      "max_date": "2026-10-20"
+    },
+    {
+      "symbol": "MEDISTEP",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_4d",
+      "max_date": "2026-10-20"
+    },
+    {
+      "symbol": "NEELAM",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_4d",
+      "max_date": "2026-10-20"
+    },
+    {
+      "symbol": "PERFECT",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_4d",
+      "max_date": "2026-10-20"
+    },
+    {
+      "symbol": "SAROJA",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_4d",
+      "max_date": "2026-10-20"
+    },
+    {
+      "symbol": "TIMESCAN",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_4d",
+      "max_date": "2026-10-20"
+    },
+    {
+      "symbol": "USASEEDS",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_4d",
+      "max_date": "2026-10-20"
+    },
+    {
+      "symbol": "UWCSL",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_4d",
+      "max_date": "2026-10-20"
+    },
+    {
+      "symbol": "VIVO",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_4d",
+      "max_date": "2026-10-20"
+    },
+    {
+      "symbol": "VR",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_4d",
+      "max_date": "2026-10-20"
+    },
+    {
+      "symbol": "WHITEFORCE",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_4d",
+      "max_date": "2026-10-20"
+    },
+    {
+      "symbol": "AGUL",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_2d",
+      "max_date": "2026-10-22"
+    },
+    {
+      "symbol": "CADSYS",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_2d",
+      "max_date": "2026-10-22"
+    },
+    {
+      "symbol": "CONTI",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_2d",
+      "max_date": "2026-10-22"
+    },
+    {
+      "symbol": "GLOBALPET",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_2d",
+      "max_date": "2026-10-22"
+    },
+    {
+      "symbol": "ICICIPRULI",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "GAP_2d"
+    },
+    {
+      "symbol": "JIWANRAM",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_2d",
+      "max_date": "2026-10-22"
+    },
+    {
+      "symbol": "KKVAPOW",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_2d",
+      "max_date": "2026-10-22"
+    },
+    {
+      "symbol": "MARC",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_2d",
+      "max_date": "2026-10-22"
+    },
+    {
+      "symbol": "MARINETRAN",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_2d",
+      "max_date": "2026-10-22"
+    },
+    {
+      "symbol": "MASKINVEST",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_2d",
+      "max_date": "2026-10-22"
+    },
+    {
+      "symbol": "MICROPRO",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_2d",
+      "max_date": "2026-10-22"
+    },
+    {
+      "symbol": "PARAMOUNT",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_2d",
+      "max_date": "2026-10-22"
+    },
+    {
+      "symbol": "RITEZONE",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_2d",
+      "max_date": "2026-10-22"
+    },
+    {
+      "symbol": "ROYALARC",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_2d",
+      "max_date": "2026-10-22"
+    },
+    {
+      "symbol": "SANGINITA",
+      "status": "NO_KITE_INSTRUMENT",
+      "gap_type": "GAP_2d"
+    },
+    {
+      "symbol": "SHANTHALA",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_2d",
+      "max_date": "2026-10-22"
+    },
+    {
+      "symbol": "SONUINFRA",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_2d",
+      "max_date": "2026-10-22"
+    },
+    {
+      "symbol": "SOTAC",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_2d",
+      "max_date": "2026-10-22"
+    },
+    {
+      "symbol": "TEJASCARGO",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_2d",
+      "max_date": "2026-10-22"
+    },
+    {
+      "symbol": "UHTL",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_2d",
+      "max_date": "2026-10-22"
+    },
+    {
+      "symbol": "UMA",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_2d",
+      "max_date": "2026-10-22"
+    },
+    {
+      "symbol": "YUDIZ",
+      "status": "NO_NEW_DATA",
+      "gap_type": "GAP_2d",
+      "max_date": "2026-10-22"
+    }
+  ]
+}

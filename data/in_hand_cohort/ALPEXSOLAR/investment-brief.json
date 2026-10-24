@@ -1,0 +1,481 @@
+{
+  "symbol": "ALPEXSOLAR",
+  "companyName": "Alpex Solar Limited",
+  "marketCapTier": "MICROCAP_SME",
+  "exchangeBoard": "SME_EXCHANGE",
+  "generatedAt": "2026-09-16T07:37:28.783Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+    "allocationRecommendation": "CAPPED_ALLOCATION",
+    "portfolioPolicy": {
+      "directive": "CAPPED_ALLOCATION",
+      "targetSizingCapRatio": 0.5,
+      "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+    },
+    "provenance": {
+      "quantDerivation": "ITAS-Score-86 -> Threshold(>=75:STRONG, 50-74:MODERATE, 25-49:WEAK, <25:NONE) -> STRONG",
+      "riskDerivation": "BreakersActive:0, Contradictions:0, Unknowns:0 -> Risk: LOW",
+      "credibilityDerivation": "ClaimsEvaluated:1 -> CredibilityGrade: INSUFFICIENT_HISTORY",
+      "breakerDerivation": "TB_ALPEX_LEVERAGE(UNRESOLVED)",
+      "thesisDerivation": "Matrix(STRONG, LOW) -> Thesis: SUPPORTED",
+      "allocationDerivation": "Precedence(SUPPORTED, LOW, INSUFFICIENT_HISTORY) -> Directive: CAPPED_ALLOCATION (Cap: 50%)",
+      "auditTrail": [
+        "ITAS-Engine#ALPEXSOLAR",
+        null
+      ]
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_ALPEXSOLAR",
+      "nodes": [
+        {
+          "id": "DEC_ALPEXSOLAR",
+          "type": "DECISION",
+          "refId": "ALPEXSOLAR",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_ALPEXSOLAR",
+          "type": "ALLOCATION",
+          "refId": "CAPPED_ALLOCATION",
+          "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+        },
+        {
+          "id": "THESIS_ALPEXSOLAR",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_ALPEXSOLAR",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 86/100)"
+        },
+        {
+          "id": "RISK_ALPEXSOLAR",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_ALPEXSOLAR",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_ALPEX_LEVERAGE",
+          "type": "RULE",
+          "refId": "TB_ALPEX_LEVERAGE",
+          "version": "2026.09",
+          "label": "Breaker TB_ALPEX_LEVERAGE: UNRESOLVED (Observed: undefined)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_ALPEXSOLAR",
+          "to": "DEC_ALPEXSOLAR",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_ALPEXSOLAR",
+          "to": "DEC_ALPEXSOLAR",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_ALPEXSOLAR",
+          "to": "THESIS_ALPEXSOLAR",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_ALPEXSOLAR",
+          "to": "THESIS_ALPEXSOLAR",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_ALPEXSOLAR",
+          "to": "ALLOC_ALPEXSOLAR",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_ALPEX_LEVERAGE",
+          "to": "RISK_ALPEXSOLAR",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_ALPEXSOLAR_69a34647493f",
+      "decisionId": "DECISION_ALPEXSOLAR",
+      "issuerSymbol": "ALPEXSOLAR",
+      "evaluatedAt": "2026-09-16T11:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2.1",
+      "ontologyVersion": "1.3",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawQuantInput": {
+        "symbol": "ALPEXSOLAR",
+        "strategyAgreementCount": 17,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 86,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY",
+        "decisionDate": "2024-06-30"
+      },
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_ALPEX_LEVERAGE",
+          "symbol": "ALPEXSOLAR",
+          "name": "Excessive Capex Debt Ceilings",
+          "type": "QUANTITATIVE",
+          "thresholdValue": 3.5,
+          "comparisonOperator": "GREATER_THAN",
+          "severity": "CRITICAL",
+          "description": "Net Debt / EBITDA exceeding 3.5x triggers hard veto.",
+          "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+          "status": "UNRESOLVED"
+        }
+      ],
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+        "allocationRecommendation": "CAPPED_ALLOCATION"
+      },
+      "portfolioPolicy": {
+        "directive": "CAPPED_ALLOCATION",
+        "targetSizingCapRatio": 0.5,
+        "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_ALPEXSOLAR",
+        "nodes": [
+          {
+            "id": "DEC_ALPEXSOLAR",
+            "type": "DECISION",
+            "refId": "ALPEXSOLAR",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_ALPEXSOLAR",
+            "type": "ALLOCATION",
+            "refId": "CAPPED_ALLOCATION",
+            "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+          },
+          {
+            "id": "THESIS_ALPEXSOLAR",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_ALPEXSOLAR",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 86/100)"
+          },
+          {
+            "id": "RISK_ALPEXSOLAR",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_ALPEXSOLAR",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_ALPEX_LEVERAGE",
+            "type": "RULE",
+            "refId": "TB_ALPEX_LEVERAGE",
+            "version": "2026.09",
+            "label": "Breaker TB_ALPEX_LEVERAGE: UNRESOLVED (Observed: undefined)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_ALPEXSOLAR",
+            "to": "DEC_ALPEXSOLAR",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_ALPEXSOLAR",
+            "to": "DEC_ALPEXSOLAR",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_ALPEXSOLAR",
+            "to": "THESIS_ALPEXSOLAR",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_ALPEXSOLAR",
+            "to": "THESIS_ALPEXSOLAR",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_ALPEXSOLAR",
+            "to": "ALLOC_ALPEXSOLAR",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_ALPEX_LEVERAGE",
+            "to": "RISK_ALPEXSOLAR",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "69a34647493f7e91303d4388fa056e523ab80426d9e79a8a947e557105bc5fae",
+      "canonicalStateHash": "69a34647493f7e91303d4388fa056e523ab80426d9e79a8a947e557105bc5fae",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_ALPEXSOLAR_01",
+          "issuerSymbol": "ALPEXSOLAR",
+          "metric": "REVENUE",
+          "metricId": "REVENUE",
+          "metricFamily": "REVENUE",
+          "value": 404,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_ALPEX_REV_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_ALPEX_REV_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_ALPEX_REV_01",
+          "sourceQuotedText": "FY24 revenue recorded at ₹404 Cr with consolidated PAT of ₹34.7 Cr driven by higher shipments of top-con bifacial solar modules.",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_ALPEXSOLAR_02",
+          "issuerSymbol": "ALPEXSOLAR",
+          "metric": "CAPACITY",
+          "metricId": "CAPACITY",
+          "metricFamily": "CAPACITY",
+          "value": 1200,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "STOCK",
+          "asOfDate": "2024-06-18",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_ALPEX_CAPACITY_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-06-18",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_ALPEX_CAPACITY_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-06-18",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_ALPEX_CAPACITY_01",
+          "sourceQuotedText": "Successfully commissioned additional 750 MW solar module line, taking total operational PV module manufacturing capacity to 1200 MW ahead of schedule.",
+          "publicationDate": "2024-06-18",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_ALPEX_01",
+          "issuerNseSymbol": "ALPEXSOLAR",
+          "issuerBseCode": "544115",
+          "period": "FY25",
+          "category": "CAPEX",
+          "statement": "Scale solar PV module manufacturing capacity to 1,200 MW by FY25.",
+          "targetMetric": "module_capacity_mw",
+          "baselineValue": 450,
+          "expectedValue": 1200,
+          "expectedOutcome": "Capacity >= 1,200 MW",
+          "expectedTimeframe": "FY25",
+          "evidenceId": "EV_ALPEX_CAPACITY_01",
+          "claimDate": "2023-11-15",
+          "expectedPeriodStart": "2024-04-01",
+          "expectedPeriodEnd": "2025-03-31",
+          "status": "ACHIEVED_EARLY",
+          "actualOutcomeMetric": 1200,
+          "actualOutcomeDescription": "Achieved 1,200 MW capacity in June 2024, ahead of FY25 target.",
+          "evaluationEvidenceId": "EV_ALPEX_CAPACITY_01",
+          "evaluationDate": "2024-06-18",
+          "evaluationBasis": "NSE Statutory Exchange Filing on Capacity Commissioning",
+          "publicationDate": "2023-11-15",
+          "publicationDateType": "MANAGEMENT_COMMENT",
+          "targetTemporalSemantics": "DEADLINE",
+          "factId": "FACT_ALPEXSOLAR_02"
+        }
+      ],
+      "rawInputContradictions": [],
+      "rawInputHash": "8a90f9ce9f8e9f89ae146d6e01c6f7d7d29b5b01bdbcfc6f01be0da70125e1bf"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "MEDIUM",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap)."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 17/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 86/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#ALPEXSOLAR",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "ALPEXSOLAR",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 0,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 1,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_ALPEX_01",
+        "statement": "Scale solar PV module manufacturing capacity to 1,200 MW by FY25.",
+        "period": "FY25",
+        "expected": "Capacity >= 1,200 MW",
+        "actual": "Achieved 1,200 MW capacity in June 2024, ahead of FY25 target.",
+        "status": "ACHIEVED_EARLY",
+        "evidenceLineage": "Evidence#EV_ALPEX_CAPACITY_01 -> Resolution#EV_ALPEX_CAPACITY_01"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_ALPEXSOLAR"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_ALPEXSOLAR"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-06-18",
+      "source": "REGULATORY_FILING",
+      "headline": "750 MW Solar PV Expansion Operationalized",
+      "verified": true,
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_ALPEX_LEVERAGE",
+      "symbol": "ALPEXSOLAR",
+      "name": "Excessive Capex Debt Ceilings",
+      "type": "QUANTITATIVE",
+      "thresholdValue": 3.5,
+      "comparisonOperator": "GREATER_THAN",
+      "severity": "CRITICAL",
+      "description": "Net Debt / EBITDA exceeding 3.5x triggers hard veto.",
+      "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+      "status": "UNRESOLVED"
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "MEDIUM",
+    "directSourcesCount": 2,
+    "corroboratedCount": 0,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"High-efficiency solar module manufacturer scaling capacity to 1.2 GW with expanding export opportunities.\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

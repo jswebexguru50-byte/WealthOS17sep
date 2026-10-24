@@ -1,0 +1,24 @@
+{
+  "symbol": "BLS",
+  "coreThesisStatement": "Global visa and consular processing leader enjoying near-duopoly dynamics and high ROIC.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Global Duopoly",
+      "description": "One of only two global players handling sovereign visa and consular mandates."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Net Cash Compounder",
+      "description": "Over ₹800 Cr in free cash balance supporting inorganic global acquisitions."
+    },
+    {
+      "pillarId": "P3",
+      "title": "High Operating Margins",
+      "description": "Consistently maintaining >20% EBITDA margins with high operating leverage."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_BLS_LEVERAGE"
+  ]
+}

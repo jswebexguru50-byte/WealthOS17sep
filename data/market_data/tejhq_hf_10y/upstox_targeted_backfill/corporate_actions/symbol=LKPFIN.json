@@ -1,0 +1,33 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "name": "Bonus",
+      "expiry_date": "06 Mar 2026",
+      "amount": 0.0,
+      "ratio": "4:1",
+      "event_details": [
+        {
+          "name": "Announcement date",
+          "value": "19 Jan 2026"
+        },
+        {
+          "name": "Ex Bonus date",
+          "value": "06 Mar 2026"
+        },
+        {
+          "name": "Record date",
+          "value": "06 Mar 2026"
+        },
+        {
+          "name": "Ratio",
+          "value": "4:1"
+        },
+        {
+          "name": "Details",
+          "value": "Bonus issue of equity shares in the ratio of 4:1 of Rs. 10/-."
+        }
+      ]
+    }
+  ]
+}

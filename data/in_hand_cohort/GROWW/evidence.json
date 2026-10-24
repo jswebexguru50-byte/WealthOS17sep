@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_GROWW_REV_01",
+    "issuerNseSymbol": "GROWW",
+    "issuerBseCode": "GROWW",
+    "documentId": "DOC_GROWW_AR24",
+    "documentHash": "7e8f90123456789abcdef0123456789abcdef56789abcdef890ab12c3d4e5f60",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 45,
+    "pagePrinted": "43",
+    "quotedText": "Consolidated revenue for FY24 grew to ₹5242 Cr with net profit of ₹2440 Cr, while active NSE broking clients surpassed 1.1 Crore.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

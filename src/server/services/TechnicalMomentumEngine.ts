@@ -1,3 +1,8 @@
+/**
+ * @deprecated Use TechnicalAnalysisEngine instead. This implementation will be sunset 90 days from deprecation notice.
+ * See LEGACY_PATHS_REGISTRY.md for migration guidance.
+ */
+
 import { SMA, EMA, RSI, MACD, BollingerBands } from 'technicalindicators';
 import { fetchTickerData } from '../yahooFinance.js';
 import { SmartMoneyFlowEngine, MultiTimeframeSmartMoney } from './SmartMoneyFlowEngine.js';

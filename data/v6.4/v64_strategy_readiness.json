@@ -1,0 +1,30 @@
+{
+  "version": "v6.4",
+  "globalReplayStatus": "PARTIALLY_READY",
+  "validatedResearchSubset10Status": "READY_FOR_10_SYMBOL_REPLAY",
+  "fullUniverse500Status": "BLOCKED_PENDING_DYNAMIC_PIT_REMEDIATION",
+  "productionPromotionAuthorized": false,
+  "strategyReadiness": {
+    "S1": "PARTIAL",
+    "S2": "DATA_INSUFFICIENT",
+    "S3": "PARTIAL",
+    "S4": "DATA_INSUFFICIENT",
+    "S5": "DATA_INSUFFICIENT",
+    "S6": "DATA_INSUFFICIENT",
+    "S7": "DATA_INSUFFICIENT",
+    "S8": "DATA_INSUFFICIENT",
+    "S9": "DATA_INSUFFICIENT",
+    "S10": "DATA_INSUFFICIENT",
+    "S11": "DATA_INSUFFICIENT",
+    "S12": "BLOCKED",
+    "S13": "BLOCKED",
+    "S14": "BLOCKED",
+    "S15": "BLOCKED",
+    "S16": "BLOCKED",
+    "S17": "BLOCKED",
+    "S18": "BLOCKED",
+    "S19": "BLOCKED",
+    "S20": "BLOCKED"
+  },
+  "timestamp": "2026-09-17T15:28:02.444Z"
+}

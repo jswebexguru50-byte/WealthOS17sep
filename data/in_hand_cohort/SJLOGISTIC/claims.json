@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_SJ_01",
+    "issuerNseSymbol": "SJLOGISTIC",
+    "issuerBseCode": "544046",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Scale freight forwarding cargo handling to surpass ₹550 Cr revenue in FY24.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 410,
+    "expectedValue": 550,
+    "expectedOutcome": "Revenue >= ₹550 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_SJ_REV_01",
+    "claimDate": "2023-09-08",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 654,
+    "actualOutcomeDescription": "Delivered ₹654 Cr revenue beating target by 18.9%.",
+    "evaluationEvidenceId": "EV_SJ_REV_01",
+    "evaluationDate": "2024-05-27",
+    "evaluationBasis": "NSE Emerge Audited Results",
+    "publicationDate": "2023-09-08",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_SJLOGISTIC_01"
+  }
+]

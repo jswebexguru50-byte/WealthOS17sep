@@ -1,0 +1,29 @@
+{
+  "issuerNseSymbol": "TATATECH",
+  "issuerBseCode": "544028",
+  "manifestGeneratedAt": "2026-09-15T12:45:19.283Z",
+  "sources": [
+    {
+      "documentId": "DOC_TT_IPO_2023",
+      "documentName": "Tata_Technologies_Prospectus_2023.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2023-11-25",
+      "documentHashSha256": "a1098234af09281ca8401928eb471928ba40192cae981248ba014829bc39106dd",
+      "repositoryRelativePath": "data/disclosures/TATATECH/2023/Tata_Technologies_Prospectus_2023.pdf",
+      "pageCount": 380,
+      "filingAuthority": "SEBI / BSE"
+    },
+    {
+      "documentId": "DOC_TT_BSE_Q4FY24",
+      "documentName": "Tata_Technologies_Audited_Results_Q4FY24.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2024-05-03",
+      "documentHashSha256": "b2098234af09281ca8401928eb471928ba40192cae981248ba014829bc39107ee",
+      "repositoryRelativePath": "data/disclosures/TATATECH/2024/Tata_Technologies_Audited_Results_Q4FY24.pdf",
+      "pageCount": 38,
+      "filingAuthority": "BSE Corporate Announcement"
+    }
+  ]
+}

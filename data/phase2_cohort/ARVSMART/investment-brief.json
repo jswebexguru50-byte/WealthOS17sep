@@ -1,0 +1,541 @@
+{
+  "symbol": "ARVSMART",
+  "companyName": "Arvind SmartSpaces Limited",
+  "marketCapTier": "SMALLCAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-15T12:27:21.062Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Capital sizing should reflect this uncertainty.",
+    "allocationRecommendation": "CAPPED_ALLOCATION",
+    "portfolioPolicy": {
+      "directive": "CAPPED_ALLOCATION",
+      "targetSizingCapRatio": 0.5,
+      "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_ARVSMART",
+      "nodes": [
+        {
+          "id": "DEC_ARVSMART",
+          "type": "DECISION",
+          "refId": "ARVSMART",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_ARVSMART",
+          "type": "ALLOCATION",
+          "refId": "CAPPED_ALLOCATION",
+          "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+        },
+        {
+          "id": "THESIS_ARVSMART",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_ARVSMART",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 89/100)"
+        },
+        {
+          "id": "RISK_ARVSMART",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_ARVSMART",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_ARV_LEVERAGE",
+          "type": "RULE",
+          "refId": "TB_ARV_LEVERAGE",
+          "version": "2026.09",
+          "label": "Breaker TB_ARV_LEVERAGE: INACTIVE (Observed: -0.18)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_ARVSMART",
+          "to": "DEC_ARVSMART",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_ARVSMART",
+          "to": "DEC_ARVSMART",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_ARVSMART",
+          "to": "THESIS_ARVSMART",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_ARVSMART",
+          "to": "THESIS_ARVSMART",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_ARVSMART",
+          "to": "ALLOC_ARVSMART",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_ARV_LEVERAGE",
+          "to": "RISK_ARVSMART",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_ARVSMART_20260915",
+      "decisionId": "DECISION_ARVSMART",
+      "issuerSymbol": "ARVSMART",
+      "evaluatedAt": "2026-09-15T12:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2",
+      "ontologyVersion": "1.2",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_ARVSMART_01",
+          "issuerSymbol": "ARVSMART",
+          "metric": "PRE_SALES",
+          "metricId": "PRE_SALES",
+          "metricFamily": "REVENUE",
+          "value": 1107,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_ARV_AR24_P28",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_ARV_AR24_P28",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_ARV_AR24_P28",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_ARVSMART_02",
+          "issuerSymbol": "ARVSMART",
+          "metric": "PRE_SALES",
+          "metricId": "PRE_SALES",
+          "metricFamily": "REVENUE",
+          "value": 1107,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_ARV_DISCLOSURE_Q4",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_ARV_DISCLOSURE_Q4",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_ARV_DISCLOSURE_Q4",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_ARVSMART_03",
+          "issuerSymbol": "ARVSMART",
+          "metric": "FINANCIAL_METRIC",
+          "metricId": "FINANCIAL_METRIC",
+          "metricFamily": "REVENUE",
+          "value": 0,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_ARV_LEVERAGE_Q4",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_ARV_LEVERAGE_Q4",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_ARV_LEVERAGE_Q4",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_ARV_01",
+          "issuerNseSymbol": "ARVSMART",
+          "issuerBseCode": "539301",
+          "period": "FY24",
+          "category": "GROWTH",
+          "statement": "Pre-sales bookings targeted to exceed ₹1,000 Cr in FY24.",
+          "targetMetric": "pre_sales_inr_cr",
+          "baselineValue": 802,
+          "expectedValue": 1000,
+          "expectedOutcome": "Pre-sales bookings >= ₹1,000 Cr",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_ARV_AR24_P28",
+          "claimDate": "2023-07-28",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 1107,
+          "actualOutcomeDescription": "Pre-sales reached ₹1,107 Cr, beating ₹1,000 Cr target",
+          "evaluationEvidenceId": "EV_ARV_DISCLOSURE_Q4",
+          "evaluationDate": "2024-05-18",
+          "evaluationBasis": "BSE Audited Financial Results and Segmental Presentation",
+          "createdAt": "2023-07-28T10:00:00.000Z",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_ARVSMART_01",
+          "publicationDate": "2023-07-28",
+          "publicationDateType": "MANAGEMENT_COMMENT"
+        }
+      ],
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_ARV_LEVERAGE",
+          "name": "Leverage Incurrence Breaker",
+          "description": "Net Debt / Equity must not exceed 0.5x",
+          "type": "QUANTITATIVE",
+          "evaluationMethod": "METRIC_THRESHOLD",
+          "conditionText": "Net Debt / Equity > 0.5",
+          "quantitativeCondition": {
+            "metric": "net_debt_to_equity",
+            "operator": ">",
+            "threshold": 0.5,
+            "evaluationPeriod": "annual",
+            "evidenceRequired": true
+          },
+          "status": "INACTIVE",
+          "severity": "HIGH",
+          "rationale": "Metric within safe boundaries: net_debt_to_equity (-0.18) does not violate > 0.5.",
+          "evidenceIds": [
+            "EV_ARV_LEVERAGE_Q4"
+          ],
+          "currentObservedValue": -0.18
+        }
+      ],
+      "rawInputContradictions": [],
+      "rawQuantInput": {
+        "symbol": "ARVSMART",
+        "strategyAgreementCount": 6,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 89,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY"
+      },
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Capital sizing should reflect this uncertainty.",
+        "allocationRecommendation": "CAPPED_ALLOCATION"
+      },
+      "portfolioPolicy": {
+        "directive": "CAPPED_ALLOCATION",
+        "targetSizingCapRatio": 0.5,
+        "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_ARVSMART",
+        "nodes": [
+          {
+            "id": "DEC_ARVSMART",
+            "type": "DECISION",
+            "refId": "ARVSMART",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_ARVSMART",
+            "type": "ALLOCATION",
+            "refId": "CAPPED_ALLOCATION",
+            "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+          },
+          {
+            "id": "THESIS_ARVSMART",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_ARVSMART",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 89/100)"
+          },
+          {
+            "id": "RISK_ARVSMART",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_ARVSMART",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_ARV_LEVERAGE",
+            "type": "RULE",
+            "refId": "TB_ARV_LEVERAGE",
+            "version": "2026.09",
+            "label": "Breaker TB_ARV_LEVERAGE: INACTIVE (Observed: -0.18)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_ARVSMART",
+            "to": "DEC_ARVSMART",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_ARVSMART",
+            "to": "DEC_ARVSMART",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_ARVSMART",
+            "to": "THESIS_ARVSMART",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_ARVSMART",
+            "to": "THESIS_ARVSMART",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_ARVSMART",
+            "to": "ALLOC_ARVSMART",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_ARV_LEVERAGE",
+            "to": "RISK_ARVSMART",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "ad9f78c170c2b589fd3f8e20900b0b96b05f84e76bd1877a7b2bb86e96b92bab",
+      "canonicalStateHash": "ad9f78c170c2b589fd3f8e20900b0b96b05f84e76bd1877a7b2bb86e96b92bab"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "MEDIUM",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity supported by clean qualitative intelligence and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Capital sizing should reflect this uncertainty."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 6/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 89/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#ARVSMART",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Pre-sales bookings targeted to exceed ₹1,000 Cr in FY24.",
+      "detail": "Disclosed actual outcome: Pre-sales reached ₹1,107 Cr, beating ₹1,000 Cr target",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_ARV_AR24_P28 -> Resolution#EV_ARV_DISCLOSURE_Q4",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "ARVSMART",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 1,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_ARV_01",
+        "statement": "Pre-sales bookings targeted to exceed ₹1,000 Cr in FY24.",
+        "period": "FY24",
+        "expected": "Pre-sales bookings >= ₹1,000 Cr",
+        "actual": "Pre-sales reached ₹1,107 Cr, beating ₹1,000 Cr target",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_ARV_AR24_P28 -> Resolution#EV_ARV_DISCLOSURE_Q4"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_ARVSMART"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_ARVSMART"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-05-18",
+      "source": "BSE_DISCLOSURE",
+      "headline": "Arvind SmartSpaces confirms net cash balance sheet and ₹400 Cr new project pipeline",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_ARV_LEVERAGE",
+      "name": "Leverage Incurrence Breaker",
+      "description": "Net Debt / Equity must not exceed 0.5x",
+      "type": "QUANTITATIVE",
+      "evaluationMethod": "METRIC_THRESHOLD",
+      "conditionText": "Net Debt / Equity > 0.5",
+      "quantitativeCondition": {
+        "metric": "net_debt_to_equity",
+        "operator": ">",
+        "threshold": 0.5,
+        "evaluationPeriod": "annual",
+        "evidenceRequired": true
+      },
+      "status": "INACTIVE",
+      "severity": "HIGH",
+      "rationale": "Metric within safe boundaries: net_debt_to_equity (-0.18) does not violate > 0.5.",
+      "evidenceIds": [
+        "EV_ARV_LEVERAGE_Q4"
+      ],
+      "currentObservedValue": -0.18
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "MEDIUM",
+    "directSourcesCount": 3,
+    "corroboratedCount": 1,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Asset-light horizontal plotted residential model backed by Lalbhai brand delivers 30%+ ROCE with zero balance-sheet distress.\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_MRP_01",
+    "issuerNseSymbol": "MRP",
+    "issuerBseCode": "543262",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Scale agro commodity procurement and trading volume to exceed ₹85 Cr in FY24.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 78,
+    "expectedValue": 85,
+    "expectedOutcome": "Revenue >= ₹85 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_MRP_REV_01",
+    "claimDate": "2023-08-10",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 92,
+    "actualOutcomeDescription": "Delivered ₹92 Cr trading revenue.",
+    "evaluationEvidenceId": "EV_MRP_REV_01",
+    "evaluationDate": "2024-05-25",
+    "evaluationBasis": "BSE Audited Financial Results",
+    "publicationDate": "2023-08-10",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_MRP_01"
+  }
+]

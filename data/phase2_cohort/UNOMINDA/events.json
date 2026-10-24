@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_UNO_01",
+    "issuerNseSymbol": "UNOMINDA",
+    "issuerBseCode": "532539",
+    "eventDate": "2024-05-16",
+    "category": "ORDER_BOOK",
+    "headline": "UNO Minda crosses ₹1,200 Cr EV order book commitments",
+    "description": "Exchange filing confirms commercialization of next-gen smart controllers and lighting systems",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "BSE_DISCLOSURE",
+    "evidenceId": "EV_UNO_DISCLOSURE_Q4",
+    "materiality": "MATERIAL",
+    "createdAt": "2024-05-16T09:15:00.000Z"
+  }
+]

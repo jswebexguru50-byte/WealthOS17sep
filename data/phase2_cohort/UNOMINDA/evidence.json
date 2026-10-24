@@ -1,0 +1,41 @@
+[
+  {
+    "evidenceId": "EV_UNO_AR24_P56",
+    "issuerNseSymbol": "UNOMINDA",
+    "issuerBseCode": "532539",
+    "documentId": "DOC_UNO_AR2024",
+    "documentHash": "840192cae981248ba014829bc39104aa1098234af09281ca8401928eb471928b",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 56,
+    "pagePrinted": 54,
+    "quotedText": "Targeting EV kit value per 2-wheeler to cross ₹25,000 on high-voltage battery management systems and controllers.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+  },
+  {
+    "evidenceId": "EV_UNO_DISCLOSURE_Q4",
+    "issuerNseSymbol": "UNOMINDA",
+    "issuerBseCode": "532539",
+    "documentId": "DOC_UNO_BSE_Q4FY24",
+    "documentHash": "9201bd9840291ca8e47192bd840219cae901482ba014829be49102ca7281ef84",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 8,
+    "pagePrinted": 8,
+    "quotedText": "EV potential kit value achieved ₹27,800 per vehicle for 2-wheelers with ₹1,200 Cr in EV order book commitments.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  },
+  {
+    "evidenceId": "EV_UNO_LEVERAGE_Q4",
+    "issuerNseSymbol": "UNOMINDA",
+    "issuerBseCode": "532539",
+    "documentId": "DOC_UNO_BSE_Q4FY24",
+    "documentHash": "9201bd9840291ca8e47192bd840219cae901482ba014829be49102ca7281ef84",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 18,
+    "pagePrinted": 18,
+    "quotedText": "Consolidated Net Debt stood at ₹912 Cr against FY24 EBITDA of ₹1,582 Cr, resulting in conservative Net Debt / EBITDA of 0.58x.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  }
+]

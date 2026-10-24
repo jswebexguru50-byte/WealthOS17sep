@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_APOLLO_01",
+    "issuerNseSymbol": "APOLLO",
+    "issuerBseCode": "540879",
+    "period": "FY24",
+    "category": "ORDER_BOOK",
+    "statement": "Defense and aerospace order book targeted to surpass ₹1,000 Cr by end of FY24.",
+    "targetMetric": "order_book_cr",
+    "baselineValue": 750,
+    "expectedValue": 1000,
+    "expectedOutcome": "Order Book >= ₹1,000 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_APOLLO_ORDER_01",
+    "claimDate": "2023-08-14",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 1120,
+    "actualOutcomeDescription": "Achieved order book of ₹1,120 Cr as of 31 March 2024.",
+    "evaluationEvidenceId": "EV_APOLLO_ORDER_01",
+    "evaluationDate": "2024-05-25",
+    "evaluationBasis": "BSE Audited Financial Results and Segmental Release",
+    "publicationDate": "2023-08-14",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_APOLLO_01"
+  }
+]

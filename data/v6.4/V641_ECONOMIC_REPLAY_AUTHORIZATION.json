@@ -1,0 +1,37 @@
+{
+  "version": "v6.4.1",
+  "authorizationType": "DATA_VALIDATION_SCOPE",
+  "authorizedStrategies": [
+    "S1",
+    "S3"
+  ],
+  "authorizedUniverse": "VALIDATED_10_SYMBOL_RESEARCH_SUBSET",
+  "authorizationScope": "10_SYMBOL_VALIDATED_SUBSET_ONLY",
+  "fullUniverse500Authorized": false,
+  "blockingStrategies": [
+    "S2",
+    "S4",
+    "S5",
+    "S6",
+    "S7",
+    "S8",
+    "S9",
+    "S10",
+    "S11",
+    "S12",
+    "S13",
+    "S14",
+    "S15",
+    "S16",
+    "S17",
+    "S18",
+    "S19",
+    "S20"
+  ],
+  "sourceEvidenceHashes": {
+    "v63LedgerSha256": "035d8867f1f8dbc65f9fe35ea45263f20f9fee00a48d3d7f48807c24a2afd485"
+  },
+  "validatorVersion": "v6.4.1-INDEPENDENT-GATE",
+  "productionPromotionAuthorized": false,
+  "timestamp": "2026-09-17T15:44:57.357Z"
+}

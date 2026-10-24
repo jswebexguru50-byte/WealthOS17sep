@@ -1,0 +1,556 @@
+{
+  "symbol": "KAVVERITEL",
+  "companyName": "Kavveri Telecom Products Limited",
+  "marketCapTier": "MICROCAP_SME",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-15T14:00:49.000Z",
+  "decisionState": {
+    "quantOpportunity": "WEAK",
+    "intelligenceRisk": "CRITICAL",
+    "thesisState": "BROKEN",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 1,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "WEAK quantitative opportunity paired with CRITICAL intelligence risk (BROKEN thesis state). Breaker active: Negative net worth (-₹182.4 Cr) triggers insolvency tripwire. Review open unknowns and evidence before decision.",
+    "allocationRecommendation": "HARD_EXCLUSION_VETO",
+    "portfolioPolicy": {
+      "directive": "HARD_EXCLUSION_VETO",
+      "targetSizingCapRatio": 0,
+      "policyRationale": "Active catastrophic thesis breaker or insolvency risk triggers immediate exclusion veto. Zero capital permitted."
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_KAVVERITEL",
+      "nodes": [
+        {
+          "id": "DEC_KAVVERITEL",
+          "type": "DECISION",
+          "refId": "KAVVERITEL",
+          "label": "Final Investment Decision: BROKEN"
+        },
+        {
+          "id": "ALLOC_KAVVERITEL",
+          "type": "ALLOCATION",
+          "refId": "HARD_EXCLUSION_VETO",
+          "label": "Allocation Policy: HARD_EXCLUSION_VETO (0%)"
+        },
+        {
+          "id": "THESIS_KAVVERITEL",
+          "type": "THESIS",
+          "refId": "BROKEN",
+          "label": "Reconciled Thesis State: BROKEN"
+        },
+        {
+          "id": "QUANT_KAVVERITEL",
+          "type": "RULE",
+          "refId": "WEAK",
+          "version": "2026.09",
+          "label": "Quant Opportunity: WEAK (Score: 25/100)"
+        },
+        {
+          "id": "RISK_KAVVERITEL",
+          "type": "RULE",
+          "refId": "CRITICAL",
+          "version": "2026.09",
+          "label": "Intelligence Risk: CRITICAL"
+        },
+        {
+          "id": "CRED_KAVVERITEL",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_KAV_NETWORTH",
+          "type": "RULE",
+          "refId": "TB_KAV_NETWORTH",
+          "version": "2026.09",
+          "label": "Breaker TB_KAV_NETWORTH: ACTIVE (Observed: -182.4)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_KAVVERITEL",
+          "to": "DEC_KAVVERITEL",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_KAVVERITEL",
+          "to": "DEC_KAVVERITEL",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_KAVVERITEL",
+          "to": "THESIS_KAVVERITEL",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_KAVVERITEL",
+          "to": "THESIS_KAVVERITEL",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_KAVVERITEL",
+          "to": "ALLOC_KAVVERITEL",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_KAV_NETWORTH",
+          "to": "RISK_KAVVERITEL",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "BRK_TB_KAV_NETWORTH",
+          "to": "THESIS_KAVVERITEL",
+          "relation": "CONTRADICTED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_KAVVERITEL_20260915",
+      "decisionId": "DECISION_KAVVERITEL",
+      "issuerSymbol": "KAVVERITEL",
+      "evaluatedAt": "2026-09-15T12:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2",
+      "ontologyVersion": "1.2",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_KAVVERITEL_01",
+          "issuerSymbol": "KAVVERITEL",
+          "metric": "FINANCIAL_METRIC",
+          "metricId": "FINANCIAL_METRIC",
+          "metricFamily": "REVENUE",
+          "value": 0,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_KAV_PROMISE_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_KAV_PROMISE_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_KAV_PROMISE_01",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_KAVVERITEL_02",
+          "issuerSymbol": "KAVVERITEL",
+          "metric": "NET_WORTH",
+          "metricId": "NET_WORTH",
+          "metricFamily": "SOLVENCY",
+          "value": -182.4,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "STOCK",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_KAV_RESULT_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_KAV_RESULT_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_KAV_RESULT_01",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_KAV_01",
+          "issuerNseSymbol": "KAVVERITEL",
+          "issuerBseCode": "590041",
+          "period": "FY24",
+          "category": "DEBT_FINANCING",
+          "statement": "Debt restructuring scheme approval and operational resumption expected in FY24.",
+          "targetMetric": "operational_resumption",
+          "baselineValue": 0,
+          "expectedValue": 1,
+          "expectedOutcome": "Operations resumed under approved resolution",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_KAV_PROMISE_01",
+          "claimDate": "2023-09-15",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "MISSED",
+          "actualOutcomeMetric": 0,
+          "actualOutcomeDescription": "Operations non-functional, negative net worth ₹(182.4) Cr, ongoing DRT recovery",
+          "evaluationEvidenceId": "EV_KAV_RESULT_01",
+          "evaluationDate": "2024-05-30",
+          "evaluationBasis": "BSE Audited Financial Accounts and Auditor Going Concern Disclaimers",
+          "createdAt": "2023-09-15T10:00:00.000Z",
+          "targetTemporalSemantics": "DEADLINE",
+          "factId": "FACT_KAVVERITEL_01",
+          "publicationDate": "2023-09-15",
+          "publicationDateType": "MANAGEMENT_COMMENT"
+        }
+      ],
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_KAV_NETWORTH",
+          "name": "Negative Net Worth Insolvency Breaker",
+          "description": "Net Worth must not remain negative with shuttered operations",
+          "type": "QUANTITATIVE",
+          "evaluationMethod": "METRIC_THRESHOLD",
+          "conditionText": "Net Worth < 0",
+          "quantitativeCondition": {
+            "metric": "net_worth_inr_cr",
+            "operator": "<",
+            "threshold": 0,
+            "evaluationPeriod": "annual",
+            "evidenceRequired": true
+          },
+          "status": "ACTIVE",
+          "severity": "CRITICAL",
+          "rationale": "Breaker triggered: net_worth_inr_cr (-182.4) < threshold (0).",
+          "evidenceIds": [
+            "EV_KAV_RESULT_01"
+          ],
+          "currentObservedValue": -182.4
+        }
+      ],
+      "rawInputContradictions": [
+        {
+          "contradictionId": "CONTRA_KAV_01",
+          "issuerNseSymbol": "KAVVERITEL",
+          "issuerBseCode": "590041",
+          "severity": "CRITICAL",
+          "type": "CLAIM_VS_RESULT",
+          "claimId": "CLM_KAV_01",
+          "eventId": "EVT_KAV_01",
+          "description": "Management promised debt restructuring approval and resumption, but company suffered complete net worth erosion and DRT recovery",
+          "divergenceDetails": {
+            "targetStatus": "RESUMED",
+            "actualStatus": "SHUTTERED",
+            "netWorthInrCr": -182.4
+          },
+          "leftEvidenceId": "EV_KAV_PROMISE_01",
+          "rightEvidenceId": "EV_KAV_RESULT_01",
+          "supportingEvidenceIds": [],
+          "status": "OPEN",
+          "materiality": "CRITICAL",
+          "detectedAt": "2024-05-30T10:00:00.000Z",
+          "createdAt": "2026-09-15 14:00:48",
+          "resolvedAt": null,
+          "resolutionBasis": null
+        }
+      ],
+      "rawQuantInput": {
+        "symbol": "KAVVERITEL",
+        "strategyAgreementCount": 1,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 25,
+        "marketRegime": "BEARISH",
+        "quantDirective": "SELL"
+      },
+      "decisionState": {
+        "quantOpportunity": "WEAK",
+        "intelligenceRisk": "CRITICAL",
+        "thesisState": "BROKEN",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 1,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "WEAK quantitative opportunity paired with CRITICAL intelligence risk (BROKEN thesis state). Breaker active: Negative net worth (-₹182.4 Cr) triggers insolvency tripwire. Review open unknowns and evidence before decision.",
+        "allocationRecommendation": "HARD_EXCLUSION_VETO"
+      },
+      "portfolioPolicy": {
+        "directive": "HARD_EXCLUSION_VETO",
+        "targetSizingCapRatio": 0,
+        "policyRationale": "Active catastrophic thesis breaker or insolvency risk triggers immediate exclusion veto. Zero capital permitted."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_KAVVERITEL",
+        "nodes": [
+          {
+            "id": "DEC_KAVVERITEL",
+            "type": "DECISION",
+            "refId": "KAVVERITEL",
+            "label": "Final Investment Decision: BROKEN"
+          },
+          {
+            "id": "ALLOC_KAVVERITEL",
+            "type": "ALLOCATION",
+            "refId": "HARD_EXCLUSION_VETO",
+            "label": "Allocation Policy: HARD_EXCLUSION_VETO (0%)"
+          },
+          {
+            "id": "THESIS_KAVVERITEL",
+            "type": "THESIS",
+            "refId": "BROKEN",
+            "label": "Reconciled Thesis State: BROKEN"
+          },
+          {
+            "id": "QUANT_KAVVERITEL",
+            "type": "RULE",
+            "refId": "WEAK",
+            "version": "2026.09",
+            "label": "Quant Opportunity: WEAK (Score: 25/100)"
+          },
+          {
+            "id": "RISK_KAVVERITEL",
+            "type": "RULE",
+            "refId": "CRITICAL",
+            "version": "2026.09",
+            "label": "Intelligence Risk: CRITICAL"
+          },
+          {
+            "id": "CRED_KAVVERITEL",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_KAV_NETWORTH",
+            "type": "RULE",
+            "refId": "TB_KAV_NETWORTH",
+            "version": "2026.09",
+            "label": "Breaker TB_KAV_NETWORTH: ACTIVE (Observed: -182.4)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_KAVVERITEL",
+            "to": "DEC_KAVVERITEL",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_KAVVERITEL",
+            "to": "DEC_KAVVERITEL",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_KAVVERITEL",
+            "to": "THESIS_KAVVERITEL",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_KAVVERITEL",
+            "to": "THESIS_KAVVERITEL",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_KAVVERITEL",
+            "to": "ALLOC_KAVVERITEL",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_KAV_NETWORTH",
+            "to": "RISK_KAVVERITEL",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "BRK_TB_KAV_NETWORTH",
+            "to": "THESIS_KAVVERITEL",
+            "relation": "CONTRADICTED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "bde8ad9ca3881841bb11099313dab320200d93ea37eaf0fbb5f381036abdeeaa",
+      "canonicalStateHash": "bde8ad9ca3881841bb11099313dab320200d93ea37eaf0fbb5f381036abdeeaa"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "NEGATIVE",
+    "confidence": "MEDIUM",
+    "decisionImplication": "CHALLENGES_THESIS",
+    "oneLineSummary": "WEAK quantitative opportunity paired with CRITICAL intelligence risk (BROKEN thesis state). Breaker active: Negative net worth (-₹182.4 Cr) triggers insolvency tripwire. Review open unknowns and evidence before decision."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 1/20 strategies aligned in BEARISH regime",
+      "detail": "ITAS Signal Strength: 25/100 with active directive SELL.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#KAVVERITEL",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [
+    {
+      "headline": "Contradiction detected (CRITICAL severity): Management promised debt restructuring approval and resumption, but company suffered complete net worth erosion and DRT recovery",
+      "detail": "Disclosed divergence between promise and observed financial reality.",
+      "sourceDocType": "CONTRADICTION_ENGINE",
+      "evidenceLineage": "LeftEvidence#EV_KAV_PROMISE_01 vs RightEvidence#EV_KAV_RESULT_01",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Active Thesis Breaker: Negative Net Worth Insolvency Breaker",
+      "detail": "Breaker triggered: net_worth_inr_cr (-182.4) < threshold (0).",
+      "sourceDocType": "THESIS_BREAKER_ENGINE",
+      "evidenceLineage": "EV_KAV_RESULT_01",
+      "significance": "HIGH"
+    }
+  ],
+  "walkTheTalk": {
+    "symbol": "KAVVERITEL",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 0,
+    "partiallyAchievedCount": 0,
+    "missedCount": 1,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_KAV_01",
+        "statement": "Debt restructuring scheme approval and operational resumption expected in FY24.",
+        "period": "FY24",
+        "expected": "Operations resumed under approved resolution",
+        "actual": "Operations non-functional, negative net worth ₹(182.4) Cr, ongoing DRT recovery",
+        "status": "MISSED",
+        "evidenceLineage": "Evidence#EV_KAV_PROMISE_01 -> Resolution#EV_KAV_RESULT_01"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_KAVVERITEL"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_KAVVERITEL"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-05-30",
+      "source": "BSE_DISCLOSURE",
+      "headline": "Kavveri Telecom net worth fully eroded at ₹(182.4) Cr with statutory auditor going concern disclaimer",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    }
+  ],
+  "openContradictions": [
+    {
+      "contradictionId": "CONTRA_KAV_01",
+      "issuerNseSymbol": "KAVVERITEL",
+      "issuerBseCode": "590041",
+      "severity": "CRITICAL",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_KAV_01",
+      "eventId": "EVT_KAV_01",
+      "description": "Management promised debt restructuring approval and resumption, but company suffered complete net worth erosion and DRT recovery",
+      "divergenceDetails": {
+        "targetStatus": "RESUMED",
+        "actualStatus": "SHUTTERED",
+        "netWorthInrCr": -182.4
+      },
+      "leftEvidenceId": "EV_KAV_PROMISE_01",
+      "rightEvidenceId": "EV_KAV_RESULT_01",
+      "supportingEvidenceIds": [],
+      "status": "OPEN",
+      "materiality": "CRITICAL",
+      "detectedAt": "2024-05-30T10:00:00.000Z",
+      "createdAt": "2026-09-15 14:00:48",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_KAV_NETWORTH",
+      "name": "Negative Net Worth Insolvency Breaker",
+      "description": "Net Worth must not remain negative with shuttered operations",
+      "type": "QUANTITATIVE",
+      "evaluationMethod": "METRIC_THRESHOLD",
+      "conditionText": "Net Worth < 0",
+      "quantitativeCondition": {
+        "metric": "net_worth_inr_cr",
+        "operator": "<",
+        "threshold": 0,
+        "evaluationPeriod": "annual",
+        "evidenceRequired": true
+      },
+      "status": "ACTIVE",
+      "severity": "CRITICAL",
+      "rationale": "Breaker triggered: net_worth_inr_cr (-182.4) < threshold (0).",
+      "evidenceIds": [
+        "EV_KAV_RESULT_01"
+      ],
+      "currentObservedValue": -182.4
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "MEDIUM",
+    "directSourcesCount": 2,
+    "corroboratedCount": 0,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Speculative telecom antenna revival proxy dependent on debt restructuring and asset sales.\". Qualitative status: BROKEN. Review before trade authorization."
+}

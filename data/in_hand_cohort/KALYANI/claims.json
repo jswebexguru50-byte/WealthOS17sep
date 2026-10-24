@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_KALYANI_01",
+    "issuerNseSymbol": "KALYANI",
+    "issuerBseCode": "544013",
+    "period": "FY24",
+    "category": "MARGIN",
+    "statement": "Target post-listing EBITDA margin of 8.0% supported by railway container components.",
+    "targetMetric": "ebitda_margin_pct",
+    "baselineValue": 7.5,
+    "expectedValue": 8,
+    "expectedOutcome": "EBITDA margin >= 8.0%",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_KALYANI_PROMISE_01",
+    "claimDate": "2023-11-02",
+    "expectedPeriodStart": "2023-10-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "MISSED",
+    "actualOutcomeMetric": 4.8,
+    "actualOutcomeDescription": "Delivered 4.8% EBITDA margin, missing the 8.0% target by 320 bps.",
+    "evaluationEvidenceId": "EV_KALYANI_RESULT_01",
+    "evaluationDate": "2024-05-30",
+    "evaluationBasis": "BSE Audited Financial Accounts FY24",
+    "publicationDate": "2023-11-02",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_KALYANI_02"
+  }
+]

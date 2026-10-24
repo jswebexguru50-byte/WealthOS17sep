@@ -1,0 +1,557 @@
+{
+  "symbol": "IKIO",
+  "companyName": "IKIO Lighting Limited",
+  "marketCapTier": "SMALLCAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-15T14:00:48.924Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "CRITICAL",
+    "thesisState": "BROKEN",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 1,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "Quantitative signal is active, but confirmed thesis breaker(s) invalidates the investment thesis. Quantitative signal should not dominate.",
+    "allocationRecommendation": "HARD_EXCLUSION_VETO",
+    "portfolioPolicy": {
+      "directive": "HARD_EXCLUSION_VETO",
+      "targetSizingCapRatio": 0,
+      "policyRationale": "Active catastrophic thesis breaker or insolvency risk triggers immediate exclusion veto. Zero capital permitted."
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_IKIO",
+      "nodes": [
+        {
+          "id": "DEC_IKIO",
+          "type": "DECISION",
+          "refId": "IKIO",
+          "label": "Final Investment Decision: BROKEN"
+        },
+        {
+          "id": "ALLOC_IKIO",
+          "type": "ALLOCATION",
+          "refId": "HARD_EXCLUSION_VETO",
+          "label": "Allocation Policy: HARD_EXCLUSION_VETO (0%)"
+        },
+        {
+          "id": "THESIS_IKIO",
+          "type": "THESIS",
+          "refId": "BROKEN",
+          "label": "Reconciled Thesis State: BROKEN"
+        },
+        {
+          "id": "QUANT_IKIO",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 83/100)"
+        },
+        {
+          "id": "RISK_IKIO",
+          "type": "RULE",
+          "refId": "CRITICAL",
+          "version": "2026.09",
+          "label": "Intelligence Risk: CRITICAL"
+        },
+        {
+          "id": "CRED_IKIO",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_IKIO_CONC",
+          "type": "RULE",
+          "refId": "TB_IKIO_CONC",
+          "version": "2026.09",
+          "label": "Breaker TB_IKIO_CONC: ACTIVE (Observed: 68)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_IKIO",
+          "to": "DEC_IKIO",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_IKIO",
+          "to": "DEC_IKIO",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_IKIO",
+          "to": "THESIS_IKIO",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_IKIO",
+          "to": "THESIS_IKIO",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_IKIO",
+          "to": "ALLOC_IKIO",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_IKIO_CONC",
+          "to": "RISK_IKIO",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "BRK_TB_IKIO_CONC",
+          "to": "THESIS_IKIO",
+          "relation": "CONTRADICTED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_IKIO_20260915",
+      "decisionId": "DECISION_IKIO",
+      "issuerSymbol": "IKIO",
+      "evaluatedAt": "2026-09-15T12:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2",
+      "ontologyVersion": "1.2",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_IKIO_01",
+          "issuerSymbol": "IKIO",
+          "metric": "FINANCIAL_METRIC",
+          "metricId": "FINANCIAL_METRIC",
+          "metricFamily": "REVENUE",
+          "value": 0,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_IKIO_PROMISE_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_IKIO_PROMISE_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_IKIO_PROMISE_01",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_IKIO_02",
+          "issuerSymbol": "IKIO",
+          "metric": "FINANCIAL_METRIC",
+          "metricId": "FINANCIAL_METRIC",
+          "metricFamily": "REVENUE",
+          "value": 0,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_IKIO_RESULT_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_IKIO_RESULT_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_IKIO_RESULT_01",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_IKIO_01",
+          "issuerNseSymbol": "IKIO",
+          "issuerBseCode": "543923",
+          "period": "FY24",
+          "category": "CUSTOMER_SUPPLIER",
+          "statement": "Non-anchor customer revenue targeted to exceed 40% of sales by FY24.",
+          "targetMetric": "non_anchor_revenue_pct",
+          "baselineValue": 28,
+          "expectedValue": 40,
+          "expectedOutcome": "Non-anchor revenue >= 40%",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_IKIO_PROMISE_01",
+          "claimDate": "2023-06-20",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "MISSED",
+          "actualOutcomeMetric": 32,
+          "actualOutcomeDescription": "Non-anchor revenue reached only 32% with anchor client contributing 68%",
+          "evaluationEvidenceId": "EV_IKIO_RESULT_01",
+          "evaluationDate": "2024-05-25",
+          "evaluationBasis": "BSE Audited Financial Results and Segmental Customer Notes",
+          "createdAt": "2023-06-20T10:00:00.000Z",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_IKIO_01",
+          "publicationDate": "2023-06-20",
+          "publicationDateType": "MANAGEMENT_COMMENT"
+        }
+      ],
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_IKIO_CONC",
+          "name": "Single Customer Concentration Ceiling Breaker",
+          "description": "Anchor client share of revenue must not exceed 65%",
+          "type": "QUANTITATIVE",
+          "evaluationMethod": "METRIC_THRESHOLD",
+          "conditionText": "Single Client Revenue % > 65",
+          "quantitativeCondition": {
+            "metric": "single_client_revenue_pct",
+            "operator": ">",
+            "threshold": 65,
+            "evaluationPeriod": "annual",
+            "evidenceRequired": true
+          },
+          "status": "ACTIVE",
+          "severity": "HIGH",
+          "rationale": "Breaker triggered: single_client_revenue_pct (68) > threshold (65).",
+          "evidenceIds": [
+            "EV_IKIO_RESULT_01"
+          ],
+          "currentObservedValue": 68
+        }
+      ],
+      "rawInputContradictions": [
+        {
+          "contradictionId": "CONTRA_IKIO_01",
+          "issuerNseSymbol": "IKIO",
+          "issuerBseCode": "543923",
+          "severity": "HIGH",
+          "type": "CLAIM_VS_RESULT",
+          "claimId": "CLM_IKIO_01",
+          "eventId": "EVT_IKIO_01",
+          "description": "Management guided non-anchor revenue > 40%, but single anchor client delivered 68% of sales",
+          "divergenceDetails": {
+            "targetNonAnchorPct": 40,
+            "actualNonAnchorPct": 32,
+            "anchorClientPct": 68
+          },
+          "leftEvidenceId": "EV_IKIO_PROMISE_01",
+          "rightEvidenceId": "EV_IKIO_RESULT_01",
+          "supportingEvidenceIds": [],
+          "status": "OPEN",
+          "materiality": "HIGH",
+          "detectedAt": "2024-05-25T10:00:00.000Z",
+          "createdAt": "2026-09-15 14:00:48",
+          "resolvedAt": null,
+          "resolutionBasis": null
+        }
+      ],
+      "rawQuantInput": {
+        "symbol": "IKIO",
+        "strategyAgreementCount": 6,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 83,
+        "marketRegime": "BULLISH",
+        "quantDirective": "BUY"
+      },
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "CRITICAL",
+        "thesisState": "BROKEN",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 1,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "Quantitative signal is active, but confirmed thesis breaker(s) invalidates the investment thesis. Quantitative signal should not dominate.",
+        "allocationRecommendation": "HARD_EXCLUSION_VETO"
+      },
+      "portfolioPolicy": {
+        "directive": "HARD_EXCLUSION_VETO",
+        "targetSizingCapRatio": 0,
+        "policyRationale": "Active catastrophic thesis breaker or insolvency risk triggers immediate exclusion veto. Zero capital permitted."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_IKIO",
+        "nodes": [
+          {
+            "id": "DEC_IKIO",
+            "type": "DECISION",
+            "refId": "IKIO",
+            "label": "Final Investment Decision: BROKEN"
+          },
+          {
+            "id": "ALLOC_IKIO",
+            "type": "ALLOCATION",
+            "refId": "HARD_EXCLUSION_VETO",
+            "label": "Allocation Policy: HARD_EXCLUSION_VETO (0%)"
+          },
+          {
+            "id": "THESIS_IKIO",
+            "type": "THESIS",
+            "refId": "BROKEN",
+            "label": "Reconciled Thesis State: BROKEN"
+          },
+          {
+            "id": "QUANT_IKIO",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 83/100)"
+          },
+          {
+            "id": "RISK_IKIO",
+            "type": "RULE",
+            "refId": "CRITICAL",
+            "version": "2026.09",
+            "label": "Intelligence Risk: CRITICAL"
+          },
+          {
+            "id": "CRED_IKIO",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_IKIO_CONC",
+            "type": "RULE",
+            "refId": "TB_IKIO_CONC",
+            "version": "2026.09",
+            "label": "Breaker TB_IKIO_CONC: ACTIVE (Observed: 68)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_IKIO",
+            "to": "DEC_IKIO",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_IKIO",
+            "to": "DEC_IKIO",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_IKIO",
+            "to": "THESIS_IKIO",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_IKIO",
+            "to": "THESIS_IKIO",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_IKIO",
+            "to": "ALLOC_IKIO",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_IKIO_CONC",
+            "to": "RISK_IKIO",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "BRK_TB_IKIO_CONC",
+            "to": "THESIS_IKIO",
+            "relation": "CONTRADICTED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "008bd53a27148b2469ae997fd08b8c56ba18b90d087a7919355963f22c15c6c6",
+      "canonicalStateHash": "008bd53a27148b2469ae997fd08b8c56ba18b90d087a7919355963f22c15c6c6"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "NEGATIVE",
+    "confidence": "MEDIUM",
+    "decisionImplication": "CHALLENGES_THESIS",
+    "oneLineSummary": "Quantitative signal is active, but confirmed thesis breaker(s) invalidates the investment thesis. Quantitative signal should not dominate."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 6/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 83/100 with active directive BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#IKIO",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [
+    {
+      "headline": "Contradiction detected (HIGH severity): Management guided non-anchor revenue > 40%, but single anchor client delivered 68% of sales",
+      "detail": "Disclosed divergence between promise and observed financial reality.",
+      "sourceDocType": "CONTRADICTION_ENGINE",
+      "evidenceLineage": "LeftEvidence#EV_IKIO_PROMISE_01 vs RightEvidence#EV_IKIO_RESULT_01",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Active Thesis Breaker: Single Customer Concentration Ceiling Breaker",
+      "detail": "Breaker triggered: single_client_revenue_pct (68) > threshold (65).",
+      "sourceDocType": "THESIS_BREAKER_ENGINE",
+      "evidenceLineage": "EV_IKIO_RESULT_01",
+      "significance": "HIGH"
+    }
+  ],
+  "walkTheTalk": {
+    "symbol": "IKIO",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 0,
+    "partiallyAchievedCount": 0,
+    "missedCount": 1,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_IKIO_01",
+        "statement": "Non-anchor customer revenue targeted to exceed 40% of sales by FY24.",
+        "period": "FY24",
+        "expected": "Non-anchor revenue >= 40%",
+        "actual": "Non-anchor revenue reached only 32% with anchor client contributing 68%",
+        "status": "MISSED",
+        "evidenceLineage": "Evidence#EV_IKIO_PROMISE_01 -> Resolution#EV_IKIO_RESULT_01"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_IKIO"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_IKIO"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-05-25",
+      "source": "BSE_DISCLOSURE",
+      "headline": "IKIO Lighting client concentration remains elevated at 68% with Philips Signify",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    }
+  ],
+  "openContradictions": [
+    {
+      "contradictionId": "CONTRA_IKIO_01",
+      "issuerNseSymbol": "IKIO",
+      "issuerBseCode": "543923",
+      "severity": "HIGH",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_IKIO_01",
+      "eventId": "EVT_IKIO_01",
+      "description": "Management guided non-anchor revenue > 40%, but single anchor client delivered 68% of sales",
+      "divergenceDetails": {
+        "targetNonAnchorPct": 40,
+        "actualNonAnchorPct": 32,
+        "anchorClientPct": 68
+      },
+      "leftEvidenceId": "EV_IKIO_PROMISE_01",
+      "rightEvidenceId": "EV_IKIO_RESULT_01",
+      "supportingEvidenceIds": [],
+      "status": "OPEN",
+      "materiality": "HIGH",
+      "detectedAt": "2024-05-25T10:00:00.000Z",
+      "createdAt": "2026-09-15 14:00:48",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_IKIO_CONC",
+      "name": "Single Customer Concentration Ceiling Breaker",
+      "description": "Anchor client share of revenue must not exceed 65%",
+      "type": "QUANTITATIVE",
+      "evaluationMethod": "METRIC_THRESHOLD",
+      "conditionText": "Single Client Revenue % > 65",
+      "quantitativeCondition": {
+        "metric": "single_client_revenue_pct",
+        "operator": ">",
+        "threshold": 65,
+        "evaluationPeriod": "annual",
+        "evidenceRequired": true
+      },
+      "status": "ACTIVE",
+      "severity": "HIGH",
+      "rationale": "Breaker triggered: single_client_revenue_pct (68) > threshold (65).",
+      "evidenceIds": [
+        "EV_IKIO_RESULT_01"
+      ],
+      "currentObservedValue": 68
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "MEDIUM",
+    "directSourcesCount": 2,
+    "corroboratedCount": 0,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"High-margin ODM partner for commercial and high-end residential architectural LED lighting.\". Qualitative status: BROKEN. Review before trade authorization."
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_GROWW_01",
+    "issuerNseSymbol": "GROWW",
+    "issuerBseCode": "GROWW",
+    "eventDate": "2024-05-15",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Attained #1 Position in Retail Brokerage",
+    "description": "NSE data confirmed Groww as India’s #1 broker by active client count.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_GROWW_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

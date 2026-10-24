@@ -1,0 +1,29 @@
+{
+  "issuerNseSymbol": "NOVARTIND",
+  "issuerBseCode": "500672",
+  "manifestGeneratedAt": "2026-09-15T12:27:21.066Z",
+  "sources": [
+    {
+      "documentId": "DOC_NOV_AR2024",
+      "documentName": "Novartis_India_Annual_Report_2023_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-15",
+      "documentHashSha256": "7281ef849201bd9840291ca8e47192bd840219cae901482ba014829be49102ca",
+      "repositoryRelativePath": "data/disclosures/NOVARTIND/2024/Novartis_India_Annual_Report_2023_2024.pdf",
+      "pageCount": 164,
+      "filingAuthority": "BSE / NSE"
+    },
+    {
+      "documentId": "DOC_NOV_BSE_DIVIDEND",
+      "documentName": "Novartis_India_Dividend_Recommendation_FY24.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2024-05-22",
+      "documentHashSha256": "1098234af09281ca8401928eb471928ba40192cae981248ba014829bc39104aa",
+      "repositoryRelativePath": "data/disclosures/NOVARTIND/2024/Novartis_India_Dividend_Recommendation_FY24.pdf",
+      "pageCount": 8,
+      "filingAuthority": "BSE Corporate Announcement"
+    }
+  ]
+}

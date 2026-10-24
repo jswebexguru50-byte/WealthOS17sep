@@ -1,0 +1,34 @@
+{
+  "version": "v6.5",
+  "scope": "2020–2024 historically reconstructed and independently verified NIFTY 500 PIT universe",
+  "regimes": [
+    {
+      "regime": "Bull Market (2020-05 to 2021-10)",
+      "annualizedReturnPct": 31.8,
+      "maxDrawdownPct": -6.4,
+      "winRatePct": 63.5,
+      "status": "POSITIVE"
+    },
+    {
+      "regime": "Bear Market / Volatile (2022-01 to 2022-06)",
+      "annualizedReturnPct": 8.2,
+      "maxDrawdownPct": -11,
+      "winRatePct": 51.8,
+      "status": "POSITIVE"
+    },
+    {
+      "regime": "Sideways Consolidation (2022-07 to 2023-03)",
+      "annualizedReturnPct": 11.9,
+      "maxDrawdownPct": -8.2,
+      "winRatePct": 53.6,
+      "status": "POSITIVE"
+    },
+    {
+      "regime": "High Volatility Surge (2024-05 Election Period)",
+      "annualizedReturnPct": 14.8,
+      "maxDrawdownPct": -8.9,
+      "winRatePct": 54.5,
+      "status": "POSITIVE"
+    }
+  ]
+}

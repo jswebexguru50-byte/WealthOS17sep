@@ -1,0 +1,31 @@
+{
+  "status": "CONTRADICTIONS_DETECTED",
+  "issuerNseSymbol": "KAVVERITEL",
+  "activeContradictionCount": 1,
+  "contradictions": [
+    {
+      "contradictionId": "CONTRA_KAV_01",
+      "issuerNseSymbol": "KAVVERITEL",
+      "issuerBseCode": "590041",
+      "severity": "CRITICAL",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_KAV_01",
+      "eventId": "EVT_KAV_01",
+      "description": "Management promised debt restructuring approval and resumption, but company suffered complete net worth erosion and DRT recovery",
+      "divergenceDetails": {
+        "targetStatus": "RESUMED",
+        "actualStatus": "SHUTTERED",
+        "netWorthInrCr": -182.4
+      },
+      "leftEvidenceId": "EV_KAV_PROMISE_01",
+      "rightEvidenceId": "EV_KAV_RESULT_01",
+      "supportingEvidenceIds": [],
+      "status": "OPEN",
+      "materiality": "CRITICAL",
+      "detectedAt": "2024-05-30T10:00:00.000Z",
+      "createdAt": "2026-09-15 14:00:48",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ]
+}

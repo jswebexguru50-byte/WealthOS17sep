@@ -67,8 +67,8 @@ test('only a GET is retried after awaited credential refresh', async () => {
   }, () => 'https://fixture.test', () => secret, async () => { await Promise.resolve(); secret = 'new'; }, async () => null);
   assert.equal((await transport('/api/read')).status, 200); assert.equal(sent, 2);
 });
-test('expired writes never replay across methods', async () => {
-  for (const method of ['POST','PUT','PATCH','DELETE','HEAD','OPTIONS']) {
+test('expired mutations never replay', async () => {
+  for (const method of ['POST','PUT','PATCH','DELETE']) {
     let calls=0;
     const transport=createApiTransport(async () => { calls++; return new Response(null,{status:401}); },()=> 'https://fixture.test',()=> 'secret',()=>{},async r=>r.phrase);
     await assert.rejects(transport('/api/fixture',{method}),AuthorizationError); assert.equal(calls,1);

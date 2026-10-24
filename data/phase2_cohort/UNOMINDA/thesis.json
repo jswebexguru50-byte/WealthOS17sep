@@ -1,0 +1,19 @@
+{
+  "symbol": "UNOMINDA",
+  "coreThesisStatement": "Tier-1 automotive supplier capitalizing on EV kit value expansion and localization of premium electronic components.",
+  "investmentPillars": [
+    {
+      "pillarId": "PIL_UNO_01",
+      "title": "Kit Value Multiplier",
+      "description": "Transition from ICE to EV increases content per vehicle by 3x to 4x across lighting, switches, and acoustics."
+    },
+    {
+      "pillarId": "PIL_UNO_02",
+      "title": "Conservative Leverage",
+      "description": "Net debt / EBITDA sustained well below 1.0x while funding greenfield capacity."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_UNO_LEVERAGE"
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "localFirst": [
+    "company_facts",
+    "HistoricalFinancialStatements",
+    "HistoricalShareholdingPattern",
+    "FEREEnrichedLedger",
+    "source_documents",
+    "InstitutionalDeals",
+    "company_events",
+    "DuckDB adjusted OHLCV"
+  ],
+  "trendlyne": {
+    "missingViews": [
+      "technical",
+      "news",
+      "sast",
+      "bulblockdeal"
+    ],
+    "focusedDocumentQueries": [
+      {
+        "id": "DOC_01",
+        "query": "HDFCBANK products services segment revenue use cases order book",
+        "endpoint": "documents:DOC_01"
+      },
+      {
+        "id": "DOC_02",
+        "query": "HDFCBANK competitive advantage moat certifications market share switching costs",
+        "endpoint": "documents:DOC_02"
+      },
+      {
+        "id": "DOC_03",
+        "query": "HDFCBANK major customers customer concentration top customers order book",
+        "endpoint": "documents:DOC_03"
+      },
+      {
+        "id": "DOC_04",
+        "query": "HDFCBANK suppliers vendor concentration raw material pass through pricing power",
+        "endpoint": "documents:DOC_04"
+      },
+      {
+        "id": "DOC_05",
+        "query": "HDFCBANK industry size addressable market market share penetration outlook",
+        "endpoint": "documents:DOC_05"
+      },
+      {
+        "id": "DOC_06",
+        "query": "HDFCBANK capacity expansion capex plan utilisation reinvestment runway",
+        "endpoint": "documents:DOC_06"
+      },
+      {
+        "id": "DOC_07",
+        "query": "HDFCBANK guidance order book catalysts outlook competitive positioning",
+        "endpoint": "documents:DOC_07"
+      },
+      {
+        "id": "DOC_08",
+        "query": "HDFCBANK segment revenue growth product mix geography recovery",
+        "endpoint": "documents:DOC_08"
+      },
+      {
+        "id": "DOC_09",
+        "query": "HDFCBANK margin movement raw material product mix operating leverage",
+        "endpoint": "documents:DOC_09"
+      },
+      {
+        "id": "DOC_10",
+        "query": "HDFCBANK promoter directors management background legal cases litigation regulatory action",
+        "endpoint": "documents:DOC_10"
+      },
+      {
+        "id": "DOC_11",
+        "query": "HDFCBANK audit qualification restatement governance accounting red flags",
+        "endpoint": "documents:DOC_11"
+      },
+      {
+        "id": "DOC_12",
+        "query": "HDFCBANK statutory auditor audit committee board independence remuneration qualifications",
+        "endpoint": "documents:DOC_12"
+      },
+      {
+        "id": "DOC_13",
+        "query": "HDFCBANK risk factors disruption regulation customer supplier currency execution",
+        "endpoint": "documents:DOC_13"
+      },
+      {
+        "id": "DOC_14",
+        "query": "HDFCBANK floating rate debt borrowing cost debt maturity interest sensitivity",
+        "endpoint": "documents:DOC_14"
+      },
+      {
+        "id": "DOC_15",
+        "query": "HDFCBANK related party transactions sales purchases loans guarantees promoter entities",
+        "endpoint": "documents:DOC_15"
+      }
+    ],
+    "parameterPolicy": "Discover exact tokens, batch <=10 symbols and <=50 verified parameters, persist raw, then promote only period-anchored facts."
+  },
+  "statutory": [
+    "FERE/XBRL statement and note gaps",
+    "NSE/BSE announcements, shareholding, corporate actions, SAST and filing timestamps"
+  ],
+  "market": [],
+  "secondary": [
+    "Screener peer and 10-year history cross-check; never override statutory facts silently"
+  ]
+}

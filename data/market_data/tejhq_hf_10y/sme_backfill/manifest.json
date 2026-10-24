@@ -1,0 +1,11 @@
+{
+  "started_at": "2026-09-21T18:31:09.614765+00:00",
+  "mode": "deterministic_no_llm",
+  "target": "official_nse_sme_eod_and_corporate_actions",
+  "active_upstox_gap_symbols": 579,
+  "sqlite_raw_symbols": 551,
+  "sqlite_raw_rows": 330761,
+  "quarantine_path": "sme_backfill\\quarantine_sqlite_raw\\part-0.parquet",
+  "promotion_rule": "Only raw NSE SME EOD rows plus validated official corporate actions may be promoted as NSE_SME_SELF_ADJUSTED.",
+  "next_checkpoint": "download official NSE SME EOD and PR-bundle bc corporate-action files in rate-limited date batches"
+}

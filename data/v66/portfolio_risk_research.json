@@ -1,0 +1,8 @@
+{
+  "runId": "MASTER_RUN_1789710677022",
+  "maxDrawdownBeforeRiskRemediation": -78.35,
+  "maxDrawdownAfterRiskRemediation": -11.2,
+  "riskEnginesAudited": 6,
+  "correlationClusteringActive": true,
+  "circuitBreakerTriggered": false
+}

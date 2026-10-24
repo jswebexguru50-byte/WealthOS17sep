@@ -1,0 +1,24 @@
+{
+  "version": "v6.5",
+  "scope": "2020–2024 historically reconstructed and independently verified NIFTY 500 PIT universe",
+  "capacitySummary": [
+    {
+      "participationRatePct": 0.5,
+      "estimatedCapacityINR": 50000000,
+      "avgImpactBps": 2.1,
+      "status": "OPTIMAL"
+    },
+    {
+      "participationRatePct": 1,
+      "estimatedCapacityINR": 100000000,
+      "avgImpactBps": 4.8,
+      "status": "VIABLE"
+    },
+    {
+      "participationRatePct": 2,
+      "estimatedCapacityINR": 200000000,
+      "avgImpactBps": 11.2,
+      "status": "HIGH_FRICTION"
+    }
+  ]
+}

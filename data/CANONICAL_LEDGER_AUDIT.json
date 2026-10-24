@@ -1,0 +1,59 @@
+{
+  "canonicalRunId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+  "runId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+  "dataMode": "REAL_HISTORICAL",
+  "ledgerPath": "v6.3_REAL_trade_identity_ledger.jsonl",
+  "ledgerSha256": "035d8867f1f8dbc65f9fe35ea45263f20f9fee00a48d3d7f48807c24a2afd485",
+  "totalTrades": 19,
+  "auditedTrades": 19,
+  "firstTradeDate": "2023-01-17",
+  "lastTradeDate": "2023-03-07",
+  "populationMetadata": {
+    "populationType": "VALIDATED_RESEARCH_SUBSET",
+    "populationSize": 19,
+    "subsetDatabase": "portfolio_v6.3_research_subset.db",
+    "coverageNote": "The canonical economic results are based on a 10-symbol validated research subset producing 19 trades, representing 2.0% of the stated 500-symbol candidate universe."
+  },
+  "universeFunnel": {
+    "candidateUniverseCount": 500,
+    "candidateUniverseLabel": "Candidate Universe = 500 symbols (Target Universe, historical PIT constituents DATA_INSUFFICIENT)",
+    "eligibleUniverseCount": 500,
+    "completeOHLCVCount": 500,
+    "completeDeliveryCount": 10,
+    "completeTurnoverCount": 10,
+    "pitValidCount": 10,
+    "strategyEvaluableCount": 10,
+    "signalsCount": 28,
+    "tradesCount": 19,
+    "subsetCoverageRatioPct": 2,
+    "symbolsCovered": [
+      "RELIANCE",
+      "TCS",
+      "INFY",
+      "HDFCBANK",
+      "ICICIBANK",
+      "BHARTIARTL",
+      "ITC",
+      "SBIN",
+      "LTIM",
+      "LT"
+    ],
+    "exclusionReasons": "Strict zero-synthetic data policy per Hard Rule 17 (fail-closed on missing delivery/turnover records)"
+  },
+  "allInvariantCounters": {
+    "sameSessionViolations": 0,
+    "nonNextSessionViolations": 0,
+    "rawEntryOpenMismatches": 0,
+    "invalidEntryPrices": 0,
+    "missingEntryBars": 0,
+    "duplicateTradeIds": 0,
+    "signalAfterEntryViolations": 0,
+    "missingSignalAvailability": 0,
+    "futureDataViolations": 0,
+    "deliveryPITViolations": 0
+  },
+  "validationStatus": "PASS",
+  "deliveryPITStatus": "PIT_VALID_UNDER_DECLARED_PUBLICATION_CONTRACT",
+  "promotionStatus": "NOT_AUTHORIZED",
+  "auditedAt": "2026-09-17T14:58:33.123Z"
+}

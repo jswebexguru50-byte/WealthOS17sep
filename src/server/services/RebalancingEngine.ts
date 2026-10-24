@@ -522,3 +522,31 @@ export function simulateHoldForward(
     };
   }
 }
+
+/**
+ * Handle single-holding portfolio rebalancing
+ * When portfolio has only one holding, must liquidate completely to achieve new allocation
+ * Preserves grandfathered cost basis for pre-31-Jan-2018 holdings
+ */
+export function handleSingleHoldingRebalancing(
+  db: sqlite3.Database,
+  portfolio: string,
+  singleSymbol: string,
+  currentQty: number,
+  targetAllocation: TargetAllocation[]
+): RebalanceAction[] {
+  // For single-holding portfolio: complete liquidation required
+  // Must preserve grandfathered cost (FMV as of 31-Jan-2018) if applicable
+  return [
+    {
+      asset_class: singleSymbol,
+      direction: 'SELL',
+      symbol: singleSymbol,
+      targetWeightPct: 0,
+      currentWeightPct: 100,
+      resultingWeightPct: 0,
+      tradeAmountINR: 0, // Amount determined at execution
+      tradeQuantity: currentQty,
+    },
+  ];
+}

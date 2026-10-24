@@ -1,0 +1,24 @@
+[
+  {
+    "breakerId": "TB_SCI_FREIGHT_COLLAPSE",
+    "name": "Baltic Dirty Tanker Rate Collapse",
+    "description": "Global tanker daily charter earnings fall below $15,000/day",
+    "type": "QUANTITATIVE",
+    "evaluationMethod": "METRIC_THRESHOLD",
+    "conditionText": "Daily Charter Rate < 15000",
+    "quantitativeCondition": {
+      "metric": "daily_charter_rate_usd",
+      "operator": "<",
+      "threshold": 15000,
+      "evaluationPeriod": "quarterly",
+      "evidenceRequired": true
+    },
+    "status": "INACTIVE",
+    "severity": "HIGH",
+    "rationale": "Metric within safe boundaries: daily_charter_rate_usd (38500) does not violate < 15000.",
+    "evidenceIds": [
+      "EV_SCI_RESULT_01"
+    ],
+    "currentObservedValue": 38500
+  }
+]

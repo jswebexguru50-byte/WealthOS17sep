@@ -1,0 +1,31 @@
+{
+  "generatedAt": "2026-10-12T18:23:02.861Z",
+  "mode": "APPLIED",
+  "dbPath": "C:\\Users\\GopalSharma\\Downloads\\WealthOS 04 Oct\\WealthOS04Oct\\portfolio.db",
+  "manifest": "data\\fundamental_enrichment\\arrowgreen_manifest.json",
+  "requested": 1,
+  "symbolsWithSnapshot": 1,
+  "symbolsWithAnchor": 1,
+  "skippedNoAnchor": 0,
+  "factsPrepared": 28,
+  "factsWritten": 28,
+  "missingValues": 3,
+  "metricTotals": {
+    "revenue": 8,
+    "operating_profit": 7,
+    "pat": 7,
+    "cfo": 3
+  },
+  "aliasMetricTotals": {
+    "cfo_cr": 3
+  },
+  "policy": "Quarterly statement values and selected annual CFO/capex values are promoted only when same-symbol explicit Trendlyne quarter anchors exist. Annual FY period is anchored to March year-end from the latest explicit quarter label and remains VERIFIED_PARTIAL.",
+  "symbols": [
+    {
+      "symbol": "ARROWGREEN",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    }
+  ]
+}

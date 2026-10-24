@@ -1,0 +1,489 @@
+{
+  "symbol": "NOVARTIND",
+  "companyName": "Novartis India Limited",
+  "marketCapTier": "MIDCAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-15T12:27:21.083Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Capital sizing should reflect this uncertainty.",
+    "allocationRecommendation": "CAPPED_ALLOCATION",
+    "portfolioPolicy": {
+      "directive": "CAPPED_ALLOCATION",
+      "targetSizingCapRatio": 0.5,
+      "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_NOVARTIND",
+      "nodes": [
+        {
+          "id": "DEC_NOVARTIND",
+          "type": "DECISION",
+          "refId": "NOVARTIND",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_NOVARTIND",
+          "type": "ALLOCATION",
+          "refId": "CAPPED_ALLOCATION",
+          "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+        },
+        {
+          "id": "THESIS_NOVARTIND",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_NOVARTIND",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 85/100)"
+        },
+        {
+          "id": "RISK_NOVARTIND",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_NOVARTIND",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_NOV_DEBT",
+          "type": "RULE",
+          "refId": "TB_NOV_DEBT",
+          "version": "2026.09",
+          "label": "Breaker TB_NOV_DEBT: INACTIVE (Observed: 0)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_NOVARTIND",
+          "to": "DEC_NOVARTIND",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_NOVARTIND",
+          "to": "DEC_NOVARTIND",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_NOVARTIND",
+          "to": "THESIS_NOVARTIND",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_NOVARTIND",
+          "to": "THESIS_NOVARTIND",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_NOVARTIND",
+          "to": "ALLOC_NOVARTIND",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_NOV_DEBT",
+          "to": "RISK_NOVARTIND",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_NOVARTIND_20260915",
+      "decisionId": "DECISION_NOVARTIND",
+      "issuerSymbol": "NOVARTIND",
+      "evaluatedAt": "2026-09-15T12:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2",
+      "ontologyVersion": "1.2",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_NOVARTIND_01",
+          "issuerSymbol": "NOVARTIND",
+          "metric": "FINANCIAL_METRIC",
+          "metricId": "FINANCIAL_METRIC",
+          "metricFamily": "REVENUE",
+          "value": 0,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_NOV_AR24_P18",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_NOV_AR24_P18",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_NOV_AR24_P18",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_NOVARTIND_02",
+          "issuerSymbol": "NOVARTIND",
+          "metric": "DIVIDEND_PAYOUT",
+          "metricId": "DIVIDEND_PAYOUT",
+          "metricFamily": "DIVIDEND",
+          "value": 85,
+          "unit": "PERCENT",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_NOV_DISCLOSURE_DIV",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_NOV_DISCLOSURE_DIV",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_NOV_DISCLOSURE_DIV",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_NOV_01",
+          "issuerNseSymbol": "NOVARTIND",
+          "issuerBseCode": "500672",
+          "period": "FY24",
+          "category": "CAPITAL_ALLOCATION",
+          "statement": "Distribute substantial portion of free cash flows to shareholders while maintaining zero debt.",
+          "targetMetric": "dividend_payout_pct",
+          "baselineValue": 80,
+          "expectedValue": 85,
+          "expectedOutcome": "Dividend payout ratio >= 85%",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_NOV_AR24_P18",
+          "claimDate": "2023-08-05",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 92,
+          "actualOutcomeDescription": "Delivered ₹47.50/share total dividend, representing 92% earnings payout",
+          "evaluationEvidenceId": "EV_NOV_DISCLOSURE_DIV",
+          "evaluationDate": "2024-05-22",
+          "evaluationBasis": "BSE Dividend Announcement and Audited Accounts",
+          "createdAt": "2023-08-05T10:00:00.000Z",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_NOVARTIND_01",
+          "publicationDate": "2023-08-05",
+          "publicationDateType": "MANAGEMENT_COMMENT"
+        }
+      ],
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_NOV_DEBT",
+          "name": "Debt Incurrence Breaker",
+          "description": "Total Debt must remain zero",
+          "type": "QUANTITATIVE",
+          "evaluationMethod": "METRIC_THRESHOLD",
+          "conditionText": "Total Debt > 0",
+          "quantitativeCondition": {
+            "metric": "total_debt_inr_cr",
+            "operator": ">",
+            "threshold": 0,
+            "evaluationPeriod": "annual",
+            "evidenceRequired": true
+          },
+          "status": "INACTIVE",
+          "severity": "CRITICAL",
+          "rationale": "Metric within safe boundaries: total_debt_inr_cr (0) does not violate > 0.",
+          "evidenceIds": [
+            "EV_NOV_DISCLOSURE_DIV"
+          ],
+          "currentObservedValue": 0
+        }
+      ],
+      "rawInputContradictions": [],
+      "rawQuantInput": {
+        "symbol": "NOVARTIND",
+        "strategyAgreementCount": 5,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 85,
+        "marketRegime": "BULLISH",
+        "quantDirective": "BUY"
+      },
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Capital sizing should reflect this uncertainty.",
+        "allocationRecommendation": "CAPPED_ALLOCATION"
+      },
+      "portfolioPolicy": {
+        "directive": "CAPPED_ALLOCATION",
+        "targetSizingCapRatio": 0.5,
+        "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_NOVARTIND",
+        "nodes": [
+          {
+            "id": "DEC_NOVARTIND",
+            "type": "DECISION",
+            "refId": "NOVARTIND",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_NOVARTIND",
+            "type": "ALLOCATION",
+            "refId": "CAPPED_ALLOCATION",
+            "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+          },
+          {
+            "id": "THESIS_NOVARTIND",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_NOVARTIND",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 85/100)"
+          },
+          {
+            "id": "RISK_NOVARTIND",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_NOVARTIND",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_NOV_DEBT",
+            "type": "RULE",
+            "refId": "TB_NOV_DEBT",
+            "version": "2026.09",
+            "label": "Breaker TB_NOV_DEBT: INACTIVE (Observed: 0)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_NOVARTIND",
+            "to": "DEC_NOVARTIND",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_NOVARTIND",
+            "to": "DEC_NOVARTIND",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_NOVARTIND",
+            "to": "THESIS_NOVARTIND",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_NOVARTIND",
+            "to": "THESIS_NOVARTIND",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_NOVARTIND",
+            "to": "ALLOC_NOVARTIND",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_NOV_DEBT",
+            "to": "RISK_NOVARTIND",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "e849fce9a100ffc19b5e43f0c23fbca7acdfe12b8ba69ff917cf2fcd87a11815",
+      "canonicalStateHash": "e849fce9a100ffc19b5e43f0c23fbca7acdfe12b8ba69ff917cf2fcd87a11815"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "MEDIUM",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Capital sizing should reflect this uncertainty."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 5/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 85/100 with active directive BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#NOVARTIND",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Distribute substantial portion of free cash flows to shareholders while maintaining zero debt.",
+      "detail": "Disclosed actual outcome: Delivered ₹47.50/share total dividend, representing 92% earnings payout",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_NOV_AR24_P18 -> Resolution#EV_NOV_DISCLOSURE_DIV",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "NOVARTIND",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 1,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_NOV_01",
+        "statement": "Distribute substantial portion of free cash flows to shareholders while maintaining zero debt.",
+        "period": "FY24",
+        "expected": "Dividend payout ratio >= 85%",
+        "actual": "Delivered ₹47.50/share total dividend, representing 92% earnings payout",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_NOV_AR24_P18 -> Resolution#EV_NOV_DISCLOSURE_DIV"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_NOVARTIND"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_NOVARTIND"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-05-22",
+      "source": "BSE_DISCLOSURE",
+      "headline": "Novartis India announces ₹47.50 per share dividend distribution",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_NOV_DEBT",
+      "name": "Debt Incurrence Breaker",
+      "description": "Total Debt must remain zero",
+      "type": "QUANTITATIVE",
+      "evaluationMethod": "METRIC_THRESHOLD",
+      "conditionText": "Total Debt > 0",
+      "quantitativeCondition": {
+        "metric": "total_debt_inr_cr",
+        "operator": ">",
+        "threshold": 0,
+        "evaluationPeriod": "annual",
+        "evidenceRequired": true
+      },
+      "status": "INACTIVE",
+      "severity": "CRITICAL",
+      "rationale": "Metric within safe boundaries: total_debt_inr_cr (0) does not violate > 0.",
+      "evidenceIds": [
+        "EV_NOV_DISCLOSURE_DIV"
+      ],
+      "currentObservedValue": 0
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "MEDIUM",
+    "directSourcesCount": 2,
+    "corroboratedCount": 1,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"MNC pharma subsidiary with zero debt, high return on capital, and high shareholder distributions acting as a low-volatility compounder.\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

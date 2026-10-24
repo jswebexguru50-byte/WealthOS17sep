@@ -1,0 +1,92 @@
+{
+  "AMIRCHAND": {
+    "requested_symbol": "AMIRCHAND",
+    "current_symbol": "AEROPLANE",
+    "isin": "INE05TO01019",
+    "rows": 113,
+    "first_trade_date": "2026-04-02",
+    "last_trade_date": "2026-09-21",
+    "path": "resolved_symbol_aliases\\symbol=AMIRCHAND\\part-0.parquet"
+  },
+  "ASHIKA": {
+    "requested_symbol": "ASHIKA",
+    "current_symbol": "ASHIKAG",
+    "isin": "INE094B01013",
+    "rows": 103,
+    "first_trade_date": "2026-04-20",
+    "last_trade_date": "2026-09-21",
+    "path": "resolved_symbol_aliases\\symbol=ASHIKA\\part-0.parquet"
+  },
+  "EQUITAS": {
+    "requested_symbol": "EQUITAS",
+    "current_symbol": "5PAISA",
+    "isin": "INE618L01018",
+    "rows": 2176,
+    "first_trade_date": "2017-11-16",
+    "last_trade_date": "2026-09-21",
+    "path": "resolved_symbol_aliases\\symbol=EQUITAS\\part-0.parquet"
+  },
+  "ICICINIFTY": {
+    "requested_symbol": "ICICINIFTY",
+    "current_symbol": "NIFTYIETF",
+    "isin": "INF109K012R6",
+    "rows": 2461,
+    "first_trade_date": "2016-09-21",
+    "last_trade_date": "2026-09-21",
+    "path": "resolved_symbol_aliases\\symbol=ICICINIFTY\\part-0.parquet"
+  },
+  "LKPFIN": {
+    "requested_symbol": "LKPFIN",
+    "current_symbol": "GYFTR",
+    "isin": "INE724A01017",
+    "rows": 51,
+    "first_trade_date": "2026-07-10",
+    "last_trade_date": "2026-09-21",
+    "path": "resolved_symbol_aliases\\symbol=LKPFIN\\part-0.parquet"
+  },
+  "LTIM": {
+    "requested_symbol": "LTIM",
+    "current_symbol": "LTM",
+    "isin": "INE214T01019",
+    "rows": 2461,
+    "first_trade_date": "2016-09-21",
+    "last_trade_date": "2026-09-21",
+    "path": "resolved_symbol_aliases\\symbol=LTIM\\part-0.parquet"
+  },
+  "LYPSAGEMS": {
+    "requested_symbol": "LYPSAGEMS",
+    "current_symbol": "AURUS",
+    "isin": "INE142K01011",
+    "rows": 2461,
+    "first_trade_date": "2016-09-21",
+    "last_trade_date": "2026-09-21",
+    "path": "resolved_symbol_aliases\\symbol=LYPSAGEMS\\part-0.parquet"
+  },
+  "MCDOWELL-N": {
+    "requested_symbol": "MCDOWELL-N",
+    "current_symbol": "UNITDSPR",
+    "isin": "INE854D01024",
+    "rows": 2031,
+    "first_trade_date": "2018-06-18",
+    "last_trade_date": "2026-09-21",
+    "path": "resolved_symbol_aliases\\symbol=MCDOWELL-N\\part-0.parquet"
+  },
+  "SILLYMONKS": {
+    "requested_symbol": "SILLYMONKS",
+    "current_symbol": "CRESTO",
+    "isin": "INE203Y01012",
+    "rows": 1527,
+    "first_trade_date": "2020-07-08",
+    "last_trade_date": "2026-09-21",
+    "path": "resolved_symbol_aliases\\symbol=SILLYMONKS\\part-0.parquet"
+  },
+  "TATAMOTORS": {
+    "requested_symbol": "TATAMOTORS",
+    "current_symbol": "TMPV",
+    "isin": "INE155A01022",
+    "rows": 2461,
+    "first_trade_date": "2016-09-21",
+    "last_trade_date": "2026-09-21",
+    "path": "resolved_symbol_aliases\\symbol=TATAMOTORS\\part-0.parquet"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "symbol": "SONUINFRA",
+  "coreThesisStatement": "Regional industrial civil and structural construction contractor focused on petrochemical refineries in Gujarat.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Jamnagar Hub Location",
+      "description": "Strategic proximity to world's largest refining and petrochemical complex."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Repeat Client Mandates",
+      "description": "Long-term maintenance and construction contracts with private industrial conglomerates."
+    },
+    {
+      "pillarId": "P3",
+      "title": "Prudent Balance Sheet",
+      "description": "Conservative debt profile yielding 19.1% ROCE."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_SONU_LEVERAGE"
+  ]
+}

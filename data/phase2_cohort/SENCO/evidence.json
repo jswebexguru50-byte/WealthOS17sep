@@ -1,0 +1,41 @@
+[
+  {
+    "evidenceId": "EV_SENCO_PROMISE_01",
+    "issuerNseSymbol": "SENCO",
+    "issuerBseCode": "543936",
+    "documentId": "DOC_SENCO_AR2024",
+    "documentHash": "e723049eb471928ba40192cae981248ba014829bc39104aa1098234af09281cf",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 32,
+    "pagePrinted": 30,
+    "quotedText": "Targeting net store network expansion of 18 to 20 showrooms in FY24 across northern and eastern regions.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+  },
+  {
+    "evidenceId": "EV_SENCO_RESULT_01",
+    "issuerNseSymbol": "SENCO",
+    "issuerBseCode": "543936",
+    "documentId": "DOC_SENCO_BSE_Q4FY24",
+    "documentHash": "f834159eb471928ba40192cae981248ba014829bc39104aa1098234af09281d0",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 8,
+    "pagePrinted": 8,
+    "quotedText": "Opened 23 new showrooms in FY24 taking total store network to 159 showrooms nationwide.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  },
+  {
+    "evidenceId": "EV_SENCO_WC_Q4",
+    "issuerNseSymbol": "SENCO",
+    "issuerBseCode": "543936",
+    "documentId": "DOC_SENCO_BSE_Q4FY24",
+    "documentHash": "f834159eb471928ba40192cae981248ba014829bc39104aa1098234af09281d0",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 16,
+    "pagePrinted": 16,
+    "quotedText": "Gold Metal Loan and working capital bank borrowings stood at ₹1,420 Cr representing 82% bank sanction limit utilization on elevated bullion procurement.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  }
+]

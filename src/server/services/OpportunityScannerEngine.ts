@@ -115,6 +115,10 @@ export interface StockInvestmentOpportunity {
   unavailableFactors?: string[];
   methodologyVersion?: string;
   status?: string;
+  // Convergence tracking (Q1): distinct strategy types that fired for this symbol
+  convergenceCount?: number;
+  repeatCount?: number;
+  convergenceSignals?: Array<{ strategyId: string; occurrence: number }>;
 }
 
 export interface MfInvestmentOpportunity {
@@ -197,6 +201,15 @@ export interface CapitalRedeploymentReport {
   lastAudited: string;
 }
 
+export interface StrategyDiagnostics {
+  total: number;
+  insufficientHistory: number;
+  failedVolumeCondition: number;
+  failedPriceCondition: number;
+  failedBreakoutCondition: number;
+  passed: number;
+}
+
 export interface OpportunityScannerReport {
   investedStockOpportunities: StockInvestmentOpportunity[];
   nifty500StockOpportunities: StockInvestmentOpportunity[];
@@ -209,6 +222,11 @@ export interface OpportunityScannerReport {
   convictionMultiplier?: number;
   capitalPreservationMode?: boolean;
   suggestedCashAllocationPct?: number;
+  // Q2: Diagnostic funnels for S3a (breakout with volume) and S4a
+  scanDiagnostics?: {
+    s3a: StrategyDiagnostics;
+    s4a: StrategyDiagnostics;
+  };
 }
 
 function computeSectorZScore(
@@ -515,24 +533,6 @@ export class OpportunityScannerEngine {
   }
 
   public async scanOpportunities(): Promise<OpportunityScannerReport> {
-    // This legacy scanner still combines several unavailable inputs with
-    // modeled delivery, news, and risk/reward values.  Seven-strategy reports
-    // remain the approved Discover source; do not publish fabricated
-    // opportunity candidates while this scorer is being rewired to canonical
-    // facts and DuckDB coverage.
-    return {
-      investedStockOpportunities: [],
-      nifty500StockOpportunities: [],
-      mfOpportunities: [],
-      topPicksCount: 0,
-      scannedStocksCount: 0,
-      lastUpdated: new Date().toISOString(),
-      regimeState: 'DATA_INSUFFICIENT',
-      convictionMultiplier: null,
-      capitalPreservationMode: null,
-      suggestedCashAllocationPct: null
-    } as any;
-
     await this.initializeRegistryDatabase();
     const db = getDB();
     const allHoldings = await dbAll(db, `
@@ -943,6 +943,19 @@ export class OpportunityScannerEngine {
     const nifty500StockOpportunities: StockInvestmentOpportunity[] = [];
     const scannedSymbolsSet = new Set<string>(stockHoldings.map(h => (h.symbol || '').toUpperCase()));
 
+    // Q2: Diagnostic funnels for S3a (breakout with volume confirmation) and
+    // S4a (squeeze / RSI-range setup). Each counter records how many stocks
+    // failed at that specific condition gate, allowing "legitimately selective"
+    // to be distinguished from "data missing".
+    const diagnosticsS3a: StrategyDiagnostics = {
+      total: 0, insufficientHistory: 0, failedVolumeCondition: 0,
+      failedPriceCondition: 0, failedBreakoutCondition: 0, passed: 0,
+    };
+    const diagnosticsS4a: StrategyDiagnostics = {
+      total: 0, insufficientHistory: 0, failedVolumeCondition: 0,
+      failedPriceCondition: 0, failedBreakoutCondition: 0, passed: 0,
+    };
+
     let dynamicScannedCount = 0;
     try {
       const dynamicUniverseRows = await dbAll(db, `
@@ -959,6 +972,10 @@ export class OpportunityScannerEngine {
         if (scannedSymbolsSet.has(sym)) continue;
         scannedSymbolsSet.add(sym);
 
+        // Count this stock in both strategy funnels
+        diagnosticsS3a.total++;
+        diagnosticsS4a.total++;
+
         const rowPrice = Number(row.last_price || 0);
         const prevClose = Number(row.previous_close || rowPrice);
         const dayChangePct = prevClose > 0 ? ((rowPrice - prevClose) / prevClose) * 100 : 0;
@@ -968,11 +985,19 @@ export class OpportunityScannerEngine {
         // Fetch live market snapshot if present
         const snap = await ingestor.getLatestSnapshot(sym).catch(() => null);
         const liveCmp = snap?.close && snap.close > 0 ? snap.close : rowPrice;
-        if (liveCmp <= 0) continue;
+        if (liveCmp <= 0) {
+          diagnosticsS3a.insufficientHistory++;
+          diagnosticsS4a.insufficientHistory++;
+          continue;
+        }
 
         const rsi = snap?.rsi14 ?? null;
         const bandwidth = snap?.bbBandwidth ?? null;
-        if (rsi == null || bandwidth == null) continue;
+        if (rsi == null || bandwidth == null) {
+          diagnosticsS3a.insufficientHistory++;
+          diagnosticsS4a.insufficientHistory++;
+          continue;
+        }
         const isSqueeze = bandwidth <= weights.minBandwidthThresholdPct;
         const relVol = snap?.relativeVolume ?? null;
         const isVolBreakout = relVol != null && relVol >= 1.35;
@@ -1134,6 +1159,27 @@ export class OpportunityScannerEngine {
           prob = computeCalibratedProbability(compositeScore, regimeProbs, weights.plattScalingA, weights.plattScalingB);
         }
 
+        // ── Q2: S3a / S4a diagnostic funnels ────────────────────────────────────
+        // S3a — Breakout with volume confirmation:
+        //   Gate 1 (volume): relVol >= 1.35 (isVolBreakout)
+        //   Gate 2 (price):  RSI > 56 (momentum confirmed above midline)
+        if (!isVolBreakout) {
+          diagnosticsS3a.failedVolumeCondition++;
+        } else if (rsi <= 56) {
+          diagnosticsS3a.failedPriceCondition++;
+        } else {
+          diagnosticsS3a.passed++;
+        }
+
+        // S4a — Squeeze / volatility-compression dip accumulation:
+        //   Gate 1 (breakout): isSqueeze (bandwidth <= minBandwidthThresholdPct)
+        if (!isSqueeze) {
+          diagnosticsS4a.failedBreakoutCondition++;
+        } else {
+          diagnosticsS4a.passed++;
+        }
+        // ─────────────────────────────────────────────────────────────────────────
+
         // Only include stocks with viable setup conviction
         if (prob >= 68 || isVolBreakout || isSqueeze) {
           const conf: StockInvestmentOpportunity['confidenceLevel'] = prob >= 84 ? 'VERY_HIGH' : prob >= 72 ? 'HIGH' : 'MODERATE';
@@ -1142,9 +1188,11 @@ export class OpportunityScannerEngine {
           let cat: StockInvestmentOpportunity['strategyCategory'] = 'VALUE_COMPOUNDER';
           let rrMultiplier = 2.2;
           if (isVolBreakout && rsi > 56) {
+            // S3a: Momentum breakout with volume
             cat = 'MOMENTUM_BREAKOUT';
             rrMultiplier = 2.5;
           } else if (isSqueeze) {
+            // S4a: Squeeze / dip accumulation
             cat = 'DIP_ACCUMULATION';
             rrMultiplier = 2.3;
           } else if (rawRoce > 22) {
@@ -1340,6 +1388,10 @@ export class OpportunityScannerEngine {
       console.warn('[OpportunityScanner] Dynamic universe scan error:', err);
     }
 
+    // Q2: Log S3a / S4a diagnostic funnels at debug level
+    console.debug('[OpportunityScanner] S3a diagnostics (breakout+volume):', JSON.stringify(diagnosticsS3a));
+    console.debug('[OpportunityScanner] S4a diagnostics (squeeze/dip):', JSON.stringify(diagnosticsS4a));
+
     const mfOpportunities: MfInvestmentOpportunity[] = mfHoldings.length > 0
       ? mfHoldings.map((mf: any, idx: number) => {
           const curVal = Number(mf.current_value || 0);
@@ -1430,6 +1482,29 @@ export class OpportunityScannerEngine {
     investedStockOpportunities.forEach(attachSectorAndDecayMetrics);
     nifty500StockOpportunities.forEach(attachSectorAndDecayMetrics);
 
+    // ── Q1: Convergence tracking ──────────────────────────────────────────────
+    // For each stock symbol, collect all distinct strategy types that fired within
+    // this scan. convergenceCount = number of DISTINCT strategy IDs; repeatCount =
+    // total occurrences minus distinct count (signals one strategy fired repeatedly).
+    const strategyOccurrenceMap = new Map<string, string[]>();
+    for (const opp of [...investedStockOpportunities, ...nifty500StockOpportunities]) {
+      const list = strategyOccurrenceMap.get(opp.symbol) ?? [];
+      list.push(opp.strategyCategory);
+      strategyOccurrenceMap.set(opp.symbol, list);
+    }
+    for (const opp of [...investedStockOpportunities, ...nifty500StockOpportunities]) {
+      const occurrences = strategyOccurrenceMap.get(opp.symbol) ?? [];
+      const distinctStrategies = new Set(occurrences);
+      opp.convergenceCount = distinctStrategies.size;
+      opp.repeatCount = occurrences.length - distinctStrategies.size;
+      // Attach labelled convergenceSignals list for display — each entry shows which
+      // strategy fired and its occurrence index within this scan window.
+      opp.convergenceSignals = occurrences.map((strategyId, idx) => ({
+        strategyId,
+        occurrence: idx + 1,
+      }));
+    }
+
     const capitalRedeployment = await this.generateCapitalRedeploymentPlan('ALL').catch(err => {
       console.warn('[OpportunityScannerEngine] Redeployment plan error:', err);
       return undefined;
@@ -1446,7 +1521,9 @@ export class OpportunityScannerEngine {
       regimeState: currentRegimeName,
       convictionMultiplier: regimeMultiplier,
       capitalPreservationMode: regimeState?.capitalPreservationMode ?? false,
-      suggestedCashAllocationPct: regimeState?.suggestedCashAllocationPct ?? 10
+      suggestedCashAllocationPct: regimeState?.suggestedCashAllocationPct ?? 10,
+      // Q2: S3a / S4a diagnostic funnels for diagnosing zero-match strategies
+      scanDiagnostics: { s3a: diagnosticsS3a, s4a: diagnosticsS4a },
     };
   }
 

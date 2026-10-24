@@ -1,0 +1,15 @@
+{
+  "version": "v6.4.1",
+  "authorizationType": "DATA_VALIDATION_READINESS_RECOMMENDATION",
+  "dataValidationStatus": "PASS_FOR_10_SYMBOL_SUBSET",
+  "historicalPITMembershipStatus": "DATA_INSUFFICIENT_FOR_500_DYNAMIC_PIT",
+  "priceCoverageStatus": "PASS_RELATIVE_TO_SUPPLIED_UNIVERSE",
+  "availabilityStatus": "PASS",
+  "recommendedReplayScope": {
+    "S1": "READY_FOR_SUBSET_ONLY",
+    "S3": "READY_FOR_SUBSET_ONLY"
+  },
+  "economicReplayAuthorization": false,
+  "productionPromotionAuthorized": false,
+  "timestamp": "2026-09-17T15:52:31.186Z"
+}

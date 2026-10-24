@@ -1226,19 +1226,14 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
       const rateToInr = isUsAsset ? usdRate : 1.0;
 
       // Determine acquisition FX rate for foreign assets to lock cost basis against live FX drift
-      let acquisitionFxRate = 1.0;
+      let acquisitionFxRate: number | null = 1.0;
       if (isUsAsset) {
         if (existing.acquisition_fx_rate && existing.acquisition_fx_rate > 0) {
           acquisitionFxRate = existing.acquisition_fx_rate;
-        } else if (existing.total_cost > 0 && existing.native_total_cost > 0) {
-          const ratio = existing.total_cost / existing.native_total_cost;
-          if (ratio >= 60 && ratio <= 120) {
-            acquisitionFxRate = ratio;
-          } else {
-            acquisitionFxRate = dbUsdRate;
-          }
         } else {
-          acquisitionFxRate = dbUsdRate;
+          // Historic acquisition FX is unknown. Do not infer it from a
+          // magnitude ratio or substitute today's USD/INR rate.
+          acquisitionFxRate = null;
         }
       }
 
@@ -1253,12 +1248,12 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
       const inrDayChg = h.quantity * dayChg * rateToInr;
 
       // Cost basis locked to acquisition FX rate; Valuation floats with live FX rate
-      const inrTotalCost = isUsAsset ? (nativeTotalCost * acquisitionFxRate) : (nativeTotalCost * rateToInr);
-      const inrAvgBuyPrice = h.quantity > 0 ? (inrTotalCost / h.quantity) : (nativeAvgBuyPrice * acquisitionFxRate);
+      const inrTotalCost = isUsAsset && acquisitionFxRate == null ? null : (isUsAsset ? nativeTotalCost * acquisitionFxRate : nativeTotalCost * rateToInr);
+      const inrAvgBuyPrice = inrTotalCost == null ? null : (h.quantity > 0 ? (inrTotalCost / h.quantity) : (nativeAvgBuyPrice * (acquisitionFxRate ?? 1)));
       const inrLtp = nativeLtp * rateToInr;
       const inrCurrentValue = nativeCurrentValue * rateToInr;
-      const inrUnrealizedPnl = inrCurrentValue - inrTotalCost;
-      const pct = inrTotalCost > 0 ? (inrUnrealizedPnl / inrTotalCost) * 100 : 0;
+      const inrUnrealizedPnl = inrTotalCost == null ? null : inrCurrentValue - inrTotalCost;
+      const pct = inrTotalCost != null && inrTotalCost > 0 && inrUnrealizedPnl != null ? (inrUnrealizedPnl / inrTotalCost) * 100 : null;
 
       // Determine authority for price updates
       let priceAuthority = 'LIVE_FEED';

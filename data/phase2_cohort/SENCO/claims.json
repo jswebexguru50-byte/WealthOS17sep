@@ -1,0 +1,26 @@
+[
+  {
+    "claimId": "CLM_SENCO_01",
+    "issuerNseSymbol": "SENCO",
+    "issuerBseCode": "543936",
+    "period": "FY24",
+    "category": "STORE_EXPANSION",
+    "statement": "Net showroom additions targeted between 18 and 20 stores in FY24.",
+    "targetMetric": "store_additions_count",
+    "baselineValue": 136,
+    "expectedValue": 18,
+    "expectedOutcome": "Store additions >= 18",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_SENCO_PROMISE_01",
+    "claimDate": "2023-08-22",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 23,
+    "actualOutcomeDescription": "Delivered 23 new showrooms beating the 18-20 store guidance",
+    "evaluationEvidenceId": "EV_SENCO_RESULT_01",
+    "evaluationDate": "2024-05-24",
+    "evaluationBasis": "BSE Audited Financial Results and Investor Presentation",
+    "createdAt": "2023-08-22T10:00:00.000Z"
+  }
+]

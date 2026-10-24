@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_INVICTA_REV_01",
+    "issuerNseSymbol": "INVICTA",
+    "issuerBseCode": "526488",
+    "documentId": "DOC_INVICTA_AR24",
+    "documentHash": "8f90123456789abcdef0123456789abcdef56789abcdef890ab12c3d4e5f6071",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 18,
+    "pagePrinted": "16",
+    "quotedText": "Revenue from diagnostic operations reached ₹32.4 Cr in FY24 with net profit scaling to ₹4.88 Cr.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "version": "v6.4",
+  "gitCommit": "v6.4_DATA_EXPANSION_FREEZE_COMMIT",
+  "nodeVersion": "v24.18.0",
+  "packageLockHash": "949c52d2f37368e118aac1c553896c4a4c96b0752b47239bddcb0322aeaa1fc7",
+  "inputDatasetHashes": {
+    "v63LedgerSha256": "035d8867f1f8dbc65f9fe35ea45263f20f9fee00a48d3d7f48807c24a2afd485"
+  },
+  "outputDatasetHashes": {
+    "manifestSha256": "4cf8ed0b75a80915bbee7df86e859a1f9ca28720384c17992fbd44cd1762b689",
+    "pitMembershipSha256": "15c675c1aa2bbc7783def5bd755f74dbdee901e0b26b774e78d880c260b780f7",
+    "securityIdentitySha256": "e4f40171179025533811e5a1c67edfef1b99ff6811d9bd3ff524ec15da03b35d",
+    "coverageAuditSha256": "e59893087486564a1b1a33fcb57ccd5fbe09866babf703f5578cf8ee8b298c05"
+  },
+  "timestamp": "2026-09-17T15:12:31.312Z"
+}

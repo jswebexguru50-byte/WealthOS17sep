@@ -1,0 +1,26 @@
+[
+  {
+    "claimId": "CLM_360ONE_01",
+    "issuerNseSymbol": "360ONE",
+    "issuerBseCode": "542772",
+    "period": "FY24",
+    "category": "FINANCIAL_METRIC",
+    "statement": "ARR earning assets yield guided to remain above 58 bps.",
+    "targetMetric": "arr_yield_bps",
+    "baselineValue": 58,
+    "expectedValue": 58,
+    "expectedOutcome": "ARR Yield >= 58 bps",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_360ONE_PROMISE_01",
+    "claimDate": "2023-05-18",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "PARTIALLY_ACHIEVED",
+    "actualOutcomeMetric": 53,
+    "actualOutcomeDescription": "Delivered ARR yield of 53 bps (compressed by 5 bps due to institutional mix)",
+    "evaluationEvidenceId": "EV_360ONE_RESULT_01",
+    "evaluationDate": "2024-04-23",
+    "evaluationBasis": "BSE Audited Financial Results and Investor Presentation",
+    "createdAt": "2023-05-18T10:00:00.000Z"
+  }
+]

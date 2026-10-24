@@ -2,14 +2,14 @@
   "status": "COMPLETED",
   "phase": "UPSTOX_EIGHT_ENDPOINTS",
   "provider": "UPSTOX_FUNDAMENTALS",
-  "group": "excelStrategyMatches",
-  "requested": 31,
+  "group": "cohort_20261021",
+  "requested": 182,
   "completed": 3527,
   "pending": 0,
   "failed": 0,
   "identityReview": 0,
   "endpointSuccesses": {},
   "endpointUnavailable": {},
-  "updatedAt": "2026-10-20T18:42:56.698Z",
+  "updatedAt": "2026-10-22T10:51:21.188Z",
   "llmCalls": 0
 }

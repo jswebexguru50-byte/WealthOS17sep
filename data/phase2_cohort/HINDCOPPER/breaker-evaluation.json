@@ -1,0 +1,21 @@
+[
+  {
+    "breakerId": "TB_HC_MINING_HALT",
+    "name": "Statutory Mining Sanction Breaker",
+    "description": "Environmental clearance revocation shutting core mining lease",
+    "type": "QUALITATIVE",
+    "evaluationMethod": "EVENT_MATCH",
+    "conditionText": "Statutory cancellation of Malanjkhand mining lease",
+    "qualitativeCondition": {
+      "eventCategory": "REGULATORY",
+      "materiality": "CRITICAL",
+      "requiresPrimaryEvidence": true
+    },
+    "status": "INACTIVE",
+    "severity": "CRITICAL",
+    "rationale": "No statutory mining lease cancellation event observed. Note: Operating guidance miss (3.35 MTPA vs 5.0 MTPA) is evaluated separately under Claim & Contradiction Engine (resulting in HIGH intelligence risk and CHALLENGED thesis state); Breaker INACTIVE does not imply company safe.",
+    "evidenceIds": [],
+    "currentObservedValue": "N/A (event-based qualifier)",
+    "observedValueType": "QUALITATIVE_EVENT"
+  }
+]

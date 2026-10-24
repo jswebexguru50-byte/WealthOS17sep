@@ -1,0 +1,29 @@
+{
+  "issuerNseSymbol": "UNOMINDA",
+  "issuerBseCode": "532539",
+  "manifestGeneratedAt": "2026-09-15T12:27:21.110Z",
+  "sources": [
+    {
+      "documentId": "DOC_UNO_AR2024",
+      "documentName": "UNO_Minda_Annual_Report_2023_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-22",
+      "documentHashSha256": "840192cae981248ba014829bc39104aa1098234af09281ca8401928eb471928b",
+      "repositoryRelativePath": "data/disclosures/UNOMINDA/2024/UNO_Minda_Annual_Report_2023_2024.pdf",
+      "pageCount": 284,
+      "filingAuthority": "BSE / NSE"
+    },
+    {
+      "documentId": "DOC_UNO_BSE_Q4FY24",
+      "documentName": "UNO_Minda_Financial_Disclosures_Audited_Q4FY24.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2024-05-16",
+      "documentHashSha256": "9201bd9840291ca8e47192bd840219cae901482ba014829be49102ca7281ef84",
+      "repositoryRelativePath": "data/disclosures/UNOMINDA/2024/UNO_Minda_Financial_Disclosures_Audited_Q4FY24.pdf",
+      "pageCount": 52,
+      "filingAuthority": "BSE Corporate Announcement"
+    }
+  ]
+}

@@ -1,0 +1,1856 @@
+{
+  "symbol": "INFY",
+  "generatedAt": "2026-10-23T16:27:50.562Z",
+  "policy": [
+    "Exhaust local persisted evidence first",
+    "Prefer primary filed evidence",
+    "Use provider data for discovery/cross-check and persist raw response",
+    "Promote only identity/period/unit/scope-verified evidence",
+    "Never convert missing evidence to zero or an invented narrative"
+  ],
+  "summary": {
+    "totalActions": 52,
+    "p0": 7,
+    "p1": 45,
+    "structuredMetrics": 14,
+    "providerViews": 18,
+    "localDomains": 20,
+    "uniqueProviderCalls": 24
+  },
+  "actions": [
+    {
+      "actionId": "GAP-INFY-01-228B07FC90",
+      "priority": "P1",
+      "questionId": 1,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:technical",
+      "category": "TRENDLYNE_VIEW",
+      "view": "technical",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:technical"
+      ],
+      "primarySources": [
+        "DuckDB adjusted OHLCV remains analytical source of truth"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_overview_news_corp_events",
+        "arguments": {
+          "stock_code": "INFY",
+          "type": "technical"
+        }
+      },
+      "canonicalDestination": "fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh technical snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-INFY-01-5852B5BDEA",
+      "priority": "P1",
+      "questionId": 1,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:news",
+      "category": "TRENDLYNE_VIEW",
+      "view": "news",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:news"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_overview_news_corp_events",
+        "arguments": {
+          "stock_code": "INFY",
+          "type": "news"
+        }
+      },
+      "canonicalDestination": "fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh news snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-INFY-01-0BE3B05BB3",
+      "priority": "P1",
+      "questionId": 1,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:sast",
+      "category": "TRENDLYNE_VIEW",
+      "view": "sast",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:sast",
+        "InstitutionalDeals"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_ownership_deals_insider_sast",
+        "arguments": {
+          "stock_code": "INFY",
+          "type": "sast"
+        }
+      },
+      "canonicalDestination": "InstitutionalDeals + fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh sast snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-INFY-01-FDC65BE374",
+      "priority": "P1",
+      "questionId": 1,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:bulblockdeal",
+      "category": "TRENDLYNE_VIEW",
+      "view": "bulblockdeal",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:bulblockdeal",
+        "InstitutionalDeals"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_ownership_deals_insider_sast",
+        "arguments": {
+          "stock_code": "INFY",
+          "type": "bulblockdeal"
+        }
+      },
+      "canonicalDestination": "InstitutionalDeals + fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh bulblockdeal snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-INFY-01-F80AD93EA4",
+      "priority": "P1",
+      "questionId": 1,
+      "status": "PARTIAL",
+      "missing": "LOCAL_DOMAIN:DEALS",
+      "category": "LOCAL_DOMAIN",
+      "domain": "DEALS",
+      "localFirst": [
+        "InstitutionalDeals"
+      ],
+      "primarySources": [
+        "NSE/BSE bulk, block, insider and SAST disclosures"
+      ],
+      "providerFallback": null,
+      "canonicalDestination": "InstitutionalDeals",
+      "existingExecutors": [
+        "src/server/services/enrichment/trendlyne/TrendlyneOwnershipAdapter.ts",
+        "scripts/run_one_time_data_push.cjs"
+      ],
+      "completionGate": "Verified DEALS evidence is persisted in InstitutionalDeals."
+    },
+    {
+      "actionId": "GAP-INFY-02-455D1040C1",
+      "priority": "P0",
+      "questionId": 2,
+      "status": "DATA_INSUFFICIENT",
+      "missing": "LOCAL_DOMAIN:DOCUMENTS",
+      "category": "LOCAL_DOMAIN",
+      "domain": "DOCUMENTS",
+      "localFirst": [
+        "source_documents",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots:documents"
+      ],
+      "primarySources": [
+        "NSE/BSE filed annual reports and announcements",
+        "Company investor-relations filings"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "focusedQueries": [
+          {
+            "tool": "get_document_search_results",
+            "arguments": {
+              "stock_code": "INFY",
+              "query": "products services segment revenue use cases order book"
+            }
+          }
+        ]
+      },
+      "canonicalDestination": "source_documents plus cited qualitative evidence records",
+      "existingExecutors": [
+        "src/server/services/enrichment/trendlyne/TrendlyneDocumentAdapter.ts"
+      ],
+      "completionGate": "Cited document excerpts include document identity, reporting period, page/chunk locator, URL and availableAt."
+    },
+    {
+      "actionId": "GAP-INFY-03-6C55891BA6",
+      "priority": "P1",
+      "questionId": 3,
+      "status": "PARTIAL",
+      "missing": "LOCAL_DOMAIN:DOCUMENTS",
+      "category": "LOCAL_DOMAIN",
+      "domain": "DOCUMENTS",
+      "localFirst": [
+        "source_documents",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots:documents"
+      ],
+      "primarySources": [
+        "NSE/BSE filed annual reports and announcements",
+        "Company investor-relations filings"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "focusedQueries": [
+          {
+            "tool": "get_document_search_results",
+            "arguments": {
+              "stock_code": "INFY",
+              "query": "competitive advantage moat certifications market share switching costs"
+            }
+          }
+        ]
+      },
+      "canonicalDestination": "source_documents plus cited qualitative evidence records",
+      "existingExecutors": [
+        "src/server/services/enrichment/trendlyne/TrendlyneDocumentAdapter.ts"
+      ],
+      "completionGate": "Cited document excerpts include document identity, reporting period, page/chunk locator, URL and availableAt."
+    },
+    {
+      "actionId": "GAP-INFY-04-AF634B6584",
+      "priority": "P0",
+      "questionId": 4,
+      "status": "DATA_INSUFFICIENT",
+      "missing": "LOCAL_DOMAIN:DOCUMENTS",
+      "category": "LOCAL_DOMAIN",
+      "domain": "DOCUMENTS",
+      "localFirst": [
+        "source_documents",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots:documents"
+      ],
+      "primarySources": [
+        "NSE/BSE filed annual reports and announcements",
+        "Company investor-relations filings"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "focusedQueries": [
+          {
+            "tool": "get_document_search_results",
+            "arguments": {
+              "stock_code": "INFY",
+              "query": "major customers customer concentration top customers order book"
+            }
+          }
+        ]
+      },
+      "canonicalDestination": "source_documents plus cited qualitative evidence records",
+      "existingExecutors": [
+        "src/server/services/enrichment/trendlyne/TrendlyneDocumentAdapter.ts"
+      ],
+      "completionGate": "Cited document excerpts include document identity, reporting period, page/chunk locator, URL and availableAt."
+    },
+    {
+      "actionId": "GAP-INFY-05-D02EC9E0C0",
+      "priority": "P1",
+      "questionId": 5,
+      "status": "PARTIAL",
+      "missing": "LOCAL_DOMAIN:DOCUMENTS",
+      "category": "LOCAL_DOMAIN",
+      "domain": "DOCUMENTS",
+      "localFirst": [
+        "source_documents",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots:documents"
+      ],
+      "primarySources": [
+        "NSE/BSE filed annual reports and announcements",
+        "Company investor-relations filings"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "focusedQueries": [
+          {
+            "tool": "get_document_search_results",
+            "arguments": {
+              "stock_code": "INFY",
+              "query": "suppliers vendor concentration raw material pass through pricing power"
+            }
+          }
+        ]
+      },
+      "canonicalDestination": "source_documents plus cited qualitative evidence records",
+      "existingExecutors": [
+        "src/server/services/enrichment/trendlyne/TrendlyneDocumentAdapter.ts"
+      ],
+      "completionGate": "Cited document excerpts include document identity, reporting period, page/chunk locator, URL and availableAt."
+    },
+    {
+      "actionId": "GAP-INFY-06-243AD19290",
+      "priority": "P1",
+      "questionId": 6,
+      "status": "PARTIAL",
+      "missing": "LOCAL_DOMAIN:DOCUMENTS",
+      "category": "LOCAL_DOMAIN",
+      "domain": "DOCUMENTS",
+      "localFirst": [
+        "source_documents",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots:documents"
+      ],
+      "primarySources": [
+        "NSE/BSE filed annual reports and announcements",
+        "Company investor-relations filings"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "focusedQueries": [
+          {
+            "tool": "get_document_search_results",
+            "arguments": {
+              "stock_code": "INFY",
+              "query": "industry size addressable market market share penetration outlook"
+            }
+          }
+        ]
+      },
+      "canonicalDestination": "source_documents plus cited qualitative evidence records",
+      "existingExecutors": [
+        "src/server/services/enrichment/trendlyne/TrendlyneDocumentAdapter.ts"
+      ],
+      "completionGate": "Cited document excerpts include document identity, reporting period, page/chunk locator, URL and availableAt."
+    },
+    {
+      "actionId": "GAP-INFY-07-66759F3578",
+      "priority": "P1",
+      "questionId": 7,
+      "status": "PARTIAL",
+      "missing": "METRIC:capital_work_in_progress",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "capital_work_in_progress"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE balance sheet and notes"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F03/F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-INFY-07-EFFEB85819",
+      "priority": "P1",
+      "questionId": 7,
+      "status": "PARTIAL",
+      "missing": "LOCAL_DOMAIN:DOCUMENTS",
+      "category": "LOCAL_DOMAIN",
+      "domain": "DOCUMENTS",
+      "localFirst": [
+        "source_documents",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots:documents"
+      ],
+      "primarySources": [
+        "NSE/BSE filed annual reports and announcements",
+        "Company investor-relations filings"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "focusedQueries": [
+          {
+            "tool": "get_document_search_results",
+            "arguments": {
+              "stock_code": "INFY",
+              "query": "capacity expansion capex plan utilisation reinvestment runway"
+            }
+          }
+        ]
+      },
+      "canonicalDestination": "source_documents plus cited qualitative evidence records",
+      "existingExecutors": [
+        "src/server/services/enrichment/trendlyne/TrendlyneDocumentAdapter.ts"
+      ],
+      "completionGate": "Cited document excerpts include document identity, reporting period, page/chunk locator, URL and availableAt."
+    },
+    {
+      "actionId": "GAP-INFY-08-285EA69C22",
+      "priority": "P1",
+      "questionId": 8,
+      "status": "PARTIAL",
+      "missing": "METRIC:roic",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "roic"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "Derived from aligned XBRL/FERE statements"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F05",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-INFY-09-62514C899F",
+      "priority": "P1",
+      "questionId": 9,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:news",
+      "category": "TRENDLYNE_VIEW",
+      "view": "news",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:news"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_overview_news_corp_events",
+        "arguments": {
+          "stock_code": "INFY",
+          "type": "news"
+        }
+      },
+      "canonicalDestination": "fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh news snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-INFY-09-750A3A72C8",
+      "priority": "P1",
+      "questionId": 9,
+      "status": "PARTIAL",
+      "missing": "LOCAL_DOMAIN:DOCUMENTS",
+      "category": "LOCAL_DOMAIN",
+      "domain": "DOCUMENTS",
+      "localFirst": [
+        "source_documents",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots:documents"
+      ],
+      "primarySources": [
+        "NSE/BSE filed annual reports and announcements",
+        "Company investor-relations filings"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "focusedQueries": [
+          {
+            "tool": "get_document_search_results",
+            "arguments": {
+              "stock_code": "INFY",
+              "query": "guidance order book catalysts outlook competitive positioning"
+            }
+          }
+        ]
+      },
+      "canonicalDestination": "source_documents plus cited qualitative evidence records",
+      "existingExecutors": [
+        "src/server/services/enrichment/trendlyne/TrendlyneDocumentAdapter.ts"
+      ],
+      "completionGate": "Cited document excerpts include document identity, reporting period, page/chunk locator, URL and availableAt."
+    },
+    {
+      "actionId": "GAP-INFY-10-CCAC524E9C",
+      "priority": "P1",
+      "questionId": 10,
+      "status": "PARTIAL",
+      "missing": "METRIC:trade_receivables|trade_receivables_cr",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "trade_receivables",
+        "trade_receivables_cr"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE balance sheet and notes"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F03/F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-INFY-10-B58D325D61",
+      "priority": "P1",
+      "questionId": 10,
+      "status": "PARTIAL",
+      "missing": "LOCAL_DOMAIN:DOCUMENTS",
+      "category": "LOCAL_DOMAIN",
+      "domain": "DOCUMENTS",
+      "localFirst": [
+        "source_documents",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots:documents"
+      ],
+      "primarySources": [
+        "NSE/BSE filed annual reports and announcements",
+        "Company investor-relations filings"
+      ],
+      "providerFallback": null,
+      "canonicalDestination": "source_documents plus cited qualitative evidence records",
+      "existingExecutors": [
+        "src/server/services/enrichment/trendlyne/TrendlyneDocumentAdapter.ts"
+      ],
+      "completionGate": "Cited document excerpts include document identity, reporting period, page/chunk locator, URL and availableAt."
+    },
+    {
+      "actionId": "GAP-INFY-11-BF1B5A6D8D",
+      "priority": "P0",
+      "questionId": 11,
+      "status": "DATA_INSUFFICIENT",
+      "missing": "LOCAL_DOMAIN:DOCUMENTS",
+      "category": "LOCAL_DOMAIN",
+      "domain": "DOCUMENTS",
+      "localFirst": [
+        "source_documents",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots:documents"
+      ],
+      "primarySources": [
+        "NSE/BSE filed annual reports and announcements",
+        "Company investor-relations filings"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "focusedQueries": [
+          {
+            "tool": "get_document_search_results",
+            "arguments": {
+              "stock_code": "INFY",
+              "query": "segment revenue growth product mix geography recovery"
+            }
+          }
+        ]
+      },
+      "canonicalDestination": "source_documents plus cited qualitative evidence records",
+      "existingExecutors": [
+        "src/server/services/enrichment/trendlyne/TrendlyneDocumentAdapter.ts"
+      ],
+      "completionGate": "Cited document excerpts include document identity, reporting period, page/chunk locator, URL and availableAt."
+    },
+    {
+      "actionId": "GAP-INFY-11-95F4E1B901",
+      "priority": "P0",
+      "questionId": 11,
+      "status": "DATA_INSUFFICIENT",
+      "missing": "LOCAL_DOMAIN:SEGMENTS",
+      "category": "LOCAL_DOMAIN",
+      "domain": "SEGMENTS",
+      "localFirst": [
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "source_documents"
+      ],
+      "primarySources": [
+        "Annual-report segment note",
+        "Quarterly result segment schedule",
+        "XBRL segment disclosures"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "focusedQueries": [
+          {
+            "tool": "get_document_search_results",
+            "arguments": {
+              "stock_code": "INFY",
+              "query": "segment revenue growth product mix geography recovery"
+            }
+          }
+        ]
+      },
+      "canonicalDestination": "period-anchored segment fact records",
+      "existingExecutors": [
+        "scripts/fundamental/promote_all_xbrl_to_company_facts.py"
+      ],
+      "completionGate": "Verified SEGMENTS evidence is persisted in period-anchored segment fact records."
+    },
+    {
+      "actionId": "GAP-INFY-13-5AF93BDE7E",
+      "priority": "P1",
+      "questionId": 13,
+      "status": "PARTIAL",
+      "missing": "LOCAL_DOMAIN:DOCUMENTS",
+      "category": "LOCAL_DOMAIN",
+      "domain": "DOCUMENTS",
+      "localFirst": [
+        "source_documents",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots:documents"
+      ],
+      "primarySources": [
+        "NSE/BSE filed annual reports and announcements",
+        "Company investor-relations filings"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "focusedQueries": [
+          {
+            "tool": "get_document_search_results",
+            "arguments": {
+              "stock_code": "INFY",
+              "query": "margin movement raw material product mix operating leverage"
+            }
+          }
+        ]
+      },
+      "canonicalDestination": "source_documents plus cited qualitative evidence records",
+      "existingExecutors": [
+        "src/server/services/enrichment/trendlyne/TrendlyneDocumentAdapter.ts"
+      ],
+      "completionGate": "Cited document excerpts include document identity, reporting period, page/chunk locator, URL and availableAt."
+    },
+    {
+      "actionId": "GAP-INFY-15-08359C2457",
+      "priority": "P1",
+      "questionId": 15,
+      "status": "PARTIAL",
+      "missing": "METRIC:trade_receivables|trade_receivables_cr",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "trade_receivables",
+        "trade_receivables_cr"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE balance sheet and notes"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F03/F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-INFY-15-239ADD5823",
+      "priority": "P1",
+      "questionId": 15,
+      "status": "PARTIAL",
+      "missing": "METRIC:inventory",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "inventory"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE balance sheet and notes"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F03/F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-INFY-16-704CA3CE04",
+      "priority": "P1",
+      "questionId": 16,
+      "status": "PARTIAL",
+      "missing": "METRIC:net_cash_flow",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "net_cash_flow"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE cash-flow statement"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-INFY-18-1630B81F90",
+      "priority": "P1",
+      "questionId": 18,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:news",
+      "category": "TRENDLYNE_VIEW",
+      "view": "news",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:news"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_overview_news_corp_events",
+        "arguments": {
+          "stock_code": "INFY",
+          "type": "news"
+        }
+      },
+      "canonicalDestination": "fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh news snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-INFY-18-A64AB0FCD7",
+      "priority": "P1",
+      "questionId": 18,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:sast",
+      "category": "TRENDLYNE_VIEW",
+      "view": "sast",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:sast",
+        "InstitutionalDeals"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_ownership_deals_insider_sast",
+        "arguments": {
+          "stock_code": "INFY",
+          "type": "sast"
+        }
+      },
+      "canonicalDestination": "InstitutionalDeals + fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh sast snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-INFY-18-95588286B3",
+      "priority": "P1",
+      "questionId": 18,
+      "status": "PARTIAL",
+      "missing": "LOCAL_DOMAIN:DOCUMENTS",
+      "category": "LOCAL_DOMAIN",
+      "domain": "DOCUMENTS",
+      "localFirst": [
+        "source_documents",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots:documents"
+      ],
+      "primarySources": [
+        "NSE/BSE filed annual reports and announcements",
+        "Company investor-relations filings"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "focusedQueries": [
+          {
+            "tool": "get_document_search_results",
+            "arguments": {
+              "stock_code": "INFY",
+              "query": "promoter directors management background legal cases litigation regulatory action"
+            }
+          }
+        ]
+      },
+      "canonicalDestination": "source_documents plus cited qualitative evidence records",
+      "existingExecutors": [
+        "src/server/services/enrichment/trendlyne/TrendlyneDocumentAdapter.ts"
+      ],
+      "completionGate": "Cited document excerpts include document identity, reporting period, page/chunk locator, URL and availableAt."
+    },
+    {
+      "actionId": "GAP-INFY-19-CB49C39645",
+      "priority": "P1",
+      "questionId": 19,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:news",
+      "category": "TRENDLYNE_VIEW",
+      "view": "news",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:news"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_overview_news_corp_events",
+        "arguments": {
+          "stock_code": "INFY",
+          "type": "news"
+        }
+      },
+      "canonicalDestination": "fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh news snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-INFY-19-E134CAD91C",
+      "priority": "P1",
+      "questionId": 19,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:sast",
+      "category": "TRENDLYNE_VIEW",
+      "view": "sast",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:sast",
+        "InstitutionalDeals"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_ownership_deals_insider_sast",
+        "arguments": {
+          "stock_code": "INFY",
+          "type": "sast"
+        }
+      },
+      "canonicalDestination": "InstitutionalDeals + fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh sast snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-INFY-19-FDFD25EE81",
+      "priority": "P1",
+      "questionId": 19,
+      "status": "PARTIAL",
+      "missing": "LOCAL_DOMAIN:DOCUMENTS",
+      "category": "LOCAL_DOMAIN",
+      "domain": "DOCUMENTS",
+      "localFirst": [
+        "source_documents",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots:documents"
+      ],
+      "primarySources": [
+        "NSE/BSE filed annual reports and announcements",
+        "Company investor-relations filings"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "focusedQueries": [
+          {
+            "tool": "get_document_search_results",
+            "arguments": {
+              "stock_code": "INFY",
+              "query": "audit qualification restatement governance accounting red flags"
+            }
+          }
+        ]
+      },
+      "canonicalDestination": "source_documents plus cited qualitative evidence records",
+      "existingExecutors": [
+        "src/server/services/enrichment/trendlyne/TrendlyneDocumentAdapter.ts"
+      ],
+      "completionGate": "Cited document excerpts include document identity, reporting period, page/chunk locator, URL and availableAt."
+    },
+    {
+      "actionId": "GAP-INFY-20-82869C6413",
+      "priority": "P1",
+      "questionId": 20,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:sast",
+      "category": "TRENDLYNE_VIEW",
+      "view": "sast",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:sast",
+        "InstitutionalDeals"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_ownership_deals_insider_sast",
+        "arguments": {
+          "stock_code": "INFY",
+          "type": "sast"
+        }
+      },
+      "canonicalDestination": "InstitutionalDeals + fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh sast snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-INFY-20-E7394E1B8F",
+      "priority": "P1",
+      "questionId": 20,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:bulblockdeal",
+      "category": "TRENDLYNE_VIEW",
+      "view": "bulblockdeal",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:bulblockdeal",
+        "InstitutionalDeals"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_ownership_deals_insider_sast",
+        "arguments": {
+          "stock_code": "INFY",
+          "type": "bulblockdeal"
+        }
+      },
+      "canonicalDestination": "InstitutionalDeals + fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh bulblockdeal snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-INFY-20-DC5D346888",
+      "priority": "P1",
+      "questionId": 20,
+      "status": "PARTIAL",
+      "missing": "LOCAL_DOMAIN:DEALS",
+      "category": "LOCAL_DOMAIN",
+      "domain": "DEALS",
+      "localFirst": [
+        "InstitutionalDeals"
+      ],
+      "primarySources": [
+        "NSE/BSE bulk, block, insider and SAST disclosures"
+      ],
+      "providerFallback": null,
+      "canonicalDestination": "InstitutionalDeals",
+      "existingExecutors": [
+        "src/server/services/enrichment/trendlyne/TrendlyneOwnershipAdapter.ts",
+        "scripts/run_one_time_data_push.cjs"
+      ],
+      "completionGate": "Verified DEALS evidence is persisted in InstitutionalDeals."
+    },
+    {
+      "actionId": "GAP-INFY-21-2E778C39F4",
+      "priority": "P0",
+      "questionId": 21,
+      "status": "DATA_INSUFFICIENT",
+      "missing": "LOCAL_DOMAIN:DOCUMENTS",
+      "category": "LOCAL_DOMAIN",
+      "domain": "DOCUMENTS",
+      "localFirst": [
+        "source_documents",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots:documents"
+      ],
+      "primarySources": [
+        "NSE/BSE filed annual reports and announcements",
+        "Company investor-relations filings"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "focusedQueries": [
+          {
+            "tool": "get_document_search_results",
+            "arguments": {
+              "stock_code": "INFY",
+              "query": "statutory auditor audit committee board independence remuneration qualifications"
+            }
+          }
+        ]
+      },
+      "canonicalDestination": "source_documents plus cited qualitative evidence records",
+      "existingExecutors": [
+        "src/server/services/enrichment/trendlyne/TrendlyneDocumentAdapter.ts"
+      ],
+      "completionGate": "Cited document excerpts include document identity, reporting period, page/chunk locator, URL and availableAt."
+    },
+    {
+      "actionId": "GAP-INFY-22-3033E8F0F6",
+      "priority": "P1",
+      "questionId": 22,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:news",
+      "category": "TRENDLYNE_VIEW",
+      "view": "news",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:news"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_overview_news_corp_events",
+        "arguments": {
+          "stock_code": "INFY",
+          "type": "news"
+        }
+      },
+      "canonicalDestination": "fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh news snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-INFY-22-781451ABB8",
+      "priority": "P1",
+      "questionId": 22,
+      "status": "PARTIAL",
+      "missing": "LOCAL_DOMAIN:DOCUMENTS",
+      "category": "LOCAL_DOMAIN",
+      "domain": "DOCUMENTS",
+      "localFirst": [
+        "source_documents",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots:documents"
+      ],
+      "primarySources": [
+        "NSE/BSE filed annual reports and announcements",
+        "Company investor-relations filings"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "focusedQueries": [
+          {
+            "tool": "get_document_search_results",
+            "arguments": {
+              "stock_code": "INFY",
+              "query": "risk factors disruption regulation customer supplier currency execution"
+            }
+          }
+        ]
+      },
+      "canonicalDestination": "source_documents plus cited qualitative evidence records",
+      "existingExecutors": [
+        "src/server/services/enrichment/trendlyne/TrendlyneDocumentAdapter.ts"
+      ],
+      "completionGate": "Cited document excerpts include document identity, reporting period, page/chunk locator, URL and availableAt."
+    },
+    {
+      "actionId": "GAP-INFY-23-1FB72FF17D",
+      "priority": "P1",
+      "questionId": 23,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:technical",
+      "category": "TRENDLYNE_VIEW",
+      "view": "technical",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:technical"
+      ],
+      "primarySources": [
+        "DuckDB adjusted OHLCV remains analytical source of truth"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_overview_news_corp_events",
+        "arguments": {
+          "stock_code": "INFY",
+          "type": "technical"
+        }
+      },
+      "canonicalDestination": "fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh technical snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-INFY-23-B35B01467A",
+      "priority": "P1",
+      "questionId": 23,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:news",
+      "category": "TRENDLYNE_VIEW",
+      "view": "news",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:news"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_overview_news_corp_events",
+        "arguments": {
+          "stock_code": "INFY",
+          "type": "news"
+        }
+      },
+      "canonicalDestination": "fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh news snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-INFY-23-776E9E5AA6",
+      "priority": "P1",
+      "questionId": 23,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:sast",
+      "category": "TRENDLYNE_VIEW",
+      "view": "sast",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:sast",
+        "InstitutionalDeals"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_ownership_deals_insider_sast",
+        "arguments": {
+          "stock_code": "INFY",
+          "type": "sast"
+        }
+      },
+      "canonicalDestination": "InstitutionalDeals + fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh sast snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-INFY-23-6769CD9815",
+      "priority": "P1",
+      "questionId": 23,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:bulblockdeal",
+      "category": "TRENDLYNE_VIEW",
+      "view": "bulblockdeal",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:bulblockdeal",
+        "InstitutionalDeals"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_ownership_deals_insider_sast",
+        "arguments": {
+          "stock_code": "INFY",
+          "type": "bulblockdeal"
+        }
+      },
+      "canonicalDestination": "InstitutionalDeals + fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh bulblockdeal snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-INFY-24-6DCC65B03C",
+      "priority": "P1",
+      "questionId": 24,
+      "status": "PARTIAL",
+      "missing": "METRIC:total_debt|borrowings",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "total_debt",
+        "borrowings"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE balance sheet and notes"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F03/F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-INFY-24-BAEC364B1D",
+      "priority": "P1",
+      "questionId": 24,
+      "status": "PARTIAL",
+      "missing": "LOCAL_DOMAIN:DOCUMENTS",
+      "category": "LOCAL_DOMAIN",
+      "domain": "DOCUMENTS",
+      "localFirst": [
+        "source_documents",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots:documents"
+      ],
+      "primarySources": [
+        "NSE/BSE filed annual reports and announcements",
+        "Company investor-relations filings"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "focusedQueries": [
+          {
+            "tool": "get_document_search_results",
+            "arguments": {
+              "stock_code": "INFY",
+              "query": "floating rate debt borrowing cost debt maturity interest sensitivity"
+            }
+          }
+        ]
+      },
+      "canonicalDestination": "source_documents plus cited qualitative evidence records",
+      "existingExecutors": [
+        "src/server/services/enrichment/trendlyne/TrendlyneDocumentAdapter.ts"
+      ],
+      "completionGate": "Cited document excerpts include document identity, reporting period, page/chunk locator, URL and availableAt."
+    },
+    {
+      "actionId": "GAP-INFY-25-7203F068F1",
+      "priority": "P1",
+      "questionId": 25,
+      "status": "PARTIAL",
+      "missing": "METRIC:trade_receivables|trade_receivables_cr",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "trade_receivables",
+        "trade_receivables_cr"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE balance sheet and notes"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F03/F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-INFY-25-1DE075170F",
+      "priority": "P1",
+      "questionId": 25,
+      "status": "PARTIAL",
+      "missing": "METRIC:inventory",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "inventory"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE balance sheet and notes"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F03/F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-INFY-25-6DBB7E6F00",
+      "priority": "P1",
+      "questionId": 25,
+      "status": "PARTIAL",
+      "missing": "METRIC:working_capital",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "working_capital"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE balance sheet and notes"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F03/F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-INFY-26-40ECC2F8E7",
+      "priority": "P1",
+      "questionId": 26,
+      "status": "PARTIAL",
+      "missing": "METRIC:total_debt|borrowings",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "total_debt",
+        "borrowings"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE balance sheet and notes"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F03/F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-INFY-26-67D4BE04AE",
+      "priority": "P1",
+      "questionId": 26,
+      "status": "PARTIAL",
+      "missing": "METRIC:net_debt",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "net_debt"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "Derived from aligned borrowings, leases and cash; never fetch as a substitute for missing inputs"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F03",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-INFY-26-35B5C993D4",
+      "priority": "P1",
+      "questionId": 26,
+      "status": "PARTIAL",
+      "missing": "METRIC:interest_coverage",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "interest_coverage"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "Derived from aligned XBRL/FERE statements"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F05",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-INFY-27-D0F589E17B",
+      "priority": "P0",
+      "questionId": 27,
+      "status": "DATA_INSUFFICIENT",
+      "missing": "LOCAL_DOMAIN:DOCUMENTS",
+      "category": "LOCAL_DOMAIN",
+      "domain": "DOCUMENTS",
+      "localFirst": [
+        "source_documents",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots:documents"
+      ],
+      "primarySources": [
+        "NSE/BSE filed annual reports and announcements",
+        "Company investor-relations filings"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "focusedQueries": [
+          {
+            "tool": "get_document_search_results",
+            "arguments": {
+              "stock_code": "INFY",
+              "query": "related party transactions sales purchases loans guarantees promoter entities"
+            }
+          }
+        ]
+      },
+      "canonicalDestination": "source_documents plus cited qualitative evidence records",
+      "existingExecutors": [
+        "src/server/services/enrichment/trendlyne/TrendlyneDocumentAdapter.ts"
+      ],
+      "completionGate": "Cited document excerpts include document identity, reporting period, page/chunk locator, URL and availableAt."
+    },
+    {
+      "actionId": "GAP-INFY-27-B4E8C5CCF1",
+      "priority": "P0",
+      "questionId": 27,
+      "status": "DATA_INSUFFICIENT",
+      "missing": "LOCAL_DOMAIN:RPT",
+      "category": "LOCAL_DOMAIN",
+      "domain": "RPT",
+      "localFirst": [
+        "source_documents",
+        "FEREEnrichedLedger"
+      ],
+      "primarySources": [
+        "Annual-report related-party note",
+        "XBRL related-party disclosures"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "focusedQueries": [
+          {
+            "tool": "get_document_search_results",
+            "arguments": {
+              "stock_code": "INFY",
+              "query": "related party transactions sales purchases loans guarantees promoter entities"
+            }
+          }
+        ]
+      },
+      "canonicalDestination": "counterparty-level related-party evidence ledger",
+      "existingExecutors": [
+        "scripts/fundamental/promote_all_xbrl_to_company_facts.py"
+      ],
+      "completionGate": "Verified RPT evidence is persisted in counterparty-level related-party evidence ledger."
+    },
+    {
+      "actionId": "GAP-INFY-28-57F323A4EC",
+      "priority": "P1",
+      "questionId": 28,
+      "status": "PARTIAL",
+      "missing": "METRIC:public_holding",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "public_holding"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "Adjusted market price plus filed share capital/shareholding"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F06/F07",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-INFY-28-C1BA5F3A62",
+      "priority": "P1",
+      "questionId": 28,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:technical",
+      "category": "TRENDLYNE_VIEW",
+      "view": "technical",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:technical"
+      ],
+      "primarySources": [
+        "DuckDB adjusted OHLCV remains analytical source of truth"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_overview_news_corp_events",
+        "arguments": {
+          "stock_code": "INFY",
+          "type": "technical"
+        }
+      },
+      "canonicalDestination": "fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh technical snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-INFY-29-999608EB1E",
+      "priority": "P1",
+      "questionId": 29,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:technical",
+      "category": "TRENDLYNE_VIEW",
+      "view": "technical",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:technical"
+      ],
+      "primarySources": [
+        "DuckDB adjusted OHLCV remains analytical source of truth"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_overview_news_corp_events",
+        "arguments": {
+          "stock_code": "INFY",
+          "type": "technical"
+        }
+      },
+      "canonicalDestination": "fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh technical snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    }
+  ],
+  "uniqueProviderCalls": [
+    {
+      "provider": "TRENDLYNE_MCP",
+      "tool": "get_overview_news_corp_events",
+      "arguments": {
+        "stock_code": "INFY",
+        "type": "technical"
+      }
+    },
+    {
+      "provider": "TRENDLYNE_MCP",
+      "tool": "get_overview_news_corp_events",
+      "arguments": {
+        "stock_code": "INFY",
+        "type": "news"
+      }
+    },
+    {
+      "provider": "TRENDLYNE_MCP",
+      "tool": "get_ownership_deals_insider_sast",
+      "arguments": {
+        "stock_code": "INFY",
+        "type": "sast"
+      }
+    },
+    {
+      "provider": "TRENDLYNE_MCP",
+      "tool": "get_ownership_deals_insider_sast",
+      "arguments": {
+        "stock_code": "INFY",
+        "type": "bulblockdeal"
+      }
+    },
+    {
+      "tool": "get_document_search_results",
+      "arguments": {
+        "stock_code": "INFY",
+        "query": "products services segment revenue use cases order book"
+      }
+    },
+    {
+      "tool": "get_document_search_results",
+      "arguments": {
+        "stock_code": "INFY",
+        "query": "competitive advantage moat certifications market share switching costs"
+      }
+    },
+    {
+      "tool": "get_document_search_results",
+      "arguments": {
+        "stock_code": "INFY",
+        "query": "major customers customer concentration top customers order book"
+      }
+    },
+    {
+      "tool": "get_document_search_results",
+      "arguments": {
+        "stock_code": "INFY",
+        "query": "suppliers vendor concentration raw material pass through pricing power"
+      }
+    },
+    {
+      "tool": "get_document_search_results",
+      "arguments": {
+        "stock_code": "INFY",
+        "query": "industry size addressable market market share penetration outlook"
+      }
+    },
+    {
+      "provider": "TRENDLYNE_MCP",
+      "pack": "F03/F04",
+      "discoveryTool": "search_financial_parameters",
+      "fetchTool": "get_stock_parameter_values",
+      "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+    },
+    {
+      "tool": "get_document_search_results",
+      "arguments": {
+        "stock_code": "INFY",
+        "query": "capacity expansion capex plan utilisation reinvestment runway"
+      }
+    },
+    {
+      "provider": "TRENDLYNE_MCP",
+      "pack": "F05",
+      "discoveryTool": "search_financial_parameters",
+      "fetchTool": "get_stock_parameter_values",
+      "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+    },
+    {
+      "tool": "get_document_search_results",
+      "arguments": {
+        "stock_code": "INFY",
+        "query": "guidance order book catalysts outlook competitive positioning"
+      }
+    },
+    {
+      "tool": "get_document_search_results",
+      "arguments": {
+        "stock_code": "INFY",
+        "query": "segment revenue growth product mix geography recovery"
+      }
+    },
+    {
+      "tool": "get_document_search_results",
+      "arguments": {
+        "stock_code": "INFY",
+        "query": "margin movement raw material product mix operating leverage"
+      }
+    },
+    {
+      "provider": "TRENDLYNE_MCP",
+      "pack": "F04",
+      "discoveryTool": "search_financial_parameters",
+      "fetchTool": "get_stock_parameter_values",
+      "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+    },
+    {
+      "tool": "get_document_search_results",
+      "arguments": {
+        "stock_code": "INFY",
+        "query": "promoter directors management background legal cases litigation regulatory action"
+      }
+    },
+    {
+      "tool": "get_document_search_results",
+      "arguments": {
+        "stock_code": "INFY",
+        "query": "audit qualification restatement governance accounting red flags"
+      }
+    },
+    {
+      "tool": "get_document_search_results",
+      "arguments": {
+        "stock_code": "INFY",
+        "query": "statutory auditor audit committee board independence remuneration qualifications"
+      }
+    },
+    {
+      "tool": "get_document_search_results",
+      "arguments": {
+        "stock_code": "INFY",
+        "query": "risk factors disruption regulation customer supplier currency execution"
+      }
+    },
+    {
+      "tool": "get_document_search_results",
+      "arguments": {
+        "stock_code": "INFY",
+        "query": "floating rate debt borrowing cost debt maturity interest sensitivity"
+      }
+    },
+    {
+      "provider": "TRENDLYNE_MCP",
+      "pack": "F03",
+      "discoveryTool": "search_financial_parameters",
+      "fetchTool": "get_stock_parameter_values",
+      "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+    },
+    {
+      "tool": "get_document_search_results",
+      "arguments": {
+        "stock_code": "INFY",
+        "query": "related party transactions sales purchases loans guarantees promoter entities"
+      }
+    },
+    {
+      "provider": "TRENDLYNE_MCP",
+      "pack": "F06/F07",
+      "discoveryTool": "search_financial_parameters",
+      "fetchTool": "get_stock_parameter_values",
+      "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+    }
+  ]
+}

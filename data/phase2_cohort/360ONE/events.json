@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_360ONE_01",
+    "issuerNseSymbol": "360ONE",
+    "issuerBseCode": "542772",
+    "eventDate": "2024-04-23",
+    "category": "EARNINGS_RELEASE",
+    "headline": "360 ONE ARR earning assets yield contracts 5 bps YoY to 53 bps on institutional mandates",
+    "description": "Robust 36% AUM expansion partially offset by competitive pricing and fee compression.",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "BSE_DISCLOSURE",
+    "evidenceId": "EV_360ONE_RESULT_01",
+    "materiality": "MEDIUM",
+    "createdAt": "2024-04-23T09:00:00.000Z"
+  }
+]

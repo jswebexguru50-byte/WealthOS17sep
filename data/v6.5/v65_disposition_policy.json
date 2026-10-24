@@ -1,0 +1,30 @@
+{
+  "version": "v6.5",
+  "dispositionRules": [
+    {
+      "condition": "status == 'DATA_INSUFFICIENT'",
+      "disposition": "DATA_INSUFFICIENT",
+      "reason": "DATA_CONTRACT_REQUIREMENTS_NOT_MET"
+    },
+    {
+      "condition": "pitValid == false || executionValid == false",
+      "disposition": "INVALID",
+      "reason": "EXECUTION_OR_PIT_BREACH"
+    },
+    {
+      "condition": "inSampleExpectancy > 0 && outOfSampleExpectancy <= 0",
+      "disposition": "NOT_SUPPORTED",
+      "reason": "OOS_DETERIORATION"
+    },
+    {
+      "condition": "all9GatesPassed == true",
+      "disposition": "ECONOMICALLY_SUPPORTED",
+      "reason": "ALL_9_ECONOMIC_AND_STATISTICAL_GATES_PASSED"
+    },
+    {
+      "condition": "all9GatesPassed == false",
+      "disposition": "ECONOMICALLY_UNSUPPORTED",
+      "reason": "FAILED_MULTIGATE_EVALUATION"
+    }
+  ]
+}

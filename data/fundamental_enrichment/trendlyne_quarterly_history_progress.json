@@ -1,18 +1,24 @@
 {
   "status": "COMPLETED",
   "provider": "TRENDLYNE_MCP",
-  "universe": "latest_30_day_strategy_manifest",
-  "requested": 179,
-  "completed": 179,
+  "universe": "scan_20261016_manifest.json",
+  "manifest": "data\\fundamental_enrichment\\scan_20261016_manifest.json",
+  "requested": 18,
+  "completed": 18,
   "skippedFresh": 0,
+  "deferredParameterTail": 0,
   "failed": 0,
   "pending": 0,
   "phase": "QUARTERLY_PROFIT_HISTORY",
   "profileRefreshDays": {
     "parameters": 15,
     "overview": 15,
+    "technical": 15,
+    "news": 15,
     "corporate_events": 15,
     "shareholding": 15,
+    "sast": 15,
+    "bulblockdeal": 15,
     "documents": 30
   },
   "requestedParameterCodes": [
@@ -25,7 +31,11 @@
     "npqmq6",
     "npqmq7"
   ],
+  "allowPartialBatch": true,
   "llmCalls": 0,
-  "updatedAt": "2026-09-27T11:51:22.711Z",
-  "lastSymbol": "CUMMINSIND"
+  "updatedAt": "2026-10-16T19:39:47.266Z",
+  "stage": "FETCHING_PROVIDER_BATCHES",
+  "dueSymbols": 18,
+  "totalBatches": 2,
+  "lastSymbol": "WHEELS"
 }

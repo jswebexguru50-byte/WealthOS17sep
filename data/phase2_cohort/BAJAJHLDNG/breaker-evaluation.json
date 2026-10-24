@@ -1,0 +1,24 @@
+[
+  {
+    "breakerId": "TB_BAJ_PLEDGE",
+    "name": "Promoter Pledge Breaker",
+    "description": "Promoter shares pledged must remain 0%",
+    "type": "QUANTITATIVE",
+    "evaluationMethod": "METRIC_THRESHOLD",
+    "conditionText": "Promoter Pledge Pct > 0",
+    "quantitativeCondition": {
+      "metric": "promoter_pledge_pct",
+      "operator": ">",
+      "threshold": 0,
+      "evaluationPeriod": "quarterly",
+      "evidenceRequired": true
+    },
+    "status": "INACTIVE",
+    "severity": "CRITICAL",
+    "rationale": "Metric within safe boundaries: promoter_pledge_pct (0) does not violate > 0.",
+    "evidenceIds": [
+      "EV_BAJ_DISCLOSURE_DIV"
+    ],
+    "currentObservedValue": 0
+  }
+]

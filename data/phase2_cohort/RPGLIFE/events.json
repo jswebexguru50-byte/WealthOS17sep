@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_RPG_01",
+    "issuerNseSymbol": "RPGLIFE",
+    "issuerBseCode": "532983",
+    "eventDate": "2024-05-02",
+    "category": "REGULATORY_ACTION",
+    "headline": "RPG Life Sciences concludes regulatory audits with zero observations across Ankleshwar & Navi Mumbai",
+    "description": "Pristine compliance track record maintained across formulation facilities.",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "BSE_DISCLOSURE",
+    "evidenceId": "EV_RPG_RESULT_01",
+    "materiality": "MEDIUM",
+    "createdAt": "2024-05-02T09:00:00.000Z"
+  }
+]

@@ -1,20 +1,24 @@
 {
   "status": "COMPLETED",
   "provider": "TRENDLYNE_MCP",
-  "universe": "excel_strategy_manifest.json",
-  "manifest": "data\\fundamental_enrichment\\excel_strategy_manifest.json",
-  "requested": 179,
-  "completed": 179,
+  "universe": "seven_strategy_20261021_signal_manifest.json",
+  "manifest": "data\\fundamental_enrichment\\seven_strategy_20261021_signal_manifest.json",
+  "requested": 182,
+  "completed": 182,
   "skippedFresh": 0,
   "deferredParameterTail": 0,
   "failed": 0,
   "pending": 0,
-  "phase": "RAW_PROVIDER_PROFILES",
+  "phase": "RAW_PROVIDER_PARAMETERS_ONLY",
   "profileRefreshDays": {
     "parameters": 15,
     "overview": 15,
+    "technical": 15,
+    "news": 15,
     "corporate_events": 15,
     "shareholding": 15,
+    "sast": 15,
+    "bulblockdeal": 15,
     "documents": 30
   },
   "requestedParameterCodes": [
@@ -69,11 +73,11 @@
     "ebita",
     "wcq"
   ],
-  "allowPartialBatch": false,
+  "allowPartialBatch": true,
   "llmCalls": 0,
-  "updatedAt": "2026-10-03T18:28:38.469Z",
+  "updatedAt": "2026-10-22T12:35:56.838Z",
   "stage": "FETCHING_PROVIDER_BATCHES",
-  "dueSymbols": 0,
-  "totalBatches": 0,
-  "lastSymbol": "CUMMINSIND"
+  "dueSymbols": 160,
+  "totalBatches": 16,
+  "lastSymbol": "YATHARTH"
 }

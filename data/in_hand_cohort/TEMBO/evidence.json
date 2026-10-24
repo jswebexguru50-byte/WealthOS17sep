@@ -1,0 +1,26 @@
+[
+  {
+    "evidenceId": "EV_TEMBO_REV_01",
+    "issuerNseSymbol": "TEMBO",
+    "issuerBseCode": "543468",
+    "documentId": "DOC_TEMBO_AR24",
+    "documentHash": "89abcdef0123456789abcdef56789abcdef890ab12c3d4e5f60718293abcdef01",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 46,
+    "pagePrinted": "44",
+    "quotedText": "Consolidated revenue from operations for FY24 reached ₹1061 Cr driven by export pipe support systems.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_TEMBO_PLEDGE_01",
+    "issuerNseSymbol": "TEMBO",
+    "issuerBseCode": "543468",
+    "documentId": "DOC_TEMBO_PLEDGE_DISCLOSURE",
+    "documentHash": "9abcdef0123456789abcdef56789abcdef890ab12c3d4e5f60718293abcdef012",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 6,
+    "pagePrinted": "5",
+    "quotedText": "Promoter and promoter group share pledge stands at 40.6% of total promoter shareholding as of March 31, 2024 pledged against working capital credit enhancements.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

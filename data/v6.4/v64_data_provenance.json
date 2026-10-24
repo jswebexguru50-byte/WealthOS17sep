@@ -1,0 +1,23 @@
+{
+  "version": "v6.4",
+  "datasets": {
+    "pitMembership": {
+      "source": "NSE_INDEX_CONSTITUENT_HISTORICAL_ARCHIVE",
+      "file": "v64_pit_nifty500_membership.jsonl",
+      "hash": "15c675c1aa2bbc7783def5bd755f74dbdee901e0b26b774e78d880c260b780f7",
+      "rowCount": 500,
+      "symbolCount": 500,
+      "dateRange": "2020-01-01 to 2024-12-31"
+    },
+    "securityIdentityMap": {
+      "source": "NSE_ISIN_SECURITY_MASTER",
+      "file": "v64_security_identity_map.jsonl",
+      "hash": "e4f40171179025533811e5a1c67edfef1b99ff6811d9bd3ff524ec15da03b35d",
+      "rowCount": 500,
+      "symbolCount": 500
+    }
+  },
+  "parserVersion": "1.0.0",
+  "normalizationVersion": "1.0.0",
+  "timestamp": "2026-09-17T15:12:31.309Z"
+}

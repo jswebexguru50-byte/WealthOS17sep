@@ -1,0 +1,18 @@
+{
+  "version": "v6.4.1",
+  "rebalanceCount": 10,
+  "entryEventCount": 0,
+  "exitEventCount": 0,
+  "distinctConstituentSets": 1,
+  "classification": "LIKELY_STATIC_UNIVERSE",
+  "reconstructionStatus": "STATIC_CANDIDATE_UNIVERSE_EVALUATED",
+  "fullUniverseReplayAuthorized": false,
+  "substitutionDetection": {
+    "classification": "LIKELY_STATIC_UNIVERSE",
+    "numberOfDistinctConstituentSets": 1,
+    "numberOfSecurityEntryEvents": 0,
+    "numberOfSecurityExitEvents": 0,
+    "fullUniverse500ReplayAuthorized": false
+  },
+  "timestamp": "2026-09-17T15:52:31.173Z"
+}

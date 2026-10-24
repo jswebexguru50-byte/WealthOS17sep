@@ -1,0 +1,37 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "name": "Rights Issue",
+      "expiry_date": "17 Mar 2026",
+      "amount": 0.0,
+      "ratio": "1:2",
+      "event_details": [
+        {
+          "name": "Announcement date",
+          "value": "24 Feb 2026"
+        },
+        {
+          "name": "Ex rights date",
+          "value": "17 Mar 2026"
+        },
+        {
+          "name": "Record date",
+          "value": "17 Mar 2026"
+        },
+        {
+          "name": "Ratio",
+          "value": "1:2"
+        },
+        {
+          "name": "Premium",
+          "value": "0.0"
+        },
+        {
+          "name": "Details",
+          "value": "Rights issue of equity shares of Rs. 10/- in the ratio of 1:2 @ premium of Rs. 290/-."
+        }
+      ]
+    }
+  ]
+}

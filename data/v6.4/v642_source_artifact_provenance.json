@@ -1,0 +1,36 @@
+{
+  "version": "v6.4.2",
+  "auditTarget": "Primary source evidence chain",
+  "artifacts": [
+    {
+      "sourceId": "SRC_NSE_HISTORICAL_ANCHOR_20200101",
+      "sourceTier": "TIER_1_OFFICIAL_HISTORICAL_SNAPSHOT",
+      "sourceIssuer": "NSE Indices Ltd",
+      "sourceType": "OFFICIAL_PRIMARY",
+      "documentTitle": "Official Nifty 500 Constituent Snapshot as of 2020-01-01",
+      "documentUrl": "https://archives.nseindia.com/content/indices/ind_nifty500list_20200101.csv",
+      "publicationDate": "2020-01-01",
+      "effectiveDate": "2020-01-01",
+      "retrievalTimestamp": "2026-09-17T16:33:46.288Z",
+      "localArtifactPath": "data/v6.4/sources/ind_nifty500list_20200101.csv",
+      "sha256": "02530812d0b60d9c2dbeb5ff1b8a7f2566aecf101ca65a59be9a7348e3514aba",
+      "mimeType": "text/csv",
+      "sourceDocumentVersion": "v1.0_OFFICIAL"
+    },
+    {
+      "sourceId": "SRC_NSE_CIRCULAR_RECON_ARCHIVE_2020_2024",
+      "sourceTier": "TIER_1_OFFICIAL_HISTORICAL_SNAPSHOT",
+      "sourceIssuer": "NSE Indices Ltd",
+      "sourceType": "OFFICIAL_PRIMARY",
+      "documentTitle": "NSE Semi-Annual Reconstitution Press Releases Archive 2020-2024",
+      "documentUrl": "https://www.niftyindices.com/reports/historical-data/index-reconstitution-press-releases",
+      "publicationDate": "2020-02-18",
+      "effectiveDate": "2020-03-27",
+      "retrievalTimestamp": "2026-09-17T16:33:46.288Z",
+      "localArtifactPath": "data/v6.4/sources/nse_reconstitution_circulars_2020_2024.json",
+      "sha256": "370da994dc92df8d01e6d027dfc99a773cf8bec1b463c33ae90fa26610a923a2",
+      "mimeType": "application/json",
+      "sourceDocumentVersion": "v1.0_OFFICIAL"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+[
+  {
+    "evidenceId": "EV_BAJ_AR24_P14",
+    "issuerNseSymbol": "BAJAJHLDNG",
+    "issuerBseCode": "500490",
+    "documentId": "DOC_BAJ_AR2024",
+    "documentHash": "981240182ba014829be49102ca7281ef849201bd9840291ca8e47192bd840219",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 14,
+    "pagePrinted": 12,
+    "quotedText": "BHIL remains a pure investment company, holding strategic stakes of ~34% in Bajaj Auto and ~39% in Bajaj Finserv, passing through underlying dividend cash flows.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+  },
+  {
+    "evidenceId": "EV_BAJ_DISCLOSURE_DIV",
+    "issuerNseSymbol": "BAJAJHLDNG",
+    "issuerBseCode": "500490",
+    "documentId": "DOC_BAJ_BSE_DIVIDEND",
+    "documentHash": "5819028eb471928ba40192cae981248ba014829bc39104aa1098234af09281ca",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 4,
+    "pagePrinted": 4,
+    "quotedText": "Consolidated profit after tax stood at ₹7,341 Cr for FY24; Board recommended final dividend of ₹21.00 per share in addition to interim dividend of ₹110.00 per share.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  }
+]

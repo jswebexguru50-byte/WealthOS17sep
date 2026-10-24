@@ -1,0 +1,22 @@
+{
+  "rules": {
+    "no-deprecated-service-imports": [
+      "warn",
+      {
+        "deprecated": [
+          "TechnicalMomentumEngine",
+          "NewTechnicalStrategiesEngine",
+          "ReportsService",
+          "InstitutionalDossierReportGenerator",
+          "OpportunityHubView",
+          "Analyze360View",
+          "StockDossierView",
+          "SettingsView",
+          "IndependentTechnicalStrategiesView",
+          "ReportsEngineModal"
+        ],
+        "message": "This service/component is deprecated. Use the canonical implementation instead. See LEGACY_PATHS_REGISTRY.md for migration guidance."
+      }
+    ]
+  }
+}

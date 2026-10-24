@@ -1,0 +1,31 @@
+{
+  "status": "CONTRADICTIONS_DETECTED",
+  "issuerNseSymbol": "IKIO",
+  "activeContradictionCount": 1,
+  "contradictions": [
+    {
+      "contradictionId": "CONTRA_IKIO_01",
+      "issuerNseSymbol": "IKIO",
+      "issuerBseCode": "543923",
+      "severity": "HIGH",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_IKIO_01",
+      "eventId": "EVT_IKIO_01",
+      "description": "Management guided non-anchor revenue > 40%, but single anchor client delivered 68% of sales",
+      "divergenceDetails": {
+        "targetNonAnchorPct": 40,
+        "actualNonAnchorPct": 32,
+        "anchorClientPct": 68
+      },
+      "leftEvidenceId": "EV_IKIO_PROMISE_01",
+      "rightEvidenceId": "EV_IKIO_RESULT_01",
+      "supportingEvidenceIds": [],
+      "status": "OPEN",
+      "materiality": "HIGH",
+      "detectedAt": "2024-05-25T10:00:00.000Z",
+      "createdAt": "2026-09-15 14:00:48",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ]
+}

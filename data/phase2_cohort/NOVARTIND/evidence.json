@@ -1,0 +1,28 @@
+[
+  {
+    "evidenceId": "EV_NOV_AR24_P18",
+    "issuerNseSymbol": "NOVARTIND",
+    "issuerBseCode": "500672",
+    "documentId": "DOC_NOV_AR2024",
+    "documentHash": "7281ef849201bd9840291ca8e47192bd840219cae901482ba014829be49102ca",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 18,
+    "pagePrinted": 16,
+    "quotedText": "Company remains focused on distributing substantial portion of free cash flow to shareholders while operating debt-free.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+  },
+  {
+    "evidenceId": "EV_NOV_DISCLOSURE_DIV",
+    "issuerNseSymbol": "NOVARTIND",
+    "issuerBseCode": "500672",
+    "documentId": "DOC_NOV_BSE_DIVIDEND",
+    "documentHash": "1098234af09281ca8401928eb471928ba40192cae981248ba014829bc39104aa",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 2,
+    "pagePrinted": 2,
+    "quotedText": "Board recommended final dividend of ₹25.00 per equity share (500%) along with special dividend of ₹22.50 per share, delivering >90% profit distribution.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  }
+]

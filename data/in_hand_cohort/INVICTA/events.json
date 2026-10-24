@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_INVICTA_01",
+    "issuerNseSymbol": "INVICTA",
+    "issuerBseCode": "526488",
+    "eventDate": "2024-05-27",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Audited Annual Results Approved",
+    "description": "Delivered 32% growth in diagnostic test volumes.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_INVICTA_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "symbol": "AKIKO",
+  "coreThesisStatement": "Asset-light digital credit and card distribution platform compounding at >35% ROCE with low leverage.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Distribution Scale",
+      "description": "Deep omnichannel integration with top private Indian banks."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Asset-Light Margin",
+      "description": "Minimal working capital intensity yielding >30% ROCE."
+    },
+    {
+      "pillarId": "P3",
+      "title": "Clean Balance Sheet",
+      "description": "Net Debt to EBITDA remains well under 1.0x."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_AKIKO_LEVERAGE"
+  ]
+}

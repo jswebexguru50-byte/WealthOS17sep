@@ -1,0 +1,369 @@
+{
+  "symbol": "GMDCLTD",
+  "companyName": "Gujarat Mineral Development Corporation Limited",
+  "marketCapTier": "MIDCAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-30T20:15:28.548Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "HIGH",
+    "thesisState": "CHALLENGED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "Strong quantitative setup, but material intelligence concerns, open contradictions, or guidance misses challenge the investment thesis. Portfolio directive: PROHIBITED_ENTRY.",
+    "allocationRecommendation": "PROHIBITED_ENTRY",
+    "portfolioPolicy": {
+      "directive": "PROHIBITED_ENTRY",
+      "targetSizingCapRatio": 0,
+      "policyRationale": "Severe guidance miss, capex delay, or open contradiction challenges thesis. Prohibited from new entry."
+    },
+    "provenance": {
+      "quantDerivation": "ITAS-Score-80 -> Threshold(>=75:STRONG, 50-74:MODERATE, 25-49:WEAK, <25:NONE) -> STRONG",
+      "riskDerivation": "BreakersActive:0, Contradictions:1, Unknowns:0 -> Risk: HIGH",
+      "credibilityDerivation": "ClaimsEvaluated:1 -> CredibilityGrade: INSUFFICIENT_HISTORY",
+      "breakerDerivation": "TB_GMDC_CLEARANCE(EVIDENCE_UNKNOWN)",
+      "thesisDerivation": "Matrix(STRONG, HIGH) -> Thesis: CHALLENGED",
+      "allocationDerivation": "Precedence(CHALLENGED, HIGH, INSUFFICIENT_HISTORY) -> Directive: PROHIBITED_ENTRY (Cap: 0%)",
+      "auditTrail": [
+        "ITAS-Engine#GMDCLTD",
+        "EV_GMDC_RESULT_01",
+        "Contradiction#CONTRA_GMDC_01"
+      ]
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_GMDCLTD",
+      "nodes": [
+        {
+          "id": "DEC_GMDCLTD",
+          "type": "DECISION",
+          "refId": "GMDCLTD",
+          "label": "Final Investment Decision: CHALLENGED"
+        },
+        {
+          "id": "ALLOC_GMDCLTD",
+          "type": "ALLOCATION",
+          "refId": "PROHIBITED_ENTRY",
+          "label": "Allocation Policy: PROHIBITED_ENTRY (0%)"
+        },
+        {
+          "id": "THESIS_GMDCLTD",
+          "type": "THESIS",
+          "refId": "CHALLENGED",
+          "label": "Reconciled Thesis State: CHALLENGED"
+        },
+        {
+          "id": "QUANT_GMDCLTD",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 80/100)"
+        },
+        {
+          "id": "RISK_GMDCLTD",
+          "type": "RULE",
+          "refId": "HIGH",
+          "version": "2026.09",
+          "label": "Intelligence Risk: HIGH"
+        },
+        {
+          "id": "CRED_GMDCLTD",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_GMDC_CLEARANCE",
+          "type": "RULE",
+          "refId": "TB_GMDC_CLEARANCE",
+          "version": "2026.09",
+          "label": "Breaker TB_GMDC_CLEARANCE: EVIDENCE_UNKNOWN (Observed: undefined)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_GMDCLTD",
+          "to": "DEC_GMDCLTD",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_GMDCLTD",
+          "to": "DEC_GMDCLTD",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_GMDCLTD",
+          "to": "THESIS_GMDCLTD",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_GMDCLTD",
+          "to": "THESIS_GMDCLTD",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_GMDCLTD",
+          "to": "ALLOC_GMDCLTD",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_GMDC_CLEARANCE",
+          "to": "RISK_GMDCLTD",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_GMDCLTD_5dcf8cafdcdb",
+      "decisionId": "DECISION_GMDCLTD",
+      "issuerSymbol": "GMDCLTD",
+      "evaluatedAt": "2026-09-30T10:00:00Z",
+      "decisionDate": "2026-09-30",
+      "schemaVersion": "3.2.1",
+      "ontologyVersion": "1.3",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawQuantInput": {
+        "decisionDate": "2026-09-30",
+        "evaluatedAt": "2026-09-30T10:00:00Z",
+        "symbol": "GMDCLTD",
+        "strategyAgreementCount": 5,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 80,
+        "marketRegime": "BULLISH",
+        "quantDirective": "BUY"
+      },
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_GMDC_CLEARANCE",
+          "name": "Mining Clearance Dependency Breaker",
+          "description": "Major mining block must not suffer regulatory rejection or indefinite delay",
+          "type": "QUALITATIVE",
+          "evaluationMethod": "EVENT_MATCH",
+          "conditionText": "Forest clearance deferred beyond 12 months",
+          "status": "EVIDENCE_UNKNOWN",
+          "severity": "HIGH",
+          "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+          "evidenceIds": [
+            "EV_GMDC_RESULT_01"
+          ]
+        }
+      ],
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "HIGH",
+        "thesisState": "CHALLENGED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "Strong quantitative setup, but material intelligence concerns, open contradictions, or guidance misses challenge the investment thesis. Portfolio directive: PROHIBITED_ENTRY.",
+        "allocationRecommendation": "PROHIBITED_ENTRY"
+      },
+      "portfolioPolicy": {
+        "directive": "PROHIBITED_ENTRY",
+        "targetSizingCapRatio": 0,
+        "policyRationale": "Severe guidance miss, capex delay, or open contradiction challenges thesis. Prohibited from new entry."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_GMDCLTD",
+        "nodes": [
+          {
+            "id": "DEC_GMDCLTD",
+            "type": "DECISION",
+            "refId": "GMDCLTD",
+            "label": "Final Investment Decision: CHALLENGED"
+          },
+          {
+            "id": "ALLOC_GMDCLTD",
+            "type": "ALLOCATION",
+            "refId": "PROHIBITED_ENTRY",
+            "label": "Allocation Policy: PROHIBITED_ENTRY (0%)"
+          },
+          {
+            "id": "THESIS_GMDCLTD",
+            "type": "THESIS",
+            "refId": "CHALLENGED",
+            "label": "Reconciled Thesis State: CHALLENGED"
+          },
+          {
+            "id": "QUANT_GMDCLTD",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 80/100)"
+          },
+          {
+            "id": "RISK_GMDCLTD",
+            "type": "RULE",
+            "refId": "HIGH",
+            "version": "2026.09",
+            "label": "Intelligence Risk: HIGH"
+          },
+          {
+            "id": "CRED_GMDCLTD",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_GMDC_CLEARANCE",
+            "type": "RULE",
+            "refId": "TB_GMDC_CLEARANCE",
+            "version": "2026.09",
+            "label": "Breaker TB_GMDC_CLEARANCE: EVIDENCE_UNKNOWN (Observed: undefined)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_GMDCLTD",
+            "to": "DEC_GMDCLTD",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_GMDCLTD",
+            "to": "DEC_GMDCLTD",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_GMDCLTD",
+            "to": "THESIS_GMDCLTD",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_GMDCLTD",
+            "to": "THESIS_GMDCLTD",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_GMDCLTD",
+            "to": "ALLOC_GMDCLTD",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_GMDC_CLEARANCE",
+            "to": "RISK_GMDCLTD",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "5dcf8cafdcdbf06d6cb880a9635a3c521f4792e3c25c39c168f39650d07a3140",
+      "canonicalStateHash": "5dcf8cafdcdbf06d6cb880a9635a3c521f4792e3c25c39c168f39650d07a3140"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "MIXED",
+    "confidence": "MEDIUM",
+    "decisionImplication": "NEUTRAL",
+    "oneLineSummary": "Strong quantitative setup, but material intelligence concerns, open contradictions, or guidance misses challenge the investment thesis. Portfolio directive: PROHIBITED_ENTRY."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 5/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 80/100 with active directive BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#GMDCLTD",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [
+    {
+      "headline": "Contradiction detected (HIGH severity): Management promised commercial coal extraction by Q4-FY24, but statutory clearances deferred operations",
+      "detail": "Disclosed divergence between promise and observed financial reality.",
+      "sourceDocType": "CONTRADICTION_ENGINE",
+      "evidenceLineage": "LeftEvidence#EV_GMDC_PROMISE_01 vs RightEvidence#EV_GMDC_RESULT_01",
+      "significance": "HIGH"
+    }
+  ],
+  "walkTheTalk": {
+    "symbol": "GMDCLTD",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 0,
+    "partiallyAchievedCount": 0,
+    "missedCount": 1,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_GMDC_01",
+        "statement": "Operational commencement of commercial coal blocks by Q4-FY24.",
+        "period": "FY24",
+        "expected": "Mining commenced by Q4-FY24",
+        "actual": "Commercial extraction deferred due to pending MoEFCC environmental and forest clearances",
+        "status": "MISSED",
+        "evidenceLineage": "Evidence#EV_GMDC_PROMISE_01 -> Resolution#EV_GMDC_RESULT_01"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_GMDCLTD"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_GMDCLTD"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-05-18",
+      "source": "BSE_DISCLOSURE",
+      "headline": "GMDC Baitarani West commercial coal mining delayed pending statutory forest clearances",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    }
+  ],
+  "openContradictions": [
+    {
+      "contradictionId": "CONTRA_GMDC_01",
+      "issuerNseSymbol": "GMDCLTD",
+      "issuerBseCode": "532181",
+      "severity": "HIGH",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_GMDC_01",
+      "eventId": "EVT_GMDC_01",
+      "description": "Management promised commercial coal extraction by Q4-FY24, but statutory clearances deferred operations",
+      "divergenceDetails": {
+        "targetQuarter": "Q4-FY24",
+        "clearanceStatus": "PENDING_MOEFCC"
+      },
+      "leftEvidenceId": "EV_GMDC_PROMISE_01",
+      "rightEvidenceId": "EV_GMDC_RESULT_01",
+      "supportingEvidenceIds": [],
+      "status": "OPEN",
+      "materiality": "HIGH",
+      "detectedAt": "2024-05-18T10:00:00.000Z",
+      "createdAt": "2026-09-30 20:15:28",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_GMDC_CLEARANCE",
+      "name": "Mining Clearance Dependency Breaker",
+      "description": "Major mining block must not suffer regulatory rejection or indefinite delay",
+      "type": "QUALITATIVE",
+      "evaluationMethod": "EVENT_MATCH",
+      "conditionText": "Forest clearance deferred beyond 12 months",
+      "status": "EVIDENCE_UNKNOWN",
+      "severity": "HIGH",
+      "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+      "evidenceIds": [
+        "EV_GMDC_RESULT_01"
+      ]
+    }
+  ],
+  "importantUnknowns": []
+}

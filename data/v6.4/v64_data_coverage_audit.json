@@ -1,0 +1,37 @@
+{
+  "version": "v6.4",
+  "status": "PASS",
+  "pitUniverse": {
+    "target": "NIFTY_500",
+    "historicalMembershipStatus": "PASS",
+    "symbolsCovered": 500,
+    "membershipIntervals": 500
+  },
+  "priceCoverage": {
+    "symbols": 500,
+    "sessions": 1245,
+    "completeSymbolSessions": 622500,
+    "missingRows": 0,
+    "invalidRows": 0,
+    "monotonicCheck": "PASS",
+    "positivePriceCheck": "PASS"
+  },
+  "fundamentalCoverage": {
+    "status": "PASS",
+    "recordsAudited": 2000,
+    "lagContractEnforced": true
+  },
+  "deliveryCoverage": {
+    "status": "PASS",
+    "cutoffHour": 18,
+    "cutoffMinute": 0,
+    "pitContract": "PIT_VALID_UNDER_DECLARED_PUBLICATION_CONTRACT"
+  },
+  "shareholdingCoverage": {
+    "status": "PASS"
+  },
+  "institutionalDealCoverage": {
+    "status": "PASS"
+  },
+  "timestamp": "2026-09-17T15:12:31.306Z"
+}

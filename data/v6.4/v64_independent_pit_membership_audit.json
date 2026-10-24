@@ -1,0 +1,35 @@
+{
+  "version": "v6.4",
+  "targetUniverse": "NIFTY_500",
+  "uniqueSecurityIds": 500,
+  "membershipIntervalCount": 500,
+  "distinctEffectiveFrom": [
+    "2020-01-01"
+  ],
+  "distinctEffectiveTo": [
+    "2024-12-31"
+  ],
+  "minimumEffectiveFrom": "2020-01-01",
+  "maximumEffectiveTo": "2024-12-31",
+  "entryEventCount": 0,
+  "exitEventCount": 0,
+  "rebalanceEventCount": 10,
+  "distinctConstituentSets": 1,
+  "rebalanceSetHashes": {
+    "2020-03-31": "5bbfea363375102dd01e428acbb00ade2d4c0d73cd9478fa2a778330a00e4ee9",
+    "2020-09-30": "5bbfea363375102dd01e428acbb00ade2d4c0d73cd9478fa2a778330a00e4ee9",
+    "2021-03-31": "5bbfea363375102dd01e428acbb00ade2d4c0d73cd9478fa2a778330a00e4ee9",
+    "2021-09-30": "5bbfea363375102dd01e428acbb00ade2d4c0d73cd9478fa2a778330a00e4ee9",
+    "2022-03-31": "5bbfea363375102dd01e428acbb00ade2d4c0d73cd9478fa2a778330a00e4ee9",
+    "2022-09-30": "5bbfea363375102dd01e428acbb00ade2d4c0d73cd9478fa2a778330a00e4ee9",
+    "2023-03-31": "5bbfea363375102dd01e428acbb00ade2d4c0d73cd9478fa2a778330a00e4ee9",
+    "2023-09-30": "5bbfea363375102dd01e428acbb00ade2d4c0d73cd9478fa2a778330a00e4ee9",
+    "2024-03-31": "5bbfea363375102dd01e428acbb00ade2d4c0d73cd9478fa2a778330a00e4ee9",
+    "2024-09-30": "5bbfea363375102dd01e428acbb00ade2d4c0d73cd9478fa2a778330a00e4ee9"
+  },
+  "openEndedIntervalCount": 500,
+  "permanentMemberCount": 500,
+  "classification": "LIKELY_STATIC_UNIVERSE",
+  "fullUniverse500ReplayAuthorized": false,
+  "timestamp": "2026-09-17T15:28:02.435Z"
+}

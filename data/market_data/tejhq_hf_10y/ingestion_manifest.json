@@ -1,0 +1,115 @@
+{
+  "dataset": "tejhq/indian-markets",
+  "revision": "main",
+  "exchange": "NSE",
+  "requested_start": "2016-09-21",
+  "requested_end": "2026-09-21",
+  "generated_at": "2026-09-21T17:43:30.388139+00:00",
+  "partitions": [
+    {
+      "year": 2016,
+      "price_url": "https://huggingface.co/datasets/tejhq/indian-markets/resolve/main/prices_adjusted/nse_2016.parquet",
+      "actions_url": "https://huggingface.co/datasets/tejhq/indian-markets/resolve/main/actions/nse_2016.parquet",
+      "price_sha256": "d6367c496622953d99762061b9e0992a0b08dfc99aa0a571a4cc7a6bfd6e8081",
+      "actions_sha256": "749698c5f5cf8a6369a5bd04bf580d6c1fd02b7de1955e8b1a7e655cec840819",
+      "adjusted_rows": 108855,
+      "curated_path": "curated_adjusted_ohlcv\\exchange=NSE\\year=2016\\part-0.parquet"
+    },
+    {
+      "year": 2017,
+      "price_url": "https://huggingface.co/datasets/tejhq/indian-markets/resolve/main/prices_adjusted/nse_2017.parquet",
+      "actions_url": "https://huggingface.co/datasets/tejhq/indian-markets/resolve/main/actions/nse_2017.parquet",
+      "price_sha256": "2e294d63ba524f9a42fe073cc69c5391bdf6dcc8e753ac9bcb97c19b2aaaf48d",
+      "actions_sha256": "8d16c261488af3aa4bbe7b8f01cb22fc851d9363a64b9f6180e5040e318b2ced",
+      "adjusted_rows": 394793,
+      "curated_path": "curated_adjusted_ohlcv\\exchange=NSE\\year=2017\\part-0.parquet"
+    },
+    {
+      "year": 2018,
+      "price_url": "https://huggingface.co/datasets/tejhq/indian-markets/resolve/main/prices_adjusted/nse_2018.parquet",
+      "actions_url": "https://huggingface.co/datasets/tejhq/indian-markets/resolve/main/actions/nse_2018.parquet",
+      "price_sha256": "a9a5d7b587c42f752a4d4bc1ad589ccea83ceaad06acee25b99fb465eb0d9591",
+      "actions_sha256": "380dd16ae96b656d7cd76370ca08f1aa60f3d3951ef0b99043b9ea760e536b7b",
+      "adjusted_rows": 404768,
+      "curated_path": "curated_adjusted_ohlcv\\exchange=NSE\\year=2018\\part-0.parquet"
+    },
+    {
+      "year": 2019,
+      "price_url": "https://huggingface.co/datasets/tejhq/indian-markets/resolve/main/prices_adjusted/nse_2019.parquet",
+      "actions_url": "https://huggingface.co/datasets/tejhq/indian-markets/resolve/main/actions/nse_2019.parquet",
+      "price_sha256": "2580e90402091b6d64c7f272272a002c4b9c5920744b3cdf085352a87bda8d74",
+      "actions_sha256": "2137ebdb1bef39c230f2a9a176e6d4e5f3240880d8866f6e66922ab8ed3acb58",
+      "adjusted_rows": 406878,
+      "curated_path": "curated_adjusted_ohlcv\\exchange=NSE\\year=2019\\part-0.parquet"
+    },
+    {
+      "year": 2020,
+      "price_url": "https://huggingface.co/datasets/tejhq/indian-markets/resolve/main/prices_adjusted/nse_2020.parquet",
+      "actions_url": "https://huggingface.co/datasets/tejhq/indian-markets/resolve/main/actions/nse_2020.parquet",
+      "price_sha256": "2d1afa5bf773c8aefc8740cfd3febb02f031d21b5cf08da6b01a8b6dcc6615cb",
+      "actions_sha256": "7f4f1574bc2120cf7fd65e10c8771520df9b61fa9e9aed521d8b748745adfc02",
+      "adjusted_rows": 424952,
+      "curated_path": "curated_adjusted_ohlcv\\exchange=NSE\\year=2020\\part-0.parquet"
+    },
+    {
+      "year": 2021,
+      "price_url": "https://huggingface.co/datasets/tejhq/indian-markets/resolve/main/prices_adjusted/nse_2021.parquet",
+      "actions_url": "https://huggingface.co/datasets/tejhq/indian-markets/resolve/main/actions/nse_2021.parquet",
+      "price_sha256": "ddaddace00c8d6d985211230843f5694189e3260e51591ab9f62f869757d122a",
+      "actions_sha256": "f930d37ca3e42b6c8e45191bfe0a6670d3ed8627f1a6a0fdf5d89533c2ccc0e6",
+      "adjusted_rows": 443555,
+      "curated_path": "curated_adjusted_ohlcv\\exchange=NSE\\year=2021\\part-0.parquet"
+    },
+    {
+      "year": 2022,
+      "price_url": "https://huggingface.co/datasets/tejhq/indian-markets/resolve/main/prices_adjusted/nse_2022.parquet",
+      "actions_url": "https://huggingface.co/datasets/tejhq/indian-markets/resolve/main/actions/nse_2022.parquet",
+      "price_sha256": "0a176be6d3b425762967934185e1ea8822f3062d108793328c439933c137272f",
+      "actions_sha256": "ab07e4aba0fccc2fc8cba54daefb210468b43ef3005f35bcf57efa91a142c6a6",
+      "adjusted_rows": 479856,
+      "curated_path": "curated_adjusted_ohlcv\\exchange=NSE\\year=2022\\part-0.parquet"
+    },
+    {
+      "year": 2023,
+      "price_url": "https://huggingface.co/datasets/tejhq/indian-markets/resolve/main/prices_adjusted/nse_2023.parquet",
+      "actions_url": "https://huggingface.co/datasets/tejhq/indian-markets/resolve/main/actions/nse_2023.parquet",
+      "price_sha256": "1c9959ad885237d99132125231816f72852d518fcad900f615a8e20b25d3138a",
+      "actions_sha256": "e429d70c45bb1c60b60eedfc72dd83a9e684e7414dee32d496490be9d4ff1b53",
+      "adjusted_rows": 503785,
+      "curated_path": "curated_adjusted_ohlcv\\exchange=NSE\\year=2023\\part-0.parquet"
+    },
+    {
+      "year": 2024,
+      "price_url": "https://huggingface.co/datasets/tejhq/indian-markets/resolve/main/prices_adjusted/nse_2024.parquet",
+      "actions_url": "https://huggingface.co/datasets/tejhq/indian-markets/resolve/main/actions/nse_2024.parquet",
+      "price_sha256": "5f32329a29f317440187371bdf8baaf46603497926593eb1081ff81b16ffffec",
+      "actions_sha256": "5455e6076cf7f7052c223cbb1d9722f0116b5aeb2d4775b5aae80d026f707d68",
+      "adjusted_rows": 540760,
+      "curated_path": "curated_adjusted_ohlcv\\exchange=NSE\\year=2024\\part-0.parquet"
+    },
+    {
+      "year": 2025,
+      "price_url": "https://huggingface.co/datasets/tejhq/indian-markets/resolve/main/prices_adjusted/nse_2025.parquet",
+      "actions_url": "https://huggingface.co/datasets/tejhq/indian-markets/resolve/main/actions/nse_2025.parquet",
+      "price_sha256": "4932a391ebd7678afc222dbdd8f2e80b0cdca8455cccf7dc34f1a5dc4e5e986c",
+      "actions_sha256": "12318eae7787f039fa1230d88570d9c5d6ea2a7107106d257569e7fc9879a356",
+      "adjusted_rows": 592230,
+      "curated_path": "curated_adjusted_ohlcv\\exchange=NSE\\year=2025\\part-0.parquet"
+    },
+    {
+      "year": 2026,
+      "price_url": "https://huggingface.co/datasets/tejhq/indian-markets/resolve/main/prices_adjusted/nse_2026.parquet",
+      "actions_url": "https://huggingface.co/datasets/tejhq/indian-markets/resolve/main/actions/nse_2026.parquet",
+      "price_sha256": "849a1adb5aa1d1b30070675eb3b1e51f33f1d701c2457253817d95071b87a56f",
+      "actions_sha256": "72fe1699a05d991c28169b127434a52a85deb13b0deea4023d4f357d8b4ee015",
+      "adjusted_rows": 462279,
+      "curated_path": "curated_adjusted_ohlcv\\exchange=NSE\\year=2026\\part-0.parquet"
+    }
+  ],
+  "mapping_refreshed_at": "2026-09-21T17:53:37.056750+00:00",
+  "upstox_mapping": {
+    "source_identities": 4366,
+    "upstox_mapped_identities": 2941,
+    "path": "instrument_mapping\\upstox_instrument_map.parquet"
+  }
+}

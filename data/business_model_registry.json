@@ -1,0 +1,106 @@
+{
+  "version": "1.0.0",
+  "description": "Business model registry seed file. After seeding into company_business_model DB table, the DB is the canonical runtime source. This file is the versioned seed/reference only.",
+  "companies": [
+    {
+      "symbol": "RELIANCE",
+      "primaryModel": "OTHER",
+      "sector": "Energy",
+      "industry": "Integrated Oil & Gas / Retail / Telecom Conglomerate",
+      "requiredMetrics": ["revenue_cr", "ebitda_cr", "ebitda_margin_pct", "pat_cr", "net_debt_cr", "capex_cr"],
+      "optionalMetrics": ["cfo_cr", "roce_pct", "segment_o2c_revenue", "segment_retail_revenue", "segment_digital_revenue"],
+      "valuationMetrics": ["pe", "ev_ebitda", "ev_sales"],
+      "operatingKpis": ["jio_subscribers_mn", "retail_area_mn_sqft", "refining_throughput", "o2c_ebitda_margin"]
+    },
+    {
+      "symbol": "TCS",
+      "primaryModel": "IT_SERVICES",
+      "sector": "Information Technology",
+      "industry": "IT Services & Consulting",
+      "requiredMetrics": ["revenue_cr", "ebit_margin_pct", "pat_cr", "cfo_cr", "revenue_growth_cc_pct"],
+      "optionalMetrics": ["headcount", "attrition_pct", "deal_tcv_cr", "employee_utilisation_pct"],
+      "valuationMetrics": ["pe", "ev_ebitda", "pe_fcf"],
+      "operatingKpis": ["cc_revenue_growth_yoy", "large_deal_tcv_cr", "employee_utilisation_pct", "attrition_pct", "bfsi_revenue_pct"]
+    },
+    {
+      "symbol": "HDFCBANK",
+      "primaryModel": "BANK",
+      "sector": "Financial Services",
+      "industry": "Private Sector Bank",
+      "requiredMetrics": ["loan_book_cr", "deposit_cr", "nim_pct", "gnpa_pct", "nnpa_pct", "roa_pct", "roe_pct", "capital_adequacy_pct"],
+      "optionalMetrics": ["casa_ratio_pct", "credit_cost_pct", "pcr_pct", "cost_income_ratio_pct", "net_interest_income_cr"],
+      "valuationMetrics": ["p_book", "roe", "p_ppop"],
+      "operatingKpis": ["loan_growth_yoy", "deposit_growth_yoy", "casa_ratio_pct", "credit_cost_pct", "gnpa_pct", "nnpa_pct"]
+    },
+    {
+      "symbol": "TATAMOTORS",
+      "primaryModel": "MANUFACTURING",
+      "sector": "Automobiles",
+      "industry": "Auto - Commercial & Passenger Vehicles",
+      "requiredMetrics": ["revenue_cr", "ebitda_cr", "ebitda_margin_pct", "pat_cr", "net_automotive_debt_cr", "capex_cr"],
+      "optionalMetrics": ["cfo_cr", "fcf_cr", "jlr_ebit_pct", "india_cv_volumes", "india_pv_volumes"],
+      "valuationMetrics": ["ev_ebitda", "pe", "ev_sales"],
+      "operatingKpis": ["jlr_volumes", "jlr_realization", "jlr_ebit_margin_pct", "india_cv_volumes", "india_pv_volumes", "commodity_cost_change_cr"]
+    },
+    {
+      "symbol": "TATASTEEL",
+      "primaryModel": "COMMODITY",
+      "sector": "Metals & Mining",
+      "industry": "Steel",
+      "requiredMetrics": ["revenue_cr", "ebitda_cr", "ebitda_margin_pct", "pat_cr", "net_debt_cr", "capex_cr"],
+      "optionalMetrics": ["cfo_cr", "fcf_cr", "roce_pct"],
+      "valuationMetrics": ["ev_ebitda", "p_book", "ev_tonne"],
+      "operatingKpis": ["steel_production_mn_t", "steel_volume_mn_t", "realization_per_t", "coking_coal_cost", "capacity_utilisation_pct", "net_debt_ebitda"]
+    },
+    {
+      "symbol": "HDFCLIFE",
+      "primaryModel": "INSURANCE",
+      "sector": "Financial Services",
+      "industry": "Life Insurance",
+      "requiredMetrics": ["nbp_cr", "vob_cr", "embedded_value_cr", "vob_margin_pct", "aum_cr"],
+      "optionalMetrics": ["persistency_13m_pct", "claims_ratio_pct", "expense_ratio_pct"],
+      "valuationMetrics": ["p_ev", "p_book"],
+      "operatingKpis": ["nbp_cr", "vob_margin_pct", "aum_growth_yoy", "persistency_13m_pct"]
+    },
+    {
+      "symbol": "BAJFINANCE",
+      "primaryModel": "NBFC",
+      "sector": "Financial Services",
+      "industry": "NBFC - Consumer Finance",
+      "requiredMetrics": ["aum_cr", "nim_pct", "gnpa_pct", "nnpa_pct", "roa_pct", "roe_pct", "capital_adequacy_pct"],
+      "optionalMetrics": ["disbursement_cr", "cost_of_funds_pct", "credit_cost_pct"],
+      "valuationMetrics": ["p_book", "roe", "p_aum"],
+      "operatingKpis": ["aum_growth_yoy", "disbursement_growth_yoy", "gnpa_pct", "credit_cost_pct", "customer_count_mn"]
+    },
+    {
+      "symbol": "ICICIBANK",
+      "primaryModel": "BANK",
+      "sector": "Financial Services",
+      "industry": "Private Sector Bank",
+      "requiredMetrics": ["loan_book_cr", "deposit_cr", "nim_pct", "gnpa_pct", "nnpa_pct", "roa_pct", "roe_pct", "capital_adequacy_pct"],
+      "optionalMetrics": ["casa_ratio_pct", "credit_cost_pct", "pcr_pct", "cost_income_ratio_pct"],
+      "valuationMetrics": ["p_book", "roe", "p_ppop"],
+      "operatingKpis": ["loan_growth_yoy", "deposit_growth_yoy", "casa_ratio_pct", "gnpa_pct", "credit_cost_pct"]
+    },
+    {
+      "symbol": "INFY",
+      "primaryModel": "IT_SERVICES",
+      "sector": "Information Technology",
+      "industry": "IT Services & Consulting",
+      "requiredMetrics": ["revenue_cr", "ebit_margin_pct", "pat_cr", "cfo_cr", "revenue_growth_cc_pct"],
+      "optionalMetrics": ["headcount", "attrition_pct", "deal_tcv_cr", "large_deal_tcv_cr"],
+      "valuationMetrics": ["pe", "ev_ebitda", "pe_fcf"],
+      "operatingKpis": ["cc_revenue_growth_yoy", "large_deal_tcv_cr", "employee_utilisation_pct", "attrition_pct"]
+    },
+    {
+      "symbol": "SBIN",
+      "primaryModel": "BANK",
+      "sector": "Financial Services",
+      "industry": "Public Sector Bank",
+      "requiredMetrics": ["loan_book_cr", "deposit_cr", "nim_pct", "gnpa_pct", "nnpa_pct", "roa_pct", "roe_pct", "capital_adequacy_pct"],
+      "optionalMetrics": ["casa_ratio_pct", "credit_cost_pct", "pcr_pct"],
+      "valuationMetrics": ["p_book", "roe"],
+      "operatingKpis": ["loan_growth_yoy", "deposit_growth_yoy", "gnpa_pct", "credit_cost_pct"]
+    }
+  ]
+}

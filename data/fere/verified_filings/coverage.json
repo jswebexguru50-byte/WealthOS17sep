@@ -1,20 +1,23 @@
 {
-  "generated_at": "2026-10-20T19:05:59.592500+00:00",
-  "universe": 3654,
+  "generated_at": "2026-10-23T15:02:09.519122+00:00",
+  "universe": 3658,
   "legacy_unverified": 3559,
   "priority_tiers": {
-    "0": 107,
+    "0": 111,
     "2": 3547
   },
   "discovery": {
-    "ARCHIVED": 91,
+    "ARCHIVED": 97,
     "SOURCE_UNAVAILABLE": 2
   },
   "documents": {
-    "ARCHIVED_UNPARSED": 256
+    "ARCHIVED_UNPARSED": 31,
+    "IDENTITY_REVIEW": 41,
+    "PARSED_PARTIAL": 211,
+    "PARSE_ERROR": 9
   },
   "verified_facts": 0,
-  "xbrl_facts_with_lineage": 0,
-  "identity_review_documents": 0,
+  "xbrl_facts_with_lineage": 35330,
+  "identity_review_documents": 41,
   "verified_metrics": 0
 }

@@ -20,13 +20,19 @@ import { migration011 } from './011_nri_repatriation_workflow.js';
 import { migration012 } from './012_family_review_packs.js';
 import { migration013 } from './013_broker_import_contracts.js';
 import { migration014 } from './014_document_storage_lifecycle.js';
+import { migrationAddAcquisitionJobLedger } from './add_acquisition_job_ledger.js';
+import { migrationAddScanScorecard } from './add_scan_scorecard.js';
+import { migrationAddEntryPlanOutcomes } from './add_entry_plan_outcomes.js';
 
 export const canonicalMigrations: Migration[] = [
   migration001,
   migration002,
   migration003,
   migration004,
-  migration005, migration006, migration007, migration008, migration009, migration010, migration011, migration012, migration013, migration014
+  migration005, migration006, migration007, migration008, migration009, migration010, migration011, migration012, migration013, migration014,
+  migrationAddAcquisitionJobLedger,
+  migrationAddScanScorecard,
+  migrationAddEntryPlanOutcomes,
 ];
 
 export const canonicalMigrator = new Migrator(canonicalMigrations);

@@ -1,0 +1,41 @@
+[
+  {
+    "evidenceId": "EV_PURVA_PROMISE_01",
+    "issuerNseSymbol": "PURVA",
+    "issuerBseCode": "532891",
+    "documentId": "DOC_PURVA_AR2024",
+    "documentHash": "a38192cae981248ba014829bc39104aa1098234af09281ca8401928eb471928a",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 48,
+    "pagePrinted": 46,
+    "quotedText": "Company aims to maintain net debt to equity below 1.0x while expanding residential launch pipeline across Mumbai and Bengaluru.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+  },
+  {
+    "evidenceId": "EV_PURVA_RESULT_01",
+    "issuerNseSymbol": "PURVA",
+    "issuerBseCode": "532891",
+    "documentId": "DOC_PURVA_BSE_Q4FY24",
+    "documentHash": "b492039eb471928ba40192cae981248ba014829bc39104aa1098234af09281cb",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 12,
+    "pagePrinted": 12,
+    "quotedText": "Consolidated Net Debt stood at ₹2,151 Cr with Net Debt to Equity ratio elevating to 1.16x and Net Debt to EBITDA reaching 5.8x due to land acquisition payments.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  },
+  {
+    "evidenceId": "EV_PURVA_PRESALES_Q4",
+    "issuerNseSymbol": "PURVA",
+    "issuerBseCode": "532891",
+    "documentId": "DOC_PURVA_BSE_Q4FY24",
+    "documentHash": "b492039eb471928ba40192cae981248ba014829bc39104aa1098234af09281cb",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 6,
+    "pagePrinted": 6,
+    "quotedText": "Achieved robust operational pre-sales of ₹5,914 Cr in FY24, an increase of 90% YoY.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  }
+]

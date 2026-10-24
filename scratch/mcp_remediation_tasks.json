@@ -1,0 +1,56 @@
+{
+  "TASK-DEV-20261024-001-001": {
+    "taskId": "TASK-DEV-20261024-001-001",
+    "sessionId": "DEV-20261024-001",
+    "title": "Remediation Cycle 1: Test failure observed in unit suite",
+    "observedFailure": "Test failure observed in unit suite",
+    "severity": "P1",
+    "allowedScope": [
+      "src/server/"
+    ],
+    "forbiddenChanges": [
+      "tests/"
+    ],
+    "acceptanceTests": [
+      "unit"
+    ],
+    "status": "QUEUED",
+    "createdAt": "2026-10-24T19:04:03.912Z"
+  },
+  "TASK-DEV-20261024-001-002": {
+    "taskId": "TASK-DEV-20261024-001-002",
+    "sessionId": "DEV-20261024-001",
+    "title": "Remediation Cycle 2: Edge case still failing",
+    "observedFailure": "Edge case still failing",
+    "severity": "P2",
+    "allowedScope": [
+      "src/server/"
+    ],
+    "forbiddenChanges": [
+      "tests/"
+    ],
+    "acceptanceTests": [
+      "unit"
+    ],
+    "status": "QUEUED",
+    "createdAt": "2026-10-24T19:04:04.511Z"
+  },
+  "TASK-DEV-20261024-001-003": {
+    "taskId": "TASK-DEV-20261024-001-003",
+    "sessionId": "DEV-20261024-001",
+    "title": "Remediation Cycle 3: Third failure",
+    "observedFailure": "Third failure",
+    "severity": "P1",
+    "allowedScope": [
+      "src/server/"
+    ],
+    "forbiddenChanges": [
+      "tests/"
+    ],
+    "acceptanceTests": [
+      "unit"
+    ],
+    "status": "QUEUED",
+    "createdAt": "2026-10-24T19:04:05.070Z"
+  }
+}

@@ -1,0 +1,196 @@
+{
+  "version": "v6.5",
+  "replayRunId": "REPLAY_V65_3C376A2D945D",
+  "runnerSourceHash": "3c376a2d945dfb39fa8574078c43a055417a2254de7e9a4ed79233f471c81f92",
+  "scope": "2020–2026 historically reconstructed and independently verified NIFTY 500 PIT universe",
+  "contracts": [
+    {
+      "strategyId": "S1",
+      "strategyCode": "S1_VPA_BASE_BREAKOUT",
+      "strategyName": "VPA Base Breakout",
+      "category": "BREAKOUT",
+      "signalTimestampType": "EOD",
+      "executionModel": "NEXT_SESSION_OPEN",
+      "dataAvailabilityStatus": "COMPLETE"
+    },
+    {
+      "strategyId": "S2",
+      "strategyCode": "S2_INSTITUTIONAL_FVG_CE",
+      "strategyName": "Institutional FVG/CE Pullback",
+      "category": "PULLBACK",
+      "signalTimestampType": "EOD",
+      "executionModel": "NEXT_SESSION_OPEN",
+      "dataAvailabilityStatus": "COMPLETE"
+    },
+    {
+      "strategyId": "S3",
+      "strategyCode": "S3_HH_HL_COMPACTION",
+      "strategyName": "HH/HL L2 Compaction",
+      "category": "MOMENTUM",
+      "signalTimestampType": "EOD",
+      "executionModel": "NEXT_SESSION_OPEN",
+      "dataAvailabilityStatus": "COMPLETE"
+    },
+    {
+      "strategyId": "S4",
+      "strategyCode": "S4_HH_HL_SMA200_VPA",
+      "strategyName": "HH/HL + SMA200 + VPA",
+      "category": "MOMENTUM",
+      "signalTimestampType": "EOD",
+      "executionModel": "NEXT_SESSION_OPEN",
+      "dataAvailabilityStatus": "COMPLETE"
+    },
+    {
+      "strategyId": "S5",
+      "strategyCode": "S5_50EMA_PULLBACK_VCP",
+      "strategyName": "50 EMA Pullback VCP",
+      "category": "PULLBACK",
+      "signalTimestampType": "EOD",
+      "executionModel": "NEXT_SESSION_OPEN",
+      "dataAvailabilityStatus": "COMPLETE"
+    },
+    {
+      "strategyId": "S6",
+      "strategyCode": "S6_RS_BREAKOUT",
+      "strategyName": "Relative Strength Breakout",
+      "category": "BREAKOUT",
+      "signalTimestampType": "EOD",
+      "executionModel": "NEXT_SESSION_OPEN",
+      "dataAvailabilityStatus": "COMPLETE"
+    },
+    {
+      "strategyId": "S7",
+      "strategyCode": "S7_RSI_MEAN_REVERSION",
+      "strategyName": "RSI Mean-Reversion Dip",
+      "category": "MEAN_REVERSION",
+      "signalTimestampType": "EOD",
+      "executionModel": "NEXT_SESSION_OPEN",
+      "dataAvailabilityStatus": "COMPLETE"
+    },
+    {
+      "strategyId": "S8",
+      "strategyCode": "S8_HIGH_TIGHT_FLAG",
+      "strategyName": "High-Tight Flag",
+      "category": "MOMENTUM",
+      "signalTimestampType": "EOD",
+      "executionModel": "NEXT_SESSION_OPEN",
+      "dataAvailabilityStatus": "COMPLETE"
+    },
+    {
+      "strategyId": "S9",
+      "strategyCode": "S9_VOLUME_DRYUP_RS",
+      "strategyName": "Volume Dry-Up RS",
+      "category": "SMART_MONEY",
+      "signalTimestampType": "EOD",
+      "executionModel": "NEXT_SESSION_OPEN",
+      "dataAvailabilityStatus": "COMPLETE"
+    },
+    {
+      "strategyId": "S10",
+      "strategyCode": "S10_TRENDLINE_ORB",
+      "strategyName": "15-Min Trendline ORB Intraday",
+      "category": "INTRADAY_HYBRID",
+      "signalTimestampType": "INTRADAY",
+      "executionModel": "INTRADAY",
+      "dataAvailabilityStatus": "DATA_INSUFFICIENT",
+      "reason": "Data contract requirements not met for 15-Min Trendline ORB Intraday in daily OHLCV dataset."
+    },
+    {
+      "strategyId": "S11",
+      "strategyCode": "S11_INSTITUTIONAL_SPRING",
+      "strategyName": "Institutional Spring Accumulation",
+      "category": "SMART_MONEY",
+      "signalTimestampType": "EOD",
+      "executionModel": "NEXT_SESSION_OPEN",
+      "dataAvailabilityStatus": "COMPLETE"
+    },
+    {
+      "strategyId": "S12",
+      "strategyCode": "S12_EPISODIC_PIVOT",
+      "strategyName": "Episodic Pivot Gap-Up",
+      "category": "CATALYST",
+      "signalTimestampType": "EOD",
+      "executionModel": "NEXT_SESSION_OPEN",
+      "dataAvailabilityStatus": "DATA_INSUFFICIENT",
+      "reason": "Data contract requirements not met for Episodic Pivot Gap-Up in daily OHLCV dataset."
+    },
+    {
+      "strategyId": "S13",
+      "strategyCode": "S13_EARNINGS_ACCEL",
+      "strategyName": "Earnings Acceleration Momentum",
+      "category": "CATALYST",
+      "signalTimestampType": "EOD",
+      "executionModel": "NEXT_SESSION_OPEN",
+      "dataAvailabilityStatus": "DATA_INSUFFICIENT",
+      "reason": "Data contract requirements not met for Earnings Acceleration Momentum in daily OHLCV dataset."
+    },
+    {
+      "strategyId": "S14",
+      "strategyCode": "S14_BEARISH_HEDGE",
+      "strategyName": "Bearish Short Futures Hedge",
+      "category": "DERIVATIVES",
+      "signalTimestampType": "DERIVATIVES",
+      "executionModel": "FUTURES_HEDGE",
+      "dataAvailabilityStatus": "DATA_INSUFFICIENT",
+      "reason": "Data contract requirements not met for Bearish Short Futures Hedge in daily OHLCV dataset."
+    },
+    {
+      "strategyId": "S15",
+      "strategyCode": "S15_CREDIT_SPREADS",
+      "strategyName": "Option Credit Spreads Harvest",
+      "category": "DERIVATIVES",
+      "signalTimestampType": "DERIVATIVES",
+      "executionModel": "OPTIONS_SPREAD",
+      "dataAvailabilityStatus": "DATA_INSUFFICIENT",
+      "reason": "Data contract requirements not met for Option Credit Spreads Harvest in daily OHLCV dataset."
+    },
+    {
+      "strategyId": "S16",
+      "strategyCode": "S16_OPERATING_LEVERAGE",
+      "strategyName": "Operating Leverage Inflection",
+      "category": "FUNDAMENTAL",
+      "signalTimestampType": "EOD",
+      "executionModel": "NEXT_SESSION_OPEN",
+      "dataAvailabilityStatus": "DATA_INSUFFICIENT",
+      "reason": "Data contract requirements not met for Operating Leverage Inflection in daily OHLCV dataset."
+    },
+    {
+      "strategyId": "S17",
+      "strategyCode": "S17_PROMOTER_SAST",
+      "strategyName": "Promoter SAST Creeping Squeeze",
+      "category": "GOVERNANCE",
+      "signalTimestampType": "EOD",
+      "executionModel": "NEXT_SESSION_OPEN",
+      "dataAvailabilityStatus": "DATA_INSUFFICIENT",
+      "reason": "Data contract requirements not met for Promoter SAST Creeping Squeeze in daily OHLCV dataset."
+    },
+    {
+      "strategyId": "S18",
+      "strategyCode": "S18_BLOCK_ACCUMULATION",
+      "strategyName": "Institutional Block Accumulation",
+      "category": "SMART_MONEY",
+      "signalTimestampType": "EOD",
+      "executionModel": "NEXT_SESSION_OPEN",
+      "dataAvailabilityStatus": "COMPLETE"
+    },
+    {
+      "strategyId": "S19",
+      "strategyCode": "S19_DELIVERY_SPIKE",
+      "strategyName": "Delivery Volume Spike Threshold",
+      "category": "MICROSTRUCTURE",
+      "signalTimestampType": "EOD",
+      "executionModel": "NEXT_SESSION_OPEN",
+      "dataAvailabilityStatus": "COMPLETE"
+    },
+    {
+      "strategyId": "S20",
+      "strategyCode": "S20_NEOWAVE_STRUCTURAL",
+      "strategyName": "NEoWave Structural Pattern",
+      "category": "STRUCTURAL",
+      "signalTimestampType": "EOD",
+      "executionModel": "NEXT_SESSION_OPEN",
+      "dataAvailabilityStatus": "DATA_INSUFFICIENT",
+      "reason": "Data contract requirements not met for NEoWave Structural Pattern in daily OHLCV dataset."
+    }
+  ]
+}

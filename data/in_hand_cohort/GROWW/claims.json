@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_GROWW_01",
+    "issuerNseSymbol": "GROWW",
+    "issuerBseCode": "GROWW",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Scale active broking clientele to cross 10 million active users by end of FY24.",
+    "targetMetric": "active_clients_million",
+    "baselineValue": 6.8,
+    "expectedValue": 10,
+    "expectedOutcome": "Active Clients >= 10.0 Million",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_GROWW_REV_01",
+    "claimDate": "2023-07-20",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 11.2,
+    "actualOutcomeDescription": "Reached 11.2 million active clients, becoming India's largest retail broker.",
+    "evaluationEvidenceId": "EV_GROWW_REV_01",
+    "evaluationDate": "2024-05-15",
+    "evaluationBasis": "NSE Official Active Client Disclosures and Audited Accounts",
+    "publicationDate": "2023-07-20",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_GROWW_01"
+  }
+]

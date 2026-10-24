@@ -1,0 +1,30 @@
+[
+  {
+    "claimId": "CLM_BAJ_01",
+    "issuerNseSymbol": "BAJAJHLDNG",
+    "issuerBseCode": "500490",
+    "period": "FY24",
+    "category": "CAPITAL_ALLOCATION",
+    "statement": "Maintain pass-through of core subsidiary dividend income to BHIL shareholders without speculative reinvestment.",
+    "targetMetric": "dividend_pass_through",
+    "baselineValue": 100,
+    "expectedValue": 100,
+    "expectedOutcome": "100% pass-through of received operating dividends",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_BAJ_AR24_P14",
+    "claimDate": "2023-06-20",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 100,
+    "actualOutcomeDescription": "Paid total dividend of ₹131.00 per share from operating dividend receipts",
+    "evaluationEvidenceId": "EV_BAJ_DISCLOSURE_DIV",
+    "evaluationDate": "2024-04-26",
+    "evaluationBasis": "BSE Financial Results and Cash Flow Statement",
+    "createdAt": "2023-06-20T10:00:00.000Z",
+    "targetTemporalSemantics": "ONGOING",
+    "factId": "FACT_BAJAJHLDNG_01",
+    "publicationDate": "2023-06-20",
+    "publicationDateType": "MANAGEMENT_COMMENT"
+  }
+]

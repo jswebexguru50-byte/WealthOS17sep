@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_SONU_01",
+    "issuerNseSymbol": "SONUINFRA",
+    "issuerBseCode": "543525",
+    "eventDate": "2024-05-25",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Audited Financial Results Approval",
+    "description": "Declared annual results with 44.8% growth in civil construction contracts.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_SONU_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_INVICTA_01",
+    "issuerNseSymbol": "INVICTA",
+    "issuerBseCode": "526488",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Scale regional diagnostic lab testing network to surpass ₹30 Cr revenue in FY24.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 24.5,
+    "expectedValue": 30,
+    "expectedOutcome": "Revenue >= ₹30.0 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_INVICTA_REV_01",
+    "claimDate": "2023-08-25",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 32.4,
+    "actualOutcomeDescription": "Delivered ₹32.4 Cr revenue surpassing guided target.",
+    "evaluationEvidenceId": "EV_INVICTA_REV_01",
+    "evaluationDate": "2024-05-27",
+    "evaluationBasis": "BSE Audited Financial Results",
+    "publicationDate": "2023-08-25",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_INVICTA_01"
+  }
+]

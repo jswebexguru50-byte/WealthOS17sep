@@ -1,0 +1,54 @@
+[
+  {
+    "evidenceId": "EV_BORO_PROMISE_01",
+    "issuerNseSymbol": "BOROLTD",
+    "issuerBseCode": "543212",
+    "documentId": "DOC_BORO_AR2023",
+    "documentHash": "a5098234af09281ca8401928eb471928ba40192cae981248ba014829bc39112dd",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 24,
+    "pagePrinted": 22,
+    "quotedText": "Commissioning of expanded borosilicate glassware furnace in Jaipur scheduled for completion in Q3-FY24.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+  },
+  {
+    "evidenceId": "EV_BORO_RESULT_01",
+    "issuerNseSymbol": "BOROLTD",
+    "issuerBseCode": "543212",
+    "documentId": "DOC_BORO_BSE_Q4FY24",
+    "documentHash": "b6098234af09281ca8401928eb471928ba40192cae981248ba014829bc39113ee",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 4,
+    "pagePrinted": 4,
+    "quotedText": "Successfully commissioned 25 TPD borosilicate glass furnace in Jaipur in December 2023; operational capacity fully ramped.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  },
+  {
+    "evidenceId": "EV_BORO_PROMISE_02",
+    "issuerNseSymbol": "BOROLTD",
+    "issuerBseCode": "543212",
+    "documentId": "DOC_BORO_AR2023",
+    "documentHash": "a5098234af09281ca8401928eb471928ba40192cae981248ba014829bc39112dd",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 28,
+    "pagePrinted": 26,
+    "quotedText": "EBITDA margins targeted to remain above 18% despite temporary energy cost volatility.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+  },
+  {
+    "evidenceId": "EV_BORO_RESULT_02",
+    "issuerNseSymbol": "BOROLTD",
+    "issuerBseCode": "543212",
+    "documentId": "DOC_BORO_BSE_Q4FY24",
+    "documentHash": "b6098234af09281ca8401928eb471928ba40192cae981248ba014829bc39113ee",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 6,
+    "pagePrinted": 6,
+    "quotedText": "Reported consolidated EBITDA margin of 15.2% due to elevated natural gas prices and furnace warm-up trial costs.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  }
+]

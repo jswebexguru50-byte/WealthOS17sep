@@ -1,0 +1,14 @@
+{
+  "symbol": "KAVVERITEL",
+  "coreThesisStatement": "Speculative telecom antenna revival proxy dependent on debt restructuring and asset sales.",
+  "investmentPillars": [
+    {
+      "pillarId": "PIL_KAV_SPEC",
+      "title": "Distressed Asset Turnaround Speculation",
+      "description": "High-risk turnaround play assuming creditor haircut."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_KAV_NETWORTH"
+  ]
+}

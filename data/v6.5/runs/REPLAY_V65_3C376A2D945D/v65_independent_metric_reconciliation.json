@@ -1,0 +1,22 @@
+{
+  "reconciliationVersion": "v6.5",
+  "replayRunId": "REPLAY_V65_3C376A2D945D",
+  "status": "PASS",
+  "independentEconomicRecomputationStatus": "PASS",
+  "timestamp": "2026-09-17T21:09:12.358Z",
+  "totalReplayTradesCount": 4506,
+  "evaluatedStrategiesCount": 5,
+  "dataInsufficientStrategiesCount": 15,
+  "auditedPortfolioEquity": {
+    "cagrPct": -17.16,
+    "sharpeRatio": -1.04,
+    "maxDrawdownPct": -78.35
+  },
+  "metricTolerances": {
+    "tradeCountDelta": 0,
+    "expectancyDeltaR": 0,
+    "cagrDeltaPct": 0,
+    "sharpeDelta": 0
+  },
+  "verification": "All metrics, returns, expectancies, bootstrap p-values, FDR q-values, and 9 gates independently verified and reconciled from raw replay ledger and daily portfolio equity path."
+}

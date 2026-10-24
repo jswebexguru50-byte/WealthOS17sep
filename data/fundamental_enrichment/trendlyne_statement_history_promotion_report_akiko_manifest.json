@@ -1,0 +1,31 @@
+{
+  "generatedAt": "2026-10-09T04:35:30.897Z",
+  "mode": "APPLIED",
+  "dbPath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\portfolio.db",
+  "manifest": "data\\fundamental_enrichment\\akiko_manifest.json",
+  "requested": 1,
+  "symbolsWithSnapshot": 1,
+  "symbolsWithAnchor": 1,
+  "skippedNoAnchor": 0,
+  "factsPrepared": 23,
+  "factsWritten": 23,
+  "missingValues": 7,
+  "metricTotals": {
+    "revenue": 7,
+    "operating_profit": 6,
+    "pat": 6,
+    "cfo": 2
+  },
+  "aliasMetricTotals": {
+    "cfo_cr": 2
+  },
+  "policy": "Quarterly statement values and selected annual CFO/capex values are promoted only when same-symbol explicit Trendlyne quarter anchors exist. Annual FY period is anchored to March year-end from the latest explicit quarter label and remains VERIFIED_PARTIAL.",
+  "symbols": [
+    {
+      "symbol": "AKIKO",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-03-31",
+      "factsPrepared": 23
+    }
+  ]
+}

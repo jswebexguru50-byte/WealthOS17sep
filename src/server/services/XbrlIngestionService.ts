@@ -102,6 +102,25 @@ export class XbrlIngestionService {
   }
 
   /**
+   * Return only previously promoted statutory statement rows.  This is used by
+   * the acquisition worker to make a retry idempotent; it does not relabel
+   * secondary data as XBRL or manufacture missing line items.
+   */
+  public async getPromotedFinancialStatements(symbol: string): Promise<any[]> {
+    const cleanSymbol = symbol.trim().toUpperCase().replace(/\.(NS|BO)$/, '');
+    if (!cleanSymbol) return [];
+    return dbAll<any>(getDB(), `
+      SELECT symbol, statement_type, period_label, period_date, sales_cr,
+             operating_profit_cr, net_profit_pat_cr, cfo_cr, borrowings_cr,
+             total_assets_cr, total_liabilities_cr, equity_capital_cr,
+             net_cash_flow_cr, primary_source, created_at
+      FROM HistoricalFinancialStatements
+      WHERE UPPER(symbol)=? AND primary_source IN ('XBRL_XML', 'NSE_EXCHANGE_MASTER', 'BSE_API')
+      ORDER BY date(period_date) DESC, created_at DESC
+    `, [cleanSymbol]);
+  }
+
+  /**
    * Fetch the complete Official NSE Corporate Shareholding Master (all ~2,300+ listed equities)
    */
   public async fetchNseShareholdingMaster(forceRefresh: boolean = false): Promise<Map<string, any>> {

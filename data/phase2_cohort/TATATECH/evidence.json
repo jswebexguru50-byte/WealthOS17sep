@@ -1,0 +1,28 @@
+[
+  {
+    "evidenceId": "EV_TT_PROMISE_01",
+    "issuerNseSymbol": "TATATECH",
+    "issuerBseCode": "544028",
+    "documentId": "DOC_TT_IPO_2023",
+    "documentHash": "a1098234af09281ca8401928eb471928ba40192cae981248ba014829bc39106dd",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 68,
+    "pagePrinted": 66,
+    "quotedText": "Company aims to sustain operating EBITDA margins above 20% leveraging global delivery delivery model and electric vehicle turnkey architecture.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  },
+  {
+    "evidenceId": "EV_TT_RESULT_01",
+    "issuerNseSymbol": "TATATECH",
+    "issuerBseCode": "544028",
+    "documentId": "DOC_TT_BSE_Q4FY24",
+    "documentHash": "b2098234af09281ca8401928eb471928ba40192cae981248ba014829bc39107ee",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 6,
+    "pagePrinted": 6,
+    "quotedText": "Delivered FY24 operating EBITDA margin of 18.4% impacted by transition of VinFast programs and talent investments in aerospace.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  }
+]

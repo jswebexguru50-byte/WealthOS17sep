@@ -1,0 +1,24 @@
+{
+  "symbol": "GPECO",
+  "coreThesisStatement": "Leading North India solar EPC contractor and authorized distributor for Tier-1 global inverters.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Solar Rooftop Boom",
+      "description": "Surge in C&I rooftop solar adoption under PM Surya Ghar scheme."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Distribution Moat",
+      "description": "Sole authorized distributor for Sungrow and premium PV inverter brands."
+    },
+    {
+      "pillarId": "P3",
+      "title": "High ROCE",
+      "description": "Asset-light engineering model delivering 37.1% ROCE."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_GPECO_LEVERAGE"
+  ]
+}

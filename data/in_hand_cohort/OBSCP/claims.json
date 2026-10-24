@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_OBSCP_01",
+    "issuerNseSymbol": "OBSCP",
+    "issuerBseCode": "544270",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Scale precision automotive machined components revenue past ₹250 Cr in FY24.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 195,
+    "expectedValue": 250,
+    "expectedOutcome": "Revenue >= ₹250 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_OBSCP_REV_01",
+    "claimDate": "2023-09-02",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 285,
+    "actualOutcomeDescription": "Delivered ₹285 Cr revenue exceeding guidance by 14.0%.",
+    "evaluationEvidenceId": "EV_OBSCP_REV_01",
+    "evaluationDate": "2024-05-26",
+    "evaluationBasis": "NSE Audited Statement Filing",
+    "publicationDate": "2023-09-02",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_OBSCP_01"
+  }
+]

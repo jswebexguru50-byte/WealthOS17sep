@@ -1,0 +1,31 @@
+{
+  "status": "CONTRADICTIONS_DETECTED",
+  "issuerNseSymbol": "HINDCOPPER",
+  "activeContradictionCount": 1,
+  "contradictions": [
+    {
+      "contradictionId": "CONTRA_HC_01",
+      "issuerNseSymbol": "HINDCOPPER",
+      "issuerBseCode": "513599",
+      "severity": "HIGH",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_HC_01",
+      "eventId": "EVT_HC_01",
+      "description": "Flagship 5.0 MTPA Malanjkhand mine expansion guidance missed by 33% and delayed by 2 years",
+      "divergenceDetails": {
+        "targetedOre": 5,
+        "deliveredOre": 3.35,
+        "delayYears": 2
+      },
+      "leftEvidenceId": "EV_HC_PROMISE_01",
+      "rightEvidenceId": "EV_HC_RESULT_01",
+      "supportingEvidenceIds": [],
+      "status": "OPEN",
+      "materiality": "HIGH",
+      "detectedAt": "2024-05-28T10:00:00.000Z",
+      "createdAt": "2026-09-15 12:45:19",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "issuerNseSymbol": "COSMICCRF",
+  "issuerBseCode": "543928",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_COSMIC_AR24",
+      "documentName": "Cosmic_CRF_Annual_Report_2023_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2024-07-29",
+      "documentHashSha256": "4b5c6d7e8f90123456789abcdef0123456789abcdef56789abcdef890ab12c3d",
+      "pageCount": 198,
+      "filingAuthority": "BSE Corporate Filings"
+    }
+  ]
+}

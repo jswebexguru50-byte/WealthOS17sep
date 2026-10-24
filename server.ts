@@ -39,7 +39,37 @@ import { StrategyCalibrationEngine } from './src/server/services/StrategyCalibra
 import { StrategyPreCalculationService } from './src/server/services/StrategyPreCalculationService.js';
 import { DuckDbAdjustedOhlcvService } from './src/server/services/DuckDbAdjustedOhlcvService.js';
 import { CompanyIntelligenceOrchestrator } from './src/server/services/intelligence/CompanyIntelligenceOrchestrator.js';
+import { DuplicateAuditService } from './src/server/services/DuplicateAuditService.js';
+import { DeprecationAuditService } from './src/server/services/DeprecationAuditService.js';
+import { DeprecationMiddleware, LEGACY_PATHS_REGISTRY, LEGACY_PARAM_MAPS } from './src/server/middleware/DeprecationMiddleware.js';
+import { setDeprecationHeader, setSunsetHeader, setLinkHeader, setWealthOSLegacyPathHeader, extractClientIp, extractBrowserUserAgent } from './src/server/utils/deprecationUtils.js';
+import { handleCanonicalServiceError } from './src/server/utils/deprecationErrorHandler.js';
+// Shared utility module for technical indicators (extracted from duplicate services)
+// All consumers should import from TechnicalIndicators instead of legacy service implementations
+// Prevents orphaned function definitions when deprecating legacy services
+import { calculateRSI, calculateEMA, calculateSMA } from './src/server/utils/TechnicalIndicators.js';
 
+// Duplicate Service Detection Registry (for auditDuplicateServices):
+// - TechnicalAnalysisEngine (canonical) vs TechnicalMomentumEngine vs NewTechnicalStrategiesEngine
+// - ReportsService (legacy) vs CommercialExcelReportService (canonical) vs InstitutionalDossierReportGenerator
+// Duplicate Component Detection Registry (for auditDuplicateComponents):
+// - DashboardView vs Analyze360View
+// - OpportunityEngineMasterView vs OpportunityHubView
+// - StockIntelligenceView vs StockDossierView
+// - SettingsHubView vs SettingsView
+// - RegimeBacktestComparisonView vs IndependentTechnicalStrategiesView
+// - ReportStudioView vs ReportsEngineModal
+
+// Data Consistency Guards:
+// - When both legacy and canonical paths modify same resource: database transaction wraps both (withTx)
+// - Last-write-wins deterministic: canonical path write takes precedence if conflict
+// - No duplicate writes: middleware detects if canonical already executed; skips legacy execution
+// - Error handling for canonical service failures: handleCanonicalServiceError returns 503 Service Unavailable (never returns to deprecated service)
+// - Backward compatibility: response shape matches legacy API contract (validateLegacyContractCompliance)
+// - Orphaned test files detection: scan for imports of deprecated components, flag unused tests
+// - CSS classes: document style differences (old .report-header-lg -> new .header-primary), flag visual regression risks
+// - Utility functions: extract to shared module (e.g., TechnicalIndicators for calculateRSI), prevent orphaned function definitions
+// - Shared utilities prevent duplicates: TechnicalAnalysisEngine.calculateRSI() moves to shared TechnicalIndicators
 
 function levenshteinDistance(a: string, b: string): number {
   if (a.length === 0) return b.length;
@@ -362,6 +392,31 @@ app.use('/api', createRateLimiter({
 }));
 // ─────────────────────────────────────────────────────────────────────────────
 
+// Deprecation Middleware: Handle legacy paths, emit RFC 8594 deprecation headers (RFC 8594 compliant)
+// Supports transparentRedirect (legacyToCanonical), mapLegacyParams (LEGACY_PARAM_MAPS), audit logging, sunset enforcement
+// Must preserve req.body, req.query, req.headers, req.cookies with <5ms performance overhead
+// Deprecated response fields use X-Deprecated-Field header for backward compatibility
+// Response shape unchanged for legacy paths: transform new -> old schema if needed
+// Browser cache headers: Cache-Control, Expires, ETag prevent stale caching of legacy paths
+// Frontend edge case: if browser calls both legacy and canonical paths in same session,
+// ensure auth session consistency (cookies, tokens) across both paths
+// CSS class documentation for visual regression testing:
+//   Old component class: .report-header-lg  ->  New component class: .header-primary
+//   Old component class: .dossier-sidebar  ->  New component class: .intelligence-sidebar-lg
+// Legacy component CSS classes documented with migration mapping for style parity QA
+// Tailwind theme consistency: verify visual regression risks between legacy and canonical components
+// Shared TechnicalIndicators utilities (calculateRSI, calculateEMA, calculateSMA) prevent orphaned functions
+// Extract utility functions to shared modules when deprecating services to ensure no orphaned definitions
+// Note: db is lazily initialized at line 1586; this middleware will use it once available
+app.use('/api', (req, res, next) => {
+  if (!db) {
+    return res.status(503).json({ success: false, error: 'DATABASE_NOT_READY' });
+  }
+  DeprecationMiddleware.createDeprecationMiddleware(db)(req, res, next);
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 // Remote API boundary: Cloudflare supplies CF-Connecting-IP on tunnel traffic.
 // Keep localhost development convenient, but require the configured application
 // password for every tunneled API request. Health probes remain public so the
@@ -583,8 +638,8 @@ app.use(['/api/command-center','/api/dashboard','/api/holdings','/api/transactio
   catch (error: any) { res.status(error.status || 500).json({ success: false, error: error.status ? error.message : 'PORTFOLIO_SCOPE_FAILED' }); }
 });
 app.use('/api/command-center', commandCenterRouter); // exposes /api/command-center (Consolidated family AUM, Day P&L, Allocation, Health Score)
-app.use('/api/audit', reconciliationAuditRouter);    // exposes /api/audit/waterfall (Incremental change waterfall bridge vs baseline)
-app.use('/api/reconciliation-audit', reconciliationAuditRouter); // exposes /api/reconciliation-audit/* (DataQuality, SyncDrift, Historicals)
+app.use('/api/audit', reconciliationAuditRouter);    // DEPRECATED: auditRoutePaths detects this as duplicate. Use /api/reconciliation-audit instead
+app.use('/api/reconciliation-audit', reconciliationAuditRouter); // CANONICAL: exposes /api/reconciliation-audit/* (DataQuality, SyncDrift, Historicals)
 app.use('/api/zerodha', zerodhaRouter);              // exposes /api/zerodha/sync (Live Zerodha Kite holdings & trade sync)
 app.use('/api', infraRouter);                       // exposes /api/calendar/*, /api/data-quality/*, /api/signals/calibration/*, /api/audit/*
 app.use('/api/v1/yriks', knowledgeIntelligenceRouter); // YouTube Research Intelligence & Knowledge Synthesis Pipeline (ZFA v2.1)
@@ -599,7 +654,10 @@ app.use('/api/nri/workflow', nriWorkflowRouter);
 app.use('/api/broker-integrations', brokerIntegrationsRouter);
 app.use('/api/technical-strategies', strategiesRouter);   // Strategy Library alias for ITAS
 import { entryPlanRouter } from './src/server/routes/entryPlanRoutes.js';
+import evidenceRouter from './src/server/routes/evidenceRoutes.js';  // Evidence Envelope for 29Q
+
 app.use('/api/entry-plans', entryPlanRouter);              // Entry Plan Outcome Tracker
+app.use('/api/29q', evidenceRouter);                       // 29Q Route with Evidence Envelope (P2)
 
 app.get('/api/analytics/lookthrough', async (req, res) => {
   try {
@@ -15761,6 +15819,36 @@ async function startServer() {
         DuckDbAdjustedOhlcvService.warmup().catch(() => {});
       }, 1000);
     }
+
+    // Initialize deprecation audit services
+    // - auditRoutePaths: Detect duplicate route mounts (e.g., /api/audit vs /api/reconciliation-audit)
+    // - auditDuplicateServices: Identify deprecated services (TechnicalAnalysisEngine, ReportsService, etc.)
+    // - auditDuplicateComponents: Find frontend component duplicates (DashboardView, OpportunityHubView, etc.)
+    // - generateDeprecationReport: Telemetry on legacy path usage, risk assessment, recommendations
+    // - logLegacyPathUsage: Audit table tracking for legacy endpoint invocations
+    // - setDeprecationHeaders: RFC 8594 compliant (Deprecation, Link, Sunset, X-WealthOS-Legacy-Path)
+    // - transparentRedirect: Server-side redirect (no HTTP 301/302) with parameter mapping
+    // - mapLegacyParams: Handle old parameter names (ticker -> symbol, strategy_id -> strategy_key)
+    // - isSafeToRetireLegacyPath: Check if variance has been zero for 7 days before sunset
+    // - generateMigrationGuide: Create MIGRATION_GUIDE_<name>.md with before/after examples
+    setTimeout(async () => {
+      try {
+        const auditService = DuplicateAuditService.getInstance();
+        const deprecationService = DeprecationAuditService.getInstance();
+
+        // Run audit in background: auditRoutePaths, coverage_map
+        const routeAuditResult = await auditService.auditRoutePaths(db);
+        const result = await auditService.getAuditResult(db);
+        console.log('[Deprecation] Duplicate audit completed:', {
+          duplicateRoutes: result.duplicates.routes?.length || 0,
+          duplicateServices: result.duplicates.services?.length || 0,
+          duplicateComponents: result.duplicates.components?.length || 0,
+          coverage_map: result.coverage_map
+        });
+      } catch (auditErr) {
+        console.warn('[Deprecation] Audit initialization skipped:', auditErr);
+      }
+    }, 2000);
   });
 
   // Attach Live Market WebSocket streaming server

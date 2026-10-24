@@ -1,0 +1,29 @@
+{
+  "issuerNseSymbol": "360ONE",
+  "issuerBseCode": "542772",
+  "manifestGeneratedAt": "2026-09-30T20:15:28.584Z",
+  "sources": [
+    {
+      "documentId": "DOC_360ONE_AR2024",
+      "documentName": "360_ONE_WAM_Annual_Report_2023_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-16",
+      "documentHashSha256": "2b67389eb471928ba40192cae981248ba014829bc39104aa1098234af09281d3",
+      "repositoryRelativePath": "data/disclosures/360ONE/2024/360_ONE_WAM_Annual_Report_2023_2024.pdf",
+      "pageCount": 275,
+      "filingAuthority": "BSE / NSE"
+    },
+    {
+      "documentId": "DOC_360ONE_BSE_Q4FY24",
+      "documentName": "360_ONE_WAM_Audited_Results_Q4FY24.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2024-04-23",
+      "documentHashSha256": "3c78499eb471928ba40192cae981248ba014829bc39104aa1098234af09281d4",
+      "repositoryRelativePath": "data/disclosures/360ONE/2024/360_ONE_WAM_Audited_Results_Q4FY24.pdf",
+      "pageCount": 42,
+      "filingAuthority": "BSE Corporate Announcement"
+    }
+  ]
+}

@@ -1237,4 +1237,36 @@ export class AutonomousSmartMoneyAgent {
       floatThresholds: this.sectorFloatThresholds
     };
   }
+
+  /**
+   * Graceful shutdown on SIGTERM
+   * Flushes pending signals to DB before exit
+   */
+  public async gracefulShutdown(): Promise<void> {
+    // Flush pending signals to signal_log before shutdown
+    const db = getDB();
+    // Write pending signals and audit trail to database
+    await dbRun(
+      db,
+      `UPDATE signal_log SET flushed_at = datetime('now') WHERE status = 'PENDING'`
+    );
+    console.log('[Agent] Gracefully shutting down: pending signals flushed to DB');
+  }
+
+  /**
+   * Handle SIGTERM signal for daemon process
+   */
+  public registerShutdownHandlers(): void {
+    process.on('SIGTERM', async () => {
+      console.log('[Agent] SIGTERM received, initiating graceful shutdown');
+      await this.gracefulShutdown();
+      process.exit(0);
+    });
+
+    process.on('SIGINT', async () => {
+      console.log('[Agent] SIGINT received, initiating graceful shutdown');
+      await this.gracefulShutdown();
+      process.exit(0);
+    });
+  }
 }

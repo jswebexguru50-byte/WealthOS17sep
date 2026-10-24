@@ -1,0 +1,30 @@
+[
+  {
+    "eventId": "EVT_TEMBO_01",
+    "issuerNseSymbol": "TEMBO",
+    "issuerBseCode": "543468",
+    "eventDate": "2024-05-28",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Audited Financial Results FY24",
+    "description": "Reported ₹92.7 Cr consolidated net profit, up 42% YoY.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_TEMBO_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  },
+  {
+    "eventId": "EVT_TEMBO_02",
+    "issuerNseSymbol": "TEMBO",
+    "issuerBseCode": "543468",
+    "eventDate": "2024-04-18",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Statutory Shareholding Filing Indicating 40.6% Promoter Pledge",
+    "description": "Confirmed promoter pledge exceeds 40% of promoter holding.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_TEMBO_PLEDGE_01",
+    "materiality": "HIGH",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

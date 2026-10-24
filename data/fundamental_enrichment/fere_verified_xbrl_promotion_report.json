@@ -1,32 +1,23 @@
 {
-  "generatedAt": "2026-10-02T05:13:58.355Z",
+  "generatedAt": "2026-10-23T15:02:09.825Z",
   "mode": "APPLIED",
   "policy": "Promotes only already-downloaded FERE verified_xbrl_fact rows. No network calls. No inferred missing metrics. INR values are deterministically converted to INR crore.",
-  "portfolioPath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\portfolio.db",
-  "ferePath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\data\\fere\\verified_filings\\fere_evidence.db",
-  "manifest": "ALL_MATCHED_FERE_SYMBOLS",
-  "requestedSymbols": "ALL",
-  "fereRowsConsidered": 249414,
-  "factsPrepared": 249414,
-  "factsWritten": 249414,
-  "matchedSymbols": 2270,
+  "portfolioPath": "/Users/gopalsharma/WealthOS/portfolio.db",
+  "ferePath": "/Users/gopalsharma/WealthOS/data/fere/verified_filings/fere_evidence.db",
+  "manifest": "../../../tmp/wealthos_hdfc_manifest.json",
+  "requestedSymbols": 1,
+  "fereRowsConsidered": 10,
+  "factsPrepared": 10,
+  "factsWritten": 10,
+  "matchedSymbols": 1,
   "unmatchedSymbols": [],
   "metricTotals": {
-    "depreciation": 29282,
-    "equity_capital": 29813,
-    "finance_costs": 29352,
-    "materials_cost": 29352,
-    "pat": 29282,
-    "pbt": 29352,
-    "revenue": 29352,
-    "total_expenses": 29379,
-    "cfo": 14250
+    "cfo": 3,
+    "equity_capital": 7
   },
   "periodTypeTotals": {
-    "QUARTERLY": 207003,
-    "ANNUAL": 33202,
-    "HALF_YEARLY": 5278,
-    "NINE_MONTHS": 3923,
-    "PERIOD": 8
+    "HALF_YEARLY": 2,
+    "QUARTERLY": 4,
+    "ANNUAL": 4
   }
 }

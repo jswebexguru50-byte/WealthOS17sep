@@ -1,0 +1,29 @@
+{
+  "version": "v6.4.1",
+  "targetIndex": "NIFTY_500",
+  "auditedSources": [
+    {
+      "sourceName": "portfolio.db",
+      "tableName": "IndexConstituents",
+      "rowCount": 0,
+      "status": "DATA_INSUFFICIENT",
+      "finding": "Table structure exists but contains 0 constituent rows."
+    },
+    {
+      "sourceName": "v64_pit_nifty500_membership.jsonl",
+      "rowCount": 500,
+      "status": "LIKELY_STATIC_UNIVERSE",
+      "finding": "500 candidate symbols from 2020-01-01 to 2024-12-31 with 0 entry/exit events."
+    },
+    {
+      "sourceName": "v6.3_pilot_research_dataset_dump.sql",
+      "tableName": "historical_investable_universe",
+      "rowCount": 10,
+      "status": "PASS_FOR_10_SYMBOL_SUBSET",
+      "finding": "10-symbol research subset with validated data coverage present."
+    }
+  ],
+  "overallSourceStatus": "DATA_INSUFFICIENT_FOR_500_SYMBOL_DYNAMIC_PIT",
+  "remediationAction": "Acquire official NSE NIFTY 500 historical constituent rebalance circulars",
+  "timestamp": "2026-09-17T15:52:31.160Z"
+}

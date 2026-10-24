@@ -1,0 +1,532 @@
+{
+  "symbol": "HINDCOPPER",
+  "companyName": "Hindustan Copper Limited",
+  "marketCapTier": "MIDCAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-15T12:45:19.324Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "HIGH",
+    "thesisState": "CHALLENGED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "Strong quantitative setup, but material intelligence concerns, open contradictions, or guidance misses challenge the investment thesis.",
+    "allocationRecommendation": "PROHIBITED_ENTRY",
+    "portfolioPolicy": {
+      "directive": "PROHIBITED_ENTRY",
+      "targetSizingCapRatio": 0,
+      "policyRationale": "Severe guidance miss, capex delay, or open contradiction challenges thesis. Prohibited from new entry."
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_HINDCOPPER",
+      "nodes": [
+        {
+          "id": "DEC_HINDCOPPER",
+          "type": "DECISION",
+          "refId": "HINDCOPPER",
+          "label": "Final Investment Decision: CHALLENGED"
+        },
+        {
+          "id": "ALLOC_HINDCOPPER",
+          "type": "ALLOCATION",
+          "refId": "PROHIBITED_ENTRY",
+          "label": "Allocation Policy: PROHIBITED_ENTRY (0%)"
+        },
+        {
+          "id": "THESIS_HINDCOPPER",
+          "type": "THESIS",
+          "refId": "CHALLENGED",
+          "label": "Reconciled Thesis State: CHALLENGED"
+        },
+        {
+          "id": "QUANT_HINDCOPPER",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 86/100)"
+        },
+        {
+          "id": "RISK_HINDCOPPER",
+          "type": "RULE",
+          "refId": "HIGH",
+          "version": "2026.09",
+          "label": "Intelligence Risk: HIGH"
+        },
+        {
+          "id": "CRED_HINDCOPPER",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_HC_MINING_HALT",
+          "type": "RULE",
+          "refId": "TB_HC_MINING_HALT",
+          "version": "2026.09",
+          "label": "Breaker TB_HC_MINING_HALT: INACTIVE (Observed: N/A (event-based qualifier))"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_HINDCOPPER",
+          "to": "DEC_HINDCOPPER",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_HINDCOPPER",
+          "to": "DEC_HINDCOPPER",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_HINDCOPPER",
+          "to": "THESIS_HINDCOPPER",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_HINDCOPPER",
+          "to": "THESIS_HINDCOPPER",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_HINDCOPPER",
+          "to": "ALLOC_HINDCOPPER",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_HC_MINING_HALT",
+          "to": "RISK_HINDCOPPER",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_HINDCOPPER_20260915",
+      "decisionId": "DECISION_HINDCOPPER",
+      "issuerSymbol": "HINDCOPPER",
+      "evaluatedAt": "2026-09-15T12:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2",
+      "ontologyVersion": "1.2",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_HINDCOPPER_01",
+          "issuerSymbol": "HINDCOPPER",
+          "metric": "FINANCIAL_METRIC",
+          "metricId": "FINANCIAL_METRIC",
+          "metricFamily": "REVENUE",
+          "value": 0,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_HC_PROMISE_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_HC_PROMISE_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_HC_PROMISE_01",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_HINDCOPPER_02",
+          "issuerSymbol": "HINDCOPPER",
+          "metric": "FINANCIAL_METRIC",
+          "metricId": "FINANCIAL_METRIC",
+          "metricFamily": "REVENUE",
+          "value": 0,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_HC_RESULT_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_HC_RESULT_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_HC_RESULT_01",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_HC_01",
+          "issuerNseSymbol": "HINDCOPPER",
+          "issuerBseCode": "513599",
+          "period": "FY24",
+          "category": "CAPEX",
+          "statement": "Malanjkhand mine to reach 5.0 MTPA ore production by Q4-FY24.",
+          "targetMetric": "ore_production_mtpa",
+          "baselineValue": 3.2,
+          "expectedValue": 5,
+          "expectedOutcome": "Ore production >= 5.0 MTPA",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_HC_PROMISE_01",
+          "claimDate": "2023-08-20",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "MISSED",
+          "actualOutcomeMetric": 3.35,
+          "actualOutcomeDescription": "Delivered 3.35 MTPA; 5.0 MTPA target deferred to FY26",
+          "evaluationEvidenceId": "EV_HC_RESULT_01",
+          "evaluationDate": "2024-05-28",
+          "evaluationBasis": "BSE Statutory Financial and Operational Disclosures",
+          "createdAt": "2023-08-20T10:00:00.000Z",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_HINDCOPPER_01",
+          "publicationDate": "2023-08-20",
+          "publicationDateType": "MANAGEMENT_COMMENT"
+        }
+      ],
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_HC_MINING_HALT",
+          "name": "Statutory Mining Sanction Breaker",
+          "description": "Environmental clearance revocation shutting core mining lease",
+          "type": "QUALITATIVE",
+          "evaluationMethod": "EVENT_MATCH",
+          "conditionText": "Statutory cancellation of Malanjkhand mining lease",
+          "qualitativeCondition": {
+            "eventCategory": "REGULATORY",
+            "materiality": "CRITICAL",
+            "requiresPrimaryEvidence": true
+          },
+          "status": "INACTIVE",
+          "severity": "CRITICAL",
+          "rationale": "No statutory mining lease cancellation event observed. Note: Operating guidance miss (3.35 MTPA vs 5.0 MTPA) is evaluated separately under Claim & Contradiction Engine (resulting in HIGH intelligence risk and CHALLENGED thesis state); Breaker INACTIVE does not imply company safe.",
+          "evidenceIds": [],
+          "currentObservedValue": "N/A (event-based qualifier)",
+          "observedValueType": "QUALITATIVE_EVENT"
+        }
+      ],
+      "rawInputContradictions": [
+        {
+          "contradictionId": "CONTRA_HC_01",
+          "issuerNseSymbol": "HINDCOPPER",
+          "issuerBseCode": "513599",
+          "severity": "HIGH",
+          "type": "CLAIM_VS_RESULT",
+          "claimId": "CLM_HC_01",
+          "eventId": "EVT_HC_01",
+          "description": "Flagship 5.0 MTPA Malanjkhand mine expansion guidance missed by 33% and delayed by 2 years",
+          "divergenceDetails": {
+            "targetedOre": 5,
+            "deliveredOre": 3.35,
+            "delayYears": 2
+          },
+          "leftEvidenceId": "EV_HC_PROMISE_01",
+          "rightEvidenceId": "EV_HC_RESULT_01",
+          "supportingEvidenceIds": [],
+          "status": "OPEN",
+          "materiality": "HIGH",
+          "detectedAt": "2024-05-28T10:00:00.000Z",
+          "createdAt": "2026-09-15 12:45:19",
+          "resolvedAt": null,
+          "resolutionBasis": null
+        }
+      ],
+      "rawQuantInput": {
+        "symbol": "HINDCOPPER",
+        "strategyAgreementCount": 6,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 86,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY"
+      },
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "HIGH",
+        "thesisState": "CHALLENGED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "Strong quantitative setup, but material intelligence concerns, open contradictions, or guidance misses challenge the investment thesis.",
+        "allocationRecommendation": "PROHIBITED_ENTRY"
+      },
+      "portfolioPolicy": {
+        "directive": "PROHIBITED_ENTRY",
+        "targetSizingCapRatio": 0,
+        "policyRationale": "Severe guidance miss, capex delay, or open contradiction challenges thesis. Prohibited from new entry."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_HINDCOPPER",
+        "nodes": [
+          {
+            "id": "DEC_HINDCOPPER",
+            "type": "DECISION",
+            "refId": "HINDCOPPER",
+            "label": "Final Investment Decision: CHALLENGED"
+          },
+          {
+            "id": "ALLOC_HINDCOPPER",
+            "type": "ALLOCATION",
+            "refId": "PROHIBITED_ENTRY",
+            "label": "Allocation Policy: PROHIBITED_ENTRY (0%)"
+          },
+          {
+            "id": "THESIS_HINDCOPPER",
+            "type": "THESIS",
+            "refId": "CHALLENGED",
+            "label": "Reconciled Thesis State: CHALLENGED"
+          },
+          {
+            "id": "QUANT_HINDCOPPER",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 86/100)"
+          },
+          {
+            "id": "RISK_HINDCOPPER",
+            "type": "RULE",
+            "refId": "HIGH",
+            "version": "2026.09",
+            "label": "Intelligence Risk: HIGH"
+          },
+          {
+            "id": "CRED_HINDCOPPER",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_HC_MINING_HALT",
+            "type": "RULE",
+            "refId": "TB_HC_MINING_HALT",
+            "version": "2026.09",
+            "label": "Breaker TB_HC_MINING_HALT: INACTIVE (Observed: N/A (event-based qualifier))"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_HINDCOPPER",
+            "to": "DEC_HINDCOPPER",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_HINDCOPPER",
+            "to": "DEC_HINDCOPPER",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_HINDCOPPER",
+            "to": "THESIS_HINDCOPPER",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_HINDCOPPER",
+            "to": "THESIS_HINDCOPPER",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_HINDCOPPER",
+            "to": "ALLOC_HINDCOPPER",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_HC_MINING_HALT",
+            "to": "RISK_HINDCOPPER",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "d06c579558e30435eb794615d36872c8c62090857f3cf07547d12765ae2c0e7a",
+      "canonicalStateHash": "d06c579558e30435eb794615d36872c8c62090857f3cf07547d12765ae2c0e7a"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "MIXED",
+    "confidence": "MEDIUM",
+    "decisionImplication": "NEUTRAL",
+    "oneLineSummary": "Strong quantitative setup, but material intelligence concerns, open contradictions, or guidance misses challenge the investment thesis."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 6/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 86/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#HINDCOPPER",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [
+    {
+      "headline": "Contradiction detected (HIGH severity): Flagship 5.0 MTPA Malanjkhand mine expansion guidance missed by 33% and delayed by 2 years",
+      "detail": "Disclosed divergence between promise and observed financial reality.",
+      "sourceDocType": "CONTRADICTION_ENGINE",
+      "evidenceLineage": "LeftEvidence#EV_HC_PROMISE_01 vs RightEvidence#EV_HC_RESULT_01",
+      "significance": "HIGH"
+    }
+  ],
+  "walkTheTalk": {
+    "symbol": "HINDCOPPER",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 0,
+    "partiallyAchievedCount": 0,
+    "missedCount": 1,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_HC_01",
+        "statement": "Malanjkhand mine to reach 5.0 MTPA ore production by Q4-FY24.",
+        "period": "FY24",
+        "expected": "Ore production >= 5.0 MTPA",
+        "actual": "Delivered 3.35 MTPA; 5.0 MTPA target deferred to FY26",
+        "status": "MISSED",
+        "evidenceLineage": "Evidence#EV_HC_PROMISE_01 -> Resolution#EV_HC_RESULT_01"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_HINDCOPPER"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_HINDCOPPER"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-05-28",
+      "source": "BSE_DISCLOSURE",
+      "headline": "Hindustan Copper defers Malanjkhand 5.0 MTPA expansion timeline to FY26",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    }
+  ],
+  "openContradictions": [
+    {
+      "contradictionId": "CONTRA_HC_01",
+      "issuerNseSymbol": "HINDCOPPER",
+      "issuerBseCode": "513599",
+      "severity": "HIGH",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_HC_01",
+      "eventId": "EVT_HC_01",
+      "description": "Flagship 5.0 MTPA Malanjkhand mine expansion guidance missed by 33% and delayed by 2 years",
+      "divergenceDetails": {
+        "targetedOre": 5,
+        "deliveredOre": 3.35,
+        "delayYears": 2
+      },
+      "leftEvidenceId": "EV_HC_PROMISE_01",
+      "rightEvidenceId": "EV_HC_RESULT_01",
+      "supportingEvidenceIds": [],
+      "status": "OPEN",
+      "materiality": "HIGH",
+      "detectedAt": "2024-05-28T10:00:00.000Z",
+      "createdAt": "2026-09-15 12:45:19",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_HC_MINING_HALT",
+      "name": "Statutory Mining Sanction Breaker",
+      "description": "Environmental clearance revocation shutting core mining lease",
+      "type": "QUALITATIVE",
+      "evaluationMethod": "EVENT_MATCH",
+      "conditionText": "Statutory cancellation of Malanjkhand mining lease",
+      "qualitativeCondition": {
+        "eventCategory": "REGULATORY",
+        "materiality": "CRITICAL",
+        "requiresPrimaryEvidence": true
+      },
+      "status": "INACTIVE",
+      "severity": "CRITICAL",
+      "rationale": "No material adverse events observed matching category 'REGULATORY'.",
+      "evidenceIds": []
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "MEDIUM",
+    "directSourcesCount": 2,
+    "corroboratedCount": 0,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Sovereign pure-play copper mining monopoly poised to benefit from domestic electrification and strategic critical mineral reserves.\". Qualitative status: CHALLENGED. Review before trade authorization."
+}

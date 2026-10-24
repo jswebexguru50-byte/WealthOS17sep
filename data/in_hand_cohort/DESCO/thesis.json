@@ -1,0 +1,24 @@
+{
+  "symbol": "DESCO",
+  "coreThesisStatement": "Regional water and gas pipeline EPC contractor with zero debt and >30% ROCE.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Clean Balance Sheet",
+      "description": "Virtually debt-free balance sheet with robust cash conversion."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Jal Jeevan Mission",
+      "description": "Strong pipeline of government water infrastructure allocations."
+    },
+    {
+      "pillarId": "P3",
+      "title": "High ROCE",
+      "description": "Delivering superior >30% ROCE through focused sub-contracting discipline."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_DESCO_LEVERAGE"
+  ]
+}

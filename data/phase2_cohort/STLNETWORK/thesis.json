@@ -1,0 +1,14 @@
+{
+  "symbol": "STLNETWORK",
+  "coreThesisStatement": "Global 5G rollouts and optical interconnect demand driving network services turnaround.",
+  "investmentPillars": [
+    {
+      "pillarId": "PIL_STL_5G",
+      "title": "Optical Fiber Volume Recovery",
+      "description": "Turnaround in global broadband connectivity and fiber-to-the-home capex."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_STL_LEVERAGE"
+  ]
+}

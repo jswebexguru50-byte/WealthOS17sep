@@ -1,0 +1,31 @@
+{
+  "status": "CONTRADICTIONS_DETECTED",
+  "issuerNseSymbol": "BOROLTD",
+  "activeContradictionCount": 1,
+  "contradictions": [
+    {
+      "contradictionId": "CONTRA_BORO_01",
+      "issuerNseSymbol": "BOROLTD",
+      "issuerBseCode": "543212",
+      "severity": "MEDIUM",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_BORO_02",
+      "eventId": "EVT_BORO_01",
+      "description": "EBITDA margin target of 18%+ lagged at 15.2% due to elevated natural gas input costs",
+      "divergenceDetails": {
+        "targetMargin": 18,
+        "deliveredMargin": 15.2,
+        "gapBps": 280
+      },
+      "leftEvidenceId": "EV_BORO_PROMISE_02",
+      "rightEvidenceId": "EV_BORO_RESULT_02",
+      "supportingEvidenceIds": [],
+      "status": "OPEN",
+      "materiality": "MEDIUM",
+      "detectedAt": "2024-05-21T10:00:00.000Z",
+      "createdAt": "2026-09-15 12:45:19",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ]
+}

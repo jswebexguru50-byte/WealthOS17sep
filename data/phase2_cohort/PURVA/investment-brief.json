@@ -1,0 +1,405 @@
+{
+  "symbol": "PURVA",
+  "companyName": "Puravankara Limited",
+  "marketCapTier": "SMALLCAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-30T20:15:28.065Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "CRITICAL",
+    "thesisState": "BROKEN",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 1,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "STRONG quantitative signal active, but confirmed active thesis breaker(s) invalidates the investment thesis. Portfolio directive: HARD_EXCLUSION_VETO.",
+    "allocationRecommendation": "HARD_EXCLUSION_VETO",
+    "portfolioPolicy": {
+      "directive": "HARD_EXCLUSION_VETO",
+      "targetSizingCapRatio": 0,
+      "policyRationale": "Active catastrophic thesis breaker or insolvency risk triggers immediate exclusion veto. Zero capital permitted."
+    },
+    "provenance": {
+      "quantDerivation": "ITAS-Score-91 -> Threshold(>=75:STRONG, 50-74:MODERATE, 25-49:WEAK, <25:NONE) -> STRONG",
+      "riskDerivation": "BreakersActive:1, Contradictions:1, Unknowns:0 -> Risk: CRITICAL",
+      "credibilityDerivation": "ClaimsEvaluated:1 -> CredibilityGrade: INSUFFICIENT_HISTORY",
+      "breakerDerivation": "TB_PURVA_LEVERAGE(ACTIVE)",
+      "thesisDerivation": "Matrix(STRONG, CRITICAL) -> Thesis: BROKEN",
+      "allocationDerivation": "Precedence(BROKEN, CRITICAL, INSUFFICIENT_HISTORY) -> Directive: HARD_EXCLUSION_VETO (Cap: 0%)",
+      "auditTrail": [
+        "ITAS-Engine#PURVA",
+        "EV_PURVA_RESULT_01",
+        "Contradiction#CONTRA_PURVA_01"
+      ]
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_PURVA",
+      "nodes": [
+        {
+          "id": "DEC_PURVA",
+          "type": "DECISION",
+          "refId": "PURVA",
+          "label": "Final Investment Decision: BROKEN"
+        },
+        {
+          "id": "ALLOC_PURVA",
+          "type": "ALLOCATION",
+          "refId": "HARD_EXCLUSION_VETO",
+          "label": "Allocation Policy: HARD_EXCLUSION_VETO (0%)"
+        },
+        {
+          "id": "THESIS_PURVA",
+          "type": "THESIS",
+          "refId": "BROKEN",
+          "label": "Reconciled Thesis State: BROKEN"
+        },
+        {
+          "id": "QUANT_PURVA",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 91/100)"
+        },
+        {
+          "id": "RISK_PURVA",
+          "type": "RULE",
+          "refId": "CRITICAL",
+          "version": "2026.09",
+          "label": "Intelligence Risk: CRITICAL"
+        },
+        {
+          "id": "CRED_PURVA",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_PURVA_LEVERAGE",
+          "type": "RULE",
+          "refId": "TB_PURVA_LEVERAGE",
+          "version": "2026.09",
+          "label": "Breaker TB_PURVA_LEVERAGE: ACTIVE (Observed: 5.8)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_PURVA",
+          "to": "DEC_PURVA",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_PURVA",
+          "to": "DEC_PURVA",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_PURVA",
+          "to": "THESIS_PURVA",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_PURVA",
+          "to": "THESIS_PURVA",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_PURVA",
+          "to": "ALLOC_PURVA",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_PURVA_LEVERAGE",
+          "to": "RISK_PURVA",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "BRK_TB_PURVA_LEVERAGE",
+          "to": "THESIS_PURVA",
+          "relation": "CONTRADICTED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_PURVA_5496aef0bfbb",
+      "decisionId": "DECISION_PURVA",
+      "issuerSymbol": "PURVA",
+      "evaluatedAt": "2026-09-30T10:00:00Z",
+      "decisionDate": "2026-09-30",
+      "schemaVersion": "3.2.1",
+      "ontologyVersion": "1.3",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawQuantInput": {
+        "decisionDate": "2026-09-30",
+        "evaluatedAt": "2026-09-30T10:00:00Z",
+        "symbol": "PURVA",
+        "strategyAgreementCount": 7,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 91,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY"
+      },
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_PURVA_LEVERAGE",
+          "name": "Developer Leverage Incurrence Breaker",
+          "description": "Net Debt / EBITDA must not breach 4.5x during redevelopment cycle",
+          "type": "QUANTITATIVE",
+          "evaluationMethod": "METRIC_THRESHOLD",
+          "conditionText": "Net Debt / EBITDA > 4.5",
+          "quantitativeCondition": {
+            "metric": "net_debt_to_ebitda",
+            "operator": ">",
+            "threshold": 4.5,
+            "evaluationPeriod": "annual",
+            "evidenceRequired": true
+          },
+          "status": "ACTIVE",
+          "severity": "HIGH",
+          "rationale": "Breaker triggered: net_debt_to_ebitda (5.8) > threshold (4.5).",
+          "evidenceIds": [
+            "EV_PURVA_RESULT_01"
+          ],
+          "currentObservedValue": 5.8
+        }
+      ],
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "CRITICAL",
+        "thesisState": "BROKEN",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 1,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "STRONG quantitative signal active, but confirmed active thesis breaker(s) invalidates the investment thesis. Portfolio directive: HARD_EXCLUSION_VETO.",
+        "allocationRecommendation": "HARD_EXCLUSION_VETO"
+      },
+      "portfolioPolicy": {
+        "directive": "HARD_EXCLUSION_VETO",
+        "targetSizingCapRatio": 0,
+        "policyRationale": "Active catastrophic thesis breaker or insolvency risk triggers immediate exclusion veto. Zero capital permitted."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_PURVA",
+        "nodes": [
+          {
+            "id": "DEC_PURVA",
+            "type": "DECISION",
+            "refId": "PURVA",
+            "label": "Final Investment Decision: BROKEN"
+          },
+          {
+            "id": "ALLOC_PURVA",
+            "type": "ALLOCATION",
+            "refId": "HARD_EXCLUSION_VETO",
+            "label": "Allocation Policy: HARD_EXCLUSION_VETO (0%)"
+          },
+          {
+            "id": "THESIS_PURVA",
+            "type": "THESIS",
+            "refId": "BROKEN",
+            "label": "Reconciled Thesis State: BROKEN"
+          },
+          {
+            "id": "QUANT_PURVA",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 91/100)"
+          },
+          {
+            "id": "RISK_PURVA",
+            "type": "RULE",
+            "refId": "CRITICAL",
+            "version": "2026.09",
+            "label": "Intelligence Risk: CRITICAL"
+          },
+          {
+            "id": "CRED_PURVA",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_PURVA_LEVERAGE",
+            "type": "RULE",
+            "refId": "TB_PURVA_LEVERAGE",
+            "version": "2026.09",
+            "label": "Breaker TB_PURVA_LEVERAGE: ACTIVE (Observed: 5.8)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_PURVA",
+            "to": "DEC_PURVA",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_PURVA",
+            "to": "DEC_PURVA",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_PURVA",
+            "to": "THESIS_PURVA",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_PURVA",
+            "to": "THESIS_PURVA",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_PURVA",
+            "to": "ALLOC_PURVA",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_PURVA_LEVERAGE",
+            "to": "RISK_PURVA",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "BRK_TB_PURVA_LEVERAGE",
+            "to": "THESIS_PURVA",
+            "relation": "CONTRADICTED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "5496aef0bfbb83acec64911dc3e7ab262f89328c5c8a1aecc88a7c1b47a241df",
+      "canonicalStateHash": "5496aef0bfbb83acec64911dc3e7ab262f89328c5c8a1aecc88a7c1b47a241df"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "NEGATIVE",
+    "confidence": "MEDIUM",
+    "decisionImplication": "CHALLENGES_THESIS",
+    "oneLineSummary": "STRONG quantitative signal active, but confirmed active thesis breaker(s) invalidates the investment thesis. Portfolio directive: HARD_EXCLUSION_VETO."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 7/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 91/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#PURVA",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [
+    {
+      "headline": "Contradiction detected (HIGH severity): Management guided Net Debt / Equity <= 1.0x, but reported 1.16x with Net Debt / EBITDA at 5.8x",
+      "detail": "Disclosed divergence between promise and observed financial reality.",
+      "sourceDocType": "CONTRADICTION_ENGINE",
+      "evidenceLineage": "LeftEvidence#EV_PURVA_PROMISE_01 vs RightEvidence#EV_PURVA_RESULT_01",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Active Thesis Breaker: Developer Leverage Incurrence Breaker",
+      "detail": "Breaker triggered: net_debt_to_ebitda (5.8) > threshold (4.5).",
+      "sourceDocType": "THESIS_BREAKER_ENGINE",
+      "evidenceLineage": "EV_PURVA_RESULT_01",
+      "significance": "HIGH"
+    }
+  ],
+  "walkTheTalk": {
+    "symbol": "PURVA",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 0,
+    "partiallyAchievedCount": 0,
+    "missedCount": 1,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_PURVA_01",
+        "statement": "Net debt to equity targeted to remain below 1.0x.",
+        "period": "FY24",
+        "expected": "Net Debt / Equity <= 1.0x",
+        "actual": "Net Debt to Equity elevated to 1.16x on heavy land capex",
+        "status": "MISSED",
+        "evidenceLineage": "Evidence#EV_PURVA_PROMISE_01 -> Resolution#EV_PURVA_RESULT_01"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_PURVA"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_PURVA"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-05-27",
+      "source": "BSE_DISCLOSURE",
+      "headline": "Puravankara net debt breaches ₹2,150 Cr threshold on aggressive redevelopment acquisition",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    }
+  ],
+  "openContradictions": [
+    {
+      "contradictionId": "CONTRA_PURVA_01",
+      "issuerNseSymbol": "PURVA",
+      "issuerBseCode": "532891",
+      "severity": "HIGH",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_PURVA_01",
+      "eventId": "EVT_PURVA_01",
+      "description": "Management guided Net Debt / Equity <= 1.0x, but reported 1.16x with Net Debt / EBITDA at 5.8x",
+      "divergenceDetails": {
+        "targetRatio": 1,
+        "deliveredRatio": 1.16,
+        "netDebtEbitda": 5.8
+      },
+      "leftEvidenceId": "EV_PURVA_PROMISE_01",
+      "rightEvidenceId": "EV_PURVA_RESULT_01",
+      "supportingEvidenceIds": [
+        "EV_PURVA_PRESALES_Q4"
+      ],
+      "status": "OPEN",
+      "materiality": "HIGH",
+      "detectedAt": "2024-05-27T10:00:00.000Z",
+      "createdAt": "2026-09-30 20:15:27",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_PURVA_LEVERAGE",
+      "name": "Developer Leverage Incurrence Breaker",
+      "description": "Net Debt / EBITDA must not breach 4.5x during redevelopment cycle",
+      "type": "QUANTITATIVE",
+      "evaluationMethod": "METRIC_THRESHOLD",
+      "conditionText": "Net Debt / EBITDA > 4.5",
+      "quantitativeCondition": {
+        "metric": "net_debt_to_ebitda",
+        "operator": ">",
+        "threshold": 4.5,
+        "evaluationPeriod": "annual",
+        "evidenceRequired": true
+      },
+      "status": "ACTIVE",
+      "severity": "HIGH",
+      "rationale": "Breaker triggered: net_debt_to_ebitda (5.8) > threshold (4.5).",
+      "evidenceIds": [
+        "EV_PURVA_RESULT_01"
+      ],
+      "currentObservedValue": 5.8
+    }
+  ],
+  "importantUnknowns": []
+}

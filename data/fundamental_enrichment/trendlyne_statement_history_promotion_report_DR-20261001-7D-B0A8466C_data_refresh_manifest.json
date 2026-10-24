@@ -1,0 +1,131 @@
+{
+  "generatedAt": "2026-10-04T05:54:29.575Z",
+  "mode": "APPLIED",
+  "dbPath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\portfolio.db",
+  "manifest": "outputs\\dossier_runs\\DR-20261001-7D-B0A8466C_data_refresh_manifest.json",
+  "requested": 19,
+  "symbolsWithSnapshot": 13,
+  "symbolsWithAnchor": 11,
+  "skippedNoAnchor": 2,
+  "factsPrepared": 305,
+  "factsWritten": 305,
+  "missingValues": 36,
+  "metricTotals": {
+    "revenue": 87,
+    "operating_profit": 76,
+    "pat": 76,
+    "cfo": 33
+  },
+  "aliasMetricTotals": {
+    "cfo_cr": 33
+  },
+  "policy": "Quarterly statement values and selected annual CFO/capex values are promoted only when same-symbol explicit Trendlyne quarter anchors exist. Annual FY period is anchored to March year-end from the latest explicit quarter label and remains VERIFIED_PARTIAL.",
+  "symbols": [
+    {
+      "symbol": "AETHER",
+      "status": "NO_STATEMENT_HISTORY_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "AZAD",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "BLISSGVS",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "CAPILLARY",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 25
+    },
+    {
+      "symbol": "COMSYN",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "GLOBALPET",
+      "status": "NO_EXPLICIT_QUARTER_ANCHOR",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "GUJRAFFIA",
+      "status": "NO_STATEMENT_HISTORY_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "KAPSTON",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "MAWANASUG",
+      "status": "NO_STATEMENT_HISTORY_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "MBAPL",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "MTARTECH",
+      "status": "NO_STATEMENT_HISTORY_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "NGLFINE",
+      "status": "NO_STATEMENT_HISTORY_SNAPSHOT",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "PRECWIRE",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "RAMRAT",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "RATNAVEER",
+      "status": "NO_EXPLICIT_QUARTER_ANCHOR",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "RRKABEL",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "SIGMAADV",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "WELINV",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "XELPMOC",
+      "status": "NO_STATEMENT_HISTORY_SNAPSHOT",
+      "factsPrepared": 0
+    }
+  ]
+}

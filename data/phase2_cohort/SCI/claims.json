@@ -1,0 +1,30 @@
+[
+  {
+    "claimId": "CLM_SCI_01",
+    "issuerNseSymbol": "SCI",
+    "issuerBseCode": "523598",
+    "period": "FY24",
+    "category": "GOVERNANCE",
+    "statement": "DIPAM strategic disinvestment process to conclude within FY24.",
+    "targetMetric": "disinvestment_completed",
+    "baselineValue": 0,
+    "expectedValue": 1,
+    "expectedOutcome": "Strategic stake sale completed",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_SCI_PROMISE_01",
+    "claimDate": "2023-08-15",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "MISSED",
+    "actualOutcomeMetric": 0,
+    "actualOutcomeDescription": "Disinvestment process stalled; financial bids deferred beyond FY24",
+    "evaluationEvidenceId": "EV_SCI_RESULT_01",
+    "evaluationDate": "2024-05-17",
+    "evaluationBasis": "DIPAM / BSE Statutory Corporate Disclosures",
+    "createdAt": "2023-08-15T10:00:00.000Z",
+    "targetTemporalSemantics": "DEADLINE",
+    "factId": "FACT_SCI_01",
+    "publicationDate": "2023-08-15",
+    "publicationDateType": "MANAGEMENT_COMMENT"
+  }
+]

@@ -1,0 +1,11 @@
+{
+  "version": "v6.4.3",
+  "startDate": "2025-01-01",
+  "endDate": "2026-09-15",
+  "sourceHierarchy": [
+    "OFFICIAL_NSE_PRIMARY",
+    "RECONSTITUTION_DOCUMENTS",
+    "INSTITUTIONAL_CORROBORATION"
+  ],
+  "noCurrentUniverseSubstitution": true
+}

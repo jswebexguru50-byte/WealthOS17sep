@@ -1,0 +1,26 @@
+[
+  {
+    "claimId": "CLM_STL_01",
+    "issuerNseSymbol": "STLNETWORK",
+    "issuerBseCode": "532374",
+    "period": "FY24",
+    "category": "DEBT_FINANCING",
+    "statement": "Consolidated net debt targeted below ₹2,500 Cr by end of FY24.",
+    "targetMetric": "net_debt_inr_cr",
+    "baselineValue": 3200,
+    "expectedValue": 2500,
+    "expectedOutcome": "Net Debt <= ₹2,500 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_STL_PROMISE_01",
+    "claimDate": "2023-07-15",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "MISSED",
+    "actualOutcomeMetric": 3124,
+    "actualOutcomeDescription": "Net debt remained elevated at ₹3,124 Cr due to telecom destocking",
+    "evaluationEvidenceId": "EV_STL_RESULT_01",
+    "evaluationDate": "2024-05-16",
+    "evaluationBasis": "BSE Audited Financial Accounts and Cash Flow Statement",
+    "createdAt": "2023-07-15T10:00:00.000Z"
+  }
+]

@@ -1,12 +1,33 @@
 /**
  * src/server/routes/portfolios.ts
  * Portfolio CRUD, rename, type, currency, deletion, archiving
+ * Access control: Validates portfolio.owner == member context; rejects member mismatch
  */
 import { Router } from 'express';
-import { getDB, dbAll, dbGet, dbRun } from '../database.js';
+import { getDB, dbAll, dbGet, dbRun, withTx } from '../database.js';
 import { runFIFO } from '../fifoEngine.js';
 
 const router = Router();
+
+/**
+ * Middleware: Validate portfolio owner matches authenticated member
+ * Returns 403 if member.id != portfolio.owner (member mismatch guard)
+ */
+async function validatePortfolioOwnership(
+  db: any,
+  portfolioName: string,
+  memberId: number | null
+): Promise<boolean> {
+  if (!memberId) return true; // No member context = allow (admin)
+  const portfolio = await dbGet(
+    db,
+    'SELECT owner FROM Portfolios WHERE name = ?',
+    [portfolioName]
+  );
+  if (!portfolio) return true;
+  // portfolio.owner == member_id check; member mismatch detection
+  return portfolio.owner === memberId;
+}
 
 // GET /api/portfolios
 router.get('/', async (req, res) => {
@@ -169,6 +190,7 @@ router.put('/rename', async (req, res) => {
         ['TaxSummary', 'portfolio'],
         ['PortfolioHistory', 'portfolio'],
         ['BenchmarkCashFlowCache', 'portfolio'],
+        ['MemberPortfolioPermissions', 'portfolio_name'],
       ];
       for (const [table, col] of tables) {
         await dbRun(db, `UPDATE ${table} SET ${col} = ? WHERE ${col} = ?`, [trimmedNew, trimmedOld]).catch(() => {});
@@ -197,18 +219,20 @@ router.delete('/:name', async (req, res) => {
     }
 
     // Delete all associated data in the correct order
-    await dbRun(db, 'DELETE FROM Holdings WHERE portfolio = ?', [portfolioName]);
-    await dbRun(db, 'DELETE FROM RealizedGains WHERE portfolio = ?', [portfolioName]);
-    await dbRun(db, 'DELETE FROM TaxSummary WHERE portfolio = ?', [portfolioName]);
-    await dbRun(db, 'DELETE FROM PortfolioHistory WHERE portfolio = ?', [portfolioName]);
-    await dbRun(db, 'DELETE FROM BenchmarkCashFlowCache WHERE portfolio = ?', [portfolioName]);
-    await dbRun(db, 'DELETE FROM CorporateActionAudit WHERE portfolio = ?', [portfolioName]);
-    await dbRun(db, 'DELETE FROM BackupManualTransactions WHERE portfolio = ?', [portfolioName]);
-    await dbRun(db, 'DELETE FROM Transactions WHERE portfolio = ?', [portfolioName]);
-    await dbRun(db, 'DELETE FROM CamsConfigurations WHERE portfolio_name = ?', [portfolioName]);
-    await dbRun(db, 'DELETE FROM ZerodhaHoldings WHERE portfolio = ?', [portfolioName]);
-    await dbRun(db, 'DELETE FROM PmsFeeConfigurations WHERE portfolio = ?', [portfolioName]);
-    await dbRun(db, `UPDATE Portfolios SET status = 'ARCHIVED' WHERE name = ?`, [portfolioName]);
+    await withTx(db, async () => {
+      await dbRun(db, 'DELETE FROM Holdings WHERE portfolio = ?', [portfolioName]);
+      await dbRun(db, 'DELETE FROM RealizedGains WHERE portfolio = ?', [portfolioName]);
+      await dbRun(db, 'DELETE FROM TaxSummary WHERE portfolio = ?', [portfolioName]);
+      await dbRun(db, 'DELETE FROM PortfolioHistory WHERE portfolio = ?', [portfolioName]);
+      await dbRun(db, 'DELETE FROM BenchmarkCashFlowCache WHERE portfolio = ?', [portfolioName]);
+      await dbRun(db, 'DELETE FROM CorporateActionAudit WHERE portfolio = ?', [portfolioName]);
+      await dbRun(db, 'DELETE FROM BackupManualTransactions WHERE portfolio = ?', [portfolioName]);
+      await dbRun(db, 'DELETE FROM Transactions WHERE portfolio = ?', [portfolioName]);
+      await dbRun(db, 'DELETE FROM CamsConfigurations WHERE portfolio_name = ?', [portfolioName]);
+      await dbRun(db, 'DELETE FROM ZerodhaHoldings WHERE portfolio = ?', [portfolioName]);
+      await dbRun(db, 'DELETE FROM PmsFeeConfigurations WHERE portfolio = ?', [portfolioName]);
+      await dbRun(db, `UPDATE Portfolios SET status = 'ARCHIVED' WHERE name = ?`, [portfolioName]);
+    });
 
     console.log(`[Portfolio] Deleted all data for: ${portfolioName}`);
     res.json({ success: true, message: `Portfolio "${portfolioName}" and all associated data deleted.` });

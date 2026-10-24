@@ -1,0 +1,10 @@
+{
+  "version": "v6.5",
+  "replayRunId": "REPLAY_V65_3C376A2D945D",
+  "calendarStart": "2020-01-01",
+  "calendarEnd": "2026-09-15",
+  "totalCalendarDates": 1672,
+  "evaluatedDecisionDates": 1631,
+  "skippedDatesCount": 40,
+  "skipReason": "Warmup lookback candles allocation for 60-bar technical indicators"
+}

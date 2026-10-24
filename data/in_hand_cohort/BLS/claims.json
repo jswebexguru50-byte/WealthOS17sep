@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_BLS_01",
+    "issuerNseSymbol": "BLS",
+    "issuerBseCode": "540073",
+    "period": "FY24",
+    "category": "MARGIN",
+    "statement": "Sustain consolidated operating EBITDA margins above 20% in FY24 through digital visa workflow optimization.",
+    "targetMetric": "ebitda_margin_pct",
+    "baselineValue": 19.8,
+    "expectedValue": 20,
+    "expectedOutcome": "EBITDA margin >= 20.0%",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_BLS_REV_01",
+    "claimDate": "2023-08-10",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 21.2,
+    "actualOutcomeDescription": "Delivered 21.2% EBITDA margin exceeding the 20.0% benchmark.",
+    "evaluationEvidenceId": "EV_BLS_REV_01",
+    "evaluationDate": "2024-05-18",
+    "evaluationBasis": "Audited Annual Financial Results BSE Disclosures",
+    "publicationDate": "2023-08-10",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_BLS_02"
+  }
+]

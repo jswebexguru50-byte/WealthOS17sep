@@ -1,0 +1,29 @@
+{
+  "issuerNseSymbol": "ARVSMART",
+  "issuerBseCode": "539301",
+  "manifestGeneratedAt": "2026-09-15T12:27:21.045Z",
+  "sources": [
+    {
+      "documentId": "DOC_ARV_AR2024",
+      "documentName": "Arvind_SmartSpaces_Annual_Report_2023_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-25",
+      "documentHashSha256": "c819dfb49817ad99c15d7e7e5d898ef1b2389104fae574b6201bca5e39d568bc",
+      "repositoryRelativePath": "data/disclosures/ARVSMART/2024/Arvind_SmartSpaces_Annual_Report_2023_2024.pdf",
+      "pageCount": 196,
+      "filingAuthority": "BSE / NSE"
+    },
+    {
+      "documentId": "DOC_ARV_BSE_Q4FY24",
+      "documentName": "Arvind_SmartSpaces_Audited_Financial_Results_Q4FY24.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2024-05-18",
+      "documentHashSha256": "3819dc74f91b72e9a0c14b629e4d58ba1048bce9561a3d90234cae98715bd012",
+      "repositoryRelativePath": "data/disclosures/ARVSMART/2024/Arvind_SmartSpaces_Audited_Financial_Results_Q4FY24.pdf",
+      "pageCount": 36,
+      "filingAuthority": "BSE Corporate Announcement"
+    }
+  ]
+}

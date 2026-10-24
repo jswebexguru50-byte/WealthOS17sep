@@ -64,7 +64,11 @@
     "mcp:stdio": "cross-env NODE_OPTIONS=--require=./scripts/node_userinfo_fallback.cjs tsx src/mcp/transports/stdio.ts",
     "mcp:http": "cross-env NODE_OPTIONS=--require=./scripts/node_userinfo_fallback.cjs tsx src/mcp/transports/http.ts",
     "mcp:test": "vitest run tests/unit/wealthos_universal_mcp.test.ts",
-    "test:remediation": "node --import tsx --test tests/remediation/*.test.ts"
+    "test:remediation": "node --import tsx --test tests/remediation/*.test.ts",
+    "fundamental:institutional29:promote": "node scripts/fundamental/institutional29/promote_trendlyne_raw.mjs",
+    "fundamental:institutional29:run": "node scripts/fundamental/institutional29/run_comprehensive_dossier.mjs",
+    "fundamental:institutional29:exchange": "node scripts/fundamental/institutional29/acquire_exchange_data.mjs",
+    "fundamental:institutional29:documents": "node scripts/fundamental/institutional29/acquire_documents.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.1128.0",

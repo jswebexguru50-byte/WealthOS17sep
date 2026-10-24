@@ -1,0 +1,19 @@
+{
+  "symbol": "NOVARTIND",
+  "coreThesisStatement": "MNC pharma subsidiary with zero debt, high return on capital, and high shareholder distributions acting as a low-volatility compounder.",
+  "investmentPillars": [
+    {
+      "pillarId": "PIL_NOV_01",
+      "title": "MNC Governance & Zero Debt",
+      "description": "Swiss parent oversight, debt-free balance sheet, and pristine accounting compliance."
+    },
+    {
+      "pillarId": "PIL_NOV_02",
+      "title": "Cash Distribution Yield",
+      "description": "High dividend payout acts as downside buffer during broader market drawdowns."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_NOV_DEBT"
+  ]
+}

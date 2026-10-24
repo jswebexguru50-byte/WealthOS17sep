@@ -1,0 +1,29 @@
+{
+  "issuerNseSymbol": "RPGLIFE",
+  "issuerBseCode": "532983",
+  "manifestGeneratedAt": "2026-09-15T14:00:48.961Z",
+  "sources": [
+    {
+      "documentId": "DOC_RPG_AR2024",
+      "documentName": "RPG_Life_Sciences_Annual_Report_2023_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-22",
+      "documentHashSha256": "a045679eb471928ba40192cae981248ba014829bc39104aa1098234af09281db",
+      "repositoryRelativePath": "data/disclosures/RPGLIFE/2024/RPG_Life_Sciences_Annual_Report_2023_2024.pdf",
+      "pageCount": 210,
+      "filingAuthority": "BSE / NSE"
+    },
+    {
+      "documentId": "DOC_RPG_BSE_Q4FY24",
+      "documentName": "RPG_Life_Sciences_Audited_Results_Q4FY24.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2024-05-02",
+      "documentHashSha256": "b156789eb471928ba40192cae981248ba014829bc39104aa1098234af09281dc",
+      "repositoryRelativePath": "data/disclosures/RPGLIFE/2024/RPG_Life_Sciences_Audited_Results_Q4FY24.pdf",
+      "pageCount": 38,
+      "filingAuthority": "BSE Corporate Announcement"
+    }
+  ]
+}

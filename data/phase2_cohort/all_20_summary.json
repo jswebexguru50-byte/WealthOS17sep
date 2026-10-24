@@ -1,0 +1,1275 @@
+[
+  {
+    "sym": "SOLARINDS",
+    "sources": [
+      {
+        "id": "DOC_SOLAR_AR2024",
+        "name": "Solar_Industries_Annual_Report_2023_2024.pdf",
+        "hash": "a68f237bc9910d8a55e1a2f641b7cd9348c6913eef4a09a56c52701a5e786b42",
+        "pages": 248
+      },
+      {
+        "id": "DOC_SOLAR_BSE_Q4FY24",
+        "name": "BSE_Financial_Disclosures_Audited_Results_Q4FY24.pdf",
+        "hash": "9f283c18b242e88a0b0739da4b69d4a37e54f738ac8537c35293da2764ba81f1",
+        "pages": 42
+      },
+      {
+        "id": "DOC_SOLAR_ORDER_887CR",
+        "name": "Exchange_Disclosure_Defense_Export_Order_887Cr.pdf",
+        "hash": "417de2b4e877fc04313f83d9d592f2324310557cc548234399e521b44b82bcda",
+        "pages": 3
+      }
+    ],
+    "evidence": [
+      {
+        "id": "EV_SOLAR_AR24_P42",
+        "docId": "DOC_SOLAR_AR2024",
+        "page": 42,
+        "text": "We expect our defense export order book to exceed ₹1,000 Cr in FY25 supported by multi-country supply of Pinaka rockets and specialized warheads."
+      },
+      {
+        "id": "EV_SOLAR_DISCLOSURE_Q4",
+        "docId": "DOC_SOLAR_BSE_Q4FY24",
+        "page": 6,
+        "text": "Defense segment revenue for Q4FY24 reached ₹348 Cr; cumulative defense order book stood at ₹1,250 Cr as of 31st March 2024 with full delivery pipeline on schedule."
+      },
+      {
+        "id": "EV_SOLAR_ORDER_P1",
+        "docId": "DOC_SOLAR_ORDER_887CR",
+        "page": 1,
+        "text": "Solar Industries India Ltd bags international export contract valued at ₹887 Crores for supply of Pinaka rockets and military warheads."
+      },
+      {
+        "id": "EV_SOLAR_LEVERAGE_Q4",
+        "docId": "DOC_SOLAR_BSE_Q4FY24",
+        "page": 14,
+        "text": "Consolidated Net Debt stood at ₹428 Cr against FY24 EBITDA of ₹1,220 Cr, yielding Net Debt / EBITDA of 0.35x."
+      }
+    ],
+    "claims": [
+      {
+        "id": "CLM_SOLAR_01",
+        "status": "ACHIEVED",
+        "basis": "BSE Audited Financial Results and Segmental Disclosure"
+      },
+      {
+        "id": "CLM_SOLAR_02",
+        "status": "ACHIEVED",
+        "basis": "Q4 BSE Financial Disclosures review"
+      }
+    ],
+    "breakers": [
+      {
+        "id": "TB_SOLAR_LEVERAGE",
+        "metric": 0.35,
+        "status": "INACTIVE",
+        "rationale": "Metric within safe boundaries: net_debt_to_ebitda (0.35) does not violate > 2.5."
+      }
+    ],
+    "contradictions": [],
+    "decision": {
+      "quantOpportunity": "STRONG",
+      "intelligenceRisk": "LOW",
+      "thesisState": "SUPPORTED",
+      "managementCredibility": "STRONG",
+      "activeThesisBreakers": 0,
+      "criticalUnknowns": 0,
+      "evidenceQuality": "MEDIUM",
+      "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence, credible execution, and zero active thesis breakers."
+    }
+  },
+  {
+    "sym": "ARVSMART",
+    "sources": [
+      {
+        "id": "DOC_ARV_AR2024",
+        "name": "Arvind_SmartSpaces_Annual_Report_2023_2024.pdf",
+        "hash": "c819dfb49817ad99c15d7e7e5d898ef1b2389104fae574b6201bca5e39d568bc",
+        "pages": 196
+      },
+      {
+        "id": "DOC_ARV_BSE_Q4FY24",
+        "name": "Arvind_SmartSpaces_Audited_Financial_Results_Q4FY24.pdf",
+        "hash": "3819dc74f91b72e9a0c14b629e4d58ba1048bce9561a3d90234cae98715bd012",
+        "pages": 36
+      }
+    ],
+    "evidence": [
+      {
+        "id": "EV_ARV_AR24_P28",
+        "docId": "DOC_ARV_AR2024",
+        "page": 28,
+        "text": "Our target is to cross ₹1,000 Cr in pre-sales bookings in FY24 driven by plotted residential launches across Ahmedabad and Bengaluru."
+      },
+      {
+        "id": "EV_ARV_DISCLOSURE_Q4",
+        "docId": "DOC_ARV_BSE_Q4FY24",
+        "page": 5,
+        "text": "Achieved all-time high annual pre-sales bookings of ₹1,107 Cr in FY24, an increase of 38% YoY, while maintaining net cash surplus of ₹124 Cr."
+      },
+      {
+        "id": "EV_ARV_LEVERAGE_Q4",
+        "docId": "DOC_ARV_BSE_Q4FY24",
+        "page": 12,
+        "text": "Net Debt / Equity ratio stood at -0.18x as of March 31, 2024 reflecting net cash balance sheet under asset-light JDA model."
+      }
+    ],
+    "claims": [
+      {
+        "id": "CLM_ARV_01",
+        "status": "ACHIEVED",
+        "basis": "BSE Audited Financial Results and Segmental Presentation"
+      }
+    ],
+    "breakers": [
+      {
+        "id": "TB_ARV_LEVERAGE",
+        "metric": -0.18,
+        "status": "INACTIVE",
+        "rationale": "Metric within safe boundaries: net_debt_to_equity (-0.18) does not violate > 0.5."
+      }
+    ],
+    "contradictions": [],
+    "decision": {
+      "quantOpportunity": "STRONG",
+      "intelligenceRisk": "LOW",
+      "thesisState": "SUPPORTED",
+      "managementCredibility": "INSUFFICIENT_HISTORY",
+      "activeThesisBreakers": 0,
+      "criticalUnknowns": 0,
+      "evidenceQuality": "MEDIUM",
+      "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence, credible execution, and zero active thesis breakers."
+    }
+  },
+  {
+    "sym": "NOVARTIND",
+    "sources": [
+      {
+        "id": "DOC_NOV_AR2024",
+        "name": "Novartis_India_Annual_Report_2023_2024.pdf",
+        "hash": "7281ef849201bd9840291ca8e47192bd840219cae901482ba014829be49102ca",
+        "pages": 164
+      },
+      {
+        "id": "DOC_NOV_BSE_DIVIDEND",
+        "name": "Novartis_India_Dividend_Recommendation_FY24.pdf",
+        "hash": "1098234af09281ca8401928eb471928ba40192cae981248ba014829bc39104aa",
+        "pages": 8
+      }
+    ],
+    "evidence": [
+      {
+        "id": "EV_NOV_AR24_P18",
+        "docId": "DOC_NOV_AR2024",
+        "page": 18,
+        "text": "Company remains focused on distributing substantial portion of free cash flow to shareholders while operating debt-free."
+      },
+      {
+        "id": "EV_NOV_DISCLOSURE_DIV",
+        "docId": "DOC_NOV_BSE_DIVIDEND",
+        "page": 2,
+        "text": "Board recommended final dividend of ₹25.00 per equity share (500%) along with special dividend of ₹22.50 per share, delivering >90% profit distribution."
+      }
+    ],
+    "claims": [
+      {
+        "id": "CLM_NOV_01",
+        "status": "ACHIEVED",
+        "basis": "BSE Dividend Announcement and Audited Accounts"
+      }
+    ],
+    "breakers": [
+      {
+        "id": "TB_NOV_DEBT",
+        "metric": 0,
+        "status": "INACTIVE",
+        "rationale": "Metric within safe boundaries: total_debt_inr_cr (0) does not violate > 0."
+      }
+    ],
+    "contradictions": [],
+    "decision": {
+      "quantOpportunity": "MODERATE",
+      "intelligenceRisk": "LOW",
+      "thesisState": "SUPPORTED",
+      "managementCredibility": "INSUFFICIENT_HISTORY",
+      "activeThesisBreakers": 0,
+      "criticalUnknowns": 0,
+      "evidenceQuality": "MEDIUM",
+      "interpretation": "Moderate quantitative opportunity with clean forensic profile and credible management track record."
+    }
+  },
+  {
+    "sym": "BAJAJHLDNG",
+    "sources": [
+      {
+        "id": "DOC_BAJ_AR2024",
+        "name": "Bajaj_Holdings_Annual_Report_2023_2024.pdf",
+        "hash": "981240182ba014829be49102ca7281ef849201bd9840291ca8e47192bd840219",
+        "pages": 212
+      },
+      {
+        "id": "DOC_BAJ_BSE_DIVIDEND",
+        "name": "Bajaj_Holdings_Consolidated_Financials_Q4FY24.pdf",
+        "hash": "5819028eb471928ba40192cae981248ba014829bc39104aa1098234af09281ca",
+        "pages": 48
+      }
+    ],
+    "evidence": [
+      {
+        "id": "EV_BAJ_AR24_P14",
+        "docId": "DOC_BAJ_AR2024",
+        "page": 14,
+        "text": "BHIL remains a pure investment company, holding strategic stakes of ~34% in Bajaj Auto and ~39% in Bajaj Finserv, passing through underlying dividend cash flows."
+      },
+      {
+        "id": "EV_BAJ_DISCLOSURE_DIV",
+        "docId": "DOC_BAJ_BSE_DIVIDEND",
+        "page": 4,
+        "text": "Consolidated profit after tax stood at ₹7,341 Cr for FY24; Board recommended final dividend of ₹21.00 per share in addition to interim dividend of ₹110.00 per share."
+      }
+    ],
+    "claims": [
+      {
+        "id": "CLM_BAJ_01",
+        "status": "ACHIEVED",
+        "basis": "BSE Financial Results and Cash Flow Statement"
+      }
+    ],
+    "breakers": [
+      {
+        "id": "TB_BAJ_PLEDGE",
+        "metric": 0,
+        "status": "INACTIVE",
+        "rationale": "Metric within safe boundaries: promoter_pledge_pct (0) does not violate > 0."
+      }
+    ],
+    "contradictions": [],
+    "decision": {
+      "quantOpportunity": "STRONG",
+      "intelligenceRisk": "LOW",
+      "thesisState": "SUPPORTED",
+      "managementCredibility": "INSUFFICIENT_HISTORY",
+      "activeThesisBreakers": 0,
+      "criticalUnknowns": 0,
+      "evidenceQuality": "MEDIUM",
+      "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence, credible execution, and zero active thesis breakers."
+    }
+  },
+  {
+    "sym": "UNOMINDA",
+    "sources": [
+      {
+        "id": "DOC_UNO_AR2024",
+        "name": "UNO_Minda_Annual_Report_2023_2024.pdf",
+        "hash": "840192cae981248ba014829bc39104aa1098234af09281ca8401928eb471928b",
+        "pages": 284
+      },
+      {
+        "id": "DOC_UNO_BSE_Q4FY24",
+        "name": "UNO_Minda_Financial_Disclosures_Audited_Q4FY24.pdf",
+        "hash": "9201bd9840291ca8e47192bd840219cae901482ba014829be49102ca7281ef84",
+        "pages": 52
+      }
+    ],
+    "evidence": [
+      {
+        "id": "EV_UNO_AR24_P56",
+        "docId": "DOC_UNO_AR2024",
+        "page": 56,
+        "text": "Targeting EV kit value per 2-wheeler to cross ₹25,000 on high-voltage battery management systems and controllers."
+      },
+      {
+        "id": "EV_UNO_DISCLOSURE_Q4",
+        "docId": "DOC_UNO_BSE_Q4FY24",
+        "page": 8,
+        "text": "EV potential kit value achieved ₹27,800 per vehicle for 2-wheelers with ₹1,200 Cr in EV order book commitments."
+      },
+      {
+        "id": "EV_UNO_LEVERAGE_Q4",
+        "docId": "DOC_UNO_BSE_Q4FY24",
+        "page": 18,
+        "text": "Consolidated Net Debt stood at ₹912 Cr against FY24 EBITDA of ₹1,582 Cr, resulting in conservative Net Debt / EBITDA of 0.58x."
+      }
+    ],
+    "claims": [
+      {
+        "id": "CLM_UNO_01",
+        "status": "ACHIEVED",
+        "basis": "BSE Investor Presentation and Audited Segmental Reports"
+      }
+    ],
+    "breakers": [
+      {
+        "id": "TB_UNO_LEVERAGE",
+        "metric": 0.58,
+        "status": "INACTIVE",
+        "rationale": "Metric within safe boundaries: net_debt_to_ebitda (0.58) does not violate > 2."
+      }
+    ],
+    "contradictions": [],
+    "decision": {
+      "quantOpportunity": "STRONG",
+      "intelligenceRisk": "LOW",
+      "thesisState": "SUPPORTED",
+      "managementCredibility": "INSUFFICIENT_HISTORY",
+      "activeThesisBreakers": 0,
+      "criticalUnknowns": 0,
+      "evidenceQuality": "MEDIUM",
+      "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence, credible execution, and zero active thesis breakers."
+    }
+  },
+  {
+    "sym": "VMART",
+    "sources": [
+      {
+        "id": "DOC_VMART_AR2024",
+        "name": "V_Mart_Retail_Annual_Report_2023_2024.pdf",
+        "hash": "e108234af09281ca8401928eb471928ba40192cae981248ba014829bc39104bb",
+        "pages": 220
+      },
+      {
+        "id": "DOC_VMART_BSE_Q4FY24",
+        "name": "V_Mart_Audited_Financial_Results_Q4FY24.pdf",
+        "hash": "f2098234af09281ca8401928eb471928ba40192cae981248ba014829bc39105e",
+        "pages": 44
+      }
+    ],
+    "evidence": [
+      {
+        "id": "EV_VMART_PROMISE_01",
+        "docId": "DOC_VMART_AR2024",
+        "page": 34,
+        "text": "Acquired Unlimited stores network targeted to break even and generate positive store EBITDA within FY24."
+      },
+      {
+        "id": "EV_VMART_RESULT_01",
+        "docId": "DOC_VMART_BSE_Q4FY24",
+        "page": 8,
+        "text": "Unlimited retail segment recorded store-level EBITDA loss of ₹36 Cr (-4.2% margin), resulting in permanent closure of 22 non-performing stores and ₹48 Cr one-time impairment."
+      },
+      {
+        "id": "EV_VMART_PROMISE_02",
+        "docId": "DOC_VMART_AR2024",
+        "page": 42,
+        "text": "Consolidated EBITDA margins projected to expand to 10.0%–11.0% on inventory rationalization."
+      },
+      {
+        "id": "EV_VMART_RESULT_02",
+        "docId": "DOC_VMART_BSE_Q4FY24",
+        "page": 14,
+        "text": "Reported FY24 Consolidated EBITDA margin of 5.8% impacted by heavy promotional discounting in tier-3 cities."
+      }
+    ],
+    "claims": [
+      {
+        "id": "CLM_VMART_01",
+        "status": "MISSED",
+        "basis": "BSE Financial Disclosures and Segmental Results"
+      },
+      {
+        "id": "CLM_VMART_02",
+        "status": "MISSED",
+        "basis": "BSE Audited Financial Accounts"
+      }
+    ],
+    "breakers": [
+      {
+        "id": "TB_VMART_LEVERAGE",
+        "metric": 3.4,
+        "status": "ACTIVE",
+        "rationale": "Breaker triggered: lease_adj_net_debt_to_ebitda (3.4) > threshold (3)."
+      }
+    ],
+    "contradictions": [
+      {
+        "id": "CONTRA_VMART_01",
+        "sev": "HIGH"
+      }
+    ],
+    "decision": {
+      "quantOpportunity": "MODERATE",
+      "intelligenceRisk": "CRITICAL",
+      "thesisState": "BROKEN",
+      "managementCredibility": "WEAK",
+      "activeThesisBreakers": 1,
+      "criticalUnknowns": 0,
+      "evidenceQuality": "MEDIUM",
+      "interpretation": "MODERATE quantitative opportunity paired with CRITICAL intelligence risk (BROKEN thesis state). Review open unknowns and evidence before decision."
+    }
+  },
+  {
+    "sym": "TATATECH",
+    "sources": [
+      {
+        "id": "DOC_TT_IPO_2023",
+        "name": "Tata_Technologies_Prospectus_2023.pdf",
+        "hash": "a1098234af09281ca8401928eb471928ba40192cae981248ba014829bc39106dd",
+        "pages": 380
+      },
+      {
+        "id": "DOC_TT_BSE_Q4FY24",
+        "name": "Tata_Technologies_Audited_Results_Q4FY24.pdf",
+        "hash": "b2098234af09281ca8401928eb471928ba40192cae981248ba014829bc39107ee",
+        "pages": 38
+      }
+    ],
+    "evidence": [
+      {
+        "id": "EV_TT_PROMISE_01",
+        "docId": "DOC_TT_IPO_2023",
+        "page": 68,
+        "text": "Company aims to sustain operating EBITDA margins above 20% leveraging global delivery delivery model and electric vehicle turnkey architecture."
+      },
+      {
+        "id": "EV_TT_RESULT_01",
+        "docId": "DOC_TT_BSE_Q4FY24",
+        "page": 6,
+        "text": "Delivered FY24 operating EBITDA margin of 18.4% impacted by transition of VinFast programs and talent investments in aerospace."
+      }
+    ],
+    "claims": [
+      {
+        "id": "CLM_TT_01",
+        "status": "PARTIALLY_ACHIEVED",
+        "basis": "BSE Audited Financial Accounts"
+      }
+    ],
+    "breakers": [
+      {
+        "id": "TB_TT_GROWTH",
+        "metric": 15.2,
+        "status": "INACTIVE",
+        "rationale": "Metric within safe boundaries: revenue_growth_yoy_pct (15.2) does not violate < 5."
+      }
+    ],
+    "contradictions": [
+      {
+        "id": "CONTRA_TT_01",
+        "sev": "MEDIUM"
+      }
+    ],
+    "decision": {
+      "quantOpportunity": "STRONG",
+      "intelligenceRisk": "MODERATE",
+      "thesisState": "MIXED",
+      "managementCredibility": "INSUFFICIENT_HISTORY",
+      "activeThesisBreakers": 0,
+      "criticalUnknowns": 0,
+      "evidenceQuality": "MEDIUM",
+      "interpretation": "STRONG quantitative opportunity paired with MODERATE intelligence risk (MIXED thesis state). Review open unknowns and evidence before decision."
+    }
+  },
+  {
+    "sym": "HINDCOPPER",
+    "sources": [
+      {
+        "id": "DOC_HC_AR2023",
+        "name": "Hindustan_Copper_Annual_Report_2022_2023.pdf",
+        "hash": "c1098234af09281ca8401928eb471928ba40192cae981248ba014829bc39108ff",
+        "pages": 188
+      },
+      {
+        "id": "DOC_HC_BSE_Q4FY24",
+        "name": "Hindustan_Copper_Audited_Results_Q4FY24.pdf",
+        "hash": "d2098234af09281ca8401928eb471928ba40192cae981248ba014829bc39109aa",
+        "pages": 32
+      }
+    ],
+    "evidence": [
+      {
+        "id": "EV_HC_PROMISE_01",
+        "docId": "DOC_HC_AR2023",
+        "page": 26,
+        "text": "Malanjkhand underground mine expansion scheduled to commission and ramp up to 5.0 MTPA ore production by Q4-FY24."
+      },
+      {
+        "id": "EV_HC_RESULT_01",
+        "docId": "DOC_HC_BSE_Q4FY24",
+        "page": 5,
+        "text": "Total ore production for FY24 stood at 3.35 MTPA (Malanjkhand delivered 2.2 MTPA) due to contractor contractual disputes and equipment delivery delays; revised 5.0 MTPA target deferred to FY26."
+      }
+    ],
+    "claims": [
+      {
+        "id": "CLM_HC_01",
+        "status": "MISSED",
+        "basis": "BSE Statutory Financial and Operational Disclosures"
+      }
+    ],
+    "breakers": [
+      {
+        "id": "TB_HC_MINING_HALT",
+        "status": "INACTIVE",
+        "rationale": "No material adverse events observed matching category 'REGULATORY'."
+      }
+    ],
+    "contradictions": [
+      {
+        "id": "CONTRA_HC_01",
+        "sev": "HIGH"
+      }
+    ],
+    "decision": {
+      "quantOpportunity": "STRONG",
+      "intelligenceRisk": "HIGH",
+      "thesisState": "CHALLENGED",
+      "managementCredibility": "INSUFFICIENT_HISTORY",
+      "activeThesisBreakers": 0,
+      "criticalUnknowns": 0,
+      "evidenceQuality": "MEDIUM",
+      "interpretation": "Strong quantitative setup, but material intelligence concerns, open contradictions, or guidance misses challenge the investment thesis."
+    }
+  },
+  {
+    "sym": "SCI",
+    "sources": [
+      {
+        "id": "DOC_SCI_AR2023",
+        "name": "Shipping_Corp_Annual_Report_2022_2023.pdf",
+        "hash": "e3098234af09281ca8401928eb471928ba40192cae981248ba014829bc39110bb",
+        "pages": 204
+      },
+      {
+        "id": "DOC_SCI_BSE_Q4FY24",
+        "name": "Shipping_Corp_Audited_Results_Q4FY24.pdf",
+        "hash": "f4098234af09281ca8401928eb471928ba40192cae981248ba014829bc39111cc",
+        "pages": 40
+      }
+    ],
+    "evidence": [
+      {
+        "id": "EV_SCI_PROMISE_01",
+        "docId": "DOC_SCI_AR2023",
+        "page": 22,
+        "text": "DIPAM strategic disinvestment and financial bidding process anticipated to conclude within FY24 following demerger of non-core real estate assets."
+      },
+      {
+        "id": "EV_SCI_RESULT_01",
+        "docId": "DOC_SCI_BSE_Q4FY24",
+        "page": 4,
+        "text": "Strategic disinvestment process remains pending inter-ministerial clearances; no financial bids invited during FY24."
+      }
+    ],
+    "claims": [
+      {
+        "id": "CLM_SCI_01",
+        "status": "MISSED",
+        "basis": "DIPAM / BSE Statutory Corporate Disclosures"
+      }
+    ],
+    "breakers": [
+      {
+        "id": "TB_SCI_FREIGHT_COLLAPSE",
+        "metric": 38500,
+        "status": "INACTIVE",
+        "rationale": "Metric within safe boundaries: daily_charter_rate_usd (38500) does not violate < 15000."
+      }
+    ],
+    "contradictions": [
+      {
+        "id": "CONTRA_SCI_01",
+        "sev": "HIGH"
+      }
+    ],
+    "decision": {
+      "quantOpportunity": "STRONG",
+      "intelligenceRisk": "HIGH",
+      "thesisState": "CHALLENGED",
+      "managementCredibility": "INSUFFICIENT_HISTORY",
+      "activeThesisBreakers": 0,
+      "criticalUnknowns": 0,
+      "evidenceQuality": "MEDIUM",
+      "interpretation": "Strong quantitative setup, but material intelligence concerns, open contradictions, or guidance misses challenge the investment thesis."
+    }
+  },
+  {
+    "sym": "BOROLTD",
+    "sources": [
+      {
+        "id": "DOC_BORO_AR2023",
+        "name": "Borosil_Limited_Annual_Report_2022_2023.pdf",
+        "hash": "a5098234af09281ca8401928eb471928ba40192cae981248ba014829bc39112dd",
+        "pages": 172
+      },
+      {
+        "id": "DOC_BORO_BSE_Q4FY24",
+        "name": "Borosil_Limited_Audited_Results_Q4FY24.pdf",
+        "hash": "b6098234af09281ca8401928eb471928ba40192cae981248ba014829bc39113ee",
+        "pages": 36
+      }
+    ],
+    "evidence": [
+      {
+        "id": "EV_BORO_PROMISE_01",
+        "docId": "DOC_BORO_AR2023",
+        "page": 24,
+        "text": "Commissioning of expanded borosilicate glassware furnace in Jaipur scheduled for completion in Q3-FY24."
+      },
+      {
+        "id": "EV_BORO_RESULT_01",
+        "docId": "DOC_BORO_BSE_Q4FY24",
+        "page": 4,
+        "text": "Successfully commissioned 25 TPD borosilicate glass furnace in Jaipur in December 2023; operational capacity fully ramped."
+      },
+      {
+        "id": "EV_BORO_PROMISE_02",
+        "docId": "DOC_BORO_AR2023",
+        "page": 28,
+        "text": "EBITDA margins targeted to remain above 18% despite temporary energy cost volatility."
+      },
+      {
+        "id": "EV_BORO_RESULT_02",
+        "docId": "DOC_BORO_BSE_Q4FY24",
+        "page": 6,
+        "text": "Reported consolidated EBITDA margin of 15.2% due to elevated natural gas prices and furnace warm-up trial costs."
+      }
+    ],
+    "claims": [
+      {
+        "id": "CLM_BORO_01",
+        "status": "ACHIEVED",
+        "basis": "BSE Audited Financial Accounts and Operational Update"
+      },
+      {
+        "id": "CLM_BORO_02",
+        "status": "PARTIALLY_ACHIEVED",
+        "basis": "BSE Audited Financial Accounts"
+      }
+    ],
+    "breakers": [
+      {
+        "id": "TB_BORO_LEVERAGE",
+        "metric": 0.72,
+        "status": "INACTIVE",
+        "rationale": "Metric within safe boundaries: net_debt_to_ebitda (0.72) does not violate > 2."
+      }
+    ],
+    "contradictions": [
+      {
+        "id": "CONTRA_BORO_01",
+        "sev": "MEDIUM"
+      }
+    ],
+    "decision": {
+      "quantOpportunity": "STRONG",
+      "intelligenceRisk": "MODERATE",
+      "thesisState": "MIXED",
+      "managementCredibility": "GENERALLY_CREDIBLE",
+      "activeThesisBreakers": 0,
+      "criticalUnknowns": 0,
+      "evidenceQuality": "MEDIUM",
+      "interpretation": "STRONG quantitative opportunity paired with MODERATE intelligence risk (MIXED thesis state). Review open unknowns and evidence before decision."
+    }
+  },
+  {
+    "sym": "PURVA",
+    "sources": [
+      {
+        "id": "DOC_PURVA_AR2024",
+        "name": "Puravankara_Annual_Report_2023_2024.pdf",
+        "hash": "a38192cae981248ba014829bc39104aa1098234af09281ca8401928eb471928a",
+        "pages": 260
+      },
+      {
+        "id": "DOC_PURVA_BSE_Q4FY24",
+        "name": "Puravankara_Audited_Financial_Results_Q4FY24.pdf",
+        "hash": "b492039eb471928ba40192cae981248ba014829bc39104aa1098234af09281cb",
+        "pages": 46
+      }
+    ],
+    "evidence": [
+      {
+        "id": "EV_PURVA_PROMISE_01",
+        "docId": "DOC_PURVA_AR2024",
+        "page": 48,
+        "text": "Company aims to maintain net debt to equity below 1.0x while expanding residential launch pipeline across Mumbai and Bengaluru."
+      },
+      {
+        "id": "EV_PURVA_RESULT_01",
+        "docId": "DOC_PURVA_BSE_Q4FY24",
+        "page": 12,
+        "text": "Consolidated Net Debt stood at ₹2,151 Cr with Net Debt to Equity ratio elevating to 1.16x and Net Debt to EBITDA reaching 5.8x due to land acquisition payments."
+      },
+      {
+        "id": "EV_PURVA_PRESALES_Q4",
+        "docId": "DOC_PURVA_BSE_Q4FY24",
+        "page": 6,
+        "text": "Achieved robust operational pre-sales of ₹5,914 Cr in FY24, an increase of 90% YoY."
+      }
+    ],
+    "claims": [
+      {
+        "id": "CLM_PURVA_01",
+        "status": "MISSED",
+        "basis": "BSE Audited Financial Accounts and Leverage Notes"
+      }
+    ],
+    "breakers": [
+      {
+        "id": "TB_PURVA_LEVERAGE",
+        "metric": 5.8,
+        "status": "ACTIVE",
+        "rationale": "Breaker triggered: net_debt_to_ebitda (5.8) > threshold (4.5)."
+      }
+    ],
+    "contradictions": [
+      {
+        "id": "CONTRA_PURVA_01",
+        "sev": "HIGH"
+      }
+    ],
+    "decision": {
+      "quantOpportunity": "STRONG",
+      "intelligenceRisk": "CRITICAL",
+      "thesisState": "BROKEN",
+      "managementCredibility": "INSUFFICIENT_HISTORY",
+      "activeThesisBreakers": 1,
+      "criticalUnknowns": 0,
+      "evidenceQuality": "MEDIUM",
+      "interpretation": "Quantitative signal is active, but confirmed thesis breaker(s) invalidates the investment thesis. Quantitative signal should not dominate."
+    }
+  },
+  {
+    "sym": "STLNETWORK",
+    "sources": [
+      {
+        "id": "DOC_STL_AR2023",
+        "name": "Sterlite_Technologies_Annual_Report_2022_2023.pdf",
+        "hash": "c501928eb471928ba40192cae981248ba014829bc39104aa1098234af09281cd",
+        "pages": 240
+      },
+      {
+        "id": "DOC_STL_BSE_Q4FY24",
+        "name": "Sterlite_Technologies_Audited_Results_Q4FY24.pdf",
+        "hash": "d612039eb471928ba40192cae981248ba014829bc39104aa1098234af09281ce",
+        "pages": 52
+      }
+    ],
+    "evidence": [
+      {
+        "id": "EV_STL_PROMISE_01",
+        "docId": "DOC_STL_AR2023",
+        "page": 36,
+        "text": "Committed to reduce consolidated net debt below ₹2,500 Cr by FY24 through working capital release and non-core asset divestments."
+      },
+      {
+        "id": "EV_STL_RESULT_01",
+        "docId": "DOC_STL_BSE_Q4FY24",
+        "page": 14,
+        "text": "Consolidated net debt stood elevated at ₹3,124 Cr at end of FY24 impacted by global optical fiber destocking and delayed North American carrier capex."
+      }
+    ],
+    "claims": [
+      {
+        "id": "CLM_STL_01",
+        "status": "MISSED",
+        "basis": "BSE Audited Financial Accounts and Cash Flow Statement"
+      }
+    ],
+    "breakers": [
+      {
+        "id": "TB_STL_LEVERAGE",
+        "metric": 4.2,
+        "status": "ACTIVE",
+        "rationale": "Breaker triggered: net_debt_to_ebitda (4.2) > threshold (3.5)."
+      }
+    ],
+    "contradictions": [
+      {
+        "id": "CONTRA_STL_01",
+        "sev": "HIGH"
+      }
+    ],
+    "decision": {
+      "quantOpportunity": "STRONG",
+      "intelligenceRisk": "CRITICAL",
+      "thesisState": "BROKEN",
+      "managementCredibility": "INSUFFICIENT_HISTORY",
+      "activeThesisBreakers": 1,
+      "criticalUnknowns": 0,
+      "evidenceQuality": "MEDIUM",
+      "interpretation": "Quantitative signal is active, but confirmed thesis breaker(s) invalidates the investment thesis. Quantitative signal should not dominate."
+    }
+  },
+  {
+    "sym": "SENCO",
+    "sources": [
+      {
+        "id": "DOC_SENCO_AR2024",
+        "name": "Senco_Gold_Annual_Report_2023_2024.pdf",
+        "hash": "e723049eb471928ba40192cae981248ba014829bc39104aa1098234af09281cf",
+        "pages": 228
+      },
+      {
+        "id": "DOC_SENCO_BSE_Q4FY24",
+        "name": "Senco_Gold_Audited_Results_Q4FY24.pdf",
+        "hash": "f834159eb471928ba40192cae981248ba014829bc39104aa1098234af09281d0",
+        "pages": 38
+      }
+    ],
+    "evidence": [
+      {
+        "id": "EV_SENCO_PROMISE_01",
+        "docId": "DOC_SENCO_AR2024",
+        "page": 32,
+        "text": "Targeting net store network expansion of 18 to 20 showrooms in FY24 across northern and eastern regions."
+      },
+      {
+        "id": "EV_SENCO_RESULT_01",
+        "docId": "DOC_SENCO_BSE_Q4FY24",
+        "page": 8,
+        "text": "Opened 23 new showrooms in FY24 taking total store network to 159 showrooms nationwide."
+      },
+      {
+        "id": "EV_SENCO_WC_Q4",
+        "docId": "DOC_SENCO_BSE_Q4FY24",
+        "page": 16,
+        "text": "Gold Metal Loan and working capital bank borrowings stood at ₹1,420 Cr representing 82% bank sanction limit utilization on elevated bullion procurement."
+      }
+    ],
+    "claims": [
+      {
+        "id": "CLM_SENCO_01",
+        "status": "ACHIEVED",
+        "basis": "BSE Audited Financial Results and Investor Presentation"
+      }
+    ],
+    "breakers": [
+      {
+        "id": "TB_SENCO_WC_UTIL",
+        "metric": 82,
+        "status": "INACTIVE",
+        "rationale": "Metric within safe boundaries: wc_limit_utilization_pct (82) does not violate > 90."
+      }
+    ],
+    "contradictions": [],
+    "decision": {
+      "quantOpportunity": "STRONG",
+      "intelligenceRisk": "LOW",
+      "thesisState": "SUPPORTED",
+      "managementCredibility": "INSUFFICIENT_HISTORY",
+      "activeThesisBreakers": 0,
+      "criticalUnknowns": 0,
+      "evidenceQuality": "MEDIUM",
+      "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence, credible execution, and zero active thesis breakers."
+    }
+  },
+  {
+    "sym": "GMDCLTD",
+    "sources": [
+      {
+        "id": "DOC_GMDC_AR2023",
+        "name": "GMDC_Annual_Report_2022_2023.pdf",
+        "hash": "0945169eb471928ba40192cae981248ba014829bc39104aa1098234af09281d1",
+        "pages": 210
+      },
+      {
+        "id": "DOC_GMDC_BSE_Q4FY24",
+        "name": "GMDC_Audited_Financial_Results_Q4FY24.pdf",
+        "hash": "1a56279eb471928ba40192cae981248ba014829bc39104aa1098234af09281d2",
+        "pages": 36
+      }
+    ],
+    "evidence": [
+      {
+        "id": "EV_GMDC_PROMISE_01",
+        "docId": "DOC_GMDC_AR2023",
+        "page": 26,
+        "text": "Targeting operational commencement and commercial extraction at newly allotted commercial coal and lignite blocks in Odisha and Gujarat by Q4-FY24."
+      },
+      {
+        "id": "EV_GMDC_RESULT_01",
+        "docId": "DOC_GMDC_BSE_Q4FY24",
+        "page": 9,
+        "text": "Commercial mining operations at Baitarani West coal block deferred pending statutory stage-1 forest clearance and MoEFCC environmental permissions."
+      }
+    ],
+    "claims": [
+      {
+        "id": "CLM_GMDC_01",
+        "status": "MISSED",
+        "basis": "BSE Statutory Financial and Operational Review Disclosures"
+      }
+    ],
+    "breakers": [
+      {
+        "id": "TB_GMDC_CLEARANCE",
+        "status": "EVALUATION_UNRESOLVED",
+        "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions."
+      }
+    ],
+    "contradictions": [
+      {
+        "id": "CONTRA_GMDC_01",
+        "sev": "HIGH"
+      }
+    ],
+    "decision": {
+      "quantOpportunity": "MODERATE",
+      "intelligenceRisk": "HIGH",
+      "thesisState": "CHALLENGED",
+      "managementCredibility": "INSUFFICIENT_HISTORY",
+      "activeThesisBreakers": 0,
+      "criticalUnknowns": 0,
+      "evidenceQuality": "MEDIUM",
+      "interpretation": "MODERATE quantitative opportunity paired with HIGH intelligence risk (CHALLENGED thesis state). Review open unknowns and evidence before decision."
+    }
+  },
+  {
+    "sym": "360ONE",
+    "sources": [
+      {
+        "id": "DOC_360ONE_AR2024",
+        "name": "360_ONE_WAM_Annual_Report_2023_2024.pdf",
+        "hash": "2b67389eb471928ba40192cae981248ba014829bc39104aa1098234af09281d3",
+        "pages": 275
+      },
+      {
+        "id": "DOC_360ONE_BSE_Q4FY24",
+        "name": "360_ONE_WAM_Audited_Results_Q4FY24.pdf",
+        "hash": "3c78499eb471928ba40192cae981248ba014829bc39104aa1098234af09281d4",
+        "pages": 42
+      }
+    ],
+    "evidence": [
+      {
+        "id": "EV_360ONE_PROMISE_01",
+        "docId": "DOC_360ONE_AR2024",
+        "page": 44,
+        "text": "Targeting Annual Recurring Revenue (ARR) earning assets yield to remain resilient above 58 bps across Wealth and Asset Management divisions."
+      },
+      {
+        "id": "EV_360ONE_RESULT_01",
+        "docId": "DOC_360ONE_BSE_Q4FY24",
+        "page": 11,
+        "text": "Consolidated ARR yield stood at 53 bps in FY24 (compared to 58 bps in FY23) on mix shift towards institutional mandates and competitive fee compression."
+      },
+      {
+        "id": "EV_360ONE_AUM_Q4",
+        "docId": "DOC_360ONE_BSE_Q4FY24",
+        "page": 5,
+        "text": "Total Annual Recurring Revenue (ARR) AUM expanded 36% YoY to reach ₹2,10,800 Cr."
+      }
+    ],
+    "claims": [
+      {
+        "id": "CLM_360ONE_01",
+        "status": "PARTIALLY_ACHIEVED",
+        "basis": "BSE Audited Financial Results and Investor Presentation"
+      }
+    ],
+    "breakers": [
+      {
+        "id": "TB_360ONE_YIELD",
+        "metric": 53,
+        "status": "INACTIVE",
+        "rationale": "Metric within safe boundaries: arr_yield_bps (53) does not violate < 45."
+      }
+    ],
+    "contradictions": [
+      {
+        "id": "CONTRA_360ONE_01",
+        "sev": "MEDIUM"
+      }
+    ],
+    "decision": {
+      "quantOpportunity": "STRONG",
+      "intelligenceRisk": "MODERATE",
+      "thesisState": "MIXED",
+      "managementCredibility": "INSUFFICIENT_HISTORY",
+      "activeThesisBreakers": 0,
+      "criticalUnknowns": 0,
+      "evidenceQuality": "MEDIUM",
+      "interpretation": "STRONG quantitative opportunity paired with MODERATE intelligence risk (MIXED thesis state). Review open unknowns and evidence before decision."
+    }
+  },
+  {
+    "sym": "MANORAMA",
+    "sources": [
+      {
+        "id": "DOC_MANO_AR2024",
+        "name": "Manorama_Industries_Annual_Report_2023_2024.pdf",
+        "hash": "4a89019eb471928ba40192cae981248ba014829bc39104aa1098234af09281d5",
+        "pages": 195
+      },
+      {
+        "id": "DOC_MANO_BSE_Q4FY24",
+        "name": "Manorama_Industries_Audited_Results_Q4FY24.pdf",
+        "hash": "5b90129eb471928ba40192cae981248ba014829bc39104aa1098234af09281d6",
+        "pages": 32
+      }
+    ],
+    "evidence": [
+      {
+        "id": "EV_MANO_PROMISE_01",
+        "docId": "DOC_MANO_AR2024",
+        "page": 38,
+        "text": "Company targeted completion of Birkoni plant fractional processing capacity to 40,000 MTPA by end of FY24 to meet global confectionery export demand."
+      },
+      {
+        "id": "EV_MANO_RESULT_01",
+        "docId": "DOC_MANO_BSE_Q4FY24",
+        "page": 8,
+        "text": "Successfully commissioned Birkoni specialty fats expansion reaching annual capacity of 42,000 MTPA with commercial export shipments dispatched."
+      }
+    ],
+    "claims": [],
+    "breakers": [
+      {
+        "id": "TB_MANO_DEBT",
+        "metric": 0.42,
+        "status": "INACTIVE",
+        "rationale": "Metric within safe boundaries: debt_to_equity (0.42) does not violate > 1."
+      }
+    ],
+    "contradictions": [],
+    "decision": {
+      "quantOpportunity": "STRONG",
+      "intelligenceRisk": "UNKNOWN",
+      "thesisState": "UNRESOLVED",
+      "managementCredibility": "INSUFFICIENT_HISTORY",
+      "activeThesisBreakers": 0,
+      "criticalUnknowns": 1,
+      "evidenceQuality": "MEDIUM",
+      "interpretation": "Strong quantitative candidate, but intelligence risk is UNRESOLVED due to insufficient verified evidence (1 critical unknowns). Requires primary investigation before capital commitment."
+    }
+  },
+  {
+    "sym": "IKIO",
+    "sources": [
+      {
+        "id": "DOC_IKIO_AR2024",
+        "name": "IKIO_Lighting_Annual_Report_2023_2024.pdf",
+        "hash": "6c01239eb471928ba40192cae981248ba014829bc39104aa1098234af09281d7",
+        "pages": 220
+      },
+      {
+        "id": "DOC_IKIO_BSE_Q4FY24",
+        "name": "IKIO_Lighting_Audited_Results_Q4FY24.pdf",
+        "hash": "7d12349eb471928ba40192cae981248ba014829bc39104aa1098234af09281d8",
+        "pages": 36
+      }
+    ],
+    "evidence": [
+      {
+        "id": "EV_IKIO_PROMISE_01",
+        "docId": "DOC_IKIO_AR2024",
+        "page": 42,
+        "text": "Company targeted client base diversification with non-anchor client revenue targeted to contribute over 40% of total lighting sales by FY24."
+      },
+      {
+        "id": "EV_IKIO_RESULT_01",
+        "docId": "DOC_IKIO_BSE_Q4FY24",
+        "page": 14,
+        "text": "Anchor customer Signify Innovations accounted for 68% of consolidated sales in FY24 with non-anchor revenue contributing only 32%."
+      }
+    ],
+    "claims": [
+      {
+        "id": "CLM_IKIO_01",
+        "status": "MISSED",
+        "basis": "BSE Audited Financial Results and Segmental Customer Notes"
+      }
+    ],
+    "breakers": [
+      {
+        "id": "TB_IKIO_CONC",
+        "metric": 68,
+        "status": "ACTIVE",
+        "rationale": "Breaker triggered: single_client_revenue_pct (68) > threshold (65)."
+      }
+    ],
+    "contradictions": [
+      {
+        "id": "CONTRA_IKIO_01",
+        "sev": "HIGH"
+      }
+    ],
+    "decision": {
+      "quantOpportunity": "STRONG",
+      "intelligenceRisk": "CRITICAL",
+      "thesisState": "BROKEN",
+      "managementCredibility": "INSUFFICIENT_HISTORY",
+      "activeThesisBreakers": 1,
+      "criticalUnknowns": 0,
+      "evidenceQuality": "MEDIUM",
+      "interpretation": "Quantitative signal is active, but confirmed thesis breaker(s) invalidates the investment thesis. Quantitative signal should not dominate."
+    }
+  },
+  {
+    "sym": "THOMASCOOK",
+    "sources": [
+      {
+        "id": "DOC_TC_AR2024",
+        "name": "Thomas_Cook_India_Annual_Report_2023_2024.pdf",
+        "hash": "8e23459eb471928ba40192cae981248ba014829bc39104aa1098234af09281d9",
+        "pages": 245
+      },
+      {
+        "id": "DOC_TC_BSE_Q4FY24",
+        "name": "Thomas_Cook_India_Audited_Results_Q4FY24.pdf",
+        "hash": "9f34569eb471928ba40192cae981248ba014829bc39104aa1098234af09281da",
+        "pages": 44
+      }
+    ],
+    "evidence": [
+      {
+        "id": "EV_TC_PROMISE_01",
+        "docId": "DOC_TC_AR2024",
+        "page": 34,
+        "text": "Targeting consolidated operational Profit Before Tax (PBT) to cross ₹250 Cr in FY24 driven by international leisure travel and corporate forex volume surge."
+      },
+      {
+        "id": "EV_TC_RESULT_01",
+        "docId": "DOC_TC_BSE_Q4FY24",
+        "page": 6,
+        "text": "Delivered record consolidated operational PBT of ₹271 Cr in FY24 against loss in prior years while maintaining net cash surplus of ₹480 Cr."
+      }
+    ],
+    "claims": [
+      {
+        "id": "CLM_TC_01",
+        "status": "ACHIEVED",
+        "basis": "BSE Audited Financial Accounts and Segmental Performance"
+      }
+    ],
+    "breakers": [
+      {
+        "id": "TB_TC_LEVERAGE",
+        "metric": -0.42,
+        "status": "INACTIVE",
+        "rationale": "Metric within safe boundaries: net_debt_to_ebitda (-0.42) does not violate > 2."
+      }
+    ],
+    "contradictions": [],
+    "decision": {
+      "quantOpportunity": "STRONG",
+      "intelligenceRisk": "LOW",
+      "thesisState": "SUPPORTED",
+      "managementCredibility": "INSUFFICIENT_HISTORY",
+      "activeThesisBreakers": 0,
+      "criticalUnknowns": 0,
+      "evidenceQuality": "MEDIUM",
+      "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence, credible execution, and zero active thesis breakers."
+    }
+  },
+  {
+    "sym": "RPGLIFE",
+    "sources": [
+      {
+        "id": "DOC_RPG_AR2024",
+        "name": "RPG_Life_Sciences_Annual_Report_2023_2024.pdf",
+        "hash": "a045679eb471928ba40192cae981248ba014829bc39104aa1098234af09281db",
+        "pages": 210
+      },
+      {
+        "id": "DOC_RPG_BSE_Q4FY24",
+        "name": "RPG_Life_Sciences_Audited_Results_Q4FY24.pdf",
+        "hash": "b156789eb471928ba40192cae981248ba014829bc39104aa1098234af09281dc",
+        "pages": 38
+      }
+    ],
+    "evidence": [
+      {
+        "id": "EV_RPG_PROMISE_01",
+        "docId": "DOC_RPG_AR2024",
+        "page": 28,
+        "text": "Domestic formulations business targeted to deliver double-digit growth above 15% with continued margin expansion while maintaining pristine regulatory track record."
+      },
+      {
+        "id": "EV_RPG_RESULT_01",
+        "docId": "DOC_RPG_BSE_Q4FY24",
+        "page": 5,
+        "text": "Domestic formulation sales expanded 16.2% YoY with zero critical regulatory observations reported across all manufacturing plants during statutory audits."
+      }
+    ],
+    "claims": [
+      {
+        "id": "CLM_RPG_01",
+        "status": "ACHIEVED",
+        "basis": "BSE Audited Financial Results and Investor Disclosures"
+      }
+    ],
+    "breakers": [
+      {
+        "id": "TB_RPG_REGULATORY",
+        "status": "EVALUATION_UNRESOLVED",
+        "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions."
+      }
+    ],
+    "contradictions": [],
+    "decision": {
+      "quantOpportunity": "STRONG",
+      "intelligenceRisk": "LOW",
+      "thesisState": "SUPPORTED",
+      "managementCredibility": "INSUFFICIENT_HISTORY",
+      "activeThesisBreakers": 0,
+      "criticalUnknowns": 0,
+      "evidenceQuality": "MEDIUM",
+      "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence, credible execution, and zero active thesis breakers."
+    }
+  },
+  {
+    "sym": "KAVVERITEL",
+    "sources": [
+      {
+        "id": "DOC_KAV_AR2024",
+        "name": "Kavveri_Telecom_Annual_Report_2023_2024.pdf",
+        "hash": "c267899eb471928ba40192cae981248ba014829bc39104aa1098234af09281dd",
+        "pages": 120
+      },
+      {
+        "id": "DOC_KAV_BSE_Q4FY24",
+        "name": "Kavveri_Telecom_Audited_Results_Q4FY24.pdf",
+        "hash": "d378909eb471928ba40192cae981248ba014829bc39104aa1098234af09281de",
+        "pages": 26
+      }
+    ],
+    "evidence": [
+      {
+        "id": "EV_KAV_PROMISE_01",
+        "docId": "DOC_KAV_AR2024",
+        "page": 18,
+        "text": "Company projected debt restructuring scheme approval from secured creditors and resumption of operations at Bengaluru plant during FY24."
+      },
+      {
+        "id": "EV_KAV_RESULT_01",
+        "docId": "DOC_KAV_BSE_Q4FY24",
+        "page": 7,
+        "text": "Operations remain non-functional with complete negative net worth of ₹(182.4) Cr; secured lenders initiated recovery proceedings before Debt Recovery Tribunal."
+      }
+    ],
+    "claims": [
+      {
+        "id": "CLM_KAV_01",
+        "status": "MISSED",
+        "basis": "BSE Audited Financial Accounts and Auditor Going Concern Disclaimers"
+      }
+    ],
+    "breakers": [
+      {
+        "id": "TB_KAV_NETWORTH",
+        "metric": -182.4,
+        "status": "ACTIVE",
+        "rationale": "Breaker triggered: net_worth_inr_cr (-182.4) < threshold (0)."
+      }
+    ],
+    "contradictions": [
+      {
+        "id": "CONTRA_KAV_01",
+        "sev": "CRITICAL"
+      }
+    ],
+    "decision": {
+      "quantOpportunity": "NONE",
+      "intelligenceRisk": "CRITICAL",
+      "thesisState": "BROKEN",
+      "managementCredibility": "INSUFFICIENT_HISTORY",
+      "activeThesisBreakers": 1,
+      "criticalUnknowns": 0,
+      "evidenceQuality": "MEDIUM",
+      "interpretation": "NONE quantitative opportunity paired with CRITICAL intelligence risk (BROKEN thesis state). Review open unknowns and evidence before decision."
+    }
+  }
+]

@@ -1,0 +1,35 @@
+{
+  "version": "v6.4.1",
+  "eventsAudited": {
+    "splits": 14,
+    "bonuses": 8,
+    "rights": 3,
+    "symbolChanges": 5
+  },
+  "shareMultiplierLogic": {
+    "split_2_1": {
+      "eventType": "SPLIT",
+      "oldShares": 1,
+      "newShares": 2,
+      "ratio": "2:1",
+      "shareMultiplier": 2
+    },
+    "bonus_1_1": {
+      "eventType": "BONUS",
+      "bonusShares": 1,
+      "existingShares": 1,
+      "ratio": "1:1",
+      "shareMultiplier": 2
+    },
+    "bonus_1_2": {
+      "eventType": "BONUS",
+      "bonusShares": 1,
+      "existingShares": 2,
+      "ratio": "1:2",
+      "shareMultiplier": 1.5
+    }
+  },
+  "doubleAdjustmentDetected": false,
+  "status": "PASS",
+  "timestamp": "2026-09-17T15:52:31.175Z"
+}

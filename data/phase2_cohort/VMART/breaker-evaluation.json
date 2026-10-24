@@ -1,0 +1,24 @@
+[
+  {
+    "breakerId": "TB_VMART_LEVERAGE",
+    "name": "Lease-Adjusted Leverage Breaker",
+    "description": "Lease-Adjusted Net Debt / EBITDA must not breach 3.0x",
+    "type": "QUANTITATIVE",
+    "evaluationMethod": "METRIC_THRESHOLD",
+    "conditionText": "Net Debt / EBITDA > 3.0",
+    "quantitativeCondition": {
+      "metric": "lease_adj_net_debt_to_ebitda",
+      "operator": ">",
+      "threshold": 3,
+      "evaluationPeriod": "annual",
+      "evidenceRequired": true
+    },
+    "status": "ACTIVE",
+    "severity": "HIGH",
+    "rationale": "Breaker triggered: lease_adj_net_debt_to_ebitda (3.4) > threshold (3).",
+    "evidenceIds": [
+      "EV_VMART_RESULT_01"
+    ],
+    "currentObservedValue": 3.4
+  }
+]

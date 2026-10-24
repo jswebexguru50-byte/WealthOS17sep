@@ -124,8 +124,8 @@ router.delete('/schedules/:id', auth(true), async (req: any, res) => {
 router.post('/schedules/:id/run', auth(true), async (req: any, res) => {
   if (!roleAllows(req.familyPrincipal, 'admin')) return res.status(403).json({ success: false, error: 'ROLE_FORBIDDEN' });
   const id=Number(req.params.id); const row:any=await (await import('../database.js')).dbGet(getDB(),'SELECT * FROM report_schedules WHERE id=?',[id]); if(!row)return res.status(404).json({success:false,error:'NOT_FOUND'}); if(row.status!=='ACTIVE')return res.status(409).json({success:false,error:'SCHEDULE_PAUSED'});
-  await dbRun(getDB(),'UPDATE report_schedules SET last_run_at=CURRENT_TIMESTAMP,last_status=?,updated_at=CURRENT_TIMESTAMP WHERE id=?',['QUEUED_NO_EXTERNAL_DELIVERY',id]);
-  res.status(202).json({success:true,status:'QUEUED_NO_EXTERNAL_DELIVERY',message:'Report generation is queued; external email delivery is disabled by policy.'});
+  await dbRun(getDB(),'UPDATE report_schedules SET last_run_at=CURRENT_TIMESTAMP,last_status=?,updated_at=CURRENT_TIMESTAMP WHERE id=?',['QUEUED',id]);
+  res.status(202).json({success:true,status:'QUEUED',message:'Report generation is queued; external email delivery is disabled by policy.'});
 });
 
 const REVIEW_SECTIONS = ['EXECUTIVE_SUMMARY','PERFORMANCE','ALLOCATION_AND_RISK','CASH_AND_LIQUIDITY','TAX_AND_COMPLIANCE','GOVERNANCE_AND_ACTIONS'] as const;

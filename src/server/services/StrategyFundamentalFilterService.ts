@@ -3,6 +3,8 @@ import { Database } from 'sqlite3';
 import { DuckDbAdjustedOhlcvService } from './DuckDbAdjustedOhlcvService.js';
 import { SectorMomentumService } from './SectorMomentumService.js';
 import { calculateQglp, DEFAULT_QGLP_CONFIG, QglpStatus } from './QglpScoringService.js';
+import { TrendlyneIntelligenceService } from './TrendlyneIntelligenceService.js';
+import { ensureUnifiedDataSchema } from './unifiedData/UnifiedDataSchemaService.js';
 
 export const STRATEGY_FUNDAMENTAL_RULES = {
   promoterMinimumPct: 66.6,
@@ -70,6 +72,7 @@ export class StrategyFundamentalFilterService {
   }
 
   public async enrichSymbols(db: Database, symbols: string[]): Promise<Map<string, StrategyFundamentalEnrichment>> {
+    await ensureUnifiedDataSchema(db);
     const unique = [...new Set(symbols.map(s => String(s).trim().toUpperCase()).filter(Boolean))];
     const out = new Map<string, StrategyFundamentalEnrichment>();
     if (!unique.length) return out;
@@ -113,12 +116,32 @@ export class StrategyFundamentalFilterService {
       SELECT * FROM strategy_fundamental_filter_results WHERE symbol IN (${placeholders})
       ORDER BY evaluated_at DESC`, unique);
     const masters = await safeAll(`SELECT symbol, sector FROM MasterTickers WHERE symbol IN (${placeholders})`, unique);
+    // Canonical facts are the common promotion target for FERE, exchange and
+    // structured providers.  They supplement legacy tables during migration.
+    const canonicalFacts = await safeAll(`SELECT symbol, metric, value, periodEnd, scope, sourceType, availableAt
+      FROM company_facts WHERE symbol IN (${placeholders})
+        AND verificationStatus IN ('VERIFIED','VERIFIED_PARTIAL')
+        AND availabilityStatus IN ('AVAILABLE','AVAILABLE_FROM_PROVIDER')
+      ORDER BY CASE sourceType WHEN 'PRIMARY_FILING' THEN 0 ELSE 1 END,
+        CASE upper(scope) WHEN 'CONSOLIDATED' THEN 0 ELSE 1 END, periodEnd DESC, availableAt DESC`, unique);
+    const intelligenceEntries = await Promise.all(unique.map(async symbol => [
+      symbol,
+      await TrendlyneIntelligenceService.getInstance().getScripIntelligence(symbol).catch(() => null),
+    ] as const));
+    const intelligenceBySymbol = new Map(intelligenceEntries);
 
     const snapshotBySymbol = latestBySymbol(snapshots);
     const sunriseBySymbol = latestBySymbol(sunrise);
     const ledgerBySymbol = latestBySymbol(ledger);
     const persistedBySymbol = latestBySymbol(persisted);
     const masterBySymbol = latestBySymbol(masters);
+    const canonicalBySymbol = new Map<string, Map<string, AnyRow>>();
+    for (const row of canonicalFacts) {
+      const sym = String(row.symbol || '').toUpperCase();
+      if (!canonicalBySymbol.has(sym)) canonicalBySymbol.set(sym, new Map());
+      const values = canonicalBySymbol.get(sym)!;
+      if (!values.has(String(row.metric))) values.set(String(row.metric), row);
+    }
     const sectors = [...new Set(unique.map(symbol => String(ledgerBySymbol.get(symbol)?.sector || masterBySymbol.get(symbol)?.sector || '').trim()).filter(Boolean))];
     const momentumEntries = await Promise.all(sectors.map(async sector => [sector, await SectorMomentumService.getForSector(sector).catch(() => null)] as const));
     const momentumBySector = new Map(momentumEntries);
@@ -146,6 +169,8 @@ export class StrategyFundamentalFilterService {
       const snapshot = snapshotBySymbol.get(symbol) || {};
       const ledgerRow = ledgerBySymbol.get(symbol) || {};
       const persistedRow = persistedBySymbol.get(symbol) || {};
+      const canonical = canonicalBySymbol.get(symbol) || new Map<string, AnyRow>();
+      const intelligence = intelligenceBySymbol.get(symbol);
       const sh = holdingRows.get(symbol) || [];
       const latestHolding = sh[0] || {};
       const previousHolding = sh[1] || {};
@@ -165,12 +190,13 @@ export class StrategyFundamentalFilterService {
       const alignedCfo = periodsAlign ? cfo : null;
       const cashFlowRatio = opProfit != null && alignedCfo != null && opProfit > 0 ? alignedCfo / opProfit : null;
 
-      const promoterPct = snapshot.promoterPct ?? latestHolding.promoterPct ?? ledgerRow.promoterPct ?? persistedRow.promoter_pct ?? null;
-      const fiiPct = snapshot.fiiPct ?? latestHolding.fiiPct ?? ledgerRow.fiiPct ?? persistedRow.fii_pct ?? null;
-      const diiPct = snapshot.diiPct ?? latestHolding.diiPct ?? ledgerRow.diiPct ?? persistedRow.dii_pct ?? null;
-      const pledgedPct = snapshot.pledgedPct ?? ledgerRow.pledgedPct ?? persistedRow.pledged_pct ?? null;
-      const rocePct = snapshot.rocePct ?? ledgerRow.rocePct ?? persistedRow.roce_pct ?? null;
-      const roePct = snapshot.roePct ?? ledgerRow.roePct ?? persistedRow.roe_pct ?? null;
+      const cv = (metric: string) => canonical.get(metric)?.value ?? null;
+      const promoterPct = snapshot.promoterPct ?? latestHolding.promoterPct ?? cv('promoter_holding_pct') ?? ledgerRow.promoterPct ?? intelligence?.checklists.promoterHoldingPct ?? persistedRow.promoter_pct ?? null;
+      const fiiPct = snapshot.fiiPct ?? latestHolding.fiiPct ?? cv('fii_holding_pct') ?? ledgerRow.fiiPct ?? intelligence?.checklists.fiiHoldingPct ?? persistedRow.fii_pct ?? null;
+      const diiPct = snapshot.diiPct ?? latestHolding.diiPct ?? cv('dii_holding_pct') ?? ledgerRow.diiPct ?? intelligence?.checklists.diiHoldingPct ?? persistedRow.dii_pct ?? null;
+      const pledgedPct = snapshot.pledgedPct ?? cv('promoter_pledge_pct') ?? ledgerRow.pledgedPct ?? intelligence?.checklists.promoterPledgePct ?? persistedRow.pledged_pct ?? null;
+      const rocePct = snapshot.rocePct ?? cv('roce_pct') ?? ledgerRow.rocePct ?? intelligence?.trailingRocePct ?? persistedRow.roce_pct ?? null;
+      const roePct = snapshot.roePct ?? cv('roe_pct') ?? ledgerRow.roePct ?? persistedRow.roe_pct ?? null;
       const promoterPass = promoterPct != null && Number(promoterPct) > STRATEGY_FUNDAMENTAL_RULES.promoterMinimumPct;
       const rocePass = rocePct != null && Number(rocePct) >= STRATEGY_FUNDAMENTAL_RULES.roceMinimumPct;
       const roePass = roePct != null && Number(roePct) >= STRATEGY_FUNDAMENTAL_RULES.roeMinimumPct;
@@ -231,7 +257,12 @@ export class StrategyFundamentalFilterService {
         doubleMomentumStatus: (sectorMomentum?.status === 'BULLISH' && stockMomentumPct != null && stockMomentumPct > 0) || persistedRow.double_momentum_status === 'AVAILABLE' ? 'AVAILABLE' : 'NOT_AVAILABLE',
         institutionalPurchases: symbolDeals.map(d => ({ clientName: String(d.clientName || ''), quantity: Number(d.quantity), rate: Number(d.rate), date: String(d.date || ''), dealType: String(d.dealType || '') })),
         evidenceStatus: evidenceCount === 0 ? 'UNAVAILABLE' : evidenceCount < checks.length ? 'PARTIAL' : 'VERIFIED',
-        evidenceNote: evidenceCount < checks.length ? 'One or more required fields are unavailable and therefore failed closed.' : 'All filter inputs are present in SQLite evidence tables.',
+        evidenceNote: [
+          evidenceCount < checks.length ? 'One or more required fields are unavailable and therefore failed closed.' : 'All filter inputs are present in SQLite evidence tables.',
+          intelligence?.checklists.piotroskiScore != null && intelligence.checklists.piotroskiScore < 4 ? 'Trendlyne mirror flag: Piotroski score below 4.' : null,
+          intelligence?.checklists.promoterPledgePct != null && intelligence.checklists.promoterPledgePct > 10 ? 'Trendlyne mirror flag: promoter pledge exceeds 10%.' : null,
+          intelligence?.dvm.momentumGrade === 'WEAK' ? 'Trendlyne mirror flag: DVM momentum is weak.' : null,
+        ].filter(Boolean).join(' '),
       });
     }
     return out;

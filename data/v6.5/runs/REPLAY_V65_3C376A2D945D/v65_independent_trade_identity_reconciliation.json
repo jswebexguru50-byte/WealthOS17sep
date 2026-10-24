@@ -1,0 +1,9 @@
+{
+  "reconciliationVersion": "v6.5",
+  "replayRunId": "REPLAY_V65_3C376A2D945D",
+  "status": "PASS",
+  "totalRunnerTrades": 4506,
+  "independentTradeCount": 4506,
+  "identityMatchCount": 4506,
+  "mismatchCount": 0
+}

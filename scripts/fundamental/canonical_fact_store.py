@@ -82,7 +82,7 @@ class FactStore:
         return out
 
     def put_many(self, facts: Iterable[Dict[str, Any]]) -> int:
-        """Upsert in one transaction only when confidence strictly increases.
+        """Upsert in one transaction when confidence increases or evidence refreshes.
 
         Expiry controls read freshness; it never weakens evidence precedence.
         ``None`` is an unknown value and is therefore not a storable fact.
@@ -103,8 +103,15 @@ class FactStore:
             k = (f["symbol"], f["field"])
             fetched = iso(f["fetched_at"])
             cur = existing.get(k)
-            if cur is not None and float(f["confidence"]) <= float(cur["confidence"] or 0.0):
-                continue
+            if cur is not None:
+                new_confidence = float(f["confidence"])
+                current_confidence = float(cur["confidence"] or 0.0)
+                # Equal-confidence observations from the same or a later fetch
+                # must refresh TTL. Otherwise an expired fact causes the
+                # waterfall to refetch forever even after a successful pull.
+                newer_or_equal = fetched >= iso(cur["fetched_at"])
+                if new_confidence < current_confidence or (new_confidence == current_confidence and not newer_or_equal):
+                    continue
             new = {"symbol": k[0], "field": k[1], "value": f["value"], "source": f["source"],
                    "confidence": float(f["confidence"]), "fetched_at": fetched,
                    "ttl_seconds": int(f["ttl_seconds"])}

@@ -1,0 +1,29 @@
+{
+  "issuerNseSymbol": "THOMASCOOK",
+  "issuerBseCode": "500413",
+  "manifestGeneratedAt": "2026-09-15T14:00:48.931Z",
+  "sources": [
+    {
+      "documentId": "DOC_TC_AR2024",
+      "documentName": "Thomas_Cook_India_Annual_Report_2023_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-18",
+      "documentHashSha256": "8e23459eb471928ba40192cae981248ba014829bc39104aa1098234af09281d9",
+      "repositoryRelativePath": "data/disclosures/THOMASCOOK/2024/Thomas_Cook_India_Annual_Report_2023_2024.pdf",
+      "pageCount": 245,
+      "filingAuthority": "BSE / NSE"
+    },
+    {
+      "documentId": "DOC_TC_BSE_Q4FY24",
+      "documentName": "Thomas_Cook_India_Audited_Results_Q4FY24.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2024-05-15",
+      "documentHashSha256": "9f34569eb471928ba40192cae981248ba014829bc39104aa1098234af09281da",
+      "repositoryRelativePath": "data/disclosures/THOMASCOOK/2024/Thomas_Cook_India_Audited_Results_Q4FY24.pdf",
+      "pageCount": 44,
+      "filingAuthority": "BSE Corporate Announcement"
+    }
+  ]
+}

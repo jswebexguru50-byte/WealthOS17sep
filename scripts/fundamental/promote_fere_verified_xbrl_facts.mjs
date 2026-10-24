@@ -111,7 +111,13 @@ async function main() {
 
   const requestedSymbols = readManifestSymbols();
   const portfolio = new sqlite3.Database(portfolioPath);
-  const fere = new sqlite3.Database(`file:${ferePath}?mode=ro`);
+  // sqlite3 requires OPEN_URI when a `file:...?mode=ro` URI is supplied;
+  // without it macOS treats the URI as a literal filename and raises
+  // SQLITE_CANTOPEN even when the evidence database is present and readable.
+  const fere = new sqlite3.Database(
+    `file:${ferePath}?mode=ro`,
+    sqlite3.OPEN_READONLY | sqlite3.OPEN_URI,
+  );
 
   try {
     const tickerRows = await all(portfolio, `SELECT id, upper(symbol) AS symbol, isin FROM MasterTickers WHERE isin IS NOT NULL`);

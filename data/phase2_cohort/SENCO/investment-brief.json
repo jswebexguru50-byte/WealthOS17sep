@@ -1,0 +1,359 @@
+{
+  "symbol": "SENCO",
+  "companyName": "Senco Gold Limited",
+  "marketCapTier": "SMALLCAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-30T20:15:28.384Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+    "allocationRecommendation": "CAPPED_ALLOCATION",
+    "portfolioPolicy": {
+      "directive": "CAPPED_ALLOCATION",
+      "targetSizingCapRatio": 0.5,
+      "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+    },
+    "provenance": {
+      "quantDerivation": "ITAS-Score-87 -> Threshold(>=75:STRONG, 50-74:MODERATE, 25-49:WEAK, <25:NONE) -> STRONG",
+      "riskDerivation": "BreakersActive:0, Contradictions:0, Unknowns:0 -> Risk: LOW",
+      "credibilityDerivation": "ClaimsEvaluated:1 -> CredibilityGrade: INSUFFICIENT_HISTORY",
+      "breakerDerivation": "TB_SENCO_WC_UTIL(INACTIVE)",
+      "thesisDerivation": "Matrix(STRONG, LOW) -> Thesis: SUPPORTED",
+      "allocationDerivation": "Precedence(SUPPORTED, LOW, INSUFFICIENT_HISTORY) -> Directive: CAPPED_ALLOCATION (Cap: 50%)",
+      "auditTrail": [
+        "ITAS-Engine#SENCO",
+        "EV_SENCO_WC_Q4"
+      ]
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_SENCO",
+      "nodes": [
+        {
+          "id": "DEC_SENCO",
+          "type": "DECISION",
+          "refId": "SENCO",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_SENCO",
+          "type": "ALLOCATION",
+          "refId": "CAPPED_ALLOCATION",
+          "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+        },
+        {
+          "id": "THESIS_SENCO",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_SENCO",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 87/100)"
+        },
+        {
+          "id": "RISK_SENCO",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_SENCO",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_SENCO_WC_UTIL",
+          "type": "RULE",
+          "refId": "TB_SENCO_WC_UTIL",
+          "version": "2026.09",
+          "label": "Breaker TB_SENCO_WC_UTIL: INACTIVE (Observed: 82)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_SENCO",
+          "to": "DEC_SENCO",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_SENCO",
+          "to": "DEC_SENCO",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_SENCO",
+          "to": "THESIS_SENCO",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_SENCO",
+          "to": "THESIS_SENCO",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_SENCO",
+          "to": "ALLOC_SENCO",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_SENCO_WC_UTIL",
+          "to": "RISK_SENCO",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_SENCO_c9d777e9cb28",
+      "decisionId": "DECISION_SENCO",
+      "issuerSymbol": "SENCO",
+      "evaluatedAt": "2026-09-30T10:00:00Z",
+      "decisionDate": "2026-09-30",
+      "schemaVersion": "3.2.1",
+      "ontologyVersion": "1.3",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawQuantInput": {
+        "decisionDate": "2026-09-30",
+        "evaluatedAt": "2026-09-30T10:00:00Z",
+        "symbol": "SENCO",
+        "strategyAgreementCount": 6,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 87,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY"
+      },
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_SENCO_WC_UTIL",
+          "name": "Working Capital Limit Breaker",
+          "description": "Working Capital Bank Sanction Limit Utilization must not exceed 90%",
+          "type": "QUANTITATIVE",
+          "evaluationMethod": "METRIC_THRESHOLD",
+          "conditionText": "WC Bank Limit Utilization > 90%",
+          "quantitativeCondition": {
+            "metric": "wc_limit_utilization_pct",
+            "operator": ">",
+            "threshold": 90,
+            "evaluationPeriod": "quarterly",
+            "evidenceRequired": true
+          },
+          "status": "INACTIVE",
+          "severity": "HIGH",
+          "rationale": "Metric within safe boundaries: wc_limit_utilization_pct (82) does not violate > 90.",
+          "evidenceIds": [
+            "EV_SENCO_WC_Q4"
+          ],
+          "currentObservedValue": 82
+        }
+      ],
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+        "allocationRecommendation": "CAPPED_ALLOCATION"
+      },
+      "portfolioPolicy": {
+        "directive": "CAPPED_ALLOCATION",
+        "targetSizingCapRatio": 0.5,
+        "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_SENCO",
+        "nodes": [
+          {
+            "id": "DEC_SENCO",
+            "type": "DECISION",
+            "refId": "SENCO",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_SENCO",
+            "type": "ALLOCATION",
+            "refId": "CAPPED_ALLOCATION",
+            "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+          },
+          {
+            "id": "THESIS_SENCO",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_SENCO",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 87/100)"
+          },
+          {
+            "id": "RISK_SENCO",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_SENCO",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_SENCO_WC_UTIL",
+            "type": "RULE",
+            "refId": "TB_SENCO_WC_UTIL",
+            "version": "2026.09",
+            "label": "Breaker TB_SENCO_WC_UTIL: INACTIVE (Observed: 82)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_SENCO",
+            "to": "DEC_SENCO",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_SENCO",
+            "to": "DEC_SENCO",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_SENCO",
+            "to": "THESIS_SENCO",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_SENCO",
+            "to": "THESIS_SENCO",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_SENCO",
+            "to": "ALLOC_SENCO",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_SENCO_WC_UTIL",
+            "to": "RISK_SENCO",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "c9d777e9cb287d1f5ee99f5aabaa6b4853b1e6c44391485986d38b89d4cd127e",
+      "canonicalStateHash": "c9d777e9cb287d1f5ee99f5aabaa6b4853b1e6c44391485986d38b89d4cd127e"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "MEDIUM",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap)."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 6/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 87/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#SENCO",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Net showroom additions targeted between 18 and 20 stores in FY24.",
+      "detail": "Disclosed actual outcome: Delivered 23 new showrooms beating the 18-20 store guidance",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_SENCO_PROMISE_01 -> Resolution#EV_SENCO_RESULT_01",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "SENCO",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 1,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_SENCO_01",
+        "statement": "Net showroom additions targeted between 18 and 20 stores in FY24.",
+        "period": "FY24",
+        "expected": "Store additions >= 18",
+        "actual": "Delivered 23 new showrooms beating the 18-20 store guidance",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_SENCO_PROMISE_01 -> Resolution#EV_SENCO_RESULT_01"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_SENCO"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_SENCO"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-05-24",
+      "source": "BSE_DISCLOSURE",
+      "headline": "Senco Gold working capital borrowing expands to ₹1,420 Cr on high gold prices",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_SENCO_WC_UTIL",
+      "name": "Working Capital Limit Breaker",
+      "description": "Working Capital Bank Sanction Limit Utilization must not exceed 90%",
+      "type": "QUANTITATIVE",
+      "evaluationMethod": "METRIC_THRESHOLD",
+      "conditionText": "WC Bank Limit Utilization > 90%",
+      "quantitativeCondition": {
+        "metric": "wc_limit_utilization_pct",
+        "operator": ">",
+        "threshold": 90,
+        "evaluationPeriod": "quarterly",
+        "evidenceRequired": true
+      },
+      "status": "INACTIVE",
+      "severity": "HIGH",
+      "rationale": "Metric within safe boundaries: wc_limit_utilization_pct (82) does not violate > 90.",
+      "evidenceIds": [
+        "EV_SENCO_WC_Q4"
+      ],
+      "currentObservedValue": 82
+    }
+  ],
+  "importantUnknowns": []
+}

@@ -1,0 +1,22 @@
+{
+  "version": "v6.4.2",
+  "statusFlag": "V642_PIT_DATA_VALIDATION_CLOSED",
+  "parentControl": {
+    "runId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+    "ledgerSha256": "035d8867f1f8dbc65f9fe35ea45263f20f9fee00a48d3d7f48807c24a2afd485"
+  },
+  "generatedArtifacts": {
+    "lineageAuditJson": "034423cabdd2f967717eb5fe56e47f9193cff289a754337418c3278039d8ebc3",
+    "sourceInventoryJson": "3bc15b716da77c4c4cf58877bf8c1fd11db7c25a487b9edb9dcd0e3b7591bd1a",
+    "sourceArtifactProvenanceJson": "735d49b88555d7685e4c52506bd40afe0ed8582da7b2b67b737864f84e9dfc0d",
+    "historicalMembershipJsonl": "931781885d21cf6dbb075fd59f5c022b63502fd3931bcab93a443c1e1a430e92",
+    "historicalRebalancesJsonl": "b1cbd1d9af261e1c61adf7d9e025aa890581998db5bf7dfb3916e727ba667f96",
+    "sourceConflictsJsonl": "6aa50a5d2642aa71331b6a7228add6467bc9355f405ee58cac3fcd45beb826ec",
+    "universeResolutionEventsJsonl": "187add0c449509758ca0cd52f9f03812ee1a7018561cc6c9aefe4fe5c557b45c",
+    "pitValidationJson": "16dfd4bc1e7a74dbc1ada015281d5f8b9781992b97f143252f386a5180208fed",
+    "validationStatusJson": "32f1b75b490a0f2d4e36a69d5cda9a399af8d6aa0811f6f3f940b325793d6654"
+  },
+  "economicReplayAuthorization": false,
+  "productionPromotionAuthorized": false,
+  "timestamp": "2026-09-17T16:33:46.313Z"
+}

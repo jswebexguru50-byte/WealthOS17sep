@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WealthOS Home Mockup</title>
+<style>
+:root{--canvas:#F6F8FB;--card:#fff;--line:#E3E8F0;--ink:#0F172A;--ink-2:#475569;--ink-3:#64748B;--brand:#2457D6;--brand-tint:#E8EFFF;--gain:#0E8F5B;--gain-bg:#E3F6EC;--loss:#C73535;--loss-bg:#FCE9E9;--warn:#B45309;--warn-bg:#FEF3DC;--eq:#3B6FE0;--mf:#7C5CD6;--aif:#C2569A;--fd:#2A9D8F;--pms:#E08E3B;--gl:#4B9CD3}
+:root[data-theme="dark"]{--canvas:#0B1220;--card:#111A2C;--line:#1F2B42;--ink:#E6EBF5;--ink-2:#A9B6CE;--ink-3:#7D8AA5;--brand:#5B8CFF;--brand-tint:#16284F;--gain:#34D399;--gain-bg:#0F2B22;--loss:#F87171;--loss-bg:#33161A;--warn:#FBBF24;--warn-bg:#33270F}
+*{box-sizing:border-box}
+body{margin:0;background:var(--canvas);color:var(--ink);font:14px/22px Inter,system-ui,Segoe UI,sans-serif;font-variant-numeric:tabular-nums}
+.app{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+aside{background:var(--card);border-right:1px solid var(--line);padding:20px 14px}
+.logo{font-weight:700;font-size:16px;margin:0 8px 20px}.logo b{color:var(--brand)}
+nav a{display:flex;gap:10px;align-items:center;padding:9px 12px;border-radius:10px;color:var(--ink-2);text-decoration:none;margin-bottom:2px;font-weight:500}
+nav a.on{background:var(--brand-tint);color:var(--brand)}
+nav a:hover{background:var(--brand-tint)}
+main{padding:20px 28px 40px;max-width:1280px;width:100%}
+.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:22px}
+.search{flex:1;min-width:200px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 12px;color:var(--ink-3)}
+.btn{background:transparent;border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:7px 12px;font:inherit;cursor:pointer}
+.btn:hover{background:var(--brand-tint)}
+.btn.pri{background:var(--brand);border-color:var(--brand);color:#fff}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--gain);margin-right:6px}
+h1{font-size:24px;line-height:32px;margin:0 0 4px}
+.sub{color:var(--ink-3);margin-bottom:18px}
+.grid{display:grid;gap:16px}
+.kpis{grid-template-columns:repeat(4,1fr)}
+.two{grid-template-columns:1fr 1.4fr;margin-top:16px}
+.three{grid-template-columns:repeat(3,1fr);margin-top:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.eyebrow{font-size:11px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.val{font-size:30px;line-height:40px;font-weight:600;margin:2px 0}
+.chip{display:inline-flex;gap:4px;align-items:center;font-size:12px;padding:2px 8px;border-radius:999px;font-weight:600}
+.up{background:var(--gain-bg);color:var(--gain)}.dn{background:var(--loss-bg);color:var(--loss)}.wn{background:var(--warn-bg);color:var(--warn)}
+.spark{width:100%;height:36px;margin-top:8px}
+.attn{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;background:var(--warn-bg);border-color:transparent}
+.attn .t{font-weight:600;color:var(--warn);margin-right:6px}
+.attn button{border:0;background:var(--card);color:var(--ink);border-radius:999px;padding:5px 12px;cursor:pointer;font:inherit;font-size:13px;border:1px solid var(--line)}
+.bar-alloc{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:14px 0 12px}
+.leg{display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-size:13px}
+.sw{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:8px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;float:right}
+.seg button{border:0;background:transparent;color:var(--ink-2);padding:3px 10px;font:inherit;font-size:12px;cursor:pointer}
+.seg button.on{background:var(--brand-tint);color:var(--brand);font-weight:600}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td,th{padding:9px 0;border-bottom:1px solid var(--line);text-align:left}
+td:last-child,th:last-child{text-align:right}
+tr:last-child td{border-bottom:0}
+.muted{color:var(--ink-3)}
+@media(max-width:900px){.app{grid-template-columns:1fr}aside{display:none}.kpis{grid-template-columns:1fr 1fr}.two,.three{grid-template-columns:1fr}main{padding:16px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+  <div class="logo">Wealth<b>OS</b></div>
+  <nav>
+    <a class="on" href="#">&#9679; Home</a>
+    <a href="#">&#9679; Portfolio</a>
+    <a href="#">&#9679; Ideas</a>
+    <a href="#">&#9679; Tax &amp; NRI</a>
+    <a href="#">&#9679; Data &amp; Settings</a>
+  </nav>
+</aside>
+<main>
+  <div class="bar">
+    <div class="search">Search stocks, portfolios, reports&hellip; &nbsp; Ctrl+K</div>
+    <button class="btn">Family: All &#9662;</button>
+    <button class="btn">&#8377; INR &#9662;</button>
+    <span class="muted"><span class="dot"></span>Data 2m ago</span>
+    <button class="btn">&#128276; 3</button>
+    <button class="btn" id="theme">Dark</button>
+  </div>
+
+  <h1>Good morning</h1>
+  <div class="sub">Consolidated family wealth &middot; as of 07 Oct 2026, 15:30 IST</div>
+
+  <div class="grid kpis">
+    <div class="card"><div class="eyebrow">Net worth</div><div class="val">&#8377;48.2 Cr</div><span class="chip up">&#9650; 1.8% this month</span>
+      <svg class="spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline fill="none" stroke="var(--brand)" stroke-width="2" points="0,24 12,22 24,23 36,17 48,18 60,12 72,13 84,7 100,4"/></svg></div>
+    <div class="card"><div class="eyebrow">Today</div><div class="val" style="color:var(--gain)">+&#8377;3.1 L</div><span class="chip up">&#9650; 0.64%</span>
+      <svg class="spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline fill="none" stroke="var(--gain)" stroke-width="2" points="0,20 15,22 30,15 45,18 60,10 80,12 100,6"/></svg></div>
+    <div class="card"><div class="eyebrow">Total gain</div><div class="val">+&#8377;14.0 Cr</div><span class="chip up">XIRR 14.2%</span>
+      <svg class="spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline fill="none" stroke="var(--gain)" stroke-width="2" points="0,26 20,22 40,20 60,14 80,9 100,5"/></svg></div>
+    <div class="card"><div class="eyebrow">Cash &amp; FDs</div><div class="val">&#8377;6.4 Cr</div><span class="chip dn">&#9660; 0.4% vs last month</span>
+      <svg class="spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline fill="none" stroke="var(--fd)" stroke-width="2" points="0,8 25,10 50,9 75,14 100,16"/></svg></div>
+  </div>
+
+  <div class="card attn">
+    <span class="t">&#9888; Needs attention</span>
+    <button>4 stale prices &rarr; Refresh</button>
+    <button>1 reconciliation break &rarr; Review</button>
+    <button>FY tax-loss harvest &#8377;2.1 L &rarr; View</button>
+  </div>
+
+  <div class="grid two">
+    <div class="card">
+      <div class="eyebrow">Allocation</div>
+      <div class="bar-alloc">
+        <i style="width:46%;background:var(--eq)"></i><i style="width:22%;background:var(--mf)"></i><i style="width:8%;background:var(--aif)"></i><i style="width:13%;background:var(--fd)"></i><i style="width:7%;background:var(--pms)"></i><i style="width:4%;background:var(--gl)"></i>
+      </div>
+      <div class="leg">
+        <span><i class="sw" style="background:var(--eq)"></i>Equity</span><b>46%</b>
+        <span><i class="sw" style="background:var(--mf)"></i>Mutual funds</span><b>22%</b>
+        <span><i class="sw" style="background:var(--aif)"></i>AIF</span><b>8%</b>
+        <span><i class="sw" style="background:var(--fd)"></i>Bank / FD</span><b>13%</b>
+        <span><i class="sw" style="background:var(--pms)"></i>PMS / SIF</span><b>7%</b>
+        <span><i class="sw" style="background:var(--gl)"></i>Global</span><b>4%</b>
+      </div>
+    </div>
+    <div class="card">
+      <div class="eyebrow" style="display:inline-block">Performance vs Nifty 50</div>
+      <div class="seg"><button>1M</button><button>6M</button><button class="on">1Y</button><button>All</button></div>
+      <svg viewBox="0 0 400 140" style="width:100%;height:150px;margin-top:8px" preserveAspectRatio="none">
+        <g stroke="var(--line)"><line x1="0" y1="35" x2="400" y2="35"/><line x1="0" y1="70" x2="400" y2="70"/><line x1="0" y1="105" x2="400" y2="105"/></g>
+        <polyline fill="none" stroke="var(--ink-3)" stroke-width="2" stroke-dasharray="5 4" points="0,110 60,104 120,98 180,100 240,84 300,78 360,66 400,60"/>
+        <polyline fill="none" stroke="var(--brand)" stroke-width="2.5" points="0,112 60,100 120,90 180,92 240,66 300,54 360,36 400,24"/>
+      </svg>
+      <div class="muted" style="font-size:12px"><span style="color:var(--brand)">&#9644;</span> Portfolio +18.4% &nbsp; <span>&#9548;</span> Nifty 50 +11.2%</div>
+    </div>
+  </div>
+
+  <div class="grid three">
+    <div class="card"><div class="eyebrow">Top movers today</div>
+      <table><tr><td>HDFC Bank</td><td><span class="chip up">&#9650; 2.1%</span></td></tr>
+      <tr><td>Infosys</td><td><span class="chip up">&#9650; 1.4%</span></td></tr>
+      <tr><td>Tata Motors</td><td><span class="chip dn">&#9660; 1.9%</span></td></tr></table></div>
+    <div class="card"><div class="eyebrow">Upcoming</div>
+      <table><tr><td>TCS dividend</td><td class="muted">12 Oct</td></tr>
+      <tr><td>Advance tax instalment</td><td class="muted">15 Dec</td></tr>
+      <tr><td>Bonus: ABC Ltd</td><td class="muted">20 Oct</td></tr></table></div>
+    <div class="card"><div class="eyebrow">Ideas for you</div>
+      <table><tr><td>High-conviction quality</td><td><span class="chip wn">12 new</span></td></tr>
+      <tr><td>Smart-money accumulation</td><td><span class="chip wn">5 new</span></td></tr>
+      <tr><td>Breakouts in holdings</td><td><span class="chip wn">3</span></td></tr></table></div>
+  </div>
+  <p class="muted" style="margin-top:24px;font-size:12px">Illustrative mockup with sample numbers only; not real data.</p>
+</main>
+</div>
+<script>
+var b=document.getElementById('theme'),r=document.documentElement;
+b.onclick=function(){var d=r.getAttribute('data-theme')==='dark';r.setAttribute('data-theme',d?'light':'dark');b.textContent=d?'Dark':'Light'};
+</script>
+</body>
+</html>

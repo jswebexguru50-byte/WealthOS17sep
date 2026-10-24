@@ -1,0 +1,33 @@
+{
+  "status": "CONTRADICTIONS_DETECTED",
+  "issuerNseSymbol": "VMART",
+  "activeContradictionCount": 1,
+  "contradictions": [
+    {
+      "contradictionId": "CONTRA_VMART_01",
+      "issuerNseSymbol": "VMART",
+      "issuerBseCode": "534976",
+      "severity": "HIGH",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_VMART_01",
+      "eventId": "EVT_VMART_01",
+      "description": "Unlimited format integration promised EBITDA break-even but delivered ₹36 Cr loss and 22 store closures",
+      "divergenceDetails": {
+        "targetEbitda": 0,
+        "deliveredEbitda": -36,
+        "storesClosed": 22
+      },
+      "leftEvidenceId": "EV_VMART_PROMISE_01",
+      "rightEvidenceId": "EV_VMART_RESULT_01",
+      "supportingEvidenceIds": [
+        "EV_VMART_RESULT_02"
+      ],
+      "status": "OPEN",
+      "materiality": "HIGH",
+      "detectedAt": "2024-05-24T10:00:00.000Z",
+      "createdAt": "2026-09-15 12:45:19",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ]
+}

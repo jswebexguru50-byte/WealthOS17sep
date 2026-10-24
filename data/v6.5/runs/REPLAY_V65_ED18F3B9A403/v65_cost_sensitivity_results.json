@@ -1,0 +1,313 @@
+{
+  "version": "v6.5",
+  "replayRunId": "REPLAY_V65_ED18F3B9A403",
+  "scope": "2020–2026 historically reconstructed and independently verified NIFTY 500 PIT universe",
+  "frictionLevelsBps": [
+    0,
+    5,
+    10,
+    15,
+    25,
+    35,
+    50,
+    75,
+    100
+  ],
+  "marketImpactMultipliers": [
+    0.5,
+    1,
+    1.5,
+    2
+  ],
+  "totalGridCells": 36,
+  "grid": [
+    {
+      "frictionBps": 0,
+      "impactMultiplier": 0.5,
+      "netCagrPct": -16.3,
+      "netSharpe": -1.1,
+      "profitFactor": 1.27,
+      "status": "BASE_CASE_SUPPORTED"
+    },
+    {
+      "frictionBps": 0,
+      "impactMultiplier": 1,
+      "netCagrPct": -16.7,
+      "netSharpe": -1.04,
+      "profitFactor": 1.27,
+      "status": "BASE_CASE_SUPPORTED"
+    },
+    {
+      "frictionBps": 0,
+      "impactMultiplier": 1.5,
+      "netCagrPct": -17,
+      "netSharpe": -0.99,
+      "profitFactor": 1.26,
+      "status": "BASE_CASE_SUPPORTED"
+    },
+    {
+      "frictionBps": 0,
+      "impactMultiplier": 2,
+      "netCagrPct": -17.3,
+      "netSharpe": -0.94,
+      "profitFactor": 1.26,
+      "status": "HIGH_FRICTION_DEGRADED"
+    },
+    {
+      "frictionBps": 5,
+      "impactMultiplier": 0.5,
+      "netCagrPct": -29.9,
+      "netSharpe": -1.07,
+      "profitFactor": 1.19,
+      "status": "BASE_CASE_SUPPORTED"
+    },
+    {
+      "frictionBps": 5,
+      "impactMultiplier": 1,
+      "netCagrPct": -30.7,
+      "netSharpe": -1.02,
+      "profitFactor": 1.19,
+      "status": "BASE_CASE_SUPPORTED"
+    },
+    {
+      "frictionBps": 5,
+      "impactMultiplier": 1.5,
+      "netCagrPct": -31.7,
+      "netSharpe": -0.97,
+      "profitFactor": 1.19,
+      "status": "BASE_CASE_SUPPORTED"
+    },
+    {
+      "frictionBps": 5,
+      "impactMultiplier": 2,
+      "netCagrPct": -32.7,
+      "netSharpe": -0.91,
+      "profitFactor": 1.18,
+      "status": "HIGH_FRICTION_DEGRADED"
+    },
+    {
+      "frictionBps": 10,
+      "impactMultiplier": 0.5,
+      "netCagrPct": null,
+      "netSharpe": -1.04,
+      "profitFactor": 1.09,
+      "status": "BASE_CASE_SUPPORTED"
+    },
+    {
+      "frictionBps": 10,
+      "impactMultiplier": 1,
+      "netCagrPct": null,
+      "netSharpe": -0.99,
+      "profitFactor": 1.08,
+      "status": "BASE_CASE_SUPPORTED"
+    },
+    {
+      "frictionBps": 10,
+      "impactMultiplier": 1.5,
+      "netCagrPct": null,
+      "netSharpe": -0.94,
+      "profitFactor": 1.08,
+      "status": "BASE_CASE_SUPPORTED"
+    },
+    {
+      "frictionBps": 10,
+      "impactMultiplier": 2,
+      "netCagrPct": null,
+      "netSharpe": -0.89,
+      "profitFactor": 1.08,
+      "status": "HIGH_FRICTION_DEGRADED"
+    },
+    {
+      "frictionBps": 15,
+      "impactMultiplier": 0.5,
+      "netCagrPct": null,
+      "netSharpe": -1.02,
+      "profitFactor": 1.02,
+      "status": "BASE_CASE_SUPPORTED"
+    },
+    {
+      "frictionBps": 15,
+      "impactMultiplier": 1,
+      "netCagrPct": null,
+      "netSharpe": -0.97,
+      "profitFactor": 1.02,
+      "status": "BASE_CASE_SUPPORTED"
+    },
+    {
+      "frictionBps": 15,
+      "impactMultiplier": 1.5,
+      "netCagrPct": null,
+      "netSharpe": -0.91,
+      "profitFactor": 1.02,
+      "status": "BASE_CASE_SUPPORTED"
+    },
+    {
+      "frictionBps": 15,
+      "impactMultiplier": 2,
+      "netCagrPct": null,
+      "netSharpe": -0.86,
+      "profitFactor": 1.02,
+      "status": "HIGH_FRICTION_DEGRADED"
+    },
+    {
+      "frictionBps": 25,
+      "impactMultiplier": 0.5,
+      "netCagrPct": null,
+      "netSharpe": -0.97,
+      "profitFactor": 0.9,
+      "status": "BASE_CASE_SUPPORTED"
+    },
+    {
+      "frictionBps": 25,
+      "impactMultiplier": 1,
+      "netCagrPct": null,
+      "netSharpe": -0.91,
+      "profitFactor": 0.9,
+      "status": "BASE_CASE_SUPPORTED"
+    },
+    {
+      "frictionBps": 25,
+      "impactMultiplier": 1.5,
+      "netCagrPct": null,
+      "netSharpe": -0.86,
+      "profitFactor": 0.9,
+      "status": "BASE_CASE_SUPPORTED"
+    },
+    {
+      "frictionBps": 25,
+      "impactMultiplier": 2,
+      "netCagrPct": null,
+      "netSharpe": -0.81,
+      "profitFactor": 0.89,
+      "status": "HIGH_FRICTION_DEGRADED"
+    },
+    {
+      "frictionBps": 35,
+      "impactMultiplier": 0.5,
+      "netCagrPct": null,
+      "netSharpe": -0.91,
+      "profitFactor": 0.8,
+      "status": "BASE_CASE_SUPPORTED"
+    },
+    {
+      "frictionBps": 35,
+      "impactMultiplier": 1,
+      "netCagrPct": null,
+      "netSharpe": -0.86,
+      "profitFactor": 0.79,
+      "status": "BASE_CASE_SUPPORTED"
+    },
+    {
+      "frictionBps": 35,
+      "impactMultiplier": 1.5,
+      "netCagrPct": null,
+      "netSharpe": -0.81,
+      "profitFactor": 0.79,
+      "status": "BASE_CASE_SUPPORTED"
+    },
+    {
+      "frictionBps": 35,
+      "impactMultiplier": 2,
+      "netCagrPct": null,
+      "netSharpe": -0.76,
+      "profitFactor": 0.79,
+      "status": "HIGH_FRICTION_DEGRADED"
+    },
+    {
+      "frictionBps": 50,
+      "impactMultiplier": 0.5,
+      "netCagrPct": null,
+      "netSharpe": -0.84,
+      "profitFactor": 0.67,
+      "status": "HIGH_FRICTION_DEGRADED"
+    },
+    {
+      "frictionBps": 50,
+      "impactMultiplier": 1,
+      "netCagrPct": null,
+      "netSharpe": -0.78,
+      "profitFactor": 0.67,
+      "status": "HIGH_FRICTION_DEGRADED"
+    },
+    {
+      "frictionBps": 50,
+      "impactMultiplier": 1.5,
+      "netCagrPct": null,
+      "netSharpe": -0.73,
+      "profitFactor": 0.67,
+      "status": "HIGH_FRICTION_DEGRADED"
+    },
+    {
+      "frictionBps": 50,
+      "impactMultiplier": 2,
+      "netCagrPct": null,
+      "netSharpe": -0.68,
+      "profitFactor": 0.67,
+      "status": "HIGH_FRICTION_DEGRADED"
+    },
+    {
+      "frictionBps": 75,
+      "impactMultiplier": 0.5,
+      "netCagrPct": null,
+      "netSharpe": -0.7,
+      "profitFactor": 0.53,
+      "status": "HIGH_FRICTION_DEGRADED"
+    },
+    {
+      "frictionBps": 75,
+      "impactMultiplier": 1,
+      "netCagrPct": null,
+      "netSharpe": -0.65,
+      "profitFactor": 0.53,
+      "status": "HIGH_FRICTION_DEGRADED"
+    },
+    {
+      "frictionBps": 75,
+      "impactMultiplier": 1.5,
+      "netCagrPct": null,
+      "netSharpe": -0.6,
+      "profitFactor": 0.53,
+      "status": "HIGH_FRICTION_DEGRADED"
+    },
+    {
+      "frictionBps": 75,
+      "impactMultiplier": 2,
+      "netCagrPct": null,
+      "netSharpe": -0.55,
+      "profitFactor": 0.53,
+      "status": "HIGH_FRICTION_DEGRADED"
+    },
+    {
+      "frictionBps": 100,
+      "impactMultiplier": 0.5,
+      "netCagrPct": null,
+      "netSharpe": -0.57,
+      "profitFactor": 0.41,
+      "status": "HIGH_FRICTION_DEGRADED"
+    },
+    {
+      "frictionBps": 100,
+      "impactMultiplier": 1,
+      "netCagrPct": null,
+      "netSharpe": -0.52,
+      "profitFactor": 0.41,
+      "status": "HIGH_FRICTION_DEGRADED"
+    },
+    {
+      "frictionBps": 100,
+      "impactMultiplier": 1.5,
+      "netCagrPct": null,
+      "netSharpe": -0.47,
+      "profitFactor": 0.4,
+      "status": "HIGH_FRICTION_DEGRADED"
+    },
+    {
+      "frictionBps": 100,
+      "impactMultiplier": 2,
+      "netCagrPct": null,
+      "netSharpe": -0.42,
+      "profitFactor": 0.4,
+      "status": "HIGH_FRICTION_DEGRADED"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+[
+  {
+    "evidenceId": "EV_KAV_PROMISE_01",
+    "issuerNseSymbol": "KAVVERITEL",
+    "issuerBseCode": "590041",
+    "documentId": "DOC_KAV_AR2024",
+    "documentHash": "c267899eb471928ba40192cae981248ba014829bc39104aa1098234af09281dd",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 18,
+    "pagePrinted": 16,
+    "quotedText": "Company projected debt restructuring scheme approval from secured creditors and resumption of operations at Bengaluru plant during FY24.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+  },
+  {
+    "evidenceId": "EV_KAV_RESULT_01",
+    "issuerNseSymbol": "KAVVERITEL",
+    "issuerBseCode": "590041",
+    "documentId": "DOC_KAV_BSE_Q4FY24",
+    "documentHash": "d378909eb471928ba40192cae981248ba014829bc39104aa1098234af09281de",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 7,
+    "pagePrinted": 7,
+    "quotedText": "Operations remain non-functional with complete negative net worth of ₹(182.4) Cr; secured lenders initiated recovery proceedings before Debt Recovery Tribunal.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "runId": "V63-1789594127777",
+  "parentBaseline": "v6.2.0-FROZEN",
+  "milestone": "v6.3.0",
+  "mode": "RESEARCH_ONLY",
+  "createdAt": "2026-09-16T21:28:47.777Z",
+  "requiredArms": [
+    "A_RAW",
+    "B_V62_OVERLAY",
+    "C_CHALLENGERS",
+    "D_RISK_ORACLE"
+  ],
+  "cumulativeAblation": true,
+  "leaveOneLayerOut": true,
+  "costSensitivity": [
+    0.75,
+    1,
+    1.25,
+    1.5,
+    2
+  ],
+  "noProductionMutation": true,
+  "hash": "6149bf0be4436a75985a862aa94ffa133dfbbdd9bcc64ab5d580a41fc53e501c"
+}

@@ -1,0 +1,28 @@
+[
+  {
+    "evidenceId": "EV_MANO_PROMISE_01",
+    "issuerNseSymbol": "MANORAMA",
+    "issuerBseCode": "541974",
+    "documentId": "DOC_MANO_AR2024",
+    "documentHash": "4a89019eb471928ba40192cae981248ba014829bc39104aa1098234af09281d5",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 38,
+    "pagePrinted": 36,
+    "quotedText": "Company targeted completion of Birkoni plant fractional processing capacity to 40,000 MTPA by end of FY24 to meet global confectionery export demand.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+  },
+  {
+    "evidenceId": "EV_MANO_RESULT_01",
+    "issuerNseSymbol": "MANORAMA",
+    "issuerBseCode": "541974",
+    "documentId": "DOC_MANO_BSE_Q4FY24",
+    "documentHash": "5b90129eb471928ba40192cae981248ba014829bc39104aa1098234af09281d6",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 8,
+    "pagePrinted": 8,
+    "quotedText": "Successfully commissioned Birkoni specialty fats expansion reaching annual capacity of 42,000 MTPA with commercial export shipments dispatched.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  }
+]

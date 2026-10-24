@@ -1,0 +1,84 @@
+{
+  "raw": {
+    "bseCode": "534109",
+    "exchange": {
+      "quarterlyPL": {
+        "_dryRun": true,
+        "url": "https://api.bseindia.com/BseIndiaAPI/api/FinancialsQuarterlyConsolidatedResults/w?scripcode=534109"
+      },
+      "annualPL": {
+        "_dryRun": true,
+        "url": "https://api.bseindia.com/BseIndiaAPI/api/FinancialsAnnuallyConsolidatedResults/w?scripcode=534109"
+      },
+      "announcements": [],
+      "corporateActions": [
+        {
+          "purpose_name": "Interim Dividend",
+          "BCRD_from": "13 Nov 2013",
+          "Amount": 0.25
+        },
+        {
+          "purpose_name": "Final Dividend",
+          "BCRD_from": "12 Sep 2013",
+          "Amount": 0.25
+        },
+        {
+          "purpose_name": "Interim Dividend",
+          "BCRD_from": "22 Nov 2012",
+          "Amount": 0.25
+        },
+        {
+          "purpose_name": "Final Dividend",
+          "BCRD_from": "21 Sep 2012",
+          "Amount": 0.25
+        }
+      ],
+      "screenerSource": "https://www.screener.in/company/534109/consolidated/",
+      "financialSummary": {
+        "periods": [],
+        "revenue": [],
+        "operatingProfit": [],
+        "pat": []
+      },
+      "sourceLedger": [
+        {
+          "provider": "BSE",
+          "endpoint": "announcements",
+          "url": "https://api.bseindia.com/BseIndiaAPI/api/AnnSubCategoryGetData/w?strCat=-1&strPrevDate=23/10/2025&strScrip=534109&strSearch=P&strToDate=23/10/2026&strType=C",
+          "httpStatus": 200,
+          "status": "RETRIEVED",
+          "error": null,
+          "retrievedAt": "2026-10-23T15:03:41.224Z"
+        },
+        {
+          "provider": "BSE",
+          "endpoint": "corporateActions",
+          "url": "https://api.bseindia.com/BseIndiaAPI/api/CorporateAction/w?scripcode=534109&flag=C&from_date=23/10/2025&to_date=23/10/2026",
+          "httpStatus": 200,
+          "status": "RETRIEVED",
+          "error": null,
+          "retrievedAt": "2026-10-23T15:03:41.257Z"
+        },
+        {
+          "provider": "BSE",
+          "endpoint": "quarterlyPL",
+          "url": "https://api.bseindia.com/BseIndiaAPI/api/FinancialsQuarterlyConsolidatedResults/w?scripcode=534109",
+          "httpStatus": 200,
+          "status": "SOURCE_UNAVAILABLE",
+          "error": "INVALID_JSON: Unexpected token '<', \"\r\n\r\n<!DOCTYPE \"... is not valid JSON",
+          "retrievedAt": "2026-10-23T15:03:41.444Z"
+        },
+        {
+          "provider": "BSE",
+          "endpoint": "annualPL",
+          "url": "https://api.bseindia.com/BseIndiaAPI/api/FinancialsAnnuallyConsolidatedResults/w?scripcode=534109",
+          "httpStatus": 200,
+          "status": "SOURCE_UNAVAILABLE",
+          "error": "INVALID_JSON: Unexpected token '<', \"\r\n\r\n<!DOCTYPE \"... is not valid JSON",
+          "retrievedAt": "2026-10-23T15:03:41.494Z"
+        }
+      ]
+    },
+    "exchangeAcquiredAt": "2026-10-23T15:03:41.495Z"
+  }
+}

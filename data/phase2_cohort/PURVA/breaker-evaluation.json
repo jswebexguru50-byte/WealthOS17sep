@@ -1,0 +1,24 @@
+[
+  {
+    "breakerId": "TB_PURVA_LEVERAGE",
+    "name": "Developer Leverage Incurrence Breaker",
+    "description": "Net Debt / EBITDA must not breach 4.5x during redevelopment cycle",
+    "type": "QUANTITATIVE",
+    "evaluationMethod": "METRIC_THRESHOLD",
+    "conditionText": "Net Debt / EBITDA > 4.5",
+    "quantitativeCondition": {
+      "metric": "net_debt_to_ebitda",
+      "operator": ">",
+      "threshold": 4.5,
+      "evaluationPeriod": "annual",
+      "evidenceRequired": true
+    },
+    "status": "ACTIVE",
+    "severity": "HIGH",
+    "rationale": "Breaker triggered: net_debt_to_ebitda (5.8) > threshold (4.5).",
+    "evidenceIds": [
+      "EV_PURVA_RESULT_01"
+    ],
+    "currentObservedValue": 5.8
+  }
+]

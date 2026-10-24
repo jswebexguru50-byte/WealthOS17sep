@@ -1,0 +1,26 @@
+[
+  {
+    "evidenceId": "EV_KALYANI_PROMISE_01",
+    "issuerNseSymbol": "KALYANI",
+    "issuerBseCode": "544013",
+    "documentId": "DOC_KALYANI_PROSPECTUS",
+    "documentHash": "0123456789abcdef0123456789abcdef56789abcdef890ab12c3d4e5f60718293",
+    "documentType": "EXCHANGE_DISCLOSURE",
+    "pagePhysical": 52,
+    "pagePrinted": "50",
+    "quotedText": "Company aims to maintain sustainable EBITDA margin of 8.0% post-listing on the back of specialized railway container casting contracts.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_KALYANI_RESULT_01",
+    "issuerNseSymbol": "KALYANI",
+    "issuerBseCode": "544013",
+    "documentId": "DOC_KALYANI_AR24",
+    "documentHash": "90123456789abcdef0123456789abcdef56789abcdef890ab12c3d4e5f607182",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 35,
+    "pagePrinted": "33",
+    "quotedText": "Reported FY24 revenue of ₹577 Cr but consolidated EBITDA margin compressed to 4.8% due to unhedged scrap metal price surges.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

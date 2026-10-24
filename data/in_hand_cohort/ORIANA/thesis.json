@@ -1,0 +1,24 @@
+{
+  "symbol": "ORIANA",
+  "coreThesisStatement": "Fastest growing renewable energy EPC player in India scaling across Solar, BESS, and Green Hydrogen.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Huge Order Book",
+      "description": "₹3,200 Cr order book provides tremendous revenue execution runway."
+    },
+    {
+      "pillarId": "P2",
+      "title": "BESS Early Mover",
+      "description": "Early technical capabilities in utility-scale Battery Energy Storage Systems."
+    },
+    {
+      "pillarId": "P3",
+      "title": "Exceptional ROCE",
+      "description": "Delivering 39.6% ROCE with modest leverage."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_ORIANA_LEVERAGE"
+  ]
+}

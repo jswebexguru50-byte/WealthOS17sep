@@ -1,0 +1,30 @@
+{
+  "version": "v6.4",
+  "status": "PASS",
+  "contracts": {
+    "eodOHLCV": {
+      "cutoffTimeIST": "15:35:00",
+      "description": "Daily bar available at 15:35 IST after exchange closing settlement"
+    },
+    "deliveryData": {
+      "cutoffTimeIST": "18:00:00",
+      "description": "Delivery percentage data published by exchange at 18:00 IST",
+      "deliveryDependentStrategyRule": "deliveryAvailableAt < entryTimestamp"
+    },
+    "fundamentalData": {
+      "rule": "FALLBACK_AVAILABILITY_RULE",
+      "fallbackLagCalendarDays": 45,
+      "description": "45-day lag after period end enforced when filing timestamp is absent"
+    },
+    "shareholdingPattern": {
+      "rule": "PIT_FILING_TIMESTAMP",
+      "description": "Available only after official filing timestamp"
+    },
+    "institutionalDeals": {
+      "rule": "PIT_EOD_PUBLICATION_TIMESTAMP",
+      "description": "Bulk/Block deal data available at EOD publication timestamp"
+    }
+  },
+  "lookaheadViolationsDetected": 0,
+  "timestamp": "2026-09-17T15:12:31.305Z"
+}

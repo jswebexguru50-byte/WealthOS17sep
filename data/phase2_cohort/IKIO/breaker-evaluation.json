@@ -1,0 +1,24 @@
+[
+  {
+    "breakerId": "TB_IKIO_CONC",
+    "name": "Single Customer Concentration Ceiling Breaker",
+    "description": "Anchor client share of revenue must not exceed 65%",
+    "type": "QUANTITATIVE",
+    "evaluationMethod": "METRIC_THRESHOLD",
+    "conditionText": "Single Client Revenue % > 65",
+    "quantitativeCondition": {
+      "metric": "single_client_revenue_pct",
+      "operator": ">",
+      "threshold": 65,
+      "evaluationPeriod": "annual",
+      "evidenceRequired": true
+    },
+    "status": "ACTIVE",
+    "severity": "HIGH",
+    "rationale": "Breaker triggered: single_client_revenue_pct (68) > threshold (65).",
+    "evidenceIds": [
+      "EV_IKIO_RESULT_01"
+    ],
+    "currentObservedValue": 68
+  }
+]

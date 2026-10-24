@@ -1,0 +1,699 @@
+{
+  "symbol": "VMART",
+  "companyName": "V-Mart Retail Limited",
+  "marketCapTier": "MIDCAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-15T12:45:19.279Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "CRITICAL",
+    "thesisState": "BROKEN",
+    "managementCredibility": "WEAK",
+    "activeThesisBreakers": 1,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "STRONG quantitative opportunity paired with CRITICAL intelligence risk (BROKEN thesis state). Breaker active: Net Debt/EBITDA 3.4x exceeds 3.0x threshold. Review open unknowns and evidence before decision.",
+    "allocationRecommendation": "HARD_EXCLUSION_VETO",
+    "portfolioPolicy": {
+      "directive": "HARD_EXCLUSION_VETO",
+      "targetSizingCapRatio": 0,
+      "policyRationale": "Active catastrophic thesis breaker or insolvency risk triggers immediate exclusion veto. Zero capital permitted."
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_VMART",
+      "nodes": [
+        {
+          "id": "DEC_VMART",
+          "type": "DECISION",
+          "refId": "VMART",
+          "label": "Final Investment Decision: BROKEN"
+        },
+        {
+          "id": "ALLOC_VMART",
+          "type": "ALLOCATION",
+          "refId": "HARD_EXCLUSION_VETO",
+          "label": "Allocation Policy: HARD_EXCLUSION_VETO (0%)"
+        },
+        {
+          "id": "THESIS_VMART",
+          "type": "THESIS",
+          "refId": "BROKEN",
+          "label": "Reconciled Thesis State: BROKEN"
+        },
+        {
+          "id": "QUANT_VMART",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 81/100)"
+        },
+        {
+          "id": "RISK_VMART",
+          "type": "RULE",
+          "refId": "CRITICAL",
+          "version": "2026.09",
+          "label": "Intelligence Risk: CRITICAL"
+        },
+        {
+          "id": "CRED_VMART",
+          "type": "FACT",
+          "refId": "WEAK",
+          "label": "Credibility Track Record: WEAK (Claims: 2)"
+        },
+        {
+          "id": "BRK_TB_VMART_LEVERAGE",
+          "type": "RULE",
+          "refId": "TB_VMART_LEVERAGE",
+          "version": "2026.09",
+          "label": "Breaker TB_VMART_LEVERAGE: ACTIVE (Observed: 3.4)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_VMART",
+          "to": "DEC_VMART",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_VMART",
+          "to": "DEC_VMART",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_VMART",
+          "to": "THESIS_VMART",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_VMART",
+          "to": "THESIS_VMART",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_VMART",
+          "to": "ALLOC_VMART",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_VMART_LEVERAGE",
+          "to": "RISK_VMART",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "BRK_TB_VMART_LEVERAGE",
+          "to": "THESIS_VMART",
+          "relation": "CONTRADICTED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_VMART_20260915",
+      "decisionId": "DECISION_VMART",
+      "issuerSymbol": "VMART",
+      "evaluatedAt": "2026-09-15T12:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2",
+      "ontologyVersion": "1.2",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_VMART_01",
+          "issuerSymbol": "VMART",
+          "metric": "FINANCIAL_METRIC",
+          "metricId": "FINANCIAL_METRIC",
+          "metricFamily": "REVENUE",
+          "value": 0,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_VMART_PROMISE_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_VMART_PROMISE_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_VMART_PROMISE_01",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_VMART_02",
+          "issuerSymbol": "VMART",
+          "metric": "EBITDA_MARGIN",
+          "metricId": "EBITDA_MARGIN",
+          "metricFamily": "MARGIN",
+          "value": 23.4,
+          "unit": "PERCENT",
+          "scope": "CONSOLIDATED",
+          "measurementType": "RATIO",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_VMART_RESULT_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_VMART_RESULT_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_VMART_RESULT_01",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_VMART_03",
+          "issuerSymbol": "VMART",
+          "metric": "EBITDA_MARGIN",
+          "metricId": "EBITDA_MARGIN",
+          "metricFamily": "MARGIN",
+          "value": 23.4,
+          "unit": "PERCENT",
+          "scope": "CONSOLIDATED",
+          "measurementType": "RATIO",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_VMART_PROMISE_02",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_VMART_PROMISE_02",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_VMART_PROMISE_02",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_VMART_04",
+          "issuerSymbol": "VMART",
+          "metric": "EBITDA_MARGIN",
+          "metricId": "EBITDA_MARGIN",
+          "metricFamily": "MARGIN",
+          "value": 23.4,
+          "unit": "PERCENT",
+          "scope": "CONSOLIDATED",
+          "measurementType": "RATIO",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_VMART_RESULT_02",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_VMART_RESULT_02",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_VMART_RESULT_02",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_VMART_01",
+          "issuerNseSymbol": "VMART",
+          "issuerBseCode": "534976",
+          "period": "FY24",
+          "category": "MARGIN",
+          "statement": "Unlimited stores targeted to turn EBITDA positive within FY24.",
+          "targetMetric": "store_ebitda_inr_cr",
+          "baselineValue": -52,
+          "expectedValue": 0,
+          "expectedOutcome": "Store EBITDA >= 0",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_VMART_PROMISE_01",
+          "claimDate": "2023-06-15",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "MISSED",
+          "actualOutcomeMetric": -36,
+          "actualOutcomeDescription": "Unlimited segment posted EBITDA loss of ₹36 Cr and shut 22 stores",
+          "evaluationEvidenceId": "EV_VMART_RESULT_01",
+          "evaluationDate": "2024-05-24",
+          "evaluationBasis": "BSE Financial Disclosures and Segmental Results",
+          "createdAt": "2023-06-15T10:00:00.000Z",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_VMART_01",
+          "publicationDate": "2023-06-15",
+          "publicationDateType": "MANAGEMENT_COMMENT"
+        },
+        {
+          "claimId": "CLM_VMART_02",
+          "issuerNseSymbol": "VMART",
+          "issuerBseCode": "534976",
+          "period": "FY24",
+          "category": "MARGIN",
+          "statement": "Consolidated EBITDA margin targeted at 10.0% to 11.0%.",
+          "targetMetric": "ebitda_margin_pct",
+          "baselineValue": 7.2,
+          "expectedValue": 10,
+          "expectedOutcome": "EBITDA margin >= 10.0%",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_VMART_PROMISE_02",
+          "claimDate": "2023-06-15",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "MISSED",
+          "actualOutcomeMetric": 5.8,
+          "actualOutcomeDescription": "Delivered FY24 EBITDA margin of 5.8% against 10.0% target",
+          "evaluationEvidenceId": "EV_VMART_RESULT_02",
+          "evaluationDate": "2024-05-24",
+          "evaluationBasis": "BSE Audited Financial Accounts",
+          "createdAt": "2023-06-15T10:00:00.000Z",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_VMART_01",
+          "publicationDate": "2023-06-15",
+          "publicationDateType": "MANAGEMENT_COMMENT"
+        }
+      ],
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_VMART_LEVERAGE",
+          "name": "Lease-Adjusted Leverage Breaker",
+          "description": "Lease-Adjusted Net Debt / EBITDA must not breach 3.0x",
+          "type": "QUANTITATIVE",
+          "evaluationMethod": "METRIC_THRESHOLD",
+          "conditionText": "Net Debt / EBITDA > 3.0",
+          "quantitativeCondition": {
+            "metric": "lease_adj_net_debt_to_ebitda",
+            "operator": ">",
+            "threshold": 3,
+            "evaluationPeriod": "annual",
+            "evidenceRequired": true
+          },
+          "status": "ACTIVE",
+          "severity": "HIGH",
+          "rationale": "Breaker triggered: lease_adj_net_debt_to_ebitda (3.4) > threshold (3).",
+          "evidenceIds": [
+            "EV_VMART_RESULT_01"
+          ],
+          "currentObservedValue": 3.4
+        }
+      ],
+      "rawInputContradictions": [
+        {
+          "contradictionId": "CONTRA_VMART_01",
+          "issuerNseSymbol": "VMART",
+          "issuerBseCode": "534976",
+          "severity": "HIGH",
+          "type": "CLAIM_VS_RESULT",
+          "claimId": "CLM_VMART_01",
+          "eventId": "EVT_VMART_01",
+          "description": "Unlimited format integration promised EBITDA break-even but delivered ₹36 Cr loss and 22 store closures",
+          "divergenceDetails": {
+            "targetEbitda": 0,
+            "deliveredEbitda": -36,
+            "storesClosed": 22
+          },
+          "leftEvidenceId": "EV_VMART_PROMISE_01",
+          "rightEvidenceId": "EV_VMART_RESULT_01",
+          "supportingEvidenceIds": [
+            "EV_VMART_RESULT_02"
+          ],
+          "status": "OPEN",
+          "materiality": "HIGH",
+          "detectedAt": "2024-05-24T10:00:00.000Z",
+          "createdAt": "2026-09-15 12:45:19",
+          "resolvedAt": null,
+          "resolutionBasis": null
+        }
+      ],
+      "rawQuantInput": {
+        "symbol": "VMART",
+        "strategyAgreementCount": 5,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 81,
+        "marketRegime": "BULLISH",
+        "quantDirective": "BUY"
+      },
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "CRITICAL",
+        "thesisState": "BROKEN",
+        "managementCredibility": "WEAK",
+        "activeThesisBreakers": 1,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "STRONG quantitative opportunity paired with CRITICAL intelligence risk (BROKEN thesis state). Breaker active: Net Debt/EBITDA 3.4x exceeds 3.0x threshold. Review open unknowns and evidence before decision.",
+        "allocationRecommendation": "HARD_EXCLUSION_VETO"
+      },
+      "portfolioPolicy": {
+        "directive": "HARD_EXCLUSION_VETO",
+        "targetSizingCapRatio": 0,
+        "policyRationale": "Active catastrophic thesis breaker or insolvency risk triggers immediate exclusion veto. Zero capital permitted."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_VMART",
+        "nodes": [
+          {
+            "id": "DEC_VMART",
+            "type": "DECISION",
+            "refId": "VMART",
+            "label": "Final Investment Decision: BROKEN"
+          },
+          {
+            "id": "ALLOC_VMART",
+            "type": "ALLOCATION",
+            "refId": "HARD_EXCLUSION_VETO",
+            "label": "Allocation Policy: HARD_EXCLUSION_VETO (0%)"
+          },
+          {
+            "id": "THESIS_VMART",
+            "type": "THESIS",
+            "refId": "BROKEN",
+            "label": "Reconciled Thesis State: BROKEN"
+          },
+          {
+            "id": "QUANT_VMART",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 81/100)"
+          },
+          {
+            "id": "RISK_VMART",
+            "type": "RULE",
+            "refId": "CRITICAL",
+            "version": "2026.09",
+            "label": "Intelligence Risk: CRITICAL"
+          },
+          {
+            "id": "CRED_VMART",
+            "type": "FACT",
+            "refId": "WEAK",
+            "label": "Credibility Track Record: WEAK (Claims: 2)"
+          },
+          {
+            "id": "BRK_TB_VMART_LEVERAGE",
+            "type": "RULE",
+            "refId": "TB_VMART_LEVERAGE",
+            "version": "2026.09",
+            "label": "Breaker TB_VMART_LEVERAGE: ACTIVE (Observed: 3.4)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_VMART",
+            "to": "DEC_VMART",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_VMART",
+            "to": "DEC_VMART",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_VMART",
+            "to": "THESIS_VMART",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_VMART",
+            "to": "THESIS_VMART",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_VMART",
+            "to": "ALLOC_VMART",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_VMART_LEVERAGE",
+            "to": "RISK_VMART",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "BRK_TB_VMART_LEVERAGE",
+            "to": "THESIS_VMART",
+            "relation": "CONTRADICTED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "23c56000e3ed7bb300ab7a9b3fe6563f8aee784d56ab78aa00aa1b5a969322bb",
+      "canonicalStateHash": "23c56000e3ed7bb300ab7a9b3fe6563f8aee784d56ab78aa00aa1b5a969322bb"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "NEGATIVE",
+    "confidence": "MEDIUM",
+    "decisionImplication": "CHALLENGES_THESIS",
+    "oneLineSummary": "STRONG quantitative opportunity paired with CRITICAL intelligence risk (BROKEN thesis state). Breaker active: Net Debt/EBITDA 3.4x exceeds 3.0x threshold. Review open unknowns and evidence before decision."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 5/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 81/100 with active directive BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#VMART",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [
+    {
+      "headline": "Contradiction detected (HIGH severity): Unlimited format integration promised EBITDA break-even but delivered ₹36 Cr loss and 22 store closures",
+      "detail": "Disclosed divergence between promise and observed financial reality.",
+      "sourceDocType": "CONTRADICTION_ENGINE",
+      "evidenceLineage": "LeftEvidence#EV_VMART_PROMISE_01 vs RightEvidence#EV_VMART_RESULT_01",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Active Thesis Breaker: Lease-Adjusted Leverage Breaker",
+      "detail": "Breaker triggered: lease_adj_net_debt_to_ebitda (3.4) > threshold (3).",
+      "sourceDocType": "THESIS_BREAKER_ENGINE",
+      "evidenceLineage": "EV_VMART_RESULT_01",
+      "significance": "HIGH"
+    }
+  ],
+  "walkTheTalk": {
+    "symbol": "VMART",
+    "grade": "WEAK",
+    "totalClaims": 2,
+    "achievedCount": 0,
+    "partiallyAchievedCount": 0,
+    "missedCount": 2,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_VMART_01",
+        "statement": "Unlimited stores targeted to turn EBITDA positive within FY24.",
+        "period": "FY24",
+        "expected": "Store EBITDA >= 0",
+        "actual": "Unlimited segment posted EBITDA loss of ₹36 Cr and shut 22 stores",
+        "status": "MISSED",
+        "evidenceLineage": "Evidence#EV_VMART_PROMISE_01 -> Resolution#EV_VMART_RESULT_01"
+      },
+      {
+        "claimId": "CLM_VMART_02",
+        "statement": "Consolidated EBITDA margin targeted at 10.0% to 11.0%.",
+        "period": "FY24",
+        "expected": "EBITDA margin >= 10.0%",
+        "actual": "Delivered FY24 EBITDA margin of 5.8% against 10.0% target",
+        "status": "MISSED",
+        "evidenceLineage": "Evidence#EV_VMART_PROMISE_02 -> Resolution#EV_VMART_RESULT_02"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_VMART"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_VMART"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-05-24",
+      "source": "BSE_DISCLOSURE",
+      "headline": "V-Mart records ₹48 Cr impairment on closure of 22 South India stores",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    }
+  ],
+  "openContradictions": [
+    {
+      "contradictionId": "CONTRA_VMART_01",
+      "issuerNseSymbol": "VMART",
+      "issuerBseCode": "534976",
+      "severity": "HIGH",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_VMART_01",
+      "eventId": "EVT_VMART_01",
+      "description": "Unlimited format integration promised EBITDA break-even but delivered ₹36 Cr loss and 22 store closures",
+      "divergenceDetails": {
+        "targetEbitda": 0,
+        "deliveredEbitda": -36,
+        "storesClosed": 22
+      },
+      "leftEvidenceId": "EV_VMART_PROMISE_01",
+      "rightEvidenceId": "EV_VMART_RESULT_01",
+      "supportingEvidenceIds": [
+        "EV_VMART_RESULT_02"
+      ],
+      "status": "OPEN",
+      "materiality": "HIGH",
+      "detectedAt": "2024-05-24T10:00:00.000Z",
+      "createdAt": "2026-09-15 12:45:19",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_VMART_LEVERAGE",
+      "name": "Lease-Adjusted Leverage Breaker",
+      "description": "Lease-Adjusted Net Debt / EBITDA must not breach 3.0x",
+      "type": "QUANTITATIVE",
+      "evaluationMethod": "METRIC_THRESHOLD",
+      "conditionText": "Net Debt / EBITDA > 3.0",
+      "quantitativeCondition": {
+        "metric": "lease_adj_net_debt_to_ebitda",
+        "operator": ">",
+        "threshold": 3,
+        "evaluationPeriod": "annual",
+        "evidenceRequired": true
+      },
+      "status": "ACTIVE",
+      "severity": "HIGH",
+      "rationale": "Breaker triggered: lease_adj_net_debt_to_ebitda (3.4) > threshold (3).",
+      "evidenceIds": [
+        "EV_VMART_RESULT_01"
+      ],
+      "currentObservedValue": 3.4
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "MEDIUM",
+    "directSourcesCount": 4,
+    "corroboratedCount": 0,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Value retail turnaround driven by tier-2/3 store expansion and post-acquisition margin recovery.\". Qualitative status: BROKEN. Review before trade authorization."
+}

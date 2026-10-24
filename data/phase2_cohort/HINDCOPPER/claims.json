@@ -1,0 +1,30 @@
+[
+  {
+    "claimId": "CLM_HC_01",
+    "issuerNseSymbol": "HINDCOPPER",
+    "issuerBseCode": "513599",
+    "period": "FY24",
+    "category": "CAPEX",
+    "statement": "Malanjkhand mine to reach 5.0 MTPA ore production by Q4-FY24.",
+    "targetMetric": "ore_production_mtpa",
+    "baselineValue": 3.2,
+    "expectedValue": 5,
+    "expectedOutcome": "Ore production >= 5.0 MTPA",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_HC_PROMISE_01",
+    "claimDate": "2023-08-20",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "MISSED",
+    "actualOutcomeMetric": 3.35,
+    "actualOutcomeDescription": "Delivered 3.35 MTPA; 5.0 MTPA target deferred to FY26",
+    "evaluationEvidenceId": "EV_HC_RESULT_01",
+    "evaluationDate": "2024-05-28",
+    "evaluationBasis": "BSE Statutory Financial and Operational Disclosures",
+    "createdAt": "2023-08-20T10:00:00.000Z",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_HINDCOPPER_01",
+    "publicationDate": "2023-08-20",
+    "publicationDateType": "MANAGEMENT_COMMENT"
+  }
+]

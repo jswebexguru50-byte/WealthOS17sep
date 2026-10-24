@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_ANNU_01",
+    "issuerNseSymbol": "ANNU",
+    "issuerBseCode": "543598",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Scale FMCG consumer reach and deliver revenue above ₹250 Cr in FY24.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 160,
+    "expectedValue": 250,
+    "expectedOutcome": "Revenue >= ₹250 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_ANNU_REV_01",
+    "claimDate": "2023-07-15",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 293,
+    "actualOutcomeDescription": "Delivered ₹293 Cr, exceeding guidance by 17.2%.",
+    "evaluationEvidenceId": "EV_ANNU_REV_01",
+    "evaluationDate": "2024-05-27",
+    "evaluationBasis": "NSE Audited Statement Review",
+    "publicationDate": "2023-07-15",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_ANNU_01"
+  }
+]

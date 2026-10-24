@@ -1,0 +1,24 @@
+[
+  {
+    "breakerId": "TB_SOLAR_LEVERAGE",
+    "name": "Solvency Preservation",
+    "description": "Net Debt / EBITDA must not breach 2.5x",
+    "type": "QUANTITATIVE",
+    "evaluationMethod": "METRIC_THRESHOLD",
+    "conditionText": "Net Debt / EBITDA > 2.5",
+    "quantitativeCondition": {
+      "metric": "net_debt_to_ebitda",
+      "operator": ">",
+      "threshold": 2.5,
+      "evaluationPeriod": "annual",
+      "evidenceRequired": true
+    },
+    "status": "INACTIVE",
+    "severity": "CRITICAL",
+    "rationale": "Metric within safe boundaries: net_debt_to_ebitda (0.35) does not violate > 2.5.",
+    "evidenceIds": [
+      "EV_SOLAR_LEVERAGE_Q4"
+    ],
+    "currentObservedValue": 0.35
+  }
+]

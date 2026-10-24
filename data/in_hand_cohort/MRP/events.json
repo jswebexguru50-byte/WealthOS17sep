@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_MRP_01",
+    "issuerNseSymbol": "MRP",
+    "issuerBseCode": "543262",
+    "eventDate": "2024-05-25",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Audited Financial Results Approval",
+    "description": "Reported profitable trading operations across pulses and food grains.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_MRP_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

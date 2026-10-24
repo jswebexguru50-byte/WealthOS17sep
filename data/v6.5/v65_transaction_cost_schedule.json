@@ -1,0 +1,19 @@
+{
+  "version": "v6.5",
+  "scope": "2020–2024 historically reconstructed and independently verified NIFTY 500 PIT universe",
+  "statutorySchedule": {
+    "sttPurchaseDeliveryPct": 0.1,
+    "sttSaleDeliveryPct": 0.1,
+    "stampDutyPurchasePct": 0.015,
+    "sebiTurnoverFeePct": 0.0001,
+    "exchangeTransactionChargePct": 0.00345,
+    "gstPctOnExchangeAndBrokerage": 18
+  },
+  "brokerageModel": "FLAT_20_INR_PER_ORDER",
+  "marketImpactModel": {
+    "formula": "impactBps = 10 * sqrt(participationRate) * (actualPitDailyVol / 0.02)",
+    "participationRateCap": 0.05,
+    "dailyVolBaseline": 0.02,
+    "dynamicVolDriven": true
+  }
+}

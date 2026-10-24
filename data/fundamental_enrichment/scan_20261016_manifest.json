@@ -1,0 +1,27 @@
+{
+  "sourceExcel": "scan_20261016_qualified_symbols",
+  "cutoffDate": "2026-10-16",
+  "totalSymbols": 18,
+  "convergenceSymbolsCount": 4,
+  "symbols": [
+    "BLUEWATER",
+    "GLOBAL",
+    "KANORICHEM",
+    "MBAPL",
+    "MMP",
+    "NEOGEN",
+    "NITINSPIN",
+    "NRL",
+    "RUBYMILLS",
+    "SAAKSHI",
+    "SHEETAL",
+    "SHERA",
+    "SPORTKING",
+    "SUNLITE",
+    "SUNTV",
+    "TRACXN",
+    "VILINBIO",
+    "WHEELS"
+  ],
+  "details": {}
+}

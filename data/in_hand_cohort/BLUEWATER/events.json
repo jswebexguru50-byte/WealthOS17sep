@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_BLUEWATER_01",
+    "issuerNseSymbol": "BLUEWATER",
+    "issuerBseCode": "544190",
+    "eventDate": "2024-05-26",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Audited Financial Results Announcement",
+    "description": "Approved audited results with 36.3% top-line growth.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_BLUEWATER_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

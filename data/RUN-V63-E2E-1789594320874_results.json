@@ -1,0 +1,383 @@
+{
+  "runId": "RUN-V63-E2E-1789594320874",
+  "baselineTag": "v6.2.0-FROZEN",
+  "timestamp": "2026-09-16T21:32:00.974Z",
+  "arms": {
+    "armA_Raw": {
+      "metrics": {
+        "trades": 0,
+        "netPnl": 0,
+        "expectancyR": 0,
+        "profitFactor": 0,
+        "maxDrawdownPct": 0,
+        "calmar": 0,
+        "sortino": 0,
+        "winRate": 0,
+        "meanMAE": 0,
+        "meanMFE": 0
+      },
+      "bootstrap": {
+        "lower": 0,
+        "median": 0,
+        "upper": 0,
+        "pPositive": 0,
+        "pAbove020": 0
+      }
+    },
+    "armB_Overlay": {
+      "metrics": {
+        "trades": 0,
+        "netPnl": 0,
+        "expectancyR": 0,
+        "profitFactor": 0,
+        "maxDrawdownPct": 0,
+        "calmar": 0,
+        "sortino": 0,
+        "winRate": 0,
+        "meanMAE": 0,
+        "meanMFE": 0
+      },
+      "bootstrap": {
+        "lower": 0,
+        "median": 0,
+        "upper": 0,
+        "pPositive": 0,
+        "pAbove020": 0
+      },
+      "gateResult": "REJECT/REVISE"
+    },
+    "armC_Challengers": {
+      "metrics": {
+        "trades": 0,
+        "netPnl": 0,
+        "expectancyR": 0,
+        "profitFactor": 0,
+        "maxDrawdownPct": 0,
+        "calmar": 0,
+        "sortino": 0,
+        "winRate": 0,
+        "meanMAE": 0,
+        "meanMFE": 0
+      },
+      "bootstrap": {
+        "lower": 0,
+        "median": 0,
+        "upper": 0,
+        "pPositive": 0,
+        "pAbove020": 0
+      },
+      "gateResult": "REJECT/REVISE"
+    },
+    "armD_RiskOracle": {
+      "theoreticalTrades": 0,
+      "oracleNetRMultiple": 0,
+      "selectionEfficiency": 0,
+      "note": "Upper-bound diagnostic only; uses realized future path and is never an executable arm."
+    }
+  },
+  "tradeIdentityLedgerSummary": {
+    "totalTradesRecorded": 0,
+    "armATrades": 0,
+    "armBTrades": 0,
+    "armCTrades": 0,
+    "overlayRejectionCount": 0
+  },
+  "ablation": {
+    "cumulative": [
+      {
+        "layer": "RAW",
+        "metrics": {
+          "trades": 0,
+          "netPnl": 0,
+          "expectancyR": 0,
+          "profitFactor": 0,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0,
+          "meanMAE": 0,
+          "meanMFE": 0
+        }
+      },
+      {
+        "layer": "RAW+SIGNAL_QUALITY",
+        "metrics": {
+          "trades": 0,
+          "netPnl": 0,
+          "expectancyR": 0,
+          "profitFactor": 0,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0,
+          "meanMAE": 0,
+          "meanMFE": 0
+        }
+      },
+      {
+        "layer": "RAW+SIGNAL_QUALITY+RISK_SIZING",
+        "metrics": {
+          "trades": 0,
+          "netPnl": 0,
+          "expectancyR": 0,
+          "profitFactor": 0,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0,
+          "meanMAE": 0,
+          "meanMFE": 0
+        }
+      },
+      {
+        "layer": "RAW+SIGNAL_QUALITY+RISK_SIZING+GAP_RISK",
+        "metrics": {
+          "trades": 0,
+          "netPnl": 0,
+          "expectancyR": 0,
+          "profitFactor": 0,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0,
+          "meanMAE": 0,
+          "meanMFE": 0
+        }
+      },
+      {
+        "layer": "RAW+SIGNAL_QUALITY+RISK_SIZING+GAP_RISK+CAPITAL_PROTECTION",
+        "metrics": {
+          "trades": 0,
+          "netPnl": 0,
+          "expectancyR": 0,
+          "profitFactor": 0,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0,
+          "meanMAE": 0,
+          "meanMFE": 0
+        }
+      },
+      {
+        "layer": "RAW+SIGNAL_QUALITY+RISK_SIZING+GAP_RISK+CAPITAL_PROTECTION+EXIT_FRAMEWORK",
+        "metrics": {
+          "trades": 0,
+          "netPnl": 0,
+          "expectancyR": 0,
+          "profitFactor": 0,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0,
+          "meanMAE": 0,
+          "meanMFE": 0
+        }
+      }
+    ],
+    "leaveOneOut": [
+      {
+        "removedLayer": "SIGNAL_QUALITY",
+        "metrics": {
+          "trades": 0,
+          "netPnl": 0,
+          "expectancyR": 0,
+          "profitFactor": 0,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0,
+          "meanMAE": 0,
+          "meanMFE": 0
+        }
+      },
+      {
+        "removedLayer": "RISK_SIZING",
+        "metrics": {
+          "trades": 0,
+          "netPnl": 0,
+          "expectancyR": 0,
+          "profitFactor": 0,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0,
+          "meanMAE": 0,
+          "meanMFE": 0
+        }
+      },
+      {
+        "removedLayer": "GAP_RISK",
+        "metrics": {
+          "trades": 0,
+          "netPnl": 0,
+          "expectancyR": 0,
+          "profitFactor": 0,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0,
+          "meanMAE": 0,
+          "meanMFE": 0
+        }
+      },
+      {
+        "removedLayer": "CAPITAL_PROTECTION",
+        "metrics": {
+          "trades": 0,
+          "netPnl": 0,
+          "expectancyR": 0,
+          "profitFactor": 0,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0,
+          "meanMAE": 0,
+          "meanMFE": 0
+        }
+      },
+      {
+        "removedLayer": "EXIT_FRAMEWORK",
+        "metrics": {
+          "trades": 0,
+          "netPnl": 0,
+          "expectancyR": 0,
+          "profitFactor": 0,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0,
+          "meanMAE": 0,
+          "meanMFE": 0
+        }
+      }
+    ]
+  },
+  "costSensitivity": [
+    {
+      "multiplier": 0.75,
+      "expectancyR": 0,
+      "netPnl": 0,
+      "winRate": 0
+    },
+    {
+      "multiplier": 1,
+      "expectancyR": 0,
+      "netPnl": 0,
+      "winRate": 0
+    },
+    {
+      "multiplier": 1.25,
+      "expectancyR": 0,
+      "netPnl": 0,
+      "winRate": 0
+    },
+    {
+      "multiplier": 1.5,
+      "expectancyR": 0,
+      "netPnl": 0,
+      "winRate": 0
+    },
+    {
+      "multiplier": 2,
+      "expectancyR": 0,
+      "netPnl": 0,
+      "winRate": 0
+    }
+  ],
+  "walkForward": {
+    "arm": "B_V62_OVERLAY",
+    "windows": [
+      {
+        "window": {
+          "trainStart": "2023-01-02",
+          "trainEnd": "2023-07-02",
+          "oosStart": "2023-07-02",
+          "oosEnd": "2023-09-02"
+        },
+        "metrics": {
+          "trades": 0,
+          "netPnl": 0,
+          "expectancyR": 0,
+          "profitFactor": 0,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0,
+          "meanMAE": 0,
+          "meanMFE": 0
+        },
+        "bootstrap": {
+          "lower": 0,
+          "median": 0,
+          "upper": 0,
+          "pPositive": 0,
+          "pAbove020": 0
+        }
+      },
+      {
+        "window": {
+          "trainStart": "2023-03-02",
+          "trainEnd": "2023-09-02",
+          "oosStart": "2023-09-02",
+          "oosEnd": "2023-11-02"
+        },
+        "metrics": {
+          "trades": 0,
+          "netPnl": 0,
+          "expectancyR": 0,
+          "profitFactor": 0,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0,
+          "meanMAE": 0,
+          "meanMFE": 0
+        },
+        "bootstrap": {
+          "lower": 0,
+          "median": 0,
+          "upper": 0,
+          "pPositive": 0,
+          "pAbove020": 0
+        }
+      },
+      {
+        "window": {
+          "trainStart": "2023-05-02",
+          "trainEnd": "2023-11-02",
+          "oosStart": "2023-11-02",
+          "oosEnd": "2024-01-02"
+        },
+        "metrics": {
+          "trades": 0,
+          "netPnl": 0,
+          "expectancyR": 0,
+          "profitFactor": 0,
+          "maxDrawdownPct": 0,
+          "calmar": 0,
+          "sortino": 0,
+          "winRate": 0,
+          "meanMAE": 0,
+          "meanMFE": 0
+        },
+        "bootstrap": {
+          "lower": 0,
+          "median": 0,
+          "upper": 0,
+          "pPositive": 0,
+          "pAbove020": 0
+        }
+      }
+    ]
+  },
+  "promotionStatus": {
+    "armB_v62_Overlay": "REJECT/REVISE",
+    "challengers_S8B_S21_S26": "REJECT/REVISE"
+  },
+  "provenanceSignatures": {
+    "r1LockboxStatus": "PASSED",
+    "frozenBaselineHash": "76e9695320fb3549f9e18452f9326d1a64aef11e47d545b258fc31d2f7e10969",
+    "allTestsPassed": true
+  }
+}

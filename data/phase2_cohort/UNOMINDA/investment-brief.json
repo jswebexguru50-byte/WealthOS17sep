@@ -1,0 +1,539 @@
+{
+  "symbol": "UNOMINDA",
+  "companyName": "UNO Minda Limited",
+  "marketCapTier": "LARGECAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-15T12:27:21.127Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Capital sizing should reflect this uncertainty.",
+    "allocationRecommendation": "CAPPED_ALLOCATION",
+    "portfolioPolicy": {
+      "directive": "CAPPED_ALLOCATION",
+      "targetSizingCapRatio": 0.5,
+      "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_UNOMINDA",
+      "nodes": [
+        {
+          "id": "DEC_UNOMINDA",
+          "type": "DECISION",
+          "refId": "UNOMINDA",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_UNOMINDA",
+          "type": "ALLOCATION",
+          "refId": "CAPPED_ALLOCATION",
+          "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+        },
+        {
+          "id": "THESIS_UNOMINDA",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_UNOMINDA",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 90/100)"
+        },
+        {
+          "id": "RISK_UNOMINDA",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_UNOMINDA",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_UNO_LEVERAGE",
+          "type": "RULE",
+          "refId": "TB_UNO_LEVERAGE",
+          "version": "2026.09",
+          "label": "Breaker TB_UNO_LEVERAGE: INACTIVE (Observed: 0.58)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_UNOMINDA",
+          "to": "DEC_UNOMINDA",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_UNOMINDA",
+          "to": "DEC_UNOMINDA",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_UNOMINDA",
+          "to": "THESIS_UNOMINDA",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_UNOMINDA",
+          "to": "THESIS_UNOMINDA",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_UNOMINDA",
+          "to": "ALLOC_UNOMINDA",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_UNO_LEVERAGE",
+          "to": "RISK_UNOMINDA",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_UNOMINDA_20260915",
+      "decisionId": "DECISION_UNOMINDA",
+      "issuerSymbol": "UNOMINDA",
+      "evaluatedAt": "2026-09-15T12:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2",
+      "ontologyVersion": "1.2",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_UNOMINDA_01",
+          "issuerSymbol": "UNOMINDA",
+          "metric": "FINANCIAL_METRIC",
+          "metricId": "FINANCIAL_METRIC",
+          "metricFamily": "REVENUE",
+          "value": 0,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_UNO_AR24_P56",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_UNO_AR24_P56",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_UNO_AR24_P56",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_UNOMINDA_02",
+          "issuerSymbol": "UNOMINDA",
+          "metric": "DEFENSE_ORDER_BOOK",
+          "metricId": "DEFENSE_ORDER_BOOK",
+          "metricFamily": "ORDER_BOOK",
+          "value": 1250,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "STOCK",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_UNO_DISCLOSURE_Q4",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_UNO_DISCLOSURE_Q4",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_UNO_DISCLOSURE_Q4",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_UNOMINDA_03",
+          "issuerSymbol": "UNOMINDA",
+          "metric": "NET_DEBT_TO_EBITDA",
+          "metricId": "NET_DEBT_TO_EBITDA",
+          "metricFamily": "LEVERAGE",
+          "value": 0.58,
+          "unit": "MULTIPLE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "RATIO",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_UNO_LEVERAGE_Q4",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_UNO_LEVERAGE_Q4",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_UNO_LEVERAGE_Q4",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_UNO_01",
+          "issuerNseSymbol": "UNOMINDA",
+          "issuerBseCode": "532539",
+          "period": "FY24",
+          "category": "TECHNOLOGY",
+          "statement": "EV kit value per 2W vehicle targeted to exceed ₹25,000.",
+          "targetMetric": "ev_kit_value_inr",
+          "baselineValue": 18000,
+          "expectedValue": 25000,
+          "expectedOutcome": "EV kit value >= ₹25,000",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_UNO_AR24_P56",
+          "claimDate": "2023-08-14",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 27800,
+          "actualOutcomeDescription": "Delivered ₹27,800 EV kit value on BMS and controller commercialization",
+          "evaluationEvidenceId": "EV_UNO_DISCLOSURE_Q4",
+          "evaluationDate": "2024-05-16",
+          "evaluationBasis": "BSE Investor Presentation and Audited Segmental Reports",
+          "createdAt": "2023-08-14T10:00:00.000Z",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_UNOMINDA_01",
+          "publicationDate": "2023-08-14",
+          "publicationDateType": "MANAGEMENT_COMMENT"
+        }
+      ],
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_UNO_LEVERAGE",
+          "name": "Leverage Incurrence Breaker",
+          "description": "Net Debt / EBITDA must not breach 2.0x",
+          "type": "QUANTITATIVE",
+          "evaluationMethod": "METRIC_THRESHOLD",
+          "conditionText": "Net Debt / EBITDA > 2.0",
+          "quantitativeCondition": {
+            "metric": "net_debt_to_ebitda",
+            "operator": ">",
+            "threshold": 2,
+            "evaluationPeriod": "annual",
+            "evidenceRequired": true
+          },
+          "status": "INACTIVE",
+          "severity": "HIGH",
+          "rationale": "Metric within safe boundaries: net_debt_to_ebitda (0.58) does not violate > 2.",
+          "evidenceIds": [
+            "EV_UNO_LEVERAGE_Q4"
+          ],
+          "currentObservedValue": 0.58
+        }
+      ],
+      "rawInputContradictions": [],
+      "rawQuantInput": {
+        "symbol": "UNOMINDA",
+        "strategyAgreementCount": 6,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 90,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY"
+      },
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Capital sizing should reflect this uncertainty.",
+        "allocationRecommendation": "CAPPED_ALLOCATION"
+      },
+      "portfolioPolicy": {
+        "directive": "CAPPED_ALLOCATION",
+        "targetSizingCapRatio": 0.5,
+        "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_UNOMINDA",
+        "nodes": [
+          {
+            "id": "DEC_UNOMINDA",
+            "type": "DECISION",
+            "refId": "UNOMINDA",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_UNOMINDA",
+            "type": "ALLOCATION",
+            "refId": "CAPPED_ALLOCATION",
+            "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+          },
+          {
+            "id": "THESIS_UNOMINDA",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_UNOMINDA",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 90/100)"
+          },
+          {
+            "id": "RISK_UNOMINDA",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_UNOMINDA",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_UNO_LEVERAGE",
+            "type": "RULE",
+            "refId": "TB_UNO_LEVERAGE",
+            "version": "2026.09",
+            "label": "Breaker TB_UNO_LEVERAGE: INACTIVE (Observed: 0.58)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_UNOMINDA",
+            "to": "DEC_UNOMINDA",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_UNOMINDA",
+            "to": "DEC_UNOMINDA",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_UNOMINDA",
+            "to": "THESIS_UNOMINDA",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_UNOMINDA",
+            "to": "THESIS_UNOMINDA",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_UNOMINDA",
+            "to": "ALLOC_UNOMINDA",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_UNO_LEVERAGE",
+            "to": "RISK_UNOMINDA",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "cc83bb453cae9d6da64401c0eb95a0f096648b6d4a2ca62eb7d7506c0f7487db",
+      "canonicalStateHash": "cc83bb453cae9d6da64401c0eb95a0f096648b6d4a2ca62eb7d7506c0f7487db"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "MEDIUM",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity supported by clean qualitative intelligence and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Capital sizing should reflect this uncertainty."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 6/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 90/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#UNOMINDA",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: EV kit value per 2W vehicle targeted to exceed ₹25,000.",
+      "detail": "Disclosed actual outcome: Delivered ₹27,800 EV kit value on BMS and controller commercialization",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_UNO_AR24_P56 -> Resolution#EV_UNO_DISCLOSURE_Q4",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "UNOMINDA",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 1,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_UNO_01",
+        "statement": "EV kit value per 2W vehicle targeted to exceed ₹25,000.",
+        "period": "FY24",
+        "expected": "EV kit value >= ₹25,000",
+        "actual": "Delivered ₹27,800 EV kit value on BMS and controller commercialization",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_UNO_AR24_P56 -> Resolution#EV_UNO_DISCLOSURE_Q4"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_UNOMINDA"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_UNOMINDA"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-05-16",
+      "source": "BSE_DISCLOSURE",
+      "headline": "UNO Minda crosses ₹1,200 Cr EV order book commitments",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_UNO_LEVERAGE",
+      "name": "Leverage Incurrence Breaker",
+      "description": "Net Debt / EBITDA must not breach 2.0x",
+      "type": "QUANTITATIVE",
+      "evaluationMethod": "METRIC_THRESHOLD",
+      "conditionText": "Net Debt / EBITDA > 2.0",
+      "quantitativeCondition": {
+        "metric": "net_debt_to_ebitda",
+        "operator": ">",
+        "threshold": 2,
+        "evaluationPeriod": "annual",
+        "evidenceRequired": true
+      },
+      "status": "INACTIVE",
+      "severity": "HIGH",
+      "rationale": "Metric within safe boundaries: net_debt_to_ebitda (0.58) does not violate > 2.",
+      "evidenceIds": [
+        "EV_UNO_LEVERAGE_Q4"
+      ],
+      "currentObservedValue": 0.58
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "MEDIUM",
+    "directSourcesCount": 3,
+    "corroboratedCount": 1,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Tier-1 automotive supplier capitalizing on EV kit value expansion and localization of premium electronic components.\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

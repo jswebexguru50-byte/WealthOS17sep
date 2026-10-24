@@ -1,0 +1,488 @@
+{
+  "symbol": "AKIKO",
+  "companyName": "Akiko Global Services Limited",
+  "marketCapTier": "MICROCAP_SME",
+  "exchangeBoard": "SME_EXCHANGE",
+  "generatedAt": "2026-09-16T07:37:28.740Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+    "allocationRecommendation": "CAPPED_ALLOCATION",
+    "portfolioPolicy": {
+      "directive": "CAPPED_ALLOCATION",
+      "targetSizingCapRatio": 0.5,
+      "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+    },
+    "provenance": {
+      "quantDerivation": "ITAS-Score-82 -> Threshold(>=75:STRONG, 50-74:MODERATE, 25-49:WEAK, <25:NONE) -> STRONG",
+      "riskDerivation": "BreakersActive:0, Contradictions:0, Unknowns:0 -> Risk: LOW",
+      "credibilityDerivation": "ClaimsEvaluated:1 -> CredibilityGrade: INSUFFICIENT_HISTORY",
+      "breakerDerivation": "TB_AKIKO_LEVERAGE(UNRESOLVED)",
+      "thesisDerivation": "Matrix(STRONG, LOW) -> Thesis: SUPPORTED",
+      "allocationDerivation": "Precedence(SUPPORTED, LOW, INSUFFICIENT_HISTORY) -> Directive: CAPPED_ALLOCATION (Cap: 50%)",
+      "auditTrail": [
+        "ITAS-Engine#AKIKO",
+        null
+      ]
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_AKIKO",
+      "nodes": [
+        {
+          "id": "DEC_AKIKO",
+          "type": "DECISION",
+          "refId": "AKIKO",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_AKIKO",
+          "type": "ALLOCATION",
+          "refId": "CAPPED_ALLOCATION",
+          "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+        },
+        {
+          "id": "THESIS_AKIKO",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_AKIKO",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 82/100)"
+        },
+        {
+          "id": "RISK_AKIKO",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_AKIKO",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_AKIKO_LEVERAGE",
+          "type": "RULE",
+          "refId": "TB_AKIKO_LEVERAGE",
+          "version": "2026.09",
+          "label": "Breaker TB_AKIKO_LEVERAGE: UNRESOLVED (Observed: undefined)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_AKIKO",
+          "to": "DEC_AKIKO",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_AKIKO",
+          "to": "DEC_AKIKO",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_AKIKO",
+          "to": "THESIS_AKIKO",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_AKIKO",
+          "to": "THESIS_AKIKO",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_AKIKO",
+          "to": "ALLOC_AKIKO",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_AKIKO_LEVERAGE",
+          "to": "RISK_AKIKO",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_AKIKO_f363a6a93ed4",
+      "decisionId": "DECISION_AKIKO",
+      "issuerSymbol": "AKIKO",
+      "evaluatedAt": "2026-09-16T11:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2.1",
+      "ontologyVersion": "1.3",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawQuantInput": {
+        "symbol": "AKIKO",
+        "strategyAgreementCount": 16,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 82,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY",
+        "decisionDate": "2024-06-30"
+      },
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_AKIKO_LEVERAGE",
+          "symbol": "AKIKO",
+          "name": "Excessive Leverage Ceilings",
+          "type": "QUANTITATIVE",
+          "thresholdValue": 3,
+          "comparisonOperator": "GREATER_THAN",
+          "severity": "CRITICAL",
+          "description": "Net Debt / EBITDA exceeding 3.0x triggers hard exclusion.",
+          "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+          "status": "UNRESOLVED"
+        }
+      ],
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+        "allocationRecommendation": "CAPPED_ALLOCATION"
+      },
+      "portfolioPolicy": {
+        "directive": "CAPPED_ALLOCATION",
+        "targetSizingCapRatio": 0.5,
+        "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_AKIKO",
+        "nodes": [
+          {
+            "id": "DEC_AKIKO",
+            "type": "DECISION",
+            "refId": "AKIKO",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_AKIKO",
+            "type": "ALLOCATION",
+            "refId": "CAPPED_ALLOCATION",
+            "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+          },
+          {
+            "id": "THESIS_AKIKO",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_AKIKO",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 82/100)"
+          },
+          {
+            "id": "RISK_AKIKO",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_AKIKO",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_AKIKO_LEVERAGE",
+            "type": "RULE",
+            "refId": "TB_AKIKO_LEVERAGE",
+            "version": "2026.09",
+            "label": "Breaker TB_AKIKO_LEVERAGE: UNRESOLVED (Observed: undefined)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_AKIKO",
+            "to": "DEC_AKIKO",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_AKIKO",
+            "to": "DEC_AKIKO",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_AKIKO",
+            "to": "THESIS_AKIKO",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_AKIKO",
+            "to": "THESIS_AKIKO",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_AKIKO",
+            "to": "ALLOC_AKIKO",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_AKIKO_LEVERAGE",
+            "to": "RISK_AKIKO",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "f363a6a93ed4e1b7fc0e2f450e087ac085cfc2b34cf6872ce359042fe3f8ce56",
+      "canonicalStateHash": "f363a6a93ed4e1b7fc0e2f450e087ac085cfc2b34cf6872ce359042fe3f8ce56",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_AKIKO_01",
+          "issuerSymbol": "AKIKO",
+          "metric": "REVENUE",
+          "metricId": "REVENUE",
+          "metricFamily": "REVENUE",
+          "value": 211,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_AKIKO_REV_FY24",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_AKIKO_REV_FY24",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_AKIKO_REV_FY24",
+          "sourceQuotedText": "Consolidated revenue from operations for FY24 reached ₹211 Cr compared to ₹142 Cr in FY23, registering a 48.6% growth.",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_AKIKO_02",
+          "issuerSymbol": "AKIKO",
+          "metric": "NET_DEBT_TO_EBITDA",
+          "metricId": "NET_DEBT_TO_EBITDA",
+          "metricFamily": "LEVERAGE",
+          "value": 0.45,
+          "unit": "MULTIPLE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "RATIO",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_AKIKO_DEBT_FY24",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_AKIKO_DEBT_FY24",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_AKIKO_DEBT_FY24",
+          "sourceQuotedText": "Consolidated Net Debt was controlled at ₹14.9 Cr against EBITDA of ₹33.2 Cr, keeping Net Debt to EBITDA conservative at 0.45x.",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_AKIKO_01",
+          "issuerNseSymbol": "AKIKO",
+          "issuerBseCode": "544200",
+          "period": "FY24",
+          "category": "GROWTH",
+          "statement": "Revenue expected to scale above ₹200 Cr in FY24 driven by financial distribution volume expansion.",
+          "targetMetric": "revenue_cr",
+          "baselineValue": 142,
+          "expectedValue": 200,
+          "expectedOutcome": "Revenue >= ₹200 Cr",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_AKIKO_REV_FY24",
+          "claimDate": "2023-09-12",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 211,
+          "actualOutcomeDescription": "Delivered ₹211 Cr revenue exceeding the ₹200 Cr milestone.",
+          "evaluationEvidenceId": "EV_AKIKO_REV_FY24",
+          "evaluationDate": "2024-05-28",
+          "evaluationBasis": "Audited Financial Results Q4FY24",
+          "publicationDate": "2023-09-12",
+          "publicationDateType": "MANAGEMENT_COMMENT",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_AKIKO_01"
+        }
+      ],
+      "rawInputContradictions": [],
+      "rawInputHash": "89680c04c21f2c9a6a3739e9c2635257b02aaf6021da35979784319ae0246e94"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "MEDIUM",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap)."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 16/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 82/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#AKIKO",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Revenue expected to scale above ₹200 Cr in FY24 driven by financial distribution volume expansion.",
+      "detail": "Disclosed actual outcome: Delivered ₹211 Cr revenue exceeding the ₹200 Cr milestone.",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_AKIKO_REV_FY24 -> Resolution#EV_AKIKO_REV_FY24",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "AKIKO",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 1,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_AKIKO_01",
+        "statement": "Revenue expected to scale above ₹200 Cr in FY24 driven by financial distribution volume expansion.",
+        "period": "FY24",
+        "expected": "Revenue >= ₹200 Cr",
+        "actual": "Delivered ₹211 Cr revenue exceeding the ₹200 Cr milestone.",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_AKIKO_REV_FY24 -> Resolution#EV_AKIKO_REV_FY24"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_AKIKO"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_AKIKO"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-05-28",
+      "source": "REGULATORY_FILING",
+      "headline": "Audited Financial Results FY24 Approval",
+      "verified": true,
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_AKIKO_LEVERAGE",
+      "symbol": "AKIKO",
+      "name": "Excessive Leverage Ceilings",
+      "type": "QUANTITATIVE",
+      "thresholdValue": 3,
+      "comparisonOperator": "GREATER_THAN",
+      "severity": "CRITICAL",
+      "description": "Net Debt / EBITDA exceeding 3.0x triggers hard exclusion.",
+      "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+      "status": "UNRESOLVED"
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "MEDIUM",
+    "directSourcesCount": 3,
+    "corroboratedCount": 1,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Asset-light digital credit and card distribution platform compounding at >35% ROCE with low leverage.\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

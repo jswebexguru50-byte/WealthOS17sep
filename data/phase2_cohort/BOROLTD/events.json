@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_BORO_01",
+    "issuerNseSymbol": "BOROLTD",
+    "issuerBseCode": "543212",
+    "eventDate": "2023-12-18",
+    "category": "ORDER_BOOK",
+    "headline": "Borosil commissions new borosilicate glass tubing furnace in Jaipur",
+    "description": "BSE filing confirms commercial operations commencing on schedule",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "BSE_DISCLOSURE",
+    "evidenceId": "EV_BORO_RESULT_01",
+    "materiality": "MATERIAL",
+    "createdAt": "2023-12-18T09:00:00.000Z"
+  }
+]

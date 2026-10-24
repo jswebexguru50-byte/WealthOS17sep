@@ -1,0 +1,24 @@
+{
+  "symbol": "MUFIN",
+  "coreThesisStatement": "Pioneer EV retail financing NBFC benefiting from rapid electrification of commercial 2W/3W fleets.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "First-Mover in EV Loans",
+      "description": "Established partnerships with leading EV OEMs across India."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Green Capital Access",
+      "description": "Access to low-cost international climate and green finance facilities."
+    },
+    {
+      "pillarId": "P3",
+      "title": "Prudent Asset Quality",
+      "description": "Digital telematics and battery immobilization tech keeping NPAs under 2.0%."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_MUFIN_LEVERAGE"
+  ]
+}

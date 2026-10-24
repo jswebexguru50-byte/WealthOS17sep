@@ -1,0 +1,33 @@
+{
+  "version": "v6.4.2",
+  "statusFlag": "V642_PIT_DATA_VALIDATION_CLOSED",
+  "implementationValidationStatus": "PASS",
+  "historicalPITMembershipStatus": "PASS_FOR_RECONSTRUCTED_2020_2024_PERIOD",
+  "historicalPITScope": "2020-01-01_to_2024-12-31",
+  "historicalSourceQuality": "OFFICIAL_PRIMARY_SOURCES",
+  "membershipEvidenceType": "COMPLETE_TRANSITION_CHAIN_FROM_HISTORICAL_ANCHOR",
+  "fullPITMembershipDirectlyObserved": false,
+  "derivedFromOfficialTransitions": true,
+  "historicalAnchorStatus": "PASS_HISTORICAL_ANCHOR_VERIFIED",
+  "rebalanceReconstructionStatus": "PASS_TRANSITION_CHAIN_VERIFIED",
+  "securityIdentityStatus": "PASS_ISIN_CONTINUITY_VERIFIED",
+  "dailyPITStatus": "PASS_RELATIVE_TO_RECONSTRUCTED_UNIVERSE",
+  "priceCoverageStatus": "PASS_RELATIVE_TO_RECONSTRUCTED_UNIVERSE",
+  "fallbackProtectionStatus": "PASS",
+  "sourceConflictStatus": "PASS",
+  "recommendedReplayScope": {
+    "S1": "READY_FOR_REPLAY",
+    "S2": "READY_FOR_REPLAY",
+    "S3": "READY_FOR_REPLAY",
+    "S4": "READY_FOR_REPLAY",
+    "S5": "READY_FOR_REPLAY",
+    "S6": "READY_FOR_REPLAY",
+    "S7": "READY_FOR_REPLAY",
+    "S8": "READY_FOR_REPLAY",
+    "S9": "READY_FOR_REPLAY",
+    "S10": "READY_FOR_REPLAY"
+  },
+  "economicReplayAuthorization": false,
+  "productionPromotionAuthorized": false,
+  "timestamp": "2026-09-17T16:33:46.307Z"
+}

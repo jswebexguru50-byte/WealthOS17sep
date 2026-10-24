@@ -1,0 +1,348 @@
+{
+  "S1": {
+    "strategy": "S1",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredPITFields": [
+      "effective_from",
+      "effective_to"
+    ],
+    "requiredAvailability": [
+      "DECLARED_CONTRACT"
+    ],
+    "executionDependency": "NEXT_BAR_OPEN",
+    "currentDataStatus": "RESEARCH_SUBSET_AVAILABLE",
+    "readinessStatus": "PARTIAL",
+    "blockingReason": null
+  },
+  "S2": {
+    "strategy": "S2",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredPITFields": [
+      "effective_from",
+      "effective_to"
+    ],
+    "requiredAvailability": [
+      "DECLARED_CONTRACT"
+    ],
+    "executionDependency": "NEXT_BAR_OPEN",
+    "currentDataStatus": "DATA_INSUFFICIENT",
+    "readinessStatus": "BLOCKED",
+    "blockingReason": "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+  },
+  "S3": {
+    "strategy": "S3",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredPITFields": [
+      "effective_from",
+      "effective_to"
+    ],
+    "requiredAvailability": [
+      "DECLARED_CONTRACT"
+    ],
+    "executionDependency": "NEXT_BAR_OPEN",
+    "currentDataStatus": "RESEARCH_SUBSET_AVAILABLE",
+    "readinessStatus": "PARTIAL",
+    "blockingReason": null
+  },
+  "S4": {
+    "strategy": "S4",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredPITFields": [
+      "effective_from",
+      "effective_to"
+    ],
+    "requiredAvailability": [
+      "DECLARED_CONTRACT"
+    ],
+    "executionDependency": "NEXT_BAR_OPEN",
+    "currentDataStatus": "DATA_INSUFFICIENT",
+    "readinessStatus": "BLOCKED",
+    "blockingReason": "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+  },
+  "S5": {
+    "strategy": "S5",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredPITFields": [
+      "effective_from",
+      "effective_to"
+    ],
+    "requiredAvailability": [
+      "DECLARED_CONTRACT"
+    ],
+    "executionDependency": "NEXT_BAR_OPEN",
+    "currentDataStatus": "DATA_INSUFFICIENT",
+    "readinessStatus": "BLOCKED",
+    "blockingReason": "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+  },
+  "S6": {
+    "strategy": "S6",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredPITFields": [
+      "effective_from",
+      "effective_to"
+    ],
+    "requiredAvailability": [
+      "DECLARED_CONTRACT"
+    ],
+    "executionDependency": "NEXT_BAR_OPEN",
+    "currentDataStatus": "DATA_INSUFFICIENT",
+    "readinessStatus": "BLOCKED",
+    "blockingReason": "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+  },
+  "S7": {
+    "strategy": "S7",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredPITFields": [
+      "effective_from",
+      "effective_to"
+    ],
+    "requiredAvailability": [
+      "DECLARED_CONTRACT"
+    ],
+    "executionDependency": "NEXT_BAR_OPEN",
+    "currentDataStatus": "DATA_INSUFFICIENT",
+    "readinessStatus": "BLOCKED",
+    "blockingReason": "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+  },
+  "S8": {
+    "strategy": "S8",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredPITFields": [
+      "effective_from",
+      "effective_to"
+    ],
+    "requiredAvailability": [
+      "DECLARED_CONTRACT"
+    ],
+    "executionDependency": "NEXT_BAR_OPEN",
+    "currentDataStatus": "DATA_INSUFFICIENT",
+    "readinessStatus": "BLOCKED",
+    "blockingReason": "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+  },
+  "S9": {
+    "strategy": "S9",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredPITFields": [
+      "effective_from",
+      "effective_to"
+    ],
+    "requiredAvailability": [
+      "DECLARED_CONTRACT"
+    ],
+    "executionDependency": "NEXT_BAR_OPEN",
+    "currentDataStatus": "DATA_INSUFFICIENT",
+    "readinessStatus": "BLOCKED",
+    "blockingReason": "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+  },
+  "S10": {
+    "strategy": "S10",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredPITFields": [
+      "effective_from",
+      "effective_to"
+    ],
+    "requiredAvailability": [
+      "DECLARED_CONTRACT"
+    ],
+    "executionDependency": "NEXT_BAR_OPEN",
+    "currentDataStatus": "DATA_INSUFFICIENT",
+    "readinessStatus": "BLOCKED",
+    "blockingReason": "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+  },
+  "S11": {
+    "strategy": "S11",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredPITFields": [
+      "effective_from",
+      "effective_to"
+    ],
+    "requiredAvailability": [
+      "DECLARED_CONTRACT"
+    ],
+    "executionDependency": "NEXT_BAR_OPEN",
+    "currentDataStatus": "DATA_INSUFFICIENT",
+    "readinessStatus": "BLOCKED",
+    "blockingReason": "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+  },
+  "S12": {
+    "strategy": "S12",
+    "requiredDatasets": [
+      "OHLCV",
+      "Delivery"
+    ],
+    "requiredPITFields": [
+      "effective_from",
+      "effective_to"
+    ],
+    "requiredAvailability": [
+      "DECLARED_CONTRACT"
+    ],
+    "executionDependency": "NEXT_BAR_OPEN",
+    "currentDataStatus": "DATA_INSUFFICIENT",
+    "readinessStatus": "BLOCKED",
+    "blockingReason": "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+  },
+  "S13": {
+    "strategy": "S13",
+    "requiredDatasets": [
+      "OHLCV",
+      "Delivery"
+    ],
+    "requiredPITFields": [
+      "effective_from",
+      "effective_to"
+    ],
+    "requiredAvailability": [
+      "DECLARED_CONTRACT"
+    ],
+    "executionDependency": "NEXT_BAR_OPEN",
+    "currentDataStatus": "DATA_INSUFFICIENT",
+    "readinessStatus": "BLOCKED",
+    "blockingReason": "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+  },
+  "S14": {
+    "strategy": "S14",
+    "requiredDatasets": [
+      "OHLCV",
+      "Delivery"
+    ],
+    "requiredPITFields": [
+      "effective_from",
+      "effective_to"
+    ],
+    "requiredAvailability": [
+      "DECLARED_CONTRACT"
+    ],
+    "executionDependency": "NEXT_BAR_OPEN",
+    "currentDataStatus": "DATA_INSUFFICIENT",
+    "readinessStatus": "BLOCKED",
+    "blockingReason": "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+  },
+  "S15": {
+    "strategy": "S15",
+    "requiredDatasets": [
+      "OHLCV",
+      "Fundamentals"
+    ],
+    "requiredPITFields": [
+      "effective_from",
+      "effective_to"
+    ],
+    "requiredAvailability": [
+      "FALLBACK_RULE"
+    ],
+    "executionDependency": "NEXT_BAR_OPEN",
+    "currentDataStatus": "DATA_INSUFFICIENT",
+    "readinessStatus": "BLOCKED",
+    "blockingReason": "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+  },
+  "S16": {
+    "strategy": "S16",
+    "requiredDatasets": [
+      "OHLCV",
+      "Fundamentals"
+    ],
+    "requiredPITFields": [
+      "effective_from",
+      "effective_to"
+    ],
+    "requiredAvailability": [
+      "FALLBACK_RULE"
+    ],
+    "executionDependency": "NEXT_BAR_OPEN",
+    "currentDataStatus": "DATA_INSUFFICIENT",
+    "readinessStatus": "BLOCKED",
+    "blockingReason": "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+  },
+  "S17": {
+    "strategy": "S17",
+    "requiredDatasets": [
+      "OHLCV",
+      "Fundamentals"
+    ],
+    "requiredPITFields": [
+      "effective_from",
+      "effective_to"
+    ],
+    "requiredAvailability": [
+      "FALLBACK_RULE"
+    ],
+    "executionDependency": "NEXT_BAR_OPEN",
+    "currentDataStatus": "DATA_INSUFFICIENT",
+    "readinessStatus": "BLOCKED",
+    "blockingReason": "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+  },
+  "S18": {
+    "strategy": "S18",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredPITFields": [
+      "effective_from",
+      "effective_to"
+    ],
+    "requiredAvailability": [
+      "DECLARED_CONTRACT"
+    ],
+    "executionDependency": "NEXT_BAR_OPEN",
+    "currentDataStatus": "DATA_INSUFFICIENT",
+    "readinessStatus": "BLOCKED",
+    "blockingReason": "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+  },
+  "S19": {
+    "strategy": "S19",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredPITFields": [
+      "effective_from",
+      "effective_to"
+    ],
+    "requiredAvailability": [
+      "DECLARED_CONTRACT"
+    ],
+    "executionDependency": "NEXT_BAR_OPEN",
+    "currentDataStatus": "DATA_INSUFFICIENT",
+    "readinessStatus": "BLOCKED",
+    "blockingReason": "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+  },
+  "S20": {
+    "strategy": "S20",
+    "requiredDatasets": [
+      "OHLCV"
+    ],
+    "requiredPITFields": [
+      "effective_from",
+      "effective_to"
+    ],
+    "requiredAvailability": [
+      "DECLARED_CONTRACT"
+    ],
+    "executionDependency": "NEXT_BAR_OPEN",
+    "currentDataStatus": "DATA_INSUFFICIENT",
+    "readinessStatus": "BLOCKED",
+    "blockingReason": "Full 500-symbol replay blocked pending dynamic PIT membership data remediation"
+  }
+}

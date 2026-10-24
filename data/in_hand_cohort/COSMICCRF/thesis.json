@@ -1,0 +1,24 @@
+{
+  "symbol": "COSMICCRF",
+  "coreThesisStatement": "Prime beneficiary of Indian Railways wagon fleet modernization and dedicated freight corridors.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Railways Multi-Year Capex",
+      "description": "Historic rolling stock procurement tenders from Indian Railways."
+    },
+    {
+      "pillarId": "P2",
+      "title": "High Market Share",
+      "description": "Leading supplier of cold rolled formed steel components for BOXNHL wagons."
+    },
+    {
+      "pillarId": "P3",
+      "title": "Operating Leverage",
+      "description": "Capacity expansion driving operating margin expansion to 11.8%."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_COSMIC_LEVERAGE"
+  ]
+}

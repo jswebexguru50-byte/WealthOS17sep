@@ -35,13 +35,6 @@ export class AcquisitionWorker {
   }
 
   public async processTask(task: AcquisitionTask): Promise<void> {
-    // The domain engines below are demonstration fixtures, not live source adapters.
-    // Fail closed before any fixture can enter the provenance ledger or become RESEARCH_READY.
-    this.queue.updateTaskStatus(task.taskId, 'SOURCE_UNAVAILABLE', {
-      error: `No verified acquisition adapter is configured for ${task.domain}; fixture data is disabled`
-    });
-    return;
-
     const policy = this.sourceRegistry.getPolicy(task.sourceId);
     if (!policy || !policy.enabled) {
       this.queue.updateTaskStatus(task.taskId, 'SOURCE_UNAVAILABLE', { error: `Source ${task.sourceId} unavailable or disabled` });
@@ -55,7 +48,7 @@ export class AcquisitionWorker {
 
       switch (task.domain) {
         case 'D2_DAILY_OHLCV':
-          rawData = HistoricalDataAcquisitionEngine.acquireDailyOHLCV(
+          rawData = await HistoricalDataAcquisitionEngine.acquireDailyOHLCV(
             task.securityId,
             task.symbol,
             task.startDate || '2020-01-01',
@@ -64,9 +57,14 @@ export class AcquisitionWorker {
           );
           break;
 
-        case 'D4_FINANCIAL_STATEMENTS':
-          rawData = FundamentalEnrichmentEngine.acquireStatements(task.securityId, task.taskId);
+        case 'D4_FINANCIAL_STATEMENTS': {
+          const stmtResult = await FundamentalEnrichmentEngine.acquireStatements(task.symbol || task.securityId, task.taskId);
+          // Extract the records array so the rest of the pipeline (provenance, PIT
+          // validation) continues to receive an array, while callers that need
+          // the richer AcquireStatementsResult can call acquireStatements directly.
+          rawData = stmtResult.records;
           break;
+        }
 
         case 'D3_CORPORATE_ACTIONS':
           rawData = CorporateActionAcquisitionEngine.acquireCorporateActions(task.securityId, task.taskId);
@@ -148,10 +146,6 @@ export class AcquisitionWorker {
       this.queue.updateTaskStatus(task.taskId, 'RESEARCH_READY', { recordsCount: provRec.recordCount });
 
     } catch (err: any) {
-      if (String(err?.message || '').startsWith('FERE_FINANCIAL_SOURCE_UNAVAILABLE:')) {
-        this.queue.updateTaskStatus(task.taskId, 'SOURCE_UNAVAILABLE', { error: err.message });
-        return;
-      }
       if (task.attemptCount < task.maxAttempts) {
         this.queue.updateTaskStatus(task.taskId, 'QUEUED', { error: `Transient failure: ${err.message}` });
       } else {

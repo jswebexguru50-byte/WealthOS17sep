@@ -1,0 +1,166 @@
+{
+  "generatedAt": "2026-10-04T16:14:20.106Z",
+  "mode": "APPLIED",
+  "dbPath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\portfolio.db",
+  "manifest": "data\\fundamental_enrichment\\pilot_25_manifest.json",
+  "requested": 25,
+  "symbolsWithSnapshot": 25,
+  "symbolsWithAnchor": 16,
+  "skippedNoAnchor": 9,
+  "factsPrepared": 445,
+  "factsWritten": 445,
+  "missingValues": 51,
+  "metricTotals": {
+    "revenue": 127,
+    "operating_profit": 111,
+    "pat": 111,
+    "cfo": 48
+  },
+  "aliasMetricTotals": {
+    "cfo_cr": 48
+  },
+  "policy": "Quarterly statement values and selected annual CFO/capex values are promoted only when same-symbol explicit Trendlyne quarter anchors exist. Annual FY period is anchored to March year-end from the latest explicit quarter label and remains VERIFIED_PARTIAL.",
+  "symbols": [
+    {
+      "symbol": "AETHER",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "AZAD",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "BLISSGVS",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "CAPILLARY",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 25
+    },
+    {
+      "symbol": "COMSYN",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "GLOBALPET",
+      "status": "NO_EXPLICIT_QUARTER_ANCHOR",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "GUJRAFFIA",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "KAPSTON",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "MAWANASUG",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "MBAPL",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "MTARTECH",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "NGLFINE",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "PRECWIRE",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "RAMRAT",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "RATNAVEER",
+      "status": "NO_EXPLICIT_QUARTER_ANCHOR",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "RRKABEL",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "SIGMAADV",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "WELINV",
+      "status": "PROMOTABLE",
+      "anchorPeriodEnd": "2026-06-30",
+      "factsPrepared": 28
+    },
+    {
+      "symbol": "XELPMOC",
+      "status": "NO_EXPLICIT_QUARTER_ANCHOR",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "PROTEAN",
+      "status": "NO_EXPLICIT_QUARTER_ANCHOR",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "JUSTDIAL",
+      "status": "NO_EXPLICIT_QUARTER_ANCHOR",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "DBOL",
+      "status": "NO_EXPLICIT_QUARTER_ANCHOR",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "LUMAXTECH",
+      "status": "NO_EXPLICIT_QUARTER_ANCHOR",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "SONACOMS",
+      "status": "NO_EXPLICIT_QUARTER_ANCHOR",
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "TARSONS",
+      "status": "NO_EXPLICIT_QUARTER_ANCHOR",
+      "factsPrepared": 0
+    }
+  ]
+}

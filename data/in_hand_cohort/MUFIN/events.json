@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_MUFIN_01",
+    "issuerNseSymbol": "MUFIN",
+    "issuerBseCode": "542774",
+    "eventDate": "2024-04-15",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "Institutional Equity Capital Inflow",
+    "description": "Successfully raised ₹140 Cr growth capital from global climate impact funds.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_MUFIN_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

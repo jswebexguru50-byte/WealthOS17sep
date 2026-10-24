@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_STL_01",
+    "issuerNseSymbol": "STLNETWORK",
+    "issuerBseCode": "532374",
+    "eventDate": "2024-05-16",
+    "category": "EARNINGS_RELEASE",
+    "headline": "Sterlite Tech net debt remains elevated at ₹3,124 Cr vs ₹2,500 Cr guided target",
+    "description": "Global optical fibre demand drop and delayed collections squeeze operating cash flows.",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "BSE_DISCLOSURE",
+    "evidenceId": "EV_STL_RESULT_01",
+    "materiality": "HIGH",
+    "createdAt": "2024-05-16T09:00:00.000Z"
+  }
+]

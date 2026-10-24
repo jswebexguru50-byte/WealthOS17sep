@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_SONU_01",
+    "issuerNseSymbol": "SONUINFRA",
+    "issuerBseCode": "543525",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Scale refinery industrial civil construction contracts to exceed ₹75 Cr in FY24.",
+    "targetMetric": "revenue_cr",
+    "baselineValue": 58,
+    "expectedValue": 75,
+    "expectedOutcome": "Revenue >= ₹75 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_SONU_REV_01",
+    "claimDate": "2023-09-12",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 84,
+    "actualOutcomeDescription": "Delivered ₹84 Cr revenue beating target by 12.0%.",
+    "evaluationEvidenceId": "EV_SONU_REV_01",
+    "evaluationDate": "2024-05-25",
+    "evaluationBasis": "NSE Emerge Audited Filing",
+    "publicationDate": "2023-09-12",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_SONUINFRA_01"
+  }
+]

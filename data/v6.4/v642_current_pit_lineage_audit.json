@@ -1,0 +1,36 @@
+{
+  "version": "v6.4.2",
+  "auditTarget": "v6.4 / v6.4.1 static 500-symbol candidate dataset",
+  "rootCauseType": "CURRENT_UNIVERSE_BACKFILL_AND_SINGLE_SNAPSHOT_INGESTION",
+  "rootCauseSummary": "Static constituent substitution occurred because scripts/pull_universe_screener_fundamentals.cjs ingested a single current snapshot (ind_nifty500list.csv from NSE archives) and scripts/build_v6.4_data_expansion.ts assigned a fixed 2020-01-01 to 2024-12-31 interval to all 500 symbols without parsing historical semi-annual rebalance circulars.",
+  "lineageTrace": [
+    {
+      "step": 1,
+      "component": "Raw Source Ingestion",
+      "file": "scripts/pull_universe_screener_fundamentals.cjs",
+      "sourceUrl": "https://archives.nseindia.com/content/indices/ind_nifty500list.csv",
+      "description": "Downloads the live single-snapshot constituent list of Nifty 500.",
+      "dataType": "TIER_6_CURRENT_ONLY",
+      "dateLogic": "Current snapshot date only (2026)",
+      "silentFallbackUsed": true
+    },
+    {
+      "step": 2,
+      "component": "Expansion Dataset Builder",
+      "file": "scripts/build_v6.4_data_expansion.ts",
+      "description": "Iterates through top Nifty symbols and synthetic NIFTY500_SYM_XXX array, applying effective_from='2020-01-01' and effective_to='2024-12-31' to all 500 records.",
+      "dataType": "TIER_7_SYNTHETIC_OR_INFERRED",
+      "dateLogic": "Static 5-year fixed interval assigned across all 500 securities",
+      "silentFallbackUsed": true
+    },
+    {
+      "step": 3,
+      "component": "Validator Audit Detection",
+      "file": "scripts/build_v6.4.1_parallel_reconstruction.ts",
+      "description": "Computed constituent set hashes across 10 semi-annual rebalance dates and detected distinctConstituentSets=1, entryEvents=0, exitEvents=0.",
+      "dataType": "INDEPENDENT_AUDIT_GATE",
+      "finding": "Classified as LIKELY_STATIC_UNIVERSE and blocked PASS status."
+    }
+  ],
+  "timestamp": "2026-09-17T16:33:46.286Z"
+}

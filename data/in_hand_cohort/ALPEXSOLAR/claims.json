@@ -1,0 +1,29 @@
+[
+  {
+    "claimId": "CLM_ALPEX_01",
+    "issuerNseSymbol": "ALPEXSOLAR",
+    "issuerBseCode": "544115",
+    "period": "FY25",
+    "category": "CAPEX",
+    "statement": "Scale solar PV module manufacturing capacity to 1,200 MW by FY25.",
+    "targetMetric": "module_capacity_mw",
+    "baselineValue": 450,
+    "expectedValue": 1200,
+    "expectedOutcome": "Capacity >= 1,200 MW",
+    "expectedTimeframe": "FY25",
+    "evidenceId": "EV_ALPEX_CAPACITY_01",
+    "claimDate": "2023-11-15",
+    "expectedPeriodStart": "2024-04-01",
+    "expectedPeriodEnd": "2025-03-31",
+    "status": "ACHIEVED_EARLY",
+    "actualOutcomeMetric": 1200,
+    "actualOutcomeDescription": "Achieved 1,200 MW capacity in June 2024, ahead of FY25 target.",
+    "evaluationEvidenceId": "EV_ALPEX_CAPACITY_01",
+    "evaluationDate": "2024-06-18",
+    "evaluationBasis": "NSE Statutory Exchange Filing on Capacity Commissioning",
+    "publicationDate": "2023-11-15",
+    "publicationDateType": "MANAGEMENT_COMMENT",
+    "targetTemporalSemantics": "DEADLINE",
+    "factId": "FACT_ALPEXSOLAR_02"
+  }
+]

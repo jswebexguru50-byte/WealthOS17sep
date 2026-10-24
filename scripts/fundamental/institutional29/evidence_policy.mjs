@@ -60,6 +60,46 @@ export function metricEvidence(factIndex, aliases, limit = 12) {
     .slice(0, limit);
 }
 
+export function generateEvidenceSummary(question, factMap, domains, ohlcv) {
+  const lines = [];
+
+  // 1. For each required metric group, pull the best available facts
+  for (const aliases of (question.metrics || [])) {
+    const facts = metricEvidence(factMap, aliases, 4);
+    if (facts.length === 0) {
+      lines.push(`- ${aliases[0]}: not in canonical store`);
+      continue;
+    }
+    for (const f of facts) {
+      const val = f.value != null ? String(f.value) + (f.unit ? ` ${f.unit}` : '') : 'n/a';
+      const period = f.periodEnd || f.asOfDate || 'period unknown';
+      const src = f.provider || f.sourceType || 'unknown source';
+      const scope = f.scope ? ` [${f.scope}]` : '';
+      lines.push(`- ${f.metric}: ${val}${scope} — ${f.periodType || ''} ending ${period}, ${src}`);
+    }
+  }
+
+  // 2. Local DB domain counts
+  for (const domain of (question.localDomains || [])) {
+    if (domain === 'ADJUSTED_OHLCV') {
+      lines.push(`- OHLCV: ${ohlcv.bars.length} bars available, latest ${ohlcv.bars.at(-1)?.trade_date || 'none'}`);
+    } else {
+      const count = Number(domains[domain] || 0);
+      lines.push(`- ${domain}: ${count} rows`);
+    }
+  }
+
+  if (lines.length === 0) return null;
+
+  const header = question.status === 'READY_FOR_ANALYSIS'
+    ? 'Evidence available:'
+    : question.status === 'PARTIAL'
+    ? 'Partial evidence — interpret with caution:'
+    : 'Insufficient evidence — the following was found:';
+
+  return `${header}\n${lines.join('\n')}`;
+}
+
 export function detectFactConflicts(rows, tolerancePct = 0.25) {
   const groups = new Map();
   for (const row of rows) {

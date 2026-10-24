@@ -1,0 +1,22 @@
+{
+  "version": "v6.4",
+  "status": "PASS",
+  "eventsAudited": {
+    "splits": 14,
+    "bonuses": 8,
+    "rights": 3,
+    "symbolChanges": 5,
+    "mergersDemergers": 2
+  },
+  "sequencingPipeline": [
+    "raw_event",
+    "event_effective_date",
+    "security_identity_mapping",
+    "price_adjustment",
+    "historical_research_series"
+  ],
+  "doubleAdjustmentCheck": "VERIFIED_NO_DOUBLE_ADJUSTMENT",
+  "anomaliesDetected": 0,
+  "unresolvedEvents": 0,
+  "timestamp": "2026-09-17T15:12:31.304Z"
+}

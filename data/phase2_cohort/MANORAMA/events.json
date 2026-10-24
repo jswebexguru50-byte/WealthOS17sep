@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_MANO_01",
+    "issuerNseSymbol": "MANORAMA",
+    "issuerBseCode": "541974",
+    "eventDate": "2024-05-28",
+    "category": "CAPACITY_EXPANSION",
+    "headline": "Manorama Industries commissions Birkoni specialty butter expansion to 42,000 MTPA",
+    "description": "Statutory filing confirms commissioning of state-of-the-art fractionation and refining facility.",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "BSE_DISCLOSURE",
+    "evidenceId": "EV_MANO_RESULT_01",
+    "materiality": "MEDIUM",
+    "createdAt": "2024-05-28T09:00:00.000Z"
+  }
+]

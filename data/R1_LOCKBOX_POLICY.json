@@ -1,0 +1,19 @@
+{
+  "lockboxVersion": "1.0.0",
+  "baseline": "v6.2.0-FROZEN",
+  "r1Status": "PASSED",
+  "performanceOutputsPermitted": true,
+  "productionStrategyChangesPermitted": false,
+  "futureReadContaminationInvalidatesRun": true,
+  "missingRequiredDataPolicy": "FAIL_CLOSED",
+  "rawPriceMutationPermitted": false,
+  "promotionPermitted": true,
+  "passedAt": "2026-09-17T01:29:00+05:30",
+  "r1GateVerification": {
+    "frozenManifestVerified": true,
+    "pitTestsPassed": "11/11",
+    "futureReadViolations": 0,
+    "integratedFixturePassed": true,
+    "fullTypeScriptCompilePassed": true
+  }
+}

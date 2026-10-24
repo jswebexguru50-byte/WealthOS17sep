@@ -1,0 +1,433 @@
+{
+  "symbol": "MUFIN",
+  "companyName": "Mufin Green Finance Limited",
+  "marketCapTier": "SMALLCAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-16T07:37:29.113Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "LOW",
+    "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+    "allocationRecommendation": "CAPPED_ALLOCATION",
+    "portfolioPolicy": {
+      "directive": "CAPPED_ALLOCATION",
+      "targetSizingCapRatio": 0.5,
+      "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+    },
+    "provenance": {
+      "quantDerivation": "ITAS-Score-83 -> Threshold(>=75:STRONG, 50-74:MODERATE, 25-49:WEAK, <25:NONE) -> STRONG",
+      "riskDerivation": "BreakersActive:0, Contradictions:0, Unknowns:0 -> Risk: LOW",
+      "credibilityDerivation": "ClaimsEvaluated:1 -> CredibilityGrade: INSUFFICIENT_HISTORY",
+      "breakerDerivation": "TB_MUFIN_LEVERAGE(UNRESOLVED)",
+      "thesisDerivation": "Matrix(STRONG, LOW) -> Thesis: SUPPORTED",
+      "allocationDerivation": "Precedence(SUPPORTED, LOW, INSUFFICIENT_HISTORY) -> Directive: CAPPED_ALLOCATION (Cap: 50%)",
+      "auditTrail": [
+        "ITAS-Engine#MUFIN",
+        null
+      ]
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_MUFIN",
+      "nodes": [
+        {
+          "id": "DEC_MUFIN",
+          "type": "DECISION",
+          "refId": "MUFIN",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_MUFIN",
+          "type": "ALLOCATION",
+          "refId": "CAPPED_ALLOCATION",
+          "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+        },
+        {
+          "id": "THESIS_MUFIN",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_MUFIN",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 83/100)"
+        },
+        {
+          "id": "RISK_MUFIN",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_MUFIN",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_MUFIN_LEVERAGE",
+          "type": "RULE",
+          "refId": "TB_MUFIN_LEVERAGE",
+          "version": "2026.09",
+          "label": "Breaker TB_MUFIN_LEVERAGE: UNRESOLVED (Observed: undefined)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_MUFIN",
+          "to": "DEC_MUFIN",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_MUFIN",
+          "to": "DEC_MUFIN",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_MUFIN",
+          "to": "THESIS_MUFIN",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_MUFIN",
+          "to": "THESIS_MUFIN",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_MUFIN",
+          "to": "ALLOC_MUFIN",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_MUFIN_LEVERAGE",
+          "to": "RISK_MUFIN",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_MUFIN_007a9f2ea0cb",
+      "decisionId": "DECISION_MUFIN",
+      "issuerSymbol": "MUFIN",
+      "evaluatedAt": "2026-09-16T11:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2.1",
+      "ontologyVersion": "1.3",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawQuantInput": {
+        "symbol": "MUFIN",
+        "strategyAgreementCount": 16,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 83,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY",
+        "decisionDate": "2024-06-30"
+      },
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_MUFIN_LEVERAGE",
+          "symbol": "MUFIN",
+          "name": "NBFC Debt to Equity Ceilings",
+          "type": "QUANTITATIVE",
+          "thresholdValue": 4.5,
+          "comparisonOperator": "GREATER_THAN",
+          "severity": "CRITICAL",
+          "description": "Debt / Equity ratio exceeding 4.5x triggers hard veto.",
+          "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+          "status": "UNRESOLVED"
+        }
+      ],
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "LOW",
+        "interpretation": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap).",
+        "allocationRecommendation": "CAPPED_ALLOCATION"
+      },
+      "portfolioPolicy": {
+        "directive": "CAPPED_ALLOCATION",
+        "targetSizingCapRatio": 0.5,
+        "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_MUFIN",
+        "nodes": [
+          {
+            "id": "DEC_MUFIN",
+            "type": "DECISION",
+            "refId": "MUFIN",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_MUFIN",
+            "type": "ALLOCATION",
+            "refId": "CAPPED_ALLOCATION",
+            "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+          },
+          {
+            "id": "THESIS_MUFIN",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_MUFIN",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 83/100)"
+          },
+          {
+            "id": "RISK_MUFIN",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_MUFIN",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_MUFIN_LEVERAGE",
+            "type": "RULE",
+            "refId": "TB_MUFIN_LEVERAGE",
+            "version": "2026.09",
+            "label": "Breaker TB_MUFIN_LEVERAGE: UNRESOLVED (Observed: undefined)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_MUFIN",
+            "to": "DEC_MUFIN",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_MUFIN",
+            "to": "DEC_MUFIN",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_MUFIN",
+            "to": "THESIS_MUFIN",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_MUFIN",
+            "to": "THESIS_MUFIN",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_MUFIN",
+            "to": "ALLOC_MUFIN",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_MUFIN_LEVERAGE",
+            "to": "RISK_MUFIN",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "007a9f2ea0cb8580a5c155c226969f0aadc0e37f10b5aa5c837da0d8857fc985",
+      "canonicalStateHash": "007a9f2ea0cb8580a5c155c226969f0aadc0e37f10b5aa5c837da0d8857fc985",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_MUFIN_01",
+          "issuerSymbol": "MUFIN",
+          "metric": "REVENUE",
+          "metricId": "REVENUE",
+          "metricFamily": "REVENUE",
+          "value": 246,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_MUFIN_REV_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_MUFIN_REV_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-16T11:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-16T11:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "quotePresent": true,
+              "numericalValuePresentInQuote": true,
+              "currencyConsistent": true,
+              "deterministicMetricContextBinding": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2.1",
+          "ontologyVersion": "1.3",
+          "notes": "Extracted fact linked to EV_MUFIN_REV_01",
+          "sourceQuotedText": "Consolidated revenue for FY24 grew to ₹246 Cr with net profit of ₹38.2 Cr, while total EV loan assets under management expanded past ₹1850 Cr.",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_MUFIN_01",
+          "issuerNseSymbol": "MUFIN",
+          "issuerBseCode": "542774",
+          "period": "FY24",
+          "category": "GROWTH",
+          "statement": "Scale green EV financing AUM to exceed ₹1,500 Cr by end of FY24.",
+          "targetMetric": "ev_aum_cr",
+          "baselineValue": 950,
+          "expectedValue": 1500,
+          "expectedOutcome": "EV AUM >= ₹1,500 Cr",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_MUFIN_REV_01",
+          "claimDate": "2023-08-18",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 1850,
+          "actualOutcomeDescription": "Achieved EV AUM of ₹1,850 Cr, beating guidance by 23.3%.",
+          "evaluationEvidenceId": "EV_MUFIN_REV_01",
+          "evaluationDate": "2024-05-22",
+          "evaluationBasis": "BSE Audited Financial Accounts Review",
+          "publicationDate": "2023-08-18",
+          "publicationDateType": "MANAGEMENT_COMMENT",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_MUFIN_01"
+        }
+      ],
+      "rawInputContradictions": [],
+      "rawInputHash": "fe0df697bdea6d0d0e6919abace3a2b7ff16bf906b67f6cef63e432bd24d4bfa"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "LOW",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity with clean forensic profile and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Portfolio directive: CAPPED_ALLOCATION (50% target cap)."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 16/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 83/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#MUFIN",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Scale green EV financing AUM to exceed ₹1,500 Cr by end of FY24.",
+      "detail": "Disclosed actual outcome: Achieved EV AUM of ₹1,850 Cr, beating guidance by 23.3%.",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_MUFIN_REV_01 -> Resolution#EV_MUFIN_REV_01",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "MUFIN",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 1,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_MUFIN_01",
+        "statement": "Scale green EV financing AUM to exceed ₹1,500 Cr by end of FY24.",
+        "period": "FY24",
+        "expected": "EV AUM >= ₹1,500 Cr",
+        "actual": "Achieved EV AUM of ₹1,850 Cr, beating guidance by 23.3%.",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_MUFIN_REV_01 -> Resolution#EV_MUFIN_REV_01"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_MUFIN"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_MUFIN"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-04-15",
+      "source": "REGULATORY_FILING",
+      "headline": "Institutional Equity Capital Inflow",
+      "verified": true,
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_MUFIN_LEVERAGE",
+      "symbol": "MUFIN",
+      "name": "NBFC Debt to Equity Ceilings",
+      "type": "QUANTITATIVE",
+      "thresholdValue": 4.5,
+      "comparisonOperator": "GREATER_THAN",
+      "severity": "CRITICAL",
+      "description": "Debt / Equity ratio exceeding 4.5x triggers hard veto.",
+      "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+      "status": "UNRESOLVED"
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "LOW",
+    "directSourcesCount": 1,
+    "corroboratedCount": 1,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Pioneer EV retail financing NBFC benefiting from rapid electrification of commercial 2W/3W fleets.\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

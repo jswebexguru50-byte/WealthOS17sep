@@ -1,0 +1,46 @@
+{
+  "version": "v6.4.2",
+  "inventoryTarget": "Historical NIFTY 500 constituent & rebalance sources (2018 - Present)",
+  "evaluatedSources": [
+    {
+      "sourceId": "SRC_NSE_HISTORICAL_ANCHOR_20200101",
+      "sourceType": "TIER_1_OFFICIAL_HISTORICAL_SNAPSHOT",
+      "sourceURL": "https://archives.nseindia.com/content/indices/ind_nifty500list_20200101.csv",
+      "sourcePath": "data/v6.4/sources/ind_nifty500list_20200101.csv",
+      "publicationDate": "2020-01-01",
+      "effectiveDate": "2020-01-01",
+      "retrievalTimestamp": "2026-09-17T16:33:46.290Z",
+      "documentSHA256": "02530812d0b60d9c2dbeb5ff1b8a7f2566aecf101ca65a59be9a7348e3514aba",
+      "recordSHA256": "49a64ab1f34eb6a5f7ff255106ed06ed718d28f4c36850557492c72056e9a663",
+      "coverage": "FULL_SNAPSHOT_AND_TRANSITION_CHAINS (2020 - 2024)",
+      "authoritativeStatus": "AUTHORITATIVE_PRIMARY_TIER_1"
+    },
+    {
+      "sourceId": "SRC_NSE_CIRCULAR_RECON_ARCHIVE_2020_2024",
+      "sourceType": "TIER_1_OFFICIAL_HISTORICAL_SNAPSHOT",
+      "sourceURL": "https://www.niftyindices.com/reports/historical-data/index-reconstitution-press-releases",
+      "sourcePath": "data/v6.4/sources/nse_reconstitution_circulars_2020_2024.json",
+      "publicationDate": "2020-02-18",
+      "effectiveDate": "2020-03-27",
+      "retrievalTimestamp": "2026-09-17T16:33:46.290Z",
+      "documentSHA256": "370da994dc92df8d01e6d027dfc99a773cf8bec1b463c33ae90fa26610a923a2",
+      "recordSHA256": "483b7fb5528550318359a496445bd68e0b9dda6530701c719f5a89cbb30e381b",
+      "coverage": "10 semi-annual reconstitutions (2020 - 2024) + ad-hoc corporate action events",
+      "authoritativeStatus": "AUTHORITATIVE_PRIMARY_TIER_1"
+    },
+    {
+      "sourceId": "SRC_NSE_LIVE_SNAPSHOT_CSV",
+      "sourceType": "TIER_6_CURRENT_ONLY",
+      "sourceURL": "https://archives.nseindia.com/content/indices/ind_nifty500list.csv",
+      "sourcePath": "scripts/pull_universe_screener_fundamentals.cjs",
+      "publicationDate": "2026-09-17",
+      "effectiveDate": "2026-09-17",
+      "retrievalTimestamp": "2026-09-17T16:33:46.290Z",
+      "documentSHA256": "a3b4caf4e050ced8d2f803453ac36118d9f45b3b65291f0f98ab011dae77c711",
+      "recordSHA256": "11e3547719c0a1a5164c6c3baafee3ccf153cfb4316743a32a698e52757a8b0d",
+      "coverage": "Current live 500 snapshot only",
+      "authoritativeStatus": "PROHIBITED_FOR_HISTORICAL_PIT_ANCHOR"
+    }
+  ],
+  "timestamp": "2026-09-17T16:33:46.290Z"
+}

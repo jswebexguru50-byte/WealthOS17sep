@@ -1,0 +1,19 @@
+{
+  "symbol": "ARVSMART",
+  "coreThesisStatement": "Asset-light horizontal plotted residential model backed by Lalbhai brand delivers 30%+ ROCE with zero balance-sheet distress.",
+  "investmentPillars": [
+    {
+      "pillarId": "PIL_ARV_01",
+      "title": "Asset-Light Horizontal Plotted Moat",
+      "description": "Joint development and plotted models turn over capital in 12-18 months with negative working capital."
+    },
+    {
+      "pillarId": "PIL_ARV_02",
+      "title": "Pristine Solvency",
+      "description": "Net cash balance sheet insulates company against real estate downcycles."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_ARV_LEVERAGE"
+  ]
+}

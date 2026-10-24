@@ -1,0 +1,28 @@
+[
+  {
+    "evidenceId": "EV_IKIO_PROMISE_01",
+    "issuerNseSymbol": "IKIO",
+    "issuerBseCode": "543923",
+    "documentId": "DOC_IKIO_AR2024",
+    "documentHash": "6c01239eb471928ba40192cae981248ba014829bc39104aa1098234af09281d7",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 42,
+    "pagePrinted": 40,
+    "quotedText": "Company targeted client base diversification with non-anchor client revenue targeted to contribute over 40% of total lighting sales by FY24.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+  },
+  {
+    "evidenceId": "EV_IKIO_RESULT_01",
+    "issuerNseSymbol": "IKIO",
+    "issuerBseCode": "543923",
+    "documentId": "DOC_IKIO_BSE_Q4FY24",
+    "documentHash": "7d12349eb471928ba40192cae981248ba014829bc39104aa1098234af09281d8",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 14,
+    "pagePrinted": 14,
+    "quotedText": "Anchor customer Signify Innovations accounted for 68% of consolidated sales in FY24 with non-anchor revenue contributing only 32%.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  }
+]

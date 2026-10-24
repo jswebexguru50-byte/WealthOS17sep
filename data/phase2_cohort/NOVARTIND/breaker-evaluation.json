@@ -1,0 +1,24 @@
+[
+  {
+    "breakerId": "TB_NOV_DEBT",
+    "name": "Debt Incurrence Breaker",
+    "description": "Total Debt must remain zero",
+    "type": "QUANTITATIVE",
+    "evaluationMethod": "METRIC_THRESHOLD",
+    "conditionText": "Total Debt > 0",
+    "quantitativeCondition": {
+      "metric": "total_debt_inr_cr",
+      "operator": ">",
+      "threshold": 0,
+      "evaluationPeriod": "annual",
+      "evidenceRequired": true
+    },
+    "status": "INACTIVE",
+    "severity": "CRITICAL",
+    "rationale": "Metric within safe boundaries: total_debt_inr_cr (0) does not violate > 0.",
+    "evidenceIds": [
+      "EV_NOV_DISCLOSURE_DIV"
+    ],
+    "currentObservedValue": 0
+  }
+]

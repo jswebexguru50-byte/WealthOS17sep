@@ -1,0 +1,24 @@
+{
+  "symbol": "APOLLO",
+  "coreThesisStatement": "Critical indigenous defense electronics and missile telemetry system pioneer with 3x order book coverage.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "High Order Visibility",
+      "description": "₹1,120 Cr order book provides 3 years of forward revenue visibility."
+    },
+    {
+      "pillarId": "P2",
+      "title": "IP & Defense Barrier",
+      "description": "Sole source provider for several DRDO and naval weapon electronic subsystems."
+    },
+    {
+      "pillarId": "P3",
+      "title": "Indigenization Tailwinds",
+      "description": "Beneficiary of positive indigenization lists banning defense hardware imports."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_APOLLO_LEVERAGE"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "generatedAt": "2026-10-12T18:22:58.279Z",
+  "mode": "APPLIED",
+  "dbPath": "C:\\Users\\GopalSharma\\Downloads\\WealthOS 04 Oct\\WealthOS04Oct\\portfolio.db",
+  "requested": 1,
+  "symbolsWithEvidence": 1,
+  "factsPrepared": 48,
+  "factsWritten": 48,
+  "policy": "Only explicit Trendlyne quarter-labelled shareholding data is promoted. Relative financial history is untouched.",
+  "symbols": [
+    {
+      "symbol": "ARROWGREEN",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    }
+  ]
+}

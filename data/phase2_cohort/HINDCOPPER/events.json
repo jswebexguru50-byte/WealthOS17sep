@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_HC_01",
+    "issuerNseSymbol": "HINDCOPPER",
+    "issuerBseCode": "513599",
+    "eventDate": "2024-05-28",
+    "category": "REGULATORY",
+    "headline": "Hindustan Copper defers Malanjkhand 5.0 MTPA expansion timeline to FY26",
+    "description": "Statutory filing discloses project delays driven by mine shaft contractor disputes",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "BSE_DISCLOSURE",
+    "evidenceId": "EV_HC_RESULT_01",
+    "materiality": "HIGH",
+    "createdAt": "2024-05-28T09:00:00.000Z"
+  }
+]

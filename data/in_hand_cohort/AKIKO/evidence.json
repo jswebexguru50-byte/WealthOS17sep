@@ -1,0 +1,38 @@
+[
+  {
+    "evidenceId": "EV_AKIKO_REV_FY24",
+    "issuerNseSymbol": "AKIKO",
+    "issuerBseCode": "544200",
+    "documentId": "DOC_AKIKO_AUDITED_RESULTS",
+    "documentHash": "b2c3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef2",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 8,
+    "pagePrinted": "7",
+    "quotedText": "Consolidated revenue from operations for FY24 reached ₹211 Cr compared to ₹142 Cr in FY23, registering a 48.6% growth.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_AKIKO_PAT_FY24",
+    "issuerNseSymbol": "AKIKO",
+    "issuerBseCode": "544200",
+    "documentId": "DOC_AKIKO_AUDITED_RESULTS",
+    "documentHash": "b2c3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef2",
+    "documentType": "STATUTORY_FILING",
+    "pagePhysical": 9,
+    "pagePrinted": "8",
+    "quotedText": "Consolidated profit after tax for the financial year ended March 31, 2024 stood at ₹22.4 Cr against ₹13.1 Cr in previous fiscal.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  },
+  {
+    "evidenceId": "EV_AKIKO_DEBT_FY24",
+    "issuerNseSymbol": "AKIKO",
+    "issuerBseCode": "544200",
+    "documentId": "DOC_AKIKO_AR2024",
+    "documentHash": "a1b2c3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef1",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 45,
+    "pagePrinted": "43",
+    "quotedText": "Consolidated Net Debt was controlled at ₹14.9 Cr against EBITDA of ₹33.2 Cr, keeping Net Debt to EBITDA conservative at 0.45x.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_BAJ_01",
+    "issuerNseSymbol": "BAJAJHLDNG",
+    "issuerBseCode": "500490",
+    "eventDate": "2024-04-26",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "Bajaj Holdings posts ₹7,341 Cr consolidated net profit with ₹131/share annual dividend",
+    "description": "Statutory filing confirms strategic value accretion from Bajaj Auto & Bajaj Finserv",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "BSE_DISCLOSURE",
+    "evidenceId": "EV_BAJ_DISCLOSURE_DIV",
+    "materiality": "MATERIAL",
+    "createdAt": "2024-04-26T09:30:00.000Z"
+  }
+]

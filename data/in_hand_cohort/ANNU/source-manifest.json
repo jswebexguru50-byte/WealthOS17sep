@@ -1,0 +1,17 @@
+{
+  "issuerNseSymbol": "ANNU",
+  "issuerBseCode": "543598",
+  "manifestGeneratedAt": "2026-09-16T11:00:00.000Z",
+  "sources": [
+    {
+      "documentId": "DOC_ANNU_AR24",
+      "documentName": "Annapurna_Swadisht_Annual_Report_2023_2024.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2024-07-22",
+      "documentHashSha256": "f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef56789abcdef7",
+      "pageCount": 180,
+      "filingAuthority": "NSE Emerge"
+    }
+  ]
+}

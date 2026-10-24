@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_AKIKO_01",
+    "issuerNseSymbol": "AKIKO",
+    "issuerBseCode": "544200",
+    "eventDate": "2024-05-28",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Audited Financial Results FY24 Approval",
+    "description": "Board of Directors approved audited financial statements showing 48.6% top-line growth.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_AKIKO_REV_FY24",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

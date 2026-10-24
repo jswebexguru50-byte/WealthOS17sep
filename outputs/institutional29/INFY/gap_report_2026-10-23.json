@@ -1,0 +1,172 @@
+{
+  "symbol": "INFY",
+  "asOf": "2026-10-23",
+  "builtAt": "2026-10-23T15:18:17.098Z",
+  "evidenceOnly": false,
+  "gapsBefore": 16,
+  "fixed": 5,
+  "remaining": 11,
+  "remainingManual": 0,
+  "fixedList": [
+    "financials.cwip_cr",
+    "financials.dso_days",
+    "financials.roce_pct",
+    "technicals.changeP_1m",
+    "technicals.changeP_1yr"
+  ],
+  "remainingList": [
+    {
+      "path": "financials.tradePayables_cr",
+      "level": 2,
+      "fetchStrategy": "L2b Trendlyne trade_payables param | annual report BS"
+    },
+    {
+      "path": "financials.capex_cr",
+      "level": 2,
+      "fetchStrategy": "Screener cash-flow table | annual-report cash-flow statement"
+    },
+    {
+      "path": "financials.interestExpense_cr",
+      "level": 2,
+      "fetchStrategy": "Trendlyne interest-expense parameter | annual-report profit-and-loss statement"
+    },
+    {
+      "path": "financials.interestCoverage",
+      "level": 1,
+      "fetchStrategy": "L1 compute: EBIT proxy / interestExpense"
+    },
+    {
+      "path": "financials.receivableDays",
+      "level": 1,
+      "fetchStrategy": "L1 alias: = dso_days"
+    },
+    {
+      "path": "financials.inventoryDays",
+      "level": 2,
+      "fetchStrategy": "Annual report or provider efficiency-ratio field"
+    },
+    {
+      "path": "governance.cin",
+      "level": 3,
+      "fetchStrategy": "L3 BSE corporate governance filing | MCA company search"
+    },
+    {
+      "path": "governance.auditorName",
+      "level": 3,
+      "fetchStrategy": "L3 BSE corporate governance XML | Screener company page | annual report PDF"
+    },
+    {
+      "path": "governance.auditQualification",
+      "level": 3,
+      "fetchStrategy": "L4 Annual report auditor report (PDF) — cannot auto-fetch"
+    },
+    {
+      "path": "peers.table",
+      "level": 2,
+      "fetchStrategy": "Screener.in id=\"peers\" section | MoneyControl sector peers"
+    },
+    {
+      "path": "liquidity.adtv_cr",
+      "level": 3,
+      "fetchStrategy": "L2b Trendlyne adtv_30d param | NSE bhavcopy 30-day avg (needs session)"
+    }
+  ],
+  "allGaps": [
+    {
+      "path": "financials.tradePayables_cr",
+      "currentValue": null,
+      "level": 2,
+      "fetchStrategy": "L2b Trendlyne trade_payables param | annual report BS"
+    },
+    {
+      "path": "financials.capex_cr",
+      "currentValue": null,
+      "level": 2,
+      "fetchStrategy": "Screener cash-flow table | annual-report cash-flow statement"
+    },
+    {
+      "path": "financials.cwip_cr",
+      "currentValue": null,
+      "level": 2,
+      "fetchStrategy": "Screener.in balance sheet id=\"balance-sheet\" → CWIP row"
+    },
+    {
+      "path": "financials.interestExpense_cr",
+      "currentValue": null,
+      "level": 2,
+      "fetchStrategy": "Trendlyne interest-expense parameter | annual-report profit-and-loss statement"
+    },
+    {
+      "path": "financials.interestCoverage",
+      "currentValue": null,
+      "level": 1,
+      "fetchStrategy": "L1 compute: EBIT proxy / interestExpense"
+    },
+    {
+      "path": "financials.dso_days",
+      "currentValue": null,
+      "level": 2,
+      "fetchStrategy": "Screener.in ratios section → Debtor Days"
+    },
+    {
+      "path": "financials.receivableDays",
+      "currentValue": null,
+      "level": 1,
+      "fetchStrategy": "L1 alias: = dso_days"
+    },
+    {
+      "path": "financials.inventoryDays",
+      "currentValue": null,
+      "level": 2,
+      "fetchStrategy": "Annual report or provider efficiency-ratio field"
+    },
+    {
+      "path": "financials.roce_pct",
+      "currentValue": null,
+      "level": 2,
+      "fetchStrategy": "Screener.in ratios section → ROCE %"
+    },
+    {
+      "path": "technicals.changeP_1m",
+      "currentValue": null,
+      "level": 3,
+      "fetchStrategy": "L3 Trendlyne 1m_return param | NSE price history"
+    },
+    {
+      "path": "technicals.changeP_1yr",
+      "currentValue": null,
+      "level": 3,
+      "fetchStrategy": "L3 Trendlyne 1yr_return param | NSE price history"
+    },
+    {
+      "path": "governance.cin",
+      "currentValue": null,
+      "level": 3,
+      "fetchStrategy": "L3 BSE corporate governance filing | MCA company search"
+    },
+    {
+      "path": "governance.auditorName",
+      "currentValue": null,
+      "level": 3,
+      "fetchStrategy": "L3 BSE corporate governance XML | Screener company page | annual report PDF"
+    },
+    {
+      "path": "governance.auditQualification",
+      "currentValue": null,
+      "level": 3,
+      "fetchStrategy": "L4 Annual report auditor report (PDF) — cannot auto-fetch"
+    },
+    {
+      "path": "peers.table",
+      "currentValue": null,
+      "level": 2,
+      "fetchStrategy": "Screener.in id=\"peers\" section | MoneyControl sector peers"
+    },
+    {
+      "path": "liquidity.adtv_cr",
+      "currentValue": null,
+      "level": 3,
+      "fetchStrategy": "L2b Trendlyne adtv_30d param | NSE bhavcopy 30-day avg (needs session)"
+    }
+  ]
+}

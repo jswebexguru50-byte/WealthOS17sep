@@ -1,0 +1,24 @@
+[
+  {
+    "breakerId": "TB_SENCO_WC_UTIL",
+    "name": "Working Capital Limit Breaker",
+    "description": "Working Capital Bank Sanction Limit Utilization must not exceed 90%",
+    "type": "QUANTITATIVE",
+    "evaluationMethod": "METRIC_THRESHOLD",
+    "conditionText": "WC Bank Limit Utilization > 90%",
+    "quantitativeCondition": {
+      "metric": "wc_limit_utilization_pct",
+      "operator": ">",
+      "threshold": 90,
+      "evaluationPeriod": "quarterly",
+      "evidenceRequired": true
+    },
+    "status": "INACTIVE",
+    "severity": "HIGH",
+    "rationale": "Metric within safe boundaries: wc_limit_utilization_pct (82) does not violate > 90.",
+    "evidenceIds": [
+      "EV_SENCO_WC_Q4"
+    ],
+    "currentObservedValue": 82
+  }
+]

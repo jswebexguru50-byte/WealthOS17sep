@@ -1,0 +1,19 @@
+{
+  "symbol": "BAJAJHLDNG",
+  "coreThesisStatement": "Apex holding company providing diversified proxy exposure to Indian auto and financial compounding at a structural holding company discount.",
+  "investmentPillars": [
+    {
+      "pillarId": "PIL_BAJ_01",
+      "title": "Strategic Conglomerate Anchors",
+      "description": "Key stakes in Bajaj Auto and Bajaj Finserv capture mobility and consumer credit compounding."
+    },
+    {
+      "pillarId": "PIL_BAJ_02",
+      "title": "Pristine Zero Debt & Zero Pledge",
+      "description": "Promoter pledge is 0.00% with fortress treasury balance sheet."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_BAJ_PLEDGE"
+  ]
+}

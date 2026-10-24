@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_ANNU_REV_01",
+    "issuerNseSymbol": "ANNU",
+    "issuerBseCode": "543598",
+    "documentId": "DOC_ANNU_AR24",
+    "documentHash": "f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef56789abcdef7",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 28,
+    "pagePrinted": "26",
+    "quotedText": "Revenue from operations reached ₹293 Cr for the year ended 31st March 2024 compared to ₹160 Cr in FY23, an 83% year-on-year surge.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "symbol": "IKIO",
+  "coreThesisStatement": "High-margin ODM partner for commercial and high-end residential architectural LED lighting.",
+  "investmentPillars": [
+    {
+      "pillarId": "PIL_IKIO_ODM",
+      "title": "ODM Precision Engineering",
+      "description": "End-to-end design and manufacturing integration for global lighting brands."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_IKIO_CONC"
+  ]
+}

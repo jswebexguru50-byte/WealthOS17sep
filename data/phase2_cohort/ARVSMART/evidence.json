@@ -1,0 +1,41 @@
+[
+  {
+    "evidenceId": "EV_ARV_AR24_P28",
+    "issuerNseSymbol": "ARVSMART",
+    "issuerBseCode": "539301",
+    "documentId": "DOC_ARV_AR2024",
+    "documentHash": "c819dfb49817ad99c15d7e7e5d898ef1b2389104fae574b6201bca5e39d568bc",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 28,
+    "pagePrinted": 26,
+    "quotedText": "Our target is to cross ₹1,000 Cr in pre-sales bookings in FY24 driven by plotted residential launches across Ahmedabad and Bengaluru.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+  },
+  {
+    "evidenceId": "EV_ARV_DISCLOSURE_Q4",
+    "issuerNseSymbol": "ARVSMART",
+    "issuerBseCode": "539301",
+    "documentId": "DOC_ARV_BSE_Q4FY24",
+    "documentHash": "3819dc74f91b72e9a0c14b629e4d58ba1048bce9561a3d90234cae98715bd012",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 5,
+    "pagePrinted": 5,
+    "quotedText": "Achieved all-time high annual pre-sales bookings of ₹1,107 Cr in FY24, an increase of 38% YoY, while maintaining net cash surplus of ₹124 Cr.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  },
+  {
+    "evidenceId": "EV_ARV_LEVERAGE_Q4",
+    "issuerNseSymbol": "ARVSMART",
+    "issuerBseCode": "539301",
+    "documentId": "DOC_ARV_BSE_Q4FY24",
+    "documentHash": "3819dc74f91b72e9a0c14b629e4d58ba1048bce9561a3d90234cae98715bd012",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 12,
+    "pagePrinted": 12,
+    "quotedText": "Net Debt / Equity ratio stood at -0.18x as of March 31, 2024 reflecting net cash balance sheet under asset-light JDA model.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_ANLON_01",
+    "issuerNseSymbol": "ANLON",
+    "issuerBseCode": "543745",
+    "eventDate": "2024-04-12",
+    "category": "ORDER_BOOK",
+    "headline": "Major Airport Authority Tender Awarded",
+    "description": "Awarded supply contract for rapid intervention vehicles across 5 international airports.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_ANLON_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

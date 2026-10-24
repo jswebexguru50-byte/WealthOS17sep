@@ -1,0 +1,24 @@
+{
+  "symbol": "OBSCP",
+  "coreThesisStatement": "High-precision metal machined auto components provider with Tier-1 OEM global contracts.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Export Traction",
+      "description": "Growing export shipments to European and North American Tier-1 suppliers."
+    },
+    {
+      "pillarId": "P2",
+      "title": "High Precision Barriers",
+      "description": "Specialized 5-axis CNC machining capabilities with tight micrometer tolerances."
+    },
+    {
+      "pillarId": "P3",
+      "title": "Strong Returns",
+      "description": "Consistent >24% ROCE with low balance sheet debt."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_OBSCP_LEVERAGE"
+  ]
+}

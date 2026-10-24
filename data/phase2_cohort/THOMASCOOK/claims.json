@@ -1,0 +1,30 @@
+[
+  {
+    "claimId": "CLM_TC_01",
+    "issuerNseSymbol": "THOMASCOOK",
+    "issuerBseCode": "500413",
+    "period": "FY24",
+    "category": "FINANCIAL_METRIC",
+    "statement": "Consolidated operational PBT targeted to cross ₹250 Cr in FY24.",
+    "targetMetric": "operational_pbt_inr_cr",
+    "baselineValue": 12,
+    "expectedValue": 250,
+    "expectedOutcome": "PBT >= ₹250 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_TC_PROMISE_01",
+    "claimDate": "2023-08-08",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 271,
+    "actualOutcomeDescription": "Delivered operational PBT of ₹271 Cr beating ₹250 Cr guidance",
+    "evaluationEvidenceId": "EV_TC_RESULT_01",
+    "evaluationDate": "2024-05-15",
+    "evaluationBasis": "BSE Audited Financial Accounts and Segmental Performance",
+    "createdAt": "2023-08-08T10:00:00.000Z",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_THOMASCOOK_01",
+    "publicationDate": "2023-08-08",
+    "publicationDateType": "MANAGEMENT_COMMENT"
+  }
+]

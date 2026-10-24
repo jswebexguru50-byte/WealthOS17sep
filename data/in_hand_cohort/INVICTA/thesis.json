@@ -1,0 +1,24 @@
+{
+  "symbol": "INVICTA",
+  "coreThesisStatement": "Southern India diagnostic lab network expanding tier-2 pathology testing footprint.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Volume Expansion",
+      "description": "Growing test sample collections across hospital tie-ups."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Diagnostic Margins",
+      "description": "High operational throughput supporting 15% PAT margins."
+    },
+    {
+      "pillarId": "P3",
+      "title": "Low Debt",
+      "description": "Modest debt profile with interest coverage > 6.0x."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_INVICTA_LEVERAGE"
+  ]
+}

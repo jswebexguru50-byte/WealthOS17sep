@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_DESCO_REV_01",
+    "issuerNseSymbol": "DESCO",
+    "issuerBseCode": "544185",
+    "documentId": "DOC_DESCO_AR24",
+    "documentHash": "5c6d7e8f90123456789abcdef0123456789abcdef56789abcdef890ab12c3d4e",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 22,
+    "pagePrinted": "20",
+    "quotedText": "FY24 revenue stood at ₹119 Cr with net profit of ₹16.4 Cr reflecting timely execution of municipal water transmission projects.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

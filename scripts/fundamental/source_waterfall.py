@@ -134,14 +134,20 @@ class SourceWaterfallEngine:
                     WHERE symbol = ? ORDER BY as_of_date DESC LIMIT 4""", (symbol,)).fetchall()
                 if len(history) == 4 and all(r[0] is not None and r[1] is not None for r in history):
                     values['inst_history'] = [r[0] + r[1] for r in history]
-            missing = [s for s in symbols if s not in result]
-            cached = self.store.get_many(missing, fields, self.clock())
-            for symbol in missing:
-                values = {field: cached[(symbol, field)]['value']
-                          for field in fields if (symbol, field) in cached}
-                if values:
+            # A statutory row may have only some ownership fields (for
+            # example no pledge value).  Merge cache facts field-by-field so
+            # a successful prior provider pull is reused instead of ignored
+            # merely because a partial statutory row exists.
+            cached = self.store.get_many(symbols, fields, self.clock())
+            for symbol in symbols:
+                values = result.setdefault(symbol, {})
+                added = False
+                for field in fields:
+                    if values.get(field) is None and (symbol, field) in cached:
+                        values[field] = cached[(symbol, field)]['value']
+                        added = True
+                if added and not values.get('sh_quarter'):
                     values['sh_quarter'] = 'canonical_fact_store'
-                    result[symbol] = values
             if enrich:
                 try:
                     import trendlyne_bridge as bridge

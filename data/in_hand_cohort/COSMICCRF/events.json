@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_COSMIC_01",
+    "issuerNseSymbol": "COSMICCRF",
+    "issuerBseCode": "543928",
+    "eventDate": "2024-05-29",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Audited Annual Results FY24",
+    "description": "Reported ₹50.6 Cr net profit, up over 80% YoY.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_COSMIC_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

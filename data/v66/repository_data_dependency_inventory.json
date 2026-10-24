@@ -1,0 +1,5261 @@
+{
+  "generatedAt": "2026-09-18T05:30:32.231Z",
+  "governance": {
+    "productionPromotionAuthorized": false,
+    "auditVersion": "v6.6.0-agent-a"
+  },
+  "tablesSummary": {
+    "totalTables": 165,
+    "tablesWithZeroRows": [
+      "SystemLogs",
+      "PriceHistoryCache",
+      "BackupManualTransactions",
+      "AccountProfiles",
+      "NriTdsTransactions",
+      "FemaRepatriationLedger",
+      "ReconciledHoldings",
+      "SoldStockRegistry",
+      "FifoRunLog",
+      "ReconciliationExceptions",
+      "InvestmentThesisLedger",
+      "QuarterlyEarningsIntelligence",
+      "SecuritySignalDriftLedger",
+      "mutation_dedup_keys",
+      "signal_outcomes",
+      "calibration_stats",
+      "rights_subscriptions",
+      "feature_audit_log",
+      "options_chain_snapshot",
+      "PaperTradingPotConfig",
+      "MomentumVpaAlerts",
+      "FundamentalsSnapshot",
+      "EventIntelligenceLog",
+      "TopNCurationLog",
+      "fill_registry",
+      "StrippingDisallowances",
+      "yt_knowledge_segments",
+      "yt_knowledge_claims",
+      "yt_knowledge_debates",
+      "yt_knowledge_feature_proposals",
+      "IndexOHLCV",
+      "IndexConstituents",
+      "FundamentalData",
+      "IntradayCandles",
+      "CustomStrategyBacktests",
+      "StrategyComparisonSets",
+      "DataQualityIssues",
+      "strategy_run_results",
+      "strategy_comparison_sessions",
+      "paper_trades",
+      "funnel_presets",
+      "ScripSchedule",
+      "ManagementClaims",
+      "IntelligenceEvents",
+      "Contradictions",
+      "CompanyTheses"
+    ],
+    "tablesWithData": [
+      {
+        "name": "MasterTickers",
+        "rowCount": 3654
+      },
+      {
+        "name": "Transactions",
+        "rowCount": 15211
+      },
+      {
+        "name": "CorporateActions",
+        "rowCount": 7757
+      },
+      {
+        "name": "TaxSummary",
+        "rowCount": 82
+      },
+      {
+        "name": "AppConfig",
+        "rowCount": 1656
+      },
+      {
+        "name": "UserMappings",
+        "rowCount": 646
+      },
+      {
+        "name": "ActionHistory",
+        "rowCount": 112
+      },
+      {
+        "name": "ZerodhaHoldings",
+        "rowCount": 31
+      },
+      {
+        "name": "CorporateActionAudit",
+        "rowCount": 2580
+      },
+      {
+        "name": "DataChangeLog",
+        "rowCount": 362
+      },
+      {
+        "name": "PortfolioHistory",
+        "rowCount": 1277
+      },
+      {
+        "name": "RealizedGains",
+        "rowCount": 7081
+      },
+      {
+        "name": "CamsConfigurations",
+        "rowCount": 3
+      },
+      {
+        "name": "CamsSummaryHoldings",
+        "rowCount": 13
+      },
+      {
+        "name": "Portfolios",
+        "rowCount": 16
+      },
+      {
+        "name": "Holdings",
+        "rowCount": 115
+      },
+      {
+        "name": "BankAccountsAndFDs",
+        "rowCount": 16
+      },
+      {
+        "name": "CurrencyRates",
+        "rowCount": 5
+      },
+      {
+        "name": "HistoricalPrices",
+        "rowCount": 1342753
+      },
+      {
+        "name": "BenchmarkCashFlowCache",
+        "rowCount": 4927
+      },
+      {
+        "name": "AppChangeLogs",
+        "rowCount": 1
+      },
+      {
+        "name": "DashboardDiskCache",
+        "rowCount": 18
+      },
+      {
+        "name": "FamilyGroups",
+        "rowCount": 2
+      },
+      {
+        "name": "AssetScripMappings",
+        "rowCount": 2
+      },
+      {
+        "name": "PmsFeeConfigurations",
+        "rowCount": 2
+      },
+      {
+        "name": "TargetAllocations",
+        "rowCount": 5
+      },
+      {
+        "name": "PredictionAuditLedger",
+        "rowCount": 100
+      },
+      {
+        "name": "ModelGenerations",
+        "rowCount": 108
+      },
+      {
+        "name": "ModelPostMortems",
+        "rowCount": 52
+      },
+      {
+        "name": "MarketSnapshots",
+        "rowCount": 32984
+      },
+      {
+        "name": "FnoDataCache",
+        "rowCount": 600
+      },
+      {
+        "name": "MacroRegimeLog",
+        "rowCount": 22
+      },
+      {
+        "name": "ModelRunLedger",
+        "rowCount": 127
+      },
+      {
+        "name": "PmsReconciliationBaseline",
+        "rowCount": 1
+      },
+      {
+        "name": "PmsReconciliationBaselineHoldings",
+        "rowCount": 48
+      },
+      {
+        "name": "PmsBenchmarkMonthly",
+        "rowCount": 35
+      },
+      {
+        "name": "ActiveOpportunitySignals",
+        "rowCount": 183
+      },
+      {
+        "name": "BrokerResearchReports",
+        "rowCount": 11
+      },
+      {
+        "name": "PmsSummaryHoldings",
+        "rowCount": 48
+      },
+      {
+        "name": "ReconciliationAuditSnapshots",
+        "rowCount": 6
+      },
+      {
+        "name": "ValuationSnapshots",
+        "rowCount": 21660
+      },
+      {
+        "name": "FamilyMembers",
+        "rowCount": 5
+      },
+      {
+        "name": "MemberPortfolioPermissions",
+        "rowCount": 16
+      },
+      {
+        "name": "DailyPortfolioSnapshot",
+        "rowCount": 168
+      },
+      {
+        "name": "CarriedForwardLosses",
+        "rowCount": 32
+      },
+      {
+        "name": "ZerodhaSyncCheckpoints",
+        "rowCount": 3
+      },
+      {
+        "name": "SecurityKnowledgeBaseLedger",
+        "rowCount": 8
+      },
+      {
+        "name": "AutoCalibrationProposals",
+        "rowCount": 1
+      },
+      {
+        "name": "AlertHistoryLedger",
+        "rowCount": 6
+      },
+      {
+        "name": "SecurityDossierSnapshots",
+        "rowCount": 3554
+      },
+      {
+        "name": "trading_calendar",
+        "rowCount": 42
+      },
+      {
+        "name": "data_feed_status",
+        "rowCount": 1
+      },
+      {
+        "name": "audit_ledger",
+        "rowCount": 7
+      },
+      {
+        "name": "data_sources",
+        "rowCount": 8
+      },
+      {
+        "name": "source_adapter_runs",
+        "rowCount": 1
+      },
+      {
+        "name": "unified_conviction_scores",
+        "rowCount": 4
+      },
+      {
+        "name": "harvest_tracking",
+        "rowCount": 1
+      },
+      {
+        "name": "position_size_recommendations",
+        "rowCount": 7
+      },
+      {
+        "name": "stop_loss_alerts",
+        "rowCount": 17
+      },
+      {
+        "name": "portfolio_risk_snapshots",
+        "rowCount": 7
+      },
+      {
+        "name": "model_generations",
+        "rowCount": 1
+      },
+      {
+        "name": "leading_indicator_series",
+        "rowCount": 5
+      },
+      {
+        "name": "indicator_validation_results",
+        "rowCount": 5
+      },
+      {
+        "name": "fundamental_metric_conflicts",
+        "rowCount": 1
+      },
+      {
+        "name": "news_events",
+        "rowCount": 1
+      },
+      {
+        "name": "social_sentiment_daily",
+        "rowCount": 1
+      },
+      {
+        "name": "derived_options_metrics",
+        "rowCount": 1
+      },
+      {
+        "name": "broker_research_reports",
+        "rowCount": 1
+      },
+      {
+        "name": "AutonomousRecommendationsLedger",
+        "rowCount": 159
+      },
+      {
+        "name": "AutonomousPostMortems",
+        "rowCount": 35
+      },
+      {
+        "name": "AutonomousSelfLearningRules",
+        "rowCount": 5
+      },
+      {
+        "name": "SelfLearningMutationLog",
+        "rowCount": 8
+      },
+      {
+        "name": "PaperTradingPots",
+        "rowCount": 3
+      },
+      {
+        "name": "PaperTradingPositions",
+        "rowCount": 22
+      },
+      {
+        "name": "PaperTradingNAVHistory",
+        "rowCount": 13608
+      },
+      {
+        "name": "Prices",
+        "rowCount": 1
+      },
+      {
+        "name": "MomentumVpaOrders",
+        "rowCount": 125
+      },
+      {
+        "name": "OpportunityEngineReports",
+        "rowCount": 1
+      },
+      {
+        "name": "OpportunityScripEvaluations",
+        "rowCount": 702
+      },
+      {
+        "name": "tier_calibration_ledger",
+        "rowCount": 9
+      },
+      {
+        "name": "tier_membership_history",
+        "rowCount": 10295
+      },
+      {
+        "name": "SmartMoneySectorCache",
+        "rowCount": 48
+      },
+      {
+        "name": "DataProvenanceLog",
+        "rowCount": 168
+      },
+      {
+        "name": "ScoringModelVersion",
+        "rowCount": 1
+      },
+      {
+        "name": "NseBhavcopy",
+        "rowCount": 18523
+      },
+      {
+        "name": "InstitutionalDeals",
+        "rowCount": 1354
+      },
+      {
+        "name": "MfNavHistory",
+        "rowCount": 49636
+      },
+      {
+        "name": "ForexRates",
+        "rowCount": 4
+      },
+      {
+        "name": "industrial_group_registry",
+        "rowCount": 14
+      },
+      {
+        "name": "pli_sector_registry",
+        "rowCount": 11
+      },
+      {
+        "name": "sunrise_industrial_universe",
+        "rowCount": 15
+      },
+      {
+        "name": "FundamentalSnapshots",
+        "rowCount": 268
+      },
+      {
+        "name": "BacktestResultsCache",
+        "rowCount": 382
+      },
+      {
+        "name": "SignalBrierScoreLog",
+        "rowCount": 68
+      },
+      {
+        "name": "yt_knowledge_sessions",
+        "rowCount": 19
+      },
+      {
+        "name": "yt_knowledge_videos",
+        "rowCount": 60
+      },
+      {
+        "name": "regime_backtest_summaries",
+        "rowCount": 92
+      },
+      {
+        "name": "regime_backtest_trades",
+        "rowCount": 6113
+      },
+      {
+        "name": "DailyOHLCV",
+        "rowCount": 4130313
+      },
+      {
+        "name": "CustomStrategies",
+        "rowCount": 10
+      },
+      {
+        "name": "db_migrations",
+        "rowCount": 11
+      },
+      {
+        "name": "PipelineRunLog",
+        "rowCount": 1
+      },
+      {
+        "name": "strategy_scan_metadata",
+        "rowCount": 20
+      },
+      {
+        "name": "backtest_regime_ledger",
+        "rowCount": 2968
+      },
+      {
+        "name": "IntradayOHLCV",
+        "rowCount": 10138
+      },
+      {
+        "name": "AlertLog",
+        "rowCount": 98
+      },
+      {
+        "name": "DataQualityAuditLedger",
+        "rowCount": 3659
+      },
+      {
+        "name": "DataSyncDriftLedger",
+        "rowCount": 15264
+      },
+      {
+        "name": "HistoricalFinancialStatements",
+        "rowCount": 2295
+      },
+      {
+        "name": "HistoricalShareholdingPattern",
+        "rowCount": 1124
+      },
+      {
+        "name": "FullUniverseComprehensiveOpportunityScan",
+        "rowCount": 331
+      },
+      {
+        "name": "ForensicExtractionCache",
+        "rowCount": 1
+      },
+      {
+        "name": "StatutoryEvents",
+        "rowCount": 602
+      },
+      {
+        "name": "SnapshotProvenance",
+        "rowCount": 625
+      },
+      {
+        "name": "QuarantinedRecords",
+        "rowCount": 22
+      },
+      {
+        "name": "EvidenceInventory",
+        "rowCount": 15
+      },
+      {
+        "name": "ForensicAssertions",
+        "rowCount": 3
+      },
+      {
+        "name": "FEREEnrichedLedger",
+        "rowCount": 3559
+      },
+      {
+        "name": "strategy_scan_cache",
+        "rowCount": 4104
+      }
+    ]
+  },
+  "servicesSummary": {
+    "totalServices": 134,
+    "usingDataInsufficient": [
+      "HistoricalPITUniverseProvider.ts"
+    ],
+    "usingPITPatterns": [
+      "AlertEngine.ts",
+      "AutonomousSmartMoneyAgent.ts",
+      "CapitalProtectionEngine.ts",
+      "CausalPostMortemService.ts",
+      "CommercialExcelReportService.ts",
+      "ConsolidatedOpportunityEngine.ts",
+      "CorporateActionsEngine.ts",
+      "DualSourceReconciliationEngine.ts",
+      "ExecutiveConsensusService.ts",
+      "FamilyBenchmarkService.ts",
+      "FilterSelectivityAuditor.ts",
+      "FlexibleTelemetryPipelineService.ts",
+      "FnOIntelligenceService.ts",
+      "ForensicExtractionSchema.ts",
+      "ForensicIntelligenceService.ts",
+      "ForensicQualityAuditService.ts",
+      "ForensicScoringService.ts",
+      "ForensicTestSuiteRunner.ts",
+      "GreenfieldRebalanceService.ts",
+      "HistoricalPITUniverseProvider.ts",
+      "HistoricalReplayBacktestEngine.ts",
+      "InsiderTradingParser.ts",
+      "InstitutionalBuyersService.ts",
+      "InstitutionalDossierReportGenerator.ts",
+      "InstitutionalFlowService.ts",
+      "IpoAnalysisEngine.ts",
+      "LLMOrchestrationService.ts",
+      "MacroRegimeClassifierService.ts",
+      "MasterIndianUniverseService.ts",
+      "MasterQuantUniverseService.ts",
+      "MomentumVpaEngine.ts",
+      "MultibaggerDiscoveryEngine.ts",
+      "MultiBrokerReconService.ts",
+      "NewsSentimentService.ts",
+      "NewTechnicalStrategiesEngine.ts",
+      "NriWealthService.ts",
+      "OpportunityEnginePhase4to6.ts",
+      "OpportunityScannerEngine.ts",
+      "PaperTradingPotService.ts",
+      "PmsReconciliationService.ts",
+      "PostTaxXirrService.ts",
+      "PureTechnicalStrategiesEngine.ts",
+      "RecommendationOutcomeAuditor.ts",
+      "RegimeBacktestEngine.ts",
+      "ReportsService.ts",
+      "ResearchExperienceAgent.ts",
+      "screenerService.ts",
+      "ScripIntelligenceDossierService.ts",
+      "SignalEngine.ts",
+      "SignalQualityOverlay.ts",
+      "SmartMoneyConceptsEngine.ts",
+      "SmartMoneyFlowEngine.ts",
+      "StatutoryFeedPoller.ts",
+      "StatutoryLineageService.ts",
+      "StrategyCalibrationEngine.ts",
+      "StrategyParameterConfig.ts",
+      "SunriseIndustrialUniverseService.ts",
+      "TechnicalAnalysisEngine.ts",
+      "TechnicalMomentumEngine.ts",
+      "TranscriptOptimizer.ts",
+      "TranscriptRetrievalService.ts",
+      "TrendlyneIntelligenceService.ts",
+      "UnifiedValuationService.ts",
+      "UniversalDataIntegrityGate.ts",
+      "UniversalKnowledgeCompiler.ts",
+      "XbrlIngestionService.ts",
+      "ZerodhaTradebookService.ts"
+    ],
+    "usingSystemClock": [
+      "AlertEngine.ts",
+      "AutoCalibrationProposalService.ts",
+      "AutonomousSelfLearningService.ts",
+      "AutonomousSmartMoneyAgent.ts",
+      "BedrockService.ts",
+      "BudgetGuard.ts",
+      "CausalPostMortemService.ts",
+      "CircuitBreaker.ts",
+      "CommercialExcelReportService.ts",
+      "ConsolidatedOpportunityEngine.ts",
+      "CorporateActionsEngine.ts",
+      "DailyEODPipelineService.ts",
+      "DailyPipelineService.ts",
+      "DatabaseManager.ts",
+      "DossierEmailDispatcher.ts",
+      "DualSourceReconciliationEngine.ts",
+      "ExecutiveConsensusService.ts",
+      "FilterSelectivityAuditor.ts",
+      "FlexibleTelemetryPipelineService.ts",
+      "FnOBhavcopyIngestorService.ts",
+      "FnOIntelligenceService.ts",
+      "ForensicIntelligenceService.ts",
+      "ForensicLLMRouter.ts",
+      "ForensicQualityAuditService.ts",
+      "ForensicTestSuiteRunner.ts",
+      "FundamentalDataService.ts",
+      "GreenfieldRebalanceService.ts",
+      "InstitutionalBuyersService.ts",
+      "InstitutionalFlowService.ts",
+      "IpoAnalysisEngine.ts",
+      "LiveMarketStreamService.ts",
+      "LLMOrchestrationService.ts",
+      "MacroRegimeClassifierService.ts",
+      "MarketDataCache.ts",
+      "MarketDataIngestorService.ts",
+      "MasterQuantUniverseService.ts",
+      "MasterTickerService.ts",
+      "MomentumVpaEngine.ts",
+      "MultibaggerDiscoveryEngine.ts",
+      "NewsSentimentService.ts",
+      "NriWealthService.ts",
+      "NseBhavcopyService.ts",
+      "OpportunityEnginePhase4to6.ts",
+      "OpportunityEngineScheduler.ts",
+      "OpportunityScannerEngine.ts",
+      "OrderBookImbalanceService.ts",
+      "PaperTradingPotService.ts",
+      "PhaseEOptimization.ts",
+      "PmsFeeReconciliationService.ts",
+      "PmsReconciliationService.ts",
+      "PostTaxXirrService.ts",
+      "PredictionAccuracyEngine.ts",
+      "PureTechnicalStrategiesEngine.ts",
+      "QuantitativeBacktestScheduler.ts",
+      "RebalancingEngine.ts",
+      "RecommendationOutcomeAuditor.ts",
+      "ReconciliationEngine.ts",
+      "RegimeBacktestEngine.ts",
+      "ReportsService.ts",
+      "ResearchExperienceAgent.ts",
+      "screenerService.ts",
+      "ScripIntelligenceDossierService.ts",
+      "ScripKnowledgeBaseService.ts",
+      "SelfLearningEngine.ts",
+      "SignalQualityOverlay.ts",
+      "SmartMoneyConceptsEngine.ts",
+      "SmartMoneyFlowEngine.ts",
+      "StooqDataService.ts",
+      "StrategyCalibrationEngine.ts",
+      "StrategyPreCalculationService.ts",
+      "SunriseIndustrialUniverseService.ts",
+      "SupportResistanceEngine.ts",
+      "TaxHarvestingEngine.ts",
+      "TechnicalMomentumEngine.ts",
+      "TranscriptOptimizer.ts",
+      "TrendlyneIntelligenceService.ts",
+      "UniversalKnowledgeCompiler.ts",
+      "UniverseDataAuditService.ts",
+      "UniverseManagerService.ts",
+      "UniverseOfficialReingestionService.ts",
+      "UpstoxIntradayIngestor.ts",
+      "XbrlIngestionService.ts",
+      "YouTubeResearchIntelligenceEngine.ts",
+      "ZerodhaConsoleDownloader.ts",
+      "ZerodhaSyncService.ts",
+      "ZerodhaTradebookService.ts"
+    ],
+    "directEngineCoupling": []
+  },
+  "tables": [
+    {
+      "name": "MasterTickers",
+      "rowCount": 3654,
+      "columns": [
+        "id",
+        "isin",
+        "symbol",
+        "exchange",
+        "segment",
+        "series",
+        "lot_size",
+        "upstox_key_nse",
+        "upstox_key_bse",
+        "sector",
+        "listing_date",
+        "status",
+        "manual_ltp",
+        "manual_ltp_date",
+        "name",
+        "created_at",
+        "updated_at",
+        "fmv_31_jan_2018",
+        "currency",
+        "last_price",
+        "previous_close",
+        "last_updated",
+        "company_name"
+      ]
+    },
+    {
+      "name": "Transactions",
+      "rowCount": 15211,
+      "columns": [
+        "id",
+        "date",
+        "portfolio",
+        "type",
+        "isin",
+        "symbol",
+        "quantity",
+        "price",
+        "gross_amount",
+        "brokerage",
+        "stt",
+        "stamp_duty",
+        "gst",
+        "exchange_charges",
+        "sebi_charges",
+        "total_taxes",
+        "net_amount",
+        "source",
+        "notes",
+        "batch_id",
+        "created_at",
+        "updated_at",
+        "is_cash_flow",
+        "corporate_action_type",
+        "account_number",
+        "folio",
+        "broker_name",
+        "is_ca",
+        "member_id"
+      ]
+    },
+    {
+      "name": "CorporateActions",
+      "rowCount": 7757,
+      "columns": [
+        "id",
+        "ex_date",
+        "record_date",
+        "isin",
+        "symbol",
+        "action_type",
+        "details",
+        "numerator",
+        "denominator",
+        "dividend_per_share",
+        "old_face_value",
+        "new_face_value",
+        "source",
+        "applied",
+        "applied_date",
+        "notes",
+        "created_at",
+        "batch_id",
+        "applied_batch_id",
+        "updated_at",
+        "conflict_flag",
+        "conflicting_sources",
+        "rights_ratio",
+        "rights_price",
+        "subscription_deadline"
+      ]
+    },
+    {
+      "name": "TaxSummary",
+      "rowCount": 82,
+      "columns": [
+        "id",
+        "financial_year",
+        "portfolio",
+        "stcg_gains",
+        "stcg_tax",
+        "ltcg_gains",
+        "ltcg_exemption",
+        "ltcg_taxable",
+        "ltcg_tax",
+        "total_tax",
+        "dividends",
+        "total_realized_pnl",
+        "created_at",
+        "updated_at",
+        "intraday_gains"
+      ]
+    },
+    {
+      "name": "AppConfig",
+      "rowCount": 1656,
+      "columns": [
+        "key",
+        "value"
+      ]
+    },
+    {
+      "name": "SystemLogs",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "timestamp",
+        "level",
+        "category",
+        "message",
+        "action_required",
+        "resolved"
+      ]
+    },
+    {
+      "name": "UserMappings",
+      "rowCount": 646,
+      "columns": [
+        "id",
+        "raw_name",
+        "resolved_symbol",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "ActionHistory",
+      "rowCount": 112,
+      "columns": [
+        "id",
+        "timestamp",
+        "action_type",
+        "description",
+        "batch_id",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "ZerodhaHoldings",
+      "rowCount": 31,
+      "columns": [
+        "id",
+        "portfolio",
+        "isin",
+        "symbol",
+        "name",
+        "quantity",
+        "avg_price",
+        "upload_date",
+        "member_id",
+        "current_price",
+        "current_value",
+        "pnl",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "CorporateActionAudit",
+      "rowCount": 2580,
+      "columns": [
+        "id",
+        "portfolio",
+        "date",
+        "isin",
+        "symbol",
+        "action_type",
+        "original_qty",
+        "new_qty",
+        "original_cost",
+        "new_cost",
+        "message",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "DataChangeLog",
+      "rowCount": 362,
+      "columns": [
+        "id",
+        "table_name",
+        "action",
+        "row_id",
+        "changed_at",
+        "details"
+      ]
+    },
+    {
+      "name": "PriceHistoryCache",
+      "rowCount": 0,
+      "columns": [
+        "symbol",
+        "date",
+        "price"
+      ]
+    },
+    {
+      "name": "PortfolioHistory",
+      "rowCount": 1277,
+      "columns": [
+        "date",
+        "portfolio",
+        "created_at",
+        "updated_at",
+        "cumulative_invested",
+        "market_value",
+        "unrealized_pnl",
+        "xirr"
+      ]
+    },
+    {
+      "name": "RealizedGains",
+      "rowCount": 7081,
+      "columns": [
+        "id",
+        "match_id",
+        "created_at",
+        "updated_at",
+        "portfolio",
+        "isin",
+        "symbol",
+        "buy_date",
+        "buy_price",
+        "matched_qty",
+        "sell_date",
+        "sell_price",
+        "buy_cost",
+        "sell_proceeds",
+        "realized_pnl",
+        "holding_days",
+        "tax_category",
+        "fmv_31_jan_2018",
+        "grandfathered_cost",
+        "taxable_pnl",
+        "member_id"
+      ]
+    },
+    {
+      "name": "CamsConfigurations",
+      "rowCount": 3,
+      "columns": [
+        "pan",
+        "email",
+        "password",
+        "portfolio_name",
+        "status",
+        "last_sync",
+        "created_at"
+      ]
+    },
+    {
+      "name": "CamsSummaryHoldings",
+      "rowCount": 13,
+      "columns": [
+        "portfolio",
+        "isin",
+        "folio",
+        "symbol",
+        "quantity",
+        "nav",
+        "value",
+        "cost",
+        "created_at",
+        "member_id"
+      ]
+    },
+    {
+      "name": "BackupManualTransactions",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "original_id",
+        "date",
+        "portfolio",
+        "type",
+        "isin",
+        "symbol",
+        "quantity",
+        "price",
+        "gross_amount",
+        "brokerage",
+        "net_amount",
+        "source",
+        "notes",
+        "backed_up_at"
+      ]
+    },
+    {
+      "name": "Portfolios",
+      "rowCount": 16,
+      "columns": [
+        "id",
+        "name",
+        "type",
+        "status",
+        "created_at",
+        "updated_at",
+        "base_currency",
+        "family_group",
+        "benchmark_symbol",
+        "member_id",
+        "pan",
+        "owner_name"
+      ]
+    },
+    {
+      "name": "Holdings",
+      "rowCount": 115,
+      "columns": [
+        "portfolio",
+        "isin",
+        "folio",
+        "symbol",
+        "quantity",
+        "avg_buy_price",
+        "total_cost",
+        "ltp",
+        "prev_close",
+        "current_value",
+        "unrealized_pnl",
+        "unrealized_pct",
+        "day_change",
+        "day_change_pct",
+        "data_source",
+        "last_update",
+        "data_status",
+        "created_at",
+        "updated_at",
+        "currency",
+        "native_ltp",
+        "native_current_value",
+        "native_total_cost",
+        "native_avg_buy_price",
+        "native_unrealized_pnl",
+        "native_prev_close",
+        "tax_cost_basis",
+        "tax_avg_price",
+        "holding_type",
+        "member_id",
+        "price_authority",
+        "acquisition_fx_rate"
+      ]
+    },
+    {
+      "name": "BankAccountsAndFDs",
+      "rowCount": 16,
+      "columns": [
+        "id",
+        "portfolio",
+        "name",
+        "country",
+        "account_type",
+        "currency",
+        "balance_amount",
+        "interest_rate_pct",
+        "maturity_date",
+        "notes",
+        "created_at",
+        "updated_at",
+        "bank_name",
+        "account_number",
+        "ifsc_swift",
+        "folio",
+        "start_date",
+        "principal_amount",
+        "member_id"
+      ]
+    },
+    {
+      "name": "CurrencyRates",
+      "rowCount": 5,
+      "columns": [
+        "currency",
+        "rate_to_inr",
+        "source",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "HistoricalPrices",
+      "rowCount": 1342753,
+      "columns": [
+        "symbol",
+        "date",
+        "close_price",
+        "data_source",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "BenchmarkCashFlowCache",
+      "rowCount": 4927,
+      "columns": [
+        "portfolio",
+        "benchmark_symbol",
+        "date",
+        "invested",
+        "market_value",
+        "benchmark_value",
+        "portfolio_return",
+        "benchmark_return",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "AppChangeLogs",
+      "rowCount": 1,
+      "columns": [
+        "id",
+        "timestamp",
+        "version_tag",
+        "summary",
+        "file_count",
+        "applied_files",
+        "source"
+      ]
+    },
+    {
+      "name": "DashboardDiskCache",
+      "rowCount": 18,
+      "columns": [
+        "cache_key",
+        "payload_json",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "FamilyGroups",
+      "rowCount": 2,
+      "columns": [
+        "id",
+        "name",
+        "description",
+        "benchmark_symbol",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "AssetScripMappings",
+      "rowCount": 2,
+      "columns": [
+        "id",
+        "source_broker",
+        "raw_scrip_name",
+        "raw_symbol",
+        "isin",
+        "symbol",
+        "asset_class",
+        "sector",
+        "market_cap_tier",
+        "notes",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "PmsFeeConfigurations",
+      "rowCount": 2,
+      "columns": [
+        "portfolio",
+        "annual_fee_rate",
+        "gst_rate",
+        "billing_frequency",
+        "calculation_basis",
+        "include_expenses",
+        "notes",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "AccountProfiles",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "portfolio_name",
+        "account_type",
+        "demat_scheme",
+        "designated_bank",
+        "bank_account_number",
+        "pis_permission_ref",
+        "resident_country",
+        "tax_residency_status",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "NriTdsTransactions",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "transaction_id",
+        "portfolio",
+        "date",
+        "isin",
+        "symbol",
+        "realized_gain_inr",
+        "gain_type",
+        "tds_rate_pct",
+        "surcharge_pct",
+        "cess_pct",
+        "effective_tds_pct",
+        "tds_amount_deducted",
+        "challan_bsr_code",
+        "challan_number",
+        "challan_date",
+        "created_at",
+        "member_id"
+      ]
+    },
+    {
+      "name": "FemaRepatriationLedger",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "financial_year",
+        "remittance_date",
+        "portfolio",
+        "source_account_nro",
+        "destination_country",
+        "remitted_amount_inr",
+        "fx_rate_usd_inr",
+        "remitted_amount_usd",
+        "form_15ca_ack_no",
+        "form_15cb_cert_no",
+        "ca_membership_no",
+        "purpose_code",
+        "created_at",
+        "member_id"
+      ]
+    },
+    {
+      "name": "TargetAllocations",
+      "rowCount": 5,
+      "columns": [
+        "id",
+        "model_name",
+        "asset_class",
+        "target_pct",
+        "rebalance_tolerance_pct",
+        "created_at"
+      ]
+    },
+    {
+      "name": "PredictionAuditLedger",
+      "rowCount": 100,
+      "columns": [
+        "id",
+        "symbol",
+        "company_name",
+        "recommendation_date",
+        "recommended_action",
+        "entry_price",
+        "target_price",
+        "stop_loss_price",
+        "current_price",
+        "max_price_reached",
+        "predicted_probability_pct",
+        "confidence_level",
+        "status",
+        "pnl_pct",
+        "horizon_days",
+        "category",
+        "layman_thesis",
+        "created_at",
+        "entry_rsi14",
+        "entry_bb_bandwidth",
+        "entry_bb_percent_b",
+        "entry_relative_volume",
+        "entry_macd_histogram",
+        "entry_atr14",
+        "entry_regime",
+        "entry_composite_score",
+        "days_active",
+        "peak_pnl_pct",
+        "trough_pnl_pct",
+        "resolved_at",
+        "entry_delivery_surge",
+        "entry_sector_z_score",
+        "entry_rs_nifty",
+        "entry_kelly_fraction",
+        "is_seed"
+      ]
+    },
+    {
+      "name": "ModelGenerations",
+      "rowCount": 108,
+      "columns": [
+        "id",
+        "version_tag",
+        "created_at",
+        "trigger_reason",
+        "accuracy_before",
+        "accuracy_after",
+        "weights_json",
+        "weight_shifts_json",
+        "walk_forward_json"
+      ]
+    },
+    {
+      "name": "ModelPostMortems",
+      "rowCount": 52,
+      "columns": [
+        "id",
+        "symbol",
+        "recommendation_date",
+        "entry_price",
+        "target_price",
+        "stop_loss_price",
+        "exit_price",
+        "pnl_pct",
+        "failure_category",
+        "root_cause",
+        "corrective_action",
+        "mutation_applied",
+        "learned_at"
+      ]
+    },
+    {
+      "name": "MarketSnapshots",
+      "rowCount": 32984,
+      "columns": [
+        "id",
+        "symbol",
+        "snapshot_date",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume",
+        "sma20",
+        "ema50",
+        "rsi14",
+        "macd_line",
+        "macd_signal",
+        "macd_histogram",
+        "bb_upper",
+        "bb_middle",
+        "bb_lower",
+        "bb_bandwidth",
+        "bb_percent_b",
+        "atr14",
+        "vwap",
+        "volume_5d_avg",
+        "relative_volume",
+        "created_at",
+        "open_interest",
+        "data_source"
+      ]
+    },
+    {
+      "name": "FnoDataCache",
+      "rowCount": 600,
+      "columns": [
+        "id",
+        "symbol",
+        "data_date",
+        "is_fno_eligible",
+        "pcr",
+        "pcr_by_volume",
+        "max_pain",
+        "atm_iv",
+        "iv_percentile",
+        "iv_rank_score",
+        "oi_buildup",
+        "call_oi_total",
+        "put_oi_total",
+        "highest_call_oi_strike",
+        "highest_put_oi_strike",
+        "rollover_pct",
+        "delivery_pct",
+        "layman_meaning",
+        "portfolio_verdict",
+        "market_regime_signal",
+        "created_at"
+      ]
+    },
+    {
+      "name": "MacroRegimeLog",
+      "rowCount": 22,
+      "columns": [
+        "id",
+        "regime_date",
+        "regime",
+        "confidence",
+        "nifty_5d_return",
+        "nifty_20d_return",
+        "realized_vol",
+        "breadth_score",
+        "vix_level",
+        "conviction_multiplier",
+        "created_at"
+      ]
+    },
+    {
+      "name": "ModelRunLedger",
+      "rowCount": 127,
+      "columns": [
+        "id",
+        "run_at",
+        "regime",
+        "stocks_scanned",
+        "high_conviction_alerts",
+        "sl_hits_evaluated",
+        "weight_mutations_applied",
+        "accuracy_pct",
+        "run_duration_ms",
+        "trigger_reason"
+      ]
+    },
+    {
+      "name": "PmsReconciliationBaseline",
+      "rowCount": 1,
+      "columns": [
+        "portfolio",
+        "baseline_date",
+        "last_reconciled_txn_id",
+        "cash_in_hand",
+        "initial_cash_deposits",
+        "in_kind_market_val",
+        "in_kind_cost_val",
+        "total_withdrawals",
+        "net_trading_cash",
+        "gross_dividends",
+        "tds_paid",
+        "management_fees_paid",
+        "operating_expenses",
+        "reconciled_at",
+        "notes"
+      ]
+    },
+    {
+      "name": "PmsReconciliationBaselineHoldings",
+      "rowCount": 48,
+      "columns": [
+        "portfolio",
+        "symbol",
+        "isin",
+        "name",
+        "quantity",
+        "avg_buy_price",
+        "total_cost",
+        "tax_avg_price",
+        "tax_cost_basis"
+      ]
+    },
+    {
+      "name": "PmsBenchmarkMonthly",
+      "rowCount": 35,
+      "columns": [
+        "portfolio",
+        "period_start",
+        "period_end",
+        "period_ror_pct",
+        "bm_period_ror_pct",
+        "cum_ror_pct",
+        "bm_cum_ror_pct",
+        "benchmark_name"
+      ]
+    },
+    {
+      "name": "ActiveOpportunitySignals",
+      "rowCount": 183,
+      "columns": [
+        "id",
+        "symbol",
+        "universe",
+        "portfolio_name",
+        "first_detected_date",
+        "last_scanned_date",
+        "entry_price",
+        "target_price",
+        "stop_loss_price",
+        "strategy_category",
+        "action_directive",
+        "bullish_probability_pct",
+        "confidence_level",
+        "status",
+        "peak_price",
+        "trough_price",
+        "days_active",
+        "created_at"
+      ]
+    },
+    {
+      "name": "BrokerResearchReports",
+      "rowCount": 11,
+      "columns": [
+        "id",
+        "symbol",
+        "company_name",
+        "broker_name",
+        "report_title",
+        "report_date",
+        "recommendation_type",
+        "entry_price",
+        "target_price",
+        "stop_loss_price",
+        "upside_pct",
+        "horizon",
+        "report_url",
+        "thesis_summary",
+        "key_catalysts_json",
+        "created_at"
+      ]
+    },
+    {
+      "name": "PmsSummaryHoldings",
+      "rowCount": 48,
+      "columns": [
+        "portfolio",
+        "isin",
+        "symbol",
+        "name",
+        "quantity",
+        "avg_price",
+        "total_cost",
+        "ltp",
+        "current_value",
+        "statement_date",
+        "member_id"
+      ]
+    },
+    {
+      "name": "ReconciledHoldings",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "portfolio",
+        "isin",
+        "symbol",
+        "quantity",
+        "avg_buy_price",
+        "total_cost",
+        "reconciled_at",
+        "reconciled_by",
+        "is_locked",
+        "notes",
+        "member_id"
+      ]
+    },
+    {
+      "name": "SoldStockRegistry",
+      "rowCount": 0,
+      "columns": [
+        "portfolio",
+        "isin",
+        "symbol",
+        "sold_at",
+        "sealed_at"
+      ]
+    },
+    {
+      "name": "FifoRunLog",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "triggered_by",
+        "started_at",
+        "completed_at",
+        "holdings_rebuilt",
+        "notes"
+      ]
+    },
+    {
+      "name": "ReconciliationAuditSnapshots",
+      "rowCount": 6,
+      "columns": [
+        "id",
+        "created_at",
+        "statement_date",
+        "portfolio",
+        "statement_filename",
+        "baseline_holdings_count",
+        "baseline_cost",
+        "baseline_valuation",
+        "baseline_cash",
+        "currency",
+        "holdings_snapshot",
+        "notes"
+      ]
+    },
+    {
+      "name": "ValuationSnapshots",
+      "rowCount": 21660,
+      "columns": [
+        "id",
+        "timestamp",
+        "portfolio",
+        "total_value_inr",
+        "equity_value",
+        "cash_value",
+        "mf_value",
+        "fx_rate_usd",
+        "trigger_source",
+        "drift_pct",
+        "drift_alert",
+        "created_at",
+        "aif_value",
+        "unlisted_value"
+      ]
+    },
+    {
+      "name": "FamilyMembers",
+      "rowCount": 5,
+      "columns": [
+        "id",
+        "uuid",
+        "name",
+        "email",
+        "role",
+        "pan_number",
+        "tax_residency",
+        "avatar_color",
+        "is_active",
+        "pin_code",
+        "created_at",
+        "updated_at",
+        "is_senior_citizen"
+      ]
+    },
+    {
+      "name": "MemberPortfolioPermissions",
+      "rowCount": 16,
+      "columns": [
+        "id",
+        "member_id",
+        "portfolio_name",
+        "access_level",
+        "created_at"
+      ]
+    },
+    {
+      "name": "DailyPortfolioSnapshot",
+      "rowCount": 168,
+      "columns": [
+        "id",
+        "date",
+        "portfolio",
+        "market_value",
+        "total_cost",
+        "unrealized_pnl",
+        "equity_value",
+        "cash_value",
+        "mf_value",
+        "aif_value",
+        "unlisted_value",
+        "fx_rate_usd",
+        "source",
+        "created_at"
+      ]
+    },
+    {
+      "name": "CarriedForwardLosses",
+      "rowCount": 32,
+      "columns": [
+        "id",
+        "portfolio",
+        "financial_year",
+        "stcl_amount",
+        "ltcl_amount",
+        "assessment_year",
+        "notes",
+        "created_at",
+        "updated_at",
+        "pan"
+      ]
+    },
+    {
+      "name": "ReconciliationExceptions",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "portfolio",
+        "scrip_or_trade_id",
+        "exception_type",
+        "discrepancy_detail",
+        "reason_category",
+        "reason_notes",
+        "approved_by",
+        "approved_at",
+        "status"
+      ]
+    },
+    {
+      "name": "ZerodhaSyncCheckpoints",
+      "rowCount": 3,
+      "columns": [
+        "portfolio",
+        "client_id",
+        "last_synced_trade_date",
+        "last_synced_trade_id",
+        "last_sync_timestamp",
+        "sync_mode",
+        "total_trades_count"
+      ]
+    },
+    {
+      "name": "SecurityKnowledgeBaseLedger",
+      "rowCount": 8,
+      "columns": [
+        "id",
+        "symbol",
+        "as_of_date",
+        "verdict",
+        "calibrated_prob",
+        "target_price",
+        "stop_loss",
+        "horizon_days",
+        "fundamental_score",
+        "technical_score",
+        "flow_score",
+        "news_score",
+        "fno_score",
+        "bull_catalysts_json",
+        "bear_risks_json",
+        "macro_micro_json",
+        "peer_benchmark_json",
+        "raw_metrics_snapshot_json",
+        "created_at"
+      ]
+    },
+    {
+      "name": "InvestmentThesisLedger",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "symbol",
+        "entry_date",
+        "entry_price",
+        "initial_verdict",
+        "initial_target",
+        "initial_stop_loss",
+        "core_thesis_pillars_json",
+        "invalidation_triggers_json",
+        "status",
+        "custom_notes",
+        "last_reviewed_at"
+      ]
+    },
+    {
+      "name": "QuarterlyEarningsIntelligence",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "symbol",
+        "quarter_label",
+        "filing_date",
+        "revenue_actual",
+        "revenue_estimate",
+        "revenue_beat_miss_pct",
+        "ebitda_margin_actual",
+        "pat_actual",
+        "management_guidance_tone",
+        "concall_key_takeaways_json",
+        "thesis_impact",
+        "created_at"
+      ]
+    },
+    {
+      "name": "SecuritySignalDriftLedger",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "symbol",
+        "metric_name",
+        "previous_value",
+        "current_value",
+        "drift_pct",
+        "drift_direction",
+        "evaluated_at"
+      ]
+    },
+    {
+      "name": "AutoCalibrationProposals",
+      "rowCount": 1,
+      "columns": [
+        "id",
+        "created_at",
+        "trigger_reason",
+        "attribution_summary",
+        "old_weights_json",
+        "proposed_weights_json",
+        "simulated_winrate_delta_pct",
+        "brier_score_improvement",
+        "status",
+        "approved_at"
+      ]
+    },
+    {
+      "name": "AlertHistoryLedger",
+      "rowCount": 6,
+      "columns": [
+        "id",
+        "timestamp",
+        "symbol",
+        "company_name",
+        "severity",
+        "title",
+        "message",
+        "catalyst_source",
+        "price_at_alert",
+        "target_price",
+        "stop_loss",
+        "calibrated_prob",
+        "dismissed",
+        "category",
+        "action_required"
+      ]
+    },
+    {
+      "name": "SecurityDossierSnapshots",
+      "rowCount": 3554,
+      "columns": [
+        "symbol",
+        "company_name",
+        "sector",
+        "industry",
+        "cmp",
+        "day_change_pct",
+        "market_cap_cr",
+        "outlook_json",
+        "catalysts_json",
+        "sector_positioning_json",
+        "macro_mood_json",
+        "flows_json",
+        "fundamentals_json",
+        "technicals_json",
+        "derivatives_json",
+        "megatrend_json",
+        "concall_json",
+        "scores_json",
+        "portal_attribution_json",
+        "full_dossier_json",
+        "researched_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "trading_calendar",
+      "rowCount": 42,
+      "columns": [
+        "date",
+        "market",
+        "is_trading_day",
+        "session_type",
+        "holiday_name",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "data_feed_status",
+      "rowCount": 1,
+      "columns": [
+        "feed_id",
+        "source",
+        "last_heartbeat_utc",
+        "last_successful_fetch_utc",
+        "current_state",
+        "failure_count",
+        "latency_ms",
+        "last_error"
+      ]
+    },
+    {
+      "name": "mutation_dedup_keys",
+      "rowCount": 0,
+      "columns": [
+        "dedup_key",
+        "entity_type",
+        "entity_id",
+        "applied_at",
+        "result_hash",
+        "response_payload",
+        "superseded_by"
+      ]
+    },
+    {
+      "name": "signal_outcomes",
+      "rowCount": 0,
+      "columns": [
+        "signal_id",
+        "symbol",
+        "category",
+        "stated_confidence",
+        "stated_probability",
+        "recommendation_date",
+        "resolution_date",
+        "outcome",
+        "actual_return_pct",
+        "created_at"
+      ]
+    },
+    {
+      "name": "calibration_stats",
+      "rowCount": 0,
+      "columns": [
+        "category",
+        "confidence_tier",
+        "n",
+        "hits",
+        "win_rate",
+        "wilson_ci_low",
+        "wilson_ci_high",
+        "median_lead_time_days",
+        "status",
+        "last_computed_at"
+      ]
+    },
+    {
+      "name": "audit_ledger",
+      "rowCount": 7,
+      "columns": [
+        "id",
+        "timestamp_utc",
+        "event_type",
+        "entity_type",
+        "entity_id",
+        "action",
+        "actor",
+        "before_state",
+        "after_state",
+        "dedup_key",
+        "entry_hash"
+      ]
+    },
+    {
+      "name": "data_sources",
+      "rowCount": 8,
+      "columns": [
+        "source_id",
+        "display_name",
+        "category",
+        "access_method",
+        "tos_status",
+        "reliability_tier",
+        "refresh_cadence",
+        "notes"
+      ]
+    },
+    {
+      "name": "source_adapter_runs",
+      "rowCount": 1,
+      "columns": [
+        "run_id",
+        "source_id",
+        "started_at_utc",
+        "completed_at_utc",
+        "records_ingested",
+        "status",
+        "error_detail"
+      ]
+    },
+    {
+      "name": "unified_conviction_scores",
+      "rowCount": 4,
+      "columns": [
+        "symbol",
+        "as_of_date",
+        "conviction_score",
+        "is_recommendation",
+        "components_breakdown",
+        "hard_circuit_breaker_active",
+        "zero_size_reason",
+        "max_kelly_fraction",
+        "created_at"
+      ]
+    },
+    {
+      "name": "rights_subscriptions",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "ca_id",
+        "portfolio",
+        "subscribed_qty",
+        "renounced",
+        "rights_price",
+        "total_paid",
+        "decided_at"
+      ]
+    },
+    {
+      "name": "harvest_tracking",
+      "rowCount": 1,
+      "columns": [
+        "harvest_id",
+        "pan",
+        "portfolio",
+        "symbol",
+        "isin",
+        "quantity",
+        "sold_date",
+        "loss_amount",
+        "tax_saved",
+        "repurchase_eligible_date",
+        "outcome_status",
+        "repurchase_actual_date",
+        "intervening_corporate_action",
+        "intervening_ca_details",
+        "created_at"
+      ]
+    },
+    {
+      "name": "position_size_recommendations",
+      "rowCount": 7,
+      "columns": [
+        "id",
+        "symbol",
+        "portfolio_id",
+        "raw_probability",
+        "calibrated_probability",
+        "kelly_fraction",
+        "half_kelly_fraction",
+        "correlation_haircut",
+        "liquidity_cap_amount",
+        "single_stock_cap_pct",
+        "final_recommended_amount",
+        "final_recommended_pct",
+        "generated_at",
+        "inputs_snapshot"
+      ]
+    },
+    {
+      "name": "stop_loss_alerts",
+      "rowCount": 17,
+      "columns": [
+        "id",
+        "holding_id",
+        "symbol",
+        "portfolio",
+        "stop_loss_price",
+        "ltp_at_breach",
+        "breached_at",
+        "acknowledged_at",
+        "status"
+      ]
+    },
+    {
+      "name": "portfolio_risk_snapshots",
+      "rowCount": 7,
+      "columns": [
+        "id",
+        "portfolio_id",
+        "as_of_date",
+        "current_drawdown_pct",
+        "trailing_30d_volatility",
+        "var_95_1day",
+        "breaker_status"
+      ]
+    },
+    {
+      "name": "model_generations",
+      "rowCount": 1,
+      "columns": [
+        "id",
+        "weights_json",
+        "status",
+        "train_window",
+        "test_window",
+        "out_of_sample_metrics",
+        "promoted_at",
+        "retired_at",
+        "retirement_reason"
+      ]
+    },
+    {
+      "name": "feature_audit_log",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "signal_id",
+        "feature_name",
+        "value_used_at_generation",
+        "value_recomputed_strict_asof",
+        "discrepancy_flag",
+        "audited_at"
+      ]
+    },
+    {
+      "name": "leading_indicator_series",
+      "rowCount": 5,
+      "columns": [
+        "id",
+        "indicator_name",
+        "entity_key",
+        "as_of_date",
+        "value",
+        "unit",
+        "source",
+        "data_feed_status"
+      ]
+    },
+    {
+      "name": "indicator_validation_results",
+      "rowCount": 5,
+      "columns": [
+        "id",
+        "indicator_name",
+        "category",
+        "best_lag_days",
+        "correlation_at_lag",
+        "p_value",
+        "validated_on_window",
+        "status"
+      ]
+    },
+    {
+      "name": "fundamental_metric_conflicts",
+      "rowCount": 1,
+      "columns": [
+        "id",
+        "symbol",
+        "metric",
+        "source_a",
+        "value_a",
+        "source_b",
+        "value_b",
+        "max_deviation_pct",
+        "as_of",
+        "resolved",
+        "resolution_note"
+      ]
+    },
+    {
+      "name": "news_events",
+      "rowCount": 1,
+      "columns": [
+        "event_id",
+        "published_at",
+        "source_id",
+        "headline",
+        "entity_keys",
+        "event_type",
+        "dedup_cluster_id",
+        "sentiment_score"
+      ]
+    },
+    {
+      "name": "social_sentiment_daily",
+      "rowCount": 1,
+      "columns": [
+        "symbol",
+        "date",
+        "mention_count",
+        "positive_pct",
+        "negative_pct",
+        "manipulation_risk",
+        "score_used_in_fusion"
+      ]
+    },
+    {
+      "name": "options_chain_snapshot",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "symbol",
+        "expiry",
+        "strike",
+        "option_type",
+        "oi",
+        "oi_change",
+        "iv",
+        "volume",
+        "ltp",
+        "as_of_timestamp",
+        "as_of_date"
+      ]
+    },
+    {
+      "name": "derived_options_metrics",
+      "rowCount": 1,
+      "columns": [
+        "symbol",
+        "as_of_date",
+        "pcr_oi",
+        "pcr_volume",
+        "max_pain_strike",
+        "iv_skew_25delta",
+        "unusual_oi_buildup_strikes"
+      ]
+    },
+    {
+      "name": "broker_research_reports",
+      "rowCount": 1,
+      "columns": [
+        "id",
+        "symbol",
+        "broker_name",
+        "report_date",
+        "rating",
+        "target_price",
+        "target_horizon_months",
+        "source_account"
+      ]
+    },
+    {
+      "name": "AutonomousRecommendationsLedger",
+      "rowCount": 159,
+      "columns": [
+        "id",
+        "symbol",
+        "company_name",
+        "sector",
+        "action",
+        "entry_price",
+        "current_price",
+        "stop_loss",
+        "target_1",
+        "target_2",
+        "risk_reward_ratio",
+        "timeframe",
+        "probability_pct",
+        "confidence_score",
+        "promoter_pct",
+        "fii_pct",
+        "dii_pct",
+        "retail_float_pct",
+        "float_squeeze_ratio",
+        "float_regime",
+        "fno_buildup",
+        "put_call_ratio",
+        "rsi_value",
+        "bollinger_status",
+        "volume_surge_ratio",
+        "reasoning_summary",
+        "reasoning_trace_json",
+        "status",
+        "created_at",
+        "updated_at",
+        "catalyst",
+        "smc_structure",
+        "smc_liquidity_sweep",
+        "smc_order_block",
+        "smc_fvg_present",
+        "smc_premium_discount",
+        "smc_checklist_score",
+        "smc_trade_setup_json"
+      ]
+    },
+    {
+      "name": "AutonomousPostMortems",
+      "rowCount": 35,
+      "columns": [
+        "id",
+        "recommendation_id",
+        "symbol",
+        "company_name",
+        "timeframe",
+        "entry_price",
+        "exit_price",
+        "target_price",
+        "stop_loss_price",
+        "pnl_pct",
+        "failure_category",
+        "primary_failure_category",
+        "compound_causes_json",
+        "causal_confidence_pct",
+        "temporal_context_json",
+        "counterfactual_action",
+        "root_cause_analysis",
+        "corrective_action",
+        "applied_parameter_mutation",
+        "learned_at"
+      ]
+    },
+    {
+      "name": "AutonomousSelfLearningRules",
+      "rowCount": 5,
+      "columns": [
+        "id",
+        "rule_name",
+        "rule_category",
+        "baseline_threshold",
+        "current_threshold",
+        "condition_expression",
+        "action_penalty",
+        "status",
+        "canary_signals_evaluated",
+        "canary_win_rate_pct",
+        "is_active",
+        "evolution_generation",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "SelfLearningMutationLog",
+      "rowCount": 8,
+      "columns": [
+        "id",
+        "rule_id",
+        "rule_name",
+        "previous_value",
+        "new_value",
+        "mutation_reason",
+        "sample_size",
+        "decay_weight",
+        "performance_delta",
+        "status",
+        "timestamp"
+      ]
+    },
+    {
+      "name": "PaperTradingPots",
+      "rowCount": 3,
+      "columns": [
+        "id",
+        "pot_name",
+        "strategy_type",
+        "initial_capital",
+        "cash_balance",
+        "current_portfolio_nav",
+        "total_realized_pnl",
+        "risk_per_trade_pct",
+        "max_drawdown_pct",
+        "peak_nav",
+        "is_circuit_breaker_tripped",
+        "circuit_breaker_reason",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "PaperTradingPotConfig",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "pot_name",
+        "initial_capital",
+        "cash_balance",
+        "current_portfolio_nav",
+        "risk_per_trade_pct",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "PaperTradingPositions",
+      "rowCount": 22,
+      "columns": [
+        "id",
+        "pot_id",
+        "recommendation_id",
+        "symbol",
+        "company_name",
+        "sector",
+        "action",
+        "timeframe",
+        "quantity",
+        "initial_quantity",
+        "entry_price",
+        "invested_capital",
+        "current_price",
+        "stop_loss",
+        "trailing_stop_loss",
+        "target_1",
+        "target_2",
+        "partial_exit_done",
+        "partial_exit_price",
+        "partial_exit_pnl",
+        "exit_confirmation_type",
+        "friction_costs",
+        "status",
+        "exit_price",
+        "exit_reason",
+        "realized_pnl",
+        "realized_pnl_pct",
+        "entry_date",
+        "exit_date"
+      ]
+    },
+    {
+      "name": "PaperTradingNAVHistory",
+      "rowCount": 13608,
+      "columns": [
+        "id",
+        "pot_id",
+        "nav",
+        "cash",
+        "invested",
+        "daily_pnl",
+        "daily_return_pct",
+        "benchmark_nifty_nav",
+        "alpha_vs_benchmark_pct",
+        "timestamp"
+      ]
+    },
+    {
+      "name": "Prices",
+      "rowCount": 1,
+      "columns": [
+        "id",
+        "symbol",
+        "date",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume",
+        "created_at"
+      ]
+    },
+    {
+      "name": "MomentumVpaOrders",
+      "rowCount": 125,
+      "columns": [
+        "id",
+        "symbol",
+        "portfolio",
+        "status",
+        "totalCapital",
+        "totalQuantity",
+        "p0",
+        "pPeak",
+        "turnoverCr",
+        "baseHigh",
+        "baseLow",
+        "baseDurationBars",
+        "tranche1Qty",
+        "tranche1Price",
+        "tranche1Status",
+        "tranche2Qty",
+        "tranche2Price",
+        "tranche2Status",
+        "tranche3Qty",
+        "tranche3Price",
+        "tranche3Status",
+        "blendedVwap",
+        "structuralRiskPct",
+        "targetMinPrice",
+        "targetMaxPrice",
+        "emergencyStopPrice",
+        "macroRegime",
+        "notes",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    {
+      "name": "MomentumVpaAlerts",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "timestamp",
+        "symbol",
+        "alertType",
+        "severity",
+        "headline",
+        "message",
+        "price",
+        "p0",
+        "blendedVwap"
+      ]
+    },
+    {
+      "name": "OpportunityEngineReports",
+      "rowCount": 1,
+      "columns": [
+        "id",
+        "generated_at",
+        "report_json",
+        "universe_count",
+        "opportunities_count",
+        "status",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "OpportunityScripEvaluations",
+      "rowCount": 702,
+      "columns": [
+        "symbol",
+        "company_name",
+        "sector",
+        "market_cap_category",
+        "convergence_score",
+        "actionable_now",
+        "multibagger_tier",
+        "evaluation_json",
+        "last_updated_at",
+        "provenance_tag",
+        "confidence_interval_str"
+      ]
+    },
+    {
+      "name": "tier_calibration_ledger",
+      "rowCount": 9,
+      "columns": [
+        "id",
+        "tier_or_preset_id",
+        "weight_blend",
+        "backtest_window_start",
+        "backtest_window_end",
+        "n_signals",
+        "hit_rate",
+        "hit_rate_ci_low",
+        "hit_rate_ci_high",
+        "validated_out_of_sample",
+        "last_recalibrated",
+        "regime"
+      ]
+    },
+    {
+      "name": "tier_membership_history",
+      "rowCount": 10295,
+      "columns": [
+        "id",
+        "tier",
+        "symbol",
+        "event_type",
+        "score",
+        "consecutive_cycles",
+        "recorded_at"
+      ]
+    },
+    {
+      "name": "SmartMoneySectorCache",
+      "rowCount": 48,
+      "columns": [
+        "sector",
+        "timeframe",
+        "net_flow_cr",
+        "average_smas",
+        "smas_delta",
+        "accumulation_breadth_pct",
+        "distribution_breadth_pct",
+        "total_stocks",
+        "flow_direction",
+        "flow_momentum_zscore",
+        "top_inflows_json",
+        "top_outflows_json",
+        "updated_at",
+        "provenance_json",
+        "confidence_interval_str"
+      ]
+    },
+    {
+      "name": "DataProvenanceLog",
+      "rowCount": 168,
+      "columns": [
+        "metric_id",
+        "symbol",
+        "source_name",
+        "source_type",
+        "fetched_at",
+        "as_of_date",
+        "confidence_pct",
+        "reconciled_against",
+        "discrepancy_pct"
+      ]
+    },
+    {
+      "name": "FundamentalsSnapshot",
+      "rowCount": 0,
+      "columns": [
+        "symbol",
+        "as_of_date",
+        "sector_class",
+        "roce",
+        "sales_cagr_3y",
+        "debt_equity",
+        "ocf_ebitda",
+        "pe_ratio",
+        "promoter_pledge_pct",
+        "nim_pct",
+        "gnpa_pct",
+        "nnpa_pct",
+        "car_pct",
+        "roa_pct",
+        "source_filing_ref",
+        "created_at"
+      ]
+    },
+    {
+      "name": "EventIntelligenceLog",
+      "rowCount": 0,
+      "columns": [
+        "event_id",
+        "symbol",
+        "event_type",
+        "headline",
+        "sentiment_score",
+        "materiality_score",
+        "is_adverse",
+        "source_url",
+        "published_at",
+        "created_at",
+        "source_id",
+        "dedup_cluster_id",
+        "data_source"
+      ]
+    },
+    {
+      "name": "ScoringModelVersion",
+      "rowCount": 1,
+      "columns": [
+        "version_id",
+        "weights_json",
+        "backtest_period_start",
+        "backtest_period_end",
+        "out_of_sample_hit_rate_pct",
+        "avg_r_multiple",
+        "max_drawdown_pct",
+        "sharpe_ratio",
+        "is_active",
+        "calibrated_at"
+      ]
+    },
+    {
+      "name": "TopNCurationLog",
+      "rowCount": 0,
+      "columns": [
+        "run_id",
+        "symbol",
+        "rank",
+        "included",
+        "consensus_pillars_passed",
+        "convergence_score",
+        "confidence_band_low",
+        "confidence_band_high",
+        "excluded_reason",
+        "run_at"
+      ]
+    },
+    {
+      "name": "NseBhavcopy",
+      "rowCount": 18523,
+      "columns": [
+        "symbol",
+        "series",
+        "trade_date",
+        "prev_close",
+        "open",
+        "high",
+        "low",
+        "close",
+        "avg_price",
+        "volume",
+        "turnover_lacs",
+        "no_of_trades",
+        "deliv_qty",
+        "deliv_per",
+        "created_at"
+      ]
+    },
+    {
+      "name": "InstitutionalDeals",
+      "rowCount": 1354,
+      "columns": [
+        "id",
+        "deal_date",
+        "symbol",
+        "security_name",
+        "client_name",
+        "deal_type",
+        "quantity",
+        "trade_price",
+        "deal_category",
+        "remarks",
+        "created_at"
+      ]
+    },
+    {
+      "name": "MfNavHistory",
+      "rowCount": 49636,
+      "columns": [
+        "scheme_code",
+        "isin",
+        "scheme_name",
+        "nav",
+        "nav_date",
+        "created_at"
+      ]
+    },
+    {
+      "name": "ForexRates",
+      "rowCount": 4,
+      "columns": [
+        "currency_pair",
+        "rate",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "fill_registry",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "order_id",
+        "trade_id",
+        "isin",
+        "trade_date",
+        "trade_time",
+        "trade_type",
+        "quantity",
+        "price",
+        "broker_code",
+        "settlement_type",
+        "fill_hash",
+        "order_hash",
+        "batch_id",
+        "ingestion_ts"
+      ]
+    },
+    {
+      "name": "StrippingDisallowances",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "portfolio",
+        "pan",
+        "symbol",
+        "isin",
+        "section",
+        "trigger_sell_date",
+        "record_date",
+        "gross_loss_claimed",
+        "disallowed_loss",
+        "reportable_loss",
+        "transferred_to_lot_id",
+        "adjusted_cost_of_bonus_lot",
+        "audit_notes",
+        "created_at"
+      ]
+    },
+    {
+      "name": "industrial_group_registry",
+      "rowCount": 14,
+      "columns": [
+        "group_id",
+        "group_name",
+        "founding_year",
+        "vintage_years",
+        "promoter_family_origin",
+        "headquarters",
+        "governance_rating",
+        "notes"
+      ]
+    },
+    {
+      "name": "pli_sector_registry",
+      "rowCount": 11,
+      "columns": [
+        "scheme_id",
+        "scheme_name",
+        "vertical_code",
+        "nodal_ministry",
+        "notified_outlay_cr",
+        "target_year",
+        "status"
+      ]
+    },
+    {
+      "name": "sunrise_industrial_universe",
+      "rowCount": 15,
+      "columns": [
+        "symbol",
+        "company_name",
+        "isin",
+        "vertical_code",
+        "vertical_name",
+        "pli_scheme_id",
+        "pli_tier",
+        "industrial_group_id",
+        "industrial_group_name",
+        "group_vintage_years",
+        "backing_modality",
+        "market_cap_cr",
+        "market_cap_tier",
+        "current_price",
+        "turnover_cagr_3y_pct",
+        "ebitda_cagr_3y_pct",
+        "operating_leverage_ratio",
+        "cfo_to_ebitda_ratio",
+        "promoter_holding_pct",
+        "fii_holding_pct",
+        "dii_holding_pct",
+        "free_retail_float_pct",
+        "promoter_pledge_pct",
+        "peg_ratio",
+        "roce_pct",
+        "order_book_cr",
+        "order_book_multiple",
+        "composite_shg_score",
+        "conviction_tier",
+        "catalysts_summary",
+        "is_active",
+        "last_evaluated_at"
+      ]
+    },
+    {
+      "name": "FundamentalSnapshots",
+      "rowCount": 268,
+      "columns": [
+        "symbol",
+        "fetched_at",
+        "source",
+        "company_name",
+        "sector",
+        "industry",
+        "pe_ratio",
+        "book_value",
+        "dividend_yield_pct",
+        "roce_pct",
+        "roe_pct",
+        "operating_margin_pct",
+        "debt_to_equity",
+        "interest_coverage",
+        "sales_growth_5y_pct",
+        "pat_growth_5y_pct",
+        "roe_3y_pct",
+        "promoter_holding_pct",
+        "fii_holding_pct",
+        "dii_holding_pct",
+        "pledged_pct"
+      ]
+    },
+    {
+      "name": "BacktestResultsCache",
+      "rowCount": 382,
+      "columns": [
+        "symbol",
+        "strategy_name",
+        "cached_at",
+        "total_trades",
+        "win_rate_pct",
+        "profit_factor",
+        "total_return_pct",
+        "buy_and_hold_return_pct",
+        "alpha_pct",
+        "max_drawdown_pct",
+        "sharpe_ratio",
+        "avg_win_pct",
+        "avg_loss_pct",
+        "trades_json"
+      ]
+    },
+    {
+      "name": "SignalBrierScoreLog",
+      "rowCount": 68,
+      "columns": [
+        "id",
+        "signal_name",
+        "signal_fired",
+        "signal_value",
+        "outcome",
+        "recommendation_id",
+        "fired_at",
+        "resolved_at",
+        "brier_score"
+      ]
+    },
+    {
+      "name": "yt_knowledge_sessions",
+      "rowCount": 19,
+      "columns": [
+        "id",
+        "topic",
+        "category",
+        "matched_node_id",
+        "target_video_count",
+        "synonyms_json",
+        "expanded_queries_json",
+        "status",
+        "progress_pct",
+        "status_message",
+        "synthesis_json",
+        "created_at",
+        "completed_at"
+      ]
+    },
+    {
+      "name": "yt_knowledge_videos",
+      "rowCount": 60,
+      "columns": [
+        "id",
+        "session_id",
+        "video_id",
+        "title",
+        "channel",
+        "duration_s",
+        "view_count",
+        "upload_date",
+        "query_origin",
+        "source",
+        "transcript_sha256",
+        "transcript_text",
+        "language",
+        "bias_signals_json",
+        "bias_count",
+        "audio_retained",
+        "created_at"
+      ]
+    },
+    {
+      "name": "yt_knowledge_segments",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "session_id",
+        "video_id",
+        "start_time",
+        "end_time",
+        "segment_text",
+        "translated_text",
+        "language",
+        "sha256"
+      ]
+    },
+    {
+      "name": "yt_knowledge_claims",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "session_id",
+        "video_id",
+        "channel",
+        "claim_text",
+        "claim_type",
+        "is_consensus",
+        "consensus_level",
+        "provenance_tag",
+        "created_at"
+      ]
+    },
+    {
+      "name": "yt_knowledge_debates",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "session_id",
+        "topic_aspect",
+        "thesis_claim",
+        "thesis_channel",
+        "thesis_video_id",
+        "antithesis_claim",
+        "antithesis_channel",
+        "antithesis_video_id",
+        "neutrality_guidance",
+        "created_at"
+      ]
+    },
+    {
+      "name": "yt_knowledge_feature_proposals",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "session_id",
+        "feature_name",
+        "category",
+        "derived_from",
+        "source_channel",
+        "source_video_id",
+        "implementation_blueprint",
+        "status",
+        "created_at"
+      ]
+    },
+    {
+      "name": "regime_backtest_summaries",
+      "rowCount": 92,
+      "columns": [
+        "regime",
+        "strategy_id",
+        "strategy_name",
+        "period_start",
+        "period_end",
+        "scrip_count",
+        "total_signals",
+        "win_rate_pct",
+        "profit_factor",
+        "avg_gain_pct",
+        "avg_loss_pct",
+        "total_return_pct",
+        "period_cagr_pct",
+        "max_drawdown_pct",
+        "sharpe_ratio",
+        "brier_score",
+        "avg_holding_days",
+        "best_scrip",
+        "best_scrip_return_pct",
+        "worst_scrip",
+        "worst_scrip_return_pct",
+        "re_entries_total"
+      ]
+    },
+    {
+      "name": "regime_backtest_trades",
+      "rowCount": 6113,
+      "columns": [
+        "id",
+        "symbol",
+        "company_name",
+        "tier",
+        "is_fno",
+        "regime",
+        "strategy_id",
+        "strategy_name",
+        "signal_date",
+        "initial_entry_date",
+        "initial_entry_price",
+        "stop_loss",
+        "target_price",
+        "re_entries_count",
+        "re_entries_log_json",
+        "period_close_date",
+        "period_close_price",
+        "final_exit_date",
+        "final_exit_price",
+        "trade_status",
+        "gross_return_pct",
+        "net_return_pct",
+        "holding_days",
+        "mfe_pct",
+        "mae_pct",
+        "rules_passed_summary"
+      ]
+    },
+    {
+      "name": "DailyOHLCV",
+      "rowCount": 4130313,
+      "columns": [
+        "symbol",
+        "trade_date",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume",
+        "turnover",
+        "delivery_qty",
+        "delivery_pct",
+        "no_of_trades",
+        "prev_close",
+        "data_source",
+        "created_at"
+      ]
+    },
+    {
+      "name": "IndexOHLCV",
+      "rowCount": 0,
+      "columns": [
+        "index_symbol",
+        "trade_date",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume",
+        "turnover",
+        "data_source",
+        "created_at"
+      ]
+    },
+    {
+      "name": "IndexConstituents",
+      "rowCount": 0,
+      "columns": [
+        "index_symbol",
+        "symbol",
+        "company_name",
+        "isin",
+        "weight",
+        "sector",
+        "effective_from",
+        "effective_to",
+        "data_source",
+        "created_at"
+      ]
+    },
+    {
+      "name": "FundamentalData",
+      "rowCount": 0,
+      "columns": [
+        "symbol",
+        "as_of_date",
+        "promoter_holding_pct",
+        "public_holding_pct",
+        "fii_holding_pct",
+        "dii_holding_pct",
+        "free_float_shares",
+        "total_shares",
+        "free_float_pct",
+        "market_cap_cr",
+        "face_value",
+        "circuit_limit_pct",
+        "data_source",
+        "created_at"
+      ]
+    },
+    {
+      "name": "IntradayCandles",
+      "rowCount": 0,
+      "columns": [
+        "symbol",
+        "candle_time",
+        "interval",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume",
+        "data_source",
+        "created_at"
+      ]
+    },
+    {
+      "name": "CustomStrategies",
+      "rowCount": 10,
+      "columns": [
+        "id",
+        "name",
+        "base_template_id",
+        "description",
+        "parameters_json",
+        "is_active",
+        "created_at",
+        "updated_at",
+        "last_backtest_at",
+        "backtest_win_rate",
+        "backtest_sharpe",
+        "backtest_total_signals",
+        "is_preset",
+        "preset_order",
+        "category",
+        "short_name",
+        "color_accent"
+      ]
+    },
+    {
+      "name": "CustomStrategyBacktests",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "strategy_id",
+        "run_at",
+        "period_start",
+        "period_end",
+        "total_signals",
+        "wins",
+        "losses",
+        "avg_risk_reward",
+        "sharpe_ratio",
+        "max_drawdown_pct",
+        "profit_factor",
+        "avg_holding_days",
+        "results_json"
+      ]
+    },
+    {
+      "name": "StrategyComparisonSets",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "name",
+        "strategy_ids_json",
+        "created_at"
+      ]
+    },
+    {
+      "name": "db_migrations",
+      "rowCount": 11,
+      "columns": [
+        "version",
+        "name",
+        "applied_at"
+      ]
+    },
+    {
+      "name": "PipelineRunLog",
+      "rowCount": 1,
+      "columns": [
+        "id",
+        "run_date",
+        "started_at",
+        "completed_at",
+        "status",
+        "bhavcopy_symbols",
+        "upstox_filled",
+        "yahoo_filled",
+        "total_symbols",
+        "quality_issues",
+        "duration_ms",
+        "error_message"
+      ]
+    },
+    {
+      "name": "DataQualityIssues",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "symbol",
+        "trade_date",
+        "issue_type",
+        "detail",
+        "detected_at",
+        "resolved"
+      ]
+    },
+    {
+      "name": "strategy_run_results",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "strategy_id",
+        "symbol",
+        "run_date",
+        "regime",
+        "entry_date",
+        "entry_price",
+        "exit_date",
+        "exit_price",
+        "status",
+        "return_pct",
+        "holding_days",
+        "mfe_pct",
+        "mae_pct",
+        "created_at"
+      ]
+    },
+    {
+      "name": "strategy_comparison_sessions",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "name",
+        "strategy_ids_json",
+        "universe_symbols_json",
+        "backtest_start_date",
+        "backtest_end_date",
+        "regime",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "strategy_scan_metadata",
+      "rowCount": 20,
+      "columns": [
+        "id",
+        "scan_id",
+        "strategy_ids_json",
+        "universe_count",
+        "stocks_qualified_total",
+        "scan_started_at",
+        "scan_completed_at",
+        "duration_seconds",
+        "status",
+        "error_message",
+        "created_at"
+      ]
+    },
+    {
+      "name": "backtest_regime_ledger",
+      "rowCount": 2968,
+      "columns": [
+        "symbol",
+        "company_name",
+        "tier",
+        "regime_id",
+        "regime_type",
+        "regime_start",
+        "regime_end",
+        "candle_count",
+        "data_quality_score",
+        "s1_status",
+        "s1_signal_date",
+        "s1_entry_price",
+        "s1_stop_loss",
+        "s1_target_price",
+        "s1_exit_price",
+        "s1_exit_date",
+        "s1_trade_outcome",
+        "s1_net_return_pct",
+        "s1_reentries_count",
+        "s1_holding_days",
+        "s2_status",
+        "s2_signal_date",
+        "s2_entry_price",
+        "s2_stop_loss",
+        "s2_target_price",
+        "s2_exit_price",
+        "s2_exit_date",
+        "s2_trade_outcome",
+        "s2_net_return_pct",
+        "s2_reentries_count",
+        "s2_holding_days",
+        "s3_status",
+        "s3_signal_date",
+        "s3_entry_price",
+        "s3_stop_loss",
+        "s3_target_price",
+        "s3_exit_price",
+        "s3_exit_date",
+        "s3_trade_outcome",
+        "s3_net_return_pct",
+        "s3_reentries_count",
+        "s3_holding_days",
+        "s4_status",
+        "s4_signal_date",
+        "s4_entry_price",
+        "s4_stop_loss",
+        "s4_target_price",
+        "s4_exit_price",
+        "s4_exit_date",
+        "s4_trade_outcome",
+        "s4_net_return_pct",
+        "s4_reentries_count",
+        "s4_holding_days",
+        "best_performing_strategy",
+        "max_strategy_return_pct",
+        "combined_signal_agreement",
+        "agreement_count",
+        "computed_at",
+        "s5_status",
+        "s5_signal_date",
+        "s5_entry_price",
+        "s5_stop_loss",
+        "s5_target_price",
+        "s5_exit_price",
+        "s5_exit_date",
+        "s5_trade_outcome",
+        "s5_net_return_pct",
+        "s5_reentries_count",
+        "s5_holding_days",
+        "s6_status",
+        "s6_signal_date",
+        "s6_entry_price",
+        "s6_stop_loss",
+        "s6_target_price",
+        "s6_exit_price",
+        "s6_exit_date",
+        "s6_trade_outcome",
+        "s6_net_return_pct",
+        "s6_reentries_count",
+        "s6_holding_days",
+        "s7_status",
+        "s7_signal_date",
+        "s7_entry_price",
+        "s7_stop_loss",
+        "s7_target_price",
+        "s7_exit_price",
+        "s7_exit_date",
+        "s7_trade_outcome",
+        "s7_net_return_pct",
+        "s7_reentries_count",
+        "s7_holding_days",
+        "s8_status",
+        "s8_signal_date",
+        "s8_entry_price",
+        "s8_stop_loss",
+        "s8_target_price",
+        "s8_exit_price",
+        "s8_exit_date",
+        "s8_trade_outcome",
+        "s8_net_return_pct",
+        "s8_reentries_count",
+        "s8_holding_days",
+        "s9_status",
+        "s9_signal_date",
+        "s9_entry_price",
+        "s9_stop_loss",
+        "s9_target_price",
+        "s9_exit_price",
+        "s9_exit_date",
+        "s9_trade_outcome",
+        "s9_net_return_pct",
+        "s9_reentries_count",
+        "s9_holding_days",
+        "s10_status",
+        "s10_signal_date",
+        "s10_entry_price",
+        "s10_stop_loss",
+        "s10_target_price",
+        "s10_exit_price",
+        "s10_exit_date",
+        "s10_trade_outcome",
+        "s10_net_return_pct",
+        "s10_reentries_count",
+        "s10_holding_days",
+        "s11_status",
+        "s11_signal_date",
+        "s11_entry_price",
+        "s11_stop_loss",
+        "s11_target_price",
+        "s11_exit_price",
+        "s11_exit_date",
+        "s11_trade_outcome",
+        "s11_net_return_pct",
+        "s11_reentries_count",
+        "s11_holding_days"
+      ]
+    },
+    {
+      "name": "IntradayOHLCV",
+      "rowCount": 10138,
+      "columns": [
+        "symbol",
+        "timeframe",
+        "timestamp",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume",
+        "open_interest"
+      ]
+    },
+    {
+      "name": "AlertLog",
+      "rowCount": 98,
+      "columns": [
+        "id",
+        "alert_code",
+        "category",
+        "priority",
+        "symbol",
+        "portfolio",
+        "title",
+        "message",
+        "payload_json",
+        "state",
+        "timestamp",
+        "cooldown_until",
+        "acknowledged",
+        "recommendation"
+      ]
+    },
+    {
+      "name": "paper_trades",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "symbol",
+        "company_name",
+        "strategy_ids",
+        "gate_snapshot",
+        "entry_date",
+        "entry_price",
+        "stop_loss",
+        "target_1",
+        "target_2",
+        "position_size",
+        "position_inr",
+        "status",
+        "exit_date",
+        "exit_price",
+        "pnl_pct",
+        "pnl_inr",
+        "holding_days",
+        "max_gain_pct",
+        "max_loss_pct",
+        "verdict",
+        "notes",
+        "created_at"
+      ]
+    },
+    {
+      "name": "funnel_presets",
+      "rowCount": 0,
+      "columns": [
+        "id",
+        "name",
+        "strategy_ids_json",
+        "gate_config_json",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "DataQualityAuditLedger",
+      "rowCount": 3659,
+      "columns": [
+        "id",
+        "symbol",
+        "company_name",
+        "sector",
+        "industry",
+        "as_of_quarter",
+        "as_of_year",
+        "promoter_pct",
+        "fii_pct",
+        "dii_pct",
+        "govt_pct",
+        "others_pct",
+        "public_pct",
+        "sum_total_pct",
+        "free_float_pct",
+        "no_of_shareholders",
+        "market_cap_cr",
+        "current_price",
+        "pe_ratio",
+        "book_value",
+        "dividend_yield_pct",
+        "roce_pct",
+        "roe_pct",
+        "debt_to_equity",
+        "latest_sales_cr",
+        "latest_expenses_cr",
+        "latest_op_profit_cr",
+        "latest_opm_pct",
+        "latest_pbt_cr",
+        "latest_tax_pct",
+        "latest_pat_cr",
+        "latest_eps",
+        "sales_yoy_growth_pct",
+        "pat_yoy_growth_pct",
+        "sales_qoq_growth_pct",
+        "pat_qoq_growth_pct",
+        "sales_growth_5y_pct",
+        "profit_growth_5y_pct",
+        "cfo_cr",
+        "cfi_cr",
+        "cff_cr",
+        "net_cash_flow_cr",
+        "total_assets_cr",
+        "total_borrowings_cr",
+        "integrity_status",
+        "violation_reasons",
+        "field_accuracy_score",
+        "audited_at"
+      ]
+    },
+    {
+      "name": "DataSyncDriftLedger",
+      "rowCount": 15264,
+      "columns": [
+        "id",
+        "symbol",
+        "as_of_period",
+        "statement_type",
+        "metric_name",
+        "primary_source",
+        "primary_value",
+        "secondary_source",
+        "secondary_value",
+        "delta_absolute",
+        "delta_percentage",
+        "sync_status",
+        "resolution_note",
+        "reconciled_at"
+      ]
+    },
+    {
+      "name": "HistoricalFinancialStatements",
+      "rowCount": 2295,
+      "columns": [
+        "id",
+        "symbol",
+        "statement_type",
+        "period_label",
+        "period_date",
+        "sales_cr",
+        "expenses_cr",
+        "operating_profit_cr",
+        "opm_pct",
+        "other_income_cr",
+        "interest_cr",
+        "depreciation_cr",
+        "pbt_cr",
+        "tax_pct",
+        "net_profit_pat_cr",
+        "eps",
+        "equity_capital_cr",
+        "reserves_cr",
+        "borrowings_cr",
+        "other_liabilities_cr",
+        "total_liabilities_cr",
+        "fixed_assets_cr",
+        "cwip_cr",
+        "investments_cr",
+        "other_assets_cr",
+        "total_assets_cr",
+        "cfo_cr",
+        "cfi_cr",
+        "cff_cr",
+        "net_cash_flow_cr",
+        "primary_source",
+        "secondary_source",
+        "is_reconciled",
+        "created_at"
+      ]
+    },
+    {
+      "name": "HistoricalShareholdingPattern",
+      "rowCount": 1124,
+      "columns": [
+        "id",
+        "symbol",
+        "quarter_label",
+        "as_of_date",
+        "promoter_pct",
+        "fii_pct",
+        "dii_pct",
+        "govt_pct",
+        "others_pct",
+        "public_pct",
+        "employee_trusts_pct",
+        "sum_total_pct",
+        "free_float_pct",
+        "primary_source",
+        "secondary_source",
+        "is_reconciled",
+        "created_at"
+      ]
+    },
+    {
+      "name": "FullUniverseComprehensiveOpportunityScan",
+      "rowCount": 331,
+      "columns": [
+        "id",
+        "scan_id",
+        "symbol",
+        "company_name",
+        "cmp",
+        "market_cap_cr",
+        "sector",
+        "matched_strategies",
+        "technical_convergence_count",
+        "bullish_probability_pct",
+        "confidence_score",
+        "risk_reward_ratio",
+        "entry_price",
+        "stop_loss_price",
+        "target_price_1",
+        "target_price_2",
+        "upside_potential_pct",
+        "downside_risk_pct",
+        "is_multibagger_qualified",
+        "multibagger_score",
+        "multibagger_tier",
+        "sales_cagr_3yr_pct",
+        "pat_cagr_3yr_pct",
+        "roce_pct",
+        "roe_pct",
+        "debt_to_equity",
+        "cfo_to_pat_ratio",
+        "promoter_holding_pct",
+        "is_sunrise_industrial",
+        "sunrise_vertical",
+        "industrial_group",
+        "qglp_score",
+        "quant_ai_score",
+        "recommendation_category",
+        "key_catalysts",
+        "scanned_at"
+      ]
+    },
+    {
+      "name": "ForensicExtractionCache",
+      "rowCount": 1,
+      "columns": [
+        "cache_key",
+        "symbol",
+        "period",
+        "source_url",
+        "data_json",
+        "created_at"
+      ]
+    },
+    {
+      "name": "StatutoryEvents",
+      "rowCount": 602,
+      "columns": [
+        "id",
+        "scripCode",
+        "eventDate",
+        "eventType",
+        "payloadJson",
+        "sourceUrl",
+        "contentHash",
+        "ingestedAt",
+        "listingPlatform"
+      ]
+    },
+    {
+      "name": "ScripSchedule",
+      "rowCount": 0,
+      "columns": [
+        "scripCode",
+        "priorityTier",
+        "lastStatutoryCheck",
+        "lastConcallProcessed",
+        "nextConcallExpected"
+      ]
+    },
+    {
+      "name": "SnapshotProvenance",
+      "rowCount": 625,
+      "columns": [
+        "id",
+        "scripCode",
+        "fieldName",
+        "sourceTierUsed",
+        "confidenceScore",
+        "citationVeracityScore",
+        "extractedAt",
+        "listingPlatform"
+      ]
+    },
+    {
+      "name": "QuarantinedRecords",
+      "rowCount": 22,
+      "columns": [
+        "id",
+        "scripCode",
+        "listingPlatform",
+        "fieldName",
+        "extractedValue",
+        "failureReason",
+        "citationVeracityScore",
+        "sourceDocument",
+        "quarantinedAt",
+        "reviewStatus",
+        "reviewedAt",
+        "reviewerNote"
+      ]
+    },
+    {
+      "name": "EvidenceInventory",
+      "rowCount": 15,
+      "columns": [
+        "scripId",
+        "sourceType",
+        "result",
+        "checkedAt",
+        "documentId",
+        "discoveryMethod",
+        "details",
+        "evidence_id",
+        "issuer_nse_symbol",
+        "issuer_bse_code",
+        "document_hash",
+        "document_type",
+        "page_physical",
+        "page_printed",
+        "quoted_text",
+        "verification_status",
+        "discovered_at"
+      ]
+    },
+    {
+      "name": "ForensicAssertions",
+      "rowCount": 3,
+      "columns": [
+        "assertionId",
+        "scripId",
+        "field",
+        "value",
+        "unit",
+        "period",
+        "status",
+        "evidenceIds",
+        "confidence",
+        "sourceCount",
+        "extractionMethod",
+        "methodologyVersion",
+        "createdAt"
+      ]
+    },
+    {
+      "name": "ManagementClaims",
+      "rowCount": 0,
+      "columns": [
+        "claim_id",
+        "symbol",
+        "issuer_bse_code",
+        "period",
+        "category",
+        "statement",
+        "target_metric",
+        "baseline_value",
+        "expected_value",
+        "expected_outcome",
+        "expected_timeframe",
+        "evidence_id",
+        "status",
+        "actual_outcome_metric",
+        "actual_outcome_description",
+        "resolution_evidence_id",
+        "resolved_at",
+        "created_at",
+        "claim_date",
+        "expected_period_start",
+        "expected_period_end",
+        "evaluation_date",
+        "evaluation_basis",
+        "evaluation_evidence_id"
+      ]
+    },
+    {
+      "name": "IntelligenceEvents",
+      "rowCount": 0,
+      "columns": [
+        "event_id",
+        "symbol",
+        "issuer_bse_code",
+        "event_date",
+        "category",
+        "headline",
+        "description",
+        "source_type",
+        "evidence_id",
+        "materiality",
+        "created_at",
+        "source_tier"
+      ]
+    },
+    {
+      "name": "Contradictions",
+      "rowCount": 0,
+      "columns": [
+        "contradiction_id",
+        "symbol",
+        "issuer_bse_code",
+        "severity",
+        "contradiction_type",
+        "claim_id",
+        "event_id",
+        "description",
+        "divergence_json",
+        "supporting_evidence_ids",
+        "status",
+        "materiality",
+        "resolved_at",
+        "resolution_note",
+        "created_at",
+        "left_evidence_id",
+        "right_evidence_id",
+        "detected_at"
+      ]
+    },
+    {
+      "name": "CompanyTheses",
+      "rowCount": 0,
+      "columns": [
+        "thesis_id",
+        "symbol",
+        "thesis_statement",
+        "core_pillars_json",
+        "thesis_breakers_json",
+        "active_status",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "FEREEnrichedLedger",
+      "rowCount": 3559,
+      "columns": [
+        "symbol",
+        "company_name",
+        "category",
+        "market_cap_cr",
+        "cmp",
+        "pe_ratio",
+        "roce_pct",
+        "debt_to_equity",
+        "promoter_pledge_pct",
+        "beneish_m_score",
+        "beneish_flag",
+        "altman_z_score",
+        "altman_zone",
+        "piotroski_f_score",
+        "sloan_accrual_ratio",
+        "cash_conversion_cycle",
+        "dso",
+        "dio",
+        "dpo",
+        "cfo_to_ebitda_pct",
+        "composite_health_score",
+        "fere_verdict",
+        "enriched_tier",
+        "batch_number",
+        "enriched_at"
+      ]
+    },
+    {
+      "name": "strategy_scan_cache",
+      "rowCount": 4104,
+      "columns": [
+        "id",
+        "scan_id",
+        "strategy_id",
+        "symbol",
+        "qualified",
+        "entry_price",
+        "target1",
+        "target2",
+        "stop_loss",
+        "rr_ratio",
+        "confidence_pct",
+        "rule_checks_json",
+        "scan_date",
+        "created_at"
+      ]
+    }
+  ],
+  "services": [
+    {
+      "file": "AlertEngine.ts",
+      "tableReferences": [
+        "DailyOHLCV"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "AssetScripMappingService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "AutoCalibrationProposalService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "AutonomousSelfLearningService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "AutonomousSmartMoneyAgent.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "BankAndFDService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "BedrockService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "BrokerResearchIntelligenceService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "BudgetGuard.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "CacheService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "CapitalProtectionEngine.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "CausalPostMortemService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "CircuitBreaker.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "CommercialExcelReportService.ts",
+      "tableReferences": [
+        "Fundamentals",
+        "Financials"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "ConcallFailsafeHarvester.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "ConsolidatedOpportunityEngine.ts",
+      "tableReferences": [
+        "HistoricalPrices",
+        "CorporateActions",
+        "Fundamentals",
+        "Financials",
+        "QuarterlyResults",
+        "BlockDeals",
+        "Nifty50"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "CorporateActionsEngine.ts",
+      "tableReferences": [
+        "CorporateActions",
+        "TradingCalendar"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "DailyEODPipelineService.ts",
+      "tableReferences": [
+        "DailyOHLCV"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "DailyPipelineService.ts",
+      "tableReferences": [
+        "DailyOHLCV"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "DatabaseManager.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "DataScraperService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "DossierEmailDispatcher.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "DualSourceReconciliationEngine.ts",
+      "tableReferences": [
+        "Fundamentals"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "ExcelExportService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "ExecutiveConsensusService.ts",
+      "tableReferences": [
+        "Fundamentals",
+        "Nifty50"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "FamilyBenchmarkService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "FilterSelectivityAuditor.ts",
+      "tableReferences": [
+        "Fundamentals"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "FlexibleTelemetryPipelineService.ts",
+      "tableReferences": [
+        "Fundamentals"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "FnOBhavcopyIngestorService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "FnOIntelligenceService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "ForensicCacheService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "ForensicExtractionSchema.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "ForensicIntelligenceService.ts",
+      "tableReferences": [
+        "Fundamentals",
+        "CashFlow"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "ForensicLLMRouter.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "ForensicQualityAuditService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "ForensicScoringService.ts",
+      "tableReferences": [
+        "CashFlow"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "ForensicTestSuiteRunner.ts",
+      "tableReferences": [
+        "Fundamentals",
+        "CashFlow"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "ForensicValuationService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "FundamentalAlphaEngine.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "FundamentalDataService.ts",
+      "tableReferences": [
+        "Fundamentals"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "GeminiService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "GreenfieldRebalanceService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "HistoricalPITUniverseProvider.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": true,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "HistoricalReplayBacktestEngine.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "ImportParserService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "IndicatorPluginRegistry.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "InsiderTradingParser.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "InstitutionalBuyersService.ts",
+      "tableReferences": [
+        "Financials"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "InstitutionalDossierReportGenerator.ts",
+      "tableReferences": [
+        "Fundamentals"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "InstitutionalFlowService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "IpoAnalysisEngine.ts",
+      "tableReferences": [
+        "Fundamentals",
+        "Financials"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "ListingPlatformClassifier.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "LiveMarketStreamService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "LLMOrchestrationService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "lookthroughService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "MacroRegimeClassifierService.ts",
+      "tableReferences": [
+        "HistoricalPrices",
+        "Fundamentals",
+        "Nifty50"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "MarketDataCache.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "MarketDataIngestorService.ts",
+      "tableReferences": [
+        "DailyOHLCV",
+        "Nifty50"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "MasterIndianUniverseService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "MasterQuantUniverseService.ts",
+      "tableReferences": [
+        "Fundamentals"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "MasterTickerService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "MomentumVpaEngine.ts",
+      "tableReferences": [
+        "Fundamentals",
+        "Financials"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "MultibaggerDiscoveryEngine.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "MultiBrokerReconService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "NewsRelevanceService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "NewsSentimentService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "NewTechnicalStrategiesEngine.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "NriWealthService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "NseBhavcopyService.ts",
+      "tableReferences": [
+        "DailyOHLCV",
+        "InstitutionalDeals"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "OpportunityDataResolverService.ts",
+      "tableReferences": [
+        "DailyOHLCV",
+        "HistoricalPrices"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "OpportunityEnginePhase4to6.ts",
+      "tableReferences": [
+        "Fundamentals",
+        "Nifty50",
+        "TradingCalendar"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "OpportunityEngineScheduler.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "OpportunityScannerEngine.ts",
+      "tableReferences": [
+        "Fundamentals"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "OrderBookImbalanceService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "PaperTradingPotService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "PhaseEOptimization.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "PmsFeeReconciliationService.ts",
+      "tableReferences": [
+        "HistoricalPrices"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "PmsReconciliationService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "PostTaxXirrService.ts",
+      "tableReferences": [
+        "CashFlow"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "PredictionAccuracyEngine.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "PriceActionBacktestEngine.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "PureTechnicalStrategiesEngine.ts",
+      "tableReferences": [
+        "DailyOHLCV",
+        "HistoricalPrices",
+        "Fundamentals"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "QuantitativeBacktestScheduler.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "QuarantineQueueService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "RatingActionParser.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "RealTimeEventStreamService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "RebalancingEngine.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "RecommendationOutcomeAuditor.ts",
+      "tableReferences": [
+        "HistoricalPrices",
+        "Nifty50"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "ReconciliationEngine.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "RegimeBacktestEngine.ts",
+      "tableReferences": [
+        "DailyOHLCV",
+        "HistoricalPrices"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "ReportsService.ts",
+      "tableReferences": [
+        "CashFlow"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "ResearchExperienceAgent.ts",
+      "tableReferences": [
+        "DailyOHLCV",
+        "Nifty50"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "RiskAnalyticsEngine.ts",
+      "tableReferences": [
+        "HistoricalPrices",
+        "Nifty50"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "ScheduleOrchestrator.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "screenerService.ts",
+      "tableReferences": [
+        "BalanceSheet",
+        "QuarterlyResults"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "ScripIntelligenceDossierService.ts",
+      "tableReferences": [
+        "Fundamentals"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "ScripKnowledgeBaseService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "SelfLearningEngine.ts",
+      "tableReferences": [
+        "Fundamentals"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "ShareholdingPatternDiff.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "SignalEngine.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "SignalQualityOverlay.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "SmartMoneyConceptsEngine.ts",
+      "tableReferences": [
+        "Nifty50"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "SmartMoneyEngine.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "SmartMoneyFlowEngine.ts",
+      "tableReferences": [
+        "HistoricalPrices",
+        "Financials"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "socialMediaService.ts",
+      "tableReferences": [
+        "Financials"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "StatutoryFeedPoller.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "StatutoryLineageService.ts",
+      "tableReferences": [
+        "CashFlow"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "StooqDataService.ts",
+      "tableReferences": [
+        "DailyOHLCV"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "StrategyCalibrationEngine.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "StrategyParameterConfig.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "StrategyPreCalculationService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "SunriseIndustrialUniverseService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "SupportResistanceEngine.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "TaxHarvestingEngine.ts",
+      "tableReferences": [
+        "CorporateActions"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "TechnicalAnalysisEngine.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "TechnicalMomentumEngine.ts",
+      "tableReferences": [
+        "Financials"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "TransactionDeduplicationService.ts",
+      "tableReferences": [
+        "CorporateActions"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "TranscriptMicroRagOptimizer.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "TranscriptOptimizer.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "TranscriptRetrievalService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "TrendlyneIntelligenceService.ts",
+      "tableReferences": [
+        "HistoricalPrices"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "UnifiedValuationService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "UniversalDataIntegrityGate.ts",
+      "tableReferences": [
+        "Financials",
+        "BalanceSheet",
+        "QuarterlyResults"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "UniversalKnowledgeCompiler.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "UniverseDataAuditService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "UniverseManagerService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "UniverseOfficialReingestionService.ts",
+      "tableReferences": [
+        "Fundamentals",
+        "QuarterlyResults"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "UpstoxIntradayIngestor.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "XbrlFootnoteParser.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": false,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "XbrlIngestionService.ts",
+      "tableReferences": [
+        "Financials"
+      ],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "YouTubeResearchIntelligenceEngine.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "ZerodhaConsoleDownloader.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": false,
+      "directEngineImports": []
+    },
+    {
+      "file": "ZerodhaSyncService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": false,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    },
+    {
+      "file": "ZerodhaTradebookService.ts",
+      "tableReferences": [],
+      "hasDataInsufficient": false,
+      "hasPITReference": true,
+      "hasDateNowOrNewDate": true,
+      "hasFallbackLogic": true,
+      "directEngineImports": []
+    }
+  ]
+}

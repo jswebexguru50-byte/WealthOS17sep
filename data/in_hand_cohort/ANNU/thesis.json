@@ -1,0 +1,24 @@
+{
+  "symbol": "ANNU",
+  "coreThesisStatement": "Rural and semi-urban FMCG packaged foods compounder dominating Tier-3 Eastern India.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Deep Distribution",
+      "description": "Over 600,000 retail touchpoints across rural Eastern India."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Affordable Price-Point",
+      "description": "Unmatched product packaging at ₹5 and ₹10 price points."
+    },
+    {
+      "pillarId": "P3",
+      "title": "Rapid Growth",
+      "description": ">70% CAGR in packaged snack volumes."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_ANNU_LEVERAGE"
+  ]
+}

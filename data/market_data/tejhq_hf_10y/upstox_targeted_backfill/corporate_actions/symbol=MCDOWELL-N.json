@@ -1,0 +1,77 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "name": "Dividend",
+      "expiry_date": "08 Jul 2026",
+      "amount": 11.0,
+      "ratio": null,
+      "event_details": [
+        {
+          "name": "Announcement date",
+          "value": "14 May 2026"
+        },
+        {
+          "name": "Ex dividend date",
+          "value": "08 Jul 2026"
+        },
+        {
+          "name": "Record date",
+          "value": "08 Jul 2026"
+        },
+        {
+          "name": "Dividend type",
+          "value": "Final"
+        },
+        {
+          "name": "Amount",
+          "value": "11.0"
+        },
+        {
+          "name": "Dividend %",
+          "value": "550.0"
+        },
+        {
+          "name": "Details",
+          "value": "Rs.11.0000 per share(550%)Final Dividend"
+        }
+      ]
+    },
+    {
+      "name": "Dividend",
+      "expiry_date": "27 Jan 2026",
+      "amount": 6.0,
+      "ratio": null,
+      "event_details": [
+        {
+          "name": "Announcement date",
+          "value": "12 Jan 2026"
+        },
+        {
+          "name": "Ex dividend date",
+          "value": "27 Jan 2026"
+        },
+        {
+          "name": "Record date",
+          "value": "27 Jan 2026"
+        },
+        {
+          "name": "Dividend type",
+          "value": "Interim"
+        },
+        {
+          "name": "Amount",
+          "value": "6.0"
+        },
+        {
+          "name": "Dividend %",
+          "value": "300.0"
+        },
+        {
+          "name": "Details",
+          "value": "Rs.6.0000 per share(300%)Interim Dividend"
+        }
+      ]
+    }
+  ]
+}

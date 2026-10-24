@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WealthOS Skills & Reviews Map (2026-10-07)</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        h1 { font-size: 2.5rem; margin-bottom: 0.5rem; color: #60a5fa; }
+        .subtitle { color: #94a3b8; font-size: 0.95rem; margin-bottom: 2rem; }
+
+        /* Grid Layout */
+        .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 3rem; }
+        @media (max-width: 1200px) { .grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+
+        .card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 8px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        .card:hover { border-color: rgba(96, 165, 250, 0.5); transform: translateY(-2px); }
+        .card h2 { color: #60a5fa; font-size: 1.3rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .card-badge { background: rgba(96, 165, 250, 0.2); color: #93c5fd; padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600; }
+
+        /* Tables */
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th { background: rgba(96, 165, 250, 0.1); color: #93c5fd; padding: 0.75rem; text-align: left; font-weight: 600; font-size: 0.85rem; }
+        td { padding: 0.75rem; border-bottom: 1px solid rgba(148, 163, 184, 0.1); }
+        tr:hover { background: rgba(96, 165, 250, 0.05); }
+        .priority-p0 { color: #ef4444; font-weight: 600; }
+        .priority-p1 { color: #f97316; font-weight: 600; }
+        .priority-p2 { color: #eab308; font-weight: 600; }
+        .priority-p3 { color: #06b6d4; font-weight: 600; }
+
+        /* List Styles */
+        ul { margin-left: 1.5rem; }
+        li { margin-bottom: 0.5rem; }
+        li strong { color: #93c5fd; }
+
+        /* Metrics */
+        .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .metric {
+            background: rgba(96, 165, 250, 0.1);
+            border-left: 3px solid #60a5fa;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+        .metric-value { font-size: 1.8rem; font-weight: 700; color: #60a5fa; }
+        .metric-label { color: #cbd5e1; font-size: 0.85rem; }
+
+        /* God Nodes Table */
+        .god-nodes { background: rgba(30, 41, 59, 0.5); padding: 1rem; border-radius: 4px; margin-top: 1rem; }
+        .god-nodes h3 { color: #fbbf24; margin-bottom: 0.75rem; }
+
+        /* Sections */
+        .section { margin-bottom: 3rem; }
+        .section-title { font-size: 1.8rem; color: #60a5fa; margin-bottom: 1.5rem; border-bottom: 2px solid rgba(96, 165, 250, 0.3); padding-bottom: 0.75rem; }
+
+        /* Skills */
+        .skills-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .skill-badge {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(96, 165, 250, 0.2));
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .skill-badge:hover { border-color: rgba(34, 197, 94, 0.6); background: linear-gradient(135deg, rgba(34, 197, 94, 0.3), rgba(96, 165, 250, 0.3)); }
+        .skill-badge .name { color: #22c55e; font-weight: 600; }
+        .skill-badge .desc { color: #cbd5e1; font-size: 0.85rem; margin-top: 0.5rem; }
+
+        /* Bottlenecks */
+        .bottleneck { background: rgba(239, 68, 68, 0.05); border-left: 4px solid #ef4444; padding: 1rem; border-radius: 4px; margin-bottom: 1rem; }
+        .bottleneck-title { color: #fca5a5; font-weight: 600; }
+        .bottleneck-impact { color: #ef4444; font-size: 0.9rem; }
+
+        /* Code Review Findings */
+        .finding { background: rgba(30, 41, 59, 0.5); border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; margin-bottom: 1rem; }
+        .finding-id { color: #93c5fd; font-weight: 700; }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(148, 163, 184, 0.2);
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        /* Charts */
+        .bar-chart { margin-top: 1rem; }
+        .bar { display: flex; align-items: center; margin-bottom: 0.75rem; }
+        .bar-label { width: 150px; font-size: 0.85rem; color: #cbd5e1; }
+        .bar-fill { background: linear-gradient(90deg, #3b82f6, #06b6d4); height: 24px; border-radius: 4px; flex-grow: 1; position: relative; }
+        .bar-value { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); color: white; font-weight: 600; font-size: 0.75rem; }
+
+        .callout { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; }
+        .callout-title { color: #60a5fa; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <h1>🗺️ WealthOS Skills & Reviews Map</h1>
+        <div class="subtitle">Comprehensive analysis from graphify, code review, and bottleneck audit · 2026-10-07</div>
+
+        <div class="callout">
+            <div class="callout-title">📊 Session Summary</div>
+            <strong>75 files analyzed · 1,383 nodes · 2,695 edges · 58 communities</strong>
+            <br>3 reviews completed: Graphify Map, Code Review (12 findings), Performance Bottleneck Analysis (7 issues)
+        </div>
+
+        <!-- === SKILLS === -->
+        <div class="section">
+            <div class="section-title">🔧 Available Skills (7 Loaded)</div>
+            <div class="skills-list">
+                <div class="skill-badge">
+                    <div class="name">graphify</div>
+                    <div class="desc">Deterministic AST pass, 0 LLM cost. Builds module dependency graph.</div>
+                </div>
+                <div class="skill-badge">
+                    <div class="name">performance-optimization</div>
+                    <div class="desc">Measure → locate → fix → verify. N+1 patterns, cache strategy.</div>
+                </div>
+                <div class="skill-badge">
+                    <div class="name">observability-and-instrumentation</div>
+                    <div class="desc">Timing middleware, logger integration stubs.</div>
+                </div>
+                <div class="skill-badge">
+                    <div class="name">using-agent-skills</div>
+                    <div class="desc">Meta-skill. Selects relevant skills per task scope.</div>
+                </div>
+                <div class="skill-badge">
+                    <div class="name">ponytail</div>
+                    <div class="desc">Simplicity & context-economy discipline. Preserves test/review gates.</div>
+                </div>
+                <div class="skill-badge">
+                    <div class="name">OmniRoute</div>
+                    <div class="desc">Provider discovery, health checks, fallback routing.</div>
+                </div>
+                <div class="skill-badge">
+                    <div class="name">tradingagents</div>
+                    <div class="desc">Research & analysis only. No live execution.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- === GRAPHIFY FINDINGS === -->
+        <div class="section">
+            <div class="section-title">📈 Graphify Architecture Map</div>
+            <div class="grid">
+                <div class="card">
+                    <h2><span class="card-badge">CORPUS</span>Project Scope</h2>
+                    <div class="metrics">
+                        <div class="metric">
+                            <div class="metric-value">75</div>
+                            <div class="metric-label">Files staged</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">1,383</div>
+                            <div class="metric-label">Nodes</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">2,695</div>
+                            <div class="metric-label">Edges</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">58</div>
+                            <div class="metric-label">Communities</div>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; color: #94a3b8; font-size: 0.9rem;"><strong>Extraction quality:</strong> 97% EXTRACTED · 3% INFERRED (0.85 confidence)</p>
+                </div>
+
+                <div class="card">
+                    <h2><span class="card-badge">GOD NODES</span>Top 5 Most Connected</h2>
+                    <div class="god-nodes">
+                        <table>
+                            <tr><th>Node</th><th>Edges</th><th>Role</th></tr>
+                            <tr><td><strong>getDB()</strong></td><td style="color: #ef4444;">104</td><td>DB singleton</td></tr>
+                            <tr><td><strong>dbRun()</strong></td><td style="color: #ef4444;">84</td><td>Write wrapper</td></tr>
+                            <tr><td><strong>dbAll()</strong></td><td style="color: #f97316;">82</td><td>Read-all</td></tr>
+                            <tr><td><strong>dbGet()</strong></td><td style="color: #f97316;">69</td><td>Read-one</td></tr>
+                            <tr><td><strong>ConsolidatedOpportunityEngine</strong></td><td style="color: #eab308;">38</td><td>Signal score</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="card-badge">ISSUES</span>Structural Findings</h2>
+                    <ul>
+                        <li><strong style="color: #ef4444;">Import cycle:</strong> database.ts ↔ fifoEngine.ts ↔ xirr.ts</li>
+                        <li><strong style="color: #f97316;">God files:</strong> server.ts (17k), infra.ts (4.2k)</li>
+                        <li><strong style="color: #fbbf24;">Routes bypass services:</strong> 34 dbRun call sites in server.ts</li>
+                        <li><strong style="color: #fbbf24;">7 duplicate routes</strong> across routers</li>
+                        <li><strong>Type safety:</strong> 523 `any` in server.ts</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card" style="grid-column: span 2;">
+                    <h2><span class="card-badge">ARCH</span>Module Layers</h2>
+                    <div class="bar-chart">
+                        <div class="bar">
+                            <div class="bar-label">Client (React)</div>
+                            <div class="bar-fill" style="width: 18%;"><span class="bar-value">App.tsx, 35 views</span></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-label">Routes (Express)</div>
+                            <div class="bar-fill" style="width: 85%;"><span class="bar-value">239 inline + 26 routers</span></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-label">Portfolio Core</div>
+                            <div class="bar-fill" style="width: 32%;"><span class="bar-value">8 services (FIFO, xirr, tax)</span></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-label">Market Data</div>
+                            <div class="bar-fill" style="width: 28%;"><span class="bar-value">4 services (yahoo, cache, ws)</span></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-label">Intelligence</div>
+                            <div class="bar-fill" style="width: 45%;"><span class="bar-value">8 engines (technical, momentum, agents)</span></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-label">Data Layer</div>
+                            <div class="bar-fill" style="width: 100%;"><span class="bar-value">database.ts (callback sqlite3, 1 conn)</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2><span class="card-badge">METRICS</span>Database Size</h2>
+                    <div class="metrics">
+                        <div class="metric">
+                            <div class="metric-value">3.4 GB</div>
+                            <div class="metric-label">portfolio.db</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">8.8 GB</div>
+                            <div class="metric-label">intraday_history.db</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">100+</div>
+                            <div class="metric-label">Tables</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- === CODE REVIEW === -->
+        <div class="section">
+            <div class="section-title">🔍 Code Review: 12 Prioritized Findings</div>
+            <div class="callout">
+                <div class="callout-title">Method</div>
+                Directory inventory, regex metrics on 15 core files, targeted reads (≤40 lines) only on flagged problems.
+                <strong>NOT reviewed:</strong> 155 service files, 85 components, tests, scripts. Findings are systemic.
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <h2><span class="card-badge">P0 (CRITICAL)</span>2 Issues</h2>
+                    <div class="finding">
+                        <div class="finding-id">P0-1: Replace sqlite3 → better-sqlite3</div>
+                        <div>Callback driver on 3.4 GB DB; already a dependency. Sync in-process → 3–5x faster.</div>
+                        <div class="bottleneck-impact">Impact: Very High · Effort: Medium</div>
+                    </div>
+                    <div class="finding">
+                        <div class="finding-id">P0-2: Batch per-row awaited writes</div>
+                        <div>34 loop sites do `for (…) await dbRun(…)` each in own WAL commit + backup trigger.</div>
+                        <div class="bottleneck-impact">Impact: Very High · Effort: Low</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="card-badge">P1 (HIGH)</span>6 Issues</h2>
+                    <div class="finding" style="margin-bottom: 0.75rem;">
+                        <div class="finding-id">P1-3: Open CORS + no auth</div>
+                        <div style="font-size: 0.9rem;">CORS `*`, 50 MB body, 0.0.0.0 bind</div>
+                    </div>
+                    <div class="finding" style="margin-bottom: 0.75rem;">
+                        <div class="finding-id">P1-4: Decompose god files</div>
+                        <div style="font-size: 0.9rem;">server.ts (17k) & infra.ts (4.2k) → domain routers</div>
+                    </div>
+                    <div class="finding" style="margin-bottom: 0.75rem;">
+                        <div class="finding-id">P1-5: Remove duplicate routes</div>
+                        <div style="font-size: 0.9rem;">7 exact duplicates across routers</div>
+                    </div>
+                    <div class="finding" style="margin-bottom: 0.75rem;">
+                        <div class="finding-id">P1-6: Versioned migrations</div>
+                        <div style="font-size: 0.9rem;">Replace `PRAGMA table_info` checks with v1..vN</div>
+                    </div>
+                    <div class="finding" style="margin-bottom: 0.75rem;">
+                        <div class="finding-id">P1-7: Frontend data layer</div>
+                        <div style="font-size: 0.9rem;">TanStack Query instead of 23 raw fetch + 60s polling</div>
+                    </div>
+                    <div class="finding">
+                        <div class="finding-id">P1-8: Split & memoize views</div>
+                        <div style="font-size: 0.9rem;">OpportunityEngineMasterView (9.6k) + DashboardView (2.5k)</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="card-badge">P2–P3</span>4 Issues</h2>
+                    <div class="finding" style="margin-bottom: 0.75rem;">
+                        <div class="finding-id">P2-9: Cleanup</div>
+                        <div style="font-size: 0.9rem;">Remove 523 `any`, 44 empty catch, 88 console.log</div>
+                    </div>
+                    <div class="finding" style="margin-bottom: 0.75rem;">
+                        <div class="finding-id">P2-10: Build optimization</div>
+                        <div style="font-size: 0.9rem;">manualChunks, lazy Recharts, React Compiler</div>
+                    </div>
+                    <div class="finding" style="margin-bottom: 0.75rem;">
+                        <div class="finding-id">P2-11: Hygiene</div>
+                        <div style="font-size: 0.9rem;">Dependencies, .gitignore, loose files</div>
+                    </div>
+                    <div class="finding">
+                        <div class="finding-id">P3-12: Dashboard cache</div>
+                        <div style="font-size: 0.9rem;">Dedupe in-flight, ETag, SSE instead of polling</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="card-badge">METRICS</span>Code Snapshot</h2>
+                <table>
+                    <tr>
+                        <th>File</th><th>LOC</th><th>Size</th><th>Problem</th>
+                    </tr>
+                    <tr>
+                        <td><strong>server.ts</strong></td><td>17,224</td><td>764 KB</td><td>239 routes, 77 imports, 523 `any`</td>
+                    </tr>
+                    <tr>
+                        <td><strong>routes/infra.ts</strong></td><td>4,167</td><td>—</td><td>228 routes, 212 `any`, misc handlers</td>
+                    </tr>
+                    <tr>
+                        <td><strong>OpportunityEngineMasterView.tsx</strong></td><td>9,617</td><td>—</td><td>89 useState, 1 useMemo, re-renders all</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DashboardView.tsx</strong></td><td>2,486</td><td>—</td><td>251 inline `style={}`, cold loads</td>
+                    </tr>
+                    <tr>
+                        <td><strong>App.tsx</strong></td><td>2,371</td><td>—</td><td>33 useState, 23 raw fetch, 8 localStorage</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- === BOTTLENECKS === -->
+        <div class="section">
+            <div class="section-title">⚡ Performance Bottlenecks: 7 Critical Issues</div>
+
+            <div class="bottleneck">
+                <div class="bottleneck-title">B1: Single SQLite Connection Serializes All Ops</div>
+                <p><strong>Root:</strong> Callback `sqlite3` driver, one connection in database.ts</p>
+                <p><strong>Impact:</strong> Any import/FIFO write → dashboard reads queue behind it → user clicks stall</p>
+                <p style="margin-top: 0.5rem;"><strong>Fix:</strong> Give reads own read-only connections (3-pool) OR switch to better-sqlite3 (already a dependency)</p>
+            </div>
+
+            <div class="bottleneck">
+                <div class="bottleneck-title">B2: Cache Invalidation Too Coarse</div>
+                <p><strong>Root:</strong> `registerFifoCompletedCallback` clears *all* dashboard keys + disk cache on any import</p>
+                <p><strong>Impact:</strong> Every import = next load is cold compute (B3)</p>
+                <p style="margin-top: 0.5rem;"><strong>Fix:</strong> Invalidate only affected portfolios; serve stale-while-recompute</p>
+            </div>
+
+            <div class="bottleneck">
+                <div class="bottleneck-title">B3: buildDashboardPayload: 25 Serial Awaits on Cold Path</div>
+                <p><strong>Root:</strong> 959-line function, full-table reads (no WHERE), unindexed sorts, GROUP BY without filter</p>
+                <p><strong>Impact:</strong> Latency = Σ(query times); 10+ seconds on first load</p>
+                <p style="margin-top: 0.5rem;"><strong>Fix:</strong> Parallelize with `Promise.all`, add WHERE portfolio IN (...), precompute realized totals</p>
+            </div>
+
+            <div class="bottleneck">
+                <div class="bottleneck-title">B4: 159 Overlapping/Duplicate Indexes on 3.4 GB DB</div>
+                <p><strong>Root:</strong> 14 exact-duplicate indexes; 22 left-prefix redundant; 4 identical (symbol, date) on HistoricalPrices (5M rows)</p>
+                <p><strong>Impact:</strong> Cache pressure, query planner fails heuristics, writes amplified</p>
+                <p style="margin-top: 0.5rem;"><strong>Fix:</strong> Remove redundant indexes; run ANALYZE & PRAGMA optimize; set mmap_size at runtime</p>
+            </div>
+
+            <div class="bottleneck">
+                <div class="bottleneck-title">B5: Per-Row Awaited Writes with No Transaction</div>
+                <p><strong>Root:</strong> 34 loop sites do `for (…) await dbRun(…)` each in own WAL commit + backup</p>
+                <p><strong>Impact:</strong> Each insert = fsync; backup competes with reads</p>
+                <p style="margin-top: 0.5rem;"><strong>Fix:</strong> Wrap in `BEGIN … COMMIT` with prepared statement</p>
+            </div>
+
+            <div class="bottleneck">
+                <div class="bottleneck-title">B7: Full 3.4 GB DB Copy After Every Write</div>
+                <p><strong>Root:</strong> `createPersistentBackup()` in `dbRun` callback; fs.promises.copyFile every 10 min if writes occur</p>
+                <p><strong>Impact:</strong> Evicts OS page cache; competes with dashboard reads; copy ignores WAL = not consistent</p>
+                <p style="margin-top: 0.5rem;"><strong>Fix:</strong> Remove per-write trigger; schedule 6-hourly consistent snapshot via VACUUM INTO or db.backup()</p>
+            </div>
+
+            <div class="bottleneck">
+                <div class="bottleneck-title">B6–B7: N+1 Reads & Unfiltered Selects</div>
+                <p><strong>Root:</strong> SELECT realized_pnl aggregates whole table; symbols pulled from all transactions; OR conditions defeat indexes</p>
+                <p><strong>Impact:</strong> Cold cache → I/O bound; full-table scans</p>
+                <p style="margin-top: 0.5rem;"><strong>Fix:</strong> Add WHERE portfolio IN (...); aggregate in SQL; replace OR with UNION or two queries</p>
+            </div>
+        </div>
+
+        <!-- === QUICK WINS === -->
+        <div class="section">
+            <div class="section-title">🚀 Recommended Quick Wins (Immediate Impact)</div>
+            <div class="grid">
+                <div class="card">
+                    <h2><span class="card-badge">1 DAY</span>High Effort, Immediate Return</h2>
+                    <ul>
+                        <li><strong style="color: #22c55e;">Remove B7 backup trigger</strong> — Stop calling createPersistentBackup() in dbRun (1-line change)</li>
+                        <li><strong style="color: #22c55e;">Remove 7 duplicate routes</strong> — Consolidate exact duplicates across routers</li>
+                        <li><strong style="color: #22c55e;">Fix security (P1-3)</strong> — Restrict CORS, add auth gate, lower body limit</li>
+                        <li><strong style="color: #22c55e;">Remove 14 duplicate indexes</strong> — Run index_migration_PROPOSED.sql on DB copy</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h2><span class="card-badge">3–5 DAYS</span>Medium Effort, Visible Perf Gain</h2>
+                    <ul>
+                        <li><strong>Batch writes (B5)</strong> — Wrap 34 loops in BEGIN…COMMIT</li>
+                        <li><strong>Smart cache invalidation (B2)</strong> — Invalidate only affected portfolios</li>
+                        <li><strong>Read pool (B1 partial)</strong> — Give reads 3 read-only connections</li>
+                        <li><strong>ANALYZE + PRAGMA optimize</strong> — Update query planner statistics</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h2><span class="card-badge">2–3 WEEKS</span>High Effort, 10x Speedup</h2>
+                    <ul>
+                        <li><strong style="color: #93c5fd;">Migrate sqlite3 → better-sqlite3</strong> — Refactor 300+ call sites via dbAll/dbRun/dbGet API</li>
+                        <li><strong style="color: #93c5fd;">Parallelize dashboard (B3)</strong> — Promise.all for 25 awaits</li>
+                        <li><strong style="color: #93c5fd;">Versioned migrations (P1-6)</strong> — Convert PRAGMA checks to v1..vN</li>
+                        <li><strong style="color: #93c5fd;">TanStack Query (P1-7)</strong> — Replace 23 raw fetch calls</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- === VALIDATION === -->
+        <div class="section">
+            <div class="section-title">✅ Validation Checkpoints</div>
+            <div class="card">
+                <p>Before applying any fix, confirm:</p>
+                <ol style="margin-left: 1.5rem;">
+                    <li><strong>DB size:</strong> `SELECT page_count * page_size / 1e9 FROM pragma_page_count, pragma_page_size` (expected 3.4 GB)</li>
+                    <li><strong>Query plans:</strong> Run `EXPLAIN QUERY PLAN` on top 10 queries from server logs</li>
+                    <li><strong>Row counts:</strong> Confirm table sizes (Transactions, HistoricalPrices, Holdings) before index removal</li>
+                    <li><strong>Benchmark:</strong> Time `buildDashboardPayload` before/after each fix</li>
+                    <li><strong>Backup consistency:</strong> Verify `VACUUM INTO` under concurrent writes</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p><strong>Generated:</strong> 2026-10-07 · <strong>Method:</strong> Graphify (deterministic AST, 0 LLM) + code review (metric-driven) + perf audit</p>
+            <p><strong>Files included:</strong> WEALTHOS_CODE_REVIEW.md · WEALTHOS_LOAD_BOTTLENECK_AND_INDEX_REVIEW.md · graphify_GRAPH_REPORT.md · WEALTHOS_MIND_MAP.html</p>
+            <p style="margin-top: 1rem;"><strong>Memory saved:</strong> wealthos_reviews_skills_map_20261007.md · project_architecture.md</p>
+        </footer>
+    </div>
+</body>
+</html>

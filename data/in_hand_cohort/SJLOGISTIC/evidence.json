@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_SJ_REV_01",
+    "issuerNseSymbol": "SJLOGISTIC",
+    "issuerBseCode": "544046",
+    "documentId": "DOC_SJ_AR24",
+    "documentHash": "6789abcdef0123456789abcdef56789abcdef890ab12c3d4e5f60718293abcdef",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 28,
+    "pagePrinted": "26",
+    "quotedText": "Revenue from logistics operations grew to ₹654 Cr in FY24 with net profit jumping to ₹75.8 Cr.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

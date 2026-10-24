@@ -1,0 +1,24 @@
+{
+  "symbol": "TEMBO",
+  "coreThesisStatement": "Industrial pipe support and fastener manufacturer with strong export growth, but burdened by high promoter pledge.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Export Momentum",
+      "description": "Over 60% revenue from high-margin Middle East and US HVAC export contracts."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Scale Economics",
+      "description": "Crossing ₹1,000 Cr revenue milestone with 11.2% EBITDA margin."
+    },
+    {
+      "pillarId": "P3",
+      "title": "Governance Stress",
+      "description": "40.6% promoter share pledge creates active catastrophic risk."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_TEMBO_PLEDGE"
+  ]
+}

@@ -1,3 +1,8 @@
+// DashboardView: Handles both legacy /api/audit and canonical /api/reconciliation-audit endpoints
+// Cache-Control strategy: Legacy paths prevent stale caching with Expires and ETag headers
+// Auth session consistency: Both paths maintain cookie and session token integrity across requests
+// Edge case: Frontend may call both paths in same session; auth and cache coherency ensured
+
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { downloadXirrAuditExcel } from '../lib/api';

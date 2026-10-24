@@ -1,0 +1,24 @@
+{
+  "symbol": "MRP",
+  "coreThesisStatement": "Regional agro commodity procurement and trading aggregator across Central India.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Local Mandi Sourcing",
+      "description": "Direct procurement tie-ups across Bundelkhand agricultural mandis."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Asset-Light Turnover",
+      "description": "High inventory turnover reducing working capital holding periods."
+    },
+    {
+      "pillarId": "P3",
+      "title": "Clean Track Record",
+      "description": "Consistent profitability and positive operating cash flows."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_MRP_LEVERAGE"
+  ]
+}

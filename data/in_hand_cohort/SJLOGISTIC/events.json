@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_SJ_01",
+    "issuerNseSymbol": "SJLOGISTIC",
+    "issuerBseCode": "544046",
+    "eventDate": "2024-05-27",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Audited Financial Results Announcement",
+    "description": "Approved audited results showing 59% revenue growth and 32.4% ROCE.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_SJ_REV_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

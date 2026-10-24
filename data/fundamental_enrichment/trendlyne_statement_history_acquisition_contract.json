@@ -1,7 +1,7 @@
 {
   "provider": "TRENDLYNE_MCP",
   "endpoint": "statement_history_parameters",
-  "generatedAt": "2026-10-02T04:36:56.837Z",
+  "generatedAt": "2026-10-09T04:41:13.114Z",
   "maxSymbolsPerCall": 10,
   "maxMetricsPerCall": 50,
   "requestedMetricCount": 50,

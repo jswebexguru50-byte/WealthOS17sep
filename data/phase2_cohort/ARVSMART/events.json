@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_ARV_01",
+    "issuerNseSymbol": "ARVSMART",
+    "issuerBseCode": "539301",
+    "eventDate": "2024-05-18",
+    "category": "CAPITAL_ALLOCATION",
+    "headline": "Arvind SmartSpaces confirms net cash balance sheet and ₹400 Cr new project pipeline",
+    "description": "BSE disclosure confirms asset-light horizontal plotted expansion model",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "BSE_DISCLOSURE",
+    "evidenceId": "EV_ARV_DISCLOSURE_Q4",
+    "materiality": "MATERIAL",
+    "createdAt": "2024-05-18T09:00:00.000Z"
+  }
+]

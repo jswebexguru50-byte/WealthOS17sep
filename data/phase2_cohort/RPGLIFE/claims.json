@@ -1,0 +1,30 @@
+[
+  {
+    "claimId": "CLM_RPG_01",
+    "issuerNseSymbol": "RPGLIFE",
+    "issuerBseCode": "532983",
+    "period": "FY24",
+    "category": "FINANCIAL_METRIC",
+    "statement": "Domestic formulations business targeted to deliver revenue growth above 15%.",
+    "targetMetric": "domestic_formulations_growth_pct",
+    "baselineValue": 12.4,
+    "expectedValue": 15,
+    "expectedOutcome": "Growth >= 15.0%",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_RPG_PROMISE_01",
+    "claimDate": "2023-07-28",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 16.2,
+    "actualOutcomeDescription": "Domestic formulations revenue grew 16.2% beating 15% guidance",
+    "evaluationEvidenceId": "EV_RPG_RESULT_01",
+    "evaluationDate": "2024-05-02",
+    "evaluationBasis": "BSE Audited Financial Results and Investor Disclosures",
+    "createdAt": "2023-07-28T10:00:00.000Z",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_RPGLIFE_01",
+    "publicationDate": "2023-07-28",
+    "publicationDateType": "MANAGEMENT_COMMENT"
+  }
+]

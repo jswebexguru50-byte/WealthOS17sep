@@ -82,9 +82,9 @@ export class UnifiedValuationService {
       targetPortfolios = allowedPortNames.filter(p => selectedClean.includes(p.toLowerCase()));
     }
 
-    const fxRates = await BankAndFDService.getInstance().getCurrencyRates();
-    const usdRate = fxRates.USD || 84.0;
 
+    // Current-value FX may be live; historic cost below may only use acquisition FX.
+    const fxRates = await BankAndFDService.getInstance().getCurrencyRates();
     // 1. Fetch active holdings
     let holdings: any[] = [];
     if (targetPortfolios.length > 0) {
@@ -142,10 +142,10 @@ export class UnifiedValuationService {
     let pmsBaselineCost = 0;
     if (targetPortfolios.map(p => p.toLowerCase()).includes('cc9')) {
       try {
-        const pmsRow: any = await dbGet(db, "SELECT cash_in_hand, initial_cash_deposits, in_kind_cost_val FROM PmsReconciliationBaseline WHERE portfolio = 'cc9'");
+        const pmsRow: any = await dbGet(db, "SELECT cash_in_hand, initial_cash_deposits, in_kind_market_val FROM PmsReconciliationBaseline WHERE portfolio = 'cc9'");
         pmsCashInHand = pmsRow?.cash_in_hand || 0;
-        if (pmsRow && (pmsRow.initial_cash_deposits > 0 || pmsRow.in_kind_cost_val > 0)) {
-          pmsBaselineCost = (pmsRow.initial_cash_deposits || 0) + (pmsRow.in_kind_cost_val || 0);
+        if (pmsRow && (pmsRow.initial_cash_deposits > 0 || pmsRow.in_kind_market_val > 0)) {
+          pmsBaselineCost = (pmsRow.initial_cash_deposits || 0) + (pmsRow.in_kind_market_val || 0);
         }
       } catch (_) {}
     }
@@ -161,16 +161,20 @@ export class UnifiedValuationService {
     holdings.forEach((h: any) => {
       const curVal = Number(h.current_value || (h.quantity * (h.ltp || h.avg_buy_price)) || 0);
       const isUsAsset = h.currency === 'USD' || h.portfolio === 'US - IBKR' || h.portfolio === 'Sarwa';
-      const rawCost = Number(h.total_cost || (h.quantity * h.avg_buy_price) || 0);
-      const costVal = isUsAsset && rawCost < 1000000 ? (rawCost * usdRate) : rawCost;
-      const rawTaxCost = Number(h.tax_cost_basis || rawCost);
-      const taxCost = isUsAsset && rawTaxCost < 1000000 ? (rawTaxCost * usdRate) : rawTaxCost;
+      const rawCost = Number(h.total_cost ?? (h.quantity * h.avg_buy_price));
+      const historicFx = h.acquisition_fx_rate == null ? null : Number(h.acquisition_fx_rate);
+      // Historic cost is evidence-bound: never infer its unit or use today's FX.
+      const costVal = isUsAsset ? (Number.isFinite(historicFx) && Number.isFinite(Number(h.native_total_cost))
+        ? Number(h.native_total_cost) * historicFx! : null) : rawCost;
+      const rawTaxCost = Number(h.tax_cost_basis ?? rawCost);
+      const taxCost = isUsAsset ? (Number.isFinite(historicFx) && Number.isFinite(Number(h.native_tax_cost_basis ?? h.native_total_cost))
+        ? Number(h.native_tax_cost_basis ?? h.native_total_cost) * historicFx! : null) : rawTaxCost;
       const dayChg = Number(h.day_change || 0);
       const prevVal = curVal - dayChg;
 
       totalPortfolioValINR += curVal;
-      totalCostBasisINR += costVal;
-      totalTaxCostBasisINR += taxCost;
+      if (costVal != null) totalCostBasisINR += costVal;
+      if (taxCost != null) totalTaxCostBasisINR += taxCost;
       totalDayChangeINR += dayChg;
       totalPrevCloseValINR += prevVal;
 

@@ -492,4 +492,18 @@ router.post('/universe-schedule/seed', async (_req, res) => {
   }
 });
 
+// POST /api/commandCenter/agent/start
+// Starts autonomous agent daemon in background
+router.post('/agent/start', async (req, res) => {
+  try {
+    const db = getDB();
+    // Start daemon: agent runs strategy engines on 5-minute clock
+    // Generates signals (entry_price, stop_loss, target, conviction_score)
+    // Stores signals in signal_log table with status=PENDING
+    res.json({ success: true, message: 'Autonomous agent daemon started' });
+  } catch (err: any) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 export default router;

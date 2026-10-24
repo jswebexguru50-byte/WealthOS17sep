@@ -1,0 +1,41 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "name": "Dividend",
+      "expiry_date": "21 Nov 2025",
+      "amount": 0.5,
+      "ratio": null,
+      "event_details": [
+        {
+          "name": "Announcement date",
+          "value": "14 Nov 2025"
+        },
+        {
+          "name": "Ex dividend date",
+          "value": "21 Nov 2025"
+        },
+        {
+          "name": "Record date",
+          "value": "21 Nov 2025"
+        },
+        {
+          "name": "Dividend type",
+          "value": "Interim"
+        },
+        {
+          "name": "Amount",
+          "value": "0.5"
+        },
+        {
+          "name": "Dividend %",
+          "value": "5.0"
+        },
+        {
+          "name": "Details",
+          "value": "Declared Interim Dividend of Re. 0.50 per equity share."
+        }
+      ]
+    }
+  ]
+}

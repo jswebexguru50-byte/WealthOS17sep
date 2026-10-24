@@ -1,0 +1,30 @@
+[
+  {
+    "claimId": "CLM_ARV_01",
+    "issuerNseSymbol": "ARVSMART",
+    "issuerBseCode": "539301",
+    "period": "FY24",
+    "category": "GROWTH",
+    "statement": "Pre-sales bookings targeted to exceed ₹1,000 Cr in FY24.",
+    "targetMetric": "pre_sales_inr_cr",
+    "baselineValue": 802,
+    "expectedValue": 1000,
+    "expectedOutcome": "Pre-sales bookings >= ₹1,000 Cr",
+    "expectedTimeframe": "FY24",
+    "evidenceId": "EV_ARV_AR24_P28",
+    "claimDate": "2023-07-28",
+    "expectedPeriodStart": "2023-04-01",
+    "expectedPeriodEnd": "2024-03-31",
+    "status": "ACHIEVED",
+    "actualOutcomeMetric": 1107,
+    "actualOutcomeDescription": "Pre-sales reached ₹1,107 Cr, beating ₹1,000 Cr target",
+    "evaluationEvidenceId": "EV_ARV_DISCLOSURE_Q4",
+    "evaluationDate": "2024-05-18",
+    "evaluationBasis": "BSE Audited Financial Results and Segmental Presentation",
+    "createdAt": "2023-07-28T10:00:00.000Z",
+    "targetTemporalSemantics": "PERIOD",
+    "factId": "FACT_ARVSMART_01",
+    "publicationDate": "2023-07-28",
+    "publicationDateType": "MANAGEMENT_COMMENT"
+  }
+]

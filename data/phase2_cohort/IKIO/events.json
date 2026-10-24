@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_IKIO_01",
+    "issuerNseSymbol": "IKIO",
+    "issuerBseCode": "543923",
+    "eventDate": "2024-05-25",
+    "category": "CUSTOMER_SUPPLIER",
+    "headline": "IKIO Lighting client concentration remains elevated at 68% with Philips Signify",
+    "description": "Customer concentration risk elevated as diversification program lags corporate guidance.",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "BSE_DISCLOSURE",
+    "evidenceId": "EV_IKIO_RESULT_01",
+    "materiality": "HIGH",
+    "createdAt": "2024-05-25T09:00:00.000Z"
+  }
+]

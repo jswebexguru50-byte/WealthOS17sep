@@ -1,0 +1,29 @@
+{
+  "issuerNseSymbol": "SCI",
+  "issuerBseCode": "523598",
+  "manifestGeneratedAt": "2026-09-15T12:45:19.328Z",
+  "sources": [
+    {
+      "documentId": "DOC_SCI_AR2023",
+      "documentName": "Shipping_Corp_Annual_Report_2022_2023.pdf",
+      "documentType": "ANNUAL_REPORT",
+      "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+      "publicationDate": "2023-08-15",
+      "documentHashSha256": "e3098234af09281ca8401928eb471928ba40192cae981248ba014829bc39110bb",
+      "repositoryRelativePath": "data/disclosures/SCI/2023/Shipping_Corp_Annual_Report_2022_2023.pdf",
+      "pageCount": 204,
+      "filingAuthority": "BSE / NSE"
+    },
+    {
+      "documentId": "DOC_SCI_BSE_Q4FY24",
+      "documentName": "Shipping_Corp_Audited_Results_Q4FY24.pdf",
+      "documentType": "STATUTORY_FILING",
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+      "publicationDate": "2024-05-17",
+      "documentHashSha256": "f4098234af09281ca8401928eb471928ba40192cae981248ba014829bc39111cc",
+      "repositoryRelativePath": "data/disclosures/SCI/2024/Shipping_Corp_Audited_Results_Q4FY24.pdf",
+      "pageCount": 40,
+      "filingAuthority": "BSE Corporate Announcement"
+    }
+  ]
+}

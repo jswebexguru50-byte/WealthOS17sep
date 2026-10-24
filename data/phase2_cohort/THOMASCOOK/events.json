@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_TC_01",
+    "issuerNseSymbol": "THOMASCOOK",
+    "issuerBseCode": "500413",
+    "eventDate": "2024-05-15",
+    "category": "EARNINGS_RELEASE",
+    "headline": "Thomas Cook India posts historic turnaround PBT of ₹271 Cr with zero net debt",
+    "description": "Robust recovery in outbound leisure holidays and corporate foreign exchange dispatches.",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "BSE_DISCLOSURE",
+    "evidenceId": "EV_TC_RESULT_01",
+    "materiality": "MEDIUM",
+    "createdAt": "2024-05-15T09:00:00.000Z"
+  }
+]

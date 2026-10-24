@@ -1,0 +1,28 @@
+{
+  "version": "v6.5",
+  "replayRunId": "REPLAY_V65_3C376A2D945D",
+  "designation": "Rolling Temporal OOS Validation",
+  "oosWindowCount": 2,
+  "oosYears": [
+    2023,
+    2024
+  ],
+  "windows": [
+    {
+      "windowIndex": 1,
+      "inSampleStart": "2020-01-01",
+      "inSampleEnd": "2022-12-31",
+      "outOfSampleStart": "2023-01-01",
+      "outOfSampleEnd": "2023-12-31",
+      "status": "COMPLETE"
+    },
+    {
+      "windowIndex": 2,
+      "inSampleStart": "2021-01-01",
+      "inSampleEnd": "2023-12-31",
+      "outOfSampleStart": "2024-01-01",
+      "outOfSampleEnd": "2024-12-31",
+      "status": "COMPLETE"
+    }
+  ]
+}

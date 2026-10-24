@@ -1,0 +1,82 @@
+[
+  {
+    "chunkId": "CHUNK_00",
+    "category": "REFERENCE",
+    "fileName": "chunk_00_reference_and_calendar.json",
+    "filePath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\data\\ai_studio_chunks\\chunk_00_reference_and_calendar.json",
+    "rowCount": 188,
+    "sizeBytes": 76623,
+    "sha256": "28adbd011db3aa5607a1c5d9f6dc4489139ddfede98f1af9c5f5f6b5a8298fac",
+    "description": "Trading Calendar (182 sessions), Historical Universe & Corporate Actions"
+  },
+  {
+    "chunkId": "CHUNK_01",
+    "category": "PORTFOLIO",
+    "fileName": "chunk_01_transactions_and_gains.jsonl",
+    "filePath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\data\\ai_studio_chunks\\chunk_01_transactions_and_gains.jsonl",
+    "rowCount": 22292,
+    "sizeBytes": 11464314,
+    "sha256": "503fc9e43551081b7b75d60326fd77878669de673e9370717d334b43363489fe",
+    "description": "Complete Historical Transactions (15,211 txs) and FIFO Realized Gains (7,081 gains)"
+  },
+  {
+    "chunkId": "CHUNK_02",
+    "category": "FORENSICS",
+    "fileName": "chunk_02_forensic_and_fundamentals.jsonl",
+    "filePath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\data\\ai_studio_chunks\\chunk_02_forensic_and_fundamentals.jsonl",
+    "rowCount": 3559,
+    "sizeBytes": 2101599,
+    "sha256": "224dfffc83f935c6c290299a73b9cee924e3467d9d87ca0e8626c672d7373206",
+    "description": "Complete FERE Accounting Health, Altman Z, Piotroski, Beneish M-Score, and Sloan Accruals (3559 companies)"
+  },
+  {
+    "chunkId": "CHUNK_03",
+    "category": "RESEARCH_BARS",
+    "fileName": "chunk_03_pilot_research_bars.jsonl",
+    "filePath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\data\\ai_studio_chunks\\chunk_03_pilot_research_bars.jsonl",
+    "rowCount": 645,
+    "sizeBytes": 131414,
+    "sha256": "0d0b5ac4ba9d3bdadaed480c27bbbe692f2b78d3be9bce28622ad336acf68a8d",
+    "description": "Verified 6-Month Pilot DailyOHLCV (645 bars) with Authentic Turnover and Delivery"
+  },
+  {
+    "chunkId": "CHUNK_04",
+    "category": "CORPORATE_ACTIONS",
+    "fileName": "chunk_04_historical_corporate_actions.jsonl",
+    "filePath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\data\\ai_studio_chunks\\chunk_04_historical_corporate_actions.jsonl",
+    "rowCount": 7757,
+    "sizeBytes": 4265038,
+    "sha256": "b68ffc6cf40deb01d4a34d4066fa8eccc4e15cd9bc3c63801a8b1ccd8e55e71a",
+    "description": "All Historical Corporate Actions (7,757 records of splits, bonuses, dividends)"
+  },
+  {
+    "chunkId": "CHUNK_05",
+    "category": "VALUATIONS",
+    "fileName": "chunk_05_mf_nav_and_valuations.jsonl",
+    "filePath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\data\\ai_studio_chunks\\chunk_05_mf_nav_and_valuations.jsonl",
+    "rowCount": 71296,
+    "sizeBytes": 15515663,
+    "sha256": "88a8971bd132c3329c1a395a53e3ec1b0390e9608b52dee0bafa62ee7592e497",
+    "description": "Historical Mutual Fund NAV History (49,636 rows) and Portfolio Valuation Snapshots (21,660 rows)"
+  },
+  {
+    "chunkId": "CHUNK_06",
+    "category": "MARKET_SNAPSHOTS",
+    "fileName": "chunk_06_market_snapshots.jsonl",
+    "filePath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\data\\ai_studio_chunks\\chunk_06_market_snapshots.jsonl",
+    "rowCount": 32984,
+    "sizeBytes": 17565356,
+    "sha256": "4b9d595b985660078f585bb2c822b37badc98bc1a2d11e174224ffbd6a6cff12",
+    "description": "Historical Market Snapshots (32,984 market state records)"
+  },
+  {
+    "chunkId": "CHUNK_07",
+    "category": "BROAD_MARKET",
+    "fileName": "chunk_07_broad_market_daily_ohlcv.jsonl",
+    "filePath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\data\\ai_studio_chunks\\chunk_07_broad_market_daily_ohlcv.jsonl",
+    "rowCount": 50000,
+    "sizeBytes": 8695899,
+    "sha256": "9a32fc3e6a74014b547b65a0792ba90ca467977a168451a9764a1bc232eeed26",
+    "description": "Recent Broad Market DailyOHLCV (50,000 bars with turnover and delivery)"
+  }
+]

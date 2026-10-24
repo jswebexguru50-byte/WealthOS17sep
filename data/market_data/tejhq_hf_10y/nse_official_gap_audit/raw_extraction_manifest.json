@@ -1,0 +1,9 @@
+{
+  "archives": 425,
+  "rows": 15989,
+  "symbols": 78,
+  "first_trade_date": "2025-01-01",
+  "last_trade_date": "2026-09-21",
+  "adjustment_status": "RAW_PENDING_OFFICIAL_CA_RECONCILIATION",
+  "path": "data\\market_data\\tejhq_hf_10y\\nse_official_gap_audit\\nse_gap_raw_all_archived.parquet"
+}

@@ -1,0 +1,14 @@
+{
+  "symbol": "THOMASCOOK",
+  "coreThesisStatement": "Omni-channel travel services turnaround player with dominant retail forex distribution franchise.",
+  "investmentPillars": [
+    {
+      "pillarId": "PIL_TC_LEISURE",
+      "title": "Outbound Leisure Boom",
+      "description": "Pent-up middle-class holiday demand driving high operating leverage."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_TC_LEVERAGE"
+  ]
+}

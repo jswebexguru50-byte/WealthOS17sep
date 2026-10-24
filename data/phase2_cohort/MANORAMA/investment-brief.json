@@ -1,0 +1,451 @@
+{
+  "symbol": "MANORAMA",
+  "companyName": "Manorama Industries Limited",
+  "marketCapTier": "MICROCAP_SME",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-15T14:00:48.896Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "UNKNOWN",
+    "thesisState": "UNRESOLVED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 1,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "Strong quantitative candidate, but intelligence risk is UNRESOLVED due to insufficient verified evidence (1 critical unknowns). Requires primary investigation before capital commitment.",
+    "allocationRecommendation": "GATED_ESCROW",
+    "portfolioPolicy": {
+      "directive": "GATED_ESCROW",
+      "targetSizingCapRatio": 0,
+      "policyRationale": "Article 25 Unknown Preservation: Capital deployment gated pending verifiable primary documentation."
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_MANORAMA",
+      "nodes": [
+        {
+          "id": "DEC_MANORAMA",
+          "type": "DECISION",
+          "refId": "MANORAMA",
+          "label": "Final Investment Decision: UNRESOLVED"
+        },
+        {
+          "id": "ALLOC_MANORAMA",
+          "type": "ALLOCATION",
+          "refId": "GATED_ESCROW",
+          "label": "Allocation Policy: GATED_ESCROW (0%)"
+        },
+        {
+          "id": "THESIS_MANORAMA",
+          "type": "THESIS",
+          "refId": "UNRESOLVED",
+          "label": "Reconciled Thesis State: UNRESOLVED"
+        },
+        {
+          "id": "QUANT_MANORAMA",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 86/100)"
+        },
+        {
+          "id": "RISK_MANORAMA",
+          "type": "RULE",
+          "refId": "UNKNOWN",
+          "version": "2026.09",
+          "label": "Intelligence Risk: UNKNOWN"
+        },
+        {
+          "id": "CRED_MANORAMA",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 0)"
+        },
+        {
+          "id": "BRK_TB_MANO_DEBT",
+          "type": "RULE",
+          "refId": "TB_MANO_DEBT",
+          "version": "2026.09",
+          "label": "Breaker TB_MANO_DEBT: INACTIVE (Observed: 0.42)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_MANORAMA",
+          "to": "DEC_MANORAMA",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_MANORAMA",
+          "to": "DEC_MANORAMA",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_MANORAMA",
+          "to": "THESIS_MANORAMA",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_MANORAMA",
+          "to": "THESIS_MANORAMA",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_MANORAMA",
+          "to": "ALLOC_MANORAMA",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_MANO_DEBT",
+          "to": "RISK_MANORAMA",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_MANORAMA_20260915",
+      "decisionId": "DECISION_MANORAMA",
+      "issuerSymbol": "MANORAMA",
+      "evaluatedAt": "2026-09-15T12:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2",
+      "ontologyVersion": "1.2",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_MANORAMA_01",
+          "issuerSymbol": "MANORAMA",
+          "metric": "FINANCIAL_METRIC",
+          "metricId": "FINANCIAL_METRIC",
+          "metricFamily": "REVENUE",
+          "value": 0,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_MANO_PROMISE_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_MANO_PROMISE_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_MANO_PROMISE_01",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_MANORAMA_02",
+          "issuerSymbol": "MANORAMA",
+          "metric": "FINANCIAL_METRIC",
+          "metricId": "FINANCIAL_METRIC",
+          "metricFamily": "REVENUE",
+          "value": 0,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_MANO_RESULT_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_MANO_RESULT_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_MANO_RESULT_01",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [],
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_MANO_DEBT",
+          "name": "Debt to Equity Ceiling",
+          "description": "Debt to Equity must not breach 1.0x",
+          "type": "QUANTITATIVE",
+          "evaluationMethod": "METRIC_THRESHOLD",
+          "conditionText": "Debt / Equity > 1.0",
+          "quantitativeCondition": {
+            "metric": "debt_to_equity",
+            "operator": ">",
+            "threshold": 1,
+            "evaluationPeriod": "annual",
+            "evidenceRequired": true
+          },
+          "status": "INACTIVE",
+          "severity": "HIGH",
+          "rationale": "Metric within safe boundaries: debt_to_equity (0.42) does not violate > 1.",
+          "evidenceIds": [
+            "EV_MANO_RESULT_01"
+          ],
+          "currentObservedValue": 0.42
+        }
+      ],
+      "rawInputContradictions": [],
+      "rawQuantInput": {
+        "symbol": "MANORAMA",
+        "strategyAgreementCount": 6,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 86,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY"
+      },
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "UNKNOWN",
+        "thesisState": "UNRESOLVED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 1,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "Strong quantitative candidate, but intelligence risk is UNRESOLVED due to insufficient verified evidence (1 critical unknowns). Requires primary investigation before capital commitment.",
+        "allocationRecommendation": "GATED_ESCROW"
+      },
+      "portfolioPolicy": {
+        "directive": "GATED_ESCROW",
+        "targetSizingCapRatio": 0,
+        "policyRationale": "Article 25 Unknown Preservation: Capital deployment gated pending verifiable primary documentation."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_MANORAMA",
+        "nodes": [
+          {
+            "id": "DEC_MANORAMA",
+            "type": "DECISION",
+            "refId": "MANORAMA",
+            "label": "Final Investment Decision: UNRESOLVED"
+          },
+          {
+            "id": "ALLOC_MANORAMA",
+            "type": "ALLOCATION",
+            "refId": "GATED_ESCROW",
+            "label": "Allocation Policy: GATED_ESCROW (0%)"
+          },
+          {
+            "id": "THESIS_MANORAMA",
+            "type": "THESIS",
+            "refId": "UNRESOLVED",
+            "label": "Reconciled Thesis State: UNRESOLVED"
+          },
+          {
+            "id": "QUANT_MANORAMA",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 86/100)"
+          },
+          {
+            "id": "RISK_MANORAMA",
+            "type": "RULE",
+            "refId": "UNKNOWN",
+            "version": "2026.09",
+            "label": "Intelligence Risk: UNKNOWN"
+          },
+          {
+            "id": "CRED_MANORAMA",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 0)"
+          },
+          {
+            "id": "BRK_TB_MANO_DEBT",
+            "type": "RULE",
+            "refId": "TB_MANO_DEBT",
+            "version": "2026.09",
+            "label": "Breaker TB_MANO_DEBT: INACTIVE (Observed: 0.42)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_MANORAMA",
+            "to": "DEC_MANORAMA",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_MANORAMA",
+            "to": "DEC_MANORAMA",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_MANORAMA",
+            "to": "THESIS_MANORAMA",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_MANORAMA",
+            "to": "THESIS_MANORAMA",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_MANORAMA",
+            "to": "ALLOC_MANORAMA",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_MANO_DEBT",
+            "to": "RISK_MANORAMA",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "f33281f5e0ca5443f9c36548b0a21dad78f1a552c33535193c6c986fc9e94746",
+      "canonicalStateHash": "f33281f5e0ca5443f9c36548b0a21dad78f1a552c33535193c6c986fc9e94746"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "MIXED",
+    "confidence": "MEDIUM",
+    "decisionImplication": "NEUTRAL",
+    "oneLineSummary": "Strong quantitative candidate, but intelligence risk is UNRESOLVED due to insufficient verified evidence (1 critical unknowns). Requires primary investigation before capital commitment."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 6/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 86/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#MANORAMA",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "MANORAMA",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 0,
+    "achievedCount": 0,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": []
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_MANORAMA"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_MANORAMA"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-05-28",
+      "source": "BSE_DISCLOSURE",
+      "headline": "Manorama Industries commissions Birkoni specialty butter expansion to 42,000 MTPA",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_MANO_DEBT",
+      "name": "Debt to Equity Ceiling",
+      "description": "Debt to Equity must not breach 1.0x",
+      "type": "QUANTITATIVE",
+      "evaluationMethod": "METRIC_THRESHOLD",
+      "conditionText": "Debt / Equity > 1.0",
+      "quantitativeCondition": {
+        "metric": "debt_to_equity",
+        "operator": ">",
+        "threshold": 1,
+        "evaluationPeriod": "annual",
+        "evidenceRequired": true
+      },
+      "status": "INACTIVE",
+      "severity": "HIGH",
+      "rationale": "Metric within safe boundaries: debt_to_equity (0.42) does not violate > 1.",
+      "evidenceIds": [
+        "EV_MANO_RESULT_01"
+      ],
+      "currentObservedValue": 0.42
+    }
+  ],
+  "importantUnknowns": [
+    {
+      "unknownId": "UNK_MANO_RAW_MATERIAL",
+      "category": "RAW_MATERIAL_PROCUREMENT",
+      "question": "Seasonal sal seed procurement availability and off-balance sheet working capital letters of credit in absence of concall transcripts.",
+      "state": "SEARCHED_AND_NOT_FOUND",
+      "decisionImpact": "HIGH"
+    }
+  ],
+  "evidenceQuality": {
+    "tier": "MEDIUM",
+    "directSourcesCount": 2,
+    "corroboratedCount": 0,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Global supplier of wild-harvested tree-borne specialty fats substituting palm and shea butter in premium chocolates.\". Qualitative status: UNRESOLVED. Review before trade authorization."
+}

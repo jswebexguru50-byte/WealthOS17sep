@@ -1,0 +1,33 @@
+{
+  "status": "CONTRADICTIONS_DETECTED",
+  "issuerNseSymbol": "PURVA",
+  "activeContradictionCount": 1,
+  "contradictions": [
+    {
+      "contradictionId": "CONTRA_PURVA_01",
+      "issuerNseSymbol": "PURVA",
+      "issuerBseCode": "532891",
+      "severity": "HIGH",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_PURVA_01",
+      "eventId": "EVT_PURVA_01",
+      "description": "Management guided Net Debt / Equity <= 1.0x, but reported 1.16x with Net Debt / EBITDA at 5.8x",
+      "divergenceDetails": {
+        "targetRatio": 1,
+        "deliveredRatio": 1.16,
+        "netDebtEbitda": 5.8
+      },
+      "leftEvidenceId": "EV_PURVA_PROMISE_01",
+      "rightEvidenceId": "EV_PURVA_RESULT_01",
+      "supportingEvidenceIds": [
+        "EV_PURVA_PRESALES_Q4"
+      ],
+      "status": "OPEN",
+      "materiality": "HIGH",
+      "detectedAt": "2024-05-27T10:00:00.000Z",
+      "createdAt": "2026-09-30 20:15:27",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ]
+}

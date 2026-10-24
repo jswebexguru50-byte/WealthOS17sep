@@ -1,0 +1,24 @@
+{
+  "symbol": "KALYANI",
+  "coreThesisStatement": "Container casting manufacturer facing input cost margin compression post-listing.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Top-Line Scale",
+      "description": "Strong revenue scaling to ₹577 Cr on railway freight demand."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Margin Volatility",
+      "description": "Input cost volatility compressed EBITDA margins to 4.8%."
+    },
+    {
+      "pillarId": "P3",
+      "title": "Resolution Path",
+      "description": "Passing through metal surcharges to restore 7%+ margin profile."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_KALYANI_LEVERAGE"
+  ]
+}

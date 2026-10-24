@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_PURVA_01",
+    "issuerNseSymbol": "PURVA",
+    "issuerBseCode": "532891",
+    "eventDate": "2024-05-27",
+    "category": "DEBT_FINANCING",
+    "headline": "Puravankara net debt breaches ₹2,150 Cr threshold on aggressive redevelopment acquisition",
+    "description": "Statutory debt disclosure reveals Net Debt to EBITDA ratio rising to 5.8x.",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "BSE_DISCLOSURE",
+    "evidenceId": "EV_PURVA_RESULT_01",
+    "materiality": "HIGH",
+    "createdAt": "2024-05-27T09:00:00.000Z"
+  }
+]

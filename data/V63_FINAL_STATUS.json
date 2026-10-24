@@ -1,0 +1,26 @@
+{
+  "canonicalRunId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+  "runId": "v6.3_REAL_T1_EXECUTION_REMEDIATED_1789650500000",
+  "dataMode": "REAL_HISTORICAL",
+  "executionModel": "STRICT_NEXT_TRADABLE_SESSION_OPEN",
+  "ledgerSha256": "035d8867f1f8dbc65f9fe35ea45263f20f9fee00a48d3d7f48807c24a2afd485",
+  "engineeringValidation": "PASS",
+  "executionModelValidation": "PASS",
+  "pitValidation": "PASS",
+  "deliveryPITValidation": "PASS (PIT_VALID_UNDER_DECLARED_PUBLICATION_CONTRACT)",
+  "legacyContaminationStatus": "PASS",
+  "canonicalHashConsistency": "PASS",
+  "apiSynchronization": "PASS",
+  "economicEvidence": "DESCRIPTIVE ONLY",
+  "statisticalSufficiency": "INSUFFICIENT",
+  "researchCoverage": "2.0% (10 / 500 candidate symbols)",
+  "economicValidationStatus": "DATA_INSUFFICIENT_FOR_PROMOTION",
+  "productionPromotionStatus": "NOT_AUTHORIZED",
+  "nextResearchObjective": "DATA_EXPANSION (Acquire full historical PIT NIFTY 500 dataset without altering frozen strategy code)",
+  "summary": {
+    "totalTradesInSubset": 19,
+    "reconciliationStatus": "RECONCILED_EXACT_MATCH",
+    "quarantinedLegacyRunId": "RUN-V63-REAL-1789627995643"
+  },
+  "updatedAt": "2026-09-17T14:58:33.152Z"
+}

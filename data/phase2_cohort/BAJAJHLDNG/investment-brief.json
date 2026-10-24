@@ -1,0 +1,489 @@
+{
+  "symbol": "BAJAJHLDNG",
+  "companyName": "Bajaj Holdings & Investment Limited",
+  "marketCapTier": "LARGECAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-15T12:27:21.107Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "LOW",
+    "thesisState": "SUPPORTED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Capital sizing should reflect this uncertainty.",
+    "allocationRecommendation": "CAPPED_ALLOCATION",
+    "portfolioPolicy": {
+      "directive": "CAPPED_ALLOCATION",
+      "targetSizingCapRatio": 0.5,
+      "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_BAJAJHLDNG",
+      "nodes": [
+        {
+          "id": "DEC_BAJAJHLDNG",
+          "type": "DECISION",
+          "refId": "BAJAJHLDNG",
+          "label": "Final Investment Decision: SUPPORTED"
+        },
+        {
+          "id": "ALLOC_BAJAJHLDNG",
+          "type": "ALLOCATION",
+          "refId": "CAPPED_ALLOCATION",
+          "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+        },
+        {
+          "id": "THESIS_BAJAJHLDNG",
+          "type": "THESIS",
+          "refId": "SUPPORTED",
+          "label": "Reconciled Thesis State: SUPPORTED"
+        },
+        {
+          "id": "QUANT_BAJAJHLDNG",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 92/100)"
+        },
+        {
+          "id": "RISK_BAJAJHLDNG",
+          "type": "RULE",
+          "refId": "LOW",
+          "version": "2026.09",
+          "label": "Intelligence Risk: LOW"
+        },
+        {
+          "id": "CRED_BAJAJHLDNG",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_BAJ_PLEDGE",
+          "type": "RULE",
+          "refId": "TB_BAJ_PLEDGE",
+          "version": "2026.09",
+          "label": "Breaker TB_BAJ_PLEDGE: INACTIVE (Observed: 0)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_BAJAJHLDNG",
+          "to": "DEC_BAJAJHLDNG",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_BAJAJHLDNG",
+          "to": "DEC_BAJAJHLDNG",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_BAJAJHLDNG",
+          "to": "THESIS_BAJAJHLDNG",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_BAJAJHLDNG",
+          "to": "THESIS_BAJAJHLDNG",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_BAJAJHLDNG",
+          "to": "ALLOC_BAJAJHLDNG",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_BAJ_PLEDGE",
+          "to": "RISK_BAJAJHLDNG",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_BAJAJHLDNG_20260915",
+      "decisionId": "DECISION_BAJAJHLDNG",
+      "issuerSymbol": "BAJAJHLDNG",
+      "evaluatedAt": "2026-09-15T12:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2",
+      "ontologyVersion": "1.2",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_BAJAJHLDNG_01",
+          "issuerSymbol": "BAJAJHLDNG",
+          "metric": "DIVIDEND_PAYOUT",
+          "metricId": "DIVIDEND_PAYOUT",
+          "metricFamily": "DIVIDEND",
+          "value": 85,
+          "unit": "PERCENT",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_BAJ_AR24_P14",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_BAJ_AR24_P14",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_BAJ_AR24_P14",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_BAJAJHLDNG_02",
+          "issuerSymbol": "BAJAJHLDNG",
+          "metric": "DIVIDEND_PAYOUT",
+          "metricId": "DIVIDEND_PAYOUT",
+          "metricFamily": "DIVIDEND",
+          "value": 85,
+          "unit": "PERCENT",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_BAJ_DISCLOSURE_DIV",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_BAJ_DISCLOSURE_DIV",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_BAJ_DISCLOSURE_DIV",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_BAJ_01",
+          "issuerNseSymbol": "BAJAJHLDNG",
+          "issuerBseCode": "500490",
+          "period": "FY24",
+          "category": "CAPITAL_ALLOCATION",
+          "statement": "Maintain pass-through of core subsidiary dividend income to BHIL shareholders without speculative reinvestment.",
+          "targetMetric": "dividend_pass_through",
+          "baselineValue": 100,
+          "expectedValue": 100,
+          "expectedOutcome": "100% pass-through of received operating dividends",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_BAJ_AR24_P14",
+          "claimDate": "2023-06-20",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 100,
+          "actualOutcomeDescription": "Paid total dividend of ₹131.00 per share from operating dividend receipts",
+          "evaluationEvidenceId": "EV_BAJ_DISCLOSURE_DIV",
+          "evaluationDate": "2024-04-26",
+          "evaluationBasis": "BSE Financial Results and Cash Flow Statement",
+          "createdAt": "2023-06-20T10:00:00.000Z",
+          "targetTemporalSemantics": "ONGOING",
+          "factId": "FACT_BAJAJHLDNG_01",
+          "publicationDate": "2023-06-20",
+          "publicationDateType": "MANAGEMENT_COMMENT"
+        }
+      ],
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_BAJ_PLEDGE",
+          "name": "Promoter Pledge Breaker",
+          "description": "Promoter shares pledged must remain 0%",
+          "type": "QUANTITATIVE",
+          "evaluationMethod": "METRIC_THRESHOLD",
+          "conditionText": "Promoter Pledge Pct > 0",
+          "quantitativeCondition": {
+            "metric": "promoter_pledge_pct",
+            "operator": ">",
+            "threshold": 0,
+            "evaluationPeriod": "quarterly",
+            "evidenceRequired": true
+          },
+          "status": "INACTIVE",
+          "severity": "CRITICAL",
+          "rationale": "Metric within safe boundaries: promoter_pledge_pct (0) does not violate > 0.",
+          "evidenceIds": [
+            "EV_BAJ_DISCLOSURE_DIV"
+          ],
+          "currentObservedValue": 0
+        }
+      ],
+      "rawInputContradictions": [],
+      "rawQuantInput": {
+        "symbol": "BAJAJHLDNG",
+        "strategyAgreementCount": 6,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 92,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY"
+      },
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "LOW",
+        "thesisState": "SUPPORTED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "Strong quantitative opportunity supported by clean qualitative intelligence and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Capital sizing should reflect this uncertainty.",
+        "allocationRecommendation": "CAPPED_ALLOCATION"
+      },
+      "portfolioPolicy": {
+        "directive": "CAPPED_ALLOCATION",
+        "targetSizingCapRatio": 0.5,
+        "policyRationale": "Capped allocation: Supported thesis and clean forensics, but management credibility is unverified (INSUFFICIENT_HISTORY, N=1 claim). Sizing capped at 50% target."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_BAJAJHLDNG",
+        "nodes": [
+          {
+            "id": "DEC_BAJAJHLDNG",
+            "type": "DECISION",
+            "refId": "BAJAJHLDNG",
+            "label": "Final Investment Decision: SUPPORTED"
+          },
+          {
+            "id": "ALLOC_BAJAJHLDNG",
+            "type": "ALLOCATION",
+            "refId": "CAPPED_ALLOCATION",
+            "label": "Allocation Policy: CAPPED_ALLOCATION (50%)"
+          },
+          {
+            "id": "THESIS_BAJAJHLDNG",
+            "type": "THESIS",
+            "refId": "SUPPORTED",
+            "label": "Reconciled Thesis State: SUPPORTED"
+          },
+          {
+            "id": "QUANT_BAJAJHLDNG",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 92/100)"
+          },
+          {
+            "id": "RISK_BAJAJHLDNG",
+            "type": "RULE",
+            "refId": "LOW",
+            "version": "2026.09",
+            "label": "Intelligence Risk: LOW"
+          },
+          {
+            "id": "CRED_BAJAJHLDNG",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_BAJ_PLEDGE",
+            "type": "RULE",
+            "refId": "TB_BAJ_PLEDGE",
+            "version": "2026.09",
+            "label": "Breaker TB_BAJ_PLEDGE: INACTIVE (Observed: 0)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_BAJAJHLDNG",
+            "to": "DEC_BAJAJHLDNG",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_BAJAJHLDNG",
+            "to": "DEC_BAJAJHLDNG",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_BAJAJHLDNG",
+            "to": "THESIS_BAJAJHLDNG",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_BAJAJHLDNG",
+            "to": "THESIS_BAJAJHLDNG",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_BAJAJHLDNG",
+            "to": "ALLOC_BAJAJHLDNG",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_BAJ_PLEDGE",
+            "to": "RISK_BAJAJHLDNG",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "73febb39d57ffad7df236c0d23f5395c7dc6e976530a24d31246d4cbe5a1c70c",
+      "canonicalStateHash": "73febb39d57ffad7df236c0d23f5395c7dc6e976530a24d31246d4cbe5a1c70c"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "POSITIVE",
+    "confidence": "MEDIUM",
+    "decisionImplication": "SUPPORTS_THESIS",
+    "oneLineSummary": "Strong quantitative opportunity supported by clean qualitative intelligence and zero active thesis breakers, but management credibility remains unverified (INSUFFICIENT_HISTORY — only 1 evaluated claim). Capital sizing should reflect this uncertainty."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 6/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 92/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#BAJAJHLDNG",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Maintain pass-through of core subsidiary dividend income to BHIL shareholders without speculative reinvestment.",
+      "detail": "Disclosed actual outcome: Paid total dividend of ₹131.00 per share from operating dividend receipts",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_BAJ_AR24_P14 -> Resolution#EV_BAJ_DISCLOSURE_DIV",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [],
+  "walkTheTalk": {
+    "symbol": "BAJAJHLDNG",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 1,
+    "partiallyAchievedCount": 0,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_BAJ_01",
+        "statement": "Maintain pass-through of core subsidiary dividend income to BHIL shareholders without speculative reinvestment.",
+        "period": "FY24",
+        "expected": "100% pass-through of received operating dividends",
+        "actual": "Paid total dividend of ₹131.00 per share from operating dividend receipts",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_BAJ_AR24_P14 -> Resolution#EV_BAJ_DISCLOSURE_DIV"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_BAJAJHLDNG"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_BAJAJHLDNG"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-04-26",
+      "source": "BSE_DISCLOSURE",
+      "headline": "Bajaj Holdings posts ₹7,341 Cr consolidated net profit with ₹131/share annual dividend",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    }
+  ],
+  "openContradictions": [],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_BAJ_PLEDGE",
+      "name": "Promoter Pledge Breaker",
+      "description": "Promoter shares pledged must remain 0%",
+      "type": "QUANTITATIVE",
+      "evaluationMethod": "METRIC_THRESHOLD",
+      "conditionText": "Promoter Pledge Pct > 0",
+      "quantitativeCondition": {
+        "metric": "promoter_pledge_pct",
+        "operator": ">",
+        "threshold": 0,
+        "evaluationPeriod": "quarterly",
+        "evidenceRequired": true
+      },
+      "status": "INACTIVE",
+      "severity": "CRITICAL",
+      "rationale": "Metric within safe boundaries: promoter_pledge_pct (0) does not violate > 0.",
+      "evidenceIds": [
+        "EV_BAJ_DISCLOSURE_DIV"
+      ],
+      "currentObservedValue": 0
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "MEDIUM",
+    "directSourcesCount": 2,
+    "corroboratedCount": 1,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Apex holding company providing diversified proxy exposure to Indian auto and financial compounding at a structural holding company discount.\". Qualitative status: SUPPORTED. Review before trade authorization."
+}

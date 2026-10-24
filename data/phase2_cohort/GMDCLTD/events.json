@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_GMDC_01",
+    "issuerNseSymbol": "GMDCLTD",
+    "issuerBseCode": "532181",
+    "eventDate": "2024-05-18",
+    "category": "REGULATORY_ACTION",
+    "headline": "GMDC Baitarani West commercial coal mining delayed pending statutory forest clearances",
+    "description": "Regulatory delays push commercial production timeline beyond FY24 schedule.",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "BSE_DISCLOSURE",
+    "evidenceId": "EV_GMDC_RESULT_01",
+    "materiality": "HIGH",
+    "createdAt": "2024-05-18T09:00:00.000Z"
+  }
+]

@@ -1,0 +1,41 @@
+[
+  {
+    "evidenceId": "EV_360ONE_PROMISE_01",
+    "issuerNseSymbol": "360ONE",
+    "issuerBseCode": "542772",
+    "documentId": "DOC_360ONE_AR2024",
+    "documentHash": "2b67389eb471928ba40192cae981248ba014829bc39104aa1098234af09281d3",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 44,
+    "pagePrinted": 42,
+    "quotedText": "Targeting Annual Recurring Revenue (ARR) earning assets yield to remain resilient above 58 bps across Wealth and Asset Management divisions.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE"
+  },
+  {
+    "evidenceId": "EV_360ONE_RESULT_01",
+    "issuerNseSymbol": "360ONE",
+    "issuerBseCode": "542772",
+    "documentId": "DOC_360ONE_BSE_Q4FY24",
+    "documentHash": "3c78499eb471928ba40192cae981248ba014829bc39104aa1098234af09281d4",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 11,
+    "pagePrinted": 11,
+    "quotedText": "Consolidated ARR yield stood at 53 bps in FY24 (compared to 58 bps in FY23) on mix shift towards institutional mandates and competitive fee compression.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  },
+  {
+    "evidenceId": "EV_360ONE_AUM_Q4",
+    "issuerNseSymbol": "360ONE",
+    "issuerBseCode": "542772",
+    "documentId": "DOC_360ONE_BSE_Q4FY24",
+    "documentHash": "3c78499eb471928ba40192cae981248ba014829bc39104aa1098234af09281d4",
+    "documentType": "BSE_DISCLOSURE",
+    "pagePhysical": 5,
+    "pagePrinted": 5,
+    "quotedText": "Total Annual Recurring Revenue (ARR) AUM expanded 36% YoY to reach ₹2,10,800 Cr.",
+    "verificationStatus": "VERIFIED",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+  }
+]

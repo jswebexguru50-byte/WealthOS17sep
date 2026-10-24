@@ -1,0 +1,20 @@
+{
+  "runId": "R1-20260916T212804",
+  "milestone": "v6.3.0-R1",
+  "parentBaseline": "v6.2.0-FROZEN",
+  "createdAt": "2026-09-16T21:28:04.782Z",
+  "timezone": "Asia/Kolkata",
+  "eodAvailabilityAnchor": "15:35",
+  "fundamentalFallbackLagDays": 45,
+  "performanceSimulationPermitted": false,
+  "dataPolicy": {
+    "futureReads": "INVALIDATE_RUN",
+    "missingRequiredData": "FAIL_CLOSED",
+    "forwardFill": false,
+    "rawPriceImmutable": true,
+    "dividendAccounting": "EX_DATE_CASH_OR_TOTAL_RETURN_NOT_BOTH"
+  },
+  "pitEngineHash": "d366fa205addb8e6cdb94252c4d1ee8249813748dfd0c4ec81b316dafd96bae0",
+  "status": "NOT_STARTED",
+  "runManifestHash": "b51bdb9441ee6a0899e2dcdc9561747c88206880ddc2cc5cdebc833339abead0"
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_APOLLO_01",
+    "issuerNseSymbol": "APOLLO",
+    "issuerBseCode": "540879",
+    "eventDate": "2024-05-20",
+    "category": "ORDER_BOOK",
+    "headline": "DRDO Torpedo Guidance Contract Secured",
+    "description": "Secured ₹108 Cr supply contract for heavy weight torpedo electronic control units.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_APOLLO_ORDER_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

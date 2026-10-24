@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_MRP_REV_01",
+    "issuerNseSymbol": "MRP",
+    "issuerBseCode": "543262",
+    "documentId": "DOC_MRP_AR24",
+    "documentHash": "123456789abcdef0123456789abcdef56789abcdef890ab12c3d4e5f60718293a",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 16,
+    "pagePrinted": "14",
+    "quotedText": "Total revenue from trading operations for FY24 stood at ₹92 Cr against ₹78 Cr in previous year.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

@@ -1,0 +1,1497 @@
+{
+  "symbol": "HDFCBANK",
+  "generatedAt": "2026-10-23T15:31:46.909Z",
+  "policy": [
+    "Exhaust local persisted evidence first",
+    "Prefer primary filed evidence",
+    "Use provider data for discovery/cross-check and persist raw response",
+    "Promote only identity/period/unit/scope-verified evidence",
+    "Never convert missing evidence to zero or an invented narrative"
+  ],
+  "summary": {
+    "totalActions": 44,
+    "p0": 0,
+    "p1": 44,
+    "structuredMetrics": 22,
+    "providerViews": 18,
+    "localDomains": 4,
+    "uniqueProviderCalls": 13
+  },
+  "actions": [
+    {
+      "actionId": "GAP-HDFCBANK-01-911694960C",
+      "priority": "P1",
+      "questionId": 1,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:technical",
+      "category": "TRENDLYNE_VIEW",
+      "view": "technical",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:technical"
+      ],
+      "primarySources": [
+        "DuckDB adjusted OHLCV remains analytical source of truth"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_overview_news_corp_events",
+        "arguments": {
+          "stock_code": "HDFCBANK",
+          "type": "technical"
+        }
+      },
+      "canonicalDestination": "fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh technical snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-01-1ECEA1EE46",
+      "priority": "P1",
+      "questionId": 1,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:news",
+      "category": "TRENDLYNE_VIEW",
+      "view": "news",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:news"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_overview_news_corp_events",
+        "arguments": {
+          "stock_code": "HDFCBANK",
+          "type": "news"
+        }
+      },
+      "canonicalDestination": "fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh news snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-01-FEAE62FE42",
+      "priority": "P1",
+      "questionId": 1,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:sast",
+      "category": "TRENDLYNE_VIEW",
+      "view": "sast",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:sast",
+        "InstitutionalDeals"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_ownership_deals_insider_sast",
+        "arguments": {
+          "stock_code": "HDFCBANK",
+          "type": "sast"
+        }
+      },
+      "canonicalDestination": "InstitutionalDeals + fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh sast snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-01-FE1037BA64",
+      "priority": "P1",
+      "questionId": 1,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:bulblockdeal",
+      "category": "TRENDLYNE_VIEW",
+      "view": "bulblockdeal",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:bulblockdeal",
+        "InstitutionalDeals"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_ownership_deals_insider_sast",
+        "arguments": {
+          "stock_code": "HDFCBANK",
+          "type": "bulblockdeal"
+        }
+      },
+      "canonicalDestination": "InstitutionalDeals + fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh bulblockdeal snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-01-1C55AF7CDB",
+      "priority": "P1",
+      "questionId": 1,
+      "status": "PARTIAL",
+      "missing": "LOCAL_DOMAIN:DEALS",
+      "category": "LOCAL_DOMAIN",
+      "domain": "DEALS",
+      "localFirst": [
+        "InstitutionalDeals"
+      ],
+      "primarySources": [
+        "NSE/BSE bulk, block, insider and SAST disclosures"
+      ],
+      "providerFallback": null,
+      "canonicalDestination": "InstitutionalDeals",
+      "existingExecutors": [
+        "src/server/services/enrichment/trendlyne/TrendlyneOwnershipAdapter.ts",
+        "scripts/run_one_time_data_push.cjs"
+      ],
+      "completionGate": "Verified DEALS evidence is persisted in InstitutionalDeals."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-05-5ACBD75FD9",
+      "priority": "P1",
+      "questionId": 5,
+      "status": "PARTIAL",
+      "missing": "METRIC:materials_cost",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "materials_cost"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE profit-and-loss statement"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F01/F02",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-05-DCDD7556E9",
+      "priority": "P1",
+      "questionId": 5,
+      "status": "PARTIAL",
+      "missing": "METRIC:inventory|inventory_change",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "inventory",
+        "inventory_change"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE balance sheet and notes"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F03/F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-07-AB4A3F1DA8",
+      "priority": "P1",
+      "questionId": 7,
+      "status": "PARTIAL",
+      "missing": "METRIC:capex_cash_outflow",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "capex_cash_outflow"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE cash-flow statement"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-07-6014481B55",
+      "priority": "P1",
+      "questionId": 7,
+      "status": "PARTIAL",
+      "missing": "METRIC:capital_work_in_progress",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "capital_work_in_progress"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE balance sheet and notes"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F03/F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-08-5B35F1272C",
+      "priority": "P1",
+      "questionId": 8,
+      "status": "PARTIAL",
+      "missing": "METRIC:roic",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "roic"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "Derived from aligned XBRL/FERE statements"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F05",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-09-7C57A006AF",
+      "priority": "P1",
+      "questionId": 9,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:news",
+      "category": "TRENDLYNE_VIEW",
+      "view": "news",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:news"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_overview_news_corp_events",
+        "arguments": {
+          "stock_code": "HDFCBANK",
+          "type": "news"
+        }
+      },
+      "canonicalDestination": "fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh news snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-10-DB546E549F",
+      "priority": "P1",
+      "questionId": 10,
+      "status": "PARTIAL",
+      "missing": "METRIC:trade_receivables|trade_receivables_cr",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "trade_receivables",
+        "trade_receivables_cr"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE balance sheet and notes"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F03/F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-11-37F275E2CC",
+      "priority": "P1",
+      "questionId": 11,
+      "status": "PARTIAL",
+      "missing": "LOCAL_DOMAIN:SEGMENTS",
+      "category": "LOCAL_DOMAIN",
+      "domain": "SEGMENTS",
+      "localFirst": [
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "source_documents"
+      ],
+      "primarySources": [
+        "Annual-report segment note",
+        "Quarterly result segment schedule",
+        "XBRL segment disclosures"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "focusedQueries": [
+          {
+            "tool": "get_document_search_results",
+            "arguments": {
+              "stock_code": "HDFCBANK",
+              "query": "segment revenue growth product mix geography recovery"
+            }
+          }
+        ]
+      },
+      "canonicalDestination": "period-anchored segment fact records",
+      "existingExecutors": [
+        "scripts/fundamental/promote_all_xbrl_to_company_facts.py"
+      ],
+      "completionGate": "Verified SEGMENTS evidence is persisted in period-anchored segment fact records."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-13-9D132AC27A",
+      "priority": "P1",
+      "questionId": 13,
+      "status": "PARTIAL",
+      "missing": "METRIC:materials_cost",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "materials_cost"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE profit-and-loss statement"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F01/F02",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-15-DBBBE68764",
+      "priority": "P1",
+      "questionId": 15,
+      "status": "PARTIAL",
+      "missing": "METRIC:trade_receivables|trade_receivables_cr",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "trade_receivables",
+        "trade_receivables_cr"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE balance sheet and notes"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F03/F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-15-6258DC0F16",
+      "priority": "P1",
+      "questionId": 15,
+      "status": "PARTIAL",
+      "missing": "METRIC:inventory",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "inventory"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE balance sheet and notes"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F03/F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-16-8F809DC71F",
+      "priority": "P1",
+      "questionId": 16,
+      "status": "PARTIAL",
+      "missing": "METRIC:capex_cash_outflow",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "capex_cash_outflow"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE cash-flow statement"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-17-77342A7C03",
+      "priority": "P1",
+      "questionId": 17,
+      "status": "PARTIAL",
+      "missing": "METRIC:pb_ratio",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "pb_ratio"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "Adjusted market price plus filed share capital/shareholding"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F06/F07",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-17-E647E07AE5",
+      "priority": "P1",
+      "questionId": 17,
+      "status": "PARTIAL",
+      "missing": "METRIC:peg_ratio",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "peg_ratio"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "Adjusted market price plus filed share capital/shareholding"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F06/F07",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-17-EEFF034FEA",
+      "priority": "P1",
+      "questionId": 17,
+      "status": "PARTIAL",
+      "missing": "METRIC:capex_cash_outflow",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "capex_cash_outflow"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE cash-flow statement"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-18-3C97266940",
+      "priority": "P1",
+      "questionId": 18,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:news",
+      "category": "TRENDLYNE_VIEW",
+      "view": "news",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:news"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_overview_news_corp_events",
+        "arguments": {
+          "stock_code": "HDFCBANK",
+          "type": "news"
+        }
+      },
+      "canonicalDestination": "fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh news snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-18-8086951838",
+      "priority": "P1",
+      "questionId": 18,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:sast",
+      "category": "TRENDLYNE_VIEW",
+      "view": "sast",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:sast",
+        "InstitutionalDeals"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_ownership_deals_insider_sast",
+        "arguments": {
+          "stock_code": "HDFCBANK",
+          "type": "sast"
+        }
+      },
+      "canonicalDestination": "InstitutionalDeals + fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh sast snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-19-48A616D860",
+      "priority": "P1",
+      "questionId": 19,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:news",
+      "category": "TRENDLYNE_VIEW",
+      "view": "news",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:news"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_overview_news_corp_events",
+        "arguments": {
+          "stock_code": "HDFCBANK",
+          "type": "news"
+        }
+      },
+      "canonicalDestination": "fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh news snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-19-747BB9CB32",
+      "priority": "P1",
+      "questionId": 19,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:sast",
+      "category": "TRENDLYNE_VIEW",
+      "view": "sast",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:sast",
+        "InstitutionalDeals"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_ownership_deals_insider_sast",
+        "arguments": {
+          "stock_code": "HDFCBANK",
+          "type": "sast"
+        }
+      },
+      "canonicalDestination": "InstitutionalDeals + fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh sast snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-20-C77EE9A3FB",
+      "priority": "P1",
+      "questionId": 20,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:sast",
+      "category": "TRENDLYNE_VIEW",
+      "view": "sast",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:sast",
+        "InstitutionalDeals"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_ownership_deals_insider_sast",
+        "arguments": {
+          "stock_code": "HDFCBANK",
+          "type": "sast"
+        }
+      },
+      "canonicalDestination": "InstitutionalDeals + fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh sast snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-20-AB75B16557",
+      "priority": "P1",
+      "questionId": 20,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:bulblockdeal",
+      "category": "TRENDLYNE_VIEW",
+      "view": "bulblockdeal",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:bulblockdeal",
+        "InstitutionalDeals"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_ownership_deals_insider_sast",
+        "arguments": {
+          "stock_code": "HDFCBANK",
+          "type": "bulblockdeal"
+        }
+      },
+      "canonicalDestination": "InstitutionalDeals + fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh bulblockdeal snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-20-C33421D729",
+      "priority": "P1",
+      "questionId": 20,
+      "status": "PARTIAL",
+      "missing": "LOCAL_DOMAIN:DEALS",
+      "category": "LOCAL_DOMAIN",
+      "domain": "DEALS",
+      "localFirst": [
+        "InstitutionalDeals"
+      ],
+      "primarySources": [
+        "NSE/BSE bulk, block, insider and SAST disclosures"
+      ],
+      "providerFallback": null,
+      "canonicalDestination": "InstitutionalDeals",
+      "existingExecutors": [
+        "src/server/services/enrichment/trendlyne/TrendlyneOwnershipAdapter.ts",
+        "scripts/run_one_time_data_push.cjs"
+      ],
+      "completionGate": "Verified DEALS evidence is persisted in InstitutionalDeals."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-22-7EF294E2CE",
+      "priority": "P1",
+      "questionId": 22,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:news",
+      "category": "TRENDLYNE_VIEW",
+      "view": "news",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:news"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_overview_news_corp_events",
+        "arguments": {
+          "stock_code": "HDFCBANK",
+          "type": "news"
+        }
+      },
+      "canonicalDestination": "fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh news snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-23-A57320C44E",
+      "priority": "P1",
+      "questionId": 23,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:technical",
+      "category": "TRENDLYNE_VIEW",
+      "view": "technical",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:technical"
+      ],
+      "primarySources": [
+        "DuckDB adjusted OHLCV remains analytical source of truth"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_overview_news_corp_events",
+        "arguments": {
+          "stock_code": "HDFCBANK",
+          "type": "technical"
+        }
+      },
+      "canonicalDestination": "fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh technical snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-23-DABBCCECED",
+      "priority": "P1",
+      "questionId": 23,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:news",
+      "category": "TRENDLYNE_VIEW",
+      "view": "news",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:news"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_overview_news_corp_events",
+        "arguments": {
+          "stock_code": "HDFCBANK",
+          "type": "news"
+        }
+      },
+      "canonicalDestination": "fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh news snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-23-FB9F908E32",
+      "priority": "P1",
+      "questionId": 23,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:sast",
+      "category": "TRENDLYNE_VIEW",
+      "view": "sast",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:sast",
+        "InstitutionalDeals"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_ownership_deals_insider_sast",
+        "arguments": {
+          "stock_code": "HDFCBANK",
+          "type": "sast"
+        }
+      },
+      "canonicalDestination": "InstitutionalDeals + fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh sast snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-23-C0823211D2",
+      "priority": "P1",
+      "questionId": 23,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:bulblockdeal",
+      "category": "TRENDLYNE_VIEW",
+      "view": "bulblockdeal",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:bulblockdeal",
+        "InstitutionalDeals"
+      ],
+      "primarySources": [
+        "NSE/BSE source disclosure should verify material claims"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_ownership_deals_insider_sast",
+        "arguments": {
+          "stock_code": "HDFCBANK",
+          "type": "bulblockdeal"
+        }
+      },
+      "canonicalDestination": "InstitutionalDeals + fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh bulblockdeal snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-24-2FC35B846F",
+      "priority": "P1",
+      "questionId": 24,
+      "status": "PARTIAL",
+      "missing": "METRIC:total_debt|borrowings",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "total_debt",
+        "borrowings"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE balance sheet and notes"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F03/F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-24-BD3FAF5BF1",
+      "priority": "P1",
+      "questionId": 24,
+      "status": "PARTIAL",
+      "missing": "METRIC:finance_costs|interest_expense",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "finance_costs",
+        "interest_expense"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "NSE/BSE filed financial statements and notes"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "DISCOVER_EXACT_PARAMETER",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-25-B80A0D0BFF",
+      "priority": "P1",
+      "questionId": 25,
+      "status": "PARTIAL",
+      "missing": "METRIC:trade_receivables|trade_receivables_cr",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "trade_receivables",
+        "trade_receivables_cr"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE balance sheet and notes"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F03/F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-25-21451E40FA",
+      "priority": "P1",
+      "questionId": 25,
+      "status": "PARTIAL",
+      "missing": "METRIC:inventory",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "inventory"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE balance sheet and notes"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F03/F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-25-519CDD1E82",
+      "priority": "P1",
+      "questionId": 25,
+      "status": "PARTIAL",
+      "missing": "METRIC:working_capital",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "working_capital"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE balance sheet and notes"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F03/F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-26-186B669048",
+      "priority": "P1",
+      "questionId": 26,
+      "status": "PARTIAL",
+      "missing": "METRIC:total_debt|borrowings",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "total_debt",
+        "borrowings"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "XBRL/FERE balance sheet and notes"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F03/F04",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-26-9A3252E1EC",
+      "priority": "P1",
+      "questionId": 26,
+      "status": "PARTIAL",
+      "missing": "METRIC:net_debt",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "net_debt"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "Derived from aligned borrowings, leases and cash; never fetch as a substitute for missing inputs"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F03",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-26-1BCA4DEB5F",
+      "priority": "P1",
+      "questionId": 26,
+      "status": "PARTIAL",
+      "missing": "METRIC:interest_coverage",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "interest_coverage"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "Derived from aligned XBRL/FERE statements"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "F05",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-26-21E67974E7",
+      "priority": "P1",
+      "questionId": 26,
+      "status": "PARTIAL",
+      "missing": "METRIC:finance_costs|interest_expense",
+      "category": "STRUCTURED_METRIC",
+      "aliases": [
+        "finance_costs",
+        "interest_expense"
+      ],
+      "localFirst": [
+        "company_facts",
+        "HistoricalFinancialStatements",
+        "FEREEnrichedLedger",
+        "fundamental_endpoint_snapshots"
+      ],
+      "primarySources": [
+        "NSE/BSE filed financial statements and notes"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "pack": "DISCOVER_EXACT_PARAMETER",
+        "discoveryTool": "search_financial_parameters",
+        "fetchTool": "get_stock_parameter_values",
+        "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+      },
+      "canonicalDestination": "company_facts with identity, unit, scope, periodEnd, publishedAt/availableAt and provenance",
+      "existingExecutors": [
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
+      "completionGate": "At least one period-anchored canonical fact is present; derived metrics additionally require all aligned input fact IDs."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-27-1E28124A50",
+      "priority": "P1",
+      "questionId": 27,
+      "status": "PARTIAL",
+      "missing": "LOCAL_DOMAIN:RPT",
+      "category": "LOCAL_DOMAIN",
+      "domain": "RPT",
+      "localFirst": [
+        "source_documents",
+        "FEREEnrichedLedger"
+      ],
+      "primarySources": [
+        "Annual-report related-party note",
+        "XBRL related-party disclosures"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "focusedQueries": [
+          {
+            "tool": "get_document_search_results",
+            "arguments": {
+              "stock_code": "HDFCBANK",
+              "query": "related party transactions sales purchases loans guarantees promoter entities"
+            }
+          }
+        ]
+      },
+      "canonicalDestination": "counterparty-level related-party evidence ledger",
+      "existingExecutors": [
+        "scripts/fundamental/promote_all_xbrl_to_company_facts.py"
+      ],
+      "completionGate": "Verified RPT evidence is persisted in counterparty-level related-party evidence ledger."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-28-3A63FBE594",
+      "priority": "P1",
+      "questionId": 28,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:technical",
+      "category": "TRENDLYNE_VIEW",
+      "view": "technical",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:technical"
+      ],
+      "primarySources": [
+        "DuckDB adjusted OHLCV remains analytical source of truth"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_overview_news_corp_events",
+        "arguments": {
+          "stock_code": "HDFCBANK",
+          "type": "technical"
+        }
+      },
+      "canonicalDestination": "fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh technical snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    },
+    {
+      "actionId": "GAP-HDFCBANK-29-9FA0D022DA",
+      "priority": "P1",
+      "questionId": 29,
+      "status": "PARTIAL",
+      "missing": "TRENDLYNE_VIEW:technical",
+      "category": "TRENDLYNE_VIEW",
+      "view": "technical",
+      "localFirst": [
+        "fundamental_endpoint_snapshots:technical"
+      ],
+      "primarySources": [
+        "DuckDB adjusted OHLCV remains analytical source of truth"
+      ],
+      "providerFallback": {
+        "provider": "TRENDLYNE_MCP",
+        "tool": "get_overview_news_corp_events",
+        "arguments": {
+          "stock_code": "HDFCBANK",
+          "type": "technical"
+        }
+      },
+      "canonicalDestination": "fundamental_endpoint_snapshots",
+      "existingExecutors": [
+        "scripts/fundamental/run_trendlyne_mcp_enrichment.ts",
+        "src/server/services/enrichment/trendlyne/TrendlyneMcpClient.ts"
+      ],
+      "completionGate": "A successful, fresh technical snapshot is persisted; material claims are promoted or linked to their primary disclosure."
+    }
+  ],
+  "uniqueProviderCalls": [
+    {
+      "provider": "TRENDLYNE_MCP",
+      "tool": "get_overview_news_corp_events",
+      "arguments": {
+        "stock_code": "HDFCBANK",
+        "type": "technical"
+      }
+    },
+    {
+      "provider": "TRENDLYNE_MCP",
+      "tool": "get_overview_news_corp_events",
+      "arguments": {
+        "stock_code": "HDFCBANK",
+        "type": "news"
+      }
+    },
+    {
+      "provider": "TRENDLYNE_MCP",
+      "tool": "get_ownership_deals_insider_sast",
+      "arguments": {
+        "stock_code": "HDFCBANK",
+        "type": "sast"
+      }
+    },
+    {
+      "provider": "TRENDLYNE_MCP",
+      "tool": "get_ownership_deals_insider_sast",
+      "arguments": {
+        "stock_code": "HDFCBANK",
+        "type": "bulblockdeal"
+      }
+    },
+    {
+      "provider": "TRENDLYNE_MCP",
+      "pack": "F01/F02",
+      "discoveryTool": "search_financial_parameters",
+      "fetchTool": "get_stock_parameter_values",
+      "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+    },
+    {
+      "provider": "TRENDLYNE_MCP",
+      "pack": "F03/F04",
+      "discoveryTool": "search_financial_parameters",
+      "fetchTool": "get_stock_parameter_values",
+      "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+    },
+    {
+      "provider": "TRENDLYNE_MCP",
+      "pack": "F04",
+      "discoveryTool": "search_financial_parameters",
+      "fetchTool": "get_stock_parameter_values",
+      "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+    },
+    {
+      "provider": "TRENDLYNE_MCP",
+      "pack": "F05",
+      "discoveryTool": "search_financial_parameters",
+      "fetchTool": "get_stock_parameter_values",
+      "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+    },
+    {
+      "tool": "get_document_search_results",
+      "arguments": {
+        "stock_code": "HDFCBANK",
+        "query": "segment revenue growth product mix geography recovery"
+      }
+    },
+    {
+      "provider": "TRENDLYNE_MCP",
+      "pack": "F06/F07",
+      "discoveryTool": "search_financial_parameters",
+      "fetchTool": "get_stock_parameter_values",
+      "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+    },
+    {
+      "provider": "TRENDLYNE_MCP",
+      "pack": "DISCOVER_EXACT_PARAMETER",
+      "discoveryTool": "search_financial_parameters",
+      "fetchTool": "get_stock_parameter_values",
+      "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+    },
+    {
+      "provider": "TRENDLYNE_MCP",
+      "pack": "F03",
+      "discoveryTool": "search_financial_parameters",
+      "fetchTool": "get_stock_parameter_values",
+      "batching": "Use only verified tokens; up to 10 symbols and up to 50 parameters per provider call."
+    },
+    {
+      "tool": "get_document_search_results",
+      "arguments": {
+        "stock_code": "HDFCBANK",
+        "query": "related party transactions sales purchases loans guarantees promoter entities"
+      }
+    }
+  ]
+}

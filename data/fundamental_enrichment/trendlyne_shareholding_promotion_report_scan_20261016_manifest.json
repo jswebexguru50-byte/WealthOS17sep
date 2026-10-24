@@ -1,0 +1,102 @@
+{
+  "generatedAt": "2026-10-16T19:11:45.898Z",
+  "mode": "APPLIED",
+  "dbPath": "C:\\Users\\GopalSharma\\Downloads\\WealthOS 04 Oct\\WealthOS04Oct\\portfolio.db",
+  "requested": 18,
+  "symbolsWithEvidence": 12,
+  "factsPrepared": 528,
+  "factsWritten": 528,
+  "policy": "Only explicit Trendlyne quarter-labelled shareholding data is promoted. Relative financial history is untouched.",
+  "symbols": [
+    {
+      "symbol": "BLUEWATER",
+      "endpoint": "shareholding",
+      "factsPrepared": 40
+    },
+    {
+      "symbol": "GLOBAL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "KANORICHEM",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "MBAPL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "MMP",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "NEOGEN",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "NITINSPIN",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "NRL",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "RUBYMILLS",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "SAAKSHI",
+      "endpoint": "shareholding",
+      "factsPrepared": 32
+    },
+    {
+      "symbol": "SHEETAL",
+      "endpoint": "shareholding",
+      "factsPrepared": 24
+    },
+    {
+      "symbol": "SHERA",
+      "endpoint": null,
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "SPORTKING",
+      "endpoint": "shareholding",
+      "factsPrepared": 48
+    },
+    {
+      "symbol": "SUNLITE",
+      "endpoint": null,
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "SUNTV",
+      "endpoint": null,
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "TRACXN",
+      "endpoint": null,
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "VILINBIO",
+      "endpoint": null,
+      "factsPrepared": 0
+    },
+    {
+      "symbol": "WHEELS",
+      "endpoint": null,
+      "factsPrepared": 0
+    }
+  ]
+}

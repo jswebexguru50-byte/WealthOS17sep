@@ -1,0 +1,30 @@
+{
+  "status": "CONTRADICTIONS_DETECTED",
+  "issuerNseSymbol": "STLNETWORK",
+  "activeContradictionCount": 1,
+  "contradictions": [
+    {
+      "contradictionId": "CONTRA_STL_01",
+      "issuerNseSymbol": "STLNETWORK",
+      "issuerBseCode": "532374",
+      "severity": "HIGH",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_STL_01",
+      "eventId": "EVT_STL_01",
+      "description": "Management guided Net Debt reduction below ₹2,500 Cr, but delivered ₹3,124 Cr debt",
+      "divergenceDetails": {
+        "targetNetDebt": 2500,
+        "actualNetDebt": 3124
+      },
+      "leftEvidenceId": "EV_STL_PROMISE_01",
+      "rightEvidenceId": "EV_STL_RESULT_01",
+      "supportingEvidenceIds": [],
+      "status": "OPEN",
+      "materiality": "HIGH",
+      "detectedAt": "2024-05-16T10:00:00.000Z",
+      "createdAt": "2026-09-30 20:15:28",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ]
+}

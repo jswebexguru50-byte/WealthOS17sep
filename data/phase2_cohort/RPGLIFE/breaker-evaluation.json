@@ -1,0 +1,18 @@
+[
+  {
+    "breakerId": "TB_RPG_REGULATORY",
+    "name": "Regulatory Warning Letter Breaker",
+    "description": "Manufacturing facility must not receive FDA/CDSCO Warning Letter or Import Alert",
+    "type": "QUALITATIVE",
+    "evaluationMethod": "EVENT_MATCH",
+    "conditionText": "Warning Letter received",
+    "status": "EVALUATION_UNRESOLVED",
+    "severity": "CRITICAL",
+    "rationale": "Breaker evaluation requires manual analyst review or unspecified conditions.",
+    "evidenceIds": [
+      "EV_RPG_RESULT_01"
+    ],
+    "currentObservedValue": "N/A (event-based qualifier)",
+    "observedValueType": "QUALITATIVE_EVENT"
+  }
+]

@@ -1,0 +1,686 @@
+{
+  "symbol": "BOROLTD",
+  "companyName": "Borosil Limited",
+  "marketCapTier": "SMALLCAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-15T12:45:19.392Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "MODERATE",
+    "thesisState": "MIXED",
+    "managementCredibility": "GENERALLY_CREDIBLE",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "STRONG quantitative opportunity paired with MODERATE intelligence risk (MIXED thesis state). Review open unknowns and evidence before decision.",
+    "allocationRecommendation": "CONSTRAINED_SIZING",
+    "portfolioPolicy": {
+      "directive": "CONSTRAINED_SIZING",
+      "targetSizingCapRatio": 0.5,
+      "policyRationale": "Moderate execution slippage or margin compression requires constrained sizing (-50% target) with tight stops."
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_BOROLTD",
+      "nodes": [
+        {
+          "id": "DEC_BOROLTD",
+          "type": "DECISION",
+          "refId": "BOROLTD",
+          "label": "Final Investment Decision: MIXED"
+        },
+        {
+          "id": "ALLOC_BOROLTD",
+          "type": "ALLOCATION",
+          "refId": "CONSTRAINED_SIZING",
+          "label": "Allocation Policy: CONSTRAINED_SIZING (50%)"
+        },
+        {
+          "id": "THESIS_BOROLTD",
+          "type": "THESIS",
+          "refId": "MIXED",
+          "label": "Reconciled Thesis State: MIXED"
+        },
+        {
+          "id": "QUANT_BOROLTD",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 88/100)"
+        },
+        {
+          "id": "RISK_BOROLTD",
+          "type": "RULE",
+          "refId": "MODERATE",
+          "version": "2026.09",
+          "label": "Intelligence Risk: MODERATE"
+        },
+        {
+          "id": "CRED_BOROLTD",
+          "type": "FACT",
+          "refId": "GENERALLY_CREDIBLE",
+          "label": "Credibility Track Record: GENERALLY_CREDIBLE (Claims: 2)"
+        },
+        {
+          "id": "BRK_TB_BORO_LEVERAGE",
+          "type": "RULE",
+          "refId": "TB_BORO_LEVERAGE",
+          "version": "2026.09",
+          "label": "Breaker TB_BORO_LEVERAGE: INACTIVE (Observed: 0.72)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_BOROLTD",
+          "to": "DEC_BOROLTD",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_BOROLTD",
+          "to": "DEC_BOROLTD",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_BOROLTD",
+          "to": "THESIS_BOROLTD",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_BOROLTD",
+          "to": "THESIS_BOROLTD",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_BOROLTD",
+          "to": "ALLOC_BOROLTD",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_BORO_LEVERAGE",
+          "to": "RISK_BOROLTD",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_BOROLTD_20260915",
+      "decisionId": "DECISION_BOROLTD",
+      "issuerSymbol": "BOROLTD",
+      "evaluatedAt": "2026-09-15T12:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2",
+      "ontologyVersion": "1.2",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_BOROLTD_01",
+          "issuerSymbol": "BOROLTD",
+          "metric": "FINANCIAL_METRIC",
+          "metricId": "FINANCIAL_METRIC",
+          "metricFamily": "REVENUE",
+          "value": 0,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_BORO_PROMISE_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_BORO_PROMISE_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_BORO_PROMISE_01",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_BOROLTD_02",
+          "issuerSymbol": "BOROLTD",
+          "metric": "FINANCIAL_METRIC",
+          "metricId": "FINANCIAL_METRIC",
+          "metricFamily": "REVENUE",
+          "value": 0,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_BORO_RESULT_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_BORO_RESULT_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_BORO_RESULT_01",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_BOROLTD_03",
+          "issuerSymbol": "BOROLTD",
+          "metric": "EBITDA_MARGIN",
+          "metricId": "EBITDA_MARGIN",
+          "metricFamily": "MARGIN",
+          "value": 23.4,
+          "unit": "PERCENT",
+          "scope": "CONSOLIDATED",
+          "measurementType": "RATIO",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_BORO_PROMISE_02",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_BORO_PROMISE_02",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_BORO_PROMISE_02",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_BOROLTD_04",
+          "issuerSymbol": "BOROLTD",
+          "metric": "EBITDA_MARGIN",
+          "metricId": "EBITDA_MARGIN",
+          "metricFamily": "MARGIN",
+          "value": 23.4,
+          "unit": "PERCENT",
+          "scope": "CONSOLIDATED",
+          "measurementType": "RATIO",
+          "asOfDate": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_BORO_RESULT_02",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_BORO_RESULT_02",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_BORO_RESULT_02",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_BORO_01",
+          "issuerNseSymbol": "BOROLTD",
+          "issuerBseCode": "543212",
+          "period": "FY24",
+          "category": "CAPEX",
+          "statement": "Commissioning of expanded borosilicate furnace by Q3-FY24.",
+          "targetMetric": "furnace_commissioned",
+          "baselineValue": 0,
+          "expectedValue": 1,
+          "expectedOutcome": "Furnace commissioned on schedule",
+          "expectedTimeframe": "Q3-FY24",
+          "evidenceId": "EV_BORO_PROMISE_01",
+          "claimDate": "2023-08-10",
+          "expectedPeriodStart": "2023-10-01",
+          "expectedPeriodEnd": "2023-12-31",
+          "status": "ACHIEVED",
+          "actualOutcomeMetric": 1,
+          "actualOutcomeDescription": "Commissioned 25 TPD furnace in Dec 2023",
+          "evaluationEvidenceId": "EV_BORO_RESULT_01",
+          "evaluationDate": "2024-05-21",
+          "evaluationBasis": "BSE Audited Financial Accounts and Operational Update",
+          "createdAt": "2023-08-10T10:00:00.000Z",
+          "targetTemporalSemantics": "DEADLINE",
+          "factId": "FACT_BOROLTD_01",
+          "publicationDate": "2023-08-10",
+          "publicationDateType": "MANAGEMENT_COMMENT"
+        },
+        {
+          "claimId": "CLM_BORO_02",
+          "issuerNseSymbol": "BOROLTD",
+          "issuerBseCode": "543212",
+          "period": "FY24",
+          "category": "MARGIN",
+          "statement": "EBITDA margin targeted to hold above 18%.",
+          "targetMetric": "ebitda_margin_pct",
+          "baselineValue": 18.5,
+          "expectedValue": 18,
+          "expectedOutcome": "EBITDA margin >= 18.0%",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_BORO_PROMISE_02",
+          "claimDate": "2023-08-10",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "PARTIALLY_ACHIEVED",
+          "actualOutcomeMetric": 15.2,
+          "actualOutcomeDescription": "Delivered 15.2% EBITDA margin due to gas price volatility",
+          "evaluationEvidenceId": "EV_BORO_RESULT_02",
+          "evaluationDate": "2024-05-21",
+          "evaluationBasis": "BSE Audited Financial Accounts",
+          "createdAt": "2023-08-10T10:00:00.000Z",
+          "targetTemporalSemantics": "PERIOD",
+          "factId": "FACT_BOROLTD_01",
+          "publicationDate": "2023-08-10",
+          "publicationDateType": "MANAGEMENT_COMMENT"
+        }
+      ],
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_BORO_LEVERAGE",
+          "name": "Debt Incurrence Breaker",
+          "description": "Net Debt / EBITDA must not exceed 2.0x",
+          "type": "QUANTITATIVE",
+          "evaluationMethod": "METRIC_THRESHOLD",
+          "conditionText": "Net Debt / EBITDA > 2.0",
+          "quantitativeCondition": {
+            "metric": "net_debt_to_ebitda",
+            "operator": ">",
+            "threshold": 2,
+            "evaluationPeriod": "annual",
+            "evidenceRequired": true
+          },
+          "status": "INACTIVE",
+          "severity": "HIGH",
+          "rationale": "Metric within safe boundaries: net_debt_to_ebitda (0.72) does not violate > 2.",
+          "evidenceIds": [
+            "EV_BORO_RESULT_02"
+          ],
+          "currentObservedValue": 0.72
+        }
+      ],
+      "rawInputContradictions": [
+        {
+          "contradictionId": "CONTRA_BORO_01",
+          "issuerNseSymbol": "BOROLTD",
+          "issuerBseCode": "543212",
+          "severity": "MEDIUM",
+          "type": "CLAIM_VS_RESULT",
+          "claimId": "CLM_BORO_02",
+          "eventId": "EVT_BORO_01",
+          "description": "EBITDA margin target of 18%+ lagged at 15.2% due to elevated natural gas input costs",
+          "divergenceDetails": {
+            "targetMargin": 18,
+            "deliveredMargin": 15.2,
+            "gapBps": 280
+          },
+          "leftEvidenceId": "EV_BORO_PROMISE_02",
+          "rightEvidenceId": "EV_BORO_RESULT_02",
+          "supportingEvidenceIds": [],
+          "status": "OPEN",
+          "materiality": "MEDIUM",
+          "detectedAt": "2024-05-21T10:00:00.000Z",
+          "createdAt": "2026-09-15 12:45:19",
+          "resolvedAt": null,
+          "resolutionBasis": null
+        }
+      ],
+      "rawQuantInput": {
+        "symbol": "BOROLTD",
+        "strategyAgreementCount": 6,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 88,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY"
+      },
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "MODERATE",
+        "thesisState": "MIXED",
+        "managementCredibility": "GENERALLY_CREDIBLE",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "STRONG quantitative opportunity paired with MODERATE intelligence risk (MIXED thesis state). Review open unknowns and evidence before decision.",
+        "allocationRecommendation": "CONSTRAINED_SIZING"
+      },
+      "portfolioPolicy": {
+        "directive": "CONSTRAINED_SIZING",
+        "targetSizingCapRatio": 0.5,
+        "policyRationale": "Moderate execution slippage or margin compression requires constrained sizing (-50% target) with tight stops."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_BOROLTD",
+        "nodes": [
+          {
+            "id": "DEC_BOROLTD",
+            "type": "DECISION",
+            "refId": "BOROLTD",
+            "label": "Final Investment Decision: MIXED"
+          },
+          {
+            "id": "ALLOC_BOROLTD",
+            "type": "ALLOCATION",
+            "refId": "CONSTRAINED_SIZING",
+            "label": "Allocation Policy: CONSTRAINED_SIZING (50%)"
+          },
+          {
+            "id": "THESIS_BOROLTD",
+            "type": "THESIS",
+            "refId": "MIXED",
+            "label": "Reconciled Thesis State: MIXED"
+          },
+          {
+            "id": "QUANT_BOROLTD",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 88/100)"
+          },
+          {
+            "id": "RISK_BOROLTD",
+            "type": "RULE",
+            "refId": "MODERATE",
+            "version": "2026.09",
+            "label": "Intelligence Risk: MODERATE"
+          },
+          {
+            "id": "CRED_BOROLTD",
+            "type": "FACT",
+            "refId": "GENERALLY_CREDIBLE",
+            "label": "Credibility Track Record: GENERALLY_CREDIBLE (Claims: 2)"
+          },
+          {
+            "id": "BRK_TB_BORO_LEVERAGE",
+            "type": "RULE",
+            "refId": "TB_BORO_LEVERAGE",
+            "version": "2026.09",
+            "label": "Breaker TB_BORO_LEVERAGE: INACTIVE (Observed: 0.72)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_BOROLTD",
+            "to": "DEC_BOROLTD",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_BOROLTD",
+            "to": "DEC_BOROLTD",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_BOROLTD",
+            "to": "THESIS_BOROLTD",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_BOROLTD",
+            "to": "THESIS_BOROLTD",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_BOROLTD",
+            "to": "ALLOC_BOROLTD",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_BORO_LEVERAGE",
+            "to": "RISK_BOROLTD",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "be0f1765f61c58a2da31db83cd04072e67791c453565939f8c1d1164d974512b",
+      "canonicalStateHash": "be0f1765f61c58a2da31db83cd04072e67791c453565939f8c1d1164d974512b"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "MIXED",
+    "confidence": "MEDIUM",
+    "decisionImplication": "NEUTRAL",
+    "oneLineSummary": "STRONG quantitative opportunity paired with MODERATE intelligence risk (MIXED thesis state). Review open unknowns and evidence before decision."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 6/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 88/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#BOROLTD",
+      "significance": "HIGH"
+    },
+    {
+      "headline": "Delivered commitment: Commissioning of expanded borosilicate furnace by Q3-FY24.",
+      "detail": "Disclosed actual outcome: Commissioned 25 TPD furnace in Dec 2023",
+      "sourceDocType": "ANNUAL_REPORT",
+      "evidenceLineage": "Evidence#EV_BORO_PROMISE_01 -> Resolution#EV_BORO_RESULT_01",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [
+    {
+      "headline": "Contradiction detected (MEDIUM severity): EBITDA margin target of 18%+ lagged at 15.2% due to elevated natural gas input costs",
+      "detail": "Disclosed divergence between promise and observed financial reality.",
+      "sourceDocType": "CONTRADICTION_ENGINE",
+      "evidenceLineage": "LeftEvidence#EV_BORO_PROMISE_02 vs RightEvidence#EV_BORO_RESULT_02",
+      "significance": "HIGH"
+    }
+  ],
+  "walkTheTalk": {
+    "symbol": "BOROLTD",
+    "grade": "GENERALLY_CREDIBLE",
+    "totalClaims": 2,
+    "achievedCount": 1,
+    "partiallyAchievedCount": 1,
+    "missedCount": 0,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_BORO_01",
+        "statement": "Commissioning of expanded borosilicate furnace by Q3-FY24.",
+        "period": "FY24",
+        "expected": "Furnace commissioned on schedule",
+        "actual": "Commissioned 25 TPD furnace in Dec 2023",
+        "status": "ACHIEVED",
+        "evidenceLineage": "Evidence#EV_BORO_PROMISE_01 -> Resolution#EV_BORO_RESULT_01"
+      },
+      {
+        "claimId": "CLM_BORO_02",
+        "statement": "EBITDA margin targeted to hold above 18%.",
+        "period": "FY24",
+        "expected": "EBITDA margin >= 18.0%",
+        "actual": "Delivered 15.2% EBITDA margin due to gas price volatility",
+        "status": "PARTIALLY_ACHIEVED",
+        "evidenceLineage": "Evidence#EV_BORO_PROMISE_02 -> Resolution#EV_BORO_RESULT_02"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_BOROLTD"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_BOROLTD"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2023-12-18",
+      "source": "BSE_DISCLOSURE",
+      "headline": "Borosil commissions new borosilicate glass tubing furnace in Jaipur",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    }
+  ],
+  "openContradictions": [
+    {
+      "contradictionId": "CONTRA_BORO_01",
+      "issuerNseSymbol": "BOROLTD",
+      "issuerBseCode": "543212",
+      "severity": "MEDIUM",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_BORO_02",
+      "eventId": "EVT_BORO_01",
+      "description": "EBITDA margin target of 18%+ lagged at 15.2% due to elevated natural gas input costs",
+      "divergenceDetails": {
+        "targetMargin": 18,
+        "deliveredMargin": 15.2,
+        "gapBps": 280
+      },
+      "leftEvidenceId": "EV_BORO_PROMISE_02",
+      "rightEvidenceId": "EV_BORO_RESULT_02",
+      "supportingEvidenceIds": [],
+      "status": "OPEN",
+      "materiality": "MEDIUM",
+      "detectedAt": "2024-05-21T10:00:00.000Z",
+      "createdAt": "2026-09-15 12:45:19",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_BORO_LEVERAGE",
+      "name": "Debt Incurrence Breaker",
+      "description": "Net Debt / EBITDA must not exceed 2.0x",
+      "type": "QUANTITATIVE",
+      "evaluationMethod": "METRIC_THRESHOLD",
+      "conditionText": "Net Debt / EBITDA > 2.0",
+      "quantitativeCondition": {
+        "metric": "net_debt_to_ebitda",
+        "operator": ">",
+        "threshold": 2,
+        "evaluationPeriod": "annual",
+        "evidenceRequired": true
+      },
+      "status": "INACTIVE",
+      "severity": "HIGH",
+      "rationale": "Metric within safe boundaries: net_debt_to_ebitda (0.72) does not violate > 2.",
+      "evidenceIds": [
+        "EV_BORO_RESULT_02"
+      ],
+      "currentObservedValue": 0.72
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "MEDIUM",
+    "directSourcesCount": 4,
+    "corroboratedCount": 1,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"Dominant consumer and laboratory glassware brand with 60%+ market share benefiting from capacity ramp-up and domestic substitution.\". Qualitative status: MIXED. Review before trade authorization."
+}

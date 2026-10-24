@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_KALYANI_01",
+    "issuerNseSymbol": "KALYANI",
+    "issuerBseCode": "544013",
+    "eventDate": "2024-05-30",
+    "category": "EXCHANGE_DISCLOSURE",
+    "headline": "Audited Financial Results Showing Margin Compression",
+    "description": "EBITDA margin compressed to 4.8% due to raw material steel inflation.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_KALYANI_RESULT_01",
+    "materiality": "MEDIUM",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

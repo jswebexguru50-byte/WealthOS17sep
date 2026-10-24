@@ -1,0 +1,431 @@
+{
+  "generatedAt": "2026-09-18T11:21:46.774Z",
+  "governance": {
+    "productionPromotionAuthorized": false,
+    "version": "v6.6.1-matrix"
+  },
+  "engines": [
+    {
+      "engineId": "PureTechnical",
+      "strategyId": "S1",
+      "requirements": [
+        {
+          "dataset": "DailyOHLCV",
+          "state": "DATA_PRESENT_COVERAGE_INSUFFICIENT",
+          "detail": "Initial gap detection: Evaluated SESSION coverage: 32.24% (Covered 1612/5000 required units. Threshold: 95%)"
+        },
+        {
+          "dataset": "IndexMembership",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated MEMBERSHIP_INTERVAL coverage: 0% (Covered 0/100 required units. Threshold: 90%)"
+        },
+        {
+          "dataset": "DailyOHLCV",
+          "state": "DATA_PRESENT_COVERAGE_INSUFFICIENT",
+          "detail": "Initial gap detection: Evaluated SESSION coverage: 50% (Covered 1/2 required units. Threshold: 95%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "PureTechnical",
+      "strategyId": "S2",
+      "requirements": [
+        {
+          "dataset": "DailyOHLCV",
+          "state": "DATA_PRESENT_COVERAGE_INSUFFICIENT",
+          "detail": "Initial gap detection: Evaluated SESSION coverage: 32.24% (Covered 1612/5000 required units. Threshold: 95%)"
+        },
+        {
+          "dataset": "IndexMembership",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated MEMBERSHIP_INTERVAL coverage: 0% (Covered 0/100 required units. Threshold: 90%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "PureTechnical",
+      "strategyId": "S3",
+      "requirements": [
+        {
+          "dataset": "DailyOHLCV",
+          "state": "DATA_PRESENT_COVERAGE_INSUFFICIENT",
+          "detail": "Initial gap detection: Evaluated SESSION coverage: 32.24% (Covered 1612/5000 required units. Threshold: 95%)"
+        },
+        {
+          "dataset": "IndexMembership",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated MEMBERSHIP_INTERVAL coverage: 0% (Covered 0/100 required units. Threshold: 90%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "PureTechnical",
+      "strategyId": "S4",
+      "requirements": [
+        {
+          "dataset": "DailyOHLCV",
+          "state": "DATA_PRESENT_COVERAGE_INSUFFICIENT",
+          "detail": "Initial gap detection: Evaluated SESSION coverage: 32.24% (Covered 1612/5000 required units. Threshold: 95%)"
+        },
+        {
+          "dataset": "IndexMembership",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated MEMBERSHIP_INTERVAL coverage: 0% (Covered 0/100 required units. Threshold: 90%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "PureTechnical",
+      "strategyId": "S5",
+      "requirements": [
+        {
+          "dataset": "DailyOHLCV",
+          "state": "DATA_PRESENT_COVERAGE_INSUFFICIENT",
+          "detail": "Initial gap detection: Evaluated SESSION coverage: 32.24% (Covered 1612/5000 required units. Threshold: 95%)"
+        },
+        {
+          "dataset": "IndexMembership",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated MEMBERSHIP_INTERVAL coverage: 0% (Covered 0/100 required units. Threshold: 90%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "PureTechnical",
+      "strategyId": "S6",
+      "requirements": [
+        {
+          "dataset": "DailyOHLCV",
+          "state": "DATA_PRESENT_COVERAGE_INSUFFICIENT",
+          "detail": "Initial gap detection: Evaluated SESSION coverage: 32.24% (Covered 1612/5000 required units. Threshold: 95%)"
+        },
+        {
+          "dataset": "IndexMembership",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated MEMBERSHIP_INTERVAL coverage: 0% (Covered 0/100 required units. Threshold: 90%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "PureTechnical",
+      "strategyId": "S7",
+      "requirements": [
+        {
+          "dataset": "DailyOHLCV",
+          "state": "DATA_PRESENT_COVERAGE_INSUFFICIENT",
+          "detail": "Initial gap detection: Evaluated SESSION coverage: 32.24% (Covered 1612/5000 required units. Threshold: 95%)"
+        },
+        {
+          "dataset": "IndexMembership",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated MEMBERSHIP_INTERVAL coverage: 0% (Covered 0/100 required units. Threshold: 90%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "PureTechnical",
+      "strategyId": "S8",
+      "requirements": [
+        {
+          "dataset": "DailyOHLCV",
+          "state": "DATA_PRESENT_COVERAGE_INSUFFICIENT",
+          "detail": "Initial gap detection: Evaluated SESSION coverage: 32.24% (Covered 1612/5000 required units. Threshold: 95%)"
+        },
+        {
+          "dataset": "IndexMembership",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated MEMBERSHIP_INTERVAL coverage: 0% (Covered 0/100 required units. Threshold: 90%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "PureTechnical",
+      "strategyId": "S9",
+      "requirements": [
+        {
+          "dataset": "DailyOHLCV",
+          "state": "DATA_PRESENT_COVERAGE_INSUFFICIENT",
+          "detail": "Initial gap detection: Evaluated SESSION coverage: 32.24% (Covered 1612/5000 required units. Threshold: 95%)"
+        },
+        {
+          "dataset": "IndexMembership",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated MEMBERSHIP_INTERVAL coverage: 0% (Covered 0/100 required units. Threshold: 90%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "PureTechnical",
+      "strategyId": "S10",
+      "requirements": [
+        {
+          "dataset": "DailyOHLCV",
+          "state": "DATA_PRESENT_COVERAGE_INSUFFICIENT",
+          "detail": "Initial gap detection: Evaluated SESSION coverage: 32.24% (Covered 1612/5000 required units. Threshold: 95%)"
+        },
+        {
+          "dataset": "IndexMembership",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated MEMBERSHIP_INTERVAL coverage: 0% (Covered 0/100 required units. Threshold: 90%)"
+        },
+        {
+          "dataset": "IntradayCandles",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated INTRADAY_SESSION coverage: 0% (Covered 0/1875000 required units. Threshold: 90%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "PureTechnical",
+      "strategyId": "S11",
+      "requirements": [
+        {
+          "dataset": "DailyOHLCV",
+          "state": "DATA_PRESENT_COVERAGE_INSUFFICIENT",
+          "detail": "Initial gap detection: Evaluated SESSION coverage: 32.24% (Covered 1612/5000 required units. Threshold: 95%)"
+        },
+        {
+          "dataset": "IndexMembership",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated MEMBERSHIP_INTERVAL coverage: 0% (Covered 0/100 required units. Threshold: 90%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "PureTechnical",
+      "strategyId": "S12",
+      "requirements": [
+        {
+          "dataset": "DailyOHLCV",
+          "state": "DATA_PRESENT_COVERAGE_INSUFFICIENT",
+          "detail": "Initial gap detection: Evaluated SESSION coverage: 32.24% (Covered 1612/5000 required units. Threshold: 95%)"
+        },
+        {
+          "dataset": "IndexMembership",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated MEMBERSHIP_INTERVAL coverage: 0% (Covered 0/100 required units. Threshold: 90%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "PureTechnical",
+      "strategyId": "S13",
+      "requirements": [
+        {
+          "dataset": "DailyOHLCV",
+          "state": "DATA_PRESENT_COVERAGE_INSUFFICIENT",
+          "detail": "Initial gap detection: Evaluated SESSION coverage: 32.24% (Covered 1612/5000 required units. Threshold: 95%)"
+        },
+        {
+          "dataset": "IndexMembership",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated MEMBERSHIP_INTERVAL coverage: 0% (Covered 0/100 required units. Threshold: 90%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "PureTechnical",
+      "strategyId": "S14",
+      "requirements": [
+        {
+          "dataset": "DailyOHLCV",
+          "state": "DATA_PRESENT_COVERAGE_INSUFFICIENT",
+          "detail": "Initial gap detection: Evaluated SESSION coverage: 32.24% (Covered 1612/5000 required units. Threshold: 95%)"
+        },
+        {
+          "dataset": "IndexMembership",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated MEMBERSHIP_INTERVAL coverage: 0% (Covered 0/100 required units. Threshold: 90%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "PureTechnical",
+      "strategyId": "S15",
+      "requirements": [
+        {
+          "dataset": "DailyOHLCV",
+          "state": "DATA_PRESENT_COVERAGE_INSUFFICIENT",
+          "detail": "Initial gap detection: Evaluated SESSION coverage: 32.24% (Covered 1612/5000 required units. Threshold: 95%)"
+        },
+        {
+          "dataset": "IndexMembership",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated MEMBERSHIP_INTERVAL coverage: 0% (Covered 0/100 required units. Threshold: 90%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "PureTechnical",
+      "strategyId": "S16",
+      "requirements": [
+        {
+          "dataset": "DailyOHLCV",
+          "state": "DATA_PRESENT_COVERAGE_INSUFFICIENT",
+          "detail": "Initial gap detection: Evaluated SESSION coverage: 32.24% (Covered 1612/5000 required units. Threshold: 95%)"
+        },
+        {
+          "dataset": "IndexMembership",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated MEMBERSHIP_INTERVAL coverage: 0% (Covered 0/100 required units. Threshold: 90%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "PureTechnical",
+      "strategyId": "S17",
+      "requirements": [
+        {
+          "dataset": "DailyOHLCV",
+          "state": "DATA_PRESENT_COVERAGE_INSUFFICIENT",
+          "detail": "Initial gap detection: Evaluated SESSION coverage: 32.24% (Covered 1612/5000 required units. Threshold: 95%)"
+        },
+        {
+          "dataset": "IndexMembership",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated MEMBERSHIP_INTERVAL coverage: 0% (Covered 0/100 required units. Threshold: 90%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "PureTechnical",
+      "strategyId": "S18",
+      "requirements": [
+        {
+          "dataset": "DailyOHLCV",
+          "state": "DATA_PRESENT_COVERAGE_INSUFFICIENT",
+          "detail": "Initial gap detection: Evaluated SESSION coverage: 32.24% (Covered 1612/5000 required units. Threshold: 95%)"
+        },
+        {
+          "dataset": "IndexMembership",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated MEMBERSHIP_INTERVAL coverage: 0% (Covered 0/100 required units. Threshold: 90%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "PureTechnical",
+      "strategyId": "S19",
+      "requirements": [
+        {
+          "dataset": "DailyOHLCV",
+          "state": "DATA_PRESENT_COVERAGE_INSUFFICIENT",
+          "detail": "Initial gap detection: Evaluated SESSION coverage: 32.24% (Covered 1612/5000 required units. Threshold: 95%)"
+        },
+        {
+          "dataset": "IndexMembership",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated MEMBERSHIP_INTERVAL coverage: 0% (Covered 0/100 required units. Threshold: 90%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "PureTechnical",
+      "strategyId": "S20",
+      "requirements": [
+        {
+          "dataset": "DailyOHLCV",
+          "state": "DATA_PRESENT_COVERAGE_INSUFFICIENT",
+          "detail": "Initial gap detection: Evaluated SESSION coverage: 32.24% (Covered 1612/5000 required units. Threshold: 95%)"
+        },
+        {
+          "dataset": "IndexMembership",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated MEMBERSHIP_INTERVAL coverage: 0% (Covered 0/100 required units. Threshold: 90%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "SmartMoney",
+      "strategyId": "S18",
+      "requirements": [
+        {
+          "dataset": "InstitutionalDeals",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated EVENT coverage: 0% (Covered 0/100 required units. Threshold: 80%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "SmartMoney",
+      "strategyId": "S19",
+      "requirements": [
+        {
+          "dataset": "DeliveryData",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated SECURITY_SESSION coverage: 0% (Covered 0/5000 required units. Threshold: 95%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "FERE",
+      "strategyId": "FERE_ALPHA",
+      "requirements": [
+        {
+          "dataset": "FinancialFiling",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated FACT coverage: 0% (Covered 0/100 required units. Threshold: 90%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "QGLP",
+      "strategyId": "QGLP_CORE",
+      "requirements": [
+        {
+          "dataset": "FinancialFiling",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated FACT coverage: 0% (Covered 0/100 required units. Threshold: 90%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "Valuation",
+      "strategyId": "VALUATION_HISTORIC",
+      "requirements": [
+        {
+          "dataset": "FinancialFiling",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated FACT coverage: 0% (Covered 0/100 required units. Threshold: 85%)"
+        }
+      ],
+      "ready": false
+    },
+    {
+      "engineId": "DataNormalizer",
+      "strategyId": "CA_ADJUSTMENT",
+      "requirements": [
+        {
+          "dataset": "CorporateActions",
+          "state": "DATA_NOT_ACQUIRED",
+          "detail": "Initial gap detection: Evaluated EVENT coverage: 0% (Covered 0/1000 required units. Threshold: 98%)"
+        }
+      ],
+      "ready": false
+    }
+  ]
+}

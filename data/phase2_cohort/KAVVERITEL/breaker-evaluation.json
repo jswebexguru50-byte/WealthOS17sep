@@ -1,0 +1,24 @@
+[
+  {
+    "breakerId": "TB_KAV_NETWORTH",
+    "name": "Negative Net Worth Insolvency Breaker",
+    "description": "Net Worth must not remain negative with shuttered operations",
+    "type": "QUANTITATIVE",
+    "evaluationMethod": "METRIC_THRESHOLD",
+    "conditionText": "Net Worth < 0",
+    "quantitativeCondition": {
+      "metric": "net_worth_inr_cr",
+      "operator": "<",
+      "threshold": 0,
+      "evaluationPeriod": "annual",
+      "evidenceRequired": true
+    },
+    "status": "ACTIVE",
+    "severity": "CRITICAL",
+    "rationale": "Breaker triggered: net_worth_inr_cr (-182.4) < threshold (0).",
+    "evidenceIds": [
+      "EV_KAV_RESULT_01"
+    ],
+    "currentObservedValue": -182.4
+  }
+]

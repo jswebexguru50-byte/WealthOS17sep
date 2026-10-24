@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_BLUEWATER_REV_01",
+    "issuerNseSymbol": "BLUEWATER",
+    "issuerBseCode": "544190",
+    "documentId": "DOC_BLUEWATER_AR24",
+    "documentHash": "3a4b5c6d7e8f90123456789abcdef0123456789abcdef56789abcdef890ab12c",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 20,
+    "pagePrinted": "18",
+    "quotedText": "Annual revenue from multimodal freight operations reached ₹184 Cr in FY24 against ₹135 Cr in FY23.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

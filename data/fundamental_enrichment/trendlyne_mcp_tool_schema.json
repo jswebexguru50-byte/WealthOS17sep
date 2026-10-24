@@ -1,6 +1,6 @@
 {
   "provider": "TRENDLYNE_MCP",
-  "generatedAt": "2026-10-02T04:33:52.104Z",
+  "generatedAt": "2026-10-12T18:04:38.155Z",
   "tools": [
     {
       "name": "search_financial_parameters",
@@ -136,6 +136,26 @@
         },
         "required": [
           "query"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "get_stock_eod_ohlc",
+      "description": "Fetch daily end-of-day OHLC for a stock over a recent lookback window.\n\nUse this tool when the user needs recent price bars (open, high, low, close, volume)\nfor charting or short-term trend analysis.\n\nArgs:\n    stock_code: Stock identifier — NSE symbol (e.g. 'INFY'), BSE script code, or ISIN.\n    period: 'weekly' (last 7 trading days, default) or 'monthly' (last 30 trading days).\n\nReturns:\n    JSON string with stock metadata, exchange, period, and an `ohlc` list of daily\n    EOD rows (newest first): date, open, high, low, close, volume.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "stock_code": {
+            "type": "string"
+          },
+          "period": {
+            "default": "weekly",
+            "type": "string"
+          }
+        },
+        "required": [
+          "stock_code"
         ],
         "additionalProperties": false
       }

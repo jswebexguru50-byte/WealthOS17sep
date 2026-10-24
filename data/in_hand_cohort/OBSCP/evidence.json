@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_OBSCP_REV_01",
+    "issuerNseSymbol": "OBSCP",
+    "issuerBseCode": "544270",
+    "documentId": "DOC_OBSCP_AR24",
+    "documentHash": "3456789abcdef0123456789abcdef56789abcdef890ab12c3d4e5f60718293abc",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 26,
+    "pagePrinted": "24",
+    "quotedText": "Revenue from precision engineering components reached ₹285 Cr in FY24 with net profit scaling to ₹32.4 Cr.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

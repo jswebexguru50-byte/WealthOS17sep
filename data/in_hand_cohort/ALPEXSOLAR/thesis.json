@@ -1,0 +1,24 @@
+{
+  "symbol": "ALPEXSOLAR",
+  "coreThesisStatement": "High-efficiency solar module manufacturer scaling capacity to 1.2 GW with expanding export opportunities.",
+  "investmentPillars": [
+    {
+      "pillarId": "P1",
+      "title": "Capacity Scale",
+      "description": "Early achievement of 1,200 MW capacity unlocks economies of scale."
+    },
+    {
+      "pillarId": "P2",
+      "title": "Top-Con Adoption",
+      "description": "Rapid shift to high-efficiency N-type TopCon solar cells."
+    },
+    {
+      "pillarId": "P3",
+      "title": "Execution Discipline",
+      "description": "Consistently delivering capex expansions ahead of guided deadlines."
+    }
+  ],
+  "thesisBreakersDefined": [
+    "TB_ALPEX_LEVERAGE"
+  ]
+}

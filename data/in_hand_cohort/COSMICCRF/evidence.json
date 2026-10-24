@@ -1,0 +1,14 @@
+[
+  {
+    "evidenceId": "EV_COSMIC_REV_01",
+    "issuerNseSymbol": "COSMICCRF",
+    "issuerBseCode": "543928",
+    "documentId": "DOC_COSMIC_AR24",
+    "documentHash": "4b5c6d7e8f90123456789abcdef0123456789abcdef56789abcdef890ab12c3d",
+    "documentType": "ANNUAL_REPORT",
+    "pagePhysical": 38,
+    "pagePrinted": "36",
+    "quotedText": "FY24 revenue surged to ₹717 Cr backed by massive wagon procurement orders from Indian Railways and private freight operators.",
+    "verificationStatus": "VERIFIED_PRIMARY"
+  }
+]

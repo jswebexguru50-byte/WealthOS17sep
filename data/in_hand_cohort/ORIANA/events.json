@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_ORIANA_01",
+    "issuerNseSymbol": "ORIANA",
+    "issuerBseCode": "543950",
+    "eventDate": "2024-04-18",
+    "category": "ORDER_BOOK",
+    "headline": "Major 500 MW Solar & BESS Order Win",
+    "description": "Secured landmark ₹900 Cr utility EPC contract including battery energy storage.",
+    "sourceTier": "TIER_2_PRIMARY_CORPORATE",
+    "sourceType": "REGULATORY_FILING",
+    "evidenceId": "EV_ORIANA_ORDER_01",
+    "materiality": "LOW",
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  }
+]

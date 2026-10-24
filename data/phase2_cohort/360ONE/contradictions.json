@@ -1,0 +1,32 @@
+{
+  "status": "CONTRADICTIONS_DETECTED",
+  "issuerNseSymbol": "360ONE",
+  "activeContradictionCount": 1,
+  "contradictions": [
+    {
+      "contradictionId": "CONTRA_360ONE_01",
+      "issuerNseSymbol": "360ONE",
+      "issuerBseCode": "542772",
+      "severity": "MEDIUM",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_360ONE_01",
+      "eventId": "EVT_360ONE_01",
+      "description": "Management guided ARR yield >= 58 bps, but delivered 53 bps due to institutional fee compression",
+      "divergenceDetails": {
+        "guidedBps": 58,
+        "deliveredBps": 53
+      },
+      "leftEvidenceId": "EV_360ONE_PROMISE_01",
+      "rightEvidenceId": "EV_360ONE_RESULT_01",
+      "supportingEvidenceIds": [
+        "EV_360ONE_AUM_Q4"
+      ],
+      "status": "OPEN",
+      "materiality": "MODERATE",
+      "detectedAt": "2024-04-23T10:00:00.000Z",
+      "createdAt": "2026-09-30 20:15:28",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "generatedAt": "2026-10-09T04:41:32.198Z",
+  "mode": "APPLIED",
+  "dbPath": "C:\\Users\\gopal\\OneDrive\\Desktop\\tesr\\webapp_portable_release\\portfolio.db",
+  "manifest": "data\\fundamental_enrichment\\yuken_manifest.json",
+  "requested": 1,
+  "symbolsWithSnapshot": 1,
+  "symbolsWithAnchor": 0,
+  "skippedNoAnchor": 1,
+  "factsPrepared": 0,
+  "factsWritten": 0,
+  "missingValues": 0,
+  "metricTotals": {},
+  "aliasMetricTotals": {},
+  "policy": "Quarterly statement values and selected annual CFO/capex values are promoted only when same-symbol explicit Trendlyne quarter anchors exist. Annual FY period is anchored to March year-end from the latest explicit quarter label and remains VERIFIED_PARTIAL.",
+  "symbols": [
+    {
+      "symbol": "YUKEN",
+      "status": "NO_EXPLICIT_QUARTER_ANCHOR",
+      "factsPrepared": 0
+    }
+  ]
+}

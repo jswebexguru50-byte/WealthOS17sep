@@ -1,0 +1,16 @@
+[
+  {
+    "eventId": "EVT_SCI_01",
+    "issuerNseSymbol": "SCI",
+    "issuerBseCode": "523598",
+    "eventDate": "2024-05-17",
+    "category": "GOVERNANCE",
+    "headline": "SCI confirms disinvestment pending regulatory security approvals from Ministry of Ports",
+    "description": "Statutory update discloses ongoing delays in privatization timeline",
+    "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE",
+    "sourceType": "BSE_DISCLOSURE",
+    "evidenceId": "EV_SCI_RESULT_01",
+    "materiality": "HIGH",
+    "createdAt": "2024-05-17T09:15:00.000Z"
+  }
+]

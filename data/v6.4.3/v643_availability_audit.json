@@ -1,0 +1,42 @@
+{
+  "ohlcv": {
+    "observedThrough": "2026-09-15",
+    "availabilityClassification": "OBSERVED",
+    "source": "portfolio.db"
+  },
+  "delivery": {
+    "observedThrough": "2026-09-15",
+    "availabilityClassification": "OBSERVED",
+    "source": "NSE_DELIVERY"
+  },
+  "corporateActions": {
+    "observedThrough": "2026-09-15",
+    "availabilityClassification": "OBSERVED",
+    "source": "NSE_CA"
+  },
+  "fundamentals": {
+    "observedThrough": "2026-09-15",
+    "availabilityClassification": "DECLARED_CONTRACT",
+    "source": "CAPITALINE"
+  },
+  "shareholding": {
+    "observedThrough": "2026-09-15",
+    "availabilityClassification": "DECLARED_CONTRACT",
+    "source": "BSE_SAST"
+  },
+  "institutionalDeals": {
+    "observedThrough": "2026-09-15",
+    "availabilityClassification": "OBSERVED",
+    "source": "NSE_BLOCK_DEALS"
+  },
+  "intraday": {
+    "observedThrough": "2026-09-15",
+    "availabilityClassification": "DECLARED_CONTRACT",
+    "source": "UPSTOX"
+  },
+  "derivatives": {
+    "observedThrough": "2026-09-15",
+    "availabilityClassification": "DECLARED_CONTRACT",
+    "source": "NSE_FO"
+  }
+}

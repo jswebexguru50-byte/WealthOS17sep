@@ -1,0 +1,538 @@
+{
+  "symbol": "SCI",
+  "companyName": "Shipping Corporation of India Limited",
+  "marketCapTier": "MIDCAP",
+  "exchangeBoard": "MAIN_BOARD",
+  "generatedAt": "2026-09-15T12:45:19.344Z",
+  "decisionState": {
+    "quantOpportunity": "STRONG",
+    "intelligenceRisk": "HIGH",
+    "thesisState": "CHALLENGED",
+    "managementCredibility": "INSUFFICIENT_HISTORY",
+    "activeThesisBreakers": 0,
+    "criticalUnknowns": 0,
+    "evidenceQuality": "MEDIUM",
+    "interpretation": "Strong quantitative setup, but material intelligence concerns, open contradictions, or guidance misses challenge the investment thesis.",
+    "allocationRecommendation": "PROHIBITED_ENTRY",
+    "portfolioPolicy": {
+      "directive": "PROHIBITED_ENTRY",
+      "targetSizingCapRatio": 0,
+      "policyRationale": "Severe guidance miss, capex delay, or open contradiction challenges thesis. Prohibited from new entry."
+    },
+    "provenanceDAG": {
+      "rootDecisionId": "DEC_SCI",
+      "nodes": [
+        {
+          "id": "DEC_SCI",
+          "type": "DECISION",
+          "refId": "SCI",
+          "label": "Final Investment Decision: CHALLENGED"
+        },
+        {
+          "id": "ALLOC_SCI",
+          "type": "ALLOCATION",
+          "refId": "PROHIBITED_ENTRY",
+          "label": "Allocation Policy: PROHIBITED_ENTRY (0%)"
+        },
+        {
+          "id": "THESIS_SCI",
+          "type": "THESIS",
+          "refId": "CHALLENGED",
+          "label": "Reconciled Thesis State: CHALLENGED"
+        },
+        {
+          "id": "QUANT_SCI",
+          "type": "RULE",
+          "refId": "STRONG",
+          "version": "2026.09",
+          "label": "Quant Opportunity: STRONG (Score: 87/100)"
+        },
+        {
+          "id": "RISK_SCI",
+          "type": "RULE",
+          "refId": "HIGH",
+          "version": "2026.09",
+          "label": "Intelligence Risk: HIGH"
+        },
+        {
+          "id": "CRED_SCI",
+          "type": "FACT",
+          "refId": "INSUFFICIENT_HISTORY",
+          "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+        },
+        {
+          "id": "BRK_TB_SCI_FREIGHT_COLLAPSE",
+          "type": "RULE",
+          "refId": "TB_SCI_FREIGHT_COLLAPSE",
+          "version": "2026.09",
+          "label": "Breaker TB_SCI_FREIGHT_COLLAPSE: INACTIVE (Observed: 38500)"
+        }
+      ],
+      "edges": [
+        {
+          "from": "ALLOC_SCI",
+          "to": "DEC_SCI",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "THESIS_SCI",
+          "to": "DEC_SCI",
+          "relation": "DERIVED_FROM"
+        },
+        {
+          "from": "QUANT_SCI",
+          "to": "THESIS_SCI",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "RISK_SCI",
+          "to": "THESIS_SCI",
+          "relation": "EVALUATED_BY"
+        },
+        {
+          "from": "CRED_SCI",
+          "to": "ALLOC_SCI",
+          "relation": "CONSTRAINED_BY"
+        },
+        {
+          "from": "BRK_TB_SCI_FREIGHT_COLLAPSE",
+          "to": "RISK_SCI",
+          "relation": "EVALUATED_BY"
+        }
+      ]
+    },
+    "decisionSnapshot": {
+      "snapshotId": "SNAP_SCI_20260915",
+      "decisionId": "DECISION_SCI",
+      "issuerSymbol": "SCI",
+      "evaluatedAt": "2026-09-15T12:00:00.000Z",
+      "decisionDate": "2024-06-30",
+      "schemaVersion": "3.2",
+      "ontologyVersion": "1.2",
+      "ruleSetVersion": "2026.09",
+      "policyVersion": "1.0",
+      "factVersion": "1.0",
+      "claimVersion": "1.0",
+      "rawInputFacts": [
+        {
+          "factId": "FACT_SCI_01",
+          "issuerSymbol": "SCI",
+          "metric": "FINANCIAL_METRIC",
+          "metricId": "FINANCIAL_METRIC",
+          "metricFamily": "REVENUE",
+          "value": 0,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_SCI_PROMISE_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_SCI_PROMISE_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_SCI_PROMISE_01",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        },
+        {
+          "factId": "FACT_SCI_02",
+          "issuerSymbol": "SCI",
+          "metric": "FINANCIAL_METRIC",
+          "metricId": "FINANCIAL_METRIC",
+          "metricFamily": "REVENUE",
+          "value": 0,
+          "unit": "INR_CRORE",
+          "scope": "CONSOLIDATED",
+          "measurementType": "FLOW",
+          "periodStart": "2023-04-01",
+          "periodEnd": "2024-03-31",
+          "measurementPeriod": "FY24",
+          "sourceEvidenceId": "EV_SCI_RESULT_01",
+          "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+          "filingType": "ANNUAL_REPORT",
+          "filingDate": "2024-03-31",
+          "auditStatus": "AUDITED",
+          "auditor": "STATUTORY_INDEPENDENT_AUDITOR",
+          "sourceMetadata": {
+            "sourceEvidenceId": "EV_SCI_RESULT_01",
+            "sourceAuthority": "REGULATORY_STATUTORY_DISCLOSURE",
+            "filingType": "ANNUAL_REPORT",
+            "filingDate": "2024-03-31",
+            "auditStatus": "AUDITED",
+            "hierarchyRank": 4
+          },
+          "extractionMethod": "RULE",
+          "verificationStatus": "SOURCE_SUPPORTED",
+          "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+          "gatePassedAt": "2026-09-15T12:00:00.000Z",
+          "verificationMetadata": {
+            "extractionMethod": "RULE",
+            "verificationStatus": "SOURCE_SUPPORTED",
+            "verificationMethod": "DETERMINISTIC_GATE_PASSED",
+            "gatePassedAt": "2026-09-15T12:00:00.000Z",
+            "gateAChecks": {
+              "metricRegistered": true,
+              "unitConsistentWithFamily": true,
+              "issuerMatchesScope": true,
+              "datesChronologicallySound": true,
+              "numericalEquivalenceInQuote": true,
+              "sourceSpanAuthentic": true,
+              "scopeDeclared": true
+            }
+          },
+          "schemaVersion": "3.2",
+          "ontologyVersion": "1.2",
+          "notes": "Extracted fact linked to EV_SCI_RESULT_01",
+          "publicationDate": "2024-03-31",
+          "publicationDateType": "FILING"
+        }
+      ],
+      "rawInputClaims": [
+        {
+          "claimId": "CLM_SCI_01",
+          "issuerNseSymbol": "SCI",
+          "issuerBseCode": "523598",
+          "period": "FY24",
+          "category": "GOVERNANCE",
+          "statement": "DIPAM strategic disinvestment process to conclude within FY24.",
+          "targetMetric": "disinvestment_completed",
+          "baselineValue": 0,
+          "expectedValue": 1,
+          "expectedOutcome": "Strategic stake sale completed",
+          "expectedTimeframe": "FY24",
+          "evidenceId": "EV_SCI_PROMISE_01",
+          "claimDate": "2023-08-15",
+          "expectedPeriodStart": "2023-04-01",
+          "expectedPeriodEnd": "2024-03-31",
+          "status": "MISSED",
+          "actualOutcomeMetric": 0,
+          "actualOutcomeDescription": "Disinvestment process stalled; financial bids deferred beyond FY24",
+          "evaluationEvidenceId": "EV_SCI_RESULT_01",
+          "evaluationDate": "2024-05-17",
+          "evaluationBasis": "DIPAM / BSE Statutory Corporate Disclosures",
+          "createdAt": "2023-08-15T10:00:00.000Z",
+          "targetTemporalSemantics": "DEADLINE",
+          "factId": "FACT_SCI_01",
+          "publicationDate": "2023-08-15",
+          "publicationDateType": "MANAGEMENT_COMMENT"
+        }
+      ],
+      "rawInputBreakers": [
+        {
+          "breakerId": "TB_SCI_FREIGHT_COLLAPSE",
+          "name": "Baltic Dirty Tanker Rate Collapse",
+          "description": "Global tanker daily charter earnings fall below $15,000/day",
+          "type": "QUANTITATIVE",
+          "evaluationMethod": "METRIC_THRESHOLD",
+          "conditionText": "Daily Charter Rate < 15000",
+          "quantitativeCondition": {
+            "metric": "daily_charter_rate_usd",
+            "operator": "<",
+            "threshold": 15000,
+            "evaluationPeriod": "quarterly",
+            "evidenceRequired": true
+          },
+          "status": "INACTIVE",
+          "severity": "HIGH",
+          "rationale": "Metric within safe boundaries: daily_charter_rate_usd (38500) does not violate < 15000.",
+          "evidenceIds": [
+            "EV_SCI_RESULT_01"
+          ],
+          "currentObservedValue": 38500
+        }
+      ],
+      "rawInputContradictions": [
+        {
+          "contradictionId": "CONTRA_SCI_01",
+          "issuerNseSymbol": "SCI",
+          "issuerBseCode": "523598",
+          "severity": "HIGH",
+          "type": "CLAIM_VS_RESULT",
+          "claimId": "CLM_SCI_01",
+          "eventId": "EVT_SCI_01",
+          "description": "Privatization timeline repeated guidance unfulfilled as financial bids failed to open in FY24",
+          "divergenceDetails": {
+            "targetDeadline": "FY24",
+            "status": "DEFERRED_INTER_MINISTERIAL"
+          },
+          "leftEvidenceId": "EV_SCI_PROMISE_01",
+          "rightEvidenceId": "EV_SCI_RESULT_01",
+          "supportingEvidenceIds": [],
+          "status": "OPEN",
+          "materiality": "HIGH",
+          "detectedAt": "2024-05-17T10:00:00.000Z",
+          "createdAt": "2026-09-15 12:45:19",
+          "resolvedAt": null,
+          "resolutionBasis": null
+        }
+      ],
+      "rawQuantInput": {
+        "symbol": "SCI",
+        "strategyAgreementCount": 6,
+        "totalStrategiesEvaluated": 20,
+        "signalStrength": 87,
+        "marketRegime": "BULLISH",
+        "quantDirective": "STRONG_BUY"
+      },
+      "decisionState": {
+        "quantOpportunity": "STRONG",
+        "intelligenceRisk": "HIGH",
+        "thesisState": "CHALLENGED",
+        "managementCredibility": "INSUFFICIENT_HISTORY",
+        "activeThesisBreakers": 0,
+        "criticalUnknowns": 0,
+        "evidenceQuality": "MEDIUM",
+        "interpretation": "Strong quantitative setup, but material intelligence concerns, open contradictions, or guidance misses challenge the investment thesis.",
+        "allocationRecommendation": "PROHIBITED_ENTRY"
+      },
+      "portfolioPolicy": {
+        "directive": "PROHIBITED_ENTRY",
+        "targetSizingCapRatio": 0,
+        "policyRationale": "Severe guidance miss, capex delay, or open contradiction challenges thesis. Prohibited from new entry."
+      },
+      "provenanceDAG": {
+        "rootDecisionId": "DEC_SCI",
+        "nodes": [
+          {
+            "id": "DEC_SCI",
+            "type": "DECISION",
+            "refId": "SCI",
+            "label": "Final Investment Decision: CHALLENGED"
+          },
+          {
+            "id": "ALLOC_SCI",
+            "type": "ALLOCATION",
+            "refId": "PROHIBITED_ENTRY",
+            "label": "Allocation Policy: PROHIBITED_ENTRY (0%)"
+          },
+          {
+            "id": "THESIS_SCI",
+            "type": "THESIS",
+            "refId": "CHALLENGED",
+            "label": "Reconciled Thesis State: CHALLENGED"
+          },
+          {
+            "id": "QUANT_SCI",
+            "type": "RULE",
+            "refId": "STRONG",
+            "version": "2026.09",
+            "label": "Quant Opportunity: STRONG (Score: 87/100)"
+          },
+          {
+            "id": "RISK_SCI",
+            "type": "RULE",
+            "refId": "HIGH",
+            "version": "2026.09",
+            "label": "Intelligence Risk: HIGH"
+          },
+          {
+            "id": "CRED_SCI",
+            "type": "FACT",
+            "refId": "INSUFFICIENT_HISTORY",
+            "label": "Credibility Track Record: INSUFFICIENT_HISTORY (Claims: 1)"
+          },
+          {
+            "id": "BRK_TB_SCI_FREIGHT_COLLAPSE",
+            "type": "RULE",
+            "refId": "TB_SCI_FREIGHT_COLLAPSE",
+            "version": "2026.09",
+            "label": "Breaker TB_SCI_FREIGHT_COLLAPSE: INACTIVE (Observed: 38500)"
+          }
+        ],
+        "edges": [
+          {
+            "from": "ALLOC_SCI",
+            "to": "DEC_SCI",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "THESIS_SCI",
+            "to": "DEC_SCI",
+            "relation": "DERIVED_FROM"
+          },
+          {
+            "from": "QUANT_SCI",
+            "to": "THESIS_SCI",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "RISK_SCI",
+            "to": "THESIS_SCI",
+            "relation": "EVALUATED_BY"
+          },
+          {
+            "from": "CRED_SCI",
+            "to": "ALLOC_SCI",
+            "relation": "CONSTRAINED_BY"
+          },
+          {
+            "from": "BRK_TB_SCI_FREIGHT_COLLAPSE",
+            "to": "RISK_SCI",
+            "relation": "EVALUATED_BY"
+          }
+        ]
+      },
+      "provenanceHash": "1fc969c7db0d8cacdd5852465d2edff5089085b4f09286516200507387cabaa7",
+      "canonicalStateHash": "1fc969c7db0d8cacdd5852465d2edff5089085b4f09286516200507387cabaa7"
+    }
+  },
+  "executiveAssessment": {
+    "overall": "MIXED",
+    "confidence": "MEDIUM",
+    "decisionImplication": "NEUTRAL",
+    "oneLineSummary": "Strong quantitative setup, but material intelligence concerns, open contradictions, or guidance misses challenge the investment thesis."
+  },
+  "thesisSupport": [
+    {
+      "headline": "Quantitative setup: 6/20 strategies aligned in BULLISH regime",
+      "detail": "ITAS Signal Strength: 87/100 with active directive STRONG_BUY.",
+      "sourceDocType": "ITAS_QUANT_DOSSIER_6.0",
+      "evidenceLineage": "ITAS-Quant-Engine#SCI",
+      "significance": "HIGH"
+    }
+  ],
+  "thesisChallenges": [
+    {
+      "headline": "Contradiction detected (HIGH severity): Privatization timeline repeated guidance unfulfilled as financial bids failed to open in FY24",
+      "detail": "Disclosed divergence between promise and observed financial reality.",
+      "sourceDocType": "CONTRADICTION_ENGINE",
+      "evidenceLineage": "LeftEvidence#EV_SCI_PROMISE_01 vs RightEvidence#EV_SCI_RESULT_01",
+      "significance": "HIGH"
+    }
+  ],
+  "walkTheTalk": {
+    "symbol": "SCI",
+    "grade": "INSUFFICIENT_HISTORY",
+    "totalClaims": 1,
+    "achievedCount": 0,
+    "partiallyAchievedCount": 0,
+    "missedCount": 1,
+    "reversedCount": 0,
+    "openCount": 0,
+    "dueForEvaluationCount": 0,
+    "unresolvedCount": 0,
+    "keyEvidencedExamples": [
+      {
+        "claimId": "CLM_SCI_01",
+        "statement": "DIPAM strategic disinvestment process to conclude within FY24.",
+        "period": "FY24",
+        "expected": "Strategic stake sale completed",
+        "actual": "Disinvestment process stalled; financial bids deferred beyond FY24",
+        "status": "MISSED",
+        "evidenceLineage": "Evidence#EV_SCI_PROMISE_01 -> Resolution#EV_SCI_RESULT_01"
+      }
+    ]
+  },
+  "governanceSignals": [
+    {
+      "parameter": "Promoter Encumbrance / Pledge",
+      "finding": "Zero promoter shares pledged (100% unencumbered).",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_PLEDGE_SCI"
+    },
+    {
+      "parameter": "Statutory Auditor Resignation / Qualification",
+      "finding": "Clean audit opinion without adverse qualifications.",
+      "severity": "CLEAN",
+      "evidenceId": "GOV_AUDIT_SCI"
+    }
+  ],
+  "externalIntelligence": [
+    {
+      "date": "2024-05-17",
+      "source": "BSE_DISCLOSURE",
+      "headline": "SCI confirms disinvestment pending regulatory security approvals from Ministry of Ports",
+      "verified": true,
+      "sourceTier": "TIER_1_PRIMARY_AUTHORITATIVE"
+    }
+  ],
+  "openContradictions": [
+    {
+      "contradictionId": "CONTRA_SCI_01",
+      "issuerNseSymbol": "SCI",
+      "issuerBseCode": "523598",
+      "severity": "HIGH",
+      "type": "CLAIM_VS_RESULT",
+      "claimId": "CLM_SCI_01",
+      "eventId": "EVT_SCI_01",
+      "description": "Privatization timeline repeated guidance unfulfilled as financial bids failed to open in FY24",
+      "divergenceDetails": {
+        "targetDeadline": "FY24",
+        "status": "DEFERRED_INTER_MINISTERIAL"
+      },
+      "leftEvidenceId": "EV_SCI_PROMISE_01",
+      "rightEvidenceId": "EV_SCI_RESULT_01",
+      "supportingEvidenceIds": [],
+      "status": "OPEN",
+      "materiality": "HIGH",
+      "detectedAt": "2024-05-17T10:00:00.000Z",
+      "createdAt": "2026-09-15 12:45:19",
+      "resolvedAt": null,
+      "resolutionBasis": null
+    }
+  ],
+  "thesisBreakers": [
+    {
+      "breakerId": "TB_SCI_FREIGHT_COLLAPSE",
+      "name": "Baltic Dirty Tanker Rate Collapse",
+      "description": "Global tanker daily charter earnings fall below $15,000/day",
+      "type": "QUANTITATIVE",
+      "evaluationMethod": "METRIC_THRESHOLD",
+      "conditionText": "Daily Charter Rate < 15000",
+      "quantitativeCondition": {
+        "metric": "daily_charter_rate_usd",
+        "operator": "<",
+        "threshold": 15000,
+        "evaluationPeriod": "quarterly",
+        "evidenceRequired": true
+      },
+      "status": "INACTIVE",
+      "severity": "HIGH",
+      "rationale": "Metric within safe boundaries: daily_charter_rate_usd (38500) does not violate < 15000.",
+      "evidenceIds": [
+        "EV_SCI_RESULT_01"
+      ],
+      "currentObservedValue": 38500
+    }
+  ],
+  "importantUnknowns": [],
+  "evidenceQuality": {
+    "tier": "MEDIUM",
+    "directSourcesCount": 2,
+    "corroboratedCount": 0,
+    "unresolvedCount": 0
+  },
+  "decisionImplicationNote": "Core Thesis: \"National flag marine carrier trading at significant discount to replacement asset net asset value, driven by cyclical tanker charter rate expansion.\". Qualitative status: CHALLENGED. Review before trade authorization."
+}

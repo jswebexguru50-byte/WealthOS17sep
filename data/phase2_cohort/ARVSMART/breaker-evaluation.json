@@ -1,0 +1,24 @@
+[
+  {
+    "breakerId": "TB_ARV_LEVERAGE",
+    "name": "Leverage Incurrence Breaker",
+    "description": "Net Debt / Equity must not exceed 0.5x",
+    "type": "QUANTITATIVE",
+    "evaluationMethod": "METRIC_THRESHOLD",
+    "conditionText": "Net Debt / Equity > 0.5",
+    "quantitativeCondition": {
+      "metric": "net_debt_to_equity",
+      "operator": ">",
+      "threshold": 0.5,
+      "evaluationPeriod": "annual",
+      "evidenceRequired": true
+    },
+    "status": "INACTIVE",
+    "severity": "HIGH",
+    "rationale": "Metric within safe boundaries: net_debt_to_equity (-0.18) does not violate > 0.5.",
+    "evidenceIds": [
+      "EV_ARV_LEVERAGE_Q4"
+    ],
+    "currentObservedValue": -0.18
+  }
+]
