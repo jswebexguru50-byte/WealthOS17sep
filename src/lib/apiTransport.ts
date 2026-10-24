@@ -1,5 +1,16 @@
 type ConfirmRequest = { phrase: string; path: string; signal?: AbortSignal };
 type CredentialPrompt = () => Promise<void> | void;
+export class AuthorizationError extends Error {
+  readonly status = 401;
+  constructor() { super('Session expired. Sign in and retry your action.'); this.name = 'AuthorizationError'; }
+}
+let credentialPromptPending: Promise<void> | null = null;
+function promptForCredential(): Promise<void> {
+  if (!credentialPromptPending) {
+    credentialPromptPending = Promise.resolve().then(() => authPrompt()).finally(() => { credentialPromptPending = null; });
+  }
+  return credentialPromptPending;
+}
 type ConfirmPrompt = (request: ConfirmRequest) => Promise<string | null>;
 let credential = '';
 let authPrompt: CredentialPrompt = () => {};
@@ -70,13 +81,16 @@ export function createApiTransport(
     }
     const response = await fetcher(new Request(request, { headers, ...(body ? { body } : {}) }));
     if (response.status === 401) {
+      // A rejected mutation is finished; signing in must never replay it.
+      if (request.method !== 'GET') {
+        void Promise.resolve(unauthorized()).catch(() => {});
+        throw new AuthorizationError();
+      }
       await unauthorized();
-      // Retry the original request once after the credential prompt succeeds.
-      // This makes the daily OHLCV refresh continue automatically after sign-in.
       const refreshed = password();
       if (refreshed && !request.signal.aborted) {
         headers.set('x-app-password', refreshed);
-        return fetcher(new Request(request, { headers, ...(body ? { body } : {}) }));
+        return fetcher(new Request(request, { headers }));
       }
     }
     return response; // Never automatically replay a mutation after a password prompt.
@@ -84,7 +98,7 @@ export function createApiTransport(
 }
 export const apiFetch = createApiTransport(nativeFetch,
   () => typeof window === 'undefined' ? 'http://localhost' : window.location.origin,
-  getApiCredential, () => { setApiCredential(''); authPrompt(); }, request => confirmPrompt(request));
+  getApiCredential, () => { setApiCredential(''); return promptForCredential(); }, request => confirmPrompt(request));
 
 /** Compatibility boundary for existing calls while components migrate to apiFetch. */
 export function installApiTransport() { if (typeof window !== 'undefined') window.fetch = apiFetch; }

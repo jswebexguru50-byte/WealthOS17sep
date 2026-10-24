@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createApiTransport, confirmationFor } from '../../src/lib/apiTransport.js';
+import { createApiTransport, confirmationFor, AuthorizationError } from '../../src/lib/apiTransport.js';
 import { timingSafeMatch } from '../../src/server/config.js';
 
 const password = 'fixture-password';
@@ -55,6 +55,22 @@ test('credentials stay on the same-origin API; request headers and binary bodies
 test('401 opens a prompt once and never replays a destructive request', async () => {
   let sent = 0, prompts = 0;
   const transport = createApiTransport(async () => { sent++; return new Response('{}', { status: 401 }); }, () => 'https://fixture.test', () => password, () => { prompts++; }, async request => request.phrase);
-  assert.equal((await transport('/api/purge-data', { method: 'POST' })).status, 401);
+  await assert.rejects(transport('/api/purge-data', { method: 'POST' }), AuthorizationError);
   assert.equal(sent, 1); assert.equal(prompts, 1);
+});
+
+test('only a GET is retried after awaited credential refresh', async () => {
+  let sent = 0, secret = 'old';
+  const transport = createApiTransport(async input => {
+    sent++; const req = new Request(input);
+    return new Response('{}', { status: req.headers.get('x-app-password') === 'new' ? 200 : 401 });
+  }, () => 'https://fixture.test', () => secret, async () => { await Promise.resolve(); secret = 'new'; }, async () => null);
+  assert.equal((await transport('/api/read')).status, 200); assert.equal(sent, 2);
+});
+test('expired writes never replay across methods', async () => {
+  for (const method of ['POST','PUT','PATCH','DELETE','HEAD','OPTIONS']) {
+    let calls=0;
+    const transport=createApiTransport(async () => { calls++; return new Response(null,{status:401}); },()=> 'https://fixture.test',()=> 'secret',()=>{},async r=>r.phrase);
+    await assert.rejects(transport('/api/fixture',{method}),AuthorizationError); assert.equal(calls,1);
+  }
 });
