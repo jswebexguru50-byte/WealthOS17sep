@@ -437,7 +437,7 @@ describe('TTL Waterfall Feature - 29 Test Cases', () => {
         expiresAt: 86400000
       };
 
-      time.setNow(100000);
+      time.setNow(86400001); // After expiration at 86400000
       const isFresh = time.getNow() < oldFundamental.expiresAt;
       expect(isFresh).toBe(false);
     });
