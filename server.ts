@@ -1,3 +1,6 @@
+import { readReadiness } from './src/server/services/ReadinessService.js';
+import { holdingCost } from './src/server/services/HoldingCost.js';
+import { credentialMetadata } from './src/server/auth/credentialMetadata.js';
 // Load .env into process.env before anything else (required for AWS Bedrock credentials)
 import { config as loadEnv } from 'dotenv';
 loadEnv();
@@ -148,6 +151,7 @@ import { remoteBridgeRouter } from './src/server/routes/remoteBridgeRouter.js';
 import { aiStudioProxyRouter } from './src/server/routes/aiStudioProxyRouter.js';
 import { dossierRouter } from './src/server/routes/dossierRoutes.js';
 import { getServerConfig, timingSafeMatch, createRateLimiter } from './src/server/config.js';
+import { selectAuthorizedPortfolios } from './src/server/routes/shared.js';
 import { authenticateFamily, roleAllows } from './src/server/auth/familyRoleAuth.js';
 
 const execFileAsync = promisify(execFile);
@@ -498,14 +502,8 @@ app.get('/api/market-data/scan-status', async (_req, res) => {
   }
 });
 
-app.get('/api/health', (req, res) => {
-  res.json({
-    status: 'ok',
-    app: 'NRI WealthOS',
-    title: 'NRI WealthOS — Global Wealth & Tax',
-    port: PORT,
-    timestamp: new Date().toISOString()
-  });
+app.get('/api/health', async (_req, res) => {
+  const result = await readReadiness(db); res.status(result.statusCode).json(result.body);
 });
 
 app.get('/api/app-info', (req, res) => {
@@ -572,10 +570,17 @@ app.use('/api/bank-fds', bankFdsRouter);
 app.use('/api/currency-rates', currencyRatesRouter);
 app.use('/api/reports', reportsRouter);
 app.use('/api', settingsRouter);          // exposes /api/config, /api/family-hierarchy, /api/scrip-mappings, /api/tickers
-app.use('/api/transactions', transactionsRouter);
+app.use('/api/transactions', async (req, res, next) => {
+  try { await selectAuthorizedPortfolios(req, getDB()); next(); }
+  catch (error: any) { res.status(error.status || 500).json({success:false,error:error.status ? error.message : 'PORTFOLIO_SCOPE_FAILED'}); }
+}, transactionsRouter);
 app.use('/api/master-tickers', masterTickersRouter);
 app.use('/api', importsRouter);           // exposes /api/recon/*, /api/pms/*, /api/templates/*, /api/cams/*
 app.use('/api/nri', nriRouter);          // exposes /api/nri/* (tds-recon, repatriation, tax-harvesting, rebalance-matrix, switch-analysis, dual-currency-xirr)
+app.use(['/api/command-center','/api/dashboard','/api/holdings','/api/transactions'], async (req, res, next) => {
+  try { await selectAuthorizedPortfolios(req, getDB()); next(); }
+  catch (error: any) { res.status(error.status || 500).json({ success: false, error: error.status ? error.message : 'PORTFOLIO_SCOPE_FAILED' }); }
+});
 app.use('/api/command-center', commandCenterRouter); // exposes /api/command-center (Consolidated family AUM, Day P&L, Allocation, Health Score)
 app.use('/api/audit', reconciliationAuditRouter);    // exposes /api/audit/waterfall (Incremental change waterfall bridge vs baseline)
 app.use('/api/reconciliation-audit', reconciliationAuditRouter); // exposes /api/reconciliation-audit/* (DataQuality, SyncDrift, Historicals)
@@ -592,6 +597,8 @@ app.use('/api/family-office', documentVaultRouter);
 app.use('/api/nri/workflow', nriWorkflowRouter);
 app.use('/api/broker-integrations', brokerIntegrationsRouter);
 app.use('/api/technical-strategies', strategiesRouter);   // Strategy Library alias for ITAS
+import { entryPlanRouter } from './src/server/routes/entryPlanRoutes.js';
+app.use('/api/entry-plans', entryPlanRouter);              // Entry Plan Outcome Tracker
 
 app.get('/api/analytics/lookthrough', async (req, res) => {
   try {
@@ -1661,7 +1668,7 @@ async function reconcileCC9WithLatestStatement(database: any) {
 }
 
 // Setup API routes FIRST
-app.post('/api/portfolios/cc9/reconcile', async (req, res) => {
+app.post('/api/portfolios/cc9/reconcile', requireAdminPassword, async (req, res) => {
   try {
     await reconcileCC9WithLatestStatement(db);
     res.json({ success: true, message: 'cc9 portfolio successfully reconciled with latest statement.' });
@@ -1784,52 +1791,7 @@ app.delete('/api/family-members/:id', async (req, res) => {
 });
 
 async function getSelectedPortfolios(req: express.Request): Promise<string[] | null> {
-  const portfolios = req.query.portfolios || req.body?.portfolios || req.query.portfolio || req.body?.portfolio;
-  const memberIdRaw = req.query.member_id || req.headers['x-member-id'];
-
-  const isAllOrCombined = !portfolios || String(portfolios).toLowerCase() === 'all' || String(portfolios).toLowerCase() === 'combined';
-
-  if (isAllOrCombined) {
-    const { allowedPortNames } = await UnifiedValuationService.getInstance().getAllowedPortfoliosForMember(db, memberIdRaw || 1);
-    if (allowedPortNames.length > 0) {
-      return allowedPortNames;
-    }
-    return ['__NO_ACTIVE_PORTFOLIOS__'];
-  }
-
-  // 'none' means user explicitly deselected all portfolios
-  if (portfolios === 'none') {
-    return ['__NONE_SELECTED__'];
-  }
-  let list: string[] = [];
-  if (Array.isArray(portfolios)) {
-    list = portfolios.map(p => String(p).trim());
-  } else {
-    list = String(portfolios).split(',').map(p => p.trim()).filter(Boolean);
-  }
-
-  try {
-    const allPorts = await dbAll(db, "SELECT DISTINCT portfolio FROM Holdings UNION SELECT DISTINCT portfolio FROM Transactions UNION SELECT name FROM Portfolios");
-    const portMap = new Map<string, string>();
-    allPorts.forEach((p: any) => {
-      const pName = p.portfolio || p.name;
-      if (pName) portMap.set(pName.toLowerCase(), pName);
-    });
-    const matchedList = list.map(item => portMap.get(item.toLowerCase()) || item);
-
-    // If an explicit memberId (other than 'all') was passed, enforce that member's portfolio boundary
-    const isConsolidated = memberIdRaw === 'all' || memberIdRaw === 'consolidated';
-    if (!isConsolidated && memberIdRaw) {
-      const { allowedPortNames } = await UnifiedValuationService.getInstance().getAllowedPortfoliosForMember(db, memberIdRaw);
-      const allowedSet = new Set(allowedPortNames.map((p: string) => p.toLowerCase()));
-      const scoped = matchedList.filter(p => allowedSet.has(p.toLowerCase()));
-      return scoped.length > 0 ? scoped : ['__NO_ACTIVE_PORTFOLIOS__'];
-    }
-
-    return matchedList;
-  } catch (e) {
-    return list;
-  }
+  return selectAuthorizedPortfolios(req, db);
 }// Bulk dashboard route disabled due to syntax issue
 
 // ── Dashboard response cache (stale-while-revalidate) ────────────────────────
@@ -2273,6 +2235,14 @@ async function buildDashboardPayload(selected: string[] | null, includeSold: boo
       // Recompute averages/PNL and sub-holding XIRR
       for (const key of Object.keys(aggregated)) {
         const agg = aggregated[key];
+        if (agg.currency === 'USD') {
+          const lots = agg.portfolio_breakdown || [];
+          agg.native_total_cost = lots.every((h:any)=>h.native_total_cost != null) ? lots.reduce((sum:number,h:any)=>sum+h.native_total_cost,0) : null;
+          agg.native_avg_buy_price = agg.quantity>0 && agg.native_total_cost!=null ? agg.native_total_cost/agg.quantity : null;
+          agg.native_current_value = lots.every((h:any)=>h.native_current_value!=null) ? lots.reduce((sum:number,h:any)=>sum+h.native_current_value,0) : null;
+          agg.native_unrealized_pnl = agg.native_current_value!=null && agg.native_total_cost!=null ? agg.native_current_value-agg.native_total_cost : null;
+          const cost = holdingCost(agg); agg.costInINR=cost.costInINR; agg.cost_quality=cost.costQuality;
+        }
         agg.avg_buy_price = agg.quantity > 0 ? agg.total_cost / agg.quantity : 0;
         agg.unrealized_pnl = agg.current_value - agg.total_cost;
         agg.unrealized_pct = agg.total_cost > 0 ? (agg.unrealized_pnl / agg.total_cost) * 100 : 0;
@@ -5930,7 +5900,7 @@ app.get('/api/analytics/valuation-on-date', async (req, res) => {
   }
 });
 
-app.post('/api/master-tickers/merge', async (req, res) => {
+app.post('/api/master-tickers/merge', requireAdminPassword, async (req, res) => {
   try {
     const { source_id, target_id } = req.body;
     if (!source_id || !target_id || source_id === target_id) {
@@ -6928,19 +6898,20 @@ app.get('/api/market-hours-status', async (req, res) => {
   }
 });
 
-app.get('/api/settings', async (req, res) => {
+app.get('/api/settings', requireAdminPassword, async (req, res) => {
   try {
     const row = await dbGet(db, "SELECT value FROM AppConfig WHERE key = 'Access_Token'");
-    res.json({ upstox_token: row?.value || '' });
+    res.json({ token: credentialMetadata(row?.value) });
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });
   }
 });
 
-app.post('/api/settings', async (req, res) => {
+app.post('/api/settings', requireAdminPassword, async (req, res) => {
   try {
     const { upstox_token } = req.body;
-    await dbRun(db, "INSERT OR REPLACE INTO AppConfig (key, value) VALUES ('Access_Token', ?)", [upstox_token || '']);
+    if (typeof upstox_token !== 'string' || !upstox_token.trim()) return res.status(400).json({success:false,message:'A non-empty replacement token is required.'});
+    await dbRun(db, "INSERT OR REPLACE INTO AppConfig (key, value) VALUES ('Access_Token', ?)", [upstox_token.trim()]);
     res.json({ success: true });
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });
@@ -8030,7 +8001,8 @@ app.post('/api/pms/check-duplicates', async (req, res) => {
               (resolvedTxSym && resolvedTxSym === rowSymNorm) ||
               (resolvedTxSym && resolvedTxSym === rawSymNorm) ||
               txSymNorm.includes(rowSymNorm) || 
-              rowSymNorm.includes(txSymNorm);
+              rowSymNorm.includes(txSymNorm) ||
+                (!!rawSymNorm && normalizeDuplicateKey(tx.notes || '').includes(rawSymNorm));
 
             // 1. Tran Ref. matching (Authoritative)
             if (tranRef && tranRef.length >= 3) {
@@ -8132,6 +8104,13 @@ app.post('/api/pms/commit', async (req, res) => {
     let uiIsins = isins || {};
 
     const db = getDB();
+    // File identity is checked before even persisting user mappings.
+    await dbRun(db, `CREATE TABLE IF NOT EXISTS PmsImportFileRegistry (portfolio TEXT NOT NULL, file_sha256 TEXT NOT NULL, imported_at TEXT NOT NULL, source_kind TEXT, PRIMARY KEY(portfolio,file_sha256))`);
+    const importFileHash = typeof fileContent === 'string' && fileContent.length > 0 ? crypto.createHash('sha256').update(fileContent, 'utf8').digest('hex') : null;
+    if (importFileHash && await dbGet(db, 'SELECT 1 FROM PmsImportFileRegistry WHERE portfolio=? AND file_sha256=?', [portfolio_name, importFileHash])) {
+      delete tempBatches[batch_id];
+      return res.json({ success: true, skipped: true, message: 'This exact statement has already been reconciled. No transactions added.' });
+    }
     console.log('[COMMIT] Saving user mappings...');
 
     // 1. Save mappings to database BEFORE starting the transaction
@@ -8537,7 +8516,7 @@ app.post('/api/pms/commit', async (req, res) => {
                 (normType === 'EXPENSE' && (txTypeNorm === 'EXPENSE' || txTypeNorm === 'MANAGEMENT_FEE' || txTypeNorm === 'STT_EXPENSE')) ||
                 (normType === 'MANAGEMENT_FEE' && (txTypeNorm === 'MANAGEMENT_FEE' || txTypeNorm === 'EXPENSE')) ||
                 (normType === 'STT_EXPENSE' && (txTypeNorm === 'STT_EXPENSE' || txTypeNorm === 'EXPENSE')) ||
-                ((normType === 'DIVIDEND' || normType === 'INTEREST' || normType === 'CASH_INCOME') && (txTypeNorm === 'DIVIDEND' || txTypeNorm === 'INTEREST' || txTypeNorm === 'CASH_INCOME')) ||
+                (normType === 'DIVIDEND' && txTypeNorm === 'CASH_INCOME' && /dividend/i.test(tx.notes || '')) ||
                 (normType === 'BUY' && (txTypeNorm === 'BUY' || txTypeNorm === 'TRANSFER IN' || txTypeNorm === 'SECURITY IN')) ||
                 (normType === 'SELL' && (txTypeNorm === 'SELL' || txTypeNorm === 'TRANSFER OUT' || txTypeNorm === 'SECURITY OUT')) ||
                 (normType === 'DEPOSIT' && txTypeNorm === 'DEPOSIT') ||
@@ -8576,7 +8555,7 @@ app.post('/api/pms/commit', async (req, res) => {
             const isCf = ['DEPOSIT', 'WITHDRAWAL', 'TDS', 'TAX'].includes(normType) ? 1 : 0;
             const combinedNotes = [tranRef ? `Ref: ${tranRef}` : '', notes].filter(Boolean).join(' | ');
 
-            await dbRun(db, `INSERT INTO Transactions (date, portfolio, type, symbol, isin, quantity, price, net_amount, is_cash_flow, source, batch_id, notes) VALUES (?, ?, ?, ?, 'UNKNOWN', 0, 0, ?, ?, 'PMS', ?, ?)`,
+            await dbRun(db, `INSERT INTO Transactions (date, portfolio, type, symbol, isin, quantity, price, net_amount, is_cash_flow, source, batch_id, notes) VALUES (?, ?, ?, ?, 'UNKNOWN', 0, 0, ?, ?, 'BANKBOOK', ?, ?)`,
               [dateStr, portfolio_name, normType, symbolStr, amount, isCf, batch_id, combinedNotes || txnType]);
 
             const newTx = { date: dateStr, isin: 'UNKNOWN', quantity: 0, type: normType, symbol: symbolStr, net_amount: amount, notes: combinedNotes || txnType };
@@ -8654,6 +8633,7 @@ app.post('/api/pms/commit', async (req, res) => {
       await dbRun(db, `INSERT INTO ActionHistory (timestamp, action_type, description, batch_id) VALUES (CURRENT_TIMESTAMP, ?, ?, ?)`,
         ['PMS Upload', `Uploaded PMS data for ${portfolio_name}`, batch_id]);
       
+      if (importFileHash) await dbRun(db, `INSERT INTO PmsImportFileRegistry(portfolio,file_sha256,imported_at,source_kind) VALUES(?,?,datetime('now'),?)`, [portfolio_name, importFileHash, pmsData.map((section: any) => section.type).join(',')]);
       await dbRun(db, 'COMMIT');
       await runFIFO(db);
       if (portfolio_name && portfolio_name.toLowerCase().includes('cc9')) {
@@ -12573,7 +12553,7 @@ app.post('/api/import/undo', async (req, res) => {
 });
 
 // 10. Alias GET /api/settings/upstox
-app.get('/api/settings/upstox', async (req, res) => {
+app.get('/api/settings/upstox', requireAdminPassword, async (req, res) => {
   try {
     const idRow = await dbGet(db, "SELECT value FROM AppConfig WHERE key = 'Upstox_Client_ID'");
     const secretRow = await dbGet(db, "SELECT value FROM AppConfig WHERE key = 'Upstox_Client_Secret'");
@@ -12582,7 +12562,7 @@ app.get('/api/settings/upstox', async (req, res) => {
       success: true,
       config: {
         client_id: idRow?.value || '',
-        client_secret: secretRow?.value || '',
+        client_secret_status: credentialMetadata(secretRow?.value).status,
         redirect_uri: redirectRow?.value || ''
       }
     });
@@ -12592,11 +12572,11 @@ app.get('/api/settings/upstox', async (req, res) => {
 });
 
 // 11. Alias POST /api/settings/upstox
-app.post('/api/settings/upstox', async (req, res) => {
+app.post('/api/settings/upstox', requireAdminPassword, async (req, res) => {
   try {
     const { client_id, client_secret, redirect_uri } = req.body;
     await dbRun(db, "INSERT OR REPLACE INTO AppConfig (key, value) VALUES ('Upstox_Client_ID', ?)", [client_id || '']);
-    await dbRun(db, "INSERT OR REPLACE INTO AppConfig (key, value) VALUES ('Upstox_Client_Secret', ?)", [client_secret || '']);
+    if (typeof client_secret === 'string' && client_secret.trim()) await dbRun(db, "INSERT OR REPLACE INTO AppConfig (key, value) VALUES ('Upstox_Client_Secret', ?)", [client_secret.trim()]);
     await dbRun(db, "INSERT OR REPLACE INTO AppConfig (key, value) VALUES ('Upstox_Redirect_URI', ?)", [redirect_uri || '']);
     res.json({ success: true });
   } catch (err: any) {
@@ -13959,7 +13939,7 @@ app.get('/api/admin/database-stats', async (req, res) => {
 });
 
 // POST Purge Price History Cache & Unnecessary Logs
-app.post('/api/admin/purge-cache', async (req, res) => {
+app.post('/api/admin/purge-cache', requireAdminPassword, async (req, res) => {
   try {
     const { purgePriceCache, purgeLogs } = req.body;
     const targetDb = getDB() || db;
@@ -14009,7 +13989,7 @@ app.post('/api/admin/purge-cache', async (req, res) => {
 });
 
 // POST Vacuum Database to Reclaim Disk Space
-app.post('/api/admin/vacuum-database', async (req, res) => {
+app.post('/api/admin/vacuum-database', requireAdminPassword, async (req, res) => {
   try {
     const targetDb = getDB() || db;
     const dbPath = path.join(process.cwd(), 'portfolio.db');
@@ -14077,7 +14057,7 @@ app.get('/api/download-project-zip', async (req, res) => {
 });
 
 // Analyze uploaded project ZIP file for incremental updates & conflicts
-app.post('/api/admin/analyze-project-zip', upload.single('zipFile'), async (req, res) => {
+app.post('/api/admin/analyze-project-zip', requireAdminPassword, upload.single('zipFile'), async (req, res) => {
   try {
     if (!req.file || !req.file.buffer) {
       return res.status(400).json({ success: false, message: 'Please upload a valid .zip file.' });
@@ -14193,7 +14173,7 @@ app.post('/api/admin/analyze-project-zip', upload.single('zipFile'), async (req,
 });
 
 // Apply selected incremental zip changes
-app.post('/api/admin/apply-project-zip', upload.single('zipFile'), async (req, res) => {
+app.post('/api/admin/apply-project-zip', requireAdminPassword, upload.single('zipFile'), async (req, res) => {
   try {
     if (!req.file || !req.file.buffer) {
       return res.status(400).json({ success: false, message: 'Please upload a valid .zip file.' });
@@ -14365,7 +14345,7 @@ app.get('/api/admin/frontend-backups', async (req, res) => {
 });
 
 // POST Create Manual Frontend Snapshot
-app.post('/api/admin/create-frontend-snapshot', async (req, res) => {
+app.post('/api/admin/create-frontend-snapshot', requireAdminPassword, async (req, res) => {
   try {
     const batchId = `manual_snapshot_${Date.now()}`;
     const backupDir = path.join(process.cwd(), 'temp_frontend_backups', batchId);
@@ -14432,7 +14412,7 @@ app.post('/api/admin/create-frontend-snapshot', async (req, res) => {
 });
 
 // POST Roll Back Frontend Changes to a Snapshot
-app.post('/api/admin/rollback-frontend', async (req, res) => {
+app.post('/api/admin/rollback-frontend', requireAdminPassword, async (req, res) => {
   try {
     const { batchId } = req.body;
     if (!batchId) {
@@ -14505,7 +14485,7 @@ app.get('/api/admin/changelog', async (req, res) => {
 });
 
 // POST Add custom 1-2 sentence plain English changelog entry
-app.post('/api/admin/add-changelog', async (req, res) => {
+app.post('/api/admin/add-changelog', requireAdminPassword, async (req, res) => {
   try {
     const { summary, version_tag } = req.body;
     if (!summary || summary.trim().length === 0) {
@@ -14524,7 +14504,7 @@ app.post('/api/admin/add-changelog', async (req, res) => {
 });
 
 // Rename portfolio route
-app.post('/api/portfolios/rename', async (req, res) => {
+app.post('/api/portfolios/rename', requireAdminPassword, async (req, res) => {
   const { oldName, newName } = req.body;
   if (!oldName || !newName) {
     return res.status(400).json({ success: false, message: 'oldName and newName are required.' });
@@ -15302,7 +15282,7 @@ app.get('/api/settings/alpaca', async (req, res) => {
 });
 
 // POST Alpaca Market Data Config
-app.post('/api/settings/alpaca', async (req, res) => {
+app.post('/api/settings/alpaca', requireAdminPassword, async (req, res) => {
   try {
     const { alpaca_key, alpaca_secret } = req.body;
     await dbRun(db, "INSERT OR REPLACE INTO AppConfig (key, value) VALUES ('Alpaca_Key', ?)", [alpaca_key ? alpaca_key.trim() : '']);
@@ -15572,7 +15552,7 @@ export async function recordDailyPortfolioSnapshots(database: any, source: strin
   }
 }
 
-app.post('/api/admin/record-snapshot', async (req, res) => {
+app.post('/api/admin/record-snapshot', requireAdminPassword, async (req, res) => {
   try {
     const source = req.body?.source || 'MANUAL_TRIGGER';
     const result = await recordDailyPortfolioSnapshots(db, source);
@@ -15582,7 +15562,7 @@ app.post('/api/admin/record-snapshot', async (req, res) => {
   }
 });
 
-app.post('/api/admin/reindex', async (req, res) => {
+app.post('/api/admin/reindex', requireAdminPassword, async (req, res) => {
   try {
     const indexes = [
       // Transactions
@@ -15737,9 +15717,7 @@ async function startServer() {
   } else {
     // Production: serve pre-built static assets immediately
     const rootDir = process.cwd();
-    const distPath = fs.existsSync(path.join(rootDir, 'dist', 'index.html'))
-      ? path.join(rootDir, 'dist')
-      : rootDir;
+    const distPath = path.join(rootDir, 'dist');
     app.use(express.static(distPath, {
       setHeaders: (res, filePath) => {
         if (filePath.endsWith('index.html')) {
@@ -15766,12 +15744,8 @@ async function startServer() {
     } else {
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
       const rootDir = process.cwd();
-      const distPath = fs.existsSync(path.join(rootDir, 'dist', 'index.html'))
-        ? path.join(rootDir, 'dist')
-        : rootDir;
-      const indexPath = fs.existsSync(path.join(distPath, 'index.html'))
-        ? path.join(distPath, 'index.html')
-        : path.join(process.cwd(), 'index.html');
+      const indexPath = path.join(rootDir, 'dist', 'index.html');
+      if (!fs.existsSync(indexPath)) return next();
       res.sendFile(indexPath);
     }
   });

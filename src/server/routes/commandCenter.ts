@@ -1,3 +1,5 @@
+import { cc9StatementPerformance } from '../services/Cc9StatementPerformance.js';
+import { selectAuthorizedPortfolios } from './shared.js';
 import { Router } from 'express';
 import { getDB, dbAll, dbGet, dbRun } from '../database.js';
 import { BankAndFDService } from '../services/BankAndFDService.js';
@@ -13,7 +15,7 @@ router.get('/', async (req, res) => {
 
     // Determine target member: strictly default to 1 (Gopal) so Brother's portfolios never mix with Gopal's
     const memberIdRaw = req.query.member_id || req.headers['x-member-id'];
-    const valuation = await UnifiedValuationService.getInstance().getUnifiedValuation(db, memberIdRaw);
+    const valuation = await UnifiedValuationService.getInstance().getUnifiedValuation(db, memberIdRaw, await selectAuthorizedPortfolios(req, db));
 
     const memberId = valuation.memberId;
     const allowedPortNames = valuation.allowedPortfolios;
@@ -161,7 +163,7 @@ router.get('/', async (req, res) => {
 
     // 5. Fetch Latest Recorded XIRR for each Portfolio from PortfolioHistory
     const xirrRows = await dbAll(db, `
-      SELECT p1.portfolio, p1.xirr 
+      SELECT p1.portfolio, p1.xirr, p1.date AS as_of 
       FROM PortfolioHistory p1
       INNER JOIN (
         SELECT portfolio, MAX(date) as max_date
@@ -172,11 +174,16 @@ router.get('/', async (req, res) => {
     `).catch(() => []);
 
     const xirrMap: Record<string, number> = {};
+    const xirrDates: Record<string,string> = {};
+    const cc9Performance = allowedPortNames.some((p:string)=>p.toLowerCase()==='cc9') ? await cc9StatementPerformance(db).catch(()=>null) : null;
     xirrRows.forEach((r: any) => {
       if (r.portfolio && r.xirr !== null && !isNaN(r.xirr)) {
         xirrMap[r.portfolio.toLowerCase().trim()] = Math.round(r.xirr * 100) / 100;
+        xirrDates[r.portfolio.toLowerCase().trim()] = r.as_of;
       }
     });
+
+    if (cc9Performance) { xirrMap.cc9=cc9Performance.xirr; xirrDates.cc9=cc9Performance.contract.valuationAsOf!; }
 
     // 6. Calculate PMS Injected Capital & Cash adjustments for PMS portfolios
     const pmsTxns = await dbAll(db, `
@@ -228,7 +235,7 @@ router.get('/', async (req, res) => {
 
     for (const cp of closedPortfoliosList) {
       const pKey = cp.toLowerCase().trim();
-      const ltdXirr = xirrMap[pKey] !== undefined ? xirrMap[pKey] : (cp === 'IIFL360' ? 21.10 : null);
+      const ltdXirr = xirrMap[pKey] !== undefined ? xirrMap[pKey] : null;
       
       const realStats = await dbAll(db, `
         SELECT 
@@ -307,6 +314,7 @@ router.get('/', async (req, res) => {
 
     res.json({
       success: true,
+      cc9StatementPerformance: cc9Performance,
       summary: {
         totalNetWorthINR,
         totalPortfolioValINR,
@@ -345,6 +353,9 @@ router.get('/', async (req, res) => {
           gain: Math.round(gain * 100) / 100,
           gainPct: Math.round(gainPct * 100) / 100,
           ltdXirr,
+          xirrAsOf: xirrDates[pKey] || null,
+          xirrQuality: pKey==='cc9' && cc9Performance ? 'CERTIFIED' : 'STALE',
+          financialContract: pKey==='cc9' ? cc9Performance?.contract || null : null,
           dayChange: data.dayChange,
           holdingsCount: data.holdingsCount,
           allocationPct: totalNetWorthINR > 0 ? (data.value / totalNetWorthINR) * 100 : 0

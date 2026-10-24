@@ -1,3 +1,6 @@
+import { isCredentialConfigKey } from '../auth/credentialMetadata.js';
+import { authenticateFamily, roleAllows } from '../auth/familyRoleAuth.js';
+import { getServerConfig } from '../config.js';
 /**
  * src/server/routes/settings.ts
  * App config, family benchmark, scrip mappings, master tickers, preferences
@@ -9,6 +12,12 @@ import { AssetScripMappingService } from '../services/AssetScripMappingService.j
 import { MasterTickerService } from '../services/MasterTickerService.js';
 
 const router = Router();
+router.use(['/config','/config/bulk'], (req,res,next) => {
+ if (req.method === 'GET') return next();
+ const actor=authenticateFamily(req.headers as any,getServerConfig().APP_PASSWORD);
+ if(!actor || !roleAllows(actor,'admin')) return res.status(actor?403:401).json({success:false,error:'CONFIG_ADMIN_REQUIRED'});
+ next();
+});
 
 // ─── App Config ───────────────────────────────────────────────────────────────
 
@@ -18,7 +27,7 @@ router.get('/config', async (_req, res) => {
     const db = getDB();
     const rows = await dbAll(db, 'SELECT key, value FROM AppConfig');
     const config: Record<string, string> = {};
-    rows.forEach((r: any) => { config[r.key] = r.value; });
+    rows.forEach((r: any) => { if(!isCredentialConfigKey(r.key)) config[r.key] = r.value; });
     res.json({ success: true, config });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });

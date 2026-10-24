@@ -5,7 +5,9 @@
  */
 import type express from 'express';
 import { getDB, dbAll, dbGet, dbRun } from '../database.js';
-import { UnifiedValuationService } from '../services/UnifiedValuationService.js';
+import { authenticateFamily } from '../auth/familyRoleAuth.js';
+import { permittedMemberIds, intersectPortfolios } from '../auth/portfolioAccess.js';
+import { getServerConfig } from '../config.js';
 
 /** Returns the current database instance */
 export function db() { return getDB(); }
@@ -25,37 +27,24 @@ export function sanitizeIsin(isin: string | null | undefined): string {
  * - comma-separated list → those specific portfolios
  */
 export async function getSelectedPortfolios(req: express.Request): Promise<string[] | null> {
-  const database = getDB();
-  const portfolios = req.query.portfolios || req.body?.portfolios || req.query.portfolio || req.body?.portfolio;
-  const memberIdRaw = req.query.member_id || req.headers['x-member-id'];
+  return selectAuthorizedPortfolios(req, getDB());
+}
 
-  if (portfolios && String(portfolios).toLowerCase() !== 'all' && String(portfolios).toLowerCase() !== 'combined') {
-    if (portfolios === 'none') return ['__NONE_SELECTED__'];
-
-    let list: string[] = Array.isArray(portfolios)
-      ? portfolios.map(p => String(p).trim())
-      : String(portfolios).split(',').map(p => p.trim()).filter(Boolean);
-
-    try {
-      const allPorts = await dbAll(database, "SELECT DISTINCT portfolio FROM Holdings UNION SELECT DISTINCT portfolio FROM Transactions UNION SELECT name FROM Portfolios");
-      const portMap = new Map<string, string>();
-      allPorts.forEach((p: any) => {
-        const pName = p.portfolio || p.name;
-        if (pName) portMap.set(pName.toLowerCase(), pName);
-      });
-      return list.map(item => portMap.get(item.toLowerCase()) || item);
-    } catch {
-      return list;
-    }
-  }
-
-  // Member-scoped allowed portfolios via UnifiedValuationService
-  const { allowedPortNames } = await UnifiedValuationService.getInstance().getAllowedPortfoliosForMember(database, memberIdRaw || 1);
-  if (allowedPortNames.length > 0) return allowedPortNames;
-
-  const fallbackPorts = await dbAll(database, "SELECT DISTINCT portfolio FROM Holdings WHERE portfolio IS NOT NULL UNION SELECT DISTINCT portfolio FROM Transactions WHERE portfolio IS NOT NULL");
-  if (fallbackPorts.length > 0) return fallbackPorts.map((p: any) => p.portfolio);
-  return ['__NO_ACTIVE_PORTFOLIOS__'];
+export async function selectAuthorizedPortfolios(req: express.Request, database: any): Promise<string[]> {
+  const config = getServerConfig();
+  const principal = authenticateFamily(req.headers as any, config.APP_PASSWORD) ||
+    (!config.APP_PASSWORD && !process.env.FAMILY_AUTH_USERS && config.NODE_ENV === 'development' && config.BIND_HOST === '127.0.0.1'
+      ? { userId: 'local-development', role: 'owner' as const, authMethod: 'app-password' as const } : null);
+  const ids = permittedMemberIds(principal, req.query.member_id || req.headers['x-member-id']);
+  if (principal?.role !== 'owner' && ids?.length === 1) req.query.member_id = String(ids[0]);
+  const members = ids ? ids.map(() => '?').join(',') : '';
+  const rows = await dbAll(database, ids
+    ? `SELECT DISTINCT name FROM Portfolios WHERE status != 'ARCHIVED' AND (member_id IN (${members}) OR name IN (SELECT portfolio_name FROM MemberPortfolioPermissions WHERE member_id IN (${members})))`
+    : "SELECT DISTINCT name FROM Portfolios WHERE status != 'ARCHIVED'", ids ? [...ids,...ids] : []);
+  const allowed = rows.map((r: any) => r.name);
+  const requested = req.query.portfolios || req.body?.portfolios || req.query.portfolio || req.body?.portfolio;
+  const selected = intersectPortfolios(requested, allowed);
+  return selected.length ? selected : ['__NO_ACTIVE_PORTFOLIOS__'];
 }
 
 /** Standard async route error wrapper */

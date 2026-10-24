@@ -1,3 +1,4 @@
+import { sourcePeriodEnd } from '../services/SourcePeriod.js';
 import { Router, Request, Response } from 'express';
 
 export const MAX_BATCH_SYMBOLS = 50;
@@ -51,7 +52,7 @@ function fromTrendlyneToken(token: string, originalField: string): string {
   return originalField;
 }
 
-export interface FieldValue { value: unknown; as_of: string; source: 'trendlyne_mcp'; }
+export interface FieldValue { value: unknown; as_of: string | null; fetched_at: string; source_period: string | null; source: 'trendlyne_mcp'; }
 export interface FetchClient {
   getMaxScrips(): number;
   getStockParameterValues(codes: string[], params: string[]): Promise<{ data: Record<string, Record<string, any>> }>;
@@ -69,7 +70,7 @@ export function validateBatchBody(body: any): { symbols: string[]; fields: strin
 }
 
 export async function batchFetch(client: FetchClient, symbols: string[], fields: string[]) {
-  const asOf = new Date().toISOString().slice(0, 10);
+  const fetchedAt = new Date().toISOString();
   const data: Record<string, Record<string, FieldValue | null>> = {};
   const errors: Record<string, string> = {};
   const chunkSize = Math.max(1, client.getMaxScrips());
@@ -92,7 +93,12 @@ export async function batchFetch(client: FetchClient, symbols: string[], fields:
     for (const f of fields) {
       const tok = toTrendlyneToken(f);
       const v = row[tok] ?? row[f]; // try token first, then original name as fallback
-      data[sym][f] = v === undefined || v === null ? null : { value: v, as_of: asOf, source: 'trendlyne_mcp' };
+      const structured = v && typeof v === 'object' && 'value' in v;
+      const sourcePeriod = structured ? (v.source_period ?? v.sourcePeriod ?? null) : null;
+      data[sym][f] = v === undefined || v === null ? null : {
+        value: structured ? v.value : v, as_of: sourcePeriodEnd(sourcePeriod),
+        fetched_at:fetchedAt,source_period:sourcePeriod,source:'trendlyne_mcp'
+      };
     }
   };
 

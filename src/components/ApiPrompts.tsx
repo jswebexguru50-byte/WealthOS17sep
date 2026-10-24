@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { apiFetch, registerApiPrompts, setApiCredential } from '../lib/apiTransport';
 
 export function ApiPrompts() {
@@ -9,12 +9,12 @@ export function ApiPrompts() {
   const [busy, setBusy] = useState(false);
   const [typed, setTyped] = useState('');
   const [confirmation, setConfirmation] = useState<{ phrase: string; path: string; resolve: (value: string | null) => void } | null>(null);
+  const authenticateRef = useRef<(() => void) | null>(null);
   useLayoutEffect(() => {
-    let authenticate: (() => void) | null = null;
     let pending: ((value: string | null) => void) | null = null;
     const unregister = registerApiPrompts(() => {
       setNeedsPassword(true);
-      return new Promise<void>(resolve => { authenticate = resolve; });
+      return new Promise<void>(resolve => { authenticateRef.current = resolve; });
     }, request => new Promise(resolve => {
       if (pending || request.signal?.aborted) return resolve(null);
       const finish = (value: string | null) => { request.signal?.removeEventListener('abort', abort); pending = null; setConfirmation(null); resolve(value); };
@@ -22,7 +22,7 @@ export function ApiPrompts() {
       pending = finish; request.signal?.addEventListener('abort', abort, { once: true });
       setTyped(''); setConfirmation({ phrase: request.phrase, path: request.path, resolve: finish });
     }));
-    return () => { pending?.(null); unregister(); };
+    return () => { pending?.(null); authenticateRef.current?.(); authenticateRef.current=null; unregister(); };
   }, []);
   if (!needsPassword && !confirmation) return null;
   return <div className="fixed inset-0 flex items-center justify-center p-4" style={{ zIndex: 10000, background: 'var(--bg-app)', color: 'var(--text-primary)' }}>
@@ -34,14 +34,14 @@ export function ApiPrompts() {
         const response = await apiFetch('/api/auth/password-check', { method: 'HEAD' });
         if (!response.ok) throw new Error(response.status === 401 ? 'Incorrect application password.' : 'Unable to verify access.');
         setPassword(''); setNeedsPassword(false);
-        authenticate?.(); authenticate = null;
+        authenticateRef.current?.(); authenticateRef.current = null;
       } catch (failure) { setApiCredential(''); setError(failure instanceof Error ? failure.message : 'Sign-in failed.'); }
       finally { setBusy(false); }
     }}>
       <h2 id="api-prompt-title" className="text-xl font-semibold">{needsPassword ? 'Application password required' : 'Confirm destructive action'}</h2>
       {needsPassword ? <><p>Your API session needs the configured application password.</p><label className="block">Password<div className="flex gap-2 mt-1"><input autoFocus type={showPassword ? 'text' : 'password'} autoComplete="current-password" className="block w-full p-3 rounded border" value={password} onChange={event => setPassword(event.target.value)} /><button type="button" onClick={() => setShowPassword(value => !value)}>{showPassword ? 'Hide' : 'Show'}</button></div></label></> : <><p>This action changes financial data. The server must complete its backup before proceeding.</p><p className="break-all">{confirmation?.path}</p><label className="block">Type {confirmation?.phrase}<input autoFocus autoComplete="off" className="block w-full p-3 mt-1 rounded border" value={typed} onChange={event => setTyped(event.target.value)} /></label></>}
       {error && <p role="alert">{error}</p>}
-      <div className="flex gap-4">{!needsPassword && <button type="button" onClick={() => confirmation?.resolve(null)}>Cancel</button>}<button disabled={busy || (needsPassword ? !password : typed !== confirmation?.phrase)}>{needsPassword ? 'Sign in' : 'Confirm action'}</button></div>
+      <div className="flex gap-4">{needsPassword && <button type="button" onClick={() => { setNeedsPassword(false); setPassword(''); setApiCredential(''); authenticateRef.current?.(); authenticateRef.current=null; }}>Cancel</button>}{!needsPassword && <button type="button" onClick={() => confirmation?.resolve(null)}>Cancel</button>}<button disabled={busy || (needsPassword ? !password : typed !== confirmation?.phrase)}>{needsPassword ? 'Sign in' : 'Confirm action'}</button></div>
     </form>
   </div>;
 }

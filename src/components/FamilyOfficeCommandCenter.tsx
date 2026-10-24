@@ -56,6 +56,7 @@ interface CommandCenterData {
     gain: number;
     gainPct: number;
     ltdXirr: number | null;
+    xirrAsOf?:string|null; xirrQuality?:string;
     dayChange: number;
     holdingsCount: number;
     allocationPct: number;
@@ -214,11 +215,11 @@ export function FamilyOfficeCommandCenter({
                   <span>{currentMemberId === 2 ? 'Brother Wealth Command Center — Pankaj Sharma' : 'Family Office Command Center — Gopal (Primary / Family Office)'}</span>
                   <span className="text-xs px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-mono border border-emerald-500/30 flex items-center gap-1.5 font-bold shadow-sm shrink-0">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping inline-block" />
-                    LIVE VALUATION
+                    STORED VALUATION
                   </span>
                   <span className="text-xs px-3 py-1 rounded-full bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 font-mono border border-cyan-500/30 flex items-center gap-1.5 font-bold shadow-sm shrink-0" title="Valuation Integrity & Parity: Verified and protected against rogue ticker overrides">
                     <ShieldCheck className="w-3.5 h-3.5 text-cyan-500" />
-                    PARITY PROTECTED
+                    RECONCILIATION STATUS
                   </span>
                 </h1>
               </div>
@@ -317,7 +318,7 @@ export function FamilyOfficeCommandCenter({
               </div>
               <div className="flex justify-between items-center gap-2">
                 <span style={{ color: 'var(--text-secondary)' }}>Status:</span>
-                <strong className="font-mono text-xs font-bold truncate text-emerald-400">Live Market Feed</strong>
+                <strong className="font-mono text-xs font-bold truncate text-emerald-400">Latest stored prices</strong>
               </div>
             </div>
           </div>
@@ -462,7 +463,7 @@ export function FamilyOfficeCommandCenter({
                           {hasXirr ? (
                             <span className={`text-xs font-mono font-black px-2 py-0.5 rounded-md mt-0.5 border flex items-center gap-1 shrink-0 ${getGainLossBgClass(p.ltdXirr)}`}>
                               <span>{getGainLossIcon(p.ltdXirr)}</span>
-                              <span>{(p.ltdXirr || 0) >= 0 ? '+' : ''}{(p.ltdXirr ?? 0).toFixed(2)}%</span>
+                              <span>{(p.ltdXirr || 0) >= 0 ? '+' : ''}{(p.ltdXirr ?? 0).toFixed(2)}%<small className={p.xirrQuality==='STALE' ? 'block text-rose-500' : 'block'}>As of {p.xirrAsOf || 'unknown'}{p.xirrQuality==='STALE' ? ' · STALE' : ''}</small></span>
                             </span>
                           ) : <span className="text-xs font-mono font-bold text-slate-400 mt-0.5">—</span>}
                         </div>

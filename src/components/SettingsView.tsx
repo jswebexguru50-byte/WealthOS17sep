@@ -42,6 +42,8 @@ export function SettingsView({
   const [upstoxSecret, setUpstoxSecret] = useState('');
   const [upstoxRedirect, setUpstoxRedirect] = useState('');
   const [upstoxToken, setUpstoxToken] = useState('');
+  const [upstoxTokenStatus, setUpstoxTokenStatus] = useState<{status:string;expiresAt:string|null}>({status:'NOT_SET',expiresAt:null});
+  const [upstoxSecretStatus, setUpstoxSecretStatus] = useState('NOT_SET');
   const [isSavingUpstox, setIsSavingUpstox] = useState(false);
 
   // Alpaca States
@@ -365,14 +367,16 @@ export function SettingsView({
       const data = await res.json();
       if (data.config) {
         setUpstoxKey(data.config.client_id || '');
-        setUpstoxSecret(data.config.client_secret || '');
+        setUpstoxSecret('');
+        setUpstoxSecretStatus(data.config.client_secret_status || 'NOT_SET');
         setUpstoxRedirect(data.config.redirect_uri || '');
       }
 
       const tokenRes = await apiFetch('/api/settings');
       const tokenData = await tokenRes.json();
       if (tokenData) {
-        setUpstoxToken(tokenData.upstox_token ? tokenData.upstox_token.trim() : '');
+        setUpstoxToken('');
+        setUpstoxTokenStatus(tokenData.token || {status:'NOT_SET',expiresAt:null});
       }
     } catch (err) {
       console.error(err);
@@ -459,23 +463,23 @@ export function SettingsView({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           client_id: upstoxKey,
-          client_secret: upstoxSecret,
+          ...(upstoxSecret.trim() ? {client_secret:upstoxSecret.trim()} : {}),
           redirect_uri: upstoxRedirect
         })
       });
       const data1 = await res1.json();
 
-      const res2 = await apiFetch('/api/settings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          upstox_token: upstoxToken
-        })
-      });
-      const data2 = await res2.json();
+      let data2 = {success:true,message:''};
+      if (upstoxToken.trim()) {
+        const res2 = await apiFetch('/api/settings', {
+          method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({upstox_token:upstoxToken.trim()})
+        });
+        data2=await res2.json();
+      }
 
       if (data1.success && data2.success) {
-        alert('Upstox API configurations and Access Token saved successfully!');
+        setUpstoxSecret(''); setUpstoxToken(''); await fetchUpstoxConfig();
+        alert('Upstox settings saved.');
       } else {
         alert((data1.message || data2.message) || 'Failed to save settings.');
       }
@@ -792,6 +796,8 @@ export function SettingsView({
               <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Client Secret Key</label>
               <input
                 type="password"
+                autoComplete="new-password"
+                aria-label={`Replacement client secret (saved status: ${upstoxSecretStatus})`}
                 value={upstoxSecret}
                 onChange={(e) => setUpstoxSecret(e.target.value)}
                 placeholder="••••••••••••••••••••••••••••"
@@ -814,11 +820,11 @@ export function SettingsView({
             {/* Access Token */}
             <div className="space-y-1">
               <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Access Token / Bearer Token</label>
-              <textarea
+              <p className="text-xs">Token: {upstoxTokenStatus.status}{upstoxTokenStatus.expiresAt ? ` · Expiry: ${upstoxTokenStatus.expiresAt}` : ' · Expiry unavailable'}</p>
+              <input type="password" autoComplete="new-password"
                 value={upstoxToken}
                 onChange={(e) => setUpstoxToken(e.target.value)}
-                placeholder="Pasted bearer token or generated via Login..."
-                rows={2}
+                placeholder="Enter replacement token (blank keeps saved token)"
                 className="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 text-slate-200 rounded-xl px-4 py-2 font-mono text-xs"
               />
             </div>

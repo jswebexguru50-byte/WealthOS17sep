@@ -1018,18 +1018,9 @@ export function DashboardView({
               <div className="p-4 rounded-xl space-y-1.5" style={{background:'var(--bg-table-alt)',border:'1px solid var(--border-card)'}}>
                 <span className="text-[11px] font-bold uppercase tracking-wider block" style={{color:'var(--accent-blue)'}}>Module 3: Dynamic Risk Ratios</span>
                 <div className="text-base font-bold font-mono text-wrap" style={{color:'var(--text-primary)'}}>
-                  {(() => {
-                    const rawInput = metrics.xirr ?? metrics.unrealized_pct;
-                    if (rawInput == null || !Number.isFinite(Number(rawInput))) return 'Unavailable';
-                    const rawRet = Number(rawInput);
-                    const rf = 6.5;
-                    const vol = selectedPortfolio === 'US - IBKR' ? 17.5 : (selectedPortfolio.includes('SME') || selectedPortfolio === 'Satellite' ? 23.5 : 15.8);
-                    const sharpe = ((rawRet - rf) / vol);
-                    const sortino = sharpe * 1.55;
-                    return `Sharpe ${sharpe.toFixed(2)} | Sortino ${sortino.toFixed(2)}`;
-                  })()}
+                  <span title="Verified daily returns and downside deviation are unavailable">Sharpe — | Sortino —</span>
                 </div>
-                <div className="text-[11px] font-semibold text-wrap" style={{color:'var(--accent-blue)'}}>Risk-Free Rate: 6.5% (T-Bill)</div>
+                <div className="text-[11px] font-semibold text-wrap" style={{color:'var(--accent-blue)'}}>Risk metrics unavailable: verified daily return history required</div>
                 <div className="text-[10px] text-wrap" style={{color:'var(--text-muted)'}}>vs Nifty 50 Sharpe / Sortino</div>
               </div>
 
@@ -1477,9 +1468,9 @@ export function DashboardView({
                           {h.currency === 'USD' ? (
                             <div>
                               <span className="text-xs block font-medium" style={{color:'var(--text-primary)'}}>
-                                ${h.native_avg_buy_price > 0 ? h.native_avg_buy_price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : (h.avg_buy_price / (h.rate_to_inr || 83.5)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
+                                ${h.native_avg_buy_price > 0 ? h.native_avg_buy_price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '—'} USD
                               </span>
-                              <span className="text-[10px] block" style={{color:'var(--text-muted)'}}>₹{h.avg_buy_price.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
+                              <span className="text-[10px] block" style={{color:'var(--text-muted)'}}>{(h as any).costInINR != null && h.quantity>0 ? `₹${((h as any).costInINR/h.quantity).toFixed(2)}` : '— Historic FX unavailable'}</span>
                             </div>
                           ) : (
                             formatCurrency(h.avg_buy_price)
@@ -1491,9 +1482,9 @@ export function DashboardView({
                           {h.currency === 'USD' ? (
                             <div>
                               <span className="text-xs block font-medium" style={{color:'var(--text-primary)'}}>
-                                ${h.native_total_cost > 0 ? h.native_total_cost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : (h.total_cost / (h.rate_to_inr || 83.5)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
+                                ${h.native_total_cost > 0 ? h.native_total_cost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '—'} USD
                               </span>
-                              <span className="text-[10px] block font-normal" style={{color:'var(--text-muted)'}}>₹{h.total_cost.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
+                              <span className="text-[10px] block font-normal" style={{color:'var(--text-muted)'}}>{(h as any).costInINR != null ? `₹${(h as any).costInINR.toLocaleString()}` : '— Historic FX unavailable'}</span>
                             </div>
                           ) : (
                             formatCurrency(h.total_cost)

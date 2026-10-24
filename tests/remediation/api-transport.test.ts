@@ -74,3 +74,8 @@ test('expired writes never replay across methods', async () => {
     await assert.rejects(transport('/api/fixture',{method}),AuthorizationError); assert.equal(calls,1);
   }
 });
+test('failed credential verification does not recursively open authentication',async()=>{
+ let prompts=0;
+ const send=createApiTransport(async()=>new Response('{}',{status:401}),()=> 'https://fixture.test',()=> 'wrong',()=>{prompts++;},async()=>null);
+ assert.equal((await send('/api/auth/password-check')).status,401);assert.equal(prompts,0);
+});

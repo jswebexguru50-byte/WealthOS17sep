@@ -1,8 +1,8 @@
 import crypto from 'node:crypto';
 
 export type FamilyRole = 'owner' | 'admin' | 'editor' | 'viewer';
-export type FamilyPrincipal = { userId: string; role: FamilyRole; authMethod: 'family-role' | 'app-password' };
-type FamilyUser = { userId: string; password: string; role: FamilyRole };
+export type FamilyPrincipal = { userId: string; role: FamilyRole; authMethod: 'family-role' | 'app-password'; memberIds?: number[] };
+type FamilyUser = { userId: string; password: string; role: FamilyRole; memberIds?: number[] };
 const validRoles = new Set<FamilyRole>(['owner', 'admin', 'editor', 'viewer']);
 
 function usersFromEnvironment(): FamilyUser[] {
@@ -27,7 +27,7 @@ export function authenticateFamily(headers: Record<string, unknown>, appPassword
   const configured = usersFromEnvironment();
   if (configured.length) {
     const match = configured.find(u => (!requestedUser || u.userId === requestedUser) && sameSecret(password, u.password));
-    return match ? { userId: match.userId, role: match.role, authMethod: 'family-role' } : null;
+    return match ? { userId: match.userId, role: match.role, authMethod: 'family-role', memberIds: Array.isArray(match.memberIds) ? match.memberIds.filter(id => Number.isSafeInteger(id) && id > 0) : [] } : null;
   }
   return appPassword && sameSecret(password, appPassword)
     ? { userId: requestedUser || 'app-password-owner', role: 'owner', authMethod: 'app-password' } : null;

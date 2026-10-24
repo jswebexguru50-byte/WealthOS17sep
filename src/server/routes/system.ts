@@ -1,3 +1,4 @@
+import { readReadiness } from '../services/ReadinessService.js';
 /**
  * src/server/routes/system.ts
  * System routes: healthcheck, server-info, backup, DB admin, change logs
@@ -10,8 +11,8 @@ import { getDB, dbAll, dbGet, dbRun } from '../database.js';
 const router = Router();
 
 // GET /api/healthcheck
-router.get('/healthcheck', (_req, res) => {
-  res.json({ status: 'ok', app: 'NRI WealthOS', timestamp: new Date().toISOString() });
+router.get('/healthcheck', async (_req, res) => {
+  const result=await readReadiness(getDB());res.status(result.statusCode).json(result.body);
 });
 
 // GET /api/server-info

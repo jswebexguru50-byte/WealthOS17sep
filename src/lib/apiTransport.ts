@@ -80,6 +80,7 @@ export function createApiTransport(
       }
     }
     const response = await fetcher(new Request(request, { headers, ...(body ? { body } : {}) }));
+    if (response.status === 401 && url.pathname === '/api/auth/password-check') return response;
     if (response.status === 401) {
       // A rejected mutation is finished; signing in must never replay it.
       if (request.method !== 'GET') {

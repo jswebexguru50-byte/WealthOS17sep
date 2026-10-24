@@ -12,6 +12,13 @@ const sqliteParams = (values: any[]) => values.map(value => {
   return String(value);
 });
 
+// Exchange actions take effect before trading on their ex-date. A split must
+// precede a same-day bonus; import IDs do not encode economic action order.
+function fifoActionPriority(type: string): number {
+  const t = String(type).toUpperCase();
+  return t === 'SPLIT' ? 0 : t === 'BONUS' ? 1 : t === 'DEMERGER' ? 2 : 3;
+}
+
 export function getFolioFromNotes(notes: string | null, isin?: string | null): string {
   if (isin && !isin.toUpperCase().startsWith("INF")) return "";
   if (!notes) return '';
@@ -98,9 +105,12 @@ export function registerFifoCompletedCallback(cb: (portfolio?: string) => void) 
 }
 
 export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): Promise<any> {
+  if (!portfolioFilter?.trim() || ['*','all','__all__'].includes(portfolioFilter.toLowerCase())) throw new Error('EXPLICIT_FIFO_PORTFOLIO_REQUIRED');
+  const targetPortfolio = portfolioFilter.trim();
   return runInDbLock(async () => {
     return withTx(db, async () => {
       try {
+    const otherBefore = await dbAll(db, 'SELECT * FROM Holdings WHERE portfolio <> ? ORDER BY portfolio,isin,folio', [targetPortfolio]);
     // 0. Pre-normalize Transactions table
     // Fix negative quantity, gross_amount, net_amount
     await dbRun(db, `
@@ -108,8 +118,8 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
         quantity = ABS(quantity), 
         gross_amount = ABS(gross_amount), 
         net_amount = ABS(net_amount) 
-      WHERE quantity < 0 OR gross_amount < 0 OR net_amount < 0
-    `);
+      WHERE portfolio = ? AND (quantity < 0 OR gross_amount < 0 OR net_amount < 0)
+    `, [targetPortfolio]);
 
     // Safe normalization: Only populate net_amount and gross_amount for mutual funds if they are missing or invalid (null, <= 0)
     // to preserve exact uploaded/imported cost data.
@@ -117,8 +127,8 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
       UPDATE Transactions SET 
         net_amount = CASE WHEN (net_amount IS NULL OR net_amount <= 0) THEN quantity * price ELSE net_amount END,
         gross_amount = CASE WHEN (gross_amount IS NULL OR gross_amount <= 0) THEN quantity * price ELSE gross_amount END
-      WHERE isin LIKE 'INF%' AND (net_amount IS NULL OR net_amount <= 0 OR gross_amount IS NULL OR gross_amount <= 0)
-    `);
+      WHERE portfolio = ? AND isin LIKE 'INF%' AND (net_amount IS NULL OR net_amount <= 0 OR gross_amount IS NULL OR gross_amount <= 0)
+    `, [targetPortfolio]);
 
     // Fetch MasterTickers for Canonical Security Normalization
     const masterTickersRows = await dbAll(db, 'SELECT isin, symbol, name, exchange, fmv_31_jan_2018 FROM MasterTickers').catch(() => []);
@@ -204,7 +214,7 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
     }
 
     // 1. Fetch Transactions and normalize to canonical security identifiers
-    const txns = await dbAll(db, 'SELECT * FROM Transactions ORDER BY date ASC, id ASC');
+    const txns = await dbAll(db, 'SELECT * FROM Transactions WHERE portfolio = ? ORDER BY date ASC, id ASC', [targetPortfolio]);
     
     const transactions = txns.map(r => {
       const parsedDate = parseDate(r.date);
@@ -266,17 +276,21 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
         dateStr: formatDate(parsedDate),
         portfolio: String(r.portfolio).trim(),
         type: resolvedType,
+        sourceType: tType,
         isin: canonicalIsin,
         symbol: canonicalSymbol,
         quantity: r.quantity,
         price: r.price,
-        net_amount: r.net_amount || (r.quantity * r.price),
+        // CC9 statement acquisition cost includes brokerage but excludes STT.
+        // Preserve cash settlement in Transactions; adjust only the FIFO input.
+        net_amount: (r.net_amount || (r.quantity * r.price)) -
+          (String(r.portfolio || '').trim().toLowerCase() === 'cc9' && tType === 'BUY' ? Number(r.stt || 0) : 0),
         notes: r.notes
       };
     }).filter(Boolean) as any[];
 
     // Sort transactions by date chronologically
-    transactions.sort((a, b) => a.date.getTime() - b.date.getTime() || a.id - b.id);
+    transactions.sort((a, b) => a.date.getTime() - b.date.getTime() || fifoActionPriority(a.type) - fifoActionPriority(b.type) || a.id - b.id);
 
     // Filter SIP reversals - ONLY FOR MUTUAL FUNDS
     const toIgnoreRun = new Set<number>();
@@ -325,10 +339,10 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
       )
     `).catch(() => {});
     await dbRun(db, `CREATE INDEX IF NOT EXISTS idx_sd_pan_fy ON StrippingDisallowances(portfolio, trigger_sell_date)`).catch(() => {});
-    await dbRun(db, `DELETE FROM StrippingDisallowances`).catch(() => {});
+    await dbRun(db, `DELETE FROM StrippingDisallowances WHERE portfolio = ?`, [targetPortfolio]).catch(() => {});
     // ReconciliationExceptions is created by canonical migration 003. Do not
     // silently create an audit ledger from a request path.
-    await dbRun(db, `DELETE FROM ReconciliationExceptions WHERE reason_category='FIFO_UNMATCHED_SELL'`);
+    await dbRun(db, `DELETE FROM ReconciliationExceptions WHERE portfolio = ? AND reason_category='FIFO_UNMATCHED_SELL'`, [targetPortfolio]);
 
     // Pre-index dividend and bonus transactions for statutory stripping checks
     const dividendRecords = await dbAll(db, `
@@ -345,9 +359,11 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
 
     // Intraday Matching logic for NON-Mutual Funds
     const realizedGains: any[] = [];
-    let matchId = 0;
+    const matchOffset = Number((await dbGet(db, 'SELECT COALESCE(MAX(match_id),0) AS n FROM RealizedGains WHERE portfolio <> ?', [targetPortfolio]))?.n || 0);
+    let matchId = matchOffset;
     const sameDayGroups: Record<string, { buys: any[], sells: any[] }> = {};
     for (const t of transactions) {
+      if (t.portfolio.toLowerCase() === 'cc9') continue; // Preserve oldest-lot FIFO, including same-day fills.
       if (t.type !== 'BUY' && t.type !== 'SELL') continue;
       if (t.isin && String(t.isin).startsWith('INF')) continue;
       const key = `${t.portfolio}::${t.isin}::${t.dateStr}`;
@@ -401,7 +417,7 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
 
     const buyQueues: Record<string, BuyLot[]> = {};
     const auditEvents: any[] = [];
-    matchId = 0;
+    matchId = matchOffset;
     const totalDividends: Record<string, number> = {};
 
     // Fetch USD rate early for dividend currency conversion (US ETF dividends are stored in USD)
@@ -507,6 +523,11 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
             });
           }
         }
+      } else if (tType === 'BONUS' && txn.portfolio.toLowerCase() === 'cc9') {
+        // CC9 reports bonus allotments as distinct zero-cost FIFO lots.
+        if (txn.quantity > 0) buyQueues[groupKey].push({
+          date: txn.date, price: 0, remainingQty: txn.quantity, totalCostPerUnit: 0
+        });
       } else if (tType === 'BONUS') {
         const queue = buyQueues[groupKey];
         const currentQty = queue.reduce((sum, q) => sum + q.remainingQty, 0);
@@ -560,7 +581,7 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
         }
       } else if (tType === 'SELL') {
         let sellQty = txn.quantity;
-        const sellPrice = txn.price;
+        const sellPrice = txn.portfolio.toLowerCase() === 'cc9' && txn.quantity>0 ? Math.abs(txn.net_amount)/txn.quantity : txn.price;
         const sellDate = txn.date;
         const queue = buyQueues[groupKey];
 
@@ -657,7 +678,7 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
             }
           }
 
-          realizedGains.push({
+          if (!(txn.portfolio.toLowerCase()==='cc9' && /TRANSFER OUT|SECURITY OUT/.test(txn.sourceType))) realizedGains.push({
             match_id: matchId,
             portfolio: txn.portfolio,
             isin: txn.isin,
@@ -786,7 +807,7 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
     // === POINT-IN-TIME RECONCILIATION VAULT INTEGRATION ===
     // Load locked positions from ReconciledHoldings (broker-verified ground truth)
     // Applies opening balances at reconciliation date plus subsequent incremental transactions
-    const reconciledRows = await dbAll(db, 'SELECT * FROM ReconciledHoldings WHERE is_locked = 1').catch(() => []);
+    const reconciledRows = await dbAll(db, 'SELECT * FROM ReconciledHoldings WHERE is_locked = 1 AND portfolio = ?', [targetPortfolio]).catch(() => []);
     if (reconciledRows && reconciledRows.length > 0) {
       for (const rRow of reconciledRows) {
         const portName = rRow.portfolio || '';
@@ -834,7 +855,7 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
     }
 
     // === SOLD STOCK SEALING: Permanently sealed sold positions never re-enter Holdings ===
-    const soldRegistryRows = await dbAll(db, 'SELECT portfolio, isin FROM SoldStockRegistry').catch(() => []);
+    const soldRegistryRows = await dbAll(db, 'SELECT portfolio, isin FROM SoldStockRegistry WHERE portfolio = ?', [targetPortfolio]).catch(() => []);
     const soldRegistry = new Set<string>();
     for (const sr of soldRegistryRows) {
       const { canonicalIsin } = resolveCanonical(sr.isin, sr.symbol);
@@ -847,7 +868,7 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
     const holdings: Record<string, any> = {};
 
     // === PERFORMANCE: Bulk-load reference tables into memory to eliminate N+1 DB queries ===
-    const allCamsSummary = await dbAll(db, 'SELECT portfolio, isin, symbol, folio, quantity, cost, nav FROM CamsSummaryHoldings');
+    const allCamsSummary = await dbAll(db, 'SELECT portfolio, isin, symbol, folio, quantity, cost, nav FROM CamsSummaryHoldings WHERE portfolio = ?', [targetPortfolio]);
     // Index by portfolio::isin::folio, portfolio::isin, and portfolio (for fuzzy fallback)
     const camsByKey = new Map<string, any>();
     const camsByPortIsin = new Map<string, any[]>();
@@ -864,7 +885,7 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
     }
 
     // Preload ZerodhaHoldings for broker/PMS ground-truth reconciliation
-    const allZerodhaHoldings = await dbAll(db, 'SELECT portfolio, isin, symbol, name, quantity, avg_price FROM ZerodhaHoldings').catch(() => []);
+    const allZerodhaHoldings = await dbAll(db, 'SELECT portfolio, isin, symbol, name, quantity, avg_price FROM ZerodhaHoldings WHERE portfolio = ?', [targetPortfolio]).catch(() => []);
     const zerodhaByKey = new Map<string, any>();
     const zerodhaByPort = new Map<string, any[]>();
     for (const row of allZerodhaHoldings) {
@@ -877,7 +898,7 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
 
     // Preload PmsSummaryHoldings for official statement-backed PMS parity
     // Purges all legacy transaction-derived lots for the PMS portfolio to guarantee 100% statement parity
-    const allPmsSummary = await dbAll(db, 'SELECT portfolio, isin, symbol, name, quantity, avg_price, total_cost, ltp FROM PmsSummaryHoldings').catch(() => []);
+    const allPmsSummary = await dbAll(db, 'SELECT portfolio, isin, symbol, name, quantity, avg_price, total_cost, ltp FROM PmsSummaryHoldings WHERE portfolio = ?', [targetPortfolio]).catch(() => []);
     if (allPmsSummary && allPmsSummary.length > 0) {
       const pmsByPort = new Map<string, { name: string; rows: any[] }>();
       for (const pRow of allPmsSummary) {
@@ -1268,7 +1289,7 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
       (h as any).priceAuthority = priceAuthority;
     }
 
-    await dbRun(db, 'DELETE FROM Holdings');
+    await dbRun(db, 'DELETE FROM Holdings WHERE portfolio = ?', [targetPortfolio]);
     const holdingInsertSql = `
         INSERT INTO Holdings (
           portfolio, isin, folio, symbol, quantity, 
@@ -1305,14 +1326,14 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
         await dbRun(db, holdingInsertSql, holdingParams);
     }
     try {
-            await syncDualCostBasis(db);
+            await syncDualCostBasis(db, targetPortfolio);
 
             // === FIX B: CC9 Cash — loaded dynamically from PmsReconciliationBaseline, not hardcoded ===
             const cc9BaselineRow = await dbGet(db, "SELECT cash_in_hand FROM PmsReconciliationBaseline WHERE portfolio = 'cc9'").catch(() => null);
             const cc9Cash = (cc9BaselineRow && typeof cc9BaselineRow.cash_in_hand === 'number' && cc9BaselineRow.cash_in_hand > 0)
               ? cc9BaselineRow.cash_in_hand
               : 0;
-            if (cc9Cash > 0) {
+            if (targetPortfolio.toLowerCase() === 'cc9' && cc9Cash > 0) {
               await dbRun(db, `DELETE FROM Holdings WHERE portfolio = 'cc9' AND symbol = 'CASH'`).catch(() => {});
               await dbRun(db, `
                 INSERT INTO Holdings (
@@ -1336,7 +1357,7 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
             // === FIX B: Sarwa Cash — loaded dynamically from AppConfig, not hardcoded ===
             const sarwaCashRow = await dbGet(db, "SELECT value FROM AppConfig WHERE key = 'sarwa_cash_usd'").catch(() => null);
             const sarwaCashUsd = sarwaCashRow ? parseFloat(sarwaCashRow.value || '0') : 0;
-            if (sarwaCashUsd > 0) {
+            if (targetPortfolio === 'Sarwa' && sarwaCashUsd > 0) {
               await dbRun(db, `DELETE FROM Holdings WHERE portfolio = 'Sarwa' AND symbol = 'CASH'`).catch(() => {});
               const sarwaCashInr = sarwaCashUsd * dbUsdRate;
               await dbRun(db, `
@@ -1364,7 +1385,7 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
             if (!ibkrCashRow || !ibkrCashRow.value) {
               console.log('[FIFO] Notice: ibkr_cash_usd not set in AppConfig. Defaulting to $0 (no phantom cash).');
             }
-            if (ibkrCashUsd > 0) {
+            if (targetPortfolio === 'US - IBKR' && ibkrCashUsd > 0) {
               await dbRun(db, `DELETE FROM Holdings WHERE portfolio = 'US - IBKR' AND symbol = 'CASH'`).catch(() => {});
               const ibkrCashInr = ibkrCashUsd * dbUsdRate;
               await dbRun(db, `
@@ -1392,9 +1413,14 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
     }
 
     // Clear and insert RealizedGains
-    await dbRun(db, 'DELETE FROM RealizedGains');
+    if (targetPortfolio.toLowerCase() === 'cc9') {
+      await dbRun(db, 'CREATE TABLE IF NOT EXISTS PmsPerformanceRealizedGains AS SELECT * FROM RealizedGains WHERE 0');
+    }
+    const gainsTable = targetPortfolio.toLowerCase() === 'cc9' ? 'PmsPerformanceRealizedGains' : 'RealizedGains';
+    await dbRun(db, `DELETE FROM ${gainsTable} WHERE portfolio = ?`, [targetPortfolio]);
     for (const g of realizedGains) {
-      await dbRun(db, `INSERT INTO RealizedGains (match_id, portfolio, isin, symbol, buy_date, buy_price, matched_qty, sell_date, sell_price, buy_cost, sell_proceeds, realized_pnl, holding_days, tax_category, fmv_31_jan_2018, grandfathered_cost, taxable_pnl) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, sqliteParams([g.match_id, g.portfolio, g.isin, g.symbol, g.buy_date, g.buy_price, g.matched_qty, g.sell_date, g.sell_price, g.buy_cost, g.sell_proceeds, g.realized_pnl, g.holding_days, g.tax_category, g.fmv_31_jan_2018, g.grandfathered_cost, g.taxable_pnl]));
+      if (targetPortfolio.toLowerCase()==='cc9') { g.tax_category='PMS_PERFORMANCE_ONLY'; g.taxable_pnl=null; g.grandfathered_cost=null; }
+      await dbRun(db, `INSERT INTO ${gainsTable} (match_id, portfolio, isin, symbol, buy_date, buy_price, matched_qty, sell_date, sell_price, buy_cost, sell_proceeds, realized_pnl, holding_days, tax_category, fmv_31_jan_2018, grandfathered_cost, taxable_pnl) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, sqliteParams([g.match_id, g.portfolio, g.isin, g.symbol, g.buy_date, g.buy_price, g.matched_qty, g.sell_date, g.sell_price, g.buy_cost, g.sell_proceeds, g.realized_pnl, g.holding_days, g.tax_category, g.fmv_31_jan_2018, g.grandfathered_cost, g.taxable_pnl]));
     }
 
     // NOTE: Dividends are sourced ONLY from actual DIVIDEND/DIVIDEND PAYOUT/DIVIDEND REINVEST
@@ -1407,7 +1433,7 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
     }
 
     // Recompute TaxSummary
-    await calculateTaxSummary(db);
+    if (targetPortfolio.toLowerCase() !== 'cc9') await calculateTaxSummary(db, targetPortfolio);
 
     // Purge stale DashboardDiskCache so all frontend views immediately reflect latest FIFO valuations
     if (portfolioFilter) {
@@ -1420,7 +1446,7 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
     }
 
     // Rebuild CorporateActionAudit
-    await dbRun(db, 'DELETE FROM CorporateActionAudit');
+    await dbRun(db, 'DELETE FROM CorporateActionAudit WHERE portfolio = ?', [targetPortfolio]);
     for (const ev of auditEvents) {
       await dbRun(db, `INSERT INTO CorporateActionAudit (portfolio, date, isin, symbol, action_type, original_qty, new_qty, original_cost, new_cost, message) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, sqliteParams([ev.portfolio, ev.date, ev.isin, ev.symbol, ev.action_type, ev.original_qty, ev.new_qty, ev.original_cost, ev.new_cost, ev.message]));
     }
@@ -1462,9 +1488,9 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
           SUM(CASE WHEN holding_type = 'MUTUAL_FUND' THEN current_value ELSE 0 END) as mf_value,
           SUM(CASE WHEN holding_type = 'AIF' THEN current_value ELSE 0 END) as aif_value,
           SUM(CASE WHEN holding_type = 'UNLISTED' THEN current_value ELSE 0 END) as unlisted_value
-        FROM Holdings
+        FROM Holdings WHERE portfolio = ?
         GROUP BY portfolio
-      `);
+      `, [targetPortfolio]);
 
       for (const pv of portfolioVals) {
         // Check drift against last snapshot
@@ -1503,16 +1529,18 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
 
       // Prune old snapshots (keep last 500)
       await dbRun(db, `
-        DELETE FROM ValuationSnapshots WHERE id NOT IN (
-          SELECT id FROM ValuationSnapshots ORDER BY id DESC LIMIT 500
+        DELETE FROM ValuationSnapshots WHERE portfolio = ? AND id NOT IN (
+          SELECT id FROM ValuationSnapshots WHERE portfolio = ? ORDER BY id DESC LIMIT 500
         )
-      `).catch(() => {});
+      `, [targetPortfolio,targetPortfolio]).catch(() => {});
 
       console.log(`[Valuation Snapshot] Recorded ${portfolioVals.length} portfolio snapshots after FIFO recompute`);
     } catch (snapErr) {
       console.warn('[Valuation Snapshot] Failed to record snapshot:', snapErr);
     }
 
+    const otherAfter = await dbAll(db, 'SELECT * FROM Holdings WHERE portfolio <> ? ORDER BY portfolio,isin,folio', [targetPortfolio]);
+    if (JSON.stringify(otherBefore) !== JSON.stringify(otherAfter)) throw new Error('FIFO_CHANGED_OTHER_PORTFOLIO');
     return {
       success: true,
       holdings: Object.keys(holdings).length,
@@ -1528,7 +1556,7 @@ export async function runFIFO(db: sqlite3.Database, portfolioFilter?: string): P
   });
 }
 
-export async function calculateTaxSummary(db: sqlite3.Database): Promise<void> {
+export async function calculateTaxSummary(db: sqlite3.Database, portfolioFilter?: string): Promise<void> {
   const summary: Record<string, {
     stcg_old: number; stcg_new: number;
     ltcg_old: number; ltcg_new: number;
@@ -1548,7 +1576,7 @@ export async function calculateTaxSummary(db: sqlite3.Database): Promise<void> {
   };
 
   // 1. Process RealizedGains
-  const gains = await dbAll(db, 'SELECT portfolio, sell_date, realized_pnl, taxable_pnl, tax_category FROM RealizedGains');
+  const gains = await dbAll(db, 'SELECT portfolio, sell_date, realized_pnl, taxable_pnl, tax_category FROM RealizedGains' + (portfolioFilter ? ' WHERE portfolio = ?' : ''), portfolioFilter ? [portfolioFilter] : []);
   for (const g of gains) {
     const port = g.portfolio;
     const fy = getFYFromDate(g.sell_date);
@@ -1581,7 +1609,7 @@ export async function calculateTaxSummary(db: sqlite3.Database): Promise<void> {
   }
 
   // 2. Process Dividends from Transactions
-  const divs = await dbAll(db, "SELECT portfolio, date, net_amount FROM Transactions WHERE type LIKE '%DIVIDEND%'");
+  const divs = await dbAll(db, "SELECT portfolio, date, net_amount FROM Transactions WHERE type LIKE '%DIVIDEND%'" + (portfolioFilter ? " AND portfolio = ?" : ""), portfolioFilter ? [portfolioFilter] : []);
   for (const d of divs) {
     const port = d.portfolio;
     const fy = getFYFromDate(d.date);
@@ -1591,7 +1619,7 @@ export async function calculateTaxSummary(db: sqlite3.Database): Promise<void> {
 
   // 3. Atomically wipe and rebuild TaxSummary inside a transaction
   await withTx(db, async () => {
-    await dbRun(db, 'DELETE FROM TaxSummary');
+    await dbRun(db, 'DELETE FROM TaxSummary' + (portfolioFilter ? ' WHERE portfolio = ?' : ''), portfolioFilter ? [portfolioFilter] : []);
 
     for (const [key, data] of Object.entries(summary)) {
       const [port, fy] = key.split('::');
@@ -1732,12 +1760,15 @@ export function getHoldingsAsOfDate(
       symbol: String(r.symbol || r.isin || '').trim(),
       quantity: r.quantity,
       price: r.price,
-      net_amount: r.net_amount || (r.quantity * r.price),
+      // CC9 statement acquisition cost includes brokerage but excludes STT.
+        // Preserve cash settlement in Transactions; adjust only the FIFO input.
+        net_amount: (r.net_amount || (r.quantity * r.price)) -
+          (String(r.portfolio || '').trim().toLowerCase() === 'cc9' && tType === 'BUY' ? Number(r.stt || 0) : 0),
       notes: r.notes
     };
   }).filter(Boolean) as any[];
 
-  sortedTxns.sort((a, b) => a.date.getTime() - b.date.getTime() || a.id - b.id);
+  sortedTxns.sort((a, b) => a.date.getTime() - b.date.getTime() || fifoActionPriority(a.type) - fifoActionPriority(b.type) || a.id - b.id);
 
   // Pre-process to remove same-day same-quantity BUY/SELL pairs (typically SIP reversals or bounce)
   // These should cancel out completely and NOT consume older FIFO units.
@@ -1746,6 +1777,7 @@ export function getHoldingsAsOfDate(
      const t1 = sortedTxns[i];
      if (toIgnore.has(t1.id)) continue;
      if (t1.type !== 'BUY' && t1.type !== 'SELL') continue;
+     if (!t1.isin || !t1.isin.startsWith('INF')) continue;
      
      // Look for the opposite transaction on the same day
      for (let j = i + 1; j < sortedTxns.length; j++) {
@@ -1816,7 +1848,12 @@ export function getHoldingsAsOfDate(
           }
         }
       }
-    } else if (tType === 'BONUS') {
+    } else if (tType === 'BONUS' && txn.portfolio.toLowerCase() === 'cc9') {
+        // CC9 reports bonus allotments as distinct zero-cost FIFO lots.
+        if (txn.quantity > 0) buyQueues[groupKey].push({
+          date: txn.date, price: 0, remainingQty: txn.quantity, totalCostPerUnit: 0
+        });
+      } else if (tType === 'BONUS') {
       const queue = buyQueues[groupKey];
       const currentQty = queue.reduce((sum, q) => sum + q.remainingQty, 0);
       if (currentQty > 0 && txn.quantity > 0) {
@@ -1909,7 +1946,7 @@ export function getHoldingsAsOfDate(
   return holdingsMap;
 }
 
-export async function syncDualCostBasis(db: sqlite3.Database): Promise<void> {
+export async function syncDualCostBasis(db: sqlite3.Database, portfolioFilter?: string): Promise<void> {
   const capitalRegisterCosts: Record<string, { symbol: string; costPerSh: number; postBonusCostPerSh?: number }> = {
     'AEGIS LOGISTICS LTD': { symbol: 'AEGISLOG', costPerSh: 369.70 },
     'AFFLE 3I LTD': { symbol: 'AFFLE', costPerSh: 1095.00 },
@@ -1973,9 +2010,13 @@ export async function syncDualCostBasis(db: sqlite3.Database): Promise<void> {
     'WIPRO LTD': { symbol: 'WIPRO', costPerSh: 442.52 }
   };
 
-  const cc9Holdings = await dbAll(db, "SELECT symbol, quantity, avg_buy_price, total_cost FROM Holdings WHERE portfolio='cc9'");
+  const sourceCostViews = await dbAll(db, "SELECT DISTINCT isin FROM PmsStatementCostViews WHERE portfolio='cc9'").catch(() => []);
+  const sourceCostIsins = new Set(sourceCostViews.map((row: any) => row.isin));
+  const cc9Holdings = await dbAll(db, "SELECT isin, symbol, quantity, avg_buy_price, total_cost FROM Holdings WHERE portfolio='cc9'");
   await withTx(db, async () => {
-    for (const h of cc9Holdings) {
+    for (const h of (portfolioFilter && portfolioFilter !== 'cc9' ? [] : cc9Holdings)) {
+      // Source-labelled statement costs must not be overwritten by a static legacy tax map.
+      if (sourceCostIsins.has(h.isin)) continue;
       const sym = h.symbol;
       let matchedCostPerSh: number | null = null;
       for (const [name, data] of Object.entries(capitalRegisterCosts)) {
@@ -1993,6 +2034,6 @@ export async function syncDualCostBasis(db: sqlite3.Database): Promise<void> {
       }
     }
 
-    await dbRun(db, "UPDATE Holdings SET tax_avg_price=avg_buy_price, tax_cost_basis=total_cost WHERE portfolio != 'cc9' AND tax_cost_basis IS NULL");
+    await dbRun(db, "UPDATE Holdings SET tax_avg_price=avg_buy_price, tax_cost_basis=total_cost WHERE portfolio != 'cc9' AND tax_cost_basis IS NULL" + (portfolioFilter ? " AND portfolio = ?" : ""), portfolioFilter ? [portfolioFilter] : []);
   });
 }
