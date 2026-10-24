@@ -655,15 +655,17 @@ export class TechnicalMomentumEngine {
     const ciLow = Math.max(0, Math.round((center - spread) * 100));
     const ciHigh = Math.min(100, Math.round((center + spread) * 100));
 
-    // Simulated Backtest Audit Metrics
+    // Backtest audit: winRate and sampleSize are from calibrated hit-rate data;
+    // ratio metrics (sharpe, drawdown, excess) require verified historical P&L series
+    // and are not fabricated from score formulas.
     const backtestAudit: BacktestAuditMetrics = {
       sampleSizeN,
       winRatePct: probability,
-      sharpeRatio: Number((1.35 + (momentumScore - 50) * 0.015).toFixed(2)),
-      profitFactor: Number((1.65 + (momentumScore - 50) * 0.018).toFixed(2)),
-      maxDrawdownPct: Number((12.4 - (momentumScore > 60 ? 3.2 : 0)).toFixed(1)),
-      averageTradeReturnPct: Number((3.8 + (momentumScore - 50) * 0.08).toFixed(1)),
-      benchmarkExcessReturnPct: Number((6.2 + (momentumScore - 50) * 0.12).toFixed(1)),
+      sharpeRatio: 0,                // 0 = unavailable; requires verified P&L series
+      profitFactor: 0,               // 0 = unavailable; requires verified P&L series
+      maxDrawdownPct: 0,             // 0 = unavailable; requires verified P&L series
+      averageTradeReturnPct: 0,      // 0 = unavailable; requires verified P&L series
+      benchmarkExcessReturnPct: 0,   // 0 = unavailable; requires verified benchmark series
       auditVerifiedTimestamp: new Date().toISOString()
     };
 
@@ -677,7 +679,7 @@ export class TechnicalMomentumEngine {
       `- **Support & Resistance (Profile: ${riskProfile}):** Nearest Resistance at ₹${srAnalysis.nearestResistance?.price} (${Math.abs(srAnalysis.nearestResistance?.distancePct || 0).toFixed(1)}% away, strength ${srAnalysis.nearestResistance?.strengthScore}/100), Nearest Support at ₹${srAnalysis.nearestSupport?.price} *(S/R proximity modifier: ${srAnalysis.proximityModifier > 0 ? '+' : ''}${srAnalysis.proximityModifier})*`,
       `- **Trendline Channel:** ${srAnalysis.trendline.description} (Upper: ₹${srAnalysis.trendline.currentUpperTrendlinePrice}, Lower: ₹${srAnalysis.trendline.currentLowerTrendlinePrice})`,
       `- **Smart Money Consensus:** Multi-timeframe SMAS bias is **${smAnalysis.dominantBias}** (1M SMAS: ${smas1M}/100) *(SMAS agreement modifier: ${smasAgreementModifier > 0 ? '+' : ''}${smasAgreementModifier})*`,
-      `- **Confidence & Audit:** Evaluated at **${confidenceScorePct}% confidence** (${confidenceTier}). Walk-forward test achieved **${probability}% calibrated win rate** [95% CI: ${ciLow}%–${ciHigh}%, Sharpe: ${backtestAudit.sharpeRatio}].`
+      `- **Confidence & Audit:** Evaluated at **${confidenceScorePct}% confidence** (${confidenceTier}). Walk-forward test achieved **${probability}% calibrated win rate** [95% CI: ${ciLow}%–${ciHigh}%]. Ratio metrics (Sharpe, drawdown) unavailable — require verified P&L series.`
     ];
 
     if (newsSentiment?.riskNotice) {

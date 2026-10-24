@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { readFileSync } from 'node:fs';
 
 test('P1 FY helper rejects invalid dates instead of inventing a reporting year', async () => {
   const source = await readFile(new URL('../../src/server/fifoEngine.ts', import.meta.url), 'utf8');
@@ -45,4 +46,49 @@ test('P1 stale prices retain their original as-of timestamp and are marked stale
   assert.match(dashboard, /datetime\(H\.last_update\) < datetime\('now', '-1 day'\)/);
   assert.match(fifo, /lu = existing\.last_update \|\| null/);
   assert.match(fifo, /dataStatus = 'STALE'/);
+});
+
+test('P1 FIFO engine rejects wildcard portfolio filter (scope guard)', async () => {
+  const source = await readFile(new URL('../../src/server/fifoEngine.ts', import.meta.url), 'utf8');
+  // Guard must exist and reject *, all, __all__ to prevent cross-portfolio writes
+  assert.match(source, /EXPLICIT_FIFO_PORTFOLIO_REQUIRED/);
+  assert.match(source, /portfolioFilter\?\.trim\(\)/);
+  assert.match(source, /'all'/);
+  assert.match(source, /'__all__'/);
+});
+
+test('P1 FIFO engine wraps all writes in a single transaction (rollback guard)', async () => {
+  const source = await readFile(new URL('../../src/server/fifoEngine.ts', import.meta.url), 'utf8');
+  // withTx must wrap the FIFO body — ensures atomic commit/rollback
+  assert.match(source, /withTx\(db/);
+  // runFIFO must call withTx, not raw dbRun before the transaction
+  const fifoFn = source.slice(source.indexOf('export async function runFIFO'));
+  assert.match(fifoFn, /withTx/);
+});
+
+test('P1 FX cost quality is tagged CERTIFIED only when historic rate is known', async () => {
+  const source = await readFile(new URL('../../src/server/routes/commandCenter.ts', import.meta.url), 'utf8');
+  // Must not use magnitude-based inference (< 1000000 pattern removed)
+  assert.doesNotMatch(source, /rawCost < 1000000/);
+  assert.doesNotMatch(source, /rawCost < 1_000_000/);
+  // Must use currency field and historic_fx_rate for CERTIFIED determination
+  assert.match(source, /historic_fx_rate/);
+  assert.match(source, /CERTIFIED/);
+  assert.match(source, /APPROX/);
+});
+
+test('P1 report schedule worker is registered in server startup', async () => {
+  const server = await readFile(new URL('../../server.ts', import.meta.url), 'utf8');
+  assert.match(server, /ReportScheduleWorker/);
+  assert.match(server, /startReportScheduleWorker/);
+});
+
+test('P1 health freshness is wired to dashboard STALE badge', async () => {
+  const view = await readFile(new URL('../../src/components/DashboardView.tsx', import.meta.url), 'utf8');
+  // Polls /api/healthcheck and surfaces STALE when stale data detected
+  assert.match(view, /\/api\/healthcheck/);
+  assert.match(view, /hasStaleData/);
+  assert.match(view, /STALE/);
+  assert.match(view, /staleHoldings/);
+  assert.match(view, /cc9GainsQuality/);
 });

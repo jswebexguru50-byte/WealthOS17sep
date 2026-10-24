@@ -531,6 +531,7 @@ import portfoliosRouter  from './src/server/routes/portfolios.js';
 import bankFdsRouter from './src/server/routes/bankFds.js';
 import currencyRatesRouter from './src/server/routes/currencyRates.js';
 import reportsRouter from './src/server/routes/reports.js';
+import { startLocalQueueWorker } from './src/server/services/LocalQueueWorker.js';
 import settingsRouter from './src/server/routes/settings.js';
 import transactionsRouter from './src/server/routes/transactions.js';
 import masterTickersRouter from './src/server/routes/masterTickers.js';
@@ -804,6 +805,7 @@ import { MacroRegimeClassifierService } from './src/server/services/MacroRegimeC
 import { QuantitativeBacktestScheduler, TRACKED_UNIVERSE } from './src/server/services/QuantitativeBacktestScheduler.js';
 import { BrokerResearchIntelligenceService } from './src/server/services/BrokerResearchIntelligenceService.js';
 import { OpportunityEngineScheduler } from './src/server/services/OpportunityEngineScheduler.js';
+import { startReportScheduleWorker } from './src/server/services/ReportScheduleWorker.js';
 
 app.get('/api/broker-research/recent', async (req, res) => {
   try {
@@ -15753,6 +15755,7 @@ async function startServer() {
   // ── STEP 2: Bind port — server is IMMEDIATELY usable ──────────────────────
   const server = app.listen(PORT, BIND_HOST, () => {
     console.log(`✅ Server READY — accepting requests at http://localhost:${PORT}`);
+    startLocalQueueWorker();
     if (process.env.ENABLE_DUCKDB_WARMUP !== 'false') {
       setTimeout(() => {
         DuckDbAdjustedOhlcvService.warmup().catch(() => {});
@@ -16041,6 +16044,13 @@ async function startServer() {
       OpportunityEngineScheduler.getInstance().startBackgroundScheduler();
     } catch (oppErr) {
       console.error('[OpportunityEngineScheduler] Failed to initialize scheduler:', oppErr);
+    }
+
+    // ── Report Schedule Worker ──
+    try {
+      startReportScheduleWorker(db);
+    } catch (schedErr) {
+      console.error('[ReportScheduleWorker] Failed to start:', schedErr);
     }
 
     // Smart Indian Market Hours Background Scheduler

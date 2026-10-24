@@ -141,6 +141,21 @@ export function DashboardView({
   });
   const [showWidthPopover, setShowWidthPopover] = useState(false);
 
+  // Health-readiness: poll /api/healthcheck every 5 min to surface stale-data warnings.
+  const [readiness, setReadiness] = useState<{ staleHoldings?: number; cc9GainsQuality?: string; db?: { status: string } } | null>(null);
+  React.useEffect(() => {
+    let cancelled = false;
+    const poll = () => {
+      fetch('/api/healthcheck').then(r => r.json()).then(body => {
+        if (!cancelled) setReadiness(body);
+      }).catch(() => {});
+    };
+    poll();
+    const timer = setInterval(poll, 5 * 60 * 1000);
+    return () => { cancelled = true; clearInterval(timer); };
+  }, []);
+  const hasStaleData = readiness != null && ((readiness.staleHoldings ?? 0) > 0 || readiness.cc9GainsQuality === 'STALE');
+
   const [localGrowthHistory, setLocalGrowthHistory] = useState<any[]>(growthHistory || []);
   const [localAnnualFyData, setLocalAnnualFyData] = useState<any[]>(annualFyData || []);
 
@@ -747,6 +762,15 @@ export function DashboardView({
               Market Valuation
               {metrics.is_foreign_portfolio && (
                 <span className="px-1.5 py-0.5 text-[10px] font-bold rounded" style={{background:'var(--accent-green-bg)',color:'var(--accent-gold)',border:'1px solid var(--border-card)'}}>USD</span>
+              )}
+              {hasStaleData && (
+                <span
+                  className="px-1.5 py-0.5 text-[10px] font-bold rounded-sm animate-pulse"
+                  style={{background:'rgba(239,68,68,0.15)',color:'#f87171',border:'1px solid rgba(239,68,68,0.35)'}}
+                  title={`Stale data detected: ${readiness?.staleHoldings ?? 0} holding(s) not refreshed since last trading session${readiness?.cc9GainsQuality === 'STALE' ? '; CC9 realized gains are outdated' : ''}`}
+                >
+                  STALE
+                </span>
               )}
             </span>
             <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{background:'var(--accent-green-bg)'}}>

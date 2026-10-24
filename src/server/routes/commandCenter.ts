@@ -61,10 +61,19 @@ router.get('/', async (req, res) => {
     holdings.forEach((h: any) => {
       const curVal = Number(h.current_value || (h.quantity * (h.ltp || h.avg_buy_price)) || 0);
       const isUsAsset = h.currency === 'USD' || h.portfolio === 'US - IBKR' || h.portfolio === 'Sarwa';
-      const rawCost = Number(h.total_cost || (h.quantity * h.avg_buy_price) || 0);
-      const costVal = isUsAsset && rawCost < 1000000 ? (rawCost * usdRate) : rawCost;
-      const rawTaxCost = Number(h.tax_cost_basis || rawCost);
-      const taxCost = isUsAsset && rawTaxCost < 1000000 ? (rawTaxCost * usdRate) : rawTaxCost;
+      // Derive INR cost from broker-recorded currency and historic FX rate.
+      // Never infer from magnitude (the <1M proxy was wrong for large USD positions).
+      const rawCost = Number(h.native_total_cost ?? h.total_cost ?? (h.quantity * h.avg_buy_price) ?? 0);
+      const historicFx = h.historic_fx_rate != null ? Number(h.historic_fx_rate) : null;
+      const costVal = isUsAsset
+        ? (historicFx != null ? rawCost * historicFx : rawCost * usdRate)  // prefer historic; fall back to live rate
+        : rawCost;
+      // cost_quality: CERTIFIED when historic rate is known; APPROX when using live rate as fallback.
+      const costQuality: 'CERTIFIED' | 'APPROX' = (isUsAsset && historicFx == null) ? 'APPROX' : 'CERTIFIED';
+      const rawTaxCost = Number(h.tax_cost_basis ?? rawCost);
+      const taxCost = isUsAsset
+        ? (historicFx != null ? rawTaxCost * historicFx : rawTaxCost * usdRate)
+        : rawTaxCost;
       const dayChg = Number(h.day_change || 0);
       const prevVal = curVal - dayChg;
 
