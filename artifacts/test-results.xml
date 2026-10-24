@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="265" failures="4" errors="0" time="9.043">
-  <testsuite name="Unit: Forensic Intelligence Layer v2.1 Test Suite" errors="0" failures="1" skipped="0" timestamp="2026-10-24T19:06:51" time="0.079" tests="7">
+<testsuites name="jest tests" tests="265" failures="4" errors="0" time="8.69">
+  <testsuite name="Unit: Forensic Intelligence Layer v2.1 Test Suite" errors="0" failures="1" skipped="0" timestamp="2026-10-24T19:09:02" time="0.08" tests="7">
     <testcase classname="Unit: Forensic Intelligence Layer v2.1 Test Suite executes all 11 forensic verification suites with zero failures" name="Unit: Forensic Intelligence Layer v2.1 Test Suite executes all 11 forensic verification suites with zero failures" time="0.004">
       <failure>Error: expect(received).toBe(expected) // Object.is equality
 
@@ -21,10 +21,46 @@ Received: 15
     <testcase classname="Unit: Forensic Intelligence Layer v2.1 Test Suite LLM Orchestration Tiers &amp; Cost Budget LLM-01: validates flash model cost ceiling" name="Unit: Forensic Intelligence Layer v2.1 Test Suite LLM Orchestration Tiers &amp; Cost Budget LLM-01: validates flash model cost ceiling" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="TTL Waterfall Feature - 29 Test Cases" errors="0" failures="1" skipped="0" timestamp="2026-10-24T19:06:51" time="0.06" tests="70">
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases TTL Enforcement Data fetched at T=0 is fresh when accessed at T &lt; TTL" name="TTL Waterfall Feature - 29 Test Cases TTL Enforcement Data fetched at T=0 is fresh when accessed at T &lt; TTL" time="0.001">
+  <testsuite name="Unit: RecommendationOutcomeAuditor" errors="0" failures="1" skipped="0" timestamp="2026-10-24T19:09:02" time="0.057" tests="6">
+    <testcase classname="Unit: RecommendationOutcomeAuditor U-ROA-01: auditActiveRecommendations with empty ledger returns { audited: 0, updated: 0 } with no DB writes" name="Unit: RecommendationOutcomeAuditor U-ROA-01: auditActiveRecommendations with empty ledger returns { audited: 0, updated: 0 } with no DB writes" time="0.018">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases TTL Enforcement Data is marked stale when accessed at T &gt;= TTL" name="TTL Waterfall Feature - 29 Test Cases TTL Enforcement Data is marked stale when accessed at T &gt;= TTL" time="0">
+    <testcase classname="Unit: RecommendationOutcomeAuditor U-ROA-02: Single ACTIVE LONG recommendation where price &gt;= target_1 updates status to TARGET_1_HIT and stop_loss to entry_price" name="Unit: RecommendationOutcomeAuditor U-ROA-02: Single ACTIVE LONG recommendation where price &gt;= target_1 updates status to TARGET_1_HIT and stop_loss to entry_price" time="0.001">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: &quot;TARGET_1_HIT&quot;
+Received: &quot;HIGH_CONVICTION_GATE&quot;
+    at Object.&lt;anonymous&gt; (/Users/gopalsharma/WealthOS/src/server/__tests__/unit/RecommendationOutcomeAuditor.test.ts:63:36)</failure>
+    </testcase>
+    <testcase classname="Unit: RecommendationOutcomeAuditor U-ROA-03: STOP-LOSS breach triggers CausalPostMortemService.conductPostMortem exactly once with correct context" name="Unit: RecommendationOutcomeAuditor U-ROA-03: STOP-LOSS breach triggers CausalPostMortemService.conductPostMortem exactly once with correct context" time="0">
+    </testcase>
+    <testcase classname="Unit: RecommendationOutcomeAuditor U-ROA-04: Recommendation with missing price in Prices table uses fallback current_price and leaves status unchanged" name="Unit: RecommendationOutcomeAuditor U-ROA-04: Recommendation with missing price in Prices table uses fallback current_price and leaves status unchanged" time="0.001">
+    </testcase>
+    <testcase classname="Unit: RecommendationOutcomeAuditor U-ROA-05: Invalid action string (e.g. HOLD) is skipped without error and without DB mutation" name="Unit: RecommendationOutcomeAuditor U-ROA-05: Invalid action string (e.g. HOLD) is skipped without error and without DB mutation" time="0">
+    </testcase>
+    <testcase classname="Unit: RecommendationOutcomeAuditor U-ROA-06: Simulated DB error on dbAll is caught, logged with console.error, and returns { audited: 0, updated: 0 }" name="Unit: RecommendationOutcomeAuditor U-ROA-06: Simulated DB error on dbAll is caught, logged with console.error, and returns { audited: 0, updated: 0 }" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="Unit: AutonomousSelfLearningService" errors="0" failures="1" skipped="0" timestamp="2026-10-24T19:09:02" time="0.041" tests="5">
+    <testcase classname="Unit: AutonomousSelfLearningService U-SL-01: initializeBaselineRules is idempotent and calling twice does not duplicate rows" name="Unit: AutonomousSelfLearningService U-SL-01: initializeBaselineRules is idempotent and calling twice does not duplicate rows" time="0.016">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 5
+Received: 7
+    at Object.&lt;anonymous&gt; (/Users/gopalsharma/WealthOS/src/server/__tests__/unit/AutonomousSelfLearningService.test.ts:28:36)</failure>
+    </testcase>
+    <testcase classname="Unit: AutonomousSelfLearningService U-SL-02: Decay weight calculation for a 10-day event matches exp(-lambda * 10) ~= 0.59 within 0.01 tolerance" name="Unit: AutonomousSelfLearningService U-SL-02: Decay weight calculation for a 10-day event matches exp(-lambda * 10) ~= 0.59 within 0.01 tolerance" time="0.001">
+    </testcase>
+    <testcase classname="Unit: AutonomousSelfLearningService U-SL-03: MIN_SAMPLE_SIZE enforcement - less than 5 events results in no mutation logged" name="Unit: AutonomousSelfLearningService U-SL-03: MIN_SAMPLE_SIZE enforcement - less than 5 events results in no mutation logged" time="0">
+    </testcase>
+    <testcase classname="Unit: AutonomousSelfLearningService U-SL-04: Rule rollback API updates status to ROLLED_BACK and records updatedAt" name="Unit: AutonomousSelfLearningService U-SL-04: Rule rollback API updates status to ROLLED_BACK and records updatedAt" time="0.001">
+    </testcase>
+    <testcase classname="Unit: AutonomousSelfLearningService U-SL-05: Invalid rule ID for rollback returns false and does not modify DB" name="Unit: AutonomousSelfLearningService U-SL-05: Invalid rule ID for rollback returns false and does not modify DB" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="TTL Waterfall Feature - 29 Test Cases" errors="0" failures="1" skipped="0" timestamp="2026-10-24T19:09:02" time="0.03" tests="70">
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases TTL Enforcement Data fetched at T=0 is fresh when accessed at T &lt; TTL" name="TTL Waterfall Feature - 29 Test Cases TTL Enforcement Data fetched at T=0 is fresh when accessed at T &lt; TTL" time="0">
+    </testcase>
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases TTL Enforcement Data is marked stale when accessed at T &gt;= TTL" name="TTL Waterfall Feature - 29 Test Cases TTL Enforcement Data is marked stale when accessed at T &gt;= TTL" time="0.001">
     </testcase>
     <testcase classname="TTL Waterfall Feature - 29 Test Cases TTL Enforcement Stale data is rejected by cache validation layer" name="TTL Waterfall Feature - 29 Test Cases TTL Enforcement Stale data is rejected by cache validation layer" time="0">
     </testcase>
@@ -46,13 +82,13 @@ Received: 15
     </testcase>
     <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Secondary fetcher (tier 1) is invoked only if primary fails" name="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Secondary fetcher (tier 1) is invoked only if primary fails" time="0">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Secondary response is accepted if primary was unavailable" name="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Secondary response is accepted if primary was unavailable" time="0">
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Secondary response is accepted if primary was unavailable" name="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Secondary response is accepted if primary was unavailable" time="0.001">
     </testcase>
     <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Tertiary fetcher (tier 2) is tried if both primary and secondary fail" name="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Tertiary fetcher (tier 2) is tried if both primary and secondary fail" time="0">
     </testcase>
     <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Fallback order is deterministic and matches configuration" name="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Fallback order is deterministic and matches configuration" time="0">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Stale Data Handling Fresh data from primary overrides any cached secondary/tertiary data" name="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Stale Data Handling Fresh data from primary overrides any cached secondary/tertiary data" time="0.001">
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Stale Data Handling Fresh data from primary overrides any cached secondary/tertiary data" name="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Stale Data Handling Fresh data from primary overrides any cached secondary/tertiary data" time="0">
     </testcase>
     <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Stale Data Handling Stale data from primary is rejected in favor of fresh secondary data" name="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Stale Data Handling Stale data from primary is rejected in favor of fresh secondary data" time="0">
     </testcase>
@@ -100,9 +136,9 @@ Received: true
     </testcase>
     <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration News data has medium TTL (e.g., 1–2 hours)" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration News data has medium TTL (e.g., 1–2 hours)" time="0">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Breaking news shortens TTL for related symbol (triggers aggressive refresh)" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Breaking news shortens TTL for related symbol (triggers aggressive refresh)" time="0.001">
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Breaking news shortens TTL for related symbol (triggers aggressive refresh)" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Breaking news shortens TTL for related symbol (triggers aggressive refresh)" time="0">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration News TTL is independent of technical/fundamental TTLs" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration News TTL is independent of technical/fundamental TTLs" time="0">
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration News TTL is independent of technical/fundamental TTLs" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration News TTL is independent of technical/fundamental TTLs" time="0.001">
     </testcase>
     <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration TTL config per news category (earnings alerts vs sector news)" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration TTL config per news category (earnings alerts vs sector news)" time="0">
     </testcase>
@@ -128,7 +164,7 @@ Received: true
     </testcase>
     <testcase classname="TTL Waterfall Feature - 29 Test Cases Concurrent Request Handling TTL window is shared across concurrent callers (no separate TTLs per caller)" name="TTL Waterfall Feature - 29 Test Cases Concurrent Request Handling TTL window is shared across concurrent callers (no separate TTLs per caller)" time="0">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Concurrent Request Handling Waterfall logic is thread-safe under concurrent access" name="TTL Waterfall Feature - 29 Test Cases Concurrent Request Handling Waterfall logic is thread-safe under concurrent access" time="0">
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Concurrent Request Handling Waterfall logic is thread-safe under concurrent access" name="TTL Waterfall Feature - 29 Test Cases Concurrent Request Handling Waterfall logic is thread-safe under concurrent access" time="0.001">
     </testcase>
     <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion Error returned if primary + secondary + tertiary all fail" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion Error returned if primary + secondary + tertiary all fail" time="0">
     </testcase>
@@ -140,15 +176,15 @@ Received: true
     </testcase>
     <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: Timeout errors trigger next tier in chain" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: Timeout errors trigger next tier in chain" time="0">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: DNS resolution failures trigger next tier" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: DNS resolution failures trigger next tier" time="0">
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: DNS resolution failures trigger next tier" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: DNS resolution failures trigger next tier" time="0.001">
     </testcase>
     <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: HTTP 5xx errors trigger next tier" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: HTTP 5xx errors trigger next tier" time="0">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: 4xx errors do not trigger fallback (short-circuit)" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: 4xx errors do not trigger fallback (short-circuit)" time="0.001">
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: 4xx errors do not trigger fallback (short-circuit)" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: 4xx errors do not trigger fallback (short-circuit)" time="0">
     </testcase>
     <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: Connection refused errors are treated as tier failure" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: Connection refused errors are treated as tier failure" time="0">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Missing metric type TTL config: System defaults to safe TTL (shorter) if config key missing" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Missing metric type TTL config: System defaults to safe TTL (shorter) if config key missing" time="0.001">
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Missing metric type TTL config: System defaults to safe TTL (shorter) if config key missing" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Missing metric type TTL config: System defaults to safe TTL (shorter) if config key missing" time="0">
     </testcase>
     <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Missing metric type TTL config: Warning logged when using default TTL" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Missing metric type TTL config: Warning logged when using default TTL" time="0">
     </testcase>
@@ -158,17 +194,17 @@ Received: true
     </testcase>
     <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: TTL = 0 means data is always treated as stale (no caching)" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: TTL = 0 means data is always treated as stale (no caching)" time="0">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: Each access triggers fresh fetch from waterfall" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: Each access triggers fresh fetch from waterfall" time="0">
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: Each access triggers fresh fetch from waterfall" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: Each access triggers fresh fetch from waterfall" time="0.001">
     </testcase>
     <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: Performance impact is acceptable (load-shedding documented)" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: Performance impact is acceptable (load-shedding documented)" time="0">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: Zero TTL config is validated at startup, warning issued" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: Zero TTL config is validated at startup, warning issued" time="0.001">
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: Zero TTL config is validated at startup, warning issued" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: Zero TTL config is validated at startup, warning issued" time="0">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Negative TTL values are rejected (schema validation fails)" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Negative TTL values are rejected (schema validation fails)" time="0">
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Negative TTL values are rejected (schema validation fails)" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Negative TTL values are rejected (schema validation fails)" time="0.001">
     </testcase>
     <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Non-integer TTL values are rejected" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Non-integer TTL values are rejected" time="0">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Invalid config prevents app startup (early fail)" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Invalid config prevents app startup (early fail)" time="0.001">
+    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Invalid config prevents app startup (early fail)" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Invalid config prevents app startup (early fail)" time="0">
     </testcase>
     <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Error message indicates config key that is invalid" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Error message indicates config key that is invalid" time="0">
     </testcase>
@@ -185,69 +221,33 @@ Received: true
     <testcase classname="TTL Waterfall Feature - 29 Test Cases Monitoring &amp; Integration Integration: WebSocket stream data respects TTL" name="TTL Waterfall Feature - 29 Test Cases Monitoring &amp; Integration Integration: WebSocket stream data respects TTL" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="Unit: RecommendationOutcomeAuditor" errors="0" failures="1" skipped="0" timestamp="2026-10-24T19:06:51" time="0.053" tests="6">
-    <testcase classname="Unit: RecommendationOutcomeAuditor U-ROA-01: auditActiveRecommendations with empty ledger returns { audited: 0, updated: 0 } with no DB writes" name="Unit: RecommendationOutcomeAuditor U-ROA-01: auditActiveRecommendations with empty ledger returns { audited: 0, updated: 0 } with no DB writes" time="0.017">
-    </testcase>
-    <testcase classname="Unit: RecommendationOutcomeAuditor U-ROA-02: Single ACTIVE LONG recommendation where price &gt;= target_1 updates status to TARGET_1_HIT and stop_loss to entry_price" name="Unit: RecommendationOutcomeAuditor U-ROA-02: Single ACTIVE LONG recommendation where price &gt;= target_1 updates status to TARGET_1_HIT and stop_loss to entry_price" time="0.001">
-      <failure>Error: expect(received).toBe(expected) // Object.is equality
-
-Expected: &quot;TARGET_1_HIT&quot;
-Received: &quot;HIGH_CONVICTION_GATE&quot;
-    at Object.&lt;anonymous&gt; (/Users/gopalsharma/WealthOS/src/server/__tests__/unit/RecommendationOutcomeAuditor.test.ts:63:36)</failure>
-    </testcase>
-    <testcase classname="Unit: RecommendationOutcomeAuditor U-ROA-03: STOP-LOSS breach triggers CausalPostMortemService.conductPostMortem exactly once with correct context" name="Unit: RecommendationOutcomeAuditor U-ROA-03: STOP-LOSS breach triggers CausalPostMortemService.conductPostMortem exactly once with correct context" time="0">
-    </testcase>
-    <testcase classname="Unit: RecommendationOutcomeAuditor U-ROA-04: Recommendation with missing price in Prices table uses fallback current_price and leaves status unchanged" name="Unit: RecommendationOutcomeAuditor U-ROA-04: Recommendation with missing price in Prices table uses fallback current_price and leaves status unchanged" time="0.001">
-    </testcase>
-    <testcase classname="Unit: RecommendationOutcomeAuditor U-ROA-05: Invalid action string (e.g. HOLD) is skipped without error and without DB mutation" name="Unit: RecommendationOutcomeAuditor U-ROA-05: Invalid action string (e.g. HOLD) is skipped without error and without DB mutation" time="0">
-    </testcase>
-    <testcase classname="Unit: RecommendationOutcomeAuditor U-ROA-06: Simulated DB error on dbAll is caught, logged with console.error, and returns { audited: 0, updated: 0 }" name="Unit: RecommendationOutcomeAuditor U-ROA-06: Simulated DB error on dbAll is caught, logged with console.error, and returns { audited: 0, updated: 0 }" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="Unit: AutonomousSelfLearningService" errors="0" failures="1" skipped="0" timestamp="2026-10-24T19:06:51" time="0.038" tests="5">
-    <testcase classname="Unit: AutonomousSelfLearningService U-SL-01: initializeBaselineRules is idempotent and calling twice does not duplicate rows" name="Unit: AutonomousSelfLearningService U-SL-01: initializeBaselineRules is idempotent and calling twice does not duplicate rows" time="0.015">
-      <failure>Error: expect(received).toBe(expected) // Object.is equality
-
-Expected: 5
-Received: 7
-    at Object.&lt;anonymous&gt; (/Users/gopalsharma/WealthOS/src/server/__tests__/unit/AutonomousSelfLearningService.test.ts:28:36)</failure>
-    </testcase>
-    <testcase classname="Unit: AutonomousSelfLearningService U-SL-02: Decay weight calculation for a 10-day event matches exp(-lambda * 10) ~= 0.59 within 0.01 tolerance" name="Unit: AutonomousSelfLearningService U-SL-02: Decay weight calculation for a 10-day event matches exp(-lambda * 10) ~= 0.59 within 0.01 tolerance" time="0.001">
-    </testcase>
-    <testcase classname="Unit: AutonomousSelfLearningService U-SL-03: MIN_SAMPLE_SIZE enforcement - less than 5 events results in no mutation logged" name="Unit: AutonomousSelfLearningService U-SL-03: MIN_SAMPLE_SIZE enforcement - less than 5 events results in no mutation logged" time="0">
-    </testcase>
-    <testcase classname="Unit: AutonomousSelfLearningService U-SL-04: Rule rollback API updates status to ROLLED_BACK and records updatedAt" name="Unit: AutonomousSelfLearningService U-SL-04: Rule rollback API updates status to ROLLED_BACK and records updatedAt" time="0">
-    </testcase>
-    <testcase classname="Unit: AutonomousSelfLearningService U-SL-05: Invalid rule ID for rollback returns false and does not modify DB" name="Unit: AutonomousSelfLearningService U-SL-05: Invalid rule ID for rollback returns false and does not modify DB" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="Unit: PaperTradingPotService" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:06:59" time="0.08" tests="12">
-    <testcase classname="Unit: PaperTradingPotService U-PT-01: Conviction gate rejects when probability_pct &lt; 70" name="Unit: PaperTradingPotService U-PT-01: Conviction gate rejects when probability_pct &lt; 70" time="0.017">
+  <testsuite name="Unit: PaperTradingPotService" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:09:10" time="0.072" tests="12">
+    <testcase classname="Unit: PaperTradingPotService U-PT-01: Conviction gate rejects when probability_pct &lt; 70" name="Unit: PaperTradingPotService U-PT-01: Conviction gate rejects when probability_pct &lt; 70" time="0.015">
     </testcase>
     <testcase classname="Unit: PaperTradingPotService U-PT-02: Conviction gate rejects when confidence_score &lt; 65" name="Unit: PaperTradingPotService U-PT-02: Conviction gate rejects when confidence_score &lt; 65" time="0">
     </testcase>
-    <testcase classname="Unit: PaperTradingPotService U-PT-03: Circuit breaker active (is_circuit_breaker_tripped = 1) blocks entry" name="Unit: PaperTradingPotService U-PT-03: Circuit breaker active (is_circuit_breaker_tripped = 1) blocks entry" time="0.002">
+    <testcase classname="Unit: PaperTradingPotService U-PT-03: Circuit breaker active (is_circuit_breaker_tripped = 1) blocks entry" name="Unit: PaperTradingPotService U-PT-03: Circuit breaker active (is_circuit_breaker_tripped = 1) blocks entry" time="0.001">
     </testcase>
     <testcase classname="Unit: PaperTradingPotService U-PT-04: Max open positions (8) reached blocks further entry" name="Unit: PaperTradingPotService U-PT-04: Max open positions (8) reached blocks further entry" time="0">
     </testcase>
     <testcase classname="Unit: PaperTradingPotService U-PT-05: Sector cap (3 positions or &gt; 30% NAV) blocks entry" name="Unit: PaperTradingPotService U-PT-05: Sector cap (3 positions or &gt; 30% NAV) blocks entry" time="0">
     </testcase>
-    <testcase classname="Unit: PaperTradingPotService U-PT-06: Successful entry applies slippage (1.0005) and calculates friction (STT + Fixed fee)" name="Unit: PaperTradingPotService U-PT-06: Successful entry applies slippage (1.0005) and calculates friction (STT + Fixed fee)" time="0.008">
+    <testcase classname="Unit: PaperTradingPotService U-PT-06: Successful entry applies slippage (1.0005) and calculates friction (STT + Fixed fee)" name="Unit: PaperTradingPotService U-PT-06: Successful entry applies slippage (1.0005) and calculates friction (STT + Fixed fee)" time="0.009">
     </testcase>
-    <testcase classname="Unit: PaperTradingPotService U-PT-07: Position sizing respects Half-Kelly bounds (2% - 8% of NAV)" name="Unit: PaperTradingPotService U-PT-07: Position sizing respects Half-Kelly bounds (2% - 8% of NAV)" time="0">
+    <testcase classname="Unit: PaperTradingPotService U-PT-07: Position sizing respects Half-Kelly bounds (2% - 8% of NAV)" name="Unit: PaperTradingPotService U-PT-07: Position sizing respects Half-Kelly bounds (2% - 8% of NAV)" time="0.001">
     </testcase>
-    <testcase classname="Unit: PaperTradingPotService U-PT-08: Partial exit at T1 halves quantity, sets trailing SL to entry_price, and records friction" name="Unit: PaperTradingPotService U-PT-08: Partial exit at T1 halves quantity, sets trailing SL to entry_price, and records friction" time="0.003">
+    <testcase classname="Unit: PaperTradingPotService U-PT-08: Partial exit at T1 halves quantity, sets trailing SL to entry_price, and records friction" name="Unit: PaperTradingPotService U-PT-08: Partial exit at T1 halves quantity, sets trailing SL to entry_price, and records friction" time="0.001">
     </testcase>
-    <testcase classname="Unit: PaperTradingPotService U-PT-09: Full close at T2 realizes full P&amp;L, sets status to CLOSED_PROFIT, and records exit STT + fee" name="Unit: PaperTradingPotService U-PT-09: Full close at T2 realizes full P&amp;L, sets status to CLOSED_PROFIT, and records exit STT + fee" time="0">
+    <testcase classname="Unit: PaperTradingPotService U-PT-09: Full close at T2 realizes full P&amp;L, sets status to CLOSED_PROFIT, and records exit STT + fee" name="Unit: PaperTradingPotService U-PT-09: Full close at T2 realizes full P&amp;L, sets status to CLOSED_PROFIT, and records exit STT + fee" time="0.001">
     </testcase>
-    <testcase classname="Unit: PaperTradingPotService U-PT-10: Stop-loss breach after partial exit sets exitReason TRAILING_STOP_HIT and status CLOSED_LOSS" name="Unit: PaperTradingPotService U-PT-10: Stop-loss breach after partial exit sets exitReason TRAILING_STOP_HIT and status CLOSED_LOSS" time="0.001">
+    <testcase classname="Unit: PaperTradingPotService U-PT-10: Stop-loss breach after partial exit sets exitReason TRAILING_STOP_HIT and status CLOSED_LOSS" name="Unit: PaperTradingPotService U-PT-10: Stop-loss breach after partial exit sets exitReason TRAILING_STOP_HIT and status CLOSED_LOSS" time="0">
     </testcase>
     <testcase classname="Unit: PaperTradingPotService U-PT-11: Circuit breaker evaluation trips when drawdown &gt;= 20%" name="Unit: PaperTradingPotService U-PT-11: Circuit breaker evaluation trips when drawdown &gt;= 20%" time="0">
     </testcase>
-    <testcase classname="Unit: PaperTradingPotService U-PT-12: DB failure during ensurePotsInitialized is caught, logged, and does not crash process" name="Unit: PaperTradingPotService U-PT-12: DB failure during ensurePotsInitialized is caught, logged, and does not crash process" time="0">
+    <testcase classname="Unit: PaperTradingPotService U-PT-12: DB failure during ensurePotsInitialized is caught, logged, and does not crash process" name="Unit: PaperTradingPotService U-PT-12: DB failure during ensurePotsInitialized is caught, logged, and does not crash process" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="Unit: CausalPostMortemService" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:06:59" time="0.061" tests="6">
+  <testsuite name="Unit: CausalPostMortemService" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:09:10" time="0.057" tests="6">
     <testcase classname="Unit: CausalPostMortemService U-CPM-01: Volume surge &lt; 1.35 includes VOLUME_EXHAUSTION_TRAP in compound causes" name="Unit: CausalPostMortemService U-CPM-01: Volume surge &lt; 1.35 includes VOLUME_EXHAUSTION_TRAP in compound causes" time="0.015">
     </testcase>
     <testcase classname="Unit: CausalPostMortemService U-CPM-02: temporalContext.isExpiryWeek true adds FNO_DERIVATIVES_UNWINDING" name="Unit: CausalPostMortemService U-CPM-02: temporalContext.isExpiryWeek true adds FNO_DERIVATIVES_UNWINDING" time="0.001">
@@ -261,14 +261,14 @@ Received: 7
     <testcase classname="Unit: CausalPostMortemService U-CPM-06: conductPostMortem returns a fully-typed PostMortemReport with all mandatory fields present and correctly typed" name="Unit: CausalPostMortemService U-CPM-06: conductPostMortem returns a fully-typed PostMortemReport with all mandatory fields present and correctly typed" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="trendlyneMcp route helpers" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:06:59" time="0.078" tests="2">
-    <testcase classname="trendlyneMcp route helpers validates input" name="trendlyneMcp route helpers validates input" time="0.002">
+  <testsuite name="trendlyneMcp route helpers" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:09:10" time="0.045" tests="2">
+    <testcase classname="trendlyneMcp route helpers validates input" name="trendlyneMcp route helpers validates input" time="0.001">
     </testcase>
-    <testcase classname="trendlyneMcp route helpers isolates per-symbol errors" name="trendlyneMcp route helpers isolates per-symbol errors" time="0.005">
+    <testcase classname="trendlyneMcp route helpers isolates per-symbol errors" name="trendlyneMcp route helpers isolates per-symbol errors" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="Architecture: Deterministic analytical identity" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:07:00" time="0.055" tests="115">
-    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/AutonomousAcquisitionManager.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/AutonomousAcquisitionManager.ts — no Date.now() or Math.random() in ID generation" time="0">
+  <testsuite name="Architecture: Deterministic analytical identity" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:09:10" time="0.048" tests="115">
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/AutonomousAcquisitionManager.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/AutonomousAcquisitionManager.ts — no Date.now() or Math.random() in ID generation" time="0.001">
     </testcase>
     <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/CommitmentExtractor.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/CommitmentExtractor.ts — no Date.now() or Math.random() in ID generation" time="0">
     </testcase>
@@ -276,7 +276,7 @@ Received: 7
     </testcase>
     <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/ExchangeDisclosureAcquisitionAdapter.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/ExchangeDisclosureAcquisitionAdapter.ts — no Date.now() or Math.random() in ID generation" time="0">
     </testcase>
-    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/FinancialResultNormalizer.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/FinancialResultNormalizer.ts — no Date.now() or Math.random() in ID generation" time="0">
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/FinancialResultNormalizer.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/FinancialResultNormalizer.ts — no Date.now() or Math.random() in ID generation" time="0.001">
     </testcase>
     <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/SourceDocumentIngestionPipeline.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/acquisition/SourceDocumentIngestionPipeline.ts — no Date.now() or Math.random() in ID generation" time="0">
     </testcase>
@@ -312,7 +312,7 @@ Received: 7
     </testcase>
     <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/business/CompanyDriverRegistry.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/business/CompanyDriverRegistry.ts — no Date.now() or Math.random() in ID generation" time="0">
     </testcase>
-    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/business/FundamentalIntelligenceEngine.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/business/FundamentalIntelligenceEngine.ts — no Date.now() or Math.random() in ID generation" time="0.001">
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/business/FundamentalIntelligenceEngine.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/business/FundamentalIntelligenceEngine.ts — no Date.now() or Math.random() in ID generation" time="0">
     </testcase>
     <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/business/SectorArchetypeRegistry.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/business/SectorArchetypeRegistry.ts — no Date.now() or Math.random() in ID generation" time="0">
     </testcase>
@@ -374,7 +374,7 @@ Received: 7
     </testcase>
     <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/index.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contracts/index.ts — no Date.now() or Math.random() in ID generation" time="0">
     </testcase>
-    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contradictions/ContradictionEngine.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contradictions/ContradictionEngine.ts — no Date.now() or Math.random() in ID generation" time="0">
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contradictions/ContradictionEngine.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contradictions/ContradictionEngine.ts — no Date.now() or Math.random() in ID generation" time="0.001">
     </testcase>
     <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/contradictions/ContradictionStore.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/contradictions/ContradictionStore.ts — no Date.now() or Math.random() in ID generation" time="0">
     </testcase>
@@ -426,9 +426,9 @@ Received: 7
     </testcase>
     <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/BusinessInflectionModule.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/BusinessInflectionModule.ts — no Date.now() or Math.random() in ID generation" time="0">
     </testcase>
-    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/CanonicalFactSelector.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/CanonicalFactSelector.ts — no Date.now() or Math.random() in ID generation" time="0">
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/CanonicalFactSelector.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/CanonicalFactSelector.ts — no Date.now() or Math.random() in ID generation" time="0.001">
     </testcase>
-    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/FereModuleAdapter.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/FereModuleAdapter.ts — no Date.now() or Math.random() in ID generation" time="0.001">
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/FereModuleAdapter.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/FereModuleAdapter.ts — no Date.now() or Math.random() in ID generation" time="0">
     </testcase>
     <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/FundamentalExperienceBuilder.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/FundamentalExperienceBuilder.ts — no Date.now() or Math.random() in ID generation" time="0">
     </testcase>
@@ -448,7 +448,7 @@ Received: 7
     </testcase>
     <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/index.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/modules/index.ts — no Date.now() or Math.random() in ID generation" time="0">
     </testcase>
-    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/qualitative/QualitativeEvidenceExtractor.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/qualitative/QualitativeEvidenceExtractor.ts — no Date.now() or Math.random() in ID generation" time="0">
+    <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/qualitative/QualitativeEvidenceExtractor.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/qualitative/QualitativeEvidenceExtractor.ts — no Date.now() or Math.random() in ID generation" time="0.001">
     </testcase>
     <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/qualitative/QualitativeSignalClassifier.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/qualitative/QualitativeSignalClassifier.ts — no Date.now() or Math.random() in ID generation" time="0">
     </testcase>
@@ -499,7 +499,7 @@ Received: 7
     <testcase classname="Architecture: Deterministic analytical identity src/server/services/intelligence/valuation/ValuationIntelligenceEngine.ts — no Date.now() or Math.random() in ID generation" name="Architecture: Deterministic analytical identity src/server/services/intelligence/valuation/ValuationIntelligenceEngine.ts — no Date.now() or Math.random() in ID generation" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="Architecture: V2 no legacy fallback" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:07:00" time="0.046" tests="37">
+  <testsuite name="Architecture: V2 no legacy fallback" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:09:10" time="0.038" tests="37">
     <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/aiStudioProxyRouter.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/aiStudioProxyRouter.ts — no V1 data.* field access" time="0">
     </testcase>
     <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/bankFds.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/bankFds.ts — no V1 data.* field access" time="0">
@@ -558,9 +558,9 @@ Received: 7
     </testcase>
     <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/shared.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/shared.ts — no V1 data.* field access" time="0">
     </testcase>
-    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/stockscansRoutes.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/stockscansRoutes.ts — no V1 data.* field access" time="0.003">
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/stockscansRoutes.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/stockscansRoutes.ts — no V1 data.* field access" time="0">
     </testcase>
-    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/strategies.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/strategies.ts — no V1 data.* field access" time="0">
+    <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/strategies.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/strategies.ts — no V1 data.* field access" time="0.001">
     </testcase>
     <testcase classname="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/system.ts — no V1 data.* field access" name="Architecture: V2 no legacy fallback UI response consumers use V2 module paths src/server/routes/system.ts — no V1 data.* field access" time="0">
     </testcase>
@@ -575,16 +575,16 @@ Received: 7
     <testcase classname="Architecture: V2 no legacy fallback CompanySnapshotRepository: evidenceHash is independent of canonicalFactHash saveSnapshot writes analytical_hash and module_hashes as separate columns" name="Architecture: V2 no legacy fallback CompanySnapshotRepository: evidenceHash is independent of canonicalFactHash saveSnapshot writes analytical_hash and module_hashes as separate columns" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="PIT Contract — pitStatus mandatory" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:07:00" time="0.038" tests="5">
-    <testcase classname="PIT Contract — pitStatus mandatory EvidenceRef pitStatus is a required field (not optional)" name="PIT Contract — pitStatus mandatory EvidenceRef pitStatus is a required field (not optional)" time="0.001">
+  <testsuite name="PIT Contract — pitStatus mandatory" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:09:10" time="0.034" tests="5">
+    <testcase classname="PIT Contract — pitStatus mandatory EvidenceRef pitStatus is a required field (not optional)" name="PIT Contract — pitStatus mandatory EvidenceRef pitStatus is a required field (not optional)" time="0">
     </testcase>
     <testcase classname="PIT Contract — pitStatus mandatory PIT_UNKNOWN evidence must have null availableAt" name="PIT Contract — pitStatus mandatory PIT_UNKNOWN evidence must have null availableAt" time="0">
     </testcase>
     <testcase classname="PIT Contract — pitStatus mandatory documentDate is nullable — no fabricated today date" name="PIT Contract — pitStatus mandatory documentDate is nullable — no fabricated today date" time="0">
     </testcase>
-    <testcase classname="PIT Contract — pitStatus mandatory historical replay rejects PIT_INFERRED evidence" name="PIT Contract — pitStatus mandatory historical replay rejects PIT_INFERRED evidence" time="0">
+    <testcase classname="PIT Contract — pitStatus mandatory historical replay rejects PIT_INFERRED evidence" name="PIT Contract — pitStatus mandatory historical replay rejects PIT_INFERRED evidence" time="0.001">
     </testcase>
-    <testcase classname="PIT Contract — pitStatus mandatory PitMode type must have STRICT and ALLOW_INFERRED values" name="PIT Contract — pitStatus mandatory PitMode type must have STRICT and ALLOW_INFERRED values" time="0.001">
+    <testcase classname="PIT Contract — pitStatus mandatory PitMode type must have STRICT and ALLOW_INFERRED values" name="PIT Contract — pitStatus mandatory PitMode type must have STRICT and ALLOW_INFERRED values" time="0">
     </testcase>
   </testsuite>
 </testsuites>
