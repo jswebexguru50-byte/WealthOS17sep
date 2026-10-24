@@ -1,171 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="80" failures="0" errors="0" time="2.111">
-  <testsuite name="Integration: RecommendationOutcomeAuditor + CausalPostMortem" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:09:37" time="0.083" tests="3">
-    <testcase classname="Integration: RecommendationOutcomeAuditor + CausalPostMortem I-ROA-01: Stop-loss trigger via scan-now updates status to STOPPED_OUT and creates AutonomousPostMortems record" name="Integration: RecommendationOutcomeAuditor + CausalPostMortem I-ROA-01: Stop-loss trigger via scan-now updates status to STOPPED_OUT and creates AutonomousPostMortems record" time="0.031">
+<testsuites name="jest tests" tests="15" failures="0" errors="0" time="0.196">
+  <testsuite name="Evidence Provider Integration Tests" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:09:41" time="0.107" tests="15">
+    <testcase classname="Evidence Provider Integration Tests 29Q route returns evidence envelope structure on success" name="Evidence Provider Integration Tests 29Q route returns evidence envelope structure on success" time="0.001">
     </testcase>
-    <testcase classname="Integration: RecommendationOutcomeAuditor + CausalPostMortem I-ROA-02: Target 1 hit updates status to TARGET_1_HIT and stop_loss to entry price" name="Integration: RecommendationOutcomeAuditor + CausalPostMortem I-ROA-02: Target 1 hit updates status to TARGET_1_HIT and stop_loss to entry price" time="0.015">
+    <testcase classname="Evidence Provider Integration Tests Evidence URLs are validated and properly formatted" name="Evidence Provider Integration Tests Evidence URLs are validated and properly formatted" time="0.005">
     </testcase>
-    <testcase classname="Integration: RecommendationOutcomeAuditor + CausalPostMortem I-ROA-03: Price crosses target_2 updates status to TARGET_2_HIT" name="Integration: RecommendationOutcomeAuditor + CausalPostMortem I-ROA-03: Price crosses target_2 updates status to TARGET_2_HIT" time="0.004">
+    <testcase classname="Evidence Provider Integration Tests Evidence timestamp is current and valid" name="Evidence Provider Integration Tests Evidence timestamp is current and valid" time="0">
     </testcase>
-  </testsuite>
-  <testsuite name="TTL Waterfall Feature - 29 Test Cases" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:09:37" time="0.034" tests="70">
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases TTL Enforcement Data fetched at T=0 is fresh when accessed at T &lt; TTL" name="TTL Waterfall Feature - 29 Test Cases TTL Enforcement Data fetched at T=0 is fresh when accessed at T &lt; TTL" time="0.001">
+    <testcase classname="Evidence Provider Integration Tests Evidence confidence score is valid and meaningful" name="Evidence Provider Integration Tests Evidence confidence score is valid and meaningful" time="0">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases TTL Enforcement Data is marked stale when accessed at T &gt;= TTL" name="TTL Waterfall Feature - 29 Test Cases TTL Enforcement Data is marked stale when accessed at T &gt;= TTL" time="0">
+    <testcase classname="Evidence Provider Integration Tests Evidence sources contain required metadata" name="Evidence Provider Integration Tests Evidence sources contain required metadata" time="0">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases TTL Enforcement Stale data is rejected by cache validation layer" name="TTL Waterfall Feature - 29 Test Cases TTL Enforcement Stale data is rejected by cache validation layer" time="0">
+    <testcase classname="Evidence Provider Integration Tests Error responses maintain evidence envelope integrity" name="Evidence Provider Integration Tests Error responses maintain evidence envelope integrity" time="0">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases TTL Enforcement TTL window respects per-metric configuration" name="TTL Waterfall Feature - 29 Test Cases TTL Enforcement TTL window respects per-metric configuration" time="0">
+    <testcase classname="Evidence Provider Integration Tests Evidence handles missing or null source data gracefully" name="Evidence Provider Integration Tests Evidence handles missing or null source data gracefully" time="0">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases TTL Enforcement TTL expiration triggers refetch from waterfall chain" name="TTL Waterfall Feature - 29 Test Cases TTL Enforcement TTL expiration triggers refetch from waterfall chain" time="0">
+    <testcase classname="Evidence Provider Integration Tests Multiple evidence sources are merged correctly" name="Evidence Provider Integration Tests Multiple evidence sources are merged correctly" time="0">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Primary Fetcher Success Path Primary fetcher (tier 0) is attempted first" name="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Primary Fetcher Success Path Primary fetcher (tier 0) is attempted first" time="0.001">
+    <testcase classname="Evidence Provider Integration Tests Evidence envelope includes provenance chain" name="Evidence Provider Integration Tests Evidence envelope includes provenance chain" time="0.001">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Primary Fetcher Success Path Response from primary is returned without checking secondary fetchers" name="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Primary Fetcher Success Path Response from primary is returned without checking secondary fetchers" time="0">
+    <testcase classname="Evidence Provider Integration Tests Special characters and encoding in evidence URLs are handled" name="Evidence Provider Integration Tests Special characters and encoding in evidence URLs are handled" time="0">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Primary Fetcher Success Path Waterfall chain is not invoked if primary succeeds within TTL" name="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Primary Fetcher Success Path Waterfall chain is not invoked if primary succeeds within TTL" time="0">
+    <testcase classname="Evidence Provider Integration Tests Evidence expiry and staleness are tracked" name="Evidence Provider Integration Tests Evidence expiry and staleness are tracked" time="0.001">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Primary Fetcher Success Path Response includes source metadata" name="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Primary Fetcher Success Path Response includes source metadata" time="0">
+    <testcase classname="Evidence Provider Integration Tests Confidence score degradation is correct" name="Evidence Provider Integration Tests Confidence score degradation is correct" time="0">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Primary Fetcher Success Path Timestamp in response matches fetch time" name="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Primary Fetcher Success Path Timestamp in response matches fetch time" time="0">
+    <testcase classname="Evidence Provider Integration Tests Evidence wrapper does not break existing 29Q response format" name="Evidence Provider Integration Tests Evidence wrapper does not break existing 29Q response format" time="0">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Primary fetcher timeout triggers secondary fetcher attempt" name="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Primary fetcher timeout triggers secondary fetcher attempt" time="0">
+    <testcase classname="Evidence Provider Integration Tests Concurrent 29Q requests maintain evidence isolation" name="Evidence Provider Integration Tests Concurrent 29Q requests maintain evidence isolation" time="0">
     </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Secondary fetcher (tier 1) is invoked only if primary fails" name="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Secondary fetcher (tier 1) is invoked only if primary fails" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Secondary response is accepted if primary was unavailable" name="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Secondary response is accepted if primary was unavailable" time="0.001">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Tertiary fetcher (tier 2) is tried if both primary and secondary fail" name="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Tertiary fetcher (tier 2) is tried if both primary and secondary fail" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Fallback order is deterministic and matches configuration" name="TTL Waterfall Feature - 29 Test Cases Waterfall Fallback - Primary Failure Escalates Correctly Fallback order is deterministic and matches configuration" time="0.002">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Stale Data Handling Fresh data from primary overrides any cached secondary/tertiary data" name="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Stale Data Handling Fresh data from primary overrides any cached secondary/tertiary data" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Stale Data Handling Stale data from primary is rejected in favor of fresh secondary data" name="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Stale Data Handling Stale data from primary is rejected in favor of fresh secondary data" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Stale Data Handling Waterfall respects freshness &gt; source priority when TTL differs by metric" name="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Stale Data Handling Waterfall respects freshness &gt; source priority when TTL differs by metric" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Stale Data Handling Explicitly stale-marked data (TTL expired) never returned if fresher alt exists" name="TTL Waterfall Feature - 29 Test Cases Waterfall Precedence - Stale Data Handling Explicitly stale-marked data (TTL expired) never returned if fresher alt exists" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Market Data: OHLC has shorter TTL (e.g., 1 minute for intraday)" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Market Data: OHLC has shorter TTL (e.g., 1 minute for intraday)" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Intraday OHLC stales at configured window independent of fundamentals TTL" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Intraday OHLC stales at configured window independent of fundamentals TTL" time="0.001">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Market data TTL is enforced per symbol/timeframe pair" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Market data TTL is enforced per symbol/timeframe pair" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration TTL config is applied consistently across all market data fetchers" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration TTL config is applied consistently across all market data fetchers" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Fundamentals data (earnings, balance sheet) has longer TTL (e.g., 24 hours)" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Fundamentals data (earnings, balance sheet) has longer TTL (e.g., 24 hours)" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Quarterly earnings data is cached longer than daily technical data" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Quarterly earnings data is cached longer than daily technical data" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Fundamentals TTL is per-metric-subtype (earnings vs ratios vs growth)" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Fundamentals TTL is per-metric-subtype (earnings vs ratios vs growth)" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration TTL config changes do not affect already-cached data mid-fetch" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration TTL config changes do not affect already-cached data mid-fetch" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration News data has medium TTL (e.g., 1–2 hours)" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration News data has medium TTL (e.g., 1–2 hours)" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Breaking news shortens TTL for related symbol (triggers aggressive refresh)" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration Breaking news shortens TTL for related symbol (triggers aggressive refresh)" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration News TTL is independent of technical/fundamental TTLs" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration News TTL is independent of technical/fundamental TTLs" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration TTL config per news category (earnings alerts vs sector news)" name="TTL Waterfall Feature - 29 Test Cases Per-Metric TTL Configuration TTL config per news category (earnings alerts vs sector news)" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Freshness Validation - Clock Skew Handling System tolerates +/- 2 second clock skew without marking data stale" name="TTL Waterfall Feature - 29 Test Cases Freshness Validation - Clock Skew Handling System tolerates +/- 2 second clock skew without marking data stale" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Freshness Validation - Clock Skew Handling Monotonic clock (steady_clock) is used for TTL calculations if available" name="TTL Waterfall Feature - 29 Test Cases Freshness Validation - Clock Skew Handling Monotonic clock (steady_clock) is used for TTL calculations if available" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Freshness Validation - Clock Skew Handling Wall-clock changes do not cause false positive stale markings" name="TTL Waterfall Feature - 29 Test Cases Freshness Validation - Clock Skew Handling Wall-clock changes do not cause false positive stale markings" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Freshness Validation - Clock Skew Handling TTL expiration is based on fetch time, not current wall-clock accuracy" name="TTL Waterfall Feature - 29 Test Cases Freshness Validation - Clock Skew Handling TTL expiration is based on fetch time, not current wall-clock accuracy" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Stale Data Rejection - Cache Bypass on TTL Expiry Cache lookup returns null if entry TTL has expired" name="TTL Waterfall Feature - 29 Test Cases Stale Data Rejection - Cache Bypass on TTL Expiry Cache lookup returns null if entry TTL has expired" time="0.001">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Stale Data Rejection - Cache Bypass on TTL Expiry Expired cache entry is not served even if waterfall chain would succeed" name="TTL Waterfall Feature - 29 Test Cases Stale Data Rejection - Cache Bypass on TTL Expiry Expired cache entry is not served even if waterfall chain would succeed" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Stale Data Rejection - Cache Bypass on TTL Expiry Cache entry is evicted when TTL expires (memory cleanup)" name="TTL Waterfall Feature - 29 Test Cases Stale Data Rejection - Cache Bypass on TTL Expiry Cache entry is evicted when TTL expires (memory cleanup)" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Stale Data Rejection - Cache Bypass on TTL Expiry Accessing expired cache does not block primary fetcher re-invocation" name="TTL Waterfall Feature - 29 Test Cases Stale Data Rejection - Cache Bypass on TTL Expiry Accessing expired cache does not block primary fetcher re-invocation" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Concurrent Request Handling Race conditions: Two concurrent requests for same metric only trigger one fetch (not N)" name="TTL Waterfall Feature - 29 Test Cases Concurrent Request Handling Race conditions: Two concurrent requests for same metric only trigger one fetch (not N)" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Concurrent Request Handling Second concurrent request waits for first fetch result, respects TTL" name="TTL Waterfall Feature - 29 Test Cases Concurrent Request Handling Second concurrent request waits for first fetch result, respects TTL" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Concurrent Request Handling TTL window is shared across concurrent callers (no separate TTLs per caller)" name="TTL Waterfall Feature - 29 Test Cases Concurrent Request Handling TTL window is shared across concurrent callers (no separate TTLs per caller)" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Concurrent Request Handling Waterfall logic is thread-safe under concurrent access" name="TTL Waterfall Feature - 29 Test Cases Concurrent Request Handling Waterfall logic is thread-safe under concurrent access" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion Error returned if primary + secondary + tertiary all fail" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion Error returned if primary + secondary + tertiary all fail" time="0.003">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion Error message indicates all tiers were exhausted" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion Error message indicates all tiers were exhausted" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion Failed state is not cached (retry on next request is permitted)" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion Failed state is not cached (retry on next request is permitted)" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion Individual tier error reasons are logged for debugging" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion Individual tier error reasons are logged for debugging" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: Timeout errors trigger next tier in chain" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: Timeout errors trigger next tier in chain" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: DNS resolution failures trigger next tier" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: DNS resolution failures trigger next tier" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: HTTP 5xx errors trigger next tier" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: HTTP 5xx errors trigger next tier" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: 4xx errors do not trigger fallback (short-circuit)" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: 4xx errors do not trigger fallback (short-circuit)" time="0.001">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: Connection refused errors are treated as tier failure" name="TTL Waterfall Feature - 29 Test Cases Waterfall Chain Exhaustion - Network Errors Network errors: Connection refused errors are treated as tier failure" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Missing metric type TTL config: System defaults to safe TTL (shorter) if config key missing" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Missing metric type TTL config: System defaults to safe TTL (shorter) if config key missing" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Missing metric type TTL config: Warning logged when using default TTL" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Missing metric type TTL config: Warning logged when using default TTL" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Missing metric type TTL config: Fetch is not blocked due to missing config" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Missing metric type TTL config: Fetch is not blocked due to missing config" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Missing metric type TTL config: Default TTL is consistent across app restarts" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Missing metric type TTL config: Default TTL is consistent across app restarts" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: TTL = 0 means data is always treated as stale (no caching)" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: TTL = 0 means data is always treated as stale (no caching)" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: Each access triggers fresh fetch from waterfall" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: Each access triggers fresh fetch from waterfall" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: Performance impact is acceptable (load-shedding documented)" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: Performance impact is acceptable (load-shedding documented)" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: Zero TTL config is validated at startup, warning issued" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Zero TTL handling: Zero TTL config is validated at startup, warning issued" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Negative TTL values are rejected (schema validation fails)" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Negative TTL values are rejected (schema validation fails)" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Non-integer TTL values are rejected" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Non-integer TTL values are rejected" time="0.001">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Invalid config prevents app startup (early fail)" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Invalid config prevents app startup (early fail)" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Error message indicates config key that is invalid" name="TTL Waterfall Feature - 29 Test Cases Edge Cases Negative or invalid TTL config: Error message indicates config key that is invalid" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Multi-Fetcher Coordination &amp; Error Propagation Multi-Fetcher: Market data TTL does not interfere with fundamentals TTL" name="TTL Waterfall Feature - 29 Test Cases Multi-Fetcher Coordination &amp; Error Propagation Multi-Fetcher: Market data TTL does not interfere with fundamentals TTL" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Multi-Fetcher Coordination &amp; Error Propagation Error Propagation: Primary fails with 500, secondary with 503" name="TTL Waterfall Feature - 29 Test Cases Multi-Fetcher Coordination &amp; Error Propagation Error Propagation: Primary fails with 500, secondary with 503" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases TTL Tracking &amp; Cache Invalidation TTL Tracking: Response includes fetchedAt, ttl, and expiresAt" name="TTL Waterfall Feature - 29 Test Cases TTL Tracking &amp; Cache Invalidation TTL Tracking: Response includes fetchedAt, ttl, and expiresAt" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases TTL Tracking &amp; Cache Invalidation Cache Invalidation: Manual invalidation forces refetch on next request" name="TTL Waterfall Feature - 29 Test Cases TTL Tracking &amp; Cache Invalidation Cache Invalidation: Manual invalidation forces refetch on next request" time="0">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Monitoring &amp; Integration Monitoring: System tracks cache evictions and metrics" name="TTL Waterfall Feature - 29 Test Cases Monitoring &amp; Integration Monitoring: System tracks cache evictions and metrics" time="0.001">
-    </testcase>
-    <testcase classname="TTL Waterfall Feature - 29 Test Cases Monitoring &amp; Integration Integration: WebSocket stream data respects TTL" name="TTL Waterfall Feature - 29 Test Cases Monitoring &amp; Integration Integration: WebSocket stream data respects TTL" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="Integration: PaperTradingPotService End-to-End Flow" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:09:37" time="0.058" tests="4">
-    <testcase classname="Integration: PaperTradingPotService End-to-End Flow I-PT-01: POST /v1/autonomous-agent/paper-pot/sync synchronizes positions and returns accurate counts" name="Integration: PaperTradingPotService End-to-End Flow I-PT-01: POST /v1/autonomous-agent/paper-pot/sync synchronizes positions and returns accurate counts" time="0.007">
-    </testcase>
-    <testcase classname="Integration: PaperTradingPotService End-to-End Flow I-PT-02: POST /v1/autonomous-agent/paper-pot/reset with custom capital resets cash, clears positions, and clears circuit breaker" name="Integration: PaperTradingPotService End-to-End Flow I-PT-02: POST /v1/autonomous-agent/paper-pot/reset with custom capital resets cash, clears positions, and clears circuit breaker" time="0.002">
-    </testcase>
-    <testcase classname="Integration: PaperTradingPotService End-to-End Flow I-PT-03: GET /v1/autonomous-agent/paper-pot/export?format=csv returns valid CSV with correct headers" name="Integration: PaperTradingPotService End-to-End Flow I-PT-03: GET /v1/autonomous-agent/paper-pot/export?format=csv returns valid CSV with correct headers" time="0.001">
-    </testcase>
-    <testcase classname="Integration: PaperTradingPotService End-to-End Flow I-PT-04: GET /v1/autonomous-agent/paper-pot/equity-curve validates that points contain nav, cash, benchmarkNiftyNav, alphaVsBenchmarkPct, timestamp" name="Integration: PaperTradingPotService End-to-End Flow I-PT-04: GET /v1/autonomous-agent/paper-pot/equity-curve validates that points contain nav, cash, benchmarkNiftyNav, alphaVsBenchmarkPct, timestamp" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="Integration: Self-Learning Rule Management" errors="0" failures="0" skipped="0" timestamp="2026-10-24T19:09:37" time="0.037" tests="3">
-    <testcase classname="Integration: Self-Learning Rule Management I-SL-01: GET /v1/autonomous-agent/self-learning-rules returns array with baseline rules" name="Integration: Self-Learning Rule Management I-SL-01: GET /v1/autonomous-agent/self-learning-rules returns array with baseline rules" time="0.005">
-    </testcase>
-    <testcase classname="Integration: Self-Learning Rule Management I-SL-02: POST /v1/autonomous-agent/self-learning-rules/rollback with valid ruleId updates status to ROLLED_BACK" name="Integration: Self-Learning Rule Management I-SL-02: POST /v1/autonomous-agent/self-learning-rules/rollback with valid ruleId updates status to ROLLED_BACK" time="0.003">
-    </testcase>
-    <testcase classname="Integration: Self-Learning Rule Management I-SL-03: POST rollback with non-existent ruleId returns 404 and error message" name="Integration: Self-Learning Rule Management I-SL-03: POST rollback with non-existent ruleId returns 404 and error message" time="0.001">
+    <testcase classname="Evidence Provider Integration Tests Evidence URLs are sanitized against injection attacks" name="Evidence Provider Integration Tests Evidence URLs are sanitized against injection attacks" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>
