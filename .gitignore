@@ -31,3 +31,17 @@ portfolio_persistent_backup*
 scripts/qa/out/
 reports/
 git_log_all.txt
+
+# Local archived snapshots and compatibility links (not source)
+/WealthOS04Oct
+/WealthOS-filter-overview
+/node_modules
+# Local diagnostic scripts belong in scripts/ or the external archive
+/inspect_*.cjs
+/check_*.cjs
+/debug_*.cjs
+/find_*.cjs
+/query_*.cjs
+/list_*.cjs
+/trace_*.cjs
+/compare_*.cjs
