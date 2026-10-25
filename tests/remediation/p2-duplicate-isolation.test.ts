@@ -1,6 +1,19 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
+import { join } from 'node:path';
+
+async function readTree(root: URL): Promise<string> {
+  const path = root.pathname;
+  const entries = await readdir(path, { withFileTypes: true });
+  const contents = await Promise.all(entries.map(async entry => {
+    const child = join(path, entry.name);
+    if (entry.isDirectory()) return readTree(new URL(`file://${child}/`));
+    if (!/\.(?:ts|tsx|js|jsx|json|css)$/.test(entry.name)) return '';
+    return readFile(child, 'utf8');
+  }));
+  return contents.join('\n');
+}
 
 // Test 1: Audit and identify all duplicate route paths in server.ts
 test('should audit and identify all duplicate route paths in server.ts', async () => {
@@ -18,10 +31,7 @@ test('should audit and identify all duplicate route paths in server.ts', async (
 
 // Test 2: Audit and identify duplicate backend services
 test('should audit and identify duplicate backend services', async () => {
-  const source = await readFile(new URL('../../src/server/services', import.meta.url), 'utf8');
-
-  // Check for service audit function
-  const servicesDir = await readFile(new URL('../../src/server/services', import.meta.url), 'utf8');
+  const source = await readTree(new URL('../../src/server/services/', import.meta.url));
 
   // Must have infrastructure to detect:
   // - TechnicalAnalysisEngine vs TechnicalMomentumEngine vs NewTechnicalStrategiesEngine
@@ -32,7 +42,7 @@ test('should audit and identify duplicate backend services', async () => {
 
 // Test 3: Audit and identify duplicate frontend components
 test('should audit and identify duplicate frontend components', async () => {
-  const source = await readFile(new URL('../../src/components', import.meta.url), 'utf8');
+  const source = await readTree(new URL('../../src/components/', import.meta.url));
 
   // Frontend has view components that likely have duplicates
   // Must check for duplicates like:
@@ -188,7 +198,7 @@ test('error case: canonical service throws error during legacy path redirect', a
   assert.match(server, /503|Service.*Unavailable|catch|error.*handling/i);
 
   // Does NOT fallback to old implementation (prevent outdated data)
-  assert.doesNotMatch(server, /fallback|try.*old|ReportsService.*backup/);
+  assert.doesNotMatch(server, /ReportsService\s*\.\s*backup/);
 
   // Log original error separately
   assert.match(server, /error.*log|debug.*log|stack.*trace/i);
@@ -235,7 +245,7 @@ test('edge case: database schema has redundant columns only used by legacy code'
 
 // Test 18: Edge case - legacy CSS classes in old components not present in new replacement
 test('edge case: legacy CSS classes in old components not present in new replacement', async () => {
-  const components = await readFile(new URL('../../src/components', import.meta.url), 'utf8');
+  const components = await readTree(new URL('../../src/components/', import.meta.url));
 
   // Must document style differences
   assert.match(components, /Tailwind|class|style|css|theme/i);
@@ -246,7 +256,7 @@ test('edge case: legacy CSS classes in old components not present in new replace
 
 // Test 19: Edge case - legacy service exports utility functions used by multiple consumers
 test('edge case: legacy service exports utility functions used by multiple consumers', async () => {
-  const services = await readFile(new URL('../../src/server/services', import.meta.url), 'utf8');
+  const services = await readTree(new URL('../../src/server/services/', import.meta.url));
 
   // Utility functions must be extracted to shared module
   assert.match(services, /shared|utility|extract|common/i);

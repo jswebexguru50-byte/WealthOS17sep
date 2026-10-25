@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
+import { requestJson } from '../lib/api';
 import {
   Inbox,
   Search,
@@ -43,11 +44,7 @@ export function PortfolioIntelligenceWatchlist({ onSelectSymbol }: PortfolioInte
 
   const fetchInbox = () => {
     setLoading(true);
-    fetch('/api/v2/intelligence-inbox')
-      .then(res => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
-      })
+    requestJson<{ items?: InboxItem[] }>('/api/v2/intelligence-inbox')
       .then(resData => {
         setItems(resData.items || []);
         setError(null);

@@ -1,5 +1,8 @@
 import sqlite3 from 'sqlite3';
 import { v4 as uuidv4 } from 'uuid';
+import fs from 'fs';
+import path from 'path';
+import crypto from 'crypto';
 
 export interface CanonicalMapping {
   provider: string;
@@ -20,6 +23,15 @@ export class CanonicalFactIngestionService {
   private async run(sql: string, params: unknown[] = []): Promise<void> {
     return new Promise((resolve, reject) => {
       this.db.run(sql, params, (err) => err ? reject(err) : resolve());
+    });
+  }
+
+  private async runWithChanges(sql: string, params: unknown[] = []): Promise<number> {
+    return new Promise((resolve, reject) => {
+      this.db.run(sql, params, function (err) {
+        if (err) return reject(err);
+        resolve(this.changes ?? 0);
+      });
     });
   }
 
@@ -197,5 +209,54 @@ export class CanonicalFactIngestionService {
     }
 
     return factsInserted;
+  }
+
+  /** Promote an archived public exchange artifact without overwriting primary facts. */
+  async ingestExchangeArtifactForSymbol(symbol: string, artifactPath?: string): Promise<{
+    factsInserted: number;
+    sourceUrl: string | null;
+    artifactPath: string;
+    artifactHash: string | null;
+  }> {
+    const normalized = symbol.trim().toUpperCase();
+    const resolvedPath = artifactPath || path.resolve('outputs', 'institutional29', normalized, 'trendlyne_raw.json');
+    if (!fs.existsSync(resolvedPath)) return { factsInserted: 0, sourceUrl: null, artifactPath: resolvedPath, artifactHash: null };
+    const rawText = fs.readFileSync(resolvedPath, 'utf8');
+    const artifactHash = crypto.createHash('sha256').update(rawText).digest('hex');
+    let artifact: any;
+    try { artifact = JSON.parse(rawText); } catch { throw new Error(`EXCHANGE_ARTIFACT_INVALID_JSON:${resolvedPath}`); }
+    const exchange = artifact?.raw?.exchange;
+    if (!exchange || typeof exchange !== 'object') return { factsInserted: 0, sourceUrl: null, artifactPath: resolvedPath, artifactHash };
+    const sourceUrl = typeof exchange.screenerSource === 'string' ? exchange.screenerSource : null;
+    const company = await this.all<{ id: string; isin: string }>('SELECT id, isin FROM MasterTickers WHERE symbol=?', [normalized]);
+    const companyId = company[0]?.id || normalized;
+    const isin = company[0]?.isin || null;
+    const stat = fs.statSync(resolvedPath);
+    const acquiredAt = typeof artifact?.raw?.exchangeAcquiredAt === 'string' ? artifact.raw.exchangeAcquiredAt : new Date(stat.mtimeMs).toISOString();
+    const evidenceText = JSON.stringify({ artifactHash, artifactPath: resolvedPath, sourceUrl });
+    type Candidate = { metric: string; value: unknown; periodType: 'ANNUAL' | 'QUARTERLY'; periodEnd: string; label: string };
+    const candidates: Candidate[] = [];
+    const addRows = (rows: any[], periodType: Candidate['periodType']) => {
+      for (const row of Array.isArray(rows) ? rows : []) {
+        const periodEnd = String(row?.period || '').trim();
+        if (!periodEnd) continue;
+        candidates.push({ metric: 'revenue', value: row.revenue_cr, periodType, periodEnd, label: 'Revenue' }, { metric: 'operating_profit', value: row.operating_profit_cr, periodType, periodEnd, label: 'Operating Profit' }, { metric: 'pat', value: row.pat_cr, periodType, periodEnd, label: 'Profit After Tax' });
+        if (periodType === 'ANNUAL') candidates.push({ metric: 'cfo', value: row.cfo_cr, periodType, periodEnd, label: 'Cash From Operations' });
+      }
+    };
+    addRows(exchange.annualPL, 'ANNUAL');
+    addRows(exchange.quarterlyPL, 'QUARTERLY');
+    const balance = exchange.balanceSheet;
+    const balancePeriod = String(balance?.latestPeriod || '').trim();
+    if (balancePeriod) for (const [metric, value, label] of [['borrowings', balance.borrowings_cr, 'Borrowings'], ['trade_receivables', balance.tradeReceivables_cr, 'Trade Receivables'], ['inventory', balance.inventory_cr, 'Inventory'], ['cash_and_equivalents', balance.cashAndEquivalents_cr, 'Cash and Equivalents'] ] as const) candidates.push({ metric, value, periodType: 'ANNUAL', periodEnd: balancePeriod, label });
+    let factsInserted = 0;
+    for (const candidate of candidates) {
+      const value = Number(candidate.value);
+      if (!Number.isFinite(value)) continue;
+      const periodToken = candidate.periodEnd.replace(/[^A-Za-z0-9]+/g, '_').replace(/^_|_$/g, '') || 'LATEST';
+      const factId = `${companyId}_${candidate.metric}_${candidate.periodType}_${periodToken}_CONSOLIDATED_EXCHANGE_SNAPSHOT`;
+      factsInserted += await this.runWithChanges(`INSERT OR IGNORE INTO company_facts (factId, companyId, symbol, isin, metric, value, unit, currency, periodType, periodEnd, asOfDate, factType, sourceType, scope, provider, verificationStatus, fetchedAt, availableAt, availabilityStatus, sourceDocumentId, providerToken, exactProviderLabel, sourceUrl, evidenceText, calculationMethod) VALUES (?, ?, ?, ?, ?, ?, 'Cr', 'INR', ?, ?, ?, 'REPORTED_EXCHANGE_SNAPSHOT', 'STRUCTURED_SECONDARY', 'CONSOLIDATED', 'SCREENER_PUBLIC', 'VERIFIED_PARTIAL', ?, ?, 'AVAILABLE', ?, ?, ?, ?, ?, 'PUBLIC_EXCHANGE_SNAPSHOT_V1')`, [factId, companyId, normalized, isin, candidate.metric, String(value), candidate.periodType, candidate.periodEnd, acquiredAt.slice(0, 10), acquiredAt, acquiredAt, `SCREENER_PUBLIC:${normalized}:${artifactHash}`, candidate.metric, candidate.label, sourceUrl, evidenceText]);
+    }
+    return { factsInserted, sourceUrl, artifactPath: resolvedPath, artifactHash };
   }
 }

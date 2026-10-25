@@ -43,6 +43,7 @@ import { DuplicateAuditService } from './src/server/services/DuplicateAuditServi
 import { DeprecationAuditService } from './src/server/services/DeprecationAuditService.js';
 import { DeprecationMiddleware, LEGACY_PATHS_REGISTRY, LEGACY_PARAM_MAPS } from './src/server/middleware/DeprecationMiddleware.js';
 import { loggingMiddleware } from './src/server/middleware/LoggingMiddleware.js';
+import { apiVersioning } from './src/server/middleware/ApiVersioning.js';
 import { setDeprecationHeader, setSunsetHeader, setLinkHeader, setWealthOSLegacyPathHeader, extractClientIp, extractBrowserUserAgent } from './src/server/utils/deprecationUtils.js';
 import { handleCanonicalServiceError } from './src/server/utils/deprecationErrorHandler.js';
 // Shared utility module for technical indicators (extracted from duplicate services)
@@ -387,6 +388,7 @@ app.use(compression());
 app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: true, limit: '2mb' }));
 app.use(loggingMiddleware);
+app.use('/api', apiVersioning());
 app.use('/api', enforceWriteOrigin);
 // Centralized API Rate Limiter (600 req / minute per IP)
 app.use('/api', createRateLimiter({

@@ -91,6 +91,13 @@ export async function safeFetchJson<T = any>(
   };
 }
 
+/** Shared JSON request for screen consumers. Keeps retry/error semantics in one place. */
+export async function requestJson<T = any>(url: string, options?: RequestInit): Promise<T> {
+  const result = await safeFetchJson<T>(url, options);
+  if (!result.ok) throw new Error(result.error || `Request failed (${result.status || 'network'})`);
+  return result.data as T;
+}
+
 // Typed v2 facts helpers — use these instead of raw fetch('/api/...')
 export async function fetchTicker(symbol: string) {
   const r = await fetch(`/api/v2/facts/ticker/${encodeURIComponent(symbol)}`);
