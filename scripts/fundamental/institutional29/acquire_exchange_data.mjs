@@ -160,31 +160,39 @@ function extractFinancialSummary(quarterlyData, annualData) {
 // Screener.in is the most reliable public source for Indian listed company financials.
 // Returns quarterly P&L, annual P&L, balance sheet, shareholding from HTML.
 
-async function fetchScreenerData(symbol, timeoutMs = 20000) {
+async function fetchScreenerData(symbol, timeoutMs = 20000, maxAttempts = 3) {
   const url = `https://www.screener.in/company/${symbol}/consolidated/`;
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    const res = await fetch(url, {
-      signal: controller.signal,
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Accept-Language': 'en-US,en;q=0.9',
-        'Referer': 'https://www.screener.in/',
-      },
-    });
-    clearTimeout(timer);
-    if (!res.ok) {
-      warn('screener', `${url} → HTTP ${res.status}`);
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const res = await fetch(url, {
+        signal: controller.signal,
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.9',
+          'Referer': 'https://www.screener.in/',
+        },
+      });
+      clearTimeout(timer);
+      if (!res.ok) {
+        warn('screener', `${url} → HTTP ${res.status} (attempt ${attempt}/${maxAttempts})`);
+        if ((res.status === 429 || res.status >= 500) && attempt < maxAttempts) { await new Promise(r => setTimeout(r, 1000 * attempt)); continue; }
+        return null;
+      }
+      const html = await res.text();
+      const parsed = parseScreenerHtml(html, symbol);
+      if (parsed.quarterlyPL.length || parsed.annualPL.length || Object.keys(parsed.balanceSheet).length) return parsed;
+      warn('screener', `${url} → page contained no parseable financial sections (attempt ${attempt}/${maxAttempts})`);
+      if (attempt < maxAttempts) { await new Promise(r => setTimeout(r, 1000 * attempt)); continue; }
+      return parsed;
+    } catch (err) {
+      clearTimeout(timer);
+      warn('screener', `${url} → ${err.message} (attempt ${attempt}/${maxAttempts})`);
+      if (attempt < maxAttempts) { await new Promise(r => setTimeout(r, 1000 * attempt)); continue; }
       return null;
     }
-    const html = await res.text();
-    return parseScreenerHtml(html, symbol);
-  } catch (err) {
-    clearTimeout(timer);
-    warn('screener', `${url} → ${err.message}`);
-    return null;
   }
 }
 
