@@ -63,7 +63,14 @@ async function worker() {
         await promote(listing.symbol); entry.status = 'promoted'; entry.lastError = null; completed++;
       }
     }
-    catch (error) { entry.status = entry.attempts <= retries ? 'retryable' : 'failed'; entry.lastError = String(error.message || error); }
+    catch (error) {
+      const message = String(error.message || error);
+      // Promotion_2 means every configured acquisition stage completed but
+      // produced no canonical numeric fact. Retrying immediately cannot change
+      // that evidence state; retain it as an explicit source-exhausted gap.
+      entry.status = message.startsWith('PROMOTION_2:') ? 'source_exhausted' : (entry.attempts <= retries ? 'retryable' : 'failed');
+      entry.lastError = message;
+    }
     save(manifest);
   }
 }
