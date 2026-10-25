@@ -6,7 +6,9 @@ const value = (flag, fallback) => { const i = process.argv.indexOf(flag); return
 const dbPath = value('--db', process.env.DATABASE_URL || path.resolve('portfolio.db'));
 const outPath = value('--out', path.resolve('outputs/fere/combined_exchange_manifest.json'));
 const db = new BetterSqlite3(dbPath, { readonly: true });
-const rows = db.prepare("SELECT symbol, isin, exchange, name, company_name FROM MasterTickers WHERE COALESCE(is_active,1)=1 AND exchange IN ('NSE','BSE') AND symbol IS NOT NULL AND trim(symbol)<>'' ORDER BY upper(symbol), exchange").all();
+const columns = new Set(db.prepare('PRAGMA table_info(MasterTickers)').all().map((row) => row.name));
+const activePredicate = columns.has('is_active') ? 'COALESCE(is_active,1)=1' : (columns.has('status') ? "(status IS NULL OR upper(status) NOT IN ('INACTIVE','DELISTED'))" : '1=1');
+const rows = db.prepare(`SELECT symbol, isin, exchange, name, company_name FROM MasterTickers WHERE ${activePredicate} AND upper(exchange) IN ('NSE','BSE') AND symbol IS NOT NULL AND trim(symbol)<>'' ORDER BY upper(symbol), exchange`).all();
 db.close();
 const groups = new Map();
 for (const row of rows) {
