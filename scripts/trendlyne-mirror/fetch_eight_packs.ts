@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import 'dotenv/config';
 import Database from 'better-sqlite3';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
@@ -9,8 +10,15 @@ import { TRENDLYNE_PACKS_V1 } from '../../src/server/services/trendlyne-mirror/T
 const root = process.cwd();
 const symbols = ['VMART','RADICO','KRYSTAL','PROTEAN','JUSTDIAL','DBOL','LUMAXTECH','SONACOMS','TARSONS'];
 const db = new Database(path.join(root, 'portfolio.db'));
-const config = JSON.parse(fs.readFileSync(path.join(root, '.agents', 'mcp_config.json'), 'utf8'));
-const url = config?.mcpServers?.trendlyne?.serverUrl || config?.mcpServers?.trendlyne?.url;
+let config: any = {};
+const configPath = path.join(root, '.agents', 'mcp_config.json');
+if (fs.existsSync(configPath)) {
+  try { config = JSON.parse(fs.readFileSync(configPath, 'utf8')); } catch { config = {}; }
+}
+const url = process.env.TRENDLYNE_MCP_URL
+  || process.env.TRENDLYNE_MCP_SERVER_URL
+  || config?.mcpServers?.trendlyne?.serverUrl
+  || config?.mcpServers?.trendlyne?.url;
 if (!url) throw new Error('Trendlyne MCP URL is not configured.');
 const now = new Date().toISOString();
 const chunks = <T>(a: T[], n: number) => Array.from({length: Math.ceil(a.length / n)}, (_, i) => a.slice(i*n, i*n+n));
