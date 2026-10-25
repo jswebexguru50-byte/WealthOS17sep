@@ -52,15 +52,21 @@ function promote(symbol) {
 const manifest = load();
 const pending = manifest.entries.filter((e) => e.status === 'pending' || e.status === 'retryable').slice(0, limit || undefined);
 let cursor = 0; let completed = 0;
+const startedAt = Date.now();
+function progress(symbol, status, detail = '') {
+  const done = manifest.entries.filter(e => ['promoted', 'source_exhausted', 'failed'].includes(e.status)).length;
+  const elapsed = Math.round((Date.now() - startedAt) / 1000);
+  console.log(`[FERE] ${done}/${manifest.entries.length} terminal | ${symbol} -> ${status}${detail ? ` | ${detail}` : ''} | ${elapsed}s`);
+}
 async function worker() {
   while (cursor < pending.length) {
     const entry = pending[cursor++]; const listing = entry.listings[0]; entry.attempts = (entry.attempts || 0) + 1; entry.status = 'acquiring'; save(manifest);
     try {
       await run(listing.symbol, listing.route);
-      if (dryRun) { entry.status = 'dry_run'; entry.lastError = null; completed++; }
+      if (dryRun) { entry.status = 'dry_run'; entry.lastError = null; completed++; progress(listing.symbol, entry.status); }
       else {
         await runSupplementary(listing.symbol, listing.route);
-        await promote(listing.symbol); entry.status = 'promoted'; entry.lastError = null; completed++;
+        await promote(listing.symbol); entry.status = 'promoted'; entry.lastError = null; completed++; progress(listing.symbol, entry.status);
       }
     }
     catch (error) {
@@ -70,6 +76,7 @@ async function worker() {
       // that evidence state; retain it as an explicit source-exhausted gap.
       entry.status = message.startsWith('PROMOTION_2:') ? 'source_exhausted' : (entry.attempts <= retries ? 'retryable' : 'failed');
       entry.lastError = message;
+      progress(listing.symbol, entry.status, message.slice(0, 160));
     }
     save(manifest);
   }
