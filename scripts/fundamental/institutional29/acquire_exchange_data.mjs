@@ -43,33 +43,37 @@ function warn(tag, msg) {
   process.stderr.write(`[${tag}] WARN: ${msg}\n`);
 }
 
-async function fetchJSON(url, opts = {}, timeoutMs = 15000) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
+async function fetchJSON(url, opts = {}, timeoutMs = 15000, maxAttempts = 3) {
   const headers = {
     'Accept': 'application/json',
     'Accept-Language': 'en-US,en;q=0.9',
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
     ...opts.headers,
   };
-  try {
-    const res = await fetch(url, { signal: controller.signal, headers, ...opts });
-    clearTimeout(timer);
-    if (!res.ok) {
-      warn('exchange', `${url} → HTTP ${res.status}`);
-      return { data: null, httpStatus: res.status, error: `HTTP_${res.status}` };
-    }
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
     try {
-      return { data: await res.json(), httpStatus: res.status, error: null };
+      const res = await fetch(url, { signal: controller.signal, headers, ...opts });
+      clearTimeout(timer);
+      if (!res.ok) {
+        warn('exchange', `${url} → HTTP ${res.status}`);
+        if ((res.status === 429 || res.status >= 500) && attempt < maxAttempts) { await new Promise(r => setTimeout(r, 250 * 2 ** (attempt - 1))); continue; }
+        return { data: null, httpStatus: res.status, error: `HTTP_${res.status}` };
+      }
+      try {
+        return { data: await res.json(), httpStatus: res.status, error: null };
+      } catch (err) {
+        const error = `INVALID_JSON: ${err.message}`;
+        warn('exchange', `${url} → ${error}`);
+        return { data: null, httpStatus: res.status, error };
+      }
     } catch (err) {
-      const error = `INVALID_JSON: ${err.message}`;
-      warn('exchange', `${url} → ${error}`);
-      return { data: null, httpStatus: res.status, error };
+      clearTimeout(timer);
+      warn('exchange', `${url} → ${err.message} (attempt ${attempt}/${maxAttempts})`);
+      if (attempt < maxAttempts) { await new Promise(r => setTimeout(r, 250 * 2 ** (attempt - 1))); continue; }
+      return { data: null, httpStatus: null, error: `NETWORK_ERROR: ${err.message}` };
     }
-  } catch (err) {
-    clearTimeout(timer);
-    warn('exchange', `${url} → ${err.message}`);
-    return { data: null, httpStatus: null, error: `NETWORK_ERROR: ${err.message}` };
   }
 }
 
@@ -356,7 +360,9 @@ async function main() {
   raw.raw.bseCode = bseCode;
 
   if (!raw.raw.exchange) raw.raw.exchange = {};
-  if (!Array.isArray(raw.raw.exchange.sourceLedger)) raw.raw.exchange.sourceLedger = [];
+  // Re-running a symbol starts a fresh auditable ledger; stale failures must
+  // not be mixed with the current acquisition attempt.
+  raw.raw.exchange.sourceLedger = [];
 
   // ── PRIMARY: Screener.in (public, no auth required) ──────────────────────────
   // BSE api.bseindia.com now returns 403/404; Screener.in is the reliable fallback.
