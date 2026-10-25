@@ -12,9 +12,11 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { spawn, ChildProcess } from 'child_process';
+import BetterSqlite3 from 'better-sqlite3';
 
 let serverProcess: ChildProcess | null = null;
 let serverWasAlreadyRunning = false;
+let isolatedDbPath: string | null = null;
 
 const PORT = 3000;
 const HEALTH_URL = `http://localhost:${PORT}/api/healthcheck`;
@@ -46,8 +48,26 @@ export async function setup() {
   fs.mkdirSync(reportsDir, { recursive: true });
   fs.mkdirSync(screenshotsDir, { recursive: true });
 
+  if (process.env.ISOLATED_TEST_DB === '1') {
+    const tempDir = path.resolve(process.cwd(), 'tests/.tmp');
+    fs.mkdirSync(tempDir, { recursive: true });
+    isolatedDbPath = path.join(tempDir, `portfolio-${process.pid}.db`);
+    const source = process.env.DATABASE_URL || path.resolve(process.cwd(), 'portfolio.db');
+    if (fs.existsSync(source)) fs.copyFileSync(source, isolatedDbPath);
+    else fs.closeSync(fs.openSync(isolatedDbPath, 'w'));
+    process.env.DATABASE_URL = isolatedDbPath;
+    const db = new BetterSqlite3(isolatedDbPath);
+    db.exec(`CREATE TABLE IF NOT EXISTS schema_migrations (id TEXT PRIMARY KEY, applied_at TEXT);
+      CREATE TABLE IF NOT EXISTS company_check_result (symbol TEXT, check_id TEXT, status TEXT, details TEXT, created_at TEXT);`);
+    db.close();
+    console.log(`[globalSetup] isolated test database: ${isolatedDbPath}`);
+  }
+
   // Check if server already running (developer has it up)
   if (await isServerReady()) {
+    if (process.env.ISOLATED_TEST_DB === '1') {
+      throw new Error('ISOLATED_TEST_DB=1 requires port 3000 to be free; stop the running WealthOS server before coverage/integration tests.');
+    }
     console.log(`[globalSetup] WealthOS server already live at http://localhost:${PORT} — skipping spawn`);
     serverWasAlreadyRunning = true;
     return;
@@ -122,4 +142,9 @@ export async function teardown() {
   });
 
   console.log('[globalSetup] Test server stopped.');
+  if (isolatedDbPath) {
+    for (const suffix of ['', '-wal', '-shm']) {
+      try { fs.rmSync(`${isolatedDbPath}${suffix}`, { force: true }); } catch { /* best effort */ }
+    }
+  }
 }
