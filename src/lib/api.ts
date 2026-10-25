@@ -1,4 +1,5 @@
 import { apiFetch } from './apiTransport';
+import { cacheClient } from './cacheClient.js';
 /**
  * Helper to safely perform fetch and parse JSON with automatic retry on rate limits (429 / "Rate exceeded.")
  */
@@ -100,17 +101,19 @@ export async function fetchFundamentals(symbol: string) {
   return r.json();
 }
 export async function fetchHoldings(portfolio?: string) {
-  const url = portfolio ? `/api/v2/facts/holdings?portfolio=${encodeURIComponent(portfolio)}` : '/api/v2/facts/holdings';
-  const r = await fetch(url);
-  return r.json();
+  const key = portfolio ? `holdings:${portfolio}` : 'holdings:all';
+  return cacheClient.getOrFetch(key, () => {
+    const url = portfolio ? `/api/v2/facts/holdings?portfolio=${encodeURIComponent(portfolio)}` : '/api/v2/facts/holdings';
+    return fetch(url).then(r => r.json());
+  }, 60); // 1 min TTL
 }
 export async function fetchEquityUniverse() {
-  const r = await fetch('/api/v2/facts/universe');
-  return r.json();
+  return cacheClient.getOrFetch('universe', () =>
+    fetch('/api/v2/facts/universe').then(r => r.json()), 300); // 5 min TTL
 }
 export async function fetchActiveStrategies() {
-  const r = await fetch('/api/v2/facts/strategies');
-  return r.json();
+  return cacheClient.getOrFetch('strategies', () =>
+    fetch('/api/v2/facts/strategies').then(r => r.json()), 600); // 10 min TTL
 }
 
 export async function downloadXirrAuditExcel(portfolioName: string | string[]) {

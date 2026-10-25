@@ -15,6 +15,7 @@ import { MultiLayerCache } from '../services/MultiLayerCache.js';
 import { CostTracker } from '../services/CostTracker.js';
 import { BudgetEnforcer } from '../services/BudgetEnforcer.js';
 import { DataProvenanceService } from '../services/DataProvenanceService.js';
+import { FeatureFlags } from '../services/FeatureFlags.js';
 
 const router = Router();
 
@@ -66,6 +67,11 @@ router.get('/platform/provenance', (req, res) => {
     since: since,
   });
   res.json({ ok: true, records, stats: svc.stats() });
+});
+
+// GET /api/platform/flags — runtime feature flag snapshot
+router.get('/platform/flags', (_req, res) => {
+  res.json({ ok: true, flags: FeatureFlags.getInstance().snapshot() });
 });
 
 // GET /api/server-info
@@ -155,6 +161,58 @@ router.post('/apps/generate-ai', async (_req, res) => {
       generated_text: 'Fallback generated text: The AI backend is gracefully handling rate limits.'
     }
   });
+});
+
+// GET /metrics — Prometheus text exposition format
+router.get('/metrics', (_req, res) => {
+  const snap = obs.snapshot();
+  const cbStatus = CircuitBreaker.status();
+  const costs = CostTracker.getInstance().summary();
+
+  const lines: string[] = [];
+
+  // Helper to sanitise label values
+  const lbl = (v: string) => v.replace(/[^a-zA-Z0-9_]/g, '_');
+
+  // Counters from ObservabilityHub
+  lines.push('# HELP wealthos_counter Generic platform counters');
+  lines.push('# TYPE wealthos_counter counter');
+  for (const [key, val] of Object.entries(snap.counters)) {
+    const match = key.match(/^([^{]+)(\{.*\})?$/);
+    const metricName = `wealthos_${lbl(match?.[1] ?? key)}`;
+    const labelStr = match?.[2] ?? '';
+    lines.push(`${metricName}${labelStr} ${val}`);
+  }
+
+  // Histograms
+  lines.push('# HELP wealthos_latency_ms Latency histograms (avg + p99)');
+  lines.push('# TYPE wealthos_latency_ms gauge');
+  for (const [key, h] of Object.entries(snap.histograms)) {
+    const match = key.match(/^([^{]+)(\{.*\})?$/);
+    const metricName = `wealthos_${lbl(match?.[1] ?? key)}`;
+    const labelStr = match?.[2] ?? '';
+    lines.push(`${metricName}_avg${labelStr} ${h.avg.toFixed(2)}`);
+    lines.push(`${metricName}_p99${labelStr} ${h.p99.toFixed(2)}`);
+  }
+
+  // Circuit breaker states (CLOSED=0, HALF_OPEN=1, OPEN=2)
+  lines.push('# HELP wealthos_circuit_breaker_state 0=CLOSED 1=HALF_OPEN 2=OPEN');
+  lines.push('# TYPE wealthos_circuit_breaker_state gauge');
+  const cbStateMap: Record<string, number> = { CLOSED: 0, HALF_OPEN: 1, OPEN: 2 };
+  for (const [provider, state] of Object.entries(cbStatus)) {
+    lines.push(`wealthos_circuit_breaker_state{provider="${provider}"} ${cbStateMap[state] ?? 0}`);
+  }
+
+  // Provider costs
+  lines.push('# HELP wealthos_provider_cost_inr Estimated INR cost per provider this month');
+  lines.push('# TYPE wealthos_provider_cost_inr gauge');
+  for (const [provider, stats] of Object.entries(costs.byProvider)) {
+    lines.push(`wealthos_provider_cost_inr{provider="${provider}"} ${(stats as any).estimatedCostINR.toFixed(4)}`);
+    lines.push(`wealthos_provider_calls_total{provider="${provider}"} ${(stats as any).calls}`);
+  }
+
+  res.set('Content-Type', 'text/plain; version=0.0.4; charset=utf-8');
+  res.send(lines.join('\n') + '\n');
 });
 
 export default router;
