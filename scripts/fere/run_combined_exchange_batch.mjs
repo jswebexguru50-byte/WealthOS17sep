@@ -24,7 +24,7 @@ function run(symbol, route) {
 }
 function promote(symbol) {
   return new Promise((resolve, reject) => {
-    const child = spawn(process.execPath, ['scripts/fere/promote_exchange_artifact.mjs', symbol], { cwd: process.cwd(), env: process.env, stdio: ['ignore', 'pipe', 'pipe'] });
+    const child = spawn(process.execPath, ['--import', 'tsx', 'scripts/fere/promote_exchange_artifact.mjs', symbol], { cwd: process.cwd(), env: process.env, stdio: ['ignore', 'pipe', 'pipe'] });
     let output = ''; let error = '';
     child.stdout.on('data', (b) => { output += b; }); child.stderr.on('data', (b) => { error += b; });
     child.on('error', reject); child.on('exit', (code) => code === 0 ? resolve(output) : reject(new Error(`PROMOTION_${code}:${error || output}`)));
