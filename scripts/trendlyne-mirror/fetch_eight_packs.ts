@@ -8,7 +8,23 @@ import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/
 import { TRENDLYNE_PACKS_V1 } from '../../src/server/services/trendlyne-mirror/TrendlyneMirrorService.js';
 
 const root = process.cwd();
-const symbols = ['VMART','RADICO','KRYSTAL','PROTEAN','JUSTDIAL','DBOL','LUMAXTECH','SONACOMS','TARSONS'];
+function argValue(flag: string): string | null {
+  const i = process.argv.indexOf(flag);
+  return i >= 0 ? process.argv[i + 1] || null : null;
+}
+const manifestPath = argValue('--manifest');
+const pilotSymbols = ['VMART','RADICO','KRYSTAL','PROTEAN','JUSTDIAL','DBOL','LUMAXTECH','SONACOMS','TARSONS'];
+let symbols = pilotSymbols;
+if (manifestPath) {
+  const resolved = path.resolve(manifestPath);
+  const manifest = JSON.parse(fs.readFileSync(resolved, 'utf8'));
+  const entries = Array.isArray(manifest) ? manifest : (manifest.entries || manifest.symbols || []);
+  symbols = entries.map((entry: any) => typeof entry === 'string' ? entry : entry.symbol || entry.ticker)
+    .filter((symbol: unknown): symbol is string => typeof symbol === 'string' && symbol.trim().length > 0)
+    .map(symbol => symbol.trim().toUpperCase());
+  symbols = [...new Set(symbols)];
+  if (!symbols.length) throw new Error(`Manifest contains no symbols: ${resolved}`);
+}
 const db = new Database(path.join(root, 'portfolio.db'));
 let config: any = {};
 const configPath = path.join(root, '.agents', 'mcp_config.json');
