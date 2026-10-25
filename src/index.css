@@ -111,11 +111,11 @@ html[data-theme='light'] {
   /* 2.2 The Five-Color Semantic Core (WCAG 2.1 AAA Verified) */
   --brand-pri:         #0B3D91; /* Sovereign Navy (CR 19.0:1) */
   --brand-tint:        #E9EFFA;
-  --fin-gain:          #0A6640; /* Institutional Deep Emerald (CR 14.0:1) */
+  --fin-gain:          #0F7A4E; /* Institutional Deep Emerald */
   --fin-gain-bg:       #E4F6EC;
-  --fin-loss:          #9B1C1C; /* Institutional Deep Crimson (CR 14.0:1) */
+  --fin-loss:          #B3261E; /* Institutional Deep Carmine */
   --fin-loss-bg:       #FBEAE9;
-  --fin-warn:          #78350F; /* Warm Ochre (CR 16.7:1) */
+  --fin-warn:          #8A5A00; /* Institutional Amber */
   --fin-warn-bg:       #FBF0DA;
   --fin-info:          #1E40AF; /* Cobalt Blue (CR 16.7:1) */
   --fin-info-bg:       #E8F1FB;
@@ -155,7 +155,7 @@ html[data-theme='light'] {
 
 /* Institutional UI guardrails: keep the default surface calm, readable and semantic. */
 html[data-theme='institutional-light'], html[data-theme='light'], :root {
-  --brand-pri: #2457D6;
+  --brand-pri: #0B3D91;
   --brand-tint: #E8EFFF;
   --accent-gold: #2457D6;
   --accent-gold-light: #1E40AF;
