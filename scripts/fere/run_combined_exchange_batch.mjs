@@ -22,13 +22,25 @@ function run(symbol, route) {
     child.on('error', reject); child.on('exit', (code) => { clearTimeout(timer); code === 0 ? resolve() : reject(new Error(`EXIT_${code}:${err.slice(-500)}`)); });
   });
 }
+function promote(symbol) {
+  return new Promise((resolve, reject) => {
+    const child = spawn(process.execPath, ['scripts/fere/promote_exchange_artifact.mjs', symbol], { cwd: process.cwd(), env: process.env, stdio: ['ignore', 'pipe', 'pipe'] });
+    let output = ''; let error = '';
+    child.stdout.on('data', (b) => { output += b; }); child.stderr.on('data', (b) => { error += b; });
+    child.on('error', reject); child.on('exit', (code) => code === 0 ? resolve(output) : reject(new Error(`PROMOTION_${code}:${error || output}`)));
+  });
+}
 const manifest = load();
 const pending = manifest.entries.filter((e) => e.status === 'pending' || e.status === 'retryable').slice(0, limit || undefined);
 let cursor = 0; let completed = 0;
 async function worker() {
   while (cursor < pending.length) {
     const entry = pending[cursor++]; const listing = entry.listings[0]; entry.attempts = (entry.attempts || 0) + 1; entry.status = 'acquiring'; save(manifest);
-    try { await run(listing.symbol, listing.route); entry.status = dryRun ? 'dry_run' : 'acquired'; entry.lastError = null; completed++; }
+    try {
+      await run(listing.symbol, listing.route);
+      if (dryRun) { entry.status = 'dry_run'; entry.lastError = null; completed++; }
+      else { await promote(listing.symbol); entry.status = 'promoted'; entry.lastError = null; completed++; }
+    }
     catch (error) { entry.status = entry.attempts <= retries ? 'retryable' : 'failed'; entry.lastError = String(error.message || error); }
     save(manifest);
   }
