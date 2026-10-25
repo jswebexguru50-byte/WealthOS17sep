@@ -215,19 +215,20 @@ export class CanonicalFactIngestionService {
   /** Promote an archived public exchange artifact without overwriting primary facts. */
   async ingestExchangeArtifactForSymbol(symbol: string, artifactPath?: string): Promise<{
     factsInserted: number;
+    factsAvailable: number;
     sourceUrl: string | null;
     artifactPath: string;
     artifactHash: string | null;
   }> {
     const normalized = symbol.trim().toUpperCase();
     const resolvedPath = artifactPath || path.resolve('outputs', 'institutional29', normalized, 'trendlyne_raw.json');
-    if (!fs.existsSync(resolvedPath)) return { factsInserted: 0, sourceUrl: null, artifactPath: resolvedPath, artifactHash: null };
+    if (!fs.existsSync(resolvedPath)) return { factsInserted: 0, factsAvailable: 0, sourceUrl: null, artifactPath: resolvedPath, artifactHash: null };
     const rawText = fs.readFileSync(resolvedPath, 'utf8');
     const artifactHash = crypto.createHash('sha256').update(rawText).digest('hex');
     let artifact: any;
     try { artifact = JSON.parse(rawText); } catch { throw new Error(`EXCHANGE_ARTIFACT_INVALID_JSON:${resolvedPath}`); }
     const exchange = artifact?.raw?.exchange;
-    if (!exchange || typeof exchange !== 'object') return { factsInserted: 0, sourceUrl: null, artifactPath: resolvedPath, artifactHash };
+    if (!exchange || typeof exchange !== 'object') return { factsInserted: 0, factsAvailable: 0, sourceUrl: null, artifactPath: resolvedPath, artifactHash };
     const sourceUrl = typeof exchange.screenerSource === 'string' ? exchange.screenerSource : null;
     const company = await this.all<{ id: string; isin: string }>('SELECT id, isin FROM MasterTickers WHERE symbol=?', [normalized]);
     const companyId = company[0]?.id || normalized;
@@ -251,15 +252,17 @@ export class CanonicalFactIngestionService {
     const balancePeriod = String(balance?.latestPeriod || '').trim();
     if (balancePeriod) for (const [metric, value, label] of [['borrowings', balance.borrowings_cr, 'Borrowings'], ['trade_receivables', balance.tradeReceivables_cr, 'Trade Receivables'], ['inventory', balance.inventory_cr, 'Inventory'], ['cash_and_equivalents', balance.cashAndEquivalents_cr, 'Cash and Equivalents'] ] as const) candidates.push({ metric, value, periodType: 'ANNUAL', periodEnd: balancePeriod, label });
     let factsInserted = 0;
+    let factsAvailable = 0;
     for (const candidate of candidates) {
       const value = Number(candidate.value);
       if (!Number.isFinite(value)) continue;
+      factsAvailable++;
       const periodToken = candidate.periodEnd.replace(/[^A-Za-z0-9]+/g, '_').replace(/^_|_$/g, '') || 'LATEST';
       const factId = `${companyId}_${candidate.metric}_${candidate.periodType}_${periodToken}_CONSOLIDATED_EXCHANGE_SNAPSHOT`;
       factsInserted += await this.runWithChanges(`INSERT OR IGNORE INTO company_facts (factId, companyId, symbol, isin, metric, value, unit, currency, periodType, periodEnd, asOfDate, factType, sourceType, scope, provider, verificationStatus, fetchedAt, availableAt, availabilityStatus, sourceDocumentId, providerToken, exactProviderLabel, sourceUrl, evidenceText, calculationMethod) VALUES (?, ?, ?, ?, ?, ?, 'Cr', 'INR', ?, ?, ?, 'REPORTED_EXCHANGE_SNAPSHOT', 'STRUCTURED_SECONDARY', 'CONSOLIDATED', 'SCREENER_PUBLIC', 'VERIFIED_PARTIAL', ?, ?, 'AVAILABLE', ?, ?, ?, ?, ?, 'PUBLIC_EXCHANGE_SNAPSHOT_V1')`, [factId, companyId, normalized, isin, candidate.metric, String(value), candidate.periodType, candidate.periodEnd, acquiredAt.slice(0, 10), acquiredAt, acquiredAt, `SCREENER_PUBLIC:${normalized}:${artifactHash}`, candidate.metric, candidate.label, sourceUrl, evidenceText]);
     }
     obs.increment('promotion.completed', { source: 'exchange_artifact', symbol: normalized }, factsInserted);
     obs.increment(factsInserted > 0 ? 'promotion.success' : 'promotion.empty', { source: 'exchange_artifact' });
-    return { factsInserted, sourceUrl, artifactPath: resolvedPath, artifactHash };
+    return { factsInserted, factsAvailable, sourceUrl, artifactPath: resolvedPath, artifactHash };
   }
 }
