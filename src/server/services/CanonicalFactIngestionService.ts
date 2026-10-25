@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
+import { obs } from './ObservabilityHub.js';
 
 export interface CanonicalMapping {
   provider: string;
@@ -257,6 +258,8 @@ export class CanonicalFactIngestionService {
       const factId = `${companyId}_${candidate.metric}_${candidate.periodType}_${periodToken}_CONSOLIDATED_EXCHANGE_SNAPSHOT`;
       factsInserted += await this.runWithChanges(`INSERT OR IGNORE INTO company_facts (factId, companyId, symbol, isin, metric, value, unit, currency, periodType, periodEnd, asOfDate, factType, sourceType, scope, provider, verificationStatus, fetchedAt, availableAt, availabilityStatus, sourceDocumentId, providerToken, exactProviderLabel, sourceUrl, evidenceText, calculationMethod) VALUES (?, ?, ?, ?, ?, ?, 'Cr', 'INR', ?, ?, ?, 'REPORTED_EXCHANGE_SNAPSHOT', 'STRUCTURED_SECONDARY', 'CONSOLIDATED', 'SCREENER_PUBLIC', 'VERIFIED_PARTIAL', ?, ?, 'AVAILABLE', ?, ?, ?, ?, ?, 'PUBLIC_EXCHANGE_SNAPSHOT_V1')`, [factId, companyId, normalized, isin, candidate.metric, String(value), candidate.periodType, candidate.periodEnd, acquiredAt.slice(0, 10), acquiredAt, acquiredAt, `SCREENER_PUBLIC:${normalized}:${artifactHash}`, candidate.metric, candidate.label, sourceUrl, evidenceText]);
     }
+    obs.increment('promotion.completed', { source: 'exchange_artifact', symbol: normalized }, factsInserted);
+    obs.increment(factsInserted > 0 ? 'promotion.success' : 'promotion.empty', { source: 'exchange_artifact' });
     return { factsInserted, sourceUrl, artifactPath: resolvedPath, artifactHash };
   }
 }
