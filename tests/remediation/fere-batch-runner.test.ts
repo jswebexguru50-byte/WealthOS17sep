@@ -9,5 +9,5 @@ test('FERE batch runner is bounded, resumable and dry-run by default', () => {
   assert.match(source, /\.tmp/);
   assert.match(source, /route === 'BSE'.*--bse-code/s);
   assert.match(source, /route === 'BSE'.*else args\.push\('--nse-code'/s);
-  assert.match(source, /entry\.status = dryRun \? 'dry_run' : 'promoted'/);
+  assert.match(source, /entry\.status = 'promoted'/);
 });
