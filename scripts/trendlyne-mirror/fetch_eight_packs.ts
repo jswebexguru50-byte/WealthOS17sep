@@ -13,6 +13,7 @@ function argValue(flag: string): string | null {
   return i >= 0 ? process.argv[i + 1] || null : null;
 }
 const manifestPath = argValue('--manifest');
+const includeOverview = process.argv.includes('--include-overview');
 const pilotSymbols = ['VMART','RADICO','KRYSTAL','PROTEAN','JUSTDIAL','DBOL','LUMAXTECH','SONACOMS','TARSONS'];
 let symbols = pilotSymbols;
 if (manifestPath) {
@@ -81,9 +82,10 @@ for (const pack of TRENDLYNE_PACKS_V1) {
     }
   }
 }
-// Eighth dossier pack: provider overview/context for each symbol.
+// Overview/context is one call per symbol, so it is opt-in after non-MCP
+// sources have been exhausted.
 const overviewTool = 'get_overview_news_corp_events';
-for (const symbol of symbols) {
+if (includeOverview) for (const symbol of symbols) {
   try {
     const response = await client.callTool({name: overviewTool, arguments:{stock_code:symbol, type:'overview'}});
     const text = (response as any)?.content?.[0]?.text || '';
@@ -95,6 +97,6 @@ for (const symbol of symbols) {
   }
 }
 fs.mkdirSync(path.join(root,'reports','trendlyne_mirror'), {recursive:true});
-fs.writeFileSync(path.join(root,'reports','trendlyne_mirror','EIGHT_PACK_FETCH_SUMMARY.json'), JSON.stringify({generatedAt:now, symbols, packCount:TRENDLYNE_PACKS_V1.length + 1, providerSymbolLimit, providerParameterLimit:10, results}, null, 2));
+fs.writeFileSync(path.join(root,'reports','trendlyne_mirror','EIGHT_PACK_FETCH_SUMMARY.json'), JSON.stringify({generatedAt:now, symbols, packCount:TRENDLYNE_PACKS_V1.length + (includeOverview ? 1 : 0), includeOverview, providerSymbolLimit, providerParameterLimit:10, results}, null, 2));
 db.close();
 console.log(JSON.stringify({symbols:symbols.length, packs:TRENDLYNE_PACKS_V1.length + 1, calls:results.length, success:results.filter(r=>r.status==='SUCCESS').length, unavailable:results.filter(r=>r.status!=='SUCCESS').length}, null, 2));
