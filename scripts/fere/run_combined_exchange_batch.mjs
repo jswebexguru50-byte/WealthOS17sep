@@ -13,7 +13,7 @@ const timeoutMs = Math.max(5000, Number(arg('--timeout-ms', '90000')));
 const checkpointEvery = Math.max(1, Number(arg('--checkpoint-every', '50')));
 const load = () => JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 const save = (manifest) => { const tmp = `${manifestPath}.tmp`; fs.writeFileSync(tmp, JSON.stringify(manifest, null, 2) + '\n'); fs.renameSync(tmp, manifestPath); };
-function run(symbol, route) {
+function run(symbol, route, isin) {
   return new Promise((resolve, reject) => {
     const args = ['scripts/fundamental/institutional29/acquire_exchange_data.mjs', symbol];
     // The acquisition script requires an explicit exchange identifier.  Passing
@@ -21,6 +21,7 @@ function run(symbol, route) {
     // requests such as `scripcode=null`, which can never return facts.
     if (route === 'BSE') args.push('--bse-code', symbol);
     else args.push('--nse-code', symbol);
+    if (isin) args.push('--isin', isin);
     if (dryRun) args.push('--dry-run');
     const child = spawn(process.execPath, args, { cwd: process.cwd(), env: { ...process.env, FERE_ROUTE: route }, stdio: ['ignore', 'pipe', 'pipe'] });
     let err = ''; child.stderr.on('data', (b) => { err += b; });
@@ -62,7 +63,7 @@ function progress(symbol, status, detail = '') {
 async function processEntry(entry) {
     const listing = entry.listings[0]; entry.attempts = (entry.attempts || 0) + 1; entry.status = 'acquiring'; save(manifest);
     try {
-      await run(listing.symbol, listing.route);
+      await run(listing.symbol, listing.route, entry.isin);
       if (dryRun) { entry.status = 'dry_run'; entry.lastError = null; completed++; progress(listing.symbol, entry.status); }
       else {
         await runSupplementary(listing.symbol, listing.route);

@@ -329,6 +329,7 @@ async function main() {
     : args.includes('--nse-code') ? args[args.indexOf('--nse-code') + 1]
     : null;
   const asOfArg = args.includes('--as-of') ? args[args.indexOf('--as-of') + 1] : null;
+  const isinArg = args.includes('--isin') ? args[args.indexOf('--isin') + 1] : null;
   const asOf = asOfArg ? new Date(asOfArg) : new Date();
 
   const today = toBSEDateStr(asOf);
@@ -366,6 +367,7 @@ async function main() {
 
   if (!raw.raw) raw.raw = {};
   raw.raw.bseCode = bseCode;
+  raw.raw.isin = isinArg || raw.raw.isin || null;
 
   if (!raw.raw.exchange) raw.raw.exchange = {};
   // Re-running a symbol starts a fresh auditable ledger; stale failures must
