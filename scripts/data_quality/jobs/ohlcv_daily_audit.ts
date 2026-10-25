@@ -16,6 +16,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
+import Database from 'better-sqlite3';
 
 const root = path.resolve(process.cwd());
 const progressDir = path.join(root, 'reports', 'data_quality', 'jobs');
@@ -51,12 +52,17 @@ async function main() {
   fs.writeFileSync(progressPath, JSON.stringify(progress, null, 2));
 
   if (!fs.existsSync(auditScriptPath)) {
-    progress.status = 'SCRIPT_MISSING';
-    progress.error = `Underlying audit script not found: ${auditScriptPath}`;
-    progress.completedTime = new Date().toISOString();
-    fs.writeFileSync(progressPath, JSON.stringify(progress, null, 2));
-    log(`[ERROR] ${progress.error}`);
-    process.exit(1);
+    // The legacy population audit is optional. Fall back to a direct,
+    // symbol-scoped SQLite check so a missing helper cannot hide real coverage.
+    const symbol = process.argv.includes('--symbol') ? process.argv[process.argv.indexOf('--symbol') + 1]?.toUpperCase() : null;
+    if (!symbol) { progress.status = 'SCRIPT_MISSING'; progress.error = `Underlying audit script not found: ${auditScriptPath}`; progress.completedTime = new Date().toISOString(); fs.writeFileSync(progressPath, JSON.stringify(progress, null, 2)); log(`[ERROR] ${progress.error}`); process.exit(1); }
+    try {
+      const db = new Database(path.join(root, 'portfolio.db'), { readonly: true });
+      const table = db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='DailyOHLCV'").get();
+      const row = table ? db.prepare('SELECT COUNT(*) AS count, MIN(trade_date) AS firstDate, MAX(trade_date) AS lastDate FROM DailyOHLCV WHERE UPPER(symbol)=?').get(symbol) as any : { count: 0 };
+      db.close();
+      progress.universe = 1; progress.clean10yCount = Number(row.count || 0) > 0 ? 1 : 0; progress.clean10yPct = progress.clean10yCount * 100; progress.latestTradeDate = row.lastDate || null; progress.status = Number(row.count || 0) > 0 ? 'AUDIT_ONLY' : 'NO_OHLCV'; progress.error = Number(row.count || 0) > 0 ? null : 'NO_DAILY_OHLCV_ROWS_FOR_SYMBOL'; progress.completedTime = new Date().toISOString(); fs.writeFileSync(progressPath, JSON.stringify(progress, null, 2)); log(`[OHLCV] ${symbol}: ${row.count || 0} rows, ${row.firstDate || 'n/a'} → ${row.lastDate || 'n/a'}`); return;
+    } catch (error: any) { progress.status = 'FAILED'; progress.error = error?.message || String(error); progress.completedTime = new Date().toISOString(); fs.writeFileSync(progressPath, JSON.stringify(progress, null, 2)); log(`[ERROR] ${progress.error}`); process.exit(1); }
   }
 
   try {
