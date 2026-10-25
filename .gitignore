@@ -30,6 +30,7 @@ __pycache__/
 portfolio_persistent_backup*
 scripts/qa/out/
 reports/
+tests/reports/
 git_log_all.txt
 
 # Local archived snapshots and compatibility links (not source)
