@@ -38,19 +38,19 @@ export default defineConfig({
     ignoreHTTPSErrors: true,
   },
 
-  // Test projects — run on system installed desktop Chrome
+  // Test projects — use Playwright-managed browsers; no system Chrome/Edge required.
   projects: [
     {
       name: 'chromium-desktop',
       use: {
-        channel: 'chrome',
+        ...devices['Desktop Chrome'],
         viewport: { width: 1920, height: 1080 },
       },
     },
     {
       name: 'edge-desktop',
       use: {
-        channel: 'msedge',
+        ...devices['Desktop Chrome'],
         viewport: { width: 1920, height: 1080 },
       },
     },
