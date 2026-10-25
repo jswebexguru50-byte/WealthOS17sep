@@ -20,7 +20,10 @@ if (manifestPath) {
   const resolved = path.resolve(manifestPath);
   const manifest = JSON.parse(fs.readFileSync(resolved, 'utf8'));
   const entries = Array.isArray(manifest) ? manifest : (manifest.entries || manifest.symbols || []);
-  symbols = entries.map((entry: any) => typeof entry === 'string' ? entry : entry.symbol || entry.ticker)
+  symbols = entries.map((entry: any) => typeof entry === 'string'
+    ? entry
+    : entry.symbol || entry.ticker || entry.scrip || entry.code
+      || entry.listings?.find((listing: any) => listing?.symbol)?.symbol)
     .filter((symbol: unknown): symbol is string => typeof symbol === 'string' && symbol.trim().length > 0)
     .map(symbol => symbol.trim().toUpperCase());
   symbols = [...new Set(symbols)];
