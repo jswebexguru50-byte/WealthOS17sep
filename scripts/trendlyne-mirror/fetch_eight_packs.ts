@@ -14,6 +14,7 @@ const url = config?.mcpServers?.trendlyne?.serverUrl || config?.mcpServers?.tren
 if (!url) throw new Error('Trendlyne MCP URL is not configured.');
 const now = new Date().toISOString();
 const chunks = <T>(a: T[], n: number) => Array.from({length: Math.ceil(a.length / n)}, (_, i) => a.slice(i*n, i*n+n));
+const providerSymbolLimit = 50;
 const hash = (v: unknown) => crypto.createHash('sha256').update(JSON.stringify(v)).digest('hex');
 function save(symbol: string, packId: string, chunkIndex: number, tokens: string[], payload: unknown, status: string, error: string | null) {
   const fetchedAt = new Date().toISOString();
@@ -39,7 +40,7 @@ for (const pack of TRENDLYNE_PACKS_V1) {
   let chunkIndex = 0;
   for (const tokenChunk of chunks(packTokens, 10)) {
     chunkIndex++;
-    for (const symbolChunk of chunks(symbols, 10)) {
+    for (const symbolChunk of chunks(symbols, providerSymbolLimit)) {
       try {
         const response = await client.callTool({name:'get_stock_parameter_values', arguments:{stock_codes:symbolChunk, parameters:tokenChunk}});
         const text = (response as any)?.content?.[0]?.text || '';
@@ -70,6 +71,6 @@ for (const symbol of symbols) {
   }
 }
 fs.mkdirSync(path.join(root,'reports','trendlyne_mirror'), {recursive:true});
-fs.writeFileSync(path.join(root,'reports','trendlyne_mirror','EIGHT_PACK_FETCH_SUMMARY.json'), JSON.stringify({generatedAt:now, symbols, packCount:TRENDLYNE_PACKS_V1.length + 1, providerSymbolLimit:10, providerParameterLimit:10, results}, null, 2));
+fs.writeFileSync(path.join(root,'reports','trendlyne_mirror','EIGHT_PACK_FETCH_SUMMARY.json'), JSON.stringify({generatedAt:now, symbols, packCount:TRENDLYNE_PACKS_V1.length + 1, providerSymbolLimit, providerParameterLimit:10, results}, null, 2));
 db.close();
 console.log(JSON.stringify({symbols:symbols.length, packs:TRENDLYNE_PACKS_V1.length + 1, calls:results.length, success:results.filter(r=>r.status==='SUCCESS').length, unavailable:results.filter(r=>r.status!=='SUCCESS').length}, null, 2));

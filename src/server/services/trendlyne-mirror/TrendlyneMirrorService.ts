@@ -380,9 +380,12 @@ export class TrendlyneMirrorService {
 
   planBatches(symbols: string[], packs = TRENDLYNE_PACKS_V1): PlannedBatch[] {
     const batches: PlannedBatch[] = [];
+    // Trendlyne accepts up to 50 symbols and 10 parameters per request.
+    // Keep the cohort deterministic while using the provider's full capacity.
+    const providerSymbolLimit = 50;
     for (const p of packs) {
-      for (let i = 0; i < symbols.length; i += 10) {
-        const batchSymbols = symbols.slice(i, i + 10);
+      for (let i = 0; i < symbols.length; i += providerSymbolLimit) {
+        const batchSymbols = symbols.slice(i, i + providerSymbolLimit);
         batches.push({
           packId: p.packId,
           packVersion: p.version,
