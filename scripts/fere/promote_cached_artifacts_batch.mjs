@@ -3,6 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import Database from 'better-sqlite3';
+import sqlite3 from 'sqlite3';
 import { CanonicalFactIngestionService } from '../../src/server/services/CanonicalFactIngestionService.ts';
 const arg=(n,d)=>{const i=process.argv.indexOf(n);return i>=0&&process.argv[i+1]?process.argv[i+1]:d};
 const root=process.cwd(), manifestPath=path.resolve(root,arg('--manifest','outputs/fere/combined_exchange_manifest.json'));
@@ -11,7 +12,7 @@ if(!fs.existsSync(manifestPath)) throw new Error(`Manifest not found: ${manifest
 if(!fs.existsSync(dbPath)) throw new Error(`Database not found: ${dbPath}`);
 const manifest=JSON.parse(fs.readFileSync(manifestPath,'utf8'));
 const entries=(Array.isArray(manifest.entries)?manifest.entries:Array.isArray(manifest)?manifest:[]).flatMap(e=>Array.isArray(e?.listings)?e.listings.map(l=>({...e,...l})): [e]);
-const db=new Database(dbPath); if(!db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='company_facts'").get()) throw new Error('company_facts table is missing; refusing promotion');
+const db=new Database(dbPath); const serviceDb=new sqlite3.Database(dbPath); if(!db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='company_facts'").get()) throw new Error('company_facts table is missing; refusing promotion');
 const count=db.prepare('SELECT COUNT(*) n FROM company_facts WHERE UPPER(symbol)=UPPER(?)'), rootArtifacts=path.resolve(root,'outputs/institutional29');
 const out={mode:apply?'apply':'dry_run',mcp:'disabled',total:0,outcomes:[]};
 for(const e of entries.filter(x=>x?.symbol).slice(0,limit||entries.length)){
@@ -23,6 +24,6 @@ for(const e of entries.filter(x=>x?.symbol).slice(0,limit||entries.length)){
   const text=JSON.stringify(raw).toLowerCase(), source=text.includes('xbrl')?'NSE_BSE_XBRL':text.includes('upstox')?'UPSTOX_CACHED':text.includes('mca')?'MCA_CACHED':'SCREENER_PUBLIC';
   const lineage={source,artifactPath,sourceDocumentId:`${source}:${symbol}:${fs.statSync(artifactPath).mtimeMs}`};
   if(!apply){out.outcomes.push({symbol,status:'would_promote',facts:0,lineage});continue;}
-  try{const promoted=await new CanonicalFactIngestionService(db).ingestExchangeArtifactForSymbol(symbol,artifactPath), after=Number(count.get(symbol)?.n||0);out.outcomes.push({symbol,status:promoted.factsAvailable>0&&after>0?'promoted':'promotion_empty',facts:after,factsInserted:promoted.factsInserted,lineage:{...lineage,artifactHash:promoted.artifactHash}});}catch(error){out.outcomes.push({symbol,status:'promotion_error',error:String(error.message||error),lineage});}
+  try{const promoted=await new CanonicalFactIngestionService(serviceDb).ingestExchangeArtifactForSymbol(symbol,artifactPath), after=Number(count.get(symbol)?.n||0);out.outcomes.push({symbol,status:promoted.factsAvailable>0&&after>0?'promoted':'promotion_empty',facts:after,factsInserted:promoted.factsInserted,lineage:{...lineage,artifactHash:promoted.artifactHash}});}catch(error){out.outcomes.push({symbol,status:'promotion_error',error:String(error.message||error),lineage});}
 }
-out.total=out.outcomes.length;db.close();console.log(JSON.stringify(out,null,2));
+out.total=out.outcomes.length;db.close();serviceDb.close();console.log(JSON.stringify(out,null,2));
