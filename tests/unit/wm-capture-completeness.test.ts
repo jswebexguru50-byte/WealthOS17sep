@@ -89,7 +89,7 @@ describe('WM-CAP: Transaction Capture Completeness & Integrity', () => {
        VALUES ('2026-02-15', 'TestPF1', 'BUY', 'INE009A01021', 'INFY', 50, 1600, 80000, 80000, 'BROKER_B', 'HDFC Sky')`
     );
 
-    await runFIFO(db);
+    await runFIFO(db, 'TestPF1');
 
     const holding = await dbGet(db, `SELECT * FROM Holdings WHERE portfolio='TestPF1' AND isin='INE009A01021'`);
     expect(holding.quantity).toBe(150); // 100 + 50
@@ -119,7 +119,7 @@ describe('WM-CAP: Transaction Capture Completeness & Integrity', () => {
        VALUES ('2024-07-01', 'TestPF1', 'SELL', 'INE001A01036', 'TEST', 150, 120, 18000, 18000)`
     );
 
-    await runFIFO(db);
+    await runFIFO(db, 'TestPF1');
 
     const holding = await dbGet(db, `SELECT * FROM Holdings WHERE portfolio='TestPF1' AND isin='INE001A01036'`);
     expect(holding.quantity).toBe(50); // 200 - 150
@@ -198,7 +198,7 @@ describe('WM-CAP: Transaction Capture Completeness & Integrity', () => {
     await dbRun(db, `INSERT INTO Transactions (date, portfolio, type, isin, symbol, quantity, price, gross_amount, net_amount)
       VALUES ('2026-03-01', 'TestPF1', 'SELL', 'INE002A01018', 'RELIANCE', 40, 2800, 112000, 112000)`);
 
-    await runFIFO(db);
+    await runFIFO(db, 'TestPF1');
 
     const holdings = await dbAll(db, `SELECT * FROM Holdings WHERE portfolio='TestPF1'`);
     for (const h of holdings) {

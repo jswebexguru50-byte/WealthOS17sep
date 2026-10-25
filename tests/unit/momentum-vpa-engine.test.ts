@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import {
   MomentumVpaEngine,
   Candle,
@@ -174,6 +174,31 @@ describe('Smart Money Momentum & Volume Price Alignment (VPA) Engine (WOS-FS-MOM
   // STAGE 3 & 4: 3-Tranche Execution, Risk Boundaries, and Invalidation
   // ─────────────────────────────────────────────────────────────────────────
   describe('Stage 3 & 4: 3-Tranche Staggered Execution & Risk Engine', () => {
+    /** Returns a minimal MomentumVpaSetup stub for armStaggeredOrder testing */
+    function mockSetup(symbol: string, price = 1200): any {
+      const vwap = price * 0.95;
+      const p0 = vwap * 0.88;
+      return {
+        symbol, companyName: symbol, sector: 'TEST', currentPrice: price,
+        stage: 'ACTIONABLE_TRANCHE_READY', stageBadge: '', activeActionBadge: '',
+        suitability: 'BOTH', recommendedDuration: '3-6M',
+        macroRegime: { regime: 'NORMAL', emergencyStopArmed: false, emergencyStopLossPct: 0, currentClose: price, sma50: price * 0.9 },
+        impulse: { impulsePeak: price * 1.22, cumulativeTurnoverCr: 80, impulseStartDate: '2026-01-01', impulseEndDate: '2026-02-01', durationDays: 12, gainPct: 22 },
+        base: { baseHigh: price * 1.01, baseLow: price * 0.97, baseDurationBars: 18, holdsUpperQuadrant: true, atrRatio: 0.6, volumeDryingRatio: 0.5, vpaAsymmetryRatio: 1.3, qualified: true },
+        tranches: [
+          { triggerPrice: price * 0.97, allocationPct: 33.33, status: 'PENDING', conditionMet: false },
+          { triggerPrice: price * 0.985, allocationPct: 33.33, status: 'PENDING', conditionMet: false },
+          { triggerPrice: price * 1.01, allocationPct: 33.34, status: 'PENDING', conditionMet: false },
+        ],
+        blendedVwap: vwap, pointZeroStopLoss: p0, structuralRiskPct: 9,
+        riskGuardrailPasses: true, targetMinPrice: vwap * 1.20, targetMaxPrice: vwap * 1.25,
+        targetBandPct: '+20% to +25%', emergencyStopPrice: vwap * 0.88, riskRewardRatio: 2.5,
+        probabilityScore: 72, confidenceLevel: 'HIGH',
+        fundamental: {} as any, sentiment: {} as any, compositeConviction: {} as any, multiSourceData: {} as any,
+        rationale: [], lastUpdated: new Date().toISOString()
+      };
+    }
+
     it('evaluates 3-tranche equal split (33.33%, 33.33%, 33.34%) and calculates Blended VWAP correctly', () => {
       const synthetic = engine.generateSyntheticCandles('TEST_TRANCHES', 60);
       const setup = engine.evaluateStock('TEST_TRANCHES', 'Test Tranches Ltd', synthetic);
@@ -189,6 +214,7 @@ describe('Smart Money Momentum & Volume Price Alignment (VPA) Engine (WOS-FS-MOM
     });
 
     it('TC-03: Invalidation - Liquidates filled Tranche 1 and cancels queued tranches when price breaches Point Zero (P0)', async () => {
+      vi.spyOn(engine, 'scanUniverse').mockResolvedValueOnce([mockSetup('TCS', 3500)]);
       const order = await engine.armStaggeredOrder('TCS', 'Combined', 300000);
       expect(order.status).toBe('ARMED');
 
@@ -208,6 +234,7 @@ describe('Smart Money Momentum & Volume Price Alignment (VPA) Engine (WOS-FS-MOM
     });
 
     it('TC-04: Executes Tranche 3 on breakout above Base High with Volume > 1.5x SMA20 and recalibrates Blended VWAP and Target Band', async () => {
+      vi.spyOn(engine, 'scanUniverse').mockResolvedValueOnce([mockSetup('RELIANCE', 2800)]);
       const order = await engine.armStaggeredOrder('RELIANCE', 'Combined', 300000);
 
       // Set Tranche 1 and 2 to FILLED in SQLite
@@ -230,6 +257,8 @@ describe('Smart Money Momentum & Volume Price Alignment (VPA) Engine (WOS-FS-MOM
     });
 
     it('TC-05: Emergency Circuit Breaker - Triggers liquidation at -12.0% loss from VWAP when Macro Regime is BEARISH', async () => {
+      // P0 must be below emergencyStop (12% from VWAP) so circuit breaker fires before P0 stop
+      vi.spyOn(engine, 'scanUniverse').mockResolvedValueOnce([{ ...mockSetup('BEAR_TEST', 500), pointZeroStopLoss: 500 * 0.95 * 0.82 }]);
       const order = await engine.armStaggeredOrder('BEAR_TEST', 'Combined', 100000);
       const emergencyStop = Number((order.blendedVwap * 0.88).toFixed(2));
       const { dbRun, getDB } = await import('../../src/server/database.js');

@@ -10,7 +10,10 @@
       "invokesExistingScript": true,
       "existingScriptPath": "scripts/market_data/audit_adjusted_ohlcv_coverage.py",
       "command": "npx",
-      "args": ["tsx", "scripts/data_quality/jobs/ohlcv_daily_audit.ts"],
+      "args": [
+        "tsx",
+        "scripts/data_quality/jobs/ohlcv_daily_audit.ts"
+      ],
       "scriptPath": "scripts/data_quality/jobs/ohlcv_daily_audit.ts",
       "frequencyHours": 24,
       "staleThresholdHours": 24,
@@ -25,11 +28,14 @@
       "name": "sector_index_ohlcv_refresh",
       "description": "Synchronize official sector and broad index Parquet partitions into SQLite IndexOHLCV",
       "jobType": "REFRESH",
-      "implementationStatus": "READY",
-      "invokesExistingScript": true,
+      "implementationStatus": "SCRIPT_MISSING",
+      "invokesExistingScript": false,
       "existingScriptPath": "scripts/market_data/sync_sector_indices_to_sqlite.py",
       "command": "npx",
-      "args": ["tsx", "scripts/data_quality/jobs/sector_index_ohlcv_refresh.ts"],
+      "args": [
+        "tsx",
+        "scripts/data_quality/jobs/sector_index_ohlcv_refresh.ts"
+      ],
       "scriptPath": "scripts/data_quality/jobs/sector_index_ohlcv_refresh.ts",
       "frequencyHours": 24,
       "staleThresholdHours": 24,
@@ -48,7 +54,11 @@
       "invokesExistingScript": true,
       "existingScriptPath": "scripts/fundamental/trendlyne_metric_pack_planner.ts",
       "command": "npx",
-      "args": ["tsx", "scripts/fundamental/trendlyne_metric_pack_planner.ts", "--execute"],
+      "args": [
+        "tsx",
+        "scripts/fundamental/trendlyne_metric_pack_planner.ts",
+        "--execute"
+      ],
       "scriptPath": "scripts/fundamental/trendlyne_metric_pack_planner.ts",
       "frequencyHours": 360,
       "staleThresholdHours": 360,
@@ -67,7 +77,10 @@
       "invokesExistingScript": true,
       "existingScriptPath": "scripts/fundamental/canonical_fact_ingestion.ts",
       "command": "npx",
-      "args": ["tsx", "scripts/fundamental/canonical_fact_ingestion.ts"],
+      "args": [
+        "tsx",
+        "scripts/fundamental/canonical_fact_ingestion.ts"
+      ],
       "scriptPath": "scripts/fundamental/canonical_fact_ingestion.ts",
       "frequencyHours": 24,
       "staleThresholdHours": 24,
@@ -86,7 +99,10 @@
       "invokesExistingScript": false,
       "existingScriptPath": "scripts/data_quality/jobs/financial_history_backfill.ts",
       "command": "npx",
-      "args": ["tsx", "scripts/data_quality/jobs/financial_history_backfill.ts"],
+      "args": [
+        "tsx",
+        "scripts/data_quality/jobs/financial_history_backfill.ts"
+      ],
       "scriptPath": "scripts/data_quality/jobs/financial_history_backfill.ts",
       "frequencyHours": 168,
       "staleThresholdHours": 168,
@@ -105,7 +121,10 @@
       "invokesExistingScript": false,
       "existingScriptPath": "scripts/data_quality/jobs/shareholding_history_backfill.ts",
       "command": "npx",
-      "args": ["tsx", "scripts/data_quality/jobs/shareholding_history_backfill.ts"],
+      "args": [
+        "tsx",
+        "scripts/data_quality/jobs/shareholding_history_backfill.ts"
+      ],
       "scriptPath": "scripts/data_quality/jobs/shareholding_history_backfill.ts",
       "frequencyHours": 168,
       "staleThresholdHours": 168,
@@ -124,7 +143,10 @@
       "invokesExistingScript": false,
       "existingScriptPath": null,
       "command": "npx",
-      "args": ["tsx", "scripts/data_quality/jobs/corporate_events_deals_refresh.ts"],
+      "args": [
+        "tsx",
+        "scripts/data_quality/jobs/corporate_events_deals_refresh.ts"
+      ],
       "scriptPath": "scripts/data_quality/jobs/corporate_events_deals_refresh.ts",
       "frequencyHours": 24,
       "staleThresholdHours": 24,
@@ -143,7 +165,10 @@
       "invokesExistingScript": true,
       "existingScriptPath": "scripts/data_quality/analyze360_missing_data_inventory.ts",
       "command": "npx",
-      "args": ["tsx", "scripts/data_quality/analyze360_missing_data_inventory.ts"],
+      "args": [
+        "tsx",
+        "scripts/data_quality/analyze360_missing_data_inventory.ts"
+      ],
       "scriptPath": "scripts/data_quality/analyze360_missing_data_inventory.ts",
       "frequencyHours": 24,
       "staleThresholdHours": 24,

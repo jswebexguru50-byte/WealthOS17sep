@@ -12,8 +12,10 @@
  * - Strategy library query: <100ms
  */
 
+// @vitest-environment node
 import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
 import sqlite3 from 'sqlite3';
+import BetterSqlite3 from 'better-sqlite3';
 import { getDB, initializeDatabase, dbAll, dbGet, dbRun } from '../../src/server/database.js';
 import { RegimeBacktestEngine } from '../../src/server/services/RegimeBacktestEngine.js';
 import path from 'path';
@@ -39,6 +41,14 @@ async function cleanupTestDb() {
 
 async function setupTestDb(): Promise<sqlite3.Database> {
   await cleanupTestDb();
+
+  // Use better-sqlite3 for schema initialization (migrator requires sync API)
+  const syncDb = new BetterSqlite3(TEST_DB_PATH);
+  syncDb.pragma('journal_mode = WAL');
+  await initializeDatabase(syncDb as any, true);
+  syncDb.close();
+
+  // Return callback-style sqlite3 DB for async test operations
   const db = new sqlite3.Database(TEST_DB_PATH);
   await new Promise<void>((resolve, reject) => {
     db.configure('busyTimeout', 30000);
@@ -47,9 +57,6 @@ async function setupTestDb(): Promise<sqlite3.Database> {
       else resolve();
     });
   });
-
-  // Run initialization (schema creation)
-  await initializeDatabase(db, true);
 
   return db;
 }

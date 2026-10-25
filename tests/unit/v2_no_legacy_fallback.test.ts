@@ -8,11 +8,12 @@
  * rather than aliasing content_hash for both canonical_fact_hash and evidence_hash.
  */
 
+import { describe, it, expect } from 'vitest';
 import * as fs from 'fs';
 import * as path from 'path';
 
 const UI_DIRS = [
-  path.join(process.cwd(), 'src', 'client'),
+  path.join(process.cwd(), 'src', 'components'),
   path.join(process.cwd(), 'src', 'server', 'routes'),
 ];
 

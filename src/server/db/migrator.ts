@@ -57,14 +57,20 @@ export class Migrator {
       )
     `);
 
-    // Ensure columns exist on pre-existing legacy schema_migrations table
-    // (Allowed compatibility inspect)
-    const cols = (rawDb.prepare("PRAGMA table_info(schema_migrations)").all() as any[]).map(c => c.name);
-    if (!cols.includes('name')) {
-      rawDb.exec("ALTER TABLE schema_migrations ADD COLUMN name TEXT");
-    }
-    if (!cols.includes('checksum')) {
-      rawDb.exec("ALTER TABLE schema_migrations ADD COLUMN checksum TEXT");
+    // Ensure columns exist on pre-existing legacy schema_migrations table.
+    // prepare().all() is better-sqlite3 sync API; guard in case rawDb is
+    // a different sqlite3 binding that returns a non-array from .all().
+    try {
+      const colResult = rawDb.prepare("PRAGMA table_info(schema_migrations)").all();
+      const cols: string[] = Array.isArray(colResult) ? (colResult as any[]).map(c => c.name) : [];
+      if (cols.length > 0 && !cols.includes('name')) {
+        rawDb.exec("ALTER TABLE schema_migrations ADD COLUMN name TEXT");
+      }
+      if (cols.length > 0 && !cols.includes('checksum')) {
+        rawDb.exec("ALTER TABLE schema_migrations ADD COLUMN checksum TEXT");
+      }
+    } catch (_) {
+      // Non-better-sqlite3 DB: columns were already defined in CREATE TABLE above, skip.
     }
   }
 

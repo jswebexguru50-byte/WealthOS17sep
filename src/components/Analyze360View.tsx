@@ -12,6 +12,81 @@ interface Analyze360ViewProps {
   onClose: () => void;
 }
 
+const CHECKLIST_GROUP_LABELS: Record<string, string> = {
+  Technical: 'Price and technical data',
+  fundamentals: 'Fundamental data',
+  QGLP: 'Quality, growth and valuation',
+  FERE: 'Verified filing evidence',
+  Sector: 'Sector context',
+};
+
+const CHECKLIST_FIELD_LABELS: Record<string, string> = {
+  revenueGrowth: 'Revenue growth',
+  fiveYearCagr: 'Five-year revenue growth',
+  'profitability.operatingProfit': 'Operating profit',
+  'profitability.pat': 'Profit after tax',
+  'debtAndService.debtToEquity': 'Debt-to-equity',
+  'debtAndService.totalBorrowings': 'Total borrowings',
+  'cashFlow.cfo': 'Cash flow from operations',
+  'cashFlow.freeCashFlow': 'Free cash flow',
+  'cashFlow.fcfYield': 'Free-cash-flow yield',
+  'efficiency.roe': 'Return on equity',
+  'efficiency.roce': 'Return on capital employed',
+  'holdings.promoterHolding': 'Promoter holding',
+  'holdings.fiiHolding': 'Foreign institutional holding',
+  'holdings.diiHolding': 'Domestic institutional holding',
+  'valuation.pe': 'Price-to-earnings ratio',
+  'outlook.demandOutlook': 'Demand outlook',
+  'outlook.peerContext': 'Peer comparison',
+  keyRisks: 'Key business risks',
+  latestClose: 'Latest closing price',
+  latestOhlcvDate: 'Latest price date',
+  ema20: '20-day exponential moving average',
+  sma20: '20-day moving average',
+  sma50: '50-day moving average',
+  sma200: '200-day moving average',
+  rsi14: 'RSI (14)',
+  atrPct: 'Average trading range',
+};
+
+const displayChecklistField = (field: string): string =>
+  CHECKLIST_FIELD_LABELS[field] || field
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/\./g, ' · ')
+    .replace(/^./, char => char.toUpperCase());
+
+const describeChecklistGap = (reason: string): string => {
+  const descriptions: Record<string, string> = {
+    NO_OHLCV: 'No daily price history has been promoted to the canonical market-data store.',
+    NO_MATCHED_CFO_AND_CAPEX: 'Cash-flow and capital-expenditure facts are not available for the same reporting period.',
+    NO_FERE_EVIDENCE: 'No verified filing evidence is available for this item.',
+    NO_CANONICAL_FACT: 'No verified, canonical fact is available for this item.',
+    SECTOR_UNMAPPED: 'The company is not yet mapped to a comparable sector index.',
+    SECTOR_INDEX_OHLCV_MISSING: 'The comparable sector index has no daily price history in the canonical store.',
+  };
+  if (descriptions[reason]) return descriptions[reason];
+  if (reason.startsWith('NO_')) return 'This item has not yet been verified and promoted into the canonical data store.';
+  return 'This item cannot yet be assessed from the available verified evidence.';
+};
+
+const checklistNextAction = (group: string, reason: string): string => {
+  if (reason === 'NO_OHLCV' || group === 'Technical') return 'Fetch and promote daily candles, then refresh this analysis.';
+  if (group === 'FERE' || reason.includes('FERE')) return 'Collect the exchange filing and promote verified facts, then refresh this analysis.';
+  if (group === 'Sector') return 'Complete sector mapping and sector-index price coverage, then refresh this analysis.';
+  return 'Acquire a verified filing or approved provider fact for this metric, promote it, then refresh this analysis.';
+};
+
+const displayAcquisitionSource = (source: string): string => {
+  const labels: Record<string, string> = {
+    NSE_BSE_SCREENER_PUBLIC: 'Exchange and public filings',
+    CanonicalFactIngestionService: 'Canonical data store',
+    NSE: 'NSE filings',
+    BSE: 'BSE filings',
+    SCREENER: 'Public financial data',
+  };
+  return labels[source] || source.replace(/[_-]+/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+};
+
 export function Analyze360View({ symbol, candidateId, signalIds, recommendedDate, strategyIds, onClose }: Analyze360ViewProps) {
   const [data, setData] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
@@ -22,6 +97,7 @@ export function Analyze360View({ symbol, candidateId, signalIds, recommendedDate
   const [selectedAnalysis, setSelectedAnalysis] = useState<any | null>(null);
   const [researchJob, setResearchJob] = useState<any | null>(null);
   const [researchError, setResearchError] = useState<string | null>(null);
+  const [activeEvidenceField, setActiveEvidenceField] = useState<string | null>(null);
 
   const [actionResults, setActionResults] = useState<any>({});
   const [actionLoading, setActionLoading] = useState<Record<string, boolean>>({});
@@ -30,8 +106,9 @@ export function Analyze360View({ symbol, candidateId, signalIds, recommendedDate
   const [alertTargetPrice, setAlertTargetPrice] = useState<string>('');
 
   useEffect(() => {
-    if (data?.technical?.latestClose?.value) {
-      const price = data.technical.latestClose.value;
+    const techSection = data?.technical;
+    const price = techSection?.latestClose?.value;
+    if (price) {
       setAlertTargetPrice((price * (alertType === 'PRICE_ABOVE' ? 1.03 : 0.97)).toFixed(2));
     }
   }, [data?.technical?.latestClose?.value, alertType]);
@@ -208,28 +285,40 @@ export function Analyze360View({ symbol, candidateId, signalIds, recommendedDate
 
   const FundamentalFieldDisplay = ({ label, field, prefix = '', suffix = '' }: { label: string, field: any, prefix?: string, suffix?: string }) => {
     if (!field) return null;
+    const isEvidenceVisible = activeEvidenceField === label;
     return (
-      <div className="space-y-1 bg-slate-800/30 p-2 rounded border border-slate-700/50 relative group">
-        <span className="text-slate-400 block mb-1">{label}</span>
+      <div className="min-w-0 space-y-1 bg-slate-800/30 p-2 rounded border border-slate-700/50">
+        <div className="flex items-start justify-between gap-2">
+          <span className="text-slate-400 block mb-1">{label}</span>
+          <button
+            type="button"
+            onClick={() => setActiveEvidenceField(isEvidenceVisible ? null : label)}
+            className="shrink-0 rounded px-1.5 py-0.5 text-[9px] font-semibold text-cyan-300 hover:bg-cyan-500/10 hover:text-cyan-200 focus:outline-none focus:ring-1 focus:ring-cyan-400"
+            aria-expanded={isEvidenceVisible}
+            aria-label={`${isEvidenceVisible ? 'Hide' : 'Show'} evidence metadata for ${label}`}
+          >
+            Evidence
+          </button>
+        </div>
         <div className="flex flex-col gap-1">
           <div>{getStatusBadge(field.status, field.missingReason)}</div>
           {field.status === 'AVAILABLE' && field.value !== null && (
-            <div className="font-bold text-white">
+            <div className="break-words font-bold text-white">
               {prefix}{typeof field.value === 'number' && !Number.isInteger(field.value) ? field.value.toFixed(2) : field.value}{suffix}
             </div>
           )}
         </div>
-        
-        {/* Evidence Metadata Tooltip */}
-        <div className="absolute opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 bottom-full left-0 mb-2 w-64 bg-slate-800 border border-slate-600 rounded p-3 shadow-xl text-[10px] space-y-1">
-          <div className="text-white font-bold border-b border-slate-700 pb-1 mb-1">Evidence Metadata</div>
-          <div className="flex justify-between"><span className="text-slate-400">Status</span><span className={field.status === 'AVAILABLE' ? 'text-emerald-400' : 'text-amber-400'}>{field.status}</span></div>
-          {field.missingReason && <div className="flex justify-between"><span className="text-slate-400">Reason</span><span className="text-amber-400 truncate ml-2" title={field.missingReason}>{field.missingReason}</span></div>}
-          {field.provider && <div className="flex justify-between"><span className="text-slate-400">Source</span><span className="text-cyan-300">{field.provider}</span></div>}
-          {field.periodType && <div className="flex justify-between"><span className="text-slate-400">Period</span><span className="text-slate-300">{field.periodType}</span></div>}
-          {field.periodEnd && <div className="flex justify-between"><span className="text-slate-400">As Of</span><span className="text-slate-300">{field.periodEnd}</span></div>}
-          {field.availableAt && <div className="flex justify-between"><span className="text-slate-400">Audited At</span><span className="text-slate-300 truncate ml-2">{new Date(field.availableAt).toISOString().split('T')[0]}</span></div>}
-        </div>
+        {isEvidenceVisible && (
+          <div className="mt-2 space-y-1 rounded border border-slate-700 bg-slate-950/70 p-2 text-[10px] leading-relaxed">
+            <div className="font-bold text-white">Evidence metadata</div>
+            <div className="flex justify-between gap-2"><span className="text-slate-400">Status</span><span className={field.status === 'AVAILABLE' ? 'text-emerald-400' : 'text-amber-400'}>{field.status}</span></div>
+            {field.missingReason && <div className="break-words text-amber-400"><span className="text-slate-400">Reason: </span>{field.missingReason}</div>}
+            {field.provider && <div className="break-words text-cyan-300"><span className="text-slate-400">Source: </span>{field.provider}</div>}
+            {field.periodType && <div className="break-words text-slate-300"><span className="text-slate-400">Period: </span>{field.periodType}</div>}
+            {field.periodEnd && <div className="break-words text-slate-300"><span className="text-slate-400">As of: </span>{field.periodEnd}</div>}
+            {field.availableAt && <div className="break-words text-slate-300"><span className="text-slate-400">Audited at: </span>{new Date(field.availableAt).toISOString().split('T')[0]}</div>}
+          </div>
+        )}
       </div>
     );
   };
@@ -251,8 +340,8 @@ export function Analyze360View({ symbol, candidateId, signalIds, recommendedDate
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 animate-fadeIn">
       <div className="bg-[#0b1120] border border-[#1e293b] rounded-3xl w-full max-w-6xl overflow-hidden flex flex-col shadow-2xl transition-all max-h-[92vh] text-[#f8fafc]">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#1e293b] bg-slate-900/50">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6 border-b border-[#1e293b] bg-slate-900/50">
+          <div className="flex flex-wrap items-center gap-2">
             <div className="p-2.5 rounded-2xl bg-cyan-500/20 text-cyan-300 border border-cyan-400/40">
               <Compass className="w-6 h-6" />
             </div>
@@ -296,15 +385,55 @@ export function Analyze360View({ symbol, candidateId, signalIds, recommendedDate
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto flex-1 space-y-6">
+        <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-6">
           {refreshResult && (
-            <div className={`p-3 rounded-xl border text-xs ${refreshResult.success ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-200' : 'bg-amber-500/10 border-amber-500/30 text-amber-200'}`}>
-              <div className="font-bold">Update status: {refreshResult.status}</div>
-              {refreshResult.result?.factsInserted !== undefined && (
-                <div>Canonical facts inserted/updated: {refreshResult.result.factsInserted}</div>
+            <div className={`space-y-3 rounded-xl border p-4 text-xs ${refreshResult.success ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-100' : 'bg-amber-500/10 border-amber-500/30 text-amber-100'}`}>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <div className="font-bold">{refreshResult.success ? 'Acquisition complete' : 'Acquisition needs attention'}</div>
+                  <div className="mt-0.5 text-slate-300">{refreshResult.result?.nextStep || 'The update finished; refresh the analysis to use any promoted facts.'}</div>
+                </div>
+                <span className={`rounded-full px-2 py-1 text-[10px] font-bold ${refreshResult.success ? 'bg-emerald-500/20 text-emerald-200' : 'bg-amber-500/20 text-amber-200'}`}>
+                  {refreshResult.success ? 'UPDATED' : 'REVIEW REQUIRED'}
+                </span>
+              </div>
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                <div className="rounded-lg border border-white/10 bg-slate-950/20 p-2">
+                  <div className="text-[10px] uppercase tracking-wide text-slate-400">Canonical facts</div>
+                  <div className="mt-1 font-semibold text-white">{refreshResult.result?.factsAdded ?? refreshResult.result?.factsInserted ?? 0} added or updated</div>
+                </div>
+                <div className="rounded-lg border border-white/10 bg-slate-950/20 p-2">
+                  <div className="text-[10px] uppercase tracking-wide text-slate-400">Data reuse</div>
+                  <div className="mt-1 font-semibold text-white">{refreshResult.result?.cached || refreshResult.result?.acquisition === 'CACHED' ? 'Reused a fresh stored snapshot' : 'Checked public sources'}</div>
+                </div>
+                <div className="rounded-lg border border-white/10 bg-slate-950/20 p-2">
+                  <div className="text-[10px] uppercase tracking-wide text-slate-400">MCP usage</div>
+                  <div className="mt-1 font-semibold text-white">{refreshResult.mcpUsed ? 'Used only if explicitly enabled' : 'Not used'}</div>
+                </div>
+              </div>
+              {(refreshResult.sourceOutcomes || refreshResult.sources)?.length > 0 && (
+                <div>
+                  <div className="mb-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">Sources checked</div>
+                  <div className="flex flex-wrap gap-2">
+                    {(refreshResult.sourceOutcomes || refreshResult.sources).map((source: any, index: number) => {
+                      const status = String(source.status || source.outcome || source.mode || '').toUpperCase();
+                      const unavailable = /UNAVAILABLE|FAILED|ERROR/.test(status);
+                      return (
+                        <span key={`${source.source || source.provider || index}-${index}`} className={`rounded-full border px-2 py-1 text-[10px] ${unavailable ? 'border-amber-400/30 bg-amber-400/10 text-amber-200' : 'border-cyan-400/30 bg-cyan-400/10 text-cyan-100'}`}>
+                          {displayAcquisitionSource(source.source || source.provider || 'Verified source')}{unavailable ? ' — unavailable' : ''}
+                        </span>
+                      );
+                    })}
+                  </div>
+                </div>
               )}
-              {refreshResult.result?.nextStep && <div>{refreshResult.result.nextStep}</div>}
-              {refreshResult.blockers?.[0]?.reason && <div className="mt-1">Note: {refreshResult.blockers[0].reason}</div>}
+              {!refreshResult.success && (
+                <div className="text-amber-100">No new verified values were promoted. The existing analysis has been preserved; use the next recommended action above before trying again.</div>
+              )}
+              <details className="text-[10px] text-slate-400">
+                <summary className="cursor-pointer hover:text-slate-200">Technical update details</summary>
+                <pre className="mt-2 max-h-32 overflow-auto whitespace-pre-wrap break-all rounded bg-slate-950/40 p-2 font-mono">{JSON.stringify({ status: refreshResult.status, result: refreshResult.result, blockers: refreshResult.blockers, sources: refreshResult.sourceOutcomes || refreshResult.sources }, null, 2)}</pre>
+              </details>
             </div>
           )}
           {(researchJob || researchError) && (
@@ -336,7 +465,7 @@ export function Analyze360View({ symbol, candidateId, signalIds, recommendedDate
             {/* Summary Snapshot */}
             <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-3 col-span-1 lg:col-span-2">
               <div className="flex items-center gap-2 border-b border-slate-800 pb-2"><CheckCircle className="w-4 h-4 text-emerald-400"/><h3 className="font-bold">Summary Snapshot</h3></div>
-              <div className="text-sm text-slate-300 leading-relaxed border-b border-slate-800/50 pb-3">{data.summarySnapshot.summaryText}</div>
+              <div className="break-words text-sm text-slate-300 leading-relaxed border-b border-slate-800/50 pb-3">{data.summarySnapshot.summaryText}</div>
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-xs pt-1">
                 <FundamentalFieldDisplay label="Revenue Growth (5Y)" field={data.summarySnapshot.revenueGrowth} suffix="%" />
                 <FundamentalFieldDisplay label="Operating Profit" field={data.summarySnapshot.operatingProfit} prefix="₹" suffix=" Cr" />
@@ -466,14 +595,19 @@ export function Analyze360View({ symbol, candidateId, signalIds, recommendedDate
                     }, {})
                   ).map(([group, items]: [string, any]) => (
                     <div key={group} className="space-y-1">
-                      <div className="font-bold text-slate-400 uppercase tracking-wider text-[10px] mb-2">{group}</div>
+                      <div className="font-bold text-slate-400 uppercase tracking-wider text-[10px] mb-2">{CHECKLIST_GROUP_LABELS[group] || group}</div>
                       {items.map((item: any, i: number) => (
-                        <div key={i} className="flex flex-col p-2 bg-slate-800/30 rounded border border-slate-700/50">
+                        <div key={i} className="flex flex-col gap-1 p-2 bg-slate-800/30 rounded border border-slate-700/50">
                           <div className="flex items-center justify-between">
-                            <span className="font-mono text-slate-300">{item.field}</span>
+                            <span className="font-medium text-slate-200">{displayChecklistField(item.field)}</span>
                             <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold ${item.severity === 'HIGH' ? 'bg-rose-500/20 text-rose-400' : 'bg-amber-500/20 text-amber-400'}`}>{item.severity}</span>
                           </div>
-                          <span className="text-[10px] text-slate-500 mt-1">{item.reason}</span>
+                          <span className="text-[10px] text-slate-400">{describeChecklistGap(item.reason)}</span>
+                          <span className="text-[10px] text-cyan-300">Next: {checklistNextAction(group, item.reason)}</span>
+                          <details className="mt-1 text-[9px] text-slate-500">
+                            <summary className="cursor-pointer hover:text-slate-300">Technical detail</summary>
+                            <div className="mt-1 break-all font-mono">{group} · {item.field} · {item.reason}</div>
+                          </details>
                         </div>
                       ))}
                     </div>

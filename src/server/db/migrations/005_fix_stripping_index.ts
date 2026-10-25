@@ -8,6 +8,15 @@ export const migration005: Migration = {
   name,
   checksum: crypto.createHash('sha256').update(name).digest('hex'),
   up: (db: Database.Database) => {
+    // Create table if it doesn't exist yet (may be absent on fresh installs
+    // where the legacy schema hasn't run before canonical migrations).
+    db.exec(`CREATE TABLE IF NOT EXISTS StrippingDisallowances (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      portfolio TEXT NOT NULL,
+      symbol TEXT NOT NULL,
+      trigger_sell_date TEXT,
+      created_at TEXT DEFAULT (datetime('now'))
+    )`);
     db.exec('DROP INDEX IF EXISTS idx_sd_pan_fy');
     db.exec('CREATE INDEX IF NOT EXISTS idx_sd_pan_fy ON StrippingDisallowances(portfolio, trigger_sell_date)');
   }

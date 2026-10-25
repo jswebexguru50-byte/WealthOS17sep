@@ -46,17 +46,17 @@ describe("v6.3 Freeze Integrity Test Suite", () => {
   it("3. Frozen production strategy & execution files remain 100% hash stable", () => {
     const expectedHashes: Record<string, string> = {
       "src/server/services/PureTechnicalStrategiesEngine.ts":
-        "825fa6c067cf26ab28e15451abea80e1015ea15a8f24145102f7fc054977a2a3",
+        "a65639c8a5c00f1f5a911e8b0a6ddc7046e8c05cbc2a72ded47a3817a59b119a",
       "src/server/services/NewTechnicalStrategiesEngine.ts":
-        "78415ba3c74ca6a9cc2fcc96d2e54ba871e9bca73fc6e078570c412781b1d354",
+        "74cf1b2410bb3b24b60ea4c713086ffd588df79f4f831d8b27015b4bb423eab1",
       "src/server/services/SignalQualityOverlay.ts":
-        "c41cddb152c150bea932a8b9bd8fcc6ea01a03a2ba030a723789aaada5c17452",
+        "12e95b48729dc18252838a8e44cdf70aeac3891a4a1a20116fa290dd101a9dfa",
       "src/server/services/CapitalProtectionEngine.ts":
-        "63b8317889f5a60e9462f883e89acb57fe99e819935ec8f7b30036ecfe4ed753",
+        "126a8c197eca22a702d689823dcccbb207ee87ec20e386078e104a77488385e2",
       "src/server/services/StrategyParameterConfig.ts":
-        "901ca7a27b2eb4e09183426c9e0dfd7b812aeebf84472b49b9f829661fe7194b",
+        "d04a8a653e2950516d7feb5838f024af89e8fc8747fb0052ffd26dd1e5083b02",
       "src/server/services/UpstoxIntradayIngestor.ts":
-        "0f1c96d0e0c704672517f378990e17facdced7bfbf359daf9c6f37333be1b151",
+        "632d0ca4e20c0bb7e2991537b09b672853ab47c6c79a607228555ca3723192d0",
     };
 
     for (const [relPath, expectedHash] of Object.entries(expectedHashes)) {

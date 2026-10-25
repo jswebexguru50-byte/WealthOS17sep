@@ -231,19 +231,22 @@ export function FamilyOfficeCommandCenter({
                 <> and <strong className="text-slate-900 dark:text-white font-bold underline decoration-amber-500/50">{summary.bankAccountsCount} fixed deposits</strong></>
               )}.
             </p>
-            {data.valuationIntegrity?.driftAlerts && data.valuationIntegrity.driftAlerts.length > 0 && (
-              <div className="mt-2.5 p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-700 dark:text-amber-300 text-xs flex items-start gap-2">
-                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-amber-500" />
-                <div>
-                  <p className="font-bold">Valuation Drift Notice:</p>
-                  <ul className="list-disc list-inside mt-0.5 space-y-0.5">
-                    {data.valuationIntegrity.driftAlerts.map((alt, idx) => (
-                      <li key={idx}>{alt}</li>
-                    ))}
-                  </ul>
+            {(() => {
+              const driftAlerts = data?.valuationIntegrity?.driftAlerts;
+              return driftAlerts && driftAlerts.length > 0 ? (
+                <div className="mt-2.5 p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-700 dark:text-amber-300 text-xs flex items-start gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-amber-500" />
+                  <div>
+                    <p className="font-bold">Valuation Drift Notice:</p>
+                    <ul className="list-disc list-inside mt-0.5 space-y-0.5">
+                      {driftAlerts.map((alt: string, idx: number) => (
+                        <li key={idx}>{alt}</li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-              </div>
-            )}
+              ) : null;
+            })()}
           </div>
 
           <div className="flex items-center gap-2.5 shrink-0 flex-wrap">

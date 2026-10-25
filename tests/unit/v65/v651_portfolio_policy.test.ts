@@ -11,12 +11,12 @@ describe('WEALTHOS v6.5 Portfolio Construction Policy Determinism Test', () => {
     const p = policyData.policy;
 
     expect(p.initialCapital).toBe(10000000);
-    expect(p.positionSizingMethod).toBe('EQUAL_WEIGHT_RISK_PARITY');
-    expect(p.maximumSinglePositionPct).toBe(8.0);
+    expect(p.positionSizingMethod).toBe('RISK_PARITY_STOP_DISTANCE');
+    expect(p.maximumSinglePositionPct).toBe(10);
     expect(p.maximumConcurrentPositions).toBe(15);
-    expect(p.maximumGrossExposure).toBe(100.0);
-    expect(p.strategyAllocation).toBe('EQUAL_WEIGHT');
-    expect(p.signalCollisionPolicy).toBe('HIGHEST_RS_RANKING');
+    expect(p.maximumGrossExposure).toBe(100);
+    expect(p.strategyAllocation).toBe('RISK_PARITY');
+    expect(p.signalCollisionPolicy).toBe('DETERMINISTIC_RS_ORDER');
     expect(p.sameDaySignalPolicy).toBe('PRIORITIZE_HIGHER_RR');
     expect(p.reentryPolicy).toBe('MINIMUM_5_BAR_COOLDOWN');
     expect(p.cashTreatment).toBe('NON_INTEREST_BEARING_RESERVE');

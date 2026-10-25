@@ -360,6 +360,19 @@ export async function createTestDatabase(): Promise<sqlite3.Database> {
     current_value REAL
   )`);
 
+  await runSql(db, `CREATE TABLE IF NOT EXISTS ReconciliationExceptions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    portfolio TEXT NOT NULL,
+    scrip_or_trade_id TEXT NOT NULL,
+    exception_type TEXT NOT NULL,
+    discrepancy_detail TEXT NOT NULL,
+    reason_category TEXT NOT NULL,
+    reason_notes TEXT,
+    approved_by TEXT DEFAULT 'User',
+    approved_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    status TEXT DEFAULT 'APPROVED'
+  )`);
+
   return db;
 }
 

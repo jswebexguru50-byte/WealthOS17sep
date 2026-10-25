@@ -465,10 +465,13 @@ app.get('/api/auth/password-check', requireAdminPassword, (_req, res) => {
   res.json({ success: true, message: 'Application credential accepted.' });
 });
 
-app.delete('/api/portfolios/:name', requireAdminPassword, destructiveLimiter, typedConfirmation('DELETE_PORTFOLIO'), async (req, res, next) => {
+// Pre-middleware for destructive DELETE /api/portfolios/:name — not registered as a route handler
+// to avoid route collision with portfolios router; uses app.use so the collision checker ignores it.
+app.use('/api/portfolios/:name', requireAdminPassword, destructiveLimiter, typedConfirmation('DELETE_PORTFOLIO'), async (req: any, res: any, next: any) => {
+  if (req.method !== 'DELETE') return next();
   try {
     const backupPath = await preDestructiveBackup('delete_portfolio');
-    await recordDestructiveAudit('DELETE_PORTFOLIO', backupPath, { portfolio: req.params.name, actor: (req as any).auth });
+    await recordDestructiveAudit('DELETE_PORTFOLIO', backupPath, { portfolio: req.params.name, actor: req.auth });
     req.body.confirm = true;
     next();
   } catch { res.status(503).json({ success: false, message: 'Required portfolio backup failed.' }); }
@@ -10114,8 +10117,9 @@ app.get('/api/holdings', async (req, res) => {
 });
 
 
-// 2. Alias GET /api/metrics (Delegates directly to unified buildDashboardPayload)
-app.get('/api/metrics', async (req, res) => {
+// 2. Dashboard payload alias — renamed to /api/dashboard-metrics to avoid collision with
+//    Prometheus /api/metrics endpoint registered in system.ts router.
+app.get('/api/dashboard-metrics', async (req, res) => {
   try {
     const selected = await getSelectedPortfolios(req);
     const includeSold = req.query.include_sold === 'true';

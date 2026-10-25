@@ -84,7 +84,7 @@ cur.execute('SELECT assertionId, scripId, field, evidenceIds FROM ForensicAssert
 assertions = [dict(zip([c[0] for c in cur.description], row)) for row in cur.fetchall()]
 print(json.dumps({'inventory': inv, 'assertions': assertions}))
 `;
-    const res = execSync('python', { input: pyScript, encoding: 'utf8' });
+    const res = execSync('python3', { input: pyScript, encoding: 'utf8' });
     const { inventory: invRows, assertions: assertRows } = JSON.parse(res);
 
     for (const r of invRows) {

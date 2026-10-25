@@ -1,5 +1,4 @@
-import test from 'node:test';
-import assert from 'node:assert/strict';
+import { test, expect } from 'vitest';
 import { authenticateFamily, roleAllows } from '../../src/server/auth/familyRoleAuth.ts';
 
 test('family roles authenticate and enforce hierarchy', () => {
@@ -12,10 +11,10 @@ test('family roles authenticate and enforce hierarchy', () => {
   try {
     const admin = authenticateFamily({ 'x-app-user': 'advisor', 'x-app-password': 'advisor-secret' });
     const viewer = authenticateFamily({ 'x-app-user': 'child', 'x-app-password': 'child-secret' });
-    assert.equal(admin?.role, 'admin');
-    assert.equal(roleAllows(admin!, 'admin'), true);
-    assert.equal(roleAllows(viewer!, 'admin'), false);
-    assert.equal(authenticateFamily({ 'x-app-user': 'advisor', 'x-app-password': 'wrong' }), null);
+    expect(admin?.role).toBe('admin');
+    expect(roleAllows(admin!, 'admin')).toBe(true);
+    expect(roleAllows(viewer!, 'admin')).toBe(false);
+    expect(authenticateFamily({ 'x-app-user': 'advisor', 'x-app-password': 'wrong' })).toBeNull();
   } finally {
     if (old === undefined) delete process.env.FAMILY_AUTH_USERS;
     else process.env.FAMILY_AUTH_USERS = old;
@@ -25,5 +24,5 @@ test('family roles authenticate and enforce hierarchy', () => {
 test('legacy APP_PASSWORD remains owner-compatible', () => {
   delete process.env.FAMILY_AUTH_USERS;
   const principal = authenticateFamily({ 'x-app-password': 'legacy' }, 'legacy');
-  assert.equal(principal?.role, 'owner');
+  expect(principal?.role).toBe('owner');
 });
