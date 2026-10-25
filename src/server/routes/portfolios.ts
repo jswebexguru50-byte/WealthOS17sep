@@ -6,6 +6,9 @@
 import { Router } from 'express';
 import { getDB, dbAll, dbGet, dbRun, withTx } from '../database.js';
 import { runFIFO } from '../fifoEngine.js';
+import { FactsRepository } from '../services/FactsRepository.js';
+
+const repo = FactsRepository.getInstance();
 
 const router = Router();
 
@@ -85,11 +88,7 @@ router.get('/', async (req, res) => {
 
     let detailedPortfolios: any[] = [];
     try {
-      if (memberId) {
-        detailedPortfolios = await dbAll(db, "SELECT * FROM Portfolios WHERE (member_id = ? OR name IN (SELECT portfolio_name FROM MemberPortfolioPermissions WHERE member_id = ?)) AND status = 'ACTIVE' ORDER BY name ASC", [memberId, memberId]);
-      } else {
-        detailedPortfolios = await dbAll(db, 'SELECT * FROM Portfolios ORDER BY name ASC');
-      }
+      detailedPortfolios = await repo.listActivePortfolios(memberId ?? undefined);
     } catch {}
 
     const pmsQuery = memberId
@@ -116,7 +115,7 @@ router.post('/', async (req, res) => {
     const portfolioType = type || 'EQUITY';
     const currency = base_currency || 'INR';
 
-    const existing = await dbGet(db, 'SELECT id FROM Portfolios WHERE name = ?', [trimmedName]);
+    const existing = await repo.getPortfolio(trimmedName);
     if (existing) return res.status(400).json({ success: false, message: `Portfolio "${trimmedName}" already exists.` });
 
     await dbRun(db, `INSERT INTO Portfolios (name, type, base_currency, status) VALUES (?, ?, ?, 'ACTIVE')`, [trimmedName, portfolioType, currency]);
@@ -135,12 +134,13 @@ router.put('/:name/type', async (req, res) => {
     const { type } = req.body;
     if (!type) return res.status(400).json({ success: false, message: 'Type is required.' });
 
-    const existing = await dbGet(db, 'SELECT id FROM Portfolios WHERE name = ?', [portfolioName]);
+    const existing = await repo.getPortfolio(portfolioName);
     if (!existing) {
       await dbRun(db, `INSERT INTO Portfolios (name, type, status) VALUES (?, ?, 'ACTIVE')`, [portfolioName, type]);
     } else {
       await dbRun(db, 'UPDATE Portfolios SET type = ? WHERE name = ?', [type, portfolioName]);
     }
+    repo.invalidatePortfolios();
     console.log(`[Portfolio] Updated type for "${portfolioName}" to "${type}"`);
     res.json({ success: true, message: `Portfolio type updated to "${type}".` });
   } catch (err: any) {
@@ -156,12 +156,13 @@ router.put('/:name/currency', async (req, res) => {
     const { base_currency } = req.body;
     if (!base_currency) return res.status(400).json({ success: false, message: 'base_currency is required.' });
 
-    const existing = await dbGet(db, 'SELECT id FROM Portfolios WHERE name = ?', [portfolioName]);
+    const existing = await repo.getPortfolio(portfolioName);
     if (!existing) {
       await dbRun(db, `INSERT INTO Portfolios (name, type, base_currency, status) VALUES (?, 'EQUITY', ?, 'ACTIVE')`, [portfolioName, base_currency]);
     } else {
       await dbRun(db, 'UPDATE Portfolios SET base_currency = ? WHERE name = ?', [base_currency, portfolioName]);
     }
+    repo.invalidatePortfolios();
     console.log(`[Portfolio] Updated currency for "${portfolioName}" to "${base_currency}"`);
     res.json({ success: true, message: `Portfolio base currency updated to "${base_currency}".` });
   } catch (err: any) {

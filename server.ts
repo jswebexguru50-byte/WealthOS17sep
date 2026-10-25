@@ -125,6 +125,8 @@ import {
   setSwapInProgress,
   withTx,
 } from './src/server/database.js';
+import { initProviderCircuitBreakers } from './src/server/services/DataProviderRegistry.js';
+import { DataRefreshScheduler } from './src/server/services/DataRefreshScheduler.js';
 import { parsePMSFile, parseCCBankBookCSV, parseIIFLBankBookCSV, parsePMSTradeRegisterCSV, parseCCBankBookFromPdfText, parseCCTradeRegisterFromPdfText } from './src/server/pmsParser.js';
 import {
   runFIFO,
@@ -15811,6 +15813,9 @@ async function startServer() {
   });
 
   // ── STEP 2: Bind port — server is IMMEDIATELY usable ──────────────────────
+  initProviderCircuitBreakers(); // register all provider circuit breakers before first request
+  DataRefreshScheduler.getInstance().start(); // start metric-specific background refresh
+
   const server = app.listen(PORT, BIND_HOST, () => {
     console.log(`✅ Server READY — accepting requests at http://localhost:${PORT}`);
     startLocalQueueWorker();

@@ -5,6 +5,14 @@ import { formatDate, parseDate, runFIFO } from './fifoEngine.js';
 import { persistRefreshStamp } from './refreshState.js';
 import { DuckDbAdjustedOhlcvService } from './services/DuckDbAdjustedOhlcvService.js';
 import { MarketDataCache } from './services/MarketDataCache.js';
+import { CircuitBreaker } from './services/CircuitBreaker.js';
+import { withRetry } from './services/RetryHandler.js';
+import { PROVIDER } from './services/DataProviderRegistry.js';
+
+// Circuit breakers keyed by canonical provider names from the registry
+const cbYahoo   = CircuitBreaker.for(PROVIDER.YAHOO,   { failureThreshold: 5, halfOpenAfterMs: 30_000 });
+const cbUpstox  = CircuitBreaker.for(PROVIDER.UPSTOX,  { failureThreshold: 5, halfOpenAfterMs: 30_000 });
+const cbAlpaca  = CircuitBreaker.for('alpaca',          { failureThreshold: 3, halfOpenAfterMs: 60_000 });
 
 export async function safeJsonFromResponse<T = any>(res: Response): Promise<T | null> {
   try {
@@ -241,7 +249,66 @@ export function mapSymbolToUpstoxKey(symbol: string, isin?: string | null, excha
   return null;
 }
 
-const tickerDataCache = new Map<string, any>();
+export interface UpstoxLiveQuote {
+  lastPrice: number;
+  previousClose: number | null;
+}
+
+/** Extract a real Upstox last-traded quote without guessing its source. */
+export function extractUpstoxLiveQuote(payload: unknown, instrumentKey: string): UpstoxLiveQuote | null {
+  const data = (payload as any)?.data;
+  if (!data || typeof data !== 'object') return null;
+  const alternateKey = instrumentKey.includes('|')
+    ? instrumentKey.replace('|', ':')
+    : instrumentKey.replace(':', '|');
+  const details = (data as Record<string, any>)[instrumentKey]
+    || (data as Record<string, any>)[alternateKey]
+    || Object.values(data as Record<string, any>).find((value: any) =>
+      value?.instrument_token === instrumentKey || value?.instrument_token === alternateKey
+    );
+  const lastPrice = Number((details as any)?.last_price);
+  if (!Number.isFinite(lastPrice) || lastPrice <= 0) return null;
+  const explicitClose = Number((details as any)?.cp ?? (details as any)?.ohlc?.close);
+  const netChange = Number((details as any)?.net_change);
+  const previousClose = Number.isFinite(explicitClose) && explicitClose > 0
+    ? explicitClose
+    : (Number.isFinite(netChange) && Math.abs(netChange) > 0.0001 ? lastPrice - netChange : null);
+  return { lastPrice, previousClose: previousClose && previousClose > 0 ? previousClose : null };
+}
+
+async function fetchUpstoxLiveQuote(symbol: string, instrumentKey: string, token: string): Promise<any | null> {
+  try {
+    const url = `https://api.upstox.com/v2/market-quote/quotes?instrument_key=${encodeURIComponent(instrumentKey)}`;
+    const response = await cbUpstox.execute(() => withRetry(
+      () => fetch(url, {
+        signal: AbortSignal.timeout(8000),
+        headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
+      }),
+      { maxAttempts: 2, baseDelayMs: 200 }, 'upstox-live'
+    ));
+    if (!response.ok) return null;
+    const quote = extractUpstoxLiveQuote(await safeJsonFromResponse<any>(response), instrumentKey);
+    if (!quote) return null;
+    return {
+      symbol,
+      regularMarketPrice: quote.lastPrice,
+      chartPreviousClose: quote.previousClose ?? quote.lastPrice,
+      // An LTP is not a completed daily candle, so it must not be persisted as one.
+      closePrices: [],
+      dividends: [],
+      splits: [],
+      dataSource: 'Upstox Live Quote',
+      priceAsOf: new Date().toISOString(),
+      isLiveQuote: true,
+    };
+  } catch (error) {
+    console.warn(`[Upstox] Live quote unavailable for ${symbol}; continuing provider waterfall.`, error instanceof Error ? error.message : error);
+    return null;
+  }
+}
+
+const TICKER_CACHE_TTL_MS = 15 * 60 * 1000; // 15 minutes
+const tickerDataCache = new Map<string, { data: any; ts: number }>();
 const failedUpstoxCandleSymbols = new Set<string>();
 const failedUpstoxCAs = new Set<string>();
 const failedYahooSymbols = new Set<string>();
@@ -291,10 +358,19 @@ async function fetchTickerDataFromProviders(symbol: string, daysBack: number = 3
   const db = getDB();
   let exchange = 'NSE';
   let isin = '';
+  let persistedUpstoxKey = '';
   try {
-    const tRow = await dbGet(db, 'SELECT exchange, isin FROM MasterTickers WHERE symbol = ? OR isin = ?', [symbol, symbol]);
+    let tRow: any;
+    try {
+      tRow = await dbGet(db, 'SELECT exchange, isin, upstox_key_nse, upstox_key_bse FROM MasterTickers WHERE symbol = ? OR isin = ?', [symbol, symbol]);
+    } catch {
+      // Older local databases can lack the optional persisted Upstox columns.
+      // Retain ISIN-based routing instead of silently skipping the Indian route.
+      tRow = await dbGet(db, 'SELECT exchange, isin FROM MasterTickers WHERE symbol = ? OR isin = ?', [symbol, symbol]);
+    }
     if (tRow?.exchange) exchange = tRow.exchange;
     if (tRow?.isin) isin = tRow.isin;
+    persistedUpstoxKey = exchange === 'BSE' ? tRow?.upstox_key_bse || '' : tRow?.upstox_key_nse || '';
   } catch (e) {}
 
   if (!isin) {
@@ -310,7 +386,9 @@ async function fetchTickerDataFromProviders(symbol: string, daysBack: number = 3
   const yfSymbol = getYahooSymbol(symbol, exchange, isin);
   const cacheKey = `${yfSymbol}_${daysBack}`;
   if (!forceRefresh && tickerDataCache.has(cacheKey)) {
-    return tickerDataCache.get(cacheKey);
+    const entry = tickerDataCache.get(cacheKey)!;
+    if (Date.now() - entry.ts < TICKER_CACHE_TTL_MS) return entry.data;
+    tickerDataCache.delete(cacheKey);
   }
   if (!forceRefresh && (failedYahooSymbols.has(yfSymbol) || failedYahooSymbols.has(symbol))) {
     return null;
@@ -321,7 +399,7 @@ async function fetchTickerDataFromProviders(symbol: string, daysBack: number = 3
   if (isUsAsset) {
     const alpacaData = await fetchAlpacaTickerData(symbol, daysBack);
     if (alpacaData) {
-      tickerDataCache.set(cacheKey, alpacaData);
+      tickerDataCache.set(cacheKey, { data: alpacaData, ts: Date.now() });
       return alpacaData;
     }
   }
@@ -329,6 +407,23 @@ async function fetchTickerDataFromProviders(symbol: string, daysBack: number = 3
   const fromDateObj = new Date();
   fromDateObj.setDate(fromDateObj.getDate() - daysBack);
   const fromDateStr = fromDateObj.toISOString().split('T')[0];
+
+  // Latest Indian quotes are Upstox-first. Multi-day history remains on the
+  // canonical adjusted catalogue; when both are available the response retains
+  // the catalogue history and explicitly identifies the Upstox live overlay.
+  const isIndianAsset = (exchange === 'NSE' || exchange === 'BSE') && !symbol.startsWith('^');
+  let upstoxLiveQuote: any | null = null;
+  if (isIndianAsset) {
+    const upstoxToken = await getUpstoxAccessToken();
+    const instrumentKey = persistedUpstoxKey || mapSymbolToUpstoxKey(symbol, isin, exchange);
+    if (upstoxToken && instrumentKey) {
+      upstoxLiveQuote = await fetchUpstoxLiveQuote(symbol, instrumentKey, upstoxToken);
+      if (upstoxLiveQuote && daysBack <= 1) {
+        tickerDataCache.set(cacheKey, { data: upstoxLiveQuote, ts: Date.now() });
+        return upstoxLiveQuote;
+      }
+    }
+  }
 
   // Permanent local source for NSE historical candles.  It is corporate-action
   // adjusted and does not write any candle rows back to SQLite.  Index/US data
@@ -347,8 +442,19 @@ async function fetchTickerDataFromProviders(symbol: string, daysBack: number = 3
         const latestPrice = closePrices[closePrices.length - 1].close;
         const prevClose = closePrices.length > 1 ? closePrices[closePrices.length - 2].close : latestPrice;
         const dataSource = ohlcvResult.source === 'DUCKDB_ADJUSTED' ? 'DuckDB adjusted OHLCV' : 'SQLite legacy fallback OHLCV';
-        const result = { symbol, regularMarketPrice: latestPrice, chartPreviousClose: prevClose, closePrices, dividends: [], splits: [], dataSource };
-        tickerDataCache.set(cacheKey, result);
+        const result = {
+          symbol,
+          regularMarketPrice: upstoxLiveQuote?.regularMarketPrice ?? latestPrice,
+          chartPreviousClose: upstoxLiveQuote?.chartPreviousClose ?? prevClose,
+          closePrices,
+          dividends: [],
+          splits: [],
+          dataSource: upstoxLiveQuote ? `${dataSource} + Upstox Live Quote` : dataSource,
+          historicalDataSource: dataSource,
+          liveQuoteSource: upstoxLiveQuote ? 'Upstox Live Quote' : undefined,
+          priceAsOf: upstoxLiveQuote?.priceAsOf,
+        };
+        tickerDataCache.set(cacheKey, { data: result, ts: Date.now() });
         return result;
       }
     }
@@ -365,14 +471,17 @@ async function fetchTickerDataFromProviders(symbol: string, daysBack: number = 3
   
   for (const url of urls) {
     try {
-      const res = await fetch(url, {
-        signal: AbortSignal.timeout(8000),
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-          'Accept': 'application/json, text/plain, */*',
-          'Accept-Language': 'en-US,en;q=0.9'
-        }
-      });
+      const res = await cbYahoo.execute(() => withRetry(
+        () => fetch(url, {
+          signal: AbortSignal.timeout(8000),
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+            'Accept': 'application/json, text/plain, */*',
+            'Accept-Language': 'en-US,en;q=0.9'
+          }
+        }),
+        { maxAttempts: 2, baseDelayMs: 300 }, 'yahoo-finance'
+      ));
       
       if (res.ok) {
         const json = await safeJsonFromResponse<YahooChartResponse>(res);
@@ -414,15 +523,18 @@ async function fetchTickerDataFromProviders(symbol: string, daysBack: number = 3
 
           const finalResult = {
             symbol: yfSymbol,
-            regularMarketPrice: effectiveMarketPrice || lastDailyClose || prevDayClose,
-            chartPreviousClose: prevDayClose || lastDailyClose,
+            regularMarketPrice: upstoxLiveQuote?.regularMarketPrice ?? effectiveMarketPrice ?? lastDailyClose ?? prevDayClose,
+            chartPreviousClose: upstoxLiveQuote?.chartPreviousClose ?? prevDayClose ?? lastDailyClose,
             closePrices,
             dividends: [],
             splits: [],
-            dataSource: 'Yahoo Finance'
+            dataSource: upstoxLiveQuote ? 'Yahoo Finance + Upstox Live Quote' : 'Yahoo Finance',
+            historicalDataSource: 'Yahoo Finance',
+            liveQuoteSource: upstoxLiveQuote ? 'Upstox Live Quote' : undefined,
+            priceAsOf: upstoxLiveQuote?.priceAsOf,
           };
 
-          tickerDataCache.set(cacheKey, finalResult);
+          tickerDataCache.set(cacheKey, { data: finalResult, ts: Date.now() });
           if (closePrices.length > 0) {
             saveHistoricalPricesToDB(yfSymbol, closePrices, 'Yahoo Finance').catch(() => {});
             const cleanSym = symbol.replace('.NS', '').replace('.BO', '');
@@ -467,14 +579,17 @@ async function fetchTickerDataFromProviders(symbol: string, daysBack: number = 3
             const prevClose = closePrices.length > 1 ? closePrices[closePrices.length - 2].close : latestPrice;
             const finalResult = {
               symbol: symbol,
-              regularMarketPrice: latestPrice,
-              chartPreviousClose: prevClose,
+              regularMarketPrice: upstoxLiveQuote?.regularMarketPrice ?? latestPrice,
+              chartPreviousClose: upstoxLiveQuote?.chartPreviousClose ?? prevClose,
               closePrices,
               dividends: [],
               splits: [],
-              dataSource: 'Upstox API'
+              dataSource: upstoxLiveQuote ? 'Upstox Historical Candles + Upstox Live Quote' : 'Upstox Historical Candles',
+              historicalDataSource: 'Upstox Historical Candles',
+              liveQuoteSource: upstoxLiveQuote ? 'Upstox Live Quote' : undefined,
+              priceAsOf: upstoxLiveQuote?.priceAsOf,
             };
-            tickerDataCache.set(cacheKey, finalResult);
+            tickerDataCache.set(cacheKey, { data: finalResult, ts: Date.now() });
             await saveHistoricalPricesToDB(symbol, closePrices, 'Upstox API');
             return finalResult;
           }

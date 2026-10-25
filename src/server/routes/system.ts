@@ -7,12 +7,44 @@ import { Router } from 'express';
 import os from 'os';
 import { DatabaseManager } from '../services/DatabaseManager.js';
 import { getDB, dbAll, dbGet, dbRun } from '../database.js';
+import { CircuitBreaker } from '../services/CircuitBreaker.js';
+import { obs } from '../services/ObservabilityHub.js';
+import { providerMeta, PROVIDER } from '../services/DataProviderRegistry.js';
+import { DataRefreshScheduler } from '../services/DataRefreshScheduler.js';
 
 const router = Router();
 
 // GET /api/healthcheck
 router.get('/healthcheck', async (_req, res) => {
-  const result=await readReadiness(getDB());res.status(result.statusCode).json(result.body);
+  const result = await readReadiness(getDB());
+  res.status(result.statusCode).json(result.body);
+});
+
+// GET /api/platform/health — circuit breaker states + in-process metrics
+router.get('/platform/health', (_req, res) => {
+  const cbStatus = CircuitBreaker.status();
+  const providerStatus: Record<string, { priority: number; cbState: string; requiresSession: boolean; isExplicitOnly: boolean }> = {};
+  for (const [p, meta] of Object.entries(providerMeta)) {
+    providerStatus[p] = {
+      priority: meta.priority,
+      cbState: cbStatus[p] ?? 'CLOSED',
+      requiresSession: meta.requiresSession,
+      isExplicitOnly: meta.isExplicitOnly,
+    };
+  }
+  res.json({
+    ok: true,
+    ts: new Date().toISOString(),
+    providers: providerStatus,
+    scheduler: DataRefreshScheduler.getInstance().status(),
+    metrics: obs.snapshot(),
+  });
+});
+
+// POST /api/platform/refresh/:job — manually trigger a named refresh job
+router.post('/platform/refresh/:job', async (req, res) => {
+  const result = await DataRefreshScheduler.getInstance().runNow(req.params.job as any);
+  res.status(result.ok ? 200 : 400).json(result);
 });
 
 // GET /api/server-info

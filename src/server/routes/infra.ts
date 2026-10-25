@@ -91,7 +91,14 @@ import { FlexibleTelemetryPipelineService, PipelineStageId } from '../services/F
 import { SunriseIndustrialUniverseService } from '../services/SunriseIndustrialUniverseService.js';
 import fs from 'fs';
 import path from 'path';
+import { execFile } from 'child_process';
+import { promisify } from 'util';
 import { dbAll, dbGet, dbRun, getDB, withTx } from '../database.js';
+import { buildFundamentalSourceOutcomes } from '../services/FundamentalAcquisitionPolicy.js';
+import { getDirectWebProviderReadiness } from '../services/DirectWebProviderReadiness.js';
+import { FactsRepository } from '../services/FactsRepository.js';
+
+const execFileAsync = promisify(execFile);
 
 const router = express.Router();
 const researchCreateWindow: number[] = [];
@@ -2484,7 +2491,8 @@ router.post('/data-pipeline/backfill-upstox', async (req: Request, res: Response
       // Default: symbols already in DailyOHLCV; fall back to all MasterTickers NSE EQ
       let rows = await dbAll(getDB(), `SELECT DISTINCT symbol FROM DailyOHLCV ORDER BY symbol`);
       if (!rows || rows.length === 0) {
-        rows = await dbAll(getDB(), `SELECT symbol FROM MasterTickers WHERE exchange = 'NSE' AND segment = 'EQ' AND symbol IS NOT NULL ORDER BY symbol`);
+        const universe = await FactsRepository.getInstance().getNseEquityUniverse();
+        rows = universe.map(r => ({ symbol: r.symbol }));
       }
       targetSymbols = rows.map((r: any) => r.symbol);
       if (targetSymbols.length === 0) {
@@ -2997,8 +3005,8 @@ router.get('/strategies/custom', async (_req: Request, res: Response) => {
 router.get('/strategies/custom/:id', async (req: Request, res: Response) => {
   try {
     const db = getDB();
-    const row = await dbGet(db, `SELECT * FROM CustomStrategies WHERE id = ? AND is_active = 1`, [req.params.id]);
-    if (!row) return res.status(404).json({ success: false, error: 'Strategy not found' });
+    const row = await FactsRepository.getInstance().getStrategy(Number(req.params.id));
+    if (!row || !row.is_active) return res.status(404).json({ success: false, error: 'Strategy not found' });
     res.json({ success: true, data: row });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -3044,11 +3052,11 @@ router.delete('/strategies/custom/:id', async (req: Request, res: Response) => {
 router.post('/strategies/custom/:id/run-backtest', async (req: Request, res: Response) => {
   try {
     const db = getDB();
-    const row = await dbGet(db, 'SELECT * FROM CustomStrategies WHERE id = ? AND is_active = 1', [req.params.id]);
-    if (!row) return res.status(404).json({ success: false, error: 'Strategy not found' });
+    const row = await FactsRepository.getInstance().getStrategy(Number(req.params.id));
+    if (!row || !row.is_active) return res.status(404).json({ success: false, error: 'Strategy not found' });
 
     const config = JSON.parse(row.parameters_json);
-    const baseTemplateId = row.base_template_id;
+    const baseTemplateId = (row as any).base_template_id;
 
     // Map strategy template to evaluator number
     const templateToEvaluator: Record<string, number> = {
@@ -3635,32 +3643,122 @@ const handleAnalyze360RefreshData = async (req: Request, res: Response) => {
   try {
     const { getDB } = await import('../database.js');
     const { CanonicalFactIngestionService } = await import('../services/CanonicalFactIngestionService.js');
+    const { ensureUnifiedDataSchema } = await import('../services/unifiedData/UnifiedDataSchemaService.js');
     const db = getDB();
+    await ensureUnifiedDataSchema(db);
     const ingestion = new CanonicalFactIngestionService(db);
-    const factsInserted = await ingestion.ingestForSymbol(normalized);
+    const localFactCount = await dbGet<{ fact_count: number }>(
+      db,
+      `SELECT COUNT(*) AS fact_count FROM company_facts
+       WHERE UPPER(symbol) = ? AND availabilityStatus IN ('AVAILABLE', 'AVAILABLE_FROM_PROVIDER')`,
+      [normalized]
+    ).then(row => Number(row?.fact_count || 0)).catch(() => 0);
+    const exchangeScript = path.resolve('scripts', 'fundamental', 'institutional29', 'acquire_exchange_data.mjs');
+    const cacheKey = `FUNDAMENTAL:PUBLIC_WATERFALL:${normalized}`;
+    const cachedJob = await dbGet<{ completed_at: string | null; raw_location: string | null }>(
+      db,
+      `SELECT completed_at, raw_location FROM acquisition_jobs WHERE cache_key = ? AND status IN ('PROMOTED','CONSUMED')`,
+      [cacheKey]
+    );
+    const cacheFresh = !!cachedJob?.completed_at
+      && Date.now() - new Date(cachedJob.completed_at).getTime() < 24 * 60 * 60 * 1000
+      && !!cachedJob.raw_location
+      && fs.existsSync(cachedJob.raw_location);
+    let acquisition: { stdout?: string; stderr?: string } | null = null;
+    let acquisitionError: string | null = null;
+    if (!cacheFresh) {
+      try {
+        // Deliberately public-source only.  The script routes numeric symbols to
+        // BSE and alphabetic symbols to NSE/Screener without invoking Trendlyne MCP.
+        acquisition = await execFileAsync(process.execPath, [exchangeScript, normalized], {
+          cwd: process.cwd(),
+          timeout: 90_000,
+          maxBuffer: 1024 * 1024,
+        });
+      } catch (error: any) {
+        acquisitionError = String(error?.stderr || error?.message || 'PUBLIC_SOURCE_ACQUISITION_FAILED').slice(0, 2_000);
+      }
+    }
 
-    const status = factsInserted > 0 ? 'UPDATED_FROM_STORED_SNAPSHOT' : 'NO_STORED_PROVIDER_SNAPSHOT';
+    const promotion = await ingestion.ingestExchangeArtifactForSymbol(normalized);
+    const factsInserted = promotion.factsInserted;
+    const status = factsInserted > 0
+      ? 'UPDATED_FROM_PUBLIC_WATERFALL'
+      : acquisitionError
+        ? 'PUBLIC_SOURCE_WATERFALL_UNAVAILABLE'
+        : 'NO_PROMOTABLE_PUBLIC_FACTS';
+    await dbRun(db, `
+      INSERT OR REPLACE INTO acquisition_jobs (
+        job_id, symbol, domain, metric, source_provider, source_url, cache_key, requested_at, completed_at,
+        status, attempt_count, ttl_seconds, payload_sha256, raw_location, normalization_error, promotion_error, metadata_json
+      ) VALUES (?, ?, 'FUNDAMENTAL', 'financial_statement', 'NSE_BSE_SCREENER_PUBLIC', ?, ?, ?, ?, ?, ?, 86400, ?, ?, ?, ?, ?)
+    `, [
+      `public-waterfall:${normalized}:${Date.now()}`,
+      normalized,
+      promotion.sourceUrl,
+      cacheKey,
+      new Date().toISOString(),
+      new Date().toISOString(),
+      factsInserted > 0 ? 'PROMOTED' : (acquisitionError ? 'RETRYABLE_FAILURE' : 'FETCHED'),
+      cacheFresh ? 0 : 1,
+      promotion.artifactHash,
+      promotion.artifactPath,
+      acquisitionError,
+      factsInserted > 0 ? null : 'NO_PROMOTABLE_PUBLIC_FACTS',
+      JSON.stringify({ mcpUsed: false, cacheFresh, route: 'analyze360.refresh-data' })
+    ]);
+    const hasEnv = (...names: string[]) => names.some(name => Boolean(process.env[name]?.trim()));
+    // Read names only, never provider-session values.  A stored MCP URL is not
+    // a direct-website session and cannot make either direct stage available.
+    const directWebConfigRows = await dbAll<{ key: string }>(db, `
+      SELECT key FROM AppConfig
+      WHERE key IN ('Trendlyne_Direct_Session', 'Trendlyne_Session_Cookie', 'TradingView_Direct_Session', 'TradingView_Session_Cookie')
+        AND value IS NOT NULL AND length(trim(value)) > 0
+    `).catch(() => []);
+    const directWebReadiness = Object.fromEntries(getDirectWebProviderReadiness({
+      environmentKeys: Object.keys(process.env),
+      appConfigKeys: directWebConfigRows.map(row => row.key),
+    }).map(item => [item.provider, item]));
+    const sourceOutcomes = buildFundamentalSourceOutcomes({
+      localFactCount,
+      cacheFresh,
+      publicAcquisitionError: acquisitionError,
+      publicSourceUrl: promotion.sourceUrl,
+      // `useMcp` only changes the source-outcome contract.  This endpoint still
+      // cannot invoke MCP, which keeps the default public refresh fail-closed.
+      mcpOptIn: req.body?.useMcp === true,
+      configured: {
+        trendlyneDirect: directWebReadiness.TRENDLYNE_DIRECT?.configured,
+        tradingViewDirect: directWebReadiness.TRADINGVIEW_DIRECT?.configured,
+        upstox: hasEnv('UPSTOX_ACCESS_TOKEN'),
+        kite: hasEnv('KITE_ACCESS_TOKEN', 'KITE_API_KEY'),
+      },
+      directWebReadiness,
+    });
     return res.json({
       success: factsInserted > 0,
       status,
       action: 'REFRESH_DATA',
       symbol: normalized,
       result: {
-        factsInserted,
+          factsInserted,
+          acquisition: cacheFresh ? 'CACHED' : (acquisition ? 'COMPLETED' : 'FAILED'),
+          artifactPath: promotion.artifactPath,
+          artifactHash: promotion.artifactHash,
         nextStep:
           factsInserted > 0
-            ? 'Reload Analyze360 to use refreshed canonical facts.'
-            : 'Run Trendlyne refresh for this symbol through the deterministic batch planner; no live provider call was made from the UI request.'
+            ? 'Public-source data was promoted to canonical facts. Analyze 360 has been reloaded.'
+            : 'No numerical facts were promotable from the public-source waterfall. Inspect source outcomes; no MCP call was made.'
       },
       blockers:
         factsInserted > 0
           ? []
           : [{
-              field: 'trendlyne_snapshot',
-              reason: 'No stored Trendlyne MCP parameter snapshot exists for this symbol.',
+              field: 'public_source_waterfall',
+              reason: acquisitionError || 'The public sources returned no promotable financial statement values for this symbol.',
               severity: 'MEDIUM'
             }],
-      sources: [{ source: 'CanonicalFactIngestionService', mode: 'stored_snapshot_only' }]
+      sources: sourceOutcomes,
     });
   } catch (err: any) {
     console.error('[infra.ts] Analyze360 refresh-data error:', err);

@@ -5,7 +5,7 @@ import { MacroRegimeClassifierService } from './MacroRegimeClassifierService.js'
 import { ScreenerService } from './screenerService.js';
 import { PredictionAccuracyEngine } from './PredictionAccuracyEngine.js';
 import { BrokerResearchIntelligenceService } from './BrokerResearchIntelligenceService.js';
-import { FundamentalDataService } from './FundamentalDataService.js';
+import { BatchFundamentalProvider } from './BatchFundamentalProvider.js';
 import { OpportunityDataIntegrityGate, CandidateDataSnapshot, IntegrityCheckResult } from '../quant/OpportunityDataIntegrityGate.js';
 
 export interface MultiPillarStockRationale {
@@ -598,7 +598,7 @@ export class OpportunityScannerEngine {
       const sectorName = isSME ? 'SME High-Growth' : 'Direct Indian Equity';
 
       // Fetch authentic fundamental snapshot if available (ZFA Phase 2)
-      const fundSnap = await FundamentalDataService.getInstance().getSnapshot(sym).catch(() => null);
+      const fundSnap = await BatchFundamentalProvider.getInstance().get(sym).catch(() => null);
       const rawPe = fundSnap?.pe_ratio ?? null;
       const rawRoce = fundSnap?.roce_pct ?? null;
       const rawDebt = fundSnap?.debt_to_equity ?? null;
@@ -1003,7 +1003,7 @@ export class OpportunityScannerEngine {
         const isVolBreakout = relVol != null && relVol >= 1.35;
 
         // Fetch fundamental snapshot if available
-        const fundSnap = await FundamentalDataService.getInstance().getSnapshot(sym).catch(() => null);
+        const fundSnap = await BatchFundamentalProvider.getInstance().get(sym).catch(() => null);
         const rawPe = fundSnap?.pe_ratio ?? null;
         const rawRoce = fundSnap?.roce_pct ?? null;
         const rawDebt = fundSnap?.debt_to_equity ?? null;
