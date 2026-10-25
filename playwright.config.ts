@@ -5,6 +5,9 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: 'tests/e2e',
+  // `pipeline.test.ts` is a Vitest integration suite and is run by
+  // `npx vitest run tests/e2e/pipeline.test.ts`, not by Playwright.
+  testMatch: '**/*.spec.ts',
   outputDir: 'tests/reports/playwright',
 
   // Run tests in files in parallel
