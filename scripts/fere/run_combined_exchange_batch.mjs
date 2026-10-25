@@ -48,7 +48,14 @@ function promote(symbol) {
     const child = spawn(process.execPath, ['--import', 'tsx', 'scripts/fere/promote_exchange_artifact.mjs', symbol], { cwd: process.cwd(), env: process.env, stdio: ['ignore', 'pipe', 'pipe'] });
     let output = ''; let error = '';
     child.stdout.on('data', (b) => { output += b; }); child.stderr.on('data', (b) => { error += b; });
-    child.on('error', reject); child.on('exit', (code) => code === 0 ? resolve(output) : reject(new Error(`PROMOTION_${code}:${error || output}`)));
+    child.on('error', reject); child.on('exit', (code) => {
+      if (code !== 0) return reject(new Error(`PROMOTION_${code}:${error || output}`));
+      try {
+        const report = JSON.parse(output.trim().split(/\n/).pop());
+        if (report.status !== 'promoted' || !report.factsAvailable) return reject(new Error('PROMOTION_READINESS_MISSING'));
+        resolve(report);
+      } catch { reject(new Error('PROMOTION_READINESS_REPORT_INVALID')); }
+    });
   });
 }
 const manifest = load();
