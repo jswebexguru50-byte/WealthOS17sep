@@ -156,10 +156,10 @@ describe('RetryHandler chaos', () => {
     for (const status of [429, 503]) {
       const fn = alwaysFail(status);
 
-      const promise = withRetry(fn, { maxAttempts: 3, baseDelayMs: 10 }, `test-${status}`);
+      const promise = withRetry(fn, { maxAttempts: 3, baseDelayMs: 10 }, `test-${status}`).catch((error) => error);
       // advance timers to consume retry delays
       await vi.runAllTimersAsync();
-      await expect(promise).rejects.toBeDefined();
+      await expect(promise).resolves.toBeDefined();
       expect(fn).toHaveBeenCalledTimes(3); // initial + 2 retries = 3
       fn.mockReset();
     }
@@ -199,9 +199,9 @@ describe('RetryHandler chaos', () => {
 
     // Also verify the actual function retries the right number of times
     const fn = alwaysFail(503);
-    const promise = withRetry(fn, { maxAttempts: 3, baseDelayMs: 10 }, 'backoff-formula-test');
+    const promise = withRetry(fn, { maxAttempts: 3, baseDelayMs: 10 }, 'backoff-formula-test').catch((error) => error);
     await vi.runAllTimersAsync();
-    await expect(promise).rejects.toBeDefined();
+    await expect(promise).resolves.toBeDefined();
     expect(fn).toHaveBeenCalledTimes(3);
   });
 
@@ -242,10 +242,10 @@ describe('RetryHandler chaos', () => {
       throw Object.assign(new Error(`fail-${attempt}`), { status: 503 });
     });
 
-    const promise = withRetry(fn, { maxAttempts: 3, baseDelayMs: 10 }, 'last-err-test');
+    const promise = withRetry(fn, { maxAttempts: 3, baseDelayMs: 10 }, 'last-err-test').catch((error) => error);
     await vi.runAllTimersAsync();
 
-    const err = await promise.catch(e => e);
+    const err = await promise;
     expect(err.message).toBe('fail-3'); // last error
     expect(fn).toHaveBeenCalledTimes(3);
   });

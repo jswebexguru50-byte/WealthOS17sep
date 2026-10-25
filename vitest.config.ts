@@ -5,6 +5,7 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
+    globals: true,
     // Test file patterns
     include: [
       'tests/unit/**/*.test.ts',

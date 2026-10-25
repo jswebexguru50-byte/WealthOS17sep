@@ -3,7 +3,7 @@ import { MultiLayerFetcher } from '../../src/server/services/MultiLayerFetcher.j
 
 describe('MultiLayerFetcher', () => {
   it('falls back in order and caches the successful result', async () => {
-    const first = vi.fn().mockRejectedValue(new Error('down'));
+    const first = vi.fn().mockRejectedValue(Object.assign(new Error('provider timeout'), { status: 503 }));
     const second = vi.fn().mockResolvedValue({ price: 101 });
     const fetcher = new MultiLayerFetcher([{ name: 'upstox', fetch: first }, { name: 'yahoo', fetch: second }]);
     const result = await fetcher.fetch('infy', 'live_price');
