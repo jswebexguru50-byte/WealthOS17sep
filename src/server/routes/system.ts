@@ -11,6 +11,10 @@ import { CircuitBreaker } from '../services/CircuitBreaker.js';
 import { obs } from '../services/ObservabilityHub.js';
 import { providerMeta, PROVIDER } from '../services/DataProviderRegistry.js';
 import { DataRefreshScheduler } from '../services/DataRefreshScheduler.js';
+import { MultiLayerCache } from '../services/MultiLayerCache.js';
+import { CostTracker } from '../services/CostTracker.js';
+import { BudgetEnforcer } from '../services/BudgetEnforcer.js';
+import { DataProvenanceService } from '../services/DataProvenanceService.js';
 
 const router = Router();
 
@@ -38,6 +42,9 @@ router.get('/platform/health', (_req, res) => {
     providers: providerStatus,
     scheduler: DataRefreshScheduler.getInstance().status(),
     metrics: obs.snapshot(),
+    cache: MultiLayerCache.getInstance().stats(),
+    budget: BudgetEnforcer.getInstance().status(),
+    costs: CostTracker.getInstance().summary(),
   });
 });
 
@@ -45,6 +52,20 @@ router.get('/platform/health', (_req, res) => {
 router.post('/platform/refresh/:job', async (req, res) => {
   const result = await DataRefreshScheduler.getInstance().runNow(req.params.job as any);
   res.status(result.ok ? 200 : 400).json(result);
+});
+
+// GET /api/platform/provenance — audit trail for data fetches
+router.get('/platform/provenance', (req, res) => {
+  const svc = DataProvenanceService.getInstance();
+  const { symbol, provider, dataClass, limit, since } = req.query as Record<string, string | undefined>;
+  const records = svc.query({
+    symbol: symbol,
+    provider: provider,
+    dataClass: dataClass,
+    limit: limit ? parseInt(limit, 10) : undefined,
+    since: since,
+  });
+  res.json({ ok: true, records, stats: svc.stats() });
 });
 
 // GET /api/server-info

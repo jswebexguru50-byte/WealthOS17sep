@@ -42,6 +42,7 @@ import { CompanyIntelligenceOrchestrator } from './src/server/services/intellige
 import { DuplicateAuditService } from './src/server/services/DuplicateAuditService.js';
 import { DeprecationAuditService } from './src/server/services/DeprecationAuditService.js';
 import { DeprecationMiddleware, LEGACY_PATHS_REGISTRY, LEGACY_PARAM_MAPS } from './src/server/middleware/DeprecationMiddleware.js';
+import { loggingMiddleware } from './src/server/middleware/LoggingMiddleware.js';
 import { setDeprecationHeader, setSunsetHeader, setLinkHeader, setWealthOSLegacyPathHeader, extractClientIp, extractBrowserUserAgent } from './src/server/utils/deprecationUtils.js';
 import { handleCanonicalServiceError } from './src/server/utils/deprecationErrorHandler.js';
 // Shared utility module for technical indicators (extracted from duplicate services)
@@ -385,6 +386,7 @@ app.use(compression());
 // Global JSON payload body limit lowered to 2mb (Finding P0-3)
 app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: true, limit: '2mb' }));
+app.use(loggingMiddleware);
 app.use('/api', enforceWriteOrigin);
 // Centralized API Rate Limiter (600 req / minute per IP)
 app.use('/api', createRateLimiter({
@@ -660,6 +662,8 @@ import evidenceRouter from './src/server/routes/evidenceRoutes.js';  // Evidence
 
 app.use('/api/entry-plans', entryPlanRouter);              // Entry Plan Outcome Tracker
 app.use('/api/29q', evidenceRouter);                       // 29Q Route with Evidence Envelope (P2)
+import factsRouter from './src/server/routes/facts.js';
+app.use('/api/v2/facts', factsRouter);                     // Versioned read-only fact endpoints (Gap 10)
 
 app.get('/api/analytics/lookthrough', async (req, res) => {
   try {

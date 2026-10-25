@@ -90,6 +90,29 @@ export async function safeFetchJson<T = any>(
   };
 }
 
+// Typed v2 facts helpers — use these instead of raw fetch('/api/...')
+export async function fetchTicker(symbol: string) {
+  const r = await fetch(`/api/v2/facts/ticker/${encodeURIComponent(symbol)}`);
+  return r.json();
+}
+export async function fetchFundamentals(symbol: string) {
+  const r = await fetch(`/api/v2/facts/fundamentals/${encodeURIComponent(symbol)}`);
+  return r.json();
+}
+export async function fetchHoldings(portfolio?: string) {
+  const url = portfolio ? `/api/v2/facts/holdings?portfolio=${encodeURIComponent(portfolio)}` : '/api/v2/facts/holdings';
+  const r = await fetch(url);
+  return r.json();
+}
+export async function fetchEquityUniverse() {
+  const r = await fetch('/api/v2/facts/universe');
+  return r.json();
+}
+export async function fetchActiveStrategies() {
+  const r = await fetch('/api/v2/facts/strategies');
+  return r.json();
+}
+
 export async function downloadXirrAuditExcel(portfolioName: string | string[]) {
   try {
     const todayStr = new Date().toISOString().split('T')[0];
