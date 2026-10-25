@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { fetchEquityUniverse } from '../lib/api.js';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Search,
@@ -67,8 +68,7 @@ export const StockDossierView: React.FC<StockDossierViewProps> = ({
 
   useEffect(() => {
     // Load quick search list from master tickers or opportunities
-    fetch('/api/tickers')
-      .then(res => res.json())
+    fetchEquityUniverse()
       .then(data => {
         if (Array.isArray(data)) setUniverseList(data.slice(0, 30));
         else if (data?.data && Array.isArray(data.data)) setUniverseList(data.data.slice(0, 30));

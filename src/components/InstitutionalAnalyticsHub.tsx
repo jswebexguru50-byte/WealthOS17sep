@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { fetchEquityUniverse } from '../lib/api.js';
 import { 
   BarChart3, 
   TrendingUp, 
@@ -159,7 +160,7 @@ export function InstitutionalAnalyticsHub({
       // Stage 1: Load Dashboard & MasterTickers first for instant (<50ms) rendering
       const [dashRes, masterRes] = await Promise.all([
         fetch(`/api/dashboard${portParam}`).then(r => r.json()).catch(() => ({ holdings: [], metrics: {} })),
-        fetch('/api/master-tickers').then(r => r.json()).catch(() => ({ tickers: [] }))
+        fetchEquityUniverse().catch(() => ({ tickers: [] }))
       ]);
 
       let list = (dashRes && dashRes.holdings && dashRes.holdings.length > 0) ? [...dashRes.holdings] : [];

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { fetchEquityUniverse } from '../lib/api.js';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Layers,
@@ -84,8 +85,7 @@ export function MasterTickersView({
 
   const fetchTickers = async () => {
     try {
-      const res = await fetch('/api/tickers');
-      const data = await res.json();
+      const data = await fetchEquityUniverse();
       if (Array.isArray(data)) {
         setTickers(data);
       } else if (data && Array.isArray(data.tickers)) {
