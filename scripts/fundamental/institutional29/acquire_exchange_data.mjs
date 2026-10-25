@@ -395,7 +395,7 @@ async function main() {
   };
 
   // Only try BSE endpoints that are most likely to work (announcements, corporate actions)
-  const bseEndpoints = [
+  const bseEndpoints = bseCode ? [
     {
       key: 'announcements',
       url: `${bseBase}/AnnSubCategoryGetData/w?strCat=-1&strPrevDate=${date1yAgo}&strScrip=${bseCode}&strSearch=P&strToDate=${today}&strType=C`,
@@ -419,7 +419,7 @@ async function main() {
       url: `${bseBase}/FinancialsAnnuallyConsolidatedResults/w?scripcode=${bseCode}`,
       label: 'BSE annual P&L',
     }] : []),
-  ];
+  ] : [];
 
   for (const ep of bseEndpoints) {
     log('exchange', `Fetching ${ep.label}`);

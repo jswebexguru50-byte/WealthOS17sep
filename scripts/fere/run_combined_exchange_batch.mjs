@@ -15,6 +15,11 @@ const save = (manifest) => { const tmp = `${manifestPath}.tmp`; fs.writeFileSync
 function run(symbol, route) {
   return new Promise((resolve, reject) => {
     const args = ['scripts/fundamental/institutional29/acquire_exchange_data.mjs', symbol];
+    // The acquisition script requires an explicit exchange identifier.  Passing
+    // only FERE_ROUTE left NSE symbols with a null BSE code and generated
+    // requests such as `scripcode=null`, which can never return facts.
+    if (route === 'BSE') args.push('--bse-code', symbol);
+    else args.push('--nse-code', symbol);
     if (dryRun) args.push('--dry-run');
     const child = spawn(process.execPath, args, { cwd: process.cwd(), env: { ...process.env, FERE_ROUTE: route }, stdio: ['ignore', 'pipe', 'pipe'] });
     let err = ''; child.stderr.on('data', (b) => { err += b; });
