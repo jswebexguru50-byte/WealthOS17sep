@@ -10,6 +10,7 @@ const limit = Math.max(0, Number(arg('--limit', '0')));
 const retries = Math.max(0, Number(arg('--retries', '2')));
 const dryRun = !process.argv.includes('--apply');
 const timeoutMs = Math.max(5000, Number(arg('--timeout-ms', '90000')));
+const checkpointEvery = Math.max(1, Number(arg('--checkpoint-every', '50')));
 const load = () => JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 const save = (manifest) => { const tmp = `${manifestPath}.tmp`; fs.writeFileSync(tmp, JSON.stringify(manifest, null, 2) + '\n'); fs.renameSync(tmp, manifestPath); };
 function run(symbol, route) {
@@ -51,16 +52,15 @@ function promote(symbol) {
 }
 const manifest = load();
 const pending = manifest.entries.filter((e) => e.status === 'pending' || e.status === 'retryable').slice(0, limit || undefined);
-let cursor = 0; let completed = 0;
+let completed = 0;
 const startedAt = Date.now();
 function progress(symbol, status, detail = '') {
   const done = manifest.entries.filter(e => ['promoted', 'source_exhausted', 'failed'].includes(e.status)).length;
   const elapsed = Math.round((Date.now() - startedAt) / 1000);
   console.log(`[FERE] ${done}/${manifest.entries.length} terminal | ${symbol} -> ${status}${detail ? ` | ${detail}` : ''} | ${elapsed}s`);
 }
-async function worker() {
-  while (cursor < pending.length) {
-    const entry = pending[cursor++]; const listing = entry.listings[0]; entry.attempts = (entry.attempts || 0) + 1; entry.status = 'acquiring'; save(manifest);
+async function processEntry(entry) {
+    const listing = entry.listings[0]; entry.attempts = (entry.attempts || 0) + 1; entry.status = 'acquiring'; save(manifest);
     try {
       await run(listing.symbol, listing.route);
       if (dryRun) { entry.status = 'dry_run'; entry.lastError = null; completed++; progress(listing.symbol, entry.status); }
@@ -78,8 +78,15 @@ async function worker() {
       entry.lastError = message;
       progress(listing.symbol, entry.status, message.slice(0, 160));
     }
-    save(manifest);
-  }
 }
-await Promise.all(Array.from({ length: Math.min(concurrency, pending.length) }, worker));
-console.log(JSON.stringify({ manifest: manifestPath, mode: dryRun ? 'dry-run' : 'apply', selected: pending.length, completed, concurrency }));
+for (let offset = 0; offset < pending.length; offset += checkpointEvery) {
+  const checkpoint = pending.slice(offset, offset + checkpointEvery);
+  let cursor = 0;
+  async function worker() { while (cursor < checkpoint.length) await processEntry(checkpoint[cursor++]); }
+  await Promise.all(Array.from({ length: Math.min(concurrency, checkpoint.length) }, worker));
+  save(manifest);
+  const counts = {};
+  for (const e of manifest.entries) counts[e.status] = (counts[e.status] || 0) + 1;
+  console.log(`[FERE CHECKPOINT] ${Math.min(offset + checkpoint.length, pending.length)}/${pending.length} selected processed`, JSON.stringify(counts));
+}
+console.log(JSON.stringify({ manifest: manifestPath, mode: dryRun ? 'dry-run' : 'apply', selected: pending.length, completed, concurrency, checkpointEvery }));
