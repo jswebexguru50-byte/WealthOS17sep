@@ -6,7 +6,7 @@ import Database from 'better-sqlite3';
 import { CanonicalFactIngestionService } from '../../src/server/services/CanonicalFactIngestionService.ts';
 const arg=(n,d)=>{const i=process.argv.indexOf(n);return i>=0&&process.argv[i+1]?process.argv[i+1]:d};
 const root=process.cwd(), manifestPath=path.resolve(root,arg('--manifest','outputs/fere/combined_exchange_manifest.json'));
-const dbPath=path.resolve(root,process.env.DATABASE_URL||'portfolio.db'), limit=Math.max(0,Number(arg('--limit','0'))||0), apply=process.argv.includes('--apply');
+const dbPath=path.resolve(root,process.env.DATABASE_URL||'portfolio.db'), limit=Math.max(0,Number(arg('--limit','0'))||0), minFacts=Math.max(1,Number(arg('--min-facts','29'))||29), apply=process.argv.includes('--apply');
 if(!fs.existsSync(manifestPath)) throw new Error(`Manifest not found: ${manifestPath}`);
 if(!fs.existsSync(dbPath)) throw new Error(`Database not found: ${dbPath}`);
 const manifest=JSON.parse(fs.readFileSync(manifestPath,'utf8'));
@@ -16,7 +16,7 @@ const count=db.prepare('SELECT COUNT(*) n FROM company_facts WHERE UPPER(symbol)
 const out={mode:apply?'apply':'dry_run',mcp:'disabled',total:0,outcomes:[]};
 for(const e of entries.filter(x=>x?.symbol).slice(0,limit||entries.length)){
   const symbol=String(e.symbol).trim().toUpperCase(), existing=Number(count.get(symbol)?.n||0);
-  if(existing){out.outcomes.push({symbol,status:'already_covered',facts:existing});continue;}
+  if(existing>=minFacts){out.outcomes.push({symbol,status:'already_covered',facts:existing,minFacts});continue;}
   const artifactPath=path.join(rootArtifacts,symbol,'trendlyne_raw.json');
   if(!fs.existsSync(artifactPath)){out.outcomes.push({symbol,status:'no_cached_artifact',facts:0});continue;}
   let raw; try{raw=JSON.parse(fs.readFileSync(artifactPath,'utf8'));}catch(error){out.outcomes.push({symbol,status:'invalid_cached_artifact',error:String(error.message||error)});continue;}

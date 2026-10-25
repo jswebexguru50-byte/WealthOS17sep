@@ -7,6 +7,7 @@ describe('cached artifact promotion contract', () => {
     expect(source).toContain("mcp:'disabled'");
     expect(source).toContain("status:'already_covered'");
     expect(source).toContain("status:'no_cached_artifact'");
+    expect(source).toContain("minFacts=Math.max(1,Number(arg('--min-facts','29'))||29)");
     expect(source).toContain('sourceDocumentId');
     expect(source).not.toMatch(/mcp__|playwright|browser/i);
   });
