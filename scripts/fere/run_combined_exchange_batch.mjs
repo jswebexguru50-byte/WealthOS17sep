@@ -27,6 +27,20 @@ function run(symbol, route) {
     child.on('error', reject); child.on('exit', (code) => { clearTimeout(timer); code === 0 ? resolve() : reject(new Error(`EXIT_${code}:${err.slice(-500)}`)); });
   });
 }
+function runSupplementary(symbol, route) {
+  const scripts = [
+    ['scripts/fundamental/institutional29/acquire_xbrl_financials.mjs', symbol],
+    ['scripts/fundamental/institutional29/acquire_mca_company_data.mjs', symbol],
+  ];
+  if (route === 'BSE') scripts.splice(1, 0, ['scripts/fundamental/institutional29/acquire_bse_xbrl.mjs', symbol, '--bse-code', symbol]);
+  return scripts.reduce((chain, args) => chain.then(() => new Promise((resolve) => {
+    const child = spawn(process.execPath, args, { cwd: process.cwd(), env: process.env, stdio: ['ignore', 'pipe', 'pipe'] });
+    let output = ''; let error = '';
+    child.stdout.on('data', b => { output += b; }); child.stderr.on('data', b => { error += b; });
+    child.on('error', err => { console.error(`SUPPLEMENTARY ${args[0]} ${symbol}: ${err.message}`); resolve(); });
+    child.on('exit', code => { if (code !== 0) console.error(`SUPPLEMENTARY ${args[0]} ${symbol} exit ${code}: ${(error || output).slice(-300)}`); resolve(); });
+  })), Promise.resolve());
+}
 function promote(symbol) {
   return new Promise((resolve, reject) => {
     const child = spawn(process.execPath, ['--import', 'tsx', 'scripts/fere/promote_exchange_artifact.mjs', symbol], { cwd: process.cwd(), env: process.env, stdio: ['ignore', 'pipe', 'pipe'] });
@@ -44,7 +58,10 @@ async function worker() {
     try {
       await run(listing.symbol, listing.route);
       if (dryRun) { entry.status = 'dry_run'; entry.lastError = null; completed++; }
-      else { await promote(listing.symbol); entry.status = 'promoted'; entry.lastError = null; completed++; }
+      else {
+        await runSupplementary(listing.symbol, listing.route);
+        await promote(listing.symbol); entry.status = 'promoted'; entry.lastError = null; completed++;
+      }
     }
     catch (error) { entry.status = entry.attempts <= retries ? 'retryable' : 'failed'; entry.lastError = String(error.message || error); }
     save(manifest);
