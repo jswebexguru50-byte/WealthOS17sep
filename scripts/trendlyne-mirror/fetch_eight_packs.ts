@@ -58,6 +58,10 @@ function save(symbol: string, packId: string, chunkIndex: number, tokens: string
 const client = new Client({name:'wealthos-eight-pack-fetcher', version:'1.0.0'});
 await client.connect(new StreamableHTTPClientTransport(new URL(url)));
 const results: any[] = [];
+const summaryPath = path.join(root, 'reports', 'trendlyne_mirror', 'EIGHT_PACK_FETCH_SUMMARY.json');
+fs.mkdirSync(path.dirname(summaryPath), { recursive: true });
+const alreadySuccessful = db.prepare(`SELECT 1 FROM fundamental_endpoint_snapshots WHERE provider='TRENDLYNE_MCP' AND UPPER(symbol)=? AND endpoint=? AND status='SUCCESS' LIMIT 1`);
+const writeInterimSummary = () => fs.writeFileSync(summaryPath, JSON.stringify({generatedAt:now, symbols, packCount:TRENDLYNE_PACKS_V1.length + (includeOverview ? 1 : 0), includeOverview, providerSymbolLimit, providerParameterLimit:10, completed:results.length, results}, null, 2));
 for (const pack of TRENDLYNE_PACKS_V1) {
   // Provider contract: up to 10 symbols and 10 parameters per call.
   // Trendlyne currently rejects cffa; retain the other verified F04 tokens.
@@ -66,8 +70,11 @@ for (const pack of TRENDLYNE_PACKS_V1) {
   for (const tokenChunk of chunks(packTokens, 10)) {
     chunkIndex++;
     for (const symbolChunk of chunks(symbols, providerSymbolLimit)) {
+      const endpoint = `pack:${pack.packId}:chunk${chunkIndex}`;
+      const pendingSymbols = symbolChunk.filter(symbol => !alreadySuccessful.get(symbol, endpoint));
+      if (!pendingSymbols.length) continue;
       try {
-        const response = await client.callTool({name:'get_stock_parameter_values', arguments:{stock_codes:symbolChunk, parameters:tokenChunk}});
+        const response = await client.callTool({name:'get_stock_parameter_values', arguments:{stock_codes:pendingSymbols, parameters:tokenChunk}});
         const text = (response as any)?.content?.[0]?.text || '';
         let parsed: unknown = text;
         try { parsed = JSON.parse(text); } catch {}
@@ -75,10 +82,11 @@ for (const pack of TRENDLYNE_PACKS_V1) {
         const hasMetricRows = /\n\n[^\n]+\n[A-Z0-9&.-]+:/i.test(dataText);
         const status = (response as any)?.isError || (parsed as any)?.status === 'error' || !hasMetricRows ? 'SOURCE_UNAVAILABLE' : 'SUCCESS';
         const error = status === 'SUCCESS' ? null : String((parsed as any)?.message || (!hasMetricRows ? 'IDENTIFIER_ONLY_RESPONSE' : 'provider error'));
-        for (const symbol of symbolChunk) results.push(save(symbol, pack.packId, chunkIndex, tokenChunk, parsed, status, error));
+        for (const symbol of pendingSymbols) results.push(save(symbol, pack.packId, chunkIndex, tokenChunk, parsed, status, error));
       } catch (e) {
-        for (const symbol of symbolChunk) results.push(save(symbol, pack.packId, chunkIndex, tokenChunk, null, 'SOURCE_UNAVAILABLE', String(e)));
+        for (const symbol of pendingSymbols) results.push(save(symbol, pack.packId, chunkIndex, tokenChunk, null, 'SOURCE_UNAVAILABLE', String(e)));
       }
+      writeInterimSummary();
     }
   }
 }
@@ -92,11 +100,11 @@ if (includeOverview) for (const symbol of symbols) {
     let parsed: unknown = text; try { parsed = JSON.parse(text); } catch {}
     const status = (response as any)?.isError || (parsed as any)?.status === 'error' ? 'SOURCE_UNAVAILABLE' : 'SUCCESS';
     results.push(save(symbol, 'F08_OVERVIEW', 1, ['overview'], parsed, status, status === 'SUCCESS' ? null : String((parsed as any)?.message || 'provider error')));
+    writeInterimSummary();
   } catch (e) {
     results.push(save(symbol, 'F08_OVERVIEW', 1, ['overview'], null, 'SOURCE_UNAVAILABLE', String(e)));
   }
 }
-fs.mkdirSync(path.join(root,'reports','trendlyne_mirror'), {recursive:true});
-fs.writeFileSync(path.join(root,'reports','trendlyne_mirror','EIGHT_PACK_FETCH_SUMMARY.json'), JSON.stringify({generatedAt:now, symbols, packCount:TRENDLYNE_PACKS_V1.length + (includeOverview ? 1 : 0), includeOverview, providerSymbolLimit, providerParameterLimit:10, results}, null, 2));
+writeInterimSummary();
 db.close();
 console.log(JSON.stringify({symbols:symbols.length, packs:TRENDLYNE_PACKS_V1.length + 1, calls:results.length, success:results.filter(r=>r.status==='SUCCESS').length, unavailable:results.filter(r=>r.status!=='SUCCESS').length}, null, 2));
