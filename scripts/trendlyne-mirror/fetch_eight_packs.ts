@@ -42,7 +42,8 @@ const url = process.env.TRENDLYNE_MCP_URL
 if (!url) throw new Error('Trendlyne MCP URL is not configured.');
 const now = new Date().toISOString();
 const chunks = <T>(a: T[], n: number) => Array.from({length: Math.ceil(a.length / n)}, (_, i) => a.slice(i*n, i*n+n));
-const providerSymbolLimit = 50;
+// Verified provider limit: >10 stock codes returns error 1012.
+const providerSymbolLimit = 10;
 const hash = (v: unknown) => crypto.createHash('sha256').update(JSON.stringify(v)).digest('hex');
 function save(symbol: string, packId: string, chunkIndex: number, tokens: string[], payload: unknown, status: string, error: string | null) {
   const fetchedAt = new Date().toISOString();

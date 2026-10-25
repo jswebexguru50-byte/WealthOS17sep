@@ -380,9 +380,9 @@ export class TrendlyneMirrorService {
 
   planBatches(symbols: string[], packs = TRENDLYNE_PACKS_V1): PlannedBatch[] {
     const batches: PlannedBatch[] = [];
-    // Trendlyne accepts up to 50 symbols and 10 parameters per request.
-    // Keep the cohort deterministic while using the provider's full capacity.
-    const providerSymbolLimit = 50;
+    // The connected provider contract currently rejects >10 stock codes
+    // (error 1012). Keep logical cohorts at 50, but transport in safe chunks.
+    const providerSymbolLimit = 10;
     for (const p of packs) {
       for (let i = 0; i < symbols.length; i += providerSymbolLimit) {
         const batchSymbols = symbols.slice(i, i + providerSymbolLimit);
