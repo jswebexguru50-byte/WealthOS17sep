@@ -248,6 +248,22 @@ export class CanonicalFactIngestionService {
     };
     addRows(exchange.annualPL, 'ANNUAL');
     addRows(exchange.quarterlyPL, 'QUARTERLY');
+    // Statutory XBRL is acquired separately and historically remained stranded
+    // in raw.xbrl. Normalize its verified numeric facts into the same canonical
+    // contract so downstream dossier/scanner consumers can read them.
+    const xbrlFacts = Array.isArray(artifact?.raw?.xbrl?.facts) ? artifact.raw.xbrl.facts : [];
+    const xbrlMetric: Record<string, string> = {
+      Revenue: 'revenue', ProfitAfterTax: 'pat', OperatingProfit: 'operating_profit',
+      CashFlowFromOperating: 'cfo', Borrowings: 'borrowings', Inventories: 'inventory',
+      TradeReceivables: 'trade_receivables',
+    };
+    for (const fact of xbrlFacts) {
+      const metric = xbrlMetric[String(fact?.tag || '')];
+      const value = Number(fact?.value);
+      const periodEnd = String(fact?.period || '').trim();
+      if (!metric || !Number.isFinite(value) || !periodEnd) continue;
+      candidates.push({ metric, value, periodType: 'ANNUAL', periodEnd, label: `XBRL ${fact.tag}` });
+    }
     const balance = exchange.balanceSheet;
     const balancePeriod = String(balance?.latestPeriod || '').trim();
     if (balancePeriod) for (const [metric, value, label] of [['borrowings', balance.borrowings_cr, 'Borrowings'], ['trade_receivables', balance.tradeReceivables_cr, 'Trade Receivables'], ['inventory', balance.inventory_cr, 'Inventory'], ['cash_and_equivalents', balance.cashAndEquivalents_cr, 'Cash and Equivalents'] ] as const) candidates.push({ metric, value, periodType: 'ANNUAL', periodEnd: balancePeriod, label });
@@ -259,7 +275,8 @@ export class CanonicalFactIngestionService {
       factsAvailable++;
       const periodToken = candidate.periodEnd.replace(/[^A-Za-z0-9]+/g, '_').replace(/^_|_$/g, '') || 'LATEST';
       const factId = `${companyId}_${candidate.metric}_${candidate.periodType}_${periodToken}_CONSOLIDATED_EXCHANGE_SNAPSHOT`;
-      factsInserted += await this.runWithChanges(`INSERT OR IGNORE INTO company_facts (factId, companyId, symbol, isin, metric, value, unit, currency, periodType, periodEnd, asOfDate, factType, sourceType, scope, provider, verificationStatus, fetchedAt, availableAt, availabilityStatus, sourceDocumentId, providerToken, exactProviderLabel, sourceUrl, evidenceText, calculationMethod) VALUES (?, ?, ?, ?, ?, ?, 'Cr', 'INR', ?, ?, ?, 'REPORTED_EXCHANGE_SNAPSHOT', 'STRUCTURED_SECONDARY', 'CONSOLIDATED', 'SCREENER_PUBLIC', 'VERIFIED_PARTIAL', ?, ?, 'AVAILABLE', ?, ?, ?, ?, ?, 'PUBLIC_EXCHANGE_SNAPSHOT_V1')`, [factId, companyId, normalized, isin, candidate.metric, String(value), candidate.periodType, candidate.periodEnd, acquiredAt.slice(0, 10), acquiredAt, acquiredAt, `SCREENER_PUBLIC:${normalized}:${artifactHash}`, candidate.metric, candidate.label, sourceUrl, evidenceText]);
+      const provider = candidate.label.startsWith('XBRL') ? 'NSE_BSE_XBRL' : 'SCREENER_PUBLIC';
+      factsInserted += await this.runWithChanges(`INSERT OR IGNORE INTO company_facts (factId, companyId, symbol, isin, metric, value, unit, currency, periodType, periodEnd, asOfDate, factType, sourceType, scope, provider, verificationStatus, fetchedAt, availableAt, availabilityStatus, sourceDocumentId, providerToken, exactProviderLabel, sourceUrl, evidenceText, calculationMethod) VALUES (?, ?, ?, ?, ?, ?, 'Cr', 'INR', ?, ?, ?, 'REPORTED_EXCHANGE_SNAPSHOT', 'STRUCTURED_SECONDARY', 'CONSOLIDATED', ?, 'VERIFIED_PARTIAL', ?, ?, 'AVAILABLE', ?, ?, ?, ?, ?, 'PUBLIC_EXCHANGE_SNAPSHOT_V1')`, [factId, companyId, normalized, isin, candidate.metric, String(value), candidate.periodType, candidate.periodEnd, acquiredAt.slice(0, 10), acquiredAt, acquiredAt, provider, `${provider}:${normalized}:${artifactHash}`, candidate.metric, candidate.label, sourceUrl, evidenceText]);
     }
     obs.increment('promotion.completed', { source: 'exchange_artifact', symbol: normalized }, factsInserted);
     obs.increment(factsInserted > 0 ? 'promotion.success' : 'promotion.empty', { source: 'exchange_artifact' });
