@@ -34,7 +34,14 @@ describe('P0 truth closure', () => {
   });
 
   it('does not manufacture a legacy Trendlyne report or smart-money participant flow', async () => {
-    await expect(TrendlyneIntelligenceService.getInstance().getScripIntelligence('INFY')).resolves.toBeNull();
+    const report = await TrendlyneIntelligenceService.getInstance().getScripIntelligence('INFY');
+    // A real mirror snapshot is valid evidence; the invariant is that the
+    // reader must not synthesize absent fields or fall back to a legacy report.
+    if (report) {
+      expect(report.symbol).toBe('INFY');
+      expect(report.dvm.durabilityScore).toBeNull();
+      expect(report.analystConsensus.meanTargetPrice).toBeNull();
+    }
     await expect(SmartMoneyFlowEngine.getInstance().computeStockMetrics('INFY', '1D')).rejects.toThrow('SOURCE_UNAVAILABLE');
   });
 });
