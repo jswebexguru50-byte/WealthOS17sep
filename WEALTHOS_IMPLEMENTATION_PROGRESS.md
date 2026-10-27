@@ -19,7 +19,7 @@ Overall implementation estimate: **approximately 82%**. This is not an acceptanc
 | Intelligence response coverage wiring | Implemented | `CompanyIntelligenceOrchestrator` now emits `dataCoverage` |
 | S1101 forensic data services | Implemented | Chain-of-custody, dataset-version, enrichment services restored |
 | Unit discovery/server isolation | Implemented | Unit script uses `tests/unit`; `WEALTHOS_SKIP_SERVER=1` |
-| Unit suite | Partial | Latest full run: 1,792 passed, 56 failed, 21 skipped; many failures are fixtures/artifacts/legacy contracts |
+| Unit suite | Partial | Latest full run: 1,843 passed, 57 failed, 21 skipped across 1,921 tests; remaining failures are primarily missing generated artifacts, frozen/hash baselines, cohort fixtures, or stale legacy contracts |
 | Integration suite | Not accepted | Requires updated Mac checkout and live server |
 | Coverage suite | Not accepted | Requires updated Mac checkout and isolated DB |
 | E2E/chaos matrix | Not accepted | Requires live server/browser and generated artifacts |
@@ -55,6 +55,7 @@ Overall implementation estimate: **approximately 82%**. This is not an acceptanc
 - Added `npm run audit:canonical-consumers`; current repository scan finds 14 intentional provider-boundary references and **0 unapproved analytical-consumer violations**.
 - Added a Vitest executable guard for the audit script; canonical audit + waterfall contracts: **6/6 passed**.
 - Fresh canonical audit + waterfall + 360 + chaos run: **22/22 passed**; audit report status `PASS` with zero violations.
+- Full unit discovery rerun completed: **1,843 passed / 57 failed / 21 skipped**; failure inventory is captured in `/tmp/wealthos-unit.json` and does not indicate a regression in the canonical/waterfall boundary tests.
 - Chaos resilience verification: CircuitBreaker/RetryHandler remediation plus recovery scenarios **28/28 passed** under `WEALTHOS_SKIP_SERVER=1`.
 
 ## Known blockers / remaining work
