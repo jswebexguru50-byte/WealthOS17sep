@@ -6,7 +6,7 @@ Remote status: local commits are ahead of `origin/master`; remote push has not b
 
 ## Acceptance status
 
-Overall implementation estimate: **approximately 80%**. This is not an acceptance claim.
+Overall implementation estimate: **approximately 82%**. This is not an acceptance claim.
 
 | Requirement | Status | Evidence |
 |---|---|---|
@@ -15,7 +15,7 @@ Overall implementation estimate: **approximately 80%**. This is not an acceptanc
 | Gap-driven retry | Implemented | `build_promotion_gap_manifest.ts`; `fundamental:non-mcp:retry-gaps` |
 | Statutory/XBRL/MCA before broker/cache | Implemented | Waterfall phase order and contract test |
 | Canonical resolver for strategy/dossier paths | Implemented | `StrategyFundamentalFilterService`, `FundamentalExperienceBuilder`, dossier debt/interest paths |
-| Field-level readiness | Implemented | `DataCoverageEngine`, non-MCP coverage ledger, Analyze360 catalog |
+| Field-level readiness | Implemented | `DataCoverageEngine`, non-MCP coverage ledger, Analyze360 catalog; six explicit 360 domains now always reported (including fail-closed missing domains) |
 | Intelligence response coverage wiring | Implemented | `CompanyIntelligenceOrchestrator` now emits `dataCoverage` |
 | S1101 forensic data services | Implemented | Chain-of-custody, dataset-version, enrichment services restored |
 | Unit discovery/server isolation | Implemented | Unit script uses `tests/unit`; `WEALTHOS_SKIP_SERVER=1` |
@@ -41,6 +41,8 @@ Overall implementation estimate: **approximately 80%**. This is not an acceptanc
 - A fresh dry-run for the 1,004-symbol retry cohort reports all nine phases as `PLANNED` and `mcpUsed: false`.
 - Latest dry-run confirms `symbolCount: 1004`, `mcpUsed: false`, and all nine phases explicitly `PLANNED`.
 - Approved-mode dry-run confirms only `approved_mcp_enrichment` has `MCP_DISABLED=0`; preflight, promotion, and acceptance remain `MCP_DISABLED=1`.
+- `tests/unit/data_coverage_360_contract.test.ts`: 2/2 passes; six-domain contract and fail-closed empty-payload behavior verified.
+- Latest targeted waterfall + 360 coverage run: **6/6 tests passed**; TypeScript compile passes.
 
 ## Known blockers / remaining work
 

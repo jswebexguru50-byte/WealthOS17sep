@@ -23,10 +23,38 @@ export class DataCoverageEngine {
       ['management_changes', this.hasValues(raw, ['management']) || this.hasValues(raw, ['managementChanges'])],
       ['governance_disclosures', this.hasValues(raw, ['fere']) || this.hasValues(raw, ['governance'])],
     ]);
+    // Keep the six analytical domains explicit.  A screen may only request a
+    // subset of modules, but the coverage contract must still tell callers
+    // which dimensions are observable and which are not.  Presence is based
+    // on module payloads (not on a successful HTTP response or row count).
+    const businessDrivers = this.domain('BUSINESS_DRIVERS', [
+      ['business_drivers', this.hasAny(raw, ['businessDrivers', 'businessInflection', 'drivers'])],
+      ['demand_and_capacity', this.hasAny(raw, ['businessDrivers.demand', 'businessInflection.demand', 'marketContext'])],
+      ['competitive_position', this.hasAny(raw, ['businessDrivers.competitivePosition', 'businessInflection.competitivePosition', 'competitive'])],
+    ]);
+    const valuation = this.domain('VALUATION', [
+      ['valuation_metrics', this.hasAny(raw, ['valuation', 'valuation.result', 'qglp.valuation'])],
+      ['relative_valuation', this.hasAny(raw, ['valuation.relative', 'valuation.result.pe', 'valuation.result.pettm', 'qglp.valuation'])],
+      ['intrinsic_value', this.hasAny(raw, ['valuation.intrinsicValue', 'valuation.result.intrinsicValue', 'valuation.result.dcf'])],
+    ]);
+    const technical = this.domain('TECHNICAL', [
+      ['ohlcv', this.hasAny(raw, ['technical', 'technical.result', 'ohlcv', 'marketData.ohlcv'])],
+      ['trend_indicators', this.hasAny(raw, ['technical.result.indicators', 'technical.indicators', 'indicators'])],
+      ['momentum_and_volatility', this.hasAny(raw, ['technical.result.momentum', 'technical.result.volatility', 'momentum', 'volatility'])],
+    ]);
+    const fereFilings = this.domain('FERE_FILINGS', [
+      ['statutory_facts', this.hasAny(raw, ['fere', 'fere.result', 'filings', 'companyFacts'])],
+      ['filing_history', this.hasAny(raw, ['fere.filings', 'fere.result.filings', 'filings.history'])],
+      ['evidence_lineage', this.hasAny(raw, ['fere.evidence', 'fere.result.evidence', 'evidence', 'provenance'])],
+    ]);
     const unavailable = Object.values(raw ?? {}).length === 0;
     if (unavailable) {
       fundamentals.overallStatus = 'SOURCE_UNAVAILABLE';
       management.overallStatus = 'SOURCE_UNAVAILABLE';
+      businessDrivers.overallStatus = 'SOURCE_UNAVAILABLE';
+      valuation.overallStatus = 'SOURCE_UNAVAILABLE';
+      technical.overallStatus = 'SOURCE_UNAVAILABLE';
+      fereFilings.overallStatus = 'SOURCE_UNAVAILABLE';
     }
     const anyCore = fundamentals.requiredFieldsPresent > 0;
     const overallSuitability = anyCore && fundamentals.overallStatus !== 'INSUFFICIENT'
@@ -36,7 +64,14 @@ export class DataCoverageEngine {
       isin: isin ?? '',
       asOfDate,
       overallSuitability,
-      domains: { FUNDAMENTALS: fundamentals, MANAGEMENT: management },
+      domains: {
+        FUNDAMENTALS: fundamentals,
+        BUSINESS_DRIVERS: businessDrivers,
+        MANAGEMENT: management,
+        VALUATION: valuation,
+        TECHNICAL: technical,
+        FERE_FILINGS: fereFilings,
+      },
       lastAuditedAt: new Date().toISOString(),
     };
   }
@@ -56,6 +91,11 @@ export class DataCoverageEngine {
     let value: any = raw;
     for (const key of path) value = value?.[key];
     return Array.isArray(value) ? value.length > 0 : value != null && (typeof value !== 'object' || Object.keys(value).length > 0);
+  }
+
+  /** Dot-path aware presence check used for module payloads. */
+  private hasAny(raw: Record<string, any>, paths: string[]): boolean {
+    return paths.some((path) => this.hasValues(raw, path.split('.')));
   }
 
   private hasHistory(raw: Record<string, any>, path: string[]): boolean {
