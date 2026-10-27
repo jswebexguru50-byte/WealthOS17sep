@@ -37,4 +37,11 @@ describe('non-MCP waterfall contract', () => {
     expect(source).toContain("'--source-manifest', resolvedManifest");
     expect(source).toContain("'--verification', path.join(reportDir, 'promotion_verification.json')");
   });
+
+  it('supports deterministic pilot slices without changing the source manifest', () => {
+    expect(source).toContain("arg('--offset')");
+    expect(source).toContain("arg('--limit')");
+    expect(source).toContain('.slice(offset, limitArg > 0 ? offset + limitArg : undefined)');
+    expect(source).toContain('existingCheckpoint?.symbolCount === symbols.length');
+  });
 });

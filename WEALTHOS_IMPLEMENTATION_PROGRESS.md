@@ -50,6 +50,7 @@ Overall implementation estimate: **approximately 82%**. This is not an acceptanc
 - ValuationModuleAdapter now resolves PE/PB/EV-EBITDA/dividend yield through `CanonicalFactResolverService`; raw key-ratio snapshot parsing was removed. Canonical boundary checks remain **8/8 passed**.
 - Added `AcquisitionEvidenceRepository` as the sole lineage-only snapshot metadata boundary; analytical engines receive no raw response payloads. Fundamental expansion + input-isolation tests: **38/38 passed**.
 - Added a canonical-consumer boundary guard covering the active scanner and intelligence engines; latest boundary/waterfall/360 run: **9/9 passed**.
+- Waterfall now accepts deterministic `--offset`/`--limit` pilot slices while retaining manifest-scoped checkpointing; pilot contract test: **5/5 passed**.
 
 ## Known blockers / remaining work
 

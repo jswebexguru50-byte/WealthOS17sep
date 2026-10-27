@@ -12,12 +12,15 @@ const resolvedManifest = path.resolve(manifest);
 if (!fs.existsSync(resolvedManifest)) throw new Error(`Manifest not found: ${resolvedManifest}`);
 const dryRun = process.argv.includes('--dry-run');
 const allowMcp = process.argv.includes('--allow-mcp');
+const offset = Math.max(0, Number(arg('--offset') || '0'));
+const limitArg = Number(arg('--limit') || '0');
 const reportDir = path.join(root, 'reports', 'non_mcp');
 const checkpointPath = path.join(reportDir, 'waterfall_checkpoint.json');
 fs.mkdirSync(reportDir, { recursive: true });
 const rawManifest = JSON.parse(fs.readFileSync(resolvedManifest, 'utf8'));
 const entries = Array.isArray(rawManifest) ? rawManifest : (rawManifest.entries || rawManifest.symbols || []);
-const symbols = [...new Set(entries.map((e: any) => typeof e === 'string' ? e : e.symbol || e.ticker || e.listings?.[0]?.symbol).filter(Boolean).map((s: string) => s.toUpperCase()))];
+const symbols = [...new Set(entries.map((e: any) => typeof e === 'string' ? e : e.symbol || e.ticker || e.listings?.[0]?.symbol).filter(Boolean).map((s: string) => s.toUpperCase()))]
+  .slice(offset, limitArg > 0 ? offset + limitArg : undefined);
 if (!symbols.length) throw new Error(`Manifest contains no symbols: ${resolvedManifest}`);
 const existingCheckpoint = fs.existsSync(checkpointPath) ? JSON.parse(fs.readFileSync(checkpointPath, 'utf8')) : null;
 const checkpoint = existingCheckpoint?.manifestPath === resolvedManifest && existingCheckpoint?.symbolCount === symbols.length && !dryRun
