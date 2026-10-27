@@ -14,7 +14,7 @@ The 82% figure is the weighted **implementation** estimate (code and contracts),
 
 - **Core architecture:** 100% of the designed deterministic waterfall/canonical-boundary controls are implemented and focused-tested.
 - **Focused regression:** 55/55 waterfall, repository, retry and chaos tests passed; canonical-consumer audit is PASS with 0 violations.
-- **Full unit suite:** 1,844 passed, 56 failed, 21 skipped in the latest recorded run (97.1% of executed tests passed). The failures are not yet cleared because several require missing fixtures, signed baseline decisions, or legacy contract updates.
+- **Full unit suite:** 1,848 passed, 54 failed, 21 skipped in the fresh run (97.2% of executed tests passed). The failures are not yet cleared because several require missing fixtures, signed baseline decisions, or legacy contract updates.
 - **Production acceptance:** not complete until the full unit rerun, integration/coverage/E2E matrix, 3,548-symbol retry, KPI capture, and remote GitHub synchronization are evidenced.
 
 Therefore the practical completion is **82% implemented / approximately 60% acceptance-complete**. The acceptance percentage is deliberately lower because unexecuted or blocked gates count as incomplete; it is not a regression from earlier code estimates.
@@ -38,7 +38,7 @@ Therefore the practical completion is **82% implemented / approximately 60% acce
 | Intelligence response coverage wiring | Implemented | `CompanyIntelligenceOrchestrator` now emits `dataCoverage` |
 | S1101 forensic data services | Implemented | Chain-of-custody, dataset-version, enrichment services restored |
 | Unit discovery/server isolation | Implemented | Unit script uses `tests/unit`; `WEALTHOS_SKIP_SERVER=1` |
-| Unit suite | Partial | Latest full run: 1,844 passed, 56 failed, 21 skipped across 1,921 tests; remaining failures are primarily missing generated artifacts, frozen/hash baselines, cohort fixtures, or stale legacy contracts |
+| Unit suite | Partial | Fresh full run: 1,848 passed, 54 failed, 21 skipped across 1,923 tests; remaining failures are primarily missing generated artifacts, frozen/hash baselines, cohort fixtures, or stale legacy contracts |
 | Integration suite | Not accepted | Requires updated Mac checkout and live server |
 | Coverage suite | Not accepted | Requires updated Mac checkout and isolated DB |
 | E2E/chaos matrix | Not accepted | Requires live server/browser and generated artifacts |
@@ -74,7 +74,7 @@ Therefore the practical completion is **82% implemented / approximately 60% acce
 - Added `npm run audit:canonical-consumers`; current repository scan finds 14 intentional provider-boundary references and **0 unapproved analytical-consumer violations**.
 - Added a Vitest executable guard for the audit script; canonical audit + waterfall contracts: **6/6 passed**.
 - Fresh canonical audit + waterfall + 360 + chaos run: **22/22 passed**; audit report status `PASS` with zero violations.
-- Full unit discovery rerun completed: **1,844 passed / 56 failed / 21 skipped** across 644 files; current failure inventory is captured in `/tmp/wealthos-unit-final.json` and does not indicate a regression in the canonical/waterfall boundary tests.
+- Fresh full unit discovery rerun completed: **1,848 passed / 54 failed / 21 skipped** across 646 files; current failure inventory is captured in `/tmp/wealthos-unit-current.json` and does not indicate a regression in the canonical/waterfall boundary tests.
 - Updated the dashboard ETag regression contract to target the canonical `/api/dashboard-metrics` alias after `/api/metrics` became the Prometheus endpoint; remediation regression is now **16/16 passing**.
 - Updated the P0 truth-closure test to accept genuine mirror evidence while still asserting null unavailable fields and rejecting synthetic smart-money flow; P0 truth closure is now **3/3 passing**.
 - Hardened waterfall failure semantics: provider acquisition/promotion outages are checkpointed as `COMPLETED_WITH_GAPS`, while preflight/planning/coverage/acceptance control-plane failures now fail closed instead of producing a misleading partial success. Waterfall contract suite is **6/6 passing**.
