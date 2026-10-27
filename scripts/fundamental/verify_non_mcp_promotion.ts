@@ -6,7 +6,7 @@ import Database from 'better-sqlite3';
 
 const arg = (flag: string) => { const i = process.argv.indexOf(flag); return i >= 0 ? process.argv[i + 1] : undefined; };
 const manifestPath = arg('--manifest');
-const minFacts = Math.max(1, Number(arg('--min-facts') || '1'));
+const minFacts = Math.max(1, Number(arg('--min-facts') || '29'));
 if (!manifestPath) throw new Error('--manifest is required');
 const root = process.cwd();
 const manifest = JSON.parse(fs.readFileSync(path.resolve(manifestPath), 'utf8'));

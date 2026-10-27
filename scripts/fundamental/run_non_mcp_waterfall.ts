@@ -44,7 +44,7 @@ function phase(name: string, args: string[], extraEnv: Record<string,string> = {
 phase('exchange_xbrl_mca', ['scripts/fere/run_combined_exchange_batch.mjs', '--manifest', resolvedManifest, '--apply', '--concurrency', arg('--exchange-concurrency') || '3', '--checkpoint-every', '50', '--retries', '2', '--timeout-ms', '90000']);
 phase('upstox_fundamentals', ['scripts/fundamental/run_upstox_fundamental_enrichment.ts', '--group', 'excelStrategyMatches', '--batch-size', '1', '--endpoint-delay-ms', '750', '--symbol-delay-ms', '1000'], { FUNDAMENTAL_MANIFEST_PATH: upstoxManifest });
 phase('cached_artifact_promotion', ['scripts/fere/promote_cached_artifacts_batch.mjs', '--manifest', resolvedManifest, '--apply', '--min-facts', '29']);
-phase('promotion_verification', ['scripts/fundamental/verify_non_mcp_promotion.ts', '--manifest', resolvedManifest, '--min-facts', '1']);
+phase('promotion_verification', ['scripts/fundamental/verify_non_mcp_promotion.ts', '--manifest', resolvedManifest, '--min-facts', '29']);
 if (dryRun) {
   const plan = { generatedAt: new Date().toISOString(), dryRun: true, mcpUsed: false, symbolCount: symbols.length, phases: checkpoint.phases, checkpoint: checkpointPath };
   fs.writeFileSync(path.join(reportDir, 'waterfall_plan.json'), JSON.stringify(plan, null, 2) + '\n');
