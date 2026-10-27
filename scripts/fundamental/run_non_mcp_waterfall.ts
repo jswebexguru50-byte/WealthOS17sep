@@ -5,7 +5,17 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 
 const root = process.cwd();
-const arg = (flag: string) => { const i = process.argv.indexOf(flag); return i >= 0 ? process.argv[i + 1] : undefined; };
+// npm scripts provide a safe default manifest, while operators may override it
+// on the command line. Resolve the last occurrence so `--manifest pilot.json`
+// actually controls every downstream phase (critical for deterministic pilots
+// and resumable slices).
+const arg = (flag: string) => {
+  let value: string | undefined;
+  for (let i = 0; i < process.argv.length - 1; i++) {
+    if (process.argv[i] === flag) value = process.argv[i + 1];
+  }
+  return value;
+};
 const manifest = arg('--manifest');
 if (!manifest) throw new Error('--manifest is required');
 const resolvedManifest = path.resolve(manifest);

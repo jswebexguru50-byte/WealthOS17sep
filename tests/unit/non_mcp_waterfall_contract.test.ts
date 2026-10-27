@@ -39,6 +39,7 @@ describe('non-MCP waterfall contract', () => {
   });
 
   it('supports deterministic pilot slices without changing the source manifest', () => {
+    expect(source).toContain('Resolve the last occurrence');
     expect(source).toContain("arg('--offset')");
     expect(source).toContain("arg('--limit')");
     expect(source).toContain('.slice(offset, limitArg > 0 ? offset + limitArg : undefined)');
