@@ -952,6 +952,19 @@ const SCHEMA_MIGRATIONS: Array<{ version: number; name: string; sqls: string[] }
        ON data_conflicts(symbol, field, detected_at DESC)`,
     ],
   },
+  {
+    version: 18,
+    name: 'backfill_market_and_strategy_schema_columns',
+    sqls: [
+      'ALTER TABLE HistoricalPrices ADD COLUMN open_price REAL',
+      'ALTER TABLE HistoricalPrices ADD COLUMN high_price REAL',
+      'ALTER TABLE HistoricalPrices ADD COLUMN low_price REAL',
+      'ALTER TABLE HistoricalPrices ADD COLUMN volume REAL',
+      'ALTER TABLE HistoricalPrices ADD COLUMN adjusted_close REAL',
+      'ALTER TABLE CustomStrategies ADD COLUMN is_preset INTEGER DEFAULT 0',
+      'ALTER TABLE CustomStrategies ADD COLUMN preset_order INTEGER',
+    ],
+  },
 ];
 
 export async function runMigrations(db: Database): Promise<void> {
@@ -1739,7 +1752,12 @@ function runSchemaInitialization(db: Database): Promise<void> {
         CREATE TABLE IF NOT EXISTS HistoricalPrices (
           symbol TEXT NOT NULL,
           date TEXT NOT NULL,
+          open_price REAL,
+          high_price REAL,
+          low_price REAL,
           close_price REAL NOT NULL,
+          volume REAL,
+          adjusted_close REAL,
           data_source TEXT,
           created_at TEXT DEFAULT CURRENT_TIMESTAMP,
           updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
@@ -3175,6 +3193,8 @@ function runSchemaInitialization(db: Database): Promise<void> {
             base_template_id TEXT NOT NULL,
             description TEXT,
             parameters_json TEXT NOT NULL,
+            is_preset INTEGER DEFAULT 0,
+            preset_order INTEGER,
             is_active INTEGER DEFAULT 1,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
