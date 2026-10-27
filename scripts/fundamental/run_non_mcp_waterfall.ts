@@ -14,12 +14,17 @@ const dryRun = process.argv.includes('--dry-run');
 const reportDir = path.join(root, 'reports', 'non_mcp');
 const checkpointPath = path.join(reportDir, 'waterfall_checkpoint.json');
 fs.mkdirSync(reportDir, { recursive: true });
-const checkpoint = fs.existsSync(checkpointPath) ? JSON.parse(fs.readFileSync(checkpointPath, 'utf8')) : { phases: {}, mcpUsed: false };
-checkpoint.mcpUsed = false;
 const rawManifest = JSON.parse(fs.readFileSync(resolvedManifest, 'utf8'));
 const entries = Array.isArray(rawManifest) ? rawManifest : (rawManifest.entries || rawManifest.symbols || []);
 const symbols = [...new Set(entries.map((e: any) => typeof e === 'string' ? e : e.symbol || e.ticker || e.listings?.[0]?.symbol).filter(Boolean).map((s: string) => s.toUpperCase()))];
 if (!symbols.length) throw new Error(`Manifest contains no symbols: ${resolvedManifest}`);
+const existingCheckpoint = fs.existsSync(checkpointPath) ? JSON.parse(fs.readFileSync(checkpointPath, 'utf8')) : null;
+const checkpoint = existingCheckpoint?.manifestPath === resolvedManifest && existingCheckpoint?.symbolCount === symbols.length
+  ? existingCheckpoint
+  : { manifestPath: resolvedManifest, symbolCount: symbols.length, phases: {}, mcpUsed: false };
+checkpoint.manifestPath = resolvedManifest;
+checkpoint.symbolCount = symbols.length;
+checkpoint.mcpUsed = false;
 const upstoxManifest = path.join(reportDir, 'upstox_manifest.json');
 fs.writeFileSync(upstoxManifest, JSON.stringify({ symbols }, null, 2) + '\n');
 function phase(name: string, args: string[], extraEnv: Record<string,string> = {}, allowGaps = false) {

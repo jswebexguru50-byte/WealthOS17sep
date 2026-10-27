@@ -18,6 +18,7 @@ describe('non-MCP waterfall contract', () => {
     expect(source).toContain('MCP_DISABLED: \'1\'');
     expect(source).toContain("['SUCCESS', 'COMPLETED_WITH_GAPS'].includes");
     expect(source).toContain("COMPLETED_WITH_GAPS");
+    expect(source).toContain('existingCheckpoint?.manifestPath === resolvedManifest');
     expect(source).toContain("process.argv.includes('--dry-run')");
   });
 
