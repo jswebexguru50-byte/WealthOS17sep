@@ -20,6 +20,8 @@ describe('non-MCP waterfall contract', () => {
     expect(source).toContain("COMPLETED_WITH_GAPS");
     expect(source).toContain('existingCheckpoint?.manifestPath === resolvedManifest');
     expect(source).toContain("process.argv.includes('--dry-run')");
+    expect(source).toContain("existingCheckpoint?.symbolCount === symbols.length");
+    expect(source).toContain("checkpoint.manifestPath = resolvedManifest");
   });
 
   it('runs canonical promotion verification before coverage', () => {
@@ -27,5 +29,10 @@ describe('non-MCP waterfall contract', () => {
     expect(source.indexOf("phase('coverage_ledger'")).toBeGreaterThan(source.indexOf("phase('promotion_verification'"));
     expect(source.indexOf("phase('acceptance_matrix'")).toBeGreaterThan(source.indexOf("phase('coverage_ledger'"));
     expect(source.indexOf("phase('promotion_gap_manifest'")).toBeGreaterThan(source.indexOf("phase('promotion_verification'"));
+  });
+
+  it('builds retry cohorts from the active source manifest', () => {
+    expect(source).toContain("'--source-manifest', resolvedManifest");
+    expect(source).toContain("'--verification', path.join(reportDir, 'promotion_verification.json')");
   });
 });
