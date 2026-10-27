@@ -59,6 +59,7 @@ Overall implementation estimate: **approximately 82%**. This is not an acceptanc
 - Integration hash helper now streams multi-gigabyte SQLite files instead of allocating a >2 GiB Buffer. The in-process test bootstrap now explicitly primes the read-only database boundary, and the Discover → Analyze → FERE integration test passes.
 - Latest focused integration + canonical-boundary + chaos regression: **57/57 tests passed** across 8 files; TypeScript compile passes. The suite still logs a non-fatal missing `company_check_result` table while the strategy route correctly returns 200; fixture/database parity remains a broader acceptance concern.
 - Fixed a deterministic rollout bug in the waterfall coordinator: when the npm script supplies a default manifest and the operator supplies a second `--manifest`, the last explicit value now wins and is propagated to every phase. A duplicate-argument pilot dry-run confirmed the selected slice is used; contract tests remain **5/5 passing**.
+- Fixed the Trendlyne intelligence response schema to retain the already-produced `trailingRocePct` field; the mirror-reader unit contract is now **3/3 passing**.
 - Chaos resilience verification: CircuitBreaker/RetryHandler remediation plus recovery scenarios **28/28 passed** under `WEALTHOS_SKIP_SERVER=1`.
 
 ## Known blockers / remaining work

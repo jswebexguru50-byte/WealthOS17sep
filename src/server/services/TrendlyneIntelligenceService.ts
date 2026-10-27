@@ -61,6 +61,7 @@ export const TrendlyneIntelligenceReportSchema = z.object({
     status: z.string().nullable(),
     note: z.string().nullable(),
   }),
+  trailingRocePct: z.number().nullable(),
   cachedAt: z.string().nullable(),
 });
 
