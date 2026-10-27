@@ -48,6 +48,7 @@ Overall implementation estimate: **approximately 82%**. This is not an acceptanc
 - Latest canonical caller migration run: **8/8 targeted tests passed**; TypeScript compile passes.
 - Removed raw `fundamental_endpoint_snapshots` reads from FundamentalExperienceBuilder and RecentAccumulationEngine; both now require promoted canonical facts/shareholding records. Engine input-isolation, 360 coverage, and waterfall contracts: **8/8 passed**.
 - ValuationModuleAdapter now resolves PE/PB/EV-EBITDA/dividend yield through `CanonicalFactResolverService`; raw key-ratio snapshot parsing was removed. Canonical boundary checks remain **8/8 passed**.
+- Added `AcquisitionEvidenceRepository` as the sole lineage-only snapshot metadata boundary; analytical engines receive no raw response payloads. Fundamental expansion + input-isolation tests: **38/38 passed**.
 
 ## Known blockers / remaining work
 

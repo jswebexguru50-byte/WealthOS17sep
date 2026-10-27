@@ -21,6 +21,7 @@
 
 import { getDB, dbAll, dbGet } from '../../../database.js';
 import { eligibilityWhereClause, selectBestFact, assessFactEligibility, type CanonicalFactRow, type FactLookupResult } from './CanonicalFactSelector.js';
+import { AcquisitionEvidenceRepository } from '../../AcquisitionEvidenceRepository.js';
 
 async function queryAll<T = any>(db: any, sql: string, params: any[] = []): Promise<T[]> {
   if (!db) return [];
@@ -216,9 +217,14 @@ export class FundamentalExperienceBuilder {
         // Non-fatal
       }
 
-      // Raw acquisition snapshots are intentionally not read here.  Provider
-      // evidence is promoted into company_facts before this engine runs; the
-      // canonical fact rows above are the only accepted provenance surface.
+      // Lineage metadata is read through a dedicated repository.  It never
+      // exposes response payloads, so raw snapshots cannot influence values.
+      const snapshotSources = await new AcquisitionEvidenceRepository().listForSymbol(db, cleanSym);
+      for (const sn of snapshotSources) {
+        if (!sourcesUsed.some(s => s.endpoint === sn.endpoint && s.provider === sn.provider)) {
+          sourcesUsed.push({ provider: sn.provider, endpoint: sn.endpoint, fetchedAt: sn.fetchedAt, status: 'ACQUISITION_EVIDENCE' });
+        }
+      }
     }
 
     // defaultFetchedAt is the persisted dataAsOf from the module result.
