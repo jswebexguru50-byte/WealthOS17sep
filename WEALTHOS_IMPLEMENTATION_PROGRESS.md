@@ -39,6 +39,7 @@ Overall implementation estimate: **approximately 80%**. This is not an acceptanc
 - S1101/S1101R/S1101R2 targeted run: 26/30 tests pass; 4 failures are frozen-control/hash-baseline assertions, not missing imports.
 - A fresh dry-run for the 1,004-symbol retry cohort reports all nine phases as `PLANNED` and `mcpUsed: false`.
 - Latest dry-run confirms `symbolCount: 1004`, `mcpUsed: false`, and all nine phases explicitly `PLANNED`.
+- Approved-mode dry-run confirms only `approved_mcp_enrichment` has `MCP_DISABLED=0`; preflight, promotion, and acceptance remain `MCP_DISABLED=1`.
 
 ## Known blockers / remaining work
 
