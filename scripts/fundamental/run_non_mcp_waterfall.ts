@@ -28,16 +28,16 @@ checkpoint.symbolCount = symbols.length;
 checkpoint.mcpUsed = allowMcp;
 const upstoxManifest = path.join(reportDir, 'upstox_manifest.json');
 fs.writeFileSync(upstoxManifest, JSON.stringify({ symbols }, null, 2) + '\n');
-function phase(name: string, args: string[], extraEnv: Record<string,string> = {}, allowGaps = false) {
+function phase(name: string, args: string[], extraEnv: Record<string,string> = {}, allowGaps = false, enableMcp = false) {
   if (dryRun) {
-    checkpoint.phases[name] = { status: 'PLANNED', args, env: { MCP_DISABLED: allowMcp ? '0' : '1', ...extraEnv } };
+    checkpoint.phases[name] = { status: 'PLANNED', args, env: { MCP_DISABLED: enableMcp ? '0' : '1', ...extraEnv } };
     return;
   }
   if (['SUCCESS', 'COMPLETED_WITH_GAPS'].includes(checkpoint.phases[name]?.status)) return;
   checkpoint.phases[name] = { status: 'RUNNING', startedAt: new Date().toISOString() };
   fs.writeFileSync(checkpointPath, JSON.stringify(checkpoint, null, 2) + '\n');
   try {
-    execFileSync('node', ['--import', 'tsx', ...args], { cwd: root, stdio: 'inherit', env: { ...process.env, ...extraEnv, MCP_DISABLED: allowMcp ? '0' : '1' } });
+    execFileSync('node', ['--import', 'tsx', ...args], { cwd: root, stdio: 'inherit', env: { ...process.env, ...extraEnv, MCP_DISABLED: enableMcp ? '0' : '1' } });
     checkpoint.phases[name] = { status: 'SUCCESS', completedAt: new Date().toISOString() };
   } catch (error) {
     checkpoint.phases[name] = { status: allowGaps ? 'COMPLETED_WITH_GAPS' : 'FAILED', completedAt: new Date().toISOString(), error: String(error) };
@@ -49,7 +49,7 @@ function phase(name: string, args: string[], extraEnv: Record<string,string> = {
 }
 const preflightLedger = path.join(reportDir, 'preflight_coverage_ledger.json');
 if (allowMcp) {
-  phase('approved_mcp_enrichment', ['scripts/trendlyne-mirror/fetch_eight_packs.ts', '--manifest', resolvedManifest]);
+  phase('approved_mcp_enrichment', ['scripts/trendlyne-mirror/fetch_eight_packs.ts', '--manifest', resolvedManifest], {}, false, true);
 }
 phase('preflight_coverage', ['scripts/fundamental/build_non_mcp_coverage_ledger.ts', '--manifest', resolvedManifest, '--out', preflightLedger]);
 phase('gap_plan', ['scripts/fundamental/plan_non_mcp_acquisition.ts', '--ledger', preflightLedger]);
@@ -65,7 +65,7 @@ if (dryRun) {
       args: name === 'coverage_ledger'
         ? ['scripts/fundamental/build_non_mcp_coverage_ledger.ts', '--manifest', resolvedManifest]
         : ['scripts/fundamental/build_readiness_acceptance_matrix.ts', '--manifest', resolvedManifest, '--ledger', path.join(reportDir, 'coverage_ledger.json')],
-      env: { MCP_DISABLED: allowMcp ? '0' : '1' },
+      env: { MCP_DISABLED: '1' },
     };
   }
   const plan = { generatedAt: new Date().toISOString(), dryRun: true, mcpUsed: allowMcp, symbolCount: symbols.length, phases: checkpoint.phases, checkpoint: checkpointPath };

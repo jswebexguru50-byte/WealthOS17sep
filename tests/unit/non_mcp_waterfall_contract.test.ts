@@ -15,7 +15,7 @@ describe('non-MCP waterfall contract', () => {
   });
 
   it('defaults to MCP-disabled and supports resumability', () => {
-    expect(source).toContain("allowMcp ? '0' : '1'");
+    expect(source).toContain("enableMcp ? '0' : '1'");
     expect(source).toContain("['SUCCESS', 'COMPLETED_WITH_GAPS'].includes");
     expect(source).toContain("COMPLETED_WITH_GAPS");
     expect(source).toContain('existingCheckpoint?.manifestPath === resolvedManifest');
