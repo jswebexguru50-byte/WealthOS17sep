@@ -16,7 +16,8 @@ describe('non-MCP waterfall contract', () => {
 
   it('hard-disables MCP for every child phase and supports resumability', () => {
     expect(source).toContain('MCP_DISABLED: \'1\'');
-    expect(source).toContain("checkpoint.phases[name]?.status === 'SUCCESS'");
+    expect(source).toContain("['SUCCESS', 'COMPLETED_WITH_GAPS'].includes");
+    expect(source).toContain("COMPLETED_WITH_GAPS");
     expect(source).toContain("process.argv.includes('--dry-run')");
   });
 
