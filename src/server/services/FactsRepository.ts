@@ -149,6 +149,9 @@ export class FactsRepository {
     return rows;
   }
 
+  /** Invalidate the cached NSE universe without pretending there is a ticker key. */
+  invalidateUniverse(): void { this.universeCache.invalidate(); }
+
   async searchTickers(query: string, limit = 20): Promise<Ticker[]> {
     const q = `%${query.toUpperCase()}%`;
     return dbAll<Ticker>(

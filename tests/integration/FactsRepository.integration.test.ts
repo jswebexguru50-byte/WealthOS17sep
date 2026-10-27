@@ -279,6 +279,18 @@ describe('FactsRepository — integration (real in-memory SQLite)', () => {
     expect(universe[0].symbol).toBe('RELIANCE');
   });
 
+  it('invalidateUniverse forces a fresh universe read', async () => {
+    await clearTable('MasterTickers');
+    await run(testDb, `INSERT INTO MasterTickers (symbol, isin, name, exchange, segment)
+      VALUES ('RELIANCE', 'INE002A01018', 'Reliance Industries', 'NSE', 'EQ')`);
+    const repo = FactsRepository.getInstance();
+    expect((await repo.getNseEquityUniverse()).map(r => r.symbol)).toEqual(['RELIANCE']);
+    await run(testDb, `INSERT INTO MasterTickers (symbol, isin, name, exchange, segment)
+      VALUES ('INFY', 'INE009A01021', 'Infosys', 'NSE', 'EQ')`);
+    repo.invalidateUniverse();
+    expect((await repo.getNseEquityUniverse()).map(r => r.symbol)).toEqual(['INFY', 'RELIANCE']);
+  });
+
   // ── 7. searchTickers — case-insensitive partial match ────────────────────
 
   it('searchTickers returns matching rows case-insensitively', async () => {

@@ -59,7 +59,7 @@ export class DataRefreshScheduler {
         intervalMs: 2 * 60_000,                     // every 2 min — keeps FactsRepository universe cache hot
         description: 'Warm NSE equity universe in FactsRepository cache',
         run: async () => {
-          this.repo.invalidateTicker(undefined as any);   // clear stale entries
+          this.repo.invalidateUniverse();                 // clear stale universe entries
           await this.repo.getNseEquityUniverse();
         },
       },
