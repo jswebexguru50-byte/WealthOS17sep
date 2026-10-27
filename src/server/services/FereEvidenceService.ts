@@ -183,7 +183,12 @@ export async function readFereEvidence(isin: string | null, symbol: string): Pro
       companyCheck: null
     };
   } catch (err) {
-    console.error(`[FereEvidenceService] Error in readFereEvidence for ${symbol}:`, err);
+    const message = err instanceof Error ? err.message : String(err);
+    // Older installations may not have the optional FERE evidence tables yet;
+    // absence is a normal SOURCE_UNAVAILABLE result, not a runtime failure.
+    if (!/no such table|no such column/i.test(message)) {
+      console.error(`[FereEvidenceService] Error in readFereEvidence for ${symbol}:`, err);
+    }
     return empty;
   }
 }

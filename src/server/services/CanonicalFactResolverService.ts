@@ -516,8 +516,10 @@ export class CanonicalFactResolverService {
 
   /**
    * Source 5: HistoricalFinancialStatements.
-   * Columns expected: symbol, period_end, metric, value, unit, source.
-   * Returns an empty map gracefully when the table does not yet exist.
+   * WealthOS stores this table in a wide statement shape (one metric per
+   * column), rather than the older metric/value shape. Resolve the supported
+   * columns directly so legacy databases do not emit noisy "no such column"
+   * errors and canonical callers still get the facts that are present.
    */
   private resolveFromHistoricalStatements(
     symbol: string,
@@ -528,46 +530,44 @@ export class CanonicalFactResolverService {
     if (metrics.length === 0) return result;
 
     try {
-      const placeholders = metrics.map(() => '?').join(', ');
-      const asOfCond = asOf ? 'AND (period_end IS NULL OR period_end <= ?)' : '';
-      const params: unknown[] = [symbol, ...metrics];
+      const asOfCond = asOf ? 'AND (period_date IS NULL OR period_date <= ?)' : '';
+      const params: unknown[] = [symbol];
       if (asOf) params.push(asOf);
-
-      type HfsRow = {
-        metric: string;
-        value: string | null;
-        unit: string | null;
-        period_end: string | null;
-        source: string | null;
-      };
-
       const rows = this.db.all(
-        `SELECT metric, value, unit, period_end, source
-         FROM HistoricalFinancialStatements
-         WHERE symbol = ?
-           AND metric IN (${placeholders})
-           ${asOfCond}
-         ORDER BY period_end DESC`,
-        params
-      ) as HfsRow[];
-
+        `SELECT * FROM HistoricalFinancialStatements
+         WHERE symbol = ? ${asOfCond}
+         ORDER BY period_date DESC, id DESC`, params
+      ) as Array<Record<string, any>>;
+      const columns: Record<string, { column: string; unit?: string }> = {
+        revenue: { column: 'sales_cr', unit: 'INR_CR' },
+        operating_profit: { column: 'operating_profit_cr', unit: 'INR_CR' },
+        pat: { column: 'net_profit_pat_cr', unit: 'INR_CR' },
+        borrowings: { column: 'borrowings_cr', unit: 'INR_CR' },
+        cfo: { column: 'cfo_cr', unit: 'INR_CR' },
+        cfi: { column: 'cfi_cr', unit: 'INR_CR' },
+        cff: { column: 'cff_cr', unit: 'INR_CR' },
+        total_income: { column: 'sales_cr', unit: 'INR_CR' },
+      };
       for (const row of rows || []) {
-        if (result.has(row.metric)) continue;
-        const parsed = parseNumeric(row.value);
+        for (const metric of metrics) {
+          if (result.has(metric) || !columns[metric]) continue;
+          const spec = columns[metric];
+          const parsed = parseNumeric(row[spec.column]);
         if (parsed == null) continue;
 
-        result.set(row.metric, {
+        result.set(metric, {
           symbol,
-          metric: row.metric,
+          metric,
           value: parsed,
-          unit: row.unit ?? undefined,
-          periodEnd: row.period_end ?? undefined,
-          provider: row.source ?? 'HistoricalFinancialStatements',
+          unit: spec.unit,
+          periodEnd: row.period_date ?? undefined,
+          provider: row.primary_source ?? row.secondary_source ?? 'HistoricalFinancialStatements',
           source: 'HistoricalFinancialStatements',
           confidence: 0.75,
-          asOf: row.period_end ?? asOf,
+          asOf: row.period_date ?? asOf,
           fromStore: 'historical_statements',
         });
+        }
       }
     } catch (e) {
       if (!isTableMissingError(e)) {
@@ -614,7 +614,7 @@ export class CanonicalFactResolverService {
     if (wantedCols.length === 0) return result;
 
     try {
-      const asOfCond = asOf ? 'AND snapshot_date <= ?' : '';
+      const asOfCond = asOf ? 'AND fetched_at <= ?' : '';
       const params: unknown[] = [symbol];
       if (asOf) params.push(asOf);
 
@@ -629,11 +629,11 @@ export class CanonicalFactResolverService {
       };
 
       const row = this.db.get(
-        `SELECT snapshot_date, pe_ratio, roce_pct, debt_to_equity,
-                operating_margin_pct, market_cap_cr, source
+        `SELECT fetched_at, pe_ratio, roce_pct, debt_to_equity,
+                operating_margin_pct, source
          FROM FundamentalSnapshots
          WHERE symbol = ? ${asOfCond}
-         ORDER BY snapshot_date DESC
+         ORDER BY fetched_at DESC
          LIMIT 1`,
         params
       ) as FsRow | undefined;
@@ -1168,12 +1168,11 @@ export class CanonicalFactResolverService {
     // FundamentalSnapshots — latest snapshot for symbol
     try {
       type FsAllRow = {
-        snapshot_date: string;
+        fetched_at: string;
         pe_ratio: number | null;
         roce_pct: number | null;
         debt_to_equity: number | null;
         operating_margin_pct: number | null;
-        market_cap_cr: number | null;
         source: string | null;
       };
 
@@ -1212,7 +1211,7 @@ export class CanonicalFactResolverService {
             provider: row.source ?? 'FundamentalSnapshots',
             source: 'FundamentalSnapshots',
             confidence: 0.4,
-            asOf: row.snapshot_date,
+          asOf: row.fetched_at,
             fromStore: 'fundamental_snapshot',
           });
         }

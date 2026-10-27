@@ -20,9 +20,13 @@ export class BusinessModelClassifier {
   ): BusinessModel {
     const cleanSector = (sector || '').toLowerCase().trim();
     const cleanIndustry = (industry || '').toLowerCase().trim();
+    const name = (companyName || '').toLowerCase().trim();
+    const sym = symbol.toUpperCase();
 
     // ── PRIMARY: sector/industry vocabulary (canonical identity metadata) ──────
-    if (cleanSector.includes('bank') || cleanIndustry.includes('bank')) {
+    // Identity names/tickers are a stronger discriminator than the broad
+    // "Financial Services" sector (which covers both banks and NBFCs).
+    if (cleanSector.includes('bank') || cleanIndustry.includes('bank') || name.includes(' bank') || sym.endsWith('BANK')) {
       return 'BANK';
     }
     if (cleanSector.includes('insurance') || cleanIndustry.includes('life insurance') || cleanIndustry.includes('general insurance')) {
@@ -34,9 +38,6 @@ export class BusinessModelClassifier {
 
     // If both sector and industry are absent, inspect canonical company name and ticker keywords
     if (!cleanSector && !cleanIndustry) {
-      const name = (companyName || '').toLowerCase().trim();
-      const sym = symbol.toUpperCase();
-
       if (name.includes('bank') || name.includes('banking') || sym.includes('BANK')) {
         return 'BANK';
       }
