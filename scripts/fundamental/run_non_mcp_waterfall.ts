@@ -19,7 +19,7 @@ const entries = Array.isArray(rawManifest) ? rawManifest : (rawManifest.entries 
 const symbols = [...new Set(entries.map((e: any) => typeof e === 'string' ? e : e.symbol || e.ticker || e.listings?.[0]?.symbol).filter(Boolean).map((s: string) => s.toUpperCase()))];
 if (!symbols.length) throw new Error(`Manifest contains no symbols: ${resolvedManifest}`);
 const existingCheckpoint = fs.existsSync(checkpointPath) ? JSON.parse(fs.readFileSync(checkpointPath, 'utf8')) : null;
-const checkpoint = existingCheckpoint?.manifestPath === resolvedManifest && existingCheckpoint?.symbolCount === symbols.length
+const checkpoint = existingCheckpoint?.manifestPath === resolvedManifest && existingCheckpoint?.symbolCount === symbols.length && !dryRun
   ? existingCheckpoint
   : { manifestPath: resolvedManifest, symbolCount: symbols.length, phases: {}, mcpUsed: false };
 checkpoint.manifestPath = resolvedManifest;
@@ -55,6 +55,15 @@ phase('cached_artifact_promotion', ['scripts/fere/promote_cached_artifacts_batch
 phase('promotion_verification', ['scripts/fundamental/verify_non_mcp_promotion.ts', '--manifest', resolvedManifest, '--min-facts', '29'], {}, true);
 phase('promotion_gap_manifest', ['scripts/fundamental/build_promotion_gap_manifest.ts', '--verification', path.join(reportDir, 'promotion_verification.json'), '--source-manifest', resolvedManifest]);
 if (dryRun) {
+  for (const name of ['coverage_ledger', 'acceptance_matrix']) {
+    checkpoint.phases[name] = {
+      status: 'PLANNED',
+      args: name === 'coverage_ledger'
+        ? ['scripts/fundamental/build_non_mcp_coverage_ledger.ts', '--manifest', resolvedManifest]
+        : ['scripts/fundamental/build_readiness_acceptance_matrix.ts', '--manifest', resolvedManifest, '--ledger', path.join(reportDir, 'coverage_ledger.json')],
+      env: { MCP_DISABLED: '1' },
+    };
+  }
   const plan = { generatedAt: new Date().toISOString(), dryRun: true, mcpUsed: false, symbolCount: symbols.length, phases: checkpoint.phases, checkpoint: checkpointPath };
   fs.writeFileSync(path.join(reportDir, 'waterfall_plan.json'), JSON.stringify(plan, null, 2) + '\n');
   console.log(JSON.stringify(plan, null, 2));
