@@ -62,9 +62,13 @@ export default defineConfig({
   // Pre-run: verify server is alive
   webServer: {
     command: 'node dist/server.cjs',
-    url: 'http://localhost:3000/api/healthcheck',
+    // App-info is deliberately database-free and proves the HTTP listener is
+    // live.  The database-backed health contract is exercised by the test
+    // itself with an explicit readiness poll, avoiding a false webServer
+    // timeout while a large SQLite checkout opens.
+    url: 'http://localhost:3000/api/app-info',
     reuseExistingServer: true, // Don't restart if already running
-    timeout: 30_000,
+    timeout: 180_000,
   },
 
   // Expect visual comparison threshold
