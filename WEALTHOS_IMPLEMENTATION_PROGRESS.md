@@ -1,7 +1,7 @@
 # WealthOS implementation progress
 
 Last updated: 2026-10-27
-Latest local commit: `41c3a158d`
+Latest local commit: see `git log -1 --oneline` (this document is updated at every checkpoint).
 Remote status: local commits are ahead of `origin/master`; remote push has not been confirmed.
 
 ## Acceptance status
