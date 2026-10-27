@@ -5,6 +5,7 @@ import { SectorMomentumService } from './SectorMomentumService.js';
 import { calculateQglp, DEFAULT_QGLP_CONFIG, QglpStatus } from './QglpScoringService.js';
 import { TrendlyneIntelligenceService } from './TrendlyneIntelligenceService.js';
 import { ensureUnifiedDataSchema } from './unifiedData/UnifiedDataSchemaService.js';
+import { CanonicalFactResolverService } from './CanonicalFactResolverService.js';
 
 export const STRATEGY_FUNDAMENTAL_RULES = {
   promoterMinimumPct: 66.6,
@@ -116,14 +117,11 @@ export class StrategyFundamentalFilterService {
       SELECT * FROM strategy_fundamental_filter_results WHERE symbol IN (${placeholders})
       ORDER BY evaluated_at DESC`, unique);
     const masters = await safeAll(`SELECT symbol, sector FROM MasterTickers WHERE symbol IN (${placeholders})`, unique);
-    // Canonical facts are the common promotion target for FERE, exchange and
-    // structured providers.  They supplement legacy tables during migration.
-    const canonicalFacts = await safeAll(`SELECT symbol, metric, value, periodEnd, scope, sourceType, availableAt
-      FROM company_facts WHERE symbol IN (${placeholders})
-        AND verificationStatus IN ('VERIFIED','VERIFIED_PARTIAL')
-        AND availabilityStatus IN ('AVAILABLE','AVAILABLE_FROM_PROVIDER')
-      ORDER BY CASE sourceType WHEN 'PRIMARY_FILING' THEN 0 ELSE 1 END,
-        CASE upper(scope) WHEN 'CONSOLIDATED' THEN 0 ELSE 1 END, periodEnd DESC, availableAt DESC`, unique);
+    // Canonical facts are resolved through the shared field-specific waterfall;
+    // legacy tables below remain compatibility fallbacks during migration.
+    const canonicalResolver = CanonicalFactResolverService.getInstance();
+    const canonicalMetrics = ['promoter_holding_pct', 'fii_holding_pct', 'dii_holding_pct', 'promoter_pledge_pct', 'roce_pct', 'roe_pct'];
+    const canonicalResolved = unique.map(symbol => [symbol, canonicalResolver.resolveMany(symbol, canonicalMetrics)] as const);
     const intelligenceEntries = await Promise.all(unique.map(async symbol => [
       symbol,
       await TrendlyneIntelligenceService.getInstance().getScripIntelligence(symbol).catch(() => null),
@@ -136,11 +134,10 @@ export class StrategyFundamentalFilterService {
     const persistedBySymbol = latestBySymbol(persisted);
     const masterBySymbol = latestBySymbol(masters);
     const canonicalBySymbol = new Map<string, Map<string, AnyRow>>();
-    for (const row of canonicalFacts) {
-      const sym = String(row.symbol || '').toUpperCase();
-      if (!canonicalBySymbol.has(sym)) canonicalBySymbol.set(sym, new Map());
-      const values = canonicalBySymbol.get(sym)!;
-      if (!values.has(String(row.metric))) values.set(String(row.metric), row);
+    for (const [sym, resolved] of canonicalResolved) {
+      const values = new Map<string, AnyRow>();
+      for (const [metric, fact] of resolved) values.set(metric, { metric, value: fact.value, periodEnd: fact.periodEnd, scope: fact.scope, sourceType: fact.source, availableAt: fact.availableAt, provider: fact.provider });
+      canonicalBySymbol.set(sym, values);
     }
     const sectors = [...new Set(unique.map(symbol => String(ledgerBySymbol.get(symbol)?.sector || masterBySymbol.get(symbol)?.sector || '').trim()).filter(Boolean))];
     const momentumEntries = await Promise.all(sectors.map(async sector => [sector, await SectorMomentumService.getForSector(sector).catch(() => null)] as const));
