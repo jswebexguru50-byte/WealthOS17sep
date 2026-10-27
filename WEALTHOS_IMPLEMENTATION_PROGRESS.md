@@ -33,6 +33,7 @@ Overall implementation estimate: **approximately 80%**. This is not an acceptanc
 - `tests/unit/non_mcp_waterfall_contract.test.ts`: 4/4 passes.
 - `tests/unit/intelligence_constitution_adversarial.test.ts`: 9/9 passes.
 - `tests/unit/golden_intelligence_oracle.test.ts`: 13/13 passes.
+- `tests/unit/master_acceptance_suite.test.ts`: 3/3 passes after wiring `DataCoverageEngine`.
 - S1101 targeted tests execute; remaining failures are frozen-control hash drift checks.
 - A fresh dry-run for the 1,004-symbol retry cohort reports all nine phases as `PLANNED` and `mcpUsed: false`.
 
