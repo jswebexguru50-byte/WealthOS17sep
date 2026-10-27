@@ -19,4 +19,10 @@ describe('strategy canonical migration contract', () => {
     expect(source).toContain("CanonicalFactResolverService");
     expect(source).toContain('canonicalResolver.resolveMany');
   });
+
+  it('requires the dossier debt path to use the same resolver', () => {
+    const source = fs.readFileSync(path.resolve(process.cwd(), 'src/server/services/intelligence/modules/FundamentalExperienceBuilder.ts'), 'utf8');
+    expect(source).toContain("CanonicalFactResolverService");
+    expect(source).toContain("canonicalResolver.resolve(cleanSym, 'debt_to_equity'");
+  });
 });
