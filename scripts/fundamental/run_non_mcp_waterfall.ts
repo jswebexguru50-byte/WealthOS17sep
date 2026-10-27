@@ -23,11 +23,16 @@ const symbols = [...new Set(entries.map((e: any) => typeof e === 'string' ? e : 
   .slice(offset, limitArg > 0 ? offset + limitArg : undefined);
 if (!symbols.length) throw new Error(`Manifest contains no symbols: ${resolvedManifest}`);
 const existingCheckpoint = fs.existsSync(checkpointPath) ? JSON.parse(fs.readFileSync(checkpointPath, 'utf8')) : null;
-const checkpoint = existingCheckpoint?.manifestPath === resolvedManifest && existingCheckpoint?.symbolCount === symbols.length && !dryRun
+const checkpoint = existingCheckpoint?.manifestPath === resolvedManifest &&
+  existingCheckpoint?.symbolCount === symbols.length &&
+  existingCheckpoint?.offset === offset &&
+  existingCheckpoint?.limit === limitArg && !dryRun
   ? existingCheckpoint
-  : { manifestPath: resolvedManifest, symbolCount: symbols.length, phases: {}, mcpUsed: false };
+  : { manifestPath: resolvedManifest, symbolCount: symbols.length, offset, limit: limitArg, phases: {}, mcpUsed: false };
 checkpoint.manifestPath = resolvedManifest;
 checkpoint.symbolCount = symbols.length;
+checkpoint.offset = offset;
+checkpoint.limit = limitArg;
 checkpoint.mcpUsed = allowMcp;
 const upstoxManifest = path.join(reportDir, 'upstox_manifest.json');
 fs.writeFileSync(upstoxManifest, JSON.stringify({ symbols }, null, 2) + '\n');
@@ -71,7 +76,7 @@ if (dryRun) {
       env: { MCP_DISABLED: '1' },
     };
   }
-  const plan = { generatedAt: new Date().toISOString(), dryRun: true, mcpUsed: allowMcp, symbolCount: symbols.length, phases: checkpoint.phases, checkpoint: checkpointPath };
+  const plan = { generatedAt: new Date().toISOString(), dryRun: true, mcpUsed: allowMcp, symbolCount: symbols.length, offset, limit: limitArg, phases: checkpoint.phases, checkpoint: checkpointPath };
   fs.writeFileSync(path.join(reportDir, 'waterfall_plan.json'), JSON.stringify(plan, null, 2) + '\n');
   console.log(JSON.stringify(plan, null, 2));
   process.exit(0);
@@ -80,6 +85,6 @@ phase('coverage_ledger', ['scripts/fundamental/build_non_mcp_coverage_ledger.ts'
 phase('acceptance_matrix', ['scripts/fundamental/build_readiness_acceptance_matrix.ts', '--manifest', resolvedManifest, '--ledger', path.join(reportDir, 'coverage_ledger.json')]);
 const ledger = JSON.parse(fs.readFileSync(path.join(reportDir, 'coverage_ledger.json'), 'utf8'));
 const gapFields = ledger.rows.flatMap((row: any) => Object.entries(row.fields).filter(([, value]: any) => value.status === 'GAP').map(([field, value]) => ({ symbol: row.symbol, field, ...value as any })));
-const result = { generatedAt: new Date().toISOString(), mcpUsed: allowMcp, symbolCount: ledger.symbolCount, covered: ledger.covered, gaps: gapFields.length, gapFields, phases: checkpoint.phases, checkpoint: checkpointPath };
+const result = { generatedAt: new Date().toISOString(), mcpUsed: allowMcp, symbolCount: ledger.symbolCount, offset, limit: limitArg, covered: ledger.covered, gaps: gapFields.length, gapFields, phases: checkpoint.phases, checkpoint: checkpointPath };
 fs.writeFileSync(path.join(reportDir, 'waterfall_result.json'), JSON.stringify(result, null, 2) + '\n');
 console.log(JSON.stringify(result, null, 2));

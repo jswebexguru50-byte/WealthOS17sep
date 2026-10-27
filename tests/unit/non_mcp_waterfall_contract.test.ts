@@ -43,5 +43,8 @@ describe('non-MCP waterfall contract', () => {
     expect(source).toContain("arg('--limit')");
     expect(source).toContain('.slice(offset, limitArg > 0 ? offset + limitArg : undefined)');
     expect(source).toContain('existingCheckpoint?.symbolCount === symbols.length');
+    expect(source).toContain('existingCheckpoint?.offset === offset');
+    expect(source).toContain('existingCheckpoint?.limit === limitArg');
+    expect(source).toContain('offset, limit: limitArg');
   });
 });
