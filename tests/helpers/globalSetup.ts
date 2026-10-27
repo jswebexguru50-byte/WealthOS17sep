@@ -17,6 +17,8 @@ import BetterSqlite3 from 'better-sqlite3';
 let serverProcess: ChildProcess | null = null;
 let serverWasAlreadyRunning = false;
 let isolatedDbPath: string | null = null;
+let serverExitCode: number | null = null;
+let serverExitSignal: NodeJS.Signals | null = null;
 
 const PORT = 3000;
 const HEALTH_URL = `http://localhost:${PORT}/api/healthcheck`;
@@ -36,6 +38,9 @@ async function waitForServer(): Promise<void> {
   const deadline = Date.now() + MAX_WAIT_MS;
   while (Date.now() < deadline) {
     if (await isServerReady()) return;
+    if (serverExitCode !== null || serverExitSignal !== null) {
+      throw new Error(`WealthOS test server exited before readiness (code=${serverExitCode ?? 'null'}, signal=${serverExitSignal ?? 'null'})`);
+    }
     await new Promise((r) => setTimeout(r, POLL_INTERVAL_MS));
   }
   throw new Error(`WealthOS server did not become ready within ${MAX_WAIT_MS / 1000}s`);
@@ -107,6 +112,10 @@ export async function setup() {
 
   serverProcess.on('error', (err) => {
     console.error('[globalSetup] Failed to spawn server:', err.message);
+  });
+  serverProcess.on('exit', (code, signal) => {
+    serverExitCode = code;
+    serverExitSignal = signal;
   });
 
   try {
