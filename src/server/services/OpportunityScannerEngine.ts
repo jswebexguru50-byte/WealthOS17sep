@@ -2,7 +2,6 @@ import { getDB, dbAll, dbGet, dbRun } from '../database.js';
 import { SelfLearningEngine } from './SelfLearningEngine.js';
 import { MarketDataIngestorService } from './MarketDataIngestorService.js';
 import { MacroRegimeClassifierService } from './MacroRegimeClassifierService.js';
-import { ScreenerService } from './screenerService.js';
 import { PredictionAccuracyEngine } from './PredictionAccuracyEngine.js';
 import { BrokerResearchIntelligenceService } from './BrokerResearchIntelligenceService.js';
 import { BatchFundamentalProvider } from './BatchFundamentalProvider.js';
@@ -1690,18 +1689,19 @@ export class OpportunityScannerEngine {
       };
     }
 
-    // 3. Fetch Screener Fundamentals
-    let screener = await ScreenerService.getInstance().fetchScreenerData(symbol).catch(() => null);
-    if (screener?.company_name) {
-      companyName = screener.company_name;
-      if (screener.sector) sector = screener.sector;
-    }
+    // 3. Resolve fundamentals through the shared canonical provider.  This
+    // path used to call ScreenerService directly, bypassing the acquisition
+    // ledger and single-flight cache used by F1-F7 and dossier consumers.
+    const fundamental = await BatchFundamentalProvider.getInstance().get(symbol).catch(() => null);
+    if (fundamental?.companyName) companyName = fundamental.companyName;
+    if (fundamental?.sector) sector = fundamental.sector;
 
-    // Extract Fundamental Scores & Sector Z-Score
-    const roce = screener?.ratios?.roce ? parseFloat(screener.ratios.roce.replace(/[^\d.]/g, '')) : null;
-    const pe = screener?.ratios?.stock_pe ? parseFloat(screener.ratios.stock_pe.replace(/[^\d.]/g, '')) : null;
-    const debt = screener?.ratios?.debt_to_equity ? parseFloat(screener.ratios.debt_to_equity.replace(/[^\d.]/g, '')) : null;
-    const margin = screener?.ratios?.opm ? parseFloat(screener.ratios.opm.replace(/[^\d.-]/g, '')) : null;
+    // Extract Fundamental Scores & Sector Z-Score from canonical values.  A
+    // missing value remains null; no provider-shaped default is introduced.
+    const roce = fundamental?.rocePct ?? null;
+    const pe = fundamental?.peRatio ?? null;
+    const debt = fundamental?.debtToEquity ?? null;
+    const margin = fundamental?.operatingMarginPct ?? null;
 
     const { zScore, fundScore } = computeSectorZScore(pe, roce, debt, sector);
 
@@ -1920,7 +1920,7 @@ export class OpportunityScannerEngine {
           peRatio: Number(pe.toFixed(1)),
           debtToEquity: Number(debt.toFixed(2)),
           operatingMarginPct: Number(margin.toFixed(1)),
-          moatDescription: `${screener?.about ? screener.about.slice(0, 100) + '...' : 'Healthy operating margins with resilient market positioning.'} (Sector Z: ${zScore >= 0 ? '+' : ''}${zScore})`
+          moatDescription: `${fundamental?.industry ? `${fundamental.industry} evidence-backed operating profile.` : 'Operating profile requires additional evidence.'} (Sector Z: ${zScore >= 0 ? '+' : ''}${zScore})`
         },
         technicals: {
           rsi14: Number(rsi.toFixed(1)),
