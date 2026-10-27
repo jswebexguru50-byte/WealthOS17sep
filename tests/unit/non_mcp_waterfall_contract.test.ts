@@ -23,5 +23,6 @@ describe('non-MCP waterfall contract', () => {
   it('runs canonical promotion verification before coverage', () => {
     expect(source.indexOf("phase('promotion_verification'")).toBeGreaterThan(source.indexOf("phase('cached_artifact_promotion'"));
     expect(source.indexOf("phase('coverage_ledger'")).toBeGreaterThan(source.indexOf("phase('promotion_verification'"));
+    expect(source.indexOf("phase('acceptance_matrix'")).toBeGreaterThan(source.indexOf("phase('coverage_ledger'"));
   });
 });

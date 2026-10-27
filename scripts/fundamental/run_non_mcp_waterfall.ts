@@ -55,6 +55,7 @@ if (dryRun) {
   process.exit(0);
 }
 phase('coverage_ledger', ['scripts/fundamental/build_non_mcp_coverage_ledger.ts', '--manifest', resolvedManifest]);
+phase('acceptance_matrix', ['scripts/fundamental/build_readiness_acceptance_matrix.ts', '--manifest', resolvedManifest, '--ledger', path.join(reportDir, 'coverage_ledger.json')]);
 const ledger = JSON.parse(fs.readFileSync(path.join(reportDir, 'coverage_ledger.json'), 'utf8'));
 const gapFields = ledger.rows.flatMap((row: any) => Object.entries(row.fields).filter(([, value]: any) => value.status === 'GAP').map(([field, value]) => ({ symbol: row.symbol, field, ...value as any })));
 const result = { generatedAt: new Date().toISOString(), mcpUsed: false, symbolCount: ledger.symbolCount, covered: ledger.covered, gaps: gapFields.length, gapFields, phases: checkpoint.phases, checkpoint: checkpointPath };
