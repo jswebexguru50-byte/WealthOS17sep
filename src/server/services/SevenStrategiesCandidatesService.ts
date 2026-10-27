@@ -699,6 +699,14 @@ export class SevenStrategiesCandidatesService {
 
     try {
       const db = new Database(this.fereDbPath, { readonly: true });
+      // Older/read-only FERE databases may legitimately predate the status
+      // table. Treat that as an empty status map instead of emitting a noisy
+      // error on every strategy request.
+      const table = db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='company_check_result'").get();
+      if (!table) {
+        db.close();
+        return statusMap;
+      }
       const rows = db.prepare('SELECT symbol, status FROM company_check_result').all() as Array<{ symbol: string; status: string }>;
       for (const r of rows) {
         if (r.status === 'VERIFIED_PARTIAL' || r.status === 'DATA_INSUFFICIENT') {
