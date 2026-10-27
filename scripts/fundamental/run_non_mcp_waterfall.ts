@@ -15,12 +15,18 @@ const checkpointPath = path.join(reportDir, 'waterfall_checkpoint.json');
 fs.mkdirSync(reportDir, { recursive: true });
 const checkpoint = fs.existsSync(checkpointPath) ? JSON.parse(fs.readFileSync(checkpointPath, 'utf8')) : { phases: {}, mcpUsed: false };
 checkpoint.mcpUsed = false;
-function phase(name: string, args: string[]) {
+const rawManifest = JSON.parse(fs.readFileSync(resolvedManifest, 'utf8'));
+const entries = Array.isArray(rawManifest) ? rawManifest : (rawManifest.entries || rawManifest.symbols || []);
+const symbols = [...new Set(entries.map((e: any) => typeof e === 'string' ? e : e.symbol || e.ticker || e.listings?.[0]?.symbol).filter(Boolean).map((s: string) => s.toUpperCase()))];
+if (!symbols.length) throw new Error(`Manifest contains no symbols: ${resolvedManifest}`);
+const upstoxManifest = path.join(reportDir, 'upstox_manifest.json');
+fs.writeFileSync(upstoxManifest, JSON.stringify({ symbols }, null, 2) + '\n');
+function phase(name: string, args: string[], extraEnv: Record<string,string> = {}) {
   if (checkpoint.phases[name]?.status === 'SUCCESS') return;
   checkpoint.phases[name] = { status: 'RUNNING', startedAt: new Date().toISOString() };
   fs.writeFileSync(checkpointPath, JSON.stringify(checkpoint, null, 2) + '\n');
   try {
-    execFileSync('node', ['--import', 'tsx', ...args], { cwd: root, stdio: 'inherit', env: { ...process.env, MCP_DISABLED: '1' } });
+    execFileSync('node', ['--import', 'tsx', ...args], { cwd: root, stdio: 'inherit', env: { ...process.env, ...extraEnv, MCP_DISABLED: '1' } });
     checkpoint.phases[name] = { status: 'SUCCESS', completedAt: new Date().toISOString() };
   } catch (error) {
     checkpoint.phases[name] = { status: 'FAILED', completedAt: new Date().toISOString(), error: String(error) };
@@ -29,6 +35,8 @@ function phase(name: string, args: string[]) {
   }
   fs.writeFileSync(checkpointPath, JSON.stringify(checkpoint, null, 2) + '\n');
 }
+phase('exchange_xbrl_mca', ['scripts/fere/run_combined_exchange_batch.mjs', '--manifest', resolvedManifest, '--apply', '--concurrency', arg('--exchange-concurrency') || '3', '--checkpoint-every', '50', '--retries', '2', '--timeout-ms', '90000']);
+phase('upstox_fundamentals', ['scripts/fundamental/run_upstox_fundamental_enrichment.ts', '--group', 'excelStrategyMatches', '--batch-size', '1', '--endpoint-delay-ms', '750', '--symbol-delay-ms', '1000'], { FUNDAMENTAL_MANIFEST_PATH: upstoxManifest });
 phase('cached_artifact_promotion', ['scripts/fere/promote_cached_artifacts_batch.mjs', '--manifest', resolvedManifest, '--apply', '--min-facts', '29']);
 phase('coverage_ledger', ['scripts/fundamental/build_non_mcp_coverage_ledger.ts', '--manifest', resolvedManifest]);
 const ledger = JSON.parse(fs.readFileSync(path.join(reportDir, 'coverage_ledger.json'), 'utf8'));

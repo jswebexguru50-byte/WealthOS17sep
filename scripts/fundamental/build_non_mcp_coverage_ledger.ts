@@ -27,12 +27,18 @@ const fields: Record<string, { period: string; sources: string[] }> = {
 };
 const placeholders = symbols.map(() => '?').join(',');
 const factRows = db.prepare(`SELECT UPPER(symbol) symbol, metric, provider, COUNT(*) count FROM company_facts WHERE UPPER(symbol) IN (${placeholders}) GROUP BY UPPER(symbol), metric, provider`).all(...symbols) as any[];
-const ohlcvTable = new Set((db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name IN ('DailyOHLCV','daily_ohlcv')").all() as any[]).map(r => r.name));
+const ohlcvTable = (db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name IN ('DailyOHLCV','daily_ohlcv')").all() as any[])[0]?.name as string | undefined;
+const ohlcvCounts = new Map<string, { count: number; first: string | null; last: string | null }>();
+if (ohlcvTable) {
+  const rows = db.prepare(`SELECT UPPER(symbol) symbol, COUNT(*) count, MIN(trade_date) first, MAX(trade_date) last FROM "${ohlcvTable}" WHERE UPPER(symbol) IN (${placeholders}) GROUP BY UPPER(symbol)`).all(...symbols) as any[];
+  for (const r of rows) ohlcvCounts.set(String(r.symbol), { count: Number(r.count), first: r.first ?? null, last: r.last ?? null });
+}
 const rows = symbols.map(symbol => ({ symbol, fields: Object.fromEntries(Object.entries(fields).map(([metric, spec]) => {
   const matches = factRows.filter(r => r.symbol === symbol && (r.metric === metric || (metric === 'roe_pct' && r.metric === 'roe')));
   const providers = [...new Set(matches.map(r => r.provider || 'UNKNOWN'))];
-  const available = metric === 'OHLCV' ? ohlcvTable.size > 0 : matches.length > 0;
-  return [metric, { requiredPeriod: spec.period, available, providers, fallbackOrder: spec.sources, status: available ? 'COVERED' : 'GAP' }];
+  const ohlcv = ohlcvCounts.get(symbol);
+  const available = metric === 'OHLCV' ? Boolean(ohlcv && ohlcv.count > 0) : matches.length > 0;
+  return [metric, { requiredPeriod: spec.period, available, rows: metric === 'OHLCV' ? (ohlcv?.count || 0) : undefined, firstDate: metric === 'OHLCV' ? ohlcv?.first : undefined, lastDate: metric === 'OHLCV' ? ohlcv?.last : undefined, providers, fallbackOrder: spec.sources, status: available ? 'COVERED' : 'GAP' }];
 })) }));
 db.close();
 const summary = { generatedAt: new Date().toISOString(), mcpUsed: false, symbolCount: symbols.length, fieldCount: Object.keys(fields).length, covered: rows.reduce((n, r) => n + Object.values(r.fields).filter((f: any) => f.available).length, 0), gaps: rows.reduce((n, r) => n + Object.values(r.fields).filter((f: any) => !f.available).length, 0), rows };
