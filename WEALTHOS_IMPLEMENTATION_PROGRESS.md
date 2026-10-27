@@ -35,6 +35,7 @@ Overall implementation estimate: **approximately 80%**. This is not an acceptanc
 - `tests/unit/golden_intelligence_oracle.test.ts`: 13/13 passes.
 - `tests/unit/master_acceptance_suite.test.ts`: 3/3 passes after wiring `DataCoverageEngine`.
 - S1101 targeted tests execute; remaining failures are frozen-control hash drift checks.
+- S1101/S1101R/S1101R2 targeted run: 26/30 tests pass; 4 failures are frozen-control/hash-baseline assertions, not missing imports.
 - A fresh dry-run for the 1,004-symbol retry cohort reports all nine phases as `PLANNED` and `mcpUsed: false`.
 
 ## Known blockers / remaining work
