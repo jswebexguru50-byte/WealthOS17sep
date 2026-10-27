@@ -56,6 +56,7 @@ Overall implementation estimate: **approximately 82%**. This is not an acceptanc
 - Added a Vitest executable guard for the audit script; canonical audit + waterfall contracts: **6/6 passed**.
 - Fresh canonical audit + waterfall + 360 + chaos run: **22/22 passed**; audit report status `PASS` with zero violations.
 - Full unit discovery rerun completed: **1,843 passed / 57 failed / 21 skipped**; failure inventory is captured in `/tmp/wealthos-unit.json` and does not indicate a regression in the canonical/waterfall boundary tests.
+- Integration hash helper now streams multi-gigabyte SQLite files instead of allocating a >2 GiB Buffer; the remaining self-contained integration failure is a test-mode server/database bootstrap 503 and is not yet accepted.
 - Chaos resilience verification: CircuitBreaker/RetryHandler remediation plus recovery scenarios **28/28 passed** under `WEALTHOS_SKIP_SERVER=1`.
 
 ## Known blockers / remaining work

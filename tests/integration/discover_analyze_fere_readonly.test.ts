@@ -19,14 +19,26 @@ import Database from 'better-sqlite3';
 
 function getFileSha256(filePath: string): string | null {
   if (!fs.existsSync(filePath)) return null;
+  let fd: number | undefined;
   try {
-    const fileBuffer = fs.readFileSync(filePath);
-    return crypto.createHash('sha256').update(fileBuffer).digest('hex');
+    // Hash in bounded chunks: portfolio.db can exceed Node's 2 GiB
+    // Buffer limit on a developer checkout.
+    fd = fs.openSync(filePath, 'r');
+    const hash = crypto.createHash('sha256');
+    const chunk = Buffer.allocUnsafe(1024 * 1024);
+    let bytesRead = 0;
+    do {
+      bytesRead = fs.readSync(fd, chunk, 0, chunk.length, null);
+      if (bytesRead > 0) hash.update(chunk.subarray(0, bytesRead));
+    } while (bytesRead > 0);
+    return hash.digest('hex');
   } catch (e: any) {
     // On Windows, SQLite may hold a file lock (WAL mode) during reads;
     // return null so callers can skip the comparison gracefully.
     if (['UNKNOWN', 'EBUSY', 'EPERM', 'EACCES'].includes(e.code)) return null;
     throw e;
+  } finally {
+    if (fd !== undefined) fs.closeSync(fd);
   }
 }
 
@@ -86,6 +98,13 @@ describe('Phase A E2E Self-Contained Integration Test: Discover -> Analyze -> FE
     closeDB = dbModule.closeDB;
     getDB = dbModule.getDB;
     dbGet = dbModule.dbGet;
+    // server.ts initializes the disposable database asynchronously.  Wait for
+    // the same readiness boundary used by API middleware instead of racing the
+    // first request and interpreting a transient 503 as an application fault.
+    for (let attempt = 0; attempt < 120 && !getDB(); attempt++) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    expect(getDB()).toBeDefined();
   }, 300000);
 
   afterAll(async () => {
