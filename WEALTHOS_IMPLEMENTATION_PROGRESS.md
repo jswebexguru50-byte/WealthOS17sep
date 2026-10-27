@@ -39,7 +39,7 @@ Therefore the practical completion is **82% implemented / approximately 60% acce
 | S1101 forensic data services | Implemented | Chain-of-custody, dataset-version, enrichment services restored |
 | Unit discovery/server isolation | Implemented | Unit script uses `tests/unit`; `WEALTHOS_SKIP_SERVER=1` |
 | Unit suite | Partial | Fresh full run: 1,848 passed, 54 failed, 21 skipped across 1,923 tests; remaining failures are primarily missing generated artifacts, frozen/hash baselines, cohort fixtures, or stale legacy contracts |
-| Integration suite | Not accepted | Requires updated Mac checkout and live server |
+| Integration suite | Partial | Dedicated config now discovers all 189 tests; latest server-backed run: 91 passed, 91 failed, 7 skipped. Failures include missing population/schema fixtures, auth-contract drift, and response-shape regressions; not yet accepted |
 | Coverage suite | Not accepted | Requires updated Mac checkout and isolated DB |
 | E2E/chaos matrix | Not accepted | Requires live server/browser and generated artifacts |
 | Full 3,548-symbol live retry | Not accepted | Must run from latest local commit with provider credentials/data |
@@ -76,6 +76,7 @@ Therefore the practical completion is **82% implemented / approximately 60% acce
 - Fresh canonical audit + waterfall + 360 + chaos run: **22/22 passed**; audit report status `PASS` with zero violations.
 - Fresh full unit discovery rerun completed: **1,848 passed / 54 failed / 21 skipped** across 646 files; current failure inventory is captured in `/tmp/wealthos-unit-current.json` and does not indicate a regression in the canonical/waterfall boundary tests.
 - Corrected `wealthos:test:integration` to expand `tests/integration/*.test.ts`; the prior directory-literal form incorrectly reported “No test files found” in this checkout. Explicit expansion discovers all **189 integration tests** (the live suite still has environment/auth/fixture failures).
+- Replaced shell expansion with `vitest.integration.config.ts`; the normal npm command now reliably runs the full integration set. Server-backed result: **91 passed / 91 failed / 7 skipped**.
 - Updated the dashboard ETag regression contract to target the canonical `/api/dashboard-metrics` alias after `/api/metrics` became the Prometheus endpoint; remediation regression is now **16/16 passing**.
 - Updated the P0 truth-closure test to accept genuine mirror evidence while still asserting null unavailable fields and rejecting synthetic smart-money flow; P0 truth closure is now **3/3 passing**.
 - Hardened waterfall failure semantics: provider acquisition/promotion outages are checkpointed as `COMPLETED_WITH_GAPS`, while preflight/planning/coverage/acceptance control-plane failures now fail closed instead of producing a misleading partial success. Waterfall contract suite is **6/6 passing**.
