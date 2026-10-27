@@ -65,6 +65,7 @@ Overall implementation estimate: **approximately 82%**. This is not an acceptanc
 - Corrected both lazy-start middleware layers so `/api/remote/health` is actually exempt from database readiness checks after Express strips the `/api` mount. Rebuilt server reaches Playwright successfully on isolated port 3101; the remaining local E2E failure is Chromium’s sandbox Mach-port permission in this environment, not an HTTP/app failure.
 - Fixed the scheduled `universe-cache-warm` job’s invalid `invalidateTicker(undefined)` call by adding an explicit `invalidateUniverse()` repository operation; FactsRepository integration coverage is now **20/20 passing**.
 - Post-fix regression run: canonical-consumer audit **PASS (0 violations)** and waterfall + repository + chaos/retry suite **55/55 tests passed**.
+- Full-unit rerun found one newly exposed scheduler test fixture mismatch after the real cache invalidation fix; the fixture now targets `invalidateUniverse()`, and `DataRefreshScheduler.test.ts` is **10/10 passing**. The saved full-suite baseline remains 57 failures until the next complete rerun.
 - Chaos resilience verification: CircuitBreaker/RetryHandler remediation plus recovery scenarios **28/28 passed** under `WEALTHOS_SKIP_SERVER=1`.
 
 ## Known blockers / remaining work

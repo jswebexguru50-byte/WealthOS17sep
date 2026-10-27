@@ -33,6 +33,7 @@ vi.mock('../../src/server/services/FactsRepository.js', () => ({
   FactsRepository: {
     getInstance: vi.fn().mockReturnValue({
       invalidateTicker: vi.fn(),
+      invalidateUniverse: vi.fn(),
       getNseEquityUniverse: vi.fn().mockResolvedValue([]),
       getHoldings: vi.fn().mockResolvedValue([]),
       invalidatePortfolios: vi.fn(),
@@ -114,7 +115,7 @@ describe('DataRefreshScheduler', () => {
   it('runNow("universe-cache-warm") executes and returns { ok: true }', async () => {
     const result = await scheduler.runNow('universe-cache-warm');
     expect(result.ok).toBe(true);
-    expect(mockRepo.invalidateTicker).toHaveBeenCalled();
+    expect((mockRepo as any).invalidateUniverse).toHaveBeenCalled();
     expect(mockRepo.getNseEquityUniverse).toHaveBeenCalled();
   });
 
