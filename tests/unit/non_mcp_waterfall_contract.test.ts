@@ -26,6 +26,13 @@ describe('non-MCP waterfall contract', () => {
     expect(source).toContain("checkpoint.manifestPath = resolvedManifest");
   });
 
+  it('fails closed on control-plane errors while allowing provider gaps', () => {
+    expect(source).toContain('if (!allowGaps) throw error');
+    expect(source).toContain("phase('exchange_xbrl_mca',");
+    expect(source).toContain("phase('upstox_fundamentals'");
+    expect(source).toContain("phase('cached_artifact_promotion'");
+  });
+
   it('runs canonical promotion verification before coverage', () => {
     expect(source.indexOf("phase('promotion_verification'")).toBeGreaterThan(source.indexOf("phase('cached_artifact_promotion'"));
     expect(source.indexOf("phase('coverage_ledger'")).toBeGreaterThan(source.indexOf("phase('promotion_verification'"));

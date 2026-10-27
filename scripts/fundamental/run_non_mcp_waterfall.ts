@@ -60,8 +60,10 @@ function phase(name: string, args: string[], extraEnv: Record<string,string> = {
   } catch (error) {
     checkpoint.phases[name] = { status: allowGaps ? 'COMPLETED_WITH_GAPS' : 'FAILED', completedAt: new Date().toISOString(), error: String(error) };
     fs.writeFileSync(checkpointPath, JSON.stringify(checkpoint, null, 2) + '\n');
-    // Continue the waterfall after a provider outage; the failure is checkpointed
-    // and remains visible for a later deterministic retry.
+    // Provider acquisition/promotion phases may continue with explicit gaps,
+    // but planning, coverage, and acceptance phases are control-plane gates.
+    // Never turn a failed control-plane phase into a misleading partial run.
+    if (!allowGaps) throw error;
   }
   fs.writeFileSync(checkpointPath, JSON.stringify(checkpoint, null, 2) + '\n');
 }
@@ -71,11 +73,11 @@ if (allowMcp) {
 }
 phase('preflight_coverage', ['scripts/fundamental/build_non_mcp_coverage_ledger.ts', '--manifest', resolvedManifest, '--out', preflightLedger]);
 phase('gap_plan', ['scripts/fundamental/plan_non_mcp_acquisition.ts', '--ledger', preflightLedger]);
-phase('exchange_xbrl_mca', ['scripts/fere/run_combined_exchange_batch.mjs', '--manifest', resolvedManifest, '--apply', '--concurrency', arg('--exchange-concurrency') || '3', '--checkpoint-every', '50', '--retries', '2', '--timeout-ms', '90000']);
-phase('upstox_fundamentals', ['scripts/fundamental/run_upstox_fundamental_enrichment.ts', '--group', 'excelStrategyMatches', '--batch-size', '1', '--endpoint-delay-ms', '750', '--symbol-delay-ms', '1000'], { FUNDAMENTAL_MANIFEST_PATH: upstoxManifest });
-phase('cached_artifact_promotion', ['scripts/fere/promote_cached_artifacts_batch.mjs', '--manifest', resolvedManifest, '--apply', '--min-facts', '29']);
+phase('exchange_xbrl_mca', ['scripts/fere/run_combined_exchange_batch.mjs', '--manifest', resolvedManifest, '--apply', '--concurrency', arg('--exchange-concurrency') || '3', '--checkpoint-every', '50', '--retries', '2', '--timeout-ms', '90000'], {}, true);
+phase('upstox_fundamentals', ['scripts/fundamental/run_upstox_fundamental_enrichment.ts', '--group', 'excelStrategyMatches', '--batch-size', '1', '--endpoint-delay-ms', '750', '--symbol-delay-ms', '1000'], { FUNDAMENTAL_MANIFEST_PATH: upstoxManifest }, true);
+phase('cached_artifact_promotion', ['scripts/fere/promote_cached_artifacts_batch.mjs', '--manifest', resolvedManifest, '--apply', '--min-facts', '29'], {}, true);
 phase('promotion_verification', ['scripts/fundamental/verify_non_mcp_promotion.ts', '--manifest', resolvedManifest, '--min-facts', '29'], {}, true);
-phase('promotion_gap_manifest', ['scripts/fundamental/build_promotion_gap_manifest.ts', '--verification', path.join(reportDir, 'promotion_verification.json'), '--source-manifest', resolvedManifest]);
+phase('promotion_gap_manifest', ['scripts/fundamental/build_promotion_gap_manifest.ts', '--verification', path.join(reportDir, 'promotion_verification.json'), '--source-manifest', resolvedManifest], {}, true);
 if (dryRun) {
   for (const name of ['coverage_ledger', 'acceptance_matrix']) {
     checkpoint.phases[name] = {
