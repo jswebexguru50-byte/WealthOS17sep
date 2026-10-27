@@ -965,6 +965,22 @@ const SCHEMA_MIGRATIONS: Array<{ version: number; name: string; sqls: string[] }
       'ALTER TABLE CustomStrategies ADD COLUMN preset_order INTEGER',
     ],
   },
+  {
+    version: 19,
+    name: 'fere_company_check_result_schema',
+    sqls: [
+      `CREATE TABLE IF NOT EXISTS company_check_result (
+        isin TEXT PRIMARY KEY,
+        symbol TEXT NOT NULL,
+        status TEXT NOT NULL,
+        period_end TEXT,
+        previous_period_end TEXT,
+        updated_at TEXT NOT NULL,
+        result_json TEXT NOT NULL
+      )`,
+      'CREATE INDEX IF NOT EXISTS idx_company_check_result_symbol ON company_check_result(symbol)',
+    ],
+  },
 ];
 
 export async function runMigrations(db: Database): Promise<void> {

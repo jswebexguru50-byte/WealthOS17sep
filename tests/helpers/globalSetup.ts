@@ -70,7 +70,12 @@ export async function setup() {
     process.env.DATABASE_URL = isolatedDbPath;
     const db = new BetterSqlite3(isolatedDbPath);
     db.exec(`CREATE TABLE IF NOT EXISTS schema_migrations (id TEXT PRIMARY KEY, applied_at TEXT);
-      CREATE TABLE IF NOT EXISTS company_check_result (symbol TEXT, check_id TEXT, status TEXT, details TEXT, created_at TEXT);`);
+      CREATE TABLE IF NOT EXISTS company_check_result (
+        isin TEXT PRIMARY KEY, symbol TEXT NOT NULL, status TEXT NOT NULL,
+        period_end TEXT, previous_period_end TEXT, updated_at TEXT NOT NULL,
+        result_json TEXT NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_company_check_result_symbol ON company_check_result(symbol);`);
     db.close();
     console.log(`[globalSetup] isolated test database: ${isolatedDbPath}`);
   }
