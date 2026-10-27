@@ -8,6 +8,25 @@ Remote status: local commits are ahead of `origin/master`; remote push has not b
 
 Overall implementation estimate: **approximately 82%**. This is not an acceptance claim.
 
+### How to interpret completion
+
+The 82% figure is the weighted **implementation** estimate (code and contracts), not production acceptance. The current acceptance position is:
+
+- **Core architecture:** 100% of the designed deterministic waterfall/canonical-boundary controls are implemented and focused-tested.
+- **Focused regression:** 55/55 waterfall, repository, retry and chaos tests passed; canonical-consumer audit is PASS with 0 violations.
+- **Full unit suite:** 1,844 passed, 56 failed, 21 skipped in the latest recorded run (97.1% of executed tests passed). The failures are not yet cleared because several require missing fixtures, signed baseline decisions, or legacy contract updates.
+- **Production acceptance:** not complete until the full unit rerun, integration/coverage/E2E matrix, 3,548-symbol retry, KPI capture, and remote GitHub synchronization are evidenced.
+
+Therefore the practical completion is **82% implemented / approximately 60% acceptance-complete**. The acceptance percentage is deliberately lower because unexecuted or blocked gates count as incomplete; it is not a regression from earlier code estimates.
+
+### Fastest path to 100%
+
+1. Restore or generate the approved Phase-2/dossier/forensic fixtures and resolve frozen-hash baseline decisions.
+2. Run the complete unit suite again and reduce the failure inventory to zero (or explicitly quarantine only environment-only tests).
+3. Run integration, coverage, chaos and Playwright E2E on the normal Mac checkout with the server and isolated database.
+4. Run the deterministic 3,548-symbol non-MCP retry in checkpointed batches, recording per-50 promotion and gap reports.
+5. Capture the coverage/latency/cache/promotion KPIs, then push and verify the exact local commit on `origin/master`.
+
 | Requirement | Status | Evidence |
 |---|---|---|
 | Deterministic waterfall with approval-gated MCP | Implemented | `scripts/fundamental/run_non_mcp_waterfall.ts`; MCP disabled by default, first phase only with explicit `--allow-mcp` |
