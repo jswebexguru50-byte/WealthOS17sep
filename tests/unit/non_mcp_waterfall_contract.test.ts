@@ -17,4 +17,9 @@ describe('non-MCP waterfall contract', () => {
     expect(source).toContain("checkpoint.phases[name]?.status === 'SUCCESS'");
     expect(source).toContain("process.argv.includes('--dry-run')");
   });
+
+  it('runs canonical promotion verification before coverage', () => {
+    expect(source.indexOf("phase('promotion_verification'")).toBeGreaterThan(source.indexOf("phase('cached_artifact_promotion'"));
+    expect(source.indexOf("phase('coverage_ledger'")).toBeGreaterThan(source.indexOf("phase('promotion_verification'"));
+  });
 });
