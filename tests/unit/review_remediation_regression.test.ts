@@ -322,7 +322,10 @@ describe('Codex Review Remediation Regression Suite', () => {
       const dashHandler = extractHandler('/api/dashboard');
       const xirrHandler = extractHandler('/api/dashboard/xirr');
       const growthHandler = extractHandler('/api/growth-history');
-      const metricsHandler = extractHandler('/api/metrics');
+      // `/api/metrics` is now the Prometheus text endpoint. The cached
+      // dashboard payload moved to `/api/dashboard-metrics` to remove the
+      // route collision, so assert the canonical dashboard alias here.
+      const metricsHandler = extractHandler('/api/dashboard-metrics');
 
       expect(dashHandler).toContain('sendWithEtag');
       expect(xirrHandler).toContain('sendWithEtag');
