@@ -48,6 +48,7 @@ import { NarrativeChangeEngine } from './management/NarrativeChangeEngine.js';
 // Constitution Gatekeepers
 import { ClaimSafetyGate } from './safety/ClaimSafetyGate.js';
 import { CrossModuleConsistencyValidator } from './validation/CrossModuleConsistencyValidator.js';
+import { DataCoverageEngine } from './coverage/DataCoverageEngine.js';
 // Core Repositories (Checkpoint 1)
 import { CompanyEventRepository } from './core/CompanyEventRepository.js';
 import { ManagementCommitmentRepository } from './core/ManagementCommitmentRepository.js';
@@ -1360,9 +1361,14 @@ export class CompanyIntelligenceOrchestrator {
       console.warn('[CompanyIntelligenceOrchestrator] CrossModuleConsistencyValidator audit error:', e);
     }
 
-    // Coverage is unavailable: the referenced coverage implementation is absent
-    // from the committed repository. Never invent coverage scores to unblock a build.
-    const dataCoverage = undefined;
+    // Coverage is evaluated from module payloads, not snapshot counts. The
+    // evaluator is side-effect free and reports missing domains explicitly.
+    const dataCoverage = DataCoverageEngine.getInstance().evaluateCoverage(
+      cleanSym,
+      isin,
+      modulesResult as any,
+      generatedAt,
+    );
 
     // Invariant: Scope is derived from canonical fundamental facts/evidence, never hardcoded per symbol
     let resolvedScope: 'STANDALONE' | 'CONSOLIDATED' = 'CONSOLIDATED';
