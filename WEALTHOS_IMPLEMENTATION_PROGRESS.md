@@ -91,6 +91,7 @@ Therefore the practical completion is **82% implemented / approximately 60% acce
 - Post-fix regression run: canonical-consumer audit **PASS (0 violations)** and waterfall + repository + chaos/retry suite **55/55 tests passed**.
 - Full-unit rerun found one newly exposed scheduler test fixture mismatch after the real cache invalidation fix; the fixture now targets `invalidateUniverse()`, and `DataRefreshScheduler.test.ts` is **10/10 passing**. The saved full-suite baseline remains 57 failures until the next complete rerun.
 - Chaos resilience verification: CircuitBreaker/RetryHandler remediation plus recovery scenarios **28/28 passed** under `WEALTHOS_SKIP_SERVER=1`.
+- Removed the remaining ticker-only business-model inference from `BusinessModelClassifier`; a symbol such as `HDFCBANK` now remains `UNKNOWN` without canonical sector/industry/company-name evidence. Integrity regression is **18/18 passing** and TypeScript compilation remains green.
 
 ## Known blockers / remaining work
 
