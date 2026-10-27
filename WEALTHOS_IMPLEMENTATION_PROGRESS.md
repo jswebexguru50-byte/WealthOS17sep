@@ -51,6 +51,7 @@ Overall implementation estimate: **approximately 82%**. This is not an acceptanc
 - Added `AcquisitionEvidenceRepository` as the sole lineage-only snapshot metadata boundary; analytical engines receive no raw response payloads. Fundamental expansion + input-isolation tests: **38/38 passed**.
 - Added a canonical-consumer boundary guard covering the active scanner and intelligence engines; latest boundary/waterfall/360 run: **9/9 passed**.
 - Waterfall now accepts deterministic `--offset`/`--limit` pilot slices while retaining manifest-scoped checkpointing; pilot contract test: **5/5 passed**.
+- Chaos resilience verification: CircuitBreaker/RetryHandler remediation plus recovery scenarios **28/28 passed** under `WEALTHOS_SKIP_SERVER=1`.
 
 ## Known blockers / remaining work
 
