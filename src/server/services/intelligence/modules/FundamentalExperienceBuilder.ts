@@ -62,6 +62,7 @@ import {
 import { RecentAccumulationEngine } from './RecentAccumulationEngine.js';
 import { FundamentalModuleAdapter } from './FundamentalModuleAdapter.js';
 import { BusinessModelClassifier } from '../domain/BusinessModelClassifier.js';
+import { CanonicalFactResolverService } from '../../CanonicalFactResolverService.js';
 
 export class FundamentalExperienceBuilder {
   private static instance: FundamentalExperienceBuilder;
@@ -462,6 +463,14 @@ export class FundamentalExperienceBuilder {
     // ─────────────────────────────────────────────────────────────────────────
     let deVal: number | null = null;
     let interestCovVal: number | null = null;
+
+    // Central field-specific waterfall is the first read path. The SQL branch
+    // below remains only as a point-in-time compatibility fallback.
+    const canonicalResolver = CanonicalFactResolverService.getInstance();
+    const canonicalDebt = canonicalResolver.resolve(cleanSym, 'debt_to_equity', effectivePointInTime);
+    const canonicalInterest = canonicalResolver.resolve(cleanSym, 'interest_coverage', effectivePointInTime);
+    if (canonicalDebt && typeof canonicalDebt.value === 'number') deVal = canonicalDebt.value;
+    if (canonicalInterest && typeof canonicalInterest.value === 'number') interestCovVal = canonicalInterest.value;
 
     // Check canonical ratios from historicalSeries or company_facts
     const deItem = fundPayload?.historicalSeries?.['DebtToEquity']?.[0] || null;
