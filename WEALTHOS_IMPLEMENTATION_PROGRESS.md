@@ -56,7 +56,8 @@ Overall implementation estimate: **approximately 82%**. This is not an acceptanc
 - Added a Vitest executable guard for the audit script; canonical audit + waterfall contracts: **6/6 passed**.
 - Fresh canonical audit + waterfall + 360 + chaos run: **22/22 passed**; audit report status `PASS` with zero violations.
 - Full unit discovery rerun completed: **1,843 passed / 57 failed / 21 skipped**; failure inventory is captured in `/tmp/wealthos-unit.json` and does not indicate a regression in the canonical/waterfall boundary tests.
-- Integration hash helper now streams multi-gigabyte SQLite files instead of allocating a >2 GiB Buffer; the remaining self-contained integration failure is a test-mode server/database bootstrap 503 and is not yet accepted.
+- Integration hash helper now streams multi-gigabyte SQLite files instead of allocating a >2 GiB Buffer. The in-process test bootstrap now explicitly primes the read-only database boundary, and the Discover → Analyze → FERE integration test passes.
+- Latest focused integration + canonical-boundary + chaos regression: **57/57 tests passed** across 8 files; TypeScript compile passes. The suite still logs a non-fatal missing `company_check_result` table while the strategy route correctly returns 200; fixture/database parity remains a broader acceptance concern.
 - Chaos resilience verification: CircuitBreaker/RetryHandler remediation plus recovery scenarios **28/28 passed** under `WEALTHOS_SKIP_SERVER=1`.
 
 ## Known blockers / remaining work
