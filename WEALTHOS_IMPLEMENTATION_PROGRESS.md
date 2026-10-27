@@ -53,6 +53,7 @@ Overall implementation estimate: **approximately 82%**. This is not an acceptanc
 - Waterfall now accepts deterministic `--offset`/`--limit` pilot slices while retaining manifest-scoped checkpointing; pilot contract test: **5/5 passed**.
 - Pilot checkpoint identity now includes offset and limit, preventing separate 50-symbol slices from reusing one another's phase state. Waterfall + canonical boundary + chaos regression: **19/19 passed**.
 - Added `npm run audit:canonical-consumers`; current repository scan finds 14 intentional provider-boundary references and **0 unapproved analytical-consumer violations**.
+- Added a Vitest executable guard for the audit script; canonical audit + waterfall contracts: **6/6 passed**.
 - Chaos resilience verification: CircuitBreaker/RetryHandler remediation plus recovery scenarios **28/28 passed** under `WEALTHOS_SKIP_SERVER=1`.
 
 ## Known blockers / remaining work
