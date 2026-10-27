@@ -46,6 +46,7 @@ Overall implementation estimate: **approximately 82%**. This is not an acceptanc
 - OpportunityScanner canonical-provider contract test added; its direct Screener call was replaced with the shared single-flight provider.
 - Dossier canonical-provider contract test added; canonical snapshots are adapted first, with Screener retained only as an explicit compatibility fallback.
 - Latest canonical caller migration run: **8/8 targeted tests passed**; TypeScript compile passes.
+- Removed raw `fundamental_endpoint_snapshots` reads from FundamentalExperienceBuilder and RecentAccumulationEngine; both now require promoted canonical facts/shareholding records. Engine input-isolation, 360 coverage, and waterfall contracts: **8/8 passed**.
 
 ## Known blockers / remaining work
 

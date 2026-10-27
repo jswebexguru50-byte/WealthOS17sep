@@ -216,28 +216,9 @@ export class FundamentalExperienceBuilder {
         // Non-fatal
       }
 
-      // Record snapshot acquisition evidence metadata (without raw payload parsing)
-      try {
-        const snapshotSources = await queryAll<any>(
-          db,
-          `SELECT provider, endpoint, fetched_at FROM fundamental_endpoint_snapshots
-           WHERE UPPER(symbol) = ?
-           ORDER BY fetched_at DESC`,
-          [cleanSym]
-        );
-        for (const sn of snapshotSources) {
-          if (!sourcesUsed.some(s => s.endpoint === sn.endpoint && s.provider === sn.provider)) {
-            sourcesUsed.push({
-              provider: sn.provider,
-              endpoint: sn.endpoint,
-              fetchedAt: sn.fetched_at,
-              status: 'ACQUISITION_EVIDENCE',
-            });
-          }
-        }
-      } catch {
-        // Non-fatal
-      }
+      // Raw acquisition snapshots are intentionally not read here.  Provider
+      // evidence is promoted into company_facts before this engine runs; the
+      // canonical fact rows above are the only accepted provenance surface.
     }
 
     // defaultFetchedAt is the persisted dataAsOf from the module result.

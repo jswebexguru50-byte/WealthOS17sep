@@ -192,37 +192,9 @@ export class RecentAccumulationEngine {
       // Table may not have record
     }
 
-    if (!latestOwnershipDate) {
-      // Check fundamental_endpoint_snapshots for share-holdings or shareholding
-      try {
-        const snap = await queryGet<any>(
-          db,
-          `SELECT response_json, provider, endpoint FROM fundamental_endpoint_snapshots
-           WHERE UPPER(symbol) = ? AND endpoint IN ('share-holdings', 'shareholding')
-           ORDER BY fetched_at DESC LIMIT 1`,
-          [cleanSym]
-        );
-        if (snap && snap.response_json) {
-          const parsed = JSON.parse(snap.response_json);
-          if (Array.isArray(parsed.data) && parsed.data[0]?.history?.[0]?.period) {
-            const periodStr = parsed.data[0].history[0].period; // e.g. "Jun 2026"
-            latestDisclosedPeriod = periodStr;
-            // Parse period string to date
-            const parts = periodStr.split(' ');
-            if (parts.length === 2) {
-              const month = parts[0].toLowerCase();
-              const year = parts[1];
-              if (month.startsWith('jun')) latestOwnershipDate = `${year}-06-30`;
-              else if (month.startsWith('mar')) latestOwnershipDate = `${year}-03-31`;
-              else if (month.startsWith('sep')) latestOwnershipDate = `${year}-09-30`;
-              else if (month.startsWith('dec')) latestOwnershipDate = `${year}-12-31`;
-            }
-          }
-        }
-      } catch {
-        // Non-fatal
-      }
-    }
+    // Do not fall back to raw provider snapshots.  The canonical historical
+    // shareholding table is the promotion boundary; without it this analysis
+    // must remain fail-closed rather than parsing an unpromoted payload.
 
     // If no verified ownership anchor exists, fail closed — do not define synthetic post-shareholding window
     if (!latestOwnershipDate) {
