@@ -217,8 +217,11 @@ export class RegimeBacktestEngine {
           const batch = await DuckDbAdjustedOhlcvService.getDailyBarsForSymbols(candidates.slice(i, i + 500), 25);
           batch.bars.forEach((bars, key) => adjusted.set(key, bars.map(r => ({ date: r.trade_date, open: Number(r.open_adjusted), high: Number(r.high_adjusted), low: Number(r.low_adjusted), close: Number(r.close_adjusted), volume: Number(r.volume_raw || 0), turnover: Number(r.close_adjusted) * Number(r.volume_raw || 0) }))));
         }
-        const covered = rows.filter((r: any) => (adjusted.get(String(r.symbol).toUpperCase())?.length || 0) >= 25);
-        if (covered.length >= (universeLimit ? Math.min(universeLimit, 5) : 40)) return covered.map((r: any) => ({
+        // Preserve the canonical requested universe even when local OHLCV is
+        // incomplete. Downstream strategy evaluation already fail-closes on
+        // insufficient candles; silently shrinking the universe here makes
+        // population counts and coverage metrics misleading (e.g. 750 → 42).
+        if (rows.length >= (universeLimit ? Math.min(universeLimit, 5) : 40)) return rows.map((r: any) => ({
           symbol: r.symbol,
           name: r.name || r.symbol,
           tier: r.tier || 'MIDCAP',

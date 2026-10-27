@@ -491,7 +491,7 @@ async function seedTestStrategies(db: sqlite3.Database, count: number = 10): Pro
       await dbRunPromise(
         db,
         `
-          INSERT INTO CustomStrategies
+          INSERT OR IGNORE INTO CustomStrategies
           (id, name, base_template_id, description, parameters_json, is_active, is_preset)
           VALUES (?, ?, ?, ?, ?, ?, ?)
         `,
@@ -516,7 +516,7 @@ async function seedTestStrategies(db: sqlite3.Database, count: number = 10): Pro
     await dbRunPromise(
       db,
       `
-        INSERT INTO CustomStrategies
+          INSERT OR IGNORE INTO CustomStrategies
         (id, name, base_template_id, description, parameters_json, is_active, is_preset)
         VALUES (?, ?, ?, ?, ?, ?, ?)
       `,
