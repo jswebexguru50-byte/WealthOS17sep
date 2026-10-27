@@ -31,7 +31,8 @@ function phase(name: string, args: string[], extraEnv: Record<string,string> = {
   } catch (error) {
     checkpoint.phases[name] = { status: 'FAILED', completedAt: new Date().toISOString(), error: String(error) };
     fs.writeFileSync(checkpointPath, JSON.stringify(checkpoint, null, 2) + '\n');
-    throw error;
+    // Continue the waterfall after a provider outage; the failure is checkpointed
+    // and remains visible for a later deterministic retry.
   }
   fs.writeFileSync(checkpointPath, JSON.stringify(checkpoint, null, 2) + '\n');
 }
@@ -41,6 +42,6 @@ phase('cached_artifact_promotion', ['scripts/fere/promote_cached_artifacts_batch
 phase('coverage_ledger', ['scripts/fundamental/build_non_mcp_coverage_ledger.ts', '--manifest', resolvedManifest]);
 const ledger = JSON.parse(fs.readFileSync(path.join(reportDir, 'coverage_ledger.json'), 'utf8'));
 const gapFields = ledger.rows.flatMap((row: any) => Object.entries(row.fields).filter(([, value]: any) => value.status === 'GAP').map(([field, value]) => ({ symbol: row.symbol, field, ...value as any })));
-const result = { generatedAt: new Date().toISOString(), mcpUsed: false, symbolCount: ledger.symbolCount, covered: ledger.covered, gaps: gapFields.length, gapFields, checkpoint: checkpointPath };
+const result = { generatedAt: new Date().toISOString(), mcpUsed: false, symbolCount: ledger.symbolCount, covered: ledger.covered, gaps: gapFields.length, gapFields, phases: checkpoint.phases, checkpoint: checkpointPath };
 fs.writeFileSync(path.join(reportDir, 'waterfall_result.json'), JSON.stringify(result, null, 2) + '\n');
 console.log(JSON.stringify(result, null, 2));
