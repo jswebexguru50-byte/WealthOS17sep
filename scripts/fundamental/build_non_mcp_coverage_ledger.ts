@@ -3,10 +3,12 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import Database from 'better-sqlite3';
+import { Analyze360FieldResolver, FIELD_SOURCE_DEFINITIONS } from '../../src/server/services/Analyze360FieldSourceMap.js';
 const arg = (flag: string) => { const i = process.argv.indexOf(flag); return i >= 0 ? process.argv[i + 1] : undefined; };
 const root = process.cwd();
 const manifestPath = arg('--manifest');
 const outPath = arg('--out') || path.join(root, 'reports', 'non_mcp', 'coverage_ledger.json');
+const fullCatalog = !process.argv.includes('--core-only');
 if (!manifestPath) throw new Error('--manifest is required');
 const manifest = JSON.parse(fs.readFileSync(path.resolve(manifestPath), 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : (manifest.entries || manifest.symbols || []);
@@ -41,7 +43,15 @@ const rows = symbols.map(symbol => ({ symbol, fields: Object.fromEntries(Object.
   return [metric, { requiredPeriod: spec.period, available, rows: metric === 'OHLCV' ? (ohlcv?.count || 0) : undefined, firstDate: metric === 'OHLCV' ? ohlcv?.first : undefined, lastDate: metric === 'OHLCV' ? ohlcv?.last : undefined, providers, selectedProvider: providers[0] || (available ? 'LOCAL_OHLCV' : null), fallbackOrder: spec.sources, quality: available ? (providers.length > 1 ? 'CROSS_SOURCE_AVAILABLE' : 'AVAILABLE') : 'MISSING', status: available ? 'COVERED' : 'GAP' }];
 })) }));
 db.close();
-const summary = { generatedAt: new Date().toISOString(), mcpUsed: false, symbolCount: symbols.length, fieldCount: Object.keys(fields).length, covered: rows.reduce((n, r) => n + Object.values(r.fields).filter((f: any) => f.available).length, 0), gaps: rows.reduce((n, r) => n + Object.values(r.fields).filter((f: any) => !f.available).length, 0), rows };
+const analysis360 = fullCatalog ? Object.fromEntries(await Promise.all(symbols.map(async symbol => {
+  const resolved = await Analyze360FieldResolver.resolveAllFields(symbol);
+  const fields = Object.fromEntries(Object.entries(resolved.fields).map(([key, value]: [string, any]) => {
+    const def = FIELD_SOURCE_DEFINITIONS[key];
+    return [key, { status: value.status, available: value.status === 'AVAILABLE', provider: value.provider, sourceTable: value.sourceTable, periodType: value.periodType, periodEnd: value.periodEnd, missingReason: value.missingReason, preferredSource: def?.preferredSource || null, fallbackSource: def?.fallbackSource || null }];
+  }));
+  return [symbol, fields];
+}))) : undefined;
+const summary = { generatedAt: new Date().toISOString(), mcpUsed: false, symbolCount: symbols.length, fieldCount: Object.keys(fields).length, covered: rows.reduce((n, r) => n + Object.values(r.fields).filter((f: any) => f.available).length, 0), gaps: rows.reduce((n, r) => n + Object.values(r.fields).filter((f: any) => !f.available).length, 0), rows, analysis360, analysis360FieldCount: fullCatalog ? Object.keys(FIELD_SOURCE_DEFINITIONS).length : 0, analysis360Covered: analysis360 ? Object.values(analysis360).reduce((n: number, s: any) => n + Object.values(s).filter((f: any) => f.available).length, 0) : 0, analysis360Gaps: analysis360 ? Object.values(analysis360).reduce((n: number, s: any) => n + Object.values(s).filter((f: any) => !f.available).length, 0) : 0 };
 fs.mkdirSync(path.dirname(path.resolve(outPath)), { recursive: true });
 fs.writeFileSync(path.resolve(outPath), JSON.stringify(summary, null, 2) + '\n');
 console.log(JSON.stringify({ outPath, symbols: symbols.length, fields: Object.keys(fields).length, covered: summary.covered, gaps: summary.gaps, mcpUsed: false }, null, 2));
