@@ -3,7 +3,27 @@ import sqlite3 from 'sqlite3';
 export async function initializeIntelligenceTables(db: sqlite3.Database): Promise<void> {
   return new Promise((resolve, reject) => {
     db.serialize(() => {
-      // 1. Management Claims Ledger
+      // 1. Evidence inventory is the parent of every claim/event foreign key.
+      // Create it before the child tables so a fresh database cannot enter a
+      // partially initialised state where the quality gate queries a missing
+      // table (or claims are created without enforceable lineage).
+      db.run(`
+        CREATE TABLE IF NOT EXISTS EvidenceInventory (
+          evidence_id TEXT PRIMARY KEY,
+          issuer_nse_symbol TEXT NOT NULL,
+          issuer_bse_code TEXT,
+          document_hash TEXT NOT NULL,
+          document_type TEXT NOT NULL,
+          page_physical INTEGER,
+          page_printed TEXT,
+          quoted_text TEXT NOT NULL,
+          verification_status TEXT NOT NULL,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+      `);
+      db.run(`CREATE INDEX IF NOT EXISTS idx_evidence_symbol ON EvidenceInventory(issuer_nse_symbol);`);
+
+      // 2. Management Claims Ledger
       db.run(`
         CREATE TABLE IF NOT EXISTS ManagementClaims (
           claim_id TEXT PRIMARY KEY,
@@ -29,7 +49,7 @@ export async function initializeIntelligenceTables(db: sqlite3.Database): Promis
       `);
       db.run(`CREATE INDEX IF NOT EXISTS idx_claims_symbol ON ManagementClaims(symbol);`);
 
-      // 2. Material Factual Events (Internal Disclosures & Curated External)
+      // 3. Material Factual Events (Internal Disclosures & Curated External)
       db.run(`
         CREATE TABLE IF NOT EXISTS IntelligenceEvents (
           event_id TEXT PRIMARY KEY,
@@ -47,7 +67,7 @@ export async function initializeIntelligenceTables(db: sqlite3.Database): Promis
       `);
       db.run(`CREATE INDEX IF NOT EXISTS idx_events_symbol ON IntelligenceEvents(symbol);`);
 
-      // 3. Contradiction Register
+      // 4. Contradiction Register
       db.run(`
         CREATE TABLE IF NOT EXISTS Contradictions (
           contradiction_id TEXT PRIMARY KEY,
@@ -70,7 +90,7 @@ export async function initializeIntelligenceTables(db: sqlite3.Database): Promis
       `);
       db.run(`CREATE INDEX IF NOT EXISTS idx_contradictions_symbol ON Contradictions(symbol);`);
 
-      // 4. Thesis & Thesis Breaker Register
+      // 5. Thesis & Thesis Breaker Register
       db.run(`
         CREATE TABLE IF NOT EXISTS CompanyTheses (
           thesis_id TEXT PRIMARY KEY,
