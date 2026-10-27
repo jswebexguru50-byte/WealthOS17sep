@@ -25,7 +25,9 @@ export default defineConfig({
 
   // Shared settings for all tests
   use: {
-    baseURL: 'http://localhost:3000',
+    // Use an isolated E2E port so a developer's already-running dev server
+    // cannot mask a stale build or prevent Playwright from starting its own.
+    baseURL: 'http://localhost:3101',
     headless: true,  // Set to false for visual debugging
     viewport: { width: 1920, height: 1080 },
     screenshot: 'only-on-failure',
@@ -61,12 +63,11 @@ export default defineConfig({
 
   // Pre-run: verify server is alive
   webServer: {
-    command: 'node dist/server.cjs',
-    // App-info is deliberately database-free and proves the HTTP listener is
-    // live.  The database-backed health contract is exercised by the test
-    // itself with an explicit readiness poll, avoiding a false webServer
-    // timeout while a large SQLite checkout opens.
-    url: 'http://localhost:3000/api/app-info',
+    command: 'cross-env PORT=3101 node dist/server.cjs',
+    // Remote health is deliberately database-free and bypasses the lazy DB
+    // readiness middleware. The database-backed health contract is exercised
+    // by the test itself with an explicit readiness poll.
+    url: 'http://localhost:3101/api/remote/health',
     reuseExistingServer: true, // Don't restart if already running
     timeout: 180_000,
   },

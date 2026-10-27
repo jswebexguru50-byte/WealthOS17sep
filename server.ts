@@ -415,6 +415,8 @@ app.use('/api', createRateLimiter({
 // Extract utility functions to shared modules when deprecating services to ensure no orphaned definitions
 // Note: db is lazily initialized at line 1586; this middleware will use it once available
 app.use('/api', (req, res, next) => {
+  // Health probes must pass before the lazy database handle exists.
+  if (req.path === '/health' || req.path === '/remote/health') return next();
   if (!db) {
     return res.status(503).json({ success: false, error: 'DATABASE_NOT_READY' });
   }
@@ -1605,7 +1607,10 @@ let db: ReturnType<typeof getDB>;
 // opened lazily on the first data request instead of synchronously immediately
 // after bind, which can otherwise block the event loop for large workspaces.
 app.use((req, res, next) => {
-  if (req.path === '/api/health' || req.path === '/api/remote/health') return next();
+  // `req.path` is evaluated after any `/api` router mount, so the canonical
+  // values are `/health` and `/remote/health`; retain the full-path forms for
+  // direct app mounting in tests.
+  if (req.path === '/health' || req.path === '/remote/health' || req.path === '/api/health' || req.path === '/api/remote/health') return next();
   try {
     if (!db) db = getDB();
     next();
