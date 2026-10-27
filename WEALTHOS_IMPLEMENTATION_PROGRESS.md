@@ -24,7 +24,7 @@ Overall implementation estimate: **approximately 82%**. This is not an acceptanc
 | Coverage suite | Not accepted | Requires updated Mac checkout and isolated DB |
 | E2E/chaos matrix | Not accepted | Requires live server/browser and generated artifacts |
 | Full 3,548-symbol live retry | Not accepted | Must run from latest local commit with provider credentials/data |
-| Active caller migration audit | Partial | Strategy and dossier paths migrated; OpportunityScanner single-scrip path now uses `BatchFundamentalProvider`; remaining route/legacy callers need audit |
+| Active caller migration audit | Partial | Strategy, scanner single-scrip, and dossier fundamental paths now use `BatchFundamentalProvider`; remaining route/legacy callers need audit |
 | GitHub remote synchronization | Pending | Local commits exist; `git push origin master` has not been confirmed |
 
 ## Verified targeted checks
@@ -44,6 +44,8 @@ Overall implementation estimate: **approximately 82%**. This is not an acceptanc
 - `tests/unit/data_coverage_360_contract.test.ts`: 2/2 passes; six-domain contract and fail-closed empty-payload behavior verified.
 - Latest targeted waterfall + 360 coverage run: **6/6 tests passed**; TypeScript compile passes.
 - OpportunityScanner canonical-provider contract test added; its direct Screener call was replaced with the shared single-flight provider.
+- Dossier canonical-provider contract test added; canonical snapshots are adapted first, with Screener retained only as an explicit compatibility fallback.
+- Latest canonical caller migration run: **8/8 targeted tests passed**; TypeScript compile passes.
 
 ## Known blockers / remaining work
 

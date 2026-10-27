@@ -1,5 +1,6 @@
 import { getDB, dbAll, dbGet } from '../database.js';
 import { ScreenerService, ScreenerData } from './screenerService.js';
+import { BatchFundamentalProvider } from './BatchFundamentalProvider.js';
 import { TrendlyneIntelligenceService, TrendlyneDVM, TrendlyneSWOT, AnalystConsensus } from './TrendlyneIntelligenceService.js';
 import { FnOIntelligenceService, FnOSnapshot } from './FnOIntelligenceService.js';
 import { NewsSentimentService, NewsSentimentResult } from './NewsSentimentService.js';
@@ -19,6 +20,30 @@ export interface PeerComparisonRow {
   rocePct: number | null;
   roePct: number | null;
   relativeStrength3M?: string;
+}
+
+/** Adapt the canonical snapshot to the legacy dossier's read model.  The
+ * adapter deliberately leaves fields absent from the canonical contract
+ * empty; it never invents shareholding, peer, or narrative evidence. */
+function canonicalSnapshotAsDossierData(snapshot: any): ScreenerData {
+  return {
+    symbol: snapshot.symbol,
+    company_name: snapshot.companyName,
+    about: '',
+    sector: snapshot.sector ?? undefined,
+    industry: snapshot.industry ?? undefined,
+    ratios: {
+      stock_pe: snapshot.peRatio == null ? undefined : String(snapshot.peRatio),
+      book_value: snapshot.bookValue == null ? undefined : String(snapshot.bookValue),
+      dividend_yield: snapshot.dividendYieldPct == null ? undefined : String(snapshot.dividendYieldPct),
+      roce: snapshot.rocePct == null ? undefined : String(snapshot.rocePct),
+      roe: snapshot.roePct == null ? undefined : String(snapshot.roePct),
+      debt_to_equity: snapshot.debtToEquity == null ? undefined : String(snapshot.debtToEquity),
+    },
+    pros: [], cons: [], documents: [], concalls: [], presentations: [], peers: [],
+    shareholding: {} as any,
+    cached_at: snapshot.fetchedAt,
+  } as ScreenerData;
 }
 
 export interface SecurityDossier {
@@ -370,7 +395,12 @@ export class ScripIntelligenceDossierService {
     ] = await Promise.all([
       dbGet(db, `SELECT * FROM Holdings WHERE symbol = ? AND quantity > 0 LIMIT 1`, [sym]).catch(() => null),
       dbGet(db, `SELECT * FROM MasterTickers WHERE symbol = ? LIMIT 1`, [sym]).catch(() => null),
-      ScreenerService.getInstance().fetchScreenerData(sym).catch(() => null),
+      // Canonical facts are the primary dossier input.  Screener remains a
+      // compatibility fallback only when the acquisition ledger has no
+      // usable snapshot for this symbol.
+      BatchFundamentalProvider.getInstance().get(sym)
+        .then((snapshot) => snapshot ? canonicalSnapshotAsDossierData(snapshot) : ScreenerService.getInstance().fetchScreenerData(sym))
+        .catch(() => null),
       TrendlyneIntelligenceService.getInstance().getScripIntelligence(sym, initialLtp).catch(() => null),
       new NewsSentimentService().fetchNews(sym).catch(() => null),
       MarketDataIngestorService.getInstance().getLatestSnapshot(sym).catch(() => null),
