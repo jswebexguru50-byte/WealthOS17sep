@@ -38,7 +38,7 @@ const rows = symbols.map(symbol => ({ symbol, fields: Object.fromEntries(Object.
   const providers = [...new Set(matches.map(r => r.provider || 'UNKNOWN'))];
   const ohlcv = ohlcvCounts.get(symbol);
   const available = metric === 'OHLCV' ? Boolean(ohlcv && ohlcv.count > 0) : matches.length > 0;
-  return [metric, { requiredPeriod: spec.period, available, rows: metric === 'OHLCV' ? (ohlcv?.count || 0) : undefined, firstDate: metric === 'OHLCV' ? ohlcv?.first : undefined, lastDate: metric === 'OHLCV' ? ohlcv?.last : undefined, providers, fallbackOrder: spec.sources, status: available ? 'COVERED' : 'GAP' }];
+  return [metric, { requiredPeriod: spec.period, available, rows: metric === 'OHLCV' ? (ohlcv?.count || 0) : undefined, firstDate: metric === 'OHLCV' ? ohlcv?.first : undefined, lastDate: metric === 'OHLCV' ? ohlcv?.last : undefined, providers, selectedProvider: providers[0] || (available ? 'LOCAL_OHLCV' : null), fallbackOrder: spec.sources, quality: available ? (providers.length > 1 ? 'CROSS_SOURCE_AVAILABLE' : 'AVAILABLE') : 'MISSING', status: available ? 'COVERED' : 'GAP' }];
 })) }));
 db.close();
 const summary = { generatedAt: new Date().toISOString(), mcpUsed: false, symbolCount: symbols.length, fieldCount: Object.keys(fields).length, covered: rows.reduce((n, r) => n + Object.values(r.fields).filter((f: any) => f.available).length, 0), gaps: rows.reduce((n, r) => n + Object.values(r.fields).filter((f: any) => !f.available).length, 0), rows };
