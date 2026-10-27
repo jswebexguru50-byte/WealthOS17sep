@@ -136,7 +136,7 @@ export class StrategyFundamentalFilterService {
     const canonicalBySymbol = new Map<string, Map<string, AnyRow>>();
     for (const [sym, resolved] of canonicalResolved) {
       const values = new Map<string, AnyRow>();
-      for (const [metric, fact] of resolved) values.set(metric, { metric, value: fact.value, periodEnd: fact.periodEnd, scope: fact.scope, sourceType: fact.source, availableAt: fact.availableAt, provider: fact.provider });
+      for (const [metric, fact] of resolved) values.set(metric, { metric, value: fact.value, periodEnd: fact.periodEnd, scope: fact.scope, sourceType: fact.source, availableAt: fact.fetchedAt, provider: fact.provider });
       canonicalBySymbol.set(sym, values);
     }
     const sectors = [...new Set(unique.map(symbol => String(ledgerBySymbol.get(symbol)?.sector || masterBySymbol.get(symbol)?.sector || '').trim()).filter(Boolean))];
