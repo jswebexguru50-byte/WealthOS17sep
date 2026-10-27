@@ -14,12 +14,14 @@ describe('non-MCP waterfall contract', () => {
     expect(source.indexOf("phase('coverage_ledger'")).toBeGreaterThan(source.indexOf("phase('cached_artifact_promotion'"));
   });
 
-  it('hard-disables MCP for every child phase and supports resumability', () => {
-    expect(source).toContain('MCP_DISABLED: \'1\'');
+  it('defaults to MCP-disabled and supports resumability', () => {
+    expect(source).toContain("allowMcp ? '0' : '1'");
     expect(source).toContain("['SUCCESS', 'COMPLETED_WITH_GAPS'].includes");
     expect(source).toContain("COMPLETED_WITH_GAPS");
     expect(source).toContain('existingCheckpoint?.manifestPath === resolvedManifest');
     expect(source).toContain("process.argv.includes('--dry-run')");
+    expect(source).toContain("process.argv.includes('--allow-mcp')");
+    expect(source).toContain("phase('approved_mcp_enrichment'");
     expect(source).toContain("existingCheckpoint?.symbolCount === symbols.length");
     expect(source).toContain("checkpoint.manifestPath = resolvedManifest");
   });

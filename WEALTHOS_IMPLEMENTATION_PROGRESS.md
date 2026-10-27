@@ -10,7 +10,7 @@ Overall implementation estimate: **approximately 80%**. This is not an acceptanc
 
 | Requirement | Status | Evidence |
 |---|---|---|
-| Deterministic non-MCP waterfall | Implemented | `scripts/fundamental/run_non_mcp_waterfall.ts`; MCP disabled in every child phase |
+| Deterministic waterfall with approval-gated MCP | Implemented | `scripts/fundamental/run_non_mcp_waterfall.ts`; MCP disabled by default, first phase only with explicit `--allow-mcp` |
 | Promotion and resumability | Implemented | Manifest-scoped checkpoint; `promotion_verification.json`; gap manifest generation |
 | Gap-driven retry | Implemented | `build_promotion_gap_manifest.ts`; `fundamental:non-mcp:retry-gaps` |
 | Statutory/XBRL/MCA before broker/cache | Implemented | Waterfall phase order and contract test |
@@ -61,4 +61,4 @@ npm run wealthos:test:coverage
 npm run wealthos:test:e2e
 ```
 
-Do not enable MCP during non-MCP acceptance. Only run MCP enrichment after the non-MCP coverage ledger explicitly records the remaining gaps and the user authorizes it.
+MCP is not forbidden. It is disabled by default and may be invoked first only with explicit user approval via `--allow-mcp`; otherwise all child phases run with `MCP_DISABLED=1`.

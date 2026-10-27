@@ -1,5 +1,5 @@
 #!/usr/bin/env tsx
-/** Deterministic, resumable, MCP-free promotion and coverage coordinator. */
+/** Deterministic, resumable waterfall coordinator. MCP is opt-in and approval-gated. */
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
@@ -11,6 +11,7 @@ if (!manifest) throw new Error('--manifest is required');
 const resolvedManifest = path.resolve(manifest);
 if (!fs.existsSync(resolvedManifest)) throw new Error(`Manifest not found: ${resolvedManifest}`);
 const dryRun = process.argv.includes('--dry-run');
+const allowMcp = process.argv.includes('--allow-mcp');
 const reportDir = path.join(root, 'reports', 'non_mcp');
 const checkpointPath = path.join(reportDir, 'waterfall_checkpoint.json');
 fs.mkdirSync(reportDir, { recursive: true });
@@ -24,19 +25,19 @@ const checkpoint = existingCheckpoint?.manifestPath === resolvedManifest && exis
   : { manifestPath: resolvedManifest, symbolCount: symbols.length, phases: {}, mcpUsed: false };
 checkpoint.manifestPath = resolvedManifest;
 checkpoint.symbolCount = symbols.length;
-checkpoint.mcpUsed = false;
+checkpoint.mcpUsed = allowMcp;
 const upstoxManifest = path.join(reportDir, 'upstox_manifest.json');
 fs.writeFileSync(upstoxManifest, JSON.stringify({ symbols }, null, 2) + '\n');
 function phase(name: string, args: string[], extraEnv: Record<string,string> = {}, allowGaps = false) {
   if (dryRun) {
-    checkpoint.phases[name] = { status: 'PLANNED', args, env: { MCP_DISABLED: '1', ...extraEnv } };
+    checkpoint.phases[name] = { status: 'PLANNED', args, env: { MCP_DISABLED: allowMcp ? '0' : '1', ...extraEnv } };
     return;
   }
   if (['SUCCESS', 'COMPLETED_WITH_GAPS'].includes(checkpoint.phases[name]?.status)) return;
   checkpoint.phases[name] = { status: 'RUNNING', startedAt: new Date().toISOString() };
   fs.writeFileSync(checkpointPath, JSON.stringify(checkpoint, null, 2) + '\n');
   try {
-    execFileSync('node', ['--import', 'tsx', ...args], { cwd: root, stdio: 'inherit', env: { ...process.env, ...extraEnv, MCP_DISABLED: '1' } });
+    execFileSync('node', ['--import', 'tsx', ...args], { cwd: root, stdio: 'inherit', env: { ...process.env, ...extraEnv, MCP_DISABLED: allowMcp ? '0' : '1' } });
     checkpoint.phases[name] = { status: 'SUCCESS', completedAt: new Date().toISOString() };
   } catch (error) {
     checkpoint.phases[name] = { status: allowGaps ? 'COMPLETED_WITH_GAPS' : 'FAILED', completedAt: new Date().toISOString(), error: String(error) };
@@ -47,6 +48,9 @@ function phase(name: string, args: string[], extraEnv: Record<string,string> = {
   fs.writeFileSync(checkpointPath, JSON.stringify(checkpoint, null, 2) + '\n');
 }
 const preflightLedger = path.join(reportDir, 'preflight_coverage_ledger.json');
+if (allowMcp) {
+  phase('approved_mcp_enrichment', ['scripts/trendlyne-mirror/fetch_eight_packs.ts', '--manifest', resolvedManifest]);
+}
 phase('preflight_coverage', ['scripts/fundamental/build_non_mcp_coverage_ledger.ts', '--manifest', resolvedManifest, '--out', preflightLedger]);
 phase('gap_plan', ['scripts/fundamental/plan_non_mcp_acquisition.ts', '--ledger', preflightLedger]);
 phase('exchange_xbrl_mca', ['scripts/fere/run_combined_exchange_batch.mjs', '--manifest', resolvedManifest, '--apply', '--concurrency', arg('--exchange-concurrency') || '3', '--checkpoint-every', '50', '--retries', '2', '--timeout-ms', '90000']);
@@ -61,10 +65,10 @@ if (dryRun) {
       args: name === 'coverage_ledger'
         ? ['scripts/fundamental/build_non_mcp_coverage_ledger.ts', '--manifest', resolvedManifest]
         : ['scripts/fundamental/build_readiness_acceptance_matrix.ts', '--manifest', resolvedManifest, '--ledger', path.join(reportDir, 'coverage_ledger.json')],
-      env: { MCP_DISABLED: '1' },
+      env: { MCP_DISABLED: allowMcp ? '0' : '1' },
     };
   }
-  const plan = { generatedAt: new Date().toISOString(), dryRun: true, mcpUsed: false, symbolCount: symbols.length, phases: checkpoint.phases, checkpoint: checkpointPath };
+  const plan = { generatedAt: new Date().toISOString(), dryRun: true, mcpUsed: allowMcp, symbolCount: symbols.length, phases: checkpoint.phases, checkpoint: checkpointPath };
   fs.writeFileSync(path.join(reportDir, 'waterfall_plan.json'), JSON.stringify(plan, null, 2) + '\n');
   console.log(JSON.stringify(plan, null, 2));
   process.exit(0);
@@ -73,6 +77,6 @@ phase('coverage_ledger', ['scripts/fundamental/build_non_mcp_coverage_ledger.ts'
 phase('acceptance_matrix', ['scripts/fundamental/build_readiness_acceptance_matrix.ts', '--manifest', resolvedManifest, '--ledger', path.join(reportDir, 'coverage_ledger.json')]);
 const ledger = JSON.parse(fs.readFileSync(path.join(reportDir, 'coverage_ledger.json'), 'utf8'));
 const gapFields = ledger.rows.flatMap((row: any) => Object.entries(row.fields).filter(([, value]: any) => value.status === 'GAP').map(([field, value]) => ({ symbol: row.symbol, field, ...value as any })));
-const result = { generatedAt: new Date().toISOString(), mcpUsed: false, symbolCount: ledger.symbolCount, covered: ledger.covered, gaps: gapFields.length, gapFields, phases: checkpoint.phases, checkpoint: checkpointPath };
+const result = { generatedAt: new Date().toISOString(), mcpUsed: allowMcp, symbolCount: ledger.symbolCount, covered: ledger.covered, gaps: gapFields.length, gapFields, phases: checkpoint.phases, checkpoint: checkpointPath };
 fs.writeFileSync(path.join(reportDir, 'waterfall_result.json'), JSON.stringify(result, null, 2) + '\n');
 console.log(JSON.stringify(result, null, 2));
