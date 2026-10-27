@@ -20,8 +20,8 @@ export class DataCoverageEngine {
       ['key_ratios', this.hasValues(raw, ['keyRatios'])],
     ]);
     const management = this.domain('MANAGEMENT', [
-      ['management_changes', this.hasValues(raw, ['managementChanges'])],
-      ['governance_disclosures', this.hasValues(raw, ['governance'])],
+      ['management_changes', this.hasValues(raw, ['management']) || this.hasValues(raw, ['managementChanges'])],
+      ['governance_disclosures', this.hasValues(raw, ['fere']) || this.hasValues(raw, ['governance'])],
     ]);
     const unavailable = Object.values(raw ?? {}).length === 0;
     if (unavailable) {

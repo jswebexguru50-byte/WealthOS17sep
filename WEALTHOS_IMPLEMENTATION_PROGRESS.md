@@ -1,0 +1,60 @@
+# WealthOS implementation progress
+
+Last updated: 2026-10-27
+Latest local commit: `41c3a158d`
+Remote status: local commits are ahead of `origin/master`; remote push has not been confirmed.
+
+## Acceptance status
+
+Overall implementation estimate: **approximately 80%**. This is not an acceptance claim.
+
+| Requirement | Status | Evidence |
+|---|---|---|
+| Deterministic non-MCP waterfall | Implemented | `scripts/fundamental/run_non_mcp_waterfall.ts`; MCP disabled in every child phase |
+| Promotion and resumability | Implemented | Manifest-scoped checkpoint; `promotion_verification.json`; gap manifest generation |
+| Gap-driven retry | Implemented | `build_promotion_gap_manifest.ts`; `fundamental:non-mcp:retry-gaps` |
+| Statutory/XBRL/MCA before broker/cache | Implemented | Waterfall phase order and contract test |
+| Canonical resolver for strategy/dossier paths | Implemented | `StrategyFundamentalFilterService`, `FundamentalExperienceBuilder`, dossier debt/interest paths |
+| Field-level readiness | Implemented | `DataCoverageEngine`, non-MCP coverage ledger, Analyze360 catalog |
+| Intelligence response coverage wiring | Implemented | `CompanyIntelligenceOrchestrator` now emits `dataCoverage` |
+| S1101 forensic data services | Implemented | Chain-of-custody, dataset-version, enrichment services restored |
+| Unit discovery/server isolation | Implemented | Unit script uses `tests/unit`; `WEALTHOS_SKIP_SERVER=1` |
+| Unit suite | Partial | Latest full run: 1,792 passed, 56 failed, 21 skipped; many failures are fixtures/artifacts/legacy contracts |
+| Integration suite | Not accepted | Requires updated Mac checkout and live server |
+| Coverage suite | Not accepted | Requires updated Mac checkout and isolated DB |
+| E2E/chaos matrix | Not accepted | Requires live server/browser and generated artifacts |
+| Full 3,548-symbol live retry | Not accepted | Must run from latest local commit with provider credentials/data |
+| Active caller migration audit | Partial | Strategy and dossier paths migrated; remaining route/legacy callers need audit |
+| GitHub remote synchronization | Pending | Local commits exist; `git push origin master` has not been confirmed |
+
+## Verified targeted checks
+
+- `npx tsc --noEmit --skipLibCheck` passes.
+- `tests/unit/non_mcp_waterfall_contract.test.ts`: 4/4 passes.
+- `tests/unit/intelligence_constitution_adversarial.test.ts`: 9/9 passes.
+- `tests/unit/golden_intelligence_oracle.test.ts`: 13/13 passes.
+- S1101 targeted tests execute; remaining failures are frozen-control hash drift checks.
+- A fresh dry-run for the 1,004-symbol retry cohort reports all nine phases as `PLANNED` and `mcpUsed: false`.
+
+## Known blockers / remaining work
+
+1. Regenerate or restore missing dossier, Phase-2, v65, and forensic fixture artifacts; do not fabricate them.
+2. Resolve stale frozen-control hashes by either restoring the frozen files or intentionally updating the signed baseline with review evidence.
+3. Finish route-family audit for all scanners, F1–F7, ITAS/29Q, dashboard, holdings, and legacy market-data callers.
+4. Run the complete non-MCP retry and promotion verification on the latest checkout; preserve checkpoint and per-50 progress.
+5. Run unit, integration, coverage, E2E, and chaos acceptance on the normal Mac terminal.
+6. Push local commits to GitHub and verify `origin/master` contains the same commit.
+
+## Resume commands
+
+```bash
+cd /Users/gopalsharma/WealthOS
+git log -5 --oneline
+npm run fundamental:non-mcp:retry-gaps
+npm run wealthos:test:unit
+npm run wealthos:test:integration
+npm run wealthos:test:coverage
+npm run wealthos:test:e2e
+```
+
+Do not enable MCP during non-MCP acceptance. Only run MCP enrichment after the non-MCP coverage ledger explicitly records the remaining gaps and the user authorizes it.
