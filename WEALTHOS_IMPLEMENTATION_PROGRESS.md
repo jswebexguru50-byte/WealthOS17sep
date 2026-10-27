@@ -64,6 +64,7 @@ Overall implementation estimate: **approximately 82%**. This is not an acceptanc
 - Hardened Playwright health E2E startup: webServer readiness now uses database-free `/api/remote/health`, uses an isolated port, allows large-checkout startup time, and the health spec polls `/api/health` until the database is ready. The local run still requires a successfully starting `dist/server.cjs`; E2E remains unaccepted until the browser runtime completes.
 - Corrected both lazy-start middleware layers so `/api/remote/health` is actually exempt from database readiness checks after Express strips the `/api` mount. Rebuilt server reaches Playwright successfully on isolated port 3101; the remaining local E2E failure is Chromium’s sandbox Mach-port permission in this environment, not an HTTP/app failure.
 - Fixed the scheduled `universe-cache-warm` job’s invalid `invalidateTicker(undefined)` call by adding an explicit `invalidateUniverse()` repository operation; FactsRepository integration coverage is now **20/20 passing**.
+- Post-fix regression run: canonical-consumer audit **PASS (0 violations)** and waterfall + repository + chaos/retry suite **55/55 tests passed**.
 - Chaos resilience verification: CircuitBreaker/RetryHandler remediation plus recovery scenarios **28/28 passed** under `WEALTHOS_SKIP_SERVER=1`.
 
 ## Known blockers / remaining work
