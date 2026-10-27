@@ -61,4 +61,4 @@ npm run wealthos:test:coverage
 npm run wealthos:test:e2e
 ```
 
-MCP is not forbidden. It is disabled by default and may be invoked first only with explicit user approval via `--allow-mcp`; otherwise all child phases run with `MCP_DISABLED=1`.
+MCP is not forbidden. It is disabled by default and may be invoked first only with explicit user approval via `--allow-mcp` (or `npm run fundamental:waterfall:approved-mcp`); otherwise all child phases run with `MCP_DISABLED=1`.

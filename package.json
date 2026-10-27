@@ -72,6 +72,7 @@
     "fundamental:institutional29:exchange": "node scripts/fundamental/institutional29/acquire_exchange_data.mjs",
     "fundamental:institutional29:documents": "node scripts/fundamental/institutional29/acquire_documents.mjs",
     "fundamental:non-mcp:acceptance": "tsx scripts/fundamental/run_non_mcp_waterfall.ts --manifest outputs/fere/combined_exchange_manifest.json",
+    "fundamental:waterfall:approved-mcp": "tsx scripts/fundamental/run_non_mcp_waterfall.ts --manifest outputs/fere/combined_exchange_manifest.json --allow-mcp",
     "fundamental:non-mcp:retry-gaps": "tsx scripts/fundamental/build_promotion_gap_manifest.ts --verification reports/non_mcp/promotion_verification.json --source-manifest outputs/fere/combined_exchange_manifest.json && tsx scripts/fundamental/run_non_mcp_waterfall.ts --manifest reports/non_mcp/promotion_gap_manifest.json"
   },
   "dependencies": {
