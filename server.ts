@@ -16231,6 +16231,20 @@ async function startServer() {
   }
 }
 
+/**
+ * Initialize the in-process app without binding a listening socket.
+ *
+ * Production starts lazily through startServer(), while integration tests
+ * import the Express app directly with NODE_ENV=test.  In that mode the
+ * database readiness middleware must still be primed before supertest sends
+ * a request; otherwise an intentionally read-only test is misreported as a
+ * transient DATABASE_NOT_READY 503.
+ */
+export function initializeAppForTests() {
+  if (!db) db = getDB();
+  return db;
+}
+
 export { app, buildDashboardPayload, dashboardResponseCache, invalidateDashboardCache };
 
 if (process.env.NODE_ENV !== 'test') {

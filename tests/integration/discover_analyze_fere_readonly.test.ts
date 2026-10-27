@@ -60,6 +60,7 @@ describe('Phase A E2E Self-Contained Integration Test: Discover -> Analyze -> FE
   let closeDB: any;
   let getDB: any;
   let dbGet: any;
+  let initializeAppForTests: any;
 
   beforeAll(async () => {
     // 1. Record production DB hashes
@@ -93,11 +94,13 @@ describe('Phase A E2E Self-Contained Integration Test: Discover -> Analyze -> FE
     // 5. In-process Express app import
     const serverModule = await import('../../server.js');
     app = serverModule.app;
+    initializeAppForTests = serverModule.initializeAppForTests;
 
     const dbModule = await import('../../src/server/database.js');
     closeDB = dbModule.closeDB;
     getDB = dbModule.getDB;
     dbGet = dbModule.dbGet;
+    initializeAppForTests();
     // server.ts initializes the disposable database asynchronously.  Wait for
     // the same readiness boundary used by API middleware instead of racing the
     // first request and interpreting a transient 503 as an application fault.
@@ -163,7 +166,10 @@ describe('Phase A E2E Self-Contained Integration Test: Discover -> Analyze -> FE
     expect(getRes1.body).toBeDefined();
 
     if (getRes1.status === 200) {
-      expect(getRes1.body.symbol).toBe(testSymbol);
+      // Company-intelligence now returns the canonical response envelope;
+      // symbol ownership lives under `security` (the legacy top-level shape
+      // is intentionally not reintroduced just for this test).
+      expect(getRes1.body.security?.symbol).toBe(testSymbol);
       expect(getRes1.body.modules).toBeDefined();
     } else {
       expect(getRes1.body.error).toBeDefined();
@@ -205,7 +211,7 @@ describe('Phase A E2E Self-Contained Integration Test: Discover -> Analyze -> FE
     const unknownRes = await request(app).get('/api/company-intelligence/NONEXISTENT_XYZ_999');
     expect(unknownRes.status).toBe(200);
     const unkBody = unknownRes.body;
-    expect(unkBody.symbol).toBe('NONEXISTENT_XYZ_999');
+    expect(unkBody.security?.symbol).toBe('NONEXISTENT_XYZ_999');
     expect(['DATA_INSUFFICIENT', 'UNAVAILABLE']).toContain(unkBody.modules.fundamental?.status);
     expect(['DATA_INSUFFICIENT', 'UNAVAILABLE']).toContain(unkBody.modules.businessDrivers?.status);
 
