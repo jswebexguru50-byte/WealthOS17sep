@@ -11,10 +11,11 @@
  * - Missing remains missing -> DATA_INSUFFICIENT
  */
 
-import { ModuleResult, ModuleStatus, EvidenceReference } from '../contracts/index.js';
+import { ModuleResult, ModuleStatus, EvidenceReference, evidenceSourceTypeForProvider } from '../contracts/index.js';
 import { ValuationPayload, ValuationMetric } from '../types/ValuationPayload.js';
 import { BusinessModelClassifier } from '../domain/BusinessModelClassifier.js';
 import { getDB, dbAll, dbGet } from '../../../database.js';
+import { CanonicalFactResolverService } from '../../CanonicalFactResolverService.js';
 
 export class ValuationModuleAdapter {
   private static instance: ValuationModuleAdapter;
@@ -68,52 +69,29 @@ export class ValuationModuleAdapter {
     }
     const businessModel = BusinessModelClassifier.classify(cleanSym, sector, industry);
 
-    // 2. Query key-ratios snapshot
-    const snapRows = await dbAll<any>(
-      db,
-      `SELECT endpoint, provider, fetched_at, response_json
-       FROM fundamental_endpoint_snapshots
-       WHERE UPPER(symbol) = ? AND endpoint = 'key-ratios'
-       ORDER BY fetched_at DESC LIMIT 1`,
-      [cleanSym]
+    // 2. Resolve valuation metrics from promoted canonical facts.  Raw
+    // provider snapshots are acquisition artifacts, not an analytical input.
+    const resolved = CanonicalFactResolverService.getInstance().resolveMany(
+      cleanSym,
+      ['pe_ratio', 'pb_ratio', 'ev_ebitda', 'dividend_yield'],
     );
-
-    let peVal: number | null = null;
-    let pbVal: number | null = null;
-    let evEbitdaVal: number | null = null;
-    let divYieldVal: number | null = null;
-    let dataAsOf: string | null = null;
-
-    if (snapRows && snapRows.length > 0) {
-      const snap = snapRows[0];
-      dataAsOf = snap.fetched_at;
+    const factValue = (metric: string): number | null => {
+      const value = resolved.get(metric)?.value;
+      return typeof value === 'number' ? value : (value == null ? null : Number(value));
+    };
+    const peVal = factValue('pe_ratio');
+    const pbVal = factValue('pb_ratio');
+    const evEbitdaVal = factValue('ev_ebitda');
+    const divYieldVal = factValue('dividend_yield');
+    const dataAsOf = [...resolved.values()].map(f => f.fetchedAt || f.asOf).find(Boolean) || null;
+    for (const fact of resolved.values()) {
       evidenceRefs.push({
-        evidenceId: `VAL_SNAP_${cleanSym}`,
-        sourceType: 'TRENDLYNE_SNAPSHOT',
-        sourceId: `${snap.provider}:key-ratios:${cleanSym}`,
-        timestamp: snap.fetched_at,
-        notes: `Extracted valuation ratios from canonical snapshot`,
+        evidenceId: `${fact.source}:${cleanSym}:${fact.metric}`,
+        sourceType: evidenceSourceTypeForProvider(fact.provider),
+        sourceId: fact.provider || fact.source,
+        timestamp: fact.fetchedAt || fact.asOf || evaluationTimestamp,
+        field: fact.metric,
       });
-
-      try {
-        const parsed = JSON.parse(snap.response_json);
-        const ratios = parsed.data || parsed;
-        if (Array.isArray(ratios)) {
-          for (const item of ratios) {
-            const name = String(item.name || '').trim().toUpperCase();
-            const valStr = String(item.company_value || '').replace('%', '').trim();
-            const num = parseFloat(valStr);
-            if (isNaN(num)) continue;
-
-            if (name === 'P/E') peVal = num;
-            else if (name === 'P/B') pbVal = num;
-            else if (name === 'EV/EBITDA') evEbitdaVal = num;
-            else if (name === 'DIVIDEND YIELD') divYieldVal = num;
-          }
-        }
-      } catch {
-        // Ignore parse error
-      }
     }
 
     const buildMetric = (metricName: string, val: number | null): ValuationMetric => ({

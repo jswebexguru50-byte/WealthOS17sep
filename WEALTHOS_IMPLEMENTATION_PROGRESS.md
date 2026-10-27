@@ -24,7 +24,7 @@ Overall implementation estimate: **approximately 82%**. This is not an acceptanc
 | Coverage suite | Not accepted | Requires updated Mac checkout and isolated DB |
 | E2E/chaos matrix | Not accepted | Requires live server/browser and generated artifacts |
 | Full 3,548-symbol live retry | Not accepted | Must run from latest local commit with provider credentials/data |
-| Active caller migration audit | Partial | Strategy, scanner single-scrip, and dossier fundamental paths now use `BatchFundamentalProvider`; remaining route/legacy callers need audit |
+| Active caller migration audit | Partial | Strategy, scanner, dossier, and valuation paths now use canonical services; remaining route/legacy callers need audit |
 | GitHub remote synchronization | Pending | Local commits exist; `git push origin master` has not been confirmed |
 
 ## Verified targeted checks
@@ -47,6 +47,7 @@ Overall implementation estimate: **approximately 82%**. This is not an acceptanc
 - Dossier canonical-provider contract test added; canonical snapshots are adapted first, with Screener retained only as an explicit compatibility fallback.
 - Latest canonical caller migration run: **8/8 targeted tests passed**; TypeScript compile passes.
 - Removed raw `fundamental_endpoint_snapshots` reads from FundamentalExperienceBuilder and RecentAccumulationEngine; both now require promoted canonical facts/shareholding records. Engine input-isolation, 360 coverage, and waterfall contracts: **8/8 passed**.
+- ValuationModuleAdapter now resolves PE/PB/EV-EBITDA/dividend yield through `CanonicalFactResolverService`; raw key-ratio snapshot parsing was removed. Canonical boundary checks remain **8/8 passed**.
 
 ## Known blockers / remaining work
 
