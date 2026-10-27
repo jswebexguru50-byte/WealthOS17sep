@@ -24,7 +24,7 @@ Overall implementation estimate: **approximately 82%**. This is not an acceptanc
 | Coverage suite | Not accepted | Requires updated Mac checkout and isolated DB |
 | E2E/chaos matrix | Not accepted | Requires live server/browser and generated artifacts |
 | Full 3,548-symbol live retry | Not accepted | Must run from latest local commit with provider credentials/data |
-| Active caller migration audit | Partial | Strategy, scanner, dossier, and valuation paths now use canonical services; remaining route/legacy callers need audit |
+| Active caller migration audit | Partial | Strategy, scanner, dossier, valuation, and intelligence engines use canonical services; remaining direct Screener calls are isolated to explicit ingestion/audit boundaries and require allowlist documentation |
 | GitHub remote synchronization | Pending | Local commits exist; `git push origin master` has not been confirmed |
 
 ## Verified targeted checks
