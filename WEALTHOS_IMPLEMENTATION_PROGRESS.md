@@ -75,6 +75,7 @@ Therefore the practical completion is **82% implemented / approximately 60% acce
 - Added a Vitest executable guard for the audit script; canonical audit + waterfall contracts: **6/6 passed**.
 - Fresh canonical audit + waterfall + 360 + chaos run: **22/22 passed**; audit report status `PASS` with zero violations.
 - Fresh full unit discovery rerun completed: **1,848 passed / 54 failed / 21 skipped** across 646 files; current failure inventory is captured in `/tmp/wealthos-unit-current.json` and does not indicate a regression in the canonical/waterfall boundary tests.
+- Corrected `wealthos:test:integration` to expand `tests/integration/*.test.ts`; the prior directory-literal form incorrectly reported “No test files found” in this checkout. Explicit expansion discovers all **189 integration tests** (the live suite still has environment/auth/fixture failures).
 - Updated the dashboard ETag regression contract to target the canonical `/api/dashboard-metrics` alias after `/api/metrics` became the Prometheus endpoint; remediation regression is now **16/16 passing**.
 - Updated the P0 truth-closure test to accept genuine mirror evidence while still asserting null unavailable fields and rejecting synthetic smart-money flow; P0 truth closure is now **3/3 passing**.
 - Hardened waterfall failure semantics: provider acquisition/promotion outages are checkpointed as `COMPLETED_WITH_GAPS`, while preflight/planning/coverage/acceptance control-plane failures now fail closed instead of producing a misleading partial success. Waterfall contract suite is **6/6 passing**.

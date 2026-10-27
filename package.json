@@ -24,7 +24,7 @@
     "lint": "tsc --noEmit && node scripts/check-api-fetch.mjs",
     "wealthos:test": "node tests/run-all-tests.mjs",
     "wealthos:test:unit": "cross-env WEALTHOS_SKIP_SERVER=1 npx vitest run tests/unit --reporter=verbose",
-    "wealthos:test:integration": "npx vitest run tests/integration --reporter=verbose",
+    "wealthos:test:integration": "npx vitest run tests/integration/*.test.ts --reporter=verbose",
     "wealthos:test:e2e": "npx playwright test tests/e2e/",
     "wealthos:test:static": "node tests/static-analysis/hardcoded-audit.mjs",
     "wealthos:test:fast": "node tests/run-all-tests.mjs --skip-e2e",
