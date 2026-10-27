@@ -53,6 +53,13 @@ export async function setup() {
   fs.mkdirSync(reportsDir, { recursive: true });
   fs.mkdirSync(screenshotsDir, { recursive: true });
 
+  // Pure unit suites must not depend on a live Express/Vite process. Keep
+  // integration/coverage behavior unchanged; callers opt out explicitly.
+  if (process.env.WEALTHOS_SKIP_SERVER === '1') {
+    console.log('[globalSetup] WEALTHOS_SKIP_SERVER=1 — skipping server startup');
+    return;
+  }
+
   if (process.env.ISOLATED_TEST_DB === '1') {
     const tempDir = path.resolve(process.cwd(), 'tests/.tmp');
     fs.mkdirSync(tempDir, { recursive: true });
