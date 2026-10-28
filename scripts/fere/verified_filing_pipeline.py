@@ -165,8 +165,19 @@ def official_url(url: str) -> str | None:
 
 def request(session: requests.Session, url: str, params: dict | None = None) -> requests.Response:
     # TLS verification is mandatory; a certificate problem is a source failure.
+    bootstrapped = False
     for attempt in range(3):
         response = session.get(url, params=params, headers=HEADERS, timeout=(12, 35))
+        # NSE's JSON endpoints commonly reject a cold client with 403 until
+        # the public site has issued its session cookies. Bootstrap once and
+        # retry the same request; never bypass TLS or silently change sources.
+        if response.status_code == 403 and not bootstrapped and url != NSE_HOME:
+            bootstrapped = True
+            try:
+                session.get(NSE_HOME, headers=HEADERS, timeout=(12, 20)).raise_for_status()
+            except requests.RequestException:
+                pass
+            continue
         if response.status_code in (429, 500, 502, 503, 504):
             time.sleep(min(30, 3 * (2 ** attempt)))
             continue
