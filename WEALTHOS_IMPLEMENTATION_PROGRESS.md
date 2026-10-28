@@ -14,7 +14,7 @@ The 82% figure is the weighted **implementation** estimate (code and contracts),
 
 - **Core architecture:** 100% of the designed deterministic waterfall/canonical-boundary controls are implemented and focused-tested.
 - **Focused regression:** 55/55 waterfall, repository, retry and chaos tests passed; canonical-consumer audit is PASS with 0 violations.
-- **Full unit suite:** 1,848 passed, 54 failed, 21 skipped in the fresh run (97.2% of executed tests passed). The failures are not yet cleared because several require missing fixtures, signed baseline decisions, or legacy contract updates.
+- **Full unit suite:** latest direct JSON run: **1,844 passed, 56 failed, 21 pending** (1,921 total). The failures are not yet cleared because several require missing fixtures, signed baseline decisions, or legacy contract updates.
 - **Production acceptance:** not complete until the full unit rerun, integration/coverage/E2E matrix, 3,548-symbol retry, KPI capture, and remote GitHub synchronization are evidenced.
 
 Therefore the practical completion is **82% implemented / approximately 60% acceptance-complete**. The acceptance percentage is deliberately lower because unexecuted or blocked gates count as incomplete; it is not a regression from earlier code estimates.
