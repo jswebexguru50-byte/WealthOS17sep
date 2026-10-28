@@ -28,7 +28,12 @@ const POLL_INTERVAL_MS = 500;
 async function isServerReady(): Promise<boolean> {
   try {
     const res = await fetch(HEALTH_URL, { signal: AbortSignal.timeout(1000) });
-    return res.ok || res.status < 500;
+    // The endpoint intentionally returns 503 while provider/CC9 freshness
+    // gates are unavailable.  That is an application readiness state, not a
+    // process-startup failure; the integration runner must still proceed so
+    // those responses can be tested.  Any HTTP response proves the listener
+    // is reachable.
+    return res.status >= 200 && res.status < 600;
   } catch {
     return false;
   }
@@ -103,7 +108,10 @@ export async function setup() {
       env: {
         ...process.env,
         PORT: String(PORT),
-        NODE_ENV: 'test',
+        // server.ts deliberately does not bind a socket in NODE_ENV=test;
+        // integration tests need a real HTTP process, so use development
+        // mode while retaining all test isolation/skip flags below.
+        NODE_ENV: 'development',
         // Suppress integrity check to speed up startup (see CLAUDE.md)
         SKIP_INTEGRITY_CHECK: 'true',
       },
