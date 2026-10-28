@@ -293,12 +293,12 @@ router.delete('/:id', async (req, res) => {
 /**
  * POST /strategies/:id/duplicate
  * Clone an existing strategy (preset or custom)
- * Body: { newName? }
+ * Body: { newName? } (legacy clients may send `name`)
  */
 router.post('/:id/duplicate', async (req, res) => {
   try {
     const { id } = req.params;
-    const { newName } = req.body;
+    const { newName, name } = req.body;
     const db = getDB();
 
     const source = await dbGet<any>(
@@ -317,7 +317,7 @@ router.post('/:id/duplicate', async (req, res) => {
     // Generate new ID and name
     const newId = generateId('custom');
     const defaultName = `${source.name} (Copy)`;
-    const finalName = newName || defaultName;
+    const finalName = newName || name || defaultName;
     const now = new Date().toISOString();
 
     // Check if name already exists
@@ -361,6 +361,7 @@ router.post('/:id/duplicate', async (req, res) => {
         id: newId,
         name: finalName,
         sourceId: id,
+        is_preset: 0,
       },
       message: 'Strategy cloned successfully',
     });
