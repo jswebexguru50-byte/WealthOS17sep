@@ -8,5 +8,6 @@ export async function readReadiness(db:any, today=new Date().toLocaleDateString(
  const stale=threshold ? await dbGet(db,"SELECT COUNT(*) AS n FROM Holdings WHERE quantity>0 AND currency='INR' AND holding_type='EQUITY' AND (last_update IS NULL OR substr(last_update,1,10)<?)",[threshold]) : null;
  const gains=await dbGet(db,"SELECT MAX(sell_date) AS latest FROM RealizedGains WHERE portfolio='cc9'").catch(()=>null);
  const sales=await dbGet(db,"SELECT MAX(date) AS latest FROM Transactions WHERE portfolio='cc9' AND type='SELL'").catch(()=>null);
- return {statusCode:200,body:{process:'ok',db:{status:'ok'},providers:feeds,providerCoverage:feeds.length?'RECORDED':'UNAVAILABLE',staleHoldings:stale?.n??null,calendarCoverage:threshold?'AVAILABLE':'UNAVAILABLE',cc9GainsAsOf:gains?.latest??null,cc9LatestSale:sales?.latest??null,cc9GainsQuality:gains?.latest&&gains.latest===sales?.latest?'PROVISIONAL':'STALE',checkedAt:new Date().toISOString()}};
+ const checkedAt = new Date().toISOString();
+ return {statusCode:200,body:{status:'ok',ok:true,timestamp:checkedAt,process:'ok',db:{status:'ok'},providers:feeds,providerCoverage:feeds.length?'RECORDED':'UNAVAILABLE',staleHoldings:stale?.n??null,calendarCoverage:threshold?'AVAILABLE':'UNAVAILABLE',cc9GainsAsOf:gains?.latest??null,cc9LatestSale:sales?.latest??null,cc9GainsQuality:gains?.latest&&gains.latest===sales?.latest?'PROVISIONAL':'STALE',checkedAt}};
 }
