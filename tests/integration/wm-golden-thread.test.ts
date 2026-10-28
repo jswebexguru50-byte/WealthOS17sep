@@ -58,7 +58,7 @@ describe('WM-GOLDEN: Golden-Thread Verification for Accurate Capture → Screeni
     // STAGE 2: HOLDINGS INTEGRITY (OBJ-2)
     // Run FIFO depletion; assert exact mathematical reconciliation
     // ─────────────────────────────────────────────────────────────────────────
-    await runFIFO(db);
+    await runFIFO(db, 'TestPF1');
 
     const holdings = await dbAll(db, `SELECT * FROM Holdings WHERE portfolio='TestPF1'`);
     expect(holdings.length).toBeGreaterThan(0);
