@@ -843,7 +843,20 @@ async function runEmpiricalBuild() {
   fs.writeFileSync(path.join(RUN_DIR, "v65_trade_identity_ledger.sha256"), `${ledgerSha256}  v65_economic_replay_ledger.jsonl\n`);
 
   // Write Daily Portfolio Equity Curve
-  const equityContent = dailyEquityLines.join("\n") + "\n";
+  // Canonical artifact contract uses `date`; retain `tradeDate` for legacy
+  // readers while emitting the same source value under both names.
+  const equityContent = dailyEquityLines
+    .map(line => {
+      try {
+        const row = JSON.parse(line);
+        if (row.date == null && row.tradeDate != null) row.date = row.tradeDate;
+        if (row.cash == null && row.cashBalance != null) row.cash = row.cashBalance;
+        return JSON.stringify(row);
+      } catch {
+        return line;
+      }
+    })
+    .join("\n") + "\n";
   fs.writeFileSync(path.join(RUN_DIR, "v65_daily_portfolio_equity.jsonl"), equityContent);
   const equitySha256 = computeHash(equityContent);
 
