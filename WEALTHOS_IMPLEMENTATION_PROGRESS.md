@@ -6,7 +6,7 @@ Remote status: local commits are ahead of `origin/master`; remote push has not b
 
 ## Acceptance status
 
-Overall implementation estimate: **approximately 82%**. This is not an acceptance claim.
+Overall implementation estimate: **approximately 83%**. This is not an acceptance claim.
 
 ### How to interpret completion
 
@@ -14,7 +14,7 @@ The 82% figure is the weighted **implementation** estimate (code and contracts),
 
 - **Core architecture:** 100% of the designed deterministic waterfall/canonical-boundary controls are implemented and focused-tested.
 - **Focused regression:** 55/55 waterfall, repository, retry and chaos tests passed; canonical-consumer audit is PASS with 0 violations.
-- **Full unit suite:** latest direct JSON run: **1,844 passed, 56 failed, 21 pending** (1,921 total). The failures are not yet cleared because several require missing fixtures, signed baseline decisions, or legacy contract updates.
+- **Full unit suite:** latest direct JSON run: **1,844 passed, 56 failed, 21 pending** (1,921 total). The failures are not yet cleared because several require missing fixtures, signed baseline decisions, or legacy contract updates. The approved 8-sheet dossier artifact is now regenerated and its dedicated regression suite passes **10/10**.
 - **Production acceptance:** not complete until the full unit rerun, integration/coverage/E2E matrix, 3,548-symbol retry, KPI capture, and remote GitHub synchronization are evidenced.
 
 Therefore the practical completion is **82% implemented / approximately 60% acceptance-complete**. The acceptance percentage is deliberately lower because unexecuted or blocked gates count as incomplete; it is not a regression from earlier code estimates.
@@ -38,7 +38,7 @@ Therefore the practical completion is **82% implemented / approximately 60% acce
 | Intelligence response coverage wiring | Implemented | `CompanyIntelligenceOrchestrator` now emits `dataCoverage` |
 | S1101 forensic data services | Implemented | Chain-of-custody, dataset-version, enrichment services restored |
 | Unit discovery/server isolation | Implemented | Unit script uses `tests/unit`; `WEALTHOS_SKIP_SERVER=1` |
-| Unit suite | Partial | Fresh full run: 1,848 passed, 54 failed, 21 skipped across 1,923 tests; remaining failures are primarily missing generated artifacts, frozen/hash baselines, cohort fixtures, or stale legacy contracts |
+| Unit suite | Partial | Fresh full run: 1,848 passed, 54 failed, 21 skipped across 1,923 tests; remaining failures are primarily missing generated artifacts, frozen/hash baselines, cohort fixtures, or stale legacy contracts. Approved 8-sheet dossier regression passes 10/10 |
 | Integration suite | Partial | Dedicated config now starts a real HTTP server and discovers all 189 tests; latest run: **178 passed, 11 failed**. Remaining failures are fixture/data-contract, authentication, response-shape, and legacy golden-thread issues; not yet accepted |
 | Coverage suite | Not accepted | Requires updated Mac checkout and isolated DB |
 | E2E/chaos matrix | Not accepted | Requires live server/browser and generated artifacts |
