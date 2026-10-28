@@ -39,7 +39,7 @@ Therefore the practical completion is **82% implemented / approximately 60% acce
 | S1101 forensic data services | Implemented | Chain-of-custody, dataset-version, enrichment services restored |
 | Unit discovery/server isolation | Implemented | Unit script uses `tests/unit`; `WEALTHOS_SKIP_SERVER=1` |
 | Unit suite | Partial | Fresh full run: 1,848 passed, 54 failed, 21 skipped across 1,923 tests; remaining failures are primarily missing generated artifacts, frozen/hash baselines, cohort fixtures, or stale legacy contracts. Approved 8-sheet dossier regression passes 10/10 |
-| Integration suite | Partial | Dedicated config starts a real HTTP server and discovers all 189 tests; latest run: **186 passed, 3 failed**. Remaining failures are Greenfield/stockscans fixture evidence and the golden-thread test's explicit FIFO portfolio setup; not yet accepted |
+| Integration suite | Partial | Dedicated config starts a real HTTP server and discovers all 189 tests; latest run: **187 passed, 2 failed**. Remaining failures are Greenfield and stockscans fixture evidence; not yet accepted |
 | Coverage suite | Not accepted | Requires updated Mac checkout and isolated DB |
 | E2E/chaos matrix | Not accepted | Requires live server/browser and generated artifacts |
 | Full 3,548-symbol live retry | Not accepted | Must run from latest local commit with provider credentials/data |
