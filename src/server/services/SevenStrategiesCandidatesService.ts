@@ -296,11 +296,32 @@ export class SevenStrategiesCandidatesService {
     }
 
     const enrichmentService = SevenStrategiesCandidateEnrichmentService.getInstance();
-    const enrichedMap = await enrichmentService.bulkEnrich(enrichParams, {
+    // Discovery is an interactive/readiness endpoint and must never hold the
+    // HTTP request open indefinitely when a cold OHLCV/provider scan is slow.
+    // Return the canonical strategy candidates with explicit NOT_CHECKED /
+    // DATA_INSUFFICIENT fields on timeout; the normal cache-backed refresh can
+    // enrich them on the next request without fabricating values.
+    const enrichmentPromise = enrichmentService.bulkEnrich(enrichParams, {
       includeTechnicals,
       includeSectorMomentum,
       includeActionReadiness
     });
+    const enrichmentTimeoutMs = Number(process.env.SEVEN_STRATEGIES_ENRICHMENT_TIMEOUT_MS || 20_000);
+    let enrichedMap: Map<string, EnrichedCandidateFields>;
+    try {
+      enrichedMap = await Promise.race([
+        enrichmentPromise,
+        new Promise<Map<string, EnrichedCandidateFields>>((resolve) =>
+          setTimeout(() => resolve(new Map()), enrichmentTimeoutMs)
+        )
+      ]);
+      if (enrichedMap.size === 0 && enrichParams.length > 0) {
+        console.warn(`[SevenStrategies] enrichment timed out or returned no rows; returning bounded base payload (symbols=${enrichParams.length})`);
+      }
+    } catch (error) {
+      console.warn('[SevenStrategies] enrichment failed; returning bounded base payload:', error);
+      enrichedMap = new Map();
+    }
 
     for (const key of Object.keys(cloned.strategies) as StrategyKey[]) {
       for (const candidate of cloned.strategies[key].candidates) {

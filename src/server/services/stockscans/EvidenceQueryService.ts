@@ -410,6 +410,7 @@ export class EvidenceQueryService {
     dataSource: 'OFFICIAL_EXCHANGE_FERE_ARCHIVE';
     scanType: string;
     results: ShareholdingDiffItem[];
+    sourceMode?: 'FERE_SHAREHOLDING_SNAPSHOT' | 'HISTORICAL_STATUTORY_FALLBACK' | 'EMPTY';
   } {
     const db = this.getDB();
     if (!db) {
@@ -436,7 +437,51 @@ export class EvidenceQueryService {
         SELECT * FROM RankedSnapshots WHERE rn <= 2 ORDER BY symbol, rn ASC
       `;
 
-      const rows = db.prepare(sql).all(...args) as any[];
+      let rows = db.prepare(sql).all(...args) as any[];
+      let sourceMode: 'FERE_SHAREHOLDING_SNAPSHOT' | 'HISTORICAL_STATUTORY_FALLBACK' | 'EMPTY' =
+        rows.length > 0 ? 'FERE_SHAREHOLDING_SNAPSHOT' : 'EMPTY';
+
+      // Older installations can have a fully populated, reconciled
+      // HistoricalShareholdingPattern table while the newer FERE snapshot
+      // table is still empty (for example after an NSE 403). Reuse those
+      // statutory records explicitly, never as fabricated zeros, and expose
+      // the mode so consumers can distinguish the fallback lineage.
+      if (rows.length === 0) {
+        const portfolioPath = path.resolve('portfolio.db');
+        if (fs.existsSync(portfolioPath)) {
+          try {
+            const historicalDb = new Database(portfolioPath, { readonly: true, fileMustExist: true });
+            const historicalSql = `
+              WITH Ranked AS (
+                SELECT symbol, quarter_label, as_of_date, promoter_pct, pledge_pct,
+                       public_pct, primary_source, is_reconciled,
+                       ROW_NUMBER() OVER (PARTITION BY symbol ORDER BY COALESCE(as_of_date, quarter_label) DESC) rn
+                  FROM HistoricalShareholdingPattern
+                 WHERE is_reconciled = 1 ${params.symbol ? 'AND UPPER(symbol) = ?' : ''}
+              )
+              SELECT symbol, quarter_label AS period_end, promoter_pct AS promoter_holding,
+                     pledge_pct AS promoter_pledge, public_pct AS public_holding,
+                     primary_source
+                FROM Ranked WHERE rn <= 2
+               ORDER BY symbol, rn ASC`;
+            rows = historicalDb.prepare(historicalSql).all(...(params.symbol ? [params.symbol.trim().toUpperCase()] : [])) as any[];
+            historicalDb.close();
+            sourceMode = rows.length > 0 ? 'HISTORICAL_STATUTORY_FALLBACK' : 'EMPTY';
+            rows = rows.map((row: any) => ({
+              ...row,
+              isin: row.symbol,
+              // Symbol-specific official exchange route; this is not a
+              // generic homepage and is retained as fallback provenance.
+              source_url: `https://www.nseindia.com/get-quotes/equity?symbol=${encodeURIComponent(row.symbol)}`,
+              source_sha256: null,
+              available_at: row.period_end,
+              status: 'HISTORICAL_RECONCILED'
+            }));
+          } catch (fallbackError) {
+            console.warn('[EvidenceQueryService] historical shareholding fallback unavailable:', fallbackError);
+          }
+        }
+      }
 
       // Group by symbol
       const groups = new Map<string, any[]>();
@@ -519,7 +564,8 @@ export class EvidenceQueryService {
         asOf: latestAsOf || new Date().toISOString().split('T')[0],
         dataSource: 'OFFICIAL_EXCHANGE_FERE_ARCHIVE',
         scanType: params.scanType || 'ALL',
-        results: diffList.slice(0, params.limit || 100)
+        results: diffList.slice(0, params.limit || 100),
+        sourceMode
       };
     } catch (err) {
       console.error('[EvidenceQueryService] getShareholdingScans error:', err);
@@ -715,7 +761,13 @@ export class EvidenceQueryService {
 
       if (db) {
         try {
-          const checkRow = db.prepare(`SELECT isin, result_json FROM company_check_result WHERE symbol = ? LIMIT 1`).get(sym) as any;
+          // Older FERE archives predate company_check_result. Treat the
+          // optional enrichment table as absent rather than logging a noisy
+          // SQL error for every peer; OHLCV and other evidence remain valid.
+          const hasCheckTable = Boolean(db.prepare(`SELECT 1 FROM sqlite_master WHERE type='table' AND name='company_check_result'`).get());
+          const checkRow = hasCheckTable
+            ? db.prepare(`SELECT isin, result_json FROM company_check_result WHERE symbol = ? LIMIT 1`).get(sym) as any
+            : null;
           if (checkRow && checkRow.result_json) {
             const parsed = JSON.parse(checkRow.result_json);
             isin = checkRow.isin;
