@@ -122,3 +122,7 @@ npm run wealthos:test:e2e
 ```
 
 MCP is not forbidden. It is disabled by default and may be invoked first only with explicit user approval via `--allow-mcp` (or `npm run fundamental:waterfall:approved-mcp`); otherwise all child phases run with `MCP_DISABLED=1`.
+
+## Latest integration diagnosis
+
+The smoke Discover → Analyze → FERE path reaches all three HTTP endpoints successfully. Its remaining failure is a stale test assertion querying the retired `ForensicEvidence` table; canonical FERE now reads the verified-facts service/database. This requires an explicit compatibility migration or test-contract update, not provider credentials.
