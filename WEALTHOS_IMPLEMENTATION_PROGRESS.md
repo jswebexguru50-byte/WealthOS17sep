@@ -146,6 +146,8 @@ Full unit discovery rerun (2026-10-28) completed **1,862 passed / 40 failed / 21
 
 The v6.5 daily-equity schema gap is closed in `8b0ccfc25`: the generator and canonical artifact now expose `date` and `cash` aliases alongside legacy `tradeDate` and `cashBalance`, preserving original values. The daily-equity unit test is now **1/1 passed**.
 
+The v6.5 replay/statistics assertions were aligned to the artifact’s declared semantics in `4a922a2bd`: 41 dates are explicitly accounted for as the technical warm-up window, and the statistical contract validates the declared evaluated hypothesis count dynamically (with a 20-strategy registry). Those two tests now pass **2/2**.
+
 The smoke Discover → Analyze → FERE path reaches all three HTTP endpoints successfully. Its remaining failure is a stale test assertion querying the retired `ForensicEvidence` table; canonical FERE now reads the verified-facts service/database. This requires an explicit compatibility migration or test-contract update, not provider credentials.
 
 The smoke contract has now been migrated to the canonical response and passes **1/1**. Unknown issuers remain fail-closed as `BLOCKED` with null decision fields.
