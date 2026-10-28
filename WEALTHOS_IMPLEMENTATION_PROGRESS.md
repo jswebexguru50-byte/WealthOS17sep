@@ -130,3 +130,5 @@ The smoke Discover → Analyze → FERE path reaches all three HTTP endpoints su
 The smoke contract has now been migrated to the canonical response and passes **1/1**. Unknown issuers remain fail-closed as `BLOCKED` with null decision fields.
 
 The remaining stock-scans blocker is confirmed by the clean-room evidence database: `shareholding_snapshot` contains **0 rows**. The portfolio database has historical-shareholding rows, but they are not promoted into the official FERE snapshot table and therefore must not be substituted silently.
+
+The official NSE pilot now uses the shared session-bootstrap retry, but NSE still returns HTTP 403 for the shareholding-master endpoint. The source failure is recorded fail-closed; BSE/XBRL fallback or an authenticated NSE session is still required before promotion.
