@@ -140,6 +140,8 @@ Focused unit follow-up identified two live-portfolio fixture-drift assertions in
 
 Those two assertions were corrected without weakening business invariants in commit `0d3dcff37`: the test now selects the worst ORIANA lot and verifies projected gain from the candidate return formula. Focused canonical/waterfall/360/Greenfield unit gate is now **17/17 passed**.
 
+Playwright health E2E was attempted on the installed Chromium runtime; the application server starts, but Chromium exits before launch with macOS `mach_port_rendezvous` permission denied (`KERN_SUCCESS … Permission denied`). This is an execution-environment blocker, not an HTTP or UI assertion failure. The local branch is currently 183 commits ahead of `origin/master`; two push attempts did not complete, so remote synchronization remains unverified.
+
 The smoke Discover → Analyze → FERE path reaches all three HTTP endpoints successfully. Its remaining failure is a stale test assertion querying the retired `ForensicEvidence` table; canonical FERE now reads the verified-facts service/database. This requires an explicit compatibility migration or test-contract update, not provider credentials.
 
 The smoke contract has now been migrated to the canonical response and passes **1/1**. Unknown issuers remain fail-closed as `BLOCKED` with null decision fields.
