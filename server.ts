@@ -1184,7 +1184,14 @@ const handleScripIntelligence = async (rawSymbol: string, res: any, req?: any) =
       'PRIMARY_SOURCE_VERIFIED', 'CROSS_SOURCE_VERIFIED', 'DERIVED_VERIFIED',
     ]);
     const usableModules = moduleResults.filter(module => usableDataStates.has(module.dataStatus));
-    const dataState = usableModules.length === 0
+    const fundamental = response.modules.fundamental;
+    const fere = response.modules.fere;
+    const criticalEvidenceUnavailable =
+      (!fundamental || !usableDataStates.has(fundamental.dataStatus)) &&
+      (!fere || !usableDataStates.has(fere.dataStatus));
+    const dataState = criticalEvidenceUnavailable
+      ? 'BLOCKED'
+      : usableModules.length === 0
       ? 'DATA_INSUFFICIENT'
       : usableModules.length === moduleResults.length
         ? 'READY'
@@ -1214,7 +1221,9 @@ const handleScripIntelligence = async (rawSymbol: string, res: any, req?: any) =
         calibratedProbabilityPct: null,
         targetPrice: null,
         stopLossPrice: null,
-        reason: 'Independent module investment research cockpit mode'
+        reason: criticalEvidenceUnavailable
+          ? 'Critical evidence is unavailable; no investment decision was computed.'
+          : 'Independent module investment research cockpit mode'
       }
     };
 
