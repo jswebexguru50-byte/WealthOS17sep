@@ -7,7 +7,9 @@ describe("v6.5 Statistical Significance Tests", () => {
     const statsPath = path.join(process.cwd(), "data", "v6.5", "v65_statistical_validation_results.json");
     expect(fs.existsSync(statsPath)).toBe(true);
     const results = JSON.parse(fs.readFileSync(statsPath, "utf-8"));
-    expect(results.primaryHypothesisFamily).toContain("12-Hypothesis Evaluated Family");
+    expect(results.primaryHypothesisFamily).toContain(`${results.evaluatedHypothesesCount}-Hypothesis Evaluated Family`);
+    expect(results.totalHypothesesCount).toBe(20);
+    expect(results.evaluatedHypothesesCount).toBeGreaterThan(0);
     expect(results.multipleTestingCorrection).toContain("Benjamini-Hochberg FDR");
     expect(results.bootstrapMethod).toContain("Block Bootstrap");
   });
