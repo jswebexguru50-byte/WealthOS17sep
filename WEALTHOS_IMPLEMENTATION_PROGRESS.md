@@ -126,3 +126,5 @@ MCP is not forbidden. It is disabled by default and may be invoked first only wi
 ## Latest integration diagnosis
 
 The smoke Discover → Analyze → FERE path reaches all three HTTP endpoints successfully. Its remaining failure is a stale test assertion querying the retired `ForensicEvidence` table; canonical FERE now reads the verified-facts service/database. This requires an explicit compatibility migration or test-contract update, not provider credentials.
+
+The smoke contract has now been migrated to the canonical response and passes **1/1**. Unknown issuers remain fail-closed as `BLOCKED` with null decision fields.
