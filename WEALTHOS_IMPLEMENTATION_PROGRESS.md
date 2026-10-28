@@ -136,6 +136,8 @@ Follow-up evidence: commit `a9237a7d3` bounds cold strategy enrichment at 20 sec
 
 Aggregate confirmation: after these fixes, the complete server-backed integration matrix passed **189/189 tests in 90.03 seconds** (2026-10-28). This supersedes the earlier 187/189 baseline. The run still emits non-fatal fixture warnings for optional `tax_avg_price`, `ValuationSnapshots`, and legacy `company_check_result` data, but no test failed.
 
+Focused unit follow-up identified two live-portfolio fixture-drift assertions in `greenfield-rebalance.test.ts` (ORIANA lot selection and a historical projected-gain threshold); they are not integration failures or strategy-threshold changes. Commit `e73f808de` makes multi-lot diagnostic ordering deterministic by loss severity. The remaining unit baseline, coverage, browser E2E, live-provider acceptance, and GitHub push still require explicit final runs/verification.
+
 The smoke Discover → Analyze → FERE path reaches all three HTTP endpoints successfully. Its remaining failure is a stale test assertion querying the retired `ForensicEvidence` table; canonical FERE now reads the verified-facts service/database. This requires an explicit compatibility migration or test-contract update, not provider credentials.
 
 The smoke contract has now been migrated to the canonical response and passes **1/1**. Unknown issuers remain fail-closed as `BLOCKED` with null decision fields.
