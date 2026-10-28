@@ -125,6 +125,13 @@ MCP is not forbidden. It is disabled by default and may be invoked first only wi
 
 ## Latest integration diagnosis
 
+Latest authoritative integration run (2026-10-28): **187 passed / 2 failed / 189 total**. The Greenfield failure was fixed in commit `cc4e6b268` by deterministic loss-harvest-first ordering; the targeted Greenfield API regression is now **4/4 passed**. The two remaining full-suite blockers are:
+
+- Discover → Analyze → FERE exceeded the 300-second test timeout because the seven-strategy discovery endpoint performed an unbounded cold scan (the request eventually returned 200 after ~11.6 minutes). This is a performance/timeout blocker, not a correctness assertion failure.
+- StockScans shareholding parity has no promoted official rows: `fere_evidence.db.shareholding_snapshot` exists but currently contains 0 rows; NSE official acquisition still receives HTTP 403. No historical portfolio rows are being silently substituted.
+
+Fast-track order: (1) make discovery bounded and cache-backed for acceptance calls, (2) add authenticated BSE/NSE shareholding acquisition and promotion, (3) rerun the two blockers plus the full integration suite, then (4) run coverage/E2E and push the verified commits. This avoids spending time on broad MCP enrichment before the non-MCP acceptance gates are green.
+
 The smoke Discover → Analyze → FERE path reaches all three HTTP endpoints successfully. Its remaining failure is a stale test assertion querying the retired `ForensicEvidence` table; canonical FERE now reads the verified-facts service/database. This requires an explicit compatibility migration or test-contract update, not provider credentials.
 
 The smoke contract has now been migrated to the canonical response and passes **1/1**. Unknown issuers remain fail-closed as `BLOCKED` with null decision fields.
