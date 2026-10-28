@@ -155,3 +155,5 @@ The smoke contract has now been migrated to the canonical response and passes **
 The remaining stock-scans blocker is confirmed by the clean-room evidence database: `shareholding_snapshot` contains **0 rows**. The portfolio database has historical-shareholding rows, but they are not promoted into the official FERE snapshot table and therefore must not be substituted silently.
 
 The official NSE pilot now uses the shared session-bootstrap retry, but NSE still returns HTTP 403 for the shareholding-master endpoint. The source failure is recorded fail-closed; BSE/XBRL fallback or an authenticated NSE session is still required before promotion.
+
+Remote synchronization recheck (2026-10-28): a non-interactive `git push` with prompts disabled and a 10-second low-speed cutoff still produced no transport response within 30 seconds. Local HEAD remains ahead of `origin/master`; no remote state is claimed as updated.
