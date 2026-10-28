@@ -253,7 +253,20 @@ export class GreenfieldRebalanceService {
     const topOpenIpo = openIpos.length > 0 ? openIpos[0] : null;
 
     // Build Dynamic Intelligent Switch Recommendations (pairing real laggards/runners with top pipeline opportunities)
-    const switchCandidates = diagnostics.filter(d => d.classification === 'SEVERE_LAGGARD' || d.classification === 'OVER_CONCENTRATED_RUNNER');
+    // Present the most actionable tax-loss harvest first. Diagnostics are
+    // intentionally sorted by current value for portfolio context, but that
+    // ordering can put a profitable concentration trim ahead of a genuine
+    // loss. Keep switch output deterministic while prioritising the economic
+    // action users expect from the first recommendation.
+    const switchCandidates = diagnostics
+      .filter(d => d.classification === 'SEVERE_LAGGARD' || d.classification === 'OVER_CONCENTRATED_RUNNER')
+      .sort((a, b) => {
+        const aLoss = a.unrealizedPnl < 0 ? 1 : 0;
+        const bLoss = b.unrealizedPnl < 0 ? 1 : 0;
+        if (aLoss !== bLoss) return bLoss - aLoss;
+        if (aLoss) return a.unrealizedPnl - b.unrealizedPnl;
+        return b.currentValue - a.currentValue;
+      });
     const switches: GreenfieldRebalanceSwitch[] = [];
 
     switchCandidates.forEach((lag, idx) => {
