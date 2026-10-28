@@ -207,7 +207,10 @@ router.post('/save', async (req, res) => {
         `INSERT INTO CustomStrategies
          (id, name, description, category, parameters_json, base_template_id, is_preset, is_active, created_at, updated_at)
          VALUES (?, ?, ?, ?, ?, ?, 0, 1, ?, ?)`,
-        [strategyId, name, description, category, parametersJson, baseTemplateId, now, now]
+        // A user-created strategy has no parent template; retain a stable
+        // non-null lineage marker so legacy databases with NOT NULL
+        // base_template_id remain writable.
+        [strategyId, name, description, category, parametersJson, baseTemplateId || strategyId, now, now]
       );
     }
 
@@ -513,6 +516,11 @@ router.post('/scan-multi', async (req, res) => {
         ),
         comparisonMatrix: [],
         convergenceMatches: [],
+        // Keep the response contract consistent with scan-strategy and the
+        // UI's progress counters, even while the multi-scan engine is in its
+        // metadata-only phase.
+        tradesCount: 0,
+        summariesCount: 0,
         generatedAt: new Date().toISOString(),
       },
       message: `Multi-strategy scan initiated for ${strategyNames.length} strategies`,
