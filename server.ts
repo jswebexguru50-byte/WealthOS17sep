@@ -1204,6 +1204,10 @@ const handleScripIntelligence = async (rawSymbol: string, res: any, req?: any) =
       isin: response.security.isin,
       company_name: response.security.companyName || cleanSym,
       dataState,
+      // Backward-compatible alias for older consumers that read `status`.
+      // The canonical state remains `dataState`; this does not create an
+      // investment recommendation or alter module-level evidence semantics.
+      status: dataState,
       decisionStatus: 'NO_AUTOMATED_DECISION',
       fereEvidence: response.modules.fere?.result || null,
       fereResult: response.modules.fere?.status || 'DATA_INSUFFICIENT',
