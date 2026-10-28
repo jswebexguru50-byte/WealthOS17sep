@@ -1538,7 +1538,10 @@ export class OpportunityScannerEngine {
     // from canonical source snapshots.
     return {
       securityId: `SEC_${symbol}_NSE`,
-      candidateId: null,
+      // Stable identity across repeated Discover/Analyze calls.  A missing
+      // candidate identifier breaks downstream dossier and portfolio joins;
+      // the suffix is deterministic for this canonical single-scrip view.
+      candidateId: `CAND_${symbol}_0`,
       symbol,
       companyName: symbol,
       status: 'DATA_INSUFFICIENT',
