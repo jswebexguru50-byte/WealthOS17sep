@@ -16,7 +16,23 @@ type ConfirmPrompt = (request: ConfirmRequest) => Promise<string | null>;
 let credential = '';
 let authPrompt: CredentialPrompt = () => {};
 let confirmPrompt: ConfirmPrompt = async () => null;
-const nativeFetch = globalThis.fetch.bind(globalThis);
+const originalFetch = globalThis.fetch.bind(globalThis);
+let installedTransport: typeof fetch | null = null;
+const nativeFetch = ((input: RequestInfo | URL, init?: RequestInit) => {
+  const current = globalThis.fetch === installedTransport ? originalFetch : globalThis.fetch;
+  // Keep the test/host seam observable as a URL string while preserving the
+  // Request's method, headers and body for the real fetch implementation.
+  if (input instanceof Request) {
+    const requestInit: RequestInit = {
+      method: input.method,
+      headers: input.headers,
+      body: ['GET', 'HEAD'].includes(input.method) ? undefined : input.body,
+      signal: input.signal,
+    };
+    return current(input.url, requestInit);
+  }
+  return current(input, init);
+}) as typeof fetch;
 
 export const ADMIN_CONFIRMATIONS: Record<string, string> = {
   '/api/pms/purge-bank-book': 'PURGE_BANK_BOOK',
@@ -103,4 +119,5 @@ export const apiFetch = createApiTransport(nativeFetch,
   getApiCredential, () => { setApiCredential(''); return promptForCredential(); }, request => confirmPrompt(request));
 
 /** Compatibility boundary for existing calls while components migrate to apiFetch. */
+installedTransport = apiFetch;
 export function installApiTransport() { if (typeof window !== 'undefined') window.fetch = apiFetch; }
