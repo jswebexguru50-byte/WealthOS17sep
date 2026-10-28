@@ -39,7 +39,7 @@ Therefore the practical completion is **82% implemented / approximately 60% acce
 | S1101 forensic data services | Implemented | Chain-of-custody, dataset-version, enrichment services restored |
 | Unit discovery/server isolation | Implemented | Unit script uses `tests/unit`; `WEALTHOS_SKIP_SERVER=1` |
 | Unit suite | Partial | Fresh full run: 1,848 passed, 54 failed, 21 skipped across 1,923 tests; remaining failures are primarily missing generated artifacts, frozen/hash baselines, cohort fixtures, or stale legacy contracts |
-| Integration suite | Partial | Dedicated config now starts a real HTTP server and discovers all 189 tests; latest run: **166 passed, 20 failed, 3 skipped-equivalent pending** (the exact count varies with fixture/order-sensitive cases). Remaining failures are fixture/data-contract, authentication, response-shape, and legacy golden-thread issues; not yet accepted |
+| Integration suite | Partial | Dedicated config now starts a real HTTP server and discovers all 189 tests; latest run: **178 passed, 11 failed**. Remaining failures are fixture/data-contract, authentication, response-shape, and legacy golden-thread issues; not yet accepted |
 | Coverage suite | Not accepted | Requires updated Mac checkout and isolated DB |
 | E2E/chaos matrix | Not accepted | Requires live server/browser and generated artifacts |
 | Full 3,548-symbol live retry | Not accepted | Must run from latest local commit with provider credentials/data |
