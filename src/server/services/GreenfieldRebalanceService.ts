@@ -236,8 +236,19 @@ export class GreenfieldRebalanceService {
       });
     });
 
-    // Sort diagnostics by current value descending
-    diagnostics.sort((a, b) => b.currentValue - a.currentValue);
+    // Keep portfolio context value-descending, but make lots for the same
+    // symbol deterministic and surface the most severe loss first. A symbol
+    // can have multiple tax lots; consumers must not select a moderate lot
+    // merely because it has the larger current value.
+    diagnostics.sort((a, b) => {
+      if (a.symbol === b.symbol) {
+        const aLoss = a.unrealizedPnlPct < 0 ? 1 : 0;
+        const bLoss = b.unrealizedPnlPct < 0 ? 1 : 0;
+        if (aLoss !== bLoss) return bLoss - aLoss;
+        if (aLoss && a.unrealizedPnlPct !== b.unrealizedPnlPct) return a.unrealizedPnlPct - b.unrealizedPnlPct;
+      }
+      return b.currentValue - a.currentValue;
+    });
 
     // Fetch top Greenfield candidates and IPOs for replacement pairing
     const greenfieldRecs = await MomentumVpaEngine.getInstance().scanUniverse();
