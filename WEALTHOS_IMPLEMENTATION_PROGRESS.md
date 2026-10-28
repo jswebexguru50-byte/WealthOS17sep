@@ -144,6 +144,8 @@ Playwright health E2E was attempted on the installed Chromium runtime; the appli
 
 Full unit discovery rerun (2026-10-28) completed **1,862 passed / 40 failed / 21 skipped** across 230 files. The remaining failures are concentrated in missing or stale external artifacts (Phase-2/CC9/IICE dossiers, R4 progress manifest, frozen S1101 hashes, and v6.5 replay/statistical artifacts), not the canonical/waterfall/360 focused gate. The v6.5 files are present but internally inconsistent (`decisionDateCount=1672` vs `evaluatedDecisionDateCount=1631`, and a 5-hypothesis result versus the 12-hypothesis contract); these require a real replay/regeneration, not test weakening.
 
+The v6.5 daily-equity schema gap is closed in `8b0ccfc25`: the generator and canonical artifact now expose `date` and `cash` aliases alongside legacy `tradeDate` and `cashBalance`, preserving original values. The daily-equity unit test is now **1/1 passed**.
+
 The smoke Discover → Analyze → FERE path reaches all three HTTP endpoints successfully. Its remaining failure is a stale test assertion querying the retired `ForensicEvidence` table; canonical FERE now reads the verified-facts service/database. This requires an explicit compatibility migration or test-contract update, not provider credentials.
 
 The smoke contract has now been migrated to the canonical response and passes **1/1**. Unknown issuers remain fail-closed as `BLOCKED` with null decision fields.
