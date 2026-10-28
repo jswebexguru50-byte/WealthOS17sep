@@ -132,6 +132,8 @@ Latest authoritative integration run (2026-10-28): **187 passed / 2 failed / 189
 
 Fast-track order: (1) make discovery bounded and cache-backed for acceptance calls, (2) add authenticated BSE/NSE shareholding acquisition and promotion, (3) rerun the two blockers plus the full integration suite, then (4) run coverage/E2E and push the verified commits. This avoids spending time on broad MCP enrichment before the non-MCP acceptance gates are green.
 
+Follow-up evidence: commit `a9237a7d3` bounds cold strategy enrichment at 20 seconds and returns explicit `NOT_CHECKED`/`DATA_INSUFFICIENT` fields on timeout. Discover → Analyze → FERE now passes **1/1 in 17.27 seconds**. The same commit adds an explicit `HISTORICAL_STATUTORY_FALLBACK` mode for reconciled portfolio shareholding records when the official FERE snapshot is empty; StockScans parity now passes **14/14**, with no synthetic numeric values. The fallback remains visibly labeled and must be replaced by promoted official FERE rows once authenticated NSE/BSE acquisition succeeds.
+
 The smoke Discover → Analyze → FERE path reaches all three HTTP endpoints successfully. Its remaining failure is a stale test assertion querying the retired `ForensicEvidence` table; canonical FERE now reads the verified-facts service/database. This requires an explicit compatibility migration or test-contract update, not provider credentials.
 
 The smoke contract has now been migrated to the canonical response and passes **1/1**. Unknown issuers remain fail-closed as `BLOCKED` with null decision fields.
