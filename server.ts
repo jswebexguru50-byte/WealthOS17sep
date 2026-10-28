@@ -1208,6 +1208,11 @@ const handleScripIntelligence = async (rawSymbol: string, res: any, req?: any) =
       // The canonical state remains `dataState`; this does not create an
       // investment recommendation or alter module-level evidence semantics.
       status: dataState,
+      // Legacy top-level nulls are retained so unavailable evidence cannot be
+      // mistaken for a synthesized score or price target.
+      compositeScore: null,
+      probabilityPct: null,
+      targetPrice: null,
       decisionStatus: 'NO_AUTOMATED_DECISION',
       fereEvidence: response.modules.fere?.result || null,
       fereResult: response.modules.fere?.status || 'DATA_INSUFFICIENT',

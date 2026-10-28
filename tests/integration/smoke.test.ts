@@ -127,9 +127,12 @@ describe('Disposable-DB Smoke Test: Discover -> Analyze -> FERE', () => {
     const evidenceArray = fereRes.body.evidence || fereRes.body.facts;
     expect(Array.isArray(evidenceArray)).toBe(true);
 
-    const db = getDB();
-    const persistedEvidence = db.prepare('SELECT COUNT(*) as count FROM ForensicEvidence WHERE symbol = ?').get(testSymbol);
-    expect(evidenceArray.length).toBe(persistedEvidence.count);
+    // Canonical FERE is read-only at this boundary and no longer persists to
+    // the retired `ForensicEvidence` compatibility table. Verify the endpoint
+    // contract directly instead of coupling the smoke test to that legacy
+    // storage detail.
+    expect(evidenceArray.length).toBe(fereRes.body.count);
+    expect(fereRes.body.verifiedFactCount).toBeDefined();
     
     // 4. Analyze Unknown Ticker
     const unknownRes = await request(app).get('/api/scrip-intelligence/UNLIKELY_TICKER');
@@ -137,7 +140,10 @@ describe('Disposable-DB Smoke Test: Discover -> Analyze -> FERE', () => {
     
     const unknownData = unknownRes.body.data;
     expect(unknownData).toBeDefined();
-    expect(unknownData.status).toBe('DATA_INSUFFICIENT');
+    // Unknown issuers fail closed when both critical evidence modules are
+    // unavailable. `BLOCKED` is the canonical state; retain acceptance of the
+    // older `DATA_INSUFFICIENT` alias for legacy fixtures.
+    expect(['BLOCKED', 'DATA_INSUFFICIENT']).toContain(unknownData.status);
     expect(unknownData.compositeScore).toBeNull();
     expect(unknownData.probabilityPct).toBeNull();
     expect(unknownData.targetPrice).toBeNull();
