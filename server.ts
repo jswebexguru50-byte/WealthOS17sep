@@ -418,7 +418,16 @@ app.use('/api', (req, res, next) => {
   // Health probes must pass before the lazy database handle exists.
   if (req.path === '/health' || req.path === '/remote/health') return next();
   if (!db) {
-    return res.status(503).json({ success: false, error: 'DATABASE_NOT_READY' });
+    try {
+      // The process-level middleware below initializes the lazy handle for
+      // non-API routes, but API traffic reaches this guard first. Initialize
+      // here as well; otherwise every API request permanently returns 503
+      // after a clean startup and the integration suite cannot exercise the
+      // application.
+      db = getDB();
+    } catch (err: any) {
+      return res.status(503).json({ success: false, error: 'DATABASE_NOT_READY', message: err?.message || 'Database is not ready.' });
+    }
   }
   DeprecationMiddleware.createDeprecationMiddleware(db)(req, res, next);
 });
