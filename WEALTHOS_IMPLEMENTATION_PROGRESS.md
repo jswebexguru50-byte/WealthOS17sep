@@ -142,6 +142,8 @@ Those two assertions were corrected without weakening business invariants in com
 
 Playwright health E2E was attempted on the installed Chromium runtime; the application server starts, but Chromium exits before launch with macOS `mach_port_rendezvous` permission denied (`KERN_SUCCESS … Permission denied`). This is an execution-environment blocker, not an HTTP or UI assertion failure. The local branch is currently 183 commits ahead of `origin/master`; two push attempts did not complete, so remote synchronization remains unverified.
 
+Full unit discovery rerun (2026-10-28) completed **1,862 passed / 40 failed / 21 skipped** across 230 files. The remaining failures are concentrated in missing or stale external artifacts (Phase-2/CC9/IICE dossiers, R4 progress manifest, frozen S1101 hashes, and v6.5 replay/statistical artifacts), not the canonical/waterfall/360 focused gate. The v6.5 files are present but internally inconsistent (`decisionDateCount=1672` vs `evaluatedDecisionDateCount=1631`, and a 5-hypothesis result versus the 12-hypothesis contract); these require a real replay/regeneration, not test weakening.
+
 The smoke Discover → Analyze → FERE path reaches all three HTTP endpoints successfully. Its remaining failure is a stale test assertion querying the retired `ForensicEvidence` table; canonical FERE now reads the verified-facts service/database. This requires an explicit compatibility migration or test-contract update, not provider credentials.
 
 The smoke contract has now been migrated to the canonical response and passes **1/1**. Unknown issuers remain fail-closed as `BLOCKED` with null decision fields.
