@@ -1,5 +1,6 @@
 import { getDB, dbAll, dbGet, dbRun } from '../database.js';
 import { fetchTickerData } from '../yahooFinance.js';
+import { OpportunityDataResolverService } from './OpportunityDataResolverService.js';
 import { OrderBookImbalanceService, OrderBookDepth } from './OrderBookImbalanceService.js';
 import { MarketDataCache } from './MarketDataCache.js';
 import { InstitutionalBuyersService, AccumulationWindow } from './InstitutionalBuyersService.js';
@@ -493,9 +494,9 @@ export class SmartMoneyFlowEngine {
       return cached;
     }
 
-    const yfSym = `${cleanSym}.NS`;
-    const data = await fetchTickerData(yfSym, 365).catch(() => null);
-    const candles = data?.closePrices || [];
+    // Read canonical promoted data first (DuckDB → DailyOHLCV → HistoricalPrices → Yahoo fallback)
+    const snapshot = await OpportunityDataResolverService.getInstance().resolveMarketData(cleanSym, 260).catch(() => null);
+    const candles = snapshot?.candles || [];
 
     const timeframes: SmartMoneyTimeframe[] = ['1D', '3D', '1W', '15D', '3W', '1M', '3M'];
     const results: Partial<Record<SmartMoneyTimeframe, SmartMoneyMetrics>> = {};

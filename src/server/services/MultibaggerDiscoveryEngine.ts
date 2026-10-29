@@ -11,7 +11,7 @@
  */
 
 import { getDB, dbAll } from '../database.js';
-import { fetchTickerData } from '../yahooFinance.js';
+import { OpportunityDataResolverService } from './OpportunityDataResolverService.js';
 import { ScreenerService } from './screenerService.js';
 
 export type MultibaggerTier =
@@ -222,9 +222,10 @@ export class MultibaggerDiscoveryEngine {
 
         const item = { ...rawItem };
         try {
-          const tickerData = await fetchTickerData(`${item.symbol}.NS`, 200).catch(() => null);
-          if (tickerData && tickerData.closePrices && tickerData.closePrices.length >= 25) {
-            const closes = tickerData.closePrices.map((c: any) => Number(c.close));
+          // Read canonical promoted data first (DuckDB → DailyOHLCV → HistoricalPrices → Yahoo fallback)
+          const snapshot = await OpportunityDataResolverService.getInstance().resolveMarketData(item.symbol, 200).catch(() => null);
+          if (snapshot && snapshot.candles && snapshot.candles.length >= 25) {
+            const closes = snapshot.candles.map((c) => Number(c.close));
             item.cmp = closes[closes.length - 1];
             item.sma50 = closes.slice(-50).reduce((a: number, b: number) => a + b, 0) / Math.min(50, closes.length);
             item.sma200 = closes.slice(-200).reduce((a: number, b: number) => a + b, 0) / Math.min(200, closes.length);

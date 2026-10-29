@@ -4,7 +4,7 @@
  * Zero-Fabrication: Never simulates fake bids/asks using character hashes.
  */
 
-import { fetchTickerData } from '../yahooFinance.js';
+import { OpportunityDataResolverService } from './OpportunityDataResolverService.js';
 
 export interface OrderBookLevel {
   price: number;
@@ -45,8 +45,9 @@ export class OrderBookImbalanceService {
     let cmp = currentPrice || 0;
 
     if (!cmp || cmp <= 0) {
-      const yfData = await fetchTickerData(`${cleanSym}.NS`, 10).catch(() => null);
-      cmp = yfData?.summary?.price || 0;
+      // Read canonical promoted data first (DuckDB → DailyOHLCV → HistoricalPrices → Yahoo fallback)
+      const snapshot = await OpportunityDataResolverService.getInstance().resolveMarketData(cleanSym, 5).catch(() => null);
+      cmp = snapshot?.currentPrice || 0;
     }
 
     const spreadINR = cmp > 0 ? 0.05 : 0;

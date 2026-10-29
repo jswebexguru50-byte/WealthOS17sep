@@ -1,4 +1,4 @@
-import { fetchTickerData } from '../yahooFinance.js';
+import { OpportunityDataResolverService } from './OpportunityDataResolverService.js';
 import { MarketDataCache } from './MarketDataCache.js';
 
 export interface PriceLevel {
@@ -89,10 +89,10 @@ export class SupportResistanceEngine {
 
     let candles = historicalCandles;
     if (!candles || candles.length < 30) {
-      const yfSym = `${cleanSym}.NS`;
-      const data = await fetchTickerData(yfSym, 365).catch(() => null);
-      if (data && data.closePrices && data.closePrices.length > 0) {
-        candles = data.closePrices;
+      // Read canonical promoted data first (DuckDB → DailyOHLCV → HistoricalPrices → Yahoo fallback)
+      const snapshot = await OpportunityDataResolverService.getInstance().resolveMarketData(cleanSym, 260).catch(() => null);
+      if (snapshot && snapshot.candles && snapshot.candles.length > 0) {
+        candles = snapshot.candles;
       }
     }
 

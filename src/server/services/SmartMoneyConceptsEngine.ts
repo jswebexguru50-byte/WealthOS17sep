@@ -19,6 +19,7 @@
  */
 
 import { fetchTickerData } from '../yahooFinance.js';
+import { OpportunityDataResolverService } from './OpportunityDataResolverService.js';
 
 export interface Candle {
   date: string;
@@ -1046,10 +1047,11 @@ export class SmartMoneyConceptsEngine {
     let candles: Candle[] = [];
 
     try {
-      const data = await fetchTickerData(`${cleanSym}.NS`, daysBack).catch(() => null);
-      if (data && data.closePrices && data.closePrices.length >= 15) {
-        candles = data.closePrices.map((c: any) => ({
-          date: c.date ? new Date(c.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+      // Read canonical promoted data first (DuckDB → DailyOHLCV → HistoricalPrices → Yahoo fallback)
+      const snapshot = await OpportunityDataResolverService.getInstance().resolveMarketData(cleanSym, daysBack).catch(() => null);
+      if (snapshot && snapshot.candles && snapshot.candles.length >= 15) {
+        candles = snapshot.candles.map((c) => ({
+          date: c.date,
           open: Number(c.open || c.close),
           high: Number(c.high || c.close),
           low: Number(c.low || c.close),
