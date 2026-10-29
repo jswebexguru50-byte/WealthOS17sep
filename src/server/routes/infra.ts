@@ -3683,7 +3683,7 @@ const handleAnalyze360RefreshData = async (req: Request, res: Response) => {
     const promotion = await ingestion.ingestExchangeArtifactForSymbol(normalized);
     const factsInserted = promotion.factsInserted;
     const status = factsInserted > 0
-      ? 'UPDATED_FROM_PUBLIC_WATERFALL'
+      ? 'PROMOTED'
       : acquisitionError
         ? 'PUBLIC_SOURCE_WATERFALL_UNAVAILABLE'
         : 'NO_PROMOTABLE_PUBLIC_FACTS';
@@ -3735,9 +3735,10 @@ const handleAnalyze360RefreshData = async (req: Request, res: Response) => {
       },
       directWebReadiness,
     });
+    // Successful canonical promotion is reported as status: 'PROMOTED'.
     return res.json({
       success: factsInserted > 0,
-      status,
+      status: factsInserted > 0 ? 'PROMOTED' : status,
       action: 'REFRESH_DATA',
       symbol: normalized,
       result: {

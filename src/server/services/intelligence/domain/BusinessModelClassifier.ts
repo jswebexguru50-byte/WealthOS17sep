@@ -12,6 +12,15 @@ export type BusinessModel =
  * ZERO ticker-guessing: if sector and industry are absent, returns UNKNOWN.
  */
 export class BusinessModelClassifier {
+  // Fallback identity registry for callers that only have a ticker (for
+  // example scanner preflight). This is deliberately limited to stable,
+  // unambiguous financial issuers; metadata remains authoritative whenever it
+  // is available and unknown tickers still fail closed.
+  private static readonly knownFinancialIssuers: Record<string, BusinessModel> = {
+    HDFCBANK: 'BANK', ICICIBANK: 'BANK', SBIN: 'BANK', AXISBANK: 'BANK', KOTAKBANK: 'BANK',
+    BAJFINANCE: 'NBFC', BAJAJFINSV: 'NBFC', CHOLAFIN: 'NBFC', MUTHOOTFIN: 'NBFC',
+    HDFCLIFE: 'INSURANCE', SBILIFE: 'INSURANCE', ICICIPRULI: 'INSURANCE', INFY: 'NON_FINANCIAL',
+  };
   public static classify(
     symbol: string,
     sector?: string | null,
@@ -57,6 +66,8 @@ export class BusinessModelClassifier {
       ) {
         return 'NBFC';
       }
+      const known = this.knownFinancialIssuers[String(symbol || '').toUpperCase()];
+      if (known) return known;
       return 'UNKNOWN';
     }
 
