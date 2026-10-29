@@ -561,3 +561,4 @@ All other failures appear to be pre-existing (present in the 56-failure baseline
 - A promotion failure does not discard the durable raw snapshot; reconciliation can retry it deterministically.
 - Added `scripts/fundamental/promote_successful_trendlyne_snapshots.ts` for resumable, non-acquisitive reconciliation of all previously successful Trendlyne pack snapshots; smoke verification promoted 24 facts for one symbol with `mcpUsed:false`.
 - Full local reconciliation completed: 1,137 pending symbols processed, 27,772 canonical facts promoted, 0 failures, checkpoint `reports/trendlyne_mirror/promotion_checkpoint.json`; no provider/MCP calls were made.
+- Upstox fundamental acquisition now promotes mapped `key-ratios` fields immediately after each symbol completes; the existing batch promoter remains as an idempotent recovery pass. TypeScript compilation passed.

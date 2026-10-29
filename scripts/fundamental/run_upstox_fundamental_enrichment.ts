@@ -2,6 +2,7 @@
 /** Deterministic, resumable Upstox fundamentals collector. No LLM or inferred values. */
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import sqlite3 from 'sqlite3';
 
 const root = path.resolve(process.cwd());
@@ -75,6 +76,41 @@ async function saveEndpoint(db: sqlite3.Database, symbol: string, isin: string, 
   await run(db, `INSERT OR REPLACE INTO fundamental_endpoint_snapshots (symbol,isin,provider,endpoint,authority,source_url,fetched_at,status,http_status,error,response_json) VALUES(?,?,?,?,?,?,?,?,?,?,?)`, [symbol,isin,'UPSTOX_FUNDAMENTALS',endpoint,'BROKER_AGGREGATED',`https://api.upstox.com/v2/fundamentals/${encodeURIComponent(isin)}/${endpoint}`,now(),status,httpStatus,error,payload == null ? null : JSON.stringify(payload)]);
 }
 
+/** Promote the safe, explicitly mapped ratio fields as soon as a symbol's
+ * endpoint acquisition completes. The later batch promoter remains a
+ * reconciliation safety net for legacy snapshots and interrupted runs. */
+async function promoteKeyRatiosImmediately(db: sqlite3.Database, symbol: string): Promise<number> {
+  const rows = await all(db, `SELECT isin,fetched_at,response_json FROM fundamental_endpoint_snapshots
+    WHERE provider='UPSTOX_FUNDAMENTALS' AND symbol=? AND endpoint='key-ratios' AND status='SUCCESS'
+    ORDER BY fetched_at DESC LIMIT 1`, [symbol]);
+  if (!rows.length) return 0;
+  let payload: any; try { payload = JSON.parse(String(rows[0].response_json || '{}')); } catch { return 0; }
+  const mappings: Record<string, { metric: string; unit: string }> = {
+    'P/E': { metric: 'pe_ratio', unit: 'RATIO' }, 'P/B': { metric: 'pb_ratio', unit: 'RATIO' },
+    'ROE': { metric: 'roe_pct', unit: 'PERCENT' }, 'ROCE': { metric: 'roce_reported', unit: 'PERCENT' },
+    'Quick Ratio': { metric: 'quick_ratio', unit: 'RATIO' },
+  };
+  const fetchedAt = String(rows[0].fetched_at); const periodEnd = fetchedAt.slice(0, 10);
+  let inserted = 0;
+  for (const item of (Array.isArray(payload?.data) ? payload.data : [])) {
+    const mapping = mappings[String(item?.name || '').trim()];
+    const value = Number(String(item?.company_value ?? '').replace(/[% ,]/g, ''));
+    if (!mapping || !Number.isFinite(value)) continue;
+    const token = String(item.name).trim().toLowerCase().replace(/[^a-z0-9]+/g, '_');
+    const sourceDocumentId = `UPSTOX_FUNDAMENTALS:${symbol}:key-ratios:${fetchedAt}`;
+    const factId = crypto.createHash('sha256').update(`${sourceDocumentId}:${mapping.metric}`).digest('hex');
+    await run(db, `INSERT OR REPLACE INTO company_facts
+      (factId,companyId,symbol,isin,metric,value,unit,currency,periodType,periodStart,periodEnd,asOfDate,reportedAt,factType,sourceType,scope,provider,sourceDocumentId,sourceUrl,evidenceText,verificationStatus,availabilityStatus,fetchedAt,freshnessTtlDays,providerToken,exactProviderLabel,availableAt,publishedAt)
+      VALUES(?,?,?,?,?,?,?,NULL,'LATEST',NULL,?,?,?,'REPORTED','BROKER_API','CONSOLIDATED','UPSTOX_FUNDAMENTALS',?,?,?,'VERIFIED_PARTIAL','AVAILABLE',?,7,?,?,?,?)`,
+      [factId, rows[0].isin || symbol, symbol, rows[0].isin || null, mapping.metric, value, mapping.unit,
+        periodEnd, periodEnd, periodEnd, periodEnd,
+        sourceDocumentId, `https://api.upstox.com/v2/fundamentals/${encodeURIComponent(String(rows[0].isin || symbol))}/key-ratios`,
+        JSON.stringify({ name: item.name, company_value: item.company_value, sector_value: item.sector_value }), fetchedAt, token, item.name, fetchedAt, periodEnd]);
+    inserted++;
+  }
+  return inserted;
+}
+
 async function main(): Promise<void> {
   fs.mkdirSync(dir, { recursive: true });
   const db = new sqlite3.Database(dbPath);
@@ -112,6 +148,8 @@ async function main(): Promise<void> {
       }
       const terminal=await cachedEndpoints(db,symbol);const terminalComplete=terminal.size===endpoints.length;const successCount=[...terminal.values()].filter(row=>row.status==='SUCCESS').length;const status=terminalComplete&&successCount===endpoints.length?'SUCCESS':successCount>0?'PARTIAL':'FAILED';
       await run(db,`INSERT INTO fundamental_source_snapshots (symbol,isin,provider,authority,source_url,fetched_at,status,error,response_json) VALUES(?,?,?,?,?,?,?,?,?)`,[symbol,isin,'UPSTOX_FUNDAMENTALS','BROKER_AGGREGATED',`https://api.upstox.com/v2/fundamentals/${isin}/`,now(),status,Object.keys(errors).length?JSON.stringify(errors):null,JSON.stringify(responses)]);
+      const promotedNow = await promoteKeyRatiosImmediately(db, symbol);
+      progress.lastPromotedFacts = promotedNow;
       if(terminalComplete)progress.completed++;else progress.failed++;progress.pending=symbols.length-progress.completed-progress.failed;progress.lastSymbol=symbol;progress.updatedAt=now();write(progress);console.log(`[Upstox Fundamentals] ${progress.completed}/${symbols.length} ${symbol} ${successCount}/${endpoints.length} ${status}`);await sleep(symbolDelayMs);
     }
     progress.status=progress.failed?'COMPLETED_WITH_GAPS':'COMPLETED';progress.updatedAt=now();write(progress);
