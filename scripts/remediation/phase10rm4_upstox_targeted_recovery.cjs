@@ -8,16 +8,17 @@ const crypto = require('node:crypto');
 const ROOT = process.cwd();
 try { require('dotenv').config({ path: path.join(ROOT, '.env') }); } catch { /* dotenv is optional in packaged runs */ }
 const ARTIFACT_DIR = path.join(ROOT, 'reports/market-data');
-const QUEUE_FILE = path.join(ARTIFACT_DIR, 'PHASE10RM3_9_REMAINING_COVERAGE_RECOVERY_QUEUE.jsonl');
+const QUEUE_FILE = process.env.PHASE10RM4_QUEUE_FILE || path.join(ARTIFACT_DIR, 'PHASE10RM3_9_REMAINING_COVERAGE_RECOVERY_QUEUE.jsonl');
 
-const OUT_CANDLES = path.join(ARTIFACT_DIR, 'PHASE10RM4_RECOVERED_CANDLES.jsonl');
-const OUT_AUDIT = path.join(ARTIFACT_DIR, 'PHASE10RM4_REQUEST_AUDIT.jsonl');
-const OUT_FAILURES = path.join(ARTIFACT_DIR, 'PHASE10RM4_FAILURES.jsonl');
-const OUT_CHECKPOINT = path.join(ARTIFACT_DIR, 'PHASE10RM4_RECOVERY_CHECKPOINT.json');
-const OUT_REPORT_JSON = path.join(ARTIFACT_DIR, 'PHASE10RM4_RECOVERY_REPORT.json');
-const OUT_REPORT_MD = path.join(ARTIFACT_DIR, 'PHASE10RM4_RECOVERY_REPORT.md');
+const OUTPUT_PREFIX = process.env.PHASE10RM4_OUTPUT_PREFIX || 'PHASE10RM4';
+const OUT_CANDLES = path.join(ARTIFACT_DIR, `${OUTPUT_PREFIX}_RECOVERED_CANDLES.jsonl`);
+const OUT_AUDIT = path.join(ARTIFACT_DIR, `${OUTPUT_PREFIX}_REQUEST_AUDIT.jsonl`);
+const OUT_FAILURES = path.join(ARTIFACT_DIR, `${OUTPUT_PREFIX}_FAILURES.jsonl`);
+const OUT_CHECKPOINT = path.join(ARTIFACT_DIR, `${OUTPUT_PREFIX}_RECOVERY_CHECKPOINT.json`);
+const OUT_REPORT_JSON = path.join(ARTIFACT_DIR, `${OUTPUT_PREFIX}_RECOVERY_REPORT.json`);
+const OUT_REPORT_MD = path.join(ARTIFACT_DIR, `${OUTPUT_PREFIX}_RECOVERY_REPORT.md`);
 
-const REQUEST_GAP_MS = 10000;
+const REQUEST_GAP_MS = Math.max(250, Number(process.env.PHASE10RM4_REQUEST_GAP_MS || 10000));
 const RUN_ID = crypto.randomUUID().slice(0, 8);
 // Upstox returns an indistinguishable 401/403 for an unauthenticated candle
 // request. Read the configured token once and fail closed with a useful audit

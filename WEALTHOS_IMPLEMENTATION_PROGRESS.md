@@ -144,6 +144,13 @@ For BSE OHLCV recovery, the waterfall now repairs missing deterministic
 targeted recovery worker now sends the configured bearer token and fails closed
 when it is absent instead of silently recording unauthenticated failures.
 
+An authenticated pilot against two actual BSE gap instruments completed with
+HTTP 200 responses but zero candles (`BSE_EQ|INE883L01018` and
+`BSE_EQ|INE131N01018`). This proves the credentialed route is reachable and the
+provider response is being audited; it also confirms these two gaps are genuine
+provider-unavailable records rather than local promotion failures. No production
+database writes were made by the pilot.
+
 1. Regenerate or restore missing dossier, Phase-2, v65, and forensic fixture artifacts; do not fabricate them.
 2. Resolve stale frozen-control hashes by either restoring the frozen files or intentionally updating the signed baseline with review evidence.
 3. Finish route-family audit for all scanners, F1–F7, ITAS/29Q, dashboard, holdings, and legacy market-data callers.
