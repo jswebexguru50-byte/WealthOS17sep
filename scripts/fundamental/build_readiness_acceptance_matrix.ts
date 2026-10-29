@@ -21,8 +21,19 @@ const rows = entries.map((entry: any) => {
   return { symbol, isin: entry?.isin || null, exchanges, cohort, status: missing.length ? 'PARTIAL' : row ? 'READY' : 'MISSING', missing };
 });
 const counts = Object.fromEntries([...new Set(rows.map(r => r.cohort))].map(c => [c, { symbols: rows.filter(r => r.cohort === c).length, ready: rows.filter(r => r.cohort === c && r.status === 'READY').length, partial: rows.filter(r => r.cohort === c && r.status === 'PARTIAL').length, missing: rows.filter(r => r.cohort === c && r.status === 'MISSING').length }]));
-const result = { generatedAt: new Date().toISOString(), mcpUsed: false, symbols: rows.length, counts, rows };
+const uniqueSymbols = new Set(rows.map(r => r.symbol)).size;
+const result = {
+  generatedAt: new Date().toISOString(),
+  mcpUsed: false,
+  // `symbols` is the number of manifest listing rows; duplicate symbols can
+  // legitimately exist when an issuer has multiple exchange listings.
+  symbols: rows.length,
+  uniqueSymbols,
+  duplicateRows: rows.length - uniqueSymbols,
+  counts,
+  rows,
+};
 const out = arg('--out') || path.join(process.cwd(), 'reports', 'non_mcp', 'readiness_acceptance_matrix.json');
 fs.mkdirSync(path.dirname(path.resolve(out)), { recursive: true });
 fs.writeFileSync(path.resolve(out), JSON.stringify(result, null, 2) + '\n');
-console.log(JSON.stringify({ out, symbols: rows.length, counts }, null, 2));
+console.log(JSON.stringify({ out, symbols: rows.length, uniqueSymbols, duplicateRows: rows.length - uniqueSymbols, counts }, null, 2));

@@ -25,6 +25,8 @@ Commit `b030972dc` strengthens the field-level ledger: every gap now records att
 
 Full-manifest non-MCP acceptance rerun completed on 2026-10-29 with all executable phases checkpointed: preflight, gap plan, BSE identity repair, exchange XBRL/MCA, Upstox acquisition/promotion, cached promotion, gap manifest, coverage, and readiness matrix. Result: **3,512 symbols; 31,579/35,120 core fields covered (89.92%); 3,541 explicit gaps; MCP disabled**. Promotion verification reports **3,511 promoted and 1 failed** (`UL-SOLITARIO`), while readiness classification across the 3,548-symbol exchange universe is **69/3,000 NSE-only ready, 14/548 BSE-only ready; no symbol is completely missing**. Provider-empty borrowing/OHLCV gaps remain intentionally fail-closed.
 
+The readiness matrix now reports its denominator explicitly: **3,548 listing rows = 3,512 unique issuers + 36 duplicate exchange/listing rows**. This removes the apparent 3,512-versus-3,548 discrepancy without changing coverage results (`build_readiness_acceptance_matrix.ts`).
+
 The complete golden intelligence/oracle unit file now passes **13/13** after the canonical company-identity and bank-classification fix (`npx vitest run tests/unit/golden_intelligence_oracle.test.ts`).
 
 Commit `28274113f` fixes promotion-gap resumability: `promotion_gap_manifest.json` now preserves the source manifest's terminal status, attempt count, and last error. The current `UL-SOLITARIO` gap is therefore recorded as `source_exhausted` after one attempted acquisition instead of being reset to `pending` on every run.
