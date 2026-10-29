@@ -31,6 +31,8 @@ Commit `e2bd02c7d` adds the missing OHLCV promotion boundary: `scripts/remediati
 
 Commit `2b3963f8f` adds the missing daily Kite token exchange CLI (`scripts/market_data/refresh_kite_token.cjs`). It exchanges the single-use request token using the configured API key/secret and persists only the access token and timestamp in `portfolio.db` `AppConfig`; it never prints or writes credentials to source files.
 
+The Kite status endpoint now validates the stored token against `/user/profile` and reports only `tokenPresent`, `tokenValid`, HTTP status, and update time. This makes expired tokens visible to the UI without exposing secrets.
+
 The complete golden intelligence/oracle unit file now passes **13/13** after the canonical company-identity and bank-classification fix (`npx vitest run tests/unit/golden_intelligence_oracle.test.ts`).
 
 Commit `28274113f` fixes promotion-gap resumability: `promotion_gap_manifest.json` now preserves the source manifest's terminal status, attempt count, and last error. The current `UL-SOLITARIO` gap is therefore recorded as `source_exhausted` after one attempted acquisition instead of being reset to `pending` on every run.

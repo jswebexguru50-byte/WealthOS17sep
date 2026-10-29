@@ -54,7 +54,27 @@ router.get('/callback', async (req, res) => {
 
 router.get('/status', async (_req, res) => {
   const configured = Boolean(process.env.KITE_API_KEY && process.env.KITE_API_SECRET);
-  res.json({ configured, callbackUrl: process.env.KITE_REDIRECT_URL || 'http://127.0.0.1:3000/api/auth/kite/callback' });
+  const tokenRow = await new Promise<any>((resolve) => {
+    getDB().get("SELECT value FROM AppConfig WHERE key='Kite_Access_Token'", (error: any, row: any) => resolve(error ? null : row));
+  });
+  const token = String(tokenRow?.value || '').trim();
+  let tokenValid: boolean | null = token ? false : null;
+  let tokenHttpStatus: number | null = null;
+  if (configured && token) {
+    try {
+      const response = await fetch('https://api.kite.trade/user/profile', {
+        headers: { 'X-Kite-Version': '3', Authorization: `token ${process.env.KITE_API_KEY}:${token}` },
+      });
+      tokenHttpStatus = response.status;
+      tokenValid = response.ok;
+    } catch {
+      tokenValid = null;
+    }
+  }
+  const updatedRow = await new Promise<any>((resolve) => {
+    getDB().get("SELECT value FROM AppConfig WHERE key='Kite_Access_Token_Updated_At'", (error: any, row: any) => resolve(error ? null : row));
+  });
+  res.json({ configured, tokenPresent: Boolean(token), tokenValid, tokenHttpStatus, tokenUpdatedAt: updatedRow?.value || null, callbackUrl: process.env.KITE_REDIRECT_URL || 'http://127.0.0.1:3000/api/auth/kite/callback' });
 });
 
 export default router;
