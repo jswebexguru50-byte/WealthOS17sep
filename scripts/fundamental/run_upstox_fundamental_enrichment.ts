@@ -142,7 +142,12 @@ async function main(): Promise<void> {
       for(const [endpoint,row] of cached){if(row.status==='SUCCESS')responses[endpoint]=JSON.parse(String(row.response_json));else errors[endpoint]=String(row.error||'NOT_AVAILABLE');}
       for(const endpoint of endpoints){
         if(cached.has(endpoint))continue;
-        try{const payload=await fetchWithBackoff(`https://api.upstox.com/v2/fundamentals/${encodeURIComponent(isin)}/${endpoint}`,token);await saveEndpoint(db,symbol,isin,endpoint,'SUCCESS',payload,null,200);responses[endpoint]=payload;progress.endpointSuccesses[endpoint]=(progress.endpointSuccesses[endpoint]||0)+1;consecutiveNetworkFailures=0;}
+        try{const payload=await fetchWithBackoff(`https://api.upstox.com/v2/fundamentals/${encodeURIComponent(isin)}/${endpoint}`,token);await saveEndpoint(db,symbol,isin,endpoint,'SUCCESS',payload,null,200);responses[endpoint]=payload;progress.endpointSuccesses[endpoint]=(progress.endpointSuccesses[endpoint]||0)+1;consecutiveNetworkFailures=0;
+          // Promote the endpoint as soon as it lands.  Key-ratios is the
+          // currently mapped Upstox endpoint; the end-of-symbol call below is
+          // retained as an idempotent safety pass for resumed/legacy rows.
+          if (endpoint === 'key-ratios') progress.lastPromotedFacts = await promoteKeyRatiosImmediately(db, symbol);
+        }
         catch(error:any){const failure=error instanceof FetchError?error:new FetchError('NETWORK',String(error));if(failure.kind==='AUTH'){progress.status='BLOCKED_AUTH';progress.blockedAt={symbol,endpoint,error:failure.message};progress.updatedAt=now();write(progress);process.exitCode=2;return;}if(failure.httpStatus===404||(endpoint==='competitors'&&failure.httpStatus===400)){await saveEndpoint(db,symbol,isin,endpoint,'NOT_AVAILABLE',null,failure.message,failure.httpStatus||404);errors[endpoint]=failure.message;progress.endpointUnavailable[endpoint]=(progress.endpointUnavailable[endpoint]||0)+1;}else{errors[endpoint]=failure.message;if(failure.kind==='NETWORK')consecutiveNetworkFailures++;if(consecutiveNetworkFailures>=3){progress.status='BLOCKED_NETWORK';progress.blockedAt={symbol,endpoint,error:failure.message};progress.updatedAt=now();write(progress);process.exitCode=3;return;}}}
         await sleep(endpointDelayMs);
       }
