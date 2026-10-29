@@ -111,6 +111,61 @@ async function promoteKeyRatiosImmediately(db: sqlite3.Database, symbol: string)
   return inserted;
 }
 
+function upstoxPeriodEnd(period: unknown): string | null {
+  const match = String(period ?? '').match(/^([A-Za-z]{3})\s+(\d{4})$/);
+  if (!match) return null;
+  const month = new Map([['Mar', '03'], ['Jun', '06'], ['Sep', '09'], ['Dec', '12']]).get(match[1]);
+  if (!month) return null;
+  const lastDay = new Date(Date.UTC(Number(match[2]), Number(month), 0)).getUTCDate();
+  return `${match[2]}-${month}-${String(lastDay).padStart(2, '0')}`;
+}
+
+/** Promote statement/ownership cells immediately after their endpoint lands.
+ * Only explicit provider categories are mapped; unknown categories remain in
+ * the durable raw snapshot rather than being guessed into canonical facts. */
+async function promoteStructuredEndpointImmediately(db: sqlite3.Database, symbol: string, endpoint: Endpoint): Promise<number> {
+  if (!['income-statement', 'cash-flow', 'share-holdings'].includes(endpoint)) return 0;
+  const rows = await all(db, `SELECT isin,fetched_at,response_json FROM fundamental_endpoint_snapshots
+    WHERE provider='UPSTOX_FUNDAMENTALS' AND symbol=? AND endpoint=? AND status='SUCCESS'
+    ORDER BY fetched_at DESC LIMIT 1`, [symbol, endpoint]);
+  if (!rows.length) return 0;
+  let payload: any; try { payload = JSON.parse(String(rows[0].response_json || '{}')); } catch { return 0; }
+  const sourceDocumentId = `UPSTOX_FUNDAMENTALS:${symbol}:${endpoint}:${rows[0].fetched_at}`;
+  const sourceUrl = `https://api.upstox.com/v2/fundamentals/${encodeURIComponent(String(rows[0].isin || symbol))}/${endpoint}`;
+  const values: Array<{ metric: string; value: number; unit: string; periodEnd: string }> = [];
+  if (endpoint === 'income-statement') {
+    const map: Record<string, string> = { revenue: 'revenue', operating_profit: 'operating_profit', net_profit: 'pat' };
+    for (const category of (payload?.data?.income_statement || [])) for (const h of (category.history || [])) {
+      const metric = map[String(category.category)]; const periodEnd = upstoxPeriodEnd(h.period); const value = Number(h.value);
+      if (metric && periodEnd && Number.isFinite(value)) values.push({ metric, value, unit: 'INR_CR', periodEnd });
+    }
+  } else if (endpoint === 'cash-flow') {
+    const map: Record<string, string> = { operating: 'cfo', investing: 'cfi', financing: 'cff' };
+    for (const category of (payload?.data?.cash_flow || [])) for (const h of (category.history || [])) {
+      const metric = map[String(category.category)]; const periodEnd = upstoxPeriodEnd(h.period); const value = Number(h.value);
+      if (metric && periodEnd && Number.isFinite(value)) values.push({ metric, value, unit: 'INR_CR', periodEnd });
+    }
+  } else {
+    const map: Record<string, string> = { promoters: 'promoter_holding', fii: 'fii_holding', mutual_funds: 'mf_holding', other_dii: 'dii_holding' };
+    for (const category of (payload?.data || [])) for (const h of (category.history || [])) {
+      const metric = map[String(category.category)]; const periodEnd = upstoxPeriodEnd(h.period); const value = Number(h.value);
+      if (metric && periodEnd && Number.isFinite(value)) values.push({ metric, value, unit: 'PERCENT' , periodEnd });
+    }
+  }
+  let inserted = 0;
+  for (const item of values) {
+    const factId = crypto.createHash('sha256').update(`${sourceDocumentId}:${item.metric}:${item.periodEnd}`).digest('hex');
+    await run(db, `INSERT OR REPLACE INTO company_facts
+      (factId,companyId,symbol,isin,metric,value,unit,currency,periodType,periodStart,periodEnd,asOfDate,reportedAt,factType,sourceType,scope,provider,sourceDocumentId,sourceUrl,evidenceText,verificationStatus,availabilityStatus,fetchedAt,freshnessTtlDays,providerToken,exactProviderLabel,availableAt,publishedAt)
+      VALUES(?,?,?,?,?,?,?,NULL,?,NULL,?,?,?,'REPORTED','BROKER_API','CONSOLIDATED','UPSTOX_FUNDAMENTALS',?,?,?,'VERIFIED_PARTIAL','AVAILABLE',?,365,?,?,?,?)`,
+      [factId, rows[0].isin || symbol, symbol, rows[0].isin || null, item.metric, item.value, item.unit,
+        'ANNUAL', item.periodEnd, item.periodEnd, item.periodEnd, sourceDocumentId, sourceUrl,
+        JSON.stringify({ endpoint, periodEnd: item.periodEnd }), rows[0].fetched_at, endpoint, item.metric, rows[0].fetched_at, item.periodEnd]);
+    inserted++;
+  }
+  return inserted;
+}
+
 async function main(): Promise<void> {
   fs.mkdirSync(dir, { recursive: true });
   const db = new sqlite3.Database(dbPath);
@@ -147,6 +202,7 @@ async function main(): Promise<void> {
           // currently mapped Upstox endpoint; the end-of-symbol call below is
           // retained as an idempotent safety pass for resumed/legacy rows.
           if (endpoint === 'key-ratios') progress.lastPromotedFacts = await promoteKeyRatiosImmediately(db, symbol);
+          else progress.lastPromotedFacts = await promoteStructuredEndpointImmediately(db, symbol, endpoint);
         }
         catch(error:any){const failure=error instanceof FetchError?error:new FetchError('NETWORK',String(error));if(failure.kind==='AUTH'){progress.status='BLOCKED_AUTH';progress.blockedAt={symbol,endpoint,error:failure.message};progress.updatedAt=now();write(progress);process.exitCode=2;return;}if(failure.httpStatus===404||(endpoint==='competitors'&&failure.httpStatus===400)){await saveEndpoint(db,symbol,isin,endpoint,'NOT_AVAILABLE',null,failure.message,failure.httpStatus||404);errors[endpoint]=failure.message;progress.endpointUnavailable[endpoint]=(progress.endpointUnavailable[endpoint]||0)+1;}else{errors[endpoint]=failure.message;if(failure.kind==='NETWORK')consecutiveNetworkFailures++;if(consecutiveNetworkFailures>=3){progress.status='BLOCKED_NETWORK';progress.blockedAt={symbol,endpoint,error:failure.message};progress.updatedAt=now();write(progress);process.exitCode=3;return;}}}
         await sleep(endpointDelayMs);
