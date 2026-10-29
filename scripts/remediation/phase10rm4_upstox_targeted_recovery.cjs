@@ -6,6 +6,7 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 
 const ROOT = process.cwd();
+try { require('dotenv').config({ path: path.join(ROOT, '.env') }); } catch { /* dotenv is optional in packaged runs */ }
 const ARTIFACT_DIR = path.join(ROOT, 'reports/market-data');
 const QUEUE_FILE = path.join(ARTIFACT_DIR, 'PHASE10RM3_9_REMAINING_COVERAGE_RECOVERY_QUEUE.jsonl');
 
@@ -21,7 +22,15 @@ const RUN_ID = crypto.randomUUID().slice(0, 8);
 // Upstox returns an indistinguishable 401/403 for an unauthenticated candle
 // request. Read the configured token once and fail closed with a useful audit
 // record rather than silently marking every BSE window unavailable.
-const UPSTOX_ACCESS_TOKEN = process.env.UPSTOX_ACCESS_TOKEN || '';
+let UPSTOX_ACCESS_TOKEN = process.env.UPSTOX_ACCESS_TOKEN || '';
+if (!UPSTOX_ACCESS_TOKEN) {
+  try {
+    const Database = require('better-sqlite3');
+    const configDb = new Database(path.join(ROOT, 'portfolio.db'), { readonly: true });
+    UPSTOX_ACCESS_TOKEN = String(configDb.prepare("SELECT value FROM AppConfig WHERE key='Access_Token'").get()?.value || '');
+    configDb.close();
+  } catch { /* remain fail-closed */ }
+}
 
 const sleep = ms => new Promise(res => setTimeout(res, ms));
 
