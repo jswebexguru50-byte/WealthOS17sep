@@ -366,3 +366,57 @@ All 15 tests pass green on `vitest run`.
 - `fix: prefer NSE key over BSE key in Upstox provider identity resolution` — source fix in backfill script
 - `test: add upstox identity resolution unit tests (15 assertions)` — tests
 - `feat: classify Upstox HTTP 400 failures (85 entries, 65 fixable)` — classification report
+
+---
+
+## 2026-10-29 — Agent B: Canonical Consumer Migration Audit
+
+**Agent:** B — Consumer Migration
+**Acceptance rule audited:** Every consumer must read canonical promoted data first. No consumer may silently perform its own provider fetch.
+
+### Files Audited
+
+- `src/server/routes/infra.ts`
+- `src/server/services/OrderBookImbalanceService.ts`
+- `src/server/services/TechnicalMomentumEngine.ts`
+- `src/server/services/SupportResistanceEngine.ts`
+- `src/server/services/SmartMoneyConceptsEngine.ts`
+- `src/server/services/MultibaggerDiscoveryEngine.ts`
+- `src/server/services/SmartMoneyFlowEngine.ts`
+- `src/server/services/ConsolidatedOpportunityEngine.ts`
+- `src/server/services/LiveMarketStreamService.ts`
+- `src/server/services/AutonomousSmartMoneyAgent.ts`
+- `src/server/services/screenerService.ts`
+- `src/server/camsParser.ts`
+- `src/server/services/stockscans/MarketDataQueryService.ts`
+
+### Violations Found: 13 Total
+
+**Category (a) — migrated (6):**
+1. `OrderBookImbalanceService.ts:48` — Yahoo as primary price source → migrated to `OpportunityDataResolverService.resolveMarketData()`
+2. `TechnicalMomentumEngine.ts:211` — Yahoo without canonical check → migrated
+3. `SupportResistanceEngine.ts:93` — Yahoo without canonical check → migrated
+4. `SmartMoneyConceptsEngine.ts:1049` — Yahoo as only stock OHLCV source → migrated
+5. `MultibaggerDiscoveryEngine.ts:225` — Yahoo as primary CMP/SMA source → migrated
+6. `SmartMoneyFlowEngine.ts:497` — Yahoo as primary in `getMultiTimeframeSmartMoney` → migrated
+
+**Category (b) — requires data not in canonical yet (5):**
+- `infra.ts:2702,2820` — data pipeline ingestion routes that WRITE to DailyOHLCV (exempt as ingestors)
+- `ConsolidatedOpportunityEngine.ts:802,815` — benchmark indices (^CRSLDX, ^NSEI) not in equity canonical
+- `ConsolidatedOpportunityEngine.ts:3385` — global indices/forex (^GSPC, BZ=F, USDINR=X, etc.) not in canonical
+- `SmartMoneyConceptsEngine.ts:1073` — ^NSEI benchmark for SMT Divergence, not in equity canonical
+
+**Category (c) — borderline compliant, no action needed (2):**
+- `LiveMarketStreamService.ts:227` — Yahoo is step 5 after 4 canonical/local checks
+- `SmartMoneyFlowEngine.ts:296` — Yahoo is step 3 of DuckDB→SQLite→Yahoo waterfall in `classifySmartMoneyFlow`
+
+### Files Changed
+
+- `src/server/services/OrderBookImbalanceService.ts` — removed `fetchTickerData`, added canonical resolver
+- `src/server/services/TechnicalMomentumEngine.ts` — removed `fetchTickerData`, added canonical resolver
+- `src/server/services/SupportResistanceEngine.ts` — removed `fetchTickerData`, added canonical resolver
+- `src/server/services/SmartMoneyConceptsEngine.ts` — added canonical resolver for stock path; retained `fetchTickerData` for ^NSEI benchmark
+- `src/server/services/MultibaggerDiscoveryEngine.ts` — removed `fetchTickerData`, added canonical resolver
+- `src/server/services/SmartMoneyFlowEngine.ts` — added canonical resolver for `getMultiTimeframeSmartMoney`; `classifySmartMoneyFlow` unchanged
+- `tests/unit/canonical_consumer_migration.test.ts` — new test verifying canonical resolver called, Yahoo not called
+- `reports/canonical_consumer_audit_20261029.json` — full machine-readable audit report

@@ -1,0 +1,164 @@
+{
+  "generated": "2026-10-29T00:00:00.000Z",
+  "auditor": "Agent B — Consumer Migration",
+  "acceptance_rule": "Every consumer must read canonical promoted data first. No consumer may silently perform its own provider fetch.",
+  "canonical_stack": [
+    "DuckDbAdjustedOhlcvService (DuckDB corporate-action-adjusted catalog)",
+    "DailyOHLCV (canonical SQLite OHLCV table)",
+    "HistoricalPrices (legacy SQLite fallback)",
+    "Yahoo Finance via yahooFinance.ts (last resort only, circuit-breaker wrapped)"
+  ],
+  "canonical_resolver": "OpportunityDataResolverService.resolveMarketData() — implements DuckDB→DailyOHLCV→HistoricalPrices→Yahoo waterfall",
+  "total_violations": 13,
+  "violations_migrated": 6,
+  "violations_pending": 7,
+  "files_audited": [
+    "src/server/routes/infra.ts",
+    "src/server/routes/stockscansRoutes.ts",
+    "src/server/routes/remoteBridgeRouter.ts",
+    "src/server/services/OrderBookImbalanceService.ts",
+    "src/server/services/TechnicalMomentumEngine.ts",
+    "src/server/services/SupportResistanceEngine.ts",
+    "src/server/services/SmartMoneyConceptsEngine.ts",
+    "src/server/services/MultibaggerDiscoveryEngine.ts",
+    "src/server/services/SmartMoneyFlowEngine.ts",
+    "src/server/services/ConsolidatedOpportunityEngine.ts",
+    "src/server/services/LiveMarketStreamService.ts",
+    "src/server/services/AutonomousSmartMoneyAgent.ts",
+    "src/server/services/screenerService.ts",
+    "src/server/camsParser.ts",
+    "src/server/services/stockscans/MarketDataQueryService.ts",
+    "src/server/services/stockscans/EvidenceQueryService.ts"
+  ],
+  "violations": [
+    {
+      "file": "src/server/services/OrderBookImbalanceService.ts",
+      "line": 48,
+      "pattern": "direct fetchTickerData call — Yahoo as primary price source",
+      "description": "getOrderBookDepth() called fetchTickerData(cleanSym.NS, 10) with no canonical check before it. Used yfData?.summary?.price for current price.",
+      "migrated": true,
+      "fix": "Replaced with OpportunityDataResolverService.getInstance().resolveMarketData(cleanSym, 5); uses snapshot.currentPrice",
+      "category": "a",
+      "notes": "Clean migration. OpportunityDataResolverService handles full canonical waterfall internally."
+    },
+    {
+      "file": "src/server/services/TechnicalMomentumEngine.ts",
+      "line": 211,
+      "pattern": "direct fetchTickerData call — Yahoo without canonical check first",
+      "description": "computeMomentumReport() fetched Yahoo data when historicalCandles were insufficient (<60), bypassing DuckDB/DailyOHLCV entirely.",
+      "migrated": true,
+      "fix": "Replaced with OpportunityDataResolverService.getInstance().resolveMarketData(cleanSym, 260); uses snapshot.candles",
+      "category": "a",
+      "notes": "File is @deprecated but still in active use. Migration is safe as candle structure is compatible."
+    },
+    {
+      "file": "src/server/services/SupportResistanceEngine.ts",
+      "line": 93,
+      "pattern": "direct fetchTickerData call — Yahoo without canonical check first",
+      "description": "analyze() fetched Yahoo data when historicalCandles were insufficient (<30), skipping all canonical SQLite and DuckDB sources.",
+      "migrated": true,
+      "fix": "Replaced with OpportunityDataResolverService.getInstance().resolveMarketData(cleanSym, 260); uses snapshot.candles",
+      "category": "a",
+      "notes": "Compatible migration. Candle field names (date, open, high, low, close, volume) are identical."
+    },
+    {
+      "file": "src/server/services/SmartMoneyConceptsEngine.ts",
+      "line": 1049,
+      "pattern": "direct fetchTickerData call — Yahoo as PRIMARY source for stock OHLCV",
+      "description": "analyzeSymbol() called fetchTickerData as the sole data source with no canonical fallback chain before it.",
+      "migrated": true,
+      "fix": "Replaced with OpportunityDataResolverService.getInstance().resolveMarketData(cleanSym, daysBack); uses snapshot.candles",
+      "category": "a",
+      "notes": "fetchTickerData import retained for ^NSEI benchmark fetch at line 1073 (category-b exception)."
+    },
+    {
+      "file": "src/server/services/MultibaggerDiscoveryEngine.ts",
+      "line": 225,
+      "pattern": "direct fetchTickerData call — Yahoo as PRIMARY source for CMP/SMA calculation",
+      "description": "discoverScripUniverse() called fetchTickerData(symbol.NS, 200) as the only price data source; no DuckDB or SQLite check.",
+      "migrated": true,
+      "fix": "Replaced with OpportunityDataResolverService.getInstance().resolveMarketData(item.symbol, 200); uses snapshot.candles",
+      "category": "a",
+      "notes": "Clean migration. fetchTickerData import removed entirely."
+    },
+    {
+      "file": "src/server/services/SmartMoneyFlowEngine.ts",
+      "line": 497,
+      "pattern": "direct fetchTickerData call — Yahoo as PRIMARY source in getMultiTimeframeSmartMoney",
+      "description": "getMultiTimeframeSmartMoney() called fetchTickerData(yfSym, 365) as the only price data source, with no canonical check, unlike classifySmartMoneyFlow() which already uses DuckDB→SQLite→Yahoo waterfall.",
+      "migrated": true,
+      "fix": "Replaced with OpportunityDataResolverService.getInstance().resolveMarketData(cleanSym, 260); uses snapshot.candles. fetchTickerData import retained for classifySmartMoneyFlow's last-resort path at line 296.",
+      "category": "a",
+      "notes": "classifySmartMoneyFlow() (line 296) correctly follows canonical waterfall already and is not migrated."
+    },
+    {
+      "file": "src/server/routes/infra.ts",
+      "line": 2702,
+      "pattern": "direct Yahoo Finance HTTP — /data-pipeline/backfill-yahoo route",
+      "description": "POST /api/data-pipeline/backfill-yahoo constructs YAHOO_BASE URL and fetches directly. This is a DATA INGESTION pipeline tool that writes to canonical DailyOHLCV table.",
+      "migrated": false,
+      "category": "b",
+      "notes": "Exempted: This is the ingestor, not a consumer. It writes TO the canonical DailyOHLCV table. Migrating would break the ingestion pipeline."
+    },
+    {
+      "file": "src/server/routes/infra.ts",
+      "line": 2820,
+      "pattern": "direct Yahoo Finance HTTP — /data-pipeline/fast-backfill route",
+      "description": "POST /api/data-pipeline/fast-backfill also constructs YAHOO_BASE URL for gap-fill. Same ingestion pipeline tool.",
+      "migrated": false,
+      "category": "b",
+      "notes": "Exempted: Data ingestion pipeline. Writes to canonical DailyOHLCV. Not a consumer violation."
+    },
+    {
+      "file": "src/server/services/ConsolidatedOpportunityEngine.ts",
+      "line": 802,
+      "pattern": "direct fetchTickerData call for benchmark index ^CRSLDX",
+      "description": "getBenchmark180dReturn() fetches Nifty 500 (^CRSLDX) and ^NSEI via Yahoo. Index data is not in canonical DailyOHLCV table.",
+      "migrated": false,
+      "category": "b",
+      "notes": "Pending: Benchmark index OHLCV (^CRSLDX, ^NSEI) not stored in canonical equity DailyOHLCV. Requires adding index data to canonical store first."
+    },
+    {
+      "file": "src/server/services/ConsolidatedOpportunityEngine.ts",
+      "line": 3385,
+      "pattern": "direct fetchTickerData calls for global market indices and forex",
+      "description": "getMacroSnapshot() fetches ^NSEI, ^INDIAVIX, ^GSPC, ^IXIC, DX-Y.NYB, BZ=F, ^TNX, USDINR=X via Yahoo. None of these are in canonical equity OHLCV.",
+      "migrated": false,
+      "category": "b",
+      "notes": "Pending: Global indices and forex data not in canonical store. Requires dedicated macro data table."
+    },
+    {
+      "file": "src/server/services/SmartMoneyConceptsEngine.ts",
+      "line": 1073,
+      "pattern": "direct fetchTickerData call for ^NSEI benchmark index",
+      "description": "analyzeSymbol() fetches ^NSEI for SMT Divergence benchmark candles via Yahoo. Index data not in canonical equity table.",
+      "migrated": false,
+      "category": "b",
+      "notes": "Pending: Benchmark index data not in canonical DailyOHLCV. fetchTickerData import retained specifically for this call."
+    },
+    {
+      "file": "src/server/services/LiveMarketStreamService.ts",
+      "line": 227,
+      "pattern": "direct fetchTickerData as step-5 fallback in live price lookup",
+      "description": "getLivePrice() already checks 4 canonical sources (OpportunityScripEvaluations, Holdings, Prices, Screener cache) before calling Yahoo as step 5.",
+      "migrated": false,
+      "category": "c",
+      "notes": "Borderline compliant: Yahoo is already a last resort after 4 canonical/local checks. No action needed unless a dedicated live-price canonical layer is added."
+    },
+    {
+      "file": "src/server/services/SmartMoneyFlowEngine.ts",
+      "line": 296,
+      "pattern": "direct fetchTickerData as last-resort in classifySmartMoneyFlow",
+      "description": "classifySmartMoneyFlow() checks DuckDB then SQLite (HistoricalPrices) before calling fetchTickerData. Yahoo is step 3 of an explicit canonical waterfall.",
+      "migrated": false,
+      "category": "c",
+      "notes": "Already compliant: canonical waterfall (DuckDB→SQLite→Yahoo) is already in place. No migration needed."
+    }
+  ],
+  "additional_findings": {
+    "AutonomousSmartMoneyAgent.ts": "Imports fetchTickerData but no direct call found in the file body. Import appears unused. Not a runtime violation.",
+    "camsParser.ts:511": "Queries Yahoo Finance Search API for ISIN resolution — different use case (symbol mapping, not OHLCV). Not in scope of this audit.",
+    "DuckDB_direct_calls": "stockscans/MarketDataQueryService.ts opens a local SQLite evidence DB (fere_evidence.db) for universe symbol lists — not DuckDB market data. Not a violation.",
+    "ZerodhaSyncService.ts": "Uses kiteconnect for official Zerodha holdings sync — this is the sanctioned Zerodha integration path, not a rogue provider call."
+  }
+}
