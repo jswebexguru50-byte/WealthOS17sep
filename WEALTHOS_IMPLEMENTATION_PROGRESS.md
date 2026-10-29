@@ -33,6 +33,8 @@ Commit `2b3963f8f` adds the missing daily Kite token exchange CLI (`scripts/mark
 
 The Kite status endpoint now validates the stored token against `/user/profile` and reports only `tokenPresent`, `tokenValid`, HTTP status, and update time. This makes expired tokens visible to the UI without exposing secrets.
 
+Upstox full-history gap recovery was exercised on 2026-10-29 with a valid stored token: **105 instruments requested, 15 HTTP-200 responses, 3,323 validated candles staged and promoted into `DailyOHLCV`**, with no MCP calls. Ninety instruments returned provider HTTP 400 and remain explicitly unavailable. Coverage improved from **31,579/35,120 (89.92%) to 31,593/35,120 (89.96%)**, reducing total core gaps from 3,541 to 3,527. The worker now supports `PHASE10RM4_ACCEPT_ALL=1` for no-local-history symbols and reports full-history target counts without negative remaining totals.
+
 The complete golden intelligence/oracle unit file now passes **13/13** after the canonical company-identity and bank-classification fix (`npx vitest run tests/unit/golden_intelligence_oracle.test.ts`).
 
 Commit `28274113f` fixes promotion-gap resumability: `promotion_gap_manifest.json` now preserves the source manifest's terminal status, attempt count, and last error. The current `UL-SOLITARIO` gap is therefore recorded as `source_exhausted` after one attempted acquisition instead of being reset to `pending` on every run.

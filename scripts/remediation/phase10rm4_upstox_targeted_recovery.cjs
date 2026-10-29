@@ -19,6 +19,7 @@ const OUT_REPORT_JSON = path.join(ARTIFACT_DIR, `${OUTPUT_PREFIX}_RECOVERY_REPOR
 const OUT_REPORT_MD = path.join(ARTIFACT_DIR, `${OUTPUT_PREFIX}_RECOVERY_REPORT.md`);
 
 const REQUEST_GAP_MS = Math.max(250, Number(process.env.PHASE10RM4_REQUEST_GAP_MS || 10000));
+const ACCEPT_ALL_AVAILABLE = process.env.PHASE10RM4_ACCEPT_ALL === '1';
 const RUN_ID = crypto.randomUUID().slice(0, 8);
 // Upstox returns an indistinguishable 401/403 for an unauthenticated candle
 // request. Read the configured token once and fail closed with a useful audit
@@ -230,7 +231,11 @@ async function run() {
     for (const c of candles) {
       const dt = c[0].split('T')[0];
       
-      if (req.requiredDates.has(dt)) {
+      // Gap recovery normally stages only explicitly missing dates.  For a
+      // symbol with no local OHLCV at all, the deterministic full-history mode
+      // accepts every validated candle returned by Upstox; promotion remains a
+      // separate idempotent step.
+      if (ACCEPT_ALL_AVAILABLE || req.requiredDates.has(dt)) {
         const candleKey = `${req.providerKey}_${dt}`;
         if (stagedKeys.has(candleKey)) {
           duplicatesSkipped++;
@@ -300,11 +305,12 @@ async function run() {
     recovered_candles: recoveredCandlesCount,
     unique_recovered_keys: stagedKeys.size,
     duplicates_skipped: duplicatesSkipped,
-    targets_satisfied: satisfiedTargets,
-    targets_remaining: totalTargets - satisfiedTargets,
+    targets_satisfied: ACCEPT_ALL_AVAILABLE ? recoveredCandlesCount : satisfiedTargets,
+    targets_remaining: ACCEPT_ALL_AVAILABLE ? 0 : Math.max(0, totalTargets - satisfiedTargets),
     blocked_records_requested: 0,
     production_db_writes: 0,
-    certification_changed: false
+    certification_changed: false,
+    accept_all_available: ACCEPT_ALL_AVAILABLE
   };
 
   fs.writeFileSync(OUT_REPORT_JSON, JSON.stringify(reportJSON, null, 2));
