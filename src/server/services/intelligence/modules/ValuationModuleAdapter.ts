@@ -54,20 +54,22 @@ export class ValuationModuleAdapter {
     // 1. Resolve business model
     let sector: string | null = null;
     let industry: string | null = null;
+    let companyName: string | null = null;
     try {
       const ticker = await dbGet<any>(
         db,
-        `SELECT sector, industry FROM MasterTickers WHERE UPPER(symbol) = ? LIMIT 1`,
+        `SELECT sector, industry, COALESCE(company_name, name) AS company_name FROM MasterTickers WHERE UPPER(symbol) = ? LIMIT 1`,
         [cleanSym]
       );
       if (ticker) {
         sector = ticker.sector;
         industry = ticker.industry;
+        companyName = ticker.company_name;
       }
     } catch {
       // Non-fatal
     }
-    const businessModel = BusinessModelClassifier.classify(cleanSym, sector, industry);
+    const businessModel = BusinessModelClassifier.classify(cleanSym, sector, industry, companyName);
 
     // 2. Resolve valuation metrics from promoted canonical facts.  Raw
     // provider snapshots are acquisition artifacts, not an analytical input.
