@@ -73,6 +73,7 @@ if (allowMcp) {
 }
 phase('preflight_coverage', ['scripts/fundamental/build_non_mcp_coverage_ledger.ts', '--manifest', resolvedManifest, '--out', preflightLedger]);
 phase('gap_plan', ['scripts/fundamental/plan_non_mcp_acquisition.ts', '--ledger', preflightLedger]);
+phase('bse_identity_repair', ['scripts/fundamental/ensure_bse_instrument_keys.ts'], {}, true);
 phase('exchange_xbrl_mca', ['scripts/fere/run_combined_exchange_batch.mjs', '--manifest', resolvedManifest, '--apply', '--concurrency', arg('--exchange-concurrency') || '3', '--checkpoint-every', '50', '--retries', '2', '--timeout-ms', '90000'], {}, true);
 phase('upstox_fundamentals', ['scripts/fundamental/run_upstox_fundamental_enrichment.ts', '--manifest', resolvedManifest, '--batch-size', '1', '--endpoint-delay-ms', '750', '--symbol-delay-ms', '1000'], { FUNDAMENTAL_MANIFEST_PATH: upstoxManifest }, true);
 phase('upstox_canonical_promotion', ['scripts/fundamental/promote_upstox_snapshots.ts'], {}, true);

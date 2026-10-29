@@ -18,6 +18,10 @@ const OUT_REPORT_MD = path.join(ARTIFACT_DIR, 'PHASE10RM4_RECOVERY_REPORT.md');
 
 const REQUEST_GAP_MS = 10000;
 const RUN_ID = crypto.randomUUID().slice(0, 8);
+// Upstox returns an indistinguishable 401/403 for an unauthenticated candle
+// request. Read the configured token once and fail closed with a useful audit
+// record rather than silently marking every BSE window unavailable.
+const UPSTOX_ACCESS_TOKEN = process.env.UPSTOX_ACCESS_TOKEN || '';
 
 const sleep = ms => new Promise(res => setTimeout(res, ms));
 
@@ -32,6 +36,10 @@ async function run() {
   if (!fs.existsSync(QUEUE_FILE)) {
     console.error("FAIL CLOSED: Queue file not found.");
     process.exit(1);
+  }
+  if (!UPSTOX_ACCESS_TOKEN) {
+    console.error('FAIL CLOSED: UPSTOX_ACCESS_TOKEN is not configured; no candle requests made.');
+    process.exit(2);
   }
 
   // 1. Read queue and filter only RECOVER_MISSING_DATES
@@ -141,7 +149,7 @@ async function run() {
     const retrievedAt = new Date().toISOString();
     
     try {
-      const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+      const res = await fetch(url, { headers: { 'Accept': 'application/json', 'Authorization': `Bearer ${UPSTOX_ACCESS_TOKEN}` } });
       httpStatus = res.status;
       ok = res.ok;
       
