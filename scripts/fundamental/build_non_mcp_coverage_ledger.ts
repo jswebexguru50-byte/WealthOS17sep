@@ -29,6 +29,18 @@ const fields: Record<string, { period: string; sources: string[] }> = {
 };
 const placeholders = symbols.map(() => '?').join(',');
 const factRows = db.prepare(`SELECT UPPER(symbol) symbol, metric, provider, COUNT(*) count FROM company_facts WHERE UPPER(symbol) IN (${placeholders}) GROUP BY UPPER(symbol), metric, provider`).all(...symbols) as any[];
+// Keep acquisition evidence separate from canonical coverage.  A provider may
+// have been called successfully yet return no usable field (for example,
+// Upstox balance-sheet exposes liabilities but not borrowings).  Recording
+// that distinction makes retries deterministic and prevents an endless
+// re-download loop while preserving the GAP until a safe mapping exists.
+const snapshotRows = db.prepare(`
+  SELECT UPPER(symbol) symbol, provider, endpoint, status, response_json
+  FROM fundamental_endpoint_snapshots
+  WHERE UPPER(symbol) IN (${placeholders})
+`).all(...symbols) as any[];
+const snapshotBySymbol = new Map<string, any[]>();
+for (const row of snapshotRows) (snapshotBySymbol.get(row.symbol) || (snapshotBySymbol.set(row.symbol, []), snapshotBySymbol.get(row.symbol)!)).push(row);
 const ohlcvTable = (db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name IN ('DailyOHLCV','daily_ohlcv')").all() as any[])[0]?.name as string | undefined;
 const ohlcvCounts = new Map<string, { count: number; first: string | null; last: string | null }>();
 if (ohlcvTable) {
@@ -38,9 +50,12 @@ if (ohlcvTable) {
 const rows = symbols.map(symbol => ({ symbol, fields: Object.fromEntries(Object.entries(fields).map(([metric, spec]) => {
   const matches = factRows.filter(r => r.symbol === symbol && (r.metric === metric || (metric === 'roe_pct' && r.metric === 'roe')));
   const providers = [...new Set(matches.map(r => r.provider || 'UNKNOWN'))];
+  const attempts = snapshotBySymbol.get(symbol) || [];
+  const attemptedProviders = [...new Set(attempts.map(r => String(r.provider || 'UNKNOWN')))].sort();
+  const successfulEndpoints = attempts.filter(r => String(r.status).toUpperCase() === 'SUCCESS').map(r => `${r.provider}:${r.endpoint}`);
   const ohlcv = ohlcvCounts.get(symbol);
   const available = metric === 'OHLCV' ? Boolean(ohlcv && ohlcv.count > 0) : matches.length > 0;
-  return [metric, { requiredPeriod: spec.period, available, rows: metric === 'OHLCV' ? (ohlcv?.count || 0) : undefined, firstDate: metric === 'OHLCV' ? ohlcv?.first : undefined, lastDate: metric === 'OHLCV' ? ohlcv?.last : undefined, providers, selectedProvider: providers[0] || (available ? 'LOCAL_OHLCV' : null), fallbackOrder: spec.sources, quality: available ? (providers.length > 1 ? 'CROSS_SOURCE_AVAILABLE' : 'AVAILABLE') : 'MISSING', status: available ? 'COVERED' : 'GAP' }];
+  return [metric, { requiredPeriod: spec.period, available, rows: metric === 'OHLCV' ? (ohlcv?.count || 0) : undefined, firstDate: metric === 'OHLCV' ? ohlcv?.first : undefined, lastDate: metric === 'OHLCV' ? ohlcv?.last : undefined, providers, attemptedProviders, successfulEndpoints, selectedProvider: providers[0] || (available ? 'LOCAL_OHLCV' : null), fallbackOrder: spec.sources, quality: available ? (providers.length > 1 ? 'CROSS_SOURCE_AVAILABLE' : 'AVAILABLE') : (successfulEndpoints.length ? 'PROVIDER_RETURNED_NO_MAPPED_FIELD' : 'NOT_ATTEMPTED'), status: available ? 'COVERED' : 'GAP' }];
 })) }));
 db.close();
 const analysis360 = fullCatalog ? Object.fromEntries(await Promise.all(symbols.map(async symbol => {
