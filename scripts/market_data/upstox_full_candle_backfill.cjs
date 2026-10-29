@@ -64,6 +64,14 @@ function loadSymbols() {
   // Fall back to BSE key only for BSE-only listings (no NSE key present).
   return rows.filter(x => { if (seen.has(x.symbol)) return false; seen.add(x.symbol); return true; }).map(x => ({ ...x, providerKey: x.upstox_key_nse || x.upstox_key_bse }));
 }
+function promoteStaged(db, file) {
+  if (!fs.existsSync(file)) return { inserted: 0, skipped: 0 };
+  const exists = db.prepare('SELECT 1 FROM DailyOHLCV WHERE symbol=? AND trade_date=?');
+  const ins = db.prepare("INSERT OR IGNORE INTO DailyOHLCV (symbol,trade_date,open,high,low,close,volume,data_source) VALUES (?,?,?,?,?,?,?,'UPSTOX_V2')");
+  let inserted = 0, skipped = 0;
+  const tx = db.transaction(() => { for (const line of fs.readFileSync(file, 'utf8').split('\n')) { if (!line.trim()) continue; let x; try { x = JSON.parse(line); } catch { continue; } if (exists.get(x.symbol, x.trade_date)) { skipped++; continue; } const r = ins.run(x.symbol, x.trade_date, x.open, x.high, x.low, x.close, x.volume); inserted += r.changes; } });
+  tx(); return { inserted, skipped };
+}
 async function main() {
   const access = token(); if (!access) throw new Error('UPSTOX_ACCESS_TOKEN is not configured');
   const symbols = loadSymbols().filter(x => x.providerKey);
@@ -88,6 +96,9 @@ async function main() {
     last = Date.now();
     if (status === 200) { for (const c of candles) fs.appendFileSync(candlesFile, JSON.stringify({ symbol: x.symbol, isin: x.isin, provider_key: x.providerKey, trade_date: String(c[0]).slice(0,10), open: Number(c[1]), high: Number(c[2]), low: Number(c[3]), close: Number(c[4]), volume: Number(c[5]), source: 'UPSTOX_V2' }) + '\n'); cp.stats.ok++; cp.stats.candles += candles.length; } else { fs.appendFileSync(failuresFile, JSON.stringify({ symbol:x.symbol, provider_key:x.providerKey, from:x.from, to:x.to, status, source:'UPSTOX_V2' })+'\n'); cp.stats.failed++; }
     cp.done[key] = { status, candles: candles.length, at: new Date().toISOString() }; cp.stats.windows++; fs.writeFileSync(checkpointFile, JSON.stringify(cp, null, 2));
+    // Promote completed staged candles at checkpoints; this makes every
+    // successful acquisition usable by consumers before the full run ends.
+    if (apply && (i + 1) % 25 === 0) { const db = new Database(dbPath); const p = promoteStaged(db, candlesFile); db.close(); cp.promotion = { ...p, at: new Date().toISOString(), mcpUsed: false }; fs.writeFileSync(checkpointFile, JSON.stringify(cp, null, 2)); }
     if ((i + 1) % 25 === 0 || i === windowsBySymbol.length - 1) console.log(JSON.stringify({ progress: `${i+1}/${windowsBySymbol.length}`, ...cp.stats, apply }));
   }
   if (apply) {
