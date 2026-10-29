@@ -17,7 +17,7 @@ The 82% figure is the weighted **implementation** estimate (code and contracts),
 - **Full unit suite:** latest direct JSON run: **1,844 passed, 56 failed, 21 pending** (1,921 total). The failures are not yet cleared because several require missing fixtures, signed baseline decisions, or legacy contract updates. The approved 8-sheet dossier artifact is now regenerated and its dedicated regression suite passes **10/10**.
 - **Production acceptance:** not complete until the full unit rerun, integration/coverage/E2E matrix, 3,548-symbol retry, KPI capture, and remote GitHub synchronization are evidenced.
 
-Therefore the practical completion is **82% implemented / approximately 60% acceptance-complete**. The acceptance percentage is deliberately lower because unexecuted or blocked gates count as incomplete; it is not a regression from earlier code estimates.
+Current checkpoint (2026-10-29): the implementation remains **82% complete / approximately 60% acceptance-complete**. This is not a regression: the lower acceptance figure intentionally counts the still-unexecuted or environment-blocked gates (full unit baseline, coverage, browser E2E, live-provider acceptance, and remote push). The focused canonical/waterfall/360/chaos gate is green: **21 passed, 13 skipped** after TypeScript compilation.
 
 ### Fastest path to 100%
 
