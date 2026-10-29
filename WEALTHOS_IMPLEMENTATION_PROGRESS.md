@@ -265,3 +265,10 @@ quote handling, public exchange promotion, non-MCP waterfall policy, TTL
 waterfall behavior, and circuit-breaker/retry chaos tests. TypeScript compilation
 also passes. The complete-population Upstox backfill remains an operational run,
 not a completed acceptance result; its checkpointed command is documented above.
+
+Current database audit (2026-10-29): 3,659 active issuers, 4,229,045 rows in
+`DailyOHLCV`, and 1,283,412 rows tagged `UPSTOX_*`. 2,733 active issuers have
+at least 200 stored daily bars (74.69%). Only 2 issuers currently have three or
+more bars in the seven sessions ending at the database's latest date
+(`2026-10-28`); this exposes a distinct daily-refresh coverage gap that must be
+closed before full market-data acceptance.
