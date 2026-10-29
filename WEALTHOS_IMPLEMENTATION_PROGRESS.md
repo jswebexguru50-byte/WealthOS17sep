@@ -151,6 +151,9 @@ provider response is being audited; it also confirms these two gaps are genuine
 provider-unavailable records rather than local promotion failures. No production
 database writes were made by the pilot.
 
+Chaos acceptance was rerun after the recovery changes: CircuitBreaker,
+RetryHandler, abort handling, backoff, and combined auto-recovery pass **13/13**.
+
 1. Regenerate or restore missing dossier, Phase-2, v65, and forensic fixture artifacts; do not fabricate them.
 2. Resolve stale frozen-control hashes by either restoring the frozen files or intentionally updating the signed baseline with review evidence.
 3. Finish route-family audit for all scanners, F1–F7, ITAS/29Q, dashboard, holdings, and legacy market-data callers.
