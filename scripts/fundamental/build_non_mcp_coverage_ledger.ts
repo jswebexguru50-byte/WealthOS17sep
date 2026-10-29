@@ -48,7 +48,15 @@ if (ohlcvTable) {
   for (const r of rows) ohlcvCounts.set(String(r.symbol), { count: Number(r.count), first: r.first ?? null, last: r.last ?? null });
 }
 const rows = symbols.map(symbol => ({ symbol, fields: Object.fromEntries(Object.entries(fields).map(([metric, spec]) => {
-  const matches = factRows.filter(r => r.symbol === symbol && (r.metric === metric || (metric === 'roe_pct' && r.metric === 'roe')));
+  // XBRL/FERE's verified taxonomy maps `Borrowings` to `total_debt`; both
+  // names are semantically the same canonical balance-sheet fact. Keep the
+  // alias here so the readiness ledger does not re-acquire a fact that is
+  // already promoted under the verified XBRL name.
+  const matches = factRows.filter(r => r.symbol === symbol && (
+    r.metric === metric
+    || (metric === 'roe_pct' && r.metric === 'roe')
+    || (metric === 'borrowings' && r.metric === 'total_debt')
+  ));
   const providers = [...new Set(matches.map(r => r.provider || 'UNKNOWN'))];
   const attempts = snapshotBySymbol.get(symbol) || [];
   const attemptedProviders = [...new Set(attempts.map(r => String(r.provider || 'UNKNOWN')))].sort();
