@@ -22,6 +22,7 @@ const arg = (name, fallback) => {
   const i = process.argv.indexOf(name); return i >= 0 ? process.argv[i + 1] : fallback;
 };
 const apply = process.argv.includes('--apply');
+const allowPlanChange = process.argv.includes('--allow-plan-change');
 const gapMs = Math.max(250, Number(arg('--gap-ms', process.env.UPSTOX_CANDLE_GAP_MS || 750)));
 const toDefault = arg('--to', new Date().toISOString().slice(0, 10));
 const latestDays = Number(arg('--latest-days', '0'));
@@ -70,7 +71,10 @@ async function main() {
   const windowsBySymbol = symbols.flatMap(s => windows(s.listing_date && s.listing_date > fromDefault ? s.listing_date : fromDefault, toDefault).map(w => ({ ...s, ...w })));
   const hash = crypto.createHash('sha256').update(JSON.stringify(windowsBySymbol.map(x => [x.symbol,x.providerKey,x.from,x.to]))).digest('hex');
   let cp = fs.existsSync(checkpointFile) ? JSON.parse(fs.readFileSync(checkpointFile)) : { planHash: hash, done: {}, stats: { windows: 0, ok: 0, failed: 0, candles: 0 } };
-  if (cp.planHash && cp.planHash !== hash) throw new Error('Plan changed; remove checkpoint only after reviewing reports');
+  if (cp.planHash && cp.planHash !== hash) {
+    if (!allowPlanChange) throw new Error('Plan changed; rerun with --allow-plan-change after reviewing reports');
+    cp.planChange = { previousHash: cp.planHash, currentHash: hash, acceptedAt: new Date().toISOString(), preservedDone: Object.keys(cp.done || {}).length };
+  }
   cp.planHash = hash; if (!fs.existsSync(candlesFile)) fs.writeFileSync(candlesFile, ''); if (!fs.existsSync(failuresFile)) fs.writeFileSync(failuresFile, '');
   const wait = ms => new Promise(r => setTimeout(r, ms)); let last = 0;
   for (let i = 0; i < windowsBySymbol.length; i++) {
