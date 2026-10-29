@@ -14,7 +14,9 @@ const sourceBySymbol = new Map(sourceEntries.map((entry: any) => {
   const symbol = String(entry?.symbol || listing?.symbol || entry).toUpperCase();
   return [symbol, entry];
 }));
-const rows = (report.rows || []).filter((r: any) => r.status !== 'PROMOTED');
+// Partial canonical coverage is already promoted; it belongs in the
+// field-level coverage ledger rather than an acquisition retry loop.
+const rows = (report.rows || []).filter((r: any) => r.status === 'NOT_PROMOTED');
 const symbols = [...new Set(rows.map((r: any) => String(r.symbol).toUpperCase()))];
 const entries = symbols.map(symbol => {
   const original: any = sourceBySymbol.get(symbol);

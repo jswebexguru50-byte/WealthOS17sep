@@ -102,6 +102,21 @@ Therefore the practical completion is **82% implemented / approximately 60% acce
 
 ## Known blockers / remaining work
 
+### 2026-10-29 non-MCP verification correction
+
+The retry report previously showed **0/1004 promoted** because its verifier treated
+every symbol below the 29-fact completeness target as a promotion failure. A
+single grouped SQLite query now distinguishes canonical ingestion from readiness:
+`PROMOTED` (>=29 facts), `PROMOTED_PARTIAL` (>0 facts), and `NOT_PROMOTED` (zero
+facts). The gap-manifest builder retries only `NOT_PROMOTED` symbols. Re-running
+against the full 3,512-symbol exchange manifest produced **2,508 PROMOTED,
+1,003 PROMOTED_PARTIAL, 1 NOT_PROMOTED** (`UL-SOLITARIO`), so the actionable
+promotion cohort is now one symbol rather than 1,004 false retries. The grouped
+query completes in under a second on the local database. Focused contract tests:
+**8/8 passed**. Field-level readiness remains separate: partial symbols still
+retain their missing metrics in `coverage_ledger.json` and are not declared
+360-ready by this change.
+
 1. Regenerate or restore missing dossier, Phase-2, v65, and forensic fixture artifacts; do not fabricate them.
 2. Resolve stale frozen-control hashes by either restoring the frozen files or intentionally updating the signed baseline with review evidence.
 3. Finish route-family audit for all scanners, F1–F7, ITAS/29Q, dashboard, holdings, and legacy market-data callers.
