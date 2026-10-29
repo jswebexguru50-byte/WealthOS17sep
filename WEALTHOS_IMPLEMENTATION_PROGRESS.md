@@ -278,3 +278,13 @@ The backfill now supports `--latest-days` and the scheduled-friendly command
 issuer while retaining checkpointing, validation, and idempotent promotion.
 INFY pilot verification: 1/1 window HTTP 200, 5 valid candles, and 0 duplicate
 writes on the promotion pass.
+
+The active seven-day population refresh (2026-10-29) is running from the
+checkpointed command with `--apply` and no MCP calls. At the latest checkpoint
+it had processed 1,131 of 3,616 windows (31.28%), with 1,052 successful
+responses, 79 explicit HTTP 400 failures, and 4,243 validated candles. The
+failure ledger is durable at
+`reports/market-data/upstox-daily-20261029/failures.jsonl`. The companion
+`classify_upstox_failures.cjs` utility classifies these deterministically for
+fallback routing; the observed failures are primarily BSE Upstox rejections and
+non-Indian/non-equity identities, not silent data loss.
