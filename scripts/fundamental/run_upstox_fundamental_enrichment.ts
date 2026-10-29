@@ -16,6 +16,7 @@ const valueAfter = (flag: string, fallback: string) => process.argv.includes(fla
 const batchSize = Math.max(1, Number(valueAfter('--batch-size', '1')));
 const maxSymbols = Number(valueAfter('--max-symbols', '0'));
 const groupArg = valueAfter('--group', 'excelStrategyMatches');
+const manifestArg = valueAfter('--manifest', '');
 const forceRefresh = process.argv.includes('--force');
 const endpointDelayMs = Math.max(350, Number(valueAfter('--endpoint-delay-ms', '750')));
 const symbolDelayMs = Math.max(500, Number(valueAfter('--symbol-delay-ms', '1500')));
@@ -82,7 +83,11 @@ async function main(): Promise<void> {
     const token = process.env.UPSTOX_ACCESS_TOKEN || (await all(db, "SELECT value FROM AppConfig WHERE key='Access_Token'"))[0]?.value;
     if (!token) { write({status:'BLOCKED_AUTH',message:'Access_Token missing; no requests made',updatedAt:now()}); process.exitCode=2; return; }
     let symbols: string[];
-    if (groupArg === 'excelStrategyMatches' && fs.existsSync(excelManifestPath)) symbols = JSON.parse(fs.readFileSync(excelManifestPath,'utf8')).symbols || [];
+    if (manifestArg) {
+      const manifest = JSON.parse(fs.readFileSync(path.resolve(manifestArg), 'utf8'));
+      const entries = Array.isArray(manifest) ? manifest : (manifest.entries || manifest.symbols || []);
+      symbols = entries.map((entry: any) => typeof entry === 'string' ? entry : entry.symbol || entry.ticker || entry.listings?.[0]?.symbol).filter(Boolean);
+    } else if (groupArg === 'excelStrategyMatches' && fs.existsSync(excelManifestPath)) symbols = JSON.parse(fs.readFileSync(excelManifestPath,'utf8')).symbols || [];
     else { const manifest=JSON.parse(fs.readFileSync(priorityPath,'utf8')); symbols=groupArg && manifest.groups?.[groupArg] ? manifest.groups[groupArg] : manifest.ordered; }
     symbols=[...new Set(symbols.map(s=>String(s).trim().toUpperCase()).filter(s=>/^[A-Z0-9&.-]+$/.test(s)))];
     if (maxSymbols>0) symbols=symbols.slice(0,maxSymbols);
