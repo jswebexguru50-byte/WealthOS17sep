@@ -288,3 +288,81 @@ failure ledger is durable at
 `classify_upstox_failures.cjs` utility classifies these deterministically for
 fallback routing; the observed failures are primarily BSE Upstox rejections and
 non-Indian/non-equity identities, not silent data loss.
+
+---
+
+## 2026-10-29 — Agent A: Upstox HTTP 400 Failure Classification and Identity Resolution Repair
+
+### What was found
+
+Point-in-time snapshot of `reports/market-data/upstox-daily-20261029/failures.jsonl`
+(the seven-day refresh was still running): **85 recorded HTTP 400 failures** at the
+time of classification — 60 BSE_EQ and 25 NSE_EQ — though the task described
+77 at an earlier checkpoint.
+
+Root cause: `loadSymbols()` in `scripts/market_data/upstox_full_candle_backfill.cjs`
+line 61 picked the provider key with:
+
+```js
+providerKey: x.exchange === 'BSE' ? x.upstox_key_bse : x.upstox_key_nse
+```
+
+BSE SME and cross-listed stocks have `exchange = 'BSE'` in MasterTickers, so the
+script unconditionally used `upstox_key_bse`. For these issuers the Upstox v2
+historical candle endpoint returns HTTP 400, while the same ISIN's `NSE_EQ`
+instrument key succeeds. The BSE-exchange stocks in the 534xxx–543xxx and 780xxx
+scrip-code ranges were all affected.
+
+### Failure categories (at classification time)
+
+| Category | Count | Notes |
+|---|---|---|
+| `bse_has_nse_alternative` | 59 | BSE SME / cross-listed stocks — BSE key fails, NSE key valid |
+| `nse_has_bse_alternative` | 6 | NSE primary key fails, BSE key exists |
+| `delisted_suspended` | 11 | Rights entitlements (IN8/IN9 ISINs), US securities, mutual funds |
+| `no_alternative_key` | 7–9 | NSE-only stocks with no BSE fallback — require manual key refresh |
+| **Fixable by key swap** | **65** | bse_has_nse_alternative + nse_has_bse_alternative |
+| **Require manual review** | **18–20** | delisted_suspended + no_alternative_key |
+
+Full detail in `reports/market-data/upstox-daily-20261029/failure_classification.json`.
+
+### Source change made
+
+**File:** `scripts/market_data/upstox_full_candle_backfill.cjs` — line 61
+
+**Before (broken):**
+```js
+.map(x => ({ ...x, providerKey: x.exchange === 'BSE' ? x.upstox_key_bse : x.upstox_key_nse }))
+```
+
+**After (fixed):**
+```js
+// Prefer NSE key when available regardless of exchange — BSE SME / cross-listed stocks
+// often have a valid NSE_EQ key while the BSE_EQ key returns HTTP 400 from Upstox v2.
+// Fall back to BSE key only for BSE-only listings (no NSE key present).
+.map(x => ({ ...x, providerKey: x.upstox_key_nse || x.upstox_key_bse }))
+```
+
+This fix eliminates the 59 `bse_has_nse_alternative` failures on the next run. The
+six `nse_has_bse_alternative` failures need a per-fetch alternate-key retry loop
+(not added here — separate ticket).
+
+### Tests added
+
+`tests/unit/market_data/upstox_identity_resolution.test.ts` — 15 vitest assertions:
+- NSE-primary symbol picks NSE key
+- BSE-only symbol picks BSE key (fallback)
+- BSE SME / cross-listed symbol prefers NSE key over BSE key (regression gate)
+- 780xxx scrip range covered
+- NSE cross-listed stock still picks NSE key
+- null/empty keys handled gracefully (filtered by downstream `filter(x => x.providerKey)`)
+- Old (broken) logic documented and contrasted with new logic
+- 7-symbol spot check of real BSE SME failures
+
+All 15 tests pass green on `vitest run`.
+
+### Commits
+
+- `fix: prefer NSE key over BSE key in Upstox provider identity resolution` — source fix in backfill script
+- `test: add upstox identity resolution unit tests (15 assertions)` — tests
+- `feat: classify Upstox HTTP 400 failures (85 entries, 65 fixable)` — classification report
