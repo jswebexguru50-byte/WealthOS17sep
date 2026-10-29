@@ -163,6 +163,13 @@ research snapshots, canonical evidence, and replay artifacts). These are
 fixture/control-baseline issues requiring explicit review; no strategy threshold
 or frozen hash was changed to force a green result.
 
+The HDFCBANK issue was corrected in `c5e9b4e4d`: valuation classification now
+passes canonical company name evidence into `BusinessModelClassifier`, so a
+financial-services company explicitly named as a bank remains `BANK` and
+suppresses EV/EBITDA. The targeted oracle now passes **1/1** and TypeScript
+compilation remains green. D2 frozen/hash drift remains a separate integrity
+baseline review item.
+
 1. Regenerate or restore missing dossier, Phase-2, v65, and forensic fixture artifacts; do not fabricate them.
 2. Resolve stale frozen-control hashes by either restoring the frozen files or intentionally updating the signed baseline with review evidence.
 3. Finish route-family audit for all scanners, F1–F7, ITAS/29Q, dashboard, holdings, and legacy market-data callers.
