@@ -259,3 +259,9 @@ Pilot verification for INFY: 2/2 windows HTTP 200, 452 validated candles,
 7 newly promoted rows and 445 existing rows skipped idempotently. SPANDANA
 returned HTTP 400 for both windows, recorded in the durable failure log; this is
 a provider/instrument availability gap, not a silent success.
+
+Focused post-fix acceptance (2026-10-29): **89/89 tests passed** across Upstox
+quote handling, public exchange promotion, non-MCP waterfall policy, TTL
+waterfall behavior, and circuit-breaker/retry chaos tests. TypeScript compilation
+also passes. The complete-population Upstox backfill remains an operational run,
+not a completed acceptance result; its checkpointed command is documented above.
