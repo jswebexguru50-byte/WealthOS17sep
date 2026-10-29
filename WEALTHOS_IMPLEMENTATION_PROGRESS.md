@@ -21,6 +21,8 @@ Current checkpoint (2026-10-29): the implementation remains **82% complete / app
 
 Latest local integration command evidence (2026-10-29) is **28/28 passed across 8 suites** (`tests/reports/vitest-integration-results.json`). The earlier 189/189 figure remains historical evidence from the broader 2026-10-28 run; it is retained for audit history but is not substituted for the latest command output.
 
+Commit `b030972dc` strengthens the field-level ledger: every gap now records attempted providers, successful provider endpoints, and whether a provider returned no safely mapped field (`PROVIDER_RETURNED_NO_MAPPED_FIELD`) versus no acquisition attempt. This prevents repeated blind retries and makes the remaining borrowing/OHLCV gaps auditable without promoting unsafe derived values. The change compiles and was exercised against the persisted 10-symbol manifest (94/100 core fields covered, MCP disabled for the run).
+
 ### Fastest path to 100%
 
 1. Restore or generate the approved Phase-2/dossier/forensic fixtures and resolve frozen-hash baseline decisions.
