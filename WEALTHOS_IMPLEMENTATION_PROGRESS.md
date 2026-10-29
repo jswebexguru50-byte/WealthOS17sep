@@ -133,6 +133,11 @@ Upstox snapshots and 16,444 canonical facts** with MCP disabled. The core
 10-field gate is unchanged where borrowings/OHLCV are genuinely absent, while
 Analyze360 coverage improved from **45,048 to 52,164 covered fields**.
 
+The scanner null-data regression was fixed in `f1c1289c7`: missing ROCE/P/E now
+returns business-safe `null` values instead of calling `.toFixed()` on `null`.
+TypeScript compilation passes, and the focused integration cohort
+`tax-opportunity-risk-audit` passes **28/28 in 27.69 seconds**.
+
 1. Regenerate or restore missing dossier, Phase-2, v65, and forensic fixture artifacts; do not fabricate them.
 2. Resolve stale frozen-control hashes by either restoring the frozen files or intentionally updating the signed baseline with review evidence.
 3. Finish route-family audit for all scanners, F1–F7, ITAS/29Q, dashboard, holdings, and legacy market-data callers.
