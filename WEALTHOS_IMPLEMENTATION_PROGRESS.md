@@ -575,3 +575,4 @@ All other failures appear to be pre-existing (present in the 56-failure baseline
 - This closes the previous gap where only the eight-pack fetcher promoted immediately while older Trendlyne acquisition routes waited for a later batch job.
 - Verification: TypeScript compilation passed; non-MCP waterfall contract 6/6 and Trendlyne mirror/capacity tests 11/11 passed.
 - Full unit gate remains non-green for unrelated repository-wide fixture/regression failures: 216 test files passed, 16 failed; 1,888 tests passed, 36 failed, 21 skipped. This is not reported as full acceptance.
+- Upstox statement and ownership endpoints now promote explicit `income-statement`, `cash-flow`, and `share-holdings` cells immediately after each successful endpoint response (commit `470a557bd`). Verified categories are mapped to `revenue`, `operating_profit`, `pat`, `cfo`, `cfi`, `cff`, promoter/FII/MF/DII holdings; unknown categories remain raw and are not guessed.
