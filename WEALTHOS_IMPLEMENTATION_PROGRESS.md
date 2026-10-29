@@ -23,6 +23,8 @@ Latest local integration command evidence (2026-10-29) is **28/28 passed across 
 
 Commit `b030972dc` strengthens the field-level ledger: every gap now records attempted providers, successful provider endpoints, and whether a provider returned no safely mapped field (`PROVIDER_RETURNED_NO_MAPPED_FIELD`) versus no acquisition attempt. This prevents repeated blind retries and makes the remaining borrowing/OHLCV gaps auditable without promoting unsafe derived values. The change compiles and was exercised against the persisted 10-symbol manifest (94/100 core fields covered, MCP disabled for the run).
 
+Full-manifest non-MCP acceptance rerun completed on 2026-10-29 with all executable phases checkpointed: preflight, gap plan, BSE identity repair, exchange XBRL/MCA, Upstox acquisition/promotion, cached promotion, gap manifest, coverage, and readiness matrix. Result: **3,512 symbols; 31,579/35,120 core fields covered (89.92%); 3,541 explicit gaps; MCP disabled**. Promotion verification reports **3,511 promoted and 1 failed** (`UL-SOLITARIO`), while readiness classification across the 3,548-symbol exchange universe is **69/3,000 NSE-only ready, 14/548 BSE-only ready; no symbol is completely missing**. Provider-empty borrowing/OHLCV gaps remain intentionally fail-closed.
+
 ### Fastest path to 100%
 
 1. Restore or generate the approved Phase-2/dossier/forensic fixtures and resolve frozen-hash baseline decisions.
