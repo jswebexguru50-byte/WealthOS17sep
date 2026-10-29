@@ -22,13 +22,18 @@ const entries = symbols.map(symbol => {
   const original: any = sourceBySymbol.get(symbol);
   const originalListing = original?.listings?.[0];
   const exchange = String(originalListing?.exchange || (/^\d+$/.test(symbol) ? 'BSE' : 'NSE')).toUpperCase();
+  const verification = rows.find((r: any) => String(r.symbol).toUpperCase() === symbol);
+  // Preserve acquisition state so a resumable rerun does not turn a known
+  // terminal/source-exhausted symbol back into a fresh pending attempt.
+  const status = String(original?.status || '').toLowerCase();
+  const terminal = status === 'source_exhausted' || status === 'failed';
   return {
     key: `${exchange}:${symbol}`,
     isin: original?.isin || null,
     listings: [{ symbol, exchange, route: exchange }],
-    status: 'pending',
-    attempts: 0,
-    lastError: null,
+    status: terminal ? status : 'pending',
+    attempts: Number(original?.attempts || verification?.attempts || 0),
+    lastError: original?.lastError || verification?.lastError || null,
   };
 });
 const out = arg('--out') || path.join(process.cwd(), 'reports', 'non_mcp', 'promotion_gap_manifest.json');
