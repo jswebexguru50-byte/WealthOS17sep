@@ -559,3 +559,4 @@ All other failures appear to be pre-existing (present in the 56-failure baseline
 - The eight-pack fetcher invokes canonical promotion immediately after each successful symbol response, with idempotent writes, SQLite busy-timeout handling, and a promotion summary (`attempted`, `promoted`, `failed`).
 - Verification on a copied database promoted 24 canonical facts for RELIANCE from stored pack snapshots without refetching; TypeScript compilation passed.
 - A promotion failure does not discard the durable raw snapshot; reconciliation can retry it deterministically.
+- Added `scripts/fundamental/promote_successful_trendlyne_snapshots.ts` for resumable, non-acquisitive reconciliation of all previously successful Trendlyne pack snapshots; smoke verification promoted 24 facts for one symbol with `mcpUsed:false`.
