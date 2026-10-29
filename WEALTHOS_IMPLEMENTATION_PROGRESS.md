@@ -272,3 +272,9 @@ at least 200 stored daily bars (74.69%). Only 2 issuers currently have three or
 more bars in the seven sessions ending at the database's latest date
 (`2026-10-28`); this exposes a distinct daily-refresh coverage gap that must be
 closed before full market-data acceptance.
+
+The backfill now supports `--latest-days` and the scheduled-friendly command
+`npm run market:upstox:daily`. It requests only a seven-day window per active
+issuer while retaining checkpointing, validation, and idempotent promotion.
+INFY pilot verification: 1/1 window HTTP 200, 5 valid candles, and 0 duplicate
+writes on the promotion pass.

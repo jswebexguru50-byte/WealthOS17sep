@@ -23,8 +23,9 @@ const arg = (name, fallback) => {
 };
 const apply = process.argv.includes('--apply');
 const gapMs = Math.max(250, Number(arg('--gap-ms', process.env.UPSTOX_CANDLE_GAP_MS || 750)));
-const fromDefault = arg('--from', '2015-01-01');
 const toDefault = arg('--to', new Date().toISOString().slice(0, 10));
+const latestDays = Number(arg('--latest-days', '0'));
+const fromDefault = arg('--from', latestDays > 0 ? (() => { const d = days(toDefault); d.setUTCDate(d.getUTCDate() - latestDays); return iso(d); })() : '2015-01-01');
 const manifest = arg('--manifest');
 const only = arg('--symbol');
 
