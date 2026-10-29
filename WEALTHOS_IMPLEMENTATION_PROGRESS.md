@@ -117,6 +117,15 @@ query completes in under a second on the local database. Focused contract tests:
 retain their missing metrics in `coverage_ledger.json` and are not declared
 360-ready by this change.
 
+The authoritative full-universe ledger was regenerated without MCP on 2026-10-29:
+3,512 symbols × 10 core fields = 35,120 cells; **31,579 covered / 3,541 gaps
+(89.92%)**. Gap distribution is `borrowings` 3,428, `OHLCV` 105, and one
+symbol (`UL-SOLITARIO`) missing each of the remaining eight fundamental fields.
+The 28-field Analyze360 catalog is separately **45,048 covered / 70,848 gaps**;
+that larger catalog is not equivalent to the ten-field promotion gate. The
+UL-SOLITARIO non-MCP retry was executed deterministically and remains an explicit
+`source_exhausted` result, rather than being presented as promoted.
+
 1. Regenerate or restore missing dossier, Phase-2, v65, and forensic fixture artifacts; do not fabricate them.
 2. Resolve stale frozen-control hashes by either restoring the frozen files or intentionally updating the signed baseline with review evidence.
 3. Finish route-family audit for all scanners, F1–F7, ITAS/29Q, dashboard, holdings, and legacy market-data callers.
