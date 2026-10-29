@@ -29,6 +29,8 @@ The readiness matrix now reports its denominator explicitly: **3,548 listing row
 
 Commit `e2bd02c7d` adds the missing OHLCV promotion boundary: `scripts/remediation/promote_phase10rm4_candles.ts` validates the staged Phase 10R-M.4 artifact and, only with explicit `--apply`, idempotently inserts candles into canonical `DailyOHLCV` with `data_source='UPSTOX_10RM4'`. A read-only dry run against the current empty recovery artifact completed with zero candidates and no database writes. Phase 10R-M.4 remains download/stage-only until this promotion command is run after a successful recovery response.
 
+Commit `2b3963f8f` adds the missing daily Kite token exchange CLI (`scripts/market_data/refresh_kite_token.cjs`). It exchanges the single-use request token using the configured API key/secret and persists only the access token and timestamp in `portfolio.db` `AppConfig`; it never prints or writes credentials to source files.
+
 The complete golden intelligence/oracle unit file now passes **13/13** after the canonical company-identity and bank-classification fix (`npx vitest run tests/unit/golden_intelligence_oracle.test.ts`).
 
 Commit `28274113f` fixes promotion-gap resumability: `promotion_gap_manifest.json` now preserves the source manifest's terminal status, attempt count, and last error. The current `UL-SOLITARIO` gap is therefore recorded as `source_exhausted` after one attempted acquisition instead of being reset to `pending` on every run.
