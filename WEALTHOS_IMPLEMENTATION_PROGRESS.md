@@ -541,3 +541,12 @@ All other failures appear to be pre-existing (present in the 56-failure baseline
 
 ### Artifact Written
 - `tests/reports/acceptance_run_20261029.json` — full machine-readable categorization
+## 2026-10-29 — Full Upstox refresh completed
+
+- Deterministic Upstox daily-candle acquisition completed for 3,616 symbols (4,163 cumulative windows across resumed plan revisions).
+- Final acquisition report: 3,405 successful windows, 758 failed windows, 15,441 staged candles; `mcpUsed:false`.
+- Canonical promotion completed in the same run: 10 inserted, 16,622 idempotently skipped; database audit currently shows 15,432 `UPSTOX_V2` rows across 3,276 symbols.
+- Failure classification: 604 BSE Upstox rejections, 76 NSE rejections, 103 non-Indian instruments, 3 invalid/unsupported identities.
+- Added reviewed resumability override (`--allow-plan-change`) preserving completed keys and recording plan-hash changes (commit `746e59aab`).
+- Added checkpoint/sidecar promotion (`scripts/market_data/promote_upstox_candles.cjs`) and checkpoint promotion wiring (commit `f53bc615d`).
+- Verification: script syntax checks and Upstox live-quote tests passed (2/2); remaining failures are explicitly staged for Kite/NSE-BSE fallback, not silently dropped.
