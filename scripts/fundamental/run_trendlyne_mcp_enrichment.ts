@@ -8,6 +8,7 @@ import path from 'node:path';
 import process from 'node:process';
 import crypto from 'node:crypto';
 import sqlite3 from 'sqlite3';
+import { CanonicalFactIngestionService } from '../../src/server/services/CanonicalFactIngestionService.js';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 
@@ -58,6 +59,10 @@ const delayIndex = process.argv.indexOf('--delay-ms');
 const delayMs = delayIndex >= 0 ? Math.max(500, Number(process.argv[delayIndex + 1])) : 1000;
 const parameterCatalogPath = path.join(dataDir, 'trendlyne_parameter_catalog.json');
 const acquisitionContractPath = path.join(dataDir, 'trendlyne_statement_history_acquisition_contract.json');
+// Set by main() once the shared database connection is opened.  Keeping this
+// dispatcher beside the snapshot write makes promotion part of the successful
+// acquisition transaction's workflow rather than a later manual step.
+let immediatePromotion: CanonicalFactIngestionService | null = null;
 
 // Exact tokens verified against the live provider. Add tokens only after a
 // successful search_financial_parameters lookup; never guess provider keys.
@@ -269,6 +274,17 @@ async function save(db: sqlite3.Database, symbol: string, endpoint: string, stat
       [snapshotId, 'TRENDLYNE_MCP', endpoint, `WEALTHOS_${endpoint.toUpperCase()}`, 1,
         JSON.stringify([symbol]), JSON.stringify([]), 0, responseHash, raw, status, fetchedAt, fetchedAt]);
   }
+  // A successful download is immediately offered to the canonical promoter.
+  // Promotion failure must not discard the durable raw snapshot; the
+  // reconciliation job will retry it.  This guard also covers legacy
+  // Trendlyne acquisition routes that do not use fetch_eight_packs.ts.
+  if (status === 'SUCCESS' && immediatePromotion) {
+    try {
+      await immediatePromotion.ingestForSymbol(symbol);
+    } catch (promotionError) {
+      console.warn(`[Trendlyne promotion] ${symbol} deferred after ${endpoint}: ${String(promotionError)}`);
+    }
+  }
 }
 function props(tool: any): Record<string, unknown> { return tool?.inputSchema?.properties || tool?.input_schema?.properties || {}; }
 function identifierArgs(tool: any, symbol: string, type?: string): Record<string, unknown> | null {
@@ -364,6 +380,8 @@ async function main() {
     let symbols = [...new Set((manifest.symbols || []).map((item: unknown) => String(item).trim().toUpperCase()))].filter((symbol: string) => /^[A-Z0-9&.-]+$/.test(symbol));
     if (maxSymbols > 0) symbols = symbols.slice(0, maxSymbols);
     const db = new sqlite3.Database(dbPath);
+    db.configure('busyTimeout', 10000);
+    immediatePromotion = new CanonicalFactIngestionService(db);
     const parameterEndpoint = quarterlyHistoryOnly
       ? 'quarterly_profit_history'
       : statementHistoryPack
