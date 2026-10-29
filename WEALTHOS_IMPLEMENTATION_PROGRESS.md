@@ -550,3 +550,4 @@ All other failures appear to be pre-existing (present in the 56-failure baseline
 - Added reviewed resumability override (`--allow-plan-change`) preserving completed keys and recording plan-hash changes (commit `746e59aab`).
 - Added checkpoint/sidecar promotion (`scripts/market_data/promote_upstox_candles.cjs`) and checkpoint promotion wiring (commit `f53bc615d`).
 - Verification: script syntax checks and Upstox live-quote tests passed (2/2); remaining failures are explicitly staged for Kite/NSE-BSE fallback, not silently dropped.
+- Added manifest-scoped Yahoo exchange fallback (`scripts/market_data/run_yahoo_exchange_fallback.cjs`) with per-symbol checkpointing, OHLCV validation, canonical promotion, and `mcpUsed:false` (commit `20ef3354e`). Pilot verified 2 NSE symbols / 2,650 candles / 190 canonical inserts; numeric BSE and unsupported NSE symbols return explicit 404 failures.
