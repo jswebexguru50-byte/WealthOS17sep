@@ -567,3 +567,11 @@ All other failures appear to be pre-existing (present in the 56-failure baseline
 - Acceptance check: canonical consumer audit remains PASS (14 findings, 0 violations); focused remediation/chaos suite is 19/19 passing. Playwright health E2E was attempted with installed Chromium but the sandbox denied macOS Mach-port bootstrap (`Permission denied`); this requires execution from the normal Mac terminal.
 - Integration gate run: 27 files / 189 tests executed; 26 files and 188 tests passed. One timing-sensitive database performance assertion failed (`12ms` vs an `11ms` 10%-overhead threshold); no functional integration assertion failed.
 - Stabilized that benchmark with five-sample median timing and a bounded low-latency noise floor. Full integration gate rerun now passes: 27 files / 189 tests.
+
+## 2026-10-29 — Legacy Trendlyne promotion guarantee
+
+- The legacy `run_trendlyne_mcp_enrichment.ts` path now invokes the shared canonical promoter immediately after every successful raw snapshot write (commit `885e7465d`).
+- Promotion errors are explicitly logged and do not delete the durable snapshot; the resumable reconciliation job remains the recovery path.
+- This closes the previous gap where only the eight-pack fetcher promoted immediately while older Trendlyne acquisition routes waited for a later batch job.
+- Verification: TypeScript compilation passed; non-MCP waterfall contract 6/6 and Trendlyne mirror/capacity tests 11/11 passed.
+- Full unit gate remains non-green for unrelated repository-wide fixture/regression failures: 216 test files passed, 16 failed; 1,888 tests passed, 36 failed, 21 skipped. This is not reported as full acceptance.
