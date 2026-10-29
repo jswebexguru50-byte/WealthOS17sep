@@ -27,7 +27,7 @@ Full-manifest non-MCP acceptance rerun completed on 2026-10-29 with all executab
 
 The complete golden intelligence/oracle unit file now passes **13/13** after the canonical company-identity and bank-classification fix (`npx vitest run tests/unit/golden_intelligence_oracle.test.ts`).
 
-Commit `b3f0d4c` fixes promotion-gap resumability: `promotion_gap_manifest.json` now preserves the source manifest's terminal status, attempt count, and last error. The current `UL-SOLITARIO` gap is therefore recorded as `source_exhausted` after one attempted acquisition instead of being reset to `pending` on every run.
+Commit `28274113f` fixes promotion-gap resumability: `promotion_gap_manifest.json` now preserves the source manifest's terminal status, attempt count, and last error. The current `UL-SOLITARIO` gap is therefore recorded as `source_exhausted` after one attempted acquisition instead of being reset to `pending` on every run.
 
 ### Fastest path to 100%
 
