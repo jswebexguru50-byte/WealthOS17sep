@@ -138,6 +138,12 @@ returns business-safe `null` values instead of calling `.toFixed()` on `null`.
 TypeScript compilation passes, and the focused integration cohort
 `tax-opportunity-risk-audit` passes **28/28 in 27.69 seconds**.
 
+For BSE OHLCV recovery, the waterfall now repairs missing deterministic
+`BSE_EQ|<ISIN>` Upstox identities before acquisition. The local repair filled
+**59 missing BSE instrument keys** from `MasterTickers.isin`, and the existing
+targeted recovery worker now sends the configured bearer token and fails closed
+when it is absent instead of silently recording unauthenticated failures.
+
 1. Regenerate or restore missing dossier, Phase-2, v65, and forensic fixture artifacts; do not fabricate them.
 2. Resolve stale frozen-control hashes by either restoring the frozen files or intentionally updating the signed baseline with review evidence.
 3. Finish route-family audit for all scanners, F1–F7, ITAS/29Q, dashboard, holdings, and legacy market-data callers.
