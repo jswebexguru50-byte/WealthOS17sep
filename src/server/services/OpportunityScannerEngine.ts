@@ -1343,8 +1343,10 @@ export class OpportunityScannerEngine {
             stagedTranches,
             pillars: {
               fundamentals: {
-                rocePct: Number(rawRoce.toFixed(1)),
-                peRatio: Number(rawPe.toFixed(1)),
+                // Missing fundamentals are valid evidence states; never let a
+                // nullable provider value crash the entire scanner response.
+                rocePct: rawRoce != null && Number.isFinite(Number(rawRoce)) ? Number(Number(rawRoce).toFixed(1)) : null,
+                peRatio: rawPe != null && Number.isFinite(Number(rawPe)) ? Number(Number(rawPe).toFixed(1)) : null,
                 debtToEquity: rawDebt,
                 operatingMarginPct: rawMargin,
                 moatDescription: `Sector Valuation Z-Score: ${zScore >= 0 ? '+' : ''}${zScore} (Percentile: ${fundScore}/100)`
