@@ -19,6 +19,8 @@ The 82% figure is the weighted **implementation** estimate (code and contracts),
 
 Current checkpoint (2026-10-29): the implementation remains **82% complete / approximately 60% acceptance-complete**. This is not a regression: the lower acceptance figure intentionally counts the still-unexecuted or environment-blocked gates (full unit baseline, coverage, browser E2E, live-provider acceptance, and remote push). The focused canonical/waterfall/360/chaos gate is green: **21 passed, 13 skipped** after TypeScript compilation.
 
+Latest local integration command evidence (2026-10-29) is **28/28 passed across 8 suites** (`tests/reports/vitest-integration-results.json`). The earlier 189/189 figure remains historical evidence from the broader 2026-10-28 run; it is retained for audit history but is not substituted for the latest command output.
+
 ### Fastest path to 100%
 
 1. Restore or generate the approved Phase-2/dossier/forensic fixtures and resolve frozen-hash baseline decisions.
