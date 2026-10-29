@@ -154,6 +154,15 @@ database writes were made by the pilot.
 Chaos acceptance was rerun after the recovery changes: CircuitBreaker,
 RetryHandler, abort handling, backoff, and combined auto-recovery pass **13/13**.
 
+The coverage gate was executed on 2026-10-29 with an isolated database. It
+exercised the server and most suites, but the full gate is **not accepted**:
+the HDFCBANK analytical-oracle assertion expects no EV/EBITDA metric while the
+current canonical result contains one, and the legacy D2 physical verifier
+reports frozen-control/hash drift (including `PureTechnicalStrategiesEngine`,
+research snapshots, canonical evidence, and replay artifacts). These are
+fixture/control-baseline issues requiring explicit review; no strategy threshold
+or frozen hash was changed to force a green result.
+
 1. Regenerate or restore missing dossier, Phase-2, v65, and forensic fixture artifacts; do not fabricate them.
 2. Resolve stale frozen-control hashes by either restoring the frozen files or intentionally updating the signed baseline with review evidence.
 3. Finish route-family audit for all scanners, F1–F7, ITAS/29Q, dashboard, holdings, and legacy market-data callers.
