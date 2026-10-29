@@ -58,7 +58,10 @@ function loadSymbols() {
   }
   if (only) rows = rows.filter(x => x.symbol === only);
   const seen = new Set();
-  return rows.filter(x => { if (seen.has(x.symbol)) return false; seen.add(x.symbol); return true; }).map(x => ({ ...x, providerKey: x.exchange === 'BSE' ? x.upstox_key_bse : x.upstox_key_nse }));
+  // Prefer NSE key when available regardless of exchange — BSE SME / cross-listed stocks
+  // often have a valid NSE_EQ key while the BSE_EQ key returns HTTP 400 from Upstox v2.
+  // Fall back to BSE key only for BSE-only listings (no NSE key present).
+  return rows.filter(x => { if (seen.has(x.symbol)) return false; seen.add(x.symbol); return true; }).map(x => ({ ...x, providerKey: x.upstox_key_nse || x.upstox_key_bse }));
 }
 async function main() {
   const access = token(); if (!access) throw new Error('UPSTOX_ACCESS_TOKEN is not configured');
