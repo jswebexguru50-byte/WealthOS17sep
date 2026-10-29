@@ -3,6 +3,8 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import 'dotenv/config';
 import Database from 'better-sqlite3';
+import sqlite3 from 'sqlite3';
+import { CanonicalFactIngestionService } from '../../src/server/services/CanonicalFactIngestionService.js';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 import { TRENDLYNE_PACKS_V1 } from '../../src/server/services/trendlyne-mirror/TrendlyneMirrorService.js';
@@ -30,6 +32,14 @@ if (manifestPath) {
   if (!symbols.length) throw new Error(`Manifest contains no symbols: ${resolved}`);
 }
 const db = new Database(path.join(root, 'portfolio.db'));
+// Raw acquisition and canonical promotion use separate drivers because the
+// mirror writer is synchronous while the canonical ingestion service is the
+// shared sqlite3 writer.  The busy timeout makes the hand-off safe when the
+// snapshot insert has just committed.
+const promotionDb = new sqlite3.Database(path.join(root, 'portfolio.db'));
+promotionDb.configure('busyTimeout', 10000);
+const canonicalWriter = new CanonicalFactIngestionService(promotionDb);
+const promotionCounts = { attempted: 0, promoted: 0, failed: 0 };
 let config: any = {};
 const configPath = path.join(root, '.agents', 'mcp_config.json');
 if (fs.existsSync(configPath)) {
@@ -66,6 +76,17 @@ const summaryPath = path.join(root, 'reports', 'trendlyne_mirror', 'EIGHT_PACK_F
 fs.mkdirSync(path.dirname(summaryPath), { recursive: true });
 const alreadySuccessful = db.prepare(`SELECT 1 FROM fundamental_endpoint_snapshots WHERE provider='TRENDLYNE_MCP' AND UPPER(symbol)=? AND endpoint=? AND status='SUCCESS' LIMIT 1`);
 const writeInterimSummary = () => fs.writeFileSync(summaryPath, JSON.stringify({generatedAt:now, symbols, packCount:TRENDLYNE_PACKS_V1.length + (includeOverview ? 1 : 0), includeOverview, providerSymbolLimit, providerParameterLimit:10, completed:results.length, results}, null, 2));
+async function promoteImmediately(symbol: string): Promise<void> {
+  promotionCounts.attempted++;
+  try {
+    promotionCounts.promoted += await canonicalWriter.ingestForSymbol(symbol);
+  } catch (error) {
+    promotionCounts.failed++;
+    // Acquisition remains successful even if a transient promotion lock/error
+    // occurs; the snapshot is durable and is retried by the reconciliation job.
+    console.warn(`[Trendlyne promotion] ${symbol} deferred: ${String(error)}`);
+  }
+}
 for (const pack of TRENDLYNE_PACKS_V1) {
   // Provider contract: up to 10 symbols and 10 parameters per call.
   // Trendlyne currently rejects cffa; retain the other verified F04 tokens.
@@ -86,7 +107,10 @@ for (const pack of TRENDLYNE_PACKS_V1) {
         const hasMetricRows = /\n\n[^\n]+\n[A-Z0-9&.-]+:/i.test(dataText);
         const status = (response as any)?.isError || (parsed as any)?.status === 'error' || !hasMetricRows ? 'SOURCE_UNAVAILABLE' : 'SUCCESS';
         const error = status === 'SUCCESS' ? null : String((parsed as any)?.message || (!hasMetricRows ? 'IDENTIFIER_ONLY_RESPONSE' : 'provider error'));
-        for (const symbol of pendingSymbols) results.push(save(symbol, pack.packId, chunkIndex, tokenChunk, parsed, status, error));
+        for (const symbol of pendingSymbols) {
+          results.push(save(symbol, pack.packId, chunkIndex, tokenChunk, parsed, status, error));
+          if (status === 'SUCCESS') await promoteImmediately(symbol);
+        }
       } catch (e) {
         for (const symbol of pendingSymbols) results.push(save(symbol, pack.packId, chunkIndex, tokenChunk, null, 'SOURCE_UNAVAILABLE', String(e)));
       }
@@ -104,11 +128,13 @@ if (includeOverview) for (const symbol of symbols) {
     let parsed: unknown = text; try { parsed = JSON.parse(text); } catch {}
     const status = (response as any)?.isError || (parsed as any)?.status === 'error' ? 'SOURCE_UNAVAILABLE' : 'SUCCESS';
     results.push(save(symbol, 'F08_OVERVIEW', 1, ['overview'], parsed, status, status === 'SUCCESS' ? null : String((parsed as any)?.message || 'provider error')));
+    if (status === 'SUCCESS') await promoteImmediately(symbol);
     writeInterimSummary();
   } catch (e) {
     results.push(save(symbol, 'F08_OVERVIEW', 1, ['overview'], null, 'SOURCE_UNAVAILABLE', String(e)));
   }
 }
 writeInterimSummary();
+await new Promise<void>(resolve => promotionDb.close(() => resolve()));
 db.close();
-console.log(JSON.stringify({symbols:symbols.length, packs:TRENDLYNE_PACKS_V1.length + 1, calls:results.length, success:results.filter(r=>r.status==='SUCCESS').length, unavailable:results.filter(r=>r.status!=='SUCCESS').length}, null, 2));
+console.log(JSON.stringify({symbols:symbols.length, packs:TRENDLYNE_PACKS_V1.length + 1, calls:results.length, success:results.filter(r=>r.status==='SUCCESS').length, unavailable:results.filter(r=>r.status!=='SUCCESS').length, promotion: promotionCounts, mcpUsed:true}, null, 2));

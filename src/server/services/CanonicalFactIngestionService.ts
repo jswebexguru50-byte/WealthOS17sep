@@ -57,7 +57,8 @@ export class CanonicalFactIngestionService {
       `SELECT fetched_at, response_json, endpoint FROM fundamental_endpoint_snapshots 
        WHERE provider='TRENDLYNE_MCP'
          AND symbol=?
-         AND endpoint IN ('parameters', 'get_stock_parameter_values', 'statement_history_parameters', 'quarterly_profit_history')`,
+         AND (endpoint IN ('parameters', 'get_stock_parameter_values', 'statement_history_parameters', 'quarterly_profit_history')
+              OR endpoint LIKE 'pack:%')`,
       [symbol]
     );
 

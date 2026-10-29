@@ -552,3 +552,10 @@ All other failures appear to be pre-existing (present in the 56-failure baseline
 - Verification: script syntax checks and Upstox live-quote tests passed (2/2); remaining failures are explicitly staged for Kite/NSE-BSE fallback, not silently dropped.
 - Added manifest-scoped Yahoo exchange fallback (`scripts/market_data/run_yahoo_exchange_fallback.cjs`) with per-symbol checkpointing, OHLCV validation, canonical promotion, and `mcpUsed:false` (commit `20ef3354e`). Pilot verified 2 NSE symbols / 2,650 candles / 190 canonical inserts; numeric BSE and unsupported NSE symbols return explicit 404 failures.
 - Full 610-symbol Yahoo fallback completed: 36 symbols recovered, 50,627 candles, 21,497 canonical inserts; 574 explicit unsupported/404 failures remain for Kite/exchange-specific recovery.
+
+## 2026-10-29 — Immediate Trendlyne snapshot promotion
+
+- Successful `pack:*` Trendlyne snapshots are now eligible for the shared `CanonicalFactIngestionService`; the service no longer limits ingestion to legacy endpoint names.
+- The eight-pack fetcher invokes canonical promotion immediately after each successful symbol response, with idempotent writes, SQLite busy-timeout handling, and a promotion summary (`attempted`, `promoted`, `failed`).
+- Verification on a copied database promoted 24 canonical facts for RELIANCE from stored pack snapshots without refetching; TypeScript compilation passed.
+- A promotion failure does not discard the durable raw snapshot; reconciliation can retry it deterministically.
