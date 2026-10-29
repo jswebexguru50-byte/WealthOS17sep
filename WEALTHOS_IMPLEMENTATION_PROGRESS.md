@@ -245,3 +245,17 @@ The remaining stock-scans blocker is confirmed by the clean-room evidence databa
 The official NSE pilot now uses the shared session-bootstrap retry, but NSE still returns HTTP 403 for the shareholding-master endpoint. The source failure is recorded fail-closed; BSE/XBRL fallback or an authenticated NSE session is still required before promotion.
 
 Remote synchronization recheck (2026-10-28): a non-interactive `git push` with prompts disabled and a 10-second low-speed cutoff still produced no transport response within 30 seconds. Local HEAD remains ahead of `origin/master`; no remote state is claimed as updated.
+
+## 2026-10-29 — Upstox full-candle path
+
+Added `scripts/market_data/upstox_full_candle_backfill.cjs` and the
+`market:upstox:candles` npm command. It reads active `MasterTickers` identities,
+uses the stored NSE/BSE ISIN-based Upstox key, splits history into 365-day
+windows, checkpoints every window, validates OHLCV invariants, stages append-only
+JSONL, and promotes idempotently into `DailyOHLCV` only with `--apply`. It uses
+Upstox V2 daily historical candles (V3 rejects this interval contract), never
+uses MCP, and fails closed when the token or provider response is unavailable.
+Pilot verification for INFY: 2/2 windows HTTP 200, 452 validated candles,
+7 newly promoted rows and 445 existing rows skipped idempotently. SPANDANA
+returned HTTP 400 for both windows, recorded in the durable failure log; this is
+a provider/instrument availability gap, not a silent success.
