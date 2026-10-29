@@ -126,6 +126,13 @@ that larger catalog is not equivalent to the ten-field promotion gate. The
 UL-SOLITARIO non-MCP retry was executed deterministically and remains an explicit
 `source_exhausted` result, rather than being presented as promoted.
 
+The waterfall now runs Upstox against the active manifest (not only the legacy
+Excel-strategy cohort) and immediately promotes safe key-ratio fields with
+provider/date/source lineage. A full local promotion pass processed **3,527
+Upstox snapshots and 16,444 canonical facts** with MCP disabled. The core
+10-field gate is unchanged where borrowings/OHLCV are genuinely absent, while
+Analyze360 coverage improved from **45,048 to 52,164 covered fields**.
+
 1. Regenerate or restore missing dossier, Phase-2, v65, and forensic fixture artifacts; do not fabricate them.
 2. Resolve stale frozen-control hashes by either restoring the frozen files or intentionally updating the signed baseline with review evidence.
 3. Finish route-family audit for all scanners, F1–F7, ITAS/29Q, dashboard, holdings, and legacy market-data callers.
