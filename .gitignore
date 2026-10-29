@@ -1,4 +1,13 @@
-﻿# Large data files — on disk but not in git
+﻿# Secrets — never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Large data files — on disk but not in git
 *.parquet
 *.feather
 *.pkl
