@@ -717,3 +717,10 @@ unprocessed explicit borrowing values (130 symbols were already covered and
 144 timestamp-shaped `provider` values where the source URL was explicitly
 Screener; ambiguous timestamp rows with no source URL remain excluded from
 automatic repair pending provenance evidence.
+
+The integration runner now forces `ISOLATED_TEST_DB=1` by default. This
+prevents parallel or legacy integration fixtures from changing the production
+SQLite WAL/SHM sidecars and removes a false read-only acceptance failure. The
+isolated Discover → Analyze → FERE and smoke integration checks pass **2/2**;
+the full integration command previously executed 189 tests with one WAL-sidecar
+failure, and should be rerun from this checkpoint for the authoritative result.
