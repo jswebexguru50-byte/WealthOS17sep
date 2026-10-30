@@ -86,6 +86,14 @@ explicitly unresolved because no authenticated/captured BSE payload is present.
 
 The readiness matrix now reports its denominator explicitly: **3,548 listing rows = 3,512 unique issuers + 36 duplicate exchange/listing rows**. This removes the apparent 3,512-versus-3,548 discrepancy without changing coverage results (`build_readiness_acceptance_matrix.ts`).
 
+The Multibagger discovery path no longer returns an empty placeholder universe.
+It now resolves active equity issuers from `MasterTickers` and promoted
+`company_facts`, filters non-equity instruments, and skips market-data fan-out
+when Phase 1 facts are already insufficient. TypeScript compilation passes and
+the scan completes within the unit-test timeout; the legacy golden-company
+expectations remain unaccepted because their historical synthetic fixture is no
+longer present in the canonical database.
+
 Commit `e2bd02c7d` adds the missing OHLCV promotion boundary: `scripts/remediation/promote_phase10rm4_candles.ts` validates the staged Phase 10R-M.4 artifact and, only with explicit `--apply`, idempotently inserts candles into canonical `DailyOHLCV` with `data_source='UPSTOX_10RM4'`. A read-only dry run against the current empty recovery artifact completed with zero candidates and no database writes. Phase 10R-M.4 remains download/stage-only until this promotion command is run after a successful recovery response.
 
 Commit `2b3963f8f` adds the missing daily Kite token exchange CLI (`scripts/market_data/refresh_kite_token.cjs`). It exchanges the single-use request token using the configured API key/secret and persists only the access token and timestamp in `portfolio.db` `AppConfig`; it never prints or writes credentials to source files.
