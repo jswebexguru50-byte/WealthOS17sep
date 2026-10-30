@@ -694,3 +694,11 @@ All other failures appear to be pre-existing (present in the 56-failure baseline
   approval, no MCP phase is executed.
 - A five-symbol approved dry run confirmed the MCP phase is planned after the
   gap snapshot. The waterfall contract suite passes **7/7**.
+
+The Upstox reconciler now also accepts explicit `balance-sheet` borrowing
+categories (`borrowings`, `total_borrowings`, `total_debt`, or `debt`) when the
+provider supplies them. It deliberately ignores `total_liability`, so the
+current 3,411 borrowing gaps are not filled with an unsafe proxy. A live
+reconciliation examined **17,635** durable snapshots, promoted/reconciled
+**123,365** facts, skipped **5,753** unsupported payloads, and had **0** write
+failures.

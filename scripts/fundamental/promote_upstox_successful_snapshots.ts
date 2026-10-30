@@ -22,6 +22,15 @@ const periodEnd = (period: unknown): string | null => {
 const endpointMap: Record<string, Record<string, string>> = {
   'income-statement': { revenue: 'revenue', operating_profit: 'operating_profit', net_profit: 'pat' },
   'cash-flow': { operating: 'cfo', investing: 'cfi', financing: 'cff' },
+  // Upstox only exposes these cells when its balance-sheet statement is
+  // populated. Never infer borrowings from total_liability; only explicit
+  // borrowing/debt categories are eligible for canonical promotion.
+  'balance-sheet': {
+    borrowings: 'borrowings',
+    total_borrowings: 'borrowings',
+    total_debt: 'borrowings',
+    debt: 'borrowings',
+  },
   'share-holdings': { promoters: 'promoter_holding', fii: 'fii_holding', mutual_funds: 'mf_holding', other_dii: 'dii_holding' },
 };
 const unitFor = (endpoint: string) => endpoint === 'share-holdings' ? 'PERCENT' : 'INR_CR';
@@ -39,7 +48,7 @@ try {
   const rows = await all(db, `SELECT symbol,isin,endpoint,fetched_at,response_json
     FROM fundamental_endpoint_snapshots
     WHERE provider='UPSTOX_FUNDAMENTALS' AND status='SUCCESS'
-      AND endpoint IN ('income-statement','cash-flow','share-holdings','key-ratios')
+      AND endpoint IN ('income-statement','cash-flow','balance-sheet','share-holdings','key-ratios')
     ORDER BY UPPER(symbol), endpoint, fetched_at`);
   const latest = new Map<string, any>();
   for (const row of rows) latest.set(`${String(row.symbol).toUpperCase()}:${row.endpoint}`, row);
@@ -61,6 +70,20 @@ try {
         for (const category of (payload?.data || [])) for (const h of (category.history || [])) {
           const metric = endpointMap[row.endpoint]?.[String(category.category)]; const date = periodEnd(h.period); const value = Number(h.value);
           if (metric && date && Number.isFinite(value)) values.push({ metric, value, periodEnd: date });
+        }
+      } else if (row.endpoint === 'balance-sheet') {
+        // Current Upstox responses often contain only total_asset and
+        // total_liability. Those are intentionally ignored. Promote only an
+        // explicit debt/borrowing category if the provider begins returning
+        // one, preserving fail-closed semantics today.
+        for (const h of (payload?.data?.history || [])) {
+          const date = periodEnd(h.period);
+          if (!date) continue;
+          const explicit = Object.keys(endpointMap['balance-sheet']).find(key => {
+            const value = Number(h[key]);
+            return Number.isFinite(value);
+          });
+          if (explicit) values.push({ metric: 'borrowings', value: Number(h[explicit]), periodEnd: date });
         }
       } else {
         const key = row.endpoint === 'income-statement' ? 'income_statement' : 'cash_flow';
