@@ -3,12 +3,14 @@ import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import Database from 'better-sqlite3';
+import sqlite3 from 'sqlite3';
 import {
   TRENDLYNE_MIRROR_SCHEMA_SQL,
   TRENDLYNE_PACKS_V1,
   TRENDLYNE_PARAMETER_CATALOG_SEED,
   TrendlyneMirrorService,
 } from '../../src/server/services/trendlyne-mirror/TrendlyneMirrorService.js';
+import { CanonicalFactIngestionService } from '../../src/server/services/CanonicalFactIngestionService.js';
 
 const root = process.cwd();
 const dbPath = (process.env.DATABASE_URL || path.join(root, 'portfolio.db')).replace(/^sqlite:\/\//, '');
@@ -32,8 +34,10 @@ function writeText(name: string, data: string) {
   fs.writeFileSync(path.join(reportsDir, name), data);
 }
 
-function main() {
+async function main() {
   const db = new Database(dbPath);
+  const promotionDb = new sqlite3.Database(dbPath);
+  promotionDb.configure('busyTimeout', 10000);
   try {
     db.exec(TRENDLYNE_MIRROR_SCHEMA_SQL);
     const service = new TrendlyneMirrorService(db as any);
@@ -45,8 +49,15 @@ function main() {
     writeJson('PILOT_19_PREFLIGHT.json', preflight);
 
     let importedLegacySnapshots = 0;
+    let promotedCanonicalFacts = 0;
     if (importExisting) {
       importedLegacySnapshots = service.importExistingTrendlyneSnapshots(preflight.symbols);
+      // Importing is an acquisition boundary: promote the durable snapshot in
+      // the same run so downstream F1–F7/29Q consumers can read it immediately.
+      const writer = new CanonicalFactIngestionService(promotionDb);
+      for (const symbol of preflight.symbols) {
+        promotedCanonicalFacts += await writer.ingestForSymbol(symbol);
+      }
     }
 
     const coverage = buildCoverage(db, preflight.symbols);
@@ -61,6 +72,7 @@ function main() {
       plannedParameterCalls: preflight.plannedParameterCalls,
       plannedRequestedCells: preflight.plannedRequestedCells,
       importedLegacySnapshots,
+      promotedCanonicalFacts,
       networkCallsExecuted: 0,
       liveExecution: executeLive
         ? 'Use existing Trendlyne MCP client boundary after quota approval; this runner generated durable schema/preflight and reused stored evidence.'
@@ -72,6 +84,7 @@ function main() {
     console.log(`Reports: ${path.relative(root, reportsDir)}`);
   } finally {
     db.close();
+    await new Promise<void>(resolve => promotionDb.close(() => resolve()));
   }
 }
 
@@ -186,4 +199,4 @@ function renderCoverageMarkdown(coverage: any): string {
   return `${lines.join('\n')}\n`;
 }
 
-main();
+main().catch(error => { console.error(error); process.exitCode = 1; });
