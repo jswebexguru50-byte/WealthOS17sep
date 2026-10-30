@@ -295,13 +295,17 @@ async function main() {
   if (applyDb) ensureShareholdingSchema(applyDb);
   let immediatePromotion = { inserted: 0, skipped: 0 };
 
-  // Fetch NSE session cookies once at start
-  try {
-    cookies = await fetchNseCookies();
-    console.log(JSON.stringify({ event: 'NSE_COOKIES_OK', cookieLen: cookies.length }));
-  } catch (e) {
-    console.log(JSON.stringify({ event: 'NSE_COOKIES_FAILED', error: e.message }));
-    // Will proceed; individual fetches will record failure_reason
+  // Fetch NSE session cookies only when this slice actually contains NSE
+  // listings. A BSE-only slice must not spend time or rate-limit budget on an
+  // unrelated NSE bootstrap request.
+  if (symbols.some(sym => listingRoute(sym) === 'NSE')) {
+    try {
+      cookies = await fetchNseCookies();
+      console.log(JSON.stringify({ event: 'NSE_COOKIES_OK', cookieLen: cookies.length }));
+    } catch (e) {
+      console.log(JSON.stringify({ event: 'NSE_COOKIES_FAILED', error: e.message }));
+      // Will proceed; individual fetches will record failure_reason
+    }
   }
 
   for (let i = 0; i < symbols.length; i++) {
