@@ -28,12 +28,24 @@ const checkpointFile = path.join(outDir, 'checkpoint.json');
 const reportFile   = path.join(outDir, 'report.json');
 
 const apply        = process.argv.includes('--apply');
+if (process.argv.includes('--help') || process.argv.includes('-h')) {
+  console.log('Usage: node scripts/market_data/shareholding_backfill.cjs [--apply] [--symbol SYMBOL] [--limit N] [--gap-ms N]');
+  console.log('Default mode stages official NSE shareholding responses; --apply promotes staged rows idempotently.');
+  process.exit(0);
+}
 const onlySymbols  = (() => {
   const result = [];
   for (let i = 0; i < process.argv.length; i++) {
     if (process.argv[i] === '--symbol' && process.argv[i + 1]) result.push(process.argv[i + 1]);
   }
   return result;
+})();
+const limit = (() => {
+  const i = process.argv.indexOf('--limit');
+  if (i < 0) return null;
+  const n = Number(process.argv[i + 1]);
+  if (!Number.isInteger(n) || n < 1) throw new Error('--limit must be a positive integer');
+  return n;
 })();
 const gapMs = Math.max(500, Number(
   (() => { const i = process.argv.indexOf('--gap-ms'); return i >= 0 ? process.argv[i + 1] : '1200'; })()
@@ -78,7 +90,8 @@ function loadSymbols() {
   });
   // De-duplicate by symbol
   const seen = new Set();
-  return rows.filter(r => { if (seen.has(r.symbol)) return false; seen.add(r.symbol); return true; });
+  const unique = rows.filter(r => { if (seen.has(r.symbol)) return false; seen.add(r.symbol); return true; });
+  return limit == null ? unique : unique.slice(0, limit);
 }
 
 // ── NSE shareholding fetch ─────────────────────────────────────────────────
