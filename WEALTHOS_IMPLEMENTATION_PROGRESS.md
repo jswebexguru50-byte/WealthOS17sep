@@ -758,3 +758,8 @@ failure, and should be rerun from this checkpoint for the authoritative result.
   `SCREENER_COOKIE_FILE`, retries bounded 403/429 responses, and reports whether
   an authenticated session was actually supplied. Parser/period/unit tests pass
   **15/15**. No secret is persisted in the repository or reports.
+- Added a pre-network reconciliation pass: successful durable Screener snapshots
+  are promoted to `company_facts` before any new request is made. This enforces
+  the downloaded→promoted invariant and makes reruns idempotent even after a
+  process interruption between acquisition and promotion. Syntax and the 15/15
+  focused tests remain green.
