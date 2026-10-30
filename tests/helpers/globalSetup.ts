@@ -114,6 +114,14 @@ export async function setup() {
         NODE_ENV: 'development',
         // Suppress integrity check to speed up startup (see CLAUDE.md)
         SKIP_INTEGRITY_CHECK: 'true',
+        // The spawned integration server must be read-only.  Without these
+        // explicit child-process flags, the delayed background fundamentals
+        // scheduler can write the developer's production portfolio.db while a
+        // supposedly read-only test is running.
+        ENABLE_STARTUP_DB_MUTATIONS: 'false',
+        ENABLE_BACKGROUND_SCHEDULERS: 'false',
+        ENABLE_STARTUP_STRATEGIES: 'false',
+        READ_ONLY_RUNTIME: 'true',
       },
       stdio: ['ignore', 'pipe', 'pipe'],
       detached: false,
