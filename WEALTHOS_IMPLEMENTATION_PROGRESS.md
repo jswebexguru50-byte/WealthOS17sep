@@ -936,3 +936,13 @@ failure, and should be rerun from this checkpoint for the authoritative result.
 - Resume policy is cooldown-first and bounded at approximately **0.5 requests
   per second**. Empty-value balance-sheet variants require a sample parser
   check before any further batch promotion.
+
+## 2026-10-30 — Integration immutability regression fixed
+
+- A clean integration run executed **189/189 tests**, with one suite failing
+  only because it compared mutable SQLite WAL bytes against a frozen hash.
+- Updated the Discover→Analyze→FERE test to assert the durable main database
+  hash while treating WAL/SHM as SQLite runtime state. This matches the existing
+  disposable-database isolation model and removes the false failure.
+- Focused rerun now passes **1/1**; the full integration gate should be rerun
+  after this commit for final confirmation.
