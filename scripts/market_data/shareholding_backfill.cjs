@@ -174,6 +174,29 @@ function promoteStaged(db, file) {
   return { inserted, skipped };
 }
 
+function promoteRows(db, rows) {
+  const ins = db.prepare(`
+    INSERT OR IGNORE INTO ShareholdingPatterns
+      (symbol, isin, filing_period, promoter_pct, fii_pct, dii_pct, public_pct,
+       total_shares, source_url, provider, artifact_hash, acquired_at, status)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'OK')
+  `);
+  let inserted = 0, skipped = 0;
+  const tx = db.transaction(() => {
+    for (const x of rows) {
+      const r = ins.run(
+        x.symbol, x.isin, x.filing_period,
+        x.promoter_pct, x.fii_pct, x.dii_pct, x.public_pct,
+        x.total_shares, x.source_url, x.provider, x.artifact_hash,
+        x.acquired_at
+      );
+      if (r.changes) inserted++; else skipped++;
+    }
+  });
+  tx();
+  return { inserted, skipped };
+}
+
 // ── Main ───────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -190,6 +213,8 @@ async function main() {
   const wait = ms => new Promise(r => setTimeout(r, ms));
   let last = 0;
   let cookies = '';
+  const applyDb = apply ? new Database(dbPath) : null;
+  let immediatePromotion = { inserted: 0, skipped: 0 };
 
   // Fetch NSE session cookies once at start
   try {
@@ -227,14 +252,24 @@ async function main() {
 
     if (rows.length > 0) {
       const artifactHash = computeArtifactHash(raw);
+      const acquiredAt = new Date().toISOString();
+      const enrichedRows = [];
       for (const row of rows) {
-        fs.appendFileSync(stagingFile, JSON.stringify({
+        const enriched = {
           ...row,
           source_url: sourceUrl,
           provider: 'NSE',
           artifact_hash: artifactHash,
-          acquired_at: new Date().toISOString(),
-        }) + '\n');
+          acquired_at: acquiredAt,
+        };
+        enrichedRows.push(enriched);
+        fs.appendFileSync(stagingFile, JSON.stringify(enriched) + '\n');
+      }
+      if (applyDb) {
+        const p = promoteRows(applyDb, enrichedRows);
+        immediatePromotion.inserted += p.inserted;
+        immediatePromotion.skipped += p.skipped;
+        cp.promotion = { ...immediatePromotion, mode: 'IMMEDIATE', at: acquiredAt };
       }
       cp.stats.ok++;
       cp.stats.rows += rows.length;
@@ -253,10 +288,8 @@ async function main() {
 
     // Promote every 50 symbols when --apply is set
     if (apply && (i + 1) % 50 === 0) {
-      const db = new Database(dbPath);
-      const p = promoteStaged(db, stagingFile);
-      db.close();
-      cp.promotion = { ...p, at: new Date().toISOString() };
+      const p = applyDb ? promoteStaged(applyDb, stagingFile) : null;
+      if (p) cp.promotion = { ...p, mode: 'CHECKPOINT_RECONCILIATION', at: new Date().toISOString() };
       fs.writeFileSync(checkpointFile, JSON.stringify(cp, null, 2));
     }
 
@@ -266,11 +299,11 @@ async function main() {
   }
 
   if (apply) {
-    const db = new Database(dbPath);
-    const p = promoteStaged(db, stagingFile);
-    db.close();
-    cp.promotion = { ...p, at: new Date().toISOString() };
+    const p = applyDb ? promoteStaged(applyDb, stagingFile) : null;
+    if (p) cp.promotion = { ...p, mode: 'FINAL_RECONCILIATION', at: new Date().toISOString() };
   }
+
+  applyDb?.close();
 
   const report = {
     generatedAt: new Date().toISOString(),
