@@ -754,3 +754,7 @@ failure, and should be rerun from this checkpoint for the authoritative result.
   progress but **not** evidence that the remaining borrowing gaps are closed;
   the worker must continue with a usable authenticated/session-capable source and
   its report must be reconciled into the coverage ledger.
+- The worker now accepts an ephemeral `SCREENER_COOKIE` or
+  `SCREENER_COOKIE_FILE`, retries bounded 403/429 responses, and reports whether
+  an authenticated session was actually supplied. Parser/period/unit tests pass
+  **15/15**. No secret is persisted in the repository or reports.
