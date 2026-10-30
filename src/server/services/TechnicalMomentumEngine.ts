@@ -137,6 +137,11 @@ export interface TechnicalMomentumReport {
   trace: MomentumReasoningTrace;
 }
 
+/**
+ * @deprecated Use the canonical technical-analysis service/resolver for new
+ * consumers. Retained as a compatibility adapter until all legacy callers
+ * have migrated; see LEGACY_PATHS_REGISTRY.md.
+ */
 export class TechnicalMomentumEngine {
   private static instance: TechnicalMomentumEngine;
   private readonly CACHE_TTL_MS = 10 * 60 * 1000; // 10 mins

@@ -853,3 +853,14 @@ failure, and should be rerun from this checkpoint for the authoritative result.
   gaps remaining. The checkpoint records 1,328 attempts and 513 promoted
   symbols; duplicate fact rows account for the difference in fact count.
 - Screener parser/unit regression remains **15/15 passed**.
+
+## 2026-10-30 — Legacy-service acceptance check
+
+- The Node remediation run exposed one real contract failure: the legacy
+  `TechnicalMomentumEngine` had no deprecation marker, so the build-time
+  isolation test could not prove migration intent.
+- Added an explicit `@deprecated` compatibility-adapter annotation pointing
+  new consumers to the canonical technical-analysis resolver.
+- Focused duplicate-isolation suite now passes **23/23**; this does not claim
+  that all legacy consumers have been migrated, only that the remaining legacy
+  boundary is now machine-detectable.
