@@ -910,3 +910,10 @@ failure, and should be rerun from this checkpoint for the authoritative result.
   BSE-only** (170 READY, 374 PARTIAL).
 - Total symbol readiness is **884 READY / 2,628 PARTIAL**, with MCP disabled.
   Partial status is driven by explicit field gaps, not absent rows.
+
+## 2026-10-30 — Gap-attempt metadata audit
+
+- Audited all **2,694** non-MCP field gaps in the rebuilt ledger.
+- Every gap has a non-empty `attemptedProviders` list; **0 gaps** lack an
+  attempted-provider explanation. This confirms unresolved values are explicit
+  source failures, not silent acquisition omissions.
