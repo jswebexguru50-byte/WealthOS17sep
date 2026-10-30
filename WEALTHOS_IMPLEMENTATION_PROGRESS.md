@@ -788,3 +788,9 @@ failure, and should be rerun from this checkpoint for the authoritative result.
   preserving the production database while avoiding a 3.6 GB online-backup at
   test startup. Focused smoke verification passed **1/1**; a fresh full coverage
   run is still required before coverage acceptance can be claimed.
+- Full coverage was rerun after the isolation change. The corrupt-database error
+  is gone, but the gate remains **red**: 330 files passed, 51 failed, 2,534
+  tests passed, 11 skipped, 15 uncaught errors. The dominant failures are legacy
+  fast-track tests opening incomplete disposable schemas, frozen-control drift,
+  and missing historical R4/V672 artifacts. Coverage therefore remains an open
+  acceptance item; no percentage is claimed from this run.
