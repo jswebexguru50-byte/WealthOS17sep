@@ -768,3 +768,13 @@ failure, and should be rerun from this checkpoint for the authoritative result.
   facts (272 total `SCREENER_PUBLIC` borrowing facts; 84 successful snapshots)
   without making provider calls. This is now the safest first step after any
   interrupted acquisition run.
+
+## 2026-10-30 — Canonical/remediation acceptance gate
+
+- Canonical consumer audit: **PASS**, 14 findings and 0 violations.
+- Remediation/chaos/waterfall/29Q/scanner-ITAS test gate: **11 files, 174 tests,
+  174 passed**.
+- This confirms the canonical resolver boundary, non-MCP policy, promotion
+  contract, TTL waterfall, 29Q evidence envelope, scanner/ITAS migration, and
+  fault-injection behavior. It does not replace the repository-wide unit,
+  coverage, or live-browser E2E gates.
