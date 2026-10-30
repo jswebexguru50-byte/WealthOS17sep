@@ -62,7 +62,20 @@ function loadSymbols() {
   // Prefer NSE key when available regardless of exchange — BSE SME / cross-listed stocks
   // often have a valid NSE_EQ key while the BSE_EQ key returns HTTP 400 from Upstox v2.
   // Fall back to BSE key only for BSE-only listings (no NSE key present).
-  return rows.filter(x => { if (seen.has(x.symbol)) return false; seen.add(x.symbol); return true; }).map(x => ({ ...x, providerKey: x.upstox_key_nse || x.upstox_key_bse }));
+  return rows
+    .filter(x => { if (seen.has(x.symbol)) return false; seen.add(x.symbol); return true; })
+    .filter(x => {
+      const isin = x.isin || '';
+      const exchange = (x.exchange || '').toUpperCase();
+      // Rights entitlements (IN8/IN9 ISIN prefix) have no equity candle data in Upstox V2.
+      if (/^IN[89]/.test(isin)) return false;
+      // Mutual-fund units (INF ISIN prefix) are not on the Upstox equity candle endpoint.
+      if (isin.startsWith('INF')) return false;
+      // Non-Indian exchanges (NASDAQ/NYSE/AMEX/OTC) have no NSE_EQ or BSE_EQ key.
+      if (['NASDAQ', 'NYSE', 'AMEX', 'OTC'].includes(exchange)) return false;
+      return true;
+    })
+    .map(x => ({ ...x, providerKey: x.upstox_key_nse || x.upstox_key_bse }));
 }
 function promoteStaged(db, file) {
   if (!fs.existsSync(file)) return { inserted: 0, skipped: 0 };
@@ -94,6 +107,15 @@ async function main() {
     let status = 0, candles = [];
     try { const r = await fetch(url, { headers: { Accept: 'application/json', Authorization: `Bearer ${access}` }, signal: AbortSignal.timeout(60000) }); status = r.status; const j = await r.json().catch(() => null); candles = (j?.data?.candles || []).filter(valid); } catch (e) { status = 0; }
     last = Date.now();
+    // If the NSE key returned 400 and the symbol also has a BSE key, retry once.
+    // Handles stocks that are active on BSE but whose NSE_EQ key Upstox V2 rejects
+    // (recently listed, suspended on NSE, or cross-listed with a thinly-traded NSE series).
+    if (status === 400 && x.upstox_key_bse && x.upstox_key_nse && x.providerKey === x.upstox_key_nse && x.upstox_key_bse !== x.upstox_key_nse) {
+      const pause2 = Math.max(0, gapMs - (Date.now() - last)); if (pause2) await wait(pause2);
+      const altUrl = `https://api.upstox.com/v2/historical-candle/${encodeURIComponent(x.upstox_key_bse)}/day/${x.to}/${x.from}`;
+      try { const r2 = await fetch(altUrl, { headers: { Accept: 'application/json', Authorization: `Bearer ${access}` }, signal: AbortSignal.timeout(60000) }); status = r2.status; const j2 = await r2.json().catch(() => null); candles = (j2?.data?.candles || []).filter(valid); } catch { status = 0; }
+      last = Date.now();
+    }
     if (status === 200) { for (const c of candles) fs.appendFileSync(candlesFile, JSON.stringify({ symbol: x.symbol, isin: x.isin, provider_key: x.providerKey, trade_date: String(c[0]).slice(0,10), open: Number(c[1]), high: Number(c[2]), low: Number(c[3]), close: Number(c[4]), volume: Number(c[5]), source: 'UPSTOX_V2' }) + '\n'); cp.stats.ok++; cp.stats.candles += candles.length; } else { fs.appendFileSync(failuresFile, JSON.stringify({ symbol:x.symbol, provider_key:x.providerKey, from:x.from, to:x.to, status, source:'UPSTOX_V2' })+'\n'); cp.stats.failed++; }
     cp.done[key] = { status, candles: candles.length, at: new Date().toISOString() }; cp.stats.windows++; fs.writeFileSync(checkpointFile, JSON.stringify(cp, null, 2));
     // Promote completed staged candles at checkpoints; this makes every
