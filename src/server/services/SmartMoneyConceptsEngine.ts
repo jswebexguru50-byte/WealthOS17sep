@@ -18,7 +18,7 @@
  * 13. Complete SMC Trade Model (Long Model & Short Model)
  */
 
-import { fetchTickerData } from '../yahooFinance.js';
+import { IndexDataResolverService } from './IndexDataResolverService.js';
 import { OpportunityDataResolverService } from './OpportunityDataResolverService.js';
 
 export interface Candle {
@@ -1072,7 +1072,7 @@ export class SmartMoneyConceptsEngine {
     let benchmarkCandles: Candle[] | undefined;
     if (cleanSym !== 'NIFTY' && cleanSym !== '^NSEI') {
       try {
-        const nseData = await fetchTickerData('^NSEI', daysBack).catch(() => null);
+        const nseData = await IndexDataResolverService.getInstance().resolveIndexData('^NSEI', daysBack).catch(() => null);
         if (nseData && nseData.closePrices && nseData.closePrices.length >= 15) {
           benchmarkCandles = nseData.closePrices.map((c: any) => ({
             date: c.date ? new Date(c.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],

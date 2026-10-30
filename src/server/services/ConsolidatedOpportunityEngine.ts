@@ -26,6 +26,7 @@ import { InstitutionalFlowService } from './InstitutionalFlowService.js';
 
 import { getDB, dbAll, dbGet, dbRun, withTx } from '../database.js';
 import { fetchTickerData } from '../yahooFinance.js';
+import { IndexDataResolverService } from './IndexDataResolverService.js';
 import { ScreenerService, ScreenerData } from './screenerService.js';
 import { PaperTradingPotService } from './PaperTradingPotService.js';
 import { OpportunityDataResolverService } from './OpportunityDataResolverService.js';
@@ -799,7 +800,7 @@ export class ConsolidatedOpportunityEngine {
     }
     try {
       // 1. Try Nifty 500 (^CRSLDX) from Yahoo Finance
-      const benchData = await fetchTickerData('^CRSLDX', 180).catch(() => null);
+      const benchData = await IndexDataResolverService.getInstance().resolveIndexData('^CRSLDX', 180).catch(() => null);
       if (benchData && benchData.closePrices && benchData.closePrices.length >= 2) {
         const closes = benchData.closePrices.map(c => Number(c.close)).filter(v => !isNaN(v) && v > 0);
         if (closes.length >= 2) {
@@ -812,7 +813,7 @@ export class ConsolidatedOpportunityEngine {
       }
 
       // 2. Try Nifty 50 (^NSEI)
-      const nseiData = await fetchTickerData('^NSEI', 180).catch(() => null);
+      const nseiData = await IndexDataResolverService.getInstance().resolveIndexData('^NSEI', 180).catch(() => null);
       if (nseiData && nseiData.closePrices && nseiData.closePrices.length >= 2) {
         const closes = nseiData.closePrices.map(c => Number(c.close)).filter(v => !isNaN(v) && v > 0);
         if (closes.length >= 2) {
@@ -3382,7 +3383,7 @@ export class ConsolidatedOpportunityEngine {
 
     const fetchWithTimeout = (sym: string, days: number) => {
       return Promise.race([
-        fetchTickerData(sym, days).catch(() => null),
+        IndexDataResolverService.getInstance().resolveIndexData(sym, days).catch(() => null),
         new Promise((resolve) => setTimeout(() => resolve(null), 1500))
       ]);
     };

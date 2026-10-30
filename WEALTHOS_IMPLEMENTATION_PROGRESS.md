@@ -43,6 +43,11 @@ Commit `b030972dc` strengthens the field-level ledger: every gap now records att
 
 Full-manifest non-MCP acceptance rerun completed on 2026-10-29 with all executable phases checkpointed: preflight, gap plan, BSE identity repair, exchange XBRL/MCA, Upstox acquisition/promotion, cached promotion, gap manifest, coverage, and readiness matrix. Result: **3,512 symbols; 31,579/35,120 core fields covered (89.92%); 3,541 explicit gaps; MCP disabled**. Promotion verification reports **3,511 promoted and 1 failed** (`UL-SOLITARIO`), while readiness classification across the 3,548-symbol exchange universe is **69/3,000 NSE-only ready, 14/548 BSE-only ready; no symbol is completely missing**. Provider-empty borrowing/OHLCV gaps remain intentionally fail-closed.
 
+The persisted ledger was subsequently reconciled after promotion retries: current
+non-MCP coverage is **31,613/35,120 core fields (90.01%)**, with **3,507
+remaining gaps** and `mcpUsed: false`. The latest canonical-audit plus
+waterfall/retry/circuit-breaker focused run is **23/23 passed**.
+
 The readiness matrix now reports its denominator explicitly: **3,548 listing rows = 3,512 unique issuers + 36 duplicate exchange/listing rows**. This removes the apparent 3,512-versus-3,548 discrepancy without changing coverage results (`build_readiness_acceptance_matrix.ts`).
 
 Commit `e2bd02c7d` adds the missing OHLCV promotion boundary: `scripts/remediation/promote_phase10rm4_candles.ts` validates the staged Phase 10R-M.4 artifact and, only with explicit `--apply`, idempotently inserts candles into canonical `DailyOHLCV` with `data_source='UPSTOX_10RM4'`. A read-only dry run against the current empty recovery artifact completed with zero candidates and no database writes. Phase 10R-M.4 remains download/stage-only until this promotion command is run after a successful recovery response.
