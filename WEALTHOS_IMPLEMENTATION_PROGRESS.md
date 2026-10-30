@@ -864,3 +864,12 @@ failure, and should be rerun from this checkpoint for the authoritative result.
 - Focused duplicate-isolation suite now passes **23/23**; this does not claim
   that all legacy consumers have been migrated, only that the remaining legacy
   boundary is now machine-detectable.
+
+## 2026-10-30 — Readiness acceptance matrix hardening
+
+- Made `build_readiness_acceptance_matrix.ts` importable for unit testing while
+  preserving its CLI requirement for `--manifest` and `--ledger`.
+- Added fail-closed handling for missing or malformed ledger field maps; these
+  rows can no longer be marked READY accidentally.
+- Added deterministic NSE-only, BSE-only, dual-listed, duplicate, and MCP-off
+  regression coverage. TypeScript compile and focused tests pass **2/2**.
