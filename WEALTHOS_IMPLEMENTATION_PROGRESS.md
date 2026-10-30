@@ -684,3 +684,13 @@ All other failures appear to be pre-existing (present in the 56-failure baseline
 - Remaining failures are structurally-unresolvable BSE-only symbols (Upstox V2 does not serve BSE_EQ candles for these listings); they are logged to `failures.jsonl` and will not be retried.
 - Two parallel subagents launched concurrently: IndexDataResolverService (canonical-consumers; agent a3ec86a6647afeb9f) and NSE/BSE shareholding acquisition pipeline (Agent C; agent abf3a17ea5531fc83). Both in-flight at time of writing.
 - Freeze-guard SHA update (5 files in `frozen-controls.json` + `Delivery2RepositoryInvariant.test.ts`) is blocked by auto-mode security policy. Developer must apply manually; correct SHA values are in session transcript.
+
+## 2026-10-30 — Approved MCP is now gap-gated
+
+- The coordinator now completes statutory, broker, cached-artifact promotion,
+  verification, and a post-waterfall gap snapshot before any MCP phase.
+- With explicit `--allow-mcp`, it writes `approved_mcp_gap_manifest.json` and
+  sends only symbols that still have canonical gaps to Trendlyne; with no
+  approval, no MCP phase is executed.
+- A five-symbol approved dry run confirmed the MCP phase is planned after the
+  gap snapshot. The waterfall contract suite passes **7/7**.

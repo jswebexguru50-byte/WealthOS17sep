@@ -68,9 +68,6 @@ function phase(name: string, args: string[], extraEnv: Record<string,string> = {
   fs.writeFileSync(checkpointPath, JSON.stringify(checkpoint, null, 2) + '\n');
 }
 const preflightLedger = path.join(reportDir, 'preflight_coverage_ledger.json');
-if (allowMcp) {
-  phase('approved_mcp_enrichment', ['scripts/trendlyne-mirror/fetch_eight_packs.ts', '--manifest', resolvedManifest], {}, false, true);
-}
 phase('preflight_coverage', ['scripts/fundamental/build_non_mcp_coverage_ledger.ts', '--manifest', resolvedManifest, '--out', preflightLedger]);
 phase('gap_plan', ['scripts/fundamental/plan_non_mcp_acquisition.ts', '--ledger', preflightLedger]);
 phase('bse_identity_repair', ['scripts/fundamental/ensure_bse_instrument_keys.ts'], {}, true);
@@ -84,6 +81,32 @@ phase('upstox_canonical_promotion', ['scripts/fundamental/promote_upstox_success
 phase('cached_artifact_promotion', ['scripts/fere/promote_cached_artifacts_batch.mjs', '--manifest', resolvedManifest, '--apply', '--min-facts', '29'], {}, true);
 phase('promotion_verification', ['scripts/fundamental/verify_non_mcp_promotion.ts', '--manifest', resolvedManifest, '--min-facts', '29'], {}, true);
 phase('promotion_gap_manifest', ['scripts/fundamental/build_promotion_gap_manifest.ts', '--verification', path.join(reportDir, 'promotion_verification.json'), '--source-manifest', resolvedManifest], {}, true);
+// Build the post-waterfall gap cohort before any optional MCP work. This is
+// deliberately separate from the final ledger so an approved MCP run cannot
+// accidentally consume a full-universe pack request or race the non-MCP
+// promotion phases.
+const preMcpLedger = path.join(reportDir, 'pre_mcp_coverage_ledger.json');
+phase('gap_snapshot', ['scripts/fundamental/build_non_mcp_coverage_ledger.ts', '--manifest', resolvedManifest, '--out', preMcpLedger]);
+if (!dryRun && allowMcp) {
+  const gapLedger = JSON.parse(fs.readFileSync(preMcpLedger, 'utf8'));
+  const gapSymbols = [...new Set((gapLedger.rows || [])
+    .filter((row: any) => Object.values(row.fields || {}).some((field: any) => field.status === 'GAP'))
+    .map((row: any) => row.symbol))];
+  const mcpManifest = path.join(reportDir, 'approved_mcp_gap_manifest.json');
+  fs.writeFileSync(mcpManifest, JSON.stringify({ symbols: gapSymbols }, null, 2) + '\n');
+  if (gapSymbols.length) {
+    phase('approved_mcp_enrichment', ['scripts/trendlyne-mirror/fetch_eight_packs.ts', '--manifest', mcpManifest], {}, false, true);
+  } else {
+    checkpoint.phases.approved_mcp_enrichment = { status: 'SKIPPED_NO_GAPS', symbolCount: 0, completedAt: new Date().toISOString() };
+    fs.writeFileSync(checkpointPath, JSON.stringify(checkpoint, null, 2) + '\n');
+  }
+} else if (dryRun && allowMcp) {
+  checkpoint.phases.approved_mcp_enrichment = {
+    status: 'PLANNED_AFTER_GAP_SNAPSHOT',
+    args: ['scripts/trendlyne-mirror/fetch_eight_packs.ts', '--manifest', path.join(reportDir, 'approved_mcp_gap_manifest.json')],
+    env: { MCP_DISABLED: '0' },
+  };
+}
 if (dryRun) {
   for (const name of ['coverage_ledger', 'acceptance_matrix']) {
     checkpoint.phases[name] = {
