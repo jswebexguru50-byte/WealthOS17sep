@@ -778,3 +778,13 @@ failure, and should be rerun from this checkpoint for the authoritative result.
   contract, TTL waterfall, 29Q evidence envelope, scanner/ITAS migration, and
   fault-injection behavior. It does not replace the repository-wide unit,
   coverage, or live-browser E2E gates.
+
+## 2026-10-30 — SQLite isolation hardening
+
+- The coverage gate exposed that copying only `portfolio.db` while its WAL was
+  present can create `SQLITE_CORRUPT`. Global test setup now snapshots the main
+  database together with its WAL and omits the stale SHM index.
+- The disposable smoke test now uses the same non-checkpointing snapshot method,
+  preserving the production database while avoiding a 3.6 GB online-backup at
+  test startup. Focused smoke verification passed **1/1**; a fresh full coverage
+  run is still required before coverage acceptance can be claimed.
