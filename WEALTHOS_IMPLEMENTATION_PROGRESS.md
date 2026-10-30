@@ -924,3 +924,15 @@ failure, and should be rerun from this checkpoint for the authoritative result.
   violations**. Active consumer routes remain behind canonical data services;
   the findings are the recorded migration/coverage inventory, not direct
   provider bypasses.
+
+## 2026-10-30 — Parallel Screener capture rate-limit handling
+
+- The authenticated browser capture stopped itself after **41 requests** on
+  HTTP 429, honoring the provider stop-on-block rule. No browser-capture rows
+  were promoted without parser verification.
+- Durable reconciliation of the existing worker snapshots completed with
+  **627 successful snapshots**, **835 symbols**, and **938 promoted borrowing
+  facts**; 555 HTTP errors remain recorded. MCP was not used.
+- Resume policy is cooldown-first and bounded at approximately **0.5 requests
+  per second**. Empty-value balance-sheet variants require a sample parser
+  check before any further batch promotion.
