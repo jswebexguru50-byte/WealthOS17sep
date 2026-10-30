@@ -902,3 +902,11 @@ failure, and should be rerun from this checkpoint for the authoritative result.
   UL-SOLITARIO fundamental/ownership gaps. Analysis-360 coverage is
   **71,483 / 115,136 fields**; its broader gap count remains informational
   until all provider-specific fields have a canonical promotion contract.
+
+## 2026-10-30 — Readiness matrix aligned to rebuilt ledger
+
+- Recomputed the 3,512-symbol acceptance matrix against the rebuilt ledger.
+- Current cohorts: **2,968 NSE-only** (714 READY, 2,254 PARTIAL) and **544
+  BSE-only** (170 READY, 374 PARTIAL).
+- Total symbol readiness is **884 READY / 2,628 PARTIAL**, with MCP disabled.
+  Partial status is driven by explicit field gaps, not absent rows.
