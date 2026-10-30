@@ -55,8 +55,8 @@ describe("BusinessModelClassifier — sector/industry primary", () => {
   it("unknown symbol + sector='Insurance' → INSURANCE", () => {
     expect(BusinessModelClassifier.classify("NEWINSURER", "Insurance", null)).toBe("INSURANCE");
   });
-  it("HDFCBANK with no sector/industry → UNKNOWN (zero ticker guessing)", () => {
-    expect(BusinessModelClassifier.classify("HDFCBANK", null, null)).toBe("UNKNOWN");
+  it("HDFCBANK with no metadata uses the explicit stable financial-issuer registry", () => {
+    expect(BusinessModelClassifier.classify("HDFCBANK", null, null)).toBe("BANK");
   });
   it("DYCL with no sector/industry → UNKNOWN (zero ticker guessing)", () => {
     expect(BusinessModelClassifier.classify("DYCL", null, null)).toBe("UNKNOWN");
