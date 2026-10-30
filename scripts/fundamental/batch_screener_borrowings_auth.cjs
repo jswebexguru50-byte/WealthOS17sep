@@ -209,11 +209,46 @@ async function main() {
      ?, 'SCREENER_PUBLIC', 'Borrowings', ?, ?, 'PUBLIC_EXCHANGE_SNAPSHOT_V1')
   `);
 
+  // Reconcile durable successful snapshots first. This prevents a crash
+  // between acquisition and promotion from causing the same page to be
+  // downloaded again on the next run.
+  const priorSuccess = db.prepare(`
+    SELECT symbol, endpoint, response_json, fetched_at
+    FROM fundamental_endpoint_snapshots
+    WHERE provider='SCREENER_PUBLIC' AND status='SUCCESS'
+  `).all();
+  const priorBySymbol = new Map();
+  for (const row of priorSuccess) {
+    try {
+      const parsed = JSON.parse(row.response_json || '{}');
+      if (Number.isFinite(Number(parsed.borrowings_cr))) priorBySymbol.set(String(row.symbol).toUpperCase(), { ...row, parsed });
+    } catch { /* malformed snapshots remain auditable and retryable */ }
+  }
+
   let last = 0;
   for (let i = 0; i < symbols.length; i++) {
     const { symbol, isin, company_id: companyId } = symbols[i];
 
     if (cp.done[symbol]) { cp.stats.skipped++; continue; }
+
+    const cached = priorBySymbol.get(symbol.toUpperCase());
+    if (cached) {
+      const { borrowings_cr, latestPeriod = 'LATEST', col_count: colCount = null } = cached.parsed;
+      const periodEnd = periodToDate(latestPeriod) || String(cached.fetched_at || new Date().toISOString()).slice(0, 10);
+      const periodToken = String(latestPeriod).replace(/[^A-Za-z0-9]/g, '_');
+      const factId = `${companyId}_borrowings_ANNUAL_${periodToken}_CONSOLIDATED_SCREENER`;
+      insFact.run(
+        factId, companyId, symbol, isin || null, String(borrowings_cr), periodEnd,
+        String(cached.fetched_at || new Date().toISOString()).slice(0, 10),
+        cached.fetched_at || new Date().toISOString(), cached.fetched_at || new Date().toISOString(),
+        `SCREENER_PUBLIC:${cached.endpoint}:${symbol}:${cached.fetched_at || ''}`,
+        cached.endpoint, JSON.stringify({ borrowings_cr, latestPeriod, col_count: colCount, reconciled: true })
+      );
+      cp.stats.promoted++;
+      cp.done[symbol] = { status: 'RECONCILED_FROM_SNAPSHOT', borrowings_cr, latestPeriod, at: new Date().toISOString() };
+      fs.writeFileSync(checkpointFile, JSON.stringify(cp));
+      continue;
+    }
 
     const pause = Math.max(0, gapMs - (Date.now() - last));
     if (pause) await wait(pause);
