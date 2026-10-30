@@ -891,3 +891,14 @@ failure, and should be rerun from this checkpoint for the authoritative result.
   BSE-only** symbols instead of incorrectly labeling all rows `UNRESOLVED`.
 - Current readiness evidence: **740 READY**, **2,772 PARTIAL**, MCP disabled.
 - TypeScript compile and focused readiness tests pass **3/3**.
+
+## 2026-10-30 — Full ledger rebuild completed
+
+- Completed the deterministic non-MCP ledger rebuild in a persistent terminal
+  session (the previous foreground attempt was cut off before completion).
+- Current measured coverage is **32,426 / 35,120 fields = 92.33%**, with
+  **2,694 gaps**, `mcpUsed: false`.
+- Gap breakdown: **2,621 borrowings**, **65 OHLCV**, and 8 documented
+  UL-SOLITARIO fundamental/ownership gaps. Analysis-360 coverage is
+  **71,483 / 115,136 fields**; its broader gap count remains informational
+  until all provider-specific fields have a canonical promotion contract.
