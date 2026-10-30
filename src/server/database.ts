@@ -981,6 +981,32 @@ const SCHEMA_MIGRATIONS: Array<{ version: number; name: string; sqls: string[] }
       'CREATE INDEX IF NOT EXISTS idx_company_check_result_symbol ON company_check_result(symbol)',
     ],
   },
+  {
+    version: 20,
+    name: 'shareholding_patterns_schema',
+    sqls: [
+      `CREATE TABLE IF NOT EXISTS ShareholdingPatterns (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        symbol TEXT NOT NULL,
+        isin TEXT,
+        filing_period TEXT NOT NULL,
+        promoter_pct REAL,
+        fii_pct REAL,
+        dii_pct REAL,
+        public_pct REAL,
+        total_shares INTEGER,
+        source_url TEXT,
+        provider TEXT NOT NULL,
+        artifact_hash TEXT,
+        acquired_at TEXT NOT NULL,
+        status TEXT NOT NULL DEFAULT 'OK',
+        failure_reason TEXT,
+        UNIQUE(symbol, filing_period, provider)
+      )`,
+      'CREATE INDEX IF NOT EXISTS idx_shareholding_symbol ON ShareholdingPatterns(symbol)',
+      'CREATE INDEX IF NOT EXISTS idx_shareholding_period ON ShareholdingPatterns(filing_period)',
+    ],
+  },
 ];
 
 export async function runMigrations(db: Database): Promise<void> {
