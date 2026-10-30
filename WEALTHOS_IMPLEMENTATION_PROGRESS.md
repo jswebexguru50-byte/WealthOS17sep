@@ -14,7 +14,7 @@ The 82% figure is the weighted **implementation** estimate (code and contracts),
 
 - **Core architecture:** 100% of the designed deterministic waterfall/canonical-boundary controls are implemented and focused-tested.
 - **Focused regression:** 55/55 waterfall, repository, retry and chaos tests passed; canonical-consumer audit is PASS with 0 violations.
-- **Full unit suite:** latest direct JSON run: **1,924 passed, 32 failed, 11 skipped**. The failures are not yet cleared because several require missing fixtures, signed baseline decisions, or legacy contract updates. The approved 8-sheet dossier artifact is now regenerated and its dedicated regression suite passes **10/10**.
+- **Full unit suite:** latest direct run (2026-10-30): **1,959 passed, 31 failed, 11 skipped** across 235 files. The failures are not yet cleared because several require missing fixtures, signed baseline decisions, or legacy contract updates. The approved 8-sheet dossier artifact is now regenerated and its dedicated regression suite passes **10/10**.
 
 The reproducible Phase-2 pilot dataset was rebuilt from the authoritative
 `portfolio.db` source using `scripts/build_phase2_pilot_dataset.ts`. It produced
@@ -24,7 +24,7 @@ dedicated Phase-2 data-quality suite now passes **10/10**. The generated SQLite
 file is intentionally ignored by Git (`*.db`); its provenance and universe
 reports are retained under `data/` and must be regenerated in acceptance setup.
 
-The full unit rerun after regeneration completed **1,924 passed, 32 failed, 11
+The full unit rerun after regeneration completed **1,959 passed, 31 failed, 11
 skipped**. One stale classifier assertion was aligned to the explicit stable
 financial-issuer registry and now passes **18/18**; the remaining failures are
 unchanged artifact/evidence-baseline issues listed below.
