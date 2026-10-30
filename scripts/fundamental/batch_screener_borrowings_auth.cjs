@@ -32,12 +32,21 @@ const outDir = path.join(root, 'reports', 'fundamental');
 fs.mkdirSync(outDir, { recursive: true });
 const checkpointFile = path.join(outDir, 'screener_borrowings_auth_checkpoint.json');
 
+// Optional authenticated session. Prefer a short-lived cookie injected at run
+// time; never commit it to the repository or persist it in reports.
+const cookieFile = process.env.SCREENER_COOKIE_FILE;
+let sessionCookie = process.env.SCREENER_COOKIE || '';
+if (!sessionCookie && cookieFile && fs.existsSync(cookieFile)) {
+  sessionCookie = fs.readFileSync(cookieFile, 'utf8').trim();
+}
+
 const HEADERS = {
   'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
   'Accept-Language': 'en-US,en;q=0.5',
   'Accept-Encoding': 'gzip, deflate, br',
 };
+if (sessionCookie) HEADERS.Cookie = sessionCookie;
 
 function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
 
@@ -113,20 +122,29 @@ async function fetchScreenerPage(symbol) {
   // Try consolidated first, then standalone
   for (const suffix of ['/consolidated/', '/']) {
     const url = `https://www.screener.in/company/${encodeURIComponent(symbol)}${suffix}`;
-    try {
-      const res = await fetch(url, {
-        headers: HEADERS,
-        redirect: 'follow',
-        signal: AbortSignal.timeout(20000),
-      });
-      if (res.status === 404) continue;
-      if (!res.ok) {
-        return { url, status: res.status, html: null, error: `HTTP_${res.status}` };
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        const res = await fetch(url, {
+          headers: HEADERS,
+          redirect: 'follow',
+          signal: AbortSignal.timeout(20000),
+        });
+        if (res.status === 404) break;
+        if (res.status === 429 || res.status === 403) {
+          // Respect provider throttling/bot protection, but make a bounded
+          // retry so a transient response does not become permanent truth.
+          if (attempt < 2) { await wait(1500 * (attempt + 1)); continue; }
+          return { url, status: res.status, html: null, error: `HTTP_${res.status}` };
+        }
+        if (!res.ok) {
+          return { url, status: res.status, html: null, error: `HTTP_${res.status}` };
+        }
+        const html = await res.text();
+        return { url, status: res.status, html, suffix };
+      } catch (e) {
+        // timeout or network error — retry this URL, then try next suffix
+        if (attempt < 2) await wait(500 * (attempt + 1));
       }
-      const html = await res.text();
-      return { url, status: res.status, html, suffix };
-    } catch (e) {
-      // timeout or network error — try next suffix
     }
   }
   return { url: `https://www.screener.in/company/${symbol}/`, status: 0, html: null, error: 'FETCH_FAILED' };
@@ -159,6 +177,7 @@ async function main() {
     to_process: symbols.length,
     gap_ms: gapMs,
     mcpUsed: false,
+    authenticatedSession: Boolean(sessionCookie),
   }));
 
   if (!apply) {
