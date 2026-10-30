@@ -27,6 +27,17 @@ function main() {
   const db = new Database(dbPath);
   db.pragma('journal_mode = WAL');
 
+  // Repair rows written by the pre-v1 insert binding order. Restrict the
+  // repair to timestamp-shaped providers with an explicit Screener URL; no
+  // inferred or ambiguous lineage is rewritten.
+  if (apply) {
+    db.prepare(`UPDATE company_facts
+      SET provider='SCREENER_PUBLIC', sourceType='STRUCTURED_SECONDARY'
+      WHERE metric='borrowings'
+        AND provider GLOB '20??-??-??T??:*'
+        AND sourceUrl LIKE '%screener.in/%'`).run();
+  }
+
   // Load existing company_ids
   const tickerMap = new Map();
   for (const r of db.prepare('SELECT UPPER(symbol) sym, id, isin FROM MasterTickers').all()) {

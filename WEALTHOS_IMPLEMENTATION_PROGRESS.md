@@ -709,3 +709,11 @@ public Screener balance-sheet artifacts and verified NSE/BSE XBRL Borrowings
 facts, applies deterministic source preference and unit conversion, and writes
 idempotently to `company_facts`. The combined waterfall/artifact test gate is
 **24/24**; a current dry run scanned **3,528** artifacts with no parsing errors.
+
+An apply/rebuild checkpoint on 2026-10-30 produced **31,681/35,120 core
+fields (90.20%)**, leaving **3,439 gaps**. The artifact run itself found no new
+unprocessed explicit borrowing values (130 symbols were already covered and
+3,398 artifacts had no safe borrowing field). A lineage audit also repaired
+144 timestamp-shaped `provider` values where the source URL was explicitly
+Screener; ambiguous timestamp rows with no source URL remain excluded from
+automatic repair pending provenance evidence.
