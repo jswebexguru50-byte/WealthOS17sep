@@ -187,3 +187,18 @@ describe('parseFilingPeriod', () => {
   it('returns null for invalid input', () => expect(parseFilingPeriod('Blah 2026')).toBeNull());
   it('returns null for empty string', () => expect(parseFilingPeriod('')).toBeNull());
 });
+
+describe('immediate promotion contract', () => {
+  it('promotes each successful response before checkpoint reconciliation', () => {
+    const source = fs.readFileSync(
+      path.resolve(process.cwd(), 'scripts/market_data/shareholding_backfill.cjs'),
+      'utf8'
+    );
+    const successBlock = source.indexOf('if (rows.length > 0)');
+    const immediate = source.indexOf('promoteRows(applyDb, enrichedRows)', successBlock);
+    const checkpoint = source.indexOf('CHECKPOINT_RECONCILIATION', successBlock);
+    expect(successBlock).toBeGreaterThanOrEqual(0);
+    expect(immediate).toBeGreaterThan(successBlock);
+    expect(checkpoint).toBeGreaterThan(immediate);
+  });
+});
