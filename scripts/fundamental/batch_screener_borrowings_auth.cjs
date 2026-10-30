@@ -34,7 +34,9 @@ fs.mkdirSync(outDir, { recursive: true });
 const checkpointFile = path.join(outDir, 'screener_borrowings_auth_checkpoint.json');
 
 // Optional authenticated session. Prefer a short-lived cookie injected at run
-// time; never commit it to the repository or persist it in reports.
+// time; never commit it to the repository or persist it in reports. A local
+// AppConfig value is accepted as a convenience for scheduled runs, but is
+// never printed or copied into the checkpoint.
 const cookieFile = process.env.SCREENER_COOKIE_FILE;
 let sessionCookie = process.env.SCREENER_COOKIE || '';
 if (!sessionCookie && cookieFile && fs.existsSync(cookieFile)) {
@@ -154,6 +156,26 @@ async function fetchScreenerPage(symbol) {
 async function main() {
   const db = new Database(dbPath);
   db.pragma('journal_mode = WAL');
+
+  if (!sessionCookie) {
+    // Support the naming used by existing AppConfig integrations. Only read
+    // the value; credentials remain in the database and are never emitted.
+    try {
+      const row = db.prepare(`
+        SELECT value FROM AppConfig
+        WHERE key IN ('Screener_Cookie', 'SCREENER_COOKIE', 'Screener_Cookie_Header')
+        ORDER BY CASE key
+          WHEN 'Screener_Cookie' THEN 1
+          WHEN 'SCREENER_COOKIE' THEN 2
+          ELSE 3 END
+        LIMIT 1
+      `).get();
+      if (row && typeof row.value === 'string') sessionCookie = row.value.trim();
+    } catch {
+      // Older disposable databases may not have AppConfig; public mode still works.
+    }
+    if (sessionCookie) HEADERS.Cookie = sessionCookie;
+  }
 
   // Gap symbols: active, no non-MCP borrowings in company_facts
   let gapRows = db.prepare(`

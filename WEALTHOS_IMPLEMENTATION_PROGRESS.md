@@ -818,3 +818,15 @@ failure, and should be rerun from this checkpoint for the authoritative result.
 - This is a test-runner correction only; the full coverage gate remains open
   until the legacy fixture, frozen-control, and historical-artifact failures
   are repaired.
+
+## 2026-10-30 — Screener credential resolution
+
+- The resumable borrowing worker now reads an existing `AppConfig` cookie under
+  `Screener_Cookie`, `SCREENER_COOKIE`, or `Screener_Cookie_Header` when no
+  runtime environment variable/file is supplied. Cookie material is never
+  logged, checkpointed, or committed.
+- Environment/file injection remains highest priority, and public mode remains
+  available for databases without `AppConfig`.
+- Screener parser regression suite remains **15/15 passed**. Authenticated bulk
+  acquisition still requires a valid session cookie; no fabricated promotion is
+  performed when the source returns 403/429.
