@@ -724,3 +724,15 @@ SQLite WAL/SHM sidecars and removes a false read-only acceptance failure. The
 isolated Discover → Analyze → FERE and smoke integration checks pass **2/2**;
 the full integration command previously executed 189 tests with one WAL-sidecar
 failure, and should be rerun from this checkpoint for the authoritative result.
+
+## 2026-10-30 — Authoritative isolated integration acceptance
+
+- Reran `npm run wealthos:test:integration` after the isolation change.
+- Result: **27 test files passed, 189 tests passed, 0 failures** in 101.18s.
+- The spawned server was shut down cleanly and the production database remained
+  isolated; this is now the authoritative integration result for this checkpoint.
+- This raises integration acceptance confidence, but does not close the remaining
+  field-coverage or full-unit/coverage/E2E acceptance gaps. Current core non-MCP
+  coverage remains **31,681/35,120 (90.20%)**, with the unresolved gaps requiring
+  evidence-backed provider attempts (primarily borrowings and structurally
+  unavailable OHLCV), not fabricated values.
