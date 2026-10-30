@@ -25,7 +25,7 @@ file is intentionally ignored by Git (`*.db`); its provenance and universe
 reports are retained under `data/` and must be regenerated in acceptance setup.
 - **Production acceptance:** not complete until the full unit rerun, integration/coverage/E2E matrix, 3,548-symbol retry, KPI capture, and remote GitHub synchronization are evidenced.
 
-Current checkpoint (2026-10-29): the implementation remains **82% complete / approximately 60% acceptance-complete**. This is not a regression: the lower acceptance figure intentionally counts the still-unexecuted or environment-blocked gates (full unit baseline, coverage, browser E2E, live-provider acceptance, and remote push). The focused canonical/waterfall/360/chaos gate is green: **21 passed, 13 skipped** after TypeScript compilation.
+Current checkpoint (2026-10-30): the implementation remains **approximately 83% complete / approximately 62% acceptance-complete**. The acceptance figure counts the still-unexecuted or environment-blocked gates (remaining unit baseline failures, coverage, browser E2E, live-provider acceptance, and remote push). The Phase-2 generated artifact removed its missing-fixture blocker; the current full unit gate is **1,924 passed, 32 failed, 11 skipped**. The focused canonical/waterfall/360/chaos gate remains green.
 
 Latest local integration command evidence (2026-10-29) is **28/28 passed across 8 suites** (`tests/reports/vitest-integration-results.json`). The earlier 189/189 figure remains historical evidence from the broader 2026-10-28 run; it is retained for audit history but is not substituted for the latest command output.
 
