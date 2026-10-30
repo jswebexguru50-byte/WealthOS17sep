@@ -22,6 +22,7 @@ const Database = require('better-sqlite3');
 const root = process.cwd();
 const dbPath = path.join(root, 'portfolio.db');
 const apply = process.argv.includes('--apply');
+const reconcileOnly = process.argv.includes('--reconcile-only');
 const gapMs = Math.max(800, Number(
   process.argv.includes('--gap-ms') ? process.argv[process.argv.indexOf('--gap-ms') + 1] : 1200
 ));
@@ -178,6 +179,7 @@ async function main() {
     gap_ms: gapMs,
     mcpUsed: false,
     authenticatedSession: Boolean(sessionCookie),
+    reconcileOnly,
   }));
 
   if (!apply) {
@@ -246,6 +248,13 @@ async function main() {
       );
       cp.stats.promoted++;
       cp.done[symbol] = { status: 'RECONCILED_FROM_SNAPSHOT', borrowings_cr, latestPeriod, at: new Date().toISOString() };
+      fs.writeFileSync(checkpointFile, JSON.stringify(cp));
+      continue;
+    }
+
+    if (reconcileOnly) {
+      cp.stats.skipped++;
+      cp.done[symbol] = { status: 'NO_CACHED_SUCCESS', at: new Date().toISOString() };
       fs.writeFileSync(checkpointFile, JSON.stringify(cp));
       continue;
     }

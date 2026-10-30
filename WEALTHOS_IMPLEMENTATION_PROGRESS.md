@@ -763,3 +763,8 @@ failure, and should be rerun from this checkpoint for the authoritative result.
   the downloaded→promoted invariant and makes reruns idempotent even after a
   process interruption between acquisition and promotion. Syntax and the 15/15
   focused tests remain green.
+- Added `--reconcile-only` for a no-network promotion pass. Running it against
+  the current database promoted **82 additional** durable Screener borrowing
+  facts (272 total `SCREENER_PUBLIC` borrowing facts; 84 successful snapshots)
+  without making provider calls. This is now the safest first step after any
+  interrupted acquisition run.
