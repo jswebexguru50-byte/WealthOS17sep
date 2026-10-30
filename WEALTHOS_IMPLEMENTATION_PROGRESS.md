@@ -101,6 +101,11 @@ coverage from **31,613/35,120 (90.01%) to 31,635/35,120 (90.07%)**, closing 22
 false OHLCV gaps without a provider call or MCP use. Remaining OHLCV gaps still
 require acquisition; the change does not weaken freshness or fail-closed rules.
 
+The StockScans workspace provenance contract was also repaired: its Market
+Breadth badge now explicitly identifies **DuckDB Adjusted OHLCV** rather than a
+generic `DuckDB` label. The previously failing render contract passes **1/1**;
+the change is presentation-only and does not alter scan calculations.
+
 Commit `e2bd02c7d` adds the missing OHLCV promotion boundary: `scripts/remediation/promote_phase10rm4_candles.ts` validates the staged Phase 10R-M.4 artifact and, only with explicit `--apply`, idempotently inserts candles into canonical `DailyOHLCV` with `data_source='UPSTOX_10RM4'`. A read-only dry run against the current empty recovery artifact completed with zero candidates and no database writes. Phase 10R-M.4 remains download/stage-only until this promotion command is run after a successful recovery response.
 
 Commit `2b3963f8f` adds the missing daily Kite token exchange CLI (`scripts/market_data/refresh_kite_token.cjs`). It exchanges the single-use request token using the configured API key/secret and persists only the access token and timestamp in `portfolio.db` `AppConfig`; it never prints or writes credentials to source files.
