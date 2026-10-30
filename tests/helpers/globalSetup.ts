@@ -70,8 +70,16 @@ export async function setup() {
     fs.mkdirSync(tempDir, { recursive: true });
     isolatedDbPath = path.join(tempDir, `portfolio-${process.pid}.db`);
     const source = process.env.DATABASE_URL || path.resolve(process.cwd(), 'portfolio.db');
-    if (fs.existsSync(source)) fs.copyFileSync(source, isolatedDbPath);
-    else fs.closeSync(fs.openSync(isolatedDbPath, 'w'));
+    if (fs.existsSync(source)) {
+      // Copy the main file and WAL as one stable snapshot. Copying only the
+      // main file is unsafe because committed pages may still live in *.db-wal;
+      // copying the stale SHM index is unnecessary and can itself be invalid.
+      // The test process owns the source snapshot before the child server starts,
+      // so these files cannot be mutated during this copy window.
+      fs.copyFileSync(source, isolatedDbPath);
+      const sourceWal = `${source}-wal`;
+      if (fs.existsSync(sourceWal)) fs.copyFileSync(sourceWal, `${isolatedDbPath}-wal`);
+    } else fs.closeSync(fs.openSync(isolatedDbPath, 'w'));
     process.env.DATABASE_URL = isolatedDbPath;
     const db = new BetterSqlite3(isolatedDbPath);
     db.exec(`CREATE TABLE IF NOT EXISTS schema_migrations (id TEXT PRIMARY KEY, applied_at TEXT);
