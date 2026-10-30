@@ -98,6 +98,16 @@ export class DataRefreshScheduler {
   /** Start all background jobs. Call once at server boot. */
   start(): void {
     if (this.handles.size > 0) return; // already started
+    // Keep read-only API/test processes genuinely read-only.  The scheduler
+    // owns provider refreshes and therefore must not start unless explicitly
+    // enabled; relying on callers to guard every startup path caused the
+    // integration server to refresh fundamentals against production SQLite.
+    if (process.env.ENABLE_BACKGROUND_SCHEDULERS !== 'true' || process.env.READ_ONLY_RUNTIME === 'true') {
+      obs.info('DataRefreshScheduler', 'scheduler_disabled', {
+        reason: process.env.READ_ONLY_RUNTIME === 'true' ? 'read_only_runtime' : 'background_schedulers_disabled',
+      });
+      return;
+    }
     for (const job of this.jobs()) {
       // Run immediately on first tick (after short delay to let DB initialise)
       setTimeout(() => this.execute(job), 10_000);
