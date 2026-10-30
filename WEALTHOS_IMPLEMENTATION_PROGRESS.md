@@ -830,3 +830,16 @@ failure, and should be rerun from this checkpoint for the authoritative result.
 - Screener parser regression suite remains **15/15 passed**. Authenticated bulk
   acquisition still requires a valid session cookie; no fabricated promotion is
   performed when the source returns 403/429.
+
+## 2026-10-30 — Screener batch live-state verification
+
+- The previously reported PID `76088` is no longer present; the associated
+  watcher log is stale and must not be treated as an active run.
+- Durable database evidence currently shows **499** successful Screener
+  snapshots / **499** symbols and **770** `SCREENER_PUBLIC` borrowing facts
+  across **667** symbols. The checkpoint records 1,304 attempted symbols,
+  499 promoted, 389 failed, and 416 HTTP errors.
+- No authenticated Screener cookie key is currently present in `AppConfig`.
+  The worker can resume from its checkpoint once a valid runtime cookie is
+  supplied; it will not claim the remaining gaps as promoted without source
+  evidence.
