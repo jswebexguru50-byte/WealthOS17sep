@@ -69,6 +69,13 @@ with `provider=UPSTOX` and the original source URL/hash. An AKIKO pilot inserted
 **4 canonical rows** with no MCP call. A schema bootstrap was also added so
 older `portfolio.db` files cannot fail at promotion with a missing table.
 
+The first bounded fallback rollout (50 symbols, `--apply`, MCP disabled)
+processed **50 symbols: 42 usable, 8 source-exhausted, 167 rows**. Canonical
+`ShareholdingPatterns` now contains **171 Upstox rows across 43 symbols**; the
+difference is prior AKIKO data already present and idempotently skipped. The
+eight source-exhausted symbols remain in the failure ledger for a later
+official/BSE/browser retry and are not represented as complete.
+
 The readiness matrix now reports its denominator explicitly: **3,548 listing rows = 3,512 unique issuers + 36 duplicate exchange/listing rows**. This removes the apparent 3,512-versus-3,548 discrepancy without changing coverage results (`build_readiness_acceptance_matrix.ts`).
 
 Commit `e2bd02c7d` adds the missing OHLCV promotion boundary: `scripts/remediation/promote_phase10rm4_candles.ts` validates the staged Phase 10R-M.4 artifact and, only with explicit `--apply`, idempotently inserts candles into canonical `DailyOHLCV` with `data_source='UPSTOX_10RM4'`. A read-only dry run against the current empty recovery artifact completed with zero candidates and no database writes. Phase 10R-M.4 remains download/stage-only until this promotion command is run after a successful recovery response.
