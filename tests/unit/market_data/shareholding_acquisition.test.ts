@@ -201,4 +201,23 @@ describe('immediate promotion contract', () => {
     expect(immediate).toBeGreaterThan(successBlock);
     expect(checkpoint).toBeGreaterThan(immediate);
   });
+
+  it('routes numeric scrip codes to BSE and never labels their 404 as NSE', () => {
+    const source = fs.readFileSync(
+      path.resolve(process.cwd(), 'scripts/market_data/shareholding_backfill.cjs'),
+      'utf8'
+    );
+    expect(source).toContain("if (exchange === 'BSE' || /^\\d+$/.test(String(sym.symbol || ''))) return 'BSE';");
+    expect(source).toContain("failure_reason = 'BSE_BROWSER_CAPTURE_REQUIRED'");
+    expect(source).toContain('provider: route');
+  });
+
+  it('reports immediate promotion separately from idempotent reconciliation', () => {
+    const source = fs.readFileSync(
+      path.resolve(process.cwd(), 'scripts/market_data/shareholding_backfill.cjs'),
+      'utf8'
+    );
+    expect(source).toContain('immediate: immediatePromotion');
+    expect(source).toContain('reconciliation: p');
+  });
 });

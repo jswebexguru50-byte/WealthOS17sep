@@ -94,6 +94,15 @@ function loadSymbols() {
   return limit == null ? unique : unique.slice(0, limit);
 }
 
+// Exchange routing is deterministic: numeric scrip codes are BSE listings;
+// alphabetic symbols are NSE listings unless the master explicitly says BSE.
+// Never send a BSE code to the NSE endpoint (it produces a misleading 404).
+function listingRoute(sym) {
+  const exchange = String(sym.exchange || '').toUpperCase();
+  if (exchange === 'BSE' || /^\d+$/.test(String(sym.symbol || ''))) return 'BSE';
+  return 'NSE';
+}
+
 // ── NSE shareholding fetch ─────────────────────────────────────────────────
 // NSE blocks plain fetch without a session cookie.  We first hit the homepage
 // to obtain a set of cookies, then use them on the API endpoint.
@@ -297,23 +306,33 @@ async function main() {
 
   for (let i = 0; i < symbols.length; i++) {
     const sym = symbols[i];
-    const key = `NSE|${sym.symbol}`;
+    const route = listingRoute(sym);
+    const key = `${route}|${sym.symbol}`;
     if (cp.done[key]) continue;
 
     const pause = Math.max(0, gapMs - (Date.now() - last));
     if (pause) await wait(pause);
 
     let status = 0, rows = [], raw = null, failure_reason = null;
-    const sourceUrl = `https://www.nseindia.com/api/corporate-share-holding?index=EQ&symbol=${encodeURIComponent(sym.symbol)}&period=Quarterly`;
+    const sourceUrl = route === 'BSE'
+      ? `https://api.bseindia.com/BseIndiaAPI/api/SHPQNewFormat/w?scripcode=${encodeURIComponent(sym.symbol)}`
+      : `https://www.nseindia.com/api/corporate-share-holding?index=EQ&symbol=${encodeURIComponent(sym.symbol)}&period=Quarterly`;
 
     try {
-      const result = await fetchNseShareholding(sym.symbol, cookies);
-      status = result.status;
-      raw    = result.raw;
-      if (status === 200 && raw) {
-        rows = parseNseResponse(raw, sym.symbol, sym.isin);
+      if (route === 'BSE') {
+        // BSE requires its browser-captured multi-request payload. Do not
+        // substitute an NSE request or fabricate a value when it is absent.
+        status = 0;
+        failure_reason = 'BSE_BROWSER_CAPTURE_REQUIRED';
       } else {
-        failure_reason = `HTTP ${status}`;
+        const result = await fetchNseShareholding(sym.symbol, cookies);
+        status = result.status;
+        raw    = result.raw;
+        if (status === 200 && raw) {
+          rows = parseNseResponse(raw, sym.symbol, sym.isin);
+        } else {
+          failure_reason = `HTTP ${status}`;
+        }
       }
     } catch (e) {
       failure_reason = e.message;
@@ -352,7 +371,7 @@ async function main() {
       cp.stats.rows += rows.length;
     } else {
       fs.appendFileSync(failuresFile, JSON.stringify({
-        symbol: sym.symbol, isin: sym.isin, provider: 'NSE',
+        symbol: sym.symbol, isin: sym.isin, provider: route,
         source_url: sourceUrl, status, failure_reason,
         acquired_at: new Date().toISOString(),
       }) + '\n');
@@ -366,7 +385,11 @@ async function main() {
     // Promote every 50 symbols when --apply is set
     if (apply && (i + 1) % 50 === 0) {
       const p = applyDb ? promoteStaged(applyDb, stagingFile) : null;
-      if (p) cp.promotion = { ...p, mode: 'CHECKPOINT_RECONCILIATION', at: new Date().toISOString() };
+      if (p) cp.promotion = {
+        immediate: immediatePromotion,
+        reconciliation: p,
+        mode: 'CHECKPOINT_RECONCILIATION', at: new Date().toISOString()
+      };
       fs.writeFileSync(checkpointFile, JSON.stringify(cp, null, 2));
     }
 
@@ -377,7 +400,13 @@ async function main() {
 
   if (apply) {
     const p = applyDb ? promoteStaged(applyDb, stagingFile) : null;
-    if (p) cp.promotion = { ...p, mode: 'FINAL_RECONCILIATION', at: new Date().toISOString() };
+    if (p) cp.promotion = {
+      immediate: immediatePromotion,
+      reconciliation: p,
+      // `immediate` is the authoritative acquisition-time outcome. The final
+      // pass is intentionally idempotent and normally reports only skips.
+      mode: 'FINAL_RECONCILIATION', at: new Date().toISOString()
+    };
   }
 
   applyDb?.close();
