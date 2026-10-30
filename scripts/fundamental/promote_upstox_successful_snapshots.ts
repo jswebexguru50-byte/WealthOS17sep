@@ -25,6 +25,13 @@ const endpointMap: Record<string, Record<string, string>> = {
   'share-holdings': { promoters: 'promoter_holding', fii: 'fii_holding', mutual_funds: 'mf_holding', other_dii: 'dii_holding' },
 };
 const unitFor = (endpoint: string) => endpoint === 'share-holdings' ? 'PERCENT' : 'INR_CR';
+const keyRatioMap: Record<string, { metric: string; unit: string }> = {
+  'P/E': { metric: 'pe_ratio', unit: 'RATIO' },
+  'P/B': { metric: 'pb_ratio', unit: 'RATIO' },
+  ROE: { metric: 'roe_pct', unit: 'PERCENT' },
+  ROCE: { metric: 'roce_reported', unit: 'PERCENT' },
+  'Quick Ratio': { metric: 'quick_ratio', unit: 'RATIO' },
+};
 
 const db = new sqlite3.Database(dbPath); db.configure('busyTimeout', 10000);
 let selected = 0, promoted = 0, skipped = 0, failed = 0;
@@ -32,7 +39,7 @@ try {
   const rows = await all(db, `SELECT symbol,isin,endpoint,fetched_at,response_json
     FROM fundamental_endpoint_snapshots
     WHERE provider='UPSTOX_FUNDAMENTALS' AND status='SUCCESS'
-      AND endpoint IN ('income-statement','cash-flow','share-holdings')
+      AND endpoint IN ('income-statement','cash-flow','share-holdings','key-ratios')
     ORDER BY UPPER(symbol), endpoint, fetched_at`);
   const latest = new Map<string, any>();
   for (const row of rows) latest.set(`${String(row.symbol).toUpperCase()}:${row.endpoint}`, row);
@@ -41,7 +48,16 @@ try {
     try {
       const payload = JSON.parse(String(row.response_json || '{}'));
       const values: Array<{ metric: string; value: number; periodEnd: string }> = [];
-      if (row.endpoint === 'share-holdings') {
+      if (row.endpoint === 'key-ratios') {
+        // Upstox returns ratios as a latest snapshot rather than a history.
+        // Keep the fetched date as the period so the fact remains freshness-aware.
+        const latestDate = String(row.fetched_at).slice(0, 10);
+        for (const item of (payload?.data || [])) {
+          const mapping = keyRatioMap[String(item?.name || '').trim()];
+          const value = Number(String(item?.company_value ?? '').replace(/[% ,]/g, ''));
+          if (mapping && Number.isFinite(value)) values.push({ metric: mapping.metric, value, periodEnd: latestDate });
+        }
+      } else if (row.endpoint === 'share-holdings') {
         for (const category of (payload?.data || [])) for (const h of (category.history || [])) {
           const metric = endpointMap[row.endpoint]?.[String(category.category)]; const date = periodEnd(h.period); const value = Number(h.value);
           if (metric && date && Number.isFinite(value)) values.push({ metric, value, periodEnd: date });
@@ -60,7 +76,8 @@ try {
         await run(db, `INSERT OR REPLACE INTO company_facts
           (factId,companyId,symbol,isin,metric,value,unit,currency,periodType,periodStart,periodEnd,asOfDate,reportedAt,factType,sourceType,scope,provider,sourceDocumentId,sourceUrl,evidenceText,verificationStatus,availabilityStatus,fetchedAt,freshnessTtlDays,providerToken,exactProviderLabel,availableAt,publishedAt)
           VALUES(?,?,?,?,?,?,?,NULL,?,NULL,?,?,?,'REPORTED','BROKER_API','CONSOLIDATED','UPSTOX_FUNDAMENTALS',?,?,?,'VERIFIED_PARTIAL','AVAILABLE',?,365,?,?,?,?)`,
-          [factId, row.isin || row.symbol, row.symbol, row.isin || null, item.metric, item.value, unitFor(row.endpoint),
+          [factId, row.isin || row.symbol, row.symbol, row.isin || null, item.metric, item.value,
+            row.endpoint === 'key-ratios' ? (keyRatioMap[Object.keys(keyRatioMap).find(k => keyRatioMap[k].metric === item.metric) || '']?.unit || 'RATIO') : unitFor(row.endpoint),
             'ANNUAL', item.periodEnd, item.periodEnd, item.periodEnd, sourceId,
             `https://api.upstox.com/v2/fundamentals/${encodeURIComponent(String(row.isin || row.symbol))}/${row.endpoint}`,
             JSON.stringify({ endpoint: row.endpoint, periodEnd: item.periodEnd }), row.fetched_at, row.endpoint, item.metric, row.fetched_at, item.periodEnd]);

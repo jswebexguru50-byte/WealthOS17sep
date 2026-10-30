@@ -40,6 +40,11 @@ describe('non-MCP waterfall contract', () => {
     expect(source.indexOf("phase('promotion_gap_manifest'")).toBeGreaterThan(source.indexOf("phase('promotion_verification'"));
   });
 
+  it('promotes every successful Upstox endpoint before downstream consumers run', () => {
+    expect(source).toContain("phase('upstox_canonical_promotion', ['scripts/fundamental/promote_upstox_successful_snapshots.ts']");
+    expect(source).not.toContain("phase('upstox_canonical_promotion', ['scripts/fundamental/promote_upstox_snapshots.ts']");
+  });
+
   it('builds retry cohorts from the active source manifest', () => {
     expect(source).toContain("'--source-manifest', resolvedManifest");
     expect(source).toContain("'--verification', path.join(reportDir, 'promotion_verification.json')");

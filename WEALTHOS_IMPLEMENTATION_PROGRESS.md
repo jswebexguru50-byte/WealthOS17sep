@@ -581,3 +581,10 @@ All other failures appear to be pre-existing (present in the 56-failure baseline
 - Updated the company-intelligence acceptance fixture to reflect the actual fail-closed FERE contract (source outage and absent auditor observation are valid explicit states); the focused suite now passes 23/23 without loosening production controls.
 - Integration gate rerun after the promotion and route changes: 27 test files / 189 tests passed, 0 failures (`npm run wealthos:test:integration`, 94.08s).
 - Full unit gate rerun: 217 test files passed, 15 failed; 1,892 tests passed, 32 failed, 21 skipped. The remaining failures are concentrated in legacy frozen-fixture/Gate-A artifacts, missing R4 progress fixture, CC9/in-hand evidence artifacts, and expected-vs-current dossier counts; the newly affected company-intelligence, canonical consumer, waterfall, and promotion tests pass.
+
+## 2026-10-30 — Waterfall promotion is now comprehensive
+
+- The deterministic non-MCP coordinator now invokes `promote_upstox_successful_snapshots.ts` immediately after Upstox acquisition, instead of the legacy key-ratios-only promoter.
+- The reconciler now promotes successful `key-ratios` snapshots as well as income statement, cash-flow, and share-holdings snapshots. Ratio mappings include P/E, P/B, ROE, ROCE, and Quick Ratio with explicit units and deterministic fact IDs.
+- This closes the coordinator-level delay: every durable successful Upstox response is promoted before verification, coverage, and acceptance phases run. The raw snapshot remains the retryable source of truth if an individual promotion fails.
+- Verification: `npx tsc --noEmit --skipLibCheck` passed; `tests/unit/non_mcp_waterfall_contract.test.ts` passed 7/7, including the comprehensive-promoter contract assertion.

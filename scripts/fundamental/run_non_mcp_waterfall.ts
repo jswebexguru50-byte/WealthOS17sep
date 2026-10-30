@@ -76,7 +76,11 @@ phase('gap_plan', ['scripts/fundamental/plan_non_mcp_acquisition.ts', '--ledger'
 phase('bse_identity_repair', ['scripts/fundamental/ensure_bse_instrument_keys.ts'], {}, true);
 phase('exchange_xbrl_mca', ['scripts/fere/run_combined_exchange_batch.mjs', '--manifest', resolvedManifest, '--apply', '--concurrency', arg('--exchange-concurrency') || '3', '--checkpoint-every', '50', '--retries', '2', '--timeout-ms', '90000'], {}, true);
 phase('upstox_fundamentals', ['scripts/fundamental/run_upstox_fundamental_enrichment.ts', '--manifest', resolvedManifest, '--batch-size', '1', '--endpoint-delay-ms', '750', '--symbol-delay-ms', '1000'], { FUNDAMENTAL_MANIFEST_PATH: upstoxManifest }, true);
-phase('upstox_canonical_promotion', ['scripts/fundamental/promote_upstox_snapshots.ts'], {}, true);
+// Reconcile every durable successful Upstox endpoint (statements, cash-flow,
+// holdings and ratios) immediately after acquisition.  This is intentionally
+// the comprehensive promoter; the older key-ratios-only script is retained
+// for backwards-compatible manual use but is not the waterfall gate.
+phase('upstox_canonical_promotion', ['scripts/fundamental/promote_upstox_successful_snapshots.ts'], {}, true);
 phase('cached_artifact_promotion', ['scripts/fere/promote_cached_artifacts_batch.mjs', '--manifest', resolvedManifest, '--apply', '--min-facts', '29'], {}, true);
 phase('promotion_verification', ['scripts/fundamental/verify_non_mcp_promotion.ts', '--manifest', resolvedManifest, '--min-facts', '29'], {}, true);
 phase('promotion_gap_manifest', ['scripts/fundamental/build_promotion_gap_manifest.ts', '--verification', path.join(reportDir, 'promotion_verification.json'), '--source-manifest', resolvedManifest], {}, true);
