@@ -843,3 +843,13 @@ failure, and should be rerun from this checkpoint for the authoritative result.
   The worker can resume from its checkpoint once a valid runtime cookie is
   supplied; it will not claim the remaining gaps as promoted without source
   evidence.
+
+## 2026-10-30 — Cached Screener reconciliation rerun
+
+- Ran `batch_screener_borrowings_auth.cjs --apply --reconcile-only` with
+  `mcpUsed: false`; no new network requests were issued.
+- Durable totals now show **515** successful Screener snapshots, **688**
+  symbols with **791** promoted borrowing facts, and **2,920** active borrowing
+  gaps remaining. The checkpoint records 1,328 attempts and 513 promoted
+  symbols; duplicate fact rows account for the difference in fact count.
+- Screener parser/unit regression remains **15/15 passed**.
