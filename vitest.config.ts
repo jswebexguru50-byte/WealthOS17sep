@@ -20,6 +20,8 @@ export default defineConfig({
       'tests/e2e/**',
       'src/server/__tests__/**', // Separate existing test suite
       'node_modules/**',
+      // Executed by the Node test runner via test:remediation:node; it has no Vitest suite.
+      'tests/remediation/acceptance-matrix-node.test.ts',
     ],
 
     // Global timeout: 30s for integration tests (live server)

@@ -807,3 +807,14 @@ failure, and should be rerun from this checkpoint for the authoritative result.
 - Repaired the FERE manifest source-contract assertion by documenting the
   exchange universe, ISIN deduplication, pending status, and numeric/BSE routing
   directly beside the query. The FERE manifest contract now passes **1/1**.
+
+## 2026-10-30 — Vitest/Node acceptance-runner separation
+
+- Excluded `tests/remediation/acceptance-matrix-node.test.ts` from the Vitest
+  glob because it is intentionally a Node `node:test` suite. This removes the
+  misleading “No test suite found” failure from repository-wide Vitest runs.
+- The dedicated Node acceptance runner passes **3/3**. The suite verifies
+  timeout fallback/coalescing, MCP opt-in policy, and NSE/BSE numeric routing.
+- This is a test-runner correction only; the full coverage gate remains open
+  until the legacy fixture, frozen-control, and historical-artifact failures
+  are repaired.
