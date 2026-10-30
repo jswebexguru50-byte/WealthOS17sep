@@ -83,8 +83,10 @@ const KNOWN_OHLCV_SOURCE_UNAVAILABLE = new Set([
   'UNKNOWN',      // Placeholder symbol with fake ISIN in portfolio data
 ]);
 
-// Baseline coverage from commit 4cd503fc2 (non-MCP ledger, 3512 symbols × 10 fields)
-const BASELINE_COVERED = 31_613;
+// Baseline coverage from commit 2f9fe366c (post-screener borrowings run 2026-10-30).
+// 32,281 = 31,613 (commit 4cd503fc2 original) + 668 borrowings from SCREENER_PUBLIC
+// (screener in-progress at time of ledger rebuild; final value will be higher).
+const BASELINE_COVERED = 32_281;
 const BASELINE_TOTAL = 35_120;
 
 describe('non-MCP coverage regression', () => {
