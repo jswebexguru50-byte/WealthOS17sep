@@ -9,6 +9,10 @@ const root = process.cwd();
 const manifestPath = arg('--manifest');
 const outPath = arg('--out') || path.join(root, 'reports', 'non_mcp', 'coverage_ledger.json');
 const fullCatalog = !process.argv.includes('--core-only');
+// Historical snapshots are useful for a forensic audit, but must not make a
+// non-MCP acceptance run appear to have attempted MCP. Opt in explicitly when
+// inspecting that historical provider history.
+const includeMcpHistory = process.argv.includes('--include-mcp-history');
 if (!manifestPath) throw new Error('--manifest is required');
 const manifest = JSON.parse(fs.readFileSync(path.resolve(manifestPath), 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : (manifest.entries || manifest.symbols || []);
@@ -59,8 +63,11 @@ const rows = symbols.map(symbol => ({ symbol, fields: Object.fromEntries(Object.
   ));
   const providers = [...new Set(matches.map(r => r.provider || 'UNKNOWN'))];
   const attempts = snapshotBySymbol.get(symbol) || [];
-  const attemptedProviders = [...new Set(attempts.map(r => String(r.provider || 'UNKNOWN')))].sort();
-  const successfulEndpoints = attempts.filter(r => String(r.status).toUpperCase() === 'SUCCESS').map(r => `${r.provider}:${r.endpoint}`);
+  const policyAttempts = includeMcpHistory
+    ? attempts
+    : attempts.filter(r => !String(r.provider || '').toUpperCase().includes('MCP'));
+  const attemptedProviders = [...new Set(policyAttempts.map(r => String(r.provider || 'UNKNOWN')))].sort();
+  const successfulEndpoints = policyAttempts.filter(r => String(r.status).toUpperCase() === 'SUCCESS').map(r => `${r.provider}:${r.endpoint}`);
   const ohlcv = ohlcvCounts.get(symbol);
   const available = metric === 'OHLCV' ? Boolean(ohlcv && ohlcv.count > 0) : matches.length > 0;
   return [metric, { requiredPeriod: spec.period, available, rows: metric === 'OHLCV' ? (ohlcv?.count || 0) : undefined, firstDate: metric === 'OHLCV' ? ohlcv?.first : undefined, lastDate: metric === 'OHLCV' ? ohlcv?.last : undefined, providers, attemptedProviders, successfulEndpoints, selectedProvider: providers[0] || (available ? 'LOCAL_OHLCV' : null), fallbackOrder: spec.sources, quality: available ? (providers.length > 1 ? 'CROSS_SOURCE_AVAILABLE' : 'AVAILABLE') : (successfulEndpoints.length ? 'PROVIDER_RETURNED_NO_MAPPED_FIELD' : 'NOT_ATTEMPTED'), status: available ? 'COVERED' : 'GAP' }];
