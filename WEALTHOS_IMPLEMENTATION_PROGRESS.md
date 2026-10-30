@@ -917,3 +917,10 @@ failure, and should be rerun from this checkpoint for the authoritative result.
 - Every gap has a non-empty `attemptedProviders` list; **0 gaps** lack an
   attempted-provider explanation. This confirms unresolved values are explicit
   source failures, not silent acquisition omissions.
+
+## 2026-10-30 — Canonical consumer audit rerun
+
+- `npm run audit:canonical-consumers` passes with **14 findings and 0
+  violations**. Active consumer routes remain behind canonical data services;
+  the findings are the recorded migration/coverage inventory, not direct
+  provider bypasses.
