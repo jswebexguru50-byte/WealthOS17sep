@@ -56,6 +56,12 @@ hashing, and provider/source lineage. Its focused contract suite passes
 path; live NSE/BSE responses still require provider execution before coverage
 can be claimed.
 
+A bounded runtime pilot (`--symbol RELIANCE`) confirmed NSE session-cookie
+acquisition but returned no usable rows; the failure was recorded in the
+checkpoint/failure ledger and **0 rows were promoted**. The command now supports
+`--help` and deterministic `--limit N`, preventing accidental full-universe
+execution. This is a provider-availability result, not a promotion success.
+
 The readiness matrix now reports its denominator explicitly: **3,548 listing rows = 3,512 unique issuers + 36 duplicate exchange/listing rows**. This removes the apparent 3,512-versus-3,548 discrepancy without changing coverage results (`build_readiness_acceptance_matrix.ts`).
 
 Commit `e2bd02c7d` adds the missing OHLCV promotion boundary: `scripts/remediation/promote_phase10rm4_candles.ts` validates the staged Phase 10R-M.4 artifact and, only with explicit `--apply`, idempotently inserts candles into canonical `DailyOHLCV` with `data_source='UPSTOX_10RM4'`. A read-only dry run against the current empty recovery artifact completed with zero candidates and no database writes. Phase 10R-M.4 remains download/stage-only until this promotion command is run after a successful recovery response.
