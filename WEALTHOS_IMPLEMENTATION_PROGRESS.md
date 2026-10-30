@@ -736,3 +736,21 @@ failure, and should be rerun from this checkpoint for the authoritative result.
   coverage remains **31,681/35,120 (90.20%)**, with the unresolved gaps requiring
   evidence-backed provider attempts (primarily borrowings and structurally
   unavailable OHLCV), not fabricated values.
+
+## 2026-10-30 — Unit acceptance re-baseline and borrowing acquisition checkpoint
+
+- Full unit command completed: **227 files passed, 11 failed; 2,004 tests passed,
+  29 failed, 11 skipped**. The failures are now explicitly recorded rather than
+  counted as acceptance: legacy multibagger fixture expectations, claim-lifecycle
+  schema setup, missing R4 progress artifact, frozen-control hash drift, and
+  Phase-2 forensic/ground-truth fixture drift. Acquisition, canonical eligibility,
+  promotion, PIT, and OHLCV filter tests passed in this run.
+- Added the resumable non-MCP Screener borrowing worker at
+  `scripts/fundamental/batch_screener_borrowings_auth.cjs`. It checkpoints every
+  symbol, persists failed attempts, promotes only parsed explicit `Borrowings`
+  values, records source URLs, and reports `mcpUsed:false`.
+- Current local checkpoint evidence: 71 symbols attempted, 2 explicit borrowing
+  facts promoted, 52 parse failures, and 17 HTTP/network failures. This is valid
+  progress but **not** evidence that the remaining borrowing gaps are closed;
+  the worker must continue with a usable authenticated/session-capable source and
+  its report must be reconciled into the coverage ledger.
