@@ -111,13 +111,13 @@ export class OpportunityDataResolverService {
     try {
       const rows = await dbAll(db, `
         SELECT 
-          d.date, d.open, d.high, d.low, d.close, d.volume,
+          d.trade_date AS date, d.open, d.high, d.low, d.close, d.volume,
           b.deliv_qty as deliveryQty, b.deliv_per as deliveryPct,
           b.turnover_lacs as turnoverLacs
         FROM DailyOHLCV d
-        LEFT JOIN NseBhavcopy b ON d.symbol = b.symbol AND d.date = b.trade_date
+        LEFT JOIN NseBhavcopy b ON d.symbol = b.symbol AND d.trade_date = b.trade_date
         WHERE d.symbol = ? OR d.symbol = ?
-        ORDER BY d.date ASC
+        ORDER BY d.trade_date ASC
       `, [cleanSym, `${cleanSym}.NS`]);
 
       if (rows && rows.length >= minBars) {
