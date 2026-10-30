@@ -154,10 +154,14 @@ describe('DataRefreshScheduler', () => {
   });
 
   it('start() is idempotent — calling twice does not double-register jobs', () => {
+    const previous = process.env.ENABLE_BACKGROUND_SCHEDULERS;
+    process.env.ENABLE_BACKGROUND_SCHEDULERS = 'true';
     scheduler.start();
     const countAfterFirst = scheduler.status().filter(s => s.scheduled).length;
     scheduler.start(); // second call should be no-op
     const countAfterSecond = scheduler.status().filter(s => s.scheduled).length;
+    if (previous === undefined) delete process.env.ENABLE_BACKGROUND_SCHEDULERS;
+    else process.env.ENABLE_BACKGROUND_SCHEDULERS = previous;
     expect(countAfterFirst).toBe(3);
     expect(countAfterSecond).toBe(3);
   });
