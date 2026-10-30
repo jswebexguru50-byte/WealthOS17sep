@@ -146,6 +146,50 @@ function parseNseResponse(raw, symbol, isin) {
   }).filter(r => r.filing_period);
 }
 
+function loadCachedUpstoxShareholding(symbol, isin) {
+  const sourceDb = new Database(dbPath, { readonly: true });
+  try {
+    const snap = sourceDb.prepare(`
+      SELECT source_url, fetched_at, response_json
+      FROM fundamental_endpoint_snapshots
+      WHERE symbol=? AND endpoint='share-holdings' AND UPPER(status)='SUCCESS'
+      ORDER BY fetched_at DESC LIMIT 1
+    `).get(symbol);
+    if (!snap?.response_json) return null;
+    const payload = JSON.parse(snap.response_json);
+    const data = Array.isArray(payload) ? payload : payload.data;
+    if (!Array.isArray(data)) return null;
+    const byPeriod = new Map();
+    for (const category of data) {
+      const key = String(category.category || '').toLowerCase();
+      for (const point of category.history || []) {
+        const period = parseFilingPeriod(String(point.period || ''));
+        if (!period) continue;
+        const row = byPeriod.get(period) || { symbol, isin, filing_period: period };
+        const value = Number(point.value);
+        if (!Number.isFinite(value)) continue;
+        if (key === 'promoters' || key === 'promoter') row.promoter_pct = value;
+        else if (key === 'fii') row.fii_pct = value;
+        else if (key === 'other_dii' || key === 'dii' || key === 'mutual_funds') row.dii_pct = (row.dii_pct || 0) + value;
+        else if (key === 'retail_and_other' || key === 'public') row.public_pct = value;
+        byPeriod.set(period, row);
+      }
+    }
+    const hash = computeArtifactHash(snap.response_json);
+    return [...byPeriod.values()].map(row => ({
+      ...row,
+      source_url: snap.source_url || 'UPSTOX_FUNDAMENTALS',
+      provider: 'UPSTOX',
+      artifact_hash: hash,
+      acquired_at: snap.fetched_at,
+    }));
+  } catch {
+    return null;
+  } finally {
+    sourceDb.close();
+  }
+}
+
 // ── Promote staged data ────────────────────────────────────────────────────
 
 function promoteStaged(db, file) {
@@ -274,17 +318,24 @@ async function main() {
     } catch (e) {
       failure_reason = e.message;
     }
+    if (rows.length === 0) {
+      const cachedRows = loadCachedUpstoxShareholding(sym.symbol, sym.isin);
+      if (cachedRows?.length) {
+        rows = cachedRows;
+        failure_reason = null;
+      }
+    }
     last = Date.now();
 
     if (rows.length > 0) {
-      const artifactHash = computeArtifactHash(raw);
+      const artifactHash = raw ? computeArtifactHash(raw) : rows[0].artifact_hash;
       const acquiredAt = new Date().toISOString();
       const enrichedRows = [];
       for (const row of rows) {
         const enriched = {
           ...row,
-          source_url: sourceUrl,
-          provider: 'NSE',
+          source_url: row.source_url || sourceUrl,
+          provider: row.provider || 'NSE',
           artifact_hash: artifactHash,
           acquired_at: acquiredAt,
         };
