@@ -223,7 +223,12 @@ export class MultibaggerDiscoveryEngine {
         const item = { ...rawItem };
         try {
           // Read canonical promoted data first (DuckDB → DailyOHLCV → HistoricalPrices → Yahoo fallback)
-          const snapshot = await OpportunityDataResolverService.getInstance().resolveMarketData(item.symbol, 200).catch(() => null);
+          // Do not fan out one market-data lookup per issuer when the
+          // canonical facts already show that Phase 1 cannot be evaluated.
+          // This keeps a full-universe scan bounded and deterministic.
+          const snapshot = item.marketCapCr > 0 && item.avgDailyTurnoverLakhs > 0
+            ? await OpportunityDataResolverService.getInstance().resolveMarketData(item.symbol, 200).catch(() => null)
+            : null;
           if (snapshot && snapshot.candles && snapshot.candles.length >= 25) {
             const closes = snapshot.candles.map((c) => Number(c.close));
             item.cmp = closes[closes.length - 1];
@@ -573,7 +578,80 @@ def calculate_multibagger_rank(candidates: pd.DataFrame) -> pd.DataFrame:
    * and contrasting case studies.
    */
   private getRawUniverse(): any[] {
-    // Zero-tolerance for synthetic/fake data in production path.
-    return [];
+    // Resolve the scan universe from the canonical security master and
+    // promoted facts.  The previous empty placeholder made the scanner return
+    // a successful-looking zero-symbol report even when the database had
+    // usable issuers. Missing metrics remain null/zero and are handled by the
+    // existing fail-closed gates; no values are invented here.
+    try {
+      const db = getDB();
+      const tickers = db.prepare(`
+        SELECT symbol, company_name AS companyName, sector
+        FROM MasterTickers
+        WHERE symbol IS NOT NULL AND TRIM(symbol) <> ''
+          AND COALESCE(status, 'ACTIVE') = 'ACTIVE'
+          AND UPPER(COALESCE(segment, 'EQ')) = 'EQ'
+          AND UPPER(COALESCE(series, 'EQ')) IN ('EQ', 'BE', 'BZ', 'SM')
+          AND UPPER(COALESCE(exchange, '')) NOT IN ('NASDAQ','NYSE','AMEX','OTC')
+        GROUP BY UPPER(symbol)
+        ORDER BY UPPER(symbol)
+      `).all();
+      const facts = db.prepare(`
+        SELECT UPPER(symbol) AS symbol, metric, value, periodEnd
+        FROM company_facts
+        WHERE value IS NOT NULL AND factType <> 'MISSING'
+        ORDER BY periodEnd DESC, asOfDate DESC
+      `).all();
+      const bySymbol = new Map<string, any>();
+      for (const row of facts) {
+        const symbol = String(row.symbol || '').toUpperCase();
+        const metric = String(row.metric || '').toLowerCase();
+        if (!symbol || !metric) continue;
+        const item = bySymbol.get(symbol) || {};
+        if (item[metric] == null) {
+          const n = Number(row.value);
+          item[metric] = Number.isFinite(n) ? n : row.value;
+        }
+        bySymbol.set(symbol, item);
+      }
+      return tickers.filter((ticker: any) => /^[A-Za-z0-9][A-Za-z0-9&.-]{0,24}$/.test(String(ticker.symbol || '').trim())).map((ticker: any) => {
+        const symbol = String(ticker.symbol).toUpperCase();
+        const f = bySymbol.get(symbol) || {};
+        return {
+          symbol,
+          companyName: ticker.companyName || symbol,
+          sector: ticker.sector || 'UNKNOWN',
+          marketCapCr: f.market_cap_cr ?? f.market_cap ?? 0,
+          avgDailyTurnoverLakhs: f.avg_daily_turnover_lakhs ?? 0,
+          promoterHoldingPct: f.promoter_holding ?? f.promoter_holding_pct ?? 0,
+          promoterPledgePct: f.promoter_pledge ?? f.promoter_pledge_pct ?? 0,
+          promoterStakeChange4QtrPct: f.promoter_change_qoq_pct ?? 0,
+          dsoIncrease2YrPct: f.dso_increase_2yr_pct ?? 0,
+          contingentLiabilitiesToNetWorthPct: f.contingent_liabilities_to_net_worth_pct ?? 0,
+          salesCagr3YrPct: f.sales_cagr_3y_pct ?? f.revenue_cagr_3y_pct ?? 0,
+          patCagr3YrPct: f.profit_cagr_3y_pct ?? f.pat_cagr_3y_pct ?? 0,
+          roce3YrAvgPct: f.roce_reported ?? f.roce_pct ?? 0,
+          roicPct: f.roic ?? 0,
+          debtToEquity: f.debt_to_equity_reported ?? f.debt_to_equity ?? 0,
+          cfoToPat3YrRatio: f.cfo_to_pat ?? 0,
+          grossMarginVolatility5YrPct: f.gross_margin_volatility_5y_pct ?? 0,
+          grossMarginTtmPct: f.gross_margin_ttm_pct ?? 0,
+          grossMargin3YrAvgPct: f.gross_margin_3y_avg_pct ?? 0,
+          waccPct: f.wacc_pct ?? 0,
+          cashConversionCycleDays: f.cash_conversion_cycle_days ?? 0,
+          trailingPe: f.pe_ratio ?? f.pe_ttm ?? 0,
+          sectorMedianPe: f.sector_median_pe ?? 0,
+          pegRatio: f.peg ?? 0,
+          fiiDiiNetChange6mPct: f.fii_change_qoq ?? 0,
+          rsRating6m: f.rs_rating_6m ?? 0,
+          floatingSupplyPct: f.floating_supply_pct ?? 0,
+          cmp: f.current_price ?? 0,
+          thesis: 'Canonical facts available; evaluate only where required fields are evidenced.'
+        };
+      });
+    } catch (error) {
+      console.warn('[MultibaggerEngine] Canonical universe resolution failed:', error);
+      return [];
+    }
   }
 }
