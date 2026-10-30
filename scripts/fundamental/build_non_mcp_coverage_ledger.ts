@@ -51,6 +51,16 @@ if (ohlcvTable) {
   const rows = db.prepare(`SELECT UPPER(symbol) symbol, COUNT(*) count, MIN(trade_date) first, MAX(trade_date) last FROM "${ohlcvTable}" WHERE UPPER(symbol) IN (${placeholders}) GROUP BY UPPER(symbol)`).all(...symbols) as any[];
   for (const r of rows) ohlcvCounts.set(String(r.symbol), { count: Number(r.count), first: r.first ?? null, last: r.last ?? null });
 }
+// OpportunityDataResolverService has a documented SQLite historical-cache
+// fallback. Count that same canonical cache here; otherwise the readiness
+// ledger can report a false OHLCV gap even though the consumer can resolve a
+// complete local series without another provider call.
+const historicalCache = new Map<string, { count: number; first: string | null; last: string | null }>();
+const historicalTable = (db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='HistoricalPrices'").all() as any[])[0]?.name as string | undefined;
+if (historicalTable) {
+  const rows = db.prepare(`SELECT UPPER(symbol) symbol, COUNT(*) count, MIN(date) first, MAX(date) last FROM HistoricalPrices WHERE UPPER(symbol) IN (${placeholders}) OR UPPER(symbol) IN (${symbols.map(() => '?').join(',')}) GROUP BY UPPER(symbol)`).all(...symbols, ...symbols.map(s => `${s}.NS`)) as any[];
+  for (const r of rows) historicalCache.set(String(r.symbol), { count: Number(r.count), first: r.first ?? null, last: r.last ?? null });
+}
 const rows = symbols.map(symbol => ({ symbol, fields: Object.fromEntries(Object.entries(fields).map(([metric, spec]) => {
   // XBRL/FERE's verified taxonomy maps `Borrowings` to `total_debt`; both
   // names are semantically the same canonical balance-sheet fact. Keep the
@@ -68,9 +78,12 @@ const rows = symbols.map(symbol => ({ symbol, fields: Object.fromEntries(Object.
     : attempts.filter(r => !String(r.provider || '').toUpperCase().includes('MCP'));
   const attemptedProviders = [...new Set(policyAttempts.map(r => String(r.provider || 'UNKNOWN')))].sort();
   const successfulEndpoints = policyAttempts.filter(r => String(r.status).toUpperCase() === 'SUCCESS').map(r => `${r.provider}:${r.endpoint}`);
-  const ohlcv = ohlcvCounts.get(symbol);
+  const primaryOhlcv = ohlcvCounts.get(symbol);
+  const cachedOhlcv = historicalCache.get(symbol) || historicalCache.get(`${symbol}.NS`);
+  const ohlcv = primaryOhlcv?.count ? primaryOhlcv : cachedOhlcv;
   const available = metric === 'OHLCV' ? Boolean(ohlcv && ohlcv.count > 0) : matches.length > 0;
-  return [metric, { requiredPeriod: spec.period, available, rows: metric === 'OHLCV' ? (ohlcv?.count || 0) : undefined, firstDate: metric === 'OHLCV' ? ohlcv?.first : undefined, lastDate: metric === 'OHLCV' ? ohlcv?.last : undefined, providers, attemptedProviders, successfulEndpoints, selectedProvider: providers[0] || (available ? 'LOCAL_OHLCV' : null), fallbackOrder: spec.sources, quality: available ? (providers.length > 1 ? 'CROSS_SOURCE_AVAILABLE' : 'AVAILABLE') : (successfulEndpoints.length ? 'PROVIDER_RETURNED_NO_MAPPED_FIELD' : 'NOT_ATTEMPTED'), status: available ? 'COVERED' : 'GAP' }];
+  const selectedProvider = providers[0] || (primaryOhlcv?.count ? 'LOCAL_OHLCV' : cachedOhlcv?.count ? 'SQLITE_HISTORICAL_CACHE' : null);
+  return [metric, { requiredPeriod: spec.period, available, rows: metric === 'OHLCV' ? (ohlcv?.count || 0) : undefined, firstDate: metric === 'OHLCV' ? ohlcv?.first : undefined, lastDate: metric === 'OHLCV' ? ohlcv?.last : undefined, providers, attemptedProviders, successfulEndpoints, selectedProvider, fallbackOrder: spec.sources, quality: available ? (providers.length > 1 ? 'CROSS_SOURCE_AVAILABLE' : 'AVAILABLE') : (successfulEndpoints.length ? 'PROVIDER_RETURNED_NO_MAPPED_FIELD' : 'NOT_ATTEMPTED'), status: available ? 'COVERED' : 'GAP' }];
 })) }));
 db.close();
 const analysis360 = fullCatalog ? Object.fromEntries(await Promise.all(symbols.map(async symbol => {
