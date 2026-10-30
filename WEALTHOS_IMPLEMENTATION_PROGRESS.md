@@ -872,4 +872,13 @@ failure, and should be rerun from this checkpoint for the authoritative result.
 - Added fail-closed handling for missing or malformed ledger field maps; these
   rows can no longer be marked READY accidentally.
 - Added deterministic NSE-only, BSE-only, dual-listed, duplicate, and MCP-off
-  regression coverage. TypeScript compile and focused tests pass **2/2**.
+ regression coverage. TypeScript compile and focused tests pass **2/2**.
+
+## 2026-10-30 — Non-MCP coverage baseline refresh
+
+- The generated non-MCP ledger now reports **32,281 / 35,120 fields covered
+  (91.91%)**, with **2,839 gaps** and `mcpUsed: false`.
+- The coverage regression baseline was raised to the measured post-Screener
+  value in commit `01212180b`; this is a measured improvement, not a relaxed
+  threshold. Remaining gaps are explicit and cannot be certified READY without
+  provider evidence.
