@@ -2,7 +2,7 @@
 
 Last updated: 2026-10-30
 Latest local commit: see `git log -1 --oneline` (this document is updated at every checkpoint).
-Remote status: local commits are ahead of `origin/master`; remote push has not been confirmed.
+Remote status: synchronized through `9af1ccf8a` (`fix: use DailyOHLCV trade date in canonical resolver`).
 
 ## Acceptance status
 
