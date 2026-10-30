@@ -1,7 +1,7 @@
 {
   "reportType": "DATA_PROVENANCE_AND_RECONCILIATION_REPORT",
   "milestone": "v6.3-PHASE2-PILOT",
-  "generatedAt": "2026-09-17T10:43:23.569Z",
+  "generatedAt": "2026-10-30T04:49:54.269Z",
   "sourceDatabase": {
     "path": "portfolio.db",
     "sourceTable": "DailyOHLCV",
@@ -20,7 +20,7 @@
     "path": "data/portfolio_v6.3_pilot_research.db",
     "sizeBytes": 4096,
     "sizeMb": "0.00",
-    "fileSha256": "0ab48b25cba617ed3a4acca0161813b314c095ef63544bb4af60769eb1012977",
+    "fileSha256": "a748e19958e9ba6aa3e6a1df364b8a84d587fa3f4faf8687742ba4e0ea73d689",
     "integrityCheck": "ok",
     "foreignKeyErrors": 0
   },

@@ -1,7 +1,7 @@
 {
   "reportType": "HISTORICAL_UNIVERSE_INTEGRITY_REPORT",
   "milestone": "v6.3-PHASE2-PILOT",
-  "generatedAt": "2026-09-17T10:43:23.571Z",
+  "generatedAt": "2026-10-30T04:49:54.269Z",
   "universeName": "NIFTY_RESEARCH_PILOT",
   "selectionStandard": "AUTHENTIC_HISTORICAL_MEMBERSHIP (NO_SURVIVORSHIP_PROXY)",
   "eligibleSecurities": [
