@@ -71,8 +71,11 @@ function loadSymbols() {
       if (/^IN[89]/.test(isin)) return false;
       // Mutual-fund units (INF ISIN prefix) are not on the Upstox equity candle endpoint.
       if (isin.startsWith('INF')) return false;
-      // Non-Indian exchanges (NASDAQ/NYSE/AMEX/OTC) have no NSE_EQ or BSE_EQ key.
-      if (['NASDAQ', 'NYSE', 'AMEX', 'OTC'].includes(exchange)) return false;
+      // Non-Indian exchanges (NASDAQ/NYSE/AMEX/OTC/US) have no NSE_EQ or BSE_EQ key.
+      if (['NASDAQ', 'NYSE', 'AMEX', 'OTC', 'US'].includes(exchange)) return false;
+      // Phantom/bogus keys generated for unresolved symbols (contain _UNKNOWN_) always fail.
+      const key = x.upstox_key_nse || x.upstox_key_bse || '';
+      if (key.includes('_UNKNOWN_')) return false;
       return true;
     })
     .map(x => ({ ...x, providerKey: x.upstox_key_nse || x.upstox_key_bse }));
