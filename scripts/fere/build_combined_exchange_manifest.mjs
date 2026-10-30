@@ -8,6 +8,9 @@ const outPath = value('--out', path.resolve('outputs/fere/combined_exchange_mani
 const db = new BetterSqlite3(dbPath, { readonly: true });
 const columns = new Set(db.prepare('PRAGMA table_info(MasterTickers)').all().map((row) => row.name));
 const activePredicate = columns.has('is_active') ? 'COALESCE(is_active,1)=1' : (columns.has('status') ? "(status IS NULL OR upper(status) NOT IN ('INACTIVE','DELISTED'))" : '1=1');
+// Exchange universe policy: exchange IN ('NSE','BSE'); numeric-symbol=BSE,
+// alphabetic-symbol=NSE. Listings are deduplicate-by-ISIN while retaining both
+// exchange routes and status: 'pending' for deterministic resumable runs.
 const rows = db.prepare(`SELECT symbol, isin, exchange, name, company_name FROM MasterTickers WHERE ${activePredicate} AND upper(exchange) IN ('NSE','BSE') AND symbol IS NOT NULL AND trim(symbol)<>'' ORDER BY upper(symbol), exchange`).all();
 db.close();
 const groups = new Map();

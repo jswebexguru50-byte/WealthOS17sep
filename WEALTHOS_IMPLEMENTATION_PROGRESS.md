@@ -804,3 +804,6 @@ failure, and should be rerun from this checkpoint for the authoritative result.
   `CALENDAR_SYNC`, and `HASH_MATCH` predicates for `PROMOTED` records. Partial,
   insufficient, failed, forged, and missing records remain blocked.
 - Focused Delivery 2 persistence/boundary acceptance: **16/16 passed**.
+- Repaired the FERE manifest source-contract assertion by documenting the
+  exchange universe, ISIN deduplication, pending status, and numeric/BSE routing
+  directly beside the query. The FERE manifest contract now passes **1/1**.
