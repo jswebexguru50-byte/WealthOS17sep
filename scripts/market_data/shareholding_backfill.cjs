@@ -197,6 +197,31 @@ function promoteRows(db, rows) {
   return { inserted, skipped };
 }
 
+function ensureShareholdingSchema(db) {
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS ShareholdingPatterns (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      symbol TEXT NOT NULL,
+      isin TEXT,
+      filing_period TEXT NOT NULL,
+      promoter_pct REAL,
+      fii_pct REAL,
+      dii_pct REAL,
+      public_pct REAL,
+      total_shares INTEGER,
+      source_url TEXT,
+      provider TEXT NOT NULL,
+      artifact_hash TEXT,
+      acquired_at TEXT NOT NULL,
+      status TEXT NOT NULL DEFAULT 'OK',
+      failure_reason TEXT,
+      UNIQUE(symbol, filing_period, provider)
+    );
+    CREATE INDEX IF NOT EXISTS idx_shareholding_symbol ON ShareholdingPatterns(symbol);
+    CREATE INDEX IF NOT EXISTS idx_shareholding_period ON ShareholdingPatterns(filing_period);
+  `);
+}
+
 // ── Main ───────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -214,6 +239,7 @@ async function main() {
   let last = 0;
   let cookies = '';
   const applyDb = apply ? new Database(dbPath) : null;
+  if (applyDb) ensureShareholdingSchema(applyDb);
   let immediatePromotion = { inserted: 0, skipped: 0 };
 
   // Fetch NSE session cookies once at start
