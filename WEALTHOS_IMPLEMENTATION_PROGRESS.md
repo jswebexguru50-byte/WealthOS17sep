@@ -794,3 +794,13 @@ failure, and should be rerun from this checkpoint for the authoritative result.
   fast-track tests opening incomplete disposable schemas, frozen-control drift,
   and missing historical R4/V672 artifacts. Coverage therefore remains an open
   acceptance item; no percentage is claimed from this run.
+
+## 2026-10-30 — Dataset promotion persistence restored
+
+- Restored `DatasetPromotionPersistence` as the single persisted manifest
+  authority and connected `DownstreamAuthorizationBoundary` to reload and verify
+  persisted manifests instead of unconditionally rejecting every dataset.
+- Validation enforces 64-character hashes and the required `NO_GAPS`,
+  `CALENDAR_SYNC`, and `HASH_MATCH` predicates for `PROMOTED` records. Partial,
+  insufficient, failed, forged, and missing records remain blocked.
+- Focused Delivery 2 persistence/boundary acceptance: **16/16 passed**.
