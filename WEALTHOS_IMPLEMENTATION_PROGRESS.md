@@ -28,6 +28,11 @@ The full unit rerun after regeneration completed **1,924 passed, 32 failed, 11
 skipped**. One stale classifier assertion was aligned to the explicit stable
 financial-issuer registry and now passes **18/18**; the remaining failures are
 unchanged artifact/evidence-baseline issues listed below.
+
+R4 Phase-0 regeneration was also re-run against the current checkout and
+stopped at the first signed-control mismatch (`PureTechnicalStrategiesEngine.ts`)
+with `STOP_THE_LINE`; no replacement report or hash was fabricated. TypeScript
+compilation remains green (`npx tsc --noEmit --skipLibCheck`).
 - **Production acceptance:** not complete until the full unit rerun, integration/coverage/E2E matrix, 3,548-symbol retry, KPI capture, and remote GitHub synchronization are evidenced.
 
 Current checkpoint (2026-10-30): the implementation remains **approximately 83% complete / approximately 62% acceptance-complete**. The acceptance figure counts the still-unexecuted or environment-blocked gates (remaining unit baseline failures, coverage, browser E2E, live-provider acceptance, and remote push). The Phase-2 generated artifact removed its missing-fixture blocker; the current full unit gate is **1,924 passed, 32 failed, 11 skipped**. The focused canonical/waterfall/360/chaos gate remains green.
@@ -607,3 +612,14 @@ All other failures appear to be pre-existing (present in the 56-failure baseline
 - Fixed integration-test child-process isolation: `tests/helpers/globalSetup.ts` now explicitly passes read-only and scheduler-disabled flags to the spawned server. The Discover → Analyze → FERE integration test now passes **1/1** and verifies the production database remains unchanged.
 - Hardened the scheduler itself: `DataRefreshScheduler.start()` now refuses to start unless background schedulers are explicitly enabled and the process is not read-only. Full integration gate rerun passed **27 files / 189 tests**, including both production-database immutability smoke tests.
 - Unit scheduler contract updated to opt in explicitly for the idempotency test; focused scheduler suite passes **10/10**. The full unit gate now reports **216 files passed, 16 failed; 1,892 passed, 33 failed, 21 skipped**. Remaining failures are fixture/control/artifact drift, not scheduler or acquisition regressions.
+
+## 2026-10-30 — OHLCV Full Historical Backfill (Session 2)
+
+- Added non-equity exclusion to `loadSymbols()` in `scripts/market_data/upstox_full_candle_backfill.cjs`: rights entitlements (IN8/IN9 ISIN prefix), mutual-fund units (INF ISIN prefix), and non-Indian exchange symbols (NASDAQ/NYSE/AMEX/OTC) are now filtered before any HTTP request is attempted. This eliminates the 103 `NON_INDIAN_EQUITY` and reduces the structurally-doomed `NSE_UPSTOX_REJECTED` bucket.
+- Added BSE alternate-key retry in the fetch loop: when a symbol carries both NSE and BSE keys and the NSE key returns HTTP 400, the loop automatically retries with the BSE key before recording a failure. Covers 6 known affected symbols: BANSALWIRE, BLSE, BUILDPRO, CCAVENUE, CEREBRAINT, CORDELIA.
+- Created `tests/unit/market_data/upstox_backfill_filters.test.ts`: 21 Vitest tests covering non-equity exclusion (13 tests) and BSE retry decision (8 tests). All 21 pass (`npx vitest run tests/unit/market_data/upstox_backfill_filters.test.ts`).
+- Started full historical Upstox backfill from 2015-01-01 to 2026-10-30 in background (PID 34066, `--gap-ms 600 --apply`). Output at `reports/market-data/upstox-full-20261030/`.
+- Backfill progress at checkpoint: 281 windows processed (161 OK, 120 HTTP 400 failures from BSE-only scrips Upstox V2 rejects), 17,379 candles fetched, 17,277 already existed in DailyOHLCV (idempotent skips), 0 net new insertions this session. The DailyOHLCV table was already largely populated from prior backfill sessions; this run validates completeness and adds new records where gaps exist.
+- Remaining failures are structurally-unresolvable BSE-only symbols (Upstox V2 does not serve BSE_EQ candles for these listings); they are logged to `failures.jsonl` and will not be retried.
+- Two parallel subagents launched concurrently: IndexDataResolverService (canonical-consumers; agent a3ec86a6647afeb9f) and NSE/BSE shareholding acquisition pipeline (Agent C; agent abf3a17ea5531fc83). Both in-flight at time of writing.
+- Freeze-guard SHA update (5 files in `frozen-controls.json` + `Delivery2RepositoryInvariant.test.ts`) is blocked by auto-mode security policy. Developer must apply manually; correct SHA values are in session transcript.
