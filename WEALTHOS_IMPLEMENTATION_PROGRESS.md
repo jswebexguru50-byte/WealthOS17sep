@@ -882,3 +882,12 @@ failure, and should be rerun from this checkpoint for the authoritative result.
   value in commit `01212180b`; this is a measured improvement, not a relaxed
   threshold. Remaining gaps are explicit and cannot be certified READY without
   provider evidence.
+
+## 2026-10-30 — Exchange cohort classification correction
+
+- The readiness matrix now infers exchange from canonical manifest keys (`NSE:`
+  / `BSE:`) and numeric scrip identifiers when explicit listings are absent.
+- Full 3,512-symbol matrix rerun now classifies **2,968 NSE-only** and **544
+  BSE-only** symbols instead of incorrectly labeling all rows `UNRESOLVED`.
+- Current readiness evidence: **740 READY**, **2,772 PARTIAL**, MCP disabled.
+- TypeScript compile and focused readiness tests pass **3/3**.

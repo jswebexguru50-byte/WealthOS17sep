@@ -10,10 +10,18 @@ const entries = Array.isArray(manifest) ? manifest : (manifest?.entries || manif
 if (!Array.isArray(entries)) throw new Error('MANIFEST_ENTRIES_REQUIRED');
 const readiness = new Map((ledger?.rows || []).map((r: any) => [String(r.symbol).toUpperCase(), r]));
 const rows = entries.map((entry: any) => {
-  const listings = Array.isArray(entry?.listings) ? entry.listings : [{ exchange: entry?.exchange || 'UNKNOWN', symbol: entry?.symbol || entry }];
+  const rawSymbol = String(entry?.symbol || entry?.key || entry || '').split(':').pop() || '';
+  const keyExchange = String(entry?.key || '').split(':')[0]?.toUpperCase();
+  // Combined exchange manifests may carry only `key: NSE:SYMBOL` or a
+  // numeric BSE scrip. Preserve explicit listings first, then apply the
+  // canonical numeric/BSE routing rule used by acquisition.
+  const inferredExchange = keyExchange === 'NSE' || keyExchange === 'BSE'
+    ? keyExchange
+    : /^\d+$/.test(rawSymbol) ? 'BSE' : rawSymbol ? 'NSE' : 'UNKNOWN';
+  const listings = Array.isArray(entry?.listings) ? entry.listings : [{ exchange: entry?.exchange || inferredExchange, symbol: rawSymbol }];
   const exchanges = [...new Set(listings.map((l: any) => String(l.exchange || '').toUpperCase()).filter(Boolean))];
   const cohort = exchanges.length > 1 ? 'DUAL_LISTED' : exchanges[0] === 'BSE' ? 'BSE_ONLY' : exchanges[0] === 'NSE' ? 'NSE_ONLY' : 'UNRESOLVED';
-  const symbol = String(entry?.symbol || listings[0]?.symbol || entry).toUpperCase();
+  const symbol = String(entry?.symbol || listings[0]?.symbol || rawSymbol || entry).toUpperCase();
   const row: any = readiness.get(symbol);
   const fields = row?.fields && typeof row.fields === 'object' ? row.fields : null;
   // A row without a field map is not evidence of coverage. Treat it as

@@ -36,4 +36,14 @@ describe('readiness acceptance matrix', () => {
     });
     expect(result.rows.find((row) => row.symbol === 'BBB')).toMatchObject({ status: 'MISSING' });
   });
+
+  it('infers exchange from manifest keys and numeric BSE scrips', () => {
+    const result = buildAcceptanceMatrix(
+      { entries: [{ key: 'NSE:INFY', isin: 'INE009A01021' }, { key: 'BSE:500325', isin: 'INE040A01034' }] },
+      { rows: [{ symbol: 'INFY', fields: { revenue: { status: 'AVAILABLE' } } }, { symbol: '500325', fields: { revenue: { status: 'AVAILABLE' } } }] },
+    );
+    expect(result.rows.map((row) => [row.symbol, row.cohort])).toEqual([
+      ['INFY', 'NSE_ONLY'], ['500325', 'BSE_ONLY'],
+    ]);
+  });
 });
