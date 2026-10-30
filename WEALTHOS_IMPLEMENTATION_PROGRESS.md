@@ -48,6 +48,14 @@ non-MCP coverage is **31,613/35,120 core fields (90.01%)**, with **3,507
 remaining gaps** and `mcpUsed: false`. The latest canonical-audit plus
 waterfall/retry/circuit-breaker focused run is **23/23 passed**.
 
+The shareholding gap path now has a dedicated deterministic backfill pipeline
+(`scripts/market_data/shareholding_backfill.cjs`) with idempotent
+`ShareholdingPatterns` persistence, filing-period normalization, artifact
+hashing, and provider/source lineage. Its focused contract suite passes
+**20/20**. This closes the previously missing shareholding acquisition code
+path; live NSE/BSE responses still require provider execution before coverage
+can be claimed.
+
 The readiness matrix now reports its denominator explicitly: **3,548 listing rows = 3,512 unique issuers + 36 duplicate exchange/listing rows**. This removes the apparent 3,512-versus-3,548 discrepancy without changing coverage results (`build_readiness_acceptance_matrix.ts`).
 
 Commit `e2bd02c7d` adds the missing OHLCV promotion boundary: `scripts/remediation/promote_phase10rm4_candles.ts` validates the staged Phase 10R-M.4 artifact and, only with explicit `--apply`, idempotently inserts candles into canonical `DailyOHLCV` with `data_source='UPSTOX_10RM4'`. A read-only dry run against the current empty recovery artifact completed with zero candidates and no database writes. Phase 10R-M.4 remains download/stage-only until this promotion command is run after a successful recovery response.
