@@ -470,7 +470,7 @@ export function StockScansWorkspace({ onSelectStock, selectedPortfolio }: StockS
 
   // Sub-tabs configuration
   const SUB_TABS: Array<{ id: StockScansSubTab; label: string; icon: React.ElementType; badge?: string }> = [
-    { id: 'BREADTH', label: 'Market Breadth', icon: Activity, badge: 'DuckDB' },
+    { id: 'BREADTH', label: 'Market Breadth', icon: Activity, badge: 'DuckDB Adjusted OHLCV' },
     { id: 'SCANS', label: 'Scans & Discovery', icon: Compass, badge: 'Prebuilt' },
     { id: 'SCAN_MATCH', label: 'Scan Match', icon: Target, badge: 'Overlap' },
     { id: 'ANNOUNCEMENTS', label: 'Evidence & Filings', icon: FileText, badge: 'Official FERE' },
