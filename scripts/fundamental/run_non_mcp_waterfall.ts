@@ -79,6 +79,10 @@ phase('upstox_fundamentals', ['scripts/fundamental/run_upstox_fundamental_enrich
 // for backwards-compatible manual use but is not the waterfall gate.
 phase('upstox_canonical_promotion', ['scripts/fundamental/promote_upstox_successful_snapshots.ts'], {}, true);
 phase('cached_artifact_promotion', ['scripts/fere/promote_cached_artifacts_batch.mjs', '--manifest', resolvedManifest, '--apply', '--min-facts', '29'], {}, true);
+// Exchange artifacts may contain an explicit balance-sheet Borrowings fact
+// even when the generic FERE fact threshold is already satisfied. Promote
+// that field immediately so it is not stranded in the artifact directory.
+phase('artifact_borrowings_promotion', ['scripts/fundamental/promote_artifact_borrowings.cjs', '--apply', '--out-dir', path.join(root, 'outputs', 'institutional29')], {}, true);
 phase('promotion_verification', ['scripts/fundamental/verify_non_mcp_promotion.ts', '--manifest', resolvedManifest, '--min-facts', '29'], {}, true);
 phase('promotion_gap_manifest', ['scripts/fundamental/build_promotion_gap_manifest.ts', '--verification', path.join(reportDir, 'promotion_verification.json'), '--source-manifest', resolvedManifest], {}, true);
 // Build the post-waterfall gap cohort before any optional MCP work. This is

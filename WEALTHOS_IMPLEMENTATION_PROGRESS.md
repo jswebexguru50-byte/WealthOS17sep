@@ -702,3 +702,10 @@ current 3,411 borrowing gaps are not filled with an unsafe proxy. A live
 reconciliation examined **17,635** durable snapshots, promoted/reconciled
 **123,365** facts, skipped **5,753** unsupported payloads, and had **0** write
 failures.
+
+The exchange-artifact borrowing promoter is now a first-class waterfall phase
+(`artifact_borrowings_promotion`) immediately before verification. It scans
+public Screener balance-sheet artifacts and verified NSE/BSE XBRL Borrowings
+facts, applies deterministic source preference and unit conversion, and writes
+idempotently to `company_facts`. The combined waterfall/artifact test gate is
+**24/24**; a current dry run scanned **3,528** artifacts with no parsing errors.
