@@ -2,6 +2,7 @@ import * as cheerio from 'cheerio';
 import fetch from 'node-fetch';
 import { YoutubeTranscript } from 'youtube-transcript';
 import { TranscriptOptimizer } from './TranscriptOptimizer.js';
+import { ScreenerService } from './screenerService.js';
 
 export class DataScraperService {
     private static instance: DataScraperService;
@@ -16,46 +17,15 @@ export class DataScraperService {
 
     public async scrapeScreener(symbol: string): Promise<{ about: string, pros: string[], cons: string[], peers: string[] }> {
         try {
-            // Strip .NS or .BO for Screener search
             const cleanSymbol = symbol.replace('.NS', '').replace('.BO', '');
-            const url = `https://www.screener.in/company/${cleanSymbol}/consolidated/`;
-            
-            const response = await fetch(url, {
-                headers: {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-                },
-                signal: AbortSignal.timeout(10000)
-            });
-
-            if (!response.ok) {
-                console.warn(`[DataScraper] Failed to fetch screener for ${symbol} - Status ${response.status}`);
-                return { about: '', pros: [], cons: [], peers: [] };
-            }
-
-            const html = await response.text();
-            const $ = cheerio.load(html);
-
-            const about = $('.company-profile .about p').text().trim();
-            
-            const pros: string[] = [];
-            $('.pros .metrics li').each((i, el) => {
-                pros.push($(el).text().trim());
-            });
-
-            const cons: string[] = [];
-            $('.cons .metrics li').each((i, el) => {
-                cons.push($(el).text().trim());
-            });
-
-            // Peers are usually in a table with class 'data-table' inside section with id 'peers'
-            const peers: string[] = [];
-            $('#peers table tr td:nth-child(2) a').each((i, el) => {
-                const peerName = $(el).text().trim();
-                // Avoid extracting the target company itself if it appears, though usually it's in the list
-                peers.push(peerName);
-            });
-
-            return { about, pros, cons, peers };
+            const data = await ScreenerService.getInstance().fetchScreenerData(cleanSymbol);
+            if (!data) return { about: '', pros: [], cons: [], peers: [] };
+            return {
+                about: data.about || '',
+                pros: data.pros || [],
+                cons: data.cons || [],
+                peers: (data.peers || []).map(p => p.name)
+            };
         } catch (error) {
             console.error(`[DataScraper] Error scraping screener for ${symbol}:`, error);
             return { about: '', pros: [], cons: [], peers: [] };

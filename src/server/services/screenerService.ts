@@ -2,6 +2,7 @@ import dns from 'dns';
 dns.setDefaultResultOrder('ipv4first');
 import { parse as parseHTML } from 'node-html-parser';
 import { getDB, dbGet, dbRun } from '../database.js';
+import { CircuitBreakerRegistry } from './CircuitBreaker.js';
 
 export interface ScreenerRatios {
   market_cap?: string;
@@ -278,7 +279,8 @@ export class ScreenerService {
       }
     } catch (e) {}
 
-    // 2. Fetch live from Screener.in
+    // 2. Fetch live from Screener.in (circuit-breaker protected)
+    const cb = CircuitBreakerRegistry.get('screener-in', 4);
     try {
       console.log(`[Screener] Fetching live data for ${cleanSym} from screener.in...`);
       const defaultHeaders = {
@@ -286,29 +288,33 @@ export class ScreenerService {
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
       };
 
-      let html = '';
-      const consolidatedUrl = `https://www.screener.in/company/${encodeURIComponent(cleanSym)}/consolidated/`;
-      let res = await fetch(consolidatedUrl, {
-        headers: defaultHeaders,
-        signal: AbortSignal.timeout(1500)
-      }).catch(() => null);
+      const html = await cb.call(
+        async () => {
+          let h = '';
+          const consolidatedUrl = `https://www.screener.in/company/${encodeURIComponent(cleanSym)}/consolidated/`;
+          const res = await fetch(consolidatedUrl, {
+            headers: defaultHeaders,
+            signal: AbortSignal.timeout(1500)
+          }).catch(() => null);
 
-      if (res && res.ok) {
-        html = await res.text();
-      } else {
-        // Fallback to standalone company page
-        const standaloneUrl = `https://www.screener.in/company/${encodeURIComponent(cleanSym)}/`;
-        let standaloneRes = await fetch(standaloneUrl, {
-          headers: defaultHeaders,
-          signal: AbortSignal.timeout(1500)
-        }).catch(() => null);
+          if (res && res.ok) {
+            h = await res.text();
+          } else {
+            // Fallback to standalone company page
+            const standaloneUrl = `https://www.screener.in/company/${encodeURIComponent(cleanSym)}/`;
+            const standaloneRes = await fetch(standaloneUrl, {
+              headers: defaultHeaders,
+              signal: AbortSignal.timeout(1500)
+            }).catch(() => null);
+            if (standaloneRes && standaloneRes.ok) h = await standaloneRes.text();
+          }
+          if (!h || h.length < 500) throw new Error('empty_response');
+          return h;
+        },
+        async () => ''
+      );
 
-        if (standaloneRes && standaloneRes.ok) {
-          html = await standaloneRes.text();
-        }
-      }
-
-      if (!html || html.length < 500) return null;
+      if (!html) return null;
 
       const data = this.parseScreenerHTML(cleanSym, html);
       

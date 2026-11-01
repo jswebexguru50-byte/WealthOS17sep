@@ -1,7 +1,7 @@
-import * as cheerio from 'cheerio';
 import fetch from 'node-fetch';
 import { createRequire } from 'module';
 import { ListingPlatform, getFallbackOrder } from './ForensicExtractionSchema.js';
+import { ScreenerService } from './screenerService.js';
 
 const require = createRequire(import.meta.url);
 const { PDFParse } = require('pdf-parse');
@@ -116,35 +116,23 @@ export class ConcallFailsafeHarvester {
   }
 
   /**
-   * Tier 1: Pull official concall transcript PDF from Screener.in
+   * Tier 1: Pull official concall transcript PDF from Screener.in (via ScreenerService cache)
    */
   private async harvestFromScreenerPdf(symbol: string): Promise<ConcallHarvestResult | null> {
-    const url = `https://www.screener.in/company/${symbol}/consolidated/`;
-    const res = await fetch(url, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
-      },
-      timeout: 8000
+    const data = await ScreenerService.getInstance().fetchScreenerData(symbol);
+    if (!data) return null;
+
+    const concallDoc = data.concalls.find(d => {
+      const t = d.title.toLowerCase();
+      const u = d.url.toLowerCase();
+      return (t.includes('transcript') || t.includes('concall') || u.includes('transcript')) &&
+             (d.url.endsWith('.pdf') || d.url.includes('.pdf'));
     });
 
-    if (!res.ok) return null;
-    const html = await res.text();
-    const $ = cheerio.load(html);
+    if (!concallDoc) return null;
 
-    let pdfUrl = '';
-    let period = 'Latest';
-
-    $('#documents a, .concalls a, a').each((i, el) => {
-      const text = $(el).text().toLowerCase();
-      const href = $(el).attr('href') || '';
-      if ((text.includes('transcript') || text.includes('concall') || href.toLowerCase().includes('transcript')) && (href.endsWith('.pdf') || href.includes('.pdf'))) {
-        pdfUrl = href;
-        period = $(el).closest('li, tr, div').text().replace($(el).text(), '').trim() || 'Latest';
-        return false;
-      }
-    });
-
-    if (!pdfUrl) return null;
+    let pdfUrl = concallDoc.url;
+    const period = concallDoc.date || concallDoc.title || 'Latest';
 
     if (!pdfUrl.startsWith('http')) {
       pdfUrl = new URL(pdfUrl, 'https://www.screener.in').toString();
@@ -177,31 +165,20 @@ export class ConcallFailsafeHarvester {
    * Segment-Promoted Tier: Harvest MD&A / Investor Presentation for SME & non-concall companies
    */
   private async harvestFromAnnualReportMda(symbol: string): Promise<ConcallHarvestResult | null> {
-    const url = `https://www.screener.in/company/${symbol}/consolidated/`;
-    const res = await fetch(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' },
-      timeout: 8000
+    const data = await ScreenerService.getInstance().fetchScreenerData(symbol);
+    if (!data) return null;
+
+    const annualDoc = data.documents.find(d => {
+      const t = d.title.toLowerCase();
+      const u = d.url.toLowerCase();
+      return (t.includes('annual report') || t.includes('presentation') || t.includes('investor') || u.includes('annual-report')) &&
+             (d.url.endsWith('.pdf') || d.url.includes('.pdf'));
     });
 
-    if (!res.ok) return null;
-    const html = await res.text();
-    const $ = cheerio.load(html);
+    if (!annualDoc) return null;
 
-    let docUrl = '';
-    let period = 'Annual Report / Presentation';
-
-    // Search for Annual Report or Investor Presentation PDF links
-    $('a').each((i, el) => {
-      const text = $(el).text().toLowerCase();
-      const href = $(el).attr('href') || '';
-      if ((text.includes('annual report') || text.includes('presentation') || text.includes('investor') || href.includes('annual-report')) && (href.endsWith('.pdf') || href.includes('.pdf'))) {
-        docUrl = href;
-        period = $(el).text().trim() || 'Annual Report';
-        return false;
-      }
-    });
-
-    if (!docUrl) return null;
+    let docUrl = annualDoc.url;
+    const period = annualDoc.title || 'Annual Report';
 
     if (!docUrl.startsWith('http')) {
       docUrl = new URL(docUrl, 'https://www.screener.in').toString();

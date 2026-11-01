@@ -530,7 +530,7 @@ describe('Master Independent Verification: Complete Phase 2 Cohort (20 Companies
         expect(snapshot, `${sym} must have a DecisionSnapshot`).toBeDefined();
         expect(snapshot.provenanceHash).toMatch(/^[a-f0-9]{64}$/);
         expect(snapshot.canonicalStateHash).toMatch(/^[a-f0-9]{64}$/);
-        expect(snapshot.schemaVersion).toBe('3.2');
+        expect(snapshot.schemaVersion).toBe('3.2.1');
         expect(snapshot.ruleSetVersion).toBe('2026.09');
         expect(snapshot.policyVersion).toBe('1.0');
       }
