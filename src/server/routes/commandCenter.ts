@@ -2,6 +2,8 @@ import { Router } from 'express';
 import { getDB, dbAll, dbGet, dbRun } from '../database.js';
 import { BankAndFDService } from '../services/BankAndFDService.js';
 import { UnifiedValuationService } from '../services/UnifiedValuationService.js';
+import { FactsRepository } from '../services/FactsRepository.js';
+import { FeatureFlags, FLAG } from '../services/FeatureFlags.js';
 
 const router = Router();
 
@@ -159,8 +161,10 @@ router.get('/', async (req, res) => {
     const compositeHealthScore = Math.round((concentrationScore * 0.4) + (assetClassScore * 0.3) + (liquidityScore * 0.3));
 
     // 5. Fetch Latest Recorded XIRR for each Portfolio from PortfolioHistory
+    // FactsRepository does not yet cover PortfolioHistory; USE_FACTS_REPO_HOLDINGS flag marks
+    // this path for migration once a typed PortfolioHistory accessor is added to FactsRepository.
     const xirrRows = await dbAll(db, `
-      SELECT p1.portfolio, p1.xirr 
+      SELECT p1.portfolio, p1.xirr
       FROM PortfolioHistory p1
       INNER JOIN (
         SELECT portfolio, MAX(date) as max_date
@@ -225,20 +229,41 @@ router.get('/', async (req, res) => {
     const closedPortfoliosList = ['IIFL360', 'Maa HDFC Sky', 'DBFS', 'Self HDFC Securities', 'Self Mutual Fund'];
     const closedPortfoliosData: any[] = [];
 
-    for (const cp of closedPortfoliosList) {
-      const pKey = cp.toLowerCase().trim();
-      const ltdXirr = xirrMap[pKey] !== undefined ? xirrMap[pKey] : (cp === 'IIFL360' ? 21.10 : null);
-      
-      const realStats = await dbAll(db, `
-        SELECT 
-          ROUND(SUM(buy_cost), 2) as cost, 
-          ROUND(SUM(sell_proceeds), 2) as sales, 
+    // Pre-fetch all closed portfolio RealizedGains in one query instead of per-portfolio loop calls
+    let realStatsMap: Record<string, any> = {};
+    if (FeatureFlags.getInstance().isEnabled(FLAG.USE_FACTS_REPO_HOLDINGS)) {
+      const ph = closedPortfoliosList.map(() => '?').join(',');
+      const allRealStats = await dbAll(db, `
+        SELECT portfolio,
+          ROUND(SUM(buy_cost), 2) as cost,
+          ROUND(SUM(sell_proceeds), 2) as sales,
           ROUND(SUM(realized_pnl), 2) as pnl,
           MIN(buy_date) as start_date,
           MAX(sell_date) as end_date
-        FROM RealizedGains 
-        WHERE portfolio = ?
-      `, [cp]).catch(() => []);
+        FROM RealizedGains WHERE portfolio IN (${ph}) GROUP BY portfolio
+      `, closedPortfoliosList).catch(() => []);
+      realStatsMap = Object.fromEntries((allRealStats as any[]).map((r: any) => [r.portfolio, r]));
+    }
+
+    for (const cp of closedPortfoliosList) {
+      const pKey = cp.toLowerCase().trim();
+      const ltdXirr = xirrMap[pKey] !== undefined ? xirrMap[pKey] : (cp === 'IIFL360' ? 21.10 : null);
+
+      let realStats: any[];
+      if (FeatureFlags.getInstance().isEnabled(FLAG.USE_FACTS_REPO_HOLDINGS)) {
+        realStats = realStatsMap[cp] ? [realStatsMap[cp]] : [];
+      } else {
+        realStats = await dbAll(db, `
+          SELECT
+            ROUND(SUM(buy_cost), 2) as cost,
+            ROUND(SUM(sell_proceeds), 2) as sales,
+            ROUND(SUM(realized_pnl), 2) as pnl,
+            MIN(buy_date) as start_date,
+            MAX(sell_date) as end_date
+          FROM RealizedGains
+          WHERE portfolio = ?
+        `, [cp]).catch(() => []);
+      }
 
       const stat = realStats[0] || {};
       const cost = Number(stat.cost) || (cp === 'IIFL360' ? 4000000 : 0);

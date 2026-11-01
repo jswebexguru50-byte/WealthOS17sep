@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import { getDB, dbAll, dbGet, dbRun } from '../database.js';
+import { FactsRepository, type Holding, type Transaction } from '../services/FactsRepository.js';
+import { FeatureFlags, FLAG } from '../services/FeatureFlags.js';
 
 const router = Router();
 
@@ -130,13 +132,19 @@ router.get('/waterfall', async (req, res) => {
     }
 
     // 3. Fetch current holdings
-    let hQuery = "SELECT * FROM Holdings WHERE quantity > 0";
-    const hParams: any[] = [];
-    if (!isCombined) {
-      hQuery += " AND LOWER(portfolio) = LOWER(?)";
-      hParams.push(portfolio);
+    let currentHoldings: Holding[];
+    if (FeatureFlags.getInstance().isEnabled(FLAG.USE_FACTS_REPO_HOLDINGS)) {
+      const raw = await FactsRepository.getInstance().getHoldings(isCombined ? undefined : portfolio);
+      currentHoldings = raw.filter(h => h.quantity > 0);
+    } else {
+      let hQuery = "SELECT * FROM Holdings WHERE quantity > 0";
+      const hParams: any[] = [];
+      if (!isCombined) {
+        hQuery += " AND LOWER(portfolio) = LOWER(?)";
+        hParams.push(portfolio);
+      }
+      currentHoldings = await dbAll(db, hQuery, hParams);
     }
-    const currentHoldings = await dbAll(db, hQuery, hParams);
 
     // 4. Build Waterfall Bridge
     let baselineValuationINR = 0;
@@ -158,12 +166,18 @@ router.get('/waterfall', async (req, res) => {
       const curCostINR = pHoldings.reduce((s: number, h: any) => s + (h.total_cost || 0), 0);
 
       // Check transactions created after baseline statement date
-      const subsequentTx = await dbAll(db, `
-        SELECT date, type, symbol, isin, quantity, price, net_amount, notes
-        FROM Transactions 
-        WHERE LOWER(portfolio) = LOWER(?) AND date > ?
-        ORDER BY date ASC
-      `, [pName, b.statement_date]).catch(() => []);
+      let subsequentTx: Transaction[];
+      if (FeatureFlags.getInstance().isEnabled(FLAG.USE_FACTS_REPO_HOLDINGS)) {
+        const txRows = await FactsRepository.getInstance().getTransactions({ portfolio: pName, fromDate: b.statement_date });
+        subsequentTx = txRows.filter(tx => tx.date > b.statement_date);
+      } else {
+        subsequentTx = await dbAll(db, `
+          SELECT date, type, symbol, isin, quantity, price, net_amount, notes
+          FROM Transactions
+          WHERE LOWER(portfolio) = LOWER(?) AND date > ?
+          ORDER BY date ASC
+        `, [pName, b.statement_date]).catch(() => []);
+      }
 
       let newCapitalIn = 0;
       let newCapitalOut = 0;
