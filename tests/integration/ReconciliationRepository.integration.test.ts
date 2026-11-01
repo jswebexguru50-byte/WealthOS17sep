@@ -161,4 +161,19 @@ describe('ReconciliationRepository (integration)', () => {
     const rows = await repo().getHistoricalShareholding(db, 'INFY');
     expect(rows.some((r: any) => r.symbol === 'INFY')).toBe(true);
   });
+
+  it('aggregates audit statuses and non-null accuracy scores and groups quarters', async () => {
+    await dbRunImpl(db, "UPDATE DataQualityAuditLedger SET field_accuracy_score=90, sum_total_pct=100 WHERE symbol='INFY'");
+    await dbRunImpl(db, "INSERT INTO DataQualityAuditLedger (symbol, integrity_status, as_of_quarter, field_accuracy_score, sum_total_pct) VALUES ('WARN', 'WARNING', 'Q2FY26', 70, 98)");
+    expect(await repo().getDataQualitySummary(db)).toEqual([{ total_audited: 3, passed_count: 1, warning_count: 1, failed_count: 1, avg_accuracy_score: 80, avg_shareholding_sum: 99 }]);
+    expect(await repo().getDataQualityQuarters(db)).toEqual([{ as_of_quarter: 'Q3FY26', count: 2 }, { as_of_quarter: 'Q2FY26', count: 1 }]);
+  });
+
+  it('returns an empty list when the optional bank table is absent and rows when available', async () => {
+    expect(await repo().getBankFDs(db)).toEqual([]);
+    await dbRunImpl(db, 'CREATE TABLE BankAccountsAndFDs (id INTEGER PRIMARY KEY, balance REAL)');
+    await dbRunImpl(db, 'INSERT INTO BankAccountsAndFDs VALUES (1, 15000)');
+    expect(await repo().getBankFDs(db)).toEqual([{ id: 1, balance: 15000 }]);
+  });
+
 });

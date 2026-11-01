@@ -45,7 +45,7 @@ beforeAll(async () => {
     )`,
     `CREATE TABLE IF NOT EXISTS MemberPortfolioPermissions (
       member_id INTEGER,
-      portfolio TEXT
+      portfolio_name TEXT
     )`,
     `CREATE TABLE IF NOT EXISTS Transactions (id INTEGER PRIMARY KEY, portfolio TEXT, net_amount REAL, date TEXT)`,
     `CREATE TABLE IF NOT EXISTS Holdings (id INTEGER PRIMARY KEY, portfolio TEXT, current_value REAL, quantity REAL)`,
@@ -59,7 +59,7 @@ beforeAll(async () => {
   // Seed data
   await new Promise<void>((res, rej) => testDb.run("INSERT INTO Portfolios (name, type, status, member_id) VALUES ('Alpha', 'EQUITY', 'ACTIVE', 1)", (e) => e ? rej(e) : res()));
   await new Promise<void>((res, rej) => testDb.run("INSERT INTO Portfolios (name, type, status, member_id) VALUES ('Beta', 'PMS', 'ACTIVE', 2)", (e) => e ? rej(e) : res()));
-  await new Promise<void>((res, rej) => testDb.run("INSERT INTO MemberPortfolioPermissions (member_id, portfolio) VALUES (1, 'Alpha')", (e) => e ? rej(e) : res()));
+  await new Promise<void>((res, rej) => testDb.run("INSERT INTO MemberPortfolioPermissions (member_id, portfolio_name) VALUES (1, 'Alpha')", (e) => e ? rej(e) : res()));
 });
 
 afterAll(() => { testDb.close(); });
@@ -122,4 +122,52 @@ describe('PortfolioRepository (integration)', () => {
   it('rollback — does not throw', async () => {
     await expect(repo().rollback(db)).resolves.not.toThrow();
   });
+
+  it('member queries include owned and permitted portfolios, excluding archived and unrelated rows', async () => {
+    await dbRunImpl(db, "INSERT INTO Portfolios (name, type, member_id, status) VALUES ('Shared', 'PMS', 91, 'ACTIVE'), ('ArchivedShared', 'PMS', 91, 'ARCHIVED')");
+    await dbRunImpl(db, "INSERT INTO MemberPortfolioPermissions (member_id, portfolio_name) VALUES (1, 'Shared'), (1, 'ArchivedShared')");
+    expect(await repo().getByMemberId(db, 1)).toEqual([{ portfolio: 'Alpha' }, { portfolio: 'Shared' }]);
+    expect((await repo().getDetailedByMemberId(db, 1)).map(row => row.name)).toEqual(['Alpha', 'Shared']);
+    expect(await repo().getPmsByMemberId(db, 1)).toEqual([{ portfolio: 'Shared' }]);
+    expect((await repo().getPmsAll(db)).map(row => row.portfolio).sort()).toEqual(['Beta', 'GammaNew', 'Shared']);
+    expect(await repo().getByMemberId(db, 999)).toEqual([]);
+  });
+
+  it('currency insertion and update persist values used by portfolio ranking', async () => {
+    await repo().insertWithCurrency(db, 'CurrencyPortfolio', 'USD');
+    expect((await repo().getAllDetailed(db)).find(row => row.name === 'CurrencyPortfolio')?.base_currency).toBe('USD');
+    await repo().updateCurrency(db, 'CurrencyPortfolio', 'INR');
+    expect((await repo().getAllDetailed(db)).find(row => row.name === 'CurrencyPortfolio')?.base_currency).toBe('INR');
+  });
+
+  it('ranks INR before foreign currency, then value and name, including portfolios from source tables', async () => {
+    await repo().insertWithCurrency(db, 'ForeignHigh', 'USD');
+    await repo().insertWithCurrency(db, 'DomesticHigh', 'INR');
+    await dbRunImpl(db, "INSERT INTO Holdings (portfolio, current_value) VALUES ('ForeignHigh', 100000), ('DomesticHigh', 200), ('SourceOnly', 100)");
+    const names = (await repo().getAllRanked(db)).map(row => row.portfolio);
+    expect(names.indexOf('DomesticHigh')).toBeLessThan(names.indexOf('SourceOnly'));
+    expect(names.indexOf('SourceOnly')).toBeLessThan(names.indexOf('ForeignHigh'));
+    expect(names).not.toContain('ArchivedShared');
+    expect(names).not.toContain('Delta');
+  });
+
+  it('renames and deletes only matching rows in related tables', async () => {
+    await dbRunImpl(db, "INSERT INTO Transactions (portfolio) VALUES ('OldRelated'), ('KeepRelated')");
+    await repo().renameInTable(db, 'Transactions', 'portfolio', 'NewRelated', 'OldRelated');
+    expect(await dbAllImpl(db, 'SELECT portfolio FROM Transactions ORDER BY portfolio')).toEqual([{ portfolio: 'KeepRelated' }, { portfolio: 'NewRelated' }]);
+    await repo().deleteFromTable(db, 'Transactions', 'portfolio', 'NewRelated');
+    expect(await dbAllImpl(db, 'SELECT portfolio FROM Transactions')).toEqual([{ portfolio: 'KeepRelated' }]);
+  });
+
+  it('rollback removes writes while commit makes them visible', async () => {
+    await repo().beginTransaction(db);
+    await repo().create(db, 'RolledBack', 'EQUITY', 'INR');
+    await repo().rollback(db);
+    expect(await repo().findByName(db, 'RolledBack')).toBeUndefined();
+    await repo().beginTransaction(db);
+    await repo().create(db, 'Committed', 'EQUITY', 'INR');
+    await repo().commit(db);
+    expect(await repo().findByName(db, 'Committed')).toBeDefined();
+  });
+
 });

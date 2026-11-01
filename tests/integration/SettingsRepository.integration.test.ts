@@ -125,4 +125,23 @@ describe('SettingsRepository (integration)', () => {
     const rows = await repo().getUserMappings(db);
     expect(rows.some((r: any) => r.raw_name === 'INFOSYS LTD')).toBe(true);
   });
+
+  it.each([
+    ['Transactions', 'remapTransactionsToTicker'],
+    ['Holdings', 'remapHoldingsToTicker'],
+  ] as const)('remaps %s by symbol or ISIN and preserves unrelated rows', async (table, method) => {
+    await dbRunImpl(db, `INSERT INTO ${table} (symbol, isin) VALUES ('OLD', 'OTHER'), ('OTHER', 'OLD_ISIN'), ('KEEP', 'KEEP_ISIN')`);
+    await repo()[method](db, 'NEW', 'NEW_ISIN', 'OLD', 'OLD_ISIN');
+    expect(await dbAllImpl(db, `SELECT symbol, isin FROM ${table} ORDER BY id`)).toEqual([
+      { symbol: 'NEW', isin: 'NEW_ISIN' }, { symbol: 'NEW', isin: 'NEW_ISIN' }, { symbol: 'KEEP', isin: 'KEEP_ISIN' },
+    ]);
+  });
+
+  it('updateTicker preserves omitted fields and stores an explicit zero price', async () => {
+    const ticker = (await repo().getTickers(db, 'INFY'))[0];
+    await repo().updateTicker(db, ticker.id, { symbol: null, name: 'Updated Infosys', exchange: null, segment: null, sector: null, manual_ltp: 0, fmv_31_jan_2018: 0 });
+    const updated = await dbGetImpl(db, 'SELECT * FROM MasterTickers WHERE id = ?', [ticker.id]);
+    expect(updated).toMatchObject({ symbol: 'INFY', name: 'Updated Infosys', exchange: 'NSE', last_price: 0, fmv_31_jan_2018: 0 });
+  });
+
 });
