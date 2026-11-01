@@ -5,7 +5,8 @@
 import { Router } from 'express';
 import os from 'os';
 import { DatabaseManager } from '../services/DatabaseManager.js';
-import { getDB, dbAll, dbGet, dbRun } from '../database.js';
+import { getDB } from '../database.js';
+import { SystemRepository } from '../services/SystemRepository.js';
 
 const router = Router();
 
@@ -48,7 +49,7 @@ router.post('/backup', async (req, res) => {
 router.get('/change-logs', async (_req, res) => {
   try {
     const db = getDB();
-    const logs = await dbAll(db, `SELECT * FROM AppChangeLogs ORDER BY timestamp DESC LIMIT 100`);
+    const logs = await SystemRepository.getInstance().getChangeLogs(db);
     res.json({ success: true, logs });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -60,8 +61,7 @@ router.post('/change-logs', async (req, res) => {
   try {
     const db = getDB();
     const { version_tag, summary, file_count } = req.body;
-    await dbRun(db, `INSERT INTO AppChangeLogs (version_tag, summary, file_count) VALUES (?, ?, ?)`,
-      [version_tag || 'v1.0.0', summary, file_count || 0]);
+    await SystemRepository.getInstance().insertChangeLog(db, version_tag || 'v1.0.0', summary, file_count || 0);
     res.json({ success: true });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -73,7 +73,7 @@ router.get('/system-logs', async (req, res) => {
   try {
     const db = getDB();
     const limit = parseInt(req.query.limit as string || '100', 10);
-    const logs = await dbAll(db, `SELECT * FROM SystemLogs ORDER BY timestamp DESC LIMIT ?`, [limit]);
+    const logs = await SystemRepository.getInstance().getSystemLogs(db, limit);
     res.json({ success: true, logs });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -84,7 +84,7 @@ router.get('/system-logs', async (req, res) => {
 router.get('/action-history', async (_req, res) => {
   try {
     const db = getDB();
-    const rows = await dbAll(db, `SELECT * FROM ActionHistory ORDER BY timestamp DESC LIMIT 200`);
+    const rows = await SystemRepository.getInstance().getActionHistory(db);
     res.json({ success: true, rows });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });

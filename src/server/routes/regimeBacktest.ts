@@ -6,7 +6,7 @@
  */
 
 import { Router, Request, Response } from 'express';
-import { getDB, dbAll } from '../database.js';
+import { getDB } from '../database.js';
 import { RegimeBacktestEngine, STRATEGIES, REGIMES } from '../services/RegimeBacktestEngine.js';
 
 export const regimeBacktestRouter = Router();

@@ -6,6 +6,7 @@
 import type express from 'express';
 import { getDB, dbAll, dbGet, dbRun } from '../database.js';
 import { UnifiedValuationService } from '../services/UnifiedValuationService.js';
+import { MiscRepository } from '../services/MiscRepository.js';
 
 /** Returns the current database instance */
 export function db() { return getDB(); }
@@ -37,7 +38,7 @@ export async function getSelectedPortfolios(req: express.Request): Promise<strin
       : String(portfolios).split(',').map(p => p.trim()).filter(Boolean);
 
     try {
-      const allPorts = await dbAll(database, "SELECT DISTINCT portfolio FROM Holdings UNION SELECT DISTINCT portfolio FROM Transactions UNION SELECT name FROM Portfolios");
+      const allPorts = await MiscRepository.getInstance().getPortfolioNames(database);
       const portMap = new Map<string, string>();
       allPorts.forEach((p: any) => {
         const pName = p.portfolio || p.name;
@@ -53,7 +54,7 @@ export async function getSelectedPortfolios(req: express.Request): Promise<strin
   const { allowedPortNames } = await UnifiedValuationService.getInstance().getAllowedPortfoliosForMember(database, memberIdRaw || 1);
   if (allowedPortNames.length > 0) return allowedPortNames;
 
-  const fallbackPorts = await dbAll(database, "SELECT DISTINCT portfolio FROM Holdings WHERE portfolio IS NOT NULL UNION SELECT DISTINCT portfolio FROM Transactions WHERE portfolio IS NOT NULL");
+  const fallbackPorts = await MiscRepository.getInstance().getFallbackPortfolios(database);
   if (fallbackPorts.length > 0) return fallbackPorts.map((p: any) => p.portfolio);
   return ['__NO_ACTIVE_PORTFOLIOS__'];
 }

@@ -21,7 +21,8 @@ import { LLMOrchestrationService } from '../services/LLMOrchestrationService.js'
 import { FORENSIC_WEIGHTS } from '../services/ForensicScoringService.js';
 import { ForensicCacheService } from '../services/ForensicCacheService.js';
 import { StatutoryLineageService } from '../services/StatutoryLineageService.js';
-import { getDB, dbGet, dbAll } from '../database.js';
+import { getDB } from '../database.js';
+import { MiscRepository } from '../services/MiscRepository.js';
 import { DossierEmailDispatcher } from '../services/DossierEmailDispatcher.js';
 
 export const forensicRouter: Router = express.Router();
@@ -625,11 +626,7 @@ forensicRouter.get('/fere-stock/:symbol', async (req: Request, res: Response) =>
     const cleanSymbol = rawSymbol.replace('.NS', '').replace('.BO', '');
     const db = getDB();
 
-    const row = await dbGet<any>(
-      db,
-      `SELECT * FROM FEREEnrichedLedger WHERE symbol = ? OR symbol = ? LIMIT 1`,
-      [cleanSymbol, rawSymbol]
-    );
+    const row = await MiscRepository.getInstance().getFereStock(db, cleanSymbol, rawSymbol);
 
     if (!row) {
       return res.status(404).json({
