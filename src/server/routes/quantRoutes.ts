@@ -14,7 +14,8 @@ import {
 import { AlertEngine } from '../services/AlertEngine.js';
 import { ResearchExperienceAgent } from '../services/ResearchExperienceAgent.js';
 import { NEoWaveEngine } from '../quant/NEoWaveEngine.js';
-import { getDB, dbRun, dbAll } from '../database.js';
+import { getDB } from '../database.js';
+import { QuantRepository } from '../services/QuantRepository.js';
 import { randomBytes } from 'crypto';
 
 export const quantRouter = Router();
@@ -220,13 +221,7 @@ quantRouter.post('/paper-trades', async (req: Request, res: Response) => {
     const db = getDB();
     const id = `pt_${randomBytes(6).toString('hex')}`;
     const entry_date = new Date().toISOString();
-    await dbRun(
-      db,
-      `INSERT INTO paper_trades 
-       (id, symbol, company_name, strategy_ids, gate_snapshot, entry_date, entry_price, stop_loss, target_1, target_2, position_size, position_inr, status, notes) 
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'OPEN', ?)`,
-      [id, symbol, company_name, strategy_ids, gate_snapshot, entry_date, entry_price, stop_loss, target_1, target_2, position_size, position_inr, notes]
-    );
+    await QuantRepository.getInstance().insertPaperTrade(db, id, symbol, company_name, strategy_ids, gate_snapshot, entry_date, entry_price, stop_loss, target_1, target_2, position_size, position_inr, notes);
     res.json({ success: true, id });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -237,7 +232,7 @@ quantRouter.post('/paper-trades', async (req: Request, res: Response) => {
 quantRouter.get('/paper-trades', async (req: Request, res: Response) => {
   try {
     const db = getDB();
-    const trades = await dbAll(db, `SELECT * FROM paper_trades ORDER BY created_at DESC`);
+    const trades = await QuantRepository.getInstance().listPaperTrades(db);
     res.json({ success: true, trades });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -251,13 +246,7 @@ quantRouter.patch('/paper-trades/:id', async (req: Request, res: Response) => {
     const { status, exit_price, pnl_pct, pnl_inr, holding_days, max_gain_pct, max_loss_pct, verdict, notes } = req.body;
     const db = getDB();
     const exit_date = new Date().toISOString();
-    await dbRun(
-      db,
-      `UPDATE paper_trades 
-       SET status = ?, exit_date = ?, exit_price = ?, pnl_pct = ?, pnl_inr = ?, holding_days = ?, max_gain_pct = ?, max_loss_pct = ?, verdict = ?, notes = ?
-       WHERE id = ?`,
-      [status, exit_date, exit_price, pnl_pct, pnl_inr, holding_days, max_gain_pct, max_loss_pct, verdict, notes, id]
-    );
+    await QuantRepository.getInstance().updatePaperTrade(db, id, status, exit_date, exit_price, pnl_pct, pnl_inr, holding_days, max_gain_pct, max_loss_pct, verdict, notes);
     res.json({ success: true, id });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -270,11 +259,7 @@ quantRouter.post('/funnel-presets', async (req: Request, res: Response) => {
     const { name, strategy_ids_json, gate_config_json } = req.body;
     const db = getDB();
     const id = `fp_${randomBytes(6).toString('hex')}`;
-    await dbRun(
-      db,
-      `INSERT INTO funnel_presets (id, name, strategy_ids_json, gate_config_json) VALUES (?, ?, ?, ?)`,
-      [id, name, strategy_ids_json, gate_config_json]
-    );
+    await QuantRepository.getInstance().insertFunnelPreset(db, id, name, strategy_ids_json, gate_config_json);
     res.json({ success: true, id });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -285,7 +270,7 @@ quantRouter.post('/funnel-presets', async (req: Request, res: Response) => {
 quantRouter.get('/funnel-presets', async (req: Request, res: Response) => {
   try {
     const db = getDB();
-    const presets = await dbAll(db, `SELECT * FROM funnel_presets ORDER BY created_at DESC`);
+    const presets = await QuantRepository.getInstance().listFunnelPresets(db);
     res.json({ success: true, presets });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -297,14 +282,7 @@ quantRouter.get('/elliott-wave/pullback/:symbol', async (req: Request, res: Resp
   try {
     const symbol = (req.params.symbol || '').toUpperCase().trim();
     const db = getDB();
-    const rows = await dbAll(
-      db,
-      `SELECT trade_date as date, open, high, low, close, volume 
-       FROM DailyOHLCV 
-       WHERE symbol = ? 
-       ORDER BY trade_date ASC`,
-      [symbol]
-    );
+    const rows = await QuantRepository.getInstance().getDailyOhlcv(db, symbol);
 
     if (!rows || rows.length < 10) {
       return res.status(404).json({
@@ -341,24 +319,14 @@ quantRouter.get('/elliott-wave/pullback/:symbol', async (req: Request, res: Resp
 quantRouter.get('/elliott-wave/pullback-screener', async (req: Request, res: Response) => {
   try {
     const db = getDB();
-    const symbolsRows = await dbAll(
-      db,
-      `SELECT DISTINCT symbol FROM DailyOHLCV ORDER BY symbol ASC`
-    );
+    const symbolsRows = await QuantRepository.getInstance().getDistinctDailyOhlcvSymbols(db);
     const symbols = symbolsRows.map((r: any) => r.symbol);
     const neoEngine = NEoWaveEngine.getInstance();
     const completedMatches: any[] = [];
     const developingMatches: any[] = [];
 
     for (const sym of symbols) {
-      const rows = await dbAll(
-        db,
-        `SELECT trade_date as date, open, high, low, close, volume 
-         FROM DailyOHLCV 
-         WHERE symbol = ? 
-         ORDER BY trade_date ASC`,
-        [sym]
-      );
+      const rows = await QuantRepository.getInstance().getDailyOhlcv(db, sym);
       if (!rows || rows.length < 15) continue;
 
       const bars = rows.map((r: any) => ({

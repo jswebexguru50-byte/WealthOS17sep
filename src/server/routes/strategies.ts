@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { randomBytes } from 'crypto';
 import { getDB } from '../database.js';
-import { dbAll, dbGet, dbRun } from '../database.js';
+import { StrategiesRepository } from '../services/StrategiesRepository.js';
 import {
   seedBuiltInPresets,
   getDefaultsForStrategy,
@@ -50,16 +50,7 @@ router.get('/library', async (req, res) => {
     await seedBuiltInPresets(db);
 
     // Fetch all strategies (presets + custom)
-    const strategies = await dbAll<any>(
-      db,
-      `SELECT
-         id, name, short_name, description, category,
-         is_preset, preset_order, color_accent,
-         is_active, parameters_json, base_template_id,
-         last_backtest_at, backtest_win_rate, backtest_sharpe, backtest_total_signals
-       FROM CustomStrategies
-       ORDER BY is_preset DESC, preset_order ASC, created_at DESC`
-    );
+    const strategies = await StrategiesRepository.getInstance().listAll(db);
 
     // Parse parameters_json for each strategy
     const enriched = strategies.map(s => ({
@@ -96,11 +87,7 @@ router.get('/:id/parameters', async (req, res) => {
     const { id } = req.params;
     const db = getDB();
 
-    const strategy = await dbGet<any>(
-      db,
-      `SELECT * FROM CustomStrategies WHERE id = ?`,
-      [id]
-    );
+    const strategy = await StrategiesRepository.getInstance().findById(db, id);
 
     if (!strategy) {
       return res.status(404).json({
@@ -154,12 +141,10 @@ router.post('/save', async (req, res) => {
     const strategyId = id || generateId('custom');
     const parametersJson = JSON.stringify(parameters);
 
+    const repo = StrategiesRepository.getInstance();
+
     // Check if strategy with this name already exists (and it's not the one we're updating)
-    const existing = await dbGet<any>(
-      db,
-      `SELECT id FROM CustomStrategies WHERE name = ? AND id != ?`,
-      [name, strategyId]
-    );
+    const existing = await repo.findByNameExcluding(db, name, strategyId);
 
     if (existing) {
       return res.status(409).json({
@@ -172,37 +157,25 @@ router.post('/save', async (req, res) => {
     const now = new Date().toISOString();
     if (id) {
       // Update existing
-      const existing = await dbGet<any>(db, `SELECT * FROM CustomStrategies WHERE id = ?`, [id]);
-      if (!existing) {
+      const existingById = await repo.findById(db, id);
+      if (!existingById) {
         return res.status(404).json({
           success: false,
           message: `Strategy ${id} not found`,
         });
       }
 
-      if (existing.is_preset === 1) {
+      if (existingById.is_preset === 1) {
         return res.status(403).json({
           success: false,
           message: 'Cannot modify built-in presets',
         });
       }
 
-      await dbRun(
-        db,
-        `UPDATE CustomStrategies
-         SET name = ?, description = ?, category = ?, parameters_json = ?, updated_at = ?
-         WHERE id = ?`,
-        [name, description, category, parametersJson, now, id]
-      );
+      await repo.update(db, id, name, description, category, parametersJson, now);
     } else {
       // Create new custom strategy
-      await dbRun(
-        db,
-        `INSERT INTO CustomStrategies
-         (id, name, description, category, parameters_json, base_template_id, is_preset, is_active, created_at, updated_at)
-         VALUES (?, ?, ?, ?, ?, ?, 0, 1, ?, ?)`,
-        [strategyId, name, description, category, parametersJson, baseTemplateId, now, now]
-      );
+      await repo.insert(db, strategyId, name, description, category, parametersJson, baseTemplateId, now);
     }
 
     res.json({
@@ -232,11 +205,8 @@ router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     const db = getDB();
 
-    const strategy = await dbGet<any>(
-      db,
-      `SELECT id, is_preset FROM CustomStrategies WHERE id = ?`,
-      [id]
-    );
+    const repo = StrategiesRepository.getInstance();
+    const strategy = await repo.findById(db, id);
 
     if (!strategy) {
       return res.status(404).json({
@@ -254,18 +224,10 @@ router.delete('/:id', async (req, res) => {
     }
 
     // Delete related backtest results first (foreign key constraint)
-    await dbRun(
-      db,
-      `DELETE FROM strategy_run_results WHERE strategy_id = ?`,
-      [id]
-    );
+    await repo.deleteRunResults(db, id);
 
     // Delete the strategy
-    await dbRun(
-      db,
-      `DELETE FROM CustomStrategies WHERE id = ?`,
-      [id]
-    );
+    await repo.delete(db, id);
 
     res.json({
       success: true,
@@ -292,11 +254,8 @@ router.post('/:id/duplicate', async (req, res) => {
     const { newName } = req.body;
     const db = getDB();
 
-    const source = await dbGet<any>(
-      db,
-      `SELECT * FROM CustomStrategies WHERE id = ?`,
-      [id]
-    );
+    const repo = StrategiesRepository.getInstance();
+    const source = await repo.findById(db, id);
 
     if (!source) {
       return res.status(404).json({
@@ -312,11 +271,7 @@ router.post('/:id/duplicate', async (req, res) => {
     const now = new Date().toISOString();
 
     // Check if name already exists
-    const existing = await dbGet<any>(
-      db,
-      `SELECT id FROM CustomStrategies WHERE name = ?`,
-      [finalName]
-    );
+    const existing = await repo.findByName(db, finalName);
 
     if (existing) {
       return res.status(409).json({
@@ -326,24 +281,17 @@ router.post('/:id/duplicate', async (req, res) => {
     }
 
     // Create clone as a custom strategy (is_preset = 0)
-    await dbRun(
+    await repo.insertClone(
       db,
-      `INSERT INTO CustomStrategies
-       (id, name, short_name, description, category, parameters_json, base_template_id,
-        is_preset, preset_order, color_accent, is_active, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, 0, NULL, ?, 1, ?, ?)`,
-      [
-        newId,
-        finalName,
-        source.short_name,
-        source.description,
-        source.category,
-        source.parameters_json,
-        source.base_template_id || source.id,
-        source.color_accent,
-        now,
-        now,
-      ]
+      newId,
+      finalName,
+      source.short_name,
+      source.description,
+      source.category,
+      source.parameters_json,
+      source.base_template_id || source.id,
+      source.color_accent,
+      now
     );
 
     res.json({
@@ -458,12 +406,7 @@ router.post('/scan-multi', async (req, res) => {
     const db = getDB();
 
     // Validate all strategy IDs against the DB (CustomStrategies is the source of truth)
-    const placeholders = strategyIds.map(() => '?').join(',');
-    const dbStrategies = await dbAll<any>(
-      db,
-      `SELECT id, name, short_name, parameters_json FROM CustomStrategies WHERE id IN (${placeholders}) AND is_active = 1`,
-      strategyIds
-    );
+    const dbStrategies = await StrategiesRepository.getInstance().findByIds(db, strategyIds);
     const foundIds = new Set(dbStrategies.map((s: any) => s.id));
     const invalidIds = strategyIds.filter(id => !foundIds.has(id));
 

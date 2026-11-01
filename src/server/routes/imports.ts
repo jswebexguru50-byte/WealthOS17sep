@@ -8,7 +8,8 @@ import { MultiBrokerReconService } from '../services/MultiBrokerReconService.js'
 import { TransactionDeduplicationService } from '../services/TransactionDeduplicationService.js';
 import { parseIIFLBankBookCSV, parsePMSTradeRegisterCSV, parseCCBankBookCSV, parseCCBankBookFromPdfText, parseCCTradeRegisterFromPdfText } from '../pmsParser.js';
 import { parseCamsStatement, fetchAMFINavs, fetchAMFISchemeCodes, fetchNAVFromMFapi, extractSummaryFromPdfText, extractTextFromPdf } from '../camsParser.js';
-import { getDB, dbAll, dbGet, dbRun } from '../database.js';
+import { getDB } from '../database.js';
+import { ImportsRepository } from '../services/ImportsRepository.js';
 import { runFIFO } from '../fifoEngine.js';
 
 const router = Router();
@@ -131,7 +132,7 @@ router.post('/transactions/deduplicate-commit', async (req, res) => {
 router.get('/cams/configurations', async (_req, res) => {
   try {
     const db = getDB();
-    res.json({ success: true, configurations: await dbAll(db, 'SELECT * FROM CamsConfigurations ORDER BY pan ASC') });
+    res.json({ success: true, configurations: await ImportsRepository.getInstance().getCamsConfigurations(db) });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -142,9 +143,7 @@ router.post('/cams/configurations', async (req, res) => {
     const db = getDB();
     const { pan, email, password, portfolio_name } = req.body;
     if (!pan || !email || !portfolio_name) return res.status(400).json({ success: false, error: 'PAN, email, and portfolio_name are required.' });
-    await dbRun(db, `INSERT INTO CamsConfigurations (pan, email, password, portfolio_name, status) VALUES (?, ?, ?, ?, 'ACTIVE')
-      ON CONFLICT(pan) DO UPDATE SET email=excluded.email, password=COALESCE(excluded.password, CamsConfigurations.password), portfolio_name=excluded.portfolio_name`,
-      [pan.toUpperCase(), email, password || null, portfolio_name]);
+    await ImportsRepository.getInstance().upsertCamsConfiguration(db, pan.toUpperCase(), email, password || null, portfolio_name);
     res.json({ success: true, message: 'CAMS configuration saved.' });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -154,7 +153,7 @@ router.post('/cams/configurations', async (req, res) => {
 router.delete('/cams/configurations/:pan', async (req, res) => {
   try {
     const db = getDB();
-    await dbRun(db, 'DELETE FROM CamsConfigurations WHERE pan = ?', [req.params.pan.toUpperCase()]);
+    await ImportsRepository.getInstance().deleteCamsConfiguration(db, req.params.pan.toUpperCase());
     res.json({ success: true, message: 'CAMS configuration deleted.' });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
