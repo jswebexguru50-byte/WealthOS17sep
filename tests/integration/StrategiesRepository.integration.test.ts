@@ -184,4 +184,12 @@ describe('StrategiesRepository — integration (real in-memory SQLite)', () => {
     expect(rows.length).toBe(2);
     expect(rows.map(r => r.id).sort()).toEqual(['a1', 'a3']);
   });
+
+  it('findByIds returns no rows for an empty selection without changing stored strategies', async () => {
+    await run(testDb, `INSERT INTO CustomStrategies (id, name, is_active) VALUES ('active', 'Active', 1)`);
+    const repo = StrategiesRepository.getInstance();
+    expect(await repo.findByIds(testDb as any, [])).toEqual([]);
+    expect(await repo.findById(testDb as any, 'active')).toMatchObject({ id: 'active', is_active: 1 });
+  });
+
 });

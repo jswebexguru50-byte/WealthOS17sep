@@ -129,12 +129,15 @@ describe('SystemRepository — integration (real in-memory SQLite)', () => {
   });
 
   it('getActionHistory returns actions ordered by timestamp DESC limited to 200', async () => {
-    for (let i = 0; i < 5; i++) {
-      await run(testDb, `INSERT INTO ActionHistory (action) VALUES ('SIGNAL')`);
+    for (let i = 0; i < 201; i++) {
+      const timestamp = new Date(Date.UTC(2026, 0, 1, 0, i)).toISOString();
+      await run(testDb, 'INSERT INTO ActionHistory (action, timestamp) VALUES (?, ?)', [`SIGNAL_${i}`, timestamp]);
     }
     const repo = SystemRepository.getInstance();
     const history = await repo.getActionHistory(testDb as any);
-    expect(history.length).toBe(5);
-    expect(history[0].action).toBe('SIGNAL');
+    expect(history).toHaveLength(200);
+    expect(history.map(row => row.action)).toEqual(
+      Array.from({ length: 200 }, (_, i) => `SIGNAL_${200 - i}`)
+    );
   });
 });
