@@ -135,6 +135,8 @@ import { SocialMediaService } from './src/server/services/socialMediaService.js'
 import { LookthroughService } from './src/server/services/lookthroughService.js';
 import { forensicRouter } from './src/server/routes/forensicRoutes.js';
 import { strategiesRouter } from './src/server/routes/strategies.js';
+import { factsRouter, platformRouter } from './src/server/routes/facts.js';
+import { apiVersioningMiddleware } from './src/server/middleware/ApiVersioning.js';
 
 if (dns && dns.setDefaultResultOrder) {
   dns.setDefaultResultOrder('ipv4first');
@@ -258,6 +260,8 @@ app.use('/api/v1/quant', quantRouter);                 // Institutional Quant & 
 app.use('/api/bedrock', bedrockRouter);                   // AWS Bedrock Claude Sonnet — direct to your AWS account
 app.use('/api/strategies', strategiesRouter);             // Strategy Library & Management (Phase 1: Data Layer)
 app.use('/api/technical-strategies', strategiesRouter);   // Strategy Library alias for ITAS
+app.use('/api/v2/facts', apiVersioningMiddleware, factsRouter); // Canonical v2 facts API
+app.use('/api/platform', platformRouter);                       // Platform health, provenance, refresh
 
 app.get('/api/analytics/lookthrough', async (req, res) => {
   try {
@@ -11033,6 +11037,45 @@ app.get('/api/holdings', async (req, res) => {
   }
 });
 
+
+// Prometheus exposition format metrics endpoint for Grafana scraping
+app.get('/api/prometheus-metrics', (_req, res) => {
+  const { CircuitBreakerRegistry } = require('./src/server/services/CircuitBreaker.js');
+  const providers = ['UPSTOX_API_V2', 'YAHOO_FINANCE', 'NSE_BHAVCOPY', 'SCREENER_IN'];
+  const stateToNum = (s: string) => s === 'CLOSED' ? 0 : s === 'OPEN' ? 1 : 2;
+
+  const lines: string[] = [
+    '# HELP fetch_success_total Total successful fetches per provider',
+    '# TYPE fetch_success_total counter',
+    '# HELP fetch_failure_total Total failed fetches per provider',
+    '# TYPE fetch_failure_total counter',
+    '# HELP cache_hit_total Total cache hits',
+    '# TYPE cache_hit_total counter',
+    'cache_hit_total 0',
+    '# HELP cache_miss_total Total cache misses',
+    '# TYPE cache_miss_total counter',
+    'cache_miss_total 0',
+    '# HELP fetch_latency_seconds Fetch latency histogram',
+    '# TYPE fetch_latency_seconds histogram',
+    '# HELP cost_inr_total Accumulated API cost in INR this month',
+    '# TYPE cost_inr_total gauge',
+    'cost_inr_total 0',
+    '# HELP circuit_breaker_state Circuit breaker state (0=CLOSED 1=OPEN 2=HALF_OPEN)',
+    '# TYPE circuit_breaker_state gauge',
+    '# HELP feature_flag_enabled Feature flag enabled state (0=disabled 1=enabled)',
+    '# TYPE feature_flag_enabled gauge',
+  ];
+
+  for (const provider of providers) {
+    const cb = CircuitBreakerRegistry.get(provider);
+    lines.push(`fetch_success_total{provider="${provider}"} 0`);
+    lines.push(`fetch_failure_total{provider="${provider}"} 0`);
+    lines.push(`circuit_breaker_state{provider="${provider}"} ${stateToNum(cb.state)}`);
+  }
+
+  res.setHeader('Content-Type', 'text/plain; version=0.0.4; charset=utf-8');
+  res.send(lines.join('\n') + '\n');
+});
 
 // 2. Alias GET /api/metrics (Delegates directly to unified buildDashboardPayload)
 app.get('/api/metrics', async (req, res) => {

@@ -1,0 +1,481 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "WealthOS Data Platform API",
+    "version": "2.0.0",
+    "description": "Canonical REST API for the WealthOS NRI portfolio platform. All v2 endpoints are served under `/api/v2` and include the `X-API-Version: 2` response header.",
+    "contact": {
+      "name": "WealthOS Platform Team",
+      "email": "platform@wealthos.internal"
+    }
+  },
+  "servers": [
+    { "url": "http://localhost:3000", "description": "Local development" }
+  ],
+  "tags": [
+    { "name": "facts", "description": "Canonical per-symbol fundamental facts" },
+    { "name": "platform", "description": "Platform health, provenance, and cache management" }
+  ],
+  "components": {
+    "schemas": {
+      "DataSource": {
+        "type": "string",
+        "enum": [
+          "UPSTOX_API_V2",
+          "YAHOO_FINANCE",
+          "NSE_BHAVCOPY",
+          "SCREENER_IN",
+          "COMPUTED_FROM_OHLCV",
+          "FORMULA_ESTIMATE",
+          "POINT_IN_TIME_SNAPSHOT"
+        ]
+      },
+      "NullReason": {
+        "type": "string",
+        "enum": [
+          "COLD_START_INSUFFICIENT_SAMPLE",
+          "NO_RESOLVED_TRADES",
+          "EXCHANGE_FEED_UNAVAILABLE",
+          "DELISTED_OR_SUSPENDED",
+          "DATA_QUALITY_QUARANTINED"
+        ]
+      },
+      "CircuitBreakerState": {
+        "type": "string",
+        "enum": ["CLOSED", "OPEN", "HALF_OPEN"]
+      },
+      "ProviderStatus": {
+        "type": "string",
+        "enum": ["healthy", "degraded", "down"]
+      },
+      "FactValue": {
+        "type": "object",
+        "required": ["value", "source", "fetchedAt", "ageHours", "isEstimated"],
+        "properties": {
+          "value": {
+            "oneOf": [{ "type": "number" }, { "type": "string" }, { "type": "null" }],
+            "description": "The resolved value, or null when unavailable."
+          },
+          "source": { "$ref": "#/components/schemas/DataSource" },
+          "fetchedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO-8601 UTC timestamp when the value was fetched."
+          },
+          "ageHours": {
+            "type": "number",
+            "description": "Elapsed hours since fetchedAt."
+          },
+          "isEstimated": {
+            "type": "boolean",
+            "description": "True when derived from a model or formula rather than a primary feed."
+          },
+          "nullReason": { "$ref": "#/components/schemas/NullReason" },
+          "stateHash": {
+            "type": "string",
+            "description": "Deterministic hash of inputs for cache invalidation."
+          }
+        }
+      },
+      "SymbolFacts": {
+        "type": "object",
+        "required": ["symbol", "resolvedAt", "lastPrice", "marketCap", "peRatio", "eps", "bookValue", "dividendYield", "revenue", "netProfit", "debtToEquity", "roce", "roe"],
+        "properties": {
+          "symbol": { "type": "string", "example": "RELIANCE" },
+          "isin": { "type": "string", "example": "INE002A01018" },
+          "name": { "type": "string", "example": "Reliance Industries Ltd" },
+          "exchange": { "type": "string", "example": "NSE" },
+          "sector": { "type": "string", "example": "Energy" },
+          "resolvedAt": { "type": "string", "format": "date-time" },
+          "lastPrice": { "$ref": "#/components/schemas/FactValue" },
+          "marketCap": { "$ref": "#/components/schemas/FactValue" },
+          "peRatio": { "$ref": "#/components/schemas/FactValue" },
+          "eps": { "$ref": "#/components/schemas/FactValue" },
+          "bookValue": { "$ref": "#/components/schemas/FactValue" },
+          "dividendYield": { "$ref": "#/components/schemas/FactValue" },
+          "revenue": { "$ref": "#/components/schemas/FactValue" },
+          "netProfit": { "$ref": "#/components/schemas/FactValue" },
+          "debtToEquity": { "$ref": "#/components/schemas/FactValue" },
+          "roce": { "$ref": "#/components/schemas/FactValue" },
+          "roe": { "$ref": "#/components/schemas/FactValue" }
+        }
+      },
+      "ApiError": {
+        "type": "object",
+        "required": ["success", "error"],
+        "properties": {
+          "success": { "type": "boolean", "enum": [false] },
+          "error": { "type": "string" },
+          "code": { "type": "string", "example": "INVALID_PARAMS" }
+        }
+      },
+      "ProviderHealth": {
+        "type": "object",
+        "required": ["provider", "status", "circuitBreakerState"],
+        "properties": {
+          "provider": { "type": "string" },
+          "status": { "$ref": "#/components/schemas/ProviderStatus" },
+          "circuitBreakerState": { "$ref": "#/components/schemas/CircuitBreakerState" },
+          "lastSuccessAt": { "type": "string", "format": "date-time" },
+          "errorRate5m": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      },
+      "ProvenanceEntry": {
+        "type": "object",
+        "required": ["field", "source", "fetchedAt", "ageHours", "isEstimated"],
+        "properties": {
+          "field": { "type": "string", "example": "lastPrice" },
+          "source": { "$ref": "#/components/schemas/DataSource" },
+          "fetchedAt": { "type": "string", "format": "date-time" },
+          "ageHours": { "type": "number" },
+          "isEstimated": { "type": "boolean" }
+        }
+      }
+    },
+    "parameters": {
+      "symbol": {
+        "name": "symbol",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string" },
+        "description": "NSE/BSE ticker symbol (e.g. RELIANCE, INFY, TCS).",
+        "example": "RELIANCE"
+      },
+      "forceRefresh": {
+        "name": "forceRefresh",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean", "default": false },
+        "description": "When true, bypasses the cache and fetches fresh data from providers."
+      }
+    },
+    "responses": {
+      "400": {
+        "description": "Invalid request parameters.",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ApiError" },
+            "example": { "success": false, "error": "symbol is required", "code": "INVALID_PARAMS" }
+          }
+        }
+      },
+      "500": {
+        "description": "Internal server error.",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ApiError" },
+            "example": { "success": false, "error": "Unexpected provider failure", "code": "INTERNAL_ERROR" }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/api/v2/facts/{symbol}": {
+      "get": {
+        "operationId": "getSymbolFacts",
+        "summary": "Fetch canonical facts for a symbol",
+        "description": "Returns a resolved `SymbolFacts` object for the given NSE/BSE ticker. Data is served from a multi-layer cache (L1 memory → L2 disk → live provider). Each field carries its own `source`, `fetchedAt`, and `ageHours` so consumers can assess freshness independently.",
+        "tags": ["facts"],
+        "parameters": [
+          { "$ref": "#/components/parameters/symbol" },
+          { "$ref": "#/components/parameters/forceRefresh" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully resolved facts.",
+            "headers": {
+              "X-API-Version": { "schema": { "type": "string", "example": "2" } }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success", "data"],
+                  "properties": {
+                    "success": { "type": "boolean", "enum": [true] },
+                    "data": { "$ref": "#/components/schemas/SymbolFacts" }
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "data": {
+                    "symbol": "RELIANCE",
+                    "isin": "INE002A01018",
+                    "name": "Reliance Industries Ltd",
+                    "exchange": "NSE",
+                    "sector": "Energy",
+                    "resolvedAt": "2026-11-01T09:30:00.000Z",
+                    "lastPrice": {
+                      "value": 2895.50,
+                      "source": "UPSTOX_API_V2",
+                      "fetchedAt": "2026-11-01T09:29:55.000Z",
+                      "ageHours": 0.001,
+                      "isEstimated": false
+                    },
+                    "marketCap": {
+                      "value": 1959000,
+                      "source": "SCREENER_IN",
+                      "fetchedAt": "2026-11-01T06:00:00.000Z",
+                      "ageHours": 3.5,
+                      "isEstimated": false
+                    },
+                    "peRatio": { "value": 27.4, "source": "SCREENER_IN", "fetchedAt": "2026-11-01T06:00:00.000Z", "ageHours": 3.5, "isEstimated": false },
+                    "eps": { "value": 105.7, "source": "SCREENER_IN", "fetchedAt": "2026-11-01T06:00:00.000Z", "ageHours": 3.5, "isEstimated": false },
+                    "bookValue": { "value": 1045.3, "source": "SCREENER_IN", "fetchedAt": "2026-11-01T06:00:00.000Z", "ageHours": 3.5, "isEstimated": false },
+                    "dividendYield": { "value": 0.35, "source": "SCREENER_IN", "fetchedAt": "2026-11-01T06:00:00.000Z", "ageHours": 3.5, "isEstimated": false },
+                    "revenue": { "value": 877893, "source": "SCREENER_IN", "fetchedAt": "2026-11-01T06:00:00.000Z", "ageHours": 3.5, "isEstimated": false },
+                    "netProfit": { "value": 71563, "source": "SCREENER_IN", "fetchedAt": "2026-11-01T06:00:00.000Z", "ageHours": 3.5, "isEstimated": false },
+                    "debtToEquity": { "value": 0.41, "source": "SCREENER_IN", "fetchedAt": "2026-11-01T06:00:00.000Z", "ageHours": 3.5, "isEstimated": false },
+                    "roce": { "value": 9.8, "source": "SCREENER_IN", "fetchedAt": "2026-11-01T06:00:00.000Z", "ageHours": 3.5, "isEstimated": false },
+                    "roe": { "value": 10.2, "source": "SCREENER_IN", "fetchedAt": "2026-11-01T06:00:00.000Z", "ageHours": 3.5, "isEstimated": false }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/400" },
+          "500": { "$ref": "#/components/responses/500" }
+        }
+      }
+    },
+    "/api/v2/facts/batch": {
+      "get": {
+        "operationId": "batchGetFacts",
+        "summary": "Batch fetch facts for multiple symbols",
+        "description": "Fetches `SymbolFacts` for up to 100 symbols in a single call. Results may be partially resolved — each symbol's fields carry individual provenance metadata.",
+        "tags": ["facts"],
+        "parameters": [
+          {
+            "name": "symbols",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": { "type": "string" },
+              "minItems": 1,
+              "maxItems": 100
+            },
+            "style": "form",
+            "explode": true,
+            "description": "Comma-separated list of ticker symbols.",
+            "example": ["RELIANCE", "INFY", "TCS"]
+          },
+          { "$ref": "#/components/parameters/forceRefresh" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Batch results (some entries may have null values with nullReason set).",
+            "headers": {
+              "X-API-Version": { "schema": { "type": "string", "example": "2" } }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success", "data", "meta"],
+                  "properties": {
+                    "success": { "type": "boolean", "enum": [true] },
+                    "data": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/SymbolFacts" }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "required": ["total", "resolved", "failed"],
+                      "properties": {
+                        "total": { "type": "integer" },
+                        "resolved": { "type": "integer" },
+                        "failed": { "type": "integer" }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "data": [],
+                  "meta": { "total": 3, "resolved": 3, "failed": 0 }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/400" },
+          "500": { "$ref": "#/components/responses/500" }
+        }
+      }
+    },
+    "/api/platform/health": {
+      "get": {
+        "operationId": "getPlatformHealth",
+        "summary": "Platform health check",
+        "description": "Returns the overall health of the data platform: provider circuit breaker states, cache hit rate, monthly cost, remaining budget, and active feature flags.",
+        "tags": ["platform"],
+        "responses": {
+          "200": {
+            "description": "Platform health status.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success", "data"],
+                  "properties": {
+                    "success": { "type": "boolean", "enum": [true] },
+                    "data": {
+                      "type": "object",
+                      "required": ["status", "providers", "cacheHitRate", "monthlyCostInr", "budgetRemainingInr", "featureFlags", "uptimeSeconds"],
+                      "properties": {
+                        "status": { "$ref": "#/components/schemas/ProviderStatus" },
+                        "providers": {
+                          "type": "array",
+                          "items": { "$ref": "#/components/schemas/ProviderHealth" }
+                        },
+                        "cacheHitRate": { "type": "number", "minimum": 0, "maximum": 1 },
+                        "monthlyCostInr": { "type": "number", "description": "Accumulated API cost in INR for the current billing month." },
+                        "budgetRemainingInr": { "type": "number", "description": "Remaining API budget in INR before BudgetEnforcer blocks provider calls." },
+                        "featureFlags": {
+                          "type": "object",
+                          "additionalProperties": { "type": "boolean" }
+                        },
+                        "uptimeSeconds": { "type": "number" }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "data": {
+                    "status": "healthy",
+                    "providers": [
+                      { "provider": "UPSTOX_API_V2", "status": "healthy", "circuitBreakerState": "CLOSED", "lastSuccessAt": "2026-11-01T09:29:55.000Z", "errorRate5m": 0 },
+                      { "provider": "YAHOO_FINANCE", "status": "healthy", "circuitBreakerState": "CLOSED" }
+                    ],
+                    "cacheHitRate": 0.91,
+                    "monthlyCostInr": 480.0,
+                    "budgetRemainingInr": 1520.0,
+                    "featureFlags": { "USE_UPSTOX_PRICES": true, "ENABLE_SCREENER_FUNDAMENTALS": true },
+                    "uptimeSeconds": 86400
+                  }
+                }
+              }
+            }
+          },
+          "500": { "$ref": "#/components/responses/500" }
+        }
+      }
+    },
+    "/api/platform/provenance/{symbol}": {
+      "get": {
+        "operationId": "getProvenance",
+        "summary": "Data provenance for a symbol",
+        "description": "Returns field-level provenance for the most recently resolved `SymbolFacts` for a symbol — which source provided each field, when it was fetched, and whether it was estimated.",
+        "tags": ["platform"],
+        "parameters": [
+          { "$ref": "#/components/parameters/symbol" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Provenance entries.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success", "data"],
+                  "properties": {
+                    "success": { "type": "boolean", "enum": [true] },
+                    "data": {
+                      "type": "object",
+                      "required": ["symbol", "resolvedAt", "entries"],
+                      "properties": {
+                        "symbol": { "type": "string" },
+                        "resolvedAt": { "type": "string", "format": "date-time" },
+                        "entries": {
+                          "type": "array",
+                          "items": { "$ref": "#/components/schemas/ProvenanceEntry" }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "data": {
+                    "symbol": "RELIANCE",
+                    "resolvedAt": "2026-11-01T09:30:00.000Z",
+                    "entries": [
+                      { "field": "lastPrice", "source": "UPSTOX_API_V2", "fetchedAt": "2026-11-01T09:29:55.000Z", "ageHours": 0.001, "isEstimated": false },
+                      { "field": "marketCap", "source": "SCREENER_IN", "fetchedAt": "2026-11-01T06:00:00.000Z", "ageHours": 3.5, "isEstimated": false }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/400" },
+          "500": { "$ref": "#/components/responses/500" }
+        }
+      }
+    },
+    "/api/platform/refresh": {
+      "post": {
+        "operationId": "triggerRefresh",
+        "summary": "Trigger a cache refresh",
+        "description": "Enqueues a background refresh for the specified symbols, optionally restricted to specific providers. Useful after a market halt or data-quality event.",
+        "tags": ["platform"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["symbols"],
+                "properties": {
+                  "symbols": {
+                    "type": "array",
+                    "items": { "type": "string" },
+                    "minItems": 1,
+                    "maxItems": 100,
+                    "description": "Ticker symbols to refresh."
+                  },
+                  "providers": {
+                    "type": "array",
+                    "items": { "$ref": "#/components/schemas/DataSource" },
+                    "description": "Restrict refresh to these providers. Omit to use all healthy providers."
+                  }
+                }
+              },
+              "example": { "symbols": ["RELIANCE", "INFY"], "providers": ["UPSTOX_API_V2"] }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Refresh queued.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success", "data"],
+                  "properties": {
+                    "success": { "type": "boolean", "enum": [true] },
+                    "data": {
+                      "type": "object",
+                      "required": ["queued", "skipped"],
+                      "properties": {
+                        "queued": { "type": "array", "items": { "type": "string" } },
+                        "skipped": { "type": "array", "items": { "type": "string" } },
+                        "reason": { "type": "string", "description": "Why some symbols were skipped (e.g. budget exhausted)." }
+                      }
+                    }
+                  }
+                },
+                "example": { "success": true, "data": { "queued": ["RELIANCE", "INFY"], "skipped": [] } }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/400" },
+          "500": { "$ref": "#/components/responses/500" }
+        }
+      }
+    }
+  }
+}

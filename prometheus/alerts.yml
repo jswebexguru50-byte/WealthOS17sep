@@ -1,0 +1,58 @@
+groups:
+  - name: wealthos_data_platform
+    rules:
+      - alert: FetchSuccessRateLow
+        expr: |
+          (
+            rate(fetch_success_total[5m])
+            /
+            (rate(fetch_success_total[5m]) + rate(fetch_failure_total[5m]))
+          ) < 0.95
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Fetch success rate below 95%'
+          description: 'Provider {{ $labels.provider }} success rate is {{ printf "%.2f" $value }} over the last 5m.'
+
+      - alert: CacheHitRateLow
+        expr: |
+          (
+            cache_hit_total
+            /
+            (cache_hit_total + cache_miss_total)
+          ) < 0.70
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Cache hit rate below 70%'
+          description: 'Cache hit rate is {{ printf "%.2f" $value }}. Consider warming the cache or increasing TTLs.'
+
+      - alert: ProviderLatencyHigh
+        expr: |
+          histogram_quantile(0.95, rate(fetch_latency_seconds_bucket[5m])) > 2
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Provider p95 latency above 2s'
+          description: 'Provider {{ $labels.provider }} p95 latency is {{ printf "%.2f" $value }}s.'
+
+      - alert: MonthlyCostBudgetExceeded
+        expr: cost_inr_total > 2000
+        for: 0m
+        labels:
+          severity: critical
+        annotations:
+          summary: 'Monthly API cost budget exceeded ₹2000'
+          description: 'Accumulated API cost is ₹{{ printf "%.2f" $value }}. Provider calls should be blocked until next billing cycle.'
+
+      - alert: CircuitBreakerOpen
+        expr: circuit_breaker_state == 1
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: 'Circuit breaker OPEN for provider {{ $labels.provider }}'
+          description: 'The circuit breaker for {{ $labels.provider }} has been OPEN for over 1 minute. Fallback is active.'

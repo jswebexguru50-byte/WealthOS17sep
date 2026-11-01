@@ -9,6 +9,7 @@ export default defineConfig({
     include: [
       'tests/unit/**/*.test.ts',
       'tests/integration/**/*.test.ts',
+      'tests/chaos/**/*.test.ts',
       'tests/reference/**/*.test.ts',
       'tests/v67/**/*.test.ts',
       'tests/v672/**/*.test.ts',
