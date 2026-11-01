@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 import type { SmartAlert } from '../server/services/AlertEngine.js';
 
+import { apiClient } from '../lib/apiClient';
+
 interface SmartAlertsModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -29,8 +31,7 @@ export function SmartAlertsModal({ isOpen, onClose, onSelectScrip }: SmartAlerts
   const fetchAlerts = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/alerts');
-      const data = await res.json();
+      const data = await apiClient.get('/api/alerts');
       if (data.success && Array.isArray(data.alerts)) {
         setAlerts(data.alerts);
       }

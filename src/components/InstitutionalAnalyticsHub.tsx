@@ -38,6 +38,8 @@ import { MomentumReasoningPanel } from './MomentumReasoningPanel.js';
 import { AutonomousSmartMoneySentinelView } from './AutonomousSmartMoneySentinelView.js';
 import { SmartMoneyTimeframe } from '../server/services/SmartMoneyFlowEngine.js';
 
+import { apiClient } from '../lib/apiClient';
+
 interface InstitutionalAnalyticsHubProps {
   selectedPortfolio: string;
   setSelectedPortfolio: (p: string) => void;
@@ -158,8 +160,8 @@ export function InstitutionalAnalyticsHub({
 
       // Stage 1: Load Dashboard & MasterTickers first for instant (<50ms) rendering
       const [dashRes, masterRes] = await Promise.all([
-        fetch(`/api/dashboard${portParam}`).then(r => r.json()).catch(() => ({ holdings: [], metrics: {} })),
-        fetch('/api/master-tickers').then(r => r.json()).catch(() => ({ tickers: [] }))
+        apiClient.get(`/api/dashboard${portParam}`).catch(() => ({ holdings: [], metrics: {} })),
+        apiClient.get('/api/master-tickers').catch(() => ({ tickers: [] }))
       ]);
 
       let list = (dashRes && dashRes.holdings && dashRes.holdings.length > 0) ? [...dashRes.holdings] : [];
@@ -185,8 +187,7 @@ export function InstitutionalAnalyticsHub({
           })();
 
       // Fetch dynamic live market benchmarks in parallel
-      fetch('/api/market-benchmarks')
-        .then(r => r.json())
+      apiClient.get('/api/market-benchmarks')
         .then(benchRes => {
           const liveBenchmarks = (benchRes?.benchmarks && benchRes.benchmarks.length > 0)
             ? benchRes.benchmarks
@@ -213,8 +214,7 @@ export function InstitutionalAnalyticsHub({
       setLoading(false);
 
       // Stage 2: Load detailed multi-period and scrip XIRR analytics
-      fetch(`/api/analytics${paramStr}`)
-        .then(r => r.json())
+      apiClient.get(`/api/analytics${paramStr}`)
         .then(analyticsRes => {
           if (analyticsRes && analyticsRes.success) {
             setAnalyticsData(analyticsRes);
@@ -300,8 +300,8 @@ export function InstitutionalAnalyticsHub({
     setSmartMoneyLoading(true);
     try {
       const [secRes, stockRes] = await Promise.all([
-        fetch(`/api/smart-money/sectors?timeframe=${tf}`).then(r => r.json()).catch(() => ({ sectors: [] })),
-        fetch(`/api/smart-money/stocks?timeframe=${tf}&limit=30`).then(r => r.json()).catch(() => ({ topAccumulation: [], topDistribution: [] }))
+        apiClient.get(`/api/smart-money/sectors?timeframe=${tf}`).catch(() => ({ sectors: [] })),
+        apiClient.get(`/api/smart-money/stocks?timeframe=${tf}&limit=30`).catch(() => ({ topAccumulation: [], topDistribution: [] }))
       ]);
 
       if (secRes?.success && Array.isArray(secRes.sectors)) {
@@ -331,8 +331,7 @@ export function InstitutionalAnalyticsHub({
     setTvLoading(true);
     setTvMomentumReport(null);
     try {
-      const res = await fetch(`/api/momentum-reasoning/${encodeURIComponent(symbol)}`);
-      const data = await res.json();
+      const data = await apiClient.get(`/api/momentum-reasoning/${encodeURIComponent(symbol)}`);
       if (data?.success && data?.data) {
         setTvMomentumReport(data.data);
       }

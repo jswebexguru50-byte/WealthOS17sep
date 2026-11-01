@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Search, TrendingUp, TrendingDown, DollarSign, Calendar, RefreshCw, Award, PieChart, Layers, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 
+import { apiClient } from '../lib/apiClient';
+
 interface ScripPerformanceInspectorProps {
   selectedPortfolio?: string;
 }
@@ -18,8 +20,7 @@ export const ScripPerformanceInspector: React.FC<ScripPerformanceInspectorProps>
     async function fetchScripsList() {
       setLoadingList(true);
       try {
-        const res = await fetch('/api/analytics/scrips-list');
-        const json = await res.json();
+        const json = await apiClient.get('/api/analytics/scrips-list');
         if (json.success && Array.isArray(json.scrips)) {
           setScripsList(json.scrips);
         }
@@ -38,8 +39,7 @@ export const ScripPerformanceInspector: React.FC<ScripPerformanceInspectorProps>
     setError(null);
     try {
       const portParam = selectedPortfolio && selectedPortfolio !== 'Combined' ? selectedPortfolio : 'All';
-      const res = await fetch(`/api/analytics/scrip-performance?query=${encodeURIComponent(searchTarget.trim())}&portfolio=${encodeURIComponent(portParam)}`);
-      const json = await res.json();
+      const json = await apiClient.get(`/api/analytics/scrip-performance?query=${encodeURIComponent(searchTarget.trim())}&portfolio=${encodeURIComponent(portParam)}`);
       if (json.success && json.scrip) {
         setData(json.scrip);
       } else {

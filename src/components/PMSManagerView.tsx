@@ -2,6 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Upload, FileText, CheckCircle, AlertTriangle, ArrowRight, DollarSign, TrendingUp, TrendingDown, BookOpen, Receipt, RefreshCcw, Download, Edit3, Trash2, Plus, ShieldCheck, Search, Calculator, CheckCircle2, AlertOctagon, FileSpreadsheet, ChevronDown, ChevronUp, Sliders } from 'lucide-react';
 import { PMSImportView } from './PMSImportView.js';
 
+import { apiClient } from '../lib/apiClient';
+
+import { safeFetchJson } from '../lib/api';
+
 export const PMSManagerView: React.FC<{
   portfolios: string[];
   selectedPortfolio: string;
@@ -79,12 +83,12 @@ export const PMSManagerView: React.FC<{
     setLoading(true);
     try {
       const [dbRes, holdRes] = await Promise.all([
-        fetch(`/api/pms/dashboard?portfolio=${encodeURIComponent(selectedPortfolio)}`),
-        fetch(`/api/pms/reconcile-holdings?portfolio=${encodeURIComponent(selectedPortfolio)}`)
+        safeFetchJson(`/api/pms/dashboard?portfolio=${encodeURIComponent(selectedPortfolio)}`),
+        safeFetchJson(`/api/pms/reconcile-holdings?portfolio=${encodeURIComponent(selectedPortfolio)}`)
       ]);
       
-      const dbData = await dbRes.json();
-      const holdData = await holdRes.json();
+      const dbData = dbRes.data;
+      const holdData = holdRes.data;
 
       if (dbData.success) setDashboardData(dbData.data);
       if (holdData.success) setHoldingsRecon(holdData.data);
@@ -100,8 +104,7 @@ export const PMSManagerView: React.FC<{
     if (dividendLoaded || dividendLoading) return;
     setDividendLoading(true);
     try {
-      const res = await fetch(`/api/pms/reconcile-dividends?portfolio=${encodeURIComponent(selectedPortfolio)}`);
-      const data = await res.json();
+      const data = await apiClient.get(`/api/pms/reconcile-dividends?portfolio=${encodeURIComponent(selectedPortfolio)}`);
       if (data.success) { setReconData(data); setDividendLoaded(true); }
     } catch (err) {
       console.error(err);
@@ -112,8 +115,7 @@ export const PMSManagerView: React.FC<{
 
   const fetchFeeConfig = async () => {
     try {
-      const res = await fetch(`/api/pms/fee-config?portfolio=${encodeURIComponent(selectedPortfolio)}`);
-      const data = await res.json();
+      const data = await apiClient.get(`/api/pms/fee-config?portfolio=${encodeURIComponent(selectedPortfolio)}`);
       if (data.success && data.data) {
         setFeeConfig({
           annual_fee_rate: data.data.annual_fee_rate ?? 1.0,
@@ -140,8 +142,7 @@ export const PMSManagerView: React.FC<{
         calculationBasis: cfg.calculation_basis,
         includeExpenses: String(cfg.include_expenses === 1)
       });
-      const res = await fetch(`/api/pms/fee-audit?${params.toString()}`);
-      const data = await res.json();
+      const data = await apiClient.get(`/api/pms/fee-audit?${params.toString()}`);
       if (data.success) {
         setFeeAuditData(data.data);
         setFeeAuditLoaded(true);
@@ -156,15 +157,7 @@ export const PMSManagerView: React.FC<{
   const handleSaveFeeConfig = async () => {
     setFeeConfigSaving(true);
     try {
-      const res = await fetch('/api/pms/fee-config', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          portfolio: selectedPortfolio,
-          ...feeConfig
-        })
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/pms/fee-config');
       if (data.success) {
         await fetchFeeAudit();
         alert(`Agreed fee terms saved for ${selectedPortfolio}!`);
@@ -269,12 +262,7 @@ export const PMSManagerView: React.FC<{
         }
       });
 
-      const res = await fetch('/api/pms/reconcile-apply', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ portfolio: selectedPortfolio, transactions: txnsToCommit })
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/pms/reconcile-apply');
       if (data.success) {
         setCommitStatus(data.message || `Successfully processed ${txnsToCommit.length} transactions (${data.inserted || 0} inserted, ${data.skipped || 0} duplicates prevented) into portfolio ${selectedPortfolio}!`);
         setParsedPmsRecords(null);
@@ -295,12 +283,7 @@ export const PMSManagerView: React.FC<{
     if (!confirm(`Run automatic duplicate cleanup on portfolio '${selectedPortfolio}'? This will retain one clean record per transaction and remove any duplicates.`)) return;
     setTemplateLoading(true);
     try {
-      const res = await fetch('/api/pms/cleanup-duplicates', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ portfolio: selectedPortfolio })
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/pms/cleanup-duplicates');
       if (data.success) {
         alert(data.message);
         setCommitStatus(data.message);
@@ -320,12 +303,7 @@ export const PMSManagerView: React.FC<{
     if (!confirm(`Undo the most recent import batch in portfolio '${selectedPortfolio}'?`)) return;
     setTemplateLoading(true);
     try {
-      const res = await fetch('/api/pms/undo-recent-batch', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ portfolio: selectedPortfolio })
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/pms/undo-recent-batch');
       if (data.success) {
         alert(data.message);
         setCommitStatus(data.message);
@@ -353,8 +331,7 @@ export const PMSManagerView: React.FC<{
       fd.append('portfolio', selectedPortfolio);
       if (reconTxnFile)  fd.append('txnFile',  reconTxnFile);
       if (reconBankFile) fd.append('bankFile', reconBankFile);
-      const res = await fetch('/api/pms/reconcile-upload', { method: 'POST', body: fd });
-      const data = await res.json();
+      const data = await apiClient.post('/api/pms/reconcile-upload');
       if (data.success) setReconResult(data);
       else setReconError(data.message || 'Upload failed');
     } catch (e: any) {
@@ -368,12 +345,7 @@ export const PMSManagerView: React.FC<{
     if (!reconResult || !reconResult.missingTransactions?.length) return;
     setReconApplying(true); setReconError(null);
     try {
-      const res = await fetch('/api/pms/reconcile-apply', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ portfolio: selectedPortfolio, transactions: reconResult.missingTransactions })
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/pms/reconcile-apply');
       if (data.success) {
         setReconApplyResult(data);
         setReconResult((prev: any) => prev ? { ...prev, missingCount: 0, missingTransactions: [] } : prev);
@@ -440,7 +412,7 @@ export const PMSManagerView: React.FC<{
   const handleTxnDelete = async (id: number) => {
     if (!confirm('Are you sure you want to delete this transaction?')) return;
     try {
-      const res = await fetch(`/api/transactions/${id}`, { method: 'DELETE' });
+      const res = await safeFetchJson(`/api/transactions/${id}`, { method: 'DELETE' });
       if (res.ok) {
         fetchDashboardData();
         onUpload();

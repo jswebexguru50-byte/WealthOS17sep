@@ -27,6 +27,10 @@ import {
 } from 'lucide-react';
 import { formatINR } from '../lib/formatters.js';
 
+import { apiClient } from '../lib/apiClient';
+
+import { safeFetchJson } from '../lib/api';
+
 export interface MacroRegimeData {
   regime: 'NORMAL' | 'BEARISH';
   benchmarkSymbol: string;
@@ -139,16 +143,16 @@ export const SmartMoneyMomentumVpaView: React.FC<SmartMoneyMomentumVpaViewProps>
     setLoading(true);
     try {
       const [scanRes, alertRes] = await Promise.all([
-        fetch('/api/momentum-vpa/scanner'),
-        fetch('/api/momentum-vpa/alerts')
+        safeFetchJson('/api/momentum-vpa/scanner'),
+        safeFetchJson('/api/momentum-vpa/alerts')
       ]);
 
-      const scanJson = await scanRes.json();
+      const scanJson = scanRes.data;
       if (scanJson?.success && Array.isArray(scanJson.data)) {
         setItems(scanJson.data);
       }
 
-      const alertJson = await alertRes.json();
+      const alertJson = alertRes.data;
       if (alertJson?.success && Array.isArray(alertJson.data)) {
         setAlerts(alertJson.data);
       }
@@ -190,16 +194,11 @@ export const SmartMoneyMomentumVpaView: React.FC<SmartMoneyMomentumVpaViewProps>
     setOrderSubmitting(true);
     setOrderSuccessMsg(null);
     try {
-      const res = await fetch('/api/momentum-vpa/orders/arm-staggered', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const data = await apiClient.post('/api/momentum-vpa/orders/arm-staggered', JSON.stringify({
           symbol: orderModalItem.symbol,
           portfolio: selectedPortfolio,
           totalCapital: orderCapital
-        })
-      });
-      const data = await res.json();
+        }));
       if (data?.success) {
         setOrderSuccessMsg(`Successfully armed 3-Tranche Staggered Bracket Order (${data.data.id})! Hard stop pegged at ₹${orderModalItem.pointZeroStopLoss}.`);
         setTimeout(() => {

@@ -15,6 +15,8 @@ import {
 } from 'lucide-react';
 import { formatINR } from '../lib/formatters.js';
 
+import { apiClient } from '../lib/apiClient';
+
 export interface RealTimeAlert {
   id: string;
   timestamp: string;
@@ -45,8 +47,7 @@ export const RealTimeAlertBanner: React.FC<RealTimeAlertBannerProps> = ({ onInsp
     let isMounted = true;
 
     // 1. Initial snapshot fetch
-    fetch('/api/alerts/active')
-      .then(res => res.json())
+    apiClient.get('/api/alerts/active')
       .then(json => {
         if (isMounted && json.success && Array.isArray(json.data)) {
           setAlerts(json.data.filter((a: RealTimeAlert) => !a.dismissed));
@@ -86,7 +87,7 @@ export const RealTimeAlertBanner: React.FC<RealTimeAlertBannerProps> = ({ onInsp
   const handleDismiss = async (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
     try {
-      await fetch(`/api/alerts/${id}/dismiss`, { method: 'POST' });
+      await apiClient.post(`/api/alerts/${id}/dismiss`);
       setAlerts(prev => prev.map(a => a.id === id ? { ...a, dismissed: true } : a));
       if (currentIndex >= activeAlerts.length - 1 && currentIndex > 0) {
         setCurrentIndex(currentIndex - 1);

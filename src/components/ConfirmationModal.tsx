@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { apiClient } from '../lib/apiClient';
 import { motion, AnimatePresence } from 'motion/react';
 import { AlertTriangle, X } from 'lucide-react';
 
@@ -106,11 +107,7 @@ export function ConfirmationModal({
               onClick={async () => {
                 if (isDangerous) {
                   try {
-                    await fetch('/api/backup', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ tag: 'pre_deletion_guard' })
-                    });
+                    await apiClient.post('/api/backup', { tag: 'pre_deletion_guard' });
                   } catch (e) {
                     console.warn('Backup trigger warning:', e);
                   }

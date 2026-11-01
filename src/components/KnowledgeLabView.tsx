@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { apiClient } from '../lib/apiClient';
+
 import {
   Search,
   Youtube,
@@ -250,8 +252,7 @@ export const KnowledgeLabView: React.FC = () => {
 
     const interval = setInterval(async () => {
       try {
-        const res = await fetch(`/api/v1/yriks/session/${activeSessionId}`);
-        const json = await res.json();
+        const json = await apiClient.get(`/api/v1/yriks/session/${activeSessionId}`);
         if (json.success && json.data) {
           setSessionData(json.data);
           if (json.data.session.status === 'COMPLETED' || json.data.session.status === 'FAILED') {
@@ -271,8 +272,7 @@ export const KnowledgeLabView: React.FC = () => {
   const fetchNotebookLMExport = async (sessionId: string) => {
     setIsLoadingNotebookLM(true);
     try {
-      const res = await fetch(`/api/v1/yriks/export/notebooklm/${sessionId}`);
-      const json = await res.json();
+      const json = await apiClient.get(`/api/v1/yriks/export/notebooklm/${sessionId}`);
       if (json.success) {
         setNotebookLMDossier({
           markdown: json.markdown,
@@ -290,8 +290,7 @@ export const KnowledgeLabView: React.FC = () => {
 
   const fetchRecentSessions = async () => {
     try {
-      const res = await fetch('/api/v1/yriks/sessions?limit=10');
-      const json = await res.json();
+      const json = await apiClient.get('/api/v1/yriks/sessions?limit=10');
       if (json.success && json.data) {
         setRecentSessions(json.data);
         if (json.data.length > 0 && !activeSessionId) {
@@ -306,8 +305,7 @@ export const KnowledgeLabView: React.FC = () => {
   const loadSession = async (sessionId: string) => {
     setActiveSessionId(sessionId);
     try {
-      const res = await fetch(`/api/v1/yriks/session/${sessionId}`);
-      const json = await res.json();
+      const json = await apiClient.get(`/api/v1/yriks/session/${sessionId}`);
       if (json.success && json.data) {
         setSessionData(json.data);
         fetchNotebookLMExport(sessionId);
@@ -320,8 +318,7 @@ export const KnowledgeLabView: React.FC = () => {
   const triggerExpansion = async (topic: string) => {
     setIsExpanding(true);
     try {
-      const res = await fetch(`/api/v1/yriks/expand?topic=${encodeURIComponent(topic)}`);
-      const json = await res.json();
+      const json = await apiClient.get(`/api/v1/yriks/expand?topic=${encodeURIComponent(topic)}`);
       if (json.success && json.data) {
         setExpansion(json.data);
       }
@@ -338,8 +335,7 @@ export const KnowledgeLabView: React.FC = () => {
     setIsSearchingVideos(true);
     setSearchStatus('Probing YouTube & web for top-rated, most-viewed videos...');
     try {
-      const res = await fetch(`/api/v1/yriks/search?topic=${encodeURIComponent(topicInput)}&count=${videoCount}`);
-      const json = await res.json();
+      const json = await apiClient.get(`/api/v1/yriks/search?topic=${encodeURIComponent(topicInput)}&count=${videoCount}`);
       if (json.success && json.data && json.data.length > 0) {
         setDiscoveredVideos(json.data);
         const allIds = new Set<string>(json.data.map((v: any) => v.video_id));
@@ -382,16 +378,11 @@ export const KnowledgeLabView: React.FC = () => {
     }
     setIsStartingPipeline(true);
     try {
-      const res = await fetch('/api/v1/yriks/session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const json = await apiClient.post('/api/v1/yriks/session', JSON.stringify({
           topic: topicInput,
           targetCount: chosen.length,
           selectedVideos: chosen
-        })
-      });
-      const json = await res.json();
+        }));
       if (json.success && json.sessionId) {
         setActiveSessionId(json.sessionId);
         triggerExpansion(topicInput);
@@ -409,12 +400,7 @@ export const KnowledgeLabView: React.FC = () => {
     if (!topicInput.trim()) return;
     setIsStartingPipeline(true);
     try {
-      const res = await fetch('/api/v1/yriks/session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic: topicInput, targetCount: videoCount })
-      });
-      const json = await res.json();
+      const json = await apiClient.post('/api/v1/yriks/session', { topic: topicInput, targetCount: videoCount });
       if (json.success && json.sessionId) {
         setActiveSessionId(json.sessionId);
         triggerExpansion(topicInput);

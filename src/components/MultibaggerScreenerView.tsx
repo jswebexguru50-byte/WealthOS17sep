@@ -32,6 +32,10 @@ import {
 import { formatINR, formatPct } from '../lib/formatters.js';
 import { TradingViewChartWidget } from './TradingViewChartWidget.js';
 
+import { apiClient } from '../lib/apiClient';
+
+import { safeFetchJson } from '../lib/api';
+
 export interface Phase1ExclusionAudit {
   passed: boolean;
   marketCapCr: number;
@@ -177,8 +181,7 @@ export const MultibaggerScreenerView: React.FC<MultibaggerScreenerViewProps> = (
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('/api/v1/multibagger/radar');
-      const json = await res.json();
+      const json = await apiClient.get('/api/v1/multibagger/radar');
       if (json.success && json.data) {
         setReport(json.data);
       } else {
@@ -199,9 +202,9 @@ export const MultibaggerScreenerView: React.FC<MultibaggerScreenerViewProps> = (
   const handleDownloadExcel = async () => {
     setDownloadingExcel(true);
     try {
-      const res = await fetch('/api/v1/consensus/export-excel?portfolio=ALL');
-      if (!res.ok) throw new Error(`Export failed with HTTP ${res.status}`);
-      const blob = await res.blob();
+      const rawRes = await fetch('/api/v1/consensus/export-excel?portfolio=ALL');
+      if (!rawRes.ok) throw new Error(`Export failed with HTTP ${rawRes.status}`);
+      const blob = await rawRes.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;

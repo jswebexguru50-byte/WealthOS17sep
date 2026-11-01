@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { apiClient } from '../lib/apiClient';
 import {
   FileSpreadsheet, HardDrive, FolderSync, ShieldCheck, Layers, Upload, Download,
   CheckCircle2, AlertTriangle, ArrowRight, RefreshCw, FileCheck, Zap, Sparkles,
@@ -78,8 +79,7 @@ export function ImportsHubView({
 
   const fetchDownloadsSummary = async () => {
     try {
-      const res = await fetch('/api/zerodha/tradebook/downloads-summary');
-      const data = await res.json();
+      const data = await apiClient.get('/api/zerodha/tradebook/downloads-summary');
       if (data.success) {
         setDownloadsSummary(data);
       }
@@ -91,11 +91,7 @@ export function ImportsHubView({
     setAutoScanReport(null);
     setTradebookStatusMsg(null);
     try {
-      const res = await fetch('/api/zerodha/tradebook/scan-downloads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/zerodha/tradebook/scan-downloads');
       if (data.success) {
         setAutoScanReport(data);
         setTradebookStatusMsg({
@@ -121,8 +117,7 @@ export function ImportsHubView({
   const fetchSyncCheckpoint = async (port?: string) => {
     const targetPort = port || tradebookPortfolio;
     try {
-      const res = await fetch(`/api/zerodha/tradebook/checkpoint?portfolio=${encodeURIComponent(targetPort)}`);
-      const data = await res.json();
+      const data = await apiClient.get(`/api/zerodha/tradebook/checkpoint?portfolio=${encodeURIComponent(targetPort)}`);
       if (data.success) {
         setSyncCheckpoint(data);
       }
@@ -135,16 +130,7 @@ export function ImportsHubView({
     setAutoDownloadingConsole(true);
     setTradebookStatusMsg(null);
     try {
-      const res = await fetch('/api/zerodha/tradebook/auto-download', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          headless: false,
-          portfolio: tradebookPortfolio,
-          forceFull: forceFullSync
-        })
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/zerodha/tradebook/auto-download', { headless: false, portfolio: tradebookPortfolio, forceFull: forceFullSync });
       if (data.success) {
         setTradebookStatusMsg({
           type: 'success',
@@ -179,8 +165,7 @@ export function ImportsHubView({
     const targetPort = port || zerodhaReconPortfolio;
     setZerodhaReconLoading(true);
     try {
-      const res = await fetch(`/api/zerodha/reconciliation?portfolio=${encodeURIComponent(targetPort)}`);
-      const data = await res.json();
+      const data = await apiClient.get(`/api/zerodha/reconciliation?portfolio=${encodeURIComponent(targetPort)}`);
       if (data.success) {
         setZerodhaReconReport(data);
       }
@@ -195,19 +180,7 @@ export function ImportsHubView({
     if (!exceptionModalItem) return;
     setApprovingException(true);
     try {
-      const res = await fetch('/api/zerodha/reconciliation/approve-exception', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          portfolio: zerodhaReconPortfolio,
-          scripOrTradeId: exceptionModalItem.isin || exceptionModalItem.symbol,
-          exceptionType: 'DEMAT_VS_LEDGER_QTY',
-          discrepancyDetail: `Demat Qty: ${exceptionModalItem.apiQty}, Ledger Qty: ${exceptionModalItem.ledgerQty} (Diff: ${exceptionModalItem.diffQty})`,
-          reasonCategory: exceptionReasonCategory,
-          reasonNotes: exceptionReasonNotes
-        })
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/zerodha/reconciliation/approve-exception', { portfolio: zerodhaReconPortfolio, scripOrTradeId: exceptionModalItem.isin || exceptionModalItem.symbol, exceptionType: 'DEMAT_VS_LEDGER_QTY', discrepancyDetail: `Demat Qty: ${exceptionModalItem.apiQty}, Ledger Qty: ${exceptionModalItem.ledgerQty} (Diff: ${exceptionModalItem.diffQty})`, reasonCategory: exceptionReasonCategory, reasonNotes: exceptionReasonNotes });
       if (data.success) {
         setExceptionModalItem(null);
         setExceptionReasonNotes('');
@@ -223,11 +196,7 @@ export function ImportsHubView({
   const handleRevokeException = async (exceptionId: number) => {
     if (!confirm('Are you sure you want to revoke this approved exception?')) return;
     try {
-      await fetch('/api/zerodha/reconciliation/revoke-exception', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ exceptionId })
-      });
+      await apiClient.post('/api/zerodha/reconciliation/revoke-exception', { exceptionId });
       handleFetchReconciliation(zerodhaReconPortfolio);
     } catch (e: any) {
       alert(`Failed to revoke exception: ${e.message}`);
@@ -273,15 +242,7 @@ export function ImportsHubView({
     setTradebookCommitting(true);
     setTradebookStatusMsg(null);
     try {
-      const res = await fetch('/api/zerodha/tradebook/commit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          batchId: tradebookValidationResult.batchId,
-          portfolio: tradebookPortfolio
-        })
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/zerodha/tradebook/commit', { batchId: tradebookValidationResult.batchId, portfolio: tradebookPortfolio });
       if (data.success) {
         setTradebookStatusMsg({
           type: 'success',
@@ -337,8 +298,7 @@ export function ImportsHubView({
   const handleAutoDetectZerodha = async (silent: boolean = false): Promise<boolean> => {
     setZerodhaAutoDetecting(true);
     try {
-      const res = await fetch('/api/zerodha/auto-detect');
-      const data = await res.json();
+      const data = await apiClient.get('/api/zerodha/auto-detect');
       if (data.success && data.enctoken) {
         setDetectedZerodhaSession({
           user_id: data.user_id,
@@ -369,8 +329,7 @@ export function ImportsHubView({
   const handleLaunchConnectedBrowser = async () => {
     setLaunchingBrowser(true);
     try {
-      const res = await fetch('/api/zerodha/launch-browser', { method: 'POST' });
-      const data = await res.json();
+      const data = await apiClient.post('/api/zerodha/launch-browser');
       if (data.success) {
         setSyncStatusMsg({
           type: 'success',
@@ -399,7 +358,7 @@ export function ImportsHubView({
 
   const handleClearZerodhaSession = async () => {
     try {
-      await fetch('/api/zerodha/clear-session', { method: 'POST' });
+      await apiClient.post('/api/zerodha/clear-session');
       setDetectedZerodhaSession(null);
       setZerodhaToken('');
       setSyncStatusMsg({ type: 'success', text: 'Zerodha session cleared.' });
@@ -412,12 +371,7 @@ export function ImportsHubView({
     setZerodhaLoading(true);
     setZerodhaResult(null);
     try {
-      const res = await fetch('/api/zerodha/auto-sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ portfolio: zerodhaPortfolio })
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/zerodha/auto-sync', { portfolio: zerodhaPortfolio });
       if (data.success) {
         setZerodhaResult(data);
         if (data.items?.length > 0) {
@@ -442,17 +396,7 @@ export function ImportsHubView({
     setZerodhaResult(null);
     setSyncStatusMsg(null);
     try {
-      const res = await fetch('/api/zerodha/sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          token: zerodhaToken.trim(),
-          tokenType: zerodhaTokenType,
-          portfolio: zerodhaPortfolio,
-          apiKey: zerodhaApiKey.trim()
-        })
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/zerodha/sync', { token: zerodhaToken.trim(), tokenType: zerodhaTokenType, portfolio: zerodhaPortfolio, apiKey: zerodhaApiKey.trim() });
       if (data.success) {
         setZerodhaResult(data);
         setSyncStatusMsg({

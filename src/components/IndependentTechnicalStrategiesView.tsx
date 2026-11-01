@@ -32,6 +32,10 @@ import {
 import { downloadCsv } from '../lib/csvExport.js';
 import StrategyBuilderPanel from './StrategyBuilderPanel.js';
 
+import { apiClient } from '../lib/apiClient';
+
+import { safeFetchJson } from '../lib/api';
+
 // ── Re-export all types from original file ──
 export interface RuleCheck {
   id: string;
@@ -397,14 +401,14 @@ export const IndependentTechnicalStrategiesView: React.FC<IndependentTechnicalSt
     const initializeITAS = async () => {
       try {
         const [libRes, countRes, cachedRes] = await Promise.all([
-          fetch('/api/strategies/library'),
-          fetch('/api/strategies/universe-count'),
-          fetch('/api/strategies/scan-cache/latest')
+          safeFetchJson('/api/strategies/library'),
+          safeFetchJson('/api/strategies/universe-count'),
+          safeFetchJson('/api/strategies/scan-cache/latest')
         ]);
 
         // Load all strategies (built-in + custom)
         if (libRes.ok) {
-          const libJson = await libRes.json();
+          const libJson = libRes.data;
           const allStrats = libJson.success
             ? (Array.isArray(libJson.data) ? libJson.data : (libJson.data?.all || libJson.data?.presets || []))
             : [];
@@ -426,7 +430,7 @@ export const IndependentTechnicalStrategiesView: React.FC<IndependentTechnicalSt
 
         // Load universe count
         if (countRes.ok) {
-          const countJson = await countRes.json();
+          const countJson = countRes.data;
           if (countJson.success) {
             const count = typeof countJson.count === 'number'
               ? countJson.count
@@ -439,7 +443,7 @@ export const IndependentTechnicalStrategiesView: React.FC<IndependentTechnicalSt
 
         // Load cached pre-calculated results (instant - from 5 min background scan)
         if (cachedRes.ok) {
-          const cachedData = await cachedRes.json();
+          const cachedData = cachedRes.data;
           if (cachedData.success) {
             setCachedResults(cachedData.data?.results || null);
             setLatestScanMetadata(cachedData.data?.metadata);
@@ -449,9 +453,9 @@ export const IndependentTechnicalStrategiesView: React.FC<IndependentTechnicalSt
 
         // Check if a scan is currently running in background
         try {
-          const progressRes = await fetch('/api/strategies/progress');
+          const progressRes = await safeFetchJson('/api/strategies/progress');
           if (progressRes.ok) {
-            const pData = await progressRes.json();
+            const pData = progressRes.data;
             if (pData.status === 'RUNNING') {
               setIsRefreshing(true);
               setLiveProgress({
@@ -477,8 +481,7 @@ export const IndependentTechnicalStrategiesView: React.FC<IndependentTechnicalSt
     if (!loading || scanProgress.length === 0) return;
     const iv = setInterval(async () => {
       try {
-        const r = await fetch('/api/technical-strategies/scan-progress');
-        const j = await r.json();
+        const j = await apiClient.get('/api/technical-strategies/scan-progress');
         if (j.success && Array.isArray(j.data)) setScanProgress(j.data);
       } catch { /* silent */ }
     }, 1500);
@@ -490,8 +493,7 @@ export const IndependentTechnicalStrategiesView: React.FC<IndependentTechnicalSt
     if (!isRefreshing) return;
     const checkProgress = async () => {
       try {
-        const progressRes = await fetch('/api/strategies/progress');
-        const pData = await progressRes.json();
+        const pData = await apiClient.get('/api/strategies/progress');
         
         if (pData.status === 'RUNNING') {
           setLiveProgress({
@@ -530,9 +532,9 @@ export const IndependentTechnicalStrategiesView: React.FC<IndependentTechnicalSt
           setLiveProgress(null);
           // Scan finished, reload cache
           try {
-            const cachedRes = await fetch('/api/strategies/scan-cache/latest');
+            const cachedRes = await safeFetchJson('/api/strategies/scan-cache/latest');
             if (cachedRes.ok) {
-              const cachedData = await cachedRes.json();
+              const cachedData = cachedRes.data;
               if (cachedData.success) {
                 setCachedResults(cachedData.data?.results || null);
                 setLatestScanMetadata(cachedData.data?.metadata);
@@ -552,7 +554,7 @@ export const IndependentTechnicalStrategiesView: React.FC<IndependentTechnicalSt
   const handleRefreshNow = async () => {
     setIsRefreshing(true);
     try {
-      const res = await fetch('/api/strategies/scan-multi/background', { method: 'POST' });
+      const res = await safeFetchJson('/api/strategies/scan-multi/background', { method: 'POST' });
       if (!res.ok) {
         setError('Failed to start refresh');
         setIsRefreshing(false);
@@ -565,24 +567,20 @@ export const IndependentTechnicalStrategiesView: React.FC<IndependentTechnicalSt
 
   const handleStrategyBuilderSave = async (newStrategy: any) => {
     try {
-      const res = await fetch('/api/strategies/save', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newStrategy)
-      });
+      const res = await safeFetchJson('/api/strategies/save', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newStrategy) });
 
       if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.message || 'Failed to save strategy');
+        const errorData = res.data;
+        throw new Error(errorData?.message || 'Failed to save strategy');
       }
 
-      const result = await res.json();
+      const result = res.data;
       console.log('[ITAS] Strategy saved:', result);
 
       // Refresh strategy library
-      const libRes = await fetch('/api/strategies/library');
+      const libRes = await safeFetchJson('/api/strategies/library');
       if (libRes.ok) {
-        const libJson = await libRes.json();
+        const libJson = libRes.data;
         const allStrats = libJson.success
           ? (Array.isArray(libJson.data) ? libJson.data : (libJson.data?.all || libJson.data?.presets || []))
           : [];

@@ -36,6 +36,8 @@ import {
 import { formatINR, formatPct } from '../lib/formatters.js';
 import { TradingViewChartWidget } from './TradingViewChartWidget.js';
 
+import { apiClient } from '../lib/apiClient';
+
 export interface StockDossierViewProps {
   symbol?: string;
   isOpen?: boolean;
@@ -67,8 +69,7 @@ export const StockDossierView: React.FC<StockDossierViewProps> = ({
 
   useEffect(() => {
     // Load quick search list from master tickers or opportunities
-    fetch('/api/tickers')
-      .then(res => res.json())
+    apiClient.get('/api/tickers')
       .then(data => {
         if (Array.isArray(data)) setUniverseList(data.slice(0, 30));
         else if (data?.data && Array.isArray(data.data)) setUniverseList(data.data.slice(0, 30));
@@ -80,8 +81,7 @@ export const StockDossierView: React.FC<StockDossierViewProps> = ({
     if (!sym) return;
     setLoading(true);
     try {
-      const res = await fetch(`/api/screener/${encodeURIComponent(sym)}`);
-      const json = await res.json();
+      const json = await apiClient.get(`/api/screener/${encodeURIComponent(sym)}`);
       if (json.success && json.data) {
         setScreenerData(json.data);
       } else {

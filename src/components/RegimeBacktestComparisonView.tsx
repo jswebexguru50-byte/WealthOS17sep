@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { apiClient } from '../lib/apiClient';
 import {
   TrendingUp,
   TrendingDown,
@@ -141,8 +142,7 @@ export const RegimeBacktestComparisonView: React.FC = () => {
   const fetchSummary = async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/v1/regime-backtest/summary');
-      const json = await res.json();
+      const json = await apiClient.get('/api/v1/regime-backtest/summary');
       if (json.success && json.data) {
         setSummaries(json.data);
       }
@@ -161,8 +161,7 @@ export const RegimeBacktestComparisonView: React.FC = () => {
       if (searchSymbol.trim()) params.set('symbol', searchSymbol.trim());
       if (agreementFilter !== 'ALL') params.set('minAgreement', agreementFilter);
 
-      const res = await fetch(`/api/v1/regime-backtest/ledger?${params.toString()}`);
-      const json = await res.json();
+      const json = await apiClient.get(`/api/v1/regime-backtest/ledger?${params.toString()}`);
       if (json.success && json.data) {
         setMatrixRows(json.data);
       }
@@ -180,8 +179,7 @@ export const RegimeBacktestComparisonView: React.FC = () => {
       if (selectedStrategy !== 'ALL') params.set('strategyId', selectedStrategy);
       if (searchSymbol.trim()) params.set('symbol', searchSymbol.trim());
 
-      const res = await fetch(`/api/v1/regime-backtest/trades?${params.toString()}`);
-      const json = await res.json();
+      const json = await apiClient.get(`/api/v1/regime-backtest/trades?${params.toString()}`);
       if (json.success && json.data) {
         setTrades(json.data);
       }
@@ -194,8 +192,7 @@ export const RegimeBacktestComparisonView: React.FC = () => {
     const initializeData = async () => {
       try {
         // Fetch universe count
-        const universeRes = await fetch('/api/v1/regime-backtest/universe-count');
-        const universeJson = await universeRes.json();
+        const universeJson = await apiClient.get('/api/v1/regime-backtest/universe-count');
         if (universeJson.success) {
           setUniverseCount(universeJson.count || 750);
         }
@@ -208,8 +205,7 @@ export const RegimeBacktestComparisonView: React.FC = () => {
 
       // Fetch custom strategies
       try {
-        const customRes = await fetch('/api/strategies/custom');
-        const customJson = await customRes.json();
+        const customJson = await apiClient.get('/api/strategies/custom');
         if (customJson.success) {
           const filtered = customJson.data.filter((s: any) => s.backtest_win_rate != null);
           const strategies = filtered.map((s: any) => ({
@@ -240,12 +236,7 @@ export const RegimeBacktestComparisonView: React.FC = () => {
   const handleRunBacktest = async () => {
     try {
       setRunning(true);
-      const res = await fetch('/api/v1/regime-backtest/run', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ strategyIds: Array.from(selectedStrategies) })
-      });
-      const json = await res.json();
+      const json = await apiClient.post('/api/v1/regime-backtest/run', { strategyIds: Array.from(selectedStrategies) });
       if (json.success) {
         await fetchSummary();
         await fetchMatrixLedger();

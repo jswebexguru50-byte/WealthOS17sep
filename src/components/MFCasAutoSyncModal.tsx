@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { apiClient } from '../lib/apiClient';
 import { 
   X, 
   RefreshCw, 
@@ -60,22 +61,9 @@ export function MFCasAutoSyncModal({
     
     try {
       // 1. Trigger sync on backend
-      const res = await fetch('/api/cams/sync-all', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          pan: pan.toUpperCase(),
-          period,
-          extentOfData,
-          portfolioOption: targetPortfolio,
-          portfolioName: customPortfolioName || `MF - ${pan.toUpperCase()}`,
-          qrToken
-        })
-      });
+      const data = await apiClient.post('/api/cams/sync-all', { pan: pan.toUpperCase(), period, extentOfData, portfolioOption: targetPortfolio, portfolioName: customPortfolioName || `MF - ${pan.toUpperCase()}`, qrToken });
 
       setSyncingStatus('Normalizing folios, AMFI scheme codes, and calculating unit balances...');
-      
-      const data = await res.json();
       setSyncedData({
         pan: pan.toUpperCase(),
         portfolioName: customPortfolioName || `MF - ${pan.toUpperCase()}`,

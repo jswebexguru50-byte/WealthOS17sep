@@ -43,6 +43,8 @@ import {
 import { formatINR } from '../lib/formatters.js';
 import { downloadCsv } from '../lib/csvExport.js';
 
+import { apiClient } from '../lib/apiClient';
+
 export interface SavedSubUniverse {
   id: string;
   name: string;
@@ -122,8 +124,7 @@ export const FlexibleTelemetryPipelinePanel: React.FC<FlexibleTelemetryPipelineP
 
   // Fetch sunrise scrip symbols for baseline toggle
   useEffect(() => {
-    fetch('/api/opportunity-engine/sunrise-industrial-universe')
-      .then(res => res.json())
+    apiClient.get('/api/opportunity-engine/sunrise-industrial-universe')
       .then(json => {
         if (json.success && json.data?.scrips) {
           const syms = new Set<string>(json.data.scrips.map((s: any) => s.symbol));
@@ -309,16 +310,7 @@ export const FlexibleTelemetryPipelinePanel: React.FC<FlexibleTelemetryPipelineP
 
     // Persist to backend
     try {
-      await fetch('/api/quant/funnel-presets', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: newSubUniverse.name,
-          gate_sequence: newSubUniverse.stageOrder.join(','),
-          thresholds_snapshot: JSON.stringify(newSubUniverse.thresholds),
-          is_favorite: false
-        })
-      });
+      await apiClient.post('/api/quant/funnel-presets', { name: newSubUniverse.name, gate_sequence: newSubUniverse.stageOrder.join(','), thresholds_snapshot: JSON.stringify(newSubUniverse.thresholds), is_favorite: false });
     } catch (e) {
       console.warn('[PipelinePanel] Failed to persist funnel preset:', e);
     }

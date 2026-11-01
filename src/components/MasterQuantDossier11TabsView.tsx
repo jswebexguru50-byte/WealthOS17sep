@@ -45,6 +45,8 @@ import {
 import { formatINR, formatPct } from '../lib/formatters.js';
 import FereForensicDeepDiveModal from './FereForensicDeepDiveModal';
 
+import { apiClient } from '../lib/apiClient';
+
 type SubTabId = 
   | 'cover'
   | 'masterList'
@@ -155,15 +157,13 @@ export const MasterQuantDossier11TabsView: React.FC = () => {
   const fetchWorkbookData = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/forensic/master-dossier-workbook');
-      const json = await res.json();
+      const json = await apiClient.get('/api/forensic/master-dossier-workbook');
       let sheets = json.sheets || {};
 
       // Ensure strategy dictionary & scrip matrix are populated
       if (!sheets.scripStrategyMatrix || sheets.scripStrategyMatrix.length === 0) {
         try {
-          const mRes = await fetch('/api/forensic/dossier-strategy-matrix');
-          const mJson = await mRes.json();
+          const mJson = await apiClient.get('/api/forensic/dossier-strategy-matrix');
           if (mJson.success && mJson.data) sheets.scripStrategyMatrix = mJson.data;
         } catch (e) {
           console.warn('[MasterDossier] Fallback fetch scripStrategyMatrix error:', e);
@@ -171,8 +171,7 @@ export const MasterQuantDossier11TabsView: React.FC = () => {
       }
       if (!sheets.strategyDictionary || sheets.strategyDictionary.length === 0) {
         try {
-          const dRes = await fetch('/api/forensic/strategy-parameters-dictionary');
-          const dJson = await dRes.json();
+          const dJson = await apiClient.get('/api/forensic/strategy-parameters-dictionary');
           if (dJson.success && dJson.data) sheets.strategyDictionary = dJson.data;
         } catch (e) {
           console.warn('[MasterDossier] Fallback fetch strategyDictionary error:', e);
@@ -183,8 +182,7 @@ export const MasterQuantDossier11TabsView: React.FC = () => {
         setData(sheets);
       } else {
         // Fallback to reading 49 dossiers directly
-        const resFallback = await fetch('/api/forensic/49-dossiers');
-        const jsonFallback = await resFallback.json();
+        const jsonFallback = await apiClient.get('/api/forensic/49-dossiers');
         if (jsonFallback.success && jsonFallback.data) {
           setData({
             ...sheets,

@@ -21,6 +21,8 @@ import {
 import { safeFetchJson } from '../lib/api';
 import { formatINR } from '../lib/formatters.js';
 
+import { apiClient } from '../lib/apiClient';
+
 interface NriTaxRepatriationHubProps {
   selectedPortfolio: string;
   portfolios: string[];
@@ -108,8 +110,7 @@ export const NriTaxRepatriationHub: React.FC<NriTaxRepatriationHubProps> = ({
   useEffect(() => {
     const fetchFYs = async () => {
       try {
-        const res = await fetch('/api/tax/financial-years');
-        const data = await res.json();
+        const data = await apiClient.get('/api/tax/financial-years');
         if (data.financial_years && data.financial_years.length > 0) {
           setAvailableFYs(data.financial_years);
           if (data.current_fy) {

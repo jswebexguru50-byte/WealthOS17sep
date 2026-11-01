@@ -27,6 +27,8 @@ import { ConfirmationModal } from './ConfirmationModal.js';
 import { MFCasAutoSyncModal } from './MFCasAutoSyncModal.js';
 import { formatINR, formatPct } from '../lib/formatters.js';
 
+import { apiClient } from '../lib/apiClient';
+
 interface CamsConfig {
   pan: string;
   email: string;
@@ -130,8 +132,7 @@ export function CamsMutualFundsView({
     if (!reconPortfolio) return;
     setIsFetchingRecon(true);
     try {
-      const res = await fetch(`/api/cams/reconciliation-report?portfolio=${encodeURIComponent(reconPortfolio)}`);
-      const data = await res.json();
+      const data = await apiClient.get(`/api/cams/reconciliation-report?portfolio=${encodeURIComponent(reconPortfolio)}`);
       if (data.success) {
         setReconReport(data.report);
       } else {
@@ -148,8 +149,7 @@ export function CamsMutualFundsView({
 
   const fetchConfigs = async () => {
     try {
-      const res = await fetch('/api/cams/configs');
-      const data = await res.json();
+      const data = await apiClient.get('/api/cams/configs');
       if (data.success) {
         setConfigs(data.configs);
         if (data.configs.length > 0 && !targetPan) {
@@ -165,8 +165,7 @@ export function CamsMutualFundsView({
     setIsLoadingPortfolios(true);
     try {
       // 1. Get raw list of portfolios
-      const pRes = await fetch('/api/portfolios');
-      const pData = await pRes.json();
+      const pData = await apiClient.get('/api/portfolios');
       if (!pData.success) throw new Error(pData.message);
 
       const list: string[] = pData.portfolios || [];
@@ -175,10 +174,8 @@ export function CamsMutualFundsView({
       // 2. Fetch metrics & XIRR for each portfolio sequentially
       for (const pName of list) {
         try {
-          const mRes = await fetch(`/api/metrics?portfolios=${encodeURIComponent(pName)}`);
-          const mData = await mRes.json();
-          const xRes = await fetch(`/api/dashboard/xirr?portfolios=${encodeURIComponent(pName)}`);
-          const xData = await xRes.json();
+          const mData = await apiClient.get(`/api/metrics?portfolios=${encodeURIComponent(pName)}`);
+          const xData = await apiClient.get(`/api/dashboard/xirr?portfolios=${encodeURIComponent(pName)}`);
 
           if (mData.success) {
             loadedPortfolios.push({
@@ -233,16 +230,7 @@ export function CamsMutualFundsView({
     setErrorMsg('');
     setSuccessMsg('');
     try {
-      const res = await fetch('/api/cams/configs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          pan: panInput,
-          email: emailInput,
-          password: passInput
-        })
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/cams/configs');
       if (data.success) {
         setSuccessMsg(data.message);
         setPanInput('');
@@ -267,10 +255,7 @@ export function CamsMutualFundsView({
     setErrorMsg('');
     setSuccessMsg('');
     try {
-      const res = await fetch(`/api/cams/configs/${encodeURIComponent(pan)}`, {
-        method: 'DELETE'
-      });
-      const data = await res.json();
+      const data = await apiClient.delete(`/api/cams/configs/${encodeURIComponent(pan)}`);
       if (data.success) {
         setSuccessMsg(data.message);
         fetchConfigs();
@@ -288,12 +273,7 @@ export function CamsMutualFundsView({
     setErrorMsg('');
     setSyncStatus(prev => ({ ...prev, [pan]: 'Requesting CAS...' }));
     try {
-      const res = await fetch('/api/cams/trigger-request', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pan, email })
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/cams/trigger-request');
       if (data.success) {
         setSuccessMsg(`${data.message} ${data.details}`);
         fetchConfigs();
@@ -312,12 +292,7 @@ export function CamsMutualFundsView({
     setErrorMsg('');
     setSyncStatus(prev => ({ ...prev, [pan]: 'Checking CAMS statements...' }));
     try {
-      const res = await fetch('/api/cams/auto-sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pan })
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/cams/auto-sync');
       if (data.success) {
         setSuccessMsg(data.message);
         fetchConfigs();
@@ -338,14 +313,7 @@ export function CamsMutualFundsView({
     setErrorMsg('');
     setSuccessMsg('');
     try {
-      const res = await fetch('/api/cams/sync-prices', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ portfolios: selectedPortfolios }),
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/cams/sync-prices', { portfolios: selectedPortfolios });
       if (data.success) {
         setPricingResult(`Successfully synced! Updated ${data.updated_count} mutual fund prices via AMFI.`);
         fetchPortfoliosData(); // reload values
@@ -473,10 +441,7 @@ export function CamsMutualFundsView({
     setErrorMsg('');
     setSuccessMsg('');
     try {
-      const res = await fetch(`/api/portfolios/${encodeURIComponent(portfolioToDelete)}?confirm=true`, {
-        method: 'DELETE'
-      });
-      const data = await res.json();
+      const data = await apiClient.delete(`/api/portfolios/${encodeURIComponent(portfolioToDelete)}?confirm=true`);
       if (data.success) {
         setSuccessMsg(data.message);
         // Deselect if it was selected

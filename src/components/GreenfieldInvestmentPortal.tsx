@@ -45,6 +45,8 @@ import { TradingViewChartWidget } from './TradingViewChartWidget.js';
 import { ExecutiveConsensusView } from './ExecutiveConsensusView.js';
 import { MultibaggerScreenerView } from './MultibaggerScreenerView.js';
 
+import { apiClient } from '../lib/apiClient';
+
 interface GreenfieldInvestmentPortalProps {
   selectedPortfolio?: string;
   onNavigateToOrder?: (symbol: string) => void;
@@ -123,8 +125,7 @@ export const GreenfieldInvestmentPortal: React.FC<GreenfieldInvestmentPortalProp
   const fetchIpos = async () => {
     setLoadingIpos(true);
     try {
-      const res = await fetch('/api/greenfield/ipos');
-      const json = await res.json();
+      const json = await apiClient.get('/api/greenfield/ipos');
       if (json.success && Array.isArray(json.data)) {
         setIpos(json.data);
       }
@@ -140,17 +141,12 @@ export const GreenfieldInvestmentPortal: React.FC<GreenfieldInvestmentPortalProp
     setBidSubmitting(true);
     setBidSuccessMsg(null);
     try {
-      const res = await fetch('/api/greenfield/simulate-ipo-bid', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const json = await apiClient.post('/api/greenfield/simulate-ipo-bid', JSON.stringify({
           ipoId: bidModalIpo.id,
           potId: 'pot_conservative',
           bidCategory,
           lotsCount: bidLotsCount
-        })
-      });
-      const json = await res.json();
+        }));
       if (json.success) {
         setBidSuccessMsg(json.message);
         setToastMessage(`🎯 IPO Paper Bid Recorded: ${bidModalIpo.companyName} (${bidLotsCount} Lots)!`);
@@ -172,8 +168,7 @@ export const GreenfieldInvestmentPortal: React.FC<GreenfieldInvestmentPortalProp
   const fetchRebalanceReport = async (portfolio: string = rebalancePortfolioFilter) => {
     setLoadingRebalance(true);
     try {
-      const res = await fetch(`/api/greenfield/rebalance-switches?portfolio=${encodeURIComponent(portfolio)}`);
-      const json = await res.json();
+      const json = await apiClient.get(`/api/greenfield/rebalance-switches?portfolio=${encodeURIComponent(portfolio)}`);
       if (json.success && json.data) {
         setRebalanceReport(json.data);
       }
@@ -188,12 +183,7 @@ export const GreenfieldInvestmentPortal: React.FC<GreenfieldInvestmentPortalProp
     setSimulatingSwitchId(switchId);
     setSwitchSuccessMsg(null);
     try {
-      const res = await fetch('/api/greenfield/simulate-rebalance-switch', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ switchId, potId: 'pot_conservative' })
-      });
-      const json = await res.json();
+      const json = await apiClient.post('/api/greenfield/simulate-rebalance-switch', { switchId, potId: 'pot_conservative' });
       if (json.success) {
         setSwitchSuccessMsg(json.message || 'Switch successfully simulated in Paper Sandbox!');
         setToastMessage(`🔄 Rebalance Executed: ${json.message}`);
@@ -212,8 +202,7 @@ export const GreenfieldInvestmentPortal: React.FC<GreenfieldInvestmentPortalProp
   const fetchRecommendations = async () => {
     setLoadingRecs(true);
     try {
-      const res = await fetch('/api/greenfield/recommendations');
-      const json = await res.json();
+      const json = await apiClient.get('/api/greenfield/recommendations');
       if (json.success && Array.isArray(json.data)) {
         setRecommendations(json.data);
         if (json.macroRegime) setMacroRegime(json.macroRegime);
@@ -228,8 +217,7 @@ export const GreenfieldInvestmentPortal: React.FC<GreenfieldInvestmentPortalProp
   const fetchPaperPortfolio = async () => {
     setPaperLoading(true);
     try {
-      const res = await fetch('/api/greenfield/paper-portfolio?potId=pot_conservative');
-      const json = await res.json();
+      const json = await apiClient.get('/api/greenfield/paper-portfolio?potId=pot_conservative');
       if (json.success && json.data) {
         setPaperOverview(json.data.overview);
         setPaperOpenPositions(json.data.openPositions || []);
@@ -244,8 +232,7 @@ export const GreenfieldInvestmentPortal: React.FC<GreenfieldInvestmentPortalProp
 
   const fetchPostMortem = async () => {
     try {
-      const res = await fetch('/api/greenfield/post-mortem');
-      const json = await res.json();
+      const json = await apiClient.get('/api/greenfield/post-mortem');
       if (json.success && json.data) {
         setPostMortemStats(json.data.stats);
         setRecentLearnings(json.data.recentLearnings || []);
@@ -257,8 +244,7 @@ export const GreenfieldInvestmentPortal: React.FC<GreenfieldInvestmentPortalProp
 
   const fetchSelfLearning = async () => {
     try {
-      const res = await fetch('/api/greenfield/self-learning');
-      const json = await res.json();
+      const json = await apiClient.get('/api/greenfield/self-learning');
       if (json.success && json.data) {
         setSelfLearningReport(json.data);
       }
@@ -270,16 +256,11 @@ export const GreenfieldInvestmentPortal: React.FC<GreenfieldInvestmentPortalProp
   const handleSimulatePaperTrade = async (stock: any) => {
     setSimulatingSymbol(stock.symbol);
     try {
-      const res = await fetch('/api/greenfield/simulate-paper-trade', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const json = await apiClient.post('/api/greenfield/simulate-paper-trade', JSON.stringify({
           symbol: stock.symbol,
           potId: 'pot_conservative',
           capital: 250000
-        })
-      });
-      const json = await res.json();
+        }));
       if (json.success) {
         setToastMessage(`✓ Paper simulation trade opened for ${stock.symbol}! Position added to Virtual Sandbox.`);
         await fetchPaperPortfolio();
@@ -299,16 +280,11 @@ export const GreenfieldInvestmentPortal: React.FC<GreenfieldInvestmentPortalProp
     setOrderSubmitting(true);
     setOrderSuccessMsg(null);
     try {
-      const res = await fetch('/api/momentum-vpa/orders/arm-staggered', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const json = await apiClient.post('/api/momentum-vpa/orders/arm-staggered', JSON.stringify({
           symbol: orderTicketStock.symbol,
           portfolio: selectedPortfolio,
           totalCapital: orderCapital
-        })
-      });
-      const json = await res.json();
+        }));
       if (json.success) {
         setOrderSuccessMsg(`✓ 3-Tranche Parent Order Armed (ID: ${json.data.id})! Tranche 1 Limit Placed @ ₹${json.data.tranche1Price}.`);
         setTimeout(() => {
@@ -326,12 +302,7 @@ export const GreenfieldInvestmentPortal: React.FC<GreenfieldInvestmentPortalProp
   const handleTriggerLearningCycle = async () => {
     setLearningCycleRunning(true);
     try {
-      const res = await fetch('/api/greenfield/trigger-learning-cycle', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ reason: 'Operator Manual Trigger from Greenfield Portal' })
-      });
-      const json = await res.json();
+      const json = await apiClient.post('/api/greenfield/trigger-learning-cycle', { reason: 'Operator Manual Trigger from Greenfield Portal' });
       if (json.success) {
         setToastMessage('✓ Autonomous RLFF Learning Cycle Executed! Weights mutated to maximize win rate.');
         await fetchSelfLearning();

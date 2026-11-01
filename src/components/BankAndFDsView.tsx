@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Building2, Landmark, Plus, Trash2, Edit3, RefreshCw, DollarSign, Globe, CheckCircle2, AlertCircle, Calendar, Percent } from 'lucide-react';
 
+import { apiClient } from '../lib/apiClient';
+
 interface BankOrFD {
   id?: number;
   portfolio: string;
@@ -48,8 +50,7 @@ export const BankAndFDsView: React.FC<BankAndFDsViewProps> = ({
     setIsLoading(true);
     try {
       const pParam = selectedPortfolio ? encodeURIComponent(selectedPortfolio) : '';
-      const res = await fetch(`/api/bank-fds?portfolio=${pParam}`);
-      const data = await res.json();
+      const data = await apiClient.get(`/api/bank-fds?portfolio=${pParam}`);
       if (data.success) {
         setItems(data.data || []);
         setTotalInr(data.total_inr_valuation || 0);
@@ -69,8 +70,7 @@ export const BankAndFDsView: React.FC<BankAndFDsViewProps> = ({
   const handleSyncFxRates = async () => {
     setIsSyncingFx(true);
     try {
-      const res = await fetch('/api/currency-rates/sync', { method: 'POST' });
-      const data = await res.json();
+      const data = await apiClient.post('/api/currency-rates/sync');
       if (data.success) {
         alert(data.message);
         fetchBankData();
@@ -86,12 +86,7 @@ export const BankAndFDsView: React.FC<BankAndFDsViewProps> = ({
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/bank-fds', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(editingItem)
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/bank-fds', editingItem);
       if (data.success) {
         setIsModalOpen(false);
         fetchBankData();
@@ -107,8 +102,7 @@ export const BankAndFDsView: React.FC<BankAndFDsViewProps> = ({
   const handleDelete = async (id: number) => {
     if (!confirm('Are you sure you want to delete this bank account / FD record?')) return;
     try {
-      const res = await fetch(`/api/bank-fds/${id}`, { method: 'DELETE' });
-      const data = await res.json();
+      const data = await apiClient.delete(`/api/bank-fds/${id}`);
       if (data.success) {
         fetchBankData();
         if (onDataChanged) onDataChanged();

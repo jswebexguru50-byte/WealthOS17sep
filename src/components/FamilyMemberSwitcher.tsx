@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Users, User, Shield, Check, ChevronDown, Plus, Globe } from 'lucide-react';
 
+import { apiClient } from '../lib/apiClient';
+
 export interface FamilyMember {
   id: number;
   uuid: string;
@@ -48,8 +50,7 @@ export const FamilyMemberSwitcher: React.FC<FamilyMemberSwitcherProps> = ({
   const fetchMembers = async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/family-members');
-      const data = await res.json();
+      const data = await apiClient.get('/api/family-members');
       if (data.success && Array.isArray(data.members)) {
         setMembers(data.members);
       }

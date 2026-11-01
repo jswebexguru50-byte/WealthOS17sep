@@ -25,6 +25,10 @@ import { DatabaseSizeInspector } from './DatabaseSizeInspector.js';
 import { Palette, Check, Sparkles } from 'lucide-react';
 import { ThemeSelectorModal, THEME_OPTIONS, getActiveThemeId, applyTheme, ThemeId } from './ThemeSelectorModal.js';
 
+import { apiClient } from '../lib/apiClient';
+
+import { safeFetchJson } from '../lib/api';
+
 interface SettingsViewProps {
   onPurgeBankBook?: (portfolio?: string, purgeMappings?: boolean) => Promise<boolean>;
   onPurgeTransactions: (portfolio?: string, purgeMappings?: boolean) => Promise<boolean>;
@@ -86,8 +90,7 @@ export function SettingsView({
   const [portfoliosList, setPortfoliosList] = useState<string[]>([]);
 
   useEffect(() => {
-    fetch('/api/portfolios')
-      .then(res => res.json())
+    apiClient.get('/api/portfolios')
       .then(data => {
         const rawList = Array.isArray(data)
           ? data
@@ -360,16 +363,14 @@ export function SettingsView({
 
   const fetchUpstoxConfig = async () => {
     try {
-      const res = await fetch('/api/settings/upstox');
-      const data = await res.json();
+      const data = await apiClient.get('/api/settings/upstox');
       if (data.config) {
         setUpstoxKey(data.config.client_id || '');
         setUpstoxSecret(data.config.client_secret || '');
         setUpstoxRedirect(data.config.redirect_uri || '');
       }
 
-      const tokenRes = await fetch('/api/settings');
-      const tokenData = await tokenRes.json();
+      const tokenData = await apiClient.get('/api/settings');
       if (tokenData) {
         setUpstoxToken(tokenData.upstox_token ? tokenData.upstox_token.trim() : '');
       }
@@ -381,11 +382,9 @@ export function SettingsView({
   const fetchDiagnostics = async () => {
     setIsLoadingDiagnostics(true);
     try {
-      const statsRes = await fetch('/api/diagnostics/stats');
-      const statsData = await statsRes.json();
+      const statsData = await apiClient.get('/api/diagnostics/stats');
       
-      const unpricedRes = await fetch('/api/diagnostics/unpriced');
-      const unpricedData = await unpricedRes.json();
+      const unpricedData = await apiClient.get('/api/diagnostics/unpriced');
 
       setStats(statsData);
       setUnpriced(unpricedData);
@@ -398,8 +397,7 @@ export function SettingsView({
 
   const fetchAlpacaConfig = async () => {
     try {
-      const res = await fetch('/api/settings/alpaca');
-      const data = await res.json();
+      const data = await apiClient.get('/api/settings/alpaca');
       if (data.config) {
         setAlpacaKey(data.config.alpaca_key || '');
         setAlpacaSecret(data.config.alpaca_secret || '');
@@ -413,15 +411,7 @@ export function SettingsView({
     e.preventDefault();
     setIsSavingAlpaca(true);
     try {
-      const res = await fetch('/api/settings/alpaca', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          alpaca_key: alpacaKey,
-          alpaca_secret: alpacaSecret
-        })
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/settings/alpaca');
       if (data.success) {
         alert('Alpaca Market Data API credentials saved successfully!');
       } else {
@@ -453,25 +443,9 @@ export function SettingsView({
     e.preventDefault();
     setIsSavingUpstox(true);
     try {
-      const res1 = await fetch('/api/settings/upstox', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          client_id: upstoxKey,
-          client_secret: upstoxSecret,
-          redirect_uri: upstoxRedirect
-        })
-      });
-      const data1 = await res1.json();
+      const data1 = await apiClient.post('/api/settings/upstox');
 
-      const res2 = await fetch('/api/settings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          upstox_token: upstoxToken
-        })
-      });
-      const data2 = await res2.json();
+      const data2 = await apiClient.post('/api/settings');
 
       if (data1.success && data2.success) {
         alert('Upstox API configurations and Access Token saved successfully!');

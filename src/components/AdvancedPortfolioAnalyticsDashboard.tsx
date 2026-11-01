@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { apiClient } from '../lib/apiClient';
 import {
   TrendingUp,
   AlertTriangle,
@@ -30,8 +31,7 @@ export const AdvancedPortfolioAnalyticsDashboard: React.FC = () => {
   const [activeModule, setActiveModule] = useState<'m1' | 'm2' | 'm3' | 'm4'>('m1');
 
   useEffect(() => {
-    fetch('/api/portfolio-analytics')
-      .then((res) => res.json())
+    apiClient.get('/api/portfolio-analytics')
       .then((resData) => {
         if (resData.success) {
           setData(resData.analytics);

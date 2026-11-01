@@ -28,6 +28,10 @@ import { IndependentTechnicalStrategiesView } from './IndependentTechnicalStrate
 import { KnowledgeLabView } from './KnowledgeLabView.js';
 import { RegimeBacktestComparisonView } from './RegimeBacktestComparisonView.js';
 
+import { apiClient } from '../lib/apiClient';
+
+import { safeFetchJson } from '../lib/api';
+
 interface OpportunityHubViewProps {
   selectedPortfolio?: string;
   onSelectScrip?: (symbol: string) => void;
@@ -61,11 +65,11 @@ export const OpportunityHubView: React.FC<OpportunityHubViewProps> = ({
   const fetchTelemetry = async () => {
     try {
       const [wRes, dRes] = await Promise.all([
-        fetch('/api/strategy-calibration/weights'),
-        fetch('/api/strategy-calibration/drift-alerts')
+        safeFetchJson('/api/strategy-calibration/weights'),
+        safeFetchJson('/api/strategy-calibration/drift-alerts')
       ]);
-      const wJson = await wRes.json();
-      const dJson = await dRes.json();
+      const wJson = wRes.data;
+      const dJson = dRes.data;
 
       if (wJson.success && wJson.data) {
         setTelemetry({
@@ -88,12 +92,7 @@ export const OpportunityHubView: React.FC<OpportunityHubViewProps> = ({
     setIsCalibrating(true);
     setCalibrationNotice('Executing self-healing calibration cycle with Wilson Score CI...');
     try {
-      const res = await fetch('/api/strategy-calibration/calibrate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ force: true })
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/strategy-calibration/calibrate', { force: true });
       if (data.success) {
         setCalibrationNotice(`✅ Calibration ${data.data?.status || 'COMPLETED'}: ${data.data?.changeRationale?.slice(0, 80)}...`);
         fetchTelemetry();
