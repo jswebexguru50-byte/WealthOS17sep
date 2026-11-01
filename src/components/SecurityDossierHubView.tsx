@@ -39,6 +39,10 @@ import { formatINR } from '../lib/formatters.js';
 import { TradingViewChartWidget } from './TradingViewChartWidget.js';
 import { MomentumReasoningPanel } from './MomentumReasoningPanel.js';
 
+import { apiClient } from '../lib/apiClient';
+
+import { safeFetchJson } from '../lib/api';
+
 export interface UniverseItem {
   symbol: string;
   companyName: string;
@@ -89,8 +93,7 @@ export const SecurityDossierHubView: React.FC<SecurityDossierHubViewProps> = ({
     const loadUniverse = async () => {
       setUniverseLoading(true);
       try {
-        const res = await fetch('/api/scrip-dossier/universe');
-        const data = await res.json();
+        const data = await apiClient.get('/api/scrip-dossier/universe');
         if (isMounted && data.success && Array.isArray(data.data)) {
           setUniverse(data.data);
           // If no initialSymbol, select first held stock or first item
@@ -124,12 +127,12 @@ export const SecurityDossierHubView: React.FC<SecurityDossierHubViewProps> = ({
     setMomentumReport(null);
     try {
       const [dossierRes, historyRes, momentumRes] = await Promise.all([
-        fetch(`/api/scrip-dossier/${encodeURIComponent(symbolToFetch)}`),
-        fetch(`/api/scrip-dossier/${encodeURIComponent(symbolToFetch)}/history`),
-        fetch(`/api/momentum-reasoning/${encodeURIComponent(symbolToFetch)}`).catch(() => null)
+        safeFetchJson(`/api/scrip-dossier/${encodeURIComponent(symbolToFetch)}`),
+        safeFetchJson(`/api/scrip-dossier/${encodeURIComponent(symbolToFetch)}/history`),
+        safeFetchJson(`/api/momentum-reasoning/${encodeURIComponent(symbolToFetch)}`).catch(() => null)
       ]);
 
-      const dossierData = await dossierRes.json();
+      const dossierData = dossierRes.data;
       if (dossierData.success) {
         setDossier(dossierData.data);
         if (dossierData.data.thesis) {
@@ -144,13 +147,13 @@ export const SecurityDossierHubView: React.FC<SecurityDossierHubViewProps> = ({
         setDossierError(dossierData.error || 'Failed to assemble security dossier');
       }
 
-      const historyData = await historyRes.json().catch(() => null);
+      const historyData = historyRes.data ?? null;
       if (historyData?.success) {
         setSignalHistory(historyData.data || []);
       }
 
       if (momentumRes) {
-        const momData = await momentumRes.json().catch(() => null);
+        const momData = momentumRes.data;
         if (momData?.success && momData?.data) {
           setMomentumReport(momData.data);
         }
@@ -173,17 +176,7 @@ export const SecurityDossierHubView: React.FC<SecurityDossierHubViewProps> = ({
     if (!selectedSymbol) return;
     setThesisSaving(true);
     try {
-      const res = await fetch(`/api/scrip-dossier/${encodeURIComponent(selectedSymbol)}/thesis`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          thesisSummary: thesisRationale,
-          investmentHorizon: thesisHorizon,
-          invalidationConditions: [thesisInvalidation],
-          catalysts: dossier?.catalysts?.bullCase?.map((c: any) => c.title) || []
-        })
-      });
-      const data = await res.json();
+      const data = await apiClient.post(`/api/scrip-dossier/${encodeURIComponent(selectedSymbol)}/thesis`);
       if (data.success) {
         setIsEditingThesis(false);
         fetchDossier(selectedSymbol);

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { apiClient } from '../lib/apiClient';
+
 import {
   FileSpreadsheet,
   CheckCircle2,
@@ -71,8 +73,7 @@ export function BulkImportView({
 
   const fetchHistory = async () => {
     try {
-      const res = await fetch('/api/import/history');
-      const data = await res.json();
+      const data = await apiClient.get('/api/import/history');
       setHistoryLogs(data);
     } catch (err) {
       console.error(err);
@@ -492,11 +493,7 @@ export function BulkImportView({
                           onBlur={(e) => {
                             const val = e.target.value.toUpperCase();
                             if (val) {
-                              fetch('/api/mappings/save', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ mappings: { [item.file_name]: val } })
-                              }).catch(console.error);
+                              apiClient.post('/api/mappings/save', { mappings: { [item.file_name]: val } }).catch(console.error);
                             }
                           }}
                           list="master-tickers-list"
@@ -514,11 +511,7 @@ export function BulkImportView({
                                 type="button"
                                 onClick={() => {
                                   handleMappingFieldChange(item.file_name, s);
-                                  fetch('/api/mappings/save', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({ mappings: { [item.file_name]: s } })
-                                  }).catch(console.error);
+                                  apiClient.post('/api/mappings/save', { mappings: { [item.file_name]: s } }).catch(console.error);
                                 }}
                                 className="bg-slate-900 hover:bg-slate-850 hover:text-slate-300 text-slate-400 px-1.5 py-0.5 rounded font-mono"
                               >

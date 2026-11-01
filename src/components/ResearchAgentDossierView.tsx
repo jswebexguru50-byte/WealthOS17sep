@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { apiClient } from '../lib/apiClient';
+
 import {
   Sparkles,
   TrendingUp,
@@ -139,8 +141,7 @@ export const ResearchAgentDossierView: React.FC = () => {
   const fetchDossier = async (sym: string) => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/v1/quant/research-dossier/${encodeURIComponent(sym)}`);
-      const data = await res.json();
+      const data = await apiClient.get(`/api/v1/quant/research-dossier/${encodeURIComponent(sym)}`);
       if (data.success && data.dossier) {
         setDossier(data.dossier);
       }

@@ -36,6 +36,8 @@ import { ResizableDataTable } from './ResizableDataTable.js';
 import { CorporateAction } from '../types.js';
 import { ConfirmationModal } from './ConfirmationModal.js';
 
+import { apiClient } from '../lib/apiClient';
+
 interface CorporateActionsViewProps {
   onApplyPending: () => Promise<void>;
   onAddAction: (action: Partial<CorporateAction>) => Promise<boolean>;
@@ -210,8 +212,7 @@ export function CorporateActionsView({
   // Fetch functions
   const fetchActions = async () => {
     try {
-      const res = await fetch('/api/corporate-actions');
-      const data = await res.json();
+      const data = await apiClient.get('/api/corporate-actions');
       setActions(Array.isArray(data) ? data : (data.actions || []));
     } catch (err) {
       console.error(err);
@@ -221,8 +222,7 @@ export function CorporateActionsView({
   const fetchUpcomingActions = async () => {
     try {
       setLoadingUpcoming(true);
-      const res = await fetch('/api/corporate-actions/upcoming?days=45');
-      const data = await res.json();
+      const data = await apiClient.get('/api/corporate-actions/upcoming?days=45');
       if (data.success) {
         setUpcomingActions(data.actions || []);
       }
@@ -253,8 +253,7 @@ export function CorporateActionsView({
   const fetchYocHoldings = async () => {
     try {
       setLoadingYoc(true);
-      const res = await fetch('/api/corporate-actions/yoc');
-      const data = await res.json();
+      const data = await apiClient.get('/api/corporate-actions/yoc');
       if (data.success) {
         setYocHoldings(data.holdings || []);
       }
@@ -267,8 +266,7 @@ export function CorporateActionsView({
 
   const fetchAuditLogs = async () => {
     try {
-      const res = await fetch('/api/audit/corporate-actions');
-      const data = await res.json();
+      const data = await apiClient.get('/api/audit/corporate-actions');
       setAuditLogs(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error(err);
@@ -277,8 +275,7 @@ export function CorporateActionsView({
 
   const fetchBackupStatus = async () => {
     try {
-      const res = await fetch('/api/corporate-actions/reconcile/backup-status');
-      const data = await res.json();
+      const data = await apiClient.get('/api/corporate-actions/reconcile/backup-status');
       if (data.success) {
         setBackupCount(data.backupCount || 0);
       }
@@ -290,8 +287,7 @@ export function CorporateActionsView({
   const fetchReconciliationData = async () => {
     try {
       setIsReconciling(true);
-      const res = await fetch('/api/corporate-actions/reconcile');
-      const data = await res.json();
+      const data = await apiClient.get('/api/corporate-actions/reconcile');
       if (data.success) {
         setReconciliationData({
           reconciled: data.reconciled || [],
@@ -312,8 +308,7 @@ export function CorporateActionsView({
   const fetchPmsComparison = async () => {
     try {
       setIsComparingPms(true);
-      const res = await fetch('/api/corporate-actions/pms-comparison');
-      const data = await res.json();
+      const data = await apiClient.get('/api/corporate-actions/pms-comparison');
       if (data.success) {
         setPmsReconData(data);
       }
@@ -342,20 +337,7 @@ export function CorporateActionsView({
   const handleApplyWithVerification = async (ca: any) => {
     setIsVerifying(true);
     try {
-      const res = await fetch('/api/corporate-actions/apply', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action_id: ca.id,
-          symbol: ca.symbol,
-          action_type: ca.action_type,
-          ratio_num: ca.numerator,
-          ratio_den: ca.denominator,
-          ex_date: ca.record_date,
-          user_id: 'Portfolio Manager'
-        })
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/corporate-actions/apply');
       if (data.success) {
         setVerificationReport(data.report);
         fetchActions();
@@ -377,12 +359,7 @@ export function CorporateActionsView({
     setRightsErrorMsg('');
     setRightsSuccessMsg('');
     try {
-      const res = await fetch('/api/corporate-actions/rights-subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(rightsForm)
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/corporate-actions/rights-subscribe');
       if (data.success) {
         setRightsSuccessMsg(`Rights subscription successfully processed for ${rightsForm.symbol}! Subscribed ${rightsForm.shares_subscribed} shares.`);
         fetchActions();
@@ -415,12 +392,7 @@ export function CorporateActionsView({
       confirmText: 'Reconcile and Backup',
       onConfirm: async () => {
         try {
-          const res = await fetch('/api/corporate-actions/reconcile/apply', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ itemIds: selectedReconcileIds })
-          });
-          const data = await res.json();
+          const data = await apiClient.post('/api/corporate-actions/reconcile/apply');
           if (data.success) {
             fetchReconciliationData();
             fetchBackupStatus();
@@ -442,11 +414,7 @@ export function CorporateActionsView({
       isDangerous: true,
       onConfirm: async () => {
         try {
-          const res = await fetch('/api/corporate-actions/reconcile/rollback', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
-          });
-          const data = await res.json();
+          const data = await apiClient.post('/api/corporate-actions/reconcile/rollback');
           if (data.success) {
             fetchReconciliationData();
             fetchBackupStatus();
@@ -468,11 +436,7 @@ export function CorporateActionsView({
     formData.append('file', manualFile);
 
     try {
-      const res = await fetch('/api/corporate-actions/upload-manual', {
-        method: 'POST',
-        body: formData
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/corporate-actions/upload-manual');
       if (data.success) {
         setManualUploadSuccess(data.message || `Loaded ${data.importedCount || 0} manual corporate action transactions.`);
         setManualFile(null);
@@ -505,10 +469,7 @@ export function CorporateActionsView({
   const handleSyncCorporateActions = async () => {
     setIsSyncingCA(true);
     try {
-      const res = await fetch('/api/corporate-actions/sync-upstox', {
-        method: 'POST'
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/corporate-actions/sync-upstox');
       if (data.success) {
         fetchActions();
         fetchUpcomingActions();

@@ -24,6 +24,8 @@ import {
 } from '../types';
 import { ResearchAgentDossierView } from './ResearchAgentDossierView';
 
+import { apiClient } from '../lib/apiClient';
+
 export const QuantEngineDashboardV5: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'BENCHMARK' | 'ALERTS' | 'RESEARCH_AGENT' | 'REGIME' | 'CALCULATORS'>('BENCHMARK');
   const [regimeState, setRegimeState] = useState<MacroRegimeState | null>(null);
@@ -53,18 +55,15 @@ export const QuantEngineDashboardV5: React.FC = () => {
     setLoading(true);
     try {
       // 1. Fetch Regime
-      const resRegime = await fetch('/api/v1/quant/macro-regime');
-      const dataRegime = await resRegime.json();
+      const dataRegime = await apiClient.get('/api/v1/quant/macro-regime');
       if (dataRegime.success) setRegimeState(dataRegime.regimeState);
 
       // 2. Fetch Comparison
-      const resComp = await fetch('/api/v1/quant/backtest-comparison');
-      const dataComp = await resComp.json();
+      const dataComp = await apiClient.get('/api/v1/quant/backtest-comparison');
       if (dataComp.success) setComparisonData(dataComp.comparison);
 
       // 3. Fetch Alerts
-      const resAlerts = await fetch('/api/v1/quant/alerts');
-      const dataAlerts = await resAlerts.json();
+      const dataAlerts = await apiClient.get('/api/v1/quant/alerts');
       if (dataAlerts.success) setAlerts(dataAlerts.alerts);
     } catch (err) {
       console.error('Error fetching quant dashboard data:', err);
@@ -75,19 +74,14 @@ export const QuantEngineDashboardV5: React.FC = () => {
 
   const handleCalculateSizing = async () => {
     try {
-      const res = await fetch('/api/v1/quant/position-size', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const data = await apiClient.post('/api/v1/quant/position-size', JSON.stringify({
           portfolioEquity: equity,
           entryPrice,
           atr14,
           historicalWinRatePct: winRate,
           rewardToRiskRatio: rrRatio,
           stopLossDistancePrice: 2.5 * atr14,
-        }),
-      });
-      const data = await res.json();
+        }));
       if (data.success) {
         setSizingResult(data.sizing);
       }
@@ -98,19 +92,14 @@ export const QuantEngineDashboardV5: React.FC = () => {
 
   const handleCalculateLpe = async () => {
     try {
-      const res = await fetch('/api/v1/quant/strategy-s1-lpe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const data = await apiClient.post('/api/v1/quant/strategy-s1-lpe', JSON.stringify({
           breakoutPrice: lpeBreakout,
           baseHigh: lpeBaseHigh,
           atr14: lpeAtr,
           stockReturn63d: 22,
           indexReturn63d: 11,
           ema21: lpeBaseHigh * 0.96,
-        }),
-      });
-      const data = await res.json();
+        }));
       if (data.success) {
         setLpeResult(data.lpe);
       }
@@ -121,7 +110,7 @@ export const QuantEngineDashboardV5: React.FC = () => {
 
   const handleAcknowledgeAlert = async (id: string) => {
     try {
-      await fetch(`/api/v1/quant/alerts/${id}/acknowledge`, { method: 'POST' });
+      await apiClient.post(`/api/v1/quant/alerts/${id}/acknowledge`);
       setAlerts(prev => prev.filter(a => a.id !== id));
     } catch (err) {
       console.error('Acknowledge error:', err);

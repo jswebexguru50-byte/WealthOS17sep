@@ -15,6 +15,8 @@ import {
 } from 'lucide-react';
 import { formatINR } from '../lib/formatters.js';
 
+import { apiClient } from '../lib/apiClient';
+
 interface Schedule112AReportModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -43,18 +45,13 @@ export function Schedule112AReportModal({
   const fetchReport = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/reports/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const data = await apiClient.post('/api/reports/generate', JSON.stringify({
           reportType: 'CAPITAL_GAINS',
           portfolio,
           financialYear,
           includeGrandfathering: true,
           assetClass
-        })
-      });
-      const data = await res.json();
+        }));
       if (data.success) {
         setReportData(data);
       }

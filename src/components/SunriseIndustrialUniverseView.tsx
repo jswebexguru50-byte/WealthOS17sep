@@ -18,6 +18,8 @@ import {
 import { SunriseIndustrialScrip } from '../server/services/SunriseIndustrialUniverseService.js';
 import { downloadCsv } from '../lib/csvExport.js';
 
+import { safeFetchJson } from '../lib/api';
+
 interface SunriseIndustrialUniverseViewProps {
   onSelectSymbol?: (symbol: string) => void;
 }
@@ -57,9 +59,9 @@ export const SunriseIndustrialUniverseView: React.FC<SunriseIndustrialUniverseVi
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('/api/opportunity-engine/sunrise-industrial-universe');
-      if (!res.ok) throw new Error(`Server error: ${res.status} ${res.statusText}`);
-      const json = await res.json();
+      const res = await safeFetchJson('/api/opportunity-engine/sunrise-industrial-universe');
+      if (!res.ok) throw new Error(res.error || `Server error: ${res.status}`);
+      const json = res.data;
       if (json.success && json.data) {
         setScrips(json.data.scrips || []);
         setGroups(json.data.groups || []);

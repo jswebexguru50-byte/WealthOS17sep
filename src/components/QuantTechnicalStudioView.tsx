@@ -37,6 +37,8 @@ import {
 } from 'lucide-react';
 import FereForensicDeepDiveModal from './FereForensicDeepDiveModal';
 
+import { apiClient } from '../lib/apiClient';
+
 interface StrategyMeta {
   id: string;
   name: string;
@@ -231,10 +233,7 @@ export const QuantTechnicalStudioView: React.FC = () => {
   useEffect(() => {
     const runCalc = async () => {
       try {
-        const res = await fetch('/api/strategies/adaptive-position-size', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+        const json = await apiClient.post('/api/strategies/adaptive-position-size', JSON.stringify({
             portfolioEquity: calcEquity,
             entryPrice: calcEntry,
             stopPrice: calcStop,
@@ -242,9 +241,7 @@ export const QuantTechnicalStudioView: React.FC = () => {
             maxPortfolioFraction: 0.08,
             advValue: calcAdv,
             adverseGap95Pct: calcGap95
-          })
-        });
-        const json = await res.json();
+          }));
         if (json.success) setSizingResult(json.data);
       } catch (err) {}
     };
@@ -255,10 +252,7 @@ export const QuantTechnicalStudioView: React.FC = () => {
   useEffect(() => {
     const runExit = async () => {
       try {
-        const res = await fetch('/api/strategies/evaluate-exit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+        const json = await apiClient.post('/api/strategies/evaluate-exit', JSON.stringify({
             entryPrice: 1000,
             highestPriceSinceEntry: simHighest,
             currentPrice: simCmp,
@@ -270,9 +264,7 @@ export const QuantTechnicalStudioView: React.FC = () => {
             candleClose: simCmp,
             candleRangeHigh: simCmp + 20,
             candleRangeLow: simCmp - 20
-          })
-        });
-        const json = await res.json();
+          }));
         if (json.success) setExitResult(json.data);
       } catch (err) {}
     };

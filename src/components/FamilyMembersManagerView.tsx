@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Users, UserPlus, Shield, Edit3, Trash2, Check, X, AlertCircle, Building, DollarSign } from 'lucide-react';
 
+import { apiClient } from '../lib/apiClient';
+
 interface FamilyMember {
   id: number;
   uuid: string;
@@ -40,8 +42,8 @@ export const FamilyMembersManagerView: React.FC = () => {
     try {
       setLoading(true);
       const [mRes, pRes] = await Promise.all([
-        fetch('/api/family-members').then(r => r.json()),
-        fetch('/api/portfolios').then(r => r.json())
+        apiClient.get('/api/family-members'),
+        apiClient.get('/api/portfolios')
       ]);
 
       if (mRes.success && Array.isArray(mRes.members)) {
@@ -65,10 +67,7 @@ export const FamilyMembersManagerView: React.FC = () => {
 
     try {
       if (isCreating) {
-        const res = await fetch('/api/family-members', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+        const data = await apiClient.post('/api/family-members', JSON.stringify({
             name: formData.name,
             email: formData.email,
             role: formData.role,
@@ -76,9 +75,7 @@ export const FamilyMembersManagerView: React.FC = () => {
             tax_residency: formData.tax_residency,
             avatar_color: formData.avatar_color,
             portfolios: formData.selectedPortfolios
-          })
-        });
-        const data = await res.json();
+          }));
         if (data.success) {
           setStatusMsg({ type: 'success', text: `Member "${formData.name}" added successfully.` });
           setIsCreating(false);
@@ -87,19 +84,14 @@ export const FamilyMembersManagerView: React.FC = () => {
           setStatusMsg({ type: 'error', text: data.error || 'Failed to create member' });
         }
       } else if (editingMember) {
-        const res = await fetch(`/api/family-members/${editingMember.id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+        const data = await apiClient.put(`/api/family-members/${editingMember.id}`, JSON.stringify({
             name: formData.name,
             email: formData.email,
             role: formData.role,
             pan_number: formData.pan_number,
             tax_residency: formData.tax_residency,
             avatar_color: formData.avatar_color
-          })
-        });
-        const data = await res.json();
+          }));
         if (data.success) {
           setStatusMsg({ type: 'success', text: `Member "${formData.name}" updated successfully.` });
           setEditingMember(null);
@@ -118,8 +110,7 @@ export const FamilyMembersManagerView: React.FC = () => {
       return;
     }
     try {
-      const res = await fetch(`/api/family-members/${member.id}`, { method: 'DELETE' });
-      const data = await res.json();
+      const data = await apiClient.delete(`/api/family-members/${member.id}`);
       if (data.success) {
         setStatusMsg({ type: 'success', text: `Member "${member.name}" removed.` });
         loadData();

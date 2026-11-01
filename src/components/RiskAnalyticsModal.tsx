@@ -17,6 +17,8 @@ import {
 import { formatINR } from '../lib/formatters.js';
 import type { PortfolioRiskReport, StressScenario } from '../server/services/RiskAnalyticsEngine.js';
 
+import { apiClient } from '../lib/apiClient';
+
 interface RiskAnalyticsModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -38,8 +40,7 @@ export function RiskAnalyticsModal({
     setLoading(true);
     try {
       const portParam = selectedPortfolio ? `?portfolio=${encodeURIComponent(selectedPortfolio)}` : '';
-      const res = await fetch(`/api/analytics/risk${portParam}`);
-      const data = await res.json();
+      const data = await apiClient.get(`/api/analytics/risk${portParam}`);
       if (data.success) {
         setReport(data.data || data);
       }

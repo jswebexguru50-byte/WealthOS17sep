@@ -17,6 +17,8 @@ import {
 import { ScripMappingRecord } from '../types/scripMapping.js';
 import { SUPPORTED_BROKER_TEMPLATES, BrokerFormatId } from '../types/brokerTemplates.js';
 
+import { apiClient } from '../lib/apiClient';
+
 export function AssetScripMappingView() {
   const [mappings, setMappings] = useState<ScripMappingRecord[]>([]);
   const [unmapped, setUnmapped] = useState<Array<{ symbol: string; count: number; portfolio: string }>>([]);
@@ -41,8 +43,7 @@ export function AssetScripMappingView() {
       if (selectedBroker !== 'ALL') params.append('broker', selectedBroker);
       if (searchQuery.trim()) params.append('query', searchQuery.trim());
 
-      const res = await fetch(`/api/scrip-mappings?${params.toString()}`);
-      const data = await res.json();
+      const data = await apiClient.get(`/api/scrip-mappings?${params.toString()}`);
       if (Array.isArray(data)) setMappings(data);
       else if (data && Array.isArray(data.mappings)) setMappings(data.mappings);
       else setMappings([]);
@@ -56,8 +57,7 @@ export function AssetScripMappingView() {
 
   const fetchUnmapped = async () => {
     try {
-      const res = await fetch('/api/scrip-mappings/unmapped');
-      const data = await res.json();
+      const data = await apiClient.get('/api/scrip-mappings/unmapped');
       if (Array.isArray(data)) setUnmapped(data);
       else if (data && Array.isArray(data.unmapped)) setUnmapped(data.unmapped);
       else setUnmapped([]);
@@ -74,8 +74,7 @@ export function AssetScripMappingView() {
     setAutoResolving(true);
     setResolveFeedback(null);
     try {
-      const res = await fetch('/api/scrip-mappings/auto-resolve', { method: 'POST' });
-      const data = await res.json();
+      const data = await apiClient.post('/api/scrip-mappings/auto-resolve');
       if (data.success) {
         setResolveFeedback(`Successfully auto-resolved and mapped ${data.resolvedCount} scrips!`);
         fetchMappings();
@@ -93,11 +92,7 @@ export function AssetScripMappingView() {
   const handleSaveMapping = async () => {
     if (!editModal || !editModal.data.raw_scrip_name.trim() || !editModal.data.symbol.trim()) return;
     try {
-      await fetch('/api/scrip-mappings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(editModal.data)
-      });
+      await apiClient.post('/api/scrip-mappings', editModal.data);
       setEditModal(null);
       fetchMappings();
       fetchUnmapped();
@@ -110,7 +105,7 @@ export function AssetScripMappingView() {
     if (!id) return;
     if (!confirm('Are you sure you want to delete this mapping alias?')) return;
     try {
-      await fetch(`/api/scrip-mappings/${id}`, { method: 'DELETE' });
+      await apiClient.delete(`/api/scrip-mappings/${id}`);
       fetchMappings();
     } catch (e) {
       console.error('Failed to delete mapping:', e);

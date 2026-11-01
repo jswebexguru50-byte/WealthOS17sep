@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { apiClient } from '../lib/apiClient';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   FileSpreadsheet,
@@ -102,8 +103,7 @@ export function TaxView({
 
   const fetchFys = async () => {
     try {
-      const res = await fetch('/api/tax/financial-years');
-      const data = await res.json();
+      const data = await apiClient.get('/api/tax/financial-years');
       if (data.financial_years && data.financial_years.length > 0) {
         setFys(data.financial_years);
         if (data.current_fy) {
@@ -130,8 +130,7 @@ export function TaxView({
     }
     
     try {
-      const res = await fetch(url);
-      const data = await res.json();
+      const data = await apiClient.get(url);
       if (data.success) {
         setSummary(data.consolidated || []);
         setGains(data.realized_gains || []);
@@ -157,8 +156,7 @@ export function TaxView({
     }
     
     try {
-      const res = await fetch(url);
-      const data = await res.json();
+      const data = await apiClient.get(url);
       if (data && data.schedule_os_dividends && data.schedule_cg_stcg_111a && data.schedule_cg_ltcg_112a) {
         setAdvanceTaxLegacy(data);
       } else {
@@ -176,8 +174,7 @@ export function TaxView({
       setLoadingHarvest(true);
       let url = `/api/tax/harvest-recommendations?fy=${selectedFy}`;
       if (selectedPan !== 'ALL') url += `&pan=${encodeURIComponent(selectedPan)}`;
-      const res = await fetch(url);
-      const data = await res.json();
+      const data = await apiClient.get(url);
       if (data.success) {
         setHarvestData(data);
       }
@@ -191,24 +188,7 @@ export function TaxView({
   // TX-1: Record Harvest Action
   const handleRecordHarvest = async (sug: any) => {
     try {
-      const res = await fetch('/api/tax/harvest-action', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          symbol: sug.symbol,
-          isin: sug.isin,
-          portfolio: sug.portfolio,
-          pan: sug.pan,
-          quantity: sug.quantity,
-          sold_price: sug.current_price,
-          loss_booked: Math.abs(sug.unrealized_loss),
-          loss_category: sug.loss_category,
-          tax_saved: sug.estimated_tax_saved,
-          execution_notes: 'Executed via Tax Harvesting Engine',
-          user_id: 'Portfolio Manager'
-        })
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/tax/harvest-action', { symbol: sug.symbol, isin: sug.isin, portfolio: sug.portfolio, pan: sug.pan, quantity: sug.quantity, sold_price: sug.current_price, loss_booked: Math.abs(sug.unrealized_loss), loss_category: sug.loss_category, tax_saved: sug.estimated_tax_saved, execution_notes: 'Executed via Tax Harvesting Engine', user_id: 'Portfolio Manager' });
       if (data.success) {
         setHarvestActionMsg(`Harvest recorded for ${sug.symbol}! 31-day repurchase reminder created for ${data.repurchase_eligible_date}.`);
         fetchHarvestRecommendations();
@@ -228,8 +208,7 @@ export function TaxView({
       setLoadingAdvanceTax(true);
       let url = `/api/tax/advance-tax-schedule?fy=${selectedFy}`;
       if (selectedPan !== 'ALL') url += `&pan=${encodeURIComponent(selectedPan)}`;
-      const res = await fetch(url);
-      const data = await res.json();
+      const data = await apiClient.get(url);
       if (data.success) {
         setAdvanceTaxSchedule(data.schedule || []);
       }
@@ -246,8 +225,7 @@ export function TaxView({
       setLoadingCfl(true);
       let url = `/api/tax/cfl-waterfall`;
       if (selectedPan !== 'ALL') url += `?pan=${encodeURIComponent(selectedPan)}`;
-      const res = await fetch(url);
-      const data = await res.json();
+      const data = await apiClient.get(url);
       if (data.success) {
         setCflWaterfall(data.waterfall || []);
       }
@@ -264,8 +242,7 @@ export function TaxView({
       setLoadingTaxDividends(true);
       let url = `/api/corporate-actions/dividend-summary?fy=${selectedFy}`;
       if (selectedPan !== 'ALL') url += `&pan=${encodeURIComponent(selectedPan)}`;
-      const res = await fetch(url);
-      const data = await res.json();
+      const data = await apiClient.get(url);
       if (data.success) {
         setTaxDividendSummary(data.summary);
       }
@@ -282,8 +259,7 @@ export function TaxView({
       setLoadingReminders(true);
       let url = `/api/tax/repurchase-reminders`;
       if (selectedPan !== 'ALL') url += `?pan=${encodeURIComponent(selectedPan)}`;
-      const res = await fetch(url);
-      const data = await res.json();
+      const data = await apiClient.get(url);
       if (data.success) {
         setRepurchaseReminders(data.reminders || []);
       }

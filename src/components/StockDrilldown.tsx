@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { apiClient } from '../lib/apiClient';
+
 import {
   TrendingUp,
   TrendingDown,
@@ -52,8 +54,7 @@ export function StockDrilldown({ symbol, onClose, formatCurrency }: StockDrilldo
     const fetchLots = async () => {
       setIsLoading(true);
       try {
-        const res = await fetch(`/api/holdings/lots?symbol=${encodeURIComponent(symbol)}`);
-        const data = await res.json();
+        const data = await apiClient.get(`/api/holdings/lots?symbol=${encodeURIComponent(symbol)}`);
         if (data.success) {
           setBuyLots(data.buy_lots);
           setMatchLots(data.matches);

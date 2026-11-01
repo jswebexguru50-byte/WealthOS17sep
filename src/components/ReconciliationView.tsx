@@ -30,6 +30,8 @@ import {
 import { Transaction } from '../types';
 import { formatINR, formatPct } from '../lib/formatters.js';
 
+import { apiClient } from '../lib/apiClient';
+
 interface ReconciliationRow {
   isin: string;
   symbol: string;
@@ -115,8 +117,7 @@ export function ReconciliationView({
     setIsAuditingPms(true);
     setErrorMsg('');
     try {
-      const res = await fetch(`/api/reconciliation/pms-audit?portfolio=${encodeURIComponent(targetPortfolio)}&initialCash=${initialCashInput}&settlementDays=${settlementDaysInput}`);
-      const data = await res.json();
+      const data = await apiClient.get(`/api/reconciliation/pms-audit?portfolio=${encodeURIComponent(targetPortfolio)}&initialCash=${initialCashInput}&settlementDays=${settlementDaysInput}`);
       if (data.success && data.report) {
         setPmsAuditReport(data.report);
         setSuccessMsg(`Successfully executed 100% traceable audit for ${targetPortfolio}!`);
@@ -350,8 +351,7 @@ export function ReconciliationView({
         portfolios: targetPortfolio,
         limit: '100'
       });
-      const res = await fetch(`/api/transactions?${queryParams.toString()}`);
-      const data = await res.json();
+      const data = await apiClient.get(`/api/transactions?${queryParams.toString()}`);
       if (data && data.data) {
         // filter down strictly to correct symbol
         const exactMatches = data.data.filter((tx: any) => tx.symbol.toUpperCase() === symbol.toUpperCase());
@@ -414,27 +414,11 @@ export function ReconciliationView({
 
     try {
       // 1. Create manual Corporate Action
-      const caRes = await fetch('/api/corporate-actions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          record_date: resolveDate,
-          symbol: activeResolverRow.symbol,
-          isin: activeResolverRow.isin || 'UNKNOWN',
-          action_type: splitActionType.toUpperCase(),
-          numerator: splitNumerator,
-          denominator: splitDenominator,
-          details: `${splitActionType} applied during portfolio audit.`
-        })
-      });
-      const caData = await caRes.json();
+      const caData = await apiClient.post('/api/corporate-actions', { record_date: resolveDate, symbol: activeResolverRow.symbol, isin: activeResolverRow.isin || 'UNKNOWN', action_type: splitActionType.toUpperCase(), numerator: splitNumerator, denominator: splitDenominator, details: `${splitActionType} applied during portfolio audit.` });
 
       if (caData.success) {
         // 2. Apply it immediately to trigger ledger processing
-        const applyRes = await fetch('/api/corporate-actions/apply', {
-          method: 'POST'
-        });
-        const applyData = await applyRes.json();
+        const applyData = await apiClient.post('/api/corporate-actions/apply');
 
         if (applyData.success) {
           setSuccessMsg(`Successfully applied ${splitActionType} corporate action for ${activeResolverRow.symbol}!`);
@@ -467,24 +451,7 @@ export function ReconciliationView({
     setLoadingHistory(true);
     try {
       const netAmount = editTxQty * editTxPrice;
-      const res = await fetch(`/api/transactions/${txId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          id: txId,
-          date: editTxDate,
-          portfolio: targetPortfolio,
-          type: txHistory.find(t => t.id === txId)?.type || 'Buy',
-          symbol: activeResolverRow?.symbol,
-          isin: activeResolverRow?.isin || 'UNKNOWN',
-          quantity: editTxQty,
-          price: editTxPrice,
-          net_amount: netAmount,
-          gross_amount: netAmount,
-          brokerage: 0
-        })
-      });
-      const data = await res.json();
+      const data = await apiClient.put(`/api/transactions/${txId}`);
       if (data.success) {
         setSuccessMsg('Ledger transaction updated successfully!');
         setEditingTxId(null);
@@ -508,10 +475,7 @@ export function ReconciliationView({
     if (!window.confirm('Are you sure you want to delete this trade record? This will instantly trigger recalculations.')) return;
     setLoadingHistory(true);
     try {
-      const res = await fetch(`/api/transactions/${txId}`, {
-        method: 'DELETE'
-      });
-      const data = await res.json();
+      const data = await apiClient.delete(`/api/transactions/${txId}`);
       if (data.success) {
         setSuccessMsg('Transaction removed from ledger.');
         setEditingTxId(null);

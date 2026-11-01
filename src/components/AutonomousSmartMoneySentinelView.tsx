@@ -44,6 +44,8 @@ import {
 import { TradingViewChartWidget } from './TradingViewChartWidget.js';
 import { MomentumReasoningPanel } from './MomentumReasoningPanel.js';
 
+import { safeFetchJson } from '../lib/api';
+
 export interface AutonomousRecommendation {
   id?: number;
   symbol: string;
@@ -279,9 +281,9 @@ export function AutonomousSmartMoneySentinelView() {
   const fetchSmcRadarData = async () => {
     setSmcRadarLoading(true);
     try {
-      const res = await fetch('/api/v1/sentinel/smc/scanner');
+      const res = await safeFetchJson('/api/v1/sentinel/smc/scanner');
       if (res.ok) {
-        const json = await res.json();
+        const json = res.data;
         if (json.success && json.data) {
           setSmcRadarList(json.data);
         }
@@ -299,21 +301,21 @@ export function AutonomousSmartMoneySentinelView() {
         ? '/api/v1/autonomous-agent/recommendations'
         : `/api/v1/autonomous-agent/recommendations?filter=${filter}`;
       const [recRes, alertRes, healthRes] = await Promise.all([
-        fetch(recUrl),
-        fetch('/api/v1/autonomous-agent/alerts'),
-        fetch('/api/v1/autonomous-agent/health')
+        safeFetchJson(recUrl),
+        safeFetchJson('/api/v1/autonomous-agent/alerts'),
+        safeFetchJson('/api/v1/autonomous-agent/health')
       ]);
 
       if (recRes.ok) {
-        const data = await recRes.json();
+        const data = recRes.data;
         if (data.data) setRecommendations(data.data);
       }
       if (alertRes.ok) {
-        const data = await alertRes.json();
+        const data = alertRes.data;
         if (data.data) setAlerts(data.data);
       }
       if (healthRes.ok) {
-        const data = await healthRes.json();
+        const data = healthRes.data;
         if (data.data) setHealth(data.data);
       }
     } catch (e) {
@@ -326,22 +328,22 @@ export function AutonomousSmartMoneySentinelView() {
   const fetchAuditData = async () => {
     try {
       const [metricRes, postMortemRes, rulesRes] = await Promise.all([
-        fetch(`/api/v1/autonomous-agent/performance-audit?daysWindow=${auditDaysWindow}`),
-        fetch(`/api/v1/autonomous-agent/causal-post-mortems?category=${causalFilterCategory}`),
-        fetch('/api/v1/autonomous-agent/self-learning-rules')
+        safeFetchJson(`/api/v1/autonomous-agent/performance-audit?daysWindow=${auditDaysWindow}`),
+        safeFetchJson(`/api/v1/autonomous-agent/causal-post-mortems?category=${causalFilterCategory}`),
+        safeFetchJson('/api/v1/autonomous-agent/self-learning-rules')
       ]);
 
       if (metricRes.ok) {
-        const d = await metricRes.json();
+        const d = metricRes.data;
         if (d.data) setAuditMetrics(d.data);
       }
       if (postMortemRes.ok) {
-        const d = await postMortemRes.json();
+        const d = postMortemRes.data;
         if (d.data) setPostMortems(d.data);
         if (d.distribution) setFailureDistribution(d.distribution);
       }
       if (rulesRes.ok) {
-        const d = await rulesRes.json();
+        const d = rulesRes.data;
         if (d.data) setSelfLearningRules(d.data);
         if (d.changelog) setMutationLog(d.changelog);
       }
@@ -353,21 +355,21 @@ export function AutonomousSmartMoneySentinelView() {
   const fetchPaperPotData = async (potId: string) => {
     try {
       const [overviewRes, posRes, curveRes] = await Promise.all([
-        fetch(`/api/v1/autonomous-agent/paper-pot?potId=${potId}`),
-        fetch(`/api/v1/autonomous-agent/paper-pot/positions?potId=${potId}&status=${paperStatusFilter}&timeframe=${paperTimeframeFilter}`),
-        fetch(`/api/v1/autonomous-agent/paper-pot/equity-curve?potId=${potId}`)
+        safeFetchJson(`/api/v1/autonomous-agent/paper-pot?potId=${potId}`),
+        safeFetchJson(`/api/v1/autonomous-agent/paper-pot/positions?potId=${potId}&status=${paperStatusFilter}&timeframe=${paperTimeframeFilter}`),
+        safeFetchJson(`/api/v1/autonomous-agent/paper-pot/equity-curve?potId=${potId}`)
       ]);
 
       if (overviewRes.ok) {
-        const d = await overviewRes.json();
+        const d = overviewRes.data;
         if (d.data) setPotOverview(d.data);
       }
       if (posRes.ok) {
-        const d = await posRes.json();
+        const d = posRes.data;
         if (d.data) setPaperPositions(d.data);
       }
       if (curveRes.ok) {
-        const d = await curveRes.json();
+        const d = curveRes.data;
         if (d.data) setEquityCurve(d.data);
       }
     } catch (e) {
@@ -378,7 +380,7 @@ export function AutonomousSmartMoneySentinelView() {
   const handleTriggerScan = async () => {
     setScanningNow(true);
     try {
-      const res = await fetch('/api/v1/autonomous-agent/scan-now', { method: 'POST' });
+      const res = await safeFetchJson('/api/v1/autonomous-agent/scan-now', { method: 'POST' });
       if (res.ok) {
         await Promise.all([fetchScannerData(), fetchAuditData(), fetchPaperPotData(activePotId)]);
       }
@@ -392,7 +394,7 @@ export function AutonomousSmartMoneySentinelView() {
   const handleSyncPaperTrades = async () => {
     setSyncingPaperPot(true);
     try {
-      const res = await fetch('/api/v1/autonomous-agent/paper-pot/sync', { method: 'POST' });
+      const res = await safeFetchJson('/api/v1/autonomous-agent/paper-pot/sync', { method: 'POST' });
       if (res.ok) {
         await fetchPaperPotData(activePotId);
         await fetchAuditData();
@@ -406,11 +408,7 @@ export function AutonomousSmartMoneySentinelView() {
 
   const handleResetPot = async () => {
     try {
-      const res = await fetch('/api/v1/autonomous-agent/paper-pot/reset', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ potId: activePotId, initialCapital: resetCapitalInput })
-      });
+      const res = await safeFetchJson('/api/v1/autonomous-agent/paper-pot/reset', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ potId: activePotId, initialCapital: resetCapitalInput }) });
       if (res.ok) {
         setShowResetModal(false);
         await fetchPaperPotData(activePotId);
@@ -423,11 +421,7 @@ export function AutonomousSmartMoneySentinelView() {
   const handleRollbackRule = async (ruleId: number) => {
     if (!confirm('Are you sure you want to rollback this self-learning rule to its baseline threshold?')) return;
     try {
-      const res = await fetch('/api/v1/autonomous-agent/self-learning-rules/rollback', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ruleId, reason: 'User requested rollback via Quality Hub' })
-      });
+      const res = await safeFetchJson('/api/v1/autonomous-agent/self-learning-rules/rollback', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ruleId, reason: 'User requested rollback via Quality Hub' }) });
       if (res.ok) {
         await fetchAuditData();
       }
@@ -440,9 +434,9 @@ export function AutonomousSmartMoneySentinelView() {
     setActiveChartSymbol(symbol);
     setChartLoading(true);
     try {
-      const res = await fetch(`/api/technical-momentum?symbol=${symbol}&weightProfile=AUTO_SECTOR`);
+      const res = await safeFetchJson(`/api/technical-momentum?symbol=${symbol}&weightProfile=AUTO_SECTOR`);
       if (res.ok) {
-        const data = await res.json();
+        const data = res.data;
         setChartReport(data);
       }
     } catch (e) {
@@ -454,9 +448,9 @@ export function AutonomousSmartMoneySentinelView() {
 
   const handleOpenMatrix = async () => {
     try {
-      const res = await fetch('/api/v1/autonomous-agent/weighting-matrix');
+      const res = await safeFetchJson('/api/v1/autonomous-agent/weighting-matrix');
       if (res.ok) {
-        const d = await res.json();
+        const d = res.data;
         setMatrixData(d.data);
         setShowMatrixModal(true);
       }

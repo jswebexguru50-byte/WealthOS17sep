@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { apiClient } from '../lib/apiClient';
+
 import { 
   X, 
   Printer, 
@@ -68,9 +70,9 @@ export function PerformanceSnapshotModal({
       // 1. Fetch cash flow ledger
       const portParam = selectedPortfolio && selectedPortfolio !== 'Combined' ? `?portfolios=${encodeURIComponent(selectedPortfolio)}` : '';
       const [cfRes, dashRes, xirrRes] = await Promise.all([
-        fetch(`/api/cash-flow-ledger${portParam}`).then(r => r.json()).catch(() => ({ cashFlows: [] })),
-        fetch(`/api/dashboard${portParam}`).then(r => r.json()).catch(() => ({ metrics: {} })),
-        fetch(`/api/dashboard/xirr${portParam}`).then(r => r.json()).catch(() => ({ xirr: null }))
+        apiClient.get(`/api/cash-flow-ledger${portParam}`).catch(() => ({ cashFlows: [] })),
+        apiClient.get(`/api/dashboard${portParam}`).catch(() => ({ metrics: {} })),
+        apiClient.get(`/api/dashboard/xirr${portParam}`).catch(() => ({ xirr: null }))
       ]);
 
       const flows: CashflowItem[] = cfRes?.cashFlows || [];

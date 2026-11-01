@@ -20,6 +20,8 @@ import {
 import { Schedule112AReportModal } from './Schedule112AReportModal.js';
 import { getGainLossColorClass, getGainLossBgClass } from '../lib/formatters.js';
 
+import { apiClient } from '../lib/apiClient';
+
 interface ReportsEngineModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -219,12 +221,7 @@ export function ReportsEngineModal({
         payload.financialYear = 'ALL_TIME';
       }
 
-      const res = await fetch('/api/reports/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/reports/generate', payload);
       setReportData(data);
     } catch (e) {
       console.error('Error generating report:', e);

@@ -50,6 +50,8 @@ import { PortfolioPerformanceGrowthIntelligence } from './PortfolioPerformanceGr
 import { ScripPerformanceInspector } from './ScripPerformanceInspector.js';
 import { formatINR, formatUSD, formatCurrency as formatCurrencyUtil, formatPct, getGainLossColorClass, getGainLossBgClass, getGainLossIcon, formatCrore2Dec } from '../lib/formatters.js';
 
+import { apiClient } from '../lib/apiClient';
+
 const formatLastUpdate = (dateTimeStr: string | null) => {
   if (!dateTimeStr) return 'N/A';
   try {
@@ -337,8 +339,7 @@ export function DashboardView({
   React.useEffect(() => {
     if (showBreakdownModal) {
       setIsLoadingBreakdown(true);
-      fetch('/api/dashboard/breakdown')
-        .then(res => res.json())
+      apiClient.get('/api/dashboard/breakdown')
         .then(data => {
           if (data.success) {
             setBreakdowns(data.breakdowns || []);

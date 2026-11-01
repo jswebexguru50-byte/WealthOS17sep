@@ -69,6 +69,8 @@ import { FlexibleTelemetryPipelinePanel } from './FlexibleTelemetryPipelinePanel
 import { SunriseIndustrialUniverseView } from './SunriseIndustrialUniverseView.js';
 import { IndependentTechnicalStrategiesView } from './IndependentTechnicalStrategiesView.js';
 
+import { apiClient } from '../lib/apiClient';
+
 export interface ConsolidatedOpportunity {
   id: string;
   symbol: string;
@@ -806,8 +808,7 @@ export const OpportunityEngineMasterView: React.FC = () => {
   const fetchPaperTrades = async () => {
     try {
       setPaperLedgerLoading(true);
-      const res = await fetch('/api/quant/paper-trades');
-      const json = await res.json();
+      const json = await apiClient.get('/api/quant/paper-trades');
       if (json.success) {
         setPaperTrades(json.trades || []);
       }
@@ -902,12 +903,7 @@ export const OpportunityEngineMasterView: React.FC = () => {
     if (!sym) return;
     try {
       setEvaluatingCustomSymbol(true);
-      const res = await fetch('/api/opportunity-engine/evaluate-scrip', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ symbol: sym })
-      });
-      const json = await res.json();
+      const json = await apiClient.post('/api/opportunity-engine/evaluate-scrip', { symbol: sym });
       if (json.success && json.data) {
         showToast(`Instant Analysis ready for ${sym}!`);
         if (report) {
@@ -943,12 +939,7 @@ export const OpportunityEngineMasterView: React.FC = () => {
     } else {
       setCustomSymbolInput(clean);
       setEvaluatingCustomSymbol(true);
-      fetch('/api/opportunity-engine/evaluate-scrip', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ symbol: clean })
-      })
-        .then(r => r.json())
+      apiClient.post('/api/opportunity-engine/evaluate-scrip', { symbol: clean })
         .then(json => {
           if (json.success && json.data) {
             setDossierScrip(json.data);
@@ -967,8 +958,8 @@ export const OpportunityEngineMasterView: React.FC = () => {
     try {
       setSmartMoneyLoading(true);
       const [secRes, stockRes] = await Promise.all([
-        fetch(`/api/smart-money/sectors?timeframe=${tf}`).then(r => r.json()).catch(() => ({ sectors: [] })),
-        fetch(`/api/smart-money/stocks?timeframe=${tf}&limit=40`).then(r => r.json()).catch(() => ({ topAccumulation: [], topDistribution: [] }))
+        apiClient.get(`/api/smart-money/sectors?timeframe=${tf}`).catch(() => ({ sectors: [] })),
+        apiClient.get(`/api/smart-money/stocks?timeframe=${tf}&limit=40`).catch(() => ({ topAccumulation: [], topDistribution: [] }))
       ]);
       if (secRes?.success && Array.isArray(secRes.sectors)) {
         setSectorFlows(secRes.sectors);
@@ -990,9 +981,9 @@ export const OpportunityEngineMasterView: React.FC = () => {
     try {
       setSentinelLoading(true);
       const [recRes, alertRes, smcRes] = await Promise.all([
-        fetch('/api/v1/autonomous-agent/recommendations').then(r => r.json()).catch(() => ({ data: [] })),
-        fetch('/api/v1/autonomous-agent/alerts').then(r => r.json()).catch(() => ({ data: [] })),
-        fetch('/api/v1/sentinel/smc/scanner').then(r => r.json()).catch(() => ({ data: [] }))
+        apiClient.get('/api/v1/autonomous-agent/recommendations').catch(() => ({ data: [] })),
+        apiClient.get('/api/v1/autonomous-agent/alerts').catch(() => ({ data: [] })),
+        apiClient.get('/api/v1/sentinel/smc/scanner').catch(() => ({ data: [] }))
       ]);
       if (recRes?.data) setSentinelRecommendations(recRes.data);
       if (alertRes?.data) setSentinelAlerts(alertRes.data);
@@ -1008,8 +999,8 @@ export const OpportunityEngineMasterView: React.FC = () => {
     try {
       setBuyersLoading(true);
       const [bRes, sRes] = await Promise.all([
-        fetch(`/api/smart-money/buyers?window=${win}`).then(r => r.json()).catch(() => ({ buyers: [] })),
-        fetch(`/api/smart-money/buyers/scrips?window=${win}`).then(r => r.json()).catch(() => ({ scrips: [] }))
+        apiClient.get(`/api/smart-money/buyers?window=${win}`).catch(() => ({ buyers: [] })),
+        apiClient.get(`/api/smart-money/buyers/scrips?window=${win}`).catch(() => ({ scrips: [] }))
       ]);
       if (bRes?.buyers) setBuyersList(bRes.buyers);
       if (sRes?.scrips) setScripsBuyersList(sRes.scrips);
@@ -1071,8 +1062,7 @@ export const OpportunityEngineMasterView: React.FC = () => {
         params.set('w_sm', String(w.smartMoney));
         params.set('w_sec', String(w.sectorRS));
       }
-      const res = await fetch(`/api/opportunity-engine/dashboard?${params.toString()}`);
-      const json = await res.json();
+      const json = await apiClient.get(`/api/opportunity-engine/dashboard?${params.toString()}`);
       if (json.success && json.data) {
         setReport(json.data);
       }
@@ -1128,8 +1118,7 @@ export const OpportunityEngineMasterView: React.FC = () => {
   const handleTriggerScan = async () => {
     try {
       setScanning(true);
-      const res = await fetch('/api/opportunity-engine/scan', { method: 'POST' });
-      const json = await res.json();
+      const json = await apiClient.post('/api/opportunity-engine/scan');
       if (json.success && json.data) {
         setReport(json.data);
         showToast('6-Stage Opportunity Scan completed successfully across Nifty 500 & Microcap 250 universe!');
@@ -1162,12 +1151,7 @@ export const OpportunityEngineMasterView: React.FC = () => {
         notes: `Manual Arm from Dashboard. Convergence: ${opp.convergenceScore}`
       };
 
-      const res = await fetch('/api/quant/paper-trades', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      const json = await res.json();
+      const json = await apiClient.post('/api/quant/paper-trades', payload);
       if (json.success) {
         showToast(`Paper trade simulated & armed for ${opp.symbol}`);
         if (report) {

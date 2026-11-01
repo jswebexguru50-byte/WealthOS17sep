@@ -3,6 +3,8 @@ import { Sparkles, Play, Building2, RotateCcw, AlertTriangle, ArrowRight } from 
 import { ForensicDossier } from '../../types.js';
 import { DossierView } from './DossierView.js';
 
+import { apiClient } from '../../lib/apiClient';
+
 interface CustomAnalyzerProps {
   onAnalyzeComplete: (dossier: ForensicDossier) => void;
   p3GateSignedOff: boolean;
@@ -42,14 +44,8 @@ export const CustomAnalyzer: React.FC<CustomAnalyzerProps> = ({
     setError(null);
 
     try {
-      const res = await fetch('/api/custom-analysis', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      const json = await res.json();
-      if (!res.ok || !json.success) {
+      const json = await apiClient.post('/api/custom-analysis', formData);
+      if (!json.success) {
         throw new Error(json.error || 'Failed to analyze custom stock');
       }
 

@@ -24,6 +24,8 @@ import {
 import { formatINR, getGainLossColorClass, getGainLossBgClass, getGainLossIcon, formatPct, formatCrore2Dec } from '../lib/formatters.js';
 import { getUserPreferences } from '../lib/preferences.js';
 
+import { apiClient } from '../lib/apiClient';
+
 interface CommandCenterData {
   summary: {
     totalNetWorthINR: number;
@@ -132,8 +134,7 @@ export function FamilyOfficeCommandCenter({
     setError(null);
     try {
       const mParam = (currentMemberId && currentMemberId !== 'all') ? `?member_id=${currentMemberId}` : '?member_id=1';
-      const res = await fetch(`/api/command-center${mParam}`);
-      const json = await res.json();
+      const json = await apiClient.get(`/api/command-center${mParam}`);
       if (json.success) {
         setData(json);
       } else {

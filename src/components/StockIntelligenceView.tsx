@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { apiClient } from '../lib/apiClient';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   TrendingUp,
@@ -114,9 +115,9 @@ export function StockIntelligenceView({
 
     // Parallel fetch scrip intelligence, broker recommendations, and momentum reasoning report
     Promise.all([
-      fetch(`/api/scrip-intelligence/${encodeURIComponent(symbol)}`).then((r) => r.json()),
-      fetch(`/api/broker-research/symbol/${encodeURIComponent(symbol)}`).then((r) => r.json()).catch(() => ({ data: [] })),
-      fetch(`/api/momentum-reasoning/${encodeURIComponent(symbol)}`).then((r) => r.json()).catch(() => null)
+      apiClient.get(`/api/scrip-intelligence/${encodeURIComponent(symbol)}`),
+      apiClient.get(`/api/broker-research/symbol/${encodeURIComponent(symbol)}`).catch(() => ({ data: [] })),
+      apiClient.get(`/api/momentum-reasoning/${encodeURIComponent(symbol)}`).catch(() => null)
     ])
       .then(([intelJson, brokerJson, momentumJson]) => {
         if (intelJson.success) setData(intelJson.data || intelJson);

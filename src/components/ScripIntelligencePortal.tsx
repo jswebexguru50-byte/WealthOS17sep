@@ -25,6 +25,8 @@ import {
 import { formatINR, formatPct } from '../lib/formatters.js';
 import { StockIntelligenceView } from './StockIntelligenceView.js';
 
+import { apiClient } from '../lib/apiClient';
+
 interface ScripIntelligencePortalProps {
   initialSymbol?: string;
   selectedPortfolio?: string;
@@ -56,8 +58,7 @@ export function ScripIntelligencePortal({ initialSymbol = 'RELIANCE', selectedPo
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`/api/scrip-intelligence?symbol=${encodeURIComponent(sym)}`);
-      const result = await res.json();
+      const result = await apiClient.get(`/api/scrip-intelligence?symbol=${encodeURIComponent(sym)}`);
       if (result.success) {
         setData(result);
         setActiveSymbol(result.symbol || sym);
@@ -74,8 +75,7 @@ export function ScripIntelligencePortal({ initialSymbol = 'RELIANCE', selectedPo
 
   useEffect(() => {
     // Fetch master tickers for dropdown search
-    fetch('/api/master-tickers')
-      .then(r => r.json())
+    apiClient.get('/api/master-tickers')
       .then(data => {
         if (Array.isArray(data)) setMasterTickers(data);
       })
@@ -83,8 +83,7 @@ export function ScripIntelligencePortal({ initialSymbol = 'RELIANCE', selectedPo
 
     // Fetch dynamic effective holdings (including MF & ETF underlying stock lookthrough)
     const portfolioParam = selectedPortfolio ? `?portfolio=${encodeURIComponent(selectedPortfolio)}` : '';
-    fetch(`/api/dashboard/effective-holdings${portfolioParam}`)
-      .then(r => r.json())
+    apiClient.get(`/api/dashboard/effective-holdings${portfolioParam}`)
       .then(data => {
         let extractedTop: any[] = [];
         if (data.success && Array.isArray(data.effective_holdings) && data.effective_holdings.length > 0) {
@@ -101,8 +100,7 @@ export function ScripIntelligencePortal({ initialSymbol = 'RELIANCE', selectedPo
 
         if (extractedTop.length === 0) {
           // Fallback to direct holdings if lookthrough was empty
-          fetch(`/api/dashboard${portfolioParam}`)
-            .then(r => r.json())
+          apiClient.get(`/api/dashboard${portfolioParam}`)
             .then(dashData => {
               if (dashData.success && dashData.holdings) {
                 const symMap = new Map<string, { val: number, name: string }>();

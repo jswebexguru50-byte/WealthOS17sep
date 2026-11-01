@@ -24,6 +24,8 @@ import { formatINR } from '../lib/formatters.js';
 import { ResizableDataTable } from './ResizableDataTable.js';
 import { MasterTicker } from '../types.js';
 
+import { apiClient } from '../lib/apiClient';
+
 interface MasterTickersViewProps {
   onAddTicker: (ticker: Partial<MasterTicker>) => Promise<boolean>;
   onEditTicker: (id: number, ticker: Partial<MasterTicker>) => Promise<boolean>;
@@ -67,8 +69,7 @@ export function MasterTickersView({
   const handleSyncSectors = async () => {
     setIsSyncingSectors(true);
     try {
-      const res = await fetch('/api/tickers/sync-sectors', { method: 'POST' });
-      const data = await res.json();
+      const data = await apiClient.post('/api/tickers/sync-sectors');
       if (data.success) {
         alert(`Successfully synced sectors! Updated ${data.updatedCount} out of ${data.totalCount} tickers.`);
         fetchTickers();
@@ -84,8 +85,7 @@ export function MasterTickersView({
 
   const fetchTickers = async () => {
     try {
-      const res = await fetch('/api/tickers');
-      const data = await res.json();
+      const data = await apiClient.get('/api/tickers');
       if (Array.isArray(data)) {
         setTickers(data);
       } else if (data && Array.isArray(data.tickers)) {
@@ -267,8 +267,7 @@ export function MasterTickersView({
   const handleMasterSync = async () => {
     setIsSyncingMaster(true);
     try {
-      const res = await fetch('/api/tickers/sync', { method: 'POST' });
-      const data = await res.json();
+      const data = await apiClient.post('/api/tickers/sync');
       if (data.success) {
         alert(`Master Directory Sync Complete!\nSeeded New Scrips: ${data.seeded}\nSynced Records: ${data.count}`);
         fetchTickers();

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { apiClient } from '../lib/apiClient';
 import {
   Settings, Save, Copy, Trash2, RefreshCw, ChevronDown, ChevronUp,
   Sliders, Play, CheckCircle2, AlertTriangle, Plus, Edit2, X
@@ -237,8 +238,7 @@ export const StrategyParameterEditorView: React.FC = () => {
   const fetchSaved = useCallback(async () => {
     setLoadingList(true);
     try {
-      const res = await fetch('/api/strategies/custom');
-      const json = await res.json();
+      const json = await apiClient.get('/api/strategies/custom');
       if (json.success) setSavedStrategies(json.data || []);
     } catch { /* silent */ } finally { setLoadingList(false); }
   }, []);
@@ -248,8 +248,7 @@ export const StrategyParameterEditorView: React.FC = () => {
   const fetchSchema = useCallback(async () => {
     setSchemaLoading(true);
     try {
-      const res = await fetch('/api/strategies/custom/schema');
-      const json = await res.json();
+      const json = await apiClient.get('/api/strategies/custom/schema');
       if (json.success) setSchemaColumns(json.data.columns || []);
       else showToast(json.error || 'Could not load schema', 'error');
     } catch { showToast('Network error loading schema', 'error'); }
@@ -261,12 +260,7 @@ export const StrategyParameterEditorView: React.FC = () => {
     if (!name) { showToast('Enter a valid column name (letters, numbers, underscore)', 'error'); return; }
     setSchemaActionLoading(true);
     try {
-      const res = await fetch('/api/strategies/custom/schema/columns', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ columnName: name, columnType: newColType }),
-      });
-      const json = await res.json();
+      const json = await apiClient.post('/api/strategies/custom/schema/columns', { columnName: name, columnType: newColType });
       if (json.success) {
         showToast(`Column "${json.data.columnName}" (${json.data.columnType}) added`, 'success');
         setNewColName('');
@@ -283,8 +277,7 @@ export const StrategyParameterEditorView: React.FC = () => {
     if (!confirm(`Drop column "${colName}" from CustomStrategies? All existing data in that column will be lost.`)) return;
     setSchemaActionLoading(true);
     try {
-      const res = await fetch(`/api/strategies/custom/schema/columns/${encodeURIComponent(colName)}`, { method: 'DELETE' });
-      const json = await res.json();
+      const json = await apiClient.delete(`/api/strategies/custom/schema/columns/${encodeURIComponent(colName)}`);
       if (json.success) {
         showToast(`Column "${colName}" deleted`, 'success');
         fetchSchema();
@@ -321,16 +314,7 @@ export const StrategyParameterEditorView: React.FC = () => {
     if (!name) { showToast('Please enter a strategy name', 'error'); return; }
     setSaving(true);
     try {
-      const res = await fetch('/api/strategies/custom', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          baseTemplateId: selectedTemplateId,
-          parametersJson: JSON.stringify(config)
-        })
-      });
-      const json = await res.json();
+      const json = await apiClient.post('/api/strategies/custom', { name, baseTemplateId: selectedTemplateId, parametersJson: JSON.stringify(config) });
       if (json.success) {
         showToast(`Strategy "${name}" saved`, 'success');
         setStrategyName('');
@@ -356,8 +340,7 @@ export const StrategyParameterEditorView: React.FC = () => {
   const handleDelete = async (id: string, name: string) => {
     if (!confirm(`Delete strategy "${name}"?`)) return;
     try {
-      const res = await fetch(`/api/strategies/custom/${id}`, { method: 'DELETE' });
-      const json = await res.json();
+      const json = await apiClient.delete(`/api/strategies/custom/${id}`);
       if (json.success) { showToast('Deleted', 'success'); fetchSaved(); }
       else showToast(json.error || 'Delete failed', 'error');
     } catch { showToast('Network error', 'error'); }
@@ -378,8 +361,7 @@ export const StrategyParameterEditorView: React.FC = () => {
     if (!confirm(`Run backtest for all ${savedStrategies.length} saved strategies? This may take a few minutes.`)) return;
     setRunningAllBacktests(true);
     try {
-      const res = await fetch('/api/strategies/custom/run-all-backtests', { method: 'POST' });
-      const json = await res.json();
+      const json = await apiClient.post('/api/strategies/custom/run-all-backtests');
       if (json.success) {
         showToast(`All backtests done: ${json.data.ran} strategies processed`, 'success');
         fetchSaved();
@@ -399,8 +381,7 @@ export const StrategyParameterEditorView: React.FC = () => {
     setBacktesting(true);
     setBacktestResult(null);
     try {
-      const res = await fetch(`/api/strategies/custom/${stratId}/run-backtest`, { method: 'POST' });
-      const json = await res.json();
+      const json = await apiClient.post(`/api/strategies/custom/${stratId}/run-backtest`);
       if (json.success) {
         setBacktestResult(json.data);
         showToast(`Backtest done: ${json.data.totalSignals} signals, ${json.data.winRatePct}% win rate`, 'success');

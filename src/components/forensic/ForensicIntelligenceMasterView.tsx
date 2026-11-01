@@ -21,6 +21,8 @@ import { CustomAnalyzer } from './CustomAnalyzer.js';
 import { ForensicDossier, TestResultItem } from '../../types.js';
 import { Search, ChevronDown, Check, Building2, Sparkles, AlertCircle } from 'lucide-react';
 
+import { safeFetchJson } from '../../lib/api';
+
 export interface AvailableStockItem {
   symbol: string;
   companyName: string;
@@ -143,9 +145,9 @@ export const ForensicIntelligenceMasterView: React.FC = () => {
     setIsLoading(true);
     try {
       // 1. Try standard forensic dossier endpoint
-      const res = await fetch(`/api/forensic/dossier/${cleanSym}`);
+      const res = await safeFetchJson(`/api/forensic/dossier/${cleanSym}`);
       if (res.ok) {
-        const data = await res.json();
+        const data = res.data;
         if (data.success && data.data) {
           setDossiers((prev) => [data.data, ...prev.filter((d) => d.symbol.toUpperCase() !== cleanSym)]);
           return;
@@ -153,9 +155,9 @@ export const ForensicIntelligenceMasterView: React.FC = () => {
       }
 
       // 2. Fallback: try 49-dossier endpoint
-      const res49 = await fetch(`/api/forensic/49-dossier/${cleanSym}`);
+      const res49 = await safeFetchJson(`/api/forensic/49-dossier/${cleanSym}`);
       if (res49.ok) {
-        const data49 = await res49.json();
+        const data49 = res49.data;
         if (data49.success && data49.data) {
           const raw = data49.data;
           // Adapt raw 49-dossier JSON into ForensicDossier schema
@@ -276,17 +278,17 @@ export const ForensicIntelligenceMasterView: React.FC = () => {
     setIsLoading(true);
     try {
       // Fetch P3 gate status
-      const gateRes = await fetch('/api/forensic/p3-gate');
+      const gateRes = await safeFetchJson('/api/forensic/p3-gate');
       if (gateRes.ok) {
-        const gateData = await gateRes.json();
+        const gateData = gateRes.data;
         setP3GateSignedOff(gateData.isSignedOff);
       }
 
       // Fetch universe dossiers
-      const univRes = await fetch('/api/forensic/universe?watchlist=TITAN,TATAMOTORS,INFY,DAMODARIND,KSL,REDINGTON');
+      const univRes = await safeFetchJson('/api/forensic/universe?watchlist=TITAN,TATAMOTORS,INFY,DAMODARIND,KSL,REDINGTON');
       let loadedDossiers: ForensicDossier[] = [];
       if (univRes.ok) {
-        const univData = await univRes.json();
+        const univData = univRes.data;
         if (univData.success && univData.data.dossiers) {
           loadedDossiers = univData.data.dossiers;
           setDossiers(loadedDossiers);
@@ -295,9 +297,9 @@ export const ForensicIntelligenceMasterView: React.FC = () => {
 
       // Fetch 49 master list for the global stock dropdown
       try {
-        const listRes = await fetch('/api/forensic/49-dossiers');
+        const listRes = await safeFetchJson('/api/forensic/49-dossiers');
         if (listRes.ok) {
-          const listData = await listRes.json();
+          const listData = listRes.data;
           if (listData.success && listData.data && listData.data.length > 0) {
             const enrichedList: AvailableStockItem[] = listData.data.map((d: any) => ({
               symbol: d.symbol,
@@ -328,9 +330,9 @@ export const ForensicIntelligenceMasterView: React.FC = () => {
       }
 
       // Fetch telemetry
-      const telemRes = await fetch('/api/forensic/telemetry');
+      const telemRes = await safeFetchJson('/api/forensic/telemetry');
       if (telemRes.ok) {
-        const telemData = await telemRes.json();
+        const telemData = telemRes.data;
         setTelemetry({
           cacheHits: telemData.cache?.catalystHits || 4,
           tokensConsumed: telemData.llm?.totalTokens || 4820,
@@ -355,13 +357,13 @@ export const ForensicIntelligenceMasterView: React.FC = () => {
   const handleToggleP3Gate = async () => {
     try {
       const nextState = !p3GateSignedOff;
-      const res = await fetch('/api/forensic/p3-gate', {
+      const res = await safeFetchJson('/api/forensic/p3-gate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ approved: nextState }),
       });
       if (res.ok) {
-        const data = await res.json();
+        const data = res.data;
         setP3GateSignedOff(data.isSignedOff);
       }
     } catch (e) {
@@ -373,9 +375,9 @@ export const ForensicIntelligenceMasterView: React.FC = () => {
     if (!selectedSymbol) return;
     setIsLoading(true);
     try {
-      const res = await fetch(`/api/forensic/dossier/${selectedSymbol}?stage=3`);
+      const res = await safeFetchJson(`/api/forensic/dossier/${selectedSymbol}?stage=3`);
       if (res.ok) {
-        const data = await res.json();
+        const data = res.data;
         if (data.success && data.data) {
           setDossiers((prev) =>
             prev.map((d) => (d.symbol.toUpperCase() === selectedSymbol.toUpperCase() ? data.data : d))
@@ -392,9 +394,9 @@ export const ForensicIntelligenceMasterView: React.FC = () => {
   const handleRunTests = async () => {
     setIsTestRunning(true);
     try {
-      const res = await fetch('/api/forensic/test-suite/run', { method: 'POST' });
+      const res = await safeFetchJson('/api/forensic/test-suite/run', { method: 'POST' });
       if (res.ok) {
-        const data = await res.json();
+        const data = res.data;
         if (data.success && data.report) {
           setTestResults(data.report.results);
           setTestSummary({

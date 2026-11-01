@@ -8,6 +8,8 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { apiClient } from '../lib/apiClient';
+
 import {
   X,
   ShieldCheck,
@@ -90,8 +92,7 @@ export const FereForensicDeepDiveModal: React.FC<FereForensicDeepDiveModalProps>
     setError(null);
     try {
       const clean = targetSymbol.trim().toUpperCase().replace('.NS', '').replace('.BO', '');
-      const res = await fetch(`/api/forensic/fere-stock/${encodeURIComponent(clean)}`);
-      const json = await res.json();
+      const json = await apiClient.get(`/api/forensic/fere-stock/${encodeURIComponent(clean)}`);
       if (json.success && json.data) {
         setData(json.data);
       } else {

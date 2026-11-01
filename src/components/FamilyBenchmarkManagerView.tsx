@@ -17,6 +17,8 @@ import {
 } from 'lucide-react';
 import { STANDARD_BENCHMARKS, BenchmarkOption, FamilyGroup } from '../types/familyBenchmarks.js';
 
+import { apiClient } from '../lib/apiClient';
+
 interface FamilyBenchmarkManagerViewProps {
   portfolios: string[];
   selectedPortfolio: string;
@@ -48,8 +50,7 @@ export function FamilyBenchmarkManagerView({
   const fetchHierarchy = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/family-hierarchy');
-      const data = await res.json();
+      const data = await apiClient.get('/api/family-hierarchy');
       if (data.families) {
         setFamilies(data.families);
       }
@@ -63,11 +64,7 @@ export function FamilyBenchmarkManagerView({
   const handleSaveFamily = async () => {
     if (!editingFamily.name.trim()) return;
     try {
-      await fetch('/api/family-hierarchy', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(editingFamily)
-      });
+      await apiClient.post('/api/family-hierarchy', editingFamily);
       setIsEditingModalOpen(false);
       fetchHierarchy();
     } catch (e) {
@@ -78,7 +75,7 @@ export function FamilyBenchmarkManagerView({
   const handleDeleteFamily = async (id: number) => {
     if (!confirm('Are you sure you want to delete this family group? Member portfolios will be reassigned to Primary Family Office.')) return;
     try {
-      await fetch(`/api/family-hierarchy/${id}`, { method: 'DELETE' });
+      await apiClient.delete(`/api/family-hierarchy/${id}`);
       fetchHierarchy();
     } catch (e) {
       console.error('Failed to delete family group:', e);
@@ -88,15 +85,7 @@ export function FamilyBenchmarkManagerView({
   const handleAssignPortfolio = async () => {
     if (!assignModal) return;
     try {
-      await fetch('/api/family-hierarchy/assign', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          portfolio: assignModal.portfolio,
-          family_group: assignModal.family_group,
-          benchmark_symbol: assignModal.benchmark_symbol
-        })
-      });
+      await apiClient.post('/api/family-hierarchy/assign', { portfolio: assignModal.portfolio, family_group: assignModal.family_group, benchmark_symbol: assignModal.benchmark_symbol });
       setAssignModal(null);
       fetchHierarchy();
     } catch (e) {

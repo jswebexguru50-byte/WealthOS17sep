@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Database, HardDrive, Trash2, RefreshCw, AlertTriangle, FileArchive, CheckCircle2, ShieldCheck, Zap, Layers } from 'lucide-react';
 import { safeFetchJson } from '../lib/api';
 
+import { apiClient } from '../lib/apiClient';
+
 interface TableStat {
   name: string;
   category: string;
@@ -53,15 +55,7 @@ export const DatabaseSizeInspector: React.FC<{
     setIsPurging(true);
     setShowPurgeModal(false);
     try {
-      const res = await fetch('/api/admin/purge-cache', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          purgePriceCache: true,
-          purgeLogs: true
-        })
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/admin/purge-cache');
       if (data.success) {
         onToast?.(data.message || 'Database cache purged successfully!', 'success');
         fetchStats();
@@ -78,10 +72,7 @@ export const DatabaseSizeInspector: React.FC<{
   const handleVacuumDatabase = async () => {
     setIsVacuuming(true);
     try {
-      const res = await fetch('/api/admin/vacuum-database', {
-        method: 'POST'
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/admin/vacuum-database');
       if (data.success) {
         onToast?.(data.message || 'Database vacuum completed successfully!', 'success');
         fetchStats();

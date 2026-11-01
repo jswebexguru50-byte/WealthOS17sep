@@ -65,6 +65,10 @@ import type { AccuracyReport, PredictionRecord } from '../server/services/Predic
 import type { SelfLearningReport, EvolutionGeneration, PostMortemLearningCase } from '../server/services/SelfLearningEngine.js';
 import type { BrokerReportWithAudit } from '../server/services/BrokerResearchIntelligenceService.js';
 
+import { apiClient } from '../lib/apiClient';
+
+import { safeFetchJson } from '../lib/api';
+
 interface OpportunitiesRebalancingHubProps {
   selectedPortfolio: string;
   portfolios: string[];
@@ -148,8 +152,7 @@ export const OpportunitiesRebalancingHub: React.FC<OpportunitiesRebalancingHubPr
     setTvLoading(true);
     setTvMomentumReport(null);
     try {
-      const res = await fetch(`/api/momentum-reasoning/${encodeURIComponent(symbol)}`);
-      const data = await res.json();
+      const data = await apiClient.get(`/api/momentum-reasoning/${encodeURIComponent(symbol)}`);
       if (data?.success && data?.data) {
         setTvMomentumReport(data.data);
       }
@@ -171,8 +174,7 @@ export const OpportunitiesRebalancingHub: React.FC<OpportunitiesRebalancingHubPr
   const fetchRedeployMatrix = async (port: string = redeployPortFilter) => {
     setRedeployLoading(true);
     try {
-      const res = await fetch(`/api/opportunities/redeploy-matrix?portfolio=${port}`);
-      const data = await res.json();
+      const data = await apiClient.get(`/api/opportunities/redeploy-matrix?portfolio=${port}`);
       if (data.success) {
         setRedeployData(data.data);
       }
@@ -186,8 +188,7 @@ export const OpportunitiesRebalancingHub: React.FC<OpportunitiesRebalancingHubPr
   const fetchOpportunities = async () => {
     setScannerLoading(true);
     try {
-      const res = await fetch('/api/opportunities/scanner');
-      const data = await res.json();
+      const data = await apiClient.get('/api/opportunities/scanner');
       if (data.success) {
         setScannerData(data.data || data);
       }
@@ -201,8 +202,7 @@ export const OpportunitiesRebalancingHub: React.FC<OpportunitiesRebalancingHubPr
   const fetchAccuracy = async () => {
     setAccuracyLoading(true);
     try {
-      const res = await fetch('/api/prediction/accuracy');
-      const data = await res.json();
+      const data = await apiClient.get('/api/prediction/accuracy');
       if (data.success) {
         setAccuracyData(data.data || data);
       }
@@ -216,8 +216,7 @@ export const OpportunitiesRebalancingHub: React.FC<OpportunitiesRebalancingHubPr
   const fetchSelfLearning = async () => {
     setLearningLoading(true);
     try {
-      const res = await fetch('/api/model/self-learning');
-      const data = await res.json();
+      const data = await apiClient.get('/api/model/self-learning');
       if (data.success) {
         setSelfLearningData(data.data || data);
       }
@@ -232,12 +231,7 @@ export const OpportunitiesRebalancingHub: React.FC<OpportunitiesRebalancingHubPr
     setCalibrating(true);
     setCalibrationSuccessMsg(null);
     try {
-      const res = await fetch('/api/model/calibrate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ reason: 'Operator triggered dynamic weight auto-calibration' })
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/model/calibrate', { reason: 'Operator triggered dynamic weight auto-calibration' });
       if (data.success) {
         setCalibrationSuccessMsg(data.message || 'Model successfully evolved to new generation!');
         await fetchSelfLearning();
@@ -255,13 +249,11 @@ export const OpportunitiesRebalancingHub: React.FC<OpportunitiesRebalancingHubPr
     setEngineLoading(true);
     try {
       const [statusRes, regimeRes, historyRes] = await Promise.all([
-        fetch('/api/engine/status'),
-        fetch('/api/engine/regime'),
-        fetch('/api/engine/run-history?limit=15')
+        safeFetchJson('/api/engine/status'),
+        safeFetchJson('/api/engine/regime'),
+        safeFetchJson('/api/engine/run-history?limit=15')
       ]);
-      const [statusData, regimeData, historyData] = await Promise.all([
-        statusRes.json(), regimeRes.json(), historyRes.json()
-      ]);
+      const [statusData, regimeData, historyData] = [statusRes.data, regimeRes.data, historyRes.data];
       if (statusData.success) setEngineStatus(statusData.data);
       if (regimeData.success) setEngineRegime(regimeData.data);
       if (historyData.success) setEngineRunHistory(historyData.data?.history || []);
@@ -276,12 +268,7 @@ export const OpportunitiesRebalancingHub: React.FC<OpportunitiesRebalancingHubPr
     setEngineCycleRunning(true);
     setEngineCycleLog([]);
     try {
-      const res = await fetch('/api/engine/run-cycle', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ reason: 'Manual operator trigger from UI' })
-      });
-      const data = await res.json();
+      const data = await apiClient.post('/api/engine/run-cycle', { reason: 'Manual operator trigger from UI' });
       if (data.success) {
         setEngineCycleLog(data.data?.cycleLog || []);
         await fetchEngineIntelligence();
@@ -296,8 +283,7 @@ export const OpportunitiesRebalancingHub: React.FC<OpportunitiesRebalancingHubPr
   const fetchBrokerReports = async () => {
     setBrokerLoading(true);
     try {
-      const res = await fetch('/api/broker-research/recent?limit=40');
-      const data = await res.json();
+      const data = await apiClient.get('/api/broker-research/recent?limit=40');
       if (data.success && Array.isArray(data.data)) {
         setBrokerReports(data.data);
       }
@@ -311,9 +297,9 @@ export const OpportunitiesRebalancingHub: React.FC<OpportunitiesRebalancingHubPr
   const fetchRiskAndBreachAlerts = async () => {
     try {
       const [resSl, resBr, resInd] = await Promise.all([
-        fetch('/api/opportunities/stop-loss-alerts').then(r => r.json()).catch(() => ({ alerts: [] })),
-        fetch('/api/opportunities/drawdown-breaker').then(r => r.json()).catch(() => ({ status: null })),
-        fetch('/api/leading-indicators').then(r => r.json()).catch(() => ({ indicators: [] }))
+        apiClient.get('/api/opportunities/stop-loss-alerts').catch(() => ({ alerts: [] })),
+        apiClient.get('/api/opportunities/drawdown-breaker').catch(() => ({ status: null })),
+        apiClient.get('/api/leading-indicators').catch(() => ({ indicators: [] }))
       ]);
       if (resSl?.alerts) setStopLossAlerts(resSl.alerts);
       if (resBr?.status) setDrawdownBreaker(resBr.status);
@@ -325,11 +311,7 @@ export const OpportunitiesRebalancingHub: React.FC<OpportunitiesRebalancingHubPr
 
   const handleAcknowledgeStopLoss = async (alertId: string) => {
     try {
-      await fetch('/api/opportunities/stop-loss-alerts/acknowledge', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ alert_id: alertId })
-      });
+      await apiClient.post('/api/opportunities/stop-loss-alerts/acknowledge', { alert_id: alertId });
       setStopLossAlerts(prev => prev.filter(a => a.id !== alertId));
     } catch (e) {
       console.error('Failed to acknowledge alert', e);
@@ -340,17 +322,12 @@ export const OpportunitiesRebalancingHub: React.FC<OpportunitiesRebalancingHubPr
     setKellyModalOpp(opp);
     setKellySizingLoading(true);
     try {
-      const res = await fetch('/api/opportunities/position-size', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const data = await apiClient.post('/api/opportunities/position-size', JSON.stringify({
           symbol: opp.symbol,
           portfolio_id: selectedPortfolio || 'ALL',
           available_cash: 500000,
           total_portfolio_value: 2500000
-        })
-      });
-      const data = await res.json();
+        }));
       if (data.success) {
         setKellySizingResult(data.recommendation);
       }
@@ -405,8 +382,7 @@ export const OpportunitiesRebalancingHub: React.FC<OpportunitiesRebalancingHubPr
     setCustomScanLoading(true);
     setCustomScanError(null);
     try {
-      const res = await fetch(`/api/opportunities/custom-scan?symbol=${encodeURIComponent(targetSymbol)}`);
-      const json = await res.json();
+      const json = await apiClient.get(`/api/opportunities/custom-scan?symbol=${encodeURIComponent(targetSymbol)}`);
       if (json.success && json.data) {
         setCustomScripResult(json.data);
       } else {

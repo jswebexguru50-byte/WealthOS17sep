@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Upload, FileText, CheckCircle, AlertTriangle, ArrowRight } from 'lucide-react';
 import { safeFetchJson } from '../lib/api';
+import { apiClient } from '../lib/apiClient';
 
 export const PMSImportView: React.FC<{
   portfolios: string[];
@@ -316,11 +317,7 @@ export const PMSImportView: React.FC<{
                     onBlur={(e) => {
                       const val = e.target.value.toUpperCase();
                       if (val) {
-                        fetch('/api/mappings/save', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ mappings: { [m.file_name]: val }, isins: { [m.file_name]: isins[m.file_name] || '' } })
-                        }).catch(console.error);
+                        apiClient.post('/api/mappings/save', { mappings: { [m.file_name]: val }, isins: { [m.file_name]: isins[m.file_name] || '' } }).catch(console.error);
                       }
                     }}
                     className="flex-1 bg-slate-900 border border-slate-700 text-slate-200 px-3 py-2 rounded-lg text-sm uppercase"
@@ -335,11 +332,7 @@ export const PMSImportView: React.FC<{
                     onBlur={(e) => {
                       const val = mappings[m.file_name];
                       if (val) {
-                        fetch('/api/mappings/save', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ mappings: { [m.file_name]: val }, isins: { [m.file_name]: e.target.value.toUpperCase() } })
-                        }).catch(console.error);
+                        apiClient.post('/api/mappings/save', { mappings: { [m.file_name]: val }, isins: { [m.file_name]: e.target.value.toUpperCase() } }).catch(console.error);
                       }
                     }}
                     className="w-1/3 bg-slate-900 border border-slate-700 text-slate-200 px-3 py-2 rounded-lg text-sm uppercase"
@@ -353,11 +346,7 @@ export const PMSImportView: React.FC<{
                         type="button"
                         onClick={() => {
                           setMappings({ ...mappings, [m.file_name]: s });
-                          fetch('/api/mappings/save', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ mappings: { [m.file_name]: s }, isins: { [m.file_name]: isins[m.file_name] || '' } })
-                          }).catch(console.error);
+                          apiClient.post('/api/mappings/save', { mappings: { [m.file_name]: s }, isins: { [m.file_name]: isins[m.file_name] || '' } }).catch(console.error);
                         }}
                         className="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded"
                       >
@@ -383,11 +372,7 @@ export const PMSImportView: React.FC<{
               onClick={async () => {
                 setStatus('validating');
                 try {
-                  await fetch('/api/mappings/save', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ mappings })
-                  });
+                  await apiClient.post('/api/mappings/save', { mappings });
                   setStatus('idle'); setMessage('Mappings saved successfully!');
                 } catch(err) {
                   setStatus('error'); setMessage('Failed to save mappings');

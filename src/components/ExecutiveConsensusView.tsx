@@ -44,6 +44,8 @@ import {
 } from 'lucide-react';
 import { formatINR } from '../lib/formatters.js';
 
+import { apiClient } from '../lib/apiClient';
+
 interface ChecklistItem {
   id: string;
   name: string;
@@ -182,8 +184,7 @@ export const ExecutiveConsensusView: React.FC<ExecutiveConsensusViewProps> = ({
   const fetchConsensusReport = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/v1/consensus/executive-summary?portfolio=${selectedPortfolio}`);
-      const json = await res.json();
+      const json = await apiClient.get(`/api/v1/consensus/executive-summary?portfolio=${selectedPortfolio}`);
       if (json.success && json.data) {
         setReport(json.data);
       }
@@ -203,16 +204,11 @@ export const ExecutiveConsensusView: React.FC<ExecutiveConsensusViewProps> = ({
     setArmingSubmitting(true);
     setArmingSuccessMsg(null);
     try {
-      const res = await fetch('/api/momentum-vpa/orders/arm-staggered', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const json = await apiClient.post('/api/momentum-vpa/orders/arm-staggered', JSON.stringify({
           symbol: armModalScrip.symbol,
           portfolio: selectedPortfolio === 'ALL' ? 'Conservative' : selectedPortfolio,
           totalCapital: orderCapital
-        })
-      });
-      const json = await res.json();
+        }));
       if (json.success) {
         setArmingSuccessMsg(`✓ 3-Tranche Parent Order Armed (ID: ${json.data.id})! Tranche 1 Limit Placed @ ₹${json.data.tranche1Price}.`);
         setToastMsg(`🎯 3-Tranche Staggered Order Armed for ${armModalScrip.symbol}!`);
@@ -235,15 +231,10 @@ export const ExecutiveConsensusView: React.FC<ExecutiveConsensusViewProps> = ({
     setSwitchSubmitting(true);
     setSwitchSuccessMsg(null);
     try {
-      const res = await fetch('/api/greenfield/simulate-rebalance-switch', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const json = await apiClient.post('/api/greenfield/simulate-rebalance-switch', JSON.stringify({
           switchId: `switch_${switchModalScrip.actionPlan.pairedSwitchFrom.symbol}_to_${switchModalScrip.symbol}`,
           potId: 'pot_conservative'
-        })
-      });
-      const json = await res.json();
+        }));
       if (json.success) {
         setSwitchSuccessMsg(json.message || 'Paired tax-alpha switch executed successfully!');
         setToastMsg(`✓ Paired switch executed: Harvested ${switchModalScrip.actionPlan.pairedSwitchFrom.symbol} -> Switched into ${switchModalScrip.symbol}!`);
@@ -264,16 +255,11 @@ export const ExecutiveConsensusView: React.FC<ExecutiveConsensusViewProps> = ({
 
   const handleAddToPaperSandbox = async (scrip: ConsensusScripRecord) => {
     try {
-      const res = await fetch('/api/greenfield/simulate-paper-trade', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const json = await apiClient.post('/api/greenfield/simulate-paper-trade', JSON.stringify({
           symbol: scrip.symbol,
           potId: 'pot_conservative',
           capital: 250000
-        })
-      });
-      const json = await res.json();
+        }));
       if (json.success) {
         setToastMsg(`✓ Position for ${scrip.symbol} added to Paper Trading Sandbox!`);
       } else {

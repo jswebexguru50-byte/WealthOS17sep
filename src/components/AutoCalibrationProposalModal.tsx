@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { apiClient } from '../lib/apiClient';
+
 import {
   BrainCircuit,
   CheckCircle2,
@@ -41,8 +43,7 @@ export const AutoCalibrationProposalModal: React.FC<AutoCalibrationProposalModal
 
   const fetchProposals = () => {
     setLoading(true);
-    fetch('/api/scrip-dossier/calibration/proposals')
-      .then(res => res.json())
+    apiClient.get('/api/scrip-dossier/calibration/proposals')
       .then(json => {
         if (json.success && Array.isArray(json.data)) {
           setProposals(json.data);
@@ -66,10 +67,7 @@ export const AutoCalibrationProposalModal: React.FC<AutoCalibrationProposalModal
   const handleApprove = async (id: string) => {
     setProcessingId(id);
     try {
-      const res = await fetch(`/api/scrip-dossier/calibration/proposals/${id}/approve`, {
-        method: 'POST'
-      });
-      const data = await res.json();
+      const data = await apiClient.post(`/api/scrip-dossier/calibration/proposals/${id}/approve`);
       if (data.success) {
         fetchProposals();
         onProposalApproved?.();
@@ -81,10 +79,7 @@ export const AutoCalibrationProposalModal: React.FC<AutoCalibrationProposalModal
   const handleReject = async (id: string) => {
     setProcessingId(id);
     try {
-      const res = await fetch(`/api/scrip-dossier/calibration/proposals/${id}/reject`, {
-        method: 'POST'
-      });
-      const data = await res.json();
+      const data = await apiClient.post(`/api/scrip-dossier/calibration/proposals/${id}/reject`);
       if (data.success) {
         fetchProposals();
       }
