@@ -89,7 +89,8 @@ import { FlexibleTelemetryPipelineService, PipelineStageId } from '../services/F
 import { SunriseIndustrialUniverseService } from '../services/SunriseIndustrialUniverseService.js';
 import fs from 'fs';
 import path from 'path';
-import { dbAll, dbGet, dbRun, getDB } from '../database.js';
+import { getDB } from '../database.js';
+import { InfraRepository } from '../services/InfraRepository.js';
 
 const router = express.Router();
 
@@ -220,7 +221,7 @@ router.get('/audit/search', async (req: Request, res: Response) => {
 
 router.get('/data-sources', async (_req: Request, res: Response) => {
   try {
-    const sources = await dbAll(getDB(), 'SELECT * FROM data_sources ORDER BY reliability_tier ASC, source_id ASC');
+    const sources = await InfraRepository.getInstance().getDataSources(getDB());
     res.json({ sources });
   } catch (err: any) {
     res.status(500).json({ error: err.message });
@@ -352,11 +353,7 @@ router.get('/corporate-actions/yoc', async (req: Request, res: Response) => {
 router.get('/corporate-actions/all', async (req: Request, res: Response) => {
   try {
     const limit = parseInt((req.query.limit as string) || '200', 10);
-    const rows = await dbAll(getDB(), `
-      SELECT * FROM CorporateActions
-      ORDER BY record_date DESC, id DESC
-      LIMIT ?
-    `, [limit]);
+    const rows = await InfraRepository.getInstance().getCorporateActionsAll(getDB(), limit);
     res.json({ success: true, count: rows.length, actions: rows });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -2377,12 +2374,7 @@ router.get('/technical-strategies/evaluate/:symbol', async (req: Request, res: R
 // Returns the total count of all ever-traded stocks in the database
 router.get('/technical-strategies/universe-count', async (_req: Request, res: Response) => {
   try {
-    const db = getDB();
-    const rows = await dbAll<{ count: number }>(
-      db,
-      'SELECT COUNT(DISTINCT symbol) as count FROM HistoricalPrices WHERE symbol IS NOT NULL'
-    );
-    const count = rows?.[0]?.count || 0;
+    const count = await InfraRepository.getInstance().getHistoricalPricesUniverseCount(getDB());
     res.json({ success: true, data: { count } });
   } catch (err: any) {
     console.error('[API] /api/technical-strategies/universe-count error:', err);
@@ -2522,9 +2514,9 @@ router.post('/data-pipeline/backfill-upstox', async (req: Request, res: Response
     let targetSymbols: string[] = symbols;
     if (!Array.isArray(targetSymbols) || targetSymbols.length === 0) {
       // Default: symbols already in DailyOHLCV; fall back to all MasterTickers NSE EQ
-      let rows = await dbAll(getDB(), `SELECT DISTINCT symbol FROM DailyOHLCV ORDER BY symbol`);
+      let rows = await InfraRepository.getInstance().getDailyOHLCVSymbols(getDB());
       if (!rows || rows.length === 0) {
-        rows = await dbAll(getDB(), `SELECT symbol FROM MasterTickers WHERE exchange = 'NSE' AND segment = 'EQ' AND symbol IS NOT NULL ORDER BY symbol`);
+        rows = await InfraRepository.getInstance().getMasterTickerNseEqSymbols(getDB());
       }
       targetSymbols = rows.map((r: any) => r.symbol);
       if (targetSymbols.length === 0) {
@@ -2581,7 +2573,7 @@ router.post('/data-pipeline/backfill-intraday-upstox', async (req: Request, res:
     }
     let targetSymbols: string[] = symbols;
     if (!Array.isArray(targetSymbols) || targetSymbols.length === 0) {
-      const rows = await dbAll(getDB(), `SELECT DISTINCT symbol FROM DailyOHLCV ORDER BY symbol`);
+      const rows = await InfraRepository.getInstance().getDailyOHLCVSymbols(getDB());
       targetSymbols = rows.map((r: any) => r.symbol);
       if (targetSymbols.length === 0) {
         return res.status(400).json({ success: false, error: 'No symbols found' });
@@ -2640,7 +2632,7 @@ router.post('/data-pipeline/backfill-stooq', async (req: Request, res: Response)
       targetSymbols = await StooqDataService.getInstance().findGapSymbols(250);
       if (targetSymbols.length === 0) {
         // Fall back to all symbols in DailyOHLCV
-        const rows = await dbAll(getDB(), `SELECT DISTINCT symbol FROM DailyOHLCV ORDER BY symbol`);
+        const rows = await InfraRepository.getInstance().getDailyOHLCVSymbols(getDB());
         targetSymbols = rows.map((r: any) => r.symbol);
       }
       if (targetSymbols.length === 0) {
@@ -2700,18 +2692,14 @@ router.post('/data-pipeline/backfill-yahoo', async (req: Request, res: Response)
     if (!Array.isArray(symbols) || symbols.length === 0) {
       // Default: all NSE EQ symbols from MasterTickers
       try {
-        const rows = await dbAll(getDB(), `
-          SELECT symbol FROM MasterTickers
-          WHERE exchange = 'NSE' AND segment = 'EQ' AND symbol IS NOT NULL AND symbol != ''
-          ORDER BY symbol
-        `);
+        const rows = await InfraRepository.getInstance().getMasterTickerNseEqSymbolsStrict(getDB());
         symbols = rows.map((r: any) => r.symbol);
       } catch (_e) {
         symbols = [];
       }
       if (!symbols || symbols.length === 0) {
         // Fallback to whatever is already in DailyOHLCV
-        const r2 = await dbAll(getDB(), `SELECT DISTINCT symbol FROM DailyOHLCV ORDER BY symbol`);
+        const r2 = await InfraRepository.getInstance().getDailyOHLCVSymbols(getDB());
         symbols = r2.map((r: any) => r.symbol);
       }
     }
@@ -2738,9 +2726,6 @@ router.post('/data-pipeline/backfill-yahoo', async (req: Request, res: Response)
       const period1 = Math.floor(new Date(startDate).getTime() / 1000);
       const period2 = Math.floor(new Date(endDate).getTime() / 1000);
 
-      const INSERT_SQL = `INSERT OR IGNORE INTO DailyOHLCV (symbol, trade_date, open, high, low, close, volume, data_source) VALUES (?,?,?,?,?,?,?,'YAHOO_FINANCE')`;
-      const ROW_BATCH = 400;
-
       const fetchYahoo = async (sym: string): Promise<number> => {
         const yfSym = sym.includes('.') ? sym : `${sym}.NS`;
         const url = `${YAHOO_BASE}/${yfSym}?period1=${period1}&period2=${period2}&interval=1d`;
@@ -2762,19 +2747,7 @@ router.post('/data-pipeline/backfill-yahoo', async (req: Request, res: Response)
             rows.push([sym, date, q.open?.[k] ?? close, q.high?.[k] ?? close, q.low?.[k] ?? close, close, q.volume?.[k] ?? 0]);
           }
           if (rows.length === 0) return 0;
-
-          let stored = 0;
-          await dbRun(db2, 'BEGIN TRANSACTION');
-          try {
-            for (let b = 0; b < rows.length; b += ROW_BATCH) {
-              const slice = rows.slice(b, b + ROW_BATCH);
-              const sql = `INSERT OR IGNORE INTO DailyOHLCV (symbol, trade_date, open, high, low, close, volume, data_source) VALUES ${slice.map(() => '(?,?,?,?,?,?,?,\'YAHOO_FINANCE\')').join(',')}`;
-              await dbRun(db2, sql, slice.flat());
-              stored += slice.length;
-            }
-            await dbRun(db2, 'COMMIT');
-          } catch { await dbRun(db2, 'ROLLBACK').catch(() => {}); stored = 0; }
-          return stored;
+          return InfraRepository.getInstance().bulkInsertDailyOHLCVRows(db2, rows);
         } catch { return 0; }
       };
 
@@ -2819,11 +2792,7 @@ router.post('/data-pipeline/fast-backfill', async (req: Request, res: Response) 
     }
 
     // Collect symbol list for Yahoo parallel run
-    const mRows = await dbAll(getDB(), `
-      SELECT symbol FROM MasterTickers
-      WHERE exchange = 'NSE' AND segment = 'EQ' AND symbol IS NOT NULL AND symbol != ''
-      ORDER BY symbol
-    `);
+    const mRows = await InfraRepository.getInstance().getMasterTickerNseEqSymbolsStrict(getDB());
     const allSymbols: string[] = mRows.map((r: any) => r.symbol);
 
     res.json({
@@ -2855,7 +2824,6 @@ router.post('/data-pipeline/fast-backfill', async (req: Request, res: Response) 
         const period1 = Math.floor(new Date(startDate).getTime() / 1000);
         const period2 = Math.floor(new Date(endDate).getTime() / 1000);
         const CONC = 40;
-        const ROW_BATCH = 400;
 
         for (let i = 0; i < allSymbols.length; i += CONC) {
           const batch = allSymbols.slice(i, i + CONC);
@@ -2879,16 +2847,8 @@ router.post('/data-pipeline/fast-backfill', async (req: Request, res: Response) 
                 rows.push([sym, date, q.open?.[k] ?? close, q.high?.[k] ?? close, q.low?.[k] ?? close, close, q.volume?.[k] ?? 0]);
               }
               if (!rows.length) return;
-              await dbRun(db2, 'BEGIN TRANSACTION');
-              try {
-                for (let b = 0; b < rows.length; b += ROW_BATCH) {
-                  const slice = rows.slice(b, b + ROW_BATCH);
-                  const sql = `INSERT OR IGNORE INTO DailyOHLCV (symbol, trade_date, open, high, low, close, volume, data_source) VALUES ${slice.map(() => '(?,?,?,?,?,?,?,\'YAHOO_FINANCE\')').join(',')}`;
-                  await dbRun(db2, sql, slice.flat());
-                }
-                await dbRun(db2, 'COMMIT');
-                total += rows.length;
-              } catch { await dbRun(db2, 'ROLLBACK').catch(() => {}); }
+              const inserted = await InfraRepository.getInstance().bulkInsertDailyOHLCVRows(db2, rows);
+              total += inserted;
             } catch { /* silent */ }
           }));
           if (i + CONC < allSymbols.length) await new Promise(r => setTimeout(r, 350));
@@ -3019,14 +2979,7 @@ router.get('/universe/stocks', async (req: Request, res: Response) => {
 // GET /api/strategies/custom — list all saved custom strategies
 router.get('/strategies/custom', async (_req: Request, res: Response) => {
   try {
-    const db = getDB();
-    const rows = await dbAll(db, `
-      SELECT id, name, base_template_id, description, parameters_json,
-             created_at, last_backtest_at, backtest_win_rate, backtest_sharpe, backtest_total_signals
-      FROM CustomStrategies
-      WHERE is_active = 1
-      ORDER BY updated_at DESC
-    `);
+    const rows = await InfraRepository.getInstance().listCustomStrategies(getDB());
     res.json({ success: true, data: rows || [] });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -3036,8 +2989,7 @@ router.get('/strategies/custom', async (_req: Request, res: Response) => {
 // GET /api/strategies/custom/:id — get single custom strategy
 router.get('/strategies/custom/:id', async (req: Request, res: Response) => {
   try {
-    const db = getDB();
-    const row = await dbGet(db, `SELECT * FROM CustomStrategies WHERE id = ? AND is_active = 1`, [req.params.id]);
+    const row = await InfraRepository.getInstance().getCustomStrategyById(getDB(), req.params.id);
     if (!row) return res.status(404).json({ success: false, error: 'Strategy not found' });
     res.json({ success: true, data: row });
   } catch (err: any) {
@@ -3053,16 +3005,7 @@ router.post('/strategies/custom', async (req: Request, res: Response) => {
       return res.status(400).json({ success: false, error: 'name, baseTemplateId, and parametersJson are required' });
     }
     const id = crypto.randomUUID();
-    const db = getDB();
-    await dbRun(db, `
-      INSERT INTO CustomStrategies (id, name, base_template_id, description, parameters_json, is_active, created_at, updated_at)
-      VALUES (?, ?, ?, ?, ?, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-      ON CONFLICT(name) DO UPDATE SET
-        base_template_id = excluded.base_template_id,
-        description = excluded.description,
-        parameters_json = excluded.parameters_json,
-        updated_at = CURRENT_TIMESTAMP
-    `, [id, name.trim(), baseTemplateId, description || null, parametersJson]);
+    await InfraRepository.getInstance().insertCustomStrategy(getDB(), id, name.trim(), baseTemplateId, description || null, parametersJson);
     res.json({ success: true, data: { id, name } });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -3072,8 +3015,7 @@ router.post('/strategies/custom', async (req: Request, res: Response) => {
 // DELETE /api/strategies/custom/:id — soft-delete custom strategy
 router.delete('/strategies/custom/:id', async (req: Request, res: Response) => {
   try {
-    const db = getDB();
-    await dbRun(db, `UPDATE CustomStrategies SET is_active = 0, updated_at = CURRENT_TIMESTAMP WHERE id = ?`, [req.params.id]);
+    await InfraRepository.getInstance().softDeleteCustomStrategy(getDB(), req.params.id);
     res.json({ success: true });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -3084,7 +3026,7 @@ router.delete('/strategies/custom/:id', async (req: Request, res: Response) => {
 router.post('/strategies/custom/:id/run-backtest', async (req: Request, res: Response) => {
   try {
     const db = getDB();
-    const row = await dbGet(db, 'SELECT * FROM CustomStrategies WHERE id = ? AND is_active = 1', [req.params.id]);
+    const row = await InfraRepository.getInstance().getCustomStrategyById(db, req.params.id);
     if (!row) return res.status(404).json({ success: false, error: 'Strategy not found' });
 
     const config = JSON.parse(row.parameters_json);
@@ -3101,9 +3043,7 @@ router.post('/strategies/custom/:id/run-backtest', async (req: Request, res: Res
     const evalNum = templateToEvaluator[baseTemplateId] || 1;
 
     // Get a sample of symbols from DailyOHLCV (up to 150 stocks for speed)
-    const symbols = await dbAll(db,
-      "SELECT DISTINCT symbol FROM DailyOHLCV GROUP BY symbol HAVING COUNT(*) >= 100 ORDER BY COUNT(*) DESC LIMIT 150"
-    );
+    const symbols = await InfraRepository.getInstance().getDailyOHLCVSymbolsForBacktest(db);
 
     const engine = (await import('../services/PureTechnicalStrategiesEngine.js')).PureTechnicalStrategiesEngine.getInstance();
     const options = { config };
@@ -3112,10 +3052,7 @@ router.post('/strategies/custom/:id/run-backtest', async (req: Request, res: Res
     const signalDetails: any[] = [];
 
     for (const { symbol } of symbols) {
-      const candles = await dbAll(db,
-        "SELECT date, open, high, low, close, volume FROM DailyOHLCV WHERE symbol = ? ORDER BY date ASC",
-        [symbol]
-      );
+      const candles = await InfraRepository.getInstance().getCandlesForSymbol(db, symbol);
       if (!candles || candles.length < 60) continue;
 
       let result: any = null;
@@ -3142,10 +3079,7 @@ router.post('/strategies/custom/:id/run-backtest', async (req: Request, res: Res
     const sharpe = signals > 0 ? (avgReturn / (totalReturn > 0 ? Math.sqrt(totalReturn / signals) : 1)) : 0;
 
     // Update CustomStrategies with backtest results
-    await dbRun(db,
-      'UPDATE CustomStrategies SET backtest_win_rate = ?, backtest_sharpe = ?, backtest_total_signals = ?, last_backtest_at = CURRENT_TIMESTAMP WHERE id = ?',
-      [winRate, sharpe, signals, req.params.id]
-    );
+    await InfraRepository.getInstance().updateCustomStrategyBacktestResults(db, winRate, sharpe, signals, req.params.id);
 
     res.json({
       success: true,
@@ -3171,7 +3105,7 @@ router.post('/strategies/custom/:id/run-backtest', async (req: Request, res: Res
 router.post('/strategies/custom/run-all-backtests', async (_req: Request, res: Response) => {
   try {
     const db = getDB();
-    const strategies = await dbAll(db, 'SELECT id, name, base_template_id, parameters_json FROM CustomStrategies WHERE is_active = 1');
+    const strategies = await InfraRepository.getInstance().listActiveCustomStrategies(db);
     if (!strategies || strategies.length === 0) {
       return res.json({ success: true, data: { ran: 0, results: [] } });
     }
@@ -3184,9 +3118,7 @@ router.post('/strategies/custom/run-all-backtests', async (_req: Request, res: R
       'S9_VOLUME_DRYUP_RS': 9, 'S10_TRENDLINE_ORB': 10,
     };
 
-    const symbols = await dbAll(db,
-      "SELECT DISTINCT symbol FROM DailyOHLCV GROUP BY symbol HAVING COUNT(*) >= 100 ORDER BY COUNT(*) DESC LIMIT 150"
-    );
+    const symbols = await InfraRepository.getInstance().getDailyOHLCVSymbolsForBacktest(db);
     const engine = (await import('../services/PureTechnicalStrategiesEngine.js')).PureTechnicalStrategiesEngine.getInstance();
 
     const results: Array<{ id: string; name: string; totalSignals: number; winRatePct: string }> = [];
@@ -3199,10 +3131,7 @@ router.post('/strategies/custom/run-all-backtests', async (_req: Request, res: R
 
         let signals = 0, wins = 0, totalReturn = 0;
         for (const { symbol } of symbols as any[]) {
-          const candles = await dbAll(db,
-            "SELECT date, open, high, low, close, volume FROM DailyOHLCV WHERE symbol = ? ORDER BY date ASC",
-            [symbol]
-          );
+          const candles = await InfraRepository.getInstance().getCandlesForSymbol(db, symbol);
           if (!candles || candles.length < 60) continue;
           let result: any = null;
           if (evalNum === 1) result = engine.evaluateStrategy1(candles, symbol, '', options);
@@ -3228,10 +3157,7 @@ router.post('/strategies/custom/run-all-backtests', async (_req: Request, res: R
         const avgReturn = signals > 0 ? totalReturn / signals : 0;
         const sharpe = signals > 0 ? (avgReturn / (totalReturn > 0 ? Math.sqrt(totalReturn / signals) : 1)) : 0;
 
-        await dbRun(db,
-          'UPDATE CustomStrategies SET backtest_win_rate = ?, backtest_sharpe = ?, backtest_total_signals = ?, last_backtest_at = CURRENT_TIMESTAMP WHERE id = ?',
-          [winRate, sharpe, signals, strat.id]
-        );
+        await InfraRepository.getInstance().updateCustomStrategyBacktestResults(db, winRate, sharpe, signals, strat.id);
         results.push({ id: strat.id, name: strat.name, totalSignals: signals, winRatePct: winRate.toFixed(1) });
       } catch (err: any) {
         console.error(`[RunAllBacktests] Strategy ${strat.name} failed:`, err.message);
@@ -3257,8 +3183,7 @@ const CUSTOM_STRATEGY_SYSTEM_COLUMNS = new Set([
 // GET /api/strategies/custom/schema — list all columns in CustomStrategies table
 router.get('/strategies/custom/schema', async (_req: Request, res: Response) => {
   try {
-    const db = getDB();
-    const cols = await dbAll(db, 'PRAGMA table_info(CustomStrategies)');
+    const cols = await InfraRepository.getInstance().getCustomStrategyTableColumns(getDB());
     const columns = (cols || []).map((c: any) => ({
       name: c.name,
       type: c.type,
@@ -3284,8 +3209,7 @@ router.post('/strategies/custom/schema/columns', async (req: Request, res: Respo
     }
     const allowedTypes = ['TEXT', 'INTEGER', 'REAL'];
     const safeType = allowedTypes.includes((columnType || 'TEXT').toUpperCase()) ? (columnType || 'TEXT').toUpperCase() : 'TEXT';
-    const db = getDB();
-    await dbRun(db, `ALTER TABLE CustomStrategies ADD COLUMN ${safeName} ${safeType}`);
+    await InfraRepository.getInstance().addCustomStrategyColumn(getDB(), safeName, safeType);
     res.json({ success: true, data: { columnName: safeName, columnType: safeType } });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -3299,12 +3223,11 @@ router.delete('/strategies/custom/schema/columns/:columnName', async (req: Reque
     if (CUSTOM_STRATEGY_SYSTEM_COLUMNS.has(columnName)) {
       return res.status(400).json({ success: false, error: `"${columnName}" is a system column and cannot be deleted` });
     }
-    const db = getDB();
     // Verify column exists
-    const cols = await dbAll(db, 'PRAGMA table_info(CustomStrategies)');
+    const cols = await InfraRepository.getInstance().getCustomStrategyTableColumns(getDB());
     const exists = (cols || []).some((c: any) => c.name === columnName);
     if (!exists) return res.status(404).json({ success: false, error: `Column "${columnName}" not found` });
-    await dbRun(db, `ALTER TABLE CustomStrategies DROP COLUMN ${columnName}`);
+    await InfraRepository.getInstance().dropCustomStrategyColumn(getDB(), columnName);
     res.json({ success: true });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -3348,14 +3271,8 @@ router.get('/fno-pipeline/snapshot/:symbol', async (req: Request, res: Response)
   try {
     const db = getDB();
     const sym = req.params.symbol.toUpperCase();
-    const metrics = await dbGet(db, `
-      SELECT * FROM derived_options_metrics WHERE symbol = ? ORDER BY as_of_date DESC LIMIT 1
-    `, [sym]) as any;
-    const chain = await dbAll(db, `
-      SELECT expiry, strike, option_type, oi, oi_change, iv, volume, ltp, as_of_date
-      FROM options_chain_snapshot WHERE symbol = ?
-      ORDER BY as_of_date DESC, expiry ASC, strike ASC LIMIT 200
-    `, [sym]) as any[];
+    const metrics = await InfraRepository.getInstance().getFnoOptionsMetrics(db, sym) as any;
+    const chain = await InfraRepository.getInstance().getFnoOptionsChain(db, sym) as any[];
     res.json({ success: true, data: {
       symbol: sym,
       metrics: metrics ? { ...metrics, unusual_oi_buildup_strikes: metrics.unusual_oi_buildup_strikes ? JSON.parse(metrics.unusual_oi_buildup_strikes) : [] } : null,
@@ -3410,15 +3327,7 @@ router.get('/news-pipeline/status', async (_req: Request, res: Response) => {
 // GET /api/news-pipeline/recent-adverse — last 50 adverse events
 router.get('/news-pipeline/recent-adverse', async (_req: Request, res: Response) => {
   try {
-    const db = getDB();
-    const rows = await dbAll(db, `
-      SELECT event_id, symbol, headline, event_type, materiality_score, is_adverse,
-             source_url, published_at, data_source, created_at
-      FROM EventIntelligenceLog
-      WHERE is_adverse = 1
-      ORDER BY created_at DESC
-      LIMIT 50
-    `);
+    const rows = await InfraRepository.getInstance().getRecentAdverseEvents(getDB());
     res.json({ success: true, data: rows });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -3491,20 +3400,11 @@ router.get('/strategy-scan/export-excel', async (req: Request, res: Response) =>
     // If scanId not provided, fetch the latest
     let targetScanId = scanId as string;
     if (!targetScanId) {
-      const latestScan = await new Promise<any>((resolve, reject) => {
-        db.get(
-          `SELECT scan_id FROM strategy_scan_metadata ORDER BY created_at DESC LIMIT 1`,
-          (err, row) => {
-            if (err) reject(err);
-            else resolve(row);
-          }
-        );
-      });
-
-      if (!latestScan) {
+      const latestScanId = await InfraRepository.getInstance().getLatestScanId(db);
+      if (!latestScanId) {
         return res.status(400).json({ success: false, error: 'No scans found' });
       }
-      targetScanId = latestScan.scan_id;
+      targetScanId = latestScanId;
     }
 
     // Import and use ExcelExportService
