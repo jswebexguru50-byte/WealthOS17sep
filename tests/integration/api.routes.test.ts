@@ -1,108 +1,103 @@
-/**
- * Integration tests for WealthOS API routes
- *
- * Requires the live server running on port 3000 (started by globalSetup.ts).
- * Covers /api/healthcheck and a selection of endpoints used by the migrated
- * frontend components (apiClient migration).
- */
-import { describe, it, expect } from 'vitest';
+/** Real settings routes + apiClient over loopback HTTP and isolated SQLite. */
+import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import express from 'express';
+import sqlite3 from 'sqlite3';
+import type { Server } from 'node:http';
+import type { AddressInfo } from 'node:net';
 
-const BASE = 'http://localhost:3000';
+const state = vi.hoisted(() => {
+  // dbRun's backup hook must never inspect or copy a production DB.
+  vi.stubEnv('DATABASE_URL', ':memory:');
+  return { db: undefined as sqlite3.Database | undefined };
+});
+vi.mock('../../src/server/database.js', async importOriginal => ({
+  ...await importOriginal<typeof import('../../src/server/database.js')>(),
+  getDB: () => state.db,
+}));
+// These unrelated services are not used by the exercised settings routes.
+vi.mock('../../src/server/services/FamilyBenchmarkService.js', () => ({ FamilyBenchmarkService: {} }));
+vi.mock('../../src/server/services/AssetScripMappingService.js', () => ({ AssetScripMappingService: {} }));
+vi.mock('../../src/server/services/MasterTickerService.js', () => ({ MasterTickerService: {} }));
 
-async function get(path: string): Promise<{ status: number; ct: string; data: unknown }> {
-  const res = await fetch(`${BASE}${path}`);
-  const ct = res.headers.get('content-type') ?? '';
-  const data = ct.includes('application/json') ? await res.json().catch(() => null) : null;
-  return { status: res.status, ct, data };
+import settingsRouter from '../../src/server/routes/settings.js';
+import { apiClient } from '../../src/lib/apiClient.js';
+
+let server: Server;
+let base: string;
+function exec(sql: string): Promise<void> {
+  return new Promise((resolve, reject) => state.db!.exec(sql, error => error ? reject(error) : resolve()));
 }
 
-// ── Health & Infrastructure ────────────────────────────────────────────────
-
-describe('GET /api/healthcheck', () => {
-  it('responds with an HTTP 200-range status', async () => {
-    const { status } = await get('/api/healthcheck');
-    // The healthcheck can return 200 or 503 while data-feed gates are cold;
-    // any response in range means the server listener is live.
-    expect(status).toBeGreaterThanOrEqual(200);
-    expect(status).toBeLessThan(600);
+beforeAll(async () => {
+  state.db = new sqlite3.Database(':memory:');
+  await exec(`
+    CREATE TABLE AppConfig (key TEXT PRIMARY KEY, value TEXT);
+    CREATE TABLE MasterTickers (id INTEGER PRIMARY KEY, symbol TEXT, isin TEXT, name TEXT);
+    INSERT INTO MasterTickers VALUES (1, 'A&B', 'TEST001', 'Encoded symbol');
+  `);
+  const app = express();
+  app.use(express.json());
+  app.use('/api', settingsRouter);
+  app.use((_req, res) => res.status(404).json({ error: 'Not Found' }));
+  await new Promise<void>((resolve, reject) => {
+    server = app.listen(0, '127.0.0.1', resolve);
+    server.once('error', reject);
   });
-
-  it('returns a JSON body', async () => {
-    const { ct } = await get('/api/healthcheck');
-    expect(ct).toContain('application/json');
-  });
-
-  it('body is an object (not an array or primitive)', async () => {
-    const { data } = await get('/api/healthcheck');
-    expect(data !== null && typeof data === 'object' && !Array.isArray(data)).toBe(true);
-  });
+  base = `http://127.0.0.1:${(server.address() as AddressInfo).port}/api`;
 });
 
-// ── Unknown route ──────────────────────────────────────────────────────────
+beforeEach(async () => { await exec('DELETE FROM AppConfig'); });
 
-describe('Unknown route', () => {
-  it('returns 404 for a non-existent endpoint', async () => {
-    const { status } = await get('/api/__nonexistent_route_xyz_9999__');
-    expect(status).toBe(404);
-  });
+afterAll(async () => {
+  if (server?.listening) await new Promise<void>((resolve, reject) => server.close(error => error ? reject(error) : resolve()));
+  if (state.db) await new Promise<void>((resolve, reject) => state.db!.close(error => error ? reject(error) : resolve()));
+  vi.unstubAllEnvs();
 });
 
-// ── Portfolios (used by PortfolioManagerView, DashboardView) ───────────────
-
-describe('GET /api/portfolios', () => {
-  it('returns JSON', async () => {
-    const { ct } = await get('/api/portfolios');
-    expect(ct).toContain('application/json');
+describe('apiClient against real settings routes', () => {
+  it('reads an empty configuration with the exact successful contract', async () => {
+    await expect(apiClient.get(`${base}/config`)).resolves.toEqual({ success: true, config: {} });
   });
 
-  it('responds in the 2xx-5xx range (server is handling the route)', async () => {
-    const { status } = await get('/api/portfolios');
-    expect(status).toBeGreaterThanOrEqual(200);
-    expect(status).toBeLessThan(600);
-  });
-});
-
-// ── Family members (used by FamilyMemberSwitcher, FamilyMembersManagerView) ─
-
-describe('GET /api/family-members', () => {
-  it('returns JSON', async () => {
-    const { ct } = await get('/api/family-members');
-    expect(ct).toContain('application/json');
+  it('posts JSON and reads the persisted value back', async () => {
+    await expect(apiClient.post(`${base}/config`, { key: 'theme', value: 'dark' }))
+      .resolves.toMatchObject({ success: true });
+    await expect(apiClient.get(`${base}/config`)).resolves.toEqual({ success: true, config: { theme: 'dark' } });
   });
 
-  it('status is in the 2xx-5xx range', async () => {
-    const { status } = await get('/api/family-members');
-    expect(status).toBeGreaterThanOrEqual(200);
-    expect(status).toBeLessThan(600);
-  });
-});
-
-// ── Scrip mappings (used by AssetScripMappingView) ─────────────────────────
-
-describe('GET /api/scrip-mappings', () => {
-  it('returns JSON', async () => {
-    const { ct } = await get('/api/scrip-mappings');
-    expect(ct).toContain('application/json');
+  it('upserts a key without leaving duplicate values', async () => {
+    await apiClient.post(`${base}/config`, { key: 'theme', value: 'dark' });
+    await apiClient.post(`${base}/config`, { key: 'theme', value: 'light' });
+    await expect(apiClient.get(`${base}/config`)).resolves.toEqual({ success: true, config: { theme: 'light' } });
   });
 
-  it('status is in the 2xx-5xx range', async () => {
-    const { status } = await get('/api/scrip-mappings');
-    expect(status).toBeGreaterThanOrEqual(200);
-    expect(status).toBeLessThan(600);
-  });
-});
-
-// ── Settings (used by PreferencesModal, ThemeSelectorModal) ───────────────
-
-describe('GET /api/settings', () => {
-  it('returns JSON', async () => {
-    const { ct } = await get('/api/settings');
-    expect(ct).toContain('application/json');
+  it('propagates validation errors from an actual HTTP 400', async () => {
+    await expect(apiClient.post(`${base}/config`, { value: 'invalid' })).rejects.toThrow('key is required.');
+    await expect(apiClient.get(`${base}/config`)).resolves.toEqual({ success: true, config: {} });
   });
 
-  it('status is in the 2xx-5xx range', async () => {
-    const { status } = await get('/api/settings');
-    expect(status).toBeGreaterThanOrEqual(200);
-    expect(status).toBeLessThan(600);
+  it('round-trips a reserved character through URL query encoding', async () => {
+    await expect(apiClient.get(`${base}/tickers`, { search: 'A&B' })).resolves.toEqual({
+      success: true, tickers: [{ id: 1, symbol: 'A&B', isin: 'TEST001', name: 'Encoded symbol' }],
+    });
+  });
+
+  it('returns an empty array for an unmatched ticker search', async () => {
+    await expect(apiClient.get(`${base}/tickers`, { search: 'missing' }))
+      .resolves.toEqual({ success: true, tickers: [] });
+  });
+
+  it('keeps GET requests read-only in SQLite', async () => {
+    const changes = () => new Promise<number>((resolve, reject) => {
+      state.db!.get('SELECT total_changes() AS n', (error, row: { n: number }) => error ? reject(error) : resolve(row.n));
+    });
+    const before = await changes();
+    await apiClient.get(`${base}/config`);
+    await apiClient.get(`${base}/tickers`);
+    expect(await changes()).toBe(before);
+  });
+
+  it('propagates an actual HTTP 404 through the fetch helper', async () => {
+    await expect(apiClient.get(`${base}/__missing__`)).rejects.toThrow('Not Found');
   });
 });

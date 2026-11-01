@@ -11,6 +11,7 @@ vi.stubGlobal('fetch', mockFetch);
 
 import { apiClient } from '../../src/lib/apiClient.js';
 import { cacheClient } from '../../src/lib/cacheClient.js';
+import { safeFetchJson } from '../../src/lib/api.js';
 
 /** Build a minimal Response-like object that safeFetchJson expects (calls res.text()). */
 function makeRes(status: number, body: unknown): Response {
@@ -163,6 +164,62 @@ describe('apiClient', () => {
       mockFetch.mockResolvedValue(makeRes(403, { message: 'Forbidden' }));
       await expect(apiClient.delete('/api/item/42')).rejects.toThrow('Forbidden');
     });
+  });
+});
+
+describe('safeFetchJson failure and retry contracts', () => {
+  beforeEach(() => {
+    mockFetch.mockReset();
+    vi.useFakeTimers();
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.restoreAllMocks();
+  });
+
+  it('preserves caller headers and request options', async () => {
+    const options = { headers: { Authorization: 'Bearer test-token' }, credentials: 'include' as const };
+    mockFetch.mockResolvedValue(makeRes(200, { value: 1 }));
+    await expect(safeFetchJson('/api/test', options)).resolves.toEqual({ ok: true, status: 200, data: { value: 1 } });
+    expect(mockFetch).toHaveBeenCalledWith('/api/test', options);
+  });
+
+  it('accepts an empty 204 response', async () => {
+    mockFetch.mockResolvedValue({ ok: true, status: 204, text: async () => '' });
+    await expect(safeFetchJson('/api/test')).resolves.toEqual({ ok: true, status: 204, data: null });
+  });
+
+  it('rejects malformed successful JSON without retrying', async () => {
+    mockFetch.mockResolvedValue({ ok: true, status: 200, text: async () => '<html>broken</html>' });
+    await expect(safeFetchJson('/api/test')).resolves.toMatchObject({ ok: false, status: 200, data: null, error: expect.stringContaining('not valid JSON') });
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('retries rate limits after exponential backoff plus jitter', async () => {
+    vi.spyOn(Math, 'random').mockReturnValue(0);
+    mockFetch.mockResolvedValueOnce(makeRes(429, { error: 'slow down' })).mockResolvedValueOnce(makeRes(200, { recovered: true }));
+    const pending = safeFetchJson('/api/test', undefined, 1, 100);
+    await vi.advanceTimersByTimeAsync(299);
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+    await vi.advanceTimersByTimeAsync(1);
+    await expect(pending).resolves.toMatchObject({ ok: true, data: { recovered: true } });
+    expect(mockFetch).toHaveBeenCalledTimes(2);
+  });
+
+  it('reports exhausted rate limits with a bounded attempt count', async () => {
+    mockFetch.mockResolvedValue(makeRes(429, {}));
+    const pending = safeFetchJson('/api/test', undefined, 2, 100);
+    await vi.runAllTimersAsync();
+    await expect(pending).resolves.toMatchObject({ ok: false, status: 429, data: null, error: 'Rate limit exceeded. Please try again shortly.' });
+    expect(mockFetch).toHaveBeenCalledTimes(3);
+  });
+
+  it('retries a network failure and returns the final error', async () => {
+    mockFetch.mockRejectedValue(new Error('offline'));
+    const pending = safeFetchJson('/api/test', undefined, 1, 100);
+    await vi.runAllTimersAsync();
+    await expect(pending).resolves.toEqual({ ok: false, status: 0, data: null, error: 'offline' });
+    expect(mockFetch).toHaveBeenCalledTimes(2);
   });
 });
 
