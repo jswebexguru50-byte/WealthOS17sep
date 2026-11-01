@@ -3,8 +3,9 @@
  * Portfolio CRUD, rename, type, currency, deletion, archiving
  */
 import { Router } from 'express';
-import { getDB, dbAll, dbGet, dbRun } from '../database.js';
+import { getDB } from '../database.js';
 import { runFIFO } from '../fifoEngine.js';
+import { PortfolioRepository } from '../services/PortfolioRepository.js';
 
 const router = Router();
 
@@ -12,6 +13,7 @@ const router = Router();
 router.get('/', async (req, res) => {
   try {
     const db = getDB();
+    const repo = PortfolioRepository.getInstance();
     const memberIdRaw = req.query.member_id || req.headers['x-member-id'];
     let memberId: number | null = null;
     if (memberIdRaw && memberIdRaw !== 'all' && memberIdRaw !== 'consolidated') {
@@ -21,43 +23,9 @@ router.get('/', async (req, res) => {
 
     let rows: any[] = [];
     if (memberId) {
-      rows = await dbAll(db, `
-        SELECT DISTINCT p.name AS portfolio
-        FROM Portfolios p
-        WHERE (p.member_id = ? OR p.name IN (SELECT portfolio_name FROM MemberPortfolioPermissions WHERE member_id = ?))
-          AND p.status = 'ACTIVE'
-        ORDER BY p.name ASC
-      `, [memberId, memberId]);
+      rows = await repo.getByMemberId(db, memberId);
     } else {
-      rows = await dbAll(db, `
-        WITH PortfolioNames AS (
-          SELECT DISTINCT portfolio FROM (
-            SELECT portfolio FROM Transactions WHERE portfolio IS NOT NULL AND portfolio != ''
-            UNION
-            SELECT portfolio FROM Holdings WHERE portfolio IS NOT NULL AND portfolio != ''
-            UNION
-            SELECT portfolio FROM ZerodhaHoldings WHERE portfolio IS NOT NULL AND portfolio != ''
-            UNION
-            SELECT portfolio_name AS portfolio FROM CamsConfigurations WHERE portfolio_name IS NOT NULL AND portfolio_name != ''
-            UNION
-            SELECT name AS portfolio FROM Portfolios WHERE name IS NOT NULL AND name != '' AND status = 'ACTIVE'
-          )
-        ),
-        PortfolioData AS (
-          SELECT 
-            PN.portfolio,
-            P.base_currency,
-            (SELECT SUM(current_value) FROM Holdings H WHERE H.portfolio = PN.portfolio) AS total_value
-          FROM PortfolioNames PN
-          LEFT JOIN Portfolios P ON PN.portfolio = P.name
-        )
-        SELECT portfolio
-        FROM PortfolioData
-        ORDER BY 
-          CASE WHEN COALESCE(base_currency, 'INR') = 'INR' THEN 0 ELSE 1 END ASC,
-          COALESCE(total_value, 0) DESC,
-          portfolio ASC
-      `);
+      rows = await repo.getAllRanked(db);
     }
 
     const list = rows.map((r: any) => r.portfolio);
@@ -65,17 +33,15 @@ router.get('/', async (req, res) => {
     let detailedPortfolios: any[] = [];
     try {
       if (memberId) {
-        detailedPortfolios = await dbAll(db, "SELECT * FROM Portfolios WHERE (member_id = ? OR name IN (SELECT portfolio_name FROM MemberPortfolioPermissions WHERE member_id = ?)) AND status = 'ACTIVE' ORDER BY name ASC", [memberId, memberId]);
+        detailedPortfolios = await repo.getDetailedByMemberId(db, memberId);
       } else {
-        detailedPortfolios = await dbAll(db, 'SELECT * FROM Portfolios ORDER BY name ASC');
+        detailedPortfolios = await repo.getAllDetailed(db);
       }
     } catch {}
 
-    const pmsQuery = memberId
-      ? `SELECT name AS portfolio FROM Portfolios WHERE type = 'PMS' AND status = 'ACTIVE' AND (member_id = ? OR name IN (SELECT portfolio_name FROM MemberPortfolioPermissions WHERE member_id = ?))`
-      : `SELECT name AS portfolio FROM Portfolios WHERE type = 'PMS' AND status = 'ACTIVE'`;
-    const pmsParams = memberId ? [memberId, memberId] : [];
-    const pmsRows = await dbAll(db, pmsQuery, pmsParams);
+    const pmsRows = memberId
+      ? await repo.getPmsByMemberId(db, memberId)
+      : await repo.getPmsAll(db);
     const pmsPortfolios = pmsRows.map((r: any) => r.portfolio);
 
     res.json({ success: true, portfolios: list, list, detailedPortfolios, pmsPortfolios });
@@ -88,6 +54,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const db = getDB();
+    const repo = PortfolioRepository.getInstance();
     const { name, type, base_currency } = req.body;
     if (!name?.trim()) return res.status(400).json({ success: false, message: 'Portfolio name is required.' });
 
@@ -95,10 +62,10 @@ router.post('/', async (req, res) => {
     const portfolioType = type || 'EQUITY';
     const currency = base_currency || 'INR';
 
-    const existing = await dbGet(db, 'SELECT id FROM Portfolios WHERE name = ?', [trimmedName]);
+    const existing = await repo.findByName(db, trimmedName);
     if (existing) return res.status(400).json({ success: false, message: `Portfolio "${trimmedName}" already exists.` });
 
-    await dbRun(db, `INSERT INTO Portfolios (name, type, base_currency, status) VALUES (?, ?, ?, 'ACTIVE')`, [trimmedName, portfolioType, currency]);
+    await repo.create(db, trimmedName, portfolioType, currency);
     console.log(`[Portfolio] Created: ${trimmedName} (${portfolioType}, ${currency})`);
     res.json({ success: true, message: `Portfolio "${trimmedName}" created successfully.` });
   } catch (err: any) {
@@ -110,15 +77,16 @@ router.post('/', async (req, res) => {
 router.put('/:name/type', async (req, res) => {
   try {
     const db = getDB();
+    const repo = PortfolioRepository.getInstance();
     const portfolioName = decodeURIComponent(req.params.name);
     const { type } = req.body;
     if (!type) return res.status(400).json({ success: false, message: 'Type is required.' });
 
-    const existing = await dbGet(db, 'SELECT id FROM Portfolios WHERE name = ?', [portfolioName]);
+    const existing = await repo.findByName(db, portfolioName);
     if (!existing) {
-      await dbRun(db, `INSERT INTO Portfolios (name, type, status) VALUES (?, ?, 'ACTIVE')`, [portfolioName, type]);
+      await repo.insertWithType(db, portfolioName, type);
     } else {
-      await dbRun(db, 'UPDATE Portfolios SET type = ? WHERE name = ?', [type, portfolioName]);
+      await repo.updateType(db, portfolioName, type);
     }
     console.log(`[Portfolio] Updated type for "${portfolioName}" to "${type}"`);
     res.json({ success: true, message: `Portfolio type updated to "${type}".` });
@@ -131,15 +99,16 @@ router.put('/:name/type', async (req, res) => {
 router.put('/:name/currency', async (req, res) => {
   try {
     const db = getDB();
+    const repo = PortfolioRepository.getInstance();
     const portfolioName = decodeURIComponent(req.params.name);
     const { base_currency } = req.body;
     if (!base_currency) return res.status(400).json({ success: false, message: 'base_currency is required.' });
 
-    const existing = await dbGet(db, 'SELECT id FROM Portfolios WHERE name = ?', [portfolioName]);
+    const existing = await repo.findByName(db, portfolioName);
     if (!existing) {
-      await dbRun(db, `INSERT INTO Portfolios (name, type, base_currency, status) VALUES (?, 'EQUITY', ?, 'ACTIVE')`, [portfolioName, base_currency]);
+      await repo.insertWithCurrency(db, portfolioName, base_currency);
     } else {
-      await dbRun(db, 'UPDATE Portfolios SET base_currency = ? WHERE name = ?', [base_currency, portfolioName]);
+      await repo.updateCurrency(db, portfolioName, base_currency);
     }
     console.log(`[Portfolio] Updated currency for "${portfolioName}" to "${base_currency}"`);
     res.json({ success: true, message: `Portfolio base currency updated to "${base_currency}".` });
@@ -151,6 +120,7 @@ router.put('/:name/currency', async (req, res) => {
 // PUT /api/portfolios/rename
 router.put('/rename', async (req, res) => {
   const db = getDB();
+  const repo = PortfolioRepository.getInstance();
   const { oldName, newName } = req.body;
   if (!oldName || !newName) return res.status(400).json({ success: false, message: 'oldName and newName are required.' });
 
@@ -158,7 +128,7 @@ router.put('/rename', async (req, res) => {
   const trimmedNew = newName.trim();
 
   try {
-    await dbRun(db, 'BEGIN TRANSACTION');
+    await repo.beginTransaction(db);
     try {
       const tables = [
         ['CamsConfigurations', 'portfolio_name'],
@@ -171,14 +141,14 @@ router.put('/rename', async (req, res) => {
         ['BenchmarkCashFlowCache', 'portfolio'],
       ];
       for (const [table, col] of tables) {
-        await dbRun(db, `UPDATE ${table} SET ${col} = ? WHERE ${col} = ?`, [trimmedNew, trimmedOld]).catch(() => {});
+        await repo.renameInTable(db, table, col, trimmedNew, trimmedOld);
       }
-      await dbRun(db, 'UPDATE Portfolios SET name = ? WHERE name = ?', [trimmedNew, trimmedOld]);
-      await dbRun(db, 'COMMIT');
+      await repo.renamePortfolio(db, trimmedNew, trimmedOld);
+      await repo.commit(db);
       console.log(`[Portfolio] Renamed "${trimmedOld}" to "${trimmedNew}"`);
       res.json({ success: true, message: `Portfolio renamed from "${trimmedOld}" to "${trimmedNew}".` });
     } catch (err: any) {
-      await dbRun(db, 'ROLLBACK').catch(() => {});
+      await repo.rollback(db);
       res.status(500).json({ success: false, message: err.message });
     }
   } catch (err: any) {
@@ -190,6 +160,7 @@ router.put('/rename', async (req, res) => {
 router.delete('/:name', async (req, res) => {
   try {
     const db = getDB();
+    const repo = PortfolioRepository.getInstance();
     const portfolioName = decodeURIComponent(req.params.name);
     const { confirm } = req.body;
     if (confirm !== true && confirm !== 'true') {
@@ -197,18 +168,18 @@ router.delete('/:name', async (req, res) => {
     }
 
     // Delete all associated data in the correct order
-    await dbRun(db, 'DELETE FROM Holdings WHERE portfolio = ?', [portfolioName]);
-    await dbRun(db, 'DELETE FROM RealizedGains WHERE portfolio = ?', [portfolioName]);
-    await dbRun(db, 'DELETE FROM TaxSummary WHERE portfolio = ?', [portfolioName]);
-    await dbRun(db, 'DELETE FROM PortfolioHistory WHERE portfolio = ?', [portfolioName]);
-    await dbRun(db, 'DELETE FROM BenchmarkCashFlowCache WHERE portfolio = ?', [portfolioName]);
-    await dbRun(db, 'DELETE FROM CorporateActionAudit WHERE portfolio = ?', [portfolioName]);
-    await dbRun(db, 'DELETE FROM BackupManualTransactions WHERE portfolio = ?', [portfolioName]);
-    await dbRun(db, 'DELETE FROM Transactions WHERE portfolio = ?', [portfolioName]);
-    await dbRun(db, 'DELETE FROM CamsConfigurations WHERE portfolio_name = ?', [portfolioName]);
-    await dbRun(db, 'DELETE FROM ZerodhaHoldings WHERE portfolio = ?', [portfolioName]);
-    await dbRun(db, 'DELETE FROM PmsFeeConfigurations WHERE portfolio = ?', [portfolioName]);
-    await dbRun(db, `UPDATE Portfolios SET status = 'ARCHIVED' WHERE name = ?`, [portfolioName]);
+    await repo.deleteFromTable(db, 'Holdings', 'portfolio', portfolioName);
+    await repo.deleteFromTable(db, 'RealizedGains', 'portfolio', portfolioName);
+    await repo.deleteFromTable(db, 'TaxSummary', 'portfolio', portfolioName);
+    await repo.deleteFromTable(db, 'PortfolioHistory', 'portfolio', portfolioName);
+    await repo.deleteFromTable(db, 'BenchmarkCashFlowCache', 'portfolio', portfolioName);
+    await repo.deleteFromTable(db, 'CorporateActionAudit', 'portfolio', portfolioName);
+    await repo.deleteFromTable(db, 'BackupManualTransactions', 'portfolio', portfolioName);
+    await repo.deleteFromTable(db, 'Transactions', 'portfolio', portfolioName);
+    await repo.deleteFromTable(db, 'CamsConfigurations', 'portfolio_name', portfolioName);
+    await repo.deleteFromTable(db, 'ZerodhaHoldings', 'portfolio', portfolioName);
+    await repo.deleteFromTable(db, 'PmsFeeConfigurations', 'portfolio', portfolioName);
+    await repo.archive(db, portfolioName);
 
     console.log(`[Portfolio] Deleted all data for: ${portfolioName}`);
     res.json({ success: true, message: `Portfolio "${portfolioName}" and all associated data deleted.` });
@@ -222,8 +193,9 @@ router.delete('/:name', async (req, res) => {
 router.post('/:name/archive', async (req, res) => {
   try {
     const db = getDB();
+    const repo = PortfolioRepository.getInstance();
     const portfolioName = decodeURIComponent(req.params.name);
-    await dbRun(db, `UPDATE Portfolios SET status = 'ARCHIVED' WHERE name = ?`, [portfolioName]);
+    await repo.archive(db, portfolioName);
     res.json({ success: true, message: `Portfolio "${portfolioName}" archived.` });
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });

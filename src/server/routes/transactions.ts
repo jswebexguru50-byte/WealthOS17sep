@@ -4,9 +4,10 @@
  */
 import { Router } from 'express';
 import * as XLSX from 'xlsx';
-import { getDB, dbAll, dbGet, dbRun, auditDBChange } from '../database.js';
+import { getDB, auditDBChange } from '../database.js';
 import { runFIFO } from '../fifoEngine.js';
 import { BankAndFDService } from '../services/BankAndFDService.js';
+import { TransactionsRepository } from '../services/TransactionsRepository.js';
 import { fetchRealIsinFromNet } from '../camsParser.js';
 import { getSelectedPortfolios } from './shared.js';
 
@@ -16,6 +17,7 @@ const router = Router();
 router.get('/', async (req, res) => {
   try {
     const db = getDB();
+    const repo = TransactionsRepository.getInstance();
     const page = parseInt(req.query.page as string || '1');
     const limit = parseInt(req.query.limit as string || '50');
     const search = (req.query.search as string || '').trim().toUpperCase();
@@ -25,7 +27,7 @@ router.get('/', async (req, res) => {
     const selected = await getSelectedPortfolios(req);
 
     let baseQuery = `
-      FROM Transactions T 
+      FROM Transactions T
       LEFT JOIN MasterTickers M ON T.isin = M.isin
       LEFT JOIN Portfolios P ON T.portfolio = P.name
       WHERE 1=1
@@ -50,7 +52,7 @@ router.get('/', async (req, res) => {
     if (startDate) { baseQuery += ` AND T.date >= ?`; params.push(startDate); }
     if (endDate) { baseQuery += ` AND T.date <= ?`; params.push(endDate); }
 
-    const countRow: any = await dbGet(db, `SELECT COUNT(*) as count ${baseQuery}`, params);
+    const countRow: any = await repo.countTransactions(db, baseQuery, params);
     const total = countRow?.count || 0;
 
     const sortCol = (req.query.sort_col as string || '').trim().toLowerCase();
@@ -66,8 +68,7 @@ router.get('/', async (req, res) => {
     };
     const orderClause = orderMap[sortCol] || 'T.date DESC, T.id DESC';
 
-    const data = await dbAll(db, `SELECT T.*, M.name as company_name, P.base_currency ${baseQuery} ORDER BY ${orderClause} LIMIT ? OFFSET ?`,
-      [...params, limit, (page - 1) * limit]);
+    const data = await repo.getTransactions(db, 'SELECT T.*, M.name as company_name, P.base_currency', baseQuery, orderClause, limit, (page - 1) * limit, params);
 
     const fxRates = await BankAndFDService.getInstance().getCurrencyRates();
     const usdRate = fxRates.USD || 83.5;
@@ -86,6 +87,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const db = getDB();
+    const repo = TransactionsRepository.getInstance();
     const { date, portfolio, type, symbol, isin, quantity, price, gross_amount, brokerage, net_amount, notes, broker_name, account_number, folio } = req.body;
 
     if (!portfolio?.trim() || portfolio.trim().toLowerCase() === 'default') {
@@ -94,7 +96,7 @@ router.post('/', async (req, res) => {
 
     let resolvedIsin = isin || '';
     let resolvedSymbol = symbol || '';
-    const existing: any = await dbGet(db, 'SELECT isin, symbol FROM MasterTickers WHERE symbol = ? OR isin = ?', [symbol, isin]);
+    const existing: any = await repo.findTickerBySymbolOrIsin(db, symbol, isin);
     if (existing) {
       resolvedIsin = existing.isin || resolvedIsin;
       resolvedSymbol = existing.symbol || resolvedSymbol;
@@ -102,19 +104,26 @@ router.post('/', async (req, res) => {
       if (!resolvedIsin && resolvedSymbol) {
         try { const netIsin = await fetchRealIsinFromNet(resolvedSymbol); if (netIsin) resolvedIsin = netIsin; } catch {}
       }
-      const masterRow: any = await dbGet(db, 'SELECT isin FROM MasterTickers WHERE symbol = ? AND isin IS NOT NULL AND isin != "" AND NOT isin LIKE "CUSTOM_%"', [resolvedSymbol]);
+      const masterRow: any = await repo.findIsinBySymbol(db, resolvedSymbol);
       if (masterRow?.isin) {
         resolvedIsin = masterRow.isin;
       } else if (!resolvedIsin) {
         resolvedIsin = `CUSTOM_${resolvedSymbol.replace(/\s+/g, '')}`.slice(0, 12);
-        await dbRun(db, `INSERT OR IGNORE INTO MasterTickers (isin, symbol, name, exchange, segment, sector) VALUES (?, ?, ?, 'MUTUAL_FUND', 'MF', 'Mutual Funds')`, [resolvedIsin, resolvedSymbol, resolvedSymbol]);
+        await repo.insertMutualFundTicker(db, resolvedIsin, resolvedSymbol);
       }
     }
 
     const txTypeUpper = String(type).toUpperCase();
     const isCashFlow = (txTypeUpper.includes('REINVEST') || txTypeUpper.includes('REINVESTMENT')) ? 0 : 1;
-    const result = await dbRun(db, `INSERT INTO Transactions (date, portfolio, type, isin, symbol, quantity, price, gross_amount, brokerage, net_amount, notes, is_cash_flow, broker_name, account_number, folio) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [date, portfolio, type, resolvedIsin, resolvedSymbol, quantity, price, gross_amount || (quantity * price), brokerage || 0, net_amount || (quantity * price), notes || '', isCashFlow, broker_name || '', account_number || '', folio || '']);
+    const result = await repo.insertTransaction(db, {
+      date, portfolio, type, isin: resolvedIsin, symbol: resolvedSymbol,
+      quantity, price,
+      gross_amount: gross_amount || (quantity * price),
+      brokerage: brokerage || 0,
+      net_amount: net_amount || (quantity * price),
+      notes: notes || '', isCashFlow,
+      broker_name: broker_name || '', account_number: account_number || '', folio: folio || ''
+    });
 
     await auditDBChange(db, 'Transactions', 'INSERT', result.lastID, `Manual transaction for ${resolvedSymbol}`);
     await runFIFO(db);
@@ -128,23 +137,26 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const db = getDB();
+    const repo = TransactionsRepository.getInstance();
     const id = req.params.id;
     let { date, portfolio, type, symbol, isin, quantity, price, gross_amount, brokerage, net_amount, notes } = req.body;
     let resolvedSymbol = symbol ? String(symbol).trim() : '';
     let resolvedIsin = isin ? String(isin).trim() : '';
 
     if (resolvedSymbol) {
-      const match: any = await dbGet(db, 'SELECT isin, symbol FROM MasterTickers WHERE symbol = ? OR name = ?', [resolvedSymbol, resolvedSymbol]);
+      const match: any = await repo.findTickerBySymbolOrName(db, resolvedSymbol);
       if (match) { resolvedSymbol = match.symbol || resolvedSymbol; resolvedIsin = match.isin || resolvedIsin; }
     }
     if (!resolvedIsin && resolvedSymbol) {
-      const match: any = await dbGet(db, 'SELECT isin FROM MasterTickers WHERE symbol = ? AND isin IS NOT NULL AND isin != ""', [resolvedSymbol]);
+      const match: any = await repo.findIsinBySymbolStrict(db, resolvedSymbol);
       if (match?.isin) resolvedIsin = match.isin;
     }
 
     const isCashFlow = String(type).toUpperCase().includes('REINVEST') ? 0 : 1;
-    await dbRun(db, `UPDATE Transactions SET date=?, portfolio=?, type=?, isin=?, symbol=?, quantity=?, price=?, gross_amount=?, brokerage=?, net_amount=?, notes=?, is_cash_flow=?, updated_at=CURRENT_TIMESTAMP WHERE id=?`,
-      [date, portfolio, type, resolvedIsin, resolvedSymbol, quantity, price, gross_amount, brokerage, net_amount, notes || '', isCashFlow, id]);
+    await repo.updateTransaction(db, id, {
+      date, portfolio, type, isin: resolvedIsin, symbol: resolvedSymbol,
+      quantity, price, gross_amount, brokerage, net_amount, notes: notes || '', isCashFlow
+    });
     await auditDBChange(db, 'Transactions', 'UPDATE', parseInt(id), `Updated transaction ${id}`);
     await runFIFO(db);
     res.json({ success: true });
@@ -157,7 +169,8 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const db = getDB();
-    await dbRun(db, 'DELETE FROM Transactions WHERE id = ?', [req.params.id]);
+    const repo = TransactionsRepository.getInstance();
+    await repo.deleteTransaction(db, req.params.id);
     await auditDBChange(db, 'Transactions', 'DELETE', parseInt(req.params.id), `Deleted transaction ${req.params.id}`);
     await runFIFO(db);
     res.json({ success: true });
@@ -170,12 +183,12 @@ router.delete('/:id', async (req, res) => {
 router.post('/bulk', async (req, res) => {
   try {
     const db = getDB();
+    const repo = TransactionsRepository.getInstance();
     const { action, ids, fields } = req.body;
     if (!ids?.length) return res.status(400).json({ success: false, message: 'No transaction IDs provided' });
-    const ph = ids.map(() => '?').join(',');
 
     if (action === 'DELETE') {
-      await dbRun(db, `DELETE FROM Transactions WHERE id IN (${ph})`, ids);
+      await repo.bulkDeleteTransactions(db, ids);
     } else if (action === 'UPDATE' && fields) {
       const clauses: string[] = [];
       const params: any[] = [];
@@ -185,7 +198,7 @@ router.post('/bulk', async (req, res) => {
       if (fields.symbol) { clauses.push('symbol = ?'); params.push(fields.symbol); }
       if (fields.isin) { clauses.push('isin = ?'); params.push(fields.isin); }
       if (!clauses.length) return res.status(400).json({ success: false, message: 'No valid update fields provided' });
-      await dbRun(db, `UPDATE Transactions SET ${clauses.join(', ')}, updated_at=CURRENT_TIMESTAMP WHERE id IN (${ph})`, [...params, ...ids]);
+      await repo.bulkUpdateTransactions(db, clauses, params, ids);
     }
 
     await runFIFO(db);
@@ -199,10 +212,11 @@ router.post('/bulk', async (req, res) => {
 router.get('/export', async (_req, res) => {
   try {
     const db = getDB();
+    const repo = TransactionsRepository.getInstance();
     const [txns, cas, holdings] = await Promise.all([
-      dbAll(db, 'SELECT * FROM Transactions ORDER BY date DESC'),
-      dbAll(db, 'SELECT * FROM CorporateActions ORDER BY record_date DESC'),
-      dbAll(db, 'SELECT * FROM Holdings ORDER BY current_value DESC'),
+      repo.getAllTransactions(db),
+      repo.getAllCorporateActions(db),
+      repo.getAllHoldings(db),
     ]);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(txns), 'Transactions');
@@ -221,7 +235,7 @@ router.get('/export', async (_req, res) => {
 router.get('/master-tickers', async (_req, res) => {
   try {
     const db = getDB();
-    res.json(await dbAll(db, 'SELECT * FROM MasterTickers ORDER BY symbol ASC'));
+    res.json(await TransactionsRepository.getInstance().getAllMasterTickers(db));
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });
   }
@@ -231,20 +245,23 @@ router.get('/master-tickers', async (_req, res) => {
 router.put('/master-tickers/:id', async (req, res) => {
   try {
     const db = getDB();
+    const repo = TransactionsRepository.getInstance();
     const id = req.params.id;
     const { isin, symbol, name, exchange, sector, manual_ltp, fmv_31_jan_2018 } = req.body;
-    await dbRun(db, `UPDATE MasterTickers SET isin=?, symbol=?, name=?, exchange=?, sector=?, manual_ltp=?, manual_ltp_date=?, fmv_31_jan_2018=?, updated_at=CURRENT_TIMESTAMP WHERE id=?`,
-      [isin, symbol, name, exchange, sector, manual_ltp, manual_ltp ? new Date().toISOString() : null, fmv_31_jan_2018, id]);
+    await repo.updateMasterTicker(db, id, {
+      isin, symbol, name, exchange, sector, manual_ltp,
+      manual_ltp_date: manual_ltp ? new Date().toISOString() : null,
+      fmv_31_jan_2018
+    });
 
     // Cascade manual LTP to holdings
     if (manual_ltp !== undefined && manual_ltp !== null) {
-      const matchHoldings = await dbAll(db, 'SELECT portfolio, isin, symbol, quantity, total_cost, folio FROM Holdings WHERE symbol = ? OR isin = ?', [symbol, isin]);
+      const matchHoldings = await repo.getHoldingsBySymbolOrIsin(db, symbol, isin);
       for (const h of matchHoldings as any[]) {
         const cv = h.quantity * manual_ltp;
         const pnl = cv - h.total_cost;
         const pct = h.total_cost > 0 ? (pnl / h.total_cost) * 100 : 0;
-        await dbRun(db, `UPDATE Holdings SET ltp=?, current_value=?, unrealized_pnl=?, unrealized_pct=?, data_source='Manual Entry', last_update=CURRENT_TIMESTAMP WHERE portfolio=? AND isin=? AND symbol=? AND folio=?`,
-          [manual_ltp, cv, pnl, pct, h.portfolio, h.isin, h.symbol, h.folio || 'NA']);
+        await repo.updateHoldingLtp(db, manual_ltp, cv, pnl, pct, h.portfolio, h.isin, h.symbol, h.folio || 'NA');
       }
     }
     res.json({ success: true });
@@ -259,9 +276,7 @@ router.put('/master-tickers/upsert-by-isin', async (req, res) => {
     const db = getDB();
     const { isin, symbol, name, exchange, sector, manual_ltp, fmv_31_jan_2018 } = req.body;
     if (!isin) return res.status(400).json({ success: false, message: 'ISIN is required' });
-    await dbRun(db, `INSERT INTO MasterTickers (isin, symbol, name, exchange, sector, manual_ltp, fmv_31_jan_2018) VALUES (?, ?, ?, ?, ?, ?, ?)
-      ON CONFLICT(isin) DO UPDATE SET symbol=COALESCE(excluded.symbol, MasterTickers.symbol), name=CASE WHEN excluded.name!='' THEN excluded.name ELSE MasterTickers.name END, exchange=COALESCE(excluded.exchange, MasterTickers.exchange), sector=CASE WHEN excluded.sector!='' THEN excluded.sector ELSE MasterTickers.sector END, manual_ltp=COALESCE(excluded.manual_ltp, MasterTickers.manual_ltp), fmv_31_jan_2018=COALESCE(excluded.fmv_31_jan_2018, MasterTickers.fmv_31_jan_2018)`,
-      [isin, symbol || '', name || '', exchange || 'NYSE', sector || '', manual_ltp || null, fmv_31_jan_2018 || 0]);
+    await TransactionsRepository.getInstance().upsertMasterTickerByIsin(db, { isin, symbol, name, exchange, sector, manual_ltp, fmv_31_jan_2018 });
     res.json({ success: true });
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });
