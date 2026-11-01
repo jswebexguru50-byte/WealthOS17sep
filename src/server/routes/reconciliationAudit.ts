@@ -1,29 +1,16 @@
 import { Router } from 'express';
-import { getDB, dbAll, dbGet, dbRun } from '../database.js';
+import { getDB } from '../database.js';
+import { ReconciliationRepository } from '../services/ReconciliationRepository.js';
 
 const router = Router();
 
 // Ensure ReconciliationAuditSnapshots table exists
 export async function ensureAuditTables(db: any) {
-  await dbRun(db, `
-    CREATE TABLE IF NOT EXISTS ReconciliationAuditSnapshots (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      statement_date TEXT,
-      portfolio TEXT NOT NULL,
-      statement_filename TEXT,
-      baseline_holdings_count INTEGER,
-      baseline_cost REAL,
-      baseline_valuation REAL,
-      baseline_cash REAL DEFAULT 0,
-      currency TEXT DEFAULT 'INR',
-      holdings_snapshot TEXT,
-      notes TEXT
-    )
-  `);
+  const repo = ReconciliationRepository.getInstance();
+  await repo.ensureAuditTable(db);
 
   // Seed standard baselines if empty
-  const count = await dbGet(db, "SELECT COUNT(*) as c FROM ReconciliationAuditSnapshots");
+  const count = await repo.getSnapshotCount(db);
   if (!count || count.c === 0) {
     const baselines = [
       {
@@ -95,15 +82,7 @@ export async function ensureAuditTables(db: any) {
     ];
 
     for (const b of baselines) {
-      await dbRun(db, `
-        INSERT INTO ReconciliationAuditSnapshots (
-          statement_date, portfolio, statement_filename, baseline_holdings_count,
-          baseline_cost, baseline_valuation, baseline_cash, currency, notes
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `, [
-        b.statement_date, b.portfolio, b.statement_filename, b.baseline_holdings_count,
-        b.baseline_cost, b.baseline_valuation, b.baseline_cash, b.currency, b.notes
-      ]);
+      await repo.insertSnapshot(db, b);
     }
   }
 }
@@ -112,31 +91,25 @@ export async function ensureAuditTables(db: any) {
 router.get('/waterfall', async (req, res) => {
   try {
     const db = getDB();
+    const repo = ReconciliationRepository.getInstance();
     await ensureAuditTables(db);
 
     const portfolio = req.query.portfolio ? String(req.query.portfolio).trim() : 'Combined';
     const isCombined = portfolio.toLowerCase() === 'combined' || portfolio === '__ALL__';
 
     // 1. Fetch FX rate
-    const usdRateRow: any = await dbGet(db, "SELECT rate_to_inr FROM CurrencyRates WHERE currency = 'USD'");
+    const usdRateRow: any = await repo.getUsdRate(db);
     const usdRate = usdRateRow?.rate_to_inr || 94.94;
 
     // 2. Fetch baselines
-    let baselines: any[] = [];
-    if (isCombined) {
-      baselines = await dbAll(db, "SELECT * FROM ReconciliationAuditSnapshots ORDER BY statement_date DESC");
-    } else {
-      baselines = await dbAll(db, "SELECT * FROM ReconciliationAuditSnapshots WHERE LOWER(portfolio) = LOWER(?) ORDER BY statement_date DESC LIMIT 1", [portfolio]);
-    }
+    const baselines = isCombined
+      ? await repo.getAllBaselines(db)
+      : await repo.getBaselineForPortfolio(db, portfolio);
 
     // 3. Fetch current holdings
-    let hQuery = "SELECT * FROM Holdings WHERE quantity > 0";
-    const hParams: any[] = [];
-    if (!isCombined) {
-      hQuery += " AND LOWER(portfolio) = LOWER(?)";
-      hParams.push(portfolio);
-    }
-    const currentHoldings = await dbAll(db, hQuery, hParams);
+    const currentHoldings = isCombined
+      ? await repo.getAllHoldings(db)
+      : await repo.getHoldingsForPortfolio(db, portfolio);
 
     // 4. Build Waterfall Bridge
     let baselineValuationINR = 0;
@@ -158,12 +131,7 @@ router.get('/waterfall', async (req, res) => {
       const curCostINR = pHoldings.reduce((s: number, h: any) => s + (h.total_cost || 0), 0);
 
       // Check transactions created after baseline statement date
-      const subsequentTx = await dbAll(db, `
-        SELECT date, type, symbol, isin, quantity, price, net_amount, notes
-        FROM Transactions 
-        WHERE LOWER(portfolio) = LOWER(?) AND date > ?
-        ORDER BY date ASC
-      `, [pName, b.statement_date]).catch(() => []);
+      const subsequentTx = await repo.getTransactionsAfterDate(db, pName, b.statement_date);
 
       let newCapitalIn = 0;
       let newCapitalOut = 0;
@@ -220,7 +188,7 @@ router.get('/waterfall', async (req, res) => {
     }
 
     // Add Bank Accounts and Fixed Deposits
-    const bankFDs = await dbAll(db, "SELECT * FROM BankAccountsAndFDs").catch(() => []);
+    const bankFDs = await repo.getBankFDs(db);
     const fxMap: Record<string, number> = { INR: 1.0, USD: usdRate, AED: 25.80, EUR: 110.1, GBP: 128.56 };
     let totalBankValINR = 0;
     bankFDs.forEach((b: any) => {
@@ -257,23 +225,9 @@ router.get('/waterfall', async (req, res) => {
 router.get('/data-quality-summary', async (req, res) => {
   try {
     const db = getDB();
-    const rows = await dbAll<any>(db, `
-      SELECT 
-        COUNT(*) as total_audited,
-        SUM(CASE WHEN integrity_status = 'PASSED' THEN 1 ELSE 0 END) as passed_count,
-        SUM(CASE WHEN integrity_status = 'WARNING' THEN 1 ELSE 0 END) as warning_count,
-        SUM(CASE WHEN integrity_status = 'FAILED' THEN 1 ELSE 0 END) as failed_count,
-        AVG(field_accuracy_score) as avg_accuracy_score,
-        AVG(sum_total_pct) as avg_shareholding_sum
-      FROM DataQualityAuditLedger
-    `);
-
-    const quarters = await dbAll<any>(db, `
-      SELECT as_of_quarter, COUNT(*) as count 
-      FROM DataQualityAuditLedger 
-      GROUP BY as_of_quarter 
-      ORDER BY count DESC
-    `);
+    const repo = ReconciliationRepository.getInstance();
+    const rows = await repo.getDataQualitySummary(db);
+    const quarters = await repo.getDataQualityQuarters(db);
 
     res.json({
       success: true,
@@ -288,19 +242,10 @@ router.get('/data-quality-summary', async (req, res) => {
 router.get('/data-quality-ledger', async (req, res) => {
   try {
     const db = getDB();
+    const repo = ReconciliationRepository.getInstance();
     const limit = parseInt(req.query.limit as string) || 200;
     const status = req.query.status as string;
-
-    let query = "SELECT * FROM DataQualityAuditLedger";
-    const params: any[] = [];
-    if (status) {
-      query += " WHERE integrity_status = ?";
-      params.push(status);
-    }
-    query += " ORDER BY audited_at DESC LIMIT ?";
-    params.push(limit);
-
-    const rows = await dbAll<any>(db, query, params);
+    const rows = await repo.getDataQualityLedger(db, status, limit);
     res.json({
       success: true,
       count: rows.length,
@@ -401,19 +346,9 @@ router.get('/reingestion-progress', async (req, res) => {
 router.get('/historical-financials/:symbol', async (req, res) => {
   try {
     const db = getDB();
+    const repo = ReconciliationRepository.getInstance();
     const cleanSym = req.params.symbol.toUpperCase().replace('.NS', '').replace('.BO', '');
-    const statements = await dbAll(db, `
-      SELECT * FROM HistoricalFinancialStatements
-      WHERE symbol = ?
-      ORDER BY 
-        CASE statement_type 
-          WHEN 'ANNUAL_PL' THEN 1 
-          WHEN 'QUARTERLY_PL' THEN 2 
-          WHEN 'BALANCE_SHEET' THEN 3 
-          WHEN 'CASH_FLOW' THEN 4 
-          ELSE 5 
-        END, period_label DESC
-    `, [cleanSym]);
+    const statements = await repo.getHistoricalFinancials(db, cleanSym);
 
     res.json({
       success: true,
@@ -429,12 +364,9 @@ router.get('/historical-financials/:symbol', async (req, res) => {
 router.get('/historical-shareholding/:symbol', async (req, res) => {
   try {
     const db = getDB();
+    const repo = ReconciliationRepository.getInstance();
     const cleanSym = req.params.symbol.toUpperCase().replace('.NS', '').replace('.BO', '');
-    const patterns = await dbAll(db, `
-      SELECT * FROM HistoricalShareholdingPattern
-      WHERE symbol = ?
-      ORDER BY quarter_label DESC
-    `, [cleanSym]);
+    const patterns = await repo.getHistoricalShareholding(db, cleanSym);
 
     res.json({
       success: true,
@@ -450,12 +382,15 @@ router.get('/historical-shareholding/:symbol', async (req, res) => {
 router.get('/stock-audit-card/:symbol', async (req, res) => {
   try {
     const db = getDB();
+    const repo = ReconciliationRepository.getInstance();
     const cleanSym = req.params.symbol.toUpperCase().replace('.NS', '').replace('.BO', '');
 
-    const auditRow = await dbGet(db, "SELECT * FROM DataQualityAuditLedger WHERE symbol = ?", [cleanSym]);
-    const driftRows = await dbAll(db, "SELECT * FROM DataSyncDriftLedger WHERE symbol = ? ORDER BY sync_status DESC, metric_name ASC", [cleanSym]);
-    const histFin = await dbAll(db, "SELECT * FROM HistoricalFinancialStatements WHERE symbol = ? ORDER BY period_label DESC", [cleanSym]);
-    const histShp = await dbAll(db, "SELECT * FROM HistoricalShareholdingPattern WHERE symbol = ? ORDER BY quarter_label DESC", [cleanSym]);
+    const [auditRow, driftRows, histFin, histShp] = await Promise.all([
+      repo.getStockAuditCard(db, cleanSym),
+      repo.getDriftRowsForSymbol(db, cleanSym),
+      repo.getHistoricalFinancials(db, cleanSym),
+      repo.getHistoricalShareholding(db, cleanSym),
+    ]);
 
     res.json({
       success: true,
