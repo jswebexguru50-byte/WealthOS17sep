@@ -86,13 +86,17 @@ def observations(event,bars,expected_sessions):
     return results
 
 
-def build_report(archive,db_path,aliases_path=None,trendlyne_response=None):
+def build_report(archive,db_path,aliases_path=None,trendlyne_response=None,browser_evidence=None):
     matches,hashes,scan_date=read_archive(archive)
     events=[normalize(s,r) for s in STRATEGIES for r in matches[s]]
     if len({e['id'] for e in events})!=len(events): raise ValueError('duplicate strategy/symbol/signal date')
     aliases={}
     if aliases_path:
         aliases=json.loads(Path(aliases_path).read_text()).get('aliases',{})
+    browser_by_symbol={}
+    if browser_evidence:
+        from browser_evidence import load_browser_evidence
+        browser_by_symbol=load_browser_evidence(browser_evidence)
     live_by_symbol={}; live_warnings=[]
     if trendlyne_response:
         from trendlyne_parse import parse_file
@@ -155,13 +159,14 @@ def build_report(archive,db_path,aliases_path=None,trendlyne_response=None):
                         'limitations':['Cached current snapshot; not known at historical signal date',
                                        'Reporting period and basis unverified','Not a live MCP query']}
             e['trendlyne']=trendlyne_cache[symbol]
+            e['trendlyne_browser']={'state':'observed_unverified' if symbol.upper() in browser_by_symbol else 'not_checked','observations':browser_by_symbol.get(symbol.upper(),[])}
             e['trendlyne_pilot']={'state':'received_unverified' if symbol.upper() in live_by_symbol else 'not_checked', 'observations':live_by_symbol.get(symbol.upper(),[])}
             e['price_quality']='not_verified'; e['review_status']='needs_data'
             e['strategy_warnings']=({'S4a':['Signal uses closing information but reports an entry near the same session open'],
                 'S5a':['Pivot breakout may occur without buffered entry being reached; close-dependent signal'],
                 'S2a':['Historical signal may contain later evaluation-date ATR and volume'],
                 'S3a':['Higher-low structure requires review against intended definition']}).get(e['strategy'],[])
-        return {'manifest':{'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'scan_date':scan_date,'window_end':end,'archive_sha256':digest(archive),'source_files':hashes,'database_path':str(Path(db_path).resolve()),'snapshot_reproducibility':'unverified','price_table':'DailyOHLCV_KiteAdj','aliases_sha256':digest(aliases_path) if aliases_path else None,'trendlyne_response_sha256':digest(trendlyne_response) if trendlyne_response else None,'trendlyne_response_warnings':live_warnings},
+        return {'manifest':{'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'scan_date':scan_date,'window_end':end,'archive_sha256':digest(archive),'source_files':hashes,'database_path':str(Path(db_path).resolve()),'snapshot_reproducibility':'unverified','price_table':'DailyOHLCV_KiteAdj','aliases_sha256':digest(aliases_path) if aliases_path else None,'trendlyne_response_sha256':digest(trendlyne_response) if trendlyne_response else None,'trendlyne_response_warnings':live_warnings,'browser_evidence_sha256':digest(browser_evidence) if browser_evidence else None},
                 'counts':{'signals':len(events),'stocks':len({e['symbol'] for e in events}),'by_strategy':{k:len(v) for k,v in matches.items()}},'events':events}
     finally: conn.rollback(); conn.close()
 
@@ -178,8 +183,8 @@ def write_atomic(path,contents):
 
 
 def main():
-    p=argparse.ArgumentParser(); p.add_argument('--archive',required=True); p.add_argument('--db',required=True); p.add_argument('--output',required=True); p.add_argument('--aliases'); p.add_argument('--trendlyne-response')
-    a=p.parse_args(); result=build_report(a.archive,a.db,a.aliases,a.trendlyne_response)
+    p=argparse.ArgumentParser(); p.add_argument('--archive',required=True); p.add_argument('--db',required=True); p.add_argument('--output',required=True); p.add_argument('--aliases'); p.add_argument('--trendlyne-response'); p.add_argument('--browser-evidence')
+    a=p.parse_args(); result=build_report(a.archive,a.db,a.aliases,a.trendlyne_response,a.browser_evidence)
     dest=Path(a.output)
     if dest.exists(): raise SystemExit('Output already exists; choose a new run directory')
     dest.mkdir(parents=True)
@@ -194,7 +199,7 @@ def main():
     for e in result['events']:
         values=[e['symbol'],e['strategy'],e['signal_date'],e['age_sessions'],e['levels']['entry'],e['levels']['stop'],e['levels']['target'],e['liquidity']['median_close_x_volume'],e['fundamentals']['fields'].get('roce_pct',{}).get('value'),e['fundamentals']['fields'].get('roe_pct',{}).get('value'),e['fundamentals']['fields'].get('debt_to_equity',{}).get('value'),e['fundamentals'].get('as_of')]
         csv_rows.append(values)
-        details=html.escape(json.dumps({'lifecycle':e['bars'],'fundamentals':e['fundamentals'],'trendlyne':e['trendlyne'],'trendlyne_pilot':e['trendlyne_pilot'],'identity':e['identity_mapping'],'price_quality':e['price_quality'],'strategy_warnings':e['strategy_warnings'],'latest_bar':e['latest_bar']},indent=2,allow_nan=False))
+        details=html.escape(json.dumps({'lifecycle':e['bars'],'fundamentals':e['fundamentals'],'trendlyne':e['trendlyne'],'trendlyne_pilot':e['trendlyne_pilot'],'trendlyne_browser':e['trendlyne_browser'],'identity':e['identity_mapping'],'price_quality':e['price_quality'],'strategy_warnings':e['strategy_warnings'],'latest_bar':e['latest_bar']},indent=2,allow_nan=False))
         lines.append('<tr>'+''.join('<td>'+html.escape(str(v if v is not None else 'unknown'))+'</td>' for v in values)+'<td><details><summary>Evidence</summary><pre>'+details+'</pre></details></td></tr>')
     lines.append("</tbody></table><script>const q=document.getElementById('search'),rows=[...document.querySelectorAll('tbody tr')],c=document.getElementById('count');function f(){let n=0;for(const r of rows){let v=(r.cells[0].textContent+' '+r.cells[1].textContent).toLowerCase().includes(q.value.toLowerCase());r.hidden=!v;if(v)n++}c.textContent=n+' of '+rows.length+' signals shown'}q.addEventListener('input',f);f()</script>")
     write_atomic(dest/'index.html','\n'.join(lines))
@@ -217,7 +222,7 @@ def main():
         for e in evs:
             cells=[e['strategy'],e['signal_date'],e['age_sessions'],e['levels']['entry'],e['levels']['stop'],e['levels']['target'],'; '.join(e['strategy_warnings'])]
             cards.append('<tr>'+''.join('<td>'+esc(str(c if c is not None else 'unknown'))+'</td>' for c in cells)+'</tr>')
-        cards.append('</tbody></table><details><summary>Financial observations and signal history</summary><pre>'+esc(json.dumps({'screener':sample['fundamentals'],'trendlyne':sample['trendlyne'],'trendlyne_pilot':sample['trendlyne_pilot'],'signals':[{'strategy':e['strategy'],'observations':e['bars']} for e in evs]},indent=2,allow_nan=False))+'</pre></details></article>')
+        cards.append('</tbody></table><details><summary>Financial observations and signal history</summary><pre>'+esc(json.dumps({'screener':sample['fundamentals'],'trendlyne':sample['trendlyne'],'trendlyne_pilot':sample['trendlyne_pilot'],'trendlyne_browser':sample['trendlyne_browser'],'signals':[{'strategy':e['strategy'],'observations':e['bars']} for e in evs]},indent=2,allow_nan=False))+'</pre></details></article>')
     cards.append("<script>const q=document.getElementById('q'),cards=[...document.querySelectorAll('article')],c=document.getElementById('count');function f(){let n=0;for(const card of cards){const v=card.dataset.symbol.toLowerCase().includes(q.value.toLowerCase());card.hidden=!v;if(v)n++}c.textContent=n+' of '+cards.length+' companies shown'}q.addEventListener('input',f);f()</script>")
     write_atomic(dest/'companies.html','\n'.join(cards))
     print(json.dumps(result['counts']))
