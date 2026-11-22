@@ -78,3 +78,19 @@ class TestReportIntegration(unittest.TestCase):
             self.assertEqual(event['trendlyne_pilot']['state'],'received_unverified')
             self.assertEqual(event['trendlyne_pilot']['observations'][0]['value_text'],'13')
             self.assertEqual(report['manifest']['snapshot_reproducibility'],'unverified')
+
+spec3=importlib.util.spec_from_file_location('browser_evidence',Path(__file__).resolve().parents[2]/'scripts/parallel_scan/browser_evidence.py')
+browser=importlib.util.module_from_spec(spec3); spec3.loader.exec_module(browser)
+
+class TestBrowserEvidence(unittest.TestCase):
+    def test_requires_context_and_rejects_credential_url(self):
+        import tempfile,json
+        from pathlib import Path
+        with tempfile.TemporaryDirectory() as root:
+            p=Path(root)/'evidence.json'
+            obs={'symbol':'ABC','field':'revenue','value':10,'unit':'INR crore','basis':'standalone','period':'2026-Q2','observed_at':'2026-11-22T18:00:00Z','source_url':'https://trendlyne.com/company/abc'}
+            p.write_text(json.dumps({'schema_version':1,'observations':[obs]}))
+            self.assertEqual(browser.load_browser_evidence(p)['ABC'][0]['verification'],'unverified_browser_observation')
+            obs['source_url']='https://trendlyne.com/company/abc?token=secret'
+            p.write_text(json.dumps({'schema_version':1,'observations':[obs]}))
+            with self.assertRaises(ValueError): browser.load_browser_evidence(p)
