@@ -55,3 +55,7 @@ Use a new output directory each run. Local pilot output exists at `/private/tmp/
 - 22 Nov 2026: Added this handover and activity tracker. Next: secure Trendlyne pilot and reproducible input provenance.
 
 - 22 Nov 2026: Added a synthetic archive-to-read-only-SQLite integration test covering reconciliation, source basis, signal age and unverified MCP observations. Six tests pass.
+
+## Owner direction — Trendlyne website
+
+The owner asked to use the signed-in Trendlyne website and leave MCP out. Chrome access was verified. A normal company financial-table export showed “This is a subscriber feature”; MCP Max does not establish entitlement to that website feature. Do not collect Chrome cookies or use undocumented endpoints by default. Trendlyne website terms restrict use in searchable machine-readable databases absent specific written authorization; verify the account's applicable license and permitted export/API before implementing automated collection. Browser review and already licensed/available local snapshots remain possible; keep their provenance and dates. The existing MCP experimental code is retained for history but is not the active integration. TradingView automated collection remains prohibited by its published policy.
