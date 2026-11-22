@@ -20,7 +20,7 @@ The owner explicitly approved publishing the parallel-scan code and review docum
 | Screener | Cached DB integration complete | `ScreenerFundamentals` and field provenance; as-of signal dates and reporting periods unverified. Live refresh not integrated. |
 | Trendlyne | Cached DB integration; live pilot prepared, untested | `trendlyne_latest` plus `trendlyne_fetch.mjs` and conservative `trendlyne_parse.py`. Confirm token refresh; configure privately; run small live pilot and validate provider output. |
 | TradingView | Browser access verified; automation incomplete | Signed-in screener was visible. Use manual chart/screener review and supported exports/alerts. TradingView prohibits automated data collection; do not build scraping. |
-| Tests | Five targeted tests passed | `python3 -m unittest discover -s tests/parallel_scan -v`; full integration, source quality and browser validation remain. |
+| Tests | Six targeted tests passed | `python3 -m unittest discover -s tests/parallel_scan -v`; full integration, source quality and browser validation remain. |
 | Daily pipeline | Not complete | Need stable scanner-run manifest, supported input handoff, safe snapshot strategy, error recovery, freshness and scheduling. |
 | Backtesting and trade lifecycle | Not complete | Define execution semantics with owner; obtain point-in-time data and replay. Current range touches are observations, not fills. |
 | Investment assessment | Not complete | Add sector-specific evidence, period-aware financial history, valuation scenarios and cited governance research; no inferred investment grade. |
@@ -51,5 +51,7 @@ Use a new output directory each run. Local pilot output exists at `/private/tmp/
 ## Checkpoint log
 
 - 22 Nov 2026: Initial documentation and shadow pipeline uploaded. Pilot matched 1,288 signals and 688 companies. Screener and Trendlyne cached snapshots added; original scanner unchanged.
-- 22 Nov 2026: Chrome session verified. Budget-limited Trendlyne MCP client, conservative parser and optional response inclusion added. No live MCP call; token refresh pending confirmation. Five tests passed.
+- 22 Nov 2026: Chrome session verified. Budget-limited Trendlyne MCP client, conservative parser and optional response inclusion added. No live MCP call; token refresh pending confirmation. Six tests passed, including a synthetic archive-to-SQLite report integration test.
 - 22 Nov 2026: Added this handover and activity tracker. Next: secure Trendlyne pilot and reproducible input provenance.
+
+- 22 Nov 2026: Added a synthetic archive-to-read-only-SQLite integration test covering reconciliation, source basis, signal age and unverified MCP observations. Six tests pass.
