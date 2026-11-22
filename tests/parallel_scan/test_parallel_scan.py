@@ -28,3 +28,17 @@ class TestLifecycle(unittest.TestCase):
             mod.normalize('S2a',{'Symbol':'A','Signal_Date':'2026-01-01','Entry':100})
 
 if __name__=='__main__': unittest.main()
+
+spec2=importlib.util.spec_from_file_location('trendlyne_parse',Path(__file__).resolve().parents[2]/'scripts/parallel_scan/trendlyne_parse.py')
+parser=importlib.util.module_from_spec(spec2); spec2.loader.exec_module(parser)
+
+class TestTrendlyneResponse(unittest.TestCase):
+    def test_only_requested_identifier_is_parsed(self):
+        batch={'state':'received_unvalidated','request':{'stock_codes':['AAA']},'response':{'content':[{'type':'text','text':'ROE\nAAA:12.5\nBBB:99'}]}}
+        result=parser.parse_payload(batch)
+        self.assertEqual([(x['symbol'],x['value_text']) for x in result['observations']],[('AAA','12.5')])
+        self.assertIsNone(result['observations'][0]['basis'])
+
+    def test_duplicate_rows_are_not_used(self):
+        batch={'state':'received_unvalidated','request':{'stock_codes':['AAA']},'response':{'content':[{'type':'text','text':'ROE\nAAA:12\nAAA:15'}]}}
+        self.assertEqual(parser.parse_payload(batch)['observations'],[])
