@@ -156,11 +156,23 @@ def main():
     if dest.exists(): raise SystemExit('Output already exists; choose a new run directory')
     dest.mkdir(parents=True)
     write_atomic(dest/'report.json',json.dumps(result,indent=2,allow_nan=False)+'\n')
-    lines=['<!doctype html><meta charset="utf-8"><title>Parallel research scan</title>', '<h1>Parallel research scan</h1><p>Research only. Range touches do not establish fills. Price basis is unverified; fundamentals are current snapshots, not signal-date facts.</p>',f'<p>Signals: {result["counts"]["signals"]}; stocks: {result["counts"]["stocks"]}</p>', '<table border="1"><tr><th>Symbol</th><th>Strategy</th><th>Signal date</th><th>Age in sessions</th><th>Entry</th><th>Stop</th><th>Target</th><th>Median close × volume</th><th>ROCE %</th><th>ROE %</th><th>Debt/equity</th><th>Fundamental as of</th></tr>']
+    lines=['<!doctype html><meta charset="utf-8"><title>Parallel research scan</title>',
+           '<style>body{font:14px system-ui;margin:2rem} table{border-collapse:collapse} td,th{padding:.45rem;border:1px solid #ccc} th{background:#eee;position:sticky;top:0} details{max-width:40rem} .warning{background:#fff1d1;padding:1rem}</style>',
+           '<h1>Parallel research scan</h1><p class="warning">Research only. Levels touched do not establish fills. The price basis is unverified. Fundamentals are current snapshots, not signal-date facts. No recommendations are generated.</p>',
+           f'<p>Signals: {result["counts"]["signals"]}; stocks: {result["counts"]["stocks"]}; scan end: {html.escape(result["manifest"]["window_end"])}</p>',
+           '<label>Filter symbol or strategy <input id="search" type="search"></label> <span id="count"></span>',
+           '<table><thead><tr><th>Symbol</th><th>Strategy</th><th>Signal date</th><th>Age in sessions</th><th>Entry</th><th>Stop</th><th>Target</th><th>Median close × volume</th><th>ROCE %</th><th>ROE %</th><th>Debt/equity</th><th>Fundamental as of</th><th>Details</th></tr></thead><tbody>']
+    csv_rows=[]
     for e in result['events']:
         values=[e['symbol'],e['strategy'],e['signal_date'],e['age_sessions'],e['levels']['entry'],e['levels']['stop'],e['levels']['target'],e['liquidity']['median_close_x_volume'],e['fundamentals']['fields'].get('roce_pct',{}).get('value'),e['fundamentals']['fields'].get('roe_pct',{}).get('value'),e['fundamentals']['fields'].get('debt_to_equity',{}).get('value'),e['fundamentals'].get('as_of')]
-        lines.append('<tr>'+''.join('<td>'+html.escape(str(v if v is not None else 'unknown'))+'</td>' for v in values)+'</tr>')
-    lines.append('</table>'); write_atomic(dest/'index.html','\n'.join(lines))
+        csv_rows.append(values)
+        details=html.escape(json.dumps({'lifecycle':e['bars'],'fundamentals':e['fundamentals'],'identity':e['identity_mapping'],'price_quality':e['price_quality']},indent=2,allow_nan=False))
+        lines.append('<tr>'+''.join('<td>'+html.escape(str(v if v is not None else 'unknown'))+'</td>' for v in values)+'<td><details><summary>Evidence</summary><pre>'+details+'</pre></details></td></tr>')
+    lines.append("</tbody></table><script>const q=document.getElementById('search'),rows=[...document.querySelectorAll('tbody tr')],c=document.getElementById('count');function f(){let n=0;for(const r of rows){let v=(r.cells[0].textContent+' '+r.cells[1].textContent).toLowerCase().includes(q.value.toLowerCase());r.hidden=!v;if(v)n++}c.textContent=n+' of '+rows.length+' signals shown'}q.addEventListener('input',f);f()</script>")
+    write_atomic(dest/'index.html','\n'.join(lines))
+    import io
+    out=io.StringIO(newline=''); writer=csv.writer(out); writer.writerow(['symbol','strategy','signal_date','age_sessions','entry','stop','target','median_close_times_volume','roce_percent','roe_percent','debt_to_equity','fundamental_as_of']); writer.writerows(csv_rows)
+    write_atomic(dest/'signals.csv',out.getvalue())
     print(json.dumps(result['counts']))
 
 if __name__=='__main__': main()
