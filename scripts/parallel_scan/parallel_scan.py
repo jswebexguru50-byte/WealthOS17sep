@@ -111,6 +111,7 @@ def build_report(archive,db_path,aliases_path=None):
             alias=aliases.get(e['symbol'],{}); price_symbol=alias.get('price_symbol',e['symbol']) if isinstance(alias,dict) else e['symbol']
             sql='SELECT trade_date AS date,open,high,low,close,volume,status FROM DailyOHLCV_KiteAdj WHERE symbol=? AND trade_date<=? ORDER BY trade_date DESC LIMIT 60'
             rows=[dict(x) for x in conn.execute(sql,(price_symbol,end))][::-1]
+            e['latest_bar']=rows[-1] if rows else None
             e['price_symbol']=price_symbol; e['identity_mapping']='provided_alias' if price_symbol!=e['symbol'] else 'symbol_only_unverified'
             e['bars']=observations(e,rows,sessions)
             e['age_sessions']=sum(d>e['signal_date'] for d in sessions) if e['signal_date']>=sessions[0] else None
@@ -148,6 +149,10 @@ def build_report(archive,db_path,aliases_path=None):
                                        'Reporting period and basis unverified','Not a live MCP query']}
             e['trendlyne']=trendlyne_cache[symbol]
             e['price_quality']='not_verified'; e['review_status']='needs_data'
+            e['strategy_warnings']=({'S4a':['Signal uses closing information but reports an entry near the same session open'],
+                'S5a':['Pivot breakout may occur without buffered entry being reached; close-dependent signal'],
+                'S2a':['Historical signal may contain later evaluation-date ATR and volume'],
+                'S3a':['Higher-low structure requires review against intended definition']}).get(e['strategy'],[])
         return {'manifest':{'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'scan_date':scan_date,'window_end':end,'archive_sha256':digest(archive),'source_files':hashes,'database_path':str(Path(db_path).resolve()),'snapshot_reproducibility':'unverified','price_table':'DailyOHLCV_KiteAdj','aliases_sha256':digest(aliases_path) if aliases_path else None},
                 'counts':{'signals':len(events),'stocks':len({e['symbol'] for e in events}),'by_strategy':{k:len(v) for k,v in matches.items()}},'events':events}
     finally: conn.rollback(); conn.close()
@@ -175,19 +180,38 @@ def main():
            '<style>body{font:14px system-ui;margin:2rem} table{border-collapse:collapse} td,th{padding:.45rem;border:1px solid #ccc} th{background:#eee;position:sticky;top:0} details{max-width:40rem} .warning{background:#fff1d1;padding:1rem}</style>',
            '<h1>Parallel research scan</h1><p class="warning">Research only. Levels touched do not establish fills. The price basis is unverified. Fundamentals are current snapshots, not signal-date facts. No recommendations are generated.</p>',
            f'<p>Signals: {result["counts"]["signals"]}; stocks: {result["counts"]["stocks"]}; scan end: {html.escape(result["manifest"]["window_end"])}</p>',
-           '<label>Filter symbol or strategy <input id="search" type="search"></label> <span id="count"></span>',
+           '<p><a href="companies.html">Company review queue</a></p><label>Filter symbol or strategy <input id="search" type="search"></label> <span id="count"></span>',
            '<table><thead><tr><th>Symbol</th><th>Strategy</th><th>Signal date</th><th>Age in sessions</th><th>Entry</th><th>Stop</th><th>Target</th><th>Median close × volume</th><th>ROCE %</th><th>ROE %</th><th>Debt/equity</th><th>Fundamental as of</th><th>Details</th></tr></thead><tbody>']
     csv_rows=[]
     for e in result['events']:
         values=[e['symbol'],e['strategy'],e['signal_date'],e['age_sessions'],e['levels']['entry'],e['levels']['stop'],e['levels']['target'],e['liquidity']['median_close_x_volume'],e['fundamentals']['fields'].get('roce_pct',{}).get('value'),e['fundamentals']['fields'].get('roe_pct',{}).get('value'),e['fundamentals']['fields'].get('debt_to_equity',{}).get('value'),e['fundamentals'].get('as_of')]
         csv_rows.append(values)
-        details=html.escape(json.dumps({'lifecycle':e['bars'],'fundamentals':e['fundamentals'],'trendlyne':e['trendlyne'],'identity':e['identity_mapping'],'price_quality':e['price_quality']},indent=2,allow_nan=False))
+        details=html.escape(json.dumps({'lifecycle':e['bars'],'fundamentals':e['fundamentals'],'trendlyne':e['trendlyne'],'identity':e['identity_mapping'],'price_quality':e['price_quality'],'strategy_warnings':e['strategy_warnings'],'latest_bar':e['latest_bar']},indent=2,allow_nan=False))
         lines.append('<tr>'+''.join('<td>'+html.escape(str(v if v is not None else 'unknown'))+'</td>' for v in values)+'<td><details><summary>Evidence</summary><pre>'+details+'</pre></details></td></tr>')
     lines.append("</tbody></table><script>const q=document.getElementById('search'),rows=[...document.querySelectorAll('tbody tr')],c=document.getElementById('count');function f(){let n=0;for(const r of rows){let v=(r.cells[0].textContent+' '+r.cells[1].textContent).toLowerCase().includes(q.value.toLowerCase());r.hidden=!v;if(v)n++}c.textContent=n+' of '+rows.length+' signals shown'}q.addEventListener('input',f);f()</script>")
     write_atomic(dest/'index.html','\n'.join(lines))
     import io
     out=io.StringIO(newline=''); writer=csv.writer(out); writer.writerow(['symbol','strategy','signal_date','age_sessions','entry','stop','target','median_close_times_volume','roce_percent','roe_percent','debt_to_equity','fundamental_as_of']); writer.writerows(csv_rows)
     write_atomic(dest/'signals.csv',out.getvalue())
+    company={}
+    for e in result['events']:
+        company.setdefault(e['symbol'],[]).append(e)
+    cards=['<!doctype html><meta charset="utf-8"><title>Company review queue</title>',
+           '<style>body{font:15px system-ui;max-width:75rem;margin:auto;padding:1rem}article{border:1px solid #bbb;border-radius:.5rem;margin:1rem 0;padding:1rem}table{border-collapse:collapse}td,th{border:1px solid #ccc;padding:.4rem}.alert{background:#fff1d1;padding:1rem}pre{white-space:pre-wrap;overflow-wrap:anywhere}a{color:#164b8c}</style>',
+           '<h1>Company review queue</h1><p class="alert">Research only. A price touch does not confirm a fill. Fundamentals are cached current observations; reporting dates, company types and price adjustment are not verified. Verify details before relying on them.</p>',
+           '<p><a href="index.html">All signal rows</a></p><label>Find company <input id="q" type="search"></label> <span id="count"></span>']
+    for symbol,evs in sorted(company.items()):
+        esc=html.escape; sample=evs[0]
+        cards.append('<article data-symbol="'+esc(symbol,quote=True)+'"><h2>'+esc(symbol)+'</h2>')
+        latest=sample['latest_bar']
+        cards.append('<p>Latest archived-window close: '+esc(str(latest['close']) if latest else 'unknown')+'; date: '+esc(str(latest['date']) if latest else 'unknown')+'; price identity: '+esc(sample['identity_mapping'])+'</p>')
+        cards.append('<table><thead><tr><th>Strategy</th><th>Signal date</th><th>Age (sessions)</th><th>Entry</th><th>Stop</th><th>Target</th><th>Warnings</th></tr></thead><tbody>')
+        for e in evs:
+            cells=[e['strategy'],e['signal_date'],e['age_sessions'],e['levels']['entry'],e['levels']['stop'],e['levels']['target'],'; '.join(e['strategy_warnings'])]
+            cards.append('<tr>'+''.join('<td>'+esc(str(c if c is not None else 'unknown'))+'</td>' for c in cells)+'</tr>')
+        cards.append('</tbody></table><details><summary>Financial observations and signal history</summary><pre>'+esc(json.dumps({'screener':sample['fundamentals'],'trendlyne':sample['trendlyne'],'signals':[{'strategy':e['strategy'],'observations':e['bars']} for e in evs]},indent=2,allow_nan=False))+'</pre></details></article>')
+    cards.append("<script>const q=document.getElementById('q'),cards=[...document.querySelectorAll('article')],c=document.getElementById('count');function f(){let n=0;for(const card of cards){const v=card.dataset.symbol.toLowerCase().includes(q.value.toLowerCase());card.hidden=!v;if(v)n++}c.textContent=n+' of '+cards.length+' companies shown'}q.addEventListener('input',f);f()</script>")
+    write_atomic(dest/'companies.html','\n'.join(cards))
     print(json.dumps(result['counts']))
 
 if __name__=='__main__': main()
