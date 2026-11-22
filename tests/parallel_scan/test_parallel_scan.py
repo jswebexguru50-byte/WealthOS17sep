@@ -42,3 +42,39 @@ class TestTrendlyneResponse(unittest.TestCase):
     def test_duplicate_rows_are_not_used(self):
         batch={'state':'received_unvalidated','request':{'stock_codes':['AAA']},'response':{'content':[{'type':'text','text':'ROE\nAAA:12\nAAA:15'}]}}
         self.assertEqual(parser.parse_payload(batch)['observations'],[])
+
+class TestReportIntegration(unittest.TestCase):
+    def test_archive_to_readonly_report_and_unverified_live_data(self):
+        import sqlite3, tempfile, json, zipfile
+        from datetime import date, timedelta
+        from pathlib import Path
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp); db=root/'data.sqlite'; archive=root/'input.zip'; response=root/'live.json'
+            conn=sqlite3.connect(db)
+            conn.execute('create table DailyOHLCV_KiteAdj(symbol text,trade_date text,open real,high real,low real,close real,volume real,status text)')
+            conn.execute('create table ScreenerFundamentals(symbol text,as_of text,roce_pct real)')
+            conn.execute('create table ScreenerFieldProvenance(symbol text,field text,basis text,source_run text)')
+            conn.execute('create table trendlyne_latest(symbol text,roe_ann_pct real,latest_snapshot_at text)')
+            dates=[(date(2026,1,1)+timedelta(days=i)).isoformat() for i in range(22)]
+            conn.executemany('insert into DailyOHLCV_KiteAdj values(?,?,?,?,?,?,?,?)',
+                [(f'S{i}',d,100,102,98,101,100,'OK') for d in dates for i in range(1000)])
+            conn.execute('insert into ScreenerFundamentals values(?,?,?)',('S1','2026-01-22',12))
+            conn.execute('insert into ScreenerFieldProvenance values(?,?,?,?)',('S1','roce_pct','consolidated','run1'))
+            conn.execute('insert into trendlyne_latest values(?,?,?)',('S1',13,'2026-01-22'))
+            conn.commit(); conn.close()
+            with zipfile.ZipFile(archive,'w') as z:
+                for strategy in mod.STRATEGIES:
+                    rows=[{'Symbol':'S1','Signal_Date':dates[0],'Entry':100,'Stop_Loss':95,'Target_1':110}] if strategy=='S2a' else []
+                    z.writestr(f'{strategy}_full_universe_90_x.json',json.dumps({'strategy_id':strategy,'scan_date':'2026-01-22','match_count':len(rows),'matches':rows}))
+                z.writestr('reports/readiness/tier1_22d_dedup/waterfall_rules.json',json.dumps({'window':{'start':dates[0],'end':dates[-1],'sessions':22}}))
+            response.write_text(json.dumps({'source':'Trendlyne MCP','responses':[{'state':'received_unvalidated','request':{'stock_codes':['S1']},'response':{'content':[{'type':'text','text':'ROE\nS1:13'}]}}]}))
+            import sys
+            sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'scripts/parallel_scan'))
+            report=mod.build_report(archive,db,None,response)
+            self.assertEqual(report['counts']['signals'],1)
+            event=report['events'][0]
+            self.assertEqual(event['age_sessions'],21)
+            self.assertEqual(event['fundamentals']['fields']['roce_pct']['basis'],'consolidated')
+            self.assertEqual(event['trendlyne_pilot']['state'],'received_unverified')
+            self.assertEqual(event['trendlyne_pilot']['observations'][0]['value_text'],'13')
+            self.assertEqual(report['manifest']['snapshot_reproducibility'],'unverified')
