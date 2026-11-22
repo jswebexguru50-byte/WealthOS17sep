@@ -106,6 +106,7 @@ def build_report(archive,db_path,aliases_path=None):
         if len(sessions)!=window.get('sessions') or not sessions or sessions[-1]!=end or sessions[0]!=window.get('start'):
             raise ValueError('database calendar does not match archived scan window')
         fundamentals_cache={}
+        trendlyne_cache={}
         for e in events:
             alias=aliases.get(e['symbol'],{}); price_symbol=alias.get('price_symbol',e['symbol']) if isinstance(alias,dict) else e['symbol']
             sql='SELECT trade_date AS date,open,high,low,close,volume,status FROM DailyOHLCV_KiteAdj WHERE symbol=? AND trade_date<=? ORDER BY trade_date DESC LIMIT 60'
@@ -132,6 +133,20 @@ def build_report(archive,db_path,aliases_path=None):
                         'as_of':data.get('as_of'),'fields':fields,
                         'limitations':['Current snapshot, not as-of signal','Reporting periods and publication dates unverified','Trendlyne enrichment not connected']}
             e['fundamentals']=fundamentals_cache[symbol]
+            if symbol not in trendlyne_cache:
+                row=conn.execute('SELECT * FROM trendlyne_latest WHERE symbol=?',(symbol,)).fetchone()
+                if row is None:
+                    trendlyne_cache[symbol]={'state':'missing','source':'trendlyne_latest','fields':{}}
+                else:
+                    data=dict(row)
+                    fields={k:{'value':v,'state':'available' if v is not None else 'missing',
+                               'reporting_period':None,'basis':'unknown'}
+                            for k,v in data.items() if k not in ('symbol','latest_snapshot_at')}
+                    trendlyne_cache[symbol]={'state':'available','source':'trendlyne_latest',
+                        'snapshot_at':data.get('latest_snapshot_at'),'fields':fields,
+                        'limitations':['Cached current snapshot; not known at historical signal date',
+                                       'Reporting period and basis unverified','Not a live MCP query']}
+            e['trendlyne']=trendlyne_cache[symbol]
             e['price_quality']='not_verified'; e['review_status']='needs_data'
         return {'manifest':{'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'scan_date':scan_date,'window_end':end,'archive_sha256':digest(archive),'source_files':hashes,'database_path':str(Path(db_path).resolve()),'snapshot_reproducibility':'unverified','price_table':'DailyOHLCV_KiteAdj','aliases_sha256':digest(aliases_path) if aliases_path else None},
                 'counts':{'signals':len(events),'stocks':len({e['symbol'] for e in events}),'by_strategy':{k:len(v) for k,v in matches.items()}},'events':events}
@@ -166,7 +181,7 @@ def main():
     for e in result['events']:
         values=[e['symbol'],e['strategy'],e['signal_date'],e['age_sessions'],e['levels']['entry'],e['levels']['stop'],e['levels']['target'],e['liquidity']['median_close_x_volume'],e['fundamentals']['fields'].get('roce_pct',{}).get('value'),e['fundamentals']['fields'].get('roe_pct',{}).get('value'),e['fundamentals']['fields'].get('debt_to_equity',{}).get('value'),e['fundamentals'].get('as_of')]
         csv_rows.append(values)
-        details=html.escape(json.dumps({'lifecycle':e['bars'],'fundamentals':e['fundamentals'],'identity':e['identity_mapping'],'price_quality':e['price_quality']},indent=2,allow_nan=False))
+        details=html.escape(json.dumps({'lifecycle':e['bars'],'fundamentals':e['fundamentals'],'trendlyne':e['trendlyne'],'identity':e['identity_mapping'],'price_quality':e['price_quality']},indent=2,allow_nan=False))
         lines.append('<tr>'+''.join('<td>'+html.escape(str(v if v is not None else 'unknown'))+'</td>' for v in values)+'<td><details><summary>Evidence</summary><pre>'+details+'</pre></details></td></tr>')
     lines.append("</tbody></table><script>const q=document.getElementById('search'),rows=[...document.querySelectorAll('tbody tr')],c=document.getElementById('count');function f(){let n=0;for(const r of rows){let v=(r.cells[0].textContent+' '+r.cells[1].textContent).toLowerCase().includes(q.value.toLowerCase());r.hidden=!v;if(v)n++}c.textContent=n+' of '+rows.length+' signals shown'}q.addEventListener('input',f);f()</script>")
     write_atomic(dest/'index.html','\n'.join(lines))
